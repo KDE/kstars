@@ -229,6 +229,9 @@ void FITSTab::saveFile()
     KUrl backupCurrent = currentURL;
     QString currentDir = Options::fitsDir();
 
+    if (currentURL.path().contains("/tmp/"))
+        currentURL.clear();
+
     // If no changes made, return.
     if( mDirty == false && !currentURL.isEmpty())
         return;

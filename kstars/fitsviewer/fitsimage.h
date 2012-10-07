@@ -171,6 +171,8 @@ private:
     FITSHistogram *histogram;
     int guide_x, guide_y, guide_box;
     bool firstLoad;
+    bool tempFile;
+    QString filename;
 
 
 

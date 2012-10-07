@@ -9,6 +9,8 @@
 
 #include <KMessageBox>
 #include <KStatusBar>
+#include <KTemporaryFile>
+
 #include <libindi/basedevice.h>
 
 #include "fitsviewer/fitsviewer.h"
@@ -499,9 +501,9 @@ void CCD::processBLOB(IBLOB* bp)
         targetChip = guideChip;
 
      // It's either FITS or OTHER
-    char file_template[MAX_FILENAME_LEN];
     QString currentDir = Options::fitsDir();
-    int fd, nr, n=0;
+    int nr, n=0;
+    KTemporaryFile tmpFile;
 
     if (currentDir.endsWith('/'))
         currentDir.truncate(sizeof(currentDir)-1);
@@ -511,14 +513,25 @@ void CCD::processBLOB(IBLOB* bp)
     // Create file name for FITS to be shown in FITS Viewer
     if (targetChip->isBatchMode() == false && Options::showFITS())
     {
-        strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
-        if ((fd = mkstemp(file_template)) < 0)
-        {
-            KMessageBox::error(NULL, i18n("Error making temporary filename."));
-            return;
-        }
-        filename = QString(file_template);
-        close(fd);
+
+        tmpFile.setPrefix("fits");
+        tmpFile.setAutoRemove(false);
+
+         if (!tmpFile.open())
+         {
+                 qDebug() << "Error: Unable to open " << filename << endl;
+                 return;
+         }
+
+         QDataStream out(&tmpFile);
+
+         for (nr=0; nr < (int) bp->size; nr += n)
+             n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+
+         tmpFile.close();
+
+         filename = tmpFile.fileName();
+
     }
     // Create file name for others
     else
@@ -535,22 +548,20 @@ void CCD::processBLOB(IBLOB* bp)
             else
                 filename += QString("file_") + ts + ".fits";
 
-            //seqCount++;
+            QFile fits_temp_file(filename);
+            if (!fits_temp_file.open(QIODevice::WriteOnly))
+            {
+                    kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+            return;
+            }
+
+            QDataStream out(&fits_temp_file);
+
+            for (nr=0; nr < (int) bp->size; nr += n)
+                n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+
+            fits_temp_file.close();
     }
-
-       QFile fits_temp_file(filename);
-        if (!fits_temp_file.open(QIODevice::WriteOnly))
-        {
-                kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
-        return;
-        }
-
-        QDataStream out(&fits_temp_file);
-
-        for (nr=0; nr < (int) bp->size; nr += n)
-            n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
-
-        fits_temp_file.close();
 
     if (targetChip->isBatchMode())
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);

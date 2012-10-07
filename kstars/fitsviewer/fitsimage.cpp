@@ -125,6 +125,7 @@ FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) 
     displayImage = NULL;
     fptr = NULL;
     firstLoad = true;
+    tempFile  = false;
 
     mode = fitsMode;
 
@@ -160,10 +161,16 @@ FITSImage::~FITSImage()
         qDeleteAll(starCenters);
 
     if (fptr)
+    {
         fits_close_file(fptr, &status);
+
+        if (tempFile)
+             QFile::remove(filename);
+
+    }
 }
 
-bool FITSImage::loadFITS ( const QString &filename )
+bool FITSImage::loadFITS ( const QString &inFilename )
 {
 
     int status=0, nulval=0, anynull=0;
@@ -179,13 +186,30 @@ bool FITSImage::loadFITS ( const QString &filename )
         fitsProg.setLabelText(i18n("Please hold while loading FITS file..."));
         fitsProg.setWindowTitle(i18n("Loading FITS"));
     }
+
     //fitsProg.setWindowModality(Qt::WindowModal);
 
     if (mode == FITS_NORMAL)
         fitsProg.setValue(30);
 
     if (fptr)
+    {
+
         fits_close_file(fptr, &status);
+
+        if (tempFile)
+            QFile::remove(filename);
+    }
+
+    filename = inFilename;
+
+    if (filename.contains("/tmp/"))
+        tempFile = true;
+    else
+        tempFile = false;
+
+    filename.remove("file://");
+
 
     if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
     {
@@ -336,14 +360,14 @@ bool FITSImage::loadFITS ( const QString &filename )
     setAlignment(Qt::AlignCenter);
 
     if (isVisible())
-        emit newStatus(QString("%1x%2").arg(stats.dim[0]).arg(stats.dim[1]), FITS_RESOLUTION);
+    emit newStatus(QString("%1x%2").arg(stats.dim[0]).arg(stats.dim[1]), FITS_RESOLUTION);
 
 
     return true;
 
 }
 
-int FITSImage::saveFITS( const QString &filename )
+int FITSImage::saveFITS( const QString &newFilename )
 {
     int status=0;
     long fpixel[2], nelements;
@@ -355,7 +379,7 @@ int FITSImage::saveFITS( const QString &filename )
 
 
     /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, filename.toAscii(), &status))
+    if (fits_create_file(&new_fptr, newFilename.toAscii(), &status))
     {
         fits_report_error(stderr, status);
         return status;
@@ -374,6 +398,14 @@ int FITSImage::saveFITS( const QString &filename )
         fits_report_error(stderr, status);
         return status;
     }
+
+    if (tempFile)
+    {
+        QFile::remove(filename);
+        tempFile = false;
+    }
+
+    filename = newFilename;
 
     fptr = new_fptr;
 
