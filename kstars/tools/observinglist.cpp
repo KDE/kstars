@@ -182,7 +182,7 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->DeleteAllImages, SIGNAL( clicked() ),
              this, SLOT( slotDeleteAllImages() ) );
     connect( ui->OALExport, SIGNAL( clicked() ),
-             this, SLOT( slotOALExport() ) );  
+             this, SLOT( slotOALExport() ) );
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( KIcon("document-open") );
     ui->SaveButton->setIcon( KIcon("document-save") );
