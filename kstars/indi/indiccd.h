@@ -43,6 +43,9 @@ public:
     FITSMode getCaptureMode() { return captureMode;}
     FITSScale getCaptureFilter() { return captureFilter; }
 
+    bool isBatchMode() { return batchMode; }
+    void setBatchMode(bool enable) { batchMode = enable; }
+
 private:
     FITSImage *normalImage, *focusImage, *guideImage, *calibrationImage;
     FITSMode captureMode;
@@ -50,6 +53,7 @@ private:
     INDI::BaseDevice *baseDevice;
     ClientManager *clientManager;
     ChipType type;
+    bool batchMode;
 };
 
 class CCD : public DeviceDecorator
@@ -73,7 +77,6 @@ public:
 
     // Utitlity functions
     void setISOMode(bool enable) { ISOMode = enable; }
-    void setBatchMode(bool enable) { batchMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setSeqCount(int count) { seqCount = count; }
 
@@ -90,7 +93,6 @@ signals:
     void FITSViewerClosed();
 
 private:    
-    bool batchMode;
     bool ISOMode;
     bool HasGuideHead;
     QString		seqPrefix;

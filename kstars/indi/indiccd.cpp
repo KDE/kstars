@@ -30,6 +30,7 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
     baseDevice    = bDevice;
     clientManager = cManager;
     type          = cType;
+    batchMode     = false;
 
     captureMode   = FITS_NORMAL;
     captureFilter = FITS_NONE;
@@ -366,7 +367,6 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
 CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
     dType = KSTARS_CCD;
-    batchMode = false;
     ISOMode   = true;
     HasGuideHead = false;
     fv          = NULL;
@@ -491,6 +491,13 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }
 
+    CCDChip *targetChip = NULL;
+
+    if (!strcmp(bp->name, "CCD1"))
+        targetChip = primaryChip;
+    else
+        targetChip = guideChip;
+
      // It's either FITS or OTHER
     char file_template[MAX_FILENAME_LEN];
     QString currentDir = Options::fitsDir();
@@ -502,7 +509,7 @@ void CCD::processBLOB(IBLOB* bp)
     QString filename(currentDir + '/');
 
     // Create file name for FITS to be shown in FITS Viewer
-    if (batchMode == false && Options::showFITS())
+    if (targetChip->isBatchMode() == false && Options::showFITS())
     {
         strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
         if ((fd = mkstemp(file_template)) < 0)
@@ -518,7 +525,7 @@ void CCD::processBLOB(IBLOB* bp)
     {
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-            if (batchMode)
+            if (targetChip->isBatchMode())
             {
                 if (ISOMode == false)
                     filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
@@ -545,12 +552,12 @@ void CCD::processBLOB(IBLOB* bp)
 
         fits_temp_file.close();
 
-    if (batchMode)
+    if (targetChip->isBatchMode())
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (batchMode == false && Options::showFITS())
+    if (targetChip->isBatchMode() == false && Options::showFITS())
     {
         KUrl fileURL(filename);
 
@@ -561,12 +568,6 @@ void CCD::processBLOB(IBLOB* bp)
             connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
-        CCDChip *targetChip = NULL;
-
-        if (!strcmp(bp->name, "CCD1"))
-            targetChip = primaryChip;
-        else
-            targetChip = guideChip;
 
         FITSScale captureFilter = targetChip->getCaptureFilter();
 

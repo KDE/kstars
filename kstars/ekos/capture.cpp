@@ -97,6 +97,20 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 void Capture::startSequence()
 {
 
+    ISD::CCDChip *targetChip = NULL;
+
+    if (useGuideHead)
+        targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
+    else
+        targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+
+    if (displayCheck->isChecked() == false && darkSubCheck->isChecked())
+    {
+        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
+        return;
+    }
+
     if (ISOCheck->isChecked())
         currentCCD->setISOMode(true);
     else
@@ -104,9 +118,9 @@ void Capture::startSequence()
 
 
     if (displayCheck->isChecked())
-        currentCCD->setBatchMode(false);
+        targetChip->setBatchMode(false);
     else
-        currentCCD->setBatchMode(true);
+        targetChip->setBatchMode(true);
 
     currentCCD->setSeqPrefix(prefixIN->text());
 

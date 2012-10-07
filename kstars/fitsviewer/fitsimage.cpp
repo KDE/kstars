@@ -335,7 +335,8 @@ bool FITSImage::loadFITS ( const QString &filename )
 
     setAlignment(Qt::AlignCenter);
 
-    emit newStatus(QString("%1x%2").arg(stats.dim[0]).arg(stats.dim[1]), FITS_RESOLUTION);
+    if (isVisible())
+        emit newStatus(QString("%1x%2").arg(stats.dim[0]).arg(stats.dim[1]), FITS_RESOLUTION);
 
 
     return true;
