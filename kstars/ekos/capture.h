@@ -41,6 +41,8 @@ public:
     void addFilter(ISD::GDInterface *newFilter);
     void addGuiderHead(ISD::GDInterface *newCCD);
 
+    void syncFrameType(ISD::GDInterface *ccd);
+
     void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }

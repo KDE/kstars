@@ -207,6 +207,28 @@ bool CCDChip::capture(double exposure)
     return true;
 }
 
+bool CCDChip::setFrameType(const QString & name)
+{
+    CCDFrameType fType = FRAME_LIGHT;
+
+    if (name == "FRAME_LIGHT" || name == "Light")
+        fType = FRAME_LIGHT;
+    else if (name == "FRAME_DARK" || name == "Dark")
+        fType = FRAME_DARK;
+    else if (name == "FRAME_BIAS" || name == "Bias")
+        fType = FRAME_BIAS;
+    else if (name == "FRAME_FLAT" || name == "Flat")
+        fType = FRAME_FLAT;
+    else
+    {
+        qDebug() << name << " frame type is unknown." << endl;
+        return false;
+    }
+
+    return setFrameType(fType);
+
+}
+
 bool CCDChip::setFrameType(CCDFrameType fType)
 {
     if (type == GUIDE_CCD)
@@ -242,6 +264,42 @@ bool CCDChip::setFrameType(CCDFrameType fType)
     clientManager->sendNewSwitch(frameProp);
 
     return true;
+}
+
+CCDFrameType CCDChip::getFrameType()
+{
+
+    CCDFrameType fType = FRAME_LIGHT;
+
+    if (type == GUIDE_CCD)
+        return fType;
+
+    ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
+    if (frameProp == NULL)
+        return fType;
+
+    ISwitch *ccdFrame = NULL;
+
+    ccdFrame = IUFindOnSwitch(frameProp);
+
+    if (ccdFrame == NULL)
+    {
+        qDebug() << "Cannot find active frame in CCD!" << endl;
+        return fType;
+    }
+
+
+    if (!strcmp(ccdFrame->name, "FRAME_LIGHT"))
+        fType = FRAME_LIGHT;
+    else if (!strcmp(ccdFrame->name, "FRAME_DARK"))
+            fType = FRAME_DARK;
+    else if (!strcmp(ccdFrame->name, "FRAME_FLAT"))
+            fType = FRAME_FLAT;
+    else if (!strcmp(ccdFrame->name, "FRAME_BIAS"))
+            fType = FRAME_BIAS;
+
+    return fType;
+
 }
 
 bool CCDChip::setBinning(CCDBinType binType)
@@ -394,6 +452,13 @@ void CCD::registerProperty(INDI::Property *prop)
     {
         HasGuideHead = true;
         guideChip = new CCDChip(baseDevice, clientManager, CCDChip::GUIDE_CCD);
+    }
+    else if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
+    {
+        ISwitchVectorProperty *ccdFrame = prop->getSwitch();
+
+        for (int i=0; i < ccdFrame->nsp; i++)
+            primaryChip->addFrameLabel(ccdFrame->sp[i].label);
     }
 
     DeviceDecorator::registerProperty(prop);

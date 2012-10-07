@@ -628,6 +628,12 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         captureProcess->addGuiderHead(ccd);
     }
 
+    if (!strcmp(prop->getName(), "CCD_FRAME_TYPE") && ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+    {
+        if (captureProcess)
+           captureProcess->syncFrameType(ccd);
+    }
+
 }
 
 void EkosManager::updateLog()

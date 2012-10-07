@@ -244,7 +244,44 @@ void Capture::checkCCD(int ccdNum)
             binYCombo->setCurrentIndex(biny-1);
         }
 
+        QStringList frameTypes = targetChip->getFrameTypes();
+
+        frameTypeCombo->clear();
+
+        if (frameTypes.isEmpty())
+            frameTypeCombo->setEnabled(false);
+        else
+        {
+            frameTypeCombo->setEnabled(true);
+            frameTypeCombo->addItems(frameTypes);
+            frameTypeCombo->setCurrentIndex(targetChip->getFrameType());
+        }
+
     }
+}
+
+void Capture::syncFrameType(ISD::GDInterface *ccd)
+{
+    if (strcmp(ccd->getDeviceName(), CCDCaptureCombo->currentText().toLatin1()))
+        return;
+
+    ISD::CCDChip *targetChip = NULL;
+    targetChip = (static_cast<ISD::CCD *> (ccd) )->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+    QStringList frameTypes = targetChip->getFrameTypes();
+
+    frameTypeCombo->clear();
+
+    if (frameTypes.isEmpty())
+        frameTypeCombo->setEnabled(false);
+    else
+    {
+        frameTypeCombo->setEnabled(true);
+        frameTypeCombo->addItems(frameTypes);
+        frameTypeCombo->setCurrentIndex(targetChip->getFrameType());
+    }
+
+
 }
 
 void Capture::checkFilter(int filterNum)
@@ -381,7 +418,7 @@ void Capture::captureImage()
     else
     {
 
-        targetChip->setFrameType(FRAME_LIGHT);
+        targetChip->setFrameType(frameTypeCombo->currentText());
 
         targetChip->setCaptureMode(FITS_NORMAL);
         targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
