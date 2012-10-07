@@ -47,6 +47,7 @@ class SkyCalendar;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
+class MoonPhaseTool;
 class FlagManager;
 class ObservingList;
 class EquipmentWriter;
@@ -509,6 +510,9 @@ private slots:
     /** action slot: open Jupiter Moons tool */
     void slotJMoonTool();
 
+    /** action slot: open Moon Phase Calendar tool */
+    void slotMoonPhaseTool();
+
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();
 
@@ -639,6 +643,7 @@ private:
     ScriptBuilder *sb;
     PlanetViewer *pv;
     JMoonTool *jmt;
+    MoonPhaseTool *mpt;
     FlagManager *fm;
     AstroCalc *astrocalc;
     PrintingWizard *printingWizard;

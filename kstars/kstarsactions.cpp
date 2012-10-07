@@ -78,6 +78,7 @@
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
+#include "tools/moonphasetool.h"
 #include "tools/flagmanager.h"
 #include "oal/execute.h"
 #include "projections/projector.h"
@@ -308,6 +309,11 @@ void KStars::slotSolarSystem() {
 void KStars::slotJMoonTool() {
     if ( ! jmt ) jmt = new JMoonTool(this);
     jmt->show();
+}
+
+void KStars::slotMoonPhaseTool() {
+    if( ! mpt ) mpt = new MoonPhaseTool( this );
+    mpt->show();
 }
 
 void KStars::slotFlagManager() {

@@ -361,6 +361,10 @@ void KStars::initActions() {
         << i18n("Calculator")
         << KIcon("accessories-calculator" )
         << KShortcut( Qt::CTRL+Qt::Key_C );
+
+    actionCollection()->addAction("moonphasetool", this, SLOT( slotMoonPhaseTool() ) )
+        << i18n("Moon Phase Calendar");
+
     actionCollection()->addAction("obslist", this, SLOT( slotObsList() ) )
         << i18n("Observation Planner")
         << KShortcut( Qt::CTRL+Qt::Key_L );
