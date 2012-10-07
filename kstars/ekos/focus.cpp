@@ -345,9 +345,9 @@ void Focus::autoFocusAbs(double currentHFR)
     //qDebug() << "Delta: " << deltaTxt << endl;
 
     if (minHFR)
-         appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)").arg(HFRText).arg(pulseStep).arg(deltaTxt));
+         appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)", HFRText, pulseStep, deltaTxt));
     else
-        appendLogText(i18n("FITS received. HFR %1 @ %2.").arg(HFRText).arg(pulseStep));
+        appendLogText(i18n("FITS received. HFR %1 @ %2.", HFRText, pulseStep));
 
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
@@ -529,7 +529,7 @@ void Focus::autoFocusRel(double currentHFR)
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-HFR)*100.0, 0,'g', 2);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
-    appendLogText(i18n("FITS received. HFR %1. Delta (%2%)").arg(HFRText).arg(deltaTxt));
+    appendLogText(i18n("FITS received. HFR %1. Delta (%2%)", HFRText, deltaTxt));
 
     if (pulseDuration <= 32)
     {
@@ -698,7 +698,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 void Focus::appendLogText(const QString &text)
 {
 
-    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }

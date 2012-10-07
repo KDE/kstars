@@ -504,7 +504,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 {
     scope = scopeDevice;
 
-    appendLogText(i18n("%1 is online.").arg(scope->getDeviceName()));
+    appendLogText(i18n("%1 is online.", scope->getDeviceName()));
 
     if (guideProcess)
         guideProcess->setTelescope(scope);
@@ -516,14 +516,14 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
     {
         guider = ccdDevice;
-        appendLogText(i18n("%1 is online.").arg(ccdDevice->getDeviceName()));
+        appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
     }
     else
     {
         ccd = ccdDevice;
 
         if (ccdStarted == false)
-            appendLogText(i18n("%1 is online.").arg(ccdDevice->getDeviceName()));
+            appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
         ccdStarted = true;
 
@@ -550,7 +550,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     if (useFilterFromCCD == false)
     {
        filter = filterDevice;
-       appendLogText(i18n("%1 is online.").arg(filter->getDeviceName()));
+       appendLogText(i18n("%1 is online.", filter->getDeviceName()));
     }
     else
         filter = ccd;
@@ -568,7 +568,7 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     focusProcess->setFocuser(focuser);
 
-    appendLogText(i18n("%1 is online.").arg(focuser->getDeviceName()));
+    appendLogText(i18n("%1 is online.", focuser->getDeviceName()));
 
 }
 
@@ -589,7 +589,7 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
     }
 
 
-    appendLogText(i18n("%1 is offline.").arg(devInterface->getDeviceName()));
+    appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 
     foreach(DriverInfo *drvInfo, managedDevices)
     {
@@ -651,7 +651,7 @@ void EkosManager::updateLog()
 void EkosManager::appendLogText(const QString &text)
 {
 
-    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     updateLog();
 }
@@ -715,7 +715,7 @@ void EkosManager::initGuide()
 
 void EkosManager::setST4(ISD::ST4 * st4Driver)
 {
-    appendLogText(i18n("Guider port from %1 is ready.").arg(st4Driver->getDeviceName()));
+    appendLogText(i18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
      useST4=true;
 
      initGuide();

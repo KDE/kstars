@@ -318,7 +318,7 @@ void rcalibration::calibrate_reticle_manual( void )
                 axis = GUIDE_DEC;
 				
                 ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_DEC") );
-                pmain_wnd->appendLogText(i18n("Drift scope in DEC. Press stop when done."));
+                pmain_wnd->appendLogText(i18n("Drift scope in DEC. Press Stop when done."));
 				return;
 			}
 			else
@@ -475,7 +475,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             }
 
             calibrationStage = CAL_ERROR;
-            QMessageBox::warning( this, i18n("Warning"), i18n("GUIDE_RA: Scope can't reach the start point after ") + QString().number(turn_back_time) + i18n(" iterations.\nPossible mount or drive problems..."), QMessageBox::Ok );
+            QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
             reset();
             break;
         }
@@ -577,7 +577,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         }
 
         calibrationStage = CAL_ERROR;
-        QMessageBox::warning( this, i18n("Warning"), i18n("GUIDE_DEC: Scope can't reach the start point after ") + QString().number(turn_back_time) + i18n(" iterations.\nPossible mount or drive problems..."), QMessageBox::Ok );
+        QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
         reset();
         break;
     }

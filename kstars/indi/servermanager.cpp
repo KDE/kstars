@@ -72,7 +72,7 @@ bool ServerManager::start()
 
     if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
-         KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.").arg(fifoFile).arg(strerror(errno)));
+         KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
          return false;
    }
 
@@ -120,7 +120,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
      if (KStandardDirs::findExe(dv->getDriver()).isEmpty())
      {
-         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.").arg(dv->getDriver()));
+         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
          return false;
      }
 

@@ -260,7 +260,7 @@ void Capture::checkFilter(int filterNum)
 
     if (filterSlot == NULL)
     {
-        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1").arg(currentFilter->getDriverInfo()->getBaseDevice()->getDeviceName()));
+        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getDriverInfo()->getBaseDevice()->getDeviceName()));
         return;
     }
 
@@ -320,7 +320,7 @@ void Capture::newFITS(IBLOB *bp)
     seqCurrentCount++;
     imgProgress->setValue(seqCurrentCount);
 
-    appendLogText(i18n("Received image %1 out of %2.").arg(seqCurrentCount).arg(seqTotalCount));
+    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -459,7 +459,7 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
 void Capture::appendLogText(const QString &text)
 {
 
-    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }

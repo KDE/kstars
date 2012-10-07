@@ -54,8 +54,8 @@ Guide::Guide() : QWidget()
     guider->set_math(pmath);
 
 
-    tabWidget->addTab(calibration, i18n("%1").arg(calibration->windowTitle()));
-    tabWidget->addTab(guider, i18n("%1").arg(guider->windowTitle()));
+    tabWidget->addTab(calibration, calibration->windowTitle());
+    tabWidget->addTab(guider, guider->windowTitle());
     tabWidget->setTabEnabled(1, false);
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
@@ -245,7 +245,7 @@ void Guide::newFITS(IBLOB *bp)
 void Guide::appendLogText(const QString &text)
 {
 
-    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }

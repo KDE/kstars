@@ -156,7 +156,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     {
 
         action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
-        action->setText(i18n( "%1").arg(filter));
+        action->setText(filter);
         filterMapper->setMapping(action, filterCounter++);
         connect(action, SIGNAL(triggered()), filterMapper, SLOT(map()));
 
@@ -392,7 +392,7 @@ int FITSViewer::saveUnsaved(int index)
         return -1;
 
     QString caption = i18n( "Save Changes to FITS?" );
-    QString message = i18n( "%1 has unsaved changes.  Would you like to save before closing it?" ).arg(targetTab->getCurrentURL()->fileName());
+    QString message = i18n( "%1 has unsaved changes.  Would you like to save before closing it?", targetTab->getCurrentURL()->fileName());
     int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
     if( ans == KMessageBox::Yes )
     {

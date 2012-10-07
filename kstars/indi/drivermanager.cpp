@@ -251,7 +251,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
                 // Check if running already
                 if (dv->getClientState() || dv->getServerState())
                 {
-                  int ans = KMessageBox::warningContinueCancel(0, i18n("Driver %1 is already running, do you want to restart it?").arg(dv->getTreeLabel()));
+                  int ans = KMessageBox::warningContinueCancel(0, i18n("Driver %1 is already running, do you want to restart it?", dv->getTreeLabel()));
                   if (ans == KMessageBox::Cancel)
                       continue;
                   else
@@ -388,7 +388,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
          }
          else
          {
-             QString errMsg = i18n("Connection to INDI server locally on port %1 failed.").arg(port);
+             QString errMsg = i18n("Connection to INDI server locally on port %1 failed.", port);
              KMessageBox::error(NULL, errMsg);
              foreach (DriverInfo *dv, qdv)
                  processDeviceStatus(dv);
@@ -577,7 +577,7 @@ void DriverManager::processClientTermination(ClientManager *client)
         return;
 
     ServerManager *manager = client->getServerManager();
-    QString errMsg = i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.").arg(client->getHost()).arg(client->getPort());
+    QString errMsg = i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(), client->getPort());
     KMessageBox::error(NULL, errMsg);
 
     if (manager)
@@ -612,7 +612,7 @@ void DriverManager::processServerTermination(ServerManager* server)
 
     if (server->getMode() == SERVER_ONLY)
     {
-        QString errMsg = i18n("Connection to INDI host at %1 on port %2 encountered an error: %3.").arg(server->getHost()).arg(server->getPort()).arg(server->errorString());
+        QString errMsg = i18n("Connection to INDI host at %1 on port %2 encountered an error: %3.", server->getHost(), server->getPort(), server->errorString());
         KMessageBox::error(NULL, errMsg);
     }
 
@@ -687,7 +687,7 @@ void DriverManager::processRemoteTree(bool dState)
                 {
                     GUIManager::Instance()->removeClient(clientManager);
                     INDIListener::Instance()->removeClient(clientManager);
-                    QString errMsg = i18n("Connection to INDI server at host %1 with port %2 failed.").arg(dv->getHost()).arg(dv->getPort());
+                    QString errMsg = i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort());
                     KMessageBox::error(NULL, errMsg);
                     processDeviceStatus(dv);
                 }
@@ -1311,7 +1311,7 @@ void DriverManager::saveHosts()
 
     if ( !file.open( QIODevice::WriteOnly))
     {
-        QString message = i18n( "unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
+        QString message = i18n( "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return;
     }

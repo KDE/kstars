@@ -145,7 +145,7 @@ void rguider::fill_interface( void )
 	ui.comboBox_ThresholdAlg->setCurrentIndex( pmath->get_square_algorithm_index() );
 
 
-    ui.l_RecommendedGain->setText( i18n("P:") + QString().setNum(cgmath::precalc_proportional_gain(in_params->guiding_rate), 'f', 2 ) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
 
 
 	ui.spinBox_GuideRate->setValue( in_params->guiding_rate );
@@ -252,7 +252,7 @@ void rguider::onInfoRateChanged( double val )
 
 	in_params->guiding_rate = val;
 
-    ui.l_RecommendedGain->setText( i18n("P:") + QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 ) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
 }
 
 
