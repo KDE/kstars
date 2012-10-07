@@ -52,6 +52,8 @@ ServerManager::~ServerManager()
     serverSocket.close();
     indiFIFO.close();
 
+    QFile::remove(indiFIFO.fileName());
+
     if (serverProcess)
         serverProcess->close();
 
