@@ -127,7 +127,7 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
 
     //Calculate what day of the week the cell is
     cellWeekDay = col + calendar()->weekStartDay();
-    if ( cellWeekDay <= numDayColumns ) {
+    if ( cellWeekDay > numDayColumns ) {
         cellWeekDay -= numDayColumns;
     }
 
