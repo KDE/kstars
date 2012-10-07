@@ -270,7 +270,7 @@
           <item>
            <widget class="QLabel" name="l_26">
             <property name="text">
-             <string>recticle-X</string>
+             <string>reticle-X</string>
             </property>
            </widget>
           </item>
@@ -298,7 +298,7 @@
           <item>
            <widget class="QLabel" name="l_28">
             <property name="text">
-             <string>recticle-Angle</string>
+             <string>reticle-Angle</string>
             </property>
            </widget>
           </item>

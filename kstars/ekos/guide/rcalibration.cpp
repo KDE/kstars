@@ -634,7 +634,7 @@ void rcalibration::capture()
             calibrationStage = CAL_CAPTURE_IMAGE;
             ui.captureLED->setColor(busyColor);
 
-        pmain_wnd->appendLogText(i18n("Captuing image..."));
+        pmain_wnd->appendLogText(i18n("Capturing image..."));
     }
 }
 
