@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "datahandlers/catalogdb.h"
-#include <kstars/Options.h>
 
 
 bool CatalogDB::Initialize() {
@@ -182,13 +181,6 @@ void CatalogDB::AddCatalog(const CatalogData& catalog_data) {
 }
 
 void CatalogDB::RemoveCatalog(const QString& catalog_name) {
-    // Remove from Options if visible
-    QList<QString> checkedlist = Options::showCatalogNames();
-    if (checkedlist.contains(catalog_name)) {
-        checkedlist.removeAll(catalog_name);
-        Options::setShowCatalogNames(checkedlist);
-    }
-
     // Part 1 Clear DSO Entries
     ClearDSOEntries(FindCatalog(catalog_name));
 

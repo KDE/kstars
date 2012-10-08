@@ -182,8 +182,16 @@ void OpsCatalog::slotRemoveCatalog() {
             KMessageBox::information(0, "Catalog deletion cancelled.");
             return;
     }
-    //Ask DB to remove catalog
+    //Ask DB to remove catalog    
     ksw->data()->catalogdb()->RemoveCatalog( CatalogList->currentItem()->text() );
+
+    // Remove from Options if it exists in it (i.e. was marked as visible)
+    // This does not remove it from the database or from the widget in Options
+    QList<QString> checkedlist = Options::showCatalogNames();
+    if (checkedlist.contains(CatalogList->currentItem()->text())) {
+        checkedlist.removeAll(CatalogList->currentItem()->text());
+        Options::setShowCatalogNames(checkedlist);
+    }
 
     //Remove entry in the QListView
     QListWidgetItem *todelete = CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
