@@ -53,7 +53,7 @@ FITSTab::~FITSTab()
 void FITSTab::saveUnsaved()
 {
 
-    if( undoStack->isClean() )
+    if( undoStack->isClean() || image->getMode() != FITS_NORMAL)
         return;
 
     QString caption = i18n( "Save Changes to FITS?" );

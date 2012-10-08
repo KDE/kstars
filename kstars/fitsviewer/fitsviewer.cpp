@@ -388,6 +388,9 @@ int FITSViewer::saveUnsaved(int index)
         return -1;
     targetTab = fitsImages[index];
 
+    if (targetTab->getImage()->getMode() != FITS_NORMAL)
+        targetTab->getUndoStack()->clear();
+
     if (targetTab->getUndoStack()->isClean())
         return -1;
 
