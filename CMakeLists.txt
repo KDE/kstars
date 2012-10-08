@@ -21,7 +21,7 @@ macro_log_feature(CFITSIO_FOUND "libcfitsio0" "Support for the FITS (Flexible Im
 IF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 macro_optional_find_package(INDI)
 macro_bool_to_01(INDI_FOUND HAVE_INDI_H)
-macro_log_feature(INDI_FOUND "libindi" "Support for controlling astronomical devices with KStars." "http://www.indilib.org" FALSE "0.8.0" "")
+macro_log_feature(INDI_FOUND "libindi" "Support for controlling astronomical devices with KStars." "http://www.indilib.org" FALSE "0.9.5" "")
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
 check_include_files(linux/videodev2.h HAVE_LINUX_VIDEODEV2_H)
