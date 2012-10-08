@@ -76,22 +76,41 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
 {
     currentCCD = (ISD::CCD *) newCCD;
 
-    ISD::CCDChip *targetChip = NULL;
-    if ( (static_cast<ISD::CCD *> (newCCD))->hasGuideHead())
-    {
-        guiderCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
-        useGuideHead = true;
-        targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
-    }
-    else
-    {
-         guiderCombo->addItem(currentCCD->getDeviceName());
-         targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    }
+    guiderCombo->addItem(currentCCD->getDeviceName());
+    useGuideHead = false;
 
     connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
+    syncCCDInfo();
 
+    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+
+}
+
+void Guide::setTelescope(ISD::GDInterface *newTelescope)
+{
+    currentTelescope = (ISD::Telescope*) newTelescope;
+
+    syncTelescopeInfo();
+
+
+}
+
+void Guide::addGuideHead()
+{
+    // Let's just make sure
+    if (currentCCD->hasGuideHead())
+    {
+        guiderCombo->clear();
+        guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
+        useGuideHead = true;
+        syncCCDInfo();
+    }
+
+}
+
+void Guide::syncCCDInfo()
+{
     INumberVectorProperty * nvp = NULL;
 
     if (useGuideHead)
@@ -119,6 +138,8 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
         if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
@@ -126,14 +147,12 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
     }
 
     //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
-
 }
 
-void Guide::setTelescope(ISD::GDInterface *newTelescope)
+void Guide::syncTelescopeInfo()
 {
-    currentTelescope = (ISD::Telescope*) newTelescope;
-
     INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+
     if (nvp)
     {
         INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
@@ -156,9 +175,11 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
+
     }
 
     //qDebug() << "SetScope: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+
 }
 
 void Guide::addST4(ISD::ST4 *newST4)

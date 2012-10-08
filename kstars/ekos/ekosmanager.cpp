@@ -517,6 +517,12 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     {
         guider = ccdDevice;
         appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
+
+        initGuide();
+        guideProcess->setCCD(guider);
+
+        if (scope && scope->isConnected())
+            guideProcess->setTelescope(scope);
     }
     else
     {
@@ -529,8 +535,14 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
         // If guider is the same driver as the CCD
         if (useGuiderFromCCD == true)
+        {
             guider = ccd;
+            initGuide();
+            guideProcess->setCCD(guider);
 
+            if (scope && scope->isConnected())
+                guideProcess->setTelescope(scope);
+        }
 }
 
     initCapture();
@@ -610,14 +622,18 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
-    if (!strcmp(prop->getName(), "CCD_INFO") && guider && !strcmp(guider->getDeviceName(), prop->getDeviceName()))
+    if ((!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDE_INFO"))
+            && guider && !strcmp(guider->getDeviceName(), prop->getDeviceName()))
     {
-            // Delay guiderProcess contruction until we receive CCD_INFO property
-            initGuide();
-            guideProcess->setCCD(guider);
+        if (guideProcess)
+            guideProcess->syncCCDInfo();
+    }
 
-            if (scope && scope->isConnected())
-                guideProcess->setTelescope(scope);
+    if ((!strcmp(prop->getName(), "TELESCOPE_INFO"))
+            && scope && !strcmp(scope->getDeviceName(), prop->getDeviceName()))
+    {
+        if (guideProcess)
+           guideProcess->syncTelescopeInfo();
 
     }
 
@@ -625,7 +641,11 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     {
         initCapture();
 
-        captureProcess->addGuiderHead(ccd);
+        captureProcess->addGuideHead(ccd);
+
+        initGuide();
+
+        guideProcess->addGuideHead();
     }
 
     if (!strcmp(prop->getName(), "CCD_FRAME_TYPE") && ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))

@@ -77,7 +77,7 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
 }
 
-void Capture::addGuiderHead(ISD::GDInterface *newCCD)
+void Capture::addGuideHead(ISD::GDInterface *newCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
 }

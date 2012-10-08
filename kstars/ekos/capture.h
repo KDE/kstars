@@ -39,7 +39,7 @@ public:
     Capture();
     void addCCD(ISD::GDInterface *newCCD);
     void addFilter(ISD::GDInterface *newFilter);
-    void addGuiderHead(ISD::GDInterface *newCCD);
+    void addGuideHead(ISD::GDInterface *newCCD);
 
     void syncFrameType(ISD::GDInterface *ccd);
 
