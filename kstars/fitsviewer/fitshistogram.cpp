@@ -146,7 +146,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
    // if (mean == 0)
        // JMIndex = 0;
     // Reject diffuse images by setting JMIndex to zero.
-    if (mean && tab->getImage()->getMode() != FITS_GUIDE && mean_p_std / mean < 2)
+    if (mean && tab->getImage()->getMode() == FITS_NORMAL && mean_p_std / mean < 2)
         JMIndex =0;
 
     #ifdef HIST_LOG
