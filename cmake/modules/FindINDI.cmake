@@ -68,7 +68,7 @@ else (INDI_INCLUDE_DIR AND INDI_DATA_DIR AND INDI_LIBRARIES AND INDI_DRIVER_LIBR
         set(INDI_FOUND TRUE)
      else(_return_VALUE STREQUAL "0")
        set(INDI_FOUND FALSE)
-       message(STATUS "Could NOT find libindi. pkg-config indicates that libindi >= 0.8.0 is not installed.")
+       message(STATUS "Could NOT find libindi. pkg-config indicates that libindi >= 0.9.5 is not installed.")
      endif(_return_VALUE STREQUAL "0")
 
 
