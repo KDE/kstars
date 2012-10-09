@@ -318,9 +318,12 @@ void Focus::newFITS(IBLOB *bp)
     HFROut->setText(HFRText);
 
     if (inFocusLoop)
+    {
         capture();
+        return;
+    }
 
-    if (focusType == FOCUS_MANUAL)
+    if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
 
     if (canAbsMove)
