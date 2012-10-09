@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>advancedOptions</class>
- <widget class="QDialog" name="advancedOptions">
+ <class>OpsEkos</class>
+ <widget class="QDialog" name="OpsEkos">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
+    <width>398</width>
     <height>371</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Advanced Options</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -23,7 +23,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QRadioButton" name="localModeR">
+         <widget class="QRadioButton" name="kcfg_ekosLocalMode">
           <property name="text">
            <string>Local</string>
           </property>
@@ -60,7 +60,7 @@
        <property name="title">
         <string>Remote Server</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
@@ -71,7 +71,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_19">
+           <widget class="QLineEdit" name="kcfg_ekosRemoteHost">
             <property name="text">
              <string>localhost</string>
             </property>
@@ -85,7 +85,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit_20">
+           <widget class="QLineEdit" name="kcfg_EkosRemotePort">
             <property name="text">
              <string>7624</string>
             </property>
@@ -105,6 +105,46 @@
            </size>
           </property>
          </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>Configuration</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Load Device Configuration:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="kcfg_ekosNeverLoad">
+          <property name="text">
+           <string>Never</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="kcfg_ekosLoadConnection">
+          <property name="text">
+           <string>On connection</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="kcfg_ekosLoadDefaults">
+          <property name="text">
+           <string>Alwayd load defaults</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -130,19 +170,6 @@
             <string>Device</string>
            </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>13</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </item>
@@ -241,50 +268,63 @@
         </layout>
        </item>
        <item row="1" column="0">
-        <widget class="QComboBox" name="scopeCombo"/>
+        <widget class="QComboBox" name="kcfg_ekosRScopeCombo"/>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_3"/>
+        <widget class="QLineEdit" name="kcfg_ekosRScopeName"/>
        </item>
        <item row="2" column="0">
-        <widget class="QComboBox" name="ccdCombo"/>
+        <widget class="QComboBox" name="kcfg_ekosRCCDCombo"/>
        </item>
        <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEdit_5">
+        <widget class="QLineEdit" name="kcfg_ekosRCCDName">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QComboBox" name="guiderCombo"/>
+        <widget class="QComboBox" name="kcfg_ekosRGuiderCombo"/>
        </item>
        <item row="3" column="1">
-        <widget class="QLineEdit" name="lineEdit_8"/>
+        <widget class="QLineEdit" name="kcfg_ekosRGuiderCombo_2"/>
        </item>
        <item row="4" column="0">
-        <widget class="QComboBox" name="focuserCombo"/>
+        <widget class="QComboBox" name="kcfg_ekosRFocuserCombo"/>
        </item>
        <item row="4" column="1">
-        <widget class="QLineEdit" name="lineEdit_11">
+        <widget class="QLineEdit" name="kcfg_ekosRFocuserName">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QComboBox" name="filterCombo"/>
+        <widget class="QComboBox" name="kcfg_ekosRFilterCombo"/>
        </item>
        <item row="5" column="1">
-        <widget class="QLineEdit" name="lineEdit_14"/>
+        <widget class="QLineEdit" name="kcfg_ekosRFilterName"/>
        </item>
        <item row="6" column="0">
-        <widget class="QComboBox" name="auxCombo"/>
+        <widget class="QComboBox" name="kcfg_ekosRAuxCombo"/>
        </item>
        <item row="6" column="1">
-        <widget class="QLineEdit" name="lineEdit_17"/>
+        <widget class="QLineEdit" name="kcfg_ekosRAuxName"/>
        </item>
       </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
@@ -305,7 +345,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>advancedOptions</receiver>
+   <receiver>OpsEkos</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -321,7 +361,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>advancedOptions</receiver>
+   <receiver>OpsEkos</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
