@@ -155,13 +155,26 @@ void Guide::syncTelescopeInfo()
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
-        if (np)
-            aperture = np->value;
+        INumber *np = IUFindNumber(nvp, "GUIDER_APERTURE");
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np)
+        if (np && np->value != 0)
+            aperture = np->value;
+        else
+        {
+            np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+            if (np)
+                aperture = np->value;
+        }
+
+        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
+        if (np && np->value != 0)
             focal_length = np->value;
+        else
+        {
+            np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+            if (np)
+                focal_length = np->value;
+        }
     }
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)

@@ -16,7 +16,7 @@
 #include "vect.h"
 #include "matr.h"
 
-#include "../fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsimage.h"
 
 #define DEF_SQR_0	(16-0)
 #define DEF_SQR_1	(32-0)
@@ -49,7 +49,8 @@ cgmath::cgmath()
 	video_height = -1;
 	ccd_pixel_width  = 0;
 	ccd_pixel_height = 0;
-	focal = 1;
+    focal = 0;
+    aperture = 0;
 	ROT_Z = Matrix(0);
 	preview_mode = true;
 	suspended	 = false;
@@ -156,6 +157,14 @@ bool cgmath::set_guider_params( double ccd_pix_wd, double ccd_pix_ht, double gui
 	focal 				= guider_focal;
 
  return true;
+}
+
+void cgmath::get_guider_params( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal )
+{
+    *ccd_pix_wd = ccd_pixel_width * 1000.0;
+    *ccd_pix_ht = ccd_pixel_height * 1000.0;
+    *guider_aperture = aperture;
+    *guider_focal = focal;
 }
 
 
@@ -568,6 +577,10 @@ bool cgmath::is_lost_star(void) const
     return lost_star;
 }
 
+void cgmath::set_lost_star(bool is_lost)
+{
+    lost_star = is_lost;
+}
 
 Vector cgmath::find_star_local_pos( void ) const
 {

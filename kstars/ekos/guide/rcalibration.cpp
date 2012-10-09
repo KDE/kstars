@@ -211,8 +211,40 @@ void rcalibration::onReticleAngChanged( double val )
 
 void rcalibration::onStartReticleCalibrationButtonClick()
 {
+
+    if (!pmath)
+        return;
+
+    bool ccdInfo=true, scopeInfo=true;
+    QString errMsg;
+    double ccd_w, ccd_h, g_aperture, g_focal;
+
+    pmath->get_guider_params(&ccd_w, &ccd_h, &g_aperture, &g_focal);
+
+    if (ccd_w == 0 || ccd_h == 0)
+    {
+        errMsg = "CCD";
+        ccdInfo = false;
+    }
+
+    if (g_aperture == 0 || g_focal == 0)
+    {
+        scopeInfo = false;
+        if (ccdInfo == false)
+            errMsg += " & Telescope";
+        else
+            errMsg += "Telescope";
+    }
+
+    if (ccdInfo == false || scopeInfo == false)
+    {
+            KMessageBox::error(this, i18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg));
+            return;
+    }
+
     disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
+    pmath->set_lost_star(false);
     pmain_wnd->capture();
 
 	// manual

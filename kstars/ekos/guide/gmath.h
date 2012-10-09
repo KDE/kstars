@@ -123,6 +123,7 @@ public:
 	bool set_video_params( int vid_wd, int vid_ht );
     float *get_data_buffer( int *width, int *height, int *length, int *size );
 	bool set_guider_params( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal );
+    void get_guider_params( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal );
 	bool set_reticle_params( double x, double y, double ang );
 	bool get_reticle_params( double *x, double *y, double *ang ) const;
 	int  get_square_index( void ) const;
@@ -150,6 +151,7 @@ public:
 	void suspend( bool mode );
 	bool is_suspended( void ) const;
     bool is_lost_star(void) const;
+    void set_lost_star(bool is_lost);
 	void do_processing( void );
 	static double precalc_proportional_gain( double g_rate );
 	bool calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y );
