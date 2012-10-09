@@ -101,6 +101,36 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             }
             break;
 
+        case KSTARS_FOCUSER:
+            //qDebug() << "device port for CCD!!!!!" << endl;
+            if (Options::focuserPort().isEmpty() == false)
+            {
+                IText *tp = IUFindText(prop->getText(), "PORT");
+                if (tp == NULL)
+                    return;
+
+                IUSaveText(tp, Options::focuserPort().toLatin1().constData());
+
+                clientManager->sendNewText(prop->getText());
+
+            }
+            break;
+
+        case KSTARS_FILTER:
+            //qDebug() << "device port for CCD!!!!!" << endl;
+            if (Options::filterPort().isEmpty() == false)
+            {
+                IText *tp = IUFindText(prop->getText(), "PORT");
+                if (tp == NULL)
+                    return;
+
+                IUSaveText(tp, Options::filterPort().toLatin1().constData());
+
+                clientManager->sendNewText(prop->getText());
+
+           }
+           break;
+
         case KSTARS_CCD:
             //qDebug() << "device port for CCD!!!!!" << endl;
             if (Options::videoPort().isEmpty() == false)
