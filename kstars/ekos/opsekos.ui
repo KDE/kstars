@@ -103,7 +103,7 @@
         <item>
          <widget class="QRadioButton" name="kcfg_loadDefaultConfig">
           <property name="text">
-           <string>Alwayd load defaults</string>
+           <string>Always load defaults</string>
           </property>
          </widget>
         </item>
