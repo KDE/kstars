@@ -130,7 +130,7 @@ public:
 
     // Star Detection & HFR
     void toggleStars(bool enable) { markStars = enable;}
-    double getHFR();
+    double getHFR(HFRType type=HFR_AVERAGE);
     void findCentroid();
 
     /* stats struct to hold statisical data about the FITS data */
@@ -153,6 +153,8 @@ public slots:
 
 private:
 
+
+    bool checkCollision(Edge* s1, Edge*s2);
     double average();
     double stddev();
     int calculateMinMax(bool refresh=false);

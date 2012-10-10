@@ -71,7 +71,7 @@
 #include "ksutils.h"
 #include "Options.h"
 
-QStringList FITSViewer::filterTypes = QStringList() << "Auto Stretch" << "Equalize";
+QStringList FITSViewer::filterTypes = QStringList() << "Auto Stretch" << "Equalize" << "High Pass";
 
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
@@ -511,6 +511,7 @@ void FITSViewer::applyFilter(int ftype)
         return;
 
     fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale) ftype);
+    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
 
 
 }

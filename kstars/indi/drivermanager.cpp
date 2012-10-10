@@ -244,6 +244,8 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
        QList<DriverInfo *> uList;
 
         foreach(DriverInfo *idv, dList)
+        {
+            qDebug() << "dv port" << dv->getPort() << " idv port: " << idv->getPort() << endl;
             if (dv->getHost() == idv->getHost() && dv->getPort() == idv->getPort())
             {
 
@@ -276,9 +278,13 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
                 }
 
                 if (found == false)
+                {
+                    qDebug() << "Adding host " << idv->getHost() << " with Port: " << idv->getPort() << endl;
                     uList.append(idv);
+                }
 
             }
+        }
 
         if (uList.empty() == false)
             uHosts.append(uList);

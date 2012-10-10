@@ -139,7 +139,7 @@ void rcalibration::update_reticle_pos( double x, double y )
   	if( ui.spinBox_ReticleX->value() == x && ui.spinBox_ReticleY->value() == y )
   		return;
 
-	ui.spinBox_ReticleX->setValue( x );
+    ui.spinBox_ReticleX->setValue( x );
 	ui.spinBox_ReticleY->setValue( y );
 }
 
@@ -211,6 +211,8 @@ void rcalibration::onReticleAngChanged( double val )
 
 void rcalibration::onStartReticleCalibrationButtonClick()
 {
+    disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+
     pmain_wnd->capture();
 
 	// manual
@@ -450,7 +452,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             star_pos.y = -star_pos.y;
             star_pos = star_pos * ROT_Z;
 
-            //qDebug() << "Star x pos is " << star_pos.x << endl;
+           //qDebug() << "Star x pos is " << star_pos.x << endl;
 
             // start point reached... so exit
             if( star_pos.x < 1.5 )
@@ -474,6 +476,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             calibrationStage = CAL_ERROR;
             QMessageBox::warning( this, i18n("Warning"), i18n("GUIDE_RA: Scope can't reach the start point after ") + QString().number(turn_back_time) + i18n(" iterations.\nPossible mount or drive problems..."), QMessageBox::Ok );
+            reset();
+            break;
         }
 
         if (ra_only == false)
@@ -574,6 +578,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
         calibrationStage = CAL_ERROR;
         QMessageBox::warning( this, i18n("Warning"), i18n("GUIDE_DEC: Scope can't reach the start point after ") + QString().number(turn_back_time) + i18n(" iterations.\nPossible mount or drive problems..."), QMessageBox::Ok );
+        reset();
+        break;
     }
 
     // calc orientation
@@ -607,31 +613,25 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
 void rcalibration::guideStarSelected(int x, int y)
 {
-    double x_pos, y_pos, ang;
-
     int square_size = guide_squares[pmath->get_square_index()].size;
 
     pmath->set_reticle_params(x, y, ui.spinBox_ReticleAngle->value());
     pmath->move_square(x-square_size/2, y-square_size/2);
 
-
-    pmath->get_reticle_params(&x_pos, &y_pos, &ang);
-
-    update_reticle_pos(x_pos, y_pos);
+    update_reticle_pos(x, y);
 
     ui.selectStarLED->setColor(okColor);
 
     calibrationStage = CAL_START;
 
     ui.pushButton_StartCalibration->setEnabled(true);
-
 }
 
 void rcalibration::capture()
 {
     if (pmain_wnd->capture())
     {
-        if (calibrationStage == CAL_CAPTURE_IMAGE)
+            calibrationStage = CAL_CAPTURE_IMAGE;
             ui.captureLED->setColor(busyColor);
 
         pmain_wnd->appendLogText(i18n("Captuing image..."));
@@ -640,13 +640,16 @@ void rcalibration::capture()
 
 void rcalibration::set_image(FITSImage *image)
 {
-    pmath->resize_square(ui.comboBox_SquareSize->currentIndex());
+
+    if (image == NULL)
+        return;
 
     switch (calibrationStage)
     {
         case CAL_CAPTURE_IMAGE:
         case CAL_SELECT_STAR:
           {
+            pmath->resize_square(pmath->get_square_index());
             pmain_wnd->appendLogText(i18n("Image captured..."));
 
             ui.captureLED->setColor(okColor);

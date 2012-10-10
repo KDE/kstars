@@ -17,6 +17,15 @@
 namespace ISD
 {
 
+Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
+{
+    dType = KSTARS_TELESCOPE;
+}
+
+Telescope::~Telescope()
+{
+}
+
 void Telescope::processNumber(INumberVectorProperty *nvp)
 {
 
@@ -30,6 +39,8 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         currentCoord.setRA(RA->value);
         currentCoord.setDec(DEC->value);
 
+        KStars::Instance()->map()->update();
+
         return;
     }
 
@@ -42,6 +53,8 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         currentCoord.setAz(Az->value);
         currentCoord.setAlt(Alt->value);
+
+        KStars::Instance()->map()->update();
 
         return;
     }

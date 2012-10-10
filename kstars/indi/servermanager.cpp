@@ -131,6 +131,8 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
         dv->setServerState(true);
 
+        dv->setPort(port);
+
         return true;
 }
 
@@ -141,12 +143,14 @@ void ServerManager::stopDriver(DriverInfo *dv)
     managedDrivers.removeOne(dv);
 
 
-        qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
+        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
         out << "stop " << dv->getDriver() << " '" << dv->getUniqueLabel() << "'" << endl;
         //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
         out.flush();
 
         dv->setServerState(false);
+
+        dv->setPort(dv->getUserPort());
 
 }
 

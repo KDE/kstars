@@ -59,7 +59,7 @@ public:
     void setClientManager(ClientManager *newClientManager) { clientManager = newClientManager;}
     ClientManager *getClientManager() { return clientManager; }
 
-    void setUserPort(const QString &inUserPort) { userPort = inUserPort;}
+    void setUserPort(const QString &inUserPort);
     const QString & getUserPort() { return userPort;}
 
     void setServerState(bool inState);
@@ -69,6 +69,8 @@ public:
     bool getClientState() { return clientState; }
 
     void setHostParameters(const QString & inHost, const QString & inPort) { hostname = inHost; port = inPort; }
+    void setPort(const QString & inPort) { port = inPort;}
+    void setHost(const QString & inHost) { hostname = inHost; }
     const QString &getHost() { return hostname; }
     const QString &getPort() { return port; }
 

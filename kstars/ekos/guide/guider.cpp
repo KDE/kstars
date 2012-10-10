@@ -19,6 +19,8 @@
 #include "scroll_graph.h"
 #include "gmath.h"
 
+#include "fitsviewer/fitsimage.h"
+
 #define DRIFT_GRAPH_WIDTH	300
 #define DRIFT_GRAPH_HEIGHT	300
 
@@ -30,6 +32,8 @@ rguider::rguider(Ekos::Guide *parent)
 	ui.setupUi(this);
 
     pmain_wnd = parent;
+
+    pimage = NULL;
 
 	ui.comboBox_SquareSize->clear();
 	for( i = 0;guide_squares[i].size != -1;i++ )
@@ -63,6 +67,8 @@ rguider::rguider(Ekos::Guide *parent)
 	connect( ui.spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 
+    connect(ui.captureB, SIGNAL(clicked()), pmain_wnd, SLOT(capture()));
+
 	connect( ui.pushButton_StartStop, SIGNAL(clicked()), this, SLOT(onStartStopButtonClick()) );
 
 	pmath = NULL;
@@ -83,6 +89,7 @@ rguider::rguider(Ekos::Guide *parent)
 
 	// not UI vars
 	is_started = false;
+    is_ready   = false;
 	half_refresh_rate = false;
 
     //fill_interface();
@@ -344,6 +351,8 @@ void rguider::onStartStopButtonClick()
 	// start
 	if( !is_started )
 	{
+        if (pimage)
+            disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 		drift_graph->reset_data();
         ui.pushButton_StartStop->setText( i18n("Stop") );
         pmain_wnd->appendLogText(i18n("Autoguiding started."));
@@ -426,6 +435,25 @@ void rguider::guide( void )
 
      drift_graph->on_paint();
      pDriftOut->update();
+
+}
+
+void rguider::set_image(FITSImage *image)
+{
+    pimage = image;
+
+    if (is_ready && pimage)
+        connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+}
+
+void rguider::guideStarSelected(int x, int y)
+{
+    int square_size = guide_squares[pmath->get_square_index()].size;
+
+    pmath->set_reticle_params(x, y, pmain_wnd->getReticleAngle());
+    pmath->move_square(x-square_size/2, y-square_size/2);
+
+    disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
 }
 

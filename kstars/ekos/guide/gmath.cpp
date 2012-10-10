@@ -597,8 +597,13 @@ Vector cgmath::find_star_local_pos( void ) const
         int y1=square_pos.y;
         int y2=square_pos.y + square_size;
 
+        //qDebug() << "Search Region: X1: " << x1 << ", X2: " << x2 << " , Y1: " << y1 << " , Y2: " << y2 << endl;
+
         foreach(Edge *center, pimage->getStarCenters())
         {
+
+            //qDebug() << "Star X: " << center->x << ", Y: " << center->y << endl;
+
             if (center->x > x1 && center->x < x2 && center->y > y1 && center->y < y2 )
             {
                 if (center->val > max_val)

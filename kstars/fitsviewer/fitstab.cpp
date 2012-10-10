@@ -108,6 +108,8 @@ bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
             image->getHFR();
         }
 
+        image->updateFrame();
+
     }
 
     return imageLoad;

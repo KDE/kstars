@@ -291,7 +291,7 @@ void Focus::newFITS(IBLOB *bp)
     {
         if (tab->getUID() == currentCCD->getFocusTabID())
         {
-            currentHFR = tab->getImage()->getHFR();
+            currentHFR = tab->getImage()->getHFR(HFR_MAX);
             //qDebug() << "Focus HFR is " << tab->getImage()->getHFR() << endl;
             break;
         }
@@ -369,7 +369,7 @@ void Focus::autoFocusAbs(double currentHFR)
 
         case FOCUS_IN:
         case FOCUS_OUT:
-        if (focusInLimit && focusOutLimit && fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0 )
+        if (reverseDir && focusInLimit && focusOutLimit && fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0 )
             {
                 if (absIterations <= 2)
                     appendLogText(i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
@@ -395,7 +395,7 @@ void Focus::autoFocusAbs(double currentHFR)
                 else if (lastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit)
                     focusOutLimit = lastHFRPos;
 
-                // If we have slope, get next target positon
+                // If we have slope, get next target position
                 if (initSlopeHFR)
                 {
                     slope = (currentHFR - initSlopeHFR) / (pulseStep - initSlopePos);
@@ -413,7 +413,7 @@ void Focus::autoFocusAbs(double currentHFR)
 
                 HFR = currentHFR;
 
-                // Let's keep track of the minumum HFR
+                // Let's keep track of the minimum HFR
                 if (HFR < minHFR)
                 {
                     minHFR = HFR;
@@ -432,6 +432,7 @@ void Focus::autoFocusAbs(double currentHFR)
                 // HFR increased, let's deal with it.
                 HFRInc++;
                 HFRDec=0;
+                reverseDir = true;
 
                 // Reality Check: If it's first time, let's capture again and see if it changes.
                 if (HFRInc <= 1)
@@ -703,7 +704,7 @@ void Focus::startLooping()
 
     resetButtons();
 
-    appendLogText(i18n("Starting continious exposure..."));
+    appendLogText(i18n("Starting continuous exposure..."));
 
     capture();
 }

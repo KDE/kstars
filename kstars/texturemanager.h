@@ -43,7 +43,7 @@ public:
     static const QImage& getImage(const QString& name);
 
 #ifdef HAVE_OPENGL
-    /** Bind OpenGL texture. Acts similarily to getImage but does
+    /** Bind OpenGL texture. Acts similarly to getImage but does
      *  nothing if image is not found in the end */
     static void bindTexture(const QString& name, QGLWidget* cxt);
 

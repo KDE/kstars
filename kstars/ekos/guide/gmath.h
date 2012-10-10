@@ -138,6 +138,7 @@ public:
 	bool reset( void );
     void set_buffer(float *buffer);
     void set_image(FITSImage *image);
+    FITSImage *get_image() { return pimage; }
 	
 	ovr_params_t *prepare_overlays( void );
 	void move_square( double newx, double newy );

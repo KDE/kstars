@@ -33,7 +33,7 @@
 #include "indistd.h"
 #include "indidevice.h"
 
-#define TIMEOUT_THRESHHOLD	20
+#define TIMEOUT_THRESHOLD	20
 
 telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*name*/ ) : QDialog(parent)
 {

@@ -44,6 +44,8 @@ public:
 
     void set_image(FITSImage *image);
 
+    double getReticleAngle() { return ui.spinBox_ReticleAngle->value();}
+
     bool is_calibrating();
     bool is_finished() { return calibrationStage == CAL_FINISH; }
     void process_calibration();
