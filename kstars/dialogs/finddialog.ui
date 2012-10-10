@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>FindDialog</class>
- <widget class="QWidget" name="FindDialog" >
-  <property name="geometry" >
+ <widget class="QWidget" name="FindDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,31 +10,31 @@
     <height>435</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
-   <property name="spacing" >
+  <layout class="QVBoxLayout">
+   <property name="spacing">
     <number>6</number>
    </property>
+   <property name="margin">
+    <number>8</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
+    <layout class="QHBoxLayout">
+     <property name="spacing">
       <number>6</number>
      </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QLabel" name="SearchLabel" >
-       <property name="text" >
+      <widget class="QLabel" name="SearchLabel">
+       <property name="text">
         <string>Filter by name:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="SearchBox" >
-       <property name="showClearButton" stdset="0" >
+      <widget class="KLineEdit" name="SearchBox">
+       <property name="showClearButton" stdset="0">
         <bool>true</bool>
        </property>
       </widget>
@@ -41,42 +42,47 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
+    <layout class="QHBoxLayout">
+     <property name="spacing">
       <number>6</number>
      </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QLabel" name="FilterTypeLabel" >
-       <property name="text" >
+      <widget class="QLabel" name="FilterTypeLabel">
+       <property name="text">
         <string>Filter by type:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="FilterType" />
+      <widget class="KComboBox" name="FilterType"/>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QListView" name="SearchList" />
+    <widget class="QListView" name="SearchList"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>SearchBox</tabstop>
+  <tabstop>FilterType</tabstop>
+  <tabstop>SearchList</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
