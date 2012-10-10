@@ -18,6 +18,8 @@ typedef enum { SERVER_CLIENT, SERVER_ONLY} ServerMode;
 
 typedef enum { DATA_FITS, DATA_VIDEO, DATA_CCDPREVIEW, DATA_ASCII, DATA_OTHER } INDIDataTypes ;
 
+typedef enum { LOAD_LAST_CONFIG, SAVE_CONFIG, LOAD_DEFAULT_CONFIG } INDIConfig;
+
 typedef enum
 {
     NO_DIR = 0,

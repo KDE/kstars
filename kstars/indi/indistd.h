@@ -66,6 +66,7 @@ public:
 
 
     // Convenience functions
+    virtual bool setConfig(INDIConfig tConfig)=0;
     virtual const char *getDeviceName()=0;
     virtual bool isConnected()=0;
     virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)=0;
@@ -118,9 +119,11 @@ public:
     virtual const char *getDeviceName();
     virtual DriverInfo * getDriverInfo() { return driverInfo;}
     virtual QList<INDI::Property *> getProperties() { return properties; }
+
+
+    virtual bool setConfig(INDIConfig tConfig);
     virtual bool isConnected() { return connected; }
     virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
-
     virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
 
 public slots:
@@ -165,6 +168,8 @@ public:
     virtual void processLight(ILightVectorProperty *lvp);
     virtual void processBLOB(IBLOB *bp);
     virtual DeviceFamily getType();
+
+    virtual bool setConfig(INDIConfig tConfig);
     virtual bool isConnected();
     const char *getDeviceName();
     DriverInfo *getDriverInfo();

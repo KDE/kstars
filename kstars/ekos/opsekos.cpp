@@ -22,6 +22,7 @@
 #include "Options.h"
 
 #include "kstars.h"
+#include "ekosmanager.h"
 
 OpsEkos::OpsEkos( KStars *_ks )
         : QFrame( _ks )
@@ -35,6 +36,7 @@ OpsEkos::OpsEkos( KStars *_ks )
     connect( m_ConfigDialog, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( okClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( cancelClicked() ), SLOT( slotCancel() ) );
+
 }
 
 
@@ -42,6 +44,9 @@ OpsEkos::~OpsEkos() {}
 
 void OpsEkos::slotApply()
 {
+    EkosManager *ekosManager = KStars::Instance()->ekosManager();
+
+    ekosManager->refreshRemoteDrivers();
 }
 
 void OpsEkos::slotCancel()

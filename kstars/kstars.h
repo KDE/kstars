@@ -128,6 +128,8 @@ public:
 
     inline ObservingList* observingList() const { return obsList; }
 
+    inline EkosManager *ekosManager() const { return ekosmenu; }
+
     Execute* getExecute();
 
     /**Add an item to the color-scheme action manu

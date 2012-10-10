@@ -341,6 +341,54 @@ void GenericDevice::processBLOB(IBLOB* bp)
 
 }
 
+bool GenericDevice::setConfig(INDIConfig tConfig)
+{
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("CONFIG_PROCESS");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *sp = NULL;
+
+    IUResetSwitch(svp);
+
+    switch (tConfig)
+    {
+        case LOAD_LAST_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_LOAD");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+        case SAVE_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_SAVE");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+        case LOAD_DEFAULT_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_DEFAULT");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+    }
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+
+}
+
 void GenericDevice::createDeviceInit()
 {
     if ( Options::useTimeUpdate() && Options::useComputerSource())
@@ -636,6 +684,11 @@ void DeviceDecorator::removeProperty(INDI::Property *prop)
     emit propertyDeleted(prop);
 }
 
+
+bool DeviceDecorator::setConfig(INDIConfig tConfig)
+{
+    return interfacePtr->setConfig(tConfig);
+}
 
 DeviceFamily DeviceDecorator::getType()
 {

@@ -35,6 +35,7 @@ public:
     ~EkosManager();
 
     void appendLogText(const QString &);
+    void refreshRemoteDrivers();
 
 public slots:
     void processINDI();
@@ -53,6 +54,9 @@ public slots:
     void deviceConnected();
     void deviceDisconnected();
 
+    void processINDIModeChange();
+    void checkINDITimeout();
+
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
@@ -68,6 +72,13 @@ public slots:
     void initCapture();
     void initFocus();
     void initGuide();
+
+    void initLocalDrivers();
+    void initRemoteDrivers();
+
+    void processLocalDevice(ISD::GDInterface*);
+    void processRemoteDevice(ISD::GDInterface*);
+
     bool useGuiderFromCCD;
     bool useFilterFromCCD;
     bool useST4;
@@ -75,13 +86,16 @@ public slots:
     bool ccdStarted;
 
     ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di;
+    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di, *remote_indi;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
     Ekos::Guide *guideProcess;
 
+    QString guiderName;
 
+
+    bool localMode;
 
     unsigned short nDevices;
     QList<DriverInfo *> managedDevices;
