@@ -15,7 +15,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <libindi/indiproperty.h>
+#include <indiproperty.h>
 
 #include "indicommon.h"
 

@@ -26,7 +26,7 @@
 #include <QVBoxLayout>
 #include <QTabWidget>
 
-#include <libindi/indibase.h>
+#include <indibase.h>
 
 #include "clientmanager.h"
 

@@ -99,6 +99,7 @@ public slots:
 
 signals:
     void FITSViewerClosed();
+    void newExposureValue(ISD::CCDChip *chip, double value);
 
 private:    
     bool ISOMode;

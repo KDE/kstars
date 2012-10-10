@@ -9,7 +9,7 @@
     2004-01-15	INDI element is the most basic unit of the INDI KStars client.
  */
 
-#include <libindi/base64.h>
+#include <base64.h>
 
 #include "indielement.h"
 #include "indiproperty.h"

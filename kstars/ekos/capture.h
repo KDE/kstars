@@ -19,9 +19,11 @@
 
 #include "ui_capture.h"
 
-#include "../fitsviewer/fitscommon.h"
+#include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
+
+class QProgressIndicator;
 
 namespace Ekos
 {
@@ -60,6 +62,8 @@ public slots:
     void checkCCD(int CCDNum);
     void checkFilter(int filterNum);
 
+    void updateCaptureProgress(ISD::CCDChip *targetChip, double value);
+
     void checkSeqBoundary(const KFileItemList & items);
 
 signals:
@@ -92,6 +96,8 @@ private:
     INumberVectorProperty *filterSlot;
 
     QStringList logText;
+
+    QProgressIndicator *pi;
 
 };
 

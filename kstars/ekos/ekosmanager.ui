@@ -165,7 +165,7 @@
          <property name="title">
           <string>2. Start &amp;&amp; Stop INDI</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
@@ -185,6 +185,16 @@
               </property>
               <property name="text">
                <string>Control Panel...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KPushButton" name="optionsB">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>Options...</string>
               </property>
              </widget>
             </item>

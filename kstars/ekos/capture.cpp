@@ -14,10 +14,12 @@
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
-#include "../fitsviewer/fitsviewer.h"
-#include "../fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsviewer.h"
+#include "fitsviewer/fitsimage.h"
 
-#include <libindi/basedevice.h>
+#include "QProgressIndicator.h"
+
+#include <basedevice.h>
 
 namespace Ekos
 {
@@ -34,6 +36,10 @@ Capture::Capture()
 
     calibrationState = CALIBRATE_NONE;
 
+
+    pi = new QProgressIndicator(this);
+
+    progressLayout->addWidget(pi, 0, 4, 1, 1);
 
     seqLister		= new KDirLister();
     seqTimer = new QTimer(this);
@@ -62,15 +68,19 @@ Capture::Capture()
 
 void Capture::addCCD(ISD::GDInterface *newCCD)
 {
-    CCDCaptureCombo->addItem(newCCD->getDeviceName());
+    ISD::CCD *ccd = static_cast<ISD::CCD *> (newCCD);
 
-    connect(newCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    CCDCaptureCombo->addItem(ccd->getDeviceName());
 
-    CCDs.append(static_cast<ISD::CCD *> (newCCD));
+    connect(ccd, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+
+    connect(ccd, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
+
+    CCDs.append(ccd);
 
     checkCCD(0);
 
-    if ( (static_cast<ISD::CCD *> (newCCD))->hasGuideHead())
+    if (currentCCD->hasGuideHead())
     {
         CCDCaptureCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
     }
@@ -152,6 +162,8 @@ void Capture::startSequence()
     startB->setEnabled(false);
     stopB->setEnabled(true);
 
+    pi->startAnimation();
+
     captureImage();
 }
 
@@ -166,9 +178,11 @@ void Capture::stopSequence()
 
     fullImgCountOUT->setText(QString());
     currentImgCountOUT->setText(QString());
+    exposeOUT->setText(QString());
 
     startB->setEnabled(true);
     stopB->setEnabled(false);
+    pi->stopAnimation();
     seqTimer->stop();
 
 }
@@ -372,6 +386,9 @@ void Capture::newFITS(IBLOB *bp)
 
         startB->setEnabled(true);
         stopB->setEnabled(false);
+
+        pi->stopAnimation();
+        exposeOUT->setText(QString());
     }
     else
         seqTimer->start(seqDelay);
@@ -418,7 +435,8 @@ void Capture::captureImage()
     else
     {
 
-        targetChip->setFrameType(frameTypeCombo->currentText());
+        if (useGuideHead == false)
+            targetChip->setFrameType(frameTypeCombo->currentText());
 
         targetChip->setCaptureMode(FITS_NORMAL);
         targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
@@ -507,6 +525,27 @@ void Capture::clearLog()
     emit newLog();
 }
 
+void Capture::updateCaptureProgress(ISD::CCDChip *targetChip, double value)
+{
+
+    ISD::CCDChip *currentChip = NULL;
+
+    if (useGuideHead)
+        currentChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
+    else
+        currentChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+    if (targetChip != currentChip)
+        return;
+
+    exposeOUT->setText(QString::number(value, 'g', 2));
+
+    if (value <= 1)
+        secondsLabel->setText(i18n("second left"));
+    else
+        secondsLabel->setText(i18n("seconds left"));
+
+}
 }
 
 #include "capture.moc"

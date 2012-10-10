@@ -17,8 +17,8 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#include <libindi/indiapi.h>
-#include <libindi/basedevice.h>
+#include <indiapi.h>
+#include <basedevice.h>
 
 class QTextEdit;
 class QTabWidget;

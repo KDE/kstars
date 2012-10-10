@@ -52,6 +52,7 @@ if (INDI_FOUND)
     )
 
    set(ekosui_SRCS
+      ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
       ekos/focus.ui
@@ -65,7 +66,8 @@ if (INDI_FOUND)
       ekos/capture.cpp
       ekos/focus.cpp
       ekos/guide.cpp
-
+      ekos/opsekos.cpp
+      ekos/QProgressIndicator.cpp
       ekos/guide/common.cpp
       ekos/guide/gmath.cpp
       ekos/guide/guider.cpp

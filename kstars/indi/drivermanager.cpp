@@ -8,7 +8,7 @@
 
  */
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #include <unistd.h>
 #include <sys/socket.h>

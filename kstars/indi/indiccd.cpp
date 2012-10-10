@@ -11,7 +11,7 @@
 #include <KStatusBar>
 #include <KTemporaryFile>
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitscommon.h"
@@ -482,6 +482,27 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         return;
 
     }
+
+    if (!strcmp(nvp->name, "CCD_EXPOSURE_REQUEST"))
+    {
+        if (nvp->s == IPS_BUSY)
+        {
+            INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
+            if (np)
+                emit newExposureValue(primaryChip, np->value);
+        }
+    }
+
+    if (!strcmp(nvp->name, "GUIDER_EXPOSURE_REQUEST"))
+    {
+        if (nvp->s == IPS_BUSY)
+        {
+            INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
+            if (np)
+                emit newExposureValue(guideChip, np->value);
+        }
+    }
+
     DeviceDecorator::processNumber(nvp);
 }
 

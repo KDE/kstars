@@ -25,7 +25,7 @@
 #include "guide/rcalibration.h"
 #include "guide/gmath.h"
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 namespace Ekos
 {

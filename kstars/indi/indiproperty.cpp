@@ -9,8 +9,8 @@
 
  */
 
-#include <libindi/indiproperty.h>
-#include <libindi/indicom.h>
+#include <indiproperty.h>
+#include <indicom.h>
 
  #include "indielement.h"
  #include "indiproperty.h"

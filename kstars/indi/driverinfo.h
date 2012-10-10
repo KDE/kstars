@@ -13,7 +13,7 @@
 
 #include <QObject>
 
-#include <libindi/baseclient.h>
+#include <baseclient.h>
 #include "indicommon.h"
 
 class DriverManager;

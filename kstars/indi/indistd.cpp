@@ -22,7 +22,7 @@
 #include "Options.h"
 
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #include <QDebug>
 

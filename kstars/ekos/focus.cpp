@@ -19,7 +19,7 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsimage.h"
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #define MAXIMUM_ABS_ITERATIONS  30
 

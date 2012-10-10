@@ -18,7 +18,7 @@
 #include <QDataStream>
 #include <QTimer>
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 
 #include "clientmanager.h"

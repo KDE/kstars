@@ -32,7 +32,7 @@
 #include <KDialog>
 #include <KTabWidget>
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #include "kstars.h"
 #include "indidevice.h"

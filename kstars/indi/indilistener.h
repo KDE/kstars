@@ -12,7 +12,7 @@
 #ifndef INDILISETNER_H
 #define INDILISETNER_H
 
-#include <libindi/indiproperty.h>
+#include <indiproperty.h>
 #include <QObject>
 
 #include "indi/indistd.h"

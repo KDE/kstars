@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>OpsEkos</class>
- <widget class="QDialog" name="OpsEkos">
+ <widget class="QWidget" name="OpsEkos">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>398</width>
-    <height>371</height>
+    <width>400</width>
+    <height>376</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Advanced Options</string>
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -33,7 +33,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="remoteModeR">
+         <widget class="QRadioButton" name="kcfg_ekosRemoteMode">
           <property name="text">
            <string>Remote</string>
           </property>
@@ -85,7 +85,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="kcfg_EkosRemotePort">
+           <widget class="QLineEdit" name="kcfg_ekosRemotePort">
             <property name="text">
              <string>7624</string>
             </property>
@@ -145,6 +145,19 @@
            <string>Alwayd load defaults</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>21</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -287,7 +300,7 @@
         <widget class="QComboBox" name="kcfg_ekosRGuiderCombo"/>
        </item>
        <item row="3" column="1">
-        <widget class="QLineEdit" name="kcfg_ekosRGuiderCombo_2"/>
+        <widget class="QLineEdit" name="kcfg_ekosRGuiderName"/>
        </item>
        <item row="4" column="0">
         <widget class="QComboBox" name="kcfg_ekosRFocuserCombo"/>
@@ -329,50 +342,20 @@
     </layout>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <spacer name="verticalSpacer_4">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>7</height>
+      </size>
      </property>
-    </widget>
+    </spacer>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>OpsEkos</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>OpsEkos</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

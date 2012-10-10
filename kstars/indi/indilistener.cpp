@@ -9,8 +9,8 @@
     Handle INDI Standard properties.
  */
 
-#include <libindi/baseclient.h>
-#include <libindi/basedevice.h>
+#include <baseclient.h>
+#include <basedevice.h>
 
 #include "indilistener.h"
 #include "indicommon.h"

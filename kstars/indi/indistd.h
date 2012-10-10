@@ -12,7 +12,7 @@
 #ifndef INDISTD_H
 #define INDISTD_H
 
-#include <libindi/indiproperty.h>
+#include <indiproperty.h>
 #include <QObject>
 
 #include "skypoint.h"

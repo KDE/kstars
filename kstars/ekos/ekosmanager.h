@@ -11,7 +11,7 @@
  */
 
 
-#include <libindi/baseclient.h>
+#include <baseclient.h>
 
 #include "ui_ekosmanager.h"
 #include "indi/indistd.h"

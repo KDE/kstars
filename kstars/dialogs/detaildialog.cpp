@@ -57,7 +57,7 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
 #include "indi/driverinfo.h"

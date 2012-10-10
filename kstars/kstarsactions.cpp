@@ -86,17 +86,12 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-//#include "ui_devmanager.h"
-//#include "indi/indimenu.h"
-//#include "indi/indidriver.h"
-//#include "indi/imagesequence.h"
-
 #include "ekos/ekosmanager.h"
 #include "indi/telescopewizardprocess.h"
 #include "indi/opsindi.h"
+#include "ekos/opsekos.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
-
 #endif
 
 #include "skycomponents/customcatalogcomponent.h"
@@ -448,6 +443,9 @@ void KStars::slotViewOps() {
     #ifdef HAVE_INDI_H
     opsindi = new OpsINDI (this);
     dialog->addPage(opsindi, i18n("INDI"), "kstars");
+
+    opsekos = new OpsEkos(this);
+    dialog->addPage(opsekos, i18n("Ekos"), "kstars");
     #endif
 
 #ifdef HAVE_XPLANET

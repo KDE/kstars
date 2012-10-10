@@ -12,8 +12,8 @@
 #include <zlib.h>
 #include <indicom.h>
 #include <base64.h>
-#include <libindi/basedevice.h>
-#include <libindi/indiproperty.h>
+#include <basedevice.h>
+#include <indiproperty.h>
 
 #include <QFrame>
 #include <QCheckBox>
