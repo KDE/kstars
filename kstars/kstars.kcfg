@@ -1220,7 +1220,7 @@
        </entry>
        <entry name="remoteGuiderName" type="String">
          <label>Remote Guider Name</label>
-         <whatsthis>Name of the remote INDI Guider device. If the CCD and Guider are the same device, it must be speified here as well.</whatsthis>
+         <whatsthis>Name of the remote INDI Guider device. If the CCD and Guider are the same device, it must be specified here as well.</whatsthis>
        </entry>
        <entry name="remoteFocuserName" type="String">
          <label>Remote Focuser Name</label>
