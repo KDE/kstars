@@ -55,8 +55,8 @@ class CatalogEntryData {
   QString catalog_name;
   int ID;
   QString long_name;
-  QString ra;
-  QString dec;
+  double ra;
+  double dec;
   int type;
   float magnitude;
   int position_angle;

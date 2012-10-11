@@ -68,12 +68,10 @@ void CatalogDB::FirstRun() {
 
     tables.append("CREATE TABLE DSO ("
                   "UID INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
-                  // FIXME(spacetime): Major refactoring required to enable
-                  // handling double values
-                  // "RA DOUBLE NOT NULL  DEFAULT 0.0,"
-                  // "Dec DOUBLE DEFAULT 0.0,"
-                  "RA CHAR NOT NULL DEFAULT 'NULL',"
-                  "Dec CHAR NOT NULL DEFAULT 'NULL',"
+                  "RA DOUBLE NOT NULL  DEFAULT 0.0,"
+                  "Dec DOUBLE DEFAULT 0.0,"
+                  //"RA CHAR NOT NULL DEFAULT 'NULL',"
+                  //"Dec CHAR NOT NULL DEFAULT 'NULL',"
                   "Type INTEGER DEFAULT NULL,"
                   "Magnitude DECIMAL DEFAULT NULL,"
                   "PositionAngle INTEGER DEFAULT NULL,"
@@ -225,11 +223,13 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
   // Verification step
   // If RA, Dec are Null, it denotes an invalid object and should not be written
 
-  if (catalog_entry.ra == KSParser::EBROKEN_QSTRING ||
-      catalog_entry.ra == "" ||
-      catalog_entry.dec == KSParser::EBROKEN_QSTRING ||
-      catalog_entry.dec == "") {
-    kDebug() << "Attempt to add incorrect row";
+  if (catalog_entry.ra == KSParser::EBROKEN_DOUBLE ||
+      catalog_entry.ra == 0.0 ||
+      catalog_entry.dec == KSParser::EBROKEN_DOUBLE ||
+      catalog_entry.dec == 0.0) {
+    kDebug() << "Attempt to add incorrect ra & dec with ID:"
+             << catalog_entry.ID << " Long Name: "
+             << catalog_entry.long_name;
     return;
   }
   skydb_.open();
@@ -349,11 +349,14 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
 
         CatalogEntryData catalog_entry;
 
+        dms read_ra(row_content["RA"].toString(), false);
+        dms read_dec(row_content["Dc"].toString(), true);
+        kDebug()<<row_content["RA"].toString();
         catalog_entry.catalog_name = catalog_name;
         catalog_entry.ID = row_content["ID"].toInt();
         catalog_entry.long_name = row_content["Nm"].toString();
-        catalog_entry.ra = row_content["RA"].toString();
-        catalog_entry.dec = row_content["Dc"].toString();
+        catalog_entry.ra = read_ra.Degrees();
+        catalog_entry.dec = read_dec.Degrees();
         catalog_entry.type = row_content["Tp"].toInt();
         catalog_entry.magnitude = row_content["Mg"].toFloat();
         catalog_entry.position_angle = row_content["PA"].toFloat();
@@ -650,12 +653,11 @@ void CatalogDB::GetAllObjects(const QString &catalog,
     }
 
     while (get_query.next()) {
-        dms RA, Dec;
 
         int cat_epoch = get_query.value(0).toInt();
         unsigned char iType = get_query.value(1).toInt();
-        RA.setFromString(get_query.value(2).toString(), false);
-        Dec.setFromString(get_query.value(3).toString(), true);
+        dms RA(get_query.value(2).toDouble());
+        dms Dec(get_query.value(3).toDouble());
         float mag = get_query.value(4).toFloat();
         QString catPrefix = get_query.value(5).toString();
         int id_number_in_catalog = get_query.value(6).toInt();
