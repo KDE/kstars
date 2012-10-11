@@ -203,9 +203,10 @@ void CatalogDB::ClearDSOEntries(int catalog_id) {
     skydb_.open();
 
     QStringList del_query;
-    del_query.append("DELETE FROM DSO WHERE UID IN (SELECT UID_DSO FROM "
-                     "ObjectDesignation WHERE id_Catalog = " +
-                     QString::number(catalog_id) + ")");
+    // FIXME(spacetime): Only delete from DSO if removed from all Designations
+    // del_query.append("DELETE FROM DSO WHERE UID IN (SELECT UID_DSO FROM "
+    //                  "ObjectDesignation WHERE id_Catalog = " +
+    //                  QString::number(catalog_id) + ")");
     del_query.append("DELETE FROM ObjectDesignation WHERE id_Catalog = " +
                       QString::number(catalog_id));
 
@@ -215,7 +216,41 @@ void CatalogDB::ClearDSOEntries(int catalog_id) {
             kDebug() << query.lastError();
         }
     }
+    
     skydb_.close();
+}
+
+int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
+                              const double magnitude) {
+  
+  /*
+   * FIXME (spacetime): Match the incoming entry with the ones from the db
+   * with certain fuzz. If found, store it in rowuid
+   * This Fuzz has not been established after due discussion
+  */
+  skydb_.open();
+  QSqlTableModel dsoentries(0, skydb_);
+
+  QString filter =
+    "((RA - " + QString().setNum(ra) + ") between -0.1 and 0.1) and "
+    "((Dec - " + QString().setNum(dec) + ") between -0.1 and 0.1) and"
+    "((Magnitude - " + QString().setNum(magnitude) + ") between -0.1 and 0.1)";
+  kDebug() << filter;
+  dsoentries.setTable("DSO");
+  dsoentries.setFilter(filter);
+  dsoentries.select();
+
+  int entry_count = dsoentries.rowCount();
+  QSqlRecord record = dsoentries.record(0);
+
+  int returnval = -1;
+  if (entry_count > 0)
+    returnval = record.value("UID").toInt();
+
+  dsoentries.clear();
+  skydb_.close();
+  kDebug() << returnval;
+  return returnval;
 }
 
 
@@ -232,38 +267,39 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
              << catalog_entry.long_name;
     return;
   }
-  skydb_.open();
   // Part 1: Adding in DSO table
   // I will not use QSQLTableModel as I need to execute a query to find
   // out the lastInsertId
 
-  /*
-   * TODO (spacetime): Match the incoming entry with the ones from the db
-   * with certain fuzz. If found, store it in rowuid
-  */
-  int rowuid;
+  // Part 2: Fuzzy Match or Create New Entry
+  int rowuid = FindFuzzyEntry(catalog_entry.ra, catalog_entry.dec,
+                              catalog_entry.magnitude);
   int catid;
-  QSqlQuery add_query(skydb_);
-  add_query.prepare("INSERT INTO DSO (RA, Dec, Type, Magnitude, PositionAngle,"
-                    " MajorAxis, MinorAxis, Flux) VALUES (:RA, :Dec, :Type,"
-                    " :Magnitude, :PositionAngle, :MajorAxis, :MinorAxis,"
-                    " :Flux)");
-  add_query.bindValue("RA", catalog_entry.ra);
-  add_query.bindValue("Dec", catalog_entry.dec);
-  add_query.bindValue("Type", catalog_entry.type);
-  add_query.bindValue("Magnitude", catalog_entry.magnitude);
-  add_query.bindValue("PositionAngle", catalog_entry.position_angle);
-  add_query.bindValue("MajorAxis", catalog_entry.major_axis);
-  add_query.bindValue("MinorAxis", catalog_entry.minor_axis);
-  add_query.bindValue("Flux", catalog_entry.flux);
-  if (!add_query.exec()) {
-    kWarning() << "Custom Catalog Insert Query FAILED!";
-    kWarning() << add_query.lastQuery();
-  }
 
-  // Find UID of the Row just added
-  rowuid = add_query.lastInsertId().toInt();
-  add_query.clear();
+  skydb_.open();
+  if ( rowuid == -1) { //i.e. No fuzzy match found. Proceed to add new entry
+    QSqlQuery add_query(skydb_);
+    add_query.prepare("INSERT INTO DSO (RA, Dec, Type, Magnitude, PositionAngle,"
+                      " MajorAxis, MinorAxis, Flux) VALUES (:RA, :Dec, :Type,"
+                      " :Magnitude, :PositionAngle, :MajorAxis, :MinorAxis,"
+                      " :Flux)");
+    add_query.bindValue("RA", catalog_entry.ra);
+    add_query.bindValue("Dec", catalog_entry.dec);
+    add_query.bindValue("Type", catalog_entry.type);
+    add_query.bindValue("Magnitude", catalog_entry.magnitude);
+    add_query.bindValue("PositionAngle", catalog_entry.position_angle);
+    add_query.bindValue("MajorAxis", catalog_entry.major_axis);
+    add_query.bindValue("MinorAxis", catalog_entry.minor_axis);
+    add_query.bindValue("Flux", catalog_entry.flux);
+    if (!add_query.exec()) {
+      kWarning() << "Custom Catalog Insert Query FAILED!";
+      kWarning() << add_query.lastQuery();
+    }
+
+    // Find UID of the Row just added
+    rowuid = add_query.lastInsertId().toInt();
+    add_query.clear();
+  }
 
   /* TODO(spacetime)
    * Possible Bugs in QSQL Db with SQLite
@@ -277,7 +313,7 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
   catid = FindCatalog(catalog_entry.catalog_name);
   skydb_.close();
 
-  // Part 2: Add in Object Designation
+  // Part 3: Add in Object Designation
   skydb_.open();
   QSqlQuery add_od(skydb_);
   add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName,"
@@ -351,7 +387,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
 
         dms read_ra(row_content["RA"].toString(), false);
         dms read_dec(row_content["Dc"].toString(), true);
-        kDebug()<<row_content["RA"].toString();
+        kDebug()<<row_content["Nm"].toString();
         catalog_entry.catalog_name = catalog_name;
         catalog_entry.ID = row_content["ID"].toInt();
         catalog_entry.long_name = row_content["Nm"].toString();

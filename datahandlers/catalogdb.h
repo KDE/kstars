@@ -88,6 +88,17 @@ class CatalogDB {
   bool AddCatalogContents(const QString &filename);
 
   /**
+   * @brief returns the id of the row if it matches with certain fuzz.
+   * Else return -1 if none found
+   *
+   * @param ra Right Ascension of new object to be added
+   * @param dec Declination of new object to be added
+   * @return int RowUID of the new row
+   **/
+  int FindFuzzyEntry(const double ra, const double dec, 
+                     const double magnitude);
+
+  /**
    * @brief Used to add a cross referenced entry into the database
    *
    * @param catalog_entry Data structure with entry details

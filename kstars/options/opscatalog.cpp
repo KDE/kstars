@@ -164,6 +164,7 @@ void OpsCatalog::slotLoadCatalog() {
         ksw->data()->catalogdb()->AddCatalogContents(filename);
         refreshCatalogList();
     }
+    m_ConfigDialog->enableButtonApply( false );
 }
 
 
@@ -216,6 +217,7 @@ void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 */
 
 void OpsCatalog::slotApply() {
+    refreshCatalogList();
     Options::setStarDensity( kcfg_StarDensity->value() );
     //    Options::setMagLimitDrawStarZoomOut( kcfg_MagLimitDrawStarZoomOut->value() );
 
