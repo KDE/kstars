@@ -66,7 +66,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>2 . Select Devices</string>
+          <string>2. Select Devices</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>

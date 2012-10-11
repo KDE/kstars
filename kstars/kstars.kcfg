@@ -1257,7 +1257,7 @@
          <default>true</default>
        </entry>
        <entry name="loadConfigOnConnection" type="Bool">
-         <label>load device configuration upon successful connection?</label>
+         <label>Load device configuration upon successful connection?</label>
          <default>false</default>
        </entry>
        <entry name="loadDefaultConfig" type="Bool">
