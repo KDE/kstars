@@ -100,7 +100,7 @@ void ClientManager::newProperty(INDI::Property *prop)
 
     if (!strcmp (prop->getName(), "EQUATORIAL_EOD_COORD"))
         emit newTelescope();
-    else if (!strcmp (prop->getName(), "CCD_EXPOSURE_REQUEST"))
+    else if (!strcmp (prop->getName(), "CCD_EXPOSURE"))
         emit newCCD();
 
     emit newINDIProperty(prop);

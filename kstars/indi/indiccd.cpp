@@ -188,11 +188,11 @@ bool CCDChip::capture(double exposure)
     switch (type)
     {
        case PRIMARY_CCD:
-        expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
+        expProp = baseDevice->getNumber("CCD_EXPOSURE");
         break;
 
       case GUIDE_CCD:
-        expProp = baseDevice->getNumber("GUIDER_EXPOSURE_REQUEST");
+        expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
         break;
 
     }
@@ -448,7 +448,7 @@ CCD::~CCD()
 
 void CCD::registerProperty(INDI::Property *prop)
 {
-    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE_REQUEST"))
+    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
         HasGuideHead = true;
         guideChip = new CCDChip(baseDevice, clientManager, CCDChip::GUIDE_CCD);
@@ -483,7 +483,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
     }
 
-    if (!strcmp(nvp->name, "CCD_EXPOSURE_REQUEST"))
+    if (!strcmp(nvp->name, "CCD_EXPOSURE"))
     {
         if (nvp->s == IPS_BUSY)
         {
@@ -493,7 +493,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         }
     }
 
-    if (!strcmp(nvp->name, "GUIDER_EXPOSURE_REQUEST"))
+    if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
     {
         if (nvp->s == IPS_BUSY)
         {
