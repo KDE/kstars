@@ -69,9 +69,9 @@
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
 
-<book lang="&language;">
+<book id="kstars" lang="&language;">
 <title>The &kstars; Handbook</title>
-<bookinfo>
+<book id="kstars"info>
 
 <authorgroup>
 <author>
