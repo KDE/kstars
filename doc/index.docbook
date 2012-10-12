@@ -71,7 +71,7 @@
 
 <book id="kstars" lang="&language;">
 <title>The &kstars; Handbook</title>
-<book id="kstars"info>
+<bookinfo>
 
 <authorgroup>
 <author>
