@@ -29,7 +29,8 @@
 #include "ui_statform.h"
 #include "ui_fitsheaderdialog.h"
 
-#define JM_INDEX_LIMIT  5
+#define JM_LOWER_LIMIT  5
+#define JM_UPPER_LIMIT  400
 
 FITSTab::FITSTab() : QWidget()
 {
@@ -107,7 +108,7 @@ bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
         image->setHistogram(histogram);
         image->applyFilter(filter);
 
-        if (histogram->getJMIndex() > JM_INDEX_LIMIT)
+        if (histogram->getJMIndex() > JM_LOWER_LIMIT && histogram->getJMIndex() < JM_UPPER_LIMIT)
         {
             image->findCentroid();
             image->getHFR();

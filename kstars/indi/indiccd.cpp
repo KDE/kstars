@@ -581,10 +581,10 @@ void CCD::processBLOB(IBLOB* bp)
 
     CCDChip *targetChip = NULL;
 
-    if (!strcmp(bp->name, "CCD1"))
-        targetChip = primaryChip;
-    else
+    if (!strcmp(bp->name, "CCD2"))
         targetChip = guideChip;
+    else
+        targetChip = primaryChip;
 
      // It's either FITS or OTHER
     QString currentDir = Options::fitsDir();

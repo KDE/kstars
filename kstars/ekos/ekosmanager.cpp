@@ -469,6 +469,8 @@ void EkosManager::processINDI()
         if (DriverManager::Instance()->connectRemoteHost(remote_indi) == false)
         {
             INDIListener::Instance()->disconnect(this);
+            delete (remote_indi);
+            remote_indi=0;
             return;
         }
 
