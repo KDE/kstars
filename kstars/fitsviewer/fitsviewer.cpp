@@ -71,7 +71,7 @@
 #include "ksutils.h"
 #include "Options.h"
 
-QStringList FITSViewer::filterTypes = QStringList() << "Auto Stretch" << "Equalize" << "High Pass";
+QStringList FITSViewer::filterTypes = QStringList() << "Auto Stretch" << "High Contrast" << "Equalize" << "High Pass";
 
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)

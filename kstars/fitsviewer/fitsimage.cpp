@@ -1195,7 +1195,26 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
             }
         break;
 
-     case FITS_AUTO_STRETCH:
+    case FITS_AUTO_STRETCH:
+    {
+       min = stats.average - stats.stddev;
+       if (min < 0)
+           min =0;
+       //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
+       max = stats.average + stats.stddev * 3;
+
+         for (int i=0; i < height; i++)
+            for (int j=0; j < width; j++)
+            {
+               bufferVal = image[i * width + j];
+               if (bufferVal < min) bufferVal = min;
+               else if (bufferVal > max) bufferVal = max;
+               image[i * width + j] = bufferVal;
+             }
+       }
+       break;
+
+     case FITS_HIGH_CONTRAST:
      {
         //min = stats.average - stats.stddev;
         min = stats.average + stats.stddev;
