@@ -51,6 +51,7 @@
 #include "indigroup.h"
 #include "indielement.h"
 
+const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
 INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *in_cm) : KDialog( 0 )
   {
@@ -93,7 +94,7 @@ bool INDI_D::buildProperty(INDI::Property * prop)
     {
         pg = new INDI_G(this, groupName);
         groupsList.append(pg);
-        groupContainer->addTab(pg->getContainer(), groupName);
+        groupContainer->addTab(pg->getContainer(), i18nc(libindi_strings_context, groupName.toUtf8()));
     }
 
     return pg->addProperty(prop);

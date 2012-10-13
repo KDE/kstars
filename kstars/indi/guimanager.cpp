@@ -39,6 +39,7 @@
 #include "guimanager.h"
 #include "driverinfo.h"
 
+extern const char *libindi_strings_context;
 
 GUIManager * GUIManager::_GUIManager = NULL;
 
@@ -207,7 +208,7 @@ void GUIManager::buildDevice(DriverInfo *di)
 
     //qDebug() << "About to add to tab main widget with name " << di->getBaseDevice()->getDeviceName() << endl;
     //nset = mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
-    nset = mainTabWidget->addTab(gdm->getDeviceBox(), di->getUniqueLabel());
+    nset = mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getUniqueLabel().toUtf8()));
 
     gdm->setTabID(nset);
 

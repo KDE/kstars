@@ -434,6 +434,8 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     ST4Driver = NULL;
 
     primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
+
+    normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
     guideChip   = NULL;
 
 }
@@ -665,8 +667,7 @@ void CCD::processBLOB(IBLOB* bp)
             connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
-
-        FITSScale captureFilter = targetChip->getCaptureFilter();
+        FITSScale captureFilter = targetChip->getCaptureFilter();        
 
         switch (targetChip->getCaptureMode())
         {
@@ -674,15 +675,6 @@ void CCD::processBLOB(IBLOB* bp)
                 normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
                 targetChip->setImage(fv->getImage(normalTabID), FITS_NORMAL);
                 break;
-
-        case FITS_CALIBRATE:
-            if (calibrationTabID == -1)
-                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-            else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
-                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-
-            targetChip->setImage(fv->getImage(calibrationTabID), FITS_CALIBRATE);
-            break;
 
             case FITS_FOCUS:
                 if (focusTabID == -1)
@@ -700,6 +692,15 @@ void CCD::processBLOB(IBLOB* bp)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
 
             targetChip->setImage(fv->getImage(guideTabID), FITS_GUIDE);
+            break;
+
+        case FITS_CALIBRATE:
+            if (calibrationTabID == -1)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+            else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+
+            targetChip->setImage(fv->getImage(calibrationTabID), FITS_CALIBRATE);
             break;
 
         }

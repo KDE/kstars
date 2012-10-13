@@ -50,6 +50,8 @@
  #include <unistd.h>
  #include <stdlib.h>
  #include <assert.h>
+ 
+extern const char *libindi_strings_context;
 
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
@@ -110,7 +112,7 @@ void INDI_P::updateStateLED()
 void INDI_P::initGUI ()
 {
 
-    QString label = dataProp->getLabel();
+    QString label = i18nc(libindi_strings_context, dataProp->getLabel());
 
 
     /* add to GUI group */
@@ -125,7 +127,7 @@ void INDI_P::initGUI ()
 
     if (label.isEmpty())
     {
-        label = name;
+        label = i18nc(libindi_strings_context, name.toUtf8());
         labelW = new QLabel(label, pg->getContainer());
     }
     else
@@ -244,9 +246,9 @@ void INDI_P::buildTextGUI()
 
     // INDI STD, but we use our own controls
     if (name == "TIME_UTC")
-        setupSetButton("Time");
+        setupSetButton(i18n("Time"));
      else
-        setupSetButton("Set");
+        setupSetButton(i18n("Set"));
 
 }
 
@@ -278,7 +280,7 @@ void INDI_P::buildNumberGUI()
     if (nvp->p == IP_RO)
       return;
 
-    setupSetButton("Set");
+    setupSetButton(i18n("Set"));
 
 }
 
@@ -502,7 +504,7 @@ void INDI_P::buildMenuGUI()
 
         lp->buildMenuItem(tp);
 
-        menuOptions.append(lp->getLabel());
+        menuOptions.append(i18nc(libindi_strings_context, lp->getLabel().toUtf8()));
 
         elementList.append(lp);
     }
