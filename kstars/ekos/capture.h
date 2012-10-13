@@ -57,12 +57,13 @@ public slots:
 
     void startSequence();
     void stopSequence();
+    void captureOne();
     void captureImage();
     void newFITS(IBLOB *bp);
     void checkCCD(int CCDNum);
     void checkFilter(int filterNum);
 
-    void updateCaptureProgress(ISD::CCDChip *targetChip, double value);
+    void updateCaptureProgress(ISD::CCDChip *tChip, double value);
 
     void checkSeqBoundary(const KFileItemList & items);
 
@@ -85,6 +86,8 @@ private:
     bool useGuideHead;
 
     QList<ISD::CCD *> CCDs;
+
+    ISD::CCDChip *targetChip;
 
     // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
     QList<ISD::GDInterface *> Filters;

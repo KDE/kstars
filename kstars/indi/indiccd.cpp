@@ -432,6 +432,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     fv          = NULL;
     streamWindow      = NULL;
     ST4Driver = NULL;
+    seqCount  = 0 ;
 
     primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
 
@@ -599,7 +600,8 @@ void CCD::processBLOB(IBLOB* bp)
     QString filename(currentDir + '/');
 
     // Create file name for FITS to be shown in FITS Viewer
-    if (targetChip->isBatchMode() == false && Options::showFITS())
+    //if (targetChip->isBatchMode() == false && Options::showFITS())
+    if (targetChip->isBatchMode() == false)
     {
 
         tmpFile.setPrefix("fits");
@@ -626,15 +628,15 @@ void CCD::processBLOB(IBLOB* bp)
     {
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-            if (targetChip->isBatchMode())
-            {
+           // if (seqCount == 0)
+            //{
                 if (ISOMode == false)
                     filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
                 else
                     filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(QString().sprintf("%02d", seqCount)).arg(ts);
-            }
-            else
-                filename += QString("file_") + ts + ".fits";
+           // }
+            //else
+              //  filename += QString("file_") + ts + ".fits";
 
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
@@ -656,7 +658,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (targetChip->isBatchMode() == false && Options::showFITS())
+    if (Options::showFITS())
     {
         KUrl fileURL(filename);
 

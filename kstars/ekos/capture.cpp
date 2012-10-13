@@ -34,6 +34,8 @@ Capture::Capture()
     filterSlot = NULL;
     filterName = NULL;
 
+    targetChip = NULL;
+
     calibrationState = CALIBRATE_NONE;
 
 
@@ -50,6 +52,10 @@ Capture::Capture()
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
+
+    connect(displayCheck, SIGNAL(toggled(bool)), previewB, SLOT(setEnabled(bool)));
+
+    connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
     connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
 
@@ -80,16 +86,12 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
     checkCCD(0);
 
-    if (currentCCD->hasGuideHead())
-    {
-        CCDCaptureCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
-    }
-
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
+    CCDs.append(static_cast<ISD::CCD *> (newCCD));
 }
 
 void Capture::addFilter(ISD::GDInterface *newFilter)
@@ -107,13 +109,7 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 void Capture::startSequence()
 {
 
-    ISD::CCDChip *targetChip = NULL;
-
-    if (useGuideHead)
-        targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
-    else
-        targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-
+    QString imagePrefix;
 
     if (displayCheck->isChecked() == false && darkSubCheck->isChecked())
     {
@@ -126,13 +122,26 @@ void Capture::startSequence()
     else
         currentCCD->setISOMode(false);
 
+    targetChip->setBatchMode(true);
 
-    if (displayCheck->isChecked())
-        targetChip->setBatchMode(false);
-    else
-        targetChip->setBatchMode(true);
+    imagePrefix = prefixIN->text();
 
-    currentCCD->setSeqPrefix(prefixIN->text());
+    if (frameTypeCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false)
+            imagePrefix += "_";
+
+        imagePrefix += frameTypeCombo->currentText();
+    }
+    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false)
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += "_";
+
+        imagePrefix += FilterPosCombo->currentText();
+    }
+
+    currentCCD->setSeqPrefix(imagePrefix);
 
     if (filterSlot != NULL && currentFilter != NULL)
     {
@@ -156,11 +165,12 @@ void Capture::startSequence()
     imgProgress->setMaximum(seqTotalCount);
     imgProgress->setValue(seqCurrentCount);
 
-    updateSequencePrefix(prefixIN->text());
+    updateSequencePrefix(imagePrefix);
 \
     // Update button status
     startB->setEnabled(false);
     stopB->setEnabled(true);
+    previewB->setEnabled(false);
 
     pi->startAnimation();
 
@@ -169,9 +179,12 @@ void Capture::startSequence()
 
 void Capture::stopSequence()
 {
+
     retries              = 0;
     seqTotalCount        = 0;
     seqCurrentCount      = 0;
+
+    targetChip->setBatchMode(false);
 
     imgProgress->reset();
     imgProgress->setEnabled(false);
@@ -182,6 +195,7 @@ void Capture::stopSequence()
 
     startB->setEnabled(true);
     stopB->setEnabled(false);
+    previewB->setEnabled(true);
     pi->stopAnimation();
     seqTimer->stop();
 
@@ -195,16 +209,14 @@ void Capture::checkCCD(int ccdNum)
         int binx,biny;
         double min,max,step;
         QString frameProp = QString("CCD_FRAME");
-        ISD::CCDChip *targetChip = NULL;
-
         // Check whether main camera or guide head only
+
+        currentCCD = CCDs.at(ccdNum);
 
         if (CCDCaptureCombo->itemText(ccdNum).right(6) == QString("Guider"))
         {
             frameProp = QString("GUIDE_FRAME");
-            ccdNum--;
             useGuideHead = true;
-            currentCCD = CCDs.at(ccdNum);
             targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         }
         else
@@ -213,7 +225,6 @@ void Capture::checkCCD(int ccdNum)
             targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
             useGuideHead = false;
         }
-
 
         if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
         {
@@ -279,10 +290,10 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
     if (strcmp(ccd->getDeviceName(), CCDCaptureCombo->currentText().toLatin1()))
         return;
 
-    ISD::CCDChip *targetChip = NULL;
-    targetChip = (static_cast<ISD::CCD *> (ccd) )->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip *tChip = NULL;
+    tChip = (static_cast<ISD::CCD *> (ccd) )->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-    QStringList frameTypes = targetChip->getFrameTypes();
+    QStringList frameTypes = tChip->getFrameTypes();
 
     frameTypeCombo->clear();
 
@@ -292,7 +303,7 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
     {
         frameTypeCombo->setEnabled(true);
         frameTypeCombo->addItems(frameTypes);
-        frameTypeCombo->setCurrentIndex(targetChip->getFrameType());
+        frameTypeCombo->setCurrentIndex(tChip->getFrameType());
     }
 
 
@@ -335,19 +346,21 @@ void Capture::checkFilter(int filterNum)
 void Capture::newFITS(IBLOB *bp)
 {
 
-    ISD::CCDChip *targetChip = NULL;
+    ISD::CCDChip *tChip = NULL;
 
     if (!strcmp(bp->name, "CCD2"))
-        targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
+        tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
     else
-        targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        tChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
+    if (tChip != targetChip)
+        return;
 
     if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
         return;
 
     // If the FITS is not for our device, simply ignore
-    if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || startB->isEnabled())
+    if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
         return;    
 
     if (calibrationState == CALIBRATE_START)
@@ -368,6 +381,12 @@ void Capture::newFITS(IBLOB *bp)
             currentImage->subtract(calibrateImage);
     }
 
+    if (seqTotalCount < 0)
+    {
+       stopSequence();
+       return;
+    }
+
     seqCurrentCount++;
     imgProgress->setValue(seqCurrentCount);
 
@@ -376,39 +395,45 @@ void Capture::newFITS(IBLOB *bp)
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
     // if we're done
-    if (seqCurrentCount == seqTotalCount)
-    {
-        retries              = 0;
-        seqTotalCount        = 0;
-        seqCurrentCount      = 0;
-        //active               = false;
-        seqTimer->stop();
-
-        startB->setEnabled(true);
-        stopB->setEnabled(false);
-
-        pi->stopAnimation();
-        exposeOUT->setText(QString());
-    }
+    if (seqCurrentCount == seqTotalCount)  
+        stopSequence();
     else
         seqTimer->start(seqDelay);
 
+
 }
 
+void Capture::captureOne()
+{
+    targetChip->setBatchMode(false);
+
+    startB->setEnabled(false);
+    previewB->setEnabled(false);
+    stopB->setEnabled(true);
+
+    if (filterSlot != NULL && currentFilter != NULL)
+    {
+        if (FilterPosCombo->currentIndex() != filterSlot->np[0].value)
+        {
+            int cindex = FilterPosCombo->currentIndex();
+            currentFilter->runCommand(INDI_SET_FILTER, &cindex);
+        }
+    }
+
+    seqTotalCount = -1;
+
+
+    seqExpose = exposureIN->value();
+
+    pi->startAnimation();
+
+    captureImage();
+}
 
 void Capture::captureImage()
 {
     if (currentCCD == NULL)
         return;
-
-
-    ISD::CCDChip *targetChip = NULL;
-
-    if (useGuideHead)
-        targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
-    else
-        targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-
 
     seqTimer->stop();
 
@@ -525,17 +550,10 @@ void Capture::clearLog()
     emit newLog();
 }
 
-void Capture::updateCaptureProgress(ISD::CCDChip *targetChip, double value)
+void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 {
 
-    ISD::CCDChip *currentChip = NULL;
-
-    if (useGuideHead)
-        currentChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
-    else
-        currentChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-
-    if (targetChip != currentChip)
+    if (targetChip != tChip)
         return;
 
     exposeOUT->setText(QString::number(value, 'g', 2));

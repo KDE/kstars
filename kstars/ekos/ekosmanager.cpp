@@ -507,24 +507,14 @@ void EkosManager::refreshRemoteDrivers()
 void EkosManager::connectDevices()
 {
     if (scope)
-    {
-        connect(scope, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
          scope->Connect();
-    }
 
     if (ccd)
-    {
         ccd->Connect();
-        connect(ccd, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
 
-    }
 
     if (guider && guider != ccd)
-    {
         guider->Connect();
-        connect(guider, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
-
-    }
 
     if (filter && filter != ccd)
         filter->Connect();
@@ -659,6 +649,7 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
 
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
+    connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
 
     if (nDevices == 0)
     {
@@ -697,6 +688,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
     nDevices--;
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
+    connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
 
     if (nDevices == 0)
     {
@@ -900,36 +892,42 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
-    if ((!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDE_INFO"))
-            && guider && !strcmp(guider->getDeviceName(), prop->getDeviceName()))
+    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDE_INFO"))
     {
         if (guideProcess)
             guideProcess->syncCCDInfo();
     }
 
-    if ((!strcmp(prop->getName(), "TELESCOPE_INFO"))
-            && scope && !strcmp(scope->getDeviceName(), prop->getDeviceName()))
+    if (!strcmp(prop->getName(), "TELESCOPE_INFO"))
     {
         if (guideProcess)
            guideProcess->syncTelescopeInfo();
 
     }
 
-    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE_REQUEST") && ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
         initCapture();
 
-        captureProcess->addGuideHead(ccd);
+        if (!strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+            captureProcess->addGuideHead(ccd);
+        else
+            captureProcess->addGuideHead(guider);
 
         initGuide();
 
         guideProcess->addGuideHead();
     }
 
-    if (!strcmp(prop->getName(), "CCD_FRAME_TYPE") && ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+    if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
     {
         if (captureProcess)
-           captureProcess->syncFrameType(ccd);
+        {
+            if (!strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+                captureProcess->syncFrameType(ccd);
+            else
+                captureProcess->syncFrameType(guider);
+        }
     }
 
 }

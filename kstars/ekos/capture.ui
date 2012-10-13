@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>645</width>
-    <height>523</height>
+    <height>509</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -32,7 +32,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
@@ -285,6 +285,9 @@
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
@@ -314,6 +317,9 @@
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
@@ -342,6 +348,9 @@
                <spacer name="horizontalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -373,7 +382,31 @@
              <widget class="KComboBox" name="frameTypeCombo"/>
             </item>
             <item>
-             <widget class="KLineEdit" name="prefixIN"/>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="KLineEdit" name="prefixIN"/>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="frameTypeCheck">
+                <property name="toolTip">
+                 <string>Active CCD frame type</string>
+                </property>
+                <property name="text">
+                 <string>Type</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="filterCheck">
+                <property name="toolTip">
+                 <string>Active filter slot</string>
+                </property>
+                <property name="text">
+                 <string>Filter</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="KIntNumInput" name="countIN">
@@ -426,6 +459,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="displayCheck">
+          <property name="toolTip">
+           <string/>
+          </property>
           <property name="text">
            <string>Display in FITS Viewer</string>
           </property>
@@ -540,43 +576,46 @@
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="_7">
-       <property name="spacing">
-        <number>6</number>
+      <widget class="QPushButton" name="previewB">
+       <property name="toolTip">
+        <string/>
        </property>
-       <property name="margin">
-        <number>0</number>
+       <property name="text">
+        <string>Preview</string>
        </property>
-       <item>
-        <widget class="QPushButton" name="startB">
-         <property name="text">
-          <string>&amp;Start</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="stopB">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>S&amp;top</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="startB">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>&amp;Start Sequence</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="stopB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>S&amp;top</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -707,6 +746,9 @@
     </widget>
    </item>
   </layout>
+  <zorder>progressGroup</zorder>
+  <zorder></zorder>
+  <zorder>previewB</zorder>
  </widget>
  <customwidgets>
   <customwidget>
