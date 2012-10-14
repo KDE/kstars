@@ -381,7 +381,7 @@
             <item>
              <widget class="QPushButton" name="ScopeButton">
               <property name="text">
-               <string>Center in Scope</string>
+               <string>Center in Telescope</string>
               </property>
              </widget>
             </item>
