@@ -1054,7 +1054,7 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
     colorActionMenu->addAction( kta );
 
     KConfigGroup cg = KGlobal::config()->group( "Colors" );
-    if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "classic.colors" ).remove( ".colors" ) ) {
+    if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "moonless-night.colors" ).remove( ".colors" ) ) {
         kta->setChecked( true );
     }
 }
