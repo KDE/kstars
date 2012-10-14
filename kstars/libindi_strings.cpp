@@ -307,7 +307,7 @@ i18nc("string from libindi, used in the config dialog", "Set register");
 i18nc("string from libindi, used in the config dialog", "Set");
 i18nc("string from libindi, used in the config dialog", "Settings");
 i18nc("string from libindi, used in the config dialog", "Shutter Speed");
-i18nc("string from libindi, used in the config dialog", "Sideral");
+i18nc("string from libindi, used in the config dialog", "Sidereal");
 i18nc("string from libindi, used in the config dialog", "Sidereal Time");
 i18nc("string from libindi, used in the config dialog", "Sidereal time");
 i18nc("string from libindi, used in the config dialog", "Simulation");
