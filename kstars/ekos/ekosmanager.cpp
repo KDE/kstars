@@ -781,6 +781,14 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
+    initCapture();
+
+    captureProcess->addCCD(ccdDevice);
+
+    initFocus();
+
+    focusProcess->addCCD(ccdDevice);
+
     // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
     //if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
     if (useGuiderFromCCD == false && guiderName == QString(ccdDevice->getDeviceName()))
@@ -815,13 +823,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         }
 }
 
-    initCapture();
 
-    captureProcess->addCCD(ccdDevice);
-
-    initFocus();
-
-    focusProcess->addCCD(ccdDevice);
 
 
 }
