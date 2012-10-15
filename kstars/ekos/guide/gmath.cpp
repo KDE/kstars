@@ -23,6 +23,8 @@
 #define DEF_SQR_2	(64-0)
 #define DEF_SQR_3	(128-0)
 
+//#define GUIDE_LOG
+
 const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 											{DEF_SQR_1, DEF_SQR_1*DEF_SQR_1*1.0},
 											{DEF_SQR_2, DEF_SQR_2*DEF_SQR_2*1.0},
@@ -787,6 +789,9 @@ void cgmath::process_axes( void  )
  int cnt = 0;
  double t_delta = 0;
 
+    #ifdef GUIDE_LOG
+    qDebug() << "Processing Axes" << endl;
+    #endif
 
  	// process axes...
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
@@ -805,6 +810,10 @@ void cgmath::process_axes( void  )
  		for( int i = 0, idx = channel_ticks[k];i < cnt;i++ )
  		{
  			t_delta += drift[k][idx];
+
+            #ifdef GUIDE_LOG
+            qDebug() << "At #" << i << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta  << endl;
+            #endif
  		
 			if( idx > 0 )
 				--idx;
@@ -818,11 +827,20 @@ void cgmath::process_axes( void  )
 		out_params.delta[k] = t_delta / (double)cnt;
 		drift_integral[k] /= (double)MAX_ACCUM_CNT;
  	
+        #ifdef GUIDE_LOG
+        qDebug() << "cnt: " << cnt << endl;
+        qDebug() << "delta[" << k << "]= "  << out_params.delta[k] << endl;
+        qDebug() << "drift_integral[" << k << "]= "  << drift_integral[k] << endl;
+        #endif
         //if( k == GUIDE_RA )
 		//	log_i( "PROP = %f INT = %f", out_params.delta[k], drift_integral[k] );
 
 		out_params.pulse_length[k] = fabs(out_params.delta[k]*in_params.proportional_gain[k] + drift_integral[k]*in_params.integral_gain[k]);
  		out_params.pulse_length[k] = out_params.pulse_length[k] <= in_params.max_pulse_length[k] ? out_params.pulse_length[k] : in_params.max_pulse_length[k];
+
+        #ifdef GUIDE_LOG
+        qDebug() << "pulse_length[" << k << "]= "  << out_params.pulse_length[k] << endl;
+        #endif
 
  		// calc direction
  		if( !in_params.enabled[k] )
@@ -840,6 +858,19 @@ void cgmath::process_axes( void  )
  		}
  		else
  			out_params.pulse_dir[k] = NO_DIR;
+
+    #ifdef GUIDE_LOG
+        if (out_params.pulse_dir[k] == NO_DIR)
+            qDebug() << "Direction: NO_DIR" << endl;
+        else if (out_params.pulse_dir[k] == RA_DEC_DIR)
+            qDebug() << "Direction: Decrease RA" << endl;
+        else if (out_params.pulse_dir[k] == RA_INC_DIR)
+            qDebug() << "Direction: Increase RA" << endl;
+        else if (out_params.pulse_dir[k] == DEC_INC_DIR)
+            qDebug() << "Direction: Increase DEC" << endl;
+        else if (out_params.pulse_dir[k] == DEC_DEC_DIR)
+            qDebug() << "Direction: Decrease DEC" << endl;
+    #endif
 
  	}
 
@@ -873,15 +904,31 @@ void cgmath::do_processing( void )
 	if( preview_mode )
 		return;
 
+    #ifdef GUIDE_LOG
+    qDebug() << "################## BEGIN PROCESSING ##################" << endl;
+    #endif
+
 	// translate star coords into sky coord. system
 
 	// convert from pixels into arcsecs
 	arc_star_pos 	= point2arcsec( star_pos );
 	arc_reticle_pos = point2arcsec( reticle_pos );
 
+
+    #ifdef GUIDE_LOG
+    qDebug() << "Star X: " << star_pos.x << " Y: " << star_pos.y << endl;
+    qDebug() << "Reticle X: " << reticle_pos.x << " Y:" << reticle_pos.y << endl;
+    qDebug() << "Star Sky Coords RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y << endl;
+    qDebug() << "Reticle Sky Coords RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y << endl;
+    #endif
+
 	// translate into sky coords.
 	star_pos = arc_star_pos - arc_reticle_pos;
 	star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
+
+    #ifdef GUIDE_LOG
+    qDebug() << "-------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y << endl;
+    #endif
 
 	star_pos = star_pos * ROT_Z;
 
@@ -889,6 +936,11 @@ void cgmath::do_processing( void )
 	//put coord to drift list
     drift[GUIDE_RA][channel_ticks[GUIDE_RA]]   = star_pos.x;
     drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]] = star_pos.y;
+
+    #ifdef GUIDE_LOG
+    qDebug() << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y << endl;
+    qDebug() << "RA channel ticks: " << channel_ticks[GUIDE_RA] << " DEC channel ticks: " << channel_ticks[GUIDE_DEC] << endl;
+    #endif
 
 	// make decision by axes
 	process_axes();
@@ -898,6 +950,10 @@ void cgmath::do_processing( void )
 
 	// finally process tickers
 	do_ticks();
+
+    #ifdef GUIDE_LOG
+    qDebug() << "################## FINISH PROCESSING ##################" << endl;
+    #endif
 }
 
 
