@@ -62,6 +62,7 @@ private:
 	bool is_started;
     bool is_ready;
 	bool half_refresh_rate;
+    int lost_star_try;
 
 
 

@@ -35,6 +35,8 @@ rguider::rguider(Ekos::Guide *parent)
 
     pimage = NULL;
 
+    lost_star_try=0;
+
 	ui.comboBox_SquareSize->clear();
 	for( i = 0;guide_squares[i].size != -1;i++ )
 		ui.comboBox_SquareSize->addItem( QString().setNum( guide_squares[i].size ) );
@@ -357,6 +359,7 @@ void rguider::onStartStopButtonClick()
         ui.pushButton_StartStop->setText( i18n("Stop") );
         pmain_wnd->appendLogText(i18n("Autoguiding started."));
 		pmath->start();
+        lost_star_try=0;
 		is_started = true;
         pmain_wnd->capture();
 	}
@@ -393,7 +396,7 @@ void rguider::guide( void )
 	 if( !isVisible() || !is_started )
 	 	 return;
 
-     if (pmath->is_lost_star())
+     if (pmath->is_lost_star() && ++lost_star_try > 2)
      {
          onStartStopButtonClick();
          KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
