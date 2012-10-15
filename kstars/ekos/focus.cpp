@@ -298,6 +298,8 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    targetImage->findStars();
+
     double currentHFR= targetImage->getHFR(HFR_MAX);
 
     /*foreach(FITSTab *tab, fv->getImages())

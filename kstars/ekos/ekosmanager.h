@@ -45,6 +45,7 @@ public slots:
 
     void processNewDevice(ISD::GDInterface*);
     void processNewProperty(INDI::Property*);
+    void processNewNumber(INumberVectorProperty *nvp);
 
     void updateLog();
     void clearLog();

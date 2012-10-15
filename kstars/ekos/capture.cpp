@@ -184,6 +184,7 @@ void Capture::stopSequence()
     seqTotalCount        = 0;
     seqCurrentCount      = 0;
 
+    targetChip->abortExposure();
     targetChip->setBatchMode(false);
 
     imgProgress->reset();

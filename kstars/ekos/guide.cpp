@@ -244,6 +244,8 @@ void Guide::newFITS(IBLOB *bp)
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     FITSImage *targetImage = targetChip->getImage(FITS_GUIDE);
 
+    targetImage->findStars();
+
     pmath->set_image(targetImage);
     guider->set_image(targetImage);
     calibration->set_image(targetImage);
