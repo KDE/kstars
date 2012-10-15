@@ -854,7 +854,7 @@ void cgmath::process_axes( void  )
             if( k == GUIDE_RA )
                 out_params.pulse_dir[k] = out_params.delta[k] > 0 ? RA_DEC_DIR : RA_INC_DIR;   // GUIDE_RA. right dir - decreases GUIDE_RA
  			else
-                out_params.pulse_dir[k] = out_params.delta[k] > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
+                out_params.pulse_dir[k] = out_params.delta[k] < 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
  		}
  		else
  			out_params.pulse_dir[k] = NO_DIR;
@@ -924,7 +924,7 @@ void cgmath::do_processing( void )
 
 	// translate into sky coords.
 	star_pos = arc_star_pos - arc_reticle_pos;
-	star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
+        star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
 
     #ifdef GUIDE_LOG
     qDebug() << "-------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y << endl;
