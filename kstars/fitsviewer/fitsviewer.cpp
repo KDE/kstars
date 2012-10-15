@@ -193,7 +193,7 @@ FITSViewer::~FITSViewer()
 int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 {
 
-    FITSTab *tab = new FITSTab();
+    FITSTab *tab = new FITSTab(this);
 
     if (tab->loadFITS(imageName,mode, filter) == false)
     {
@@ -487,6 +487,7 @@ void FITSViewer::closeTab(int index)
 void FITSViewer::toggleStars()
 {
 
+
     if (markStars)
     {
         markStars = false;
@@ -496,9 +497,6 @@ void FITSViewer::toggleStars()
     {
         markStars = true;
         actionCollection()->action("mark_stars")->setText( i18n( "Unmark Stars" ) );
-
-        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.", fitsImages[fitsTab->currentIndex()]->getImage()->getDetectedStars()), FITS_MESSAGE);
-
     }
 
     foreach(FITSTab *tab, fitsImages)
@@ -506,6 +504,8 @@ void FITSViewer::toggleStars()
         tab->getImage()->toggleStars(markStars);
         tab->getImage()->updateFrame();
     }
+
+    //updateStatusBar(i18np("%1 star detected.", "%1 stars detected.", fitsImages[fitsTab->currentIndex()]->getImage()->getDetectedStars()), FITS_MESSAGE);
 
 }
 

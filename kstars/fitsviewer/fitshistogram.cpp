@@ -335,29 +335,32 @@ void FITSHistogramCommand::redo()
     case FITS_AUTO:
     case FITS_LINEAR:
         image->applyFilter(FITS_LINEAR, image_buffer, min, max);
-        image->updateFrame();
         break;
 
     case FITS_LOG:
         image->applyFilter(FITS_LOG, image_buffer, min, max);
-        image->updateFrame();
         break;
 
     case FITS_SQRT:
         image->applyFilter(FITS_SQRT, image_buffer, min, max);
-        image->updateFrame();
         break;
 
     default:
        image->applyFilter(type, image_buffer);
-       image->updateFrame();
        break;
 
 
     }
 
     if (histogram != NULL)
+    {
         histogram->updateHistogram();
+
+        if (tab->getViewer()->isStarsMarked())
+            image->findStars();
+    }
+
+    image->updateFrame();
 
 }
 
@@ -367,11 +370,18 @@ void FITSHistogramCommand::undo()
     memcpy( image->getImageBuffer(), buffer, image->getWidth() * image->getHeight() * sizeof(float));
     image->calculateStats(true);
     image->rescale(ZOOM_KEEP_LEVEL);
-    image->updateFrame();
+
 
 
     if (histogram != NULL)
+    {
         histogram->updateHistogram();
+
+        if (tab->getViewer()->isStarsMarked())
+            image->findStars();
+    }
+
+    image->updateFrame();
 
 }
 

@@ -94,8 +94,6 @@ public slots:
     int saveUnsaved(int index);
     void closeTab(int index);
     void toggleStars();
-    //void lowPassFilter();
-    //void equalize();
     void applyFilter(int ftype);
 
 private:

@@ -129,7 +129,8 @@ public:
     void updateFrame();
 
     // Star Detection & HFR
-    void toggleStars(bool enable) { markStars = enable;}
+    void findStars();
+    void toggleStars(bool enable);
     double getHFR(HFRType type=HFR_AVERAGE);
     void findCentroid();
 
@@ -172,6 +173,7 @@ private:
     int guide_x, guide_y, guide_box;
     bool firstLoad;
     bool tempFile;
+    bool starsSearched;
     QString filename;
 
 

@@ -56,6 +56,9 @@ const int MAXIMUM_VER_SEPARATION=2;
 const int MINIMUM_STDVAR=5;
 const int MAX_STARS=1024;
 
+#define JM_LOWER_LIMIT  5
+#define JM_UPPER_LIMIT  400
+
 //#define FITS_DEBUG
 
 bool greaterThan(Edge *s1, Edge *s2)
@@ -126,6 +129,7 @@ FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) 
     fptr = NULL;
     firstLoad = true;
     tempFile  = false;
+    starsSearched = false;
 
     mode = fitsMode;
 
@@ -356,6 +360,8 @@ bool FITSImage::loadFITS ( const QString &inFilename )
 
     if (mode == FITS_NORMAL)
         fitsProg.setValue(100);
+
+    starsSearched = false;
 
     setAlignment(Qt::AlignCenter);
 
@@ -667,6 +673,10 @@ void FITSImage::calculateStats(bool refresh)
     stats.average = average();
     // #2 call std deviation
     stats.stddev  = stddev();
+
+    if (refresh && markStars)
+        // Let's try to find star positions again after transformation
+        starsSearched = false;
 
 }
 
@@ -1010,12 +1020,12 @@ void FITSImage::findCentroid()
             #endif
              starCenters.append(rCenter);
 
-             if (starCenters.count() > MAX_STARS)
+             /*if (starCenters.count() > MAX_STARS)
              {
                  qDeleteAll(starCenters);
                  starCenters.clear();
                  break;
-             }
+             }*/
         }
 
     }
@@ -1274,6 +1284,7 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
 
     calculateStats(true);
     rescale(ZOOM_KEEP_LEVEL);
+
 }
 
 void FITSImage::subtract(FITSImage *darkFrame)
@@ -1293,6 +1304,33 @@ void FITSImage::subtract(FITSImage *darkFrame)
 }
 
 
+void FITSImage::toggleStars(bool enable)
+{
+     markStars = enable;
 
+     if (markStars == true && histogram != NULL)
+         findStars();
+}
+
+void FITSImage::findStars()
+{
+    if (starsSearched == false)
+    {
+        qDeleteAll(starCenters);
+        starCenters.clear();
+
+        if (histogram->getJMIndex() > JM_LOWER_LIMIT && histogram->getJMIndex() < JM_UPPER_LIMIT)
+        {
+             findCentroid();
+             getHFR();
+        }
+    }
+
+    starsSearched = true;
+
+    if (isVisible() && markStars)
+        emit newStatus(i18np("%1 star detected.", "%1 stars detected.", starCenters.count()), FITS_MESSAGE);
+
+}
 
 #include "fitsimage.moc"
