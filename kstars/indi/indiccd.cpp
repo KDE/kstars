@@ -207,6 +207,37 @@ bool CCDChip::capture(double exposure)
     return true;
 }
 
+bool CCDChip::abortExposure()
+{
+    ISwitchVectorProperty *abortProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        abortProp = baseDevice->getSwitch("CCD_ABORT_EXPOSURE");
+        break;
+
+      case GUIDE_CCD:
+        abortProp = baseDevice->getSwitch("GUIDER_ABORT_EXPOSURE");
+        break;
+
+    }
+
+    if (abortProp == NULL)
+        return false;
+
+    ISwitch *abort = IUFindSwitch(abortProp, "ABORT");
+
+    if (abort == NULL)
+        return false;
+
+    abort->s = ISS_ON;
+
+    clientManager->sendNewSwitch(abortProp);
+
+    return true;
+}
+
 bool CCDChip::setFrameType(const QString & name)
 {
     CCDFrameType fType = FRAME_LIGHT;

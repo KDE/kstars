@@ -44,6 +44,8 @@ public:
     CCDBinType getBinning();
     bool getBinning(int *bin_x, int *bin_y);
 
+    bool abortExposure();
+
     FITSMode getCaptureMode() { return captureMode;}
     FITSScale getCaptureFilter() { return captureFilter; }
 
