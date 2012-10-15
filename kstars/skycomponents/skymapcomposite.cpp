@@ -510,7 +510,23 @@ void SkyMapComposite::reloadCNames( ) {
 }
 
 void SkyMapComposite::reloadDeepSky() {
-    while (SkyMapDrawAbstract::drawLock()) ; // Not pretty, but works.
+    Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+    // Deselect object if selected! If not deselected then InfoBox tries to
+    // get the name of an object which may not exist (getLongName)
+    // FIXME (spacetime): Is there a better way?
+    // Current Solution: Look for the nearest star in the region and select it.
+
+    SkyMap *current_map = KStars::Instance()->map();
+    double maxrad=30.0;
+    SkyPoint center_point = current_map->getCenterPoint();
+    current_map->setClickedObject( KStars::Instance()->
+                                   data()->skyComposite()->
+                                   starNearest(&center_point, maxrad) );
+    current_map->setClickedPoint( current_map->clickedObject() );
+    current_map->slotCenter();
+
+    //Remove and Regenerate set of catalog objects
+    SkyMapDrawAbstract::setDrawLock(true);
     delete m_CustomCatalogs;
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
@@ -519,6 +535,9 @@ void SkyMapComposite::reloadDeepSky() {
             new CatalogComponent( this, allcatalogs.at(i), false, i )
             );
     }
+    SkyMapDrawAbstract::setDrawLock(false);
+
+
 }
 
 

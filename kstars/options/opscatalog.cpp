@@ -128,7 +128,7 @@ void OpsCatalog::updateCustomCatalogs() {
         }
     }
 
-    m_ConfigDialog->enableButtonApply( true );
+    m_ConfigDialog->enableButtonApply( false );
 }
 
 
