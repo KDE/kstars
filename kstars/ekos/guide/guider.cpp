@@ -402,6 +402,8 @@ void rguider::guide( void )
          KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
          return;
      }
+     else
+         lost_star_try = 0;
 
 	 // do pulse
 	 out = pmath->get_out_params();
