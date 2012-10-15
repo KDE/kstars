@@ -145,10 +145,7 @@ FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) 
     image_frame->setMouseTracking(true);
 
     if (fitsMode == FITS_GUIDE)
-    {
-        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(setGuideSquare(int,int)));
-        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SIGNAL(guideStarSelected(int,int)));
-    }
+        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
     // Default size
     resize(INITIAL_W, INITIAL_H);
@@ -1331,6 +1328,34 @@ void FITSImage::findStars()
     if (isVisible() && markStars)
         emit newStatus(i18np("%1 star detected.", "%1 stars detected.", starCenters.count()), FITS_MESSAGE);
 
+}
+
+void FITSImage::processPointSelection(int x, int y)
+{
+    if (starCenters.count() == 0)
+    {
+        setGuideSquare(x,y);
+        emit guideStarSelected(x,y);
+        return;
+    }
+
+    Edge *pEdge = new Edge();
+    pEdge->x = x;
+    pEdge->y = y;
+    pEdge->width = 1;
+
+    foreach(Edge *center, starCenters)
+        if (checkCollision(pEdge, center))
+        {
+            x = center->x;
+            y = center->y;
+            break;
+        }
+
+    setGuideSquare(x,y);
+    emit guideStarSelected(x,y);
+
+    delete (pEdge);
 }
 
 #include "fitsimage.moc"

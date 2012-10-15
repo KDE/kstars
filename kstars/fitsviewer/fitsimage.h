@@ -122,6 +122,8 @@ public:
 
 
 
+    void setGuideSquare(int x, int y);
+
     // Overlay
     void drawOverlay(QPainter *);
     void drawStarCentroid(QPainter *);
@@ -150,7 +152,8 @@ public slots:
     void ZoomIn();
     void ZoomOut();
     void ZoomDefault();
-    void setGuideSquare(int x, int y);
+
+    void processPointSelection(int x, int y);
 
 private:
 
