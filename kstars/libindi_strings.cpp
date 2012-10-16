@@ -248,7 +248,6 @@ i18nc("string from libindi, used in the config dialog", "ON");
 i18nc("string from libindi, used in the config dialog", "OTA Temperature (C)");
 i18nc("string from libindi, used in the config dialog", "OTA Update");
 i18nc("string from libindi, used in the config dialog", "Oag Offset (arcminutes)");
-i18nc("string from libindi, used in the config dialog", "Oag Offset (arminutes)");
 i18nc("string from libindi, used in the config dialog", "Object Info");
 i18nc("string from libindi, used in the config dialog", "Object Number");
 i18nc("string from libindi, used in the config dialog", "Object");
