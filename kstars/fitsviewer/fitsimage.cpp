@@ -59,6 +59,9 @@ const int MAX_STARS=1024;
 #define JM_LOWER_LIMIT  5
 #define JM_UPPER_LIMIT  400
 
+#define LOW_EDGE_CUTOFF_1   50
+#define LOW_EDGE_CUTOFF_2   10
+
 //#define FITS_DEBUG
 
 bool greaterThan(Edge *s1, Edge *s2)
@@ -866,8 +869,6 @@ void FITSImage::findCentroid()
 
     qSort(edges.begin(), edges.end(), greaterThan);
 
-
-
     // Now, let's scan the edges and find the maximum centroid vertically
     for (int i=0; i < edges.count(); i++)
     {
@@ -937,12 +938,15 @@ void FITSImage::findCentroid()
             }
         }
 
-
-
         int cen_limit = (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev));
 
-        if (edges.count() < 10)
-            cen_limit = 1;
+        if (edges.count() < LOW_EDGE_CUTOFF_1)
+        {
+            if (edges.count() < LOW_EDGE_CUTOFF_2)
+                cen_limit = 1;
+            else
+                cen_limit = 2;
+        }
 
     #ifdef FITS_DEBUG
     qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
