@@ -140,6 +140,13 @@ void Capture::startSequence()
 
         imagePrefix += FilterPosCombo->currentText();
     }
+    if (expDurationCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += "_";
+
+        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
+    }
 
     currentCCD->setSeqPrefix(imagePrefix);
 

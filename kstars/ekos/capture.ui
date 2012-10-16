@@ -6,13 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>645</width>
+    <width>577</width>
     <height>509</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
      <item>
       <widget class="QGroupBox" name="setupGroup_3">
        <property name="sizePolicy">
@@ -278,23 +281,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="frameXIN"/>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+               <widget class="QSpinBox" name="frameXIN">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
+               </widget>
               </item>
               <item>
                <widget class="QLabel" name="textLabel1_14">
@@ -310,23 +304,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="frameYIN"/>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+               <widget class="QSpinBox" name="frameYIN">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
+               </widget>
               </item>
               <item>
                <widget class="QLabel" name="textLabel1_15">
@@ -342,23 +327,17 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="frameWIN"/>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_3">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+               <widget class="QSpinBox" name="frameWIN">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
+                <property name="maximum">
+                 <number>99</number>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
+               </widget>
               </item>
               <item>
                <widget class="QLabel" name="textLabel1_16">
@@ -374,7 +353,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="frameHIN"/>
+               <widget class="QSpinBox" name="frameHIN">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -403,6 +389,16 @@
                 </property>
                 <property name="text">
                  <string>Filter</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="expDurationCheck">
+                <property name="toolTip">
+                 <string>Active filter slot</string>
+                </property>
+                <property name="text">
+                 <string>Expose Duration</string>
                 </property>
                </widget>
               </item>
@@ -748,7 +744,6 @@
   </layout>
   <zorder>progressGroup</zorder>
   <zorder></zorder>
-  <zorder>previewB</zorder>
  </widget>
  <customwidgets>
   <customwidget>
