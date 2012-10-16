@@ -646,11 +646,9 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
         }
     }
 
-
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
-    connect(devInterface, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
 
     if (nDevices == 0)
     {
@@ -690,7 +688,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
-    connect(devInterface, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
+
 
     if (nDevices == 0)
     {
@@ -777,6 +775,8 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     appendLogText(i18n("%1 is online.", scope->getDeviceName()));
 
+    connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
+
     if (guideProcess)
         guideProcess->setTelescope(scope);
 }
@@ -823,10 +823,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
             if (scope && scope->isConnected())
                 guideProcess->setTelescope(scope);
         }
-}
-
-
-
+    }
 
 }
 
@@ -897,12 +894,6 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
 void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 {
-
-    if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "GUIDE_INFO"))
-    {
-        if (guideProcess)
-            guideProcess->syncCCDInfo();
-    }
 
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
