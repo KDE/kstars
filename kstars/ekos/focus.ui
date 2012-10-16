@@ -266,7 +266,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Start Looping</string>
+           <string>Start Framing</string>
           </property>
          </widget>
         </item>

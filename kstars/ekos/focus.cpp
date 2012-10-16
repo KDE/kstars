@@ -302,16 +302,6 @@ void Focus::newFITS(IBLOB *bp)
 
     double currentHFR= targetImage->getHFR(HFR_MAX);
 
-    /*foreach(FITSTab *tab, fv->getImages())
-    {
-        if (tab->getUID() == currentCCD->getFocusTabID())
-        {
-            currentHFR = tab->getImage()->getHFR(HFR_MAX);
-            //qDebug() << "Focus HFR is " << tab->getImage()->getHFR() << endl;
-            break;
-        }
-    }*/
-
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
     if (inFocusLoop == false && focusType == FOCUS_MANUAL && HFR == -1)
@@ -748,6 +738,7 @@ void Focus::resetButtons()
         stopFocusB->setEnabled(true);
 
         startFocusB->setEnabled(false);
+        startLoopB->setEnabled(false);
         captureB->setEnabled(false);
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
@@ -761,6 +752,7 @@ void Focus::resetButtons()
         startFocusB->setEnabled(false);
 
     stopFocusB->setEnabled(false);
+    startLoopB->setEnabled(true);
 
 
     if (focusType == FOCUS_MANUAL)
@@ -773,6 +765,12 @@ void Focus::resetButtons()
 
         captureB->setEnabled(true);
         startLoopB->setEnabled(true);
+
+    }
+    else
+    {
+        focusOutB->setEnabled(false);
+        focusInB->setEnabled(false);
     }
 }
 
