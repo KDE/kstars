@@ -115,9 +115,9 @@ KStarsData* KStarsData::Create()
 KStarsData::KStarsData() :
     m_SkyComposite(0),
     m_Geo(dms(0), dms(0)),
-    temporaryTrail( false ),
     m_ksuserdb(),
     m_catalogdb(),
+    temporaryTrail( false ),
     locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
@@ -129,7 +129,6 @@ KStarsData::KStarsData() :
 }
 
 KStarsData::~KStarsData() {
-
     Q_ASSERT( pinstance );
 
     delete locale;

@@ -142,6 +142,9 @@ KStars::~KStars()
 
     delete kstarsData;
     pinstance = 0;
+
+    QSqlDatabase::removeDatabase("userdb");
+    QSqlDatabase::removeDatabase("skydb");
 }
 
 void KStars::clearCachedFindDialog() {

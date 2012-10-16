@@ -43,7 +43,7 @@ bool CatalogDB::Initialize() {
 }
 
 void CatalogDB::FirstRun() {
-    kWarning() << i18n("Rebuilding User Database");
+    kWarning() << i18n("Rebuilding Additional Sky Catalog Database");
     QVector<QString> tables;
     tables.append("CREATE TABLE ObjectDesignation ("
                   "id INTEGER NOT NULL  DEFAULT NULL PRIMARY KEY,"
@@ -95,7 +95,6 @@ void CatalogDB::FirstRun() {
 
 CatalogDB::~CatalogDB() {
   skydb_.close();
-  QSqlDatabase::removeDatabase("skydb");
 }
 
 
@@ -236,7 +235,7 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
     "((RA - " + QString().setNum(ra) + ") between -0.1 and 0.1) and "
     "((Dec - " + QString().setNum(dec) + ") between -0.1 and 0.1) and"
     "((Magnitude - " + QString().setNum(magnitude) + ") between -0.1 and 0.1)";
-  kDebug() << filter;
+//   kDebug() << filter;
   dsoentries.setTable("DSO");
   dsoentries.setFilter(filter);
   dsoentries.select();
@@ -250,7 +249,7 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
 
   dsoentries.clear();
   skydb_.close();
-  kDebug() << returnval;
+//   kDebug() << returnval;
   return returnval;
 }
 
@@ -311,8 +310,8 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
    */
 
   // Find ID of catalog
-  catid = FindCatalog(catalog_entry.catalog_name);
   skydb_.close();
+  catid = FindCatalog(catalog_entry.catalog_name);
 
   // Part 3: Add in Object Designation
   skydb_.open();
@@ -669,7 +668,7 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                               QMap<int, QString> &names,
                               CatalogComponent *catalog_ptr) {
     sky_list.clear();
-
+    QString selected_catalog = QString::number(FindCatalog(catalog));
     skydb_.open();
     QSqlQuery get_query(skydb_);
     get_query.prepare("SELECT Epoch, Type, RA, Dec, Magnitude, Prefix, "
@@ -678,7 +677,7 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                       "JOIN Catalog WHERE Catalog.id = :catID AND "
                       "ObjectDesignation.id_Catalog = Catalog.id AND "
                       "ObjectDesignation.UID_DSO = DSO.UID");
-    get_query.bindValue("catID", QString::number(FindCatalog(catalog)));
+    get_query.bindValue("catID", selected_catalog);
 
 //     kWarning() << get_query.lastQuery();
 //     kWarning() << get_query.lastError();

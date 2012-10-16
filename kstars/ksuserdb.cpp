@@ -48,7 +48,6 @@ bool KSUserDB::Initialize() {
 
 KSUserDB::~KSUserDB() {
     userdb_.close();
-    QSqlDatabase::removeDatabase("userdb");
 }
 
 QSqlError KSUserDB::LastError() {

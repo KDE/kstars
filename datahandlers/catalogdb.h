@@ -58,6 +58,8 @@ class CatalogDB {
     * 3. If DB file is missing, creates new DB
     * 4. Sets up pointer to Catalog DB
     *
+    * usage: Call QSqlDatabase::removeDatabase("skydb"); after the object
+    * of this class is deallocated
     * @return bool
     **/
    bool Initialize();

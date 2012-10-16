@@ -37,6 +37,9 @@
 
 /**
  * @brief Single class to delegate all User database I/O
+ * 
+ * usage: Call QSqlDatabase::removeDatabase("userdb"); after the object
+ * of this class is deallocated
  * @author Rishab Arora (spacetime)
  **/
 class KSUserDB {
