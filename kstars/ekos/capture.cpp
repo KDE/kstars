@@ -145,9 +145,9 @@ void Capture::startSequence()
 
     if (filterSlot != NULL && currentFilter != NULL)
     {
-        if (FilterPosCombo->currentIndex() != filterSlot->np[0].value)
+        if (FilterPosCombo->currentIndex() != (filterSlot->np[0].value-1))
         {
-            int cindex = FilterPosCombo->currentIndex();
+            int cindex = FilterPosCombo->currentIndex()+1;
             currentFilter->runCommand(INDI_SET_FILTER, &cindex);
         }
     }
@@ -414,9 +414,9 @@ void Capture::captureOne()
 
     if (filterSlot != NULL && currentFilter != NULL)
     {
-        if (FilterPosCombo->currentIndex() != filterSlot->np[0].value)
+        if (FilterPosCombo->currentIndex() != (filterSlot->np[0].value-1))
         {
-            int cindex = FilterPosCombo->currentIndex();
+            int cindex = FilterPosCombo->currentIndex()+1;
             currentFilter->runCommand(INDI_SET_FILTER, &cindex);
         }
     }
@@ -557,7 +557,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
     if (targetChip != tChip)
         return;
 
-    exposeOUT->setText(QString::number(value, 'g', 2));
+    exposeOUT->setText(QString::number(value, 'd', 2));
 
     if (value <= 1)
         secondsLabel->setText(i18n("second left"));
