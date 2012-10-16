@@ -203,10 +203,12 @@ void CatalogDB::ClearDSOEntries(int catalog_id) {
     skydb_.open();
 
     QStringList del_query;
+
     // FIXME(spacetime): Only delete from DSO if removed from all Designations
     // del_query.append("DELETE FROM DSO WHERE UID IN (SELECT UID_DSO FROM "
     //                  "ObjectDesignation WHERE id_Catalog = " +
     //                  QString::number(catalog_id) + ")");
+
     del_query.append("DELETE FROM ObjectDesignation WHERE id_Catalog = " +
                       QString::number(catalog_id));
 
@@ -216,13 +218,12 @@ void CatalogDB::ClearDSOEntries(int catalog_id) {
             kDebug() << query.lastError();
         }
     }
-    
+
     skydb_.close();
 }
 
 int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
                               const double magnitude) {
-  
   /*
    * FIXME (spacetime): Match the incoming entry with the ones from the db
    * with certain fuzz. If found, store it in rowuid
