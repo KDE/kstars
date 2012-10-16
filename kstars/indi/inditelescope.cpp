@@ -41,6 +41,8 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         KStars::Instance()->map()->update();
 
+        emit numberUpdated(nvp);
+
         return;
     }
 
@@ -55,6 +57,8 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         currentCoord.setAlt(Alt->value);
 
         KStars::Instance()->map()->update();
+
+        emit numberUpdated(nvp);
 
         return;
     }

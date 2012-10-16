@@ -513,6 +513,8 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         if (wd && ht && streamWindow)
             streamWindow->setSize(wd->value, ht->value);
 
+        emit numberUpdated(nvp);
+
         return;
 
     }
@@ -567,6 +569,9 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         else
             streamWindow->enableStream(false);
 
+
+        emit switchUpdated(svp);
+
         return;
     }
 
@@ -579,6 +584,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             streamWindow->enableStream(false);
             streamWindow->close();
         }
+
+        emit switchUpdated(svp);
 
     }
 
