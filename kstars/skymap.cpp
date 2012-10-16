@@ -1289,7 +1289,7 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     *xplanetProc << "-origin" << "earth";
 
     // Run xplanet
-    kWarning() << i18n( "Run : %1" , xplanetProc->program().join(" "));
+    kDebug() << "Run:" << xplanetProc->program().join(" ");
     xplanetProc->start();
 }
 
