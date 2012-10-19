@@ -281,6 +281,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 void FITSViewer::slotClose()
 {
 
+    int rc=0;
     fitsTab->disconnect();
 
     if (undoGroup->isClean())
@@ -288,18 +289,24 @@ void FITSViewer::slotClose()
     else
     {
         for (int i=0; i < fitsImages.size(); i++)
-            saveUnsaved(i);
+            if ( (rc=saveUnsaved(i)) == 2)
+                return;
     }
 }
 
 void FITSViewer::closeEvent(QCloseEvent *ev)
 {
 
+    int rc=0;
     fitsTab->disconnect();
 
 
    for (int i=0; i < fitsImages.size(); i++)
-         saveUnsaved(i);
+       if ( (rc=saveUnsaved(i)) == 2)
+       {
+           ev->ignore();
+           return;
+       }
 
     if( undoGroup->isClean() )
         ev->accept();
@@ -407,6 +414,11 @@ int FITSViewer::saveUnsaved(int index)
        targetTab->getUndoStack()->clear();
        return 1;
     }
+    else if ( ans == KMessageBox::Cancel)
+    {
+        return 2;
+    }
+
 
     return -1;
 }
@@ -472,7 +484,10 @@ void FITSViewer::closeTab(int index)
     if (tab->getImage()->getMode() != FITS_NORMAL)
         return;
 
-    saveUnsaved(index);
+    int rc = saveUnsaved(index);
+
+    if (rc == 2)
+        return;
 
     fitsImages.removeOne(tab);
     delete tab;
