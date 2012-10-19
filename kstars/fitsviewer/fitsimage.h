@@ -44,6 +44,9 @@
 #define INITIAL_W	640
 #define INITIAL_H	480
 
+#define MINIMUM_PIXEL_RANGE 5
+#define MINIMUM_STDVAR  5
+
 class FITSImage;
 
 class FITSLabel : public QLabel
@@ -68,13 +71,13 @@ signals:
 class Edge
 {
 public:
-    int x;
-    int y;
+    float x;
+    float y;
     int val;
     int scanned;
-    int width;
-    double HFR;
-    double sum;
+    float width;
+    float HFR;
+    float sum;
 };
 
 class FITSImage : public QScrollArea
@@ -134,7 +137,7 @@ public:
     void findStars();
     void toggleStars(bool enable);
     double getHFR(HFRType type=HFR_AVERAGE);
-    void findCentroid();
+    void findCentroid(int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
 
     /* stats struct to hold statisical data about the FITS data */
     struct

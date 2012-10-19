@@ -49,12 +49,7 @@
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
 
-const int MINIMUM_PIXEL_RANGE=5;
 const int MINIMUM_ROWS_PER_CENTER=3;
-const int MAXIMUM_HOR_SEPARATION=10;
-const int MAXIMUM_VER_SEPARATION=2;
-const int MINIMUM_STDVAR=5;
-const int MAX_STARS=1024;
 
 #define JM_LOWER_LIMIT  5
 #define JM_UPPER_LIMIT  400
@@ -769,9 +764,8 @@ bool FITSImage::checkCollision(Edge* s1, Edge*s2)
 
 
 /*** Find center of stars and calculate Half Flux Radius */
-void FITSImage::findCentroid()
+void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
 {
-    int initStdDev = MINIMUM_STDVAR;
     double threshold=0;
     double avg = 0;
     double sum=0;
@@ -817,19 +811,23 @@ void FITSImage::findCentroid()
             {
 
                 // We found a potential centroid edge
-                if (pixelRadius >= (MINIMUM_PIXEL_RANGE - (MINIMUM_STDVAR - initStdDev)))
+                if (pixelRadius >= (minEdgeWidth - (MINIMUM_STDVAR - initStdDev)))
                 {
-                    int center = round(avg/sum);
+                    //int center = round(avg/sum);
+
+                    float center = avg/sum;
+
+                    int i_center = round(center);
 
                     Edge *newEdge = new Edge();
 
                     newEdge->x          = center;
                     newEdge->y          = i;
                     newEdge->scanned    = 0;
-                    newEdge->val        = image_buffer[center+(i*stats.dim[0])] - stats.min;
+                    newEdge->val        = image_buffer[i_center+(i*stats.dim[0])] - stats.min;
                     newEdge->width      = pixelRadius;
                     newEdge->HFR        = 0;
-                    newEdge->sum        = sum;                   
+                    newEdge->sum        = sum;
 
                     edges.append(newEdge);
 
@@ -865,7 +863,8 @@ void FITSImage::findCentroid()
     int cen_y=0;
     int cen_v=0;
     int rc_index=0;
-    int y_counter=0;
+    //int y_counter=0;
+
 
     qSort(edges.begin(), edges.end(), greaterThan);
 
@@ -895,8 +894,11 @@ void FITSImage::findCentroid()
         cen_y = edges[i]->y;
         cen_v = edges[i]->sum;
 
+        float avg_x = 0;
+        float avg_y = 0;
+        sum = 0;
+
         cen_count=0;
-        y_counter=0;
 
         // Now let's compare to other edges until we hit a maxima
         for (int j=0; j < edges.count();j++)
@@ -915,11 +917,15 @@ void FITSImage::findCentroid()
                 edges[j]->scanned = 1;
                 cen_count++;
 
+                avg_x += edges[j]->x * edges[j]->val;
+                avg_y += edges[j]->y * edges[j]->val;
+                sum += edges[j]->val;
+
                 continue;
             }
 
             // Permittable margin of error in X among edges
-            if (abs(edges[j]->x-cen_x) <= MAXIMUM_HOR_SEPARATION)
+           /* if (abs(edges[j]->x-cen_x) <= MAXIMUM_HOR_SEPARATION)
             {
 
                 // Permittable margin of error in Y among edges
@@ -934,8 +940,11 @@ void FITSImage::findCentroid()
 
                     edges[j]->scanned = 1;
                     cen_count++;
+
+                    avg += edges[j]->y * edges[j]->val;
+                    sum += edges[j]->val;
                 }
-            }
+            }*/
         }
 
         int cen_limit = (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev));
@@ -963,8 +972,12 @@ void FITSImage::findCentroid()
             // We detected a centroid, let's init it
             Edge *rCenter = new Edge();
 
-            rCenter->x = edges[rc_index]->x;
-            rCenter->y = edges[rc_index]->y;
+            //rCenter->x = edges[rc_index]->x;
+            rCenter->x = avg_x/sum;
+            rCenter->y = avg_y/sum;
+            //rCenter->y = edges[rc_index]->y;
+
+
             rCenter->width = edges[rc_index]->width;
 
            #ifdef FITS_DEBUG
@@ -972,7 +985,7 @@ void FITSImage::findCentroid()
 
            qDebug() << "Profile for this center is:" << endl;
            for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
-               qDebug() << "#" << i << " , " << image_buffer[rCenter->x-i+(rCenter->y*stats.dim[0])] - stats.min <<  endl;
+               qDebug() << "#" << i << " , " << image_buffer[(int) round(rCenter->x-i+(rCenter->y*stats.dim[0]))] - stats.min <<  endl;
 
            #endif
 
@@ -981,24 +994,27 @@ void FITSImage::findCentroid()
             double HF=0;
             double FSum=0;
 
+            cen_x = (int) round(rCenter->x);
+            cen_y = (int) round(rCenter->y);
+
             // Complete sum along the radius
             //for (int k=0; k < rCenter->width; k++)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
-                FSum += image_buffer[rCenter->x-k+(rCenter->y*stats.dim[0])] - stats.min;
+                FSum += image_buffer[cen_x-k+(cen_y*stats.dim[0])] - stats.min;
 
             // Half flux
             HF = FSum / 2.0;
 
             // Total flux starting from center
-            TF = image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x] - stats.min;
+            TF = image_buffer[cen_y * stats.dim[0] + cen_x] - stats.min;
 
             int pixelCounter = 1;
 
             // Integrate flux along radius axis until we reach half flux
             for (int k=1; k < rCenter->width/2; k++)
             {
-                TF += image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x + k] - stats.min;
-                TF += image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x - k] - stats.min;
+                TF += image_buffer[cen_y * stats.dim[0] + cen_x + k] - stats.min;
+                TF += image_buffer[cen_y * stats.dim[0] + cen_x - k] - stats.min;
 
                 if (TF >= HF)
                 {
