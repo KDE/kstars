@@ -133,9 +133,6 @@ bool rcalibration::set_video_params( int vid_wd, int vid_ht )
 
 void rcalibration::update_reticle_pos( double x, double y )
 {
- 	if( !isVisible() )
- 		return;
-
   	if( ui.spinBox_ReticleX->value() == x && ui.spinBox_ReticleY->value() == y )
   		return;
 
@@ -309,6 +306,7 @@ void rcalibration::reset()
     ui.pushButton_StartCalibration->setText( i18n("Start") );
     ui.pushButton_StartCalibration->setEnabled(true);
     ui.progressBar->setVisible(false);
+    connect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
 }
 
@@ -427,7 +425,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             pmain_wnd->appendLogText(i18n("GUIDE_RA Drifting..."));
 
             // get start point
-           // pmath->get_star_screen_pos( &start_x1, &start_y1 );
+            //pmath->get_star_screen_pos( &start_x1, &start_y1 );
 
             start_x1 = ui.spinBox_ReticleX->value();
             start_y1 = ui.spinBox_ReticleY->value();
@@ -461,6 +459,14 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         case CAL_RA_DEC:
         {
             if (iterations == auto_drift_time)
+            {
+                pmain_wnd->do_pulse( RA_DEC_DIR, pulseDuration );
+                iterations++;
+
+                ui.progressBar->setValue( iterations );
+                break;
+            }
+            else if (iterations == (auto_drift_time+1))
             {
                 pmath->get_star_screen_pos( &end_x1, &end_y1 );
                 //qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1 << endl;
@@ -651,6 +657,9 @@ void rcalibration::guideStarSelected(int x, int y)
     pmath->move_square(x-square_size/2, y-square_size/2);
 
     update_reticle_pos(x, y);
+
+    if (calibrationStage == CAL_FINISH)
+        return;
 
     ui.selectStarLED->setColor(okColor);
 

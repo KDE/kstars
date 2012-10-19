@@ -26,8 +26,8 @@ typedef struct
 	double square;
 }guide_square_t;
 
-#define CENTROID_THRESHOLD 0
-#define SMART_THRESHOLD 1
+#define SMART_THRESHOLD 0
+#define CENTROID_THRESHOLD 1
 #define AUTO_THRESHOLD	2
 #define NO_THRESHOLD  	3
 

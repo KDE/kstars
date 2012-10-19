@@ -34,13 +34,12 @@ const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 
 
 const square_alg_t guide_square_alg[] = {
-                                            { CENTROID_THRESHOLD, "Fast"},
 											{ SMART_THRESHOLD, "Smart" },
+                                            { CENTROID_THRESHOLD, "Fast"},
 											{ AUTO_THRESHOLD, "Auto" },
 											{ NO_THRESHOLD, "No thresh." },
 											{ -1, {0} }
 											};
-
 
 cgmath::cgmath()
 {
@@ -61,7 +60,7 @@ cgmath::cgmath()
 
 	// square variables
 	square_idx		= DEFAULT_SQR;
-    square_alg_idx	= CENTROID_THRESHOLD;
+    square_alg_idx	= SMART_THRESHOLD;
 	square_size		= guide_squares[square_idx].size;
 	square_square 	= guide_squares[square_idx].square;
 	square_pos 	 = Vector(0);
@@ -606,7 +605,7 @@ Vector cgmath::find_star_local_pos( void ) const
     // Using FITSImage centroid algorithm by Jasem Mutlaq
     case CENTROID_THRESHOLD:
     {
-        int center_x=-1, center_y=-1;
+        float center_x=-1, center_y=-1;
         int max_val = -1;
         int x1=square_pos.x;
         int x2=square_pos.x + square_size;
@@ -887,7 +886,7 @@ void cgmath::do_processing( void )
 {
  Vector arc_star_pos, arc_reticle_pos, pos, p;
 
- 	// do nothing if suspended
+    // do nothing if suspended
  	if( suspended )
  		return;
 
