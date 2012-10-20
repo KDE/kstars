@@ -354,7 +354,8 @@ void rguider::onStartStopButtonClick()
 	if( !is_started )
 	{
         if (pimage)
-            disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+            disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
+
 		drift_graph->reset_data();
         ui.pushButton_StartStop->setText( i18n("Stop") );
         pmain_wnd->appendLogText(i18n("Autoguiding started."));
@@ -366,6 +367,8 @@ void rguider::onStartStopButtonClick()
 	// stop
 	else
 	{
+        if (pimage)
+            connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
         ui.pushButton_StartStop->setText( i18n("Start") );
         pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
 		pmath->stop();
@@ -447,7 +450,7 @@ void rguider::set_image(FITSImage *image)
 {
     pimage = image;
 
-    if (is_ready && pimage)
+    if (is_ready && pimage && is_started == false)
         connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 }
 
