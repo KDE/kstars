@@ -840,6 +840,8 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 
     initCapture();
 
+    connect(filter, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
+
     captureProcess->addFilter(filter);
 }
 
@@ -894,12 +896,17 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
 void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 {
-
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
         if (guideProcess)
            guideProcess->syncTelescopeInfo();
 
+    }
+
+    if (!strcmp(nvp->name, "FILTER_SLOT"))
+    {
+        if (captureProcess)
+            captureProcess->checkFilter(0);
     }
 
 }
