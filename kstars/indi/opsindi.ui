@@ -208,8 +208,6 @@
        </layout>
       </item>
      </layout>
-     <zorder>horizontalSpacer_2</zorder>
-     <zorder>videoLabel_3</zorder>
     </widget>
    </item>
    <item>
@@ -445,11 +443,6 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <item>
-             <property name="text">
-              <string>0</string>
-             </property>
-            </item>
             <item>
              <property name="text">
               <string>1</string>
