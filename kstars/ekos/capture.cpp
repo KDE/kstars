@@ -320,6 +320,8 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
 void Capture::checkFilter(int filterNum)
 {
 
+    QStringList filterAlias = Options::filterAlias();
+
     if (filterNum <= Filters.count())
         currentFilter = Filters.at(filterNum);
 
@@ -340,6 +342,8 @@ void Capture::checkFilter(int filterNum)
 
         if (filterName != NULL && (i < filterName->ntp))
             item = filterName->tp[i].text;
+        else if (filterAlias.at(i).isEmpty() == false)
+            item = filterAlias.at(i);
         else
             item = QString("Filter %1").arg(i+1);
 
