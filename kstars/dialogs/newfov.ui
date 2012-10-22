@@ -13,13 +13,7 @@
   <property name="windowTitle">
    <string>New FOV Indicator</string>
   </property>
-  <layout class="QVBoxLayout">
-   <property name="spacing">
-    <number>6</number>
-   </property>
-   <property name="margin">
-    <number>10</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout">
      <property name="spacing">
@@ -122,7 +116,7 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="KDoubleNumInput" name="TLength1">
+              <widget class="KDoubleNumInput" name="TLength1" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -164,7 +158,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="EyeLength">
+              <widget class="KDoubleNumInput" name="EyeLength" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -265,7 +259,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="EyeFOV">
+              <widget class="KDoubleNumInput" name="EyeFOV" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -498,7 +492,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="TLength2">
+              <widget class="KDoubleNumInput" name="TLength2" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -546,7 +540,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="ChipSize">
+              <widget class="KDoubleNumInput" name="ChipSize" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -745,7 +739,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="LinearFOV">
+              <widget class="KDoubleNumInput" name="LinearFOV" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -863,7 +857,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="RTDiameter">
+              <widget class="KDoubleNumInput" name="RTDiameter" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -911,7 +905,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="WaveLength">
+              <widget class="KDoubleNumInput" name="WaveLength" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -1013,21 +1007,15 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
       <widget class="QLabel" name="fieldoFviewLabel">
        <property name="text">
         <string>Field of view:</string>
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="1">
       <widget class="KLineEdit" name="FOVEditX">
        <property name="toolTip">
         <string>Desired field-of-view size, in arcminutes</string>
@@ -1039,29 +1027,132 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="2">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>arcmin</string>
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="3">
       <widget class="QLabel" name="label">
        <property name="text">
         <string> x </string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="4">
       <widget class="KLineEdit" name="FOVEditY"/>
      </item>
-     <item>
+     <item row="0" column="5">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>arcmin</string>
        </property>
       </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="fieldoFviewLabel_2">
+       <property name="text">
+        <string>Offset X:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KLineEdit" name="FOVEditOffsetX">
+       <property name="toolTip">
+        <string>Desired field-of-view size, in arcminutes</string>
+       </property>
+       <property name="whatsThis">
+        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
+
+You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>arcmin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="fieldoFviewLabel_3">
+       <property name="text">
+        <string>Offset Y:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="KLineEdit" name="FOVEditOffsetY">
+       <property name="toolTip">
+        <string>Desired field-of-view size, in arcminutes</string>
+       </property>
+       <property name="whatsThis">
+        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
+
+You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>arcmin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="fieldoFviewLabel_4">
+       <property name="text">
+        <string>Rotation:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="KLineEdit" name="FOVEditRotation">
+       <property name="toolTip">
+        <string>Desired field-of-view size, in arcminutes</string>
+       </property>
+       <property name="whatsThis">
+        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
+
+You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Degrees</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3" colspan="3">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>198</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
@@ -1116,7 +1207,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
            <property name="text">
             <string/>
            </property>
-           <property name="color">
+           <property name="color" stdset="0">
             <color>
              <red>255</red>
              <green>255</green>
@@ -1218,16 +1309,6 @@ Circle, Square, Crosshairs, Bullseye.</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
@@ -1244,15 +1325,25 @@ Circle, Square, Crosshairs, Bullseye.</string>
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>FOVWidget</class>
    <extends>QFrame</extends>
    <header>widgets/fovwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
