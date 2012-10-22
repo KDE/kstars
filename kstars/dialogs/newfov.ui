@@ -1064,12 +1064,10 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
      <item row="1" column="1">
       <widget class="KLineEdit" name="FOVEditOffsetX">
        <property name="toolTip">
-        <string>Desired field-of-view size, in arcminutes</string>
+        <string>Desired horizontal offset  in arcminutes</string>
        </property>
        <property name="whatsThis">
-        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
-
-You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+        <string/>
        </property>
        <property name="text">
         <string>0</string>
@@ -1093,12 +1091,10 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
      <item row="1" column="4">
       <widget class="KLineEdit" name="FOVEditOffsetY">
        <property name="toolTip">
-        <string>Desired field-of-view size, in arcminutes</string>
+        <string>Desired vertical offset  in arcminutes</string>
        </property>
        <property name="whatsThis">
-        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
-
-You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+        <string/>
        </property>
        <property name="text">
         <string>0</string>
@@ -1122,12 +1118,10 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
      <item row="2" column="1">
       <widget class="KLineEdit" name="FOVEditRotation">
        <property name="toolTip">
-        <string>Desired field-of-view size, in arcminutes</string>
+        <string>Desired rotation with respect to center in degrees</string>
        </property>
        <property name="whatsThis">
-        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
-
-You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+        <string/>
        </property>
        <property name="text">
         <string>0</string>
