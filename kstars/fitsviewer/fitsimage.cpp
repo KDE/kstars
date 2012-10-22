@@ -862,10 +862,10 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
     int cen_x=0;
     int cen_y=0;
     int cen_v=0;
-    int rc_index=0;
-    //int y_counter=0;
+    int cen_w=0;
+    int width_sum=0;
 
-
+    // Let's sort edges, starting with widest
     qSort(edges.begin(), edges.end(), greaterThan);
 
     // Now, let's scan the edges and find the maximum centroid vertically
@@ -893,11 +893,12 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
         cen_x = edges[i]->x;
         cen_y = edges[i]->y;
         cen_v = edges[i]->sum;
+        cen_w = edges[i]->width;
 
         float avg_x = 0;
         float avg_y = 0;
-        sum = 0;
 
+        sum = 0;
         cen_count=0;
 
         // Now let's compare to other edges until we hit a maxima
@@ -911,7 +912,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
                 if (edges[j]->sum >= cen_v)
                 {
                     cen_v = edges[j]->sum;
-                    rc_index = j;
+                    cen_w = edges[j]->width;
                 }
 
                 edges[j]->scanned = 1;
@@ -924,27 +925,6 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
                 continue;
             }
 
-            // Permittable margin of error in X among edges
-           /* if (abs(edges[j]->x-cen_x) <= MAXIMUM_HOR_SEPARATION)
-            {
-
-                // Permittable margin of error in Y among edges
-                if ( abs(edges[j]->y - (cen_y + y_counter++)) <= MAXIMUM_VER_SEPARATION)
-                {
-                    // If we encounter something big, note it down
-                    if (edges[j]->sum >= cen_v)
-                    {
-                        cen_v = edges[j]->sum;
-                        rc_index = j;
-                    }
-
-                    edges[j]->scanned = 1;
-                    cen_count++;
-
-                    avg += edges[j]->y * edges[j]->val;
-                    sum += edges[j]->val;
-                }
-            }*/
         }
 
         int cen_limit = (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev));
@@ -962,7 +942,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
              << cen_limit << endl;
     #endif
 
-        if (cen_limit < 1 || (edges[rc_index]->width > (0.2 * stats.dim[0])))
+        if (cen_limit < 1 || (cen_w > (0.2 * stats.dim[0])))
             continue;
 
         // If centroid count is within acceptable range
@@ -975,10 +955,13 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
             //rCenter->x = edges[rc_index]->x;
             rCenter->x = avg_x/sum;
             rCenter->y = avg_y/sum;
+
+            width_sum += rCenter->width;
+
             //rCenter->y = edges[rc_index]->y;
 
 
-            rCenter->width = edges[rc_index]->width;
+            rCenter->width = cen_w;
 
            #ifdef FITS_DEBUG
            qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
@@ -1037,13 +1020,28 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
             #endif
              starCenters.append(rCenter);
 
-             /*if (starCenters.count() > MAX_STARS)
-             {
-                 qDeleteAll(starCenters);
-                 starCenters.clear();
-                 break;
-             }*/
         }
+
+    }
+
+    if (starCenters.count() > 1 && mode != FITS_FOCUS)
+    {
+        float width_avg = width_sum / starCenters.count();
+
+        float lsum =0, sdev=0;
+
+        foreach(Edge *center, starCenters)
+            lsum += (center->width - width_avg) * (center->width - width_avg);
+
+        sdev = (sqrt(lsum/(starCenters.count() - 1))) * 4;
+
+        // Reject stars > 4 * stddev
+        foreach(Edge *center, starCenters)
+            if (center->width > sdev)
+                starCenters.removeOne(center);
+
+        //foreach(Edge *center, starCenters)
+            //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << endl;
 
     }
 
