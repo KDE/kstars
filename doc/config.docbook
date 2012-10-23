@@ -141,8 +141,8 @@ The window is depicted below:
 </para>
 
 <para>
-The <guilabel>Configure &kstars;</guilabel> window is divided into seven
-page:
+The <guilabel>Configure &kstars;</guilabel> window is divided into nine
+pages:
 <guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
 <guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, 
 <guilabel>INDI</guilabel>, <guilabel>Xplanet</guilabel>, and <guilabel>Advanced</guilabel>.
