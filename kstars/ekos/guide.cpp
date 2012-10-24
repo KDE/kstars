@@ -113,6 +113,9 @@ void Guide::syncCCDInfo()
 {
     INumberVectorProperty * nvp = NULL;
 
+    if (currentCCD == NULL)
+        return;
+
     if (useGuideHead)
         nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
     else
