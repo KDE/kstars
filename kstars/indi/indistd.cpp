@@ -522,7 +522,12 @@ bool GenericDevice::runCommand(int command, void *ptr)
         if (nvp == NULL)
             return false;
 
-        nvp->np[0].value = * ( (int *) ptr);
+        int requestedFilter = * ( (int *) ptr);
+
+        if (requestedFilter == nvp->np[0].value)
+            break;
+
+        nvp->np[0].value  = requestedFilter;
 
         clientManager->sendNewNumber(nvp);
       }

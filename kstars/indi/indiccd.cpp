@@ -696,7 +696,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (Options::showFITS())
+    if (Options::showFITS() && targetChip->isBatchMode() == false)
     {
         KUrl fileURL(filename);
 

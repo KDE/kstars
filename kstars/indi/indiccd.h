@@ -43,6 +43,7 @@ public:
     bool setBinning(CCDBinType binType);
     CCDBinType getBinning();
     bool getBinning(int *bin_x, int *bin_y);
+    ChipType getType() { return type; }
 
     bool abortExposure();
 
