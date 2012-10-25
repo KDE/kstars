@@ -44,6 +44,8 @@ public:
     CCDBinType getBinning();
     bool getBinning(int *bin_x, int *bin_y);
     ChipType getType() { return type; }
+    void setShowFITS(bool enable) { displayFITS = enable;}
+    bool showFITS() { return displayFITS; }
 
     bool abortExposure();
 
@@ -63,6 +65,7 @@ private:
     ClientManager *clientManager;
     ChipType type;
     bool batchMode;
+    bool displayFITS;
     QStringList frameTypes;
 };
 

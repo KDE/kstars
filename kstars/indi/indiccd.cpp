@@ -33,6 +33,7 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
     clientManager = cManager;
     type          = cType;
     batchMode     = false;
+    displayFITS   = true;
 
     captureMode   = FITS_NORMAL;
     captureFilter = FITS_NONE;
@@ -696,7 +697,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (Options::showFITS() && targetChip->isBatchMode() == false)
+    if (Options::showFITS() && targetChip->showFITS() == true)
     {
         KUrl fileURL(filename);
 
