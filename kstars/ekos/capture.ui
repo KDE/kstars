@@ -7,10 +7,10 @@
     <x>0</x>
     <y>0</y>
     <width>577</width>
-    <height>509</height>
+    <height>642</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout_10">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0">
      <property name="sizeConstraint">
@@ -395,7 +395,7 @@
               <item>
                <widget class="QCheckBox" name="expDurationCheck">
                 <property name="toolTip">
-                 <string>Active filter slot</string>
+                 <string/>
                 </property>
                 <property name="text">
                  <string>Expose Duration</string>
@@ -533,7 +533,7 @@
          </layout>
         </item>
         <item>
-         <spacer>
+         <spacer name="filterSPacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -556,7 +556,92 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
-      <spacer>
+      <widget class="QPushButton" name="addToQueueB">
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="removeFromQueueB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="queueUpB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="queueDownB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="buttonSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -565,7 +650,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>267</width>
+         <width>48</width>
          <height>21</height>
         </size>
        </property>
@@ -614,6 +699,66 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QDockWidget" name="dockWidget">
+     <property name="features">
+      <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents">
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Sequence Queue</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QTableWidget" name="queueTable">
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>85</number>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>30</number>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Status</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Filter</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Type</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Bin</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Exp</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Count</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="progressGroup">
@@ -714,7 +859,7 @@
          </layout>
         </item>
         <item>
-         <spacer>
+         <spacer name="progressSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -744,6 +889,11 @@
   </layout>
   <zorder>progressGroup</zorder>
   <zorder></zorder>
+  <zorder>addToQueueB</zorder>
+  <zorder>removeFromQueueB</zorder>
+  <zorder>queueDownB</zorder>
+  <zorder>queueUpB</zorder>
+  <zorder>dockWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>

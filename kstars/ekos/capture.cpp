@@ -24,6 +24,19 @@
 namespace Ekos
 {
 
+QStringList SequenceJob::statusStrings = QStringList() << i18n("Idle") << i18n("In progress") << i18n("Error") << i18n("Complete");
+
+SequenceJob::SequenceJob()
+{
+    status = JOB_IDLE;
+    exposure=count=delay=frameType=-1;
+    preview=false;
+    showFITS=false;
+    activeChip=NULL;
+    activeCCD=NULL;
+    activeFilter= NULL;
+}
+
 Capture::Capture()
 {
     setupUi(this);
@@ -33,11 +46,11 @@ Capture::Capture()
 
     filterSlot = NULL;
     filterName = NULL;
+    activeJob  = NULL;
 
     targetChip = NULL;
 
     calibrationState = CALIBRATE_NONE;
-
 
     pi = new QProgressIndicator(this);
 
@@ -59,6 +72,19 @@ Capture::Capture()
 
     connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
 
+    connect(addToQueueB, SIGNAL(clicked()), this, SLOT(addJob()));
+    connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
+
+    connect(queueUpB, SIGNAL(clicked()), this, SLOT(moveJobUp()));
+    connect(queueDownB, SIGNAL(clicked()), this, SLOT(moveJobDown()));
+
+    addToQueueB->setIcon(KIcon("list-add"));
+    removeFromQueueB->setIcon(KIcon("list-remove"));
+    queueUpB->setIcon(KIcon("go-up"));
+    queueDownB->setIcon(KIcon("go-down"));
+
+    jobIndex  = -1;
+    jobCount  = 0;
     seqExpose = 0;
     seqTotalCount = 0;
     seqCurrentCount = 0;
@@ -69,7 +95,11 @@ Capture::Capture()
         filterCombo->addItem(filter);
 
     displayCheck->setEnabled(Options::showFITS());
+}
 
+Capture::~Capture()
+{
+    qDeleteAll(jobs);
 }
 
 void Capture::addCCD(ISD::GDInterface *newCCD)
@@ -108,80 +138,24 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 
 void Capture::startSequence()
 {
-
-    QString imagePrefix;
-
     if (displayCheck->isChecked() == false && darkSubCheck->isChecked())
     {
         KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
 
-    if (ISOCheck->isChecked())
-        currentCCD->setISOMode(true);
-    else
-        currentCCD->setISOMode(false);
+    if (queueTable->rowCount() ==0)
+        addJob();
 
-    targetChip->setBatchMode(true);
+    jobCount = jobs.count();
 
-    imagePrefix = prefixIN->text();
+    SequenceJob *job = jobs.at(0);
 
-    if (frameTypeCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false)
-            imagePrefix += "_";
+    jobIndex = 0;
 
-        imagePrefix += frameTypeCombo->currentText();
-    }
-    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false)
-    {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += "_";
+    executeJob(job);
 
-        imagePrefix += FilterPosCombo->currentText();
-    }
-    if (expDurationCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += "_";
 
-        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
-    }
-
-    currentCCD->setSeqPrefix(imagePrefix);
-
-    if (filterSlot != NULL && currentFilter != NULL)
-    {
-        if (FilterPosCombo->currentIndex() != (filterSlot->np[0].value-1))
-        {
-            int cindex = FilterPosCombo->currentIndex()+1;
-            currentFilter->runCommand(INDI_SET_FILTER, &cindex);
-        }
-    }
-
-    seqExpose = exposureIN->value();
-    seqTotalCount = countIN->value();
-    seqCurrentCount = 0;
-    seqDelay = delayIN->value() * 1000;		/* in ms */
-
-    fullImgCountOUT->setText( QString::number(seqTotalCount));
-    currentImgCountOUT->setText(QString::number(seqCurrentCount));
-
-    // set the progress info
-    imgProgress->setEnabled(true);
-    imgProgress->setMaximum(seqTotalCount);
-    imgProgress->setValue(seqCurrentCount);
-
-    updateSequencePrefix(imagePrefix);
-\
-    // Update button status
-    startB->setEnabled(false);
-    stopB->setEnabled(true);
-    previewB->setEnabled(false);
-
-    pi->startAnimation();
-
-    captureImage();
 }
 
 void Capture::stopSequence()
@@ -203,7 +177,12 @@ void Capture::stopSequence()
 
     startB->setEnabled(true);
     stopB->setEnabled(false);
-    previewB->setEnabled(true);
+
+    if (displayCheck->isChecked())
+        previewB->setEnabled(true);
+    else
+        previewB->setEnabled(false);
+
     pi->stopAnimation();
     seqTimer->stop();
 
@@ -395,6 +374,9 @@ void Capture::newFITS(IBLOB *bp)
 
     if (seqTotalCount < 0)
     {
+       jobs.removeOne(activeJob);
+       delete (activeJob);
+       activeJob = NULL;
        stopSequence();
        return;
     }
@@ -407,8 +389,26 @@ void Capture::newFITS(IBLOB *bp)
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
     // if we're done
-    if (seqCurrentCount == seqTotalCount)  
+    if (seqCurrentCount == seqTotalCount)
+    {
         stopSequence();
+
+        activeJob->status = SequenceJob::JOB_DONE;
+
+        activeJob->statusCell->setText(SequenceJob::statusStrings[activeJob->status]);
+
+        jobCount--;
+
+        if (jobCount > 0)
+        {
+            jobIndex++;
+
+            SequenceJob *job = jobs.at(jobIndex);
+
+            executeJob(job);
+        }
+
+    }
     else
         seqTimer->start(seqDelay);
 
@@ -417,29 +417,9 @@ void Capture::newFITS(IBLOB *bp)
 
 void Capture::captureOne()
 {
-    targetChip->setBatchMode(false);
+    addJob(true);
 
-    startB->setEnabled(false);
-    previewB->setEnabled(false);
-    stopB->setEnabled(true);
-
-    if (filterSlot != NULL && currentFilter != NULL)
-    {
-        if (FilterPosCombo->currentIndex() != (filterSlot->np[0].value-1))
-        {
-            int cindex = FilterPosCombo->currentIndex()+1;
-            currentFilter->runCommand(INDI_SET_FILTER, &cindex);
-        }
-    }
-
-    seqTotalCount = -1;
-
-
-    seqExpose = exposureIN->value();
-
-    pi->startAnimation();
-
-    captureImage();
+    executeJob(jobs.last());
 }
 
 void Capture::captureImage()
@@ -449,16 +429,36 @@ void Capture::captureImage()
 
     seqTimer->stop();
 
-    if (targetChip->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value()) == false)
+    if (activeJob == NULL)
+        return;
+
+    targetChip = activeJob->activeChip;
+
+    if (targetChip->setFrame(activeJob->x, activeJob->y, activeJob->w, activeJob->h) == false)
     {
         appendLogText(i18n("Failed to set sub frame."));
+
+        activeJob->status = SequenceJob::JOB_ERROR;
+
+        if (activeJob->preview == false)
+            activeJob->statusCell->setText(SequenceJob::statusStrings[activeJob->status]);
+
+        stopSequence();
         return;
 
     }
 
-    if (useGuideHead == false && targetChip->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1) == false)
+    if (useGuideHead == false && targetChip->setBinning(activeJob->binX, activeJob->binY) == false)
     {
         appendLogText(i18n("Failed to set binning."));
+
+        activeJob->status = SequenceJob::JOB_ERROR;
+
+        if (activeJob->preview == false)
+            activeJob->statusCell->setText(SequenceJob::statusStrings[activeJob->status]);
+
+        stopSequence();
+
         return;
     }
 
@@ -473,7 +473,7 @@ void Capture::captureImage()
     {
 
         if (useGuideHead == false)
-            targetChip->setFrameType(frameTypeCombo->currentText());
+            targetChip->setFrameType(frameTypeCombo->itemText(activeJob->frameType));
 
         targetChip->setCaptureMode(FITS_NORMAL);
         targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
@@ -482,8 +482,6 @@ void Capture::captureImage()
 
     targetChip->capture(seqExpose);
 }
-
-
 
 /*******************************************************************************/
 /* Update the prefix for the sequence of images to be captured                 */
@@ -576,6 +574,294 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
         secondsLabel->setText(i18n("seconds left"));
 
 }
+
+void Capture::addJob(bool preview)
+{
+
+    SequenceJob *job = NULL;
+    QString imagePrefix;
+
+    if (preview == false && displayCheck->isChecked() == false && darkSubCheck->isChecked())
+    {
+        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
+        return;
+    }
+
+    job = new SequenceJob();
+
+    if (ISOCheck->isChecked())
+        job->isoMode = true;
+    else
+        job->isoMode = false;
+
+
+    job->preview = preview;
+
+    job->showFITS = displayCheck->isChecked();
+
+    imagePrefix = prefixIN->text();
+
+    if (frameTypeCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false)
+            imagePrefix += "_";
+
+        imagePrefix += frameTypeCombo->currentText();
+    }
+    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false)
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += "_";
+
+        imagePrefix += FilterPosCombo->currentText();
+    }
+    if (expDurationCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += "_";
+
+        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
+    }
+
+    job->frameType = frameTypeCombo->currentIndex();
+    job->prefix = imagePrefix;
+
+    if (filterSlot != NULL && currentFilter != NULL)
+    {
+       int cindex = FilterPosCombo->currentIndex()+1;
+       job->filterPos = cindex;
+    }
+
+    job->exposure = exposureIN->value();
+
+    job->count = countIN->value();
+
+    job->binX = binXCombo->currentIndex()+1;
+    job->binY = binYCombo->currentIndex()+1;
+
+    job->delay = delayIN->value() * 1000;		/* in ms */
+
+    job->activeChip = targetChip;
+    job->activeCCD  = currentCCD;
+    job->activeFilter = currentFilter;
+
+    job->x = frameXIN->value();
+    job->y = frameYIN->value();
+    job->w = frameWIN->value();
+    job->h = frameHIN->value();
+
+    jobs.append(job);
+
+    // Nothing more to do if preview
+    if (preview)
+        return;
+
+    int currentRow = queueTable->rowCount();
+
+    queueTable->insertRow(currentRow);
+
+    QTableWidgetItem *status = new QTableWidgetItem(SequenceJob::statusStrings[0]);
+    status->setTextAlignment(Qt::AlignHCenter);
+    status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    job->statusCell = status;
+
+    QTableWidgetItem *type = new QTableWidgetItem(frameTypeCombo->currentText());
+
+    type->setTextAlignment(Qt::AlignHCenter);
+    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *filter = new QTableWidgetItem(FilterPosCombo->currentText());
+
+    filter->setTextAlignment(Qt::AlignHCenter);
+    filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *bin = new QTableWidgetItem(QString("%1x%2").arg(job->binX).arg(job->binY));
+
+    bin->setTextAlignment(Qt::AlignHCenter);
+    bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *exp = new QTableWidgetItem(QString::number(job->exposure));
+
+    exp->setTextAlignment(Qt::AlignHCenter);
+    exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *count = new QTableWidgetItem(QString::number(job->count));
+
+    count->setTextAlignment(Qt::AlignHCenter);
+    count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    queueTable->setItem(currentRow, 0, status);
+    queueTable->setItem(currentRow, 1, filter);
+    queueTable->setItem(currentRow, 2, type);
+    queueTable->setItem(currentRow, 3, bin);
+    queueTable->setItem(currentRow, 4, exp);
+    queueTable->setItem(currentRow, 5, count);
+
+    removeFromQueueB->setEnabled(true);
+
+    if (queueTable->rowCount() > 1)
+    {
+        queueUpB->setEnabled(true);
+        queueDownB->setEnabled(true);
+    }
+
+}
+
+void Capture::removeJob()
+{
+    int currentRow = queueTable->currentRow();
+
+    if (currentRow < 0)
+        return;
+
+    queueTable->removeRow(currentRow);
+
+    SequenceJob *job = jobs.at(currentRow);
+    jobs.removeAt(currentRow);
+    delete (job);
+
+    if (queueTable->rowCount() == 0)
+        removeFromQueueB->setEnabled(false);
+
+    if (queueTable->rowCount() == 1)
+    {
+        queueUpB->setEnabled(false);
+        queueDownB->setEnabled(false);
+    }
+
+    for (int i=0; i < jobs.count(); i++)
+        jobs.at(i)->statusCell = queueTable->item(i, 0);
+
+    queueTable->selectRow(queueTable->currentRow());
+
+}
+
+void Capture::moveJobUp()
+{
+    int currentRow = queueTable->currentRow();
+
+    int columnCount = queueTable->columnCount();
+
+    if (currentRow <= 0 || queueTable->rowCount() == 1)
+        return;
+
+    int destinationRow = currentRow - 1;
+
+    for (int i=0; i < columnCount; i++)
+    {
+        QTableWidgetItem *downItem = queueTable->takeItem(currentRow, i);
+        QTableWidgetItem *upItem   = queueTable->takeItem(destinationRow, i);
+
+        queueTable->setItem(destinationRow, i, downItem);
+        queueTable->setItem(currentRow, i, upItem);
+    }
+
+    SequenceJob *job = jobs.takeAt(currentRow);
+
+    jobs.removeOne(job);
+    jobs.insert(destinationRow, job);
+
+    queueTable->selectRow(destinationRow);
+
+    for (int i=0; i < jobs.count(); i++)
+      jobs.at(i)->statusCell = queueTable->item(i, 0);
+
+}
+
+void Capture::moveJobDown()
+{
+    int currentRow = queueTable->currentRow();
+
+    int columnCount = queueTable->columnCount();
+
+    if (currentRow+1 >= queueTable->rowCount() || queueTable->rowCount() == 1)
+        return;
+
+    int destinationRow = currentRow + 1;
+
+    for (int i=0; i < columnCount; i++)
+    {
+        QTableWidgetItem *downItem = queueTable->takeItem(currentRow, i);
+        QTableWidgetItem *upItem   = queueTable->takeItem(destinationRow, i);
+
+        queueTable->setItem(destinationRow, i, downItem);
+        queueTable->setItem(currentRow, i, upItem);
+    }
+
+    SequenceJob *job = jobs.takeAt(currentRow);
+
+    jobs.removeOne(job);
+    jobs.insert(destinationRow, job);
+
+    queueTable->selectRow(destinationRow);
+
+    for (int i=0; i < jobs.count(); i++)
+        jobs.at(i)->statusCell = queueTable->item(i, 0);
+
+}
+
+void Capture::executeJob(SequenceJob *job)
+{
+    currentCCD    = job->activeCCD;
+    currentFilter = job->activeFilter;
+
+    targetChip = job->activeChip;
+
+    targetChip->setBatchMode(!job->preview);
+
+    targetChip->setShowFITS(job->showFITS);
+
+    currentCCD->setISOMode(job->isoMode);
+
+    currentCCD->setSeqPrefix(job->prefix);
+
+    if (job->filterPos != -1 && currentFilter != NULL)
+        currentFilter->runCommand(INDI_SET_FILTER, &(job->filterPos));
+
+    seqExpose = job->exposure;
+
+    if (job->preview)
+        seqTotalCount = -1;
+    else
+        seqTotalCount = job->count;
+
+    seqDelay = job->delay;
+
+    seqCurrentCount = 0;
+
+    job->status = SequenceJob::JOB_BUSY;
+
+    if (job->preview == false)
+    {
+        fullImgCountOUT->setText( QString::number(seqTotalCount));
+        currentImgCountOUT->setText(QString::number(seqCurrentCount));
+
+        // set the progress info
+        imgProgress->setEnabled(true);
+        imgProgress->setMaximum(seqTotalCount);
+        imgProgress->setValue(seqCurrentCount);
+
+        updateSequencePrefix(job->prefix);
+        job->statusCell->setText(job->statusStrings[job->status]);
+    }
+
+    // Update button status
+    startB->setEnabled(false);
+    stopB->setEnabled(true);
+    previewB->setEnabled(false);
+
+    pi->startAnimation();
+
+    activeJob = job;
+
+    useGuideHead = (targetChip->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
+
+    captureImage();
+
+}
+
+
 }
 
 #include "capture.moc"
