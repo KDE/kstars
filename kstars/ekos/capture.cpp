@@ -652,6 +652,8 @@ void Capture::addJob(bool preview)
 
     jobs.append(job);
 
+    jobCount++;
+
     // Nothing more to do if preview
     if (preview)
         return;
