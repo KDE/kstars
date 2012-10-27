@@ -62,13 +62,12 @@ public:
      * \return Pointer to SkyObjListModel of given type.
      * \param type   Type of sky-object model to be returned.
      */
-    SkyObjListModel *returnModel (int type);
+    SkyObjListModel *returnModel(int type);
 
 private:
-    ObsConditions *obsconditions;
-    SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *clustModel, *nebModel;
-    QStringList baseCatList, planetaryList, deepSkyList;
-    QHash< ModelType, QList <SkyObject *> > initobjects;
+    ObsConditions *m_ObsConditions;
+    SkyObjListModel *m_PlanetsModel, *m_StarsModel, *m_GalModel, *m_ConModel, *m_ClustModel, *m_NebModel;
+    QHash< ModelType, QList <SkyObject *> > m_InitObjects;
 };
 
 #endif

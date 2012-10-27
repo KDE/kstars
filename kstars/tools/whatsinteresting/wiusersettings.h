@@ -44,17 +44,17 @@ public slots:
     /**
      * \brief Finish wizard and display QML interface for "What's Interesting..."
      */
-    void slotFinished(int);
+    void slotFinished(int status);
 
     /**
      * \brief Telescope available - check/uncheck.
      */
-    void slotTelescopeCheck(bool);
+    void slotTelescopeCheck(bool on);
 
     /**
      * \brief Binoculars available - check/uncheck.
      */
-    void slotBinocularsCheck(bool);
+    void slotBinocularsCheck(bool on);
 
 private:
 

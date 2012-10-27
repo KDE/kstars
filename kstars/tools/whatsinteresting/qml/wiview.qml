@@ -393,7 +393,7 @@ Rectangle {
                             objectName: "soListObj"
                             anchors.fill: parent
 
-                            signal soListItemClicked( int type, string typeName, int curIndex )
+                            signal soListItemClicked(int type, string typeName, int curIndex)
                             clip: true
 
                             ScrollBar {

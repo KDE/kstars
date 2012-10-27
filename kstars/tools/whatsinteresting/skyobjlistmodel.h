@@ -72,7 +72,7 @@ public:
     void resetModel();
 
 private:
-    QList<SkyObjItem *> soItemList;     ///List of sky-object items in model.
+    QList<SkyObjItem *> m_SoItemList;     ///List of sky-object items in model.
 };
 
 #endif

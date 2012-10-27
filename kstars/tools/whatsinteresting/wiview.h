@@ -18,10 +18,9 @@
 #ifndef WIVIEW_H
 #define WIVIEW_H
 
-#include "QtDeclarative/QDeclarativeView"
-#include "QtDeclarative/QDeclarativeItem"
-#include "QtDeclarative/QDeclarativeContext"
-#include "QModelIndex"
+class QDeclarativeView;
+class QDeclarativeContext;
+
 #include "skyobject.h"
 #include "modelmanager.h"
 #include "skyobjlistmodel.h"
@@ -104,7 +103,7 @@ public slots:
 private:
     QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
             *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
-    QDeclarativeContext *ctxt;
+    QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
     ObsConditions *m_Obs;
     ModelManager *m_ModManager;

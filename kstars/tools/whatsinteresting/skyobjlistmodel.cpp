@@ -25,13 +25,13 @@ SkyObjListModel::SkyObjListModel(SkyObjItem *soitem, QObject *parent): QAbstract
 void SkyObjListModel::addSkyObject(SkyObjItem *soitem)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    soItemList.append(soitem);
+    m_SoItemList.append(soitem);
     endInsertRows();
 }
 
 int SkyObjListModel::rowCount(const QModelIndex& parent) const
 {
-    return soItemList.size();
+    return m_SoItemList.size();
 }
 
 QVariant SkyObjListModel::data(const QModelIndex& index, int role) const
@@ -39,22 +39,22 @@ QVariant SkyObjListModel::data(const QModelIndex& index, int role) const
     if (index.row() < 0 || index.row() > rowCount())
         return QVariant();
 
-    SkyObjItem *soitem = soItemList[index.row()];
+    SkyObjItem *soitem = m_SoItemList[index.row()];
 
     return soitem->data(role);
 }
 
 QList< SkyObjItem *> SkyObjListModel::getSkyObjItems()
 {
-    return soItemList;
+    return m_SoItemList;
 }
 
 SkyObjItem* SkyObjListModel::getSkyObjItem(int index)
 {
-    return soItemList[index];
+    return m_SoItemList[index];
 }
 
 void SkyObjListModel::resetModel()
 {
-    soItemList.clear();
+    m_SoItemList.clear();
 }

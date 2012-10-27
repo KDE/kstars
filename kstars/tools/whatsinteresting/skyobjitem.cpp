@@ -101,9 +101,14 @@ QString SkyObjItem::getDesc() const
         while (fileReader.hasMoreLines())
         {
             QString line = fileReader.readLine();
-            if (line.split("::")[0] == m_Name)
+            if(line.length() != 0 && line[0] != '#')
             {
-                return line.split("::")[1];
+                QString soname = line.split("::")[0];
+                QString desc = line.split("::")[1];
+                if (soname == m_Name)
+                {
+                    return desc;
+                }
             }
         }
     }

@@ -23,36 +23,36 @@
 
 ModelManager::ModelManager(ObsConditions *obs)
 {
-    obsconditions = obs;
-    planetsModel = new SkyObjListModel();
-    starsModel = new SkyObjListModel();
-    galModel = new SkyObjListModel();
-    conModel = new SkyObjListModel();
-    clustModel = new SkyObjListModel();
-    nebModel = new SkyObjListModel();
+    m_ObsConditions = obs;
+    m_PlanetsModel = new SkyObjListModel();
+    m_StarsModel = new SkyObjListModel();
+    m_GalModel = new SkyObjListModel();
+    m_ConModel = new SkyObjListModel();
+    m_ClustModel = new SkyObjListModel();
+    m_NebModel = new SkyObjListModel();
 
-    initobjects[Star_Model] = QList<SkyObject *>();
-    initobjects[Galaxy_Model] = QList<SkyObject *>();
-    initobjects[Constellation_Model] = QList<SkyObject *>();
-    initobjects[Cluster_Model] = QList<SkyObject *>();
-    initobjects[Nebula_Model] = QList<SkyObject *>();
+    m_InitObjects[Star_Model] = QList<SkyObject *>();
+    m_InitObjects[Galaxy_Model] = QList<SkyObject *>();
+    m_InitObjects[Constellation_Model] = QList<SkyObject *>();
+    m_InitObjects[Cluster_Model] = QList<SkyObject *>();
+    m_InitObjects[Nebula_Model] = QList<SkyObject *>();
     updateModels(obs);
 }
 
 ModelManager::~ModelManager()
 {
-    delete planetsModel;
-    delete starsModel;
-    delete galModel;
-    delete conModel;
-    delete clustModel;
-    delete nebModel;
+    delete m_PlanetsModel;
+    delete m_StarsModel;
+    delete m_GalModel;
+    delete m_ConModel;
+    delete m_ClustModel;
+    delete m_NebModel;
 }
 
 void ModelManager::updateModels(ObsConditions *obs)
 {
-    obsconditions = obs;
-    initobjects.clear();
+    m_ObsConditions = obs;
+    m_InitObjects.clear();
     resetModels();
 
     KStarsData *data = KStarsData::Instance();
@@ -64,79 +64,77 @@ void ModelManager::updateModels(ObsConditions *obs)
     {
         QString line = fileReader.readLine();
 
-        if (line[0] == '#' || line.length() == 0)
+        if (line.length() == 0 || line[0] == '#')
             continue;
 
         SkyObject *o;
         if ((o = data->skyComposite()->findByName(line)))
         {
             //kDebug()<<o->longname()<<o->typeName();
-            if     (o->type() == SkyObject::OPEN_CLUSTER ||
-                    o->type() == SkyObject::GLOBULAR_CLUSTER ||
-                    o->type() == SkyObject::GALAXY_CLUSTER)
+            switch(o->type())
             {
-                initobjects[Cluster_Model].append(o);
-            }
-            else if (o->type() == SkyObject::PLANETARY_NEBULA ||
-                     o->type() == SkyObject::DARK_NEBULA ||
-                     o->type() == SkyObject::GASEOUS_NEBULA)
-            {
-                initobjects[Nebula_Model].append(o);
-            }
-            else if (o->type() == SkyObject::STAR)
-            {
-                initobjects[Star_Model].append(o);
-            }
-            else if (o->type() == SkyObject::CONSTELLATION)
-            {
-                initobjects[Constellation_Model].append(o);
-            }
-            else if (o->type() == SkyObject::GALAXY)
-            {
-                initobjects[Galaxy_Model].append(o);
+                case SkyObject::OPEN_CLUSTER:
+                case SkyObject::GLOBULAR_CLUSTER:
+                case SkyObject::GALAXY_CLUSTER:
+                    m_InitObjects[Cluster_Model].append(o);
+                    break;
+                case SkyObject::PLANETARY_NEBULA:
+                case SkyObject::DARK_NEBULA:
+                case SkyObject::GASEOUS_NEBULA:
+                    m_InitObjects[Nebula_Model].append(o);
+                    break;
+                case SkyObject::STAR:
+                    m_InitObjects[Star_Model].append(o);
+                    break;
+                case SkyObject::CONSTELLATION:
+                    m_InitObjects[Constellation_Model].append(o);
+                    break;
+                case SkyObject::GALAXY:
+                    m_InitObjects[Galaxy_Model].append(o);
+                    break;
             }
         }
     }
 
-    foreach (SkyObject *so, initobjects.value(Star_Model))
+    foreach (SkyObject *so, m_InitObjects.value(Star_Model))
     {
         //kDebug()<<so->longname()<<so->typeName();
-        if (obsconditions->isVisible(data->geo(), data->lst(), so))
+        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
-            starsModel->addSkyObject(new SkyObjItem(so));
+            m_StarsModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach (SkyObject *so, initobjects.value(Galaxy_Model))
+    foreach (SkyObject *so, m_InitObjects.value(Galaxy_Model))
     {
         //kDebug()<<so->longname()<<so->typeName();
-        if (obsconditions->isVisible(data->geo(), data->lst(), so))
+        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
-            galModel->addSkyObject(new SkyObjItem(so));
+            m_GalModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach (SkyObject *so, initobjects.value(Constellation_Model))
+    foreach (SkyObject *so, m_InitObjects.value(Constellation_Model))
     {
-        if (obsconditions->isVisible(data->geo(), data->lst(), so))
+        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
-            conModel->addSkyObject(new SkyObjItem(so));
+            m_ConModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach (SkyObject *so, initobjects.value(Cluster_Model))
+    foreach (SkyObject *so, m_InitObjects.value(Cluster_Model))
     {
-        if (obsconditions->isVisible(data->geo(), data->lst(), so))
+        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
-            clustModel->addSkyObject(new SkyObjItem(so));
+            m_ClustModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach (SkyObject *so, initobjects.value(Nebula_Model))
+    foreach (SkyObject *so, m_InitObjects.value(Nebula_Model))
     {
-        if (obsconditions->isVisible(data->geo(), data->lst(), so))
+        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
-            nebModel->addSkyObject(new SkyObjItem(so));
+            m_NebModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
@@ -144,22 +142,22 @@ void ModelManager::updateModels(ObsConditions *obs)
     {
         SkyObject *so = data->skyComposite()->findByName(name);
         //kDebug()<<so->name()<<so->mag();
-        if (obsconditions->isVisible(data->geo(), data->lst(), so))
+        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
             if (so->name() == "Sun") continue;
-            planetsModel->addSkyObject(new SkyObjItem(so));
+            m_PlanetsModel->addSkyObject(new SkyObjItem(so));
         }
     }
 }
 
 void ModelManager::resetModels()
 {
-    planetsModel->resetModel();
-    starsModel->resetModel();
-    conModel->resetModel();
-    galModel->resetModel();
-    clustModel->resetModel();
-    nebModel->resetModel();
+    m_PlanetsModel->resetModel();
+    m_StarsModel->resetModel();
+    m_ConModel->resetModel();
+    m_GalModel->resetModel();
+    m_ClustModel->resetModel();
+    m_NebModel->resetModel();
 }
 
 SkyObjListModel* ModelManager::returnModel(int type)
@@ -167,17 +165,17 @@ SkyObjListModel* ModelManager::returnModel(int type)
     switch(type)
     {
     case 0:    //Planet type
-        return planetsModel;
+        return m_PlanetsModel;
     case 1:    //Star type
-        return starsModel;
+        return m_StarsModel;
     case 2:    //Constellation type
-        return conModel;
+        return m_ConModel;
     case 3:    //Galaxy Type
-        return galModel;
+        return m_GalModel;
     case 4:    //Cluster type
-        return clustModel;
+        return m_ClustModel;
     case 5:    //Nebula type
-        return nebModel;
+        return m_NebModel;
     default:
         return 0;
     }

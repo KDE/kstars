@@ -35,7 +35,7 @@ void WIUserSettings::makeConnections()
     connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
 }
 
-void WIUserSettings::slotFinished(int)
+void WIUserSettings::slotFinished(int status)
 {
     m_Equip = noEquipCheck->isEnabled()
             ? (ObsConditions::None)
@@ -43,7 +43,7 @@ void WIUserSettings::slotFinished(int)
             ? (binocularsCheck->isChecked() ? ObsConditions::Both : ObsConditions::Telescope)
             : (binocularsCheck->isChecked() ? ObsConditions::Binoculars : ObsConditions::None));
 
-    m_TelType = (equipmentType->currentText()=="Reflector") ? ObsConditions::Reflector : ObsConditions::Refractor;
+    m_TelType = (equipmentType->currentIndex() == 0) ? ObsConditions::Reflector : ObsConditions::Refractor;
 
     KStars *kstars = KStars::Instance();
     kstars->showWI(new ObsConditions(bortleClass->value(), aperture->value(), m_Equip, m_TelType));

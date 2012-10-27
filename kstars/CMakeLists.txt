@@ -198,7 +198,7 @@ kde4_add_ui_files(libkstarstools_SRCS
         )
 
 
-set(libkstarscomponents_SRCS 
+set(libkstarscomponents_SRCS
    skycomponents/skylabeler.cpp 
    skycomponents/highpmstarlist.cpp 
    skycomponents/skymapcomposite.cpp 

@@ -19,7 +19,6 @@
 #ifndef SKYOBJITEM_H
 #define SKYOBJITEM_H
 
-#include <QObject>
 #include "skyobject.h"
 
 /**

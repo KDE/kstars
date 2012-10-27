@@ -35,7 +35,7 @@ public:
      * \enum Equipment
      * Equipment available to the user.
      */
-    enum Equipment { Telescope = 0, Binoculars, Both, None };
+    enum Equipment { Telescope, Binoculars, Both, None };
 
     /**
      * \enum TelescopeType

@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 
+#include "QDeclarativeView"
+#include "QDeclarativeContext"
 #include "QGraphicsObject"
 #include "wiview.h"
 #include "skymap.h"
@@ -30,7 +32,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
 
     m_BaseView = new QDeclarativeView();
 
-    ctxt = m_BaseView->rootContext();
+    m_Ctxt = m_BaseView->rootContext();
 
     m_BaseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));
 
@@ -72,7 +74,7 @@ WIView::~WIView()
 
 void WIView::onCategorySelected(int type)
 {
-    ctxt->setContextProperty("soListModel", m_ModManager->returnModel(type));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(type));
 }
 
 void WIView::onSoListItemClicked(int type, QString typeName, int index)
