@@ -97,6 +97,8 @@ FITSViewer::FITSViewer (QWidget *parent)
     statusBar()->setItemFixed(FITS_RESOLUTION, 100);
     statusBar()->insertItem(QString(), FITS_ZOOM);
     statusBar()->setItemFixed(FITS_ZOOM, 50);
+    statusBar()->insertItem(QString(), FITS_WCS);
+    statusBar()->setItemFixed(FITS_WCS, 200);
     statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
     statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
 
@@ -275,6 +277,8 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
                               fitsImages[currentIndex]->getImage()->getDetectedStars()), FITS_MESSAGE);
     else
         updateStatusBar("", FITS_MESSAGE);
+
+    updateStatusBar("", FITS_WCS);
 
 }
 

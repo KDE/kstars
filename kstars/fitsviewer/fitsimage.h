@@ -41,6 +41,8 @@
 #include "fitshistogram.h"
 #include "fitscommon.h"
 
+#include "dms.h"
+
 #define INITIAL_W	640
 #define INITIAL_H	480
 
@@ -48,6 +50,12 @@
 #define MINIMUM_STDVAR  5
 
 class FITSImage;
+
+typedef struct
+{
+    double ra;
+    double dec;
+} wcs_point;
 
 class FITSLabel : public QLabel
 {
@@ -62,10 +70,14 @@ protected:
 
 private:
     FITSImage *image;
+    dms ra;
+    dms dec;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);
     void pointSelected(int x, int y);
+
+
 };
 
 class Edge
@@ -147,7 +159,6 @@ public:
         long dim[2];
     } stats;
 
-
 public slots:
     void ZoomIn();
     void ZoomOut();
@@ -162,6 +173,7 @@ private:
     double average();
     double stddev();
     int calculateMinMax(bool refresh=false);
+    void checkWCS();
 
     bool markStars;
     FITSLabel *image_frame;
@@ -177,11 +189,11 @@ private:
     bool firstLoad;
     bool tempFile;
     bool starsSearched;
+    bool hasWCS;
     QString filename;
-
-
-
     FITSMode mode;
+
+    QList<wcs_point *> wcs_coord;
 
     QList<Edge*> starCenters;
 
@@ -189,6 +201,8 @@ signals:
     void newStatus(const QString &msg, FITSBar id);
     void actionUpdated(const QString &name, bool enable);
     void guideStarSelected(int x, int y);
+
+  friend class FITSLabel;
 };
 
 

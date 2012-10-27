@@ -204,6 +204,7 @@ void ServerManager::connectionSuccess()
 
 void ServerManager::processServerError(QProcess::ProcessError err)
 {
+  INDI_UNUSED(err);
   emit serverFailure(this);
 }
 

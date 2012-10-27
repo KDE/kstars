@@ -17,6 +17,8 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
+#include <config-kstars.h>
+
 #include "fitsimage.h"
 
 #include <math.h>
@@ -40,6 +42,13 @@
 #include <KProgressDialog>
 #include <KMessageBox>
 #include <KFileDialog>
+
+#ifdef HAVE_WCSLIB
+#include <wcshdr.h>
+#include <wcsfix.h>
+#include <wcs.h>
+#include <getwcstab.h>
+#endif
 
 #include "ksutils.h"
 
@@ -95,6 +104,21 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
 
+    if (image->hasWCS)
+    {
+        int index = x + y * height;
+
+        if (index > image->wcs_coord.count())
+            return;
+
+        wcs_point *p = image->wcs_coord.at(index);
+
+        ra.setD(p->ra);
+        dec.setD(p->dec);
+
+        emit newStatus(QString("%1 , %2").arg( ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
+    }
+
     setCursor(Qt::CrossCursor);
 
     e->accept();
@@ -128,6 +152,7 @@ FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) 
     firstLoad = true;
     tempFile  = false;
     starsSearched = false;
+    hasWCS = false;
 
     mode = fitsMode;
 
@@ -158,6 +183,8 @@ FITSImage::~FITSImage()
 
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
+
+    qDeleteAll(wcs_coord);
 
     if (fptr)
     {
@@ -224,8 +251,8 @@ bool FITSImage::loadFITS ( const QString &inFilename )
             return false;
 
     if (mode == FITS_NORMAL)
-        fitsProg.setValue(50);
-    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
+        fitsProg.setValue(40);
+
 
     if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
     {
@@ -326,6 +353,10 @@ bool FITSImage::loadFITS ( const QString &inFilename )
 
     currentWidth  = stats.dim[0];
     currentHeight = stats.dim[1];
+
+    checkWCS();
+    if (mode == FITS_NORMAL)
+        fitsProg.setValue(90);
 
     // Rescale to fits window
     if (firstLoad)
@@ -1021,7 +1052,6 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
              starCenters.append(rCenter);
 
         }
-
     }
 
     if (starCenters.count() > 1 && mode != FITS_FOCUS)
@@ -1113,12 +1143,10 @@ double FITSImage::getHFR(HFRType type)
                 maxVal = starCenters[i]->val;
 
             }
-
         }
 
         return starCenters[maxIndex]->HFR;
     }
-
 
     double FSum=0;
     double avgHFR=0;
@@ -1374,6 +1402,88 @@ void FITSImage::processPointSelection(int x, int y)
     emit guideStarSelected(x,y);
 
     delete (pEdge);
+}
+
+void FITSImage::checkWCS()
+{
+#ifdef HAVE_WCSLIB
+
+    int status=0;
+    char *header;
+    int nkeyrec, nreject, nwcs, stat[2];
+    //double *imgcrd, phi, *pixcrd, theta, *world;
+    double imgcrd[2], phi, pixcrd[2], theta, world[2];
+    struct wcsprm *wcs=0;
+    int width=getWidth();
+    int height=getHeight();
+
+    if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
+    {
+        fits_report_error(stderr, status);
+        return;
+    }
+
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
+    {
+      fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
+      return;
+    }
+
+    free(header);
+
+    if (wcs == 0)
+    {
+      //fprintf(stderr, "No world coordinate systems found.\n");
+      return;
+    }
+
+    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
+    if (wcs->crpix[0] == 0)
+        return;
+
+    hasWCS = true;
+
+    if ((status = wcsset(wcs)))
+    {
+      fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+      return;
+    }
+
+    /*world  = malloc(2 * sizeof(double));
+    imgcrd = malloc(2 * sizeof(double));
+    pixcrd = malloc(2 * sizeof(double));
+    stat   = malloc(2 * sizeof(int));/*/
+
+    for (int i=0; i < height; i++)
+    //for (int i=0; i < 10; i++)
+    {
+        for (int j=0; j < width; j++)
+        //for (int j=0; j < 10; j++)
+        {
+            pixcrd[0]=j;
+            pixcrd[1]=i;
+
+            if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
+            {
+                  fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,
+                  wcs_errmsg[status]);
+            }
+            else
+            {
+                wcs_point * p = new wcs_point;
+                p->ra  = world[0];
+                p->dec = world[1];
+
+                //qDebug() << "For pixel (" << j << "," << i << ")" << " we got RA: " << p->ra << " DEC: " << p->dec << endl;
+
+                wcs_coord.append(p);
+
+                //qDebug() << "and index of " << wcs_coord.count() << endl;
+            }
+       }
+    }
+#endif
+
 }
 
 #include "fitsimage.moc"

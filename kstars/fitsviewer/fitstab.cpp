@@ -32,7 +32,6 @@
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 {
-
     image      = NULL;
     histogram  = NULL;
     viewer     = parent;
@@ -42,7 +41,6 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget()
     undoStack->setUndoLimit(10);
     undoStack->clear();
     connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(modifyFITSState(bool)));
-
 }
 
 FITSTab::~FITSTab()
@@ -219,7 +217,6 @@ void FITSTab::headerFITS()
 
 void FITSTab::saveFile()
 {
-
     int err_status;
     char err_text[FLEN_STATUS];
 
@@ -306,5 +303,3 @@ void FITSTab::tabPositionUpdated()
     emit newStatus(QString("%1%").arg(image->getCurrentZoom()), FITS_ZOOM);
     emit newStatus(QString("%1x%2").arg(image->getWidth()).arg(image->getHeight()), FITS_RESOLUTION);
 }
-
-

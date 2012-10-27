@@ -24,6 +24,10 @@ macro_bool_to_01(INDI_FOUND HAVE_INDI_H)
 macro_log_feature(INDI_FOUND "libindi" "Support for controlling astronomical devices with KStars." "http://www.indilib.org" FALSE "0.9.5" "")
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
+macro_optional_find_package(WCSLIB)
+macro_bool_to_01(WCSLIB_FOUND HAVE_WCSLIB)
+macro_log_feature(WCSLIB_FOUND "WCSLib" "Support for World Coordinate System in KStars." "http://www.atnf.csiro.au/people/mcalabre/WCS/" FALSE "" "WCS enables KStars to read and process world coordinate systems in FITS header.")
+
 check_include_files(linux/videodev2.h HAVE_LINUX_VIDEODEV2_H)
 check_include_files(termios.h TERMIOS_FOUND)
 macro_bool_to_01(TERMIOS_FOUND HAVE_TERMIOS_H)
@@ -44,6 +48,7 @@ if (EIGEN2_FOUND)
    add_subdirectory( doc )
    add_subdirectory( kstars )
 endif (EIGEN2_FOUND)
+
 
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
    macro_display_feature_log()
