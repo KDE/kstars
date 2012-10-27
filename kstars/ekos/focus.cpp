@@ -11,6 +11,9 @@
 #include "Options.h"
 
 #include <KMessageBox>
+#include <KPlotWidget>
+#include <KPlotObject>
+#include <KPlotAxis>
 
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
@@ -60,6 +63,9 @@ Focus::Focus()
 
     focusType = FOCUS_MANUAL;
 
+    HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
+    HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Absolute Position") );
+
     resetButtons();
 
     appendLogText(i18n("Idle."));
@@ -72,6 +78,12 @@ Focus::Focus()
     stepIN->setValue(Options::focusTicks());
 
 
+}
+
+Focus::~Focus()
+{
+    qDeleteAll(HFRPoints);
+    HFRPoints.clear();
 }
 
 void Focus::toggleAutofocus(bool enable)
@@ -156,13 +168,14 @@ void Focus::startFocus()
 
     capture();
 
-
-
     inAutoFocus = true;
 
     resetButtons();
 
     reverseDir = false;
+
+    qDeleteAll(HFRPoints);
+    HFRPoints.clear();
 
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
@@ -328,8 +341,8 @@ void Focus::newFITS(IBLOB *bp)
 
 void Focus::autoFocusAbs(double currentHFR)
 {
-    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0;
-    static double initHFR=0, minHFR=0, initSlopeHFR=0;
+    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0, minPos=1e6, maxPos=0;
+    static double initHFR=0, minHFR=0, maxHFR=1,initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 2);
@@ -358,6 +371,43 @@ void Focus::autoFocusAbs(double currentHFR)
         capture();
         return;
     }
+
+    if (currentHFR > maxHFR || HFRPoints.empty())
+    {
+        maxHFR = currentHFR;
+
+        if (HFRPoints.empty())
+        {
+            maxPos=1;
+            minPos=1e6;
+        }
+    }
+
+    if (pulseStep > maxPos)
+        maxPos = pulseStep;
+    if (pulseStep < minPos)
+        minPos = pulseStep;
+
+    HFRPoint *p = new HFRPoint();
+
+    p->HFR = currentHFR;
+    p->pos = pulseStep;
+
+    HFRPoints.append(p);
+
+    HFRPlot->removeAllPlotObjects();
+
+    //HFRPlot->setLimits(pulseStep-pulseDuration*5, pulseStep+pulseDuration*5, currentHFR/1.5, currentHFR*1.5 );
+    HFRPlot->setLimits(minPos-pulseDuration, maxPos+pulseDuration, currentHFR/1.5, maxHFR );
+
+    KPlotObject *hfrObj = new KPlotObject( Qt::red, KPlotObject::Points, 2 );
+
+    foreach(HFRPoint *p, HFRPoints)
+        hfrObj->addPoint(p->pos, p->HFR);
+
+    HFRPlot->addPlotObject(hfrObj);
+
+    HFRPlot->update();
 
     switch (lastFocusDirection)
     {
