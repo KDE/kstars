@@ -118,14 +118,11 @@ public:
     void setFITSMinMax(double newMin,  double newMax);
 
     void setGuideBoxSize(int size);
+    void setGuideSquare(int x, int y);
 
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
     void applyFilter(FITSScale type, float *image=NULL, int min=-1, int max=-1);
 
-
-
-
-    void setGuideSquare(int x, int y);
 
     // Overlay
     void drawOverlay(QPainter *);

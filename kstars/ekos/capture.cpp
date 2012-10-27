@@ -480,6 +480,10 @@ void Capture::captureImage()
         appendLogText(i18n("Capturing image..."));
     }
 
+    // If filter is different that CCD, send the filter info
+    if (currentFilter && currentFilter != currentCCD)
+        currentCCD->setFilter(FilterPosCombo->itemText(activeJob->filterPos-1));
+
     targetChip->capture(seqExpose);
 }
 
@@ -736,6 +740,8 @@ void Capture::removeJob()
         jobs.at(i)->statusCell = queueTable->item(i, 0);
 
     queueTable->selectRow(queueTable->currentRow());
+
+    jobCount = jobs.count();
 
 }
 

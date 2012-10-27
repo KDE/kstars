@@ -7,6 +7,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <string.h>
+
 #include <KMessageBox>
 #include <KStatusBar>
 #include <KTemporaryFile>
@@ -639,7 +641,6 @@ void CCD::processBLOB(IBLOB* bp)
     QString filename(currentDir + '/');
 
     // Create file name for FITS to be shown in FITS Viewer
-    //if (targetChip->isBatchMode() == false && Options::showFITS())
     if (targetChip->isBatchMode() == false)
     {
 
@@ -667,21 +668,16 @@ void CCD::processBLOB(IBLOB* bp)
     {
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-           // if (seqCount == 0)
-            //{
-                if (ISOMode == false)
-                    filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
-                else
-                    filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(QString().sprintf("%02d", seqCount)).arg(ts);
-           // }
-            //else
-              //  filename += QString("file_") + ts + ".fits";
+         if (ISOMode == false)
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
+          else
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(QString().sprintf("%02d", seqCount)).arg(ts);
 
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
             {
-                    kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
-            return;
+                    qDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+                    return;
             }
 
             QDataStream out(&fits_temp_file);
@@ -691,6 +687,8 @@ void CCD::processBLOB(IBLOB* bp)
 
             fits_temp_file.close();
     }
+
+    addFITSKeywords(filename);
 
     if (targetChip->isBatchMode())
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
@@ -755,6 +753,35 @@ void CCD::processBLOB(IBLOB* bp)
 
 }
 
+void CCD::addFITSKeywords(QString filename)
+{
+    int status=0;
+
+    if (filter.isEmpty() == false)
+    {
+        QString key_comment("Filter name");
+        filter.replace(" ", "_");
+
+        fitsfile* fptr=NULL;
+
+        if (fits_open_image(&fptr, filename.toAscii(), READWRITE, &status))
+        {
+            fits_report_error(stderr, status);
+            return;
+        }
+
+        if (fits_update_key_str(fptr, "FILTER", filter.toLatin1().data(), key_comment.toLatin1().data(), &status))
+        {
+            fits_report_error(stderr, status);
+            return;
+        }
+
+        fits_close_file(fptr, &status);
+
+        filter = "";
+    }
+}
+
 void CCD::FITSViewerDestroyed()
 {
     fv = NULL;
@@ -763,7 +790,6 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowDestroyed()
 {
-    qDebug() << "Stream windows destroyed " << endl;
     delete(streamWindow);
     streamWindow = NULL;
 }

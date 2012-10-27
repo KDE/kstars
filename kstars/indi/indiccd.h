@@ -92,10 +92,8 @@ public:
     void setISOMode(bool enable) { ISOMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setSeqCount(int count) { seqCount = count; }
-
+    void setFilter(const QString & newFilter) { filter = newFilter;}
     FITSViewer *getViewer() { return fv;}
-
-
     CCDChip * getChip(CCDChip::ChipType cType);
 
 
@@ -108,6 +106,9 @@ signals:
     void newExposureValue(ISD::CCDChip *chip, double value);
 
 private:    
+    void addFITSKeywords(QString filename);
+    QString filter;
+
     bool ISOMode;
     bool HasGuideHead;
     QString		seqPrefix;
@@ -116,10 +117,7 @@ private:
     StreamWG *streamWindow;
     ISD::ST4 *ST4Driver;
     int normalTabID, calibrationTabID, focusTabID, guideTabID;
-
-
     CCDChip *primaryChip, *guideChip;
-
 };
 
 }
