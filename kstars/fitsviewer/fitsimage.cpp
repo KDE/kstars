@@ -76,16 +76,22 @@ bool greaterThan(Edge *s1, Edge *s2)
 FITSLabel::FITSLabel(FITSImage *img, QWidget *parent) : QLabel(parent)
 {
     image = img;
+
+}
+
+void FITSLabel::setSize(double w, double h)
+{
+    width  = w;
+    height = h;
+    size   = w*h;
 }
 
 FITSLabel::~FITSLabel() {}
 
 void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 {
-    double x,y, width, height;
+    double x,y;
     float *buffer = image->getImageBuffer();
-
-    image->getSize(&width, &height);
 
     if (buffer == NULL)
         return;
@@ -106,15 +112,13 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     if (image->hasWCS)
     {
-        int index = x + y * height;
+        int index = x + y * width;
 
-        if (index > image->wcs_coord.count())
+        if (index > size)
             return;
 
-        wcs_point *p = image->wcs_coord.at(index);
-
-        ra.setD(p->ra);
-        dec.setD(p->dec);
+        ra.setD(image->wcs_coord[index].ra);
+        dec.setD(image->wcs_coord[index].dec);
 
         emit newStatus(QString("%1 , %2").arg( ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
     }
@@ -126,17 +130,13 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
 void FITSLabel::mousePressEvent(QMouseEvent *e)
 {
-    double x,y, width, height;
-
-    image->getSize(&width, &height);
+    double x,y;
 
     x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
     y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
 
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
-
-    //qDebug() << "point selected " << x << " - " << y << endl;
 
    emit pointSelected(x, y);
 
@@ -148,6 +148,7 @@ FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) 
     image_frame = new FITSLabel(this);
     image_buffer = NULL;
     displayImage = NULL;
+    wcs_coord    = NULL;
     fptr = NULL;
     firstLoad = true;
     tempFile  = false;
@@ -184,7 +185,7 @@ FITSImage::~FITSImage()
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
 
-    qDeleteAll(wcs_coord);
+    delete (wcs_coord);
 
     if (fptr)
     {
@@ -287,6 +288,7 @@ bool FITSImage::loadFITS ( const QString &inFilename )
     stats.dim[0] = naxes[0];
     stats.dim[1] = naxes[1];
 
+    image_frame->setSize(naxes[0], naxes[1]);
 
     delete (image_buffer);
     delete (displayImage);
@@ -331,6 +333,8 @@ bool FITSImage::loadFITS ( const QString &inFilename )
     fpixel[0] = 1;
     fpixel[1] = 1;
 
+    qApp->processEvents();
+
     if (fits_read_2d_flt(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
     {
         fprintf(stderr, "fits_read_pix error\n");
@@ -353,6 +357,8 @@ bool FITSImage::loadFITS ( const QString &inFilename )
 
     currentWidth  = stats.dim[0];
     currentHeight = stats.dim[1];
+
+    qApp->processEvents();
 
     checkWCS();
     if (mode == FITS_NORMAL)
@@ -1411,7 +1417,6 @@ void FITSImage::checkWCS()
     int status=0;
     char *header;
     int nkeyrec, nreject, nwcs, stat[2];
-    //double *imgcrd, phi, *pixcrd, theta, *world;
     double imgcrd[2], phi, pixcrd[2], theta, world[2];
     struct wcsprm *wcs=0;
     int width=getWidth();
@@ -1449,16 +1454,15 @@ void FITSImage::checkWCS()
       return;
     }
 
-    /*world  = malloc(2 * sizeof(double));
-    imgcrd = malloc(2 * sizeof(double));
-    pixcrd = malloc(2 * sizeof(double));
-    stat   = malloc(2 * sizeof(int));/*/
+    delete (wcs_coord);
+
+    wcs_coord = new wcs_point[width*height];
+
+    wcs_point *p = wcs_coord;
 
     for (int i=0; i < height; i++)
-    //for (int i=0; i < 10; i++)
     {
         for (int j=0; j < width; j++)
-        //for (int j=0; j < 10; j++)
         {
             pixcrd[0]=j;
             pixcrd[1]=i;
@@ -1470,15 +1474,10 @@ void FITSImage::checkWCS()
             }
             else
             {
-                wcs_point * p = new wcs_point;
                 p->ra  = world[0];
                 p->dec = world[1];
 
-                //qDebug() << "For pixel (" << j << "," << i << ")" << " we got RA: " << p->ra << " DEC: " << p->dec << endl;
-
-                wcs_coord.append(p);
-
-                //qDebug() << "and index of " << wcs_coord.count() << endl;
+                p++;
             }
        }
     }

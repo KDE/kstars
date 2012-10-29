@@ -63,6 +63,7 @@ class FITSLabel : public QLabel
 public:
     explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
     virtual ~FITSLabel();
+    void setSize(double w, double h);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
@@ -72,6 +73,7 @@ private:
     FITSImage *image;
     dms ra;
     dms dec;
+    double width,height,size;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);
@@ -193,8 +195,7 @@ private:
     QString filename;
     FITSMode mode;
 
-    QList<wcs_point *> wcs_coord;
-
+    wcs_point *wcs_coord;
     QList<Edge*> starCenters;
 
 signals:
