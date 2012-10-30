@@ -321,7 +321,7 @@ void Capture::checkFilter(int filterNum)
 
         if (filterName != NULL && (i < filterName->ntp))
             item = filterName->tp[i].text;
-        else if (filterAlias.takeAt(i) != NULL && filterAlias.at(i).isEmpty() == false)
+        else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
             item = filterAlias.at(i);
         else
             item = QString("Filter_%1").arg(i+1);

@@ -44,6 +44,9 @@ OpsINDI::OpsINDI( KStars *_ks )
     else
         m_filterList = Options::filterAlias();
 
+    for (int i=m_filterList.count(); i < 10; i++)
+        m_filterList << QString::number(i+1);
+
     filterSlotCombo->setCurrentIndex(0);
     kcfg_filterAlias->setText(m_filterList[0]);
 
@@ -83,7 +86,6 @@ void OpsINDI::saveFilterAlias()
 {
     m_filterList[filterSlotCombo->currentIndex()] = kcfg_filterAlias->text();
 
-    //Options::setfilterAlias(m_filterList);
 }
 
 void OpsINDI::updateFilterAlias(int index)
