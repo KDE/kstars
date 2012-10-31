@@ -37,41 +37,27 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Teles
 
 ObsConditions::~ObsConditions() {}
 
+QMap<int, double> ObsConditions::setLMMap()
+{
+    QMap<int, double> LMMap;
+    LMMap.insert(1, 7.8);
+    LMMap.insert(2, 7.3);
+    LMMap.insert(3, 6.8);
+    LMMap.insert(4, 6.3);
+    LMMap.insert(5, 5.8);
+    LMMap.insert(6, 5.3);
+    LMMap.insert(7, 4.8);
+    LMMap.insert(8, 4.3);
+    LMMap.insert(9, 3.8);
+
+    return LMMap;
+}
+
+const QMap<int, double> ObsConditions::m_LMMap = setLMMap();
+
 void ObsConditions::setLimMagnitude()
 {
-    switch (m_BortleClass)
-    {
-        case 1:
-            m_LM = 7.8;       //Excellent dark-sky site
-            break;
-        case 2:
-            m_LM = 7.3;       //Typical truly dark site
-            break;
-        case 3:
-            m_LM = 6.8;       //Rural sky
-            break;
-        case 4:
-            m_LM = 6.3;
-            break;
-        case 5:
-            m_LM = 5.8;
-            break;
-        case 6:
-            m_LM = 5.3;
-            break;
-        case 7:
-            m_LM = 4.8;
-            break;
-        case 8:
-            m_LM = 4.3;
-            break;
-        case 9:
-            m_LM = 3.8;
-            break;
-        default:
-            m_LM = 4.0;
-            break;
-    }
+    m_LM = m_LMMap[m_BortleClass];
 }
 
 double ObsConditions::getOptimumMAG()

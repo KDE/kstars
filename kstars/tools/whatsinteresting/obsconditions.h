@@ -93,6 +93,8 @@ public:
      */
     bool isVisible(GeoLocation *geo, dms *lst, SkyObject *so);
 
+    static QMap<int, double> setLMMap();
+
 private:
     int m_BortleClass;              ///Bortle dark-sky rating (from 1-9)
     Equipment m_Equip;              ///Equipment type
@@ -100,6 +102,7 @@ private:
     double m_Aperture;              ///Aperture of equipment
     double m_tParam;                ///t-parameter corresponding to telescope type
     double m_LM;                    ///Limiting Magnitude depending on m_BortleClass
+    static const QMap<int, double> m_LMMap;
 };
 
 #endif
