@@ -93,6 +93,10 @@ public:
      */
     bool isVisible(GeoLocation *geo, dms *lst, SkyObject *so);
 
+    /**
+     * \brief Create QMap<int, double> to be initialised to static member variable m_LMMap
+     * \return QMap<int, double> to be initialised to static member variable m_LMMap
+     */
     static QMap<int, double> setLMMap();
 
 private:
@@ -102,7 +106,8 @@ private:
     double m_Aperture;              ///Aperture of equipment
     double m_tParam;                ///t-parameter corresponding to telescope type
     double m_LM;                    ///Limiting Magnitude depending on m_BortleClass
-    static const QMap<int, double> m_LMMap;
+    static const QMap<int, double> m_LMMap;   ///Lookup table mapping Bortle Scale values
+                                              ///to corresponding limiting magnitudes
 };
 
 #endif
