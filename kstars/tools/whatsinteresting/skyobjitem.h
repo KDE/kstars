@@ -103,6 +103,12 @@ public:
     QString getDesc() const;
 
     /**
+     * \brief Get source of description for the SkyObjItem.
+     * \return Source of description for the SkyObjItem as a QString.
+     */
+    QString getDescSource();
+
+    /**
      * \brief Get magnitude of sky-object associated with the SkyObjItem.
      * \return Magnitude of sky-object associated with the SkyObjItem.
      */

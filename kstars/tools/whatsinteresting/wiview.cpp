@@ -107,6 +107,7 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     QObject *sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
     QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
     QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
+    QObject *descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
     QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
     QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
     QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
@@ -114,6 +115,7 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
     descTextObj->setProperty("text", soitem->getDesc());
+    descSrcTextObj->setProperty("text", soitem->getDescSource());
 
     QString magText;
     if (soitem->getType() == SkyObjItem::Constellation)

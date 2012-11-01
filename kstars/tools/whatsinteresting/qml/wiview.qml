@@ -515,7 +515,7 @@ Rectangle {
                                 anchors.bottomMargin: 4
 
                                 contentWidth: parent.width
-                                contentHeight: col.height
+                                contentHeight: col.height + 4
 
                                 Item {
                                     id: descTextItem
@@ -533,6 +533,19 @@ Rectangle {
                                             color: "#187988"
                                             text: qsTr("text")
                                             font.family: "Cantarell"
+                                            clip: true
+                                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                            width: parent.width
+                                            font.pixelSize: 13
+                                        }
+                                        Text {
+                                            id: descSrcText
+                                            objectName: "descSrcTextObj"
+                                            color: "#18885f"
+                                            text: qsTr("Source: ")
+                                            font.family: "Cantarell"
+                                            font.italic: true
+                                            horizontalAlignment: Text.AlignRight
                                             clip: true
                                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                             width: parent.width

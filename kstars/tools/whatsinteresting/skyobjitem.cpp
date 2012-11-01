@@ -124,6 +124,16 @@ QString SkyObjItem::getDesc() const
     return getTypeName();
 }
 
+QString SkyObjItem::getDescSource()
+{
+    if (m_Type == Planet)
+    {
+        return i18n("(Source: Wikipedia)");
+    }
+    return i18n("(Source: N/A)");
+}
+
+
 QString SkyObjItem::getSurfaceBrightness() const
 {
     /** Surface Brightness is applicable only for extended light sources like
