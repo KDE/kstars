@@ -257,7 +257,7 @@ It depends on the image, but many of the images restrict against commercial usag
 Yes, definitely!  Introduce yourself on our mailing list:
 <email>kstars-devel@kde.org</email>.  If you want to
 help with the coding, download the latest <ulink
-url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars">&kstars; GIT</ulink> version of the
+url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars">&kstars; Git</ulink> version of the
 code and dive right in.  There are several README files in the
 distribution that explain some of the code's subsystems.  If you
 need ideas of what to work on, see the TODO file.  You can submit
@@ -265,7 +265,7 @@ patches to kstars-devel, and feel free to post any questions you
 have about the code there as well.
 </para><para>
 If you are not into coding, we can still use your help with i18n, docs,
-AstroInfo articles, URL links, bug reports, and feature requests.
+AstroInfo articles, &URL; links, bug reports, and feature requests.
 </para>
 </answer>
 </qandaentry>

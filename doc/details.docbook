@@ -44,8 +44,8 @@ associated with the object are listed.  These are the links that
 appear in the popup menu when the object is
 <mousebutton>right</mousebutton>-clicked.  You can add custom
 links to the object with the <guibutton>Add Link...</guibutton>
-button.  This will open a window in which you fill in the URL and link
-text for the new link (you can also test the URL in the web browser
+button.  This will open a window in which you fill in the &URL; and link
+text for the new link (you can also test the &URL; in the web browser
 from this window).  Keep in mind that the custom link can easily point
 to a file on your local disk, so you can use this feature to index
 your personal astronomical images or observing logs.
