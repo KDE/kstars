@@ -29,7 +29,6 @@ macro_optional_find_package(WCSLIB)
 macro_bool_to_01(WCSLIB_FOUND HAVE_WCSLIB)
 macro_log_feature(WCSLIB_FOUND "WCSLib" "Support for World Coordinate System in KStars." "http://www.atnf.csiro.au/people/mcalabre/WCS/" FALSE "" "WCS enables KStars to read and process world coordinate systems in FITS header.")
 
-check_include_files(linux/videodev2.h HAVE_LINUX_VIDEODEV2_H)
 check_include_files(termios.h TERMIOS_FOUND)
 macro_bool_to_01(TERMIOS_FOUND HAVE_TERMIOS_H)
 
