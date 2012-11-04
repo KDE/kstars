@@ -11,12 +11,13 @@
  */
 
 
-#include <libindi/baseclient.h>
+#include <baseclient.h>
 
 #include "ui_ekosmanager.h"
 #include "indi/indistd.h"
 #include "capture.h"
 #include "focus.h"
+#include "guide.h"
 
 #include <QDialog>
 #include <QHash>
@@ -33,34 +34,76 @@ public:
     EkosManager(  );
     ~EkosManager();
 
+    void appendLogText(const QString &);
+    void refreshRemoteDrivers();
+
 public slots:
     void processINDI();
     void connectDevices();
     void disconnectDevices();
     void cleanDevices();
+
     void processNewDevice(ISD::GDInterface*);
+    void processNewProperty(INDI::Property*);
+    void processNewNumber(INumberVectorProperty *nvp);
+
+    void updateLog();
+    void clearLog();
 
     void removeDevice(ISD::GDInterface*);
+
+    void deviceConnected();
+    void deviceDisconnected();
+
+    void processINDIModeChange();
+    void checkINDITimeout();
 
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
     void setFocuser(ISD::GDInterface *);
+    void setST4(ISD::ST4 *);
 
  private:
+
+    void loadDefaultDrivers();
+    void saveDefaultDrivers();
+    void removeTabs();
+    void reset();
+    void initCapture();
+    void initFocus();
+    void initGuide();
+
+    void initLocalDrivers();
+    void initRemoteDrivers();
+
+    void processLocalDevice(ISD::GDInterface*);
+    void processRemoteDevice(ISD::GDInterface*);
+
     bool useGuiderFromCCD;
     bool useFilterFromCCD;
+    bool useST4;
+    bool guideStarted;
+    bool ccdStarted;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di;
+    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux;
+    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di, *remote_indi;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
+    Ekos::Guide *guideProcess;
+
+    QString guiderName;
+
+
+    bool localMode;
 
     unsigned short nDevices;
     QList<DriverInfo *> managedDevices;
 
     QHash<QString, DriverInfo *> driversList;
+
+    QStringList logText;
 
 
 

@@ -13,16 +13,16 @@
 #include "indicommon.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
-#include "fitsviewer/fitsviewer.h"
+
 
 #include "skypoint.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "Options.h"
-#include "streamwg.h"
 
-#include <libindi/basedevice.h>
+
+#include <basedevice.h>
 
 #include <QDebug>
 
@@ -72,8 +72,6 @@ const char * GenericDevice::getDeviceName()
 void GenericDevice::registerProperty(INDI::Property *prop)
 {
 
-    //qDebug() << "NEW STD Property in Generic Device" << prop->getName() << endl;
-
     foreach(INDI::Property *pp, properties)
     {
         if (pp == prop)
@@ -81,6 +79,8 @@ void GenericDevice::registerProperty(INDI::Property *prop)
     }
 
     properties.append(prop);
+
+    emit propertyDefined(prop);
 
     if (!strcmp(prop->getName(), "DEVICE_PORT"))
     {
@@ -100,6 +100,36 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 
             }
             break;
+
+        case KSTARS_FOCUSER:
+            //qDebug() << "device port for CCD!!!!!" << endl;
+            if (Options::focuserPort().isEmpty() == false)
+            {
+                IText *tp = IUFindText(prop->getText(), "PORT");
+                if (tp == NULL)
+                    return;
+
+                IUSaveText(tp, Options::focuserPort().toLatin1().constData());
+
+                clientManager->sendNewText(prop->getText());
+
+            }
+            break;
+
+        case KSTARS_FILTER:
+            //qDebug() << "device port for CCD!!!!!" << endl;
+            if (Options::filterPort().isEmpty() == false)
+            {
+                IText *tp = IUFindText(prop->getText(), "PORT");
+                if (tp == NULL)
+                    return;
+
+                IUSaveText(tp, Options::filterPort().toLatin1().constData());
+
+                clientManager->sendNewText(prop->getText());
+
+           }
+           break;
 
         case KSTARS_CCD:
             //qDebug() << "device port for CCD!!!!!" << endl;
@@ -311,6 +341,54 @@ void GenericDevice::processBLOB(IBLOB* bp)
 
 }
 
+bool GenericDevice::setConfig(INDIConfig tConfig)
+{
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("CONFIG_PROCESS");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *sp = NULL;
+
+    IUResetSwitch(svp);
+
+    switch (tConfig)
+    {
+        case LOAD_LAST_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_LOAD");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+        case SAVE_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_SAVE");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+        case LOAD_DEFAULT_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_DEFAULT");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+    }
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+
+}
+
 void GenericDevice::createDeviceInit()
 {
     if ( Options::useTimeUpdate() && Options::useComputerSource())
@@ -397,6 +475,16 @@ void GenericDevice::updateLocation()
     clientManager->sendNewNumber(nvp);
 }
 
+bool GenericDevice::Connect()
+{
+    return runCommand(INDI_CONNECT, NULL);
+}
+
+bool GenericDevice::Disconnect()
+{
+    return runCommand(INDI_DISCONNECT, NULL);
+}
+
 bool GenericDevice::runCommand(int command, void *ptr)
 {
     switch (command)
@@ -434,7 +522,12 @@ bool GenericDevice::runCommand(int command, void *ptr)
         if (nvp == NULL)
             return false;
 
-        nvp->np[0].value = * ( (int *) ptr);
+        int requestedFilter = * ( (int *) ptr);
+
+        if (requestedFilter == nvp->np[0].value)
+            break;
+
+        nvp->np[0].value  = requestedFilter;
 
         clientManager->sendNewNumber(nvp);
       }
@@ -446,27 +539,27 @@ bool GenericDevice::runCommand(int command, void *ptr)
     return true;
 }
 
-void GenericDevice::setProperty(QObject * setPropCommand)
+bool GenericDevice::setProperty(QObject * setPropCommand)
 {
     GDSetCommand *indiCommand = static_cast<GDSetCommand *> (setPropCommand);
 
     //qDebug() << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue << endl;
 
+    INDI::Property *pp= baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
+    if (pp == NULL)
+        return false;
+
     switch (indiCommand->propType)
     {
         case INDI_SWITCH:
         {
-         INDI::Property *pp= baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
-         if (pp == NULL)
-             return;
-
         ISwitchVectorProperty *svp = pp->getSwitch();
         if (svp == NULL)
-            return;
+            return false;
 
         ISwitch *sp = IUFindSwitch(svp, indiCommand->indiElement.toLatin1().constData());
         if (sp == NULL)
-            return;
+            return false;
 
         if (svp->r == ISR_1OFMANY)
             IUResetSwitch(svp);
@@ -475,15 +568,60 @@ void GenericDevice::setProperty(QObject * setPropCommand)
 
         //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
         clientManager->sendNewSwitch(svp);
+
+        return true;
        }
           break;
 
+    case INDI_NUMBER:
+    {
+        INumberVectorProperty *nvp = pp->getNumber();
+        if (nvp == NULL)
+            return false;
+
+        INumber *np = IUFindNumber(nvp, indiCommand->indiElement.toLatin1().constData());
+        if (np == NULL)
+            return false;
+
+        double value = indiCommand->elementValue.toDouble();
+
+        if (value == np->value)
+            return true;
+
+        np->value = value;
+
+      //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
+      clientManager->sendNewNumber(nvp);
+    }
+   break;
         // TODO: Add set property for other types of properties
     default:
         break;
 
     }
+
+    return true;
 }
+
+bool GenericDevice::getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber(propName.toLatin1());
+
+    if (nvp == NULL)
+        return false;
+
+    INumber *np = IUFindNumber(nvp, elementName.toLatin1());
+    if (np == NULL)
+        return false;
+
+    *min = np->min;
+    *max = np->max;
+    *step = np->step;
+
+    return true;
+
+}
+
 
 DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
 {
@@ -503,9 +641,9 @@ bool DeviceDecorator::runCommand(int command, void *ptr)
     return interfacePtr->runCommand(command, ptr);
 }
 
-void DeviceDecorator::setProperty(QObject *setPropCommand)
+bool DeviceDecorator::setProperty(QObject *setPropCommand)
 {
-    interfacePtr->setProperty(setPropCommand);
+    return interfacePtr->setProperty(setPropCommand);
 }
 
 void DeviceDecorator::processBLOB(IBLOB *bp)
@@ -543,7 +681,6 @@ void DeviceDecorator::processText(ITextVectorProperty *tvp)
 void DeviceDecorator::registerProperty(INDI::Property *prop)
 {
     interfacePtr->registerProperty(prop);
-    emit propertyDefined(prop);
 }
 
 void DeviceDecorator::removeProperty(INDI::Property *prop)
@@ -552,6 +689,11 @@ void DeviceDecorator::removeProperty(INDI::Property *prop)
     emit propertyDeleted(prop);
 }
 
+
+bool DeviceDecorator::setConfig(INDIConfig tConfig)
+{
+    return interfacePtr->setConfig(tConfig);
+}
 
 DeviceFamily DeviceDecorator::getType()
 {
@@ -583,595 +725,113 @@ bool DeviceDecorator::isConnected()
     return interfacePtr->isConnected();
 }
 
-void Telescope::processNumber(INumberVectorProperty *nvp)
+bool DeviceDecorator::Connect()
 {
-
-    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
-    {
-        INumber *RA = IUFindNumber(nvp, "RA");
-        INumber *DEC = IUFindNumber(nvp, "DEC");
-        if (RA == NULL || DEC == NULL)
-            return;
-
-        currentCoord.setRA(RA->value);
-        currentCoord.setDec(DEC->value);
-
-        return;
-    }
-
-    if (!strcmp(nvp->name, "HORIZONTAL_COORD"))
-    {
-        INumber *Az = IUFindNumber(nvp, "AZ");
-        INumber *Alt = IUFindNumber(nvp, "ALT");
-        if (Az == NULL || Alt == NULL)
-            return;
-
-        currentCoord.setAz(Az->value);
-        currentCoord.setAlt(Alt->value);
-
-        return;
-    }
-
-    DeviceDecorator::processNumber(nvp);
-
+    return interfacePtr->Connect();
 }
 
-void Telescope::processSwitch(ISwitchVectorProperty *svp)
+bool DeviceDecorator::Disconnect()
 {
-
-    DeviceDecorator::processSwitch(svp);
+    return interfacePtr->Disconnect();
 }
 
-void Telescope::processText(ITextVectorProperty *tvp)
+
+bool DeviceDecorator::getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)
 {
 
-    DeviceDecorator::processText(tvp);
-}
-
-void Telescope::registerProperty(INDI::Property *prop)
-{
-   //qDebug() << "In Telescope register property" << endl;
-
-    DeviceDecorator::registerProperty(prop);
-}
-
-bool Telescope::runCommand(int command, void *ptr)
-{
-    //qDebug() << "Telescope run command is called!!!" << endl;
-
-    switch (command)
-    {
-       case INDI_SEND_COORDS:
-        if (ptr == NULL)
-            Slew(KStars::Instance()->map()->clickedPoint());
-        else
-            Slew(static_cast<SkyPoint *> (ptr));
-
-        break;
-
-
-        case INDI_ENGAGE_TRACKING:
-            KStars::Instance()->map()->setClickedPoint(&currentCoord);
-            KStars::Instance()->map()->slotCenter();
-            break;
-
-        default:
-            return DeviceDecorator::runCommand(command, ptr);
-            break;
-
-    }
-
-    return true;
-
-}
-
-void Telescope::Slew(SkyPoint *ScopeTarget)
-{
-
-    INumber *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL);
-    INumberVectorProperty *EqProp(NULL), *HorProp(NULL);
-    bool useJ2000 (false);
-
-    EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD_REQUEST");
-    if (EqProp == NULL)
-    {
-    // Backward compatibility
-        EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
-        if (EqProp == NULL)
-    {
-    // J2000 Property
-        EqProp = baseDevice->getNumber("EQUATORIAL_COORD_REQUEST");
-        if (EqProp)
-            useJ2000 = true;
-        }
-    }
-
-    HorProp = baseDevice->getNumber("HORIZONTAL_COORD_REQUEST");
-
-    if (EqProp && EqProp->p == IP_RO)
-        EqProp = NULL;
-
-    if (HorProp && HorProp->p == IP_RO)
-            HorProp = NULL;
-
-    //kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
-
-        if (EqProp)
-        {
-                RAEle  = IUFindNumber(EqProp, "RA");
-                if (!RAEle) return;
-                DecEle = IUFindNumber(EqProp, "DEC");
-                    if (!DecEle) return;
-
-           if (useJ2000)
-                ScopeTarget->apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
-
-              RAEle->value  = ScopeTarget->ra().Hours();
-              DecEle->value = ScopeTarget->dec().Degrees();
-       }
-
-        if (HorProp)
-        {
-                AzEle = IUFindNumber(HorProp, "AZ");
-                if (!AzEle) return;
-                AltEle = IUFindNumber(HorProp,"ALT");
-                if (!AltEle) return;
-
-            AzEle->value  = ScopeTarget->az().Degrees();
-            AltEle->value = ScopeTarget->alt().Degrees();
-        }
-
-        /* Could not find either properties! */
-        if (EqProp == NULL && HorProp == NULL)
-            return;
-
-        if (EqProp)
-            clientManager->sendNewNumber(EqProp);
-        if (HorProp)
-            clientManager->sendNewNumber(HorProp);
+    return interfacePtr->getMinMaxStep(propName, elementName, min, max, step);
 
 }
 
 
-CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
+ST4::ST4(INDI::BaseDevice *bdv, ClientManager *cm)
 {
-    dType = KSTARS_CCD;
-    batchMode = false;
-    ISOMode   = true;
-    focusMode = false;
-    fv                = NULL;
-    streamWindow      = NULL;
-    focusTabID        = -1;
-
+    baseDevice = bdv;
+    clientManager = cm;
 }
 
-CCD::~CCD()
+ST4::~ST4() {}
+
+const char * ST4::getDeviceName()
 {
-    delete (fv);
-    delete (streamWindow);
+    return baseDevice->getDeviceName();
 }
 
-void CCD::processLight(ILightVectorProperty *lvp)
+bool ST4::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
-    DeviceDecorator::processLight(lvp);
-}
+    bool raOK=false, decOK=false;
+    raOK  = doPulse(ra_dir, ra_msecs);
+    decOK = doPulse(dec_dir, dec_msecs);
 
-void CCD::processNumber(INumberVectorProperty *nvp)
-{
-    if (!strcmp(nvp->name, "CCD_FRAME"))
-    {
-        INumber *wd = IUFindNumber(nvp, "WIDTH");
-        INumber *ht = IUFindNumber(nvp, "HEIGHT");
-
-        if (wd && ht && streamWindow)
-            streamWindow->setSize(wd->value, ht->value);
-
-        return;
-
-    }
-    DeviceDecorator::processNumber(nvp);
-}
-
-void CCD::processSwitch(ISwitchVectorProperty *svp)
-{
-    if (!strcmp(svp->name, "VIDEO_STREAM"))
-    {
-        if (streamWindow == NULL)
-        {
-            streamWindow = new StreamWG();
-
-            INumberVectorProperty *ccdFrame = baseDevice->getNumber("CCD_FRAME");
-
-            if (ccdFrame == NULL)
-                return;
-
-            INumber *wd = IUFindNumber(ccdFrame, "WIDTH");
-            INumber *ht = IUFindNumber(ccdFrame, "HEIGHT");
-
-            if (wd && ht)
-                streamWindow->setSize(wd->value, ht->value);
-
-            connect(streamWindow, SIGNAL(destroyed()), this, SLOT(StreamWindowDestroyed()));
-        }
-
-        if (svp->sp[0].s == ISS_ON)
-            streamWindow->enableStream(true);
-        else
-            streamWindow->enableStream(false);
-
-        return;
-    }
-
-    if (!strcmp(svp->name, "CONNECTION"))
-    {
-        ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
-
-        if (dSwitch && dSwitch->s == ISS_ON && streamWindow != NULL)
-        {
-            streamWindow->enableStream(false);
-            streamWindow->close();
-        }
-
-    }
-
-    DeviceDecorator::processSwitch(svp);
-
-}
-
-void CCD::processText(ITextVectorProperty *tvp)
-{
-    DeviceDecorator::processText(tvp);
-}
-
-void CCD::registerProperty(INDI::Property *prop)
-{
-    DeviceDecorator::registerProperty(prop);
-}
-
-
-bool CCD::runCommand(int command, void *ptr)
-{
-    //qDebug() << "CCD run command is called!!!" << endl;
-
-    switch (command)
-    {
-       case INDI_CAPTURE:
-       {
-        if (ptr == NULL)
-            return false;
-
-        INumberVectorProperty *expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
-        if (expProp == NULL)
-            return false;
-
-        expProp->np[0].value = *((double *) ptr);
-
-        clientManager->sendNewNumber(expProp);
-
-        break;
-      }
-
-      case INDI_CCD_FRAME:
-       {
-        if (ptr == NULL)
-            return false;
-
-        ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
-        if (frameProp == NULL)
-            return false;
-
-        int ccdType = *((int *) ptr);
-        ISwitch *ccdFrame = NULL;
-
-        if (ccdType == FRAME_LIGHT)
-            ccdFrame = IUFindSwitch(frameProp, "FRAME_LIGHT");
-        else if (ccdType == FRAME_DARK)
-            ccdFrame = IUFindSwitch(frameProp, "FRAME_DARK");
-        else if (ccdType == FRAME_BIAS)
-            ccdFrame = IUFindSwitch(frameProp, "FRAME_BIAS");
-        else if (ccdType == FRAME_FLAT)
-            ccdFrame = IUFindSwitch(frameProp, "FRAME_FLAT");
-
-        if (ccdFrame == NULL)
-            return false;
-
-        if (ccdFrame->s == ISS_ON)
-            return true;
-
-        IUResetSwitch(frameProp);
-        ccdFrame->s = ISS_ON;
-
-        clientManager->sendNewSwitch(frameProp);
-
-      }
-        break;
-
-    case INDI_CCD_BINNING:
-     {
-      if (ptr == NULL)
-          return false;
-
-      INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
-      if (binProp == NULL)
-          return false;
-
-      int binValue = *((int *) ptr) + 1;
-      INumber *horBin = NULL, *verBin=NULL;
-
-      horBin = IUFindNumber(binProp, "HOR_BIN");
-      verBin = IUFindNumber(binProp, "VER_BIN");
-
-      if (!horBin || !verBin)
-          return false;
-
-      if (horBin->value == binValue && verBin->value == binValue)
-          return true;
-
-      if (binValue > horBin->max || binValue > verBin->max)
-          return false;
-
-      horBin->value = binValue;
-      verBin->value = binValue;
-
-      clientManager->sendNewNumber(binProp);
-    }
-     break;
-
-        default:
-          return DeviceDecorator::runCommand(command, ptr);
-          break;
-
-    }
-
-    return true;
-}
-
-void CCD::processBLOB(IBLOB* bp)
-{
-
-    // If stream, process it first
-    if (!strcmp(bp->format, ".stream") && streamWindow)
-    {
-        if (streamWindow->isStreamEnabled() == false)
-            return;
-
-        streamWindow->show();
-        streamWindow->newFrame( (static_cast<unsigned char *> (bp->blob)), bp->size, streamWindow->getWidth(), streamWindow->getHeight());
-        return;
-    }
-
-    // If it's not FITS, don't process it.
-    if (strcmp(bp->format, ".fits"))
-    {
-        DeviceDecorator::processBLOB(bp);
-        return;
-    }
-
-     // It's either FITS or OTHER
-    char file_template[MAX_FILENAME_LEN];
-    QString currentDir = Options::fitsDir();
-    int fd, nr, n=0;
-
-    if (currentDir.endsWith('/'))
-        currentDir.truncate(sizeof(currentDir)-1);
-
-    QString filename(currentDir + '/');
-
-    // Create file name for FITS to be shown in FITS Viewer
-    if (batchMode == false && Options::showFITS())
-    {
-        strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
-        if ((fd = mkstemp(file_template)) < 0)
-        {
-            KMessageBox::error(NULL, i18n("Error making temporary filename."));
-            return;
-        }
-        filename = QString(file_template);
-        close(fd);
-    }
-    // Create file name for others
+    if (raOK && decOK)
+        return true;
     else
+        return false;
+
+}
+
+bool ST4::doPulse(GuideDirection dir, int msecs )
+{
+    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
+    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
+    INumberVectorProperty *npulse = NULL;
+    INumber *dirPulse=NULL;
+
+    if (raPulse == NULL || decPulse == NULL)
+        return false;
+
+    switch(dir)
     {
-         QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
+    case RA_INC_DIR:
+    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_W");
+    if (dirPulse == NULL)
+        return false;
 
-            if (batchMode)
-            {
-                if (ISOMode == false)
-                    filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
-                else
-                    filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(QString().sprintf("%02d", seqCount)).arg(ts);
-            }
-            else
-                filename += QString("file_") + ts + ".fits";
+    npulse = raPulse;
+    break;
 
-            //seqCount++;
-    }
+    case RA_DEC_DIR:
+    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_E");
+    if (dirPulse == NULL)
+        return false;
 
-       QFile fits_temp_file(filename);
-        if (!fits_temp_file.open(QIODevice::WriteOnly))
-        {
-                kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
-        return;
-        }
+    npulse = raPulse;
+    break;
 
-        QDataStream out(&fits_temp_file);
+    case DEC_INC_DIR:
+    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
+    if (dirPulse == NULL)
+        return false;
 
-        for (nr=0; nr < (int) bp->size; nr += n)
-            n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+    npulse = decPulse;
+    break;
 
-        fits_temp_file.close();
+    case DEC_DEC_DIR:
+    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
+    if (dirPulse == NULL)
+        return false;
 
-    if (batchMode)
-        KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
+    npulse = decPulse;
+    break;
 
-    // Unless we have cfitsio, we're done.
-    #ifdef HAVE_CFITSIO_H
-    if (batchMode == false && Options::showFITS())
-    {
-        KUrl fileURL(filename);
-
-        if (fv == NULL)
-        {
-            fv = new FITSViewer(KStars::Instance());
-            connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
-        }
-
-        if (focusMode == true)
-        {
-            if (focusTabID == -1)
-                focusTabID = fv->addFITS(&fileURL, FITS_FOCUS);
-            else if (fv->updateFITS(&fileURL, focusTabID) == false)
-                focusTabID = fv->addFITS(&fileURL, FITS_FOCUS);
-        }
-        else
-            fv->addFITS(&fileURL);
-
-        fv->show();
-    }
-    #endif
-
-    emit BLOBUpdated(bp);
-
-}
-
-void CCD::FITSViewerDestroyed()
-{
-    fv = NULL;
-}
-
-void CCD::StreamWindowDestroyed()
-{
-    qDebug() << "Stream windows destroyed " << endl;
-    delete(streamWindow);
-    streamWindow = NULL;
-}
-
-
-void Filter::processLight(ILightVectorProperty *lvp)
-{
-    DeviceDecorator::processLight(lvp);
-}
-
-void Filter::processNumber(INumberVectorProperty *nvp)
-{
-    DeviceDecorator::processNumber(nvp);
-}
-
-void Filter::processSwitch(ISwitchVectorProperty *svp)
-{
-    DeviceDecorator::processSwitch(svp);
-
-}
-
-void Filter::processText(ITextVectorProperty *tvp)
-{
-    DeviceDecorator::processText(tvp);
-}
-
-void Filter::registerProperty(INDI::Property *prop)
-{
-    //qDebug() << "In Filter register property" << endl;
-    DeviceDecorator::registerProperty(prop);
-}
-
-
-void Focuser::processLight(ILightVectorProperty *lvp)
-{
-    DeviceDecorator::processLight(lvp);
-}
-
-void Focuser::processNumber(INumberVectorProperty *nvp)
-{
-    DeviceDecorator::processNumber(nvp);
-}
-
-void Focuser::processSwitch(ISwitchVectorProperty *svp)
-{
-    DeviceDecorator::processSwitch(svp);
-
-}
-
-void Focuser::processText(ITextVectorProperty *tvp)
-{
-    DeviceDecorator::processText(tvp);
-}
-
-void Focuser::registerProperty(INDI::Property *prop)
-{
-    //qDebug() << "In Focuser register property" << endl;
-    DeviceDecorator::registerProperty(prop);
-}
-
-bool Focuser::runCommand(int command, void *ptr)
-{
-
-    switch (command)
-    {
-       case INDI_FOCUS_IN:
-       {
-
-        ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
-        if (focusProp == NULL)
-            return false;
-
-
-        ISwitch *inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
-        if (inFocus == NULL)
-            return false;
-
-        IUResetSwitch(focusProp);
-        inFocus->s = ISS_ON;
-
-        clientManager->sendNewSwitch(focusProp);
-
-        break;
-      }
-
-    case INDI_FOCUS_OUT:
-    {
-
-     ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
-     if (focusProp == NULL)
-         return false;
-
-
-     ISwitch *outFocus = IUFindSwitch(focusProp, "FOCUS_OUTWARD");
-     if (outFocus == NULL)
-         return false;
-
-     IUResetSwitch(focusProp);
-     outFocus->s = ISS_ON;
-
-     clientManager->sendNewSwitch(focusProp);
-
-     break;
-   }
-
-    case INDI_FOCUS_MOVE:
-    {
-     if (ptr == NULL)
-         return false;
-
-     INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
-     if (focusProp == NULL)
-         return false;
-
-     focusProp->np[0].value = *((int *) ptr);
-
-     clientManager->sendNewNumber(focusProp);
-
-     break;
-    }
-
-
-        default:
-          return DeviceDecorator::runCommand(command, ptr);
-          break;
+    default:
+        return false;
 
     }
 
-   return true;
+    if (dirPulse == NULL || npulse == NULL)
+        return false;
+
+    dirPulse->value = msecs;
+
+    clientManager->sendNewNumber(npulse);
+
+    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
+
+    return true;
+
 }
 
 }
-//#include "indistd.moc"
+
+#include "indistd.moc"

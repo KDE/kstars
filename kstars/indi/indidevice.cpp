@@ -12,8 +12,8 @@
 #include <zlib.h>
 #include <indicom.h>
 #include <base64.h>
-#include <libindi/basedevice.h>
-#include <libindi/indiproperty.h>
+#include <basedevice.h>
+#include <indiproperty.h>
 
 #include <QFrame>
 #include <QCheckBox>
@@ -51,6 +51,7 @@
 #include "indigroup.h"
 #include "indielement.h"
 
+const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
 INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *in_cm) : KDialog( 0 )
   {
@@ -93,7 +94,7 @@ bool INDI_D::buildProperty(INDI::Property * prop)
     {
         pg = new INDI_G(this, groupName);
         groupsList.append(pg);
-        groupContainer->addTab(pg->getContainer(), groupName);
+        groupContainer->addTab(pg->getContainer(), i18nc(libindi_strings_context, groupName.toUtf8()));
     }
 
     return pg->addProperty(prop);
@@ -102,6 +103,9 @@ bool INDI_D::buildProperty(INDI::Property * prop)
 
 bool INDI_D::removeProperty(INDI::Property * prop)
 {
+    if (prop == NULL)
+        return false;
+
     QString groupName(prop->getGroupName());
 
     if (strcmp(prop->getDeviceName(), dv->getDeviceName()))
@@ -257,12 +261,16 @@ bool INDI_D::updateBLOBGUI  (IBLOB *bp)
 
 }
 
-void INDI_D::updateMessageLog(INDI::BaseDevice *idv)
+void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
 {
     if (idv != dv)
         return;
 
-    msgST_w->append(dv->lastMessage());
+    msgST_w->ensureCursorVisible();
+    msgST_w->insertPlainText(dv->messageQueue(messageID) + QString("\n"));
+    QTextCursor c = msgST_w->textCursor();
+    c.movePosition(QTextCursor::Start);
+    msgST_w->setTextCursor(c);
 }
 
 INDI_D::~INDI_D()

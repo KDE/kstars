@@ -47,7 +47,7 @@ public:
 public slots:
     /** Display calculator module or help text based on item selected.
 	 */
-    void slotItemSelection(QTreeWidgetItem *it);
+    void slotItemSelection(QTreeWidgetItem *it); // Q: Why is this public when we don't have access to navigationPanel anyway? Also doesn't seem to be used from outside -- asimha
 
 private:
     /** Pointer to function which return QWidget* 

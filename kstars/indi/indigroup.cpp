@@ -100,6 +100,6 @@ INDI_P * INDI_G::getProperty(const QString & propName)
             return pp;
     }
 
-    return false;
+    return NULL;
 
 }

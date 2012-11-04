@@ -17,13 +17,16 @@
 
 #include "moonphasetool.h"
 
-MoonPhaseTool::MoonPhaseTool(QWidget *parentSplit)
-    : QFrame(parentSplit)
+MoonPhaseTool::MoonPhaseTool(QWidget *parent)
+    : KDialog( parent, Qt::Dialog )
 {
+    setButtons( 0 );
     KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
     m_Moon = new KSMoon;
     mpc = new MoonPhaseCalendar( *m_Moon );
     gcw = new GenericCalendarWidget( *mpc, this );
+    setFixedSize( gcw->size() );
+    setCaption( i18n("Moon Phase Calendar") );
 }
 
 

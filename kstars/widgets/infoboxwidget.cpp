@@ -30,6 +30,11 @@ const int InfoBoxWidget::padY = 2;
 InfoBoxes::~InfoBoxes()
 {}
 
+InfoBoxes::InfoBoxes(QWidget* parent) : QWidget(parent) {
+    setMouseTracking( true );
+}
+
+
 void InfoBoxes::addInfoBox(InfoBoxWidget* ibox)
 {
     ibox->setParent(this);

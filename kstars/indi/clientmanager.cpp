@@ -18,7 +18,7 @@
 #include <QDataStream>
 #include <QTimer>
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 
 #include "clientmanager.h"
@@ -53,10 +53,10 @@ bool ClientManager::isDriverManaged(DriverInfo *di)
 void ClientManager::newDevice(INDI::BaseDevice *dp)
 {
 
-    //IDLog("Received new device %s\n", dp->getDeviceName());
     setBLOBMode(B_ALSO, dp->getDeviceName());
 
     foreach(DriverInfo *dv, managedDrivers)
+    {
         if (dv->getUniqueLabel() == dp->getDeviceName() || dv->getDriverSource() == HOST_SOURCE)
         {
             if (dv->getDriverSource() == HOST_SOURCE)
@@ -91,6 +91,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
                 return;
             }
         }
+    }
 }
 
 void ClientManager::newProperty(INDI::Property *prop)
@@ -99,7 +100,7 @@ void ClientManager::newProperty(INDI::Property *prop)
 
     if (!strcmp (prop->getName(), "EQUATORIAL_EOD_COORD"))
         emit newTelescope();
-    else if (!strcmp (prop->getName(), "CCD_EXPOSURE_REQUEST"))
+    else if (!strcmp (prop->getName(), "CCD_EXPOSURE"))
         emit newCCD();
 
     emit newINDIProperty(prop);
@@ -136,9 +137,9 @@ void ClientManager::newLight(ILightVectorProperty * lvp)
     emit newINDILight(lvp);
 }
 
-void ClientManager::newMessage(INDI::BaseDevice *dp)
+void ClientManager::newMessage(INDI::BaseDevice *dp, int messageID)
 {
-    emit newINDIMessage(dp);
+    emit newINDIMessage(dp, messageID);
 }
 
 

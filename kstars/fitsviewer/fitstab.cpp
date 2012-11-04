@@ -25,29 +25,33 @@
 #include "fitstab.h"
 #include "fitsimage.h"
 #include "fitshistogram.h"
+#include "fitsviewer.h"
 
 #include "ui_statform.h"
 #include "ui_fitsheaderdialog.h"
 
-
-FITSTab::FITSTab() : QWidget()
+FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 {
-
     image      = NULL;
     histogram  = NULL;
+    viewer     = parent;
 
     mDirty     = false;
-    undoStack = new KUndoStack();
+    undoStack = new KUndoStack(this);
     undoStack->setUndoLimit(10);
     undoStack->clear();
     connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(modifyFITSState(bool)));
+}
 
+FITSTab::~FITSTab()
+{
+    disconnect(0,0,0);
 }
 
 void FITSTab::saveUnsaved()
 {
 
-    if( undoStack->isClean() )
+    if( undoStack->isClean() || image->getMode() != FITS_NORMAL)
         return;
 
     QString caption = i18n( "Save Changes to FITS?" );
@@ -73,11 +77,11 @@ void FITSTab::closeEvent(QCloseEvent *ev)
 
 }
 
-bool FITSTab::loadFITS(const KUrl *imageURL)
+bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
 {
     if (image == NULL)
     {
-        image = new FITSImage(this);
+        image = new FITSImage(this, mode);
         image->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 
@@ -97,7 +101,16 @@ bool FITSTab::loadFITS(const KUrl *imageURL)
             histogram = new FITSHistogram(this);
         else
             histogram->updateHistogram();
+
+        image->setHistogram(histogram);
+        image->applyFilter(filter);
+
+        if (viewer->isStarsMarked())
+            image->toggleStars(true);
+
+        image->updateFrame();
     }
+
 
     return imageLoad;
 }
@@ -204,12 +217,14 @@ void FITSTab::headerFITS()
 
 void FITSTab::saveFile()
 {
-
     int err_status;
     char err_text[FLEN_STATUS];
 
     KUrl backupCurrent = currentURL;
     QString currentDir = Options::fitsDir();
+
+    if (currentURL.path().contains("/tmp/"))
+        currentURL.clear();
 
     // If no changes made, return.
     if( mDirty == false && !currentURL.isEmpty())
@@ -288,16 +303,3 @@ void FITSTab::tabPositionUpdated()
     emit newStatus(QString("%1%").arg(image->getCurrentZoom()), FITS_ZOOM);
     emit newStatus(QString("%1x%2").arg(image->getWidth()).arg(image->getHeight()), FITS_RESOLUTION);
 }
-
-void FITSTab::lowPassFilter()
-{
-    if (histogram != NULL)
-        histogram->lowPassFilter();
-}
-
-void FITSTab::equalize()
-{
-    if (histogram != NULL)
-        histogram->equalize();
-}
-

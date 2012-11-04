@@ -140,8 +140,18 @@
     </entry>
     <entry name="telescopePort" type="String">
       <label>INDI Telescope port</label>
-      <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyS0)</whatsthis>
-      <default>/dev/ttyS0</default>
+      <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default>/dev/ttyUSB0</default>
+    </entry>
+    <entry name="focuserPort" type="String">
+      <label>INDI Focuser port</label>
+      <whatsthis>The port to which the focuser is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default>/dev/ttyUSB1</default>
+    </entry>
+    <entry name="filterPort" type="String">
+      <label>INDI Filter port</label>
+      <whatsthis>The port to which the filter is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default>/dev/ttyUSB2</default>
     </entry>
     <entry name="videoPort" type="String">
       <label>INDI Video port</label>
@@ -732,7 +742,7 @@
     </entry>
     <entry name="ObsListSaveImage" type="Bool">
       <label>Save the DSS/SDSS images to disk</label>
-      <whatisthis>The images of objects in the obseving list will be autosaved if you download them</whatisthis>
+      <whatsthis>The images of objects in the observing list will be autosaved if you download them</whatsthis>
       <default>false</default>
     </entry>
     <entry name="ObsListPreferDSS" type="Bool">
@@ -1166,5 +1176,94 @@
       <default>10.0</default>
     </entry>
   </group>
+  <group name="Ekos">
+    <entry name="TelescopeDriver" type="String">
+      <label>Default telescope driver</label>
+    </entry>
+    <entry name="CCDDriver" type="String">
+      <label>Default CCD driver</label>
+    </entry>
+    <entry name="GuiderDriver" type="String">
+      <label>Default Guider driver</label>
+    </entry>
+    <entry name="FilterDriver" type="String">
+      <label>Default Filter driver</label>
+    </entry>
+    <entry name="FocuserDriver" type="String">
+      <label>Default Focuser driver</label>
+    </entry>
+    <entry name="AuxDriver" type="String">
+      <label>Default Auxiliary driver</label>
+    </entry>
+    <entry name="FocusTicks" type="UInt">
+      <label>Default Focuser step ticks</label>
+      <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
+      <default>100</default>
+     </entry>
+     <entry name="FocusTolerance" type="Double">
+        <label>Default Focuser tolerance value</label>
+           <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
+           <default>1</default>
+      </entry>
+      <entry name="FocusExposure" type="Double">
+         <label>Default Focuser exposure value</label>
+            <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
+            <default>0.5</default>
+       </entry>
+       <entry name="remoteScopeName" type="String">
+         <label>Remote Scope Name</label>
+         <whatsthis>Name of the remote INDI telescope device.</whatsthis>
+       </entry>
+       <entry name="remoteCCDName" type="String">
+         <label>Remote CCD Name</label>
+         <whatsthis>Name of the remote INDI CCD device.</whatsthis>
+       </entry>
+       <entry name="remoteGuiderName" type="String">
+         <label>Remote Guider Name</label>
+         <whatsthis>Name of the remote INDI Guider device. If the CCD and Guider are the same device, it must be specified here as well.</whatsthis>
+       </entry>
+       <entry name="remoteFocuserName" type="String">
+         <label>Remote Focuser Name</label>
+         <whatsthis>Name of the remote INDI focuser device.</whatsthis>
+       </entry>
+       <entry name="remoteFilterName" type="String">
+         <label>Remote Filter Name</label>
+         <whatsthis>Name of the remote INDI Filter device.</whatsthis>
+       </entry>
+       <entry name="remoteAuxName" type="String">
+         <label>Remote Auxiliary Name</label>
+         <whatsthis>Name of the remote INDI Auxiliary device.</whatsthis>
+       </entry>
+       <entry name="remoteHost" type="String">
+         <label>Remote INDI host</label>
+         <whatsthis>Hostname of the remote INDI server for Ekos.</whatsthis>
+       </entry>
+       <entry name="remotePort" type="String">
+         <label>Remote Port</label>
+         <whatsthis>Port of the remote INDI server for Ekos.</whatsthis>
+       </entry>
+       <entry name="localMode" type="Bool">
+         <label>Ekos connection mode</label>
+         <whatsthis>Ekos is started in local mode.</whatsthis>
+         <default>true</default>
+       </entry>
+       <entry name="remoteMode" type="Bool">
+         <label>Ekos connection mode</label>
+         <whatsthis>Ekos is started in remote mode.</whatsthis>
+         <default>false</default>
+       </entry>
+       <entry name="neverLoadConfig" type="Bool">
+         <label>Never load device configuration?</label>
+         <default>true</default>
+       </entry>
+       <entry name="loadConfigOnConnection" type="Bool">
+         <label>Load device configuration upon successful connection?</label>
+         <default>false</default>
+       </entry>
+       <entry name="loadDefaultConfig" type="Bool">
+         <label>Always load device default configuration upon successful connection?</label>
+         <default>false</default>
+       </entry>
+   </group>
 
 </kcfg>

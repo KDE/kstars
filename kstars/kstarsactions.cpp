@@ -81,6 +81,7 @@
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
+#include "tools/moonphasetool.h"
 #include "tools/flagmanager.h"
 #include "oal/execute.h"
 #include "projections/projector.h"
@@ -88,17 +89,12 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-//#include "ui_devmanager.h"
-//#include "indi/indimenu.h"
-//#include "indi/indidriver.h"
-//#include "indi/imagesequence.h"
-
 #include "ekos/ekosmanager.h"
 #include "indi/telescopewizardprocess.h"
 #include "indi/opsindi.h"
+#include "ekos/opsekos.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
-
 #endif
 
 #include "skycomponents/customcatalogcomponent.h"
@@ -319,6 +315,11 @@ void KStars::slotJMoonTool() {
     jmt->show();
 }
 
+void KStars::slotMoonPhaseTool() {
+    if( ! mpt ) mpt = new MoonPhaseTool( this );
+    mpt->show();
+}
+
 void KStars::slotFlagManager() {
     if ( ! fm ) fm = new FlagManager(this);
     fm->show();
@@ -451,6 +452,9 @@ void KStars::slotViewOps() {
     #ifdef HAVE_INDI_H
     opsindi = new OpsINDI (this);
     dialog->addPage(opsindi, i18n("INDI"), "kstars");
+
+    opsekos = new OpsEkos(this);
+    dialog->addPage(opsekos, i18n("Ekos"), "kstars");
     #endif
 
 #ifdef HAVE_XPLANET
@@ -592,7 +596,7 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
     QString fname;
 
@@ -609,14 +613,14 @@ void KStars::slotRunScript() {
 
             if ( result == KMessageBox::Cancel ) return;
             if ( result == KMessageBox::No ) { //save file
-                KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+                KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 KTemporaryFile tmpfile;
                 tmpfile.open();
 
                 while ( ! saveURL.isValid() ) {
                     message = i18n( "Save location is invalid. Try another location?" );
                     if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::No ) return;
-                    saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+                    saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 }
 
                 if ( saveURL.isLocalFile() ) {
@@ -1059,7 +1063,7 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
     colorActionMenu->addAction( kta );
 
     KConfigGroup cg = KGlobal::config()->group( "Colors" );
-    if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "classic.colors" ).remove( ".colors" ) ) {
+    if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "moonless-night.colors" ).remove( ".colors" ) ) {
         kta->setChecked( true );
     }
 }

@@ -26,19 +26,24 @@ class QUndoStack;
 class FITSImage;
 class FITSHistogram;
 class FITSHistogramCommand;
+class FITSViewer;
 
 class FITSTab : public QWidget
 {
     Q_OBJECT
 public:
 
-   FITSTab();
-   bool loadFITS(const KUrl *imageURL);
+   FITSTab(FITSViewer *parent);
+   ~FITSTab();
+   bool loadFITS(const KUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter=FITS_NONE);
    int saveFITS(const QString &filename);
-   QUndoStack *getUndoStack() { return undoStack; }
-   KUrl * getCurrentURL() { return &currentURL; }
-   FITSImage *getImage() { return image; }
-   FITSHistogram *getHistogram() { return histogram; }
+
+   inline QUndoStack *getUndoStack() { return undoStack; }
+   inline KUrl * getCurrentURL() { return &currentURL; }
+   inline FITSImage *getImage() { return image; }
+   inline FITSHistogram *getHistogram() { return histogram; }
+   inline FITSViewer *getViewer() { return viewer; }
+
    void saveFile();
    void saveFileAs();
    void copyFITS();
@@ -51,8 +56,7 @@ public:
 
    void saveUnsaved();
    void tabPositionUpdated();
-   void lowPassFilter();
-   void equalize();
+   void selectGuideStar();
 
 
 public slots:
@@ -70,6 +74,7 @@ private:
 
     FITSImage *image;           /* FITS image object */
     FITSHistogram *histogram;   /* FITS Histogram */
+    FITSViewer *viewer;
 
     QUndoStack *undoStack;        /* History for undo/redo */
     KUrl currentURL;            /* FITS File name and path */

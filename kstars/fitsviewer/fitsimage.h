@@ -41,10 +41,21 @@
 #include "fitshistogram.h"
 #include "fitscommon.h"
 
+#include "dms.h"
+
 #define INITIAL_W	640
 #define INITIAL_H	480
 
+#define MINIMUM_PIXEL_RANGE 5
+#define MINIMUM_STDVAR  5
+
 class FITSImage;
+
+typedef struct
+{
+    double ra;
+    double dec;
+} wcs_point;
 
 class FITSLabel : public QLabel
 {
@@ -52,33 +63,42 @@ class FITSLabel : public QLabel
 public:
     explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
     virtual ~FITSLabel();
+    void setSize(double w, double h);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
+    virtual void mousePressEvent(QMouseEvent *e);
 
 private:
     FITSImage *image;
+    dms ra;
+    dms dec;
+    double width,height,size;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);
+    void pointSelected(int x, int y);
+
+
 };
 
 class Edge
 {
 public:
-    int x;
-    int y;
+    float x;
+    float y;
     int val;
     int scanned;
-    int width;
-    double HFR;
+    float width;
+    float HFR;
+    float sum;
 };
 
 class FITSImage : public QScrollArea
 {
     Q_OBJECT
 public:
-    FITSImage(QWidget *parent = 0);
+    FITSImage(QWidget *parent = 0, FITSMode mode=FITS_NORMAL);
     ~FITSImage();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
@@ -90,30 +110,45 @@ public:
     /* Calculate stats */
     void calculateStats(bool refresh=false);
 
+    void subtract(FITSImage *darkFrame);
+
     // Access functions
     double getCurrentZoom() { return currentZoom; }
     float * getImageBuffer() { return image_buffer; }
-    void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
-    void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
+    void getSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
+    void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
     int getDetectedStars() { return starCenters.count(); }
+    QList<Edge*> getStarCenters() { return starCenters;}
     long getWidth() { return stats.dim[0]; }
     long getHeight() { return stats.dim[1]; }
     double getStdDev() { return stats.stddev; }
     double getAverage() { return stats.average; }
     QImage * getDisplayImage() { return displayImage; }
+    FITSMode getMode() { return mode;}
+
     int getFITSRecord(QString &recordList, int &nkeys);
 
     // Set functions
     void setFITSMinMax(double newMin,  double newMax);
 
+    void setGuideBoxSize(int size);
+    void setGuideSquare(int x, int y);
+
+    void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
+    void applyFilter(FITSScale type, float *image=NULL, int min=-1, int max=-1);
+
+
     // Overlay
     void drawOverlay(QPainter *);
     void drawStarCentroid(QPainter *);
+    void drawGuideBox(QPainter *);
     void updateFrame();
 
     // Star Detection & HFR
-    void toggleStars(bool enable) { markStars = enable;}
-    double getHFR();
+    void findStars();
+    void toggleStars(bool enable);
+    double getHFR(HFRType type=HFR_AVERAGE);
+    void findCentroid(int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
 
     /* stats struct to hold statisical data about the FITS data */
     struct
@@ -126,18 +161,21 @@ public:
         long dim[2];
     } stats;
 
-
 public slots:
     void ZoomIn();
     void ZoomOut();
     void ZoomDefault();
 
+    void processPointSelection(int x, int y);
+
 private:
 
+
+    bool checkCollision(Edge* s1, Edge*s2);
     double average();
     double stddev();
-    void findCentroid();
     int calculateMinMax(bool refresh=false);
+    void checkWCS();
 
     bool markStars;
     FITSLabel *image_frame;
@@ -148,12 +186,24 @@ private:
     fitsfile* fptr;
     int data_type;                     /* FITS data type when opened */
     QImage  *displayImage;             /* FITS image that is displayed in the GUI */
+    FITSHistogram *histogram;
+    int guide_x, guide_y, guide_box;
+    bool firstLoad;
+    bool tempFile;
+    bool starsSearched;
+    bool hasWCS;
+    QString filename;
+    FITSMode mode;
 
+    wcs_point *wcs_coord;
     QList<Edge*> starCenters;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);
     void actionUpdated(const QString &name, bool enable);
+    void guideStarSelected(int x, int y);
+
+  friend class FITSLabel;
 };
 
 

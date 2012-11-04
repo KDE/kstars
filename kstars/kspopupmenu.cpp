@@ -46,7 +46,7 @@
 #include "indi/indigroup.h"
 #include "indi/indiproperty.h"
 #include "indi/indielement.h"
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 #endif
 
 #include "skycomponents/constellationboundarylines.h"

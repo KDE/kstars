@@ -32,13 +32,14 @@
 #include <KDialog>
 #include <KTabWidget>
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #include "kstars.h"
 #include "indidevice.h"
 #include "guimanager.h"
 #include "driverinfo.h"
 
+extern const char *libindi_strings_context;
 
 GUIManager * GUIManager::_GUIManager = NULL;
 
@@ -202,12 +203,12 @@ void GUIManager::buildDevice(DriverInfo *di)
     connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), gdm, SLOT(updateLightGUI(ILightVectorProperty*)));
     connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), gdm, SLOT(updateBLOBGUI(IBLOB*)));
 
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*)));
+    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*, int)));
 
 
     //qDebug() << "About to add to tab main widget with name " << di->getBaseDevice()->getDeviceName() << endl;
     //nset = mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
-    nset = mainTabWidget->addTab(gdm->getDeviceBox(), di->getUniqueLabel());
+    nset = mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getUniqueLabel().toUtf8()));
 
     gdm->setTabID(nset);
 

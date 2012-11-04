@@ -971,7 +971,7 @@ void ScriptBuilder::slotOpen() {
     tmpfile.open();
 
     if ( !UnsavedChanges ) {
-        currentFileURL = KFileDialog::getOpenUrl( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
+        currentFileURL = KFileDialog::getOpenUrl( currentDir, "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
 
         if ( currentFileURL.isValid() ) {
             currentDir = currentFileURL.directory();
@@ -1026,7 +1026,7 @@ void ScriptBuilder::slotSave()
 
     bool newFilename = false;
     if ( currentFileURL.isEmpty() ) {
-        currentFileURL = KFileDialog::getSaveUrl( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
+        currentFileURL = KFileDialog::getSaveUrl( currentDir, "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
         newFilename = true;
     }
 

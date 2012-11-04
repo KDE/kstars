@@ -136,7 +136,7 @@ void KSWizard::initGeoPage() {
 }
 
 void KSWizard::slotChangeCity() {
-    if ( location->CityListBox->currentItem() >= 0 ) {
+    if ( location->CityListBox->currentItem() ) {
         for ( int i=0; i < filteredCityList.size(); ++i ) {
             if ( filteredCityList[i]->fullName() == location->CityListBox->currentItem()->text() ) {
                 Geo = filteredCityList[i];

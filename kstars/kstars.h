@@ -52,6 +52,7 @@ class SkyCalendar;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
+class MoonPhaseTool;
 class FlagManager;
 class ObservingList;
 class EquipmentWriter;
@@ -68,6 +69,7 @@ class OpsSupernovae;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
+class OpsEkos;
 class EkosManager;
 #ifdef HAVE_XPLANET
 class OpsXplanet;
@@ -124,12 +126,14 @@ public:
     virtual ~KStars();
 
     /**@return pointer to KStarsData object which contains application data. */
-    KStarsData* data() { return kstarsData; }
+    inline KStarsData* data() const { return kstarsData; }
 
     /**@return pointer to SkyMap object which is the sky display widget. */
-    SkyMap* map() { return skymap; }
+    inline SkyMap* map() const { return skymap; }
 
-    ObservingList* observingList() { return obsList; }
+    inline ObservingList* observingList() const { return obsList; }
+
+    inline EkosManager *ekosManager() const { return ekosmenu; }
 
     Execute* getExecute();
 
@@ -152,9 +156,9 @@ public:
      */
     void applyConfig( bool doApplyFocus = true );
 
-    FlagManager* getFlagManager() { return fm; }
+    inline FlagManager* getFlagManager() const { return fm; }
 
-    PrintingWizard* getPrintingWizard() { return printingWizard; }
+    inline PrintingWizard* getPrintingWizard() const { return printingWizard; }
 
     void showImgExportDialog();
 
@@ -521,6 +525,9 @@ private slots:
     /** action slot: open Jupiter Moons tool */
     void slotJMoonTool();
 
+    /** action slot: open Moon Phase Calendar tool */
+    void slotMoonPhaseTool();
+
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();
 
@@ -654,6 +661,7 @@ private:
     ScriptBuilder *sb;
     PlanetViewer *pv;
     JMoonTool *jmt;
+    MoonPhaseTool *mpt;
     FlagManager *fm;
     AstroCalc *astrocalc;
     PrintingWizard *printingWizard;
@@ -676,6 +684,7 @@ private:
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;
+    OpsEkos *opsekos;
 #ifdef HAVE_XPLANET
     OpsXplanet  *opsxplanet;
 #endif

@@ -67,15 +67,14 @@ rm -f image_url.tmp
 rm -f info_url.tmp
 rm -f tips.cpp
 
-$EXTRACTRC `find . -name \*.rc -o -name \*.ui -o -name \*.kcfg` >> rc.cpp || exit 11
+#$EXTRACTRC `find . -name \*.rc -o -name \*.ui -o -name \*.kcfg` >> rc.cpp || exit 11
+#(cd data && $PREPARETIPS > ../tips.cpp)
+
+#$XGETTEXT `find . -name \*.cc -o -name \*.cpp -o -name \*.h -name \*.qml` -o $podir/kstars.pot
+
+$EXTRACTRC `find . -name '*.ui' -o -name '*.rc' -o -name '*.kcfg' | sort` >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
-
-$XGETTEXT `find . -name \*.cc -o -name \*.cpp -o -name \*.h -name \*.qml` -o $podir/kstars.pot
-
-#$EXTRACTRC xplanet/*.ui *.ui printing/*.ui tools/*.ui tools/whatsinteresting/*.ui dialogs/*.ui fitsviewer/*.ui indi/*.ui options/*.ui oal/*.ui *.rc *.kcfg >> rc.cpp || exit 11
-
-#$XGETTEXT *.cpp *.h printing/*.cpp tools/*.cpp tools/*.h tools/whatsinteresting/*.h tools/whatsinteresting/*.cpp tools/whatsinteresting/qml/*.qml  skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h xplanet/*.cpp oal/*.h oal/*.cpp -o $podir/kstars.pot
-
+$XGETTEXT `find . -name '*.cpp' -o -name '*.h' -name '*.qml' | sort` -o $podir/kstars.pot
 rm -f tips.cpp
 rm -f kstars_i18n.cpp
 rm -f rc.cpp

@@ -36,8 +36,8 @@ namespace
 }
 
 Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
-    : m_Painter(0), m_DeletePainter(false), m_Type(LT_FULL),
-      m_Orientation(orientation), m_Position(pos), m_PositionFloating(QPoint(0, 0)), m_SkyMap(SkyMap::Instance()),
+    : m_Painter(0), m_SkyMap(SkyMap::Instance()), m_DeletePainter(false), m_Type(LT_FULL),
+      m_Orientation(orientation), m_Position(pos), m_PositionFloating(QPoint(0, 0)),
       m_cScheme(KStarsData::Instance()->colorScheme()), m_DrawFrame(false), m_SymbolSize(symbolSize),
       m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
       m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
@@ -414,7 +414,7 @@ void Legend::paintSymbols(QPointF pos)
 
             break;
         }
-    default : return; // shoud never happen
+    default : return; // should never happen
     }
 }
 

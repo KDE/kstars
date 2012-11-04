@@ -8,6 +8,8 @@
 
  */
 
+#include <errno.h>
+
 #include <indicom.h>
 
 #include <config-kstars.h>
@@ -50,6 +52,8 @@ ServerManager::~ServerManager()
     serverSocket.close();
     indiFIFO.close();
 
+    QFile::remove(indiFIFO.fileName());
+
     if (serverProcess)
         serverProcess->close();
 
@@ -58,33 +62,36 @@ ServerManager::~ServerManager()
 
 bool ServerManager::start()
   {
-    char file_template[MAX_FILENAME_LEN];
     bool connected=false;
     int fd=0;
-    serverProcess = new KProcess;
+    serverProcess = new KProcess(this);
 
     *serverProcess << Options::indiServer();
     *serverProcess << "-v" << "-p" << port;
     *serverProcess << "-m" << "100";
 
-    strncpy(file_template, "/tmp/indififoXXXXXX", MAX_FILENAME_LEN);
+    QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
 
-    if ((fd = mkstemp(file_template)) < 0)
+    if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
-        KMessageBox::error(NULL, i18n("Error making temporary filename."));
-        return false;
-    }
+         KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
+         return false;
+   }
 
-    indiFIFO.setFileName(file_template);
+    indiFIFO.setFileName(fifoFile);
 
-    *serverProcess << "-f" << file_template;
+   if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
+   {
+         qDebug() << "Unable to create INDI FIFO file: " << fifoFile << endl;
+         return false;
+   }
+
+
+    *serverProcess << "-f" << fifoFile;
 
     serverProcess->setOutputChannelMode(KProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);
 
-    //connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
-    //connect(serverProcess, SIGNAL(started()), this, SLOT(connectionSuccess()));
-    connect(serverProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SIGNAL(finished(int, QProcess::ExitStatus)));
 
     serverProcess->start();
 
@@ -92,19 +99,8 @@ bool ServerManager::start()
 
     if (connected)
     {
-        if (!indiFIFO.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            qDebug() << "Unable to create INDI FIFO file: " << file_template << endl;
-            return false;
-        }
-
-
-
         connect(serverProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processServerError(QProcess::ProcessError)));
         connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
-
-
-
 
         emit started();
     }
@@ -112,7 +108,6 @@ bool ServerManager::start()
     return connected;
 
 
-    //connect(serverProcess, SIGNAL(started()), this, SIGNAL(started()));
 
 }
 
@@ -127,16 +122,18 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
      if (KStandardDirs::findExe(dv->getDriver()).isEmpty())
      {
-         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.").arg(dv->getDriver()));
+         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
          return false;
      }
 
-        //qDebug() << "Will run driver: " << device->getName() << " with driver " << device->getDriver() << endl;
+        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
         out << "start " << dv->getDriver() << " '" << dv->getUniqueLabel() << "'" << endl;
         //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
         out.flush();
 
         dv->setServerState(true);
+
+        dv->setPort(port);
 
         return true;
 }
@@ -148,12 +145,14 @@ void ServerManager::stopDriver(DriverInfo *dv)
     managedDrivers.removeOne(dv);
 
 
-        //qDebug() << "Will run driver: " << device->getName() << " with driver " << device->getDriver() << endl;
+        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
         out << "stop " << dv->getDriver() << " '" << dv->getUniqueLabel() << "'" << endl;
         //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
         out.flush();
 
         dv->setServerState(false);
+
+        dv->setPort(dv->getUserPort());
 
 }
 
@@ -195,7 +194,6 @@ void ServerManager::stop()
 void ServerManager::connectionSuccess()
 {
 
-    kDebug() << "Server connection success!!!" << endl;
     foreach(DriverInfo *device, managedDrivers)
          device->setServerState(true);
 
@@ -206,6 +204,7 @@ void ServerManager::connectionSuccess()
 
 void ServerManager::processServerError(QProcess::ProcessError err)
 {
+  INDI_UNUSED(err);
   emit serverFailure(this);
 }
 

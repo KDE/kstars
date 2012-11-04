@@ -58,7 +58,6 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
             a = dso->a();
             b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
             pa = dso->pa() * dms::DegToRad;
-            // TODO: Deal with round objects, which may have undefined 'b' and 'pa', but a sensible 'a'.
 
             // We now want to convert a, b, and pa into an image
             // height and width -- i.e. a dRA and dDec.
@@ -69,7 +68,6 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
             // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
 
             // Pad the RA and Dec, so that we show more of the sky than just the object.
-            // TODO: Make padding user-configurable
             height += dss_padding;
             width += dss_padding;
         }
@@ -89,7 +87,7 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
         if( width > 75.0 )
             width = 75.0;
 
-        return getDSSURL( p->ra0(), p->dec(), width, height );
+        return getDSSURL( p->ra0(), p->dec0(), width, height );
 }
 
 QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float height ) {

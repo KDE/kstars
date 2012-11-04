@@ -75,7 +75,8 @@ ObsListWizard::ObsListWizard( QWidget *ksparent ) :
     connect( olw->IncludeNoMag, SIGNAL( clicked() ), this, SLOT( slotObjectCountDirty() ) );
     connect (olw->timeTo, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotObjectCountDirty()));
     connect (olw->timeFrom, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotObjectCountDirty()));
-
+    connect (olw->minAlt, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
+    connect (olw->maxAlt, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
 
     connect( olw->SelectByDate, SIGNAL( clicked() ), this, SLOT( slotToggleDateWidgets() ) );
     connect( olw->SelectByMagnitude, SIGNAL( clicked() ), this, SLOT( slotToggleMagWidgets() ) );
@@ -256,6 +257,8 @@ void ObsListWizard::slotToggleDateWidgets()
     olw->LocationButton->setEnabled( olw->SelectByDate->isChecked() );
     olw->timeTo->setEnabled(olw->SelectByDate->isChecked() );
     olw->timeFrom->setEnabled(olw->SelectByDate->isChecked() );
+    olw->minAlt->setEnabled(olw->SelectByDate->isChecked() );
+    olw->maxAlt->setEnabled(olw->SelectByDate->isChecked() );
 
     //    slotUpdateObjectCount();
     slotObjectCountDirty();
@@ -420,7 +423,16 @@ void ObsListWizard::applyFilters( bool doBuildList )
         for ( int i=0; i < starIndex; ++i )
         {
             SkyObject *o = (SkyObject*)(starList[i]);
-            if ( needRegion ) 
+
+            // JM 2012-10-22: Skip unnamed stars
+            if (o->name() == "star")
+            {
+                if ( ! doBuildList )
+                       --ObjectCount;
+                continue;
+            }
+
+            if ( needRegion )
                 filterPass = applyRegionFilter( o, doBuildList, !doBuildList);
             //Filter objects visible from geo at Date if region filter passes
             if ( olw->SelectByDate->isChecked() && filterPass)
@@ -580,7 +592,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
     {
         //Don't need to do anything if we are just counting objects and not
         //filtering by region or magnitude
-        if ( needRegion || olw->SelectByMagnitude->isChecked() )
+        if ( needRegion || olw->SelectByMagnitude->isChecked() || olw->SelectByDate->isChecked())
         {
             foreach ( DeepSkyObject *o, data->skyComposite()->deepSkyObjects() )
             {
@@ -797,7 +809,7 @@ bool ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
     return true;
 }
 
-bool ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool doAdjustCount )
+bool ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool doAdjustCount)
 {
     SkyPoint p = *o;
 
@@ -805,24 +817,35 @@ bool ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool 
     //If it's ever above 15 degrees, flag it as visible
     KStarsDateTime Evening( olw->Date->date(), QTime( 18, 0, 0 ) );
     KStarsDateTime Midnight( olw->Date->date().addDays(1), QTime( 0, 0, 0 ) );
+    double minAlt=15, maxAlt=90;
 
     // Or use user-selected values, if they're valid
     if (olw->timeFrom->time() < olw->timeTo->time())
     {
         Evening.setTime(olw->timeFrom->time());
         Midnight.setTime(olw->timeTo->time());
+        Midnight.setDate(olw->Date->date());
+    }
+
+    if (olw->minAlt->value() < olw->maxAlt->value())
+    {
+        minAlt = olw->minAlt->value();
+        maxAlt = olw->maxAlt->value();
     }
 
     bool visible = false;
-    for ( KStarsDateTime t = Evening; t < Midnight; t = t.addSecs( 3600.0 ) ) {
+    for ( KStarsDateTime t = Evening; t < Midnight; t = t.addSecs( 3600.0 ) )
+    {
         dms LST = geo->GSTtoLST( t.gst() );
         p.EquatorialToHorizontal( &LST, geo->lat() );
-        if ( p.alt().Degrees() > 15.0 )
+
+        if ( p.alt().Degrees() >= minAlt && p.alt().Degrees() <= maxAlt )
         {
             visible = true;
             break;
         }
     }
+
 
     if (visible )
         return true;

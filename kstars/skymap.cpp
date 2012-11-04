@@ -440,16 +440,10 @@ void SkyMap::slotDSS() {
     if ( clickedObject() ) {
         urlstring = KSUtils::getDSSURL( clickedObject() );
     } else {
-        //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
-        clickedPoint()->setRA0( clickedPoint()->ra().Hours() );
-        clickedPoint()->setDec0( clickedPoint()->dec().Degrees() );
-        clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-        ra  = clickedPoint()->ra();
-        dec = clickedPoint()->dec();
+        SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
+        ra  = deprecessedPoint.ra();
+        dec = deprecessedPoint.dec();
         urlstring = KSUtils::getDSSURL( ra, dec ); // Use default size for non-objects
-        //restore coords from present epoch
-        clickedPoint()->setRA(  clickedPoint()->ra0() );
-        clickedPoint()->setDec( clickedPoint()->dec0() );
     }
 
     KUrl url ( urlstring );
@@ -479,16 +473,9 @@ void SkyMap::slotSDSS() {
         ra  = clickedObject()->ra0();
         dec = clickedObject()->dec0();
     } else {
-        //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
-        clickedPoint()->setRA0( clickedPoint()->ra() );
-        clickedPoint()->setDec0( clickedPoint()->dec() );
-        clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-        ra  = clickedPoint()->ra();
-        dec = clickedPoint()->dec();
-
-        //restore coords from present epoch
-        clickedPoint()->setRA(  clickedPoint()->ra0() );
-        clickedPoint()->setDec( clickedPoint()->dec0() );
+        SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
+        ra  = deprecessedPoint.ra();
+        dec = deprecessedPoint.dec();
     }
 
     RAString = RAString.sprintf( "ra=%f", ra.Degrees() );
@@ -1302,7 +1289,7 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     *xplanetProc << "-origin" << "earth";
 
     // Run xplanet
-    kWarning() << i18n( "Run : %1" , xplanetProc->program().join(" "));
+    kDebug() << "Run:" << xplanetProc->program().join(" ");
     xplanetProc->start();
 }
 

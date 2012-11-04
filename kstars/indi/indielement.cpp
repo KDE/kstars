@@ -9,7 +9,7 @@
     2004-01-15	INDI element is the most basic unit of the INDI KStars client.
  */
 
-#include <libindi/base64.h>
+#include <base64.h>
 
 #include "indielement.h"
 #include "indiproperty.h"
@@ -36,6 +36,8 @@
 #include <KLed>
 #include <KFileDialog>
 #include <KMessageBox>
+
+extern const char *libindi_strings_context;
 
 /*******************************************************************
 ** INDI Element
@@ -82,13 +84,13 @@ INDI_E::~INDI_E()
 
 void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
 {
-    name  = QString(sw->name);
-    label = QString(sw->label);
+    name  = sw->name;
+    label = i18nc(libindi_strings_context, sw->label);
 
     sp = sw;
 
     if (label.isEmpty())
-        label = name;
+        label = i18nc(libindi_strings_context, sw->name);
 
     if (groupB == NULL)
         return;
@@ -133,17 +135,17 @@ void INDI_E::buildMenuItem(ISwitch *sw)
 
 void INDI_E::buildText(IText *itp)
 {
-    name  = QString(itp->name);
-    label = QString(itp->label);
+    name  = itp->name;
+    label = i18nc(libindi_strings_context, itp->label);
 
     tp = itp;
 
     if (label.isEmpty())
-        label = name;
+        label = i18nc(libindi_strings_context, itp->name);
 
     setupElementLabel();
 
-    text = QString(tp->text);
+    text = i18nc(libindi_strings_context, tp->text);
 
     switch (dataProp->getPermission())
     {
@@ -229,7 +231,7 @@ void INDI_E::syncText()
     if (tp == NULL)
         return;
 
-    read_w->setText(tp->text);
+    read_w->setText(i18nc(libindi_strings_context, tp->text));
 
 }
 
@@ -308,14 +310,13 @@ void INDI_E::setText(const QString &newText)
 
 void INDI_E::buildBLOB(IBLOB *ibp)
 {
-
-    name  = QString(ibp->name);
-    label = QString(ibp->label);
+    name  = ibp->name;
+    label = i18nc(libindi_strings_context, ibp->label);
 
     bp = ibp;
 
     if (label.isEmpty())
-        label = name;
+        label = i18nc(libindi_strings_context, ibp->name);
 
     setupElementLabel();
 
@@ -348,13 +349,13 @@ void INDI_E::buildNumber  (INumber *inp)
     bool scale = false;
     char iNumber[32];
 
-    name  = QString(inp->name);
-    label = QString(inp->label);
+    name  = inp->name;
+    label = i18nc(libindi_strings_context, inp->label);
 
     np = inp;
 
     if (label.isEmpty())
-        label = name;
+        label = i18nc(libindi_strings_context, inp->name);
 
     numberFormat(iNumber, np->format, np->value);
     text = iNumber;
@@ -396,14 +397,13 @@ void INDI_E::buildNumber  (INumber *inp)
 
 void INDI_E::buildLight(ILight *ilp)
 {
-
-    name  = QString(ilp->name);
-    label = QString(ilp->label);
+    name  = ilp->name;
+    label = i18nc(libindi_strings_context, ilp->label);
 
     lp = ilp;
 
     if (label.isEmpty())
-        label = name;
+        label = i18nc(libindi_strings_context, ilp->name);
 
     led_w = new KLed (guiProp->getGroup()->getContainer());
     led_w->setMaximumSize(16,16);
@@ -647,7 +647,7 @@ void INDI_E::browseBlob()
 
 }
 
-const QString & INDI_E::getWriteField()
+QString INDI_E::getWriteField()
 {
     if (write_w)
         return write_w->text();
@@ -655,7 +655,7 @@ const QString & INDI_E::getWriteField()
         return NULL;
 }
 
-const QString & INDI_E::getReadField()
+QString INDI_E::getReadField()
 {
     if (read_w)
         return read_w->text();

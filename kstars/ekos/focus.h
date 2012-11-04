@@ -17,10 +17,18 @@
 
 
 #include "indi/indistd.h"
+#include "indi/indifocuser.h"
+
+class KPlotObject;
 
 namespace Ekos
 {
 
+struct HFRPoint
+{
+    int pos;
+    double HFR;
+};
 
 class Focus : public QWidget, public Ui::Focus
 {
@@ -29,12 +37,17 @@ class Focus : public QWidget, public Ui::Focus
 
 public:
     Focus();
+    ~Focus();
 
-
-    void addFocuser(ISD::GDInterface *newFocuser);
+    void setFocuser(ISD::GDInterface *newFocuser);
     void addCCD(ISD::GDInterface *newCCD);
 
-    typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusType;
+    typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
+    typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
+
+    void appendLogText(const QString &);
+    void clearLog();
+    QString getLogText() { return logText.join("\n"); }
 
 public slots:
 
@@ -42,27 +55,58 @@ public slots:
     void startFocus();
     void stopFocus();
     void capture();
+    void startLooping();
 
-    void FocusIn(int ms=1000);
-    void FocusOut(int ms=1000);
+    void checkCCD(int CCDNum);
+
+    void FocusIn(int ms=-1);
+    void FocusOut(int ms=-1);
 
     void toggleAutofocus(bool enable);
 
     void newFITS(IBLOB *bp);
+    void processFocusProperties(INumberVectorProperty *nvp);
+
+signals:
+        void newLog();
 
 private:
+
+    void getAbsFocusPosition();
+    void autoFocusAbs(double currentHFR);
+    void autoFocusRel(double currentHFR);
+
+    void resetButtons();
+
 
     /* Focus */
     ISD::Focuser *currentFocuser;
     ISD::CCD *currentCCD;
 
+    QList<ISD::CCD *> CCDs;
+
     Ekos::Capture *captureP;
 
-    FocusType lastFocusDirection;
+    FocusDirection lastFocusDirection;
+    FocusType focusType;
 
     double HFR;
     int pulseDuration;
+    bool canAbsMove;
+    int absIterations;
 
+    bool inAutoFocus, inFocusLoop;
+
+    double absCurrentPos;
+    double pulseStep;
+    double absMotionMax, absMotionMin;
+    int HFRInc;
+    int HFRDec;
+    bool reverseDir;
+
+    QStringList logText;
+
+    QList<HFRPoint *> HFRPoints;
 };
 
 }

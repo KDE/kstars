@@ -62,6 +62,7 @@
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 		<Action name="astrocalculator" />
                 <Action name="skycalendar" />
+		<Action name="moonphasetool" />
 		<Action name="obslist" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />

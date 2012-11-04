@@ -9,11 +9,15 @@
     Handle INDI Standard properties.
  */
 
-#include <libindi/baseclient.h>
-#include <libindi/basedevice.h>
+#include <baseclient.h>
+#include <basedevice.h>
 
 #include "indilistener.h"
 #include "indicommon.h"
+#include "inditelescope.h"
+#include "indifocuser.h"
+#include "indiccd.h"
+#include "indifilter.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
 #include "fitsviewer/fitsviewer.h"
@@ -33,8 +37,8 @@
 const char * indi_std[NINDI_STD] =
     {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "TIME_UTC_OFFSET" , "GEOGRAPHIC_COORD", "EQUATORIAL_COORD",
      "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
-     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "CCD_EXPOSURE_REQUEST",
-     "CCD_TEMPERATURE_REQUEST", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "VIDEO_STREAM",
+     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "CCD_EXPOSURE",
+     "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "VIDEO_STREAM",
      "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
 INDIListener * INDIListener::_INDIListener = NULL;
@@ -81,7 +85,8 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, SIGNAL(INDIDeviceRemoved(DriverInfo*)), this, SLOT(removeDevice(DriverInfo*)));
 
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
+    //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)));
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
     connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
@@ -126,7 +131,7 @@ void INDIListener::removeDevice(DriverInfo *dv)
     foreach(ISD::GDInterface *gd, devices)
     {
         if (dv->getUniqueLabel() == gd->getDeviceName() || dv->getDriverSource() == HOST_SOURCE)
-        {
+        {           
             emit deviceRemoved(gd);
             devices.removeOne(gd);
             delete(gd);
@@ -135,6 +140,7 @@ void INDIListener::removeDevice(DriverInfo *dv)
                 return;
         }
     }
+
 }
 
 void INDIListener::registerProperty(INDI::Property *prop)
@@ -151,7 +157,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 devices.append(gd);
                 emit newTelescope(gd);
              }
-            else if (gd->getType() != KSTARS_CCD && (!strcmp(prop->getName(), "CCD_EXPOSURE_REQUEST")))
+            else if (gd->getType() != KSTARS_CCD && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
             {
                 devices.removeOne(gd);
                 gd = new ISD::CCD(gd);
@@ -173,6 +179,13 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 emit newFocuser(gd);
             }
 
+            if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))
+            {
+                ISD::ST4 *st4Driver = new ISD::ST4(gd->getBaseDevice(), gd->getDriverInfo()->getClientManager());
+                st4Devices.append(st4Driver);
+                emit newST4(st4Driver);
+            }
+
             gd->registerProperty(prop);
             break;
         }
@@ -181,6 +194,9 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
 void INDIListener::removeProperty(INDI::Property *prop)
 {
+
+    if (prop == NULL)
+        return;
 
     foreach(ISD::GDInterface *gd, devices)
     {
