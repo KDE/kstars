@@ -20,7 +20,7 @@
 
 #include "indi/driverinfo.h"
 #include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #include "guide/rcalibration.h"
 #include "guide/gmath.h"
@@ -245,9 +245,10 @@ void Guide::newFITS(IBLOB *bp)
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-    FITSImage *targetImage = targetChip->getImage(FITS_GUIDE);
+    FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
+    FITSImage *image_data = targetImage->getImageData();
 
-    targetImage->findStars();
+    image_data->findStars();
 
     pmath->set_image(targetImage);
     guider->set_image(targetImage);

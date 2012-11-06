@@ -18,19 +18,16 @@ macro_bool_to_01(CFITSIO_FOUND HAVE_CFITSIO_H)
 macro_log_feature(CFITSIO_FOUND "libcfitsio0" "Support for the FITS (Flexible Image Transport System) data format in KStars." "http://indi.sf.net" FALSE "3.09" "")
 
 # INDI is a Linux-specific addon
+set(INDI_MINIMUM_VERSION 0.9.5)
 IF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-macro_optional_find_package(INDI)
+macro_optional_find_package(INDI ${INDI_MINIMUM_VERSION})
 macro_bool_to_01(INDI_FOUND HAVE_INDI_H)
-macro_log_feature(INDI_FOUND "libindi" "Support for controlling astronomical devices with KStars." "http://www.indilib.org" FALSE "0.9.5" "")
+macro_log_feature(INDI_FOUND "libindi" "Support for controlling astronomical devices with KStars." "http://www.indilib.org" FALSE "${INDI_MINIMUM_VERSION}" "")
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
 macro_optional_find_package(WCSLIB)
 macro_bool_to_01(WCSLIB_FOUND HAVE_WCSLIB)
 macro_log_feature(WCSLIB_FOUND "WCSLib" "Support for World Coordinate System in KStars." "http://www.atnf.csiro.au/people/mcalabre/WCS/" FALSE "" "WCS enables KStars to read and process world coordinate systems in FITS header.")
-
-check_include_files(linux/videodev2.h HAVE_LINUX_VIDEODEV2_H)
-check_include_files(termios.h TERMIOS_FOUND)
-macro_bool_to_01(TERMIOS_FOUND HAVE_TERMIOS_H)
 
 macro_optional_find_package(Xplanet)
 macro_bool_to_01(XPLANET_FOUND HAVE_XPLANET)

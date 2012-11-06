@@ -15,7 +15,7 @@
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
 #include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #include "QProgressIndicator.h"
 
@@ -306,12 +306,12 @@ void Capture::checkFilter(int filterNum)
 
     FilterPosCombo->clear();
 
-    filterName   = currentFilter->getDriverInfo()->getBaseDevice()->getText("FILTER_NAME");
-    filterSlot = currentFilter->getDriverInfo()->getBaseDevice()->getNumber("FILTER_SLOT");
+    filterName   = currentFilter->getBaseDevice()->getText("FILTER_NAME");
+    filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
 
     if (filterSlot == NULL)
     {
-        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getDriverInfo()->getBaseDevice()->getDeviceName()));
+        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
         return;
     }
 
@@ -365,11 +365,13 @@ void Capture::newFITS(IBLOB *bp)
     {
         calibrationState = CALIBRATE_NONE;
 
-        FITSImage *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
-        FITSImage *currentImage   = targetChip->getImage(FITS_NORMAL);
+        FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
+        FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+
+        FITSImage *image_data = currentImage->getImageData();
 
         if (calibrateImage && currentImage)
-            currentImage->subtract(calibrateImage);
+            image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
     }
 
     if (seqTotalCount < 0)

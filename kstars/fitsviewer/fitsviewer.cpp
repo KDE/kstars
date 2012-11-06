@@ -66,12 +66,13 @@
 #endif
 
 #include "fitstab.h"
-#include "fitsimage.h"
+#include "fitsview.h"
 #include "fitshistogram.h"
 #include "ksutils.h"
 #include "Options.h"
 
-QStringList FITSViewer::filterTypes = QStringList() << "Auto Stretch" << "High Contrast" << "Equalize" << "High Pass";
+QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
+                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass");
 
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
@@ -273,8 +274,8 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         fitsImages[currentIndex]->getImage()->updateFrame();
 
     if (markStars)
-        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.",fitsImages[currentIndex]->getImage()->getDetectedStars(),
-                              fitsImages[currentIndex]->getImage()->getDetectedStars()), FITS_MESSAGE);
+        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.",fitsImages[currentIndex]->getImage()->getImageData()->getDetectedStars(),
+                              fitsImages[currentIndex]->getImage()->getImageData()->getDetectedStars()), FITS_MESSAGE);
     else
         updateStatusBar("", FITS_MESSAGE);
 
@@ -540,7 +541,7 @@ void FITSViewer::applyFilter(int ftype)
 
 }
 
-FITSImage * FITSViewer::getImage(int fitsUID)
+FITSView * FITSViewer::getImage(int fitsUID)
 {
     if (fitsUID < 0 || fitsUID >= fitsImages.size())
         return NULL;

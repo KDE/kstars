@@ -16,7 +16,7 @@
 #include "vect.h"
 #include "matr.h"
 
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #define DEF_SQR_0	(16-0)
 #define DEF_SQR_1	(32-0)
@@ -121,7 +121,7 @@ void cgmath::set_buffer(float *buffer)
     pdata = buffer;
 }
 
-void cgmath::set_image(FITSImage *image)
+void cgmath::set_image(FITSView *image)
 {
     pimage = image;
 
@@ -602,7 +602,7 @@ Vector cgmath::find_star_local_pos( void ) const
 	switch( square_alg_idx )
 	{
 
-    // Using FITSImage centroid algorithm by Jasem Mutlaq
+    // Using FITSView centroid algorithm by Jasem Mutlaq
     case CENTROID_THRESHOLD:
     {
         float center_x=-1, center_y=-1;

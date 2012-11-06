@@ -20,7 +20,7 @@
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #include <basedevice.h>
 
@@ -301,7 +301,9 @@ void Focus::newFITS(IBLOB *bp)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    FITSImage *targetImage = targetChip->getImage(FITS_FOCUS);
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+
+    FITSImage *image_data = targetImage->getImageData();
 
     currentCCD->disconnect(this);
 
@@ -311,9 +313,9 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
-    targetImage->findStars();
+    image_data->findStars();
 
-    double currentHFR= targetImage->getHFR(HFR_MAX);
+    double currentHFR= image_data->getHFR(HFR_MAX);
 
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
