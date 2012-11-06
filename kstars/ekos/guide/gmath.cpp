@@ -125,8 +125,10 @@ void cgmath::set_image(FITSView *image)
 {
     pimage = image;
 
-    set_buffer(pimage->getImageBuffer());
-    set_video_params(pimage->getWidth(), pimage->getHeight());
+    FITSImage *image_data = pimage->getImageData();
+
+    set_buffer(image_data->getImageBuffer());
+    set_video_params(image_data->getWidth(), image_data->getHeight());
 }
 
 float *cgmath::get_data_buffer( int *width, int *height, int *length, int *size )
@@ -611,10 +613,11 @@ Vector cgmath::find_star_local_pos( void ) const
         int x2=square_pos.x + square_size;
         int y1=square_pos.y;
         int y2=square_pos.y + square_size;
+        FITSImage *image_data = pimage->getImageData();
 
         //qDebug() << "Search Region: X1: " << x1 << ", X2: " << x2 << " , Y1: " << y1 << " , Y2: " << y2 << endl;
 
-        foreach(Edge *center, pimage->getStarCenters())
+        foreach(Edge *center, image_data->getStarCenters())
         {
 
             //qDebug() << "Star X: " << center->x << ", Y: " << center->y << endl;
