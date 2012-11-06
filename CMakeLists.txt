@@ -18,7 +18,7 @@ macro_bool_to_01(CFITSIO_FOUND HAVE_CFITSIO_H)
 macro_log_feature(CFITSIO_FOUND "libcfitsio0" "Support for the FITS (Flexible Image Transport System) data format in KStars." "http://indi.sf.net" FALSE "3.09" "")
 
 # INDI is a Linux-specific addon
-set(INDI_MINIMUM_VERSION 0.9.5)
+set(INDI_MINIMUM_VERSION 0.9.6)
 IF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 macro_optional_find_package(INDI ${INDI_MINIMUM_VERSION})
 macro_bool_to_01(INDI_FOUND HAVE_INDI_H)
