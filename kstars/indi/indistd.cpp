@@ -9,25 +9,24 @@
     Handle INDI Standard properties.
  */
 
-#include "indistd.h"
-#include "indicommon.h"
-#include "clientmanager.h"
-#include "driverinfo.h"
-
-
-#include "skypoint.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "skymap.h"
-#include "Options.h"
-
-
 #include <basedevice.h>
 
 #include <QDebug>
 
 #include <KMessageBox>
 #include <KStatusBar>
+
+#include "indistd.h"
+#include "indicommon.h"
+#include "clientmanager.h"
+#include "driverinfo.h"
+#include "deviceinfo.h"
+
+#include "skypoint.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "Options.h"
 
 const int MAX_FILENAME_LEN = 1024;
 
@@ -43,21 +42,23 @@ GDSetCommand::GDSetCommand(INDI_TYPE inPropertyType, const QString &inProperty, 
     elementValue = qValue;
 }
 
-GenericDevice::GenericDevice(DriverInfo *idv)
+
+GenericDevice::GenericDevice(DeviceInfo *idv)
 {
     driverTimeUpdated = false;
     driverLocationUpdated = false;
     connected = false;
 
-    driverInfo        = idv;
-
     Q_ASSERT(idv != NULL);
 
+    deviceInfo        = idv;
+    driverInfo        = idv->getDriverInfo();
     baseDevice        = idv->getBaseDevice();
-    clientManager     = idv->getClientManager();
+    clientManager     = driverInfo->getClientManager();
 
     dType         = KSTARS_UNKNOWN;
 }
+
 
 GenericDevice::~GenericDevice()
 {
@@ -627,7 +628,7 @@ DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
 {
     interfacePtr = iPtr;
 
-    baseDevice    = interfacePtr->getDriverInfo()->getBaseDevice();
+    baseDevice    = interfacePtr->getBaseDevice();
     clientManager = interfacePtr->getDriverInfo()->getClientManager();
 }
 
@@ -703,6 +704,11 @@ DeviceFamily DeviceDecorator::getType()
 DriverInfo * DeviceDecorator::getDriverInfo()
 {
     return interfacePtr->getDriverInfo();
+}
+
+DeviceInfo * DeviceDecorator::getDeviceInfo()
+{
+    return interfacePtr->getDeviceInfo();
 }
 
 const char * DeviceDecorator::getDeviceName()

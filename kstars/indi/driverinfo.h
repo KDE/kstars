@@ -1,7 +1,7 @@
 #ifndef DRIVERINFO_H
 #define DRIVERINFO_H
 
-/*  INDI Device
+/*  INDI Driver Info
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This application is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 class DriverManager;
 class ServerManager;
 class ClientManager;
+class DeviceInfo;
 
 class DriverInfo : public QObject
 {
@@ -62,6 +63,9 @@ public:
     void setUserPort(const QString &inUserPort);
     const QString & getUserPort() { return userPort;}
 
+    void setSkeletonFile(const QString &inSkeleton) { skelFile = inSkeleton; }
+    const QString &getSkeletonFile() { return skelFile; }
+
     void setServerState(bool inState);
     bool getServerState() { return serverState;}
 
@@ -74,8 +78,12 @@ public:
     const QString &getHost() { return hostname; }
     const QString &getPort() { return port; }
 
-    void setBaseDevice(INDI::BaseDevice *idv) { baseDevice = idv;}
-    INDI::BaseDevice* getBaseDevice() { return baseDevice; }
+    //void setBaseDevice(INDI::BaseDevice *idv) { baseDevice = idv;}
+    //INDI::BaseDevice* getBaseDevice() { return baseDevice; }
+
+    void addDevice(DeviceInfo *idv);
+    DeviceInfo* getDevice(const QString &deviceName);
+    QList<DeviceInfo *> getDevices() { return devices; }
 
 private:
 
@@ -86,6 +94,7 @@ private:
     QString driver;                     // Exec for the driver
     QString version;                    // Version of the driver (optional)
     QString userPort;                   // INDI server port as the user wants it.
+    QString skelFile;                   // Skeleton file, if any;
 
     QString port;                       // INDI Host port
     QString hostname;                   // INDI Host hostname
@@ -99,7 +108,8 @@ private:
     ServerManager *serverManager;       // Who is managing this device?
     ClientManager *clientManager;       // Any GUI client handling this device?
 
-    INDI::BaseDevice *baseDevice;       // Pointer to base device, if any.
+    //INDI::BaseDevice *baseDevice;       // Pointer to base device, if any.
+    QList<DeviceInfo *> devices;
 
 signals:
     void deviceStateChanged(DriverInfo *);

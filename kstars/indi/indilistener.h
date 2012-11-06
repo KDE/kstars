@@ -20,6 +20,7 @@
 class ClientManager;
 class FITSViewer;
 class DriverInfo;
+class DeviceInfo;
 
 class INDIListener : public QObject
 {
@@ -58,13 +59,13 @@ public slots:
 
     void registerProperty(INDI::Property *prop);
     void removeProperty(INDI::Property *prop);
-    void processDevice(DriverInfo *dv);
+    void processDevice(DeviceInfo *dv);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);
     void processNumber(INumberVectorProperty *nvp);
     void processLight(ILightVectorProperty *lvp);
     void processBLOB(IBLOB *bp);
-    void removeDevice(DriverInfo *dv);
+    void removeDevice(DeviceInfo *dv);
 
 signals:
     void newDevice(ISD::GDInterface*);

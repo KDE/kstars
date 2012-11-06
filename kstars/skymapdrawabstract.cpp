@@ -201,7 +201,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 
 
 
-        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
+        INDI::BaseDevice *bd = gd->getBaseDevice();
 
         if (bd == NULL)
             continue;

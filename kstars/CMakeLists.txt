@@ -8,6 +8,7 @@ if (CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
     fitsviewer/fitsimage.cpp
+    fitsviewer/fitsview.cpp
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp
     fitsviewer/fitstab.cpp
@@ -28,6 +29,7 @@ if (INDI_FOUND)
     indi/clientmanager.cpp
     indi/guimanager.cpp
     indi/driverinfo.cpp
+    indi/deviceinfo.cpp
     indi/indidevice.cpp
     indi/indigroup.cpp
     indi/indiproperty.cpp

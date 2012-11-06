@@ -110,9 +110,10 @@ namespace KSUtils {
      *@param Dec The J2000.0 Declination of the point
      *@param width The width of the image in arcminutes
      *@param height The height of the image in arcminutes
+     *@param type The image type, either gif or fits.
      *@note This method resets height and width to fall within the range accepted by DSS
      */
-    QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0 );
+    QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0, const QString & type = "gif");
 
     /**
      *@short Return a string corresponding to an angle specifying direction

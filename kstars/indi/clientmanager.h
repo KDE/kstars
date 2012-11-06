@@ -15,6 +15,7 @@
 
 #include <QObject>
 
+class DeviceInfo;
 class DriverInfo;
 class ServerManager;
 
@@ -61,7 +62,7 @@ signals:
     void connectionSuccessful();
     void connectionFailure(ClientManager *);
 
-    void newINDIDevice(DriverInfo *dv);
+    void newINDIDevice(DeviceInfo *dv);
 
     void newINDIProperty(INDI::Property *prop);
     void removeINDIProperty(INDI::Property *prop);
@@ -76,7 +77,7 @@ signals:
     void newTelescope();
     void newCCD();
 
-    void INDIDeviceRemoved(DriverInfo *dv);
+    void INDIDeviceRemoved(DeviceInfo *dv);
 
 
 };

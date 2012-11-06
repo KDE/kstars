@@ -25,7 +25,7 @@
 #include "drivermanager.h"
 #include "servermanager.h"
 #include "driverinfo.h"
-
+#include "deviceinfo.h"
 
 ClientManager::ClientManager()
 {
@@ -52,46 +52,22 @@ bool ClientManager::isDriverManaged(DriverInfo *di)
 
 void ClientManager::newDevice(INDI::BaseDevice *dp)
 {
-
     setBLOBMode(B_ALSO, dp->getDeviceName());
 
     foreach(DriverInfo *dv, managedDrivers)
     {
-        if (dv->getUniqueLabel() == dp->getDeviceName() || dv->getDriverSource() == HOST_SOURCE)
+        if (dv->getUniqueLabel() == dp->getDeviceName() ||
+                QString(dp->getDeviceName()).startsWith(dv->getName(), Qt::CaseInsensitive) || dv->getDriverSource() == HOST_SOURCE)
         {
-            if (dv->getDriverSource() == HOST_SOURCE)
-            {
-                DriverInfo *drv = new DriverInfo(dv->getName());
+            dv->setUniqueLabel(dp->getDeviceName());
 
-                drv->setDriverSource(dv->getDriverSource());
-
-                drv->setServerState(dv->getServerState());
-
-                drv->setClientState(dv->getClientState());
-
-                drv->setClientManager(this);
-
-                drv->setServerManager(dv->getServerManager());
-
-                drv->setHostParameters(dv->getHost(), dv->getPort());
-
-                drv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dp->getDeviceName()));
-
-                drv->setBaseDevice(dp);
-
-                managedDrivers.append(drv);
-
-                emit newINDIDevice(drv);
-                return;
-            }
-            else
-            {
-                dv->setBaseDevice(dp);
-                emit newINDIDevice(dv);
-                return;
-            }
+            DeviceInfo *devInfo = new DeviceInfo(dv, dp);
+            dv->addDevice(devInfo);
+            emit newINDIDevice(devInfo);
+            return;
         }
     }
+
 }
 
 void ClientManager::newProperty(INDI::Property *prop)
@@ -104,7 +80,6 @@ void ClientManager::newProperty(INDI::Property *prop)
         emit newCCD();
 
     emit newINDIProperty(prop);
-
 }
 
 void ClientManager::removeProperty(INDI::Property *prop)
@@ -158,14 +133,15 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
 
     dv->setClientState(false);
 
-    emit INDIDeviceRemoved(dv);
+    foreach(DeviceInfo *di, dv->getDevices())
+        emit INDIDeviceRemoved(di);
 
     foreach(DriverInfo *dv, managedDrivers)
     {
         if (dv->getDriverSource() == HOST_SOURCE)
         {
             managedDrivers.removeOne(dv);
-            emit INDIDeviceRemoved(dv);
+            //emit INDIDeviceRemoved(dv);
             delete (dv);
         }
     }

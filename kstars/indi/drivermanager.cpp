@@ -1045,6 +1045,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     QString version;
     QString name;
     QString port;
+    QString skel;
     //double focal_length (-1), aperture (-1);
 
 
@@ -1061,6 +1062,12 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         ap = findXMLAtt(root, "port");
         if (ap)
             port = valuXMLAtt(ap);
+
+        // Search for skel file, if any
+        // Search for optional port attribute
+        ap = findXMLAtt(root, "skel");
+        if (ap)
+            skel = valuXMLAtt(ap);
 
         // Let's look for telescope-specific attributes: focal length and aperture
         /*ap = findXMLAtt(root, "focal_length");
@@ -1112,7 +1119,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     dv->setTreeLabel(label);
     dv->setVersion(version);
     dv->setDriver(driver);
-
+    dv->setSkeletonFile(skel);
     dv->setType(groupType);
 
     dv->setDriverSource(driverSource);
