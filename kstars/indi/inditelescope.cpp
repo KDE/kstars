@@ -203,23 +203,20 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
 
     INumber *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL);
     INumberVectorProperty *EqProp(NULL), *HorProp(NULL);
+    double currentRA=0, currentDEC=0, currentAlt=0, currentAz=0;
     bool useJ2000 (false);
 
-    EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD_REQUEST");
+    EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == NULL)
     {
-    // Backward compatibility
-        EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
-        if (EqProp == NULL)
-    {
     // J2000 Property
-        EqProp = baseDevice->getNumber("EQUATORIAL_COORD_REQUEST");
+        EqProp = baseDevice->getNumber("EQUATORIAL_COORD");
         if (EqProp)
             useJ2000 = true;
-        }
+
     }
 
-    HorProp = baseDevice->getNumber("HORIZONTAL_COORD_REQUEST");
+    HorProp = baseDevice->getNumber("HORIZONTAL_COORD");
 
     if (EqProp && EqProp->p == IP_RO)
         EqProp = NULL;
@@ -239,6 +236,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
            if (useJ2000)
                 ScopeTarget->apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
 
+              currentRA  = RAEle->value;
+              currentDEC = DecEle->value;
               RAEle->value  = ScopeTarget->ra().Hours();
               DecEle->value = ScopeTarget->dec().Degrees();
        }
@@ -250,6 +249,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 AltEle = IUFindNumber(HorProp,"ALT");
                 if (!AltEle) return false;
 
+            currentAz  = AzEle->value;
+            currentAlt = AltEle->value;
             AzEle->value  = ScopeTarget->az().Degrees();
             AltEle->value = ScopeTarget->alt().Degrees();
         }
@@ -259,9 +260,17 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             return false;
 
         if (EqProp)
+        {
             clientManager->sendNewNumber(EqProp);
+            RAEle->value = currentRA;
+            DecEle->value = currentDEC;
+        }
         if (HorProp)
+        {
             clientManager->sendNewNumber(HorProp);
+            AzEle->value  = currentAz;
+            AltEle->value = currentAlt;
+        }
 
         return true;
 
