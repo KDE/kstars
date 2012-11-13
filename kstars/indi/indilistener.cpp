@@ -151,28 +151,28 @@ void INDIListener::registerProperty(INDI::Property *prop)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName() ))
         {
-            if ( gd->getType() != KSTARS_TELESCOPE && (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(prop->getName(), "HORIZONTAL_COORD")) )
+            if ( gd->getType() == KSTARS_UNKNOWN && (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(prop->getName(), "HORIZONTAL_COORD")) )
             {
                 devices.removeOne(gd);
                 gd = new ISD::Telescope(gd);
                 devices.append(gd);
                 emit newTelescope(gd);
              }
-            else if (gd->getType() != KSTARS_CCD && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
+            else if (gd->getType() == KSTARS_UNKNOWN && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
             {
                 devices.removeOne(gd);
                 gd = new ISD::CCD(gd);
                 devices.append(gd);
                 emit newCCD(gd);
             }
-            else if (gd->getType() != KSTARS_FILTER && !strcmp(prop->getName(), "FILTER_SLOT"))
+            else if (gd->getType() == KSTARS_UNKNOWN && !strcmp(prop->getName(), "FILTER_SLOT"))
             {
                 devices.removeOne(gd);
                 gd = new ISD::Filter(gd);
                 devices.append(gd);
                 emit newFilter(gd);
             }
-            else if (gd->getType() != KSTARS_FOCUSER && !strcmp(prop->getName(), "FOCUS_MOTION"))
+            else if (gd->getType() == KSTARS_UNKNOWN && !strcmp(prop->getName(), "FOCUS_MOTION"))
             {
                 devices.removeOne(gd);
                 gd = new ISD::Focuser(gd);
