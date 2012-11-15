@@ -540,19 +540,23 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
 
                     float center = avg/sum;
 
-                    int i_center = round(center);
 
-                    Edge *newEdge = new Edge();
+                    if (center > 0)
+                    {
+                        int i_center = round(center);
 
-                    newEdge->x          = center;
-                    newEdge->y          = i;
-                    newEdge->scanned    = 0;
-                    newEdge->val        = image_buffer[i_center+(i*stats.dim[0])] - stats.min;
-                    newEdge->width      = pixelRadius;
-                    newEdge->HFR        = 0;
-                    newEdge->sum        = sum;
+                        Edge *newEdge = new Edge();
 
-                    edges.append(newEdge);
+                        newEdge->x          = center;
+                        newEdge->y          = i;
+                        newEdge->scanned    = 0;
+                        newEdge->val        = image_buffer[i_center+(i*stats.dim[0])] - stats.min;
+                        newEdge->width      = pixelRadius;
+                        newEdge->HFR        = 0;
+                        newEdge->sum        = sum;
+
+                        edges.append(newEdge);
+                    }
 
                 }
 

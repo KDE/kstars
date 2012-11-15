@@ -165,18 +165,26 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 devices.append(gd);
                 emit newCCD(gd);
             }
-            else if (gd->getType() == KSTARS_UNKNOWN && !strcmp(prop->getName(), "FILTER_SLOT"))
+            else if (!strcmp(prop->getName(), "FILTER_SLOT"))
             {
-                devices.removeOne(gd);
-                gd = new ISD::Filter(gd);
-                devices.append(gd);
-                emit newFilter(gd);
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::Filter(gd);
+                    devices.append(gd);
+                }
+
+                    emit newFilter(gd);
             }
-            else if (gd->getType() == KSTARS_UNKNOWN && !strcmp(prop->getName(), "FOCUS_MOTION"))
+            else if (!strcmp(prop->getName(), "FOCUS_MOTION"))
             {
-                devices.removeOne(gd);
-                gd = new ISD::Focuser(gd);
-                devices.append(gd);
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::Focuser(gd);
+                    devices.append(gd);
+                }
+
                 emit newFocuser(gd);
             }
 

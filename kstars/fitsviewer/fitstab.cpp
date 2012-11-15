@@ -107,6 +107,9 @@ bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
         image_data->setHistogram(histogram);
         image_data->applyFilter(filter);
 
+        if (filter != FITS_NONE)
+            image->rescale(ZOOM_KEEP_LEVEL);
+
         if (viewer->isStarsMarked())
             image->toggleStars(true);
 

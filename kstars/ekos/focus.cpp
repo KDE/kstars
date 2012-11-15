@@ -190,6 +190,8 @@ void Focus::stopFocus()
     inAutoFocus = false;
     inFocusLoop = false;
 
+    currentCCD->disconnect(this);
+
     resetButtons();
 
     absIterations = 0;

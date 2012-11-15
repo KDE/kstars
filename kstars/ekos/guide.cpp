@@ -99,7 +99,7 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
 void Guide::addGuideHead()
 {
     // Let's just make sure
-    if (currentCCD->hasGuideHead())
+    if (currentCCD && currentCCD->hasGuideHead())
     {
         guiderCombo->clear();
         guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
