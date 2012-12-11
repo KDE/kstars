@@ -423,7 +423,7 @@ void INDIDriver::updateMenuActions()
         foreach (INDI_D *device, dev_managers->indi_dev)
         {
 
-            imgProp = device->findProp("CCD_EXPOSURE_REQUEST");
+            imgProp = device->findProp("CCD_EXPOSURE");
             if (imgProp && device->isOn())
             {
                 activeImaging = true;
@@ -932,7 +932,7 @@ void INDIDriver::saveHosts()
 
     if ( !file.open( QIODevice::WriteOnly))
     {
-        QString message = i18n( "unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
+        QString message = i18n( "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return;
     }

@@ -20,12 +20,12 @@
 
 #include "indi/driverinfo.h"
 #include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #include "guide/rcalibration.h"
 #include "guide/gmath.h"
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 namespace Ekos
 {
@@ -37,10 +37,9 @@ Guide::Guide() : QWidget()
     currentCCD = NULL;
     currentTelescope = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
+    useGuideHead = false;
 
     tabWidget = new QTabWidget(this);
-
-    telescopeGuide = true;
 
     tabLayout->addWidget(tabWidget);
 
@@ -55,8 +54,8 @@ Guide::Guide() : QWidget()
     guider->set_math(pmath);
 
 
-    tabWidget->addTab(calibration, i18n("%1").arg(calibration->windowTitle()));
-    tabWidget->addTab(guider, i18n("%1").arg(guider->windowTitle()));
+    tabWidget->addTab(calibration, calibration->windowTitle());
+    tabWidget->addTab(guider, guider->windowTitle());
     tabWidget->setTabEnabled(1, false);
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
@@ -78,13 +77,49 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
     currentCCD = (ISD::CCD *) newCCD;
 
     guiderCombo->addItem(currentCCD->getDeviceName());
+    useGuideHead = false;
 
     connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
-    INumberVectorProperty * nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
+    syncCCDInfo();
 
-    if (nvp == NULL)
-       nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
+    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+
+}
+
+void Guide::setTelescope(ISD::GDInterface *newTelescope)
+{
+    currentTelescope = (ISD::Telescope*) newTelescope;
+
+    syncTelescopeInfo();
+
+
+}
+
+void Guide::addGuideHead()
+{
+    // Let's just make sure
+    if (currentCCD && currentCCD->hasGuideHead())
+    {
+        guiderCombo->clear();
+        guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
+        useGuideHead = true;
+        syncCCDInfo();
+    }
+
+}
+
+void Guide::syncCCDInfo()
+{
+    INumberVectorProperty * nvp = NULL;
+
+    if (currentCCD == NULL)
+        return;
+
+    if (useGuideHead)
+        nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
+    else
+        nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
 
     if (nvp)
     {
@@ -106,28 +141,43 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
-        if (currentCCD->getFrame(&x,&y,&w,&h))
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+        if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
     }
 
+    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
 }
 
-void Guide::setTelescope(ISD::GDInterface *newTelescope)
+void Guide::syncTelescopeInfo()
 {
-    currentTelescope = (ISD::Telescope*) newTelescope;
-
     INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
-        if (np)
-            aperture = np->value;
+        INumber *np = IUFindNumber(nvp, "GUIDER_APERTURE");
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-        if (np)
+        if (np && np->value != 0)
+            aperture = np->value;
+        else
+        {
+            np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+            if (np)
+                aperture = np->value;
+        }
+
+        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
+        if (np && np->value != 0)
             focal_length = np->value;
+        else
+        {
+            np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+            if (np)
+                focal_length = np->value;
+        }
     }
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
@@ -135,13 +185,17 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
-        if (currentCCD->getFrame(&x,&y,&w,&h))
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+        if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
+
     }
 
-    //qDebug() << "ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+    //qDebug() << "SetScope: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+
 }
 
 void Guide::addST4(ISD::ST4 *newST4)
@@ -160,6 +214,8 @@ bool Guide::capture()
 
     double seqExpose = exposureSpin->value();
 
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
     CCDFrameType ccdFrame = FRAME_LIGHT;
 
     if (currentCCD->isConnected() == false)
@@ -170,14 +226,14 @@ bool Guide::capture()
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    currentCCD->setCaptureMode(FITS_GUIDE);
-    currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+    targetChip->setCaptureMode(FITS_GUIDE);
+    targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
-    currentCCD->setFrameType(ccdFrame);
+   targetChip->setFrameType(ccdFrame);
 
-    currentCCD->capture(seqExpose);
+   targetChip->capture(seqExpose);
 
-    return true;
+   return true;
 
 }
 void Guide::newFITS(IBLOB *bp)
@@ -188,11 +244,15 @@ void Guide::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    FITSImage *fitsImage = fv->getImage(currentCCD->getGuideTabID());
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
+    FITSImage *image_data = targetImage->getImageData();
 
-    pmath->set_image(fitsImage);
-    guider->set_image(fitsImage);
-    calibration->set_image(fitsImage);
+    image_data->findStars();
+
+    pmath->set_image(targetImage);
+    guider->set_image(targetImage);
+    calibration->set_image(targetImage);
 
     fv->show();
 
@@ -225,7 +285,7 @@ void Guide::newFITS(IBLOB *bp)
 void Guide::appendLogText(const QString &text)
 {
 
-    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }

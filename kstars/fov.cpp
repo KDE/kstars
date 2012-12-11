@@ -31,15 +31,28 @@ FOV::Shape FOV::intToShape(int s)
     return (s >= FOV::UNKNOWN || s < 0) ? FOV::UNKNOWN : static_cast<FOV::Shape>(s);
 } 
 
-FOV::FOV( const QString &n, float a, float b, Shape sh, const QString &col ) :
-    m_name( n ), m_color( col ), m_sizeX( a ), m_shape( sh )
+FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col )
 { 
+    m_name = n;
+    m_sizeX = a;
     m_sizeY = (b < 0.0) ? a : b;
+
+    m_offsetX     = xoffset;
+    m_offsetY     = yoffset;
+    m_rotation    = rot;
+    m_shape       = sh;
+    m_color       = col;
 } 
 
-FOV::FOV() :
-    m_name( i18n( "No FOV" ) ), m_color( "#FFFFFF" ), m_sizeX( 0.0 ), m_sizeY( 0.0 ), m_shape( SQUARE )
-{}
+FOV::FOV()
+{
+    m_name  = i18n( "No FOV" );
+    m_color = "#FFFFFF";
+
+    m_sizeX = m_sizeY = 0;
+    m_shape = SQUARE;
+    m_offsetX=m_offsetY=m_rotation=0;
+}
 
 void FOV::draw( QPainter &p, float zoomFactor ) {
     p.setPen( QColor( color() ) );
@@ -47,10 +60,23 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     
     p.setRenderHint( QPainter::Antialiasing, Options::useAntialias() );
 
+
     float pixelSizeX = sizeX() * zoomFactor / 57.3 / 60.0;
     float pixelSizeY = sizeY() * zoomFactor / 57.3 / 60.0;
-    QPointF center = p.viewport().center();
-    switch ( shape() ) {
+
+    float offsetXPixelSize = offsetX() * zoomFactor / 57.3 / 60.0;
+    float offsetYPixelSize = offsetY() * zoomFactor / 57.3 / 60.0;
+
+    p.save();
+    p.translate(p.viewport().center());
+
+    p.translate(offsetXPixelSize,  offsetYPixelSize);
+    p.rotate(rotation());
+
+    QPointF center(0,0);
+
+    switch ( shape() )
+    {
     case SQUARE: 
         p.drawRect( center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
         break;
@@ -86,6 +112,8 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     }
     default: ; 
     }
+
+    p.restore();
 }
 
 void FOV::draw(QPainter &p, float x, float y)
@@ -111,15 +139,15 @@ QList<FOV*> FOV::defaults()
 {
     QList<FOV*> fovs;
     fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
-                    558,  558,  CIRCLE,"#AAAAAA")
+                    558,  558, 0,0,0, CIRCLE,"#AAAAAA")
          << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
-                    30,   30,   BULLSEYE,"#AA0000")
+                    30,   30, 0,0,0,   BULLSEYE,"#AA0000")
          << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
-                    60,   60,   CIRCLE,"#AAAAAA")
+                    60,   60, 0,0,0,  CIRCLE,"#AAAAAA")
          << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
-                    2.4,  2.4,  SQUARE,"#AAAAAA")
+                    2.4,  2.4, 0,0,0, SQUARE,"#AAAAAA")
          << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
-                    1.79, 1.79, SQUARE,"#AAAAAA");
+                    1.79, 1.79, 0,0,0, SQUARE,"#AAAAAA");
     return fovs;
 }
 
@@ -137,6 +165,9 @@ void FOV::writeFOVs(const QList<FOV*> fovs)
         ostream << fov->name()  << ':'
                 << fov->sizeX() << ':'
                 << fov->sizeY() << ':'
+                << fov->offsetX() << ':'
+                << fov->offsetY() << ':'
+                << fov->rotation() << ':'
                 << QString::number( fov->shape() ) << ':' //FIXME: is this needed???
                 << fov->color() << endl;
     }
@@ -162,21 +193,10 @@ QList<FOV*> FOV::readFOVs()
             QStringList fields = istream.readLine().split(':');
             bool ok;
             QString name, color;
-            float   sizeX, sizeY;
+            float   sizeX, sizeY, xoffset, yoffset, rot, orient;
             Shape   shape;
-            if( fields.count() == 4 ) {
-                name = fields[0];
-                sizeX = fields[1].toFloat(&ok);
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-                sizeY = sizeX;
-                shape = intToShape( fields[2].toInt(&ok) );
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-                color = fields[3];
-            } else if( fields.count() == 5 ) {
+            if( fields.count() == 8 )
+            {
                 name = fields[0];
                 sizeX = fields[1].toFloat(&ok);
                 if( !ok ) {
@@ -186,15 +206,30 @@ QList<FOV*> FOV::readFOVs()
                 if( !ok ) {
                     return QList<FOV*>();
                 }
-                shape = intToShape( fields[3].toInt(&ok) );
+                xoffset = fields[3].toFloat(&ok);
                 if( !ok ) {
                     return QList<FOV*>();
                 }
-                color = fields[4];
+
+                yoffset = fields[4].toFloat(&ok);
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+
+                rot = fields[5].toFloat(&ok);
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+
+                shape = intToShape( fields[6].toInt(&ok) );
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+                color = fields[7];
             } else {
                 continue;
             }
-            fovs.append( new FOV(name, sizeX, sizeY, shape, color) );
+            fovs.append( new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color) );
         }
     }
     return fovs;

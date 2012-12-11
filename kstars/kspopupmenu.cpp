@@ -46,7 +46,7 @@
 #include "indi/indigroup.h"
 #include "indi/indiproperty.h"
 #include "indi/indielement.h"
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 #endif
 
 #include "skycomponents/constellationboundarylines.h"
@@ -451,7 +451,7 @@ void KSPopupMenu::addINDI()
 
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
+        INDI::BaseDevice *bd = gd->getBaseDevice();
 
         if (bd == NULL)
             continue;

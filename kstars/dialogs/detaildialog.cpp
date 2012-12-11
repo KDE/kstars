@@ -57,7 +57,7 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
 #include "indi/driverinfo.h"
@@ -1018,7 +1018,7 @@ void DetailDialog::centerTelescope()
 
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
+        INDI::BaseDevice *bd = gd->getBaseDevice();
 
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;

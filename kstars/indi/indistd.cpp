@@ -9,25 +9,24 @@
     Handle INDI Standard properties.
  */
 
+#include <basedevice.h>
+
+#include <QDebug>
+
+#include <KMessageBox>
+#include <KStatusBar>
+
 #include "indistd.h"
 #include "indicommon.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
-
+#include "deviceinfo.h"
 
 #include "skypoint.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "Options.h"
-
-
-#include <libindi/basedevice.h>
-
-#include <QDebug>
-
-#include <KMessageBox>
-#include <KStatusBar>
 
 const int MAX_FILENAME_LEN = 1024;
 
@@ -43,21 +42,23 @@ GDSetCommand::GDSetCommand(INDI_TYPE inPropertyType, const QString &inProperty, 
     elementValue = qValue;
 }
 
-GenericDevice::GenericDevice(DriverInfo *idv)
+
+GenericDevice::GenericDevice(DeviceInfo *idv)
 {
     driverTimeUpdated = false;
     driverLocationUpdated = false;
     connected = false;
 
-    driverInfo        = idv;
-
     Q_ASSERT(idv != NULL);
 
+    deviceInfo        = idv;
+    driverInfo        = idv->getDriverInfo();
     baseDevice        = idv->getBaseDevice();
-    clientManager     = idv->getClientManager();
+    clientManager     = driverInfo->getClientManager();
 
     dType         = KSTARS_UNKNOWN;
 }
+
 
 GenericDevice::~GenericDevice()
 {
@@ -100,6 +101,36 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 
             }
             break;
+
+        case KSTARS_FOCUSER:
+            //qDebug() << "device port for CCD!!!!!" << endl;
+            if (Options::focuserPort().isEmpty() == false)
+            {
+                IText *tp = IUFindText(prop->getText(), "PORT");
+                if (tp == NULL)
+                    return;
+
+                IUSaveText(tp, Options::focuserPort().toLatin1().constData());
+
+                clientManager->sendNewText(prop->getText());
+
+            }
+            break;
+
+        case KSTARS_FILTER:
+            //qDebug() << "device port for CCD!!!!!" << endl;
+            if (Options::filterPort().isEmpty() == false)
+            {
+                IText *tp = IUFindText(prop->getText(), "PORT");
+                if (tp == NULL)
+                    return;
+
+                IUSaveText(tp, Options::filterPort().toLatin1().constData());
+
+                clientManager->sendNewText(prop->getText());
+
+           }
+           break;
 
         case KSTARS_CCD:
             //qDebug() << "device port for CCD!!!!!" << endl;
@@ -311,6 +342,54 @@ void GenericDevice::processBLOB(IBLOB* bp)
 
 }
 
+bool GenericDevice::setConfig(INDIConfig tConfig)
+{
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("CONFIG_PROCESS");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *sp = NULL;
+
+    IUResetSwitch(svp);
+
+    switch (tConfig)
+    {
+        case LOAD_LAST_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_LOAD");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+        case SAVE_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_SAVE");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+        case LOAD_DEFAULT_CONFIG:
+        sp = IUFindSwitch(svp, "CONFIG_DEFAULT");
+        if (sp == NULL)
+            return false;
+
+        IUResetSwitch(svp);
+        sp->s = ISS_ON;
+        break;
+
+    }
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+
+}
+
 void GenericDevice::createDeviceInit()
 {
     if ( Options::useTimeUpdate() && Options::useComputerSource())
@@ -444,7 +523,12 @@ bool GenericDevice::runCommand(int command, void *ptr)
         if (nvp == NULL)
             return false;
 
-        nvp->np[0].value = * ( (int *) ptr);
+        int requestedFilter = * ( (int *) ptr);
+
+        if (requestedFilter == nvp->np[0].value)
+            break;
+
+        nvp->np[0].value  = requestedFilter;
 
         clientManager->sendNewNumber(nvp);
       }
@@ -544,7 +628,7 @@ DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
 {
     interfacePtr = iPtr;
 
-    baseDevice    = interfacePtr->getDriverInfo()->getBaseDevice();
+    baseDevice    = interfacePtr->getBaseDevice();
     clientManager = interfacePtr->getDriverInfo()->getClientManager();
 }
 
@@ -607,6 +691,11 @@ void DeviceDecorator::removeProperty(INDI::Property *prop)
 }
 
 
+bool DeviceDecorator::setConfig(INDIConfig tConfig)
+{
+    return interfacePtr->setConfig(tConfig);
+}
+
 DeviceFamily DeviceDecorator::getType()
 {
     return interfacePtr->getType();
@@ -615,6 +704,11 @@ DeviceFamily DeviceDecorator::getType()
 DriverInfo * DeviceDecorator::getDriverInfo()
 {
     return interfacePtr->getDriverInfo();
+}
+
+DeviceInfo * DeviceDecorator::getDeviceInfo()
+{
+    return interfacePtr->getDeviceInfo();
 }
 
 const char * DeviceDecorator::getDeviceName()
@@ -738,7 +832,7 @@ bool ST4::doPulse(GuideDirection dir, int msecs )
 
     clientManager->sendNewNumber(npulse);
 
-    qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
+    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
 
     return true;
 

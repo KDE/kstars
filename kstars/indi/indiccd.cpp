@@ -7,9 +7,13 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <string.h>
+
 #include <KMessageBox>
 #include <KStatusBar>
-#include <libindi/basedevice.h>
+#include <KTemporaryFile>
+
+#include <basedevice.h>
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitscommon.h"
@@ -25,103 +29,85 @@ const int MAX_FILENAME_LEN = 1024;
 namespace ISD
 {
 
-
-CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
+CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType)
 {
-    dType = KSTARS_CCD;
-    batchMode = false;
-    ISOMode   = true;
-    captureMode = FITS_NORMAL;
-    fv          = NULL;
-    captureFilter     = FITS_NONE;
-    streamWindow      = NULL;
-    normalTabID = focusTabID = guideTabID = calibrationTabID = -1;
-    ST4Driver = NULL;
+    baseDevice    = bDevice;
+    clientManager = cManager;
+    type          = cType;
+    batchMode     = false;
+    displayFITS   = true;
 
+    captureMode   = FITS_NORMAL;
+    captureFilter = FITS_NONE;
+
+    normalImage = focusImage = guideImage = calibrationImage = NULL;
 }
 
-CCD::~CCD()
+FITSView * CCDChip::getImage(FITSMode imageType)
 {
-    delete (fv);
-    delete (streamWindow);
-}
-
-void CCD::processLight(ILightVectorProperty *lvp)
-{
-    DeviceDecorator::processLight(lvp);
-}
-
-void CCD::processNumber(INumberVectorProperty *nvp)
-{
-    if (!strcmp(nvp->name, "CCD_FRAME"))
+    switch (imageType)
     {
-        INumber *wd = IUFindNumber(nvp, "WIDTH");
-        INumber *ht = IUFindNumber(nvp, "HEIGHT");
+        case FITS_NORMAL:
+            return normalImage;
+            break;
 
-        if (wd && ht && streamWindow)
-            streamWindow->setSize(wd->value, ht->value);
+        case FITS_FOCUS:
+            return focusImage;
+            break;
 
-        return;
+        case FITS_GUIDE:
+            return guideImage;
+            break;
 
-    }
-    DeviceDecorator::processNumber(nvp);
-}
-
-void CCD::processSwitch(ISwitchVectorProperty *svp)
-{
-    if (!strcmp(svp->name, "VIDEO_STREAM"))
-    {
-        if (streamWindow == NULL)
-        {
-            streamWindow = new StreamWG();
-
-            INumberVectorProperty *ccdFrame = baseDevice->getNumber("CCD_FRAME");
-
-            if (ccdFrame == NULL)
-                return;
-
-            INumber *wd = IUFindNumber(ccdFrame, "WIDTH");
-            INumber *ht = IUFindNumber(ccdFrame, "HEIGHT");
-
-            if (wd && ht)
-                streamWindow->setSize(wd->value, ht->value);
-
-            connect(streamWindow, SIGNAL(destroyed()), this, SLOT(StreamWindowDestroyed()));
-        }
-
-        if (svp->sp[0].s == ISS_ON)
-            streamWindow->enableStream(true);
-        else
-            streamWindow->enableStream(false);
-
-        return;
+        case FITS_CALIBRATE:
+            return calibrationImage;
+            break;
     }
 
-    if (!strcmp(svp->name, "CONNECTION"))
+    return NULL;
+
+}
+
+void CCDChip::setImage(FITSView *image, FITSMode imageType)
+{
+
+    switch (imageType)
     {
-        ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
+        case FITS_NORMAL:
+            normalImage = image;
+            break;
 
-        if (dSwitch && dSwitch->s == ISS_ON && streamWindow != NULL)
-        {
-            streamWindow->enableStream(false);
-            streamWindow->close();
-        }
+        case FITS_FOCUS:
+            focusImage = image;
+            break;
 
+        case FITS_GUIDE:
+            guideImage = image;
+            break;
+
+        case FITS_CALIBRATE:
+            calibrationImage = image;
+            break;
     }
 
-    DeviceDecorator::processSwitch(svp);
-
 }
 
-void CCD::processText(ITextVectorProperty *tvp)
-{
-    DeviceDecorator::processText(tvp);
-}
-
-bool CCD::getFrame(int *x, int *y, int *w, int *h)
+bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
 {
 
-    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_FRAME");
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        break;
+
+    }
 
     if (frameProp == NULL)
         return false;
@@ -156,9 +142,21 @@ bool CCD::getFrame(int *x, int *y, int *w, int *h)
 
 }
 
-bool CCD::setFrame(int x, int y, int w, int h)
+bool CCDChip::setFrame(int x, int y, int w, int h)
 {
-    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_FRAME");
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        break;
+
+    }
 
     if (frameProp == NULL)
         return false;
@@ -186,9 +184,22 @@ bool CCD::setFrame(int x, int y, int w, int h)
 
 }
 
-bool CCD::capture(double exposure)
+bool CCDChip::capture(double exposure)
 {
-    INumberVectorProperty *expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
+    INumberVectorProperty *expProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        expProp = baseDevice->getNumber("CCD_EXPOSURE");
+        break;
+
+      case GUIDE_CCD:
+        expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
+        break;
+
+    }
+
     if (expProp == NULL)
         return false;
 
@@ -199,8 +210,64 @@ bool CCD::capture(double exposure)
     return true;
 }
 
-bool CCD::setFrameType(CCDFrameType fType)
+bool CCDChip::abortExposure()
 {
+    ISwitchVectorProperty *abortProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        abortProp = baseDevice->getSwitch("CCD_ABORT_EXPOSURE");
+        break;
+
+      case GUIDE_CCD:
+        abortProp = baseDevice->getSwitch("GUIDER_ABORT_EXPOSURE");
+        break;
+
+    }
+
+    if (abortProp == NULL)
+        return false;
+
+    ISwitch *abort = IUFindSwitch(abortProp, "ABORT");
+
+    if (abort == NULL)
+        return false;
+
+    abort->s = ISS_ON;
+
+    clientManager->sendNewSwitch(abortProp);
+
+    return true;
+}
+
+bool CCDChip::setFrameType(const QString & name)
+{
+    CCDFrameType fType = FRAME_LIGHT;
+
+    if (name == "FRAME_LIGHT" || name == "Light")
+        fType = FRAME_LIGHT;
+    else if (name == "FRAME_DARK" || name == "Dark")
+        fType = FRAME_DARK;
+    else if (name == "FRAME_BIAS" || name == "Bias")
+        fType = FRAME_BIAS;
+    else if (name == "FRAME_FLAT" || name == "Flat")
+        fType = FRAME_FLAT;
+    else
+    {
+        qDebug() << name << " frame type is unknown." << endl;
+        return false;
+    }
+
+    return setFrameType(fType);
+
+}
+
+bool CCDChip::setFrameType(CCDFrameType fType)
+{
+    if (type == GUIDE_CCD)
+        return false;
+
     ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
     if (frameProp == NULL)
         return false;
@@ -233,8 +300,47 @@ bool CCD::setFrameType(CCDFrameType fType)
     return true;
 }
 
-bool CCD::setBinning(CCDBinType binType)
+CCDFrameType CCDChip::getFrameType()
 {
+
+    CCDFrameType fType = FRAME_LIGHT;
+
+    if (type == GUIDE_CCD)
+        return fType;
+
+    ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
+    if (frameProp == NULL)
+        return fType;
+
+    ISwitch *ccdFrame = NULL;
+
+    ccdFrame = IUFindOnSwitch(frameProp);
+
+    if (ccdFrame == NULL)
+    {
+        qDebug() << "Cannot find active frame in CCD!" << endl;
+        return fType;
+    }
+
+
+    if (!strcmp(ccdFrame->name, "FRAME_LIGHT"))
+        fType = FRAME_LIGHT;
+    else if (!strcmp(ccdFrame->name, "FRAME_DARK"))
+            fType = FRAME_DARK;
+    else if (!strcmp(ccdFrame->name, "FRAME_FLAT"))
+            fType = FRAME_FLAT;
+    else if (!strcmp(ccdFrame->name, "FRAME_BIAS"))
+            fType = FRAME_BIAS;
+
+    return fType;
+
+}
+
+bool CCDChip::setBinning(CCDBinType binType)
+{
+    if (type == GUIDE_CCD)
+        return false;
+
     switch (binType)
     {
         case SINGLE_BIN:
@@ -254,9 +360,12 @@ bool CCD::setBinning(CCDBinType binType)
     return false;
 }
 
-CCDBinType CCD::getBinning()
+CCDBinType CCDChip::getBinning()
 {
     CCDBinType binType = SINGLE_BIN;
+
+    if (type == GUIDE_CCD)
+        return binType;
 
     INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
     if (binProp == NULL)
@@ -293,8 +402,11 @@ CCDBinType CCD::getBinning()
 
 }
 
-bool CCD::getBinning(int *bin_x, int *bin_y)
+bool CCDChip::getBinning(int *bin_x, int *bin_y)
 {
+    if (type == GUIDE_CCD)
+        return false;
+
     INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
     if (binProp == NULL)
         return false;
@@ -313,8 +425,11 @@ bool CCD::getBinning(int *bin_x, int *bin_y)
     return true;
 }
 
-bool CCD::setBinning(int bin_x, int bin_y)
+bool CCDChip::setBinning(int bin_x, int bin_y)
 {
+    if (type == GUIDE_CCD)
+        return false;
+
     INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
     if (binProp == NULL)
         return false;
@@ -342,6 +457,151 @@ bool CCD::setBinning(int bin_x, int bin_y)
 
 }
 
+
+CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
+{
+    dType = KSTARS_CCD;
+    ISOMode   = true;
+    HasGuideHead = false;
+    fv          = NULL;
+    streamWindow      = NULL;
+    ST4Driver = NULL;
+    seqCount  = 0 ;
+
+    primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
+
+    normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
+    guideChip   = NULL;
+
+}
+
+CCD::~CCD()
+{
+    delete (fv);
+    delete (streamWindow);
+    delete (primaryChip);
+    delete (guideChip);
+}
+
+void CCD::registerProperty(INDI::Property *prop)
+{
+    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
+    {
+        HasGuideHead = true;
+        guideChip = new CCDChip(baseDevice, clientManager, CCDChip::GUIDE_CCD);
+    }
+    else if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
+    {
+        ISwitchVectorProperty *ccdFrame = prop->getSwitch();
+
+        for (int i=0; i < ccdFrame->nsp; i++)
+            primaryChip->addFrameLabel(ccdFrame->sp[i].label);
+    }
+
+    DeviceDecorator::registerProperty(prop);
+}
+
+void CCD::processLight(ILightVectorProperty *lvp)
+{
+    DeviceDecorator::processLight(lvp);
+}
+
+void CCD::processNumber(INumberVectorProperty *nvp)
+{
+    if (!strcmp(nvp->name, "CCD_FRAME"))
+    {
+        INumber *wd = IUFindNumber(nvp, "WIDTH");
+        INumber *ht = IUFindNumber(nvp, "HEIGHT");
+
+        if (wd && ht && streamWindow)
+            streamWindow->setSize(wd->value, ht->value);
+
+        emit numberUpdated(nvp);
+
+        return;
+
+    }
+
+    if (!strcmp(nvp->name, "CCD_EXPOSURE"))
+    {
+        if (nvp->s == IPS_BUSY)
+        {
+            INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
+            if (np)
+                emit newExposureValue(primaryChip, np->value);
+        }
+    }
+
+    if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
+    {
+        if (nvp->s == IPS_BUSY)
+        {
+            INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
+            if (np)
+                emit newExposureValue(guideChip, np->value);
+        }
+    }
+
+    DeviceDecorator::processNumber(nvp);
+}
+
+void CCD::processSwitch(ISwitchVectorProperty *svp)
+{
+    if (!strcmp(svp->name, "VIDEO_STREAM"))
+    {
+        if (streamWindow == NULL)
+        {
+            streamWindow = new StreamWG();
+
+            INumberVectorProperty *ccdFrame = baseDevice->getNumber("CCD_FRAME");
+
+            if (ccdFrame == NULL)
+                return;
+
+            INumber *wd = IUFindNumber(ccdFrame, "WIDTH");
+            INumber *ht = IUFindNumber(ccdFrame, "HEIGHT");
+
+            if (wd && ht)
+                streamWindow->setSize(wd->value, ht->value);
+
+            connect(streamWindow, SIGNAL(destroyed()), this, SLOT(StreamWindowDestroyed()));
+        }
+
+        if (svp->sp[0].s == ISS_ON)
+            streamWindow->enableStream(true);
+        else
+            streamWindow->enableStream(false);
+
+
+        emit switchUpdated(svp);
+
+        return;
+    }
+
+    if (!strcmp(svp->name, "CONNECTION"))
+    {
+        ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
+
+        if (dSwitch && dSwitch->s == ISS_ON && streamWindow != NULL)
+        {
+            streamWindow->enableStream(false);
+            streamWindow->close();
+        }
+
+        emit switchUpdated(svp);
+
+    }
+
+    DeviceDecorator::processSwitch(svp);
+
+}
+
+void CCD::processText(ITextVectorProperty *tvp)
+{
+    DeviceDecorator::processText(tvp);
+}
+
+
 void CCD::processBLOB(IBLOB* bp)
 {
 
@@ -363,10 +623,17 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }
 
+    CCDChip *targetChip = NULL;
+
+    if (!strcmp(bp->name, "CCD2"))
+        targetChip = guideChip;
+    else
+        targetChip = primaryChip;
+
      // It's either FITS or OTHER
-    char file_template[MAX_FILENAME_LEN];
     QString currentDir = Options::fitsDir();
-    int fd, nr, n=0;
+    int nr, n=0;
+    KTemporaryFile tmpFile;
 
     if (currentDir.endsWith('/'))
         currentDir.truncate(sizeof(currentDir)-1);
@@ -374,55 +641,61 @@ void CCD::processBLOB(IBLOB* bp)
     QString filename(currentDir + '/');
 
     // Create file name for FITS to be shown in FITS Viewer
-    if (batchMode == false && Options::showFITS())
+    if (targetChip->isBatchMode() == false)
     {
-        strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
-        if ((fd = mkstemp(file_template)) < 0)
-        {
-            KMessageBox::error(NULL, i18n("Error making temporary filename."));
-            return;
-        }
-        filename = QString(file_template);
-        close(fd);
+
+        tmpFile.setPrefix("fits");
+        tmpFile.setAutoRemove(false);
+
+         if (!tmpFile.open())
+         {
+                 qDebug() << "Error: Unable to open " << filename << endl;
+                 return;
+         }
+
+         QDataStream out(&tmpFile);
+
+         for (nr=0; nr < (int) bp->size; nr += n)
+             n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+
+         tmpFile.close();
+
+         filename = tmpFile.fileName();
+
     }
     // Create file name for others
     else
     {
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-            if (batchMode)
-            {
-                if (ISOMode == false)
-                    filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
-                else
-                    filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(QString().sprintf("%02d", seqCount)).arg(ts);
-            }
-            else
-                filename += QString("file_") + ts + ".fits";
+         if (ISOMode == false)
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
+          else
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(QString().sprintf("%02d", seqCount)).arg(ts);
 
-            //seqCount++;
+            QFile fits_temp_file(filename);
+            if (!fits_temp_file.open(QIODevice::WriteOnly))
+            {
+                    qDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+                    return;
+            }
+
+            QDataStream out(&fits_temp_file);
+
+            for (nr=0; nr < (int) bp->size; nr += n)
+                n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+
+            fits_temp_file.close();
     }
 
-       QFile fits_temp_file(filename);
-        if (!fits_temp_file.open(QIODevice::WriteOnly))
-        {
-                kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
-        return;
-        }
+    addFITSKeywords(filename);
 
-        QDataStream out(&fits_temp_file);
-
-        for (nr=0; nr < (int) bp->size; nr += n)
-            n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
-
-        fits_temp_file.close();
-
-    if (batchMode)
+    if (targetChip->isBatchMode())
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (batchMode == false && Options::showFITS())
+    if (Options::showFITS() && targetChip->showFITS() == true)
     {
         KUrl fileURL(filename);
 
@@ -433,24 +706,22 @@ void CCD::processBLOB(IBLOB* bp)
             connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
-        switch (captureMode)
+        FITSScale captureFilter = targetChip->getCaptureFilter();        
+
+        switch (targetChip->getCaptureMode())
         {
             case FITS_NORMAL:
                 normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
+                targetChip->setImage(fv->getImage(normalTabID), FITS_NORMAL);
                 break;
-
-        case FITS_CALIBRATE:
-            if (calibrationTabID == -1)
-                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-            else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
-                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-            break;
 
             case FITS_FOCUS:
                 if (focusTabID == -1)
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
                 else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+
+                targetChip->setImage(fv->getImage(focusTabID), FITS_FOCUS);
                 break;
 
         case FITS_GUIDE:
@@ -458,6 +729,17 @@ void CCD::processBLOB(IBLOB* bp)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+
+            targetChip->setImage(fv->getImage(guideTabID), FITS_GUIDE);
+            break;
+
+        case FITS_CALIBRATE:
+            if (calibrationTabID == -1)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+            else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+
+            targetChip->setImage(fv->getImage(calibrationTabID), FITS_CALIBRATE);
             break;
 
         }
@@ -471,23 +753,67 @@ void CCD::processBLOB(IBLOB* bp)
 
 }
 
+void CCD::addFITSKeywords(QString filename)
+{
+    int status=0;
+
+    if (filter.isEmpty() == false)
+    {
+        QString key_comment("Filter name");
+        filter.replace(" ", "_");
+
+        fitsfile* fptr=NULL;
+
+        if (fits_open_image(&fptr, filename.toAscii(), READWRITE, &status))
+        {
+            fits_report_error(stderr, status);
+            return;
+        }
+
+        if (fits_update_key_str(fptr, "FILTER", filter.toLatin1().data(), key_comment.toLatin1().data(), &status))
+        {
+            fits_report_error(stderr, status);
+            return;
+        }
+
+        fits_close_file(fptr, &status);
+
+        filter = "";
+    }
+}
+
 void CCD::FITSViewerDestroyed()
 {
     fv = NULL;
-    focusTabID = -1;
-    guideTabID = -1;
-    calibrationTabID = -1;
-
+    normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
 }
 
 void CCD::StreamWindowDestroyed()
 {
-    qDebug() << "Stream windows destroyed " << endl;
     delete(streamWindow);
     streamWindow = NULL;
 }
 
+bool CCD::hasGuideHead()
+{
+    return HasGuideHead;
+}
 
+CCDChip * CCD::getChip(CCDChip::ChipType cType)
+{
+    switch (cType)
+    {
+        case CCDChip::PRIMARY_CCD:
+            return primaryChip;
+            break;
+
+        case CCDChip::GUIDE_CCD:
+            return guideChip;
+            break;
+    }
+
+    return NULL;
+}
 
 
 

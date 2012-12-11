@@ -11,10 +11,11 @@
 
  */
 
-#include <libindi/baseclient.h>
+#include <baseclient.h>
 
 #include <QObject>
 
+class DeviceInfo;
 class DriverInfo;
 class ServerManager;
 
@@ -29,7 +30,7 @@ public:
     void appendManagedDriver(DriverInfo *dv);
     void removeManagedDriver(DriverInfo *dv);
 
-    int size() { return managedDrivers.size(); }
+    int count() { return managedDrivers.count(); }
 
     ServerManager* getServerManager() { return sManager;}
 
@@ -61,7 +62,7 @@ signals:
     void connectionSuccessful();
     void connectionFailure(ClientManager *);
 
-    void newINDIDevice(DriverInfo *dv);
+    void newINDIDevice(DeviceInfo *dv);
 
     void newINDIProperty(INDI::Property *prop);
     void removeINDIProperty(INDI::Property *prop);
@@ -76,7 +77,7 @@ signals:
     void newTelescope();
     void newCCD();
 
-    void INDIDeviceRemoved(DriverInfo *dv);
+    void INDIDeviceRemoved(DeviceInfo *dv);
 
 
 };

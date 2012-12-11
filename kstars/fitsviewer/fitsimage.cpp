@@ -17,29 +17,23 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
+#include <config-kstars.h>
+
 #include "fitsimage.h"
 
 #include <math.h>
 #include <stdlib.h>
 
 #include <QApplication>
-#include <QPaintEvent>
-#include <QScrollArea>
-#include <QFile>
-#include <QCursor>
 #include <QProgressDialog>
-#include <QDateTime>
-#include <QPainter>
-#include <QPixmap>
-
-#include <KDebug>
-#include <KLocale>
-#include <KAction>
-#include <KActionCollection>
-#include <KStatusBar>
-#include <KProgressDialog>
 #include <KMessageBox>
-#include <KFileDialog>
+
+#ifdef HAVE_WCSLIB
+#include <wcshdr.h>
+#include <wcsfix.h>
+#include <wcs.h>
+#include <getwcstab.h>
+#endif
 
 #include "ksutils.h"
 
@@ -49,12 +43,13 @@
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
 
-const int MINIMUM_PIXEL_RANGE=5;
 const int MINIMUM_ROWS_PER_CENTER=3;
-const int MAXIMUM_HOR_SEPARATION=10;
-const int MAXIMUM_VER_SEPARATION=2;
-const int MINIMUM_STDVAR=5;
-const int MAX_STARS=1024;
+
+#define JM_LOWER_LIMIT  5
+#define JM_UPPER_LIMIT  400
+
+#define LOW_EDGE_CUTOFF_1   50
+#define LOW_EDGE_CUTOFF_2   10
 
 //#define FITS_DEBUG
 
@@ -63,90 +58,17 @@ bool greaterThan(Edge *s1, Edge *s2)
     return s1->width > s2->width;
 }
 
-FITSLabel::FITSLabel(FITSImage *img, QWidget *parent) : QLabel(parent)
+
+
+FITSImage::FITSImage(FITSMode fitsMode)
 {
-    image = img;
-}
-
-FITSLabel::~FITSLabel() {}
-
-void FITSLabel::mouseMoveEvent(QMouseEvent *e)
-{
-    double x,y, width, height;
-    float *buffer = image->getImageBuffer();
-
-    image->getSize(&width, &height);
-
-    if (buffer == NULL)
-        return;
-
-    x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-    y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
-
-    emit newStatus(QString("%1 , %2").arg( (int)x ).arg( (int)y ), FITS_POSITION);
-
-    // Range is 0 to dim-1 when accessing array
-    x -= 1;
-    y -= 1;
-
-    emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
-
-    setCursor(Qt::CrossCursor);
-
-    e->accept();
-}
-
-void FITSLabel::mousePressEvent(QMouseEvent *e)
-{
-    double x,y, width, height;
-
-    image->getSize(&width, &height);
-
-    x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-    y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
-
-    //qDebug() << "point selected " << x << " - " << y << endl;
-
-   emit pointSelected(x, y);
-
-}
-
-
-FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) , zoomFactor(1.2)
-{
-    image_frame = new FITSLabel(this);
     image_buffer = NULL;
-    displayImage = NULL;
+    wcs_coord    = NULL;
     fptr = NULL;
-    firstLoad = true;
-
+    tempFile  = false;
+    starsSearched = false;
+    HasWCS = false;
     mode = fitsMode;
-
-    setBackgroundRole(QPalette::Dark);
-
-    guide_x = guide_y = guide_box = -1;
-
-    currentZoom = 0.0;
-    markStars = false;
-
-    connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
-
-    image_frame->setMouseTracking(true);
-
-    if (fitsMode == FITS_GUIDE)
-    {
-        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(setGuideSquare(int,int)));
-        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SIGNAL(guideStarSelected(int,int)));
-    }
-
-    // Default size
-    resize(INITIAL_W, INITIAL_H);
 }
 
 FITSImage::~FITSImage()
@@ -154,66 +76,91 @@ FITSImage::~FITSImage()
     int status=0;
 
     delete(image_buffer);
-    delete(displayImage);
 
-    qDeleteAll(starCenters);
+    if (starCenters.count() > 0)
+        qDeleteAll(starCenters);
+
+    delete (wcs_coord);
 
     if (fptr)
+    {
         fits_close_file(fptr, &status);
+
+        if (tempFile)
+             QFile::remove(filename);
+
+    }
 }
 
-bool FITSImage::loadFITS ( const QString &filename )
+bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 {
-
     int status=0, nulval=0, anynull=0;
     long fpixel[2], nelements, naxes[2];
     char error_status[512];
-    QProgressDialog fitsProg;
 
     qDeleteAll(starCenters);
     starCenters.clear();
 
-    if (mode == FITS_NORMAL)
+    if (mode == FITS_NORMAL && progress)
     {
-        fitsProg.setLabelText(i18n("Please hold while loading FITS file..."));
-        fitsProg.setWindowTitle(i18n("Loading FITS"));
+        progress->setLabelText(i18n("Please hold while loading FITS file..."));
+        progress->setWindowTitle(i18n("Loading FITS"));
     }
-    //fitsProg.setWindowModality(Qt::WindowModal);
 
-    if (mode == FITS_NORMAL)
-        fitsProg.setValue(30);
+    if (mode == FITS_NORMAL && progress)
+        progress->setValue(30);
 
     if (fptr)
+    {
+
         fits_close_file(fptr, &status);
+
+        if (tempFile)
+            QFile::remove(filename);
+    }
+
+    filename = inFilename;
+
+    if (filename.contains("/tmp/"))
+        tempFile = true;
+    else
+        tempFile = false;
+
+    filename.remove("file://");
+
 
     if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        KMessageBox::error(0, i18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), i18n("FITS Open"));
+        if (progress)
+            KMessageBox::error(0, i18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), i18n("FITS Open"));
         return false;
     }
 
 
-    if (mode == FITS_NORMAL)
-        if (fitsProg.wasCanceled())
+    if (mode == FITS_NORMAL && progress)
+        if (progress->wasCanceled())
             return false;
 
-    if (mode == FITS_NORMAL)
-        fitsProg.setValue(50);
-    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
+    if (mode == FITS_NORMAL && progress)
+        progress->setValue(40);
+
 
     if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        KMessageBox::error(0, i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
+
+        if (progress)
+            KMessageBox::error(0, i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
         return false;
     }
 
     if (stats.ndim < 2)
     {
-        KMessageBox::error(0, i18n("1D FITS images are not supported in KStars.", i18n("FITS Open")));
+        if (progress)
+            KMessageBox::error(0, i18n("1D FITS images are not supported in KStars."), i18n("FITS Open"));
         return false;
     }
 
@@ -222,63 +169,49 @@ bool FITSImage::loadFITS ( const QString &filename )
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        KMessageBox::error(0, i18n("FITS file open error (fits_get_img_type): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
+
+        if (progress)
+            KMessageBox::error(0, i18n("FITS file open error (fits_get_img_type): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
         return false;
     }
 
-    if (mode == FITS_NORMAL)
-        if (fitsProg.wasCanceled())
+    if (mode == FITS_NORMAL && progress)
+        if (progress->wasCanceled())
             return false;
 
-    if (mode == FITS_NORMAL)
-        fitsProg.setValue(60);
+    if (mode == FITS_NORMAL && progress)
+        progress->setValue(60);
 
     stats.dim[0] = naxes[0];
     stats.dim[1] = naxes[1];
 
-
     delete (image_buffer);
-    delete (displayImage);
     image_buffer = NULL;
-    displayImage = NULL;
 
     image_buffer = new float[stats.dim[0] * stats.dim[1]];
 
     if (image_buffer == NULL)
     {
-	// Display error message here after freeze
-        kDebug() << "Not enough memory for image_buffer";
+        qDebug() << "Not enough memory for image_buffer";
         return false;
     }
-
-    displayImage = new QImage(stats.dim[0], stats.dim[1], QImage::Format_Indexed8);
-
-    if (displayImage == NULL)
+    if (mode == FITS_NORMAL && progress)
     {
-	// Display error message here after freeze
-        kDebug() << "Not enough memory for display_image";
-        return false;
-    }
-
-    if (mode == FITS_NORMAL)
-        if (fitsProg.wasCanceled())
+        if (progress->wasCanceled())
         {
         delete (image_buffer);
-        delete (displayImage);
         return false;
         }
+    }
 
-    if (mode == FITS_NORMAL)
-        fitsProg.setValue(70);
-
-    displayImage->setNumColors(256);
-
-    for (int i=0; i < 256; i++)
-        displayImage->setColor(i, qRgb(i,i,i));
+    if (mode == FITS_NORMAL && progress)
+        progress->setValue(70);
 
     nelements = stats.dim[0] * stats.dim[1];
     fpixel[0] = 1;
     fpixel[1] = 1;
+
+    qApp->processEvents();
 
     if (fits_read_2d_flt(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
     {
@@ -287,61 +220,52 @@ bool FITSImage::loadFITS ( const QString &filename )
         return false;
     }
 
-    if (mode == FITS_NORMAL)
-        if (fitsProg.wasCanceled())
+    if (mode == FITS_NORMAL && progress)
+    {
+        if (progress->wasCanceled())
         {
-        delete (image_buffer);
-        delete (displayImage);
-        return false;
+            delete (image_buffer);
+            return false;
         }
+    }
 
     calculateStats();
 
-    if (mode == FITS_NORMAL)
-        fitsProg.setValue(80);
+    if (mode == FITS_NORMAL && progress)
+        progress->setValue(80);
 
-    currentWidth  = stats.dim[0];
-    currentHeight = stats.dim[1];
+    //currentWidth  = stats.dim[0];
+   // currentHeight = stats.dim[1];
 
-    // Rescale to fits window
-    if (firstLoad)
-    {
-        currentZoom   = 100;
-
-        if (rescale(ZOOM_FIT_WINDOW))
-            return false;
-
-        firstLoad = false;
-
-    }
-    else
-    {
-        if (rescale(ZOOM_KEEP_LEVEL))
-            return false;
-
-    }
+    qApp->processEvents();
 
     if (mode == FITS_NORMAL)
-        if (fitsProg.wasCanceled())
+    {
+        checkWCS();
+
+        if (progress)
+            progress->setValue(90);
+    }
+
+    if (mode == FITS_NORMAL && progress)
+    {
+        if (progress->wasCanceled())
         {
-        delete (image_buffer);
-        delete (displayImage);
-        return false;
+            delete (image_buffer);
+            return false;
         }
+    }
 
-    if (mode == FITS_NORMAL)
-        fitsProg.setValue(100);
+    if (mode == FITS_NORMAL && progress)
+        progress->setValue(100);
 
-    setAlignment(Qt::AlignCenter);
-
-    emit newStatus(QString("%1x%2").arg(stats.dim[0]).arg(stats.dim[1]), FITS_RESOLUTION);
-
+    starsSearched = false;
 
     return true;
 
 }
 
-int FITSImage::saveFITS( const QString &filename )
+int FITSImage::saveFITS( const QString &newFilename )
 {
     int status=0;
     long fpixel[2], nelements;
@@ -353,7 +277,7 @@ int FITSImage::saveFITS( const QString &filename )
 
 
     /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, filename.toAscii(), &status))
+    if (fits_create_file(&new_fptr, newFilename.toAscii(), &status))
     {
         fits_report_error(stderr, status);
         return status;
@@ -372,6 +296,14 @@ int FITSImage::saveFITS( const QString &filename )
         fits_report_error(stderr, status);
         return status;
     }
+
+    if (tempFile)
+    {
+        QFile::remove(filename);
+        tempFile = false;
+    }
+
+    filename = newFilename;
 
     fptr = new_fptr;
 
@@ -451,180 +383,6 @@ int FITSImage::calculateMinMax(bool refresh)
     return 0;
 }
 
-int FITSImage::rescale(FITSZoom type)
-{
-    float val=0;
-    double bscale, bzero;
-
-    if (stats.max == stats.min)
-    {
-        KMessageBox::error(0, i18n("FITS image is saturated and cannot be displayed."), i18n("FITS Open"));
-        return -1;
-    }
-
-
-    bscale = 255. / (stats.max - stats.min);
-    bzero  = (-stats.min) * (255. / (stats.max - stats.min));
-
-    image_frame->setScaledContents(true);
-    currentWidth  = displayImage->width();
-    currentHeight = displayImage->height();
-
-    /* Fill in pixel values using indexed map, linear scale */
-    for (int j = 0; j < stats.dim[1]; j++)
-        for (int i = 0; i < stats.dim[0]; i++)
-        {
-            val = image_buffer[j * stats.dim[0] + i];
-            displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
-        }
-
-    switch (type)
-    {
-    case ZOOM_FIT_WINDOW:
-        if ((displayImage->width() > width() || displayImage->height() > height()))
-        {
-            // Find the zoom level which will enclose the current FITS in the default window size (640x480)
-            currentZoom = floor( (INITIAL_W / currentWidth) * 10.) * 10.;
-
-            /* If width is not the problem, try height */
-            if (currentZoom > ZOOM_DEFAULT)
-                currentZoom = floor( (INITIAL_H / currentHeight) * 10.) * 10.;
-
-            currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
-            currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
-
-
-            if (currentZoom <= ZOOM_MIN)
-                emit actionUpdated("view_zoom_out", false);
-
-            //updateFrame();
-
-        }
-        else
-        {
-            currentZoom   = 100;
-            currentWidth  = stats.dim[0];
-            currentHeight = stats.dim[1];
-
-           // updateFrame();
-
-        }
-
-
-        break;
-
-    case ZOOM_KEEP_LEVEL:
-    {
-        currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
-        currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
-        //updateFrame();
-
-    }
-        break;
-
-    default:
-        currentZoom   = 100;
-       // updateFrame();
-
-        break;
-    }
-
-    setWidget(image_frame);
-
-
-   if (type != ZOOM_KEEP_LEVEL)
-       emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
-
-    return 0;
-
-}
-
-void FITSImage::ZoomIn()
-{
-
-    if (currentZoom < ZOOM_DEFAULT)
-        currentZoom += ZOOM_LOW_INCR;
-    else
-        currentZoom += ZOOM_HIGH_INCR;
-
-
-    emit actionUpdated("view_zoom_out", true);
-    if (currentZoom >= ZOOM_MAX)
-        emit actionUpdated("view_zoom_in", false);
-
-    currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
-    currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
-
-    updateFrame();
-
-    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
-
-}
-
-void FITSImage::ZoomOut()
-{
-
-    if (currentZoom <= ZOOM_DEFAULT)
-        currentZoom -= ZOOM_LOW_INCR;
-    else
-        currentZoom -= ZOOM_HIGH_INCR;
-
-    if (currentZoom <= ZOOM_MIN)
-        emit actionUpdated("view_zoom_out", false);
-
-    emit actionUpdated("view_zoom_in", true);
-
-    currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
-    currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
-
-    updateFrame();
-
-    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
-}
-
-void FITSImage::updateFrame()
-{
-
-    QPixmap displayPixmap;
-    bool ok=false;
-
-    if (displayImage == NULL)
-        return;
-
-    if (currentZoom != ZOOM_DEFAULT)
-            ok = displayPixmap.convertFromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        else
-            ok = displayPixmap.convertFromImage(*displayImage);
-
-
-    if (ok == false)
-        return;
-
-    QPainter painter(&displayPixmap);
-
-    drawOverlay(&painter);
-
-    image_frame->setPixmap(displayPixmap);
-    image_frame->resize( (int) currentWidth, (int) currentHeight);
-}
-
-void FITSImage::ZoomDefault()
-{
-    emit actionUpdated("view_zoom_out", true);
-    emit actionUpdated("view_zoom_in", true);
-
-
-    currentZoom   = ZOOM_DEFAULT;
-    currentWidth  = stats.dim[0];
-    currentHeight = stats.dim[1];
-
-    updateFrame();
-
-    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
-
-    update();
-
-}
 
 void FITSImage::calculateStats(bool refresh)
 {
@@ -633,6 +391,10 @@ void FITSImage::calculateStats(bool refresh)
     stats.average = average();
     // #2 call std deviation
     stats.stddev  = stddev();
+
+    if (refresh && markStars)
+        // Let's try to find star positions again after transformation
+        starsSearched = false;
 
 }
 
@@ -725,9 +487,8 @@ bool FITSImage::checkCollision(Edge* s1, Edge*s2)
 
 
 /*** Find center of stars and calculate Half Flux Radius */
-void FITSImage::findCentroid()
+void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
 {
-    int initStdDev = MINIMUM_STDVAR;
     double threshold=0;
     double avg = 0;
     double sum=0;
@@ -773,21 +534,29 @@ void FITSImage::findCentroid()
             {
 
                 // We found a potential centroid edge
-                if (pixelRadius >= (MINIMUM_PIXEL_RANGE - (MINIMUM_STDVAR - initStdDev)))
+                if (pixelRadius >= (minEdgeWidth - (MINIMUM_STDVAR - initStdDev)))
                 {
-                    int center = round(avg/sum);
+                    //int center = round(avg/sum);
 
-                    Edge *newEdge = new Edge();
+                    float center = avg/sum;
 
-                    newEdge->x          = center;
-                    newEdge->y          = i;
-                    newEdge->scanned    = 0;
-                    newEdge->val        = image_buffer[center+(i*stats.dim[0])] - stats.min;
-                    newEdge->width      = pixelRadius;
-                    newEdge->HFR        = 0;
-                    newEdge->sum        = sum;                   
 
-                    edges.append(newEdge);
+                    if (center > 0)
+                    {
+                        int i_center = round(center);
+
+                        Edge *newEdge = new Edge();
+
+                        newEdge->x          = center;
+                        newEdge->y          = i;
+                        newEdge->scanned    = 0;
+                        newEdge->val        = image_buffer[i_center+(i*stats.dim[0])] - stats.min;
+                        newEdge->width      = pixelRadius;
+                        newEdge->HFR        = 0;
+                        newEdge->sum        = sum;
+
+                        edges.append(newEdge);
+                    }
 
                 }
 
@@ -820,12 +589,11 @@ void FITSImage::findCentroid()
     int cen_x=0;
     int cen_y=0;
     int cen_v=0;
-    int rc_index=0;
-    int y_counter=0;
+    int cen_w=0;
+    int width_sum=0;
 
+    // Let's sort edges, starting with widest
     qSort(edges.begin(), edges.end(), greaterThan);
-
-
 
     // Now, let's scan the edges and find the maximum centroid vertically
     for (int i=0; i < edges.count(); i++)
@@ -852,9 +620,13 @@ void FITSImage::findCentroid()
         cen_x = edges[i]->x;
         cen_y = edges[i]->y;
         cen_v = edges[i]->sum;
+        cen_w = edges[i]->width;
 
+        float avg_x = 0;
+        float avg_y = 0;
+
+        sum = 0;
         cen_count=0;
-        y_counter=0;
 
         // Now let's compare to other edges until we hit a maxima
         for (int j=0; j < edges.count();j++)
@@ -867,48 +639,37 @@ void FITSImage::findCentroid()
                 if (edges[j]->sum >= cen_v)
                 {
                     cen_v = edges[j]->sum;
-                    rc_index = j;
+                    cen_w = edges[j]->width;
                 }
 
                 edges[j]->scanned = 1;
                 cen_count++;
 
+                avg_x += edges[j]->x * edges[j]->val;
+                avg_y += edges[j]->y * edges[j]->val;
+                sum += edges[j]->val;
+
                 continue;
             }
 
-            // Permittable margin of error in X among edges
-            if (abs(edges[j]->x-cen_x) <= MAXIMUM_HOR_SEPARATION)
-            {
-
-                // Permittable margin of error in Y among edges
-                if ( abs(edges[j]->y - (cen_y + y_counter++)) <= MAXIMUM_VER_SEPARATION)
-                {
-                    // If we encounter something big, note it down
-                    if (edges[j]->sum >= cen_v)
-                    {
-                        cen_v = edges[j]->sum;
-                        rc_index = j;
-                    }
-
-                    edges[j]->scanned = 1;
-                    cen_count++;
-                }
-            }
         }
-
-
 
         int cen_limit = (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev));
 
-        if (edges.count() < 10)
-            cen_limit = 1;
+        if (edges.count() < LOW_EDGE_CUTOFF_1)
+        {
+            if (edges.count() < LOW_EDGE_CUTOFF_2)
+                cen_limit = 1;
+            else
+                cen_limit = 2;
+        }
 
     #ifdef FITS_DEBUG
     qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
              << cen_limit << endl;
     #endif
 
-        if (cen_limit < 1 || (edges[rc_index]->width > (0.2 * stats.dim[0])))
+        if (cen_limit < 1 || (cen_w > (0.2 * stats.dim[0])))
             continue;
 
         // If centroid count is within acceptable range
@@ -918,16 +679,23 @@ void FITSImage::findCentroid()
             // We detected a centroid, let's init it
             Edge *rCenter = new Edge();
 
-            rCenter->x = edges[rc_index]->x;
-            rCenter->y = edges[rc_index]->y;
-            rCenter->width = edges[rc_index]->width;
+            //rCenter->x = edges[rc_index]->x;
+            rCenter->x = avg_x/sum;
+            rCenter->y = avg_y/sum;
+
+            width_sum += rCenter->width;
+
+            //rCenter->y = edges[rc_index]->y;
+
+
+            rCenter->width = cen_w;
 
            #ifdef FITS_DEBUG
            qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
 
            qDebug() << "Profile for this center is:" << endl;
            for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
-               qDebug() << "#" << i << " , " << image_buffer[rCenter->x-i+(rCenter->y*stats.dim[0])] - stats.min <<  endl;
+               qDebug() << "#" << i << " , " << image_buffer[(int) round(rCenter->x-i+(rCenter->y*stats.dim[0]))] - stats.min <<  endl;
 
            #endif
 
@@ -936,24 +704,27 @@ void FITSImage::findCentroid()
             double HF=0;
             double FSum=0;
 
+            cen_x = (int) round(rCenter->x);
+            cen_y = (int) round(rCenter->y);
+
             // Complete sum along the radius
             //for (int k=0; k < rCenter->width; k++)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
-                FSum += image_buffer[rCenter->x-k+(rCenter->y*stats.dim[0])] - stats.min;
+                FSum += image_buffer[cen_x-k+(cen_y*stats.dim[0])] - stats.min;
 
             // Half flux
             HF = FSum / 2.0;
 
             // Total flux starting from center
-            TF = image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x] - stats.min;
+            TF = image_buffer[cen_y * stats.dim[0] + cen_x] - stats.min;
 
             int pixelCounter = 1;
 
             // Integrate flux along radius axis until we reach half flux
             for (int k=1; k < rCenter->width/2; k++)
             {
-                TF += image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x + k] - stats.min;
-                TF += image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x - k] - stats.min;
+                TF += image_buffer[cen_y * stats.dim[0] + cen_x + k] - stats.min;
+                TF += image_buffer[cen_y * stats.dim[0] + cen_x - k] - stats.min;
 
                 if (TF >= HF)
                 {
@@ -976,59 +747,32 @@ void FITSImage::findCentroid()
             #endif
              starCenters.append(rCenter);
 
-             if (starCenters.count() > MAX_STARS)
-             {
-                 qDeleteAll(starCenters);
-                 break;
-             }
         }
+    }
+
+    if (starCenters.count() > 1 && mode != FITS_FOCUS)
+    {
+        float width_avg = width_sum / starCenters.count();
+
+        float lsum =0, sdev=0;
+
+        foreach(Edge *center, starCenters)
+            lsum += (center->width - width_avg) * (center->width - width_avg);
+
+        sdev = (sqrt(lsum/(starCenters.count() - 1))) * 4;
+
+        // Reject stars > 4 * stddev
+        foreach(Edge *center, starCenters)
+            if (center->width > sdev)
+                starCenters.removeOne(center);
+
+        //foreach(Edge *center, starCenters)
+            //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << endl;
 
     }
 
     // Release memory
     qDeleteAll(edges);
-}
-
-void FITSImage::drawOverlay(QPainter *painter)
-{
-    if (markStars)  
-         drawStarCentroid(painter);
-
-    if (mode == FITS_GUIDE)
-        drawGuideBox(painter);
-
-}
-
-void FITSImage::drawStarCentroid(QPainter *painter)
-{
-    painter->setPen(QPen(Qt::red, 2));
-
-    int x1,y1, w;
-
-    for (int i=0; i < starCenters.count() ; i++)
-    {
-        x1 = (starCenters[i]->x - starCenters[i]->width/2) * (currentZoom / ZOOM_DEFAULT);
-        y1 = (starCenters[i]->y - starCenters[i]->width/2) * (currentZoom / ZOOM_DEFAULT);
-        w = (starCenters[i]->width) * (currentZoom / ZOOM_DEFAULT);
-
-        painter->drawEllipse(x1, y1, w, w);
-    }
-}
-
-void FITSImage::drawGuideBox(QPainter *painter)
-{
-    painter->setPen(QPen(Qt::green, 2));
-
-    int mid = guide_box/2;
-
-    if (mid == -1 || guide_x == -1 || guide_y == -1)
-        return;
-
-    int x1 = (guide_x - mid) * (currentZoom / ZOOM_DEFAULT);
-    int y1 = (guide_y - mid) * (currentZoom / ZOOM_DEFAULT);
-    int w  = guide_box * (currentZoom / ZOOM_DEFAULT);
-
-    painter->drawRect(x1, y1, w, w);
 }
 
 double FITSImage::getHFR(HFRType type)
@@ -1053,12 +797,10 @@ double FITSImage::getHFR(HFRType type)
                 maxVal = starCenters[i]->val;
 
             }
-
         }
 
         return starCenters[maxIndex]->HFR;
     }
-
 
     double FSum=0;
     double avgHFR=0;
@@ -1078,22 +820,6 @@ double FITSImage::getHFR(HFRType type)
     else
         return -1;
 
-}
-
-void FITSImage::setGuideSquare(int x, int y)
-{
-    guide_x = x;
-    guide_y = y;
-
-    updateFrame();
-
-
-}
-
-void FITSImage::setGuideBoxSize(int size)
-{
-    guide_box = size;
-    updateFrame();
 }
 
 void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
@@ -1160,9 +886,29 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
             }
         break;
 
-     case FITS_AUTO_STRETCH:
+    case FITS_AUTO_STRETCH:
+    {
+       min = stats.average - stats.stddev;
+       if (min < 0)
+           min =0;
+       //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
+       max = stats.average + stats.stddev * 3;
+
+         for (int i=0; i < height; i++)
+            for (int j=0; j < width; j++)
+            {
+               bufferVal = image[i * width + j];
+               if (bufferVal < min) bufferVal = min;
+               else if (bufferVal > max) bufferVal = max;
+               image[i * width + j] = bufferVal;
+             }
+       }
+       break;
+
+     case FITS_HIGH_CONTRAST:
      {
-        min = stats.average - stats.stddev;
+        //min = stats.average - stats.stddev;
+        min = stats.average + stats.stddev;
         if (min < 0)
             min =0;
         //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
@@ -1218,13 +964,10 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
     }
 
     calculateStats(true);
-    rescale(ZOOM_KEEP_LEVEL);
 }
 
-void FITSImage::subtract(FITSImage *darkFrame)
+void FITSImage::subtract(float *dark_buffer)
 {
-    float *dark_buffer = darkFrame->getImageBuffer();
-
     for (int i=0; i < stats.dim[0]*stats.dim[1]; i++)
     {
         image_buffer[i] -= dark_buffer[i];
@@ -1233,11 +976,124 @@ void FITSImage::subtract(FITSImage *darkFrame)
     }
 
     calculateStats(true);
-    rescale(ZOOM_KEEP_LEVEL);
-    updateFrame();
 }
 
+int FITSImage::findStars()
+{
+    if (histogram == NULL)
+        return -1;
 
+    if (starsSearched == false)
+    {
+        qDeleteAll(starCenters);
+        starCenters.clear();
 
+        if (histogram->getJMIndex() > JM_LOWER_LIMIT && histogram->getJMIndex() < JM_UPPER_LIMIT)
+        {
+             findCentroid();
+             getHFR();
+        }
+    }
 
-#include "fitsimage.moc"
+    starsSearched = true;
+
+    return starCenters.count();
+
+}
+
+void FITSImage::getCenterSelection(int *x, int *y)
+{
+    if (starCenters.count() == 0)
+        return;
+
+    Edge *pEdge = new Edge();
+    pEdge->x = *x;
+    pEdge->y = *y;
+    pEdge->width = 1;
+
+    foreach(Edge *center, starCenters)
+        if (checkCollision(pEdge, center))
+        {
+            *x = center->x;
+            *y = center->y;
+            break;
+        }
+
+    delete (pEdge);
+}
+
+void FITSImage::checkWCS()
+{
+#ifdef HAVE_WCSLIB
+
+    int status=0;
+    char *header;
+    int nkeyrec, nreject, nwcs, stat[2];
+    double imgcrd[2], phi, pixcrd[2], theta, world[2];
+    struct wcsprm *wcs=0;
+    int width=getWidth();
+    int height=getHeight();
+
+    if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
+    {
+        fits_report_error(stderr, status);
+        return;
+    }
+
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
+    {
+      fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
+      return;
+    }
+
+    free(header);
+
+    if (wcs == 0)
+    {
+      //fprintf(stderr, "No world coordinate systems found.\n");
+      return;
+    }
+
+    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
+    if (wcs->crpix[0] == 0)
+        return;
+
+    HasWCS = true;
+
+    if ((status = wcsset(wcs)))
+    {
+      fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+      return;
+    }
+
+    delete (wcs_coord);
+
+    wcs_coord = new wcs_point[width*height];
+
+    wcs_point *p = wcs_coord;
+
+    for (int i=0; i < height; i++)
+    {
+        for (int j=0; j < width; j++)
+        {
+            pixcrd[0]=j;
+            pixcrd[1]=i;
+
+            if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
+            {
+                  fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,
+                  wcs_errmsg[status]);
+            }
+            else
+            {
+                p->ra  = world[0];
+                p->dec = world[1];
+
+                p++;
+            }
+       }
+    }
+#endif
+
+}
+

@@ -32,13 +32,15 @@
 #include <KDialog>
 #include <KTabWidget>
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #include "kstars.h"
 #include "indidevice.h"
 #include "guimanager.h"
 #include "driverinfo.h"
+#include "deviceinfo.h"
 
+extern const char *libindi_strings_context;
 
 GUIManager * GUIManager::_GUIManager = NULL;
 
@@ -124,9 +126,10 @@ void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
 
-    connect(cm, SIGNAL(newINDIDevice(DriverInfo*)), this, SLOT(buildDevice(DriverInfo*)), Qt::BlockingQueuedConnection);
 
-    connect(cm, SIGNAL(INDIDeviceRemoved(DriverInfo*)), this, SLOT(removeDevice(DriverInfo*)));
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
+
+    connect(cm, SIGNAL(INDIDeviceRemoved(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)));
 
     //INDI_D *gdm = new INDI_D(this, cm);
 
@@ -161,11 +164,11 @@ void GUIManager::removeClient(ClientManager *cm)
         hide();
 }
 
-void GUIManager::removeDevice(DriverInfo *di)
+void GUIManager::removeDevice(DeviceInfo *di)
 {
     INDI_D *dp=NULL;
 
-    dp = findGUIDevice(di->getUniqueLabel());
+    dp = findGUIDevice(di->getDriverInfo()->getUniqueLabel());
 
     if (dp == NULL)
         return;
@@ -179,11 +182,11 @@ void GUIManager::removeDevice(DriverInfo *di)
             guidevices.at(i)->setTabID(i);
 }
 
-void GUIManager::buildDevice(DriverInfo *di)
+void GUIManager::buildDevice(DeviceInfo *di)
 {
     //qDebug() << "In build Device for device with tree label " << di->getTreeLabel() << endl;
     int nset=0;
-    ClientManager *cm = di->getClientManager();
+    ClientManager *cm = di->getDriverInfo()->getClientManager();
 
     if (cm == NULL)
     {
@@ -207,7 +210,7 @@ void GUIManager::buildDevice(DriverInfo *di)
 
     //qDebug() << "About to add to tab main widget with name " << di->getBaseDevice()->getDeviceName() << endl;
     //nset = mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
-    nset = mainTabWidget->addTab(gdm->getDeviceBox(), di->getUniqueLabel());
+    nset = mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getDriverInfo()->getUniqueLabel().toUtf8()));
 
     gdm->setTabID(nset);
 
@@ -216,5 +219,6 @@ void GUIManager::buildDevice(DriverInfo *di)
 
 
 }
+
 
 #include "guimanager.moc"

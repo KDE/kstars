@@ -49,8 +49,8 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include <libindi/baseclient.h>
-#include <libindi/basedevice.h>
+#include <baseclient.h>
+#include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
@@ -201,7 +201,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 
 
 
-        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
+        INDI::BaseDevice *bd = gd->getBaseDevice();
 
         if (bd == NULL)
             continue;

@@ -358,26 +358,30 @@ void KStars::initActions() {
 
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )
-        << i18n("Calculator...")
+        << i18n("Calculator")
         << KIcon("accessories-calculator" )
         << KShortcut( Qt::CTRL+Qt::Key_C );
+
+    actionCollection()->addAction("moonphasetool", this, SLOT( slotMoonPhaseTool() ) )
+        << i18n("Moon Phase Calendar");
+
     actionCollection()->addAction("obslist", this, SLOT( slotObsList() ) )
-        << i18n("Observing List...")
+        << i18n("Observation Planner")
         << KShortcut( Qt::CTRL+Qt::Key_L );
 
     actionCollection()->addAction("altitude_vs_time", this, SLOT( slotAVT() ) )
-        << i18n("Altitude vs. Time...")
+        << i18n("Altitude vs. Time")
         << KShortcut( Qt::CTRL+Qt::Key_A );
     actionCollection()->addAction("whats_up_tonight", this, SLOT( slotWUT() ) )
-        << i18n("What's up Tonight...")
+        << i18n("What's up Tonight")
         << KShortcut(Qt::CTRL+Qt::Key_U );
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
-        << i18n("Sky Calendar...");
+        << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
         actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
-            << i18n("Ekos...");
+            << i18n("Ekos");
 #endif
 #endif
 
@@ -388,16 +392,16 @@ void KStars::initActions() {
 //     connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
 
     actionCollection()->addAction("scriptbuilder", this, SLOT( slotScriptBuilder() ) )
-        << i18n("Script Builder...")
+        << i18n("Script Builder")
         << KShortcut(Qt::CTRL+Qt::Key_B );
     actionCollection()->addAction("solarsystem", this, SLOT( slotSolarSystem() ) )
-        << i18n("Solar System...")
+        << i18n("Solar System")
         << KShortcut(Qt::CTRL+Qt::Key_Y );
     actionCollection()->addAction("jmoontool", this, SLOT( slotJMoonTool() ) )
-        << i18n("Jupiter's Moons...")
+        << i18n("Jupiter's Moons")
         << KShortcut(Qt::CTRL+Qt::Key_J );
     actionCollection()->addAction("flagmanager", this, SLOT( slotFlagManager() ) )
-        << i18n("Flags...");
+        << i18n("Flags");
 
     actionCollection()->addAction("ewriter", this, SLOT( slotEquipmentWriter() ) )
         << i18n("Define Equipment...")

@@ -66,12 +66,13 @@
 #endif
 
 #include "fitstab.h"
-#include "fitsimage.h"
+#include "fitsview.h"
 #include "fitshistogram.h"
 #include "ksutils.h"
 #include "Options.h"
 
-QStringList FITSViewer::filterTypes = QStringList() << "Auto Stretch" << "Equalize" << "High Pass";
+QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
+                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass");
 
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
@@ -97,6 +98,8 @@ FITSViewer::FITSViewer (QWidget *parent)
     statusBar()->setItemFixed(FITS_RESOLUTION, 100);
     statusBar()->insertItem(QString(), FITS_ZOOM);
     statusBar()->setItemFixed(FITS_ZOOM, 50);
+    statusBar()->insertItem(QString(), FITS_WCS);
+    statusBar()->setItemFixed(FITS_WCS, 200);
     statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
     statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
 
@@ -156,7 +159,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     {
 
         action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
-        action->setText(i18n( "%1").arg(filter));
+        action->setText(filter);
         filterMapper->setMapping(action, filterCounter++);
         connect(action, SIGNAL(triggered()), filterMapper, SLOT(map()));
 
@@ -185,13 +188,15 @@ FITSViewer::FITSViewer (QWidget *parent)
 
 FITSViewer::~FITSViewer()
 {
+    fitsTab->disconnect();
+
     qDeleteAll(fitsImages);
 }
 
 int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 {
 
-    FITSTab *tab = new FITSTab();
+    FITSTab *tab = new FITSTab(this);
 
     if (tab->loadFITS(imageName,mode, filter) == false)
     {
@@ -269,16 +274,19 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         fitsImages[currentIndex]->getImage()->updateFrame();
 
     if (markStars)
-        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.",fitsImages[currentIndex]->getImage()->getDetectedStars(),
-                              fitsImages[currentIndex]->getImage()->getDetectedStars()), FITS_MESSAGE);
+        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.",fitsImages[currentIndex]->getImage()->getImageData()->getDetectedStars(),
+                              fitsImages[currentIndex]->getImage()->getImageData()->getDetectedStars()), FITS_MESSAGE);
     else
         updateStatusBar("", FITS_MESSAGE);
+
+    updateStatusBar("", FITS_WCS);
 
 }
 
 void FITSViewer::slotClose()
 {
 
+    int rc=0;
     fitsTab->disconnect();
 
     if (undoGroup->isClean())
@@ -286,18 +294,24 @@ void FITSViewer::slotClose()
     else
     {
         for (int i=0; i < fitsImages.size(); i++)
-            saveUnsaved(i);
+            if ( (rc=saveUnsaved(i)) == 2)
+                return;
     }
 }
 
 void FITSViewer::closeEvent(QCloseEvent *ev)
 {
 
+    int rc=0;
     fitsTab->disconnect();
 
 
    for (int i=0; i < fitsImages.size(); i++)
-         saveUnsaved(i);
+       if ( (rc=saveUnsaved(i)) == 2)
+       {
+           ev->ignore();
+           return;
+       }
 
     if( undoGroup->isClean() )
         ev->accept();
@@ -386,11 +400,14 @@ int FITSViewer::saveUnsaved(int index)
         return -1;
     targetTab = fitsImages[index];
 
+    if (targetTab->getImage()->getMode() != FITS_NORMAL)
+        targetTab->getUndoStack()->clear();
+
     if (targetTab->getUndoStack()->isClean())
         return -1;
 
     QString caption = i18n( "Save Changes to FITS?" );
-    QString message = i18n( "%1 has unsaved changes.  Would you like to save before closing it?" ).arg(targetTab->getCurrentURL()->fileName());
+    QString message = i18n( "%1 has unsaved changes.  Would you like to save before closing it?", targetTab->getCurrentURL()->fileName());
     int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
     if( ans == KMessageBox::Yes )
     {
@@ -402,6 +419,11 @@ int FITSViewer::saveUnsaved(int index)
        targetTab->getUndoStack()->clear();
        return 1;
     }
+    else if ( ans == KMessageBox::Cancel)
+    {
+        return 2;
+    }
+
 
     return -1;
 }
@@ -467,7 +489,10 @@ void FITSViewer::closeTab(int index)
     if (tab->getImage()->getMode() != FITS_NORMAL)
         return;
 
-    saveUnsaved(index);
+    int rc = saveUnsaved(index);
+
+    if (rc == 2)
+        return;
 
     fitsImages.removeOne(tab);
     delete tab;
@@ -482,6 +507,7 @@ void FITSViewer::closeTab(int index)
 void FITSViewer::toggleStars()
 {
 
+
     if (markStars)
     {
         markStars = false;
@@ -491,9 +517,6 @@ void FITSViewer::toggleStars()
     {
         markStars = true;
         actionCollection()->action("mark_stars")->setText( i18n( "Unmark Stars" ) );
-
-        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.", fitsImages[fitsTab->currentIndex()]->getImage()->getDetectedStars()), FITS_MESSAGE);
-
     }
 
     foreach(FITSTab *tab, fitsImages)
@@ -501,6 +524,8 @@ void FITSViewer::toggleStars()
         tab->getImage()->toggleStars(markStars);
         tab->getImage()->updateFrame();
     }
+
+    //updateStatusBar(i18np("%1 star detected.", "%1 stars detected.", fitsImages[fitsTab->currentIndex()]->getImage()->getDetectedStars()), FITS_MESSAGE);
 
 }
 
@@ -516,7 +541,7 @@ void FITSViewer::applyFilter(int ftype)
 
 }
 
-FITSImage * FITSViewer::getImage(int fitsUID)
+FITSView * FITSViewer::getImage(int fitsUID)
 {
     if (fitsUID < 0 || fitsUID >= fitsImages.size())
         return NULL;

@@ -30,6 +30,6 @@ The most popular epoch used currently is J2000.0,
 UTC. Other epochs include B1900 and B1950.
 </para>
 <para>
-KStars supports catalogs based on J2000.0 and B1950.0 epochs.
+&kstars; supports catalogs based on J2000.0 and B1950.0 epochs.
 </para>
 </sect1>

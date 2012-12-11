@@ -12,7 +12,7 @@
 #ifndef INDISTD_H
 #define INDISTD_H
 
-#include <libindi/indiproperty.h>
+#include <indiproperty.h>
 #include <QObject>
 
 #include "skypoint.h"
@@ -23,6 +23,7 @@
 class ClientManager;
 class FITSViewer;
 class DriverInfo;
+class DeviceInfo;
 class StreamWG;
 
 // INDI Standard Device Namespace
@@ -62,10 +63,11 @@ public:
     virtual QList<INDI::Property *> getProperties() =0;
     virtual DeviceFamily getType()=0;
     virtual DriverInfo * getDriverInfo() = 0;
+    virtual DeviceInfo * getDeviceInfo() = 0;
     virtual INDI::BaseDevice* getBaseDevice()=0;
 
-
     // Convenience functions
+    virtual bool setConfig(INDIConfig tConfig)=0;
     virtual const char *getDeviceName()=0;
     virtual bool isConnected()=0;
     virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)=0;
@@ -104,7 +106,7 @@ class GenericDevice : public GDInterface
 
 public:
 
-    GenericDevice(DriverInfo* idv);
+    GenericDevice(DeviceInfo* idv);
     ~GenericDevice();
 
     virtual void registerProperty(INDI::Property *prop);
@@ -117,10 +119,13 @@ public:
     virtual DeviceFamily getType() { return dType; }
     virtual const char *getDeviceName();
     virtual DriverInfo * getDriverInfo() { return driverInfo;}
+    virtual DeviceInfo * getDeviceInfo() { return deviceInfo;}
     virtual QList<INDI::Property *> getProperties() { return properties; }
+
+
+    virtual bool setConfig(INDIConfig tConfig);
     virtual bool isConnected() { return connected; }
     virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
-
     virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
 
 public slots:
@@ -142,6 +147,7 @@ private:
     bool connected;
 
     DriverInfo *driverInfo;
+    DeviceInfo *deviceInfo;
     INDI::BaseDevice *baseDevice;
     ClientManager *clientManager;
 
@@ -165,9 +171,12 @@ public:
     virtual void processLight(ILightVectorProperty *lvp);
     virtual void processBLOB(IBLOB *bp);
     virtual DeviceFamily getType();
+
+    virtual bool setConfig(INDIConfig tConfig);
     virtual bool isConnected();
     const char *getDeviceName();
     DriverInfo *getDriverInfo();
+    DeviceInfo * getDeviceInfo();
     QList<INDI::Property *> getProperties();
     virtual INDI::BaseDevice* getBaseDevice();
 

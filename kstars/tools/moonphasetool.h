@@ -24,6 +24,8 @@
 #include "skyobjects/ksmoon.h"
 #include "ksnumbers.h"
 
+#include <KDialog>
+
 /**
  *@class MoonPhaseTool
  *@author Akarsh Simha
@@ -39,7 +41,7 @@
  * display a nice table
  */
 
-class MoonPhaseTool : public QFrame {
+class MoonPhaseTool : public KDialog {
 
     Q_OBJECT
 

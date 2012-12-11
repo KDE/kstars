@@ -21,7 +21,7 @@
 
 #include "../guide.h"
 #include "../fitsviewer/fitsviewer.h"
-#include "../fitsviewer/fitsimage.h"
+#include "../fitsviewer/fitsview.h"
 
 #undef MIN
 #undef MAX
@@ -133,9 +133,6 @@ bool rcalibration::set_video_params( int vid_wd, int vid_ht )
 
 void rcalibration::update_reticle_pos( double x, double y )
 {
- 	if( !isVisible() )
- 		return;
-
   	if( ui.spinBox_ReticleX->value() == x && ui.spinBox_ReticleY->value() == y )
   		return;
 
@@ -211,8 +208,40 @@ void rcalibration::onReticleAngChanged( double val )
 
 void rcalibration::onStartReticleCalibrationButtonClick()
 {
+
+    if (!pmath)
+        return;
+
+    bool ccdInfo=true, scopeInfo=true;
+    QString errMsg;
+    double ccd_w, ccd_h, g_aperture, g_focal;
+
+    pmath->get_guider_params(&ccd_w, &ccd_h, &g_aperture, &g_focal);
+
+    if (ccd_w == 0 || ccd_h == 0)
+    {
+        errMsg = "CCD";
+        ccdInfo = false;
+    }
+
+    if (g_aperture == 0 || g_focal == 0)
+    {
+        scopeInfo = false;
+        if (ccdInfo == false)
+            errMsg += " & Telescope";
+        else
+            errMsg += "Telescope";
+    }
+
+    if (ccdInfo == false || scopeInfo == false)
+    {
+            KMessageBox::error(this, i18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg));
+            return;
+    }
+
     disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
+    pmath->set_lost_star(false);
     pmain_wnd->capture();
 
 	// manual
@@ -277,6 +306,7 @@ void rcalibration::reset()
     ui.pushButton_StartCalibration->setText( i18n("Start") );
     ui.pushButton_StartCalibration->setEnabled(true);
     ui.progressBar->setVisible(false);
+    connect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
 }
 
@@ -318,7 +348,7 @@ void rcalibration::calibrate_reticle_manual( void )
                 axis = GUIDE_DEC;
 				
                 ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_DEC") );
-                pmain_wnd->appendLogText(i18n("Drift scope in DEC. Press stop when done."));
+                pmain_wnd->appendLogText(i18n("Drift scope in DEC. Press Stop when done."));
 				return;
 			}
 			else
@@ -395,7 +425,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             pmain_wnd->appendLogText(i18n("GUIDE_RA Drifting..."));
 
             // get start point
-           // pmath->get_star_screen_pos( &start_x1, &start_y1 );
+            //pmath->get_star_screen_pos( &start_x1, &start_y1 );
 
             start_x1 = ui.spinBox_ReticleX->value();
             start_y1 = ui.spinBox_ReticleY->value();
@@ -429,6 +459,14 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         case CAL_RA_DEC:
         {
             if (iterations == auto_drift_time)
+            {
+                pmain_wnd->do_pulse( RA_DEC_DIR, pulseDuration );
+                iterations++;
+
+                ui.progressBar->setValue( iterations );
+                break;
+            }
+            else if (iterations == (auto_drift_time+1))
             {
                 pmath->get_star_screen_pos( &end_x1, &end_y1 );
                 //qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1 << endl;
@@ -475,7 +513,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             }
 
             calibrationStage = CAL_ERROR;
-            QMessageBox::warning( this, i18n("Warning"), i18n("GUIDE_RA: Scope can't reach the start point after ") + QString().number(turn_back_time) + i18n(" iterations.\nPossible mount or drive problems..."), QMessageBox::Ok );
+            QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
             reset();
             break;
         }
@@ -577,7 +615,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         }
 
         calibrationStage = CAL_ERROR;
-        QMessageBox::warning( this, i18n("Warning"), i18n("GUIDE_DEC: Scope can't reach the start point after ") + QString().number(turn_back_time) + i18n(" iterations.\nPossible mount or drive problems..."), QMessageBox::Ok );
+        QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
         reset();
         break;
     }
@@ -620,6 +658,9 @@ void rcalibration::guideStarSelected(int x, int y)
 
     update_reticle_pos(x, y);
 
+    if (calibrationStage == CAL_FINISH)
+        return;
+
     ui.selectStarLED->setColor(okColor);
 
     calibrationStage = CAL_START;
@@ -634,11 +675,11 @@ void rcalibration::capture()
             calibrationStage = CAL_CAPTURE_IMAGE;
             ui.captureLED->setColor(busyColor);
 
-        pmain_wnd->appendLogText(i18n("Captuing image..."));
+        pmain_wnd->appendLogText(i18n("Capturing image..."));
     }
 }
 
-void rcalibration::set_image(FITSImage *image)
+void rcalibration::set_image(FITSView *image)
 {
 
     if (image == NULL)
@@ -656,7 +697,9 @@ void rcalibration::set_image(FITSImage *image)
             calibrationStage = CAL_SELECT_STAR;
             ui.selectStarLED->setColor(busyColor);
 
-            set_video_params(image->getWidth(), image->getHeight());
+            FITSImage *image_data = image->getImageData();
+
+            set_video_params(image_data->getWidth(), image_data->getHeight());
 
             select_auto_star(image);
 
@@ -670,13 +713,15 @@ void rcalibration::set_image(FITSImage *image)
     }
 }
 
-void rcalibration::select_auto_star(FITSImage *image)
+void rcalibration::select_auto_star(FITSView *image)
 {
     int maxVal=-1;
     Edge *guideStar = NULL;
 
+    FITSImage *image_data = image->getImageData();
 
-    foreach(Edge *center, image->getStarCenters())
+
+    foreach(Edge *center, image_data->getStarCenters())
     {
         if (center->val > maxVal)
         {

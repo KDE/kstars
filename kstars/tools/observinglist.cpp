@@ -70,7 +70,7 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/drivermanager.h"
 #include "indi/driverinfo.h"
@@ -93,7 +93,7 @@ ObservingList::ObservingList( KStars *_ks )
 {
     ui = new ObservingListUI( this );
     setMainWidget( ui );
-    setCaption( i18n( "Observing List" ) );
+    setCaption( i18n( "Observation Planner" ) );
     setButtons( KDialog::Close );
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);
@@ -182,7 +182,7 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->DeleteAllImages, SIGNAL( clicked() ),
              this, SLOT( slotDeleteAllImages() ) );
     connect( ui->OALExport, SIGNAL( clicked() ),
-             this, SLOT( slotOALExport() ) );  
+             this, SLOT( slotOALExport() ) );
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( KIcon("document-open") );
     ui->SaveButton->setIcon( KIcon("document-save") );
@@ -594,7 +594,7 @@ void ObservingList::slotSlewToObject()
 
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
+        INDI::BaseDevice *bd = gd->getBaseDevice();
 
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;

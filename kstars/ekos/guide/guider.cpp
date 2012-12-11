@@ -19,7 +19,7 @@
 #include "scroll_graph.h"
 #include "gmath.h"
 
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #define DRIFT_GRAPH_WIDTH	300
 #define DRIFT_GRAPH_HEIGHT	300
@@ -34,6 +34,8 @@ rguider::rguider(Ekos::Guide *parent)
     pmain_wnd = parent;
 
     pimage = NULL;
+
+    lost_star_try=0;
 
 	ui.comboBox_SquareSize->clear();
 	for( i = 0;guide_squares[i].size != -1;i++ )
@@ -145,7 +147,7 @@ void rguider::fill_interface( void )
 	ui.comboBox_ThresholdAlg->setCurrentIndex( pmath->get_square_algorithm_index() );
 
 
-    ui.l_RecommendedGain->setText( i18n("P:") + QString().setNum(cgmath::precalc_proportional_gain(in_params->guiding_rate), 'f', 2 ) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
 
 
 	ui.spinBox_GuideRate->setValue( in_params->guiding_rate );
@@ -252,7 +254,7 @@ void rguider::onInfoRateChanged( double val )
 
 	in_params->guiding_rate = val;
 
-    ui.l_RecommendedGain->setText( i18n("P:") + QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 ) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
 }
 
 
@@ -352,17 +354,21 @@ void rguider::onStartStopButtonClick()
 	if( !is_started )
 	{
         if (pimage)
-            disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+            disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
+
 		drift_graph->reset_data();
         ui.pushButton_StartStop->setText( i18n("Stop") );
         pmain_wnd->appendLogText(i18n("Autoguiding started."));
 		pmath->start();
+        lost_star_try=0;
 		is_started = true;
         pmain_wnd->capture();
 	}
 	// stop
 	else
 	{
+        if (pimage)
+            connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
         ui.pushButton_StartStop->setText( i18n("Start") );
         pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
 		pmath->stop();
@@ -393,12 +399,14 @@ void rguider::guide( void )
 	 if( !isVisible() || !is_started )
 	 	 return;
 
-     if (pmath->is_lost_star())
+     if (pmath->is_lost_star() && ++lost_star_try > 2)
      {
          onStartStopButtonClick();
          KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
          return;
      }
+     else
+         lost_star_try = 0;
 
 	 // do pulse
 	 out = pmath->get_out_params();
@@ -438,11 +446,11 @@ void rguider::guide( void )
 
 }
 
-void rguider::set_image(FITSImage *image)
+void rguider::set_image(FITSView *image)
 {
     pimage = image;
 
-    if (is_ready && pimage)
+    if (is_ready && pimage && is_started == false)
         connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 }
 

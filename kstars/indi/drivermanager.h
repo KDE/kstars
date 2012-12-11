@@ -100,6 +100,9 @@ public:
     bool startDevices(QList<DriverInfo*> & dList);
     void stopDevices(const QList<DriverInfo*> & dList);
 
+    bool connectRemoteHost(DriverInfo *dv);
+    bool disconnectRemoteHost(DriverInfo *dv);
+
     QString getUniqueDeviceLabel(const QString &label);
 
     void clearServers();

@@ -42,7 +42,7 @@ class KTabWidget;
 class KUrl;
 class KAction;
 
-class FITSImage;
+class FITSView;
 class FITSHistogram;
 class FITSTab;
 
@@ -65,7 +65,7 @@ public:
 
     QList<FITSTab*> getImages() { return fitsImages; }
 
-    FITSImage *getImage(int fitsUID);
+    FITSView *getImage(int fitsUID);
 
     static QStringList filterTypes;
 
@@ -94,8 +94,6 @@ public slots:
     int saveUnsaved(int index);
     void closeTab(int index);
     void toggleStars();
-    //void lowPassFilter();
-    //void equalize();
     void applyFilter(int ftype);
 
 private:

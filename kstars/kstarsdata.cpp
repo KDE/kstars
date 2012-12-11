@@ -42,13 +42,6 @@
 #include "timezonerule.h"
 
 #include <config-kstars.h>
-
-/*#ifdef HAVE_INDI_H
-#include "indi/indidriver.h"
-#include "lilxml.h"
-#include "indi/indistd.h"
-#endif*/
-
 #include "dialogs/detaildialog.h"
 
 namespace {
@@ -126,6 +119,7 @@ KStarsData::KStarsData() :
     m_logObject = new OAL::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
+
 }
 
 KStarsData::~KStarsData() {

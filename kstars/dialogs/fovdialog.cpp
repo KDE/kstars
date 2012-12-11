@@ -181,6 +181,9 @@ NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
         ui->FOVName->setText( f.name() );
         ui->FOVEditX->setText( toString(f.sizeX()) );
         ui->FOVEditY->setText( toString(f.sizeY()) );
+        ui->FOVEditOffsetX->setText( toString(f.offsetX()));
+        ui->FOVEditOffsetY->setText( toString(f.offsetY()));
+        ui->FOVEditRotation->setText(toString(f.rotation()));
         ui->ColorButton->setColor( QColor( f.color() ) );
         ui->ShapeBox->setCurrentIndex( f.shape() );
 
@@ -191,6 +194,9 @@ NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
     connect( ui->FOVName,     SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
     connect( ui->FOVEditX,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
     connect( ui->FOVEditY,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditOffsetX,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditOffsetY,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditRotation,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
     connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ),      SLOT( slotUpdateFOV() ) );
     connect( ui->ShapeBox,    SIGNAL( activated( int ) ),               SLOT( slotUpdateFOV() ) );
     connect( ui->ComputeEyeFOV,       SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
@@ -235,6 +241,16 @@ void NewFOV::slotUpdateFOV() {
     float sizeY = textToDouble(ui->FOVEditY, &okY);
     if ( okX && okY )
         f.setSize( sizeX, sizeY );
+
+    float xoffset = textToDouble(ui->FOVEditOffsetX, &okX);
+    float yoffset = textToDouble(ui->FOVEditOffsetY, &okY);
+    if (okX && okY)
+        f.setOffset(xoffset, yoffset);
+
+    float rot = textToDouble(ui->FOVEditRotation, &okX);
+    if (okX)
+        f.setRotation(rot);
+
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
 

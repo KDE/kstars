@@ -41,51 +41,42 @@
 #include "fitshistogram.h"
 #include "fitscommon.h"
 
+#include "dms.h"
+
 #define INITIAL_W	640
 #define INITIAL_H	480
 
-class FITSImage;
+#define MINIMUM_PIXEL_RANGE 5
+#define MINIMUM_STDVAR  5
 
-class FITSLabel : public QLabel
+class QProgressDialog;
+
+typedef struct
 {
-     Q_OBJECT
-public:
-    explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
-    virtual ~FITSLabel();
-
-protected:
-    virtual void mouseMoveEvent(QMouseEvent *e);
-    virtual void mousePressEvent(QMouseEvent *e);
-
-private:
-    FITSImage *image;
-
-signals:
-    void newStatus(const QString &msg, FITSBar id);
-    void pointSelected(int x, int y);
-};
+    double ra;
+    double dec;
+} wcs_point;
 
 class Edge
 {
 public:
-    int x;
-    int y;
+    float x;
+    float y;
     int val;
     int scanned;
-    int width;
-    double HFR;
-    double sum;
+    float width;
+    float HFR;
+    float sum;
 };
 
-class FITSImage : public QScrollArea
+class FITSImage
 {
-    Q_OBJECT
 public:
-    FITSImage(QWidget *parent = 0, FITSMode mode=FITS_NORMAL);
+    FITSImage(FITSMode mode=FITS_NORMAL);
     ~FITSImage();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
-    bool  loadFITS(const QString &filename);
+    bool  loadFITS(const QString &filename, QProgressDialog *progress=NULL);
     /* Save FITS */
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
@@ -93,45 +84,42 @@ public:
     /* Calculate stats */
     void calculateStats(bool refresh=false);
 
-    void subtract(FITSImage *darkFrame);
+    void subtract(float *darkFrame);
 
     // Access functions
-    double getCurrentZoom() { return currentZoom; }
     float * getImageBuffer() { return image_buffer; }
     void getSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
     void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
+    double getMin() { return stats.min; }
+    double getMax() { return stats.max; }
     int getDetectedStars() { return starCenters.count(); }
     QList<Edge*> getStarCenters() { return starCenters;}
     long getWidth() { return stats.dim[0]; }
     long getHeight() { return stats.dim[1]; }
     double getStdDev() { return stats.stddev; }
     double getAverage() { return stats.average; }
-    QImage * getDisplayImage() { return displayImage; }
+    int getBPP() { return stats.bitpix; }
     FITSMode getMode() { return mode;}
+
 
     int getFITSRecord(QString &recordList, int &nkeys);
 
     // Set functions
     void setFITSMinMax(double newMin,  double newMax);
 
-    void setGuideBoxSize(int size);
-
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
     void applyFilter(FITSScale type, float *image=NULL, int min=-1, int max=-1);
 
 
-
-
-    // Overlay
-    void drawOverlay(QPainter *);
-    void drawStarCentroid(QPainter *);
-    void drawGuideBox(QPainter *);
-    void updateFrame();
-
     // Star Detection & HFR
-    void toggleStars(bool enable) { markStars = enable;}
+    int findStars();
     double getHFR(HFRType type=HFR_AVERAGE);
-    void findCentroid();
+    void findCentroid(int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
+    void getCenterSelection(int *x, int *y);
+
+    // WCS
+    bool hasWCS() { return HasWCS; }
+    wcs_point *getWCSCoord()  { return wcs_coord; }
 
     /* stats struct to hold statisical data about the FITS data */
     struct
@@ -144,13 +132,6 @@ public:
         long dim[2];
     } stats;
 
-
-public slots:
-    void ZoomIn();
-    void ZoomOut();
-    void ZoomDefault();
-    void setGuideSquare(int x, int y);
-
 private:
 
 
@@ -158,33 +139,22 @@ private:
     double average();
     double stddev();
     int calculateMinMax(bool refresh=false);
+    void checkWCS();
 
     bool markStars;
-    FITSLabel *image_frame;
     float *image_buffer;				/* scaled image buffer (0-255) range */
-    double currentWidth,currentHeight; /* Current width and height due to zoom */
-    const double zoomFactor;           /* Image zoom factor */
-    double currentZoom;                /* Current Zoom level */
     fitsfile* fptr;
     int data_type;                     /* FITS data type when opened */
-    QImage  *displayImage;             /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
-    int guide_x, guide_y, guide_box;
-    bool firstLoad;
-
-
-
+    bool tempFile;
+    bool starsSearched;
+    bool HasWCS;
+    QString filename;
     FITSMode mode;
 
+    wcs_point *wcs_coord;
     QList<Edge*> starCenters;
 
-signals:
-    void newStatus(const QString &msg, FITSBar id);
-    void actionUpdated(const QString &name, bool enable);
-    void guideStarSelected(int x, int y);
 };
-
-
-
 
 #endif

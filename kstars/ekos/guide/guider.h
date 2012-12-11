@@ -34,7 +34,7 @@ public:
     bool is_guiding( void ) const;
     void set_math( cgmath *math );
     void fill_interface( void );
-    void set_image(FITSImage *image);
+    void set_image(FITSView *image);
     void set_ready(bool enable) { is_ready = enable;}
 
 protected slots:
@@ -58,10 +58,11 @@ private:
     custom_drawer *pDriftOut;
     cscroll_graph *drift_graph;
 
-    FITSImage *pimage;
+    FITSView *pimage;
 	bool is_started;
     bool is_ready;
 	bool half_refresh_rate;
+    int lost_star_try;
 
 
 

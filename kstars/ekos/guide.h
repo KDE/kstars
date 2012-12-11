@@ -47,6 +47,10 @@ public:
     void setTelescope(ISD::GDInterface *newTelescope);
     void addST4(ISD::ST4 *newST4);
 
+    void addGuideHead();
+    void syncTelescopeInfo();
+    void syncCCDInfo();
+
     void appendLogText(const QString &);
     void clearLog();
 
@@ -85,7 +89,7 @@ private:
     rcalibration *calibration;
     rguider *guider;
 
-    bool telescopeGuide;
+    bool useGuideHead;
 
     QStringList logText;
 

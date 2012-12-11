@@ -10,9 +10,6 @@
     <height>288</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>NotifyUpdatesUI</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">

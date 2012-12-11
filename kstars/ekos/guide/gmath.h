@@ -18,7 +18,7 @@
 #include "matr.h"
 #include "common.h"
 
-class FITSImage;
+class FITSView;
 
 typedef struct
 {
@@ -26,8 +26,8 @@ typedef struct
 	double square;
 }guide_square_t;
 
-#define CENTROID_THRESHOLD 0
-#define SMART_THRESHOLD 1
+#define SMART_THRESHOLD 0
+#define CENTROID_THRESHOLD 1
 #define AUTO_THRESHOLD	2
 #define NO_THRESHOLD  	3
 
@@ -123,6 +123,7 @@ public:
 	bool set_video_params( int vid_wd, int vid_ht );
     float *get_data_buffer( int *width, int *height, int *length, int *size );
 	bool set_guider_params( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal );
+    void get_guider_params( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal );
 	bool set_reticle_params( double x, double y, double ang );
 	bool get_reticle_params( double *x, double *y, double *ang ) const;
 	int  get_square_index( void ) const;
@@ -137,8 +138,8 @@ public:
 	void get_star_screen_pos( double *dx, double *dy ) const;
 	bool reset( void );
     void set_buffer(float *buffer);
-    void set_image(FITSImage *image);
-    FITSImage *get_image() { return pimage; }
+    void set_image(FITSView *image);
+    FITSView *get_image() { return pimage; }
 	
 	ovr_params_t *prepare_overlays( void );
 	void move_square( double newx, double newy );
@@ -150,6 +151,7 @@ public:
 	void suspend( bool mode );
 	bool is_suspended( void ) const;
     bool is_lost_star(void) const;
+    void set_lost_star(bool is_lost);
 	void do_processing( void );
 	static double precalc_proportional_gain( double g_rate );
 	bool calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y );
@@ -160,7 +162,7 @@ private:
 	// sys...
 	uint32_t ticks;		// global channel ticker
     float *pdata;		// pointer to data buffer
-    FITSImage *pimage;   // pointer to image
+    FITSView *pimage;   // pointer to image
 	int video_width, video_height;	// video frame dimensions
 	double ccd_pixel_width, ccd_pixel_height, aperture, focal;
 	Matrix	ROT_Z;

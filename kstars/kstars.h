@@ -47,6 +47,7 @@ class SkyCalendar;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
+class MoonPhaseTool;
 class FlagManager;
 class ObservingList;
 class EquipmentWriter;
@@ -63,6 +64,7 @@ class OpsSupernovae;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
+class OpsEkos;
 class EkosManager;
 #ifdef HAVE_XPLANET
 class OpsXplanet;
@@ -125,6 +127,8 @@ public:
     inline SkyMap* map() const { return skymap; }
 
     inline ObservingList* observingList() const { return obsList; }
+
+    inline EkosManager *ekosManager() const { return ekosmenu; }
 
     Execute* getExecute();
 
@@ -509,6 +513,9 @@ private slots:
     /** action slot: open Jupiter Moons tool */
     void slotJMoonTool();
 
+    /** action slot: open Moon Phase Calendar tool */
+    void slotMoonPhaseTool();
+
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();
 
@@ -639,6 +646,7 @@ private:
     ScriptBuilder *sb;
     PlanetViewer *pv;
     JMoonTool *jmt;
+    MoonPhaseTool *mpt;
     FlagManager *fm;
     AstroCalc *astrocalc;
     PrintingWizard *printingWizard;
@@ -661,6 +669,7 @@ private:
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;
+    OpsEkos *opsekos;
 #ifdef HAVE_XPLANET
     OpsXplanet  *opsxplanet;
 #endif

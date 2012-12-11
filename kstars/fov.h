@@ -41,7 +41,7 @@ public:
     
     /**Default constructor*/
     FOV();
-    FOV( const QString &name, float a, float b=-1, Shape shape=SQUARE, const QString &color="#FFFFFF" );
+    FOV( const QString &name, float a, float b=-1, float xoffset=0, float yoffset=0, float rot=0, Shape shape=SQUARE, const QString &color="#FFFFFF" );
 
     inline QString name() const { return m_name; }
     void setName( const QString &n ) { m_name = n; }
@@ -54,6 +54,13 @@ public:
     inline float sizeY() const { return m_sizeY; }
     void setSize( float s ) { m_sizeX = m_sizeY = s; }
     void setSize( float sx, float sy ) { m_sizeX = sx; m_sizeY = sy; }
+
+    void setOffset(float fx, float fy) { m_offsetX = fx ; m_offsetY = fy; }
+    inline float offsetX() const { return m_offsetX; }
+    inline float offsetY() const { return m_offsetY; }
+
+    void setRotation(float rt) { m_rotation = rt; }
+    inline float rotation() const { return m_rotation; }
 
     inline QString color() const { return m_color; }
     void setColor( const QString &c ) { m_color = c; }
@@ -77,9 +84,11 @@ public:
     /** @short Read list of FOVs from "fov.dat" */
     static QList<FOV*>readFOVs();
 private:
-    QString m_name,  m_color;
-    float   m_sizeX, m_sizeY;
+    QString m_name, m_color;
     Shape   m_shape;
+    float   m_sizeX, m_sizeY;
+    float   m_offsetX, m_offsetY;
+    float   m_rotation;
 };
 
 #endif

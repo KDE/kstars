@@ -11,15 +11,18 @@
 #include "Options.h"
 
 #include <KMessageBox>
+#include <KPlotWidget>
+#include <KPlotObject>
+#include <KPlotAxis>
 
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
-#include <libindi/basedevice.h>
+#include <basedevice.h>
 
 #define MAXIMUM_ABS_ITERATIONS  30
 
@@ -60,6 +63,9 @@ Focus::Focus()
 
     focusType = FOCUS_MANUAL;
 
+    HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
+    HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Absolute Position") );
+
     resetButtons();
 
     appendLogText(i18n("Idle."));
@@ -72,6 +78,12 @@ Focus::Focus()
     stepIN->setValue(Options::focusTicks());
 
 
+}
+
+Focus::~Focus()
+{
+    qDeleteAll(HFRPoints);
+    HFRPoints.clear();
 }
 
 void Focus::toggleAutofocus(bool enable)
@@ -156,13 +168,14 @@ void Focus::startFocus()
 
     capture();
 
-
-
     inAutoFocus = true;
 
     resetButtons();
 
     reverseDir = false;
+
+    qDeleteAll(HFRPoints);
+    HFRPoints.clear();
 
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
@@ -177,6 +190,8 @@ void Focus::stopFocus()
     inAutoFocus = false;
     inFocusLoop = false;
 
+    currentCCD->disconnect(this);
+
     resetButtons();
 
     absIterations = 0;
@@ -190,6 +205,8 @@ void Focus::capture()
     if (currentCCD == NULL)
         return;
 
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
     double seqExpose = exposureIN->value();
     CCDFrameType ccdFrame = FRAME_LIGHT;
 
@@ -199,14 +216,14 @@ void Focus::capture()
         return;
     }
 
-    currentCCD->setCaptureMode(FITS_FOCUS);
-    currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+    targetChip->setCaptureMode(FITS_FOCUS);
+    targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    currentCCD->setFrameType(ccdFrame);
+    targetChip->setFrameType(ccdFrame);
 
-    currentCCD->capture(seqExpose);
+    targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
         appendLogText(i18n("Capturing image..."));
@@ -281,21 +298,26 @@ void Focus::newFITS(IBLOB *bp)
     INDI_UNUSED(bp);
     QString HFRText;
 
-    FITSViewer *fv = currentCCD->getViewer();
+    // Ignore guide head if there is any.
+    if (!strcmp(bp->name, "CCD2"))
+        return;
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+
+    FITSImage *image_data = targetImage->getImageData();
 
     currentCCD->disconnect(this);
 
-    double currentHFR=0;
-
-    foreach(FITSTab *tab, fv->getImages())
+    if (targetImage == NULL)
     {
-        if (tab->getUID() == currentCCD->getFocusTabID())
-        {
-            currentHFR = tab->getImage()->getHFR(HFR_MAX);
-            //qDebug() << "Focus HFR is " << tab->getImage()->getHFR() << endl;
-            break;
-        }
+        qDebug() << "Error: targetImage is NULL!" << endl;
+        return;
     }
+
+    image_data->findStars();
+
+    double currentHFR= image_data->getHFR(HFR_MAX);
 
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
@@ -305,9 +327,12 @@ void Focus::newFITS(IBLOB *bp)
     HFROut->setText(HFRText);
 
     if (inFocusLoop)
+    {
         capture();
+        return;
+    }
 
-    if (focusType == FOCUS_MANUAL)
+    if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
 
     if (canAbsMove)
@@ -320,8 +345,8 @@ void Focus::newFITS(IBLOB *bp)
 
 void Focus::autoFocusAbs(double currentHFR)
 {
-    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0;
-    static double initHFR=0, minHFR=0, initSlopeHFR=0;
+    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0, minPos=1e6, maxPos=0;
+    static double initHFR=0, minHFR=0, maxHFR=1,initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 2);
@@ -332,9 +357,9 @@ void Focus::autoFocusAbs(double currentHFR)
     //qDebug() << "Delta: " << deltaTxt << endl;
 
     if (minHFR)
-         appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)").arg(HFRText).arg(pulseStep).arg(deltaTxt));
+         appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)", HFRText, pulseStep, deltaTxt));
     else
-        appendLogText(i18n("FITS received. HFR %1 @ %2.").arg(HFRText).arg(pulseStep));
+        appendLogText(i18n("FITS received. HFR %1 @ %2.", HFRText, pulseStep));
 
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
@@ -350,6 +375,43 @@ void Focus::autoFocusAbs(double currentHFR)
         capture();
         return;
     }
+
+    if (currentHFR > maxHFR || HFRPoints.empty())
+    {
+        maxHFR = currentHFR;
+
+        if (HFRPoints.empty())
+        {
+            maxPos=1;
+            minPos=1e6;
+        }
+    }
+
+    if (pulseStep > maxPos)
+        maxPos = pulseStep;
+    if (pulseStep < minPos)
+        minPos = pulseStep;
+
+    HFRPoint *p = new HFRPoint();
+
+    p->HFR = currentHFR;
+    p->pos = pulseStep;
+
+    HFRPoints.append(p);
+
+    HFRPlot->removeAllPlotObjects();
+
+    //HFRPlot->setLimits(pulseStep-pulseDuration*5, pulseStep+pulseDuration*5, currentHFR/1.5, currentHFR*1.5 );
+    HFRPlot->setLimits(minPos-pulseDuration, maxPos+pulseDuration, currentHFR/1.5, maxHFR );
+
+    KPlotObject *hfrObj = new KPlotObject( Qt::red, KPlotObject::Points, 2 );
+
+    foreach(HFRPoint *p, HFRPoints)
+        hfrObj->addPoint(p->pos, p->HFR);
+
+    HFRPlot->addPlotObject(hfrObj);
+
+    HFRPlot->update();
 
     switch (lastFocusDirection)
     {
@@ -516,7 +578,7 @@ void Focus::autoFocusRel(double currentHFR)
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-HFR)*100.0, 0,'g', 2);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
-    appendLogText(i18n("FITS received. HFR %1. Delta (%2%)").arg(HFRText).arg(deltaTxt));
+    appendLogText(i18n("FITS received. HFR %1. Delta (%2%)", HFRText, deltaTxt));
 
     if (pulseDuration <= 32)
     {
@@ -685,7 +747,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 void Focus::appendLogText(const QString &text)
 {
 
-    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -730,6 +792,7 @@ void Focus::resetButtons()
         stopFocusB->setEnabled(true);
 
         startFocusB->setEnabled(false);
+        startLoopB->setEnabled(false);
         captureB->setEnabled(false);
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
@@ -743,6 +806,7 @@ void Focus::resetButtons()
         startFocusB->setEnabled(false);
 
     stopFocusB->setEnabled(false);
+    startLoopB->setEnabled(true);
 
 
     if (focusType == FOCUS_MANUAL)
@@ -755,6 +819,12 @@ void Focus::resetButtons()
 
         captureB->setEnabled(true);
         startLoopB->setEnabled(true);
+
+    }
+    else
+    {
+        focusOutB->setEnabled(false);
+        focusInB->setEnabled(false);
     }
 }
 

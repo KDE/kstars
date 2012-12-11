@@ -19,9 +19,16 @@
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
 
+class KPlotObject;
+
 namespace Ekos
 {
 
+struct HFRPoint
+{
+    int pos;
+    double HFR;
+};
 
 class Focus : public QWidget, public Ui::Focus
 {
@@ -30,7 +37,7 @@ class Focus : public QWidget, public Ui::Focus
 
 public:
     Focus();
-
+    ~Focus();
 
     void setFocuser(ISD::GDInterface *newFocuser);
     void addCCD(ISD::GDInterface *newCCD);
@@ -99,6 +106,7 @@ private:
 
     QStringList logText;
 
+    QList<HFRPoint *> HFRPoints;
 };
 
 }

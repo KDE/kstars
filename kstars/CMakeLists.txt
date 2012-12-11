@@ -8,6 +8,7 @@ if (CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
     fitsviewer/fitsimage.cpp
+    fitsviewer/fitsview.cpp
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp
     fitsviewer/fitstab.cpp
@@ -28,6 +29,7 @@ if (INDI_FOUND)
     indi/clientmanager.cpp
     indi/guimanager.cpp
     indi/driverinfo.cpp
+    indi/deviceinfo.cpp
     indi/indidevice.cpp
     indi/indigroup.cpp
     indi/indiproperty.cpp
@@ -52,6 +54,7 @@ if (INDI_FOUND)
     )
 
    set(ekosui_SRCS
+      ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
       ekos/focus.ui
@@ -65,7 +68,8 @@ if (INDI_FOUND)
       ekos/capture.cpp
       ekos/focus.cpp
       ekos/guide.cpp
-
+      ekos/opsekos.cpp
+      ekos/QProgressIndicator.cpp
       ekos/guide/common.cpp
       ekos/guide/gmath.cpp
       ekos/guide/guider.cpp
@@ -77,6 +81,10 @@ if (INDI_FOUND)
 
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
+
+if (WCSLIB_FOUND)
+  include_directories( ${WCSLIB_INCLUDE_DIR} )
+endif (WCSLIB_FOUND)
 
 if ( XPLANET_FOUND )
   set (xplanet_SRCS
@@ -94,9 +102,6 @@ if ( OPENGL_FOUND )
     )
   add_definitions(-DHAVE_OPENGL)
 endif( OPENGL_FOUND )
-
-
-
 
 include_directories(
     ${kstars_SOURCE_DIR}/kstars/tools
@@ -471,6 +476,9 @@ endif (CFITSIO_FOUND)
 if (INDI_FOUND)
   target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
 endif (INDI_FOUND)
+if (WCSLIB_FOUND)
+    target_link_libraries(kstars ${WCSLIB_LIBRARIES})
+endif (WCSLIB_FOUND)
 
 if( OPENGL_FOUND )
     target_link_libraries(KStarsLib

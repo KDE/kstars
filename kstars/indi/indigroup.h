@@ -14,7 +14,7 @@
 #ifndef INDIGROUP_H_
 #define INDIGROUP_H_
 
-#include <libindi/indiproperty.h>
+#include <indiproperty.h>
 
 #include <QString>
 #include <QList>

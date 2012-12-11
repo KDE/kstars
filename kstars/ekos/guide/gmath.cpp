@@ -16,12 +16,14 @@
 #include "vect.h"
 #include "matr.h"
 
-#include "../fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #define DEF_SQR_0	(16-0)
 #define DEF_SQR_1	(32-0)
 #define DEF_SQR_2	(64-0)
 #define DEF_SQR_3	(128-0)
+
+//#define GUIDE_LOG
 
 const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 											{DEF_SQR_1, DEF_SQR_1*DEF_SQR_1*1.0},
@@ -32,13 +34,12 @@ const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 
 
 const square_alg_t guide_square_alg[] = {
-                                            { CENTROID_THRESHOLD, "Fast"},
 											{ SMART_THRESHOLD, "Smart" },
+                                            { CENTROID_THRESHOLD, "Fast"},
 											{ AUTO_THRESHOLD, "Auto" },
 											{ NO_THRESHOLD, "No thresh." },
 											{ -1, {0} }
 											};
-
 
 cgmath::cgmath()
 {
@@ -49,7 +50,8 @@ cgmath::cgmath()
 	video_height = -1;
 	ccd_pixel_width  = 0;
 	ccd_pixel_height = 0;
-	focal = 1;
+    focal = 0;
+    aperture = 0;
 	ROT_Z = Matrix(0);
 	preview_mode = true;
 	suspended	 = false;
@@ -58,7 +60,7 @@ cgmath::cgmath()
 
 	// square variables
 	square_idx		= DEFAULT_SQR;
-    square_alg_idx	= CENTROID_THRESHOLD;
+    square_alg_idx	= SMART_THRESHOLD;
 	square_size		= guide_squares[square_idx].size;
 	square_square 	= guide_squares[square_idx].square;
 	square_pos 	 = Vector(0);
@@ -84,6 +86,7 @@ cgmath::cgmath()
     memset( drift[GUIDE_RA], 0, sizeof(double)*MAX_ACCUM_CNT );
     memset( drift[GUIDE_DEC], 0, sizeof(double)*MAX_ACCUM_CNT );
     drift_integral[GUIDE_RA] = drift_integral[GUIDE_DEC] = 0;
+
 
 	// statistics
 	do_statistics = true;
@@ -118,12 +121,14 @@ void cgmath::set_buffer(float *buffer)
     pdata = buffer;
 }
 
-void cgmath::set_image(FITSImage *image)
+void cgmath::set_image(FITSView *image)
 {
     pimage = image;
 
-    set_buffer(pimage->getImageBuffer());
-    set_video_params(pimage->getWidth(), pimage->getHeight());
+    FITSImage *image_data = pimage->getImageData();
+
+    set_buffer(image_data->getImageBuffer());
+    set_video_params(image_data->getWidth(), image_data->getHeight());
 }
 
 float *cgmath::get_data_buffer( int *width, int *height, int *length, int *size )
@@ -156,6 +161,14 @@ bool cgmath::set_guider_params( double ccd_pix_wd, double ccd_pix_ht, double gui
 	focal 				= guider_focal;
 
  return true;
+}
+
+void cgmath::get_guider_params( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal )
+{
+    *ccd_pix_wd = ccd_pixel_width * 1000.0;
+    *ccd_pix_ht = ccd_pixel_height * 1000.0;
+    *guider_aperture = aperture;
+    *guider_focal = focal;
 }
 
 
@@ -568,6 +581,10 @@ bool cgmath::is_lost_star(void) const
     return lost_star;
 }
 
+void cgmath::set_lost_star(bool is_lost)
+{
+    lost_star = is_lost;
+}
 
 Vector cgmath::find_star_local_pos( void ) const
 {
@@ -587,19 +604,20 @@ Vector cgmath::find_star_local_pos( void ) const
 	switch( square_alg_idx )
 	{
 
-    // Using FITSImage centroid algorithm by Jasem Mutlaq
+    // Using FITSView centroid algorithm by Jasem Mutlaq
     case CENTROID_THRESHOLD:
     {
-        int center_x=-1, center_y=-1;
+        float center_x=-1, center_y=-1;
         int max_val = -1;
         int x1=square_pos.x;
         int x2=square_pos.x + square_size;
         int y1=square_pos.y;
         int y2=square_pos.y + square_size;
+        FITSImage *image_data = pimage->getImageData();
 
         //qDebug() << "Search Region: X1: " << x1 << ", X2: " << x2 << " , Y1: " << y1 << " , Y2: " << y2 << endl;
 
-        foreach(Edge *center, pimage->getStarCenters())
+        foreach(Edge *center, image_data->getStarCenters())
         {
 
             //qDebug() << "Star X: " << center->x << ", Y: " << center->y << endl;
@@ -774,6 +792,9 @@ void cgmath::process_axes( void  )
  int cnt = 0;
  double t_delta = 0;
 
+    #ifdef GUIDE_LOG
+    qDebug() << "Processing Axes" << endl;
+    #endif
 
  	// process axes...
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
@@ -792,6 +813,10 @@ void cgmath::process_axes( void  )
  		for( int i = 0, idx = channel_ticks[k];i < cnt;i++ )
  		{
  			t_delta += drift[k][idx];
+
+            #ifdef GUIDE_LOG
+            qDebug() << "At #" << i << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta  << endl;
+            #endif
  		
 			if( idx > 0 )
 				--idx;
@@ -805,11 +830,20 @@ void cgmath::process_axes( void  )
 		out_params.delta[k] = t_delta / (double)cnt;
 		drift_integral[k] /= (double)MAX_ACCUM_CNT;
  	
+        #ifdef GUIDE_LOG
+        qDebug() << "cnt: " << cnt << endl;
+        qDebug() << "delta[" << k << "]= "  << out_params.delta[k] << endl;
+        qDebug() << "drift_integral[" << k << "]= "  << drift_integral[k] << endl;
+        #endif
         //if( k == GUIDE_RA )
 		//	log_i( "PROP = %f INT = %f", out_params.delta[k], drift_integral[k] );
 
 		out_params.pulse_length[k] = fabs(out_params.delta[k]*in_params.proportional_gain[k] + drift_integral[k]*in_params.integral_gain[k]);
  		out_params.pulse_length[k] = out_params.pulse_length[k] <= in_params.max_pulse_length[k] ? out_params.pulse_length[k] : in_params.max_pulse_length[k];
+
+        #ifdef GUIDE_LOG
+        qDebug() << "pulse_length[" << k << "]= "  << out_params.pulse_length[k] << endl;
+        #endif
 
  		// calc direction
  		if( !in_params.enabled[k] )
@@ -823,10 +857,28 @@ void cgmath::process_axes( void  )
             if( k == GUIDE_RA )
                 out_params.pulse_dir[k] = out_params.delta[k] > 0 ? RA_DEC_DIR : RA_INC_DIR;   // GUIDE_RA. right dir - decreases GUIDE_RA
  			else
+            {
                 out_params.pulse_dir[k] = out_params.delta[k] > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
+
+                if (ROT_Z.x[1][1] < 0)
+                    out_params.pulse_dir[k] = (out_params.pulse_dir[k] == DEC_INC_DIR) ? DEC_DEC_DIR : DEC_INC_DIR;
+            }
  		}
  		else
  			out_params.pulse_dir[k] = NO_DIR;
+
+    #ifdef GUIDE_LOG
+        if (out_params.pulse_dir[k] == NO_DIR)
+            qDebug() << "Direction: NO_DIR" << endl;
+        else if (out_params.pulse_dir[k] == RA_DEC_DIR)
+            qDebug() << "Direction: Decrease RA" << endl;
+        else if (out_params.pulse_dir[k] == RA_INC_DIR)
+            qDebug() << "Direction: Increase RA" << endl;
+        else if (out_params.pulse_dir[k] == DEC_INC_DIR)
+            qDebug() << "Direction: Increase DEC" << endl;
+        else if (out_params.pulse_dir[k] == DEC_DEC_DIR)
+            qDebug() << "Direction: Decrease DEC" << endl;
+    #endif
 
  	}
 
@@ -837,7 +889,7 @@ void cgmath::do_processing( void )
 {
  Vector arc_star_pos, arc_reticle_pos, pos, p;
 
- 	// do nothing if suspended
+    // do nothing if suspended
  	if( suspended )
  		return;
 
@@ -860,15 +912,31 @@ void cgmath::do_processing( void )
 	if( preview_mode )
 		return;
 
+    #ifdef GUIDE_LOG
+    qDebug() << "################## BEGIN PROCESSING ##################" << endl;
+    #endif
+
 	// translate star coords into sky coord. system
 
 	// convert from pixels into arcsecs
 	arc_star_pos 	= point2arcsec( star_pos );
 	arc_reticle_pos = point2arcsec( reticle_pos );
 
+
+    #ifdef GUIDE_LOG
+    qDebug() << "Star X: " << star_pos.x << " Y: " << star_pos.y << endl;
+    qDebug() << "Reticle X: " << reticle_pos.x << " Y:" << reticle_pos.y << endl;
+    qDebug() << "Star Sky Coords RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y << endl;
+    qDebug() << "Reticle Sky Coords RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y << endl;
+    #endif
+
 	// translate into sky coords.
 	star_pos = arc_star_pos - arc_reticle_pos;
-	star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
+    star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
+
+    #ifdef GUIDE_LOG
+    qDebug() << "-------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y << endl;
+    #endif
 
 	star_pos = star_pos * ROT_Z;
 
@@ -876,6 +944,11 @@ void cgmath::do_processing( void )
 	//put coord to drift list
     drift[GUIDE_RA][channel_ticks[GUIDE_RA]]   = star_pos.x;
     drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]] = star_pos.y;
+
+    #ifdef GUIDE_LOG
+    qDebug() << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y << endl;
+    qDebug() << "RA channel ticks: " << channel_ticks[GUIDE_RA] << " DEC channel ticks: " << channel_ticks[GUIDE_DEC] << endl;
+    #endif
 
 	// make decision by axes
 	process_axes();
@@ -885,6 +958,10 @@ void cgmath::do_processing( void )
 
 	// finally process tickers
 	do_ticks();
+
+    #ifdef GUIDE_LOG
+    qDebug() << "################## FINISH PROCESSING ##################" << endl;
+    #endif
 }
 
 

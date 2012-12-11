@@ -147,6 +147,16 @@
       <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>
       <default>/dev/ttyUSB0</default>
     </entry>
+    <entry name="focuserPort" type="String">
+      <label>INDI Focuser port</label>
+      <whatsthis>The port to which the focuser is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default>/dev/ttyUSB1</default>
+    </entry>
+    <entry name="filterPort" type="String">
+      <label>INDI Filter port</label>
+      <whatsthis>The port to which the filter is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default>/dev/ttyUSB2</default>
+    </entry>
     <entry name="videoPort" type="String">
       <label>INDI Video port</label>
       <whatsthis>The port to which the video device is connected</whatsthis>
@@ -1203,6 +1213,60 @@
          <label>Default Focuser exposure value</label>
             <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
             <default>0.5</default>
+       </entry>
+       <entry name="remoteScopeName" type="String">
+         <label>Remote Scope Name</label>
+         <whatsthis>Name of the remote INDI telescope device.</whatsthis>
+       </entry>
+       <entry name="remoteCCDName" type="String">
+         <label>Remote CCD Name</label>
+         <whatsthis>Name of the remote INDI CCD device.</whatsthis>
+       </entry>
+       <entry name="remoteGuiderName" type="String">
+         <label>Remote Guider Name</label>
+         <whatsthis>Name of the remote INDI Guider device. If the CCD and Guider are the same device, it must be specified here as well.</whatsthis>
+       </entry>
+       <entry name="remoteFocuserName" type="String">
+         <label>Remote Focuser Name</label>
+         <whatsthis>Name of the remote INDI focuser device.</whatsthis>
+       </entry>
+       <entry name="remoteFilterName" type="String">
+         <label>Remote Filter Name</label>
+         <whatsthis>Name of the remote INDI Filter device.</whatsthis>
+       </entry>
+       <entry name="remoteAuxName" type="String">
+         <label>Remote Auxiliary Name</label>
+         <whatsthis>Name of the remote INDI Auxiliary device.</whatsthis>
+       </entry>
+       <entry name="remoteHost" type="String">
+         <label>Remote INDI host</label>
+         <whatsthis>Hostname of the remote INDI server for Ekos.</whatsthis>
+       </entry>
+       <entry name="remotePort" type="String">
+         <label>Remote Port</label>
+         <whatsthis>Port of the remote INDI server for Ekos.</whatsthis>
+       </entry>
+       <entry name="localMode" type="Bool">
+         <label>Ekos connection mode</label>
+         <whatsthis>Ekos is started in local mode.</whatsthis>
+         <default>true</default>
+       </entry>
+       <entry name="remoteMode" type="Bool">
+         <label>Ekos connection mode</label>
+         <whatsthis>Ekos is started in remote mode.</whatsthis>
+         <default>false</default>
+       </entry>
+       <entry name="neverLoadConfig" type="Bool">
+         <label>Never load device configuration?</label>
+         <default>true</default>
+       </entry>
+       <entry name="loadConfigOnConnection" type="Bool">
+         <label>Load device configuration upon successful connection?</label>
+         <default>false</default>
+       </entry>
+       <entry name="loadDefaultConfig" type="Bool">
+         <label>Always load device default configuration upon successful connection?</label>
+         <default>false</default>
        </entry>
    </group>
 

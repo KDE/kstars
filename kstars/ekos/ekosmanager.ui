@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>473</width>
-    <height>494</height>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,11 +23,50 @@
       <attribute name="title">
        <string>Setup</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>1. Select INDI Mode</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QRadioButton" name="kcfg_localMode">
+            <property name="text">
+             <string>Local</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="kcfg_remoteMode">
+            <property name="text">
+             <string>Remote</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>303</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>1. Select Devices</string>
+          <string>2. Select Devices</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
@@ -163,9 +202,9 @@
        <item>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>2. Start &amp;&amp; Stop INDI</string>
+          <string>3. Start &amp;&amp; Stop INDI</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
@@ -188,6 +227,16 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="KPushButton" name="optionsB">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>Options...</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -196,7 +245,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
-          <string>3. Connect &amp;&amp; Disconnect Devices</string>
+          <string>4. Connect &amp;&amp; Disconnect Devices</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
           <item>

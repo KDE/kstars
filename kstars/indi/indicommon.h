@@ -18,6 +18,8 @@ typedef enum { SERVER_CLIENT, SERVER_ONLY} ServerMode;
 
 typedef enum { DATA_FITS, DATA_VIDEO, DATA_CCDPREVIEW, DATA_ASCII, DATA_OTHER } INDIDataTypes ;
 
+typedef enum { LOAD_LAST_CONFIG, SAVE_CONFIG, LOAD_DEFAULT_CONFIG } INDIConfig;
+
 typedef enum
 {
     NO_DIR = 0,
@@ -55,7 +57,7 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSE
                      EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, EQUATORIAL_EOD_COORD_REQUEST, HORIZONTAL_COORD,  /* Telescope */
                      TELESCOPE_ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, TELESCOPE_MOTION_NS, /* Telescope */
                      TELESCOPE_MOTION_WE, TELESCOPE_PARK,  /* Telescope */
-                     CCD_EXPOSURE_REQUEST, CCD_TEMPERATURE_REQUEST, CCD_FRAME,           /* CCD */
+                     CCD_EXPOSURE, CCD_TEMPERATURE_REQUEST, CCD_FRAME,           /* CCD */
                      CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO,
                      VIDEO_STREAM,						/* Video */
                      FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
