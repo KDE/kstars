@@ -77,7 +77,7 @@ void CatalogComponent::update( KSNumbers * ) {
         KStarsData *data = KStarsData::Instance();
         foreach ( SkyObject *obj, m_ObjectList ) {
             DeepSkyObject *dso  = dynamic_cast< DeepSkyObject * >( obj );
-            StarObject *so = dynamic_cast< StarObject *>( so );
+            StarObject *so = dynamic_cast< StarObject *>( obj );
             Q_ASSERT( dso || so ); // We either have stars, or deep sky objects
             if( dso ) {
                 // Update the deep sky object if need be
