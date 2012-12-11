@@ -30,8 +30,8 @@
  * ra = Right Ascension of the object (in HH:MM:SS format)
  * dec = Declination of the object (in +/-DD:MM:SS format)
  * type = type of the object (from skyqpainter::drawDeepSkySymbol())
- * 0: general star (not to be used)
- * 1: star
+ * 0: general star (not to be used for custom catalogs)
+ * 1: Catalog star
  * 2: planet
  * 3: Open Cluster
  * 4: Globular Cluster
@@ -43,6 +43,12 @@
  * 14: Galaxy cluster
  * 15: Dark Nebula
  * 16: Quasar
+ * 17: Multiple Star
+ * 18: Radio Source
+ * 19: Satellite
+ * 20: Supernova
+ * 21: TYPE_UNKNOWN
+ * 
  * magnitude = Apparent Magnitude of the object
  * position_angle = Position Angle of the object
  * major_axis = Major Axis Length (arcmin)

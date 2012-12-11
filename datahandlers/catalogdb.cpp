@@ -732,7 +732,7 @@ void CatalogDB::GetAllObjects(const QString &catalog,
         } else {  // Add a deep-sky object
             DeepSkyObject *o = new DeepSkyObject(iType, RA, Dec, mag,
                                                  name, QString(), lname,
-                                                 catPrefix, a, b, -PA);
+                                                 catPrefix, a, b, PA);
             o->setFlux(flux);
             o->setCustomCatalog(catalog_ptr);
 
