@@ -214,7 +214,20 @@ class KSUserDB {
      *
      * @return bool
      **/
+    bool RebuildDB();
+    /**
+     * @brief Rebuilds the User DB from scratch using RebuildDB.
+     * Also, loads any previous user data into the DB.
+     *
+     * @return bool
+     **/    
     bool FirstRun();
+    /**
+     * @brief Imports flags data from previous format
+     *
+     * @return bool
+     **/    
+    bool ImportFlags();
     /**
      * @brief Linked to the user database _once_.
      **/

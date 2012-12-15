@@ -20,6 +20,13 @@
 #include "kstarsdata.h"
 #include <kdebug.h>
 
+/*
+ * TODO (spacetime):
+ * The database supports storing logs. But it needs to be implemented.
+ * 
+ * One of the unresolved problems was the creation of a unique identifier
+ * for each object (DSO,planet,star etc) for use in the database.
+*/
 
 bool KSUserDB::Initialize() {
     // Every logged in user has their own db.
@@ -56,6 +63,16 @@ QSqlError KSUserDB::LastError() {
 }
 
 bool KSUserDB::FirstRun() {
+    if (!RebuildDB())
+      return false;
+
+    ImportFlags();
+
+    return true;
+}
+
+
+bool KSUserDB::RebuildDB() {
     kWarning() << i18n("Rebuilding User Database");
     QVector<QString> tables;
     tables.append("CREATE TABLE user ( "
@@ -596,4 +613,35 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     equip.clear();
     userdb_.close();
     return;
+}
+
+bool KSUserDB::ImportFlags() {
+    QString flagfilename = KStandardDirs::locateLocal("appdata", "flags.dat");
+    QFile flagsfile(flagfilename);
+    if (!flagsfile.exists()) {
+        return false;  // No upgrade needed. Flags file doesn't exist.
+    }
+
+    QList< QPair<QString, KSParser::DataTypes> > flag_file_sequence;
+    flag_file_sequence.append(qMakePair(QString("RA"), KSParser::D_QSTRING));
+    flag_file_sequence.append(qMakePair(QString("Dec"), KSParser::D_QSTRING));
+    flag_file_sequence.append(qMakePair(QString("epoch"), KSParser::D_QSTRING));
+    flag_file_sequence.append(qMakePair(QString("icon"), KSParser::D_QSTRING));
+    flag_file_sequence.append(qMakePair(QString("label"), KSParser::D_QSTRING));
+    flag_file_sequence.append(qMakePair(QString("color"), KSParser::D_QSTRING));
+    KSParser flagparser(flagfilename,'#',flag_file_sequence,' ');
+
+    QHash<QString, QVariant> row_content;
+    while (flagparser.HasNextRow()){
+        row_content = flagparser.ReadNextRow();
+        QString ra = row_content["RA"].toString();
+        QString dec = row_content["Dec"].toString();
+        QString epoch = row_content["epoch"].toString();
+        QString icon = row_content["icon"].toString();
+        QString label = row_content["label"].toString();
+        QString color = row_content["color"].toString();
+
+        AddFlag(ra,dec,epoch,icon,label,color);
+    }
+    return true;
 }

@@ -90,7 +90,6 @@ void CometsComponent::loadData() {
     emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
 
-    QList<QString> newList;
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("epoch_mjd"), KSParser::D_INT));

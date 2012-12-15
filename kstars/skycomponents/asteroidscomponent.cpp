@@ -92,9 +92,6 @@ void AsteroidsComponent::loadData() {
     m_ObjectList.clear();
     objectNames( SkyObject::ASTEROID ).clear();
 
-    // TODO(spacetime): Am I complicating things? ~~spacetime
-    // Providing a list of the columns in advance will help check
-    // for valid rows.
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("epoch_mjd"), KSParser::D_INT));
