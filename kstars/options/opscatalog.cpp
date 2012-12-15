@@ -218,6 +218,8 @@ void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 
 void OpsCatalog::slotApply() {
     refreshCatalogList();
+    Options::setShowCatalogNames(m_CheckedCatalogNames);
+
     Options::setStarDensity( kcfg_StarDensity->value() );
     //    Options::setMagLimitDrawStarZoomOut( kcfg_MagLimitDrawStarZoomOut->value() );
 
@@ -229,14 +231,13 @@ void OpsCatalog::slotApply() {
     }
 
     updateCustomCatalogs();
+
     KStars::Instance()->data()->skyComposite()->reloadDeepSky();
 
     Options::setShowMessier( m_ShowMessier );
     Options::setShowMessierImages( m_ShowMessImages );
     Options::setShowNGC( m_ShowNGC );
     Options::setShowIC( m_ShowIC );
-
-    Options::setShowCatalogNames(m_CheckedCatalogNames);
 
     // update time for all objects because they might be not initialized
     // it's needed when using horizontal coordinates

@@ -316,8 +316,8 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
   // Part 3: Add in Object Designation
   skydb_.open();
   QSqlQuery add_od(skydb_);
-  add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName,"
-                 " IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
+  add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
+                 ", IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
   add_od.bindValue("catid", catid);
   add_od.bindValue("rowuid", rowuid);
   add_od.bindValue("longname", catalog_entry.long_name);
