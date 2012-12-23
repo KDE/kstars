@@ -68,6 +68,7 @@ bool KSUserDB::FirstRun() {
 
     ImportFlags();
     ImportUsers();
+    ImportEquipment();
 
     return true;
 }
@@ -652,7 +653,7 @@ bool KSUserDB::ImportUsers() {
     QFile usersfile(usersfilename);
 
     if (!usersfile.exists()) {
-        return false;  // No upgrade needed. Flags file doesn't exist.
+        return false;  // No upgrade needed. Users file doesn't exist.
     }
 
     if( ! usersfile.open( QIODevice::ReadOnly ) )
@@ -703,6 +704,206 @@ bool KSUserDB::ImportUsers() {
             }
         }
     }    
+    delete reader_;
     usersfile.close();
     return true;
+}
+
+bool KSUserDB::ImportEquipment() {
+    QString equipfilename = KStandardDirs::locateLocal("appdata", "equipmentlist.xml");
+    QFile equipfile(equipfilename);
+
+    if (!equipfile.exists()) {
+        return false;  // No upgrade needed. File doesn't exist.
+    }
+
+    if( ! equipfile.open( QIODevice::ReadOnly ) )
+        return false;
+
+    reader_ = new QXmlStreamReader(&equipfile);
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+        if( reader_->isStartElement() ) {
+                while( ! reader_->atEnd() ) {
+                  reader_->readNext();
+
+                  if( reader_->isEndElement() )
+                      break;
+
+                  if( reader_->isStartElement() ) {
+                    if( reader_->name() == "scopes" )
+                          readScopes();
+                    else if( reader_->name() == "eyepieces" )
+                          readEyepieces();
+                    else if( reader_->name() =="lenses" )
+                          readLenses();
+                    else if( reader_->name() =="filters" )
+                          readFilters();
+                  }
+              }
+        }
+    }
+    delete reader_;
+    equipfile.close();
+    return true;
+}
+
+void KSUserDB::readScopes() {
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "scope" )
+                readScope( reader_->attributes().value( "id" ).toString() );
+        }
+    }
+}
+
+void KSUserDB::readEyepieces() {
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "eyepiece" )
+                readEyepiece( reader_->attributes().value( "id" ).toString() );
+        }
+    }
+}
+
+void KSUserDB::readLenses() {
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "lens" )
+                readLens( reader_->attributes().value( "id" ).toString() );
+        }
+    }
+}
+
+void KSUserDB::readFilters() {
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "filter" )
+                readFilter( reader_->attributes().value( "id" ).toString() );
+        }
+    }
+}
+
+void KSUserDB::readScope( QString id ) {
+    QString model, vendor, type, driver = i18n("None");
+    double aperture, focalLength;
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "model" ) {
+                model = reader_->readElementText();
+            } else if( reader_->name() == "vendor" ) {
+                vendor = reader_->readElementText() ;
+            } else if( reader_->name() == "type" ) {
+                type = reader_->readElementText() ;
+                if( type == "N" ) type = "Newtonian";
+                if( type == "R" ) type = "Refractor";
+                if( type == "M" ) type = "Maksutov";
+                if( type == "S" ) type = "Schmidt-Cassegrain";
+                if( type == "K" ) type = "Kutter (Schiefspiegler)";
+                if( type == "C" ) type = "Cassegrain";
+            } else if( reader_->name() == "focalLength" ) {
+                focalLength = (reader_->readElementText()).toDouble() ;
+            } else if( reader_->name() == "aperture" )
+                aperture = (reader_->readElementText()).toDouble() ;
+              else if ( reader_->name() == "driver")
+                 driver = reader_->readElementText();
+        }
+    }
+    
+    AddScope(model, vendor, driver, type, focalLength, aperture);
+}
+
+void KSUserDB::readEyepiece( QString id ) {
+    QString model, focalLength, vendor, fov, fovUnit;
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "model" ) {
+                model = reader_->readElementText();
+            } else if( reader_->name() == "vendor" ) {
+                vendor = reader_->readElementText() ;
+            } else if( reader_->name() == "apparentFOV" ) {
+                fov = reader_->readElementText();
+                fovUnit = reader_->attributes().value( "unit" ).toString();
+            } else if( reader_->name() == "focalLength" ) {
+                focalLength = reader_->readElementText() ;
+            }
+        }
+    }
+    
+    AddEyepiece(vendor, model, focalLength.toDouble(), fov.toDouble(), fovUnit);
+}
+
+void KSUserDB::readLens( QString id ) {
+    QString model, factor, vendor;
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "model" ) {
+                model = reader_->readElementText();
+            } else if( reader_->name() == "vendor" ) {
+                vendor = reader_->readElementText() ;
+            } else if( reader_->name() == "factor" ) {
+                factor = reader_->readElementText() ;
+            }
+        }
+    }
+    
+    AddLens(vendor, model, factor.toDouble());
+}
+
+void KSUserDB::readFilter( QString id ) {
+    QString model, vendor, type, color;
+    while( ! reader_->atEnd() ) {
+        reader_->readNext();
+
+        if( reader_->isEndElement() )
+            break;
+
+        if( reader_->isStartElement() ) {
+            if( reader_->name() == "model" ) {
+                model = reader_->readElementText();
+            } else if( reader_->name() == "vendor" ) {
+                vendor = reader_->readElementText() ;
+            } else if( reader_->name() == "type" ) {
+                type = reader_->readElementText() ;
+            } else if( reader_->name() == "color" ) {
+                color = reader_->readElementText() ;
+            }
+        }
+    }
+    AddFilter(vendor, model, type, color );
 }

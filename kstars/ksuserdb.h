@@ -31,6 +31,7 @@
 #include <QSqlError>
 #include <QVariant>
 #include <QFile>
+#include <QXmlStreamReader>
 #include "skyobjects/skyobject.h"
 #include "oal/oal.h"
 
@@ -235,9 +236,32 @@ class KSUserDB {
      **/    
     bool ImportUsers();
     /**
+     * @brief Imports equipment from previous format
+     *
+     * @return bool
+     **/    
+    bool ImportEquipment();
+    /**
+     * @brief Helper functions
+     *
+     * @return void
+     **/    
+    void readScopes();
+    void readScope(QString id);
+    void readEyepieces();
+    void readEyepiece(QString id);
+    void readLenses();
+    void readLens(QString id);
+    void readFilters();
+    void readFilter(QString id);
+    /**
      * @brief Linked to the user database _once_.
      **/
     QSqlDatabase userdb_;
+    /**
+     * @brief XML reader for importing old formats
+     **/
+    QXmlStreamReader *reader_;
     /**
      * @brief Function to return the last error encountered by SQLite
      *
