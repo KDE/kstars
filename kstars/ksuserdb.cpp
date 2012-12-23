@@ -67,6 +67,7 @@ bool KSUserDB::FirstRun() {
       return false;
 
     ImportFlags();
+    ImportUsers();
 
     return true;
 }
@@ -643,5 +644,65 @@ bool KSUserDB::ImportFlags() {
 
         AddFlag(ra,dec,epoch,icon,label,color);
     }
+    return true;
+}
+
+bool KSUserDB::ImportUsers() {
+    QString usersfilename = KStandardDirs::locateLocal("appdata", "observerlist.xml");
+    QFile usersfile(usersfilename);
+
+    if (!usersfile.exists()) {
+        return false;  // No upgrade needed. Flags file doesn't exist.
+    }
+
+    if( ! usersfile.open( QIODevice::ReadOnly ) )
+        return false;
+
+    QXmlStreamReader *reader = new QXmlStreamReader(&usersfile);
+
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+           if (reader->name() != "observers")
+                continue;
+
+           //Read all observers
+           while( ! reader->atEnd() ) {
+                reader->readNext();
+
+                if( reader->isEndElement() )
+                    break;
+
+                if( reader->isStartElement() ) {
+                    // Read single observer
+                    if( reader->name() == "observer" ) {
+                      QString name, surname, contact;
+                      while( ! reader->atEnd() ) {
+                          reader->readNext();
+
+                          if( reader->isEndElement() )
+                              break;
+
+                          if( reader->isStartElement() ) {
+                              if( reader->name() == "name" ) {
+                                  name = reader->readElementText();
+                              } else if( reader->name() == "surname" ) {
+                                  surname = reader->readElementText();
+                              } else if( reader->name() == "contact" ) {
+                                  contact = reader->readElementText();
+                              }
+                          }
+                      }
+                      AddObserver(name, surname, contact);
+                    }
+               }
+            }
+        }
+    }    
+    usersfile.close();
     return true;
 }

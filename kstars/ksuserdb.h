@@ -229,6 +229,12 @@ class KSUserDB {
      **/    
     bool ImportFlags();
     /**
+     * @brief Imports users from previous format
+     *
+     * @return bool
+     **/    
+    bool ImportUsers();
+    /**
      * @brief Linked to the user database _once_.
      **/
     QSqlDatabase userdb_;
