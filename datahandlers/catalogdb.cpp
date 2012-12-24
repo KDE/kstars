@@ -232,8 +232,8 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
   QSqlTableModel dsoentries(0, skydb_);
 
   QString filter =
-    "((RA - " + QString().setNum(ra) + ") between -0.1 and 0.1) and "
-    "((Dec - " + QString().setNum(dec) + ") between -0.1 and 0.1) and"
+    "((RA - " + QString().setNum(ra) + ") between -0.0016 and 0.0016) and "
+    "((Dec - " + QString().setNum(dec) + ") between -0.0016 and 0.0016) and"
     "((Magnitude - " + QString().setNum(magnitude) + ") between -0.1 and 0.1)";
 //   kDebug() << filter;
   dsoentries.setTable("DSO");
