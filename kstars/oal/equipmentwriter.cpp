@@ -311,7 +311,7 @@ void EquipmentWriter::loadEquipment() {
 
     //TODO(spacetime): confirm this is correct ~~spacetime
     #ifdef HAVE_INDI_H
-    KStars::Instance()->indiDriver()->updateCustomDrivers();
+    DriverManager::Instance()->updateCustomDrivers();
     #endif
 }
 
