@@ -128,7 +128,7 @@ class CatalogDB {
    **/
   void GetAllObjects(const QString &catalog_name,
                      QList< SkyObject* > &sky_list,
-                     QMap <int, QString> &named_objects,
+                     QList < QPair <int, QString> > &object_names,
                      CatalogComponent *catalog_pointer);
 
   /**

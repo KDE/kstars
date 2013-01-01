@@ -49,18 +49,16 @@ CatalogComponent::~CatalogComponent() {
 void CatalogComponent::loadData() {
     emitProgressText( i18n("Loading custom catalog: %1", m_catName ) );
 
-    QMap <int, QString> names;
+    QList < QPair <int, QString> > names;
 
     KStars::Instance()->data()->catalogdb()->GetAllObjects(m_catName,
                                                            m_ObjectList,
                                                            names,
                                                            this);
-    const int number_of_types = 10;
-    for (int i=0; i < number_of_types; i++) {
-      QList<QString> retrieved = names.values(i);
-      if (retrieved.length()>0) {
-          objectNames(i).append(retrieved);
-      }
+    for (int iter = 0; iter < names.size(); iter++) {
+        if (names.at(iter).first <= SkyObject::TYPE_UNKNOWN) {
+            objectNames(names.at(iter).first).append(names.at(iter).second);
+        }
     }
 
     CatalogData loaded_catalog_data;

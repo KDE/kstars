@@ -665,7 +665,7 @@ void CatalogDB::GetCatalogData(const QString& catalog_name,
 
 void CatalogDB::GetAllObjects(const QString &catalog,
                               QList< SkyObject* > &sky_list,
-                              QMap<int, QString> &names,
+                              QList < QPair <int, QString> > &object_names,
                               CatalogComponent *catalog_ptr) {
     sky_list.clear();
     QString selected_catalog = QString::number(FindCatalog(catalog));
@@ -732,7 +732,7 @@ void CatalogDB::GetAllObjects(const QString &catalog,
         } else {  // Add a deep-sky object
             DeepSkyObject *o = new DeepSkyObject(iType, RA, Dec, mag,
                                                  name, QString(), lname,
-                                                 catPrefix, a, b, PA);
+                                                 catPrefix, a, b, -PA);
             o->setFlux(flux);
             o->setCustomCatalog(catalog_ptr);
 
@@ -740,12 +740,12 @@ void CatalogDB::GetAllObjects(const QString &catalog,
 
             // Add name to the list of object names
             if (!name.isEmpty()) {
-                names.insert(iType, name);
+                object_names.append(qMakePair<int,QString>(iType, name));
             }
         }
 
         if (!lname.isEmpty() && lname != name) {
-            names.insert(iType, lname);
+            object_names.append(qMakePair<int,QString>(iType, lname));
         }
     }
 
