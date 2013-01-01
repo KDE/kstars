@@ -57,7 +57,8 @@ void CatalogComponent::loadData() {
                                                            this);
     for (int iter = 0; iter < names.size(); iter++) {
         if (names.at(iter).first <= SkyObject::TYPE_UNKNOWN) {
-            objectNames(names.at(iter).first).append(names.at(iter).second);
+            if (!objectNames(names.at(iter).first).contains(names.at(iter).second))
+                objectNames(names.at(iter).first).append(names.at(iter).second);
         }
     }
 
