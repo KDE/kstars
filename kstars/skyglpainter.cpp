@@ -84,6 +84,10 @@ SkyGLPainter::SkyGLPainter( QGLWidget *widget ) :
 
 void SkyGLPainter::drawBuffer(int type)
 {
+    // Prevent crash if type > UNKNOWN
+    if (type > SkyObject::TYPE_UNKNOWN)
+        type = SkyObject::TYPE_UNKNOWN;
+
     //printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
     if( m_idx[type] == 0 ) return;
 
@@ -122,7 +126,11 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     bool visible = false;
     Vector2f vec = m_proj->toScreenVec(p,true,&visible);
     if(!visible) return false;
-    
+
+    // Prevent crash if type > UNKNOWN
+    if (type > SkyObject::TYPE_UNKNOWN)
+        type = SkyObject::TYPE_UNKNOWN;
+
     //If the buffer is full, flush it
     if(m_idx[type] == BUFSIZE) {
         drawBuffer(type);
@@ -271,6 +279,11 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     if( !m_proj->checkVisibility(obj) )
         return false;
     int type = obj->type();
+
+    // Prevent crash if type > UNKNOWN
+    if (type > SkyObject::TYPE_UNKNOWN)
+        type = SkyObject::TYPE_UNKNOWN;
+
     //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
     
     //If it's a star, add it like a star
