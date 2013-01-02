@@ -18,7 +18,7 @@ macro_bool_to_01(CFITSIO_FOUND HAVE_CFITSIO_H)
 macro_log_feature(CFITSIO_FOUND "libcfitsio0" "Support for the FITS (Flexible Image Transport System) data format in KStars." "http://indi.sf.net" FALSE "3.09" "")
 
 # INDI is a Linux-specific addon
-set(INDI_MINIMUM_VERSION 0.9.5)
+set(INDI_MINIMUM_VERSION 0.9.6)
 IF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 macro_optional_find_package(INDI ${INDI_MINIMUM_VERSION})
 macro_bool_to_01(INDI_FOUND HAVE_INDI_H)
@@ -38,6 +38,9 @@ macro_bool_to_01(OPENGL_FOUND HAVE_OPENGL)
 macro_log_feature(OPENGL_FOUND "OpenGL" "Support for hardware rendering in KStars." "http://www.opengl.org/" FALSE "" "OpenGL rendering is generally faster on hardware with graphics acceleration.")
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
+enable_testing(true)
+
+
 if (EIGEN2_FOUND)
    include_directories(${CMAKE_CURRENT_BINARY_DIR})
    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
@@ -45,6 +48,12 @@ if (EIGEN2_FOUND)
    add_subdirectory( doc )
    add_subdirectory( kstars )
 endif (EIGEN2_FOUND)
+
+
+add_subdirectory(datahandlers)
+add_subdirectory(Tests)
+
+
 
 
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})

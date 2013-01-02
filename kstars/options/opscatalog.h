@@ -61,13 +61,17 @@ private slots:
 
 private:
     void insertCatalog( const QString & filename );
+    void refreshCatalogList();
+    void populateInbuiltCatalogs();
+    void populateCustomCatalogs();
     QString getCatalogName( const QString &filename );
 
     QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
     KStars *ksw;
 
     KConfigDialog *m_ConfigDialog;
-    QStringList m_CustomCatalogFile;
+    QStringList *m_CustomCatalogFile;
+    QStringList m_CheckedCatalogNames;
     QList<int> m_ShowCustomCatalog;
     float m_StarDensity;
     bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;

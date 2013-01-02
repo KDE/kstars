@@ -23,7 +23,7 @@
 
 #include "Options.h"
 #include "fitstab.h"
-#include "fitsimage.h"
+#include "fitsview.h"
 #include "fitshistogram.h"
 #include "fitsviewer.h"
 
@@ -81,7 +81,7 @@ bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
 {
     if (image == NULL)
     {
-        image = new FITSImage(this, mode);
+        image = new FITSView(this, mode);
         image->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 
@@ -102,8 +102,13 @@ bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
         else
             histogram->updateHistogram();
 
-        image->setHistogram(histogram);
-        image->applyFilter(filter);
+        FITSImage *image_data = image->getImageData();
+
+        image_data->setHistogram(histogram);
+        image_data->applyFilter(filter);
+
+        if (filter != FITS_NONE)
+            image->rescale(ZOOM_KEEP_LEVEL);
 
         if (viewer->isStarsMarked())
             image->toggleStars(true);
@@ -152,14 +157,16 @@ void FITSTab::statFITS()
     Ui::statForm stat;
     stat.setupUi(&statDialog);
 
-    stat.widthOUT->setText(QString::number(image->stats.dim[0]));
-    stat.heightOUT->setText(QString::number(image->stats.dim[1]));
-    stat.bitpixOUT->setText(QString::number(image->stats.bitpix));
-    stat.maxOUT->setText(QString::number(image->stats.max));
-    stat.minOUT->setText(QString::number(image->stats.min));
-    stat.meanOUT->setText(QString::number(image->stats.average));
-    stat.stddevOUT->setText(QString::number(image->stats.stddev, 'g', 3));
-    stat.HFROUT->setText(QString::number(image->getHFR(), 'g', 3));
+    FITSImage *image_data = image->getImageData();
+
+    stat.widthOUT->setText(QString::number(image_data->getWidth()));
+    stat.heightOUT->setText(QString::number(image_data->getHeight()));
+    stat.bitpixOUT->setText(QString::number(image_data->getBPP()));
+    stat.maxOUT->setText(QString::number(image_data->getMax()));
+    stat.minOUT->setText(QString::number(image_data->getMin()));
+    stat.meanOUT->setText(QString::number(image_data->getAverage()));
+    stat.stddevOUT->setText(QString::number(image_data->getStdDev(), 'g', 3));
+    stat.HFROUT->setText(QString::number(image_data->getHFR(), 'g', 3));
 
     statDialog.exec();
 }
@@ -171,7 +178,9 @@ void FITSTab::headerFITS()
     int err_status;
     char err_text[FLEN_STATUS];
 
-    if ( (err_status = image->getFITSRecord(recordList, nkeys)) < 0)
+    FITSImage *image_data = image->getImageData();
+
+    if ( (err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
     {
         fits_get_errstatus(err_status, err_text);
         KMessageBox::error(0, i18n("FITS record error: %1", QString::fromUtf8(err_text)), i18n("FITS Header"));
@@ -301,5 +310,5 @@ void FITSTab::tabPositionUpdated()
 {
     undoStack->setActive(true);
     emit newStatus(QString("%1%").arg(image->getCurrentZoom()), FITS_ZOOM);
-    emit newStatus(QString("%1x%2").arg(image->getWidth()).arg(image->getHeight()), FITS_RESOLUTION);
+    emit newStatus(QString("%1x%2").arg(image->getImageData()->getWidth()).arg(image->getImageData()->getHeight()), FITS_RESOLUTION);
 }

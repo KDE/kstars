@@ -25,7 +25,7 @@
 #include <klocale.h>
 
 #include "skypoint.h"
-#include "dms.h"
+#include "kstars/dms.h"
 #include "auxinfo.h"
 
 class QPoint;

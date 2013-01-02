@@ -19,6 +19,7 @@
 #define ASTEROIDSCOMPONENT_H
 
 #include "solarsystemlistcomponent.h"
+#include "datahandlers/ksparser.h"
 #include <QList>
 #include "typedef.h"
 
@@ -41,6 +42,7 @@ public:
     virtual bool selected();
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
     void updateDataFile();
+    QString ans();
 private:
     void loadData();
 };

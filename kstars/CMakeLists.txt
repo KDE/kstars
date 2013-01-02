@@ -9,6 +9,7 @@ if (CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
     fitsviewer/fitsimage.cpp
+    fitsviewer/fitsview.cpp
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp
     fitsviewer/fitstab.cpp
@@ -17,7 +18,7 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsheaderdialog.ui
     fitsviewer/statform.ui
     indi/streamform.ui
-    fitsviewer/fitshistogramui.ui 
+    fitsviewer/fitshistogramui.ui
 )
   include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
@@ -29,6 +30,7 @@ if (INDI_FOUND)
     indi/clientmanager.cpp
     indi/guimanager.cpp
     indi/driverinfo.cpp
+    indi/deviceinfo.cpp
     indi/indidevice.cpp
     indi/indigroup.cpp
     indi/indiproperty.cpp
@@ -77,7 +79,7 @@ if (INDI_FOUND)
       ekos/guide/scroll_graph.cpp
       ekos/guide/vect.cpp
    )
-  
+
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
 
@@ -103,17 +105,17 @@ if ( OPENGL_FOUND )
 endif( OPENGL_FOUND )
 
 include_directories(
-    ${kstars_SOURCE_DIR}/kstars/tools 
+    ${kstars_SOURCE_DIR}/kstars/tools
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents
-#    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
-#	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
+#    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh
+#	${CMAKE_SOURCE_DIR}/libkdeedu/extdate
 	${ZLIB_INCLUDE_DIR}
 	${EIGEN2_INCLUDE_DIR}
 )
 
 ########### next target ###############
-set(libkstarstools_SRCS 
+set(libkstarstools_SRCS
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
 	tools/avtplotwidget.cpp
@@ -218,39 +220,39 @@ kde4_add_ui_files(libkstarstools_SRCS
 
 
 set(libkstarscomponents_SRCS
-   skycomponents/skylabeler.cpp 
-   skycomponents/highpmstarlist.cpp 
-   skycomponents/skymapcomposite.cpp 
+   skycomponents/skylabeler.cpp
+   skycomponents/highpmstarlist.cpp
+   skycomponents/skymapcomposite.cpp
    skycomponents/skymesh.cpp
    skycomponents/linelistindex.cpp
    skycomponents/linelistlabel.cpp
    skycomponents/noprecessindex.cpp
-   skycomponents/listcomponent.cpp 
-   skycomponents/pointlistcomponent.cpp 
-   skycomponents/solarsystemsinglecomponent.cpp 
-   skycomponents/solarsystemlistcomponent.cpp 
-   skycomponents/asteroidscomponent.cpp 
-   skycomponents/cometscomponent.cpp 
-   skycomponents/planetmoonscomponent.cpp 
+   skycomponents/listcomponent.cpp
+   skycomponents/pointlistcomponent.cpp
+   skycomponents/solarsystemsinglecomponent.cpp
+   skycomponents/solarsystemlistcomponent.cpp
+   skycomponents/asteroidscomponent.cpp
+   skycomponents/cometscomponent.cpp
+   skycomponents/planetmoonscomponent.cpp
    skycomponents/solarsystemcomposite.cpp
    skycomponents/satellitescomponent.cpp
-   skycomponents/starcomponent.cpp 
+   skycomponents/starcomponent.cpp
    skycomponents/deepstarcomponent.cpp
-   skycomponents/deepskycomponent.cpp 
-   skycomponents/customcatalogcomponent.cpp 
-   skycomponents/constellationboundarylines.cpp 
-   skycomponents/constellationlines.cpp 
-   skycomponents/constellationnamescomponent.cpp 
+   skycomponents/deepskycomponent.cpp
+   skycomponents/catalogcomponent.cpp
+   skycomponents/constellationboundarylines.cpp
+   skycomponents/constellationlines.cpp
+   skycomponents/constellationnamescomponent.cpp
    skycomponents/supernovaecomponent.cpp
-   skycomponents/coordinategrid.cpp 
-   skycomponents/equatorialcoordinategrid.cpp 
-   skycomponents/horizontalcoordinategrid.cpp 
-   skycomponents/ecliptic.cpp 
-   skycomponents/equator.cpp 
-   skycomponents/horizoncomponent.cpp 
-   skycomponents/milkyway.cpp 
-   skycomponents/skycomponent.cpp 
-   skycomponents/skycomposite.cpp 
+   skycomponents/coordinategrid.cpp
+   skycomponents/equatorialcoordinategrid.cpp
+   skycomponents/horizontalcoordinategrid.cpp
+   skycomponents/ecliptic.cpp
+   skycomponents/equator.cpp
+   skycomponents/horizoncomponent.cpp
+   skycomponents/milkyway.cpp
+   skycomponents/skycomponent.cpp
+   skycomponents/skycomposite.cpp
    skycomponents/starblock.cpp
    skycomponents/starblocklist.cpp
    skycomponents/starblockfactory.cpp
@@ -261,16 +263,16 @@ set(libkstarscomponents_SRCS
 )
 
 set(libkstarswidgets_SRCS
-	widgets/clicklabel.cpp 
-	widgets/dmsbox.cpp 
-	widgets/draglistbox.cpp 
+	widgets/clicklabel.cpp
+	widgets/dmsbox.cpp
+	widgets/draglistbox.cpp
 	widgets/fovwidget.cpp
 	widgets/logedit.cpp
-	widgets/magnitudespinbox.cpp 
-	widgets/mapcanvas.cpp 
-	widgets/thumbimage.cpp 
-	widgets/timespinbox.cpp 
-	widgets/timestepbox.cpp 
+	widgets/magnitudespinbox.cpp
+	widgets/mapcanvas.cpp
+	widgets/thumbimage.cpp
+	widgets/timespinbox.cpp
+	widgets/timestepbox.cpp
 	widgets/timeunitbox.cpp
 	widgets/infoboxwidget.cpp
 	widgets/genericcalendarwidget.cpp
@@ -295,7 +297,7 @@ set(kstars_options_SRCS
 )
 
 set(kstars_optionsui_SRCS
-  options/opsadvanced.ui 
+  options/opsadvanced.ui
   options/opscatalog.ui
   options/opscolors.ui
   options/opsguides.ui
@@ -370,13 +372,14 @@ set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
-	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
-	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
+	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
+	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
+	kstarsdcop.cpp kstarsinit.cpp kstars.cpp
+	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
 	texturemanager.cpp
-	timezonerule.cpp 
+	timezonerule.cpp
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 	satellitegroup.cpp
 )
@@ -434,7 +437,7 @@ set(printingui_SRCS
 
 ##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS}
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
         ${printing_SRCS}
@@ -457,39 +460,45 @@ kde4_add_ui_files(kstars_SRCS
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
 #kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/ox*-apps-kstars.png")
 kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
+add_executable(kstars kstars.cpp)
+kde4_add_library( KStarsLib STATIC ${kstars_SRCS})
 
-kde4_add_executable(kstars ${kstars_SRCS})
+# kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars
-    ${KDE4_KDECORE_LIBS}
+target_link_libraries(KStarsLib
+        LibKSDataHandlers
+        ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
     ${QT_QTDECLARATIVE_LIBRARY}
     kdeclarative
 	htmesh
 	${ZLIB_LIBRARIES}
+	${QT_QTSQL_LIBRARY}
         )
-
+# qt4_automoc(kstars.h)
 if(NOT WIN32)
-  target_link_libraries(kstars m)
+  target_link_libraries(KStarsLib m)
 endif(NOT WIN32)
 if (CFITSIO_FOUND)
-  target_link_libraries(kstars ${CFITSIO_LIBRARIES})
+  target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
 if (INDI_FOUND)
-  target_link_libraries(kstars ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
+  target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
 endif (INDI_FOUND)
 if (WCSLIB_FOUND)
     target_link_libraries(kstars ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
 
 if( OPENGL_FOUND )
-    target_link_libraries(kstars
+    target_link_libraries(KStarsLib
     ${OPENGL_LIBRARIES}
     ${QT_QTOPENGL_LIBRARY}
     )
 endif( OPENGL_FOUND )
 
+
+target_link_libraries(kstars KStarsLib)
 
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 

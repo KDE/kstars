@@ -84,40 +84,35 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
-    while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope ) ) )
-    nextScope++;
-    OAL::Scope *s = new OAL::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
-    ks->data()->logObject()->scopeList()->append( s );
-    s->setINDIDriver(ui.driverComboBox->currentText());
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(),
+                                   ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value());
+    loadEquipment();
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
+    ui.Aperture->setValue(0);
     ui.driverComboBox->setCurrentIndex(0);
 }
 
 void EquipmentWriter::slotRemoveScope() {
-    OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
-    ks->data()->logObject()->scopeList()->removeAll( s );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->EraseEquipment("telescope",ui.Id->text().toInt());
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
-    ui.ScopeList->clear();
-    foreach( OAL::Scope *s, *( ks->data()->logObject()->scopeList() ) )
-        ui.ScopeList->addItem( s->name() );
+    ui.Aperture->setValue(0);
+    loadEquipment();
 }
 
 void EquipmentWriter::slotSaveScope() {
-    OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
-    if( s ) {
-        s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
-        s->setINDIDriver(ui.driverComboBox->currentText());
-    }
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(),
+                                   ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value(),
+                                   ui.Id->text());
+
+    loadEquipment();
 }
- 
+
 void EquipmentWriter::slotSetScope( QString name) {
+    //TODO: maybe this should also use the DB? ~~spacetime
     OAL::Scope *s = ks->data()->logObject()->findScopeByName( name );
     if ( s ) {
         ui.Id->setText( s->id() ) ;
@@ -141,11 +136,10 @@ void EquipmentWriter::slotNewScope() {
 }
 
 void EquipmentWriter::slotAddEyepiece() {
-    while ( ks->data()->logObject()->findEyepieceById( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece ) ) )
-    nextEyepiece++;
-    OAL::Eyepiece *e = new OAL::Eyepiece( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece++ ), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-    ks->data()->logObject()->eyepieceList()->append( e );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(),
+                                      ui.e_focalLength->value(),  ui.Fov->value(),
+                                      ui.FovUnit->currentText());
+    loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
@@ -154,9 +148,8 @@ void EquipmentWriter::slotAddEyepiece() {
 }
 
 void EquipmentWriter::slotRemoveEyepiece() {
-    OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
-    ks->data()->logObject()->eyepieceList()->removeAll( e );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->EraseEquipment("eyepiece",ui.e_Id->text().toInt());
+    loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
@@ -167,16 +160,16 @@ void EquipmentWriter::slotRemoveEyepiece() {
         ui.EyepieceList->addItem( e->name() );
 }
 void EquipmentWriter::slotSaveEyepiece() {
-    OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
-    if( e ){
-        e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-    } 
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(),
+                                      ui.e_focalLength->value(),  ui.Fov->value(),
+                                      ui.FovUnit->currentText(), ui.e_Id->text());
+    loadEquipment();
 }
 
 void EquipmentWriter::slotSetEyepiece( QString name ) {
+    //TODO: maybe this should also use the DB? ~~spacetime
     OAL::Eyepiece *e;
-    e = ks->data()->logObject()->findEyepieceByName( name ); 
+    e = ks->data()->logObject()->findEyepieceByName( name );
     if( e ) {
         ui.e_Id->setText( e->id() );
         ui.e_Model->setText( e->model() );
@@ -198,11 +191,8 @@ void EquipmentWriter::slotNewEyepiece() {
 }
 
 void EquipmentWriter::slotAddLens() {
-    while ( ks->data()->logObject()->findLensById( i18nc("prefix for ID number identifying a lens (optional)", "lens") + '_' + QString::number( nextLens ) ) )
-    nextLens++;
-    OAL::Lens *l = new OAL::Lens( i18nc("prefix for ID number identifying a lens (optional)", "lens") + '_' + QString::number( nextLens++ ), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
-    ks->data()->logObject()->lensList()->append( l );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddLens(ui.l_Vendor->text(), ui.l_Model->text(), ui.l_Factor->value() );
+    loadEquipment();
     ui.l_Id->clear();
     ui.l_Model->clear();
     ui.l_Vendor->clear();
@@ -210,9 +200,8 @@ void EquipmentWriter::slotAddLens() {
 }
 
 void EquipmentWriter::slotRemoveLens() {
-    OAL::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
-    ks->data()->logObject()->lensList()->removeAll( l );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->EraseEquipment("lens",ui.e_Id->text().toInt());
+    loadEquipment();
     ui.l_Id->clear();
     ui.l_Model->clear();
     ui.l_Vendor->clear();
@@ -222,11 +211,9 @@ void EquipmentWriter::slotRemoveLens() {
         ui.LensList->addItem( l->name() );
 }
 void EquipmentWriter::slotSaveLens() {
-    OAL::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
-    if( l ){
-        l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
-    }
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddLens(ui.l_Vendor->text(), ui.l_Model->text(),
+                                      ui.l_Factor->value(), ui.l_Id->text());
+    loadEquipment();
 }
 
 void EquipmentWriter::slotSetLens( QString name ) {
@@ -251,11 +238,9 @@ void EquipmentWriter::slotNewLens() {
 }
 
 void EquipmentWriter::slotAddFilter() {
-    while ( ks->data()->logObject()->findFilterById( i18nc("prefix for ID number identifying a filter (optional)", "filter") + '_' + QString::number( nextFilter ) ) )
-    nextFilter++;
-    OAL::Filter *f = new OAL::Filter( i18nc("prefix for ID number identifying a filter (optional)", "filter") + '_' + QString::number( nextFilter++ ), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
-    ks->data()->logObject()->filterList()->append( f );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(),
+                                     ui.f_Type->text(), ui.f_Color->text());
+    loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
@@ -264,9 +249,8 @@ void EquipmentWriter::slotAddFilter() {
 }
 
 void EquipmentWriter::slotRemoveFilter() {
-    OAL::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
-    ks->data()->logObject()->filterList()->removeAll( f );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->EraseEquipment("filter",ui.f_Id->text().toInt());
+    loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
@@ -278,16 +262,15 @@ void EquipmentWriter::slotRemoveFilter() {
 }
 
 void EquipmentWriter::slotSaveFilter() {
-    OAL::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
-    if( f ){
-        f->setFilter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
-    } 
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(),
+                                     ui.f_Type->text(), ui.f_Color->text(),
+                                     ui.f_Id->text());
+    loadEquipment();
 }
 
 void EquipmentWriter::slotSetFilter( QString name ) {
     OAL::Filter *f;
-    f = ks->data()->logObject()->findFilterByName( name ); 
+    f = ks->data()->logObject()->findFilterByName( name );
     if( f ) {
         ui.f_Id->setText( f->id() );
         ui.f_Model->setText( f->model() );
@@ -308,37 +291,11 @@ void EquipmentWriter::slotNewFilter() {
     newFilter = true;
 }
 
-void EquipmentWriter::saveEquipment() {
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
-    if ( ! f.open( QIODevice::WriteOnly ) ) {
-        kDebug() << "Cannot write list to  file";
-        return;
-    }
-    QTextStream ostream( &f );
-    ks->data()->logObject()->writeBegin();
-    ks->data()->logObject()->writeScopes();
-    ks->data()->logObject()->writeEyepieces();
-    ks->data()->logObject()->writeLenses();
-    ks->data()->logObject()->writeFilters();
-    ks->data()->logObject()->writeEnd();
-    ostream << ks->data()->logObject()->writtenOutput();
-    f.close();
-
-
-#ifdef HAVE_INDI_H
-  DriverManager::Instance()->updateCustomDrivers();
-#endif
-}
-
 void EquipmentWriter::loadEquipment() {
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
-    if( ! f.open( QIODevice::ReadOnly ) )
-        return;
-    QTextStream istream( &f );
-    ks->data()->logObject()->readBegin( istream.readAll() );
-    f.close();
+    ks->data()->logObject()->readScopes();
+    ks->data()->logObject()->readEyepieces();
+    ks->data()->logObject()->readLenses();
+    ks->data()->logObject()->readFilters();
     ui.ScopeList->clear();
     ui.EyepieceList->clear();
     ui.LensList->clear();
@@ -351,6 +308,11 @@ void EquipmentWriter::loadEquipment() {
         ui.LensList->addItem( l->name() );
     foreach( OAL::Filter *f, *( ks->data()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
+
+    //TODO(spacetime): confirm this is correct ~~spacetime
+    #ifdef HAVE_INDI_H
+    DriverManager::Instance()->updateCustomDrivers();
+    #endif
 }
 
 void EquipmentWriter::slotSave() {

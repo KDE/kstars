@@ -17,30 +17,27 @@
 
 #include "asteroidscomponent.h"
 
-#include <QPen>
+#include "projections/projector.h"
+#include "solarsystemcomposite.h"
+#include "skycomponent.h"
+#include "skylabeler.h"
+#include "skymap.h"
+#include "skypainter.h"
+#include "Options.h"
+#include "skyobjects/ksasteroid.h"
+#include "kstarsdata.h"
+#include "ksfilereader.h"
+#include <kdebug.h>
 #include <kglobal.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <kio/jobuidelegate.h>
 #include <kstandarddirs.h>
-
-#include "skycomponent.h"
-
-#include "Options.h"
-#include "skyobjects/ksasteroid.h"
-#include "kstarsdata.h"
-#include "ksfilereader.h"
-#include "skymap.h"
-
-#include "solarsystemcomposite.h"
-#include "skylabeler.h"
-#include "skypainter.h"
-#include "projections/projector.h"
+#include <QPen>
 
 
-AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent ) :
-    SolarSystemListComponent(parent)
-{
+AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent)
+    : SolarSystemListComponent(parent) {
     loadData();
 }
 
@@ -80,9 +77,7 @@ bool AsteroidsComponent::selected() {
  * @li 22 earth minimum orbit intersection distance [double]
  * @li 23 orbit classification [string]
  */
-void AsteroidsComponent::loadData()
-{
-
+void AsteroidsComponent::loadData() {
     QString line, name, full_name, orbit_id, orbit_class, dimensions;
     QStringList fields;
     int mJD;
@@ -91,77 +86,93 @@ void AsteroidsComponent::loadData()
     float diameter, albedo, rot_period, period;
     bool ok, neo;
 
-    KSFileReader fileReader;
-
-    if ( ! fileReader.open("asteroids.dat" ) ) return;
-
     emitProgressText( i18n("Loading asteroids") );
 
     // Clear lists
     m_ObjectList.clear();
     objectNames( SkyObject::ASTEROID ).clear();
 
-    while( fileReader.hasMoreLines() ) {
-        line = fileReader.readLine();
+    QList< QPair<QString, KSParser::DataTypes> > sequence;
+    sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("epoch_mjd"), KSParser::D_INT));
+    sequence.append(qMakePair(QString("q"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("a"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("e"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("i"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("w"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("om"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("ma"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("tp_calc"), KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("orbit_id"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("H"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("G"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("neo"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("tp_calc"), KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("M2"), KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("diameter"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("extent"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("albedo"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("rot_period"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("per_y"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
 
-        // Ignore comments and too short lines
-        if ( line.size() < 8 || line.at( 0 ) == '#' )
-            continue;
-        fields = line.split( "," );
-        if ( fields.size() < 23 )
-            continue;
+    QString file_name = KStandardDirs::locate( "appdata",
+                                               QString("asteroids.dat") );
+    KSParser asteroid_parser(file_name, '#', sequence);
 
-        full_name = fields.at( 0 );
-        full_name = full_name.remove( '"' ).trimmed();
-        int catN  = full_name.section( " ", 0, 0 ).toInt();
-        name = full_name.section( " ", 1, -1 );
-        mJD  = fields.at( 1 ).toInt();
-        q    = fields.at( 2 ).toDouble();
-        a    = fields.at( 3 ).toDouble();
-        e    = fields.at( 4 ).toDouble();
-        dble_i = fields.at( 5 ).toDouble();
-        dble_w = fields.at( 6 ).toDouble();
-        dble_N = fields.at( 7 ).toDouble();
-        dble_M = fields.at( 8 ).toDouble();
-        orbit_id = fields.at( 10 );
-        orbit_id.remove( '"' );
-        H   = fields.at( 11 ).toDouble();
-        G   = fields.at( 12 ).toDouble();
-        neo = fields.at( 13 ) == "Y";
-        diameter = fields.at( 16 ).toFloat( &ok );
-        if ( !ok ) diameter = 0.0;
-        dimensions = fields.at( 17 );
-        albedo  = fields.at( 18 ).toFloat( &ok );
-        if ( !ok ) albedo = 0.0;
-        rot_period = fields.at( 19 ).toFloat( &ok );
-        if ( !ok ) rot_period = 0.0;
-        period  = fields.at( 20 ).toFloat( &ok );
-        if ( !ok ) period = 0.0;
-        earth_moid  = fields.at( 21 ).toDouble( &ok );
-        if ( !ok ) earth_moid = 0.0;
-        orbit_class = fields.at( 22 );
+    QHash<QString, QVariant> row_content;
+    while (asteroid_parser.HasNextRow()){
+        row_content = asteroid_parser.ReadNextRow();
+        full_name = row_content["full name"].toString();
+        full_name = full_name.trimmed();
+        int catN  = full_name.section(" ", 0, 0).toInt();
+        name = full_name.section(" ", 1, -1);
+        mJD  = row_content["epoch_mjd"].toInt();
+        q    = row_content["q"].toDouble();
+        a    = row_content["a"].toDouble();
+        e    = row_content["e"].toDouble();
+        dble_i = row_content["i"].toDouble();
+        dble_w = row_content["w"].toDouble();
+        dble_N = row_content["om"].toDouble();
+        dble_M = row_content["ma"].toDouble();
+        orbit_id = row_content["orbit_id"].toString();
+        H   = row_content["H"].toDouble();
+        G   = row_content["G"].toDouble();
+        neo = row_content["neo"].toString() == "Y";
+        diameter = row_content["diameter"].toFloat();
+        dimensions = row_content["extent"].toString();
+        albedo  = row_content["albedo"].toFloat();
+        rot_period = row_content["rot_period"].toFloat();
+        period  = row_content["per_y"].toFloat();
+        earth_moid  = row_content["moid"].toDouble();
+        orbit_class = row_content["class"].toString();
 
-        JD = double( mJD ) + 2400000.5;
+        JD = static_cast<double>(mJD) + 2400000.5;
 
-        KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD, a, e, dms(dble_i),
-                                          dms(dble_w), dms(dble_N), dms(dble_M), H, G );
-        ast->setPerihelion( q );
-        ast->setOrbitID( orbit_id );
-        ast->setNEO( neo );
-        ast->setDiameter( diameter );
-        ast->setDimensions( dimensions );
-        ast->setAlbedo( albedo );
-        ast->setRotationPeriod( rot_period );
-        ast->setPeriod( period );
-        ast->setEarthMOID( earth_moid );
-        ast->setOrbitClass( orbit_class );
-        ast->setAngularSize( 0.005 );
-        m_ObjectList.append( ast );
+        KSAsteroid *new_asteroid = new KSAsteroid( catN, name, QString(), JD,
+                                          a, e,
+                                          dms(dble_i), dms(dble_w),
+                                          dms(dble_N), dms(dble_M),
+                                          H, G );
+        new_asteroid->setPerihelion(q);
+        new_asteroid->setOrbitID(orbit_id);
+        new_asteroid->setNEO(neo);
+        new_asteroid->setDiameter(diameter);
+        new_asteroid->setDimensions(dimensions);
+        new_asteroid->setAlbedo(albedo);
+        new_asteroid->setRotationPeriod(rot_period);
+        new_asteroid->setPeriod(period);
+        new_asteroid->setEarthMOID(earth_moid);
+        new_asteroid->setOrbitClass(orbit_class);
+        new_asteroid->setAngularSize(0.005);
+        m_ObjectList.append(new_asteroid);
 
-        //Add name to the list of object names
-        objectNames(SkyObject::ASTEROID).append( name );
+        // Add name to the list of object names
+        objectNames(SkyObject::ASTEROID).append(name);
     }
 }
+
 
 void AsteroidsComponent::draw( SkyPainter *skyp )
 {
@@ -211,10 +222,16 @@ SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     return oBest;
 }
 
-void AsteroidsComponent::updateDataFile()
-{
+void AsteroidsComponent::updateDataFile() {
     KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
-    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbered=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value=12&c_fields=AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
+    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbere"
+    "d=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value="
+    "12&c_fields=AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=C"
+    "SV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=forma"
+    "t_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&."
+    "cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class"
+    "&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_se"
+    "t&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file

@@ -42,13 +42,6 @@
 #include "timezonerule.h"
 
 #include <config-kstars.h>
-
-/*#ifdef HAVE_INDI_H
-#include "indi/indidriver.h"
-#include "lilxml.h"
-#include "indi/indistd.h"
-#endif*/
-
 #include "dialogs/detaildialog.h"
 
 namespace {
@@ -115,6 +108,8 @@ KStarsData* KStarsData::Create()
 KStarsData::KStarsData() :
     m_SkyComposite(0),
     m_Geo(dms(0), dms(0)),
+    m_ksuserdb(),
+    m_catalogdb(),
     temporaryTrail( false ),
     locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
@@ -124,10 +119,10 @@ KStarsData::KStarsData() :
     m_logObject = new OAL::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
+
 }
 
 KStarsData::~KStarsData() {
-
     Q_ASSERT( pinstance );
 
     delete locale;
@@ -140,14 +135,17 @@ KStarsData::~KStarsData() {
 }
 
 bool KStarsData::initialize() {
-    // Load Time Zone Rules
+    //Initialize CatalogDB//
+    KStars::Instance()->data()->catalogdb()->Initialize();
+
+    //Load Time Zone Rules//
     emit progressText( i18n("Reading time zone rules") );
     if( !readTimeZoneRulebook( ) ) {
         fatalErrorMessage( "TZrules.dat" );
         return false;
     }
-    
-    // Load Cities
+
+    //Load Cities//
     emit progressText( i18n("Loading city data") );
     if ( !readCityData( ) ) {
         fatalErrorMessage( "Cities.dat" );
@@ -157,7 +155,7 @@ bool KStarsData::initialize() {
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
-    
+
     //Load Image URLs//
     emit progressText( i18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
@@ -169,7 +167,13 @@ bool KStarsData::initialize() {
         return false;
 
     emit progressText( i18n("Loading Variable Stars" ) );
+
+    //Initialize User Database//
+    emit progressText( i18n("Loading User Information" ) );
+    m_ksuserdb.Initialize();
+
     readUserLog();
+
     readADVTreeData();
 
     return true;

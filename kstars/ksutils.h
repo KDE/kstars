@@ -38,16 +38,16 @@ class QString;
 class SkyPoint;
 
 namespace KSUtils {
-    /**Attempt to open the data file named filename, using the QFile object "file".
-    	*First look in the standard KDE directories, then look in a local "data"
-    	*subdirectory.  If the data file cannot be found or opened, display a warning
-    	*messagebox.
-    	*@short Open a data file.
-    	*@param &file The QFile object to be opened
-    	*@param filename The name of the data file.
-    	*@returns bool Returns true if data file was opened successfully.
-    	*@returns a reference to the opened file.
-    	*/
+    /** Attempt to open the data file named filename, using the QFile object "file".
+     *First look in the standard KDE directories, then look in a local "data"
+     *subdirectory.  If the data file cannot be found or opened, display a warning
+     *messagebox.
+     *@short Open a data file.
+     *@param &file The QFile object to be opened
+     *@param filename The name of the data file.
+     *@returns bool Returns true if data file was opened successfully.
+     *@returns a reference to the opened file.
+     */
     bool openDataFile( QFile &file, const QString &filename );
 
     /** Clamp value into range.
@@ -110,9 +110,10 @@ namespace KSUtils {
      *@param Dec The J2000.0 Declination of the point
      *@param width The width of the image in arcminutes
      *@param height The height of the image in arcminutes
+     *@param type The image type, either gif or fits.
      *@note This method resets height and width to fall within the range accepted by DSS
      */
-    QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0 );
+    QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0, const QString & type = "gif");
 
     /**
      *@short Return a string corresponding to an angle specifying direction

@@ -21,13 +21,13 @@
 #include <qimage.h>
 #include <qpoint.h>
 
-#include "skyobject.h"
-#include "dms.h"
+#include "kstars/skyobjects/skyobject.h"
+#include "kstars/dms.h"
 
 class QImage;
 class QString;
 class KSPopupMenu;
-class CustomCatalogComponent;
+class CatalogComponent;
 
 /**
   *@class DeepSkyObject
@@ -109,12 +109,12 @@ public:
       *Set the reference to the custom catalog component, if any
       *@sa customCatalog()
       */
-    inline void setCustomCatalog(CustomCatalogComponent *s) { customCat = s; }
+    inline void setCustomCatalog(CatalogComponent *s) { customCat = s; }
 
     /**
       *@return a pointer to a custom catalog component
     */
-    inline CustomCatalogComponent * customCatalog() { return customCat; }
+    inline CatalogComponent * customCatalog() { return customCat; }
 
     /**
       *Set the integrated flux value of the object
@@ -199,7 +199,7 @@ private:
     int UGC, PGC;
     float MajorAxis, MinorAxis, Flux;
     QImage m_image;
-    CustomCatalogComponent *customCat;
+    CatalogComponent *customCat;
 };
 
 #endif

@@ -23,7 +23,7 @@
 #include "fitscommon.h"
 
 class QUndoStack;
-class FITSImage;
+class FITSView;
 class FITSHistogram;
 class FITSHistogramCommand;
 class FITSViewer;
@@ -40,7 +40,7 @@ public:
 
    inline QUndoStack *getUndoStack() { return undoStack; }
    inline KUrl * getCurrentURL() { return &currentURL; }
-   inline FITSImage *getImage() { return image; }
+   inline FITSView *getImage() { return image; }
    inline FITSHistogram *getHistogram() { return histogram; }
    inline FITSViewer *getViewer() { return viewer; }
 
@@ -72,7 +72,7 @@ private:
     /** Ask user whether he wants to save changes and save if he do. */
 
 
-    FITSImage *image;           /* FITS image object */
+    FITSView *image;           /* FITS image object */
     FITSHistogram *histogram;   /* FITS Histogram */
     FITSViewer *viewer;
 

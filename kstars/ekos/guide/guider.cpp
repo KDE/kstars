@@ -19,7 +19,7 @@
 #include "scroll_graph.h"
 #include "gmath.h"
 
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #define DRIFT_GRAPH_WIDTH	300
 #define DRIFT_GRAPH_HEIGHT	300
@@ -446,7 +446,7 @@ void rguider::guide( void )
 
 }
 
-void rguider::set_image(FITSImage *image)
+void rguider::set_image(FITSView *image)
 {
     pimage = image;
 

@@ -49,7 +49,7 @@
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/supernova.h"
-#include "skycomponents/customcatalogcomponent.h"
+#include "skycomponents/catalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
 #include "widgets/kshelplabel.h"
@@ -1018,7 +1018,7 @@ void DetailDialog::centerTelescope()
 
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
+        INDI::BaseDevice *bd = gd->getBaseDevice();
 
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;

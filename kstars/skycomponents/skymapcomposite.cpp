@@ -34,7 +34,7 @@
 #include "constellationnamescomponent.h"
 #include "equatorialcoordinategrid.h"
 #include "horizontalcoordinategrid.h"
-#include "customcatalogcomponent.h"
+#include "catalogcomponent.h"
 #include "deepskycomponent.h"
 #include "equator.h"
 #include "ecliptic.h"
@@ -86,9 +86,10 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
-    for ( int i=0; i<Options::catalogFile().size(); ++ i ) {
+    QStringList allcatalogs = Options::showCatalogNames();
+    for ( int i=0; i < allcatalogs.size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-            new CustomCatalogComponent( this, Options::catalogFile()[i], false, i )
+            new CatalogComponent( this, allcatalogs.at(i), false, i )
             );
     }
 
@@ -465,7 +466,7 @@ KSPlanetBase* SkyMapComposite::planet( int n ) {
 }
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
-    CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, index );
+    CatalogComponent *cc = new CatalogComponent( this, filename, false, index );
     if( cc->objectList().size() ) {
         m_CustomCatalogs->addComponent( cc );
     } else {
@@ -475,7 +476,7 @@ void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
 
 void SkyMapComposite::removeCustomCatalog( const QString &name ) {
     foreach( SkyComponent *sc, m_CustomCatalogs->components() ) {
-        CustomCatalogComponent *ccc = (CustomCatalogComponent*)sc;
+        CatalogComponent *ccc = (CatalogComponent*)sc;
 
         if ( ccc->name() == name ) {
             m_CustomCatalogs->removeComponent( ccc );
@@ -507,6 +508,38 @@ void SkyMapComposite::reloadCNames( ) {
     delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
 }
+
+void SkyMapComposite::reloadDeepSky() {
+    Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+    // Deselect object if selected! If not deselected then InfoBox tries to
+    // get the name of an object which may not exist (getLongName)
+    // FIXME (spacetime): Is there a better way?
+    // Current Solution: Look for the nearest star in the region and select it.
+
+    SkyMap *current_map = KStars::Instance()->map();
+    double maxrad=30.0;
+    SkyPoint center_point = current_map->getCenterPoint();
+    current_map->setClickedObject( KStars::Instance()->
+                                   data()->skyComposite()->
+                                   starNearest(&center_point, maxrad) );
+    current_map->setClickedPoint( current_map->clickedObject() );
+    current_map->slotCenter();
+
+    //Remove and Regenerate set of catalog objects
+    SkyMapDrawAbstract::setDrawLock(true);
+    delete m_CustomCatalogs;
+    m_CustomCatalogs = new SkyComposite( this );
+    QStringList allcatalogs = Options::showCatalogNames();
+    for ( int i=0; i < allcatalogs.size(); ++ i ) {
+        m_CustomCatalogs->addComponent(
+            new CatalogComponent( this, allcatalogs.at(i), false, i )
+            );
+    }
+    SkyMapDrawAbstract::setDrawLock(false);
+
+
+}
+
 
 bool SkyMapComposite::isLocalCNames() {
     return m_CNames->isLocalCNames();

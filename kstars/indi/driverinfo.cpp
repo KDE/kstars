@@ -9,10 +9,13 @@
  */
 
 #include <QDebug>
+#include <basedevice.h>
 
 #include "driverinfo.h"
+#include "deviceinfo.h"
 
 #include "servermanager.h"
+
 
 DriverInfo::DriverInfo(const QString &inName)
 {
@@ -26,7 +29,6 @@ DriverInfo::DriverInfo(const QString &inName)
     clientState = false;
 
     serverManager = NULL;
-    baseDevice    = NULL;
 
     hostname      = "localhost";
     port          = "-1";
@@ -36,7 +38,7 @@ DriverInfo::DriverInfo(const QString &inName)
 
 DriverInfo::~DriverInfo()
 {
-
+    qDeleteAll(devices);
 }
 
 void DriverInfo::clear()
@@ -45,9 +47,10 @@ void DriverInfo::clear()
     serverState = false;
     clientState = false;
     serverManager = NULL;
-    baseDevice    = NULL;
 
     uniqueLabel.clear();
+    qDeleteAll(devices);
+    devices.clear();
 }
 
 QString DriverInfo::getServerBuffer()
@@ -95,6 +98,23 @@ void DriverInfo::setUserPort(const QString &inUserPort)
         userPort = inUserPort;
     else
         userPort = "-1";
+}
+
+void DriverInfo::addDevice(DeviceInfo *idv)
+{
+    devices.append(idv);
+}
+
+DeviceInfo* DriverInfo::getDevice(const QString &deviceName)
+{
+    foreach(DeviceInfo *idv, devices)
+    {
+        if (idv->getBaseDevice()->getDeviceName() == deviceName)
+            return idv;
+    }
+
+    return NULL;
+
 }
 
 #include "driverinfo.moc"

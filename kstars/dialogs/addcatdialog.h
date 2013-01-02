@@ -34,11 +34,11 @@ public:
 };
 
 /**
-  *@class AddCatDialog
-	*@short Dialog for adding custom object catalogs to KStars
-	*@author Jason Harris
-	*@version 1.0
-	*/
+ *@class AddCatDialog
+ *@short Dialog for adding custom object catalogs to KStars
+ *@author Jason Harris
+ *@version 1.0
+ */
 class AddCatDialog : public KDialog  {
     Q_OBJECT
 public:

@@ -21,7 +21,7 @@
 
 #include "../guide.h"
 #include "../fitsviewer/fitsviewer.h"
-#include "../fitsviewer/fitsimage.h"
+#include "../fitsviewer/fitsview.h"
 
 #undef MIN
 #undef MAX
@@ -679,7 +679,7 @@ void rcalibration::capture()
     }
 }
 
-void rcalibration::set_image(FITSImage *image)
+void rcalibration::set_image(FITSView *image)
 {
 
     if (image == NULL)
@@ -697,7 +697,9 @@ void rcalibration::set_image(FITSImage *image)
             calibrationStage = CAL_SELECT_STAR;
             ui.selectStarLED->setColor(busyColor);
 
-            set_video_params(image->getWidth(), image->getHeight());
+            FITSImage *image_data = image->getImageData();
+
+            set_video_params(image_data->getWidth(), image_data->getHeight());
 
             select_auto_star(image);
 
@@ -711,13 +713,15 @@ void rcalibration::set_image(FITSImage *image)
     }
 }
 
-void rcalibration::select_auto_star(FITSImage *image)
+void rcalibration::select_auto_star(FITSView *image)
 {
     int maxVal=-1;
     Edge *guideStar = NULL;
 
+    FITSImage *image_data = image->getImageData();
 
-    foreach(Edge *center, image->getStarCenters())
+
+    foreach(Edge *center, image_data->getStarCenters())
     {
         if (center->val > maxVal)
         {

@@ -16,7 +16,7 @@
 #include "vect.h"
 #include "matr.h"
 
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsview.h"
 
 #define DEF_SQR_0	(16-0)
 #define DEF_SQR_1	(32-0)
@@ -121,12 +121,14 @@ void cgmath::set_buffer(float *buffer)
     pdata = buffer;
 }
 
-void cgmath::set_image(FITSImage *image)
+void cgmath::set_image(FITSView *image)
 {
     pimage = image;
 
-    set_buffer(pimage->getImageBuffer());
-    set_video_params(pimage->getWidth(), pimage->getHeight());
+    FITSImage *image_data = pimage->getImageData();
+
+    set_buffer(image_data->getImageBuffer());
+    set_video_params(image_data->getWidth(), image_data->getHeight());
 }
 
 float *cgmath::get_data_buffer( int *width, int *height, int *length, int *size )
@@ -602,7 +604,7 @@ Vector cgmath::find_star_local_pos( void ) const
 	switch( square_alg_idx )
 	{
 
-    // Using FITSImage centroid algorithm by Jasem Mutlaq
+    // Using FITSView centroid algorithm by Jasem Mutlaq
     case CENTROID_THRESHOLD:
     {
         float center_x=-1, center_y=-1;
@@ -611,10 +613,11 @@ Vector cgmath::find_star_local_pos( void ) const
         int x2=square_pos.x + square_size;
         int y1=square_pos.y;
         int y2=square_pos.y + square_size;
+        FITSImage *image_data = pimage->getImageData();
 
         //qDebug() << "Search Region: X1: " << x1 << ", X2: " << x2 << " , Y1: " << y1 << " , Y2: " << y2 << endl;
 
-        foreach(Edge *center, pimage->getStarCenters())
+        foreach(Edge *center, image_data->getStarCenters())
         {
 
             //qDebug() << "Star X: " << center->x << ", Y: " << center->y << endl;

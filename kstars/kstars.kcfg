@@ -112,6 +112,10 @@
       <label>List of toggles for displaying custom object catalogs.</label>
       <whatsthis>List of integers toggling display of each custom object catalog (any nonzero value indicates the objects in that catalog will be displayed).</whatsthis>
     </entry>
+    <entry name="ShowCatalogNames" type="StringList">
+      <label>List for displaying custom object catalogs.</label>
+      <whatsthis>List of names for which custom catalogs are to be displayed.</whatsthis>
+    </entry>
   </group>
 
   <group name="indi">
@@ -125,7 +129,7 @@
     </entry>
     <entry name="showTargetCrosshair" type="Bool">
       <label>Draw crosshairs at telescope position in the sky map?</label>
-      <whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis> 
+      <whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis>
       <default>true</default>
     </entry>
     <entry name="showINDIMessages" type="Bool">

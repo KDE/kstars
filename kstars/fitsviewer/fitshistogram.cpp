@@ -18,6 +18,7 @@
 #include "fitsviewer.h"
 #include "fitshistogram.h"
 #include "fitstab.h"
+#include "fitsview.h"
 #include "fitsimage.h"
 
 #include <math.h>
@@ -75,18 +76,17 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 FITSHistogram::~FITSHistogram()
 {
     //free (histArray);
-
 }
-
 
 void FITSHistogram::constructHistogram(int hist_width, int hist_height)
 {
     int id;
     double fits_w=0, fits_h=0;
-    float *buffer = tab->getImage()->getImageBuffer();
+    FITSImage *image_data = tab->getImage()->getImageData();
+    float *buffer = image_data->getImageBuffer();
 
-    tab->getImage()->getSize(&fits_w, &fits_h);
-    tab->getImage()->getMinMax(&fits_min, &fits_max);
+    image_data->getSize(&fits_w, &fits_h);
+    image_data->getMinMax(&fits_min, &fits_max);
 
     int pixel_range = (int) (fits_max - fits_min);
 
@@ -132,8 +132,8 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
             cumulativeFreq[i] += histArray[j];
 
 
-     mean = (tab->getImage()->getAverage()-fits_min)*binWidth;
-     mean_p_std = (tab->getImage()->getAverage()-fits_min+tab->getImage()->getStdDev()*3)*binWidth;
+     mean = (image_data->getAverage()-fits_min)*binWidth;
+     mean_p_std = (image_data->getAverage()-fits_min+image_data->getStdDev()*3)*binWidth;
 
     // Indicator of information content of an image in a typical star field.
     JMIndex = mean_p_std - mean;
@@ -146,7 +146,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
    // if (mean == 0)
        // JMIndex = 0;
     // Reject diffuse images by setting JMIndex to zero.
-    if (mean && tab->getImage()->getMode() == FITS_NORMAL && mean_p_std / mean < 2)
+    if (mean && image_data->getMode() == FITS_NORMAL && mean_p_std / mean < 2)
         JMIndex =0;
 
     #ifdef HIST_LOG
@@ -254,7 +254,7 @@ void FITSHistogram::updateIntenFreq(int x)
     if (x < 0 || x >= histogram_width)
         return;
 
-    ui->intensityOUT->setText(QString("%1").arg( ceil(x / binWidth) + tab->getImage()->stats.min));
+    ui->intensityOUT->setText(QString("%1").arg( ceil(x / binWidth) + tab->getImage()->getImageData()->getMin()));
 
     ui->frequencyOUT->setText(QString("%1").arg(histArray[x]));
 }
@@ -306,7 +306,7 @@ FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHi
     tab         = (FITSTab *) parent;
     type        = newType;
     histogram   = inHisto;
-    buffer = (float *) malloc (tab->getImage()->getWidth() * tab->getImage()->getHeight() * sizeof(float));
+    buffer = (float *) malloc (tab->getImage()->getImageData()->getWidth() * tab->getImage()->getImageData()->getHeight() * sizeof(float));
 
     min = lmin;
     max = lmax;
@@ -321,11 +321,12 @@ FITSHistogramCommand::~FITSHistogramCommand()
 void FITSHistogramCommand::redo()
 {
 
-    FITSImage *image = tab->getImage();
+    FITSView *image = tab->getImage();
+    FITSImage *image_data = image->getImageData();
 
-    float *image_buffer = image->getImageBuffer();
-    int width  = image->getWidth();
-    int height = image->getHeight();
+    float *image_buffer = image_data->getImageBuffer();
+    int width  = image_data->getWidth();
+    int height = image_data->getHeight();
 
     memcpy(buffer, image_buffer, width * height * sizeof(float));
 
@@ -334,19 +335,19 @@ void FITSHistogramCommand::redo()
     {
     case FITS_AUTO:
     case FITS_LINEAR:
-        image->applyFilter(FITS_LINEAR, image_buffer, min, max);
+        image_data->applyFilter(FITS_LINEAR, image_buffer, min, max);
         break;
 
     case FITS_LOG:
-        image->applyFilter(FITS_LOG, image_buffer, min, max);
+        image_data->applyFilter(FITS_LOG, image_buffer, min, max);
         break;
 
     case FITS_SQRT:
-        image->applyFilter(FITS_SQRT, image_buffer, min, max);
+        image_data->applyFilter(FITS_SQRT, image_buffer, min, max);
         break;
 
     default:
-       image->applyFilter(type, image_buffer);
+       image_data->applyFilter(type, image_buffer);
        break;
 
 
@@ -357,19 +358,20 @@ void FITSHistogramCommand::redo()
         histogram->updateHistogram();
 
         if (tab->getViewer()->isStarsMarked())
-            image->findStars();
+            image_data->findStars();
     }
 
+    image->rescale(ZOOM_KEEP_LEVEL);
     image->updateFrame();
 
 }
 
 void FITSHistogramCommand::undo()
 {
-    FITSImage *image = tab->getImage();
-    memcpy( image->getImageBuffer(), buffer, image->getWidth() * image->getHeight() * sizeof(float));
-    image->calculateStats(true);
-    image->rescale(ZOOM_KEEP_LEVEL);
+    FITSView *image = tab->getImage();
+    FITSImage *image_data = image->getImageData();
+    memcpy( image_data->getImageBuffer(), buffer, image_data->getWidth() * image_data->getHeight() * sizeof(float));
+    image_data->calculateStats(true);
 
 
 
@@ -378,9 +380,10 @@ void FITSHistogramCommand::undo()
         histogram->updateHistogram();
 
         if (tab->getViewer()->isStarsMarked())
-            image->findStars();
+            image_data->findStars();
     }
 
+    image->rescale(ZOOM_KEEP_LEVEL);
     image->updateFrame();
 
 }

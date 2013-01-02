@@ -15,7 +15,7 @@
 
 #include <QStringList>
 
-class FITSImage;
+class FITSView;
 
 namespace ISD
 {
@@ -27,8 +27,8 @@ public:
 
     CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType);
 
-    FITSImage * getImage(FITSMode imageType);
-    void setImage(FITSImage *image, FITSMode imageType);
+    FITSView * getImage(FITSMode imageType);
+    void setImage(FITSView *image, FITSMode imageType);
     void setCaptureMode(FITSMode mode) { captureMode = mode; }
     void setCaptureFilter(FITSScale fType) { captureFilter = fType; }
 
@@ -58,7 +58,7 @@ public:
     void addFrameLabel(const QString & label) { frameTypes << label; }
 
 private:
-    FITSImage *normalImage, *focusImage, *guideImage, *calibrationImage;
+    FITSView *normalImage, *focusImage, *guideImage, *calibrationImage;
     FITSMode captureMode;
     FITSScale captureFilter;
     INDI::BaseDevice *baseDevice;

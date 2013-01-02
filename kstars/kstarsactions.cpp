@@ -97,7 +97,7 @@
 #include "indi/guimanager.h"
 #endif
 
-#include "skycomponents/customcatalogcomponent.h"
+#include "skycomponents/catalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/cometscomponent.h"

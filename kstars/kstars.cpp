@@ -110,6 +110,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     DarkPalette.setColor( QPalette::Normal, QPalette::Highlight, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::HighlightedText, QColor( "black" ) );
     DarkPalette.setColor( QPalette::Inactive, QPalette::Text, QColor( 238, 0, 0 ) );
+    DarkPalette.setColor( QPalette::Inactive, QPalette::Base, QColor( 30, 10, 10 ) );
     //store original color scheme
     OriginalPalette = QApplication::palette();
 
@@ -144,6 +145,9 @@ KStars::~KStars()
 
     delete kstarsData;
     pinstance = 0;
+
+    QSqlDatabase::removeDatabase("userdb");
+    QSqlDatabase::removeDatabase("skydb");
 }
 
 void KStars::clearCachedFindDialog() {

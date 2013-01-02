@@ -602,10 +602,8 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 
 void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
 {
-    foreach(DriverInfo *di, driversList.values())
-    {
-        if (di == devInterface->getDriverInfo())
-        {
+    DriverInfo *di = devInterface->getDriverInfo();
+
             switch (di->getType())
             {
                case KSTARS_TELESCOPE:
@@ -630,21 +628,21 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
              case KSTARS_FILTER:
                 if (filter_di == di)
                     filter = devInterface;
+                if (useFilterFromCCD)
+                    ccd = devInterface;
                 break;
 
              case KSTARS_AUXILIARY:
                 if (aux_di == di)
                     aux = devInterface;
+                    break;
 
               default:
                 return;
                 break;
             }
 
-            nDevices--;
-            break;
-        }
-    }
+     nDevices--;
 
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
@@ -930,9 +928,9 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     {
         initCapture();
 
-        if (!strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+        if (ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
             captureProcess->addGuideHead(ccd);
-        else
+        else if (guider)
             captureProcess->addGuideHead(guider);
 
 
@@ -944,9 +942,9 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     {
         if (captureProcess)
         {
-            if (!strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+            if (ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
                 captureProcess->syncFrameType(ccd);
-            else
+            else if (guider)
                 captureProcess->syncFrameType(guider);
         }
     }

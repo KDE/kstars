@@ -64,37 +64,23 @@ bool FlagComponent::selected() {
 }
 
 void FlagComponent::loadFromFile() {
-    KSFileReader fileReader;
     bool imageFound = false;
 
-    // Return if flags.dat does not exist
-    if( !QFile::exists ( KStandardDirs::locateLocal( "appdata", "flags.dat" ) ) )
-        return;
-
-    // Return if flags.dat can not be read
-    if( !fileReader.open( "flags.dat" ) )
-        return;
-
-    // Read flags.dat
-    while ( fileReader.hasMoreLines() ) {
-        // Split line and ignore it if it's too short or if it's a comment
-        QStringList line = fileReader.readLine().split( ' ' );
-        if ( line.size() < 4 )
-            continue;
-        if ( line.at( 0 ) == "#" )
-            continue;
+    QList<QStringList> flagList=KStarsData::Instance()->userdb()->ReturnAllFlags();
+    for (int i=0; i<flagList.size(); ++i){
+        QStringList flagEntry = flagList.at(i);
 
         // Read coordinates
-        dms r( line.at( 0 ) );
-        dms d( line.at( 1 ) );
+        dms r( flagEntry.at( 0 ) );
+        dms d( flagEntry.at( 1 ) );
         SkyPoint* flagPoint = new SkyPoint( r, d );
         pointList().append( flagPoint );
 
         // Read epoch
-        m_Epoch.append( line.at( 2 ) );
+        m_Epoch.append( flagEntry.at( 2 ) );
 
         // Read image name
-        QString str = line.at( 3 );
+        QString str = flagEntry.at( 3 );
         str = str.replace( '_', ' ');
         for(int i = 0; i < m_Names.size(); ++i ) {
             if ( str == m_Names.at( i ) ) {
@@ -103,7 +89,7 @@ void FlagComponent::loadFromFile() {
             }
         }
 
-        // If the image sprecified in flags.dat does not exist,
+        // If the image sprecified in db does not exist,
         // use the default one
         if ( ! imageFound )
             m_FlagImages.append( 0 );
@@ -111,48 +97,35 @@ void FlagComponent::loadFromFile() {
         imageFound = false;
 
         // If there is no label, use an empty string, red color and continue.
-        if ( ! ( line.size() > 4 ) ) {
-            m_Labels.append( "" );
-            m_LabelColors.append( QColor( "red" ) );
-            continue;
-        }
+        m_Labels.append(flagEntry.at(4));
 
-        // Read label and color label
-        // If the last word is a color value, use it to set label color
-        // Else use red
+        // color label
+
         QRegExp rxLabelColor( "^#[a-fA-F0-9]{6}$" );
-        if ( rxLabelColor.exactMatch( line.last() ) ) {
-            m_LabelColors.append( QColor( line.last() ) );
-            line.removeLast();
+        if ( rxLabelColor.exactMatch( flagEntry.at(5) ) ) {
+            m_LabelColors.append( QColor( flagEntry.at(5) ) );
         } else {
             m_LabelColors.append( QColor( "red" ) );
         }
 
-        str.clear();
-        for ( int i=4; i < line.size() - 1; ++i )
-            str += line.at( i ) + ' ';
-        str += line.at( line.size() - 1 );
-        m_Labels.append( str );
     }
 }
 
 void FlagComponent::saveToFile() {
-    QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat.tmp" ) );
-    file.open( QIODevice::WriteOnly );
+    /*
+    TODO: This is a really bad way of storing things. Adding one flag shouldn't
+    involve writing a new file/table every time. Needs fixing.
+    */
+    KStarsData::Instance()->userdb()->EraseAllFlags();
 
-    QTextStream ostream(&file);
     for ( int i=0; i < size(); ++i ) {
-        ostream << QString::number( pointList().at( i )->ra0().Degrees() ) << " "
-                << QString::number( pointList().at( i )->dec0().Degrees() ) << " "
-                << epoch ( i ) << " "
-                << imageName( i ).replace( ' ', '_' ) << " "
-                << label( i ) << " "
-                << labelColor( i ).name() << "\n";
+        KStarsData::Instance()->userdb()->AddFlag(QString::number( pointList().at( i )->ra0().Degrees() ),
+                                                  QString::number( pointList().at( i )->dec0().Degrees() ),
+                                                  epoch ( i ),
+                                                  imageName( i ).replace( ' ', '_' ),
+                                                  label( i ),
+                                                  labelColor( i ).name());
     }
-
-    QFile::remove( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
-    file.rename( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
-    file.close();
 }
 
 void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {

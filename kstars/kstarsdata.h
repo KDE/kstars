@@ -20,7 +20,9 @@
 
 #include <iostream>
 
-#include <ksnumbers.h>
+#include "ksnumbers.h"
+#include "ksuserdb.h"
+#include "datahandlers/catalogdb.h"
 
 #include <QList>
 #include <QMap>
@@ -145,6 +147,12 @@ public:
 
     /**@return pointer to the ColorScheme object */
     ColorScheme *colorScheme() { return &CScheme; }
+
+    /**@return pointer to the KSUserDB object */
+    KSUserDB *userdb() { return &m_ksuserdb; }
+
+    /**@return pointer to the Catalog DB object */
+    CatalogDB *catalogdb() { return &m_catalogdb; }
 
     /**@return pointer to the simulation Clock object */
     SimClock *clock() { return &Clock; }
@@ -347,6 +355,8 @@ private:
     GeoLocation m_Geo;
     SimClock Clock;
     KStarsDateTime LTime;
+    KSUserDB m_ksuserdb;
+    CatalogDB m_catalogdb;
     ColorScheme CScheme;
     OAL::Log *m_logObject;
 

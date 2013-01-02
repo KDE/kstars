@@ -413,21 +413,11 @@ void OAL::Log::readLog() {
         if( reader->isStartElement() ) {
             if( reader->name() == "targets" )
                 readTargets();
-           else if( reader->name() == "observers" )
-                readObservers();
            else if( reader->name() == "sites" )
                 readSites();
            else if( reader->name() == "sessions" )
                 readSessions();
-           else if( reader->name() == "scopes" )
-                readScopes();
-           else if( reader->name() == "eyepieces" )
-                readEyepieces();
-           else if( reader->name() =="lenses" )
-                readLenses();
-           else if( reader->name() =="filters" )
-                readFilters();
-           else if( reader->name() == "observation" ) 
+           else if( reader->name() == "observation" )
                 readObservation( reader->attributes().value( "id" ).toString() );
            else if( reader->name() == "geodate" )
                 readGeoDate();
@@ -454,19 +444,7 @@ void OAL::Log::readTargets() {
 }
 
 void OAL::Log::readObservers() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "observer" )
-                readObserver( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->GetAllObservers(m_observerList);
 }
 
 void OAL::Log::readSites() {
@@ -502,67 +480,19 @@ void OAL::Log::readSessions() {
 }
 
 void OAL::Log::readScopes() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "scope" )
-                readScope( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->GetAllScopes(m_scopeList);
 }
 
 void OAL::Log::readEyepieces() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "eyepiece" )
-                readEyepiece( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->GetAllEyepieces(m_eyepieceList);
 }
 
 void OAL::Log::readLenses() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "lens" )
-                readLens( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->GetAllLenses(m_lensList);
 }
 
 void OAL::Log::readFilters() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "filter" )
-                readFilter( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->GetAllFilters(m_filterList);
 }
 
 void OAL::Log::readTarget() {
@@ -603,28 +533,6 @@ void OAL::Log::readTarget() {
     }
 }
 
-void OAL::Log::readObserver( QString id ) {
-    QString name, surname, contact;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "name" ) {
-                name = reader->readElementText();
-            } else if( reader->name() == "surname" ) {
-                surname = reader->readElementText();
-            } else if( reader->name() == "contact" ) {
-                contact = reader->readElementText();
-            } else
-                readUnknownElement();
-        }
-    }
-    OAL::Observer *o= new OAL::Observer( id, name, surname, contact );
-    m_observerList.append( o );
-}
 
 void OAL::Log::readSite( QString id ) {
     QString name, latUnit, lonUnit, lat, lon;
@@ -683,118 +591,6 @@ void OAL::Log::readSession( QString id, QString lang ) {
     m_sessionList.append( o );
 }
 
-void OAL::Log::readScope( QString id ) {
-    QString model, focalLength, vendor, type, aperture, driver = i18n("None");
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "type" ) {
-                type = reader->readElementText() ;
-                if( type == "N" ) type = "Newtonian";
-                if( type == "R" ) type = "Refractor";
-                if( type == "M" ) type = "Maksutov";
-                if( type == "S" ) type = "Schmidt-Cassegrain";
-                if( type == "K" ) type = "Kutter (Schiefspiegler)";
-                if( type == "C" ) type = "Cassegrain";
-            } else if( reader->name() == "focalLength" ) {
-                focalLength = reader->readElementText() ;
-            } else if( reader->name() == "aperture" )
-                aperture = reader->readElementText() ;
-              else if ( reader->name() == "driver")
-                 driver = reader->readElementText();
-              else
-                readUnknownElement();
-        }
-    }
-    
-    OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
-    o->setINDIDriver(driver);
-    m_scopeList.append( o );
-}
-
-void OAL::Log::readEyepiece( QString id ) {
-    QString model, focalLength, vendor, fov, fovUnit;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "apparentFOV" ) {
-                fov = reader->readElementText();
-                fovUnit = reader->attributes().value( "unit" ).toString();
-            } else if( reader->name() == "focalLength" ) {
-                focalLength = reader->readElementText() ;
-            } else
-                readUnknownElement();
-        }
-    }
-    
-    OAL::Eyepiece *o= new OAL::Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
-    m_eyepieceList.append( o );
-}
-
-void OAL::Log::readLens( QString id ) {
-    QString model, factor, vendor;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "factor" ) {
-                factor = reader->readElementText() ;
-            } else
-                readUnknownElement();
-        }
-    }
-    
-    OAL::Lens *o= new OAL::Lens( id, model, vendor, factor.toDouble() );
-    m_lensList.append( o );
-}
-
-void OAL::Log::readFilter( QString id ) {
-    QString model, vendor, type, color;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "type" ) {
-                type = reader->readElementText() ;
-            } else if( reader->name() == "color" ) {
-                color = reader->readElementText() ;
-            } else
-                readUnknownElement();
-        }
-    }
-    OAL::Filter *o= new OAL::Filter( id, model, vendor, type, color );
-    m_filterList.append( o );
-}
 
 void OAL::Log::readPosition() {
     while( ! reader->atEnd() ) {

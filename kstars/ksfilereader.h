@@ -90,6 +90,18 @@ public:
      */
     bool open( const QString& fname );
 
+    /* @short opens the file with full path fname and uses that
+     * file for the QTextStream. open() locates "appdata" behind the scenes,
+     * so passing fname such that
+     * QString fname = KStandardDirs::locate( "appdata", "file_name" );
+     * is equivalent
+     *
+     * @param fname full path to directory + name of the file to open
+     * @return returns true on success.  Prints an error message and returns
+     * false on failure.
+     */
+    bool openFullPath( const QString& fname );
+
     /* @return true if we are not yet at the end of the file.
      * (I added this to be compatible with existing code.)
      */

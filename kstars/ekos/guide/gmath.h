@@ -18,7 +18,7 @@
 #include "matr.h"
 #include "common.h"
 
-class FITSImage;
+class FITSView;
 
 typedef struct
 {
@@ -138,8 +138,8 @@ public:
 	void get_star_screen_pos( double *dx, double *dy ) const;
 	bool reset( void );
     void set_buffer(float *buffer);
-    void set_image(FITSImage *image);
-    FITSImage *get_image() { return pimage; }
+    void set_image(FITSView *image);
+    FITSView *get_image() { return pimage; }
 	
 	ovr_params_t *prepare_overlays( void );
 	void move_square( double newx, double newy );
@@ -162,7 +162,7 @@ private:
 	// sys...
 	uint32_t ticks;		// global channel ticker
     float *pdata;		// pointer to data buffer
-    FITSImage *pimage;   // pointer to image
+    FITSView *pimage;   // pointer to image
 	int video_width, video_height;	// video frame dimensions
 	double ccd_pixel_width, ccd_pixel_height, aperture, focal;
 	Matrix	ROT_Z;

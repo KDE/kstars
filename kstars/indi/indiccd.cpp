@@ -43,7 +43,7 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
     normalImage = focusImage = guideImage = calibrationImage = NULL;
 }
 
-FITSImage * CCDChip::getImage(FITSMode imageType)
+FITSView * CCDChip::getImage(FITSMode imageType)
 {
     switch (imageType)
     {
@@ -68,7 +68,7 @@ FITSImage * CCDChip::getImage(FITSMode imageType)
 
 }
 
-void CCDChip::setImage(FITSImage *image, FITSMode imageType)
+void CCDChip::setImage(FITSView *image, FITSMode imageType)
 {
 
     switch (imageType)

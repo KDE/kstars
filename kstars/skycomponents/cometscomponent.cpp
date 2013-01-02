@@ -18,11 +18,6 @@
 #include "cometscomponent.h"
 #include "solarsystemcomposite.h"
 
-#include <QFile>
-#include <QPen>
-#include <kglobal.h>
-#include <kdebug.h>
-
 #include "Options.h"
 #include "skyobjects/kscomet.h"
 #include "ksutils.h"
@@ -36,10 +31,13 @@
 #include <kio/netaccess.h>
 #include <kio/jobuidelegate.h>
 #include <kstandarddirs.h>
+#include <kglobal.h>
+#include <kdebug.h>
+#include <QFile>
+#include <QPen>
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
-        : SolarSystemListComponent( parent )
-{
+        : SolarSystemListComponent( parent ) {
     loadData();
 }
 
@@ -88,77 +86,79 @@ void CometsComponent::loadData() {
     double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
-    KSFileReader fileReader;
-    if(!fileReader.open( "comets.dat" )) return;
-    emitProgressText( i18n("Loading comets") );
-    // Clear lists
-    m_ObjectList.clear();
-    objectNames( SkyObject::COMET ).clear();
-    
-    while( fileReader.hasMoreLines() )
-    {
-        //kDebug()<<"fileReader.lineNumber() : "<<fileReader.lineNumber()<<endl;
+
+    emitProgressText(i18n("Loading comets"));
+    objectNames(SkyObject::COMET).clear();
+
+    QList< QPair<QString, KSParser::DataTypes> > sequence;
+    sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("epoch_mjd"), KSParser::D_INT));
+    sequence.append(qMakePair(QString("q"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("e"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("i"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("w"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("om"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("tp_calc"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("orbit_id"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("neo"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("M1"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("M2"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("diameter"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("extent"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("albedo"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("rot_period"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("per_y"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("H"), KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("G"), KSParser::D_SKIP));
+
+    QString file_name = KStandardDirs::locate( "appdata",
+                                               QString("comets.dat") );
+    KSParser cometParser(file_name, '#', sequence);
+
+    QHash<QString, QVariant> row_content;
+    while (cometParser.HasNextRow()){
         KSComet *com = 0;
-        line = fileReader.readLine();
+        row_content = cometParser.ReadNextRow();
+        name   = row_content["full name"].toString();
+        name   = name.trimmed();
+        mJD    = row_content["epoch_mjd"].toInt();
+        q    = row_content["q"].toDouble();
+        e    = row_content["e"].toDouble();
+        dble_i = row_content["i"].toDouble();
+        dble_w = row_content["w"].toDouble();
+        dble_N = row_content["om"].toDouble();
+        Tp     = row_content["tp_calc"].toDouble();
+        orbit_id = row_content["orbit_id"].toString();
+        neo = row_content["neo"] == "Y";
 
-        // Ignore comments and too short lines
-        if ( line.size() < 8  ||  line.at( 0 ) == '#' )
-            continue;
-        fields = line.split( "," );
-        if( fields.size() < 21 )
-            continue;
+        if(row_content["M1"].toFloat()==0.0)
+            M1 = 101.0;
+        else
+            M1 = row_content["M1"].toFloat();
 
-        name   = fields.at( 0 );
-        name   = name.remove( '"' ).trimmed();
-        //kDebug()<<name<<endl;
-        mJD    = fields.at( 1 ).toInt();
-        q      = fields.at( 2 ).toDouble();
-        e      = fields.at( 3 ).toDouble();
-        dble_i = fields.at( 4 ).toDouble();
-        dble_w = fields.at( 5 ).toDouble();
-        dble_N = fields.at( 6 ).toDouble();
-        Tp     = fields.at( 7 ).toDouble();
-        orbit_id = fields.at( 8 );
-        orbit_id.remove( '"' );
-        
-        neo = fields.at( 9 ) == "Y";
-        
-        if(fields.at(10).isEmpty())
-            M1 = 101.0;        
+        if(row_content["M2"].toFloat()==0.0)
+            M2 = 101.0;
         else
-            M1 = fields.at( 10 ).toFloat( &ok );
-        
-        if(fields.at(11).isEmpty())
-            M2 = 101.0; 
-        else
-            M2 = fields.at( 11 ).toFloat( &ok );
-        
-        diameter = fields.at( 12 ).toFloat( &ok );
-        if ( !ok ) diameter = 0.0;
-        dimensions = fields.at( 13 );
-        albedo  = fields.at( 14 ).toFloat( &ok );
-        if ( !ok ) albedo = 0.0;
-        rot_period = fields.at( 15 ).toFloat( &ok );
-        if ( !ok ) rot_period = 0.0;
-        period  = fields.at( 16 ).toFloat( &ok );
-        if ( !ok ) period = 0.0;
-        earth_moid  = fields.at( 17 ).toDouble( &ok );
-        if ( !ok ) earth_moid = 0.0;
-        orbit_class = fields.at( 18 );
-        
-        if(fields.at(19).isEmpty())
-            K1 = 0.0; 
-        else
-            K1 = fields.at( 19 ).toFloat( &ok );
-        
-        if(fields.at(20).isEmpty())
-            K2 = 0.0; 
-        else
-            K2 = fields.at( 20 ).toFloat( &ok );
-        
-        JD = double( mJD ) + 2400000.5;
+            M2 = row_content["M2"].toFloat();
 
-        com = new KSComet( name, QString(), JD, q, e, dms( dble_i ), dms( dble_w ), dms( dble_N ), Tp, M1, M2, K1, K2 );
+        diameter = row_content["diameter"].toFloat();
+        dimensions = row_content["extent"].toString();
+        albedo  = row_content["albedo"].toFloat();
+        rot_period = row_content["rot_period"].toFloat();
+        period  = row_content["per_y"].toFloat();
+        earth_moid  = row_content["moid"].toDouble();
+        orbit_class = row_content["class"].toString();
+        K1 = row_content["H"].toFloat();
+        K2 = row_content["G"].toFloat();
+
+        JD = static_cast<double>( mJD ) + 2400000.5;
+
+        com = new KSComet( name, QString(), JD, q, e,
+                           dms( dble_i ), dms( dble_w ),
+                           dms( dble_N ), Tp, M1, M2,
+                           K1, K2 );
         com->setOrbitID( orbit_id );
         com->setNEO( neo );
         com->setDiameter( diameter );
@@ -169,10 +169,9 @@ void CometsComponent::loadData() {
         com->setEarthMOID( earth_moid );
         com->setOrbitClass( orbit_class );
         com->setAngularSize( 0.005 );
-
         m_ObjectList.append( com );
 
-        //Add *short* name to the list of object names
+        // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
     }
 }
@@ -182,7 +181,9 @@ void CometsComponent::draw( SkyPainter *skyp )
     if( !selected() || Options::zoomFactor() < 10*MINZOOM )
         return;
 
-    bool hideLabels =  ! Options::showCometNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels() );
+    bool hideLabels =  ! Options::showCometNames() ||
+                       (SkyMap::Instance()->isSlewing() &&
+                        Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
 
     //FIXME: Should these be config'able?
@@ -200,7 +201,16 @@ void CometsComponent::draw( SkyPainter *skyp )
 void CometsComponent::updateDataFile()
 {
     KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
-    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbered=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&combine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&c2_item=Ae&c2_op=!%3D&c2_value=SOHO&c_fields=AcBdBiBgBjBlBkBqBbAgAkAlApAqArAsBsBtChAmAn&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
+    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbere"
+    "d=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&com"
+    "bine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&"
+    "c2_item=Ae&c2_op=!%3D&c2_value=SOHO&c_fields=AcBdBiBgBjBlBkBqBbAgAkAlApAq"
+    "ArAsBsBtChAmAn&table_format=CSV&max_rows=10&format_option=full&query=Gene"
+    "rate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=ob"
+    "j_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mo"
+    "de&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_fiel"
+    "d_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com"
+    "_orbit_class" );
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file

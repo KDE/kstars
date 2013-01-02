@@ -9,6 +9,11 @@
     Handle INDI Standard properties.
  */
 
+#include <QDebug>
+
+#include <KMessageBox>
+#include <KStatusBar>
+
 #include <baseclient.h>
 #include <basedevice.h>
 
@@ -20,16 +25,11 @@
 #include "indifilter.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
+#include "deviceinfo.h"
 #include "fitsviewer/fitsviewer.h"
 
 #include "kstars.h"
 #include "Options.h"
-
-
-#include <QDebug>
-
-#include <KMessageBox>
-#include <KStatusBar>
 
 #define NINDI_STD	27
 
@@ -81,8 +81,9 @@ void INDIListener::addClient(ClientManager *cm)
     //qDebug() << "add client for listener called " << endl;
     clients.append(cm);
 
-    connect(cm, SIGNAL(newINDIDevice(DriverInfo*)), this, SLOT(processDevice(DriverInfo*)));
-    connect(cm, SIGNAL(INDIDeviceRemoved(DriverInfo*)), this, SLOT(removeDevice(DriverInfo*)));
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)));
+
+    connect(cm, SIGNAL(INDIDeviceRemoved(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)));
 
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
     //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
@@ -113,7 +114,7 @@ void INDIListener::removeClient(ClientManager *cm)
     }
 }
 
-void INDIListener::processDevice(DriverInfo *dv)
+void INDIListener::processDevice(DeviceInfo *dv)
 {
     //qDebug() << "process Device called for " << dv->getBaseDevice()->getDeviceName() << endl;
 
@@ -126,17 +127,17 @@ void INDIListener::processDevice(DriverInfo *dv)
     emit newDevice(gd);
 }
 
-void INDIListener::removeDevice(DriverInfo *dv)
+void INDIListener::removeDevice(DeviceInfo *dv)
 {
     foreach(ISD::GDInterface *gd, devices)
     {
-        if (dv->getUniqueLabel() == gd->getDeviceName() || dv->getDriverSource() == HOST_SOURCE)
+        if (dv->getDriverInfo()->getUniqueLabel() == gd->getDeviceName() || dv->getDriverInfo()->getDriverSource() == HOST_SOURCE)
         {           
             emit deviceRemoved(gd);
             devices.removeOne(gd);
             delete(gd);
 
-            if (dv->getDriverSource() != HOST_SOURCE)
+            if (dv->getDriverInfo()->getDriverSource() != HOST_SOURCE)
                 return;
         }
     }
@@ -150,32 +151,40 @@ void INDIListener::registerProperty(INDI::Property *prop)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName() ))
         {
-            if ( gd->getType() != KSTARS_TELESCOPE && (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(prop->getName(), "HORIZONTAL_COORD")) )
+            if ( gd->getType() == KSTARS_UNKNOWN && (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(prop->getName(), "HORIZONTAL_COORD")) )
             {
                 devices.removeOne(gd);
                 gd = new ISD::Telescope(gd);
                 devices.append(gd);
                 emit newTelescope(gd);
              }
-            else if (gd->getType() != KSTARS_CCD && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
+            else if (gd->getType() == KSTARS_UNKNOWN && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
             {
                 devices.removeOne(gd);
                 gd = new ISD::CCD(gd);
                 devices.append(gd);
                 emit newCCD(gd);
             }
-            else if (gd->getType() != KSTARS_FILTER && !strcmp(prop->getName(), "FILTER_SLOT"))
+            else if (!strcmp(prop->getName(), "FILTER_SLOT"))
             {
-                devices.removeOne(gd);
-                gd = new ISD::Filter(gd);
-                devices.append(gd);
-                emit newFilter(gd);
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::Filter(gd);
+                    devices.append(gd);
+                }
+
+                    emit newFilter(gd);
             }
-            else if (gd->getType() != KSTARS_FOCUSER && !strcmp(prop->getName(), "FOCUS_MOTION"))
+            else if (!strcmp(prop->getName(), "FOCUS_MOTION"))
             {
-                devices.removeOne(gd);
-                gd = new ISD::Focuser(gd);
-                devices.append(gd);
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::Focuser(gd);
+                    devices.append(gd);
+                }
+
                 emit newFocuser(gd);
             }
 

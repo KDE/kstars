@@ -80,8 +80,8 @@ public:
 
   public slots:
     void clearLog();
-    void buildDevice(DriverInfo *di);
-    void removeDevice(DriverInfo *di);
+    void buildDevice(DeviceInfo *di);
+    void removeDevice(DeviceInfo *di);
 };
 
 #endif // GUIMANAGER_H

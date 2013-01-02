@@ -26,9 +26,9 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-#ifndef MAXUINT 
-    #define MAXUINT (~0) 
-#endif 
+#ifndef MAXUINT
+    #define MAXUINT (~0)
+#endif
 
 KSFileReader::KSFileReader( qint64 maxLen ) :
         QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
@@ -48,6 +48,18 @@ bool KSFileReader::open( const QString& fname )
     if (  !KSUtils::openDataFile( m_file, fname ) ) {
         kWarning() << QString("Couldn't open(%1)").arg(fname);
         return false;
+    }
+    QTextStream::setDevice( &m_file );
+    QTextStream::setCodec("UTF-8");
+    return true;
+}
+
+bool KSFileReader::openFullPath( const QString& fname )
+{
+    if ( !fname.isNull() ) {
+        m_file.setFileName( fname );
+        if ( !m_file.open( QIODevice::ReadOnly ))
+          return false;
     }
     QTextStream::setDevice( &m_file );
     QTextStream::setCodec("UTF-8");

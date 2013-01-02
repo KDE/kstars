@@ -127,7 +127,11 @@ bool ServerManager::startDriver(DriverInfo *dv)
      }
 
         //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
-        out << "start " << dv->getDriver() << " '" << dv->getUniqueLabel() << "'" << endl;
+
+        if (dv->getSkeletonFile().isEmpty())
+            out << "start " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
+        else
+            out << "start " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << " -s \"" << Options::indiDriversDir() << "/" << dv->getSkeletonFile() << "\"" << endl;
         //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
         out.flush();
 
@@ -146,7 +150,7 @@ void ServerManager::stopDriver(DriverInfo *dv)
 
 
         //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
-        out << "stop " << dv->getDriver() << " '" << dv->getUniqueLabel() << "'" << endl;
+         out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
         //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
         out.flush();
 
