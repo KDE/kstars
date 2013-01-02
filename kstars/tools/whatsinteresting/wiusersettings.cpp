@@ -31,12 +31,14 @@ WIUserSettings::WIUserSettings(QWidget *parent, Qt::WindowFlags flags): QWizard(
 void WIUserSettings::makeConnections()
 {
     connect(this, SIGNAL(finished(int)), this, SLOT(slotFinished(int)));
-    connect(telescopeCheck, SIGNAL( toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
-    connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
+    connect(telescopeCheck, SIGNAL(toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
+    connect(binocularsCheck, SIGNAL(toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
 }
 
 void WIUserSettings::slotFinished(int status)
 {
+    if (status == 0) { kDebug()<<"Cancelled!"; return; }
+
     m_Equip = noEquipCheck->isEnabled()
             ? (ObsConditions::None)
             : (telescopeCheck->isChecked()

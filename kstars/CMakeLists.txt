@@ -146,12 +146,12 @@ set(libkstarstools_SRCS
 	tools/scriptfunction.cpp
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
-        tools/whatsinteresting/skyobjlistmodel.cpp
-        tools/whatsinteresting/wiview.cpp
-        tools/whatsinteresting/modelmanager.cpp
-        tools/whatsinteresting/skyobjitem.cpp
-        tools/whatsinteresting/wiusersettings.cpp
-        tools/whatsinteresting/obsconditions.cpp
+	tools/whatsinteresting/skyobjlistmodel.cpp
+	tools/whatsinteresting/wiview.cpp
+	tools/whatsinteresting/modelmanager.cpp
+	tools/whatsinteresting/skyobjitem.cpp
+	tools/whatsinteresting/wiusersettings.cpp
+	tools/whatsinteresting/obsconditions.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
@@ -215,7 +215,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
-        tools/whatsinteresting/wiusersettings.ui
+	tools/whatsinteresting/wiusersettings.ui
         )
 
 
