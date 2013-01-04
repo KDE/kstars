@@ -177,3 +177,4 @@ void TestFWParser::FWReadMissingFile()
 QTEST_MAIN(TestFWParser)
 
 #include "testfwparser.moc"
+

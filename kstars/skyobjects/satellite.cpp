@@ -81,7 +81,7 @@ Satellite::Satellite( const QString name, const QString line1, const QString lin
 
     setName( name );
     setName2( name );
-    setLongName( name + " (" + m_id + ")");
+    setLongName( name + " (" + m_id + ')');
     setType( SkyObject::SATELLITE );
     setMag( 0.0 );
 

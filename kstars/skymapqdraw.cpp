@@ -14,9 +14,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skymapqdraw.h"
 #include "skymapcomposite.h"
 #include "skyqpainter.h"
-#include "skymapqdraw.h"
 #include "skymap.h"
 #include "printing/legend.h"
 

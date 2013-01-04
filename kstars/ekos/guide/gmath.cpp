@@ -9,10 +9,11 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "gmath.h"
+
 #include <math.h>
 #include <string.h>
 
-#include "gmath.h"
 #include "vect.h"
 #include "matr.h"
 

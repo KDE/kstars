@@ -7,10 +7,11 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "ekosmanager.h"
+
 #include <basedevice.h>
 
 #include "Options.h"
-#include "ekosmanager.h"
 #include "kstars.h"
 
 #include <KMessageBox>

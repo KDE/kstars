@@ -9,13 +9,14 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "rcalibration.h"
+
 #include <unistd.h>
 #include <time.h>
 #include <assert.h>
 
 #include <KMessageBox>
 
-#include "rcalibration.h"
 #include "gmath.h"
 #include "vect.h"
 

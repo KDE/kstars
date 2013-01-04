@@ -484,7 +484,7 @@ void Legend::paintScale(QPointF pos)
     else if(maxArcsec >= 60)
     {
         arcmin = maxArcsec / 60;
-        lab = QString::number(arcmin) + "'";
+        lab = QString::number(arcmin) + '\'';
     }
 
     else

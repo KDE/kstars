@@ -526,7 +526,7 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
             continue;
 
         if (seqPrefix.isEmpty() == false)
-           tempName.remove(seqPrefix + "_");
+           tempName.remove(seqPrefix + '_');
 
 
         int usIndex = tempName.indexOf('_');
@@ -610,21 +610,21 @@ void Capture::addJob(bool preview)
     if (frameTypeCheck->isChecked())
     {
         if (imagePrefix.isEmpty() == false)
-            imagePrefix += "_";
+            imagePrefix += '_';
 
         imagePrefix += frameTypeCombo->currentText();
     }
     if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false)
     {
         if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += "_";
+            imagePrefix += '_';
 
         imagePrefix += FilterPosCombo->currentText();
     }
     if (expDurationCheck->isChecked())
     {
         if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += "_";
+            imagePrefix += '_';
 
         imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
     }

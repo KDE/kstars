@@ -9,8 +9,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef RETICLE_CALIBRATION_H
-#define RETICLE_CALIBRATION_H
+#ifndef RCALIBRATION_H
+#define RCALIBRATION_H
 
 #include "gmath.h"
 #include "../guide.h"

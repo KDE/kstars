@@ -76,7 +76,7 @@ void SupernovaeComponent::loadData()
         Supernova *sup=0;
         //kDebug()<<line[0]<<" "<<line.size()<<endl;
         if(line[0]=='#' || line.size()<10) continue;
-        fields=line.split(",");
+        fields=line.split(',');
         serialNo=fields.at(0);
         hostGalaxy=fields.at(1);
         date=fields.at(2);

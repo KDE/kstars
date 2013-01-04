@@ -6,3 +6,4 @@ set(LibKSDataHandlers_SRCS
 )
 
 kde4_add_library(LibKSDataHandlers STATIC ${LibKSDataHandlers_SRCS})
+

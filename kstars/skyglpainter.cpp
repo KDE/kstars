@@ -378,14 +378,11 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
         isVisibleLast = isVisible;
     }
 
-    #define MAKE_KSTARS_SLOW TRUE
+    // false -> makes kstars slower but is always accurate
+    // true -> faster but potentially results in incorrect rendering
+    #define KSTARS_ASSUME_CONVEXITY false
     if ( polygon.size() ) {
-        #ifdef MAKE_KSTARS_SLOW
-        drawPolygon(polygon, false);
-        #else
-        //Assume convexity
-        drawPolygon(polygon, true);
-        #endif
+        drawPolygon(polygon, KSTARS_ASSUME_CONVEXITY);
     }
 }
 
