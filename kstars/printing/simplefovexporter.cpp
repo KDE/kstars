@@ -60,7 +60,7 @@ void SimpleFovExporter::exportFov(QPaintDevice *pd)
 
 void SimpleFovExporter::exportFov(const QList<SkyPoint*> &points, const QList<FOV*> &fovs, const QList<QPaintDevice*> &pds)
 {
-    Q_ASSERT(points.size() == fovs.size() == pds.size());
+    Q_ASSERT(points.size() == fovs.size() && fovs.size() == pds.size());
 
     saveState(true);
 
