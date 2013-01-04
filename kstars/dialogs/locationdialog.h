@@ -61,7 +61,7 @@ public:
     /**Constructor.  Create all widgets, and pack them into QLayouts.
      * Connect Signals to Slots.  Run initCityList().
      */
-    LocationDialog( QWidget* parent );
+    explicit LocationDialog( QWidget* parent );
 
     /** Destructor (empty) */
     ~LocationDialog();

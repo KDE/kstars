@@ -20,7 +20,7 @@ class OpsEkos : public QFrame, public Ui::OpsEkos
     Q_OBJECT
 
 public:
-    OpsEkos( KStars *_ks );
+    explicit OpsEkos( KStars *_ks );
     ~OpsEkos();
 
 private slots:

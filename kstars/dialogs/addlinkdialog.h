@@ -30,7 +30,7 @@ class QString;
 class AddLinkDialogUI : public QFrame, public Ui::AddLinkDialog {
     Q_OBJECT
 public:
-    AddLinkDialogUI( QWidget *parent=0 );
+    explicit AddLinkDialogUI( QWidget *parent=0 );
 };
 
 /**

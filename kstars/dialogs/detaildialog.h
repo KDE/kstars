@@ -227,37 +227,37 @@ private:
 class DataWidget : public QFrame, public Ui::DetailsData
 {
 public:
-    DataWidget( QWidget *parent=0 );
+    explicit DataWidget( QWidget *parent=0 );
 };
 
 class DataCometWidget : public QFrame, public Ui::DetailsDataComet
 {
 public:
-    DataCometWidget( QWidget *parent=0 );
+    explicit DataCometWidget( QWidget *parent=0 );
 };
 
 class PositionWidget : public QFrame, public Ui::DetailsPosition
 {
 public:
-    PositionWidget( QWidget *parent=0 );
+    explicit PositionWidget( QWidget *parent=0 );
 };
 
 class LinksWidget : public QFrame, public Ui::DetailsLinks
 {
 public:
-    LinksWidget( QWidget *parent=0 );
+    explicit LinksWidget( QWidget *parent=0 );
 };
 
 class DatabaseWidget : public QFrame, public Ui::DetailsDatabase
 {
 public:
-    DatabaseWidget( QWidget *parent=0 );
+    explicit DatabaseWidget( QWidget *parent=0 );
 };
 
 class LogWidget : public QFrame, public Ui::DetailsLog
 {
 public:
-    LogWidget( QWidget *parent=0 );
+    explicit LogWidget( QWidget *parent=0 );
 };
 
 #endif

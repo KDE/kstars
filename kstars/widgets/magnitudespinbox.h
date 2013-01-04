@@ -36,7 +36,7 @@ public:
 
     /**Default Constructor.
     	*/
-    MagnitudeSpinBox( QWidget* parent = 0 );
+    explicit MagnitudeSpinBox( QWidget* parent = 0 );
 
     /**Constructor.  Set minimum and maximum values for the spinbox.
     	*/

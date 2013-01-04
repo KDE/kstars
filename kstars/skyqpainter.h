@@ -35,7 +35,7 @@ public:
         @param widget the QWidget that provides the paint device (used to query height, width etc)
         @param pd the painting device. If 0, then @p sm will be used.
         */
-    SkyQPainter( QWidget *widget, QPaintDevice *pd = 0 );
+    explicit SkyQPainter( QWidget *widget, QPaintDevice *pd = 0 );
     virtual ~SkyQPainter();
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
