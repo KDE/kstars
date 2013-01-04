@@ -72,12 +72,29 @@ namespace {
     QPixmap* imageCache[nSPclasses][nStarSizes] = {{0}};
 }
 
+SkyQPainter::SkyQPainter( QPaintDevice *pd )
+    : SkyPainter(), QPainter()
+{
+    Q_ASSERT( pd );
+    m_pd = pd;
+    m_size = QSize( pd->width(), pd->height() );
+}
+
+SkyQPainter::SkyQPainter( QPaintDevice *pd, const QSize &size )
+    : SkyPainter(), QPainter()
+{
+    Q_ASSERT( pd );
+    m_pd = pd;
+    m_size = size;
+}
+
 SkyQPainter::SkyQPainter( QWidget *widget, QPaintDevice *pd )
     : SkyPainter(), QPainter()
 {
+    Q_ASSERT( widget );
     // Set paint device pointer to pd or to the widget if pd = 0
     m_pd = ( pd ? pd : widget );
-    m_widget = widget;
+    m_size = widget->size();
 }
 
 SkyQPainter::~SkyQPainter()
@@ -101,7 +118,7 @@ void SkyQPainter::end()
 void SkyQPainter::drawSkyBackground()
 {
     //FIXME use projector
-    fillRect( 0, 0, m_widget->width(), m_widget->height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+    fillRect( 0, 0, m_size.width(), m_size.height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
 }
 
 void SkyQPainter::setPen(const QPen& pen)
@@ -351,7 +368,7 @@ bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 
     bool visible = false;
     QPointF pos = m_proj->toScreen(loc,true,&visible);
-    if( visible && m_proj->onScreen(pos) ) {
+    if( visible && m_proj->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
         drawPointSource(pos, starWidth(mag), sp);
         return true;
     } else {

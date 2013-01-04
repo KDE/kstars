@@ -24,6 +24,7 @@
 
 class Projector;
 class QWidget;
+class QSize;
 
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
@@ -31,11 +32,27 @@ class QWidget;
 class SkyQPainter : public SkyPainter, public QPainter
 {
 public:
-    /** Constructor.
-        @param widget the QWidget that provides the paint device (used to query height, width etc)
-        @param pd the painting device. If 0, then @p sm will be used.
-        */
+
+    /**
+     * @short Creates a SkyQPainter with the given QPaintDevice and uses the dimensions of the paint device as canvas dimensions
+     * @param pd the painting device. Cannot be 0
+     * @param canvasSize the size of the canvas
+     */
+    SkyQPainter( QPaintDevice *pd, const QSize &canvasSize );
+
+    /**
+     * @short Creates a SkyQPainter with the given QPaintDevice and given canvas size
+     * @param pd the painting device. Cannot be 0
+     */
+    SkyQPainter( QPaintDevice *pd );
+
+    /**
+     * @short Creates a SkyQPainter given a QWidget and an optional QPaintDevice.
+     * @param widget the QWidget that provides the canvas size, and also the paint device unless @p pd is specified
+     * @param pd the painting device. If 0, then @p widget will be used.
+     */
     explicit SkyQPainter( QWidget *widget, QPaintDevice *pd = 0 );
+
     virtual ~SkyQPainter();
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
@@ -70,7 +87,7 @@ private:
                                          float positionAngle);
     QPaintDevice *m_pd;
     const Projector* m_proj;
-    const QWidget *m_widget;
+    QSize m_size;
 };
 
 #endif
