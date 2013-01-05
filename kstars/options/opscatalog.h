@@ -41,7 +41,7 @@ class OpsCatalog : public QFrame, public Ui::OpsCatalog
     Q_OBJECT
 
 public:
-    OpsCatalog( KStars *_ks );
+    explicit OpsCatalog( KStars *_ks );
     ~OpsCatalog();
 
 private slots:

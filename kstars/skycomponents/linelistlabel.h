@@ -37,7 +37,7 @@ class LineListLabel
 {
 public:
 
-    LineListLabel( const QString& text );
+    explicit LineListLabel( const QString& text );
 
     enum { TopCandidate, BotCandidate, LeftCandidate, RightCandidate };
 

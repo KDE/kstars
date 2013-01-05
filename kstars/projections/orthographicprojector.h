@@ -28,7 +28,7 @@ class OrthographicProjector : public Projector
 {
 
 public:
-    OrthographicProjector(const ViewParams& p);
+    explicit OrthographicProjector(const ViewParams& p);
     virtual SkyMap::Projection type() const;
     virtual double radius() const;
     virtual double projectionK(double x) const;

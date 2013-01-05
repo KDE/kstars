@@ -40,7 +40,7 @@ public:
      *@short Constructor
      *@param parent pointer to the parent SkyComposite
      */
-    SatellitesComponent( SkyComposite *parent );
+    explicit SatellitesComponent( SkyComposite *parent );
 
     /**
      *@short Destructor

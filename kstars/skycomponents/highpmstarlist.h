@@ -42,7 +42,7 @@ class HighPMStarList
 public:
     /* @short Constructor
      */
-    HighPMStarList( double threshold );
+    explicit HighPMStarList( double threshold );
 
     ~HighPMStarList();
 

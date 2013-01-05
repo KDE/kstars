@@ -71,7 +71,7 @@ public:
     	*Constructor
     	*@p parent pointer to the parent SkyComponent
     	*/
-    SkyMapComposite(SkyComposite *parent);
+    explicit SkyMapComposite(SkyComposite *parent);
 
     ~SkyMapComposite();
 

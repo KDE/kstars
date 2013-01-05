@@ -55,7 +55,7 @@ public:
      * @param n identifier of the planet to be created
      * @see PLANET enum
      */
-    KSPlanet( int n );
+    explicit KSPlanet( int n );
 
     virtual KSPlanet* clone() const;
     virtual SkyObject::UID getUID() const;

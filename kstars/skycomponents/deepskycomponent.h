@@ -56,7 +56,7 @@ class DeepSkyComponent: public SkyComponent
 {
 public:
 
-    DeepSkyComponent( SkyComposite* );
+    explicit DeepSkyComponent( SkyComposite* );
 
     ~DeepSkyComponent();
 

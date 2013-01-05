@@ -42,7 +42,7 @@ public:
      *  Initializes values of various parameters and creates nstars number of stars
      *  @param nstars   Number of stars to hold in this StarBlock
      */
-    StarBlock( int nstars = 100 );
+    explicit StarBlock( int nstars = 100 );
 
     /**                                                                                 
      * Destructor                                                                       

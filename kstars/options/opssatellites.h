@@ -30,7 +30,7 @@ class KStars;
 class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 {
 public:
-    SatelliteSortFilterProxyModel( QObject* parent );
+    explicit SatelliteSortFilterProxyModel( QObject* parent );
     bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const;
 };
 
@@ -48,7 +48,7 @@ public:
     /**
      * Constructor
      */
-    OpsSatellites( KStars *_ks );
+    explicit OpsSatellites( KStars *_ks );
 
     /**
      * Destructor

@@ -28,7 +28,7 @@ class StereographicProjector : public Projector
 {
 
 public:
-    StereographicProjector(const ViewParams& p);
+    explicit StereographicProjector(const ViewParams& p);
     virtual SkyMap::Projection type() const;
     virtual double radius() const;
     virtual double projectionK(double x) const;

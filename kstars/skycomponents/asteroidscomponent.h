@@ -35,7 +35,7 @@ public:
     /**@short Default constructor.
      * @p parent pointer to the parent SolarSystemComposite
      */
-    AsteroidsComponent(SolarSystemComposite *parent);
+    explicit AsteroidsComponent(SolarSystemComposite *parent);
 
     virtual ~AsteroidsComponent();
     virtual void draw( SkyPainter *skyp );

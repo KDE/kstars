@@ -39,7 +39,7 @@ public:
      *@short Constructor
      *@p parent Pointer to the parent SkyComposite object
      */
-    HorizonComponent(SkyComposite *parent );
+    explicit HorizonComponent(SkyComposite *parent );
 
     /**
      *@short Destructor
