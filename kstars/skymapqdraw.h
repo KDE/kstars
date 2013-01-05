@@ -37,7 +37,7 @@ class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract {
     /**
      *@short Constructor
      */
-    SkyMapQDraw( SkyMap *parent );
+    explicit SkyMapQDraw( SkyMap *parent );
 
     /**
      *@short Destructor

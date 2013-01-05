@@ -33,7 +33,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
 
     /**
       * \brief Get selected FOV export method.

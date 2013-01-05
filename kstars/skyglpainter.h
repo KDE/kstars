@@ -33,7 +33,7 @@ class QGLWidget;
 class SkyGLPainter : public SkyPainter
 {
 public:
-    SkyGLPainter( QGLWidget *widget );
+    explicit SkyGLPainter( QGLWidget *widget );
     virtual bool drawPlanet(KSPlanetBase* planet);
     virtual bool drawDeepSkyObject(DeepSkyObject* obj, bool drawImage = false);
     virtual bool drawPointSource(SkyPoint* loc, float mag, char sp = 'A');

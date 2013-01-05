@@ -54,7 +54,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizWelcomeUI(QWidget *parent = 0);
+    explicit PWizWelcomeUI(QWidget *parent = 0);
 };
 
 
@@ -97,7 +97,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PrintingWizard(QWidget *parent = 0);
+    explicit PrintingWizard(QWidget *parent = 0);
 
     /**
       * \brief Destructor.

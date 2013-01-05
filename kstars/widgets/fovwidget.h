@@ -25,7 +25,7 @@ class FOV;
 class FOVWidget : public QFrame {
     Q_OBJECT
     public:
-        FOVWidget( QWidget *parent=0 );
+        explicit FOVWidget( QWidget *parent=0 );
         ~FOVWidget();
 
         void setFOV( FOV *f );

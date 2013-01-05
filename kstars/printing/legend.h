@@ -84,7 +84,7 @@ public:
       * \param orientation Legend orientation.
       * \param pos Legend position.
      */
-    Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL, LEGEND_POSITION pos = LP_FLOATING);
+    explicit Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL, LEGEND_POSITION pos = LP_FLOATING);
 
     /**
       * \brief Destructor.

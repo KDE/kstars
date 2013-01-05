@@ -33,7 +33,7 @@ public:
     /**
      * Constructor. Creates clear label
      */
-    KSHelpLabel(QWidget *parent = 0);
+    explicit KSHelpLabel(QWidget *parent = 0);
 
     /**
      * Constructor. Creates label with a text and help anchor.

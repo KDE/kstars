@@ -34,7 +34,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizPrintUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizPrintUI(PrintingWizard *wizard, QWidget *parent = 0);
 
 private slots:
     /**

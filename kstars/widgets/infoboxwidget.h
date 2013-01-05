@@ -33,7 +33,7 @@ class InfoBoxes : public QWidget
     Q_OBJECT
 public:
 
-    InfoBoxes(QWidget* parent = 0);
+    explicit InfoBoxes(QWidget* parent = 0);
     virtual ~InfoBoxes();
 
     void addInfoBox(InfoBoxWidget* ibox);

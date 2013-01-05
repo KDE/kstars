@@ -49,7 +49,7 @@ public:
     /**
       * \brief Constructor.
       */
-    FovEditorDialog(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit FovEditorDialog(PrintingWizard *wizard, QWidget *parent = 0);
 
 private slots:
     /**

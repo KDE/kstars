@@ -35,7 +35,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
 
     /**
       * \brief Update UI elements for newly selected SkyObject.
