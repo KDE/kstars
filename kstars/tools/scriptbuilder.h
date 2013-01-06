@@ -36,13 +36,13 @@ class ScriptFunction;
 class OptionsTreeViewWidget : public QFrame, public Ui::OptionsTreeView {
     Q_OBJECT
 public:
-    OptionsTreeViewWidget( QWidget *p );
+    explicit OptionsTreeViewWidget( QWidget *p );
 };
 
 class OptionsTreeView : public KDialog {
     Q_OBJECT
 public:
-    OptionsTreeView( QWidget *p );
+    explicit OptionsTreeView( QWidget *p );
     ~OptionsTreeView();
     QTreeWidget* optionsList() { return otvw->OptionsList; }
     void resizeColumns();
@@ -54,13 +54,13 @@ private:
 class ScriptNameWidget : public QFrame, public Ui::ScriptNameDialog {
     Q_OBJECT
 public:
-    ScriptNameWidget( QWidget *p );
+    explicit ScriptNameWidget( QWidget *p );
 };
 
 class ScriptNameDialog : public KDialog {
     Q_OBJECT
 public:
-    ScriptNameDialog( QWidget *p );
+    explicit ScriptNameDialog( QWidget *p );
     ~ScriptNameDialog();
     QString scriptName() const { return snw->ScriptName->text(); }
     QString authorName() const { return snw->AuthorName->text(); }
@@ -75,7 +75,7 @@ private:
 class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder {
     Q_OBJECT
 public:
-    ScriptBuilderUI( QWidget *p );
+    explicit ScriptBuilderUI( QWidget *p );
 };
 
 /**@class ScriptBuilder
@@ -86,7 +86,7 @@ public:
 class ScriptBuilder : public KDialog {
     Q_OBJECT
 public:
-    ScriptBuilder( QWidget *parent );
+    explicit ScriptBuilder( QWidget *parent );
     ~ScriptBuilder();
 
     bool unsavedChanges() const { return UnsavedChanges; }

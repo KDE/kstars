@@ -38,7 +38,7 @@ class modCalcVlsr : public QFrame, public Ui::modCalcVlsrDlg  {
     Q_OBJECT
 
 public:
-    modCalcVlsr(QWidget *p);
+    explicit modCalcVlsr(QWidget *p);
     ~modCalcVlsr();
 
 private slots:

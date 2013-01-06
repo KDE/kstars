@@ -36,7 +36,7 @@ public:
     /**@short Default constructor.
      * @p parent pointer to the parent SolarSystemComposite
      */
-    CometsComponent(SolarSystemComposite *parent);
+    explicit CometsComponent(SolarSystemComposite *parent);
 
     virtual ~CometsComponent();
     virtual bool selected();

@@ -30,7 +30,7 @@ class GeoLocation;
 class AltVsTimeUI : public QFrame, public Ui::AltVsTime {
     Q_OBJECT
 public:
-    AltVsTimeUI( QWidget *p=0 );
+    explicit AltVsTimeUI( QWidget *p=0 );
 };
 
 /**@class AltVsTime
@@ -46,7 +46,7 @@ class AltVsTime : public KDialog
 
 public:
     /**Constructor */
-    AltVsTime( QWidget* parent = 0);
+    explicit AltVsTime( QWidget* parent = 0);
 
     /**Destructor */
     ~AltVsTime();

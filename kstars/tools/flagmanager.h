@@ -34,7 +34,7 @@ class FlagManagerUI : public QFrame, public Ui::FlagManager
     public:
     /**@short Constructor
      */
-        FlagManagerUI( QWidget *parent );
+        explicit FlagManagerUI( QWidget *parent );
 };
 
 
@@ -53,7 +53,7 @@ public:
     /**
      *@short Constructor.
      */
-    FlagManager( QWidget *ks );
+    explicit FlagManager( QWidget *ks );
 
     /**
      *@short Destructor.

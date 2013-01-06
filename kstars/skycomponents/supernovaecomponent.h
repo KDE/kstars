@@ -38,7 +38,7 @@ class Supernova;
 class SupernovaeComponent : public ListComponent
 {
 public:
-    SupernovaeComponent(SkyComposite* parent);
+    explicit SupernovaeComponent(SkyComposite* parent);
     virtual ~SupernovaeComponent();
     virtual bool selected();
     virtual void update(KSNumbers* num = 0);

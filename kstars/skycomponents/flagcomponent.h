@@ -46,7 +46,7 @@ class FlagComponent: public QObject, public PointListComponent
     Q_OBJECT
 public:
     /** @short Constructor. */
-    FlagComponent( SkyComposite* );
+    explicit FlagComponent( SkyComposite* );
 
     /** @short Destructor. */
     virtual ~FlagComponent();

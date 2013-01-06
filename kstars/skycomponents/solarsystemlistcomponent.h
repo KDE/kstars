@@ -32,7 +32,7 @@ class SolarSystemComposite;
 class SolarSystemListComponent : public ListComponent
 {
 public:
-    SolarSystemListComponent( SolarSystemComposite *parent );
+    explicit SolarSystemListComponent( SolarSystemComposite *parent );
 
     virtual ~SolarSystemListComponent();
 
