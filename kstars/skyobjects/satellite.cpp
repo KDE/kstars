@@ -329,7 +329,7 @@ void Satellite::init()
             cc    = c1ss;
             xnoi  = 1.0 / nm;
 
-            for ( lsflg = 1; lsflg <= 2; lsflg++ ) {
+            for ( lsflg = 1; lsflg <= 2; ++lsflg ) {
                 a1  =   zcosg * zcosh + zsing * zcosi * zsinh;
                 a3  =  -zsing * zcosh + zcosg * zcosi * zsinh;
                 a7  =  -zcosg * zsinh + zsing * zcosi * zcosh;

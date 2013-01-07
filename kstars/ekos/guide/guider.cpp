@@ -39,11 +39,11 @@ rguider::rguider(Ekos::Guide *parent)
     lost_star_try=0;
 
 	ui.comboBox_SquareSize->clear();
-	for( i = 0;guide_squares[i].size != -1;i++ )
+	for( i = 0;guide_squares[i].size != -1;++i )
 		ui.comboBox_SquareSize->addItem( QString().setNum( guide_squares[i].size ) );
 
 	ui.comboBox_ThresholdAlg->clear();
-	for( i = 0;guide_square_alg[i].idx != -1;i++ )
+	for( i = 0;guide_square_alg[i].idx != -1;++i )
 		ui.comboBox_ThresholdAlg->addItem( QString( guide_square_alg[i].name ) );
 
 	ui.spinBox_AccFramesRA->setMaximum( MAX_ACCUM_CNT );

@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDialog>
+#include <QPointer>
 
 #include <kdebug.h>
 #include <kaction.h>
@@ -248,11 +249,16 @@ void KStars::slotWizard() {
 }
 
 void KStars::slotDownload() {
-    KNS3::DownloadDialog dlg(this);
-    dlg.exec();
+    QPointer<KNS3::DownloadDialog> dlg( new KNS3::DownloadDialog( this ) );
+    dlg->exec();
 
     // Get the list of all the installed entries.
-    KNS3::Entry::List entries = dlg.installedEntries();
+    KNS3::Entry::List entries;
+    if (dlg) {
+        entries = dlg->installedEntries();
+    }
+
+    delete dlg;
 
     foreach (const KNS3::Entry &entry, entries) {
         foreach (const QString &name, entry.installedFiles()) {

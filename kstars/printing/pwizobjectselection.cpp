@@ -24,6 +24,7 @@
 #include "starobject.h"
 #include "ksplanetbase.h"
 #include "deepskyobject.h"
+#include <QPointer>
 
 PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
     m_ParentWizard(wizard)
@@ -55,16 +56,17 @@ void PWizObjectSelectionUI::setSkyObject(SkyObject *obj)
 
 void PWizObjectSelectionUI::slotSelectFromList()
 {
-    FindDialog findDlg(this);
-    if(findDlg.exec() == QDialog::Accepted)
+    QPointer<FindDialog> findDlg( new FindDialog( this ) );
+    if(findDlg->exec() == QDialog::Accepted && findDlg)
     {
-        SkyObject *obj = findDlg.selectedObject();
+        SkyObject *obj = findDlg->selectedObject();
         if(obj)
         {
             setSkyObject(obj);
             m_ParentWizard->updateStepButtons();
         }
     }
+    delete findDlg;
 }
 
 void PWizObjectSelectionUI::slotPointObject()
@@ -76,9 +78,10 @@ void PWizObjectSelectionUI::slotShowDetails()
 {
     if(m_ParentWizard->getSkyObject())
     {
-        DetailDialog detailDlg(m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(),
-                               KStars::Instance()->data()->geo(), this);
-        detailDlg.exec();
+        QPointer<DetailDialog> detailDlg( new DetailDialog( m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(),
+                               KStars::Instance()->data()->geo(), this ) );
+        detailDlg->exec();
+        delete detailDlg;
     }
 }
 

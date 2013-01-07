@@ -661,10 +661,10 @@ Vector cgmath::find_star_local_pos( void ) const
 		if( box_wd > 0 && box_ht > 0 )
 		{
 			pix_cnt += box_wd * box_ht;
-			for( j = bbox_lt.y;j < (int)square_pos.y;j++ )
+			for( j = bbox_lt.y;j < (int)square_pos.y;++j )
 			{
 				offset = j*video_width;
-				for( i = bbox_lt.x;i < bbox_rb.x;i++ )
+				for( i = bbox_lt.x;i < bbox_rb.x;++i )
 				{
 					pptr = pdata + offset + i;
 					threshold += *pptr;
@@ -677,10 +677,10 @@ Vector cgmath::find_star_local_pos( void ) const
 		if( box_wd > 0 && box_ht > 0 )
 		{
 			pix_cnt += box_wd * box_ht;
-			for( j = (int)square_pos.y;j < (int)square_pos.y+box_ht;j++ )
+			for( j = (int)square_pos.y;j < (int)square_pos.y+box_ht;++j )
 			{
 				offset = j*video_width;
-				for( i = bbox_lt.x;i < (int)square_pos.x;i++ )
+				for( i = bbox_lt.x;i < (int)square_pos.x;++i )
 				{
 					pptr = pdata + offset + i;
 					threshold += *pptr;
@@ -693,10 +693,10 @@ Vector cgmath::find_star_local_pos( void ) const
 		if( box_wd > 0 && box_ht > 0 )
 		{
 			pix_cnt += box_wd * box_ht;
-			for( j = (int)square_pos.y;j < (int)square_pos.y+box_ht;j++ )
+			for( j = (int)square_pos.y;j < (int)square_pos.y+box_ht;++j )
 			{
 				offset = j*video_width;
-				for( i = (int)square_pos.x+square_size;i < bbox_rb.x;i++ )
+				for( i = (int)square_pos.x+square_size;i < bbox_rb.x;++i )
 				{
 					pptr = pdata + offset + i;
 					threshold += *pptr;
@@ -709,10 +709,10 @@ Vector cgmath::find_star_local_pos( void ) const
 		if( box_wd > 0 && box_ht > 0 )
 		{
 			pix_cnt += box_wd * box_ht;
-			for( j = (int)square_pos.y+square_size;j < bbox_rb.y;j++ )
+			for( j = (int)square_pos.y+square_size;j < bbox_rb.y;++j )
 			{
 				offset = j*video_width;
-				for( i = bbox_lt.x;i < bbox_rb.x;i++ )
+				for( i = bbox_lt.x;i < bbox_rb.x;++i )
 				{
 					pptr = pdata + offset + i;
 					threshold += *pptr;
@@ -721,9 +721,9 @@ Vector cgmath::find_star_local_pos( void ) const
 		}
 		// find maximum
 		double max_val = 0;
-		for( j = 0;j < square_size;j++ )
+		for( j = 0;j < square_size;++j )
 		{
-			for( i = 0;i < square_size;i++ )
+			for( i = 0;i < square_size;++i )
 			{
 				pptr = psrc+i;
 				if( *pptr > max_val )
@@ -742,9 +742,9 @@ Vector cgmath::find_star_local_pos( void ) const
 	// simple adaptive threshold
 	case AUTO_THRESHOLD:
 	{
-		for( j = 0;j < square_size;j++ )
+		for( j = 0;j < square_size;++j )
 		{
-			for( i = 0;i < square_size;i++ )
+			for( i = 0;i < square_size;++i )
 			{
 				pptr = psrc+i;
 				threshold += *pptr;
@@ -761,9 +761,9 @@ Vector cgmath::find_star_local_pos( void ) const
 	}
 
 	psrc = porigin;
-	for( j = 0;j < square_size;j++ )
+	for( j = 0;j < square_size;++j )
 	{
-		for( i = 0;i < square_size;i++ )
+		for( i = 0;i < square_size;++i )
 		{
 			pptr = psrc+i;
 			pval = *pptr - threshold;
@@ -811,7 +811,7 @@ void cgmath::process_axes( void  )
 
  		cnt = in_params.accum_frame_cnt[ k ];
 	
- 		for( int i = 0, idx = channel_ticks[k];i < cnt;i++ )
+ 		for( int i = 0, idx = channel_ticks[k];i < cnt;++i )
  		{
  			t_delta += drift[k][idx];
 
@@ -825,7 +825,7 @@ void cgmath::process_axes( void  )
 				idx = MAX_ACCUM_CNT-1;
 		}
 		
-		for( int i = 0;i < MAX_ACCUM_CNT;i++ )
+		for( int i = 0;i < MAX_ACCUM_CNT;++i )
  			drift_integral[k] += drift[k][i];
 		
 		out_params.delta[k] = t_delta / (double)cnt;
@@ -1015,7 +1015,7 @@ void cgmath::calc_square_err( void )
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
 	{
 		double sqr_avg = 0;
-		for( int i = 0;i < MAX_ACCUM_CNT;i++ )
+		for( int i = 0;i < MAX_ACCUM_CNT;++i )
 			sqr_avg += drift[k][i] * drift[k][i];
 
 		out_params.sigma[k] = sqrt( sqr_avg / (double)MAX_ACCUM_CNT );

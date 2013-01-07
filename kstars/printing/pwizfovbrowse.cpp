@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QPointer>
+
 #include "pwizfovbrowse.h"
 #include "foveditordialog.h"
 
@@ -28,6 +30,7 @@ PWizFovBrowseUI::PWizFovBrowseUI(PrintingWizard *wizard, QWidget *parent) : QFra
 
 void PWizFovBrowseUI::slotOpenFovEditor()
 {
-    FovEditorDialog dialog(m_ParentWizard, this);
-    dialog.exec();
+    QPointer<FovEditorDialog> dialog( new FovEditorDialog( m_ParentWizard, this ) );
+    dialog->exec();
+    delete dialog;
 }
