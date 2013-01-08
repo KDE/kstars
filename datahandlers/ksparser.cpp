@@ -247,15 +247,15 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
        * 5) Read next word. Goto 3) until end of list of words is reached
        * 6) Goto 1) until end of list of words is reached
       */
-      iter = separated.begin();
+      iter = separated.constBegin();
 
-      while (iter != separated.end()) {
+      while (iter != separated.constEnd()) {
           QList <QString> queue;
           iter_string = *iter;
 
           if (iter_string.indexOf("\"") != -1) {
               while (iter_string.lastIndexOf('\"') != (iter_string.length()-1) &&
-                      iter != separated.end()) {
+                      iter != separated.constEnd()) {
                   queue.append((iter_string).remove('\"') + delimiter_);
                   ++iter;
                   iter_string = *iter;
