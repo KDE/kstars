@@ -157,7 +157,7 @@
              <bool>false</bool>
             </property>
             <property name="anchor" stdset="0">
-             <string>skycoords</string>
+             <string comment="KDE::DoNotExtract">skycoords</string>
             </property>
            </widget>
           </item>
@@ -179,7 +179,7 @@
              <bool>false</bool>
             </property>
             <property name="anchor" stdset="0">
-             <string>skycoords</string>
+             <string comment="KDE::DoNotExtract">skycoords</string>
             </property>
            </widget>
           </item>
@@ -219,7 +219,7 @@
              <bool>false</bool>
             </property>
             <property name="anchor" stdset="0">
-             <string>skycoords</string>
+             <string comment="KDE::DoNotExtract">skycoords</string>
             </property>
            </widget>
           </item>
@@ -275,7 +275,7 @@
              <bool>false</bool>
             </property>
             <property name="anchor" stdset="0">
-             <string>skycoords</string>
+             <string comment="KDE::DoNotExtract">skycoords</string>
             </property>
            </widget>
           </item>
@@ -333,7 +333,7 @@
              <bool>false</bool>
             </property>
             <property name="anchor" stdset="0">
-             <string>hourangle</string>
+             <string comment="KDE::DoNotExtract">hourangle</string>
             </property>
            </widget>
           </item>
@@ -385,7 +385,7 @@
              <string>RA (J2000.0):</string>
             </property>
             <property name="anchor" stdset="0">
-             <string>epoch</string>
+             <string comment="KDE::DoNotExtract">ai-epoch</string>
             </property>
            </widget>
           </item>
@@ -431,7 +431,7 @@
              <string>Dec (J2000.0):</string>
             </property>
             <property name="anchor" stdset="0">
-             <string>epoch</string>
+             <string comment="KDE::DoNotExtract">ai-epoch</string>
             </property>
            </widget>
           </item>
