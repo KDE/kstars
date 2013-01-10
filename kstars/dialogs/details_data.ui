@@ -199,7 +199,7 @@
                <string>Distance:</string>
               </property>
 	      <property name="anchor">
-		<string>cosmicdist</string>
+		<string comment="KDE::DoNotExtract">cosmicdist</string>
 	      </property>
              </widget>
             </item>
@@ -234,7 +234,7 @@
                <string>Magnitude:</string>
               </property>
               <property name="anchor">
-               <string notr="true">magnitude</string>
+               <string comment="KDE::DoNotExtract">magnitude</string>
               </property>
              </widget>
             </item>
@@ -302,7 +302,7 @@
                <string>B - V index:</string>
               </property>
 	      <property name="anchor">
-		<string>colorandtemp</string>
+		<string comment="KDE::DoNotExtract">colorandtemp</string>
 	      </property>
              </widget>
             </item>
