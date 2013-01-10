@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>WILPSettings</class>
+ <widget class="QWidget" name="WILPSettings">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -24,7 +24,7 @@
     <number>15</number>
    </property>
    <item row="0" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="lpLayout">
      <property name="spacing">
       <number>23</number>
      </property>
@@ -32,14 +32,14 @@
       <number>45</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="lpTitle">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Light Pollution Settings&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="lpText">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How light-polluted is your night-sky? Rate your night-sky conditions from 1-9 based on the &lt;span style=&quot; font-weight:600;&quot;&gt;Bortle Dark-Sky Scale&lt;/span&gt;. A rating of &lt;span style=&quot; font-weight:600;&quot;&gt;1&lt;/span&gt; represents an &lt;span style=&quot; font-weight:600;&quot;&gt;excellent dark-sky site&lt;/span&gt;, while &lt;span style=&quot; font-weight:600;&quot;&gt;9&lt;/span&gt; represents a &lt;span style=&quot; font-weight:600;&quot;&gt;brilliantly lit inner-city sky&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -49,9 +49,9 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="bortleLayout">
        <item>
-        <widget class="QSlider" name="horizontalSlider">
+        <widget class="QSlider" name="kcfg_BortleClass">
          <property name="minimum">
           <number>1</number>
          </property>
@@ -70,19 +70,19 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="bortleLabelsLayout">
          <property name="spacing">
           <number>2</number>
          </property>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="bortleClassLabel1">
            <property name="text">
             <string> 1 </string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer">
+          <spacer name="labelSpacer1">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -95,14 +95,14 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="bortleClassLabel5">
            <property name="text">
             <string>5</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_2">
+          <spacer name="labelSpacer2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -115,7 +115,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="bortleClassLabel9">
            <property name="text">
             <string>9  </string>
            </property>
@@ -139,7 +139,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="bortleHelpText">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;For help : &lt;a href=&quot;http://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#004183;&quot;&gt;Wikipedia Link for Bortle dark-sky scale&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
