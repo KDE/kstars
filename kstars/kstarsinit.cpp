@@ -375,7 +375,7 @@ void KStars::initActions() {
     actionCollection()->addAction("whats_up_tonight", this, SLOT( slotWUT() ) )
         << i18n("What's up Tonight")
         << KShortcut(Qt::CTRL+Qt::Key_U );
-    actionCollection()->addAction("whats_interesting", this, SLOT( slotWI() ) )
+    actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )
         << i18n("What's Interesting...")
         << KShortcut(Qt::CTRL+Qt::Key_W );
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )

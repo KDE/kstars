@@ -1180,6 +1180,32 @@
       <default>10.0</default>
     </entry>
   </group>
+  <group name="WISettings">
+      <entry name="BortleClass" type="UInt">
+          <label>Bortle dark-sky rating</label>
+          <default>4</default>
+      </entry>
+      <entry name="TelescopeCheck" type="Bool">
+          <label>Availability of telescope</label>
+          <default>false</default>
+      </entry>
+      <entry name="BinocularsCheck" type="Bool">
+          <label>Availability of binoculars</label>
+          <default>false</default>
+      </entry>
+      <entry name="NoEquipCheck" type="Bool">
+          <label>Availability of both telescope and binoculars</label>
+          <default>false</default>
+      </entry>
+      <entry name="Aperture" type="Double">
+          <label>Aperture of available equipment</label>
+          <default>30.0</default>
+      </entry>
+      <entry name="TelescopeType" type="String">
+          <label>Type of telescope: Reflector/Refractor</label>
+          <default>Reflector</default>
+      </entry>
+  </group>
   <group name="Ekos">
     <entry name="TelescopeDriver" type="String">
       <label>Default telescope driver</label>

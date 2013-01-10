@@ -56,7 +56,10 @@ public:
       */
     void loadDetailsView(SkyObjItem* soitem, int index);
 
-    inline void updateModels(ObsConditions *obs) { m_ModManager->updateModels(obs); }
+    /**
+      * \brief Updates sky-object list models
+      */
+    inline void updateModels(ObsConditions *obs) { m_Obs = obs; m_ModManager->updateModels(m_Obs); }
 
     inline QDeclarativeView *getWIBaseView() const { return m_BaseView; }
 

@@ -46,6 +46,7 @@ class AltVsTime;
 class WUTDialog;
 class WIView;
 class WIUserSettings;
+class WILPSettings;
 class ObsConditions;
 class AstroCalc;
 class SkyCalendar;
@@ -170,7 +171,7 @@ public:
 
     void selectPreviousFov();
 
-    void showWIWizard();
+    void showWISettingsUI();
 
     void showWI(ObsConditions *obs);
 
@@ -507,8 +508,11 @@ private slots:
     /** action slot: open What's up tonight dialog */
     void slotWUT();
 
+    /** action slot: open What's Interesting settings window */
+    void slotWISettings();
+
     /** action slot: open What's Interesting window */
-    void slotWI();
+    void slotShowWIView(int status);
 
     /** action slot: open Sky Calendar tool */
     void slotCalendar();
@@ -655,6 +659,8 @@ private:
     AltVsTime *avt;
     WUTDialog *wut;
     WIView *wi;
+    WILPSettings *wiLPSettings;
+    ObsConditions *wiObsConditions;
     WIUserSettings *wiWiz;
     QDockWidget *wiDock;
     SkyCalendar *skycal;

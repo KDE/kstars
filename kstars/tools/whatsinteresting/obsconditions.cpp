@@ -95,3 +95,12 @@ bool ObsConditions::isVisible(GeoLocation *geo, dms *lst, SkyObject *so)
 
     return (sp.alt().Degrees() > 6.0 && so->mag() < getTrueMagLim());
 }
+
+void ObsConditions::setObsConditions(int bortle, double aperture, ObsConditions::Equipment equip, ObsConditions::TelescopeType telType)
+{
+    m_BortleClass = bortle;
+    setLimMagnitude();
+    m_Aperture = 30.0;
+    m_Equip = Telescope;
+    m_TelType = Reflector;
+}

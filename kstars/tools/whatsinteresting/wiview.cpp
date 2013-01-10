@@ -28,7 +28,7 @@
 
 WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs)
 {
-    m_ModManager = new ModelManager(obs);
+    m_ModManager = new ModelManager(m_Obs);
 
     m_BaseView = new QDeclarativeView();
 
@@ -91,7 +91,6 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
 
 void WIView::loadDetailsView(SkyObjItem *soitem, int index)
 {
-
     m_CurSoItem = soitem;
     m_CurIndex = index;
 
@@ -171,5 +170,5 @@ void WIView::onDetailsButtonClicked()
 void WIView::onSettingsIconClicked()
 {
     KStars *kstars = KStars::Instance();
-    kstars->showWIWizard();
+    kstars->showWISettingsUI();
 }

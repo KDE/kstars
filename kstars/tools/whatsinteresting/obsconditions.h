@@ -73,6 +73,11 @@ public:
     void setLimMagnitude();
 
     /**
+     * \brief Set new observing conditions.
+     */
+    void setObsConditions(int bortle, double aperture, Equipment equip, TelescopeType telType);
+
+    /**
      * \brief Get optimum magnification under current observing conditions.
      * \return Get optimum magnification under current observing conditions
      */

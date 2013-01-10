@@ -77,6 +77,7 @@
 #include "tools/wutdialog.h"
 #include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wiusersettings.h"
+#include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
@@ -279,10 +280,48 @@ void KStars::slotWUT() {
     wut->show();
 }
 
-void KStars::slotWI() {
-    if ( ! wiWiz ) wiWiz = new WIUserSettings(this);
-    if ( wiDock && wiDock->isVisible() ) return;
-    wiWiz->show();
+void KStars::slotWISettings()
+{
+    if (KConfigDialog::showDialog("wisettings")) return;
+
+    KConfigDialog* dialog = new KConfigDialog(this, "wisettings", Options::self());
+
+    connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyConfigChanges()));
+    connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
+
+    wiLPSettings = new WILPSettings(this);
+    dialog->addPage(wiLPSettings, i18n("What's Interesting Settings"));
+    dialog->show();
+}
+
+void KStars::slotShowWIView(int status)
+{
+    if (status == 0) return;          //Cancelled
+
+    //Update observing conditions for What's Interesting
+    kDebug()<<"Bortle class: "<<Options::bortleClass();
+    if (!wiObsConditions)
+        wiObsConditions = new ObsConditions(Options::bortleClass(), 30.0,
+                                            ObsConditions::Telescope, ObsConditions::Reflector);
+    else
+        wiObsConditions->setObsConditions(Options::bortleClass(), 30.0,
+                                            ObsConditions::Telescope, ObsConditions::Reflector);
+
+    if (!wi)
+    {
+        wi = new WIView(0, wiObsConditions);
+        wiDock = new QDockWidget(this);
+        wiDock->setObjectName("What's Interesting");
+        wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
+        wiDock->setWidget(wi->getWIBaseView());
+        wiDock->setMinimumWidth(wi->getWIBaseView()->width());
+        addDockWidget(Qt::RightDockWidgetArea, wiDock);
+        wiDock->setVisible(true);
+    }
+    else
+    {
+        wi->updateModels(wiObsConditions);
+    }
 }
 
 void KStars::slotCalendar() {
