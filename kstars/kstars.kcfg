@@ -1201,9 +1201,9 @@
           <label>Aperture of available equipment</label>
           <default>30.0</default>
       </entry>
-      <entry name="TelescopeType" type="String">
+      <entry name="TelescopeType" type="UInt">
           <label>Type of telescope: Reflector/Refractor</label>
-          <default>Reflector</default>
+          <default>0</default>
       </entry>
   </group>
   <group name="Ekos">

@@ -10,16 +10,12 @@ class WILPSettings : public QFrame, public Ui::WILPSettings
 {
     Q_OBJECT
 public:
-
     WILPSettings(KStars *ks);
-    ~WILPSettings();
 
 private:
-
     KStars *m_Ks;
 
 private slots:
-
     void bortleValueChanged(int value);
 };
 

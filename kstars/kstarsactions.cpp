@@ -78,6 +78,7 @@
 #include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wiusersettings.h"
 #include "tools/whatsinteresting/wilpsettings.h"
+#include "tools/whatsinteresting/wiequipsettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
@@ -290,7 +291,9 @@ void KStars::slotWISettings()
     connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
 
     wiLPSettings = new WILPSettings(this);
-    dialog->addPage(wiLPSettings, i18n("What's Interesting Settings"));
+    wiEquipSettings = new WIEquipSettings(this);
+    dialog->addPage(wiLPSettings, i18n("Light Pollution Settings"));
+    dialog->addPage(wiEquipSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
 }
 
@@ -299,10 +302,21 @@ void KStars::slotShowWIView(int status)
     if (status == 0) return;          //Cancelled
 
     //Update observing conditions for What's Interesting
-    kDebug()<<"Bortle class: "<<Options::bortleClass();
     if (!wiObsConditions)
-        wiObsConditions = new ObsConditions(Options::bortleClass(), 30.0,
-                                            ObsConditions::Telescope, ObsConditions::Reflector);
+    {
+        int bortle = Options::bortleClass();
+        int aperture = Options::aperture();
+        ObsConditions::Equipment equip = Options::noEquipCheck()
+            ? (ObsConditions::None)
+            : (Options::telescopeCheck()
+            ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
+            : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
+
+        ObsConditions::TelescopeType telType = (Options::telescopeType() == 0)
+                                              ? ObsConditions::Reflector : ObsConditions::Refractor;
+
+        wiObsConditions = new ObsConditions(bortle, aperture, equip, telType);
+    }
     else
         wiObsConditions->setObsConditions(Options::bortleClass(), 30.0,
                                             ObsConditions::Telescope, ObsConditions::Reflector);

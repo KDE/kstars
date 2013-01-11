@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>WIEquipSettings</class>
+ <widget class="QWidget" name="WIEquipSettings">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
-    <height>325</height>
+    <width>461</width>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,26 +37,9 @@
      <property name="rightMargin">
       <number>6</number>
      </property>
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Equipment Specifications&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;--Equipment Type and Parameters&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
+     <property name="bottomMargin">
+      <number>56</number>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -88,21 +71,21 @@
           </spacer>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="kcfg_TelescopeCheck">
            <property name="text">
             <string>Telescope</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="kcfg_BinocularsCheck">
            <property name="text">
             <string>Binoculars</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_3">
+          <widget class="QCheckBox" name="kcfg_NoEquipCheck">
            <property name="text">
             <string>None</string>
            </property>
@@ -159,14 +142,17 @@
           </spacer>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="apertureText">
            <property name="text">
             <string>Aperture</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="KComboBox" name="kcombobox">
+          <widget class="KComboBox" name="telescopeType">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <item>
             <property name="text">
              <string>Reflector</string>
@@ -180,14 +166,17 @@
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="telTypeText">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Telescope Type</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="KDoubleNumInput" name="kdoublenuminput">
+          <widget class="KDoubleNumInput" name="kcfg_Aperture">
            <property name="value">
             <double>30.000000000000000</double>
            </property>
@@ -248,19 +237,6 @@
         </spacer>
        </item>
       </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>

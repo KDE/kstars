@@ -47,6 +47,7 @@ class WUTDialog;
 class WIView;
 class WIUserSettings;
 class WILPSettings;
+class WIEquipSettings;
 class ObsConditions;
 class AstroCalc;
 class SkyCalendar;
@@ -660,6 +661,7 @@ private:
     WUTDialog *wut;
     WIView *wi;
     WILPSettings *wiLPSettings;
+    WIEquipSettings *wiEquipSettings;
     ObsConditions *wiObsConditions;
     WIUserSettings *wiWiz;
     QDockWidget *wiDock;

@@ -152,6 +152,7 @@ set(libkstarstools_SRCS
 	tools/whatsinteresting/skyobjitem.cpp
 	tools/whatsinteresting/wiusersettings.cpp
 	tools/whatsinteresting/wilpsettings.cpp
+	tools/whatsinteresting/wiequipsettings.cpp
 	tools/whatsinteresting/obsconditions.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
