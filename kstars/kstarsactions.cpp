@@ -301,25 +301,22 @@ void KStars::slotShowWIView(int status)
 {
     if (status == 0) return;          //Cancelled
 
+    int bortle = Options::bortleClass();
+    int aperture = Options::aperture();
+    ObsConditions::Equipment equip = Options::noEquipCheck()
+    ? (ObsConditions::None) : (Options::telescopeCheck()
+    ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
+    : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
+
+    ObsConditions::TelescopeType telType = (Options::telescopeType() == 0)
+                                           ? ObsConditions::Reflector : ObsConditions::Refractor;
     //Update observing conditions for What's Interesting
     if (!wiObsConditions)
     {
-        int bortle = Options::bortleClass();
-        int aperture = Options::aperture();
-        ObsConditions::Equipment equip = Options::noEquipCheck()
-            ? (ObsConditions::None)
-            : (Options::telescopeCheck()
-            ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
-            : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
-
-        ObsConditions::TelescopeType telType = (Options::telescopeType() == 0)
-                                              ? ObsConditions::Reflector : ObsConditions::Refractor;
-
         wiObsConditions = new ObsConditions(bortle, aperture, equip, telType);
     }
     else
-        wiObsConditions->setObsConditions(Options::bortleClass(), 30.0,
-                                            ObsConditions::Telescope, ObsConditions::Reflector);
+        wiObsConditions->setObsConditions(bortle, aperture, equip, telType);
 
     if (!wi)
     {
@@ -333,9 +330,7 @@ void KStars::slotShowWIView(int status)
         wiDock->setVisible(true);
     }
     else
-    {
         wi->updateModels(wiObsConditions);
-    }
 }
 
 void KStars::slotCalendar() {

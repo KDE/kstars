@@ -110,7 +110,7 @@ private:
     TelescopeType m_TelType;        ///Telescope type
     double m_Aperture;              ///Aperture of equipment
     double m_tParam;                ///t-parameter corresponding to telescope type
-    double m_LM;                    ///Limiting Magnitude depending on m_BortleClass
+    double m_LM;                    ///Naked-eye limiting magnitude depending on m_BortleClass
     static const QMap<int, double> m_LMMap;   ///Lookup table mapping Bortle Scale values
                                               ///to corresponding limiting magnitudes
 };
