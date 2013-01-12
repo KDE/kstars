@@ -19,8 +19,8 @@
 #define WIVIEW_H
 
 class QDeclarativeView;
-class QDeclarativeContext;
 
+#include "QDeclarativeContext"
 #include "skyobject.h"
 #include "modelmanager.h"
 #include "skyobjlistmodel.h"
@@ -59,7 +59,7 @@ public:
     /**
       * \brief Updates sky-object list models
       */
-    inline void updateModels(ObsConditions *obs) { m_Obs = obs; m_ModManager->updateModels(m_Obs); }
+    void updateModels(ObsConditions *obs);
 
     inline QDeclarativeView *getWIBaseView() const { return m_BaseView; }
 

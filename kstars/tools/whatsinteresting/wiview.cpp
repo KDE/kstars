@@ -17,7 +17,6 @@
 
 
 #include "QDeclarativeView"
-#include "QDeclarativeContext"
 #include "QGraphicsObject"
 #include "wiview.h"
 #include "skymap.h"
@@ -89,47 +88,6 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
     loadDetailsView(soitem, index);
 }
 
-void WIView::loadDetailsView(SkyObjItem *soitem, int index)
-{
-    m_CurSoItem = soitem;
-    m_CurIndex = index;
-
-    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem *nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
-    SkyObjItem *prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
-
-    QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
-    nextTextObj->setProperty("text", nextItem->getName());
-    QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
-    prevTextObj->setProperty("text", prevItem->getName());
-
-    QObject *sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
-    QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
-    QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
-    QObject *descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
-    QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
-    QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
-    QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
-
-    sonameObj->setProperty("text", soitem->getLongName());
-    posTextObj->setProperty("text", soitem->getPosition());
-    descTextObj->setProperty("text", soitem->getDesc());
-    descSrcTextObj->setProperty("text", soitem->getDescSource());
-
-    QString magText;
-    if (soitem->getType() == SkyObjItem::Constellation)
-        magText = i18n("Magnitude:  --");
-    else
-        magText = i18n("Magnitude: ") + KGlobal::locale()->formatNumber(soitem->getMagnitude(), 2) + " mag";
-    magTextObj->setProperty("text", magText);
-
-    QString sbText = i18n("Surface Brightness") + ": " + soitem->getSurfaceBrightness();
-    sbTextObj->setProperty("text", sbText);
-
-    QString sizeText = i18n("Size") + ": " + soitem->getSize();
-    sizeTextObj->setProperty("text", sizeText);
-}
-
 void WIView::onNextObjClicked()
 {
     int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
@@ -171,4 +129,57 @@ void WIView::onSettingsIconClicked()
 {
     KStars *kstars = KStars::Instance();
     kstars->showWISettingsUI();
+}
+
+void WIView::updateModels(ObsConditions* obs)
+{
+    m_Obs = obs;
+    m_ModManager->updateModels(m_Obs);
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(0));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(1));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(2));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(3));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(4));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(5));
+}
+
+void WIView::loadDetailsView(SkyObjItem *soitem, int index)
+{
+    m_CurSoItem = soitem;
+    m_CurIndex = index;
+
+    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
+    SkyObjItem *nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    SkyObjItem *prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+
+    QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
+    nextTextObj->setProperty("text", nextItem->getName());
+    QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
+    prevTextObj->setProperty("text", prevItem->getName());
+
+    QObject *sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
+    QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
+    QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
+    QObject *descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
+    QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
+    QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
+    QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
+
+    sonameObj->setProperty("text", soitem->getLongName());
+    posTextObj->setProperty("text", soitem->getPosition());
+    descTextObj->setProperty("text", soitem->getDesc());
+    descSrcTextObj->setProperty("text", soitem->getDescSource());
+
+    QString magText;
+    if (soitem->getType() == SkyObjItem::Constellation)
+        magText = i18n("Magnitude:  --");
+    else
+        magText = i18n("Magnitude: ") + KGlobal::locale()->formatNumber(soitem->getMagnitude(), 2) + " mag";
+    magTextObj->setProperty("text", magText);
+
+    QString sbText = i18n("Surface Brightness") + ": " + soitem->getSurfaceBrightness();
+    sbTextObj->setProperty("text", sbText);
+
+    QString sizeText = i18n("Size") + ": " + soitem->getSize();
+    sizeTextObj->setProperty("text", sizeText);
 }
