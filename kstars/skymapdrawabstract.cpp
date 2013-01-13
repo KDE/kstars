@@ -318,9 +318,11 @@ void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
 
     if(scale) {
         //scale sky image to fit paint device
+        kDebug() << "Scaling true while exporting Sky Image";
         double xscale = double(painter->device()->width()) / double(m_SkyMap->width());
         double yscale = double(painter->device()->height()) / double(m_SkyMap->height());
         double scale = qMin(xscale, yscale);
+        kDebug() << "xscale: " << xscale << "yscale: " << yscale << "chosen scale: " << scale;
         painter->scale(scale, scale);
     }
 

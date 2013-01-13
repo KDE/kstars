@@ -465,7 +465,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
         }
 
         map()->setupProjector();
-        map()->exportSkyImage( &printer );
+        map()->exportSkyImage( &printer, true );
 
         //Restore old color scheme if necessary
         //(if printing was aborted, the ColorScheme is still restored)
