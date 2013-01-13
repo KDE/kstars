@@ -36,13 +36,13 @@ ExportImageDialogUI::ExportImageDialogUI(QWidget *parent)
     setupUi(this);
 }
 
-ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size)
+ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter)
     : KDialog((QWidget*) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
 {
     m_DialogUI = new ExportImageDialogUI(this);
     setMainWidget(m_DialogUI);
 
-    m_ImageExporter = new ImageExporter( this );
+    m_ImageExporter = ( ( imgExporter ) ? imgExporter : new ImageExporter( this ) );
 
     setWindowTitle(i18n("Export sky image"));
 

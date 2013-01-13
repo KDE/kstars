@@ -50,8 +50,9 @@ public:
       output image width and height.
       *@param url URL for exported image.
       *@param size size of exported image.
+      *@param imgExporter A pointer to an ImageExporter that we can use instead of creating our own. if 0, we will create our own.
       */
-    ExportImageDialog(const QString &url, const QSize &size);
+    ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter = 0);
 
     /**@short Default destructor. */
     ~ExportImageDialog() { }
