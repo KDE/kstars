@@ -29,7 +29,7 @@
 /* Qt Includes */
 #include <QSvgGenerator>
 
-ImageExporter::ImageExporter( QObject *parent ) : m_KStars( KStars::Instance() ), m_includeLegend( false ), QObject( parent ), m_Size( 0 )
+ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_KStars( KStars::Instance() ), m_includeLegend( false ), m_Size( 0 )
 {
     Q_ASSERT( m_KStars );
     m_Legend = new Legend;
