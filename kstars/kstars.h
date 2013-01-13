@@ -313,11 +313,41 @@ public Q_SLOTS:
 
     /**DBUS interface function.  Export the sky image to a file.
      * @param filename the filename for the exported image
-     * @param width the width for the exported image
-     * @param height the height for the exported image
+     * @param width the width for the exported image. Map's width will be used if nothing or an invalid value is supplied.
+     * @param height the height for the exported image. Map's height will be used if nothing or an invalid value is supplied.
      * @param includeLegend should we include a legend?
      */
-    Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, int width, int height, bool includeLegend = false );
+    Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, int width = -1, int height = -1, bool includeLegend = false );
+
+    /**DBUS interface function.  Return a URL to retrieve Digitized Sky Survey image.
+     * @param objectName name of the object.
+     * @note If the object is note found, the string "ERROR" is returned.
+     */
+    Q_SCRIPTABLE QString getDSSURL( const QString &objectName );
+
+    /**DBUS interface function.  Return a URL to retrieve Digitized Sky Survey image.
+     * @param RA_J2000 J2000.0 RA
+     * @param Dec_J2000 J2000.0 Declination
+     * @param width width of the image, in arcminutes (default = 15)
+     * @param height height of the image, in arcminutes (default = 15)
+     */
+    Q_SCRIPTABLE QString getDSSURL( double RA_J2000, double Dec_J2000, float width = 15, float height = 15 );
+
+    /**DBUS interface function.  Return XML containing information about a sky object
+     * @param objectName name of the object.
+     * @note If the object was not found, the XML is empty.
+     */
+    Q_SCRIPTABLE QString getObjectDataXML( const QString &objectName );
+
+    /**DBUS interface function.  Set the approx field-of-view
+     * @param FOV_Degrees field of view in degrees
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setApproxFOV( double FOV_Degrees );
+
+    /**DBUS interface function.  Get the dimensions of the Sky Map.
+     * @return a string containing widthxheight in pixels.
+     */
+    Q_SCRIPTABLE QString getSkyMapDimensions();
 
     /**DBUS interface function.  Print the sky image.
      * @param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used

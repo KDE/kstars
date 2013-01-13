@@ -26,6 +26,7 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QSvgGenerator>
+#include <QXmlStreamWriter>
 
 //QPRINTER_FOR_NOW
 //#include <kprinter.h>
@@ -38,6 +39,7 @@
 #include "colorscheme.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksutils.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
@@ -426,9 +428,80 @@ void KStars::loadColorScheme( const QString &name ) {
 void KStars::exportImage( const QString &url, int w, int h, bool includeLegend ) {
     if ( !imageExporter )
         imageExporter = new ImageExporter( this );
+    if ( w <= 0 )
+        w = map()->width();
+    if ( h <= 0 )
+        h = map()->height();
     imageExporter->includeLegend( includeLegend );
     imageExporter->setRasterOutputSize( new QSize( w, h ) );
     imageExporter->exportImage( url );
+}
+
+QString KStars::getDSSURL( const QString &objectName ) {
+    SkyObject *target = data()->objectNamed( objectName );
+    if ( !target ) {
+        return QString( "ERROR" );
+    }
+    else {
+        return KSUtils::getDSSURL( target );
+    }
+}
+
+QString KStars::getDSSURL( double RA_J2000, double Dec_J2000, float width, float height ) {
+    dms ra( RA_J2000 ),  dec( Dec_J2000 );
+    return KSUtils::getDSSURL( ra, dec, width, height );
+}
+
+QString KStars::getObjectDataXML( const QString &objectName ) {
+    SkyObject *target = data()->objectNamed( objectName );
+    if ( !target ) {
+        return QString( "<xml></xml>" );
+    }
+    QString output;
+    QXmlStreamWriter stream( &output );
+    stream.setAutoFormatting( true );
+    stream.writeStartDocument();
+    stream.writeStartElement( "object" );
+    stream.writeAttribute( "Name", target->name() );
+    stream.writeAttribute( "Alternate Name", target->name2() );
+    stream.writeAttribute( "Long Name", target->longname() );
+    stream.writeTextElement( "RA", target->ra().toHMSString() );
+    stream.writeTextElement( "Dec", target->dec().toDMSString() );
+    stream.writeTextElement( "RA J2000.0", target->ra0().toHMSString() );
+    stream.writeTextElement( "Dec J2000.0", target->dec0().toDMSString() );
+    stream.writeTextElement( "Type", target->typeName() );
+    stream.writeTextElement( "Magnitude", QString::number( target->mag(), 'g', 2 ) );
+    stream.writeTextElement( "Position Angle", QString::number( target->pa(), 'g', 3 ) );
+    StarObject *star = dynamic_cast< StarObject* >( target );
+    DeepSkyObject *dso = dynamic_cast< DeepSkyObject* >( target );
+    if ( star ) {
+        stream.writeTextElement( "Spectral Type",  star->sptype() );
+        stream.writeTextElement( "Genetive Name", star->gname() );
+        stream.writeTextElement( "Greek Letter", star->greekLetter() );
+        stream.writeTextElement( "Proper Motion mas/yr", QString::number( star->pmMagnitude() ) );
+        stream.writeTextElement( "Proper Motion RA", QString::number( star->pmRA() ) );
+        stream.writeTextElement( "Proper Motion Dec", QString::number( star->pmDec() ) );
+        stream.writeTextElement( "Parallax (mas)", QString::number( star->parallax() ) );
+        stream.writeTextElement( "Distance (pc)", QString::number( star->distance() ) );
+        stream.writeTextElement( "Henry Draper", QString::number( star->getHDIndex() ) );
+        stream.writeTextElement( "BV Index", QString::number( star->getBVIndex() ) );
+    }
+    else if ( dso ) {
+        stream.writeTextElement( "Catalog", dso->catalog() );
+        stream.writeTextElement( "Major Axis (arcmin)", QString::number( dso->a() ) );
+        stream.writeTextElement( "Minor Axis (arcmin)", QString::number( dso->b() ) );
+    }
+    stream.writeEndElement(); // object
+    stream.writeEndDocument();
+    return output;
+}
+
+void KStars::setApproxFOV( double FOV_Degrees ) {
+    zoom( map()->width() / ( FOV_Degrees * dms::DegToRad ) );
+}
+
+QString KStars::getSkyMapDimensions() {
+    return ( QString::number( map()->width() ) + 'x' + QString::number( map()->height() ) );
 }
 
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
