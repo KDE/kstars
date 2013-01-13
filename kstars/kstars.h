@@ -349,6 +349,16 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE QString getSkyMapDimensions();
 
+    /**DBUS interface function.  Return a newline-separated list of objects in the observing wishlist.
+     * @note Unfortunately, unnamed objects are troublesome. Hopefully, we don't have them on the observing list.
+     */
+    Q_SCRIPTABLE QString getObservingWishListObjectNames();
+
+    /**DBUS interface function.  Return a newline-separated list of objects in the observing session plan.
+     * @note Unfortunately, unnamed objects are troublesome. Hopefully, we don't have them on the observing list.
+     */
+    Q_SCRIPTABLE QString getObservingSessionPlanObjectNames();
+
     /**DBUS interface function.  Print the sky image.
      * @param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
      * @param useChartColors if true, the "Star Chart" color scheme will be used for the printout, which will save ink.

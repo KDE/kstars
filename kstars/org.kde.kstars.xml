@@ -147,6 +147,12 @@
     <method name="getSkyMapDimensions">
       <arg type="s" direction="out"/>
     </method>
+    <method name="getObservingWishListObjectNames">
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="getObservingSessionPlanObjectNames">
+      <arg type="s" direction="out"/>
+    </method>
     <method name="printImage">
       <arg name="usePrintDialog" type="b" direction="in"/>
       <arg name="useChartColors" type="b" direction="in"/>

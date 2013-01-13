@@ -463,36 +463,56 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     stream.writeStartDocument();
     stream.writeStartElement( "object" );
     stream.writeAttribute( "Name", target->name() );
-    stream.writeAttribute( "Alternate Name", target->name2() );
-    stream.writeAttribute( "Long Name", target->longname() );
-    stream.writeTextElement( "RA", target->ra().toHMSString() );
-    stream.writeTextElement( "Dec", target->dec().toDMSString() );
-    stream.writeTextElement( "RA J2000.0", target->ra0().toHMSString() );
-    stream.writeTextElement( "Dec J2000.0", target->dec0().toDMSString() );
+    stream.writeAttribute( "Alt_Name", target->name2() );
+    stream.writeAttribute( "Long_Name", target->longname() );
+    stream.writeTextElement( "RA_HMS", target->ra().toHMSString() );
+    stream.writeTextElement( "Dec_DMS", target->dec().toDMSString() );
+    stream.writeTextElement( "RA_J2000_HMS", target->ra0().toHMSString() );
+    stream.writeTextElement( "Dec_J2000_DMS", target->dec0().toDMSString() );
+    stream.writeTextElement( "RA_Degrees", QString::number( target->ra().Degrees() ) );
+    stream.writeTextElement( "Dec_Degrees", QString::number( target->dec().Degrees() ) );
+    stream.writeTextElement( "RA_J2000_Degrees", QString::number( target->ra0().Degrees() ) );
+    stream.writeTextElement( "Dec_J2000_Degrees", QString::number( target->dec0().Degrees() ) );
     stream.writeTextElement( "Type", target->typeName() );
     stream.writeTextElement( "Magnitude", QString::number( target->mag(), 'g', 2 ) );
-    stream.writeTextElement( "Position Angle", QString::number( target->pa(), 'g', 3 ) );
+    stream.writeTextElement( "Position_Angle", QString::number( target->pa(), 'g', 3 ) );
     StarObject *star = dynamic_cast< StarObject* >( target );
     DeepSkyObject *dso = dynamic_cast< DeepSkyObject* >( target );
     if ( star ) {
-        stream.writeTextElement( "Spectral Type",  star->sptype() );
-        stream.writeTextElement( "Genetive Name", star->gname() );
-        stream.writeTextElement( "Greek Letter", star->greekLetter() );
-        stream.writeTextElement( "Proper Motion mas/yr", QString::number( star->pmMagnitude() ) );
-        stream.writeTextElement( "Proper Motion RA", QString::number( star->pmRA() ) );
-        stream.writeTextElement( "Proper Motion Dec", QString::number( star->pmDec() ) );
-        stream.writeTextElement( "Parallax (mas)", QString::number( star->parallax() ) );
-        stream.writeTextElement( "Distance (pc)", QString::number( star->distance() ) );
-        stream.writeTextElement( "Henry Draper", QString::number( star->getHDIndex() ) );
-        stream.writeTextElement( "BV Index", QString::number( star->getBVIndex() ) );
+        stream.writeTextElement( "Spectral_Type",  star->sptype() );
+        stream.writeTextElement( "Genetive_Name", star->gname() );
+        stream.writeTextElement( "Greek_Letter", star->greekLetter() );
+        stream.writeTextElement( "Proper_Motion", QString::number( star->pmMagnitude() ) );
+        stream.writeTextElement( "Proper_Motion_RA", QString::number( star->pmRA() ) );
+        stream.writeTextElement( "Proper_Motion_Dec", QString::number( star->pmDec() ) );
+        stream.writeTextElement( "Parallax_mas", QString::number( star->parallax() ) );
+        stream.writeTextElement( "Distance_pc", QString::number( star->distance() ) );
+        stream.writeTextElement( "Henry_Draper", QString::number( star->getHDIndex() ) );
+        stream.writeTextElement( "BV_Index", QString::number( star->getBVIndex() ) );
     }
     else if ( dso ) {
         stream.writeTextElement( "Catalog", dso->catalog() );
-        stream.writeTextElement( "Major Axis (arcmin)", QString::number( dso->a() ) );
-        stream.writeTextElement( "Minor Axis (arcmin)", QString::number( dso->b() ) );
+        stream.writeTextElement( "Major_Axis", QString::number( dso->a() ) );
+        stream.writeTextElement( "Minor_Axis", QString::number( dso->b() ) );
     }
     stream.writeEndElement(); // object
     stream.writeEndDocument();
+    return output;
+}
+
+QString KStars::getObservingWishListObjectNames() {
+    QString output;
+    foreach( const SkyObject *object,  observingList()->obsList() ) {
+        output.append( object->name() + '\n' );
+    }
+    return output;
+}
+
+QString KStars::getObservingSessionPlanObjectNames() {
+    QString output;
+    foreach( const SkyObject *object,  observingList()->sessionList() ) {
+        output.append( object->name() + '\n' );
+    }
     return output;
 }
 
@@ -503,7 +523,6 @@ void KStars::setApproxFOV( double FOV_Degrees ) {
 QString KStars::getSkyMapDimensions() {
     return ( QString::number( map()->width() ) + 'x' + QString::number( map()->height() ) );
 }
-
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     //QPRINTER_FOR_NOW
 //    KPrinter printer( true, QPrinter::HighResolution );
