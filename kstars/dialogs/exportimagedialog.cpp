@@ -66,7 +66,7 @@ void ExportImageDialog::previewImage()
     const Legend *legend = m_ImageExporter->getLegend();
 
     // Preview current legend settings on sky map
-    m_KStars->map()->setLegend( *legend );
+    m_KStars->map()->setLegend( Legend( *legend ) );
     m_KStars->map()->setPreviewLegend(true);
 
     // Update sky map

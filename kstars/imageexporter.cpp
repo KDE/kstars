@@ -36,6 +36,9 @@ ImageExporter::ImageExporter( QObject *parent ) : m_KStars( KStars::Instance() )
 
     // set font for legend labels
     m_Legend->setFont(QFont("Courier New", 8));
+
+    // set up the default alpha
+    setLegendAlpha( 160 );
 }
 
 void ImageExporter::exportSvg(const QString &fileName)
@@ -240,13 +243,10 @@ bool ImageExporter::exportImage( QString url )
 }
 
 
-void ImageExporter::setLegendProperties( Legend::LEGEND_TYPE type, Legend::LEGEND_ORIENTATION orientation, Legend::LEGEND_POSITION position, qint8 alpha, bool include)
+void ImageExporter::setLegendProperties( Legend::LEGEND_TYPE type, Legend::LEGEND_ORIENTATION orientation, Legend::LEGEND_POSITION position, int alpha, bool include)
 {
     // set background color (alpha)
-    QColor bgColor = m_Legend->getBgColor();
-    bgColor.setAlpha(alpha);
-    m_Legend->setBgColor(bgColor);
-
+    setLegendAlpha( alpha );
     // set legend orientation
     m_Legend->setOrientation(orientation);
 
@@ -270,5 +270,14 @@ void ImageExporter::setRasterOutputSize( const QSize *size )
         m_Size = new QSize( *size ); // make a copy, so it's safe if the original gets deleted
     else
         m_Size = 0;
+}
+
+void ImageExporter::setLegendAlpha( int alpha )
+{
+    Q_ASSERT( alpha >= 0 && alpha <= 255 );
+    Q_ASSERT( m_Legend );
+    QColor bgColor = m_Legend->getBgColor();
+    bgColor.setAlpha(alpha);
+    m_Legend->setBgColor(bgColor);
 }
 

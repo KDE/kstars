@@ -70,13 +70,19 @@ public Q_SLOTS:
      * @param alpha Legend alpha (transparency). Default value is 160.
      * @param include Include the legend?
      */
-    void setLegendProperties( Legend::LEGEND_TYPE type, Legend::LEGEND_ORIENTATION orientation, Legend::LEGEND_POSITION position, qint8 alpha = 160, bool include = true );
+    void setLegendProperties( Legend::LEGEND_TYPE type, Legend::LEGEND_ORIENTATION orientation, Legend::LEGEND_POSITION position, int alpha = 160, bool include = true );
 
     /**
      * @short Include legend?
      * @param include The legend will be included if the flag is set to true
      */
     inline void includeLegend( bool include ) { m_includeLegend = include; }
+
+    /**
+     * @short Set legend transparency
+     * @param alpha Transparency level
+     */
+    void setLegendAlpha( int alpha );
 
     /**
      * @short Set the size of output raster images
@@ -86,9 +92,9 @@ public Q_SLOTS:
     void setRasterOutputSize( const QSize *size );
 
     /**
-     * @return a pointer to the legend used, constified
+     * @return a pointer to the legend used
      */
-    inline const Legend* getLegend() const { return m_Legend; }
+    inline Legend* getLegend() { return m_Legend; }
 
 private:
     void exportSvg(const QString &fileName);
