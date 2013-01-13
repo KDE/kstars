@@ -91,7 +91,7 @@ public Q_SLOTS:
 
 private:
     void exportSvg(const QString &fileName);
-    void exportRasterGraphics(const QString &fileName);
+    bool exportRasterGraphics(const QString &fileName);
     void addLegend(SkyQPainter *painter);
     void addLegend(QPaintDevice *pd);
 

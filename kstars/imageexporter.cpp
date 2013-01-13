@@ -64,7 +64,7 @@ void ImageExporter::exportSvg(const QString &fileName)
     painter.end();
 }
 
-void ImageExporter::exportRasterGraphics(const QString &fileName)
+bool ImageExporter::exportRasterGraphics(const QString &fileName)
 {
     //Determine desired image format from filename extension
     QString ext = fileName.mid(fileName.lastIndexOf(".") + 1);
@@ -150,12 +150,15 @@ void ImageExporter::exportRasterGraphics(const QString &fileName)
 
     if(!outimage.save(fileName, format))
     {
-        kDebug() << i18n("Error: Unable to save image: %1 ", fileName);
+        m_lastErrorMessage = i18n("Error: Unable to save image: %1 ", fileName);
+        kDebug() << m_lastErrorMessage;
+        return false;
     }
 
     else
     {
         kDebug() << i18n("Image saved to file: %1", fileName);
+        return true;
     }
 }
 void ImageExporter::addLegend(SkyQPainter *painter)
@@ -188,6 +191,7 @@ bool ImageExporter::exportImage( QString url )
         fileURL = url;
     }
 
+    m_lastErrorMessage = QString();
     if(fileURL.isValid())
     {
         KTemporaryFile tmpfile;
@@ -214,7 +218,7 @@ bool ImageExporter::exportImage( QString url )
 
         else
         {
-            exportRasterGraphics(fname);
+            return exportRasterGraphics(fname);
         }
 
         if(!isLocalFile)
@@ -228,7 +232,6 @@ bool ImageExporter::exportImage( QString url )
                 return false;
             }
         }
-        m_lastErrorMessage = QString();
         return true;
     }
     m_lastErrorMessage = i18n( "Could not export image: URL %1 invalid", fileURL.prettyUrl() );
