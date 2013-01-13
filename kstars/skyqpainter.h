@@ -57,6 +57,13 @@ public:
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
 
+    /**
+     * @param vectorStars Draw stars as vector graphics whenever possible.
+     * @note Drawing stars as vectors is slower, but is better when saving .svg files. Set to true only when you are drawing on a canvas where speed doesn't matter. Definitely not when drawing on the SkyMap.
+     */
+    inline void setVectorStars( bool vectorStars ) { m_vectorStars = vectorStars; }
+    inline bool getVectorStars() const { return m_vectorStars; }
+
     virtual void begin();
     virtual void end();
     
@@ -87,7 +94,9 @@ private:
                                          float positionAngle);
     QPaintDevice *m_pd;
     const Projector* m_proj;
+    bool m_vectorStars;
     QSize m_size;
+    static int starColorMode;
 };
 
 #endif
