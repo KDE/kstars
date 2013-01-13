@@ -44,8 +44,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "simclock.h"
 #include "Options.h"
-
-#include "dialogs/exportimagedialog.h"
+#include "imageexporter.h"
 
 // INDI includes
 #include <config-kstars.h>
@@ -424,16 +423,12 @@ void KStars::loadColorScheme( const QString &name ) {
     }
 }
 
-void KStars::exportImage( const QString &url, int w, int h ) {
-    // execute image export dialog
-    if ( !imgExportDialog ) {
-        imgExportDialog = new ExportImageDialog( url, QSize( w, h ) );
-    } else {
-        imgExportDialog->setOutputUrl( url );
-        imgExportDialog->setOutputSize( QSize ( w, h ) );
-    }
-
-    imgExportDialog->show();
+void KStars::exportImage( const QString &url, int w, int h, bool includeLegend ) {
+    if ( !imageExporter )
+        imageExporter = new ImageExporter( this );
+    imageExporter->includeLegend( includeLegend );
+    imageExporter->setRasterOutputSize( new QSize( w, h ) );
+    imageExporter->exportImage( url );
 }
 
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {

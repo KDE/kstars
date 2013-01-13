@@ -109,6 +109,13 @@
       <arg name="filename" type="s" direction="in"/>
       <arg name="width" type="i" direction="in"/>
       <arg name="height" type="i" direction="in"/>
+      <arg name="includeLegend" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="exportImage">
+      <arg name="filename" type="s" direction="in"/>
+      <arg name="width" type="i" direction="in"/>
+      <arg name="height" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="printImage">
