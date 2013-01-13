@@ -26,6 +26,7 @@ class KStars;
 class SkyQPainter;
 class QString;
 class QSize;
+class ImageExporter;
 
 // ExportImageDialog user interface.
 class ExportImageDialogUI : public QFrame, public Ui::ExportImageDialog
@@ -53,31 +54,26 @@ public:
     ExportImageDialog(const QString &url, const QSize &size);
 
     /**@short Default destructor. */
-    ~ExportImageDialog();
+    ~ExportImageDialog() { }
 
     inline void setOutputUrl(const QString &url) { m_Url = url; }
     inline void setOutputSize(const QSize &size) { m_Size = size; }
 
 private slots:
-    void exportImage();
     void switchLegendEnabled(bool enabled);
     void previewImage();
-
-private:
-    void exportSvg(const QString &fileName);
-    void exportRasterGraphics(const QString &fileName);
+    void exportImage();
 
     void setupWidgets();
     void setupConnections();
-    Legend getLegendForSettings();
+    void updateLegendSettings();
 
-    void addLegend(SkyQPainter *painter);
-    void addLegend(QPaintDevice *pd);
-
+private:
     KStars *m_KStars;
     ExportImageDialogUI *m_DialogUI;
     QString m_Url;
     QSize m_Size;
+    ImageExporter *m_ImageExporter;
 };
 
 

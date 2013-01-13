@@ -1,0 +1,271 @@
+/***************************************************************************
+                imageexporter.cpp  -  K Desktop Planetarium
+                             -------------------
+    begin                : Sun 13 Jan 2013 00:53:50 CST
+    copyright            : (c) 2013 by Akarsh Simha
+    email                : akarsh.simha@kdemail.net
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+
+/* Project Includes */
+#include "imageexporter.h"
+#include "kstars.h"
+#include "skyqpainter.h"
+#include "skymap.h"
+
+/* KDE Includes */
+#include <kio/netaccess.h>
+#include <ktemporaryfile.h>
+
+/* Qt Includes */
+#include <QSvgGenerator>
+
+ImageExporter::ImageExporter( QObject *parent ) : m_KStars( KStars::Instance() ), m_includeLegend( false ), QObject( parent ), m_Size( 0 )
+{
+    Q_ASSERT( m_KStars );
+    m_Legend = new Legend;
+
+    // set font for legend labels
+    m_Legend->setFont(QFont("Courier New", 8));
+}
+
+void ImageExporter::exportSvg(const QString &fileName)
+{
+    SkyMap *map = m_KStars->map();
+
+    // export as SVG
+    QSvgGenerator svgGenerator;
+    svgGenerator.setFileName(fileName);
+    svgGenerator.setTitle(i18n("KStars Exported Sky Image"));
+    svgGenerator.setDescription(i18n("KStars Exported Sky Image"));
+    svgGenerator.setSize(QSize(map->width(), map->height()));
+    svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
+    svgGenerator.setViewBox(QRect(0, 0, map->width(), map->height()));
+
+    SkyQPainter painter(m_KStars, &svgGenerator);
+    painter.begin();
+
+    map->exportSkyImage(&painter);
+
+    if( m_includeLegend )
+    {
+        addLegend(&painter);
+    }
+
+    painter.end();
+}
+
+void ImageExporter::exportRasterGraphics(const QString &fileName)
+{
+    //Determine desired image format from filename extension
+    QString ext = fileName.mid(fileName.lastIndexOf(".") + 1);
+
+    // export as raster graphics
+    const char* format = "PNG";
+
+    if(ext.toLower() == "png") {format = "PNG";}
+    else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
+    else if(ext.toLower() == "gif") { format = "GIF"; }
+    else if(ext.toLower() == "pnm") { format = "PNM"; }
+    else if(ext.toLower() == "bmp") { format = "BMP"; }
+    else
+    {
+        kWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
+    }
+
+    SkyMap *map = m_KStars->map();
+
+    int width, height;
+    if ( m_Size ) {
+        width = m_Size->width();
+        height = m_Size->height();
+    }
+    else {
+        width = map->width();
+        height = map->height();
+    }
+
+    QPixmap skyimage(map->width(), map->height());
+    QPixmap outimage(width, height);
+    outimage.fill();
+
+    map->exportSkyImage(&skyimage);
+    qApp->processEvents();
+
+    //skyImage is the size of the sky map.  The requested image size is w x h.
+    //If w x h is smaller than the skymap, then we simply crop the image.
+    //If w x h is larger than the skymap, pad the skymap image with a white border.
+    if(width == map->width() && height == map->height())
+    {
+        outimage = skyimage.copy();
+    }
+
+    else
+    {
+        int dx(0), dy(0), sx(0), sy(0);
+        int sw(map->width()), sh(map->height());
+
+        if(width > map->width())
+        {
+            dx = (width - map->width())/2;
+        }
+
+        else
+        {
+            sx = (map->width() - width)/2;
+            sw = width;
+        }
+
+        if(height > map->height())
+        {
+            dy = (height - map->height())/2;
+        }
+
+        else
+        {
+            sy = (map->height() - height)/2;
+            sh = height;
+        }
+
+        QPainter p;
+        p.begin(&outimage);
+        p.fillRect(outimage.rect(), QBrush( Qt::white));
+        p.drawImage(dx, dy, skyimage.toImage(), sx, sy, sw, sh);
+        p.end();
+    }
+
+    if( m_includeLegend )
+    {
+        addLegend(&outimage);
+    }
+
+    if(!outimage.save(fileName, format))
+    {
+        kDebug() << i18n("Error: Unable to save image: %1 ", fileName);
+    }
+
+    else
+    {
+        kDebug() << i18n("Image saved to file: %1", fileName);
+    }
+}
+void ImageExporter::addLegend(SkyQPainter *painter)
+{
+    m_Legend->paintLegend(painter);
+}
+
+void ImageExporter::addLegend(QPaintDevice *pd)
+{
+    SkyQPainter painter(m_KStars, pd);
+    painter.begin();
+
+    addLegend(&painter);
+
+    painter.end();
+}
+
+bool ImageExporter::exportImage( QString url )
+{
+    //If the filename string contains no "/" separators, assume the
+    //user wanted to place a file in their home directory.
+    KUrl fileURL;
+    if(!url.contains("/"))
+    {
+        fileURL = QDir::homePath() + '/' + url;
+    }
+
+    else
+    {
+        fileURL = url;
+    }
+
+    if(fileURL.isValid())
+    {
+        KTemporaryFile tmpfile;
+        QString fname;
+        bool isLocalFile = fileURL.isLocalFile();
+
+        if(isLocalFile)
+        {
+            fname = fileURL.toLocalFile();
+        }
+
+        else
+        {
+            tmpfile.open();
+            fname = tmpfile.fileName();
+        }
+
+        //Determine desired image format from filename extension
+        QString ext = fname.mid(fname.lastIndexOf(".") + 1);
+        if(ext.toLower() == "svg")
+        {
+            exportSvg(fname);
+        }
+
+        else
+        {
+            exportRasterGraphics(fname);
+        }
+
+        if(!isLocalFile)
+        {
+            //attempt to upload image to remote location
+            if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
+            {
+                m_lastErrorMessage = i18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
+//                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+                kWarning() << m_lastErrorMessage;
+                return false;
+            }
+        }
+        m_lastErrorMessage = QString();
+        return true;
+    }
+    m_lastErrorMessage = i18n( "Could not export image: URL %1 invalid", fileURL.prettyUrl() );
+    kWarning() << m_lastErrorMessage;
+    return false;
+}
+
+
+void ImageExporter::setLegendProperties( Legend::LEGEND_TYPE type, Legend::LEGEND_ORIENTATION orientation, Legend::LEGEND_POSITION position, qint8 alpha, bool include)
+{
+    // set background color (alpha)
+    QColor bgColor = m_Legend->getBgColor();
+    bgColor.setAlpha(alpha);
+    m_Legend->setBgColor(bgColor);
+
+    // set legend orientation
+    m_Legend->setOrientation(orientation);
+
+    // set legend type
+    m_Legend->setType(type);
+
+    // set legend position
+    m_Legend->setPosition(position);
+
+    m_includeLegend = include;
+}
+
+ImageExporter::~ImageExporter()
+{
+    delete m_Legend;
+}
+
+void ImageExporter::setRasterOutputSize( const QSize *size )
+{
+    if ( size )
+        m_Size = new QSize( *size ); // make a copy, so it's safe if the original gets deleted
+    else
+        m_Size = 0;
+}
+
