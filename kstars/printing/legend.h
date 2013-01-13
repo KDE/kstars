@@ -87,6 +87,12 @@ public:
     explicit Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL, LEGEND_POSITION pos = LP_FLOATING);
 
     /**
+     * \brief copy constructor
+     * \note This class needs to be explicitly copied because of the m_Painter pointer
+     */
+    explicit Legend( const Legend &o );
+
+    /**
       * \brief Destructor.
       */
     ~Legend();
