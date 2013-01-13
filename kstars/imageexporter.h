@@ -28,7 +28,8 @@ class QSize;
 
 /**
  * @class ImageExporter
- * @short 
+ * @short Backends for exporting a sky image, either raster or vector, with a legend
+ * @author Rafał Kułaga <rl.kulaga@gmail.com>
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 class ImageExporter : public QObject {
