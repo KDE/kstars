@@ -33,7 +33,7 @@ class QVBoxLayout;
 class ImageLabel : public QFrame {
     Q_OBJECT
 public:
-    ImageLabel( QWidget *parent );
+    explicit ImageLabel( QWidget *parent );
     ~ImageLabel();
     void setImage( const QImage &img ) { m_Image = img; }
 
@@ -65,7 +65,7 @@ public:
     /** Create image viewer from URL with caption */
     ImageViewer (const KUrl &imageURL, const QString &capText, QWidget *parent = 0);
 
-    ImageViewer ( QString FileName, QWidget *parent = 0);
+    explicit ImageViewer ( QString FileName, QWidget *parent = 0);
 
     /**Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();

@@ -39,7 +39,7 @@ class StarBlockList {
     /**
      *Constructor.
      */
-    StarBlockList( Trixel trixel );
+    explicit StarBlockList( Trixel trixel );
 
     /**
      *Constructor for deep star catalogs.

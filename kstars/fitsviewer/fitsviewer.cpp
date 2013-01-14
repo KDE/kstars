@@ -476,7 +476,7 @@ void FITSViewer::updateTabStatus(bool clean)
 
   QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
-  fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText : tabText + "*");
+  fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText : tabText + '*');
 }
 
 void FITSViewer::closeTab(int index)

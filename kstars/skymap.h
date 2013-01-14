@@ -280,7 +280,7 @@ class SkyMap : public QGraphicsView {
 
     void setPreviewLegend(bool preview) { m_previewLegend = preview; }
 
-    void setLegend(Legend &legend) { m_legend = legend; }
+    void setLegend(const Legend &legend) { m_legend = legend; }
 
     bool isInObjectPointingMode() { return m_objPointingMode; }
 

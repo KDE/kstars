@@ -72,12 +72,34 @@ namespace {
     QPixmap* imageCache[nSPclasses][nStarSizes] = {{0}};
 }
 
+int SkyQPainter::starColorMode = 0;
+
+SkyQPainter::SkyQPainter( QPaintDevice *pd )
+    : SkyPainter(), QPainter()
+{
+    Q_ASSERT( pd );
+    m_pd = pd;
+    m_size = QSize( pd->width(), pd->height() );
+    m_vectorStars = false;
+}
+
+SkyQPainter::SkyQPainter( QPaintDevice *pd, const QSize &size )
+    : SkyPainter(), QPainter()
+{
+    Q_ASSERT( pd );
+    m_pd = pd;
+    m_size = size;
+    m_vectorStars = false;
+}
+
 SkyQPainter::SkyQPainter( QWidget *widget, QPaintDevice *pd )
     : SkyPainter(), QPainter()
 {
+    Q_ASSERT( widget );
     // Set paint device pointer to pd or to the widget if pd = 0
     m_pd = ( pd ? pd : widget );
-    m_widget = widget;
+    m_size = widget->size();
+    m_vectorStars = false;
 }
 
 SkyQPainter::~SkyQPainter()
@@ -101,7 +123,7 @@ void SkyQPainter::end()
 void SkyQPainter::drawSkyBackground()
 {
     //FIXME use projector
-    fillRect( 0, 0, m_widget->width(), m_widget->height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+    fillRect( 0, 0, m_size.width(), m_size.height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
 }
 
 void SkyQPainter::setPen(const QPen& pen)
@@ -202,6 +224,7 @@ void SkyQPainter::initStarImages()
             *pmap[size] = BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
         }
     }
+    starColorMode = Options::starColorMode();
 }
 
 void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
@@ -229,19 +252,19 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility( points->first() );
     QPointF   oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
-    
+
     QPointF oThis, oThis2;
     for ( int j = 1 ; j < points->size() ; j++ ) {
         SkyPoint* pThis = points->at( j );
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
         oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
-        
+
         bool doSkip = false;
         if( skipList ) {
             doSkip = skipList->skip(j);
         }
-        
+
         if ( !doSkip ) {
             if ( isVisible && isVisibleLast ) {
                 drawLine( oLast, oThis );
@@ -330,7 +353,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
             //Because Saturn has rings, we inflate its image size by a factor 2.5
             if( planet->name() == "Saturn" )
                 size = int(2.5*size);
-            
+
             save();
             translate(pos);
             rotate( m_proj->findPA( planet, pos.x(), pos.y() ) );
@@ -351,7 +374,7 @@ bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 
     bool visible = false;
     QPointF pos = m_proj->toScreen(loc,true,&visible);
-    if( visible && m_proj->onScreen(pos) ) {
+    if( visible && m_proj->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
         drawPointSource(pos, starWidth(mag), sp);
         return true;
     } else {
@@ -362,9 +385,39 @@ bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 {
     int isize = qMin(static_cast<int>(size), 14);
-    QPixmap* im = imageCache[ harvardToIndex(sp) ][isize];
-    float offset = 0.5 * im->width();
-    drawPixmap( QPointF(pos.x()-offset, pos.y()-offset), *im );
+    if( !m_vectorStars || ( starColorMode <=0 || starColorMode > 3 )  ) {
+        // Draw stars as bitmaps, either because we were asked to, or because we're painting real colors
+        QPixmap* im = imageCache[ harvardToIndex(sp) ][isize];
+        float offset = 0.5 * im->width();
+        drawPixmap( QPointF(pos.x()-offset, pos.y()-offset), *im );
+    }
+    else {
+        // Draw stars as vectors, for better printing / SVG export etc.
+        static QColor color; // FIXME: This slows down things a bit, but we won't care because we're not painting the SkyMap this way anyway.
+        switch( Options::starColorMode() ) {
+        case 1:
+            color = QColor::fromRgb(255, 0, 0);
+            break;
+        case 2:
+            color = QColor::fromRgb(0, 0, 0);
+            break;
+        case 3:
+            color = QColor::fromRgb(255, 255, 255);
+            break;
+        default:
+            Q_ASSERT( false );
+        }
+        setPen( color );
+        setBrush( color );
+
+        // Be consistent with old raster representation
+        if( size > 14 )
+            size = 14;
+        if( size >= 2 )
+            drawEllipse( pos.x() - 0.5 * size, pos.y() - 0.5 * size, int(size), int(size) );
+        else if( size >= 1 )
+            drawPoint( pos.x(), pos.y() );
+    }
 }
 
 bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
@@ -652,7 +705,7 @@ void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)
         bool visible = false;
         QPointF o = m_proj->toScreen( obj, true, &visible );
         if( !visible || !m_proj->onScreen(o) ) continue;
-        
+
         float size = 20.;
         float x1 = o.x() - 0.5*size;
         float y1 = o.y() - 0.5*size;
@@ -713,7 +766,7 @@ void SkyQPainter::drawSatellite( Satellite* sat ) {
     KStarsData *data = KStarsData::Instance();
     QPointF pos;
     bool visible = false;
-    
+
     sat->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
     pos = m_proj->toScreen( sat, true, &visible );

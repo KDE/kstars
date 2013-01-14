@@ -530,10 +530,10 @@ void PrintingWizard::createFinderChart()
     for(int i = 0; i < m_FovSnapshots.size(); i++)
     {
         FOV *fov = m_FovSnapshots.at(i)->getFov();
-        QString fovDescription = i18n("FOV (") + QString::number(i + 1) + "/" +
+        QString fovDescription = i18n("FOV (") + QString::number(i + 1) + '/' +
                                  QString::number(m_FovSnapshots.size()) + "): " +
                                  fov->name() + " (" + QString::number(fov->sizeX()) + i18n("'") + " x " +
-                                 QString::number(fov->sizeY()) + i18n("'") + ")" + "\n";
+                                 QString::number(fov->sizeY()) + i18n("'") + ')' + "\n";
         m_FinderChart->insertImage(m_FovSnapshots.at(i)->getPixmap().toImage(), fovDescription + m_FovSnapshots.at(i)->getDescription(), true);
     }
 

@@ -28,6 +28,7 @@
 #include "QPrintPreviewDialog"
 #include "QPrinter"
 #include "QPrintDialog"
+#include "QPointer"
 
 PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
     m_ParentWizard(wizard)
@@ -41,9 +42,11 @@ PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(paren
 
 void PWizPrintUI::slotPreview()
 {
-    QPrintPreviewDialog  previewDlg(m_ParentWizard->getPrinter(), KStars::Instance());
-    connect(&previewDlg, SIGNAL(paintRequested(QPrinter*)), SLOT(slotPrintPreview(QPrinter*)));
-    previewDlg.exec();
+    QPointer<QPrintPreviewDialog> previewDlg( new QPrintPreviewDialog( m_ParentWizard->getPrinter()
+                                                                        , KStars::Instance() ) );
+    connect(previewDlg, SIGNAL(paintRequested(QPrinter*)), SLOT(slotPrintPreview(QPrinter*)));
+    previewDlg->exec();
+    delete previewDlg;
 }
 
 void PWizPrintUI::slotPrintPreview(QPrinter *printer)
@@ -53,11 +56,13 @@ void PWizPrintUI::slotPrintPreview(QPrinter *printer)
 
 void PWizPrintUI::slotPrint()
 {
-    QPrintDialog dialog(m_ParentWizard->getPrinter(), KStars::Instance());
-    if(dialog.exec() == QDialog::Accepted)
+    QPointer<QPrintDialog> dialog( new QPrintDialog( m_ParentWizard->getPrinter()
+                                                     , KStars::Instance() ) );
+    if(dialog->exec() == QDialog::Accepted)
     {
         printDocument(m_ParentWizard->getPrinter());
     }
+    delete dialog;
 }
 
 void PWizPrintUI::printDocument(QPrinter *printer)

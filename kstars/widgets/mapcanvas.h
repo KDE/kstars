@@ -43,7 +43,7 @@ public:
      * world map image
      * @param parent pointer to the parent LocationDialog
      */
-    MapCanvas( QWidget *parent );
+    explicit MapCanvas( QWidget *parent );
 
     /**Destructor (empty) */
     ~MapCanvas();

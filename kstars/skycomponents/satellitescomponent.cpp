@@ -51,7 +51,7 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
         line = fileReader.readLine();
         if ( line.trimmed().isEmpty() || line.at( 0 ) == '#' )
             continue;
-        group_infos = line.split( ";" );
+        group_infos = line.split( ';' );
         m_groups.append( new SatelliteGroup( group_infos.at( 0 ), group_infos.at( 1 ), KUrl( group_infos.at( 2 ) ) ) );
     }
 }

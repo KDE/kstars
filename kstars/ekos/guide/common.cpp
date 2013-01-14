@@ -9,9 +9,9 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <sys/types.h>
-
 #include "common.h"
+
+#include <sys/types.h>
 
 // define some colors
 const u_char DEF_BKGD_COLOR[3] 		= {0, 0, 0};

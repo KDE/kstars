@@ -34,7 +34,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizFovManualUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizFovManualUI(PrintingWizard *wizard, QWidget *parent = 0);
 
 private slots:
     /**

@@ -9,13 +9,14 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "rcalibration.h"
+
 #include <unistd.h>
 #include <time.h>
 #include <assert.h>
 
 #include <KMessageBox>
 
-#include "rcalibration.h"
 #include "gmath.h"
 #include "vect.h"
 
@@ -59,7 +60,7 @@ rcalibration::rcalibration(Ekos::Guide *parent)
     ui.progressBar->setVisible( false );
 	ui.spinBox_ReticleAngle->setMaximum( 360 );
 
-	for( i = 0;guide_squares[i].size != -1;i++ )
+	for( i = 0;guide_squares[i].size != -1;++i )
 		ui.comboBox_SquareSize->addItem( QString().setNum( guide_squares[i].size ) );
 
     ui.comboBox_SquareSize->setCurrentIndex(1);

@@ -136,7 +136,7 @@ KStarsData::~KStarsData() {
 
 bool KStarsData::initialize() {
     //Initialize CatalogDB//
-    KStars::Instance()->data()->catalogdb()->Initialize();
+    catalogdb()->Initialize();
 
     //Load Time Zone Rules//
     emit progressText( i18n("Reading time zone rules") );

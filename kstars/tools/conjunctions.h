@@ -48,7 +48,7 @@ class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg {
     Q_OBJECT
 
 public:
-    ConjunctionsTool(QWidget *p);
+    explicit ConjunctionsTool(QWidget *p);
     ~ConjunctionsTool();
 
 public slots:

@@ -7,11 +7,12 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "guide.h"
+
 #include <QDateTime>
 
 #include "guide/gmath.h"
 #include "guide/guider.h"
-#include "guide.h"
 #include "Options.h"
 
 
@@ -23,7 +24,6 @@
 #include "fitsviewer/fitsview.h"
 
 #include "guide/rcalibration.h"
-#include "guide/gmath.h"
 
 #include <basedevice.h>
 

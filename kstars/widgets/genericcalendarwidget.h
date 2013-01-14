@@ -43,7 +43,7 @@ class GenericCalendarWidget : public QWidget, public Ui::GenericCalendarWidgetUi
     /**
      *@short Constructor. Sets up the Ui, connects signals to slots etc.
      */
-    GenericCalendarWidget( KDateTable &dateTable, QWidget *parent = 0 );
+    explicit GenericCalendarWidget( KDateTable &dateTable, QWidget *parent = 0 );
 
     /**
      *@short Empty destructor

@@ -26,7 +26,7 @@ class OpsGuides : public QFrame, public Ui::OpsGuides
     Q_OBJECT
 
 public:
-    OpsGuides( KStars *_ks );
+    explicit OpsGuides( KStars *_ks );
     ~OpsGuides();
 
 private slots:

@@ -9,8 +9,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef RETICLE_CALIBRATION_H
-#define RETICLE_CALIBRATION_H
+#ifndef RCALIBRATION_H
+#define RCALIBRATION_H
 
 #include "gmath.h"
 #include "../guide.h"
@@ -31,7 +31,7 @@ class rcalibration: public QWidget
     Q_OBJECT
 
 public:
-    rcalibration(Ekos::Guide *parent = 0);
+    explicit rcalibration(Ekos::Guide *parent = 0);
     ~rcalibration();
 
     enum CalibrationStage { CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_FINISH, CAL_ERROR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };

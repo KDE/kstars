@@ -88,11 +88,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
         data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
     else
         data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
-    
+
     // Initialize clock. If --paused is not in the comand line, look in options
     if ( clockrun )
         StartClockRunning =  Options::runClock();
-    
+
     // Setup splash screen
     KStarsSplash *splash = 0;
     if ( doSplash ) {
@@ -217,7 +217,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
             map()->setClickedPoint( fo );
             map()->slotCenter();
         }
-    
+
         if ( ! fo ) {
             SkyPoint fp( Options::focusRA(), Options::focusDec() );
             if ( fp.ra().Degrees() != map()->focus()->ra().Degrees() || fp.dec().Degrees() != map()->focus()->dec().Degrees() ) {

@@ -253,7 +253,7 @@ void cscroll_graph::refresh( void )
 				py = y;
 
 				//------------------------------------------
-				j++;
+				++j;
 				i = band1_end - (int)((double)j*step);
 			}
 
@@ -269,7 +269,7 @@ void cscroll_graph::refresh( void )
 				py = y;
 
 				//------------------------------------------
-				j++;
+				++j;
 				i = band2_end - (int)((double)j*step);
 			}
 		}
@@ -295,7 +295,7 @@ void cscroll_graph::refresh( void )
 
 			x = client_rect_wd;
 
-			for( i = band1_end, j = 0;i >= band1_start;i--, j++ )
+			for( i = band1_end, j = 0;i >= band1_start;i--, ++j )
 			{
 				y = half_buffer_size_ht - (int)(data_ptr[i] * ky);
 				x = client_rect_wd - (int)((double)j*step) - 1;
@@ -309,7 +309,7 @@ void cscroll_graph::refresh( void )
 
 
 			// process band 2
-			for( i = band2_end;i > band2_start;i--, j++ )
+			for( i = band2_end;i > band2_start;i--, ++j )
 			{
 				y = half_buffer_size_ht - (int)(data_ptr[i] * ky);
 				x = client_rect_wd - (int)((double)j*step) - 1;
@@ -339,7 +339,7 @@ void cscroll_graph::draw_grid( double kx, double )
 	grid_column = data_idx / (int)grid_step_x * (int)grid_step_x;
 	sx = client_rect_wd - (double)(data_idx % (int)grid_step_x)*kx;
 
-	for( i = 0;i < grid_N;i++ )
+	for( i = 0;i < grid_N;++i )
 	{
 		x = sx - (double)i*grid_view_step_x;
 		y = (double)i*grid_view_step_y;
@@ -361,7 +361,7 @@ void cscroll_graph::draw_grid( double kx, double )
 	// draw all digits
 	pen.setColor( GRID_FONT_COLOR );
 	canvas.setPen( pen );
-	for( i = 0;i < grid_N;i++ )
+	for( i = 0;i < grid_N;++i )
 	{
 		x = sx - (double)i*grid_view_step_x;
 		y = (double)i*grid_view_step_y;

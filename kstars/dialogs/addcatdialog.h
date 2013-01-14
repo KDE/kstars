@@ -45,7 +45,7 @@ public:
     /**
       *Default constructor
     	*/
-    AddCatDialog( KStars *_ks );
+    explicit AddCatDialog( KStars *_ks );
 
     /**
       *Destructor (empty)

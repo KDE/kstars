@@ -26,3 +26,4 @@ ADD_TEST( NAME CSVParserTest COMMAND testcsvparser )
 ADD_EXECUTABLE( testfwparser testfwparser.cpp )
 TARGET_LINK_LIBRARIES( testfwparser ${TEST_LIBRARIES} ${QT_QTTEST_LIBRARY})
 ADD_TEST( NAME FixedWidthParserTest COMMAND testfwparser )
+

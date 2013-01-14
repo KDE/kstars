@@ -36,7 +36,7 @@ class SkyMapGLDraw : public QGLWidget, public SkyMapDrawAbstract {
     /**
      *@short Constructor
      */
-    SkyMapGLDraw( SkyMap *parent );
+    explicit SkyMapGLDraw( SkyMap *parent );
 
  protected:
 

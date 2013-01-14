@@ -52,7 +52,7 @@ public:
     /** Constructor.
       * @param p the ViewParams for this projection
       */
-    Projector( const ViewParams& p );
+    explicit Projector( const ViewParams& p );
 
     virtual ~Projector();
 

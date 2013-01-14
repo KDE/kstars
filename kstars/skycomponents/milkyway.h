@@ -38,7 +38,7 @@ public:
     /**@short Constructor
      * @p parent pointer to the parent SkyComposite
      */
-    MilkyWay( SkyComposite *parent );
+    explicit MilkyWay( SkyComposite *parent );
 
     /** Load skiplists from file */
     void loadContours(QString fname, QString greeting);

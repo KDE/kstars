@@ -30,19 +30,19 @@ class QStackedWidget;
 class WizWelcomeUI : public QFrame, public Ui::WizWelcome {
     Q_OBJECT
 public:
-    WizWelcomeUI( QWidget *parent=0 );
+    explicit WizWelcomeUI( QWidget *parent=0 );
 };
 
 class WizLocationUI : public QFrame, public Ui::WizLocation {
     Q_OBJECT
 public:
-    WizLocationUI( QWidget *parent=0 );
+    explicit WizLocationUI( QWidget *parent=0 );
 };
 
 class WizDownloadUI : public QFrame, public Ui::WizDownload {
     Q_OBJECT
 public:
-    WizDownloadUI( QWidget *parent=0 );
+    explicit WizDownloadUI( QWidget *parent=0 );
 };
 
 /**@class KSWizard
@@ -60,7 +60,7 @@ public:
     /** Constructor
      * @p parent pointer to the parent widget
      */
-    KSWizard( QWidget* parent = 0 );
+    explicit KSWizard( QWidget* parent = 0 );
 
     /**Destructor */
     virtual ~KSWizard();

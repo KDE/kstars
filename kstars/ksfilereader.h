@@ -71,7 +71,7 @@ public:
     /* @short this is the preferred constructor.  You can then use
      * the open() method to let this class open the file for you.
      */
-    KSFileReader( qint64 maxLen=1024 );
+    explicit KSFileReader( qint64 maxLen=1024 );
 
     /*Constructor.
         * @param file is a previously opened (for reading) file.

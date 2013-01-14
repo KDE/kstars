@@ -27,14 +27,13 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDialog>
-#include <QDockWidget>
+#include <QPointer>
 
 #include <kdebug.h>
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
-#include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
 #include <ktip.h>
@@ -48,6 +47,7 @@
 #include <ktoolbar.h>
 #include <kicon.h>
 #include <knewstuff3/downloaddialog.h>
+#include <kio/netaccess.h>
 
 #include "options/opscatalog.h"
 #include "options/opsguides.h"
@@ -70,6 +70,7 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
 #include "dialogs/fovdialog.h"
+#include "dialogs/exportimagedialog.h"
 #include "printing/printingwizard.h"
 #include "kswizard.h"
 #include "tools/astrocalc.h"
@@ -87,6 +88,7 @@
 #include "tools/flagmanager.h"
 #include "oal/execute.h"
 #include "projections/projector.h"
+#include "imageexporter.h"
 
 #include <config-kstars.h>
 
@@ -171,13 +173,13 @@ void KStars::slotViewToolBar() {
         Options::setShowHorizontalGrid( a->isChecked() );
         if ( kcd ) {
             opguides->kcfg_ShowHorizontalGrid->setChecked( a->isChecked() );
-        }    
+        }
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
         if( !a->isChecked() && Options::useRefraction() ) {
            QString caption = i18n( "Refraction effects disabled" );
            QString message = i18n( "When the horizon is switched off, refraction effects are temporarily disabled." );
-    
+
            KMessageBox::information( this, message, caption, "dag_refract_hide_ground" );
         }
         if ( kcd ) {
@@ -253,11 +255,16 @@ void KStars::slotWizard() {
 }
 
 void KStars::slotDownload() {
-    KNS3::DownloadDialog dlg(this);
-    dlg.exec();
+    QPointer<KNS3::DownloadDialog> dlg( new KNS3::DownloadDialog( this ) );
+    dlg->exec();
 
     // Get the list of all the installed entries.
-    KNS3::Entry::List entries = dlg.installedEntries();
+    KNS3::Entry::List entries;
+    if (dlg) {
+        entries = dlg->installedEntries();
+    }
+
+    delete dlg;
 
     foreach (const KNS3::Entry &entry, entries) {
         foreach (const QString &name, entry.installedFiles()) {
@@ -388,7 +395,7 @@ void KStars::slotTelescopeWizard()
 #endif
 }
 
-void KStars::slotINDIPanel() 
+void KStars::slotINDIPanel()
 {
 #ifdef HAVE_INDI_H
     if (KStandardDirs::findExe("indiserver").isEmpty())
@@ -400,7 +407,7 @@ void KStars::slotINDIPanel()
 #endif
 }
 
-void KStars::slotINDIDriver() 
+void KStars::slotINDIDriver()
 {
 #ifdef HAVE_INDI_H
     if (KStandardDirs::findExe("indiserver").isEmpty())
@@ -640,7 +647,20 @@ void KStars::slotExportImage() {
             return;
     }
 
-    exportImage( fileURL.url(), map()->width(), map()->height() );
+    // execute image export dialog
+
+    // Note: We don't let ExportImageDialog create its own ImageExporter because we want legend settings etc to be remembered between UI use and DBus scripting interface use.
+    if ( !imageExporter )
+        imageExporter = new ImageExporter( this );
+
+    if ( !imgExportDialog ) {
+        imgExportDialog = new ExportImageDialog( fileURL.url(), QSize( map()->width(), map()->height() ), imageExporter );
+    } else {
+        imgExportDialog->setOutputUrl( fileURL.url() );
+        imgExportDialog->setOutputSize( QSize ( map()->width(), map()->height() ) );
+    }
+
+    imgExportDialog->show();
 }
 
 void KStars::slotRunScript() {
@@ -804,7 +824,7 @@ void KStars::slotToggleTimer() {
         if ( data()->clock()->isManualMode() )
             map()->forceUpdate();
     }
-    
+
     // Update clock state in options
     Options::setRunClock( data()->clock()->isActive() );
 }
@@ -830,7 +850,7 @@ void KStars::slotPointFocus() {
     // In the following cases, we set slewing=true in order to disengage tracking
     map()->stopTracking();
 
-    if ( sender() == actionCollection()->action("zenith") ) 
+    if ( sender() == actionCollection()->action("zenith") )
         map()->setDestinationAltAz( dms(90.0), map()->focus()->az() );
     else if ( sender() == actionCollection()->action("north") )
         map()->setDestinationAltAz( dms(15.0), dms(0.0001) );
@@ -932,7 +952,7 @@ void KStars::slotZoomChanged() {
     if ( fov < 1.0 ) {
         fov = fov * 60.0;
         fovunits = i18n( "arcminutes" );
-    } 
+    }
     if ( fov < 1.0 ) {
         fov = fov * 60.0;
         fovunits = i18n( "arcseconds" );
@@ -1009,7 +1029,7 @@ void KStars::slotColorScheme() {
 
 void KStars::slotTargetSymbol(bool flag) {
     kDebug() << QString("slotTargetSymbol: %1 %2").arg( sender()->objectName() ).arg( flag);
-    
+
     QStringList names = Options::fOVNames();
     if( flag ) {
         // Add FOV to list
@@ -1017,14 +1037,14 @@ void KStars::slotTargetSymbol(bool flag) {
     } else {
         // Remove FOV from list
         int ix = names.indexOf( sender()->objectName() );
-        if( ix >= 0 ) 
+        if( ix >= 0 )
             names.removeAt(ix);
     }
     Options::setFOVNames( names );
-   
+
     // Sync visibleFOVs with fovNames
     data()->syncFOV();
-    
+
     map()->forceUpdate();
 }
 

@@ -28,7 +28,7 @@
 class LambertProjector : public Projector
 {
 public:
-    LambertProjector(const ViewParams& p);
+    explicit LambertProjector(const ViewParams& p);
     virtual ~LambertProjector() {}
     virtual SkyMap::Projection type() const;
     virtual double radius() const;

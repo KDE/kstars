@@ -34,7 +34,7 @@ class modCalcAngDist : public QFrame, public Ui::modCalcAngDistDlg  {
     Q_OBJECT
 public:
     /**Constructor. */
-    modCalcAngDist(QWidget *p);
+    explicit modCalcAngDist(QWidget *p);
     /**Destructor. */
     ~modCalcAngDist();
 

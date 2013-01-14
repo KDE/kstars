@@ -35,7 +35,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizFovShUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizFovShUI(PrintingWizard *wizard, QWidget *parent = 0);
 
     /**
       * \brief Get magnitude limit set by user.

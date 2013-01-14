@@ -52,7 +52,7 @@ public:
      * "segments", such that each segment represents a continuous series
      * of boundary-line intervals that divide two particular constellations.
      */
-    ConstellationBoundaryLines( SkyComposite *parent );
+    explicit ConstellationBoundaryLines( SkyComposite *parent );
 
     QString constellationName( SkyPoint *p );
 

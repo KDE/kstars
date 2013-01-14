@@ -28,6 +28,7 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
+#include <QPointer>
 #include <KGlobal>
 #include <KLocale>
 #include <kfiledialog.h>
@@ -168,11 +169,12 @@ void ConjunctionsTool::slotFindObject() {
 
 void ConjunctionsTool::slotLocation()
 {
-    LocationDialog ld( this );
-    if ( ld.exec() == QDialog::Accepted ) {
-        geoPlace = ld.selectedCity();
+    QPointer<LocationDialog> ld( new LocationDialog( this ) );
+    if ( ld->exec() == QDialog::Accepted && ld ) {
+        geoPlace = ld->selectedCity();
         LocationButton -> setText( geoPlace -> fullName() );
     }
+    delete ld;
 }
 
 void ConjunctionsTool::slotFilterType( int )

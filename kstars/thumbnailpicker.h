@@ -34,7 +34,7 @@ class SkyObject;
 class ThumbnailPickerUI : public QFrame, public Ui::ThumbnailPicker {
     Q_OBJECT
 public:
-    ThumbnailPickerUI( QWidget *p );
+    explicit ThumbnailPickerUI( QWidget *p );
 };
 
 /**@short Dialog for modifying an object's thumbnail image

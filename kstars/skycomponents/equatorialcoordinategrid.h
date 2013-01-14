@@ -36,7 +36,7 @@ public:
     	*(meridians and parallels)
     	*@p parent Pointer to the parent SkyComposite object
     	*/
-    EquatorialCoordinateGrid( SkyComposite *parent );
+    explicit EquatorialCoordinateGrid( SkyComposite *parent );
 
     void preDraw( SkyPainter *skyp );
 

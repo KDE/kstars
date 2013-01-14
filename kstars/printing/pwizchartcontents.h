@@ -34,7 +34,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizChartContentsUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizChartContentsUI(PrintingWizard *wizard, QWidget *parent = 0);
 
     /**
       * \brief Enable or disable specific fields depending on the type of selected object.

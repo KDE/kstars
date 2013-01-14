@@ -31,7 +31,7 @@ class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg  {
     Q_OBJECT
 public:
     /**Constructor. */
-    modCalcDayLength(QWidget *p);
+    explicit modCalcDayLength(QWidget *p);
     /**Destructor. */
     ~modCalcDayLength();
 

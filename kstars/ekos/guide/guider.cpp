@@ -9,13 +9,14 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "guider.h"
+
 #include <math.h>
 #include <stdlib.h>
 #include <assert.h>
 
 #include <KMessageBox>
 
-#include "guider.h"
 #include "scroll_graph.h"
 #include "gmath.h"
 
@@ -38,11 +39,11 @@ rguider::rguider(Ekos::Guide *parent)
     lost_star_try=0;
 
 	ui.comboBox_SquareSize->clear();
-	for( i = 0;guide_squares[i].size != -1;i++ )
+	for( i = 0;guide_squares[i].size != -1;++i )
 		ui.comboBox_SquareSize->addItem( QString().setNum( guide_squares[i].size ) );
 
 	ui.comboBox_ThresholdAlg->clear();
-	for( i = 0;guide_square_alg[i].idx != -1;i++ )
+	for( i = 0;guide_square_alg[i].idx != -1;++i )
 		ui.comboBox_ThresholdAlg->addItem( QString( guide_square_alg[i].name ) );
 
 	ui.spinBox_AccFramesRA->setMaximum( MAX_ACCUM_CNT );
@@ -156,7 +157,7 @@ void rguider::fill_interface( void )
 	ui.l_Focal->setText( str.setNum( (int)info_params.focal) );
 	ui.l_Aperture->setText( str.setNum( (int)info_params.aperture) );
 	ui.l_FbyD->setText( QString().setNum( info_params.focal_ratio, 'f', 1) );
-	str = QString().setNum(info_params.fov_wd, 'f', 1) + "x" + QString().setNum(info_params.fov_ht, 'f', 1);
+	str = QString().setNum(info_params.fov_wd, 'f', 1) + 'x' + QString().setNum(info_params.fov_ht, 'f', 1);
 	ui.l_FOV->setText( str );
 
     ui.checkBox_DirRA->setChecked( in_params->enabled[GUIDE_RA] );

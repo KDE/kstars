@@ -33,7 +33,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizFovConfigUI(QWidget *parent = 0);
+    explicit PWizFovConfigUI(QWidget *parent = 0);
 
     /**
       * \brief Check if switching to "Sky Chart" color scheme is enabled.

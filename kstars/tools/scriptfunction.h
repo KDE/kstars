@@ -35,7 +35,7 @@ public:
                     const QString &at4=QString(), const QString &an4=QString(),
                     const QString &at5=QString(), const QString &an5=QString(),
                     const QString &at6=QString(), const QString &an6=QString() );
-    ScriptFunction( ScriptFunction *sf );
+    explicit ScriptFunction( ScriptFunction *sf );
     ~ScriptFunction();
 
     QString name() const { return Name; }

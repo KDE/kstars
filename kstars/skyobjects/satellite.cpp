@@ -81,7 +81,7 @@ Satellite::Satellite( const QString name, const QString line1, const QString lin
 
     setName( name );
     setName2( name );
-    setLongName( name + " (" + m_id + ")");
+    setLongName( name + " (" + m_id + ')');
     setType( SkyObject::SATELLITE );
     setMag( 0.0 );
 
@@ -329,7 +329,7 @@ void Satellite::init()
             cc    = c1ss;
             xnoi  = 1.0 / nm;
 
-            for ( lsflg = 1; lsflg <= 2; lsflg++ ) {
+            for ( lsflg = 1; lsflg <= 2; ++lsflg ) {
                 a1  =   zcosg * zcosh + zsing * zcosi * zsinh;
                 a3  =  -zsing * zcosh + zcosg * zcosi * zsinh;
                 a7  =  -zcosg * zsinh + zsing * zcosi * zcosh;

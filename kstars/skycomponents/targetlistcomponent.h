@@ -54,7 +54,7 @@ class TargetListComponent : public SkyComponent {
     /**
      *@short Default constructor.
      */
-    TargetListComponent( SkyComposite *parent );
+    explicit TargetListComponent( SkyComposite *parent );
 
     /**
      *@short Constructor that sets up this target list

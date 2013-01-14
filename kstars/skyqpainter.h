@@ -24,6 +24,7 @@
 
 class Projector;
 class QWidget;
+class QSize;
 
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
@@ -31,14 +32,37 @@ class QWidget;
 class SkyQPainter : public SkyPainter, public QPainter
 {
 public:
-    /** Constructor.
-        @param widget the QWidget that provides the paint device (used to query height, width etc)
-        @param pd the painting device. If 0, then @p sm will be used.
-        */
-    SkyQPainter( QWidget *widget, QPaintDevice *pd = 0 );
+
+    /**
+     * @short Creates a SkyQPainter with the given QPaintDevice and uses the dimensions of the paint device as canvas dimensions
+     * @param pd the painting device. Cannot be 0
+     * @param canvasSize the size of the canvas
+     */
+    SkyQPainter( QPaintDevice *pd, const QSize &canvasSize );
+
+    /**
+     * @short Creates a SkyQPainter with the given QPaintDevice and given canvas size
+     * @param pd the painting device. Cannot be 0
+     */
+    SkyQPainter( QPaintDevice *pd );
+
+    /**
+     * @short Creates a SkyQPainter given a QWidget and an optional QPaintDevice.
+     * @param widget the QWidget that provides the canvas size, and also the paint device unless @p pd is specified
+     * @param pd the painting device. If 0, then @p widget will be used.
+     */
+    explicit SkyQPainter( QWidget *widget, QPaintDevice *pd = 0 );
+
     virtual ~SkyQPainter();
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
+
+    /**
+     * @param vectorStars Draw stars as vector graphics whenever possible.
+     * @note Drawing stars as vectors is slower, but is better when saving .svg files. Set to true only when you are drawing on a canvas where speed doesn't matter. Definitely not when drawing on the SkyMap.
+     */
+    inline void setVectorStars( bool vectorStars ) { m_vectorStars = vectorStars; }
+    inline bool getVectorStars() const { return m_vectorStars; }
 
     virtual void begin();
     virtual void end();
@@ -70,7 +94,9 @@ private:
                                          float positionAngle);
     QPaintDevice *m_pd;
     const Projector* m_proj;
-    const QWidget *m_widget;
+    bool m_vectorStars;
+    QSize m_size;
+    static int starColorMode;
 };
 
 #endif

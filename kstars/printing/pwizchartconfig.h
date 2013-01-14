@@ -34,7 +34,7 @@ public:
     /**
       * \brief Constructor.
       */
-    PWizChartConfigUI(QWidget *parent = 0);
+    explicit PWizChartConfigUI(QWidget *parent = 0);
 
     /**
       * \brief Get entered chart title.

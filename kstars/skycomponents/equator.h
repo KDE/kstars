@@ -37,7 +37,7 @@ public:
      * @p parent pointer to the parent SkyComposite object
      * name is the name of the subclass
      */
-    Equator( SkyComposite *parent );
+    explicit Equator( SkyComposite *parent );
 
     virtual bool selected();
     virtual void draw( SkyPainter *skyp );

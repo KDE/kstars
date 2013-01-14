@@ -28,7 +28,7 @@ class KStars;
 class FocusDialogUI : public QFrame, public Ui::FocusDialog {
     Q_OBJECT
 public:
-    FocusDialogUI( QWidget *parent=0 );
+    explicit FocusDialogUI( QWidget *parent=0 );
 };
 
 
@@ -41,7 +41,7 @@ class FocusDialog : public KDialog {
     Q_OBJECT
 public:
     /**Constructor. */
-    FocusDialog( KStars *_ks );
+    explicit FocusDialog( KStars *_ks );
 
     /**Destructor (empty). */
     ~FocusDialog();

@@ -36,20 +36,20 @@ class FOVWidget;
 class FOVDialogUI : public QFrame, public Ui::FOVDialog {
     Q_OBJECT
 public:
-    FOVDialogUI( QWidget *parent=0 );
+    explicit FOVDialogUI( QWidget *parent=0 );
 };
 
 class NewFOVUI : public QFrame, public Ui::NewFOV {
     Q_OBJECT
 public:
-    NewFOVUI( QWidget *parent=0 );
+    explicit NewFOVUI( QWidget *parent=0 );
 };
 
 class FOVDialog : public KDialog
 {
     Q_OBJECT
 public:
-    FOVDialog( QWidget *parent = 0 );
+    explicit FOVDialog( QWidget *parent = 0 );
     virtual ~FOVDialog();
     /** Write list of FOVs to disk. */
     void writeFOVList();
@@ -79,7 +79,7 @@ public:
      * @param parent parent widget
      * @fov widget to copy data from. If it's empty will create empty one.
      */
-    NewFOV( QWidget *parent=0, const FOV* fov = 0);
+    explicit NewFOV( QWidget *parent=0, const FOV* fov = 0);
     ~NewFOV() {}
     /** Return reference to FOV. */
     const FOV& getFOV() const { return f; }
@@ -110,7 +110,7 @@ class TelescopeFL : public KDialog
      * Create a telescope focal length dialog
      * @param parent parent widget
      */
-    TelescopeFL( QWidget *parent = 0 );
+    explicit TelescopeFL( QWidget *parent = 0 );
 
     ~TelescopeFL() { }
 

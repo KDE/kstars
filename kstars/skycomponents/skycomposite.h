@@ -46,7 +46,7 @@ public:
     /**@short Constructor
      * @p parent pointer to the parent SkyComponent
      */
-    SkyComposite( SkyComposite *parent );
+    explicit SkyComposite( SkyComposite *parent );
 
     /** *@short Destructor */
     virtual ~SkyComposite();

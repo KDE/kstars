@@ -28,7 +28,7 @@ class GnomonicProjector : public Projector
 {
 
 public:
-    GnomonicProjector(const ViewParams& p);
+    explicit GnomonicProjector(const ViewParams& p);
     virtual SkyMap::Projection type() const;
     virtual double radius() const;
     virtual double projectionK(double x) const;

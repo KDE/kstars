@@ -38,6 +38,7 @@ class SkyMap;
 class GeoLocation;
 class FindDialog;
 class TimeStepBox;
+class ImageExporter;
 
 class GUIManager;
 class DriverManager;
@@ -325,8 +326,9 @@ public Q_SLOTS:
      * @param filename the filename for the exported image
      * @param width the width for the exported image
      * @param height the height for the exported image
+     * @param includeLegend should we include a legend?
      */
-    Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, int width, int height );
+    Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, int width, int height, bool includeLegend = false );
 
     /**DBUS interface function.  Print the sky image.
      * @param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
@@ -651,6 +653,7 @@ private:
 
     FindDialog *findDialog;
     ExportImageDialog *imgExportDialog;
+    ImageExporter *imageExporter;
 
     //FIXME: move to KStarsData
     ObservingList *obsList;

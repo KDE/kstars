@@ -20,7 +20,7 @@ class Vector
  public:
  double x,y,z;
  Vector () { x = y = z = 0.0; };
- Vector ( double v ) { x = y = z = v; };
+ explicit Vector ( double v ) { x = y = z = v; };
  Vector ( const Vector& v ) { x = v.x; y = v.y; z = v.z; };
  Vector ( double vx, double vy, double vz ) { x = vx; y = vy; z = vz; };
  ~Vector(){};

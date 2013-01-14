@@ -30,7 +30,7 @@ class MoonPhaseCalendar : public KDateTable {
 
  public:
     
-    MoonPhaseCalendar( KSMoon &moon, QWidget *parent = 0 );
+    explicit MoonPhaseCalendar( KSMoon &moon, QWidget *parent = 0 );
     ~MoonPhaseCalendar();
 
     /**

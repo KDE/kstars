@@ -36,7 +36,7 @@ class modCalcJD : public QFrame, public Ui::modCalcJdDlg
 {
     Q_OBJECT
 public:
-    modCalcJD(QWidget *p);
+    explicit modCalcJD(QWidget *p);
     ~modCalcJD();
 
 public slots:

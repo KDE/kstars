@@ -36,7 +36,7 @@ public:
      * @p parent pointer to the parent SkyComposite object
      * name is the name of the subclass
      */
-    Ecliptic( SkyComposite *parent );
+    explicit Ecliptic( SkyComposite *parent );
 
     virtual void draw( SkyPainter *skyp );
     virtual void drawCompassLabels();

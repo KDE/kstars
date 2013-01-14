@@ -30,7 +30,7 @@ class ThumbnailPicker;
 class ThumbnailEditorUI : public QFrame, public Ui::ThumbnailEditor {
     Q_OBJECT
 public:
-    ThumbnailEditorUI( QWidget *parent );
+    explicit ThumbnailEditorUI( QWidget *parent );
 };
 
 class ThumbnailEditor : public KDialog

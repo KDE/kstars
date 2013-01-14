@@ -27,7 +27,7 @@
 class EquirectangularProjector : public Projector
 {
 public:
-    EquirectangularProjector(const ViewParams& p);
+    explicit EquirectangularProjector(const ViewParams& p);
     virtual SkyMap::Projection type() const;
     virtual double radius() const;
     virtual bool unusablePoint( const QPointF& p) const;

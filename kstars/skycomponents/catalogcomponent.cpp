@@ -51,10 +51,10 @@ void CatalogComponent::loadData() {
 
     QList < QPair <int, QString> > names;
 
-    KStars::Instance()->data()->catalogdb()->GetAllObjects(m_catName,
-                                                           m_ObjectList,
-                                                           names,
-                                                           this);
+    KStarsData::Instance()->catalogdb()->GetAllObjects(m_catName,
+                                                       m_ObjectList,
+                                                       names,
+                                                       this);
     for (int iter = 0; iter < names.size(); iter++) {
         if (names.at(iter).first <= SkyObject::TYPE_UNKNOWN) {
             if (!objectNames(names.at(iter).first).contains(names.at(iter).second))
@@ -63,7 +63,7 @@ void CatalogComponent::loadData() {
     }
 
     CatalogData loaded_catalog_data;
-    KStars::Instance()->data()->catalogdb()->GetCatalogData(m_catName, loaded_catalog_data);
+    KStarsData::Instance()->catalogdb()->GetCatalogData(m_catName, loaded_catalog_data);
     m_catPrefix = loaded_catalog_data.prefix;
     m_catColor = loaded_catalog_data.color;
     m_catFluxFreq = loaded_catalog_data.fluxfreq;

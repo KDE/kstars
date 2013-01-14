@@ -41,7 +41,7 @@ class SkyLabeler;
 class SolarSystemComposite : public SkyComposite
 {
 public:
-    SolarSystemComposite( SkyComposite *parent );
+    explicit SolarSystemComposite( SkyComposite *parent );
     ~SolarSystemComposite();
 
     KSPlanet* earth() { return m_Earth; }

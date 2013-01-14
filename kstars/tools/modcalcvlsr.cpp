@@ -17,6 +17,8 @@
 
 #include "modcalcvlsr.h"
 
+#include <QPointer>
+
 #include <KGlobal>
 #include <KLocale>
 #include <kfiledialog.h>
@@ -90,15 +92,16 @@ void modCalcVlsr::slotFindObject() {
 }
 
 void modCalcVlsr::slotLocation() {
-    LocationDialog ld( this );
+    QPointer<LocationDialog> ld( new LocationDialog( this ) );
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted && ld ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoPlace = newGeo;
             LocationButton->setText( geoPlace->fullName() );
         }
     }
+    delete ld;
 
     slotCompute();
 }

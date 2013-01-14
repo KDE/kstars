@@ -32,7 +32,7 @@ class QSortFilterProxyModel;
 class FindDialogUI : public QFrame, public Ui::FindDialog {
     Q_OBJECT
 public:
-    FindDialogUI( QWidget *parent=0 );
+    explicit FindDialogUI( QWidget *parent=0 );
 };
 
 /**@class FindDialog
@@ -50,7 +50,7 @@ public:
     /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
      * Signals and Slots.  Runs initObjectList().
      */
-    FindDialog( QWidget* parent = 0 );
+    explicit FindDialog( QWidget* parent = 0 );
 
     /** Destructor */
     virtual ~FindDialog();

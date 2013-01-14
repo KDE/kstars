@@ -29,7 +29,7 @@
 class LogEdit : public KTextEdit {
     Q_OBJECT
 public:
-    LogEdit( QWidget *parent=0 );
+    explicit LogEdit( QWidget *parent=0 );
     ~LogEdit() {}
 
 signals:

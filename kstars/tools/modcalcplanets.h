@@ -33,7 +33,7 @@ class modCalcPlanets : public QFrame, public Ui::modCalcPlanetsDlg  {
     Q_OBJECT
 
 public:
-    modCalcPlanets(QWidget *p);
+    explicit modCalcPlanets(QWidget *p);
     ~modCalcPlanets();
 
 public slots:

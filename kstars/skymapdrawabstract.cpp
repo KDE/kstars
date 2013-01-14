@@ -300,7 +300,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 
 
 void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd, bool scale ) {
-    SkyQPainter p(m_SkyMap, pd); // FIXME: Really, we should be doing this differently. We shouldn't be passing m_SkyMap, but rather, this widget.
+    SkyQPainter p( m_SkyMap, pd );
     p.begin();
     p.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
@@ -311,19 +311,25 @@ void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd, bool scale ) {
 
 void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
 {
+    bool vectorStarState;
+    vectorStarState = painter->getVectorStars();
+    painter->setVectorStars( true ); // Since we are exporting an image, we may use vector stars without worrying about time
     painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
     if(scale) {
         //scale sky image to fit paint device
+        kDebug() << "Scaling true while exporting Sky Image";
         double xscale = double(painter->device()->width()) / double(m_SkyMap->width());
         double yscale = double(painter->device()->height()) / double(m_SkyMap->height());
         double scale = qMin(xscale, yscale);
+        kDebug() << "xscale: " << xscale << "yscale: " << yscale << "chosen scale: " << scale;
         painter->scale(scale, scale);
     }
 
     painter->drawSkyBackground();
     m_KStarsData->skyComposite()->draw(painter);
     drawOverlays(*painter);
+    painter->setVectorStars( vectorStarState ); // Restore the state of the painter
 }
 
 void SkyMapDrawAbstract::calculateFPS()

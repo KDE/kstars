@@ -26,7 +26,7 @@ class rguider : public QWidget
     Q_OBJECT
 
 public:
-    rguider(Ekos::Guide *parent = 0);
+    explicit rguider(Ekos::Guide *parent = 0);
     ~rguider();
 
     void guide( void );

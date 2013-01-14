@@ -51,7 +51,7 @@ class SkyMapDrawAbstract {
      *@short Constructor that sets data and m_SkyMap, and initializes
      * the FPS counters.
      */
-    SkyMapDrawAbstract( SkyMap *sm );
+    explicit SkyMapDrawAbstract( SkyMap *sm );
 
     // *********************** "IMPURE" VIRTUAL METHODS ******************* //
     // NOTE: The following methods are implemented using native
