@@ -150,7 +150,6 @@ set(libkstarstools_SRCS
 	tools/whatsinteresting/wiview.cpp
 	tools/whatsinteresting/modelmanager.cpp
 	tools/whatsinteresting/skyobjitem.cpp
-	tools/whatsinteresting/wiusersettings.cpp
 	tools/whatsinteresting/wilpsettings.cpp
 	tools/whatsinteresting/wiequipsettings.cpp
 	tools/whatsinteresting/obsconditions.cpp
@@ -217,7 +216,6 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
-	tools/whatsinteresting/wiusersettings.ui
 	tools/whatsinteresting/wilpsettings.ui
 	tools/whatsinteresting/wiequipsettings.ui
         )

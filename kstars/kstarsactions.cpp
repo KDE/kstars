@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDialog>
+#include <QDockWidget>
 #include <QPointer>
 
 #include <kdebug.h>
@@ -77,7 +78,6 @@
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
 #include "tools/whatsinteresting/wiview.h"
-#include "tools/whatsinteresting/wiusersettings.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiequipsettings.h"
 #include "tools/skycalendar.h"

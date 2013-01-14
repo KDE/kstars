@@ -46,7 +46,6 @@ class DriverManager;
 class AltVsTime;
 class WUTDialog;
 class WIView;
-class WIUserSettings;
 class WILPSettings;
 class WIEquipSettings;
 class ObsConditions;
@@ -666,7 +665,6 @@ private:
     WILPSettings *wiLPSettings;
     WIEquipSettings *wiEquipSettings;
     ObsConditions *wiObsConditions;
-    WIUserSettings *wiWiz;
     QDockWidget *wiDock;
     SkyCalendar *skycal;
     ScriptBuilder *sb;
