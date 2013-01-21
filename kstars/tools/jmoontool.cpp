@@ -58,10 +58,10 @@ JMoonTool::JMoonTool(QWidget *parent)
     colGn = QColor(Qt::cyan);
     colCa = QColor(Qt::green);
 
-    QLabel *labIo = new QLabel( "Io", page );
-    QLabel *labEu = new QLabel( "Europa", page );
-    QLabel *labGn = new QLabel( "Ganymede", page );
-    QLabel *labCa = new QLabel( "Callisto", page );
+    QLabel *labIo = new QLabel( i18n("Io"), page );
+    QLabel *labEu = new QLabel( i18n("Europa"), page );
+    QLabel *labGn = new QLabel( i18n("Ganymede"), page );
+    QLabel *labCa = new QLabel( i18n("Callisto"), page );
 
     labIo->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
     labEu->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
