@@ -47,6 +47,7 @@
 #include "simclock.h"
 #include "Options.h"
 #include "imageexporter.h"
+#include "skycomponents/constellationboundarylines.h"
 
 // INDI includes
 #include <config-kstars.h>
@@ -462,9 +463,10 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     stream.setAutoFormatting( true );
     stream.writeStartDocument();
     stream.writeStartElement( "object" );
-    stream.writeAttribute( "Name", target->name() );
-    stream.writeAttribute( "Alt_Name", target->name2() );
-    stream.writeAttribute( "Long_Name", target->longname() );
+    stream.writeTextElement( "Name", target->name() );
+    stream.writeTextElement( "Alt_Name", target->name2() );
+    stream.writeTextElement( "Long_Name", target->longname() );
+    stream.writeTextElement( "Constellation", KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( target ) );
     stream.writeTextElement( "RA_HMS", target->ra().toHMSString() );
     stream.writeTextElement( "Dec_DMS", target->dec().toDMSString() );
     stream.writeTextElement( "RA_J2000_HMS", target->ra0().toHMSString() );
@@ -493,7 +495,7 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     else if ( dso ) {
         stream.writeTextElement( "Catalog", dso->catalog() );
         stream.writeTextElement( "Major_Axis", QString::number( dso->a() ) );
-        stream.writeTextElement( "Minor_Axis", QString::number( dso->b() ) );
+        stream.writeTextElement( "Minor_Axis", QString::number( dso->a() * dso->e() ) );
     }
     stream.writeEndElement(); // object
     stream.writeEndDocument();
