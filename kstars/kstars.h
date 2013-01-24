@@ -452,6 +452,9 @@ public Q_SLOTS:
     /** Apply new settings and redraw skymap */
     void slotApplyConfigChanges();
 
+    /** Apply new settings for WI */
+    void slotApplyWIConfigChanges();
+
     /** Called when zoom level is changed. Enables/disables zoom
      *  actions and updates status bar. */
     void slotZoomChanged();

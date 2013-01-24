@@ -294,7 +294,7 @@ void KStars::slotWISettings()
 
     KConfigDialog* dialog = new KConfigDialog(this, "wisettings", Options::self());
 
-    connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyConfigChanges()));
+    connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyWIConfigChanges()));
     connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
 
     wiLPSettings = new WILPSettings(this);
@@ -541,6 +541,11 @@ void KStars::slotApplyConfigChanges() {
     kstarsData->skyComposite()->setCurrentCulture(  kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
     kstarsData->skyComposite()->reloadCLines();
     kstarsData->skyComposite()->reloadCNames();
+}
+
+void KStars::slotApplyWIConfigChanges() {
+    Options::self()->writeConfig();
+    applyConfig();
 }
 
 void KStars::slotSetTime() {
