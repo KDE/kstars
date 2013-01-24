@@ -22,19 +22,38 @@
 
 class KStars;
 
+/**
+ * \class WIEquipSettings
+ * \brief User interface for "Equipment Type and Parameters" page in WI settings dialog
+ * \author Samikshan Bairagya
+ */
 class WIEquipSettings : public QFrame, public Ui::WIEquipSettings
 {
     Q_OBJECT
 public:
+    /**
+     * \brief Constructor
+     */
     WIEquipSettings(KStars *ks);
 
 private:
     KStars *m_Ks;
-public slots:
+
+private slots:
+    /**
+     * \brief private slot - Equipment type selected - Telescope
+     */
     void slotTelescopeCheck(bool on);
+
+    /**
+     * \brief private slot - Equipment type selected - Binoculars
+     */
     void slotBinocularsCheck(bool on);
+
+    /**
+     * \brief private slot - No equipment type selected
+     */
     void slotNoEquipCheck(bool on);
-    void slotSetTelType(int type);
 };
 
 #endif

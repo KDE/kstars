@@ -25,7 +25,6 @@ WIEquipSettings::WIEquipSettings(KStars* ks): QFrame(ks), m_Ks(ks)
     connect(kcfg_TelescopeCheck, SIGNAL(toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
     connect(kcfg_BinocularsCheck, SIGNAL(toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
     connect(kcfg_NoEquipCheck, SIGNAL(toggled(bool)), this, SLOT(slotNoEquipCheck(bool)));
-    connect(telescopeType, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSetTelType(int)));
 }
 
 void WIEquipSettings::slotTelescopeCheck(bool on)
@@ -76,9 +75,4 @@ void WIEquipSettings::slotNoEquipCheck(bool on)
         telescopeType->setEnabled(true);
         telTypeText->setEnabled(true);
     }
-}
-
-void WIEquipSettings::slotSetTelType(int type)
-{
-    Options::setTelescopeType(type);
 }
