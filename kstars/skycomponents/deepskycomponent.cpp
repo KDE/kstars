@@ -98,6 +98,10 @@ void DeepSkyComponent::loadData()
         ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
 
+        QString suffix = line.at( 5 );
+        if ( suffix  == " " )
+            suffix = QString(); // Empty string for no suffix
+
         //coordinates
         rah = line.mid( 6, 2 ).toInt();
         ram = line.mid( 8, 2 ).toInt();
@@ -163,16 +167,16 @@ void DeepSkyComponent::loadData()
         QString snum;
         if ( cat=="IC" || cat=="NGC" ) {
             snum.setNum( ingc );
-            name = cat + ' ' + snum;
+            name = cat + ' ' + snum + suffix;
         } else if ( cat=="M" ) {
             snum.setNum( imess );
             name = cat + ' ' + snum;
             if ( cat2=="NGC" ) {
                 snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
+                name2 = cat2 + ' ' + snum + suffix;
             } else if ( cat2=="IC" ) {
                 snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
+                name2 = cat2 + ' ' + snum + suffix;
             } else {
                 name2.clear();
             }
