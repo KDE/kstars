@@ -1,0 +1,127 @@
+## KStars TODO list:  updated August 2004
+## Announce interest in working on these on kstars-devel@kde.org
+## suggest new items on the same list or at http://bugs.kde.org
+
+
+1. Bug reports to be resolved:
+
+- 69818: Empty Sky on PPC 
+
+- 71434: Date boxes too small [cannot reproduce]
+
+- 77564: Sun and other planets overlay in dumped image [cannot reproduce]
+
+- 81303: KStars crashes with segfault after loading
+
+- 85322: Cannot start INDI service [cannot reproduce]
+
+
+2. Other Required Fixes:
+
+- Improve opaque ground polygon
+
+- Fix custom catalogs, make it *much* easier to add custom objects.
+
+- UI file for Location dialog (and others?)
+
+- "Engage Tracking" menu/toolbar action jumps to previous tracked object
+
+- INDI device manager: Close button instead of Ok/Cancel
+
+- ExtDatePicker highlights wrong day for year<2000 (correct day selected,
+	just highlighting is wrong)
+
+- OpsDialog: zoomed-out faint limit not restricted to be <= zoomed-in limit
+
+- OpsDialog: child widgets should disable when parent deselected:
+	   Stars, Asteroids, Comets, CNames, MW, Hide obj.
+
+- OpsDialog: Remove All Trails button does nothing
+
+- OpsDialog: modifying the Hide Objects timestep should trigger Apply button
+
+- AltVsTime: can add custom object more than once, because coords are 
+	re-precessed
+
+- Details: Messier object with no long name display M name twice
+
+- Details: "Edit Link" button should allow link text to be changed
+
+- Details: Log window: get rid of Save button; text should silently autosave
+
+- ScriptBuilder: Does not warn if Save As target already exists
+
+- ScriptBuilder: Sometimes, opening a script file sets UnsavedChanges
+
+- Removing a User Label does not cause it to disappear immediately
+
+- Showing star mag label, but not name label, prepends "star" to label
+
+
+3.  Wishlist Items
+
+- 51299: Marking of important points on celestial lines
+
+- 63369: Display multiple views [Low priority]
+
+- 66177: Screen saver mode
+
+- 68529: Occultation detection
+
+- 77748: Show Magelanic Cloud contours
+
+- 78068: Option to startup with clock paused
+
+- 79671: Ability to add individual custom objects or "pushpin" markers
+
+- 81617: Ability to save and reload "view profiles"
+
+- 81760: Add "Goto" button to Details/WUT
+
+- 82946: Include Constellation in object details
+
+- 83125: Add new cities in Sweden
+
+
+4.  New Features
+
+- Almanac tool (sun events, moon events, planet events, etc)
+
+- Observing list tool (under development by Jeff Woods)
+
+- Solar system viewer: more interactive; independent clock; include minor bodies
+
+- JMoons tool: show dates rather than day offset; show position of moons at t0
+
+- Countour lines for nebulae
+
+- Alternative sky-projection schemes
+
+- Indicate binarity/variability of stars on map?
+
+- DCOP functions for overlay drawing of text and lines
+
+- add light grey "dd:mm:ss" text to dmsBoxes, which disappears when it gets focus
+
+- Better rendering of comets and asteroids
+
+
+5.  Large projects:
+- OpenGL rendering
+
+- Add more planet satellites
+
+- Add Earth satellites (man-made)
+
+- Update moon position code to Meeus 1998.
+
+
+6.  Ever-present needs
+- Translations
+
+- Improve documentation
+
+- More AstroInfo articles
+
+- More internet links
+
