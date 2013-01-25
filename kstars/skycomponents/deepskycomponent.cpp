@@ -235,7 +235,7 @@ void DeepSkyComponent::loadData()
 }
 
 void DeepSkyComponent::mergeSplitFiles() {
-    //If user has downloaded the Steinicke NGC/IC catalog, then it is 
+    //If user has downloaded the Steinicke NGC/IC catalog, then it is
     //split into multiple files.  Concatenate these into a single file.
     QString firstFile = KStandardDirs::locateLocal("appdata", "ngcic01.dat");
     if ( ! QFile::exists( firstFile ) ) return;
@@ -334,7 +334,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
-    if ( lgz <= 0.75 * lgmax ) 
+    if ( lgz <= 0.75 * lgmax )
         maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
     m_zoomMagLimit = maglim;
 
@@ -374,7 +374,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
                  ( mag < (float)maglim || obj->isCatalogIC() ) )
             {
-    
+
                 bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
                 if ( drawn  && !( m_hideLabels || mag > labelMagLim ) )
                     addLabel( proj->toScreen(obj), obj );
@@ -419,7 +419,7 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
     return nameHash[ name.toLower() ];
 }
 
-void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
+void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )
 {
     for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); ++it )
     {
