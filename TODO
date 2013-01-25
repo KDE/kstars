@@ -11,9 +11,6 @@
 - Massimiliano's bug on the Mailing List -- Hipparcos epoch is not
    J2000.0
 
-- KStars shows two NGC 4945 entries in the find dialog, and they both
-   lead to the wrong place.
-
 - Wrong moon phases, at least for May 2013, in the Moon Phase Calendar
 
 - M 17 position is off
