@@ -76,8 +76,11 @@ void DeepSkyComponent::loadData()
     sequence.append(qMakePair(QString("ID"), KSParser::D_INT));
     widths.append(4);
 
+    sequence.append(qMakePair(QString("suffix"), KSParser::D_QSTRING));
+    widths.append(1);
+
     sequence.append(qMakePair(QString("RA_H"), KSParser::D_INT));
-    widths.append(3);
+    widths.append(2);
 
     sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT));
     widths.append(2);
@@ -138,6 +141,7 @@ void DeepSkyComponent::loadData()
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
     deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
+    kDebug() << "Loading NGC/IC objects";
 
     QHash<QString,QVariant> row_content;
     while (deep_sky_parser.HasNextRow()) {
@@ -165,6 +169,10 @@ void DeepSkyComponent::loadData()
 
         ingc = row_content["ID"].toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
+
+        QString suffix = row_content["suffix"].toString(); // multipliticity suffixes, eg: the 'A' in NGC 4945A
+
+        Q_ASSERT( suffix.isEmpty() || ( suffix.at( 0 ) >= QChar( 'A' ) && suffix.at( 0 ) <= QChar( 'Z' ) ) || (suffix.at( 0 ) >= QChar( 'a' ) && suffix.at( 0 ) <= QChar( 'z' ) ) );
 
         //coordinates
         int rah = row_content["RA_H"].toInt();
@@ -237,16 +245,13 @@ void DeepSkyComponent::loadData()
         QString snum;
         if (cat=="IC" || cat=="NGC") {
             snum.setNum(ingc);
-            name = cat + ' ' + snum;
+            name = cat + ' ' + ( ( suffix == 0 ) ? snum : ( snum + suffix ) );
         } else if (cat == "M") {
             snum.setNum( imess );
-            name = cat + ' ' + snum;
-            if (cat2 == "NGC") {
+            name = cat + ' ' + snum; // Note: Messier has no suffixes
+            if (cat2 == "NGC" || cat2 == "IC") {
                 snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
-            } else if (cat2 == "IC") {
-                snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
+                name2 = cat2 + ' ' + ( ( suffix == 0 ) ? snum : ( snum + suffix ) );
             } else {
                 name2.clear();
             }
