@@ -63,7 +63,7 @@ void DeepSkyComponent::loadData()
 {
 
     KStarsData* data = KStarsData::Instance();
-    //Check whether we need to concatenate a plit NGC/IC catalog
+    //Check whether we need to concatenate a split NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
 
@@ -152,14 +152,16 @@ void DeepSkyComponent::loadData()
         //  might result in crash for no reason.
         // n.b. We also allow non-NGC/IC objects which have a blank iflag
         */
-        if ( iflag == "I" ) cat = "IC";
-        else if ( iflag == "N" ) cat = "NGC";
 
         float mag(1000.0);
         int type, ingc, imess(-1), pa;
         int pgc, ugc;
         QString con, ss, name, name2, longname;
         QString cat2;
+
+        // Designation
+        if ( iflag == "I" ) cat = "IC";
+        else if ( iflag == "N" ) cat = "NGC";
 
         ingc = row_content["ID"].toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
@@ -402,7 +404,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
-    if ( lgz <= 0.75 * lgmax ) 
+    if ( lgz <= 0.75 * lgmax )
         maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
     m_zoomMagLimit = maglim;
 
@@ -442,7 +444,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
                  ( mag < (float)maglim || obj->isCatalogIC() ) )
             {
-    
+
                 bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
                 if ( drawn  && !( m_hideLabels || mag > labelMagLim ) )
                     addLabel( proj->toScreen(obj), obj );
@@ -487,7 +489,7 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
     return nameHash[ name.toLower() ];
 }
 
-void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
+void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )
 {
     for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); ++it )
     {
@@ -602,11 +604,11 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     // -jbb: this is the template of the non-indexed way
     //
     //foreach ( SkyObject *o, m_MessierList ) {
-    //	r = o->angularDistanceTo( p ).Degrees();
-    //	if ( r < rTry ) {
-    //		rTry = r;
-    //		oTry = o;
-    //	}
+    //  r = o->angularDistanceTo( p ).Degrees();
+    //  if ( r < rTry ) {
+    //          rTry = r;
+    //          oTry = o;
+    //  }
     //}
 
     rTry *= 0.5;
