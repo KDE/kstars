@@ -124,6 +124,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
         // Hence, the length of width_sequence_ is one less than
         // name_type_sequence_
         kWarning() << "Unequal fields and widths! Returning dummy row!";
+        Q_ASSERT( false ); // Make sure that in Debug mode, this condition generates an abort.
         return DummyRow();
     }
 

@@ -175,16 +175,20 @@ void DeepSkyComponent::loadData()
         int dm = row_content["Dec_m"].toInt();
         int ds = row_content["Dec_s"].toInt();
 
-        //Ignore lines with no coordinate values
+        if ( !( (0.0 <= rah && rah < 24.0) ||
+             (0.0 <= ram && ram < 60.0) ||
+             (0.0 <= ras && ras < 60.0) ||
+             (0.0 <= dd && dd <= 90.0) ||
+             (0.0 <= dm && dm < 60.0) ||
+               (0.0 <= ds && ds < 60.0) ) ) {
+          kDebug() << "Bad coordinates while processing NGC/IC object: " << cat << ingc;
+          kDebug() << "RA H:M:S = " << rah << ":" << ram << ":" << ras << "; Dec D:M:S = " << dd << ":" << dm << ":" << ds;
+          Q_ASSERT( false );
+        }
+
+        //Ignore lines with no coordinate values if not debugging
         if (rah==0 && ram==0 && ras==0)
             continue;
-
-        Q_ASSERT(0.0 <= rah && rah < 24.0);
-        Q_ASSERT(0.0 <= ram && ram < 60.0);
-        Q_ASSERT(0.0 <= ras && ras < 60.0);
-        Q_ASSERT(0.0 <= dd && dd <= 90.0);
-        Q_ASSERT(0.0 <= dm && dm < 60.0);
-        Q_ASSERT(0.0 <= ds && ds < 60.0);
 
         //B magnitude
         ss = row_content["BMag"].toString();
