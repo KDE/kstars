@@ -26,6 +26,7 @@
 #include <KDialog>
 
 class KSMoon;
+class KSSun;
 
 /**
  *@class MoonPhaseTool
@@ -59,6 +60,7 @@ public slots:
 
 private:
     KSMoon *m_Moon;
+    KSSun *m_Sun;
     KSNumbers *m_Num;
     unsigned short month;
     unsigned int year;

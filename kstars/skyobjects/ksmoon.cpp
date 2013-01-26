@@ -235,9 +235,12 @@ void KSMoon::findMagnitude(const KSNumbers*)
     setMag( MagArray[i] + (MagArray[j] - MagArray[i]) * k / 10 );
 }
 
-void KSMoon::findPhase() {
-    KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" );
-    Phase = (ecLong()- Sun->ecLong()).Degrees(); // Phase is obviously in degrees
+void KSMoon::findPhase( const KSSun *Sun ) {
+
+    if( !Sun )
+      Sun = ( const KSSun* ) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+
+    Phase = (ecLong() - Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
     iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
 
