@@ -17,6 +17,7 @@
 
 #include "moonphasecalendarwidget.h"
 
+#include "skyobjects/ksmoon.h"
 #include "skyobjects/ksplanet.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
