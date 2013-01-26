@@ -21,8 +21,8 @@
 #include <QWidget>
 #include <KDateTable>
 
-#include "skyobjects/ksmoon.h"
-
+class KSMoon;
+class KStarsDateTime;
 
 class MoonPhaseCalendar : public KDateTable {
 

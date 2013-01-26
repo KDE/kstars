@@ -21,10 +21,11 @@
 #include "widgets/genericcalendarwidget.h"
 #include "widgets/moonphasecalendarwidget.h"
 
-#include "skyobjects/ksmoon.h"
 #include "ksnumbers.h"
 
 #include <KDialog>
+
+class KSMoon;
 
 /**
  *@class MoonPhaseTool

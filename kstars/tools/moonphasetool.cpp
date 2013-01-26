@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "moonphasetool.h"
+#include "skyobjects/ksmoon.h"
 
 MoonPhaseTool::MoonPhaseTool(QWidget *parent)
     : KDialog( parent, Qt::Dialog )
