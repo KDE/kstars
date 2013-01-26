@@ -18,6 +18,7 @@
 #include "moonphasecalendarwidget.h"
 
 #include "skyobjects/ksmoon.h"
+#include "skyobjects/kssun.h"
 #include "skyobjects/ksplanet.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
@@ -37,9 +38,9 @@
 
 #include <cmath>
 
-MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, QWidget *parent ) :
+MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent ) :
     KDateTable(parent),
-    m_Moon(moon)
+    m_Moon(moon), m_Sun(sun)
 {
     // Populate moon images from disk into the hash
     numDayColumns = calendar()->daysInWeek( QDate::currentDate() );
@@ -296,8 +297,10 @@ unsigned short MoonPhaseCalendar::computeMoonPhase( const KStarsDateTime &date )
     KSPlanet earth( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
     earth.findPosition( &num );
 
+    m_Sun.findPosition( &num, 0, 0, &earth ); // Find position is overkill for this purpose. Wonder if it is worth making findGeocentricPosition public instead of protected.
     m_Moon.findGeocentricPosition( &num, &earth );
-    m_Moon.findPhase();
+
+    m_Moon.findPhase( &m_Sun );
 
     return m_Moon.getIPhase();
 

@@ -22,6 +22,7 @@
 #include <KDateTable>
 
 class KSMoon;
+class KSSun;
 class KStarsDateTime;
 
 class MoonPhaseCalendar : public KDateTable {
@@ -29,8 +30,14 @@ class MoonPhaseCalendar : public KDateTable {
     Q_OBJECT
 
  public:
-    
-    MoonPhaseCalendar( KSMoon &moon, QWidget *parent = 0 );
+
+    /**
+     * Constructor
+     * @param moon A reference to a (non-const) KSMoon object, that will be updated
+     * @param sun A reference to a (non-const) KSSun object, that will be updated
+     */
+    explicit MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent = 0 );
+
     ~MoonPhaseCalendar();
 
     /**
@@ -100,6 +107,7 @@ class MoonPhaseCalendar : public KDateTable {
     bool imagesLoaded;
 
     KSMoon &m_Moon;
+    KSSun &m_Sun;
 };
 
 #endif
