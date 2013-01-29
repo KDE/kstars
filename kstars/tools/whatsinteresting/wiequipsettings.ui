@@ -21,7 +21,7 @@
     <number>15</number>
    </property>
    <property name="bottomMargin">
-    <number>47</number>
+    <number>7</number>
    </property>
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="equipSettingsLayout">
@@ -38,8 +38,15 @@
       <number>6</number>
      </property>
      <property name="bottomMargin">
-      <number>56</number>
+      <number>9</number>
      </property>
+     <item>
+      <widget class="QRadioButton" name="eqManualSelectButton">
+       <property name="text">
+        <string>Specify equipment details manually</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -237,6 +244,16 @@
         </spacer>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="scopeDBSelectButton">
+       <property name="text">
+        <string>...or, select telescope from database</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="scopeListWidget"/>
      </item>
     </layout>
    </item>

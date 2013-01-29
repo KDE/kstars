@@ -19,6 +19,7 @@
 #define WI_EQUIP_SETTINGS_H
 
 #include "ui_wiequipsettings.h"
+#include "oal/scope.h"
 
 class KStars;
 
@@ -32,12 +33,23 @@ class WIEquipSettings : public QFrame, public Ui::WIEquipSettings
     Q_OBJECT
 public:
     /**
+     * \enum ScopeRoles User-defined roles for scope item
+     */
+    enum ScopeItemRoles {Vendor = Qt::UserRole + 4, Model, Aperture, FocalLength, Type};
+
+    /**
      * \brief Constructor
      */
     WIEquipSettings(KStars *ks);
 
 private:
+    /**
+     * \brief Populates scope list widget in UI with list of telescopes from KStars userdb.
+     */
+    void populateScopeListWidget();
+
     KStars *m_Ks;
+    QList<OAL::Scope *> m_ScopeList;
 
 private slots:
     /**
@@ -54,6 +66,21 @@ private slots:
      * \brief private slot - No equipment type selected
      */
     void slotNoEquipCheck(bool on);
+
+    /**
+     * \brief private slot - Telescope selected from KStars userdb
+     */
+    void slotScopeSelected(QListWidgetItem *scopeItem);
+
+//     /**
+//      * \brief private slot - Manually specify equipment
+//      */
+//     void slotEqManualSelect(bool value);
+
+//     /**
+//      * \brief private slot - Select telescope from database.
+//      */
+//     void slotScopeDBSelect(bool value);
 };
 
 #endif

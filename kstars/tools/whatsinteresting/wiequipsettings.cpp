@@ -17,14 +17,38 @@
 
 #include "wiequipsettings.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "Options.h"
 
 WIEquipSettings::WIEquipSettings(KStars* ks): QFrame(ks), m_Ks(ks)
 {
     setupUi(this);
+    populateScopeListWidget();
+
     connect(kcfg_TelescopeCheck, SIGNAL(toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
     connect(kcfg_BinocularsCheck, SIGNAL(toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
     connect(kcfg_NoEquipCheck, SIGNAL(toggled(bool)), this, SLOT(slotNoEquipCheck(bool)));
+    connect(scopeListWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(slotScopeSelected(QListWidgetItem *)));
+//     connect(eqManualSelectButton, SIGNAL(toggled(bool)), this, SLOT(slotEqManualSelect(bool)));
+//     connect(scopeDBSelectButton, SIGNAL(toggled(bool)), this, SLOT(slotScopeDBSelect(bool)));
+}
+
+void WIEquipSettings::populateScopeListWidget()
+{
+    ///Get telescope list from KStars user database.
+    KStars::Instance()->data()->userdb()->GetAllScopes(m_ScopeList);
+    foreach(OAL::Scope *scope, m_ScopeList)
+    {
+        QListWidgetItem *scopeItem = new QListWidgetItem;
+        scopeItem->setText(scope->vendor());
+        scopeItem->setData(Vendor, scope->vendor());
+        scopeItem->setData(Model, scope->model());
+        scopeItem->setData(Aperture, scope->aperture());
+        scopeItem->setData(FocalLength, scope->focalLength());
+        scopeItem->setData(Type, scope->type());
+
+        scopeListWidget->addItem(scopeItem);
+    }
 }
 
 void WIEquipSettings::slotTelescopeCheck(bool on)
@@ -75,4 +99,9 @@ void WIEquipSettings::slotNoEquipCheck(bool on)
         telescopeType->setEnabled(true);
         telTypeText->setEnabled(true);
     }
+}
+
+void WIEquipSettings::slotScopeSelected(QListWidgetItem* scopeItem)
+{
+    Options::setAperture(scopeItem->data(Aperture).toDouble());
 }
