@@ -24,13 +24,13 @@ WIEquipSettings::WIEquipSettings(KStars* ks): QFrame(ks), m_Ks(ks)
 {
     setupUi(this);
     populateScopeListWidget();
+    scopeListWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
     connect(kcfg_TelescopeCheck, SIGNAL(toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
     connect(kcfg_BinocularsCheck, SIGNAL(toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
     connect(kcfg_NoEquipCheck, SIGNAL(toggled(bool)), this, SLOT(slotNoEquipCheck(bool)));
-    connect(scopeListWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(slotScopeSelected(QListWidgetItem *)));
-//     connect(eqManualSelectButton, SIGNAL(toggled(bool)), this, SLOT(slotEqManualSelect(bool)));
-//     connect(scopeDBSelectButton, SIGNAL(toggled(bool)), this, SLOT(slotScopeDBSelect(bool)));
+    connect(scopeListWidget, SIGNAL(itemClicked(QListWidgetItem *)), this,
+            SLOT(slotScopeSelected(QListWidgetItem *)));
 }
 
 void WIEquipSettings::populateScopeListWidget()
@@ -56,15 +56,11 @@ void WIEquipSettings::slotTelescopeCheck(bool on)
     if (on)
     {
         kcfg_NoEquipCheck->setEnabled(false);
-        telescopeType->setEnabled(true);
-        telTypeText->setEnabled(true);
     }
     else
     {
         if (!kcfg_BinocularsCheck->isChecked())
             kcfg_NoEquipCheck->setEnabled(true);
-        telescopeType->setEnabled(false);
-        telTypeText->setEnabled(false);
     }
 }
 
@@ -85,23 +81,24 @@ void WIEquipSettings::slotNoEquipCheck(bool on)
     {
         kcfg_TelescopeCheck->setEnabled(false);
         kcfg_BinocularsCheck->setEnabled(false);
-        kcfg_Aperture->setEnabled(false);
-        apertureText->setEnabled(false);
-        telescopeType->setEnabled(false);
-        telTypeText->setEnabled(false);
     }
     else
     {
         kcfg_TelescopeCheck->setEnabled(true);
         kcfg_BinocularsCheck->setEnabled(true);
-        kcfg_Aperture->setEnabled(true);
-        apertureText->setEnabled(true);
-        telescopeType->setEnabled(true);
-        telTypeText->setEnabled(true);
     }
 }
 
 void WIEquipSettings::slotScopeSelected(QListWidgetItem* scopeItem)
 {
-    Options::setAperture(scopeItem->data(Aperture).toDouble());
+    vendorText->setText(scopeItem->data(Vendor).toString());
+    modelText->setText(scopeItem->data(Model).toString());
+    apertureText->setText(scopeItem->data(Aperture).toString());
+
+    double telAperture = scopeItem->data(Aperture).toDouble();
+    double binoAperture = kcfg_BinocularsAperture->value();
+    if (kcfg_BinocularsCheck->checkState() == Qt::Unchecked)
+        Options::setAperture(telAperture);
+    else             //If both Binoculars and Telescope available then select bigger aperture
+        Options::setAperture(telAperture > binoAperture ? telAperture : binoAperture);
 }

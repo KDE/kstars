@@ -50,6 +50,7 @@ private:
 
     KStars *m_Ks;
     QList<OAL::Scope *> m_ScopeList;
+    double m_Aperture;                 ///Aperture of equipment to use
 
 private slots:
     /**
@@ -71,16 +72,6 @@ private slots:
      * \brief private slot - Telescope selected from KStars userdb
      */
     void slotScopeSelected(QListWidgetItem *scopeItem);
-
-//     /**
-//      * \brief private slot - Manually specify equipment
-//      */
-//     void slotEqManualSelect(bool value);
-
-//     /**
-//      * \brief private slot - Select telescope from database.
-//      */
-//     void slotScopeDBSelect(bool value);
 };
 
 #endif
