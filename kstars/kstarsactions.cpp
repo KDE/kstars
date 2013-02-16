@@ -309,19 +309,22 @@ void KStars::slotShowWIView(int status)
     if (status == 0) return;          //Cancelled
 
     int bortle = Options::bortleClass();
-    int aperture = Options::aperture();
+    int aperture = wiEquipSettings->getAperture();
+
+    /* NOTE This part of the code dealing with equipment type is presently not required
+     * as WI does not differentiate between Telescope and Binoculars. It only needs the
+     * aperture of the equipment whichever available. However this is kept as a part of
+     * the code as support to be utilised in the future.
+     */
     ObsConditions::Equipment equip = Options::noEquipCheck()
     ? (ObsConditions::None) : (Options::telescopeCheck()
     ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
     : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
 
-    ObsConditions::TelescopeType telType = (Options::telescopeType() == 0)
-                                           ? ObsConditions::Reflector : ObsConditions::Refractor;
+    ObsConditions::TelescopeType telType = wiEquipSettings->getTelType();
     //Update observing conditions for What's Interesting
     if (!wiObsConditions)
-    {
         wiObsConditions = new ObsConditions(bortle, aperture, equip, telType);
-    }
     else
         wiObsConditions->setObsConditions(bortle, aperture, equip, telType);
 

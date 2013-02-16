@@ -1197,14 +1197,6 @@
           <label>Availability of both telescope and binoculars</label>
           <default>false</default>
       </entry>
-      <entry name="Aperture" type="Double">
-          <label>Aperture of available equipment</label>
-          <default>30.0</default>
-      </entry>
-      <entry name="TelescopeType" type="UInt">
-          <label>Type of telescope: Reflector/Refractor</label>
-          <default>0</default>
-      </entry>
   </group>
   <group name="Ekos">
     <entry name="TelescopeDriver" type="String">

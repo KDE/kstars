@@ -19,6 +19,7 @@
 #define WI_EQUIP_SETTINGS_H
 
 #include "ui_wiequipsettings.h"
+#include "obsconditions.h"
 #include "oal/scope.h"
 
 class KStars;
@@ -35,12 +36,22 @@ public:
     /**
      * \enum ScopeRoles User-defined roles for scope item
      */
-    enum ScopeItemRoles {Vendor = Qt::UserRole + 4, Model, Aperture, FocalLength, Type};
+    enum ScopeItemRoles { Vendor = Qt::UserRole + 4, Model, Aperture, FocalLength, Type };
 
     /**
      * \brief Constructor
      */
     WIEquipSettings(KStars *ks);
+
+    /**
+     * \brief Inline method to return aperture
+     */
+    inline double getAperture() { return m_Aperture; }
+
+    /**
+     * \brief Inline method to return telescope type
+     */
+    inline ObsConditions::TelescopeType getTelType() { return m_TelType; }
 
 private:
     /**
@@ -50,7 +61,8 @@ private:
 
     KStars *m_Ks;
     QList<OAL::Scope *> m_ScopeList;
-    double m_Aperture;                 ///Aperture of equipment to use
+    double m_Aperture;                           ///Aperture of equipment to use
+    ObsConditions::TelescopeType m_TelType;      ///Type of telescope being used
 
 private slots:
     /**
@@ -72,6 +84,11 @@ private slots:
      * \brief private slot - Telescope selected from KStars userdb
      */
     void slotScopeSelected(QListWidgetItem *scopeItem);
+
+    /**
+     * \brief private slot - Add new telescope to KStars userdb
+     */
+    void slotSaveNewScope();
 };
 
 #endif
