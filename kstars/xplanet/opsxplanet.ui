@@ -254,7 +254,7 @@
               <string>Radius of the glare around the Sun.</string>
              </property>
              <property name="whatsThis">
-              <string>Draw a glare around the sun with with a radius of the specified value larger than the Sun.  The default value is 28.</string>
+              <string>Draw a glare around the sun with a radius of the specified value larger than the Sun.  The default value is 28.</string>
              </property>
             </widget>
            </item>
