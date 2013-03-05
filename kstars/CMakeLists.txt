@@ -478,7 +478,7 @@ if (INDI_FOUND)
   target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
 endif (INDI_FOUND)
 if (WCSLIB_FOUND)
-    target_link_libraries(kstars ${WCSLIB_LIBRARIES})
+    target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
 
 if( OPENGL_FOUND )
