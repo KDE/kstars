@@ -5,6 +5,9 @@
 1. Bug reports to be resolved:
 ------------------------------
 
+- KStars still crashes under certain conditions with "Export Sky
+   Image"
+
 2. Other required fixes:
 ------------------------
 

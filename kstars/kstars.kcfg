@@ -1008,7 +1008,7 @@
     </entry>
     <entry name="XplanetGlare" type="String">
       <label>Sun Glare</label>
-      <whatsthis>Draw a glare around the sun with with a radius of the specified value larger than the Sun.  The default value is 28.</whatsthis>
+      <whatsthis>Draw a glare around the sun with a radius of the specified value larger than the Sun.  The default value is 28.</whatsthis>
       <default>28</default>
     </entry>
     <entry name="XplanetRandom" type="Bool">
