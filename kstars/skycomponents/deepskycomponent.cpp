@@ -67,7 +67,6 @@ void DeepSkyComponent::loadData()
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
 
-    QList<KSParser::DataTypes> pattern;
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     QList<int> widths;
     sequence.append(qMakePair(QString("Flag"), KSParser::D_QSTRING));

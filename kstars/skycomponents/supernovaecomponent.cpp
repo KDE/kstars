@@ -62,41 +62,51 @@ void SupernovaeComponent::loadData()
     QStringList fields;
     dms ra, dec;
     float magnitude;
-    KSFileReader fileReader;
-    bool ok;
     kDebug()<<"Loading Supernovae data"<<endl;
-    if( !fileReader.open("supernovae.dat")) return;
     //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
+    
+    //SN     ,Host Galaxy     ,Date       , R.A.  , Decl.,   Offset  ,Mag.,  Disc. Ref.     ,      SN Position      ,  Posn. Ref.      ,Typ,  SN     ,Discoverer(s)
+    QList< QPair<QString,KSParser::DataTypes> > sequence;
+    sequence.append(qMakePair(QString("serialNo"),      KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("hostGalaxy"),    KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("date"),          KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("ra"),            KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("dec"),           KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("offset"),        KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("magnitude"),     KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("ignore1"),       KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("SNPosition"),    KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("ignore2"),       KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("type"),          KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("ignore3"),       KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("discoverers"),   KSParser::D_QSTRING));
 
-    while (fileReader.hasMoreLines())
-    {
-        line=fileReader.readLine();
+    QString file_name = KStandardDirs::locate("appdata",
+                                               QString("supernovae.dat"));
+    KSParser snParser(file_name, '#', sequence);
+
+    QHash<QString, QVariant> row_content;
+    while (snParser.HasNextRow()){
         Supernova *sup=0;
-        //kDebug()<<line[0]<<" "<<line.size()<<endl;
-        if(line[0]=='#' || line.size()<10) continue;
-        fields=line.split(',');
-        serialNo=fields.at(0);
-        hostGalaxy=fields.at(1);
-        date=fields.at(2);
+        row_content = snParser.ReadNextRow();
 
-        ra=dms(fields.at(3),false);
-        dec=dms(fields.at(4));
+        serialNo    = row_content["serialNo"].toString();
+        hostGalaxy  = row_content["hostGalaxy"].toString();
+        date        = row_content["date"].toString();
+        ra          = dms(row_content["ra"].toString(), false);
+        dec         = dms(row_content["dec"].toString());
+        offset      = row_content["offset"].toString();
+        magnitude   = row_content["magnitude"].toFloat();
+        SNPosition  = row_content["SNPosition"].toString();
+        type        = row_content["type"].toString();
+        discoverers = row_content["discoverers"].toString();
 
-        offset=fields.at(5);
-
-        if(fields.at(6).isEmpty())
-            magnitude=99;
-        else
-            magnitude=fields.at(6).toFloat(&ok);
-
-        SNPosition=fields.at(8);
-        type=fields.at(10);
-        discoverers=fields.at(12);
+        if (magnitude == KSParser::EBROKEN_FLOAT)
+            magnitude = 99.9;
 
         sup=new Supernova(ra, dec, date, magnitude, serialNo, type, hostGalaxy, offset, discoverers);
-
         if (!m_ObjectList.empty())
         {
             if ( findByName(sup->name() ) == 0 )
