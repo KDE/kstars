@@ -57,6 +57,7 @@ void WIEquipSettings::populateScopeListWidget()
 
         scopeListWidget->addItem(scopeItem);
     }
+    if (scopeListWidget->count() == 0) return;
     scopeListWidget->setCurrentItem(scopeListWidget->item(0));
     vendorText->setText(scopeListWidget->item(0)->data(Vendor).toString());
     modelText->setText(scopeListWidget->item(0)->data(Model).toString());
