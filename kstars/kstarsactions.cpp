@@ -89,10 +89,8 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "ekos/ekosmanager.h"
 #include "indi/telescopewizardprocess.h"
 #include "indi/opsindi.h"
-#include "ekos/opsekos.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
 #endif
@@ -107,7 +105,8 @@
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
 #ifdef HAVE_INDI_H
-//#include "ekos/ekos.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/opsekos.h"
 #endif
 #endif
 
@@ -452,8 +451,11 @@ void KStars::slotViewOps() {
     opsindi = new OpsINDI (this);
     dialog->addPage(opsindi, i18n("INDI"), "kstars");
 
+    #ifdef HAVE_CFITSIO_H
     opsekos = new OpsEkos(this);
     dialog->addPage(opsekos, i18n("Ekos"), "kstars");
+    #endif
+
     #endif
 
 #ifdef HAVE_XPLANET

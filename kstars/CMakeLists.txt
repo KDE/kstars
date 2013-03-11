@@ -53,6 +53,7 @@ if (INDI_FOUND)
     indi/telescopewizard.ui
     )
 
+if (CFITSIO_FOUND)
    set(ekosui_SRCS
       ekos/opsekos.ui
       ekos/ekosmanager.ui
@@ -78,6 +79,7 @@ if (INDI_FOUND)
       ekos/guide/scroll_graph.cpp
       ekos/guide/vect.cpp
    )
+endif(CFITSIO_FOUND)
 
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
@@ -445,7 +447,7 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
 kde4_add_ui_files(kstars_SRCS
-       ${indiui_SRCS} ${ekosui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+       ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui  skycomponents/notifyupdatesui.ui
 )
