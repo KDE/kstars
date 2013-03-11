@@ -31,6 +31,7 @@ class TestCSVParser: public QObject {
   ~TestCSVParser();
  private slots:
   void CSVMixedInputs();
+  void CSVQuotesInQuotes();
   void CSVEmptyRow();
   void CSVNoRow();
   void CSVIgnoreHasNextRow();

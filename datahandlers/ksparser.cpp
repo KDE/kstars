@@ -254,21 +254,24 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
           QList <QString> queue;
           iter_string = *iter;
 
-          if (iter_string.indexOf("\"") != -1) {
+          if (iter_string.indexOf("\"") == 0) {  // if (quote mark is the first character)
+              iter_string = (iter_string).remove(0,1);  // remove the quote at the start
               while (iter_string.lastIndexOf('\"') != (iter_string.length()-1) &&
-                      iter != separated.constEnd()) {
-                  queue.append((iter_string).remove('\"') + delimiter_);
+                      iter != separated.constEnd()) {  // handle stuff between parent quotes
+                  queue.append((iter_string));
                   ++iter;
                   iter_string = *iter;
               }
-              queue.append(iter_string.remove('\"'));
+              iter_string.chop(1);  // remove the quote at the end
+              queue.append(iter_string);
           } else {
-              queue.append(iter_string.remove('\"'));
+              queue.append(iter_string);
           }
 
           QString col_result;
           foreach(const QString &join, queue)
-              col_result += join;
+              col_result += (join + delimiter_);
+          col_result.chop(1);  // remove extra delimiter
           quoteCombined.append(col_result);
           ++iter;
       }
