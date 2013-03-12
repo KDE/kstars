@@ -1197,6 +1197,10 @@
           <label>Availability of both telescope and binoculars</label>
           <default>false</default>
       </entry>
+      <entry name="BinocularsAperture" type="Double">
+          <label>Aperture of available binocular</label>
+          <default>40.0</default>
+      </entry>
   </group>
   <group name="Ekos">
     <entry name="TelescopeDriver" type="String">
