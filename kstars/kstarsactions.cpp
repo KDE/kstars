@@ -290,6 +290,12 @@ void KStars::slotWUT() {
 
 void KStars::slotWISettings()
 {
+    if (wi && !wiDock->isVisible())
+    {
+        slotShowWIView(1);
+        return;
+    }
+
     if (KConfigDialog::showDialog("wisettings")) return;
 
     KConfigDialog* dialog = new KConfigDialog(this, "wisettings", Options::self());
@@ -344,7 +350,10 @@ void KStars::slotShowWIView(int status)
         wiDock->setVisible(true);
     }
     else
+    {
         wi->updateModels(wiObsConditions);
+        wiDock->setVisible(true);
+    }
 }
 
 void KStars::slotCalendar() {
