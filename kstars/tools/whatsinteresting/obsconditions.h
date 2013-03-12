@@ -41,7 +41,7 @@ public:
      * \enum TelescopeType
      * Telescope Type (Reflector/Refractor)
      */
-    enum TelescopeType { Reflector = 0, Refractor };
+    enum TelescopeType { Reflector = 0, Refractor, Invalid };
 
     /**
      * \brief Constructor

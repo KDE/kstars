@@ -18,6 +18,8 @@
 #ifndef WI_EQUIP_SETTINGS_H
 #define WI_EQUIP_SETTINGS_H
 
+#define INVALID_APERTURE -1
+
 #include "ui_wiequipsettings.h"
 #include "obsconditions.h"
 #include "oal/scope.h"
@@ -47,6 +49,11 @@ public:
      * \brief Inline method to return aperture
      */
     inline double getAperture() { return m_Aperture; }
+
+    /**
+     * \brief Set aperture to use
+     */
+    void setAperture();
 
     /**
      * \brief Inline method to return telescope type

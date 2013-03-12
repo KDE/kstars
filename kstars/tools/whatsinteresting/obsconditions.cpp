@@ -31,6 +31,9 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Teles
         case Refractor:
             m_tParam = 0.9;
             break;
+        case Invalid:
+            m_tParam = -1; //invalid value
+            break;
     }
     setLimMagnitude();
 }

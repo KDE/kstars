@@ -108,13 +108,6 @@ void WIEquipSettings::slotScopeSelected(QListWidgetItem* scopeItem)
     modelText->setText(scopeItem->data(Model).toString());
     apertureText->setText(scopeItem->data(Aperture).toString());
 
-    double telAperture = scopeItem->data(Aperture).toDouble();
-    double binoAperture = kcfg_BinocularsAperture->value();
-    if (kcfg_BinocularsCheck->checkState() == Qt::Unchecked)
-        m_Aperture = telAperture;
-    else             //If both Binoculars and Telescope available then select bigger aperture
-        m_Aperture = telAperture > binoAperture ? telAperture : binoAperture;
-
     if (scopeItem->data(Type).toString() == "Reflector")
         m_TelType = ObsConditions::Reflector;
     else if (scopeItem->data(Type).toString() == "Reflector")
@@ -126,4 +119,28 @@ void WIEquipSettings::slotSaveNewScope()
     KStars::Instance()->data()->userdb()->AddScope(modelLineEdit->text(), vendorLineEdit->text(), driverComboBox->currentText(),
                                                    typeComboBox->currentText(), focalLenSpinBox->value(), apertureSpinBox->value());
     populateScopeListWidget();       //Reload scope list widget
+}
+
+void WIEquipSettings::setAperture()
+{
+    double telAperture = scopeListWidget->currentItem()->data(Aperture).toDouble();
+    double binoAperture = kcfg_BinocularsAperture->value();
+
+    if (!Options::telescopeCheck() && !Options::binocularsCheck())
+    {
+        m_Aperture = INVALID_APERTURE;
+    }
+    else if (!Options::telescopeCheck())
+    {
+        m_Aperture = binoAperture;
+    }
+    else if (!Options::binocularsCheck())
+    {
+        m_Aperture = telAperture;
+    }
+    else
+    {
+        //If both Binoculars and Telescope available then select bigger aperture
+        m_Aperture = telAperture > binoAperture ? telAperture : binoAperture;
+    }
 }
