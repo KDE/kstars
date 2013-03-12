@@ -61,7 +61,7 @@ void WIEquipSettings::populateScopeListWidget()
     scopeListWidget->setCurrentItem(scopeListWidget->item(0));
     vendorText->setText(scopeListWidget->item(0)->data(Vendor).toString());
     modelText->setText(scopeListWidget->item(0)->data(Model).toString());
-    apertureText->setText(scopeListWidget->item(0)->data(Aperture).toString());
+    apertureText->setText(scopeListWidget->item(0)->data(Aperture).toString().append(" mm"));
 }
 
 void WIEquipSettings::slotTelescopeCheck(bool on)
@@ -106,7 +106,7 @@ void WIEquipSettings::slotScopeSelected(QListWidgetItem* scopeItem)
 {
     vendorText->setText(scopeItem->data(Vendor).toString());
     modelText->setText(scopeItem->data(Model).toString());
-    apertureText->setText(scopeItem->data(Aperture).toString());
+    apertureText->setText(scopeItem->data(Aperture).toString().append(" mm"));
 
     if (scopeItem->data(Type).toString() == "Reflector")
         m_TelType = ObsConditions::Reflector;
