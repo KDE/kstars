@@ -58,10 +58,11 @@ void WIEquipSettings::populateScopeListWidget()
         scopeListWidget->addItem(scopeItem);
     }
     if (scopeListWidget->count() == 0) return;
-    scopeListWidget->setCurrentItem(scopeListWidget->item(0));
+
     vendorText->setText(scopeListWidget->item(0)->data(Vendor).toString());
     modelText->setText(scopeListWidget->item(0)->data(Model).toString());
     apertureText->setText(scopeListWidget->item(0)->data(Aperture).toString().append(" mm"));
+    scopeListWidget->setCurrentItem(scopeListWidget->item(0));
 }
 
 void WIEquipSettings::slotTelescopeCheck(bool on)
@@ -104,6 +105,7 @@ void WIEquipSettings::slotNoEquipCheck(bool on)
 
 void WIEquipSettings::slotScopeSelected(QListWidgetItem* scopeItem)
 {
+    if (!scopeItem) return;
     vendorText->setText(scopeItem->data(Vendor).toString());
     modelText->setText(scopeItem->data(Model).toString());
     apertureText->setText(scopeItem->data(Aperture).toString().append(" mm"));
@@ -123,24 +125,48 @@ void WIEquipSettings::slotSaveNewScope()
 
 void WIEquipSettings::setAperture()
 {
-    double telAperture = scopeListWidget->currentItem()->data(Aperture).toDouble();
-    double binoAperture = kcfg_BinocularsAperture->value();
+    if (scopeListWidget->count() == 0)
+    {
+        if (Options::binocularsCheck())
+        {
+            m_Aperture = kcfg_BinocularsAperture->value();
+            return;
+        }
+        else
+        {
+            m_Aperture = INVALID_APERTURE;
+            return;
+        }
+    }
 
     if (!Options::telescopeCheck() && !Options::binocularsCheck())
     {
         m_Aperture = INVALID_APERTURE;
     }
-    else if (!Options::telescopeCheck())
+    else if (!Options::telescopeCheck())    //No telescope available, but binoculars available
     {
-        m_Aperture = binoAperture;
+        m_Aperture = kcfg_BinocularsAperture->value();
     }
-    else if (!Options::binocularsCheck())
+    else if (!Options::binocularsCheck())   //No binoculars available, but telescope available
     {
-        m_Aperture = telAperture;
+        if (scopeListWidget->count() == 0)
+        {
+                m_Aperture = INVALID_APERTURE;
+                return;
+        }
+        else
+            m_Aperture = scopeListWidget->currentItem()->data(Aperture).toDouble();
     }
-    else
+    else                                    //Both Telescope and Binoculars available
     {
+        if (scopeListWidget->count() == 0)
+        {
+            m_Aperture = kcfg_BinocularsAperture->value();
+            return;
+        }
         //If both Binoculars and Telescope available then select bigger aperture
+        double telAperture = scopeListWidget->currentItem()->data(Aperture).toDouble();
+        double binoAperture = kcfg_BinocularsAperture->value();
         m_Aperture = telAperture > binoAperture ? telAperture : binoAperture;
     }
 }

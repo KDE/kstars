@@ -36,6 +36,8 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Teles
             break;
     }
     setLimMagnitude();
+
+    kDebug()<<"Aperture value being used:"<<m_Aperture;
 }
 
 ObsConditions::~ObsConditions() {}
@@ -75,7 +77,7 @@ double ObsConditions::getTrueMagLim()
 //     return 4.12 + 2.5 * log10( pow(aperture,2)*t ); //Taking optimum magnification into consideration
 
     ///If there is no equipment available then return limiting magnitude for naked-eye
-    if (m_Equip == None) return m_LM;
+    if (m_Equip == None || m_Aperture == -1) return m_LM;
 
     /**
      * This is a more traditional formula which does not take the
@@ -109,4 +111,6 @@ void ObsConditions::setObsConditions(int bortle, double aperture, ObsConditions:
     m_Aperture = aperture;
     m_Equip = equip;
     m_TelType = telType;
+
+    kDebug()<<"Aperture value being used:"<<m_Aperture;
 }
