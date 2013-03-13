@@ -60,12 +60,12 @@ public:
      */
     inline ObsConditions::TelescopeType getTelType() { return m_TelType; }
 
-private:
     /**
      * \brief Populates scope list widget in UI with list of telescopes from KStars userdb.
      */
     void populateScopeListWidget();
 
+private:
     KStars *m_Ks;
     QList<OAL::Scope *> m_ScopeList;
     double m_Aperture;                           ///Aperture of equipment to use

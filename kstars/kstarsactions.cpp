@@ -296,7 +296,11 @@ void KStars::slotWISettings()
         return;
     }
 
-    if (KConfigDialog::showDialog("wisettings")) return;
+    if (KConfigDialog::showDialog("wisettings"))
+    {
+        wiEquipSettings->populateScopeListWidget();
+        return;
+    }
 
     KConfigDialog* dialog = new KConfigDialog(this, "wisettings", Options::self());
 
