@@ -268,7 +268,7 @@
                <item>
                 <widget class="QDoubleSpinBox" name="apertureSpinBox">
                  <property name="maximum">
-                  <double>9999.000000000000000</double>
+                  <double>2000.000000000000000</double>
                  </property>
                  <property name="singleStep">
                   <double>0.100000000000000</double>
@@ -296,7 +296,7 @@
                <item>
                 <widget class="QDoubleSpinBox" name="focalLenSpinBox">
                  <property name="maximum">
-                  <double>9999.989999999999782</double>
+                  <double>20000.000000000000000</double>
                  </property>
                  <property name="singleStep">
                   <double>0.010000000000000</double>
