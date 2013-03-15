@@ -7,6 +7,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <config-kstars.h>
+
 #include <string.h>
 
 #include <KMessageBox>
@@ -15,8 +17,11 @@
 
 #include <basedevice.h>
 
+#ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitscommon.h"
+#endif
+
 #include "clientmanager.h"
 #include "streamwg.h"
 #include "indiccd.h"
@@ -477,7 +482,9 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 
 CCD::~CCD()
 {
+#ifdef HAVE_CFITSIO_H
     delete (fv);
+#endif
     delete (streamWindow);
     delete (primaryChip);
     delete (guideChip);
@@ -755,6 +762,7 @@ void CCD::processBLOB(IBLOB* bp)
 
 void CCD::addFITSKeywords(QString filename)
 {
+#ifdef HAVE_CFITSIO_H
     int status=0;
 
     if (filter.isEmpty() == false)
@@ -780,6 +788,7 @@ void CCD::addFITSKeywords(QString filename)
 
         filter = "";
     }
+#endif
 }
 
 void CCD::FITSViewerDestroyed()
