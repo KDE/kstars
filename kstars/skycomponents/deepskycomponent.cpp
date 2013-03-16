@@ -244,13 +244,13 @@ void DeepSkyComponent::loadData()
         QString snum;
         if (cat=="IC" || cat=="NGC") {
             snum.setNum(ingc);
-            name = cat + ' ' + ( ( suffix == 0 ) ? snum : ( snum + suffix ) );
+	    name = cat + ' ' + ( ( suffix.isEmpty() ) ? snum : ( snum + suffix ) );
         } else if (cat == "M") {
             snum.setNum( imess );
             name = cat + ' ' + snum; // Note: Messier has no suffixes
             if (cat2 == "NGC" || cat2 == "IC") {
                 snum.setNum( ingc );
-                name2 = cat2 + ' ' + ( ( suffix == 0 ) ? snum : ( snum + suffix ) );
+		name2 = cat2 + ' ' + ( ( suffix.isEmpty() ) ? snum : ( snum + suffix ) );
             } else {
                 name2.clear();
             }
