@@ -42,6 +42,8 @@
 //QVector<SkyPoint *> StarObject::Trail;
 // END DEBUG
 
+#include <cmath>
+
 //----- Static Methods -----
 //
 double StarObject::reindexInterval( double pm )
@@ -265,6 +267,7 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms*, bo
 
 void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 {
+    static double pmms;
 
     // Old, Incorrect Proper motion Computation.  We retain this in a
     // comment because we might want to use it to come up with a
@@ -277,7 +280,9 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of
     // PM times the number of Julian millenia since J2000.0
 
-    if( pmMagnitudeSquared() * num->julianMillenia() * num->julianMillenia() < 1. ) {
+    pmms = pmMagnitudeSquared();
+
+    if( isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
         // Ignore corrections
         *ra = ra0().Degrees();
         *dec = dec0().Degrees();
@@ -316,7 +321,7 @@ void StarObject::JITupdate()
     if ( updateNumID != data->updateNumID() ) {
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
-        Q_ASSERT( isfinite( lastPrecessJD ) );
+        Q_ASSERT( std::isfinite( lastPrecessJD ) );
         if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 // TODO: Make this 0.0005 a constant / define it
             || ( lastPrecessJD - data->updateNum()->getJD() ) <= -0.0005
             || Options::alwaysRecomputeCoordinates()

@@ -326,7 +326,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
     // places. Please be wary of changing one without changing the
     // other.
 
-    Q_ASSERT( isfinite( lastPrecessJD ) );
+    Q_ASSERT( std::isfinite( lastPrecessJD ) );
 
     if( Options::useRelativistic() && checkBendLight() ) {
         recompute = true;
