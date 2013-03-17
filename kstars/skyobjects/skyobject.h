@@ -399,7 +399,7 @@ private:
 protected:
     /**Set the object's magnitude.
      * @param m the object's magnitude. */
-    inline void setMag( float m ) { sortMagnitude = m < 30.0 ? m : 99.0 ; }
+    inline void setMag( float m ) { sortMagnitude = m < 36.0 ? m : NaN::f; } // Updating faintest sane magnitude to 36.0 (faintest visual magnitude visible with E-ELT, acc. to Wikipedia on Apparent Magnitude.)
 
     /**Set the object's primary name.
      * @param name the object's primary name */
