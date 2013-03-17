@@ -179,7 +179,7 @@ public:
     /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
     inline double pmMagnitude()
     {
-        double cosDec = dec().cos();
+        double cosDec = dec0().cos();
         return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
     }
 
@@ -189,7 +189,7 @@ public:
      */
     inline double pmMagnitudeSquared()
     {
-        double metric_weighted_pmRA = dec().cos() * pmRA();
+        double metric_weighted_pmRA = dec0().cos() * pmRA();
         return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
     }
 
