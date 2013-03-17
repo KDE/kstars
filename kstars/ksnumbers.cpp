@@ -157,7 +157,52 @@ const int KSNumbers::amp[NUTTERMS][4] = {
 KSNumbers::KSNumbers( long double jd ){
     K.setD( 20.49552 / 3600. );  //set the constant of aberration
     P.setD( 102.94719 ); // ecliptic longitude of earth's perihelion, source: http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html; FIXME: We should correct this, as it changes with time. See the commit log for an order of magnitude estimate of the error.
+    computeConstantValues();
     updateValues( jd );
+}
+
+void KSNumbers::computeConstantValues() {
+
+    // Compute those nubmers that need to be computed only
+    // once.
+    //
+    // Ideally, these should be computed at compile-time. When we
+    // upgrade to C++11, we can make this function static and
+    // constexpr (maybe?) But even otherwise, the overhead is very
+    // negligible.
+
+    //Compute Precession Matrices from B1950 to 1984 using Newcomb formulae
+    XB.setD( 0.217697 );
+    YB.setD( 0.189274 );
+    ZB.setD( 0.217722 );
+
+    XB.SinCos( SXB, CXB );
+    YB.SinCos( SYB, CYB );
+    ZB.SinCos( SZB, CZB );
+
+    //P1B is used to precess from 1984 to B1950:
+
+    P1B[0][0] = CXB*CYB*CZB - SXB*SZB;
+    P1B[1][0] = CXB*CYB*SZB + SXB*CZB;
+    P1B[2][0] = CXB*SYB;
+    P1B[0][1] = -1.0*SXB*CYB*CZB - CXB*SZB;
+    P1B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
+    P1B[2][1] = -1.0*SXB*SYB;
+    P1B[0][2] = -1.0*SYB*CZB;
+    P1B[1][2] = -1.0*SYB*SZB;
+    P1B[2][2] = CYB;
+
+    //P2 is used to precess from B1950 to 1984 (it is the transpose of P1)
+    // FIXME: This can be optimized by taking the transpose of P1 instead of recomputing it from scratch
+    P2B[0][0] = CXB*CYB*CZB - SXB*SZB;
+    P2B[1][0] = -1.0*SXB*CYB*CZB - CXB*SZB;
+    P2B[2][0] = -1.0*SYB*CZB;
+    P2B[0][1] = CXB*CYB*SZB + SXB*CZB;
+    P2B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
+    P2B[2][1] = -1.0*SYB*SZB;
+    P2B[0][2] = CXB*SYB;
+    P2B[1][2] = -1.0*SXB*SYB;
+    P2B[2][2] = CYB;
 }
 
 KSNumbers::~KSNumbers(){
@@ -266,6 +311,7 @@ void KSNumbers::updateValues( long double jd ) {
 
     //P1 is used to precess from any epoch to J2000
     // FIXME: Is this a rotation matrix? If so, quaternions might be more efficient
+    // A: Yes, it has to be, because the inverse is the transpose, so the matrix is orthogonal 3x3
     P1[0][0] = CX*CY*CZ - SX*SZ;
     P1[1][0] = CX*CY*SZ + SX*CZ;
     P1[2][0] = CX*SY;
@@ -277,51 +323,16 @@ void KSNumbers::updateValues( long double jd ) {
     P1[2][2] = CY;
 
     //P2 is used to precess from J2000 to any other epoch (it is the transpose of P1)
-    // FIXME: This can be optimized by taking the transpose of P1 instead of recomputing it from scratch
-    P2[0][0] = CX*CY*CZ - SX*SZ;
-    P2[1][0] = -1.0*SX*CY*CZ - CX*SZ;
-    P2[2][0] = -1.0*SY*CZ;
-    P2[0][1] = CX*CY*SZ + SX*CZ;
-    P2[1][1] = -1.0*SX*CY*SZ + CX*CZ;
-    P2[2][1] = -1.0*SY*SZ;
-    P2[0][2] = CX*SY;
-    P2[1][2] = -1.0*SX*SY;
-    P2[2][2] = CY;
-
-    //Compute Precession Matrices from B1950 to 1984 using Newcomb formulae
-    // FIXME: These are constant matrices. They don't seem to need updating. It is not optimal to keep them here!
-    XB.setD( 0.217697 );
-    YB.setD( 0.189274 );
-    ZB.setD( 0.217722 );
-
-    XB.SinCos( SXB, CXB );
-    YB.SinCos( SYB, CYB );
-    ZB.SinCos( SZB, CZB );
-
-    //P1B is used to precess from 1984 to B1950:
-
-    P1B[0][0] = CXB*CYB*CZB - SXB*SZB;
-    P1B[1][0] = CXB*CYB*SZB + SXB*CZB;
-    P1B[2][0] = CXB*SYB;
-    P1B[0][1] = -1.0*SXB*CYB*CZB - CXB*SZB;
-    P1B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
-    P1B[2][1] = -1.0*SXB*SYB;
-    P1B[0][2] = -1.0*SYB*CZB;
-    P1B[1][2] = -1.0*SYB*SZB;
-    P1B[2][2] = CYB;
-
-    //P2 is used to precess from B1950 to 1984 (it is the transpose of P1)
-    // FIXME: This can be optimized by taking the transpose of P1 instead of recomputing it from scratch
-    P2B[0][0] = CXB*CYB*CZB - SXB*SZB;
-    P2B[1][0] = -1.0*SXB*CYB*CZB - CXB*SZB;
-    P2B[2][0] = -1.0*SYB*CZB;
-    P2B[0][1] = CXB*CYB*SZB + SXB*CZB;
-    P2B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
-    P2B[2][1] = -1.0*SYB*SZB;
-    P2B[0][2] = CXB*SYB;
-    P2B[1][2] = -1.0*SXB*SYB;
-    P2B[2][2] = CYB;
-
+    // FIXME: More optimization -- just use P1[j][i] instead of P2[i][j] in code
+    P2[0][0] = P1[0][0];
+    P2[1][0] = P1[0][1];
+    P2[2][0] = P1[0][2];
+    P2[0][1] = P1[1][0];
+    P2[1][1] = P1[1][1];
+    P2[2][1] = P1[1][2];
+    P2[0][2] = P1[2][0];
+    P2[1][2] = P1[2][1];
+    P2[2][2] = P1[2][2];
 
     // Mean longitudes for the planets. radians
     //
