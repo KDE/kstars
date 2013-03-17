@@ -213,6 +213,7 @@ void KSNumbers::updateValues( long double jd ) {
     M0.setD( M.Degrees() + C );
 
     //Obliquity of the Ecliptic
+    // FIXME: This can be optimized by using the fact that U^3 = U^2 * U, so we can reduce the number of multiplications
     double U = T/100.0;
     double dObliq = -4680.93*U - 1.55*U*U + 1999.25*U*U*U
                     - 51.38*U*U*U*U - 249.67*U*U*U*U*U
@@ -264,6 +265,7 @@ void KSNumbers::updateValues( long double jd ) {
     ZP.SinCos( SZ, CZ );
 
     //P1 is used to precess from any epoch to J2000
+    // FIXME: Is this a rotation matrix? If so, quaternions might be more efficient
     P1[0][0] = CX*CY*CZ - SX*SZ;
     P1[1][0] = CX*CY*SZ + SX*CZ;
     P1[2][0] = CX*SY;
@@ -275,6 +277,7 @@ void KSNumbers::updateValues( long double jd ) {
     P1[2][2] = CY;
 
     //P2 is used to precess from J2000 to any other epoch (it is the transpose of P1)
+    // FIXME: This can be optimized by taking the transpose of P1 instead of recomputing it from scratch
     P2[0][0] = CX*CY*CZ - SX*SZ;
     P2[1][0] = -1.0*SX*CY*CZ - CX*SZ;
     P2[2][0] = -1.0*SY*CZ;
@@ -286,7 +289,7 @@ void KSNumbers::updateValues( long double jd ) {
     P2[2][2] = CY;
 
     //Compute Precession Matrices from B1950 to 1984 using Newcomb formulae
-
+    // FIXME: These are constant matrices. They don't seem to need updating. It is not optimal to keep them here!
     XB.setD( 0.217697 );
     YB.setD( 0.189274 );
     ZB.setD( 0.217722 );
@@ -308,6 +311,7 @@ void KSNumbers::updateValues( long double jd ) {
     P1B[2][2] = CYB;
 
     //P2 is used to precess from B1950 to 1984 (it is the transpose of P1)
+    // FIXME: This can be optimized by taking the transpose of P1 instead of recomputing it from scratch
     P2B[0][0] = CXB*CYB*CZB - SXB*SZB;
     P2B[1][0] = -1.0*SXB*CYB*CZB - CXB*SZB;
     P2B[2][0] = -1.0*SYB*CZB;
@@ -322,7 +326,7 @@ void KSNumbers::updateValues( long double jd ) {
     // Mean longitudes for the planets. radians
     //
 
-    // TODO Pasar a grados
+    // TODO Pasar a grados [Google Translate says "Jump to Degrees". --asimha]
     double LVenus   = 3.1761467+1021.3285546*T; // Venus
     double LMars    = 1.7534703+ 628.3075849*T; // Mars
     double LEarth   = 6.2034809+ 334.0612431*T; // Earth

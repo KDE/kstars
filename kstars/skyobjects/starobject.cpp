@@ -92,7 +92,7 @@ StarObject::StarObject( double r, double d, float m,
     QByteArray spt = sptype.toAscii();
     SpType[0] = spt[0];
     SpType[1] = spt[1];
-    
+
     QString lname;
     if ( hasName() ) {
         lname = n;
@@ -103,7 +103,7 @@ StarObject::StarObject( double r, double d, float m,
         setName( gname() );
     }
 
-    HD = hd;    
+    HD = hd;
 
     setLongName(lname);
     updateID = updateNumID = 0;
@@ -128,7 +128,7 @@ StarObject* StarObject::clone() const
     return new StarObject(*this);
 }
 
-void StarObject::init( const starData *stardata ) 
+void StarObject::init( const starData *stardata )
 {
     double ra, dec;
     ra = stardata->RA / 1000000.0;
@@ -177,10 +177,10 @@ void StarObject::init( const starData *stardata )
 
 }
 
-void StarObject::init( const deepStarData *stardata ) 
+void StarObject::init( const deepStarData *stardata )
 {
     double ra, dec, BV_Index;
-  
+
     ra = stardata->RA / 1000000.0;
     dec = stardata->Dec / 100000.0;
     setType( SkyObject::STAR );
@@ -272,9 +272,9 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
     //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
-    // Proper Motion Correction should be implemented as motion along a great 
-    // circle passing through the given (ra0, dec0) in a direction of 
-    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of 
+    // Proper Motion Correction should be implemented as motion along a great
+    // circle passing through the given (ra0, dec0) in a direction of
+    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of
     // PM times the number of Julian millenia since J2000.0
 
     if( pmMagnitudeSquared() * num->julianMillenia() * num->julianMillenia() < 1. ) {
@@ -517,7 +517,7 @@ double StarObject::labelOffset() const {
 SkyObject::UID StarObject::getUID() const
 {
     // mag takes 10 bit
-    SkyObject::UID m = mag()*10; 
+    SkyObject::UID m = mag()*10;
     if( m < 0 ) m = 0;
 
     // Both RA & dec fits in 24-bits

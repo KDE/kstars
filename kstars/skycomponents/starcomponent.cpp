@@ -53,7 +53,7 @@
 StarComponent *StarComponent::pinstance = 0;
 
 StarComponent::StarComponent(SkyComposite *parent )
-    : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), 
+    : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0),
       starsLoaded(false), focusStar(NULL)
 {
     m_skyMesh = SkyMesh::Instance();
@@ -103,7 +103,7 @@ bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float t
 
 
 int StarComponent::loadDeepStarCatalogs() {
-    
+
     // Look for the basic unnamed star catalog to mag 8.0
     if( !addDeepStarCatalogIfExists( "unnamedstars.dat", -5.0, true ) )
         return 0;
@@ -119,7 +119,7 @@ int StarComponent::loadDeepStarCatalogs() {
     return 3;
 }
 
-//This function is empty for a reason; we override the normal 
+//This function is empty for a reason; we override the normal
 //update function in favor of JiT updates for stars.
 void StarComponent::update( KSNumbers*)
 {}
@@ -208,7 +208,7 @@ float StarComponent::zoomMagnitudeLimit() {
     /*
      Explanation for the following formula:
      --------------------------------------
-     Estimates from a sample of 125000 stars shows that, magnitude 
+     Estimates from a sample of 125000 stars shows that, magnitude
      limit vs. number of stars follows the formula:
        nStars = 10^(.45 * maglim + .95)
      (A better formula is available here: http://www.astro.uu.nl/~strous/AA/en/antwoorden/magnituden.html
@@ -220,7 +220,7 @@ float StarComponent::zoomMagnitudeLimit() {
      hence the formula. We've gathered together all the constants and set it to 3.5, so as to set the minimum
      possible value of maglim to 3.5
     */
-     
+
     //    float maglim = 4.444 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
 
     // Reducing the slope w.r.t zoom factor to avoid the extremely fast increase in star density with zoom
@@ -303,7 +303,7 @@ void StarComponent::draw( SkyPainter *skyp )
             // break loop if maglim is reached
             if ( mag > maglim )
                 break;
-                 
+
             if ( curStar->updateID != updateID )
                 curStar->JITupdate();
 
@@ -376,7 +376,7 @@ bool StarComponent::loadStaticData()
 
     // prepare to index stars to this date
     m_skyMesh->setKSNumbers( &m_reindexNum );
-        
+
     /* Open the data files */
     // TODO: Maybe we don't want to hardcode the filename?
     if((dataFile = dataReader.openFile("namedstars.dat")) == NULL) {
@@ -432,7 +432,7 @@ bool StarComponent::loadStaticData()
                 kDebug() << "FILE FORMAT ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
 
-            /* Swap Bytes when required */            
+            /* Swap Bytes when required */
             if(swapBytes)
                 byteSwap( &stardata );
 
@@ -461,18 +461,18 @@ bool StarComponent::loadStaticData()
             star->setNames( name, visibleName );
             star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             ++nstars;
-            
+
             if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
-                
+
             if ( ! name.isEmpty() ) {
                 objectNames(SkyObject::STAR).append( name );
             }
             if ( ! gname.isEmpty() && gname != name ) {
                 objectNames(SkyObject::STAR).append( star -> gname(false) );
             }
-                
+
             m_ObjectList.append( star );
-                
+
             m_starIndex->at( trixel )->append( star );
             double pm = star->pmMagnitude();
             for (int j = 0; j < m_highPMStars.size(); j++ ) {
@@ -482,6 +482,7 @@ bool StarComponent::loadStaticData()
 
             if( star->getHDIndex() != 0 )
                 m_HDHash.insert( star->getHDIndex(), star );
+
         }
 
     }
@@ -501,16 +502,16 @@ SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
 // Overrides ListComponent::findByName() to include genetive name and HD index also in the search
 SkyObject* StarComponent::findByName( const QString &name ) {
     foreach(SkyObject* o, m_ObjectList) {
-        if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
-             QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
-             QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 || 
+        if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 ||
+             QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 ||
+             QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 ||
              QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
             return o;
     }
     return 0;
 }
 
-void StarComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
+void StarComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )
 {
     for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); ++it )
     {
@@ -580,7 +581,7 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
             StarObject* star =  starList->at( i );
             if( !star ) continue;
             if ( star->mag() > m_zoomMagLimit ) continue;
-            
+
             double r = star->angularDistanceTo( p ).Degrees();
             if ( r < maxrad ) {
                 oBest = star;
@@ -619,7 +620,7 @@ void StarComponent::starsInAperture( QList<StarObject*> &list, const SkyPoint &c
 
     if( maglim < -28 )
         maglim = m_FaintMagnitude;
-    
+
     while ( region.hasNext() ) {
         Trixel currentRegion = region.next();
         StarList* starList = m_starIndex->at( currentRegion );
@@ -631,7 +632,7 @@ void StarComponent::starsInAperture( QList<StarObject*> &list, const SkyPoint &c
                 list.append( star );
         }
     }
-    
+
     // Add stars from the DeepStarComponents as well
     for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
         m_DeepStarComponents.at( i )->starsInAperture( list, center, radius, maglim );
@@ -705,13 +706,13 @@ bool StarComponent::verifySBLIntegrity() {
                 faintMag = block->getBrightMag();
             // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
             if( block->getBrightMag() != faintMag && ( block->getBrightMag() - faintMag ) > 0.016) {
-                kDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag 
+                kDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag
                          << ", brightMag of block #" << i << " = " << block->getBrightMag();
                 integrity = false;
             }
             if( i > 1 && ( !block->prev ) )
                 kDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
-            if( block->prev && block->prev->parent == m_starBlockList[ trixel ] 
+            if( block->prev && block->prev->parent == m_starBlockList[ trixel ]
                 && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
                 kDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
                 integrity = false;
