@@ -179,7 +179,7 @@ public:
     /**
      *@return object's magnitude
      */
-    inline float mag( void ) const { return Magnitude; }
+    inline float mag( void ) const { return sortMagnitude; }
 
     /**
      *@return the object's position angle.  This is overridden in KSPlanetBase
@@ -394,12 +394,12 @@ private:
     AuxInfo *getAuxInfo();
 
     unsigned char Type;
-    float Magnitude;
+    float sortMagnitude; // This magnitude is used for sorting / making decisions about the visibility of an object. Should not be NaN.
 
 protected:
     /**Set the object's magnitude.
      * @param m the object's magnitude. */
-    inline void setMag( float m ) { Magnitude = m < 30.0 ? m : 99.0 ; }
+    inline void setMag( float m ) { sortMagnitude = m < 30.0 ? m : 99.0 ; }
 
     /**Set the object's primary name.
      * @param name the object's primary name */
