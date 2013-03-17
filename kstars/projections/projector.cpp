@@ -416,6 +416,8 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         Y = o->dec().radians();
     }
 
+    Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
+
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
     //Convert dX, Y coords to screen pixel coords, using GNU extension if available

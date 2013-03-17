@@ -310,6 +310,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 
     RA.setD( RA.Degrees() + dRA );
     Dec.setD( Dec.Degrees() + dDec );
+
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
@@ -345,6 +346,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
             bendlight();
         aberrate(num);
         lastPrecessJD = num->getJD();
+        Q_ASSERT( std::isfinite( RA.Degrees() ) && std::isfinite( Dec.Degrees() ) );
     }
 
     if ( lat || LST )
