@@ -29,6 +29,12 @@
 
 - JMoons tool: show dates rather than day offset; show position of moons at t0
 
+- More fine-grained lunar phases. We have too few images to give a
+  good representation of the lunar phase.
+
+- More information in moon phase calendar. Show also illuminated
+  fraction and magnitude, and indicate new moon and full moon.
+
 4. Larger New Feature Ideas
 ---------------------------
 
