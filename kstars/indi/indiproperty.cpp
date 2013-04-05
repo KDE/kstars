@@ -198,6 +198,8 @@ void INDI_P::buildSwitchGUI()
 
     if (guiType == PG_BUTTONS)
         groupB->setExclusive(true);
+    else if (guiType == PG_RADIO)
+        groupB->setExclusive(false);
 
     QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton *)));
 

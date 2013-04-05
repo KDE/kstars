@@ -219,6 +219,13 @@ void INDI_E::syncSwitch()
         }
         break;
 
+    case PG_RADIO:
+        if (sp->s == ISS_ON)
+            check_w->setChecked(true);
+        else
+            check_w->setChecked(false);
+        break;
+
     default:
         break;
 
