@@ -37,7 +37,6 @@ typedef enum
 #define ELEMENT_FULL_WIDTH	340
 #define MIN_SET_WIDTH		50
 #define MAX_SET_WIDTH		110
-#define MAXINDINAME		32
 #define MED_INDI_FONT		2
 #define MAX_LABEL_LENGTH	20
 
