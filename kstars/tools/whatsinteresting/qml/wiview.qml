@@ -963,6 +963,27 @@ Rectangle {
         }
     }
 
+    Image {
+        id: reloadIcon
+        x: 50
+        y: 529
+        width: 28
+        height: 28
+        anchors.verticalCenterOffset: 0
+        anchors.verticalCenter: backButton.verticalCenter
+        sourceSize.height: 40
+        sourceSize.width: 40
+        smooth: true
+        fillMode: Image.Stretch
+
+        source: "reloadIcon.png"
+
+        MouseArea {
+            id: reloadMouseArea
+            anchors.fill: parent
+        }
+    }
+
     states: [
         State {
             name: "base"
