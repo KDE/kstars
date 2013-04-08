@@ -12,7 +12,7 @@ import QtQuick 1.0
 Rectangle {
     id: container
     objectName: "containerObj"
-    width: 370
+    width: 376
     height: 575
     color: "#020518"
     anchors.fill: parent
@@ -34,7 +34,7 @@ Rectangle {
     Rectangle {
         id: base
         y: 89
-        width: 370
+        width: parent.width
         height: 385
         color: "transparent"
         radius: 12
@@ -488,7 +488,7 @@ Rectangle {
                             font.underline: false
                             font.italic: false
                             font.bold: true
-                            font.pixelSize: 12
+                            font.pixelSize: 11
                         }
 
                         Rectangle {
