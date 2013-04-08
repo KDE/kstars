@@ -25,7 +25,7 @@
 #include "kstandarddirs.h"
 #include "kdeclarative.h"
 
-WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs)
+WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
 {
     m_ModManager = new ModelManager(m_Obs);
 
@@ -61,6 +61,9 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
     QObject *settingsIconObj = m_BaseObj->findChild<QObject *>("settingsIconObj");
     connect(settingsIconObj, SIGNAL(settingsIconClicked()), this, SLOT(onSettingsIconClicked()));
 
+    QObject *reloadIconObj = m_BaseObj->findChild<QObject *>("reloadIconObj");
+    connect(reloadIconObj, SIGNAL(reloadIconClicked()), this, SLOT(onReloadIconClicked()));
+
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_BaseView->show();
 }
@@ -73,6 +76,7 @@ WIView::~WIView()
 
 void WIView::onCategorySelected(int type)
 {
+    m_CurCategorySelected = type;
     m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(type));
 }
 
@@ -129,6 +133,13 @@ void WIView::onSettingsIconClicked()
 {
     KStars *kstars = KStars::Instance();
     kstars->showWISettingsUI();
+}
+
+void WIView::onReloadIconClicked()
+{
+    updateModels(m_Obs);
+    if (m_CurCategorySelected >=0 && m_CurCategorySelected <= 5)
+        m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurCategorySelected));
 }
 
 void WIView::updateModels(ObsConditions* obs)

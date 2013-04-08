@@ -834,6 +834,18 @@ Rectangle {
                             target: settingsIcon
                             opacity: 0.200
                         }
+
+                        PropertyChanges {
+                            target: reloadMouseArea
+                            opacity: 1
+                            enabled: false
+                        }
+
+                        PropertyChanges {
+                            target: reloadIcon
+                            opacity: 0.200
+                        }
+
                         when: skyObjView.flipped
                     }
                 ]
@@ -903,25 +915,16 @@ Rectangle {
             onEntered: goBackForeground.opacity = 0.2
             onExited: goBackForeground.opacity = 0.0
             onClicked: {
-                if ( container.state == "soTypeSelected" )
-                {
-                    if ( !skyObjView.flipped )
-                    {
+                if ( container.state == "soTypeSelected" ) {
+                    if ( !skyObjView.flipped ) {
                         container.state = "base"
-                    }
-                    else if ( skyObjView.flipped )
-                    {
+                    } else if ( skyObjView.flipped ) {
                         skyObjView.flipped = false
                     }
-                }
-                else if ( container.state == "dsoTypeSelected" )
-                {
-                    if ( !skyObjView.flipped )
-                    {
+                } else if ( container.state == "dsoTypeSelected" ) {
+                    if ( !skyObjView.flipped ) {
                         container.state = "dsoAreaClicked"
-                    }
-                    else if ( skyObjView.flipped )
-                    {
+                    } else if ( skyObjView.flipped ) {
                         skyObjView.flipped = false
                     }
                 }
@@ -965,6 +968,7 @@ Rectangle {
 
     Image {
         id: reloadIcon
+        objectName: "reloadIconObj"
         x: 50
         y: 529
         width: 28
@@ -975,11 +979,23 @@ Rectangle {
         sourceSize.width: 40
         smooth: true
         fillMode: Image.Stretch
-
         source: "reloadIcon.png"
+
+        signal reloadIconClicked()
 
         MouseArea {
             id: reloadMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: reloadForeground.opacity = 0.2
+            onExited: reloadForeground.opacity = 0.0
+            onClicked: reloadIcon.reloadIconClicked()
+        }
+
+        Rectangle {
+            id: reloadForeground
+            radius: 5
+            opacity: 0
             anchors.fill: parent
         }
     }

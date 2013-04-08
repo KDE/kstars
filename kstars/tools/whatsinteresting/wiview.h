@@ -101,7 +101,15 @@ public slots:
       */
     void onDetailsButtonClicked();
 
+    /**
+     * \brief public slot - Open WI settings dialog.
+     */
     void onSettingsIconClicked();
+
+    /**
+     * \brief public slot - Reload list of visible sky-objects.
+     */
+    void onReloadIconClicked();
 
 private:
     QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
@@ -110,8 +118,9 @@ private:
     QDeclarativeView *m_BaseView;
     ObsConditions *m_Obs;
     ModelManager *m_ModManager;
-    SkyObjItem *m_CurSoItem;  ///Current sky-object item.
-    int m_CurIndex;           ///Index of current sky-object item in details-view.
+    SkyObjItem *m_CurSoItem;   ///Current sky-object item.
+    int m_CurIndex;            ///Index of current sky-object item in details-view.
+    int m_CurCategorySelected; ///Currently selected category from WI QML view
 };
 
 #endif
