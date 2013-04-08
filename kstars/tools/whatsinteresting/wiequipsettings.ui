@@ -68,7 +68,7 @@
          <number>5</number>
         </property>
         <item>
-         <widget class="QListWidget" name="scopeListWidget">
+         <widget class="QListWidget" name="kcfg_ScopeListWidget">
           <property name="minimumSize">
            <size>
             <width>160</width>

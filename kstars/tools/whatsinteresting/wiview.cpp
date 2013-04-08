@@ -138,8 +138,6 @@ void WIView::onSettingsIconClicked()
 void WIView::onReloadIconClicked()
 {
     updateModels(m_Obs);
-    if (m_CurCategorySelected >=0 && m_CurCategorySelected <= 5)
-        m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurCategorySelected));
 }
 
 void WIView::updateModels(ObsConditions* obs)
@@ -152,6 +150,9 @@ void WIView::updateModels(ObsConditions* obs)
     m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(3));
     m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(4));
     m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(5));
+
+    if (m_CurCategorySelected >=0 && m_CurCategorySelected <= 5)
+        m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurCategorySelected));
 }
 
 void WIView::loadDetailsView(SkyObjItem *soitem, int index)

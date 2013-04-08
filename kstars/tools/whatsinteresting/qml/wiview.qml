@@ -826,24 +826,22 @@ Rectangle {
 
                         PropertyChanges {
                             target: settingsMouseArea
-                            opacity: 1
                             enabled: false
                         }
 
                         PropertyChanges {
                             target: settingsIcon
-                            opacity: 0.200
+                            opacity: 0
                         }
 
                         PropertyChanges {
                             target: reloadMouseArea
-                            opacity: 1
                             enabled: false
                         }
 
                         PropertyChanges {
                             target: reloadIcon
-                            opacity: 0.200
+                            opacity: 0
                         }
 
                         when: skyObjView.flipped
@@ -1400,17 +1398,6 @@ Rectangle {
                 target: backButton
                 x: container.width - 105
             }
-
-            PropertyChanges {
-                target: settingsMouseArea
-                opacity: 1
-                enabled: false
-            }
-
-            PropertyChanges {
-                target: settingsIcon
-                opacity: 0.200
-            }
         },
         State {
             name: "dsoTypeSelected"
@@ -1505,17 +1492,6 @@ Rectangle {
             PropertyChanges {
                 target: nebText
                 color: "#e4800d"
-            }
-
-            PropertyChanges {
-                target: settingsMouseArea
-                opacity: 1
-                enabled: false
-            }
-
-            PropertyChanges {
-                target: settingsIcon
-                opacity: 0.200
             }
         }
     ]
