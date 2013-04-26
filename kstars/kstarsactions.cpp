@@ -1087,6 +1087,7 @@ void KStars::slotObsList() {
 }
 
 void KStars::slotEquipmentWriter() {
+    eWriter->loadEquipment();
     eWriter->show();
 }
 
