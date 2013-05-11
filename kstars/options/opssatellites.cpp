@@ -26,6 +26,7 @@
 #include "skycomponents/satellitescomponent.h"
 #include "satellitegroup.h"
 
+static const char *satgroup_strings_context = "Satellite group name";
 
 SatelliteSortFilterProxyModel::SatelliteSortFilterProxyModel( QObject* parent ): QSortFilterProxyModel( parent )
 {}
@@ -104,7 +105,7 @@ void OpsSatellites::updateListView()
         bool all_sat_unchecked = true;
         
         // Add the group
-        group_item = new QStandardItem( sat_group->name() );
+        group_item = new QStandardItem( i18nc( satgroup_strings_context, sat_group->name().toUtf8() ) );
         group_item->setCheckable( true );
         m_Model->appendRow( group_item );
         

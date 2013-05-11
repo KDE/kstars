@@ -205,6 +205,7 @@ void Guide::addST4(ISD::ST4 *newST4)
 
     ST4Driver = ST4List.at(0);
     ST4Combo->setCurrentIndex(0);
+
 }
 
 bool Guide::capture()
@@ -315,7 +316,11 @@ bool Guide::do_pulse( GuideDirection dir, int msecs )
 
 void Guide::newST4(int index)
 {
+    if (ST4List.empty() || index >= ST4List.count())
+        return;
+
     ST4Driver = ST4List.at(index);
+
 }
 
 double Guide::getReticleAngle()

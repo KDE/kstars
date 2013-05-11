@@ -397,7 +397,7 @@ void rguider::guide( void )
 	 // calc math. it tracks square
 	 pmath->do_processing();
 
-	 if( !isVisible() || !is_started )
+     if(!is_started )
 	 	 return;
 
      if (pmath->is_lost_star() && ++lost_star_try > 2)

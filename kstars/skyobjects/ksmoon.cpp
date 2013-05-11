@@ -221,7 +221,10 @@ void KSMoon::findMagnitude(const KSNumbers*)
     // This block of code to compute Moon magnitude (and the
     // relevant data put into ksplanetbase.h) was taken from
     // SkyChart v3 Beta
-    int p = floor( phase().Degrees() );
+    double phd = phase().Degrees();
+    if( isnan( phd ) ) // Avoid nanny phases.
+        return;
+    int p = floor( phd );
     if( p > 180 )
         p = p - 360;
     int i = p / 10;
@@ -232,9 +235,12 @@ void KSMoon::findMagnitude(const KSNumbers*)
     setMag( MagArray[i] + (MagArray[j] - MagArray[i]) * k / 10 );
 }
 
-void KSMoon::findPhase() {
-    KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" );
-    Phase = (ecLong()- Sun->ecLong()).Degrees(); // Phase is obviously in degrees
+void KSMoon::findPhase( const KSSun *Sun ) {
+
+    if( !Sun )
+      Sun = ( const KSSun* ) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+
+    Phase = (ecLong() - Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
     iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
 

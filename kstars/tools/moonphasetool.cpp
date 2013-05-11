@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "moonphasetool.h"
+#include "skyobjects/ksmoon.h"
+#include "skyobjects/kssun.h"
 
 MoonPhaseTool::MoonPhaseTool(QWidget *parent)
     : KDialog( parent, Qt::Dialog )
@@ -23,7 +25,8 @@ MoonPhaseTool::MoonPhaseTool(QWidget *parent)
     setButtons( 0 );
     KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
     m_Moon = new KSMoon;
-    mpc = new MoonPhaseCalendar( *m_Moon );
+    m_Sun = new KSSun;
+    mpc = new MoonPhaseCalendar( *m_Moon, *m_Sun );
     gcw = new GenericCalendarWidget( *mpc, this );
     setFixedSize( gcw->size() );
     setCaption( i18n("Moon Phase Calendar") );
@@ -32,5 +35,6 @@ MoonPhaseTool::MoonPhaseTool(QWidget *parent)
 
 MoonPhaseTool::~MoonPhaseTool() {
     delete m_Moon;
+    delete m_Sun;
     delete mpc;
 }

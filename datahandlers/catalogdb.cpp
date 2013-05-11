@@ -573,6 +573,10 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
       }
   }
 
+  // For backward compatibility of old catalogs. No delimiter -> assume space
+  if (delimiter == '\0')
+      delimiter = ' ';
+
   if (!foundDataColumns) {
       if (showerrs)
           errs.append(i18n("Parsing header: ") +

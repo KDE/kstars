@@ -63,11 +63,10 @@ void DeepSkyComponent::loadData()
 {
 
     KStarsData* data = KStarsData::Instance();
-    //Check whether we need to concatenate a plit NGC/IC catalog
+    //Check whether we need to concatenate a split NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
 
-    QList<KSParser::DataTypes> pattern;
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     QList<int> widths;
     sequence.append(qMakePair(QString("Flag"), KSParser::D_QSTRING));
@@ -76,8 +75,11 @@ void DeepSkyComponent::loadData()
     sequence.append(qMakePair(QString("ID"), KSParser::D_INT));
     widths.append(4);
 
+    sequence.append(qMakePair(QString("suffix"), KSParser::D_QSTRING));
+    widths.append(1);
+
     sequence.append(qMakePair(QString("RA_H"), KSParser::D_INT));
-    widths.append(3);
+    widths.append(2);
 
     sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT));
     widths.append(2);
@@ -138,6 +140,7 @@ void DeepSkyComponent::loadData()
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
     deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
+    kDebug() << "Loading NGC/IC objects";
 
     QHash<QString,QVariant> row_content;
     while (deep_sky_parser.HasNextRow()) {
@@ -152,8 +155,6 @@ void DeepSkyComponent::loadData()
         //  might result in crash for no reason.
         // n.b. We also allow non-NGC/IC objects which have a blank iflag
         */
-        if ( iflag == "I" ) cat = "IC";
-        else if ( iflag == "N" ) cat = "NGC";
 
         float mag(1000.0);
         int type, ingc, imess(-1), pa;
@@ -161,8 +162,16 @@ void DeepSkyComponent::loadData()
         QString con, ss, name, name2, longname;
         QString cat2;
 
+        // Designation
+        if ( iflag == "I" ) cat = "IC";
+        else if ( iflag == "N" ) cat = "NGC";
+
         ingc = row_content["ID"].toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
+
+        QString suffix = row_content["suffix"].toString(); // multipliticity suffixes, eg: the 'A' in NGC 4945A
+
+        Q_ASSERT( suffix.isEmpty() || ( suffix.at( 0 ) >= QChar( 'A' ) && suffix.at( 0 ) <= QChar( 'Z' ) ) || (suffix.at( 0 ) >= QChar( 'a' ) && suffix.at( 0 ) <= QChar( 'z' ) ) );
 
         //coordinates
         int rah = row_content["RA_H"].toInt();
@@ -173,16 +182,20 @@ void DeepSkyComponent::loadData()
         int dm = row_content["Dec_m"].toInt();
         int ds = row_content["Dec_s"].toInt();
 
-        //Ignore lines with no coordinate values
+        if ( !( (0.0 <= rah && rah < 24.0) ||
+             (0.0 <= ram && ram < 60.0) ||
+             (0.0 <= ras && ras < 60.0) ||
+             (0.0 <= dd && dd <= 90.0) ||
+             (0.0 <= dm && dm < 60.0) ||
+               (0.0 <= ds && ds < 60.0) ) ) {
+          kDebug() << "Bad coordinates while processing NGC/IC object: " << cat << ingc;
+          kDebug() << "RA H:M:S = " << rah << ":" << ram << ":" << ras << "; Dec D:M:S = " << dd << ":" << dm << ":" << ds;
+          Q_ASSERT( false );
+        }
+
+        //Ignore lines with no coordinate values if not debugging
         if (rah==0 && ram==0 && ras==0)
             continue;
-
-        Q_ASSERT(0.0 <= rah && rah < 24.0);
-        Q_ASSERT(0.0 <= ram && ram < 60.0);
-        Q_ASSERT(0.0 <= ras && ras < 60.0);
-        Q_ASSERT(0.0 <= dd && dd <= 90.0);
-        Q_ASSERT(0.0 <= dm && dm < 60.0);
-        Q_ASSERT(0.0 <= ds && ds < 60.0);
 
         //B magnitude
         ss = row_content["BMag"].toString();
@@ -231,16 +244,13 @@ void DeepSkyComponent::loadData()
         QString snum;
         if (cat=="IC" || cat=="NGC") {
             snum.setNum(ingc);
-            name = cat + ' ' + snum;
+	    name = cat + ' ' + ( ( suffix.isEmpty() ) ? snum : ( snum + suffix ) );
         } else if (cat == "M") {
             snum.setNum( imess );
-            name = cat + ' ' + snum;
-            if (cat2 == "NGC") {
+            name = cat + ' ' + snum; // Note: Messier has no suffixes
+            if (cat2 == "NGC" || cat2 == "IC") {
                 snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
-            } else if (cat2 == "IC") {
-                snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
+		name2 = cat2 + ' ' + ( ( suffix.isEmpty() ) ? snum : ( snum + suffix ) );
             } else {
                 name2.clear();
             }
@@ -402,7 +412,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
-    if ( lgz <= 0.75 * lgmax ) 
+    if ( lgz <= 0.75 * lgmax )
         maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
     m_zoomMagLimit = maglim;
 
@@ -442,7 +452,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
                  ( mag < (float)maglim || obj->isCatalogIC() ) )
             {
-    
+
                 bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
                 if ( drawn  && !( m_hideLabels || mag > labelMagLim ) )
                     addLabel( proj->toScreen(obj), obj );
@@ -487,7 +497,7 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
     return nameHash[ name.toLower() ];
 }
 
-void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
+void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )
 {
     for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); ++it )
     {
@@ -602,11 +612,11 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     // -jbb: this is the template of the non-indexed way
     //
     //foreach ( SkyObject *o, m_MessierList ) {
-    //	r = o->angularDistanceTo( p ).Degrees();
-    //	if ( r < rTry ) {
-    //		rTry = r;
-    //		oTry = o;
-    //	}
+    //  r = o->angularDistanceTo( p ).Degrees();
+    //  if ( r < rTry ) {
+    //          rTry = r;
+    //          oTry = o;
+    //  }
     //}
 
     rTry *= 0.5;

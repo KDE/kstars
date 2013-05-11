@@ -118,6 +118,41 @@
       <arg name="height" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="exportImage">
+      <arg name="filename" type="s" direction="in"/>
+      <arg name="width" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="exportImage">
+      <arg name="filename" type="s" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getDSSURL">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+    </method>
+    <method name="getDSSURL">
+      <arg type="s" direction="out"/>
+      <arg name="RA_J2000" type="d" direction="in"/>
+      <arg name="Dec_J2000" type="d" direction="in"/>
+    </method>
+    <method name="getObjectDataXML">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+    </method>
+    <method name="setApproxFOV">
+      <arg name="FOV_Degrees" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getSkyMapDimensions">
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="getObservingWishListObjectNames">
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="getObservingSessionPlanObjectNames">
+      <arg type="s" direction="out"/>
+    </method>
     <method name="printImage">
       <arg name="usePrintDialog" type="b" direction="in"/>
       <arg name="useChartColors" type="b" direction="in"/>
