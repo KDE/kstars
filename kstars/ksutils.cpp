@@ -27,7 +27,7 @@
 #include <kstandarddirs.h>
 #include <KUrl>
 
-#include <math.h>
+#include <cmath>
 
 bool KSUtils::openDataFile( QFile &file, const QString &s ) {
     QString FileName = KStandardDirs::locate( "appdata", s );

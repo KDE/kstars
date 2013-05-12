@@ -20,7 +20,7 @@
 
 #include <QList>
 
-#include <qstring.h>
+#include <QString>
 #include <klocale.h>
 
 class QPainter;

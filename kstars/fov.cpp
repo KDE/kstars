@@ -20,7 +20,7 @@
 
 #include <algorithm>
 
-#include <qpainter.h>
+#include <QPainter>
 #include <QTextStream>
 #include <QFile>
 #include <kdebug.h>

@@ -17,7 +17,7 @@
 
 #include "ksplanetbase.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QFile>
 #include <QPoint>

@@ -20,7 +20,7 @@
 #endif
 #include "skymap.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QCursor>
 #include <QBitmap>

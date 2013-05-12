@@ -18,8 +18,8 @@
 #ifndef DMS_H_
 #define DMS_H_
 
-#include <math.h>
-#include <qstring.h>
+#include <cmath>
+#include <QString>
 #include <kdebug.h>
 
 /**@class dms

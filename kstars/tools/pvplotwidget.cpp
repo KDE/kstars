@@ -16,7 +16,7 @@
 
 #include "pvplotwidget.h"
 
-#include <math.h> //for sqrt()
+#include <cmath> //for sqrt()
 
 #include <QApplication>
 #include <KPlotObject>

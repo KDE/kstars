@@ -24,7 +24,7 @@
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
 
-#include <math.h>
+#include <cmath>
 
 #include <QPointF>
 

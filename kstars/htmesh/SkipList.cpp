@@ -11,7 +11,7 @@
 
 #include <iostream> // cout
 #include <iomanip> // setw
-#include <stdlib.h> // rand(), drand48()
+#include <cstdlib> // rand(), drand48()
 
 #include "SkipListElement.h"
 #include "SkipList.h"

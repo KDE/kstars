@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "HTMesh.h"
 #include "MeshBuffer.h"

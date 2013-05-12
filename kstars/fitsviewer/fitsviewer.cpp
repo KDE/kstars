@@ -54,11 +54,11 @@
 #include <QUndoGroup>
 #include <QSignalMapper>
 
-#include <math.h>
+#include <cmath>
 #ifndef __MINGW32__
   #include <unistd.h>
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include <string.h>
 #include <errno.h>
 #ifndef __MINGW32__
