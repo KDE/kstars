@@ -511,17 +511,31 @@ void EkosManager::connectDevices()
          scope->Connect();
 
     if (ccd)
+    {
         ccd->Connect();
+
+        if (captureProcess)
+            captureProcess->setEnabled(true);
+    }
 
 
     if (guider && guider != ccd)
         guider->Connect();
 
+    if (guider && guideProcess)
+        guideProcess->setEnabled(true);
+
     if (filter && filter != ccd)
         filter->Connect();
 
     if (focuser)
+    {
         focuser->Connect();
+
+        if (focusProcess)
+            focusProcess->setEnabled(true);
+    }
+
 
     if (aux)
         aux->Connect();
@@ -542,17 +556,31 @@ void EkosManager::disconnectDevices()
     {
         ccdStarted      =false;
         ccd->Disconnect();
+
+        if (captureProcess)
+            captureProcess->setEnabled(false);
+
     }
 
     if (guider && guider != ccd)
         guider->Disconnect();
 
+    if (guider && guideProcess)
+        guideProcess->setEnabled(false);
 
     if (filter && filter != ccd)
         filter->Disconnect();
 
     if (focuser)
+    {
         focuser->Disconnect();
+
+        if (focusProcess)
+        {
+            disconnect(focuser, SIGNAL(numberUpdated(INumberVectorProperty*)), focusProcess, SLOT(processFocusProperties(INumberVectorProperty*)));
+            focusProcess->setEnabled(false);
+        }
+     }
 
     if (aux)
         aux->Disconnect();
@@ -921,7 +949,10 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     if (!strcmp(prop->getName(), "TELESCOPE_INFO"))
     {
         if (guideProcess)
+        {
+           guideProcess->setTelescope(scope);
            guideProcess->syncTelescopeInfo();
+        }
 
     }
 
