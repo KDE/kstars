@@ -18,7 +18,7 @@
 #include "observinglist.h"
 #include "sessionsortfilterproxymodel.h"
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <QFile>
 #include <QDir>
