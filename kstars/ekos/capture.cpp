@@ -120,8 +120,13 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
 {
-    CCDCaptureCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
-    CCDs.append(static_cast<ISD::CCD *> (newCCD));
+    QString guiderName = newCCD->getDeviceName() + QString(" Guider");
+
+    if (CCDCaptureCombo->contains(guiderName) == false)
+    {
+        CCDCaptureCombo->addItem(guiderName);
+        CCDs.append(static_cast<ISD::CCD *> (newCCD));
+    }
 }
 
 void Capture::addFilter(ISD::GDInterface *newFilter)

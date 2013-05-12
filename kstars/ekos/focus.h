@@ -41,6 +41,7 @@ public:
 
     void setFocuser(ISD::GDInterface *newFocuser);
     void addCCD(ISD::GDInterface *newCCD);
+    void focuserDisconnected();
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
