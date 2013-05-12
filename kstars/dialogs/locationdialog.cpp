@@ -19,7 +19,7 @@
 #include "ui_locationdialog.h"
 
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 
 #include <QFile>
 #include <QTextStream>

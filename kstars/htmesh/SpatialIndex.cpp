@@ -28,7 +28,7 @@
 #endif
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 #include <cmath>
 // ===========================================================================
 //

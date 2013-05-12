@@ -23,7 +23,7 @@
 #include <QString>
 #include <QVector>
 
-#include <stdio.h>
+#include <cstdio>
 
 class QString;
 

@@ -16,7 +16,7 @@
 //#     Oct 18, 2001 : Dennis C. Dinge -- Replaced ValVec with std::vector
 //#
 
-#include <stdio.h>
+#include <cstdio>
 #include <cstdlib>
 #include <string.h>
 #include <SpatialException.h>

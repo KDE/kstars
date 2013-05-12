@@ -17,7 +17,7 @@
 
 #include "skylabeler.h"
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <QPainter>
 #include <QPixmap>
