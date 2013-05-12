@@ -17,7 +17,7 @@
 //#	    Sept 9, 2002 : Gyorgy Fekete -- added setMaxlevel()
 //#
 
-#include <math.h>
+#include <cmath>
 #include <string.h>
 #include <time.h>
 #include <SpatialGeneral.h>

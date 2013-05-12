@@ -17,7 +17,7 @@
 
 #include "ksplanet.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QFile>
 #include <QTextStream>

@@ -19,7 +19,7 @@
 
 #include "projector.h"
 
-#include <math.h>
+#include <cmath>
 
 #include "ksutils.h"
 #include "kstarsdata.h"

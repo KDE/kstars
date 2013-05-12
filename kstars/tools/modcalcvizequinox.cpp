@@ -17,7 +17,7 @@
 
 #include "modcalcvizequinox.h"
 
-#include <math.h> //fabs()
+#include <cmath> //fabs()
 
 #include <KPlotWidget>
 #include <KPlotAxis>

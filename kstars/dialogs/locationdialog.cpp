@@ -18,7 +18,7 @@
 #include "locationdialog.h"
 #include "ui_locationdialog.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <stdio.h>
 
 #include <QFile>

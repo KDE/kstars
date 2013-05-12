@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
+#include <cmath>
 
 #include "fitshistogramdraw.h"
 #include "fitshistogram.h"

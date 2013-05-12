@@ -17,7 +17,7 @@
 
 #include "kssun.h"
 
-#include <math.h>
+#include <cmath>
 
 #include "ksnumbers.h"
 #include "kstarsdata.h"
