@@ -95,11 +95,11 @@ void modCalcAngDist::slotObjectButton() {
         if ( sender()->objectName() == QString("FirstObjectButton") ) {
             FirstRA->showInHours( o->ra() );
             FirstDec->showInDegrees( o->dec() );
-            FirstPositionBox->setTitle( i18n("First position") + ": " + o->name() );
+            FirstPositionBox->setTitle( i18n("First position: %1", o->name()) );
         } else {
             SecondRA->showInHours( o->ra() );
             SecondDec->showInDegrees( o->dec() );
-            SecondPositionBox->setTitle( i18n("Second position") + ": " + o->name() );
+            SecondPositionBox->setTitle( i18n("Second position: %1", o->name()) );
         }
 
         slotValidatePositions();

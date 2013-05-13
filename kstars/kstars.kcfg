@@ -350,7 +350,7 @@
     <entry name="ShowAsteroids" type="Bool">
       <label>Draw asteroids in the sky map?</label>
       <whatsthis>Toggle whether asteroids are drawn in the sky map.</whatsthis>
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="ShowAsteroidNames" type="Bool">
       <label>Label asteroid names in the sky map?</label>
@@ -360,7 +360,7 @@
     <entry name="ShowComets" type="Bool">
       <label>Draw comets in the sky map?</label>
       <whatsthis>Toggle whether comets are drawn in the sky map.</whatsthis>
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="ShowCometNames" type="Bool">
       <label>Label comet names in the sky map?</label>

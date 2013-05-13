@@ -402,8 +402,8 @@ void PrintingWizard::setupWidgets()
 
     setButtons(KDialog::User1 | KDialog::User2 | KDialog::Close);
 
-    setButtonGuiItem(KDialog::User1, KGuiItem(i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page")));
-    setButtonGuiItem(KDialog::User2, KGuiItem(QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page")));
+    setButtonGuiItem(KDialog::User1, KGuiItem(i18n("&Next >"), QString(), i18n("Go to next Wizard page")));
+    setButtonGuiItem(KDialog::User2, KGuiItem(i18n("< &Back"), QString(), i18n("Go to previous Wizard page")));
 
     // Create step widgets
     m_WizWelcomeUI = new PWizWelcomeUI(m_WizardStack);
@@ -530,10 +530,13 @@ void PrintingWizard::createFinderChart()
     for(int i = 0; i < m_FovSnapshots.size(); i++)
     {
         FOV *fov = m_FovSnapshots.at(i)->getFov();
-        QString fovDescription = i18n("FOV (") + QString::number(i + 1) + '/' +
-                                 QString::number(m_FovSnapshots.size()) + "): " +
-                                 fov->name() + " (" + QString::number(fov->sizeX()) + i18n("'") + " x " +
-                                 QString::number(fov->sizeY()) + i18n("'") + ')' + "\n";
+        QString fovDescription = i18nc("%1 = FOV index, %2 = FOV count, %3 = FOV name, %4 = FOV X size, %5 = FOV Y size",
+                                 "FOV (%1/%2): %3 (%4' x %5')",
+                                 QString::number(i + 1),
+                                 QString::number(m_FovSnapshots.size()),
+                                 fov->name(),
+                                 QString::number(fov->sizeX()),
+                                 QString::number(fov->sizeY())) + "\n";
         m_FinderChart->insertImage(m_FovSnapshots.at(i)->getPixmap().toImage(), fovDescription + m_FovSnapshots.at(i)->getDescription(), true);
     }
 
