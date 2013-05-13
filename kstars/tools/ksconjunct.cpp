@@ -17,7 +17,7 @@
 
 #include "ksconjunct.h"
 
-#include <math.h>
+#include <cmath>
 
 #include "ksnumbers.h"
 #include "skyobjects/ksplanetbase.h"

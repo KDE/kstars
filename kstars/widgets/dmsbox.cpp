@@ -17,7 +17,7 @@
 
 #include "dmsbox.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <kdebug.h>
 #include <klocale.h>

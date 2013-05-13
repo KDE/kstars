@@ -18,8 +18,8 @@
 #include "locationdialog.h"
 #include "ui_locationdialog.h"
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 #include <QFile>
 #include <QTextStream>

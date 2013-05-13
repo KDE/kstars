@@ -48,7 +48,7 @@
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QCheckBox" name="kcfg_UpdateOnStartup">
+           <widget class="QCheckBox" name="kcfg_UpdateSupernovaeOnStartup">
             <property name="text">
              <string>Check for Recent Supernovae on Startup</string>
             </property>
@@ -178,7 +178,7 @@
  </widget>
  <tabstops>
   <tabstop>kcfg_ShowSupernovae</tabstop>
-  <tabstop>kcfg_UpdateOnStartup</tabstop>
+  <tabstop>kcfg_UpdateSupernovaeOnStartup</tabstop>
   <tabstop>kcfg_ShowSupernovaAlerts</tabstop>
   <tabstop>supUpdateButton</tabstop>
   <tabstop>kcfg_MagnitudeLimitShowSupernovae</tabstop>

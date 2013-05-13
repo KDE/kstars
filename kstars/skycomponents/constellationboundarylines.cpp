@@ -17,7 +17,7 @@
 
 #include "constellationboundarylines.h"
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <QPen>
 #include <kstandarddirs.h>

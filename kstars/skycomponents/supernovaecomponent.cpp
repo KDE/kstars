@@ -27,11 +27,10 @@
 
 #include "kdebug.h"
 #include "ksfilereader.h"
-#include "kprocess.h"
 #include "kstandarddirs.h"
 #include "kstarsdata.h"
 
-SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent)
+SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent), m_Parser(0)
 {
     loadData();
 }
@@ -222,30 +221,40 @@ void SupernovaeComponent::notifyNewSupernovae()
 }
 
 
-void SupernovaeComponent::updateDataFile()
+void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
-    KProcess *parser=new KProcess;
     QString filename= KStandardDirs::locate("appdata","scripts/supernova_updates_parser.py") ;
     kDebug()<<filename;
-    int execstatus=parser->execute("python",QStringList(filename));
-    if ( execstatus!=0 ) {
+    m_Parser = new QProcess;
+    connect( m_Parser, SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( slotDataFileUpdateFinished( int, QProcess::ExitStatus ) ) );
+    m_Parser->start("python", QStringList( filename ));
+}
+
+void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus )
+{
+    if ( exitCode ) {
         QString errmsg;
-        switch (execstatus) {
+        switch ( exitCode ) {
             case -2:
-                errmsg = "Could not run python to update supernova information";
+                errmsg = i18n("Could not run python to update supernova information");
                 break;
             case -1:
-                errmsg = "Python process that updates the supernova information crashed";
+                errmsg = i18n("Python process that updates the supernova information crashed");
                 break;
             default:
-                errmsg = "Python process that updates the supernova information failed with error code " + QString::number(execstatus);
+                errmsg = i18n( "Python process that updates the supernova information failed with error code %1", QString::number( exitCode ) );
                 break;
         }
-        KMessageBox::sorry(0,errmsg,i18n("Supernova information update failed"));
+        if( KStars::Instance() && SkyMap::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
+            KMessageBox::sorry( 0, errmsg, i18n("Supernova information update failed") );
+        // FIXME: There should be a better way to check if KStars is fully initialized. Maybe we should have a static boolean in the KStars class. --asimha
     }
-    parser->close();
-    kDebug()<<"HERE";
-    latest.clear();
-    loadData();
-    notifyNewSupernovae();
+    else {
+        kDebug()<<"HERE";
+        latest.clear();
+        loadData();
+        notifyNewSupernovae();
+    }
+    delete m_Parser;
+    m_Parser = 0;
 }

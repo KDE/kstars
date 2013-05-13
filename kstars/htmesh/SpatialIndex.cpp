@@ -24,12 +24,12 @@
 #ifdef __APPLE__
 #include <sys/malloc.h>
 #else
-#include <stdlib.h>
+#include <cstdlib>
 #endif
 #endif
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 // ===========================================================================
 //
 // Macro definitions for readability

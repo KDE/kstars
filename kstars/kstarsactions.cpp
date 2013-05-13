@@ -1230,5 +1230,5 @@ void KStars::slotUpdateAsteroids() {
 
 void KStars::slotUpdateSupernovae()
 {
-    data()->skyComposite()->supernovaeComponent()->updateDataFile();
+    data()->skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
 }

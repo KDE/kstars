@@ -16,7 +16,7 @@
 
 #include "planetviewer.h"
 
-#include <stdlib.h> //needed for abs() on some platforms
+#include <cstdlib> //needed for abs() on some platforms
 
 #include <QFile>
 #include <QMouseEvent>

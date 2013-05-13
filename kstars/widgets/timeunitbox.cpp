@@ -18,7 +18,7 @@
 #include "timeunitbox.h"
 #include "timeunitbox.moc"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <QPushButton>
 #include <QVBoxLayout>

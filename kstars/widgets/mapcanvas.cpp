@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "mapcanvas.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <QPainter>
 #include <QPixmap>

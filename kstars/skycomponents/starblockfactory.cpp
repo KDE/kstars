@@ -18,7 +18,7 @@
 #include "starblockfactory.h"
 
 // TODO: Remove later
-#include <stdio.h>
+#include <cstdio>
 #include <kdebug.h>
 
 // TODO: Implement a better way of deciding this
