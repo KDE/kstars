@@ -23,6 +23,7 @@
 
 #include "ksnumbers.h"
 
+#include <QProcess>
 #include <QList>
 
 /**
@@ -35,8 +36,10 @@
 
 class Supernova;
 
-class SupernovaeComponent : public ListComponent
+class SupernovaeComponent : public QObject, public ListComponent
 {
+    Q_OBJECT;
+
 public:
     explicit SupernovaeComponent(SkyComposite* parent);
     virtual ~SupernovaeComponent();
@@ -52,22 +55,30 @@ public:
     virtual void draw(SkyPainter* skyp);
 
     virtual void notifyNewSupernovae();
-
-    /**
-     * @short This updates the data file by using supernovae_updates_parser.py
-     */
-    void updateDataFile();
-
     /**
      * @note Basically copy pasted from StarComponent::zoomMagnitudeLimit()
      */
     static float zoomMagnitudeLimit();
+
+public slots:
+    /**
+     * @short This initiates updating of the data file by using supernovae_updates_parser.py
+     */
+    void slotTriggerDataFileUpdate();
+
+private slots:
+
+    /**
+     * @short This is a slot to be called upon completion of the supernovae data file update
+     */
+    void slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus );
 
 private:
     void loadData();
 
     QList<SkyObject*> latest;
 
+    QProcess *m_Parser;
 };
 
 #endif

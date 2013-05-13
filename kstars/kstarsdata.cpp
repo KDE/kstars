@@ -36,6 +36,7 @@
 #include "ksfilereader.h"
 #include "ksnumbers.h"
 #include "skyobjects/skyobject.h"
+#include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
 #include "simclock.h"
@@ -171,6 +172,12 @@ bool KStarsData::initialize() {
     //Initialize User Database//
     emit progressText( i18n("Loading User Information" ) );
     m_ksuserdb.Initialize();
+
+    //Update supernovae list if enabled
+    if( Options::updateSupernovaeOnStartup() ) {
+        emit progressText( i18n("Queueing update of list of supernovae from the internet") );
+        skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
+    }
 
     readUserLog();
 

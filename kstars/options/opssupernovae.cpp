@@ -31,7 +31,7 @@ OpsSupernovae::OpsSupernovae(KStars* _ks)
     // Signals and slots connections
     connect( supUpdateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateRecentSupernovae() ) );
     connect( kcfg_ShowSupernovae, SIGNAL( toggled( bool ) ), this, SLOT( slotShowSupernovae( bool ) ) );
-    connect( kcfg_UpdateOnStartup, SIGNAL( toggled(bool) ), this, SLOT( slotUpdateOnStartup (bool)));
+    connect( kcfg_UpdateSupernovaeOnStartup, SIGNAL( toggled(bool) ), this, SLOT( slotUpdateOnStartup (bool)));
     connect( kcfg_ShowSupernovaAlerts, SIGNAL( toggled(bool) ),this, SLOT( slotShowSupernovaAlerts( bool ) ) );
     connect( kcfg_MagnitudeLimitShowSupernovae, SIGNAL( valueChanged(double) ), this, SLOT( slotSetShowMagnitudeLimit( double )));
     connect( kcfg_MagnitudeLimitAlertSupernovae, SIGNAL( valueChanged(double) ), this, SLOT( slotSetAlertMagnitudeLimit(double)));
@@ -42,7 +42,7 @@ OpsSupernovae::~OpsSupernovae()
 
 void OpsSupernovae::slotUpdateRecentSupernovae()
 {
-    KStarsData::Instance()->skyComposite()->supernovaeComponent()->updateDataFile();
+    KStarsData::Instance()->skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
 }
 
 void OpsSupernovae::slotShowSupernovae( bool on )
@@ -57,7 +57,7 @@ void OpsSupernovae::slotShowSupernovaAlerts(bool on)
 
 void OpsSupernovae::slotUpdateOnStartup(bool on)
 {
-    kcfg_UpdateOnStartup->setChecked(on);
+    kcfg_UpdateSupernovaeOnStartup->setChecked(on);
 }
 
 void OpsSupernovae::slotSetShowMagnitudeLimit(double value)

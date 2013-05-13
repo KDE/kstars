@@ -107,7 +107,7 @@ ImageViewer::ImageViewer ( QString FileName, QWidget *parent ) :
 void ImageViewer::init(QString caption, QString capText) {
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
-    setCaption( i18n( "KStars image viewer" ) + QString( " : " ) + caption );
+    setCaption( i18n( "KStars image viewer: %1", caption ) );
     setButtons( KDialog::Close | KDialog::User1);
 
     // FIXME: Add more options, and do this more nicely
