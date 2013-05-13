@@ -392,7 +392,7 @@
        <whatsthis>Set magnitude limit for supernovae to be alerted.</whatsthis>
        <default>16</default>
     </entry>
-    <entry name="UpdateOnStartup" type="Bool">
+    <entry name="UpdateSupernovaeOnStartup" type="Bool">
        <label>Update recent supernovae list on startup?</label>
        <whatsthis>Toggle whether supernovae list is updated on startup</whatsthis>
        <default>false</default>
