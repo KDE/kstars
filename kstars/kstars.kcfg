@@ -383,19 +383,19 @@
       <default>16</default>
     </entry>
     <entry name="ShowSupernovaAlerts" type="Bool">
-      <label>Draw supernova alerts?</label>
+      <label>Show supernova alerts?</label>
       <whatsthis>Toggle supernova alerts.</whatsthis>
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="MagnitudeLimitAlertSupernovae" type="Double">
        <label>Set magnitude limit for supernovae to be alerted</label>
        <whatsthis>Set magnitude limit for supernovae to be alerted.</whatsthis>
-       <default>16</default>
+       <default>13</default>
     </entry>
     <entry name="UpdateSupernovaeOnStartup" type="Bool">
        <label>Update recent supernovae list on startup?</label>
        <whatsthis>Toggle whether supernovae list is updated on startup</whatsthis>
-       <default>false</default>
+       <default>true</default>
     </entry>
     <entry name="ShowCBounds" type="Bool">
       <label>Draw constellation boundaries in the sky map?</label>
