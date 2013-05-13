@@ -7,11 +7,11 @@
 
 - Massimiliano's bug on Hipparcos epoch not being J2000.0
 
-- Update FOV indicator in status bar correctly
-
 - Merge Samikshan's work
 
 - Database problems
+
+- Magnitudes in Steinicke and regular NGC/IC catalog (see BUG: 302118)
 
 1. Bug reports to be resolved:
 ------------------------------
