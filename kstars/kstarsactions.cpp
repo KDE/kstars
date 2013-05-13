@@ -893,6 +893,7 @@ void KStars::slotZoomChanged() {
     actionCollection()->action("zoom_out")->setEnabled( Options::zoomFactor() > MINZOOM );
     actionCollection()->action("zoom_in" )->setEnabled( Options::zoomFactor() < MAXZOOM );
     // Update status bar
+    map()->setupProjector(); // this needs to be run redundantly, so that the FOV returned below is up-to-date.
     float fov = map()->projector()->fov();
     QString fovunits = i18n( "degrees" );
     if ( fov < 1.0 ) {
@@ -903,7 +904,7 @@ void KStars::slotZoomChanged() {
         fov = fov * 60.0;
         fovunits = i18n( "arcseconds" );
     }
-    QString fovstring = i18nc("field of view", "FOV") + ": " + QString::number( fov, 'f', 1 ) + ' ' + fovunits;
+    QString fovstring = i18nc("approximate field of view", "Approximate FOV") + ": " + QString::number( fov, 'f', 1 ) + ' ' + fovunits;
     statusBar()->changeItem( fovstring, 0 );
 }
 
