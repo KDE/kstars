@@ -895,16 +895,16 @@ void KStars::slotZoomChanged() {
     // Update status bar
     map()->setupProjector(); // this needs to be run redundantly, so that the FOV returned below is up-to-date.
     float fov = map()->projector()->fov();
-    QString fovunits = i18n( "degrees" );
+    KLocalizedString fovi18nstring = ki18nc( "approximate field of view", "Approximate FOV: %1 degrees" );
     if ( fov < 1.0 ) {
         fov = fov * 60.0;
-        fovunits = i18n( "arcminutes" );
+        fovi18nstring = ki18nc( "approximate field of view", "Approximate FOV: %1 arcminutes" );
     }
     if ( fov < 1.0 ) {
         fov = fov * 60.0;
-        fovunits = i18n( "arcseconds" );
+        fovi18nstring = ki18nc( "approximate field of view", "Approximate FOV: %1 arcseconds" );
     }
-    QString fovstring = i18nc("approximate field of view", "Approximate FOV") + ": " + QString::number( fov, 'f', 1 ) + ' ' + fovunits;
+    QString fovstring = fovi18nstring.subs( QString::number( fov, 'f', 1 ) ).toString();
     statusBar()->changeItem( fovstring, 0 );
 }
 
