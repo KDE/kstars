@@ -72,7 +72,7 @@ rm -f tips.cpp
 
 $EXTRACTRC `find . -name '*.ui' -o -name '*.rc' -o -name '*.kcfg' | sort` >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
-$XGETTEXT `find . -name '*.cpp' -o -name '*.h' -name '*.qml' | sort` -o $podir/kstars.pot
+$XGETTEXT `find . -name '*.cpp' -o -name '*.h' -o -name '*.qml' | sort` -o $podir/kstars.pot
 rm -f tips.cpp
 rm -f kstars_i18n.cpp
 rm -f rc.cpp
