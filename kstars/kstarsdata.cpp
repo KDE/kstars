@@ -175,8 +175,8 @@ bool KStarsData::initialize() {
 
     //Update supernovae list if enabled
     if( Options::updateSupernovaeOnStartup() ) {
-        emit progressText( i18n("Updating list of supernovae from the internet") );
-        skyComposite()->supernovaeComponent()->updateDataFile();
+        emit progressText( i18n("Queueing update of list of supernovae from the internet") );
+        skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
     }
 
     readUserLog();

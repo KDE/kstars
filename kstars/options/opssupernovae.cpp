@@ -42,7 +42,7 @@ OpsSupernovae::~OpsSupernovae()
 
 void OpsSupernovae::slotUpdateRecentSupernovae()
 {
-    KStarsData::Instance()->skyComposite()->supernovaeComponent()->updateDataFile();
+    KStarsData::Instance()->skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
 }
 
 void OpsSupernovae::slotShowSupernovae( bool on )
