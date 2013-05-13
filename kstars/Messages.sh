@@ -70,11 +70,6 @@ rm -f image_url.tmp
 rm -f info_url.tmp
 rm -f tips.cpp
 
-#$EXTRACTRC `find . -name \*.rc -o -name \*.ui -o -name \*.kcfg` >> rc.cpp || exit 11
-#(cd data && $PREPARETIPS > ../tips.cpp)
-
-#$XGETTEXT `find . -name \*.cc -o -name \*.cpp -o -name \*.h -name \*.qml` -o $podir/kstars.pot
-
 $EXTRACTRC `find . -name '*.ui' -o -name '*.rc' -o -name '*.kcfg' | sort` >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
 $XGETTEXT `find . -name '*.cpp' -o -name '*.h' -name '*.qml' | sort` -o $podir/kstars.pot
