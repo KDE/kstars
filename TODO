@@ -7,11 +7,15 @@
 
 - Massimiliano's bug on Hipparcos epoch not being J2000.0
 
-- Merge Samikshan's work
+- Tune-up Samikshan's work for release
 
 - Database problems
 
 - Magnitudes in Steinicke and regular NGC/IC catalog (see BUG: 302118)
+
+- Reorganize menus more logically
+
+- Sky culture seems to mysteriously change / defaults to Tupi-Guarani?
 
 1. Bug reports to be resolved:
 ------------------------------
