@@ -1,4 +1,4 @@
-## New KStars TODO list:  January 2013
+## New KStars TODO list:  May 2013
 ## Announce interest in working on these on kstars-devel@kde.org
 ## suggest new items on the same list or at http://bugs.kde.org
 
@@ -13,8 +13,20 @@
 
 - Magnitudes in Steinicke and regular NGC/IC catalog (see BUG: 302118)
 
+- KStars goes back to focusing North when centering on an object which
+   is not enabled for display. (eg: Disable comets in the settings and
+   find and center on a comet from the find dialog). [BUG: 266774]
+
+- Check if SDSS feature is working, because it always seems to report
+   out-of-range even if in the footprint, according to BUG: 220857
+
 1. Bug reports to be resolved:
 ------------------------------
+
+- When right-clicking on the Sky Map, objectNearest() should bring up
+  the most significant object that is nearby. For example, right
+  clicking on Jupiter at sufficiently low zoom should bring up
+  Jupiter rather than one of the Galilean satellites. [BUG: 210714]
 
 2. Other required fixes:
 ------------------------
@@ -25,6 +37,13 @@
 - M 17 position is off
 
 - Combine various telescope info into the userDB
+
+- Polish observation list feature:
+      + Provide some help on how to use it efficiently
+      + More intuitive names for "Execute". Better keybindings.
+      + Polish and fix "Execute" with logging capabilities.
+
+- Distribute latest Steinicke NGC/IC catalog via GHNS.
 
 3. Wishlist stuff
 -----------------
@@ -40,7 +59,7 @@
 4. Larger New Feature Ideas
 ---------------------------
 
-- Move to MarbleWidget for Geographic Location selection
+- Move to MarbleWidget [?] for Geographic Location selection
 
 - Almanac tool (sun events, moon events, planet events, etc)
 
@@ -59,6 +78,8 @@
 
 - Improve the Star Hopper and give it a good interface. Also make it
    DBus accessible.
+
+- More Milky Way isophotes
 
 5. Large projects
 -----------------
