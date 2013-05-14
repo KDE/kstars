@@ -114,8 +114,6 @@
         <Action name="execute"/>
         </Menu>
 
-        <Separator />
-
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>
 		<Action name="help_tipofday"/>

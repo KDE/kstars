@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 
-<kpartgui name="KStars" version="2">
+<kpartgui name="KStars" version="3">
 <MenuBar noMerge="1">
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="new_window" />
@@ -61,6 +61,8 @@
 
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 		<Action name="astrocalculator" />
+                <Action name="skycalendar" />
+		<Action name="moonphasetool" />
 		<Action name="obslist" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
