@@ -600,7 +600,7 @@
     <entry name="Projection" type="UInt">
       <label>Mapping projection algorithm</label>
       <whatsthis>Algorithm for the mapping projection.</whatsthis>
-      <default>5</default>
+      <default>0</default>
     </entry>
     <entry name="UseAbbrevConstellNames" type="Bool">
       <label>Use abbreviated constellation names?</label>
