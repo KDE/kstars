@@ -295,7 +295,7 @@
     <entry name="SkyCulture" type="UInt">
       <label>Sky culture</label>
       <whatsthis>Choose sky culture.</whatsthis>
-      <default>10</default>
+      <default>11</default>
     </entry>
     <entry name="HideCNames" type="Bool">
       <label>Hide constellation names while moving?</label>
