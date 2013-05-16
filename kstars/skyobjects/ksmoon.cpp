@@ -250,13 +250,13 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 
 QString KSMoon::phaseName() const {
     double f = illum();
-    double p = Phase;
+    double p = std::abs(dms(Phase).reduce().Degrees());
 
     //First, handle the major phases
     if ( f > 0.99 ) return i18nc( "moon phase, 100 percent illuminated", "Full moon" );
     if ( f < 0.01 ) return i18nc( "moon phase, 0 percent illuminated", "New moon" );
     if ( fabs( f - 0.50 ) < 0.01 ) {
-        if ( p < 180.0 ) return i18nc( "moon phase, half-illuminated and growing", "First quarter" );
+	if ( p < 180.0 ) return i18nc( "moon phase, half-illuminated and growing", "First quarter" );
         else return i18nc( "moon phase, half-illuminated and shrinking", "Third quarter" );
     }
 
