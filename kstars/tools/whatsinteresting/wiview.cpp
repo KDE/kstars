@@ -31,6 +31,12 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
 
     m_BaseView = new QDeclarativeView();
 
+    ///To use i18n() instead of qsTr() in qml/wiview.qml for translation
+    KDeclarative kd;
+    kd.setDeclarativeEngine(m_BaseView->engine());
+    kd.initialize();
+    kd.setupBindings();
+
     m_Ctxt = m_BaseView->rootContext();
 
     m_BaseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));
