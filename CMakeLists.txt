@@ -1,4 +1,9 @@
 PROJECT(kstars CXX C)
+set (KStars_VERSION_MAJOR 2)
+set (KStars_VERSION_MINOR 1)
+set (KStars_VERSION_REVISION 0)
+configure_file( "${kstars_SOURCE_DIR}/kstars/version.h.cmake"
+                "${kstars_SOURCE_DIR}/kstars/version.h" )
 
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "datahandlers/catalogdb.h"
+#include "kstars/version.h"
 
 
 bool CatalogDB::Initialize() {
@@ -45,6 +46,9 @@ bool CatalogDB::Initialize() {
 void CatalogDB::FirstRun() {
     kWarning() << i18n("Rebuilding Additional Sky Catalog Database");
     QVector<QString> tables;
+    tables.append("CREATE TABLE Version ("
+                  "Version CHAR DEFAULT NULL)");
+    tables.append("INSERT INTO Version VALUES (\""  KSTARS_VERSION "\")");
     tables.append("CREATE TABLE ObjectDesignation ("
                   "id INTEGER NOT NULL  DEFAULT NULL PRIMARY KEY,"
                   "id_Catalog INTEGER DEFAULT NULL REFERENCES Catalog (id),"
