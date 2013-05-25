@@ -25,6 +25,7 @@
 #include <cstdlib>
 
 #include <QApplication>
+#include <QFile>
 #include <QProgressDialog>
 #include <KMessageBox>
 
