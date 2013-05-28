@@ -31,6 +31,8 @@
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
 
+using namespace std;
+
 namespace {
     // Convert degrees to radians and put it into [0,2*pi] range
     double degToRad(double x) {
