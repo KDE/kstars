@@ -18,7 +18,7 @@
 #include "ksmoon.h"
 
 #include <stdlib.h>
-#include <math.h>
+#include <cmath>
 
 #include <QFile>
 #include <QTextStream>
@@ -30,6 +30,8 @@
 #include "kspopupmenu.h"
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
+
+using namespace std;
 
 namespace {
     // Convert degrees to radians and put it into [0,2*pi] range
