@@ -45,8 +45,12 @@
 
 - Distribute latest Steinicke NGC/IC catalog via GHNS.
 
+- Make "Define Equipment", "Add Observer" etc. UIs more intuitive.
+
 3. Wishlist stuff
 -----------------
+
+- Show deprecessed J2000.0 coordinates for objects like comets.
 
 - Make DSS source user-configurable
 
