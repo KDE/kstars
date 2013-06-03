@@ -43,7 +43,7 @@ public:
     void addSkyObject(SkyObjItem *sobj);
 
     /**
-     * \brief Overriden method from QAbstractItemModel.
+     * \brief Overridden method from QAbstractItemModel.
      * \return The number of items in the sky-object list model.
      */
     int rowCount(const QModelIndex& parent = QModelIndex()) const;

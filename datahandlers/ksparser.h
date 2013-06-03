@@ -76,7 +76,7 @@ class KSParser {
      * @brief Returns a CSV parsing instance of a KSParser type object.
      *
      * Behavior:
-     * 1) In case of attempt to read a non existant file, will return
+     * 1) In case of attempt to read a non existent file, will return
      *    dummy row (not empty)
      * 2) In case of incomplete row, the whole row is ignored
      * 3) In case of missing values, parser will return empty string,
@@ -104,7 +104,7 @@ class KSParser {
      * If you need trimmed values like "hello" , use QString.trimmed()
      *
      * Behavior:
-     * 1) In case of attempt to read a non existant file, will return
+     * 1) In case of attempt to read a non existent file, will return
      *    dummy row (not empty!)
      * 2) In case of missing fields at the end, the line length is smaller
      *    than expected so it is skipped.
