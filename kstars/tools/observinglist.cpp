@@ -220,11 +220,15 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if( ! obj )
         obj = ks->map()->clickedObject();
 
+    if ( !obj ) {
+        kWarning() << "Trying to add null object to observing list!";
+    }
+
     if( obj->name() == "star" ) {
         KMessageBox::sorry(0, i18n( "Unnamed stars are not supported in the observing lists"));
         return;
     }
-        
+
     //First, make sure object is not already in the list
     if ( obsList().contains( obj ) ) {
         addToWishList = false;
@@ -812,6 +816,10 @@ void ObservingList::slotSaveList() {
     }
     QTextStream ostream( &f );
     foreach ( SkyObject* o, obsList() ) {
+        if ( !o ) {
+            kWarning() << "Null entry in observing wishlist!";
+            continue;
+        }
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
         } else if ( o->type() == SkyObject::STAR ) {
