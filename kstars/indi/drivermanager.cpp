@@ -542,7 +542,7 @@ void DriverManager::processLocalTree(bool dState)
                 {
                         processed_devices.append(device);
 
-                        // N.B. If multipe devices are selected to run under one device manager
+                        // N.B. If multiple devices are selected to run under one device manager
                         // then we select the port for the first device that has a valid port
                         // entry, the rest are ignored.
                         if (port == -1 && item->text(LOCAL_PORT_COLUMN).isEmpty() == false)

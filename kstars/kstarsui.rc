@@ -6,8 +6,6 @@
 		<Action name="new_window" />
 		<Action name="close_window" />
 		<Separator />
-		<Action name="get_data" />
-		<Separator />
 		<Action name="open_file" />
 		<Action name="export_image" />
 		<Action name="run_script" />
@@ -22,9 +20,9 @@
 		<Action name="time_to_now" />
 		<Action name="time_dialog" />
 		<Separator />
-        <Action name="time_step_backward" />
+		<Action name="time_step_backward" />
 		<Action name="clock_startstop" />
-        <Action name="time_step_forward" />
+		<Action name="time_step_forward" />
 	</Menu>
 
 	<Menu name="focus" noMerge="1"><text>&amp;Pointing</text>
@@ -63,15 +61,28 @@
 		<Action name="astrocalculator" />
                 <Action name="skycalendar" />
 		<Action name="moonphasetool" />
-		<Action name="obslist" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
+	        <Action name="whats_interesting" />
 		<Action name="glossary" />
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />
 		<Action name="jmoontool" />
                 <Action name="flagmanager" />
 	</Menu>
+
+	<Menu name="data" noMerge="1"><text>&amp;Data</text>
+		<Action name="get_data" />
+		<Menu name="updates"><text>&amp;Updates</text>
+		<Action name="update_comets" />
+		<Action name="update_asteroids" />
+		<Action name="update_supernovae" />
+		</Menu>
+	</Menu>
+	<Menu name="observation" noMerge="1"><text>&amp;Observation</text>
+	   <Action name="obslist" />
+	   <Action name="execute" />
+        </Menu>
 
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 		<Menu name="infopanel"><text>&amp;Info Boxes</text>
@@ -92,14 +103,8 @@
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 		<Action name="opengl" />
 		<Separator />
-		<Menu name="updates"><text>&amp;Updates</text>
-            <Action name="update_comets" />
-            <Action name="update_asteroids" />
-            <Action name="update_supernovae" />
-        </Menu>
-		<Separator />
-        <Action name="ewriter"/>
-        <Action name="obsadd"/>
+		<Action name="ewriter"/>
+		<Action name="obsadd"/>
 		<Separator />
 		<Action name="geolocation" />
 		<Separator />
@@ -108,12 +113,6 @@
 		<Action name="configure" />
 		<Action name="startwizard" />
 	</Menu>
-
-	<Menu name="oal" noMerge="1"><text>&amp;Observation</text>
-        <Action name="execute"/>
-        </Menu>
-
-        <Separator />
 
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>
@@ -135,9 +134,9 @@
 	<Action name="zoom_out" />
 	<Action name="find_object" />
 	<Separator />
-    <Action name="time_step_backward" />
+	<Action name="time_step_backward" />
 	<Action name="clock_startstop" />
-    <Action name="time_step_forward" />
+	<Action name="time_step_forward" />
 	<Action name="timestep_control" />
 </ToolBar>
 

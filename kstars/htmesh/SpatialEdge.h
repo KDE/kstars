@@ -60,7 +60,7 @@ private:
 
   // Make a new edge, in the temporary edges_ at emindex, at node_[index]
   // using the k'th side. Since every edge belongs to two faces, we have]
-  // to check wether an edge has been already processed or not (i.e. the
+  // to check whether an edge has been already processed or not (i.e. the
   // midpoint has been constructed or not). We have a lookup table for
   // this purpose. Every edge is stored at lTab[start_]. There may be
   // up to 6 edges in every vertex[start_] so if that table place is occupied,

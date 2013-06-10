@@ -200,7 +200,7 @@ void EquipmentWriter::slotAddLens() {
 }
 
 void EquipmentWriter::slotRemoveLens() {
-    ks->data()->userdb()->EraseEquipment("lens",ui.e_Id->text().toInt());
+    ks->data()->userdb()->EraseEquipment("lens",ui.l_Id->text().toInt());
     loadEquipment();
     ui.l_Id->clear();
     ui.l_Model->clear();

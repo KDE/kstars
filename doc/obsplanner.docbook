@@ -139,7 +139,7 @@
   <para>You can also access the <guilabel>WUT</guilabel> (What&apos;s up tonight), which could be of a great assistance to you. It can give you ideas what to observe on a date, time and place that you specify using the configuration buttons int the top-right corner of the <guilabel>What&apos;s up tonight</guilabel> window.</para>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="WUT.png" format="PNG"/>
+      <imagedata fileref="wut.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>

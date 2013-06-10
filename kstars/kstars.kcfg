@@ -295,7 +295,7 @@
     <entry name="SkyCulture" type="UInt">
       <label>Sky culture</label>
       <whatsthis>Choose sky culture.</whatsthis>
-      <default>10</default>
+      <default>11</default>
     </entry>
     <entry name="HideCNames" type="Bool">
       <label>Hide constellation names while moving?</label>
@@ -600,7 +600,7 @@
     <entry name="Projection" type="UInt">
       <label>Mapping projection algorithm</label>
       <whatsthis>Algorithm for the mapping projection.</whatsthis>
-      <default>5</default>
+      <default>0</default>
     </entry>
     <entry name="UseAbbrevConstellNames" type="Bool">
       <label>Use abbreviated constellation names?</label>
@@ -1179,6 +1179,32 @@
       <whatsthis>To include parts of the star field, we add some extra padding around DSS images of deep-sky objects. This option configures the total (both sides) padding added to either dimension of the field.</whatsthis>
       <default>10.0</default>
     </entry>
+  </group>
+  <group name="WISettings">
+      <entry name="BortleClass" type="UInt">
+          <label>Bortle dark-sky rating</label>
+          <default>4</default>
+      </entry>
+      <entry name="TelescopeCheck" type="Bool">
+          <label>Availability of telescope</label>
+          <default>false</default>
+      </entry>
+      <entry name="BinocularsCheck" type="Bool">
+          <label>Availability of binoculars</label>
+          <default>false</default>
+      </entry>
+      <entry name="NoEquipCheck" type="Bool">
+          <label>Availability of both telescope and binoculars</label>
+          <default>false</default>
+      </entry>
+      <entry name="BinocularsAperture" type="Double">
+          <label>Aperture of available binocular</label>
+          <default>40.0</default>
+      </entry>
+      <entry name="ScopeListWidget" type="UInt">
+          <label>Index of selected scope from list of scopes</label>
+          <default>0</default>
+      </entry>
   </group>
   <group name="Ekos">
     <entry name="TelescopeDriver" type="String">

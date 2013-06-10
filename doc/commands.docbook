@@ -83,7 +83,15 @@ dialog to download additional data for &kstars;.
 </para></listitem>
 </varlistentry>
 -->
-<!-- FIXME missing File->Printing Wizard-->
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Printing Wizard</guimenuitem>
+</menuchoice></term>
+<listitem><para>Starts a wizard to configure capturing sky objects images using telescope and printing the results as a good looking printout for further use or catalogization.
+</para></listitem>
+</varlistentry>
 
 <varlistentry>
 <term><menuchoice>
@@ -516,6 +524,64 @@ Flags
 </variablelist>
 </sect2>
 
+<sect2 id="datamenu">
+<title>Data Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
+<guimenu>Data</guimenu>
+<guimenuitem>Download New Data...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the <guilabel>Get Hot New Stuff</guilabel> 
+dialog to download additional data for &kstars;.
+</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Data</guimenu>
+<guisubmenu>Updates</guisubmenu>
+</menuchoice></term>
+<listitem><para>This submenu can be used to update various object data, namely asteroid and comet orbit elements as well as recent supernovae data from internet. The data will be downloaded for the current user account only. If you use &kstars; from different account you should download them for every account separately.
+</para>
+<para>&kstars; tries to download recent supernovae list automatically by default. You can switch the download off using <guilabel>Supernovae</guilabel> page of &kstars; Settings window.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="observationmenu">
+<title>Observation Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo>
+</shortcut>
+<guimenu>Observation</guimenu>
+<guimenuitem>Observation Planner</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the <link linkend="tool-obsplanner">Observation Planner</link> 
+tool</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>
+</shortcut>
+<guimenu>Observation</guimenu>
+<guimenuitem>Execute the session Plan</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens <link linkend="tool-obsplanner">session plan wizard</link> or execute the planned session.</para></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
 <sect2 id="settingmenu">
 <title><guimenu>Settings</guimenu> Menu</title>
 
@@ -628,7 +694,6 @@ your own symbols (or modify existing symbols) using the
 </varlistentry>
 <!-- missing
 Switch to OpenGL backend
-Updates
 Define Equipment Ctrl+0
 Add Observer Ctrl+1
   -->
@@ -647,7 +712,6 @@ location</link>
 </para>
 </listitem>
 </varlistentry>
-<!--Configure Shortcuts / Configure Toolbars missing -->
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
@@ -660,10 +724,17 @@ options</link></para></listitem>
 <!-- Startup Wizard missing-->
  
 </variablelist>
+
+<para>
+Additionally &kstars; has the common &kde; <guimenu>Settings</guimenu> and <guimenu>Help</guimenu>
+menu items, for more information read the sections about the
+<ulink url="help:/fundamentals/ui.html#menus-settings">Settings Menu</ulink> and
+<ulink url="help:/fundamentals/ui.html#menus-help">Help Menu</ulink>
+of the &kde; Fundamentals.
+</para>
+
 </sect2>
 
-<!--Observation menu missing -->
- 
 <sect2 id="helpmenu">
 <title><guimenu>Help</guimenu> Menu</title>
 
@@ -899,6 +970,11 @@ Point (straight up)</para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo></term>
+<listitem><para>Run a &kstars; <link linkend="tool-obsplanner">Observation Planner</link></para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></term>
 <listitem><para>Run a &kstars; &DBus; script</para></listitem>
 </varlistentry>
@@ -1056,12 +1132,6 @@ tool</para></listitem>
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>J</keycap></keycombo></term>
 <listitem><para>Open the <link linkend="tool-jmoons">Jupiter Moons</link> 
-tool</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-obsplanner">Observation Planner</link> 
 tool</para></listitem>
 </varlistentry>
 

@@ -414,12 +414,16 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     itList  = obj->ImageList().constBegin();
     itTitle = obj->ImageTitle().constBegin();
     itListEnd = obj->ImageList().constEnd();
-
-    for ( ; itList != itListEnd; ++itList ) {
-        QString t = QString(*itTitle);
-        sURL = QString(*itList);
-        addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotImage() ) );
-        ++itTitle;
+    if( ! obj->ImageList().isEmpty() ) {
+        QMenu *imageLinkSubMenu= new QMenu();
+        imageLinkSubMenu->setTitle( i18n( "Image Resources" ) );
+        for ( ; itList != itListEnd; ++itList ) {
+            QString t = QString(*itTitle);
+            sURL = QString(*itList);
+            imageLinkSubMenu->addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotImage() ) );
+            ++itTitle;
+        }
+        addMenu( imageLinkSubMenu );
     }
 
     if ( showDSS ) {
@@ -427,18 +431,23 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
 
-    if( obj->ImageList().count() || showDSS )
+    if( showDSS )
         addSeparator();
 
     itList  = obj->InfoList().constBegin();
     itTitle = obj->InfoTitle().constBegin();
     itListEnd = obj->InfoList().constEnd();
 
-    for ( ; itList != itListEnd; ++itList ) {
-        QString t = QString(*itTitle);
-        sURL = QString(*itList);
-        addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotInfo() ) );
-        ++itTitle;
+    if( ! obj->InfoList().isEmpty() ) {
+        QMenu *infoLinkSubMenu= new QMenu();
+        infoLinkSubMenu->setTitle( i18n( "Information Resources" ) );
+        for ( ; itList != itListEnd; ++itList ) {
+            QString t = QString(*itTitle);
+            sURL = QString(*itList);
+            infoLinkSubMenu->addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotInfo() ) );
+            ++itTitle;
+        }
+        addMenu( infoLinkSubMenu );
     }
 }
 

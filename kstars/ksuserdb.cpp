@@ -18,6 +18,7 @@
 
 #include "ksuserdb.h"
 #include "kstarsdata.h"
+#include "version.h"
 #include <kdebug.h>
 
 /*
@@ -77,6 +78,9 @@ bool KSUserDB::FirstRun() {
 bool KSUserDB::RebuildDB() {
     kWarning() << i18n("Rebuilding User Database");
     QVector<QString> tables;
+    tables.append("CREATE TABLE Version ("
+                  "Version CHAR DEFAULT NULL)");
+    tables.append("INSERT INTO Version VALUES (\""  KSTARS_VERSION "\")");
     tables.append("CREATE TABLE user ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                   "Name TEXT NOT NULL  DEFAULT 'NULL', "
