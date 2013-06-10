@@ -20,6 +20,8 @@
 - Check if SDSS feature is working, because it always seems to report
    out-of-range even if in the footprint, according to BUG: 220857
 
+- Moon magnitude reported wrongly!
+
 1. Bug reports to be resolved:
 ------------------------------
 
