@@ -559,9 +559,6 @@ void KStars::initStatusBar() {
 }
 
 void KStars::datainitFinished() {
-    //Add GUI elements to main window
-    buildGUI();
-
     //Time-related connections
     connect( data()->clock(), SIGNAL( timeAdvanced() ),
              this, SLOT( updateTime() ) );
@@ -569,6 +566,9 @@ void KStars::datainitFinished() {
              this, SLOT( updateTime() ) );
     connect( data()->clock(), SIGNAL( scaleChanged( float ) ),
              map(), SLOT( slotClockSlewing() ) );
+
+    //Add GUI elements to main window
+    buildGUI();
 
     connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
