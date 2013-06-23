@@ -113,7 +113,7 @@ include_directories(
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate
 	${ZLIB_INCLUDE_DIR}
-	${EIGEN2_INCLUDE_DIR}
+	${EIGEN3_INCLUDE_DIR}
 )
 
 ########### next target ###############

@@ -22,7 +22,7 @@
 
 #include <cstddef>
 #include <Eigen/Core>
-USING_PART_OF_NAMESPACE_EIGEN
+using namespace Eigen;
 
 #include "skypainter.h"
 #include "skyobjects/skyobject.h"

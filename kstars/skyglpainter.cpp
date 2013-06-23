@@ -23,10 +23,7 @@
 #include "skyglpainter.h"
 
 #include <cstddef>
-#include <Eigen/Core>
 #include <Eigen/Geometry>
-USING_PART_OF_NAMESPACE_EIGEN
-using Eigen::Rotation2Df;
 
 #include <GL/gl.h>
 #include <QGLWidget>

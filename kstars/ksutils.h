@@ -29,7 +29,7 @@
 
 #include <cstddef>
 #include <Eigen/Core>
-USING_PART_OF_NAMESPACE_EIGEN
+using namespace Eigen;
 #include <QPointF>
 #include "dms.h"
 
