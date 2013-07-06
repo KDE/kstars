@@ -236,13 +236,13 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ){
     }
 
     double dst = fabs( dist * dms::DegToRad / 3600.0 ); // In radian
-    
+
     // Compute the bearing angle w.r.t. the RA axis ("latitude")
     dms dRA(  ra()  - from.ra()  );
     dms dDec( dec() - from.dec() );
     double bearing = atan2( dRA.sin() / dRA.cos(), dDec.sin() ); // Do not use dRA = PI / 2!!
     //double bearing = atan2( dDec.radians() , dRA.radians() );
-    
+
     double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
     dist = fabs( dist ); // in radian
 
@@ -251,7 +251,7 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ){
                            dec().cos() * sin( dst ) * cos( dir0 ) ) );
     dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec().cos(),
                               cos( dst ) - dec().sin() * lat1.sin() ) );
-    
+
     return SkyPoint( ra() + dtheta, lat1 );
 }
 
@@ -310,6 +310,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 
     RA.setD( RA.Degrees() + dRA );
     Dec.setD( Dec.Degrees() + dDec );
+
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
@@ -345,6 +346,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
             bendlight();
         aberrate(num);
         lastPrecessJD = num->getJD();
+        Q_ASSERT( std::isfinite( RA.Degrees() ) && std::isfinite( Dec.Degrees() ) );
     }
 
     if ( lat || LST )

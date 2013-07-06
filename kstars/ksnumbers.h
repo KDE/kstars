@@ -107,6 +107,11 @@ public:
     /**@return element of P2B precession array at position [i1][i2] */
     double p2b( int i1, int i2 ) const { return P2B[i1][i2]; }
 
+    /**
+     *@short compute constant values that need to be computed only once per instance of the application
+     */
+    void computeConstantValues();
+
     /**@short update all values for the date given as an argument.
     	*@param jd the Julian date for which to compute values
     	*/
