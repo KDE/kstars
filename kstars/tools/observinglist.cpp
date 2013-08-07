@@ -1202,6 +1202,10 @@ void ObservingList::setSaveImagesButton() {
         );
 }
 
+// FIXME: Is there a reason to implement these as an event filter,
+// instead of as a signal-slot connection? Shouldn't we just use slots
+// to subscribe to various events from the Table / Session view?
+
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
@@ -1253,11 +1257,12 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
         if (event->type() == QEvent::KeyPress)
         {
                 QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-                if (keyEvent->key() == Qt::Key_Delete)
+                if (keyEvent->key() == Qt::Key_Delete) {
                     slotRemoveSelectedObjects();
-                return true;
-         } else
-                return false;
+                    return true;
+                }
+        }
+
     }
 
     return false;
