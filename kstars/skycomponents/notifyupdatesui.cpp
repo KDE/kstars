@@ -49,17 +49,17 @@ void NotifyUpdatesUI::addItems(QList<SkyObject*> updatesList)
         Supernova * sup = (Supernova *)so;
 
         QString name = sup->name();
-        QString hostGalaxy = "Host Galaxy :: ";
+        QString hostGalaxy = i18n("Host Galaxy :: ");
         hostGalaxy.append(sup->getHostGalaxy());
-        QString magnitude = "Magnitude :: ";
+        QString magnitude = i18n("Magnitude :: ");
         magnitude.append(QString::number(sup->getMagnitude()));
-        QString type = "Type :: ";
+        QString type = i18n("Type :: ");
         type.append(sup->getType());
-        QString position = "Position :: RA : ";
+        QString position = i18n("Position :: RA : ");
         position.append(sup->getRA().toHMSString());
-        position.append(" Dec : ");
+        position.append(i18n(" Dec : "));
         position.append(sup->getDec().toDMSString());
-        QString date = "Date :: ";
+        QString date = i18n("Date :: ");
         date.append(sup->getDate());
 
         QTreeWidgetItem *info = new QTreeWidgetItem(ui->infoTreeWidget);
