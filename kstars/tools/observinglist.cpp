@@ -105,12 +105,20 @@ ObservingList::ObservingList( KStars *_ks )
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Session = new QStandardItemModel( 0, 5 );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-        << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
-        << i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
+                                        << i18n( "Alternate Name" )
+                                        << i18nc( "Right Ascension", "RA" )
+                                        << i18nc( "Declination", "Dec" )
+                                        << i18nc( "Magnitude", "Mag" )
+                                        << i18n( "Type" ) );
     m_Session->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-        << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
-        << i18nc( "Magnitude", "Mag" ) << i18n( "Type" )
-        << i18n( "Time" ) << i18nc( "Altitude", "Alt" ) << i18nc( "Azimuth", "Az" ));
+                                          << i18n( "Alternate Name" )
+                                          << i18nc( "Right Ascension", "RA" )
+                                          << i18nc( "Declination", "Dec" )
+                                          << i18nc( "Magnitude", "Mag" )
+                                          << i18n( "Type" )
+                                          << i18n( "Time" )
+                                          << i18nc( "Altitude", "Alt" )
+                                          << i18nc( "Azimuth", "Az" ));
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
@@ -267,6 +275,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         }
 
         itemList << new QStandardItem( obj->translatedName() )
+                 << new QStandardItem( obj->translatedLongName() )
                 << new QStandardItem( ra )
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
@@ -303,6 +312,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         }
         // TODO: Change the rest of the parameters to their appropriate datatypes.
         itemList << new QStandardItem( obj->translatedName() )
+                 << new QStandardItem( obj->translatedLongName() )
                 << new QStandardItem( ra )
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
