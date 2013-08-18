@@ -913,9 +913,9 @@ void ObservingList::plot( SkyObject *o ) {
     float DayOffset = 0;
     if( TimeHash.value( o->name(), o->transitTime( dt, geo ) ).hour() > 12 )
         DayOffset = 1;
-    KStarsDateTime ut = dt;
+    KStarsDateTime ut = dt; // This is still local time; we must convert it to UT.
     ut.setTime(QTime());
-    ut = geo->LTtoUT(ut);
+    ut = geo->LTtoUT(ut); // We convert it to UT. Now it makes sense.
     ut = ut.addSecs( ( 0.5 + DayOffset ) * 86400.0 );
 
     double h1 = geo->GSTtoLST( ut.gst() ).Hours();
@@ -924,7 +924,9 @@ void ObservingList::plot( SkyObject *o ) {
 
     ui->View->setSecondaryLimits( h1, h1 + 24.0, -90.0, 90.0 );
     ksal->setLocation(geo);
-    ui->View->setSunRiseSetTimes( ksal->getSunRise(),ksal->getSunSet() );
+    ksal->setDate( &ut );
+    ui->View->setSunRiseSetTimes( ksal->getSunRise(), ksal->getSunSet() );
+    ui->View->setDawnDuskTimes( ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight() );
     ui->View->update();
     KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
     for ( double h = -12.0; h <= 12.0; h += 0.5 ) {
