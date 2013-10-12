@@ -1214,6 +1214,11 @@
             <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
             <default>0.5</default>
        </entry>
+       <entry name="AlignExposure" type="Double">
+          <label>Default alignment exposure value</label>
+             <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
+             <default>1</default>
+        </entry>
        <entry name="remoteScopeName" type="String">
          <label>Remote Scope Name</label>
          <whatsthis>Name of the remote INDI telescope device.</whatsthis>
