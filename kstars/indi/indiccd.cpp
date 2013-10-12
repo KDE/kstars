@@ -67,6 +67,9 @@ FITSView * CCDChip::getImage(FITSMode imageType)
         case FITS_CALIBRATE:
             return calibrationImage;
             break;
+
+        default:
+        break;
     }
 
     return NULL;
@@ -93,6 +96,9 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
         case FITS_CALIBRATE:
             calibrationImage = image;
             break;
+
+        default:
+        break;
     }
 
 }
@@ -702,7 +708,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (Options::showFITS() && targetChip->showFITS() == true)
+    if (Options::showFITS() && targetChip->showFITS() == true && targetChip->getCaptureMode() != FITS_WCSM)
     {
         KUrl fileURL(filename);
 
@@ -749,12 +755,19 @@ void CCD::processBLOB(IBLOB* bp)
             targetChip->setImage(fv->getImage(calibrationTabID), FITS_CALIBRATE);
             break;
 
+
+           default:
+            break;
+
         }
 
         fv->show();
 
     }
     #endif
+
+    // store file name
+    strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
 
     emit BLOBUpdated(bp);
 

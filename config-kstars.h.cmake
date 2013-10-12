@@ -9,3 +9,7 @@
 
 /* Define if you have wcslibt */
 #cmakedefine HAVE_WCSLIB 1
+
+
+/* Define if you have astrometry */
+#cmakedefine HAVE_ASTROMETRYNET 1

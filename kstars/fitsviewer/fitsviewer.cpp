@@ -229,6 +229,9 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
       fitsTab->addTab(tab, i18n("Guide"));
       break;
 
+    default:
+        break;
+
     }
 
     connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
@@ -243,6 +246,8 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 
     fitsImages.push_back(tab);
 
+    fitsMap[fitsID] = tab;
+
     fitsTab->setCurrentWidget(tab);
 
     tab->setUID(fitsID);
@@ -252,11 +257,16 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 
 bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter)
 {
-    foreach (FITSTab *tab, fitsImages)
+    /*foreach (FITSTab *tab, fitsImages)
     {
         if (tab->getUID() == fitsUID)
             return tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
-    }
+    }*/
+
+    FITSTab *tab = fitsMap.value(fitsUID);
+
+    if (tab)
+        return tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
 
     return false;
 }
@@ -494,6 +504,7 @@ void FITSViewer::closeTab(int index)
     if (rc == 2)
         return;
 
+    fitsMap.remove(tab->getUID());
     fitsImages.removeOne(tab);
     delete tab;
 
@@ -543,10 +554,14 @@ void FITSViewer::applyFilter(int ftype)
 
 FITSView * FITSViewer::getImage(int fitsUID)
 {
-    if (fitsUID < 0 || fitsUID >= fitsImages.size())
-        return NULL;
+    //if (fitsUID < 0 || fitsUID >= fitsImages.size())
+      //  return NULL;
 
-    return fitsImages[fitsUID]->getImage();
+    FITSTab *tab = fitsMap.value(fitsUID);
+
+    return tab->getImage();
+
+    //return fitsImages[fitsUID]->getImage();
 
 }
 

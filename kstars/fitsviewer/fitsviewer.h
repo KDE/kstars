@@ -21,6 +21,7 @@
 #define FITSViewer_H_
 
 #include <QList>
+#include <QMap>
 
 #include <KDialog>
 #include <kxmlguiwindow.h>
@@ -105,6 +106,7 @@ private:
     QList<FITSTab*> fitsImages;
     int fitsID;
     bool markStars;
+    QMap<int, FITSTab*> fitsMap;
 
 
 signals:

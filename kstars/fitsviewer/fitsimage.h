@@ -41,6 +41,7 @@
 #include "fitshistogram.h"
 #include "fitscommon.h"
 
+#include "skypoint.h"
 #include "dms.h"
 
 #define INITIAL_W	640
@@ -121,6 +122,10 @@ public:
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
 
+    // Center field
+    double getOrientation() { return field_orient; }
+    SkyPoint *getCenterCoord() { return &center_coord; }
+
     /* stats struct to hold statisical data about the FITS data */
     struct
     {
@@ -140,6 +145,7 @@ private:
     double stddev();
     int calculateMinMax(bool refresh=false);
     void checkWCS();
+    void readWCSKeys();
 
     bool markStars;
     float *image_buffer;				/* scaled image buffer (0-255) range */
@@ -152,7 +158,10 @@ private:
     QString filename;
     FITSMode mode;
 
+
     wcs_point *wcs_coord;
+    SkyPoint center_coord;
+    double field_orient;
     QList<Edge*> starCenters;
 
 };
