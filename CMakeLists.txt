@@ -29,6 +29,10 @@ macro_optional_find_package(WCSLIB)
 macro_bool_to_01(WCSLIB_FOUND HAVE_WCSLIB)
 macro_log_feature(WCSLIB_FOUND "WCSLib" "Support for World Coordinate System in KStars." "http://www.atnf.csiro.au/people/mcalabre/WCS/" FALSE "" "WCS enables KStars to read and process world coordinate systems in FITS header.")
 
+macro_optional_find_package(AstrometryNet)
+macro_bool_to_01(ASTROMETRYNET_FOUND HAVE_ASTROMETRYNET)
+macro_log_feature(ASTROMETRYNET_FOUND "astrometry.net" "Support for astrometry solver in KStars." "http://www.astrometry.net" FALSE "" "Astrometry.net enables KStars to achieve sub-arcsecond GOTO tracking and determines polar alignment errors in the mount.")
+
 macro_optional_find_package(Xplanet)
 macro_bool_to_01(XPLANET_FOUND HAVE_XPLANET)
 macro_log_feature(XPLANET_FOUND "XPlanet" "Renders an image of all the major planets and most satellites" "http://xplanet.sourceforge.net/" FALSE "1.0" "Gives KStars support for xplanet.")
