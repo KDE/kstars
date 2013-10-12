@@ -58,6 +58,7 @@ if (CFITSIO_FOUND)
       ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
+      ekos/align.ui
       ekos/focus.ui
       ekos/guide.ui
       ekos/guide/guider.ui
@@ -79,6 +80,11 @@ if (CFITSIO_FOUND)
       ekos/guide/scroll_graph.cpp
       ekos/guide/vect.cpp
    )
+
+  if (ASTROMETRYNET_FOUND)
+    set(align_SRCS  ekos/align.cpp)
+  endif(ASTROMETRYNET_FOUND)
+
 endif(CFITSIO_FOUND)
 
   include_directories(${INDI_INCLUDE_DIR})
@@ -431,7 +437,7 @@ set(printingui_SRCS
 )
 
 ##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
-set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS}
+set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${align_SRCS}
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
