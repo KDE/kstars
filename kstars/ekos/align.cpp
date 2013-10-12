@@ -261,7 +261,7 @@ void Align::newFITS(IBLOB *bp)
 
     currentCCD->disconnect(this);
 
-    appendLogText(i18n("Image recieved."));
+    appendLogText(i18n("Image received."));
 
     startSovling(QString(bp->label));
 }
