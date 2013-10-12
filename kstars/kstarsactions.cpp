@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDialog>
+#include <QDockWidget>
 #include <QPointer>
 
 #include <kdebug.h>
@@ -76,6 +77,9 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
+#include "tools/whatsinteresting/wiview.h"
+#include "tools/whatsinteresting/wilpsettings.h"
+#include "tools/whatsinteresting/wiequipsettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
@@ -283,6 +287,78 @@ void KStars::slotWUT() {
     wut->show();
 }
 
+void KStars::slotWISettings()
+{
+    if (wi && !wiDock->isVisible())
+    {
+        slotShowWIView(1);
+        return;
+    }
+
+    if (KConfigDialog::showDialog("wisettings"))
+    {
+        wiEquipSettings->populateScopeListWidget();
+        return;
+    }
+
+    KConfigDialog* dialog = new KConfigDialog(this, "wisettings", Options::self());
+
+    connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyWIConfigChanges()));
+    connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
+
+    wiLPSettings = new WILPSettings(this);
+    wiEquipSettings = new WIEquipSettings(this);
+    dialog->addPage(wiLPSettings, i18n("Light Pollution Settings"));
+    dialog->addPage(wiEquipSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
+    dialog->show();
+}
+
+void KStars::slotShowWIView(int status)
+{
+    if (status == 0) return;          //Cancelled
+
+    int bortle = Options::bortleClass();
+    wiEquipSettings->setAperture();
+
+    /* NOTE This part of the code dealing with equipment type is presently not required
+     * as WI does not differentiate between Telescope and Binoculars. It only needs the
+     * aperture of the equipment whichever available. However this is kept as a part of
+     * the code as support to be utilised in the future.
+     */
+    ObsConditions::Equipment equip = Options::noEquipCheck()
+    ? (ObsConditions::None) : (Options::telescopeCheck()
+    ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
+    : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
+
+    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope)
+                                           ? wiEquipSettings->getTelType() : ObsConditions::Invalid;
+
+    int aperture = wiEquipSettings->getAperture();
+
+    //Update observing conditions for What's Interesting
+    if (!wiObsConditions)
+        wiObsConditions = new ObsConditions(bortle, aperture, equip, telType);
+    else
+        wiObsConditions->setObsConditions(bortle, aperture, equip, telType);
+
+    if (!wi)
+    {
+        wi = new WIView(0, wiObsConditions);
+        wiDock = new QDockWidget(this);
+        wiDock->setObjectName("What's Interesting");
+        wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
+        wiDock->setWidget(wi->getWIBaseView());
+        wiDock->setMinimumWidth(wi->getWIBaseView()->width());
+        addDockWidget(Qt::RightDockWidgetArea, wiDock);
+        wiDock->setVisible(true);
+    }
+    else
+    {
+        wi->updateModels(wiObsConditions);
+        wiDock->setVisible(true);
+    }
+}
+
 void KStars::slotCalendar() {
     if ( ! skycal ) skycal = new SkyCalendar(this);
     skycal->show();
@@ -487,6 +563,11 @@ void KStars::slotApplyConfigChanges() {
     kstarsData->skyComposite()->setCurrentCulture(  kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
     kstarsData->skyComposite()->reloadCLines();
     kstarsData->skyComposite()->reloadCNames();
+}
+
+void KStars::slotApplyWIConfigChanges() {
+    Options::self()->writeConfig();
+    applyConfig();
 }
 
 void KStars::slotSetTime() {
@@ -1009,6 +1090,7 @@ void KStars::slotObsList() {
 }
 
 void KStars::slotEquipmentWriter() {
+    eWriter->loadEquipment();
     eWriter->show();
 }
 

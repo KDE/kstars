@@ -18,6 +18,7 @@
 #include "kstars.h"
 
 #include <QApplication>
+#include <QDockWidget>
 
 #include <KGlobal>
 #include <KLocale>
@@ -38,6 +39,7 @@
 #include "dialogs/exportimagedialog.h"
 #include "observinglist.h"
 #include "oal/execute.h"
+#include "whatsinteresting/wiview.h"
 
 #include "kstarsadaptor.h"
 
@@ -56,9 +58,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     : KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
       colorActionMenu(0), fovActionMenu(0), findDialog(0),
       imgExportDialog(0), imageExporter(0), obsList(0), execute(0),
-      avt(0), wut(0), skycal(0), sb(0), pv(0), jmt(0), mpt(0),
-      fm(0), astrocalc(0), printingWizard(0), ekosmenu(0),
-      DialogIsObsolete(false), StartClockRunning( clockrun ),
+      avt(0), wut(0), wi(0), wiObsConditions(0), wiDock(0), skycal(0),
+      sb(0), pv(0), jmt(0), mpt(0), fm(0), astrocalc(0), printingWizard(0),
+      ekosmenu(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
       StartDateString( startdate )
 {
     new KstarsAdaptor(this);
@@ -322,6 +324,11 @@ void KStars::selectPreviousFov()
     data()->syncFOV();
     syncFOVActions();
     map()->update();
+}
+
+void KStars::showWISettingsUI()
+{
+    slotWISettings();
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {

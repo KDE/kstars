@@ -1,12 +1,10 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 
-<kpartgui name="KStars" version="2">
+<kpartgui name="KStars" version="3">
 <MenuBar noMerge="1">
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="new_window" />
 		<Action name="close_window" />
-		<Separator />
-		<Action name="get_data" />
 		<Separator />
 		<Action name="open_file" />
 		<Action name="export_image" />
@@ -22,9 +20,9 @@
 		<Action name="time_to_now" />
 		<Action name="time_dialog" />
 		<Separator />
-        <Action name="time_step_backward" />
+		<Action name="time_step_backward" />
 		<Action name="clock_startstop" />
-        <Action name="time_step_forward" />
+		<Action name="time_step_forward" />
 	</Menu>
 
 	<Menu name="focus" noMerge="1"><text>&amp;Pointing</text>
@@ -59,6 +57,8 @@
 		</Menu>
 	</Menu>
 
+	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
+		<Action name="astrocalculator" />
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
 		<Action name="telescope_wizard" />
 		<Action name="device_manager" />
@@ -66,18 +66,31 @@
 		<Action name="indi_cpl" />
 	</Menu>
 
-	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
-		<Action name="astrocalculator" />
                 <Action name="skycalendar" />
-		<Action name="obslist" />
+		<Action name="moonphasetool" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
+	        <Action name="whats_interesting" />
                 <Action name="ekos" />
 		<Action name="glossary" />
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />
+                <Action name="ekos" />
 		<Action name="jmoontool" />
                 <Action name="flagmanager" />
+	</Menu>
+
+	<Menu name="data" noMerge="1"><text>&amp;Data</text>
+		<Action name="get_data" />
+		<Menu name="updates"><text>&amp;Updates</text>
+		<Action name="update_comets" />
+		<Action name="update_asteroids" />
+		<Action name="update_supernovae" />
+		</Menu>
+	</Menu>
+	<Menu name="observation" noMerge="1"><text>&amp;Observation</text>
+	   <Action name="obslist" />
+	   <Action name="execute" />
 	</Menu>
 
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
@@ -99,14 +112,8 @@
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 		<Action name="opengl" />
 		<Separator />
-        <Menu name="updates"><text>&amp;Updates</text>
-            <Action name="update_comets" />
-            <Action name="update_asteroids" />
-            <Action name="update_supernovae" />
-        </Menu>
-		<Separator />
-        <Action name="ewriter"/>
-        <Action name="obsadd"/>
+		<Action name="ewriter"/>
+		<Action name="obsadd"/>
 		<Separator />
 		<Action name="geolocation" />
 		<Separator />
@@ -115,10 +122,6 @@
 		<Action name="configure" />
 		<Action name="startwizard" />
 	</Menu>
-
-	<Menu name="oal" noMerge="1"><text>&amp;Observation</text>
-        <Action name="execute"/>
-    </Menu>
 
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>
@@ -140,9 +143,9 @@
 	<Action name="zoom_out" />
 	<Action name="find_object" />
 	<Separator />
-    <Action name="time_step_backward" />
+	<Action name="time_step_backward" />
 	<Action name="clock_startstop" />
-    <Action name="time_step_forward" />
+	<Action name="time_step_forward" />
 	<Action name="timestep_control" />
 </ToolBar>
 
@@ -151,6 +154,7 @@
 	<Action name="show_stars" />
 	<Action name="show_deepsky" />
 	<Action name="show_planets" />
+	<Action name="show_satellites" />
 	<Action name="show_clines" />
 	<Action name="show_cnames" />
 	<Action name="show_cbounds" />

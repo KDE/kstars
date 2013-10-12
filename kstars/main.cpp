@@ -27,12 +27,12 @@
 #include "skymap.h"
 #include "simclock.h"
 #include "ksnumbers.h"
+#include "version.h"
 #include "Options.h"
 //Added by qt3to4:
 #include <QPixmap>
 #include <kglobal.h>
 
-#define KSTARS_VERSION "2.0.0"
 
 static const char description[] =
     I18N_NOOP("Desktop Planetarium");

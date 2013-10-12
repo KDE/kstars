@@ -109,7 +109,7 @@ private:
 
     /**
      * @brief Returns true if this catalog is to be drawn
-     * Overriden from SkyComponent::selected
+     * Overridden from SkyComponent::selected
      * @return bool
      **/
     bool selected();
