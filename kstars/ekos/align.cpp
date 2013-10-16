@@ -11,6 +11,8 @@
 #include <config-kstars.h>
 #include <QProcess>
 
+#include "kstars.h"
+#include "kstarsdata.h"
 #include "align.h"
 #include "Options.h"
 
@@ -329,34 +331,50 @@ void Align::solverComplete(int exist_status)
         return;
     }
 
-    FITSImage *wcs_solution = new FITSImage(FITS_WCSM);
+    connect(&wcsinfo, SIGNAL(finished(int)), this, SLOT(wcsinfoComplete(int)));
 
-    if (wcs_solution->loadFITS("/tmp/solution.wcs", NULL) == false)
+    wcsinfo.start("wcsinfo", QStringList("/tmp/solution.wcs"));
+
+}
+
+void Align::wcsinfoComplete(int exist_status)
+{
+    if (exist_status != 0)
     {
-        appendLogText("Error loading WCS solution header.");
+        appendLogText(i18n("WCS header missing or corrupted. Solver failed."));
         return;
     }
 
-    SkyPoint *coord = wcs_solution->getCenterCoord();
+    QString wcsinfo_stdout = wcsinfo.readAllStandardOutput();
 
-    if (coord == NULL)
+    QStringList wcskeys = wcsinfo_stdout.split(QRegExp("[\n]"));
+
+    QStringList key_value;
+
+    foreach(QString key, wcskeys)
     {
-        qDebug() << "wcs coord NULL! " << endl;
-        return;
+        key_value = key.split(" ");
+
+        if (key_value.size() > 1)
+        {
+            if (key_value[0] == "ra_center")
+                alignCoord.setRA0(key_value[1].toDouble()/15.0);
+            else if (key_value[0] == "dec_center")
+                alignCoord.setDec0(key_value[1].toDouble());
+            else if (key_value[0] == "orientation_center")
+                RotOut->setText(key_value[1]);
+        }
+
     }
 
-    alignCoord.setRA(coord->ra());
-    alignCoord.setDec(coord->dec());
-
+    // Convert to JNow
+    alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
 
     QString ra_dms, dec_dms;
-    getFormattedCoords(coord->ra().Hours(), coord->dec().Degrees(), ra_dms, dec_dms);
+    getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
 
     SolverRAOut->setText(ra_dms);
     SolverDecOut->setText(dec_dms);
-
-    QString orientation = QString("%1").arg(wcs_solution->getOrientation(), 0, 'g', 5 );
-    RotOut->setText(orientation);
 
     int elapsed = (int) round(solverTimer.elapsed()/1000.0);
     appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
@@ -375,8 +393,6 @@ void Align::solverComplete(int exist_status)
     dir.setFilter(QDir::Files);
     foreach(QString dirFile, dir.entryList())
             dir.remove(dirFile);
-
-    delete (wcs_solution);
 
 }
 

@@ -122,10 +122,6 @@ public:
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
 
-    // Center field
-    double getOrientation() { return field_orient; }
-    SkyPoint *getCenterCoord() { return &center_coord; }
-
     /* stats struct to hold statisical data about the FITS data */
     struct
     {
@@ -158,10 +154,7 @@ private:
     QString filename;
     FITSMode mode;
 
-
     wcs_point *wcs_coord;
-    SkyPoint center_coord;
-    double field_orient;
     QList<Edge*> starCenters;
 
 };

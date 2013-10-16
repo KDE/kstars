@@ -50,6 +50,7 @@ public slots:
     bool capture();
     void solverComplete(int exist_status);
     void logSolver();
+    void wcsinfoComplete(int exist_status);
     void updateScopeCoords(INumberVectorProperty *coord);
     void checkCCD(int CCDNum);
     void newFITS(IBLOB *bp);
@@ -84,6 +85,7 @@ private:
 
     QProgressIndicator *pi;
     QProcess solver;
+    QProcess wcsinfo;
     QTime solverTimer;
     QString fitsFile;
 

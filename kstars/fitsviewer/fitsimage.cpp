@@ -139,13 +139,6 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         return false;
     }
 
-    // If WCS File, stop here
-    if (mode == FITS_WCSM)
-    {
-        readWCSKeys();
-        return true;
-    }
-
     if (mode == FITS_NORMAL && progress)
         if (progress->wasCanceled())
             return false;
@@ -1101,68 +1094,5 @@ void FITSImage::checkWCS()
        }
     }
 #endif
-
-}
-
-void FITSImage::readWCSKeys()
-{
-    QString recordList;
-    int nkeys;
-    int err_status;
-    char err_text[FLEN_STATUS];
-    double cd1_1=0, cd1_2=0, cd2_1=0, cd2_2=0;
-
-    if ( (err_status = getFITSRecord(recordList, nkeys)) < 0)
-    {
-        fits_get_errstatus(err_status, err_text);
-        KMessageBox::error(0, i18n("FITS record error: %1", QString::fromUtf8(err_text)), i18n("FITS Header"));
-        return;
-    }
-
-    for(int i = 0; i < nkeys; i++)
-    {
-        QString record = recordList.mid(i*80, 80);
-        // I love regexp!
-        QStringList properties = record.split(QRegExp("[=/]"));
-
-        //if (properties.size() > 1)
-            //qDebug() << properties[0].simplified() << " = " << properties[1].simplified() << endl;
-
-        if (properties[0].simplified() == "CRVAL1")
-            center_coord.setRA(properties[1].toDouble()/15.0);
-
-        else if (properties[0].simplified() == "CRVAL2")
-            center_coord.setDec(properties[1].toDouble());
-
-        else if (properties[0].simplified() == "CD1_1")
-            cd1_1 = properties[1].toDouble();
-
-        else if (properties[0].simplified() == "CD1_2")
-            cd1_2 = properties[1].toDouble();
-
-        else if (properties[0].simplified() == "CD2_1")
-            cd2_1 = properties[1].toDouble();
-
-        else if (properties[0].simplified() == "CD2_2")
-            cd2_2 = properties[1].toDouble();
-
-
-    }
-
-    //qDebug() << "CD1_1 " << cd1_1 << "   CD1_2 " << cd1_2 << "  CD2_1 " << cd2_1 << "   CD2_2 " << cd2_2 << endl;
-
-
-    double scale = cd1_1 * cd2_2 - cd1_2 * cd2_1;
-
-    double T = scale * cd1_1 + cd2_2;
-    double A = scale * cd2_1 - cd1_2;
-
-    field_orient = atan2(A, T) * (-180/M_PI);
-
-   // qDebug() << "Orientation is " << wcs_orient << endl;
-
-    //T = parity * sip->wcstan.cd[0][0] + sip->wcstan.cd[1][1];
-    //A = parity * sip->wcstan.cd[1][0] - sip->wcstan.cd[0][1];
-    //orient = -rad2deg(atan2(A, T));
 
 }
