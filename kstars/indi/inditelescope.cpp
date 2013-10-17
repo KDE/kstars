@@ -90,6 +90,17 @@ bool Telescope::canGuide()
         return false;
 }
 
+bool Telescope::isSlewing()
+{
+    INumberVectorProperty *EqProp(NULL);
+
+    EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
+    if (EqProp == NULL)
+        return false;
+
+    return (EqProp->s == IPS_BUSY);
+}
+
 bool Telescope::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
     if (canGuide() == false)
@@ -276,6 +287,16 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
 
 }
 
+bool Telescope::Slew(double ra, double dec)
+{
+    SkyPoint target;
+
+    target.setRA(ra);
+    target.setDec(dec);
+
+    return Slew(&target);
+}
+
 bool Telescope::Slew(SkyPoint *ScopeTarget)
 {
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
@@ -298,6 +319,16 @@ bool Telescope::Slew(SkyPoint *ScopeTarget)
 
     return sendCoords(ScopeTarget);
 
+}
+
+bool Telescope::Sync(double ra, double dec)
+{
+    SkyPoint target;
+
+    target.setRA(ra);
+    target.setDec(dec);
+
+    return Sync(&target);
 }
 
 bool Telescope::Sync(SkyPoint *ScopeTarget)
