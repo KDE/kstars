@@ -338,6 +338,8 @@ void Align::solverComplete(int exist_status)
     if (exist_status != 0 || access("/tmp/solution.wcs", F_OK)==-1)
     {
         appendLogText(i18n("Solver failed. Try again."));
+        azStage  = AZ_INIT;
+        altStage = ALT_INIT;
         return;
     }
 
@@ -352,6 +354,8 @@ void Align::wcsinfoComplete(int exist_status)
     if (exist_status != 0)
     {
         appendLogText(i18n("WCS header missing or corrupted. Solver failed."));
+        azStage  = AZ_INIT;
+        altStage = ALT_INIT;
         return;
     }
 
@@ -663,11 +667,10 @@ void Align::measureAltError()
 void Align::calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC)
 {
     double raMotion = finalRA - initRA;
-
     double decDeviation = finalDEC - initDEC;
 
     // How much time passed siderrally form initRA to finalRA?
-    double RATime = (raMotion / SIDRATE) / 60.0;
+    double RATime = fabs(raMotion / SIDRATE) / 60.0;
 
     // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
     // In degrees
