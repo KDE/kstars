@@ -7,10 +7,10 @@
     <x>0</x>
     <y>0</y>
     <width>578</width>
-    <height>562</height>
+    <height>612</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -407,6 +407,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_11">
      <item>
       <widget class="QGroupBox" name="groupBox_6">
+       <property name="statusTip">
+        <string>Select what action to take once a solution is found.</string>
+       </property>
        <property name="title">
         <string>GOTO</string>
        </property>
@@ -434,14 +437,30 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QRadioButton" name="nothingR">
+          <property name="statusTip">
+           <string>Just solve</string>
+          </property>
+          <property name="text">
+           <string>Nothing</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>17</width>
+            <height>63</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line_4">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
       </widget>
      </item>
      <item>
@@ -449,36 +468,18 @@
        <property name="title">
         <string>Polar Alignment</string>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
              <string>Hemisphere:</string>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Alt Error:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Az Error:</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
-          <item>
-           <widget class="QComboBox" name="comboBox">
+          <item row="0" column="1">
+           <widget class="QComboBox" name="hemisphereCombo">
             <item>
              <property name="text">
               <string>Northern</string>
@@ -491,26 +492,39 @@
             </item>
            </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QLineEdit" name="altError">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="altDeg">
-              <property name="text">
-               <string>Deg</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="statusTip">
+             <string>Direction of the mount when measuring altitude error. It is either east or west of the meridian</string>
+            </property>
+            <property name="text">
+             <string>Altitude Direction:</string>
+            </property>
+           </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item row="1" column="1">
+           <widget class="QComboBox" name="altDirCombo">
+            <item>
+             <property name="text">
+              <string>East</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>West</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Az Error:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
              <widget class="QLineEdit" name="azError">
               <property name="readOnly">
@@ -518,14 +532,62 @@
               </property>
              </widget>
             </item>
+           </layout>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Alt Error:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
-             <widget class="QLabel" name="azDeg">
-              <property name="text">
-               <string>Deg</string>
+             <widget class="QLineEdit" name="altError">
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
            </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QPushButton" name="measureAzB">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Measure Az Error</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="measureAltB">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Measure Alt Error</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -535,17 +597,11 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <widget class="Line" name="line_4">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>11</height>
-      </size>
-     </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>

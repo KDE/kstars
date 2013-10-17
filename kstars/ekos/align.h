@@ -33,6 +33,9 @@ public:
     Align();
     ~Align();
 
+    typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SLEWING, AZ_SECOND_TARGET, AZ_FINISHED } AZStage;
+    typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SLEWING, ALT_SECOND_TARGET, ALT_FINISHED } ALTStage;
+
     void setCCD(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
     void addGuideHead();
@@ -49,8 +52,10 @@ public slots:
     void stopSolving();
     bool capture();
     void solverComplete(int exist_status);
-    void logSolver();
     void wcsinfoComplete(int exist_status);
+    void measureAltError();
+    void measureAzError();
+    void logSolver();
     void updateScopeCoords(INumberVectorProperty *coord);
     void checkCCD(int CCDNum);
     void newFITS(IBLOB *bp);
@@ -65,6 +70,7 @@ private:
     void executePolarAlign();
     void Sync();
     void SlewToTarget();
+    void calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC);
     void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
 
     ISD::Telescope *currentTelescope;
@@ -88,6 +94,12 @@ private:
     QProcess wcsinfo;
     QTime solverTimer;
     QString fitsFile;
+
+    AZStage azStage;
+    ALTStage altStage;
+
+    static const double RAMotion;
+    static const float SIDRATE;
 
 };
 

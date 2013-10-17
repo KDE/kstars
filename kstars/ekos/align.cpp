@@ -38,6 +38,11 @@
 namespace Ekos
 {
 
+// 30 arcmiutes RA movement
+const double Align::RAMotion = 0.5;
+// Sidereal rate, degrees/s
+const float Align::SIDRATE  = 0.004178;
+
 Align::Align()
 {
     setupUi(this);
@@ -49,6 +54,8 @@ Align::Align()
 
     connect(solveB, SIGNAL(clicked()), this, SLOT(capture()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(stopSolving()));
+    connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
+    connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
@@ -59,6 +66,9 @@ Align::Align()
     controlLayout->addWidget(pi, 0, 2, 1, 1);
 
     exposureSpin->setValue(Options::alignExposure());
+
+    altStage = ALT_INIT;
+    azStage  = AZ_INIT;
 }
 
 Align::~Align()
@@ -425,7 +435,24 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        generateArgs();
+        if (azStage == AZ_SLEWING)
+        {
+            if (currentTelescope->isSlewing() == false)
+            {
+                azStage = AZ_SECOND_TARGET;
+                measureAzError();
+            }
+        }
+        else if (altStage == ALT_SLEWING)
+        {
+            if (currentTelescope->isSlewing() == false)
+            {
+                altStage = ALT_SECOND_TARGET;
+                measureAltError();
+            }
+        }
+        else
+            generateArgs();
     }
 }
 
@@ -442,7 +469,7 @@ void Align::executeGOTO()
 {
     if (syncR->isChecked())
         Sync();
-    else
+    else if (slewR->isChecked())
         SlewToTarget();
 }
 
@@ -466,7 +493,269 @@ void Align::SlewToTarget()
 
 void Align::executePolarAlign()
 {
-    //TODO
+    appendLogText(i18n("Processing solution for polar alignment..."));
+
+    switch (azStage)
+    {
+        case AZ_FIRST_TARGET:
+        case AZ_FINISHED:
+            measureAzError();
+            break;
+
+        default:
+            break;
+    }
+
+    switch (altStage)
+    {
+        case ALT_FIRST_TARGET:
+        case ALT_FINISHED:
+            measureAltError();
+            break;
+
+        default:
+            break;
+    }
+}
+
+
+void Align::measureAzError()
+{
+    static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
+    QString meridianOrient = (hemisphereCombo->currentIndex() == 0) ? i18n("southern") : i18n("northern");
+
+    switch (azStage)
+    {
+        case AZ_INIT:
+
+        // Display message box confirming user point scope near meridian and south
+
+        if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope at the %1 meridian. Press continue when ready.", meridianOrient)
+                                                , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                i18n("Don't ask again"))!=KMessageBox::Continue)
+            return;
+
+        appendLogText(i18n("Solving first frame near the meridian."));
+        azStage = AZ_FIRST_TARGET;
+        polarR->setChecked(true);
+        solveB->click();
+        break;
+
+      case AZ_FIRST_TARGET:
+        // start solving there, find RA/DEC
+        initRA   = alignCoord.ra().Degrees();
+        initDEC  = alignCoord.dec().Degrees();
+
+
+        azStage = AZ_SLEWING;
+
+        appendLogText(i18n("Slewing 30 arcminutes in RA..."));
+
+        // Now move 30 arcminutes in RA
+        currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
+        // Wait until it's complete
+        break;
+
+      case AZ_SECOND_TARGET:
+        // We reached second target now
+        // Let now solver for RA/DEC
+        appendLogText(i18n("Solving second frame near the meridian."));
+        azStage = AZ_FINISHED;
+        polarR->setChecked(true);
+        solveB->click();
+        break;
+
+
+      case AZ_FINISHED:
+        // Measure deviation in DEC
+        // Call function to report error
+        // set stage to AZ_FIRST_TARGET again
+        appendLogText(i18n("Calculating azimuth alignment error..."));
+        finalRA   = alignCoord.ra().Degrees();
+        finalDEC  = alignCoord.dec().Degrees();
+
+        // Slew back to original position
+        currentTelescope->Slew((finalRA + RAMotion)/15.0, initDEC);
+        appendLogText(i18n("Slewing back to original position..."));
+
+        calculatePolarError(initRA, initDEC, finalRA, finalDEC);
+
+        azStage = AZ_INIT;
+        break;
+
+    default:
+        break;
+
+    }
+
+}
+
+void Align::measureAltError()
+{
+    static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
+    QString meridianOrient = (altDirCombo->currentIndex() == 0) ? i18n("east") : i18n("west");
+
+    switch (altStage)
+    {
+        case ALT_INIT:
+
+        // Display message box confirming user point scope near meridian and south
+
+        if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the %1 with a minimum altitude of 20 degrees. Press continue when ready.", meridianOrient)
+                                                , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                i18n("Don't ask again"))!=KMessageBox::Continue)
+            return;
+
+        appendLogText(i18n("Solving first frame."));
+        altStage = ALT_FIRST_TARGET;
+        polarR->setChecked(true);
+        solveB->click();
+        break;
+
+      case ALT_FIRST_TARGET:
+        // start solving there, find RA/DEC
+        initRA   = alignCoord.ra().Degrees();
+        initDEC  = alignCoord.dec().Degrees();
+
+
+        altStage = ALT_SLEWING;
+
+        appendLogText(i18n("Slewing 30 arcminutes in RA..."));
+
+        // Now move 30 arcminutes in RA
+        currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
+        // Wait until it's complete
+        break;
+
+      case ALT_SECOND_TARGET:
+        // We reached second target now
+        // Let now solver for RA/DEC
+        appendLogText(i18n("Solving second frame."));
+        altStage = ALT_FINISHED;
+        polarR->setChecked(true);
+        solveB->click();
+        break;
+
+
+      case ALT_FINISHED:
+        // Measure deviation in DEC
+        // Call function to report error
+        appendLogText(i18n("Calculating altitude alignment error..."));
+        finalRA   = alignCoord.ra().Degrees();
+        finalDEC  = alignCoord.dec().Degrees();
+
+        // Slew back to original position
+        currentTelescope->Slew((finalRA + RAMotion)/15.0, initDEC);
+        appendLogText(i18n("Slewing back to original position..."));
+
+        calculatePolarError(initRA, initDEC, finalRA, finalDEC);
+
+        altStage = ALT_INIT;
+        break;
+
+    default:
+        break;
+
+    }
+
+}
+
+void Align::calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC)
+{
+    double raMotion = finalRA - initRA;
+
+    double decDeviation = finalDEC - initDEC;
+
+    // How much time passed siderrally form initRA to finalRA?
+    double RATime = (raMotion / SIDRATE) / 60.0;
+
+    // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
+    // In degrees
+    double deviation = (3.81 * (decDeviation * 3600) ) / ( RATime * cos(initDEC * dms::DegToRad)) / 60.0;
+
+    QString deviationDirection;
+
+    switch (hemisphereCombo->currentIndex())
+    {
+        // Northern hemisphere
+        case 0:
+        if (azStage == AZ_FINISHED)
+        {
+            if (decDeviation > 0)
+                deviationDirection = "too far west";
+            else
+                deviationDirection = "too far east";
+        }
+        else if (altStage == ALT_FINISHED)
+        {
+            switch (altDirCombo->currentIndex())
+            {
+                // East
+                case 0:
+                if (decDeviation > 0)
+                    deviationDirection = "too far high";
+                else
+                    deviationDirection = "too far low";
+                break;
+
+                // West
+                case 1:
+                if (decDeviation > 0)
+                    deviationDirection = "too far low";
+                else
+                    deviationDirection = "too far high";
+                break;
+
+                default:
+                break;
+            }
+        }
+        break;
+
+        // Southern hemisphere
+        case 1:
+        if (azStage == AZ_FINISHED)
+        {
+            if (decDeviation > 0)
+                deviationDirection = "too far east";
+            else
+                deviationDirection = "too far west";
+        }
+        else if (altStage == ALT_FINISHED)
+        {
+            switch (altDirCombo->currentIndex())
+            {
+                // East
+                case 0:
+                if (decDeviation > 0)
+                    deviationDirection = "too far low";
+                else
+                    deviationDirection = "too far high";
+                break;
+
+                // West
+                case 1:
+                if (decDeviation > 0)
+                    deviationDirection = "too far high";
+                else
+                    deviationDirection = "too far low";
+                break;
+
+                default:
+                break;
+            }
+        }
+        break;
+
+       default:
+        break;
+
+    }
+
+    if (azStage == AZ_FINISHED)
+        azError->setText(i18n("%1° %2", QString("%1").arg(fabs(deviation), 0, 'g', 3), i18n("%1", deviationDirection)));
+    if (altStage == ALT_FINISHED)
+        altError->setText(i18n("%1° %2", QString("%1").arg(fabs(deviation), 0, 'g', 3), i18n("%1", deviationDirection)));
 }
 
 void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str)
