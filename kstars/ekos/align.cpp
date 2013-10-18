@@ -56,6 +56,7 @@ Align::Align()
     connect(stopB, SIGNAL(clicked()), this, SLOT(stopSolving()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
+    connect(polarR, SIGNAL(toggled(bool)), this, SLOT(checkPolarAlignment()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
@@ -318,6 +319,7 @@ void Align::startSovling(const QString &filename)
 void Align::stopSolving()
 {
     solver.terminate();
+    solver.disconnect();
 
     pi->stopAnimation();
 
@@ -351,6 +353,9 @@ void Align::solverComplete(int exist_status)
 
 void Align::wcsinfoComplete(int exist_status)
 {
+
+    wcsinfo.disconnect();
+
     if (exist_status != 0)
     {
         appendLogText(i18n("WCS header missing or corrupted. Solver failed."));
@@ -493,6 +498,22 @@ void Align::SlewToTarget()
     currentTelescope->Slew(&targetCoord);
 
     appendLogText(i18n("Slewing to target."));
+}
+
+void Align::checkPolarAlignment()
+{
+    if (polarR->isChecked())
+    {
+        measureAltB->setEnabled(true);
+        measureAzB->setEnabled(true);
+        gotoBox->setEnabled(false);
+    }
+    else
+    {
+        measureAltB->setEnabled(false);
+        measureAzB->setEnabled(false);
+        gotoBox->setEnabled(true);
+    }
 }
 
 void Align::executePolarAlign()

@@ -51,6 +51,7 @@ public slots:
 
     void stopSolving();
     bool capture();
+    void checkPolarAlignment();
     void solverComplete(int exist_status);
     void wcsinfoComplete(int exist_status);
     void measureAltError();

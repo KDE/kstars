@@ -7,21 +7,136 @@
     <x>0</x>
     <y>0</y>
     <width>578</width>
-    <height>612</height>
+    <height>519</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="title">
-        <string>Select CCD</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Control</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
+           <layout class="QGridLayout" name="controlLayout">
+            <item row="0" column="0">
+             <widget class="QPushButton" name="solveB">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>Capture &amp;&amp; Solve</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="stopB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Stop</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>47</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="title">
+          <string>Mode</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QRadioButton" name="gotoR">
+              <property name="statusTip">
+               <string>Sync the scope to the solution coordinates</string>
+              </property>
+              <property name="text">
+               <string>GOTO</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="polarR">
+              <property name="statusTip">
+               <string>Sync the scope to the solution coordinates</string>
+              </property>
+              <property name="text">
+               <string>Polar Alignment</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>51</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>13</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>Plate Solve Options</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
            <widget class="QLabel" name="textLabel1_6">
             <property name="toolTip">
              <string/>
@@ -34,106 +149,81 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="KComboBox" name="CCDCaptureCombo"/>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="KComboBox" name="CCDCaptureCombo"/>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>26</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_2">
-       <property name="title">
-        <string>Plate Solve Options</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
+          <item row="1" column="0">
            <widget class="QLabel" name="label_7">
             <property name="text">
              <string>Exposure:</string>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="exposureSpin">
-            <property name="minimum">
-             <double>0.100000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>60.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.500000000000000</double>
-            </property>
-            <property name="value">
-             <double>3.000000000000000</double>
-            </property>
-           </widget>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QDoubleSpinBox" name="exposureSpin">
+              <property name="minimum">
+               <double>0.100000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>60.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.500000000000000</double>
+              </property>
+              <property name="value">
+               <double>3.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>secs</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>secs</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
+          <item row="2" column="0">
            <widget class="QLabel" name="label_14">
             <property name="text">
              <string>Options:</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="2" column="1">
            <widget class="QLineEdit" name="solverOptions">
             <property name="statusTip">
              <string>Additional options to be the solver</string>
@@ -141,6 +231,19 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>7</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -153,108 +256,6 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_12">
-     <item>
-      <widget class="QGroupBox" name="controlGroupBox">
-       <property name="title">
-        <string>Control</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_9">
-        <item>
-         <layout class="QGridLayout" name="controlLayout">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="solveB">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Capture &amp;&amp; Solve</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="stopB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Stop</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>13</width>
-              <height>17</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_8">
-       <property name="title">
-        <string>Mode</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
-          <item>
-           <widget class="QRadioButton" name="gotoR">
-            <property name="statusTip">
-             <string>Sync the scope to the solution coordinates</string>
-            </property>
-            <property name="text">
-             <string>GOTO</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="polarR">
-            <property name="statusTip">
-             <string>Sync the scope to the solution coordinates</string>
-            </property>
-            <property name="text">
-             <string>Polar Alignment</string>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
    </item>
    <item>
     <widget class="Line" name="line_3">
@@ -404,9 +405,9 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_11">
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
      <item>
-      <widget class="QGroupBox" name="groupBox_6">
+      <widget class="QGroupBox" name="gotoBox">
        <property name="statusTip">
         <string>Select what action to take once a solution is found.</string>
        </property>
@@ -455,7 +456,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>17</width>
-            <height>63</height>
+            <height>18</height>
            </size>
           </property>
          </spacer>
@@ -464,86 +465,100 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_7">
+      <widget class="Line" name="line_7">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="alignmentBox">
        <property name="title">
         <string>Polar Alignment</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Hemisphere:</string>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Hemisphere:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="hemisphereCombo">
+              <item>
+               <property name="text">
+                <string>Northern</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Southern</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="statusTip">
+               <string>Direction of the mount when measuring altitude error. It is either east or west of the meridian</string>
+              </property>
+              <property name="text">
+               <string>Altitude Direction:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="altDirCombo">
+              <item>
+               <property name="text">
+                <string>East</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>West</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="hemisphereCombo">
-            <item>
-             <property name="text">
-              <string>Northern</string>
-             </property>
+          <item>
+           <layout class="QFormLayout" name="formLayout_3">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Az Error:</string>
+              </property>
+             </widget>
             </item>
-            <item>
-             <property name="text">
-              <string>Southern</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="statusTip">
-             <string>Direction of the mount when measuring altitude error. It is either east or west of the meridian</string>
-            </property>
-            <property name="text">
-             <string>Altitude Direction:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="altDirCombo">
-            <item>
-             <property name="text">
-              <string>East</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>West</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Az Error:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
+            <item row="0" column="1">
              <widget class="QLineEdit" name="azError">
               <property name="readOnly">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Alt Error:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>Alt Error:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
              <widget class="QLineEdit" name="altError">
               <property name="readOnly">
                <bool>true</bool>
@@ -555,11 +570,18 @@
          </layout>
         </item>
         <item>
+         <widget class="Line" name="line_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_9">
           <item>
            <widget class="QPushButton" name="measureAzB">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="text">
              <string>Measure Az Error</string>
@@ -569,7 +591,7 @@
           <item>
            <widget class="QPushButton" name="measureAltB">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="text">
              <string>Measure Alt Error</string>
@@ -591,6 +613,19 @@
           </item>
          </layout>
         </item>
+        <item>
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>1</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
      </item>
@@ -602,6 +637,19 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>13</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

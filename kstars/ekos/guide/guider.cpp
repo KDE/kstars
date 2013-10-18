@@ -370,7 +370,7 @@ void rguider::onStartStopButtonClick()
 	{
         if (pimage)
             connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
-        ui.pushButton_StartStop->setText( i18n("Start") );
+        ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
         pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
 		pmath->stop();
 		// stop pulses immediately
@@ -434,8 +434,8 @@ void rguider::guide( void )
          ui.l_PulseRA->setText(str.setNum(out->pulse_length[GUIDE_RA]) );
          ui.l_PulseDEC->setText(str.setNum(out->pulse_length[GUIDE_DEC]) );
 
-         ui.l_ErrRA->setText( str.setNum(out->sigma[GUIDE_RA]) );
-         ui.l_ErrDEC->setText( str.setNum(out->sigma[GUIDE_DEC]) );
+         ui.l_ErrRA->setText( str.setNum(out->sigma[GUIDE_RA], 'g', 3));
+         ui.l_ErrDEC->setText( str.setNum(out->sigma[GUIDE_DEC], 'g', 3 ));
 	 }
 
 	 // skip half frames

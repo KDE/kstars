@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>955</width>
-    <height>489</height>
+    <width>843</width>
+    <height>437</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_9">
+  <layout class="QVBoxLayout" name="verticalLayout_11">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,2">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0">
        <property name="sizeConstraint">
@@ -38,8 +38,8 @@
          <property name="title">
           <string>CCD</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0" colspan="2">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -165,14 +165,14 @@
                <widget class="KComboBox" name="CCDCaptureCombo"/>
               </item>
               <item>
-               <widget class="KDoubleNumInput" name="exposureIN">
-                <property name="value">
+               <widget class="KDoubleNumInput" name="exposureIN" native="true">
+                <property name="value" stdset="0">
                  <double>1.000000000000000</double>
                 </property>
-                <property name="minimum">
+                <property name="minimum" stdset="0">
                  <double>0.000000000000000</double>
                 </property>
-                <property name="singleStep">
+                <property name="singleStep" stdset="0">
                  <double>0.500000000000000</double>
                 </property>
                </widget>
@@ -410,17 +410,17 @@
                </layout>
               </item>
               <item>
-               <widget class="KIntNumInput" name="countIN">
-                <property name="minimum">
+               <widget class="KIntNumInput" name="countIN" native="true">
+                <property name="minimum" stdset="0">
                  <number>1</number>
                 </property>
-                <property name="maximum">
+                <property name="maximum" stdset="0">
                  <number>1024</number>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="KIntNumInput" name="delayIN"/>
+               <widget class="KIntNumInput" name="delayIN" native="true"/>
               </item>
               <item>
                <widget class="QComboBox" name="filterCombo">
@@ -435,137 +435,13 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="0" rowspan="4">
-           <widget class="QGroupBox" name="setupGroup">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="title">
-             <string>Filter</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <item>
-                  <widget class="QLabel" name="textLabel1_5_3">
-                   <property name="toolTip">
-                    <string/>
-                   </property>
-                   <property name="whatsThis">
-                    <string/>
-                   </property>
-                   <property name="text">
-                    <string>Device:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="textLabel1_2_3">
-                   <property name="toolTip">
-                    <string>Number of images to capture</string>
-                   </property>
-                   <property name="whatsThis">
-                    <string/>
-                   </property>
-                   <property name="text">
-                    <string>Filter:</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <item>
-                  <widget class="KComboBox" name="FilterCaptureCombo"/>
-                 </item>
-                 <item>
-                  <widget class="KComboBox" name="FilterPosCombo"/>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <spacer name="filterSPacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>21</width>
-                 <height>81</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="darkSubCheck">
-            <property name="text">
-             <string>Auto dark subtract</string>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QCheckBox" name="ISOCheck">
-            <property name="toolTip">
-             <string>Add time stamp to the file name</string>
-            </property>
-            <property name="text">
-             <string>Add ISO 8601 time stamp</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QCheckBox" name="displayCheck">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Display in FITS Viewer</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>5</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
@@ -581,7 +457,7 @@
           <item>
            <widget class="QTableWidget" name="queueTable">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -782,147 +658,317 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="progressGroup">
-     <property name="title">
-      <string>Progress</string>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_7">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <layout class="QGridLayout" name="progressLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="progressLabel_3">
-            <property name="text">
-             <string>Expose:</string>
-            </property>
-           </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_12">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QGroupBox" name="setupGroup">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Filter</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QLabel" name="textLabel1_5_3">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Device:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="textLabel1_2_3">
+                <property name="toolTip">
+                 <string>Number of images to capture</string>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Filter:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="KComboBox" name="FilterCaptureCombo"/>
+              </item>
+              <item>
+               <widget class="KComboBox" name="FilterPosCombo"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="exposeOUT">
-            <property name="minimumSize">
+          <item>
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
              <size>
-              <width>50</width>
-              <height>0</height>
+              <width>20</width>
+              <height>6</height>
              </size>
             </property>
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
+           </spacer>
           </item>
-          <item row="0" column="2" colspan="2">
-           <widget class="QLabel" name="secondsLabel">
-            <property name="text">
-             <string>second left</string>
-            </property>
-           </widget>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <item>
+          <widget class="QCheckBox" name="darkSubCheck">
+           <property name="text">
+            <string>Auto dark subtract</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="ISOCheck">
+           <property name="toolTip">
+            <string>Add time stamp to the file name</string>
+           </property>
+           <property name="text">
+            <string>Add ISO 8601 time stamp</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="displayCheck">
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="text">
+            <string>Display in FITS Viewer</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>13</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="progressGroup">
+         <property name="title">
+          <string>Progress</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <layout class="QGridLayout" name="progressLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="progressLabel_3">
+                <property name="text">
+                 <string>Expose:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="exposeOUT">
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2" colspan="2">
+               <widget class="QLabel" name="secondsLabel">
+                <property name="text">
+                 <string>second left</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="progressLabel_2">
+                <property name="text">
+                 <string>Progress:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="currentImgCountOUT">
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="textLabel1_4_2_3">
+                <property name="text">
+                 <string>of</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="fullImgCountOUT">
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <widget class="QLabel" name="completedLabel_2">
+                <property name="text">
+                 <string>completed</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="progressSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>51</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="progressLabel_2">
-            <property name="text">
-             <string>Progress:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="currentImgCountOUT">
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="textLabel1_4_2_3">
-            <property name="text">
-             <string>of</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QLabel" name="fullImgCountOUT">
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4">
-           <widget class="QLabel" name="completedLabel_2">
-            <property name="text">
-             <string>completed</string>
+          <item>
+           <widget class="QProgressBar" name="imgProgress">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="progressSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>51</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QProgressBar" name="imgProgress">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
-  <zorder>progressGroup</zorder>
   <zorder></zorder>
   <zorder>setupGroup</zorder>
-  <zorder>groupBox</zorder>
+  <zorder>displayCheck</zorder>
+  <zorder>ISOCheck</zorder>
+  <zorder>darkSubCheck</zorder>
+  <zorder>progressGroup</zorder>
+  <zorder>verticalSpacer</zorder>
+  <zorder>line</zorder>
+  <zorder>line_2</zorder>
+  <zorder>verticalSpacer_2</zorder>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
