@@ -91,6 +91,9 @@ void SupernovaeComponent::loadData()
         Supernova *sup=0;
         row_content = snParser.ReadNextRow();
 
+        if(row_content["serialNo"].toString() == "Null")
+            continue;
+
         serialNo    = row_content["serialNo"].toString();
         hostGalaxy  = row_content["hostGalaxy"].toString();
         date        = row_content["date"].toString();
