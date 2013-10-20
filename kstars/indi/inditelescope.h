@@ -38,6 +38,8 @@ public:
     bool Abort();
     bool Park();
     bool canGuide();
+    bool canSync();
+    bool canPark();
     bool isSlewing();
     bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool doPulse(GuideDirection dir, int msecs );

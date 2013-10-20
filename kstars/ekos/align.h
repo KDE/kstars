@@ -33,8 +33,8 @@ public:
     Align();
     ~Align();
 
-    typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SLEWING, AZ_SECOND_TARGET, AZ_FINISHED } AZStage;
-    typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SLEWING, ALT_SECOND_TARGET, ALT_FINISHED } ALTStage;
+    typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
+    typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
 
     void setCCD(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
@@ -49,17 +49,29 @@ public:
 
 public slots:
 
-    void stopSolving();
-    bool capture();
-    void checkPolarAlignment();
-    void solverComplete(int exist_status);
-    void wcsinfoComplete(int exist_status);
-    void measureAltError();
-    void measureAzError();
     void logSolver();
     void updateScopeCoords(INumberVectorProperty *coord);
     void checkCCD(int CCDNum);
     void newFITS(IBLOB *bp);
+
+    /* Solver */
+    bool capture();
+    void stopSolving();
+    void solverComplete(int exist_status);
+    void wcsinfoComplete(int exist_status);
+
+    /* Solver Options */
+    void checkLineEdits();
+    void copyCoordsToBoxes();
+    void clearCoordBoxes();
+
+
+    /* Polar Alignment */
+    void checkPolarAlignment();
+    void measureAltError();
+    void measureAzError();
+    void correctAzError();
+    void correctAltError();
 
 signals:
         void newLog();
@@ -81,7 +93,7 @@ private:
     Ekos::Capture *captureP;
 
     bool useGuideHead;
-
+    bool canSync;
     QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
@@ -89,6 +101,7 @@ private:
 
     SkyPoint alignCoord;
     SkyPoint targetCoord;
+    SkyPoint telescopeCoord;
 
     QProgressIndicator *pi;
     QProcess solver;
@@ -98,6 +111,8 @@ private:
 
     AZStage azStage;
     ALTStage altStage;
+    double azDeviation, altDeviation;
+    double decDeviation;
 
     static const double RAMotion;
     static const float SIDRATE;

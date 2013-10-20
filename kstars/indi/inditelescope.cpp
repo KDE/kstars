@@ -90,6 +90,28 @@ bool Telescope::canGuide()
         return false;
 }
 
+bool Telescope::canSync()
+{
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
+    if (motionSP == NULL)
+        return false;
+
+    ISwitch *syncSW = IUFindSwitch(motionSP, "SYNC");
+
+    return (syncSW != NULL);
+}
+
+bool Telescope::canPark()
+{
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+    if (parkSP == NULL)
+        return false;
+
+    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
+
+    return (parkSW != NULL);
+}
+
 bool Telescope::isSlewing()
 {
     INumberVectorProperty *EqProp(NULL);

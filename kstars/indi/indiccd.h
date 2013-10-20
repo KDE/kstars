@@ -47,6 +47,7 @@ public:
     void setShowFITS(bool enable) { displayFITS = enable;}
     bool showFITS() { return displayFITS; }
 
+    bool isCapturing();
     bool abortExposure();
 
     FITSMode getCaptureMode() { return captureMode;}

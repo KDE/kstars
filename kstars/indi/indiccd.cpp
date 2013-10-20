@@ -252,6 +252,28 @@ bool CCDChip::abortExposure()
     return true;
 }
 
+bool CCDChip::isCapturing()
+{
+    INumberVectorProperty *expProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        expProp = baseDevice->getNumber("CCD_EXPOSURE");
+        break;
+
+      case GUIDE_CCD:
+        expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
+        break;
+
+    }
+
+    if (expProp == NULL)
+        return false;
+
+    return (expProp->s == IPS_BUSY);
+}
+
 bool CCDChip::setFrameType(const QString & name)
 {
     CCDFrameType fType = FRAME_LIGHT;

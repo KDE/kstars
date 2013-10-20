@@ -11,9 +11,13 @@
 #include <config-kstars.h>
 #include <QProcess>
 
+// TEMP REMOVE LATER
+#include "skymap.h"
+
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "align.h"
+#include "dms.h"
 #include "Options.h"
 
 #ifdef HAVE_WCSLIB
@@ -50,15 +54,27 @@ Align::Align()
     currentCCD     = NULL;
     currentTelescope = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
+    decDeviation = azDeviation = altDeviation = 0;
     useGuideHead = false;
+    canSync = false;
 
     connect(solveB, SIGNAL(clicked()), this, SLOT(capture()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(stopSolving()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
     connect(polarR, SIGNAL(toggled(bool)), this, SLOT(checkPolarAlignment()));
-
+    connect(raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+    connect(decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+    connect(syncBoxesB, SIGNAL(clicked()), this, SLOT(copyCoordsToBoxes()));
+    connect(clearBoxesB, SIGNAL(clicked()), this, SLOT(clearCoordBoxes()));
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+    connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
+    connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
+
+    syncBoxesB->setIcon(KIcon("edit-copy"));
+    clearBoxesB->setIcon(KIcon("edit-clear"));
+
+    raBox->setDegType(false); //RA box should be HMS-style
 
     appendLogText(i18n("Idle."));
 
@@ -115,31 +131,51 @@ void Align::syncTelescopeInfo()
     {
         INumber *np = IUFindNumber(nvp, "GUIDER_APERTURE");
 
-        if (np && np->value != 0)
+        if (np && np->value > 0)
             aperture = np->value;
         else
         {
             np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
-            if (np)
+            if (np && np->value > 0)
                 aperture = np->value;
         }
 
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np && np->value != 0)
+        if (np && np->value > 0)
             focal_length = np->value;
         else
         {
             np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-            if (np)
+            if (np && np->value > 0)
                 focal_length = np->value;
         }
     }
 
+    if (focal_length == -1 || aperture == -1)
+    {
+        controlBox->setEnabled(false);
+        modeBox->setEnabled(false);
+        KMessageBox::error(0, i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
+        return;
+    }
+
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
+    {
+        controlBox->setEnabled(true);
+        modeBox->setEnabled(true);
         calculateFOV();
+    }
+
 
     if (currentCCD && currentTelescope)
         generateArgs();
+
+    if (syncR->isEnabled() && (canSync = currentTelescope->canSync()) == false)
+    {
+        syncR->setEnabled(false);
+        slewR->setChecked(true);
+        appendLogText(i18n("Telescope does not support syncing."));
+    }
 }
 
 
@@ -159,24 +195,36 @@ void Align::syncCCDInfo()
     if (nvp)
     {
         INumber *np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
-        if (np)
-            ccd_hor_pixel = np->value;
+        if (np && np->value >0)
+            ccd_hor_pixel = ccd_ver_pixel = np->value;
 
         np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
-        if (np)
+        if (np && np->value >0)
             ccd_ver_pixel = np->value;
 
         np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
-        if (np)
+        if (np && np->value >0)
             ccd_ver_pixel = np->value;
-    }
+    }    
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    if (targetChip->getFrame(&x,&y,&ccd_width,&ccd_height))
+    targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
+
+    if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
+    {
+        controlBox->setEnabled(false);
+        modeBox->setEnabled(false);
+        KMessageBox::error(0, i18n("CCD pixel size is missing. Please check your driver settings and try again."));
+        return;
+    }
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
+    {
+        controlBox->setEnabled(true);
+        modeBox->setEnabled(true);
         calculateFOV();
+    }
 
     if (currentCCD && currentTelescope)
         generateArgs();
@@ -227,11 +275,69 @@ void Align::generateArgs()
     getFormattedCoords(ra, dec, ra_dms, dec_dms);
 
     solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort" << "--depth" << "20,30,40"
-                                << "-O" << "-3" << ra_dms << "-4" << dec_dms << "-5" << "2"
-                                << "-L" << fov_low << "-H" << fov_high
+                                << "-O" << "-L" << fov_low << "-H" << fov_high
                                 << "-u" << "aw";
 
+    if (raBox->isEmpty() == false && decBox->isEmpty() == false)
+    {
+        bool raOk(false), decOk(false), radiusOk(false);
+        dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
+        dms dec( decBox->createDms( true, &decOk ) );
+        int radius = 30;
+        QString message;
+
+        if ( raOk && decOk )
+        {
+            //make sure values are in valid range
+            if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
+                message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
+            if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
+                message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
+            if ( ! message.isEmpty() )
+            {
+                KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
+                return;
+            }
+        }
+
+        if (radiusBox->text().isEmpty() == false)
+            radius = radiusBox->text().toInt(&radiusOk);
+
+        if (radiusOk == false)
+        {
+            KMessageBox::sorry( 0, message, i18n( "Invalid radius value" ) );
+            return;
+        }
+
+        solver_args << "-3" << QString().setNum(ra.Degrees()) << "-4" << QString().setNum(dec.Degrees()) << "-5" << QString().setNum(radius);
+     }
+
     solverOptions->setText(solver_args.join(" "));
+}
+
+void Align::checkLineEdits()
+{
+   bool raOk(false), decOk(false);
+   raBox->createDms( false, &raOk );
+   decBox->createDms( true, &decOk );
+   if ( raOk && decOk )
+            generateArgs();
+}
+
+void Align::copyCoordsToBoxes()
+{
+    raBox->setText(ScopeRAOut->text());
+    decBox->setText(ScopeDecOut->text());
+
+    checkLineEdits();
+}
+
+void Align::clearCoordBoxes()
+{
+    raBox->clear();
+    decBox->clear();
+
+    generateArgs();
 }
 
 bool Align::capture()
@@ -260,6 +366,10 @@ bool Align::capture()
    targetChip->capture(seqExpose);
 
    Options::setAlignExposure(seqExpose);
+
+   solveB->setEnabled(false);
+   stopB->setEnabled(true);
+   pi->startAnimation();
 
    appendLogText(i18n("Capturing image..."));
 
@@ -303,11 +413,6 @@ void Align::startSovling(const QString &filename)
     connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
     connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
 
-    solveB->setEnabled(false);
-    stopB->setEnabled(true);
-
-    pi->startAnimation();
-
     solverTimer.start();
 
     solver.start(command, solverArgs);
@@ -320,13 +425,26 @@ void Align::stopSolving()
 {
     solver.terminate();
     solver.disconnect();
-
     pi->stopAnimation();
+    stopB->setEnabled(false);
+    solveB->setEnabled(true);
 
-    int elapsed = (int) round(solverTimer.elapsed()/1000.0);
+    azStage  = AZ_INIT;
+    altStage = ALT_INIT;
 
-    appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
+    // If capture is still in progress, let's stop that.
+    if (targetChip->isCapturing())
+    {
+        targetChip->abortExposure();
+        appendLogText(i18n("Capture aborted."));
+    }
+    else
+    {
+        int elapsed = (int) round(solverTimer.elapsed()/1000.0);
+        appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
+    }
 }
 
 void Align::solverComplete(int exist_status)
@@ -441,28 +559,70 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
     {        
         getFormattedCoords(coord->np[0].value, coord->np[1].value, ra_dms, dec_dms);
 
+        telescopeCoord.setRA(coord->np[0].value);
+        telescopeCoord.setDec(coord->np[1].value);
+
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        if (azStage == AZ_SLEWING)
+        switch (azStage)
         {
+             case AZ_SYNCING:
+            if (currentTelescope->isSlewing())
+                azStage=AZ_SLEWING;
+                break;
+
+            case AZ_SLEWING:
             if (currentTelescope->isSlewing() == false)
             {
                 azStage = AZ_SECOND_TARGET;
                 measureAzError();
             }
+            break;
+
+        case AZ_CORRECTING:
+         if (currentTelescope->isSlewing() == false)
+         {
+             appendLogText(i18n("Slew complete. Please adjust your mount's' azimuth knob %1 until the target is in the center of the view.",
+                           (decDeviation > 0 ? i18n("eastward") : i18n("westward"))));
+             azStage = AZ_INIT;
+         }
+         break;
+
+           default:
+            break;
         }
-        else if (altStage == ALT_SLEWING)
+
+        switch (altStage)
         {
+           case ALT_SYNCING:
+            if (currentTelescope->isSlewing())
+                altStage = ALT_SLEWING;
+                break;
+
+           case ALT_SLEWING:
             if (currentTelescope->isSlewing() == false)
             {
                 altStage = ALT_SECOND_TARGET;
                 measureAltError();
             }
+            break;
+
+           case ALT_CORRECTING:
+            if (currentTelescope->isSlewing() == false)
+            {
+                appendLogText(i18n("Slew complete. Please %1 the altitude knob on your mount until the target is in the center of the view.",
+                              (decDeviation > 0 ? i18n("lower") : i18n("raise"))));
+                altStage = ALT_INIT;
+            }
+            break;
+
+
+           default:
+            break;
         }
-        else
-            generateArgs();
     }
+
 }
 
 void Align::executeMode()
@@ -493,7 +653,8 @@ void Align::Sync()
 
 void Align::SlewToTarget()
 {
-    Sync();
+    if (canSync)
+        Sync();
 
     currentTelescope->Slew(&targetCoord);
 
@@ -571,14 +732,21 @@ void Align::measureAzError()
         initRA   = alignCoord.ra().Degrees();
         initDEC  = alignCoord.dec().Degrees();
 
-
-        azStage = AZ_SLEWING;
+        // Now move 30 arcminutes in RA
+        if (canSync)
+        {
+            azStage = AZ_SYNCING;
+            currentTelescope->Sync(initRA/15.0, initDEC);
+            currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
+        }
+        // If telescope doesn't sync, we slew relative to its current coordinates
+        else
+        {
+            azStage = AZ_SLEWING;
+            currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
+        }
 
         appendLogText(i18n("Slewing 30 arcminutes in RA..."));
-
-        // Now move 30 arcminutes in RA
-        currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
-        // Wait until it's complete
         break;
 
       case AZ_SECOND_TARGET:
@@ -600,7 +768,13 @@ void Align::measureAzError()
         finalDEC  = alignCoord.dec().Degrees();
 
         // Slew back to original position
-        currentTelescope->Slew((finalRA + RAMotion)/15.0, initDEC);
+        if (canSync)
+            currentTelescope->Slew(initRA/15.0, initDEC);
+        else
+        {
+            currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
+        }
+
         appendLogText(i18n("Slewing back to original position..."));
 
         calculatePolarError(initRA, initDEC, finalRA, finalDEC);
@@ -642,14 +816,23 @@ void Align::measureAltError()
         initRA   = alignCoord.ra().Degrees();
         initDEC  = alignCoord.dec().Degrees();
 
+        // Now move 30 arcminutes in RA
+        if (canSync)
+        {
+            altStage = ALT_SYNCING;
+            currentTelescope->Sync(initRA/15.0, initDEC);
+            currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
 
-        altStage = ALT_SLEWING;
+        }
+        // If telescope doesn't sync, we slew relative to its current coordinates
+        else
+        {
+            altStage = ALT_SLEWING;
+            currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
+        }
+
 
         appendLogText(i18n("Slewing 30 arcminutes in RA..."));
-
-        // Now move 30 arcminutes in RA
-        currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
-        // Wait until it's complete
         break;
 
       case ALT_SECOND_TARGET:
@@ -670,7 +853,14 @@ void Align::measureAltError()
         finalDEC  = alignCoord.dec().Degrees();
 
         // Slew back to original position
-        currentTelescope->Slew((finalRA + RAMotion)/15.0, initDEC);
+        if (canSync)
+            currentTelescope->Slew(initRA/15.0, initDEC);
+        // If telescope doesn't sync, we slew relative to its current coordinates
+        else
+        {
+            currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
+        }
+
         appendLogText(i18n("Slewing back to original position..."));
 
         calculatePolarError(initRA, initDEC, finalRA, finalDEC);
@@ -688,10 +878,13 @@ void Align::measureAltError()
 void Align::calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC)
 {
     double raMotion = finalRA - initRA;
-    double decDeviation = finalDEC - initDEC;
+    decDeviation = finalDEC - initDEC;
 
     // How much time passed siderrally form initRA to finalRA?
     double RATime = fabs(raMotion / SIDRATE) / 60.0;
+
+    qDebug() << "initRA " << initRA << " initDEC " << initDEC << " finalRA " << finalRA << " finalDEC " << finalDEC << endl;
+    qDebug() << "decDeviation " << decDeviation*3600 << " arcsec " << " RATime " << RATime << endl;
 
     // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
     // In degrees
@@ -777,9 +970,77 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     }
 
     if (azStage == AZ_FINISHED)
+    {
         azError->setText(i18n("%1° %2", QString("%1").arg(fabs(deviation), 0, 'g', 3), i18n("%1", deviationDirection)));
+        azDeviation = deviation * (decDeviation > 0 ? 1 : -1);
+        correctAzB->setEnabled(true);
+    }
     if (altStage == ALT_FINISHED)
+    {
         altError->setText(i18n("%1° %2", QString("%1").arg(fabs(deviation), 0, 'g', 3), i18n("%1", deviationDirection)));
+        altDeviation = deviation * (decDeviation > 0 ? 1 : -1);
+        correctAltB->setEnabled(true);
+    }
+}
+
+void Align::correctAltError()
+{
+    double newRA, newDEC, currentAlt, currentAz;
+
+    SkyPoint currentCoord (telescopeCoord);
+    dms      targetLat;
+
+    targetLat.setD(KStars::Instance()->data()->geo()->lat()->Degrees() - altDeviation);
+
+    currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), &targetLat );
+
+    currentAlt = currentCoord.alt().Degrees();
+    currentAz  = currentCoord.az().Degrees();
+
+    currentCoord.setAlt(currentAlt);
+    currentCoord.setAz(currentAz);
+
+    currentCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+    newRA  = currentCoord.ra().Hours();
+    newDEC = currentCoord.dec().Degrees();
+
+    altStage = ALT_CORRECTING;
+
+    currentTelescope->Slew(newRA, newDEC);
+
+    appendLogText(i18n("Slewing to calibration position, please wait until telescope is finished slewing."));
+
+}
+
+void Align::correctAzError()
+{
+    double newRA, newDEC, currentAlt, currentAz;
+
+    SkyPoint currentCoord (telescopeCoord);
+    dms      targetLST;
+
+    targetLST.setD(KStars::Instance()->data()->lst()->Degrees() - azDeviation);
+
+    currentCoord.EquatorialToHorizontal(&targetLST, KStars::Instance()->data()->geo()->lat());
+
+    currentAlt = currentCoord.alt().Degrees();
+    currentAz  = currentCoord.az().Degrees();
+
+    currentCoord.setAlt(currentAlt);
+    currentCoord.setAz(currentAz);
+
+    currentCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+    newRA  = currentCoord.ra().Hours();
+    newDEC = currentCoord.dec().Degrees();
+
+    azStage = AZ_CORRECTING;
+
+    currentTelescope->Slew(newRA, newDEC);
+
+    appendLogText(i18n("Slewing to calibration position, please wait until telescope is finished slewing."));
+
 }
 
 void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str)
