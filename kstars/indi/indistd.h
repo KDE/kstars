@@ -136,14 +136,10 @@ public slots:
 
 protected:
     void createDeviceInit();
-    void processDeviceInit();
-
     void updateTime();
     void updateLocation();
 
 private:
-    bool driverTimeUpdated;
-    bool driverLocationUpdated;
     bool connected;
 
     DriverInfo *driverInfo;

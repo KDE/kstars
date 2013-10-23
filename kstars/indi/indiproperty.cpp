@@ -645,10 +645,11 @@ void INDI_P::sendBlob()
 void INDI_P::newTime()
 {
     INDI_E * timeEle;
-    //INDI_P *SDProp;
+    INDI_E * offsetEle;
 
-    timeEle = getElement("UTC");
-    if (!timeEle) return;
+    timeEle   = getElement("UTC");
+    offsetEle = getElement("OFFSET");
+    if (!timeEle || !offsetEle) return;
 
     TimeDialog timedialog ( KStars::Instance()->data()->ut(), KStars::Instance()->data()->geo(), KStars::Instance(), true );
 
@@ -662,17 +663,13 @@ void INDI_P::newTime()
                          .arg(newDate.day()).arg(newTime.hour())
                          .arg(newTime.minute()).arg(newTime.second()));
 
+        offsetEle->setText(QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2));
+
         sendText();
+
     }
     else return;
 
-    /*SDProp  = pp->pg->dp->findProp("TIME_LST");
-    if (!SDProp) return;
-    timeEle = SDProp->findElement("LST");
-    if (!timeEle) return;
-
-    timeEle->write_w->setText(ksw->data()->lst()->toHMSString());
-    SDProp->newText();*/
 }
 
 INDI_E * INDI_P::getElement(const QString &elementName)

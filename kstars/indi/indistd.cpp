@@ -45,8 +45,6 @@ GDSetCommand::GDSetCommand(INDI_TYPE inPropertyType, const QString &inProperty, 
 
 GenericDevice::GenericDevice(DeviceInfo *idv)
 {
-    driverTimeUpdated = false;
-    driverLocationUpdated = false;
     connected = false;
 
     Q_ASSERT(idv != NULL);
@@ -151,6 +149,18 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         }
 
     }
+    else if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useComputerSource())
+    {
+           ITextVectorProperty *tvp = prop->getText();
+            if (tvp)
+                updateTime();
+    }
+    else if (!strcmp(prop->getName(), "GEOGRAPHIC_COORD") && Options::useGeographicUpdate() && Options::useComputerSource())
+    {
+            INumberVectorProperty *nvp = baseDevice->getNumber("GEOGRAPHIC_COORD");
+            if (nvp)
+                updateLocation();
+    }
 }
 
 void GenericDevice::removeProperty(INDI::Property *prop)
@@ -189,12 +199,6 @@ void GenericDevice::processNumber(INumberVectorProperty * nvp)
 
     if (!strcmp(nvp->name, "GEOGRAPHIC_LOCATION"))
     {
-        if ( Options::useGeographicUpdate() && !driverLocationUpdated)
-        {
-            driverLocationUpdated = true;
-            processDeviceInit();
-        }
-
         // Update KStars Location once we receive update from INDI, if the source is set to DEVICE
         if (Options::useDeviceSource())
         {
@@ -238,13 +242,8 @@ void GenericDevice::processText(ITextVectorProperty * tvp)
 
     if (!strcmp(tvp->name, "TIME_UTC"))
     {
-        if ( Options::useTimeUpdate() && driverTimeUpdated == false)
-        {
-            driverTimeUpdated = true;
-            processDeviceInit();
-        }
 
-    // Update KStars time once we receive update from INDI, if the source is set to DEVICE
+        // Update KStars time once we receive update from INDI, if the source is set to DEVICE
     if (Options::useDeviceSource())
     {
         tp = IUFindText(tvp, "UTC");
@@ -392,19 +391,6 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
 
 void GenericDevice::createDeviceInit()
 {
-    if ( Options::useTimeUpdate() && Options::useComputerSource())
-    {
-        ITextVectorProperty *tvp = baseDevice->getText("TIME_UTC");
-        if (tvp && driverTimeUpdated ==false)
-            updateTime();
-    }
-
-    if ( Options::useGeographicUpdate() && Options::useComputerSource())
-    {
-        INumberVectorProperty *nvp = baseDevice->getNumber("GEOGRAPHIC_COORD");
-        if (nvp && driverLocationUpdated == false)
-            updateLocation();
-    }
 
     if ( Options::showINDIMessages() )
         KStars::Instance()->statusBar()->changeItem( i18n("%1 is online.", baseDevice->getDeviceName()), 0);
@@ -412,33 +398,38 @@ void GenericDevice::createDeviceInit()
     KStars::Instance()->map()->forceUpdateNow();
 }
 
-void GenericDevice::processDeviceInit()
-{
-
-    if ( driverTimeUpdated && driverLocationUpdated && Options::showINDIMessages() )
-        KStars::Instance()->statusBar()->changeItem( i18n("%1 is online and ready.", baseDevice->getDeviceName()), 0);
-}
-
-
 /*********************************************************************************/
 /* Update the Driver's Time							 */
 /*********************************************************************************/
 void GenericDevice::updateTime()
 {
 
-    /* Update UTC */
-    clientManager->sendNewNumber(baseDevice->getDeviceName(), "TIME_UTC_OFFSET", "OFFSET", KStars::Instance()->data()->geo()->TZ());
+    QString offset, isoTS;
+
+    offset = QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2);
 
     QTime newTime( KStars::Instance()->data()->ut().time());
     QDate newDate( KStars::Instance()->data()->ut().date());
 
-    QString isoTS = QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month()).arg(newDate.day()).arg(newTime.hour()).arg(newTime.minute()).arg(newTime.second());
-
-    driverTimeUpdated = true;
+    isoTS = QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month()).arg(newDate.day()).arg(newTime.hour()).arg(newTime.minute()).arg(newTime.second());
 
     /* Update Date/Time */
-    clientManager->sendNewText(baseDevice->getDeviceName(), "TIME_UTC", "UTC", isoTS.toLatin1().constData());
+    ITextVectorProperty *timeUTC = baseDevice->getText("TIME_UTC");
 
+    if (timeUTC)
+    {
+
+        IText *timeEle = IUFindText(timeUTC, "UTC");
+        if (timeEle)
+            IUSaveText(timeEle, isoTS.toLatin1().constData());
+
+        IText *offsetEle = IUFindText(timeUTC, "OFFSET");
+        if (offsetEle)
+            IUSaveText(offsetEle, offset.toLatin1().constData());
+
+        if (timeEle && offsetEle)
+            clientManager->sendNewText(timeUTC);
+    }
 }
 
 /*********************************************************************************/
@@ -470,8 +461,6 @@ void GenericDevice::updateLocation()
         return;
 
     np->value = geo->lat()->Degrees();
-
-    driverLocationUpdated = true;
 
     clientManager->sendNewNumber(nvp);
 }

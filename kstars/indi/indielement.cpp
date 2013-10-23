@@ -145,7 +145,8 @@ void INDI_E::buildText(IText *itp)
 
     setupElementLabel();
 
-    text = i18nc(libindi_strings_context, tp->text);
+    if (tp->text[0])
+        text = i18nc(libindi_strings_context, tp->text);
 
     switch (dataProp->getPermission())
     {
