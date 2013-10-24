@@ -136,7 +136,8 @@ void INDI_E::buildMenuItem(ISwitch *sw)
 void INDI_E::buildText(IText *itp)
 {
     name  = itp->name;
-    label = i18nc(libindi_strings_context, itp->label);
+    if (itp->label[0])
+        label = i18nc(libindi_strings_context, itp->label);
 
     tp = itp;
 
