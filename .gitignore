@@ -13,3 +13,6 @@
 
 # Dolphin stuff
 .directory
+
+# Vim swapfiles
+.*.swp

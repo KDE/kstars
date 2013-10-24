@@ -157,28 +157,6 @@ public:
     	*/
     inline void setAz( double az ) { Az.setD( az ); }
 
-    /**Sets Galactic Longitude.
-    	*@param glo Galactic Longitude.
-    	*/
-    //	void setGalLong( dms glo ) { galLong.set( glo ); }
-
-    /**Overloaded member function, provided for convenience.
-    	*It behaves essentially like the above function.
-    	*@param glo Galactic Longitude, expressed as a double.
-    	*/
-    //	void setGalLong( double glo ) { galLong.setD( glo ); }
-
-    /**Sets Galactic Longitude.
-    	*@param gla Galactic Longitude.
-    	*/
-    //	void setGalLat( dms gla ) { galLat.set( gla ); }
-
-    /**Overloaded member function, provided for convenience.
-    	*It behaves essentially like the above function.
-    	*@param gla Galactic Longitude, expressed as a double.
-    	*/
-    //	void setGalLat( double gla ) { galLat.setD( gla ); }
-
     ////
     //// 2. Returning coordinates.
     //// =========================

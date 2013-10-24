@@ -105,12 +105,20 @@ ObservingList::ObservingList( KStars *_ks )
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Session = new QStandardItemModel( 0, 5 );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-        << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
-        << i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
+                                        << i18n( "Alternate Name" )
+                                        << i18nc( "Right Ascension", "RA" )
+                                        << i18nc( "Declination", "Dec" )
+                                        << i18nc( "Magnitude", "Mag" )
+                                        << i18n( "Type" ) );
     m_Session->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-        << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
-        << i18nc( "Magnitude", "Mag" ) << i18n( "Type" )
-        << i18n( "Time" ) << i18nc( "Altitude", "Alt" ) << i18nc( "Azimuth", "Az" ));
+                                          << i18n( "Alternate Name" )
+                                          << i18nc( "Right Ascension", "RA" )
+                                          << i18nc( "Declination", "Dec" )
+                                          << i18nc( "Magnitude", "Mag" )
+                                          << i18n( "Type" )
+                                          << i18n( "Time" )
+                                          << i18nc( "Altitude", "Alt" )
+                                          << i18nc( "Azimuth", "Az" ));
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
@@ -267,6 +275,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         }
 
         itemList << new QStandardItem( obj->translatedName() )
+                 << new QStandardItem( obj->translatedLongName() )
                 << new QStandardItem( ra )
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
@@ -303,6 +312,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         }
         // TODO: Change the rest of the parameters to their appropriate datatypes.
         itemList << new QStandardItem( obj->translatedName() )
+                 << new QStandardItem( obj->translatedLongName() )
                 << new QStandardItem( ra )
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
@@ -903,9 +913,9 @@ void ObservingList::plot( SkyObject *o ) {
     float DayOffset = 0;
     if( TimeHash.value( o->name(), o->transitTime( dt, geo ) ).hour() > 12 )
         DayOffset = 1;
-    KStarsDateTime ut = dt;
+    KStarsDateTime ut = dt; // This is still local time; we must convert it to UT.
     ut.setTime(QTime());
-    ut = geo->LTtoUT(ut);
+    ut = geo->LTtoUT(ut); // We convert it to UT. Now it makes sense.
     ut = ut.addSecs( ( 0.5 + DayOffset ) * 86400.0 );
 
     double h1 = geo->GSTtoLST( ut.gst() ).Hours();
@@ -914,7 +924,9 @@ void ObservingList::plot( SkyObject *o ) {
 
     ui->View->setSecondaryLimits( h1, h1 + 24.0, -90.0, 90.0 );
     ksal->setLocation(geo);
-    ui->View->setSunRiseSetTimes( ksal->getSunRise(),ksal->getSunSet() );
+    ksal->setDate( &ut );
+    ui->View->setSunRiseSetTimes( ksal->getSunRise(), ksal->getSunSet() );
+    ui->View->setDawnDuskTimes( ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight() );
     ui->View->update();
     KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
     for ( double h = -12.0; h <= 12.0; h += 0.5 ) {
@@ -1202,6 +1214,10 @@ void ObservingList::setSaveImagesButton() {
         );
 }
 
+// FIXME: Is there a reason to implement these as an event filter,
+// instead of as a signal-slot connection? Shouldn't we just use slots
+// to subscribe to various events from the Table / Session view?
+
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
@@ -1253,11 +1269,12 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
         if (event->type() == QEvent::KeyPress)
         {
                 QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-                if (keyEvent->key() == Qt::Key_Delete)
+                if (keyEvent->key() == Qt::Key_Delete) {
                     slotRemoveSelectedObjects();
-                return true;
-         } else
-                return false;
+                    return true;
+                }
+        }
+
     }
 
     return false;

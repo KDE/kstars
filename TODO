@@ -54,9 +54,11 @@
 
 - Show deprecessed J2000.0 coordinates for objects like comets.
 
-- Make DSS source user-configurable
+- Make DSS source user-configurable, with fall-backs
 
 - Move storage of DSS and other images to the user database
+
+- Make DSS mass download from observing list a background job.
 
 - Improved observation logging support using the userDB
 
@@ -67,6 +69,15 @@
 
 - More information in moon phase calendar. Show also illuminated
   fraction and magnitude, and indicate new moon and full moon.
+
+- Observing list should show more information
+
+- Observing list: Reset default assigned time.
+
+- Observing list: Allow user to set altitude for assigned time to be
+   computed.
+
+- Observing list: Smart reorganization of observing list
 
 4. Larger New Feature Ideas
 ---------------------------
