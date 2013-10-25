@@ -274,8 +274,8 @@ void Align::generateArgs()
 
     getFormattedCoords(ra, dec, ra_dms, dec_dms);
 
-    solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort" << "--depth" << "20,30,40"
-                                << "-O" << "-L" << fov_low << "-H" << fov_high
+    solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
+               << "-O" << "-L" << fov_low << "-H" << fov_high
                                 << "-u" << "aw";
 
     if (raBox->isEmpty() == false && decBox->isEmpty() == false)
