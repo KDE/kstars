@@ -1,4 +1,4 @@
-/*  Ekos Polar Alignment Tool
+/*  Ekos Alignment Module
     Copyright (C) 2013 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This application is free software; you can redistribute it and/or
@@ -11,21 +11,11 @@
 #include <config-kstars.h>
 #include <QProcess>
 
-// TEMP REMOVE LATER
-#include "skymap.h"
-
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "align.h"
 #include "dms.h"
 #include "Options.h"
-
-#ifdef HAVE_WCSLIB
-#include <wcshdr.h>
-#include <wcsfix.h>
-#include <wcs.h>
-#include <getwcstab.h>
-#endif
 
 #include <KMessageBox>
 
@@ -86,6 +76,28 @@ Align::Align()
 
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
+
+    astrometryIndex[2.8] = "index-4200";
+    astrometryIndex[4.0] = "index-4201";
+    astrometryIndex[5.6] = "index-4202";
+    astrometryIndex[8] = "index-4203";
+    astrometryIndex[11] = "index-4204";
+    astrometryIndex[16] = "index-4205";
+    astrometryIndex[22] = "index-4206";
+    astrometryIndex[30] = "index-4207";
+    astrometryIndex[42] = "index-4208";
+    astrometryIndex[60] = "index-4209";
+    astrometryIndex[85] = "index-4210";
+    astrometryIndex[120] = "index-4211";
+    astrometryIndex[170] = "index-4212";
+    astrometryIndex[240] = "index-4213";
+    astrometryIndex[340] = "index-4214";
+    astrometryIndex[480] = "index-4215";
+    astrometryIndex[680] = "index-4216";
+    astrometryIndex[1000] = "index-4217";
+    astrometryIndex[1400] = "index-4218";
+    astrometryIndex[2000] = "index-4219";
+
 }
 
 Align::~Align()
@@ -129,23 +141,23 @@ void Align::syncTelescopeInfo()
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "GUIDER_APERTURE");
+        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
         if (np && np->value > 0)
             aperture = np->value;
         else
         {
-            np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+            np = IUFindNumber(nvp, "GUIDER_APERTURE");
             if (np && np->value > 0)
                 aperture = np->value;
         }
 
-        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
+        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
         if (np && np->value > 0)
             focal_length = np->value;
         else
         {
-            np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+            np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
             if (np && np->value > 0)
                 focal_length = np->value;
         }
@@ -241,7 +253,64 @@ void Align::calculateFOV()
     fov_x /= 60.0;
     fov_y /= 60.0;
 
-    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 2).arg(fov_y, 0, 'g', 2));
+    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
+
+    verifyIndexFiles();
+
+}
+
+void Align::verifyIndexFiles()
+{
+    static double last_fov_x=0, last_fov_y=0;
+
+    if (last_fov_x == fov_x && last_fov_y == fov_y)
+        return;
+
+    last_fov_x = fov_x;
+    last_fov_y = fov_y;
+    double fov_lower = 0.10 * fov_x;
+    double fov_upper = fov_x;
+    QStringList indexFiles;
+    bool indexesOK = true;
+
+    QStringList nameFilter("*.fits");
+    QDir directory(Options::astrometryDataDir());
+    QStringList indexList = directory.entryList(nameFilter);
+    QString indexSearch = indexList.join(" ");
+    QString startIndex, lastIndex;
+    unsigned int missingIndexes=0;
+
+    foreach(float skymarksize, astrometryIndex.keys())
+    {
+        if (skymarksize >= fov_lower && skymarksize <= fov_upper)
+        {
+            indexFiles << astrometryIndex.value(skymarksize);
+
+            if (indexSearch.contains(astrometryIndex.value(skymarksize)) == false)
+            {
+                if (startIndex.isEmpty())
+                    startIndex = astrometryIndex.value(skymarksize);
+
+                lastIndex = astrometryIndex.value(skymarksize);
+
+                indexesOK = false;
+
+                missingIndexes++;
+            }
+
+        }
+    }
+
+    if (indexesOK == false)
+    {
+        if (missingIndexes == 1)
+            KMessageBox::information(0, i18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
+                                         startIndex), i18n("Missing index files"));
+        else
+            KMessageBox::information(0, i18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
+                                             startIndex, lastIndex), i18n("Missing index files"));
+
+    }
 
 }
 
@@ -275,8 +344,7 @@ void Align::generateArgs()
     getFormattedCoords(ra, dec, ra_dms, dec_dms);
 
     solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
-               << "-O" << "-L" << fov_low << "-H" << fov_high
-                                << "-u" << "aw";
+                << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
 
     if (raBox->isEmpty() == false && decBox->isEmpty() == false)
     {
@@ -396,8 +464,6 @@ void Align::startSovling(const QString &filename)
 
     fitsFile = filename;
 
-    //qDebug() << "filename " << filename << endl;
-
     currentTelescope->getEqCoords(&ra, &dec);
 
     targetCoord.setRA(ra);
@@ -407,8 +473,6 @@ void Align::startSovling(const QString &filename)
 
     solverArgs = solverOptions->text().split(" ");
     solverArgs << "-W" << "/tmp/solution.wcs" << filename;
-
-    qDebug() << solverArgs.join(" ") << endl;
 
     connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
     connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
@@ -622,6 +686,9 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
             break;
         }
     }
+
+    if (!strcmp(coord->name, "TELESCOPE_INFO"))
+        syncTelescopeInfo();
 
 }
 

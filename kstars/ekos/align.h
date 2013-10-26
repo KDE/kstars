@@ -78,6 +78,7 @@ signals:
 
 private:
     void calculateFOV();
+    void verifyIndexFiles();
     void executeMode();
     void executeGOTO();
     void executePolarAlign();
@@ -113,9 +114,11 @@ private:
     ALTStage altStage;
     double azDeviation, altDeviation;
     double decDeviation;
+    QMap<float, QString> astrometryIndex;
 
     static const double RAMotion;
     static const float SIDRATE;
+
 
 };
 
