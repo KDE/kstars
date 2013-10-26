@@ -1018,14 +1018,11 @@ void Align::correctAzError()
     double newRA, newDEC, currentAlt, currentAz;
 
     SkyPoint currentCoord (telescopeCoord);
-    dms      targetLST;
 
-    targetLST.setD(KStars::Instance()->data()->lst()->Degrees() - azDeviation);
-
-    currentCoord.EquatorialToHorizontal(&targetLST, KStars::Instance()->data()->geo()->lat());
+    currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
     currentAlt = currentCoord.alt().Degrees();
-    currentAz  = currentCoord.az().Degrees();
+    currentAz  = currentCoord.az().Degrees() + azDeviation;
 
     currentCoord.setAlt(currentAlt);
     currentCoord.setAz(currentAz);
