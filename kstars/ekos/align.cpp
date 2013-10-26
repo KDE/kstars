@@ -305,10 +305,10 @@ void Align::verifyIndexFiles()
     {
         if (missingIndexes == 1)
             KMessageBox::information(0, i18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                         startIndex), i18n("Missing index files"));
+                                             startIndex), i18n("Missing index files"), i18n("Do not show again"));
         else
             KMessageBox::information(0, i18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex, lastIndex), i18n("Missing index files"));
+                                             startIndex, lastIndex), i18n("Missing index files"), i18n("Do not show again"));
 
     }
 

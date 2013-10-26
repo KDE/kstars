@@ -319,6 +319,14 @@ void Focus::newFITS(IBLOB *bp)
 
     double currentHFR= image_data->getHFR(HFR_MAX);
 
+    qDebug() << "curent HFR is " << currentHFR << endl;
+
+    if (currentHFR == -1)
+    {
+        currentHFR = image_data->getHFR();
+        qDebug() << "and now hfr is " << currentHFR << endl;
+    }
+
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
     if (inFocusLoop == false && focusType == FOCUS_MANUAL && HFR == -1)
