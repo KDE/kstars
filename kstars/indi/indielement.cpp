@@ -87,10 +87,16 @@ void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
     name  = sw->name;
     label = i18nc(libindi_strings_context, sw->label);
 
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = sw->label;
+
     sp = sw;
 
     if (label.isEmpty())
         label = i18nc(libindi_strings_context, sw->name);
+
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = sw->name;
 
     if (groupB == NULL)
         return;
@@ -139,10 +145,16 @@ void INDI_E::buildText(IText *itp)
     if (itp->label[0])
         label = i18nc(libindi_strings_context, itp->label);
 
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = itp->label;
+
     tp = itp;
 
     if (label.isEmpty())
         label = i18nc(libindi_strings_context, itp->name);
+
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = itp->name;
 
     setupElementLabel();
 
@@ -322,10 +334,16 @@ void INDI_E::buildBLOB(IBLOB *ibp)
     name  = ibp->name;
     label = i18nc(libindi_strings_context, ibp->label);
 
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = ibp->label;
+
     bp = ibp;
 
     if (label.isEmpty())
         label = i18nc(libindi_strings_context, ibp->name);
+
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = ibp->name;
 
     setupElementLabel();
 
@@ -361,10 +379,16 @@ void INDI_E::buildNumber  (INumber *inp)
     name  = inp->name;
     label = i18nc(libindi_strings_context, inp->label);
 
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = inp->label;
+
     np = inp;
 
     if (label.isEmpty())
         label = i18nc(libindi_strings_context, inp->name);
+
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = inp->name;
 
     numberFormat(iNumber, np->format, np->value);
     text = iNumber;
@@ -409,10 +433,16 @@ void INDI_E::buildLight(ILight *ilp)
     name  = ilp->name;
     label = i18nc(libindi_strings_context, ilp->label);
 
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = ilp->label;
+
     lp = ilp;
 
     if (label.isEmpty())
         label = i18nc(libindi_strings_context, ilp->name);
+
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = ilp->name;
 
     led_w = new KLed (guiProp->getGroup()->getContainer());
     led_w->setMaximumSize(16,16);

@@ -114,6 +114,9 @@ void INDI_P::initGUI ()
 
     QString label = i18nc(libindi_strings_context, dataProp->getLabel());
 
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = dataProp->getLabel();
+
 
     /* add to GUI group */
     ledStatus = new KLed (pg->getContainer());
@@ -128,6 +131,9 @@ void INDI_P::initGUI ()
     if (label.isEmpty())
     {
         label = i18nc(libindi_strings_context, name.toUtf8());
+        if (label == "(I18N_EMPTY_MESSAGE)")
+            label =  name.toUtf8();
+
         labelW = new QLabel(label, pg->getContainer());
     }
     else
@@ -484,6 +490,7 @@ void INDI_P::sendText()
 void INDI_P::buildMenuGUI()
 {
     QStringList menuOptions;
+    QString oneOption;
     int onItem=-1;
     INDI_E *lp;
     ISwitchVectorProperty *svp = dataProp->getSwitch();
@@ -506,7 +513,12 @@ void INDI_P::buildMenuGUI()
 
         lp->buildMenuItem(tp);
 
-        menuOptions.append(i18nc(libindi_strings_context, lp->getLabel().toUtf8()));
+        oneOption = libindi_strings_context, lp->getLabel().toUtf8();
+
+        if (oneOption == "(I18N_EMPTY_MESSAGE)")
+            oneOption =  lp->getLabel().toUtf8();
+
+        menuOptions.append(oneOption);
 
         elementList.append(lp);
     }
