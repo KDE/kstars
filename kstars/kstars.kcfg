@@ -1299,10 +1299,10 @@
          <label>Always load device default configuration upon successful connection?</label>
          <default>false</default>
        </entry>
-       <entry name="astrometryDataDir" type="String">
-         <label>astrometry.net data directory</label>
-         <whatsthis>Directory where astrometry.net index files are located.</whatsthis>
-         <default>/usr/share/data</default>
+       <entry name="astrometryConfFile" type="String">
+         <label>astrometry.net configuration filey</label>
+         <whatsthis>Path to astrometry.net file location.</whatsthis>
+         <default>/etc/astrometry.cfg</default>
        </entry>
 
    </group>
