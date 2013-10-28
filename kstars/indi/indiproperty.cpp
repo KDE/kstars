@@ -513,7 +513,7 @@ void INDI_P::buildMenuGUI()
 
         lp->buildMenuItem(tp);
 
-        oneOption = libindi_strings_context, lp->getLabel().toUtf8();
+        oneOption = i18nc(libindi_strings_context, lp->getLabel().toUtf8());
 
         if (oneOption == "(I18N_EMPTY_MESSAGE)")
             oneOption =  lp->getLabel().toUtf8();
