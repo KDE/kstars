@@ -259,6 +259,40 @@ void Align::calculateFOV()
 
 }
 
+bool Align::getAstrometryDataDir(QString &dataDir)
+{
+    QFile confFile(Options::astrometryConfFile());
+
+    if (confFile.open(QIODevice::ReadOnly) == false)
+    {
+        KMessageBox::error(0, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the configuration file full path in INDI options.", Options::astrometryConfFile()));
+        return false;
+    }
+
+    QTextStream in(&confFile);
+    QString line;
+    QStringList confOptions;
+    while ( !in.atEnd() )
+    {
+      line = in.readLine();
+      if (line.startsWith("#"))
+          continue;
+
+      confOptions = line.split(" ");
+      if (confOptions.size() == 2)
+      {
+          if (confOptions[0] == "add_path")
+          {
+              dataDir = confOptions[1];
+              return true;
+          }
+      }
+   }
+
+    KMessageBox::error(0, i18n("Unable to find data dir in astrometry configuration file."));
+    return false;
+}
+
 void Align::verifyIndexFiles()
 {
     static double last_fov_x=0, last_fov_y=0;
@@ -271,10 +305,14 @@ void Align::verifyIndexFiles()
     double fov_lower = 0.10 * fov_x;
     double fov_upper = fov_x;
     QStringList indexFiles;
+    QString astrometryDataDir;
     bool indexesOK = true;
 
+    if (getAstrometryDataDir(astrometryDataDir) == false)
+        return;
+
     QStringList nameFilter("*.fits");
-    QDir directory(Options::astrometryDataDir());
+    QDir directory(astrometryDataDir);
     QStringList indexList = directory.entryList(nameFilter);
     QString indexSearch = indexList.join(" ");
     QString startIndex, lastIndex;
@@ -311,7 +349,6 @@ void Align::verifyIndexFiles()
                                              startIndex, lastIndex), i18n("Missing index files"), i18n("Do not show again"));
 
     }
-
 }
 
 void Align::generateArgs()

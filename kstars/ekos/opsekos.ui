@@ -278,12 +278,12 @@
       <item>
        <widget class="QLabel" name="label_14">
         <property name="text">
-         <string>Data directory:</string>
+         <string>Conf. File</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="kcfg_astrometryDataDir"/>
+       <widget class="QLineEdit" name="kcfg_astrometryConfFile"/>
       </item>
      </layout>
     </widget>

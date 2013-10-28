@@ -79,6 +79,7 @@ signals:
 private:
     void calculateFOV();
     void verifyIndexFiles();
+    bool getAstrometryDataDir(QString &dataDir);
     void executeMode();
     void executeGOTO();
     void executePolarAlign();
