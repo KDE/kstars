@@ -1300,7 +1300,7 @@
          <default>false</default>
        </entry>
        <entry name="astrometryConfFile" type="String">
-         <label>astrometry.net configuration filey</label>
+         <label>astrometry.net configuration file</label>
          <whatsthis>Path to astrometry.net file location.</whatsthis>
          <default>/etc/astrometry.cfg</default>
        </entry>
