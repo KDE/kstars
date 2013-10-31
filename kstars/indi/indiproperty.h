@@ -45,6 +45,9 @@ public:
     /* Draw state LED */
     void updateStateLED();
 
+    /* Update menu gui */
+    void updateMenuGUI();
+
     void initGUI();
 
     /* First step in adding a new GUI element */

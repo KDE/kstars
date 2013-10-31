@@ -557,33 +557,15 @@ void INDI_P::addLayout(QHBoxLayout *layout)
         PVBox->addLayout(layout);
 }
 
-/*void INDI_P::processComboChange(const QString &item)
+void INDI_P::updateMenuGUI()
 {
-    int index=0;
     ISwitchVectorProperty *svp = dataProp->getSwitch();
-
     if (svp == NULL)
         return;
 
-    IURenewSwitch(svp);
-
-
-    foreach(INDI_E *el, elementList)
-    {
-        if (el->getLabel() == item)
-        {
-            svp->sp[index].s = ISS_ON;
-            svp->s = IPS_BUSY;
-
-            pg->getDevice()->getClientManager()->sendNewswitch(tvp, &(tvp->sp[index]));
-        }
-
-        el->updateswitchState();
-        index++;
-    }
-
-    updateStateLED();
-}*/
+    int currentIndex = IUFindOnSwitchIndex(svp);
+    menuC->setCurrentIndex(currentIndex);
+}
 
 void INDI_P::processSetButton()
 {
