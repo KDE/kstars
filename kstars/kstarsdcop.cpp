@@ -276,7 +276,7 @@ QString KStars::getOption( const QString &name ) {
 }
 
 void KStars::changeViewOption( const QString &op, const QString &val ) {
-    bool bOk(false), nOk(false), dOk(false);
+    bool bOk(false), dOk(false);
 
     //parse bool value
     bool bVal(false);
