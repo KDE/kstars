@@ -208,7 +208,7 @@ void Capture::checkCCD(int ccdNum)
 
         if (CCDCaptureCombo->itemText(ccdNum).right(6) == QString("Guider"))
         {
-            frameProp = QString("GUIDE_FRAME");
+            frameProp = QString("GUIDER_FRAME");
             useGuideHead = true;
             targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         }

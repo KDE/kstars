@@ -961,7 +961,7 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
-    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDE_INFO"))
+    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
         if (guideProcess)
             guideProcess->syncCCDInfo();

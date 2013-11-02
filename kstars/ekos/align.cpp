@@ -200,7 +200,7 @@ void Align::syncCCDInfo()
         return;
 
     if (useGuideHead)
-        nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
+        nvp = currentCCD->getBaseDevice()->getNumber("GUIDER_INFO");
     else
         nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
 

@@ -115,7 +115,7 @@ bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
         break;
 
       case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
     }
@@ -164,7 +164,7 @@ bool CCDChip::setFrame(int x, int y, int w, int h)
         break;
 
       case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
     }
