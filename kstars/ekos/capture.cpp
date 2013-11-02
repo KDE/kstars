@@ -392,9 +392,12 @@ void Capture::newFITS(IBLOB *bp)
         FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
         FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
 
-        FITSImage *image_data = currentImage->getImageData();
+        FITSImage *image_data = NULL;
 
-        if (calibrateImage && currentImage)
+        if (currentImage)
+            image_data = currentImage->getImageData();
+
+        if (image_data && calibrateImage && currentImage)
             image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
     }
 
