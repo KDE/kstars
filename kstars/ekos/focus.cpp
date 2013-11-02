@@ -305,15 +305,15 @@ void Focus::newFITS(IBLOB *bp)
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
 
-    FITSImage *image_data = targetImage->getImageData();
-
-    currentCCD->disconnect(this);
-
     if (targetImage == NULL)
     {
         qDebug() << "Error: targetImage is NULL!" << endl;
         return;
     }
+
+    FITSImage *image_data = targetImage->getImageData();
+
+    currentCCD->disconnect(this);
 
     image_data->findStars();
 
