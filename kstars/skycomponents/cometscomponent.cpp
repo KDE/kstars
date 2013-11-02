@@ -78,10 +78,8 @@ bool CometsComponent::selected() {
  * @note See KSComet constructor for more details.
  */
 void CometsComponent::loadData() {
-    QFile file;
-    QString line, name, orbit_id, orbit_class, dimensions;
-    QStringList fields;
-    bool ok, neo;
+    QString name, orbit_id, orbit_class, dimensions;
+    bool neo;
     int mJD;
     double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
     long double JD;
