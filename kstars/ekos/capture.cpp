@@ -200,9 +200,10 @@ void Capture::checkCCD(int ccdNum)
         int x,y,w,h;
         int binx,biny;
         double min,max,step;
+        int xstep=0, ystep=0;
         QString frameProp = QString("CCD_FRAME");
-        // Check whether main camera or guide head only
 
+        // Check whether main camera or guide head only
         currentCCD = CCDs.at(ccdNum);
 
         if (CCDCaptureCombo->itemText(ccdNum).right(6) == QString("Guider"))
@@ -218,8 +219,35 @@ void Capture::checkCCD(int ccdNum)
             useGuideHead = false;
         }
 
+        if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
+        {
+            if (step == 0)
+                xstep = (int) max * 0.05;
+            else
+                xstep = step;
+
+            frameWIN->setMinimum(min);
+            frameWIN->setMaximum(max);
+            frameWIN->setSingleStep(xstep);
+        }
+
+        if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
+        {
+            if (step == 0)
+                ystep = (int) max * 0.05;
+            else
+                ystep = step;
+
+            frameHIN->setMinimum(min);
+            frameHIN->setMaximum(max);
+            frameHIN->setSingleStep(ystep);
+        }
+
         if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
         {
+            if (step == 0)
+                step = xstep;
+
             frameXIN->setMinimum(min);
             frameXIN->setMaximum(max);
             frameXIN->setSingleStep(step);
@@ -227,24 +255,15 @@ void Capture::checkCCD(int ccdNum)
 
         if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
         {
+            if (step == 0)
+                step = ystep;
+
             frameYIN->setMinimum(min);
             frameYIN->setMaximum(max);
             frameYIN->setSingleStep(step);
         }
 
-        if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
-        {
-            frameWIN->setMinimum(min);
-            frameWIN->setMaximum(max);
-            frameWIN->setSingleStep(step);
-        }
 
-        if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
-        {
-            frameHIN->setMinimum(min);
-            frameHIN->setMaximum(max);
-            frameHIN->setSingleStep(step);
-        }
 
         if (targetChip->getFrame(&x,&y,&w,&h))
         {
