@@ -121,6 +121,8 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
 
         if (id >= hist_width)
             id = hist_width - 1;
+        else if (id < 0)
+            id=0;
 
         //histArray[id]++;
         histArray[id]++;

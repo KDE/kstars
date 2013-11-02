@@ -554,15 +554,12 @@ void FITSViewer::applyFilter(int ftype)
 
 FITSView * FITSViewer::getImage(int fitsUID)
 {
-    //if (fitsUID < 0 || fitsUID >= fitsImages.size())
-      //  return NULL;
-
     FITSTab *tab = fitsMap.value(fitsUID);
 
-    return tab->getImage();
-
-    //return fitsImages[fitsUID]->getImage();
-
+    if (tab)
+        return tab->getImage();
+    else
+        return NULL;
 }
 
 #include "fitsviewer.moc"
