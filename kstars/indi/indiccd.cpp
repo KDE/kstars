@@ -371,8 +371,6 @@ CCDFrameType CCDChip::getFrameType()
 
 bool CCDChip::setBinning(CCDBinType binType)
 {
-    if (type == GUIDE_CCD)
-        return false;
 
     switch (binType)
     {
@@ -396,11 +394,19 @@ bool CCDChip::setBinning(CCDBinType binType)
 CCDBinType CCDChip::getBinning()
 {
     CCDBinType binType = SINGLE_BIN;
+    INumberVectorProperty *binProp;
 
-    if (type == GUIDE_CCD)
-        return binType;
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        binProp = baseDevice->getNumber("CCD_BINNING");
+        break;
 
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+       case GUIDE_CCD:
+        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        break;
+    }
+
     if (binProp == NULL)
         return binType;
 
@@ -437,10 +443,20 @@ CCDBinType CCDChip::getBinning()
 
 bool CCDChip::getBinning(int *bin_x, int *bin_y)
 {
-    if (type == GUIDE_CCD)
-        return false;
+    INumberVectorProperty *binProp;
 
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        binProp = baseDevice->getNumber("CCD_BINNING");
+        break;
+
+       case GUIDE_CCD:
+        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        break;
+    }
+
+
     if (binProp == NULL)
         return false;
 
@@ -460,10 +476,20 @@ bool CCDChip::getBinning(int *bin_x, int *bin_y)
 
 bool CCDChip::setBinning(int bin_x, int bin_y)
 {
-    if (type == GUIDE_CCD)
-        return false;
 
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    INumberVectorProperty *binProp;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        binProp = baseDevice->getNumber("CCD_BINNING");
+        break;
+
+       case GUIDE_CCD:
+        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        break;
+    }
+
     if (binProp == NULL)
         return false;
 

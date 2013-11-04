@@ -477,7 +477,7 @@ void Capture::captureImage()
 
     }
 
-    if (useGuideHead == false && targetChip->setBinning(activeJob->binX, activeJob->binY) == false)
+    if (targetChip->setBinning(activeJob->binX, activeJob->binY) == false)
     {
         appendLogText(i18n("Failed to set binning."));
 
@@ -500,10 +500,7 @@ void Capture::captureImage()
     }
     else
     {
-
-        if (useGuideHead == false)
-            targetChip->setFrameType(frameTypeCombo->itemText(activeJob->frameType));
-
+        targetChip->setFrameType(frameTypeCombo->itemText(activeJob->frameType));
         targetChip->setCaptureMode(FITS_NORMAL);
         targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
         appendLogText(i18n("Capturing image..."));
