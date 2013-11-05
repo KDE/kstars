@@ -707,6 +707,10 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
             cen_x = (int) round(rCenter->x);
             cen_y = (int) round(rCenter->y);
 
+            if (cen_x < 0 || cen_x > stats.dim[0] || cen_y < 0 || cen_y > stats.dim[1])
+                continue;
+
+
             // Complete sum along the radius
             //for (int k=0; k < rCenter->width; k++)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)

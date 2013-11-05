@@ -434,7 +434,8 @@ void Capture::newFITS(IBLOB *bp)
 
             SequenceJob *job = jobs.at(jobIndex);
 
-            executeJob(job);
+            if (job)
+                executeJob(job);
         }
 
     }
@@ -462,6 +463,9 @@ void Capture::captureImage()
         return;
 
     targetChip = activeJob->activeChip;
+
+    if (targetChip == NULL)
+        return;
 
     if (targetChip->setFrame(activeJob->x, activeJob->y, activeJob->w, activeJob->h) == false)
     {
