@@ -206,9 +206,15 @@ void DetailDialog::createGeneralTab()
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
         
-        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                         KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
-        
+        if(selectedObject->type() == SkyObject::COMET){
+            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+                                             KGlobal::locale()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 1 ) ) );  //show to tenths place
+        }
+        else{
+            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+                                             KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
+        }
+
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",

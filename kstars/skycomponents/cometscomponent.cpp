@@ -190,7 +190,7 @@ void CometsComponent::draw( SkyPainter *skyp )
 
     foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
-        bool drawn = skyp->drawPointSource(com,com->mag());
+        bool drawn = skyp->drawPointSource(com,com->getTotalMagnitudeParameter());
         if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
             SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
     }
