@@ -229,10 +229,9 @@ bool Guide::capture()
 
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+    targetChip->setFrameType(ccdFrame);
 
-   targetChip->setFrameType(ccdFrame);
-
-   targetChip->capture(seqExpose);
+    targetChip->capture(seqExpose);
 
    return true;
 

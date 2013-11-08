@@ -65,6 +65,7 @@
   #include <netinet/in.h>
 #endif
 
+#include "fitsimage.h"
 #include "fitstab.h"
 #include "fitsview.h"
 #include "fitshistogram.h"
@@ -128,6 +129,12 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
+    action = actionCollection()->addAction("image_stretch");
+    action->setText(i18n("Auto stretch"));
+    connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
+    action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_A ));
+    action->setIcon(KIcon("transform-move"));
+
     KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());    
 
     KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
@@ -167,14 +174,6 @@ FITSViewer::FITSViewer (QWidget *parent)
     }
 
     connect(filterMapper, SIGNAL(mapped(int)), this, SLOT(applyFilter(int)));
-
-/*    action = actionCollection()->addAction("low_pass_filter");
-    action->setText(i18n( "Low Pass Filter"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(lowPassFilter()));
-
-    action = actionCollection()->addAction("equalize");
-    action->setText(i18n( "Equalize"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(equalize()));*/
 
     
     /* Create GUI */
@@ -392,6 +391,16 @@ void FITSViewer::statFITS()
         return;
 
   fitsImages[fitsTab->currentIndex()]->statFITS();
+}
+
+void FITSViewer::stretchFITS()
+{
+    if (fitsImages.empty())
+        return;
+
+    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_AUTO_STRETCH);
+    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+
 }
 
 void FITSViewer::headerFITS()

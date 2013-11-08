@@ -90,7 +90,11 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x -= 1;
     y -= 1;
 
-    emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
+    if (image_data->getBPP() == -32 || image_data->getBPP() == 32)
+        emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)], 5), FITS_VALUE);
+    else
+        emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
+
 
     if (image_data->hasWCS())
     {
@@ -403,6 +407,17 @@ void FITSView::drawOverlay(QPainter *painter)
 
 }
 
+void FITSView::updateMode(FITSMode fmode)
+{
+    mode = fmode;
+
+    if (mode == FITS_GUIDE)
+        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    else
+        image_frame->disconnect(this, SLOT(processPointSelection(int,int)));
+
+}
+
 void FITSView::drawStarCentroid(QPainter *painter)
 {
     painter->setPen(QPen(Qt::red, 2));
@@ -463,7 +478,7 @@ void FITSView::toggleStars(bool enable)
      {
        int count = image_data->findStars();
        if (count >= 0 && isVisible())
-               emit newStatus(i18np("%1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
+               emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
      }
 }
 

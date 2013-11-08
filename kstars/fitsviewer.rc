@@ -66,6 +66,7 @@
 <ToolBar noMerge="1" name="processToolBar"><text>Process ToolBar</text>
 	<Action name="image_histogram" />
         <Action name="image_stats" />
+        <Action name="image_stretch" />
 </ToolBar>
 
 </kpartgui>

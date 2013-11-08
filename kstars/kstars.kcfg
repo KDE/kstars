@@ -1240,6 +1240,15 @@
             <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
             <default>0.5</default>
        </entry>
+       <entry name="FocusBoxSize" type="UInt">
+          <label>Default Focuser star selection box size</label>
+             <whatsthis>Set box size to select a focus star.</whatsthis>
+             <default>64</default>
+        </entry>
+       <entry name="AutoSelectStar" type="Bool">
+           <label>Automatically select a star to focus.</label>
+           <default>false</default>
+       </entry>
        <entry name="AlignExposure" type="Double">
           <label>Default alignment exposure value</label>
              <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>

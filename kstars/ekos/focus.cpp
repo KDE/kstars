@@ -76,7 +76,8 @@ Focus::Focus()
     exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
-
+    kcfg_autoSelectStar->setChecked(Options::autoSelectStar());
+    kcfg_focusBoxSize->setValue(Options::focusBoxSize());
 
 }
 
@@ -173,6 +174,7 @@ void Focus::startFocus()
     resetButtons();
 
     reverseDir = false;
+    starSelected= false;
 
     qDeleteAll(HFRPoints);
     HFRPoints.clear();
@@ -181,16 +183,31 @@ void Focus::startFocus()
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
 
-    appendLogText(i18n("Autofocus in progress..."));
+    Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
+
+    if (kcfg_autoSelectStar->isChecked())
+        appendLogText(i18n("Autofocus in progress..."));
+    else
+        appendLogText(i18n("Image capture in progress, please select a star to focus."));
+
 }
 
 void Focus::stopFocus()
 {
 
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
     inAutoFocus = false;
     inFocusLoop = false;
+    starSelected= false;
 
     currentCCD->disconnect(this);
+
+    targetChip->abortExposure();
+    targetChip->setFrame(fx, fy, fw, fh);
+
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    targetImage->updateMode(FITS_FOCUS);
 
     resetButtons();
 
@@ -224,6 +241,8 @@ void Focus::capture()
     targetChip->setFrameType(ccdFrame);
 
     targetChip->capture(seqExpose);
+
+    qDebug() << "IN CAPTURE..." << endl;
 
     if (inFocusLoop == false)
         appendLogText(i18n("Capturing image..."));
@@ -294,7 +313,6 @@ void Focus::FocusOut(int ms)
 
 void Focus::newFITS(IBLOB *bp)
 {
-
     INDI_UNUSED(bp);
     QString HFRText;
 
@@ -304,12 +322,6 @@ void Focus::newFITS(IBLOB *bp)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
-
-    if (targetImage == NULL)
-    {
-        qDebug() << "Error: targetImage is NULL!" << endl;
-        return;
-    }
 
     FITSImage *image_data = targetImage->getImageData();
 
@@ -342,6 +354,44 @@ void Focus::newFITS(IBLOB *bp)
 
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
+
+    if (starSelected == false)
+    {
+        if (kcfg_autoSelectStar->isChecked())
+        {
+            Edge *maxStar = image_data->getMaxHFRStar();
+            if (maxStar == NULL)
+            {
+                appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
+                return;
+            }
+
+            int x=maxStar->x - maxStar->width * 2;
+            int y=maxStar->y - maxStar->width * 2;
+            int w=maxStar->width*4;
+            int h=maxStar->width*4;
+            targetChip->getFrame(&fx, &fy, &fw, &fh);
+
+            targetChip->setFrame(x, y, w, h);
+
+            starSelected=true;
+
+            capture();
+
+            return;
+
+
+        }
+        else
+        {
+            targetChip->getFrame(&fx, &fy, &fw, &fh);
+            targetImage->updateMode(FITS_GUIDE);
+            targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
+            targetImage->setGuideSquare(fw/2, fh/2);
+            connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
+            return;
+        }
+    }
 
     if (canAbsMove)
         autoFocusAbs(currentHFR);
@@ -409,7 +459,6 @@ void Focus::autoFocusAbs(double currentHFR)
 
     HFRPlot->removeAllPlotObjects();
 
-    //HFRPlot->setLimits(pulseStep-pulseDuration*5, pulseStep+pulseDuration*5, currentHFR/1.5, currentHFR*1.5 );
     HFRPlot->setLimits(minPos-pulseDuration, maxPos+pulseDuration, currentHFR/1.5, maxHFR );
 
     KPlotObject *hfrObj = new KPlotObject( Qt::red, KPlotObject::Points, 2 );
@@ -836,6 +885,24 @@ void Focus::resetButtons()
     }
 }
 
+void Focus::focusStarSelected(int x, int y)
+{
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    int offset = kcfg_focusBoxSize->value();
+
+    x -= offset*2 ;
+    y -= offset*2;
+    int w=offset*4;
+    int h=offset*4;
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    targetImage->updateMode(FITS_FOCUS);
+
+    targetChip->setFrame(x, y, w, h);
+
+    starSelected=true;
+
+    capture();
+}
 
 }
 

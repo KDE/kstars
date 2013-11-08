@@ -394,7 +394,7 @@ bool CCDChip::setBinning(CCDBinType binType)
 CCDBinType CCDChip::getBinning()
 {
     CCDBinType binType = SINGLE_BIN;
-    INumberVectorProperty *binProp;
+    INumberVectorProperty *binProp=NULL;
 
     switch (type)
     {
@@ -443,7 +443,7 @@ CCDBinType CCDChip::getBinning()
 
 bool CCDChip::getBinning(int *bin_x, int *bin_y)
 {
-    INumberVectorProperty *binProp;
+    INumberVectorProperty *binProp=NULL;
 
     switch (type)
     {
@@ -477,7 +477,7 @@ bool CCDChip::getBinning(int *bin_x, int *bin_y)
 bool CCDChip::setBinning(int bin_x, int bin_y)
 {
 
-    INumberVectorProperty *binProp;
+    INumberVectorProperty *binProp=NULL;
 
     switch (type)
     {

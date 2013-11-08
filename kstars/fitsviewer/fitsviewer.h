@@ -70,7 +70,6 @@ public:
 
     static QStringList filterTypes;
 
-
 protected:
 
     virtual void closeEvent(QCloseEvent *ev);
@@ -85,6 +84,7 @@ public slots:
     void headerFITS();
     void slotClose();
     void histoFITS();
+    void stretchFITS();
     void tabFocusUpdated(int currentIndex);
     void updateStatusBar(const QString &msg, FITSBar id);
     void ZoomIn();

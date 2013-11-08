@@ -66,6 +66,7 @@ FITSImage::FITSImage(FITSMode fitsMode)
     image_buffer = NULL;
     wcs_coord    = NULL;
     fptr = NULL;
+    maxHFRStar = NULL;
     tempFile  = false;
     starsSearched = false;
     HasWCS = false;
@@ -364,8 +365,8 @@ int FITSImage::calculateMinMax(bool refresh)
         if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max), NULL, &status) == 0)
             nfound++;
 
-        // If we found both keywords, no need to calculate them
-        if (nfound == 2)
+        // If we found both keywords, no need to calculate them, unless they are both zeros
+        if (nfound == 2 && !(stats.min == 0 && stats.max ==0))
             return 0;
     }
 
@@ -669,7 +670,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
              << cen_limit << endl;
     #endif
 
-        if (cen_limit < 1 || (cen_w > (0.2 * stats.dim[0])))
+        if (cen_limit < 1)// || (cen_w > (0.2 * stats.dim[0])))
             continue;
 
         // If centroid count is within acceptable range
@@ -691,11 +692,11 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
             rCenter->width = cen_w;
 
            #ifdef FITS_DEBUG
-           qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
+           qDebug() << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")" << endl;
 
-           qDebug() << "Profile for this center is:" << endl;
-           for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
-               qDebug() << "#" << i << " , " << image_buffer[(int) round(rCenter->x-i+(rCenter->y*stats.dim[0]))] - stats.min <<  endl;
+           //qDebug() << "Profile for this center is:" << endl;
+           //for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
+              // qDebug() << "#" << i << " , " << image_buffer[(int) round(rCenter->x-i+(rCenter->y*stats.dim[0]))] - stats.min <<  endl;
 
            #endif
 
@@ -791,6 +792,7 @@ double FITSImage::getHFR(HFRType type)
 
     if (type == HFR_MAX)
     {
+         maxHFRStar = NULL;
          int maxVal=0;
          int maxIndex=0;
      for (int i=0; i < starCenters.count() ; i++)
@@ -803,6 +805,7 @@ double FITSImage::getHFR(HFRType type)
             }
         }
 
+        maxHFRStar = starCenters[maxIndex];
         return starCenters[maxIndex]->HFR;
     }
 
@@ -826,7 +829,7 @@ double FITSImage::getHFR(HFRType type)
 
 }
 
-void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
+void FITSImage::applyFilter(FITSScale type, float *image, double min, double max)
 {
     if (type == FITS_NONE || histogram == NULL)
         return;
@@ -893,8 +896,8 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
     case FITS_AUTO_STRETCH:
     {
        min = stats.average - stats.stddev;
-       if (min < 0)
-           min =0;
+       //if (min < 0)
+           //min =0;
        //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
        max = stats.average + stats.stddev * 3;
 
