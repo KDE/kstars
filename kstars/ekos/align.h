@@ -45,6 +45,7 @@ public:
     void startSovling(const QString &filename);
     void appendLogText(const QString &);
     void clearLog();
+    bool astrometryNetOK();
     QString getLogText() { return logText.join("\n"); }
 
 public slots:

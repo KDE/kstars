@@ -71,6 +71,7 @@ if (CFITSIO_FOUND)
       ekos/capture.cpp
       ekos/focus.cpp
       ekos/guide.cpp
+      ekos/align.cpp
       ekos/opsekos.cpp
       ekos/QProgressIndicator.cpp
       ekos/guide/common.cpp
@@ -80,11 +81,8 @@ if (CFITSIO_FOUND)
       ekos/guide/rcalibration.cpp
       ekos/guide/scroll_graph.cpp
       ekos/guide/vect.cpp
-   )
 
-  if (ASTROMETRYNET_FOUND)
-    set(align_SRCS  ekos/align.cpp)
-  endif(ASTROMETRYNET_FOUND)
+   )
 
 endif(CFITSIO_FOUND)
 
@@ -447,7 +445,7 @@ set(printingui_SRCS
 )
 
 ##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
-set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${align_SRCS}
+set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS}
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}

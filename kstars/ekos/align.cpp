@@ -98,6 +98,16 @@ Align::Align()
     astrometryIndex[1400] = "index-4218";
     astrometryIndex[2000] = "index-4219";
 
+    if (astrometryNetOK() == false)
+    {
+        KMessageBox::information(NULL, i18n("Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
+                                 i18n("Missing astrometry files"), i18n("Do not show again"));
+
+        setEnabled(false);
+
+    }
+
+
 }
 
 Align::~Align()
@@ -1155,6 +1165,16 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
         dec_str = QString("-%1:%2:%3").arg(abs(dec_s.degree()), 2, 10, QChar('0')).arg(abs(dec_s.arcmin()), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
     else
         dec_str = QString("%1:%2:%3").arg(dec_s.degree(), 2, 10, QChar('0')).arg(dec_s.arcmin(), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
+}
+
+bool Align::astrometryNetOK()
+{
+    bool solverOK=false, wcsinfoOK=false;
+
+    solverOK   = (0==access(Options::astrometrySolver().toLatin1(), 0));
+    wcsinfoOK  = (0==access(Options::astrometryWCSInfo().toLatin1(), 0));
+
+    return (solverOK && wcsinfoOK);
 }
 
 }

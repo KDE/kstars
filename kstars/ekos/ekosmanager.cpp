@@ -842,13 +842,10 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
         ccdStarted = true;
 
-        // TODO: Add check #ifdef for astrometrynet & WSC here
-#ifdef HAVE_ASTROMETRYNET
         initAlign();
         alignProcess->setCCD(ccd);
         if (scope && scope->isConnected())
             alignProcess->setTelescope(scope);
-#endif
 
         // If guider is the same driver as the CCD
         if (useGuiderFromCCD == true)
@@ -941,13 +938,11 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
            guideProcess->syncTelescopeInfo();
         }
 
-#ifdef HAVE_ASTROMETRYNET
         if (alignProcess)
         {
             alignProcess->setTelescope(scope);
             alignProcess->syncTelescopeInfo();
         }
-#endif
 
     }
 
@@ -1013,10 +1008,16 @@ void EkosManager::updateLog()
 
     if (currentWidget == setupTab)
         ekosLogOut->setPlainText(logText.join("\n"));
-#ifdef HAVE_ASTROMETRYNET
     else if (currentWidget == alignProcess)
+    {
+        if (alignProcess->isEnabled() == false)
+        {
+            if (alignProcess->astrometryNetOK())
+                alignProcess->setEnabled(true);
+        }
+
         ekosLogOut->setPlainText(alignProcess->getLogText());
-#endif
+    }
     else if (currentWidget == captureProcess)
         ekosLogOut->setPlainText(captureProcess->getLogText());
     else if (currentWidget == focusProcess)
@@ -1043,10 +1044,8 @@ void EkosManager::clearLog()
         logText.clear();
         updateLog();
     }
-#ifdef HAVE_ASTROMETRYNET
     else if (currentWidget == alignProcess)
         alignProcess->clearLog();
-#endif
     else if (currentWidget == captureProcess)
         captureProcess->clearLog();
     else if (currentWidget == focusProcess)
@@ -1068,14 +1067,12 @@ void EkosManager::initCapture()
 
 void EkosManager::initAlign()
 {
-#ifdef HAVE_ASTROMETRYNET
     if (alignProcess)
         return;
 
      alignProcess = new Ekos::Align();
      toolsWidget->addTab( alignProcess, i18n("Alignment"));
      connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-#endif
 }
 
 

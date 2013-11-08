@@ -1299,6 +1299,16 @@
          <label>Always load device default configuration upon successful connection?</label>
          <default>false</default>
        </entry>
+       <entry name="astrometrySolver" type="String">
+         <label>astrometry.net solve-field binary</label>
+         <whatsthis>Path to astrometry.net solver location.</whatsthis>
+         <default>/usr/bin/solve-field</default>
+       </entry>
+       <entry name="astrometryWCSInfo" type="String">
+         <label>astrometry.net wcsinfo binary</label>
+         <whatsthis>Path to astrometry.net wcsinfp location.</whatsthis>
+         <default>/usr/bin/wcsinfo</default>
+       </entry>
        <entry name="astrometryConfFile" type="String">
          <label>astrometry.net configuration file</label>
          <whatsthis>Path to astrometry.net file location.</whatsthis>
