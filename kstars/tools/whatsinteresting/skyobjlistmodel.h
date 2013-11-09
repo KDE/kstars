@@ -49,7 +49,7 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
     /**
-     * \brief Overriden method from QAbstractItemModel.
+     * \brief Overridden method from QAbstractItemModel.
      * \return Data stored under the given role for the sky-object item referred to by the index.
      */
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

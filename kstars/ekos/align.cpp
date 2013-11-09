@@ -382,7 +382,7 @@ void Align::generateArgs()
     QString fov_low,fov_high;
     QStringList solver_args;
 
-    // let's strech the boundaries by 5%
+    // let's stretch the boundaries by 5%
     fov_lower = ((fov_x < fov_y) ? (fov_x *0.95) : (fov_y *0.95));
     fov_upper = ((fov_x > fov_y) ? (fov_x * 1.05) : (fov_y * 1.05));
 

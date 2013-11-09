@@ -9,7 +9,6 @@
 
  */
 
-#include <indiproperty.h>
 #include <indicom.h>
 
  #include "indielement.h"

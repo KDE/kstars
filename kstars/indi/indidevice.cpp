@@ -13,7 +13,6 @@
 #include <indicom.h>
 #include <base64.h>
 #include <basedevice.h>
-#include <indiproperty.h>
 
 #include <QFrame>
 #include <QCheckBox>

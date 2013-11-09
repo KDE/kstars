@@ -49,7 +49,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "driverinfo.h"
 #include "indilistener.h"
 
 #include <config-kstars.h>
