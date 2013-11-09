@@ -1315,7 +1315,7 @@
        </entry>
        <entry name="astrometryWCSInfo" type="String">
          <label>astrometry.net wcsinfo binary</label>
-         <whatsthis>Path to astrometry.net wcsinfp location.</whatsthis>
+         <whatsthis>Path to astrometry.net wcsinfo location.</whatsthis>
          <default>/usr/bin/wcsinfo</default>
        </entry>
        <entry name="astrometryConfFile" type="String">
