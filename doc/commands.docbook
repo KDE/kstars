@@ -6,7 +6,7 @@
 <indexterm><primary>Commands</primary><secondary>Menu</secondary></indexterm>
 
 <sect2 id="filemenu">
-<title><guimenu>File</guimenu> Menu</title>
+<title>File Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -109,7 +109,7 @@ PostScript/PDF file)
 </sect2>
 
 <sect2 id="timemenu">
-<title><guimenu>Time</guimenu> Menu</title>
+<title>Time Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -138,7 +138,7 @@ PostScript/PDF file)
 <shortcut>
 <keycap>&lt;</keycap>
 </shortcut>
-<guimenu>File</guimenu>
+<guimenu>Time</guimenu>
 <guimenuitem>Advance one step backward in time</guimenuitem>
 </menuchoice></term>
 <listitem><para>Advance one step backward in time in the &kstars; simulation of the sky chart. The duration of the time step can be configured after pressing the little <guilabel>&lt;</guilabel> button on the &kstars; toolbar.
@@ -167,7 +167,7 @@ PostScript/PDF file)
 </sect2>
 
 <sect2 id="pointmenu">
-<title><guimenu>Pointing</guimenu> Menu</title>
+<title>Pointing Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -273,7 +273,7 @@ object.</para></listitem>
 </sect2>
 
 <sect2 id="viewmenu">
-<title><guimenu>View</guimenu> Menu</title>
+<title>View Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -417,7 +417,7 @@ object.</para></listitem>
 </sect2>
 
 <sect2 id="toolmenu">
-<title><guimenu>Tools</guimenu> Menu</title>
+<title>Tools Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -706,7 +706,7 @@ tool</para></listitem>
 </sect2>
 
 <sect2 id="settingmenu">
-<title><guimenu>Settings</guimenu> Menu</title>
+<title>Settings Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -901,7 +901,7 @@ of the &kde; Fundamentals.
 </sect2>
 
 <sect2 id="helpmenu">
-<title><guimenu>Help</guimenu> Menu</title>
+<title>Help Menu</title>
 
 &help.menu.documentation;
 
