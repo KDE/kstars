@@ -236,7 +236,7 @@ int FITSView::rescale(FITSZoom type)
     if (min == max)
     {
         // For focus and guide, we silenty ignore saturation error.
-        if (mode == FITS_FOCUS || FITS_GUIDE)
+        if (mode == FITS_FOCUS || mode == FITS_GUIDE)
             qDebug() << "FITS image is saturated and cannot be displayed." << endl;
         else
             KMessageBox::error(0, i18n("FITS image is saturated and cannot be displayed."), i18n("FITS Open"));
