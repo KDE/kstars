@@ -78,6 +78,8 @@ Focus::Focus()
     stepIN->setValue(Options::focusTicks());
     kcfg_autoSelectStar->setChecked(Options::autoSelectStar());
     kcfg_focusBoxSize->setValue(Options::focusBoxSize());
+    kcfg_focusXBin->setValue(Options::focusXBin());
+    kcfg_focusYBin->setValue(Options::focusYBin());
 
 }
 
@@ -182,6 +184,8 @@ void Focus::startFocus()
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
+    Options::setFocusXBin(kcfg_focusXBin->value());
+    Options::setFocusYBin(kcfg_focusYBin->value());
 
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
 
@@ -234,6 +238,7 @@ void Focus::capture()
         return;
     }
 
+    targetChip->setBinning(kcfg_focusXBin->value(), kcfg_focusXBin->value());
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
@@ -322,6 +327,13 @@ void Focus::newFITS(IBLOB *bp)
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
 
+    if (targetImage == NULL)
+    {
+        appendLogText(i18n("FITS image failed to load, aborting..."));
+        stopFocus();
+        return;
+    }
+
     FITSImage *image_data = targetImage->getImageData();
 
     currentCCD->disconnect(this);
@@ -362,6 +374,7 @@ void Focus::newFITS(IBLOB *bp)
             if (maxStar == NULL)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
+                stopFocus();
                 return;
             }
 

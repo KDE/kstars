@@ -61,6 +61,9 @@ Align::Align()
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
 
+    kcfg_solverXBin->setValue(Options::solverXBin());
+    kcfg_solverYBin->setValue(Options::solverYBin());
+
     syncBoxesB->setIcon(KIcon("edit-copy"));
     clearBoxesB->setIcon(KIcon("edit-clear"));
 
@@ -475,7 +478,7 @@ bool Align::capture()
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
    targetChip->setCaptureMode(FITS_WCSM);
-
+   targetChip->setBinning(kcfg_solverXBin->value(), kcfg_solverYBin->value());
    targetChip->setFrameType(ccdFrame);
 
    targetChip->capture(seqExpose);
@@ -510,6 +513,9 @@ void Align::startSovling(const QString &filename)
     double ra,dec;
 
     fitsFile = filename;
+
+    Options::setSolverXBin(kcfg_solverXBin->value());
+    Options::setSolverYBin(kcfg_solverYBin->value());
 
     currentTelescope->getEqCoords(&ra, &dec);
 

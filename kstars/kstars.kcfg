@@ -1245,6 +1245,16 @@
              <whatsthis>Set box size to select a focus star.</whatsthis>
              <default>64</default>
         </entry>
+        <entry name="FocusXBin" type="UInt">
+           <label>Default CCD X binning in focus mode</label>
+              <whatsthis>Set horizontal binning of CCD camera while in focus mode.</whatsthis>
+              <default>1</default>
+         </entry>
+         <entry name="FocusYBin" type="UInt">
+         <label>Default CCD Y binning in focus mode</label>
+            <whatsthis>Set vertical binning of CCD camera while in focus mode.</whatsthis>
+               <default>1</default>
+          </entry>
        <entry name="AutoSelectStar" type="Bool">
            <label>Automatically select a star to focus.</label>
            <default>false</default>
@@ -1254,6 +1264,16 @@
              <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
              <default>1</default>
         </entry>
+        <entry name="SolverXBin" type="UInt">
+           <label>Default CCD X binning while in alignment mode</label>
+              <whatsthis>Set horizontal binning of CCD camera while in alignment mode.</whatsthis>
+              <default>1</default>
+         </entry>
+         <entry name="SolverYBin" type="UInt">
+         <label>Default CCD Y binning while in alignment mode</label>
+            <whatsthis>Set vertical binning of CCD camera while in alignment mode.</whatsthis>
+               <default>1</default>
+          </entry>
        <entry name="remoteScopeName" type="String">
          <label>Remote Scope Name</label>
          <whatsthis>Name of the remote INDI telescope device.</whatsthis>

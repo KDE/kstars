@@ -38,6 +38,7 @@
 #include <KTabWidget>
 #include <KAction>
 #include <KActionCollection>
+#include <KLed>
 
 #include <QFile>
 #include <QCursor>
@@ -91,6 +92,9 @@ FITSViewer::FITSViewer (QWidget *parent)
     connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
     connect(fitsTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 
+    led = new KLed(this);
+    led->setColor(Qt::green);
+
     statusBar()->insertItem(QString(), FITS_POSITION);
     statusBar()->setItemFixed(FITS_POSITION, 100);
     statusBar()->insertItem(QString(), FITS_VALUE);
@@ -101,6 +105,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     statusBar()->setItemFixed(FITS_ZOOM, 50);
     statusBar()->insertItem(QString(), FITS_WCS);
     statusBar()->setItemFixed(FITS_WCS, 200);
+    statusBar()->insertWidget(0, led);
     statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
     statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
 
@@ -197,8 +202,11 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 
     FITSTab *tab = new FITSTab(this);
 
+    led->setColor(Qt::yellow);
+
     if (tab->loadFITS(imageName,mode, filter) == false)
     {
+        led->setColor(Qt::red);
         if (fitsImages.size() == 0)
         {
 
@@ -251,23 +259,31 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 
     tab->setUID(fitsID);
 
+    led->setColor(Qt::green);
+
     return (fitsID++);
 }
 
 bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter)
 {
-    /*foreach (FITSTab *tab, fitsImages)
-    {
-        if (tab->getUID() == fitsUID)
-            return tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
-    }*/
-
     FITSTab *tab = fitsMap.value(fitsUID);
+    bool rc=false;
+
+    if (tab->isVisible())
+        led->setColor(Qt::yellow);
 
     if (tab)
-        return tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
+        rc = tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
 
-    return false;
+    if (tab->isVisible())
+    {
+        if (rc)
+            led->setColor(Qt::green);
+        else
+            led->setColor(Qt::red);
+    }
+
+    return rc;
 }
 
 void FITSViewer::tabFocusUpdated(int currentIndex)

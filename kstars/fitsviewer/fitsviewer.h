@@ -42,6 +42,7 @@ class KUndoStack;
 class KTabWidget;
 class KUrl;
 class KAction;
+class KLed;
 
 class FITSView;
 class FITSHistogram;
@@ -102,6 +103,7 @@ private:
     KTabWidget *fitsTab;
     QUndoGroup *undoGroup;
 
+    KLed *led;
     KAction *saveFileAction, *saveFileAsAction;
     QList<FITSTab*> fitsImages;
     int fitsID;
