@@ -207,7 +207,8 @@ void Focus::stopFocus()
     targetChip->setFrame(fx, fy, fw, fh);
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
-    targetImage->updateMode(FITS_FOCUS);
+    if (targetImage)
+        targetImage->updateMode(FITS_FOCUS);
 
     resetButtons();
 
@@ -241,8 +242,6 @@ void Focus::capture()
     targetChip->setFrameType(ccdFrame);
 
     targetChip->capture(seqExpose);
-
-    qDebug() << "IN CAPTURE..." << endl;
 
     if (inFocusLoop == false)
         appendLogText(i18n("Capturing image..."));
@@ -331,12 +330,9 @@ void Focus::newFITS(IBLOB *bp)
 
     double currentHFR= image_data->getHFR(HFR_MAX);
 
-    qDebug() << "curent HFR is " << currentHFR << endl;
-
     if (currentHFR == -1)
     {
         currentHFR = image_data->getHFR();
-        qDebug() << "and now hfr is " << currentHFR << endl;
     }
 
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
@@ -357,6 +353,9 @@ void Focus::newFITS(IBLOB *bp)
 
     if (starSelected == false)
     {
+        int binx, biny;
+        targetChip->getBinning(&binx, &biny);
+
         if (kcfg_autoSelectStar->isChecked())
         {
             Edge *maxStar = image_data->getMaxHFRStar();
@@ -366,11 +365,21 @@ void Focus::newFITS(IBLOB *bp)
                 return;
             }
 
+            targetChip->getFrame(&fx, &fy, &fw, &fh);
             int x=maxStar->x - maxStar->width * 2;
             int y=maxStar->y - maxStar->width * 2;
-            int w=maxStar->width*4;
-            int h=maxStar->width*4;
-            targetChip->getFrame(&fx, &fy, &fw, &fh);
+            int w=maxStar->width*4*binx;
+            int h=maxStar->width*4*biny;
+
+            if (x<0)
+                x=0;
+            if (y<0)
+                y=0;
+            if (w>fw)
+                w=fw;
+            if (h>fh)
+                h=fh;
+
 
             targetChip->setFrame(x, y, w, h);
 
@@ -889,11 +898,14 @@ void Focus::focusStarSelected(int x, int y)
 {
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     int offset = kcfg_focusBoxSize->value();
+    int binx, biny;
+
+    targetChip->getBinning(&binx, &biny);
 
     x -= offset*2 ;
     y -= offset*2;
-    int w=offset*4;
-    int h=offset*4;
+    int w=offset*4*binx;
+    int h=offset*4*biny;
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     targetImage->updateMode(FITS_FOCUS);
 

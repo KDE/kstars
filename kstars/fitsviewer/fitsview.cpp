@@ -180,14 +180,14 @@ bool FITSView::loadFITS ( const QString &inFilename )
     image_width  = currentWidth;
     image_height = currentHeight;
 
-    image_frame->setSize(currentWidth, currentHeight);
+    image_frame->setSize(image_width, image_height);
 
     hasWCS = image_data->hasWCS();
 
     delete (display_image);
     display_image = NULL;
 
-    display_image = new QImage(currentWidth, currentHeight, QImage::Format_Indexed8);
+    display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
     display_image->setNumColors(256);
     for (int i=0; i < 256; i++)
@@ -212,7 +212,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
     setAlignment(Qt::AlignCenter);
 
     if (isVisible())
-    emit newStatus(QString("%1x%2").arg(currentWidth).arg(currentHeight), FITS_RESOLUTION);
+    emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
     return true;
 }

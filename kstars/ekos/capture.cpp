@@ -67,6 +67,7 @@ void SequenceJob::prepareCapture()
 
     if (filterPos != -1 && activeFilter != NULL)
         activeFilter->runCommand(INDI_SET_FILTER, &filterPos);
+
 }
 
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
@@ -275,6 +276,7 @@ void Capture::stopSequence()
     if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
         activeJob->abort();
 
+    currentCCD->disconnect(this);
 
     imgProgress->reset();
     imgProgress->setEnabled(false);
@@ -943,6 +945,9 @@ void Capture::executeJob(SequenceJob *job)
     activeJob = job;
 
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
+
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
 
     captureImage();
 
