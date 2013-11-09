@@ -12,19 +12,6 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
-</shortcut>
-<guimenu>File</guimenu>
-<guimenuitem>Download New Data...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Open the <guilabel>Get Hot New Stuff</guilabel> 
-dialog to download additional data for &kstars;.
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
 <keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu>
@@ -146,7 +133,17 @@ PostScript/PDF file)
 </menuchoice></term>
 <listitem><para>Set time and date</para></listitem>
 </varlistentry>
-<!--FIXME missing Advance one step backward in time &lt;-->
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>&lt;</keycap>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Advance one step backward in time</guimenuitem>
+</menuchoice></term>
+<listitem><para>Advance one step backward in time in the &kstars; simulation of the sky chart. The duration of the time step can be configured after pressing the little <guilabel>&lt;</guilabel> button on the &kstars; toolbar.
+</para></listitem>
+</varlistentry>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Time</guimenu>
@@ -154,7 +151,17 @@ PostScript/PDF file)
 </menuchoice></term>
 <listitem><para>Toggle whether time passes</para></listitem>
 </varlistentry>
-<!--FIXME missing Advance one step forward in time &gt;-->
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>&gt;</keycap>
+</shortcut>
+<guimenu>Time</guimenu>
+<guimenuitem>Advance one step forward in time</guimenuitem>
+</menuchoice></term>
+<listitem><para>Advance one step forward in time in the &kstars; simulation of the sky chart. The duration of the time step can be configured after pressing the little <guilabel>&lt;</guilabel> button on the &kstars; toolbar.
+</para></listitem>
+</varlistentry>
 </variablelist>
 
 </sect2>
@@ -334,58 +341,78 @@ object.</para></listitem>
 <link linkend="ai-skycoords">Coordinate Systems</link></para></listitem>
 </varlistentry>
 
-<!--FIXME Projection with 6 subitems are missing -->
-
-</variablelist>
-</sect2>
-
-<sect2 id="devicemenu">
-  <title><guimenu>Devices</guimenu> Menu</title> 
-
-<variablelist>
-
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Telescope Wizard...</guimenuitem>
+<shortcut>
+<keycap>F5</keycap>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Projection</guisubmenu>
+<guimenuitem>Lambert Azimuthal Equal-area</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens the <guilabel>Telescope Wizard</guilabel>, which
-provides a step-by-step guide to help you connect to your telescope and
-control it with &kstars;.</para></listitem>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area</ulink> projection.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Device Manager</guimenuitem>
+<shortcut>
+<keycap>F6</keycap>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Projection</guisubmenu>
+<guimenuitem>Azimuthal Equidistant</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up the device manager, which allows you to start/shutdown device drivers and connect to remote INDI servers.</para></listitem>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection">azimuthal equidistant</ulink> projection.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>INDI Control Panel</guimenuitem>
+<shortcut>
+<keycap>F7</keycap>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Projection</guisubmenu>
+<guimenuitem>Orthographic</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Orthographic_projection_(cartography)">orthographic</ulink> projection.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Capture Image Sequence...</guimenuitem>
+<shortcut>
+<keycap>F8</keycap>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Projection</guisubmenu>
+<guimenuitem>Equirectangular</guimenuitem>
 </menuchoice></term>
-<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Equirectangular_projection">equirectangular</ulink> projection.</para></listitem>
 </varlistentry>
-<!-- in 4.7 this is a page in the settings dialog
+
 <varlistentry>
 <term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Configure INDI</guimenuitem>
+<shortcut>
+<keycap>F9</keycap>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Projection</guisubmenu>
+<guimenuitem>Stereographic</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up a dialog to configure INDI-related features such as automatic device updates.</para></listitem>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Stereographic_projection">stereographic</ulink> projection.</para></listitem>
 </varlistentry>
--->
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>F10</keycap>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Projection</guisubmenu>
+<guimenuitem>Gnomonic</guimenuitem>
+</menuchoice></term>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Gnomonic_projection">gnomonic</ulink> projection.</para></listitem>
+</varlistentry>
+
 </variablelist>
 </sect2>
 
@@ -410,11 +437,69 @@ which provides full access to many of the mathematical functions used by
 </listitem>
 </varlistentry>
 
-<!--FIXME missing
-Sky Calendar...
-Observing List... Ctrl+L
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Devices</guisubmenu>
+<guimenuitem>Telescope Wizard...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens the <guilabel>Telescope Wizard</guilabel>, which
+provides a step-by-step guide to help you connect to your telescope and
+control it with &kstars;.</para></listitem>
+</varlistentry>
 
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Devices</guisubmenu>
+<guimenuitem>Device Manager...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens up the device manager, which allows you to start/shutdown device drivers and connect to remote INDI servers.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Devices</guisubmenu>
+<guimenuitem>INDI Control Panel...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
+</varlistentry>
+
+<!--
+<varlistentry>
+<term><menuchoice>
+<guimenu>Devices</guimenu>
+<guimenuitem>Capture Image Sequence...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
+</varlistentry>
 -->
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Sky Calendar</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Opens the <guilabel>Sky Calendar</guilabel> Tool,
+which allows you to plan observations of Solar System planets by giving graphical data on sets and rises of these objects.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Moon Phase Calendar</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Opens the <guilabel>Moon Phase Calendar</guilabel> Tool with graphical representation of Moon phases with convenient calendar to choose the month and year.
+</para>
+</listitem>
+</varlistentry>
+
 <!-- removed after 4.9 see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d
 <varlistentry>
 <term><menuchoice>
@@ -468,7 +553,22 @@ from your location on a given date.
 </listitem>
 </varlistentry>
 
- <!--FIXME missing Ekos...-->
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>What's Interesting...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Opens the <guilabel>What's Interesting</guilabel> Tool,
+which allows you to be informed about the most interesting observations that can be made from your current location using the given equipment.
+</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -504,6 +604,18 @@ current simulation date.
 
 <varlistentry>
 <term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Ekos</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+  Opens the powerful <guilabel>Ekos</guilabel> Tool, which is software guider for your telescope. Alignment capabilities of Ekos are powered by <ulink url="http://astrometry.net/">astrometry.net</ulink> libraries.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>J</keycap></keycombo>
 </shortcut>
@@ -518,9 +630,20 @@ moons as a function of time.
 </para>
 </listitem>
 </varlistentry>
-<!--FIXME missing
-Flags
-  -->
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Flags</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Opens the <guilabel>Flag manager</guilabel> Tool,
+which can be used to assign color labels and icons to the given positions on the sky chart.
+</para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect2>
 
@@ -692,11 +815,53 @@ your own symbols (or modify existing symbols) using the
 <guimenuitem>Edit FOV Symbols...</guimenuitem> item.
 </para></listitem>
 </varlistentry>
-<!-- missing
-Switch to OpenGL backend
-Define Equipment Ctrl+0
-Add Observer Ctrl+1
-  -->
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Switch to OpenGL/QPainter backend</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+&kstars; has an experimental <ulink url="https://en.wikipedia.org/wiki/OpenGL">OpenGL</ulink> support. The corresponding backend works much faster on machines with hardware acceleration. Switch back to QPainter backend (default) if you experience troubles with OpenGL backend.
+</para>
+<important>
+  <para>
+    In the current version, infoboxes do not work correctly when using OpenGL backend. So they will be disabled.
+  </para>
+</important>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>0</keycap></keycombo>
+</shortcut>
+<guimenu>Settings</guimenu>
+<guimenuitem>Define Equipment...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Allows you to define equipment (telescope, eyepiece, lens and filter) characteristics for observation logs.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>1</keycap></keycombo>
+</shortcut>
+<guimenu>Settings</guimenu>
+<guimenuitem>Add Observer...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+Can be used to add a new observer item for your observation logs.
+</para>
+</listitem>
+</varlistentry>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
