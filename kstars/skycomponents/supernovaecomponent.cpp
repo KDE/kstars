@@ -56,9 +56,7 @@ bool SupernovaeComponent::selected()
 
 void SupernovaeComponent::loadData()
 {
-    QString line;
     QString serialNo, hostGalaxy, date, type, offset, SNPosition, discoverers ;
-    QStringList fields;
     dms ra, dec;
     float magnitude;
     kDebug()<<"Loading Supernovae data"<<endl;
@@ -66,6 +64,8 @@ void SupernovaeComponent::loadData()
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
     
+    KStarsData *m_data = KStarsData::Instance(); // to convert equatorial coordinate to horizontal
+
     //SN     ,Host Galaxy     ,Date       , R.A.  , Decl.,   Offset  ,Mag.,  Disc. Ref.     ,      SN Position      ,  Posn. Ref.      ,Typ,  SN     ,Discoverer(s)
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("serialNo"),      KSParser::D_QSTRING));
@@ -109,6 +109,7 @@ void SupernovaeComponent::loadData()
             magnitude = 99.9;
 
         sup=new Supernova(ra, dec, date, magnitude, serialNo, type, hostGalaxy, offset, discoverers);
+        sup->EquatorialToHorizontal(m_data->lst(),m_data->geo()->lat());
         if (!m_ObjectList.empty())
         {
             if ( findByName(sup->name() ) == 0 )
