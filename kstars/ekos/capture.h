@@ -130,9 +130,8 @@ public:
     /* Capture */
     void updateSequencePrefix( const QString &newPrefix);
 public slots:
+
     /* Capture */
-
-
     void startSequence();
     void stopSequence();
     void captureOne();

@@ -721,7 +721,9 @@ void Capture::addJob(bool preview)
 
         imagePrefix += frameTypeCombo->currentText();
     }
-    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false)
+    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
+            frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
+                        frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
     {
         if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
             imagePrefix += '_';
@@ -777,7 +779,11 @@ void Capture::addJob(bool preview)
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *filter = new QTableWidgetItem(FilterPosCombo->currentText());
+    QTableWidgetItem *filter = new QTableWidgetItem("--");
+    if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
+            frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
+            FilterPosCombo->count() > 0)
+        filter->setText(FilterPosCombo->currentText());
 
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -952,7 +958,6 @@ void Capture::executeJob(SequenceJob *job)
     captureImage();
 
 }
-
 
 }
 
