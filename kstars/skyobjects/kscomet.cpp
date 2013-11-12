@@ -221,6 +221,14 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     double yh = r * ( sinN * cosvw + cosN * sinvw * cosi );
     double zh = r * ( sinvw * sini );
 
+    //the spherical ecliptic coordinates:
+    double ELongRad = atan2( yh, xh );
+    double ELatRad = atan2( zh, r );
+
+    helEcPos.longitude.setRadians( ELongRad );
+    helEcPos.latitude.setRadians( ELatRad );
+    setRsun( r );
+
     //xe, ye, ze are the Earth's heliocentric cartesian coords
     double cosBe, sinBe, cosLe, sinLe;
     Earth->ecLong().SinCos( sinLe, cosLe );
@@ -236,13 +244,12 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     zh -= ze;
 
     //Finally, the spherical ecliptic coordinates:
-    double ELongRad = atan2( yh, xh );
+    ELongRad = atan2( yh, xh );
     double rr = sqrt( xh*xh + yh*yh );
-    double ELatRad = atan2( zh, rr );
+    ELatRad = atan2( zh, rr );
 
     ep.longitude.setRadians( ELongRad );
     ep.latitude.setRadians( ELatRad );
-    setRsun( r );
     setRearth( Earth );
 
     EclipticToEquatorial( num->obliquity() );
