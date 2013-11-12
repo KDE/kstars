@@ -104,7 +104,7 @@ Align::Align()
     if (astrometryNetOK() == false)
     {
         KMessageBox::information(NULL, i18n("Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
-                                 i18n("Missing astrometry files"), i18n("Do not show again"));
+                                 i18n("Missing astrometry files"), "missing_astrometry_binaries_warning");
 
         setEnabled(false);
 
@@ -356,10 +356,10 @@ void Align::verifyIndexFiles()
     {
         if (missingIndexes == 1)
             KMessageBox::information(0, i18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex), i18n("Missing index files"), i18n("Do not show again"));
+                                             startIndex), i18n("Missing index files"), "missing_astrometry_indexs_warning");
         else
             KMessageBox::information(0, i18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex, lastIndex), i18n("Missing index files"), i18n("Do not show again"));
+                                             startIndex, lastIndex), i18n("Missing index files"), "missing_astrometry_indexs_warning");
 
     }
 }
