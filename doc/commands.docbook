@@ -159,7 +159,7 @@ PostScript/PDF file)
 <guimenu>Time</guimenu>
 <guimenuitem>Advance one step forward in time</guimenuitem>
 </menuchoice></term>
-<listitem><para>Advance one step forward in time in the &kstars; simulation of the sky chart. The duration of the time step can be configured after pressing the little <guilabel>&lt;</guilabel> button on the &kstars; toolbar.
+<listitem><para>Advance one step forward in time in the &kstars; simulation of the sky chart. The duration of the time step can be configured after pressing the little <guilabel>&gt;</guilabel> button on the &kstars; toolbar.
 </para></listitem>
 </varlistentry>
 </variablelist>
