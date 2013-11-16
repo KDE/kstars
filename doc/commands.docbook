@@ -2,7 +2,7 @@
 <title>Command Reference</title>
 
 <sect1 id="kstars-menus">
-  <title>Menu Commands</title> <!-- updated for 4.9, some items ar missing-->
+  <title>Menu Commands</title>
 <indexterm><primary>Commands</primary><secondary>Menu</secondary></indexterm>
 
 <sect2 id="filemenu">
@@ -1169,6 +1169,16 @@ Point (straight up)</para></listitem>
 <listitem><para>Toggle full-screen mode</para></listitem>
 </varlistentry>
 
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>0</keycap></keycombo></term>
+<listitem><para>Define equipment (telescope, eyepiece, lens and filter) characteristics for observation logs</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>1</keycap></keycombo></term>
+<listitem><para>Add a new observer item for your observation logs</para></listitem>
+</varlistentry>
+
 <varlistentry><term><keycap>Space</keycap></term>
 <listitem><para>Toggle between the
 <link linkend="horizontal">Horizontal</link> and
@@ -1179,6 +1189,36 @@ Point (straight up)</para></listitem>
 <varlistentry>
 <term><keycap>F1</keycap></term>
 <listitem><para>Open the &kstars; Handbook</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>F5</keycap></term>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area</ulink> projection.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>F6</keycap></term>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection">azimuthal equidistant</ulink> projection.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>F7</keycap></term>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Orthographic_projection_(cartography)">orthographic</ulink> projection.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>F8</keycap></term>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Equirectangular_projection">equirectangular</ulink> projection.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>F9</keycap></term>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Stereographic_projection">stereographic</ulink> projection.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>F10</keycap></term>
+<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Gnomonic_projection">gnomonic</ulink> projection.</para></listitem>
 </varlistentry>
 </variablelist>
 </sect2>
@@ -1279,6 +1319,12 @@ tool</para></listitem>
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo></term>
 <listitem><para>Open the <link linkend="tool-whatsup">What's Up Tonight?</link> 
+tool</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo></term>
+<listitem><para>Open the <quote>What's Interesting</quote> 
 tool</para></listitem>
 </varlistentry>
 
