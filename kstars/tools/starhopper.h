@@ -62,6 +62,8 @@ class StarHopper {
      */
     void reconstructPath( SkyPoint const *curr_node );
 
+    QHash< SkyPoint const *, QString > patternNames; // if patterns were identified, they are added to this hash.
+
 };
 
 #endif
