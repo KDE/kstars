@@ -603,6 +603,44 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         }
     }
 
+    if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
+    {
+        double dx=-1,dy=-1,fit=-1;
+        INumber *np=NULL;
+        np = IUFindNumber(nvp, "GUIDESTAR_X");
+        if (np)
+            dx = np->value;
+        np = IUFindNumber(nvp, "GUIDESTAR_Y");
+        if (np)
+            dy = np->value;
+        np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+        if (np)
+            fit = np->value;
+
+        if (dx >= 0 && dy >= 0 && fit >= 0)
+            emit newGuideStarData(primaryChip, dx, dy, fit);
+    }
+
+    if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
+    {
+        double dx=-1,dy=-1,fit=-1;
+        INumber *np=NULL;
+        np = IUFindNumber(nvp, "GUIDESTAR_X");
+        if (np)
+            dx = np->value;
+        np = IUFindNumber(nvp, "GUIDESTAR_Y");
+        if (np)
+            dy = np->value;
+        np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+        if (np)
+            fit = np->value;
+
+        if (dx >= 0 && dy >= 0 && fit >= 0)
+            emit newGuideStarData(guideChip, dx, dy, fit);
+    }
+
+
+
     DeviceDecorator::processNumber(nvp);
 }
 
@@ -889,6 +927,73 @@ CCDChip * CCD::getChip(CCDChip::ChipType cType)
     }
 
     return NULL;
+}
+
+bool CCD::setRapidGuide(CCDChip *targetChip, bool enable)
+{
+    ISwitchVectorProperty *rapidSP=NULL;
+    ISwitch *enableS=NULL;
+
+    if (targetChip == primaryChip)
+        rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE");
+    else
+        rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE");
+
+    if (rapidSP == NULL)
+        return false;
+
+    enableS = IUFindSwitch(rapidSP, "ENABLE");
+
+    if (enableS == NULL)
+        return false;
+
+    // Already updated, return OK
+    if ((enable && enableS->s == ISS_ON) || (!enable && enableS->s == ISS_OFF))
+        return true;
+
+    IUResetSwitch(rapidSP);
+    rapidSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
+    rapidSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(rapidSP);
+
+    return true;
+
+}
+
+bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage, bool showMarker)
+{
+    ISwitchVectorProperty *rapidSP=NULL;
+    ISwitch *autoLoopS=NULL, *sendImageS=NULL, *showMarkerS=NULL;
+
+    if (targetChip == primaryChip)
+        rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE_SETUP");
+    else
+        rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE_SETUP");
+
+    if (rapidSP == NULL)
+        return false;
+
+    autoLoopS   = IUFindSwitch(rapidSP, "AUTO_LOOP" );
+    sendImageS  = IUFindSwitch(rapidSP, "SEND_IMAGE" );
+    showMarkerS = IUFindSwitch(rapidSP, "SHOW_MARKER" );
+
+    if (!autoLoopS || !sendImageS || !showMarkerS)
+        return false;
+
+    // If everything is already set, let's return.
+    if ( ( (autoLoop && autoLoopS->s == ISS_ON) || (!autoLoop && autoLoopS->s == ISS_OFF) ) &&
+         ( (sendImage && sendImageS->s == ISS_ON) || (!sendImage && sendImageS->s == ISS_OFF) ) &&
+         ( (showMarker && showMarkerS->s == ISS_ON) || (!showMarker && showMarkerS->s == ISS_OFF) ))
+        return true;
+
+    autoLoopS->s   = autoLoop ? ISS_ON : ISS_OFF;
+    sendImageS->s  = sendImage ? ISS_ON : ISS_OFF;
+    showMarkerS->s = showMarker ? ISS_ON : ISS_OFF;
+
+    clientManager->sendNewSwitch(rapidSP);
+
+    return true;
 }
 
 

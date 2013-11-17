@@ -62,10 +62,14 @@ public:
 
     double getReticleAngle();
 
+    void startRapidGuide();
+    void stopRapidGuide();
+
 public slots:
 
         void newFITS(IBLOB*);
         void newST4(int index);
+        void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
         bool capture();
         void viewerClosed();
 
@@ -94,6 +98,7 @@ private:
     QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture;
+    bool rapidGuideReticleSet;
 
 };
 

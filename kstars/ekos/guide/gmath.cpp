@@ -338,9 +338,6 @@ bool cgmath::reset( void )
 
 void cgmath::move_square( double newx, double newy )
 {
-    if (pimage == NULL)
-        return;
-
 	square_pos.x = newx;
 	square_pos.y = newy;
 
@@ -355,7 +352,8 @@ void cgmath::move_square( double newx, double newy )
 		square_pos.y = (double)(video_height - square_size);
 
     // FITS Image takes center coords
-    pimage->setGuideSquare(square_pos.x+square_size/2, square_pos.y+square_size/2);
+    if (pimage)
+        pimage->setGuideSquare(square_pos.x+square_size/2, square_pos.y+square_size/2);
 }
 
 
@@ -369,7 +367,8 @@ void cgmath::resize_square( int size_idx )
 	square_idx = size_idx;
 
 	// check position
-    pimage->setGuideBoxSize(square_size);
+    if (pimage)
+        pimage->setGuideBoxSize(square_size);
 
     // TODO: FIXME
     //move_square( square_pos.x, square_pos.y );
@@ -595,6 +594,11 @@ Vector cgmath::find_star_local_pos( void ) const
  double resx, resy, mass, threshold, pval;
  float *psrc = NULL, *porigin = NULL;
  float *pptr;
+
+ if (useRapidGuide)
+ {
+     return (ret = Vector(rapidDX , rapidDY, 0));
+ }
 
     psrc = porigin = pdata + (int)square_pos.y*video_width + (int)square_pos.x;
 
@@ -1024,7 +1028,18 @@ void cgmath::calc_square_err( void )
 }
 
 
+void cgmath::setRapidGuide(bool enable)
+{
+    useRapidGuide = enable;
+}
 
+
+void cgmath::setRapidStarData(double dx, double dy)
+{
+    rapidDX = dx;
+    rapidDY = dy;
+
+}
 
 
 
@@ -1073,6 +1088,8 @@ void cproc_out_params::reset( void )
 		sigma[k] 		= 0;
 	}
 }
+
+
 
 
 

@@ -36,6 +36,8 @@ rguider::rguider(Ekos::Guide *parent)
 
     pimage = NULL;
 
+    useRapidGuide = false;
+
     lost_star_try=0;
 
 	ui.comboBox_SquareSize->clear();
@@ -69,6 +71,7 @@ rguider::rguider(Ekos::Guide *parent)
 	connect( ui.spinBox_MaxPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+    connect( ui.kfcg_useRapidGuide,     SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
 
     connect(ui.captureB, SIGNAL(clicked()), pmain_wnd, SLOT(capture()));
 
@@ -363,6 +366,9 @@ void rguider::onStartStopButtonClick()
 		pmath->start();
         lost_star_try=0;
 		is_started = true;
+        if (useRapidGuide)
+            pmain_wnd->startRapidGuide();
+
         pmain_wnd->capture();
 	}
 	// stop
@@ -373,11 +379,9 @@ void rguider::onStartStopButtonClick()
         ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
         pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
 		pmath->stop();
-		// stop pulses immediately
-//		if( !DBG_VERBOSITY )
-//			pmain_wnd->m_driver->reset();
 
-
+        if (useRapidGuide)
+            pmain_wnd->stopRapidGuide();
 
 		is_started = false;
 	}
@@ -464,6 +468,38 @@ void rguider::guideStarSelected(int x, int y)
 
     disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
+}
+
+void rguider::onRapidGuideChanged(bool enable)
+{
+    if (is_started)
+    {
+        pmain_wnd->appendLogText(i18n("You must stop auto guiding before changing this setting."));
+        return;
+    }
+
+    useRapidGuide = enable;
+
+    if (useRapidGuide)
+    {
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicity enabled by the user in the CCD driver settings."));
+    }
+    else
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is disabled."));
+
+}
+
+void rguider::start()
+{
+    if (is_started == false)
+        onStartStopButtonClick();
+
+}
+
+void rguider::abort()
+{
+    if (is_started == true)
+        onStartStopButtonClick();
 }
 
 

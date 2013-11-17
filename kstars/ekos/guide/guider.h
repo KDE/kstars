@@ -30,12 +30,15 @@ public:
     ~rguider();
 
     void guide( void );
+    void start();
+    void abort();
     void set_half_refresh_rate( bool is_half );
     bool is_guiding( void ) const;
     void set_math( cgmath *math );
     void fill_interface( void );
     void set_image(FITSView *image);
     void set_ready(bool enable) { is_ready = enable;}
+    bool isRapidGuide() { return useRapidGuide;}
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -46,6 +49,7 @@ protected slots:
 	void onEnableDirRA( int state );
 	void onEnableDirDEC( int state );
 	void onInputParamChanged();
+    void onRapidGuideChanged(bool enable);
 
     void guideStarSelected(int x, int y);
 
@@ -63,6 +67,7 @@ private:
     bool is_ready;
 	bool half_refresh_rate;
     int lost_star_try;
+    bool useRapidGuide;
 
 
 

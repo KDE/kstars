@@ -144,6 +144,9 @@ public:
 	ovr_params_t *prepare_overlays( void );
 	void move_square( double newx, double newy );
 	void resize_square( int size_idx );
+
+    void setRapidGuide(bool enable);
+    void setRapidStarData(double dx, double dy);
 	
 	// proc
 	void start( void );
@@ -204,6 +207,10 @@ private:
 	Vector find_star_local_pos( void ) const;
 	void process_axes( void );
 	void calc_square_err( void );
+
+    // rapid guide
+    bool useRapidGuide;
+    double rapidDX, rapidDY;
 	
 };
 

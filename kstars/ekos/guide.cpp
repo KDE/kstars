@@ -38,6 +38,7 @@ Guide::Guide() : QWidget()
     currentTelescope = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
     useGuideHead = false;
+    rapidGuideReticleSet = false;
 
     tabWidget = new QTabWidget(this);
 
@@ -225,13 +226,20 @@ bool Guide::capture()
         return false;
     }
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
     targetChip->setFrameType(ccdFrame);
 
-    targetChip->capture(seqExpose);
+    if (guider->is_guiding() && guider->isRapidGuide())
+    {
+        targetChip->capture(seqExpose);
+    }
+    else
+    {
+
+        connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+        targetChip->capture(seqExpose);
+    }
 
    return true;
 
@@ -344,6 +352,69 @@ void Guide::viewerClosed()
 {
     guider->set_image(NULL);
     calibration->set_image(NULL);
+}
+
+void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
+{
+    INDI_UNUSED(targetChip);
+    INDI_UNUSED(fit);
+    /*if (dx <= 0 || dy <= 0 || fit <= 0)
+    {
+        guider->onStartStopButtonClick();
+        appendLogText(i18n("Guide star lost. Autoguide aborted."));
+    }*/
+
+    if (rapidGuideReticleSet == false)
+    {
+        // Let's set reticle parameter on first capture to those of the star, then we check if there
+        // is any deviation
+        double x,y,angle;
+        pmath->get_reticle_params(&x, &y, &angle);
+        pmath->set_reticle_params(dx, dy, angle);
+        rapidGuideReticleSet = true;
+    }
+
+    pmath->setRapidStarData(dx, dy);
+
+    guider->guide();
+
+    capture();
+
+}
+
+void Guide::startRapidGuide()
+{
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    if (currentCCD->setRapidGuide(targetChip, true) == false)
+    {
+        appendLogText(i18n("The CCD does not support Rapid Guiding. Aborting..."));
+        guider->abort();
+        return;
+    }
+
+    rapidGuideReticleSet = false;
+
+    pmath->setRapidGuide(true);
+    currentCCD->configureRapidGuide(targetChip, true);
+    connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)), this, SLOT(processRapidStarData(ISD::CCDChip*,double,double,double)));
+
+}
+
+void Guide::stopRapidGuide()
+{
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    pmath->setRapidGuide(false);
+
+    rapidGuideReticleSet = false;
+
+    currentCCD->disconnect(SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)));
+
+    currentCCD->configureRapidGuide(targetChip, false, false, false);
+
+    currentCCD->setRapidGuide(targetChip, false);
+
 }
 
 }
