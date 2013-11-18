@@ -482,7 +482,7 @@ void rguider::onRapidGuideChanged(bool enable)
 
     if (useRapidGuide)
     {
-        pmain_wnd->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicity enabled by the user in the CCD driver settings."));
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
     }
     else
         pmain_wnd->appendLogText(i18n("Rapid Guiding is disabled."));
