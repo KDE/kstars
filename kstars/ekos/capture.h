@@ -49,6 +49,7 @@ class SequenceJob
     bool isPreview() { return preview;}
     int getDelay() { return delay;}
     int getCount() { return count;}
+    unsigned int getCompleted() { return completed; }
     const QString & getPrefix() { return prefix;}
 
     void setActiveCCD(ISD::CCD *ccd) { activeCCD = ccd; }
@@ -74,6 +75,7 @@ class SequenceJob
     void setImageType(int type) { imageType = type;}
     void setExposure(double duration) { exposure = duration;}
     void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
+    void setCompleted(unsigned int in_completed) { completed = in_completed;}
 
 
 
@@ -98,6 +100,7 @@ class SequenceJob
     bool isoMode;
     bool preview;
     bool showFITS;
+    unsigned int completed;
     FITSScale captureFilter;
     QTableWidgetItem *statusCell;
 

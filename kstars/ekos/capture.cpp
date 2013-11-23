@@ -35,6 +35,7 @@ SequenceJob::SequenceJob()
     activeChip=NULL;
     activeCCD=NULL;
     activeFilter= NULL;
+    completed=0;
 }
 
 void SequenceJob::abort()
@@ -249,7 +250,7 @@ void Capture::startSequence()
 
     foreach(SequenceJob *job, jobs)
     {
-        if (job->getStatus() == SequenceJob::JOB_IDLE)
+        if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
         {
             first_job = job;
             break;
@@ -520,6 +521,7 @@ void Capture::newFITS(IBLOB *bp)
     }
 
     seqCurrentCount++;
+    activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
@@ -925,7 +927,7 @@ void Capture::executeJob(SequenceJob *job)
 
     seqDelay = job->getDelay();
 
-    seqCurrentCount = 0;
+    seqCurrentCount = job->getCompleted();
 
     if (job->isPreview() == false)
     {
