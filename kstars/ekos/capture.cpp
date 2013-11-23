@@ -539,7 +539,7 @@ void Capture::newFITS(IBLOB *bp)
 
         foreach(SequenceJob *job, jobs)
         {
-            if (job->getStatus() == SequenceJob::JOB_IDLE)
+            if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
             {
                 next_job = job;
                 break;
