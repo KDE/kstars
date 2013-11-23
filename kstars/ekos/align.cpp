@@ -1118,7 +1118,7 @@ void Align::correctAltError()
     SkyPoint currentCoord (telescopeCoord);
     dms      targetLat;
 
-    targetLat.setD(KStars::Instance()->data()->geo()->lat()->Degrees() - altDeviation);
+    targetLat.setD(KStars::Instance()->data()->geo()->lat()->Degrees() + altDeviation);
 
     currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), &targetLat );
 
