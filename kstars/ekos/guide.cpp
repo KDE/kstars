@@ -256,7 +256,12 @@ void Guide::newFITS(IBLOB *bp)
     FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
 
     if (targetImage == NULL)
+    {
+        pmath->set_image(NULL);
+        guider->set_image(NULL);
+        calibration->set_image(NULL);
         return;
+    }
 
     FITSImage *image_data = targetImage->getImageData();
 
@@ -356,13 +361,16 @@ void Guide::viewerClosed()
 
 void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
 {
-    INDI_UNUSED(targetChip);
     INDI_UNUSED(fit);
-    /*if (dx <= 0 || dy <= 0 || fit <= 0)
+
+    FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
+
+    if (targetImage == NULL)
     {
-        guider->onStartStopButtonClick();
-        appendLogText(i18n("Guide star lost. Autoguide aborted."));
-    }*/
+        pmath->set_image(NULL);
+        guider->set_image(NULL);
+        calibration->set_image(NULL);
+    }
 
     if (rapidGuideReticleSet == false)
     {
