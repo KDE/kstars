@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -326,7 +326,7 @@
              </widget>
             </item>
             <item>
-             <widget class="MagnitudeSpinBox" name="kcfg_MagLimitHideStar">
+             <widget class="MagnitudeSpinBox" name="kcfg_MagLimitHideStar" native="true">
               <property name="minimumSize">
                <size>
                 <width>40</width>
