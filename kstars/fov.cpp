@@ -193,7 +193,7 @@ QList<FOV*> FOV::readFOVs()
             QStringList fields = istream.readLine().split(':');
             bool ok;
             QString name, color;
-            float   sizeX, sizeY, xoffset, yoffset, rot, orient;
+            float   sizeX, sizeY, xoffset, yoffset, rot;
             Shape   shape;
             if( fields.count() == 8 )
             {
