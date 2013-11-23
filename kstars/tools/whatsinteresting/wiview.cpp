@@ -88,6 +88,8 @@ void WIView::onCategorySelected(int type)
 
 void WIView::onSoListItemClicked(int type, QString typeName, int index)
 {
+    Q_UNUSED(typeName)
+
     SkyObjItem *soitem = m_ModManager->returnModel(type)->getSkyObjItem(index);
 
 //    soTypeTextObj->setProperty("text", typeName);

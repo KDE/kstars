@@ -31,6 +31,8 @@ void SkyObjListModel::addSkyObject(SkyObjItem *soitem)
 
 int SkyObjListModel::rowCount(const QModelIndex& parent) const
 {
+    Q_UNUSED(parent)
+
     return m_SoItemList.size();
 }
 

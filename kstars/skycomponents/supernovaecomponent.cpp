@@ -236,6 +236,8 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
 
 void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus )
 {
+    Q_UNUSED(exitStatus)
+
     if ( exitCode ) {
         QString errmsg;
         switch ( exitCode ) {
