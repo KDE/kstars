@@ -607,39 +607,56 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     {
         double dx=-1,dy=-1,fit=-1;
         INumber *np=NULL;
-        np = IUFindNumber(nvp, "GUIDESTAR_X");
-        if (np)
-            dx = np->value;
-        np = IUFindNumber(nvp, "GUIDESTAR_Y");
-        if (np)
-            dy = np->value;
-        np = IUFindNumber(nvp, "GUIDESTAR_FIT");
-        if (np)
-            fit = np->value;
 
-        if (dx >= 0 && dy >= 0 && fit >= 0)
-            emit newGuideStarData(primaryChip, dx, dy, fit);
+        if (nvp->s == IPS_ALERT)
+        {
+            emit newGuideStarData(primaryChip, -1, -1, -1);
+        }
+        else
+        {
+            np = IUFindNumber(nvp, "GUIDESTAR_X");
+            if (np)
+                dx = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_Y");
+            if (np)
+                dy = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+            if (np)
+                fit = np->value;
+
+            if (dx >= 0 && dy >= 0 && fit >= 0)
+                emit newGuideStarData(primaryChip, dx, dy, fit);
+        }
+
     }
 
     if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
     {
         double dx=-1,dy=-1,fit=-1;
         INumber *np=NULL;
-        np = IUFindNumber(nvp, "GUIDESTAR_X");
-        if (np)
-            dx = np->value;
-        np = IUFindNumber(nvp, "GUIDESTAR_Y");
-        if (np)
-            dy = np->value;
-        np = IUFindNumber(nvp, "GUIDESTAR_FIT");
-        if (np)
-            fit = np->value;
 
-        if (dx >= 0 && dy >= 0 && fit >= 0)
-            emit newGuideStarData(guideChip, dx, dy, fit);
+        if (nvp->s == IPS_ALERT)
+        {
+            emit newGuideStarData(guideChip, -1, -1, -1);
+
+        }
+        else
+        {
+            np = IUFindNumber(nvp, "GUIDESTAR_X");
+            if (np)
+                dx = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_Y");
+            if (np)
+                dy = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+            if (np)
+                fit = np->value;
+
+            if (dx >= 0 && dy >= 0 && fit >= 0)
+                emit newGuideStarData(guideChip, dx, dy, fit);
+        }
+
     }
-
-
 
     DeviceDecorator::processNumber(nvp);
 }

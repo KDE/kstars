@@ -361,7 +361,13 @@ void Guide::viewerClosed()
 
 void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
 {
-    INDI_UNUSED(fit);
+    // Check if guide star is lost
+    if (dx == -1 && dy == -1 && fit == -1)
+    {
+        KMessageBox::error(NULL, i18n("Lost track of the guide star. Rapid guide aborted."));
+        guider->abort();
+        return;
+    }
 
     FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
 
