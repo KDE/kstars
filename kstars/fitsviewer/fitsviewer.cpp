@@ -171,7 +171,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     {
 
         action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
-        action->setText(filter);
+        action->setText(i18n(filter.toUtf8().constData()));
         filterMapper->setMapping(action, filterCounter++);
         connect(action, SIGNAL(triggered()), filterMapper, SLOT(map()));
 
