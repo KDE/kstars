@@ -57,6 +57,7 @@ cgmath::cgmath()
 	preview_mode = true;
 	suspended	 = false;
     lost_star    = false;
+    useRapidGuide = false;
     pimage = NULL;
 
 	// square variables
