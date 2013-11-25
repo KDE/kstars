@@ -240,7 +240,8 @@ void rcalibration::onStartReticleCalibrationButtonClick()
             return;
     }
 
-    disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    if (pmath->get_image())
+        disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
     pmath->set_lost_star(false);
     pmain_wnd->capture();
