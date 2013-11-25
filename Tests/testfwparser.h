@@ -40,7 +40,7 @@ class TestFWParser: public QObject {
   QStringList test_cases_;
   QList<int> widths_;
   QList< QPair<QString, KSParser::DataTypes> > sequence_;
-  QFile test_file_;
+  QString test_file_name_;
   KSParser *test_parser_;
 };
 

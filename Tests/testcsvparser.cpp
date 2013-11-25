@@ -25,6 +25,8 @@
 
 #include "testcsvparser.h"
 
+#include <ktemporaryfile.h>
+
 TestCSVParser::TestCSVParser(): QObject() {
 }
 
@@ -82,18 +84,15 @@ void TestCSVParser::initTestCase() {
                          "either\n"));
   test_cases_.append(",,,,,,,,,,,\n");
   test_cases_.append("\n");
-  QString file_name("TestCSV.txt");
-  file_name = KStandardDirs::locateLocal("appdata", file_name);
-  if (!file_name.isNull()) {
-        test_csv_file_.setFileName(file_name);
-        if (!test_csv_file_.open(QIODevice::WriteOnly)) {
-          kWarning() << QString("Couldn't open(%1)").arg(file_name);
-        }
-  }
-  QTextStream out_stream(&test_csv_file_);
+  KTemporaryFile temp_file;
+  temp_file.setSuffix(".txt");
+  temp_file.setAutoRemove(false);
+  QVERIFY(temp_file.open());
+  test_file_name_ = temp_file.fileName();
+  QTextStream out_stream(&temp_file);
   foreach(const QString &test_case, test_cases_)
     out_stream << test_case;
-  test_csv_file_.close();
+  temp_file.close();
 
   //Building the sequence to be used. Includes all available types.
   sequence_.clear();
@@ -110,8 +109,7 @@ void TestCSVParser::initTestCase() {
   sequence_.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
   sequence_.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
 
-  QString fname = KStandardDirs::locate( "appdata", file_name );
-  test_parser_ = new KSParser(fname, '#', sequence_);
+  test_parser_ = new KSParser(test_file_name_, '#', sequence_);
 }
 
 TestCSVParser::~TestCSVParser()
@@ -265,9 +263,9 @@ void TestCSVParser::CSVReadMissingFile() {
   /*
    * Test 6. Attempt to read a missing file repeatedly
   */
-  QFile::remove(KStandardDirs::locateLocal("appdata","TestCSV.txt"));
+  QFile::remove(test_file_name_);
 
-  KSParser missing_parser(QString("TestCSV.txt"), '#', sequence_);
+  KSParser missing_parser(test_file_name_, '#', sequence_);
   QHash<QString, QVariant> row_content = missing_parser.ReadNextRow();
 
   for (int times = 0; times < 20; times++) {

@@ -17,6 +17,8 @@
 
 #include "testfwparser.h"
 
+#include <ktemporaryfile.h>
+
 TestFWParser::TestFWParser(): QObject() {
 }
 
@@ -27,20 +29,15 @@ void TestFWParser::initTestCase() {
     "                                                               \n");
   test_cases_.append("this is an ex\n\n");
 
-  QString file_name("TestFW.txt");
-  file_name = KStandardDirs::locateLocal("appdata", file_name);
-
-  if (!file_name.isNull()) {
-        test_file_.setFileName(file_name);
-        if (!test_file_.open(QIODevice::WriteOnly)) {
-          kWarning() << QString("Couldn't open(%1)").arg(file_name);
-        }
-  }
-
-  QTextStream out_stream(&test_file_);
+  KTemporaryFile temp_file;
+  temp_file.setSuffix(".txt");
+  temp_file.setAutoRemove(false);
+  QVERIFY(temp_file.open());
+  test_file_name_ = temp_file.fileName();
+  QTextStream out_stream(&temp_file);
   foreach(const QString &test_case, test_cases_)
     out_stream << test_case;
-  test_file_.close();
+  temp_file.close();
 
   //Building the sequence to be used. Includes all available types.
   sequence_.clear();
@@ -68,8 +65,7 @@ void TestFWParser::initTestCase() {
   widths_.append(6);
   widths_.append(6);  //'repeatedly' doesn't need a width
 
-  QString fname = KStandardDirs::locate( "appdata", file_name );
-  test_parser_ = new KSParser(fname, '#', sequence_, widths_);
+  test_parser_ = new KSParser(test_file_name_, '#', sequence_, widths_);
 }
 
 TestFWParser::~TestFWParser()
@@ -156,9 +152,9 @@ void TestFWParser::FWReadMissingFile()
    * This tests how the parser reacts if there is no file with the
    * given path.
   */
-  QFile::remove(KStandardDirs::locateLocal("appdata","TestFW.txt"));
+  QFile::remove(test_file_name_);
 
-  KSParser missing_parser(QString("TestFW.txt"), '#', sequence_, widths_);
+  KSParser missing_parser(test_file_name_, '#', sequence_, widths_);
   QHash<QString, QVariant> row_content = missing_parser.ReadNextRow();
 
   for (int times = 0; times < 20; times++) {
