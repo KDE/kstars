@@ -30,6 +30,8 @@ class TestCSVParser: public QObject {
   TestCSVParser();
   ~TestCSVParser();
  private slots:
+  void initTestCase();
+  void cleanupTestCase();
   void CSVMixedInputs();
   void CSVQuotesInQuotes();
   void CSVEmptyRow();

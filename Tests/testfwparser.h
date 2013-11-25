@@ -29,6 +29,8 @@ class TestFWParser: public QObject {
   TestFWParser();
   ~TestFWParser();
  private slots:
+   void initTestCase();
+   void cleanupTestCase();
    void MixedInputs();
    void OnlySpaceRow();
    void NoRow();

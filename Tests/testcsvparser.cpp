@@ -26,6 +26,9 @@
 #include "testcsvparser.h"
 
 TestCSVParser::TestCSVParser(): QObject() {
+}
+
+void TestCSVParser::initTestCase() {
   /*
    * Justification for doing this instead of simply creating a file:
    * To add/change tests, we'll need to modify 2 places. The file and this class.
@@ -113,6 +116,9 @@ TestCSVParser::TestCSVParser(): QObject() {
 
 TestCSVParser::~TestCSVParser()
 {
+}
+
+void TestCSVParser::cleanupTestCase() {
   delete test_parser_;
 }
 

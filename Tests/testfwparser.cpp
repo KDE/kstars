@@ -18,6 +18,9 @@
 #include "testfwparser.h"
 
 TestFWParser::TestFWParser(): QObject() {
+}
+
+void TestFWParser::initTestCase() {
   test_cases_.append(
     "this is an exam ple of 256 cases being tested -3.14       times\n");
   test_cases_.append(
@@ -71,6 +74,9 @@ TestFWParser::TestFWParser(): QObject() {
 
 TestFWParser::~TestFWParser()
 {
+}
+
+void TestFWParser::cleanupTestCase() {
   delete test_parser_;
 }
 
