@@ -153,18 +153,18 @@ void TestCSVParser::CSVMixedInputs() {
   */
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
-  QVERIFY(row_content["field1"] == QString(""));
-  QVERIFY(row_content["field2"] == QString("isn't"));
-  QVERIFY(row_content["field3"] == QString("it"));
-  QVERIFY(row_content["field4"] == QString("amusing"));
-  QVERIFY(row_content["field5"] == QString("how"));
-  QVERIFY(row_content["field6"].toInt() == 3);
-  QVERIFY(row_content["field7"] == QString("isn't, pi"));
-  QVERIFY(row_content["field8"] == QString("and"));
-  QVERIFY(row_content["field9"] == QString(""));
+  QCOMPARE(row_content["field1"].toString(), QString(""));
+  QCOMPARE(row_content["field2"].toString(), QString("isn't"));
+  QCOMPARE(row_content["field3"].toString(), QString("it"));
+  QCOMPARE(row_content["field4"].toString(), QString("amusing"));
+  QCOMPARE(row_content["field5"].toString(), QString("how"));
+  QCOMPARE(row_content["field6"].toInt(), 3);
+  QCOMPARE(row_content["field7"].toString(), QString("isn't, pi"));
+  QCOMPARE(row_content["field8"].toString(), QString("and"));
+  QCOMPARE(row_content["field9"].toString(), QString(""));
   QVERIFY(row_content["field10"].toFloat() + 3.141 < 0.1);
-  QVERIFY(row_content["field11"] == QString("isn't"));
-  QVERIFY(row_content["field12"] == QString("either"));
+  QCOMPARE(row_content["field11"].toString(), QString("isn't"));
+  QCOMPARE(row_content["field12"].toString(), QString("either"));
 }
 
 void TestCSVParser::CSVQuotesInQuotes() {
@@ -175,18 +175,18 @@ void TestCSVParser::CSVQuotesInQuotes() {
    */
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field7"];
-  QVERIFY(row_content["field1"] == QString(""));
-  QVERIFY(row_content["field2"] == QString("isn't"));
-  QVERIFY(row_content["field3"] == QString("it"));
-  QVERIFY(row_content["field4"] == QString("amusing"));
-  QVERIFY(row_content["field5"] == QString("how"));
-  QVERIFY(row_content["field6"].toInt() == 3);
-  QVERIFY(row_content["field7"] == QString("isn't\"(, )\"pi"));
-  QVERIFY(row_content["field8"] == QString("and"));
-  QVERIFY(row_content["field9"] == QString(""));
+  QCOMPARE(row_content["field1"].toString(), QString(""));
+  QCOMPARE(row_content["field2"].toString(), QString("isn't"));
+  QCOMPARE(row_content["field3"].toString(), QString("it"));
+  QCOMPARE(row_content["field4"].toString(), QString("amusing"));
+  QCOMPARE(row_content["field5"].toString(), QString("how"));
+  QCOMPARE(row_content["field6"].toInt(), 3);
+  QCOMPARE(row_content["field7"].toString(), QString("isn't\"(, )\"pi"));
+  QCOMPARE(row_content["field8"].toString(), QString("and"));
+  QCOMPARE(row_content["field9"].toString(), QString(""));
   QVERIFY(row_content["field10"].toFloat() + 3.141 < 0.1);
-  QVERIFY(row_content["field11"] == QString("isn't"));
-  QVERIFY(row_content["field12"] == QString("either"));
+  QCOMPARE(row_content["field11"].toString(), QString("isn't"));
+  QCOMPARE(row_content["field12"].toString(), QString("either"));
 }
 
 
@@ -205,18 +205,18 @@ void TestCSVParser::CSVEmptyRow() {
   */
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
-  QVERIFY(row_content["field1"] == QString(""));
-  QVERIFY(row_content["field2"] == QString(""));
-  QVERIFY(row_content["field3"] == QString(""));
-  QVERIFY(row_content["field4"] == QString(""));
-  QVERIFY(row_content["field5"] == QString(""));
-  QVERIFY(row_content["field6"].toInt() == 0);
-  QVERIFY(row_content["field7"] == QString(""));
-  QVERIFY(row_content["field8"] == QString(""));
-  QVERIFY(row_content["field9"] == QString(""));
-  QVERIFY(row_content["field10"].toFloat() == 0.0);
-  QVERIFY(row_content["field11"] == QString(""));
-  QVERIFY(row_content["field12"] == QString(""));
+  QCOMPARE(row_content["field1"].toString(), QString(""));
+  QCOMPARE(row_content["field2"].toString(), QString(""));
+  QCOMPARE(row_content["field3"].toString(), QString(""));
+  QCOMPARE(row_content["field4"].toString(), QString(""));
+  QCOMPARE(row_content["field5"].toString(), QString(""));
+  QCOMPARE(row_content["field6"].toInt(), 0);
+  QCOMPARE(row_content["field7"].toString(), QString(""));
+  QCOMPARE(row_content["field8"].toString(), QString(""));
+  QCOMPARE(row_content["field9"].toString(), QString(""));
+  QCOMPARE(row_content["field10"].toFloat(), float(0.0));
+  QCOMPARE(row_content["field11"].toString(), QString(""));
+  QCOMPARE(row_content["field12"].toString(), QString(""));
 }
 
 void TestCSVParser::CSVNoRow() {
@@ -227,36 +227,36 @@ void TestCSVParser::CSVNoRow() {
   */
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
-  QVERIFY(row_content["field1"] == QString("Null"));
-  QVERIFY(row_content["field2"] == QString("Null"));
-  QVERIFY(row_content["field3"] == QString("Null"));
-  QVERIFY(row_content["field4"] == QString("Null"));
-  QVERIFY(row_content["field5"] == QString("Null"));
-  QVERIFY(row_content["field6"].toInt() == 0);
-  QVERIFY(row_content["field7"] == QString("Null"));
-  QVERIFY(row_content["field8"] == QString("Null"));
-  QVERIFY(row_content["field9"] == QString("Null"));
-  QVERIFY(row_content["field10"].toFloat() == 0.0);
-  QVERIFY(row_content["field11"] == QString("Null"));
-  QVERIFY(row_content["field12"] == QString("Null"));
+  QCOMPARE(row_content["field1"].toString(), QString("Null"));
+  QCOMPARE(row_content["field2"].toString(), QString("Null"));
+  QCOMPARE(row_content["field3"].toString(), QString("Null"));
+  QCOMPARE(row_content["field4"].toString(), QString("Null"));
+  QCOMPARE(row_content["field5"].toString(), QString("Null"));
+  QCOMPARE(row_content["field6"].toInt(), 0);
+  QCOMPARE(row_content["field7"].toString(), QString("Null"));
+  QCOMPARE(row_content["field8"].toString(), QString("Null"));
+  QCOMPARE(row_content["field9"].toString(), QString("Null"));
+  QCOMPARE(row_content["field10"].toFloat(), float(0.0));
+  QCOMPARE(row_content["field11"].toString(), QString("Null"));
+  QCOMPARE(row_content["field12"].toString(), QString("Null"));
 }
 
 void TestCSVParser::CSVIgnoreHasNextRow() {
   QHash<QString, QVariant> row_content;
   for (int times = 0; times < 20; times++) {
     row_content = test_parser_->ReadNextRow();
-    QVERIFY(row_content["field1"] == QString("Null"));
-    QVERIFY(row_content["field2"] == QString("Null"));
-    QVERIFY(row_content["field3"] == QString("Null"));
-    QVERIFY(row_content["field4"] == QString("Null"));
-    QVERIFY(row_content["field5"] == QString("Null"));
-    QVERIFY(row_content["field6"].toInt() == 0);
-    QVERIFY(row_content["field7"] == QString("Null"));
-    QVERIFY(row_content["field8"] == QString("Null"));
-    QVERIFY(row_content["field9"] == QString("Null"));
-    QVERIFY(row_content["field10"].toFloat() == 0.0);
-    QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));
+    QCOMPARE(row_content["field1"].toString(), QString("Null"));
+    QCOMPARE(row_content["field2"].toString(), QString("Null"));
+    QCOMPARE(row_content["field3"].toString(), QString("Null"));
+    QCOMPARE(row_content["field4"].toString(), QString("Null"));
+    QCOMPARE(row_content["field5"].toString(), QString("Null"));
+    QCOMPARE(row_content["field6"].toInt(), 0);
+    QCOMPARE(row_content["field7"].toString(), QString("Null"));
+    QCOMPARE(row_content["field8"].toString(), QString("Null"));
+    QCOMPARE(row_content["field9"].toString(), QString("Null"));
+    QCOMPARE(row_content["field10"].toFloat(), float(0.0));
+    QCOMPARE(row_content["field11"].toString(), QString("Null"));
+    QCOMPARE(row_content["field12"].toString(), QString("Null"));
   }
 }
 
@@ -272,18 +272,18 @@ void TestCSVParser::CSVReadMissingFile() {
 
   for (int times = 0; times < 20; times++) {
     row_content = missing_parser.ReadNextRow();
-    QVERIFY(row_content["field1"] == QString("Null"));
-    QVERIFY(row_content["field2"] == QString("Null"));
-    QVERIFY(row_content["field3"] == QString("Null"));
-    QVERIFY(row_content["field4"] == QString("Null"));
-    QVERIFY(row_content["field5"] == QString("Null"));
-    QVERIFY(row_content["field6"].toInt() == 0);
-    QVERIFY(row_content["field7"] == QString("Null"));
-    QVERIFY(row_content["field8"] == QString("Null"));
-    QVERIFY(row_content["field9"] == QString("Null"));
-    QVERIFY(row_content["field10"].toFloat() == 0.0);
-    QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));
+    QCOMPARE(row_content["field1"].toString(), QString("Null"));
+    QCOMPARE(row_content["field2"].toString(), QString("Null"));
+    QCOMPARE(row_content["field3"].toString(), QString("Null"));
+    QCOMPARE(row_content["field4"].toString(), QString("Null"));
+    QCOMPARE(row_content["field5"].toString(), QString("Null"));
+    QCOMPARE(row_content["field6"].toInt(), 0);
+    QCOMPARE(row_content["field7"].toString(), QString("Null"));
+    QCOMPARE(row_content["field8"].toString(), QString("Null"));
+    QCOMPARE(row_content["field9"].toString(), QString("Null"));
+    QCOMPARE(row_content["field10"].toFloat(), float(0.0));
+    QCOMPARE(row_content["field11"].toString(), QString("Null"));
+    QCOMPARE(row_content["field12"].toString(), QString("Null"));
   }
 }
 

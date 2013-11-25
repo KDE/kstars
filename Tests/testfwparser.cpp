@@ -86,18 +86,18 @@ void TestFWParser::MixedInputs() {
   */
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
 
-  QVERIFY(row_content["field1"] == QString("this"));
-  QVERIFY(row_content["field2"] == QString("is"));
-  QVERIFY(row_content["field3"] == QString("an"));
-  QVERIFY(row_content["field4"] == QString("exam ple"));
-  QVERIFY(row_content["field5"] == QString("of"));
-  QVERIFY(row_content["field6"].toInt() == 256);
-  QVERIFY(row_content["field7"] == QString("cases"));
-  QVERIFY(row_content["field8"] == QString("being"));
-  QVERIFY(row_content["field9"] == QString("tested"));
+  QCOMPARE(row_content["field1"].toString(), QString("this"));
+  QCOMPARE(row_content["field2"].toString(), QString("is"));
+  QCOMPARE(row_content["field3"].toString(), QString("an"));
+  QCOMPARE(row_content["field4"].toString(), QString("exam ple"));
+  QCOMPARE(row_content["field5"].toString(), QString("of"));
+  QCOMPARE(row_content["field6"].toInt(), 256);
+  QCOMPARE(row_content["field7"].toString(), QString("cases"));
+  QCOMPARE(row_content["field8"].toString(), QString("being"));
+  QCOMPARE(row_content["field9"].toString(), QString("tested"));
   QVERIFY(row_content["field10"].toFloat() + 3.141 < 0.1);
-  QVERIFY(row_content["field11"] == QString(""));
-  QVERIFY(row_content["field12"] == QString("times"));
+  QCOMPARE(row_content["field11"].toString(), QString(""));
+  QCOMPARE(row_content["field12"].toString(), QString("times"));
 }
 
 void TestFWParser::OnlySpaceRow() {
@@ -106,18 +106,18 @@ void TestFWParser::OnlySpaceRow() {
   */
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
 
-  QVERIFY(row_content["field1"] == QString(""));
-  QVERIFY(row_content["field2"] == QString(""));
-  QVERIFY(row_content["field3"] == QString(""));
-  QVERIFY(row_content["field4"] == QString(""));
-  QVERIFY(row_content["field5"] == QString(""));
-  QVERIFY(row_content["field6"].toInt() == 0);
-  QVERIFY(row_content["field7"] == QString(""));
-  QVERIFY(row_content["field8"] == QString(""));
-  QVERIFY(row_content["field9"] == QString(""));
-  QVERIFY(row_content["field10"].toFloat() == 0.0);
-  QVERIFY(row_content["field11"] == QString(""));
-  QVERIFY(row_content["field12"] == QString(""));
+  QCOMPARE(row_content["field1"].toString(), QString(""));
+  QCOMPARE(row_content["field2"].toString(), QString(""));
+  QCOMPARE(row_content["field3"].toString(), QString(""));
+  QCOMPARE(row_content["field4"].toString(), QString(""));
+  QCOMPARE(row_content["field5"].toString(), QString(""));
+  QCOMPARE(row_content["field6"].toInt(), 0);
+  QCOMPARE(row_content["field7"].toString(), QString(""));
+  QCOMPARE(row_content["field8"].toString(), QString(""));
+  QCOMPARE(row_content["field9"].toString(), QString(""));
+  QCOMPARE(row_content["field10"].toFloat(), float(0.0));
+  QCOMPARE(row_content["field11"].toString(), QString(""));
+  QCOMPARE(row_content["field12"].toString(), QString(""));
 }
 
 void TestFWParser::NoRow() {
@@ -134,18 +134,18 @@ void TestFWParser::NoRow() {
 
   for (int times = 0; times < 20; times++) {
     row_content = test_parser_->ReadNextRow();
-    QVERIFY(row_content["field1"] == QString("Null"));
-    QVERIFY(row_content["field2"] == QString("Null"));
-    QVERIFY(row_content["field3"] == QString("Null"));
-    QVERIFY(row_content["field4"] == QString("Null"));
-    QVERIFY(row_content["field5"] == QString("Null"));
-    QVERIFY(row_content["field6"].toInt() == 0);
-    QVERIFY(row_content["field7"] == QString("Null"));
-    QVERIFY(row_content["field8"] == QString("Null"));
-    QVERIFY(row_content["field9"] == QString("Null"));
-    QVERIFY(row_content["field10"].toFloat() == 0.0);
-    QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));
+    QCOMPARE(row_content["field1"].toString(), QString("Null"));
+    QCOMPARE(row_content["field2"].toString(), QString("Null"));
+    QCOMPARE(row_content["field3"].toString(), QString("Null"));
+    QCOMPARE(row_content["field4"].toString(), QString("Null"));
+    QCOMPARE(row_content["field5"].toString(), QString("Null"));
+    QCOMPARE(row_content["field6"].toInt(), 0);
+    QCOMPARE(row_content["field7"].toString(), QString("Null"));
+    QCOMPARE(row_content["field8"].toString(), QString("Null"));
+    QCOMPARE(row_content["field9"].toString(), QString("Null"));
+    QCOMPARE(row_content["field10"].toFloat(), float(0.0));
+    QCOMPARE(row_content["field11"].toString(), QString("Null"));
+    QCOMPARE(row_content["field12"].toString(), QString("Null"));
   }
 }
 
@@ -163,18 +163,18 @@ void TestFWParser::FWReadMissingFile()
 
   for (int times = 0; times < 20; times++) {
     row_content = missing_parser.ReadNextRow();
-    QVERIFY(row_content["field1"] == QString("Null"));
-    QVERIFY(row_content["field2"] == QString("Null"));
-    QVERIFY(row_content["field3"] == QString("Null"));
-    QVERIFY(row_content["field4"] == QString("Null"));
-    QVERIFY(row_content["field5"] == QString("Null"));
-    QVERIFY(row_content["field6"].toInt() == 0);
-    QVERIFY(row_content["field7"] == QString("Null"));
-    QVERIFY(row_content["field8"] == QString("Null"));
-    QVERIFY(row_content["field9"] == QString("Null"));
-    QVERIFY(row_content["field10"].toFloat() == 0.0);
-    QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));
+    QCOMPARE(row_content["field1"].toString(), QString("Null"));
+    QCOMPARE(row_content["field2"].toString(), QString("Null"));
+    QCOMPARE(row_content["field3"].toString(), QString("Null"));
+    QCOMPARE(row_content["field4"].toString(), QString("Null"));
+    QCOMPARE(row_content["field5"].toString(), QString("Null"));
+    QCOMPARE(row_content["field6"].toInt(), 0);
+    QCOMPARE(row_content["field7"].toString(), QString("Null"));
+    QCOMPARE(row_content["field8"].toString(), QString("Null"));
+    QCOMPARE(row_content["field9"].toString(), QString("Null"));
+    QCOMPARE(row_content["field10"].toFloat(), float(0.0));
+    QCOMPARE(row_content["field11"].toString(), QString("Null"));
+    QCOMPARE(row_content["field12"].toString(), QString("Null"));
   }
 }
 
