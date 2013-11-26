@@ -471,8 +471,11 @@ void FITSView::setGuideSquare(int x, int y)
 
 void FITSView::setGuideBoxSize(int size)
 {
-    guide_box = size;
-    updateFrame();
+    if (size != guide_box)
+    {
+        guide_box = size;
+        updateFrame();
+    }
 }
 
 void FITSView::toggleStars(bool enable)

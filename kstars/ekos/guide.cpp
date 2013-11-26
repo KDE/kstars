@@ -355,6 +355,7 @@ double Guide::getReticleAngle()
 
 void Guide::viewerClosed()
 {
+    pmath->set_image(NULL);
     guider->set_image(NULL);
     calibration->set_image(NULL);
 }

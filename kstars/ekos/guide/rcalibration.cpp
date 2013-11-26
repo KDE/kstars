@@ -266,6 +266,9 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 
 void rcalibration::process_calibration()
 {
+    if (pmath->get_image())
+        pmath->get_image()->setGuideBoxSize(pmath->get_square_size());
+
     if (pmath->is_lost_star())
     {
         calibrationStage = CAL_ERROR;

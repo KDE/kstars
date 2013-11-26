@@ -128,6 +128,7 @@ public:
 	bool get_reticle_params( double *x, double *y, double *ang ) const;
 	int  get_square_index( void ) const;
 	int  get_square_algorithm_index( void ) const;
+    int  get_square_size() { return square_size; }
 	void set_square_algorithm( int alg_idx );
 	cproc_in_params *get_in_params( void );
 	void set_in_params( const cproc_in_params *v );
