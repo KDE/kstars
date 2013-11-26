@@ -127,10 +127,12 @@ void cgmath::set_image(FITSView *image)
 {
     pimage = image;
 
-    FITSImage *image_data = pimage->getImageData();
-
-    set_buffer(image_data->getImageBuffer());
-    set_video_params(image_data->getWidth(), image_data->getHeight());
+    if (pimage)
+    {
+        FITSImage *image_data = pimage->getImageData();
+        set_buffer(image_data->getImageBuffer());
+        set_video_params(image_data->getWidth(), image_data->getHeight());
+    }
 }
 
 float *cgmath::get_data_buffer( int *width, int *height, int *length, int *size )
@@ -866,7 +868,8 @@ void cgmath::process_axes( void  )
             {
                 out_params.pulse_dir[k] = out_params.delta[k] > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
 
-                if (ROT_Z.x[1][1] < 0)
+                // Reverse DEC direction if we are looking eastward
+                if (ROT_Z.x[0][0] > 0 || (ROT_Z.x[0][0] ==0 && ROT_Z.x[0][1] > 0))
                     out_params.pulse_dir[k] = (out_params.pulse_dir[k] == DEC_INC_DIR) ? DEC_DEC_DIR : DEC_INC_DIR;
             }
  		}
