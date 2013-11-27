@@ -51,6 +51,7 @@ protected slots:
 	void onEnableDirDEC( int state );
 	void onInputParamChanged();
     void onRapidGuideChanged(bool enable);
+    void capture();
 
     void guideStarSelected(int x, int y);
 

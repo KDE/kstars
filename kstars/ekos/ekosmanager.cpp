@@ -982,8 +982,8 @@ void EkosManager::processNewProperty(INDI::Property* prop)
             captureProcess->addGuideHead(guider);
 
 
-        if (guideProcess)
-            guideProcess->addGuideHead();
+        if (ccd && guideProcess)
+            guideProcess->addGuideHead(ccd);
     }
 
     if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))

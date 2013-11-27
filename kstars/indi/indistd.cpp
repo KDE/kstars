@@ -743,6 +743,7 @@ ST4::ST4(INDI::BaseDevice *bdv, ClientManager *cm)
 {
     baseDevice = bdv;
     clientManager = cm;
+    swapDEC = false;
 }
 
 ST4::~ST4() {}
@@ -750,6 +751,11 @@ ST4::~ST4() {}
 const char * ST4::getDeviceName()
 {
     return baseDevice->getDeviceName();
+}
+
+void ST4::setDECSwap(bool enable)
+{
+    swapDEC = enable;
 }
 
 bool ST4::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
@@ -794,7 +800,10 @@ bool ST4::doPulse(GuideDirection dir, int msecs )
     break;
 
     case DEC_INC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
+        if (swapDEC)
+            dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
+        else
+            dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
     if (dirPulse == NULL)
         return false;
 
@@ -802,7 +811,10 @@ bool ST4::doPulse(GuideDirection dir, int msecs )
     break;
 
     case DEC_DEC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
+        if (swapDEC)
+            dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
+        else
+            dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
     if (dirPulse == NULL)
         return false;
 

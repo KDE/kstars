@@ -359,12 +359,16 @@ void rcalibration::calibrate_reticle_manual( void )
 			else
 			{
 				pmath->get_star_screen_pos( &end_x2, &end_y2 );	
+                bool dec_swap=false;
 				// calc orientation
-				if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2 ) )
+                if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &dec_swap ) )
 				{
 					fill_interface();
                     pmain_wnd->appendLogText(i18n("Calibration completed."));
                     calibrationStage = CAL_FINISH;
+
+                    if (dec_swap)
+                        pmain_wnd->setDECSwap(dec_swap);
 				}
 				else
 				{
@@ -625,13 +629,17 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         break;
     }
 
+    bool swap_dec=false;
     // calc orientation
-    if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2 ) )
+    if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &swap_dec ) )
     {
         calibrationStage = CAL_FINISH;
         fill_interface();
         pmain_wnd->appendLogText(i18n("Calibration completed."));
         ui.startCalibrationLED->setColor(okColor);
+
+        if (swap_dec)
+            pmain_wnd->setDECSwap(swap_dec);
 
     }
     else

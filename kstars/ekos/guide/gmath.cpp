@@ -441,7 +441,7 @@ bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x,
 }
 
 
-bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y)
+bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec)
 {
  double phi_ra = 0;	 // angle calculated by GUIDE_RA drift
  double phi_dec = 0; // angle calculated by GUIDE_DEC drift
@@ -486,9 +486,9 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
 	 phi = (phi_ra + phi_dec) / 2;
 	 if( phi < 0 )phi += 360.0;
 
-     // TODO: FIXME
-//	 if( DBG_VERBOSITY )
-//	 	log_i( "PHI_RA = %f\nPHI_DEC = %f\nPHI_AVG = %f", phi_ra, phi_dec, phi);
+     // check DEC
+     if( swap_dec )
+         *swap_dec = do_increase ? false : true;
 
 	 set_reticle_params( start_ra_x, start_ra_y, phi );
 
@@ -869,8 +869,8 @@ void cgmath::process_axes( void  )
                 out_params.pulse_dir[k] = out_params.delta[k] > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
 
                 // Reverse DEC direction if we are looking eastward
-                if (ROT_Z.x[0][0] > 0 || (ROT_Z.x[0][0] ==0 && ROT_Z.x[0][1] > 0))
-                    out_params.pulse_dir[k] = (out_params.pulse_dir[k] == DEC_INC_DIR) ? DEC_DEC_DIR : DEC_INC_DIR;
+                //if (ROT_Z.x[0][0] > 0 || (ROT_Z.x[0][0] ==0 && ROT_Z.x[0][1] > 0))
+                    //out_params.pulse_dir[k] = (out_params.pulse_dir[k] == DEC_INC_DIR) ? DEC_DEC_DIR : DEC_INC_DIR;
             }
  		}
  		else

@@ -200,11 +200,13 @@ public:
 
     bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool doPulse(GuideDirection dir, int msecs );
+    void setDECSwap(bool enable);
     const char *getDeviceName();
 
 private:
     INDI::BaseDevice *baseDevice;
     ClientManager *clientManager;
+    bool swapDEC;
 
 };
 

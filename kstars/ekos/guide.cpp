@@ -78,7 +78,9 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
     currentCCD = (ISD::CCD *) newCCD;
 
     guiderCombo->addItem(currentCCD->getDeviceName());
-    useGuideHead = false;
+
+    if (currentCCD->hasGuideHead())
+        addGuideHead(newCCD);
 
     connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
@@ -94,13 +96,15 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
 
     syncTelescopeInfo();
 
-
 }
 
-void Guide::addGuideHead()
+void Guide::addGuideHead(ISD::GDInterface *ccd)
 {
+    if (currentCCD == NULL)
+        currentCCD = (ISD::CCD *) ccd;
+
     // Let's just make sure
-    if (currentCCD && currentCCD->hasGuideHead())
+    if (currentCCD->hasGuideHead())
     {
         guiderCombo->clear();
         guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
@@ -321,6 +325,14 @@ void Guide::clearLog()
     emit newLog();
 }
 
+void Guide::setDECSwap(bool enable)
+{
+    if (ST4Driver == NULL)
+        return;
+
+    ST4Driver->setDECSwap(enable);
+}
+
 bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
     if (ST4Driver == NULL)
@@ -436,6 +448,7 @@ void Guide::stopRapidGuide()
     currentCCD->setRapidGuide(targetChip, false);
 
 }
+
 
 }
 
