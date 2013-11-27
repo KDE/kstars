@@ -19,6 +19,9 @@
 
 #include <cstdlib>
 #include <cmath>
+#if defined(_MSC_VER)
+#include <float.h>
+#endif
 
 #include <QFile>
 #include <QTextStream>
