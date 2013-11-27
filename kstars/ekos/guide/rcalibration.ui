@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>501</width>
-    <height>322</height>
+    <height>358</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,14 +26,14 @@
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
-         <widget class="KLed" name="captureLED">
+         <widget class="KLed" name="captureLED" native="true">
           <property name="maximumSize">
            <size>
             <width>16</width>
             <height>16</height>
            </size>
           </property>
-          <property name="color">
+          <property name="color" stdset="0">
            <color>
             <red>200</red>
             <green>200</green>
@@ -57,14 +57,14 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="KLed" name="selectStarLED">
+         <widget class="KLed" name="selectStarLED" native="true">
           <property name="maximumSize">
            <size>
             <width>16</width>
             <height>16</height>
            </size>
           </property>
-          <property name="color">
+          <property name="color" stdset="0">
            <color>
             <red>200</red>
             <green>200</green>
@@ -81,14 +81,14 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="KLed" name="startCalibrationLED">
+         <widget class="KLed" name="startCalibrationLED" native="true">
           <property name="maximumSize">
            <size>
             <width>16</width>
             <height>16</height>
            </size>
           </property>
-          <property name="color">
+          <property name="color" stdset="0">
            <color>
             <red>200</red>
             <green>200</green>
@@ -260,6 +260,9 @@
        <widget class="QCheckBox" name="checkBox_TwoAxis">
         <property name="text">
          <string>Two axis</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

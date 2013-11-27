@@ -504,7 +504,7 @@ double cgmath::calc_phi( double start_x, double start_y, double end_x, double en
 	delta_x = end_x - start_x;
 	delta_y = -(end_y - start_y);
 
-	if( !Vector(delta_x, delta_y, 0) < 5.0 )
+    if( !Vector(delta_x, delta_y, 0) < 2.5 )
 		return -1;
 
 	// 90 or 270 degrees

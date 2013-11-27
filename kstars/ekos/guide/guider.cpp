@@ -373,11 +373,10 @@ void rguider::onStartStopButtonClick()
         if (useRapidGuide)
             pmain_wnd->startRapidGuide();
 
-        if (first_frame == false)
+        /*if (first_frame == false)
         {
             int x,y,w,h, square_size, binx, biny;
             double ret_x, ret_y, ret_angle;
-            targetChip->getFrame(&fx, &fy, &fw, &fh);
             targetChip->getBinning(&binx, &biny);
             pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
             square_size = pmath->get_square_size();
@@ -400,7 +399,7 @@ void rguider::onStartStopButtonClick()
             pmath->set_video_params(w, h);
 
             targetChip->setFrame(x, y, w, h);
-        }
+        }*/
 
 
         pmain_wnd->capture();
@@ -419,8 +418,8 @@ void rguider::onStartStopButtonClick()
         if (useRapidGuide)
             pmain_wnd->stopRapidGuide();
 
-       pmath->set_video_params(fw, fh);
-       targetChip->setFrame(fx, fy, fw, fh);
+       /*pmath->set_video_params(fw, fh);
+       targetChip->setFrame(fx, fy, fw, fh);*/
 
 		is_started = false;
 	}
@@ -428,8 +427,8 @@ void rguider::onStartStopButtonClick()
 
 void rguider::capture()
 {
-    first_frame = false;
-    targetChip->setFrame(fx, fy, fw, fh);
+   // first_frame = false;
+    //targetChip->setFrame(fx, fy, fw, fh);
     pmain_wnd->capture();
 
 }
@@ -444,7 +443,7 @@ void rguider::guide( void )
 
  	 assert( pmath );
 
-     if (first_frame)
+     /*if (first_frame)
      {
         int x,y,w,h;
         targetChip->getFrame(&x, &y, &w, &h);
@@ -455,7 +454,7 @@ void rguider::guide( void )
         pmath->set_reticle_params(w/2, h/2, ret_angle);
         first_frame = false;
         //return;
-     }
+     }*/
 
 	 // calc math. it tracks square
 	 pmath->do_processing();
