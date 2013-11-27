@@ -213,6 +213,12 @@ void rcalibration::onStartReticleCalibrationButtonClick()
     if (!pmath)
         return;
 
+    if (calibrationStage > CAL_START)
+    {
+        reset();
+        return;
+    }
+
     bool ccdInfo=true, scopeInfo=true;
     QString errMsg;
     double ccd_w, ccd_h, g_aperture, g_focal;
@@ -246,6 +252,8 @@ void rcalibration::onStartReticleCalibrationButtonClick()
     pmath->set_lost_star(false);
     pmain_wnd->capture();
 
+    calibrationStage = CAL_START;
+
 	// manual
 	if( ui.checkBox_AutoMode->checkState() != Qt::Checked )
 	{
@@ -254,8 +262,6 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 	}
 
     ui.progressBar->setVisible(true);
-
-    calibrationStage = CAL_START;
 
 	// automatic
 	if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
@@ -284,7 +290,7 @@ void rcalibration::process_calibration()
         break;
 
         case CAL_MANUAL:
-            calibrate_reticle_manual();
+            //calibrate_reticle_manual();
             break;
 
         case CAL_RA_AUTO:
@@ -309,7 +315,8 @@ void rcalibration::reset()
 {
     is_started = false;
     ui.pushButton_StartCalibration->setText( i18n("Start") );
-    ui.pushButton_StartCalibration->setEnabled(true);
+    ui.startCalibrationLED->setColor(idleColor);
+    calibrationStage = CAL_FINISH;
     ui.progressBar->setVisible(false);
     connect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
@@ -430,7 +437,9 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             ui.progressBar->setMaximum( turn_back_time );
 
             ui.progressBar->setValue( 0 );
-            ui.pushButton_StartCalibration->setEnabled( false );
+
+            ui.pushButton_StartCalibration->setText(i18n("Abort"));
+
             pmain_wnd->appendLogText(i18n("GUIDE_RA Drifting..."));
 
             // get start point
