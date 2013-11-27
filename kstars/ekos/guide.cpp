@@ -144,6 +144,8 @@ void Guide::syncCCDInfo()
 
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
+        guider->set_target_chip(targetChip);
+
         if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
@@ -188,6 +190,8 @@ void Guide::syncTelescopeInfo()
 
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
+        guider->set_target_chip(targetChip);
+
         if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
@@ -230,18 +234,19 @@ bool Guide::capture()
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
     targetChip->setFrameType(ccdFrame);
 
-    if (guider->is_guiding() && guider->isRapidGuide())
-    {
-        targetChip->capture(seqExpose);
-    }
-    else
-    {
+    if (guider->is_guiding())
+    {    
+         if (guider->isRapidGuide() == false)
+             connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-        connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        targetChip->capture(seqExpose);
+         targetChip->capture(seqExpose);
+         return true;
     }
 
-   return true;
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    targetChip->capture(seqExpose);
+
+    return true;
 
 }
 void Guide::newFITS(IBLOB *bp)

@@ -38,6 +38,7 @@ public:
     void fill_interface( void );
     void set_image(FITSView *image);
     void set_ready(bool enable) { is_ready = enable;}
+    void set_target_chip(ISD::CCDChip *chip) { targetChip = chip; }
     bool isRapidGuide() { return useRapidGuide;}
 
 protected slots:
@@ -65,9 +66,12 @@ private:
     FITSView *pimage;
 	bool is_started;
     bool is_ready;
+    bool first_frame;
 	bool half_refresh_rate;
     int lost_star_try;
     bool useRapidGuide;
+    ISD::CCDChip *targetChip;
+    int fx,fy,fw,fh;
 
 
 

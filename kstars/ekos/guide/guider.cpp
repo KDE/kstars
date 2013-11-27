@@ -36,7 +36,10 @@ rguider::rguider(Ekos::Guide *parent)
 
     pimage = NULL;
 
+    targetChip = NULL;
+
     useRapidGuide = false;
+    first_frame = false;
 
     lost_star_try=0;
 
@@ -353,6 +356,7 @@ void rguider::onInputParamChanged()
 void rguider::onStartStopButtonClick()
 {
  	assert( pmath );
+    assert (targetChip);
 
 	// start
 	if( !is_started )
@@ -369,6 +373,32 @@ void rguider::onStartStopButtonClick()
         if (useRapidGuide)
             pmain_wnd->startRapidGuide();
 
+        int x,y,w,h, square_size, binx, biny;
+        double ret_x, ret_y, ret_angle;
+        targetChip->getFrame(&fx, &fy, &fw, &fh);
+        targetChip->getBinning(&binx, &biny);
+        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
+        square_size = pmath->get_square_size();
+        x = ret_x - square_size*2 ;
+        y = ret_y - square_size*2;
+        w=square_size*4*binx;
+        h=square_size*4*biny;
+
+        first_frame = true;
+
+        if (x<0)
+            x=0;
+        if (y<0)
+            y=0;
+        if (w>fw)
+            w=fw;
+        if (h>fh)
+            h=fh;
+
+        pmath->set_video_params(w, h);
+
+        targetChip->setFrame(x, y, w, h);
+
         pmain_wnd->capture();
 	}
 	// stop
@@ -380,8 +410,14 @@ void rguider::onStartStopButtonClick()
         pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
 		pmath->stop();
 
+        targetChip->abortExposure();
+
         if (useRapidGuide)
             pmain_wnd->stopRapidGuide();
+
+       first_frame = false;
+       pmath->set_video_params(fw, fh);
+       targetChip->setFrame(fx, fy, fw, fh);
 
 		is_started = false;
 	}
@@ -397,6 +433,17 @@ void rguider::guide( void )
 
 
  	 assert( pmath );
+
+     if (first_frame)
+     {
+        int square_size = pmath->get_square_size();
+        double x,y,ret_angle;
+        pmath->get_reticle_params(&x, &y, &ret_angle);
+        pmath->move_square(square_size*2, square_size*2);
+        pmath->set_reticle_params(square_size*2, square_size*2, ret_angle);
+        first_frame = false;
+        return;
+     }
 
 	 // calc math. it tracks square
 	 pmath->do_processing();
