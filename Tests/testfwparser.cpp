@@ -17,6 +17,7 @@
 
 #include "testfwparser.h"
 
+#include <QDir>
 #include <ktemporaryfile.h>
 
 TestFWParser::TestFWParser(): QObject() {
@@ -30,6 +31,7 @@ void TestFWParser::initTestCase() {
   test_cases_.append("this is an ex\n\n");
 
   KTemporaryFile temp_file;
+  temp_file.setPrefix(QDir::tempPath() + "/");
   temp_file.setSuffix(".txt");
   temp_file.setAutoRemove(false);
   QVERIFY(temp_file.open());
