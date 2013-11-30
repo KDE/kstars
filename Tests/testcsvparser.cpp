@@ -25,6 +25,7 @@
 
 #include "testcsvparser.h"
 
+#include <QDir>
 #include <ktemporaryfile.h>
 
 TestCSVParser::TestCSVParser(): QObject() {
@@ -85,6 +86,7 @@ void TestCSVParser::initTestCase() {
   test_cases_.append(",,,,,,,,,,,\n");
   test_cases_.append("\n");
   KTemporaryFile temp_file;
+  temp_file.setPrefix(QDir::tempPath() + "/");
   temp_file.setSuffix(".txt");
   temp_file.setAutoRemove(false);
   QVERIFY(temp_file.open());
