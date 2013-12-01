@@ -202,14 +202,9 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
     CCDCaptureCombo->addItem(ccd->getDeviceName());
 
-    connect(ccd, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-
-    connect(ccd, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
-
     CCDs.append(ccd);
 
     checkCCD(0);
-
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
