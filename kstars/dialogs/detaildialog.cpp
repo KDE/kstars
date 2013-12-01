@@ -455,8 +455,12 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
     Pos->RA->setText( selectedObject->ra().toHMSString() );
     Pos->Dec->setText( selectedObject->dec().toDMSString() );
+
+    selectedObject->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+
     Pos->Az->setText( selectedObject->az().toDMSString() );
     dms a;
+
     if( Options::useAltAz() )
         a = selectedObject->alt();
     else
