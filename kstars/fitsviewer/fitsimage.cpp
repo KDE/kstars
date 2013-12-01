@@ -47,7 +47,7 @@
 const int MINIMUM_ROWS_PER_CENTER=3;
 
 #define JM_LOWER_LIMIT  5
-#define JM_UPPER_LIMIT  400
+#define JM_UPPER_LIMIT  500
 
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10

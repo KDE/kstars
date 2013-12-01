@@ -1235,6 +1235,11 @@
            <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
            <default>1</default>
       </entry>
+      <entry name="FocusMaxTravel" type="UInt">
+         <label>Maximum Focus Travel Distance</label>
+            <whatsthis>Set the maximum travel distance of an absolute focuser.</whatsthis>
+            <default>10000</default>
+       </entry>
       <entry name="FocusExposure" type="Double">
          <label>Default Focuser exposure value</label>
             <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
@@ -1254,6 +1259,10 @@
          <label>Default CCD Y binning in focus mode</label>
             <whatsthis>Set vertical binning of CCD camera while in focus mode.</whatsthis>
                <default>1</default>
+          </entry>
+          <entry name="FocusSubFrame" type="Bool">
+              <label>Subframe the focus star during the autofocus procedure.</label>
+              <default>true</default>
           </entry>
        <entry name="AutoSelectStar" type="Bool">
            <label>Automatically select a star to focus.</label>
