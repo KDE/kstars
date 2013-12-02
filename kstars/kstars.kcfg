@@ -1283,6 +1283,11 @@
             <whatsthis>Set vertical binning of CCD camera while in alignment mode.</whatsthis>
                <default>1</default>
           </entry>
+          <entry name="SolverUpdateCoords" type="Bool">
+              <label>Update Solver RA and DEC search coordinates.</label>
+              <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
+              <default>false</default>
+          </entry>
        <entry name="remoteScopeName" type="String">
          <label>Remote Scope Name</label>
          <whatsthis>Name of the remote INDI telescope device.</whatsthis>

@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>757</width>
-    <height>513</height>
+    <width>713</width>
+    <height>530</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_9">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_14">
+    <layout class="QHBoxLayout" name="horizontalLayout_12">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -227,10 +227,23 @@
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
            <widget class="QLabel" name="label_15">
             <property name="toolTip">
@@ -362,7 +375,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
            <widget class="QLabel" name="label_14">
             <property name="text">
@@ -380,6 +393,16 @@
          </layout>
         </item>
         <item>
+         <widget class="QCheckBox" name="kcfg_solverUpdateCoords">
+          <property name="statusTip">
+           <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
+          </property>
+          <property name="text">
+           <string>Update Coordinates After Slew</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_7">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -394,10 +417,8 @@
         </item>
        </layout>
        <zorder>verticalSpacer_7</zorder>
-       <zorder>label_18</zorder>
-       <zorder>label_19</zorder>
-       <zorder>kcfg_solverXBin</zorder>
-       <zorder>kcfg_solverYBin</zorder>
+       <zorder>kcfg_solverUpdateCoords</zorder>
+       <zorder>horizontalSpacer_3</zorder>
       </widget>
      </item>
     </layout>

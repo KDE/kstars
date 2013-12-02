@@ -63,6 +63,7 @@ Align::Align()
 
     kcfg_solverXBin->setValue(Options::solverXBin());
     kcfg_solverYBin->setValue(Options::solverYBin());
+    kcfg_solverUpdateCoords->setChecked(Options::solverUpdateCoords());
 
     syncBoxesB->setIcon(KIcon("edit-copy"));
     clearBoxesB->setIcon(KIcon("edit-clear"));
@@ -516,6 +517,7 @@ void Align::startSovling(const QString &filename)
 
     Options::setSolverXBin(kcfg_solverXBin->value());
     Options::setSolverYBin(kcfg_solverYBin->value());
+    Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
 
     currentTelescope->getEqCoords(&ra, &dec);
 
@@ -671,6 +673,7 @@ void Align::clearLog()
 void Align::updateScopeCoords(INumberVectorProperty *coord)
 {
     QString ra_dms, dec_dms;
+    static bool slew_dirty=false;
 
     if (!strcmp(coord->name, "EQUATORIAL_EOD_COORD"))
     {        
@@ -681,6 +684,17 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
 
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
+
+        if (kcfg_solverUpdateCoords->isChecked())
+        {
+            if (currentTelescope->isSlewing() && slew_dirty == false)
+                slew_dirty = true;
+            else if (currentTelescope->isSlewing() == false && slew_dirty)
+            {
+                slew_dirty = false;
+                copyCoordsToBoxes();
+            }
+        }
 
         switch (azStage)
         {
