@@ -80,6 +80,7 @@ signals:
 private:
 
 
+    void updateGuideParams();
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
     ISD::ST4* ST4Driver;

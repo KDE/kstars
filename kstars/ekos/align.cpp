@@ -142,7 +142,7 @@ void Align::setCCD(ISD::GDInterface *newCCD)
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)
 {
-    currentTelescope = (ISD::Telescope*) newTelescope;
+    currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateScopeCoords(INumberVectorProperty*)));
 

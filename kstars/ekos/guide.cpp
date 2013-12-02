@@ -141,22 +141,7 @@ void Guide::syncCCDInfo()
             ccd_ver_pixel = np->value;
     }
 
-    if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
-    {
-        pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
-        int x,y,w,h;
-
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-        guider->set_target_chip(targetChip);
-
-        if (targetChip->getFrame(&x,&y,&w,&h))
-            pmath->set_video_params(w, h);
-
-        guider->fill_interface();
-    }
-
-    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+    updateGuideParams();
 }
 
 void Guide::syncTelescopeInfo()
@@ -187,12 +172,24 @@ void Guide::syncTelescopeInfo()
         }
     }
 
+    updateGuideParams();
+
+}
+
+void Guide::updateGuideParams()
+{
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+        if (targetChip == NULL)
+        {
+            appendLogText(i18n("Connection to the guide CCD is lost."));
+            return;
+        }
 
         guider->set_target_chip(targetChip);
 
@@ -202,9 +199,6 @@ void Guide::syncTelescopeInfo()
         guider->fill_interface();
 
     }
-
-    //qDebug() << "SetScope: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
-
 }
 
 void Guide::addST4(ISD::ST4 *newST4)
