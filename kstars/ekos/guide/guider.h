@@ -38,7 +38,7 @@ public:
     void fill_interface( void );
     void set_image(FITSView *image);
     void set_ready(bool enable) { is_ready = enable;}
-    void set_target_chip(ISD::CCDChip *chip) { targetChip = chip; }
+    void set_target_chip(ISD::CCDChip *chip);
     bool isRapidGuide() { return useRapidGuide;}
 
 protected slots:
@@ -51,6 +51,7 @@ protected slots:
 	void onEnableDirDEC( int state );
 	void onInputParamChanged();
     void onRapidGuideChanged(bool enable);
+    void onSubFrameClick(bool enable);
     void capture();
 
     void guideStarSelected(int x, int y);
@@ -73,6 +74,7 @@ private:
     bool useRapidGuide;
     ISD::CCDChip *targetChip;
     int fx,fy,fw,fh;
+    double ret_x, ret_y, ret_angle;
 
 
 

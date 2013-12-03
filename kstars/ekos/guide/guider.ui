@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>961</width>
-    <height>418</height>
+    <height>441</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -455,7 +455,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
-             <layout class="QGridLayout" name="gridLayout_5">
+             <layout class="QFormLayout" name="formLayout">
               <item row="0" column="0">
                <widget class="QPushButton" name="captureB">
                 <property name="text">
@@ -490,7 +490,17 @@
               <item row="2" column="1">
                <widget class="QComboBox" name="comboBox_ThresholdAlg"/>
               </item>
-              <item row="3" column="0" colspan="2">
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="kfcg_guideSubFrame">
+                <property name="toolTip">
+                 <string>Subframe the image around the guide star</string>
+                </property>
+                <property name="text">
+                 <string>Subframe</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
                <widget class="QCheckBox" name="kfcg_useRapidGuide">
                 <property name="text">
                  <string>Use Rapid Guide</string>
