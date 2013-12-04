@@ -539,7 +539,6 @@ CCD::~CCD()
 #ifdef HAVE_CFITSIO_H
     delete (fv);
 #endif
-    delete (streamWindow);
     delete (primaryChip);
     delete (guideChip);
 }
@@ -925,10 +924,20 @@ void CCD::FITSViewerDestroyed()
 void CCD::StreamWindowDestroyed()
 {
     if (streamWindow)
+    {
         streamWindow->disconnect();
+        delete(streamWindow);
+        streamWindow = NULL;
 
-    delete(streamWindow);
-    streamWindow = NULL;
+        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+        if (streamSP)
+        {
+            IUResetSwitch(streamSP);
+            streamSP->sp[1].s = ISS_ON;
+            streamSP->s = IPS_IDLE;
+            clientManager->sendNewSwitch(streamSP);
+        }
+    }
 }
 
 bool CCD::hasGuideHead()
