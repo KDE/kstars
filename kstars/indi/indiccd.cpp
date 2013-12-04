@@ -665,7 +665,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 {
     if (!strcmp(svp->name, "VIDEO_STREAM"))
     {
-        if (streamWindow == NULL)
+        if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
         {
             streamWindow = new StreamWG();
 
@@ -683,10 +683,13 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             connect(streamWindow, SIGNAL(destroyed()), this, SLOT(StreamWindowDestroyed()));
         }
 
-        if (svp->sp[0].s == ISS_ON)
-            streamWindow->enableStream(true);
-        else
-            streamWindow->enableStream(false);
+        if (streamWindow)
+        {
+            if (svp->sp[0].s == ISS_ON)
+                streamWindow->enableStream(true);
+            else
+                streamWindow->enableStream(false);
+        }
 
 
         emit switchUpdated(svp);
@@ -921,6 +924,9 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowDestroyed()
 {
+    if (streamWindow)
+        streamWindow->disconnect();
+
     delete(streamWindow);
     streamWindow = NULL;
 }
