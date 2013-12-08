@@ -747,14 +747,14 @@ void EkosManager::deviceConnected()
     if (scope && scope->isConnected())
     {
         configProp = scope->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            scope->setConfig(tConfig);
     }
 
     if (ccd && ccd->isConnected())
     {
         configProp = ccd->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            ccd->setConfig(tConfig);
     }
 
@@ -762,7 +762,7 @@ void EkosManager::deviceConnected()
     if (guider && guider != ccd && guider->isConnected())
     {
         configProp = guider->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            guider->setConfig(tConfig);
     }
 
@@ -770,21 +770,21 @@ void EkosManager::deviceConnected()
     if (focuser && focuser->isConnected())
     {
         configProp = focuser->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            focuser->setConfig(tConfig);
     }
 
     if (filter && filter->isConnected())
     {
         configProp = filter->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            filter->setConfig(tConfig);
     }
 
     if (aux && aux->isConnected())
     {
         configProp = aux->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            aux->setConfig(tConfig);
     }
 }
