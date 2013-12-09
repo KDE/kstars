@@ -11,44 +11,45 @@
 
 #include <indicom.h>
 
- #include "indielement.h"
- #include "indiproperty.h"
- #include "indigroup.h"
- #include "indidevice.h"
+#include "indielement.h"
+#include "indiproperty.h"
+#include "indigroup.h"
+#include "indidevice.h"
 #include "clientmanager.h"
- #include "Options.h"
- #include "kstars.h"
- #include "dialogs/timedialog.h"
- #include "skymap.h"
+#include "Options.h"
+#include "kstars.h"
+#include "dialogs/timedialog.h"
+#include "skymap.h"
 
- #include <base64.h>
+#include <base64.h>
 #include <basedevice.h>
 
- #include <kmenu.h>
- #include <klineedit.h>
- #include <kled.h>
- #include <klocale.h>
- #include <kcombobox.h>
- #include <kpushbutton.h>
- #include <knuminput.h>
- #include <kdebug.h>
- #include <kmessagebox.h>
+#include <KDebug>
+#include <KMenu>
+#include <KLineEdit>
+#include <KLed>
+#include <KLocale>
+#include <KComboBox>
+#include <KPushButton>
+#include <KNumInput>
+#include <KMessageBox>
+#include <KSqueezedTextLabel>
 
- #include <QButtonGroup>
- #include <QCheckBox>
- #include <QLabel>
- #include <QTimer>
- #include <QFile>
- #include <QDataStream>
- #include <QFrame>
- #include <QHBoxLayout>
- #include <QVBoxLayout>
- #include <QAbstractButton>
- #include <QAction>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QLabel>
+#include <QTimer>
+#include <QFile>
+#include <QDataStream>
+#include <QFrame>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QAbstractButton>
+#include <QAction>
 
- #include <unistd.h>
- #include <stdlib.h>
- #include <assert.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <assert.h>
  
 extern const char *libindi_strings_context;
 
@@ -133,15 +134,14 @@ void INDI_P::initGUI ()
         if (label == "(I18N_EMPTY_MESSAGE)")
             label =  name.toUtf8();
 
-        labelW = new QLabel(label, pg->getContainer());
+        labelW = new KSqueezedTextLabel(label, pg->getContainer());
     }
     else
-        labelW = new QLabel(label, pg->getContainer());
+        labelW = new KSqueezedTextLabel(label, pg->getContainer());
 
-    labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    //labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     labelW->setFrameShape( QFrame::StyledPanel );
-    labelW->setMinimumWidth(PROPERTY_LABEL_WIDTH);
-    labelW->setMaximumWidth(PROPERTY_LABEL_WIDTH);
+    labelW->setFixedWidth(PROPERTY_LABEL_WIDTH);
     labelW->setTextFormat( Qt::RichText );
     labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft );
     labelW->setWordWrap(true);
