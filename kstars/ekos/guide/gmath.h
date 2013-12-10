@@ -12,6 +12,8 @@
 #ifndef GMATH_H_
 #define GMATH_H_
 
+#include <QObject>
+
 #include <stdint.h>
 #include <sys/types.h>
 #include "vect.h"
@@ -113,8 +115,10 @@ typedef struct
 }info_params_t;
 
 
-class cgmath
+class cgmath : public QObject
 {
+    Q_OBJECT
+
 public:
 	cgmath();
 	virtual ~cgmath();
@@ -161,6 +165,9 @@ public:
 	bool calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y );
     bool calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec);
 	double calc_phi( double start_x, double start_y, double end_x, double end_y ) const;
+
+signals:
+    void newAxisDelta(int axis, double deviation);
 
 private:
 	// sys...

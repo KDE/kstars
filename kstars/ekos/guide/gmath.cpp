@@ -42,7 +42,7 @@ const square_alg_t guide_square_alg[] = {
 											{ -1, {0} }
 											};
 
-cgmath::cgmath()
+cgmath::cgmath() : QObject()
 {
 	// sys...
 	ticks = 0;
@@ -837,6 +837,8 @@ void cgmath::process_axes( void  )
 		
 		out_params.delta[k] = t_delta / (double)cnt;
 		drift_integral[k] /= (double)MAX_ACCUM_CNT;
+
+        emit newAxisDelta(k, out_params.delta[k]);
  	
         #ifdef GUIDE_LOG
         qDebug() << "cnt: " << cnt << endl;
@@ -1095,5 +1097,5 @@ void cproc_out_params::reset( void )
 
 
 
-
+#include "gmath.moc"
 

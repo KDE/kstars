@@ -149,6 +149,8 @@ public slots:
     void moveJobUp();
     void moveJobDown();
 
+    void enableGuideLimits();
+    void setGuideDeviation(int axis, double deviation);
 
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const KFileItemList & items);
@@ -194,6 +196,10 @@ private:
     QStringList logText;
 
     QProgressIndicator *pi;
+
+    // Guide Deviation
+    bool deviationDetected;
+    double deviation_axis[2];
 
 };
 

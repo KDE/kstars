@@ -1295,6 +1295,17 @@
       <default>/etc/astrometry.cfg</default>
     </entry>
    </group>
+   <group name="Capture">
+    <entry name="GuideDeviation" type="Double">
+      <label>Default maximum permittable guide deviation</label>
+         <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>
+         <default>2</default>
+    </entry>
+    <entry name="EnforceGuideDeviation" type="Bool">
+      <label>Enforce guiding deviation limit.</label>
+      <default>false</default>
+    </entry>
+   </group>
    <group name="Focus">
     <entry name="FocusTicks" type="UInt">
       <label>Default Focuser step ticks</label>

@@ -1102,6 +1102,12 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     }
+
+    if (captureProcess)
+    {
+        connect(guideProcess, SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
+        connect(guideProcess, SIGNAL(newAxisDelta(int,double)), captureProcess, SLOT(setGuideDeviation(int,double)));
+    }
 }
 
 void EkosManager::setST4(ISD::ST4 * st4Driver)

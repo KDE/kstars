@@ -667,85 +667,127 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_12">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_10">
-       <item>
-        <widget class="QGroupBox" name="setupGroup">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title">
-          <string>Filter</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
+      <widget class="QGroupBox" name="setupGroup">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="title">
+        <string>Filter</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
+           <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <widget class="QLabel" name="textLabel1_5_3">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="whatsThis">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>Device:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="textLabel1_2_3">
-                <property name="toolTip">
-                 <string>Number of images to capture</string>
-                </property>
-                <property name="whatsThis">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>Filter:</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <widget class="QLabel" name="textLabel1_5_3">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Device:</string>
+              </property>
+             </widget>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4">
-              <item>
-               <widget class="KComboBox" name="FilterCaptureCombo"/>
-              </item>
-              <item>
-               <widget class="KComboBox" name="FilterPosCombo"/>
-              </item>
-             </layout>
+             <widget class="QLabel" name="textLabel1_2_3">
+              <property name="toolTip">
+               <string>Number of images to capture</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Filter:</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>6</height>
-             </size>
-            </property>
-           </spacer>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="KComboBox" name="FilterCaptureCombo"/>
+            </item>
+            <item>
+             <widget class="KComboBox" name="FilterPosCombo"/>
+            </item>
+           </layout>
           </item>
          </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>6</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QCheckBox" name="darkSubCheck">
+         <property name="text">
+          <string>Auto dark subtract</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_9">
+        <widget class="QCheckBox" name="ISOCheck">
+         <property name="toolTip">
+          <string>Add time stamp to the file name</string>
+         </property>
+         <property name="text">
+          <string>Add ISO 8601 time stamp</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="displayCheck">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="text">
+          <string>Display in FITS Viewer</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
-          <widget class="QCheckBox" name="darkSubCheck">
+          <widget class="QCheckBox" name="guideDeviationCheck">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
            <property name="text">
-            <string>Auto dark subtract</string>
+            <string>Maximum Guiding Deviation</string>
            </property>
            <property name="checked">
             <bool>false</bool>
@@ -753,45 +795,45 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="ISOCheck">
-           <property name="toolTip">
-            <string>Add time stamp to the file name</string>
+          <widget class="QDoubleSpinBox" name="guideDeviation">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
-           <property name="text">
-            <string>Add ISO 8601 time stamp</string>
+           <property name="maximum">
+            <double>30.000000000000000</double>
            </property>
-           <property name="checked">
-            <bool>true</bool>
+           <property name="singleStep">
+            <double>0.500000000000000</double>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="displayCheck">
+          <widget class="QLabel" name="textLabel1_2_4">
            <property name="toolTip">
+            <string>Number of images to capture</string>
+           </property>
+           <property name="whatsThis">
             <string/>
            </property>
            <property name="text">
-            <string>Display in FITS Viewer</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
+            <string>&quot;</string>
            </property>
           </widget>
          </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>13</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>17</width>
+           <height>13</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>
@@ -949,15 +991,11 @@
    </item>
   </layout>
   <zorder></zorder>
-  <zorder>setupGroup</zorder>
-  <zorder>displayCheck</zorder>
-  <zorder>ISOCheck</zorder>
-  <zorder>darkSubCheck</zorder>
-  <zorder>progressGroup</zorder>
   <zorder>verticalSpacer</zorder>
   <zorder>line</zorder>
-  <zorder>line_2</zorder>
-  <zorder>verticalSpacer_2</zorder>
+  <zorder>guideDeviationCheck</zorder>
+  <zorder>textLabel1_2_4</zorder>
+  <zorder>guideDeviation</zorder>
  </widget>
  <customwidgets>
   <customwidget>

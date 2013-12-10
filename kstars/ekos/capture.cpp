@@ -146,6 +146,9 @@ Capture::Capture()
 
     targetChip = NULL;
 
+    deviationDetected = false;
+    deviation_axis[0]=deviation_axis[1]=0;
+
     calibrationState = CALIBRATE_NONE;
 
     pi = new QProgressIndicator(this);
@@ -189,6 +192,8 @@ Capture::Capture()
         filterCombo->addItem(filter);
 
     displayCheck->setEnabled(Options::showFITS());
+    guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
+    guideDeviation->setValue(Options::guideDeviation());
 }
 
 Capture::~Capture()
@@ -237,6 +242,9 @@ void Capture::startSequence()
         KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
+
+    Options::setGuideDeviation(guideDeviation->value());
+    Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -953,6 +961,54 @@ void Capture::executeJob(SequenceJob *job)
     connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
 
     captureImage();
+
+}
+
+void Capture::enableGuideLimits()
+{
+    guideDeviationCheck->setEnabled(true);
+    guideDeviation->setEnabled(true);
+}
+
+void Capture::setGuideDeviation(int axis, double deviation)
+{
+    if (axis < 0 || axis > 1)
+        return;
+
+    deviation_axis[axis] = fabs(deviation);
+
+    double deviation_rms = sqrt(deviation_axis[0]*deviation_axis[0] + deviation_axis[1]*deviation_axis[1]);
+
+    if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
+        return;
+
+    QString deviationText = QString("%1").arg(deviation_rms, 0, 'g', 3);
+
+    // We don't enforce limit on previews
+    if (activeJob->isPreview())
+        return;
+
+    if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    {
+        if (deviation_rms > guideDeviation->value())
+        {
+            deviationDetected = true;
+            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
+            stopSequence();
+        }
+        return;
+    }
+
+    if (activeJob->getStatus() == SequenceJob::JOB_ABORTED && deviationDetected)
+    {
+        if (deviation_rms <= guideDeviation->value())
+        {
+            deviationDetected = false;
+            appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
+            startSequence();
+            return;
+        }
+    }
 
 }
 

@@ -76,6 +76,8 @@ public slots:
 
 signals:
         void newLog();
+        void guideReady();
+        void newAxisDelta(int axis, double deviation);
 
 private:
 

@@ -48,6 +48,8 @@ Guide::Guide() : QWidget()
 
     pmath = new cgmath();
 
+    connect(pmath, SIGNAL(newAxisDelta(int,double)), this, SIGNAL(newAxisDelta(int,double)));
+
     calibration = new rcalibration(this);
     calibration->set_math(pmath);
 
@@ -299,6 +301,7 @@ void Guide::newFITS(IBLOB *bp)
          {
              guider->set_ready(true);
              tabWidget->setTabEnabled(1, true);
+             emit guideReady();
          }
     }
 
