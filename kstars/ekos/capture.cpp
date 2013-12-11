@@ -266,6 +266,9 @@ void Capture::startSequence()
         return;
     }
 
+    deviationDetected = false;
+    deviation_axis[0] = deviation_axis[1] = 0;
+
     executeJob(first_job);
 
 }
@@ -527,6 +530,7 @@ void Capture::newFITS(IBLOB *bp)
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
+    secondsLabel->setText(i18n("Complete."));
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
@@ -687,7 +691,9 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
     exposeOUT->setText(QString::number(value, 'd', 2));
 
-    if (value <= 1)
+    if (value == 0)
+        secondsLabel->setText(i18n("Downloading..."));
+    else if (value <= 1)
         secondsLabel->setText(i18n("second left"));
     else
         secondsLabel->setText(i18n("seconds left"));
