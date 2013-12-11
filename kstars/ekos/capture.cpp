@@ -830,7 +830,11 @@ void Capture::removeJob()
     int currentRow = queueTable->currentRow();
 
     if (currentRow < 0)
-        return;
+    {
+        currentRow = queueTable->rowCount()-1;
+        if (currentRow < 0)
+            return;
+    }
 
     queueTable->removeRow(currentRow);
 
@@ -893,7 +897,7 @@ void Capture::moveJobDown()
 
     int columnCount = queueTable->columnCount();
 
-    if (currentRow+1 >= queueTable->rowCount() || queueTable->rowCount() == 1)
+    if (currentRow < 0 || queueTable->rowCount() == 1)
         return;
 
     int destinationRow = currentRow + 1;
@@ -975,18 +979,18 @@ void Capture::setGuideDeviation(int axis, double deviation)
     if (axis < 0 || axis > 1)
         return;
 
-    deviation_axis[axis] = fabs(deviation);
-
-    double deviation_rms = sqrt(deviation_axis[0]*deviation_axis[0] + deviation_axis[1]*deviation_axis[1]);
-
     if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
         return;
-
-    QString deviationText = QString("%1").arg(deviation_rms, 0, 'g', 3);
 
     // We don't enforce limit on previews
     if (activeJob->isPreview())
         return;
+
+    deviation_axis[axis] = fabs(deviation);
+
+    double deviation_rms = sqrt(deviation_axis[0]*deviation_axis[0] + deviation_axis[1]*deviation_axis[1]);
+
+    QString deviationText = QString("%1").arg(deviation_rms, 0, 'g', 3);
 
     if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
