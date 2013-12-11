@@ -530,6 +530,8 @@ void Capture::newFITS(IBLOB *bp)
             image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
     }
 
+    secondsLabel->setText(i18n("Complete."));
+
     if (seqTotalCount <= 0)
     {
        jobs.removeOne(activeJob);
@@ -543,7 +545,6 @@ void Capture::newFITS(IBLOB *bp)
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
-    secondsLabel->setText(i18n("Complete."));
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
