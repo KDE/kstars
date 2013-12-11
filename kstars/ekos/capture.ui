@@ -881,6 +881,24 @@
               </item>
               <item row="0" column="2" colspan="2">
                <widget class="QLabel" name="secondsLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>85</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>85</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>second left</string>
                 </property>
@@ -963,6 +981,19 @@
            </layout>
           </item>
           <item>
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QProgressBar" name="imgProgress">
             <property name="enabled">
              <bool>false</bool>
@@ -977,7 +1008,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="verticalSpacer12">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -991,11 +1022,8 @@
    </item>
   </layout>
   <zorder></zorder>
-  <zorder>verticalSpacer</zorder>
+  <zorder>verticalSpacer12</zorder>
   <zorder>line</zorder>
-  <zorder>guideDeviationCheck</zorder>
-  <zorder>textLabel1_2_4</zorder>
-  <zorder>guideDeviation</zorder>
  </widget>
  <customwidgets>
   <customwidget>
