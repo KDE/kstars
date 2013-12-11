@@ -115,6 +115,8 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
     if (preview == false)
         statusCell->setText(statusStrings[status]);
 
+    exposeLeft = exposure;
+
     activeChip->capture(exposure);
 
     return CAPTURE_OK;
@@ -132,6 +134,17 @@ void SequenceJob::setFrameType(int type, const QString & name)
     frameType = type;
     frameTypeName = name;
 }
+
+double SequenceJob::getExposeLeft() const
+{
+    return exposeLeft;
+}
+
+void SequenceJob::setExposeLeft(double value)
+{
+    exposeLeft = value;
+}
+
 
 Capture::Capture()
 {
@@ -578,6 +591,7 @@ void Capture::captureImage()
     if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
         isDark = true;
 
+
      rc = activeJob->capture(isDark);
 
      switch (rc)
@@ -690,6 +704,9 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
         return;
 
     exposeOUT->setText(QString::number(value, 'd', 2));
+
+    if (activeJob)
+        activeJob->setExposeLeft(value);
 
     if (value == 0)
         secondsLabel->setText(i18n("Downloading..."));
@@ -989,7 +1006,7 @@ void Capture::setGuideDeviation(int axis, double deviation)
         return;
 
     // We don't enforce limit on previews
-    if (activeJob->isPreview())
+    if (activeJob->isPreview() || activeJob->getExposeLeft() == 0)
         return;
 
     deviation_axis[axis] = fabs(deviation);
