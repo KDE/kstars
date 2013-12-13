@@ -46,7 +46,6 @@ if (INDI_FOUND)
     indi/streamwg.cpp
     )
   set(indiui_SRCS
-    indi/devmanager.ui
     indi/drivermanager.ui
     indi/opsindi.ui
     indi/indihostconf.ui
