@@ -206,9 +206,15 @@ void DetailDialog::createGeneralTab()
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
         
-        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                         KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
-        
+        if(selectedObject->type() == SkyObject::COMET){
+            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+                                             KGlobal::locale()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 1 ) ) );  //show to tenths place
+        }
+        else{
+            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+                                             KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
+        }
+
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
@@ -449,8 +455,12 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
     Pos->RA->setText( selectedObject->ra().toHMSString() );
     Pos->Dec->setText( selectedObject->dec().toDMSString() );
+
+    selectedObject->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+
     Pos->Az->setText( selectedObject->az().toDMSString() );
     dms a;
+
     if( Options::useAltAz() )
         a = selectedObject->alt();
     else

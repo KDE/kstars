@@ -47,6 +47,7 @@ public:
     void setShowFITS(bool enable) { displayFITS = enable;}
     bool showFITS() { return displayFITS; }
 
+    bool isCapturing();
     bool abortExposure();
 
     FITSMode getCaptureMode() { return captureMode;}
@@ -93,6 +94,8 @@ public:
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setSeqCount(int count) { seqCount = count; }
     void setFilter(const QString & newFilter) { filter = newFilter;}
+    bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
+    bool setRapidGuide(CCDChip *targetChip, bool enable);
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
 
@@ -104,6 +107,7 @@ public slots:
 signals:
     void FITSViewerClosed();
     void newExposureValue(ISD::CCDChip *chip, double value);
+    void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
 
 private:    
     void addFITSKeywords(QString filename);

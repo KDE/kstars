@@ -18,6 +18,7 @@
 #include "capture.h"
 #include "focus.h"
 #include "guide.h"
+#include "align.h"
 
 #include <QDialog>
 #include <QHash>
@@ -73,6 +74,7 @@ public slots:
     void initCapture();
     void initFocus();
     void initGuide();
+    void initAlign();
 
     void initLocalDrivers();
     void initRemoteDrivers();
@@ -92,6 +94,7 @@ public slots:
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
     Ekos::Guide *guideProcess;
+    Ekos::Align *alignProcess;
 
     QString guiderName;
 

@@ -36,6 +36,11 @@ rguider::rguider(Ekos::Guide *parent)
 
     pimage = NULL;
 
+    targetChip = NULL;
+
+    useRapidGuide = false;
+    first_frame = false;
+
     lost_star_try=0;
 
 	ui.comboBox_SquareSize->clear();
@@ -69,8 +74,10 @@ rguider::rguider(Ekos::Guide *parent)
 	connect( ui.spinBox_MaxPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+    connect( ui.kfcg_useRapidGuide,     SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
+    connect( ui.kfcg_guideSubFrame,     SIGNAL(toggled(bool)), this, SLOT(onSubFrameClick(bool)));
 
-    connect(ui.captureB, SIGNAL(clicked()), pmain_wnd, SLOT(capture()));
+    connect(ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
 	connect( ui.pushButton_StartStop, SIGNAL(clicked()), this, SLOT(onStartStopButtonClick()) );
 
@@ -344,12 +351,57 @@ void rguider::onInputParamChanged()
 
 
 
+void rguider::set_target_chip(ISD::CCDChip *chip)
+{
+    targetChip = chip;
+    targetChip->getFrame(&fx, &fy, &fw, &fh);
 
+}
+
+void rguider::onSubFrameClick(bool enable)
+{
+    if (targetChip == NULL)
+        return;
+
+    if (enable)
+    {
+        int x,y,w,h, square_size, binx, biny;
+        targetChip->getBinning(&binx, &biny);
+        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
+        square_size = pmath->get_square_size();
+        x = ret_x - square_size*2*binx ;
+        y = ret_y - square_size*2*biny;
+        w=square_size*4*binx;
+        h=square_size*4*biny;
+
+        first_frame = true;
+
+        if (x<0)
+            x=0;
+        if (y<0)
+            y=0;
+        if (w>fw)
+            w=fw;
+        if (h>fh)
+            h=fh;
+
+        pmath->set_video_params(w, h);
+
+        targetChip->setFrame(x, y, w, h);
+    }
+    else
+    {
+        first_frame = false;
+        targetChip->setFrame(fx, fy, fw, fh);
+    }
+
+}
 
 // processing stuff
 void rguider::onStartStopButtonClick()
 {
  	assert( pmath );
+    assert (targetChip);
 
 	// start
 	if( !is_started )
@@ -363,6 +415,9 @@ void rguider::onStartStopButtonClick()
 		pmath->start();
         lost_star_try=0;
 		is_started = true;
+        if (useRapidGuide)
+            pmain_wnd->startRapidGuide();
+
         pmain_wnd->capture();
 	}
 	// stop
@@ -370,19 +425,23 @@ void rguider::onStartStopButtonClick()
 	{
         if (pimage)
             connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
-        ui.pushButton_StartStop->setText( i18n("Start") );
+        ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
         pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
 		pmath->stop();
-		// stop pulses immediately
-//		if( !DBG_VERBOSITY )
-//			pmain_wnd->m_driver->reset();
 
+        targetChip->abortExposure();
 
+        if (useRapidGuide)
+            pmain_wnd->stopRapidGuide();
 
 		is_started = false;
 	}
 }
 
+void rguider::capture()
+{
+    pmain_wnd->capture();
+}
 
 void rguider::guide( void )
 {
@@ -393,6 +452,18 @@ void rguider::guide( void )
 
 
  	 assert( pmath );
+
+     if (first_frame && ui.kfcg_guideSubFrame->isChecked())
+     {
+        int x,y,w,h;
+        targetChip->getFrame(&x, &y, &w, &h);
+        int square_size = pmath->get_square_size();
+        double ret_x,ret_y,ret_angle;
+        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
+        pmath->move_square((w-square_size)/2, (h-square_size)/2);
+        pmath->set_reticle_params(w/2, h/2, ret_angle);
+        first_frame = false;
+     }
 
 	 // calc math. it tracks square
 	 pmath->do_processing();
@@ -434,8 +505,8 @@ void rguider::guide( void )
          ui.l_PulseRA->setText(str.setNum(out->pulse_length[GUIDE_RA]) );
          ui.l_PulseDEC->setText(str.setNum(out->pulse_length[GUIDE_DEC]) );
 
-         ui.l_ErrRA->setText( str.setNum(out->sigma[GUIDE_RA]) );
-         ui.l_ErrDEC->setText( str.setNum(out->sigma[GUIDE_DEC]) );
+         ui.l_ErrRA->setText( str.setNum(out->sigma[GUIDE_RA], 'g', 3));
+         ui.l_ErrDEC->setText( str.setNum(out->sigma[GUIDE_DEC], 'g', 3 ));
 	 }
 
 	 // skip half frames
@@ -464,6 +535,38 @@ void rguider::guideStarSelected(int x, int y)
 
     disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
+}
+
+void rguider::onRapidGuideChanged(bool enable)
+{
+    if (is_started)
+    {
+        pmain_wnd->appendLogText(i18n("You must stop auto guiding before changing this setting."));
+        return;
+    }
+
+    useRapidGuide = enable;
+
+    if (useRapidGuide)
+    {
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
+    }
+    else
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is disabled."));
+
+}
+
+void rguider::start()
+{
+    if (is_started == false)
+        onStartStopButtonClick();
+
+}
+
+void rguider::abort()
+{
+    if (is_started == true)
+        onStartStopButtonClick();
 }
 
 

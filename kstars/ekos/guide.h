@@ -47,7 +47,7 @@ public:
     void setTelescope(ISD::GDInterface *newTelescope);
     void addST4(ISD::ST4 *newST4);
 
-    void addGuideHead();
+    void addGuideHead(ISD::GDInterface *ccd);
     void syncTelescopeInfo();
     void syncCCDInfo();
 
@@ -55,6 +55,7 @@ public:
     void clearLog();
 
 
+    void setDECSwap(bool enable);
     bool do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );	// do dual-axis pulse (thread-safe)
     bool do_pulse( GuideDirection dir, int msecs );											// do single-axis pulse (thread-safe)
 
@@ -62,19 +63,26 @@ public:
 
     double getReticleAngle();
 
+    void startRapidGuide();
+    void stopRapidGuide();
+
 public slots:
 
         void newFITS(IBLOB*);
         void newST4(int index);
+        void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
         bool capture();
         void viewerClosed();
 
 signals:
         void newLog();
+        void guideReady();
+        void newAxisDelta(int axis, double deviation);
 
 private:
 
 
+    void updateGuideParams();
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
     ISD::ST4* ST4Driver;
@@ -94,6 +102,7 @@ private:
     QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture;
+    bool rapidGuideReticleSet;
 
 };
 

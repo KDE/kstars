@@ -112,6 +112,8 @@ public:
     // Star Detection
     void toggleStars(bool enable);
 
+    void updateMode(FITSMode mode);
+
 
 public slots:
     void ZoomIn();

@@ -838,6 +838,7 @@ void SkyMap::updateFocus() {
     if ( Options::isTracking() && focusObject() != NULL ) {
         if ( Options::useAltAz() ) {
             //Tracking any object in Alt/Az mode requires focus updates
+            focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
             setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( *focus() );

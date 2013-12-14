@@ -32,10 +32,15 @@ public:
 
     // Common Commands
     bool Slew(SkyPoint *ScopeTarget);
+    bool Slew(double ra, double dec);
     bool Sync(SkyPoint *ScopeTarget);
+    bool Sync(double ra, double dec);
     bool Abort();
     bool Park();
     bool canGuide();
+    bool canSync();
+    bool canPark();
+    bool isSlewing();
     bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool doPulse(GuideDirection dir, int msecs );
     bool getEqCoords(double *ra, double *dec);

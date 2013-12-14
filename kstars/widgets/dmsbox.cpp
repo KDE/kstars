@@ -120,7 +120,7 @@ void dmsBox::setDegType( bool t ) {
             sTip += i18n( "  You may enter a simple integer, or a floating-point value, "
                           "or space- or colon-delimited values specifying "
                           "hours, minutes and seconds" );
-            
+
             sWhatsThis = i18n( "Enter an angle value in hours.  The angle can be expressed "
                                "as a simple integer (\"12\"), a floating-point value "
                                "(\"12.33\"), or as space- or colon-delimited "
@@ -162,7 +162,7 @@ void dmsBox::show(dms d, bool deg)
 
 dms dmsBox::createDms ( bool deg, bool *ok )
 {
-    dms dmsAngle(0.0);
+    dms dmsAngle(0.0); // FIXME: Should we change this to NaN?
     bool check;
     check = dmsAngle.setFromString( text(), deg );
     if (ok) *ok = check; //ok might be a null pointer!

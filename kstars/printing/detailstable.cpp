@@ -28,7 +28,6 @@
 #include "deepskyobject.h"
 #include "catalogcomponent.h"
 #include "ksmoon.h"
-#include "ksplanetbase.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
 

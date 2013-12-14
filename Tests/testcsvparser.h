@@ -30,6 +30,8 @@ class TestCSVParser: public QObject {
   TestCSVParser();
   ~TestCSVParser();
  private slots:
+  void initTestCase();
+  void cleanupTestCase();
   void CSVMixedInputs();
   void CSVQuotesInQuotes();
   void CSVEmptyRow();
@@ -40,7 +42,7 @@ class TestCSVParser: public QObject {
  private:
   QStringList test_cases_;
   QList< QPair<QString, KSParser::DataTypes> > sequence_;
-  QFile test_csv_file_;
+  QString test_file_name_;
   KSParser *test_parser_;
 };
 

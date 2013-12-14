@@ -211,86 +211,128 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
     KPlotObject *oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-    bool needRiseLabel = true;
-    bool needSetLabel = true;
-    bool needTransertLabel = true;
-    QString label;
 
-    for ( int i=0; i<vRise.size(); ++i ) {
-        /* if rise time is set under -23.0 or above 23.0, it means the planet never rise or set,
-         * we add the current KPlotObject to CalendarView and create a new one. */
-        if ( vRise.at( i ).x() > -23.0 && vRise.at( i ).x() < 23.0 ) {
-            /* If the difference between to points is greater than 6 hours,
-             * we consider the line continues on the other side of the view.
-             * Add the current KPlotObject to CalendarView and create a new one. */
-            if ( i > 0 && fabs( vRise.at( i ).x() - vRise.at( i-1 ).x() ) > 6.0 ) { 
-                scUI->CalendarView->addPlotObject( oRise );
-                oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-                needRiseLabel = true;
-            }
-            // Set label if the line is on the night area, and if it needs one.
-            if ( needRiseLabel 
-                 && vRise.at(i).x() > scUI->CalendarView->getSetTime( i ) 
-                 && vRise.at(i).x() < scUI->CalendarView->getRiseTime( i ) ) {
+    float defaultSetTime = -10.0;
+    float defaultRiseTime = 8.0;
+    QString label;
+    bool initialRise = true;
+    bool initialSet = true;
+    bool initialTransit = true;
+    bool extraCheckRise = true;
+    bool extraCheckSet = true;
+    bool extraCheckTransit = true;
+    bool needRiseLabel = false;
+    bool needSetLabel = false;
+    bool needTransertLabel = false;
+
+    float maxRiseTime = 0.0;
+    for( int i=0; i<vRise.size(); ++i ){
+        if (vRise.at(i).x()>=maxRiseTime)
+            maxRiseTime = vRise.at(i).x();
+    }
+    maxRiseTime = qFloor(maxRiseTime) - 1.0;
+
+
+    for (int i=0; i<vRise.size(); ++i){
+        if(initialRise && (vRise.at(i).x() > defaultSetTime && vRise.at(i).x() < defaultRiseTime )){
+            needRiseLabel = true;
+            initialRise = false;
+        }else if (vRise.at(i).x() < defaultSetTime || vRise.at(i).x() > defaultRiseTime){
+            initialRise = true;
+            needRiseLabel = false;
+        }else
+            needRiseLabel = false;
+
+
+        if(extraCheckRise && vRise.at(i).x() > defaultRiseTime && vRise.at(i).x() < maxRiseTime){
+            needRiseLabel = true;
+            extraCheckRise = false;
+        }
+
+        if(initialSet && (vSet.at(i).x() > defaultSetTime && vSet.at(i).x() < defaultRiseTime)){
+            needSetLabel = true;
+            initialSet = false;
+        }else if (vSet.at(i).x() < defaultSetTime || vSet.at(i).x() > defaultRiseTime){
+            initialSet = true;
+            needSetLabel = false;
+        }else
+            needSetLabel = false;
+
+        if(extraCheckSet && vSet.at(i).x() > defaultRiseTime && vSet.at(i).x() < maxRiseTime){
+            needSetLabel = true;
+            extraCheckSet = false;
+        }
+
+        if(initialTransit && (vTransit.at(i).x() > defaultSetTime && vTransit.at(i).x() < defaultRiseTime)){
+            needTransertLabel = true;
+            initialTransit = false;
+        }else if (vTransit.at(i).x() < defaultSetTime || vTransit.at(i).x() > defaultRiseTime){
+            initialTransit = true;
+            needTransertLabel = false;;
+        }else
+            needTransertLabel = false;
+
+        if(extraCheckTransit && vTransit.at(i).x() > defaultRiseTime && vTransit.at(i).x() < maxRiseTime ){
+            needTransertLabel = true;
+            extraCheckTransit = false;
+        }
+
+       if ( vRise.at( i ).x() > -23.0 && vRise.at( i ).x() < 23.0 ) {
+           if ( i > 0 && fabs( vRise.at( i ).x() - vRise.at( i-1 ).x() ) > 6.0 ) {
+               scUI->CalendarView->addPlotObject( oRise );
+               oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+               extraCheckRise = true;
+           }
+
+            if(needRiseLabel)
                 label = i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() );
-                needRiseLabel = false;
-            } else
+            else
                 label = QString();
-            /* When the line is over day area, we set needRiseLabel to true, so, the next
-             * time the line pass over the night area, a label will be draw. */
-            if ( vRise.at(i).x() >= scUI->CalendarView->getRiseTime( i ) )
-                needRiseLabel = true;
-            // Add the current point to KPlotObject
-            oRise->addPoint( vRise.at(i), label );
-        } else {
+        // Add the current point to KPlotObject
+        oRise->addPoint( vRise.at(i), label );
+        }else {
             scUI->CalendarView->addPlotObject( oRise );
             oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            needRiseLabel = true;
         }
-        
-        // Same process for set time
-        if ( vSet.at( i ).x() > -23.0 && vSet.at( i ).x() < 23.0) {
-            if ( i > 0 && fabs( vSet.at( i ).x() - vSet.at( i-1 ).x() ) > 6.0 ) {
-                scUI->CalendarView->addPlotObject( oSet );
-                oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-                needSetLabel = true;
-            }
-            if ( needSetLabel && vSet.at(i).x() > scUI->CalendarView->getSetTime( i ) && vSet.at(i).x() < scUI->CalendarView->getRiseTime( i ) ){
+
+       if ( vSet.at( i ).x() > -23.0 && vSet.at( i ).x() < 23.0) {
+           if ( i > 0 && fabs( vSet.at( i ).x() - vSet.at( i-1 ).x() ) > 6.0 ) {
+               scUI->CalendarView->addPlotObject( oSet );
+               oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+               extraCheckSet = true;
+           }
+
+            if(needSetLabel)
                 label = i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() );
-                needSetLabel = false;
-            } else
-                label  = QString();
-            if ( vSet.at(i).x() <= scUI->CalendarView->getSetTime( i ) )
-                needSetLabel = true;
-            oSet->addPoint( vSet.at(i), label );
-        } else {
+            else
+                label = QString();
+
+          oSet->addPoint( vSet.at(i), label );
+        }else {
             scUI->CalendarView->addPlotObject( oSet );
             oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            needSetLabel = true;
         }
-        
-        // Same process for transit time
-        if ( vTransit.at( i ).x() > -23.0 && vTransit.at( i ).x() < 23.0) {
-            if ( i > 0 && fabs( vTransit.at( i ).x() - vTransit.at( i-1 ).x() ) > 6.0 ) {
-                scUI->CalendarView->addPlotObject( oTransit );
-                oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-                needTransertLabel = true;
-            }
-            if ( needTransertLabel && vTransit.at(i).x() > scUI->CalendarView->getSetTime( i ) && vTransit.at(i).x() < scUI->CalendarView->getRiseTime( i ) ) {
+
+       if ( vTransit.at( i ).x() > -23.0 && vTransit.at( i ).x() < 23.0) {
+           if ( i > 0 && fabs( vTransit.at( i ).x() - vTransit.at( i-1 ).x() ) > 6.0 ) {
+               scUI->CalendarView->addPlotObject( oTransit );
+               oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+               extraCheckTransit = true;
+           }
+
+            if(needTransertLabel)
                 label = i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() );
-                needTransertLabel = false;
-            } else
+            else
                 label = QString();
-            if ( vTransit.at(i).x() <= scUI->CalendarView->getSetTime( i ) || vTransit.at(i).x() >= scUI->CalendarView->getRiseTime( i ) )
-                needTransertLabel = true;
-            oTransit->addPoint( vTransit.at(i), label );
-        } else {
+
+         oTransit->addPoint( vTransit.at(i), label );
+        }else {
             scUI->CalendarView->addPlotObject( oTransit );
             oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            needTransertLabel = true;
         }
+
     }
-    
+
     // Add the last points
     scUI->CalendarView->addPlotObject( oRise );
     scUI->CalendarView->addPlotObject( oSet );

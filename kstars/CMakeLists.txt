@@ -46,7 +46,6 @@ if (INDI_FOUND)
     indi/streamwg.cpp
     )
   set(indiui_SRCS
-    indi/devmanager.ui
     indi/drivermanager.ui
     indi/opsindi.ui
     indi/indihostconf.ui
@@ -59,6 +58,7 @@ if (CFITSIO_FOUND)
       ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
+      ekos/align.ui
       ekos/focus.ui
       ekos/guide.ui
       ekos/guide/guider.ui
@@ -70,6 +70,7 @@ if (CFITSIO_FOUND)
       ekos/capture.cpp
       ekos/focus.cpp
       ekos/guide.cpp
+      ekos/align.cpp
       ekos/opsekos.cpp
       ekos/QProgressIndicator.cpp
       ekos/guide/common.cpp
@@ -79,7 +80,9 @@ if (CFITSIO_FOUND)
       ekos/guide/rcalibration.cpp
       ekos/guide/scroll_graph.cpp
       ekos/guide/vect.cpp
+
    )
+
 endif(CFITSIO_FOUND)
 
   include_directories(${INDI_INCLUDE_DIR})
@@ -471,12 +474,12 @@ kde4_add_library( KStarsLib STATIC ${kstars_SRCS})
 
 target_link_libraries(KStarsLib
         LibKSDataHandlers
+        htmesh
         ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
     ${QT_QTDECLARATIVE_LIBRARY}
     kdeclarative
-	htmesh
 	${ZLIB_LIBRARIES}
 	${QT_QTSQL_LIBRARY}
         )

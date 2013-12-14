@@ -1225,6 +1225,88 @@
     <entry name="AuxDriver" type="String">
       <label>Default Auxiliary driver</label>
     </entry>
+    <entry name="remoteScopeName" type="String">
+      <label>Remote Scope Name</label>
+      <whatsthis>Name of the remote INDI telescope device.</whatsthis>
+    </entry>
+    <entry name="remoteCCDName" type="String">
+      <label>Remote CCD Name</label>
+      <whatsthis>Name of the remote INDI CCD device.</whatsthis>
+    </entry>
+    <entry name="remoteGuiderName" type="String">
+      <label>Remote Guider Name</label>
+      <whatsthis>Name of the remote INDI Guider device. If the CCD and Guider are the same device, it must be specified here as well.</whatsthis>
+    </entry>
+    <entry name="remoteFocuserName" type="String">
+      <label>Remote Focuser Name</label>
+      <whatsthis>Name of the remote INDI focuser device.</whatsthis>
+    </entry>
+    <entry name="remoteFilterName" type="String">
+      <label>Remote Filter Name</label>
+      <whatsthis>Name of the remote INDI Filter device.</whatsthis>
+    </entry>
+    <entry name="remoteAuxName" type="String">
+      <label>Remote Auxiliary Name</label>
+      <whatsthis>Name of the remote INDI Auxiliary device.</whatsthis>
+    </entry>
+    <entry name="remoteHost" type="String">
+      <label>Remote INDI host</label>
+      <whatsthis>Hostname of the remote INDI server for Ekos.</whatsthis>
+    </entry>
+    <entry name="remotePort" type="String">
+      <label>Remote Port</label>
+      <whatsthis>Port of the remote INDI server for Ekos.</whatsthis>
+    </entry>
+    <entry name="localMode" type="Bool">
+      <label>Ekos connection mode</label>
+      <whatsthis>Ekos is started in local mode.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="remoteMode" type="Bool">
+      <label>Ekos connection mode</label>
+      <whatsthis>Ekos is started in remote mode.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="neverLoadConfig" type="Bool">
+      <label>Never load device configuration?</label>
+      <default>true</default>
+    </entry>
+    <entry name="loadConfigOnConnection" type="Bool">
+      <label>Load device configuration upon successful connection?</label>
+      <default>false</default>
+    </entry>
+    <entry name="loadDefaultConfig" type="Bool">
+      <label>Always load device default configuration upon successful connection?</label>
+      <default>false</default>
+    </entry>
+    <entry name="astrometrySolver" type="String">
+      <label>astrometry.net solve-field binary</label>
+      <whatsthis>Path to astrometry.net solver location.</whatsthis>
+      <default>/usr/bin/solve-field</default>
+    </entry>
+    <entry name="astrometryWCSInfo" type="String">
+      <label>astrometry.net wcsinfo binary</label>
+      <whatsthis>Path to astrometry.net wcsinfo location.</whatsthis>
+      <default>/usr/bin/wcsinfo</default>
+    </entry>
+    <entry name="astrometryConfFile" type="String">
+      <label>astrometry.net configuration file</label>
+      <whatsthis>Path to astrometry.net file location.</whatsthis>
+      <default>/etc/astrometry.cfg</default>
+    </entry>
+   </group>
+   <group name="Capture">
+    <entry name="GuideDeviation" type="Double">
+      <label>Default maximum permittable guide deviation</label>
+         <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>
+         <default>2</default>
+    </entry>
+    <entry name="EnforceGuideDeviation" type="Bool">
+      <label>Enforce guiding deviation limit.</label>
+      <default>false</default>
+    </entry>
+   </group>
+   <group name="Focus">
     <entry name="FocusTicks" type="UInt">
       <label>Default Focuser step ticks</label>
       <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
@@ -1235,65 +1317,60 @@
            <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
            <default>1</default>
       </entry>
+      <entry name="FocusMaxTravel" type="UInt">
+         <label>Maximum Focus Travel Distance</label>
+            <whatsthis>Set the maximum travel distance of an absolute focuser.</whatsthis>
+            <default>10000</default>
+       </entry>
       <entry name="FocusExposure" type="Double">
          <label>Default Focuser exposure value</label>
             <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
             <default>0.5</default>
        </entry>
-       <entry name="remoteScopeName" type="String">
-         <label>Remote Scope Name</label>
-         <whatsthis>Name of the remote INDI telescope device.</whatsthis>
+       <entry name="FocusBoxSize" type="UInt">
+          <label>Default Focuser star selection box size</label>
+             <whatsthis>Set box size to select a focus star.</whatsthis>
+             <default>64</default>
+        </entry>
+        <entry name="FocusXBin" type="UInt">
+           <label>Default CCD X binning in focus mode</label>
+              <whatsthis>Set horizontal binning of CCD camera while in focus mode.</whatsthis>
+              <default>1</default>
+         </entry>
+         <entry name="FocusYBin" type="UInt">
+         <label>Default CCD Y binning in focus mode</label>
+            <whatsthis>Set vertical binning of CCD camera while in focus mode.</whatsthis>
+               <default>1</default>
+          </entry>
+          <entry name="FocusSubFrame" type="Bool">
+              <label>Subframe the focus star during the autofocus procedure.</label>
+              <default>true</default>
+          </entry>
+       <entry name="AutoSelectStar" type="Bool">
+           <label>Automatically select a star to focus.</label>
+           <default>false</default>
        </entry>
-       <entry name="remoteCCDName" type="String">
-         <label>Remote CCD Name</label>
-         <whatsthis>Name of the remote INDI CCD device.</whatsthis>
-       </entry>
-       <entry name="remoteGuiderName" type="String">
-         <label>Remote Guider Name</label>
-         <whatsthis>Name of the remote INDI Guider device. If the CCD and Guider are the same device, it must be specified here as well.</whatsthis>
-       </entry>
-       <entry name="remoteFocuserName" type="String">
-         <label>Remote Focuser Name</label>
-         <whatsthis>Name of the remote INDI focuser device.</whatsthis>
-       </entry>
-       <entry name="remoteFilterName" type="String">
-         <label>Remote Filter Name</label>
-         <whatsthis>Name of the remote INDI Filter device.</whatsthis>
-       </entry>
-       <entry name="remoteAuxName" type="String">
-         <label>Remote Auxiliary Name</label>
-         <whatsthis>Name of the remote INDI Auxiliary device.</whatsthis>
-       </entry>
-       <entry name="remoteHost" type="String">
-         <label>Remote INDI host</label>
-         <whatsthis>Hostname of the remote INDI server for Ekos.</whatsthis>
-       </entry>
-       <entry name="remotePort" type="String">
-         <label>Remote Port</label>
-         <whatsthis>Port of the remote INDI server for Ekos.</whatsthis>
-       </entry>
-       <entry name="localMode" type="Bool">
-         <label>Ekos connection mode</label>
-         <whatsthis>Ekos is started in local mode.</whatsthis>
-         <default>true</default>
-       </entry>
-       <entry name="remoteMode" type="Bool">
-         <label>Ekos connection mode</label>
-         <whatsthis>Ekos is started in remote mode.</whatsthis>
-         <default>false</default>
-       </entry>
-       <entry name="neverLoadConfig" type="Bool">
-         <label>Never load device configuration?</label>
-         <default>true</default>
-       </entry>
-       <entry name="loadConfigOnConnection" type="Bool">
-         <label>Load device configuration upon successful connection?</label>
-         <default>false</default>
-       </entry>
-       <entry name="loadDefaultConfig" type="Bool">
-         <label>Always load device default configuration upon successful connection?</label>
-         <default>false</default>
-       </entry>
-   </group>
-
+    </group>
+    <group name="Align">
+       <entry name="AlignExposure" type="Double">
+          <label>Default alignment exposure value</label>
+             <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
+             <default>1</default>
+        </entry>
+        <entry name="SolverXBin" type="UInt">
+           <label>Default CCD X binning while in alignment mode</label>
+              <whatsthis>Set horizontal binning of CCD camera while in alignment mode.</whatsthis>
+              <default>1</default>
+         </entry>
+         <entry name="SolverYBin" type="UInt">
+         <label>Default CCD Y binning while in alignment mode</label>
+            <whatsthis>Set vertical binning of CCD camera while in alignment mode.</whatsthis>
+               <default>1</default>
+          </entry>
+          <entry name="SolverUpdateCoords" type="Bool">
+              <label>Update Solver RA and DEC search coordinates.</label>
+              <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
+              <default>false</default>
+          </entry>
+    </group>
 </kcfg>

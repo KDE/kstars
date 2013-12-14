@@ -14,20 +14,38 @@
    <property name="spacing">
     <number>6</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
+   <property name="topMargin">
+    <number>8</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
+   </property>
+   <property name="bottomMargin">
     <number>8</number>
    </property>
    <item>
     <widget class="KTabWidget" name="fdTab">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="rdTab">
       <attribute name="title">
        <string>RA/Dec</string>
       </attribute>
       <layout class="QGridLayout">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>8</number>
+       </property>
+       <property name="topMargin">
+        <number>8</number>
+       </property>
+       <property name="rightMargin">
+        <number>8</number>
+       </property>
+       <property name="bottomMargin">
         <number>8</number>
        </property>
        <property name="spacing">
@@ -87,7 +105,16 @@
        <string>Az/Alt</string>
       </attribute>
       <layout class="QGridLayout">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>8</number>
+       </property>
+       <property name="topMargin">
+        <number>8</number>
+       </property>
+       <property name="rightMargin">
+        <number>8</number>
+       </property>
+       <property name="bottomMargin">
         <number>8</number>
        </property>
        <property name="spacing">
@@ -137,6 +164,7 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KTabWidget</class>
@@ -148,6 +176,7 @@
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

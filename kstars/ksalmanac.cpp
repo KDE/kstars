@@ -48,6 +48,7 @@ KSAlmanac::KSAlmanac() :
 void KSAlmanac::update() {
     RiseSetTime( &m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
     RiseSetTime( &m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
+    findDawnDusk();
 }
 
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
@@ -80,6 +81,52 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
     }
 }
 
+// FIXME: This is utter code duplication. All this should be handled
+// in the KStars engine. Forgive me for adding to the nonsense, but I
+// want to get the Observation Planner functional first. -- asimha
+
+void KSAlmanac::findDawnDusk() {
+
+    KStarsDateTime today = dt;
+    KSNumbers num( today.djd() );
+    dms LST = geo->GSTtoLST( today.gst() );
+
+    m_Sun.updateCoords( &num, true, geo->lat(), &LST ); // We can abuse our own copy of the sun
+    double dawn, da, dusk, du, max_alt, min_alt;
+    double last_h = -12.0;
+    double last_alt = findAltitude( &m_Sun, last_h );
+    dawn = dusk = -13.0;
+    max_alt = -100.0;
+    min_alt = 100.0;
+    for ( double h=-11.95; h<=12.0; h+=0.05 ) {
+        double alt = findAltitude( &m_Sun, h );
+        bool   asc = alt - last_alt > 0;
+        if ( alt > max_alt )
+            max_alt = alt;
+        if ( alt < min_alt )
+            min_alt = alt;
+
+        if ( asc && last_alt <= -18.0 && alt >= -18.0 )
+            dawn = h;
+        if ( !asc && last_alt >= -18.0 && alt <= -18.0 )
+            dusk = h;
+
+        last_h   = h;
+        last_alt = alt;
+    }
+
+    if ( dawn < -12.0 || dusk < -12.0 ) {
+        da = -1.0;
+        du = -1.0;
+    } else {
+        da = dawn / 24.0;
+        du = ( dusk + 24.0 ) / 24.0;
+    }
+
+    DawnAstronomicalTwilight = da;
+    DuskAstronomicalTwilight = du;
+}
+
 void KSAlmanac::setDate( KStarsDateTime *newdt ) {
     dt = *newdt; 
     update();
@@ -99,3 +146,13 @@ double KSAlmanac::sunZenithAngleToTime( double z ) {
 }
 
     
+double KSAlmanac::findAltitude( SkyPoint *p, double hour ) {
+    KStarsDateTime ut = dt;
+    ut.setTime( QTime() );
+    ut = geo->LTtoUT( ut );
+    ut= ut.addSecs( hour*3600.0 );
+    dms LST = geo->GSTtoLST( ut.gst() );
+    p->EquatorialToHorizontal( &LST, geo->lat() );
+    return p->alt().Degrees();
+}
+

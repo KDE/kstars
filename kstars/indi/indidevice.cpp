@@ -13,7 +13,6 @@
 #include <indicom.h>
 #include <base64.h>
 #include <basedevice.h>
-#include <indiproperty.h>
 
 #include <QFrame>
 #include <QCheckBox>
@@ -155,8 +154,13 @@ bool INDI_D::updateSwitchGUI(ISwitchVectorProperty *svp)
 
     guiProp->updateStateLED();
 
-    foreach(INDI_E *lp, guiProp->getElements())
-        lp->syncSwitch();
+    if (guiProp->getGUIType() == PG_MENU)
+        guiProp->updateMenuGUI();
+    else
+    {
+        foreach(INDI_E *lp, guiProp->getElements())
+            lp->syncSwitch();
+    }
 
     return true;
 }

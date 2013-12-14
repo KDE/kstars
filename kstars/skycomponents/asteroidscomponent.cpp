@@ -78,13 +78,12 @@ bool AsteroidsComponent::selected() {
  * @li 23 orbit classification [string]
  */
 void AsteroidsComponent::loadData() {
-    QString line, name, full_name, orbit_id, orbit_class, dimensions;
-    QStringList fields;
+    QString name, full_name, orbit_id, orbit_class, dimensions;
     int mJD;
     double q, a, e, dble_i, dble_w, dble_N, dble_M, H, G, earth_moid;
     long double JD;
     float diameter, albedo, rot_period, period;
-    bool ok, neo;
+    bool neo;
 
     emitProgressText( i18n("Loading asteroids") );
 

@@ -213,6 +213,12 @@ void rcalibration::onStartReticleCalibrationButtonClick()
     if (!pmath)
         return;
 
+    if (calibrationStage > CAL_START)
+    {
+        reset();
+        return;
+    }
+
     bool ccdInfo=true, scopeInfo=true;
     QString errMsg;
     double ccd_w, ccd_h, g_aperture, g_focal;
@@ -240,10 +246,13 @@ void rcalibration::onStartReticleCalibrationButtonClick()
             return;
     }
 
-    disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    if (pmath->get_image())
+        disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
     pmath->set_lost_star(false);
     pmain_wnd->capture();
+
+    calibrationStage = CAL_START;
 
 	// manual
 	if( ui.checkBox_AutoMode->checkState() != Qt::Checked )
@@ -254,8 +263,6 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 
     ui.progressBar->setVisible(true);
 
-    calibrationStage = CAL_START;
-
 	// automatic
 	if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
         calibrate_reticle_by_ra_dec(false);
@@ -265,6 +272,9 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 
 void rcalibration::process_calibration()
 {
+    if (pmath->get_image())
+        pmath->get_image()->setGuideBoxSize(pmath->get_square_size());
+
     if (pmath->is_lost_star())
     {
         calibrationStage = CAL_ERROR;
@@ -280,7 +290,7 @@ void rcalibration::process_calibration()
         break;
 
         case CAL_MANUAL:
-            calibrate_reticle_manual();
+            //calibrate_reticle_manual();
             break;
 
         case CAL_RA_AUTO:
@@ -305,7 +315,8 @@ void rcalibration::reset()
 {
     is_started = false;
     ui.pushButton_StartCalibration->setText( i18n("Start") );
-    ui.pushButton_StartCalibration->setEnabled(true);
+    ui.startCalibrationLED->setColor(idleColor);
+    calibrationStage = CAL_FINISH;
     ui.progressBar->setVisible(false);
     connect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
@@ -355,12 +366,16 @@ void rcalibration::calibrate_reticle_manual( void )
 			else
 			{
 				pmath->get_star_screen_pos( &end_x2, &end_y2 );	
+                bool dec_swap=false;
 				// calc orientation
-				if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2 ) )
+                if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &dec_swap ) )
 				{
 					fill_interface();
                     pmain_wnd->appendLogText(i18n("Calibration completed."));
                     calibrationStage = CAL_FINISH;
+
+                    if (dec_swap)
+                        pmain_wnd->setDECSwap(dec_swap);
 				}
 				else
 				{
@@ -422,7 +437,9 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             ui.progressBar->setMaximum( turn_back_time );
 
             ui.progressBar->setValue( 0 );
-            ui.pushButton_StartCalibration->setEnabled( false );
+
+            ui.pushButton_StartCalibration->setText(i18n("Abort"));
+
             pmain_wnd->appendLogText(i18n("GUIDE_RA Drifting..."));
 
             // get start point
@@ -621,13 +638,17 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         break;
     }
 
+    bool swap_dec=false;
     // calc orientation
-    if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2 ) )
+    if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &swap_dec ) )
     {
         calibrationStage = CAL_FINISH;
         fill_interface();
         pmain_wnd->appendLogText(i18n("Calibration completed."));
         ui.startCalibrationLED->setColor(okColor);
+
+        if (swap_dec)
+            pmain_wnd->setDECSwap(swap_dec);
 
     }
     else

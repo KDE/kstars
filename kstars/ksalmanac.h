@@ -64,11 +64,16 @@ public:
     inline double getSunSet() { return SunSet; }
     inline double getMoonRise() { return MoonRise; }
     inline double getMoonSet() { return MoonSet; }
+    inline double getDuskAstronomicalTwilight() { return DuskAstronomicalTwilight; }
+    inline double getDawnAstronomicalTwilight() { return DawnAstronomicalTwilight; }
     
     inline QTime sunRise() { return SunRiseT; }
     inline QTime sunSet() { return SunSetT; }
     inline QTime moonRise() { return MoonRiseT; }
     inline QTime moonSet() { return MoonSetT; }
+    // TODO: Implement:
+    //    inline QTime duskAstronomicalTwilight() { return DuskAstronomicalTwilightT; }
+    //    inline QTime dawnAstronomicalTwilight() { return DawnAstronomicalTwilightT; }
 
     /**
      *@short Convert the zenithal distance of the sun to fraction of the day
@@ -86,14 +91,26 @@ private:
      * have a common function for the computation of the Sun and Moon rise and set times.
      */
     void RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ); 
-   
+
+    /**
+     * Computes astronomical twilight for dawn and dusk
+     * @note Code duplication -- copied from Alt vs Time
+     */
+    void findDawnDusk();
+
+    /**
+     * FIXME: More code duplication!
+     * findAltitude should really be part of KSEngine. Copying from ObservingList.
+     */
+    double findAltitude( SkyPoint *p, double hour );
+
     KSSun  m_Sun;
     KSMoon m_Moon;
     KStarsDateTime dt;
     
     GeoLocation *geo;
-    double SunRise,  SunSet,  MoonRise,  MoonSet;
-    QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT;
+    double SunRise,  SunSet,  MoonRise,  MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
+    QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;
 };
 
 #endif

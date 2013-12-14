@@ -26,6 +26,8 @@
 
 #define MAXIMUM_ABS_ITERATIONS  30
 
+//#define FOCUS_DEBUG
+
 namespace Ekos
 {
 
@@ -76,7 +78,12 @@ Focus::Focus()
     exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
-
+    kcfg_autoSelectStar->setChecked(Options::autoSelectStar());
+    kcfg_focusBoxSize->setValue(Options::focusBoxSize());
+    kcfg_focusXBin->setValue(Options::focusXBin());
+    kcfg_focusYBin->setValue(Options::focusYBin());
+    maxTravel->setValue(Options::focusMaxTravel());
+    kcfg_subFrame->setChecked(Options::focusSubFrame());
 
 }
 
@@ -173,6 +180,7 @@ void Focus::startFocus()
     resetButtons();
 
     reverseDir = false;
+    starSelected= false;
 
     qDeleteAll(HFRPoints);
     HFRPoints.clear();
@@ -180,17 +188,45 @@ void Focus::startFocus()
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
+    Options::setFocusXBin(kcfg_focusXBin->value());
+    Options::setFocusYBin(kcfg_focusYBin->value());
+    Options::setFocusMaxTravel(maxTravel->value());
 
-    appendLogText(i18n("Autofocus in progress..."));
+    Options::setFocusSubFrame(kcfg_subFrame->isChecked());
+    Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
+
+    #ifdef FOCUS_DEBUG
+    qDebug() << "Starting focus with pulseDuration " << pulseDuration << endl;
+    #endif
+
+    if (kcfg_autoSelectStar->isChecked())
+        appendLogText(i18n("Autofocus in progress..."));
+    else
+        appendLogText(i18n("Image capture in progress, please select a star to focus."));
+
 }
 
 void Focus::stopFocus()
 {
 
+    #ifdef FOCUS_DEBUG
+    qDebug() << "Stopppig Focus" << endl;
+    #endif
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
     inAutoFocus = false;
     inFocusLoop = false;
+    starSelected= false;
 
     currentCCD->disconnect(this);
+
+    targetChip->abortExposure();
+    targetChip->setFrame(fx, fy, fw, fh);
+
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    if (targetImage)
+        targetImage->updateMode(FITS_FOCUS);
 
     resetButtons();
 
@@ -216,6 +252,7 @@ void Focus::capture()
         return;
     }
 
+    targetChip->setBinning(kcfg_focusXBin->value(), kcfg_focusXBin->value());
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
@@ -244,6 +281,10 @@ void Focus::FocusIn(int ms)
 
     if (ms == -1)
         ms = stepIN->value();
+
+    #ifdef FOCUS_DEBUG
+    qDebug() << "Focus in (" << ms << ")"  << endl;
+    #endif
 
     lastFocusDirection = FOCUS_IN;
 
@@ -278,6 +319,10 @@ void Focus::FocusOut(int ms)
     if (ms == -1)
         ms = stepIN->value();
 
+    #ifdef FOCUS_DEBUG
+    qDebug() << "Focus out (" << ms << ")"  << endl;
+    #endif
+
     currentFocuser->focusOut();
 
     if (canAbsMove)
@@ -294,7 +339,6 @@ void Focus::FocusOut(int ms)
 
 void Focus::newFITS(IBLOB *bp)
 {
-
     INDI_UNUSED(bp);
     QString HFRText;
 
@@ -305,19 +349,30 @@ void Focus::newFITS(IBLOB *bp)
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
 
+    if (targetImage == NULL)
+    {
+        appendLogText(i18n("FITS image failed to load, aborting..."));
+        stopFocus();
+        return;
+    }
+
     FITSImage *image_data = targetImage->getImageData();
 
     currentCCD->disconnect(this);
 
-    if (targetImage == NULL)
-    {
-        qDebug() << "Error: targetImage is NULL!" << endl;
-        return;
-    }
-
     image_data->findStars();
 
     double currentHFR= image_data->getHFR(HFR_MAX);
+
+    if (currentHFR == -1)
+    {
+        currentHFR = image_data->getHFR();
+    }
+
+    #ifdef FOCUS_DEBUG
+    qDebug() << "newFITS: Current HFR " << currentHFR << endl;
+    #endif
+
 
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
@@ -335,6 +390,66 @@ void Focus::newFITS(IBLOB *bp)
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
 
+    if (starSelected == false)
+    {
+        int binx, biny;
+        targetChip->getBinning(&binx, &biny);
+
+        if (kcfg_autoSelectStar->isChecked())
+        {
+            Edge *maxStar = image_data->getMaxHFRStar();
+            if (maxStar == NULL)
+            {
+                appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
+                targetChip->getFrame(&fx, &fy, &fw, &fh);
+                targetImage->updateMode(FITS_GUIDE);
+                targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
+                targetImage->setGuideSquare(fw/2, fh/2);
+                connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
+                //stopFocus();
+                return;
+            }
+
+            if (kcfg_subFrame->isChecked())
+            {
+                targetChip->getFrame(&fx, &fy, &fw, &fh);
+                int x=maxStar->x - maxStar->width * 2;
+                int y=maxStar->y - maxStar->width * 2;
+                int w=maxStar->width*4*binx;
+                int h=maxStar->width*4*biny;
+
+                if (x<0)
+                    x=0;
+                if (y<0)
+                    y=0;
+                if (w>fw)
+                    w=fw;
+                if (h>fh)
+                    h=fh;
+
+
+                targetChip->setFrame(x, y, w, h);
+            }
+
+            starSelected=true;
+
+            capture();
+
+            return;
+
+
+        }
+        else
+        {
+            targetChip->getFrame(&fx, &fy, &fw, &fh);
+            targetImage->updateMode(FITS_GUIDE);
+            targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
+            targetImage->setGuideSquare(fw/2, fh/2);
+            connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
+            return;
+        }
+    }
+
     if (canAbsMove)
         autoFocusAbs(currentHFR);
     else
@@ -349,12 +464,17 @@ void Focus::autoFocusAbs(double currentHFR)
     static double initHFR=0, minHFR=0, maxHFR=1,initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
-    QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 2);
+    QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 3);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
-    //qDebug() << "Current HFR: " << currentHFR << " Current Position: " << pulseStep << endl;
-    //qDebug() << "minHFR: " << minHFR << " MinHFR Pos: " << minHFRPos << endl;
-    //qDebug() << "Delta: " << deltaTxt << endl;
+    #ifdef FOCUS_DEBUG
+    qDebug() << "########################################" << endl;
+    qDebug() << "========================================" << endl;
+    qDebug() << "Current HFR: " << currentHFR << " Current Position: " << pulseStep << endl;
+    qDebug() << "minHFR: " << minHFR << " MinHFR Pos: " << minHFRPos << endl;
+    qDebug() << "Delta: " << deltaTxt << "%" << endl;
+    qDebug() << "========================================" << endl;
+    #endif
 
     if (minHFR)
          appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)", HFRText, pulseStep, deltaTxt));
@@ -401,7 +521,6 @@ void Focus::autoFocusAbs(double currentHFR)
 
     HFRPlot->removeAllPlotObjects();
 
-    //HFRPlot->setLimits(pulseStep-pulseDuration*5, pulseStep+pulseDuration*5, currentHFR/1.5, currentHFR*1.5 );
     HFRPlot->setLimits(minPos-pulseDuration, maxPos+pulseDuration, currentHFR/1.5, maxHFR );
 
     KPlotObject *hfrObj = new KPlotObject( Qt::red, KPlotObject::Points, 2 );
@@ -449,19 +568,37 @@ void Focus::autoFocusAbs(double currentHFR)
                 {
                     initSlopeHFR = HFR;
                     initSlopePos = lastHFRPos;
+
+                    #ifdef FOCUS_DEBUG
+                    qDebug() << "Setting initial slop to " << initSlopePos << " @ HFR " << initSlopeHFR << endl;
+                    #endif
+
                 }
 
                 // Let's now limit the travel distance of the focuser
-                if (lastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit)
+                if (lastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit && fabs(currentHFR - HFR) > 0.1)
+                {
                     focusInLimit = lastHFRPos;
-                else if (lastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit)
+                    #ifdef FOCUS_DEBUG
+                    qDebug() << "New FocusInLimit " << focusInLimit << endl;
+                    #endif
+                }
+                else if (lastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit && fabs(currentHFR - HFR) > 0.1)
+                {
                     focusOutLimit = lastHFRPos;
+                    #ifdef FOCUS_DEBUG
+                    qDebug() << "New FocusOutLimit " << focusOutLimit << endl;
+                    #endif
+                }
 
                 // If we have slope, get next target position
                 if (initSlopeHFR)
                 {
                     slope = (currentHFR - initSlopeHFR) / (pulseStep - initSlopePos);
                     targetPulse = pulseStep + (currentHFR*0.5 - currentHFR)/slope;
+                    #ifdef FOCUS_DEBUG
+                    qDebug() << "Using slope to calculate target pulse..." << endl;
+                    #endif
                 }
                 // Otherwise proceed iteratively
                 else
@@ -471,7 +608,12 @@ void Focus::autoFocusAbs(double currentHFR)
                      else
                          targetPulse = pulseStep - pulseDuration;
 
+                     qDebug() << "Proceeding iteratively to next target pulse ..." << endl;
                 }
+
+                #ifdef FOCUS_DEBUG
+                qDebug() << "V-Curve Slope " << slope << " pulseStep " << pulseStep << " targetPulse " << targetPulse << endl;
+                #endif
 
                 HFR = currentHFR;
 
@@ -480,6 +622,10 @@ void Focus::autoFocusAbs(double currentHFR)
                 {
                     minHFR = HFR;
                     minHFRPos = pulseStep;
+                    #ifdef FOCUS_DEBUG
+                    qDebug() << "new minHFR " << minHFR << " @ positioin " << minHFRPos << endl;
+                    qDebug() << "########################################" << endl;
+                    #endif
                 }
 
                 lastHFRPos = pulseStep;
@@ -511,11 +657,28 @@ void Focus::autoFocusAbs(double currentHFR)
                     initSlopeHFR=0;
                     HFRInc=0;
 
+                    #ifdef FOCUS_DEBUG
+                    qDebug() << "We are going away from optimal HFR " << endl;
+                    #endif
+
                     // Let's set new limits
                     if (lastFocusDirection == FOCUS_IN)
+                    {
                         focusInLimit = pulseStep;
+                        #ifdef FOCUS_DEBUG
+                        qDebug() << "Setting focus IN limit to " << focusInLimit << endl;
+                        #endif
+
+                    }
                     else
+                    {
                         focusOutLimit = pulseStep;
+                        #ifdef FOCUS_DEBUG
+                        qDebug() << "Setting focus OUT limit to " << focusOutLimit << endl;
+                        #endif
+                    }
+
+
 
                     // Decrease pulse
                     pulseDuration = pulseDuration * 0.75;
@@ -526,14 +689,29 @@ void Focus::autoFocusAbs(double currentHFR)
                      else
                           targetPulse = minHFRPos-pulseDuration/2;
 
+                    #ifdef FOCUS_DEBUG
+                    qDebug() << "new targetPulse " << targetPulse << endl;
+                    #endif
+
+
                 }
             }
 
         // Limit target Pulse to algorithm limits
         if (focusInLimit != 0 && lastFocusDirection == FOCUS_IN && targetPulse > focusInLimit)
+        {
             targetPulse = focusInLimit;
+            #ifdef FOCUS_DEBUG
+            qDebug() << "Limiting target pulse to focus in limit " << targetPulse << endl;
+            #endif
+        }
         else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPulse < focusOutLimit)
+        {
             targetPulse = focusOutLimit;
+            #ifdef FOCUS_DEBUG
+            qDebug() << "Limiting target pulse to focus out limit " << targetPulse << endl;
+            #endif
+        }
 
         // Limit target pulse to focuser limits
         if (targetPulse < absMotionMin)
@@ -557,15 +735,36 @@ void Focus::autoFocusAbs(double currentHFR)
             return;
         }
 
+        if (fabs(targetPulse - initHFRPos) > maxTravel->value())
+        {
+            #ifdef FOCUS_DEBUG
+            qDebug() << "targetPulse (" << targetPulse << ") - initHFRPos (" << initHFRPos << ") exceeds maxTravel distance of " <<
+            maxTravel->value() << endl;
+            #endif
+
+            appendLogText("Maximum travel limit reached. Autofocus aborted.");
+            stopFocus();
+            #ifdef FOCUS_DEBUG
+            qDebug() << "Maximum travel limit reached. Autofocus aborted." << endl;
+            #endif
+            break;
+
+        }
+
         // Get delta for next move
         delta = (targetPulse - pulseStep);
+
+        #ifdef FOCUS_DEBUG
+        qDebug() << "delta (targetPulse - pulseStep) " << delta << endl;
+        qDebug() << "Focusing " << ((delta > 0) ? "IN"  : "OUT") << endl;
+        qDebug() << "########################################" << endl;
+        #endif
 
         // Now cross your fingers and wait
        if (delta > 0)
             FocusIn(delta);
         else
           FocusOut(fabs(delta));
-
         break;
 
     }
@@ -828,6 +1027,27 @@ void Focus::resetButtons()
     }
 }
 
+void Focus::focusStarSelected(int x, int y)
+{
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    int offset = kcfg_focusBoxSize->value();
+    int binx, biny;
+
+    targetChip->getBinning(&binx, &biny);
+
+    x -= offset*2 ;
+    y -= offset*2;
+    int w=offset*4*binx;
+    int h=offset*4*biny;
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    targetImage->updateMode(FITS_FOCUS);
+
+    targetChip->setFrame(x, y, w, h);
+
+    starSelected=true;
+
+    capture();
+}
 
 }
 

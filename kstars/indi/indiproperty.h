@@ -12,7 +12,6 @@
 #ifndef INDIPROPERTY_H_
 #define INDIPROPERTY_H_
 
-#include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <indiproperty.h>
@@ -24,8 +23,8 @@ class INDI_E;
 
 class KComboBox;
 class KLed;
+class KSqueezedTextLabel;
 
-class QLabel;
 class QPushButton;
 class QHBoxLayout;
 class QVBoxLayout;
@@ -44,6 +43,9 @@ public:
 
     /* Draw state LED */
     void updateStateLED();
+
+    /* Update menu gui */
+    void updateMenuGUI();
 
     void initGUI();
 
@@ -73,11 +75,6 @@ public:
 
     const QString  &getName() { return name; }
 
-
-
-
-
-    //void addContainerWidget(QWidget *w);
     void addWidget(QWidget *w);
     void addLayout(QHBoxLayout *layout);
 
@@ -89,7 +86,7 @@ private:
     INDI::Property *dataProp;
     INDI_G	*pg;			/* parent group */
     QCheckBox   *enableBLOBC;
-    QLabel      *labelW;		/* Label widget */
+    KSqueezedTextLabel      *labelW;		/* Label widget */
     QPushButton *setB;		        /* set button */
     KLed	*ledStatus;		/* state LED */
     PGui         guiType;		/* type of GUI, if any */

@@ -19,6 +19,9 @@
 
 #include <cstdlib>
 #include <cmath>
+#if defined(_MSC_VER)
+#include <float.h>
+#endif
 
 #include <QFile>
 #include <QTextStream>
@@ -224,7 +227,7 @@ void KSMoon::findMagnitude(const KSNumbers*)
     // relevant data put into ksplanetbase.h) was taken from
     // SkyChart v3 Beta
     double phd = phase().Degrees();
-    if( std::isnan( phd ) ) // Avoid nanny phases.
+    if( isnan( phd ) ) // Avoid nanny phases.
         return;
     int p = floor( phd );
     if( p > 180 )
@@ -252,7 +255,7 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 
 QString KSMoon::phaseName() const {
     double f = illum();
-    double p = std::abs(dms(Phase).reduce().Degrees());
+    double p = abs(dms(Phase).reduce().Degrees());
 
     //First, handle the major phases
     if ( f > 0.99 ) return i18nc( "moon phase, 100 percent illuminated", "Full moon" );

@@ -1,6 +1,6 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 2)
-set (KStars_VERSION_MINOR 1)
+set (KStars_VERSION_MINOR 2)
 set (KStars_VERSION_REVISION 0)
 
 set(CMAKE_MODULE_PATH ${kstars_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
@@ -41,6 +41,10 @@ macro_log_feature(WCSLIB_FOUND "WCSLib"
                                "Support for World Coordinate System in KStars."
                                "http://www.atnf.csiro.au/people/mcalabre/WCS/"
                                FALSE "" "WCS enables KStars to read and process world coordinate systems in FITS header.")
+
+macro_optional_find_package(AstrometryNet)
+macro_bool_to_01(ASTROMETRYNET_FOUND HAVE_ASTROMETRYNET)
+macro_log_feature(ASTROMETRYNET_FOUND "astrometry.net" "Support for astrometry solver in KStars." "http://www.astrometry.net" FALSE "" "Astrometry.net enables KStars to achieve sub-arcsecond GOTO tracking and determines polar alignment errors in the mount.")
 
 macro_optional_find_package(Xplanet)
 macro_bool_to_01(XPLANET_FOUND HAVE_XPLANET)

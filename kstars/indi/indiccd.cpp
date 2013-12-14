@@ -67,6 +67,9 @@ FITSView * CCDChip::getImage(FITSMode imageType)
         case FITS_CALIBRATE:
             return calibrationImage;
             break;
+
+        default:
+        break;
     }
 
     return NULL;
@@ -93,6 +96,9 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
         case FITS_CALIBRATE:
             calibrationImage = image;
             break;
+
+        default:
+        break;
     }
 
 }
@@ -109,7 +115,7 @@ bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
         break;
 
       case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
     }
@@ -158,7 +164,7 @@ bool CCDChip::setFrame(int x, int y, int w, int h)
         break;
 
       case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
     }
@@ -244,6 +250,28 @@ bool CCDChip::abortExposure()
     clientManager->sendNewSwitch(abortProp);
 
     return true;
+}
+
+bool CCDChip::isCapturing()
+{
+    INumberVectorProperty *expProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        expProp = baseDevice->getNumber("CCD_EXPOSURE");
+        break;
+
+      case GUIDE_CCD:
+        expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
+        break;
+
+    }
+
+    if (expProp == NULL)
+        return false;
+
+    return (expProp->s == IPS_BUSY);
 }
 
 bool CCDChip::setFrameType(const QString & name)
@@ -343,8 +371,6 @@ CCDFrameType CCDChip::getFrameType()
 
 bool CCDChip::setBinning(CCDBinType binType)
 {
-    if (type == GUIDE_CCD)
-        return false;
 
     switch (binType)
     {
@@ -368,11 +394,19 @@ bool CCDChip::setBinning(CCDBinType binType)
 CCDBinType CCDChip::getBinning()
 {
     CCDBinType binType = SINGLE_BIN;
+    INumberVectorProperty *binProp=NULL;
 
-    if (type == GUIDE_CCD)
-        return binType;
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        binProp = baseDevice->getNumber("CCD_BINNING");
+        break;
 
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+       case GUIDE_CCD:
+        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        break;
+    }
+
     if (binProp == NULL)
         return binType;
 
@@ -409,10 +443,20 @@ CCDBinType CCDChip::getBinning()
 
 bool CCDChip::getBinning(int *bin_x, int *bin_y)
 {
-    if (type == GUIDE_CCD)
-        return false;
+    INumberVectorProperty *binProp=NULL;
 
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        binProp = baseDevice->getNumber("CCD_BINNING");
+        break;
+
+       case GUIDE_CCD:
+        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        break;
+    }
+
+
     if (binProp == NULL)
         return false;
 
@@ -432,10 +476,20 @@ bool CCDChip::getBinning(int *bin_x, int *bin_y)
 
 bool CCDChip::setBinning(int bin_x, int bin_y)
 {
-    if (type == GUIDE_CCD)
-        return false;
 
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    INumberVectorProperty *binProp=NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        binProp = baseDevice->getNumber("CCD_BINNING");
+        break;
+
+       case GUIDE_CCD:
+        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        break;
+    }
+
     if (binProp == NULL)
         return false;
 
@@ -485,7 +539,6 @@ CCD::~CCD()
 #ifdef HAVE_CFITSIO_H
     delete (fv);
 #endif
-    delete (streamWindow);
     delete (primaryChip);
     delete (guideChip);
 }
@@ -549,6 +602,61 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         }
     }
 
+    if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
+    {
+        double dx=-1,dy=-1,fit=-1;
+        INumber *np=NULL;
+
+        if (nvp->s == IPS_ALERT)
+        {
+            emit newGuideStarData(primaryChip, -1, -1, -1);
+        }
+        else
+        {
+            np = IUFindNumber(nvp, "GUIDESTAR_X");
+            if (np)
+                dx = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_Y");
+            if (np)
+                dy = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+            if (np)
+                fit = np->value;
+
+            if (dx >= 0 && dy >= 0 && fit >= 0)
+                emit newGuideStarData(primaryChip, dx, dy, fit);
+        }
+
+    }
+
+    if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
+    {
+        double dx=-1,dy=-1,fit=-1;
+        INumber *np=NULL;
+
+        if (nvp->s == IPS_ALERT)
+        {
+            emit newGuideStarData(guideChip, -1, -1, -1);
+
+        }
+        else
+        {
+            np = IUFindNumber(nvp, "GUIDESTAR_X");
+            if (np)
+                dx = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_Y");
+            if (np)
+                dy = np->value;
+            np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+            if (np)
+                fit = np->value;
+
+            if (dx >= 0 && dy >= 0 && fit >= 0)
+                emit newGuideStarData(guideChip, dx, dy, fit);
+        }
+
+    }
+
     DeviceDecorator::processNumber(nvp);
 }
 
@@ -556,7 +664,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 {
     if (!strcmp(svp->name, "VIDEO_STREAM"))
     {
-        if (streamWindow == NULL)
+        if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
         {
             streamWindow = new StreamWG();
 
@@ -574,10 +682,13 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             connect(streamWindow, SIGNAL(destroyed()), this, SLOT(StreamWindowDestroyed()));
         }
 
-        if (svp->sp[0].s == ISS_ON)
-            streamWindow->enableStream(true);
-        else
-            streamWindow->enableStream(false);
+        if (streamWindow)
+        {
+            if (svp->sp[0].s == ISS_ON)
+                streamWindow->enableStream(true);
+            else
+                streamWindow->enableStream(false);
+        }
 
 
         emit switchUpdated(svp);
@@ -645,6 +756,12 @@ void CCD::processBLOB(IBLOB* bp)
     if (currentDir.endsWith('/'))
         currentDir.truncate(sizeof(currentDir)-1);
 
+    if (QDir(currentDir).exists() == false)
+    {
+        KMessageBox::error(0, i18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
+        return;
+    }
+
     QString filename(currentDir + '/');
 
     // Create file name for FITS to be shown in FITS Viewer
@@ -702,7 +819,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (Options::showFITS() && targetChip->showFITS() == true)
+    if (Options::showFITS() && targetChip->showFITS() == true && targetChip->getCaptureMode() != FITS_WCSM)
     {
         KUrl fileURL(filename);
 
@@ -749,12 +866,19 @@ void CCD::processBLOB(IBLOB* bp)
             targetChip->setImage(fv->getImage(calibrationTabID), FITS_CALIBRATE);
             break;
 
+
+           default:
+            break;
+
         }
 
         fv->show();
 
     }
     #endif
+
+    // store file name
+    strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
 
     emit BLOBUpdated(bp);
 
@@ -799,8 +923,21 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowDestroyed()
 {
-    delete(streamWindow);
-    streamWindow = NULL;
+    if (streamWindow)
+    {
+        streamWindow->disconnect();
+        delete(streamWindow);
+        streamWindow = NULL;
+
+        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+        if (streamSP)
+        {
+            IUResetSwitch(streamSP);
+            streamSP->sp[1].s = ISS_ON;
+            streamSP->s = IPS_IDLE;
+            clientManager->sendNewSwitch(streamSP);
+        }
+    }
 }
 
 bool CCD::hasGuideHead()
@@ -822,6 +959,73 @@ CCDChip * CCD::getChip(CCDChip::ChipType cType)
     }
 
     return NULL;
+}
+
+bool CCD::setRapidGuide(CCDChip *targetChip, bool enable)
+{
+    ISwitchVectorProperty *rapidSP=NULL;
+    ISwitch *enableS=NULL;
+
+    if (targetChip == primaryChip)
+        rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE");
+    else
+        rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE");
+
+    if (rapidSP == NULL)
+        return false;
+
+    enableS = IUFindSwitch(rapidSP, "ENABLE");
+
+    if (enableS == NULL)
+        return false;
+
+    // Already updated, return OK
+    if ((enable && enableS->s == ISS_ON) || (!enable && enableS->s == ISS_OFF))
+        return true;
+
+    IUResetSwitch(rapidSP);
+    rapidSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
+    rapidSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(rapidSP);
+
+    return true;
+
+}
+
+bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage, bool showMarker)
+{
+    ISwitchVectorProperty *rapidSP=NULL;
+    ISwitch *autoLoopS=NULL, *sendImageS=NULL, *showMarkerS=NULL;
+
+    if (targetChip == primaryChip)
+        rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE_SETUP");
+    else
+        rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE_SETUP");
+
+    if (rapidSP == NULL)
+        return false;
+
+    autoLoopS   = IUFindSwitch(rapidSP, "AUTO_LOOP" );
+    sendImageS  = IUFindSwitch(rapidSP, "SEND_IMAGE" );
+    showMarkerS = IUFindSwitch(rapidSP, "SHOW_MARKER" );
+
+    if (!autoLoopS || !sendImageS || !showMarkerS)
+        return false;
+
+    // If everything is already set, let's return.
+    if ( ( (autoLoop && autoLoopS->s == ISS_ON) || (!autoLoop && autoLoopS->s == ISS_OFF) ) &&
+         ( (sendImage && sendImageS->s == ISS_ON) || (!sendImage && sendImageS->s == ISS_OFF) ) &&
+         ( (showMarker && showMarkerS->s == ISS_ON) || (!showMarker && showMarkerS->s == ISS_OFF) ))
+        return true;
+
+    autoLoopS->s   = autoLoop ? ISS_ON : ISS_OFF;
+    sendImageS->s  = sendImage ? ISS_ON : ISS_OFF;
+    showMarkerS->s = showMarker ? ISS_ON : ISS_OFF;
+
+    clientManager->sendNewSwitch(rapidSP);
+
+    return true;
 }
 
 

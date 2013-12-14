@@ -18,9 +18,12 @@
 #ifndef DMS_H_
 #define DMS_H_
 
-#include <cmath>
-#include <QString>
 #include <kdebug.h>
+
+#include <QString>
+
+#include <cmath>
+#include "nan.h"
 
 /**@class dms
  * @short An angle, stored as degrees, but expressible in many ways.
@@ -39,7 +42,7 @@
 class dms {
 public:
     /** Default constructor. */
-    dms() : D(0) {}
+    dms() : D( NaN::d ) {}
 
     /**@short Set the floating-point value of the angle according to the four integer arguments.
      * @param d degree portion of angle (int).  Defaults to zero.

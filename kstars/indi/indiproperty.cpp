@@ -9,47 +9,47 @@
 
  */
 
-#include <indiproperty.h>
 #include <indicom.h>
 
- #include "indielement.h"
- #include "indiproperty.h"
- #include "indigroup.h"
- #include "indidevice.h"
+#include "indielement.h"
+#include "indiproperty.h"
+#include "indigroup.h"
+#include "indidevice.h"
 #include "clientmanager.h"
- #include "Options.h"
- #include "kstars.h"
- #include "dialogs/timedialog.h"
- #include "skymap.h"
+#include "Options.h"
+#include "kstars.h"
+#include "dialogs/timedialog.h"
+#include "skymap.h"
 
- #include <base64.h>
+#include <base64.h>
 #include <basedevice.h>
 
- #include <kmenu.h>
- #include <klineedit.h>
- #include <kled.h>
- #include <klocale.h>
- #include <kcombobox.h>
- #include <kpushbutton.h>
- #include <knuminput.h>
- #include <kdebug.h>
- #include <kmessagebox.h>
+#include <KDebug>
+#include <KMenu>
+#include <KLineEdit>
+#include <KLed>
+#include <KLocale>
+#include <KComboBox>
+#include <KPushButton>
+#include <KNumInput>
+#include <KMessageBox>
+#include <KSqueezedTextLabel>
 
- #include <QButtonGroup>
- #include <QCheckBox>
- #include <QLabel>
- #include <QTimer>
- #include <QFile>
- #include <QDataStream>
- #include <QFrame>
- #include <QHBoxLayout>
- #include <QVBoxLayout>
- #include <QAbstractButton>
- #include <QAction>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QLabel>
+#include <QTimer>
+#include <QFile>
+#include <QDataStream>
+#include <QFrame>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QAbstractButton>
+#include <QAction>
 
- #include <unistd.h>
- #include <stdlib.h>
- #include <assert.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <assert.h>
  
 extern const char *libindi_strings_context;
 
@@ -114,6 +114,9 @@ void INDI_P::initGUI ()
 
     QString label = i18nc(libindi_strings_context, dataProp->getLabel());
 
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = dataProp->getLabel();
+
 
     /* add to GUI group */
     ledStatus = new KLed (pg->getContainer());
@@ -128,15 +131,17 @@ void INDI_P::initGUI ()
     if (label.isEmpty())
     {
         label = i18nc(libindi_strings_context, name.toUtf8());
-        labelW = new QLabel(label, pg->getContainer());
+        if (label == "(I18N_EMPTY_MESSAGE)")
+            label =  name.toUtf8();
+
+        labelW = new KSqueezedTextLabel(label, pg->getContainer());
     }
     else
-        labelW = new QLabel(label, pg->getContainer());
+        labelW = new KSqueezedTextLabel(label, pg->getContainer());
 
-    labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    //labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     labelW->setFrameShape( QFrame::StyledPanel );
-    labelW->setMinimumWidth(PROPERTY_LABEL_WIDTH);
-    labelW->setMaximumWidth(PROPERTY_LABEL_WIDTH);
+    labelW->setFixedWidth(PROPERTY_LABEL_WIDTH);
     labelW->setTextFormat( Qt::RichText );
     labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft );
     labelW->setWordWrap(true);
@@ -484,6 +489,7 @@ void INDI_P::sendText()
 void INDI_P::buildMenuGUI()
 {
     QStringList menuOptions;
+    QString oneOption;
     int onItem=-1;
     INDI_E *lp;
     ISwitchVectorProperty *svp = dataProp->getSwitch();
@@ -506,7 +512,12 @@ void INDI_P::buildMenuGUI()
 
         lp->buildMenuItem(tp);
 
-        menuOptions.append(i18nc(libindi_strings_context, lp->getLabel().toUtf8()));
+        oneOption = i18nc(libindi_strings_context, lp->getLabel().toUtf8());
+
+        if (oneOption == "(I18N_EMPTY_MESSAGE)")
+            oneOption =  lp->getLabel().toUtf8();
+
+        menuOptions.append(oneOption);
 
         elementList.append(lp);
     }
@@ -545,33 +556,15 @@ void INDI_P::addLayout(QHBoxLayout *layout)
         PVBox->addLayout(layout);
 }
 
-/*void INDI_P::processComboChange(const QString &item)
+void INDI_P::updateMenuGUI()
 {
-    int index=0;
     ISwitchVectorProperty *svp = dataProp->getSwitch();
-
     if (svp == NULL)
         return;
 
-    IURenewSwitch(svp);
-
-
-    foreach(INDI_E *el, elementList)
-    {
-        if (el->getLabel() == item)
-        {
-            svp->sp[index].s = ISS_ON;
-            svp->s = IPS_BUSY;
-
-            pg->getDevice()->getClientManager()->sendNewswitch(tvp, &(tvp->sp[index]));
-        }
-
-        el->updateswitchState();
-        index++;
-    }
-
-    updateStateLED();
-}*/
+    int currentIndex = IUFindOnSwitchIndex(svp);
+    menuC->setCurrentIndex(currentIndex);
+}
 
 void INDI_P::processSetButton()
 {
@@ -645,10 +638,11 @@ void INDI_P::sendBlob()
 void INDI_P::newTime()
 {
     INDI_E * timeEle;
-    //INDI_P *SDProp;
+    INDI_E * offsetEle;
 
-    timeEle = getElement("UTC");
-    if (!timeEle) return;
+    timeEle   = getElement("UTC");
+    offsetEle = getElement("OFFSET");
+    if (!timeEle || !offsetEle) return;
 
     TimeDialog timedialog ( KStars::Instance()->data()->ut(), KStars::Instance()->data()->geo(), KStars::Instance(), true );
 
@@ -662,17 +656,13 @@ void INDI_P::newTime()
                          .arg(newDate.day()).arg(newTime.hour())
                          .arg(newTime.minute()).arg(newTime.second()));
 
+        offsetEle->setText(QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2));
+
         sendText();
+
     }
     else return;
 
-    /*SDProp  = pp->pg->dp->findProp("TIME_LST");
-    if (!SDProp) return;
-    timeEle = SDProp->findElement("LST");
-    if (!timeEle) return;
-
-    timeEle->write_w->setText(ksw->data()->lst()->toHMSString());
-    SDProp->newText();*/
 }
 
 INDI_E * INDI_P::getElement(const QString &elementName)

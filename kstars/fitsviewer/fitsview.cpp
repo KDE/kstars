@@ -90,7 +90,11 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x -= 1;
     y -= 1;
 
-    emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
+    if (image_data->getBPP() == -32 || image_data->getBPP() == 32)
+        emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)], 5), FITS_VALUE);
+    else
+        emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
+
 
     if (image_data->hasWCS())
     {
@@ -163,6 +167,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
 {
     QProgressDialog fitsProg;
 
+
     delete (image_data);
     image_data = NULL;
 
@@ -176,14 +181,14 @@ bool FITSView::loadFITS ( const QString &inFilename )
     image_width  = currentWidth;
     image_height = currentHeight;
 
-    image_frame->setSize(currentWidth, currentHeight);
+    image_frame->setSize(image_width, image_height);
 
     hasWCS = image_data->hasWCS();
 
     delete (display_image);
     display_image = NULL;
 
-    display_image = new QImage(currentWidth, currentHeight, QImage::Format_Indexed8);
+    display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
     display_image->setNumColors(256);
     for (int i=0; i < 256; i++)
@@ -208,7 +213,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
     setAlignment(Qt::AlignCenter);
 
     if (isVisible())
-    emit newStatus(QString("%1x%2").arg(currentWidth).arg(currentHeight), FITS_RESOLUTION);
+    emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
     return true;
 }
@@ -230,7 +235,11 @@ int FITSView::rescale(FITSZoom type)
 
     if (min == max)
     {
-        KMessageBox::error(0, i18n("FITS image is saturated and cannot be displayed."), i18n("FITS Open"));
+        // For focus and guide, we silenty ignore saturation error.
+        if (mode == FITS_FOCUS || mode == FITS_GUIDE)
+            qDebug() << "FITS image is saturated and cannot be displayed." << endl;
+        else
+            KMessageBox::error(0, i18n("FITS image is saturated and cannot be displayed."), i18n("FITS Open"));
         return -1;
     }
 
@@ -403,6 +412,17 @@ void FITSView::drawOverlay(QPainter *painter)
 
 }
 
+void FITSView::updateMode(FITSMode fmode)
+{
+    mode = fmode;
+
+    if (mode == FITS_GUIDE)
+        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    else
+        image_frame->disconnect(this, SLOT(processPointSelection(int,int)));
+
+}
+
 void FITSView::drawStarCentroid(QPainter *painter)
 {
     painter->setPen(QPen(Qt::red, 2));
@@ -451,8 +471,11 @@ void FITSView::setGuideSquare(int x, int y)
 
 void FITSView::setGuideBoxSize(int size)
 {
-    guide_box = size;
-    updateFrame();
+    if (size != guide_box)
+    {
+        guide_box = size;
+        updateFrame();
+    }
 }
 
 void FITSView::toggleStars(bool enable)
@@ -463,7 +486,7 @@ void FITSView::toggleStars(bool enable)
      {
        int count = image_data->findStars();
        if (count >= 0 && isVisible())
-               emit newStatus(i18np("%1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
+               emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
      }
 }
 

@@ -56,6 +56,7 @@ EkosManager::EkosManager()
     captureProcess = NULL;
     focusProcess   = NULL;
     guideProcess   = NULL;
+    alignProcess   = NULL;
 
     kcfg_localMode->setChecked(Options::localMode());
     kcfg_remoteMode->setChecked(Options::remoteMode());
@@ -243,6 +244,7 @@ void EkosManager::reset()
     captureProcess = NULL;
     focusProcess   = NULL;
     guideProcess   = NULL;
+    alignProcess   = NULL;
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
@@ -745,14 +747,14 @@ void EkosManager::deviceConnected()
     if (scope && scope->isConnected())
     {
         configProp = scope->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            scope->setConfig(tConfig);
     }
 
     if (ccd && ccd->isConnected())
     {
         configProp = ccd->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            ccd->setConfig(tConfig);
     }
 
@@ -760,7 +762,7 @@ void EkosManager::deviceConnected()
     if (guider && guider != ccd && guider->isConnected())
     {
         configProp = guider->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            guider->setConfig(tConfig);
     }
 
@@ -768,21 +770,21 @@ void EkosManager::deviceConnected()
     if (focuser && focuser->isConnected())
     {
         configProp = focuser->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            focuser->setConfig(tConfig);
     }
 
     if (filter && filter->isConnected())
     {
         configProp = filter->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            filter->setConfig(tConfig);
     }
 
     if (aux && aux->isConnected())
     {
         configProp = aux->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s != IPS_OK)
+        if (configProp && configProp->s == IPS_IDLE)
            aux->setConfig(tConfig);
     }
 }
@@ -839,6 +841,11 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
             appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
         ccdStarted = true;
+
+        initAlign();
+        alignProcess->setCCD(ccd);
+        if (scope && scope->isConnected())
+            alignProcess->setTelescope(scope);
 
         // If guider is the same driver as the CCD
         if (useGuiderFromCCD == true)
@@ -926,7 +933,16 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
         if (guideProcess)
+        {
+           guideProcess->setTelescope(scope);
            guideProcess->syncTelescopeInfo();
+        }
+
+        if (alignProcess)
+        {
+            alignProcess->setTelescope(scope);
+            alignProcess->syncTelescopeInfo();
+        }
 
     }
 
@@ -940,7 +956,7 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
-    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDE_INFO"))
+    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
         if (guideProcess)
             guideProcess->syncCCDInfo();
@@ -966,8 +982,8 @@ void EkosManager::processNewProperty(INDI::Property* prop)
             captureProcess->addGuideHead(guider);
 
 
-        if (guideProcess)
-            guideProcess->addGuideHead();
+        if (ccd && guideProcess)
+            guideProcess->addGuideHead(ccd);
     }
 
     if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
@@ -992,6 +1008,16 @@ void EkosManager::updateLog()
 
     if (currentWidget == setupTab)
         ekosLogOut->setPlainText(logText.join("\n"));
+    else if (currentWidget == alignProcess)
+    {
+        if (alignProcess->isEnabled() == false)
+        {
+            if (alignProcess->astrometryNetOK())
+                alignProcess->setEnabled(true);
+        }
+
+        ekosLogOut->setPlainText(alignProcess->getLogText());
+    }
     else if (currentWidget == captureProcess)
         ekosLogOut->setPlainText(captureProcess->getLogText());
     else if (currentWidget == focusProcess)
@@ -1018,13 +1044,14 @@ void EkosManager::clearLog()
         logText.clear();
         updateLog();
     }
+    else if (currentWidget == alignProcess)
+        alignProcess->clearLog();
     else if (currentWidget == captureProcess)
         captureProcess->clearLog();
     else if (currentWidget == focusProcess)
         focusProcess->clearLog();
     else if (currentWidget == guideProcess)
         guideProcess->clearLog();
-
 }
 
 void EkosManager::initCapture()
@@ -1037,6 +1064,17 @@ void EkosManager::initCapture()
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
 }
+
+void EkosManager::initAlign()
+{
+    if (alignProcess)
+        return;
+
+     alignProcess = new Ekos::Align();
+     toolsWidget->addTab( alignProcess, i18n("Alignment"));
+     connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+}
+
 
 void EkosManager::initFocus()
 {
@@ -1064,6 +1102,12 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     }
+
+    if (captureProcess)
+    {
+        connect(guideProcess, SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
+        connect(guideProcess, SIGNAL(newAxisDelta(int,double)), captureProcess, SLOT(setGuideDeviation(int,double)));
+    }
 }
 
 void EkosManager::setST4(ISD::ST4 * st4Driver)
@@ -1082,6 +1126,9 @@ void EkosManager::removeTabs()
 
         for (int i=2; i < toolsWidget->count(); i++)
                 toolsWidget->removeTab(i);
+
+        delete (alignProcess);
+        alignProcess = NULL;
 
         ccd = NULL;
         delete (captureProcess);

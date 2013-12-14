@@ -30,12 +30,16 @@ public:
     ~rguider();
 
     void guide( void );
+    void start();
+    void abort();
     void set_half_refresh_rate( bool is_half );
     bool is_guiding( void ) const;
     void set_math( cgmath *math );
     void fill_interface( void );
     void set_image(FITSView *image);
     void set_ready(bool enable) { is_ready = enable;}
+    void set_target_chip(ISD::CCDChip *chip);
+    bool isRapidGuide() { return useRapidGuide;}
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -46,6 +50,9 @@ protected slots:
 	void onEnableDirRA( int state );
 	void onEnableDirDEC( int state );
 	void onInputParamChanged();
+    void onRapidGuideChanged(bool enable);
+    void onSubFrameClick(bool enable);
+    void capture();
 
     void guideStarSelected(int x, int y);
 
@@ -61,8 +68,13 @@ private:
     FITSView *pimage;
 	bool is_started;
     bool is_ready;
+    bool first_frame;
 	bool half_refresh_rate;
     int lost_star_try;
+    bool useRapidGuide;
+    ISD::CCDChip *targetChip;
+    int fx,fy,fw,fh;
+    double ret_x, ret_y, ret_angle;
 
 
 

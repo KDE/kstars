@@ -42,7 +42,7 @@ const square_alg_t guide_square_alg[] = {
 											{ -1, {0} }
 											};
 
-cgmath::cgmath()
+cgmath::cgmath() : QObject()
 {
 	// sys...
 	ticks = 0;
@@ -57,6 +57,7 @@ cgmath::cgmath()
 	preview_mode = true;
 	suspended	 = false;
     lost_star    = false;
+    useRapidGuide = false;
     pimage = NULL;
 
 	// square variables
@@ -126,10 +127,12 @@ void cgmath::set_image(FITSView *image)
 {
     pimage = image;
 
-    FITSImage *image_data = pimage->getImageData();
-
-    set_buffer(image_data->getImageBuffer());
-    set_video_params(image_data->getWidth(), image_data->getHeight());
+    if (pimage)
+    {
+        FITSImage *image_data = pimage->getImageData();
+        set_buffer(image_data->getImageBuffer());
+        set_video_params(image_data->getWidth(), image_data->getHeight());
+    }
 }
 
 float *cgmath::get_data_buffer( int *width, int *height, int *length, int *size )
@@ -338,9 +341,6 @@ bool cgmath::reset( void )
 
 void cgmath::move_square( double newx, double newy )
 {
-    if (pimage == NULL)
-        return;
-
 	square_pos.x = newx;
 	square_pos.y = newy;
 
@@ -355,7 +355,8 @@ void cgmath::move_square( double newx, double newy )
 		square_pos.y = (double)(video_height - square_size);
 
     // FITS Image takes center coords
-    pimage->setGuideSquare(square_pos.x+square_size/2, square_pos.y+square_size/2);
+    if (pimage)
+        pimage->setGuideSquare(square_pos.x+square_size/2, square_pos.y+square_size/2);
 }
 
 
@@ -369,7 +370,8 @@ void cgmath::resize_square( int size_idx )
 	square_idx = size_idx;
 
 	// check position
-    pimage->setGuideBoxSize(square_size);
+    if (pimage)
+        pimage->setGuideBoxSize(square_size);
 
     // TODO: FIXME
     //move_square( square_pos.x, square_pos.y );
@@ -439,7 +441,7 @@ bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x,
 }
 
 
-bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y)
+bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec)
 {
  double phi_ra = 0;	 // angle calculated by GUIDE_RA drift
  double phi_dec = 0; // angle calculated by GUIDE_DEC drift
@@ -484,9 +486,9 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
 	 phi = (phi_ra + phi_dec) / 2;
 	 if( phi < 0 )phi += 360.0;
 
-     // TODO: FIXME
-//	 if( DBG_VERBOSITY )
-//	 	log_i( "PHI_RA = %f\nPHI_DEC = %f\nPHI_AVG = %f", phi_ra, phi_dec, phi);
+     // check DEC
+     if( swap_dec )
+         *swap_dec = do_increase ? false : true;
 
 	 set_reticle_params( start_ra_x, start_ra_y, phi );
 
@@ -502,7 +504,7 @@ double cgmath::calc_phi( double start_x, double start_y, double end_x, double en
 	delta_x = end_x - start_x;
 	delta_y = -(end_y - start_y);
 
-	if( !Vector(delta_x, delta_y, 0) < 5.0 )
+    if( !Vector(delta_x, delta_y, 0) < 2.5 )
 		return -1;
 
 	// 90 or 270 degrees
@@ -595,6 +597,11 @@ Vector cgmath::find_star_local_pos( void ) const
  double resx, resy, mass, threshold, pval;
  float *psrc = NULL, *porigin = NULL;
  float *pptr;
+
+ if (useRapidGuide)
+ {
+     return (ret = Vector(rapidDX , rapidDY, 0));
+ }
 
     psrc = porigin = pdata + (int)square_pos.y*video_width + (int)square_pos.x;
 
@@ -830,6 +837,8 @@ void cgmath::process_axes( void  )
 		
 		out_params.delta[k] = t_delta / (double)cnt;
 		drift_integral[k] /= (double)MAX_ACCUM_CNT;
+
+        emit newAxisDelta(k, out_params.delta[k]);
  	
         #ifdef GUIDE_LOG
         qDebug() << "cnt: " << cnt << endl;
@@ -861,8 +870,9 @@ void cgmath::process_axes( void  )
             {
                 out_params.pulse_dir[k] = out_params.delta[k] > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
 
-                if (ROT_Z.x[1][1] < 0)
-                    out_params.pulse_dir[k] = (out_params.pulse_dir[k] == DEC_INC_DIR) ? DEC_DEC_DIR : DEC_INC_DIR;
+                // Reverse DEC direction if we are looking eastward
+                //if (ROT_Z.x[0][0] > 0 || (ROT_Z.x[0][0] ==0 && ROT_Z.x[0][1] > 0))
+                    //out_params.pulse_dir[k] = (out_params.pulse_dir[k] == DEC_INC_DIR) ? DEC_DEC_DIR : DEC_INC_DIR;
             }
  		}
  		else
@@ -1024,7 +1034,18 @@ void cgmath::calc_square_err( void )
 }
 
 
+void cgmath::setRapidGuide(bool enable)
+{
+    useRapidGuide = enable;
+}
 
+
+void cgmath::setRapidStarData(double dx, double dy)
+{
+    rapidDX = dx;
+    rapidDY = dy;
+
+}
 
 
 
@@ -1075,4 +1096,6 @@ void cproc_out_params::reset( void )
 }
 
 
+
+#include "gmath.moc"
 

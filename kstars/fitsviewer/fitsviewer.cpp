@@ -38,6 +38,7 @@
 #include <KTabWidget>
 #include <KAction>
 #include <KActionCollection>
+#include <KLed>
 
 #include <QFile>
 #include <QCursor>
@@ -65,6 +66,7 @@
   #include <netinet/in.h>
 #endif
 
+#include "fitsimage.h"
 #include "fitstab.h"
 #include "fitsview.h"
 #include "fitshistogram.h"
@@ -90,6 +92,9 @@ FITSViewer::FITSViewer (QWidget *parent)
     connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
     connect(fitsTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 
+    led = new KLed(this);
+    led->setColor(Qt::green);
+
     statusBar()->insertItem(QString(), FITS_POSITION);
     statusBar()->setItemFixed(FITS_POSITION, 100);
     statusBar()->insertItem(QString(), FITS_VALUE);
@@ -100,6 +105,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     statusBar()->setItemFixed(FITS_ZOOM, 50);
     statusBar()->insertItem(QString(), FITS_WCS);
     statusBar()->setItemFixed(FITS_WCS, 200);
+    statusBar()->insertWidget(0, led);
     statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
     statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
 
@@ -127,6 +133,12 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setIcon(KIcon("document-properties"));
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
+
+    action = actionCollection()->addAction("image_stretch");
+    action->setText(i18n("Auto stretch"));
+    connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
+    action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_A ));
+    action->setIcon(KIcon("transform-move"));
 
     KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());    
 
@@ -159,7 +171,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     {
 
         action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
-        action->setText(filter);
+        action->setText(i18n(filter.toUtf8().constData()));
         filterMapper->setMapping(action, filterCounter++);
         connect(action, SIGNAL(triggered()), filterMapper, SLOT(map()));
 
@@ -167,14 +179,6 @@ FITSViewer::FITSViewer (QWidget *parent)
     }
 
     connect(filterMapper, SIGNAL(mapped(int)), this, SLOT(applyFilter(int)));
-
-/*    action = actionCollection()->addAction("low_pass_filter");
-    action->setText(i18n( "Low Pass Filter"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(lowPassFilter()));
-
-    action = actionCollection()->addAction("equalize");
-    action->setText(i18n( "Equalize"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(equalize()));*/
 
     
     /* Create GUI */
@@ -198,8 +202,11 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 
     FITSTab *tab = new FITSTab(this);
 
+    led->setColor(Qt::yellow);
+
     if (tab->loadFITS(imageName,mode, filter) == false)
     {
+        led->setColor(Qt::red);
         if (fitsImages.size() == 0)
         {
 
@@ -229,6 +236,9 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
       fitsTab->addTab(tab, i18n("Guide"));
       break;
 
+    default:
+        break;
+
     }
 
     connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
@@ -243,22 +253,37 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 
     fitsImages.push_back(tab);
 
+    fitsMap[fitsID] = tab;
+
     fitsTab->setCurrentWidget(tab);
 
     tab->setUID(fitsID);
+
+    led->setColor(Qt::green);
 
     return (fitsID++);
 }
 
 bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter)
 {
-    foreach (FITSTab *tab, fitsImages)
+    FITSTab *tab = fitsMap.value(fitsUID);
+    bool rc=false;
+
+    if (tab->isVisible())
+        led->setColor(Qt::yellow);
+
+    if (tab)
+        rc = tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
+
+    if (tab->isVisible())
     {
-        if (tab->getUID() == fitsUID)
-            return tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
+        if (rc)
+            led->setColor(Qt::green);
+        else
+            led->setColor(Qt::red);
     }
 
-    return false;
+    return rc;
 }
 
 void FITSViewer::tabFocusUpdated(int currentIndex)
@@ -384,6 +409,16 @@ void FITSViewer::statFITS()
   fitsImages[fitsTab->currentIndex()]->statFITS();
 }
 
+void FITSViewer::stretchFITS()
+{
+    if (fitsImages.empty())
+        return;
+
+    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_AUTO_STRETCH);
+    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+
+}
+
 void FITSViewer::headerFITS()
 {
     if (fitsImages.empty())
@@ -494,6 +529,7 @@ void FITSViewer::closeTab(int index)
     if (rc == 2)
         return;
 
+    fitsMap.remove(tab->getUID());
     fitsImages.removeOne(tab);
     delete tab;
 
@@ -543,11 +579,12 @@ void FITSViewer::applyFilter(int ftype)
 
 FITSView * FITSViewer::getImage(int fitsUID)
 {
-    if (fitsUID < 0 || fitsUID >= fitsImages.size())
+    FITSTab *tab = fitsMap.value(fitsUID);
+
+    if (tab)
+        return tab->getImage();
+    else
         return NULL;
-
-    return fitsImages[fitsUID]->getImage();
-
 }
 
 #include "fitsviewer.moc"

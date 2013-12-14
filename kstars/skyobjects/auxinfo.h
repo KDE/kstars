@@ -40,6 +40,7 @@ public:
     QStringList InfoTitle;
     QString userLog;
     QString notes;
+    QHash<QString, QVariant> otherData;
 };
 
 #endif

@@ -160,7 +160,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     //Label this vertical line with the current time
     p.save();
     QFont smallFont = p.font();
-    smallFont.setPointSize( smallFont.pointSize() - 2 );
+    smallFont.setPointSize( smallFont.pointSize());
     p.setFont( smallFont );
     p.translate( ix + 10, pH - 20 );
     p.rotate(-90);

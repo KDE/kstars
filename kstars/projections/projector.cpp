@@ -183,7 +183,7 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     //TODO deal with alternate projections
     //not clear how this depends on projection
     //FIXME do these heuristics actually work?
-    
+
     double dX, dY;
 
     //Skip objects below the horizon if the ground is drawn
@@ -253,7 +253,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
 {
     KStarsData *data = KStarsData::Instance();
     QVector<Vector2f> ground;
-    
+
     static const QString horizonLabel = i18n("Horizon");
     float marginLeft, marginRight, marginTop, marginBot;
     SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
@@ -287,7 +287,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
             //Set the label point if this point is onscreen
             if ( labelpoint && o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
                 *labelpoint = p;
-            
+
             if ( o.y() > 0. ) allGround = false;
             if ( o.y() < m_vp.height ) allSky = false;
         }
@@ -415,6 +415,8 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         dX = o->ra().reduce().radians() - m_vp.focus->ra().reduce().radians();
         Y = o->dec().radians();
     }
+
+    Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 

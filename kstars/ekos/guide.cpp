@@ -38,6 +38,7 @@ Guide::Guide() : QWidget()
     currentTelescope = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
     useGuideHead = false;
+    rapidGuideReticleSet = false;
 
     tabWidget = new QTabWidget(this);
 
@@ -46,6 +47,8 @@ Guide::Guide() : QWidget()
     guiderStage = CALIBRATION_STAGE;
 
     pmath = new cgmath();
+
+    connect(pmath, SIGNAL(newAxisDelta(int,double)), this, SIGNAL(newAxisDelta(int,double)));
 
     calibration = new rcalibration(this);
     calibration->set_math(pmath);
@@ -77,7 +80,9 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
     currentCCD = (ISD::CCD *) newCCD;
 
     guiderCombo->addItem(currentCCD->getDeviceName());
-    useGuideHead = false;
+
+    if (currentCCD->hasGuideHead())
+        addGuideHead(newCCD);
 
     connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
@@ -93,13 +98,15 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
 
     syncTelescopeInfo();
 
-
 }
 
-void Guide::addGuideHead()
+void Guide::addGuideHead(ISD::GDInterface *ccd)
 {
+    if (currentCCD == NULL)
+        currentCCD = (ISD::CCD *) ccd;
+
     // Let's just make sure
-    if (currentCCD && currentCCD->hasGuideHead())
+    if (currentCCD->hasGuideHead())
     {
         guiderCombo->clear();
         guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
@@ -117,7 +124,7 @@ void Guide::syncCCDInfo()
         return;
 
     if (useGuideHead)
-        nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
+        nvp = currentCCD->getBaseDevice()->getNumber("GUIDER_INFO");
     else
         nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
 
@@ -136,20 +143,7 @@ void Guide::syncCCDInfo()
             ccd_ver_pixel = np->value;
     }
 
-    if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
-    {
-        pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
-        int x,y,w,h;
-
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-        if (targetChip->getFrame(&x,&y,&w,&h))
-            pmath->set_video_params(w, h);
-
-        guider->fill_interface();
-    }
-
-    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+    updateGuideParams();
 }
 
 void Guide::syncTelescopeInfo()
@@ -180,6 +174,12 @@ void Guide::syncTelescopeInfo()
         }
     }
 
+    updateGuideParams();
+
+}
+
+void Guide::updateGuideParams()
+{
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
@@ -187,15 +187,20 @@ void Guide::syncTelescopeInfo()
 
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
+        if (targetChip == NULL)
+        {
+            appendLogText(i18n("Connection to the guide CCD is lost."));
+            return;
+        }
+
+        guider->set_target_chip(targetChip);
+
         if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
 
     }
-
-    //qDebug() << "SetScope: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
-
 }
 
 void Guide::addST4(ISD::ST4 *newST4)
@@ -225,16 +230,23 @@ bool Guide::capture()
         return false;
     }
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+    targetChip->setFrameType(ccdFrame);
 
-   targetChip->setFrameType(ccdFrame);
+    if (guider->is_guiding())
+    {    
+         if (guider->isRapidGuide() == false)
+             connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-   targetChip->capture(seqExpose);
+         targetChip->capture(seqExpose);
+         return true;
+    }
 
-   return true;
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    targetChip->capture(seqExpose);
+
+    return true;
 
 }
 void Guide::newFITS(IBLOB *bp)
@@ -247,7 +259,19 @@ void Guide::newFITS(IBLOB *bp)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
+
+    if (targetImage == NULL)
+    {
+        pmath->set_image(NULL);
+        guider->set_image(NULL);
+        calibration->set_image(NULL);
+        return;
+    }
+
     FITSImage *image_data = targetImage->getImageData();
+
+    if (image_data == NULL)
+        return;
 
     image_data->findStars();
 
@@ -270,13 +294,14 @@ void Guide::newFITS(IBLOB *bp)
         pmath->do_processing();
         calibration->process_calibration();
 
-         if (calibration->is_calibrating())
-            capture();
+         //if (calibration->is_calibrating())
+           // capture();
 
          if (calibration->is_finished())
          {
              guider->set_ready(true);
              tabWidget->setTabEnabled(1, true);
+             emit guideReady();
          }
     }
 
@@ -297,10 +322,21 @@ void Guide::clearLog()
     emit newLog();
 }
 
+void Guide::setDECSwap(bool enable)
+{
+    if (ST4Driver == NULL)
+        return;
+
+    ST4Driver->setDECSwap(enable);
+}
+
 bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
     if (ST4Driver == NULL)
         return false;
+
+    if (calibration->is_calibrating())
+        QTimer::singleShot( (ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100, this, SLOT(capture()));
 
     return ST4Driver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
 }
@@ -309,6 +345,9 @@ bool Guide::do_pulse( GuideDirection dir, int msecs )
 {
     if (ST4Driver == NULL)
         return false;
+
+    if (calibration->is_calibrating())
+        QTimer::singleShot(msecs+100, this, SLOT(capture()));
 
     return ST4Driver->doPulse(dir, msecs);
 
@@ -330,9 +369,83 @@ double Guide::getReticleAngle()
 
 void Guide::viewerClosed()
 {
+    pmath->set_image(NULL);
     guider->set_image(NULL);
     calibration->set_image(NULL);
 }
+
+void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
+{
+    // Check if guide star is lost
+    if (dx == -1 && dy == -1 && fit == -1)
+    {
+        KMessageBox::error(NULL, i18n("Lost track of the guide star. Rapid guide aborted."));
+        guider->abort();
+        return;
+    }
+
+    FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
+
+    if (targetImage == NULL)
+    {
+        pmath->set_image(NULL);
+        guider->set_image(NULL);
+        calibration->set_image(NULL);
+    }
+
+    if (rapidGuideReticleSet == false)
+    {
+        // Let's set reticle parameter on first capture to those of the star, then we check if there
+        // is any deviation
+        double x,y,angle;
+        pmath->get_reticle_params(&x, &y, &angle);
+        pmath->set_reticle_params(dx, dy, angle);
+        rapidGuideReticleSet = true;
+    }
+
+    pmath->setRapidStarData(dx, dy);
+
+    guider->guide();
+
+    capture();
+
+}
+
+void Guide::startRapidGuide()
+{
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    if (currentCCD->setRapidGuide(targetChip, true) == false)
+    {
+        appendLogText(i18n("The CCD does not support Rapid Guiding. Aborting..."));
+        guider->abort();
+        return;
+    }
+
+    rapidGuideReticleSet = false;
+
+    pmath->setRapidGuide(true);
+    currentCCD->configureRapidGuide(targetChip, true);
+    connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)), this, SLOT(processRapidStarData(ISD::CCDChip*,double,double,double)));
+
+}
+
+void Guide::stopRapidGuide()
+{
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    pmath->setRapidGuide(false);
+
+    rapidGuideReticleSet = false;
+
+    currentCCD->disconnect(SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)));
+
+    currentCCD->configureRapidGuide(targetChip, false, false, false);
+
+    currentCCD->setRapidGuide(targetChip, false);
+
+}
+
 
 }
 

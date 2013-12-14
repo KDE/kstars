@@ -83,8 +83,12 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
                 dmsPA.setRadians( pa );
                 direction = KSUtils::toDirectionString( dmsPA );
 
-                kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
+                if( !patternNames.contains( hopStar ) )
+                    kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
+                else
+                    kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a(n) " << patternNames.value( hopStar );
                 prevHop = hopStar;
+
             }
             kDebug() << "  The destination is within a field-of-view";
 
@@ -184,7 +188,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
         // Test 2: Is the star strikingly red / yellow coloured?
         QString SpType = nextstar->sptype();
         char spclass = SpType.at( 0 ).toAscii();
-        speccost = ( spclass == 'G' || spclass == 'K' || spclass == 'M' ) ? -1 : 0;
+        speccost = ( spclass == 'G' || spclass == 'K' || spclass == 'M' ) ? -0.3 : 0;
         /*
         // Test 3: Is the star in the general direction of the object?
         // We use the cosine rule to find the angle between the hop direction, and the direction to destination
@@ -211,15 +215,85 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     // Test 5: How effective is the hop? [Might not be required with A*]
     //    double distredcost = -((src->angularDistanceTo( dest ).Degrees() - next->angularDistanceTo( dest ).Degrees()) * 60 / fov)*3; // 3 "magnitudes" for 1 FOV closer
 
-    // Test 5: Is this an asterism, or are there bright stars clustered nearby?
+    // Test 6: Is the destination an asterism? Are there bright stars clustered nearby?
     QList<StarObject *> localNeighbors;
-    StarComponent::Instance()->starsInAperture( localNeighbors, *curr, fov/10, maglim + 1.0 );
+    StarComponent::Instance()->starsInAperture( localNeighbors, *next, fov/10, maglim + 1.0 );
     double stardensitycost = 1 - localNeighbors.count(); // -1 "magnitude" for every neighbouring star
 
-    netcost = magcost /*+ speccost*/ + distcost + stardensitycost;
+    // Test 7: Identify star patterns
+
+#define RIGHT_ANGLE_THRESHOLD 0.05
+#define EQUAL_EDGE_THRESHOLD 0.025
+
+    double patterncost = 0;
+    QString patternName;
+    if( !isThisTheEnd ) {
+        // We ought to be dealing with a star
+        StarObject const *nextstar = dynamic_cast<StarObject const *>(next);
+        Q_ASSERT( nextstar );
+
+        float factor = 1.0;
+        while( factor <= 10.0 ) {
+            localNeighbors.clear();
+            StarComponent::Instance()->starsInAperture( localNeighbors, *next, fov/factor, nextstar->mag() + 1.0 ); // Use a larger aperture for pattern identification; max 1.0 mag difference
+            foreach( StarObject *star, localNeighbors ) {
+                if( star == nextstar )
+                    localNeighbors.removeOne( star );
+                else if( fabs( star->mag() - nextstar->mag() ) > 1.0 )
+                    localNeighbors.removeOne( star );
+            } // Now, we should have a pruned list
+            factor += 1.0;
+            if( localNeighbors.size() == 2 )
+                break;
+        }
+        factor -= 1.0;
+        if( localNeighbors.size() == 2 ) {
+            patternName = "triangle (of similar magnitudes)"; // any three stars form a triangle!
+            // Try to find triangles. Note that we assume that the standard Euclidian metric works on a sphere for small angles, i.e. the celestial sphere is nearly flat over our FOV.
+            StarObject *star1 = localNeighbors[0];
+            double dRA1 = nextstar->ra().radians() - star1->ra().radians();
+            double dDec1 = nextstar->dec().radians() - star1->dec().radians();
+            double dist1sqr = dRA1 * dRA1 + dDec1 * dDec1;
+
+            StarObject *star2 = localNeighbors[1];
+            double dRA2 = nextstar->ra().radians() - star2->ra().radians();
+            double dDec2 = nextstar->dec().radians() - star2->dec().radians();
+            double dist2sqr = dRA2 * dRA2 + dDec2 * dDec2;
+
+            // Check for right-angled triangles (without loss of generality, right angle is at this vertex)
+            if( fabs( (dRA1 * dRA2 - dDec1 * dDec2)/sqrt( dist1sqr * dist2sqr ) ) < RIGHT_ANGLE_THRESHOLD ) {
+                // We have a right angled triangle! Give -3 magnitudes!
+                patterncost += -3;
+                patternName = "right-angled triangle";
+            }
+
+            // Check for isosceles triangles (without loss of generality, this is the vertex)
+            if( fabs( (dist1sqr - dist2sqr) / (dist1sqr) ) < EQUAL_EDGE_THRESHOLD ) {
+                patterncost += -1;
+                patternName = "isosceles triangle";
+                if( fabs( (dRA2 * dDec1 - dRA1 * dDec2) / sqrt( dist1sqr * dist2sqr ) ) < RIGHT_ANGLE_THRESHOLD ) {
+                    patterncost += -1;
+                    patternName = "straight line of 3 stars";
+                }
+                // Check for equilateral triangles
+                double dist3 = star1->angularDistanceTo( star2 ).radians();
+                double dist3sqr = dist3 * dist3;
+                if( fabs( (dist3sqr - dist1sqr) / dist1sqr ) < EQUAL_EDGE_THRESHOLD ) {
+                    patterncost += -1;
+                    patternName = "equilateral triangle";
+                }
+            }
+        }
+        // TODO: Identify squares.
+        if( ! patternName.isEmpty() ) {
+            patternName += QString(" within %1% of FOV of the marked star").arg( (int)( 100.0/factor ) );
+            patternNames.insert( nextstar, patternName );
+        }
+    }
+
+    netcost = magcost + speccost + distcost + stardensitycost + patterncost;
     if( netcost < 0 )
         netcost = 0.1; // FIXME: Heuristics aren't supposed to be entirely random. This one is.
-    kDebug() << "Mag cost: " << magcost << "; Spec Cost: " << speccost << "; Dist Cost: " << distcost << "; Net cost: " << netcost;
-
+    kDebug() << "Mag cost: " << magcost << "; Spec Cost: " << speccost << "; Dist Cost: " << distcost << "; Density cost: " << stardensitycost << "; Pattern cost: " << patterncost << "; Net cost: " << netcost << "; Pattern: " << patternName;
     return netcost;
 }

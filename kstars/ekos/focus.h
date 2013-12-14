@@ -63,6 +63,7 @@ public slots:
     void FocusIn(int ms=-1);
     void FocusOut(int ms=-1);
 
+    void focusStarSelected(int x, int y);
     void toggleAutofocus(bool enable);
 
     void newFITS(IBLOB *bp);
@@ -104,6 +105,8 @@ private:
     int HFRInc;
     int HFRDec;
     bool reverseDir;
+    bool starSelected;
+    int fx,fy,fw,fh;
 
     QStringList logText;
 

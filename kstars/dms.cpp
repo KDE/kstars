@@ -55,7 +55,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
     //empty entry returns false
     if ( entry.isEmpty() ) {
-        setD( 0.0 );
+        setD( NaN::d );
         return false;
     }
 
@@ -85,7 +85,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
     //anything with one field is invalid!
     if ( fields.count() == 1 ) {
-        setD(0.0);
+        setD( NaN::d );
         return false;
     }
 
@@ -103,7 +103,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
                 fields[1] = QString::number( int(mx) );
                 fields.append( QString::number( int( 60.0*(mx - int(mx)) ) ) );
             } else {
-                setD( 0.0 );
+                setD( NaN::d );
                 return false;
             }
         }
@@ -138,7 +138,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
             setH( D );
         }
     } else {
-        setD( 0.0 );
+        setD( NaN::d );
         return false;
     }
 
@@ -150,7 +150,7 @@ int dms::arcmin( void ) const {
     if ( D<0.0 && D>-1.0 ) { //angle less than zero, but greater than -1.0
         am = -1*am; //make minute negative
     }
-    return am;
+    return am; // Warning: Will return 0 if the value is NaN
 }
 
 int dms::arcsec( void ) const {
@@ -159,7 +159,7 @@ int dms::arcsec( void ) const {
     if ( degree()==0 && arcmin()==0 && D<0.0 ) {
         as = -1*as;
     }
-    return as;
+    return as; // Warning: Will return 0 if the value is NaN
 }
 
 int dms::marcsec( void ) const {
@@ -168,7 +168,7 @@ int dms::marcsec( void ) const {
     if ( degree()==0 && arcmin()==0 && arcsec()== 0 && D<0.0 ) {
         as = -1*as;
     }
-    return as;
+    return as; // Warning: Will return 0 if the value is NaN
 }
 
 int dms::minute( void ) const {
@@ -176,7 +176,7 @@ int dms::minute( void ) const {
     if ( Hours()<0.0 && Hours()>-1.0 ) { //angle less than zero, but greater than -1.0
         hm = -1*hm; //make minute negative
     }
-    return hm;
+    return hm; // Warning: Will return 0 if the value is NaN
 }
 
 int dms::second( void ) const {
@@ -184,7 +184,7 @@ int dms::second( void ) const {
     if ( hour()==0 && minute()==0 && Hours()<0.0 ) {
         hs = -1*hs;
     }
-    return hs;
+    return hs; // Warning: Will return 0 if the value is NaN
 }
 
 int dms::msecond( void ) const {
@@ -192,7 +192,7 @@ int dms::msecond( void ) const {
     if ( hour()==0 && minute()==0 && second()==0 && Hours()<0.0 ) {
         hs = -1*hs;
     }
-    return hs;
+    return hs; // Warning: Will return 0 if the value is NaN
 }
 
 

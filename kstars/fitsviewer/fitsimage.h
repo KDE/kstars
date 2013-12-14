@@ -41,6 +41,7 @@
 #include "fitshistogram.h"
 #include "fitscommon.h"
 
+#include "skypoint.h"
 #include "dms.h"
 
 #define INITIAL_W	640
@@ -100,6 +101,7 @@ public:
     double getAverage() { return stats.average; }
     int getBPP() { return stats.bitpix; }
     FITSMode getMode() { return mode;}
+    Edge * getMaxHFRStar() { return maxHFRStar;}
 
 
     int getFITSRecord(QString &recordList, int &nkeys);
@@ -108,7 +110,7 @@ public:
     void setFITSMinMax(double newMin,  double newMax);
 
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
-    void applyFilter(FITSScale type, float *image=NULL, int min=-1, int max=-1);
+    void applyFilter(FITSScale type, float *image=NULL, double min=-1, double max=-1);
 
 
     // Star Detection & HFR
@@ -140,6 +142,7 @@ private:
     double stddev();
     int calculateMinMax(bool refresh=false);
     void checkWCS();
+    void readWCSKeys();
 
     bool markStars;
     float *image_buffer;				/* scaled image buffer (0-255) range */
@@ -154,6 +157,7 @@ private:
 
     wcs_point *wcs_coord;
     QList<Edge*> starCenters;
+    Edge* maxHFRStar;
 
 };
 

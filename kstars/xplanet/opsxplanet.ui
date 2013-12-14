@@ -14,7 +14,7 @@
    <item row="0" column="1">
     <widget class="KTabWidget" name="tab">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="XplanetTabGeneral">
       <attribute name="title">

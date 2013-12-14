@@ -44,6 +44,8 @@ TextureManager *TextureManager::Create() {
 const QImage& TextureManager::getImage(const QString& name)
 {
     Create();
+    if(name == "")
+        return emptyImage;
     CacheIter it = findTexture( name );
     if( it != m_p->m_textures.constEnd() ) {
         return *it;
