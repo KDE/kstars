@@ -134,6 +134,7 @@ public:
 	int  get_square_algorithm_index( void ) const;
     int  get_square_size() { return square_size; }
 	void set_square_algorithm( int alg_idx );
+    Matrix get_ROTZ() { return ROT_Z; }
 	cproc_in_params *get_in_params( void );
 	void set_in_params( const cproc_in_params *v );
 	const cproc_out_params *get_out_params( void ) const;

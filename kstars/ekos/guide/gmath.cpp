@@ -24,7 +24,7 @@
 #define DEF_SQR_2	(64-0)
 #define DEF_SQR_3	(128-0)
 
-//#define GUIDE_LOG
+#define GUIDE_LOG
 
 const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 											{DEF_SQR_1, DEF_SQR_1*DEF_SQR_1*1.0},

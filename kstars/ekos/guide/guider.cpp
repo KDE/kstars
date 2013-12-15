@@ -587,7 +587,7 @@ void rguider::abort()
 
 bool rguider::dither()
 {
-    static double targetX=0,targetY=0;
+    static Vector target_pos;
     static unsigned int retries=0;
 
     if (ui.kcfg_useDither->isChecked() == false)
@@ -596,6 +596,9 @@ bool rguider::dither()
     double cur_x, cur_y, angle;
     pmath->get_reticle_params(&cur_x, &cur_y, &angle);
     pmath->get_star_screen_pos( &cur_x, &cur_y );
+    Matrix ROT_Z = pmath->get_ROTZ();
+
+    kDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
 
     if (isDithering == false)
     {
@@ -608,6 +611,8 @@ bool rguider::dither()
         double x_msec = ditherPixels * cos(angle) * pmath->get_dither_rate(0);
         double y_msec = ditherPixels * sin(angle) * pmath->get_dither_rate(1);
 
+        kDebug() << "Rate X " << pmath->get_dither_rate(0) << " Rate Y " << pmath->get_dither_rate(1) << endl;
+
         if (x_msec < 0)
             x_msec = ui.spinBox_MinPulseRA->value();
         if (y_msec < 0)
@@ -617,23 +622,33 @@ bool rguider::dither()
 
         if (polarity > 0)
         {
-            targetX = cur_x + ditherPixels * cos(angle);
-            targetY = cur_y + ditherPixels * sin(angle);
+            target_pos = Vector( cur_x, cur_y, 0 ) + Vector( ditherPixels * cos(angle), ditherPixels * sin(angle), 0 );
             pmain_wnd->do_pulse(RA_INC_DIR, x_msec, DEC_INC_DIR, y_msec);
         }
         else
         {
-            targetX = cur_x - ditherPixels * cos(angle);
-            targetY = cur_y - ditherPixels * sin(angle);
+            target_pos = Vector( cur_x, cur_y, 0 ) - Vector( ditherPixels * cos(angle), ditherPixels * sin(angle), 0 );
             pmain_wnd->do_pulse(RA_DEC_DIR, x_msec, DEC_DEC_DIR, y_msec);
         }
 
+        //target_pos.y = -target_pos.y;
+        target_pos = target_pos * ROT_Z;
+
+        kDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
 
         return true;
     }
 
+    if (isDithering == false)
+        return false;
 
-    if (fabs(cur_x - targetX) < 1 && fabs(cur_y - targetY) < 1)
+    Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( target_pos.x, target_pos.y, 0 );
+    star_pos.y = -star_pos.y;
+    star_pos = star_pos * ROT_Z;
+
+    kDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y << endl;
+
+    if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
         pmath->set_preview_mode(false);
         pmath->set_reticle_params(cur_x, cur_y, angle);
