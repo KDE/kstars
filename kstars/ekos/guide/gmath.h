@@ -145,6 +145,7 @@ public:
 	bool reset( void );
     void set_buffer(float *buffer);
     void set_image(FITSView *image);
+    bool get_dec_swap() { return dec_swap;}
     FITSView *get_image() { return pimage; }
     void set_preview_mode(bool enable) { preview_mode = enable;}
 	
@@ -180,7 +181,7 @@ private:
 	int video_width, video_height;	// video frame dimensions
 	double ccd_pixel_width, ccd_pixel_height, aperture, focal;
 	Matrix	ROT_Z;
-    bool preview_mode, suspended, lost_star;
+    bool preview_mode, suspended, lost_star, dec_swap;
 	
 	// square variables
 	int square_size;	// size of analysing square

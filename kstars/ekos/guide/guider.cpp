@@ -26,7 +26,7 @@
 
 #define DRIFT_GRAPH_WIDTH	300
 #define DRIFT_GRAPH_HEIGHT	300
-#define MAX_DITHER_RETIRES  3
+#define MAX_DITHER_RETIRES  20
 
 rguider::rguider(Ekos::Guide *parent)
     : QWidget(parent)
@@ -504,6 +504,8 @@ void rguider::guide( void )
      pmain_wnd->do_pulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
      //qDebug() << "#######################################" << endl;
 
+     if (isDithering)
+         return;
 
 	 pmath->get_star_drift( &drift_x, &drift_y );
 
@@ -598,43 +600,35 @@ bool rguider::dither()
     pmath->get_star_screen_pos( &cur_x, &cur_y );
     Matrix ROT_Z = pmath->get_ROTZ();
 
-    kDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
+    //kDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
 
     if (isDithering == false)
     {
         retries =0;
-        pmath->set_preview_mode(true);
         targetChip->abortExposure();
         double ditherPixels = ui.kcfg_ditherPixels->value();
         int polarity = (rand() %2 == 0) ? 1 : -1;
         double angle = ((double) rand() / RAND_MAX) * M_PI/2.0;
-        double x_msec = ditherPixels * cos(angle) * pmath->get_dither_rate(0);
-        double y_msec = ditherPixels * sin(angle) * pmath->get_dither_rate(1);
-
-        kDebug() << "Rate X " << pmath->get_dither_rate(0) << " Rate Y " << pmath->get_dither_rate(1) << endl;
-
-        if (x_msec < 0)
-            x_msec = ui.spinBox_MinPulseRA->value();
-        if (y_msec < 0)
-            y_msec = ui.spinBox_MinPulseDEC->value();
+        double diff_x = ditherPixels * cos(angle);
+        double diff_y = ditherPixels * sin(angle);
 
         isDithering = true;
 
+        if (pmath->get_dec_swap())
+            diff_y *= -1;
+
         if (polarity > 0)
-        {
-            target_pos = Vector( cur_x, cur_y, 0 ) + Vector( ditherPixels * cos(angle), ditherPixels * sin(angle), 0 );
-            pmain_wnd->do_pulse(RA_INC_DIR, x_msec, DEC_INC_DIR, y_msec);
-        }
+             target_pos = Vector( cur_x, cur_y, 0 ) + Vector( diff_x, diff_y, 0 );
         else
-        {
-            target_pos = Vector( cur_x, cur_y, 0 ) - Vector( ditherPixels * cos(angle), ditherPixels * sin(angle), 0 );
-            pmain_wnd->do_pulse(RA_DEC_DIR, x_msec, DEC_DEC_DIR, y_msec);
-        }
+            target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
-        //target_pos.y = -target_pos.y;
-        target_pos = target_pos * ROT_Z;
+        //kDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
 
-        kDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
+        pmath->set_reticle_params(target_pos.x, target_pos.y, angle);
+
+        guide();
+
+        pmain_wnd->capture();
 
         return true;
     }
@@ -646,19 +640,26 @@ bool rguider::dither()
     star_pos.y = -star_pos.y;
     star_pos = star_pos * ROT_Z;
 
-    kDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y << endl;
+    //kDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y << endl;
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
-        pmath->set_preview_mode(false);
         pmath->set_reticle_params(cur_x, cur_y, angle);
 
         isDithering = false;
 
         emit ditherComplete();
     }
-    else if (++retries > MAX_DITHER_RETIRES)
-        return false;
+    else
+    {
+        if (++retries > MAX_DITHER_RETIRES)
+        {
+            isDithering = false;
+            return false;
+        }
+
+        guide();
+    }
 
     pmain_wnd->capture();
 

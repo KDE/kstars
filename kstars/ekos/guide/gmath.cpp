@@ -24,7 +24,7 @@
 #define DEF_SQR_2	(64-0)
 #define DEF_SQR_3	(128-0)
 
-#define GUIDE_LOG
+//#define GUIDE_LOG
 
 const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 											{DEF_SQR_1, DEF_SQR_1*DEF_SQR_1*1.0},
@@ -58,6 +58,7 @@ cgmath::cgmath() : QObject()
 	suspended	 = false;
     lost_star    = false;
     useRapidGuide = false;
+    dec_swap = false;
     pimage = NULL;
 
 	// square variables
@@ -503,7 +504,7 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
 
      // check DEC
      if( swap_dec )
-         *swap_dec = do_increase ? false : true;
+         *swap_dec = dec_swap = do_increase ? false : true;
 
 	 set_reticle_params( start_ra_x, start_ra_y, phi );
 
