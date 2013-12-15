@@ -246,61 +246,6 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 
         i = 0;
 
-        // Input coords are ecliptic coordinates:
-
-        // 		if (eclInputCoords) {
-        //
-        // 			// Read Ecliptic Longitude and write in ostream if corresponds
-        //
-        // 			if(ecLongCheckBatch->isChecked() ) {
-        // 				eclLongB = dms::fromString( fields[i], true);
-        // 				i++;
-        // 			} else
-        // 				eclLongB = ecLongBoxBatch->createDms(true);
-        //
-        // 			if ( allRadioBatch->isChecked() )
-        // 				ostream << eclLongB.toDMSString() << space;
-        // 			else
-        // 				if(ecLongCheckBatch->isChecked() )
-        // 					ostream << eclLongB.toDMSString() << space;
-        //
-        // 			// Read Ecliptic Latitude and write in ostream if corresponds
-        //
-        // 			if(ecLatCheckBatch->isChecked() ) {
-        // 				eclLatB = dms::fromString( fields[i], true);
-        // 				i++;
-        // 			} else
-        // 			if ( allRadioBatch->isChecked() )
-        // 				ostream << eclLatB.toDMSString() << space;
-        // 			else
-        // 				if(ecLatCheckBatch->isChecked() )
-        // 					ostream << eclLatB.toDMSString() << space;
-        //
-        // 			// Read Epoch and write in ostream if corresponds
-        //
-        // 			if(epochCheckBatch->isChecked() ) {
-        // 				epoch0B = fields[i];
-        // 				i++;
-        // 			} else
-        // 				epoch0B = epochBoxBatch->text();
-        //
-        // 			if ( allRadioBatch->isChecked() )
-        // 				ostream << epoch0B << space;
-        // 			else
-        // 				if(epochCheckBatch->isChecked() )
-        // 					ostream << epoch0B << space;
-        //
-        // 			sp = SkyPoint ();
-        //
-        // 			KStarsDateTime dt;
-        // 			dt.setFromEpoch( epoch0B );
-        // 			KSNumbers *num = new KSNumbers( dt.djd() );
-        // 			sp.setFromEcliptic(num->obliquity(), &eclLongB, &eclLatB);
-        // 			ostream << sp.ra().toHMSString() << space << sp.dec().toDMSString() << endl;
-        // 		// Input coords. are equatorial coordinates:
-        //
-        // 		} else {
-
         // Read RA and write in ostream if corresponds
 
         if(raCheckBatch->isChecked() ) {
@@ -350,11 +295,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
         sp.findEcliptic(num->obliquity(), eclLongB, eclLatB);
         ostream << eclLongB.toDMSString() << space << eclLatB.toDMSString() << endl;
         delete num;
-
-        //		}
-
     }
-
 
     fOut.close();
 }
