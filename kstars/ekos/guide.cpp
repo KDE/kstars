@@ -56,6 +56,9 @@ Guide::Guide() : QWidget()
     guider = new rguider(this);
     guider->set_math(pmath);
 
+    connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
+    connect(guider, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
+    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 
     tabWidget->addTab(calibration, calibration->windowTitle());
     tabWidget->addTab(guider, guider->windowTitle());
@@ -281,7 +284,17 @@ void Guide::newFITS(IBLOB *bp)
 
     fv->show();
 
-    if (guider->is_guiding())
+    if (guider->is_dithering())
+    {
+        pmath->do_processing();
+        if (guider->dither() == false)
+        {
+            appendLogText(i18n("Dithering failed. Autoguding aborted."));
+            guider->abort();
+            emit ditherFailed();
+        }
+    }
+    else if (guider->is_guiding())
     {
         guider->guide();
 
@@ -293,9 +306,6 @@ void Guide::newFITS(IBLOB *bp)
 
         pmath->do_processing();
         calibration->process_calibration();
-
-         //if (calibration->is_calibrating())
-           // capture();
 
          if (calibration->is_finished())
          {
@@ -332,10 +342,10 @@ void Guide::setDECSwap(bool enable)
 
 bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
-    if (ST4Driver == NULL)
+    if (ST4Driver == NULL || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
-    if (calibration->is_calibrating())
+    if (calibration->is_calibrating() || guider->is_dithering())
         QTimer::singleShot( (ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100, this, SLOT(capture()));
 
     return ST4Driver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
@@ -343,10 +353,10 @@ bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_di
 
 bool Guide::do_pulse( GuideDirection dir, int msecs )
 {
-    if (ST4Driver == NULL)
+    if (ST4Driver == NULL || dir==NO_DIR)
         return false;
 
-    if (calibration->is_calibrating())
+    if (calibration->is_calibrating() || guider->is_dithering())
         QTimer::singleShot(msecs+100, this, SLOT(capture()));
 
     return ST4Driver->doPulse(dir, msecs);
@@ -444,6 +454,13 @@ void Guide::stopRapidGuide()
 
     currentCCD->setRapidGuide(targetChip, false);
 
+}
+
+
+void Guide::dither()
+{
+   if (guider->is_dithering() == false)
+        guider->dither();
 }
 
 

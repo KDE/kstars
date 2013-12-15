@@ -1105,8 +1105,17 @@ void EkosManager::initGuide()
 
     if (captureProcess)
     {
+        // Guide Limits
         connect(guideProcess, SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
         connect(guideProcess, SIGNAL(newAxisDelta(int,double)), captureProcess, SLOT(setGuideDeviation(int,double)));
+
+        // Dithering
+        connect(guideProcess, SIGNAL(autoGuidingToggled(bool,bool)), captureProcess, SLOT(setAutoguiding(bool,bool)));
+        connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
+        connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(stopSequence()));
+        connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
+        connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
+
     }
 }
 

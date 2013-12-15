@@ -1373,4 +1373,14 @@
               <default>false</default>
           </entry>
     </group>
+    <group name="Guide">
+    <entry name="UseDither" type="Bool">
+        <label>Use Auto Dithering when guiding.</label>
+        <default>false</default>
+    </entry>
+    <entry name="DitherPixels" type="Double">
+       <label>How many pixels to move between subsequent exposures under auto dithering mode.</label>
+       <default>2</default>
+     </entry>
+    </group>
 </kcfg>

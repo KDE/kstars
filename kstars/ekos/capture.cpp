@@ -162,6 +162,9 @@ Capture::Capture()
     deviationDetected = false;
     deviation_axis[0]=deviation_axis[1]=0;
 
+    isAutoGuiding = false;
+    guideDither   = false;
+
     calibrationState = CALIBRATE_NONE;
 
     pi = new QProgressIndicator(this);
@@ -200,6 +203,7 @@ Capture::Capture()
     seqCurrentCount = 0;
     seqDelay = 0;
     useGuideHead = false;
+    guideDither = false;
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -570,9 +574,10 @@ void Capture::newFITS(IBLOB *bp)
         if (next_job)
             executeJob(next_job);
     }
+    else if (isAutoGuiding && guideDither)
+        emit exposureComplete();
     else
         seqTimer->start(seqDelay);
-
 
 }
 
@@ -619,6 +624,11 @@ void Capture::captureImage()
      }
 
 
+}
+
+void Capture::resumeCapture()
+{
+    seqTimer->start(seqDelay);
 }
 
 /*******************************************************************************/
@@ -1038,6 +1048,17 @@ void Capture::setGuideDeviation(int axis, double deviation)
         }
     }
 
+}
+
+void Capture::setGuideDither(bool enable)
+{
+    guideDither = enable;
+}
+
+void Capture::setAutoguiding(bool enable, bool isDithering)
+{
+    isAutoGuiding = enable;
+    guideDither   = isDithering;
 }
 
 }

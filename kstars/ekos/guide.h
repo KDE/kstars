@@ -73,11 +73,17 @@ public slots:
         void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
         bool capture();
         void viewerClosed();
+        void dither();
 
 signals:
         void newLog();
         void guideReady();
         void newAxisDelta(int axis, double deviation);
+        void autoGuidingToggled(bool, bool);
+        void ditherComplete();
+        void ditherFailed();
+        void ditherToggled(bool);
+
 
 private:
 

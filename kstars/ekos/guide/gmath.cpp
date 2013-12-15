@@ -75,6 +75,8 @@ cgmath::cgmath() : QObject()
 	reticle_orts[1] = Vector(0);
 	reticle_angle	= 0;
 
+    ditherRate[0] = ditherRate[1] = -1;
+
 	// overlays
 	memset( &overlays, 0, sizeof(overlays) );
 
@@ -425,7 +427,7 @@ double cgmath::precalc_proportional_gain( double g_rate )
 }
 
 
-bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y )
+bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y, int totalPulse )
 {
  double phi;
 
@@ -437,11 +439,24 @@ bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x,
 
 	 set_reticle_params( start_x, start_y, phi );
 
+     if (totalPulse > 0)
+     {
+          double x = end_x-start_x;
+          double y = end_y - start_y;
+          double len = sqrt(x*x + y*y);
+
+          ditherRate[GUIDE_RA] = totalPulse / len;
+
+          #ifdef GUIDE_LOG
+          kDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
+          #endif
+     }
+
  return true;
 }
 
 
-bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec)
+bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec, int totalPulse)
 {
  double phi_ra = 0;	 // angle calculated by GUIDE_RA drift
  double phi_dec = 0; // angle calculated by GUIDE_DEC drift
@@ -491,6 +506,30 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
          *swap_dec = do_increase ? false : true;
 
 	 set_reticle_params( start_ra_x, start_ra_y, phi );
+
+     if (totalPulse > 0)
+     {
+          double x = end_ra_x-start_ra_x;
+          double y = end_ra_y - start_ra_y;
+          double len = sqrt(x*x + y*y);
+
+          ditherRate[GUIDE_RA] = totalPulse / len;
+
+          #ifdef GUIDE_LOG
+          kDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
+          #endif
+
+          x = end_dec_x-start_dec_x;
+          y = end_dec_y - start_dec_y;
+          len = sqrt(x*x + y*y);
+
+          ditherRate[GUIDE_DEC] = totalPulse / len;
+
+          #ifdef GUIDE_LOG
+          kDebug() << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel" << endl;
+          #endif
+
+     }
 
  return true;
 }
@@ -1039,6 +1078,14 @@ void cgmath::setRapidGuide(bool enable)
     useRapidGuide = enable;
 }
 
+double cgmath::get_dither_rate(int axis)
+{
+    if (axis < 0 || axis > 1)
+        return -1;
+
+    return ditherRate[axis];
+}
+
 
 void cgmath::setRapidStarData(double dx, double dy)
 {
@@ -1094,7 +1141,6 @@ void cproc_out_params::reset( void )
 		sigma[k] 		= 0;
 	}
 }
-
 
 
 #include "gmath.moc"

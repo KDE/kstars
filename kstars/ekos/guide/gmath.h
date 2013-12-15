@@ -145,6 +145,7 @@ public:
     void set_buffer(float *buffer);
     void set_image(FITSView *image);
     FITSView *get_image() { return pimage; }
+    void set_preview_mode(bool enable) { preview_mode = enable;}
 	
 	ovr_params_t *prepare_overlays( void );
 	void move_square( double newx, double newy );
@@ -162,9 +163,10 @@ public:
     void set_lost_star(bool is_lost);
 	void do_processing( void );
 	static double precalc_proportional_gain( double g_rate );
-	bool calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y );
-    bool calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec);
+    bool calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y, int totalPulse=-1);
+    bool calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec, int totalPulse=-1);
 	double calc_phi( double start_x, double start_y, double end_x, double end_y ) const;
+    double get_dither_rate(int axis);
 
 signals:
     void newAxisDelta(int axis, double deviation);
@@ -219,6 +221,9 @@ private:
     // rapid guide
     bool useRapidGuide;
     double rapidDX, rapidDY;
+
+    // dithering
+    double ditherRate[2];
 	
 };
 

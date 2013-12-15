@@ -32,6 +32,7 @@ public:
     void guide( void );
     void start();
     void abort();
+    bool dither();
     void set_half_refresh_rate( bool is_half );
     bool is_guiding( void ) const;
     void set_math( cgmath *math );
@@ -40,6 +41,7 @@ public:
     void set_ready(bool enable) { is_ready = enable;}
     void set_target_chip(ISD::CCDChip *chip);
     bool isRapidGuide() { return useRapidGuide;}
+    bool is_dithering() { return isDithering; }
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -53,10 +55,13 @@ protected slots:
     void onRapidGuideChanged(bool enable);
     void onSubFrameClick(bool enable);
     void capture();
-
     void guideStarSelected(int x, int y);
-
 	void onStartStopButtonClick();
+
+signals:
+    void ditherComplete();
+    void ditherToggled(bool);
+    void autoGuidingToggled(bool, bool);
 
 private:
 	cgmath *pmath;
@@ -75,8 +80,7 @@ private:
     ISD::CCDChip *targetChip;
     int fx,fy,fw,fh;
     double ret_x, ret_y, ret_angle;
-
-
+    bool isDithering;
 
 private:
     Ui::guiderClass ui;

@@ -453,9 +453,9 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
             <item>
-             <layout class="QFormLayout" name="formLayout">
+             <layout class="QGridLayout" name="gridLayout_5">
               <item row="0" column="0">
                <widget class="QPushButton" name="captureB">
                 <property name="text">
@@ -503,9 +503,46 @@
               <item row="3" column="1">
                <widget class="QCheckBox" name="kfcg_useRapidGuide">
                 <property name="text">
-                 <string>Use Rapid Guide</string>
+                 <string>Rapid Guide</string>
                 </property>
                </widget>
+              </item>
+              <item row="4" column="0" colspan="2">
+               <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <item>
+                 <widget class="QCheckBox" name="kcfg_useDither">
+                  <property name="toolTip">
+                   <string>Subframe the image around the guide star</string>
+                  </property>
+                  <property name="text">
+                   <string>Dither</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="kcfg_ditherPixels">
+                  <property name="minimum">
+                   <double>0.100000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>10.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.100000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>2.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="l_22">
+                  <property name="text">
+                   <string>pixels</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>

@@ -154,12 +154,16 @@ public slots:
 
     void enableGuideLimits();
     void setGuideDeviation(int axis, double deviation);
+    void setGuideDither(bool enable);
+    void setAutoguiding(bool enable, bool isDithering);
+    void resumeCapture();
 
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const KFileItemList & items);
 
 signals:
         void newLog();
+        void exposureComplete();
 
 private:
 
@@ -203,6 +207,10 @@ private:
     // Guide Deviation
     bool deviationDetected;
     double deviation_axis[2];
+
+    // Dither
+    bool guideDither;
+    bool isAutoGuiding;
 
 };
 

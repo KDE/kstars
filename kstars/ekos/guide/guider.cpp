@@ -22,8 +22,11 @@
 
 #include "fitsviewer/fitsview.h"
 
+#include "Options.h"
+
 #define DRIFT_GRAPH_WIDTH	300
 #define DRIFT_GRAPH_HEIGHT	300
+#define MAX_DITHER_RETIRES  3
 
 rguider::rguider(Ekos::Guide *parent)
     : QWidget(parent)
@@ -81,6 +84,9 @@ rguider::rguider(Ekos::Guide *parent)
 
 	connect( ui.pushButton_StartStop, SIGNAL(clicked()), this, SLOT(onStartStopButtonClick()) );
 
+    connect( ui.kcfg_useDither, SIGNAL(toggled(bool)), this, SIGNAL(ditherToggled(bool)));
+
+
 	pmath = NULL;
 
 	// init drift widget
@@ -101,8 +107,10 @@ rguider::rguider(Ekos::Guide *parent)
 	is_started = false;
     is_ready   = false;
 	half_refresh_rate = false;
+    isDithering = false;
 
-    //fill_interface();
+    ui.kcfg_useDither->setChecked(Options::useDither());
+    ui.kcfg_ditherPixels->setValue(Options::ditherPixels());
 
 }
 
@@ -406,6 +414,10 @@ void rguider::onStartStopButtonClick()
 	// start
 	if( !is_started )
 	{
+
+        Options::setUseDither(ui.kcfg_useDither->isChecked());
+        Options::setDitherPixels(ui.kcfg_ditherPixels->value());
+
         if (pimage)
             disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
 
@@ -417,6 +429,8 @@ void rguider::onStartStopButtonClick()
 		is_started = true;
         if (useRapidGuide)
             pmain_wnd->startRapidGuide();
+
+        emit autoGuidingToggled(true, ui.kcfg_useDither->isChecked());
 
         pmain_wnd->capture();
 	}
@@ -433,6 +447,8 @@ void rguider::onStartStopButtonClick()
 
         if (useRapidGuide)
             pmain_wnd->stopRapidGuide();
+
+        emit autoGuidingToggled(false, ui.kcfg_useDither->isChecked());
 
 		is_started = false;
 	}
@@ -568,6 +584,72 @@ void rguider::abort()
     if (is_started == true)
         onStartStopButtonClick();
 }
+
+bool rguider::dither()
+{
+    static double targetX=0,targetY=0;
+    static unsigned int retries=0;
+
+    if (ui.kcfg_useDither->isChecked() == false)
+        return false;
+
+    double cur_x, cur_y, angle;
+    pmath->get_reticle_params(&cur_x, &cur_y, &angle);
+    pmath->get_star_screen_pos( &cur_x, &cur_y );
+
+    if (isDithering == false)
+    {
+        retries =0;
+        pmath->set_preview_mode(true);
+        targetChip->abortExposure();
+        double ditherPixels = ui.kcfg_ditherPixels->value();
+        int polarity = (rand() %2 == 0) ? 1 : -1;
+        double angle = ((double) rand() / RAND_MAX) * M_PI/2.0;
+        double x_msec = ditherPixels * cos(angle) * pmath->get_dither_rate(0);
+        double y_msec = ditherPixels * sin(angle) * pmath->get_dither_rate(1);
+
+        if (x_msec < 0)
+            x_msec = ui.spinBox_MinPulseRA->value();
+        if (y_msec < 0)
+            y_msec = ui.spinBox_MinPulseDEC->value();
+
+        isDithering = true;
+
+        if (polarity > 0)
+        {
+            targetX = cur_x + ditherPixels * cos(angle);
+            targetY = cur_y + ditherPixels * sin(angle);
+            pmain_wnd->do_pulse(RA_INC_DIR, x_msec, DEC_INC_DIR, y_msec);
+        }
+        else
+        {
+            targetX = cur_x - ditherPixels * cos(angle);
+            targetY = cur_y - ditherPixels * sin(angle);
+            pmain_wnd->do_pulse(RA_DEC_DIR, x_msec, DEC_DEC_DIR, y_msec);
+        }
+
+
+        return true;
+    }
+
+
+    if (fabs(cur_x - targetX) < 1 && fabs(cur_y - targetY) < 1)
+    {
+        pmath->set_preview_mode(false);
+        pmath->set_reticle_params(cur_x, cur_y, angle);
+
+        isDithering = false;
+
+        emit ditherComplete();
+    }
+    else if (++retries > MAX_DITHER_RETIRES)
+        return false;
+
+    pmain_wnd->capture();
+
+    return true;
+}
+
 
 
 
