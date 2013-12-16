@@ -33,8 +33,8 @@
 #include "widgets/dmsbox.h"
 
 modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
-        : QFrame(parentSplit) {
-
+        : QFrame(parentSplit)
+{
     setupUi(this);
     RA->setDegType(false);
 
@@ -50,13 +50,6 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
     connect(Dec,    SIGNAL(editingFinished()), this, SLOT(slotCompute()));
     connect(EcLong, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
     connect(EcLat,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
-
-    connect(ecLatCheckBatch, SIGNAL(clicked()), this, SLOT(slotEclLatCheckedBatch()));
-    connect(ecLongCheckBatch, SIGNAL(clicked()), this, SLOT(slotEclLongCheckedBatch()));
-    connect(epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
-    connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()));
-    connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()));
-    connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 
     this->show();
 }
@@ -116,187 +109,6 @@ void modCalcEclCoords::slotCompute(void) {
             EcLat->showInDegrees( elat );
         }
     }
-}
-
-void modCalcEclCoords::eclCheck() {
-
-    ecLatCheckBatch->setChecked(false);
-    ecLatBoxBatch->setEnabled(false);
-    ecLongCheckBatch->setChecked(false);
-    ecLongBoxBatch->setEnabled(false);
-    //	eclInputCoords = false;
-
-}
-
-void modCalcEclCoords::equCheck() {
-
-    raCheckBatch->setChecked(false);
-    raBoxBatch->setEnabled(false);
-    decCheckBatch->setChecked(false);
-    decBoxBatch->setEnabled(false);
-    //epochCheckBatch->setChecked(false);
-    //	eclInputCoords = true;
-
-}
-
-void modCalcEclCoords::slotRaCheckedBatch(){
-
-    if ( raCheckBatch->isChecked() ) {
-        raBoxBatch->setEnabled( false );
-        eclCheck();
-    } else {
-        raBoxBatch->setEnabled( true );
-    }
-}
-
-void modCalcEclCoords::slotDecCheckedBatch(){
-
-    if ( decCheckBatch->isChecked() ) {
-        decBoxBatch->setEnabled( false );
-        eclCheck();
-    } else {
-        decBoxBatch->setEnabled( true );
-    }
-}
-
-
-void modCalcEclCoords::slotEpochCheckedBatch(){
-    if ( epochCheckBatch->isChecked() ) {
-        epochBoxBatch->setEnabled( false );
-    } else {
-        epochBoxBatch->setEnabled( true );
-    }
-}
-
-
-void modCalcEclCoords::slotEclLatCheckedBatch(){
-
-    if ( ecLatCheckBatch->isChecked() ) {
-        ecLatBoxBatch->setEnabled( false );
-        equCheck();
-    } else {
-        ecLatBoxBatch->setEnabled( true );
-    }
-}
-
-void modCalcEclCoords::slotEclLongCheckedBatch(){
-
-    if ( ecLongCheckBatch->isChecked() ) {
-        ecLongBoxBatch->setEnabled( false );
-        equCheck();
-    } else {
-        ecLongBoxBatch->setEnabled( true );
-    }
-}
-
-void modCalcEclCoords::slotRunBatch() {
-
-    QString inputFileName = InputFileBoxBatch->url().toLocalFile();
-
-    // We open the input file and read its content
-
-    if ( QFile::exists(inputFileName) ) {
-        QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = i18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            inputFileName.clear();
-            return;
-        }
-
-        //		processLines(&f);
-        QTextStream istream(&f);
-        processLines(istream);
-        //		readFile( istream );
-        f.close();
-    } else  {
-        QString message = i18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-        inputFileName.clear();
-        InputFileBoxBatch->setUrl( inputFileName );
-        return;
-    }
-}
-
-void modCalcEclCoords::processLines( QTextStream &istream ) {
-
-    // we open the output file
-
-    //	QTextStream istream(&fIn);
-    QString outputFileName = OutputFileBoxBatch->url().toLocalFile();
-    QFile fOut( outputFileName );
-    fOut.open(QIODevice::WriteOnly); // TODO error checking
-    QTextStream ostream(&fOut);
-
-    QString line;
-    QChar space = ' ';
-    int i = 0;
-    SkyPoint sp;
-    dms raB, decB, eclLatB, eclLongB;
-    QString epoch0B;
-
-    while ( ! istream.atEnd() ) {
-        line = istream.readLine();
-        line.trimmed();
-
-        //Go through the line, looking for parameters
-
-        QStringList fields = line.split( ' ' );
-
-        i = 0;
-
-        // Read RA and write in ostream if corresponds
-
-        if(raCheckBatch->isChecked() ) {
-            raB = dms::fromString( fields[i],false);
-            i++;
-        } else
-            raB = raBoxBatch->createDms(false);
-
-        if ( allRadioBatch->isChecked() )
-            ostream << raB.toHMSString() << space;
-        else
-            if(raCheckBatch->isChecked() )
-                ostream << raB.toHMSString() << space;
-
-        // Read DEC and write in ostream if corresponds
-
-        if(decCheckBatch->isChecked() ) {
-            decB = dms::fromString( fields[i], true);
-            i++;
-        } else
-            decB = decBoxBatch->createDms();
-
-        if ( allRadioBatch->isChecked() )
-            ostream << decB.toDMSString() << space;
-        else
-            if(decCheckBatch->isChecked() )
-                ostream << decB.toDMSString() << space;
-
-        // Read Epoch and write in ostream if corresponds
-
-        if(epochCheckBatch->isChecked() ) {
-            epoch0B = fields[i];
-            i++;
-        } else
-            epoch0B = epochBoxBatch->text();
-
-        if ( allRadioBatch->isChecked() )
-            ostream << epoch0B << space;
-        else
-            if(epochCheckBatch->isChecked() )
-                ostream << epoch0B << space;
-
-        sp = SkyPoint (raB, decB);
-        KStarsDateTime dt;
-        dt.setFromEpoch( epoch0B );
-        KSNumbers *num = new KSNumbers( dt.djd() );
-        sp.findEcliptic(num->obliquity(), eclLongB, eclLatB);
-        ostream << eclLongB.toDMSString() << space << eclLatB.toDMSString() << endl;
-        delete num;
-    }
-
-    fOut.close();
 }
 
 #include "modcalceclipticcoords.moc"

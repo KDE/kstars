@@ -42,19 +42,7 @@ public slots:
     void slotObject(void);
     void slotDateTimeChanged(const QDateTime &edt);
     void slotCompute(void);
-
-    void slotEclLatCheckedBatch(void);
-    void slotEclLongCheckedBatch(void);
-    void slotRaCheckedBatch(void);
-    void slotDecCheckedBatch(void);
-    void slotEpochCheckedBatch(void);
-    void slotRunBatch();
-
 private:
-    void equCheck(void);
-    void eclCheck(void);
-    void processLines( QTextStream &is );
-
     KStarsDateTime kdt;
 };
 #endif
