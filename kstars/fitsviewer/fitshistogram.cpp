@@ -106,7 +106,6 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     }
 
     binWidth = ((double) hist_width / (double) pixel_range);
-    //binRoundSize = (int) floor(binSize);
 
     #ifdef HIST_LOG
     qDebug() << "Hist Array is now " << hist_width << " wide..., pixel range is " << pixel_range << " Bin width is " << binWidth << endl;
@@ -124,7 +123,6 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
         else if (id < 0)
             id=0;
 
-        //histArray[id]++;
         histArray[id]++;
     }
 
@@ -133,24 +131,22 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
         for (int j=0; j <= i; j++)
             cumulativeFreq[i] += histArray[j];
 
+    int maxIntensity=0;
+    int maxFrequency=histArray[0];
+    for (int i=0; i < hist_width; i++)
+    {
+        if (histArray[i] > maxFrequency)
+        {
+            maxIntensity = i;
+            maxFrequency = histArray[i];
+        }
+    }
 
-     mean = (image_data->getAverage()-fits_min)*binWidth;
-     mean_p_std = (image_data->getAverage()-fits_min+image_data->getStdDev()*3)*binWidth;
 
-    // Indicator of information content of an image in a typical star field.
-    JMIndex = mean_p_std - mean;
-
-
-    #ifdef HIST_LOG
-    qDebug() << "Mean " << mean << " , mean plus std " << mean_p_std << " JMIndex " << JMIndex << endl;
-    #endif
-
-    // Reject diffuse images by setting JMIndex to zero.
-    if (mean && image_data->getMode() == FITS_NORMAL && mean_p_std / mean < 2)
-        JMIndex =0;
+    JMIndex = (double) maxIntensity / (double) hist_width;
 
     #ifdef HIST_LOG
-    qDebug() << "Final JMIndex " << JMIndex << endl;
+    qDebug() << "maxIntensity " << maxIntensity <<  " JMIndex " << JMIndex << endl;
     #endif
 
     // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
@@ -162,7 +158,6 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     updateBoxes(fits_min, fits_max);
 
     ui->histFrame->update();
-
 }
 
 void FITSHistogram::updateBoxes(int lower_limit, int upper_limit)

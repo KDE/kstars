@@ -46,12 +46,11 @@
 
 const int MINIMUM_ROWS_PER_CENTER=3;
 
-#define JM_LOWER_LIMIT  5
-#define JM_UPPER_LIMIT  500
+#define JM_UPPER_LIMIT  .8
 
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10
-#define DIFFUSE_THRESHOLD   50
+#define DIFFUSE_THRESHOLD   0.2
 
 //#define FITS_DEBUG
 
@@ -998,7 +997,7 @@ int FITSImage::findStars()
         qDeleteAll(starCenters);
         starCenters.clear();
 
-        if (histogram->getJMIndex() > JM_LOWER_LIMIT && histogram->getJMIndex() < JM_UPPER_LIMIT)
+        if (histogram->getJMIndex() < JM_UPPER_LIMIT)
         {
              findCentroid();
              getHFR();

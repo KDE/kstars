@@ -61,7 +61,6 @@ public:
     void applyFilter(FITSScale ftype);
     double getBinWidth() { return binWidth; }
     double getJMIndex() { return JMIndex; }
-    int getMeanStdDev() { return mean_p_std;}
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getCumulativeFreq() { return cumulativeFreq; }
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getHistogram() { return histArray; }
 
@@ -79,8 +78,6 @@ private:
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq;
     double JMIndex;
-    int mean;
-    int mean_p_std;
 
 public slots:
     void applyScale();
