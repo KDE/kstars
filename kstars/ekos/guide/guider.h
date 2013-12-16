@@ -53,7 +53,6 @@ protected slots:
 	void onEnableDirDEC( int state );
 	void onInputParamChanged();
     void onRapidGuideChanged(bool enable);
-    void onSubFrameClick(bool enable);
     void capture();
     void guideStarSelected(int x, int y);
 	void onStartStopButtonClick();
@@ -73,6 +72,7 @@ private:
     FITSView *pimage;
 	bool is_started;
     bool is_ready;
+    bool is_subframed;
     bool first_frame;
 	bool half_refresh_rate;
     int lost_star_try;

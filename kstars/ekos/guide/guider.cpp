@@ -43,8 +43,9 @@ rguider::rguider(Ekos::Guide *parent)
 
     useRapidGuide = false;
     first_frame = false;
+    is_subframed = false;
 
-    lost_star_try=0;
+    lost_star_try=0;       
 
 	ui.comboBox_SquareSize->clear();
 	for( i = 0;guide_squares[i].size != -1;++i )
@@ -78,7 +79,6 @@ rguider::rguider(Ekos::Guide *parent)
 	connect( ui.spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
     connect( ui.kfcg_useRapidGuide,     SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
-    connect( ui.kfcg_guideSubFrame,     SIGNAL(toggled(bool)), this, SLOT(onSubFrameClick(bool)));
 
     connect(ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
@@ -366,45 +366,6 @@ void rguider::set_target_chip(ISD::CCDChip *chip)
 
 }
 
-void rguider::onSubFrameClick(bool enable)
-{
-    if (targetChip == NULL)
-        return;
-
-    if (enable)
-    {
-        int x,y,w,h, square_size, binx, biny;
-        targetChip->getBinning(&binx, &biny);
-        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
-        square_size = pmath->get_square_size();
-        x = ret_x - square_size*2*binx ;
-        y = ret_y - square_size*2*biny;
-        w=square_size*4*binx;
-        h=square_size*4*biny;
-
-        first_frame = true;
-
-        if (x<0)
-            x=0;
-        if (y<0)
-            y=0;
-        if (w>fw)
-            w=fw;
-        if (h>fh)
-            h=fh;
-
-        pmath->set_video_params(w, h);
-
-        targetChip->setFrame(x, y, w, h);
-    }
-    else
-    {
-        first_frame = false;
-        targetChip->setFrame(fx, fy, fw, fh);
-    }
-
-}
-
 // processing stuff
 void rguider::onStartStopButtonClick()
 {
@@ -432,7 +393,10 @@ void rguider::onStartStopButtonClick()
 
         emit autoGuidingToggled(true, ui.kcfg_useDither->isChecked());
 
-        pmain_wnd->capture();
+        if (ui.kfcg_guideSubFrame->isChecked() && is_subframed == false)
+            first_frame = true;
+
+        capture();
 	}
 	// stop
 	else
@@ -456,6 +420,38 @@ void rguider::onStartStopButtonClick()
 
 void rguider::capture()
 {
+    if (ui.kfcg_guideSubFrame->isChecked() && is_subframed == false)
+    {
+        int x,y,w,h, square_size, binx, biny;
+        targetChip->getBinning(&binx, &biny);
+        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
+        square_size = pmath->get_square_size();
+        x = ret_x - square_size*2;
+        y = ret_y - square_size*2;
+        w=square_size*4*binx;
+        h=square_size*4*biny;
+
+        is_subframed = true;
+
+        if (x<0)
+            x=0;
+        if (y<0)
+            y=0;
+        if (w>fw)
+            w=fw;
+        if (h>fh)
+            h=fh;
+
+        pmath->set_video_params(w, h);
+
+        targetChip->setFrame(x, y, w, h);
+    }
+    else if (ui.kfcg_guideSubFrame->isChecked() == false && is_subframed == true)
+    {
+        is_subframed = false;
+        targetChip->setFrame(fx, fy, fw, fh);
+    }
+
     pmain_wnd->capture();
 }
 
@@ -469,7 +465,7 @@ void rguider::guide( void )
 
  	 assert( pmath );
 
-     if (first_frame && ui.kfcg_guideSubFrame->isChecked())
+     if (first_frame)
      {
         int x,y,w,h;
         targetChip->getFrame(&x, &y, &w, &h);
