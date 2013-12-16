@@ -42,25 +42,9 @@ public slots:
     void slotObject();
     void slotDateTimeChanged(const QDateTime&);
 
-    void slotUtChecked();
-    void slotDateChecked();
-    void slotRaChecked();
-    void slotDecChecked();
-    void slotEpochChecked();
-    void slotLongChecked();
-    void slotLatChecked();
-    void slotAzChecked();
-    void slotElChecked();
-    void slotRunBatch();
-
 private:
-    void horNoCheck();
-    void equNoCheck();
-    void processLines( QTextStream &istream );
-
     GeoLocation *geoPlace;
     dms LST;
-    bool horInputCoords;
 };
 
 #endif
