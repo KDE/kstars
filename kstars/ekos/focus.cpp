@@ -608,7 +608,9 @@ void Focus::autoFocusAbs(double currentHFR)
                      else
                          targetPulse = pulseStep - pulseDuration;
 
+                     #ifdef FOCUS_DEBUG
                      qDebug() << "Proceeding iteratively to next target pulse ..." << endl;
+                     #endif
                 }
 
                 #ifdef FOCUS_DEBUG
