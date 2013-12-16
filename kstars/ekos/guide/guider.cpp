@@ -467,13 +467,14 @@ void rguider::guide( void )
 
      if (first_frame)
      {
-        int x,y,w,h;
+        int x,y,w,h,binx, biny;
         targetChip->getFrame(&x, &y, &w, &h);
+        targetChip->getBinning(&binx, &biny);
         int square_size = pmath->get_square_size();
         double ret_x,ret_y,ret_angle;
         pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
-        pmath->move_square((w-square_size)/2, (h-square_size)/2);
-        pmath->set_reticle_params(w/2, h/2, ret_angle);
+        pmath->move_square((w-square_size)/(2*binx), (h-square_size)/(2*biny));
+        pmath->set_reticle_params(w/(2*binx), h/(2*biny), ret_angle);
         first_frame = false;
      }
 
