@@ -496,10 +496,7 @@ void rguider::guide( void )
 	 // do pulse
 	 out = pmath->get_out_params();
 
-
-     //qDebug() << "Guide is sending pulse command now ... " << endl;
      pmain_wnd->do_pulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
-     //qDebug() << "#######################################" << endl;
 
      if (isDithering)
          return;
@@ -592,8 +589,8 @@ bool rguider::dither()
     if (ui.kcfg_useDither->isChecked() == false)
         return false;
 
-    double cur_x, cur_y, angle;
-    pmath->get_reticle_params(&cur_x, &cur_y, &angle);
+    double cur_x, cur_y, ret_angle;
+    pmath->get_reticle_params(&cur_x, &cur_y, &ret_angle);
     pmath->get_star_screen_pos( &cur_x, &cur_y );
     Matrix ROT_Z = pmath->get_ROTZ();
 
@@ -621,7 +618,7 @@ bool rguider::dither()
 
         //kDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
 
-        pmath->set_reticle_params(target_pos.x, target_pos.y, angle);
+        pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 
         guide();
 
@@ -641,7 +638,7 @@ bool rguider::dither()
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
-        pmath->set_reticle_params(cur_x, cur_y, angle);
+        pmath->set_reticle_params(cur_x, cur_y, ret_angle);
 
         isDithering = false;
 

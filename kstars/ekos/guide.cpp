@@ -345,7 +345,7 @@ bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_di
     if (ST4Driver == NULL || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
-    if (calibration->is_calibrating() || guider->is_dithering())
+    if (calibration->is_calibrating())
         QTimer::singleShot( (ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100, this, SLOT(capture()));
 
     return ST4Driver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
@@ -356,7 +356,7 @@ bool Guide::do_pulse( GuideDirection dir, int msecs )
     if (ST4Driver == NULL || dir==NO_DIR)
         return false;
 
-    if (calibration->is_calibrating() || guider->is_dithering())
+    if (calibration->is_calibrating())
         QTimer::singleShot(msecs+100, this, SLOT(capture()));
 
     return ST4Driver->doPulse(dir, msecs);
