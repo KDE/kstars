@@ -238,7 +238,7 @@ bool Guide::capture()
     targetChip->setFrameType(ccdFrame);
 
     if (guider->is_guiding())
-    {    
+    {
          if (guider->isRapidGuide() == false)
              connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
@@ -289,7 +289,7 @@ void Guide::newFITS(IBLOB *bp)
         pmath->do_processing();
         if (guider->dither() == false)
         {
-            appendLogText(i18n("Dithering failed. Autoguding aborted."));
+            appendLogText(i18n("Dithering failed. Autoguiding aborted."));
             guider->abort();
             emit ditherFailed();
         }
