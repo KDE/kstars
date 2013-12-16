@@ -70,14 +70,13 @@ void modCalcEclCoords::slotNow() {
 }
 
 void modCalcEclCoords::slotObject() {
-    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
-    if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->selectedObject();
+    FindDialog fd(KStars::Instance());
+    if ( fd.exec() == QDialog::Accepted ) {
+        SkyObject *o = fd.selectedObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotCompute();
     }
-    delete fd;
 }
 
 void modCalcEclCoords::slotDateTimeChanged(const QDateTime &edt) {
