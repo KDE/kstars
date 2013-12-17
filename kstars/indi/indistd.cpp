@@ -130,8 +130,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
            }
            break;
 
-        case KSTARS_CCD:
-            //qDebug() << "device port for CCD!!!!!" << endl;
+        case KSTARS_VIDEO:
             if (Options::videoPort().isEmpty() == false)
             {
                 IText *tp = IUFindText(prop->getText(), "PORT");
