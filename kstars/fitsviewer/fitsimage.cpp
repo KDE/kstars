@@ -46,7 +46,7 @@
 
 const int MINIMUM_ROWS_PER_CENTER=3;
 
-#define JM_UPPER_LIMIT  .8
+#define JM_UPPER_LIMIT  .5
 
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10
@@ -160,6 +160,13 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
     {
         if (progress)
             KMessageBox::error(0, i18n("1D FITS images are not supported in KStars."), i18n("FITS Open"));
+        return false;
+    }
+
+    if (naxes[0] == 0 || naxes[1] == 0)
+    {
+        if (progress)
+            KMessageBox::error(0, i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[2]), i18n("FITS Open"));
         return false;
     }
 
@@ -305,6 +312,10 @@ int FITSImage::saveFITS( const QString &newFilename )
     filename = newFilename;
 
     fptr = new_fptr;
+
+    // For color images, we return for now.
+    if (stats.ndim > 2)
+        return status;
 
     /* Write Data */
     if (fits_write_pix(fptr, TFLOAT, fpixel, nelements, image_buffer, &status))
