@@ -20,6 +20,7 @@
 #define SKYOBJITEM_H
 
 #include "skyobject.h"
+#include "skyobjdescription.h"
 
 /**
  * \class SkyObjItem
@@ -46,6 +47,11 @@ public:
      * \param so Pointer to the SkyObject which the SkyObjItem represents.
      */
     SkyObjItem(SkyObject *so = 0);
+
+    /**
+     * \brief Destructor
+     */
+    ~SkyObjItem();
 
     /**
      * \brief Get data associated with a particular role for the SkyObjItem
@@ -141,6 +147,7 @@ private:
     QString m_Position;  ///Position of sky-object in the sky.
     Type m_Type;         ///Category of sky-object of type SkyObjItem::Type
     SkyObject* m_So;     ///Pointer to SkyObject represented by SkyObjItem
+    SkyObjDescription* skd; /// pointer to SkyObjDescription
 };
 
 #endif

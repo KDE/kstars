@@ -22,7 +22,7 @@
 #include "skyobjitem.h"
 #include "ksutils.h"
 
-SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so)
+SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so), skd(NULL)
 {
     switch (so->type())
     {
@@ -30,27 +30,38 @@ SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_LongName(so->longn
         m_Type = Planet;
         break;
     case SkyObject::STAR:
+        skd = new SkyObjDescription(m_Name, m_TypeName);
         m_Type = Star;
         break;
     case SkyObject::CONSTELLATION:
+        skd = new SkyObjDescription(m_Name, m_TypeName);
         m_Type = Constellation;
         break;
     case SkyObject::GALAXY:
+        skd = new SkyObjDescription(m_LongName, "");
         m_Type = Galaxy;
         break;
     case SkyObject::OPEN_CLUSTER:
     case SkyObject::GLOBULAR_CLUSTER:
     case SkyObject::GALAXY_CLUSTER:
+        if(m_Name.contains("NGC", Qt::CaseInsensitive))
+            skd = new SkyObjDescription(m_Name, "");
         m_Type = Cluster;
         break;
     case SkyObject::PLANETARY_NEBULA:
     case SkyObject::GASEOUS_NEBULA:
     case SkyObject::DARK_NEBULA:
+        if(m_Name.contains("NGC", Qt::CaseInsensitive))
+            skd = new SkyObjDescription(m_Name, "");
         m_Type = Nebula;
         break;
     }
 
     setPosition(m_So);
+}
+
+SkyObjItem::~SkyObjItem(){
+    delete skd;
 }
 
 QVariant SkyObjItem::data(int role)
@@ -112,16 +123,18 @@ QString SkyObjItem::getDesc() const
             }
         }
     }
-    else if (m_Type == Star)
+
+    if(skd)
     {
-        return i18n("Bright Star");
-    }
-    else if (m_Type == Constellation)
-    {
-        return i18n("Constellation");
+        if(skd->downloadedData() != "")
+            return skd->downloadedData();
     }
 
+    if(m_Type == Star)
+        return i18n("Bright Star");
+
     return getTypeName();
+
 }
 
 QString SkyObjItem::getDescSource()
@@ -130,6 +143,13 @@ QString SkyObjItem::getDescSource()
     {
         return i18n("(Source: Wikipedia)");
     }
+
+    if(skd)
+    {
+        if(skd->downloadedData() != "")
+            return i18n("(Source: Wikipedia)");
+    }
+
     return i18n("(Source: N/A)");
 }
 

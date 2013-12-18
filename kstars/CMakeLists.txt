@@ -157,6 +157,7 @@ set(libkstarstools_SRCS
 	tools/whatsinteresting/wilpsettings.cpp
 	tools/whatsinteresting/wiequipsettings.cpp
 	tools/whatsinteresting/obsconditions.cpp
+        tools/whatsinteresting/skyobjdescription.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
