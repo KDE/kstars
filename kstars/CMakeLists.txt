@@ -13,13 +13,13 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp
     fitsviewer/fitstab.cpp
-)
+    )
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui
     fitsviewer/statform.ui
     indi/streamform.ui
     fitsviewer/fitshistogramui.ui
-)
+    )
   include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
 
