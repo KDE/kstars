@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>501</width>
-    <height>358</height>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -16,7 +16,7 @@
     <height>0</height>
    </size>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
@@ -137,7 +137,7 @@
      <property name="title">
       <string>Calibration Options</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -263,6 +263,16 @@
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_DarkFrame">
+        <property name="text">
+         <string>Use Dark Frame</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </item>

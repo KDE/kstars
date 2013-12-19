@@ -38,7 +38,10 @@ Guide::Guide() : QWidget()
     currentTelescope = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
     useGuideHead = false;
+    useDarkFrame = false;
     rapidGuideReticleSet = false;
+    darkExposure = 0;
+    darkImage = NULL;
 
     tabWidget = new QTabWidget(this);
 
@@ -233,6 +236,22 @@ bool Guide::capture()
         return false;
     }
 
+    // Exposure changed, take a new dark
+    if (useDarkFrame && darkExposure != seqExpose)
+    {
+        darkExposure = seqExpose;
+        targetChip->setFrameType(FRAME_DARK);
+
+        KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
+
+        connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+        targetChip->capture(seqExpose);
+
+        appendLogText(i18n("Taking a dark frame. "));
+
+        return true;
+    }
+
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
     targetChip->setFrameType(ccdFrame);
@@ -261,6 +280,22 @@ void Guide::newFITS(IBLOB *bp)
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    // Received a dark calibration frame
+    if (targetChip->getFrameType() == FRAME_DARK)
+    {
+        FITSView *targetImage = targetChip->getImage(FITS_CALIBRATE);
+        if (targetImage)
+        {
+            darkImage = targetImage->getImageData();
+            capture();
+        }
+        else
+            appendLogText(i18n("Dark frame processing failed."));
+
+       return;
+    }
+
     FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
 
     if (targetImage == NULL)
@@ -275,6 +310,9 @@ void Guide::newFITS(IBLOB *bp)
 
     if (image_data == NULL)
         return;
+
+    if (darkImage)
+        image_data->subtract(darkImage->getImageBuffer());
 
     image_data->findStars();
 

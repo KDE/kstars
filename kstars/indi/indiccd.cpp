@@ -298,10 +298,12 @@ bool CCDChip::setFrameType(const QString & name)
 
 bool CCDChip::setFrameType(CCDFrameType fType)
 {
-    if (type == GUIDE_CCD)
-        return false;
+    ISwitchVectorProperty *frameProp = NULL;
 
-    ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
+    if (type == PRIMARY_CCD)
+        frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
+    else
+        frameProp = baseDevice->getSwitch("GUIDE_FRAME_TYPE");
     if (frameProp == NULL)
         return false;
 
@@ -337,11 +339,13 @@ CCDFrameType CCDChip::getFrameType()
 {
 
     CCDFrameType fType = FRAME_LIGHT;
+    ISwitchVectorProperty *frameProp = NULL;
 
-    if (type == GUIDE_CCD)
-        return fType;
+    if (type == PRIMARY_CCD)
+        frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
+    else
+        frameProp = baseDevice->getSwitch("GUIDE_FRAME_TYPE");
 
-    ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
     if (frameProp == NULL)
         return fType;
 
@@ -354,7 +358,6 @@ CCDFrameType CCDChip::getFrameType()
         qDebug() << "Cannot find active frame in CCD!" << endl;
         return fType;
     }
-
 
     if (!strcmp(ccdFrame->name, "FRAME_LIGHT"))
         fType = FRAME_LIGHT;

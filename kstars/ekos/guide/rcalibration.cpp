@@ -73,6 +73,8 @@ rcalibration::rcalibration(Ekos::Guide *parent)
     connect( ui.pushButton_StartCalibration, SIGNAL(clicked()), 		this, SLOT(onStartReticleCalibrationButtonClick()) );
 	connect( ui.checkBox_AutoMode, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
 
+    connect (ui.checkBox_DarkFrame, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
+
     connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
     idleColor.setRgb(200,200,200);
@@ -263,6 +265,8 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 
     ui.progressBar->setVisible(true);
 
+    pmain_wnd->setUseDarkFrame(ui.checkBox_DarkFrame->isChecked());
+
 	// automatic
 	if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
         calibrate_reticle_by_ra_dec(false);
@@ -290,7 +294,7 @@ void rcalibration::process_calibration()
         break;
 
         case CAL_MANUAL:
-            //calibrate_reticle_manual();
+            calibrate_reticle_manual();
             break;
 
         case CAL_RA_AUTO:

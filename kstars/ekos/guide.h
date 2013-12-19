@@ -27,6 +27,7 @@ class QTabWidget;
 class cgmath;
 class rcalibration;
 class rguider;
+class FITSImage;
 
 namespace Ekos
 {
@@ -71,6 +72,7 @@ public slots:
         void newFITS(IBLOB*);
         void newST4(int index);
         void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
+        void setUseDarkFrame(bool enable) { useDarkFrame = enable;}
         bool capture();
         void viewerClosed();
         void dither();
@@ -104,6 +106,11 @@ private:
     rguider *guider;
 
     bool useGuideHead;
+
+
+    bool useDarkFrame;
+    double darkExposure;
+    FITSImage *darkImage;
 
     QStringList logText;
 
