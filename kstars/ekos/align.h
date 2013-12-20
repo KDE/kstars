@@ -20,9 +20,12 @@
 #include "indi/inditelescope.h"
 #include "indi/indistd.h"
 
-
 namespace Ekos
 {
+
+class AstrometryParser;
+class OnlineAstrometryParser;
+class OfflineAstrometryParser;
 
 class Align : public QWidget, public Ui::Align
 {
@@ -45,12 +48,14 @@ public:
     void startSovling(const QString &filename);
     void appendLogText(const QString &);
     void clearLog();
-    bool astrometryNetOK();
+    bool parserOK();
+    bool isVerbose();
+
     QString getLogText() { return logText.join("\n"); }
 
 public slots:
 
-    void logSolver();
+
     void updateScopeCoords(INumberVectorProperty *coord);
     void checkCCD(int CCDNum);
     void newFITS(IBLOB *bp);
@@ -58,8 +63,9 @@ public slots:
     /* Solver */
     bool capture();
     void stopSolving();
-    void solverComplete(int exist_status);
-    void wcsinfoComplete(int exist_status);
+    void solverFinished(double orientation, double ra, double dec);
+    void solverFailed();
+    void updateSolverType(bool useOnline);
 
     /* Solver Options */
     void checkLineEdits();
@@ -79,8 +85,6 @@ signals:
 
 private:
     void calculateFOV();
-    void verifyIndexFiles();
-    bool getAstrometryDataDir(QString &dataDir);
     void executeMode();
     void executeGOTO();
     void executePolarAlign();
@@ -107,19 +111,22 @@ private:
     SkyPoint telescopeCoord;
 
     QProgressIndicator *pi;
-    QProcess solver;
-    QProcess wcsinfo;
-    QTime solverTimer;
-    QString fitsFile;
 
+
+    QTime solverTimer;
     AZStage azStage;
     ALTStage altStage;
     double azDeviation, altDeviation;
     double decDeviation;
-    QMap<float, QString> astrometryIndex;
 
     static const double RAMotion;
     static const float SIDRATE;
+
+    AstrometryParser *parser;
+    #ifdef HAVE_QJSON
+    OnlineAstrometryParser *onlineParser;
+    #endif
+    OfflineAstrometryParser *offlineParser;
 
 
 };

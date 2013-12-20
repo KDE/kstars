@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>713</width>
-    <height>530</height>
+    <width>808</width>
+    <height>532</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_12">
+    <layout class="QHBoxLayout" name="horizontalLayout_13">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -393,14 +393,61 @@
          </layout>
         </item>
         <item>
-         <widget class="QCheckBox" name="kcfg_solverUpdateCoords">
-          <property name="statusTip">
-           <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
-          </property>
-          <property name="text">
-           <string>Update Coordinates After Slew</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QCheckBox" name="kcfg_solverUpdateCoords">
+            <property name="statusTip">
+             <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
+            </property>
+            <property name="text">
+             <string>Update Coordinates After Slew</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="solverVerbose">
+            <property name="toolTip">
+             <string>Log verbose solver output</string>
+            </property>
+            <property name="statusTip">
+             <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
+            </property>
+            <property name="text">
+             <string>Verbose</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="kcfg_onlineSolver">
+            <property name="text">
+             <string>Online Solver</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="kcfg_offlineSolver">
+            <property name="text">
+             <string>Offline Solver</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer_7">
@@ -418,7 +465,10 @@
        </layout>
        <zorder>verticalSpacer_7</zorder>
        <zorder>kcfg_solverUpdateCoords</zorder>
-       <zorder>horizontalSpacer_3</zorder>
+       <zorder>kcfg_onlineSolver</zorder>
+       <zorder>kcfg_offlineSolver</zorder>
+       <zorder>horizontalSpacer_4</zorder>
+       <zorder>solverVerbose</zorder>
       </widget>
      </item>
     </layout>

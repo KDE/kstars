@@ -46,6 +46,11 @@ macro_optional_find_package(AstrometryNet)
 macro_bool_to_01(ASTROMETRYNET_FOUND HAVE_ASTROMETRYNET)
 macro_log_feature(ASTROMETRYNET_FOUND "astrometry.net" "Support for astrometry solver in KStars." "http://www.astrometry.net" FALSE "" "Astrometry.net enables KStars to achieve sub-arcsecond GOTO tracking and determines polar alignment errors in the mount.")
 
+# Temporary dependency until we move to Qt5 which has native support for JSon.
+macro_optional_find_package(QJSON)
+macro_bool_to_01(QJSON_FOUND HAVE_QJSON)
+macro_log_feature(QJSON_FOUND "QJSon Library" "Support for online astrometry solver in KStars using web services." "http://qjson.sourceforge.net" FALSE "" "QJSon enables KStars to utilize online web services to perform astrometric solving for images in Ekos alignment module.")
+
 macro_optional_find_package(Xplanet)
 macro_bool_to_01(XPLANET_FOUND HAVE_XPLANET)
 macro_log_feature(XPLANET_FOUND "XPlanet"

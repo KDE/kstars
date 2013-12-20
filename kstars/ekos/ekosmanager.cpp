@@ -1012,7 +1012,7 @@ void EkosManager::updateLog()
     {
         if (alignProcess->isEnabled() == false)
         {
-            if (alignProcess->astrometryNetOK())
+            if (alignProcess->parserOK())
                 alignProcess->setEnabled(true);
         }
 

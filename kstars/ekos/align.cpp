@@ -7,7 +7,6 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <unistd.h>
 #include <config-kstars.h>
 #include <QProcess>
 
@@ -27,6 +26,11 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
 
+#ifdef HAVE_QJSON
+#include "onlineastrometryparser.h"
+#endif
+#include "offlineastrometryparser.h"
+
 #include <basedevice.h>
 
 namespace Ekos
@@ -43,6 +47,11 @@ Align::Align()
 
     currentCCD     = NULL;
     currentTelescope = NULL;
+    parser = NULL;
+    #ifdef HAVE_QJSON
+    onlineParser = NULL;
+    #endif
+    offlineParser = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
     decDeviation = azDeviation = altDeviation = 0;
     useGuideHead = false;
@@ -81,36 +90,38 @@ Align::Align()
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
 
-    astrometryIndex[2.8] = "index-4200";
-    astrometryIndex[4.0] = "index-4201";
-    astrometryIndex[5.6] = "index-4202";
-    astrometryIndex[8] = "index-4203";
-    astrometryIndex[11] = "index-4204";
-    astrometryIndex[16] = "index-4205";
-    astrometryIndex[22] = "index-4206";
-    astrometryIndex[30] = "index-4207";
-    astrometryIndex[42] = "index-4208";
-    astrometryIndex[60] = "index-4209";
-    astrometryIndex[85] = "index-4210";
-    astrometryIndex[120] = "index-4211";
-    astrometryIndex[170] = "index-4212";
-    astrometryIndex[240] = "index-4213";
-    astrometryIndex[340] = "index-4214";
-    astrometryIndex[480] = "index-4215";
-    astrometryIndex[680] = "index-4216";
-    astrometryIndex[1000] = "index-4217";
-    astrometryIndex[1400] = "index-4218";
-    astrometryIndex[2000] = "index-4219";
+    #ifndef HAVE_QJSON
+    kcfg_onlineSolver->setChecked(false);
+    kcfg_onlineSolver->setEnabled(false);
+    #else
+    kcfg_onlineSolver->setChecked(Options::solverOnline());
+    #endif
 
-    if (astrometryNetOK() == false)
+    kcfg_offlineSolver->setChecked(Options::solverOnline() == false);
+    connect(kcfg_onlineSolver, SIGNAL(toggled(bool)), SLOT(updateSolverType(bool)));
+
+
+    if (kcfg_onlineSolver->isChecked())
     {
-        KMessageBox::information(NULL, i18n("Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
-                                 i18n("Missing astrometry files"), "missing_astrometry_binaries_warning");
-
-        setEnabled(false);
-
+        #ifdef HAVE_QJSON
+        onlineParser = new Ekos::OnlineAstrometryParser();
+        parser = onlineParser;
+        #endif
+    }
+    else
+    {
+        offlineParser = new OfflineAstrometryParser();
+        parser = offlineParser;
     }
 
+    parser->setAlign(this);
+    if (parser->init() == false)
+        setEnabled(false);
+    else
+    {
+        connect(parser, SIGNAL(solverFinished(double,double,double)), this, SLOT(solverFinished(double,double,double)));
+        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
+    }
 
 }
 
@@ -119,6 +130,62 @@ Align::~Align()
     delete(pi);
 }
 
+bool Align::parserOK()
+{
+    bool rc = parser->init();
+
+    if (rc)
+    {
+        connect(parser, SIGNAL(solverFinished(double,double,double)), this, SLOT(solverFinished(double,double,double)));
+        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
+    }
+
+    return rc;
+}
+
+bool Align::isVerbose()
+{
+    return solverVerbose->isChecked();
+}
+
+void Align::updateSolverType(bool useOnline)
+{
+
+    if (useOnline)
+    {
+        #ifdef HAVE_QJSON
+        if (onlineParser != NULL)
+        {
+            parser = onlineParser;
+            return;
+        }
+
+        onlineParser = new Ekos::OnlineAstrometryParser();
+        parser = onlineParser;
+        #endif
+    }
+    else
+    {
+        if (offlineParser != NULL)
+        {
+            parser = offlineParser;
+            return;
+        }
+
+        offlineParser = new Ekos::OfflineAstrometryParser();
+        parser = offlineParser;
+    }
+
+    parser->setAlign(this);
+    if (parser->init())
+    {
+        connect(parser, SIGNAL(solverFinished(double,double,double)), this, SLOT(solverFinished(double,double,double)));
+        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
+    }
+    else
+        parser->disconnect();
+
+}
 
 void Align::checkCCD(int ccdNum)
 {
@@ -269,100 +336,8 @@ void Align::calculateFOV()
 
     FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
 
-    verifyIndexFiles();
+    parser->verifyIndexFiles(fov_x, fov_y);
 
-}
-
-bool Align::getAstrometryDataDir(QString &dataDir)
-{
-    QFile confFile(Options::astrometryConfFile());
-
-    if (confFile.open(QIODevice::ReadOnly) == false)
-    {
-        KMessageBox::error(0, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the configuration file full path in INDI options.", Options::astrometryConfFile()));
-        return false;
-    }
-
-    QTextStream in(&confFile);
-    QString line;
-    QStringList confOptions;
-    while ( !in.atEnd() )
-    {
-      line = in.readLine();
-      if (line.startsWith("#"))
-          continue;
-
-      confOptions = line.split(" ");
-      if (confOptions.size() == 2)
-      {
-          if (confOptions[0] == "add_path")
-          {
-              dataDir = confOptions[1];
-              return true;
-          }
-      }
-   }
-
-    KMessageBox::error(0, i18n("Unable to find data dir in astrometry configuration file."));
-    return false;
-}
-
-void Align::verifyIndexFiles()
-{
-    static double last_fov_x=0, last_fov_y=0;
-
-    if (last_fov_x == fov_x && last_fov_y == fov_y)
-        return;
-
-    last_fov_x = fov_x;
-    last_fov_y = fov_y;
-    double fov_lower = 0.10 * fov_x;
-    double fov_upper = fov_x;
-    QStringList indexFiles;
-    QString astrometryDataDir;
-    bool indexesOK = true;
-
-    if (getAstrometryDataDir(astrometryDataDir) == false)
-        return;
-
-    QStringList nameFilter("*.fits");
-    QDir directory(astrometryDataDir);
-    QStringList indexList = directory.entryList(nameFilter);
-    QString indexSearch = indexList.join(" ");
-    QString startIndex, lastIndex;
-    unsigned int missingIndexes=0;
-
-    foreach(float skymarksize, astrometryIndex.keys())
-    {
-        if (skymarksize >= fov_lower && skymarksize <= fov_upper)
-        {
-            indexFiles << astrometryIndex.value(skymarksize);
-
-            if (indexSearch.contains(astrometryIndex.value(skymarksize)) == false)
-            {
-                if (startIndex.isEmpty())
-                    startIndex = astrometryIndex.value(skymarksize);
-
-                lastIndex = astrometryIndex.value(skymarksize);
-
-                indexesOK = false;
-
-                missingIndexes++;
-            }
-
-        }
-    }
-
-    if (indexesOK == false)
-    {
-        if (missingIndexes == 1)
-            KMessageBox::information(0, i18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex), i18n("Missing index files"), "missing_astrometry_indexs_warning");
-        else
-            KMessageBox::information(0, i18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex, lastIndex), i18n("Missing index files"), "missing_astrometry_indexs_warning");
-
-    }
 }
 
 void Align::generateArgs()
@@ -464,6 +439,9 @@ bool Align::capture()
     if (currentCCD == NULL)
         return false;
 
+    if (parser->init() == false)
+        return false;
+
     double seqExpose = exposureSpin->value();
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
@@ -513,37 +491,62 @@ void Align::startSovling(const QString &filename)
     QStringList solverArgs;
     double ra,dec;
 
-    fitsFile = filename;
-
     Options::setSolverXBin(kcfg_solverXBin->value());
     Options::setSolverYBin(kcfg_solverYBin->value());
     Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
+    Options::setSolverOnline(kcfg_onlineSolver->isChecked());
 
     currentTelescope->getEqCoords(&ra, &dec);
 
     targetCoord.setRA(ra);
     targetCoord.setDec(dec);
 
-    QString command = "solve-field";
-
-    solverArgs = solverOptions->text().split(" ");
-    solverArgs << "-W" << "/tmp/solution.wcs" << filename;
-
-    connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
-    connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
-
     solverTimer.start();
 
-    solver.start(command, solverArgs);
+    solverArgs = solverOptions->text().split(" ");
 
-    appendLogText(i18n("Starting solver..."));
+    parser->startSovler(filename, solverArgs);
+
+}
+
+void Align::solverFinished(double orientation, double ra, double dec)
+{
+    pi->stopAnimation();
+    stopB->setEnabled(false);
+    solveB->setEnabled(true);
+
+     alignCoord.setRA0(ra/15.0);
+     alignCoord.setDec0(dec);
+     RotOut->setText(QString("%1").arg(orientation, 0, 'g', 5));
+
+     // Convert to JNow
+     alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
+
+     QString ra_dms, dec_dms;
+     getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
+
+     SolverRAOut->setText(ra_dms);
+     SolverDecOut->setText(dec_dms);
+
+     executeMode();
+
+}
+
+void Align::solverFailed()
+{
+    pi->stopAnimation();
+    stopB->setEnabled(false);
+    solveB->setEnabled(true);
+
+    azStage  = AZ_INIT;
+    altStage = ALT_INIT;
+
 
 }
 
 void Align::stopSolving()
 {
-    solver.terminate();
-    solver.disconnect();
+    parser->stopSolver();
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
@@ -564,97 +567,6 @@ void Align::stopSolving()
         int elapsed = (int) round(solverTimer.elapsed()/1000.0);
         appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
     }
-}
-
-void Align::solverComplete(int exist_status)
-{
-    pi->stopAnimation();
-    solver.disconnect();
-
-    stopB->setEnabled(false);
-    solveB->setEnabled(true);
-
-    if (exist_status != 0 || access("/tmp/solution.wcs", F_OK)==-1)
-    {
-        appendLogText(i18n("Solver failed. Try again."));
-        azStage  = AZ_INIT;
-        altStage = ALT_INIT;
-        return;
-    }
-
-    connect(&wcsinfo, SIGNAL(finished(int)), this, SLOT(wcsinfoComplete(int)));
-
-    wcsinfo.start("wcsinfo", QStringList("/tmp/solution.wcs"));
-
-}
-
-void Align::wcsinfoComplete(int exist_status)
-{
-
-    wcsinfo.disconnect();
-
-    if (exist_status != 0)
-    {
-        appendLogText(i18n("WCS header missing or corrupted. Solver failed."));
-        azStage  = AZ_INIT;
-        altStage = ALT_INIT;
-        return;
-    }
-
-    QString wcsinfo_stdout = wcsinfo.readAllStandardOutput();
-
-    QStringList wcskeys = wcsinfo_stdout.split(QRegExp("[\n]"));
-
-    QStringList key_value;
-
-    foreach(QString key, wcskeys)
-    {
-        key_value = key.split(" ");
-
-        if (key_value.size() > 1)
-        {
-            if (key_value[0] == "ra_center")
-                alignCoord.setRA0(key_value[1].toDouble()/15.0);
-            else if (key_value[0] == "dec_center")
-                alignCoord.setDec0(key_value[1].toDouble());
-            else if (key_value[0] == "orientation_center")
-                RotOut->setText(key_value[1]);
-        }
-
-    }
-
-    // Convert to JNow
-    alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
-
-    QString ra_dms, dec_dms;
-    getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
-
-    SolverRAOut->setText(ra_dms);
-    SolverDecOut->setText(dec_dms);
-
-    int elapsed = (int) round(solverTimer.elapsed()/1000.0);
-    appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
-
-    executeMode();
-
-    // Remove files left over by the solver
-    int fitsLoc = fitsFile.indexOf("fits");
-    QString tmpDir  = fitsFile.left(fitsLoc);
-    QString tmpFITS = fitsFile.remove(tmpDir);
-
-    tmpFITS.replace(".tmp", "*.*");
-
-    QDir dir(tmpDir);
-    dir.setNameFilters(QStringList() << tmpFITS);
-    dir.setFilter(QDir::Files);
-    foreach(QString dirFile, dir.entryList())
-            dir.remove(dirFile);
-
-}
-
-void Align::logSolver()
-{
-    qDebug() << solver.readAll() << endl;
 }
 
 void Align::appendLogText(const QString &text)
@@ -1193,16 +1105,6 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
         dec_str = QString("-%1:%2:%3").arg(abs(dec_s.degree()), 2, 10, QChar('0')).arg(abs(dec_s.arcmin()), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
     else
         dec_str = QString("%1:%2:%3").arg(dec_s.degree(), 2, 10, QChar('0')).arg(dec_s.arcmin(), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
-}
-
-bool Align::astrometryNetOK()
-{
-    bool solverOK=false, wcsinfoOK=false;
-
-    solverOK   = (0==access(Options::astrometrySolver().toLatin1(), 0));
-    wcsinfoOK  = (0==access(Options::astrometryWCSInfo().toLatin1(), 0));
-
-    return (solverOK && wcsinfoOK);
 }
 
 }

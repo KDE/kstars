@@ -10,6 +10,8 @@
 /* Define if you have wcslibt */
 #cmakedefine HAVE_WCSLIB 1
 
+/* Define if you have QJSOn */
+#cmakedefine HAVE_QJSON  1
 
 /* Define if you have astrometry */
 #cmakedefine HAVE_ASTROMETRYNET 1
