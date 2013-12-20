@@ -95,6 +95,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>Adaptive Optics:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QLabel" name="label_9">
                 <property name="text">
                  <string>Filter Wheel:</string>
@@ -141,6 +148,16 @@
               </item>
               <item>
                <widget class="QComboBox" name="guiderCombo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="AOCombo">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>

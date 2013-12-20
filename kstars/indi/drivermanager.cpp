@@ -999,6 +999,8 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_VIDEO;
     else if (groupName.indexOf("Focusers") != -1)
         groupType = KSTARS_FOCUSER;
+    else if (groupName.indexOf("Adaptive Optics") != -1)
+        groupType = KSTARS_ADAPTIVE_OPTICS;
     else if (groupName.indexOf("Domes") != -1)
         groupType = KSTARS_DOME;
     else if (groupName.indexOf("Receivers") != -1)

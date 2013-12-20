@@ -4,6 +4,7 @@ add_subdirectory( htmesh )
 add_subdirectory( tools/whatsinteresting/qml)
 
 Find_package(ZLIB REQUIRED)
+Find_package(Threads REQUIRED)
 
 if (CFITSIO_FOUND)
   set (fits_SRCS
@@ -499,7 +500,7 @@ if (CFITSIO_FOUND)
   target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
 if (INDI_FOUND)
-  target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
+  target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
 endif (INDI_FOUND)
 if (WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})

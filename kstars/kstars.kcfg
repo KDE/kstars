@@ -1225,6 +1225,9 @@
     <entry name="AuxDriver" type="String">
       <label>Default Auxiliary driver</label>
     </entry>
+    <entry name="AODriver" type="String">
+      <label>Default Adaptive Optics driver</label>
+    </entry>
     <entry name="remoteScopeName" type="String">
       <label>Remote Scope Name</label>
       <whatsthis>Name of the remote INDI telescope device.</whatsthis>
@@ -1248,6 +1251,10 @@
     <entry name="remoteAuxName" type="String">
       <label>Remote Auxiliary Name</label>
       <whatsthis>Name of the remote INDI Auxiliary device.</whatsthis>
+    </entry>
+    <entry name="remoteAOName" type="String">
+      <label>Remote Adaptive Optics Name</label>
+      <whatsthis>Name of the remote INDI Adaptive Optics device.</whatsthis>
     </entry>
     <entry name="remoteHost" type="String">
       <label>Remote INDI host</label>

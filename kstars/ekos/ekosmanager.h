@@ -88,8 +88,8 @@ public slots:
     bool guideStarted;
     bool ccdStarted;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di, *remote_indi;
+    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux, *ao;
+    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di, *ao_di, *remote_indi;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
