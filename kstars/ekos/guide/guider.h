@@ -36,12 +36,14 @@ public:
     void set_half_refresh_rate( bool is_half );
     bool is_guiding( void ) const;
     void set_math( cgmath *math );
+    void set_ao(bool enable);
     void fill_interface( void );
     void set_image(FITSView *image);
     void set_ready(bool enable) { is_ready = enable;}
     void set_target_chip(ISD::CCDChip *chip);
     bool isRapidGuide() { return useRapidGuide;}
     bool is_dithering() { return isDithering; }
+    double get_ao_limit();
 
 protected slots:
 	void onXscaleChanged( int i );

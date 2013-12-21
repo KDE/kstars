@@ -153,7 +153,7 @@ public slots:
     void moveJobDown();
 
     void enableGuideLimits();
-    void setGuideDeviation(int axis, double deviation);
+    void setGuideDeviation(double delta_ra, double delta_dec);
     void setGuideDither(bool enable);
     void setAutoguiding(bool enable, bool isDithering);
     void resumeCapture();
@@ -206,7 +206,6 @@ private:
 
     // Guide Deviation
     bool deviationDetected;
-    double deviation_axis[2];
 
     // Dither
     bool guideDither;

@@ -111,6 +111,7 @@ rguider::rguider(Ekos::Guide *parent)
 
     ui.kcfg_useDither->setChecked(Options::useDither());
     ui.kcfg_ditherPixels->setValue(Options::ditherPixels());
+    ui.spinBox_AOLimit->setValue(Options::aOLimit());
 
 }
 
@@ -139,6 +140,15 @@ void rguider::set_math( cgmath *math )
 	pmath = math;
 }
 
+void rguider::set_ao(bool enable)
+{
+    ui.spinBox_AOLimit->setEnabled(enable);
+}
+
+double rguider::get_ao_limit()
+{
+    return ui.spinBox_AOLimit->value();
+}
 
 void rguider::fill_interface( void )
 {
@@ -378,6 +388,7 @@ void rguider::onStartStopButtonClick()
 
         Options::setUseDither(ui.kcfg_useDither->isChecked());
         Options::setDitherPixels(ui.kcfg_ditherPixels->value());
+        Options::setAOLimit(ui.spinBox_AOLimit->value());
 
         if (pimage)
             disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
@@ -388,6 +399,7 @@ void rguider::onStartStopButtonClick()
 		pmath->start();
         lost_star_try=0;
 		is_started = true;
+        useRapidGuide = ui.kfcg_useRapidGuide->isChecked();
         if (useRapidGuide)
             pmain_wnd->startRapidGuide();
 

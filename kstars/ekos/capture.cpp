@@ -160,7 +160,6 @@ Capture::Capture()
     targetChip = NULL;
 
     deviationDetected = false;
-    deviation_axis[0]=deviation_axis[1]=0;
 
     isAutoGuiding = false;
     guideDither   = false;
@@ -284,7 +283,6 @@ void Capture::startSequence()
     }
 
     deviationDetected = false;
-    deviation_axis[0] = deviation_axis[1] = 0;
 
     executeJob(first_job);
 
@@ -1008,11 +1006,8 @@ void Capture::enableGuideLimits()
     guideDeviation->setEnabled(true);
 }
 
-void Capture::setGuideDeviation(int axis, double deviation)
+void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
-    if (axis < 0 || axis > 1)
-        return;
-
     if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
         return;
 
@@ -1020,9 +1015,7 @@ void Capture::setGuideDeviation(int axis, double deviation)
     if (activeJob->isPreview() || activeJob->getExposeLeft() == 0)
         return;
 
-    deviation_axis[axis] = fabs(deviation);
-
-    double deviation_rms = sqrt(deviation_axis[0]*deviation_axis[0] + deviation_axis[1]*deviation_axis[1]);
+    double deviation_rms = sqrt(delta_ra*delta_ra + delta_dec*delta_dec);
 
     QString deviationText = QString("%1").arg(deviation_rms, 0, 'g', 3);
 

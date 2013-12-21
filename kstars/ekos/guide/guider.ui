@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>961</width>
-    <height>441</height>
+    <width>943</width>
+    <height>485</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -137,13 +137,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="Line" name="line_4">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -583,13 +576,6 @@
       </layout>
      </item>
      <item>
-      <widget class="Line" name="line_3">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QGroupBox" name="groupBox_Control">
        <property name="title">
         <string>Control</string>
@@ -773,6 +759,42 @@
             </property>
            </widget>
           </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="l_23">
+            <property name="text">
+             <string>AO Limits</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QDoubleSpinBox" name="spinBox_AOLimit">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Maximum deviation to correct for using Adaptive Optics unit. If the guiding deviation exceeds this value, Ekos will guide the mount mechanically</string>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <double>30.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.500000000000000</double>
+            </property>
+            <property name="value">
+             <double>2.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLabel" name="l_24">
+            <property name="text">
+             <string>arcsecs</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -805,6 +827,20 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer_2">

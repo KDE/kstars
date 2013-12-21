@@ -171,7 +171,7 @@ public:
     double get_dither_rate(int axis);
 
 signals:
-    void newAxisDelta(int axis, double deviation);
+    void newAxisDelta(double delta_ra, double delta_dec);
 
 private:
 	// sys...

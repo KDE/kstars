@@ -47,6 +47,7 @@ public:
     void setCCD(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
     void addST4(ISD::ST4 *newST4);
+    void setAO(ISD::ST4 *newAO);
 
     void addGuideHead(ISD::GDInterface *ccd);
     void syncTelescopeInfo();
@@ -73,6 +74,7 @@ public slots:
         void newST4(int index);
         void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
         void setUseDarkFrame(bool enable) { useDarkFrame = enable;}
+        void updateGuideDriver(double delta_ra, double delta_dec);
         bool capture();
         void viewerClosed();
         void dither();
@@ -80,7 +82,7 @@ public slots:
 signals:
         void newLog();
         void guideReady();
-        void newAxisDelta(int axis, double deviation);
+        void newAxisDelta(double delta_ra, double delta_dec);
         void autoGuidingToggled(bool, bool);
         void ditherComplete();
         void ditherFailed();
@@ -88,12 +90,12 @@ signals:
 
 
 private:
-
-
     void updateGuideParams();
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
     ISD::ST4* ST4Driver;
+    ISD::ST4* AODriver;
+    ISD::ST4* GuideDriver;
 
     QList<ISD::ST4*> ST4List;
 

@@ -877,8 +877,6 @@ void cgmath::process_axes( void  )
 		
 		out_params.delta[k] = t_delta / (double)cnt;
 		drift_integral[k] /= (double)MAX_ACCUM_CNT;
-
-        emit newAxisDelta(k, out_params.delta[k]);
  	
         #ifdef GUIDE_LOG
         qDebug() << "cnt: " << cnt << endl;
@@ -932,6 +930,8 @@ void cgmath::process_axes( void  )
     #endif
 
  	}
+
+    emit newAxisDelta(out_params.delta[0], out_params.delta[1]);
 
 }
 

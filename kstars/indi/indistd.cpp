@@ -787,6 +787,11 @@ bool ST4::doPulse(GuideDirection dir, int msecs )
     if (raPulse == NULL || decPulse == NULL)
         return false;
 
+    if (dir == RA_INC_DIR || dir == RA_DEC_DIR)
+        raPulse->np[0].value = raPulse->np[1].value = 0;
+    else
+        decPulse->np[0].value = decPulse->np[1].value = 0;
+
     switch(dir)
     {
     case RA_INC_DIR:

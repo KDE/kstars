@@ -1160,7 +1160,7 @@ void EkosManager::initGuide()
     {
         // Guide Limits
         connect(guideProcess, SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
-        connect(guideProcess, SIGNAL(newAxisDelta(int,double)), captureProcess, SLOT(setGuideDeviation(int,double)));
+        connect(guideProcess, SIGNAL(newAxisDelta(double,double)), captureProcess, SLOT(setGuideDeviation(double,double)));
 
         // Dithering
         connect(guideProcess, SIGNAL(autoGuidingToggled(bool,bool)), captureProcess, SLOT(setAutoguiding(bool,bool)));
@@ -1180,6 +1180,9 @@ void EkosManager::setST4(ISD::ST4 * st4Driver)
      initGuide();
 
      guideProcess->addST4(st4Driver);
+
+     if (ao && ao->getDeviceName() == st4Driver->getDeviceName())
+         guideProcess->setAO(st4Driver);
 
 }
 
