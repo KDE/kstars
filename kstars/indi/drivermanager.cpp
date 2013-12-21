@@ -1047,7 +1047,8 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     QString name;
     QString port;
     QString skel;
-    //double focal_length (-1), aperture (-1);
+    QVariantMap vMap;
+    double focal_length (-1), aperture (-1);
 
 
         ap = findXMLAtt(root, "label");
@@ -1071,13 +1072,21 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
             skel = valuXMLAtt(ap);
 
         // Let's look for telescope-specific attributes: focal length and aperture
-        /*ap = findXMLAtt(root, "focal_length");
+        ap = findXMLAtt(root, "focal_length");
         if (ap)
+        {
             focal_length = QString(valuXMLAtt(ap)).toDouble();
+            if (focal_length > 0)
+                vMap.insert("TELESCOPE_FOCAL_LENGTH", focal_length);
+        }
 
         ap = findXMLAtt(root, "aperture");
         if (ap)
-            aperture = QString(valuXMLAtt(ap)).toDouble();*/
+        {
+            aperture = QString(valuXMLAtt(ap)).toDouble();
+            if (aperture > 0)
+                vMap.insert("TELESCOPE_APERTURE", aperture);
+        }
 
         el = findXMLEle(root, "driver");
 
@@ -1103,7 +1112,6 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         version = pcdataXMLEle(el);
 
         QTreeWidgetItem *device = new QTreeWidgetItem(DGroup);
-        //, lastDevice);
 
     device->setText(LOCAL_NAME_COLUMN, label);
     device->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
@@ -1112,7 +1120,8 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
 
     lastDevice = device;
 
-    if ((driverSource == PRIMARY_XML) && driversStringList.contains(driver) == false)
+    //if ((driverSource == PRIMARY_XML) && driversStringList.contains(driver) == false)
+    if (groupType == KSTARS_TELESCOPE && driversStringList.contains(driver) == false)
         driversStringList.append(driver);
 
     dv = new DriverInfo(name);
@@ -1122,16 +1131,16 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     dv->setDriver(driver);
     dv->setSkeletonFile(skel);
     dv->setType(groupType);
-
     dv->setDriverSource(driverSource);
-
     dv->setUserPort(port);
+
+    if (vMap.isEmpty() == false)
+        dv->setAuxInfo(vMap);
 
     connect(dv, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
 
     driversList.append(dv);
 
-    // SLOTS/SIGNAL, pop menu, indi server logic
     return true;
 }
 
@@ -1143,7 +1152,8 @@ void DriverManager::updateCustomDrivers()
     QString version;
     QString name;
     QTreeWidgetItem *group, *widgetDev;
-    //double focal_length (-1), aperture (-1);
+    QVariantMap vMap;
+    DriverInfo *drv=NULL;
 
     // Find if the group already exists
     QList<QTreeWidgetItem *> treeList = ui->localTreeWidget->findItems("Telescopes", Qt::MatchExactly);
@@ -1152,13 +1162,28 @@ void DriverManager::updateCustomDrivers()
     else return;
 
 
-    // Find custom telescope to ADD
+    // Find custom telescope to ADD/UPDATE
     foreach(OAL::Scope *s, *(KStarsData::Instance()->logObject()->scopeList()))
         {
             name = label = s->name();
 
-            if (findDriverByLabel(label) || s->driver() == i18n("None"))
+            if (s->driver() == i18n("None"))
                 continue;
+
+            // If driver already exists, just update values
+            if ( (drv = findDriverByLabel(label)) )
+            {
+                if (s->aperture() > 0 && s->focalLength() > 0)
+                {
+                    vMap.insert("TELESCOPE_APERTURE", s->aperture());
+                    vMap.insert("TELESCOPE_FOCAL_LENGTH", s->focalLength());
+                    drv->setAuxInfo(vMap);
+                }
+
+                drv->setDriver(s->driver());
+
+                continue;
+            }
 
             driver = s->driver();
             version = QString("1.0");
@@ -1175,6 +1200,13 @@ void DriverManager::updateCustomDrivers()
             dv->setVersion(version);
             dv->setType(KSTARS_TELESCOPE);
             dv->setDriverSource(EM_XML);
+
+            if (s->aperture() > 0 && s->focalLength() > 0)
+            {
+                vMap.insert("TELESCOPE_APERTURE", s->aperture());
+                vMap.insert("TELESCOPE_FOCAL_LENGTH", s->focalLength());
+                dv->setAuxInfo(vMap);
+            }
 
             connect(dv, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
             driversList.append(dv);

@@ -309,7 +309,6 @@ void EquipmentWriter::loadEquipment() {
     foreach( OAL::Filter *f, *( ks->data()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
 
-    //TODO(spacetime): confirm this is correct ~~spacetime
     #ifdef HAVE_INDI_H
     DriverManager::Instance()->updateCustomDrivers();
     #endif

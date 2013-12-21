@@ -12,6 +12,7 @@
  */
 
 #include <QObject>
+#include <QVariantMap>
 
 #include <baseclient.h>
 #include "indicommon.h"
@@ -85,6 +86,9 @@ public:
     DeviceInfo* getDevice(const QString &deviceName);
     QList<DeviceInfo *> getDevices() { return devices; }
 
+    QVariantMap getAuxInfo() const;
+    void setAuxInfo(const QVariantMap &value);
+
 private:
 
     QString name;                       // Actual device name as defined by INDI server
@@ -108,7 +112,7 @@ private:
     ServerManager *serverManager;       // Who is managing this device?
     ClientManager *clientManager;       // Any GUI client handling this device?
 
-    //INDI::BaseDevice *baseDevice;       // Pointer to base device, if any.
+    QVariantMap auxInfo;                // Any additional properties in key, value pairs
     QList<DeviceInfo *> devices;
 
 signals:

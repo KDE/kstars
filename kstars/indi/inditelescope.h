@@ -24,6 +24,7 @@ public:
     Telescope(GDInterface *iPtr);
     ~Telescope();
 
+    void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);
     void processNumber(INumberVectorProperty *nvp);

@@ -245,20 +245,10 @@ void Align::syncTelescopeInfo()
     }
 
     if (focal_length == -1 || aperture == -1)
-    {
-        controlBox->setEnabled(false);
-        modeBox->setEnabled(false);
-        KMessageBox::error(0, i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
         return;
-    }
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
-    {
-        controlBox->setEnabled(true);
-        modeBox->setEnabled(true);
         calculateFOV();
-    }
-
 
     if (currentCCD && currentTelescope)
         generateArgs();
@@ -441,6 +431,12 @@ bool Align::capture()
 
     if (parser->init() == false)
         return false;
+
+    if (focal_length == -1 || aperture == -1)
+    {
+        KMessageBox::error(0, i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
+        return false;
+    }
 
     double seqExpose = exposureSpin->value();
 

@@ -13,6 +13,7 @@
 #include "kstars.h"
 #include "skymap.h"
 #include "clientmanager.h"
+#include "driverinfo.h"
 
 namespace ISD
 {
@@ -24,6 +25,58 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
 
 Telescope::~Telescope()
 {
+}
+
+void Telescope::registerProperty(INDI::Property *prop)
+{
+    if (!strcmp(prop->getName(), "TELESCOPE_INFO"))
+    {
+        INumberVectorProperty *ti = prop->getNumber();
+        if (ti == NULL)
+            return;
+
+        bool aperture_ok=false, focal_ok=false;
+        double temp=0;
+
+        INumber *aperture = IUFindNumber(ti, "TELESCOPE_APERTURE");
+        if (aperture && aperture->value == 0)
+        {
+            if (getDriverInfo()->getAuxInfo().contains("TELESCOPE_APERTURE"))
+            {
+                temp = getDriverInfo()->getAuxInfo().value("TELESCOPE_APERTURE").toDouble(&aperture_ok);
+                if (aperture_ok)
+                {
+                    aperture->value = temp;
+                    INumber *g_aperture = IUFindNumber(ti, "GUIDER_APERTURE");
+                    if (g_aperture && g_aperture->value == 0)
+                        g_aperture->value = aperture->value;
+                }
+            }
+
+
+        }
+
+        INumber *focal_length = IUFindNumber(ti, "TELESCOPE_FOCAL_LENGTH");
+        if (focal_length && focal_length->value == 0)
+        {
+            if (getDriverInfo()->getAuxInfo().contains("TELESCOPE_FOCAL_LENGTH"))
+            {
+                    temp = getDriverInfo()->getAuxInfo().value("TELESCOPE_FOCAL_LENGTH").toDouble(&focal_ok);
+                    if (focal_ok)
+                    {
+                        focal_length->value = temp;
+                        INumber *g_focal = IUFindNumber(ti, "GUIDER_FOCAL_LENGTH");
+                        if (g_focal && g_focal->value == 0)
+                            g_focal->value = focal_length->value;
+                    }
+            }
+        }
+
+        if (aperture_ok && focal_ok)
+            clientManager->sendNewNumber(ti);
+    }
+
+    DeviceDecorator::registerProperty(prop);
 }
 
 void Telescope::processNumber(INumberVectorProperty *nvp)

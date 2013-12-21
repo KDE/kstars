@@ -116,5 +116,15 @@ DeviceInfo* DriverInfo::getDevice(const QString &deviceName)
     return NULL;
 
 }
+QVariantMap DriverInfo::getAuxInfo() const
+{
+    return auxInfo;
+}
+
+void DriverInfo::setAuxInfo(const QVariantMap &value)
+{
+    auxInfo = value;
+}
+
 
 #include "driverinfo.moc"
