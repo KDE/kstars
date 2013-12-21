@@ -54,9 +54,11 @@ public:
     	*@param r Right Ascension
     	*@param d Declination
     	*/
-    SkyPoint( const dms& r, const dms& d ) :
-    lastPrecessJD( J2000 ), RA0(r), Dec0(d),
-            RA(r),  Dec(d)
+    SkyPoint( const dms& r, const dms& d ) : RA0(r)
+                                           , Dec0(d)
+                                           , RA(r)
+                                           , Dec(d)
+                                           , lastPrecessJD( J2000 )
     {}
 
     
@@ -67,8 +69,11 @@ public:
      *@note This also sets RA0 and Dec0
      */
     //FIXME: this (*15.0) thing is somewhat hacky.
-    explicit SkyPoint( double r, double d ) :
-    lastPrecessJD( J2000 ), RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
+    explicit SkyPoint( double r, double d ) : RA0(r*15.0)
+                                            , Dec0(d)
+                                            , RA(r*15.0)
+                                            , Dec(d)
+                                            , lastPrecessJD( J2000 )
     {}
     
     /**
@@ -502,13 +507,14 @@ protected:
     	*/
     void precess(const KSNumbers *num);
 
-    long double   lastPrecessJD; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done
-
 private:
     dms RA0, Dec0; //catalog coordinates
     dms RA, Dec; //current true sky coordinates
     dms Alt, Az;
     static KSSun *m_Sun;
+protected:
+    double   lastPrecessJD; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done
+
 };
 
 #endif
