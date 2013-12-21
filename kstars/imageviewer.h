@@ -35,11 +35,16 @@ class ImageLabel : public QFrame {
 public:
     explicit ImageLabel( QWidget *parent );
     ~ImageLabel();
-    void setImage( const QImage &img ) { m_Image = img; }
+    void setImage( const QImage &img );
+    void invertPixels();
 
     QImage m_Image; // ImageViewer needs access to the image in order to modify it
 protected:
     void paintEvent( QPaintEvent *e);
+    void resizeEvent(QResizeEvent *);
+
+private:
+    QPixmap pix;
 
 };
 

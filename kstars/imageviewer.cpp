@@ -51,14 +51,38 @@ ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 ImageLabel::~ImageLabel()
 {}
 
-void ImageLabel::paintEvent (QPaintEvent*) {
+void ImageLabel::setImage( const QImage &img )
+{
+    m_Image = img;
+    pix = QPixmap::fromImage(m_Image);
+}
+
+void ImageLabel::invertPixels()
+{
+    m_Image.invertPixels();
+    pix = QPixmap::fromImage(m_Image.scaled(width(), height(), Qt::KeepAspectRatio));
+}
+
+void ImageLabel::paintEvent (QPaintEvent*)
+{
     QPainter p;
     p.begin( this );
     int x = 0;
-    if( m_Image.width() < width() )
-        x = (width() - m_Image.width())/2;
-    p.drawImage( x, 0, m_Image );
+    if( pix.width() < width() )
+        x = (width() - pix.width())/2;
+    p.drawPixmap( x, 0, pix );
     p.end();
+}
+
+void ImageLabel::resizeEvent(QResizeEvent *event)
+{
+    int w=pix.width();
+    int h=pix.height();
+
+    if (event->size().width() == w && event->size().height() == h)
+        return;
+
+    pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio));
 }
 
 ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *parent) :
@@ -223,8 +247,9 @@ void ImageViewer::showImage()
     //to fit the caption
     if ( m_Caption->width() > w )
         w = m_Caption->width();
-    setFixedSize( w, image.height() + m_Caption->height() );
+    //setFixedSize( w, image.height() + m_Caption->height() );
 
+    resize(w, image.height());
     update();
 }
 
@@ -260,7 +285,7 @@ void ImageViewer::saveFile (KUrl &url) {
 
 void ImageViewer::invertColors() {
     // Invert colors
-    m_View->m_Image.invertPixels();
+    m_View->invertPixels();
     m_View->update();
 }
 

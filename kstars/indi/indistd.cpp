@@ -12,6 +12,7 @@
 #include <basedevice.h>
 
 #include <QDebug>
+#include <QImageReader>
 
 #include <KMessageBox>
 #include <KStatusBar>
@@ -22,6 +23,7 @@
 #include "driverinfo.h"
 #include "deviceinfo.h"
 
+#include "imageviewer.h"
 #include "skypoint.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -288,10 +290,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
 
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-    if (dataType == DATA_ASCII)
-        filename += QString("file_") + ts + bp->format;
-     else
-        filename += QString("file_") + ts + '.' + bp->format;
+    filename += QString("file_") + ts +  bp->format;
 
     if (dataType == DATA_ASCII)
     {
@@ -333,6 +332,14 @@ void GenericDevice::processBLOB(IBLOB* bp)
             n = out.writeRawData( static_cast<char *> (bp->blob) +nr, bp->size - nr);
 
         fits_temp_file.close();
+
+        QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
+        if (QImageReader::supportedImageFormats().contains(fmt))
+        {
+             ImageViewer *iv = new ImageViewer(filename, QString(), KStars::Instance());
+             if (iv)
+                iv->show();
+        }
     }
 
     if (dataType == DATA_OTHER)
