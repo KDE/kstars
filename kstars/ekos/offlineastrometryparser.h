@@ -54,7 +54,6 @@ private:
     QTime solverTimer;
     QString fitsFile;
     bool astrometryFilesOK;
-
     Align *align;
 };
 

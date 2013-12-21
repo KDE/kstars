@@ -52,9 +52,9 @@ signals:
     void uploadFinished();
     void jobIDFinished();
     void jobFinished();
-    void solverFinished(double orientation, double ra, double dec);
-    void solverFailed();
 private:
+
+    void authenticate();
 
     WorkflowStage workflowStage;
     QNetworkAccessManager networkManager;
@@ -62,22 +62,14 @@ private:
     QString sessionKey;
     int subID;
     int jobID;
-
     int job_retries, solver_retries;
 
-
     QTime solverTimer;
-    //QEventLoop *pELoop;
-
     QJson::Parser parser;
     QJson::Serializer serializer;
-
     QString filename, apiURL;
     double lowerScale, upperScale, center_ra, center_dec, radius;
     double parity,ra,dec,orientation;
-
-    void authenticate();
-
     Align *align;
 
 };

@@ -332,7 +332,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          status = result["status"].toString();
          if (status == "success")
              emit jobFinished();
-         else if (status == "solving" || status == "error")
+         else if (status == "solving")
          {
              if (status == "solving" && solver_retries++ < SOLVER_RETRY_ATTEMPTS)
              {
@@ -345,6 +345,13 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
                  emit solverFailed();
                  return;
              }
+         }
+         else if (status == "failure")
+         {
+             elapsed = (int) round(solverTimer.elapsed()/1000.0);
+             align->appendLogText(i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
+             emit solverFailed();
+             return;
          }
          solver_retries=0;
          break;
