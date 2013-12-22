@@ -383,7 +383,7 @@ bool Telescope::Slew(SkyPoint *ScopeTarget)
         slewSW = IUFindSwitch(motionSP, "TRACK");
 
     if (slewSW == NULL)
-        return NULL;
+        return false;
 
     if (slewSW->s != ISS_ON)
     {
@@ -414,7 +414,7 @@ bool Telescope::Sync(SkyPoint *ScopeTarget)
 
     ISwitch *syncSW = IUFindSwitch(motionSP, "SYNC");
     if (syncSW == NULL)
-        return NULL;
+        return false;
 
     if (syncSW->s != ISS_ON)
     {
@@ -434,7 +434,7 @@ bool Telescope::Abort()
 
     ISwitch *abortSW = IUFindSwitch(motionSP, "ABORT");
     if (abortSW == NULL)
-        return NULL;
+        return false;
 
      abortSW->s = ISS_ON;
      clientManager->sendNewSwitch(motionSP);
@@ -451,7 +451,7 @@ bool Telescope::Park()
 
     ISwitch *parkSW = IUFindSwitch(motionSP, "PARK");
     if (parkSW == NULL)
-        return NULL;
+        return false;
 
      parkSW->s = ISS_ON;
      clientManager->sendNewSwitch(motionSP);
