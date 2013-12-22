@@ -100,7 +100,6 @@ private slots:
 
 private:
     QString ObjectName;
-    QVBoxLayout *vlay;
     AddLinkDialogUI *ald;
 };
 

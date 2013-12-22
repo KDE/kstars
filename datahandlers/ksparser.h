@@ -215,8 +215,6 @@ class KSParser {
 
     KSFileReader file_reader_;
     QString filename_;
-    int current_row_id_;
-    bool more_rows_;
     char comment_char_;
 
     QList< QPair<QString, DataTypes> > name_type_sequence_;

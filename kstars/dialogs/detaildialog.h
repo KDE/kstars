@@ -212,7 +212,6 @@ private:
     QListWidgetItem *m_CurrentLink;
 
     QPixmap *Thumbnail;
-    int currentItemIndex;
     QStringList dataList;
 
     DataWidget *Data;

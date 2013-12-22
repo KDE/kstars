@@ -38,7 +38,7 @@ AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 AddCatDialog::AddCatDialog( KStars *_ks )
-        : KDialog( ( QWidget* )_ks ),  ks( _ks )
+        : KDialog( ( QWidget* )_ks )
 {
     QDir::setCurrent( QDir::homePath() );
     acd = new AddCatDialogUI(this);

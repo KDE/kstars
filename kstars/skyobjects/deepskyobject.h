@@ -199,10 +199,8 @@ private:
     QList<const SkyObject *> m_Parents; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
     QList<const SkyObject *> m_Children; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
     QStringList m_AlternateDesignations; // Alternate names. FIXME: These should be superseded by designation UIDs in the database
-    double RedshiftZ; // Redsfhit 'z' value
     QString Description; // Dreyer or other description
     QString Classification; // Object class. eg: SBb for galaxies
-    double pmRA, pmDec; // Proper motions in mas/yr
 
     CatalogComponent *customCat;
     int UGC, PGC;

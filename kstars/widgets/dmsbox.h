@@ -139,9 +139,6 @@ private slots:
 private:
     void setEmptyText();
 
-    int degree, minute, hour;
-    double second;
-    int second_int, msecond;
     bool deg, EmptyFlag;
     dms degValue;
 };

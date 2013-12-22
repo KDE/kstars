@@ -69,7 +69,6 @@ private:
     PlanetMoonsComponent *m_JupiterMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
-    SkyLabeler* m_skyLabeler;
 };
 
 #endif

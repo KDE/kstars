@@ -100,7 +100,6 @@ protected:
 
 private:
     QList<SatelliteGroup*> m_groups;    // List of all groups
-    KIO::Job *m_downloadJob;
 };
 
 #endif

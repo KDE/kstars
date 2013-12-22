@@ -68,7 +68,6 @@ public:
     ******************************************************************/
     QVBoxLayout	*mainLayout;
     QTabWidget	*mainTabWidget;
-    QTextEdit 	*msgST_w;
     QPushButton  *clearB;
     QPushButton  *closeB;
     GUIManager(QWidget * parent = 0);

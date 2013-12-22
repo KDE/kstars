@@ -44,9 +44,6 @@ public:
 private slots:
     void slotChangeTimeScale( float newScale );
     void slotToggleHideOptions();
-
-private:
-    KStars *ksw;
 };
 
 #endif  //OPSADVANCED_H_

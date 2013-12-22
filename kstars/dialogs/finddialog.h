@@ -104,7 +104,6 @@ private:
     void filterByType();
 
     FindDialogUI* ui;
-    SkyObject* currentitem;
     QStringListModel *fModel;
     QSortFilterProxyModel* sortModel;
     QTimer* timer;

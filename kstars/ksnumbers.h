@@ -131,7 +131,7 @@ private:
     double CXB, SXB, CYB, SYB, CZB, SZB;
     double P1[3][3], P2[3][3], P1B[3][3], P2B[3][3];
     double deltaObliquity, deltaEcLong;
-    double e, T, TB;
+    double e, T;
     long double days; // JD for which the last update was called
     double jm;
     static const int arguments[NUTTERMS][5];

@@ -343,7 +343,6 @@ private:
     SkyObject *LogObject, *m_CurrentObject;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
     QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
-    char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_Model, *m_Session;

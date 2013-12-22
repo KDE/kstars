@@ -181,7 +181,6 @@ private:
 	#endif
 
     QList<ScriptFunction*> ScriptList;
-    QVBoxLayout *vlay;
 
     QWidget *argBlank;
     ArgLookToward *argLookToward;

@@ -25,7 +25,7 @@
 #include "widgets/timestepbox.h"
 
 OpsAdvanced::OpsAdvanced( KStars *_ks )
-        : QFrame( _ks ), ksw(_ks)
+        : QFrame( _ks )
 {
     setupUi( this );
 

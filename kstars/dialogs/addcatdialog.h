@@ -104,7 +104,6 @@ private:
     	*/
     QString writeCatalogHeader();
 
-    KStars *ks;
     AddCatDialogUI *acd;
     QString CatalogContents;
 };
