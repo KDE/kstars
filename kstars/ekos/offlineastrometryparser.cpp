@@ -172,8 +172,6 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
 
 bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStringList &args)
 {
-    QString command = "solve-field";
-
     QStringList solverArgs = args;
     solverArgs << "-W" << "/tmp/solution.wcs" << filename;
 
@@ -184,7 +182,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
     solverTimer.start();
 
-    solver.start(command, solverArgs);
+    solver.start(Options::astrometrySolver(), solverArgs);
 
     align->appendLogText(i18n("Starting solver..."));
 
