@@ -131,7 +131,7 @@ bool ColorScheme::load( const QString &name ) {
     QString filename = name.toLower().trimmed();
     QFile file;
     int inew = 0, iold = 0;
-    bool ok;
+    bool ok = false;
 
     //Parse default names which don't follow the regular file-naming scheme
     if ( name == i18nc("use default color scheme", "Default Colors") )
