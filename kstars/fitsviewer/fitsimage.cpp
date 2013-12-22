@@ -166,7 +166,7 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         if (progress)
-            KMessageBox::error(0, i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[2]), i18n("FITS Open"));
+            KMessageBox::error(0, i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), i18n("FITS Open"));
         return false;
     }
 
