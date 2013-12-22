@@ -554,6 +554,10 @@ void EkosManager::connectDevices()
 
         if (captureProcess)
             captureProcess->setEnabled(true);
+        if (focusProcess)
+            focusProcess->setEnabled(true);
+        if (alignProcess)
+            alignProcess->setEnabled(true);
     }
 
 
@@ -599,6 +603,10 @@ void EkosManager::disconnectDevices()
 
         if (captureProcess)
             captureProcess->setEnabled(false);
+        if (alignProcess)
+            alignProcess->setEnabled(false);
+        if (focusProcess)
+            focusProcess->setEnabled(false);
 
     }
 
@@ -917,7 +925,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 {
 
-    if (useFilterFromCCD == false)
+    if (useFilterFromCCD == false && filterDevice != ccd)
     {
        filter = filterDevice;
        appendLogText(i18n("%1 is online.", filter->getDeviceName()));
@@ -1063,7 +1071,7 @@ void EkosManager::updateLog()
         ekosLogOut->setPlainText(logText.join("\n"));
     else if (currentWidget == alignProcess)
     {
-        if (alignProcess->isEnabled() == false)
+        if (alignProcess->isEnabled() == false && ccd && ccd->isConnected())
         {
             if (alignProcess->parserOK())
                 alignProcess->setEnabled(true);
