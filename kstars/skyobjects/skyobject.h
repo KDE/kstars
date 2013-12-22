@@ -179,13 +179,7 @@ public:
     /**
      *@return object's magnitude
      */
-    inline float mag( void ) const { return sortMagnitude; }
-
-    /**
-     *@return object's magnitude in given band. NaN if magnitude unavailable.
-     *@param band a string specifying which spectral band to look for
-     */
-    inline float mag( const QString &band ) const { return m_Magnitudes.value( band, NaN::f ); }
+    inline float mag() const { return sortMagnitude; }
 
     /**
      *@return the object's position angle.  This is overridden in KSPlanetBase
@@ -401,18 +395,11 @@ private:
 
     unsigned char Type;
     float sortMagnitude; // This magnitude is used for sorting / making decisions about the visibility of an object. Should not be NaN.
-    QHash<QString, float> m_Magnitudes; // Magnitudes vs. band
 
 protected:
     /**Set the object's sorting magnitude.
      * @param m the object's magnitude. */
     inline void setMag( float m ) { sortMagnitude = m < 36.0 ? m : NaN::f; } // Updating faintest sane magnitude to 36.0 (faintest visual magnitude visible with E-ELT, acc. to Wikipedia on Apparent Magnitude.)
-
-    /** Set the object's magnitude in a particular band.
-     * @param band the band (U, B, V, R, I, J, K etc.)
-     * @param mag the object's (apparent) magnitude.
-     */
-    void setMag( const QString &band, const double mag );
 
     /**Set the object's primary name.
      * @param name the object's primary name */
