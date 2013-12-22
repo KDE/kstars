@@ -200,10 +200,7 @@ bool OfflineAstrometryParser::stopSolver()
 
 void OfflineAstrometryParser::solverComplete(int exist_status)
 {
-
     solver.disconnect();
-
-
 
     if (exist_status != 0 || access("/tmp/solution.wcs", F_OK)==-1)
     {
@@ -215,8 +212,7 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
 
     connect(&wcsinfo, SIGNAL(finished(int)), this, SLOT(wcsinfoComplete(int)));
 
-    wcsinfo.start("wcsinfo", QStringList("/tmp/solution.wcs"));
-
+    wcsinfo.start(Options::astrometryWCSInfo(), QStringList("/tmp/solution.wcs"));
 }
 
 void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
