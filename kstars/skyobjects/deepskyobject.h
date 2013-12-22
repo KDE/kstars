@@ -194,10 +194,7 @@ public:
 private:
     virtual void initPopupMenu( KSPopupMenu *pmenu );
 
-    unsigned char Catalog;
     double PositionAngle;
-    int UGC, PGC;
-    float MajorAxis, MinorAxis, Flux;
     QImage m_image;
     QList<const SkyObject *> m_Parents; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
     QList<const SkyObject *> m_Children; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
@@ -208,6 +205,9 @@ private:
     double pmRA, pmDec; // Proper motions in mas/yr
 
     CatalogComponent *customCat;
+    int UGC, PGC;
+    float MajorAxis, MinorAxis, Flux;
+    unsigned char Catalog;
 };
 
 #endif
