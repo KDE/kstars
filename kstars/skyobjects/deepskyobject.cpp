@@ -36,15 +36,15 @@
 
 #include <kdebug.h>
 
-DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
-    SkyObject( o ),
-    Catalog( o.Catalog ),
-    PositionAngle( o.PositionAngle ),
-    UGC( o.UGC ),
-    PGC( o.PGC ),
-    MajorAxis( o.MajorAxis ),
-    MinorAxis( o.MinorAxis ),
-    m_image( o.m_image )
+DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
+    : SkyObject( o )
+    , PositionAngle( o.PositionAngle )
+    , m_image( o.m_image )
+    , UGC( o.UGC )
+    , PGC( o.PGC )
+    , MajorAxis( o.MajorAxis )
+    , MinorAxis( o.MinorAxis )
+    , Catalog( o.Catalog )
 {
     customCat = NULL;
     Flux = 0;
