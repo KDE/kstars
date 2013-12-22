@@ -36,27 +36,6 @@
 #include "skyobjects/ksplanet.h"
 #include "skycomponents/skymapcomposite.h"
 
-namespace {
-    // convert time to decimal hours since midnight
-    float timeToHours(QTime t) {
-        float h = t.secsTo(QTime()) * -24.0 / 86400.0;
-        if( h > 12.0 )
-            h -= 24.0;
-        return h;
-    }
-
-    // Check that axis has been crossed
-    inline bool isAxisCrossed(const QVector<QPointF>& vec, int i) {
-        return i > 0  &&  vec.at(i-1).x() * vec.at(i).x() <= 0;
-    }
-    // Check that we are at maximum
-    inline bool isAtExtremum(const QVector<QPointF>& vec, int i) {
-        return
-            i > 0 && i < vec.size() - 1 &&
-            (vec.at(i-1).x() - vec.at(i).x()) * (vec.at(i).x() - vec.at(i+1).x()) < 0;
-    }
-}
-
 SkyCalendarUI::SkyCalendarUI( QWidget *parent )
     : QFrame( parent )
 {
