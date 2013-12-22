@@ -40,10 +40,6 @@ public slots:
     void wcsinfoComplete(int exist_status);
     void logSolver();
 
-signals:
-    void solverFinished(double orientation, double ra, double dec);
-    void solverFailed();
-
 private:
     bool astrometryNetOK();
     bool getAstrometryDataDir(QString &dataDir);
