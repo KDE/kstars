@@ -51,6 +51,7 @@ const int MINIMUM_ROWS_PER_CENTER=3;
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10
 #define DIFFUSE_THRESHOLD   0.2
+#define MINIMUM_EDGE_LIMIT  3
 
 //#define FITS_DEBUG
 
@@ -601,7 +602,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
     qDebug() << "Total number of edges found is: " << edges.count() << endl;
     #endif
 
-    if (edges.count() >= MINIMUM_STDVAR)
+    if (edges.count() >= MINIMUM_EDGE_LIMIT)
         break;
 
       qDeleteAll(edges);
