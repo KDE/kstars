@@ -83,9 +83,9 @@ void ThumbnailPicker::slotFillList() {
     //Query Google Image Search:
     KUrl gURL( "http://images.google.com/images" );
     //Search for the primary name, or longname and primary name
-    QString sName = QString("\"%1\"").arg( Object->name() );
+    QString sName = QString("%1 ").arg( Object->name() );
     if ( Object->longname() != Object->name() ) {
-        sName = QString("\"%1\" ").arg( Object->longname() ) + sName;
+        sName = QString("%1 ").arg( Object->longname() ) + sName;
     }
     gURL.addQueryItem( "q", sName ); //add the Google-image query string
 
@@ -173,14 +173,14 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
         return;
     }
 
-    int index = PageHTML.indexOf( "?imgurl=", 0 );
+    int index = PageHTML.indexOf( "src=\"http:", 0 );
     while ( index >= 0 ) {
-        index += 8; //move to end of "?imgurl=" marker
+        index += 5; //move to end of "src=\"http:" marker
 
-        //Image URL is everything from index to next occurrence of "&"
-        ImList.append( PageHTML.mid( index, PageHTML.indexOf( "&", index ) - index ) );
+        //Image URL is everything from index to next occurrence of "\""
+        ImList.append( PageHTML.mid( index, PageHTML.indexOf( "\"", index ) - index ) );
 
-        index = PageHTML.indexOf( "?imgurl=", index );
+        index = PageHTML.indexOf( "src=\"http:", index );
     }
 }
 
