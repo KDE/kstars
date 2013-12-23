@@ -102,6 +102,8 @@ public:
     int getBPP() { return stats.bitpix; }
     FITSMode getMode() { return mode;}
     Edge * getMaxHFRStar() { return maxHFRStar;}
+    void setMedian(double val) { stats.median = val;}
+    double getMedian() { return stats.median;}
 
 
     int getFITSRecord(QString &recordList, int &nkeys);
@@ -129,6 +131,7 @@ public:
         double min, max;
         double average;
         double stddev;
+        double median;
         int bitpix;
         int ndim;
         long dim[2];
