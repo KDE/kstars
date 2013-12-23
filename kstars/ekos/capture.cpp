@@ -43,7 +43,8 @@ void SequenceJob::abort()
     status = JOB_ABORTED;
     if (preview == false)
         statusCell->setText(statusStrings[status]);
-    activeChip->abortExposure();
+    if (activeChip->canAbort())
+        activeChip->abortExposure();
     activeChip->setBatchMode(false);
 }
 
@@ -73,7 +74,7 @@ void SequenceJob::prepareCapture()
 
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 {
-   if (activeChip->setFrame(x, y, w, h) == false)
+   if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
         status = JOB_ERROR;
 
@@ -84,7 +85,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 
    }
 
-    if (activeChip->setBinning(binX, binY) == false)
+    if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
     {
         status = JOB_ERROR;
 
@@ -346,6 +347,14 @@ void Capture::checkCCD(int ccdNum)
             useGuideHead = false;
         }
 
+        frameWIN->setEnabled(targetChip->canSubframe());
+        frameHIN->setEnabled(targetChip->canSubframe());
+        frameXIN->setEnabled(targetChip->canSubframe());
+        frameYIN->setEnabled(targetChip->canSubframe());
+
+        binXCombo->setEnabled(targetChip->canBin());
+        binYCombo->setEnabled(targetChip->canBin());
+
         if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
         {
             if (step == 0)
@@ -390,11 +399,8 @@ void Capture::checkCCD(int ccdNum)
             frameYIN->setSingleStep(step);
         }
 
-
-
         if (targetChip->getFrame(&x,&y,&w,&h))
         {
-
             frameXIN->setValue(x);
             frameYIN->setValue(y);
             frameWIN->setValue(w);

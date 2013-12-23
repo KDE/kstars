@@ -891,6 +891,9 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         initGuide();
         guideProcess->setCCD(guider);
 
+        initAlign();
+        alignProcess->addCCD(guider);
+
         if (scope && scope->isConnected())
             guideProcess->setTelescope(scope);
     }
@@ -904,7 +907,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         ccdStarted = true;
 
         initAlign();
-        alignProcess->setCCD(ccd);
+        alignProcess->addCCD(ccd);
         if (scope && scope->isConnected())
             alignProcess->setTelescope(scope);
 
@@ -1043,8 +1046,8 @@ void EkosManager::processNewProperty(INDI::Property* prop)
             captureProcess->addGuideHead(guider);
 
 
-        if (ccd && guideProcess)
-            guideProcess->addGuideHead(ccd);
+        if (guider && guideProcess)
+            guideProcess->addGuideHead(guider);
     }
 
     if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))

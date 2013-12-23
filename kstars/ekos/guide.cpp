@@ -194,6 +194,9 @@ void Guide::updateGuideParams()
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
+        if (currentCCD->hasGuideHead() == false)
+            useGuideHead = false;
+
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
         if (targetChip == NULL)

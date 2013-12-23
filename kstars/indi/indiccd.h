@@ -58,6 +58,15 @@ public:
     QStringList getFrameTypes() { return frameTypes; }
     void addFrameLabel(const QString & label) { frameTypes << label; }
 
+    bool canBin() const;
+    void setCanBin(bool value);
+
+    bool canSubframe() const;
+    void setCanSubframe(bool value);
+
+    bool canAbort() const;
+    void setCanAbort(bool value);
+
 private:
     FITSView *normalImage, *focusImage, *guideImage, *calibrationImage;
     FITSMode captureMode;
@@ -68,6 +77,10 @@ private:
     bool batchMode;
     bool displayFITS;
     QStringList frameTypes;
+    bool CanBin;
+    bool CanSubframe;
+    bool CanAbort;
+
 };
 
 class CCD : public DeviceDecorator
