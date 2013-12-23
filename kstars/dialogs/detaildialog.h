@@ -129,6 +129,11 @@ public slots:
     	*/
     void viewLink();
 
+    /**Popup menu function: Add a custom Image or Information URL.
+     * Opens the AddLinkDialog window.
+     */
+    void addLink();
+
     /**
      *@short Set the currently-selected URL resource.
      *

@@ -51,7 +51,6 @@
 #include "ksutils.h"
 #include "imageviewer.h"
 #include "dialogs/detaildialog.h"
-#include "dialogs/addlinkdialog.h"
 #include "kspopupmenu.h"
 #include "printing/printingwizard.h"
 #include "simclock.h"
@@ -1070,59 +1069,6 @@ void SkyMap::setMouseMoveCursor()
         setCursor(Qt::SizeAllCursor);	// cursor shape defined in qt
         mouseMoveCursor = true;
     }
-}
-
-void SkyMap::addLink() {
-    if( !clickedObject() ) 
-        return;
-    QPointer<AddLinkDialog> adialog = new AddLinkDialog( this, clickedObject()->name() );
-    QString entry;
-    QFile file;
-
-    if ( adialog->exec()==QDialog::Accepted ) {
-        if ( adialog->isImageLink() ) {
-            //Add link to object's ImageList, and descriptive text to its ImageTitle list
-            clickedObject()->ImageList().append( adialog->url() );
-            clickedObject()->ImageTitle().append( adialog->desc() );
-
-            //Also, update the user's custom image links database
-            //check for user's image-links database.  If it doesn't exist, create it.
-            file.setFileName( KStandardDirs::locateLocal( "appdata", "image_url.dat" ) ); //determine filename in local user KDE directory tree.
-
-            if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-                QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-		delete adialog;
-                return;
-            } else {
-                entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
-                QTextStream stream( &file );
-                stream << entry << endl;
-                file.close();
-                emit linkAdded();
-            }
-        } else {
-            clickedObject()->InfoList().append( adialog->url() );
-            clickedObject()->InfoTitle().append( adialog->desc() );
-
-            //check for user's image-links database.  If it doesn't exist, create it.
-            file.setFileName( KStandardDirs::locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
-
-            if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-                QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
-		delete adialog;
-                return;
-            } else {
-                entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
-                QTextStream stream( &file );
-                stream << entry << endl;
-                file.close();
-                emit linkAdded();
-            }
-        }
-    }
-    delete adialog;
 }
 
 void SkyMap::updateAngleRuler() {

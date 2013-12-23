@@ -383,11 +383,6 @@ public slots:
      */
     void slotRemovePlanetTrail();
 
-    /**Popup menu function: Add a custom Image or Information URL.
-     * Opens the AddLinkDialog window.
-     */
-    void addLink();
-
     /**Checks whether the timestep exceeds a threshold value.  If so, sets
      * ClockSlewing=true and sets the SimClock to ManualMode. 
      */
@@ -466,11 +461,6 @@ signals:
      * @see SkyMap::slewFocus()
      */
     void destinationChanged();
-
-    /**Emitted by SkyMap::addLink().  This Signal is used to inform the Details Dialog
-     * that it needs to update its lists of URL links.
-     */
-    void linkAdded();
 
     /** Emitted when zoom level is changed. */
     void zoomChanged();

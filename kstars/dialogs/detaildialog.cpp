@@ -53,6 +53,7 @@
 #include "thumbnailpicker.h"
 #include "Options.h"
 #include "widgets/kshelplabel.h"
+#include "addlinkdialog.h"
 
 #include <config-kstars.h>
 
@@ -564,11 +565,9 @@ void DetailDialog::createLinksTab()
     foreach ( const QString &s, selectedObject->ImageTitle() )
         Links->ImageTitleList->addItem( i18nc( "Image/info menu item (should be translated)", s.toLocal8Bit() ) );
 
-     updateButtons();
-
     // Signals/Slots
     connect( Links->ViewButton, SIGNAL(clicked()), this, SLOT( viewLink() ) );
-    connect( Links->AddLinkButton, SIGNAL(clicked()), KStars::Instance()->map(), SLOT( addLink() ) );
+    connect( Links->AddLinkButton, SIGNAL(clicked()), this, SLOT( addLink() ) );
     connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
     connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
 
@@ -586,7 +585,60 @@ void DetailDialog::createLinksTab()
     connect( Links->InfoTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ) );
     connect( Links->ImageTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ));
 
-    connect( KStars::Instance()->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
+    updateLists();
+}
+
+void DetailDialog::addLink() {
+    if( !selectedObject )
+        return;
+    QPointer<AddLinkDialog> adialog = new AddLinkDialog( this, selectedObject->name() );
+    QString entry;
+    QFile file;
+
+    if ( adialog->exec()==QDialog::Accepted ) {
+        if ( adialog->isImageLink() ) {
+            //Add link to object's ImageList, and descriptive text to its ImageTitle list
+            selectedObject->ImageList().append( adialog->url() );
+            selectedObject->ImageTitle().append( adialog->desc() );
+
+            //Also, update the user's custom image links database
+            //check for user's image-links database.  If it doesn't exist, create it.
+            file.setFileName( KStandardDirs::locateLocal( "appdata", "image_url.dat" ) ); //determine filename in local user KDE directory tree.
+
+            if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
+                QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        delete adialog;
+                return;
+            } else {
+                entry = selectedObject->name() + ':' + adialog->desc() + ':' + adialog->url();
+                QTextStream stream( &file );
+                stream << entry << endl;
+                file.close();
+                emit updateLists();
+            }
+        } else {
+            selectedObject->InfoList().append( adialog->url() );
+            selectedObject->InfoTitle().append( adialog->desc() );
+
+            //check for user's image-links database.  If it doesn't exist, create it.
+            file.setFileName( KStandardDirs::locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
+
+            if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
+                QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+        delete adialog;
+                return;
+            } else {
+                entry = selectedObject->name() + ':' + adialog->desc() + ':' + adialog->url();
+                QTextStream stream( &file );
+                stream << entry << endl;
+                file.close();
+                emit updateLists();
+            }
+        }
+    }
+    delete adialog;
 }
 
 void DetailDialog::createAdvancedTab()
@@ -668,7 +720,6 @@ void DetailDialog::updateLists()
 
 void DetailDialog::updateButtons()
 {
-
     bool anyLink=false;
     if (!Links->InfoTitleList->selectedItems().isEmpty() || !Links->ImageTitleList->selectedItems().isEmpty())
         anyLink = true;
@@ -697,7 +748,7 @@ void DetailDialog::editLinkDialog()
         row = Links->InfoTitleList->row( m_CurrentLink );
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL = selectedObject->InfoTitle().at( row );
+        currentItemURL = selectedObject->InfoList().at( row );
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
@@ -710,7 +761,7 @@ void DetailDialog::editLinkDialog()
         row = Links->ImageTitleList->row( m_CurrentLink );
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL = selectedObject->ImageTitle().at( row ); 
+        currentItemURL = selectedObject->ImageList().at( row );
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
