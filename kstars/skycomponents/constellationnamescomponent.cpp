@@ -81,6 +81,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
                 d.setD( -1.0*d.Degrees() );
 
             SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
+            o->EquatorialToHorizontal(KStarsData::Instance()->lst(),KStarsData::Instance()->geo()->lat());
             m_ObjectList.append( o );
 
             //Add name to the list of object names
