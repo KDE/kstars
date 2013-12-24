@@ -124,13 +124,13 @@ ObservingList::ObservingList( KStars *_ks )
     m_SortModel->setDynamicSortFilter( true );
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
-    ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
+    ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
     m_SortModelSession = new SessionSortFilterProxyModel;
     m_SortModelSession->setSourceModel( m_Session );
     m_SortModelSession->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SortModelSession );
     ui->SessionView->horizontalHeader()->setStretchLastSection( true );
-    ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
+    ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
     ksal = new KSAlmanac;
     ksal->setLocation(geo);
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());

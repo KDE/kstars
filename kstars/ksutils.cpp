@@ -40,7 +40,6 @@ bool KSUtils::openDataFile( QFile &file, const QString &s ) {
 
 QString KSUtils::getDSSURL( const SkyPoint * const p ) {
         const DeepSkyObject *dso = 0;
-        dms ra(0.0), dec(0.0);
         double height, width;
 
         double dss_default_size = Options::defaultDSSImageSize();
@@ -81,11 +80,6 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
             height = dss_default_size;
         if( width < dss_default_size )
             width = dss_default_size;
-        // DSS accepts images that are no larger than 75 arcminutes
-        if( height > 75.0 )
-            height = 75.0;
-        if( width > 75.0 )
-            width = 75.0;
 
         return getDSSURL( p->ra0(), p->dec0(), width, height );
 }
@@ -100,16 +94,10 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
     int dm = abs( dec.arcmin() );
     int ds = abs( dec.arcsec() );
 
-    // Infinite and NaN sizes are replaced by the default size
-    if( !qIsFinite( height ) )
+    // Infinite and NaN sizes are replaced by the default size and tiny DSS images are resized to default size
+    if( !qIsFinite( height ) || height <= 0.0 )
         height = dss_default_size;
-    if( !qIsFinite( width ) )
-        width = dss_default_size;
-
-    // Negative / zero sizes are replaced by the default size
-    if( height <= 0.0 )
-        height = dss_default_size;
-    if( width <= 0.0 )
+    if( !qIsFinite( width ) || width <= 0.0)
         width = dss_default_size;
 
     // DSS accepts images that are no larger than 75 arcminutes
@@ -124,7 +112,6 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
     SizeString = SizeString.sprintf( "&h=%02.1f&w=%02.1f", height, width );
 
     return ( URLprefix + RAString + DecString + SizeString + URLsuffix );
-
 }
 
 QString KSUtils::toDirectionString( dms angle ) {
