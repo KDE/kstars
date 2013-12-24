@@ -147,8 +147,7 @@ bool KSMoon::loadData() {
 bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* ) {
     //Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
     //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
-    QString fname, snum, line;
-    QFile f;
+    //updated to Jean Messus (1998, Willmann-Bell, http://www.naughter.com/aa.html )
 
     double T, L, D, M, M1, F, A1, A2, A3;
     double sumL, sumR, sumB;
@@ -159,19 +158,19 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     double Et = 1.0 - 0.002516*T - 0.0000074*T*T;
 
     //Moon's mean longitude
-    L = degToRad( 218.3164591 + 481267.88134236*T - 0.0013268*T*T + T*T*T/538841.0 - T*T*T*T/65194000.0 );
+    L = degToRad( 218.3164477 + 481267.88123421*T - 0.0015786*T*T + T*T*T/538841.0 - T*T*T*T/65194000.0 );
     //Moon's mean elongation
-    D = degToRad( 297.8502042 + 445267.1115168*T - 0.0016300*T*T + T*T*T/545868.0 - T*T*T*T/113065000.0 );
+    D = degToRad( 297.8501921 + 445267.1114034*T - 0.0018819*T*T + T*T*T/545868.0 - T*T*T*T/113065000.0 );
     //Sun's mean anomaly
     M = degToRad( 357.5291092 + 35999.0502909*T - 0.0001536*T*T + T*T*T/24490000.0 );
     //Moon's mean anomaly
-    M1= degToRad( 134.9634114 + 477198.8676313*T + 0.0089970*T*T + T*T*T/69699.0 - T*T*T*T/14712000.0 );
+    M1= degToRad( 134.9633964 + 477198.8675055*T + 0.0087414*T*T + T*T*T/69699.0 - T*T*T*T/14712000.0 );
     //Moon's argument of latitude (angle from ascending node)
-    F = degToRad( 93.2720993 + 483202.0175273*T - 0.0034029*T*T - T*T*T/3526000.0 + T*T*T*T/863310000.0 );
+    F = degToRad( 93.2720950 + 483202.0175233*T - 0.0036539*T*T - T*T*T/3526000.0 + T*T*T*T/863310000.0 );
 
     A1 = degToRad( 119.75 +    131.849*T );
     A2 = degToRad(  53.09 + 479264.290*T );
-    A3 = degToRad( 313.45 + 481226.484*T );
+    A3 = degToRad( 313.45 + 481266.484*T );
 
     //Calculate the series expansions stored in moonLR.txt and moonB.txt.
     //

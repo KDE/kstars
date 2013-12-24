@@ -161,8 +161,6 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
     //Moon
     KSMoon Moon;
-    Moon.findPosition(&num);
-    Moon.findPhase();
 
     QTime msTime = Moon.riseSetTime( jd0 , geo, false );
     QTime mrTime = Moon.riseSetTime( jd0 , geo, true );
@@ -202,6 +200,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         mtTimeString = KGlobal::locale()->formatTime( mtTime );
     }
 
+    //after calling riseSetTime Phase needs to reset, setting it before causes Phase to set nan
+    Moon.findPosition(&num);
+    Moon.findPhase();
     lunarphaseString = Moon.phaseName()+" ("+QString::number( int( 100*Moon.illum() ) )+"%)";
 
     //Fix length of Az strings
