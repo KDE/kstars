@@ -373,7 +373,7 @@ void rguider::set_target_chip(ISD::CCDChip *chip)
 {
     targetChip = chip;
     targetChip->getFrame(&fx, &fy, &fw, &fh);
-
+    ui.kfcg_guideSubFrame->setEnabled(targetChip->canSubframe());
 }
 
 // processing stuff
@@ -405,7 +405,7 @@ void rguider::onStartStopButtonClick()
 
         emit autoGuidingToggled(true, ui.kcfg_useDither->isChecked());
 
-        if (ui.kfcg_guideSubFrame->isChecked() && is_subframed == false)
+        if (ui.kfcg_guideSubFrame->isEnabled() && ui.kfcg_guideSubFrame->isChecked() && is_subframed == false)
             first_frame = true;
 
         capture();

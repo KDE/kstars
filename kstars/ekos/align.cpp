@@ -196,7 +196,7 @@ void Align::checkCCD(int ccdNum)
 
 }
 
-void Align::setCCD(ISD::GDInterface *newCCD)
+void Align::addCCD(ISD::GDInterface *newCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 
@@ -293,6 +293,8 @@ void Align::syncCCDInfo()
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
+    kcfg_solverXBin->setEnabled(targetChip->canBin());
+    kcfg_solverYBin->setEnabled(targetChip->canBin());
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
     {

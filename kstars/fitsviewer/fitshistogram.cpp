@@ -143,6 +143,19 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     }
 
 
+    double median=0;
+    int halfCumulative = cumulativeFreq[histArray.size() - 1]/2;
+    for (int i=0; i < histArray.size(); i++)
+    {
+        if (cumulativeFreq[i] > halfCumulative)
+        {
+            median = i * binWidth + fits_min;
+            break;
+
+        }
+    }
+
+    image_data->setMedian(median);
     JMIndex = (double) maxIntensity / (double) hist_width;
 
     #ifdef HIST_LOG

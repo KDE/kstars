@@ -41,6 +41,9 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
     type          = cType;
     batchMode     = false;
     displayFITS   = true;
+    CanBin        = false;
+    CanSubframe   = false;
+    CanAbort      = false;
 
     captureMode   = FITS_NORMAL;
     captureFilter = FITS_NONE;
@@ -251,6 +254,36 @@ bool CCDChip::abortExposure()
 
     return true;
 }
+bool CCDChip::canBin() const
+{
+    return CanBin;
+}
+
+void CCDChip::setCanBin(bool value)
+{
+    CanBin = value;
+}
+bool CCDChip::canSubframe() const
+{
+    return CanSubframe;
+}
+
+void CCDChip::setCanSubframe(bool value)
+{
+    CanSubframe = value;
+}
+bool CCDChip::canAbort() const
+{
+    return CanAbort;
+}
+
+void CCDChip::setCanAbort(bool value)
+{
+    CanAbort = value;
+}
+
+
+
 
 bool CCDChip::isCapturing()
 {
@@ -258,7 +291,7 @@ bool CCDChip::isCapturing()
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         expProp = baseDevice->getNumber("CCD_EXPOSURE");
         break;
 
@@ -303,7 +336,7 @@ bool CCDChip::setFrameType(CCDFrameType fType)
     if (type == PRIMARY_CCD)
         frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
     else
-        frameProp = baseDevice->getSwitch("GUIDE_FRAME_TYPE");
+        frameProp = baseDevice->getSwitch("GUIDER_FRAME_TYPE");
     if (frameProp == NULL)
         return false;
 
@@ -344,7 +377,7 @@ CCDFrameType CCDChip::getFrameType()
     if (type == PRIMARY_CCD)
         frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
     else
-        frameProp = baseDevice->getSwitch("GUIDE_FRAME_TYPE");
+        frameProp = baseDevice->getSwitch("GUIDER_FRAME_TYPE");
 
     if (frameProp == NULL)
         return fType;
@@ -406,7 +439,7 @@ CCDBinType CCDChip::getBinning()
         break;
 
        case GUIDE_CCD:
-        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        binProp = baseDevice->getNumber("GUIDER_BINNING");
         break;
     }
 
@@ -447,6 +480,7 @@ CCDBinType CCDChip::getBinning()
 bool CCDChip::getBinning(int *bin_x, int *bin_y)
 {
     INumberVectorProperty *binProp=NULL;
+    *bin_x=*bin_y=1;
 
     switch (type)
     {
@@ -455,7 +489,7 @@ bool CCDChip::getBinning(int *bin_x, int *bin_y)
         break;
 
        case GUIDE_CCD:
-        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        binProp = baseDevice->getNumber("GUIDER_BINNING");
         break;
     }
 
@@ -489,7 +523,7 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
         break;
 
        case GUIDE_CCD:
-        binProp = baseDevice->getNumber("GUIDE_BINNING");
+        binProp = baseDevice->getNumber("GUIDER_BINNING");
         break;
     }
 
@@ -559,6 +593,42 @@ void CCD::registerProperty(INDI::Property *prop)
 
         for (int i=0; i < ccdFrame->nsp; i++)
             primaryChip->addFrameLabel(ccdFrame->sp[i].label);
+    }
+    else if (!strcmp(prop->getName(), "CCD_FRAME"))
+    {
+        INumberVectorProperty *np = prop->getNumber();
+        if (np && np->p != IP_RO)
+            primaryChip->setCanSubframe(true);
+    }
+    else if (!strcmp(prop->getName(), "GUIDER_FRAME"))
+    {
+        INumberVectorProperty *np = prop->getNumber();
+        if (np && np->p != IP_RO)
+            guideChip->setCanSubframe(true);
+    }
+    else if (!strcmp(prop->getName(), "CCD_BINNING"))
+    {
+        INumberVectorProperty *np = prop->getNumber();
+        if (np && np->p != IP_RO)
+            primaryChip->setCanBin(true);
+    }
+    else if (!strcmp(prop->getName(), "GUIDER_BINNING"))
+    {
+        INumberVectorProperty *np = prop->getNumber();
+        if (np && np->p != IP_RO)
+            guideChip->setCanBin(true);
+    }
+    else if (!strcmp(prop->getName(), "CCD_ABORT_EXPOSURE"))
+    {
+        ISwitchVectorProperty *sp = prop->getSwitch();
+        if (sp && sp->p != IP_RO)
+            primaryChip->setCanAbort(true);
+    }
+    else if (!strcmp(prop->getName(), "GUIDER_ABORT_EXPOSURE"))
+    {
+        ISwitchVectorProperty *sp = prop->getSwitch();
+        if (sp && sp->p != IP_RO)
+            guideChip->setCanAbort(true);
     }
 
     DeviceDecorator::registerProperty(prop);

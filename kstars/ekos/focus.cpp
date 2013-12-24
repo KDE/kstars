@@ -111,6 +111,14 @@ void Focus::checkCCD(int ccdNum)
     if (ccdNum <= CCDs.count())
         currentCCD = CCDs.at(ccdNum);
 
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip)
+    {
+        kcfg_focusXBin->setEnabled(targetChip->canBin());
+        kcfg_focusYBin->setEnabled(targetChip->canBin());
+        kcfg_subFrame->setEnabled(targetChip->canSubframe());
+    }
+
 }
 
 void Focus::setFocuser(ISD::GDInterface *newFocuser)
@@ -222,7 +230,8 @@ void Focus::stopFocus()
     currentCCD->disconnect(this);
 
     targetChip->abortExposure();
-    targetChip->setFrame(fx, fy, fw, fh);
+    if (targetChip->canSubframe())
+        targetChip->setFrame(fx, fy, fw, fh);
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     if (targetImage)
@@ -252,7 +261,8 @@ void Focus::capture()
         return;
     }
 
-    targetChip->setBinning(kcfg_focusXBin->value(), kcfg_focusXBin->value());
+    if (targetChip->canBin())
+        targetChip->setBinning(kcfg_focusXBin->value(), kcfg_focusXBin->value());
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
@@ -410,7 +420,7 @@ void Focus::newFITS(IBLOB *bp)
                 return;
             }
 
-            if (kcfg_subFrame->isChecked())
+            if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
                 targetChip->getFrame(&fx, &fy, &fw, &fh);
                 int x=maxStar->x - maxStar->width * 2;
@@ -1044,7 +1054,8 @@ void Focus::focusStarSelected(int x, int y)
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     targetImage->updateMode(FITS_FOCUS);
 
-    targetChip->setFrame(x, y, w, h);
+    if (targetChip->canSubframe())
+        targetChip->setFrame(x, y, w, h);
 
     starSelected=true;
 
