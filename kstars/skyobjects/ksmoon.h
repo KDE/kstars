@@ -80,6 +80,12 @@ public:
      */
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
+    /**
+     * @brief updateMag calls findMagnitude() to calculate current magnitude of moon
+     * according to current phase. This function is required to perform findMagnitude() from any where in Kstars
+     */
+    void updateMag() { findMagnitude(NULL); }
+
 private:
     virtual void initPopupMenu( KSPopupMenu* pmenu );
     virtual void findMagnitude(const KSNumbers*);

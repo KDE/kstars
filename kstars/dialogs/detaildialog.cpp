@@ -145,7 +145,7 @@ void DetailDialog::createGeneralTab()
         }
         objecttyp = s->sptype() + ' ' + i18n("star");
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                         KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
+                                         KGlobal::locale()->formatNumber( s->mag(), 2 ) ) );  //show to hundredth place
 
         Data->BVLabel->setVisible( true );
         Data->BVIndex->setVisible( true );
@@ -200,20 +200,21 @@ void DetailDialog::createGeneralTab()
         else
             objecttyp = ps->typeName();
 
-        //Magnitude: The moon displays illumination fraction instead
+        //The moon displays illumination fraction and updateMag is called to calculate moon's current magnitude
         if ( selectedObject->name() == "Moon" ) {
             Data->IllumLabel->setVisible( true );
             Data->Illumination->setVisible( true );
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
+            ((KSMoon *)selectedObject)->updateMag();
         }
         
         if(selectedObject->type() == SkyObject::COMET){
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                             KGlobal::locale()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 1 ) ) );  //show to tenths place
+                                             KGlobal::locale()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 2 ) ) );  //show to hundredth place
         }
         else{
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                             KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
+                                             KGlobal::locale()->formatNumber( ps->mag(), 2 ) ) );  //show to hundredth place
         }
 
         //Distance from Earth.  The moon requires a unit conversion
@@ -245,7 +246,7 @@ void DetailDialog::createGeneralTab()
         Data->Names->setText(sup->name());
 
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                         KGlobal::locale()->formatNumber( sup->mag(), 1 ) ) );
+                                         KGlobal::locale()->formatNumber( sup->mag(), 2 ) ) );
         Data->Distance->setText( "---" );
 
         break;
