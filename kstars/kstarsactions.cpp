@@ -641,7 +641,7 @@ void KStars::slotOpenFITS()
 {
 #ifdef HAVE_CFITSIO_H
 
-    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System" );
+    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.fts|Flexible Image Transport System" );
 
     if (fileURL.isEmpty())
         return;
