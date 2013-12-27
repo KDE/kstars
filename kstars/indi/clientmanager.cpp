@@ -141,7 +141,6 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
         if (dv->getDriverSource() == HOST_SOURCE)
         {
             managedDrivers.removeOne(dv);
-            //emit INDIDeviceRemoved(dv);
             delete (dv);
         }
     }
@@ -152,7 +151,6 @@ void ClientManager::serverConnected()
 {
     foreach (DriverInfo *device, managedDrivers)
     {
-        //qDebug() << "Setting device " << device->getName() << " client state to true" << endl;
         device->setClientState(true);
         if (sManager)
             device->setHostParameters(sManager->getHost(), sManager->getPort());
@@ -161,25 +159,19 @@ void ClientManager::serverConnected()
 
 void ClientManager::serverDisconnected(int exit_code)
 {
-    //bool disconnectionError = false;
-    //ServerManager *sManager= NULL;
-
-    //qDebug() << "Server disconnected!!!" << endl;
-
     foreach (DriverInfo *device, managedDrivers)
     {
         device->setClientState(false);
-
-       /*sManager = device->getServerManager();
-        // If the server is still running, it means we lost connection to it.
-        if (sManager || device->getDriverSource() == HOST_SOURCE)
-            disconnectionError = true;*/
 
         device->clear();
     }
 
     if (exit_code < 0)
         emit connectionFailure(this);
+}
+QList<DriverInfo *> ClientManager::getManagedDrivers() const
+{
+    return managedDrivers;
 }
 
 DriverInfo * ClientManager::findDriverInfoByName(const QString &name)

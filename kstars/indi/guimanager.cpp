@@ -144,19 +144,22 @@ void GUIManager::removeClient(ClientManager *cm)
 {
     clients.removeOne(cm);
 
-   for (int i=0; i < guidevices.size(); i++)
-            guidevices.at(i)->setTabID(i);
-
     foreach(INDI_D *gdv, guidevices)
     {
-        //qDebug() << "Terminating client.... " << endl;
         if (gdv->getClientManager() == cm)
         {
-            //qDebug() << "Will remove device " << gdv->getBaseDevice()->getDeviceName() << " with tab ID " << gdv->getTabID() << endl;
-            mainTabWidget->removeTab(gdv->getTabID());
+            for (int i=0; i < mainTabWidget->count(); i++)
+            {
+                if (mainTabWidget->tabText(i).remove("&") == QString(gdv->getBaseDevice()->getDeviceName()))
+                {
+                    mainTabWidget->removeTab(i);
+                    break;
+                }
+            }
+
             guidevices.removeOne(gdv);
             delete (gdv);
-            break;
+            //break;
         }
     }
 
@@ -168,18 +171,22 @@ void GUIManager::removeDevice(DeviceInfo *di)
 {
     INDI_D *dp=NULL;
 
-    dp = findGUIDevice(di->getDriverInfo()->getUniqueLabel());
+    dp = findGUIDevice(di->getBaseDevice()->getDeviceName());
 
     if (dp == NULL)
         return;
 
-    mainTabWidget->removeTab(dp->getTabID());
+    for (int i=0; i < mainTabWidget->count(); i++)
+    {
+        if (mainTabWidget->tabText(i).remove("&") == QString(di->getBaseDevice()->getDeviceName()))
+        {
+            mainTabWidget->removeTab(i);
+            break;
+        }
+    }
+
     guidevices.removeOne(dp);
     delete (dp);
-
-    // rearrange tab indexes
-    for (int i=0; i < guidevices.size(); i++)
-            guidevices.at(i)->setTabID(i);
 }
 
 void GUIManager::buildDevice(DeviceInfo *di)
@@ -207,16 +214,9 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*, int)));
 
-
-    //qDebug() << "About to add to tab main widget with name " << di->getBaseDevice()->getDeviceName() << endl;
-    //nset = mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
     nset = mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getDriverInfo()->getUniqueLabel().toUtf8()));
 
-    gdm->setTabID(nset);
-
     guidevices.append(gdm);
-
-
 
 }
 

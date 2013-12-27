@@ -39,9 +39,6 @@ public:
 
     QSplitter *getDeviceBox() { return deviceVBox; }
 
-    void setTabID(int newTabID) { tabID = newTabID; }
-    int getTabID() { return tabID; }
-
     ClientManager *getClientManager() { return clientManager; }
 
     INDI_G *getGroup (const QString & groupName);
@@ -66,32 +63,6 @@ public slots:
     bool updateBLOBGUI  (IBLOB *bp);
 
     void updateMessageLog(INDI::BaseDevice *idv, int messageID);
-    /*
-    bool buildTextGUI    (ITextVectorProperty *tvp, QString & errmsg);
-    bool buildNumberGUI  (INumberVectorProperty *nvp, QString & errmsg);
-    bool buildSwitchesGUI(ISwitchVectorProperty *svp, QString & errmsg);
-    bool buildMenuGUI    (ISwitchVectorProperty *svp, QString & errmsg);
-    bool buildLightsGUI  (ILightVectorProperty *lvp, QString & errmsg);
-    bool buildBLOBGUI    (IBLOBVectorProperty *bvp, QString & errmsg);*/
-
-
-    /*****************************************************************
-    * Set/New
-    ******************************************************************/
-    /*int setValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
-    int setLabelState  (INDI_P *pp, XMLEle *root, QString & errmsg);
-    int setTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
-    int setBLOB        (INDI_P *pp, XMLEle * root, QString & errmsg);
-
-    int newValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
-    int newTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
-
-    int setAnyCmd      (XMLEle *root, QString & errmsg);
-    int newAnyCmd      (XMLEle *root, QString & errmsg);
-
-    int  removeProperty(INDI_P *pp);
-
-*/
 
 private:
 
@@ -103,18 +74,8 @@ private:
     INDI::BaseDevice *dv;
     ClientManager *clientManager;
     GUIManager *guiManager;
-    int tabID;
 
     QList<INDI_G *> groupsList;
-
-/*signals:
-    void newSwitch(const QString &sw, ISState value);
-    void newNumber(const QString &nm, double value);
-    void newText(const QString &tx, QString value);
-    void newLight(const QString &lg, IPState value);
-    void newBLOB(const QString &bb, unsigned char *buffer, int bufferSize, const QString &dataFormat, INDI_D::DTypes dataType);
-    void newProperty(INDI_P *p);
- */
 
 };
 

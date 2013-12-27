@@ -328,9 +328,6 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
         serverManager->setMode(connectionMode);
 
        connect(serverManager, SIGNAL(newServerLog()), this, SLOT(updateLocalTab()));
-       //connect(serverManager, SIGNAL(serverFailure(ServerManager*)), this, SLOT(processServerTermination(ServerManager*)));
-
-
 
          if (serverManager->start())
            servers.append(serverManager);
@@ -347,6 +344,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
               {
                   servers.removeOne(serverManager);
                   serverManager->stop();
+                  emit serverTerminated(serverManager->getHost(), serverManager->getPort());
                   delete serverManager;
                   return false;
               }
@@ -361,9 +359,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
          foreach(DriverInfo *dv, qdv)
             clientManager->appendManagedDriver(dv);
 
-
          connect(clientManager, SIGNAL(connectionFailure(ClientManager*)), this, SLOT(processClientTermination(ClientManager*)));
-         //connect(clientManager, SIGNAL(newINDIDevice(DriverInfo*)), this, SIGNAL(newINDIDevice(DriverInfo*)));
 
          clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), ((uint) port));
 
@@ -441,7 +437,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
           if (sm->size() == 0)
           {
                 sm->stop();
-                servers.removeOne(sm);
+                servers.removeOne(sm);                
                 delete sm;
                 sm = NULL;
           }
@@ -581,9 +577,11 @@ void DriverManager::processClientTermination(ClientManager *client)
 
     if (manager)
     {
-        servers.removeOne(manager);
+        servers.removeOne(manager);        
         delete manager;
     }
+
+    emit serverTerminated(client->getHost(), QString("%1").arg(client->getPort()));
 
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
@@ -615,6 +613,7 @@ void DriverManager::processServerTermination(ServerManager* server)
         KMessageBox::error(NULL, errMsg);
     }
 
+    emit serverTerminated(server->getHost(), server->getPort());
     servers.removeOne(server);
     delete server;
 

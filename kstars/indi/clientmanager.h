@@ -39,6 +39,8 @@ public:
 
     bool isDriverManaged(DriverInfo *);
 
+    QList<DriverInfo *> getManagedDrivers() const;
+
 protected:
     virtual void newDevice(INDI::BaseDevice *dp);
     virtual void newProperty(INDI::Property *prop);

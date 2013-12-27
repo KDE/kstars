@@ -147,7 +147,7 @@ public slots:
 
 signals:
     void clientTerminated(ClientManager *);
-    void serverTerminated(ServerManager *);
+    void serverTerminated(const QString & host, const QString & port);
 
     /*
 signals:
