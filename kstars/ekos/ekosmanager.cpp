@@ -870,6 +870,9 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     if (guideProcess)
         guideProcess->setTelescope(scope);
+
+    if (alignProcess)
+        alignProcess->setTelescope(scope);
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
@@ -1025,6 +1028,9 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     {
         if (guideProcess)
             guideProcess->syncCCDInfo();
+
+        if (alignProcess)
+            alignProcess->syncCCDInfo();
     }
 
     if (!strcmp(prop->getName(), "TELESCOPE_INFO"))

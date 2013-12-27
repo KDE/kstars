@@ -83,6 +83,24 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 
     emit propertyDefined(prop);
 
+    // In case driver already started
+    if (!strcmp(prop->getName(), "CONNECTION"))
+    {
+        ISwitchVectorProperty *svp = prop->getSwitch();
+        if (svp == NULL)
+            return;
+        ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
+        if (conSP == NULL)
+            return;
+
+        if (conSP->s == ISS_ON)
+        {
+            connected = true;
+            emit Connected();
+            createDeviceInit();
+        }
+    }
+
     if (!strcmp(prop->getName(), "DEVICE_PORT"))
     {
         switch (driverInfo->getType())

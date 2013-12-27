@@ -25,6 +25,7 @@
 #include <basedevice.h>
 
 #define MAXIMUM_ABS_ITERATIONS  30
+#define DEFAULT_SUBFRAME_DIM    128
 
 //#define FOCUS_DEBUG
 
@@ -436,6 +437,11 @@ void Focus::newFITS(IBLOB *bp)
                     w=fw;
                 if (h>fh)
                     h=fh;
+
+                if (w <= 0)
+                    w = DEFAULT_SUBFRAME_DIM;
+                if (h <= 0)
+                    h = DEFAULT_SUBFRAME_DIM;
 
 
                 targetChip->setFrame(x, y, w, h);
