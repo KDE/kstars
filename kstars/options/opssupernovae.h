@@ -47,10 +47,6 @@ public:
      */
     ~OpsSupernovae();
 
-private:
-
-    KStars *ksw;
-
 private slots:
     void slotUpdateRecentSupernovae();
     void slotShowSupernovae( bool on );

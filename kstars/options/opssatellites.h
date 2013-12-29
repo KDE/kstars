@@ -61,7 +61,6 @@ private:
      */
     void updateListView();
     
-    KStars *ksw;
     KConfigDialog *m_ConfigDialog;
     QStandardItemModel *m_Model;
     QSortFilterProxyModel *m_SortModel;
