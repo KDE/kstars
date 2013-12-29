@@ -210,6 +210,9 @@ QHash<QString, QVariant>  KSParser::DummyRow() {
                 case D_FLOAT:
                     newRow[name_type_sequence_[i].first] = EBROKEN_FLOAT;
                     break;
+                case D_SKIP:
+                default:
+                    break;
             }
         }
     return newRow;
