@@ -23,6 +23,7 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QScrollArea>
 
 /*******************************************************************
 ** INDI Group: a tab widget for common properties. All properties
@@ -34,15 +35,18 @@ INDI_G::INDI_G(INDI_D *idv, const QString &inName)
     dp = idv;
     name = inName;
 
-    propertyContainer = new QFrame();
+    propertyContainer = new QFrame(idv);
     propertyLayout    = new QVBoxLayout(propertyContainer);
     propertyLayout->setMargin(20);
     propertyLayout->setSpacing(KDialog::spacingHint());
     VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 
     propertyLayout->addItem(VerticalSpacer);
+    propertyLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
-    //dp->groupContainer->addTab(propertyContainer, name);
+    scrollArea = new QScrollArea;
+    scrollArea->setWidget(propertyContainer);
+    scrollArea->setMinimumSize(idv->size());
 }
 
 INDI_G::~INDI_G()
@@ -50,6 +54,8 @@ INDI_G::~INDI_G()
    while ( ! propList.isEmpty() ) delete propList.takeFirst();
 
    delete(propertyContainer);
+
+   delete (scrollArea);
 }
 
 bool INDI_G::addProperty(INDI::Property *prop)

@@ -26,6 +26,7 @@ class INDI_D;
 class QFrame;
 class QVBoxLayout;
 class QSpacerItem;
+class QScrollArea;
 
 /* INDI group */
 class INDI_G
@@ -41,6 +42,7 @@ public:
 
     INDI_P * getProperty(const QString & propName);
     QFrame *getContainer() { return propertyContainer;}
+    QScrollArea *getScrollArea() { return scrollArea; }
     const QString & getName() { return name; }
 
     INDI_D *getDevice() { return dp;}
@@ -55,6 +57,7 @@ private:
     QFrame        *propertyContainer;	/* Properties container */
     QVBoxLayout   *propertyLayout;        /* Properties layout */
     QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
+    QScrollArea   *scrollArea;
 
     QList<INDI_P*> propList;			/* malloced list of pointers to properties */
 

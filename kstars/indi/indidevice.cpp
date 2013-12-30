@@ -93,7 +93,7 @@ bool INDI_D::buildProperty(INDI::Property * prop)
     {
         pg = new INDI_G(this, groupName);
         groupsList.append(pg);
-        groupContainer->addTab(pg->getContainer(), i18nc(libindi_strings_context, groupName.toUtf8()));
+        groupContainer->addTab(pg->getScrollArea(), i18nc(libindi_strings_context, groupName.toUtf8()));
     }
 
     return pg->addProperty(prop);
