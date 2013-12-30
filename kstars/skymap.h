@@ -282,13 +282,13 @@ class SkyMap : public QGraphicsView {
 
     void setLegend(const Legend &legend) { m_legend = legend; }
 
-    bool isInObjectPointingMode() { return m_objPointingMode; }
+    bool isInObjectPointingMode() const { return m_objPointingMode; }
 
     void setObjectPointingMode(bool enabled) { m_objPointingMode = enabled; }
 
     void setFovCaptureMode(bool enabled) { m_fovCaptureMode = enabled; }
 
-    bool isInFovCaptureMode() { return m_fovCaptureMode; }
+    bool isInFovCaptureMode() const { return m_fovCaptureMode; }
 
     SkyPoint getCenterPoint();
 

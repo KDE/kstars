@@ -80,8 +80,8 @@ public:
     /**This lets other classes like KSPlanetBase access H and G values
 	*Used by KSPlanetBase::FindMagnitude
 	*/
-    double inline getAbsoluteMagnitude() { return H; }
-    double inline getSlopeParameter() { return G; }
+    double inline getAbsoluteMagnitude() const { return H; }
+    double inline getSlopeParameter() const { return G; }
 
     /**
      *@short Sets the asteroid's perihelion distance
@@ -91,7 +91,7 @@ public:
     /**
      *@return Perihelion distance
      */
-    inline double getPerihelion() { return q; }
+    inline double getPerihelion() const { return q; }
 
    /**
      *@short Sets the asteroid's earth minimum orbit intersection distance
@@ -101,7 +101,7 @@ public:
     /**
      *@return the asteroid's earth minimum orbit intersection distance in km
      */
-    inline double getEarthMOID() { return EarthMOID; }
+    inline double getEarthMOID() const { return EarthMOID; }
 
     /**
      *@short Sets the asteroid's orbit solution ID
@@ -111,7 +111,7 @@ public:
     /**
      *@return the asteroid's orbit solution ID
      */
-    inline QString getOrbitID() { return OrbitID; }
+    inline QString getOrbitID() const { return OrbitID; }
 
     /**
      *@short Sets the asteroid's orbit class
@@ -121,7 +121,7 @@ public:
     /**
      *@return the asteroid's orbit class
      */
-    inline QString getOrbitClass() { return OrbitClass; }
+    inline QString getOrbitClass() const { return OrbitClass; }
 
     /**
      *@short Sets if the comet is a near earth object
@@ -131,7 +131,7 @@ public:
     /**
      *@return true if the asteroid is a near earth object
      */
-    inline bool isNEO() { return NEO; }
+    inline bool isNEO() const { return NEO; }
 
     /**
      *@short Sets the asteroid's albedo
@@ -141,7 +141,7 @@ public:
     /**
      *@return the asteroid's albedo
      */
-    inline float getAlbedo() { return Albedo; }
+    inline float getAlbedo() const { return Albedo; }
 
     /**
      *@short Sets the asteroid's diameter
@@ -151,7 +151,7 @@ public:
     /**
      *@return the asteroid's diameter
      */
-    inline float getDiameter() { return Diameter; }
+    inline float getDiameter() const { return Diameter; }
 
     /**
      *@short Sets the asteroid's dimensions
@@ -161,7 +161,7 @@ public:
     /**
      *@return the asteroid's dimensions
      */
-    inline QString getDimensions() { return Dimensions; }
+    inline QString getDimensions() const { return Dimensions; }
 
      /**
      *@short Sets the asteroid's rotation period
@@ -171,7 +171,7 @@ public:
     /**
      *@return the asteroid's rotation period
      */
-    inline float getRotationPeriod() { return RotationPeriod; }
+    inline float getRotationPeriod() const { return RotationPeriod; }
 
      /**
      *@short Sets the asteroid's period
@@ -181,7 +181,7 @@ public:
     /**
      *@return the asteroid's period
      */
-    inline float getPeriod() { return Period; }
+    inline float getPeriod() const { return Period; }
 
 protected:
     /**Calculate the geocentric RA, Dec coordinates of the Asteroid.

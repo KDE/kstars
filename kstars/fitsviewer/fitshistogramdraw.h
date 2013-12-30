@@ -31,8 +31,8 @@ public:
 
     int getUpperLimit();
     int getLowerLimit();
-    int getHistWidth() { return hist_width; }
-    int getHistHeight() { return hist_height;}
+    int getHistWidth() const { return hist_width; }
+    int getHistHeight() const { return hist_height;}
     void init();
 
 protected:

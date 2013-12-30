@@ -22,6 +22,7 @@
 
 /**@class CultureList
  * A list of all cultures
+ * FIXME: Why not use a QStringList?
  */
 class CultureList
 {
@@ -30,17 +31,17 @@ public:
     CultureList();
 
     /** @short Return the current sky culture */
-    QString current() { return m_CurrentCulture; }
+    QString current() const { return m_CurrentCulture; }
 
     /** @short Set the current culture name */
     void setCurrent( QString newName );
 
     /** @short Return a sorted list of cultures */
-    QStringList getNames() { return m_CultureList; }
+    QStringList getNames() const { return m_CultureList; }
 
     /** @short Return the name of the culture at index.
      *  @return null string if is index is out of range */
-    QString getName( int index );
+    QString getName( int index ) const;
 
 private:
     QString     m_CurrentCulture;

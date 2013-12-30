@@ -105,10 +105,10 @@ class OAL::Log {
         OAL::Lens* findLensByName( QString name );
         OAL::Filter* findFilterByName( QString name );
         OAL::Observation* findObservationByName( QString name );
-        QHash<QString, QTime> timeHash() { return TimeHash; }
-        KStarsDateTime dateTime() { return dt; }
+        QHash<QString, QTime> timeHash() const { return TimeHash; }
+        KStarsDateTime dateTime() const { return dt; }
         GeoLocation* geoLocation() { return geo; }
-        inline QString writtenOutput() { return output; }
+        inline QString writtenOutput() const { return output; }
     private:
         QList<SkyObject *> m_targetList;
         QList<OAL::Observer *> m_observerList;

@@ -55,11 +55,11 @@ public:
 
     /* @short returns the threshold.
      */
-    double threshold() { return m_threshold; }
+    double threshold() const { return m_threshold; }
 
     /* @short returns the number of stars in the list.
      */
-    int size() { return m_stars.size(); }
+    int size() const { return m_stars.size(); }
 
     /* @short sets the time this list was last indexed to.  Normally this
      * is done automatically in the reindex() routine but this is useful

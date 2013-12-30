@@ -265,7 +265,7 @@ public:
     /* @short Returns the debug level.  This is used as a global debug level
      * for LineListIndex and its subclasses.
      */
-    int debug() { return m_debug; }
+    int debug() const { return m_debug; }
 
     /* @short Sets the debug level.
      */
@@ -274,7 +274,7 @@ public:
     /* @return the current drawID which gets incremented each time aperture()
      * is called.
      */
-    DrawID drawID( ) { return m_drawID; }
+    DrawID drawID( ) const { return m_drawID; }
 
     /* @short increments the drawID and returns the new value.  This is
      * useful when you want to use the drawID to ensure you are not
@@ -293,7 +293,7 @@ public:
     void draw( QPainter& psky, MeshBufNum_t
                bufNum=DRAW_BUF );
 
-    bool inDraw() { return m_inDraw; }
+    bool inDraw() const { return m_inDraw; }
     void inDraw( bool inDraw ) { m_inDraw = inDraw; }
 
 private:

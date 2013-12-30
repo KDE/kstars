@@ -101,85 +101,85 @@ public:
       * \brief Get legend type.
       * \return Current legend type value.
       */
-    inline LEGEND_TYPE getType() { return m_Type; }
+    inline LEGEND_TYPE getType() const { return m_Type; }
 
     /**
       * \brief Get legend orientation.
       * \return Current legend orientation value.
       */
-    inline LEGEND_ORIENTATION getOrientation() { return m_Orientation; }
+    inline LEGEND_ORIENTATION getOrientation() const { return m_Orientation; }
 
     /**
       * \brief Get legend position.
       * \return Current legend position value.
       */
-    inline LEGEND_POSITION getPosition() { return m_Position; }
+    inline LEGEND_POSITION getPosition() const { return m_Position; }
 
     /**
       * \brief Get position of the floating legend.
       * \return Current position of the floating legend.
       */
-    inline QPoint getFloatingPosition() { return m_PositionFloating; }
+    inline QPoint getFloatingPosition() const { return m_PositionFloating; }
 
     /**
       * \brief Get symbol size.
       * \return Current symbol size value.
       */
-    inline int getSymbolSize() { return m_SymbolSize; }
+    inline int getSymbolSize() const { return m_SymbolSize; }
 
     /**
       * \brief Get symbol description's bounding rectangle width.
       * \return Current bounding rectangle width.
       */
-    inline int getBRectWidth() { return m_BRectWidth; }
+    inline int getBRectWidth() const { return m_BRectWidth; }
 
     /**
       * \brief Get symbol description's bounding rectangle height.
       * \return Current bounding rectangle height.
       */
-    inline int getBRectHeight() { return m_BRectHeight; }
+    inline int getBRectHeight() const { return m_BRectHeight; }
 
     /**
       * \brief Get maximal horizontal scale size in pixels.
       * \return Current maximal horizontal scale size in pixels.
       */
-    inline int getMaxHScalePixels() { return m_MaxHScalePixels; }
+    inline int getMaxHScalePixels() const { return m_MaxHScalePixels; }
 
     /**
       * \brief Get maximal vertical scale size in pixels.
       * \brief Current maximal vertical scale size in pixels.
       */
-    inline int getMaxVScalePixels() { return m_MaxVScalePixels; }
+    inline int getMaxVScalePixels() const { return m_MaxVScalePixels; }
 
     /**
       * \brief Get symbol image X spacing.
       * \return Current symbol image X spacing.
       */
-    inline int getXSymbolSpacing() { return m_XSymbolSpacing; }
+    inline int getXSymbolSpacing() const { return m_XSymbolSpacing; }
 
     /**
       * \brief Get symbol image Y spacing.
       * \return Current symbol image Y spacing.
       */
-    inline int getYSymbolSpacing() { return m_YSymbolSpacing; }
+    inline int getYSymbolSpacing() const { return m_YSymbolSpacing; }
 
     /**
       * \brief Get font.
       * \return Current font.
       */
-    inline QFont getFont() { return m_Font; }
+    inline QFont getFont() const { return m_Font; }
 
     /**
       * \brief Get background color.
       * \return Current background color.
       */
-    inline QColor getBgColor() { return m_BgColor; }
+    inline QColor getBgColor() const { return m_BgColor; }
 
     /**
       * \brief Check if frame around legend is drawn.
       * \return True if frame is drawn.
       */
-    inline bool getDrawFrame() { return m_DrawFrame; }
+    inline bool getDrawFrame() const { return m_DrawFrame; }
 
     /**
       * \brief Set legend type.

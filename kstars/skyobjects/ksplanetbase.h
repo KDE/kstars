@@ -120,7 +120,7 @@ public:
     void EquatorialToEcliptic( const dms *Obliquity );
 
     /** @return pointer to this planet's texture */
-    const QImage& image() { return m_image; }
+    const QImage& image() const { return m_image; }
 
     /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance) */
     double rsun() const { return ep.radius; }

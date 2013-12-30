@@ -110,53 +110,53 @@ class BinFileHelper {
      *@return  A dataElement structure containing field data if the field exists, 
      *         containing junk values if the field doesn't exist
      */
-    struct dataElement getField(const QString &fieldName);
+    struct dataElement getField(const QString &fieldName) const;
 
     /**
      *@short  Check whether a field exists
      *@param  fieldName   Name of the field
      *@return True if the field exists, false if it does not or the FD hasn't been read yet
      */
-    bool isField(const QString &FieldName);
+    bool isField(const QString &FieldName) const;
 
     /**
      *@short  Check whether file properties are real or bogus
      *@return The value of private variable indexUpdated, which is true if data has been updated
      */
-    inline bool propertiesUpdated() { return indexUpdated; }
+    inline bool propertiesUpdated() const { return indexUpdated; }
 
     /**
      *@short  Get the file handle corresponding to the currently open file
      *@return The filehandle if a file is open, NULL if no file is open
      */
-    inline FILE *getFileHandle() { return fileHandle; }
+    inline FILE *getFileHandle() const { return fileHandle; }
 
     /**
      *@short  Returns the offset in the file corresponding to the given index ID
      *@param  id  ID of the index entry whose offset is required
      *@return The offset corresponding to that index ID, 0 if the index hasn't been read
      */
-    inline long getOffset(int id) { return (indexUpdated ? indexOffset.at( id ) : 0); }
+    inline long getOffset(int id) const { return (indexUpdated ? indexOffset.at( id ) : 0); }
 
     /**
      *@short  Returns the number of records under the given index ID
      *@param  id  ID of the index entry
      *@return The number of records under index that index ID, or 0 if the index has not been read
      */
-    inline unsigned int getRecordCount(int id) { return (indexUpdated ? indexCount.at( id ) : 0); }
+    inline unsigned int getRecordCount(int id) const { return (indexUpdated ? indexCount.at( id ) : 0); }
 
     /**
      *@short  Returns the total number of records in the file
      *@return The number of records in the file, or 0 if the index has not been read
      */
-    inline unsigned long getRecordCount() { return (indexUpdated ? recordCount : 0); }
+    inline unsigned long getRecordCount() const { return (indexUpdated ? recordCount : 0); }
 
     /**
      *@short  Should we do byte swapping?
      *@note   To be called only after the header has been parsed
      *@return true if we must do byte swapping, false if not
      */
-    inline bool getByteSwap() { return byteswap; }
+    inline bool getByteSwap() const { return byteswap; }
 
     /**
      *@short  Return a guessed record size
@@ -164,7 +164,7 @@ class BinFileHelper {
      *        not be correct in many cases
      *@return A guessed size of the record, or zero if the FD hasn't been read yet
      */
-    inline int guessRecordSize() { return (RSUpdated ? recordSize : 0); }
+    inline int guessRecordSize() const { return (RSUpdated ? recordSize : 0); }
 
     /**
      *@short  Override record size
@@ -179,25 +179,25 @@ class BinFileHelper {
      *@short  Returns the number of fields as suggested by the field descriptor in the header
      *@return Number of fields, or zero if the FD hasn't been read yet
      */
-    inline int getFieldCount() { return (FDUpdated ? nfields : 0); }
+    inline int getFieldCount() const { return (FDUpdated ? nfields : 0); }
 
     /**
      *@short  Returns the header text
      *@return QString containing the header text if header has been read, blank QString otherwise
      */
-    inline QString getHeaderText() { return (preambleUpdated ? headerText : ""); }
+    inline QString getHeaderText() const { return (preambleUpdated ? headerText : ""); }
 
     /**
      *@short  Returns the offset at which the data begins
      *@return The value of dataOffset if indexUpdated, else zero
      */
-    inline long getDataOffset() { return (indexUpdated ? dataOffset : 0); }
+    inline long getDataOffset() const { return (indexUpdated ? dataOffset : 0); }
 
     /**
      *@short  Returns the offset at which the index table begins
      *@return The value of itableOffset if FDUpdated, else zero
      */
-    inline long getIndexTableOffset() { return (FDUpdated ? itableOffset : 0); }
+    inline long getIndexTableOffset() const { return (FDUpdated ? itableOffset : 0); }
 
     /**
      *@short Wrapper around fseek for large offsets

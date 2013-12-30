@@ -77,7 +77,7 @@ class StarBlockFactory {
      *
      *@return Number of StarBlocks currently allocated
      */
-    inline int getBlockCount() { return nBlocks; }
+    inline int getBlockCount() const { return nBlocks; }
 
     /**
      *@short  Frees all StarBlocks that are in the cache
@@ -94,7 +94,7 @@ class StarBlockFactory {
     /**
      *@short  Prints the structure of the cache, for debugging
      */
-    void printStructure();
+    void printStructure() const;
 
     quint32 drawID;            // A number identifying the current draw cycle
 
