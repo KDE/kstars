@@ -124,3 +124,16 @@
 
 - More internet links
 
+7. Cleanup ideas
+----------------
+
+- Maybe replace CultureList by a QStringList
+
+- Maybe replace OAL::Observer by a QHash
+
+- Lots of things could be const, but aren't. Add const where possible.
+
+- Some things can't be const, but should be. Tweak things to add const.
+
+- Lots of things are marked inline when it's clearly unnecessary. The 
+  inline keyword isn't a magic speed boost; it's just visual spam.
