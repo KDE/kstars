@@ -43,11 +43,11 @@ public:
     KSHelpLabel(const QString& text, const QString& anchor,
                 QWidget *parent = 0);
 
-    QString text() { return m_cleanText; }
+    QString text() const { return m_cleanText; }
     void setText(const QString& text);
 
     void setAnchor(const QString& anchor);
-    QString anchor() { return m_anchor; }
+    QString anchor() const { return m_anchor; }
 
 private slots:
     /** Open AstroInfo definition of the terms

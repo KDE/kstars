@@ -91,25 +91,25 @@ class StarBlockList {
      *@short  Returns the total number of stars in this StarBlockList
      *@return Total number of stars in this StarBlockList
      */
-    inline long getStarCount() { return nStars; }
+    inline long getStarCount() const { return nStars; }
 
     /**
      *@short  Returns the total number of blocks in theis StarBlockList
      *@return Number of blocks in this StarBlockList
      */
-    inline int getBlockCount() { return nBlocks; }
+    inline int getBlockCount() const { return nBlocks; }
 
     /**
      *@short  Returns the magnitude of the faintest star currently stored
      *@return Magnitude of faintest star stored in this StarBlockList
      */
-    inline float getFaintMag() { return faintMag; }
+    inline float getFaintMag() const { return faintMag; }
 
     /**
      *@short  Returns the trixel that this SBL is meant for
      *@return The value of trixel
      */
-    inline Trixel getTrixel() { return trixel; }
+    inline Trixel getTrixel() const { return trixel; }
 
  private:
     Trixel trixel;

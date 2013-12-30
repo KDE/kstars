@@ -285,7 +285,7 @@ public:
      *@short Query whether this SkyObject has a valid AuxInfo structure associated with it.
      *@return true if this SkyObject has a valid AuxInfo structure associated with it, false if not.
      */
-    inline bool hasAuxInfo() { return ! (!info); }
+    inline bool hasAuxInfo() const { return ! (!info); }
 
     /**
      *@return a reference to a QStringList storing a list of Image URLs associated with this SkyObject

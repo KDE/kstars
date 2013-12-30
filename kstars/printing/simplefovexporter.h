@@ -90,19 +90,19 @@ public:
       * \return true if clock will be stopped for FOV export.
       * \note If changed, previous clock state will be restored after FOV export is done.
       */
-    inline bool isClockStopping() { return m_StopClock; }
+    inline bool isClockStopping() const { return m_StopClock; }
 
     /**
       * \brief Check if FOV representation will be always rectangular.
       * \return true if FOV shape is overridden.
       */
-    inline bool isFovShapeOverriden() { return m_OverrideFovShape; }
+    inline bool isFovShapeOverriden() const { return m_OverrideFovShape; }
 
     /**
       * \brief Check if FOV symbol will be drawn.
       * \return true if FOV symbol will be drawn.
       */
-    inline bool isFovSymbolDrawn() { return m_DrawFovSymbol; }
+    inline bool isFovSymbolDrawn() const { return m_DrawFovSymbol; }
 
     /**
       * \brief Enable or disable stopping simulation for FOV export.

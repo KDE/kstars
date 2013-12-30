@@ -177,7 +177,7 @@ public:
     void JITupdate();
 
     /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
-    inline double pmMagnitude()
+    inline double pmMagnitude() const
     {
         double cosDec = dec0().cos();
         return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
@@ -187,7 +187,7 @@ public:
      *@short returns the square of the magnitude of the proper motion correction in (milliarcsec/year)^2
      *@note This method is faster when the square root need not be taken
      */
-    inline double pmMagnitudeSquared()
+    inline double pmMagnitudeSquared() const
     {
         double metric_weighted_pmRA = dec0().cos() * pmRA();
         return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());

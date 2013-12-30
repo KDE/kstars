@@ -241,7 +241,7 @@ int StarBlockFactory::deleteBlocks( int nblocks ) {
     return i;
 }
 
-void StarBlockFactory::printStructure() {
+void StarBlockFactory::printStructure() const {
 
     StarBlock *cur;
     Trixel curTrixel = 513; // TODO: Change if we change HTMesh level

@@ -76,7 +76,7 @@ public:
     bool isDSTActive( const KStarsDateTime &date );
 
     /**@return true if the rule is the "empty" TZ rule. */
-    bool isEmptyRule() { return ( HourOffset == 0.0 ); }
+    bool isEmptyRule() const { return ( HourOffset == 0.0 ); }
 
     /** Toggle DST on/off.  The @p activate argument should probably be isDSTActive()
     	*@param activate if true, then set DST active; otherwise, deactivate DST
@@ -100,10 +100,10 @@ public:
                            const bool automaticDSTchange = false );
 
     /**@return computed value for next DST change in universal time. */
-    KStarsDateTime nextDSTChange() { return next_change_utc; }
+    KStarsDateTime nextDSTChange() const { return next_change_utc; }
 
     /**@return computed value for next DST change in local time. */
-    KStarsDateTime nextDSTChange_LTime() { return next_change_ltime; }
+    KStarsDateTime nextDSTChange_LTime() const { return next_change_ltime; }
 
     /**@return true if this rule is the same as the argument.
      * @param r the rule to check for equivalence

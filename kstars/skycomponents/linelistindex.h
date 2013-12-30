@@ -150,7 +150,7 @@ protected:
 
     virtual LineListLabel* label() {return 0;};
     
-    inline LineListList  listList() { return m_listList; }
+    inline LineListList  listList() const { return m_listList; }
     
 private:
     QString      m_name;

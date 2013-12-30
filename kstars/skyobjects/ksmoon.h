@@ -64,7 +64,7 @@ public:
     virtual bool loadData();
 
     /** @return iPhase, which is used as a key to find the right image file */
-    inline short int getIPhase() { return iPhase; }
+    inline short int getIPhase() const { return iPhase; }
 
     /** Reimplemented from KSPlanetBase, this function employs unique algorithms for
      *  estimating the lunar coordinates.  Finding the position of the moon is

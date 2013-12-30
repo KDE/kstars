@@ -22,12 +22,13 @@
 
 #include <QString>
 
+/// FIXME: why not just use a QHash?
 class OAL::Observer {
     public:
-       QString id() { return m_Id; }
-       QString name() { return m_Name; }
-       QString surname() { return m_Surname; }
-       QString contact() { return m_Contact; }
+       QString id() const { return m_Id; }
+       QString name() const { return m_Name; }
+       QString surname() const { return m_Surname; }
+       QString contact() const { return m_Contact; }
        Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _id, _name, _surname, _contact ); }
        void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "" );
     private:

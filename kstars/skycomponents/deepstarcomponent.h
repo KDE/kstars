@@ -69,7 +69,7 @@ public:
     /**
      *@return true if this DeepStarComponent has static stars (that are not dynamically loaded)
      */
-    inline bool hasStaticStars() { return staticStars; }
+    inline bool hasStaticStars() const { return staticStars; }
 
     /**
      *@return return the estimated faint magnitude limit of this DeepStarComponent
@@ -87,7 +87,7 @@ public:
      */
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
-    inline bool fileOpen() { return fileOpened; }
+    inline bool fileOpen() const { return fileOpened; }
 
     inline BinFileHelper *getStarReader() { return &starReader; }
 

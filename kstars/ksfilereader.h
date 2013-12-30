@@ -105,7 +105,7 @@ public:
     /* @return true if we are not yet at the end of the file.
      * (I added this to be compatible with existing code.)
      */
-    bool hasMoreLines() { return ! QTextStream::atEnd(); }
+    bool hasMoreLines() const { return ! QTextStream::atEnd(); }
 
     /* @short increments the line number and returns the next line from the
      * file as a QString.
@@ -117,7 +117,7 @@ public:
 
     /* @short returns the current line number
      */
-    int lineNumber() { return m_curLine; }
+    int lineNumber() const { return m_curLine; }
 
     /* @short Prepares this instance to emit progress reports on how much
      * of the file has been read (in percent).

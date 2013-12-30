@@ -67,7 +67,7 @@ public:
      *
      *@return true if full, false if not full
      */
-    inline bool isFull() { return nStars == size(); }
+    inline bool isFull() const { return nStars == size(); }
 
     /**
      *@short  Return the capacity of this StarBlock
@@ -78,7 +78,7 @@ public:
      *
      *@return The number of stars that this StarBlock can hold
      */
-    inline int size() { return stars.size(); }
+    inline int size() const { return stars.size(); }
 
     /**
      *@short  Return the i-th star in this StarBlock
@@ -94,20 +94,20 @@ public:
      *
      *@return Magnitude of the brightest star
      */
-    inline float getBrightMag() { return brightMag; }
+    inline float getBrightMag() const { return brightMag; }
 
     /**
      *@short  Return the magnitude of the faintest star in this StarBlock
      *
      *@return Magnitude of the faintest star
      */
-    inline float getFaintMag() { return faintMag; }
+    inline float getFaintMag() const { return faintMag; }
 
     /**
      *@short  Return the number of stars currently filled in this StarBlock
      *@return Number of stars filled in this StarBlock
      */
-    inline int getStarCount() { return nStars; }
+    inline int getStarCount() const { return nStars; }
 
     /**
      *@short  Reset this StarBlock's data, for reuse of the StarBl

@@ -60,32 +60,32 @@ public:
     /**
      *@return the Right Ascension
      */
-    inline dms getRA() { return RA ; }
+    inline dms getRA() const { return RA ; }
 
     /**
      *@return the Declination
      */
-    inline dms getDec() { return Dec ; }
+    inline dms getDec() const { return Dec ; }
 
     /**
      * @return Magnitude for the Supernova
      */
-    inline float getMagnitude() { return Magnitude ; }
+    inline float getMagnitude() const { return Magnitude ; }
 
     /**
      * @return the type of the supernova
      */
-    inline QString getType() { return type; }
+    inline QString getType() const { return type; }
 
     /**
      * @return the host galaxy of the supernova
      */
-    inline QString getHostGalaxy() { return hostGalaxy; }
+    inline QString getHostGalaxy() const { return hostGalaxy; }
 
     /**
      * @return the date the supernova was observed
      */
-    inline QString getDate() { return date; }
+    inline QString getDate() const { return date; }
 
 private:
     void initPopupMenu(KSPopupMenu*);

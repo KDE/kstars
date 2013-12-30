@@ -43,6 +43,7 @@ void CultureList::setCurrent ( QString newName ) {
     m_CurrentCulture = newName;
 }
 
-QString CultureList::getName( int index ) {
+QString CultureList::getName( int index ) const
+{
     return m_CultureList.value( index );
 }

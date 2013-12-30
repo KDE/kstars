@@ -108,7 +108,7 @@ public:
     /** Returns true if time is running forward else false. Used by KStars to prevent
      *  double calculations of daylight saving change time.
      */
-    bool isTimeRunningForward() { return TimeRunsForward; }
+    bool isTimeRunningForward() const { return TimeRunsForward; }
 
     /**@return pointer to the localization (KLocale) object */
     KLocale *getLocale() { return locale; }
@@ -177,7 +177,7 @@ public:
     void setLocationFromOptions();
 
     /** Return map for daylight saving rules. */
-    const QMap<QString, TimeZoneRule>& getRulebook() { return Rulebook; }
+    const QMap<QString, TimeZoneRule>& getRulebook() const { return Rulebook; }
 
     /** @return whether the next Focus change will omit the slewing animation. */
     bool snapNextFocus() const { return snapToFocus; }
@@ -221,8 +221,8 @@ public:
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
-    unsigned int updateID()    { return m_updateID; }
-    unsigned int updateNumID() { return m_updateNumID; }
+    unsigned int updateID()    const { return m_updateID; }
+    unsigned int updateNumID() const { return m_updateNumID; }
     KSNumbers* updateNum()     { return &m_updateNum; }
     void syncUpdateIDs();
 

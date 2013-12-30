@@ -43,19 +43,19 @@ public:
     bool setBinning(CCDBinType binType);
     CCDBinType getBinning();
     bool getBinning(int *bin_x, int *bin_y);
-    ChipType getType() { return type; }
+    ChipType getType() const { return type; }
     void setShowFITS(bool enable) { displayFITS = enable;}
-    bool showFITS() { return displayFITS; }
+    bool showFITS() const { return displayFITS; }
 
     bool isCapturing();
     bool abortExposure();
 
-    FITSMode getCaptureMode() { return captureMode;}
-    FITSScale getCaptureFilter() { return captureFilter; }
+    FITSMode getCaptureMode() const { return captureMode;}
+    FITSScale getCaptureFilter() const { return captureFilter; }
 
-    bool isBatchMode() { return batchMode; }
+    bool isBatchMode() const { return batchMode; }
     void setBatchMode(bool enable) { batchMode = enable; }
-    QStringList getFrameTypes() { return frameTypes; }
+    QStringList getFrameTypes() const { return frameTypes; }
     void addFrameLabel(const QString & label) { frameTypes << label; }
 
     bool canBin() const;
