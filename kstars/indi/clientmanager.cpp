@@ -56,8 +56,11 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
 
     foreach(DriverInfo *dv, managedDrivers)
     {
+        QString dvName = dv->getName().split(" ").first();
+        if (dvName.isEmpty())
+            dvName = dv->getName();
         if (dv->getUniqueLabel() == dp->getDeviceName() ||
-                QString(dp->getDeviceName()).startsWith(dv->getName(), Qt::CaseInsensitive) || dv->getDriverSource() == HOST_SOURCE)
+                QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) || dv->getDriverSource() == HOST_SOURCE)
         {
             dv->setUniqueLabel(dp->getDeviceName());
 
