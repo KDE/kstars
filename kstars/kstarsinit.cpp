@@ -160,7 +160,8 @@ void KStars::initActions() {
     // ==== Time Menu ================
     actionCollection()->addAction("time_to_now", this, SLOT( slotSetTimeToNow() ))
         << i18n("Set Time to &Now")
-        << KShortcut( Qt::CTRL+Qt::Key_E );
+        << KShortcut( Qt::CTRL+Qt::Key_E )
+        << KIcon("clock");
 
     actionCollection()->addAction("time_dialog", this, SLOT( slotSetTime() ) )
         << i18nc("set Clock to New Time", "&Set Time..." )

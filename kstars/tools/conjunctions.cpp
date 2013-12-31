@@ -103,15 +103,18 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     maxSeparationBox->setDMS( "01 00 00.0" );
 
     //Set up the Table Views
-    m_Model = new QStandardItemModel( 0, 4, this );
+    m_Model = new QStandardItemModel( 0, 5, this );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Conjunction/Opposition" ) 
-            << i18n( "Date && Time (UT)" ) << i18n( "Object" ) << i18n( "Separation" ) );
+            << i18n( "Date & Time (UT)" ) << i18n( "Object 1" ) << i18n( "Object 2" ) << i18n( "Separation" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     OutputList->setModel( m_SortModel );
     OutputList->setSortingEnabled(true);
     OutputList->horizontalHeader()->setStretchLastSection( true );
-    OutputList->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents, QHeaderView::ResizeToContents );
+    OutputList->horizontalHeader()->setResizeMode(  QHeaderView::Interactive );
+    OutputList->horizontalHeader()->resizeSection(2, 100);
+    OutputList->horizontalHeader()->resizeSection(3, 100);
+    OutputList->horizontalHeader()->resizeSection(4, 120); //is it bad way to fix default size of columns ?
 
     //FilterEdit->showClearButton = true;
     ClearFilterButton->setIcon( KIcon( "edit-clear" ) );
@@ -344,7 +347,7 @@ void ConjunctionsTool::slotCompute (void)
 
             // Compute conjuction
             Object1 = data->skyComposite()->findByName( object );
-            showConjunctions( ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition), object );
+            showConjunctions( ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition), object, Object2->name() );
         }
 
         progressDlg.setValue( objects.count() );
@@ -353,7 +356,7 @@ void ConjunctionsTool::slotCompute (void)
         QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
 
         ComputeStack->setCurrentIndex( 1 );
-        showConjunctions( ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition), Object1->name() );
+        showConjunctions( ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition), Object1->name(), Object2->name() );
         ComputeStack->setCurrentIndex( 0 );
 
         // Restore cursor
@@ -368,7 +371,7 @@ void ConjunctionsTool::showProgress(int n) {
     progress->setValue( n );
 }
 
-void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctionlist, QString object)
+void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctionlist,const QString &object1,const QString &object2)
 {
     KStarsDateTime dt;
     QMap<long double, dms>::ConstIterator it;
@@ -383,9 +386,10 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
         else
             typeItem = new QStandardItem( i18n( "Opposition" ) );
 
-        itemList << typeItem 
-                << new QStandardItem( KGlobal::locale()->formatDateTime( dt, KLocale::IsoDate ) ) 
-                << new QStandardItem( object ) 
+        itemList << typeItem
+                << new QStandardItem( KGlobal::locale()->formatDateTime( dt, KLocale::IsoDate ) )
+                << new QStandardItem( object1 )
+                << new QStandardItem( object2 )
                 << new QStandardItem( it.value().toDMSString() );
         m_Model->appendRow( itemList );
         itemList.clear();

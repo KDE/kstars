@@ -70,7 +70,7 @@ private:
     QHash<int, QString> pNames;   // To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
     QMap<int, long double> outputJDList; // To store Julian Days corresponding to the row index in the output list widget
 
-    void showConjunctions(const QMap<long double, dms> &conjunctionlist, QString object);
+    void showConjunctions(const QMap<long double, dms> &conjunctionlist, const QString &object1 ,const QString &object2);
 
     GeoLocation *geoPlace;
 
