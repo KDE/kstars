@@ -194,12 +194,14 @@ void AsteroidsComponent::draw( SkyPainter *skyp )
         // FIXME: God help us!
         KSAsteroid *ast = (KSAsteroid*) so;
 
-        if ( ast->mag() > Options::magLimitAsteroid() ) continue;
+        if ( ast->mag() > Options::magLimitAsteroid() || isnan(ast->mag()) != 0)
+            continue;
 
         bool drawn = skyp->drawPointSource(ast,ast->mag());
-        
+
         if ( drawn && !( hideLabels || ast->mag() >= labelMagLimit ) )
             SkyLabeler::AddLabel( ast, SkyLabeler::ASTEROID_LABEL );
+
     }
 }
 
