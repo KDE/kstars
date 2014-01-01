@@ -879,7 +879,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
     bool isPrimaryCCD = false;
 
-    if (ccd_di == ccdDevice->getDriverInfo())
+    if (ccd_di == ccdDevice->getDriverInfo() || (ccd_di == NULL && Options::remoteCCDName() == ccdDevice->getDeviceName()))
         isPrimaryCCD = true;
 
     initCapture();
