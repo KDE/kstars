@@ -218,7 +218,7 @@ Capture::~Capture()
     qDeleteAll(jobs);
 }
 
-void Capture::addCCD(ISD::GDInterface *newCCD)
+void Capture::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
 {
     ISD::CCD *ccd = static_cast<ISD::CCD *> (newCCD);
 
@@ -226,7 +226,13 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
     CCDs.append(ccd);
 
-    checkCCD(0);
+    if (isPrimaryCCD)
+    {
+        checkCCD(CCDs.count()-1);
+        CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
+    }
+    else
+        CCDCaptureCombo->setCurrentIndex(0);
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)

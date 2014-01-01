@@ -40,7 +40,7 @@ public:
     ~Focus();
 
     void setFocuser(ISD::GDInterface *newFocuser);
-    void addCCD(ISD::GDInterface *newCCD);
+    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void focuserDisconnected();
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;

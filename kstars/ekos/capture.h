@@ -123,7 +123,7 @@ public:
 
     Capture();
     ~Capture();
-    void addCCD(ISD::GDInterface *newCCD);
+    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
     void addGuideHead(ISD::GDInterface *newCCD);
 

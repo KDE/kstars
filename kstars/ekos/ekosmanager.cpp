@@ -30,7 +30,7 @@
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 
 EkosManager::EkosManager()
-        : QDialog(KStars::Instance())
+        : QDialog()
 {
     setupUi(this);
 
@@ -877,13 +877,18 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
+    bool isPrimaryCCD = false;
+
+    if (ccd_di == ccdDevice->getDriverInfo())
+        isPrimaryCCD = true;
+
     initCapture();
 
-    captureProcess->addCCD(ccdDevice);
+    captureProcess->addCCD(ccdDevice, isPrimaryCCD);
 
     initFocus();
 
-    focusProcess->addCCD(ccdDevice);
+    focusProcess->addCCD(ccdDevice, isPrimaryCCD);
 
     // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
     //if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
@@ -896,7 +901,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         guideProcess->setCCD(guider);
 
         initAlign();
-        alignProcess->addCCD(guider);
+        alignProcess->addCCD(guider, false);
 
         if (scope && scope->isConnected())
             guideProcess->setTelescope(scope);
@@ -911,7 +916,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         ccdStarted = true;
 
         initAlign();
-        alignProcess->addCCD(ccd);
+        alignProcess->addCCD(ccd, isPrimaryCCD);
         if (scope && scope->isConnected())
             alignProcess->setTelescope(scope);
 

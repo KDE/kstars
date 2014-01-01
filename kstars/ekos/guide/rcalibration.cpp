@@ -436,7 +436,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             if (ra_only)
                 turn_back_time = auto_drift_time*2 + auto_drift_time/2;
             else
-                turn_back_time = auto_drift_time*5;
+                turn_back_time = auto_drift_time*6;
             iterations = 0;
 
             ui.progressBar->setMaximum( turn_back_time );
@@ -557,7 +557,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         }
         else
         {
-            QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
+            QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
             ui.startCalibrationLED->setColor(alertColor);
             calibrationStage = CAL_ERROR;
         }
@@ -648,7 +648,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     }
     else
     {
-        QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
+        QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
     }

@@ -139,15 +139,20 @@ void Focus::setFocuser(ISD::GDInterface *newFocuser)
     resetButtons();
 }
 
-void Focus::addCCD(ISD::GDInterface *newCCD)
+void Focus::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 
-    CCDs.append(static_cast<ISD::CCD *>(newCCD));
+    CCDs.append(static_cast<ISD::CCD *>(newCCD));   
 
-    checkCCD(0);
+    if (isPrimaryCCD)
+    {
+        checkCCD(CCDs.count()-1);
+        CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
+    }
+    else
+        CCDCaptureCombo->setCurrentIndex(0);
 
-    CCDCaptureCombo->setCurrentIndex(0);
 }
 
 void Focus::getAbsFocusPosition()

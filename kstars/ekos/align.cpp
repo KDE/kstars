@@ -196,15 +196,19 @@ void Align::checkCCD(int ccdNum)
 
 }
 
-void Align::addCCD(ISD::GDInterface *newCCD)
+void Align::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 
     CCDs.append(static_cast<ISD::CCD *>(newCCD));
 
-    checkCCD(0);
-
-    CCDCaptureCombo->setCurrentIndex(0);
+    if (isPrimaryCCD)
+    {
+        checkCCD(CCDs.count()-1);
+        CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
+    }
+    else
+        CCDCaptureCombo->setCurrentIndex(0);
 }
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)

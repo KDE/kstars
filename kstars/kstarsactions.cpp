@@ -454,6 +454,8 @@ void KStars::slotEkos()
         ekosmenu = new EkosManager();
 
     ekosmenu->show();
+    ekosmenu->raise();
+    ekosmenu->activateWindow();
 #endif
 #endif
 }
