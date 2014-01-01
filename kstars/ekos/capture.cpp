@@ -232,7 +232,10 @@ void Capture::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
         CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
     }
     else
+    {
+        checkCCD(0);
         CCDCaptureCombo->setCurrentIndex(0);
+    }
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
