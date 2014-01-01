@@ -65,7 +65,7 @@ EkosManager::EkosManager()
     kcfg_localMode->setChecked(Options::localMode());
     kcfg_remoteMode->setChecked(Options::remoteMode());
 
-    connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(updateLog()));
+    connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
     toolsWidget->setTabEnabled(1, false);
 
@@ -1075,6 +1075,33 @@ void EkosManager::processNewProperty(INDI::Property* prop)
 
 }
 
+void EkosManager::processTabChange()
+{
+    QWidget *currentWidget = toolsWidget->currentWidget();
+
+    if (currentWidget == alignProcess)
+    {
+        if (alignProcess->isEnabled() == false && ccd && ccd->isConnected())
+        {
+            if (alignProcess->parserOK())
+                alignProcess->setEnabled(true);
+        }
+
+        alignProcess->checkCCD();
+    }
+    else if (currentWidget == captureProcess)
+    {
+        captureProcess->checkCCD();
+    }
+    else if (currentWidget == focusProcess)
+    {
+        focusProcess->checkCCD();
+    }
+
+    updateLog();
+
+}
+
 void EkosManager::updateLog()
 {
     if (enableLoggingCheck->isChecked() == false)
@@ -1085,15 +1112,7 @@ void EkosManager::updateLog()
     if (currentWidget == setupTab)
         ekosLogOut->setPlainText(logText.join("\n"));
     else if (currentWidget == alignProcess)
-    {
-        if (alignProcess->isEnabled() == false && ccd && ccd->isConnected())
-        {
-            if (alignProcess->parserOK())
-                alignProcess->setEnabled(true);
-        }
-
         ekosLogOut->setPlainText(alignProcess->getLogText());
-    }
     else if (currentWidget == captureProcess)
         ekosLogOut->setPlainText(captureProcess->getLogText());
     else if (currentWidget == focusProcess)

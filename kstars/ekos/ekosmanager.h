@@ -51,6 +51,8 @@ public slots:
     void updateLog();
     void clearLog();
 
+    void processTabChange();
+
     void removeDevice(ISD::GDInterface*);
 
     void deviceConnected();

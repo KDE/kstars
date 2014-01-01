@@ -57,7 +57,7 @@ public slots:
 
 
     void updateScopeCoords(INumberVectorProperty *coord);
-    void checkCCD(int CCDNum);
+    void checkCCD(int CCDNum=-1);
     void newFITS(IBLOB *bp);
 
     /* Solver */

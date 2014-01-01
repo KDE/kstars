@@ -332,6 +332,9 @@ void Capture::stopSequence()
 
 void Capture::checkCCD(int ccdNum)
 {
+    if (ccdNum == -1)
+        ccdNum = CCDCaptureCombo->currentIndex();
+
     if (ccdNum <= CCDs.count())
     {
         int x,y,w,h;

@@ -58,7 +58,7 @@ public slots:
     void capture();
     void startLooping();
 
-    void checkCCD(int CCDNum);
+    void checkCCD(int CCDNum=-1);
 
     void FocusIn(int ms=-1);
     void FocusOut(int ms=-1);

@@ -109,6 +109,9 @@ void Focus::toggleAutofocus(bool enable)
 
 void Focus::checkCCD(int ccdNum)
 {
+    if (ccdNum == -1)
+        ccdNum = CCDCaptureCombo->currentIndex();
+
     if (ccdNum <= CCDs.count())
         currentCCD = CCDs.at(ccdNum);
 
@@ -118,6 +121,7 @@ void Focus::checkCCD(int ccdNum)
         kcfg_focusXBin->setEnabled(targetChip->canBin());
         kcfg_focusYBin->setEnabled(targetChip->canBin());
         kcfg_subFrame->setEnabled(targetChip->canSubframe());
+        targetChip->getFrame(&fx, &fy, &fw, &fh);
     }
 
 }
@@ -431,7 +435,6 @@ void Focus::newFITS(IBLOB *bp)
 
             if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
-                targetChip->getFrame(&fx, &fy, &fw, &fh);
                 int x=maxStar->x - maxStar->width * 2;
                 int y=maxStar->y - maxStar->width * 2;
                 int w=maxStar->width*4*binx;
@@ -465,7 +468,6 @@ void Focus::newFITS(IBLOB *bp)
         }
         else
         {
-            targetChip->getFrame(&fx, &fy, &fw, &fh);
             targetImage->updateMode(FITS_GUIDE);
             targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
             targetImage->setGuideSquare(fw/2, fh/2);

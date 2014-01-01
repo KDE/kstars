@@ -189,6 +189,9 @@ void Align::updateSolverType(bool useOnline)
 
 void Align::checkCCD(int ccdNum)
 {
+    if (ccdNum == -1)
+        ccdNum = CCDCaptureCombo->currentIndex();
+
     if (ccdNum <= CCDs.count())
         currentCCD = CCDs.at(ccdNum);
 

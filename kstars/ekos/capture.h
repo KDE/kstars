@@ -143,7 +143,7 @@ public slots:
     void captureOne();
     void captureImage();
     void newFITS(IBLOB *bp);
-    void checkCCD(int CCDNum);
+    void checkCCD(int CCDNum=-1);
     void checkFilter(int filterNum);
 
     void addJob(bool preview=false);
