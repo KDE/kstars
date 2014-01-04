@@ -162,8 +162,10 @@ Capture::Capture()
 
     deviationDetected = false;
 
-    isAutoGuiding = false;
-    guideDither   = false;
+    isAutoGuiding   = false;
+    guideDither     = false;
+    isAutoFocus     = false;
+    autoFocusStatus = false;
 
     calibrationState = CALIBRATE_NONE;
 
@@ -211,6 +213,7 @@ Capture::Capture()
     displayCheck->setEnabled(Options::showFITS());
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
     guideDeviation->setValue(Options::guideDeviation());
+    autofocusCheck->setChecked(Options::enforceAutofocus());
 }
 
 Capture::~Capture()
@@ -271,6 +274,7 @@ void Capture::startSequence()
 
     Options::setGuideDeviation(guideDeviation->value());
     Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
+    Options::setEnforceAutofocus(autofocusCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -589,12 +593,26 @@ void Capture::newFITS(IBLOB *bp)
 
         if (next_job)
             executeJob(next_job);
+
+        return;
     }
-    else if (isAutoGuiding && guideDither)
+
+    isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked());
+    if (isAutoFocus)
+        autoFocusStatus = false;
+
+    if (isAutoGuiding && guideDither)
+    {
+        secondsLabel->setText(i18n("Dithering..."));
         emit exposureComplete();
+    }
+    else if (isAutoFocus)
+    {
+        secondsLabel->setText(i18n("Focusing..."));
+        emit checkFocus(HFRPixels->value());
+    }
     else
         seqTimer->start(seqDelay);
-
 }
 
 void Capture::captureOne()
@@ -644,6 +662,15 @@ void Capture::captureImage()
 
 void Capture::resumeCapture()
 {
+    appendLogText(i18n("Dither complete."));
+
+    if (isAutoFocus && autoFocusStatus == false)
+    {
+        secondsLabel->setText(i18n("Focusing..."));
+        emit checkFocus(HFRPixels->value());
+        return;
+    }
+
     seqTimer->start(seqDelay);
 }
 
@@ -727,7 +754,7 @@ void Capture::clearLog()
 void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 {
 
-    if (targetChip != tChip)
+    if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL)
         return;
 
     exposeOUT->setText(QString::number(value, 'd', 2));
@@ -1070,6 +1097,28 @@ void Capture::setAutoguiding(bool enable, bool isDithering)
 {
     isAutoGuiding = enable;
     guideDither   = isDithering;
+}
+
+void Capture::updateAutofocusStatus(bool status)
+{
+    autoFocusStatus = status;
+
+    if (status)
+    {
+        autofocusCheck->setEnabled(true);
+        HFRPixels->setEnabled(true);
+    }
+
+    if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    {
+        if (status)
+            seqTimer->start(seqDelay);
+        else
+        {
+            appendLogText(i18n("Autofocus failed. Aborting exposure..."));
+            stopSequence();
+        }
+    }
 }
 
 }

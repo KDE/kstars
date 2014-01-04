@@ -961,7 +961,6 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
     focusProcess->setFocuser(focuser);
 
     appendLogText(i18n("%1 is online.", focuser->getDeviceName()));
-
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -1158,6 +1157,15 @@ void EkosManager::initCapture()
      toolsWidget->addTab( captureProcess, i18n("CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
+     if (focusProcess)
+     {
+         // Autofocus
+         captureProcess->disconnect(focusProcess);
+         focusProcess->disconnect(captureProcess);
+         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)));
+         connect(focusProcess, SIGNAL(autoFocusFinished(bool)), captureProcess, SLOT(updateAutofocusStatus(bool)));
+     }
+
 }
 
 void EkosManager::initAlign()
@@ -1180,6 +1188,15 @@ void EkosManager::initFocus()
     toolsWidget->addTab( focusProcess, i18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
+    if (captureProcess)
+    {
+        // Autofocus
+        captureProcess->disconnect(focusProcess);
+        focusProcess->disconnect(captureProcess);
+        connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)));
+        connect(focusProcess, SIGNAL(autoFocusFinished(bool)), captureProcess, SLOT(updateAutofocusStatus(bool)));
+    }
+
 }
 
 void EkosManager::initGuide()
@@ -1200,6 +1217,9 @@ void EkosManager::initGuide()
 
     if (captureProcess)
     {
+        guideProcess->disconnect(captureProcess);
+        captureProcess->disconnect(guideProcess);
+
         // Guide Limits
         connect(guideProcess, SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
         connect(guideProcess, SIGNAL(newAxisDelta(double,double)), captureProcess, SLOT(setGuideDeviation(double,double)));
@@ -1212,6 +1232,7 @@ void EkosManager::initGuide()
         connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
     }
+
 }
 
 void EkosManager::setST4(ISD::ST4 * st4Driver)

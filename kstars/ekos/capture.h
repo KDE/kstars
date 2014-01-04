@@ -158,12 +158,15 @@ public slots:
     void setAutoguiding(bool enable, bool isDithering);
     void resumeCapture();
 
+    void updateAutofocusStatus(bool status);
+
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const KFileItemList & items);
 
 signals:
         void newLog();
         void exposureComplete();
+        void checkFocus(double);
 
 private:
 
@@ -210,6 +213,10 @@ private:
     // Dither
     bool guideDither;
     bool isAutoGuiding;
+
+    // Autofocus
+    bool isAutoFocus;
+    bool autoFocusStatus;
 
 };
 

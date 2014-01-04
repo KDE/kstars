@@ -16,6 +16,7 @@
 #include <QStringList>
 
 class FITSView;
+class FITSImage;
 
 namespace ISD
 {
@@ -52,7 +53,6 @@ public:
 
     FITSMode getCaptureMode() const { return captureMode;}
     FITSScale getCaptureFilter() const { return captureFilter; }
-
     bool isBatchMode() const { return batchMode; }
     void setBatchMode(bool enable) { batchMode = enable; }
     QStringList getFrameTypes() const { return frameTypes; }
@@ -67,8 +67,12 @@ public:
     bool canAbort() const;
     void setCanAbort(bool value);
 
+    FITSImage *getImageData() const;
+    void setImageData(FITSImage *value);
+
 private:
     FITSView *normalImage, *focusImage, *guideImage, *calibrationImage;
+    FITSImage *imageData;
     FITSMode captureMode;
     FITSScale captureFilter;
     INDI::BaseDevice *baseDevice;

@@ -1317,8 +1317,17 @@
          <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>
          <default>2</default>
     </entry>
+    <entry name="HFRDeviation" type="Double">
+      <label>Default maximum permittable HFR deviation</label>
+         <whatsthis>If HFR deviation exceeds this limit, the autofocus routine will be automatically started.</whatsthis>
+         <default>0.5</default>
+    </entry>
     <entry name="EnforceGuideDeviation" type="Bool">
       <label>Enforce guiding deviation limit.</label>
+      <default>false</default>
+    </entry>
+    <entry name="EnforceAutofocus" type="Bool">
+      <label>Enforce Autofocus HFR limit.</label>
       <default>false</default>
     </entry>
    </group>

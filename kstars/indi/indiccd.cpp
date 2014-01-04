@@ -20,6 +20,8 @@
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitscommon.h"
+#include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsimage.h"
 #endif
 
 #include "clientmanager.h"
@@ -44,6 +46,7 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
     CanBin        = false;
     CanSubframe   = false;
     CanAbort      = false;
+    imageData     = NULL;
 
     captureMode   = FITS_NORMAL;
     captureFilter = FITS_NONE;
@@ -86,18 +89,26 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
     {
         case FITS_NORMAL:
             normalImage = image;
+            if (normalImage)
+                imageData = normalImage->getImageData();
             break;
 
         case FITS_FOCUS:
             focusImage = image;
+            if (focusImage)
+                imageData = focusImage->getImageData();
             break;
 
         case FITS_GUIDE:
             guideImage = image;
+            if (guideImage)
+                imageData = guideImage->getImageData();
             break;
 
         case FITS_CALIBRATE:
             calibrationImage = image;
+            if (calibrationImage)
+                imageData = calibrationImage->getImageData();
             break;
 
         default:
@@ -281,9 +292,15 @@ void CCDChip::setCanAbort(bool value)
 {
     CanAbort = value;
 }
+FITSImage *CCDChip::getImageData() const
+{
+    return imageData;
+}
 
-
-
+void CCDChip::setImageData(FITSImage *value)
+{
+    imageData = value;
+}
 
 bool CCDChip::isCapturing()
 {
@@ -838,7 +855,7 @@ void CCD::processBLOB(IBLOB* bp)
     QString filename(currentDir + '/');
 
     // Create file name for FITS to be shown in FITS Viewer
-    if (targetChip->isBatchMode() == false)
+    if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
     {
 
         tmpFile.setPrefix("fits");
@@ -887,12 +904,22 @@ void CCD::processBLOB(IBLOB* bp)
 
     addFITSKeywords(filename);
 
-    if (targetChip->isBatchMode())
+    // store file name
+    strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
+
+    if (targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL)
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
+
+    if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
+    {
+        emit BLOBUpdated(bp);
+        return;
+    }
 
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
-    if (Options::showFITS() && targetChip->showFITS() == true && targetChip->getCaptureMode() != FITS_WCSM)
+    if (Options::showFITS() && (targetChip->showFITS() || targetChip->getCaptureMode() != FITS_NORMAL)
+            && targetChip->getCaptureMode() != FITS_WCSM)
     {
         KUrl fileURL(filename);
 
@@ -949,9 +976,6 @@ void CCD::processBLOB(IBLOB* bp)
 
     }
     #endif
-
-    // store file name
-    strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
 
     emit BLOBUpdated(bp);
 

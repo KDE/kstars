@@ -68,9 +68,12 @@ public slots:
 
     void newFITS(IBLOB *bp);
     void processFocusProperties(INumberVectorProperty *nvp);
+    void subframeUpdated(bool enable);
+    void checkFocus(double delta);
 
 signals:
         void newLog();
+        void autoFocusFinished(bool);
 
 private:
 
@@ -102,11 +105,14 @@ private:
     double absCurrentPos;
     double pulseStep;
     double absMotionMax, absMotionMin;
+    double deltaHFR;
     int HFRInc;
     int HFRDec;
     bool reverseDir;
     bool starSelected;
     int fx,fy,fw,fh;
+    int subX, subY, subW, subH;
+    int subBinX, subBinY;
 
     QStringList logText;
 

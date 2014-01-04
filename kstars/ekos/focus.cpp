@@ -48,6 +48,10 @@ Focus::Focus()
 
     pulseDuration = 1000;
 
+    subX=subY=subW=subH=-1;
+
+    deltaHFR = 0;
+
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(startFocus()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(stopFocus()));
 
@@ -59,6 +63,8 @@ Focus::Focus()
     connect(AutoModeR, SIGNAL(toggled(bool)), this, SLOT(toggleAutofocus(bool)));
 
     connect(startLoopB, SIGNAL(clicked()), this, SLOT(startLooping()));
+
+    connect(kcfg_subFrame, SIGNAL(toggled(bool)), this, SLOT(subframeUpdated(bool)));
 
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
@@ -187,21 +193,22 @@ void Focus::startFocus()
     {
         absIterations = 0;
         getAbsFocusPosition();
-        //pulseDuration = (absMotionMax - absMotionMin) * 0.05;
         pulseDuration = stepIN->value();
     }
     else
       /* Start 1000 ms */
       pulseDuration=1000;
 
-    capture();
-
     inAutoFocus = true;
 
     resetButtons();
 
     reverseDir = false;
-    starSelected= false;
+
+    if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
+        starSelected= true;
+    else
+        starSelected= false;
 
     qDeleteAll(HFRPoints);
     HFRPoints.clear();
@@ -225,6 +232,8 @@ void Focus::startFocus()
     else
         appendLogText(i18n("Image capture in progress, please select a star to focus."));
 
+    appendLogText("Calling capture from start focus");
+    capture();
 }
 
 void Focus::stopFocus()
@@ -239,6 +248,7 @@ void Focus::stopFocus()
     inAutoFocus = false;
     inFocusLoop = false;
     starSelected= false;
+    deltaHFR    = 0;
 
     currentCCD->disconnect(this);
 
@@ -283,6 +293,9 @@ void Focus::capture()
 
     targetChip->setFrameType(ccdFrame);
 
+    if (starSelected || (subX >= 0 && subY >=0 && subW > 0 && subH > 0))
+        targetChip->setFrame(subX, subY, subW, subH);
+
     targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
@@ -314,10 +327,7 @@ void Focus::FocusIn(int ms)
     currentFocuser->focusIn();
 
     if (canAbsMove)
-    {
         currentFocuser->absMoveFocuser(pulseStep+ms);
-        //qDebug() << "Focusing in to position " << pulseStep+ms << endl;
-    }
     else
         currentFocuser->moveFocuser(ms);
 
@@ -349,10 +359,7 @@ void Focus::FocusOut(int ms)
     currentFocuser->focusOut();
 
     if (canAbsMove)
-    {
         currentFocuser->absMoveFocuser(pulseStep-ms);
-        //qDebug() << "Focusing out to position " << pulseStep-ms << endl;
-    }
     else
         currentFocuser->moveFocuser(ms);
 
@@ -379,7 +386,7 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
-    FITSImage *image_data = targetImage->getImageData();
+    FITSImage *image_data = targetChip->getImageData();
 
     currentCCD->disconnect(this);
 
@@ -396,13 +403,26 @@ void Focus::newFITS(IBLOB *bp)
     qDebug() << "newFITS: Current HFR " << currentHFR << endl;
     #endif
 
-
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
     if (inFocusLoop == false && focusType == FOCUS_MANUAL && HFR == -1)
             appendLogText(i18n("FITS received. No stars detected."));
 
     HFROut->setText(HFRText);
+
+    if (deltaHFR > 0)
+    {
+        if (currentHFR == -1)
+            emit autoFocusFinished(false);
+        else if (currentHFR > deltaHFR)
+           startFocus();
+        else
+            emit autoFocusFinished(true);
+
+        deltaHFR = 0;
+
+        return;
+    }
 
     if (inFocusLoop)
     {
@@ -415,8 +435,7 @@ void Focus::newFITS(IBLOB *bp)
 
     if (starSelected == false)
     {
-        int binx, biny;
-        targetChip->getBinning(&binx, &biny);
+        targetChip->getBinning(&subBinX, &subBinY);
 
         if (kcfg_autoSelectStar->isChecked())
         {
@@ -429,33 +448,32 @@ void Focus::newFITS(IBLOB *bp)
                 targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
                 targetImage->setGuideSquare(fw/2, fh/2);
                 connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
-                //stopFocus();
                 return;
             }
 
             if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
-                int x=maxStar->x - maxStar->width * 2;
-                int y=maxStar->y - maxStar->width * 2;
-                int w=maxStar->width*4*binx;
-                int h=maxStar->width*4*biny;
+                subX=(maxStar->x - maxStar->width * 2) * subBinX;
+                subY=(maxStar->y - maxStar->width * 2) * subBinY;
+                subW=maxStar->width*4*subBinX;
+                subH=maxStar->width*4*subBinY;
 
-                if (x<0)
-                    x=0;
-                if (y<0)
-                    y=0;
-                if (w>fw)
-                    w=fw;
-                if (h>fh)
-                    h=fh;
+                if (subX<0)
+                    subX=0;
+                if (subY<0)
+                    subY=0;
+                if (subW>fw)
+                    subW=fw;
+                if (subH>fh)
+                    subH=fh;
 
-                if (w <= 0)
-                    w = DEFAULT_SUBFRAME_DIM;
-                if (h <= 0)
-                    h = DEFAULT_SUBFRAME_DIM;
+                if (subW <= 0)
+                    subW = DEFAULT_SUBFRAME_DIM;
+                if (subH <= 0)
+                    subH = DEFAULT_SUBFRAME_DIM;
 
 
-                targetChip->setFrame(x, y, w, h);
+                targetChip->setFrame(subX, subY, subW, subH);
             }
 
             starSelected=true;
@@ -511,6 +529,7 @@ void Focus::autoFocusAbs(double currentHFR)
     {
         appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
+        emit autoFocusFinished(false);
         return;
     }
 
@@ -579,10 +598,17 @@ void Focus::autoFocusAbs(double currentHFR)
         if (reverseDir && focusInLimit && focusOutLimit && fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0 )
             {
                 if (absIterations <= 2)
+                {
                     appendLogText(i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
+                    stopFocus();
+                    emit autoFocusFinished(false);
+                }
                 else
+                {
                     appendLogText(i18n("Autofocus complete."));
-                stopFocus();
+                    stopFocus();
+                    emit autoFocusFinished(true);
+                }
                 break;
             }
             else if (currentHFR < HFR)
@@ -620,8 +646,16 @@ void Focus::autoFocusAbs(double currentHFR)
                 // If we have slope, get next target position
                 if (initSlopeHFR)
                 {
+                    double factor=0.5;
                     slope = (currentHFR - initSlopeHFR) / (pulseStep - initSlopePos);
-                    targetPulse = pulseStep + (currentHFR*0.5 - currentHFR)/slope;
+                    if (fabs(currentHFR-minHFR)*100.0 < 0.5)
+                        factor = 1 - fabs(currentHFR-minHFR)*10;
+                    targetPulse = pulseStep + (currentHFR*factor - currentHFR)/slope;
+                    if (targetPulse < 0)
+                    {
+                        factor = 0.995;
+                        targetPulse = pulseStep + (currentHFR*factor - currentHFR)/slope;
+                    }
                     #ifdef FOCUS_DEBUG
                     qDebug() << "Using slope to calculate target pulse..." << endl;
                     #endif
@@ -752,6 +786,7 @@ void Focus::autoFocusAbs(double currentHFR)
         {
             appendLogText(i18n("Autofocus complete."));
             stopFocus();
+            emit autoFocusFinished(true);
             return;
         }
 
@@ -760,6 +795,7 @@ void Focus::autoFocusAbs(double currentHFR)
         {
             appendLogText(i18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
+            emit autoFocusFinished(false);
             return;
         }
 
@@ -772,6 +808,7 @@ void Focus::autoFocusAbs(double currentHFR)
 
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
             stopFocus();
+            emit autoFocusFinished(false);
             #ifdef FOCUS_DEBUG
             qDebug() << "Maximum travel limit reached. Autofocus aborted." << endl;
             #endif
@@ -811,6 +848,7 @@ void Focus::autoFocusRel(double currentHFR)
     {
         appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         stopFocus();
+        emit autoFocusFinished(false);
         return;
     }
 
@@ -831,8 +869,9 @@ void Focus::autoFocusRel(double currentHFR)
         case FOCUS_IN:
             if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
-                appendLogText(i18n("Autofocus complete."));
+                appendLogText(i18n("Autofocus complete."));                
                 stopFocus();
+                emit autoFocusFinished(true);
                 break;
             }
             else if (currentHFR < HFR)
@@ -882,6 +921,7 @@ void Focus::autoFocusRel(double currentHFR)
         if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
             appendLogText(i18n("Autofocus complete."));
+            emit autoFocusFinished(true);
             stopFocus();
             break;
         }
@@ -896,7 +936,10 @@ void Focus::autoFocusRel(double currentHFR)
             HFRInc++;
 
             if (HFRInc < 1)
+            {
+                appendLogText("Calling capture from HFRInc < 1 Focus OUT");
                 capture();
+            }
             else
             {
 
@@ -944,6 +987,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
            else if (nvp->s == IPS_ALERT)
            {
                appendLogText(i18n("Focuser error, check INDI panel."));
+               emit autoFocusFinished(false);
                stopFocus();
            }
 
@@ -963,6 +1007,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
                 stopFocus();
+                emit autoFocusFinished(false);
             }
         }
 
@@ -1076,6 +1121,21 @@ void Focus::focusStarSelected(int x, int y)
     starSelected=true;
 
     capture();
+}
+
+void Focus::checkFocus(double delta)
+{
+    deltaHFR = delta;
+
+    capture();
+}
+
+void Focus::subframeUpdated(bool enable)
+{
+    if (enable == false)
+    {
+        subX=subY=subW=subH=-1;
+    }
 }
 
 }
