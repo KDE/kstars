@@ -438,8 +438,8 @@ void rguider::capture()
         targetChip->getBinning(&binx, &biny);
         pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
         square_size = pmath->get_square_size();
-        x = ret_x - square_size*2;
-        y = ret_y - square_size*2;
+        x = (ret_x - square_size/binx)*binx;
+        y = (ret_y - square_size/biny)*biny;
         w=square_size*4*binx;
         h=square_size*4*biny;
 

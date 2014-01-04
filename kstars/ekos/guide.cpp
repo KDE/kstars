@@ -327,8 +327,6 @@ void Guide::newFITS(IBLOB *bp)
     if (darkImage)
         image_data->subtract(darkImage->getImageBuffer());
 
-    image_data->findStars();
-
     pmath->set_image(targetImage);
     guider->set_image(targetImage);
     calibration->set_image(targetImage);

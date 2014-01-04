@@ -63,7 +63,7 @@ cgmath::cgmath() : QObject()
 
 	// square variables
 	square_idx		= DEFAULT_SQR;
-    square_alg_idx	= SMART_THRESHOLD;
+    square_alg_idx	= CENTROID_THRESHOLD;
 	square_size		= guide_squares[square_idx].size;
 	square_square 	= guide_squares[square_idx].square;
 	square_pos 	 = Vector(0);
@@ -631,6 +631,7 @@ void cgmath::set_lost_star(bool is_lost)
 
 Vector cgmath::find_star_local_pos( void ) const
 {
+    static double P0 = 0.906, P1 = 0.584, P2 = 0.365, P3 = 0.117, P4 = 0.049, P5 = -0.05, P6 = -0.064, P7 = -0.074, P8 = -0.094;
 
  Vector ret;
  int i, j;
@@ -651,39 +652,65 @@ Vector cgmath::find_star_local_pos( void ) const
 	// several threshold adaptive smart agorithms
 	switch( square_alg_idx )
 	{
-
-    // Using FITSView centroid algorithm by Jasem Mutlaq
     case CENTROID_THRESHOLD:
-    {
-        float center_x=-1, center_y=-1;
-        int max_val = -1;
-        int x1=square_pos.x;
-        int x2=square_pos.x + square_size;
-        int y1=square_pos.y;
-        int y2=square_pos.y + square_size;
-        FITSImage *image_data = pimage->getImageData();
-
-        //qDebug() << "Search Region: X1: " << x1 << ", X2: " << x2 << " , Y1: " << y1 << " , Y2: " << y2 << endl;
-
-        foreach(Edge *center, image_data->getStarCenters())
-        {
-
-            //qDebug() << "Star X: " << center->x << ", Y: " << center->y << endl;
-
-            if (center->x > x1 && center->x < x2 && center->y > y1 && center->y < y2 )
+    {        
+        int width = square_size;
+        int height = square_size;
+        float i0, i1, i2, i3, i4, i5, i6, i7, i8;
+        int ix = 0, iy = 0;
+        int xM4;
+        float *p;
+        double average, fit, bestFit = 0;
+        int minx = 0;
+        int maxx = width;
+        int miny = 0;
+        int maxy = height;
+        for (int x = minx; x < maxx; x++)
+          for (int y = miny; y < maxy; y++)
+          {
+            i0 = i1 = i2 = i3 = i4 = i5 = i6 = i7 = i8 = 0;
+            xM4 = x - 4;
+            p = psrc + (y - 4) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
+            p = psrc + (y - 3) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i7 += *p++; i6 += *p++; i7 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
+            p = psrc + (y - 2) * video_width + xM4; i8 += *p++; i8 += *p++; i5 += *p++; i4 += *p++; i3 += *p++; i4 += *p++; i5 += *p++; i8 += *p++; i8 += *p++;
+            p = psrc + (y - 1) * video_width + xM4; i8 += *p++; i7 += *p++; i4 += *p++; i2 += *p++; i1 += *p++; i2 += *p++; i4 += *p++; i8 += *p++; i8 += *p++;
+            p = psrc + (y + 0) * video_width + xM4; i8 += *p++; i6 += *p++; i3 += *p++; i1 += *p++; i0 += *p++; i1 += *p++; i3 += *p++; i6 += *p++; i8 += *p++;
+            p = psrc + (y + 1) * video_width + xM4; i8 += *p++; i7 += *p++; i4 += *p++; i2 += *p++; i1 += *p++; i2 += *p++; i4 += *p++; i8 += *p++; i8 += *p++;
+            p = psrc + (y + 2) * video_width + xM4; i8 += *p++; i8 += *p++; i5 += *p++; i4 += *p++; i3 += *p++; i4 += *p++; i5 += *p++; i8 += *p++; i8 += *p++;
+            p = psrc + (y + 3) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i7 += *p++; i6 += *p++; i7 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
+            p = psrc + (y + 4) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
+            average = (i0 + i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8) / 85.0;
+            fit = P0 * (i0 - average) + P1 * (i1 - 4 * average) + P2 * (i2 - 4 * average) + P3 * (i3 - 4 * average) + P4 * (i4 - 8 * average) + P5 * (i5 - 4 * average) + P6 * (i6 - 4 * average) + P7 * (i7 - 8 * average) + P8 * (i8 - 48 * average);
+            if (bestFit < fit)
             {
-                if (center->val > max_val)
-                {
-                    max_val = center->val;
-                    center_x = center->x;
-                    center_y = center->y;
-                }
+              bestFit = fit;
+              ix = x;
+              iy = y;
             }
-        }
+          }
 
-        return (ret = Vector(center_x , center_y, 0));
-        break;
+        if (bestFit > 50)
+        {
+          double sumX = 0;
+          double sumY = 0;
+          double total = 0;
+          for (int y = iy - 4; y <= iy + 4; y++) {
+            p = psrc + y * width + ix - 4;
+            for (int x = ix - 4; x <= ix + 4; x++) {
+              double w = *p++;
+              sumX += x * w;
+              sumY += y * w;
+              total += w;
+            }
+          }
+          if (total > 0)
+          {
+              ret = (square_pos + Vector(sumX/total , sumY/total, 0));
+              return ret;
+          }
+        }
     }
+    break;
 	// Alexander's Stepanenko smart threshold algorithm
 	case SMART_THRESHOLD:
 	{
@@ -1109,7 +1136,7 @@ cproc_in_params::cproc_in_params()
 
 void cproc_in_params::reset( void )
 {
-	threshold_alg_idx = SMART_THRESHOLD;
+    threshold_alg_idx = CENTROID_THRESHOLD;
 	guiding_rate = 0.5;
 	average = true;
 
