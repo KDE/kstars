@@ -16,6 +16,7 @@
 #include "dms.h"
 #include "Options.h"
 
+#include <KFileDialog>
 #include <KMessageBox>
 
 #include "QProgressIndicator.h"
@@ -47,15 +48,18 @@ Align::Align()
 
     currentCCD     = NULL;
     currentTelescope = NULL;
+    useGuideHead = false;
+    canSync = false;
+    loadSlewMode = false;
+    ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
+    decDeviation = azDeviation = altDeviation = 0;
+
     parser = NULL;
+
     #ifdef HAVE_QJSON
     onlineParser = NULL;
     #endif
     offlineParser = NULL;
-    ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
-    decDeviation = azDeviation = altDeviation = 0;
-    useGuideHead = false;
-    canSync = false;
 
     connect(solveB, SIGNAL(clicked()), this, SLOT(capture()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(stopSolving()));
@@ -69,6 +73,7 @@ Align::Align()
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
+    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadFITS()));
 
     kcfg_solverXBin->setValue(Options::solverXBin());
     kcfg_solverYBin->setValue(Options::solverYBin());
@@ -559,6 +564,8 @@ void Align::stopSolving()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
+    loadSlewMode = false;
+
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
@@ -610,6 +617,13 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
             {
                 slew_dirty = false;
                 copyCoordsToBoxes();
+
+                if (loadSlewMode)
+                {
+                    loadSlewMode = false;
+                    capture();
+                    return;
+                }
             }
         }
 
@@ -695,7 +709,12 @@ void Align::executeMode()
 
 void Align::executeGOTO()
 {
-    if (syncR->isChecked())
+    if (loadSlewMode)
+    {
+        targetCoord = alignCoord;
+        SlewToTarget();
+    }
+    else if (syncR->isChecked())
         Sync();
     else if (slewR->isChecked())
         SlewToTarget();
@@ -712,7 +731,7 @@ void Align::Sync()
 
 void Align::SlewToTarget()
 {
-    if (canSync)
+    if (canSync && loadSlewMode == false)
         Sync();
 
     currentTelescope->Slew(&targetCoord);
@@ -1110,6 +1129,21 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
         dec_str = QString("-%1:%2:%3").arg(abs(dec_s.degree()), 2, 10, QChar('0')).arg(abs(dec_s.arcmin()), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
     else
         dec_str = QString("%1:%2:%3").arg(dec_s.degree(), 2, 10, QChar('0')).arg(dec_s.arcmin(), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
+}
+
+void Align::loadFITS()
+{
+    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.fts|Flexible Image Transport System");
+    if (fileURL.isEmpty())
+        return;
+
+    loadSlewMode = true;
+
+    solveB->setEnabled(false);
+    stopB->setEnabled(true);
+    pi->startAnimation();
+
+    startSovling(fileURL.path());
 }
 
 }

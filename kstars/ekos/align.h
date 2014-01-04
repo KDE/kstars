@@ -80,6 +80,9 @@ public slots:
     void correctAzError();
     void correctAltError();
 
+    /* Reference Slew */
+    void loadFITS();
+
 signals:
         void newLog();
 
@@ -101,6 +104,7 @@ private:
 
     bool useGuideHead;
     bool canSync;
+    bool loadSlewMode;
     QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
