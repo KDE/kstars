@@ -1139,6 +1139,8 @@ void Align::loadFITS()
 
     loadSlewMode = true;
 
+    slewR->setChecked(true);
+
     solveB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();
