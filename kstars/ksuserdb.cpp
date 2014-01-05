@@ -36,16 +36,15 @@ bool KSUserDB::Initialize() {
     QFile testdb(dbfile);
     bool first_run = false;
     if (!testdb.exists()) {
-        kDebug()<< i18n("User DB does not exist! New User DB will be "
-                          "created.");
+        kDebug()<< "User DB does not exist. New User DB will be created.";
         first_run = true;
     }
     userdb_.setDatabaseName(dbfile);
     if (!userdb_.open()) {
-           kWarning() << i18n("Unable to open user database file!");
+           kWarning() << "Unable to open user database file.";
            kWarning() << LastError();
     } else {
-        kDebug() << i18n("Opened the User DB. Ready!");
+        kDebug() << "Opened the User DB. Ready.";
         if (first_run == true) {
             FirstRun();
         }
@@ -76,7 +75,7 @@ bool KSUserDB::FirstRun() {
 
 
 bool KSUserDB::RebuildDB() {
-    kWarning() << i18n("Rebuilding User Database");
+    kWarning() << "Rebuilding User Database";
     QVector<QString> tables;
     tables.append("CREATE TABLE Version ("
                   "Version CHAR DEFAULT NULL)");
@@ -809,7 +808,7 @@ void KSUserDB::readFilters() {
 }
 
 void KSUserDB::readScope( QString id ) {
-    QString model, vendor, type, driver = i18n("None");
+    QString model, vendor, type, driver = i18nc("No driver", "None");
     double aperture, focalLength;
     while( ! reader_->atEnd() ) {
         reader_->readNext();

@@ -174,7 +174,7 @@
             <item>
              <widget class="QLabel" name="l_RecommendedGain">
               <property name="text">
-               <string>P=xxxxx</string>
+               <string notr="true">P=xxx</string>
               </property>
              </widget>
             </item>
@@ -198,7 +198,7 @@
                <enum>QFrame::Sunken</enum>
               </property>
               <property name="text">
-               <string>xxx</string>
+               <string notr="true">xxx</string>
               </property>
               <property name="scaledContents">
                <bool>false</bool>
@@ -224,7 +224,7 @@
                <enum>QFrame::Sunken</enum>
               </property>
               <property name="text">
-               <string>xx</string>
+               <string notr="true">xxx</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -247,7 +247,7 @@
                <enum>QFrame::Sunken</enum>
               </property>
               <property name="text">
-               <string>xxx</string>
+               <string notr="true">xxx</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -306,7 +306,7 @@
                  <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="text">
-                 <string>xxxx</string>
+                 <string notr="true">xxx</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -322,7 +322,7 @@
                  <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="text">
-                 <string>xxxx</string>
+                 <string notr="true">xxx</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -349,7 +349,7 @@
                  <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="text">
-                 <string>xxxx</string>
+                 <string notr="true">xxx</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -365,7 +365,7 @@
                  <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="text">
-                 <string>xxxx</string>
+                 <string notr="true">xxx</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -392,7 +392,7 @@
                  <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="text">
-                 <string>xxx</string>
+                 <string notr="true">xxx</string>
                 </property>
                 <property name="scaledContents">
                  <bool>false</bool>
@@ -422,7 +422,7 @@
                  <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="text">
-                 <string>xxx</string>
+                 <string notr="true">xxx</string>
                 </property>
                 <property name="scaledContents">
                  <bool>false</bool>

@@ -97,11 +97,7 @@
      <item>
       <widget class="QLabel" name="stepText">
        <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Finder chart can contain additional elements such as details tables and logging forms. Select which you want to be included in finder chart and press &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; to proceed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;p&gt;Finder chart can contain additional elements such as details tables and logging forms. Select which you want to be included in finder chart and press &lt;b&gt;Next&lt;/b&gt; to proceed.&lt;/p&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

@@ -91,13 +91,9 @@
      <item>
       <widget class="QLabel" name="stepText">
        <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In manual field of view capture method, user centers sky map to a point of interest, then captures snapshots of sky fragments inside the active FOV symbol.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;When in field of view capture mode, press &lt;span style=&quot; font-weight:600;&quot;&gt;Page Up&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Page Down&lt;/span&gt; to switch FOV symbols. Snapshots are captured by pressing &lt;span style=&quot; font-weight:600;&quot;&gt;K&lt;/span&gt; key. When done, press &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; key to return to the Printing Wizard.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Press &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; when done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;p&gt;In manual field of view capture method, user centers sky map to a point of interest, then captures snapshots of sky fragments inside the active FOV symbol.&lt;/p&gt;
+&lt;p&gt;When in field of view capture mode, press &lt;b&gt;Page Up&lt;/b&gt; and &lt;b&gt;Page Down&lt;/b&gt; to switch FOV symbols. Snapshots are captured by pressing &lt;b&gt;K&lt;/b&gt; key. When done, press &lt;b&gt;Escape&lt;/b&gt; key to return to the Printing Wizard.&lt;/p&gt;
+&lt;p&gt;Press &lt;b&gt;Next&lt;/b&gt; when done.&lt;/p&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

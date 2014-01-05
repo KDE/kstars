@@ -81,7 +81,7 @@
      <item>
       <widget class="QLabel" name="WelcomeText">
        <property name="text">
-        <string>&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;Select a City near your location from the list. You may filter the list by the name of your city, province, and country.&lt;/p&gt;&lt;p&gt;Once you have selected a City, press &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;p&gt;Select a City near your location from the list. You may filter the list by the name of your city, province, and country.&lt;/p&gt;&lt;p&gt;Once you have selected a City, press &lt;b&gt;Next&lt;/b&gt;.&lt;/p&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -212,7 +212,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="CityListBox" native="true">
+    <widget class="QListWidget" name="CityListBox">
      <property name="minimumSize">
       <size>
        <width>180</width>

@@ -325,7 +325,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fill RA &amp;amp; DEC values from telescope coordinates and update options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>Fill RA &amp;amp; DEC values from telescope coordinates and update options</string>
             </property>
             <property name="text">
              <string/>
@@ -628,7 +628,7 @@
              <string>Load a FITS image and solve. Slew mount to image central coordinates.</string>
             </property>
             <property name="text">
-             <string>Load &amp;&amp; Slew ...</string>
+             <string>Load &amp;&amp; Slew...</string>
             </property>
            </widget>
           </item>
@@ -673,7 +673,7 @@
         <item>
          <widget class="QRadioButton" name="syncR">
           <property name="toolTip">
-           <string>Sync the telescope to the solution coordinates</string>
+           <string>Synchronize the telescope to the solution coordinates</string>
           </property>
           <property name="statusTip">
            <string/>

@@ -97,12 +97,8 @@
      <item>
       <widget class="QLabel" name="stepText">
        <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Your document is ready to be printed. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Print preview &lt;/span&gt;button to preview it and &lt;span style=&quot; font-weight:600;&quot;&gt;Print &lt;/span&gt;button to begin printing. You can also export it to file.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you wish to change contents of printed document, click &lt;span style=&quot; font-weight:600;&quot;&gt;Previous &lt;/span&gt;button to get back to previous steps.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;p&gt;Your document is ready to be printed. Click &lt;b&gt;Print preview&lt;/b&gt; button to preview it and &lt;b&gt;Print&lt;/b&gt; button to begin printing. You can also export it to file.&lt;/p&gt;
+&lt;p&gt;If you wish to change contents of printed document, click &lt;b&gt;Previous&lt;/b&gt; button to get back to previous steps.&lt;/p&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

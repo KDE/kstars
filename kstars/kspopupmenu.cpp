@@ -229,9 +229,9 @@ void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
 
     addSeparator();
 
-    addFancyLabel( i18n( "Velocity : %1 km/s", velocity ), -2 );
-    addFancyLabel( i18n( "Altitude : %1 km", altitude ), -2 );
-    addFancyLabel( i18n( "Range : %1 km", range ), -2 );
+    addFancyLabel( i18n( "Velocity: %1 km/s", velocity ), -2 );
+    addFancyLabel( i18n( "Altitude: %1 km", altitude ), -2 );
+    addFancyLabel( i18n( "Range: %1 km", range ), -2 );
 
     addSeparator();
 

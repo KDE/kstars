@@ -31,7 +31,7 @@
      <item>
       <widget class="QLabel" name="lpText">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How light-polluted is your night-sky? Rate your night-sky conditions from 1-9 based on the &lt;span style=&quot; font-weight:600;&quot;&gt;Bortle Dark-Sky Scale&lt;/span&gt;. A rating of &lt;span style=&quot; font-weight:600;&quot;&gt;1&lt;/span&gt; represents an &lt;span style=&quot; font-weight:600;&quot;&gt;excellent dark-sky site&lt;/span&gt;, while &lt;span style=&quot; font-weight:600;&quot;&gt;9&lt;/span&gt; represents a &lt;span style=&quot; font-weight:600;&quot;&gt;brilliantly lit inner-city sky&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;p&gt;How light-polluted is your night-sky? Rate your night-sky conditions from 1-9 based on the &lt;b&gt;Bortle Dark-Sky Scale&lt;/b&gt;. A rating of &lt;b&gt;1&lt;/b&gt; represents an &lt;b&gt;excellent dark-sky site&lt;/b&gt;, while &lt;b&gt;9&lt;/b&gt; represents a &lt;b&gt;brilliantly lit inner-city sky&lt;/b&gt;.&lt;/p&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -144,7 +144,7 @@
      <item>
       <widget class="QLabel" name="bortleHelpText">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;For help : &lt;a href=&quot;http://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#004183;&quot;&gt;Wikipedia Link for Bortle dark-sky scale&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;For help: &lt;a href=&quot;http://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#004183;&quot;&gt;Wikipedia Link for Bortle dark-sky scale&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
