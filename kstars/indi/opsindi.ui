@@ -32,7 +32,7 @@
         <item row="0" column="1">
          <widget class="KLineEdit" name="kcfg_telescopePort">
           <property name="text">
-           <string>/dev/ttyUSB0</string>
+           <string notr="true">/dev/ttyUSB0</string>
           </property>
          </widget>
         </item>
@@ -66,7 +66,7 @@
         <item row="1" column="1">
          <widget class="KLineEdit" name="kcfg_videoPort">
           <property name="text">
-           <string>/dev/video0</string>
+           <string notr="true">/dev/video0</string>
           </property>
          </widget>
         </item>
@@ -83,7 +83,7 @@
         <item row="1" column="4">
          <widget class="KLineEdit" name="kcfg_filterPort">
           <property name="text">
-           <string>/dev/ttyUSB2</string>
+           <string notr="true">/dev/ttyUSB2</string>
           </property>
          </widget>
         </item>
@@ -100,7 +100,7 @@
         <item row="2" column="1">
          <widget class="KLineEdit" name="kcfg_indiServer">
           <property name="text">
-           <string>/usr/bin/indiserver</string>
+           <string notr="true">/usr/bin/indiserver</string>
           </property>
          </widget>
         </item>
@@ -134,7 +134,7 @@
         <item>
          <widget class="KLineEdit" name="kcfg_indiDriversDir">
           <property name="text">
-           <string>/usr/share/indi</string>
+           <string notr="true">/usr/share/indi</string>
           </property>
          </widget>
         </item>

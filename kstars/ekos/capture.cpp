@@ -764,10 +764,8 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
     if (value == 0)
         secondsLabel->setText(i18n("Downloading..."));
-    else if (value <= 1)
-        secondsLabel->setText(i18n("second left"));
     else
-        secondsLabel->setText(i18n("seconds left"));
+        secondsLabel->setText(i18np("second left", "seconds left", value));
 
 }
 
