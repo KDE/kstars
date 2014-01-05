@@ -840,7 +840,7 @@
               <item row="0" column="2" colspan="2">
                <widget class="QLabel" name="secondsLabel">
                 <property name="text">
-                 <string>second left</string>
+                 <string notr="true">second left</string>
                 </property>
                </widget>
               </item>

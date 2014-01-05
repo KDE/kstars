@@ -234,11 +234,11 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
     if ( !cityFound ) {
         if ( province.isEmpty() )
-            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city " ) << city << ", "
-            << country << i18n( " not found in database." ) << endl;
+            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city %1, %2 not found in database.",
+                              city, country );
         else
-            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city " ) << city << ", "
-            << province << ", " << country << i18n( " not found in database." ) << endl;
+            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.",
+                              city, province, country );
     }
 }
 

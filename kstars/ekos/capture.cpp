@@ -602,10 +602,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
     exposeOUT->setText(QString::number(value, 'd', 2));
 
-    if (value <= 1)
-        secondsLabel->setText(i18n("second left"));
-    else
-        secondsLabel->setText(i18n("seconds left"));
+    secondsLabel->setText(i18np("second left", "seconds left", value));
 
 }
 

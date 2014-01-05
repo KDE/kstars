@@ -343,10 +343,10 @@ void Align::verifyIndexFiles()
     {
         if (missingIndexes == 1)
             KMessageBox::information(0, i18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex), i18n("Missing index files"), i18n("Do not show again"));
+                                             startIndex), i18n("Missing index files"), "ekos_missingindexes");
         else
             KMessageBox::information(0, i18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex, lastIndex), i18n("Missing index files"), i18n("Do not show again"));
+                                             startIndex, lastIndex), i18n("Missing index files"), "ekos_missingindexes");
 
     }
 }
@@ -820,7 +820,6 @@ void Align::executePolarAlign()
 void Align::measureAzError()
 {
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
-    QString meridianOrient = (hemisphereCombo->currentIndex() == 0) ? i18n("southern") : i18n("northern");
 
     switch (azStage)
     {
@@ -828,9 +827,11 @@ void Align::measureAzError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope at the %1 meridian. Press continue when ready.", meridianOrient)
+        if (KMessageBox::warningContinueCancel( 0, hemisphereCombo->currentIndex() == 0
+                                                   ? i18n("Point the telescope at the southern meridian. Press continue when ready.")
+                                                   : i18n("Point the telescope at the northern meridian. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                                i18n("Don't ask again"))!=KMessageBox::Continue)
+                                                "ekos_measure_az_error")!=KMessageBox::Continue)
             return;
 
         appendLogText(i18n("Solving first frame near the meridian."));
@@ -904,7 +905,6 @@ void Align::measureAzError()
 void Align::measureAltError()
 {
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
-    QString meridianOrient = (altDirCombo->currentIndex() == 0) ? i18n("east") : i18n("west");
 
     switch (altStage)
     {
@@ -912,9 +912,11 @@ void Align::measureAltError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the %1 with a minimum altitude of 20 degrees. Press continue when ready.", meridianOrient)
+        if (KMessageBox::warningContinueCancel( 0, altDirCombo->currentIndex() == 0
+                                                   ? i18n("Point the telescope to the east with a minimum altitude of 20 degrees. Press continue when ready.")
+                                                   : i18n("Point the telescope to the west with a minimum altitude of 20 degrees. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                                i18n("Don't ask again"))!=KMessageBox::Continue)
+                                                "ekos_measure_alt_error")!=KMessageBox::Continue)
             return;
 
         appendLogText(i18n("Solving first frame."));
@@ -1002,7 +1004,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     // In degrees
     double deviation = (3.81 * (decDeviation * 3600) ) / ( RATime * cos(initDEC * dms::DegToRad)) / 60.0;
 
-    QString deviationDirection;
+    KLocalizedString deviationDirection;
 
     switch (hemisphereCombo->currentIndex())
     {
@@ -1011,9 +1013,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = "too far west";
+                deviationDirection = ki18n("%1° too far west");
             else
-                deviationDirection = "too far east";
+                deviationDirection = ki18n("%1° too far east");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1022,17 +1024,17 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                 // East
                 case 0:
                 if (decDeviation > 0)
-                    deviationDirection = "too far high";
+                    deviationDirection = ki18n("%1° too far high");
                 else
-                    deviationDirection = "too far low";
+                    deviationDirection = ki18n("%1° too far low");
                 break;
 
                 // West
                 case 1:
                 if (decDeviation > 0)
-                    deviationDirection = "too far low";
+                    deviationDirection = ki18n("%1° too far low");
                 else
-                    deviationDirection = "too far high";
+                    deviationDirection = ki18n("%1° too far high");
                 break;
 
                 default:
@@ -1046,9 +1048,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = "too far east";
+                deviationDirection = ki18n("%1° too far east");
             else
-                deviationDirection = "too far west";
+                deviationDirection = ki18n("%1° too far west");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1057,17 +1059,17 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                 // East
                 case 0:
                 if (decDeviation > 0)
-                    deviationDirection = "too far low";
+                    deviationDirection = ki18n("%1° too far low");
                 else
-                    deviationDirection = "too far high";
+                    deviationDirection = ki18n("%1° too far high");
                 break;
 
                 // West
                 case 1:
                 if (decDeviation > 0)
-                    deviationDirection = "too far high";
+                    deviationDirection = ki18n("%1° too far high");
                 else
-                    deviationDirection = "too far low";
+                    deviationDirection = ki18n("%1° too far low");
                 break;
 
                 default:
@@ -1083,13 +1085,13 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
 
     if (azStage == AZ_FINISHED)
     {
-        azError->setText(i18n("%1° %2", QString("%1").arg(fabs(deviation), 0, 'g', 3), i18n("%1", deviationDirection)));
+        azError->setText(deviationDirection.subs(QString("%1").arg(fabs(deviation), 0, 'g', 3)).toString());
         azDeviation = deviation * (decDeviation > 0 ? 1 : -1);
         correctAzB->setEnabled(true);
     }
     if (altStage == ALT_FINISHED)
     {
-        altError->setText(i18n("%1° %2", QString("%1").arg(fabs(deviation), 0, 'g', 3), i18n("%1", deviationDirection)));
+        altError->setText(deviationDirection.subs(QString("%1").arg(fabs(deviation), 0, 'g', 3)).toString());
         altDeviation = deviation * (decDeviation > 0 ? 1 : -1);
         correctAltB->setEnabled(true);
     }
