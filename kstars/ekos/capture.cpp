@@ -173,6 +173,8 @@ Capture::Capture()
 
     progressLayout->addWidget(pi, 0, 4, 1, 1);
 
+    exposureIN->setDecimals(4);
+
     seqLister		= new KDirLister();
     seqTimer = new QTimer(this);
     connect(startB, SIGNAL(clicked()), this, SLOT(startSequence()));
