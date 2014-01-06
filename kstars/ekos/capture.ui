@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>843</width>
-    <height>476</height>
+    <height>520</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -869,6 +869,26 @@
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="meridianCheck">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Automatic Merdian Flip</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="parkCheck">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Park When Complete</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1027,6 +1047,13 @@
            </layout>
           </item>
           <item>
+           <widget class="QProgressBar" name="imgProgress">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="verticalSpacer_4">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -1038,13 +1065,6 @@
              </size>
             </property>
            </spacer>
-          </item>
-          <item>
-           <widget class="QProgressBar" name="imgProgress">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
           </item>
          </layout>
         </widget>
@@ -1070,6 +1090,8 @@
   <zorder></zorder>
   <zorder>verticalSpacer12</zorder>
   <zorder>line</zorder>
+  <zorder>meridianCheck</zorder>
+  <zorder>parkCheck</zorder>
  </widget>
  <customwidgets>
   <customwidget>

@@ -1330,6 +1330,14 @@
       <label>Enforce Autofocus HFR limit.</label>
       <default>false</default>
     </entry>
+    <entry name="AutoMeridianFlip" type="Bool">
+      <label>Flips the mount when reaching the meridian, if supported.</label>
+      <default>false</default>
+    </entry>
+    <entry name="AutoParkTelescope" type="Bool">
+      <label>Parks the telescope when the sequence jobs are complete, if supported.</label>
+      <default>false</default>
+    </entry>
    </group>
    <group name="Focus">
     <entry name="FocusTicks" type="UInt">

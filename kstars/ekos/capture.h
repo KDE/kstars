@@ -22,6 +22,7 @@
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
+#include "indi/inditelescope.h"
 
 class QProgressIndicator;
 class QTableWidgetItem;
@@ -126,8 +127,9 @@ public:
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
     void addGuideHead(ISD::GDInterface *newCCD);
-
     void syncFrameType(ISD::GDInterface *ccd);
+    void setTelescope(ISD::GDInterface *newTelescope);
+    void syncTelescopeInfo();
 
     void appendLogText(const QString &);
     void clearLog();
@@ -159,6 +161,7 @@ public slots:
     void resumeCapture();
 
     void updateAutofocusStatus(bool status);
+    void updateScopeCoords(INumberVectorProperty *coord);
 
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const KFileItemList & items);
@@ -197,6 +200,7 @@ private:
 
     QList<SequenceJob *> jobs;
 
+    ISD::Telescope *currentTelescope;
     ISD::CCD *currentCCD;
     ISD::GDInterface *currentFilter;
 

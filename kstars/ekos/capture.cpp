@@ -152,6 +152,7 @@ Capture::Capture()
     setupUi(this);
 
     currentCCD = NULL;
+    currentTelescope = NULL;
     currentFilter = NULL;
 
     filterSlot = NULL;
@@ -172,8 +173,6 @@ Capture::Capture()
     pi = new QProgressIndicator(this);
 
     progressLayout->addWidget(pi, 0, 4, 1, 1);
-
-    exposureIN->setDecimals(4);
 
     seqLister		= new KDirLister();
     seqTimer = new QTimer(this);
@@ -216,6 +215,8 @@ Capture::Capture()
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
+    parkCheck->setChecked(Options::autoParkTelescope());
+    meridianCheck->setChecked(Options::autoMeridianFlip());
 }
 
 Capture::~Capture()
@@ -277,6 +278,8 @@ void Capture::startSequence()
     Options::setGuideDeviation(guideDeviation->value());
     Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
+    Options::setAutoMeridianFlip(meridianCheck->isChecked());
+    Options::setAutoParkTelescope(parkCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -595,6 +598,11 @@ void Capture::newFITS(IBLOB *bp)
 
         if (next_job)
             executeJob(next_job);
+        else if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
+        {
+            appendLogText(i18n("Parking telescope..."));
+            currentTelescope->Park();
+        }
 
         return;
     }
@@ -766,9 +774,11 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
     if (value == 0)
         secondsLabel->setText(i18n("Downloading..."));
+    // JM: Don't change to i18np, value is DOUBLE, not Integer.
+    else if (value <= 1)
+        secondsLabel->setText(i18n("second left"));
     else
-        secondsLabel->setText(i18np("second left", "seconds left", value));
-
+        secondsLabel->setText(i18n("seconds left"));
 }
 
 void Capture::addJob(bool preview)
@@ -1119,6 +1129,37 @@ void Capture::updateAutofocusStatus(bool status)
             stopSequence();
         }
     }
+}
+
+void Capture::setTelescope(ISD::GDInterface *newTelescope)
+{
+    currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
+
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateScopeCoords(INumberVectorProperty*)));
+
+    syncTelescopeInfo();
+}
+
+void Capture::syncTelescopeInfo()
+{
+    parkCheck->setEnabled(currentTelescope->canPark());
+}
+
+void Capture::updateScopeCoords(INumberVectorProperty *coord)
+{
+
+    /* Meridian Flip TODO
+     * 1. Calculate pier side (west or east) from coord + geographic coords to get Alt/Az
+     * 2. Decide when to flip mount
+     * 3. Stop guiding
+     * 4. Flip mount
+     * 5. Plate solve
+     * 6. Swap DEC axis in guiding?
+     * 7. Auto select guide start (RapidGuide?)
+     * 8. Start guiding
+     * 9. Resume exposure
+    */
+
 }
 
 }

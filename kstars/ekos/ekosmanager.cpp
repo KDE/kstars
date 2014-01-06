@@ -904,7 +904,10 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         alignProcess->addCCD(guider, false);
 
         if (scope && scope->isConnected())
+        {
             guideProcess->setTelescope(scope);
+            captureProcess->setTelescope(scope);
+        }
     }
     else
     {
@@ -918,7 +921,10 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         initAlign();
         alignProcess->addCCD(ccd, isPrimaryCCD);
         if (scope && scope->isConnected())
+        {
             alignProcess->setTelescope(scope);
+            captureProcess->setTelescope(scope);
+        }
 
         // If guider is the same driver as the CCD
         if (useGuiderFromCCD == true)
@@ -928,7 +934,10 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
             guideProcess->setCCD(guider);
 
             if (scope && scope->isConnected())
+            {
                 guideProcess->setTelescope(scope);
+                captureProcess->setTelescope(scope);
+            }
         }
     }
 
@@ -1035,6 +1044,8 @@ void EkosManager::processNewProperty(INDI::Property* prop)
 
         if (alignProcess)
             alignProcess->syncCCDInfo();
+
+        return;
     }
 
     if (!strcmp(prop->getName(), "TELESCOPE_INFO"))
@@ -1044,6 +1055,8 @@ void EkosManager::processNewProperty(INDI::Property* prop)
            guideProcess->setTelescope(scope);
            guideProcess->syncTelescopeInfo();
         }
+
+        return;
 
     }
 
@@ -1059,6 +1072,8 @@ void EkosManager::processNewProperty(INDI::Property* prop)
 
         if (guider && guideProcess)
             guideProcess->addGuideHead(guider);
+
+        return;
     }
 
     if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
@@ -1070,6 +1085,16 @@ void EkosManager::processNewProperty(INDI::Property* prop)
             else if (guider)
                 captureProcess->syncFrameType(guider);
         }
+
+        return;
+    }
+
+    if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
+    {
+        if (captureProcess)
+            captureProcess->syncTelescopeInfo();
+
+        return;
     }
 
 }
