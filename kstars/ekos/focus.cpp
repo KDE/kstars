@@ -232,7 +232,6 @@ void Focus::startFocus()
     else
         appendLogText(i18n("Image capture in progress, please select a star to focus."));
 
-    appendLogText("Calling capture from start focus");
     capture();
 }
 
@@ -936,10 +935,7 @@ void Focus::autoFocusRel(double currentHFR)
             HFRInc++;
 
             if (HFRInc < 1)
-            {
-                appendLogText("Calling capture from HFRInc < 1 Focus OUT");
                 capture();
-            }
             else
             {
 
