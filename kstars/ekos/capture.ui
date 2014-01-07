@@ -874,7 +874,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Automatic Merdian Flip</string>
+          <string>Automatic Meridian Flip</string>
          </property>
         </widget>
        </item>
