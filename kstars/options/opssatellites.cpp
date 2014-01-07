@@ -155,6 +155,7 @@ void OpsSatellites::slotApply()
             if ( sat ) {
                 if ( sat_item->checkState() == Qt::Checked ) {
                     sat->setSelected( true );
+                    sat->updatePos();
                     selected_satellites.append( sat_name );
                 } else {
                     sat->setSelected( false );

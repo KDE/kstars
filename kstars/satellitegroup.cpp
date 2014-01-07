@@ -53,9 +53,9 @@ void SatelliteGroup::readTLE()
             QString sat_name = stream.readLine().trimmed();
             line1 = stream.readLine();
             line2 = stream.readLine();
-
             // Create a new satellite and add it to the list of satellites
-            append( new Satellite( sat_name, line1, line2 ) );
+            if (line1.startsWith("1") && line2.startsWith("2"))
+                append( new Satellite( sat_name, line1, line2 ) );
         }
         file.close();
     }

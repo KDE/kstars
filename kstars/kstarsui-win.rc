@@ -76,6 +76,7 @@
 		<Menu name="updates"><text>&amp;Updates</text>
 		<Action name="update_comets" />
 		<Action name="update_asteroids" />
+                <Action name="update_satellites" />
 		<Action name="update_supernovae" />
 		</Menu>
 	</Menu>

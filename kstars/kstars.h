@@ -670,6 +670,9 @@ private slots:
     /**Update list of recent supernovae*/
     void slotUpdateSupernovae();
 
+    /**Update satellites orbital elements*/
+    void slotUpdateSatellites();
+
 private:
     /** Load FOV information and repopulate menu. */
     void repopulateFOV();

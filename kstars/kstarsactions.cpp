@@ -105,6 +105,7 @@
 #include "skycomponents/cometscomponent.h"
 #include "skycomponents/asteroidscomponent.h"
 #include "skycomponents/supernovaecomponent.h"
+#include "skycomponents/satellitescomponent.h"
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
@@ -1234,4 +1235,9 @@ void KStars::slotUpdateAsteroids() {
 void KStars::slotUpdateSupernovae()
 {
     data()->skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
+}
+
+void KStars::slotUpdateSatellites()
+{
+    data()->skyComposite()->satellites()->updateTLEs();
 }

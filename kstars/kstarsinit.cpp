@@ -356,6 +356,8 @@ void KStars::initActions() {
         << i18n( "Update asteroids orbital elements" );
     actionCollection()->addAction("update_supernovae", this, SLOT(slotUpdateSupernovae() ) )
         << i18n( "Update Recent Supernovae data" );
+    actionCollection()->addAction("update_satellites", this, SLOT(slotUpdateSatellites() ) )
+        << i18n( "Update satallites orbital elements" );
 
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )
