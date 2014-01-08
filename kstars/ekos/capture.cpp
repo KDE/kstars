@@ -1126,6 +1126,7 @@ void Capture::updateAutofocusStatus(bool status)
         else
         {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
+            secondsLabel->setText("");
             stopSequence();
         }
     }

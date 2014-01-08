@@ -438,10 +438,10 @@ void rguider::capture()
         targetChip->getBinning(&binx, &biny);
         pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
         square_size = pmath->get_square_size();
-        x = (ret_x - square_size/binx)*binx;
-        y = (ret_y - square_size/biny)*biny;
-        w=square_size*4*binx;
-        h=square_size*4*biny;
+        x = (ret_x - square_size)*binx;
+        y = (ret_y - square_size)*biny;
+        w=square_size*2*binx;
+        h=square_size*2*biny;
 
         is_subframed = true;
 
@@ -449,10 +449,10 @@ void rguider::capture()
             x=0;
         if (y<0)
             y=0;
-        if (w>fw)
-            w=fw;
-        if (h>fh)
-            h=fh;
+        if ((w+x)>fw)
+            w=fw-x;
+        if ((h+y)>fh)
+            h=fh-y;
 
         pmath->set_video_params(w, h);
 

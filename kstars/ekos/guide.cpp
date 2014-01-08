@@ -217,6 +217,12 @@ void Guide::updateGuideParams()
 
 void Guide::addST4(ISD::ST4 *newST4)
 {
+    foreach(ISD::ST4 *guidePort, ST4List)
+    {
+        if (guidePort == newST4)
+            return;
+    }
+
     ST4Combo->addItem(newST4->getDeviceName());
     ST4List.append(newST4);
 

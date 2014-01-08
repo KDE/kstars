@@ -50,8 +50,9 @@ const int MINIMUM_ROWS_PER_CENTER=3;
 
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10
-#define DIFFUSE_THRESHOLD   0.2
-#define MINIMUM_EDGE_LIMIT  3
+#define DIFFUSE_THRESHOLD   0.15
+#define MINIMUM_EDGE_LIMIT  2
+#define SMALL_SCALE_SQUARE  256
 
 //#define FITS_DEBUG
 
@@ -507,6 +508,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
     int pixelRadius =0;
     int pixVal=0;
     int badPix=0;
+    int minimumEdgeLimit = MINIMUM_EDGE_LIMIT;
 
     double JMIndex = histogram->getJMIndex();
     int badPixLimit=0;
@@ -517,9 +519,11 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
     {
        if (JMIndex > DIFFUSE_THRESHOLD)
        {
-           threshold = stats.max - stats.stddev* (MINIMUM_STDVAR - initStdDev);
+           threshold = stats.max - stats.stddev* (MINIMUM_STDVAR - initStdDev +1);
+           minEdgeWidth = JMIndex*35;
            min =stats.min;
-           badPixLimit=10;
+           badPixLimit=minEdgeWidth*0.5;
+           minimumEdgeLimit=minEdgeWidth-2;
        }
        else
        {
@@ -528,6 +532,17 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
                threshold = stats.average+stats.stddev*initStdDev;
            min = stats.min;
            badPixLimit =2;
+
+           if (stats.dim[0] <= SMALL_SCALE_SQUARE)
+           {
+               minEdgeWidth =3;
+               minimumEdgeLimit=1;
+           }
+           else
+           {
+               minEdgeWidth =5;
+               minimumEdgeLimit=3;
+           }
        }
 
 
@@ -535,7 +550,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
 
        #ifdef FITS_DEBUG
        qDebug() << "JMIndex: " << JMIndex << endl;
-       qDebug() << "The threshold level is " << threshold << endl;
+       qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeLimit << endl;
        #endif
 
     // Detect "edges" that are above threshold
@@ -602,7 +617,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
     qDebug() << "Total number of edges found is: " << edges.count() << endl;
     #endif
 
-    if (edges.count() >= MINIMUM_EDGE_LIMIT)
+    if (edges.count() >= minimumEdgeLimit)
         break;
 
       qDeleteAll(edges);

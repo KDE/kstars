@@ -230,7 +230,7 @@ void Focus::startFocus()
     if (kcfg_autoSelectStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
     else
-        appendLogText(i18n("Image capture in progress, please select a star to focus."));
+        appendLogText(i18n("Please wait until image capture is complete..."));
 
     capture();
 }
@@ -294,6 +294,8 @@ void Focus::capture()
 
     if (starSelected || (subX >= 0 && subY >=0 && subW > 0 && subH > 0))
         targetChip->setFrame(subX, subY, subW, subH);
+    else
+        targetChip->setFrame(fx, fy, fw, fh);
 
     targetChip->capture(seqExpose);
 
@@ -442,7 +444,6 @@ void Focus::newFITS(IBLOB *bp)
             if (maxStar == NULL)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
-                targetChip->getFrame(&fx, &fy, &fw, &fh);
                 targetImage->updateMode(FITS_GUIDE);
                 targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
                 targetImage->setGuideSquare(fw/2, fh/2);
@@ -452,19 +453,20 @@ void Focus::newFITS(IBLOB *bp)
 
             if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
-                subX=(maxStar->x - maxStar->width * 2) * subBinX;
-                subY=(maxStar->y - maxStar->width * 2) * subBinY;
-                subW=maxStar->width*4*subBinX;
-                subH=maxStar->width*4*subBinY;
+                int offset = kcfg_focusBoxSize->value();
+                subX=(maxStar->x - offset) * subBinX;
+                subY=(maxStar->y - offset) * subBinY;
+                subW=offset*2*subBinX;
+                subH=offset*2*subBinY;
 
                 if (subX<0)
                     subX=0;
                 if (subY<0)
                     subY=0;
-                if (subW>fw)
-                    subW=fw;
-                if (subH>fh)
-                    subH=fh;
+                if ((subW+subX)>fw)
+                    subW=fw-subX;
+                if ((subH+subY)>fh)
+                    subH=fh-subY;
 
                 if (subW <= 0)
                     subW = DEFAULT_SUBFRAME_DIM;
@@ -485,6 +487,7 @@ void Focus::newFITS(IBLOB *bp)
         }
         else
         {
+            appendLogText(i18n("Capture complete. Select a star to focus."));
             targetImage->updateMode(FITS_GUIDE);
             targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
             targetImage->setGuideSquare(fw/2, fh/2);
@@ -503,7 +506,7 @@ void Focus::newFITS(IBLOB *bp)
 
 void Focus::autoFocusAbs(double currentHFR)
 {
-    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0, minPos=1e6, maxPos=0;
+    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0, minPos=1e6, maxPos=0, noStarCount=0;
     static double initHFR=0, minHFR=0, maxHFR=1,initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
@@ -535,10 +538,17 @@ void Focus::autoFocusAbs(double currentHFR)
     // No stars detected, try to capture again
     if (currentHFR == -1)
     {
-        appendLogText(i18n("No stars detected, capturing again..."));
-        capture();
-        return;
+        if (noStarCount++ < 3)
+        {
+            appendLogText(i18n("No stars detected, capturing again..."));
+            capture();
+            return;
+        }
+        else
+            currentHFR = 20;
     }
+    else
+        noStarCount = 0;
 
     if (currentHFR > maxHFR || HFRPoints.empty())
     {
@@ -838,6 +848,7 @@ void Focus::autoFocusAbs(double currentHFR)
 
 void Focus::autoFocusRel(double currentHFR)
 {
+    static int noStarCount=0;
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-HFR)*100.0, 0,'g', 2);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
@@ -851,12 +862,20 @@ void Focus::autoFocusRel(double currentHFR)
         return;
     }
 
+    // No stars detected, try to capture again
     if (currentHFR == -1)
     {
-        appendLogText(i18n("No stars detected, capturing again..."));
-        capture();
-        return;
+        if (noStarCount++ < 3)
+        {
+            appendLogText(i18n("No stars detected, capturing again..."));
+            capture();
+            return;
+        }
+        else
+            currentHFR = 20;
     }
+    else
+        noStarCount = 0;
 
     switch (lastFocusDirection)
     {
@@ -969,6 +988,7 @@ void Focus::autoFocusRel(double currentHFR)
 
 void Focus::processFocusProperties(INumberVectorProperty *nvp)
 {
+    static bool absDirty=false, timerDirty=false;
 
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
@@ -978,8 +998,11 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 
        if (canAbsMove && inAutoFocus)
        {
-           if (nvp->s == IPS_OK)
+           if (nvp->s == IPS_OK && absDirty)
+           {
+               absDirty = false;
                capture();
+           }
            else if (nvp->s == IPS_ALERT)
            {
                appendLogText(i18n("Focuser error, check INDI panel."));
@@ -987,6 +1010,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                stopFocus();
            }
 
+           absDirty = (nvp->s == IPS_BUSY);
        }
 
        return;
@@ -997,14 +1021,19 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 
         if (canAbsMove == false && inAutoFocus)
         {
-            if (nvp->s == IPS_OK)
+            if (nvp->s == IPS_OK && timerDirty)
+            {
+                timerDirty = false;
                 capture();
+            }
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
                 stopFocus();
                 emit autoFocusFinished(false);
             }
+
+            timerDirty = (nvp->s == IPS_BUSY);
         }
 
         return;
@@ -1104,15 +1133,36 @@ void Focus::focusStarSelected(int x, int y)
 
     targetChip->getBinning(&binx, &biny);
 
-    x -= offset*2 ;
-    y -= offset*2;
-    int w=offset*4*binx;
-    int h=offset*4*biny;
+    x = (x - offset) * binx;
+    y = (y - offset) * biny;
+    int w=offset*2*binx;
+    int h=offset*2*biny;
+
+    if (x<0)
+        x=0;
+    if (y<0)
+        y=0;
+    if ((x+w)>fw)
+        w=fw-x;
+    if ((x+y)>fh)
+        h=fh-y;
+
+    if (w <= 0)
+        w = DEFAULT_SUBFRAME_DIM;
+    if (h <= 0)
+        h = DEFAULT_SUBFRAME_DIM;
+
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     targetImage->updateMode(FITS_FOCUS);
 
     if (targetChip->canSubframe())
+    {
         targetChip->setFrame(x, y, w, h);
+        subX = x;
+        subY = y;
+        subW = w;
+        subH = h;
+    }
 
     starSelected=true;
 
@@ -1129,9 +1179,7 @@ void Focus::checkFocus(double delta)
 void Focus::subframeUpdated(bool enable)
 {
     if (enable == false)
-    {
-        subX=subY=subW=subH=-1;
-    }
+        subX=subY=subW=subH=-1;        
 }
 
 }
