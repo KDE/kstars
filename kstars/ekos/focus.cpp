@@ -17,6 +17,7 @@
 
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
+#include "indi/clientmanager.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
@@ -43,6 +44,7 @@ Focus::Focus()
     inAutoFocus       = false;
     inFocusLoop       = false;
     captureInProgress = false;
+    CCDFocus          = false;
 
     HFRInc =0;
     reverseDir = false;
@@ -131,6 +133,16 @@ void Focus::checkCCD(int ccdNum)
         targetChip->getFrame(&fx, &fy, &fw, &fh);
     }
 
+    INumberVectorProperty *absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+    if (absMove)
+    {
+        CCDFocus = true;
+        canAbsMove = true;
+        AutoModeR->setEnabled(true);
+        resetButtons();
+        connect(static_cast<ISD::GDInterface*>(currentCCD), SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)));
+    }
+
 }
 
 void Focus::setFocuser(ISD::GDInterface *newFocuser)
@@ -171,9 +183,14 @@ void Focus::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
 
 void Focus::getAbsFocusPosition()
 {
+    INumberVectorProperty *absMove = NULL;
     if (canAbsMove)
     {
-        INumberVectorProperty *absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+        if (CCDFocus)
+            absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+        else
+             absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+
         if (absMove)
         {
            pulseStep = absMove->np[0].value;
@@ -309,15 +326,18 @@ void Focus::capture()
 
 void Focus::FocusIn(int ms)
 {
-
-    if (currentFocuser == NULL)
-        return;
-
-    if (currentFocuser->isConnected() == false)
+    if (CCDFocus == false)
     {
-        appendLogText(i18n("Error: Lost connection to Focuser."));
-        return;
+        if (currentFocuser == NULL)
+            return;
+
+        if (currentFocuser->isConnected() == false)
+        {
+            appendLogText(i18n("Error: Lost connection to Focuser."));
+            return;
+        }
     }
+
 
     if (ms == -1)
         ms = stepIN->value();
@@ -328,12 +348,21 @@ void Focus::FocusIn(int ms)
 
     lastFocusDirection = FOCUS_IN;
 
-    currentFocuser->focusIn();
-
-    if (canAbsMove)
-        currentFocuser->absMoveFocuser(pulseStep+ms);
+    if (CCDFocus)
+    {
+        INumberVectorProperty *absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+        absMove->np[0].value = pulseStep+ms;
+        currentCCD->getDriverInfo()->getClientManager()->sendNewNumber(absMove);
+    }
     else
-        currentFocuser->moveFocuser(ms);
+    {
+        currentFocuser->focusIn();
+
+        if (canAbsMove)
+            currentFocuser->absMoveFocuser(pulseStep+ms);
+        else
+            currentFocuser->moveFocuser(ms);
+    }
 
     appendLogText(i18n("Focusing inward..."));
 
@@ -342,13 +371,16 @@ void Focus::FocusIn(int ms)
 void Focus::FocusOut(int ms)
 {
 
-    if (currentFocuser == NULL)
-        return;
-
-    if (currentFocuser->isConnected() == false)
+    if (CCDFocus == false)
     {
-        appendLogText(i18n("Error: Lost connection to Focuser."));
-        return;
+        if (currentFocuser == NULL)
+            return;
+
+        if (currentFocuser->isConnected() == false)
+        {
+            appendLogText(i18n("Error: Lost connection to Focuser."));
+            return;
+        }
     }
 
     lastFocusDirection = FOCUS_OUT;
@@ -362,10 +394,19 @@ void Focus::FocusOut(int ms)
 
     currentFocuser->focusOut();
 
-    if (canAbsMove)
-        currentFocuser->absMoveFocuser(pulseStep-ms);
+    if (CCDFocus)
+    {
+        INumberVectorProperty *absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+        absMove->np[0].value = pulseStep+ms;
+        currentCCD->getDriverInfo()->getClientManager()->sendNewNumber(absMove);
+    }
     else
-        currentFocuser->moveFocuser(ms);
+    {
+        if (canAbsMove)
+            currentFocuser->absMoveFocuser(pulseStep-ms);
+        else
+            currentFocuser->moveFocuser(ms);
+    }
 
     appendLogText(i18n("Focusing outward..."));
 
@@ -658,7 +699,7 @@ void Focus::autoFocusAbs(double currentHFR)
                 }
 
                 // If we have slope, get next target position
-                if (initSlopeHFR)
+                if (initSlopeHFR && absMotionMax > 50)
                 {
                     double factor=0.5;
                     slope = (currentHFR - initSlopeHFR) / (pulseStep - initSlopePos);
@@ -1093,7 +1134,7 @@ void Focus::resetButtons()
         return;
     }
 
-    if (focusType == FOCUS_AUTO && currentFocuser)
+    if (focusType == FOCUS_AUTO && (currentFocuser || CCDFocus))
         startFocusB->setEnabled(true);
     else
         startFocusB->setEnabled(false);

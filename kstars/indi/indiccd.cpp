@@ -690,6 +690,8 @@ void CCD::processNumber(INumberVectorProperty *nvp)
             if (np)
                 emit newExposureValue(guideChip, np->value);
         }
+
+        return;
     }
 
     if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
@@ -716,6 +718,8 @@ void CCD::processNumber(INumberVectorProperty *nvp)
             if (dx >= 0 && dy >= 0 && fit >= 0)
                 emit newGuideStarData(primaryChip, dx, dy, fit);
         }
+
+        return;
 
     }
 
@@ -744,6 +748,8 @@ void CCD::processNumber(INumberVectorProperty *nvp)
             if (dx >= 0 && dy >= 0 && fit >= 0)
                 emit newGuideStarData(guideChip, dx, dy, fit);
         }
+
+        return;
 
     }
 
@@ -797,6 +803,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         }
 
         emit switchUpdated(svp);
+
+        return;
 
     }
 
