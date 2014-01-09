@@ -39,9 +39,10 @@ Focus::Focus()
     currentFocuser = NULL;
     currentCCD     = NULL;
 
-    canAbsMove     = false;
-    inAutoFocus    = false;
-    inFocusLoop    = false;
+    canAbsMove        = false;
+    inAutoFocus       = false;
+    inFocusLoop       = false;
+    captureInProgress = false;
 
     HFRInc =0;
     reverseDir = false;
@@ -297,6 +298,8 @@ void Focus::capture()
     else
         targetChip->setFrame(fx, fy, fw, fh);
 
+    captureInProgress = true;
+
     targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
@@ -386,6 +389,8 @@ void Focus::newFITS(IBLOB *bp)
         stopFocus();
         return;
     }
+
+    captureInProgress = false;
 
     FITSImage *image_data = targetChip->getImageData();
 
@@ -988,7 +993,6 @@ void Focus::autoFocusRel(double currentHFR)
 
 void Focus::processFocusProperties(INumberVectorProperty *nvp)
 {
-    static bool absDirty=false, timerDirty=false;
 
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
@@ -998,11 +1002,8 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 
        if (canAbsMove && inAutoFocus)
        {
-           if (nvp->s == IPS_OK && absDirty)
-           {
-               absDirty = false;
+           if (nvp->s == IPS_OK && captureInProgress == false)
                capture();
-           }
            else if (nvp->s == IPS_ALERT)
            {
                appendLogText(i18n("Focuser error, check INDI panel."));
@@ -1010,7 +1011,6 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                stopFocus();
            }
 
-           absDirty = (nvp->s == IPS_BUSY);
        }
 
        return;
@@ -1021,11 +1021,8 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 
         if (canAbsMove == false && inAutoFocus)
         {
-            if (nvp->s == IPS_OK && timerDirty)
-            {
-                timerDirty = false;
+            if (nvp->s == IPS_OK && captureInProgress == false)
                 capture();
-            }
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
@@ -1033,7 +1030,6 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                 emit autoFocusFinished(false);
             }
 
-            timerDirty = (nvp->s == IPS_BUSY);
         }
 
         return;

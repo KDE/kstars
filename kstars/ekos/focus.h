@@ -98,6 +98,7 @@ private:
     double HFR;
     int pulseDuration;
     bool canAbsMove;
+    bool captureInProgress;
     int absIterations;
 
     bool inAutoFocus, inFocusLoop;
