@@ -139,6 +139,8 @@ void Focus::checkCCD(int ccdNum)
         CCDFocus = true;
         canAbsMove = true;
         AutoModeR->setEnabled(true);
+        stepIN->setValue(1);
+        maxTravel->setValue(absMove->np[0].max);
         resetButtons();
         connect(static_cast<ISD::GDInterface*>(currentCCD), SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)));
     }
