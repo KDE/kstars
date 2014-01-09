@@ -520,10 +520,21 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
        if (JMIndex > DIFFUSE_THRESHOLD)
        {
            threshold = stats.max - stats.stddev* (MINIMUM_STDVAR - initStdDev +1);
-           minEdgeWidth = JMIndex*35;
+
            min =stats.min;
+
+           if (stats.dim[0] <= SMALL_SCALE_SQUARE && JMIndex < 0.25)
+           {
+               minEdgeWidth =3;
+               minimumEdgeLimit=1;
+           }
+           else
+           {
+               minEdgeWidth = JMIndex*35;
+               minimumEdgeLimit=minEdgeWidth-2;
+           }
+
            badPixLimit=minEdgeWidth*0.5;
-           minimumEdgeLimit=minEdgeWidth-2;
        }
        else
        {
@@ -545,13 +556,14 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
            }
        }
 
+        #ifdef FITS_DEBUG
+        qDebug() << "JMIndex: " << JMIndex << endl;
+        qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeLimit << endl;
+        #endif
 
-       threshold -= stats.min;
+        threshold -= stats.min;
 
-       #ifdef FITS_DEBUG
-       qDebug() << "JMIndex: " << JMIndex << endl;
-       qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeLimit << endl;
-       #endif
+
 
     // Detect "edges" that are above threshold
     for (int i=0; i < stats.dim[1]; i++)
@@ -616,6 +628,13 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
     #ifdef FITS_DEBUG
     qDebug() << "Total number of edges found is: " << edges.count() << endl;
     #endif
+
+    // In case of hot pixels
+    if (edges.count() == 1 && initStdDev > 1)
+    {
+        initStdDev--;
+        continue;
+    }
 
     if (edges.count() >= minimumEdgeLimit)
         break;
