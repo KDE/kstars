@@ -163,7 +163,7 @@ void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms& EcLong, const d
     Dec.setRadians( asin(sinDec) );
 }
 
-void SkyPoint::precess( const KSNumbers *num) {
+void SkyPoint::precess( const KSNumbers *num ) {
     double cosRA0, sinRA0, cosDec0, sinDec0;
     double v[3], s[3];
 
