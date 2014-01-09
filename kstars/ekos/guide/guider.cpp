@@ -469,6 +469,7 @@ void rguider::capture()
 
 void rguider::guide( void )
 {
+ static int maxPulseCounter=0;
  const cproc_out_params *out;
  QString str;
  uint32_t tick = 0;
@@ -507,6 +508,18 @@ void rguider::guide( void )
 
 	 // do pulse
 	 out = pmath->get_out_params();
+
+     if (out->pulse_length[GUIDE_RA] == ui.spinBox_MaxPulseRA->value() || out->pulse_length[GUIDE_DEC] == ui.spinBox_MaxPulseDEC->value())
+        maxPulseCounter++;
+     else
+         maxPulseCounter=0;
+
+     if (maxPulseCounter > 3)
+     {
+         pmain_wnd->appendLogText(i18n("Lost track of the guide star. Aborting guiding..."));
+         abort();
+         maxPulseCounter=0;
+     }
 
      pmain_wnd->do_pulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
 
