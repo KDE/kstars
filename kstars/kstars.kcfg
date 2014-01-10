@@ -1383,6 +1383,10 @@
            <label>Automatically select a star to focus.</label>
            <default>false</default>
        </entry>
+       <entry name="SuspendGuiding" type="Bool">
+           <label>Suspend guiding while autofocus in progress.</label>
+           <default>true</default>
+       </entry>
     </group>
     <group name="Align">
        <entry name="AlignExposure" type="Double">

@@ -63,7 +63,7 @@ cgmath::cgmath() : QObject()
 
 	// square variables
 	square_idx		= DEFAULT_SQR;
-    square_alg_idx	= CENTROID_THRESHOLD;
+    square_alg_idx	= SMART_THRESHOLD;
 	square_size		= guide_squares[square_idx].size;
 	square_square 	= guide_squares[square_idx].square;
 	square_pos 	 = Vector(0);

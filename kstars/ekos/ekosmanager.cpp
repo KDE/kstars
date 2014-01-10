@@ -1256,6 +1256,15 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
         connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
+
+    }
+
+    if (focusProcess)
+    {
+        focusProcess->disconnect(guideProcess);
+
+        // Suspend
+        connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)));
     }
 
 }

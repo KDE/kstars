@@ -40,6 +40,7 @@ Guide::Guide() : QWidget()
     useGuideHead = false;
     useDarkFrame = false;
     rapidGuideReticleSet = false;
+    isSuspended = false;
     darkExposure = 0;
     darkImage = NULL;
     AODriver= NULL;
@@ -338,6 +339,12 @@ void Guide::newFITS(IBLOB *bp)
     calibration->set_image(targetImage);
 
     fv->show();
+
+    if (isSuspended)
+    {
+        capture();
+        return;
+    }
 
     if (guider->is_dithering())
     {

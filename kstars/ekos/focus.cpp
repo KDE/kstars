@@ -94,6 +94,7 @@ Focus::Focus()
     kcfg_focusYBin->setValue(Options::focusYBin());
     maxTravel->setValue(Options::focusMaxTravel());
     kcfg_subFrame->setChecked(Options::focusSubFrame());
+    suspendGuideCheck->setChecked(Options::suspendGuiding());
 
 }
 
@@ -242,6 +243,7 @@ void Focus::startFocus()
 
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
+    Options::setSuspendGuiding(suspendGuideCheck->isChecked());
 
     #ifdef FOCUS_DEBUG
     qDebug() << "Starting focus with pulseDuration " << pulseDuration << endl;
@@ -464,7 +466,11 @@ void Focus::newFITS(IBLOB *bp)
         if (currentHFR == -1)
             emit autoFocusFinished(false);
         else if (currentHFR > deltaHFR)
+        {
+           if (suspendGuideCheck->isChecked())
+                emit suspendGuiding(true);
            startFocus();
+        }
         else
             emit autoFocusFinished(true);
 
@@ -664,7 +670,8 @@ void Focus::autoFocusAbs(double currentHFR)
                 {
                     appendLogText(i18n("Autofocus complete."));
                     stopFocus();
-                    emit autoFocusFinished(true);
+                    emit suspendGuiding(false);
+                    emit autoFocusFinished(true);                    
                 }
                 break;
             }
@@ -843,6 +850,7 @@ void Focus::autoFocusAbs(double currentHFR)
         {
             appendLogText(i18n("Autofocus complete."));
             stopFocus();
+            emit suspendGuiding(false);
             emit autoFocusFinished(true);
             return;
         }
@@ -937,6 +945,7 @@ void Focus::autoFocusRel(double currentHFR)
             {
                 appendLogText(i18n("Autofocus complete."));                
                 stopFocus();
+                emit suspendGuiding(false);
                 emit autoFocusFinished(true);
                 break;
             }
@@ -987,6 +996,7 @@ void Focus::autoFocusRel(double currentHFR)
         if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
             appendLogText(i18n("Autofocus complete."));
+            emit suspendGuiding(false);
             emit autoFocusFinished(true);
             stopFocus();
             break;

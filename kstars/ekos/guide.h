@@ -78,6 +78,7 @@ public slots:
         bool capture();
         void viewerClosed();
         void dither();
+        void setSuspended(bool enable) { isSuspended = enable;}
 
 signals:
         void newLog();
@@ -108,6 +109,7 @@ private:
     rguider *guider;
 
     bool useGuideHead;
+    bool isSuspended;
 
 
     bool useDarkFrame;

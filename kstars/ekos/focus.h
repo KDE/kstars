@@ -74,6 +74,7 @@ public slots:
 signals:
         void newLog();
         void autoFocusFinished(bool);
+        void suspendGuiding(bool);
 
 private:
 

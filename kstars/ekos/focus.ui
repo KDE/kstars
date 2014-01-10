@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>799</width>
-    <height>542</height>
+    <width>705</width>
+    <height>579</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_7">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
@@ -309,6 +309,20 @@
             </property>
             <property name="checked">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QCheckBox" name="suspendGuideCheck">
+            <property name="toolTip">
+             <string>Suspend Guiding while autofocus in progress</string>
+            </property>
+            <property name="text">
+             <string>Suspend Guiding</string>
             </property>
            </widget>
           </item>
