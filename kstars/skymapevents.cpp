@@ -230,7 +230,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
                 slotFinishFovCaptureMode();
             break;
         }
- 
+
     case Qt::Key_C: //Center clicked object
         if ( clickedObject() ) slotCenter();
         break;
@@ -238,7 +238,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_D: //Details window for Clicked/Centered object
     {
         SkyObject *orig = 0;
-        if ( shiftPressed ) { 
+        if ( shiftPressed ) {
             orig = clickedObject();
             setClickedObject( focusObject() );
         }
@@ -255,7 +255,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_P: //Show Popup menu for Clicked/Centered object
         if ( shiftPressed ) {
-            if ( focusObject() ) 
+            if ( focusObject() )
                 focusObject()->showPopupMenu( pmenu, QCursor::pos() );
         } else {
             if ( clickedObject() )
@@ -337,7 +337,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         Options::setUseAntialias( ! Options::useAntialias() );
         kDebug() << "Use Antialiasing: " << Options::useAntialias();
         forceUpdate();
-        break;     
+        break;
 
     case Qt::Key_K:
         {
@@ -350,7 +350,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         {
             KStars::Instance()->selectPreviousFov();
             break;
-        }    
+        }
 
     case Qt::Key_PageDown:
         {
@@ -499,7 +499,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::wheelEvent( QWheelEvent *e ) {
-    if ( e->delta() > 0 ) 
+    if ( e->delta() > 0 )
         zoomInOrMagStep ( e->modifiers() );
     else
         zoomOutOrMagStep( e->modifiers() );
@@ -617,8 +617,8 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 }
 
 double SkyMap::zoomFactor( const int modifier ) {
-    double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
-    if ( modifier & Qt::ShiftModifier ) 
+    double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0;
+    if ( modifier & Qt::ShiftModifier )
         factor = sqrt( factor );
     return factor;
 }
@@ -630,7 +630,7 @@ void SkyMap::zoomInOrMagStep( const int modifier ) {
         setZoomFactor( Options::zoomFactor() * zoomFactor( modifier ) );
 }
 
-    
+
 void SkyMap::zoomOutOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         decMagLimit( modifier );
@@ -662,4 +662,3 @@ void SkyMap::decMagLimit( const int modifier ) {
     //printf("maglim set to %3.1f\n", limit);
     forceUpdate();
 }
-

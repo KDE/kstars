@@ -72,7 +72,7 @@ class SkyMapQDraw;
 class SkyMap : public QGraphicsView {
 
     Q_OBJECT
-        
+
     friend class SkyMapDrawAbstract; // FIXME: SkyMapDrawAbstract requires a lot of access to SkyMap
     friend class SkyMapQDraw; // FIXME: SkyMapQDraw requires access to computeSkymap
 
@@ -100,11 +100,11 @@ class SkyMap : public QGraphicsView {
                       Stereographic,
                       Gnomonic,
                       UnknownProjection };
-		      
-    /**@return the angular field of view of the sky map, in degrees. 	 
-    *@note it must use either the height or the width of the window to calculate the 	 
-    *FOV angle.  It chooses whichever is larger. 	 
-    */ 	 
+
+    /**@return the angular field of view of the sky map, in degrees.
+    *@note it must use either the height or the width of the window to calculate the
+    *FOV angle.  It chooses whichever is larger.
+    */
     float fov();
 
     /**@short Update object name and coordinates in the Focus InfoBox */
@@ -122,7 +122,7 @@ class SkyMap : public QGraphicsView {
     /**@short retrieve the Destination position.
     	*
     	*The Destination is the point on the sky to which the focus will
-    	*be moved.  
+    	*be moved.
     	*
     	*@return a pointer to the destination point of the sky map
     	*/
@@ -130,9 +130,9 @@ class SkyMap : public QGraphicsView {
 
     /**@short retrieve the FocusPoint position.
     	*
-    	*The FocusPoint stores the position on the sky that is to be 
-    	*focused next.  This is not exactly the same as the Destination 
-    	*point, because when the Destination is set, it will begin slewing 
+    	*The FocusPoint stores the position on the sky that is to be
+    	*focused next.  This is not exactly the same as the Destination
+    	*point, because when the Destination is set, it will begin slewing
     	*immediately.
     	*
     	*@return a pointer to the sky point which is to be focused next.
@@ -146,7 +146,7 @@ class SkyMap : public QGraphicsView {
 
     /**@short sets the focus point of the skymap, using ra/dec coordinates
     	*
-    	*@note This function behaves essentially like the above function.  
+    	*@note This function behaves essentially like the above function.
     	*It differs only in the data types of its arguments.
     	*
     	*@param ra the new right ascension
@@ -163,7 +163,7 @@ class SkyMap : public QGraphicsView {
     /**@short sets the destination point of the sky map.
     	*@note setDestination() emits the destinationChanged() SIGNAL,
     	*which triggers the SLOT function SkyMap::slewFocus().  This
-    	*function iteratively steps the Focus point toward Destination, 
+    	*function iteratively steps the Focus point toward Destination,
     	*repainting the sky at each step (if Options::useAnimatedSlewing()==true).
     	*@param f a pointer to the SkyPoint the map should slew to
     	*/
@@ -171,7 +171,7 @@ class SkyMap : public QGraphicsView {
 
     /**@short sets the destination point of the skymap, using ra/dec coordinates.
     	*
-    	*@note This function behaves essentially like the above function.  
+    	*@note This function behaves essentially like the above function.
     	*It differs only in the data types of its arguments.
     	*
     	*@param ra the new right ascension
@@ -222,7 +222,7 @@ class SkyMap : public QGraphicsView {
     	*
     	*If the user centers the sky map on an object (by double-clicking or using the
     	*Find Object dialog), a pointer to the "focused" object is stored in
-    	*the private member FocusObject.  This function returns a pointer to the 
+    	*the private member FocusObject.  This function returns a pointer to the
     	*FocusObject, or NULL if there is not FocusObject.
     	*@return a pointer to the object at the center of the sky map.
     	*/
@@ -324,12 +324,12 @@ public slots:
     void slewFocus();
 
     /**@short Center the display at the point ClickedPoint.
-     * 
-     * The essential part of the function is to simply set the Destination point, which will emit 
+     *
+     * The essential part of the function is to simply set the Destination point, which will emit
      * the destinationChanged() SIGNAL, which triggers the slewFocus() SLOT.  Additionally, this
-     * function performs some bookkeeping tasks, such updating whether we are tracking the new 
+     * function performs some bookkeeping tasks, such updating whether we are tracking the new
      * object/position, adding a Planet Trail if required, etc.
-     * 
+     *
      * @see destinationChanged()
      * @see slewFocus()
      */
@@ -346,12 +346,12 @@ public slots:
     void slotSDSS();
 
     /**@short Popup menu function: Show webpage about ClickedObject
-     * (only available for some objects). 
+     * (only available for some objects).
      */
     void slotInfo();
 
     /**@short Popup menu function: Show image of ClickedObject
-     * (only available for some objects). 
+     * (only available for some objects).
      */
     void slotImage();
 
@@ -384,7 +384,7 @@ public slots:
     void slotRemovePlanetTrail();
 
     /**Checks whether the timestep exceeds a threshold value.  If so, sets
-     * ClockSlewing=true and sets the SimClock to ManualMode. 
+     * ClockSlewing=true and sets the SimClock to ManualMode.
      */
     void slotClockSlewing();
 
@@ -395,13 +395,13 @@ public slots:
     void slotBeginAngularDistance();
 
     void slotBeginStarHop(); // TODO: Add docs
-    
+
     // NOTE: This method is draw-backend independent.
     /**Computes the angular distance, prints the result in the status
      * bar and disables the angular distance measuring mode
-     * If the user has clicked on the map the status bar shows the 
-     * name of the clicked object plus the angular distance. If 
-     * the user did not clicked on the map, just pressed ], only 
+     * If the user has clicked on the map the status bar shows the
+     * name of the clicked object plus the angular distance. If
+     * the user did not clicked on the map, just pressed ], only
      * the angular distance is printed */
     void slotEndRulerMode();
 
@@ -455,7 +455,7 @@ public slots:
 
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
-     * point is changed, slewFocus() will iteratively step the Focus toward Destination 
+     * point is changed, slewFocus() will iteratively step the Focus toward Destination
      * until it is reached.
      * @see SkyMap::setDestination()
      * @see SkyMap::slewFocus()
@@ -567,14 +567,14 @@ private:
     /** Convenience routine to either zoom in or incraase mag limit
      * depending on the Alt modifier.  The Shift and Control modiifers
      * will adjust the size of the zoom or the mag step.
-     * @param modifier 
+     * @param modifier
      */
     void zoomInOrMagStep( const int modifier );
 
     /** Convenience routine to either zoom out or decraase mag limit
      * depending on the Alt modifier.  The Shift and Control modiifers
      * will adjust the size of the zoom or the mag step.
-     * @param modifier 
+     * @param modifier
      */
     void zoomOutOrMagStep( const int modifier );
 
@@ -613,7 +613,7 @@ private:
      * function mouseMoveEvent
      */
     SkyPoint m_MousePoint;
-    
+
     SkyPoint  Focus, ClickedPoint, FocusPoint, Destination;
     SkyObject *ClickedObject, *FocusObject;
 
