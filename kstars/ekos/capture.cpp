@@ -78,7 +78,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
    {
         status = JOB_ERROR;
 
-        if (preview == false)
+        if (preview == false && statusCell)
             statusCell->setText(statusStrings[status]);
 
         return CAPTURE_FRAME_ERROR;
@@ -89,7 +89,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
     {
         status = JOB_ERROR;
 
-        if (preview == false)
+        if (preview == false && statusCell)
             statusCell->setText(statusStrings[status]);
 
         return CAPTURE_BIN_ERROR;
@@ -113,7 +113,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 
     status = JOB_BUSY;
 
-    if (preview == false)
+    if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
 
     exposeLeft = exposure;

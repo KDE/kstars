@@ -1092,7 +1092,7 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
     {
         if (captureProcess)
-            captureProcess->syncTelescopeInfo();
+            captureProcess->setTelescope(scope);
 
         return;
     }
@@ -1102,6 +1102,12 @@ void EkosManager::processNewProperty(INDI::Property* prop)
 void EkosManager::processTabChange()
 {
     QWidget *currentWidget = toolsWidget->currentWidget();
+
+    if (currentWidget != focusProcess)
+    {
+        if (focusProcess)
+            focusProcess->resetFrame();
+    }
 
     if (currentWidget == alignProcess)
     {

@@ -42,6 +42,7 @@ public:
     void setFocuser(ISD::GDInterface *newFocuser);
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void focuserDisconnected();
+    void resetFrame();
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
@@ -54,6 +55,7 @@ public slots:
 
     /* Focus */
     void startFocus();
+    void checkStopFocus();
     void stopFocus();
     void capture();
     void startLooping();
@@ -70,6 +72,8 @@ public slots:
     void processFocusProperties(INumberVectorProperty *nvp);
     void subframeUpdated(bool enable);
     void checkFocus(double delta);
+
+    void setInSequenceFocus(bool);
 
 signals:
         void newLog();
@@ -103,7 +107,7 @@ private:
     bool CCDFocus;
     int absIterations;
 
-    bool inAutoFocus, inFocusLoop;
+    bool inAutoFocus, inFocusLoop, inSequenceFocus;
 
     double absCurrentPos;
     double pulseStep;
@@ -116,6 +120,7 @@ private:
     int fx,fy,fw,fh;
     int subX, subY, subW, subH;
     int subBinX, subBinY;
+    int noStarCount;
 
     QStringList logText;
 

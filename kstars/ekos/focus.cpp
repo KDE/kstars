@@ -45,8 +45,10 @@ Focus::Focus()
     inFocusLoop       = false;
     captureInProgress = false;
     CCDFocus          = false;
+    inSequenceFocus   = false;
 
     HFRInc =0;
+    noStarCount=0;
     reverseDir = false;
 
     pulseDuration = 1000;
@@ -56,7 +58,7 @@ Focus::Focus()
     deltaHFR = 0;
 
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(startFocus()));
-    connect(stopFocusB, SIGNAL(clicked()), this, SLOT(stopFocus()));
+    connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
 
     connect(focusOutB, SIGNAL(clicked()), this, SLOT(FocusOut()));
     connect(focusInB, SIGNAL(clicked()), this, SLOT(FocusIn()));
@@ -117,6 +119,17 @@ void Focus::toggleAutofocus(bool enable)
         resetButtons();
 }
 
+void Focus::resetFrame()
+{
+    if (currentCCD)
+    {
+        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+        if (targetChip && !inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+            targetChip->setFrame(fx, fy, fw, fh);
+    }
+}
+
 void Focus::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
@@ -131,7 +144,9 @@ void Focus::checkCCD(int ccdNum)
         kcfg_focusXBin->setEnabled(targetChip->canBin());
         kcfg_focusYBin->setEnabled(targetChip->canBin());
         kcfg_subFrame->setEnabled(targetChip->canSubframe());
-        targetChip->getFrame(&fx, &fy, &fw, &fh);
+
+        if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+            targetChip->getFrame(&fx, &fy, &fw, &fh);
     }
 
     INumberVectorProperty *absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
@@ -257,6 +272,17 @@ void Focus::startFocus()
     capture();
 }
 
+void Focus::checkStopFocus()
+{
+    if (inSequenceFocus == true)
+    {
+        inSequenceFocus = false;
+        emit autoFocusFinished(false);
+    }
+
+    stopFocus();
+}
+
 void Focus::stopFocus()
 {
 
@@ -270,6 +296,7 @@ void Focus::stopFocus()
     inFocusLoop = false;
     starSelected= false;
     deltaHFR    = 0;
+    noStarCount = 0;
 
     currentCCD->disconnect(this);
 
@@ -464,11 +491,24 @@ void Focus::newFITS(IBLOB *bp)
     if (deltaHFR > 0)
     {
         if (currentHFR == -1)
-            emit autoFocusFinished(false);
+        {
+            if (noStarCount++ < 3)
+            {
+                capture();
+                return;
+            }
+            else
+            {
+                noStarCount = 0;
+                emit autoFocusFinished(false);
+            }
+        }
         else if (currentHFR > deltaHFR)
         {
            if (suspendGuideCheck->isChecked())
                 emit suspendGuiding(true);
+
+           inSequenceFocus = true;
            startFocus();
         }
         else
@@ -560,7 +600,7 @@ void Focus::newFITS(IBLOB *bp)
 
 void Focus::autoFocusAbs(double currentHFR)
 {
-    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0, minPos=1e6, maxPos=0, noStarCount=0;
+    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0, minPos=1e6, maxPos=0;
     static double initHFR=0, minHFR=0, maxHFR=1,initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
@@ -717,8 +757,12 @@ void Focus::autoFocusAbs(double currentHFR)
                     targetPulse = pulseStep + (currentHFR*factor - currentHFR)/slope;
                     if (targetPulse < 0)
                     {
-                        factor = 0.995;
-                        targetPulse = pulseStep + (currentHFR*factor - currentHFR)/slope;
+                        factor = 1;
+                        while (targetPulse < 0)
+                        {
+                           factor -= 0.005;
+                            targetPulse = pulseStep + (currentHFR*factor - currentHFR)/slope;
+                        }
                     }
                     #ifdef FOCUS_DEBUG
                     qDebug() << "Using slope to calculate target pulse..." << endl;
@@ -1193,7 +1237,7 @@ void Focus::focusStarSelected(int x, int y)
         y=0;
     if ((x+w)>fw)
         w=fw-x;
-    if ((x+y)>fh)
+    if ((y+h)>fh)
         h=fh-y;
 
     if (w <= 0)
@@ -1229,6 +1273,11 @@ void Focus::subframeUpdated(bool enable)
 {
     if (enable == false)
         subX=subY=subW=subH=-1;        
+}
+
+void Focus::setInSequenceFocus(bool autoFocusComplete)
+{
+    inSequenceFocus = !autoFocusComplete;
 }
 
 }
