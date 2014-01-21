@@ -77,8 +77,9 @@ public slots:
         void updateGuideDriver(double delta_ra, double delta_dec);
         bool capture();
         void viewerClosed();
-        void dither();
+        void dither();        
         void setSuspended(bool enable) { isSuspended = enable;}
+        void stopGuiding();
 
 signals:
         void newLog();

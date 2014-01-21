@@ -44,7 +44,6 @@ Focus::Focus()
     inAutoFocus       = false;
     inFocusLoop       = false;
     captureInProgress = false;
-    CCDFocus          = false;
     inSequenceFocus   = false;
 
     HFRInc =0;
@@ -149,18 +148,6 @@ void Focus::checkCCD(int ccdNum)
             targetChip->getFrame(&fx, &fy, &fw, &fh);
     }
 
-    INumberVectorProperty *absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
-    if (absMove)
-    {
-        CCDFocus = true;
-        canAbsMove = true;
-        AutoModeR->setEnabled(true);
-        stepIN->setValue(1);
-        maxTravel->setValue(absMove->np[0].max);
-        resetButtons();
-        connect(static_cast<ISD::GDInterface*>(currentCCD), SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)));
-    }
-
 }
 
 void Focus::setFocuser(ISD::GDInterface *newFocuser)
@@ -204,10 +191,7 @@ void Focus::getAbsFocusPosition()
     INumberVectorProperty *absMove = NULL;
     if (canAbsMove)
     {
-        if (CCDFocus)
-            absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
-        else
-             absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+        absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
 
         if (absMove)
         {
@@ -341,7 +325,7 @@ void Focus::capture()
 
     targetChip->setFrameType(ccdFrame);
 
-    if (starSelected || (subX >= 0 && subY >=0 && subW > 0 && subH > 0))
+    if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
         targetChip->setFrame(subX, subY, subW, subH);
     else
         targetChip->setFrame(fx, fy, fw, fh);
@@ -357,18 +341,14 @@ void Focus::capture()
 
 void Focus::FocusIn(int ms)
 {
-    if (CCDFocus == false)
-    {
-        if (currentFocuser == NULL)
-            return;
+  if (currentFocuser == NULL)
+       return;
 
-        if (currentFocuser->isConnected() == false)
-        {
+  if (currentFocuser->isConnected() == false)
+  {
             appendLogText(i18n("Error: Lost connection to Focuser."));
             return;
-        }
-    }
-
+  }
 
     if (ms == -1)
         ms = stepIN->value();
@@ -379,39 +359,26 @@ void Focus::FocusIn(int ms)
 
     lastFocusDirection = FOCUS_IN;
 
-    if (CCDFocus)
-    {
-        INumberVectorProperty *absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
-        absMove->np[0].value = pulseStep+ms;
-        currentCCD->getDriverInfo()->getClientManager()->sendNewNumber(absMove);
-    }
-    else
-    {
-        currentFocuser->focusIn();
+     currentFocuser->focusIn();
 
-        if (canAbsMove)
-            currentFocuser->absMoveFocuser(pulseStep+ms);
-        else
-            currentFocuser->moveFocuser(ms);
-    }
+     if (canAbsMove)
+         currentFocuser->absMoveFocuser(pulseStep+ms);
+     else
+       currentFocuser->moveFocuser(ms);
+
 
     appendLogText(i18n("Focusing inward..."));
-
 }
 
 void Focus::FocusOut(int ms)
 {
+    if (currentFocuser == NULL)
+         return;
 
-    if (CCDFocus == false)
+    if (currentFocuser->isConnected() == false)
     {
-        if (currentFocuser == NULL)
-            return;
-
-        if (currentFocuser->isConnected() == false)
-        {
-            appendLogText(i18n("Error: Lost connection to Focuser."));
-            return;
-        }
+       appendLogText(i18n("Error: Lost connection to Focuser."));
+       return;
     }
 
     lastFocusDirection = FOCUS_OUT;
@@ -423,21 +390,12 @@ void Focus::FocusOut(int ms)
     qDebug() << "Focus out (" << ms << ")"  << endl;
     #endif
 
-    currentFocuser->focusOut();
+     currentFocuser->focusOut();
 
-    if (CCDFocus)
-    {
-        INumberVectorProperty *absMove = currentCCD->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
-        absMove->np[0].value = pulseStep+ms;
-        currentCCD->getDriverInfo()->getClientManager()->sendNewNumber(absMove);
-    }
+    if (canAbsMove)
+           currentFocuser->absMoveFocuser(pulseStep+ms);
     else
-    {
-        if (canAbsMove)
-            currentFocuser->absMoveFocuser(pulseStep-ms);
-        else
             currentFocuser->moveFocuser(ms);
-    }
 
     appendLogText(i18n("Focusing outward..."));
 
@@ -525,14 +483,11 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
-    if (focusType == FOCUS_MANUAL || inAutoFocus==false)
-        return;
-
     if (starSelected == false)
     {
         targetChip->getBinning(&subBinX, &subBinY);
 
-        if (kcfg_autoSelectStar->isChecked())
+        if (kcfg_autoSelectStar->isChecked() && focusType == FOCUS_AUTO)
         {
             Edge *maxStar = image_data->getMaxHFRStar();
             if (maxStar == NULL)
@@ -589,6 +544,9 @@ void Focus::newFITS(IBLOB *bp)
             return;
         }
     }
+
+    if (focusType == FOCUS_MANUAL || inAutoFocus==false)
+        return;
 
     if (canAbsMove)
         autoFocusAbs(currentHFR);
@@ -1190,7 +1148,7 @@ void Focus::resetButtons()
         return;
     }
 
-    if (focusType == FOCUS_AUTO && (currentFocuser || CCDFocus))
+    if (focusType == FOCUS_AUTO && currentFocuser)
         startFocusB->setEnabled(true);
     else
         startFocusB->setEnabled(false);
@@ -1272,7 +1230,10 @@ void Focus::checkFocus(double delta)
 void Focus::subframeUpdated(bool enable)
 {
     if (enable == false)
+    {
         subX=subY=subW=subH=-1;        
+        starSelected = false;
+    }
 }
 
 void Focus::setInSequenceFocus(bool autoFocusComplete)

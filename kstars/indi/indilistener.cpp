@@ -172,9 +172,10 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.removeOne(gd);
                     gd = new ISD::Filter(gd);
                     devices.append(gd);
+
                 }
 
-                    emit newFilter(gd);
+                emit newFilter(gd);
             }
             else if (!strcmp(prop->getName(), "FOCUS_MOTION"))
             {
@@ -182,10 +183,10 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 {
                     devices.removeOne(gd);
                     gd = new ISD::Focuser(gd);
-                    devices.append(gd);
-                }
+                    devices.append(gd);                
+                }                
 
-                emit newFocuser(gd);
+               emit newFocuser(gd);
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))

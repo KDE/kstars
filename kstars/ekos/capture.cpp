@@ -601,6 +601,7 @@ void Capture::newFITS(IBLOB *bp)
         else if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
         {
             appendLogText(i18n("Parking telescope..."));
+            emit telescopeParking();
             currentTelescope->Park();
         }
 

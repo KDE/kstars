@@ -564,6 +564,11 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
     GuideDriver = ST4Driver;
 }
 
+void Guide::stopGuiding()
+{
+    guider->abort();
+}
+
 
 }
 

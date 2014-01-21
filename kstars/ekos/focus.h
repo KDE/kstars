@@ -104,7 +104,6 @@ private:
     int pulseDuration;
     bool canAbsMove;
     bool captureInProgress;
-    bool CCDFocus;
     int absIterations;
 
     bool inAutoFocus, inFocusLoop, inSequenceFocus;

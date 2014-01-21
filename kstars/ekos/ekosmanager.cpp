@@ -1259,10 +1259,11 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(autoGuidingToggled(bool,bool)), captureProcess, SLOT(setAutoguiding(bool,bool)));
         connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
         connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(stopSequence()));
-        connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
+        connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));        
         connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
-
+        // Parking
+        connect(captureProcess, SIGNAL(telescopeParking()), guideProcess, SLOT(stopGuiding()));
     }
 
     if (focusProcess)

@@ -31,7 +31,7 @@ public:
 
     bool focusIn();
     bool focusOut();
-    bool moveFocuser(int secs);
+    bool moveFocuser(int msecs);
     bool absMoveFocuser(int steps);
     bool canAbsMove();
 

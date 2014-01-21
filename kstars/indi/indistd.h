@@ -210,8 +210,6 @@ private:
 
 };
 
-
-
 }
 
 #endif // INDISTD_H

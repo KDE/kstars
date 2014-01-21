@@ -169,7 +169,8 @@ public slots:
 signals:
         void newLog();
         void exposureComplete();
-        void checkFocus(double);        
+        void checkFocus(double);
+        void telescopeParking();
 
 private:
 

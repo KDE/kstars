@@ -82,13 +82,13 @@ bool Focuser::focusOut()
     return true;
 }
 
-bool Focuser::moveFocuser(int secs)
+bool Focuser::moveFocuser(int msecs)
 {
     INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
     if (focusProp == NULL)
         return false;
 
-    focusProp->np[0].value = secs;
+    focusProp->np[0].value = msecs;
 
     clientManager->sendNewNumber(focusProp);
 
