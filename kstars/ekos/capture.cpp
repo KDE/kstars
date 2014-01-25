@@ -257,6 +257,12 @@ void Capture::addGuideHead(ISD::GDInterface *newCCD)
 
 void Capture::addFilter(ISD::GDInterface *newFilter)
 {
+    foreach(ISD::GDInterface *filter, Filters)
+    {
+        if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
+            return;
+    }
+
     FilterCaptureCombo->addItem(newFilter->getDeviceName());
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));

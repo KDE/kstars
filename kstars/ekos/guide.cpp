@@ -273,7 +273,6 @@ bool Guide::capture()
     }
 
     targetChip->setCaptureMode(FITS_GUIDE);
-    targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
     targetChip->setFrameType(ccdFrame);
 
     if (guider->is_guiding())
@@ -333,6 +332,13 @@ void Guide::newFITS(IBLOB *bp)
 
     if (darkImage)
         image_data->subtract(darkImage->getImageBuffer());
+
+    if (filterCombo->currentIndex() != -1)
+    {
+        image_data->applyFilter((FITSScale) filterCombo->currentIndex());
+        targetImage->rescale(ZOOM_KEEP_LEVEL);
+        targetImage->updateFrame();
+    }
 
     pmath->set_image(targetImage);
     guider->set_image(targetImage);

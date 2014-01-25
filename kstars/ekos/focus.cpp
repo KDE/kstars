@@ -278,7 +278,7 @@ void Focus::stopFocus()
 
     inAutoFocus = false;
     inFocusLoop = false;
-    starSelected= false;
+    //starSelected= false;
     deltaHFR    = 0;
     noStarCount = 0;
 
@@ -393,7 +393,7 @@ void Focus::FocusOut(int ms)
      currentFocuser->focusOut();
 
     if (canAbsMove)
-           currentFocuser->absMoveFocuser(pulseStep+ms);
+           currentFocuser->absMoveFocuser(pulseStep-ms);
     else
             currentFocuser->moveFocuser(ms);
 

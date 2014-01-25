@@ -426,6 +426,7 @@ void rguider::onStartStopButtonClick()
 
         emit autoGuidingToggled(false, ui.kcfg_useDither->isChecked());
 
+        isDithering = false;
 		is_started = false;
 	}
 }
