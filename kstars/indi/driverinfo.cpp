@@ -34,6 +34,8 @@ DriverInfo::DriverInfo(const QString &inName)
     port          = "-1";
     userPort      = "-1";
 
+    type = KSTARS_UNKNOWN;
+
 }
 
 DriverInfo::~DriverInfo()

@@ -483,6 +483,9 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
 void Capture::checkFilter(int filterNum)
 {
 
+    if (filterNum == -1)
+        filterNum = FilterCaptureCombo->currentIndex();
+
     QStringList filterAlias = Options::filterAlias();
 
     if (filterNum <= Filters.count())

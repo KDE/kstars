@@ -623,7 +623,7 @@ void ObservingList::slotSlewToObject()
         }
 
 
-        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "SLEW", ISS_ON, this);
+        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
 
         gd->setProperty(&SlewCMD);
         gd->runCommand(INDI_SEND_COORDS, currentObject());

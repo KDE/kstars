@@ -378,9 +378,9 @@ bool Telescope::Slew(SkyPoint *ScopeTarget)
     if (motionSP == NULL)
         return false;
 
-    ISwitch *slewSW = IUFindSwitch(motionSP, "SLEW");
+    ISwitch *slewSW = IUFindSwitch(motionSP, "TRACK");
     if (slewSW == NULL)
-        slewSW = IUFindSwitch(motionSP, "TRACK");
+        slewSW = IUFindSwitch(motionSP, "SLEW");
 
     if (slewSW == NULL)
         return false;

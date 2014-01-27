@@ -1030,7 +1030,7 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
     if (!strcmp(nvp->name, "FILTER_SLOT"))
     {
         if (captureProcess)
-            captureProcess->checkFilter(0);
+            captureProcess->checkFilter();
     }
 
 }
