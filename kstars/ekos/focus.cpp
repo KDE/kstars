@@ -45,6 +45,7 @@ Focus::Focus()
     inFocusLoop       = false;
     captureInProgress = false;
     inSequenceFocus   = false;
+    starSelected      = false;
 
     HFRInc =0;
     noStarCount=0;
@@ -467,6 +468,7 @@ void Focus::newFITS(IBLOB *bp)
                 emit suspendGuiding(true);
 
            inSequenceFocus = true;
+           AutoModeR->setChecked(true);
            startFocus();
         }
         else
