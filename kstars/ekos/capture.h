@@ -214,6 +214,7 @@ private:
 
     // Guide Deviation
     bool deviationDetected;
+    bool spikeDetected;
 
     // Dither
     bool guideDither;

@@ -162,6 +162,7 @@ Capture::Capture()
     targetChip = NULL;
 
     deviationDetected = false;
+    spikeDetected     = false;
 
     isAutoGuiding   = false;
     guideDither     = false;
@@ -308,6 +309,7 @@ void Capture::startSequence()
     }
 
     deviationDetected = false;
+    spikeDetected     = false;
 
     executeJob(first_job);
 
@@ -1088,6 +1090,14 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     {
         if (deviation_rms > guideDeviation->value())
         {
+            // Ignore spikes ONCE
+            if (spikeDetected == false)
+            {
+                spikeDetected = true;
+                return;
+            }
+
+            spikeDetected = false;
             deviationDetected = true;
             appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
             stopSequence();
