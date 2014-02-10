@@ -160,6 +160,7 @@ Capture::Capture()
     activeJob  = NULL;
 
     targetChip = NULL;
+    guideChip  = NULL;
 
     deviationDetected = false;
     spikeDetected     = false;
@@ -623,10 +624,16 @@ void Capture::newFITS(IBLOB *bp)
     if (isAutoFocus)
         autoFocusStatus = false;
 
-    if (isAutoGuiding && guideDither)
+    if (isAutoGuiding)
     {
-        secondsLabel->setText(i18n("Dithering..."));
-        emit exposureComplete();
+        if (currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            emit suspendGuiding(false);
+
+        if (guideDither)
+        {
+            secondsLabel->setText(i18n("Dithering..."));
+            emit exposureComplete();
+        }
     }
     else if (isAutoFocus)
     {
@@ -785,7 +792,12 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
         activeJob->setExposeLeft(value);
 
     if (value == 0)
+    {
         secondsLabel->setText(i18n("Downloading..."));
+
+        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            emit suspendGuiding(true);
+    }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)
         secondsLabel->setText(i18n("second left"));

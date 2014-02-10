@@ -206,6 +206,8 @@ void Guide::updateGuideParams()
             return;
         }
 
+        emit guideChipUpdated(targetChip);
+
         guider->set_target_chip(targetChip);
 
         if (targetChip->getFrame(&x,&y,&w,&h))
@@ -348,7 +350,7 @@ void Guide::newFITS(IBLOB *bp)
 
     if (isSuspended)
     {
-        capture();
+        //capture();
         return;
     }
 
@@ -573,6 +575,22 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 void Guide::stopGuiding()
 {
     guider->abort();
+}
+
+void Guide::setSuspended(bool enable)
+{
+    if (enable == isSuspended)
+        return;
+
+    isSuspended = enable;
+
+    if (isSuspended == false)
+        capture();
+
+    if (isSuspended)
+        appendLogText(i18n("Guiding suspended."));
+    else
+        appendLogText(i18n("Guiding resumed."));
 }
 
 

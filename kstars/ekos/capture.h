@@ -166,11 +166,14 @@ public slots:
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const KFileItemList & items);
 
+    void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
+
 signals:
         void newLog();
         void exposureComplete();
         void checkFocus(double);
         void telescopeParking();
+        void suspendGuiding(bool);
 
 private:
 
@@ -195,6 +198,7 @@ private:
     QList<ISD::CCD *> CCDs;
 
     ISD::CCDChip *targetChip;
+    ISD::CCDChip *guideChip;
 
     // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
     QList<ISD::GDInterface *> Filters;

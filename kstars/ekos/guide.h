@@ -78,7 +78,7 @@ public slots:
         bool capture();
         void viewerClosed();
         void dither();        
-        void setSuspended(bool enable) { isSuspended = enable;}
+        void setSuspended(bool enable);
         void stopGuiding();
 
 signals:
@@ -89,6 +89,7 @@ signals:
         void ditherComplete();
         void ditherFailed();
         void ditherToggled(bool);
+        void guideChipUpdated(ISD::CCDChip*);
 
 
 private:

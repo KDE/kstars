@@ -1264,6 +1264,10 @@ void EkosManager::initGuide()
 
         // Parking
         connect(captureProcess, SIGNAL(telescopeParking()), guideProcess, SLOT(stopGuiding()));
+
+        // Guide Head
+        connect(captureProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)));
+        connect(guideProcess, SIGNAL(guideChipUpdated(ISD::CCDChip*)), captureProcess, SLOT(setGuideChip(ISD::CCDChip*)));
     }
 
     if (focusProcess)
