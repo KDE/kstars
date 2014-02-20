@@ -111,6 +111,12 @@ Align::Align()
         #ifdef HAVE_QJSON
         onlineParser = new Ekos::OnlineAstrometryParser();
         parser = onlineParser;
+        #else
+        kcfg_onlineSolver->setChecked(false);
+        kcfg_onlineSolver->setEnabled(false);
+        kcfg_offlineSolver->setChecked(true);
+        offlineParser = new OfflineAstrometryParser();
+        parser = offlineParser;
         #endif
     }
     else
