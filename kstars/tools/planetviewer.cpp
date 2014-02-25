@@ -160,6 +160,7 @@ void PlanetViewer::slotCloseWindow() {
     if ( isClockRunning ) {
         tmr.stop();
         isClockRunning = false;
+        pw->RunButton->setIcon( KIcon("arrow-right") );
     }
 }
 
