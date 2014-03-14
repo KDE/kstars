@@ -109,7 +109,8 @@ void OnlineAstrometryParser::authenticate()
 {
     QNetworkRequest request;
     bool ok;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     QUrl url(apiURL);
     QString method = "login";
