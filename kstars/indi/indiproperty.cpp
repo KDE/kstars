@@ -685,6 +685,7 @@ INDI_P::~INDI_P()
     delete (setB);
     delete (PHBox);
     delete (groupB);
+    delete (menuC);
 }
 
 
