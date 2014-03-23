@@ -172,10 +172,20 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     SkyObjItem *nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
     SkyObjItem *prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
 
-    QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
-    nextTextObj->setProperty("text", nextItem->getName());
-    QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
-    prevTextObj->setProperty("text", prevItem->getName());
+    if(modelSize <= 1)
+    {
+        m_NextObj->setProperty("visible", "false");
+        m_PrevObj->setProperty("visible", "false");
+    }
+    else
+    {
+        m_NextObj->setProperty("visible", "true");
+        m_PrevObj->setProperty("visible", "true");
+        QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
+        nextTextObj->setProperty("text", nextItem->getName());
+        QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
+        prevTextObj->setProperty("text", prevItem->getName());
+    }
 
     QObject *sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
     QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
