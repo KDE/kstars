@@ -64,6 +64,7 @@
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
 	        <Action name="whats_interesting" />
+	        <Action name="astrophotographs_browser" />
 		<Action name="glossary" />
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />

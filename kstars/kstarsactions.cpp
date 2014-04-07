@@ -80,6 +80,7 @@
 #include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiequipsettings.h"
+#include "tools/astrophotographs/astrophotographs.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
@@ -356,6 +357,20 @@ void KStars::slotShowWIView(int status)
     else
     {
         wi->updateModels(wiObsConditions);
+        wiDock->setVisible(true);
+    }
+}
+
+void KStars::slotShowAstrophotographs(){
+    if(!APBrowser)
+    {
+        APBrowser = new Astrophotographs(0);
+        wiDock = new QDockWidget(this);
+        wiDock->setObjectName("Astrophotographs Browser");
+        wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
+        wiDock->setWidget(APBrowser->getABBaseView());
+        wiDock->setMinimumWidth(APBrowser->getABBaseView()->width());
+        addDockWidget(Qt::RightDockWidgetArea, wiDock);
         wiDock->setVisible(true);
     }
 }

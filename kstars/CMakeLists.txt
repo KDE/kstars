@@ -2,6 +2,7 @@ add_subdirectory( data )
 add_subdirectory( icons )
 add_subdirectory( htmesh )
 add_subdirectory( tools/whatsinteresting/qml)
+add_subdirectory( tools/astrophotographs/qml)
 
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
@@ -159,7 +160,7 @@ set(libkstarstools_SRCS
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	tools/whatsinteresting/skyobjlistmodel.cpp
-	tools/whatsinteresting/wiview.cpp
+        tools/whatsinteresting/wiview.cpp
 	tools/whatsinteresting/modelmanager.cpp
 	tools/whatsinteresting/skyobjitem.cpp
 	tools/whatsinteresting/wilpsettings.cpp
@@ -451,12 +452,26 @@ set(printingui_SRCS
     printing/pwizwelcome.ui
 )
 
+set(astrobinapi_SRCS
+        tools/astrophotographs/astrobinapi.cpp
+        tools/astrophotographs/astrobinapixml.cpp
+        tools/astrophotographs/astrobinimage.cpp
+        tools/astrophotographs/astrophotographs.cpp
+)
+
+if( QJSON_FOUND )
+    set(astrobinapi_SRCS
+        ${astrobinapi_SRCS}
+        tools/astrophotographs/astrobinapijson.cpp
+    )
+endif( QJSON_FOUND )
+
 ##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
-        ${printing_SRCS}
+        ${printing_SRCS} ${astrobinapi_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -505,20 +520,23 @@ endif (INDI_FOUND)
 if (WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
+
 if( OPENGL_FOUND )
     target_link_libraries(KStarsLib
     ${OPENGL_LIBRARIES}
     ${QT_QTOPENGL_LIBRARY}
     )
 endif( OPENGL_FOUND )
-if (QJSON_FOUND)
-    target_link_libraries(KStarsLib ${QJSON_LIBRARIES})
-endif(QJSON_FOUND)
+
+if( QJSON_FOUND )
+  include_directories(${QJSON_INCLUDE_DIR})
+  target_link_libraries(kstars ${QJSON_LIBRARIES})
+  add_definitions(-DHAVE_QJSON)
+endif( QJSON_FOUND )
 
 target_link_libraries(kstars KStarsLib)
 
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
-
 
 ########### install files ###############
 install( PROGRAMS kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
