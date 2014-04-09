@@ -1,4 +1,4 @@
 #install_files
 
-install( FILES astrophotographs.qml
+install( FILES astrophotographsbrowser.qml
          DESTINATION  ${DATA_INSTALL_DIR}/kstars/tools/astrophotographs/qml )

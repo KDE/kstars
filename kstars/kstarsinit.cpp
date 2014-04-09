@@ -381,7 +381,7 @@ void KStars::initActions() {
     actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )
         << i18n("What's Interesting...")
         << KShortcut(Qt::CTRL+Qt::Key_W );
-    actionCollection()->addAction("astrophotographs_browser", this, SLOT( slotShowAstrophotographs() ))
+    actionCollection()->addAction("astrophotographs_browser", this, SLOT( slotShowAstrophotographsBrowser() ))
         << i18n("Astrophotographs Browser");
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << i18n("Sky Calendar");

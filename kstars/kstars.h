@@ -48,7 +48,7 @@ class WUTDialog;
 class WIView;
 class WILPSettings;
 class WIEquipSettings;
-class Astrophotographs;
+class AstrophotographsBrowser;
 class ObsConditions;
 class AstroCalc;
 class SkyCalendar;
@@ -560,8 +560,8 @@ private slots:
     /** action slot: open What's Interesting window */
     void slotShowWIView(int status);
 
-    /** action slot: open Astrophotographs window */
-    void slotShowAstrophotographs();
+    /** action slot: open AstrophotographsBrowser window */
+    void slotShowAstrophotographsBrowser();
 
     /** action slot: open Sky Calendar tool */
     void slotCalendar();
@@ -715,7 +715,7 @@ private:
     WILPSettings *wiLPSettings;
     WIEquipSettings *wiEquipSettings;
     ObsConditions *wiObsConditions;
-    Astrophotographs  *APBrowser;
+    AstrophotographsBrowser  *APBrowser;
     QDockWidget *wiDock;
     SkyCalendar *skycal;
     ScriptBuilder *sb;

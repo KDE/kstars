@@ -1,5 +1,5 @@
 /***************************************************************************
-                          astrophotographs.h  -  K Desktop Planetarium
+                          astrophotographsbrowser.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2014/05/04
     copyright            : (C) 2014 by Vijay Dhameliya
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ASTROPHOTOGRAPHS_H
-#define ASTROPHOTOGRAPHS_H
+#ifndef ASTROPHOTOGRAPHSBROWSER_H
+#define ASTROPHOTOGRAPHSBROWSER_H
 
 class QDeclarativeView;
 
@@ -28,21 +28,26 @@ class QDeclarativeView;
 #include "tools/whatsinteresting/obsconditions.h"
 
 /**
-  * \class Astrophotographs
+  * \class AstrophotographsBrowser
   * \brief Manages the QML user interface for astrophotographs browser.
-  * Astrophotographs is used to display the QML UI using a QDeclarativeView.
+  * AstrophotographsBrowser is used to display the QML UI using a QDeclarativeView.
   * It acts on all signals emitted by the UI and manages the data
   * sent to the UI for display.
   * \author Vijay Dhameliya
   */
-class Astrophotographs : public QWidget
+class AstrophotographsBrowser : public QWidget
 {
     Q_OBJECT
 public:
 
-    Astrophotographs(QWidget *parent = 0);
+    /**
+      * \brief Constructor - Store QML components as QObject pointers.
+      * Connect signals from various QML components into public slots.
+      * Displays the user interface for Astrophotographs Browser
+      */
+    AstrophotographsBrowser(QWidget *parent = 0);
 
-    ~Astrophotographs(){}
+    ~AstrophotographsBrowser(){}
 
     inline QDeclarativeView *getABBaseView() const { return m_BaseView; }
     
@@ -56,4 +61,4 @@ private:
     QDeclarativeView *m_BaseView;
 };
 
-#endif // ASTROPHOTOGRAPHS_H
+#endif // ASTROPHOTOGRAPHSBROWSER_H
