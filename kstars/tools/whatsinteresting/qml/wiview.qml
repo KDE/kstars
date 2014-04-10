@@ -62,7 +62,6 @@ Rectangle {
 
                 Rectangle {
                     id: background
-
                     color: "#00060b"
                     radius: 12
                     anchors.top: parent.top
