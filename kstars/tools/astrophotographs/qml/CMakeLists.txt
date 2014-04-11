@@ -1,4 +1,4 @@
 #install_files
 
-install( FILES PushButton.qml astrophotographsbrowser.qml
+install( FILES AstrophotographItem.qml PushButton.qml astrophotographsbrowser.qml
          DESTINATION  ${DATA_INSTALL_DIR}/kstars/tools/astrophotographs/qml )
