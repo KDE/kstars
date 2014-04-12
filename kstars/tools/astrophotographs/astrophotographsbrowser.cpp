@@ -24,3 +24,8 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_BaseView->show();
 }
+
+AstrophotographsBrowser::~AstrophotographsBrowser(){
+    delete m_BaseObj;
+    delete m_BaseView;
+}

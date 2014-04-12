@@ -372,6 +372,9 @@ void KStars::slotShowAstrophotographsBrowser(){
         wiDock->setMinimumWidth(APBrowser->getABBaseView()->width());
         addDockWidget(Qt::RightDockWidgetArea, wiDock);
         wiDock->setVisible(true);
+    }else
+    {
+        wiDock->setVisible(true);
     }
 }
 

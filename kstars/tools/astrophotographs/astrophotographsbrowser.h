@@ -47,7 +47,7 @@ public:
       */
     AstrophotographsBrowser(QWidget *parent = 0);
 
-    ~AstrophotographsBrowser(){}
+    ~AstrophotographsBrowser();
 
     inline QDeclarativeView *getABBaseView() const { return m_BaseView; }
     
