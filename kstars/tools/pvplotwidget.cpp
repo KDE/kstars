@@ -19,6 +19,7 @@
 #include <cmath> //for sqrt()
 
 #include <QApplication>
+#include <qglobal.h>
 #include <KPlotObject>
 #include <KPlotPoint>
 
@@ -26,7 +27,7 @@
 
 PVPlotWidget::PVPlotWidget( QWidget *parent ) :
         KPlotWidget( parent ),
-        mouseButtonDown(false), oldx(0), oldy(0)
+        mouseButtonDown(false), oldx(0), oldy(0), factor(2)
 {
     setFocusPolicy( Qt::StrongFocus );
     setMouseTracking (true);
@@ -80,13 +81,19 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Plus:
     case Qt::Key_Equal:
-        slotZoomIn();
-        break;
+        {
+            updateFactor( e->modifiers() );
+            slotZoomIn();
+            break;
+        }
 
     case Qt::Key_Minus:
     case Qt::Key_Underscore:
-        slotZoomOut();
-        break;
+        {
+            updateFactor( e->modifiers() );
+            slotZoomOut();
+            break;
+        }
 
     case Qt::Key_0: //Sun
         setLimits( -dx, dx, -dy, dy );
@@ -242,6 +249,7 @@ void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
 }
 
 void PVPlotWidget::wheelEvent( QWheelEvent *e ) {
+    updateFactor( e->modifiers() );
     if ( e->delta() > 0 ) slotZoomIn();
     else slotZoomOut();
 }
@@ -249,7 +257,7 @@ void PVPlotWidget::wheelEvent( QWheelEvent *e ) {
 void PVPlotWidget::slotZoomIn() {
     double size = dataRect().width();
     if ( size > 0.8 ) {
-        setLimits( dataRect().x() + 0.02*size, dataRect().right() - 0.02*size, dataRect().y() + 0.02*size, dataRect().bottom() - 0.02*size );
+        setLimits( dataRect().x() + factor * 0.01 * size, dataRect().right() - factor * 0.01 * size, dataRect().y() + factor * 0.01 * size, dataRect().bottom() - factor * 0.01 * size );
         update();
     }
 }
@@ -257,9 +265,13 @@ void PVPlotWidget::slotZoomIn() {
 void PVPlotWidget::slotZoomOut() {
     double size = dataRect().width();
     if ( (size) < 100.0 ) {
-        setLimits( dataRect().x() - 0.02*size, dataRect().right() + 0.02*size, dataRect().y() - 0.02*size, dataRect().bottom() + 0.02*size );
+        setLimits( dataRect().x() - factor * 0.01 * size, dataRect().right() + factor * 0.01 * size, dataRect().y() - factor * 0.01 * size, dataRect().bottom() + factor * 0.01 * size );
         update();
     }
+}
+
+void PVPlotWidget::updateFactor( const int modifier ) {
+    factor = ( modifier & Qt::ControlModifier ) ? 1 : 25;
 }
 
 #include "pvplotwidget.moc"
