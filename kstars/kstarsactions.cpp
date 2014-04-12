@@ -362,20 +362,19 @@ void KStars::slotShowWIView(int status)
 }
 
 void KStars::slotShowAstrophotographsBrowser(){
+
     if(!APBrowser)
     {
         APBrowser = new AstrophotographsBrowser(0);
-        wiDock = new QDockWidget(this);
-        wiDock->setObjectName("Astrophotographs Browser");
-        wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
-        wiDock->setWidget(APBrowser->getABBaseView());
-        wiDock->setMinimumWidth(APBrowser->getABBaseView()->width());
-        addDockWidget(Qt::RightDockWidgetArea, wiDock);
-        wiDock->setVisible(true);
-    }else
-    {
-        wiDock->setVisible(true);
     }
+
+    wiDock = new QDockWidget(this);
+    wiDock->setObjectName("Astrophotographs Browser");
+    wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
+    wiDock->setWidget(APBrowser->getABBaseView());
+    wiDock->setMinimumWidth(APBrowser->getABBaseView()->width());
+    addDockWidget(Qt::RightDockWidgetArea, wiDock);
+    wiDock->setVisible(true);
 }
 
 void KStars::slotCalendar() {
