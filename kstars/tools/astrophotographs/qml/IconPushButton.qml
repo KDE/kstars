@@ -11,15 +11,16 @@
 import QtQuick 1.1
 
 Item {
-    id: pushButton
+    id: iconPushButton
     property string text: "Button"
-    property int vheight: text.height + 20
+    property string iconPath: ""
+    property int vheight: text.height + 10
     property int vwidth: text.width + 20
 
     Rectangle {
-        id: pushButtonRect
-        width: pushButton.vwidth
-        height: pushButton.vheight
+        id: iconPushButtonRect
+        width: iconPushButton.vwidth
+        height: iconPushButton.vheight
         border.width: 2;
         border.color: "gray"
         radius: 4;
@@ -30,21 +31,40 @@ Item {
             GradientStop { position: 1.0; color: "black" }
         }
 
+        Rectangle {
+            id: iconHolderRect
+            width: iconPushButtonRect.width / 2.75
+            height: iconPushButtonRect.height - 4
+            anchors.left: iconPushButtonRect.left
+            anchors.leftMargin: 5
+            anchors.verticalCenter: iconPushButtonRect.verticalCenter
+            color: "transparent"
+
+            Image {
+                opacity: 1.0
+                anchors.fill: parent
+                smooth: true
+                source: iconPushButton.iconPath
+            }
+
+        }
+
         Text {
             id: text
             color: "white"
             font.pixelSize: 14
-            anchors.horizontalCenter:parent.horizontalCenter
-            anchors.verticalCenter:parent.verticalCenter
-            text: pushButton.text
+            anchors.left: iconHolderRect.right
+            anchors.leftMargin: 5
+            anchors.verticalCenter: iconPushButtonRect.verticalCenter
+            text: iconPushButton.text
         }
 
         MouseArea {
             id: mouseRegion
             hoverEnabled: true
             anchors.fill: parent
-            onEntered: pushButton.state = "buttonAreaEntered"
-            onExited: pushButton.state = "buttonAreaExit"
+            onEntered: iconPushButton.state = "buttonAreaEntered"
+            onExited: iconPushButton.state = "buttonAreaExit"
         }
 
     }
@@ -54,7 +74,7 @@ Item {
             name: "buttonAreaEntered"
 
             PropertyChanges {
-                target: pushButtonRect
+                target: iconPushButtonRect
                 opacity: 0.5
             }
         },
@@ -62,7 +82,7 @@ Item {
             name: "buttonAreaExit"
 
             PropertyChanges {
-                target: pushButtonRect
+                target: iconPushButtonRect
                 opacity: 1
             }
         }

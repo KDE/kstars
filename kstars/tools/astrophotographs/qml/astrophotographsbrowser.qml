@@ -92,80 +92,106 @@ Rectangle {
     Rectangle {
         id: dataContainer
         width: parent.width
-        height: parent.height
+        height: parent.height - 200
         color: "#00060b"
         radius: 10
-        opacity: 0.500
+        opacity: 0.9
         border.width: 4
         border.color: "black"
         anchors.top: searchContainer.bottom
-        anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 20
 
         ListModel {
-             id: fruitModel
+            id: resultModel
 
-             ListElement {
-                 path: "/home/vijay13/Pictures/1.jpg"
-                 name: "Sky Object One"
-                 date: "14th April 2014"
-             }
+            // this elements are to be added dynamically
+            ListElement {
+                path: "/home/vijay13/Pictures/1.jpg"
+                name: "Sky Object One"
+                date: "14th April 2014"
+            }
 
-             ListElement {
-                 path: "/home/vijay13/Pictures/2.jpg"
-                 name: "Sky Object Two"
-                 date: "15th April 2014"
-             }
+            ListElement {
+                path: "/home/vijay13/Pictures/2.jpg"
+                name: "Sky Object Two"
+                date: "15th April 2014"
+            }
 
-             ListElement {
-                 path: "/home/vijay13/Pictures/3.jpg"
-                 name: "Sky Object Three"
-                 date: "16th April 2014"
-             }
+            ListElement {
+                path: "/home/vijay13/Pictures/3.jpg"
+                name: "Sky Object Three"
+                date: "16th April 2014"
+            }
 
-             ListElement {
-                 path: "/home/vijay13/Pictures/4.jpg"
-                 name: "Sky Object Four"
-                 date: "16th April 2014"
-             }
+            ListElement {
+                path: "/home/vijay13/Pictures/4.jpg"
+                name: "Sky Object Four"
+                date: "16th April 2014"
+            }
 
-             ListElement {
-                 path: "/home/vijay13/Pictures/2.jpg"
-                 name: "Sky Object Five"
-                 date: "16th April 2014"
-             }
+            ListElement {
+                path: "/home/vijay13/Pictures/2.jpg"
+                name: "Sky Object Five"
+                date: "16th April 2014"
+            }
 
-         }
+        }
 
         Component {
-                 id: fruitDelegate
-                 Row {
-                     spacing: 10
-                     AstrophotographItem {
-                         id: testItem
-                         imagePath: path
-                         imageName: name
-                         imageDate: date
-                         width: dataContainer.width - 30
-                         height: 100
-                     }
-                 }
-             }
+            id: resultDelegate
+            Row {
+                spacing: 10
+                AstrophotographItem {
+                    id: testItem
+                    imagePath: path
+                    imageName: name
+                    imageDate: date
+                    width: dataContainer.width - 30
+                    height: 100
+                }
+            }
+        }
 
         ListView {
-             id: resultListView
-             model: fruitModel
-             delegate: fruitDelegate
-             anchors.fill: parent
-             clip: true
+            id: resultListView
+            model: resultModel
+            delegate: resultDelegate
+            anchors.fill: parent
+            clip: true
 
-             ScrollBar {
-                 flickable: resultListView
-             }
+            ScrollBar {
+                flickable: resultListView
+            }
         }
 
     }
 
+    Rectangle {
+        id: footerContainer
+        anchors.top: dataContainer.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 5
+        color: "transparent"
+
+        Rectangle {
+            id: footerButtonContainer
+            anchors.right: footerContainer.right
+            anchors.rightMargin: 95
+            anchors.top: footerContainer.top
+            anchors.topMargin: 5
+
+            IconPushButton {
+                id: backButton
+                iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                text: "Back"
+                vheight: 35
+                vwidth: 80
+            }
+        }
+
+    }
 }

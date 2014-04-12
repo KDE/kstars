@@ -37,6 +37,7 @@ Item {
             width: imageItemContainer.width / 3
             height: imageItemContainer.height
             anchors.left: imageItemContainer.left
+            color: "transparent"
 
             Rectangle {
                 id: imgContainer
@@ -45,13 +46,14 @@ Item {
                 anchors.top: imgPathRect.top
                 anchors.bottom: imgPathRect.bottom
                 anchors.margins: 5
+                color: "transparent"
 
                 Image {
-                    opacity: 1
+                    opacity: 1.0
                     anchors.fill: parent
                     smooth: true
                     source: astrophotographItem.imagePath
-                 }
+                }
 
             }
         }
@@ -86,6 +88,34 @@ Item {
             }
         }
 
+        MouseArea {
+            id: itemRegion
+            hoverEnabled: true
+            anchors.fill: parent
+            onEntered: astrophotographItem.state = "itemAreaEntered"
+            onExited: astrophotographItem.state = "itemAreaExit"
+        }
+
     }
+
+    states: [
+        State {
+            name: "itemAreaEntered"
+
+            PropertyChanges {
+                target: imageItemContainer
+                opacity: 0.5
+            }
+        },
+        State {
+            name: "itemAreaExit"
+
+            PropertyChanges {
+                target: imageItemContainer
+                opacity: 1
+            }
+        }
+
+    ]
 
 }
