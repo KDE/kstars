@@ -274,8 +274,20 @@ bool SkyPoint::bendlight() {
     // NOTE: This should be applied before aberration
     // NOTE: One must call checkBendLight() before unnecessarily calling this.
     // We correct for GR effects
+
+    // NOTE: This code is buggy. The sun needs to be initialized to
+    // the current epoch -- but we are not certain that this is the
+    // case. We have, as of now, no way of telling if the sun is
+    // initialized or not. If we initialize the sun here, we will be
+    // slowing down the program rather substantially and potentially
+    // introducing bugs. Therefore, we just ignore this problem, and
+    // hope that whenever the user is interested in seeing the effects
+    // of GR, we have the sun initialized correctly. This is usually
+    // the case. When the sun is not correctly initialized, rearth()
+    // is not computed, so we just assume it is nominally equal to 1
+    // AU to get a reasonable estimate.
     Q_ASSERT( m_Sun );
-    double corr_sec = 1.75 * m_Sun->physicalSize() / ( m_Sun->rearth() * AU_KM * angularDistanceTo( static_cast<const SkyPoint *>(m_Sun) ).sin() );
+    double corr_sec = 1.75 * m_Sun->physicalSize() / ( ( std::isfinite( m_Sun->rearth() ) ? m_Sun->rearth() : 1 ) * AU_KM * angularDistanceTo( static_cast<const SkyPoint *>(m_Sun) ).sin() );
     Q_ASSERT( corr_sec > 0 );
 
     SkyPoint sp = moveAway( *m_Sun, corr_sec );
