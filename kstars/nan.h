@@ -22,7 +22,7 @@
 
 #include<limits>
 
-// The way of doing this in C++ 11. Leaving it here for purposes of 
+// The way of doing this in C++ 11. Leaving it here for future purposes.
 #if 0
 namespace NaN {
     constexpr double d = std::numeric_limits::quiet_NaN();
