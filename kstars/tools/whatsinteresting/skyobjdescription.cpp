@@ -29,19 +29,28 @@ void SkyObjDescription::fileDownloaded(QNetworkReply* reply)
 
     if(m_DownloadedData != ""){
         QString data(m_DownloadedData);
-        if(data.contains("description", Qt::CaseInsensitive))
+
+        const QString descOpeing( "<Description xml:space=\"preserve\">" );
+        const QString descClosing( "</Description>" );
+        // retrieving description from recieved data
+        if(data.contains( "description", Qt::CaseInsensitive ) )
         {
-            int startIndex = data.lastIndexOf("<Description xml:space=\"preserve\">") + 34;
-            int endIndex = data.lastIndexOf("</Description>");
-            m_description = data.mid(startIndex, endIndex-startIndex);
+            int startIndex = data.lastIndexOf( descOpeing ) + descOpeing.length();
+            int endIndex = data.lastIndexOf( descClosing );
+            m_description = data.mid( startIndex, endIndex-startIndex );
+        }
+
+        const QString urlOpening( "<Url xml:space=\"preserve\">" );
+        const QString urlClosing( "</Url>" );
+        // retrieving link of wikipedia page from received data
+        if( data.contains( urlOpening, Qt::CaseInsensitive ) )
+        {
+            int startIndex = data.lastIndexOf( urlOpening ) + urlOpening.length();
+            int endIndex = data.lastIndexOf( urlClosing );
+            m_url = data.mid( startIndex, endIndex-startIndex );
         }
     }
     reply->deleteLater();
     emit downloaded();
 
-}
-
-QString SkyObjDescription::downloadedData() const
-{
-    return m_description;
 }

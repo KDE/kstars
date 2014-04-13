@@ -146,8 +146,8 @@ QString SkyObjItem::getDescSource()
 
     if(skd)
     {
-        if(skd->downloadedData() != "")
-            return i18n("(Source: Wikipedia)");
+        if(!skd->downloadedData().isEmpty() && !skd->url().isEmpty())
+            return "(Source: <a href=\"" + skd->url() + "\">Wikipedia</a>)";
     }
 
     return i18n("(Source: N/A)");
