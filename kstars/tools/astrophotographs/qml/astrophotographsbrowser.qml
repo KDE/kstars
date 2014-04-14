@@ -103,67 +103,122 @@ Rectangle {
         anchors.right: parent.right
         anchors.margins: 20
 
-        ListModel {
-            id: resultModel
-
-            // this elements are to be added dynamically
-            ListElement {
-                path: "/home/vijay13/Pictures/1.jpg"
-                name: "Sky Object One"
-                date: "14th April 2014"
-            }
-
-            ListElement {
-                path: "/home/vijay13/Pictures/2.jpg"
-                name: "Sky Object Two"
-                date: "15th April 2014"
-            }
-
-            ListElement {
-                path: "/home/vijay13/Pictures/3.jpg"
-                name: "Sky Object Three"
-                date: "16th April 2014"
-            }
-
-            ListElement {
-                path: "/home/vijay13/Pictures/4.jpg"
-                name: "Sky Object Four"
-                date: "16th April 2014"
-            }
-
-            ListElement {
-                path: "/home/vijay13/Pictures/2.jpg"
-                name: "Sky Object Five"
-                date: "16th April 2014"
-            }
-
-        }
-
-        Component {
-            id: resultDelegate
-            Row {
-                spacing: 10
-                AstrophotographItem {
-                    id: testItem
-                    imagePath: path
-                    imageName: name
-                    imageDate: date
-                    width: dataContainer.width - 30
-                    height: 100
-                }
-            }
-        }
-
-        ListView {
-            id: resultListView
-            model: resultModel
-            delegate: resultDelegate
+        Flipable {
+            id: resultView
             anchors.fill: parent
-            clip: true
 
-            ScrollBar {
-                flickable: resultListView
+            property bool flipped: false
+
+            front: Rectangle {
+                id: astrophotoListContainer
+                anchors.fill: parent
+                anchors.margins: 5
+                color: "transparent"
+
+                ListModel {
+                    id: resultModel
+
+                    // this elements are to be added dynamically
+                    ListElement {
+                        path: "/home/vijay13/Pictures/1.jpg"
+                        name: "Sky Object One"
+                        date: "14th April 2014"
+                    }
+
+                    ListElement {
+                        path: "/home/vijay13/Pictures/2.jpg"
+                        name: "Sky Object Two"
+                        date: "15th April 2014"
+                    }
+
+                    ListElement {
+                        path: "/home/vijay13/Pictures/3.jpg"
+                        name: "Sky Object Three"
+                        date: "16th April 2014"
+                    }
+
+                    ListElement {
+                        path: "/home/vijay13/Pictures/4.jpg"
+                        name: "Sky Object Four"
+                        date: "16th April 2014"
+                    }
+
+                    ListElement {
+                        path: "/home/vijay13/Pictures/2.jpg"
+                        name: "Sky Object Five"
+                        date: "16th April 2014"
+                    }
+
+                }
+
+                Component {
+                    id: resultDelegate
+                    Row {
+                        spacing: 10
+                        AstrophotographItem {
+                            id: testItem
+                            imagePath: path
+                            imageName: name
+                            imageDate: date
+                            width: astrophotoListContainer.width - 20
+                            height: 100
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    resultView.flipped = true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ListView {
+                    id: resultListView
+                    model: resultModel
+                    delegate: resultDelegate
+                    anchors.fill: parent
+                    clip: true
+
+                    ScrollBar {
+                        flickable: resultListView
+                    }
+                }
+
             }
+
+            back: Rectangle {
+                id: detailViewContainer
+                anchors.fill: parent
+                anchors.margins: 5
+                color: "transparent"
+
+            }
+
+            states: [
+                State {
+                    name: "back"
+                    PropertyChanges {
+                        target: listToDetailsRotation
+                        angle: 180
+                    }
+
+                    when: resultView.flipped
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    NumberAnimation { target: listToDetailsRotation; property: "angle"; duration: 400 }
+                }
+            ]
+
+            transform: Rotation {
+                id: listToDetailsRotation
+                origin.x: container.width / 2;
+                axis.y: 1; axis.z: 0
+            }
+
         }
 
     }

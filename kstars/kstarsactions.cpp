@@ -363,11 +363,7 @@ void KStars::slotShowWIView(int status)
 
 void KStars::slotShowAstrophotographsBrowser(){
 
-    if(!APBrowser)
-    {
-        APBrowser = new AstrophotographsBrowser(0);
-    }
-
+    APBrowser = new AstrophotographsBrowser(0);
     wiDock = new QDockWidget(this);
     wiDock->setObjectName("Astrophotographs Browser");
     wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -375,6 +371,7 @@ void KStars::slotShowAstrophotographsBrowser(){
     wiDock->setMinimumWidth(APBrowser->getABBaseView()->width());
     addDockWidget(Qt::RightDockWidgetArea, wiDock);
     wiDock->setVisible(true);
+
 }
 
 void KStars::slotCalendar() {
