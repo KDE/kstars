@@ -550,6 +550,7 @@ Rectangle {
                                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                             width: parent.width
                                             font.pixelSize: 13
+                                            onLinkActivated: Qt.openUrlExternally(link)
                                         }
                                     }
                                 }

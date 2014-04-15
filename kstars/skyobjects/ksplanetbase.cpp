@@ -23,6 +23,7 @@
 #include <QPoint>
 #include <QMatrix>
 
+#include "nan.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
@@ -56,7 +57,7 @@ const SkyObject::UID KSPlanetBase::UID_SOL_COMET    = 2;
 
 KSPlanetBase::KSPlanetBase( const QString &s, const QString &image_file, const QColor &c, double pSize ) :
     TrailObject( 2, 0.0, 0.0, 0.0, s ),
-    Rearth(0.0)
+    Rearth( NaN::d )
 {
     init( s, image_file, c, pSize );
 }

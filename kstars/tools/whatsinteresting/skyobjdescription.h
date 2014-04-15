@@ -50,7 +50,12 @@ public:
     /**
      * @return returns description if it was available on wikipedia else returns empty string
      */
-    QString downloadedData() const;
+    QString downloadedData() const {return m_description;}
+
+    /**
+     * @return returns wikipedia link for skyobject
+     */
+    QString url() const { return m_url;}
 
 signals:
         void downloaded();
@@ -63,7 +68,7 @@ private slots:
     void fileDownloaded(QNetworkReply* reply);
 
 private:
-    QString soName, soType, m_description;
+    QString soName, soType, m_description, m_url;
     QNetworkAccessManager* manager;
     QByteArray m_DownloadedData;
 
