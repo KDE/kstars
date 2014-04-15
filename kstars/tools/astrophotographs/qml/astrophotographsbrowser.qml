@@ -189,9 +189,104 @@ Rectangle {
 
             back: Rectangle {
                 id: detailViewContainer
-                anchors.fill: parent
-                anchors.margins: 5
+                opacity: 1.0
+                width: parent.width - 20
+                height: parent.height - 20
                 color: "transparent"
+                anchors.left: parent.left
+                anchors.leftMargin: 50
+                anchors.right: parent.right
+                anchors.rightMargin: -30
+                anchors.verticalCenter: parent.verticalCenter
+
+                Text {
+                    id: titleOfAstroPhotograph
+                    width: detailViewContainer.width
+                    text: qsTr("This is title of Astrophotograph downloaded from Astrobin")
+                    color: "#ffffff"
+                    anchors.top: detailViewContainer.top
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.bold: true
+                    font.italic: true
+                    font.pixelSize: 16
+                }
+
+                Rectangle {
+                    id: photoContainer
+                    width: detailViewContainer.width
+                    height: 225
+                    anchors.top: titleOfAstroPhotograph.bottom
+                    anchors.topMargin: 5
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "transparent"
+
+                    Image {
+                        id: astroPhotographImage
+                        anchors.fill: parent
+                        smooth: true
+                        source: "/home/vijay13/Pictures/1.jpg"
+                    }
+
+                }
+
+                Rectangle {
+                    id: detailOfAstroPhotograph
+                    color: "#010a14"
+                    radius: 10
+                    border.width: 0
+                    anchors.top: photoContainer.bottom
+                    anchors.topMargin: 5
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    border.color: "#585454"
+
+                    ListModel {
+                        id: detailModel
+
+                        // this elements are to be added dynamically
+                        ListElement {
+                            detailItemText: "Date: "
+                        }
+
+                    }
+
+                    Component {
+                        id: detailDelegate
+
+                        Rectangle {
+                            anchors.topMargin: 10
+                            width: detailOfAstroPhotograph.width
+                            height: detailItem.height + 5
+                            color: "transparent"
+
+                            Text {
+                                id: detailItem
+                                horizontalAlignment: Text.AlignLeft
+                                color: "white"
+                                text: detailItemText
+                            }
+
+                        }
+
+                    }
+
+                    ListView {
+                        id: detailList
+                        model: detailModel
+                        delegate: detailDelegate
+                        anchors.fill: parent
+                        anchors.leftMargin: 10
+                        anchors.topMargin: 10
+                        clip: true
+
+                        ScrollBar {
+                            flickable: detailList
+                        }
+                    }
+                }
 
             }
 
