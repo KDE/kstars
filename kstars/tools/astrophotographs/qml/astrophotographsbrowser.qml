@@ -298,7 +298,36 @@ Rectangle {
                         angle: 180
                     }
 
+                    PropertyChanges {
+                        target: homeButtonContainer
+                        opacity: 0
+                    }
+
+                    PropertyChanges {
+                        target: buttonContainer
+                        opacity: 1
+                    }
+
                     when: resultView.flipped
+                },
+                State {
+                    name: "front"
+                    PropertyChanges {
+                        target: listToDetailsRotation
+                        angle: 0
+                    }
+
+                    PropertyChanges {
+                        target: homeButtonContainer
+                        opacity: 1
+                    }
+
+                    PropertyChanges {
+                        target: buttonContainer
+                        opacity: 0
+                    }
+
+                    when: !resultView.flipped
                 }
             ]
 
@@ -328,20 +357,110 @@ Rectangle {
         color: "transparent"
 
         Rectangle {
-            id: footerButtonContainer
-            anchors.right: footerContainer.right
-            anchors.rightMargin: 95
-            anchors.top: footerContainer.top
-            anchors.topMargin: 5
+            id: homeButtonContainer
+            width: 85
+            height: footerContainer.height
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            opacity: 1
+            color: "transparent"
 
-            IconPushButton {
-                id: backButton
-                iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
-                text: "Back"
-                vheight: 35
-                vwidth: 80
+            Rectangle {
+                id: homeButtonRect
+                width: homeButtonContainer.width
+                height: homeButtonContainer.height - 5
+                anchors.right: homeButtonContainer.right
+                anchors.verticalCenter: parent.verticalCenter
+                color: "transparent"
+
+                IconPushButton {
+                    id: homeButton
+                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    text: "Home"
+                    vheight: homeButtonRect.height
+                    vwidth: homeButtonRect.width - 5
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        resultView.flipped = true
+                    }
+                }
+
             }
         }
+
+        Rectangle {
+            id: buttonContainer
+            width: 240
+            height: footerContainer.height
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            opacity: 0
+            color: "transparent"
+
+            Rectangle {
+                id: backButtonContainer
+                width: buttonContainer.width / 3
+                height: buttonContainer.height - 5
+                anchors.left: buttonContainer.left
+                anchors.verticalCenter: parent.verticalCenter
+                color: "transparent"
+
+                IconPushButton {
+                    id: backButton
+                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    text: "Back"
+                    vheight: backButtonContainer.height
+                    vwidth: backButtonContainer.width - 5
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        resultView.flipped = false
+                    }
+                }
+
+            }
+
+            Rectangle {
+                id: editButtonContainer
+                width: buttonContainer.width / 3
+                height: buttonContainer.height - 5
+                anchors.left: backButtonContainer.right
+                anchors.verticalCenter: parent.verticalCenter
+                color: "transparent"
+
+                IconPushButton {
+                    id: editButton
+                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    text: "Edit"
+                    vheight: editButtonContainer.height
+                    vwidth: editButtonContainer.width - 5
+                }
+            }
+
+            Rectangle {
+                id: saveButtonContainer
+                width: buttonContainer.width / 3
+                height: buttonContainer.height - 5
+                anchors.left: editButtonContainer.right
+                anchors.verticalCenter: parent.verticalCenter
+                color: "transparent"
+
+                IconPushButton {
+                    id: saveButton
+                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    text: "Save"
+                    vheight: saveButtonContainer.height
+                    vwidth: saveButtonContainer.width - 5
+                }
+
+            }
+        }
+
 
     }
 }
