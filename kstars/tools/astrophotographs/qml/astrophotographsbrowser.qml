@@ -21,13 +21,15 @@ Rectangle {
 
     Text {
         id: title
-        x: 10
-        y: 35
         width: 210
         height: 45
         color: "#59ad0e"
         text: i18n("Astrophotographs Browser")
         verticalAlignment: Text.AlignVCenter
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 20
         font.family: "Cantarell"
         font.bold: false
         font.pixelSize: 22
@@ -92,13 +94,14 @@ Rectangle {
     Rectangle {
         id: dataContainer
         width: parent.width
-        height: parent.height - 200
+        height: parent.height - title.height - searchContainer.height - 120
         color: "#00060b"
         radius: 10
         opacity: 0.9
         border.width: 4
         border.color: "black"
         anchors.top: searchContainer.bottom
+        anchors.topMargin: 10
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 20
@@ -216,7 +219,7 @@ Rectangle {
                 Rectangle {
                     id: photoContainer
                     width: detailViewContainer.width
-                    height: 225
+                    height: ( detailViewContainer.height - titleOfAstroPhotograph.height ) / 1.85
                     anchors.top: titleOfAstroPhotograph.bottom
                     anchors.topMargin: 5
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -349,11 +352,13 @@ Rectangle {
 
     Rectangle {
         id: footerContainer
+        height: parent.height - title.height - searchContainer.height - dataContainer.height
         anchors.top: dataContainer.bottom
+        anchors.topMargin: 10
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.margins: 5
+        anchors.margins: 20
         color: "transparent"
 
         Rectangle {
@@ -361,7 +366,7 @@ Rectangle {
             width: 85
             height: footerContainer.height
             anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.rightMargin: -5
             opacity: 1
             color: "transparent"
 
@@ -396,7 +401,7 @@ Rectangle {
             width: 240
             height: footerContainer.height
             anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.rightMargin: -5
             opacity: 0
             color: "transparent"
 
