@@ -363,7 +363,7 @@ void Focus::FocusIn(int ms)
      currentFocuser->focusIn();
 
      if (canAbsMove)
-         currentFocuser->absMoveFocuser(pulseStep+ms);
+         currentFocuser->absMoveFocuser(pulseStep-ms);
      else
        currentFocuser->moveFocuser(ms);
 
@@ -394,7 +394,7 @@ void Focus::FocusOut(int ms)
      currentFocuser->focusOut();
 
     if (canAbsMove)
-           currentFocuser->absMoveFocuser(pulseStep-ms);
+           currentFocuser->absMoveFocuser(pulseStep+ms);
     else
             currentFocuser->moveFocuser(ms);
 
@@ -571,7 +571,7 @@ void Focus::autoFocusAbs(double currentHFR)
     qDebug() << "########################################" << endl;
     qDebug() << "========================================" << endl;
     qDebug() << "Current HFR: " << currentHFR << " Current Position: " << pulseStep << endl;
-    qDebug() << "minHFR: " << minHFR << " MinHFR Pos: " << minHFRPos << endl;
+    qDebug() << "Last minHFR: " << minHFR << " Last MinHFR Pos: " << minHFRPos << endl;
     qDebug() << "Delta: " << deltaTxt << "%" << endl;
     qDebug() << "========================================" << endl;
     #endif
@@ -653,7 +653,7 @@ void Focus::autoFocusAbs(double currentHFR)
             focusOutLimit=0;
             focusInLimit=0;
             initPulseDuration=pulseDuration;
-            FocusIn(pulseDuration);
+            FocusOut(pulseDuration);
             break;
 
         case FOCUS_IN:
@@ -732,9 +732,9 @@ void Focus::autoFocusAbs(double currentHFR)
                 else
                 {
                      if (lastFocusDirection == FOCUS_IN)
-                         targetPulse = pulseStep + pulseDuration;
-                     else
                          targetPulse = pulseStep - pulseDuration;
+                     else
+                         targetPulse = pulseStep + pulseDuration;
 
                      #ifdef FOCUS_DEBUG
                      qDebug() << "Proceeding iteratively to next target pulse ..." << endl;
@@ -815,9 +815,9 @@ void Focus::autoFocusAbs(double currentHFR)
 
                     // Let's get close to the minimum HFR position so far detected
                     if (lastFocusDirection == FOCUS_OUT)
-                          targetPulse = minHFRPos+pulseDuration/2;
-                     else
                           targetPulse = minHFRPos-pulseDuration/2;
+                     else
+                          targetPulse = minHFRPos+pulseDuration/2;
 
                     #ifdef FOCUS_DEBUG
                     qDebug() << "new targetPulse " << targetPulse << endl;
@@ -828,14 +828,14 @@ void Focus::autoFocusAbs(double currentHFR)
             }
 
         // Limit target Pulse to algorithm limits
-        if (focusInLimit != 0 && lastFocusDirection == FOCUS_IN && targetPulse > focusInLimit)
+        if (focusInLimit != 0 && lastFocusDirection == FOCUS_IN && targetPulse < focusInLimit)
         {
             targetPulse = focusInLimit;
             #ifdef FOCUS_DEBUG
             qDebug() << "Limiting target pulse to focus in limit " << targetPulse << endl;
             #endif
         }
-        else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPulse < focusOutLimit)
+        else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPulse > focusOutLimit)
         {
             targetPulse = focusOutLimit;
             #ifdef FOCUS_DEBUG
@@ -890,15 +890,15 @@ void Focus::autoFocusAbs(double currentHFR)
 
         #ifdef FOCUS_DEBUG
         qDebug() << "delta (targetPulse - pulseStep) " << delta << endl;
-        qDebug() << "Focusing " << ((delta > 0) ? "IN"  : "OUT") << endl;
+        qDebug() << "Focusing " << ((delta < 0) ? "IN"  : "OUT") << endl;
         qDebug() << "########################################" << endl;
         #endif
 
         // Now cross your fingers and wait
        if (delta > 0)
-            FocusIn(delta);
+            FocusOut(delta);
         else
-          FocusOut(fabs(delta));
+          FocusIn(fabs(delta));
         break;
 
     }
