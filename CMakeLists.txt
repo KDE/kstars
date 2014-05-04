@@ -28,12 +28,12 @@ macro_log_feature(CFITSIO_FOUND "libcfitsio0"
                                 "http://indi.sf.net"
                                 FALSE "3.09" "")
 
-macro_optional_find_package(INDI 0.9.6)
+macro_optional_find_package(INDI 0.9.8)
 macro_bool_to_01(INDI_FOUND HAVE_INDI_H)
 macro_log_feature(INDI_FOUND "libindi"
                              "Support for controlling astronomical devices on Linux with KStars."
                              "http://www.indilib.org"
-                             FALSE "0.9.6" "")
+                             FALSE "0.9.8" "")
 
 macro_optional_find_package(WCSLIB)
 macro_bool_to_01(WCSLIB_FOUND HAVE_WCSLIB)
