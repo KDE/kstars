@@ -43,6 +43,8 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
 
     apiURL = QString("%1/api/").arg(Options::astrometryAPIURL());
 
+    downsample_factor = 0;
+
 }
 
 OnlineAstrometryParser::~OnlineAstrometryParser()
@@ -86,6 +88,8 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             center_dec = args[i+1].toDouble(&ok);
         else if (args[i] == "-5")
             radius = args[i+1].toDouble(&ok);
+        else if (args[i] == "--downsample")
+            downsample_factor = args[i+1].toInt(&ok);
     }
 
     if (sessionKey.isEmpty())
@@ -161,6 +165,8 @@ void OnlineAstrometryParser::uploadFile()
     uploadReq.insert("center_ra", center_ra);
     uploadReq.insert("center_dec", center_dec);
     uploadReq.insert("radius", radius);
+    if (downsample_factor != 0)
+        uploadReq.insert("downsample_factor", downsample_factor);
 
     QByteArray json = serializer.serialize(uploadReq, &ok);
     QHttpPart jsonPart;
