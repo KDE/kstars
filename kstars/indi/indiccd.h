@@ -119,7 +119,7 @@ public:
 
 public slots:
     void FITSViewerDestroyed();
-    void StreamWindowDestroyed();
+    void StreamWindowHidden();
 
 signals:
     void FITSViewerClosed();

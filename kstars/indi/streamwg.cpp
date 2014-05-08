@@ -36,6 +36,7 @@
 #include <QCloseEvent>
 #include <QByteArray>
 #include <QImageWriter>
+#include <QImageReader>
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -66,12 +67,13 @@ StreamWG::StreamWG(QWidget * parent) : QWidget(parent)
 
 StreamWG::~StreamWG()
 {
-    //  delete streamBuffer;
+   delete streamFrame;
 }
 
 void StreamWG::closeEvent ( QCloseEvent * e )
 {
     processStream = false;
+    emit hidden();
     e->accept();
 }
 
@@ -130,9 +132,17 @@ void StreamWG::playPressed()
 
 }
 
-void StreamWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
+void StreamWG::newFrame(IBLOB *bp)
 {
-    streamFrame->newFrame(buffer, buffSiz, w, h);
+    bool rc = streamFrame->newFrame(bp);
+
+    if (rc && streamWidth == -1)
+        setSize(streamFrame->imageWidth(), streamFrame->imageHeight());
+    else if (rc == false)
+    {
+        close();
+        KMessageBox::error(0, i18n("Unable to load video stream."));
+    }
 }
 
 void StreamWG::captureImage()
@@ -192,7 +202,7 @@ void StreamWG::captureImage()
 VideoWG::VideoWG(QWidget * parent) : QFrame(parent)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
-    streamImage    = NULL;
+    streamImage    = new QImage();
     //grayTable=new QRgb[256];
     grayTable.resize(256);
     for (int i=0;i<256;i++)
@@ -205,36 +215,59 @@ VideoWG::~VideoWG()
     //delete [] (grayTable);
 }
 
-void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
+bool VideoWG::newFrame(IBLOB *bp)
 {
+    QString format(bp->format);
 
-    // TODO: This is highly inefficient. Need to be replaced with a direct blit.
-    if (buffSiz > totalBaseCount)
-        streamImage = new QImage(buffer, w, h, QImage::Format_RGB32);
+    format.remove(".");
+    format.remove("stream_");
+    bool rc = false;
+
+    int w = *((double *) bp->aux0);
+    int h = *((double *) bp->aux1);
+
+    if (QImageReader::supportedImageFormats().contains(format.toLatin1()))
+           rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
+    else if (bp->size > totalBaseCount)
+    {
+        delete(streamImage);
+        streamImage = new QImage(static_cast<uchar *>(bp->blob), w, h, QImage::Format_RGB32);
+        rc = !streamImage->isNull();
+    }
     else
     {
-        streamImage = new QImage(buffer, w, h, QImage::Format_Indexed8);
+        delete(streamImage);
+        streamImage = new QImage(static_cast<uchar *>(bp->blob), w, h, QImage::Format_Indexed8);
         streamImage->setColorTable(grayTable);
+        rc = !streamImage->isNull();
     }
 
-    update();
+    if (rc)
+        update();
+
+    return rc;
 }
 
 void VideoWG::paintEvent(QPaintEvent * /*ev*/)
 {
-
-    if (streamImage)
+    if (streamImage && !streamImage->isNull())
     {
-        if (streamImage->isNull()) return;
-        kPix = QPixmap::fromImage(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
-        delete (streamImage);
-        streamImage = NULL;
+        kPix = QPixmap::fromImage(streamImage->scaled(width(), height()));
+
+        QPainter p(this);
+        p.drawPixmap(0, 0, kPix);
+        p.end();
     }
+}
 
-    QPainter p(this);
-    p.drawPixmap(0, 0, kPix);
-    p.end();
+int VideoWG::imageWidth()
+{
+    return streamImage->width();
+}
 
+int VideoWG::imageHeight()
+{
+    return streamImage->height();
 }
 
 #include "streamwg.moc"

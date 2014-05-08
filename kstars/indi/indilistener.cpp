@@ -31,7 +31,7 @@
 #include "kstars.h"
 #include "Options.h"
 
-#define NINDI_STD	26
+#define NINDI_STD	28
 
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] =
@@ -39,7 +39,7 @@ const char * indi_std[NINDI_STD] =
      "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
      "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "CCD_EXPOSURE",
      "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "VIDEO_STREAM",
-     "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
+     "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
 INDIListener * INDIListener::_INDIListener = NULL;
 

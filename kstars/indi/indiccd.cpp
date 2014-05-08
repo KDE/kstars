@@ -595,6 +595,7 @@ CCD::~CCD()
 #endif
     delete (primaryChip);
     delete (guideChip);
+    delete (streamWindow);
 }
 
 void CCD::registerProperty(INDI::Property *prop)
@@ -764,19 +765,28 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             streamWindow = new StreamWG();
 
-            INumberVectorProperty *ccdFrame = baseDevice->getNumber("CCD_FRAME");
+            // Only use CCD dimensions if we are receing raw stream and not stream of images (i.e. mjpeg..etc)
+            IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
+            if (rawBP)
+            {
+                INumberVectorProperty *ccdFrame = baseDevice->getNumber("CCD_FRAME");
 
-            if (ccdFrame == NULL)
-                return;
+                if (ccdFrame == NULL)
+                    return;
 
-            INumber *wd = IUFindNumber(ccdFrame, "WIDTH");
-            INumber *ht = IUFindNumber(ccdFrame, "HEIGHT");
+                INumber *wd = IUFindNumber(ccdFrame, "WIDTH");
+                INumber *ht = IUFindNumber(ccdFrame, "HEIGHT");
 
-            if (wd && ht)
-                streamWindow->setSize(wd->value, ht->value);
+                rawBP->bp[0].aux0 = &(wd->value);
+                rawBP->bp[0].aux1 = &(ht->value);
 
-            connect(streamWindow, SIGNAL(destroyed()), this, SLOT(StreamWindowDestroyed()));
+                if (wd && ht)
+                    streamWindow->setSize(wd->value, ht->value);
+            }
         }
+
+        streamWindow->disconnect();
+        connect(streamWindow, SIGNAL(hidden()), this, SLOT(StreamWindowHidden()));
 
         if (streamWindow)
         {
@@ -821,19 +831,21 @@ void CCD::processText(ITextVectorProperty *tvp)
 void CCD::processBLOB(IBLOB* bp)
 {
 
+    QString format(bp->format);
+
     // If stream, process it first
-    if (!strcmp(bp->format, ".stream") && streamWindow)
+    if ( format.contains("stream") && streamWindow)
     {
         if (streamWindow->isStreamEnabled() == false)
             return;
 
         streamWindow->show();
-        streamWindow->newFrame( (static_cast<unsigned char *> (bp->blob)), bp->size, streamWindow->getWidth(), streamWindow->getHeight());
+        streamWindow->newFrame(bp);
         return;
     }
 
     // If it's not FITS, don't process it.
-    if (strcmp(bp->format, ".fits"))
+    if (format.contains("fits") == false)
     {
         DeviceDecorator::processBLOB(bp);
         return;
@@ -1026,14 +1038,8 @@ void CCD::FITSViewerDestroyed()
     normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
 }
 
-void CCD::StreamWindowDestroyed()
+void CCD::StreamWindowHidden()
 {
-    if (streamWindow)
-    {
-        streamWindow->disconnect();
-        delete(streamWindow);
-        streamWindow = NULL;
-
         ISwitchVectorProperty *streamSP = baseDevice->getSwitch("VIDEO_STREAM");
         if (streamSP)
         {
@@ -1042,7 +1048,8 @@ void CCD::StreamWindowDestroyed()
             streamSP->s = IPS_IDLE;
             clientManager->sendNewSwitch(streamSP);
         }
-    }
+
+        streamWindow->disconnect();
 }
 
 bool CCD::hasGuideHead()
