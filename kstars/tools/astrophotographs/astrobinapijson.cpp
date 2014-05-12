@@ -22,6 +22,15 @@
 #include <QVariant>
 #include "qjson/parser.h"
 
+AstroBinApiJson::AstroBinApiJson(QNetworkAccessManager *manager, QObject *parent)
+    : AstroBinApi(manager, parent)
+{
+    m_UrlApiTypeEnding = "&format=json";
+}
+
+AstroBinApiJson::~AstroBinApiJson()
+{}
+
 void AstroBinApiJson::replyFinished(QNetworkReply *reply)
 {
     if(reply->request().originatingObject() != static_cast<QObject*>(this)) {

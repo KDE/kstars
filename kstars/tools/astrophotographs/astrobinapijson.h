@@ -28,11 +28,9 @@ class AstroBinApiJson : public AstroBinApi
     Q_OBJECT
 
 public:
-    AstroBinApiJson(QNetworkAccessManager *manager, QObject *parent = 0)
-        : AstroBinApi(manager, parent)
-    {
-        m_UrlApiTypeEnding = "&format=json";
-    }
+    explicit AstroBinApiJson(QNetworkAccessManager *manager, QObject *parent = 0);
+
+    virtual ~AstroBinApiJson();
 
 protected slots:
     void replyFinished(QNetworkReply *reply);

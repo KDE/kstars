@@ -3,6 +3,7 @@
 #include "kstandarddirs.h"
 #include "kdeclarative.h"
 #include <QGraphicsObject>
+#include <QNetworkAccessManager>
 #include <QDebug>
 
 AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(parent)
@@ -23,6 +24,9 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
 
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_BaseView->show();
+
+    m_NetworkManager = new QNetworkAccessManager(this);
+    m_AstrobinApi = new AstroBinApiJson(m_NetworkManager, this);
 }
 
 AstrophotographsBrowser::~AstrophotographsBrowser(){

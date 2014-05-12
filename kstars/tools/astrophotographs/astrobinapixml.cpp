@@ -21,6 +21,17 @@
 #include <QXmlStreamReader>
 #include <QDebug>
 
+
+AstroBinApiXml::AstroBinApiXml(QNetworkAccessManager *manager, QObject *parent)
+    : AstroBinApi(manager, parent)
+{
+    m_UrlApiTypeEnding = "&format=xml";
+}
+
+AstroBinApiXml::~AstroBinApiXml()
+{}
+
+
 void AstroBinApiXml::replyFinished(QNetworkReply *reply)
 {
     if(reply->request().originatingObject() != static_cast<QObject*>(this)) {

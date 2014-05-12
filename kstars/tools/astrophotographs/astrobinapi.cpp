@@ -33,6 +33,9 @@ AstroBinApi::AstroBinApi(QNetworkAccessManager *manager, QObject *parent)
     connect(m_NetworkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 }
 
+AstroBinApi::~AstroBinApi()
+{}
+
 void AstroBinApi::searchImageOfTheDay()
 {
     QString requestStub = "imageoftheday/?";

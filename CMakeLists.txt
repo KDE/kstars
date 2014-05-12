@@ -10,13 +10,15 @@ configure_file( "${kstars_SOURCE_DIR}/kstars/version.h.cmake"
 
 find_package(Eigen3 REQUIRED)
 find_package(KDE4   REQUIRED)
+find_package(QJSON REQUIRED)
+
 include(KDE4Defaults)
 include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
                      ${EIGEN3_INCLUDE_DIR}
                      ${KDE4_INCLUDES}
                      ${QT4_INCLUDES})
-add_definitions(${EIGEN_DEFINITIONS})
+add_definitions(${EIGEN_DEFINITIONS} ${QJSON_DEFINITIONS} ${qjson_DEFINITIONS} -DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
 # some configure checks needed for kstars
 include(CheckIncludeFiles)
@@ -64,7 +66,6 @@ macro_log_feature(OPENGL_FOUND "OpenGL"
                                "Support for hardware rendering in KStars."
                                "http://www.opengl.org/"
                                FALSE "" "OpenGL rendering is generally faster on hardware with graphics acceleration.")
-add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
 enable_testing(true)
 

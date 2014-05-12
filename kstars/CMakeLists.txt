@@ -7,7 +7,7 @@ add_subdirectory( tools/astrophotographs/qml)
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
 
-if (CFITSIO_FOUND)
+if(CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
     fitsviewer/fitsimage.cpp
@@ -25,7 +25,7 @@ if (CFITSIO_FOUND)
   include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
 
-if (INDI_FOUND)
+if(INDI_FOUND)
   set (indi_SRCS
     indi/drivermanager.cpp
     indi/servermanager.cpp
@@ -55,7 +55,7 @@ if (INDI_FOUND)
     indi/telescopewizard.ui
     )
 
-if (CFITSIO_FOUND)
+if(CFITSIO_FOUND)
    set(ekosui_SRCS
       ekos/opsekos.ui
       ekos/ekosmanager.ui
@@ -89,8 +89,12 @@ if (CFITSIO_FOUND)
 
 endif(CFITSIO_FOUND)
 
-if (QJSON_FOUND)
-   include_directories( ${QJSON_INCLUDE_DIR} )
+include_directories(
+  ${qjson_INCLUDE_DIR}
+  ${QJSON_INCLUDE_DIR}
+)
+
+if(QJSON_FOUND)
    set(onlineparser_SRCS ekos/onlineastrometryparser.cpp)
 endif(QJSON_FOUND)
 
@@ -502,10 +506,12 @@ target_link_libraries(KStarsLib
         ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    kdeclarative
+        ${QT_QTDECLARATIVE_LIBRARY}
+        kdeclarative
 	${ZLIB_LIBRARIES}
-	${QT_QTSQL_LIBRARY}
+        ${QT_QTSQL_LIBRARY}
+        ${qjson_LIBRARIES}
+        ${QJSON_LIBRARIES}
         )
 # qt4_automoc(kstars.h)
 if(NOT WIN32)
@@ -529,8 +535,6 @@ if( OPENGL_FOUND )
 endif( OPENGL_FOUND )
 
 if( QJSON_FOUND )
-  include_directories(${QJSON_INCLUDE_DIR})
-  target_link_libraries(kstars ${QJSON_LIBRARIES})
   add_definitions(-DHAVE_QJSON)
 endif( QJSON_FOUND )
 

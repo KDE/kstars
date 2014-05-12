@@ -36,6 +36,8 @@ class AstroBinApi : public QObject
 public:
     AstroBinApi(QNetworkAccessManager *manager, QObject *parent = 0);
 
+    virtual ~AstroBinApi();
+
     void searchImageOfTheDay();
     void searchObjectImages(const QString &name);
     void searchTitleContaining(const QString &string);

@@ -29,11 +29,9 @@ class AstroBinApiXml : public AstroBinApi
     Q_OBJECT
 
 public:
-    AstroBinApiXml(QNetworkAccessManager *manager, QObject *parent = 0)
-        : AstroBinApi(manager, parent)
-    {
-        m_UrlApiTypeEnding = "&format=xml";
-    }
+    explicit AstroBinApiXml(QNetworkAccessManager *manager, QObject *parent = 0);
+
+    virtual ~AstroBinApiXml();
 
 protected slots:
     void replyFinished(QNetworkReply *reply);

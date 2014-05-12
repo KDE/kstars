@@ -22,9 +22,7 @@ class QDeclarativeView;
 
 #include "QDeclarativeContext"
 #include "skyobject.h"
-#include "astrobinapi.h"
 #include "astrobinapijson.h"
-#include "astrobinapixml.h"
 #include "tools/whatsinteresting/obsconditions.h"
 
 /**
@@ -59,6 +57,9 @@ private:
     QObject *m_BaseObj;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
+
+    QNetworkAccessManager *m_NetworkManager;
+    AstroBinApi *m_AstrobinApi;
 };
 
 #endif // ASTROPHOTOGRAPHSBROWSER_H
