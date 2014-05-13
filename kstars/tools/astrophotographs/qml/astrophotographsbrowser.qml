@@ -37,6 +37,7 @@ Rectangle {
 
     Rectangle {
         id: searchContainer
+        objectName: "searchContainerObj"
         y: 90
         width: parent.width - 100
         height: 40
@@ -44,6 +45,8 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 20
+
+        signal searchButtonClicked()
 
         Rectangle {
             id: searchTextContainer
@@ -88,6 +91,10 @@ Rectangle {
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+
+            MouseArea{
+                onClicked: searchContainer.searchButtonClicked()
+            }
         }
     }
 

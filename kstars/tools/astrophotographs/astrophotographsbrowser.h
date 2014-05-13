@@ -52,9 +52,11 @@ public:
 signals:
     
 public slots:
+
+    void slotAstrobinSearch();
     
 private:
-    QObject *m_BaseObj;
+    QObject *m_BaseObj, *m_SearchContainerObj;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
 
