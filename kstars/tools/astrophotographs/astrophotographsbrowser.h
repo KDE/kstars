@@ -72,9 +72,13 @@ public slots:
     void slotAstrobinSearchCompleted(bool ok);
 
     void slotJobResult(KJob *job);
+
+    void clearImagesList();
+
+    void killAllRunningJobs();
     
 private:
-    QObject *m_BaseObj, *m_SearchContainerObj;
+    QObject *m_BaseObj, *m_SearchContainerObj, *m_SearchBarObj;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
 

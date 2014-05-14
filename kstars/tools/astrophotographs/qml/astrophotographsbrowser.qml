@@ -73,6 +73,7 @@ Rectangle {
 
                 TextInput {
                     id: searchBar
+                    objectName: "searchBarObj"
                     width: parent.width
                     height: parent.height
                     color: "#59ad0e"

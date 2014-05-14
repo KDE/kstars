@@ -14,6 +14,7 @@
 #include <QDesktopWidget>
 #include <QNetworkAccessManager>
 #include <QListWidgetItem>
+#include <QVariant>
 
 #include "kstandarddirs.h"
 #include "kdeclarative.h"
@@ -41,6 +42,8 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     m_SearchContainerObj = m_BaseObj->findChild<QObject *>("searchContainerObj");
     connect(m_SearchContainerObj, SIGNAL(searchButtonClicked()), this, SLOT(slotAstrobinSearch()));
 
+    m_SearchBarObj = m_BaseObj->findChild<QObject *>("searchBarObj");
+
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_BaseView->show();
 
@@ -49,12 +52,18 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
 AstrophotographsBrowser::~AstrophotographsBrowser(){
     delete m_BaseObj;
     delete m_BaseView;
+
+    qDeleteAll(m_AstrobinImages);
+    qDeleteAll(m_Jobs);
 }
 
 void AstrophotographsBrowser::slotAstrobinSearch(){
+    QVariant searchQuery = m_SearchBarObj->property("text");
+
+    clearImagesList();
 
     readExistingImages();
-    m_AstrobinApi->searchObjectImages("sun");
+    m_AstrobinApi->searchObjectImages(searchQuery.toString());
 }
 
 void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
@@ -107,4 +116,16 @@ void AstrophotographsBrowser::scaleAndAddPixmap(QPixmap *pixmap){
     }
 
     m_AstrobinImages.append(pixmap);
+}
+
+void AstrophotographsBrowser::clearImagesList(){
+    killAllRunningJobs();
+}
+
+void AstrophotographsBrowser::killAllRunningJobs(){
+    foreach(KIO::StoredTransferJob *job, m_Jobs) {
+        job->kill();
+    }
+
+    m_Jobs.clear();
 }
