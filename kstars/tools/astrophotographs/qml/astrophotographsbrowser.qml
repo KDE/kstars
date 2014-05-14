@@ -83,17 +83,27 @@ Rectangle {
 
         }
 
+    }
+
+    Rectangle {
+        anchors.left: searchContainer.right
+        anchors.leftMargin: -60
+        anchors.top: parent.top
+        anchors.topMargin: 90
+        width: parent.width - 100
+        height: 40
+        color: "transparent"
+
         PushButton {
             id: searchButton
             vheight: parent.height - 4
             text: "Search"
-            anchors.left: searchTextContainer.right
-            anchors.leftMargin: 10
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+        }
 
-            MouseArea{
-                onClicked: searchContainer.searchButtonClicked()
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                searchContainer.searchButtonClicked()
             }
         }
     }
