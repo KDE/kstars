@@ -24,6 +24,20 @@ class QDeclarativeView;
 #include "skyobject.h"
 #include "astrobinapijson.h"
 #include "tools/whatsinteresting/obsconditions.h"
+#include "KDialog"
+
+
+QT_BEGIN_NAMESPACE
+class QNetworkAccessManager;
+QT_END_NAMESPACE
+
+class AstroBinApi;
+class SkyObject;
+class KJob;
+
+namespace KIO {
+    class StoredTransferJob;
+}
 
 /**
   * \class AstrophotographsBrowser
@@ -54,6 +68,10 @@ signals:
 public slots:
 
     void slotAstrobinSearch();
+
+    void slotAstrobinSearchCompleted(bool ok);
+
+    void slotJobResult(KJob *job);
     
 private:
     QObject *m_BaseObj, *m_SearchContainerObj;
@@ -62,6 +80,13 @@ private:
 
     QNetworkAccessManager *m_NetworkManager;
     AstroBinApi *m_AstrobinApi;
+
+    QList<QPixmap*> m_AstrobinImages;
+    QList<KIO::StoredTransferJob*> m_Jobs;
+
+    void readExistingImages();
+
+    void scaleAndAddPixmap(QPixmap *pixmap);
 };
 
 #endif // ASTROPHOTOGRAPHSBROWSER_H
