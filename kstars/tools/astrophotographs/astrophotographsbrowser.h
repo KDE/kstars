@@ -81,16 +81,17 @@ private:
     int m_Offset, m_ImageCount;
     QString m_PreviousQuery;
     QObject *m_BaseObj, *m_SearchContainerObj, *m_SearchBarObj,
-        *m_DataContainerObj, *m_ResultViewObj, *m_AstrophotoListContainerObj,
-        *m_ResultModelObj, *m_SearchResultItem;
+        *m_SearchResultItem;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
 
     QNetworkAccessManager *m_NetworkManager;
     AstroBinApi *m_AstrobinApi;
 
+    QList<QObject*> m_ResultItemList;
     QList<QPixmap*> m_AstrobinImages;
     QList<KIO::StoredTransferJob*> m_Jobs;
+    QList<AstroBinImage > m_AstroBinImageList;
 
     void scaleAndAddPixmap(QPixmap *pixmap);
 };

@@ -19,6 +19,8 @@
 #include "kstandarddirs.h"
 #include "kdeclarative.h"
 
+#include "searchresultitem.h"
+
 AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(parent),
     m_Offset(0), m_ImageCount(0), m_PreviousQuery("")
 {
@@ -44,11 +46,6 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     connect(m_SearchContainerObj, SIGNAL(searchButtonClicked()), this, SLOT(slotAstrobinSearch()));
 
     m_SearchBarObj = m_BaseObj->findChild<QObject *>("searchBarObj");
-
-    m_DataContainerObj = m_BaseObj->findChild<QObject *>("dataContainerObj");
-    m_ResultViewObj = m_BaseObj->findChild<QObject *>("resultViewObj");
-    m_AstrophotoListContainerObj = m_BaseObj->findChild<QObject *>("astrophotoListContainerObj");
-    m_ResultModelObj = m_BaseObj->findChild<QObject *>("resultModelObj");
 
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_BaseView->show();
@@ -94,6 +91,7 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
         job->setUiDelegate(0);
         m_Jobs.append(job);
         connect(job, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
+        m_AstroBinImageList.append(image);
     }
 }
 
@@ -112,10 +110,11 @@ void AstrophotographsBrowser::slotJobResult(KJob *job)
     pm->loadFromData(storedTranferJob->data());
     scaleAndAddPixmap(pm);
 
-    if(m_ImageCount < 5){
-        //m_SearchResultItem = m_ResultModelObj->findChild<QObject *>("searchResultItem_" + QString::number(m_ImageCount));
-        //qDebug() << m_SearchResultItem;
-        //m_SearchResultItem->setProperty("name", "lol");
+    if(m_ImageCount <= m_AstroBinImageList.count())
+    {
+        QString path = KStandardDirs().locateLocal("data", "kstars/astrobinImages/thumb/image_" + QString::number(m_ImageCount) + ".png");
+        m_ResultItemList.append(new SearchResultItem( path, m_AstroBinImageList.at(m_ImageCount-1).title(), m_AstroBinImageList.at(m_ImageCount-1).dateUploaded().toString() ));
+        m_Ctxt->setContextProperty( "resultModel", QVariant::fromValue(m_ResultItemList) );
     }
 
 }
@@ -138,6 +137,8 @@ void AstrophotographsBrowser::scaleAndAddPixmap(QPixmap *pixmap){
 
 void AstrophotographsBrowser::clearImagesList(){
     killAllRunningJobs();
+    m_AstroBinImageList.clear();
+    m_ResultItemList.clear();
 }
 
 void AstrophotographsBrowser::killAllRunningJobs(){

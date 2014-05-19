@@ -139,59 +139,27 @@ Rectangle {
                 anchors.margins: 5
                 color: "transparent"
 
-                ListModel {
-                    id: resultModel
-                    objectName: "resultModelObj"
+                ListView {
+                    id: resultListView
+                    objectName: "resultListViewObj"
+                    anchors.fill: parent
+                    clip: true
 
-                    // this elements are to be added dynamically
-                    ListElement {
-                        objectName: "searchResultItem_1"
-                        path: "/home/vijay13/Pictures/1.jpg"
-                        name: "Sky Object One"
-                        date: "14th April 2014"
+                    ScrollBar {
+                        flickable: resultListView
                     }
 
-                    ListElement {
-                        objectName: "searchResultItem_2"
-                        path: "/home/vijay13/Pictures/2.jpg"
-                        name: "Sky Object Two"
-                        date: "15th April 2014"
-                    }
+                    delegate: Item {
+                        id: resultDelegate
+                        height: 100
 
-                    ListElement {
-                        objectName: "searchResultItem_3"
-                        path: "/home/vijay13/Pictures/3.jpg"
-                        name: "Sky Object Three"
-                        date: "16th April 2014"
-                    }
-
-                    ListElement {
-                        objectName: "searchResultItem_4"
-                        path: "/home/vijay13/Pictures/4.jpg"
-                        name: "Sky Object Four"
-                        date: "16th April 2014"
-                    }
-
-                    ListElement {
-                        objectName: "searchResultItem_5"
-                        path: "/home/vijay13/Pictures/2.jpg"
-                        name: "Sky Object Five"
-                        date: "16th April 2014"
-                    }
-
-                }
-
-                Component {
-                    id: resultDelegate
-                    Row {
-                        spacing: 10
                         AstrophotographItem {
                             id: testItem
                             imagePath: path
                             imageName: name
                             imageDate: date
                             width: astrophotoListContainer.width - 20
-                            height: 100
+                            height: parent.height
 
                             MouseArea {
                                 anchors.fill: parent
@@ -200,19 +168,10 @@ Rectangle {
                                 }
                             }
                         }
-                    }
-                }
 
-                ListView {
-                    id: resultListView
+                    }
+
                     model: resultModel
-                    delegate: resultDelegate
-                    anchors.fill: parent
-                    clip: true
-
-                    ScrollBar {
-                        flickable: resultListView
-                    }
                 }
 
             }
