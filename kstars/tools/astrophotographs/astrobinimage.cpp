@@ -31,3 +31,13 @@ QUrl AstroBinImage::downloadThumbnailUrl() const
 {
     return QUrl("http://cdn.astrobin.com/images/" + fileName() + "_thumb.png");
 }
+
+QUrl AstroBinImage::regularImageUrl() const
+{
+    return QUrl(m_RegularImageUrl);
+}
+
+QUrl AstroBinImage::thumbImageUrl() const
+{
+    return QUrl(m_ThumbImageUrl);
+}

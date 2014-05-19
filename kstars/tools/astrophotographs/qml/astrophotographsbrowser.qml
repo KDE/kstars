@@ -111,6 +111,7 @@ Rectangle {
 
     Rectangle {
         id: dataContainer
+        objectName: "dataContainerObj"
         width: parent.width
         height: parent.height - title.height - searchContainer.height - 120
         color: "#00060b"
@@ -126,45 +127,53 @@ Rectangle {
 
         Flipable {
             id: resultView
+            objectName: "resultViewObj"
             anchors.fill: parent
 
             property bool flipped: false
 
             front: Rectangle {
                 id: astrophotoListContainer
+                objectName: "astrophotoListContainerObj"
                 anchors.fill: parent
                 anchors.margins: 5
                 color: "transparent"
 
                 ListModel {
                     id: resultModel
+                    objectName: "resultModelObj"
 
                     // this elements are to be added dynamically
                     ListElement {
+                        objectName: "searchResultItem_1"
                         path: "/home/vijay13/Pictures/1.jpg"
                         name: "Sky Object One"
                         date: "14th April 2014"
                     }
 
                     ListElement {
+                        objectName: "searchResultItem_2"
                         path: "/home/vijay13/Pictures/2.jpg"
                         name: "Sky Object Two"
                         date: "15th April 2014"
                     }
 
                     ListElement {
+                        objectName: "searchResultItem_3"
                         path: "/home/vijay13/Pictures/3.jpg"
                         name: "Sky Object Three"
                         date: "16th April 2014"
                     }
 
                     ListElement {
+                        objectName: "searchResultItem_4"
                         path: "/home/vijay13/Pictures/4.jpg"
                         name: "Sky Object Four"
                         date: "16th April 2014"
                     }
 
                     ListElement {
+                        objectName: "searchResultItem_5"
                         path: "/home/vijay13/Pictures/2.jpg"
                         name: "Sky Object Five"
                         date: "16th April 2014"

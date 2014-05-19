@@ -78,7 +78,11 @@ public slots:
     void killAllRunningJobs();
     
 private:
-    QObject *m_BaseObj, *m_SearchContainerObj, *m_SearchBarObj;
+    int m_Offset, m_ImageCount;
+    QString m_PreviousQuery;
+    QObject *m_BaseObj, *m_SearchContainerObj, *m_SearchBarObj,
+        *m_DataContainerObj, *m_ResultViewObj, *m_AstrophotoListContainerObj,
+        *m_ResultModelObj, *m_SearchResultItem;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
 
@@ -87,8 +91,6 @@ private:
 
     QList<QPixmap*> m_AstrobinImages;
     QList<KIO::StoredTransferJob*> m_Jobs;
-
-    void readExistingImages();
 
     void scaleAndAddPixmap(QPixmap *pixmap);
 };

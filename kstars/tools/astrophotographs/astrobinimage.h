@@ -63,6 +63,8 @@ public:
     QUrl downloadUrl() const;
     QUrl downloadResizedUrl() const;
     QUrl downloadThumbnailUrl() const;
+    QUrl regularImageUrl() const;
+    QUrl thumbImageUrl() const;
 
 private:
     QString m_Title;
@@ -73,6 +75,8 @@ private:
     QString m_Id;
     QString m_ResourceUri;
     QString m_OriginalFileExtension;
+    QString m_RegularImageUrl;
+    QString m_ThumbImageUrl;
     QSize m_Size;
     QStringList m_ImagingCameras;
     QStringList m_ImagingTelescopes;

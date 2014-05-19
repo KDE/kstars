@@ -19,6 +19,7 @@
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
+#include <QDebug>
 
 #include "kinputdialog.h"
 

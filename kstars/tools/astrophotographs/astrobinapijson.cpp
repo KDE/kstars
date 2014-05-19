@@ -148,6 +148,12 @@ void AstroBinApiJson::readObjects(const QVariantList &objects)
         // user
         image.m_User = properties.value("user").toString();
 
+        // regular image url
+        image.m_RegularImageUrl = properties.value("url_regular").toString();
+
+        // thumbnail image url
+        image.m_ThumbImageUrl = properties.value("url_thumb").toString();
+
         m_LastSearchResult.append(image);
     }
 }
