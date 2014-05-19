@@ -43,6 +43,7 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     connect(m_AstrobinApi, SIGNAL(searchFinished(bool)), this, SLOT(slotAstrobinSearchCompleted(bool)));
 
     m_SearchContainerObj = m_BaseObj->findChild<QObject *>("searchContainerObj");
+    connect(m_SearchContainerObj, SIGNAL(searchBarClicked()), this, SLOT(slotSearchBarClicked()));
     connect(m_SearchContainerObj, SIGNAL(searchButtonClicked()), this, SLOT(slotAstrobinSearch()));
 
     m_SearchBarObj = m_BaseObj->findChild<QObject *>("searchBarObj");
@@ -58,6 +59,12 @@ AstrophotographsBrowser::~AstrophotographsBrowser(){
 
     qDeleteAll(m_AstrobinImages);
     qDeleteAll(m_Jobs);
+    qDeleteAll(m_ResultItemList);
+    qDeleteAll(m_AstrobinImages);
+}
+
+void AstrophotographsBrowser::slotSearchBarClicked(){
+    m_SearchBarObj->setProperty("text", "");
 }
 
 void AstrophotographsBrowser::slotAstrobinSearch(){

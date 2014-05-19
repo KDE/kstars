@@ -67,6 +67,8 @@ signals:
     
 public slots:
 
+    void slotSearchBarClicked();
+
     void slotAstrobinSearch();
 
     void slotAstrobinSearchCompleted(bool ok);

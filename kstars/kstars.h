@@ -177,6 +177,8 @@ public:
 
     void showWI(ObsConditions *obs);
 
+    bool isConnectedToNetwork();
+
 public Q_SLOTS:
     /**DBUS interface function.
      * Set focus to given Ra/Dec coordinates

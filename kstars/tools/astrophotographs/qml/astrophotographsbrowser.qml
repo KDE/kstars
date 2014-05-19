@@ -47,6 +47,7 @@ Rectangle {
         anchors.margins: 20
 
         signal searchButtonClicked()
+        signal searchBarClicked()
 
         Rectangle {
             id: searchTextContainer
@@ -54,7 +55,7 @@ Rectangle {
             height: parent.height
             color: "#00060b"
             radius: 10
-            opacity: 0.500
+            opacity: 0.5
             border.width: 4
             border.color: "black"
 
@@ -79,6 +80,9 @@ Rectangle {
                     color: "#59ad0e"
                     text: "Quick Search..."
                     font.pixelSize: 18
+                    onFocusChanged: {
+                        searchContainer.searchBarClicked()
+                    }
                 }
             }
 
@@ -451,7 +455,6 @@ Rectangle {
 
             }
         }
-
 
     }
 }

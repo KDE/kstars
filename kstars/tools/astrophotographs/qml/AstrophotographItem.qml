@@ -61,16 +61,20 @@ Item {
 
         Rectangle {
             id: imgNameRect
+            width: imageItemContainer.width * 2 / 3
             anchors.left: imgPathRect.right
             anchors.top: imageItemContainer.top
             anchors.bottom: imageItemContainer.verticalCenter
             anchors.margins: 5
+            color: "transparent"
 
             Text {
                 id: imgName
+                width: parent.width
                 color: "white"
-                font.pixelSize: 20
+                font.pixelSize: 15
                 text: astrophotographItem.imageName
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
         }
 
@@ -83,7 +87,7 @@ Item {
             Text {
                 id: imgDate
                 color: "white"
-                font.pixelSize: 16
+                font.pixelSize: 13
                 text: astrophotographItem.imageDate
             }
         }

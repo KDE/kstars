@@ -29,6 +29,8 @@
 #include <QDialog>
 #include <QDockWidget>
 #include <QPointer>
+#include <QtCore/QCoreApplication>
+#include <QtNetwork/QNetworkInterface>
 
 #include <kdebug.h>
 #include <kaction.h>
@@ -363,14 +365,21 @@ void KStars::slotShowWIView(int status)
 
 void KStars::slotShowAstrophotographsBrowser(){
 
-    APBrowser = new AstrophotographsBrowser(0);
-    wiDock = new QDockWidget(this);
-    wiDock->setObjectName("Astrophotographs Browser");
-    wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
-    wiDock->setWidget(APBrowser->getABBaseView());
-    wiDock->setMinimumWidth(APBrowser->getABBaseView()->width());
-    addDockWidget(Qt::RightDockWidgetArea, wiDock);
-    wiDock->setVisible(true);
+    if(isConnectedToNetwork())
+    {
+        APBrowser = new AstrophotographsBrowser(0);
+        wiDock = new QDockWidget(this);
+        wiDock->setObjectName("Astrophotographs Browser");
+        wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
+        wiDock->setWidget(APBrowser->getABBaseView());
+        wiDock->setMinimumWidth(APBrowser->getABBaseView()->width());
+        addDockWidget(Qt::RightDockWidgetArea, wiDock);
+        wiDock->setVisible(true);
+    }
+    else
+    {
+        KMessageBox::error(NULL, i18n("Internet Connection is required to use this tool." ));
+    }
 
 }
 
@@ -1254,4 +1263,28 @@ void KStars::slotUpdateSupernovae()
 void KStars::slotUpdateSatellites()
 {
     data()->skyComposite()->satellites()->updateTLEs();
+}
+
+bool KStars::isConnectedToNetwork()
+{
+    QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
+    bool result = false;
+
+    for (int i = 0; i < ifaces.count(); i++)
+    {
+        QNetworkInterface iface = ifaces.at(i);
+        if ( iface.flags().testFlag(QNetworkInterface::IsUp)
+             && !iface.flags().testFlag(QNetworkInterface::IsLoopBack) )
+        {
+            // If internet is up, there will be two address entries
+            if(iface.addressEntries().count() == 2)
+            {
+                result = true;
+                break;
+            }
+        }
+
+    }
+
+    return result;
 }
