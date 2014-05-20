@@ -7,10 +7,10 @@
     <x>0</x>
     <y>0</y>
     <width>444</width>
-    <height>489</height>
+    <height>522</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -249,7 +249,7 @@
      <property name="title">
       <string>Astrometry.net</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
@@ -346,6 +346,19 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="kcfg_astrometryUseJPEG">
+        <property name="toolTip">
+         <string>Use JPEG format, instead of FITS, to upload images to the online astromenety.net service</string>
+        </property>
+        <property name="text">
+         <string>Use JPG for upload</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

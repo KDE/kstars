@@ -20,6 +20,8 @@
 
 #include "Options.h"
 
+#include "fitsviewer/fitsimage.h"
+
 #define JOB_RETRY_DURATION      2000 /* 2000 ms */
 #define JOB_RETRY_ATTEMPTS      10
 #define SOLVER_RETRY_DURATION   2000 /* 2000 ms */
@@ -73,9 +75,68 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         return false;
     }
 
-    solverTimer.start();
+    QString finalFileName(in_filename);
 
-    filename = in_filename;
+    if (Options::astrometryUseJPEG())
+    {
+        QFile fitsFile(in_filename);
+        bool rc = fitsFile.open(QIODevice::ReadOnly);
+        if (rc == false)
+        {
+            align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile.errorString()));
+            emit solverFailed();
+            return false;
+        }
+
+        FITSImage *image_data = new FITSImage();
+        rc = image_data->loadFITS(in_filename);
+        if (rc)
+        {
+            double image_width,image_height;
+            double bscale, bzero;
+            double min, max;
+            int val;
+
+            image_data->getSize(&image_width, &image_height);
+            QImage *display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
+
+            display_image->setNumColors(256);
+            for (int i=0; i < 256; i++)
+                display_image->setColor(i, qRgb(i,i,i));
+
+            image_data->getMinMax(&min, &max);
+            float *image_buffer = image_data->getImageBuffer();
+
+            bscale = 255. / (max - min);
+            bzero  = (-min) * (255. / (max - min));
+
+            int w = image_width;
+            int h = image_height;
+
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < h; j++)
+                for (int i = 0; i < w; i++)
+                {
+                    val = image_buffer[j * w + i];
+                    display_image->setPixel(i, j, ((int) (val * bscale + bzero)));
+                }
+
+            finalFileName.replace(".tmp", ".jpg", Qt::CaseInsensitive);
+            display_image->save(finalFileName, "jpg");
+
+            QFile::remove(in_filename);
+
+            delete (display_image);
+        }
+        else
+        {
+            align->appendLogText(i18n("Warning: Converting FITS to JPEG failed. Uploading original FITS image."));
+        }
+
+        delete (image_data);
+    }
+
+    filename = finalFileName;
     for (int i=0; i < args.count(); i++)
     {
         if (args[i] == "-L")
@@ -88,9 +149,11 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             center_dec = args[i+1].toDouble(&ok);
         else if (args[i] == "-5")
             radius = args[i+1].toDouble(&ok);
-        else if (args[i] == "--downsample")
-            downsample_factor = args[i+1].toInt(&ok);
+        /*else if (args[i] == "--downsample")
+            downsample_factor = args[i+1].toInt(&ok);*/
     }
+
+    solverTimer.start();
 
     if (sessionKey.isEmpty())
         authenticate();
@@ -196,8 +259,6 @@ void OnlineAstrometryParser::uploadFile()
 
 void OnlineAstrometryParser::getJobID()
 {
-    //qDebug() << "With subID " << subID << endl;
-
     QNetworkRequest request;
     QUrl getJobID(QString("%1/submissions/%2").arg(apiURL).arg(subID));
 
@@ -306,6 +367,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
          align->appendLogText(i18n("Upload complete. Waiting for astrometry.net solver to complete..."));
          emit uploadFinished();
+         QFile::remove(filename);
          break;
 
        case JOB_ID_STAGE:
