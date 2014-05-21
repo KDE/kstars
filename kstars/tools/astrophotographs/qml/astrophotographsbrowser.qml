@@ -149,6 +149,8 @@ Rectangle {
                     anchors.fill: parent
                     clip: true
 
+                    signal resultListItemClicked(int curIndexs)
+
                     ScrollBar {
                         flickable: resultListView
                     }
@@ -168,6 +170,8 @@ Rectangle {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
+                                    resultListView.currentIndex = index
+                                    resultListView.resultListItemClicked(resultListView.currentIndex)
                                     resultView.flipped = true
                                 }
                             }
@@ -194,6 +198,7 @@ Rectangle {
 
                 Text {
                     id: titleOfAstroPhotograph
+                    objectName: "titleOfAstroPhotographObj"
                     width: detailViewContainer.width
                     text: qsTr("This is title of Astrophotograph downloaded from Astrobin")
                     color: "#ffffff"
@@ -217,9 +222,11 @@ Rectangle {
 
                     Image {
                         id: astroPhotographImage
+                        objectName: "astroPhotographImageObj"
                         anchors.fill: parent
                         smooth: true
-                        source: "/home/vijay13/Pictures/1.jpg"
+                        cache: false
+                        source: ""
                     }
 
                 }
@@ -236,40 +243,8 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     border.color: "#585454"
 
-                    ListModel {
-                        id: detailModel
-
-                        // this elements are to be added dynamically
-                        ListElement {
-                            detailItemText: "Date: "
-                        }
-
-                    }
-
-                    Component {
-                        id: detailDelegate
-
-                        Rectangle {
-                            anchors.topMargin: 10
-                            width: detailOfAstroPhotograph.width
-                            height: detailItem.height + 5
-                            color: "transparent"
-
-                            Text {
-                                id: detailItem
-                                horizontalAlignment: Text.AlignLeft
-                                color: "white"
-                                text: detailItemText
-                            }
-
-                        }
-
-                    }
-
                     ListView {
                         id: detailList
-                        model: detailModel
-                        delegate: detailDelegate
                         anchors.fill: parent
                         anchors.leftMargin: 10
                         anchors.topMargin: 10
@@ -278,6 +253,21 @@ Rectangle {
                         ScrollBar {
                             flickable: detailList
                         }
+
+                        delegate: Item {
+                            id: detailDelegate
+                            height: detailItem.height + 5
+
+                            Text {
+                                id: detailItem
+                                horizontalAlignment: Text.AlignLeft
+                                color: "white"
+                                text: item
+                            }
+
+                        }
+
+                        model: detailModel
                     }
                 }
 

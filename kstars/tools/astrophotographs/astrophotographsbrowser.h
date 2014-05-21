@@ -75,14 +75,17 @@ public slots:
 
     void slotJobResult(KJob *job);
 
+    void onResultListItemClicked(int index);
+
     void clearImagesList();
 
     void killAllRunningJobs();
     
 private:
     int m_Offset, m_ImageCount;
+    bool m_DetailImage;
     QString m_PreviousQuery;
-    QObject *m_BaseObj, *m_SearchContainerObj, *m_SearchBarObj,
+    QObject *m_BaseObj, *m_SearchContainerObj, *m_ResultListViewObj, *m_SearchBarObj,
         *m_SearchResultItem;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
@@ -91,11 +94,14 @@ private:
     AstroBinApi *m_AstrobinApi;
 
     QList<QObject*> m_ResultItemList;
+    QList<QObject*> m_DetailItemList;
     QList<QPixmap*> m_AstrobinImages;
     QList<KIO::StoredTransferJob*> m_Jobs;
     QList<AstroBinImage > m_AstroBinImageList;
 
     void scaleAndAddPixmap(QPixmap *pixmap);
+
+    bool removeDir(const QString & dirName);
 };
 
 #endif // ASTROPHOTOGRAPHSBROWSER_H

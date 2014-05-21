@@ -21,6 +21,28 @@
 #include <QObject>
 #include <QString>
 
+
+class DetailItem : public QObject
+{
+    Q_OBJECT
+
+    Q_PROPERTY(QString item READ getItem WRITE setItem NOTIFY itemChanged)
+
+public:
+    explicit DetailItem(QString item, QObject *parent = 0);
+
+    QString getItem(){ return item; }
+
+    void setItem(QString newItem);
+
+signals:
+
+    void itemChanged();
+
+private:
+    QString item;
+};
+
 class SearchResultItem : public QObject
 {
     Q_OBJECT
