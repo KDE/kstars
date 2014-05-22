@@ -55,19 +55,15 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_BaseView->show();
 
-    m_AstrobinApi->searchImageOfTheDay();
-
 }
 
 AstrophotographsBrowser::~AstrophotographsBrowser(){
     delete m_BaseObj;
     delete m_BaseView;
 
-    qDeleteAll(m_AstrobinImages);
     qDeleteAll(m_Jobs);
     qDeleteAll(m_ResultItemList);
     qDeleteAll(m_DetailItemList);
-    qDeleteAll(m_AstrobinImages);
 }
 
 void AstrophotographsBrowser::slotSearchBarClicked(){
@@ -101,18 +97,25 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
 
     AstroBinSearchResult result = m_AstrobinApi->getResult();
     m_ImageCount = 0;
+    m_Jobs.clear();
     foreach(AstroBinImage image, result) {
-        KIO::StoredTransferJob *job = KIO::storedGet(image.thumbImageUrl(), KIO::NoReload, KIO::HideProgressInfo);
+        KIO::StoredTransferJob *job = KIO::storedGet(image.thumbImageUrl(), KIO::Reload, KIO::HideProgressInfo);
         job->setUiDelegate(0);
         m_Jobs.append(job);
         connect(job, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
         m_AstroBinImageList.append(image);
+
+        //FIXME: We need to wait till slotJobResult is not executed
+        //So that images get downloaded and save in a order in which request for them has been sent.
+        //using delay() function is worst possible solution, we need something like while(lock)
+        //where lock is set close in the begining of this loop and set open in slotJobResult but plain
+        //while loop is not working in qt.
+        delay();
     }
 }
 
 void AstrophotographsBrowser::onResultListItemClicked(int index){
     m_DetailImage = true;
-    removeDir( KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/") );
 
     AstroBinImage image = m_AstroBinImageList.at(index);
 
@@ -150,7 +153,7 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
 
     if( !cameraList.isEmpty() )
     {
-        m_DetailItemList.append(new DetailItem("Cameras : " + cameraList.remove(cameraList.length()-2)));
+        m_DetailItemList.append(new DetailItem("Cameras : " + cameraList.remove(cameraList.lastIndexOf(','),1)));
     }
 
 
@@ -161,7 +164,7 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
 
     if( !telescopeList.isEmpty() )
     {
-        m_DetailItemList.append(new DetailItem("Telescopes : " + telescopeList.remove(telescopeList.length()-2)));
+        m_DetailItemList.append(new DetailItem("Telescopes : " + telescopeList.remove(telescopeList.lastIndexOf(','),1)));
     }
 
 
@@ -172,7 +175,7 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
 
     if( !subjectList.isEmpty() )
     {
-        m_DetailItemList.append(new DetailItem("Subjects : " + subjectList.remove(subjectList.length()-2)));
+        m_DetailItemList.append(new DetailItem("Subjects : " + subjectList.remove(subjectList.lastIndexOf(','),1)));
     }
 
     if( image.voteCount() > 0)
@@ -190,6 +193,7 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
 
 void AstrophotographsBrowser::slotJobResult(KJob *job)
 {
+
     KIO::StoredTransferJob *storedTranferJob = (KIO::StoredTransferJob*)job;
     m_Jobs.removeOne(storedTranferJob);
 
@@ -201,22 +205,24 @@ void AstrophotographsBrowser::slotJobResult(KJob *job)
 
     QPixmap *pm = new QPixmap();
     pm->loadFromData(storedTranferJob->data());
-    scaleAndAddPixmap(pm);
+    QString path = scaleAndAddPixmap(pm);
 
-    if(m_ImageCount <= m_AstroBinImageList.count() && !m_DetailImage)
+    if(m_ImageCount < m_AstroBinImageList.count() && !m_DetailImage)
     {
-        QString path = KStandardDirs().locateLocal("data", "kstars/astrobinImages/thumb/image_" + QString::number(m_ImageCount) + ".png");
-        m_ResultItemList.append(new SearchResultItem( path, m_AstroBinImageList.at(m_ImageCount-1).title(), m_AstroBinImageList.at(m_ImageCount-1).dateUploaded().toString() ));
+        m_ResultItemList.append(new SearchResultItem( path, m_AstroBinImageList.at(m_ImageCount).title().left(40), m_AstroBinImageList.at(m_ImageCount).dateUploaded().toString() ));
         m_Ctxt->setContextProperty( "resultModel", QVariant::fromValue(m_ResultItemList) );
+        m_ImageCount += 1;
     }
     else if(m_DetailImage){
         QObject *astroPhotographImageObj = m_BaseObj->findChild<QObject *>("astroPhotographImageObj");
-        astroPhotographImageObj->setProperty("source", KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png"));
+        astroPhotographImageObj->setProperty("source", path );
     }
+
+    delete pm;
 
 }
 
-void AstrophotographsBrowser::scaleAndAddPixmap(QPixmap *pixmap){
+QString AstrophotographsBrowser::scaleAndAddPixmap(QPixmap *pixmap){
     uint w = pixmap->width();
     uint h = pixmap->height();
     uint pad = 0;
@@ -226,19 +232,20 @@ void AstrophotographsBrowser::scaleAndAddPixmap(QPixmap *pixmap){
         *pixmap = pixmap->scaled(w * hDesk / h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     }
 
+    QString path;
     if(!m_DetailImage)
     {
-        m_ImageCount += 1;
-        pixmap->save( KStandardDirs().locateLocal("data", "kstars/astrobinImages/thumb/image_"+ QString::number(m_ImageCount) + ".png") );
-        m_AstrobinImages.append(pixmap);
+        path = KStandardDirs().locateLocal("data", "kstars/astrobinImages/thumb/image_"+ QString::number(m_ImageCount) + ".png");
+        pixmap->save( path );
     }else{
-        pixmap->save( KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png") );
+        path = KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png");
+        pixmap->save( path );
     }
 
+    return path;
 }
 
 void AstrophotographsBrowser::clearImagesList(){
-    removeDir( KStandardDirs().locateLocal("data", "kstars/astrobinImages/thumb/") );
     killAllRunningJobs();
     m_AstroBinImageList.clear();
     m_ResultItemList.clear();
@@ -252,25 +259,9 @@ void AstrophotographsBrowser::killAllRunningJobs(){
     m_Jobs.clear();
 }
 
-bool AstrophotographsBrowser::removeDir(const QString & dirName)
+void AstrophotographsBrowser::delay()
 {
-    bool result = true;
-    QDir dir(dirName);
-
-    if (dir.exists(dirName)) {
-        Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
-            if (info.isDir()) {
-                result = removeDir(info.absoluteFilePath());
-            }
-            else {
-                result = QFile::remove(info.absoluteFilePath());
-            }
-
-            if (!result) {
-                return result;
-            }
-        }
-        result = dir.rmdir(dirName);
-    }
-    return result;
+    QTime dieTime= QTime::currentTime().addMSecs(500);
+    while( QTime::currentTime() < dieTime )
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }

@@ -95,13 +95,12 @@ private:
 
     QList<QObject*> m_ResultItemList;
     QList<QObject*> m_DetailItemList;
-    QList<QPixmap*> m_AstrobinImages;
     QList<KIO::StoredTransferJob*> m_Jobs;
     QList<AstroBinImage > m_AstroBinImageList;
 
-    void scaleAndAddPixmap(QPixmap *pixmap);
+    QString scaleAndAddPixmap(QPixmap *pixmap);
 
-    bool removeDir(const QString & dirName);
+    void delay();
 };
 
 #endif // ASTROPHOTOGRAPHSBROWSER_H

@@ -52,6 +52,7 @@ Item {
                     opacity: 1.0
                     anchors.fill: parent
                     smooth: true
+                    cache: false
                     source: astrophotographItem.imagePath
                 }
 
