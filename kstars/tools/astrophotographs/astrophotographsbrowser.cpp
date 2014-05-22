@@ -11,6 +11,7 @@
 #include <KMessageBox>
 #include <KFileDialog>
 
+#include <QProgressDialog>
 #include <QGraphicsObject>
 #include <QDesktopWidget>
 #include <QNetworkAccessManager>
@@ -23,7 +24,7 @@
 #include "searchresultitem.h"
 
 AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(parent),
-    m_Offset(0), m_ImageCount(0), m_DetailImage(false), m_PreviousQuery("")
+    m_Offset(0), m_ImageCount(0), m_Lock(false), m_DetailImage(false), m_PreviousQuery("")
 {
     m_BaseView = new QDeclarativeView();
 
@@ -48,11 +49,15 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     connect(m_SearchContainerObj, SIGNAL(searchButtonClicked()), this, SLOT(slotAstrobinSearch()));
 
     m_SearchBarObj = m_BaseObj->findChild<QObject *>("searchBarObj");
+    m_ResultViewObj = m_BaseObj->findChild<QObject *>("resultViewObj");
+    m_TitleOfAstroPhotographObj = m_BaseObj->findChild<QObject *>("titleOfAstroPhotographObj");
+    m_AstroPhotographImageObj = m_BaseObj->findChild<QObject *>("astroPhotographImageObj");
 
     m_ResultListViewObj = m_BaseObj->findChild<QObject *>("resultListViewObj");
     connect(m_ResultListViewObj, SIGNAL(resultListItemClicked(int)), this, SLOT(onResultListItemClicked(int)));
 
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    m_AstrobinApi->searchTitleContaining("");
     m_BaseView->show();
 
 }
@@ -95,9 +100,16 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
         return;
     }
 
+    int progress = 0;
+    // Show a progress dialog while processing
+    QProgressDialog progressDlg( i18n( "Downloading Astrophotographs from internet... " ) , i18n( "Hide" ), 0, 0, this);
+    progressDlg.setValue( progress );
+    progressDlg.show();
+
     AstroBinSearchResult result = m_AstrobinApi->getResult();
     m_ImageCount = 0;
     m_Jobs.clear();
+    m_Lock = true;
     foreach(AstroBinImage image, result) {
         KIO::StoredTransferJob *job = KIO::storedGet(image.thumbImageUrl(), KIO::Reload, KIO::HideProgressInfo);
         job->setUiDelegate(0);
@@ -111,20 +123,25 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
         //where lock is set close in the begining of this loop and set open in slotJobResult but plain
         //while loop is not working in qt.
         delay();
+        progress += 5;
+        progressDlg.setValue( progress );
     }
+    m_Lock = false;
 }
 
 void AstrophotographsBrowser::onResultListItemClicked(int index){
-    m_DetailImage = true;
+    if(m_Lock || m_AstroBinImageList.count() <= index){
+        //KMessageBox::error(this, i18n("Wait till search is complete", i18n("Could not load detail")));
+        return;
+    }
 
     AstroBinImage image = m_AstroBinImageList.at(index);
 
-    QObject *titleOfAstroPhotographObj = m_BaseObj->findChild<QObject *>("titleOfAstroPhotographObj");
-    titleOfAstroPhotographObj->setProperty("text", image.title());
+    m_ResultViewObj->setProperty("flipped", "true");
+    m_TitleOfAstroPhotographObj->setProperty("text", image.title());
 
     //To remove previosly shown image source for image need to be set empty
-    QObject *astroPhotographImageObj = m_BaseObj->findChild<QObject *>("astroPhotographImageObj");
-    astroPhotographImageObj->setProperty("source", "");
+    m_AstroPhotographImageObj->setProperty("source", "");
 
     m_DetailItemList.clear();
 
@@ -185,6 +202,7 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
 
     m_Ctxt->setContextProperty( "detailModel", QVariant::fromValue(m_DetailItemList) );
 
+    m_DetailImage = true;
     KIO::StoredTransferJob *job = KIO::storedGet(image.regularImageUrl(), KIO::NoReload, KIO::HideProgressInfo);
     job->setUiDelegate(0);
     m_Jobs.append(job);

@@ -83,10 +83,10 @@ public slots:
     
 private:
     int m_Offset, m_ImageCount;
-    bool m_DetailImage;
+    bool m_Lock, m_DetailImage;
     QString m_PreviousQuery;
     QObject *m_BaseObj, *m_SearchContainerObj, *m_ResultListViewObj, *m_SearchBarObj,
-        *m_SearchResultItem;
+        *m_ResultViewObj, *m_SearchResultItem, *m_TitleOfAstroPhotographObj, *m_AstroPhotographImageObj;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
 
