@@ -53,6 +53,7 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     connect(m_ResultListViewObj, SIGNAL(resultListItemClicked(int)), this, SLOT(onResultListItemClicked(int)));
 
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    m_AstrobinApi->searchTitleContaining("");
     m_BaseView->show();
 
 }

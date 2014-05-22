@@ -109,6 +109,7 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 searchContainer.searchButtonClicked()
+                resultView.flipped = false
             }
         }
     }
@@ -258,11 +259,10 @@ Rectangle {
                             id: detailDelegate
                             height: detailItem.height + 5
 
-                            Text {
+                            DetailListItem {
                                 id: detailItem
-                                horizontalAlignment: Text.AlignLeft
-                                color: "white"
-                                text: item
+                                itemText: item
+                                width: detailList.width
                             }
 
                         }
@@ -360,7 +360,7 @@ Rectangle {
 
                 IconPushButton {
                     id: homeButton
-                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    iconPath: "home.png"
                     text: "Home"
                     vheight: homeButtonRect.height
                     vwidth: homeButtonRect.width - 5
@@ -395,7 +395,7 @@ Rectangle {
 
                 IconPushButton {
                     id: backButton
-                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    iconPath: "leftArrow.png"
                     text: "Back"
                     vheight: backButtonContainer.height
                     vwidth: backButtonContainer.width - 5
@@ -420,7 +420,7 @@ Rectangle {
 
                 IconPushButton {
                     id: editButton
-                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    iconPath: "edit.png"
                     text: "Edit"
                     vheight: editButtonContainer.height
                     vwidth: editButtonContainer.width - 5
@@ -437,7 +437,7 @@ Rectangle {
 
                 IconPushButton {
                     id: saveButton
-                    iconPath: "/home/vijay13/kde/kstars/kstars/kstars/tools/whatsinteresting/qml/leftArrow.png"
+                    iconPath: "save.png"
                     text: "Save"
                     vheight: saveButtonContainer.height
                     vwidth: saveButtonContainer.width - 5
