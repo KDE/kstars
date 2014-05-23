@@ -38,6 +38,7 @@ protected slots:
 private:
     void readMetadata(const QVariantMap &metadata);
     void readObjects(const QVariantList &objects);
+    void readIOTDObjects(const QVariantList &objects);
 };
 
 #endif // ASTROBINAPIJSON_H

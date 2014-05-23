@@ -47,11 +47,16 @@ void AstroBinApiJson::replyFinished(QNetworkReply *reply)
         emit searchFinished(false);
     }
 
-    // read metadata
-    readMetadata(result.value("meta").toMap());
+    if(isImageOfTheDay()){
+        // read Image of the day objects
+        readIOTDObjects(result.value("objects").toList());
+    }else{
+        // read metadata
+        readMetadata(result.value("meta").toMap());
 
-    // read objects
-    readObjects(result.value("objects").toList());
+        // read objects
+        readObjects(result.value("objects").toList());
+    }
 
     emit searchFinished(true);
 }
@@ -155,5 +160,26 @@ void AstroBinApiJson::readObjects(const QVariantList &objects)
         image.m_ThumbImageUrl = properties.value("url_thumb").toString();
 
         m_LastSearchResult.append(image);
+    }
+}
+
+void AstroBinApiJson::readIOTDObjects(const QVariantList &objects){
+
+    foreach(QVariant object, objects) {
+        AstroBinImage image;
+        QVariantMap properties = object.toMap();
+
+        QString imageOfTheDay = properties.value("image").toString();
+        imageOfTheDay = imageOfTheDay.remove(imageOfTheDay.lastIndexOf("/"),1);
+        imageOfTheDay = imageOfTheDay.remove(0, imageOfTheDay.lastIndexOf("/") + 1 );
+
+        image.m_Title = "Image of the day : " + properties.value("date").toString();
+
+        image.m_ThumbImageUrl = "http://www.astrobin.com/" + imageOfTheDay + "/0/rawthumb/thumb/";
+
+        image.m_RegularImageUrl = "http://www.astrobin.com/" + imageOfTheDay + "/0/rawthumb/regular/";
+
+        m_LastSearchResult.append(image);
+
     }
 }

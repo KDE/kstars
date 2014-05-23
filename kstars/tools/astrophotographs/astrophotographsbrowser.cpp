@@ -57,7 +57,7 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     connect(m_ResultListViewObj, SIGNAL(resultListItemClicked(int)), this, SLOT(onResultListItemClicked(int)));
 
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    m_AstrobinApi->searchTitleContaining("");
+    m_AstrobinApi->searchImageOfTheDay();
     m_BaseView->show();
 
 }
@@ -145,12 +145,21 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
 
     m_DetailItemList.clear();
 
+    if(m_AstrobinApi->isImageOfTheDay())
+    {
+        m_DetailItemList.append(new DetailItem("Every night, an algorithm looks at the images uploaded during the previous 7 days. The image with most Likes in that period is selected as Image of the Day. "));
+    }
+
     if( !image.user().isEmpty() )
     {
         m_DetailItemList.append(new DetailItem("User : " + image.user()));
     }
 
-    m_DetailItemList.append(new DetailItem("Date : " + image.dateUploaded().toString()));
+    if( !image.dateUploaded().toString().isEmpty() )
+    {
+        m_DetailItemList.append(new DetailItem("Date : " + image.dateUploaded().toString()));
+    }
+
 
     if( std::isfinite(image.decCenterDms().radians()) )
     {
@@ -195,7 +204,7 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
         m_DetailItemList.append(new DetailItem("Subjects : " + subjectList.remove(subjectList.lastIndexOf(','),1)));
     }
 
-    if( image.voteCount() > 0)
+    if( image.voteCount() > 0 && std::isfinite(image.voteCount()))
     {
         m_DetailItemList.append(new DetailItem("Vote Count : " + QString::number(image.voteCount())));
     }

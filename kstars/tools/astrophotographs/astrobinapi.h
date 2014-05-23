@@ -46,6 +46,7 @@ public:
 
     void setNumberOfResultsLimit(int limit) { m_ResultsLimit = limit; }
     void setOffset(int offset) { m_Offset = offset; }
+    bool isImageOfTheDay() { return isIOTD; }
 
     AstroBinSearchResult getResult() { return m_LastSearchResult; }
 
@@ -66,6 +67,7 @@ protected:
 private:
     void astroBinRequestFormatAndSend(const QString &requestStub);
 
+    bool isIOTD;
     QString m_UrlBase;
     QString m_ApiKey;
     QString m_ApiSecret;

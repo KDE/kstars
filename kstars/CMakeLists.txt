@@ -458,7 +458,6 @@ set(printingui_SRCS
 
 set(astrobinapi_SRCS
         tools/astrophotographs/astrobinapi.cpp
-        tools/astrophotographs/astrobinapixml.cpp
         tools/astrophotographs/astrobinimage.cpp
         tools/astrophotographs/searchresultitem.cpp
         tools/astrophotographs/astrophotographsbrowser.cpp
