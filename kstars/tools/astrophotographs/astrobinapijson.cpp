@@ -159,6 +159,9 @@ void AstroBinApiJson::readObjects(const QVariantList &objects)
         // thumbnail image url
         image.m_ThumbImageUrl = properties.value("url_thumb").toString();
 
+        // HD image url
+        image.m_HDUrl = properties.value("url_hd").toString();
+
         m_LastSearchResult.append(image);
     }
 }
@@ -178,6 +181,8 @@ void AstroBinApiJson::readIOTDObjects(const QVariantList &objects){
         image.m_ThumbImageUrl = "http://www.astrobin.com/" + imageOfTheDay + "/0/rawthumb/thumb/";
 
         image.m_RegularImageUrl = "http://www.astrobin.com/" + imageOfTheDay + "/0/rawthumb/regular/";
+
+        image.m_HDUrl = "http://www.astrobin.com/" + imageOfTheDay + "/0/rawthumb/hd/";
 
         m_LastSearchResult.append(image);
 

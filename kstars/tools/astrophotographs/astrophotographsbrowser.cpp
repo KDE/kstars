@@ -20,11 +20,12 @@
 
 #include "kstandarddirs.h"
 #include "kdeclarative.h"
+#include "imageviewer.h"
 
 #include "searchresultitem.h"
 
 AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(parent),
-    m_Offset(0), m_ImageCount(0), m_Lock(false), m_DetailImage(false), m_PreviousQuery("")
+    m_Offset(0), m_ImageCount(0), currentIndex(-1), m_ImageType(0), m_Lock(false), m_PreviousQuery("")
 {
     m_BaseView = new QDeclarativeView();
 
@@ -56,6 +57,10 @@ AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(pare
     m_ResultListViewObj = m_BaseObj->findChild<QObject *>("resultListViewObj");
     connect(m_ResultListViewObj, SIGNAL(resultListItemClicked(int)), this, SLOT(onResultListItemClicked(int)));
 
+    m_ButtonContainerObj = m_BaseObj->findChild<QObject *>("buttonContainerObj");
+    connect(m_ButtonContainerObj, SIGNAL(saveButtonClicked()), this, SLOT(onSaveButtonClicked()));
+    connect(m_ButtonContainerObj, SIGNAL(editButtonClicked()), this, SLOT(onEditButtonClicked()));
+
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_AstrobinApi->searchImageOfTheDay();
     m_BaseView->show();
@@ -76,7 +81,7 @@ void AstrophotographsBrowser::slotSearchBarClicked(){
 }
 
 void AstrophotographsBrowser::slotAstrobinSearch(){
-    m_DetailImage = false;
+    m_ImageType = 0;
     QVariant searchQuery = m_SearchBarObj->property("text");
 
     clearImagesList();
@@ -135,7 +140,8 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
         return;
     }
 
-    AstroBinImage image = m_AstroBinImageList.at(index);
+    currentIndex = index;
+    AstroBinImage image = m_AstroBinImageList.at(currentIndex);
 
     m_ResultViewObj->setProperty("flipped", "true");
     m_TitleOfAstroPhotographObj->setProperty("text", image.title());
@@ -211,16 +217,44 @@ void AstrophotographsBrowser::onResultListItemClicked(int index){
 
     m_Ctxt->setContextProperty( "detailModel", QVariant::fromValue(m_DetailItemList) );
 
-    m_DetailImage = true;
+    m_ImageType = 1;
+    m_Lock = true;
     KIO::StoredTransferJob *job = KIO::storedGet(image.regularImageUrl(), KIO::NoReload, KIO::HideProgressInfo);
+    job->setUiDelegate(0);
+    m_Jobs.append(job);
+    connect(job, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
+    m_Lock = false;
+}
+
+void AstrophotographsBrowser::onSaveButtonClicked(){
+
+    if(m_Lock)
+    {
+        return;
+    }
+
+    m_ImageType = 2;
+    AstroBinImage image = m_AstroBinImageList.at(currentIndex);
+
+    KIO::StoredTransferJob *job = KIO::storedGet(image.hdUrl(), KIO::NoReload, KIO::HideProgressInfo);
     job->setUiDelegate(0);
     m_Jobs.append(job);
     connect(job, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
 }
 
+void AstrophotographsBrowser::onEditButtonClicked(){
+    ImageViewer *iv = 0;
+    if( QFile::exists( KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png") ) )
+    {
+        iv = new ImageViewer( KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png") , this );
+    }
+
+    if( iv )
+        iv->show();
+}
+
 void AstrophotographsBrowser::slotJobResult(KJob *job)
 {
-
     KIO::StoredTransferJob *storedTranferJob = (KIO::StoredTransferJob*)job;
     m_Jobs.removeOne(storedTranferJob);
 
@@ -234,13 +268,14 @@ void AstrophotographsBrowser::slotJobResult(KJob *job)
     pm->loadFromData(storedTranferJob->data());
     QString path = scaleAndAddPixmap(pm);
 
-    if(m_ImageCount < m_AstroBinImageList.count() && !m_DetailImage)
+    if(m_ImageCount < m_AstroBinImageList.count() && m_ImageType == AstrophotographsBrowser::Thumbnail)
     {
         m_ResultItemList.append(new SearchResultItem( path, m_AstroBinImageList.at(m_ImageCount).title().left(40), m_AstroBinImageList.at(m_ImageCount).dateUploaded().toString() ));
         m_Ctxt->setContextProperty( "resultModel", QVariant::fromValue(m_ResultItemList) );
         m_ImageCount += 1;
     }
-    else if(m_DetailImage){
+    else if(m_ImageType == AstrophotographsBrowser::Detail)
+    {
         QObject *astroPhotographImageObj = m_BaseObj->findChild<QObject *>("astroPhotographImageObj");
         astroPhotographImageObj->setProperty("source", path );
     }
@@ -260,14 +295,25 @@ QString AstrophotographsBrowser::scaleAndAddPixmap(QPixmap *pixmap){
     }
 
     QString path;
-    if(!m_DetailImage)
+    if(m_ImageType == AstrophotographsBrowser::Thumbnail)
     {
         path = KStandardDirs().locateLocal("data", "kstars/astrobinImages/thumb/image_"+ QString::number(m_ImageCount) + ".png");
-        pixmap->save( path );
-    }else{
-        path = KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png");
-        pixmap->save( path );
     }
+    else if(m_ImageType == AstrophotographsBrowser::Detail)
+    {
+        path = KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png");
+    }
+    else if(m_ImageType == AstrophotographsBrowser::HD)
+    {
+        KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.png | *.jpg" );
+        if ( fileURL.isValid() ) {
+            path = fileURL.path();
+        }else{
+            KMessageBox::error(this, i18n("File path is not selected", i18n("Could not save image")));
+        }
+    }
+
+    pixmap->save( path );
 
     return path;
 }
@@ -288,7 +334,7 @@ void AstrophotographsBrowser::killAllRunningJobs(){
 
 void AstrophotographsBrowser::delay()
 {
-    QTime dieTime= QTime::currentTime().addMSecs(500);
+    QTime dieTime= QTime::currentTime().addMSecs(1000);
     while( QTime::currentTime() < dieTime )
     QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }

@@ -377,12 +377,16 @@ Rectangle {
 
         Rectangle {
             id: buttonContainer
+            objectName: "buttonContainerObj"
             width: 240
             height: footerContainer.height
             anchors.right: parent.right
             anchors.rightMargin: -5
             opacity: 0
             color: "transparent"
+
+            signal editButtonClicked()
+            signal saveButtonClicked()
 
             Rectangle {
                 id: backButtonContainer
@@ -424,6 +428,13 @@ Rectangle {
                     vheight: editButtonContainer.height
                     vwidth: editButtonContainer.width - 5
                 }
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        buttonContainer.editButtonClicked()
+                    }
+                }
             }
 
             Rectangle {
@@ -442,6 +453,12 @@ Rectangle {
                     vwidth: saveButtonContainer.width - 5
                 }
 
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        buttonContainer.saveButtonClicked()
+                    }
+                }
             }
         }
 

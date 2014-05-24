@@ -41,3 +41,8 @@ QUrl AstroBinImage::thumbImageUrl() const
 {
     return QUrl(m_ThumbImageUrl);
 }
+
+QUrl AstroBinImage::hdUrl() const
+{
+    return QUrl(m_HDUrl);
+}

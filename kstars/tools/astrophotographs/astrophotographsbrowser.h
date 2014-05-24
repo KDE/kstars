@@ -61,6 +61,8 @@ public:
 
     ~AstrophotographsBrowser();
 
+    enum ImageType { Thumbnail = 0, Detail = 1, HD = 2 };
+
     inline QDeclarativeView *getABBaseView() const { return m_BaseView; }
     
 signals:
@@ -77,16 +79,22 @@ public slots:
 
     void onResultListItemClicked(int index);
 
+    void onSaveButtonClicked();
+
+    void onEditButtonClicked();
+
     void clearImagesList();
 
     void killAllRunningJobs();
     
 private:
-    int m_Offset, m_ImageCount;
-    bool m_Lock, m_DetailImage;
+    int m_Offset, m_ImageCount, currentIndex;
+    int m_ImageType; // To identify which image (search result or detail or hd) is being downloaded at slotJobResult(KJob *job)
+    bool m_Lock; // To avoid inttrupt of downloading detail image to that of search result
     QString m_PreviousQuery;
     QObject *m_BaseObj, *m_SearchContainerObj, *m_ResultListViewObj, *m_SearchBarObj,
-        *m_ResultViewObj, *m_SearchResultItem, *m_TitleOfAstroPhotographObj, *m_AstroPhotographImageObj;
+        *m_ResultViewObj, *m_SearchResultItem, *m_TitleOfAstroPhotographObj, *m_AstroPhotographImageObj,
+        *m_ButtonContainerObj;
     QDeclarativeContext *m_Ctxt;
     QDeclarativeView *m_BaseView;
 
