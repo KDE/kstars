@@ -1310,6 +1310,10 @@
       <label>astrometry.net API URL</label>
       <default>http://nova.astrometry.net</default>
     </entry>
+    <entry name="astrometryUseJPEG" type="Bool">
+      <label>Use JPEG format, instead of FITS, to upload images to the astrometry.net online service.</label>
+      <default>true</default>
+    </entry>
    </group>
    <group name="Capture">
     <entry name="GuideDeviation" type="Double">

@@ -32,8 +32,6 @@ class INDI_D : public KDialog
     Q_OBJECT
 public:
 
-    //enum DTypes { DATA_FITS, ASCII_DATA_STREAM, VIDEO_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
-
     INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_idv, ClientManager *in_cm);
     ~INDI_D();
 

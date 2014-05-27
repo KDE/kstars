@@ -70,6 +70,7 @@ private:
     QString filename, apiURL;
     double lowerScale, upperScale, center_ra, center_dec, radius;
     double parity,ra,dec,orientation;
+    int downsample_factor;
     Align *align;
 
 };

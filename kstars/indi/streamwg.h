@@ -24,7 +24,7 @@
 
 #include "ui_streamform.h"
 
-
+#include <indidevapi.h>
 
 class QImage;
 class VideoWG;
@@ -44,7 +44,7 @@ public:
     void setSize(int wd, int ht);
     void enableStream(bool enable);
     bool isStreamEnabled() { return processStream; }
-    void newFrame(unsigned char *buffer, int buffSiz, int w, int h);
+    void newFrame(IBLOB *bp);
     int getWidth() { return streamWidth; }
     int getHeight() { return streamHeight; }
 
@@ -65,6 +65,9 @@ public slots:
     void playPressed();
     void captureImage();
 
+signals:
+    void hidden();
+
 
 };
 
@@ -78,7 +81,9 @@ public:
 
     friend class StreamWG;
 
-    void newFrame(unsigned char *buffer, int buffSiz, int w, int h);
+   bool newFrame(IBLOB *bp);
+   int imageWidth();
+   int imageHeight();
 
 private:
     int		totalBaseCount;
