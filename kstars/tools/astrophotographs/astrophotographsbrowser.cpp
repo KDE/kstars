@@ -23,6 +23,7 @@
 #include "imageviewer.h"
 
 #include "searchresultitem.h"
+#include "dialogs/imageviewerdialog.h"
 
 AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(parent),
     m_Offset(0), m_ImageCount(0), currentIndex(-1), m_ImageType(0), m_Lock(false), m_PreviousQuery("")
@@ -243,14 +244,14 @@ void AstrophotographsBrowser::onSaveButtonClicked(){
 }
 
 void AstrophotographsBrowser::onEditButtonClicked(){
-    ImageViewer *iv = 0;
+    ImageViewerDialog* ivd = 0;
     if( QFile::exists( KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png") ) )
     {
-        iv = new ImageViewer( KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png") , this );
+        ivd = new ImageViewerDialog( KStandardDirs().locateLocal("data", "kstars/astrobinImages/regular/lastImage.png") );
     }
 
-    if( iv )
-        iv->show();
+    if( ivd )
+        ivd->show();
 }
 
 void AstrophotographsBrowser::slotJobResult(KJob *job)

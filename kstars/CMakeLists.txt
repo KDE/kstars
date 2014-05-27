@@ -356,6 +356,7 @@ set(kstars_dialogs_SRCS
   dialogs/locationdialog.cpp
   dialogs/timedialog.cpp
   dialogs/exportimagedialog.cpp
+  dialogs/imageviewerdialog.cpp
 )
 
 set(kstars_dialogsui_SRCS
@@ -376,6 +377,7 @@ set(kstars_dialogsui_SRCS
   dialogs/wizdownload.ui
   dialogs/newfov.ui
   dialogs/exportimagedialog.ui
+  dialogs/imageviewerdialog.ui
 )
 
 set(kstars_projection_SRCS
