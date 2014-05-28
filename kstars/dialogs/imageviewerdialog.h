@@ -36,9 +36,15 @@ public:
 
 public slots:
 
-    void wheelEvent(QWheelEvent* event);
+    void wheelEvent(QWheelEvent* e);
+
+    void mousePressEvent(QMouseEvent * e);
+
+    void mouseReleaseEvent(QMouseEvent * e);
 
     void invertColor();
+
+    void saveImage();
 
 private:
     Ui::ImageViewerDialog *ui;
@@ -46,6 +52,7 @@ private:
     const QString m_ImagePath;
     QImage* m_Image;
     QPixmap m_Pix;
+    QPointF startPoint, endPoint;
 };
 
 #endif // IMAGEVIEWERDIALOG_H
