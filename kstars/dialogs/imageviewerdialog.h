@@ -34,13 +34,25 @@ public:
     explicit ImageViewerDialog(const QString filePath, QWidget *parent = 0);
     ~ImageViewerDialog();
 
+    enum DrawType { None = 0, Text = 1, Circle = 2 };
+
 public slots:
 
-    void wheelEvent(QWheelEvent* e);
+    virtual void wheelEvent(QWheelEvent * event);
 
-    void mousePressEvent(QMouseEvent * e);
+    virtual void mousePressEvent(QMouseEvent * event);
 
-    void mouseReleaseEvent(QMouseEvent * e);
+    //virtual void mouseMoveEvent(QMouseEvent * event);
+
+    void zoomInImage();
+
+    void zoomOutImage();
+
+    void drawTextClicked();
+
+    void drawCircleClicked();
+
+    void undoClicked();
 
     void invertColor();
 
@@ -50,9 +62,11 @@ private:
     Ui::ImageViewerDialog *ui;
     QGraphicsScene* m_Scene;
     const QString m_ImagePath;
+    int drawType;
     QImage* m_Image;
     QPixmap m_Pix;
-    QPointF startPoint, endPoint;
+    QPointF clickedPoint;
+    QList<QGraphicsItem *> itemsList;
 };
 
 #endif // IMAGEVIEWERDIALOG_H
