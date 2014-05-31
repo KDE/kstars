@@ -169,6 +169,7 @@ set(libkstarstools_SRCS
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
+	tools/eyepiecefield.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS

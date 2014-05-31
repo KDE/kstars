@@ -35,6 +35,7 @@ class QStandardItemModel;
 class KStars;
 class KStarsDateTime;
 class GeoLocation;
+class EyepieceField;
 
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
@@ -330,6 +331,11 @@ public slots:
 
     void slotAddVisibleObj();
 
+    /**
+     * @short Show the eyepiece field view
+     */
+    void slotEyepieceView();
+
 
 protected slots:
     void slotClose();
@@ -351,6 +357,7 @@ private:
     QHash<QString, QTime> TimeHash; 
     QList<QString> ImageList;
     ObsListPopupMenu *pmenu; 
+    EyepieceField *m_epf;
 };
 
 #endif // OBSERVINGLIST_H_
