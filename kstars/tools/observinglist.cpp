@@ -711,7 +711,7 @@ void ObservingList::slotAVT() {
         selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
             QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
-            foreach ( const QModelIndex &i, selectedItems ) {
+            foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
                 foreach ( SkyObject *o, obsList() )
                     if ( o->translatedName() == i.data().toString() )
                         avt->processObject( o );
