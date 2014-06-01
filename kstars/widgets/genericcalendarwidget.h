@@ -19,6 +19,7 @@
 #define _GENERICCALENDARWIDGET_H_
 
 #include "ui_genericcalendarwidget.h"
+#include "moonphasecalendarwidget.h"
 
 #include <KDateTable>
 
@@ -43,7 +44,7 @@ class GenericCalendarWidget : public QWidget, public Ui::GenericCalendarWidgetUi
     /**
      *@short Constructor. Sets up the Ui, connects signals to slots etc.
      */
-    explicit GenericCalendarWidget( KDateTable &dateTable, QWidget *parent = 0 );
+    explicit GenericCalendarWidget( MoonPhaseCalendar &dateTable, QWidget *parent = 0 );
 
     /**
      *@short Empty destructor
@@ -113,8 +114,13 @@ class GenericCalendarWidget : public QWidget, public Ui::GenericCalendarWidgetUi
      */
     void dateChangedSlot( const QDate &date_ );
 
+    /**
+     * @short Called when the type of hemisphere changes through the combo box
+     */
+    void hemisphereChangedSlot( int index );
+
  private:
-    KDateTable &m_DateTable;
+    MoonPhaseCalendar &m_DateTable;
 
     /**
      *@short Fills the month combo box with month names

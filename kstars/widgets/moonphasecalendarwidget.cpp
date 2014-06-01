@@ -40,7 +40,7 @@
 
 MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent ) :
     KDateTable(parent),
-    m_Moon(moon), m_Sun(sun)
+    m_Moon(moon), m_Sun(sun), isNorthernHemisphere(true)
 {
     // Populate moon images from disk into the hash
     numDayColumns = calendar()->daysInWeek( QDate::currentDate() );
@@ -261,7 +261,9 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
         if( calendar()->isValid( cellDate ) ) {
             int iPhase = computeMoonPhase( KStarsDateTime( cellDate, QTime(0, 0, 0) ) );
             QRect drawRect = cell.toRect();
-            painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2, 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2, m_Images[ iPhase ] ); // FIXME: Using hard coded fon
+
+            QPixmap temp = isNorthernHemisphere ? m_Images[ iPhase ] : QPixmap::fromImage( m_Images[ iPhase ].toImage().mirrored(true, false) );
+            painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2, 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2, temp ); // FIXME: Using hard coded fon
 // +            painter
             // painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2,
                                  // 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2,

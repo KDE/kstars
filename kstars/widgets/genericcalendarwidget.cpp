@@ -22,7 +22,7 @@
 
 #include <kdebug.h>
 
-GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *parent ) : QWidget( parent ), m_DateTable( datetable ) {
+GenericCalendarWidget::GenericCalendarWidget( MoonPhaseCalendar &datetable, QWidget *parent ) : QWidget( parent ), m_DateTable( datetable ) {
 
     setupUi( this );
     
@@ -45,6 +45,8 @@ GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *pa
         nextMonth->setIcon( KIcon( QLatin1String( "arrow-right" ) ) );
         previousMonth->setIcon( KIcon( QLatin1String( "arrow-left" ) ) );
     }
+    selectHemisphere->addItem( i18n("Northern Hemisphere") );
+    selectHemisphere->addItem( i18n("Southeren Hemisphere") );
 
     // Connects
     connect( &m_DateTable, SIGNAL( dateChanged( const QDate& ) ), SLOT( dateChangedSlot( const QDate& ) ) );
@@ -54,6 +56,7 @@ GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *pa
     connect( previousYear, SIGNAL( clicked() ), SLOT( previousYearClicked() ) );
     connect( selectMonth, SIGNAL( activated( int ) ), SLOT( monthChanged( int ) ) );
     connect( selectYear, SIGNAL( valueChanged( int ) ), SLOT( yearChanged( int ) ) );
+    connect( selectHemisphere, SIGNAL( currentIndexChanged ( int ) ), SLOT( hemisphereChangedSlot( int ) ) );
 
     m_DateTable.setCalendar(); // Set global calendar
 
@@ -146,6 +149,14 @@ void GenericCalendarWidget::monthChanged( int month ) {
         KNotification::beep();
     }
     m_DateTable.setFocus();
+}
+
+void GenericCalendarWidget::hemisphereChangedSlot(int index){
+    if(index == 0){
+        m_DateTable.setHemisphere(true);
+    }else{
+        m_DateTable.setHemisphere(false);
+    }
 }
 
 bool GenericCalendarWidget::setYear( int year ) {

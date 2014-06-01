@@ -61,6 +61,8 @@ class MoonPhaseCalendar : public KDateTable {
     
     virtual void setGeometry( const QRect &r );
 
+    void setHemisphere(const bool type){ isNorthernHemisphere = type; }
+
  protected:
 
     /**
@@ -105,6 +107,7 @@ class MoonPhaseCalendar : public KDateTable {
     int numDayColumns;
     int MoonImageSize;
     bool imagesLoaded;
+    bool isNorthernHemisphere;
 
     KSMoon &m_Moon;
     KSSun &m_Sun;
