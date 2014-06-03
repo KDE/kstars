@@ -61,6 +61,8 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession,
         addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) );
     //Insert item for opening the Altitude vs time dialog
     addAction( i18n( "Altitude vs. Time" ), ks->observingList(), SLOT( slotAVT() ) );
+    // Insert item for opening the eyepiece view tool
+    addAction( i18n( "Eyepiece view (Beta)" ), ks->observingList(), SLOT( slotEyepieceView() ) );
     addSeparator();
     //Insert item for dowloading different images
     if( showLinks ) {

@@ -126,7 +126,7 @@ public:
     /**
      *@return object's primary name, translated to local language.
      */
-    inline QString translatedName() const { return i18n( name().toUtf8() );}
+    inline QString translatedName() const { return i18n( name().toUtf8() );} // FIXME: Hmm... that's funny. How does the string extraction work, if we are UTF8-ing the name first? Does the string extraction change to UTF8?
 
     /** @return object's secondary name */
     inline QString name2( void ) const { return ( hasName2() ? Name2 : emptyString ); }

@@ -66,6 +66,7 @@
 #include "oal/log.h"
 #include "oal/oal.h"
 #include "oal/execute.h"
+#include "tools/eyepiecefield.h"
 
 #include <config-kstars.h>
 
@@ -89,7 +90,7 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 ObservingList::ObservingList( KStars *_ks )
         : KDialog( (QWidget*)_ks ),
         ks( _ks ), LogObject(0), m_CurrentObject(0),
-        isModified(false), bIsLarge(true)
+          isModified(false), bIsLarge(true), m_epf( 0 )
 {
     ui = new ObservingListUI( this );
     setMainWidget( ui );
@@ -678,6 +679,12 @@ void ObservingList::slotFind() {
    delete fd;
 }
 
+void ObservingList::slotEyepieceView() {
+    if( !m_epf )
+        m_epf = new EyepieceField( this );
+    m_epf->showEyepieceField( currentObject(), 0, CurrentImagePath ); // FIXME: Use FOV symbols etc.
+}
+
 void ObservingList::slotAVT() {
     QModelIndexList selectedItems;
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
@@ -711,7 +718,7 @@ void ObservingList::slotAVT() {
         selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
             QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
-            foreach ( const QModelIndex &i, selectedItems ) {
+            foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
                 foreach ( SkyObject *o, obsList() )
                     if ( o->translatedName() == i.data().toString() )
                         avt->processObject( o );

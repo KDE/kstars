@@ -25,7 +25,7 @@
 
 class QPainter;
 
-/**@class FOV A simple class encapulating a Field-of-View symbol
+/**@class FOV A simple class encapsulating a Field-of-View symbol
 	*@author Jason Harris
 	*@version 1.0
 	*/
