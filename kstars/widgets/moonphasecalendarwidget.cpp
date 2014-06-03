@@ -47,9 +47,25 @@ MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent 
     numWeekRows = 7;
     imagesLoaded = false;
     // TODO: Set geometry.
+    initializeFullMoonList();
 }
 
 MoonPhaseCalendar::~MoonPhaseCalendar() {
+}
+
+void MoonPhaseCalendar::initializeFullMoonList(){
+    fullMoonNames.append( "Moon after Yule" );
+    fullMoonNames.append( "Snow Moon" );
+    fullMoonNames.append( "Sap Moon" );
+    fullMoonNames.append( "Grass Moon" );
+    fullMoonNames.append( "Planting Moon" );
+    fullMoonNames.append( "Honey Moon" );
+    fullMoonNames.append( "Thunder Moon" );
+    fullMoonNames.append( "Grain Moon" );
+    fullMoonNames.append( "Fruit Moon" );
+    fullMoonNames.append( "Hunter's Moon" );
+    fullMoonNames.append( "Frosty Moon" );
+    fullMoonNames.append( "Moon before Yule" );
 }
 
 QSize MoonPhaseCalendar::sizeHint() const {
@@ -306,4 +322,14 @@ unsigned short MoonPhaseCalendar::computeMoonPhase( const KStarsDateTime &date )
 
     return m_Moon.getIPhase();
 
+}
+
+void MoonPhaseCalendar::setMoonDetail(QLabel * phaseName, QLabel * nextFullMoon, const QDate &d){
+    long double jd0 = KStarsDateTime(d, QTime(8,0,0)).djd();
+    KSNumbers num(jd0);
+
+    m_Moon.findPosition(&num);
+    m_Moon.findPhase();
+    phaseName->setText ( m_Moon.phaseName()+" ("+QString::number( int( 100*m_Moon.illum() ) )+"%)" );
+    nextFullMoon->setText( fullMoonNames.at( d.month() - 1 ) );
 }

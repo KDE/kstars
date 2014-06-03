@@ -67,6 +67,7 @@ GenericCalendarWidget::GenericCalendarWidget( MoonPhaseCalendar &datetable, QWid
     selectMonth->setCurrentIndex( date().month() - 1 );
     selectYear->setValue( date().year() );
     m_Date = date();
+    m_DateTable.setMoonDetail( phaseName, nextFullMoonName, m_Date);
 
     show();
 
@@ -101,6 +102,8 @@ void GenericCalendarWidget::dateChangedSlot( const QDate &date_ ) {
     kDebug() << "Date = " << m_Date;
 
     emit( dateChanged( date_ ) );
+
+    m_DateTable.setMoonDetail( phaseName, nextFullMoonName, date_);
 }
 
 void GenericCalendarWidget::nextMonthClicked()

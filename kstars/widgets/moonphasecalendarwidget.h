@@ -19,6 +19,7 @@
 #define _MOONPHASECALENDARWIDGET_H_
 
 #include <QWidget>
+#include <QLabel>
 #include <KDateTable>
 
 class KSMoon;
@@ -39,6 +40,8 @@ class MoonPhaseCalendar : public KDateTable {
     explicit MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent = 0 );
 
     ~MoonPhaseCalendar();
+
+    void initializeFullMoonList();
 
     /**
      * @return a suggested size for the widget
@@ -62,6 +65,8 @@ class MoonPhaseCalendar : public KDateTable {
     virtual void setGeometry( const QRect &r );
 
     void setHemisphere(const bool type){ isNorthernHemisphere = type; }
+
+    void setMoonDetail(QLabel * phaseName, QLabel * nextFullMoon, const QDate &d );
 
  protected:
 
@@ -108,6 +113,7 @@ class MoonPhaseCalendar : public KDateTable {
     int MoonImageSize;
     bool imagesLoaded;
     bool isNorthernHemisphere;
+    QList<QString> fullMoonNames;
 
     KSMoon &m_Moon;
     KSSun &m_Sun;
