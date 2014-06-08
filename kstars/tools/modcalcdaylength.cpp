@@ -21,6 +21,7 @@
 #include <KLocale>
 #include <kmessagebox.h>
 #include <KLineEdit>
+#include <QNetworkAccessManager>
 
 #include "skyobjects/skyobject.h"
 #include "geolocation.h"
@@ -30,12 +31,18 @@
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 #include "dialogs/locationdialog.h"
+#include "weatherapi/weatherapixml.h"
 
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
     QFrame(parentSplit)
 {
     setupUi(this);
+
+    m_NetworkManager = new QNetworkAccessManager( this );
+    m_WeatherApi = new WeatherApiXml( m_NetworkManager, this );
+
+    m_WeatherApi->getWeatherByCity("surat");
 
     showCurrentDate();
     initGeo();

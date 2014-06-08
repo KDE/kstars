@@ -20,6 +20,11 @@
 
 #include "ui_modcalcdaylength.h"
 
+QT_BEGIN_NAMESPACE
+class QNetworkAccessManager;
+QT_END_NAMESPACE
+
+class WeatherAPI;
 class GeoLocation;
 class QTextStream;
 
@@ -57,6 +62,9 @@ private:
     QString srAzString, stAltString, ssAzString;
     QString mrAzString, mtAltString, msAzString;
     QString daylengthString, lunarphaseString;
+
+    QNetworkAccessManager *m_NetworkManager;
+    WeatherAPI *m_WeatherApi;
 };
 
 #endif

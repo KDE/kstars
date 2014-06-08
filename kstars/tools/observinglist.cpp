@@ -66,7 +66,6 @@
 #include "oal/log.h"
 #include "oal/oal.h"
 #include "oal/execute.h"
-#include "tools/eyepiecefield.h"
 
 #include <config-kstars.h>
 
@@ -90,7 +89,7 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 ObservingList::ObservingList( KStars *_ks )
         : KDialog( (QWidget*)_ks ),
         ks( _ks ), LogObject(0), m_CurrentObject(0),
-          isModified(false), bIsLarge(true), m_epf( 0 )
+        isModified(false), bIsLarge(true)
 {
     ui = new ObservingListUI( this );
     setMainWidget( ui );
@@ -677,12 +676,6 @@ void ObservingList::slotFind() {
        }
    }
    delete fd;
-}
-
-void ObservingList::slotEyepieceView() {
-    if( !m_epf )
-        m_epf = new EyepieceField( this );
-    m_epf->showEyepieceField( currentObject(), 0, CurrentImagePath ); // FIXME: Use FOV symbols etc.
 }
 
 void ObservingList::slotAVT() {

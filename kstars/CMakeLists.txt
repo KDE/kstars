@@ -166,10 +166,11 @@ set(libkstarstools_SRCS
 	tools/whatsinteresting/wiequipsettings.cpp
 	tools/whatsinteresting/obsconditions.cpp
         tools/whatsinteresting/skyobjdescription.cpp
+        tools/weatherapi/weatherapi.cpp
+        tools/weatherapi/weatherapixml.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
-	tools/eyepiecefield.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
