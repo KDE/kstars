@@ -149,8 +149,8 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             center_dec = args[i+1].toDouble(&ok);
         else if (args[i] == "-5")
             radius = args[i+1].toDouble(&ok);
-        /*else if (args[i] == "--downsample")
-            downsample_factor = args[i+1].toInt(&ok);*/
+        else if (args[i] == "--downsample")
+            downsample_factor = args[i+1].toInt(&ok);
     }
 
     solverTimer.start();
