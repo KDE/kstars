@@ -32,6 +32,7 @@
 #include "kstarsdatetime.h"
 #include "dialogs/locationdialog.h"
 #include "weatherapi/weatherapixml.h"
+#include "weatherapi/currentweatherdata.h"
 
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
@@ -42,11 +43,10 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
     m_NetworkManager = new QNetworkAccessManager( this );
     m_WeatherApi = new WeatherApiXml( m_NetworkManager, this );
 
-    m_WeatherApi->getWeatherByCity("surat");
-
     showCurrentDate();
     initGeo();
     slotComputeAlmanac();
+    getWeather();
 
     connect( Date, SIGNAL(dateChanged(const QDate&)), this, SLOT(slotComputeAlmanac() ) );
     connect( Location, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
@@ -56,6 +56,8 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
     connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
     connect( RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
     connect( ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()) );
+
+    connect( m_WeatherApi, SIGNAL( dataCollectionFinished(bool) ), this, SLOT( slotWeather() ) );
 
     RunButtonBatch->setEnabled( false );
     ViewButtonBatch->setEnabled( false );
@@ -88,6 +90,10 @@ QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
     return dLength;
 }
 
+void modCalcDayLength::getWeather(){
+    m_WeatherApi->getWeatherByPos( geoPlace->lat(), geoPlace->lng() );
+}
+
 void modCalcDayLength::slotLocation() {
     QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
@@ -100,6 +106,21 @@ void modCalcDayLength::slotLocation() {
     delete ld;
 
     slotComputeAlmanac();
+    getWeather();
+}
+
+void modCalcDayLength::slotWeather(){
+    CurrentWeatherData data = m_WeatherApi->currentWeatherData();
+    WeatherLocation->setText( data.city() + " ( " + geoPlace->fullName() + " ) " );
+    WeatherMinTemp->setText( QString::number( data.minimumTemp() ) + " ( " + data.unitOfTemp() + " ) " );
+    WeatherMaxTemp->setText( QString::number( data.maximumTemp() ) + " ( " + data.unitOfTemp() + " ) " );
+    WeatherClouds->setText( QString::number( data.clouds() ) + " ( " + data.cloudsName() + " ) " );
+    WeatherHumidity->setText( QString::number( data.humidity() ) + " ( " + data.unitOfHumidity() + " ) " );
+    WeatherPressure->setText( QString::number( data.pressure() ) + " ( " + data.unitOfPressure() + " ) " );
+    WeatherWindSpeed->setText( QString::number( data.windSpeed() ) + " ( " + data.windSpeedName() + " ) " );
+    WeatherWindDirection->setText( QString::number( data.windDirection() ) + " ( " + data.windDirectionName() + " ) " );
+    WeatherPrecipitation->setText( data.precipitation() );
+    WeatherLastUpdate->setText( data.lastUpdate() );
 }
 
 void modCalcDayLength::slotLocationBatch() {

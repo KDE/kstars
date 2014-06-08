@@ -22,6 +22,7 @@
 #include <QObject>
 
 #include "dms.h"
+#include "currentweatherdata.h"
 
 QT_BEGIN_NAMESPACE
 class QNetworkAccessManager;
@@ -37,7 +38,9 @@ public:
 
     void getWeatherByCity(const QString &name);
 
-    void getWeatherByPos(const dms lat, const dms lon);
+    void getWeatherByPos(const dms * lat, const dms * lon);
+
+    CurrentWeatherData currentWeatherData() const { return data; }
 
 protected slots:
     virtual void replyFinished(QNetworkReply *reply) = 0;
@@ -46,6 +49,7 @@ signals:
     void dataCollectionFinished(bool resultOK);
 
 protected:
+    CurrentWeatherData data;
     QNetworkAccessManager *m_NetworkManager;
 
 private:

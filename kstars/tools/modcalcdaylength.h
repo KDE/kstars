@@ -42,6 +42,7 @@ public:
 
 public slots:
     void slotLocation();
+    void slotWeather();
     void slotLocationBatch();
     void slotComputeAlmanac();
     void slotRunBatch();
@@ -53,6 +54,7 @@ private:
     QTime lengthOfDay(QTime setQTime, QTime riseQTime);
 
     void showCurrentDate(void);
+    void getWeather();
     void initGeo(void);
     void processLines( QTextStream &istream );
 

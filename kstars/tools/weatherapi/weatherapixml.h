@@ -35,7 +35,6 @@ public:
     {
     }
 
-    CurrentWeatherData currentWeatherData() const { return data; }
 
 protected slots:
     void replyFinished(QNetworkReply *reply);
@@ -44,7 +43,6 @@ private:
     void readResponse();
     void readCurrentWeatherData();
 
-    CurrentWeatherData data;
     QXmlStreamReader *m_XmlReader;
 };
 

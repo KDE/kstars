@@ -34,15 +34,15 @@ void WeatherAPI::getWeatherByCity(const QString &name){
     weatherApiRequestFormatAndSend( requestStub );
 }
 
-void WeatherAPI::getWeatherByPos(const dms lat, const dms lon){
-    QString requestStub = "weather?lat=" + QString::number( lat.degree() ) + "&lon=" + QString::number( lon.degree() );
+void WeatherAPI::getWeatherByPos(const dms * lat, const dms * lon){
+    QString requestStub = "weather?lat=" + QString::number( lat->degree() ) + "&lon=" + QString::number( lon->degree() );
     weatherApiRequestFormatAndSend( requestStub );
 }
 
 
 void WeatherAPI::weatherApiRequestFormatAndSend(const QString &requestStub){
     QUrl requestUrl(m_UrlBase + requestStub + "&mode=xml" );
-
+    qDebug() << requestUrl;
     QNetworkRequest request(requestUrl);
     request.setOriginatingObject(this);
     m_NetworkManager->get(request);
