@@ -858,8 +858,7 @@ void CCD::processBLOB(IBLOB* bp)
     else
         targetChip = primaryChip;
 
-     // It's either FITS or OTHER
-    QString currentDir = Options::fitsDir();
+    QString currentDir =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
     int nr, n=0;
     KTemporaryFile tmpFile;
 
@@ -875,7 +874,7 @@ void CCD::processBLOB(IBLOB* bp)
     QString filename(currentDir + '/');
 
     // Create file name for FITS to be shown in FITS Viewer
-    if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
+    if (Options::showFITS() && (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL))
     {
 
         tmpFile.setPrefix("fits");
@@ -927,7 +926,7 @@ void CCD::processBLOB(IBLOB* bp)
     // store file name
     strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
 
-    if (targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL)
+    if (targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL || Options::showFITS() == false)
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)

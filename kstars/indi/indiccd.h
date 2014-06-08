@@ -46,7 +46,7 @@ public:
     bool getBinning(int *bin_x, int *bin_y);
     ChipType getType() const { return type; }
     void setShowFITS(bool enable) { displayFITS = enable;}
-    bool showFITS() const { return displayFITS; }
+    bool showFITS() const { return displayFITS; }    
 
     bool isCapturing();
     bool abortExposure();
@@ -83,7 +83,7 @@ private:
     QStringList frameTypes;
     bool CanBin;
     bool CanSubframe;
-    bool CanAbort;
+    bool CanAbort;    
 
 };
 
@@ -115,7 +115,7 @@ public:
     bool setRapidGuide(CCDChip *targetChip, bool enable);
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
-
+    void setFITSDir(const QString &dir) { fitsDir = dir;}
 
 public slots:
     void FITSViewerDestroyed();
@@ -133,6 +133,8 @@ private:
     bool ISOMode;
     bool HasGuideHead;
     QString		seqPrefix;
+    QString     fitsDir;
+
     int seqCount;
     FITSViewer * fv;
     StreamWG *streamWindow;
