@@ -794,7 +794,7 @@
        <item>
         <widget class="QCheckBox" name="darkSubCheck">
          <property name="toolTip">
-          <string>Perform automatic dark substraction in preview mode</string>
+          <string>Perform automatic dark subtraction in preview mode</string>
          </property>
          <property name="text">
           <string>Auto dark subtract</string>
