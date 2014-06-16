@@ -45,7 +45,7 @@ public:
     void syncTelescopeInfo();
     void syncCCDInfo();
     void generateArgs();
-    void startSovling(const QString &filename);
+    void startSovling(const QString &filename, bool isGenerated=true);
     void appendLogText(const QString &);
     void clearLog();
     bool parserOK();

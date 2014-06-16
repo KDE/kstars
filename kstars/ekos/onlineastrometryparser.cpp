@@ -46,6 +46,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     apiURL = QString("%1/api/").arg(Options::astrometryAPIURL());
 
     downsample_factor = 0;
+    isGenerated = true;
 
 }
 
@@ -64,9 +65,11 @@ void OnlineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     (void)fov_y;
 }
 
-bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStringList &args)
+bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStringList &args, bool generated)
 {
     bool ok;
+
+    isGenerated = generated;
 
     if (networkManager.networkAccessible() == false)
     {
@@ -77,7 +80,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
     QString finalFileName(in_filename);
 
-    if (Options::astrometryUseJPEG())
+    if (Options::astrometryUseJPEG() && in_filename.endsWith(".jpg") == false && in_filename.endsWith(".jpeg") == false)
     {
         QFile fitsFile(in_filename);
         bool rc = fitsFile.open(QIODevice::ReadOnly);
@@ -121,10 +124,14 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
                     display_image->setPixel(i, j, ((int) (val * bscale + bzero)));
                 }
 
-            finalFileName.replace(".tmp", ".jpg", Qt::CaseInsensitive);
+            finalFileName.remove(finalFileName.lastIndexOf('.'), finalFileName.length());
+            finalFileName.append(".jpg");
             display_image->save(finalFileName, "jpg");
 
-            QFile::remove(in_filename);
+            if (isGenerated)
+                QFile::remove(in_filename);
+            else
+                isGenerated = true;
 
             delete (display_image);
         }
@@ -367,7 +374,8 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
          align->appendLogText(i18n("Upload complete. Waiting for astrometry.net solver to complete..."));
          emit uploadFinished();
-         QFile::remove(filename);
+         if (isGenerated)
+            QFile::remove(filename);
          break;
 
        case JOB_ID_STAGE:
