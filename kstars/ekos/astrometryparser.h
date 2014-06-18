@@ -28,7 +28,7 @@ public:
     virtual void setAlign(Align *align) = 0;
     virtual bool init() = 0;
     virtual void verifyIndexFiles(double fov_x, double fov_y) =0;
-    virtual bool startSovler(const QString &filename, const QStringList &args) =0;
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true) =0;
     virtual bool stopSolver() = 0;
 
 signals:

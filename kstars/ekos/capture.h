@@ -41,6 +41,7 @@ class SequenceJob
     SequenceJob();
 
     CAPTUREResult capture(bool isDark=false);
+    void reset();
     void abort();
     void done();
     void prepareCapture();
@@ -62,6 +63,9 @@ class SequenceJob
 
     void setActiveChip(ISD::CCDChip *chip) { activeChip = chip; }
     ISD::CCDChip *getActiveChip() { return activeChip;}
+
+    void setFITSDir(const QString &dir) { fitsDir = dir;}
+    const QString & getFITSDir() { return fitsDir; }
 
     void setFilter(int pos, const QString & name);
     void setFrameType(int type, const QString & name);
@@ -107,6 +111,7 @@ private:
     double exposeLeft;
     FITSScale captureFilter;
     QTableWidgetItem *statusCell;
+    QString fitsDir;
 
     JOBStatus status;
 
@@ -136,7 +141,7 @@ public:
     QString getLogText() { return logText.join("\n"); }
 
     /* Capture */
-    void updateSequencePrefix( const QString &newPrefix);
+    void updateSequencePrefix( const QString &newPrefix, const QString &dir);
 public slots:
 
     /* Capture */
@@ -165,6 +170,8 @@ public slots:
 
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const KFileItemList & items);
+
+    void saveFITSDirectory();
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 

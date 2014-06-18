@@ -374,7 +374,7 @@ void Align::generateArgs()
     getFormattedCoords(ra, dec, ra_dms, dec_dms);
 
     solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
-                /*<< "--downsample" << "2"*/ << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
+                << "--downsample" << "2" << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
 
     if (raBox->isEmpty() == false && decBox->isEmpty() == false)
     {
@@ -502,7 +502,7 @@ void Align::newFITS(IBLOB *bp)
     startSovling(QString(bp->label));
 }
 
-void Align::startSovling(const QString &filename)
+void Align::startSovling(const QString &filename, bool isGenerated)
 {
     QStringList solverArgs;
     double ra,dec;
@@ -521,7 +521,7 @@ void Align::startSovling(const QString &filename)
 
     solverArgs = solverOptions->text().split(" ");
 
-    parser->startSovler(filename, solverArgs);
+    parser->startSovler(filename, solverArgs, isGenerated);
 
 }
 
@@ -1141,7 +1141,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 
 void Align::loadFITS()
 {
-    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.fts|Flexible Image Transport System");
+    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.jpg *.jpeg");
     if (fileURL.isEmpty())
         return;
 
@@ -1153,7 +1153,7 @@ void Align::loadFITS()
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    startSovling(fileURL.path());
+    startSovling(fileURL.path(), false);
 }
 
 }

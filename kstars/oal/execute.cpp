@@ -185,7 +185,7 @@ void Execute::loadTargets() {
     ui.Target->clear();
     sortTargetList();
     foreach( SkyObject *o, ks->observingList()->sessionList() ) {
-        ui.Target->addItem( o->name() );
+        ui.Target->addItem( getObjectName(o, false) );
     }
 }
 
@@ -367,6 +367,24 @@ void Execute::slotAddObject() {
        }
    }
    delete fd;
+}
+
+QString Execute::getObjectName(const SkyObject *o, bool translated)
+{
+    QString finalObjectName;
+    if( o->name() == "star" )
+    {
+        StarObject *s = (StarObject *)o;
+
+        // JM: Enable HD Index stars to be added to the observing list.
+        if( s->getHDIndex() != 0 )
+                finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
+    }
+    else
+         finalObjectName = translated ? o->translatedName() : o->name();
+
+    return finalObjectName;
+
 }
 
 

@@ -50,8 +50,8 @@ OpsINDI::OpsINDI( KStars *_ks )
     filterSlotCombo->setCurrentIndex(0);
     kcfg_filterAlias->setText(m_filterList[0]);
 
-    selectFITSDirB->setIcon( KIcon( "document-open" ) );
-    selectDriversDirB->setIcon( KIcon( "document-open" ) );
+    selectFITSDirB->setIcon( KIcon( "document-open-folder" ) );
+    selectDriversDirB->setIcon( KIcon( "document-open-folder" ) );
 
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));

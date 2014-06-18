@@ -16,3 +16,5 @@
 
 # Vim swapfiles
 .*.swp
+
+CMakeLists.txt.user

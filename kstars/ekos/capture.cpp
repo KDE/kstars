@@ -11,6 +11,7 @@
 #include "Options.h"
 
 #include <KMessageBox>
+#include <KFileDialog>
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
@@ -38,6 +39,13 @@ SequenceJob::SequenceJob()
     completed=0;
 }
 
+void SequenceJob::reset()
+{
+    // Reset to default values
+    activeChip->setBatchMode(false);
+    activeChip->setShowFITS(Options::showFITS());
+}
+
 void SequenceJob::abort()
 {
     status = JOB_ABORTED;
@@ -62,6 +70,8 @@ void SequenceJob::prepareCapture()
     activeChip->setBatchMode(!preview);
 
     activeChip->setShowFITS(showFITS);
+
+    activeCCD->setFITSDir(fitsDir);
 
     activeCCD->setISOMode(isoMode);
 
@@ -198,10 +208,15 @@ Capture::Capture()
     connect(queueUpB, SIGNAL(clicked()), this, SLOT(moveJobUp()));
     connect(queueDownB, SIGNAL(clicked()), this, SLOT(moveJobDown()));
 
+    connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
+
     addToQueueB->setIcon(KIcon("list-add"));
     removeFromQueueB->setIcon(KIcon("list-remove"));
     queueUpB->setIcon(KIcon("go-up"));
     queueDownB->setIcon(KIcon("go-down"));
+    selectFITSDirB->setIcon(KIcon("document-open-folder"));
+
+    fitsDir->setText(Options::fitsDir());
 
     seqExpose = 0;
     seqTotalCount = 0;
@@ -214,6 +229,7 @@ Capture::Capture()
         filterCombo->addItem(filter);
 
     displayCheck->setEnabled(Options::showFITS());
+    displayCheck->setChecked(Options::showFITS());
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
@@ -323,10 +339,17 @@ void Capture::stopSequence()
     seqTotalCount        = 0;
     seqCurrentCount      = 0;
 
-    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
-        activeJob->abort();
+    if (activeJob)
+    {
+        if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
+            activeJob->abort();
+
+        activeJob->reset();
+    }
 
     currentCCD->disconnect(this);
+
+    currentCCD->setFITSDir("");
 
     imgProgress->reset();
     imgProgress->setEnabled(false);
@@ -706,7 +729,7 @@ void Capture::resumeCapture()
 /*******************************************************************************/
 /* Update the prefix for the sequence of images to be captured                 */
 /*******************************************************************************/
-void Capture::updateSequencePrefix( const QString &newPrefix)
+void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir)
 {
     seqPrefix = newPrefix;
 
@@ -714,7 +737,7 @@ void Capture::updateSequencePrefix( const QString &newPrefix)
 
     seqCount = 1;
 
-    seqLister->openUrl(Options::fitsDir());
+    seqLister->openUrl(dir);
 
     checkSeqBoundary(seqLister->items());
 
@@ -825,6 +848,8 @@ void Capture::addJob(bool preview)
         job->setISOMode(false);
 
     job->setPreview(preview);
+
+    job->setFITSDir(fitsDir->text());
 
     job->setShowFITS(displayCheck->isChecked());
 
@@ -1057,7 +1082,7 @@ void Capture::executeJob(SequenceJob *job)
         imgProgress->setMaximum(seqTotalCount);
         imgProgress->setValue(seqCurrentCount);
 
-        updateSequencePrefix(job->getPrefix());
+        updateSequencePrefix(job->getPrefix(), job->getFITSDir());
         //job->statusCell->setText(job->statusStrings[job->status]);
     }
 
@@ -1177,6 +1202,14 @@ void Capture::syncTelescopeInfo()
 {
     if (currentTelescope && currentTelescope->isConnected())
         parkCheck->setEnabled(currentTelescope->canPark());
+}
+
+void Capture::saveFITSDirectory()
+{
+    QString dir = KFileDialog::getExistingDirectory(fitsDir->text());
+
+    if (!dir.isEmpty())
+        fitsDir->setText(dir);
 }
 
 void Capture::updateScopeCoords(INumberVectorProperty *coord)
