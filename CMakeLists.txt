@@ -84,6 +84,8 @@ add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 add_subdirectory(Tests)
 
+install(FILES kstars.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata/)
+
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
    macro_display_feature_log()
 endif (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})

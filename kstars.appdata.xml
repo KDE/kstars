@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<component type="desktop">
+  <id>kstars.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>KStars</name>
+  <summary>Desktop Planetarium</summary>
+  <description>
+    <p>KStars is a desktop planetarium application. For any location, date, and time on Earth, it provides an accurate graphical simulation of the night sky. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, access to the Astroinfo project to help facilitate learning, and Internet links for further information and pictures of objects. Amateur astronomors can use KStars to plan their observations, use the FOV Editor to calculate field of view of equipment and display them, use the ObtainAAVSO light curves for variable stars, and get hints by the &quot;What's up tonight tool&quot;. KStars integrates INDI and supports a wide range of instruments.</p>
+    <p>Astronomical Catalogs:</p>
+    <ul>
+        <li>default catalog consisting of stars to magnitude 8</li>
+        <li>extra catalogs consisting of 100 million stars to magnitude 16</li>
+        <li>downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
+        <li>corrections for precession, nutation and atmospheric refraction</li>
+        <li>tools for retrieval of data from online databases</li>
+    </ul>
+  </description>
+  <url type="homepage">http://edu.kde.org/kstars/</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kstars</url>
+  <url type="help">http://docs.kde.org/stable/en/kdeedu/kstars/index.html</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://edu.kde.org/images/screenshots/kstars.png</image>
+    </screenshot>
+  </screenshots>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>kstars</binary>
+  </provides>
+</component>
