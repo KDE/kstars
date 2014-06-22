@@ -802,7 +802,8 @@ void ObservingList::slotSaveList() {
             continue;
         }
         if ( o->name() == "star" ) {
-            ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
+            //ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
+            ostream << getObjectName(o, false) << endl;
         } else if ( o->type() == SkyObject::STAR ) {
             StarObject *s = (StarObject*)o;
             if ( s->name() == s->gname() )
@@ -829,16 +830,17 @@ void ObservingList::slotLoadWishList() {
         line = istream.readLine();
         //If the object is named "star", add it by coordinates
         SkyObject *o;
-        if ( line.startsWith( QLatin1String( "star" ) ) ) {
+        /*if ( line.startsWith( QLatin1String( "star" ) ) ) {
             QStringList fields = line.split( ' ', QString::SkipEmptyParts );
             dms ra = dms::fromString( fields[1], false ); //false = hours
             dms dc = dms::fromString( fields[2], true );  //true  = degrees
             SkyPoint p( ra, dc );
             double maxrad = 1000.0/Options::zoomFactor();
             o = ks->data()->skyComposite()->starNearest( &p, maxrad );
-        } else {
-            o = ks->data()->objectNamed( line );
         }
+        else {*/
+        o = ks->data()->objectNamed( line );
+        //}
         //If we haven't identified the object, try interpreting the
         //name as a star's genetive name (with ascii letters)
         if ( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );

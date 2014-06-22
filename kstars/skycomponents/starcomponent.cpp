@@ -496,6 +496,14 @@ bool StarComponent::loadStaticData()
 }
 
 SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
+    if (name.startsWith(QLatin1String("HD")))
+    {
+        QStringList fields = name.split( ' ', QString::SkipEmptyParts );
+        bool Ok=false;
+        unsigned int HDNum = fields[1].toInt(&Ok);
+        if (Ok)
+            return findByHDIndex(HDNum);
+    }
     return m_genName.value( name );
 }
 
