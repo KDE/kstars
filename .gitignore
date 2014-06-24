@@ -18,3 +18,7 @@
 .*.swp
 
 CMakeLists.txt.user
+
+# KDevelop 4 stuff
+kstars.kdev4
+
