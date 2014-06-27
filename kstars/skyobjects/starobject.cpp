@@ -229,7 +229,7 @@ void StarObject::setNames( QString name, QString name2 ) {
 
     setName2( name2 );
 
-    if ( hasName() ) {
+    if ( hasName() && name.startsWith("HD")==false) {
         lname = name;
         if ( hasName2() ) lname += " (" + gname() + ')';
     } else if ( hasName2() )

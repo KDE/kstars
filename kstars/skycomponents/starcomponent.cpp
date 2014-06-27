@@ -458,6 +458,8 @@ bool StarComponent::loadStaticData()
             /* Create the new StarObject */
             star = new StarObject;
             star->init( &stardata );
+            if( star->getHDIndex() != 0 && name == i18n("star"))
+                name = QString("HD %1").arg(star->getHDIndex());
             star->setNames( name, visibleName );
             star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             ++nstars;
