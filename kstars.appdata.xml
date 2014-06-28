@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KStars</name>
+  <name xml:lang="es">KStars</name>
   <name xml:lang="nds">KStars</name>
   <name xml:lang="nl">KStars</name>
   <name xml:lang="pt">KStars</name>
@@ -13,6 +14,7 @@
   <name xml:lang="uk">KStars</name>
   <name xml:lang="x-test">xxKStarsxx</name>
   <summary>Desktop Planetarium</summary>
+  <summary xml:lang="es">Planetario para el escritorio</summary>
   <summary xml:lang="nds">Planetarium för den Schriefdisch</summary>
   <summary xml:lang="nl">Planetarium op uw bureaublad</summary>
   <summary xml:lang="pt">Planetário de Ambiente de Trabalho</summary>
@@ -31,6 +33,7 @@
     <p xml:lang="uk">KStars — комп’ютерний планетарій. Точно відтворює вигляд нічного неба з будь-якого місця на Землі у будь-який день та час. Програмі відомі розташування понад 100 мільйонів зірок, 13.000 віддалених об’єктів, 8 планет, Сонця і Місяця, а також тисяч комет і Програму призначено для учнів і викладачів. У ній передбачено підтримку імітації пришвидшеного плину часу для спостереження за довготривалими явищами, Зоряний калькулятор для передбачення сполучень небесних тіл, доступ до проекту Astroinfo, який робить навчання зручнішим та посилання на дані та зображення небесних об’єктів у інтернеті. Астрономи-аматори можуть скористатися KStars для планування спостережень, спостереження за потенційним полем зору використаного ними обладнання, використати дані кривих світності AAVSO для змінних зірок та отримати підказки за допомогою інструмента «Вечірні події». KStars тісно інтегровано з бібліотеками INDI, отже у програмі передбачено можливість керування широким діапазоном астрономічних інструментів.</p>
     <p xml:lang="x-test">xxKStars is a desktop planetarium application. For any location, date, and time on Earth, it provides an accurate graphical simulation of the night sky. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, access to the Astroinfo project to help facilitate learning, and Internet links for further information and pictures of objects. Amateur astronomers can use KStars to plan their observations, use the FOV Editor to calculate field of view of equipment and display them, use the ObtainAAVSO light curves for variable stars, and get hints by the "What's up tonight tool". KStars integrates INDI and supports a wide range of instruments.xx</p>
     <p>Astronomical Catalogs:</p>
+    <p xml:lang="es">Catálogos astronómicos:</p>
     <p xml:lang="nds">Astronoomsch Katalogen:</p>
     <p xml:lang="nl">Astronomische catalogi:</p>
     <p xml:lang="pt">Catálogos Astronómicos:</p>
@@ -41,6 +44,7 @@
     <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
     <ul>
       <li>default catalog consisting of stars to magnitude 8</li>
+      <li xml:lang="es">el catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="nds">Standardkataloog mit Steerns bet Magnituud 8</li>
       <li xml:lang="nl">standaard catalogus bevat sterren tot magnitude 8</li>
       <li xml:lang="pt">catálogo predefinido que consiste nas estrelas de magnitude 8</li>
@@ -50,6 +54,7 @@
       <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
       <li xml:lang="x-test">xxdefault catalog consisting of stars to magnitude 8xx</li>
       <li>extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li xml:lang="es">los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="nds">Bito-Katalogen mit 100 Millionen Steerns bet Magnituud 16</li>
       <li xml:lang="nl">extra catalogi die 100 miljoen sterren bevatten tot magnitude 16</li>
       <li xml:lang="pt">catálogos extra que consistem em 100 milhões de estrelas até à magnitude 16</li>
@@ -59,6 +64,7 @@
       <li xml:lang="uk">додаткові каталоги з 100 мільйонами зірок до зоряної величини 16;</li>
       <li xml:lang="x-test">xxextra catalogs consisting of 100 million stars to magnitude 16xx</li>
       <li>downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
+      <li xml:lang="es">los catálogos que puede descargar contienen imágenes de objetos Messier, nebulosas planetarias Abell</li>
       <li xml:lang="nds">Daallaadbor Katalogen mit Messier-Biller un Abell sien planetaarsch Nevels</li>
       <li xml:lang="nl">te downloaden catalogi, onder andere Messier-afbeeldingen, Abell Planetaire nevels.</li>
       <li xml:lang="pt">catálogos que poderá transferir posteriormente, incluindo as imagens Messier e as Nébulas Planetárias Abell</li>
@@ -68,6 +74,7 @@
       <li xml:lang="uk">придатні до звантаження каталоги з зображеннями об’єктів каталогу Месьє та каталогу планетарних туманностей Абеля;</li>
       <li xml:lang="x-test">xxdownloadable catalogs including Messier Images, Abell Planetary Nebulaexx</li>
       <li>corrections for precession, nutation and atmospheric refraction</li>
+      <li xml:lang="es">correcciones de precesión, nutación y refracción atmosférica</li>
       <li xml:lang="nds">Richten för Küselbewegen, Eerass-Swunken un atmosfeersch Lichtbreken</li>
       <li xml:lang="nl">correcties voor precessie, nutatie en atmosferische straalbreking</li>
       <li xml:lang="pt">correcções da precessão, nutação e refracção atmosférica</li>
@@ -77,6 +84,7 @@
       <li xml:lang="uk">виправлення прецесії, нутації та атмосферної рефракції;</li>
       <li xml:lang="x-test">xxcorrections for precession, nutation and atmospheric refractionxx</li>
       <li>tools for retrieval of data from online databases</li>
+      <li xml:lang="es">herramientas de obtención de datos de bases de datos en línea</li>
       <li xml:lang="nds">Warktüüch för't Halen vun Daten ut Tokoppel-Datenbanken</li>
       <li xml:lang="nl">hulpmiddelen voor het verkrijgen van gegevens uit gegevensbanken op het internet</li>
       <li xml:lang="pt">ferramentas de obtenção de dados a partir de bases de dados 'online'</li>
