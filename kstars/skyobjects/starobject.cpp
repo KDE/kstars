@@ -17,6 +17,7 @@
 
 #include "starobject.h"
 
+#include <cmath>
 #include <QColor>
 #include <QPainter>
 #include <QFontMetricsF>
@@ -282,7 +283,7 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 
     pmms = pmMagnitudeSquared();
 
-    if( isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
+    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
         // Ignore corrections
         *ra = ra0().Degrees();
         *dec = dec0().Degrees();
