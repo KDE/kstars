@@ -75,7 +75,13 @@ class SequenceJob
     void setShowFITS(bool enable) { showFITS = enable; }
     void setPrefix(const QString &cprefix) { prefix = cprefix;}
     void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
+    int getSubX() { return x;}
+    int getSubY() { return y;}
+    int getSubW() { return w;}
+    int getSubH() { return h;}
     void setBin(int xbin, int ybin) { binX = xbin; binY=ybin;}
+    int getXBin() { return binx; }
+    int getYBin() { return biny; }
     void setDelay(int in_delay) { delay = in_delay; }
     void setCount(int in_count) { count = in_count;}
     void setImageType(int type) { imageType = type;}
@@ -175,6 +181,10 @@ public slots:
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 
+    void loadSequenceQueue();
+    void saveSequenceQueue();
+    void saveSequenceQueueAs();
+
 signals:
         void newLog();
         void exposureComplete();
@@ -185,6 +195,7 @@ signals:
 private:
 
     void executeJob(SequenceJob *job);
+    bool saveSequenceQueue(const QString &path);
 
     /* Capture */
     KDirLister          *seqLister;
@@ -220,6 +231,8 @@ private:
     INumberVectorProperty *filterSlot;
 
     QStringList logText;
+    KUrl sequenceURL;
+    bool mDirty;
 
     QProgressIndicator *pi;
 

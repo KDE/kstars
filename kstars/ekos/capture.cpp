@@ -12,6 +12,7 @@
 
 #include <KMessageBox>
 #include <KFileDialog>
+#include <lilxml.h>
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
@@ -180,6 +181,8 @@ Capture::Capture()
     isAutoFocus     = false;
     autoFocusStatus = false;
 
+    mDirty          = false;
+
     calibrationState = CALIBRATE_NONE;
 
     pi = new QProgressIndicator(this);
@@ -215,6 +218,9 @@ Capture::Capture()
     queueUpB->setIcon(KIcon("go-up"));
     queueDownB->setIcon(KIcon("go-down"));
     selectFITSDirB->setIcon(KIcon("document-open-folder"));
+    queueLoadB->setIcon(KIcon("document-open"));
+    queueSaveB->setIcon(KIcon("document-save"));
+    queueSaveAsB->setIcon(KIcon("document-save-as"));
 
     fitsDir->setText(Options::fitsDir());
 
@@ -234,7 +240,7 @@ Capture::Capture()
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
     parkCheck->setChecked(Options::autoParkTelescope());
-    meridianCheck->setChecked(Options::autoMeridianFlip());
+    //meridianCheck->setChecked(Options::autoMeridianFlip());
 }
 
 Capture::~Capture()
@@ -302,7 +308,7 @@ void Capture::startSequence()
     Options::setGuideDeviation(guideDeviation->value());
     Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
-    Options::setAutoMeridianFlip(meridianCheck->isChecked());
+    //Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoParkTelescope(parkCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
@@ -953,6 +959,13 @@ void Capture::addJob(bool preview)
 
     removeFromQueueB->setEnabled(true);
 
+    if (queueTable->rowCount() > 0)
+    {
+        queueSaveAsB->setEnabled(true);
+        queueSaveB->setEnabled(true);
+        mDirty = true;
+    }
+
     if (queueTable->rowCount() > 1)
     {
         queueUpB->setEnabled(true);
@@ -992,6 +1005,14 @@ void Capture::removeJob()
 
     queueTable->selectRow(queueTable->currentRow());
 
+    if (queueTable->rowCount() == 0)
+    {
+        queueSaveAsB->setEnabled(false);
+        queueSaveB->setEnabled(false);
+    }
+
+    mDirty = true;
+
 
 }
 
@@ -1025,6 +1046,9 @@ void Capture::moveJobUp()
     for (int i=0; i < jobs.count(); i++)
       jobs.at(i)->setStatusCell(queueTable->item(i, 0));
 
+
+    mDirty = true;
+
 }
 
 void Capture::moveJobDown()
@@ -1056,6 +1080,8 @@ void Capture::moveJobDown()
 
     for (int i=0; i < jobs.count(); i++)
         jobs.at(i)->setStatusCell(queueTable->item(i, 0));
+
+    mDirty = true;
 
 }
 
@@ -1227,6 +1253,115 @@ void Capture::updateScopeCoords(INumberVectorProperty *coord)
      * 9. Resume exposure
     */
 
+}
+
+void Capture::loadSequenceQueue()
+{
+
+}
+
+void Capture::saveSequenceQueue()
+{
+    KUrl backupCurrent = sequenceURL;
+
+    if (sequenceURL.path().contains("/tmp/"))
+        sequenceURL.clear();
+
+    // If no changes made, return.
+    if( mDirty == false && !sequenceURL.isEmpty())
+        return;
+
+    if (sequenceURL.isEmpty())
+    {
+        sequenceURL = KFileDialog::getSaveUrl( KUrl(), "*.esq |Ekos Sequence Queue");
+        // if user presses cancel
+        if (sequenceURL.isEmpty())
+        {
+            sequenceURL = backupCurrent;
+            return;
+        }
+
+        if (sequenceURL.path().contains('.') == 0)
+            sequenceURL.setPath(sequenceURL.path() + ".esq");
+
+        if (QFile::exists(sequenceURL.path()))
+        {
+            int r = KMessageBox::warningContinueCancel(0,
+                        i18n( "A file named \"%1\" already exists. "
+                              "Overwrite it?", sequenceURL.fileName() ),
+                        i18n( "Overwrite File?" ),
+                        KGuiItem(i18n( "&Overwrite" )) );
+            if(r==KMessageBox::Cancel) return;
+        }
+    }
+
+    if ( sequenceURL.isValid() )
+    {
+        if ( (saveSequenceQueue(sequenceURL.path())) == false)
+        {
+            KMessageBox::error(0, i18n("Failed to save sequence queue"), i18n("FITS Save"));
+            return;
+        }
+
+        mDirty = false;
+
+    } else
+    {
+        QString message = i18n( "Invalid URL: %1", sequenceURL.url() );
+        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+    }
+
+}
+
+void Capture::saveSequenceQueueAs()
+{
+    sequenceURL.clear();
+    saveSequenceQueue();
+}
+
+bool Capture::saveSequenceQueue(const QString &path)
+{
+    QFile file;
+
+
+    file.setFileName(path);
+
+    if ( !file.open( QIODevice::WriteOnly))
+    {
+        QString message = i18n( "Unable to write to file %1",  path);
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return;
+    }
+
+    QTextStream outstream(&file);
+
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
+    outstream << "<SequenceQueue>" << endl;
+    foreach(SequenceJob *job, jobs)
+    {
+
+         outstream << "<Job>" << endl;
+         outstream << "<Exposure>" << job->getExposure() << "</Exposure>";
+         outstream << "<Binning>" << endl;
+            outstream << "<X>"<< job->getXBin() << "</X>" << endl;
+            outstream << "<Y>"<< job->getXBin() << "</Y>" << endl;
+         outstream << "</Binning>" << endl;
+         outstream << "<Frame>" << endl;
+            outstream << "<X>" << job->getSubX() << "</X>" << endl;
+            outstream << "<Y>" << job->getSubY() << "</Y>" << endl;
+            outstream << "<W>" << job->getSubW() << "</W>" << endl;
+            outstream << "<H>" << job->getSubH() << "</H>" << endl;
+        outstream << "</Frame>" << endl;
+
+         outstream << "</Job>" << endl;
+
+
+    }
+
+    outstream << "</SequenceQueue>" << endl;
+
+    file.close();
+  return true;
 }
 
 }
