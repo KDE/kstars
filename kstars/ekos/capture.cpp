@@ -945,12 +945,7 @@ void Capture::addJob(bool preview)
 
     job->setStatusCell(status);
 
-    QTableWidgetItem *type = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
-    type->setText(frameTypeCombo->currentText());
-    type->setTextAlignment(Qt::AlignHCenter);
-    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-    QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
     if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
             frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
@@ -959,6 +954,11 @@ void Capture::addJob(bool preview)
 
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *type = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    type->setText(frameTypeCombo->currentText());
+    type->setTextAlignment(Qt::AlignHCenter);
+    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     bin->setText(QString("%1x%2").arg(binXCombo->currentIndex()+1).arg(binYCombo->currentIndex()+1));
