@@ -196,6 +196,8 @@ public slots:
     void saveSequenceQueueAs();
 
     void resetJobs();
+    void editJob(QModelIndex i);
+    void resetJobEdit();
 
 signals:
         void newLog();
@@ -208,7 +210,8 @@ private:
 
     void executeJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);
-    bool saveSequenceQueue(const QString &path);    
+    bool saveSequenceQueue(const QString &path);
+    void constructPrefix(QString &imagePrefix);
 
     /* Capture */
     KDirLister          *seqLister;
@@ -246,6 +249,7 @@ private:
     QStringList logText;
     KUrl sequenceURL;
     bool mDirty;
+    bool jobUnderEdit;
 
     QProgressIndicator *pi;
 

@@ -205,6 +205,7 @@ Capture::Capture()
     autoFocusStatus = false;
 
     mDirty          = false;
+    jobUnderEdit    = false;
 
     calibrationState = CALIBRATE_NONE;
 
@@ -237,6 +238,8 @@ Capture::Capture()
     connect(queueSaveAsB, SIGNAL(clicked()), this, SLOT(saveSequenceQueueAs()));
     connect(queueLoadB, SIGNAL(clicked()), this, SLOT(loadSequenceQueue()));
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetJobs()));
+    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
+    connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     addToQueueB->setIcon(KIcon("list-add"));
     removeFromQueueB->setIcon(KIcon("list-remove"));
@@ -862,7 +865,6 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
 void Capture::addJob(bool preview)
 {
-
     SequenceJob *job = NULL;
     QString imagePrefix;
 
@@ -872,7 +874,16 @@ void Capture::addJob(bool preview)
         return;
     }
 
-    job = new SequenceJob();
+    if (jobUnderEdit)
+        job = jobs.at(queueTable->currentRow());
+    else
+        job = new SequenceJob();
+
+    if (job == NULL)
+    {
+        kWarning() << "Job is NULL!" << endl;
+        return;
+    }
 
     if (ISOCheck->isChecked())
         job->setISOMode(true);
@@ -887,29 +898,7 @@ void Capture::addJob(bool preview)
 
     imagePrefix = prefixIN->text();
 
-    if (frameTypeCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false)
-            imagePrefix += '_';
-
-        imagePrefix += frameTypeCombo->currentText();
-    }
-    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
-            frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
-                        frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
-    {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
-
-        imagePrefix += FilterPosCombo->currentText();
-    }
-    if (expDurationCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
-
-        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
-    }
+    constructPrefix(imagePrefix);
 
     job->setPrefixSettings(prefixIN->text(), frameTypeCheck->isChecked(), filterCheck->isChecked(), expDurationCheck->isChecked());
     job->setFrameType(frameTypeCombo->currentIndex(), frameTypeCombo->currentText());
@@ -932,28 +921,37 @@ void Capture::addJob(bool preview)
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
-    jobs.append(job);
+    if (jobUnderEdit == false)
+        jobs.append(job);
 
     // Nothing more to do if preview
     if (preview)
         return;
 
-    int currentRow = queueTable->rowCount();
+    int currentRow = 0;
+    if (jobUnderEdit == false)
+    {
 
-    queueTable->insertRow(currentRow);
+        currentRow = queueTable->rowCount();
+        queueTable->insertRow(currentRow);
+    }
+    else
+        currentRow = queueTable->currentRow();
 
-    QTableWidgetItem *status = new QTableWidgetItem(job->getStatusString());
+    QTableWidgetItem *status = jobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
+    status->setText(job->getStatusString());
     status->setTextAlignment(Qt::AlignHCenter);
     status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     job->setStatusCell(status);
 
-    QTableWidgetItem *type = new QTableWidgetItem(frameTypeCombo->currentText());
-
+    QTableWidgetItem *type = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
+    type->setText(frameTypeCombo->currentText());
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *filter = new QTableWidgetItem("--");
+    QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    filter->setText("--");
     if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
             frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
             FilterPosCombo->count() > 0)
@@ -962,27 +960,30 @@ void Capture::addJob(bool preview)
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *bin = new QTableWidgetItem(QString("%1x%2").arg(binXCombo->currentIndex()+1).arg(binYCombo->currentIndex()+1));
-
+    QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
+    bin->setText(QString("%1x%2").arg(binXCombo->currentIndex()+1).arg(binYCombo->currentIndex()+1));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *exp = new QTableWidgetItem(QString::number(exposureIN->value()));
-
+    QTableWidgetItem *exp = jobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    exp->setText(QString::number(exposureIN->value()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *count = new QTableWidgetItem(QString::number(countIN->value()));
-
+    QTableWidgetItem *count = jobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    count->setText(QString::number(countIN->value()));
     count->setTextAlignment(Qt::AlignHCenter);
     count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    queueTable->setItem(currentRow, 0, status);
-    queueTable->setItem(currentRow, 1, filter);
-    queueTable->setItem(currentRow, 2, type);
-    queueTable->setItem(currentRow, 3, bin);
-    queueTable->setItem(currentRow, 4, exp);
-    queueTable->setItem(currentRow, 5, count);
+    if (jobUnderEdit == false)
+    {
+        queueTable->setItem(currentRow, 0, status);
+        queueTable->setItem(currentRow, 1, filter);
+        queueTable->setItem(currentRow, 2, type);
+        queueTable->setItem(currentRow, 3, bin);
+        queueTable->setItem(currentRow, 4, exp);
+        queueTable->setItem(currentRow, 5, count);
+    }
 
     removeFromQueueB->setEnabled(true);
 
@@ -998,6 +999,13 @@ void Capture::addJob(bool preview)
     {
         queueUpB->setEnabled(true);
         queueDownB->setEnabled(true);
+    }
+
+    if (jobUnderEdit)
+    {
+        jobUnderEdit = false;
+        resetJobEdit();
+        appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
     }
 
 }
@@ -1309,8 +1317,7 @@ void Capture::loadSequenceQueue()
     //QTextStream instream(&sFile);
 
     qDeleteAll(jobs);
-    for (int i=0; i < queueTable->rowCount(); i++)
-        queueTable->removeRow(i);
+    queueTable->clearContents();
 
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
@@ -1561,6 +1568,7 @@ bool Capture::saveSequenceQueue(const QString &path)
 
     outstream << "</SequenceQueue>" << endl;
 
+    appendLogText(i18n("Sequence queue saved to %1", path));
     file.close();
    return true;
 }
@@ -1576,6 +1584,79 @@ void Capture::resetJobs()
 
     foreach(SequenceJob *job, jobs)
         job->resetStatus();
+}
+
+void Capture::editJob(QModelIndex i)
+{
+    SequenceJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;
+    QString rawPrefix;
+    bool typeEnabled, filterEnabled, expEnabled;
+
+     job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
+
+   exposureIN->setValue(job->getExposure());
+   binXCombo->setCurrentIndex(job->getXBin()-1);
+   binYCombo->setCurrentIndex(job->getYBin()-1);
+   frameXIN->setValue(job->getSubX());
+   frameYIN->setValue(job->getSubY());
+   frameWIN->setValue(job->getSubW());
+   frameHIN->setValue(job->getSubH());
+   FilterPosCombo->setCurrentIndex(job->getFilterPos()-1);
+   frameTypeCombo->setCurrentIndex(job->getFrameType());
+   prefixIN->setText(rawPrefix);
+   frameTypeCheck->setChecked(typeEnabled);
+   filterCheck->setChecked(filterEnabled);
+   expDurationCheck->setChecked(expEnabled);
+   countIN->setValue(job->getCount());
+   delayIN->setValue(job->getDelay()/1000);
+   fitsDir->setText(job->getFITSDir());
+   ISOCheck->setChecked(job->getISOMode());
+   displayCheck->setChecked(job->isShowFITS());
+
+   appendLogText(i18n("Editing job #%1...", i.row()+1));
+
+   addToQueueB->setIcon(KIcon("svn-update"));
+
+   jobUnderEdit = true;
+
+}
+
+void Capture::resetJobEdit()
+{
+   if (jobUnderEdit)
+       appendLogText(i18n("Editing job canceled."));
+
+   jobUnderEdit = false;
+   addToQueueB->setIcon(KIcon("list-add"));
+}
+
+void Capture::constructPrefix(QString &imagePrefix)
+{
+    if (frameTypeCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false)
+            imagePrefix += '_';
+
+        imagePrefix += frameTypeCombo->currentText();
+    }
+    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
+            frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
+                        frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += '_';
+
+        imagePrefix += FilterPosCombo->currentText();
+    }
+    if (expDurationCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += '_';
+
+        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
+    }
 }
 
 }
