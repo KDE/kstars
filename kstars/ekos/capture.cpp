@@ -1301,7 +1301,7 @@ void Capture::loadSequenceQueue()
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
-        QString message = i18n( "Unable to open  file %1",  fileURL.path());
+        QString message = i18n( "Unable to open file %1",  fileURL.path());
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return;
     }
