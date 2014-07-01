@@ -246,6 +246,9 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             indi_sp.EquatorialToHorizontal( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
 
 
+        if (std::isnan(indi_sp.ra().Degrees() || std::isnan(indi_sp.dec().Degrees())))
+            continue;
+
         QPointF P = m_SkyMap->m_proj->toScreen( &indi_sp );
         if ( Options::useAntialias() )
         {
