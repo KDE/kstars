@@ -70,6 +70,7 @@ private slots:
     void slotRunClock();
     void slotToday();
     void slotCloseWindow();
+    void slotAstroidsVisibilityChanged();
 
 private:
     void updatePlanets();
@@ -79,13 +80,16 @@ private:
     double scale;
     bool isClockRunning;
     QTimer tmr;
-    int UpdateInterval[9], LastUpdate[9];
+    int astroidsVisibility, UpdateInterval[9], LastUpdate[9];
     QString CenterPlanet;
 
     QList<KSPlanetBase*> PlanetList;
+    QList<KSPlanetBase*> AstroidList;
+    QList<KSPlanetBase*> visibleAstroidList;
 
     KPlotObject *ksun;
     KPlotObject *planet[9];
+    QList<KPlotObject*> astroid;
 };
 
 #endif

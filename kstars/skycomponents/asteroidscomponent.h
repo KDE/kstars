@@ -20,6 +20,7 @@
 
 #include "solarsystemlistcomponent.h"
 #include "datahandlers/ksparser.h"
+#include "ksplanetbase.h"
 #include <QList>
 #include "typedef.h"
 
@@ -38,13 +39,21 @@ public:
     explicit AsteroidsComponent(SolarSystemComposite *parent);
 
     virtual ~AsteroidsComponent();
+
     virtual void draw( SkyPainter *skyp );
+
     virtual bool selected();
+
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+
     void updateDataFile();
+
+    QList<KSPlanetBase*> astroids(){ return AstroidList; }
+
     QString ans();
 private:
     void loadData();
+    QList<KSPlanetBase*> AstroidList;
 };
 
 #endif

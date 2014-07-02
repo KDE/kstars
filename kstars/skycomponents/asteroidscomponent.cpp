@@ -167,6 +167,9 @@ void AsteroidsComponent::loadData() {
         new_asteroid->setAngularSize(0.005);
         m_ObjectList.append(new_asteroid);
 
+        //this list will be used in planetviewer
+        AstroidList.append(new_asteroid);
+
         // Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append(name);
     }

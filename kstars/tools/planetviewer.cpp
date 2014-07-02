@@ -41,6 +41,9 @@
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/kspluto.h"
+#include "skymapcomposite.h"
+#include "solarsystemcomposite.h"
+#include "asteroidscomponent.h"
 #include "dms.h"
 #include "widgets/timestepbox.h"
 
@@ -49,7 +52,7 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 }
 
 PlanetViewer::PlanetViewer(QWidget *parent)
-        : KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this)
+    : KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this), astroidsVisibility(9)
 {
     KStarsData *data = KStarsData::Instance();
     pw = new PlanetViewerUI( this );
@@ -114,6 +117,10 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     connect( pw->DateBox,       SIGNAL( dateChanged(const QDate&) ), SLOT( slotChangeDate() ) );
     connect( pw->TodayButton,   SIGNAL( clicked() ), SLOT( slotToday() ) );
     connect( this,              SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
+    connect( pw->AstroidsVisibilitySlider, SIGNAL( sliderReleased () ), SLOT( slotAstroidsVisibilityChanged() ) );
+
+    AstroidList = data->skyComposite()->solarSystemComposite()->asteroidsComponent()->astroids();
+
 }
 
 PlanetViewer::~PlanetViewer()
@@ -166,7 +173,6 @@ void PlanetViewer::slotCloseWindow() {
 
 void PlanetViewer::updatePlanets() {
     KSNumbers num( ut.djd() );
-    bool changed(false);
 
     //Check each planet to see if it needs to be updated
     for ( unsigned int i=0; i<9; ++i ) {
@@ -192,11 +198,33 @@ void PlanetViewer::updatePlanets() {
             }
 
             LastUpdate[i] = int(ut.date().toJulianDay());
-            changed = true;
         }
     }
 
-    if ( changed ) pw->map->update();
+    //Update Astroids
+    for ( unsigned int i=0; i < visibleAstroidList.length() ; ++i ) {
+        KSPlanetBase *a = visibleAstroidList[i];
+        a->findPosition( &num );
+
+        double s, c, s2, c2;
+        a->helEcLong().SinCos( s, c );
+        a->helEcLat().SinCos( s2, c2 );
+        QList<KPlotPoint*> points = astroid[i]->points();
+        points.at(0)->setX( a->rsun()*c*c2 );
+        points.at(0)->setY( a->rsun()*s*c2 );
+
+        if ( centerPlanet() == a->name() ) {
+            QRectF dataRect = pw->map->dataRect();
+            double xc = (dataRect.right() + dataRect.left())*0.5;
+            double yc = (dataRect.bottom() + dataRect.top())*0.5;
+            double dx = points.at(0)->x() - xc;
+            double dy = points.at(0)->y() - yc;
+            pw->map->setLimits( dataRect.x() + dx, dataRect.right() + dx,
+                                dataRect.y() + dy, dataRect.bottom() + dy );
+        }
+    }
+
+    pw->map->update();
 }
 
 void PlanetViewer::slotToday() {
@@ -208,6 +236,8 @@ void PlanetViewer::paintEvent( QPaintEvent* ) {
 }
 
 void PlanetViewer::initPlotObjects() {
+    //pw->map->removeAllPlotObjects();
+
     // Planets
     ksun = new KPlotObject( Qt::yellow, KPlotObject::Points, 12, KPlotObject::Circle );
     ksun->addPoint( 0.0, 0.0 );
@@ -249,7 +279,33 @@ void PlanetViewer::initPlotObjects() {
         pw->map->addPlotObject( planet[i] );
     }
 
+    visibleAstroidList.clear();
+    for ( unsigned int i=0; i < AstroidList.length(); i++){
+        if( AstroidList[i]->mag() < astroidsVisibility)
+        {
+            visibleAstroidList.append( AstroidList[i] );
+        }
+    }
+
+    for ( unsigned int i=0; i < visibleAstroidList.length(); ++i ) {
+        KSPlanetBase *a = visibleAstroidList[i];
+        astroid.append( new KPlotObject( a->color(), KPlotObject::Points, 3, KPlotObject::Circle ) );
+
+        double s, c;
+        a->helEcLong().SinCos( s, c );
+
+        astroid[i]->addPoint( a->rsun()*c, a->rsun()*s, a->translatedName() );
+        pw->map->addPlotObject( astroid[i] );
+    }
+
     update();
+}
+
+void PlanetViewer::slotAstroidsVisibilityChanged(){
+    if( astroidsVisibility != pw->AstroidsVisibilitySlider->value() ){
+        astroidsVisibility = pw->AstroidsVisibilitySlider->value();
+        initPlotObjects();
+    }
 }
 
 void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
