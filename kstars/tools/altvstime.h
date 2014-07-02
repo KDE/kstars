@@ -102,6 +102,11 @@ public:
      */
     double findAltitude( SkyPoint *p, double hour );
 
+    /**@short get object name. If star has no name, generate a name based on catalog number.
+     * @param translated set to true if the translated name is required.
+     */
+    QString getObjectName(const SkyObject *o, bool translated=true);
+
 public slots:
     /**@short Update the plot to reflec new Date and Location settings. */
     void slotUpdateDateLoc();
