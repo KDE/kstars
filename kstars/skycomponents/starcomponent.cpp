@@ -80,7 +80,7 @@ StarComponent::StarComponent(SkyComposite *parent )
 }
 
 StarComponent::~StarComponent() {
-    // Empty
+    qDeleteAll(m_HDHash.values());
 }
 
 StarComponent *StarComponent::Create( SkyComposite *parent ) {
@@ -565,7 +565,8 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         m_starObject.init( &stardata );
         m_starObject.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         m_starObject.JITupdate();
-        focusStar = &m_starObject;
+        focusStar = m_starObject.clone();
+        m_HDHash.insert(HDnum, focusStar);
         hdidxReader.closeFile();
         return focusStar;
     }
