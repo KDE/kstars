@@ -52,7 +52,7 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 }
 
 PlanetViewer::PlanetViewer(QWidget *parent)
-    : KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this), astroidsVisibility(9)
+    : KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this), astroidsVisibility(8.0)
 {
     KStarsData *data = KStarsData::Instance();
     pw = new PlanetViewerUI( this );
@@ -117,7 +117,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     connect( pw->DateBox,       SIGNAL( dateChanged(const QDate&) ), SLOT( slotChangeDate() ) );
     connect( pw->TodayButton,   SIGNAL( clicked() ), SLOT( slotToday() ) );
     connect( this,              SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
-    connect( pw->AstroidsVisibilitySlider, SIGNAL( sliderReleased () ), SLOT( slotAstroidsVisibilityChanged() ) );
+    connect( pw->AstroidsVisibilityBox, SIGNAL( valueChanged ( double ) ), SLOT( slotAstroidsVisibilityChanged() ) );
 
     AstroidList = data->skyComposite()->solarSystemComposite()->asteroidsComponent()->astroids();
 
@@ -202,7 +202,7 @@ void PlanetViewer::updatePlanets() {
     }
 
     //Update Astroids
-    for ( unsigned int i=0; i < visibleAstroidList.length() ; ++i ) {
+    for ( int i=0; i < visibleAstroidList.length() ; ++i ) {
         KSPlanetBase *a = visibleAstroidList[i];
         a->findPosition( &num );
 
@@ -236,7 +236,7 @@ void PlanetViewer::paintEvent( QPaintEvent* ) {
 }
 
 void PlanetViewer::initPlotObjects() {
-    //pw->map->removeAllPlotObjects();
+    pw->map->resetPlot();
 
     // Planets
     ksun = new KPlotObject( Qt::yellow, KPlotObject::Points, 12, KPlotObject::Circle );
@@ -280,14 +280,15 @@ void PlanetViewer::initPlotObjects() {
     }
 
     visibleAstroidList.clear();
-    for ( unsigned int i=0; i < AstroidList.length(); i++){
-        if( AstroidList[i]->mag() < astroidsVisibility)
+    for ( int i=0; i < AstroidList.length(); i++){
+        if( AstroidList[i]->mag() > astroidsVisibility && AstroidList[i]->mag() < astroidsVisibility + 0.20)
         {
             visibleAstroidList.append( AstroidList[i] );
         }
     }
 
-    for ( unsigned int i=0; i < visibleAstroidList.length(); ++i ) {
+    astroid.clear();
+    for ( int i=0; i < visibleAstroidList.length(); ++i ) {
         KSPlanetBase *a = visibleAstroidList[i];
         astroid.append( new KPlotObject( a->color(), KPlotObject::Points, 3, KPlotObject::Circle ) );
 
@@ -302,8 +303,8 @@ void PlanetViewer::initPlotObjects() {
 }
 
 void PlanetViewer::slotAstroidsVisibilityChanged(){
-    if( astroidsVisibility != pw->AstroidsVisibilitySlider->value() ){
-        astroidsVisibility = pw->AstroidsVisibilitySlider->value();
+    if( astroidsVisibility != pw->AstroidsVisibilityBox->value() ){
+        astroidsVisibility = pw->AstroidsVisibilityBox->value();
         initPlotObjects();
     }
 }

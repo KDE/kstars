@@ -77,10 +77,10 @@ private:
 
     PlanetViewerUI *pw;
     KStarsDateTime ut;
-    double scale;
+    double scale,astroidsVisibility;
     bool isClockRunning;
     QTimer tmr;
-    int astroidsVisibility, UpdateInterval[9], LastUpdate[9];
+    int UpdateInterval[9], LastUpdate[9];
     QString CenterPlanet;
 
     QList<KSPlanetBase*> PlanetList;
