@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KStars</name>
+  <name xml:lang="cs">KStars</name>
   <name xml:lang="es">KStars</name>
   <name xml:lang="nds">KStars</name>
   <name xml:lang="nl">KStars</name>
