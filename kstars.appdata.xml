@@ -6,6 +6,7 @@
   <name>KStars</name>
   <name xml:lang="cs">KStars</name>
   <name xml:lang="es">KStars</name>
+  <name xml:lang="lt">KStars</name>
   <name xml:lang="nds">KStars</name>
   <name xml:lang="nl">KStars</name>
   <name xml:lang="pl">KStars</name>
@@ -18,6 +19,7 @@
   <name xml:lang="x-test">xxKStarsxx</name>
   <summary>Desktop Planetarium</summary>
   <summary xml:lang="es">Planetario para el escritorio</summary>
+  <summary xml:lang="lt">Darbastalio planetariumas</summary>
   <summary xml:lang="nds">Planetarium för den Schriefdisch</summary>
   <summary xml:lang="nl">Planetarium op uw bureaublad</summary>
   <summary xml:lang="pl">Planetarium na pulpicie</summary>
