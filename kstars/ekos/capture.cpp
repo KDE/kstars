@@ -16,6 +16,7 @@
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
+#include "indi/clientmanager.h"
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
 
@@ -1264,7 +1265,21 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 void Capture::syncTelescopeInfo()
 {
     if (currentTelescope && currentTelescope->isConnected())
+    {
         parkCheck->setEnabled(currentTelescope->canPark());
+
+        ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+        if (activeDevices)
+        {
+            IText *activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
+            if (activeTelescope)
+            {
+                IUSaveText(activeTelescope, currentTelescope->getDeviceName());
+
+                currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+            }
+        }
+    }
 }
 
 void Capture::saveFITSDirectory()
