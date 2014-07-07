@@ -142,6 +142,11 @@
       <whatsthis>Toggle automatic display of FITS files upon capture.</whatsthis>
       <default>true</default>
     </entry>
+    <entry name="singlePreviewFITS" type="Bool">
+      <label>Preview FITS in a single tab?</label>
+      <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="telescopePort" type="String">
       <label>INDI Telescope port</label>
       <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>

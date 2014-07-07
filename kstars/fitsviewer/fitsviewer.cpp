@@ -221,7 +221,7 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
     switch (mode)
     {
       case FITS_NORMAL:
-        fitsTab->addTab(tab, imageName->fileName());
+        fitsTab->addTab(tab, Options::singlePreviewFITS() ? i18n("Preview") : imageName->fileName());
         break;
 
        case FITS_CALIBRATE:
@@ -267,13 +267,28 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
+
+    if (tab == NULL)
+        return false;
+
     bool rc=false;
 
     if (tab->isVisible())
         led->setColor(Qt::yellow);
 
     if (tab)
+    {
         rc = tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
+
+        int tabIndex = fitsTab->indexOf(tab);
+        if (tabIndex != -1 && tab->getImage()->getMode() == FITS_NORMAL)
+        {
+            if (imageName->path().startsWith("/tmp") && Options::singlePreviewFITS())
+                fitsTab->setTabText(tabIndex,i18n("Preview"));
+            else
+                fitsTab->setTabText(tabIndex, imageName->fileName());
+        }
+    }
 
     if (tab->isVisible())
     {
