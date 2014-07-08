@@ -367,7 +367,7 @@ public:
      **/
     dms angularDistanceTo(const SkyPoint *sp, double * const positionAngle = 0) const;
 
-    inline bool operator == ( SkyPoint &p ) const { return ( ra() == p.ra() && dec() == p.dec() ); }
+    inline bool operator == ( SkyPoint const &p ) const { return ( ra() == p.ra() && dec() == p.dec() ); }
 
     /** Computes the velocity of the Sun projected on the direction of the source.
      *

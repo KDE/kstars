@@ -5,27 +5,27 @@ Rectangle
 	width: 210
 	height: 400
 
-	ListModel
-	{
-		id: guidesModel
-
-		ListElement
-		{
-			name: "Jupiter Tempests"
-			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_the_big/"
-		}
-		
-		ListElement {
-			name: "Jupiter the Big"
-			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_documentary/"
-		}
-		
-		ListElement
-		{
-			name: "Jupiter Eye"
-			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_the_big/"
-		}
-	}
+// 	ListModel
+// 	{
+// 		id: guidesModel
+// 
+// 		ListElement
+// 		{
+// 			name: "Jupiter Tempests"
+// 			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_the_big/"
+// 		}
+// 		
+// 		ListElement {
+// 			name: "Jupiter the Big"
+// 			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_documentary/"
+// 		}
+// 		
+// 		ListElement
+// 		{
+// 			name: "Jupiter Eye"
+// 			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_the_big/"
+// 		}
+// 	}
 
 	ListView
 	{
@@ -54,7 +54,7 @@ Rectangle
 					anchors.left: parent.left
 					anchors.margins: 6
 					id: titleText
-					text: name
+					text: title
 					font.bold: true
 				}
 				
@@ -69,7 +69,6 @@ Rectangle
 				
 				MouseArea
 				{
-					
 					onClicked: console.log("button clicked")
 				}
 			}

@@ -68,6 +68,7 @@
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
 #include "fov.h"
+#include "skyguides/skyguideslistview.h"
 
 #include "tools/flagmanager.h"
 
@@ -147,7 +148,8 @@ SkyMap::SkyMap() :
     computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
     ClickedObject(0), FocusObject(0), m_proj(0),
-    m_previewLegend(false), m_objPointingMode(false)
+    m_previewLegend(false), m_objPointingMode(false),
+    mSkyGuidesListModel()
 {
     m_Scale = 1.0;
 
@@ -490,6 +492,18 @@ void SkyMap::slotSDSS() {
                                            this );
         iv->show();
     }
+}
+
+void SkyMap::slotShowSkyGuides()
+{
+	SkyObject * obj = clickedObject(); 
+	if (obj && obj->hasName())
+	{
+// 		obj->name();
+// 		obj->translatedName();
+		SkyGuidesListView * skg = new SkyGuidesListView(mSkyGuidesListModel, this);
+		skg->show();
+	}
 }
 
 void SkyMap::slotBeginAngularDistance() {

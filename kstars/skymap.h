@@ -29,6 +29,8 @@
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
 
+#include "skyguides/skyguideslistmodel.h"
+
 #include "skymapdrawabstract.h"
 #include "skymapqdraw.h"
 #include "printing/legend.h"
@@ -292,6 +294,8 @@ class SkyMap : public QGraphicsView {
 
     SkyPoint getCenterPoint();
 
+	inline SkyGuidesListModel & getSkyGuidesListModel() { return mSkyGuidesListModel; };
+
 public slots:
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
@@ -344,6 +348,9 @@ public slots:
      * @note the URL is generated using the coordinates of ClickedPoint.
      */
     void slotSDSS();
+
+	/**@short Popup menu function: Show available skyguides for CLickedObject */
+	void slotShowSkyGuides();
 
     /**@short Popup menu function: Show webpage about ClickedObject
      * (only available for some objects).
@@ -652,7 +659,8 @@ private:
     QGraphicsScene *m_Scene;
 
     static SkyMap* pinstance;
-
+	
+	SkyGuidesListModel mSkyGuidesListModel;
 };
 
 #endif

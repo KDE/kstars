@@ -34,6 +34,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
 #include "skymap.h"
+#include "skyguides/skyguideslistmodel.h"
 
 #include <config-kstars.h>
 
@@ -342,6 +343,13 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 #endif
     addSeparator();
     addINDI();
+
+	addSeparator();
+	SkyMap * skm = ks->map();
+	SkyGuidesListModel & skg = skm->getSkyGuidesListModel();
+	skg.updateSkyObject(skm->clickedObject());
+	if (! skg.isEmpty())
+		addAction( i18n( "Show Guides" ), skm, SLOT(slotShowSkyGuides()) );
 }
 
 void KSPopupMenu::initFlagActions( SkyObject *obj ) {
