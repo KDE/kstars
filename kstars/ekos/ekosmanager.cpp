@@ -535,7 +535,7 @@ void EkosManager::checkINDITimeout()
         return;
 
     if (nDevices != 0)
-        KMessageBox::error(this, i18np("Unable to completely establish remote devices. %1 device remaining.", "Unable to completely establish remote devices. %1 devices remaining.", nDevices));
+        KMessageBox::error(this, i18np("Unable to completely establish remote devices. %1 device remaining. Please ensure remote device name corresponds to actual device name.", "Unable to completely establish remote devices. %1 devices remaining. Please ensure remote device name corresponds to actual device name.", nDevices));
 }
 
 void EkosManager::refreshRemoteDrivers()
