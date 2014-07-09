@@ -28,7 +28,7 @@ class SkyObject;
   * \brief Access Sky Guides data.
   * \author Gioacchino Mazzurco
   */
-class SkyGuidesListModel : public QList<QObject*>
+class SkyGuidesListModel
 {
 public:
 	/**
@@ -58,10 +58,24 @@ public:
 	 */
 	void updateSkyObject(const SkyObject * obj);
 
+	/**
+	 * \return number of guides in datamodel
+	 */
+	inline uint count() { return mData.count(); };
+
+	/**
+	 * \return true if the datamodel is empty
+	 */
+	inline uint empty() { return mData.empty(); };
+
+	/**
+	 * \return List of guides in datamodel
+	 */
+	inline QList<QObject*> const & data() const { return mData; };
+
 private:
 	SkyObject * actualSkyObject;
+	QList<QObject*> mData;
 };
-
-Q_DECLARE_METATYPE(SkyGuidesListModel)
 
 #endif // SKYGUIDESLISTMODEL_H

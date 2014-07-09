@@ -19,6 +19,7 @@
 #include <QDebug>
 #include <QString>
 #include <QStringList>
+#include <QtAlgorithms>
 
 #include <kstandarddirs.h>
 
@@ -28,21 +29,21 @@
 
 
 SkyGuidesListModel::SkyGuidesListModel(const SkyObject * obj) :
-	QList<QObject*>(),
+	mData(),
 	actualSkyObject(NULL)
 {
 	updateSkyObject(obj);
 }
 
 SkyGuidesListModel::SkyGuidesListModel(const SkyGuidesListModel & skglm) :
-	QList<QObject*>(skglm),
+	mData(skglm.mData),
 	actualSkyObject(NULL)
 {
 	updateSkyObject(skglm.actualSkyObject);
 };
 
 SkyGuidesListModel::SkyGuidesListModel() :
-	QList<QObject*>(),
+	mData(),
 	actualSkyObject(NULL)
 {};
 
@@ -58,10 +59,13 @@ void SkyGuidesListModel::updateSkyObject(const SkyObject * obj)
 
 		qDebug() << "SkyGuidesListModel::SkyGuidesListModel( " << obj->name() << " ) found " << guidesPaths.count() << " guides." ;
 
+		qDeleteAll(mData);
+		mData.clear();
+
 		foreach( QString path, guidesPaths )
 		{
 			path.chop(10);
-			this->append(new SkyGuideData("Jupiter", path));
+			mData.append(new SkyGuideData("Jupiter", path));
 			qDebug() << path;
 		}
 

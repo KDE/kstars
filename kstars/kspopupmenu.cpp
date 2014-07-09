@@ -348,7 +348,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 	SkyMap * skm = ks->map();
 	SkyGuidesListModel & skg = skm->getSkyGuidesListModel();
 	skg.updateSkyObject(skm->clickedObject());
-	if (! skg.isEmpty())
+	if (! skg.empty())
 		addAction( i18n( "Show Guides" ), skm, SLOT(slotShowSkyGuides()) );
 }
 

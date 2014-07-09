@@ -36,8 +36,9 @@ SkyGuidesListView::SkyGuidesListView(const SkyGuidesListModel & guidesModel, QWi
 	kd.initialize();
 	kd.setupBindings();
 
+	mBaseView.rootContext()->setContextProperty( "guidesModel", QVariant::fromValue(guidesModel.data()) );
+
 	QString qmlpath = KStandardDirs::locate("appdata","skyguides/qml/GuidesListView.qml");
-	mBaseView.rootContext()->setContextProperty( "guidesModel", QVariant::fromValue(guidesModel) );
 	mBaseView.setSource(qmlpath);
 	mBaseView.setResizeMode(QDeclarativeView::SizeRootObjectToView);
 }
