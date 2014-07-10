@@ -44,6 +44,7 @@
 #include "kstarsadaptor.h"
 
 #include <config-kstars.h>
+#include <KSharedConfig>
 
 #ifdef HAVE_INDI_H
 //#include "indi/indimenu.h"
@@ -202,8 +203,8 @@ void KStars::applyConfig( bool doApplyFocus ) {
     QApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
 
     //Set toolbar options from config file
-    toolBar("kstarsToolBar")->applySettings( KGlobal::config()->group( "MainToolBar" ) );
-    toolBar( "viewToolBar" )->applySettings( KGlobal::config()->group( "ViewToolBar" ) );
+    toolBar("kstarsToolBar")->applySettings( KSharedConfig::openConfig()->group( "MainToolBar" ) );
+    toolBar( "viewToolBar" )->applySettings( KSharedConfig::openConfig()->group( "ViewToolBar" ) );
 
     //Geographic location
     data()->setLocationFromOptions();

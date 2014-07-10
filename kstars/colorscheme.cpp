@@ -26,6 +26,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
 
 #include "ksutils.h"
 #include "Options.h"
@@ -123,7 +124,7 @@ void ColorScheme::setColor( const QString &key, const QString &color ) {
     //We can blindly insert() the new value; if the key exists, the old value is replaced
     Palette.insert( key, color );
 
-    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    KConfigGroup cg = KSharedConfig::openConfig()->group( "Colors" );
     cg.writeEntry( key, color );
 }
 
@@ -264,7 +265,7 @@ bool ColorScheme::save( const QString &name ) {
 }
 
 void ColorScheme::loadFromConfig() {
-    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    KConfigGroup cg = KSharedConfig::openConfig()->group( "Colors" );
 
     for ( int i=0; i < KeyName.size(); ++i )
         setColor( KeyName.at(i), cg.readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
@@ -275,7 +276,7 @@ void ColorScheme::loadFromConfig() {
 }
 
 void ColorScheme::saveToConfig() {
-    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    KConfigGroup cg = KSharedConfig::openConfig()->group( "Colors" );
     for ( int i=0; i < KeyName.size(); ++i ) {
         QString c = colorNamed( KeyName.at(i) ).name();
         cg.writeEntry( KeyName.at(i), c );

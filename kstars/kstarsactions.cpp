@@ -91,6 +91,7 @@
 #include "imageexporter.h"
 
 #include <config-kstars.h>
+#include <KSharedConfig>
 
 #ifdef HAVE_INDI_H
 #include "indi/telescopewizardprocess.h"
@@ -1162,7 +1163,7 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
     connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
     colorActionMenu->addAction( kta );
 
-    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    KConfigGroup cg = KSharedConfig::openConfig()->group( "Colors" );
     if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "moonless-night.colors" ).remove( ".colors" ) ) {
         kta->setChecked( true );
     }
