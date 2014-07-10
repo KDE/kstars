@@ -28,7 +28,7 @@
 #include <KMenu>
 #include <KMessageBox>
 #include <KPushButton>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KProcess>
 #include <QAction>
 #include <KActionCollection>

@@ -33,7 +33,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="SearchBox">
+      <widget class="QLineEdit" name="SearchBox">
        <property name="showClearButton" stdset="0">
         <bool>true</bool>
        </property>
@@ -73,7 +73,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

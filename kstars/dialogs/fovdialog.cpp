@@ -46,7 +46,7 @@ int FOVDialog::fovID = -1;
 
 namespace {
     // Try to convert text in KLine edit to double
-    inline double textToDouble(const KLineEdit* edit, bool* ok = 0)
+    inline double textToDouble(const QLineEdit* edit, bool* ok = 0)
     {
         return edit->text().replace( KLocale::global()->decimalSymbol(), "." ).toDouble(ok);
     }

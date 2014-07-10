@@ -67,13 +67,13 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="KLineEdit" name="nameIN" />
+        <widget class="QLineEdit" name="nameIN" />
        </item>
        <item>
-        <widget class="KLineEdit" name="hostname" />
+        <widget class="QLineEdit" name="hostname" />
        </item>
        <item>
-        <widget class="KLineEdit" name="portnumber" />
+        <widget class="QLineEdit" name="portnumber" />
        </item>
       </layout>
      </item>
@@ -148,7 +148,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

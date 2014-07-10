@@ -99,7 +99,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QWidget</extends>
    <header>klineedit.h</header>
    <container>1</container>
@@ -107,7 +107,7 @@
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
    <container>0</container>
    <pixmap></pixmap>

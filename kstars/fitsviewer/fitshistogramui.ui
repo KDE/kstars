@@ -172,7 +172,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="KLineEdit" name="intensityOUT">
+      <widget class="QLineEdit" name="intensityOUT">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -201,7 +201,7 @@
       </spacer>
      </item>
      <item row="0" column="3">
-      <widget class="KLineEdit" name="minOUT">
+      <widget class="QLineEdit" name="minOUT">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -218,7 +218,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="KLineEdit" name="frequencyOUT">
+      <widget class="QLineEdit" name="frequencyOUT">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -245,7 +245,7 @@
       </widget>
      </item>
      <item row="1" column="3">
-      <widget class="KLineEdit" name="maxOUT">
+      <widget class="QLineEdit" name="maxOUT">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -309,7 +309,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>

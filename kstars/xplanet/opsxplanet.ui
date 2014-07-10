@@ -39,7 +39,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KLineEdit" name="kcfg_XplanetTitle">
+            <widget class="QLineEdit" name="kcfg_XplanetTitle">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -67,7 +67,7 @@
               <enum>QLayout::SetMaximumSize</enum>
              </property>
              <item>
-              <widget class="KLineEdit" name="kcfg_XplanetWidth">
+              <widget class="QLineEdit" name="kcfg_XplanetWidth">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -96,7 +96,7 @@
               </widget>
              </item>
              <item>
-              <widget class="KLineEdit" name="kcfg_XplanetHeight">
+              <widget class="QLineEdit" name="kcfg_XplanetHeight">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -144,7 +144,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="kcfg_XplanetPath">
+            <widget class="QLineEdit" name="kcfg_XplanetPath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -295,7 +295,7 @@
             </widget>
            </item>
            <item row="6" column="1">
-            <widget class="KLineEdit" name="kcfg_XplanetStarmapPath">
+            <widget class="QLineEdit" name="kcfg_XplanetStarmapPath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -311,7 +311,7 @@
             </widget>
            </item>
            <item row="7" column="1">
-            <widget class="KLineEdit" name="kcfg_XplanetArcFilePath">
+            <widget class="QLineEdit" name="kcfg_XplanetArcFilePath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -327,7 +327,7 @@
             </widget>
            </item>
            <item row="5" column="1">
-            <widget class="KLineEdit" name="kcfg_XplanetConfigFilePath">
+            <widget class="QLineEdit" name="kcfg_XplanetConfigFilePath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -487,7 +487,7 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="KLineEdit" name="kcfg_XplanetLabelString">
+               <widget class="QLineEdit" name="kcfg_XplanetLabelString">
                 <property name="toolTip">
                  <string>Specify the text of the first line of the label.</string>
                 </property>
@@ -504,7 +504,7 @@
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="KLineEdit" name="kcfg_XplanetDateFormat">
+               <widget class="QLineEdit" name="kcfg_XplanetDateFormat">
                 <property name="toolTip">
                  <string>Specify the format for the date/time label.</string>
                 </property>
@@ -688,7 +688,7 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="KLineEdit" name="kcfg_XplanetMarkerFilePath">
+               <widget class="QLineEdit" name="kcfg_XplanetMarkerFilePath">
                 <property name="toolTip">
                  <string>Marker file path</string>
                 </property>
@@ -711,7 +711,7 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="KLineEdit" name="kcfg_XplanetMarkerBoundsPath">
+               <widget class="QLineEdit" name="kcfg_XplanetMarkerBoundsPath">
                 <property name="toolTip">
                  <string>Marker bounds file path</string>
                 </property>
@@ -911,7 +911,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="KLineEdit" name="kcfg_XplanetBackgroundImagePath">
+                 <widget class="QLineEdit" name="kcfg_XplanetBackgroundImagePath">
                   <property name="toolTip">
                    <string>Use this file as the background image</string>
                   </property>
@@ -997,7 +997,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

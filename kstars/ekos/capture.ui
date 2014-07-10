@@ -384,7 +384,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="KLineEdit" name="prefixIN"/>
+             <widget class="QLineEdit" name="prefixIN"/>
             </item>
             <item>
              <widget class="QCheckBox" name="frameTypeCheck">
@@ -444,7 +444,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
-             <widget class="KLineEdit" name="fitsDir"/>
+             <widget class="QLineEdit" name="fitsDir"/>
             </item>
             <item>
              <widget class="QPushButton" name="selectFITSDirB">
@@ -1254,7 +1254,7 @@
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>

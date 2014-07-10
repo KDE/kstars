@@ -27,7 +27,7 @@
 #include <QApplication>
 
 dmsBox::dmsBox(QWidget *parent, bool dg)
-        : KLineEdit(parent), EmptyFlag(true) {
+        : QLineEdit(parent), EmptyFlag(true) {
     setMaxLength(14);
     setMaximumWidth(160);
     setDegType( dg );
@@ -58,7 +58,7 @@ void dmsBox::setEmptyText() {
 }
 
 void dmsBox::focusInEvent( QFocusEvent *e ) {
-    KLineEdit::focusInEvent( e );
+    QLineEdit::focusInEvent( e );
 
     if ( EmptyFlag ) {
         clear();
@@ -68,7 +68,7 @@ void dmsBox::focusInEvent( QFocusEvent *e ) {
 }
 
 void dmsBox::focusOutEvent( QFocusEvent *e ) {
-    KLineEdit::focusOutEvent( e );
+    QLineEdit::focusOutEvent( e );
 
     if ( text().isEmpty() ) {
         setEmptyText();

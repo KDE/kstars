@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="KLineEdit" name="widthOUT">
+    <widget class="QLineEdit" name="widthOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -36,7 +36,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="KLineEdit" name="heightOUT">
+    <widget class="QLineEdit" name="heightOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -50,7 +50,7 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="KLineEdit" name="bitpixOUT">
+    <widget class="QLineEdit" name="bitpixOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -64,7 +64,7 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="KLineEdit" name="maxOUT">
+    <widget class="QLineEdit" name="maxOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -78,7 +78,7 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="KLineEdit" name="minOUT">
+    <widget class="QLineEdit" name="minOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -92,7 +92,7 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="KLineEdit" name="meanOUT">
+    <widget class="QLineEdit" name="meanOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -106,7 +106,7 @@
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="KLineEdit" name="stddevOUT">
+    <widget class="QLineEdit" name="stddevOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -120,7 +120,7 @@
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="KLineEdit" name="HFROUT">
+    <widget class="QLineEdit" name="HFROUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -130,7 +130,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>

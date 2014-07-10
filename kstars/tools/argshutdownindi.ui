@@ -40,7 +40,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KLineEdit" name="deviceName" />
+        <widget class="QLineEdit" name="deviceName" />
        </item>
       </layout>
      </item>
@@ -66,7 +66,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

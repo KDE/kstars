@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="targetName" />
+      <widget class="QLineEdit" name="targetName" />
      </item>
      <item>
       <widget class="QPushButton" name="FindButton" >
@@ -77,7 +77,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

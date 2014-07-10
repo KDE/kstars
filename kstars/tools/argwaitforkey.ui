@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="WaitKeyEdit" >
+      <widget class="QLineEdit" name="WaitKeyEdit" >
        <property name="toolTip" >
         <string>Wait for this key to be pressed</string>
        </property>
@@ -81,7 +81,7 @@ Only simple keys can currently be used; you cannot use modifier keys such as Ctr
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
    <container>0</container>

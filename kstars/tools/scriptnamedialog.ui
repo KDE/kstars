@@ -24,7 +24,7 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="KLineEdit" name="ScriptName" >
+    <widget class="QLineEdit" name="ScriptName" >
      <property name="toolTip" >
       <string>Enter name for the script</string>
      </property>
@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item row="1" column="1" >
-    <widget class="KLineEdit" name="AuthorName" >
+    <widget class="QLineEdit" name="AuthorName" >
      <property name="toolTip" >
       <string>Enter author's name</string>
      </property>
@@ -57,7 +57,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
    <container>0</container>

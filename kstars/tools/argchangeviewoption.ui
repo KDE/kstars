@@ -71,7 +71,7 @@
       </widget>
      </item>
      <item row="3" column="1" >
-      <widget class="KLineEdit" name="OptionValue" >
+      <widget class="QLineEdit" name="OptionValue" >
        <property name="toolTip" >
         <string>value for selected option</string>
        </property>
@@ -125,7 +125,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
    <container>0</container>

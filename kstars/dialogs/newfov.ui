@@ -36,7 +36,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="FOVName">
+      <widget class="QLineEdit" name="FOVName">
        <property name="toolTip">
         <string>Name for FOV symbol</string>
        </property>
@@ -1016,7 +1016,7 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="KLineEdit" name="FOVEditX">
+      <widget class="QLineEdit" name="FOVEditX">
        <property name="toolTip">
         <string>Desired field-of-view size, in arcminutes</string>
        </property>
@@ -1045,7 +1045,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
       </widget>
      </item>
      <item row="0" column="4">
-      <widget class="KLineEdit" name="FOVEditY"/>
+      <widget class="QLineEdit" name="FOVEditY"/>
      </item>
      <item row="0" column="5">
       <widget class="QLabel" name="label_3">
@@ -1062,7 +1062,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="KLineEdit" name="FOVEditOffsetX">
+      <widget class="QLineEdit" name="FOVEditOffsetX">
        <property name="toolTip">
         <string>Desired horizontal offset  in arcminutes</string>
        </property>
@@ -1089,7 +1089,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
       </widget>
      </item>
      <item row="1" column="4">
-      <widget class="KLineEdit" name="FOVEditOffsetY">
+      <widget class="QLineEdit" name="FOVEditOffsetY">
        <property name="toolTip">
         <string>Desired vertical offset  in arcminutes</string>
        </property>
@@ -1116,7 +1116,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="KLineEdit" name="FOVEditRotation">
+      <widget class="QLineEdit" name="FOVEditRotation">
        <property name="toolTip">
         <string>Desired rotation with respect to center in degrees</string>
        </property>
@@ -1308,7 +1308,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>

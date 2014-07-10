@@ -30,13 +30,13 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="KLineEdit" name="Name"/>
+      <widget class="QLineEdit" name="Name"/>
      </item>
      <item row="1" column="1">
-      <widget class="KLineEdit" name="Surname"/>
+      <widget class="QLineEdit" name="Surname"/>
      </item>
      <item row="2" column="1">
-      <widget class="KLineEdit" name="Contact"/>
+      <widget class="QLineEdit" name="Contact"/>
      </item>
     </layout>
    </item>
@@ -68,7 +68,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

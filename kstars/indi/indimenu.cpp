@@ -38,7 +38,7 @@
 #include <QTimer>
 
 #include <KLed>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KPushButton>
 #include <KLocale>
 #include <KMessageBox>

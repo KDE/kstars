@@ -20,7 +20,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <kmessagebox.h>
-#include <KLineEdit>
+#include <QLineEdit>
 
 #include "skyobjects/skyobject.h"
 #include "geolocation.h"

@@ -24,7 +24,7 @@
 #include "dms.h"
 
 /**@class dmsBox
-	*A KLineEdit which is capable of displaying and parsing angle values
+	*A QLineEdit which is capable of displaying and parsing angle values
 	*flexibly and robustly.  Angle values can be displayed and parsed as 
 	*Degrees or Hours.  When displaying a value, it uses a space-delimited
 	*triplet of integers representing the degrees, arcminutes, and arcseconds 
@@ -36,12 +36,12 @@
 	*@li fields with unit-labels ("-34d 45m 57s")
 	*@li floating-point numbers ("-34.76583")
 	*
-	*@note Inherits KLineEdit.
+	*@note Inherits QLineEdit.
 	*@author Pablo de Vicente
 	*@version 1.0
 	*/
 
-class dmsBox : public KLineEdit  {
+class dmsBox : public QLineEdit  {
     Q_OBJECT
     Q_PROPERTY (bool degType READ degType WRITE setDegType)
 
@@ -96,7 +96,7 @@ public:
     void show(const dms *t,bool deg=true);
 
     /**Simply display a string.
-    	*@note JH: Why don't we just use KLineEdit::setText() instead?
+    	*@note JH: Why don't we just use QLineEdit::setText() instead?
     	*@param s the string to display (it need not be a valid angle value).
     	*/
     void setDMS(const QString& s) { setText(s); }
@@ -123,7 +123,7 @@ public:
     	*/
     void setDegType( bool t );
 
-    /**Clears the KLineEdit
+    /**Clears the QLineEdit
     	*/
     void clearFields (void) { setDMS(QString()); }
 

@@ -285,7 +285,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KLineEdit" name="FilterEdit"/>
+         <widget class="QLineEdit" name="FilterEdit"/>
         </item>
        </layout>
       </item>
@@ -306,13 +306,13 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>

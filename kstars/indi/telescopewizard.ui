@@ -577,7 +577,7 @@ Enter the port number your telescope is connected to. If you only have one seria
           </widget>
          </item>
          <item>
-          <widget class="KLineEdit" name="portIn" />
+          <widget class="QLineEdit" name="portIn" />
          </item>
          <item>
           <spacer>
@@ -651,7 +651,7 @@ Enter the port number your telescope is connected to. If you only have one seria
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>

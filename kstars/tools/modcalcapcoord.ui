@@ -474,7 +474,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KLineEdit" name="epochBoxBatch">
+             <widget class="QLineEdit" name="epochBoxBatch">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -639,7 +639,7 @@
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
@@ -661,7 +661,7 @@
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>

@@ -221,13 +221,13 @@
              </widget>
             </item>
             <item row="2" column="1" >
-             <widget class="KLineEdit" name="ZGeoBox" />
+             <widget class="QLineEdit" name="ZGeoBox" />
             </item>
             <item row="0" column="1" >
-             <widget class="KLineEdit" name="XGeoBox" />
+             <widget class="QLineEdit" name="XGeoBox" />
             </item>
             <item row="1" column="1" >
-             <widget class="KLineEdit" name="YGeoBox" />
+             <widget class="QLineEdit" name="YGeoBox" />
             </item>
            </layout>
           </widget>
@@ -252,7 +252,7 @@
              </widget>
             </item>
             <item row="2" column="2" >
-             <widget class="KLineEdit" name="AltGeoBox" >
+             <widget class="QLineEdit" name="AltGeoBox" >
               <property name="text" >
                <string>0.0</string>
               </property>
@@ -376,14 +376,14 @@
            </widget>
           </item>
           <item row="2" column="3" >
-           <widget class="KLineEdit" name="ZGeoBoxBatch" >
+           <widget class="QLineEdit" name="ZGeoBoxBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="2" column="1" >
-           <widget class="KLineEdit" name="AltGeoBoxBatch" >
+           <widget class="QLineEdit" name="AltGeoBoxBatch" >
             <property name="enabled" >
              <bool>false</bool>
             </property>
@@ -443,7 +443,7 @@
            </widget>
           </item>
           <item row="0" column="3" >
-           <widget class="KLineEdit" name="XGeoBoxBatch" >
+           <widget class="QLineEdit" name="XGeoBoxBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -460,7 +460,7 @@
            </widget>
           </item>
           <item row="1" column="3" >
-           <widget class="KLineEdit" name="YGeoBoxBatch" >
+           <widget class="QLineEdit" name="YGeoBoxBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -620,7 +620,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
@@ -642,7 +642,7 @@
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>

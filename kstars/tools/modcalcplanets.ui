@@ -286,7 +286,7 @@
              <number>6</number>
             </property>
             <item row="2" column="2">
-             <widget class="KLineEdit" name="HelioDistBox">
+             <widget class="QLineEdit" name="HelioDistBox">
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -343,7 +343,7 @@
              <number>6</number>
             </property>
             <item row="2" column="2">
-             <widget class="KLineEdit" name="GeoDistBox">
+             <widget class="QLineEdit" name="GeoDistBox">
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -813,7 +813,7 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
@@ -830,7 +830,7 @@
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>

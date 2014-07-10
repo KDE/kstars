@@ -26,7 +26,7 @@
 
 #include <KDebug>
 #include <KMenu>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLed>
 #include <KLocale>
 #include <KComboBox>

@@ -300,7 +300,7 @@
           </widget>
          </item>
          <item row="5" column="2" >
-          <widget class="KLineEdit" name="VLSR" />
+          <widget class="QLineEdit" name="VLSR" />
          </item>
          <item row="5" column="3" >
           <spacer>
@@ -336,7 +336,7 @@
           </widget>
          </item>
          <item row="6" column="2" >
-          <widget class="KLineEdit" name="VHelio" />
+          <widget class="QLineEdit" name="VHelio" />
          </item>
          <item row="6" column="3" >
           <spacer>
@@ -372,7 +372,7 @@
           </widget>
          </item>
          <item row="7" column="2" >
-          <widget class="KLineEdit" name="VGeo" />
+          <widget class="QLineEdit" name="VGeo" />
          </item>
          <item row="7" column="3" >
           <spacer>
@@ -408,7 +408,7 @@
           </widget>
          </item>
          <item row="8" column="2" >
-          <widget class="KLineEdit" name="VTopo" />
+          <widget class="QLineEdit" name="VTopo" />
          </item>
          <item row="8" column="3" >
           <spacer>
@@ -490,7 +490,7 @@
              </widget>
             </item>
             <item row="3" column="3" >
-             <widget class="KLineEdit" name="EpochBoxBatch" />
+             <widget class="QLineEdit" name="EpochBoxBatch" />
             </item>
             <item row="2" column="2" >
              <widget class="QCheckBox" name="ElevationCheckBatch" >
@@ -533,7 +533,7 @@
              </widget>
             </item>
             <item row="2" column="3" >
-             <widget class="KLineEdit" name="ElevationBoxBatch" />
+             <widget class="QLineEdit" name="ElevationBoxBatch" />
             </item>
             <item row="1" column="2" >
              <widget class="QCheckBox" name="LatCheckBatch" >
@@ -630,7 +630,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KLineEdit" name="InputVelocityBoxBatch" />
+             <widget class="QLineEdit" name="InputVelocityBoxBatch" />
             </item>
             <item>
              <spacer>
@@ -816,7 +816,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
@@ -843,7 +843,7 @@
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>

@@ -31,7 +31,7 @@
 
 #include <KPushButton>
 #include <KSqueezedTextLabel>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocale>
 #include <KLed>
 #include <KFileDialog>
@@ -576,7 +576,7 @@ void INDI_E::setMax ()
 void INDI_E::setupElementWrite(int length)
 {
 
-    write_w = new KLineEdit( guiProp->getGroup()->getContainer());
+    write_w = new QLineEdit( guiProp->getGroup()->getContainer());
     write_w->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred);
     write_w->setMinimumWidth( length );
     write_w->setMaximumWidth( length);
@@ -594,7 +594,7 @@ void INDI_E::setupElementRead(int length)
 {
 
 
-    read_w = new KLineEdit( guiProp->getGroup()->getContainer() );
+    read_w = new QLineEdit( guiProp->getGroup()->getContainer() );
     read_w->setMinimumWidth( length );
     read_w->setFocusPolicy( Qt::NoFocus );
     read_w->setCursorPosition( 0 );

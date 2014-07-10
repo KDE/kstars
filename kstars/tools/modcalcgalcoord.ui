@@ -219,7 +219,7 @@
            </widget>
           </item>
           <item row="2" column="1" >
-           <widget class="KLineEdit" name="epochBoxBatch" >
+           <widget class="QLineEdit" name="epochBoxBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -461,7 +461,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
@@ -483,7 +483,7 @@
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>

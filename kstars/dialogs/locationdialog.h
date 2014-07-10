@@ -25,7 +25,7 @@
 	*The top section allows the location to be selected from a database
 	*of 2000 cities.  It contains a MapCanvas (showing map of the globe
 	*with cities overlaid, with a handler for mouse clicks), a QListBox
-	*containing the names of cities in the database, and three KLineEdit
+	*containing the names of cities in the database, and three QLineEdit
 	*widgets, which allow the user to filter the List by the name of the
 	*City, Province, and Country.  In addition, the List
 	*can be filtered by location, by clicking anywhere in the MapCanvas.

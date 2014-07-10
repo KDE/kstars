@@ -91,7 +91,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="KLineEdit" name="ProvinceFilter"/>
+           <widget class="QLineEdit" name="ProvinceFilter"/>
           </item>
           <item row="0" column="0">
            <widget class="QLabel" name="CityFiltLabel">
@@ -101,10 +101,10 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="KLineEdit" name="CountryFilter"/>
+           <widget class="QLineEdit" name="CountryFilter"/>
           </item>
           <item row="0" column="1">
-           <widget class="KLineEdit" name="CityFilter"/>
+           <widget class="QLineEdit" name="CityFilter"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="ProvinceFiltLabel">
@@ -157,7 +157,7 @@
          <number>6</number>
         </property>
         <item row="1" column="1">
-         <widget class="KLineEdit" name="NewProvinceName">
+         <widget class="QLineEdit" name="NewProvinceName">
           <property name="minimumSize">
            <size>
             <width>140</width>
@@ -167,7 +167,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="KLineEdit" name="NewCountryName">
+         <widget class="QLineEdit" name="NewCountryName">
           <property name="minimumSize">
            <size>
             <width>140</width>
@@ -184,7 +184,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="KLineEdit" name="NewCityName">
+         <widget class="QLineEdit" name="NewCityName">
           <property name="minimumSize">
            <size>
             <width>140</width>
@@ -401,7 +401,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
@@ -412,7 +412,7 @@
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
-   <extends>KLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
   <customwidget>

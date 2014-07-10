@@ -25,7 +25,7 @@
 
 /* Forward decleration */
 class KLed;
-class KLineEdit;
+class QLineEdit;
 class QDoubleSpinBox;
 class KPushButton;
 class KSqueezedTextLabel;
@@ -101,8 +101,8 @@ private:
 
     /* GUI widgets, only malloced when needed */
     KSqueezedTextLabel *label_w;	// label
-    KLineEdit	   *read_w;		// read field
-    KLineEdit	   *write_w;		// write field
+    QLineEdit	   *read_w;		// read field
+    QLineEdit	   *write_w;		// write field
     KLed	   *led_w;		// light led
     QDoubleSpinBox *spin_w;		// spinbox
     QSlider	   *slider_w;		// Slider

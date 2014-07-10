@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="ZoomBox" >
+      <widget class="QLineEdit" name="ZoomBox" >
        <property name="toolTip" >
         <string>New Zoom level</string>
        </property>
@@ -82,7 +82,7 @@ The Zoom level specifies the number of pixels which span one radian of arc.  Rea
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
    <container>0</container>

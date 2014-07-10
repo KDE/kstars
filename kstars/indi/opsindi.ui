@@ -30,7 +30,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="KLineEdit" name="kcfg_telescopePort">
+         <widget class="QLineEdit" name="kcfg_telescopePort">
           <property name="text">
            <string notr="true">/dev/ttyUSB0</string>
           </property>
@@ -47,7 +47,7 @@
          </widget>
         </item>
         <item row="0" column="4">
-         <widget class="KLineEdit" name="kcfg_focuserPort">
+         <widget class="QLineEdit" name="kcfg_focuserPort">
           <property name="text">
            <string>/dev/ttyUSB1</string>
           </property>
@@ -64,7 +64,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="KLineEdit" name="kcfg_videoPort">
+         <widget class="QLineEdit" name="kcfg_videoPort">
           <property name="text">
            <string notr="true">/dev/video0</string>
           </property>
@@ -81,7 +81,7 @@
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="KLineEdit" name="kcfg_filterPort">
+         <widget class="QLineEdit" name="kcfg_filterPort">
           <property name="text">
            <string notr="true">/dev/ttyUSB2</string>
           </property>
@@ -98,7 +98,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="KLineEdit" name="kcfg_indiServer">
+         <widget class="QLineEdit" name="kcfg_indiServer">
           <property name="text">
            <string notr="true">/usr/bin/indiserver</string>
           </property>
@@ -132,7 +132,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KLineEdit" name="kcfg_indiDriversDir">
+         <widget class="QLineEdit" name="kcfg_indiDriversDir">
           <property name="text">
            <string notr="true">/usr/share/indi</string>
           </property>
@@ -178,7 +178,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KLineEdit" name="kcfg_fitsDir"/>
+         <widget class="QLineEdit" name="kcfg_fitsDir"/>
         </item>
         <item>
          <widget class="QPushButton" name="selectFITSDirB">
@@ -543,7 +543,7 @@
            </widget>
           </item>
           <item>
-           <widget class="KLineEdit" name="kcfg_filterAlias">
+           <widget class="QLineEdit" name="kcfg_filterAlias">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -648,10 +648,10 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="KLineEdit" name="kcfg_serverPortStart"/>
+           <widget class="QLineEdit" name="kcfg_serverPortStart"/>
           </item>
           <item>
-           <widget class="KLineEdit" name="kcfg_serverPortEnd"/>
+           <widget class="QLineEdit" name="kcfg_serverPortEnd"/>
           </item>
          </layout>
         </item>
@@ -682,7 +682,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>

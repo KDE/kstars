@@ -48,7 +48,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="Id">
+            <widget class="QLineEdit" name="Id">
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -65,7 +65,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KLineEdit" name="Vendor"/>
+            <widget class="QLineEdit" name="Vendor"/>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_2">
@@ -75,7 +75,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KLineEdit" name="Model"/>
+            <widget class="QLineEdit" name="Model"/>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="label_4">
@@ -266,7 +266,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="e_Id">
+            <widget class="QLineEdit" name="e_Id">
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -283,7 +283,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KLineEdit" name="e_Vendor"/>
+            <widget class="QLineEdit" name="e_Vendor"/>
            </item>
            <item row="4" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -314,7 +314,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KLineEdit" name="e_Model"/>
+            <widget class="QLineEdit" name="e_Model"/>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_7">
@@ -458,7 +458,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="l_Id">
+            <widget class="QLineEdit" name="l_Id">
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -475,7 +475,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KLineEdit" name="l_Vendor"/>
+            <widget class="QLineEdit" name="l_Vendor"/>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label51">
@@ -495,7 +495,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KLineEdit" name="l_Model"/>
+            <widget class="QLineEdit" name="l_Model"/>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label2">
@@ -571,7 +571,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="f_Id">
+            <widget class="QLineEdit" name="f_Id">
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -588,7 +588,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KLineEdit" name="f_Vendor"/>
+            <widget class="QLineEdit" name="f_Vendor"/>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label6">
@@ -598,7 +598,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KLineEdit" name="f_Type"/>
+            <widget class="QLineEdit" name="f_Type"/>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="label_12">
@@ -608,10 +608,10 @@
             </widget>
            </item>
            <item row="5" column="1">
-            <widget class="KLineEdit" name="f_Color"/>
+            <widget class="QLineEdit" name="f_Color"/>
            </item>
            <item row="3" column="1">
-            <widget class="KLineEdit" name="f_Model"/>
+            <widget class="QLineEdit" name="f_Model"/>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label3">
@@ -680,7 +680,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>
