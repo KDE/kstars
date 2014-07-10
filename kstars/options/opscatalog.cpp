@@ -24,6 +24,7 @@
 #include <kfiledialog.h>
 #include <kactioncollection.h>
 #include <kconfigdialog.h>
+#include <QFileDialog>
 
 #include "Options.h"
 #include "kstars.h"
@@ -159,7 +160,7 @@ void OpsCatalog::slotAddCatalog() {
 
 void OpsCatalog::slotLoadCatalog() {
     //Get the filename from the user
-    QString filename = KFileDialog::getOpenFileName( QDir::homePath(), "*");
+    QString filename = QFileDialog::getOpenFileName(0, QString(),  QDir::homePath(), "*");
     if ( ! filename.isEmpty() ) {
         ksw->data()->catalogdb()->AddCatalogContents(filename);
         refreshCatalogList();

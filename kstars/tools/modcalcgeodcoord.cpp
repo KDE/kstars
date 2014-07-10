@@ -22,6 +22,7 @@
 #include <kfiledialog.h>
 #include <kglobal.h>
 #include <kmessagebox.h>
+#include <QFileDialog>
 
 #include "dms.h"
 #include "geolocation.h"
@@ -206,7 +207,7 @@ void modCalcGeodCoord::slotZCheckedBatch(){
 void modCalcGeodCoord::slotInputFile() {
 
     QString inputFileName;
-    inputFileName = KFileDialog::getOpenFileName( );
+    inputFileName = QFileDialog::getOpenFileName(0, QString(),  QString());
     InputFileBoxBatch->setUrl( inputFileName );
 }
 

@@ -23,6 +23,7 @@
 #include <KLocale>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
+#include <QFileDialog>
 
 #include "ksnumbers.h"
 #include "dms.h"
@@ -251,7 +252,7 @@ void modCalcVlsr::slotVlsrChecked(){
 
 void modCalcVlsr::slotInputFile() {
     QString inputFileName;
-    inputFileName = KFileDialog::getOpenFileName( );
+    inputFileName = QFileDialog::getOpenFileName(0, QString(),  QString());
     InputFileBoxBatch->setUrl( inputFileName );
 }
 
