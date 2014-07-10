@@ -35,7 +35,7 @@
 #include <KPushButton>
 #include <KLineEdit>
 #include <KProcess>
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KIconLoader>
 

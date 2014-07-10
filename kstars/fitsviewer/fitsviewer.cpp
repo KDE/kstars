@@ -36,7 +36,7 @@
 
 #include <KUndoStack>
 #include <KTabWidget>
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KLed>
 
@@ -109,7 +109,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
     statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
 
-    KAction *action;
+    QAction *action;
     QFile tempFile;
 
     action = actionCollection()->addAction("image_histogram");
@@ -148,8 +148,8 @@ FITSViewer::FITSViewer (QWidget *parent)
     KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());  
     KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
 
-    KAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
-    KAction *kredo = KStandardAction::redo(undoGroup, SLOT(redo()), actionCollection());
+    QAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
+    QAction *kredo = KStandardAction::redo(undoGroup, SLOT(redo()), actionCollection());
 
     connect(undoGroup, SIGNAL(canUndoChanged(bool)), kundo, SLOT(setEnabled(bool)));
     connect(undoGroup, SIGNAL(canRedoChanged(bool)), kredo, SLOT(setEnabled(bool)));

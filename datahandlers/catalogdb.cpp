@@ -456,7 +456,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
           idelimiter = d.indexOf(":") + 2;
           qWarning() << idelimiter << d;
           if (delimiter == '\0') {
-              delimiter = d.mid(idelimiter).at(0).toAscii();
+              delimiter = d.mid(idelimiter).at(0).toLatin1();
           } else {  // duplicate name in header
               if (showerrs)
                   errs.append(i18n("Parsing header: ") +

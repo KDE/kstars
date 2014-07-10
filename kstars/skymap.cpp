@@ -640,7 +640,7 @@ void SkyMap::slotDeleteFlag( int flagIdx ) {
 }
 
 void SkyMap::slotImage() {
-    QString message = ((KAction*)sender())->text();
+    QString message = ((QAction *)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
 
     // Need to do this because we are comparing translated strings
@@ -669,7 +669,7 @@ void SkyMap::slotImage() {
 }
 
 void SkyMap::slotInfo() {
-    QString message = ((KAction*)sender())->text();
+    QString message = ((QAction *)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
 
     // Need to do this because we are comparing translated strings

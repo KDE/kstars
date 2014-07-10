@@ -549,7 +549,7 @@ void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
         font.setPointSize( font.pointSize() + deltaFontSize );
         label->setFont( font );
     }
-    KAction* act = new KAction( this );
+    QAction * act = new QAction( this );
     act->setDefaultWidget( label );
     addAction( act );
 }

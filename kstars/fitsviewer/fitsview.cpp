@@ -36,7 +36,7 @@
 
 #include <KDebug>
 #include <KLocale>
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KStatusBar>
 #include <KProgressDialog>

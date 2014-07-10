@@ -58,7 +58,7 @@
 //These functions are declared in kstars.h
 
 namespace {
-    // A lot of KAction is defined there. In order to decrease amount
+    // A lot of QAction is defined there. In order to decrease amount
     // of boilerplate code a trick with << operator overloading is used.
     // This makes code more concise and readable.
     //
@@ -69,18 +69,18 @@ namespace {
     // Downside is unfamiliar syntax and really unhelpful error
     // messages due to general abuse of << overloading
 
-    // Set KAction text
-    KAction* operator << (KAction* ka, QString text) {
+    // Set QAction text
+    QAction * operator << (QAction* ka, QString text) {
         ka->setText(text);
         return ka;
     }
-    // Set icon for KAction
-    KAction* operator << (KAction* ka, const KIcon& icon) {
+    // Set icon for QAction
+    QAction * operator << (QAction* ka, const KIcon& icon) {
         ka->setIcon(icon);
         return ka;
     }
     // Set keyboard shortcut
-    KAction* operator << (KAction* ka, const KShortcut& sh) {
+    QAction * operator << (QAction* ka, const KShortcut& sh) {
         ka->setShortcuts(sh);
         return ka;
     }
@@ -91,7 +91,7 @@ namespace {
         QActionGroup* grp;
         AddToGroup(QActionGroup* g) : grp(g) {}
     };
-    KAction* operator << (KAction* ka, AddToGroup g) {
+    QAction * operator << (QAction* ka, AddToGroup g) {
         g.grp->addAction(ka);
         return ka;
     }
@@ -101,7 +101,7 @@ namespace {
         bool flag;
         Checked(bool f) : flag(f) {}
     };
-    KAction* operator << (KAction* ka, Checked chk) {
+    QAction * operator << (QAction* ka, Checked chk) {
         ka->setCheckable(true);
         ka->setChecked(chk.flag);
         return ka;
@@ -112,15 +112,15 @@ namespace {
         QString tip;
         ToolTip(QString msg) : tip(msg) {}
     };
-    KAction* operator << (KAction* ka, const ToolTip& tool) {
+    QAction * operator << (QAction* ka, const ToolTip& tool) {
         ka->setToolTip(tool.tip);
         return ka;
     }
 
     // Create new KToggleAction and connect slot to toggled(bool) signal
-    KAction* newToggleAction(KActionCollection* col, QString name, QString text,
+    QAction * newToggleAction(KActionCollection* col, QString name, QString text,
                              QObject* receiver, const char* member) {
-        KAction* ka = col->add<KToggleAction>(name) << text;
+        QAction * ka = col->add<KToggleAction>(name) << text;
         QObject::connect(ka, SIGNAL( toggled(bool) ), receiver, member);
         return ka;
     }
@@ -128,7 +128,7 @@ namespace {
 
 void KStars::initActions() {
     KIconLoader::global()->addAppDir( "kstars" );
-    KAction *ka;
+    QAction *ka;
 
     // ==== File menu ================
     ka = KNS3::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
@@ -272,7 +272,7 @@ void KStars::initActions() {
 
     //Settings Menu:
     //Info Boxes option actions
-    KAction* kaBoxes = actionCollection()->add<KToggleAction>("show_boxes" )
+    QAction * kaBoxes = actionCollection()->add<KToggleAction>("show_boxes" )
         << i18nc("Show the information boxes", "Show &Info Boxes")
         << Checked( Options::showInfoBoxes() );
     connect( kaBoxes, SIGNAL(toggled(bool)), map(), SLOT(slotToggleInfoboxes(bool)));
@@ -534,7 +534,7 @@ void KStars::repopulateFOV() {
         connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotTargetSymbol(bool) ) );
     }
     // Add menu bottom
-    KAction* ka = actionCollection()->addAction("edit_fov",  this, SLOT( slotFOVEdit() ) )
+    QAction * ka = actionCollection()->addAction("edit_fov",  this, SLOT( slotFOVEdit() ) )
         << i18n("Edit FOV Symbols...");
     fovActionMenu->addSeparator();
     fovActionMenu->addAction( ka );
