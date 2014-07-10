@@ -48,7 +48,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     double s(0.0);
     bool checkValue( false ), badEntry( false ), negative( false );
     QString entry = str.trimmed();
-    entry.remove( QRegExp("[hdms'\"°]") );
+    entry.remove( QRegExp("[hdms'\"Â°]") );
 
     //Account for localized decimal-point settings
     //QString::toDouble() requires that the decimal symbol is "."
@@ -233,7 +233,7 @@ dms dms::fromString(const QString &st, bool deg) {
     //	if ( ok )
     return result;
     //	else {
-    //		kDebug() << i18n( "Could Not Set Angle from string: " ) << st;
+    //		kDebug() << xi18n( "Could Not Set Angle from string: " ) << st;
     //		return result;
     //	}
 }

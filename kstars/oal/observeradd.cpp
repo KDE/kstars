@@ -31,7 +31,7 @@ ObserverAdd::ObserverAdd() {
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
     setMainWidget( widget );
-    setCaption( i18n( "Add Observer" ) );
+    setCaption( xi18n( "Add Observer" ) );
     setButtons( KDialog::Close );
     ks = KStars::Instance();
     nextObserver = 0;
@@ -45,12 +45,12 @@ ObserverAdd::ObserverAdd() {
 
 void ObserverAdd::slotAddObserver() {
     if( ui.Name->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Name field cannot be empty"), i18n("Invalid Input") );
+        KMessageBox::sorry( 0, xi18n("The Name field cannot be empty"), xi18n("Invalid Input") );
         return;
     }
 
     if (KStarsData::Instance()->userdb()->FindObserver(ui.Name->text(),ui.Surname->text())){
-        if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;
+        if( OAL::warningOverwrite( xi18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;
     }
 
     KStarsData::Instance()->userdb()->AddObserver(ui.Name->text(),ui.Surname->text(),ui.Contact->text());

@@ -137,12 +137,12 @@ void modCalcSidTime::slotLocationChecked(){
     LocationButtonBatch->setEnabled( ! LocationCheckBatch->isChecked() );
 
     if ( LocationCheckBatch->isChecked() ) {
-        QString message = i18n("Location strings consist of the "
+        QString message = xi18n("Location strings consist of the "
                                "comma-separated names of the city, province and country.  "
                                "If the string contains spaces, enclose it in quotes so it "
                                "gets parsed properly.");
 
-        KMessageBox::information( 0, message, i18n("Hint for writing location strings"),
+        KMessageBox::information( 0, message, xi18n("Hint for writing location strings"),
                                   "DontShowLocationStringMessageBox" );
     }
 }
@@ -150,23 +150,23 @@ void modCalcSidTime::slotLocationChecked(){
 void modCalcSidTime::slotHelpLabel() {
     QStringList inList;
     if ( ComputeComboBatch->currentIndex() == 0 )
-        inList.append( i18n("local time") );
+        inList.append( xi18n("local time") );
     else
-        inList.append( i18n("sidereal time") );
+        inList.append( xi18n("sidereal time") );
 
     if ( DateCheckBatch->checkState() == Qt::Checked )
-        inList.append( i18n("date") );
+        inList.append( xi18n("date") );
 
     if ( LocationCheckBatch->checkState() == Qt::Checked )
-        inList.append( i18n("location") );
+        inList.append( xi18n("location") );
 
     QString inListString = inList[0];
     if ( inList.size() == 2 )
-        inListString = i18n("%1 and %2", inList[0], inList[1]);
+        inListString = xi18n("%1 and %2", inList[0], inList[1]);
     if ( inList.size() == 3 )
-        inListString = i18n("%1, %2 and %3", inList[0], inList[1], inList[2]);
+        inListString = xi18n("%1, %2 and %3", inList[0], inList[1], inList[2]);
 
-    HelpLabel->setText( i18n("Specify %1 in the input file.", inListString) );
+    HelpLabel->setText( xi18n("Specify %1 in the input file.", inListString) );
 }
 
 void modCalcSidTime::slotLocationBatch() {
@@ -196,8 +196,8 @@ void modCalcSidTime::slotRunBatch() {
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
         if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = i18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            QString message = xi18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
             inputFileName.clear();
             return;
         }
@@ -209,8 +209,8 @@ void modCalcSidTime::slotRunBatch() {
 
         f.close();
     } else  {
-        QString message = i18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+        QString message = xi18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid file" ) );
         inputFileName.clear();
         return;
     }
@@ -255,13 +255,13 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
                 if ( locationFields.size() == 1 ) locationFields.insert( 1, "" );
                 if ( locationFields.size() == 2 ) locationFields.insert( 1, "" );
                 if ( locationFields.size() != 3 ) {
-                    qDebug() << i18n("Error: could not parse location string: ") << locationString;
+                    qDebug() << xi18n("Error: could not parse location string: ") << locationString;
                     continue;
                 }
 
                 geoBatch = KStarsData::Instance()->locationNamed( locationFields[0], locationFields[1], locationFields[2] );
                 if ( ! geoBatch ) {
-                    qDebug() << i18n("Error: location not found in database: ") << locationString;
+                    qDebug() << xi18n("Error: location not found in database: ") << locationString;
                     continue;
                 }
             }
@@ -274,7 +274,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
                 if ( dt.isValid() ) break;
             }
             if ( ! dt.isValid() ) {
-                qDebug() << i18n("Error: did not find a valid date string in: ") << line;
+                qDebug() << xi18n("Error: did not find a valid date string in: ") << line;
                 continue;
             }
         }
@@ -287,7 +287,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
             }
         }
         if ( ! inTime.isValid() ) {
-            qDebug() << i18n("Error: did not find a valid time string in: ") << line;
+            qDebug() << xi18n("Error: did not find a valid time string in: ") << line;
             continue;
         }
 
@@ -329,7 +329,7 @@ void modCalcSidTime::slotViewBatch() {
 
     fOut.close();
 
-    KMessageBox::informationList( 0, i18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().toLocalFile() );
+    KMessageBox::informationList( 0, xi18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().toLocalFile() );
 }
 
 #include "modcalcsidtime.moc"

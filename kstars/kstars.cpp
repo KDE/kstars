@@ -165,16 +165,16 @@ void KStars::clearCachedFindDialog() {
 
 void KStars::applyConfig( bool doApplyFocus ) {
     if ( Options::isTracking() ) {
-        actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+        actionCollection()->action("track_object")->setText( xi18n( "Stop &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
     }
 
     actionCollection()->action("coordsys")->setText(
-        Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)") );
+        Options::useAltAz() ? xi18n("Switch to star globe view (Equatorial &Coordinates)"): xi18n("Switch to horizonal view (Horizontal &Coordinates)") );
 
     #ifdef HAVE_OPENGL
     Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
-    actionCollection()->action("opengl")->setText( (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend")) );
+    actionCollection()->action("opengl")->setText( (Options::useGL() ? xi18n("Switch to QPainter backend"): xi18n("Switch to OpenGL backend")) );
     #endif
 
 

@@ -26,7 +26,7 @@ FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
 
-    setWindowTitle(i18n("Field of View Snapshot Browser"));
+    setWindowTitle(xi18n("Field of View Snapshot Browser"));
 }
 
 FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent) : KDialog(parent),
@@ -151,17 +151,17 @@ void FovEditorDialog::slotSaveImage()
         else if(ext.toLower() == "bmp") {format = "BMP";}
         else
         {
-            qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
+            qWarning() << xi18n("Could not parse image format of %1; assuming PNG.", fname);
         }
 
         if(!m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getPixmap().save(fname, format))
         {
-            qDebug() << i18n("Error: Unable to save image: %1 ", fname);
+            qDebug() << xi18n("Error: Unable to save image: %1 ", fname);
         }
 
         else
         {
-            qDebug() << i18n("Image saved to file: %1", fname);
+            qDebug() << xi18n("Image saved to file: %1", fname);
         }
     }
 
@@ -170,8 +170,8 @@ void FovEditorDialog::slotSaveImage()
         //attempt to upload image to remote location
         if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
         {
-            QString message = i18n( "Could not upload image to remote location: %1", fileUrl.prettyUrl() );
-            KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+            QString message = xi18n( "Could not upload image to remote location: %1", fileUrl.prettyUrl() );
+            KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
         }
     }
 }
@@ -219,7 +219,7 @@ void FovEditorDialog::updateDescriptions()
     {
         FOV *fov = m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getFov();
 
-        QString fovDescription = i18n("FOV (%1/%2): %3 (%4' x %5')",
+        QString fovDescription = xi18n("FOV (%1/%2): %3 (%4' x %5')",
                 QString::number(m_CurrentIndex + 1),
                 QString::number(m_ParentWizard->getFovSnapshotList()->size()),
                 fov->name(),

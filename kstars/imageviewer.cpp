@@ -95,11 +95,11 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
     // Add save button
     setButtons( KDialog::User2 | KDialog::User1 | KDialog::Close );
 
-    KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
+    KGuiItem saveButton( xi18n("Save"), "document-save", xi18n("Save the image to disk") );
     setButtonGuiItem( KDialog::User1, saveButton );
 
     // FIXME: Add more options, and do this more nicely
-    KGuiItem invertButton( i18n("Invert colors"), "", i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
+    KGuiItem invertButton( xi18n("Invert colors"), "", xi18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
     setButtonGuiItem( KDialog::User2, invertButton );
 
     connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
@@ -131,11 +131,11 @@ ImageViewer::ImageViewer ( QString FileName, QWidget *parent ) :
 void ImageViewer::init(QString caption, QString capText) {
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
-    setCaption( i18n( "KStars image viewer: %1", caption ) );
+    setCaption( xi18n( "KStars image viewer: %1", caption ) );
     setButtons( KDialog::Close | KDialog::User1);
 
     // FIXME: Add more options, and do this more nicely
-    KGuiItem invertButton( i18n("Invert colors"), "", i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
+    KGuiItem invertButton( xi18n("Invert colors"), "", xi18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
     setButtonGuiItem( KDialog::User1, invertButton );
     connect( this, SIGNAL( user1Clicked() ), this, SLOT ( invertColors() ) );
 
@@ -211,7 +211,7 @@ void ImageViewer::showImage()
 {
     QImage image;
     if( !image.load( file.fileName() )) {
-        QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
+        QString text = xi18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
         KMessageBox::error (this, text);
         close();
         return;
@@ -262,9 +262,9 @@ void ImageViewer::saveFileToDisc()
         if (f.exists())
         {
             int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
-                    i18n( "A file named \"%1\" already exists. "
+                    xi18n( "A file named \"%1\" already exists. "
                           "Overwrite it?" , newURL.fileName()),
-                    i18n( "Overwrite File?" ),
+                    xi18n( "Overwrite File?" ),
                     KStandardGuiItem::overwrite() );
             if(r==KMessageBox::Cancel) return;
 
@@ -278,7 +278,7 @@ void ImageViewer::saveFile (KUrl &url) {
     // synchronous access to prevent segfaults
     if (!KIO::NetAccess::file_copy (KUrl (file.fileName()), url, (QWidget*) 0))
     {
-        QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
+        QString text = xi18n ("Saving of the image %1 failed.", url.prettyUrl());
         KMessageBox::error (this, text);
     }
 }

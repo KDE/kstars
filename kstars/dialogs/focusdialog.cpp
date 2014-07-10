@@ -43,7 +43,7 @@ FocusDialog::FocusDialog( KStars *_ks )
 
     fd = new FocusDialogUI(this);
     setMainWidget(fd);
-    setCaption( i18n( "Set Coordinates Manually" ) );
+    setCaption( xi18n( "Set Coordinates Manually" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
@@ -85,11 +85,11 @@ void FocusDialog::validatePoint() {
     if ( raOk && decOk ) {
         //make sure values are in valid range
         if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
-            message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
+            message = xi18n( "The Right Ascension value must be between 0.0 and 24.0." );
         if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
-            message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
+            message += '\n' + xi18n( "The Declination value must be between -90.0 and 90.0." );
         if ( ! message.isEmpty() ) {
-            KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
+            KMessageBox::sorry( 0, message, xi18n( "Invalid Coordinate Data" ) );
             return;
         }
 
@@ -107,11 +107,11 @@ void FocusDialog::validatePoint() {
         if ( azOk && altOk ) {
             //make sure values are in valid range
             if ( az.Degrees() < 0.0 || az.Degrees() > 360.0 )
-                message = i18n( "The Azimuth value must be between 0.0 and 360.0." );
+                message = xi18n( "The Azimuth value must be between 0.0 and 360.0." );
             if ( alt.Degrees() < -90.0 || alt.Degrees() > 90.0 )
-                message += '\n' + i18n( "The Altitude value must be between -90.0 and 90.0." );
+                message += '\n' + xi18n( "The Altitude value must be between -90.0 and 90.0." );
             if ( ! message.isEmpty() ) {
-                KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
+                KMessageBox::sorry( 0, message, xi18n( "Invalid Coordinate Data" ) );
                 return;
             }
 

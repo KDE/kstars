@@ -62,15 +62,15 @@ void PWizFovConfigUI::slotUpdateLegendFields(bool enabled)
 void PWizFovConfigUI::setupWidgets()
 {
     QStringList types;
-    types << i18n("Scale with magnitudes chart") << i18n("Only scale") << i18n("Only magnitudes chart");
+    types << xi18n("Scale with magnitudes chart") << xi18n("Only scale") << xi18n("Only magnitudes chart");
     typeCombo->addItems(types);
 
-    orientationCombo->addItem(i18n("Horizontal"));
-    orientationCombo->addItem(i18n("Vertical"));
+    orientationCombo->addItem(xi18n("Horizontal"));
+    orientationCombo->addItem(xi18n("Vertical"));
 
     QStringList positions;
-    positions << i18n("Upper left corner") << i18n("Upper right corner") << i18n("Lower left corner")
-            << i18n("Lower right corner");
+    positions << xi18n("Upper left corner") << xi18n("Upper right corner") << xi18n("Lower left corner")
+            << xi18n("Lower right corner");
     positionCombo->addItems(positions);
 
     useAlphaBlendBox->setEnabled(false);

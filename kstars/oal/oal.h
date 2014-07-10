@@ -36,7 +36,7 @@ namespace OAL {
     class Target;
     class Lens;
     inline int warningOverwrite( QString message ) {
-        return KMessageBox::warningYesNo( 0, message, i18n("Overwrite"), KGuiItem(i18n("Overwrite")), KGuiItem(i18n("Cancel")) );
+        return KMessageBox::warningYesNo( 0, message, xi18n("Overwrite"), KGuiItem(xi18n("Overwrite")), KGuiItem(xi18n("Cancel")) );
     }
 }
 #endif

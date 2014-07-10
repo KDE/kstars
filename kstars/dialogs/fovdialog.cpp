@@ -82,7 +82,7 @@ FOVDialog::FOVDialog( QWidget* p ) :
         fovID = qRegisterMetaType<FOV*>("FOV*");
     fov = new FOVDialogUI( this );
     setMainWidget( fov );
-    setCaption( i18n( "Set FOV Indicator" ) );
+    setCaption( xi18n( "Set FOV Indicator" ) );
     setButtons( KDialog::Ok | KDialog::Cancel );
     
     connect( fov->FOVListBox,   SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
@@ -173,7 +173,7 @@ NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
 {
     ui = new NewFOVUI( this );
     setMainWidget( ui );
-    setCaption( i18n( "New FOV Indicator" ) );
+    setCaption( xi18n( "New FOV Indicator" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     // Initialize FOV if required
@@ -208,30 +208,30 @@ NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
     connect( ui->ComputeTLengthFromFNum2, SIGNAL( clicked() ), SLOT( slotComputeTelescopeFL() ) );
 
     // Populate eyepiece AFOV options. The userData field contains the apparent FOV associated with that option
-    ui->EyepieceAFOV->insertItem( 0, i18nc("Specify the apparent field of view (AFOV) manually", "Specify AFOV"), -1 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Ramsden (Typical)"), 30 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Orthoscopic (Typical)"), 45 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Ploessl (Typical)"), 50 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Erfle (Typical)"), 60 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Radian"), 60 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Baader Hyperion"), 68 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Panoptic"), 68 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Delos"), 72 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Meade UWA"), 82 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Nagler"), 82 );
-    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Ethos (Typical)"), 100 );
+    ui->EyepieceAFOV->insertItem( 0, xi18nc("Specify the apparent field of view (AFOV) manually", "Specify AFOV"), -1 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Ramsden (Typical)"), 30 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Orthoscopic (Typical)"), 45 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Ploessl (Typical)"), 50 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Erfle (Typical)"), 60 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Radian"), 60 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Baader Hyperion"), 68 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Panoptic"), 68 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Delos"), 72 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Meade UWA"), 82 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Nagler"), 82 );
+    ui->EyepieceAFOV->addItem( xi18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Ethos (Typical)"), 100 );
 
     connect( ui->EyepieceAFOV, SIGNAL( currentIndexChanged( int ) ), SLOT( slotEyepieceAFOVChanged( int ) ) );
 
-    ui->LinearFOVDistance->insertItem( 0, i18n( "1000 yards" ) );
-    ui->LinearFOVDistance->insertItem( 1, i18n( "1000 meters" ) );
+    ui->LinearFOVDistance->insertItem( 0, xi18n( "1000 yards" ) );
+    ui->LinearFOVDistance->insertItem( 1, xi18n( "1000 meters" ) );
     connect( ui->LinearFOVDistance, SIGNAL( currentIndexChanged( int ) ), SLOT( slotBinocularFOVDistanceChanged( int ) ) );
 
     slotUpdateFOV();
 }
 
 void NewFOV::slotBinocularFOVDistanceChanged( int index ) {
-    QString text = (index == 0  ? i18n("feet") : i18n("meters"));
+    QString text = (index == 0  ? xi18n("feet") : xi18n("meters"));
     ui->LabelUnits->setText( text );
 }
 
@@ -314,7 +314,7 @@ void NewFOV::slotComputeTelescopeFL() {
 TelescopeFL::TelescopeFL( QWidget *parent ) :
     KDialog( parent ), aperture( 0 ), fNumber( 0 ), apertureUnit( 0 ) {
 
-    setCaption( i18n( "Telescope Focal Length Calculator" ) );
+    setCaption( xi18n( "Telescope Focal Length Calculator" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     QWidget *mainWidget = new QWidget( this );
@@ -325,12 +325,12 @@ TelescopeFL::TelescopeFL( QWidget *parent ) :
     aperture = new KDoubleNumInput( 0.0, 100000.0, 0.0, this, 0.1, 2 );
     fNumber = new KDoubleNumInput( 0.0, 99.9, 0.0, this, 0.1, 2 );
     apertureUnit = new KComboBox( this );
-    apertureUnit->insertItem( 0, i18nc("millimeters", "mm") );
-    apertureUnit->insertItem( 1, i18n("inch") );
-    mainLayout->addWidget( new QLabel( i18n("Aperture diameter: "), this ), 0, 0 );
+    apertureUnit->insertItem( 0, xi18nc("millimeters", "mm") );
+    apertureUnit->insertItem( 1, xi18n("inch") );
+    mainLayout->addWidget( new QLabel( xi18n("Aperture diameter: "), this ), 0, 0 );
     mainLayout->addWidget( aperture, 0, 1 );
     mainLayout->addWidget( apertureUnit, 0, 2 );
-    mainLayout->addWidget( new QLabel( i18nc("F-Number or F-Ratio of optical system", "F-Number: "), this ), 1, 0 );
+    mainLayout->addWidget( new QLabel( xi18nc("F-Number or F-Ratio of optical system", "F-Number: "), this ), 1, 0 );
     mainLayout->addWidget( fNumber, 1, 1 );
     show();
 }

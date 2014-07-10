@@ -54,8 +54,8 @@ void FITSTab::saveUnsaved()
     if( undoStack->isClean() || image->getMode() != FITS_NORMAL)
         return;
 
-    QString caption = i18n( "Save Changes to FITS?" );
-    QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
+    QString caption = xi18n( "Save Changes to FITS?" );
+    QString message = xi18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
     int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
     if( ans == KMessageBox::Yes )
         saveFile();
@@ -183,7 +183,7 @@ void FITSTab::headerFITS()
     if ( (err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
     {
         fits_get_errstatus(err_status, err_text);
-        KMessageBox::error(0, i18n("FITS record error: %1", QString::fromUtf8(err_text)), i18n("FITS Header"));
+        KMessageBox::error(0, xi18n("FITS record error: %1", QString::fromUtf8(err_text)), xi18n("FITS Header"));
         return;
     }
 
@@ -255,10 +255,10 @@ void FITSTab::saveFile()
         if (QFile::exists(currentURL.path()))
         {
             int r = KMessageBox::warningContinueCancel(0,
-                        i18n( "A file named \"%1\" already exists. "
+                        xi18n( "A file named \"%1\" already exists. "
                               "Overwrite it?", currentURL.fileName() ),
-                        i18n( "Overwrite File?" ),
-                        KGuiItem(i18n( "&Overwrite" )) );
+                        xi18n( "Overwrite File?" ),
+                        KGuiItem(xi18n( "&Overwrite" )) );
             if(r==KMessageBox::Cancel) return;
         }
     }
@@ -269,19 +269,19 @@ void FITSTab::saveFile()
         {
             fits_get_errstatus(err_status, err_text);
             // Use KMessageBox or something here
-            KMessageBox::error(0, i18n("FITS file save error: %1",
-                                       QString::fromUtf8(err_text)), i18n("FITS Save"));
+            KMessageBox::error(0, xi18n("FITS file save error: %1",
+                                       QString::fromUtf8(err_text)), xi18n("FITS Save"));
             return;
         }
 
-        //statusBar()->changeItem(i18n("File saved."), 3);
+        //statusBar()->changeItem(xi18n("File saved."), 3);
 
-        emit newStatus(i18n("File saved."), FITS_MESSAGE);
+        emit newStatus(xi18n("File saved."), FITS_MESSAGE);
         modifyFITSState();
     } else
     {
-        QString message = i18n( "Invalid URL: %1", currentURL.url() );
-        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+        QString message = xi18n( "Invalid URL: %1", currentURL.url() );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
     }
 }
 

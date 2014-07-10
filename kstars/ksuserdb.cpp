@@ -809,7 +809,7 @@ void KSUserDB::readFilters() {
 }
 
 void KSUserDB::readScope( QString id ) {
-    QString model, vendor, type, driver = i18nc("No driver", "None");
+    QString model, vendor, type, driver = xi18nc("No driver", "None");
     double aperture, focalLength;
     while( ! reader_->atEnd() ) {
         reader_->readNext();

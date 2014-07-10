@@ -77,12 +77,12 @@ Focus::Focus()
 
     focusType = FOCUS_MANUAL;
 
-    HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
-    HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Absolute Position") );
+    HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( xi18nc("Half Flux Radius", "HFR") );
+    HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( xi18n("Absolute Position") );
 
     resetButtons();
 
-    appendLogText(i18n("Idle."));
+    appendLogText(xi18n("Idle."));
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -250,9 +250,9 @@ void Focus::startFocus()
     #endif
 
     if (kcfg_autoSelectStar->isChecked())
-        appendLogText(i18n("Autofocus in progress..."));
+        appendLogText(xi18n("Autofocus in progress..."));
     else
-        appendLogText(i18n("Please wait until image capture is complete..."));
+        appendLogText(xi18n("Please wait until image capture is complete..."));
 
     capture();
 }
@@ -313,7 +313,7 @@ void Focus::capture()
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(i18n("Error: Lost connection to CCD."));
+        appendLogText(xi18n("Error: Lost connection to CCD."));
         return;
     }
 
@@ -336,7 +336,7 @@ void Focus::capture()
     targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
-        appendLogText(i18n("Capturing image..."));
+        appendLogText(xi18n("Capturing image..."));
 
 }
 
@@ -347,7 +347,7 @@ void Focus::FocusIn(int ms)
 
   if (currentFocuser->isConnected() == false)
   {
-            appendLogText(i18n("Error: Lost connection to Focuser."));
+            appendLogText(xi18n("Error: Lost connection to Focuser."));
             return;
   }
 
@@ -368,7 +368,7 @@ void Focus::FocusIn(int ms)
        currentFocuser->moveFocuser(ms);
 
 
-    appendLogText(i18n("Focusing inward..."));
+    appendLogText(xi18n("Focusing inward..."));
 }
 
 void Focus::FocusOut(int ms)
@@ -378,7 +378,7 @@ void Focus::FocusOut(int ms)
 
     if (currentFocuser->isConnected() == false)
     {
-       appendLogText(i18n("Error: Lost connection to Focuser."));
+       appendLogText(xi18n("Error: Lost connection to Focuser."));
        return;
     }
 
@@ -398,7 +398,7 @@ void Focus::FocusOut(int ms)
     else
             currentFocuser->moveFocuser(ms);
 
-    appendLogText(i18n("Focusing outward..."));
+    appendLogText(xi18n("Focusing outward..."));
 
 }
 
@@ -416,7 +416,7 @@ void Focus::newFITS(IBLOB *bp)
 
     if (targetImage == NULL)
     {
-        appendLogText(i18n("FITS image failed to load, aborting..."));
+        appendLogText(xi18n("FITS image failed to load, aborting..."));
         stopFocus();
         return;
     }
@@ -443,7 +443,7 @@ void Focus::newFITS(IBLOB *bp)
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
     if (inFocusLoop == false && focusType == FOCUS_MANUAL && HFR == -1)
-            appendLogText(i18n("FITS received. No stars detected."));
+            appendLogText(xi18n("FITS received. No stars detected."));
 
     HFROut->setText(HFRText);
 
@@ -494,7 +494,7 @@ void Focus::newFITS(IBLOB *bp)
             Edge *maxStar = image_data->getMaxHFRStar();
             if (maxStar == NULL)
             {
-                appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
+                appendLogText(xi18n("Failed to automatically select a star. Please select a star manually."));
                 targetImage->updateMode(FITS_GUIDE);
                 targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
                 targetImage->setGuideSquare(fw/2, fh/2);
@@ -538,7 +538,7 @@ void Focus::newFITS(IBLOB *bp)
         }
         else
         {
-            appendLogText(i18n("Capture complete. Select a star to focus."));
+            appendLogText(xi18n("Capture complete. Select a star to focus."));
             targetImage->updateMode(FITS_GUIDE);
             targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
             targetImage->setGuideSquare(fw/2, fh/2);
@@ -577,13 +577,13 @@ void Focus::autoFocusAbs(double currentHFR)
     #endif
 
     if (minHFR)
-         appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)", HFRText, pulseStep, deltaTxt));
+         appendLogText(xi18n("FITS received. HFR %1 @ %2. Delta (%3%)", HFRText, pulseStep, deltaTxt));
     else
-        appendLogText(i18n("FITS received. HFR %1 @ %2.", HFRText, pulseStep));
+        appendLogText(xi18n("FITS received. HFR %1 @ %2.", HFRText, pulseStep));
 
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
-        appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
+        appendLogText(xi18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
         emit autoFocusFinished(false);
         return;
@@ -594,7 +594,7 @@ void Focus::autoFocusAbs(double currentHFR)
     {
         if (noStarCount++ < 3)
         {
-            appendLogText(i18n("No stars detected, capturing again..."));
+            appendLogText(xi18n("No stars detected, capturing again..."));
             capture();
             return;
         }
@@ -662,13 +662,13 @@ void Focus::autoFocusAbs(double currentHFR)
             {
                 if (absIterations <= 2)
                 {
-                    appendLogText(i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
+                    appendLogText(xi18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
                     stopFocus();
                     emit autoFocusFinished(false);
                 }
                 else
                 {
-                    appendLogText(i18n("Autofocus complete."));
+                    appendLogText(xi18n("Autofocus complete."));
                     stopFocus();
                     emit suspendGuiding(false);
                     emit autoFocusFinished(true);                    
@@ -852,7 +852,7 @@ void Focus::autoFocusAbs(double currentHFR)
         // Ops, we can't go any further, we're done.
         if (targetPulse == pulseStep)
         {
-            appendLogText(i18n("Autofocus complete."));
+            appendLogText(xi18n("Autofocus complete."));
             stopFocus();
             emit suspendGuiding(false);
             emit autoFocusFinished(true);
@@ -862,7 +862,7 @@ void Focus::autoFocusAbs(double currentHFR)
         // Ops, deadlock
         if (focusOutLimit && focusOutLimit == focusInLimit)
         {
-            appendLogText(i18n("Deadlock reached. Please try again with different settings."));
+            appendLogText(xi18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
             emit autoFocusFinished(false);
             return;
@@ -912,11 +912,11 @@ void Focus::autoFocusRel(double currentHFR)
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-HFR)*100.0, 0,'g', 2);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
-    appendLogText(i18n("FITS received. HFR %1. Delta (%2%)", HFRText, deltaTxt));
+    appendLogText(xi18n("FITS received. HFR %1. Delta (%2%)", HFRText, deltaTxt));
 
     if (pulseDuration <= 32)
     {
-        appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
+        appendLogText(xi18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         stopFocus();
         emit autoFocusFinished(false);
         return;
@@ -927,7 +927,7 @@ void Focus::autoFocusRel(double currentHFR)
     {
         if (noStarCount++ < 3)
         {
-            appendLogText(i18n("No stars detected, capturing again..."));
+            appendLogText(xi18n("No stars detected, capturing again..."));
             capture();
             return;
         }
@@ -947,7 +947,7 @@ void Focus::autoFocusRel(double currentHFR)
         case FOCUS_IN:
             if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
-                appendLogText(i18n("Autofocus complete."));                
+                appendLogText(xi18n("Autofocus complete."));                
                 stopFocus();
                 emit suspendGuiding(false);
                 emit autoFocusFinished(true);
@@ -999,7 +999,7 @@ void Focus::autoFocusRel(double currentHFR)
     case FOCUS_OUT:
         if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
-            appendLogText(i18n("Autofocus complete."));
+            appendLogText(xi18n("Autofocus complete."));
             emit suspendGuiding(false);
             emit autoFocusFinished(true);
             stopFocus();
@@ -1063,7 +1063,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                capture();
            else if (nvp->s == IPS_ALERT)
            {
-               appendLogText(i18n("Focuser error, check INDI panel."));
+               appendLogText(xi18n("Focuser error, check INDI panel."));
                emit autoFocusFinished(false);
                stopFocus();
            }
@@ -1082,7 +1082,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                 capture();
             else if (nvp->s == IPS_ALERT)
             {
-                appendLogText(i18n("Focuser error, check INDI panel."));
+                appendLogText(xi18n("Focuser error, check INDI panel."));
                 stopFocus();
                 emit autoFocusFinished(false);
             }
@@ -1097,7 +1097,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 void Focus::appendLogText(const QString &text)
 {
 
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -1116,7 +1116,7 @@ void Focus::startLooping()
 
     resetButtons();
 
-    appendLogText(i18n("Starting continuous exposure..."));
+    appendLogText(xi18n("Starting continuous exposure..."));
 
     capture();
 }

@@ -26,20 +26,20 @@ OpsXplanet::OpsXplanet( KStars *_ks )
     setupUi( this );
 
     // Init projections combobox
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "No projection"), "no projection");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Ancient"), "ancient");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Azimuthal"), "azimuthal");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Bonne"), "bonne");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Gnomonic"), "gnomonic");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Hemisphere"), "hemisphere");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Lambert"), "lambert");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Mercator"), "mercator");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Mollweide"), "mollweide");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Orthographic"), "orthographic");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Peters"), "peters");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Polyconic"), "polyconic");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Rectangular"), "rectangular");
-    kcfg_XplanetProjection->addItem( i18nc("Map projection method", "TSC"), "tsc");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "No projection"), "no projection");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Ancient"), "ancient");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Azimuthal"), "azimuthal");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Bonne"), "bonne");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Gnomonic"), "gnomonic");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Hemisphere"), "hemisphere");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Lambert"), "lambert");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Mercator"), "mercator");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Mollweide"), "mollweide");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Orthographic"), "orthographic");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Peters"), "peters");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Polyconic"), "polyconic");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "Rectangular"), "rectangular");
+    kcfg_XplanetProjection->addItem( xi18nc("Map projection method", "TSC"), "tsc");
 
     // Enable/Disable somme widgets
     connect( kcfg_XplanetWait, SIGNAL( toggled(bool) ), SLOT( slotUpdateWidgets(bool) ) );

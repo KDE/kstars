@@ -258,7 +258,7 @@ void OAL::Log::writeScope( OAL::Scope *s ) {
     writer->writeStartElement( "vendor" );
     writer->writeCDATA( s->vendor() );
     writer->writeEndElement();
-    if (s->driver() != i18n("None"))
+    if (s->driver() != xi18n("None"))
     {
         writer->writeStartElement( "driver" );
         writer->writeCharacters( s->driver());

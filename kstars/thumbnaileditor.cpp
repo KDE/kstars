@@ -40,9 +40,9 @@ ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
     ui = new ThumbnailEditorUI( this );
     w = _w;
     h = _h;
-    ui->MessageLabel->setText( i18n( "Crop region will be scaled to [ %1 * %2 ]", w, h) );
+    ui->MessageLabel->setText( xi18n( "Crop region will be scaled to [ %1 * %2 ]", w, h) );
     setMainWidget( ui );
-    setCaption( i18n( "Edit Thumbnail Image" ) );
+    setCaption( xi18n( "Edit Thumbnail Image" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
@@ -69,7 +69,7 @@ QPixmap ThumbnailEditor::thumbnail() {
 
 void ThumbnailEditor::slotUpdateCropLabel() {
     QRect *r = ui->ImageCanvas->cropRect();
-    ui->CropLabel->setText( i18n( "Crop region: [%1,%2  %3x%4]" ,
+    ui->CropLabel->setText( xi18n( "Crop region: [%1,%2  %3x%4]" ,
                                   r->left(), r->top(), r->width(), r->height() ) );
 }
 

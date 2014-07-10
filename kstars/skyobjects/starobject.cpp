@@ -360,32 +360,32 @@ QString StarObject::greekLetter( bool gchar ) const {
     QString letter = code;  //in case genitive name is *not* a Greek letter
     int alpha = 0x03B1;
 
-    if ( code == "alp" ) gchar ? letter = QString( QChar(alpha + 0) ) : letter = i18n("alpha");
-    if ( code == "bet" ) gchar ? letter = QString( QChar(alpha + 1) ) : letter = i18n("beta");
-    if ( code == "gam" ) gchar ? letter = QString( QChar(alpha + 2) ) : letter = i18n("gamma");
-    if ( code == "del" ) gchar ? letter = QString( QChar(alpha + 3) ) : letter = i18n("delta");
-    if ( code == "eps" ) gchar ? letter = QString( QChar(alpha + 4) ) : letter = i18n("epsilon");
-    if ( code == "zet" ) gchar ? letter = QString( QChar(alpha + 5) ) : letter = i18n("zeta");
-    if ( code == "eta" ) gchar ? letter = QString( QChar(alpha + 6) ) : letter = i18n("eta");
-    if ( code == "the" ) gchar ? letter = QString( QChar(alpha + 7) ) : letter = i18n("theta");
-    if ( code == "iot" ) gchar ? letter = QString( QChar(alpha + 8) ) : letter = i18n("iota");
-    if ( code == "kap" ) gchar ? letter = QString( QChar(alpha + 9) ) : letter = i18n("kappa");
-    if ( code == "lam" ) gchar ? letter = QString( QChar(alpha +10) ) : letter = i18n("lambda");
-    if ( code == "mu " ) gchar ? letter = QString( QChar(alpha +11) ) : letter = i18n("mu");
-    if ( code == "nu " ) gchar ? letter = QString( QChar(alpha +12) ) : letter = i18n("nu");
-    if ( code == "xi " ) gchar ? letter = QString( QChar(alpha +13) ) : letter = i18n("xi");
-    if ( code == "omi" ) gchar ? letter = QString( QChar(alpha +14) ) : letter = i18n("omicron");
-    if ( code == "pi " ) gchar ? letter = QString( QChar(alpha +15) ) : letter = i18n("pi");
-    if ( code == "rho" ) gchar ? letter = QString( QChar(alpha +16) ) : letter = i18n("rho");
+    if ( code == "alp" ) gchar ? letter = QString( QChar(alpha + 0) ) : letter = xi18n("alpha");
+    if ( code == "bet" ) gchar ? letter = QString( QChar(alpha + 1) ) : letter = xi18n("beta");
+    if ( code == "gam" ) gchar ? letter = QString( QChar(alpha + 2) ) : letter = xi18n("gamma");
+    if ( code == "del" ) gchar ? letter = QString( QChar(alpha + 3) ) : letter = xi18n("delta");
+    if ( code == "eps" ) gchar ? letter = QString( QChar(alpha + 4) ) : letter = xi18n("epsilon");
+    if ( code == "zet" ) gchar ? letter = QString( QChar(alpha + 5) ) : letter = xi18n("zeta");
+    if ( code == "eta" ) gchar ? letter = QString( QChar(alpha + 6) ) : letter = xi18n("eta");
+    if ( code == "the" ) gchar ? letter = QString( QChar(alpha + 7) ) : letter = xi18n("theta");
+    if ( code == "iot" ) gchar ? letter = QString( QChar(alpha + 8) ) : letter = xi18n("iota");
+    if ( code == "kap" ) gchar ? letter = QString( QChar(alpha + 9) ) : letter = xi18n("kappa");
+    if ( code == "lam" ) gchar ? letter = QString( QChar(alpha +10) ) : letter = xi18n("lambda");
+    if ( code == "mu " ) gchar ? letter = QString( QChar(alpha +11) ) : letter = xi18n("mu");
+    if ( code == "nu " ) gchar ? letter = QString( QChar(alpha +12) ) : letter = xi18n("nu");
+    if ( code == "xi " ) gchar ? letter = QString( QChar(alpha +13) ) : letter = xi18n("xi");
+    if ( code == "omi" ) gchar ? letter = QString( QChar(alpha +14) ) : letter = xi18n("omicron");
+    if ( code == "pi " ) gchar ? letter = QString( QChar(alpha +15) ) : letter = xi18n("pi");
+    if ( code == "rho" ) gchar ? letter = QString( QChar(alpha +16) ) : letter = xi18n("rho");
     //there are two unicode symbols for sigma;
     //skip the first one, the second is more widely used
-    if ( code == "sig" ) gchar ? letter = QString( QChar(alpha +18) ) : letter = i18n("sigma");
-    if ( code == "tau" ) gchar ? letter = QString( QChar(alpha +19) ) : letter = i18n("tau");
-    if ( code == "ups" ) gchar ? letter = QString( QChar(alpha +20) ) : letter = i18n("upsilon");
-    if ( code == "phi" ) gchar ? letter = QString( QChar(alpha +21) ) : letter = i18n("phi");
-    if ( code == "chi" ) gchar ? letter = QString( QChar(alpha +22) ) : letter = i18n("chi");
-    if ( code == "psi" ) gchar ? letter = QString( QChar(alpha +23) ) : letter = i18n("psi");
-    if ( code == "ome" ) gchar ? letter = QString( QChar(alpha +24) ) : letter = i18n("omega");
+    if ( code == "sig" ) gchar ? letter = QString( QChar(alpha +18) ) : letter = xi18n("sigma");
+    if ( code == "tau" ) gchar ? letter = QString( QChar(alpha +19) ) : letter = xi18n("tau");
+    if ( code == "ups" ) gchar ? letter = QString( QChar(alpha +20) ) : letter = xi18n("upsilon");
+    if ( code == "phi" ) gchar ? letter = QString( QChar(alpha +21) ) : letter = xi18n("phi");
+    if ( code == "chi" ) gchar ? letter = QString( QChar(alpha +22) ) : letter = xi18n("chi");
+    if ( code == "psi" ) gchar ? letter = QString( QChar(alpha +23) ) : letter = xi18n("psi");
+    if ( code == "ome" ) gchar ? letter = QString( QChar(alpha +24) ) : letter = xi18n("omega");
 
     if ( name2().length() && name2().mid(3,1) != " " )
         letter += '[' + name2().mid(3,1) + ']';
@@ -496,7 +496,7 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
 {
     QString sName;
     if ( drawName ) {
-        if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
+        if ( translatedName() != xi18n("star") && ! translatedName().isEmpty() )
             sName = translatedName();
         else if ( ! gname().trimmed().isEmpty() )
             sName = gname( true );

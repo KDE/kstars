@@ -32,7 +32,7 @@ NotifyUpdatesUI::NotifyUpdatesUI(QWidget *parent) :
     ui(new Ui::NotifyUpdatesUI)
 {
     ui->setupUi(this);
-    setWindowTitle(i18n("New Supernova(e) discovered!"));
+    setWindowTitle(xi18n("New Supernova(e) discovered!"));
     connect(ui->centrePushButton, SIGNAL( clicked() ), SLOT( slotCenter() ));
 }
 
@@ -49,11 +49,11 @@ void NotifyUpdatesUI::addItems(QList<SkyObject*> updatesList)
         Supernova * sup = (Supernova *)so;
 
         QString name = sup->name();
-        QString hostGalaxy = i18n("Host Galaxy :: %1", sup->getHostGalaxy());
-        QString magnitude = i18n("Magnitude :: %1", QString::number(sup->getMagnitude()));
-        QString type = i18n("Type :: %1", sup->getType());
-        QString position = i18n("Position :: RA : %1 Dec : %2", sup->getRA().toHMSString(), sup->getDec().toDMSString());
-        QString date = i18n("Date :: %1", sup->getDate());
+        QString hostGalaxy = xi18n("Host Galaxy :: %1", sup->getHostGalaxy());
+        QString magnitude = xi18n("Magnitude :: %1", QString::number(sup->getMagnitude()));
+        QString type = xi18n("Type :: %1", sup->getType());
+        QString position = xi18n("Position :: RA : %1 Dec : %2", sup->getRA().toHMSString(), sup->getDec().toDMSString());
+        QString date = xi18n("Date :: %1", sup->getDate());
 
         QTreeWidgetItem *info = new QTreeWidgetItem(ui->infoTreeWidget);
         QTreeWidgetItem *hGalaxy = new QTreeWidgetItem(info);

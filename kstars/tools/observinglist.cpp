@@ -95,7 +95,7 @@ ObservingList::ObservingList( KStars *_ks )
 {
     ui = new ObservingListUI( this );
     setMainWidget( ui );
-    setCaption( i18n( "Observation Planner" ) );
+    setCaption( xi18n( "Observation Planner" ) );
     setButtons( KDialog::Close );
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);
@@ -106,21 +106,21 @@ ObservingList::ObservingList( KStars *_ks )
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Session = new QStandardItemModel( 0, 5 );
-    m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-                                        << i18n( "Alternate Name" )
-                                        << i18nc( "Right Ascension", "RA" )
-                                        << i18nc( "Declination", "Dec" )
-                                        << i18nc( "Magnitude", "Mag" )
-                                        << i18n( "Type" ) );
-    m_Session->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-                                          << i18n( "Alternate Name" )
-                                          << i18nc( "Right Ascension", "RA" )
-                                          << i18nc( "Declination", "Dec" )
-                                          << i18nc( "Magnitude", "Mag" )
-                                          << i18n( "Type" )
-                                          << i18n( "Time" )
-                                          << i18nc( "Altitude", "Alt" )
-                                          << i18nc( "Azimuth", "Az" ));
+    m_Model->setHorizontalHeaderLabels( QStringList() << xi18n( "Name" )
+                                        << xi18n( "Alternate Name" )
+                                        << xi18nc( "Right Ascension", "RA" )
+                                        << xi18nc( "Declination", "Dec" )
+                                        << xi18nc( "Magnitude", "Mag" )
+                                        << xi18n( "Type" ) );
+    m_Session->setHorizontalHeaderLabels( QStringList() << xi18n( "Name" )
+                                          << xi18n( "Alternate Name" )
+                                          << xi18nc( "Right Ascension", "RA" )
+                                          << xi18nc( "Declination", "Dec" )
+                                          << xi18nc( "Magnitude", "Mag" )
+                                          << xi18n( "Type" )
+                                          << xi18n( "Time" )
+                                          << xi18nc( "Altitude", "Alt" )
+                                          << xi18nc( "Azimuth", "Az" ));
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
@@ -138,7 +138,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     ui->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
     ui->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
-    ui->View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
+    ui->View->axis(KPlotWidget::BottomAxis)->setLabel( xi18n( "Local Time" ) );
     ui->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
     ui->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
     ui->DateEdit->setDate(dt.date());
@@ -238,7 +238,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
     if (finalObjectName.isEmpty())
     {
-            KMessageBox::sorry(0, i18n( "Unnamed stars are not supported in the observing lists"));
+            KMessageBox::sorry(0, xi18n( "Unnamed stars are not supported in the observing lists"));
             return;
     }
 
@@ -246,13 +246,13 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if ( obsList().contains( obj ) ) {
         addToWishList = false;
         if( ! session ) {
-            ks->statusBar()->changeItem( i18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
+            ks->statusBar()->changeItem( xi18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
             return;
         }
     }
 
     if ( session && sessionList().contains( obj ) ) {
-        ks->statusBar()->changeItem( i18n( "%1 is already in the session plan.", finalObjectName ), 0 );
+        ks->statusBar()->changeItem( xi18n( "%1 is already in the session plan.", finalObjectName ), 0 );
         return;
     }
 
@@ -281,7 +281,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
         m_Model->appendRow( itemList );
         //Note addition in statusbar
-        ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", finalObjectName ), 0 );
+        ks->statusBar()->changeItem( xi18n( "Added %1 to observing list.", finalObjectName ), 0 );
         ui->TableView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     }
@@ -324,7 +324,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         isModified = true;
         ui->SessionView->resizeColumnsToContents();
         //Note addition in statusbar
-        ks->statusBar()->changeItem( i18n( "Added %1 to session list.", finalObjectName ), 0 );
+        ks->statusBar()->changeItem( xi18n( "Added %1 to session list.", finalObjectName ), 0 );
     }
     setSaveImagesButton();
 }
@@ -482,7 +482,7 @@ void ObservingList::slotNewSelection() {
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
             ui->GoogleImage->setEnabled( true );
-            if ( newName != i18n( "star" ) ) {
+            if ( newName != xi18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
                 //First, save the last object's user log to disk, if necessary
                 saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
@@ -490,9 +490,9 @@ void ObservingList::slotNewSelection() {
                 LogObject = currentObject();
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
-                ui->NotesLabel->setText( i18n( "observing notes for %1:", getObjectName(LogObject) ) );
+                ui->NotesLabel->setText( xi18n( "observing notes for %1:", getObjectName(LogObject) ) );
                 if ( LogObject->userLog().isEmpty() ) {
-                    ui->NotesEdit->setPlainText( i18n( "Record here observation logs and/or data on %1.", getObjectName(LogObject)) );
+                    ui->NotesEdit->setPlainText( xi18n( "Record here observation logs and/or data on %1.", getObjectName(LogObject)) );
                 } else {
                     ui->NotesEdit->setPlainText( LogObject->userLog() );
                 }
@@ -504,7 +504,7 @@ void ObservingList::slotNewSelection() {
             } else { //selected object is named "star"
                 //clear the log text box
                 saveCurrentUserLog();
-                ui->NotesLabel->setText( i18n( "observing notes (disabled for unnamed star)" ) );
+                ui->NotesLabel->setText( xi18n( "observing notes (disabled for unnamed star)" ) );
                 ui->NotesLabel->setEnabled( false );
                 ui->NotesEdit->clear();
                 ui->NotesEdit->setEnabled( false );
@@ -522,13 +522,13 @@ void ObservingList::slotNewSelection() {
                 ui->DeleteImage->setEnabled( true );
             }
         } else {
-            qDebug() << i18n( "Object %1 not found in list.", newName );
+            qDebug() << xi18n( "Object %1 not found in list.", newName );
         }
     } else {
         if ( selectedItems.size() == 0 ) {//Nothing selected
             //Disable buttons
             noSelection = true;
-            ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
+            ui->NotesLabel->setText( xi18n( "Select an object to record notes on it here:" ) );
             ui->NotesLabel->setEnabled( false );
             ui->NotesEdit->setEnabled( false );
             m_CurrentObject = 0;
@@ -541,7 +541,7 @@ void ObservingList::slotNewSelection() {
             //Clear the plot in the AVTPlotwidget
             ui->View->removeAllPlotObjects();
         } else { //more than one object selected.
-            ui->NotesLabel->setText( i18n( "Select a single object to record notes on it here:" ) );
+            ui->NotesLabel->setText( xi18n( "Select a single object to record notes on it here:" ) );
             ui->NotesLabel->setEnabled( false );
             ui->NotesEdit->setEnabled( false );
             ui->TimeEdit->setEnabled( false );
@@ -578,7 +578,7 @@ void ObservingList::slotSlewToObject()
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -594,7 +594,7 @@ void ObservingList::slotSlewToObject()
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KMessageBox::error(0, xi18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
@@ -608,7 +608,7 @@ void ObservingList::slotSlewToObject()
 
     }
 
-    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+    KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
 
 #endif
 }
@@ -707,10 +707,10 @@ void ObservingList::slotClose() {
 void ObservingList::saveCurrentUserLog() {
     if ( ! ui->NotesEdit->toPlainText().isEmpty() &&
             ui->NotesEdit->toPlainText() !=
-            i18n( "Record here observation logs and/or data on %1.", getObjectName(LogObject) ) ) {
+            xi18n( "Record here observation logs and/or data on %1.", getObjectName(LogObject) ) ) {
         LogObject->saveUserLog( ui->NotesEdit->toPlainText() );
         ui->NotesEdit->clear();
-        ui->NotesLabel->setText( i18n( "Observing notes for object:" ) );
+        ui->NotesLabel->setText( xi18n( "Observing notes for object:" ) );
         LogObject = NULL;
     }
 }
@@ -734,8 +734,8 @@ void ObservingList::slotOpenList() {
         }
 
         if ( ! f.open( QIODevice::ReadOnly) ) {
-            QString message = i18n( "Could not open file %1", f.fileName() );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            QString message = xi18n( "Could not open file %1", f.fileName() );
+            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
             return;
         }
         saveCurrentList();//See if the current list needs to be saved before opening the new one
@@ -764,7 +764,7 @@ void ObservingList::slotOpenList() {
         isModified = false;
         f.close();
     } else if ( ! fileURL.path().isEmpty() ) {
-        KMessageBox::sorry( 0 , i18n( "The specified file is invalid" ) );
+        KMessageBox::sorry( 0 , xi18n( "The specified file is invalid" ) );
     }
 }
 
@@ -773,9 +773,9 @@ void ObservingList::saveCurrentList() {
     //Assume that if the list is empty, then there's no need to save
     if ( sessionList().size() ) {
         if ( isModified ) {
-            QString message = i18n( "Do you want to save the current session?" );
+            QString message = xi18n( "Do you want to save the current session?" );
             if ( KMessageBox::questionYesNo( this, message,
-                                             i18n( "Save Current session?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
+                                             xi18n( "Save Current session?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
                 slotSaveSession();
         }
     }
@@ -857,8 +857,8 @@ void ObservingList::slotSaveSession(bool nativeSave) {
     }
     QFile f( FileName );
     if( ! f.open( QIODevice::WriteOnly ) ) {
-        QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
-        if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
+        QString message = xi18n( "Could not open file %1.  Try a different filename?", f.fileName() );
+        if ( KMessageBox::warningYesNo( 0, message, xi18n( "Could Not Open File" ), KGuiItem(xi18n("Try Different")), KGuiItem(xi18n("Do Not Try")) ) == KMessageBox::Yes ) {
             FileName.clear();
             slotSaveSessionAs(nativeSave);
         }
@@ -924,7 +924,7 @@ void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
         ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen") );
         //Abbreviate text on each button
-        ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
+        ui->FindButton->setText( xi18nc( "First letter in 'Find'", "F" ) );
         //Hide columns 1-5
         ui->TableView->hideColumn(1);
         ui->TableView->hideColumn(2);
@@ -961,8 +961,8 @@ void ObservingList::slotToggleSize() {
         //Show the horizontal header
         ui->TableView->horizontalHeader()->show();
         //Expand text on each button
-        ui->WUTButton->setText( i18n( "WUT") );
-        ui->FindButton->setText( i18n( "Find &Object") );
+        ui->WUTButton->setText( xi18n( "WUT") );
+        ui->FindButton->setText( xi18n( "Find &Object") );
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();
@@ -975,7 +975,7 @@ void ObservingList::slotToggleSize() {
 void ObservingList::slotChangeTab(int index) {
     noSelection = true;
     saveCurrentUserLog();
-    ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
+    ui->NotesLabel->setText( xi18n( "Select an object to record notes on it here:" ) );
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
@@ -1158,7 +1158,7 @@ void ObservingList::slotImageViewer() {
 }
 
 void ObservingList::slotDeleteAllImages() {
-    if( KMessageBox::warningYesNo( 0, i18n( "This will delete all saved images. Are you sure you want to do this?" ), i18n( "Delete All Images" ) ) == KMessageBox::No )
+    if( KMessageBox::warningYesNo( 0, xi18n( "This will delete all saved images. Are you sure you want to do this?" ), xi18n( "Delete All Images" ) ) == KMessageBox::No )
         return;
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     ui->GoogleImage->setEnabled( false );
@@ -1256,7 +1256,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
 
 void ObservingList::slotGoogleImage() {
     QPixmap *pm = new QPixmap;
-    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
+    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, xi18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted ) {
         QFile f( CurrentImagePath );
 

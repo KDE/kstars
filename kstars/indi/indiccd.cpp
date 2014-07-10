@@ -867,7 +867,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     if (QDir(currentDir).exists() == false)
     {
-        KMessageBox::error(0, i18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
+        KMessageBox::error(0, xi18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
         return;
     }
 
@@ -927,7 +927,7 @@ void CCD::processBLOB(IBLOB* bp)
     strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
-        KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
+        KStars::Instance()->statusBar()->changeItem( xi18n("FITS file saved to %1", filename ), 0);
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {

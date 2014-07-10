@@ -269,7 +269,7 @@ void EkosManager::reset()
     controlPanelB->setEnabled(false);
     processINDIB->setEnabled(true);
 
-    processINDIB->setText(i18n("Start INDI"));
+    processINDIB->setText(xi18n("Start INDI"));
 }
 
 void EkosManager::loadDefaultDrivers()
@@ -434,7 +434,7 @@ void EkosManager::processINDI()
 
         if (ccd_di == NULL && guider_di == NULL)
         {
-            KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
+            KMessageBox::error(this, xi18n("Ekos requires at least one CCD or Guider to operate."));
             managedDevices.clear();
             return;
         }
@@ -501,7 +501,7 @@ void EkosManager::processINDI()
             return;
         }
 
-        appendLogText(i18n("INDI services started. Please connect devices."));
+        appendLogText(xi18n("INDI services started. Please connect devices."));
 
     }
     else
@@ -514,7 +514,7 @@ void EkosManager::processINDI()
             return;
         }
 
-        appendLogText(i18n("INDI services started. Connection to %1 at %2 is successful.", Options::remoteHost(), Options::remotePort()));
+        appendLogText(xi18n("INDI services started. Connection to %1 at %2 is successful.", Options::remoteHost(), Options::remotePort()));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
@@ -524,7 +524,7 @@ void EkosManager::processINDI()
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
 
-    processINDIB->setText(i18n("Stop INDI"));
+    processINDIB->setText(xi18n("Stop INDI"));
 
 
 }
@@ -535,7 +535,7 @@ void EkosManager::checkINDITimeout()
         return;
 
     if (nDevices != 0)
-        KMessageBox::error(this, i18np("Unable to completely establish remote devices. %1 device remaining. Please ensure remote device name corresponds to actual device name.", "Unable to completely establish remote devices. %1 devices remaining. Please ensure remote device name corresponds to actual device name.", nDevices));
+        KMessageBox::error(this, xi18np("Unable to completely establish remote devices. %1 device remaining. Please ensure remote device name corresponds to actual device name.", "Unable to completely establish remote devices. %1 devices remaining. Please ensure remote device name corresponds to actual device name.", nDevices));
 }
 
 void EkosManager::refreshRemoteDrivers()
@@ -588,7 +588,7 @@ void EkosManager::connectDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
-    appendLogText(i18n("Connecting INDI devices..."));
+    appendLogText(xi18n("Connecting INDI devices..."));
 }
 
 void EkosManager::disconnectDevices()
@@ -638,7 +638,7 @@ void EkosManager::disconnectDevices()
         aux->Disconnect();
 
 
-    appendLogText(i18n("Disconnecting INDI devices..."));
+    appendLogText(xi18n("Disconnecting INDI devices..."));
 
 }
 
@@ -662,13 +662,13 @@ void EkosManager::cleanDevices()
 
     reset();
 
-    processINDIB->setText(i18n("Start INDI"));
+    processINDIB->setText(xi18n("Start INDI"));
     processINDIB->setEnabled(true);
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
 
-    appendLogText(i18n("INDI services stopped."));
+    appendLogText(xi18n("INDI services stopped."));
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
@@ -781,7 +781,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
 
-        appendLogText(i18n("Remote devices established. Please connect devices."));
+        appendLogText(xi18n("Remote devices established. Please connect devices."));
     }
 
 }
@@ -864,7 +864,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 {
     scope = scopeDevice;
 
-    appendLogText(i18n("%1 is online.", scope->getDeviceName()));
+    appendLogText(xi18n("%1 is online.", scope->getDeviceName()));
 
     connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
 
@@ -895,7 +895,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     if (useGuiderFromCCD == false && guiderName == QString(ccdDevice->getDeviceName()))
     {
         guider = ccdDevice;
-        appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
+        appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
 
         initGuide();
         guideProcess->setCCD(guider);
@@ -914,7 +914,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         ccd = ccdDevice;
 
         if (ccdStarted == false)
-            appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
+            appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
 
         ccdStarted = true;
 
@@ -949,7 +949,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     if (useFilterFromCCD == false && filterDevice != ccd)
     {
        filter = filterDevice;
-       appendLogText(i18n("%1 is online.", filter->getDeviceName()));
+       appendLogText(xi18n("%1 is online.", filter->getDeviceName()));
     }
     else
         filter = ccd;
@@ -969,7 +969,7 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     focusProcess->setFocuser(focuser);
 
-    appendLogText(i18n("%1 is online.", focuser->getDeviceName()));
+    appendLogText(xi18n("%1 is online.", focuser->getDeviceName()));
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -989,7 +989,7 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
     }
 
 
-    appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
+    appendLogText(xi18n("%1 is offline.", devInterface->getDeviceName()));
 
     foreach(DriverInfo *drvInfo, managedDevices)
     {
@@ -1155,7 +1155,7 @@ void EkosManager::updateLog()
 void EkosManager::appendLogText(const QString &text)
 {
 
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     updateLog();
 }
@@ -1185,7 +1185,7 @@ void EkosManager::initCapture()
         return;
 
      captureProcess = new Ekos::Capture();
-     toolsWidget->addTab( captureProcess, i18n("CCD"));
+     toolsWidget->addTab( captureProcess, xi18n("CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
      if (focusProcess)
@@ -1205,7 +1205,7 @@ void EkosManager::initAlign()
         return;
 
      alignProcess = new Ekos::Align();
-     toolsWidget->addTab( alignProcess, i18n("Alignment"));
+     toolsWidget->addTab( alignProcess, xi18n("Alignment"));
      connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 }
 
@@ -1216,7 +1216,7 @@ void EkosManager::initFocus()
         return;
 
     focusProcess = new Ekos::Focus();
-    toolsWidget->addTab( focusProcess, i18n("Focus"));
+    toolsWidget->addTab( focusProcess, xi18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     if (captureProcess)
@@ -1241,7 +1241,7 @@ void EkosManager::initGuide()
         if (scope && scope->isConnected())
             guideProcess->setTelescope(scope);
 
-        toolsWidget->addTab( guideProcess, i18n("Guide"));
+        toolsWidget->addTab( guideProcess, xi18n("Guide"));
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     }
@@ -1282,7 +1282,7 @@ void EkosManager::initGuide()
 
 void EkosManager::setST4(ISD::ST4 * st4Driver)
 {
-     appendLogText(i18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
+     appendLogText(xi18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
      useST4=true;
 
      initGuide();

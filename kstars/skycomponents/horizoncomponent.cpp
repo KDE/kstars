@@ -37,7 +37,7 @@ HorizonComponent::HorizonComponent(SkyComposite *parent )
         : PointListComponent( parent )
 {
     KStarsData *data = KStarsData::Instance();
-    emitProgressText( i18n("Creating horizon" ) );
+    emitProgressText( xi18n("Creating horizon" ) );
 
     //Define Horizon
     for ( unsigned int i=0; i<NCIRCLE; ++i ) {
@@ -116,7 +116,7 @@ void HorizonComponent::draw( SkyPainter *skyp )
     QPolygonF groundPoly;
     SkyPoint *pAnchor(0), *pAnchor2(0);
 
-    static const QString horizonLabel = i18n("Horizon");
+    static const QString horizonLabel = xi18n("Horizon");
     float marginLeft, marginRight, marginTop, marginBot;
     SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
                                         &marginTop, &marginBot );
@@ -326,7 +326,7 @@ void HorizonComponent::draw( SkyPainter *skyp )
                 r0 = 2.0*r0;
                 break;
             default:
-                qWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
+                qWarning() << xi18n("Unrecognized coordinate projection: ") << Options::projection() ;
                 //default to Orthographic
                 break;
             }
@@ -460,14 +460,14 @@ void HorizonComponent::drawCompassLabels() {
 
     double az = -0.01;
     static QString name[8];
-    name[0] = i18nc( "Northeast", "NE" );
-    name[1] = i18nc( "East", "E" );
-    name[2] = i18nc( "Southeast", "SE" );
-    name[3] = i18nc( "South", "S" );
-    name[4] = i18nc( "Southwest", "SW" );
-    name[5] = i18nc( "West", "W" );
-    name[6] = i18nc( "Northwest", "NW" );
-    name[7] = i18nc( "North", "N" );
+    name[0] = xi18nc( "Northeast", "NE" );
+    name[1] = xi18nc( "East", "E" );
+    name[2] = xi18nc( "Southeast", "SE" );
+    name[3] = xi18nc( "South", "S" );
+    name[4] = xi18nc( "Southwest", "SW" );
+    name[5] = xi18nc( "West", "W" );
+    name[6] = xi18nc( "Northwest", "NW" );
+    name[7] = xi18nc( "North", "N" );
 
     for ( int i = 0; i < 8; i++ ) {
         az += 45.0;

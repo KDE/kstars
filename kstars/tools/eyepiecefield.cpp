@@ -37,7 +37,7 @@
 
 EyepieceField::EyepieceField( QWidget *parent ) : KDialog( parent ) {
 
-    setCaption( i18n( "Eyepiece Field View" ) );
+    setCaption( xi18n( "Eyepiece Field View" ) );
 
     QWidget *mainWidget = new QWidget( this );
     setMainWidget( mainWidget );
@@ -60,9 +60,9 @@ EyepieceField::EyepieceField( QWidget *parent ) : KDialog( parent ) {
     imageLayout->addWidget( m_skyChartDisplay );
     imageLayout->addWidget( m_skyImageDisplay );
 
-    m_invertView = new QCheckBox( i18n( "Invert view" ), this );
-    m_flipView = new QCheckBox( i18n( "Flip view" ), this );
-    m_invertColors = new QCheckBox( i18n( "Invert colors" ), this );
+    m_invertView = new QCheckBox( xi18n( "Invert view" ), this );
+    m_flipView = new QCheckBox( xi18n( "Flip view" ), this );
+    m_invertColors = new QCheckBox( xi18n( "Invert colors" ), this );
     
     QHBoxLayout *optionsLayout = new QHBoxLayout;
     optionsLayout->addWidget( m_invertView );
@@ -78,7 +78,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : KDialog( parent ) {
     m_rotationSlider->setTickInterval( 30 );
     m_rotationSlider->setPageStep( 30 );
 
-    QLabel *sliderLabel = new QLabel( i18n( "Rotation: " ), this );
+    QLabel *sliderLabel = new QLabel( xi18n( "Rotation: " ), this );
     
     QHBoxLayout *rotationLayout = new QHBoxLayout;
     rotationLayout->addWidget( sliderLabel );

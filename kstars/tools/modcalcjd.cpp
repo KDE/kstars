@@ -119,8 +119,8 @@ void modCalcJD::slotRunBatch() {
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
         if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = i18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            QString message = xi18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
             return;
         }
 
@@ -130,8 +130,8 @@ void modCalcJD::slotRunBatch() {
 
         f.close();
     } else  {
-        QString message = i18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+        QString message = xi18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid file" ) );
         return;
     }
 }
@@ -227,5 +227,5 @@ void modCalcJD::slotViewBatch() {
 
     fOut.close();
 
-    KMessageBox::informationList( 0, i18n("Results of Julian day calculation"), text, OutputFileBatch->url().toLocalFile() );
+    KMessageBox::informationList( 0, xi18n("Results of Julian day calculation"), text, OutputFileBatch->url().toLocalFile() );
 }

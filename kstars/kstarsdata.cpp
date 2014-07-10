@@ -54,20 +54,20 @@ namespace {
         bool ok;
         i = str.toInt( &ok );
         if( !ok )
-            qDebug() << str << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << line;
+            qDebug() << str << xi18n( "\nCities.dat: Bad integer.  Line was:\n" ) << line;
         return ok;
     }
 
     // Report fatal error during data loading to user
     // Calls QApplication::exit
     void fatalErrorMessage(QString fname) {
-        KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
+        KMessageBox::sorry(0, xi18n("The file  %1 could not be found. "
                                    "KStars cannot run properly without this file. "
                                    "KStars search for this file in following locations:\n\n"
                                    "\t$(KDEDIR)/share/apps/kstars/%1\n"
                                    "\t~/.kde/share/apps/kstars/%1\n\n"
                                    "It appears that your setup is broken.", fname),
-                           i18n( "Critical File Not Found: %1", fname ));
+                           xi18n( "Critical File Not Found: %1", fname ));
         qApp->exit(1);
     }
 
@@ -76,13 +76,13 @@ namespace {
     // Calls QApplication::exit if he don't
     bool nonFatalErrorMessage(QString fname) {
         int res = KMessageBox::warningContinueCancel(0,
-                      i18n("The file %1 could not be found. "
+                      xi18n("The file %1 could not be found. "
                            "KStars can still run without this file. "
                            "KStars search for this file in following locations:\n\n"
                            "\t$(KDEDIR)/share/apps/kstars/%1\n"
                            "\t~/.kde/share/apps/kstars/%1\n\n"
                            "It appears that you setup is broken. Press Continue to run KStars without this file ", fname),
-                      i18n( "Non-Critical File Not Found: %1", fname ));
+                      xi18n( "Non-Critical File Not Found: %1", fname ));
         if( res != KMessageBox::Continue )
             qApp->exit(1);
         return res == KMessageBox::Continue;
@@ -141,42 +141,42 @@ bool KStarsData::initialize() {
     catalogdb()->Initialize();
 
     //Load Time Zone Rules//
-    emit progressText( i18n("Reading time zone rules") );
+    emit progressText( xi18n("Reading time zone rules") );
     if( !readTimeZoneRulebook( ) ) {
         fatalErrorMessage( "TZrules.dat" );
         return false;
     }
 
     //Load Cities//
-    emit progressText( i18n("Loading city data") );
+    emit progressText( xi18n("Loading city data") );
     if ( !readCityData( ) ) {
         fatalErrorMessage( "Cities.dat" );
         return false;
     }
 
     //Initialize SkyMapComposite//
-    emit progressText(i18n("Loading sky objects" ) );
+    emit progressText(xi18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
 
     //Load Image URLs//
-    emit progressText( i18n("Loading Image URLs" ) );
+    emit progressText( xi18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
         return false;
 
     //Load Information URLs//
-    emit progressText( i18n("Loading Information URLs" ) );
+    emit progressText( xi18n("Loading Information URLs" ) );
     if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
         return false;
 
-    emit progressText( i18n("Loading Variable Stars" ) );
+    emit progressText( xi18n("Loading Variable Stars" ) );
 
     //Initialize User Database//
-    emit progressText( i18n("Loading User Information" ) );
+    emit progressText( xi18n("Loading User Information" ) );
     m_ksuserdb.Initialize();
 
     //Update supernovae list if enabled
     if( Options::updateSupernovaeOnStartup() ) {
-        emit progressText( i18n("Queueing update of list of supernovae from the internet") );
+        emit progressText( xi18n("Queueing update of list of supernovae from the internet") );
         skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
     }
 
@@ -386,7 +386,7 @@ bool KStarsData::processCity( const QString& line ) {
         fields[i] = fields[i].trimmed();
 
     if ( fields.size() < 11 ) {
-        qDebug() << i18n( "Cities.dat: Ran out of fields.  Line was:" );
+        qDebug() << xi18n( "Cities.dat: Ran out of fields.  Line was:" );
         qDebug() << line;
         return false;
     } else if ( fields.size() < 12 ) {
@@ -424,7 +424,7 @@ bool KStarsData::processCity( const QString& line ) {
     case 'N' : break;
     case 'S' : lat *= -1; break;
     default :
-        qDebug() << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << line;
+        qDebug() << xi18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << line;
         return false;
     }
 
@@ -433,7 +433,7 @@ bool KStarsData::processCity( const QString& line ) {
     case 'E' : break;
     case 'W' : lng *= -1; break;
     default:
-        qDebug() << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << line;
+        qDebug() << xi18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << line;
         return false;
     }
 
@@ -445,7 +445,7 @@ bool KStarsData::processCity( const QString& line ) {
         bool doubleCheck;
         TZ = fields[11].toDouble( &doubleCheck);
         if ( !doubleCheck ) {
-            qDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
+            qDebug() << fields[11] << xi18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
             return false;
         }
     }
@@ -568,7 +568,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
 
         } else {
             if ( KSUtils::openDataFile( file, urlfile ) ) {
-                if ( locale->language() != "en_US" ) qDebug() << i18n( "No localized URL file; using default English file." );
+                if ( locale->language() != "en_US" ) qDebug() << xi18n( "No localized URL file; using default English file." );
                 // we found urlfile, we need to copy it to locale
                 localeFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + urlfile ) ;
                 if (localeFile.open(QIODevice::WriteOnly)) {
@@ -583,7 +583,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                     localeFile.close();
                     file.reset();
                 } else {
-                    qDebug() << i18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" );
+                    qDebug() << xi18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" );
                 }
                 fileFound = true;
             }
@@ -618,7 +618,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
                 o = skyComposite()->findByName( name );
 
             if ( !o ) {
-                qWarning() << i18n( "Object named %1 not found", name ) ;
+                qWarning() << xi18n( "Object named %1 not found", name ) ;
             } else {
                 if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
                     if ( type==0 ) { //image URL
@@ -749,7 +749,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
     QFile f( scriptname );
     if ( !f.open( QIODevice::ReadOnly) ) {
-        qDebug() << i18n( "Could not open file %1", f.fileName() );
+        qDebug() << xi18n( "Could not open file %1", f.fileName() );
         return false;
     }
 
@@ -856,9 +856,9 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 bool ok( false );
 
                 //Parse default names which don't follow the regular file-naming scheme
-                if ( csName == i18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
-                if ( csName == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
-                if ( csName == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
+                if ( csName == xi18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
+                if ( csName == xi18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
+                if ( csName == xi18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
 
                 //Try the filename if it ends with ".colors"
                 if ( filename.endsWith( QLatin1String( ".colors" ) ) )
@@ -875,7 +875,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                         ok = colorScheme()->load( filename );
                     }
             
-                    if ( ! ok ) qDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", csName, filename ) << endl;
+                    if ( ! ok ) qDebug() << xi18n( "Unable to load color scheme named %1. Also tried %2.", csName, filename ) << endl;
                 }
 
             } else if ( fn[0] == "zoom" && fn.size() == 2 ) {
@@ -915,7 +915,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                     changeDateTime( geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,mnt,sec) ) ) );
                     cmdCount++;
                 } else {
-                    qWarning() << ki18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
+                    qWarning() << kxi18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
                     .subs( day ).subs( mth ).subs( yr )
                     .subs( hr ).subs( mnt ).subs( sec ).toString() << endl;
                 }
@@ -1034,7 +1034,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 }
 
                 if ( !cityFound )
-                    qWarning() << i18n( "Could not set location named %1, %2, %3" , city, province, country) ;
+                    qWarning() << xi18n( "Could not set location named %1, %2, %3" , city, province, country) ;
             }
         }
     }  //end while

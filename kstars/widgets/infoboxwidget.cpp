@@ -80,11 +80,11 @@ void InfoBoxWidget::slotTimeChanged() {
 
     m_strings.clear();
     m_strings <<
-        i18nc( "Local Time", "LT: " ) +
+        xi18nc( "Local Time", "LT: " ) +
         KLocale::global()->formatTime( data->lt().time(), true ) + "   " +
         KLocale::global()->formatDate( data->lt().date() );
     m_strings <<
-        i18nc( "Universal Time", "UT: " ) +
+        xi18nc( "Universal Time", "UT: " ) +
         KLocale::global()->formatTime( data->ut().time(), true ) + "   " +
         KLocale::global()->formatDate( data->ut().date() );
 
@@ -95,8 +95,8 @@ void InfoBoxWidget::slotTimeChanged() {
     QString JDString = QString::number( data->ut().djd(), 'f', 2 );
     JDString.replace( '.', KLocale::global()->decimalSymbol() );
     m_strings <<
-        i18nc( "Sidereal Time", "ST: " ) + STString +
-        i18nc( "Julian Day", "JD: " ) + JDString;
+        xi18nc( "Sidereal Time", "ST: " ) + STString +
+        xi18nc( "Julian Day", "JD: " ) + JDString;
     updateSize();
     update();
 }
@@ -107,9 +107,9 @@ void InfoBoxWidget::slotGeoChanged() {
     m_strings.clear();
     m_strings << geo->fullName();
     m_strings <<
-        i18nc( "Longitude", "Long:" ) + ' ' +
+        xi18nc( "Longitude", "Long:" ) + ' ' +
         KLocale::global()->formatNumber( geo->lng()->Degrees(),3) + "   " +
-        i18nc( "Latitude", "Lat:" ) + ' ' +
+        xi18nc( "Latitude", "Lat:" ) + ' ' +
         KLocale::global()->formatNumber( geo->lat()->Degrees(),3);
     updateSize();
     update();
@@ -120,18 +120,18 @@ void InfoBoxWidget::slotObjectChanged(SkyObject* obj) {
 }
 
 void InfoBoxWidget::slotPointChanged(SkyPoint* p) {
-    setPoint( i18n("nothing"), p);
+    setPoint( xi18n("nothing"), p);
 }
 
 void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
     m_strings.clear();
     m_strings << name;
     m_strings <<
-        i18nc( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() + "  " +
-        i18nc( "Declination", "Dec" )    + ": " + p->dec().toDMSString(true);
+        xi18nc( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() + "  " +
+        xi18nc( "Declination", "Dec" )    + ": " + p->dec().toDMSString(true);
     m_strings <<
-        i18nc( "Azimuth", "Az" )   + ": " + p->az().toDMSString(true) + "  " +
-        i18nc( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true);
+        xi18nc( "Azimuth", "Az" )   + ": " + p->az().toDMSString(true) + "  " +
+        xi18nc( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true);
     updateSize();
     update();
 }

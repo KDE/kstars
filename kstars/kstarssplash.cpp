@@ -27,7 +27,7 @@ KStarsSplash::KStarsSplash(const QString& customMessage )
 {
     setPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "kstars.png"));
     setMessage( customMessage.isEmpty() ?
-                      i18n( "Welcome to KStars. Please stand by while loading..." ) :
+                      xi18n( "Welcome to KStars. Please stand by while loading..." ) :
                       customMessage);
 }
 

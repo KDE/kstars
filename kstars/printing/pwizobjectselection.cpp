@@ -111,8 +111,8 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
                 }
             }
 
-            retVal += "; " + s->sptype() + ' ' + i18n("star");
-            retVal += "; " + i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1));
+            retVal += "; " + s->sptype() + ' ' + xi18n("star");
+            retVal += "; " + xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1));
 
             break;
         }
@@ -131,7 +131,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             QString type;
             if(ps->name() == "Sun")
             {
-                type = i18n("G5 star");
+                type = xi18n("G5 star");
             }
 
             else if(ps->name() == "Moon" )
@@ -139,9 +139,9 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
                 type = ps->translatedName();
             }
 
-            else if( ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" )
+            else if( ps->name() == xi18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" )
             {
-                type = i18n("Dwarf planet");
+                type = xi18n("Dwarf planet");
             }
 
             else
@@ -150,7 +150,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             }
 
             retVal += "; " + type;
-            retVal += "; " + i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1));
+            retVal += "; " + xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1));
 
             break;
         }

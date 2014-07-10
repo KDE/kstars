@@ -205,13 +205,13 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         0, -38,
         pixRect().width(), pixRect().height(),
         Qt::AlignHCenter | Qt::AlignTop | Qt::TextDontClip,
-        i18n( "Local time" ) );
+        xi18n( "Local time" ) );
     // Bottom axis label
     p->drawText(
         0, 0,
         pixRect().width(), pixRect().height() + 35,
         Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
-        i18n( "Universal time" ) );
+        xi18n( "Universal time" ) );
     // Left axis label
     p->save();
     p->rotate( 90.0 );
@@ -219,14 +219,14 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         0, 0,
         pixRect().height(), leftPadding() -5,
         Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
-        i18n( "Month" ) );
+        xi18n( "Month" ) );
     // Right axis label
     p->translate( 0.0, -1 * frameRect().width() + 30 );
     p->drawText(
         0, 0,
         pixRect().height(), leftPadding() -5,
         Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
-        i18n( "Julian date" ) );
+        xi18n( "Julian date" ) );
     p->restore();
 
     //Top/Bottom axis tickmarks and time labels

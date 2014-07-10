@@ -50,7 +50,7 @@ SkyCalendar::SkyCalendar( QWidget *parent )
     
     geo = KStarsData::Instance()->geo();
 
-    setCaption( i18n( "Sky Calendar" ) );
+    setCaption( xi18n( "Sky Calendar" ) );
     setButtons( KDialog::User1 | KDialog::Close );
     setModal( false );
 
@@ -63,7 +63,7 @@ SkyCalendar::SkyCalendar( QWidget *parent )
     scUI->Year->setValue( KStarsData::Instance()->lt().date().year() );
 
     scUI->LocationButton->setText( geo->fullName() );
-    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), "document-print", i18n("Print the Sky Calendar") ) );
+    setButtonGuiItem( KDialog::User1, KGuiItem( xi18n("&Print..."), "document-print", xi18n("Print the Sky Calendar") ) );
     
     scUI->CalendarView->setHorizon();
 
@@ -264,7 +264,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
            }
 
             if(needRiseLabel)
-                label = i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() );
+                label = xi18nc( "A planet rises from the horizon", "%1 rises", ksp->name() );
             else
                 label = QString();
         // Add the current point to KPlotObject
@@ -282,7 +282,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
            }
 
             if(needSetLabel)
-                label = i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() );
+                label = xi18nc( "A planet sets from the horizon", "%1 sets", ksp->name() );
             else
                 label = QString();
 
@@ -300,7 +300,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
            }
 
             if(needTransertLabel)
-                label = i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() );
+                label = xi18nc( "A planet transits across the meridian", "%1 transits", ksp->name() );
             else
                 label = QString();
 
@@ -333,7 +333,7 @@ void SkyCalendar::slotPrint() {
 
     // Open print dialog
     QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
-    dialog->setWindowTitle( i18n( "Print sky calendar" ) );
+    dialog->setWindowTitle( xi18n( "Print sky calendar" ) );
     if ( dialog->exec() == QDialog::Accepted ) {
         // Change mouse cursor
         QApplication::setOverrideCursor( Qt::WaitCursor );
@@ -347,7 +347,7 @@ void SkyCalendar::slotPrint() {
 
         // Set text legend
         str_year.setNum( year() );
-        str_legend = i18n( "Sky Calendar" );
+        str_legend = xi18n( "Sky Calendar" );
         str_legend += "\n";
         str_legend += geo->fullName();
         str_legend += " - ";

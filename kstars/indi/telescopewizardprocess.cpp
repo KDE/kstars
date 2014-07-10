@@ -111,7 +111,7 @@ void telescopeWizardProcess::cancelCheck(void)
     case TELESCOPE_P:
     case LOCAL_P:
     case PORT_P:
-	if ( KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
+	if ( KMessageBox::warningYesNo(0, xi18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
 	    emit reject();
 	break;
     default:
@@ -230,8 +230,8 @@ void telescopeWizardProcess::establishLink()
 
     if (ui->portIn->text().isEmpty())
     {
-        progressScan = new KProgressDialog(this, i18n("Telescope Wizard"),
-                                           i18n("Please wait while KStars scan communication ports for "
+        progressScan = new KProgressDialog(this, xi18n("Telescope Wizard"),
+                                           xi18n("Please wait while KStars scan communication ports for "
                                                 "attached telescopes.\nThis process might take few "
                                                 "minutes to complete."), Qt::Dialog);
         progressScan->progressBar()->setValue(0);
@@ -240,7 +240,7 @@ void telescopeWizardProcess::establishLink()
     }
     else
     {
-        progressScan = new KProgressDialog(this, i18n("Telescope Wizard"), i18n("Please wait while KStars tries to connect to your telescope..."), Qt::Dialog);
+        progressScan = new KProgressDialog(this, xi18n("Telescope Wizard"), xi18n("Please wait while KStars tries to connect to your telescope..."), Qt::Dialog);
         progressScan->progressBar()->setValue(portList.count());
         //qDebug() << "KProgressDialog for manual search has been initiated";
     }
@@ -364,7 +364,7 @@ void telescopeWizardProcess::scanPorts()
         DriverManager::Instance()->stopDevices(managedDevice);
         Reset();
 
-        KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
+        KMessageBox::sorry(0, xi18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
         return;
     }
 
@@ -379,7 +379,7 @@ void telescopeWizardProcess::linkSuccess()
 {
     Reset();
 
-    KStars::Instance()->statusBar()->changeItem( i18n("Telescope Wizard completed successfully."), 0);
+    KStars::Instance()->statusBar()->changeItem( xi18n("Telescope Wizard completed successfully."), 0);
 
     close();
 

@@ -29,7 +29,7 @@ namespace Ekos
 
 SequenceJob::SequenceJob()
 {
-    statusStrings = QStringList() << i18n("Idle") << i18n("In progress") << i18n("Error") << i18n("Aborted") << i18n("Complete");
+    statusStrings = QStringList() << xi18n("Idle") << xi18n("In progress") << xi18n("Error") << xi18n("Aborted") << xi18n("Complete");
     status = JOB_IDLE;
     exposure=count=delay=frameType=filterPos=-1;
     captureFilter=FITS_NONE;
@@ -331,7 +331,7 @@ void Capture::startSequence()
 {
     if (darkSubCheck->isChecked())
     {
-        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
+        KMessageBox::error(this, xi18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
 
@@ -357,7 +357,7 @@ void Capture::startSequence()
 
     if (first_job == NULL)
     {
-        appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
+        appendLogText(xi18n("No pending jobs found. Please add a job to the sequence queue."));
         return;
     }
 
@@ -560,7 +560,7 @@ void Capture::checkFilter(int filterNum)
 
     if (filterSlot == NULL)
     {
-        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
+        KMessageBox::error(0, xi18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
         return;
     }
 
@@ -630,7 +630,7 @@ void Capture::newFITS(IBLOB *bp)
             image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
     }
 
-    secondsLabel->setText(i18n("Complete."));
+    secondsLabel->setText(xi18n("Complete."));
 
     if (seqTotalCount <= 0)
     {
@@ -645,7 +645,7 @@ void Capture::newFITS(IBLOB *bp)
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
-    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
+    appendLogText(xi18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -671,7 +671,7 @@ void Capture::newFITS(IBLOB *bp)
             executeJob(next_job);
         else if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
         {
-            appendLogText(i18n("Parking telescope..."));
+            appendLogText(xi18n("Parking telescope..."));
             emit telescopeParking();
             currentTelescope->Park();
         }
@@ -690,13 +690,13 @@ void Capture::newFITS(IBLOB *bp)
 
         if (guideDither)
         {
-            secondsLabel->setText(i18n("Dithering..."));
+            secondsLabel->setText(xi18n("Dithering..."));
             emit exposureComplete();
         }
     }
     else if (isAutoFocus)
     {
-        secondsLabel->setText(i18n("Focusing..."));
+        secondsLabel->setText(xi18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
     }
     else
@@ -728,19 +728,19 @@ void Capture::captureImage()
          if (isDark)
          {
             calibrationState = CALIBRATE_START;
-            appendLogText(i18n("Capturing dark frame..."));
+            appendLogText(xi18n("Capturing dark frame..."));
          }
          else
-           appendLogText(i18n("Capturing image..."));
+           appendLogText(xi18n("Capturing image..."));
          break;
 
         case SequenceJob::CAPTURE_FRAME_ERROR:
-            appendLogText(i18n("Failed to set sub frame."));
+            appendLogText(xi18n("Failed to set sub frame."));
             stopSequence();
             break;
 
         case SequenceJob::CAPTURE_BIN_ERROR:
-            appendLogText(i18n("Failed to set binning."));
+            appendLogText(xi18n("Failed to set binning."));
             stopSequence();
             break;
      }
@@ -750,11 +750,11 @@ void Capture::captureImage()
 
 void Capture::resumeCapture()
 {
-    appendLogText(i18n("Dither complete."));
+    appendLogText(xi18n("Dither complete."));
 
     if (isAutoFocus && autoFocusStatus == false)
     {
-        secondsLabel->setText(i18n("Focusing..."));
+        secondsLabel->setText(xi18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
         return;
     }
@@ -828,7 +828,7 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
 void Capture::appendLogText(const QString &text)
 {
 
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -852,16 +852,16 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
     if (value == 0)
     {
-        secondsLabel->setText(i18n("Downloading..."));
+        secondsLabel->setText(xi18n("Downloading..."));
 
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
     }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)
-        secondsLabel->setText(i18n("second left"));
+        secondsLabel->setText(xi18n("second left"));
     else
-        secondsLabel->setText(i18n("seconds left"));
+        secondsLabel->setText(xi18n("seconds left"));
 }
 
 void Capture::addJob(bool preview)
@@ -871,7 +871,7 @@ void Capture::addJob(bool preview)
 
     if (preview == false && darkSubCheck->isChecked())
     {
-        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
+        KMessageBox::error(this, xi18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
 
@@ -1006,7 +1006,7 @@ void Capture::addJob(bool preview)
     {
         jobUnderEdit = false;
         resetJobEdit();
-        appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
+        appendLogText(xi18n("Job #%1 changes applied.", currentRow+1));
     }
 
 }
@@ -1200,7 +1200,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
             spikeDetected = false;
             deviationDetected = true;
-            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
+            appendLogText(xi18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
             stopSequence();
         }
         return;
@@ -1211,7 +1211,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         if (deviation_rms <= guideDeviation->value())
         {
             deviationDetected = false;
-            appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
+            appendLogText(xi18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
             startSequence();
             return;
         }
@@ -1246,7 +1246,7 @@ void Capture::updateAutofocusStatus(bool status)
             seqTimer->start(seqDelay);
         else
         {
-            appendLogText(i18n("Autofocus failed. Aborting exposure..."));
+            appendLogText(xi18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText("");
             stopSequence();
         }
@@ -1315,8 +1315,8 @@ void Capture::loadSequenceQueue()
 
     if (fileURL.isValid() == false)
     {
-       QString message = i18n( "Invalid URL: %1", fileURL.path() );
-       KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+       QString message = xi18n( "Invalid URL: %1", fileURL.path() );
+       KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
     }
 
     QFile sFile;
@@ -1324,8 +1324,8 @@ void Capture::loadSequenceQueue()
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
-        QString message = i18n( "Unable to open file %1",  fileURL.path());
-        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        QString message = xi18n( "Unable to open file %1",  fileURL.path());
+        KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
         return;
     }
 
@@ -1493,10 +1493,10 @@ void Capture::saveSequenceQueue()
         if (QFile::exists(sequenceURL.path()))
         {
             int r = KMessageBox::warningContinueCancel(0,
-                        i18n( "A file named \"%1\" already exists. "
+                        xi18n( "A file named \"%1\" already exists. "
                               "Overwrite it?", sequenceURL.fileName() ),
-                        i18n( "Overwrite File?" ),
-                        KGuiItem(i18n( "&Overwrite" )) );
+                        xi18n( "Overwrite File?" ),
+                        KGuiItem(xi18n( "&Overwrite" )) );
             if(r==KMessageBox::Cancel) return;
         }
     }
@@ -1505,7 +1505,7 @@ void Capture::saveSequenceQueue()
     {
         if ( (saveSequenceQueue(sequenceURL.path())) == false)
         {
-            KMessageBox::error(0, i18n("Failed to save sequence queue"), i18n("FITS Save"));
+            KMessageBox::error(0, xi18n("Failed to save sequence queue"), xi18n("FITS Save"));
             return;
         }
 
@@ -1513,8 +1513,8 @@ void Capture::saveSequenceQueue()
 
     } else
     {
-        QString message = i18n( "Invalid URL: %1", sequenceURL.url() );
-        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+        QString message = xi18n( "Invalid URL: %1", sequenceURL.url() );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
     }
 
 }
@@ -1535,8 +1535,8 @@ bool Capture::saveSequenceQueue(const QString &path)
 
     if ( !file.open( QIODevice::WriteOnly))
     {
-        QString message = i18n( "Unable to write to file %1",  path);
-        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        QString message = xi18n( "Unable to write to file %1",  path);
+        KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
         return false;
     }
 
@@ -1583,15 +1583,15 @@ bool Capture::saveSequenceQueue(const QString &path)
 
     outstream << "</SequenceQueue>" << endl;
 
-    appendLogText(i18n("Sequence queue saved to %1", path));
+    appendLogText(xi18n("Sequence queue saved to %1", path));
     file.close();
    return true;
 }
 
 void Capture::resetJobs()
 {
-    if (KMessageBox::warningContinueCancel(NULL, i18n("Are you sure you want to reset status of all jobs?"),
-                                           i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+    if (KMessageBox::warningContinueCancel(NULL, xi18n("Are you sure you want to reset status of all jobs?"),
+                                           xi18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                            "reset_job_status_warning") !=KMessageBox::Continue)
         return;
 
@@ -1630,7 +1630,7 @@ void Capture::editJob(QModelIndex i)
    ISOCheck->setChecked(job->getISOMode());
    displayCheck->setChecked(job->isShowFITS());
 
-   appendLogText(i18n("Editing job #%1...", i.row()+1));
+   appendLogText(xi18n("Editing job #%1...", i.row()+1));
 
    addToQueueB->setIcon(QIcon::fromTheme("svn-update"));
 
@@ -1641,7 +1641,7 @@ void Capture::editJob(QModelIndex i)
 void Capture::resetJobEdit()
 {
    if (jobUnderEdit)
-       appendLogText(i18n("Editing job canceled."));
+       appendLogText(xi18n("Editing job canceled."));
 
    jobUnderEdit = false;
    addToQueueB->setIcon(QIcon::fromTheme("list-add"));

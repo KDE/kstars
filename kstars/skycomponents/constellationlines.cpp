@@ -38,7 +38,7 @@
 
 
 ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultures ) :
-    LineListIndex( parent, i18n("Constellation Lines") ),
+    LineListIndex( parent, xi18n("Constellation Lines") ),
     m_reindexNum(J2000)
 {
     //Create the ConstellationLinesComponents.  Each is a series of points
@@ -102,7 +102,7 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
                     maxPM = pm;
             }
             else if ( ! star )
-                qWarning() << i18n( "Star HD%1 not found." , HDnum);
+                qWarning() << xi18n( "Star HD%1 not found." , HDnum);
         }
     }
 

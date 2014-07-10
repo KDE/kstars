@@ -37,14 +37,14 @@
 
 
 MilkyWay::MilkyWay( SkyComposite *parent ) :
-    LineListIndex( parent, i18n("Milky Way") )
+    LineListIndex( parent, xi18n("Milky Way") )
 {
     intro();
     // Milky way
-    loadContours("milkyway.dat", i18n("Loading Milky Way"));
+    loadContours("milkyway.dat", xi18n("Loading Milky Way"));
     // Magellanic clouds
-    loadContours("lmc.dat", i18n("Loading Large Magellanic Clouds"));
-    loadContours("smc.dat", i18n("Loading Small Magellanic Clouds"));
+    loadContours("lmc.dat", xi18n("Loading Large Magellanic Clouds"));
+    loadContours("smc.dat", xi18n("Loading Small Magellanic Clouds"));
     summary();
 }
 

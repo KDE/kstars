@@ -97,7 +97,7 @@ void ThumbnailPicker::slotFillList() {
     if ( nImages ) {
         ui->SearchProgress->setMinimum( 0 );
         ui->SearchProgress->setMaximum( nImages-1 );
-        ui->SearchLabel->setText( i18n( "Loading images..." ) );
+        ui->SearchLabel->setText( xi18n( "Loading images..." ) );
     }
 
     //Add images from the ImageList
@@ -121,7 +121,7 @@ void ThumbnailPicker::slotJobResult( KJob *job ) {
         ui->SearchProgress->setValue(ui->SearchProgress->value()+1);
         if ( ui->SearchProgress->value() == ui->SearchProgress->maximum() ) {
             ui->SearchProgress->hide();
-            ui->SearchLabel->setText( i18n( "Search results:" ) );
+            ui->SearchLabel->setText( xi18n( "Search results:" ) );
         }
     }
 
@@ -297,8 +297,8 @@ void ThumbnailPicker::slotSetFromURL() {
 
             if ( im.isNull() ) {
                 KMessageBox::sorry( 0,
-                                    i18n("Failed to load image at %1", localFile.fileName() ),
-                                    i18n("Failed to load image") );
+                                    xi18n("Failed to load image at %1", localFile.fileName() ),
+                                    xi18n("Failed to load image") );
                 return;
             }
 

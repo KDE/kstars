@@ -88,8 +88,8 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     if ( dtResult.isValid() )
         return dtResult;
 
-    qWarning() << i18n( "Could not parse Date/Time string: " ) << s ;
-    qWarning() << i18n( "Valid date formats: " ) ;
+    qWarning() << xi18n( "Could not parse Date/Time string: " ) << s ;
+    qWarning() << xi18n( "Valid date formats: " ) ;
     qWarning() << "  1950-02-25   ;  1950-02-25T05:30:00" ;
     qWarning() << "  25 Feb 1950  ;  25 Feb 1950 05:30:00" ;
     qWarning() << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";

@@ -347,7 +347,7 @@ void INDI_E::buildBLOB(IBLOB *ibp)
 
     setupElementLabel();
 
-    text = i18n("INDI DATA STREAM");
+    text = xi18n("INDI DATA STREAM");
 
     switch (dataProp->getPermission())
     {
@@ -648,7 +648,7 @@ void INDI_E::browseBlob()
 
     if (!fp.open(QIODevice::ReadOnly))
     {
-        KMessageBox::error(0, i18n("Cannot open file %1 for reading", filename));
+        KMessageBox::error(0, xi18n("Cannot open file %1 for reading", filename));
         return;
     }
 
@@ -660,7 +660,7 @@ void INDI_E::browseBlob()
 
     if (data_file == NULL)
     {
-        KMessageBox::error(0, i18n("Not enough memory to load %1", filename));
+        KMessageBox::error(0, xi18n("Not enough memory to load %1", filename));
         fp.close();
         return;
     }
@@ -670,7 +670,7 @@ void INDI_E::browseBlob()
     bp->blob = new unsigned char[4*fp.size()/3+4];
     if (bp->blob == NULL)
     {
-        KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64", filename));
+        KMessageBox::error(0, xi18n("Not enough memory to convert file %1 to base64", filename));
         fp.close();
     }
 

@@ -334,9 +334,9 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         // Draw them as bright stars of appropriate color instead of images
         char spType;
         //FIXME: do these need i18n?
-        if( planet->name() == i18n("Mars") ) {
+        if( planet->name() == xi18n("Mars") ) {
             spType = 'K';
-        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
+        } else if( planet->name() == xi18n("Jupiter") || planet->name() == xi18n("Mercury") || planet->name() == xi18n("Saturn") ) {
             spType = 'F';
         } else {
             spType = 'B';

@@ -54,7 +54,7 @@ WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsD
 {
     WUT = new WUTDialogUI( this );
     setMainWidget( WUT );
-    setCaption( i18n("What's up Tonight") );
+    setCaption( xi18n("What's up Tonight") );
     setButtons( KDialog::Close );
     setModal( false );
 
@@ -78,8 +78,8 @@ WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsD
     QString sGeo = geo->translatedName();
     if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
     sGeo += ", " + geo->translatedCountry();
-    WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
-    WUT->DateLabel->setText( i18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
+    WUT->LocationLabel->setText( xi18n( "at %1", sGeo ) );
+    WUT->DateLabel->setText( xi18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
     m_Mag = 10.0;
     WUT->MagnitudeEdit->setValue( m_Mag );
     WUT->MagnitudeEdit->setSliderEnabled( true );
@@ -109,10 +109,10 @@ void WUTDialog::makeConnections() {
 }
 
 void WUTDialog::initCategories() {
-    m_Categories << i18n( "Planets" ) << i18n( "Stars" )
-    << i18n( "Nebulae" ) << i18n( "Galaxies" )
-    << i18n( "Star Clusters" ) << i18n( "Constellations" ) 
-    << i18n( "Asteroids" ) << i18n( "Comets" );
+    m_Categories << xi18n( "Planets" ) << xi18n( "Stars" )
+    << xi18n( "Nebulae" ) << xi18n( "Galaxies" )
+    << xi18n( "Star Clusters" ) << xi18n( "Constellations" ) 
+    << xi18n( "Asteroids" ) << xi18n( "Comets" );
 
     foreach ( const QString &c, m_Categories )
     WUT->CategoryListWidget->addItem( c );
@@ -149,13 +149,13 @@ void WUTDialog::init() {
     oSun->updateCoords( num, true, geo->lat(), &LST );
     if ( oSun->checkCircumpolar( geo->lat() ) ) {
         if ( oSun->alt().Degrees() > 0.0 ) {
-            sRise = i18n( "circumpolar" );
-            sSet = i18n( "circumpolar" );
+            sRise = xi18n( "circumpolar" );
+            sSet = xi18n( "circumpolar" );
             sDuration = "00:00";
             Dur = hDur = mDur = 0;
         } else {
-            sRise = i18n( "does not rise" );
-            sSet = i18n( "does not rise" );
+            sRise = xi18n( "does not rise" );
+            sSet = xi18n( "does not rise" );
             sDuration = "24:00";
             Dur = hDur = 24;
             mDur = 0;
@@ -177,18 +177,18 @@ void WUTDialog::init() {
         sDuration = KLocale::global()->formatTime( tDur, false, true );
     }
 
-    WUT->SunSetLabel->setText( i18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
-    WUT->SunRiseLabel->setText( i18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+    WUT->SunSetLabel->setText( xi18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    WUT->SunRiseLabel->setText( xi18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
     if( Dur == 0 )
-        WUT->NightDurationLabel->setText( i18n("Night duration: %1", sDuration ) );
+        WUT->NightDurationLabel->setText( xi18n("Night duration: %1", sDuration ) );
     else if( Dur > 1 )
-        WUT->NightDurationLabel->setText( i18n("Night duration: %1 hours", sDuration ) );
+        WUT->NightDurationLabel->setText( xi18n("Night duration: %1 hours", sDuration ) );
     else if( Dur == 1 )
-        WUT->NightDurationLabel->setText( i18n("Night duration: %1 hour", sDuration ) );
+        WUT->NightDurationLabel->setText( xi18n("Night duration: %1 hour", sDuration ) );
     else if( mDur > 1 )
-        WUT->NightDurationLabel->setText( i18n("Night duration: %1 minutes", sDuration ) );
+        WUT->NightDurationLabel->setText( xi18n("Night duration: %1 minutes", sDuration ) );
     else if( mDur == 1 )
-        WUT->NightDurationLabel->setText( i18n("Night duration: %1 minute", sDuration ) );
+        WUT->NightDurationLabel->setText( xi18n("Night duration: %1 minute", sDuration ) );
 
     // moon almanac information
     KSMoon *oMoon = dynamic_cast<KSMoon*>( data->objectNamed("Moon") );
@@ -199,11 +199,11 @@ void WUTDialog::init() {
     oMoon->updateCoords( num, true, geo->lat(), &LST );
     if ( oMoon->checkCircumpolar( geo->lat() ) ) {
         if ( oMoon->alt().Degrees() > 0.0 ) {
-            sRise = i18n( "circumpolar" );
-            sSet = i18n( "circumpolar" );
+            sRise = xi18n( "circumpolar" );
+            sSet = xi18n( "circumpolar" );
         } else {
-            sRise = i18n( "does not rise" );
-            sSet = i18n( "does not rise" );
+            sRise = xi18n( "does not rise" );
+            sSet = xi18n( "does not rise" );
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
@@ -211,14 +211,14 @@ void WUTDialog::init() {
         sSet = KLocale::global()->formatTime( moonSet.addSecs(30) );
     }
 
-    WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1 on %2", sRise, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    WUT->MoonRiseLabel->setText( xi18n( "Moon rises at: %1 on %2", sRise, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
 
     // If the moon rises and sets on the same day, this will be valid [ Unless
     // the moon sets on the next day after staying on for over 24 hours ]
     if( moonSet > moonRise )
-        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
+        WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
     else
-        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+        WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
     oMoon->findPhase();
     WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
                                       int(100.0*oMoon->illum() ) ) );
@@ -266,7 +266,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
 
         else if ( c == m_Categories[1] ) { //Stars
             foreach ( SkyObject *o, data->skyComposite()->stars() )
-            if ( o->name() != i18n("star") && checkVisibility(o) && o->mag() <= m_Mag )
+            if ( o->name() != xi18n("star") && checkVisibility(o) && o->mag() <= m_Mag )
                 visibleObjects(c).append(o);
 
             m_CategoryInitialized[ c ] = true;
@@ -282,7 +282,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
 
         else if ( c == m_Categories[6] ) { //Asteroids
             foreach ( SkyObject *o, data->skyComposite()->asteroids() )
-            if ( checkVisibility(o) && o->name() != i18n("Pluto") && o->mag() <= m_Mag )
+            if ( checkVisibility(o) && o->name() != xi18n("Pluto") && o->mag() <= m_Mag )
                 visibleObjects(c).append(o);
 
             m_CategoryInitialized[ c ] = true;
@@ -386,13 +386,13 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
     SkyObject *o = 0;
     if ( name.isEmpty() )
     {  //no object selected
-        WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );
+        WUT->ObjectBox->setTitle( xi18n( "No Object Selected" ) );
         o = 0;
     } else {
         o = KStarsData::Instance()->objectNamed( name );
 
         if ( !o ) { //should never get here
-            WUT->ObjectBox->setTitle( i18n( "Object Not Found" ) );
+            WUT->ObjectBox->setTitle( xi18n( "Object Not Found" ) );
         }
     }
     if (o) {
@@ -400,11 +400,11 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
 
         if ( o->checkCircumpolar( geo->lat() ) ) {
             if ( o->alt().Degrees() > 0.0 ) {
-                sRise = i18n( "circumpolar" );
-                sSet = i18n( "circumpolar" );
+                sRise = xi18n( "circumpolar" );
+                sSet = xi18n( "circumpolar" );
             } else {
-                sRise = i18n( "does not rise" );
-                sSet = i18n( "does not rise" );
+                sRise = xi18n( "does not rise" );
+                sSet = xi18n( "does not rise" );
             }
         } else {
             tRise = o->riseSetTime( T0, geo, true );
@@ -428,9 +428,9 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
         WUT->DetailButton->setEnabled( true );
     }
 
-    WUT->ObjectRiseLabel->setText( i18n( "Rises at: %1", sRise ) );
-    WUT->ObjectTransitLabel->setText( i18n( "Transits at: %1", sTransit ) );
-    WUT->ObjectSetLabel->setText( i18n( "Sets at: %1", sSet ) );
+    WUT->ObjectRiseLabel->setText( xi18n( "Rises at: %1", sRise ) );
+    WUT->ObjectTransitLabel->setText( xi18n( "Transits at: %1", sTransit ) );
+    WUT->ObjectSetLabel->setText( xi18n( "Sets at: %1", sSet ) );
 }
 
 void WUTDialog::slotCenter() {
@@ -503,7 +503,7 @@ void WUTDialog::slotChangeDate() {
         Evening = T0.addSecs( -6*3600 );
         EveningUT = geo->LTtoUT( Evening );
 
-        WUT->DateLabel->setText( i18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
+        WUT->DateLabel->setText( xi18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
 
         init();
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
@@ -521,7 +521,7 @@ void WUTDialog::slotChangeLocation() {
             TomorrowUT = geo->LTtoUT( Tomorrow );
             EveningUT = geo->LTtoUT( Evening );
 
-            WUT->LocationLabel->setText( i18n( "at %1", geo->fullName() ) );
+            WUT->LocationLabel->setText( xi18n( "at %1", geo->fullName() ) );
 
             init();
             slotLoadList( WUT->CategoryListWidget->currentItem()->text() );

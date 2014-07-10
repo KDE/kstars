@@ -121,52 +121,52 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 
     TimeString.clear();
     if ( ! daysOnly() ) {
-        TimeString.append( "0 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "0.1 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "0.25 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "0.5 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "1 " + i18nc( "second", "sec" ));
-        TimeString.append( "2 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "5 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "10 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "20 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "30 " + i18nc( "seconds", "secs" ));
-        TimeString.append( "1 " + i18nc( "minute", "min" ));
-        TimeString.append( "2 " + i18nc( "minutes", "mins" ));
-        TimeString.append( "5 " + i18nc( "minutes", "mins" ));
-        TimeString.append( "10 " + i18nc( "minutes", "mins" ));
-        TimeString.append( "15 " + i18nc( "minutes", "mins" ));
-        TimeString.append( "30 " + i18nc( "minutes", "mins" ));
-        TimeString.append( "1 " + i18n( "hour" ));
-        TimeString.append( "2 " + i18nc( "hours", "hrs" ));
-        TimeString.append( "3 " + i18nc( "hours", "hrs" ));
-        TimeString.append( "6 " + i18nc( "hours", "hrs" ));
-        TimeString.append( "12 " + i18nc( "hours", "hrs" ));
+        TimeString.append( "0 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "0.1 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "0.25 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "0.5 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "1 " + xi18nc( "second", "sec" ));
+        TimeString.append( "2 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "5 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "10 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "20 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "30 " + xi18nc( "seconds", "secs" ));
+        TimeString.append( "1 " + xi18nc( "minute", "min" ));
+        TimeString.append( "2 " + xi18nc( "minutes", "mins" ));
+        TimeString.append( "5 " + xi18nc( "minutes", "mins" ));
+        TimeString.append( "10 " + xi18nc( "minutes", "mins" ));
+        TimeString.append( "15 " + xi18nc( "minutes", "mins" ));
+        TimeString.append( "30 " + xi18nc( "minutes", "mins" ));
+        TimeString.append( "1 " + xi18n( "hour" ));
+        TimeString.append( "2 " + xi18nc( "hours", "hrs" ));
+        TimeString.append( "3 " + xi18nc( "hours", "hrs" ));
+        TimeString.append( "6 " + xi18nc( "hours", "hrs" ));
+        TimeString.append( "12 " + xi18nc( "hours", "hrs" ));
     } else {
-        TimeString.append( "0 " + i18n( "days" ));
+        TimeString.append( "0 " + xi18n( "days" ));
     }
-    TimeString.append( "1 " + i18nc( "sidereal day", "sid day" ));
-    TimeString.append( "1 " + i18n( "day" ));
-    TimeString.append( "2 " + i18n( "days" ));
-    TimeString.append( "3 " + i18n( "days" ));
-    TimeString.append( "5 " + i18n( "days" ));
-    TimeString.append( "1 " + i18n( "week" ));
-    TimeString.append( "2 " + i18nc( "weeks", "wks" ));
-    TimeString.append( "3 " + i18nc( "weeks", "wks" ));
-    TimeString.append( "1 " + i18n( "month" ));
-    TimeString.append( "2 " + i18nc( "months", "mths" ));
-    TimeString.append( "3 " + i18nc( "months", "mths" ));
-    TimeString.append( "4 " + i18nc( "months", "mths" ));
-    TimeString.append( "6 " + i18nc( "months", "mths" ));
-    TimeString.append( "9 " + i18nc( "months", "mths" ));
-    TimeString.append( "1 " + i18n( "year" ));
-    TimeString.append( "2 " + i18nc( "years", "yrs" ));
-    TimeString.append( "3 " + i18nc( "years", "yrs" ));
-    TimeString.append( "5 " + i18nc( "years", "yrs" ));
-    TimeString.append( "10 " + i18nc( "years", "yrs" ));
-    TimeString.append( "25 " + i18nc( "years", "yrs" ));
-    TimeString.append( "50 " + i18nc( "years", "yrs" ));
-    TimeString.append( "100 " + i18nc( "years", "yrs" ));
+    TimeString.append( "1 " + xi18nc( "sidereal day", "sid day" ));
+    TimeString.append( "1 " + xi18n( "day" ));
+    TimeString.append( "2 " + xi18n( "days" ));
+    TimeString.append( "3 " + xi18n( "days" ));
+    TimeString.append( "5 " + xi18n( "days" ));
+    TimeString.append( "1 " + xi18n( "week" ));
+    TimeString.append( "2 " + xi18nc( "weeks", "wks" ));
+    TimeString.append( "3 " + xi18nc( "weeks", "wks" ));
+    TimeString.append( "1 " + xi18n( "month" ));
+    TimeString.append( "2 " + xi18nc( "months", "mths" ));
+    TimeString.append( "3 " + xi18nc( "months", "mths" ));
+    TimeString.append( "4 " + xi18nc( "months", "mths" ));
+    TimeString.append( "6 " + xi18nc( "months", "mths" ));
+    TimeString.append( "9 " + xi18nc( "months", "mths" ));
+    TimeString.append( "1 " + xi18n( "year" ));
+    TimeString.append( "2 " + xi18nc( "years", "yrs" ));
+    TimeString.append( "3 " + xi18nc( "years", "yrs" ));
+    TimeString.append( "5 " + xi18nc( "years", "yrs" ));
+    TimeString.append( "10 " + xi18nc( "years", "yrs" ));
+    TimeString.append( "25 " + xi18nc( "years", "yrs" ));
+    TimeString.append( "50 " + xi18nc( "years", "yrs" ));
+    TimeString.append( "100 " + xi18nc( "years", "yrs" ));
 
     if ( ! daysOnly() ) {
         setMinimum( -41 );
@@ -217,7 +217,7 @@ float TimeSpinBox::timeScale( void ) const {
 }
 
 void TimeSpinBox::reportChange() {
-    qDebug() << i18n( "Reporting new timestep value: " ) << timeScale();
+    qDebug() << xi18n( "Reporting new timestep value: " ) << timeScale();
     emit scaleChanged( timeScale() );
 }
 

@@ -585,7 +585,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 if( clickedObject() )
                     name = clickedObject()->translatedLongName();
                 else
-                    name = i18n( "Empty sky" );
+                    name = xi18n( "Empty sky" );
                 kstars->statusBar()->changeItem(name, 0 );
             }
             break;

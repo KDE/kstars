@@ -88,7 +88,7 @@ void AsteroidsComponent::loadData() {
     float diameter, albedo, rot_period, period;
     bool neo;
 
-    emitProgressText( i18n("Loading asteroids") );
+    emitProgressText( xi18n("Loading asteroids") );
 
     // Clear lists
     m_ObjectList.clear();

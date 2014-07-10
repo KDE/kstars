@@ -150,9 +150,9 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 }
 
 bool KSPlanetBase::isMajorPlanet() const {
-    if ( name() == i18n( "Mercury" ) || name() == i18n( "Venus" ) || name() == i18n( "Mars" ) ||
-         name() == i18n( "Jupiter" ) || name() == i18n( "Saturn" ) || name() == i18n( "Uranus" ) ||
-         name() == i18n( "Neptune" ) )
+    if ( name() == xi18n( "Mercury" ) || name() == xi18n( "Venus" ) || name() == xi18n( "Mars" ) ||
+         name() == xi18n( "Jupiter" ) || name() == xi18n( "Saturn" ) || name() == xi18n( "Uranus" ) ||
+         name() == xi18n( "Neptune" ) )
         return true;
     return false;
 }
@@ -215,7 +215,7 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
     }
 
     if ( ! Earth  ) {
-        qDebug() << i18n( "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" ) << name() << ")";
+        qDebug() << xi18n( "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" ) << name() << ")";
         Rearth = 1.0;
         return;
     }
@@ -269,7 +269,7 @@ double KSPlanetBase::labelOffset() const {
         size = minsize;
 
     //Inflate offset for Saturn
-    if ( name() == i18n( "Saturn" ) )
+    if ( name() == xi18n( "Saturn" ) )
         size = int(2.5*size);
 
     return 0.5*size + 4.;

@@ -44,50 +44,50 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
-    K4AboutData aboutData( "kstars", 0, ki18n("KStars"),
+    K4AboutData aboutData( "kstars", 0, kxi18n("KStars"),
                           KSTARS_VERSION, ki18n(description), K4AboutData::License_GPL,
-                          ki18n("(c) 2001-2013, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
-    aboutData.addAuthor(ki18n("Jason Harris"),KLocalizedString(), "jharris@30doradus.org", "http://www.30doradus.org");
-    aboutData.addAuthor(ki18n("Jasem Mutlaq"), KLocalizedString(), "mutlaqja@ikarustech.com");
-    aboutData.addAuthor(ki18n("James Bowlin"), KLocalizedString(), "bowlin@mindspring.com");
-    aboutData.addAuthor(ki18n("Pablo de Vicente"), KLocalizedString(), "pvicentea@wanadoo.es");
-    aboutData.addAuthor(ki18n("Thomas Kabelmann"), KLocalizedString(), "tk78@gmx.de");
-    aboutData.addAuthor(ki18n("Heiko Evermann"),KLocalizedString(), "heiko@evermann.de", "http://www.evermann.de");
-    aboutData.addAuthor(ki18n("Carsten Niehaus"), KLocalizedString(), "cniehaus@gmx.de");
-    aboutData.addAuthor(ki18n("Mark Hollomon"), KLocalizedString(), "mhh@mindspring.com");
-    aboutData.addAuthor(ki18n("Alexey Khudyakov"), KLocalizedString(), "alexey.skladnoy@gmail.com");
-    aboutData.addAuthor(ki18n("M&eacute;d&eacute;ric Boquien"), KLocalizedString(), "mboquien@free.fr");
-    aboutData.addAuthor(ki18n("Akarsh Simha"), KLocalizedString(), "akarsh.simha@kdemail.net", "http://www.ph.utexas.edu/~asimha");
-    aboutData.addAuthor(ki18n("J&eacute;r&ocirc;me Sonrier"), KLocalizedString(), "jsid@emor3j.fr.eu.org");
-    aboutData.addAuthor(ki18n("Prakash Mohan"), KLocalizedString(), "prakash.mohan@kdemail.net");
-    aboutData.addAuthor(ki18n("Victor Cărbune"), KLocalizedString(), "victor.carbune@kdemail.net");
-    aboutData.addAuthor(ki18n("Henry de Valence"), KLocalizedString(), "hdevalence@gmail.com");
-    aboutData.addAuthor(ki18n("Samikshan Bairagya"), KLocalizedString(), "samikshan.bairagya@kdemail.net");
-    aboutData.addAuthor(ki18n("Rafał Kułaga"), KLocalizedString(), "rl.kulaga@gmail.com");
-    aboutData.addAuthor(ki18n("Rishab Arora"), KLocalizedString(), "ra.rishab@gmail.com");
+                          kxi18n("(c) 2001-2013, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
+    aboutData.addAuthor(kxi18n("Jason Harris"),KLocalizedString(), "jharris@30doradus.org", "http://www.30doradus.org");
+    aboutData.addAuthor(kxi18n("Jasem Mutlaq"), KLocalizedString(), "mutlaqja@ikarustech.com");
+    aboutData.addAuthor(kxi18n("James Bowlin"), KLocalizedString(), "bowlin@mindspring.com");
+    aboutData.addAuthor(kxi18n("Pablo de Vicente"), KLocalizedString(), "pvicentea@wanadoo.es");
+    aboutData.addAuthor(kxi18n("Thomas Kabelmann"), KLocalizedString(), "tk78@gmx.de");
+    aboutData.addAuthor(kxi18n("Heiko Evermann"),KLocalizedString(), "heiko@evermann.de", "http://www.evermann.de");
+    aboutData.addAuthor(kxi18n("Carsten Niehaus"), KLocalizedString(), "cniehaus@gmx.de");
+    aboutData.addAuthor(kxi18n("Mark Hollomon"), KLocalizedString(), "mhh@mindspring.com");
+    aboutData.addAuthor(kxi18n("Alexey Khudyakov"), KLocalizedString(), "alexey.skladnoy@gmail.com");
+    aboutData.addAuthor(kxi18n("M&eacute;d&eacute;ric Boquien"), KLocalizedString(), "mboquien@free.fr");
+    aboutData.addAuthor(kxi18n("Akarsh Simha"), KLocalizedString(), "akarsh.simha@kdemail.net", "http://www.ph.utexas.edu/~asimha");
+    aboutData.addAuthor(kxi18n("J&eacute;r&ocirc;me Sonrier"), KLocalizedString(), "jsid@emor3j.fr.eu.org");
+    aboutData.addAuthor(kxi18n("Prakash Mohan"), KLocalizedString(), "prakash.mohan@kdemail.net");
+    aboutData.addAuthor(kxi18n("Victor Cărbune"), KLocalizedString(), "victor.carbune@kdemail.net");
+    aboutData.addAuthor(kxi18n("Henry de Valence"), KLocalizedString(), "hdevalence@gmail.com");
+    aboutData.addAuthor(kxi18n("Samikshan Bairagya"), KLocalizedString(), "samikshan.bairagya@kdemail.net");
+    aboutData.addAuthor(kxi18n("Rafał Kułaga"), KLocalizedString(), "rl.kulaga@gmail.com");
+    aboutData.addAuthor(kxi18n("Rishab Arora"), KLocalizedString(), "ra.rishab@gmail.com");
 
-    aboutData.addCredit(ki18n("Valery Kharitonov"), ki18n("Converted labels containing technical terms to links to documentation") );
-    aboutData.addCredit(ki18n("Ana-Maria Constantin"), ki18n("Technical documentation on Astronomy and KStars") );
-    aboutData.addCredit(ki18n("Andrew Stepanenko"), ki18n("Guiding code based on lin_guider") );
-    aboutData.addCredit(ki18n("Nuno Pinheiro"), ki18n("Artwork") );
+    aboutData.addCredit(kxi18n("Valery Kharitonov"), kxi18n("Converted labels containing technical terms to links to documentation") );
+    aboutData.addCredit(kxi18n("Ana-Maria Constantin"), kxi18n("Technical documentation on Astronomy and KStars") );
+    aboutData.addCredit(kxi18n("Andrew Stepanenko"), kxi18n("Guiding code based on lin_guider") );
+    aboutData.addCredit(kxi18n("Nuno Pinheiro"), kxi18n("Artwork") );
 
 
     QCommandLineParser *parser = new QCommandLineParser;
     app.setApplicationVersion(INSERT_VERSION_HERE);
     parser->addVersionOption();
     parser->addHelpOption(INSERT_DESCRIPTION_HERE);
-    parser->addOption(QCommandLineOption(QStringList() << "!dump", i18n( "Dump sky image to file" )));
-    parser->addOption(QCommandLineOption(QStringList() << "script ", i18n( "Script to execute" )));
-    parser->addOption(QCommandLineOption(QStringList() << "width ", i18n( "Width of sky image" ), false, "640"));
-    parser->addOption(QCommandLineOption(QStringList() << "height ", i18n( "Height of sky image" ), false, "480"));
-    parser->addOption(QCommandLineOption(QStringList() << "filename ", i18n( "Filename for sky image" ), false, "kstars.png"));
-    parser->addOption(QCommandLineOption(QStringList() << "date ", i18n( "Date and time" )));
-    parser->addOption(QCommandLineOption(QStringList() << "!paused", i18n( "Start with clock paused" )));
+    parser->addOption(QCommandLineOption(QStringList() << "!dump", xi18n( "Dump sky image to file" )));
+    parser->addOption(QCommandLineOption(QStringList() << "script ", xi18n( "Script to execute" )));
+    parser->addOption(QCommandLineOption(QStringList() << "width ", xi18n( "Width of sky image" ), false, "640"));
+    parser->addOption(QCommandLineOption(QStringList() << "height ", xi18n( "Height of sky image" ), false, "480"));
+    parser->addOption(QCommandLineOption(QStringList() << "filename ", xi18n( "Filename for sky image" ), false, "kstars.png"));
+    parser->addOption(QCommandLineOption(QStringList() << "date ", xi18n( "Date and time" )));
+    parser->addOption(QCommandLineOption(QStringList() << "!paused", xi18n( "Start with clock paused" )));
 
     KApplication a;
 
     if ( parser->isSet( "dump" ) ) {
-        qDebug() << i18n( "Dumping sky image" );
+        qDebug() << xi18n( "Dumping sky image" );
 
         //parse filename and image format
         const char* format = "PNG";
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
         else if ( ext.toLower() == "gif" ) { format = "GIF"; }
         else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
         else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
-        else { qWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
+        else { qWarning() << xi18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
 
         //parse width and height
         bool ok(false);
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
             }
 
             if ( ! kdt.isValid() ) {
-                qWarning() << i18n( "Using CPU date/time instead." ) ;
+                qWarning() << xi18n( "Using CPU date/time instead." ) ;
 
                 kdt = KStarsDateTime::currentUtcDateTime();
             }
@@ -168,9 +168,9 @@ int main(int argc, char *argv[])
         QString scriptfile = parser->argument( "script" );
         if ( ! scriptfile.isEmpty() ) {
             if ( dat->executeScript( scriptfile, map ) ) {
-                std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
+                std::cout << xi18n( "Script executed." ).toUtf8().data() << std::endl;
             } else {
-                qWarning() << i18n( "Could not execute script." ) ;
+                qWarning() << xi18n( "Could not execute script." ) ;
             }
         }
 
@@ -179,8 +179,8 @@ int main(int argc, char *argv[])
         map->exportSkyImage( &sky );
         qApp->processEvents();
 
-        if ( ! sky.save( fname, format ) ) qWarning() << i18n( "Unable to save image: %1 ", fname ) ;
-        else qDebug() << i18n( "Saved to file: %1", fname );
+        if ( ! sky.save( fname, format ) ) qWarning() << xi18n( "Unable to save image: %1 ", fname ) ;
+        else qDebug() << xi18n( "Saved to file: %1", fname );
 
         delete map;
         delete dat;
@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
     qDebug() << "Date string: " << datestring;
 
     if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
-        qWarning() << i18n( "Using CPU date/time instead." ) ;
+        qWarning() << xi18n( "Using CPU date/time instead." ) ;
         datestring.clear();
     }
 

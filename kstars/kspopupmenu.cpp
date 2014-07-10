@@ -83,13 +83,13 @@ namespace {
             //We can round to the nearest minute by simply adding 30 seconds to the time.
             QString time = KLocale::global()->formatTime( t.addSecs(30) );
             return isRaise ?
-                i18n ("Rise time: %1", time) :
-                i18nc("the time at which an object falls below the horizon", "Set time: %1" , time);
+                xi18n ("Rise time: %1", time) :
+                xi18nc("the time at which an object falls below the horizon", "Set time: %1" , time);
         }
         if( o->alt().Degrees() > 0 )
-            return isRaise ? i18n( "No rise time: Circumpolar" ) : i18n( "No set time: Circumpolar" );
+            return isRaise ? xi18n( "No rise time: Circumpolar" ) : xi18n( "No set time: Circumpolar" );
         else
-            return isRaise ? i18n( "No rise time: Never rises" ) : i18n( "No set time: Never rises" );
+            return isRaise ? xi18n( "No rise time: Never rises" ) : xi18n( "No set time: Never rises" );
     }
 
     // String representation for transit time for object
@@ -98,7 +98,7 @@ namespace {
         QTime t = o->transitTime( data->ut(), data->geo() );
         if ( t.isValid() )
             //We can round to the nearest minute by simply adding 30 seconds to the time.
-            return i18n( "Transit time: %1", KLocale::global()->formatTime( t.addSecs(30) ) );
+            return xi18n( "Transit time: %1", KLocale::global()->formatTime( t.addSecs(30) ) );
         else
             return "--:--";
     }
@@ -126,9 +126,9 @@ void KSPopupMenu::createEmptyMenu( SkyPoint *nullObj ) {
     SkyObject o( SkyObject::TYPE_UNKNOWN, nullObj->ra(), nullObj->dec() );
     o.setAlt( nullObj->alt() );
     o.setAz( nullObj->az() );
-    initPopupMenu( &o, i18n( "Empty sky" ), QString(), QString(), false, false );
-    addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
-    addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ),      ks->map(), SLOT( slotDSS()  ) );
+    initPopupMenu( &o, xi18n( "Empty sky" ), QString(), QString(), false, false );
+    addAction( xi18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
+    addAction( xi18nc( "Digitized Sky Survey", "Show DSS Image" ),      ks->map(), SLOT( slotDSS()  ) );
 }
 
 void KSPopupMenu::slotEditFlag() {
@@ -181,13 +181,13 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
             name = "Star";
         }
     }
-    initPopupMenu( star, name, i18n( "star" ), i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
+    initPopupMenu( star, name, xi18n( "star" ), xi18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
     if ( star->name() != "star" ) {
         addLinksToMenu( star );
     } else {
-        addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
-        addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
+        addAction( xi18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
+        addAction( xi18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
 }
 
@@ -202,7 +202,7 @@ void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     QString info = magToStr( p->mag() );
-	QString type = i18n("Solar system object");;
+	QString type = xi18n("Solar system object");;
     initPopupMenu( p, p->translatedName(), type, info);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
@@ -224,31 +224,31 @@ void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
     
     addFancyLabel( satellite->name() );
     addFancyLabel( satellite->id() );
-    addFancyLabel( i18n( "satellite" ) );
+    addFancyLabel( xi18n( "satellite" ) );
     addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( satellite ) );
 
     addSeparator();
 
-    addFancyLabel( i18n( "Velocity: %1 km/s", velocity ), -2 );
-    addFancyLabel( i18n( "Altitude: %1 km", altitude ), -2 );
-    addFancyLabel( i18n( "Range: %1 km", range ), -2 );
+    addFancyLabel( xi18n( "Velocity: %1 km/s", velocity ), -2 );
+    addFancyLabel( xi18n( "Altitude: %1 km", altitude ), -2 );
+    addFancyLabel( xi18n( "Range: %1 km", range ), -2 );
 
     addSeparator();
 
     //Insert item for centering on object
-    addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
+    addAction( xi18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
-    addAction( i18n( "Angular Distance To...            [" ), ks->map(),
+    addAction( xi18n( "Angular Distance To...            [" ), ks->map(),
                SLOT(slotBeginAngularDistance()) );
-    addAction( i18n( "Starhop from here to...            " ), ks->map(),
+    addAction( xi18n( "Starhop from here to...            " ), ks->map(),
                SLOT(slotBeginStarHop()) );
 
     //Insert "Add/Remove Label" item
     if ( ks->map()->isObjectLabeled( satellite ) )
-        addAction( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
+        addAction( xi18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
     else
-        addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
+        addAction( xi18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
 }
 
 void KSPopupMenu::createSupernovaMenu(Supernova* supernova)
@@ -256,7 +256,7 @@ void KSPopupMenu::createSupernovaMenu(Supernova* supernova)
     QString name=supernova->name();
     float mag = supernova->mag();
     QString type = supernova->getType();
-    initPopupMenu( supernova, name, i18n( "supernova" ), i18n("%1<sup>m</sup>, %2", mag, type) );
+    initPopupMenu( supernova, name, xi18n( "supernova" ), xi18n("%1<sup>m</sup>, %2", mag, type) );
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
@@ -265,9 +265,9 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     KStars* ks = KStars::Instance();
 
     clear();
-    bool showLabel = name != i18n("star") && !name.isEmpty();
+    bool showLabel = name != xi18n("star") && !name.isEmpty();
     if( name.isEmpty() )
-        name = i18n( "Empty sky" );
+        name = xi18n( "Empty sky" );
 
     addFancyLabel( name );
     addFancyLabel( type );
@@ -285,11 +285,11 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 
     // Show 'Select this object' item when in object pointing mode and when obj is not empty sky
     if(KStars::Instance()->map()->isInObjectPointingMode() && obj->type() != 21) {
-        addAction( i18n( "Select this object"), KStars::Instance()->map(), SLOT(slotObjectSelected()));
+        addAction( xi18n( "Select this object"), KStars::Instance()->map(), SLOT(slotObjectSelected()));
     }
 
     //Insert item for centering on object
-    addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
+    addAction( xi18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
 
     if ( showFlags ) {
         //Insert actions for flag operations
@@ -298,45 +298,45 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
-    addAction( i18n( "Angular Distance To...            [" ), ks->map(),
+    addAction( xi18n( "Angular Distance To...            [" ), ks->map(),
                SLOT(slotBeginAngularDistance()) );
-    addAction( i18n( "Starhop from here to...            " ), ks->map(),
+    addAction( xi18n( "Starhop from here to...            " ), ks->map(),
                SLOT(slotBeginStarHop()) ); 
 
     //Insert item for Showing details dialog
     if ( showDetails )
-        addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->map(), SLOT( slotDetail() ) );
+        addAction( xi18nc( "Show Detailed Information Dialog", "Details" ), ks->map(), SLOT( slotDetail() ) );
     //Insert "Add/Remove Label" item
     if ( showLabel ) {
         if ( ks->map()->isObjectLabeled( obj ) ) {
-            addAction( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
+            addAction( xi18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
         } else {
-            addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
+            addAction( xi18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
         }
     }
     // Should show observing list
     if( showObsList ) {
         if ( ks->observingList()->contains( obj ) )
-            addAction( i18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
+            addAction( xi18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
         else
-            addAction( i18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
+            addAction( xi18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
     }
     // Should we show trail actions
     TrailObject* t = dynamic_cast<TrailObject*>( obj );
     if( t ) {
         if( t->hasTrail() )
-            addAction( i18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
+            addAction( xi18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
         else
-            addAction( i18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
+            addAction( xi18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
     }
 
     addSeparator();
 #ifdef HAVE_XPLANET
     if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) { // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
         QMenu *xplanetSubmenu = new QMenu();
-        xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
-        xplanetSubmenu->addAction( i18n( "To screen" ), ks->map(), SLOT( slotXplanetToScreen() ) );
-        xplanetSubmenu->addAction( i18n( "To file..." ), ks->map(), SLOT( slotXplanetToFile() ) );
+        xplanetSubmenu->setTitle( xi18n( "Print Xplanet view" ) );
+        xplanetSubmenu->addAction( xi18n( "To screen" ), ks->map(), SLOT( slotXplanetToScreen() ) );
+        xplanetSubmenu->addAction( xi18n( "To file..." ), ks->map(), SLOT( slotXplanetToFile() ) );
         addMenu( xplanetSubmenu );
     }
 #endif
@@ -351,21 +351,21 @@ void KSPopupMenu::initFlagActions( SkyObject *obj ) {
 
     if ( flags.size() == 0 ) {
         // There is no flag around clicked SkyObject
-        addAction( i18n( "Add flag..."), ks->map(), SLOT( slotAddFlag() ) );
+        addAction( xi18n( "Add flag..."), ks->map(), SLOT( slotAddFlag() ) );
     }
 
     else if( flags.size() == 1) {
         // There is only one flag around clicked SkyObject
-        addAction ( i18n ("Edit flag"), this, SLOT( slotEditFlag() ) );
-        addAction ( i18n ("Delete flag"), this, SLOT( slotDeleteFlag() ) );
+        addAction ( xi18n ("Edit flag"), this, SLOT( slotEditFlag() ) );
+        addAction ( xi18n ("Delete flag"), this, SLOT( slotDeleteFlag() ) );
 
         m_CurrentFlagIdx = flags.first();
     }
 
     else {
         // There are more than one flags around clicked SkyObject - we need to create submenus
-        QMenu *editMenu = new QMenu ( i18n ( "Edit flag..."), KStars::Instance() );
-        QMenu *deleteMenu = new QMenu ( i18n ( "Delete flag..."), KStars::Instance() );
+        QMenu *editMenu = new QMenu ( xi18n ( "Edit flag..."), KStars::Instance() );
+        QMenu *deleteMenu = new QMenu ( xi18n ( "Delete flag..."), KStars::Instance() );
 
         connect( editMenu, SIGNAL( triggered(QAction*) ), this, SLOT( slotEditFlag(QAction*) ) );
         connect( deleteMenu, SIGNAL( triggered(QAction*) ), this, SLOT( slotDeleteFlag(QAction*) ) );
@@ -416,7 +416,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     itListEnd = obj->ImageList().constEnd();
     if( ! obj->ImageList().isEmpty() ) {
         QMenu *imageLinkSubMenu= new QMenu();
-        imageLinkSubMenu->setTitle( i18n( "Image Resources" ) );
+        imageLinkSubMenu->setTitle( xi18n( "Image Resources" ) );
         for ( ; itList != itListEnd; ++itList ) {
             QString t = QString(*itTitle);
             sURL = QString(*itList);
@@ -427,8 +427,8 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     }
 
     if ( showDSS ) {
-        addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
-        addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
+        addAction( xi18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
+        addAction( xi18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
 
     if( showDSS )
@@ -440,7 +440,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
 
     if( ! obj->InfoList().isEmpty() ) {
         QMenu *infoLinkSubMenu= new QMenu();
-        infoLinkSubMenu->setTitle( i18n( "Information Resources" ) );
+        infoLinkSubMenu->setTitle( xi18n( "Information Resources" ) );
         for ( ; itList != itListEnd; ++itList ) {
             QString t = QString(*itTitle);
             sURL = QString(*itList);
@@ -526,7 +526,7 @@ void KSPopupMenu::addINDI()
         {
             menuDevice->addSeparator();
 
-            QAction *a = menuDevice->addAction(i18n("Center Crosshair"));
+            QAction *a = menuDevice->addAction(xi18n("Center Crosshair"));
 
             QSignalMapper *scopeMapper = new QSignalMapper(this);
             scopeMapper->setMapping(a, INDI_ENGAGE_TRACKING);

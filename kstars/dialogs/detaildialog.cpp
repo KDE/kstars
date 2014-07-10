@@ -84,7 +84,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
     //Create thumbnail image
     Thumbnail = new QPixmap( 200, 200 );
 
-    setCaption( i18n( "Object Details" ) );
+    setCaption( xi18n( "Object Details" ) );
     setButtons( KDialog::Close );
 
     createGeneralTab();
@@ -101,7 +101,7 @@ DetailDialog::~DetailDialog() {
 void DetailDialog::createGeneralTab()
 {
     Data = new DataWidget(this);
-    addPage( Data, i18n("General") );
+    addPage( Data, xi18n("General") );
 
     Data->Names->setPalette( titlePalette );
 
@@ -145,8 +145,8 @@ void DetailDialog::createGeneralTab()
             else
                 Data->Names->setText( QString( ", HD %1" ).arg( QString::number( s->getHDIndex() ) ) );
         }
-        objecttyp = s->sptype() + ' ' + i18n("star");
-        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+        objecttyp = s->sptype() + ' ' + xi18n("star");
+        Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
                                          KLocale::global()->formatNumber( s->mag(), 2 ) ) );  //show to hundredth place
 
         Data->BVLabel->setVisible( true );
@@ -161,15 +161,15 @@ void DetailDialog::createGeneralTab()
 
         //distance
         if ( s->distance() > 2000. || s->distance() < 0. )  // parallax < 0.5 mas
-            Data->Distance->setText( QString(i18nc("larger than 2000 parsecs", "> 2000 pc") ) );
+            Data->Distance->setText( QString(xi18nc("larger than 2000 parsecs", "> 2000 pc") ) );
         else if ( s->distance() > 50.0 ) //show to nearest integer
-            Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
+            Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
                                             KLocale::global()->formatNumber( s->distance(), 0 ) ) );
         else if ( s->distance() > 10.0 ) //show to tenths place
-            Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
+            Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
                                             KLocale::global()->formatNumber( s->distance(), 1 ) ) );
         else //show to hundredths place
-            Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
+            Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
                                             KLocale::global()->formatNumber( s->distance(), 2 ) ) );
 
         //Note multiplicity/variablility in angular size label
@@ -177,12 +177,12 @@ void DetailDialog::createGeneralTab()
         Data->AngSize->setText( QString() );
         Data->AngSizeLabel->setFont( Data->AngSize->font() );
         if ( s->isMultiple() && s->isVariable() ) {
-            Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) + ',' );
-            Data->AngSize->setText( i18nc( "the star is a variable star", "variable" ) );
+            Data->AngSizeLabel->setText( xi18nc( "the star is a multiple star", "multiple" ) + ',' );
+            Data->AngSize->setText( xi18nc( "the star is a variable star", "variable" ) );
         } else if ( s->isMultiple() )
-            Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) );
+            Data->AngSizeLabel->setText( xi18nc( "the star is a multiple star", "multiple" ) );
         else if ( s->isVariable() )
-            Data->AngSizeLabel->setText( i18nc( "the star is a variable star", "variable" ) );
+            Data->AngSizeLabel->setText( xi18nc( "the star is a variable star", "variable" ) );
 
         break; //end of stars case
     case SkyObject::ASTEROID:  //[fall through to planets]
@@ -194,11 +194,11 @@ void DetailDialog::createGeneralTab()
         Data->Names->setText( ps->longname() );
         //Type is "G5 star" for Sun
         if ( ps->name() == "Sun" )
-            objecttyp = i18n("G5 star");
+            objecttyp = xi18n("G5 star");
         else if ( ps->name() == "Moon" )
             objecttyp = ps->translatedName();
-        else if ( ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" ) // TODO: Check if Ceres / Eris have translations and i18n() them
-            objecttyp = i18n("Dwarf planet");
+        else if ( ps->name() == xi18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" ) // TODO: Check if Ceres / Eris have translations and i18n() them
+            objecttyp = xi18n("Dwarf planet");
         else
             objecttyp = ps->typeName();
 
@@ -211,30 +211,30 @@ void DetailDialog::createGeneralTab()
         }
         
         if(selectedObject->type() == SkyObject::COMET){
-            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+            Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
                                              KLocale::global()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 2 ) ) );  //show to hundredth place
         }
         else{
-            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+            Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
                                              KLocale::global()->formatNumber( ps->mag(), 2 ) ) );  //show to hundredth place
         }
 
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
-            Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
+            Data->Distance->setText( xi18nc("distance in kilometers", "%1 km",
                                            KLocale::global()->formatNumber( ps->rearth()*AU_KM ) ) );
         } else {
-            Data->Distance->setText( i18nc("distance in Astronomical Units", "%1 AU",
+            Data->Distance->setText( xi18nc("distance in Astronomical Units", "%1 AU",
                                            KLocale::global()->formatNumber( ps->rearth() ) ) );
         }
 
         //Angular size; moon and sun in arcmin, others in arcsec
         if ( ps->angSize() ) {
             if ( ps->name() == "Sun" || ps->name() == "Moon" )
-                Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
+                Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
                                               KLocale::global()->formatNumber( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
             else
-                Data->AngSize->setText( i18nc("angular size in arcseconds","%1 arcsec",
+                Data->AngSize->setText( xi18nc("angular size in arcseconds","%1 arcsec",
                                               KLocale::global()->formatNumber( ps->angSize()*60.0 ) ) ); 
         } else {
             Data->AngSize->setText( "--" );
@@ -247,7 +247,7 @@ void DetailDialog::createGeneralTab()
 
         Data->Names->setText(sup->name());
 
-        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+        Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
                                          KLocale::global()->formatNumber( sup->mag(), 2 ) ) );
         Data->Distance->setText( "---" );
 
@@ -285,14 +285,14 @@ void DetailDialog::createGeneralTab()
 
         if (dso->type() == SkyObject::RADIO_SOURCE)
         {
-            Data->MagLabel->setText(i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
-            Data->Magnitude->setText( i18nc( "integrated flux value", "%1 %2" ,
+            Data->MagLabel->setText(xi18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
+            Data->Magnitude->setText( xi18nc( "integrated flux value", "%1 %2" ,
                                              KLocale::global()->formatNumber( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
         }
         else if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
         else
-            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+            Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
                                              KLocale::global()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
 
         //No distances at this point...
@@ -300,10 +300,10 @@ void DetailDialog::createGeneralTab()
 
         //Only show decimal place for small angular sizes
         if ( dso->a() > 10.0 )
-            Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
+            Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
                                           KLocale::global()->formatNumber(dso->a(), 0 ) ) );
         else if ( dso->a() )
-            Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
+            Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
                                           KLocale::global()->formatNumber( dso->a(), 1 ) ) );
         else
             Data->AngSize->setText( "--" );
@@ -434,13 +434,13 @@ void DetailDialog::createGeneralTab()
             KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( selectedObject ) );
     else
         Data->ObjectTypeInConstellation->setText( 
-            i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp,
+            xi18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp,
                   KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( selectedObject ) ) );
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
     Pos = new PositionWidget(this);
-    addPage( Pos,  i18n("Position") );
+    addPage( Pos,  xi18n("Position") );
 
     Pos->CoordTitle->setPalette( titlePalette );
     Pos->RSTTitle->setPalette( titlePalette );
@@ -455,8 +455,8 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     
     qDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
     //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
-    Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
-    Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
+    Pos->RALabel->setText( xi18n( "RA (%1):", sEpoch ) );
+    Pos->DecLabel->setText( xi18n( "Dec (%1):", sEpoch ) );
     Pos->RA->setText( selectedObject->ra().toHMSString() );
     Pos->Dec->setText( selectedObject->dec().toDMSString() );
 
@@ -529,15 +529,15 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
         Pos->AzSet->setText( saz.toDMSString() );
     } else {
         if ( selectedObject->alt().Degrees() > 0.0 ) {
-            Pos->TimeRise->setText( i18n( "Circumpolar" ) );
-            Pos->TimeSet->setText( i18n( "Circumpolar" ) );
+            Pos->TimeRise->setText( xi18n( "Circumpolar" ) );
+            Pos->TimeSet->setText( xi18n( "Circumpolar" ) );
         } else {
-            Pos->TimeRise->setText( i18n( "Never rises" ) );
-            Pos->TimeSet->setText( i18n( "Never rises" ) );
+            Pos->TimeRise->setText( xi18n( "Never rises" ) );
+            Pos->TimeSet->setText( xi18n( "Never rises" ) );
         }
 
-        Pos->AzRise->setText( i18nc( "Not Applicable", "N/A" ) );
-        Pos->AzSet->setText( i18nc( "Not Applicable", "N/A" ) );
+        Pos->AzRise->setText( xi18nc( "Not Applicable", "N/A" ) );
+        Pos->AzSet->setText( xi18nc( "Not Applicable", "N/A" ) );
     }
 
     Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
@@ -555,7 +555,7 @@ void DetailDialog::createLinksTab()
         return;
 
     Links = new LinksWidget( this );
-    addPage( Links, i18n( "Links" ) );
+    addPage( Links, xi18n( "Links" ) );
 
     Links->InfoTitle->setPalette( titlePalette );
     Links->ImagesTitle->setPalette( titlePalette );
@@ -609,8 +609,8 @@ void DetailDialog::addLink() {
             file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "image_url.dat" ) ; //determine filename in local user KDE directory tree.
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-                QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+                QString message = xi18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
         delete adialog;
                 return;
             } else {
@@ -628,8 +628,8 @@ void DetailDialog::addLink() {
             file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "info_url.dat" ) ; //determine filename in local user KDE directory tree.
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-                QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
-                KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+                QString message = xi18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                KMessageBox::sorry( 0, message, xi18n( "Could not Open File" ) );
         delete adialog;
                 return;
             } else {
@@ -656,7 +656,7 @@ void DetailDialog::createAdvancedTab()
         return;
 
     Adv = new DatabaseWidget( this );
-    addPage( Adv,  i18n( "Advanced" ) );
+    addPage( Adv,  xi18n( "Advanced" ) );
 
     connect( Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(viewADVData()));
 
@@ -671,12 +671,12 @@ void DetailDialog::createLogTab()
 
     // Log Tab
     Log = new LogWidget( this );
-    addPage( Log,  i18n( "Log" ) );
+    addPage( Log,  xi18n( "Log" ) );
 
     Log->LogTitle->setPalette( titlePalette );
 
     if ( selectedObject->userLog().isEmpty() )
-        Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
+        Log->UserLog->setText(xi18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
     else
         Log->UserLog->setText(selectedObject->userLog());
 
@@ -742,7 +742,7 @@ void DetailDialog::editLinkDialog()
     if (m_CurrentLink == NULL) return;
 
     KDialog editDialog( this );
-    editDialog.setCaption( i18n("Edit Link") );
+    editDialog.setCaption( xi18n("Edit Link") );
     editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
     QFrame editFrame( &editDialog );
 
@@ -778,7 +778,7 @@ void DetailDialog::editLinkDialog()
     editNameField.setObjectName("nameedit");
     editNameField.home(false);
     editNameField.setText(currentItemTitle);
-    QLabel editLinkURL(i18n("URL:"), &editFrame);
+    QLabel editLinkURL(xi18n("URL:"), &editFrame);
     QLineEdit editLinkField(&editFrame);
     editLinkField.setObjectName("urledit");
     editLinkField.home(false);
@@ -865,7 +865,7 @@ void DetailDialog::removeLinkDialog()
     }
     else return;
 
-    if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 link?", currentItemTitle), i18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel( 0, xi18n("Are you sure you want to remove the %1 link?", currentItemTitle), xi18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
         return;
 
     if (type ==0)
@@ -1076,7 +1076,7 @@ void DetailDialog::centerTelescope()
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -1092,7 +1092,7 @@ void DetailDialog::centerTelescope()
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KMessageBox::error(0, xi18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
@@ -1106,7 +1106,7 @@ void DetailDialog::centerTelescope()
 
     }
 
-    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+    KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
 
 #endif
 }

@@ -83,8 +83,8 @@ void PWizPrintUI::slotExport()
     if(QFile::exists(url.path()))
     {
         int r=KMessageBox::warningContinueCancel(parentWidget(),
-                i18n( "A file named \"%1\" already exists. Overwrite it?" , url.fileName()),
-                i18n( "Overwrite File?" ),
+                xi18n( "A file named \"%1\" already exists. Overwrite it?" , url.fileName()),
+                xi18n( "Overwrite File?" ),
                 KStandardGuiItem::overwrite() );
         if(r == KMessageBox::Cancel)
             return;
@@ -127,8 +127,8 @@ void PWizPrintUI::slotExport()
             //attempt to upload image to remote location
             if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
-                QString message = i18n( "Could not upload file to remote location: %1", url.prettyUrl() );
-                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+                QString message = xi18n( "Could not upload file to remote location: %1", url.prettyUrl() );
+                KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
             }
         }
     }

@@ -46,16 +46,16 @@ FlagManager::FlagManager( QWidget *ks )
 
     ui = new FlagManagerUI( this );
     setMainWidget( ui );
-    setCaption( i18n( "Flag manager" ) );
+    setCaption( xi18n( "Flag manager" ) );
     setButtons( KDialog::Close );
 
     m_Ks = KStars::Instance();
 
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
-    m_Model->setHorizontalHeaderLabels( QStringList() << i18nc( "Right Ascension", "RA" ) 
-            << i18nc( "Declination", "Dec" ) << i18n( "Epoch" ) 
-            << i18n( "Icon" ) << i18n( "Label" ) );
+    m_Model->setHorizontalHeaderLabels( QStringList() << xi18nc( "Right Ascension", "RA" ) 
+            << xi18nc( "Declination", "Dec" ) << xi18n( "Epoch" ) 
+            << xi18n( "Icon" ) << xi18n( "Label" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
@@ -161,11 +161,11 @@ bool FlagManager::validatePoint() {
 
     //make sure values are in valid range
     if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
-        message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
+        message = xi18n( "The Right Ascension value must be between 0.0 and 24.0." );
     if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
-        message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
+        message += '\n' + xi18n( "The Declination value must be between -90.0 and 90.0." );
     if ( ! message.isEmpty() ) {
-        KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid Coordinate Data" ) );
         return false;
     }
 

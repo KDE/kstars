@@ -59,16 +59,16 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
       step0 = 24.8 * 365.25;
 
   // FIXME: This can be done better, but for now, I'm doing it the dumb way -- asimha
-  if( Object1.name() == i18n( "Neptune" ) || Object2.name() == i18n( "Neptune" ) || Object1.name() == i18n( "Uranus" ) || Object2.name() == i18n( "Uranus" ) )
+  if( Object1.name() == xi18n( "Neptune" ) || Object2.name() == xi18n( "Neptune" ) || Object1.name() == xi18n( "Uranus" ) || Object2.name() == xi18n( "Uranus" ) )
       if( step0 > 3652.5 )
           step0 = 3652.5;
-  if( Object1.name() == i18n( "Jupiter" ) || Object2.name() == i18n( "Jupiter" ) || Object1.name() == i18n( "Saturn" ) || Object2.name() == i18n( "Saturn" ) )
+  if( Object1.name() == xi18n( "Jupiter" ) || Object2.name() == xi18n( "Jupiter" ) || Object1.name() == xi18n( "Saturn" ) || Object2.name() == xi18n( "Saturn" ) )
       if( step0 > 365.25 )
           step0 = 365;
-  if(Object1.name() == i18n( "Mars" ) || Object2.name() == i18n( "Mars" ))
+  if(Object1.name() == xi18n( "Mars" ) || Object2.name() == xi18n( "Mars" ))
     if (step0 > 10.0)
       step0 = 10.0;
-  if(Object1.name() == i18n( "Venus" ) || Object1.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Venus" )) 
+  if(Object1.name() == xi18n( "Venus" ) || Object1.name() == xi18n( "Mercury" ) || Object2.name() == xi18n( "Mercury" ) || Object2.name() == xi18n( "Venus" )) 
     if (step0 > 5.0)
       step0 = 5.0;
   if(Object1.name() == "Moon" || Object2.name() == "Moon")

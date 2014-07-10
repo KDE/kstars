@@ -29,7 +29,7 @@ MoonPhaseTool::MoonPhaseTool(QWidget *parent)
     mpc = new MoonPhaseCalendar( *m_Moon, *m_Sun );
     gcw = new GenericCalendarWidget( *mpc, this );
     setFixedSize( gcw->size() );
-    setCaption( i18n("Moon Phase Calendar") );
+    setCaption( xi18n("Moon Phase Calendar") );
 }
 
 

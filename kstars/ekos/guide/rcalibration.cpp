@@ -37,7 +37,7 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 
 	ui.setupUi(this);
 
-    setWindowTitle(i18n("Calibration"));
+    setWindowTitle(xi18n("Calibration"));
 
 	pmath = NULL;
 
@@ -244,7 +244,7 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 
     if (ccdInfo == false || scopeInfo == false)
     {
-            KMessageBox::error(this, i18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg));
+            KMessageBox::error(this, xi18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg));
             return;
     }
 
@@ -283,7 +283,7 @@ void rcalibration::process_calibration()
     {
         calibrationStage = CAL_ERROR;
         ui.startCalibrationLED->setColor(alertColor);
-        KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
+        KMessageBox::error(NULL, xi18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
         reset();
         return;
     }
@@ -318,7 +318,7 @@ bool rcalibration::is_calibrating()
 void rcalibration::reset()
 {
     is_started = false;
-    ui.pushButton_StartCalibration->setText( i18n("Start") );
+    ui.pushButton_StartCalibration->setText( xi18n("Start") );
     ui.startCalibrationLED->setColor(idleColor);
     calibrationStage = CAL_FINISH;
     ui.progressBar->setVisible(false);
@@ -337,13 +337,13 @@ void rcalibration::calibrate_reticle_manual( void )
 	{
 		if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
 		{
-            ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_RA") );
+            ui.pushButton_StartCalibration->setText( xi18n("Stop GUIDE_RA") );
 		}
 		else
 		{
-            ui.pushButton_StartCalibration->setText( i18n("Stop") );
+            ui.pushButton_StartCalibration->setText( xi18n("Stop") );
 		}
-        pmain_wnd->appendLogText(i18n("Drift scope in RA. Press stop when done."));
+        pmain_wnd->appendLogText(xi18n("Drift scope in RA. Press stop when done."));
 
 		pmath->get_star_screen_pos( &start_x1, &start_y1 );
 		
@@ -363,8 +363,8 @@ void rcalibration::calibrate_reticle_manual( void )
 				
                 axis = GUIDE_DEC;
 				
-                ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_DEC") );
-                pmain_wnd->appendLogText(i18n("Drift scope in DEC. Press Stop when done."));
+                ui.pushButton_StartCalibration->setText( xi18n("Stop GUIDE_DEC") );
+                pmain_wnd->appendLogText(xi18n("Drift scope in DEC. Press Stop when done."));
 				return;
 			}
 			else
@@ -375,7 +375,7 @@ void rcalibration::calibrate_reticle_manual( void )
                 if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &dec_swap ) )
 				{
 					fill_interface();
-                    pmain_wnd->appendLogText(i18n("Calibration completed."));
+                    pmain_wnd->appendLogText(xi18n("Calibration completed."));
                     calibrationStage = CAL_FINISH;
 
                     if (dec_swap)
@@ -383,7 +383,7 @@ void rcalibration::calibrate_reticle_manual( void )
 				}
 				else
 				{
-                    QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
+                    QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                     calibrationStage = CAL_ERROR;
 				}
 			}
@@ -396,12 +396,12 @@ void rcalibration::calibrate_reticle_manual( void )
 			{
                 calibrationStage = CAL_FINISH;
 				fill_interface();
-                pmain_wnd->appendLogText(i18n("Calibration completed."));
+                pmain_wnd->appendLogText(xi18n("Calibration completed."));
 			}
 			else
 			{
                 calibrationStage = CAL_ERROR;
-                QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
+                QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
 			}
 		}
 
@@ -443,9 +443,9 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             ui.progressBar->setValue( 0 );
 
-            ui.pushButton_StartCalibration->setText(i18n("Abort"));
+            ui.pushButton_StartCalibration->setText(xi18n("Abort"));
 
-            pmain_wnd->appendLogText(i18n("GUIDE_RA Drifting..."));
+            pmain_wnd->appendLogText(xi18n("GUIDE_RA Drifting..."));
 
             // get start point
             //pmath->get_star_screen_pos( &start_x1, &start_y1 );
@@ -489,7 +489,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-                pmain_wnd->appendLogText(i18n("Running..."));
+                pmain_wnd->appendLogText(xi18n("Running..."));
 
             }
 
@@ -526,7 +526,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             }
 
             calibrationStage = CAL_ERROR;
-            QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+            QMessageBox::warning( this, xi18n("Warning"), xi18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
             reset();
             break;
         }
@@ -543,7 +543,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             iterations++;
             dec_iterations = 1;
             ui.progressBar->setValue( iterations );
-            pmain_wnd->appendLogText(i18n("GUIDE_DEC drifting..."));
+            pmain_wnd->appendLogText(xi18n("GUIDE_DEC drifting..."));
             break;
         }
         // calc orientation
@@ -551,13 +551,13 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         {
             calibrationStage = CAL_FINISH;
             fill_interface();
-            pmain_wnd->appendLogText(i18n("Calibration completed."));
+            pmain_wnd->appendLogText(xi18n("Calibration completed."));
             ui.startCalibrationLED->setColor(okColor);
 
         }
         else
         {
-            QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+            QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
             ui.startCalibrationLED->setColor(alertColor);
             calibrationStage = CAL_ERROR;
         }
@@ -589,14 +589,14 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             phi = pmath->calc_phi( start_x2, start_y2, end_x2, end_y2 );
             ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-            pmain_wnd->appendLogText(i18n("Running..."));
+            pmain_wnd->appendLogText(xi18n("Running..."));
         }
 
         //----- Z-check (new!) -----
         double cur_x, cur_y;
         pmath->get_star_screen_pos( &cur_x, &cur_y );
 
-        //pmain_wnd->appendLogText(i18n("GUIDE_DEC running back...");
+        //pmain_wnd->appendLogText(xi18n("GUIDE_DEC running back...");
 
         //qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y << endl;
 
@@ -628,7 +628,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         }
 
         calibrationStage = CAL_ERROR;
-        QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+        QMessageBox::warning( this, xi18n("Warning"), xi18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
         reset();
         break;
     }
@@ -639,7 +639,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     {
         calibrationStage = CAL_FINISH;
         fill_interface();
-        pmain_wnd->appendLogText(i18n("Calibration completed."));
+        pmain_wnd->appendLogText(xi18n("Calibration completed."));
         ui.startCalibrationLED->setColor(okColor);
 
         if (swap_dec)
@@ -648,7 +648,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     }
     else
     {
-        QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+        QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
     }
@@ -692,7 +692,7 @@ void rcalibration::capture()
             calibrationStage = CAL_CAPTURE_IMAGE;
             ui.captureLED->setColor(busyColor);
 
-        pmain_wnd->appendLogText(i18n("Capturing image..."));
+        pmain_wnd->appendLogText(xi18n("Capturing image..."));
     }
 }
 
@@ -708,7 +708,7 @@ void rcalibration::set_image(FITSView *image)
         case CAL_SELECT_STAR:
           {
             pmath->resize_square(pmath->get_square_index());
-            pmain_wnd->appendLogText(i18n("Image captured..."));
+            pmain_wnd->appendLogText(xi18n("Image captured..."));
 
             ui.captureLED->setColor(okColor);
             calibrationStage = CAL_SELECT_STAR;

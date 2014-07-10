@@ -402,16 +402,16 @@ QString FITSHistogramCommand::text() const
     switch (type)
     {
     case FITS_AUTO:
-        return i18n("Auto Scale");
+        return xi18n("Auto Scale");
         break;
     case FITS_LINEAR:
-        return i18n("Linear Scale");
+        return xi18n("Linear Scale");
         break;
     case FITS_LOG:
-        return i18n("Logarithmic Scale");
+        return xi18n("Logarithmic Scale");
         break;
     case FITS_SQRT:
-        return i18n("Square Root Scale");
+        return xi18n("Square Root Scale");
         break;
 
     default:
@@ -420,7 +420,7 @@ QString FITSHistogramCommand::text() const
         break;
     }
 
-    return i18n("Unknown");
+    return xi18n("Unknown");
 
 }
 

@@ -177,7 +177,7 @@ void KStars::waitForKey( const QString &k ) {
         while ( !data()->resumeKey.isEmpty() )
             qApp->processEvents();
     } else {
-        qDebug() << i18n( "Error [D-Bus waitForKey()]: Invalid key requested." );
+        qDebug() << xi18n( "Error [D-Bus waitForKey()]: Invalid key requested." );
     }
 }
 
@@ -234,10 +234,10 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
     if ( !cityFound ) {
         if ( province.isEmpty() )
-            qDebug() << i18n( "Error [D-Bus setGeoLocation]: city %1, %2 not found in database.",
+            qDebug() << xi18n( "Error [D-Bus setGeoLocation]: city %1, %2 not found in database.",
                               city, country );
         else
-            qDebug() << i18n( "Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.",
+            qDebug() << xi18n( "Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.",
                               city, province, country );
     }
 }
@@ -536,9 +536,9 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     bool ok( false );
     if ( usePrintDialog ) {
         //QPRINTER_FOR_NOW
-//        ok = printer.setup( this, i18n("Print Sky") );
+//        ok = printer.setup( this, xi18n("Print Sky") );
         QPrintDialog *dialog = KdePrint::createPrintDialog(&printer, this);
-        dialog->setWindowTitle( i18n("Print Sky") );
+        dialog->setWindowTitle( xi18n("Print Sky") );
         if ( dialog->exec() == QDialog::Accepted )
             ok = true;
         delete dialog;

@@ -25,10 +25,10 @@
 JupiterMoons::JupiterMoons(){
     //Initialize the Moon objects.  The magnitude data are from the 
     //wikipedia articles for each moon, as of Oct 2007.
-    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.0, i18nc( "Jupiter's moon Io", "Io" ) ) );
-    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.3, i18nc( "Jupiter's moon Europa", "Europa" ) ) );
-    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 4.6, i18nc( "Jupiter's moon Ganymede", "Ganymede" ) ) );
-    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.7, i18nc( "Jupiter's moon Callisto", "Callisto" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.0, xi18nc( "Jupiter's moon Io", "Io" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.3, xi18nc( "Jupiter's moon Europa", "Europa" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 4.6, xi18nc( "Jupiter's moon Ganymede", "Ganymede" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.7, xi18nc( "Jupiter's moon Callisto", "Callisto" ) ) );
 
     XP = QVector<double>(4, 0.0);
     YP = QVector<double>(4, 0.0);

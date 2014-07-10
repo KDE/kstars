@@ -25,7 +25,7 @@ Rectangle {
         width: 209
         height: 46
         color: "#59ad0e"
-        text: i18n("What's Interesting...")
+        text: xi18n("What's Interesting...")
         verticalAlignment: Text.AlignVCenter
         font.family: "Cantarell"
         font.bold: false
@@ -95,7 +95,7 @@ Rectangle {
                         x: 0
                         y: 0
                         color: "#e4800d"
-                        text: i18n("Planets")
+                        text: xi18n("Planets")
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         verticalAlignment: Text.AlignVCenter
@@ -133,7 +133,7 @@ Rectangle {
                         x: 0
                         y: 0
                         color: "#e4800d"
-                        text: i18n("Stars")
+                        text: xi18n("Stars")
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         verticalAlignment: Text.AlignVCenter
@@ -169,7 +169,7 @@ Rectangle {
                     Text {
                         id: conText
                         color: "#e4800d"
-                        text: i18n("Constellations")
+                        text: xi18n("Constellations")
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Cantarell"
@@ -216,7 +216,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#e4800d"
-                            text: i18n("Deep-sky Objects")
+                            text: xi18n("Deep-sky Objects")
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
@@ -250,7 +250,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#6b6660"
-                            text: i18n("Galaxies")
+                            text: xi18n("Galaxies")
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
@@ -292,7 +292,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#6b6660"
-                            text: i18n("Nebulae")
+                            text: xi18n("Nebulae")
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
@@ -330,7 +330,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#6b6660"
-                            text: i18n("Clusters")
+                            text: xi18n("Clusters")
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             verticalAlignment: Text.AlignVCenter
@@ -464,7 +464,7 @@ Rectangle {
                             width: 273
                             height: 22
                             color: "#ffffff"
-                            text: i18n("text")
+                            text: xi18n("text")
                             anchors.left: parent.left
                             anchors.leftMargin: 8
                             font.bold: true
@@ -483,7 +483,7 @@ Rectangle {
                             width: 320
                             height: 16
                             color: "#f7f7ac"
-                            text: i18n("text")
+                            text: xi18n("text")
                             font.family: "Cantarell"
                             horizontalAlignment: Text.AlignRight
                             font.underline: false
@@ -532,7 +532,7 @@ Rectangle {
                                             id: descText
                                             objectName: "descTextObj"
                                             color: "#187988"
-                                            text: i18n("text")
+                                            text: xi18n("text")
                                             font.family: "Cantarell"
                                             clip: true
                                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -543,7 +543,7 @@ Rectangle {
                                             id: descSrcText
                                             objectName: "descSrcTextObj"
                                             color: "#18885f"
-                                            text: i18n("Source: ")
+                                            text: xi18n("Source: ")
                                             font.family: "Cantarell"
                                             font.italic: true
                                             horizontalAlignment: Text.AlignRight
@@ -602,7 +602,7 @@ Rectangle {
                                 y: 17
                                 height: 22
                                 color: "white"
-                                text: i18n("Next")
+                                text: xi18n("Next")
                                 anchors.right: nextObjIcon.left
                                 anchors.rightMargin: 5
                                 anchors.verticalCenter: parent.verticalCenter
@@ -675,7 +675,7 @@ Rectangle {
                                 y: 7
                                 height: 22
                                 color: "#ffffff"
-                                text: i18n("Previous")
+                                text: xi18n("Previous")
                                 anchors.left: prevObjIcon.right
                                 anchors.leftMargin: 5
                                 anchors.verticalCenterOffset: 0
@@ -712,7 +712,7 @@ Rectangle {
                                 width: 164
                                 height: 21
                                 color: "#ffffff"
-                                text: i18n("Surface Brightness:")
+                                text: xi18n("Surface Brightness:")
                                 anchors.left: parent.left
                                 anchors.leftMargin: 8
                                 font.pixelSize: 13
@@ -727,7 +727,7 @@ Rectangle {
                                 width: 164
                                 height: 21
                                 color: "#ffffff"
-                                text: i18n("Magnitude: ")
+                                text: xi18n("Magnitude: ")
                                 anchors.left: parent.left
                                 anchors.leftMargin: 8
                                 font.family: "Cantarell"
@@ -742,7 +742,7 @@ Rectangle {
                                 width: 164
                                 height: 21
                                 color: "#ffffff"
-                                text: i18n("Size: ")
+                                text: xi18n("Size: ")
                                 anchors.left: parent.left
                                 anchors.leftMargin: 8
                                 font.pixelSize: 13
@@ -772,7 +772,7 @@ Rectangle {
                                 anchors.right: parent.right
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
-                                text: i18n("More object details")
+                                text: xi18n("More object details")
                                 font.family: "Cantarell"
                                 font.pixelSize: 14
 
@@ -795,7 +795,7 @@ Rectangle {
                                 width: 119
                                 height: 16
                                 color: "white"
-                                text: i18n("Slew map to object")
+                                text: xi18n("Slew map to object")
                                 font.family: "Cantarell"
                                 anchors.right: parent.right
                                 anchors.rightMargin: 10
@@ -885,7 +885,7 @@ Rectangle {
             id: goBackText
             y: 12
             color: "#f7e808"
-            text: i18n("Back")
+            text: xi18n("Back")
             anchors.left: leftArrow.right
             anchors.leftMargin: 7
             anchors.verticalCenterOffset: 0

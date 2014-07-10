@@ -65,11 +65,11 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 
     mainLayout->addWidget(mainTabWidget);
 
-    setWindowTitle(i18n("INDI Control Panel"));
+    setWindowTitle(xi18n("INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);
 
-    clearB      = new QPushButton(i18n("Clear"));
-    closeB      = new QPushButton(i18n("Close"));
+    clearB      = new QPushButton(xi18n("Clear"));
+    closeB      = new QPushButton(xi18n("Close"));
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->insertStretch(0);
@@ -92,7 +92,7 @@ void GUIManager::updateStatus()
 {
     if (clients.size() == 0)
     {
-        KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
+        KMessageBox::error(0, xi18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
         return;
     }
 

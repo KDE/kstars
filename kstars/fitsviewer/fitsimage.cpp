@@ -105,8 +105,8 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
 
     if (mode == FITS_NORMAL && progress)
     {
-        progress->setLabelText(i18n("Please hold while loading FITS file..."));
-        progress->setWindowTitle(i18n("Loading FITS"));
+        progress->setLabelText(xi18n("Please hold while loading FITS file..."));
+        progress->setWindowTitle(xi18n("Loading FITS"));
     }
 
     if (mode == FITS_NORMAL && progress)
@@ -136,7 +136,7 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         if (progress)
-            KMessageBox::error(0, i18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), i18n("FITS Open"));
+            KMessageBox::error(0, xi18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), xi18n("FITS Open"));
         return false;
     }
 
@@ -154,21 +154,21 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         fits_get_errstatus(status, error_status);
 
         if (progress)
-            KMessageBox::error(0, i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
+            KMessageBox::error(0, xi18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), xi18n("FITS Open"));
         return false;
     }
 
     if (stats.ndim < 2)
     {
         if (progress)
-            KMessageBox::error(0, i18n("1D FITS images are not supported in KStars."), i18n("FITS Open"));
+            KMessageBox::error(0, xi18n("1D FITS images are not supported in KStars."), xi18n("FITS Open"));
         return false;
     }
 
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         if (progress)
-            KMessageBox::error(0, i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), i18n("FITS Open"));
+            KMessageBox::error(0, xi18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), xi18n("FITS Open"));
         return false;
     }
 
@@ -179,7 +179,7 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         fits_get_errstatus(status, error_status);
 
         if (progress)
-            KMessageBox::error(0, i18n("FITS file open error (fits_get_img_type): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
+            KMessageBox::error(0, xi18n("FITS file open error (fits_get_img_type): %1", QString::fromUtf8(error_status)), xi18n("FITS Open"));
         return false;
     }
 

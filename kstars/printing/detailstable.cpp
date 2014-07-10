@@ -83,8 +83,8 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 }
             }
 
-            objTypeVal = s->sptype() + ' ' + i18n("star");
-            objMagVal = i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1)); //show to tenths place
+            objTypeVal = s->sptype() + ' ' + xi18n("star");
+            objMagVal = xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1)); //show to tenths place
 
             if(s->getBVIndex() < 30.0)
             {
@@ -94,39 +94,39 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //distance
             if(s->distance() > 2000. || s->distance() < 0.)  // parallax < 0.5 mas
             {
-                objDistVal = i18nc("larger than 2000 parsecs", "> 2000 pc");
+                objDistVal = xi18nc("larger than 2000 parsecs", "> 2000 pc");
             }
 
             else if(s->distance() > 50.0) //show to nearest integer
             {
-                objDistVal = i18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 0));
+                objDistVal = xi18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 0));
             }
 
             else if(s->distance() > 10.0) //show to tenths place
             {
-                objDistVal = i18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 1));
+                objDistVal = xi18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 1));
             }
 
             else //show to hundredths place
             {
-                objDistVal = i18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 2));
+                objDistVal = xi18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 2));
             }
 
             //Note multiplicity/variablility in angular size label
             if(s->isMultiple() && s->isVariable())
             {
-                objSizeLabel = i18nc("the star is a multiple star", "multiple") + ',';
-                objSizeVal = i18nc("the star is a variable star", "variable");
+                objSizeLabel = xi18nc("the star is a multiple star", "multiple") + ',';
+                objSizeVal = xi18nc("the star is a variable star", "variable");
             }
 
             else if(s->isMultiple())
             {
-                objSizeLabel = i18nc("the star is a multiple star", "multiple");
+                objSizeLabel = xi18nc("the star is a multiple star", "multiple");
             }
 
             else if(s->isVariable())
             {
-                objSizeLabel = i18nc("the star is a variable star", "variable");
+                objSizeLabel = xi18nc("the star is a variable star", "variable");
             }
 
             objIllumVal = "--";
@@ -148,7 +148,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Type is "G5 star" for Sun
             if(ps->name() == "Sun")
             {
-                objTypeVal = i18n("G5 star");
+                objTypeVal = xi18n("G5 star");
             }
 
             else if(ps->name() == "Moon")
@@ -156,9 +156,9 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 objTypeVal = ps->translatedName();
             }
 
-            else if(ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris") // TODO: Check if Ceres / Eris have translations and i18n() them
+            else if(ps->name() == xi18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris") // TODO: Check if Ceres / Eris have translations and i18n() them
             {
-                objTypeVal = i18n("Dwarf planet");
+                objTypeVal = xi18n("Dwarf planet");
             }
 
             else
@@ -172,17 +172,17 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 objIllumVal = QString("%1 %").arg(KLocale::global()->formatNumber(((KSMoon *)obj)->illum()*100., 0));
             }
 
-            objMagVal = i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1)); //show to tenths place
+            objMagVal = xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1)); //show to tenths place
 
             //Distance from Earth.  The moon requires a unit conversion
             if(ps->name() == "Moon")
             {
-                objDistVal = i18nc("distance in kilometers", "%1 km", KLocale::global()->formatNumber(ps->rearth() * AU_KM ));
+                objDistVal = xi18nc("distance in kilometers", "%1 km", KLocale::global()->formatNumber(ps->rearth() * AU_KM ));
             }
 
             else
             {
-                objDistVal = i18nc("distance in Astronomical Units", "%1 AU", KLocale::global()->formatNumber(ps->rearth()));
+                objDistVal = xi18nc("distance in Astronomical Units", "%1 AU", KLocale::global()->formatNumber(ps->rearth()));
             }
 
             //Angular size; moon and sun in arcmin, others in arcsec
@@ -191,12 +191,12 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 if(ps->name() == "Sun" || ps->name() == "Moon")
                 {
                     // Needn't be a plural form because sun / moon will never contract to 1 arcminute
-                    objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(ps->angSize()));
+                    objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(ps->angSize()));
                 }
 
                 else
                 {
-                    objSizeVal = i18nc("angular size in arcseconds","%1 arcsec", KLocale::global()->formatNumber(ps->angSize() * 60.0));
+                    objSizeVal = xi18nc("angular size in arcseconds","%1 arcsec", KLocale::global()->formatNumber(ps->angSize() * 60.0));
                 }
             }
 
@@ -267,8 +267,8 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             if(dso->type() == SkyObject::RADIO_SOURCE)
             {
-                objMagLabel = i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
-                objMagVal = i18nc("integrated flux value", "%1 %2", KLocale::global()->formatNumber(dso->flux(), 1),
+                objMagLabel = xi18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
+                objMagVal = xi18nc("integrated flux value", "%1 %2", KLocale::global()->formatNumber(dso->flux(), 1),
                                   dso->customCatalog()->fluxUnit()); //show to tenths place
             }
 
@@ -279,7 +279,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             else
             {
-                objMagVal = i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(dso->mag(), 1)); //show to tenths place
+                objMagVal = xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(dso->mag(), 1)); //show to tenths place
             }
 
             //No distances at this point...
@@ -288,12 +288,12 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Only show decimal place for small angular sizes
             if(dso->a() > 10.0)
             {
-                objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 0));
+                objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 0));
             }
 
             else if(dso->a())
             {
-                objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 1));
+                objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 1));
             }
 
             else
@@ -313,7 +313,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
     else
     {
-        objTypeVal = i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objTypeVal,
+        objTypeVal = xi18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objTypeVal,
                            KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(obj));
     }
 
@@ -329,34 +329,34 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
     table->cellAt(0, 0).firstCursorPosition().setBlockFormat(centered);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("General"), m_TableTitleCharFormat);
+    table->cellAt(0, 0).firstCursorPosition().insertText(xi18n("General"), m_TableTitleCharFormat);
 
     table->mergeCells(1, 1, 1, 3);
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Names:"), m_ItemNameCharFormat);
+    table->cellAt(1, 0).firstCursorPosition().insertText(xi18n("Names:"), m_ItemNameCharFormat);
     table->cellAt(1, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(1, 1).firstCursorPosition().insertText(objNamesVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Type:"), m_ItemNameCharFormat);
+    table->cellAt(2, 0).firstCursorPosition().insertText(xi18n("Type:"), m_ItemNameCharFormat);
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 1).firstCursorPosition().insertText(objTypeVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Distance:"), m_ItemNameCharFormat);
+    table->cellAt(3, 0).firstCursorPosition().insertText(xi18n("Distance:"), m_ItemNameCharFormat);
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(3, 1).firstCursorPosition().insertText(objDistVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 0).firstCursorPosition().insertText(i18n("Size:"), m_ItemNameCharFormat);
+    table->cellAt(4, 0).firstCursorPosition().insertText(xi18n("Size:"), m_ItemNameCharFormat);
     table->cellAt(4, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(4, 1).firstCursorPosition().insertText(objSizeVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Magnitude:"), m_ItemNameCharFormat);
+    table->cellAt(2, 2).firstCursorPosition().insertText(xi18n("Magnitude:"), m_ItemNameCharFormat);
     table->cellAt(2, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 3).firstCursorPosition().insertText(objMagVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("B-V index:"), m_ItemNameCharFormat);
+    table->cellAt(3, 2).firstCursorPosition().insertText(xi18n("B-V index:"), m_ItemNameCharFormat);
     table->cellAt(3, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(3, 3).firstCursorPosition().insertText(objBvVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 2).firstCursorPosition().insertText(i18n("Illumination:"), m_ItemNameCharFormat);
+    table->cellAt(4, 2).firstCursorPosition().insertText(xi18n("Illumination:"), m_ItemNameCharFormat);
     table->cellAt(4, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(4, 3).firstCursorPosition().insertText(objIllumVal, m_ItemValueCharFormat);
 }
@@ -390,7 +390,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             orbitClassVal = ast->getOrbitClass();
 
             // NEO
-            neoVal = ast->isNEO() ? i18n("Yes") : i18n("No");
+            neoVal = ast->isNEO() ? xi18n("Yes") : xi18n("No");
 
             // Albedo
             albedoVal = ast->getAlbedo() == 0 ? QString("--") : QString::number(ast->getAlbedo());
@@ -427,7 +427,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             orbitClassVal = com->getOrbitClass();
 
             // NEO
-            neoVal = com->isNEO() ? i18n("Yes") : i18n("No");
+            neoVal = com->isNEO() ? xi18n("Yes") : xi18n("No");
 
             // Albedo
             albedoVal = com->getAlbedo() == 0 ? QString("--") : QString::number(com->getAlbedo());
@@ -466,45 +466,45 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
     table->cellAt(0, 0).firstCursorPosition().setBlockFormat(centered);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Asteroid/Comet details"), m_TableTitleCharFormat);
+    table->cellAt(0, 0).firstCursorPosition().insertText(xi18n("Asteroid/Comet details"), m_TableTitleCharFormat);
 
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Perihelion:"), m_ItemNameCharFormat);
+    table->cellAt(1, 0).firstCursorPosition().insertText(xi18n("Perihelion:"), m_ItemNameCharFormat);
     table->cellAt(1, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(1, 1).firstCursorPosition().insertText(perihelionVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Orbit ID:"), m_ItemNameCharFormat);
+    table->cellAt(2, 0).firstCursorPosition().insertText(xi18n("Orbit ID:"), m_ItemNameCharFormat);
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 1).firstCursorPosition().insertText(orbitIdVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("NEO:"), m_ItemNameCharFormat);
+    table->cellAt(3, 0).firstCursorPosition().insertText(xi18n("NEO:"), m_ItemNameCharFormat);
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(3, 1).firstCursorPosition().insertText(neoVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 0).firstCursorPosition().insertText(i18n("Diameter:"), m_ItemNameCharFormat);
+    table->cellAt(4, 0).firstCursorPosition().insertText(xi18n("Diameter:"), m_ItemNameCharFormat);
     table->cellAt(4, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(4, 1).firstCursorPosition().insertText(diamVal, m_ItemValueCharFormat);
 
-    table->cellAt(5, 0).firstCursorPosition().insertText(i18n("Rotation period:"), m_ItemNameCharFormat);
+    table->cellAt(5, 0).firstCursorPosition().insertText(xi18n("Rotation period:"), m_ItemNameCharFormat);
     table->cellAt(5, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(5, 1).firstCursorPosition().insertText(rotPeriodVal, m_ItemValueCharFormat);
 
-    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Earth MOID:"), m_ItemNameCharFormat);
+    table->cellAt(1, 2).firstCursorPosition().insertText(xi18n("Earth MOID:"), m_ItemNameCharFormat);
     table->cellAt(1, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(1, 3).firstCursorPosition().insertText(moidVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Orbit class:"), m_ItemNameCharFormat);
+    table->cellAt(2, 2).firstCursorPosition().insertText(xi18n("Orbit class:"), m_ItemNameCharFormat);
     table->cellAt(2, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 3).firstCursorPosition().insertText(orbitClassVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Albedo:"), m_ItemNameCharFormat);
+    table->cellAt(3, 2).firstCursorPosition().insertText(xi18n("Albedo:"), m_ItemNameCharFormat);
     table->cellAt(3, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(3, 3).firstCursorPosition().insertText(albedoVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 2).firstCursorPosition().insertText(i18n("Dimensions:"), m_ItemNameCharFormat);
+    table->cellAt(4, 2).firstCursorPosition().insertText(xi18n("Dimensions:"), m_ItemNameCharFormat);
     table->cellAt(4, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(4, 3).firstCursorPosition().insertText(dimVal, m_ItemValueCharFormat);
 
-    table->cellAt(5, 2).firstCursorPosition().insertText(i18n("Period:"), m_ItemNameCharFormat);
+    table->cellAt(5, 2).firstCursorPosition().insertText(xi18n("Period:"), m_ItemNameCharFormat);
     table->cellAt(5, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(5, 3).firstCursorPosition().insertText(periodVal, m_ItemValueCharFormat);
 }
@@ -529,7 +529,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
     table->cellAt(0, 0).firstCursorPosition().setBlockFormat(centered);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Coordinates"), m_TableTitleCharFormat);
+    table->cellAt(0, 0).firstCursorPosition().insertText(xi18n("Coordinates"), m_TableTitleCharFormat);
 
     //Coordinates Section:
     //Don't use KLocale::formatNumber() for the epoch string,
@@ -538,15 +538,15 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     //Replace the decimal point with localized decimal symbol
     sEpoch.replace('.', KLocale::global()->decimalSymbol());
 
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("RA (%1):", sEpoch), m_ItemNameCharFormat);
+    table->cellAt(1, 0).firstCursorPosition().insertText(xi18n("RA (%1):", sEpoch), m_ItemNameCharFormat);
     table->cellAt(1, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(1, 1).firstCursorPosition().insertText(obj->ra().toHMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Dec (%1):", sEpoch), m_ItemNameCharFormat);
+    table->cellAt(2, 0).firstCursorPosition().insertText(xi18n("Dec (%1):", sEpoch), m_ItemNameCharFormat);
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 1).firstCursorPosition().insertText(obj->dec().toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Hour angle:"), m_ItemNameCharFormat);
+    table->cellAt(3, 0).firstCursorPosition().insertText(xi18n("Hour angle:"), m_ItemNameCharFormat);
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(centered);
     //Hour Angle can be negative, but dms HMS expressions cannot.
     //Here's a kludgy workaround:
@@ -560,11 +560,11 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     }
     table->cellAt(3, 1).firstCursorPosition().insertText(QString("%1%2").arg(sgn).arg(ha.toHMSString()), m_ItemValueCharFormat);
 
-    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth:"), m_ItemNameCharFormat);
+    table->cellAt(1, 2).firstCursorPosition().insertText(xi18n("Azimuth:"), m_ItemNameCharFormat);
     table->cellAt(1, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(1, 3).firstCursorPosition().insertText(obj->az().toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Altitude:"), m_ItemNameCharFormat);
+    table->cellAt(2, 2).firstCursorPosition().insertText(xi18n("Altitude:"), m_ItemNameCharFormat);
     table->cellAt(2, 2).firstCursorPosition().setBlockFormat(centered);
     dms a;
     if(Options::useAltAz())
@@ -578,7 +578,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     }
     table->cellAt(2, 3).firstCursorPosition().insertText(a.toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Airmass:"), m_ItemNameCharFormat);
+    table->cellAt(3, 2).firstCursorPosition().insertText(xi18n("Airmass:"), m_ItemNameCharFormat);
     table->cellAt(3, 2).firstCursorPosition().setBlockFormat(centered);
     //Airmass is approximated as the secant of the zenith distance,
     //equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
@@ -641,18 +641,18 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
     {
         if(obj->alt().Degrees() > 0.0)
         {
-            rtValue = i18n("Circumpolar");
-            stValue = i18n("Circumpolar");
+            rtValue = xi18n("Circumpolar");
+            stValue = xi18n("Circumpolar");
         }
 
         else
         {
-            rtValue = i18n("Never rises");
-            stValue = i18n("Never rises");
+            rtValue = xi18n("Never rises");
+            stValue = xi18n("Never rises");
         }
 
-        azRValue = i18nc("Not Applicable", "N/A");
-        azSValue = i18nc("Not Applicable", "N/A");
+        azRValue = xi18nc("Not Applicable", "N/A");
+        azSValue = xi18nc("Not Applicable", "N/A");
     }
 
     // Set column width constraints
@@ -669,30 +669,30 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
     table->cellAt(0, 0).firstCursorPosition().setBlockFormat(centered);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Rise/Set/Transit"), m_TableTitleCharFormat);
+    table->cellAt(0, 0).firstCursorPosition().insertText(xi18n("Rise/Set/Transit"), m_TableTitleCharFormat);
 
     // Insert cell names & values
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Rise time:"), m_ItemNameCharFormat);
+    table->cellAt(1, 0).firstCursorPosition().insertText(xi18n("Rise time:"), m_ItemNameCharFormat);
     table->cellAt(1, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(1, 1).firstCursorPosition().insertText(rtValue, m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Transit time:"), m_ItemNameCharFormat);
+    table->cellAt(2, 0).firstCursorPosition().insertText(xi18n("Transit time:"), m_ItemNameCharFormat);
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 1).firstCursorPosition().insertText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()), m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Set time:"), m_ItemNameCharFormat);
+    table->cellAt(3, 0).firstCursorPosition().insertText(xi18n("Set time:"), m_ItemNameCharFormat);
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(3, 1).firstCursorPosition().insertText(stValue, m_ItemValueCharFormat);
 
-    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth at rise:"), m_ItemNameCharFormat);
+    table->cellAt(1, 2).firstCursorPosition().insertText(xi18n("Azimuth at rise:"), m_ItemNameCharFormat);
     table->cellAt(1, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(1, 3).firstCursorPosition().insertText(azRValue, m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Altitude at transit:"), m_ItemNameCharFormat);
+    table->cellAt(2, 2).firstCursorPosition().insertText(xi18n("Altitude at transit:"), m_ItemNameCharFormat);
     table->cellAt(2, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(2, 3).firstCursorPosition().insertText(talt.toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Azimuth at set:"), m_ItemNameCharFormat);
+    table->cellAt(3, 2).firstCursorPosition().insertText(xi18n("Azimuth at set:"), m_ItemNameCharFormat);
     table->cellAt(3, 2).firstCursorPosition().setBlockFormat(centered);
     table->cellAt(3, 3).firstCursorPosition().insertText(azSValue, m_ItemValueCharFormat);
 

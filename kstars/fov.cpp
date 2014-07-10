@@ -47,7 +47,7 @@ FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, floa
 
 FOV::FOV()
 {
-    m_name  = i18n( "No FOV" );
+    m_name  = xi18n( "No FOV" );
     m_color = "#FFFFFF";
 
     m_sizeX = m_sizeY = 0;
@@ -139,15 +139,15 @@ void FOV::setShape( int s)
 QList<FOV*> FOV::defaults()
 {
     QList<FOV*> fovs;
-    fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
+    fovs << new FOV(xi18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
                     558,  558, 0,0,0, CIRCLE,"#AAAAAA")
-         << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
+         << new FOV(xi18nc("use a Telrad field-of-view indicator", "Telrad" ),
                     30,   30, 0,0,0,   BULLSEYE,"#AA0000")
-         << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
+         << new FOV(xi18nc("use 1-degree field-of-view indicator", "One Degree"),
                     60,   60, 0,0,0,  CIRCLE,"#AAAAAA")
-         << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
+         << new FOV(xi18nc("use HST field-of-view indicator", "HST WFPC2"),
                     2.4,  2.4, 0,0,0, SQUARE,"#AAAAAA")
-         << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
+         << new FOV(xi18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
                     1.79, 1.79, 0,0,0, SQUARE,"#AAAAAA");
     return fovs;
 }
@@ -158,7 +158,7 @@ void FOV::writeFOVs(const QList<FOV*> fovs)
     f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "fov.dat" ) ;
 
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << i18n( "Could not open fov.dat." );
+        qDebug() << xi18n( "Could not open fov.dat." );
         return;
     }
     QTextStream ostream(&f);

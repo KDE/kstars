@@ -139,9 +139,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         //...but not always!
     } else if ( stAlt.Degrees() > 0. ) {
-        ssAzString = i18n("Circumpolar");
+        ssAzString = xi18n("Circumpolar");
         stAltString = stAlt.toDMSString();
-        srAzString = i18n("Circumpolar");
+        srAzString = xi18n("Circumpolar");
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
@@ -149,9 +149,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         daylengthString = "24:00";
 
     } else if (stAlt.Degrees() < 0. ) {
-        ssAzString = i18n("Does not rise");
+        ssAzString = xi18n("Does not rise");
         stAltString = stAlt.toDMSString();
-        srAzString = i18n("Does not set");
+        srAzString = xi18n("Does not set");
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
@@ -182,18 +182,18 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         //...but not always!
     } else if ( mtAlt.Degrees() > 0. ) {
-        msAzString = i18n("Circumpolar");
+        msAzString = xi18n("Circumpolar");
         mtAltString = mtAlt.toDMSString();
-        mrAzString = i18n("Circumpolar");
+        mrAzString = xi18n("Circumpolar");
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
         mtTimeString = KLocale::global()->formatTime( mtTime );
 
     } else if ( mtAlt.Degrees() < 0. ) {
-        msAzString = i18n("Does not rise");
+        msAzString = xi18n("Does not rise");
         mtAltString = mtAlt.toDMSString();
-        mrAzString = i18n("Does not rise");
+        mrAzString = xi18n("Does not rise");
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
@@ -243,8 +243,8 @@ void modCalcDayLength::slotRunBatch() {
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
         if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = i18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            QString message = xi18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
             return;
         }
 
@@ -254,8 +254,8 @@ void modCalcDayLength::slotRunBatch() {
 
         f.close();
     } else  {
-        QString message = i18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+        QString message = xi18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid file" ) );
         return;
     }
 }
@@ -266,9 +266,9 @@ void modCalcDayLength::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     //Write header
-    ostream << "# " << i18nc("%1 is a location on earth", "Almanac for %1", geoBatch->fullName())
+    ostream << "# " << xi18nc("%1 is a location on earth", "Almanac for %1", geoBatch->fullName())
     << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString()).arg(geoBatch->lat()->toDMSString()) << endl
-    << "# " << i18n("computed by KStars") << endl
+    << "# " << xi18n("computed by KStars") << endl
     << "#" << endl
     << "# Date      SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet      MRiseAz      MTranAlt      MSetAz     LunarPhase" << endl
     << "#" << endl;
@@ -306,7 +306,7 @@ void modCalcDayLength::slotViewBatch() {
 
     fOut.close();
 
-    KMessageBox::informationList( 0, i18n("Results of Almanac calculation"), text, OutputFileBatch->url().toLocalFile() );
+    KMessageBox::informationList( 0, xi18n("Results of Almanac calculation"), text, OutputFileBatch->url().toLocalFile() );
 }
 
 #include "modcalcdaylength.moc"

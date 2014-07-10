@@ -45,7 +45,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 {
     // List of messages. Maybe there is better place for it...
     QString message =
-        i18n("<QT>"
+        xi18n("<QT>"
              "<H2>KStars Astrocalculator</H2>"
              "<P>"
              "The KStars Astrocalculator contains several <B>modules</b> "
@@ -62,7 +62,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
              "</QT>"
             );
     QString messageTime =
-        i18n("<QT>"
+        xi18n("<QT>"
              "Section which includes algorithms for computing time ephemeris"
              "<UL><LI>"
              "<B>Julian Day:</B> Julian Day/Calendar conversion"
@@ -77,7 +77,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
              "</LI></UL>"
              "</QT>");
     QString messageCoord =
-        i18n("<QT>"
+        xi18n("<QT>"
              "Section with algorithms for the conversion of "
              "different astronomical systems of coordinates"
              "<UL><LI>"
@@ -101,7 +101,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
              "</LI></UL>"
              "</QT>");
     QString messageSolar =
-        i18n("<QT>"
+        xi18n("<QT>"
              "Section with algorithms regarding information "
              "on solar system bodies coordinates and times"
              "<UL><LI>"
@@ -112,13 +112,13 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
     QSplitter* split = new QSplitter ( this );
     setMainWidget(split);
-    setCaption( i18n("Calculator") );
+    setCaption( xi18n("Calculator") );
     setButtons( KDialog::Close );
 
     // Create navigation panel
     navigationPanel = new QTreeWidget(split);
     navigationPanel->setColumnCount(1);
-    navigationPanel->setHeaderLabels( QStringList(i18n("Calculator modules")) );
+    navigationPanel->setHeaderLabels( QStringList(xi18n("Calculator modules")) );
     navigationPanel->setSortingEnabled( false );
     //FIXME: Would be better to make the navigationPanel fit its contents,
     //but I wasn't able to make it work
@@ -144,30 +144,30 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     
     /* Populate the tree widget and widget stack */
     // Time-related entries
-    QTreeWidgetItem * timeItem = addTreeTopItem(navigationPanel, i18n("Time Calculators"), messageTime);
+    QTreeWidgetItem * timeItem = addTreeTopItem(navigationPanel, xi18n("Time Calculators"), messageTime);
     timeItem->setIcon(0,timeIcon);
 
-    addTreeItem<modCalcJD>       (timeItem, i18n("Julian Day"))->setIcon(0,jdIcon);
-    addTreeItem<modCalcSidTime>  (timeItem, i18n("Sidereal Time"));
-    addTreeItem<modCalcDayLength>(timeItem, i18n("Almanac"));
-    addTreeItem<modCalcEquinox>  (timeItem, i18n("Equinoxes & Solstices"));
+    addTreeItem<modCalcJD>       (timeItem, xi18n("Julian Day"))->setIcon(0,jdIcon);
+    addTreeItem<modCalcSidTime>  (timeItem, xi18n("Sidereal Time"));
+    addTreeItem<modCalcDayLength>(timeItem, xi18n("Almanac"));
+    addTreeItem<modCalcEquinox>  (timeItem, xi18n("Equinoxes & Solstices"));
     //  dayItem->setIcon(0,sunsetIcon);
                                 
     // Coordinate-related entries
-    QTreeWidgetItem * coordItem = addTreeTopItem(navigationPanel, i18n("Coordinate Converters"), messageCoord);
-    addTreeItem<modCalcGalCoord> (coordItem, i18n("Equatorial/Galactic"));
-    addTreeItem<modCalcApCoord>  (coordItem, i18n("Apparent Coordinates"));
-    addTreeItem<modCalcAltAz>    (coordItem, i18n("Horizontal Coordinates"));
-    addTreeItem<modCalcEclCoords>(coordItem, i18n("Ecliptic Coordinates"));
-    addTreeItem<modCalcAngDist>  (coordItem, i18n("Angular Distance"));
-    addTreeItem<modCalcGeodCoord>(coordItem, i18n("Geodetic Coordinates"));
-    addTreeItem<modCalcVlsr>     (coordItem, i18n("LSR Velocity"));
+    QTreeWidgetItem * coordItem = addTreeTopItem(navigationPanel, xi18n("Coordinate Converters"), messageCoord);
+    addTreeItem<modCalcGalCoord> (coordItem, xi18n("Equatorial/Galactic"));
+    addTreeItem<modCalcApCoord>  (coordItem, xi18n("Apparent Coordinates"));
+    addTreeItem<modCalcAltAz>    (coordItem, xi18n("Horizontal Coordinates"));
+    addTreeItem<modCalcEclCoords>(coordItem, xi18n("Ecliptic Coordinates"));
+    addTreeItem<modCalcAngDist>  (coordItem, xi18n("Angular Distance"));
+    addTreeItem<modCalcGeodCoord>(coordItem, xi18n("Geodetic Coordinates"));
+    addTreeItem<modCalcVlsr>     (coordItem, xi18n("LSR Velocity"));
 
     // Solar System related entries
-    QTreeWidgetItem * solarItem = addTreeTopItem(navigationPanel, i18n("Solar System"), messageSolar);
+    QTreeWidgetItem * solarItem = addTreeTopItem(navigationPanel, xi18n("Solar System"), messageSolar);
     solarItem->setIcon(0,solarIcon);
-    addTreeItem<modCalcPlanets>  (solarItem, i18n("Planets Coordinates"));
-    addTreeItem<ConjunctionsTool>(solarItem, i18n("Conjunctions"));
+    addTreeItem<modCalcPlanets>  (solarItem, xi18n("Planets Coordinates"));
+    addTreeItem<ConjunctionsTool>(solarItem, xi18n("Conjunctions"));
     
     acStack->setCurrentWidget( splashScreen );
     connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)),

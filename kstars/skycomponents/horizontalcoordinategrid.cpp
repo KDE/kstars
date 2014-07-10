@@ -30,7 +30,7 @@
 #include "skypainter.h"
 
 HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
-        : CoordinateGrid( parent, i18n("Horizontal Coordinate Grid" ) )
+        : CoordinateGrid( parent, xi18n("Horizontal Coordinate Grid" ) )
 {
     //KStarsData *data = KStarsData::Instance();
     

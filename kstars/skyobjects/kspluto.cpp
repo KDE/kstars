@@ -32,7 +32,7 @@
 #endif
 
 KSPluto::KSPluto(const QString &fn, double pSize )
-    : KSAsteroid( 0, i18n("Pluto"), fn, J2000,
+    : KSAsteroid( 0, xi18n("Pluto"), fn, J2000,
                   39.48168677, 0.24880766, dms(17.14175), dms(113.76329),
                   dms(110.30347), dms(14.86205), 1.0, 0.0 )
 {

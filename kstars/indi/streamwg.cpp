@@ -141,7 +141,7 @@ void StreamWG::newFrame(IBLOB *bp)
     else if (rc == false)
     {
         close();
-        KMessageBox::error(0, i18n("Unable to load video stream."));
+        KMessageBox::error(0, xi18n("Unable to load video stream."));
     }
 }
 
@@ -185,15 +185,15 @@ void StreamWG::captureImage()
 
             if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) )
             {
-                QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
-                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+                QString message = xi18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
+                KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
             }
         }
     }
     else
     {
-        QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
-        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+        QString message = xi18n( "Invalid URL: %1", currentFileURL.url() );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
     }
 
 }

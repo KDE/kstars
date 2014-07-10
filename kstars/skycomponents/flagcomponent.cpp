@@ -178,9 +178,9 @@ void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, Q
 
 void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
     // Add the default flag images to available images list
-    m_Names.append( i18n( "No icon" ) );
+    m_Names.append( xi18n( "No icon" ) );
     m_Images.append( QImage() );
-    m_Names.append( i18n( "Default" ) );
+    m_Names.append( xi18n( "Default" ) );
     m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
 
     // Add all other images found in user appdata directory

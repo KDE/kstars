@@ -361,7 +361,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
     }
 
     if (dataType == DATA_OTHER)
-            KStars::Instance()->statusBar()->changeItem( i18n("Data file saved to %1", filename ), 0);
+            KStars::Instance()->statusBar()->changeItem( xi18n("Data file saved to %1", filename ), 0);
 
 }
 
@@ -417,7 +417,7 @@ void GenericDevice::createDeviceInit()
 {
 
     if ( Options::showINDIMessages() )
-        KStars::Instance()->statusBar()->changeItem( i18n("%1 is online.", baseDevice->getDeviceName()), 0);
+        KStars::Instance()->statusBar()->changeItem( xi18n("%1 is online.", baseDevice->getDeviceName()), 0);
 
     KStars::Instance()->map()->forceUpdateNow();
 }

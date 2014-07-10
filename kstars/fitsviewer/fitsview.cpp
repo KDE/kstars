@@ -239,7 +239,7 @@ int FITSView::rescale(FITSZoom type)
         if (mode == FITS_FOCUS || mode == FITS_GUIDE)
             qDebug() << "FITS image is saturated and cannot be displayed." << endl;
         else
-            KMessageBox::error(0, i18n("FITS image is saturated and cannot be displayed."), i18n("FITS Open"));
+            KMessageBox::error(0, xi18n("FITS image is saturated and cannot be displayed."), xi18n("FITS Open"));
         return -1;
     }
 
@@ -486,7 +486,7 @@ void FITSView::toggleStars(bool enable)
      {
        int count = image_data->findStars();
        if (count >= 0 && isVisible())
-               emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
+               emit newStatus(xi18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
      }
 }
 

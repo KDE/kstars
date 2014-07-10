@@ -44,7 +44,7 @@ JMoonTool::JMoonTool(QWidget *parent)
     ksw = (KStars*)parent;
     QFrame *page = new QFrame(this);
     setMainWidget( page );
-    setCaption( i18n("Jupiter Moons Tool") );
+    setCaption( xi18n("Jupiter Moons Tool") );
     setButtons( KDialog::Close );
     setModal( false );
 
@@ -58,10 +58,10 @@ JMoonTool::JMoonTool(QWidget *parent)
     colGn = QColor(Qt::cyan);
     colCa = QColor(Qt::green);
 
-    QLabel *labIo = new QLabel( i18n("Io"), page );
-    QLabel *labEu = new QLabel( i18n("Europa"), page );
-    QLabel *labGn = new QLabel( i18n("Ganymede"), page );
-    QLabel *labCa = new QLabel( i18n("Callisto"), page );
+    QLabel *labIo = new QLabel( xi18n("Io"), page );
+    QLabel *labEu = new QLabel( xi18n("Europa"), page );
+    QLabel *labGn = new QLabel( xi18n("Ganymede"), page );
+    QLabel *labCa = new QLabel( xi18n("Callisto"), page );
 
     labIo->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
     labEu->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
@@ -97,8 +97,8 @@ JMoonTool::JMoonTool(QWidget *parent)
     pw->setShowGrid( false );
     pw->setAntialiasing( true );
     pw->setLimits( -12.0, 12.0, -11.0, 11.0 );
-    pw->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "offset from Jupiter (arcmin)" ) );
-    pw->axis(KPlotWidget::LeftAxis)->setLabel( i18n( "time since now (days)" ) );
+    pw->axis(KPlotWidget::BottomAxis)->setLabel( xi18n( "offset from Jupiter (arcmin)" ) );
+    pw->axis(KPlotWidget::LeftAxis)->setLabel( xi18n( "time since now (days)" ) );
     vlay->addLayout( glay );
     vlay->addWidget( pw );
     resize( 350, 600 );
@@ -116,7 +116,7 @@ void JMoonTool::initPlotObjects() {
     KPlotObject *jpath;
     long double jd0 = ksw->data()->ut().djd();
     KSSun *ksun = (KSSun*)ksw->data()->skyComposite()->findByName( "Sun" );
-    KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( i18n("Jupiter") );
+    KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( xi18n("Jupiter") );
     JupiterMoons jm;
 
     pw->removeAllPlotObjects();

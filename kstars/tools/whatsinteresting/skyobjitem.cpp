@@ -98,7 +98,7 @@ void SkyObjItem::setPosition(SkyObject* so)
     sp.EquatorialToHorizontal(data->lst(), data->geo()->lat());
     double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
 
-    m_Position = i18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) );
+    m_Position = xi18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) );
 }
 
 QString SkyObjItem::getDesc() const
@@ -107,7 +107,7 @@ QString SkyObjItem::getDesc() const
     {
         KSFileReader fileReader;
         if (!fileReader.open("PlanetFacts.dat"))
-            return i18n("No Description found for selected sky-object");
+            return xi18n("No Description found for selected sky-object");
 
         while (fileReader.hasMoreLines())
         {
@@ -131,7 +131,7 @@ QString SkyObjItem::getDesc() const
     }
 
     if(m_Type == Star)
-        return i18n("Bright Star");
+        return xi18n("Bright Star");
 
     return getTypeName();
 
@@ -141,7 +141,7 @@ QString SkyObjItem::getDescSource()
 {
     if (m_Type == Planet)
     {
-        return i18n("(Source: Wikipedia)");
+        return xi18n("(Source: Wikipedia)");
     }
 
     if(skd)
@@ -150,7 +150,7 @@ QString SkyObjItem::getDescSource()
             return "(Source: <a href=\"" + skd->url() + "\">Wikipedia</a>)";
     }
 
-    return i18n("(Source: N/A)");
+    return xi18n("(Source: N/A)");
 }
 
 

@@ -221,7 +221,7 @@ void SupernovaeComponent::notifyNewSupernovae()
         ui->show();
     }
 //     if (!latest.empty())
-//         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
+//         KMessageBox::informationList(0, xi18n("New Supernovae discovered!"), latestList, xi18n("New Supernovae discovered!"));
 }
 
 
@@ -242,17 +242,17 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
         QString errmsg;
         switch ( exitCode ) {
             case -2:
-                errmsg = i18n("Could not run python to update supernova information");
+                errmsg = xi18n("Could not run python to update supernova information");
                 break;
             case -1:
-                errmsg = i18n("Python process that updates the supernova information crashed");
+                errmsg = xi18n("Python process that updates the supernova information crashed");
                 break;
             default:
-                errmsg = i18n( "Python process that updates the supernova information failed with error code %1", QString::number( exitCode ) );
+                errmsg = xi18n( "Python process that updates the supernova information failed with error code %1", QString::number( exitCode ) );
                 break;
         }
         if( KStars::Instance() && SkyMap::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
-            KMessageBox::sorry( 0, errmsg, i18n("Supernova information update failed") );
+            KMessageBox::sorry( 0, errmsg, xi18n("Supernova information update failed") );
         // FIXME: There should be a better way to check if KStars is fully initialized. Maybe we should have a static boolean in the KStars class. --asimha
     }
     else {

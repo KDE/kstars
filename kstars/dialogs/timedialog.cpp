@@ -41,9 +41,9 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
     QFrame *page = new QFrame(this);
     setMainWidget( page );
     if( UTCNow )
-        setCaption( i18nc( "set clock to a new time", "Set UTC Time" ) );
+        setCaption( xi18nc( "set clock to a new time", "Set UTC Time" ) );
     else
-        setCaption( i18nc( "set clock to a new time", "Set Time" ) );
+        setCaption( xi18nc( "set clock to a new time", "Set Time" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     vlay = new QVBoxLayout( page );
@@ -56,7 +56,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
     tEdit = new QTimeEdit( now.time(), page );
     NowButton = new QPushButton( page );
     NowButton->setObjectName( "NowButton" );
-    NowButton->setText( UTCNow ? i18n( "UTC Now"  ) : i18n( "Now"  ) );
+    NowButton->setText( UTCNow ? xi18n( "UTC Now"  ) : xi18n( "Now"  ) );
 
     vlay->addWidget( dPicker, 0, 0 );
     vlay->addLayout( hlay, 0 );

@@ -30,7 +30,7 @@
 #include "projections/projector.h"
 
 Equator::Equator(SkyComposite *parent ) :
-        NoPrecessIndex( parent, i18n("Equator") ),
+        NoPrecessIndex( parent, xi18n("Equator") ),
         m_label( LineListIndex::name() )
 {
     KStarsData *data = KStarsData::Instance();

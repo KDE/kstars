@@ -42,44 +42,44 @@ ColorScheme::ColorScheme() : FileName() {
     //To add another color to the Palette, just add an entry for KeyName,
     //Name and Default here.
 
-    appendItem("SkyColor",         i18n("Sky"),                    "#000000");
-    appendItem("MessColor",        i18n("Messier Object"),         "#008f00");
-    appendItem("NGCColor",         i18nc("New General Catalog object", "NGC Object"), "#006666");
-    appendItem("ICColor",          i18nc("Index Catalog object", "IC Object"), "#382a7d");
+    appendItem("SkyColor",         xi18n("Sky"),                    "#000000");
+    appendItem("MessColor",        xi18n("Messier Object"),         "#008f00");
+    appendItem("NGCColor",         xi18nc("New General Catalog object", "NGC Object"), "#006666");
+    appendItem("ICColor",          xi18nc("Index Catalog object", "IC Object"), "#382a7d");
     appendItem("HSTColor",
-               i18nc("Object with extra attached URLs", "Object w/ Links"), "#930000");
-    appendItem("SNameColor",       i18n("Star Name"),              "#577d7d");
-    appendItem("DSNameColor",      i18n("Deep Sky Object Name"),   "#75759c");
-    appendItem("PNameColor",       i18n("Planet Name"),            "#ac9800");
+               xi18nc("Object with extra attached URLs", "Object w/ Links"), "#930000");
+    appendItem("SNameColor",       xi18n("Star Name"),              "#577d7d");
+    appendItem("DSNameColor",      xi18n("Deep Sky Object Name"),   "#75759c");
+    appendItem("PNameColor",       xi18n("Planet Name"),            "#ac9800");
     appendItem("CNameColor",
-               i18nc("Constellation Name", "Constell. Name"),      "#718488");
+               xi18nc("Constellation Name", "Constell. Name"),      "#718488");
     appendItem("CLineColor",
-               i18nc("Constellation Line", "Constell. Line"),      "#3d3d3d");
+               xi18nc("Constellation Line", "Constell. Line"),      "#3d3d3d");
     appendItem("CBoundColor",
-               i18nc("Constellation Boundary", "Constell. Boundary"), "#222f2f");
+               xi18nc("Constellation Boundary", "Constell. Boundary"), "#222f2f");
     appendItem("CBoundHighColor",
-               i18nc("Highlighted Constellation Boundary", "Constell. Boundary Highlight"), "#445555");
+               xi18nc("Highlighted Constellation Boundary", "Constell. Boundary Highlight"), "#445555");
     appendItem("MWColor",
-               i18nc("refers to the band of stars in the sky due to the Galactic plane", "Milky Way"), "#0d1115");
-    appendItem("EqColor",          i18n("Equator"),                "#909090");
-    appendItem("EclColor",         i18n("Ecliptic"),               "#613d12");
-    appendItem("HorzColor",        i18n("Horizon"),                "#091f14");
-    appendItem("CompassColor",     i18n("Compass Labels"),         "#909055");
-    appendItem("EquatorialGridColor", i18n("Equatorial Coordinate Grid"), "#445566");
-    appendItem("HorizontalGridColor", i18n("Horizontal Coordinate Grid"), "#091f14");
-    appendItem("BoxTextColor",     i18n("Info Box Text"),          "#d2dbef");
-    appendItem("BoxGrabColor",     i18n("Info Box Selected"),      "#900000");
-    appendItem("BoxBGColor",       i18n("Info Box Background"),    "#000000");
-    appendItem("TargetColor",      i18n("Target Indicator"),       "#DD0000");
-    appendItem("UserLabelColor",   i18n("User Labels"),            "#AAAAAA");
-    appendItem("PlanetTrailColor", i18n("Planet Trails"),          "#993311");
-    appendItem("AngularRuler",     i18n("Angular Distance Ruler"), "#445566");
-    appendItem("ObsListColor",     i18n("Observing List Label"),   "#FF0000");
-    appendItem("StarHopRouteColor", i18n("Star-Hop Route"),        "#00FFFF");
-    appendItem("VisibleSatColor",  i18n("Visible Satellites"),     "#00FF00");
-    appendItem("SatColor",         i18n("Satellites"),             "#FF0000");
-    appendItem("SatLabelColor",    i18n("Satellites Labels"),      "#640000");
-    appendItem("SupernovaColor",   i18n("Supernovae"),             "#FFA500");
+               xi18nc("refers to the band of stars in the sky due to the Galactic plane", "Milky Way"), "#0d1115");
+    appendItem("EqColor",          xi18n("Equator"),                "#909090");
+    appendItem("EclColor",         xi18n("Ecliptic"),               "#613d12");
+    appendItem("HorzColor",        xi18n("Horizon"),                "#091f14");
+    appendItem("CompassColor",     xi18n("Compass Labels"),         "#909055");
+    appendItem("EquatorialGridColor", xi18n("Equatorial Coordinate Grid"), "#445566");
+    appendItem("HorizontalGridColor", xi18n("Horizontal Coordinate Grid"), "#091f14");
+    appendItem("BoxTextColor",     xi18n("Info Box Text"),          "#d2dbef");
+    appendItem("BoxGrabColor",     xi18n("Info Box Selected"),      "#900000");
+    appendItem("BoxBGColor",       xi18n("Info Box Background"),    "#000000");
+    appendItem("TargetColor",      xi18n("Target Indicator"),       "#DD0000");
+    appendItem("UserLabelColor",   xi18n("User Labels"),            "#AAAAAA");
+    appendItem("PlanetTrailColor", xi18n("Planet Trails"),          "#993311");
+    appendItem("AngularRuler",     xi18n("Angular Distance Ruler"), "#445566");
+    appendItem("ObsListColor",     xi18n("Observing List Label"),   "#FF0000");
+    appendItem("StarHopRouteColor", xi18n("Star-Hop Route"),        "#00FFFF");
+    appendItem("VisibleSatColor",  xi18n("Visible Satellites"),     "#00FF00");
+    appendItem("SatColor",         xi18n("Satellites"),             "#FF0000");
+    appendItem("SatLabelColor",    xi18n("Satellites Labels"),      "#640000");
+    appendItem("SupernovaColor",   xi18n("Supernovae"),             "#FFA500");
 
     //Load colors from config object
     loadFromConfig();
@@ -98,7 +98,7 @@ void ColorScheme::appendItem(QString key, QString name, QString def) {
 
 QColor ColorScheme::colorNamed( const QString &name ) const {
     if ( ! hasColorNamed( name ) ) {
-        qWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) ;
+        qWarning() << xi18n( "No color named \"%1\" found in color scheme.", name ) ;
         // Return white if no color found
         return QColor( Qt::white );
     }
@@ -136,11 +136,11 @@ bool ColorScheme::load( const QString &name ) {
     bool ok = false;
 
     //Parse default names which don't follow the regular file-naming scheme
-    if ( name == i18nc("use default color scheme", "Default Colors") )
+    if ( name == xi18nc("use default color scheme", "Default Colors") )
         filename = "classic.colors";
-    if ( name == i18nc("use 'star chart' color scheme", "Star Chart") )
+    if ( name == xi18nc("use 'star chart' color scheme", "Star Chart") )
         filename = "chart.colors";
-    if ( name == i18nc("use 'night vision' color scheme", "Night Vision") )
+    if ( name == xi18nc("use 'night vision' color scheme", "Night Vision") )
         filename = "night.colors";
 
     //Try the filename if it ends with ".colors"
@@ -156,7 +156,7 @@ bool ColorScheme::load( const QString &name ) {
         }
 
         if ( ! ok ) {
-            qDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
+            qDebug() << xi18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
             return false;
         }
     }
@@ -231,8 +231,8 @@ bool ColorScheme::save( const QString &name ) {
         file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + filename ) ; //determine filename in local user KDE directory tree.
 
         if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-            QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            QString message = xi18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
+            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
             return false;
         } else {
             QTextStream stream( &file );
@@ -246,8 +246,8 @@ bool ColorScheme::save( const QString &name ) {
         file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "colors.dat" ) ; //determine filename in local user KDE directory tree.
 
         if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-            QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            QString message = xi18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
+            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
             return false;
         } else {
             QTextStream stream( &file );
@@ -255,8 +255,8 @@ bool ColorScheme::save( const QString &name ) {
             file.close();
         }
     } else {
-        QString message = i18n( "Invalid filename requested.\nScheme cannot be recorded." );
-        KMessageBox::sorry( 0, message, i18n( "Invalid Filename" ) );
+        QString message = xi18n( "Invalid filename requested.\nScheme cannot be recorded." );
+        KMessageBox::sorry( 0, message, xi18n( "Invalid Filename" ) );
         return false;
     }
 
