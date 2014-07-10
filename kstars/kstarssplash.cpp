@@ -22,7 +22,7 @@
 
 
 KStarsSplash::KStarsSplash(const QString& customMessage )
-        : KSplashScreen(QPixmap() )
+        : QSplashScreen(QPixmap() )
 {
     setPixmap(KStandardDirs::locate("appdata","kstars.png"));
     setMessage( customMessage.isEmpty() ?

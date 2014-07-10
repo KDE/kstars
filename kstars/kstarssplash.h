@@ -18,7 +18,7 @@
 #ifndef KSTARSSPLASH_H__
 #define KSTARSSPLASH_H__
 
-#include <KSplashScreen>
+#include <QSplashScreen>
 
 /**@class KStarsSplash
  * The KStars Splash Screen.  The splash screen shows the KStars logo and 
@@ -27,7 +27,7 @@
  * @author Heiko Evermann
  * @version 1.0
  */
-class KStarsSplash : public KSplashScreen
+class KStarsSplash : public QSplashScreen
 {
     Q_OBJECT
 
