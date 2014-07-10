@@ -481,6 +481,9 @@ add_library( KStarsLib STATIC ${kstars_SRCS})
 
 # kde4_add_executable(kstars ${kstars_SRCS})
 
+# FIXME TODO
+#target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/>")
+
 target_link_libraries(KStarsLib
         LibKSDataHandlers
         htmesh
@@ -519,6 +522,10 @@ if (QJSON_FOUND)
 endif(QJSON_FOUND)
 
 target_link_libraries(kstars KStarsLib)
+
+#FIXME TODO
+#<move ecm_generate_headers calls here>
+#install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
 
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
