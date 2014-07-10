@@ -31,7 +31,7 @@
 #include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kicon.h>
-#include <knewstuff3/knewstuffaction.h>
+#include <kns3/knewstuffaction.h>
 
 #include "Options.h"
 #include "fov.h"

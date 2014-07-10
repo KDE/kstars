@@ -47,7 +47,7 @@
 #include <kprocess.h>
 #include <ktoolbar.h>
 #include <kicon.h>
-#include <knewstuff3/downloaddialog.h>
+#include <kns3/downloaddialog.h>
 #include <kio/netaccess.h>
 
 #include "options/opscatalog.h"
