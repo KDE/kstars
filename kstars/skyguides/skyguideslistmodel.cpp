@@ -20,6 +20,9 @@
 #include <QString>
 #include <QStringList>
 #include <QtAlgorithms>
+#include <QFile>
+#include <QIODevice>
+#include <QByteArray>
 
 #include <kstandarddirs.h>
 
@@ -49,7 +52,7 @@ SkyGuidesListModel::SkyGuidesListModel() :
 
 void SkyGuidesListModel::updateSkyObject(const SkyObject * obj)
 {
-	if ( obj && obj->hasName() )
+	if (obj)
 	{
 		if ( actualSkyObject && (!( (*actualSkyObject) == (*obj) )) )
 			return;
@@ -57,16 +60,39 @@ void SkyGuidesListModel::updateSkyObject(const SkyObject * obj)
 		KStandardDirs ksd;
 		QStringList guidesPaths = ksd.findAllResources("data", "kstars/skyguides/guides/*/index.html");
 
-		qDebug() << "SkyGuidesListModel::SkyGuidesListModel( " << obj->name() << " ) found " << guidesPaths.count() << " guides." ;
-
 		qDeleteAll(mData);
 		mData.clear();
 
 		foreach( QString path, guidesPaths )
 		{
 			path.chop(10);
-			mData.append(new SkyGuideData("Jupiter", path));
-			qDebug() << path;
+
+			QStringList gos;
+			QFile skOFile(path + "/skyobjects.txt");
+			skOFile.open(QIODevice::ReadOnly);
+			while(!skOFile.atEnd())
+				gos.append(skOFile.readLine().trimmed());
+			skOFile.close();
+
+			bool match = false;
+			if (obj->hasName())
+				match = gos.contains(obj->name(), Qt::CaseInsensitive) || gos.contains(obj->translatedName(), Qt::CaseInsensitive);
+			if (!match && obj->hasName2())
+				match = gos.contains(obj->name2(), Qt::CaseInsensitive) || gos.contains(obj->translatedName2(), Qt::CaseInsensitive);
+			if (!match && obj->hasLongName())
+				match |= gos.contains(obj->longname(), Qt::CaseInsensitive) || gos.contains(obj->translatedLongName(), Qt::CaseInsensitive);
+
+			if (match)
+			{
+				QFile titleFile(path + "/title.txt");
+				titleFile.open(QIODevice::ReadOnly);
+				QString title(titleFile.readLine().trimmed());
+				titleFile.close();
+
+				mData.append(new SkyGuideData(title, path));
+
+				qDebug() << "Found: "<< title << " at " << path;
+			}
 		}
 
 		delete actualSkyObject;
@@ -76,6 +102,7 @@ void SkyGuidesListModel::updateSkyObject(const SkyObject * obj)
 
 SkyGuidesListModel::~SkyGuidesListModel()
 {
+	qDeleteAll(mData);
 	delete actualSkyObject;
 }
 

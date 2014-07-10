@@ -74,8 +74,8 @@ public:
 	inline QList<QObject*> const & data() const { return mData; };
 
 private:
-	SkyObject * actualSkyObject;
 	QList<QObject*> mData;
+	SkyObject * actualSkyObject;
 };
 
 #endif // SKYGUIDESLISTMODEL_H
