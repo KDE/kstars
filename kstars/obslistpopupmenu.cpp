@@ -27,7 +27,7 @@
 #include <config-kstars.h>
 
 ObsListPopupMenu::ObsListPopupMenu()
-        : KMenu( 0 )
+        : QMenu( 0 )
 {}
 
 ObsListPopupMenu::~ObsListPopupMenu() { }

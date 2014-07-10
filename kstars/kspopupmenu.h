@@ -19,7 +19,7 @@
 #ifndef KSPOPUPMENU_H_
 #define KSPOPUPMENU_H_
 
-#include <kmenu.h>
+#include <QMenu>
 #include <kaction.h>
 #include <QHash>
 
@@ -40,7 +40,7 @@ class Supernova;
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class KSPopupMenu : public KMenu
+class KSPopupMenu : public QMenu
 {
     Q_OBJECT
 public:

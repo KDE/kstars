@@ -42,7 +42,7 @@
 #include <kconfigdialog.h>
 #include <kfiledialog.h>
 #include <kinputdialog.h>
-#include <kmenu.h>
+#include <QMenu>
 #include <kstatusbar.h>
 #include <kprocess.h>
 #include <ktoolbar.h>

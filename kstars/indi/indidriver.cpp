@@ -30,7 +30,7 @@
 #include <QDialog>
 #include <QTcpServer>
 
-#include <KMenu>
+#include <QMenu>
 #include <KMessageBox>
 #include <KPushButton>
 #include <QLineEdit>

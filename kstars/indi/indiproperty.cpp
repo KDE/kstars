@@ -25,7 +25,7 @@
 #include <basedevice.h>
 
 #include <KDebug>
-#include <KMenu>
+#include <QMenu>
 #include <QLineEdit>
 #include <KLed>
 #include <KLocale>

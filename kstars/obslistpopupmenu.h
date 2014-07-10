@@ -19,7 +19,7 @@
 #ifndef OBSLISTPOPUPMENU_H_
 #define OBSLISTPOPUPMENU_H_
 
-#include <kmenu.h>
+#include <QMenu>
 
 /**@class ObsListPopupMenu
 	*The Popup Menu for the observing list in KStars. The menu is sensitive to the 
@@ -27,7 +27,7 @@
     *@author Prakash Mohan
     *@version 1.0
 	*/
-class ObsListPopupMenu : public KMenu
+class ObsListPopupMenu : public QMenu
 {
     Q_OBJECT
 public:

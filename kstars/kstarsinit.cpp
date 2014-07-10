@@ -22,7 +22,7 @@
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <kiconloader.h>
-#include <kmenu.h>
+#include <QMenu>
 #include <kstatusbar.h>
 #include <ktip.h>
 #include <kmessagebox.h>

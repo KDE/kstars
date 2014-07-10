@@ -34,7 +34,7 @@
 #include <kcombobox.h>
 #include <knuminput.h>
 #include <kstatusbar.h>
-#include <kmenu.h>
+#include <QMenu>
 #include <kvbox.h>
 #include <ktabwidget.h>
 #include <ktextedit.h>

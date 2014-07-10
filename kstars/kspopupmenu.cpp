@@ -107,7 +107,7 @@ namespace {
 
 
 KSPopupMenu::KSPopupMenu()
-    : KMenu( KStars::Instance() ), m_CurrentFlagIdx(-1), m_EditActionMapping(0), m_DeleteActionMapping(0)
+    : QMenu( KStars::Instance() ), m_CurrentFlagIdx(-1), m_EditActionMapping(0), m_DeleteActionMapping(0)
 {}
 
 KSPopupMenu::~KSPopupMenu()
@@ -468,7 +468,7 @@ void KSPopupMenu::addINDI()
         //if (bd->isConnected() == false)
         //    continue;
 
-        KMenu* menuDevice = NULL;
+        QMenu* menuDevice = NULL;
         ISD::GDInterface *telescope = NULL;
 
        foreach(INDI::Property *pp, gd->getProperties())
@@ -484,7 +484,7 @@ void KSPopupMenu::addINDI()
                 {
                     if (menuDevice == NULL)
                     {
-                        menuDevice = new KMenu(gd->getDeviceName());
+                        menuDevice = new QMenu(gd->getDeviceName());
                         addMenu(menuDevice);
                     }
 
