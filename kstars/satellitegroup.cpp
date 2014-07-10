@@ -16,8 +16,9 @@
  ***************************************************************************/
 
 #include <QFile>
+#include <QStandardPaths>
 
-#include <kstandarddirs.h>
+
 
 #include "satellitegroup.h"
 #include "ksutils.h"
@@ -73,7 +74,7 @@ void SatelliteGroup::updateSatellitesPos()
 KUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
-    return KUrl( "file:" + KStandardDirs::locateLocal("appdata", "") + m_tle_file );
+    return KUrl( "file:" + QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "") + m_tle_file ;
 }
 
 KUrl SatelliteGroup::tleUrl()

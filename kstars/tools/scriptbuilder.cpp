@@ -30,12 +30,13 @@
 #include <kio/netaccess.h>
 #include <kprocess.h>
 #include <kstandardguiitem.h>
-#include <kstandarddirs.h>
+
 #include <kurl.h>
 #include <kiconloader.h>
 #include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
+#include <QStandardPaths>
 
 #include "scriptfunction.h"
 #include "kstars.h"
@@ -933,7 +934,7 @@ void ScriptBuilder::initViewOptions() {
 
     QFile file;
     QString line;
-    file.setFileName( KStandardDirs::locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
 
@@ -1115,7 +1116,7 @@ void ScriptBuilder::slotRunScript() {
     //is not executable.  Bizarre...
     //KTempFile tmpfile;
     //QString fname = tmpfile.name();
-    QString fname = KStandardDirs::locateLocal( "tmp", "kstars-tempscript" );
+    QString fname = QDir::tempPath() + QLatin1Char('/') +  "kstars-tempscript" );
 
     QFile f( fname );
     if ( f.exists() ) f.remove();

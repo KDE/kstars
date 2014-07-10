@@ -18,8 +18,9 @@
 
 #include "binfilehelper.h"
 
-#include <kstandarddirs.h>
+
 #include <kde_file.h>
+#include <QStandardPaths>
 #include "byteorder.h"
 
 class BinFileHelper;
@@ -54,7 +55,7 @@ void BinFileHelper::clearFields() {
 }
 
 bool BinFileHelper::testFileExists( const QString &fileName ) {
-    QString FilePath = KStandardDirs::locate( "appdata", fileName );
+    QString FilePath = QStandardPaths::locate(QStandardPaths::DataLocation, fileName );
     QByteArray b = FilePath.toAscii();
     const char *filepath = b.data();
     FILE *f  = KDE_fopen(filepath, "rb");
@@ -67,7 +68,7 @@ bool BinFileHelper::testFileExists( const QString &fileName ) {
 }
 
 FILE *BinFileHelper::openFile(const QString &fileName) {
-    QString FilePath = KStandardDirs::locate( "appdata", fileName );
+    QString FilePath = QStandardPaths::locate(QStandardPaths::DataLocation, fileName );
     init();
     QByteArray b = FilePath.toAscii();
     const char *filepath = b.data();

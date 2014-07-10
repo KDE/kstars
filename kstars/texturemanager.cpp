@@ -22,7 +22,7 @@
 #include "skymap.h"
 #include "kstars.h"
 
-#include <kstandarddirs.h>
+
 
 #ifdef HAVE_OPENGL
 # include <QGLWidget>
@@ -64,12 +64,12 @@ TextureManager::CacheIter TextureManager::findTexture(const QString& name)
         return it;
     } else {
         // Try to load from file in 'textures' subdirectory
-        QString filename = KStandardDirs::locate("appdata",QString("textures/%1.png").arg(name));
+        QString filename = QStandardPaths::locate(QStandardPaths::DataLocation, QString("textures/%1.png").arg(name));
         if( !filename.isNull() ) {
             return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
         } else {
             // Try to load from file in main data directory
-            filename = KStandardDirs::locate("appdata",QString("%1.png").arg(name));
+            filename = QStandardPaths::locate(QStandardPaths::DataLocation, QString("%1.png").arg(name));
             if( !filename.isNull() ) {
                 return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
             } else {

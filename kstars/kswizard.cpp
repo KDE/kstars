@@ -24,7 +24,8 @@
 #include <klineedit.h>
 #include <QPushButton>
 #include <knewstuff3/downloaddialog.h>
-#include <kstandarddirs.h>
+#include <QStandardPaths>
+
 
 #include "kstarsdata.h"
 #include "geolocation.h"
@@ -71,11 +72,11 @@ KSWizard::KSWizard( QWidget *parent ) :
 
     //Load images into banner frames.
     QPixmap im;
-    if( im.load(KStandardDirs::locate("appdata", "wzstars.png")) )
+    if( im.load(QStandardPaths::locate(QStandardPaths::DataLocation, "wzstars.png")) )
         welcome->Banner->setPixmap( im );
-    if( im.load(KStandardDirs::locate("appdata", "wzgeo.png")) )
+    if( im.load(QStandardPaths::locate(QStandardPaths::DataLocation, "wzgeo.png")) )
         location->Banner->setPixmap( im );
-    if( im.load(KStandardDirs::locate("appdata", "wzdownload.png")) )
+    if( im.load(QStandardPaths::locate(QStandardPaths::DataLocation, "wzdownload.png")) )
         download->Banner->setPixmap( im );
 
     //connect signals/slots

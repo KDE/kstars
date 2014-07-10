@@ -31,7 +31,7 @@
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <klocale.h>
-#include <kstandarddirs.h>
+
 
 #include "ksutils.h"
 #include "dialogs/detaildialog.h"

@@ -39,7 +39,7 @@
 #include <KActionCollection>
 #include <KIconLoader>
 
-#include <kstandarddirs.h>
+
 
 #include "oal/log.h"
 #include "oal/scope.h"
@@ -54,6 +54,7 @@
 #include "ksutils.h"
 
 #include <config-kstars.h>
+#include <QStandardPaths>
 
 #define  MAX_RETRIES 3
 #define  ERRMSG_SIZE 1024
@@ -512,7 +513,7 @@ bool INDIDriver::readXMLDrivers()
 	if (fileInfo.fileName() == "drivers.xml")
 	{ 
 	    // Let first attempt to load the local version of drivers.xml
-	    driverName = KStandardDirs::locateLocal( "appdata", "drivers.xml");
+	    driverName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "drivers.xml";
 
 	    // If found, we continue, otherwise, we load the system file
 	    if (driverName.isEmpty() == false && QFile(driverName).exists())
@@ -928,7 +929,7 @@ void INDIDriver::saveHosts()
     QFile file;
     QString hostData;
 
-    file.setFileName( KStandardDirs::locateLocal( "appdata", "indihosts.xml" ) ); //determine filename in local user KDE directory tree.
+    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
 
     if ( !file.open( QIODevice::WriteOnly))
     {

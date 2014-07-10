@@ -19,7 +19,7 @@
 #ifndef KSTARS_KSUSERDB_H
 #define KSTARS_KSUSERDB_H
 #define KSTARS_USERDB "data/userdb.sqlite"
-#include <kstandarddirs.h>
+
 #include <klocale.h>
 #include <QSqlDatabase>
 #include <QDebug>

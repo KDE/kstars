@@ -26,8 +26,9 @@
 #include <QListWidget>
 
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
+
 #include <KLocale>
+#include <QStandardPaths>
 
 #include "kstarsdata.h"
 
@@ -259,7 +260,7 @@ bool LocationDialog::addCity( ) {
         QString country = ui->NewCountryName->text().trimmed();
 
         //check for user's city database.  If it doesn't exist, create it.
-        file.setFileName( KStandardDirs::locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+        file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "mycities.dat" ) ; //determine filename in local user KDE directory tree.
 
         if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
             QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );

@@ -39,7 +39,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
 
     m_Ctxt = m_BaseView->rootContext();
 
-    m_BaseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));
+    m_BaseView->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, "tools/whatsinteresting/qml/wiview.qml"));
 
     m_BaseObj = dynamic_cast<QObject *>(m_BaseView->rootObject());
 

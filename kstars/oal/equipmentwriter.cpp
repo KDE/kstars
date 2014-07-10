@@ -21,7 +21,7 @@
 
 #include <QFile>
 
-#include <kstandarddirs.h>
+
 
 #include "kstarsdata.h"
 #include "oal/oal.h"

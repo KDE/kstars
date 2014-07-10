@@ -40,7 +40,7 @@
 #include <kstatusbar.h>
 #include <kmessagebox.h>
 #include <kaction.h>
-#include <kstandarddirs.h>
+
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
 #include <kicon.h>

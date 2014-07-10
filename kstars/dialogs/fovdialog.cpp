@@ -32,7 +32,7 @@
 #include <knuminput.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
+
 #include <KLocale>
 
 #include "kstars.h"

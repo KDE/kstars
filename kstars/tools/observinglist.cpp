@@ -72,6 +72,7 @@
 
 #ifdef HAVE_INDI_H
 #include <basedevice.h>
+#include <QStandardPaths>
 #include "indi/indilistener.h"
 #include "indi/drivermanager.h"
 #include "indi/driverinfo.h"
@@ -509,13 +510,13 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->GoogleImage->setEnabled( false );
             }
-            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 13000 ) {//If the image is present, show it!
-                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+            if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ).size() > 13000  {//If the image is present, show it!
+                ui->ImagePreview->showPreview( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( false );
                 ui->DeleteImage->setEnabled( true );
-            } else if( QFile( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ).size() > 13000 ) {
-                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata","Temp_" + CurrentImage ) ) );
+            } else if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ).size() > 13000  {
+                ui->ImagePreview->showPreview( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ) ;
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( true );
                 ui->DeleteImage->setEnabled( true );
@@ -790,7 +791,7 @@ void ObservingList::slotSaveSessionAs(bool nativeSave) {
 
 void ObservingList::slotSaveList() {
     QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "wishlist.obslist" ) );
+    f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::WriteOnly ) ) {
         qDebug() << "Cannot write list to  file";
         return;
@@ -819,7 +820,7 @@ void ObservingList::slotSaveList() {
 
 void ObservingList::slotLoadWishList() {
     QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "wishlist.obslist" ) );
+    f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::ReadOnly) ) {
        qDebug() << "No WishList Saved yet";
        return;
@@ -1035,24 +1036,24 @@ void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
     ui->GoogleImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
-    if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )
+    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) 
         setCurrentImage( currentObject(), true );
-    QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ;
     KUrl url;
     if( dss ) {
         url.setUrl( DSSUrl );
     } else {
         url.setUrl( SDSSUrl );
     }
-    downloadJob = KIO::copy ( url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+    downloadJob = KIO::copy ( url, KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
     connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
 }
 
 void ObservingList::downloadReady() {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
     downloadJob = 0;
-    if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 13000 ) {//The default image is around 8689 bytes
-        ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+    if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ).size() > 13000  {//The default image is around 8689 bytes
+        ui->ImagePreview->showPreview( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1087,7 +1088,7 @@ void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     CurrentImagePath = KStandardDirs::locateLocal( "appdata" , CurrentImage );
-    CurrentTempPath = KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ); // FIXME: Eh? -- asimha
+    CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
     DSSUrl = KSUtils::getDSSURL( o );
     QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?");
     QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
@@ -1168,7 +1169,7 @@ void ObservingList::slotDeleteAllImages() {
     ui->TableView->clearSelection();
     ui->SessionView->clearSelection();
     ui->ImagePreview->clearPreview();
-    QDirIterator iterator( KStandardDirs::locateLocal( "appdata", "" ) );
+    QDirIterator iterator( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "" ) ;
     while( iterator.hasNext() )
     {
         // TODO: Probably, there should be a different directory for cached images in the observing list.
@@ -1277,10 +1278,10 @@ void ObservingList::slotDeleteCurrentImage() {
 }
 
 void ObservingList::saveThumbImage() {
-    if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", ThumbImage ) ) ) {
+    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + ThumbImage ) )  {
         QImage img( CurrentImagePath );
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-        img.save( KStandardDirs::locateLocal( "appdata", ThumbImage ) );
+        img.save( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + ThumbImage ) ;
     }
 }
 

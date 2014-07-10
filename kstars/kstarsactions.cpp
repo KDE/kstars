@@ -92,6 +92,7 @@
 
 #include <config-kstars.h>
 #include <KSharedConfig>
+#include <QStandardPaths>
 
 #ifdef HAVE_INDI_H
 #include "indi/telescopewizardprocess.h"
@@ -404,7 +405,7 @@ void KStars::slotFlagManager() {
 void KStars::slotTelescopeWizard()
 {
 #ifdef HAVE_INDI_H
-    if (KStandardDirs::findExe("indiserver").isEmpty())
+    if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
         KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
@@ -419,7 +420,7 @@ void KStars::slotTelescopeWizard()
 void KStars::slotINDIPanel()
 {
 #ifdef HAVE_INDI_H
-    if (KStandardDirs::findExe("indiserver").isEmpty())
+    if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
         KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
@@ -431,7 +432,7 @@ void KStars::slotINDIPanel()
 void KStars::slotINDIDriver()
 {
 #ifdef HAVE_INDI_H
-    if (KStandardDirs::findExe("indiserver").isEmpty())
+    if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
         KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
@@ -446,7 +447,7 @@ void KStars::slotEkos()
 #ifdef HAVE_CFITSIO_H
 #ifdef HAVE_INDI_H
 
-    if (KStandardDirs::findExe("indiserver").isEmpty())
+    if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
         KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
@@ -1205,7 +1206,7 @@ void KStars::slotAboutToQuit()
 
     if( !Options::obsListSaveImage() ) {
         foreach ( const QString& file, obsList->imageList() )
-            QFile::remove( KStandardDirs::locateLocal( "appdata", file ) );
+            QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + file ) ;
     }
 }
 

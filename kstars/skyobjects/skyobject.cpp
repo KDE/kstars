@@ -20,11 +20,12 @@
 #include <iostream>
 
 #include <kglobal.h>
-#include <kstandarddirs.h>
+
 #include <QPainter>
 #include <QTextStream>
 #include <QFile>
 #include <QFontMetricsF>
+#include <QStandardPaths>
 
 #include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
@@ -428,7 +429,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
             KSLabel = "[KSLABEL:" + star->gname( false ) + ']'; //"false": spell out greek letter
     }
 
-    file.setFileName( KStandardDirs::locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
+    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "userlog.dat" ) ; //determine filename in local user KDE directory tree.
     if ( file.open( QIODevice::ReadOnly)) {
         QTextStream instream(&file);
         // read all data into memory

@@ -24,13 +24,14 @@
 #include <QFile>
 #include <qnumeric.h>
 
-#include <kstandarddirs.h>
+
 #include <KUrl>
 
 #include <cmath>
+#include <QStandardPaths>
 
 bool KSUtils::openDataFile( QFile &file, const QString &s ) {
-    QString FileName = KStandardDirs::locate( "appdata", s );
+    QString FileName = QStandardPaths::locate(QStandardPaths::DataLocation, s );
     if ( !FileName.isNull() ) {
         file.setFileName( FileName );
         return file.open( QIODevice::ReadOnly );

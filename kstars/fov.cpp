@@ -24,7 +24,8 @@
 #include <QTextStream>
 #include <QFile>
 #include <QDebug>
-#include <kstandarddirs.h>
+#include <QStandardPaths>
+
 
 FOV::Shape FOV::intToShape(int s)
 { 
@@ -154,7 +155,7 @@ QList<FOV*> FOV::defaults()
 void FOV::writeFOVs(const QList<FOV*> fovs)
 {
     QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
+    f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "fov.dat" ) ;
 
     if ( ! f.open( QIODevice::WriteOnly ) ) {
         qDebug() << i18n( "Could not open fov.dat." );
@@ -178,7 +179,7 @@ QList<FOV*> FOV::readFOVs()
 {
     QFile f;
     QList<FOV*> fovs;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
+    f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "fov.dat" ) ;
 
     if( !f.exists() ) {
         fovs = defaults();

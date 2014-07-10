@@ -19,10 +19,11 @@
 #include "flagcomponent.h"
 
 #include <kio/job.h>
-#include <kstandarddirs.h>
+
 #include <kfileitem.h>
 #include <klocale.h>
 #include <qmath.h>
+#include <QStandardPaths>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -36,7 +37,7 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
 {
     // List user's directory
-    m_Job = KIO::listDir( KUrl( KStandardDirs::locateLocal("appdata", ".") ), KIO::HideProgressInfo, false );
+    m_Job = KIO::listDir( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + ".") ), KIO::HideProgressInfo, false ;
     connect( m_Job,SIGNAL( entries(KIO::Job*, const KIO::UDSEntryList& ) ),
             SLOT( slotLoadImages( KIO::Job*, const KIO::UDSEntryList& ) ) );
     connect( m_Job, SIGNAL( result( KJob * ) ), this, SLOT( slotInit( KJob * ) ) );
@@ -180,7 +181,7 @@ void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
     m_Names.append( i18n( "No icon" ) );
     m_Images.append( QImage() );
     m_Names.append( i18n( "Default" ) );
-    m_Images.append( QImage( KStandardDirs::locate( "appdata", "defaultflag.gif" ) ));
+    m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
 
     // Add all other images found in user appdata directory
     foreach( KIO::UDSEntry entry, list) {

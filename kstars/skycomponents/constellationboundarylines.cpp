@@ -20,7 +20,7 @@
 #include <cstdio>
 
 #include <QPen>
-#include <kstandarddirs.h>
+
 
 #include <QDebug>
 #include <klocale.h>

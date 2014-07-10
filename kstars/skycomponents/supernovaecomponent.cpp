@@ -227,7 +227,7 @@ void SupernovaeComponent::notifyNewSupernovae()
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
-    QString filename= KStandardDirs::locate("appdata","scripts/supernova_updates_parser.py") ;
+    QString filename= QStandardPaths::locate(QStandardPaths::DataLocation, "scripts/supernova_updates_parser.py") ;
     qDebug()<<filename;
     m_Parser = new QProcess;
     connect( m_Parser, SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( slotDataFileUpdateFinished( int, QProcess::ExitStatus ) ) );

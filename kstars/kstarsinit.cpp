@@ -27,7 +27,7 @@
 #include <ktip.h>
 #include <kmessagebox.h>
 #include <kstandardaction.h>
-#include <kstandarddirs.h>
+
 #include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kicon.h>
@@ -48,6 +48,7 @@
 #include "texturemanager.h"
 
 #include <config-kstars.h>
+#include <QStandardPaths>
 
 #ifdef HAVE_INDI_H
 #include "indi/drivermanager.h"
@@ -323,7 +324,7 @@ void KStars::initActions() {
     addColorMenuItem( i18n("&Moonless Night" ), "cs_moonless-night" );
 
     //Add any user-defined color schemes:
-    QFile file( KStandardDirs::locate("appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    QFile file( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {

@@ -19,7 +19,7 @@
 #include <QFile>
 
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
+
 
 #include "kstarsdata.h"
 #include "observeradd.h"

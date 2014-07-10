@@ -37,6 +37,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QPen>
+#include <QStandardPaths>
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent ) {
@@ -227,7 +228,7 @@ void CometsComponent::updateDataFile()
         data.insert( 0, '#' );
 
         // Write data to comets.dat
-        QFile file( KStandardDirs::locateLocal( "appdata", "comets.dat" ) );
+        QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "comets.dat" ) ;
         file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
         file.write( data );
         file.close();

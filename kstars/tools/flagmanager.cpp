@@ -21,7 +21,7 @@
 #include <QHeaderView>
 
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
+
 
 #include "Options.h"
 #include "kstars.h"

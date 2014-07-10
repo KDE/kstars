@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QObject>
 #include <QTextStream>
+#include <QStandardPaths>
 
 //class QFile;
 class QString;
@@ -93,7 +94,7 @@ public:
     /* @short opens the file with full path fname and uses that
      * file for the QTextStream. open() locates "appdata" behind the scenes,
      * so passing fname such that
-     * QString fname = KStandardDirs::locate( "appdata", "file_name" );
+     * QString fname = QStandardPaths::locate(QStandardPaths::DataLocation, "file_name" );
      * is equivalent
      *
      * @param fname full path to directory + name of the file to open

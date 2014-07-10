@@ -43,6 +43,7 @@
 #include "timezonerule.h"
 
 #include <config-kstars.h>
+#include <QStandardPaths>
 #include "dialogs/detaildialog.h"
 
 namespace {
@@ -362,7 +363,7 @@ bool KStarsData::readCityData() {
 
     //check for local cities database, but don't require it.
     //determine filename in local user KDE directory tree.
-    file.setFileName( KStandardDirs::locate( "appdata", "mycities.dat" ) );
+    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, "mycities.dat" ) );
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {
@@ -496,7 +497,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
         fileFound = true;
     } else {
         // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-        file.setFileName( KStandardDirs::locateLocal( "appdata", urlfile ) );
+        file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + urlfile ) ;
         if ( file.open( QIODevice::ReadOnly ) ) {
             //local file found.  Now, if global file has newer timestamp, then merge the two files.
             //First load local file into QStringList
@@ -569,7 +570,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
             if ( KSUtils::openDataFile( file, urlfile ) ) {
                 if ( locale->language() != "en_US" ) qDebug() << i18n( "No localized URL file; using default English file." );
                 // we found urlfile, we need to copy it to locale
-                localeFile.setFileName( KStandardDirs::locateLocal( "appdata", urlfile ) );
+                localeFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + urlfile ) ;
                 if (localeFile.open(QIODevice::WriteOnly)) {
                     QTextStream readStream(&file);
                     QTextStream writeStream(&localeFile);

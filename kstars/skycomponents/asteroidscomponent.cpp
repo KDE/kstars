@@ -36,6 +36,7 @@
 #include <kio/jobuidelegate.h>
 #include <kstandarddirs.h>
 #include <QPen>
+#include <QStandardPaths>
 
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent)
@@ -247,7 +248,7 @@ void AsteroidsComponent::updateDataFile() {
         data.insert( 0, '#' );
 
         // Write data to asteroids.dat
-        QFile file( KStandardDirs::locateLocal( "appdata", "asteroids.dat" ) );
+        QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "asteroids.dat" ) ;
         file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
         file.write( data );
         file.close();

@@ -19,12 +19,13 @@
 
 #include <klocale.h>
 #include <KStandardDirs>
+#include <QStandardPaths>
 
 
 KStarsSplash::KStarsSplash(const QString& customMessage )
         : QSplashScreen(QPixmap() )
 {
-    setPixmap(KStandardDirs::locate("appdata","kstars.png"));
+    setPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "kstars.png"));
     setMessage( customMessage.isEmpty() ?
                       i18n( "Welcome to KStars. Please stand by while loading..." ) :
                       customMessage);
