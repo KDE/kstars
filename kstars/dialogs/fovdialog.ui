@@ -49,7 +49,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="KPushButton" name="NewButton" >
+      <widget class="QPushButton" name="NewButton" >
        <property name="toolTip" >
         <string>Add a new FOV symbol</string>
        </property>
@@ -78,7 +78,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="KPushButton" name="EditButton" >
+      <widget class="QPushButton" name="EditButton" >
        <property name="toolTip" >
         <string>Modify the highlighted FOV symbol</string>
        </property>
@@ -91,7 +91,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="RemoveButton" >
+      <widget class="QPushButton" name="RemoveButton" >
        <property name="toolTip" >
         <string>Remove highlighted FOV symbol</string>
        </property>
@@ -162,7 +162,7 @@
    <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

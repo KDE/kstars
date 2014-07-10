@@ -73,7 +73,7 @@
           </widget>
          </item>
          <item row="0" column="3">
-          <widget class="KPushButton" name="browseButton">
+          <widget class="QPushButton" name="browseButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -105,7 +105,7 @@
           <widget class="dmsBox" name="raBox"/>
          </item>
          <item row="1" column="3">
-          <widget class="KPushButton" name="addButton">
+          <widget class="QPushButton" name="addButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -134,7 +134,7 @@
           <widget class="dmsBox" name="decBox"/>
          </item>
          <item row="2" column="3">
-          <widget class="KPushButton" name="clearFieldsButton">
+          <widget class="QPushButton" name="clearFieldsButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -189,7 +189,7 @@
           </spacer>
          </item>
          <item row="3" column="3">
-          <widget class="KPushButton" name="clearButton">
+          <widget class="QPushButton" name="clearButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -271,7 +271,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="KPushButton" name="cityButton">
+          <widget class="QPushButton" name="cityButton">
            <property name="text">
             <string>Choose City...</string>
            </property>
@@ -352,7 +352,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="updateButton">
+          <widget class="QPushButton" name="updateButton">
            <property name="text">
             <string>Update</string>
            </property>
@@ -378,7 +378,7 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

@@ -26,7 +26,7 @@
 #include <kactioncollection.h>
 #include <klocale.h>
 #include <QDebug>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <kcolorbutton.h>
 #include <kcombobox.h>
 #include <knuminput.h>

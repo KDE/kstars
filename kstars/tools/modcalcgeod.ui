@@ -132,7 +132,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="Compute" >
+          <widget class="QPushButton" name="Compute" >
            <property name="text" >
             <string>Convert</string>
            </property>
@@ -155,7 +155,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="Clear" >
+          <widget class="QPushButton" name="Clear" >
            <property name="text" >
             <string>Clear</string>
            </property>
@@ -561,7 +561,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="runButtonBatch" >
+          <widget class="QPushButton" name="runButtonBatch" >
            <property name="sizePolicy" >
             <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
              <horstretch>0</horstretch>
@@ -625,7 +625,7 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

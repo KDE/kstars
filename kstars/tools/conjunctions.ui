@@ -14,7 +14,7 @@
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="1">
-      <widget class="KPushButton" name="LocationButton">
+      <widget class="QPushButton" name="LocationButton">
        <property name="text">
         <string>Greenwich, United Kingdom</string>
        </property>
@@ -199,14 +199,14 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="ExportButton">
+          <widget class="QPushButton" name="ExportButton">
            <property name="text">
             <string>Export</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="ClearButton">
+          <widget class="QPushButton" name="ClearButton">
            <property name="text">
             <string>Clear</string>
            </property>
@@ -301,7 +301,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

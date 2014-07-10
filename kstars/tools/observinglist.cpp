@@ -29,7 +29,7 @@
 #include <QHeaderView>
 #include <QDirIterator>
 
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <kstatusbar.h>
 #include <ktextedit.h>
 #include <kinputdialog.h>

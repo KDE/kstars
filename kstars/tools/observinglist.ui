@@ -38,7 +38,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="KPushButton" name="OpenButton">
+      <widget class="QPushButton" name="OpenButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -69,7 +69,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="SaveButton">
+      <widget class="QPushButton" name="SaveButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -100,7 +100,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="SaveAsButton">
+      <widget class="QPushButton" name="SaveAsButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -131,7 +131,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="WizardButton">
+      <widget class="QPushButton" name="WizardButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -185,7 +185,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="KPushButton" name="MiniButton">
+      <widget class="QPushButton" name="MiniButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -284,7 +284,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="FindButton">
+      <widget class="QPushButton" name="FindButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -303,7 +303,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="WUTButton">
+      <widget class="QPushButton" name="WUTButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -655,7 +655,7 @@
    <header>kseparator.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

@@ -123,7 +123,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="KPushButton" name="DownloadButton">
+        <widget class="QPushButton" name="DownloadButton">
          <property name="text">
           <string>Download Extra Data...</string>
          </property>
@@ -163,7 +163,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

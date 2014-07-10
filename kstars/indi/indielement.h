@@ -27,7 +27,7 @@
 class KLed;
 class QLineEdit;
 class QDoubleSpinBox;
-class KPushButton;
+class QPushButton;
 class KSqueezedTextLabel;
 
 class QLabel;
@@ -106,8 +106,8 @@ private:
     KLed	   *led_w;		// light led
     QDoubleSpinBox *spin_w;		// spinbox
     QSlider	   *slider_w;		// Slider
-    KPushButton    *push_w;		// push button
-    KPushButton    *browse_w;		// browse button
+    QPushButton    *push_w;		// push button
+    QPushButton    *browse_w;		// browse button
     QCheckBox      *check_w;		// check box
     QSpacerItem    *hSpacer;		// Horizontal spacer
 

@@ -182,7 +182,7 @@
          </spacer>
         </item>
         <item row="1" column="1">
-         <widget class="KPushButton" name="RemovePreset">
+         <widget class="QPushButton" name="RemovePreset">
           <property name="toolTip">
            <string>Remove a preset color scheme</string>
           </property>
@@ -243,7 +243,7 @@
          </spacer>
         </item>
         <item row="0" column="1">
-         <widget class="KPushButton" name="AddPreset">
+         <widget class="QPushButton" name="AddPreset">
           <property name="toolTip">
            <string>Create a new preset color scheme using current settings</string>
           </property>
@@ -269,7 +269,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

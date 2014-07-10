@@ -246,7 +246,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_9">
           <item>
-           <widget class="KPushButton" name="LocationButton">
+           <widget class="QPushButton" name="LocationButton">
             <property name="text">
              <string>Greenwich, United Kingdom</string>
             </property>
@@ -271,7 +271,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="KPushButton" name="CreateButton">
+             <widget class="QPushButton" name="CreateButton">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -315,7 +315,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

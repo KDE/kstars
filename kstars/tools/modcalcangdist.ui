@@ -78,7 +78,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="KPushButton" name="FirstObjectButton">
+               <widget class="QPushButton" name="FirstObjectButton">
                 <property name="text">
                  <string>Select object...</string>
                 </property>
@@ -163,7 +163,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="KPushButton" name="SecondObjectButton">
+               <widget class="QPushButton" name="SecondObjectButton">
                 <property name="text">
                  <string>Select object...</string>
                 </property>
@@ -507,7 +507,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="runButtonBatch">
+          <widget class="QPushButton" name="runButtonBatch">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -566,7 +566,7 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

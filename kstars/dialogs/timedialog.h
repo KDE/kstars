@@ -32,7 +32,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 class KDatePicker;
 class QTimeEdit;
-class KPushButton;
+class QPushButton;
 class GeoLocation;
 
 /**@class TimeDialog
@@ -88,7 +88,7 @@ private:
     QVBoxLayout *vlay;
     KDatePicker *dPicker;
     QTimeEdit *tEdit;
-    KPushButton* NowButton;
+    QPushButton* NowButton;
     GeoLocation *geo;
 };
 

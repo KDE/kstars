@@ -27,7 +27,7 @@
 
 #include <klocale.h>
 #include <QDebug>
-#include <kpushbutton.h>
+#include <QPushButton>
 
 
 ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {

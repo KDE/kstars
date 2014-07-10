@@ -29,7 +29,7 @@
 #include <QDoubleSpinBox>
 #include <QDebug>
 
-#include <KPushButton>
+#include <QPushButton>
 #include <KSqueezedTextLabel>
 #include <QLineEdit>
 #include <KLocale>
@@ -104,7 +104,7 @@ void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
     switch (guiProp->getGUIType())
     {
     case PG_BUTTONS:
-        push_w = new KPushButton(label, guiProp->getGroup()->getContainer());
+        push_w = new QPushButton(label, guiProp->getGroup()->getContainer());
         groupB->addButton(push_w);
 
         syncSwitch();
@@ -609,7 +609,7 @@ void INDI_E::setupElementRead(int length)
 
 void INDI_E::setupBrowseButton()
 {
-    browse_w = new KPushButton("...", guiProp->getGroup()->getContainer());
+    browse_w = new QPushButton("...", guiProp->getGroup()->getContainer());
     browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     browse_w->setMinimumWidth( MIN_SET_WIDTH );
     browse_w->setMaximumWidth( MAX_SET_WIDTH );

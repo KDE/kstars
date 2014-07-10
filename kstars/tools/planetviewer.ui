@@ -41,7 +41,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="KPushButton" name="RunButton" >
+      <widget class="QPushButton" name="RunButton" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
          <horstretch>0</horstretch>
@@ -82,7 +82,7 @@
       <widget class="QDateEdit" name="DateBox" />
      </item>
      <item>
-      <widget class="KPushButton" name="TodayButton" >
+      <widget class="QPushButton" name="TodayButton" >
        <property name="text" >
         <string>Today</string>
        </property>
@@ -105,7 +105,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="KPushButton" name="ZoomInButton" >
+      <widget class="QPushButton" name="ZoomInButton" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
          <horstretch>0</horstretch>
@@ -124,7 +124,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="ZoomOutButton" >
+      <widget class="QPushButton" name="ZoomOutButton" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
          <horstretch>0</horstretch>
@@ -148,7 +148,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

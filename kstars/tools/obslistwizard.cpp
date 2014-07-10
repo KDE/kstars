@@ -20,7 +20,7 @@
 #include <QFrame>
 
 #include <knuminput.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 
 #include "kstarsdata.h"
 #include "geolocation.h"

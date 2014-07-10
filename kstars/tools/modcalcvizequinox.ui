@@ -303,14 +303,14 @@
          <item>
           <layout class="QVBoxLayout" >
            <item>
-            <widget class="KPushButton" name="RunButtonBatch" >
+            <widget class="QPushButton" name="RunButtonBatch" >
              <property name="text" >
               <string>Compute</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="ViewButtonBatch" >
+            <widget class="QPushButton" name="ViewButtonBatch" >
              <property name="text" >
               <string>View output</string>
              </property>
@@ -359,7 +359,7 @@
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

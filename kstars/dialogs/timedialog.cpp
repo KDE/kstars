@@ -19,7 +19,7 @@
 #include "timedialog.h"
 
 #include <klocale.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <kdatepicker.h>
 
 #include <QFrame>
@@ -54,7 +54,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
 
     dPicker = new KDatePicker( now.date(), page );
     tEdit = new QTimeEdit( now.time(), page );
-    NowButton = new KPushButton( page );
+    NowButton = new QPushButton( page );
     NowButton->setObjectName( "NowButton" );
     NowButton->setText( UTCNow ? i18n( "UTC Now"  ) : i18n( "Now"  ) );
 

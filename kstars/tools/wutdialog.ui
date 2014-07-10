@@ -38,7 +38,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="KPushButton" name="DateButton">
+      <widget class="QPushButton" name="DateButton">
        <property name="toolTip">
         <string>Choose a new date</string>
        </property>
@@ -81,7 +81,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="KPushButton" name="LocationButton">
+      <widget class="QPushButton" name="LocationButton">
        <property name="toolTip">
         <string>Choose a new geographic location</string>
        </property>
@@ -456,7 +456,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="KPushButton" name="CenterButton">
+         <widget class="QPushButton" name="CenterButton">
           <property name="toolTip">
            <string>Center this object in the sky display</string>
           </property>
@@ -469,7 +469,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KPushButton" name="DetailButton">
+         <widget class="QPushButton" name="DetailButton">
           <property name="toolTip">
            <string>Open the Object Details window</string>
           </property>
@@ -482,7 +482,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KPushButton" name="ObslistButton">
+         <widget class="QPushButton" name="ObslistButton">
           <property name="toolTip">
            <string>Adds the selected object to the Observing list</string>
           </property>
@@ -533,7 +533,7 @@
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

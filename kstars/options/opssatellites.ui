@@ -83,7 +83,7 @@
            </widget>
           </item>
           <item>
-           <widget class="KPushButton" name="UpdateTLEButton">
+           <widget class="QPushButton" name="UpdateTLEButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -109,7 +109,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

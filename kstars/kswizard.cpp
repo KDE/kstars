@@ -22,7 +22,7 @@
 #include <QPixmap>
 
 #include <klineedit.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <knewstuff3/downloaddialog.h>
 #include <kstandarddirs.h>
 

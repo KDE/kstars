@@ -129,7 +129,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="KPushButton" name="AllButton">
+            <widget class="QPushButton" name="AllButton">
              <property name="toolTip">
               <string>Select all items in the list</string>
              </property>
@@ -139,7 +139,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="NoneButton">
+            <widget class="QPushButton" name="NoneButton">
              <property name="toolTip">
               <string>Clear all selected items in the list</string>
              </property>
@@ -149,7 +149,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="DeepSkyButton">
+            <widget class="QPushButton" name="DeepSkyButton">
              <property name="toolTip">
               <string>Select all &quot;deep-sky&quot; object types in the list</string>
              </property>
@@ -159,7 +159,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="SolarSystemButton">
+            <widget class="QPushButton" name="SolarSystemButton">
              <property name="toolTip">
               <string>Select all solar system object types in the list</string>
              </property>
@@ -669,7 +669,7 @@
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="LocationButton">
+          <widget class="QPushButton" name="LocationButton">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -912,7 +912,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="updateButton">
+      <widget class="QPushButton" name="updateButton">
        <property name="text">
         <string>Update Count</string>
        </property>
@@ -924,7 +924,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

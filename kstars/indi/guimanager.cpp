@@ -23,7 +23,7 @@
 
 #include <KLed>
 #include <QLineEdit>
-#include <KPushButton>
+#include <QPushButton>
 #include <KLocale>
 #include <KMessageBox>
 #include <KDebug>

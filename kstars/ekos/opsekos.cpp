@@ -10,7 +10,7 @@
 
 #include "opsekos.h"
 
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <kfiledialog.h>
 #include <klineedit.h>
 #include <kconfigdialog.h>

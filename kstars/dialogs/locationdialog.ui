@@ -356,7 +356,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="KPushButton" name="ClearFieldsButton">
+           <widget class="QPushButton" name="ClearFieldsButton">
             <property name="text">
              <string>&amp;Clear Fields</string>
             </property>
@@ -376,7 +376,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="KPushButton" name="AddCityButton">
+           <widget class="QPushButton" name="AddCityButton">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -406,7 +406,7 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

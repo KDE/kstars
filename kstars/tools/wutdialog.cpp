@@ -23,7 +23,7 @@
 
 #include <kcombobox.h>
 #include <klocale.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <KLocale>
 
 #include "ui_wutdialog.h"

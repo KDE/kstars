@@ -16,7 +16,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <QDebug>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <kiconloader.h>
 #include <ktemporaryfile.h>
 #include <kio/netaccess.h>

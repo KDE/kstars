@@ -95,7 +95,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="FindButton" >
+      <widget class="QPushButton" name="FindButton" >
        <property name="font" >
         <font>
          <pointsize>9</pointsize>
@@ -160,7 +160,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

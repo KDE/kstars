@@ -26,7 +26,7 @@
 #include <klocale.h>
 #include <knuminput.h>
 #include <kcombobox.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <kcolordialog.h>
 #include <kmessagebox.h>
 #include <kinputdialog.h>

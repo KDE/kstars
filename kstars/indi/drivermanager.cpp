@@ -27,7 +27,7 @@
 
 #include <QMenu>
 #include <KMessageBox>
-#include <KPushButton>
+#include <QPushButton>
 #include <QLineEdit>
 #include <KProcess>
 #include <QAction>

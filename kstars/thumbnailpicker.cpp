@@ -25,7 +25,7 @@
 #include <kio/copyjob.h>
 
 #include <kdeversion.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <kurl.h>

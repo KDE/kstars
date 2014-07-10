@@ -19,7 +19,7 @@
 
 #include <kurl.h>
 #include <kmessagebox.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <ktoolinvocation.h>
 
 #include "skyobjects/skyobject.h"

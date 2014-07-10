@@ -118,7 +118,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="FindCityButton" >
+          <widget class="QPushButton" name="FindCityButton" >
            <property name="toolTip" >
             <string>Open the Set Location tool</string>
            </property>
@@ -172,7 +172,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
    <container>0</container>

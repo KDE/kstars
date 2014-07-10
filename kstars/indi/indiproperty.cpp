@@ -30,7 +30,7 @@
 #include <KLed>
 #include <KLocale>
 #include <KComboBox>
-#include <KPushButton>
+#include <QPushButton>
 #include <KNumInput>
 #include <KMessageBox>
 #include <KSqueezedTextLabel>

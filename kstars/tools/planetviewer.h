@@ -24,7 +24,7 @@
 #include <QPaintEvent>
 
 #include <kdialog.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 
 #include "pvplotwidget.h"
 #include "ui_planetviewer.h"

@@ -31,7 +31,7 @@
 //QPRINTER_FOR_NOW
 //#include <kprinter.h>
 #include <kdeprintdialog.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <klineedit.h>
 #include <knuminput.h>
 #include <kactioncollection.h>

@@ -351,7 +351,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="ComputeEyeFOV">
+          <widget class="QPushButton" name="ComputeEyeFOV">
            <property name="toolTip">
             <string>Compute field-of-view from above data fields</string>
            </property>
@@ -381,7 +381,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
         <number>6</number>
        </property>
        <item row="2" column="1">
-        <widget class="KPushButton" name="ComputeCameraFOV">
+        <widget class="QPushButton" name="ComputeCameraFOV">
          <property name="toolTip">
           <string>Compute field-of-view from above data fields</string>
          </property>
@@ -628,7 +628,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
         <number>6</number>
        </property>
        <item row="2" column="1">
-        <widget class="KPushButton" name="ComputeBinocularFOV">
+        <widget class="QPushButton" name="ComputeBinocularFOV">
          <property name="toolTip">
           <string>Compute field-of-view from above data fields</string>
          </property>
@@ -983,7 +983,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="ComputeHPBW">
+          <widget class="QPushButton" name="ComputeHPBW">
            <property name="toolTip">
             <string>Compute radiotelescope HPBW from above data fields</string>
            </property>
@@ -1314,7 +1314,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

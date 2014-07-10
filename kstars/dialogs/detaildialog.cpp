@@ -27,7 +27,7 @@
 
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <klineedit.h>
 #include <ktoolinvocation.h>
 #include <ktemporaryfile.h>

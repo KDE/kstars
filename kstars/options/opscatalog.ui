@@ -417,21 +417,21 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="KPushButton" name="AddCatalog">
+           <widget class="QPushButton" name="AddCatalog">
             <property name="text">
              <string>Import Catalog...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="KPushButton" name="LoadCatalog">
+           <widget class="QPushButton" name="LoadCatalog">
             <property name="text">
              <string>Load Catalog...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="KPushButton" name="RemoveCatalog">
+           <widget class="QPushButton" name="RemoveCatalog">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -562,7 +562,7 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

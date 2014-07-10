@@ -26,7 +26,7 @@
 #include <kdeprintdialog.h>
 #include <QDebug>
 #include <KPlotObject>
-#include <KPushButton>
+#include <QPushButton>
 
 #include "calendarwidget.h"
 #include "geolocation.h"

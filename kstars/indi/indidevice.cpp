@@ -27,7 +27,7 @@
 
 #include <kled.h>
 #include <klineedit.h>
-#include <kpushbutton.h>
+#include <QPushButton>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <QDebug>

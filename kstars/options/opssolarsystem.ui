@@ -92,7 +92,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="KPushButton" name="showAllPlanets">
+         <widget class="QPushButton" name="showAllPlanets">
           <property name="toolTip">
            <string>Select all major bodies</string>
           </property>
@@ -105,7 +105,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="KPushButton" name="showNonePlanets">
+         <widget class="QPushButton" name="showNonePlanets">
           <property name="toolTip">
            <string>Unselect all major bodies</string>
           </property>
@@ -485,7 +485,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="KPushButton" name="ClearAllTrails">
+         <widget class="QPushButton" name="ClearAllTrails">
           <property name="toolTip">
            <string>Clear all orbit trails</string>
           </property>
@@ -547,7 +547,7 @@
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

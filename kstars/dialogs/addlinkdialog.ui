@@ -122,7 +122,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="KPushButton" name="URLButton" >
+      <widget class="QPushButton" name="URLButton" >
        <property name="toolTip" >
         <string>Open URL in a browser window</string>
        </property>
@@ -167,7 +167,7 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>
