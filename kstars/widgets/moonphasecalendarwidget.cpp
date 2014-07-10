@@ -38,6 +38,7 @@
 
 #include <cmath>
 #include <KLocale>
+#include <QFontDatabase>
 
 MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent ) :
     KDateTable(parent),
@@ -121,7 +122,7 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
     QString cellText;
     QPen pen;
     QColor cellBackgroundColor, cellTextColor;
-    QFont cellFont = KGlobalSettings::generalFont();
+    QFont cellFont = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
     bool workingDay = false;
     int cellWeekDay, pos;
 

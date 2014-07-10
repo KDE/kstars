@@ -551,7 +551,7 @@ void KStars::slotViewOps() {
 }
 
 void KStars::slotApplyConfigChanges() {
-    Options::self()->writeConfig();
+    Options::self()->save();
 
     // If the focus object was a constellation and the sky culture has changed, remove the focus object
     if( map()->focusObject() && map()->focusObject()->type() == SkyObject::CONSTELLATION ) {
@@ -571,7 +571,7 @@ void KStars::slotApplyConfigChanges() {
 }
 
 void KStars::slotApplyWIConfigChanges() {
-    Options::self()->writeConfig();
+    Options::self()->save();
     applyConfig();
 }
 

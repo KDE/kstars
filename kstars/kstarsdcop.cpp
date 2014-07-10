@@ -244,7 +244,7 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
 void KStars::readConfig() {
     //Load config file values into Options object
-    Options::self()->readConfig();
+    Options::self()->load();
 
     applyConfig();
 
@@ -258,7 +258,7 @@ void KStars::readConfig() {
 }
 
 void KStars::writeConfig() {
-    Options::self()->writeConfig();
+    Options::self()->save();
 
     //Store current simulation time
     data()->StoredDate = data()->lt();
