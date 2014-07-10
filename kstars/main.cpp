@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kcmdlineargs.h>
+
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <QDebug>
@@ -32,6 +32,8 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <kglobal.h>
+#include <qcommandlineparser.h>
+#include <qcommandlineoption.h>
 
 
 static const char description[] =
@@ -69,27 +71,27 @@ int main(int argc, char *argv[])
     aboutData.addCredit(ki18n("Andrew Stepanenko"), ki18n("Guiding code based on lin_guider") );
     aboutData.addCredit(ki18n("Nuno Pinheiro"), ki18n("Artwork") );
 
-    KCmdLineArgs::init( argc, argv, &aboutData );
 
-    KCmdLineOptions options;
-    options.add("!dump", ki18n( "Dump sky image to file" ));
-    options.add("script ", ki18n( "Script to execute" ));
-    options.add("width ", ki18n( "Width of sky image" ), "640");
-    options.add("height ", ki18n( "Height of sky image" ), "480");
-    options.add("filename ", ki18n( "Filename for sky image" ), "kstars.png");
-    options.add("date ", ki18n( "Date and time" ));
-    options.add("!paused", ki18n( "Start with clock paused" ));
-    KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    QCommandLineParser *parser = new QCommandLineParser;
+    app.setApplicationVersion(INSERT_VERSION_HERE);
+    parser->addVersionOption();
+    parser->addHelpOption(INSERT_DESCRIPTION_HERE);
+    parser->addOption(QCommandLineOption(QStringList() << "!dump", i18n( "Dump sky image to file" )));
+    parser->addOption(QCommandLineOption(QStringList() << "script ", i18n( "Script to execute" )));
+    parser->addOption(QCommandLineOption(QStringList() << "width ", i18n( "Width of sky image" ), false, "640"));
+    parser->addOption(QCommandLineOption(QStringList() << "height ", i18n( "Height of sky image" ), false, "480"));
+    parser->addOption(QCommandLineOption(QStringList() << "filename ", i18n( "Filename for sky image" ), false, "kstars.png"));
+    parser->addOption(QCommandLineOption(QStringList() << "date ", i18n( "Date and time" )));
+    parser->addOption(QCommandLineOption(QStringList() << "!paused", i18n( "Start with clock paused" )));
 
     KApplication a;
 
-    if ( args->isSet( "dump" ) ) {
+    if ( parser->isSet( "dump" ) ) {
         qDebug() << i18n( "Dumping sky image" );
 
         //parse filename and image format
         const char* format = "PNG";
-        QString fname = args->getOption( "filename" );
+        QString fname = parser->argument( "filename" );
         QString ext = fname.mid( fname.lastIndexOf(".")+1 );
         if ( ext.toLower() == "png" ) { format = "PNG"; }
         else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
@@ -101,12 +103,12 @@ int main(int argc, char *argv[])
         //parse width and height
         bool ok(false);
         int w(0), h(0);
-        w = args->getOption( "width" ).toInt( &ok );
-        if ( ok ) h =  args->getOption( "height" ).toInt( &ok );
+        w = parser->argument( "width" ).toInt( &ok );
+        if ( ok ) h =  parser->argument( "height" ).toInt( &ok );
         if ( !ok ) {
             qWarning() << "Unable to parse arguments: " ;
-            qWarning() << "Width: " << args->getOption( "width" )
-            << "  Height: " << args->getOption( "height" ) << endl;
+            qWarning() << "Width: " << parser->argument( "width" )
+            << "  Height: " << parser->argument( "height" ) << endl;
             return 1;
         }
 
@@ -122,7 +124,7 @@ int main(int argc, char *argv[])
 
         //set clock now that we have a location:
         //Check to see if user provided a date/time string.  If not, use current CPU time
-        QString datestring = args->getOption( "date" );
+        QString datestring = parser->argument( "date" );
         KStarsDateTime kdt;
         if ( ! datestring.isEmpty() ) {
             if ( datestring.contains( "-" ) ) { //assume ISODate format
@@ -163,7 +165,7 @@ int main(int argc, char *argv[])
         map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
 
         //Execute the specified script
-        QString scriptfile = args->getOption( "script" );
+        QString scriptfile = parser->argument( "script" );
         if ( ! scriptfile.isEmpty() ) {
             if ( dat->executeScript( scriptfile, map ) ) {
                 std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
@@ -188,7 +190,7 @@ int main(int argc, char *argv[])
     //start up normally in GUI mode
 
     //Try to parse the given date string
-    QString datestring = args->getOption( "date" );
+    QString datestring = parser->argument( "date" );
     //DEBUG
     qDebug() << "Date string: " << datestring;
 
@@ -197,7 +199,7 @@ int main(int argc, char *argv[])
         datestring.clear();
     }
 
-    KStars::createInstance( true, ! args->isSet( "paused" ), datestring );
+    KStars::createInstance( true, ! parser->isSet( "paused" ), datestring );
     args->clear();
     QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
     return a.exec();
