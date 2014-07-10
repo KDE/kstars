@@ -28,7 +28,7 @@
 #include <QPushButton>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kurl.h>
+#include <QUrl>
 #include <kurlrequester.h>
 #include <klocale.h>
 
@@ -81,7 +81,7 @@ void ThumbnailPicker::slotFillList() {
     QStringList ImageList( Object->ImageList() );
 
     //Query Google Image Search:
-    KUrl gURL( "http://images.google.com/images" );
+    QUrl gURL( "http://images.google.com/images" );
     //Search for the primary name, or longname and primary name
     QString sName = QString("%1 ").arg( Object->name() );
     if ( Object->longname() != Object->name() ) {
@@ -285,7 +285,7 @@ void ThumbnailPicker::slotSetFromList( int i ) {
 
 void ThumbnailPicker::slotSetFromURL() {
     //Attempt to load the specified URL
-    KUrl u = ui->ImageURLBox->url();
+    QUrl u = ui->ImageURLBox->url();
 
     if ( u.isValid() ) {
         if ( u.isLocalFile() ) {

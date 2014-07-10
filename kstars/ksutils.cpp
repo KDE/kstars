@@ -25,7 +25,7 @@
 #include <qnumeric.h>
 
 
-#include <KUrl>
+#include <QUrl>
 
 #include <cmath>
 #include <QStandardPaths>

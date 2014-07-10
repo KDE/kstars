@@ -183,7 +183,7 @@ bool ImageExporter::exportImage( QString url )
 {
     //If the filename string contains no "/" separators, assume the
     //user wanted to place a file in their home directory.
-    KUrl fileURL;
+    QUrl fileURL;
     if(!url.contains("/"))
     {
         fileURL = QDir::homePath() + '/' + url;

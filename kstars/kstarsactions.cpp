@@ -646,7 +646,7 @@ void KStars::slotOpenFITS()
 {
 #ifdef HAVE_CFITSIO_H
 
-    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.fts|Flexible Image Transport System" );
+    QUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.fts|Flexible Image Transport System" );
 
     if (fileURL.isEmpty())
         return;
@@ -661,7 +661,7 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-    KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
+    QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
 
     //User cancelled file selection dialog - abort image export
     if ( fileURL.isEmpty() ) {
@@ -696,7 +696,7 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+    QUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
     QString fname;
 
@@ -713,7 +713,7 @@ void KStars::slotRunScript() {
 
             if ( result == KMessageBox::Cancel ) return;
             if ( result == KMessageBox::No ) { //save file
-                KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+                QUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 KTemporaryFile tmpfile;
                 tmpfile.open();
 

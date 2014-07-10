@@ -26,7 +26,7 @@
 #include <kio/job.h>
 #include <kdialog.h>
 
-class KUrl;
+class QUrl;
 class QLabel;
 class QVBoxLayout;
 
@@ -68,7 +68,7 @@ class ImageViewer : public KDialog {
 
 public:
     /** Create image viewer from URL with caption */
-    ImageViewer (const KUrl &imageURL, const QString &capText, QWidget *parent = 0);
+    ImageViewer (const QUrl &imageURL, const QString &capText, QWidget *parent = 0);
 
     explicit ImageViewer ( QString FileName, QWidget *parent = 0);
 

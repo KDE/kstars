@@ -85,7 +85,7 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio));
 }
 
-ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *parent) :
+ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *parent) :
     KDialog( parent ),
     m_ImageUrl(url),
     fileIsImage(false),
@@ -179,7 +179,7 @@ ImageViewer::~ImageViewer() {
 
 void ImageViewer::loadImageFromURL()
 {
-    KUrl saveURL = KUrl::fromPath( file.fileName() );
+    QUrl saveURL = KUrl::fromPath( file.fileName() );
     if (!saveURL.isValid())
         qDebug()<<"tempfile-URL is malformed\n";
 
@@ -255,10 +255,10 @@ void ImageViewer::showImage()
 
 void ImageViewer::saveFileToDisc()
 {
-    KUrl newURL = KFileDialog::getSaveUrl(m_ImageUrl.fileName());  // save-dialog with default filename
+    QUrl newURL = KFileDialog::getSaveUrl(m_ImageUrl.fileName());  // save-dialog with default filename
     if (!newURL.isEmpty())
     {
-        QFile f (newURL.directory() + '/' +  newURL.fileName());
+        QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() + '/' +  newURL.fileName());
         if (f.exists())
         {
             int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),

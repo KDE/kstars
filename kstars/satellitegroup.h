@@ -21,7 +21,7 @@
 
 #include <QString>
 
-#include <KUrl>
+#include <QUrl>
 #include "skyobjects/satellite.h"
 #include "skypainter.h"
 
