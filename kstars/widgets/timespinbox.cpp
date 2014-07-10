@@ -41,7 +41,7 @@
 //33-41: 1 year, 2, 3, 4, 5, 10, 25, 50, 100 years
 
 TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
-        : KIntSpinBox ( parent )
+        : QSpinBox ( parent )
 {
     setDaysOnly( _daysonly );
 
