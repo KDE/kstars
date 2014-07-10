@@ -172,7 +172,7 @@ set(libkstarstools_SRCS
 	tools/eyepiecefield.cpp
 	)
 
-kde4_add_ui_files(libkstarstools_SRCS
+qt5_wrap_ui(libkstarstools_SRCS
 	tools/altvstime.ui
 	tools/argchangeviewoption.ui
 	tools/argexportimage.ui
@@ -296,7 +296,7 @@ set(libkstarswidgets_SRCS
 	widgets/kshelplabel.cpp
 )
 
-kde4_add_ui_files(libkstarswidgets_SRCS
+qt5_wrap_ui(libkstarswidgets_SRCS
   widgets/genericcalendarwidget.ui
 )
 
@@ -460,36 +460,36 @@ set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
         ${printing_SRCS}
 )
 
-qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
-qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
 
-kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
+kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 ##DCOP_IS_DEAD
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
-kde4_add_ui_files(kstars_SRCS
+qt5_wrap_ui(kstars_SRCS
        ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui  skycomponents/notifyupdatesui.ui
 )
 
-#kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
-#kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/ox*-apps-kstars.png")
-kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
+#FIXME We need to port this
+#kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
 add_executable(kstars kstars.cpp)
-kde4_add_library( KStarsLib STATIC ${kstars_SRCS})
+add_library( KStarsLib STATIC ${kstars_SRCS})
 
 # kde4_add_executable(kstars ${kstars_SRCS})
 
 target_link_libraries(KStarsLib
         LibKSDataHandlers
         htmesh
-        ${KDE4_KDECORE_LIBS}
-	${KDE4_KNEWSTUFF3_LIBS}
-	${KDE4_KIO_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    kdeclarative
+        KF5::I18n
+        KF5::NewStuff
+        KF5::KIO
+#        ${KDE4_KDECORE_LIBS}
+#    ${QT_QTDECLARATIVE_LIBRARY}
+#    kdeclarative
 	${ZLIB_LIBRARIES}
 	${QT_QTSQL_LIBRARY}
         )
@@ -536,4 +536,3 @@ if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 endif (WIN32)
 
-kde4_install_icons( ${ICON_INSTALL_DIR}   )

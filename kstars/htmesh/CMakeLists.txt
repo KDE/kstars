@@ -22,7 +22,7 @@ set(HTMesh_LIB_SRCS
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 
-kde4_add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
+add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
 
 add_definitions(-D_EXPORTING)
 
