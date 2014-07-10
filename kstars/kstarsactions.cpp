@@ -897,7 +897,7 @@ void KStars::slotTrack() {
     if ( Options::isTracking() ) {
         Options::setIsTracking( false );
         actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( KIcon("document-decrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt") );
 
         KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
         if( planet && data()->temporaryTrail ) {
@@ -915,7 +915,7 @@ void KStars::slotTrack() {
         map()->setFocusPoint( map()->clickedPoint() );
         Options::setIsTracking( true );
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
     }
 
     map()->forceUpdate();

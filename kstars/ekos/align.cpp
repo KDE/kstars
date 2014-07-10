@@ -79,8 +79,8 @@ Align::Align()
     kcfg_solverYBin->setValue(Options::solverYBin());
     kcfg_solverUpdateCoords->setChecked(Options::solverUpdateCoords());
 
-    syncBoxesB->setIcon(KIcon("edit-copy"));
-    clearBoxesB->setIcon(KIcon("edit-clear"));
+    syncBoxesB->setIcon(QIcon::fromTheme("edit-copy"));
+    clearBoxesB->setIcon(QIcon::fromTheme("edit-clear"));
 
     raBox->setDegType(false); //RA box should be HMS-style
 

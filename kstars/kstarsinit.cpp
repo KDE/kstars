@@ -140,17 +140,17 @@ void KStars::initActions() {
 #ifdef HAVE_CFITSIO_H
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()) )
         << i18n("Open FITS...")
-        << KIcon("document-open")
+        << QIcon::fromTheme("document-open")
         << KShortcut( Qt::CTRL+Qt::Key_O );
 #endif
 
     actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
         << i18n("&Save Sky Image...")
-        << KIcon("document-export-image")
+        << QIcon::fromTheme("document-export-image")
         << KShortcut( Qt::CTRL+Qt::Key_I );
     actionCollection()->addAction("run_script", this, SLOT( slotRunScript() ))
         << i18n("&Run Script...")
-        << KIcon("system-run" )
+        << QIcon::fromTheme("system-run" )
         << KShortcut( Qt::CTRL+Qt::Key_R );
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard() ) )
             << i18nc("start Printing Wizard", "Printing &Wizard");
@@ -161,16 +161,16 @@ void KStars::initActions() {
     actionCollection()->addAction("time_to_now", this, SLOT( slotSetTimeToNow() ))
         << i18n("Set Time to &Now")
         << KShortcut( Qt::CTRL+Qt::Key_E )
-        << KIcon("clock");
+        << QIcon::fromTheme("clock");
 
     actionCollection()->addAction("time_dialog", this, SLOT( slotSetTime() ) )
         << i18nc("set Clock to New Time", "&Set Time..." )
         << KShortcut( Qt::CTRL+Qt::Key_S )
-        << KIcon("view-history");
+        << QIcon::fromTheme("view-history");
 
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
         << i18n("Stop &Clock" )
-        << KIcon("media-playback-pause" );
+        << QIcon::fromTheme("media-playback-pause" );
     if ( ! StartClockRunning )
         ka->toggle();
     QObject::connect( ka, SIGNAL( triggered() ), this, SLOT( slotToggleTimer() ) );
@@ -179,11 +179,11 @@ void KStars::initActions() {
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()) );
     actionCollection()->addAction("time_step_forward", this, SLOT( slotStepForward() ) )
         << i18n("Advance one step forward in time")
-        << KIcon("media-skip-forward" )
+        << QIcon::fromTheme("media-skip-forward" )
         << KShortcut( Qt::Key_Greater, Qt::Key_Period );
     actionCollection()->addAction("time_step_backward", this, SLOT( slotStepBackward() ) )
         << i18n("Advance one step backward in time")
-        << KIcon("media-skip-backward" )
+        << QIcon::fromTheme("media-skip-backward" )
         << KShortcut( Qt::Key_Less, Qt::Key_Comma );
 
     // ==== Pointing Menu ================
@@ -205,11 +205,11 @@ void KStars::initActions() {
 
     actionCollection()->addAction("find_object", this, SLOT( slotFind() ) )
         << i18n("&Find Object...")
-        << KIcon("edit-find")
+        << QIcon::fromTheme("edit-find")
         << KShortcut( Qt::CTRL+Qt::Key_F );
     actionCollection()->addAction("track_object", this, SLOT( slotTrack() ) )
         << i18n("Engage &Tracking")
-        << KIcon("object-locked" )
+        << QIcon::fromTheme("object-locked" )
         << KShortcut( Qt::CTRL+Qt::Key_T  );
     actionCollection()->addAction("manual_focus", this, SLOT( slotManualFocus() ) )
         << i18n("Set Coordinates &Manually..." )
@@ -220,11 +220,11 @@ void KStars::initActions() {
     actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", map(), SLOT( slotZoomOut() ) );
     actionCollection()->addAction("zoom_default", map(), SLOT( slotZoomDefault() ) )
         << i18n("&Default Zoom")
-        << KIcon("zoom-fit-best" )
+        << QIcon::fromTheme("zoom-fit-best" )
         << KShortcut( Qt::CTRL+Qt::Key_Z );
     actionCollection()->addAction("zoom_set", this, SLOT( slotSetZoom() ) )
         << i18n("&Zoom to Angular Size..." )
-        << KIcon("zoom-original" )
+        << QIcon::fromTheme("zoom-original" )
         << KShortcut( Qt::CTRL+Qt::SHIFT+Qt::Key_Z );
 
     actionCollection()->addAction( KStandardAction::FullScreen, this, SLOT( slotFullScreen() ) );
@@ -342,12 +342,12 @@ void KStars::initActions() {
 
     actionCollection()->addAction("geolocation", this, SLOT( slotGeoLocator() ) )
         << i18nc("Location on Earth", "&Geographic..." )
-        << KIcon("applications-internet" )
+        << QIcon::fromTheme("applications-internet" )
         << KShortcut( Qt::CTRL+Qt::Key_G );
     actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
     actionCollection()->addAction("startwizard", this, SLOT( slotWizard() ) )
         << i18n("Startup Wizard..." )
-        << KIcon("tools-wizard" );
+        << QIcon::fromTheme("tools-wizard" );
 
     // Updates actions
     actionCollection()->addAction( "update_comets", this, SLOT( slotUpdateComets() ) )
@@ -362,7 +362,7 @@ void KStars::initActions() {
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )
         << i18n("Calculator")
-        << KIcon("accessories-calculator" )
+        << QIcon::fromTheme("accessories-calculator" )
         << KShortcut( Qt::CTRL+Qt::Key_C );
 
     actionCollection()->addAction("moonphasetool", this, SLOT( slotMoonPhaseTool() ) )
@@ -428,10 +428,10 @@ void KStars::initActions() {
 
         actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
             << i18n("Telescope Wizard...")
-            << KIcon("tools-wizard" );
+            << QIcon::fromTheme("tools-wizard" );
         actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
             << i18n("Device Manager...")
-            << KIcon("network-server" );
+            << QIcon::fromTheme("network-server" );
         ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
             << i18n("INDI Control Panel...");
         ka->setEnabled(false);
@@ -459,55 +459,55 @@ void KStars::initActions() {
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Stars in the display", "Stars" )
-        << KIcon("kstars_stars" )
+        << QIcon::fromTheme("kstars_stars" )
         << ToolTip( i18n("Toggle stars") );
     actionCollection()->add<KToggleAction>("show_deepsky", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Deep Sky Objects in the display", "Deep Sky" )
-        << KIcon("kstars_deepsky" )
+        << QIcon::fromTheme("kstars_deepsky" )
         << ToolTip( i18n("Toggle deep sky objects") );
     actionCollection()->add<KToggleAction>("show_planets", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Solar System objects in the display", "Solar System" )
-        << KIcon("kstars_planets" )
+        << QIcon::fromTheme("kstars_planets" )
         << ToolTip( i18n("Toggle Solar system objects") );
     actionCollection()->add<KToggleAction>("show_clines", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Constellation Lines in the display", "Const. Lines" )
-        << KIcon("kstars_clines" )
+        << QIcon::fromTheme("kstars_clines" )
         << ToolTip( i18n("Toggle constellation lines") );
     actionCollection()->add<KToggleAction>("show_cnames", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Constellation Names in the display", "Const. Names" )
-        << KIcon("kstars_cnames" )
+        << QIcon::fromTheme("kstars_cnames" )
         << ToolTip( i18n("Toggle constellation names") );
     actionCollection()->add<KToggleAction>("show_cbounds", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Constellation Boundaries in the display", "C. Boundaries" )
-        << KIcon("kstars_cbound" )
+        << QIcon::fromTheme("kstars_cbound" )
         << ToolTip( i18n("Toggle constellation boundaries") );
     actionCollection()->add<KToggleAction>("show_mw", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Milky Way in the display", "Milky Way" )
-        << KIcon("kstars_mw" )
+        << QIcon::fromTheme("kstars_mw" )
         << ToolTip( i18n("Toggle milky way") );
     actionCollection()->add<KToggleAction>("show_equatorial_grid", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Equatorial Coordinate Grid in the display", "Equatorial coord. grid" )
-        << KIcon("kstars_grid" )
+        << QIcon::fromTheme("kstars_grid" )
         << ToolTip( i18n("Toggle equatorial coordinate grid") );
     actionCollection()->add<KToggleAction>("show_horizontal_grid", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Horizontal Coordinate Grid in the display", "Horizontal coord. grid" )
-        << KIcon("kstars_hgrid" )
+        << QIcon::fromTheme("kstars_hgrid" )
         << ToolTip( i18n("Toggle horizontal coordinate grid") );
     actionCollection()->add<KToggleAction>("show_horizon", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground" )
-        << KIcon("kstars_horizon" )
+        << QIcon::fromTheme("kstars_horizon" )
         << ToolTip( i18n("Toggle opaque ground") );
     actionCollection()->add<KToggleAction>("show_flags", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle flags in the display", "Flags" )
-        << KIcon("kstars_flag" )
+        << QIcon::fromTheme("kstars_flag" )
         << ToolTip( i18n("Toggle flags") );
     actionCollection()->add<KToggleAction>("show_satellites", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle satellites in the display", "Satellites" )
-        << KIcon("kstars_satellites" )
+        << QIcon::fromTheme("kstars_satellites" )
         << ToolTip( i18n("Toggle satellites") );
     actionCollection()->add<KToggleAction>("show_supernovae", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle supernovae in the display", "Supernovae" )
-        << KIcon("kstars_supernovae" )
+        << QIcon::fromTheme("kstars_supernovae" )
         << ToolTip( i18n("Toggle supernovae") );
 
     setXMLFile("kstarsui.rc" );

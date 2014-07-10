@@ -242,15 +242,15 @@ Capture::Capture()
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
-    addToQueueB->setIcon(KIcon("list-add"));
-    removeFromQueueB->setIcon(KIcon("list-remove"));
-    queueUpB->setIcon(KIcon("go-up"));
-    queueDownB->setIcon(KIcon("go-down"));
-    selectFITSDirB->setIcon(KIcon("document-open-folder"));
-    queueLoadB->setIcon(KIcon("document-open"));
-    queueSaveB->setIcon(KIcon("document-save"));
-    queueSaveAsB->setIcon(KIcon("document-save-as"));
-    resetB->setIcon(KIcon("system-reboot"));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
+    queueUpB->setIcon(QIcon::fromTheme("go-up"));
+    queueDownB->setIcon(QIcon::fromTheme("go-down"));
+    selectFITSDirB->setIcon(QIcon::fromTheme("document-open-folder"));
+    queueLoadB->setIcon(QIcon::fromTheme("document-open"));
+    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
+    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
+    resetB->setIcon(QIcon::fromTheme("system-reboot"));
 
     fitsDir->setText(Options::fitsDir());
 
@@ -1632,7 +1632,7 @@ void Capture::editJob(QModelIndex i)
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
-   addToQueueB->setIcon(KIcon("svn-update"));
+   addToQueueB->setIcon(QIcon::fromTheme("svn-update"));
 
    jobUnderEdit = true;
 
@@ -1644,7 +1644,7 @@ void Capture::resetJobEdit()
        appendLogText(i18n("Editing job canceled."));
 
    jobUnderEdit = false;
-   addToQueueB->setIcon(KIcon("list-add"));
+   addToQueueB->setIcon(QIcon::fromTheme("list-add"));
 }
 
 void Capture::constructPrefix(QString &imagePrefix)

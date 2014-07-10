@@ -193,11 +193,11 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->OALExport, SIGNAL( clicked() ),
              this, SLOT( slotOALExport() ) );
     //Add icons to Push Buttons
-    ui->OpenButton->setIcon( KIcon("document-open") );
-    ui->SaveButton->setIcon( KIcon("document-save") );
-    ui->SaveAsButton->setIcon( KIcon("document-save-as") );
-    ui->WizardButton->setIcon( KIcon("games-solve") ); //is there a better icon for this button?
-    ui->MiniButton->setIcon( KIcon("view-restore") );
+    ui->OpenButton->setIcon( QIcon::fromTheme("document-open") );
+    ui->SaveButton->setIcon( QIcon::fromTheme("document-save") );
+    ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as") );
+    ui->WizardButton->setIcon( QIcon::fromTheme("games-solve") ); //is there a better icon for this button?
+    ui->MiniButton->setIcon( QIcon::fromTheme("view-restore") );
     noSelection = true;
     showScope = false;
     ui->NotesLabel->setEnabled( false );
@@ -921,7 +921,7 @@ double ObservingList::findAltitude( SkyPoint *p, double hour ) {
 
 void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
-        ui->MiniButton->setIcon( KIcon("view-fullscreen") );
+        ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen") );
         //Abbreviate text on each button
         ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
         //Hide columns 1-5
@@ -950,7 +950,7 @@ void ObservingList::slotToggleSize() {
         resize( w + left + right, height() );
         bIsLarge = false;
     } else {
-        ui->MiniButton->setIcon( KIcon( "view-restore" ) );
+        ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore" ) );
         //Show columns 1-5
         ui->TableView->showColumn(1);
         ui->TableView->showColumn(2);

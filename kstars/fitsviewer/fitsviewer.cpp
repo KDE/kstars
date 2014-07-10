@@ -119,18 +119,18 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
-        action->setIcon(KIcon(tempFile.fileName()));
+        action->setIcon(QIcon::fromTheme(tempFile.fileName()));
         tempFile.close();
     }
     else
-        action->setIcon(KIcon("tools-wizard"));
+        action->setIcon(QIcon::fromTheme("tools-wizard"));
 
     KStandardAction::open(this,   SLOT(openFile()),   actionCollection());
     saveFileAction    = KStandardAction::save(this,   SLOT(saveFile()),   actionCollection());
     saveFileAsAction  = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
 
     action = actionCollection()->addAction("fits_header");
-    action->setIcon(KIcon("document-properties"));
+    action->setIcon(QIcon::fromTheme("document-properties"));
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
@@ -138,7 +138,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n("Auto stretch"));
     connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
     action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_A ));
-    action->setIcon(KIcon("transform-move"));
+    action->setIcon(QIcon::fromTheme("transform-move"));
 
     KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());    
 
@@ -155,7 +155,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     connect(undoGroup, SIGNAL(canRedoChanged(bool)), kredo, SLOT(setEnabled(bool)));
 
     action = actionCollection()->addAction("image_stats");
-    action->setIcon(KIcon("view-statistics"));
+    action->setIcon(QIcon::fromTheme("view-statistics"));
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
 

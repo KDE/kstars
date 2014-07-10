@@ -51,9 +51,9 @@ StreamWG::StreamWG(QWidget * parent) : QWidget(parent)
 
     streamFrame      = new VideoWG(videoFrame);
 
-    playPix    = KIcon( "media-playback-start" );
-    pausePix   = KIcon( "media-playback-pause" );
-    capturePix = KIcon( "media-record" );
+    playPix    = QIcon::fromTheme( "media-playback-start" );
+    pausePix   = QIcon::fromTheme( "media-playback-pause" );
+    capturePix = QIcon::fromTheme( "media-record" );
 
     foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
     imgFormatCombo->addItem(QString(format));

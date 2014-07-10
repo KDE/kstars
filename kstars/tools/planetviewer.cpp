@@ -65,9 +65,9 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     pw->TimeStep->setDaysOnly( true );
     pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
 
-    pw->RunButton->setIcon( KIcon("arrow-right") );
-    pw->ZoomInButton->setIcon( KIcon("zoom-in") );
-    pw->ZoomOutButton->setIcon( KIcon("zoom-out") );
+    pw->RunButton->setIcon( QIcon::fromTheme("arrow-right") );
+    pw->ZoomInButton->setIcon( QIcon::fromTheme("zoom-in") );
+    pw->ZoomOutButton->setIcon( QIcon::fromTheme("zoom-out") );
     pw->DateBox->setDate( data->lt().date() );
 
     resize( 500, 500 );
@@ -140,11 +140,11 @@ void PlanetViewer::slotRunClock() {
     isClockRunning = !isClockRunning;
 
     if ( isClockRunning ) {
-        pw->RunButton->setIcon( KIcon("media-playback-pause") );
+        pw->RunButton->setIcon( QIcon::fromTheme("media-playback-pause") );
         tmr.start( 100 );
         //		pw->DateBox->setEnabled( false );
     } else {
-        pw->RunButton->setIcon( KIcon("arrow-right") );
+        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right") );
         tmr.stop();
         //		pw->DateBox->setEnabled( true );
     }
@@ -160,7 +160,7 @@ void PlanetViewer::slotCloseWindow() {
     if ( isClockRunning ) {
         tmr.stop();
         isClockRunning = false;
-        pw->RunButton->setIcon( KIcon("arrow-right") );
+        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right") );
     }
 }
 

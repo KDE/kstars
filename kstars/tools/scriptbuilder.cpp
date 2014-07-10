@@ -309,16 +309,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	#endif
 
     //Add icons to Push Buttons
-    sb->NewButton->setIcon( KIcon( "document-new" ) );
-    sb->OpenButton->setIcon( KIcon( "document-open" ) );
-    sb->SaveButton->setIcon( KIcon( "document-save" ) );
-    sb->SaveAsButton->setIcon( KIcon( "document-save-as" ) );
-    sb->RunButton->setIcon( KIcon( "system-run" ) );
-    sb->CopyButton->setIcon( KIcon( "view-refresh" ) );
-    sb->AddButton->setIcon( KIcon( "go-previous" ) );
-    sb->RemoveButton->setIcon( KIcon( "go-next" ) );
-    sb->UpButton->setIcon( KIcon( "go-up" ) );
-    sb->DownButton->setIcon( KIcon( "go-down" ) );
+    sb->NewButton->setIcon( QIcon::fromTheme( "document-new" ) );
+    sb->OpenButton->setIcon( QIcon::fromTheme( "document-open" ) );
+    sb->SaveButton->setIcon( QIcon::fromTheme( "document-save" ) );
+    sb->SaveAsButton->setIcon( QIcon::fromTheme( "document-save-as" ) );
+    sb->RunButton->setIcon( QIcon::fromTheme( "system-run" ) );
+    sb->CopyButton->setIcon( QIcon::fromTheme( "view-refresh" ) );
+    sb->AddButton->setIcon( QIcon::fromTheme( "go-previous" ) );
+    sb->RemoveButton->setIcon( QIcon::fromTheme( "go-next" ) );
+    sb->UpButton->setIcon( QIcon::fromTheme( "go-up" ) );
+    sb->DownButton->setIcon( QIcon::fromTheme( "go-down" ) );
 
     //Prepare the widget stack
     argBlank = new QWidget();

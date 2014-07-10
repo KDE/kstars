@@ -35,15 +35,15 @@ GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *pa
     previousMonth->setAutoRaise( true );
     nextMonth->setAutoRaise( true );
     if ( QApplication::isRightToLeft() ) {
-        nextYear->setIcon( KIcon( QLatin1String( "arrow-left-double" ) ) );
-        previousYear->setIcon( KIcon( QLatin1String( "arrow-right-double" ) ) );
-        nextMonth->setIcon( KIcon( QLatin1String( "arrow-left" ) ) );
-        previousMonth->setIcon( KIcon( QLatin1String( "arrow-right" ) ) );
+        nextYear->setIcon( QIcon::fromTheme( QLatin1String( "arrow-left-double" ) ) );
+        previousYear->setIcon( QIcon::fromTheme( QLatin1String( "arrow-right-double" ) ) );
+        nextMonth->setIcon( QIcon::fromTheme( QLatin1String( "arrow-left" ) ) );
+        previousMonth->setIcon( QIcon::fromTheme( QLatin1String( "arrow-right" ) ) );
     } else {
-        nextYear->setIcon( KIcon( QLatin1String( "arrow-right-double" ) ) );
-        previousYear->setIcon( KIcon( QLatin1String( "arrow-left-double" ) ) );
-        nextMonth->setIcon( KIcon( QLatin1String( "arrow-right" ) ) );
-        previousMonth->setIcon( KIcon( QLatin1String( "arrow-left" ) ) );
+        nextYear->setIcon( QIcon::fromTheme( QLatin1String( "arrow-right-double" ) ) );
+        previousYear->setIcon( QIcon::fromTheme( QLatin1String( "arrow-left-double" ) ) );
+        nextMonth->setIcon( QIcon::fromTheme( QLatin1String( "arrow-right" ) ) );
+        previousMonth->setIcon( QIcon::fromTheme( QLatin1String( "arrow-left" ) ) );
     }
 
     // Connects

@@ -405,7 +405,7 @@ void SkyMap::slotCenter() {
     setFocusObject( ClickedObject );
     Options::setIsTracking( true );
     if ( kstars ) {
-        kstars->actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
+        kstars->actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
         kstars->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
     }
 

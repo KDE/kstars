@@ -65,13 +65,13 @@ DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
 
     clientTreeWidget->setSortingEnabled(false);
 
-    runningPix = KIcon( "system-run" );
-    stopPix    = KIcon( "dialog-cancel" );
-    localMode  = KIcon( "computer" );
-    serverMode = KIcon( "network-server" );
+    runningPix = QIcon::fromTheme( "system-run" );
+    stopPix    = QIcon::fromTheme( "dialog-cancel" );
+    localMode  = QIcon::fromTheme( "computer" );
+    serverMode = QIcon::fromTheme( "network-server" );
 
-    connected           = KIcon( "network-connect" );
-    disconnected        = KIcon( "network-disconnect" );
+    connected           = QIcon::fromTheme( "network-connect" );
+    disconnected        = QIcon::fromTheme( "network-disconnect" );
 
     connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(makePortEditable(QTreeWidgetItem*,int)));
 }

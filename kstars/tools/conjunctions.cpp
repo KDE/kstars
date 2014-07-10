@@ -117,7 +117,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     OutputList->horizontalHeader()->resizeSection(4, 120); //is it bad way to fix default size of columns ?
 
     //FilterEdit->showClearButton = true;
-    ClearFilterButton->setIcon( KIcon( "edit-clear" ) );
+    ClearFilterButton->setIcon( QIcon::fromTheme( "edit-clear" ) );
 
     m_index = 0;
 

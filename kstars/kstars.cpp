@@ -166,7 +166,7 @@ void KStars::clearCachedFindDialog() {
 void KStars::applyConfig( bool doApplyFocus ) {
     if ( Options::isTracking() ) {
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
     }
 
     actionCollection()->action("coordsys")->setText(
