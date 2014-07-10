@@ -62,7 +62,7 @@ SkyGLPainter::SkyGLPainter( QGLWidget *widget ) :
 {
     m_widget = widget;
     if( !m_init ) {
-        kDebug() << "Initializing texcoord arrays...\n";
+        qDebug() << "Initializing texcoord arrays...\n";
         for(int i = 0; i < NUMTYPES; ++i) {
             m_idx[i] = 0;
             for(int j = 0; j < BUFSIZE; ++j) {

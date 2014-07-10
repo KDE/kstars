@@ -34,7 +34,7 @@
 #include <kio/netaccess.h>
 
 #include "kstars.h"
-#include "kdebug.h"
+#include "qDebug"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
@@ -451,8 +451,8 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //Replace the decimal point with localized decimal symbol
     sEpoch.replace( '.', KGlobal::locale()->decimalSymbol() );
     
-    kDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
-    //kDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
+    qDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
+    //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
     Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
     Pos->RA->setText( selectedObject->ra().toHMSString() );
@@ -924,8 +924,8 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 
     if ( !URLFile.open( QIODevice::WriteOnly) )
     {
-        kDebug() << "DetailDialog: Failed to open " << URLFile.fileName();
-        kDebug() << "KStars cannot save to user database";
+        qDebug() << "DetailDialog: Failed to open " << URLFile.fileName();
+        qDebug() << "KStars cannot save to user database";
         return;
     }
 

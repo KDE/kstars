@@ -17,7 +17,7 @@
 
 #include "catalogcomponent.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <QDir>

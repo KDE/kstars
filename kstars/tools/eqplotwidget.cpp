@@ -19,7 +19,7 @@
 #include <QPainter>
 #include <KGlobal>
 #include <KLocale>
-#include <kdebug.h>
+#include <QDebug>
 #include "kstarsdatetime.h"
 #include "modcalcvizequinox.h"
 

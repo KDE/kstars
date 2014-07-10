@@ -23,7 +23,7 @@
 #include <QDropEvent>
 
 #include <klocale.h>
-#include <kdebug.h>
+#include <QDebug>
 
 DragListBox::DragListBox( QWidget *parent, const char *name )
         : KListWidget( parent ) {

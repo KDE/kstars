@@ -30,7 +30,7 @@
 #include <QDockWidget>
 #include <QPointer>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
@@ -627,7 +627,7 @@ void KStars::slotFind() {
         findDialog = new FindDialog( this );
     }
 
-    if ( !findDialog ) kWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
+    if ( !findDialog ) qWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
     SkyObject *targetObject;
     if ( findDialog->exec() == QDialog::Accepted && ( targetObject = findDialog->selectedObject() ) ) {
         map()->setClickedObject( targetObject );
@@ -926,7 +926,7 @@ void KStars::slotManualFocus() {
 
     if ( focusDialog->exec() == QDialog::Accepted ) {
         //DEBUG
-        kDebug() << "focusDialog point: " << &focusDialog;
+        qDebug() << "focusDialog point: " << &focusDialog;
 
         //If the requested position is very near the pole, we need to point first
         //to an intermediate location just below the pole in order to get the longitudinal
@@ -1046,7 +1046,7 @@ void KStars::slotMapProjection() {
         Options::setProjection( SkyMap::Gnomonic );
 
     //DEBUG
-    kDebug() << i18n( "Projection system: %1", Options::projection() );
+    qDebug() << i18n( "Projection system: %1", Options::projection() );
 
     skymap->forceUpdate();
 }
@@ -1059,7 +1059,7 @@ void KStars::slotColorScheme() {
 }
 
 void KStars::slotTargetSymbol(bool flag) {
-    kDebug() << QString("slotTargetSymbol: %1 %2").arg( sender()->objectName() ).arg( flag);
+    qDebug() << QString("slotTargetSymbol: %1 %2").arg( sender()->objectName() ).arg( flag);
 
     QStringList names = Options::fOVNames();
     if( flag ) {
@@ -1169,7 +1169,7 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
-    kDebug() << "removing " << actionName;
+    qDebug() << "removing " << actionName;
     colorActionMenu->removeAction( actionCollection()->action( actionName ) );
 }
 

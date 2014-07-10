@@ -310,7 +310,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     if (HorProp && HorProp->p == IP_RO)
             HorProp = NULL;
 
-    //kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
+    //qDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
 
         if (EqProp)
         {

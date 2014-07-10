@@ -23,7 +23,7 @@
 #include <qradiobutton.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
+#include <QDebug>
 
 #include <QtCore/QTextStream>
 
@@ -159,8 +159,8 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
                 dt = KStarsDateTime( QDate::fromString( data[0] ), QTime(0,0,0) );
 
             //DEBUG
-            kDebug() << data[0];
-            if ( dt.isValid() ) kDebug() << dt.toString();
+            qDebug() << data[0];
+            if ( dt.isValid() ) qDebug() << dt.toString();
 
             if ( dt.isValid() ) {
                 //Try to parse the second field as a time

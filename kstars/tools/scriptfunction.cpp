@@ -18,7 +18,7 @@
 #include "scriptfunction.h"
 
 #include <qstringlist.h>
-#include <kdebug.h>
+#include <QDebug>
 
 ScriptFunction::ScriptFunction( const QString &name, const QString &desc,
                                 bool clockfcn, const QString &at1, const QString &an1,

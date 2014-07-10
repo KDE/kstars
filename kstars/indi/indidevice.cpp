@@ -30,7 +30,7 @@
 #include <kpushbutton.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <kcombobox.h>
 #include <knuminput.h>
 #include <kstatusbar.h>

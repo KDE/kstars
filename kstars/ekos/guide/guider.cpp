@@ -620,7 +620,7 @@ bool rguider::dither()
     pmath->get_star_screen_pos( &cur_x, &cur_y );
     Matrix ROT_Z = pmath->get_ROTZ();
 
-    //kDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
+    //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
 
     if (isDithering == false)
     {
@@ -642,7 +642,7 @@ bool rguider::dither()
         else
             target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
-        //kDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
+        //qDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
 
         pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 
@@ -660,7 +660,7 @@ bool rguider::dither()
     star_pos.y = -star_pos.y;
     star_pos = star_pos * ROT_Z;
 
-    //kDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y << endl;
+    //qDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y << endl;
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {

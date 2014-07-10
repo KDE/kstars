@@ -20,7 +20,7 @@
 
 #include <QPen>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 #include "Options.h"
@@ -102,7 +102,7 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
                     maxPM = pm;
             }
             else if ( ! star )
-                kWarning() << i18n( "Star HD%1 not found." , HDnum);
+                qWarning() << i18n( "Star HD%1 not found." , HDnum);
         }
     }
 

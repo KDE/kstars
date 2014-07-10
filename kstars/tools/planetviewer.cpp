@@ -25,7 +25,7 @@
 #include <QKeyEvent>
 #include <QPaintEvent>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kicon.h>

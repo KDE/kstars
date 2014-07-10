@@ -26,7 +26,7 @@
 #include <QPaintEvent>
 
 #include <klocale.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <kpushbutton.h>
 
 
@@ -50,7 +50,7 @@ ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
     ui->ImageCanvas->setImage( tp->currentListImage() );
 
     //DEBUG
-    kDebug() << tp->currentListImage()->size();
+    qDebug() << tp->currentListImage()->size();
 
     connect( ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT( slotUpdateCropLabel() ) );
     slotUpdateCropLabel();

@@ -23,7 +23,7 @@
 #include <QPainter>
 #include <QTextStream>
 #include <QFile>
-#include <kdebug.h>
+#include <QDebug>
 #include <kstandarddirs.h>
 
 FOV::Shape FOV::intToShape(int s)
@@ -157,7 +157,7 @@ void FOV::writeFOVs(const QList<FOV*> fovs)
     f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
 
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        kDebug() << i18n( "Could not open fov.dat." );
+        qDebug() << i18n( "Could not open fov.dat." );
         return;
     }
     QTextStream ostream(&f);

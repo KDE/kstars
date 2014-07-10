@@ -32,7 +32,7 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
     Q_UNUSED(event);
     // This is machinery to prevent multiple concurrent paint events / recursive paint events
     if( m_DrawLock ) {
-        kDebug() << "I just prevented a recursive / concurrent draw!";
+        qDebug() << "I just prevented a recursive / concurrent draw!";
         return;
     }
     setDrawLock( true );

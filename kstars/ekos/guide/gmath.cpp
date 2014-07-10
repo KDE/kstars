@@ -449,7 +449,7 @@ bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x,
           ditherRate[GUIDE_RA] = totalPulse / len;
 
           #ifdef GUIDE_LOG
-          kDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
+          qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
           #endif
      }
 
@@ -517,7 +517,7 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
           ditherRate[GUIDE_RA] = totalPulse / len;
 
           #ifdef GUIDE_LOG
-          kDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
+          qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
           #endif
 
           x = end_dec_x-start_dec_x;
@@ -527,7 +527,7 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
           ditherRate[GUIDE_DEC] = totalPulse / len;
 
           #ifdef GUIDE_LOG
-          kDebug() << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel" << endl;
+          qDebug() << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel" << endl;
           #endif
 
      }

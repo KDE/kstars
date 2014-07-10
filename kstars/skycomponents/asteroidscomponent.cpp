@@ -29,7 +29,7 @@
 #include "ksfilereader.h"
 
 #include <cmath>
-#include <kdebug.h>
+#include <QDebug>
 #include <kglobal.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>

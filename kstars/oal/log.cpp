@@ -548,11 +548,11 @@ void OAL::Log::readTarget() {
                     o->setNotes( notes );
             }
        //   else  if( reader->name() == "datasource" )
-       //         kDebug() << reader->readElementText();
+       //         qDebug() << reader->readElementText();
        //     else if( reader->name() == "position" )
        //         readPosition();
        //     else if( reader->name() == "constellation" )
-       //         kDebug() << reader->readElementText();
+       //         qDebug() << reader->readElementText();
             else
                 readUnknownElement();
         }
@@ -630,7 +630,7 @@ SkyPoint OAL::Log::readPosition(bool &OK) {
         if( reader->isStartElement() ) {
             if( reader->name() == "ra" )
             {
-                kDebug() << reader->readElementText() << reader->attributes().value( "unit" );
+                qDebug() << reader->readElementText() << reader->attributes().value( "unit" );
                 dms ra;
                 if (reader->attributes().value("unit") == "rad")
                     ra.setRadians(reader->readElementText().toDouble(&RAOK));
@@ -641,7 +641,7 @@ SkyPoint OAL::Log::readPosition(bool &OK) {
             }
             else if( reader->name() == "dec" )
             {
-                kDebug() << reader->readElementText() << reader->attributes().value( "unit" );
+                qDebug() << reader->readElementText() << reader->attributes().value( "unit" );
                 dms de;
                 if (reader->attributes().value("unit") == "rad")
                     de.setRadians(reader->readElementText().toDouble(&DEOK));

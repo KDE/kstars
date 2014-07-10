@@ -321,7 +321,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
         if (serverManager == NULL)
         {
-               kWarning() << "Warning: device manager has not been established properly";
+               qWarning() << "Warning: device manager has not been established properly";
                return false;
         }
 
@@ -863,7 +863,7 @@ bool DriverManager::readINDIHosts()
         }
         else if (errmsg[0])
         {
-            kDebug() << errmsg;
+            qDebug() << errmsg;
             delLilXML(xmlParser);
             return false;
         }
@@ -954,7 +954,7 @@ void DriverManager::processXMLDriver(QString & driverName)
         }
         else if (errmsg[0])
         {
-            kDebug() << QString(errmsg) << endl;
+            qDebug() << QString(errmsg) << endl;
             delLilXML(xmlParser);
             return;
         }

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 
-#include <kdebug.h>
+#include <QDebug>
 
 #include "planetmoons.h"
 #include "ksnumbers.h"

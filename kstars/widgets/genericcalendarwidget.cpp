@@ -20,7 +20,7 @@
 #include <KNotification>
 #include <KCalendarSystem>
 
-#include <kdebug.h>
+#include <QDebug>
 
 GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *parent ) : QWidget( parent ), m_DateTable( datetable ) {
 
@@ -59,7 +59,7 @@ GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *pa
 
     populateMonthNames();
 
-    //    kDebug() << calendar()->monthName( date(), KCalendarSystem::LongName );
+    //    qDebug() << calendar()->monthName( date(), KCalendarSystem::LongName );
 
     selectMonth->setCurrentIndex( date().month() - 1 );
     selectYear->setValue( date().year() );
@@ -95,7 +95,7 @@ void GenericCalendarWidget::dateChangedSlot( const QDate &date_ ) {
         m_Date = date_;
     }
     
-    kDebug() << "Date = " << m_Date;
+    qDebug() << "Date = " << m_Date;
 
     emit( dateChanged( date_ ) );
 }
@@ -110,7 +110,7 @@ void GenericCalendarWidget::nextMonthClicked()
 
 void GenericCalendarWidget::previousMonthClicked()
 {
-    kDebug() << "Previous month clicked!";
+    qDebug() << "Previous month clicked!";
     if ( ! setDate( calendar()->addMonths( date(), -1 ) ) ) {
         KNotification::beep();
     }
@@ -141,7 +141,7 @@ void GenericCalendarWidget::yearChanged( int year ) {
 }
 
 void GenericCalendarWidget::monthChanged( int month ) {
-    kDebug() << "Month = " << month;
+    qDebug() << "Month = " << month;
     if ( ! setMonth( month + 1 ) ) {
         KNotification::beep();
     }

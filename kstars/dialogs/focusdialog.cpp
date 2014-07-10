@@ -18,7 +18,7 @@
 #include "focusdialog.h"
 
 #include <QVBoxLayout>
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <knumvalidator.h>

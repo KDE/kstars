@@ -23,7 +23,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <kdebug.h>
+#include <QDebug>
 
 static const char * const up_arrow[] = {
 "22 11 4 1",

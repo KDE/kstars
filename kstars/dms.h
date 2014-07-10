@@ -18,7 +18,7 @@
 #ifndef DMS_H_
 #define DMS_H_
 
-#include <kdebug.h>
+#include <QDebug>
 
 #include <QString>
 

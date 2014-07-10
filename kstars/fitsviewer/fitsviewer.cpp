@@ -26,7 +26,7 @@
 
 #include <kstandardaction.h>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <ktoolbar.h>
 #include <ktemporaryfile.h>
 #include <kmenubar.h>

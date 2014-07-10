@@ -19,7 +19,7 @@
 
 #include "skypoint.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 #include "skyobject.h"
@@ -121,10 +121,10 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
     if ( x < -1.0 && x > -1.000001 ) HARad = dms::PI;
     else if ( x > 1.0 && x < 1.000001 ) HARad = 0.0;
     else if ( x < -1.0 ) {
-        kWarning() << i18n( "Coordinate out of range." ) << endl;
+        qWarning() << i18n( "Coordinate out of range." ) << endl;
         HARad = dms::PI;
     } else if ( x > 1.0 ) {
-        kWarning() << i18n( "Coordinate out of range." ) << endl;
+        qWarning() << i18n( "Coordinate out of range." ) << endl;
         HARad = 0.0;
     } else HARad = acos( x );
 
@@ -231,7 +231,7 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ){
     dms lat1, dtheta;
 
     if( dist == 0.0 ) {
-        kDebug() << "moveThrough called with zero distance!";
+        qDebug() << "moveThrough called with zero distance!";
         return *this;
     }
 
@@ -362,7 +362,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
     }
 
     if ( lat || LST )
-        kWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) ;
+        qWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) ;
 }
 
 void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){

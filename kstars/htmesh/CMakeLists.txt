@@ -20,7 +20,9 @@ set(HTMesh_LIB_SRCS
 	${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
+#TODO is there KF5_ENABLE_EXCEPTIONS?
+set (CMAKE_CXX_FLAGS "-fexceptions")
 
 add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
 

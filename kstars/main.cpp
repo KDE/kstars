@@ -18,7 +18,7 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <kapplication.h>
 
 #include "kstars.h"
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     KApplication a;
 
     if ( args->isSet( "dump" ) ) {
-        kDebug() << i18n( "Dumping sky image" );
+        qDebug() << i18n( "Dumping sky image" );
 
         //parse filename and image format
         const char* format = "PNG";
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
         else if ( ext.toLower() == "gif" ) { format = "GIF"; }
         else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
         else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
-        else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
+        else { qWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
 
         //parse width and height
         bool ok(false);
@@ -104,8 +104,8 @@ int main(int argc, char *argv[])
         w = args->getOption( "width" ).toInt( &ok );
         if ( ok ) h =  args->getOption( "height" ).toInt( &ok );
         if ( !ok ) {
-            kWarning() << "Unable to parse arguments: " ;
-            kWarning() << "Width: " << args->getOption( "width" )
+            qWarning() << "Unable to parse arguments: " ;
+            qWarning() << "Width: " << args->getOption( "width" )
             << "  Height: " << args->getOption( "height" ) << endl;
             return 1;
         }
@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
             }
 
             if ( ! kdt.isValid() ) {
-                kWarning() << i18n( "Using CPU date/time instead." ) ;
+                qWarning() << i18n( "Using CPU date/time instead." ) ;
 
                 kdt = KStarsDateTime::currentUtcDateTime();
             }
@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
             if ( dat->executeScript( scriptfile, map ) ) {
                 std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
             } else {
-                kWarning() << i18n( "Could not execute script." ) ;
+                qWarning() << i18n( "Could not execute script." ) ;
             }
         }
 
@@ -177,8 +177,8 @@ int main(int argc, char *argv[])
         map->exportSkyImage( &sky );
         qApp->processEvents();
 
-        if ( ! sky.save( fname, format ) ) kWarning() << i18n( "Unable to save image: %1 ", fname ) ;
-        else kDebug() << i18n( "Saved to file: %1", fname );
+        if ( ! sky.save( fname, format ) ) qWarning() << i18n( "Unable to save image: %1 ", fname ) ;
+        else qDebug() << i18n( "Saved to file: %1", fname );
 
         delete map;
         delete dat;
@@ -190,10 +190,10 @@ int main(int argc, char *argv[])
     //Try to parse the given date string
     QString datestring = args->getOption( "date" );
     //DEBUG
-    kDebug() << "Date string: " << datestring;
+    qDebug() << "Date string: " << datestring;
 
     if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
-        kWarning() << i18n( "Using CPU date/time instead." ) ;
+        qWarning() << i18n( "Using CPU date/time instead." ) ;
         datestring.clear();
     }
 

@@ -26,7 +26,7 @@
 #include "kstars/skycomponents/skycomponent.h"
 #include <kstandarddirs.h>
 #include <klocale.h>
-#include <KDebug>
+#include <QDebug>
 #include <KMessageBox>
 #include <QSqlDatabase>
 #include <QDebug>

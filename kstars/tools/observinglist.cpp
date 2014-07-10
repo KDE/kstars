@@ -230,7 +230,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         obj = ks->map()->clickedObject();
 
     if ( !obj ) {
-        kWarning() << "Trying to add null object to observing list!";
+        qWarning() << "Trying to add null object to observing list!";
     }
 
     QString finalObjectName = getObjectName(obj);
@@ -521,7 +521,7 @@ void ObservingList::slotNewSelection() {
                 ui->DeleteImage->setEnabled( true );
             }
         } else {
-            kDebug() << i18n( "Object %1 not found in list.", newName );
+            qDebug() << i18n( "Object %1 not found in list.", newName );
         }
     } else {
         if ( selectedItems.size() == 0 ) {//Nothing selected
@@ -792,13 +792,13 @@ void ObservingList::slotSaveList() {
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "wishlist.obslist" ) );
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        kDebug() << "Cannot write list to  file";
+        qDebug() << "Cannot write list to  file";
         return;
     }
     QTextStream ostream( &f );
     foreach ( SkyObject* o, obsList() ) {
         if ( !o ) {
-            kWarning() << "Null entry in observing wishlist!";
+            qWarning() << "Null entry in observing wishlist!";
             continue;
         }
         if ( o->name() == "star" ) {
@@ -821,7 +821,7 @@ void ObservingList::slotLoadWishList() {
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "wishlist.obslist" ) );
     if ( ! f.open( QIODevice::ReadOnly) ) {
-       kDebug() << "No WishList Saved yet";
+       qDebug() << "No WishList Saved yet";
        return;
     }
     QTextStream istream( &f );

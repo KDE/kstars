@@ -235,14 +235,14 @@ void telescopeWizardProcess::establishLink()
                                                 "attached telescopes.\nThis process might take few "
                                                 "minutes to complete."), Qt::Dialog);
         progressScan->progressBar()->setValue(0);
-        //kDebug() << "KProgressDialog for automatic search has been initiated";
+        //qDebug() << "KProgressDialog for automatic search has been initiated";
 
     }
     else
     {
         progressScan = new KProgressDialog(this, i18n("Telescope Wizard"), i18n("Please wait while KStars tries to connect to your telescope..."), Qt::Dialog);
         progressScan->progressBar()->setValue(portList.count());
-        //kDebug() << "KProgressDialog for manual search has been initiated";
+        //qDebug() << "KProgressDialog for manual search has been initiated";
     }
 
     progressScan->setAutoClose(true);

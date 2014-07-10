@@ -17,7 +17,7 @@
 
 #include "obsconditions.h"
 #include "math.h"
-#include "kdebug.h"
+#include "qDebug"
 
 ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, TelescopeType telType):
     m_BortleClass(bortle), m_Equip(equip), m_TelType(telType), m_Aperture(aperture)
@@ -37,7 +37,7 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Teles
     }
     setLimMagnitude();
 
-    kDebug()<<"Aperture value being used:"<<m_Aperture;
+    qDebug()<<"Aperture value being used:"<<m_Aperture;
 }
 
 ObsConditions::~ObsConditions() {}
@@ -73,7 +73,7 @@ double ObsConditions::getOptimumMAG()
 
 double ObsConditions::getTrueMagLim()
 {
-//     kDebug()<< (4.12 + 2.5 * log10( pow(aperture,2)*t ));
+//     qDebug()<< (4.12 + 2.5 * log10( pow(aperture,2)*t ));
 //     return 4.12 + 2.5 * log10( pow(aperture,2)*t ); //Taking optimum magnification into consideration
 
     ///If there is no equipment available then return limiting magnitude for naked-eye
@@ -112,5 +112,5 @@ void ObsConditions::setObsConditions(int bortle, double aperture, ObsConditions:
     m_Equip = equip;
     m_TelType = telType;
 
-    kDebug()<<"Aperture value being used:"<<m_Aperture;
+    qDebug()<<"Aperture value being used:"<<m_Aperture;
 }

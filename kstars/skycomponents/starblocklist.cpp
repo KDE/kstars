@@ -43,7 +43,7 @@ StarBlockList::~StarBlockList() {
 int StarBlockList::releaseBlock( StarBlock *block ) {
 
     if( block != blocks[ nBlocks - 1 ] )
-        kDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
+        qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
 
     else if( blocks.size() > 0 ) {
 
@@ -82,7 +82,7 @@ bool StarBlockList::fillToMag( float maglim ) {
         return true;
 
     if( !dataFile ) {
-        kDebug() << "dataFile not opened!";
+        qDebug() << "dataFile not opened!";
         return false;
     }
 
@@ -96,7 +96,7 @@ bool StarBlockList::fillToMag( float maglim ) {
     BinFileHelper::unsigned_KDE_fseek( dataFile, readOffset, SEEK_SET );
     
     /*
-    kDebug() << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars
+    qDebug() << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars
              << ", record count =" << dSReader->getRecordCount( trixelId ) << ", first block = " << blocks[0]->getStarCount()
              << "to maglim =" << maglim << "with current faintMag =" << faintMag << endl;
     */
@@ -106,7 +106,7 @@ bool StarBlockList::fillToMag( float maglim ) {
             StarBlock *newBlock;
             newBlock = SBFactory->getBlock();
             if( !newBlock ) {
-                kWarning() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " 
+                qWarning() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " 
                          << trixel << ", while trying to create block #" << nBlocks + 1 << endl;
                 return false;
             }
@@ -115,7 +115,7 @@ bool StarBlockList::fillToMag( float maglim ) {
             if( nBlocks == 0 )
 	        SBFactory->markFirst( blocks[0] );
 	    else if( !SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] ) )
-	        kWarning() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
+	        qWarning() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
             
             ++nBlocks;
         }
@@ -137,7 +137,7 @@ bool StarBlockList::fillToMag( float maglim ) {
 
     /*
       if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
-      kDebug() << "Encountered a jump from mag" << faintMag << "to mag"
+      qDebug() << "Encountered a jump from mag" << faintMag << "to mag"
       << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
       }
     */

@@ -34,7 +34,7 @@
 #include <kio/jobuidelegate.h>
 #include <kstandarddirs.h>
 #include <kglobal.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <QFile>
 #include <QPen>
 

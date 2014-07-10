@@ -800,12 +800,12 @@ bool SkyQPainter::drawSupernova(Supernova* sup)
 
     bool visible = false;
     QPointF pos = m_proj->toScreen(sup,true,&visible);
-    //kDebug()<<"sup->ra() = "<<(sup->ra()).toHMSString()<<"sup->dec() = "<<sup->dec().toDMSString();
-    //kDebug()<<"pos = "<<pos<<"m_proj->onScreen(pos) = "<<m_proj->onScreen(pos);
+    //qDebug()<<"sup->ra() = "<<(sup->ra()).toHMSString()<<"sup->dec() = "<<sup->dec().toDMSString();
+    //qDebug()<<"pos = "<<pos<<"m_proj->onScreen(pos) = "<<m_proj->onScreen(pos);
     if( !visible || !m_proj->onScreen(pos) ) return false;
 
     setPen( data->colorScheme()->colorNamed("SupernovaColor") );
-    //kDebug()<<"Here"<<endl;
+    //qDebug()<<"Here"<<endl;
     drawLine ( QPoint( pos.x () - 2.0, pos.y() ), QPoint( pos.x() + 2.0, pos.y() ) );
     drawLine ( QPoint( pos.x (), pos.y() - 2.0 ), QPoint( pos.x(), pos.y() + 2.0 ) );
     return true;

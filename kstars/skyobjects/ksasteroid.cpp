@@ -17,7 +17,7 @@
 
 #include "ksasteroid.h"
 
-#include <kdebug.h>
+#include <QDebug>
 
 #include "dms.h"
 #include "ksnumbers.h"

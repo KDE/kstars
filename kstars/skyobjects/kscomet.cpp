@@ -18,7 +18,7 @@
 #include "kscomet.h"
 
 #include <QRegExp>
-#include <kdebug.h>
+#include <QDebug>
 #include <QMap>
 
 #include "kstarsdata.h"
@@ -128,7 +128,7 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
         return;
     }
     uidPart = 0;
-    // kDebug() << "Didn't get it: " << _s;
+    // qDebug() << "Didn't get it: " << _s;
 }
 
 KSComet* KSComet::clone() const

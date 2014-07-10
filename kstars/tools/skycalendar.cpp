@@ -24,7 +24,7 @@
 #include <QPrintDialog>
 #include <QFontInfo>
 #include <kdeprintdialog.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <KPlotObject>
 #include <KPushButton>
 

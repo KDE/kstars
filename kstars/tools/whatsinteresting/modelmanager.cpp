@@ -70,7 +70,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         SkyObject *o;
         if ((o = data->skyComposite()->findByName(line)))
         {
-            //kDebug()<<o->longname()<<o->typeName();
+            //qDebug()<<o->longname()<<o->typeName();
             switch(o->type())
             {
                 case SkyObject::OPEN_CLUSTER:
@@ -98,7 +98,7 @@ void ModelManager::updateModels(ObsConditions *obs)
 
     foreach (SkyObject *so, m_InitObjects.value(Star_Model))
     {
-        //kDebug()<<so->longname()<<so->typeName();
+        //qDebug()<<so->longname()<<so->typeName();
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
             m_StarsModel->addSkyObject(new SkyObjItem(so));
@@ -107,7 +107,7 @@ void ModelManager::updateModels(ObsConditions *obs)
 
     foreach (SkyObject *so, m_InitObjects.value(Galaxy_Model))
     {
-        //kDebug()<<so->longname()<<so->typeName();
+        //qDebug()<<so->longname()<<so->typeName();
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
             m_GalModel->addSkyObject(new SkyObjItem(so));
@@ -141,7 +141,7 @@ void ModelManager::updateModels(ObsConditions *obs)
     foreach (const QString &name, data->skyComposite()->objectNames(SkyObject::PLANET))
     {
         SkyObject *so = data->skyComposite()->findByName(name);
-        //kDebug()<<so->name()<<so->mag();
+        //qDebug()<<so->name()<<so->mag();
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
             if (so->name() == "Sun") continue;

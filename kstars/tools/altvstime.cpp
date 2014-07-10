@@ -241,7 +241,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         }
     }
     if ( found && !forceAdd ) {
-        kDebug() << "This point is already displayed; I will not duplicate it.";
+        qDebug() << "This point is already displayed; I will not duplicate it.";
     } else {
         pList.append( o );
 
@@ -277,7 +277,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         //Set epochName to epoch shown in date tab
         avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
     }
-    kDebug() << "Currently, there are " << avtUI->View->plotObjects().count() << " objects displayed.";
+    qDebug() << "Currently, there are " << avtUI->View->plotObjects().count() << " objects displayed.";
 
     //restore original position
     if ( o->isSolarSystem() ) {
@@ -476,7 +476,7 @@ double AltVsTime::getEpoch(const QString &eName)
     bool ok;
     double epoch = eName.toDouble(&ok);
     if ( !ok ) {
-        kDebug() << "Invalid Epoch.  Assuming 2000.0.";
+        qDebug() << "Invalid Epoch.  Assuming 2000.0.";
         return 2000.0;
     }
     return epoch;

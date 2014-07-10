@@ -45,7 +45,7 @@ void histDrawArea::init()
    // upperLimitX = hist_width;
    // lowerLimitX  = 0;
 
-    //kDebug() << "Calling construction histogram";
+    //qDebug() << "Calling construction histogram";
 
 }
 

@@ -140,7 +140,7 @@ void DeepSkyComponent::loadData()
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
     deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
-    kDebug() << "Loading NGC/IC objects";
+    qDebug() << "Loading NGC/IC objects";
 
     QHash<QString,QVariant> row_content;
     while (deep_sky_parser.HasNextRow()) {
@@ -188,8 +188,8 @@ void DeepSkyComponent::loadData()
              (0.0 <= dd && dd <= 90.0) ||
              (0.0 <= dm && dm < 60.0) ||
                (0.0 <= ds && ds < 60.0) ) ) {
-          kDebug() << "Bad coordinates while processing NGC/IC object: " << cat << ingc;
-          kDebug() << "RA H:M:S = " << rah << ":" << ram << ":" << ras << "; Dec D:M:S = " << dd << ":" << dm << ":" << ds;
+          qDebug() << "Bad coordinates while processing NGC/IC object: " << cat << ingc;
+          qDebug() << "RA H:M:S = " << rah << ":" << ram << ":" << ras << "; Dec D:M:S = " << dd << ":" << dm << ":" << ds;
           Q_ASSERT( false );
         }
 
@@ -320,7 +320,7 @@ void DeepSkyComponent::mergeSplitFiles() {
     QDir localDir = QFileInfo( firstFile ).absoluteDir();
     QStringList catFiles = localDir.entryList( QStringList( "ngcic??.dat" ) );
 
-    kDebug() << "Merging split NGC/IC files" << endl;
+    qDebug() << "Merging split NGC/IC files" << endl;
 
     QString buffer;
     foreach ( const QString &fname, catFiles ) {
@@ -331,7 +331,7 @@ void DeepSkyComponent::mergeSplitFiles() {
 
             f.close();
         } else {
-            kDebug() << QString("Error: Could not open %1 for reading").arg(fname) << endl;
+            qDebug() << QString("Error: Could not open %1 for reading").arg(fname) << endl;
         }
     }
 
@@ -345,7 +345,7 @@ void DeepSkyComponent::mergeSplitFiles() {
         foreach ( const QString &fname, catFiles ) {
             QString fullname = localDir.absoluteFilePath(fname);
             //DEBUG
-            kDebug() << "Removing " << fullname << " ..." << endl;
+            qDebug() << "Removing " << fullname << " ..." << endl;
             QFile::remove( fullname );
         }
     }

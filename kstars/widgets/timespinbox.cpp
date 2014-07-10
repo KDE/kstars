@@ -24,7 +24,7 @@
 #include <QFontMetrics>
 #include <QLineEdit>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 #define SECS_PER_DAY 86400.
@@ -217,7 +217,7 @@ float TimeSpinBox::timeScale( void ) const {
 }
 
 void TimeSpinBox::reportChange() {
-    kDebug() << i18n( "Reporting new timestep value: " ) << timeScale();
+    qDebug() << i18n( "Reporting new timestep value: " ) << timeScale();
     emit scaleChanged( timeScale() );
 }
 

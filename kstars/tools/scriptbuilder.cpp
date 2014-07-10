@@ -25,7 +25,7 @@
 #include <QTreeWidget>
 #include <QTextStream>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <kio/netaccess.h>
 #include <kprocess.h>
@@ -94,7 +94,7 @@ void OptionsTreeView::resizeColumns() {
 
     for ( int icol=0; icol < 3; ++icol ) {
         //DEBUG
-        kDebug() << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]) << endl;
+        qDebug() << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]) << endl;
 
         optionsList()->setColumnWidth( icol, maxwidth[icol] );
     }
@@ -1138,7 +1138,7 @@ void ScriptBuilder::slotRunScript() {
     p.start();
 
     if( !p.waitForStarted() )
-        kDebug() << "Process did not start.";
+        qDebug() << "Process did not start.";
 
     while ( !p.waitForFinished(10) ) {
         qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
@@ -1255,7 +1255,7 @@ void ScriptBuilder::readScript( QTextStream &istream )
                 // Initially, any read script is valid!
                 ScriptList.last()->setValid(true);
             }
-            else kWarning() << i18n( "Could not parse script.  Line was: %1", line ) ;
+            else qWarning() << i18n( "Could not parse script.  Line was: %1", line ) ;
 
         } // end if left(4) == "dcop"
     } // end while !atEnd()
@@ -1964,7 +1964,7 @@ void ScriptBuilder::slotShowDoc() {
     if (found == NULL)
     {
         sb->AddButton->setEnabled( false );
-        kWarning() << i18n( "Function index out of bounds." ) ;
+        qWarning() << i18n( "Function index out of bounds." ) ;
         return;
     }
 
@@ -2990,7 +2990,7 @@ void ScriptBuilder::slotINDISetFilterNum()
 #endif
 
 void ScriptBuilder::warningMismatch (const QString &expected) const {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;
+    qWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;
 }
 
 #include "scriptbuilder.moc"

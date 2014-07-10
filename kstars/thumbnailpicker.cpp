@@ -127,7 +127,7 @@ void ThumbnailPicker::slotJobResult( KJob *job ) {
 
     //If there was a problem, just return silently without adding image to list.
     if ( job->error() ) {
-        kDebug() << " error=" << job->error();
+        qDebug() << " error=" << job->error();
         job->kill();
         return;
     }
@@ -164,12 +164,12 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
             file.close();
             KIO::NetAccess::removeTempFile( tmpFile );
         } else {
-            kDebug() << "Could not read local copy of google image page";
+            qDebug() << "Could not read local copy of google image page";
             KIO::NetAccess::removeTempFile( tmpFile );
             return;
         }
     } else {
-        kDebug() << KIO::NetAccess::lastErrorString();
+        qDebug() << KIO::NetAccess::lastErrorString();
         return;
     }
 

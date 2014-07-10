@@ -19,7 +19,7 @@
 #define SKYCOMPONENT_H
 
 
-#include <kdebug.h>
+#include <QDebug>
 #include "typedef.h"
 
 class QString;

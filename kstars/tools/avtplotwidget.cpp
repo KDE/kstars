@@ -26,7 +26,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KPlotObject>
-#include <kdebug.h>
+#include <QDebug>
 
 AVTPlotWidget::AVTPlotWidget( QWidget *parent )
         : KPlotWidget( parent )

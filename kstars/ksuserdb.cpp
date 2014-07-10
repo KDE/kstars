@@ -19,7 +19,7 @@
 #include "ksuserdb.h"
 #include "kstarsdata.h"
 #include "version.h"
-#include <kdebug.h>
+#include <QDebug>
 
 /*
  * TODO (spacetime):
@@ -36,15 +36,15 @@ bool KSUserDB::Initialize() {
     QFile testdb(dbfile);
     bool first_run = false;
     if (!testdb.exists()) {
-        kDebug()<< "User DB does not exist. New User DB will be created.";
+        qDebug()<< "User DB does not exist. New User DB will be created.";
         first_run = true;
     }
     userdb_.setDatabaseName(dbfile);
     if (!userdb_.open()) {
-           kWarning() << "Unable to open user database file.";
-           kWarning() << LastError();
+           qWarning() << "Unable to open user database file.";
+           qWarning() << LastError();
     } else {
-        kDebug() << "Opened the User DB. Ready.";
+        qDebug() << "Opened the User DB. Ready.";
         if (first_run == true) {
             FirstRun();
         }
@@ -75,7 +75,7 @@ bool KSUserDB::FirstRun() {
 
 
 bool KSUserDB::RebuildDB() {
-    kWarning() << "Rebuilding User Database";
+    qWarning() << "Rebuilding User Database";
     QVector<QString> tables;
     tables.append("CREATE TABLE Version ("
                   "Version CHAR DEFAULT NULL)");
@@ -155,7 +155,7 @@ bool KSUserDB::RebuildDB() {
     for (int i = 0; i < tables.count(); ++i) {
         QSqlQuery query(userdb_);
         if (!query.exec(tables[i])) {
-            kDebug() << query.lastError();
+            qDebug() << query.lastError();
         }
     }
     return true;

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "ksparser.h"
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 const int KSParser::EBROKEN_INT = 0;
@@ -31,11 +31,11 @@ KSParser::KSParser(const QString &filename, const char comment_char,
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), delimiter_(delimiter) {
     if (!file_reader_.openFullPath(filename_)) {
-        kWarning() <<"Unable to open file: "<< filename;
+        qWarning() <<"Unable to open file: "<< filename;
         readFunctionPtr = &KSParser::DummyRow;
     } else {
         readFunctionPtr = &KSParser::ReadCSVRow;
-        kDebug() <<"File opened: "<< filename;
+        qDebug() <<"File opened: "<< filename;
     }
 }
 
@@ -45,11 +45,11 @@ KSParser::KSParser(const QString &filename, const char comment_char,
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), width_sequence_(widths) {
     if (!file_reader_.openFullPath(filename_)) {
-        kWarning() <<"Unable to open file: "<< filename;
+        qWarning() <<"Unable to open file: "<< filename;
         readFunctionPtr = &KSParser::DummyRow;
     } else {
         readFunctionPtr = &KSParser::ReadFixedWidthRow;
-        kDebug() <<"File opened: "<< filename;
+        qDebug() <<"File opened: "<< filename;
     }
 }
 
@@ -99,7 +99,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
            newRow[name_type_sequence_[i].first] =
            ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
            if (!ok && parser_debug_mode_) {
-             kDebug() << name_type_sequence_[i].second
+             qDebug() << name_type_sequence_[i].second
                       <<"Failed at field: "
                       << name_type_sequence_[i].first
                       << " & next_line : " << next_line;
@@ -123,7 +123,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
         // line length is appendeded to width_sequence_ by default.
         // Hence, the length of width_sequence_ is one less than
         // name_type_sequence_
-        kWarning() << "Unequal fields and widths! Returning dummy row!";
+        qWarning() << "Unequal fields and widths! Returning dummy row!";
         Q_ASSERT( false ); // Make sure that in Debug mode, this condition generates an abort.
         return DummyRow();
     }
@@ -174,7 +174,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
            newRow[name_type_sequence_[i].first] =
            ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
            if (!ok && parser_debug_mode_) {
-             kDebug() << name_type_sequence_[i].second
+             qDebug() << name_type_sequence_[i].second
                       <<"Failed at field: "
                       << name_type_sequence_[i].first
                       << " & next_line : " << next_line;
@@ -194,7 +194,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
 }
 
 QHash<QString, QVariant>  KSParser::DummyRow() {
-    kWarning() << "File named " << filename_ << " encountered an error while reading";
+    qWarning() << "File named " << filename_ << " encountered an error while reading";
     QHash<QString, QVariant> newRow;
     for (int i = 0; i < name_type_sequence_.length(); ++i) {
            switch (name_type_sequence_[i].second) {
@@ -237,7 +237,7 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
     QStringList::const_iterator iter;
 
     if (separated.length() == 0) {
-      kDebug() << "Cannot Combine empty list";
+      qDebug() << "Cannot Combine empty list";
     } else {
       /* Algorithm:
        * In the following steps, 'word' implies a unit from 'separated'.

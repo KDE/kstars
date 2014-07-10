@@ -34,7 +34,7 @@
 #include "skymap.h"
 #include "texturemanager.h"
 
-#include <kdebug.h>
+#include <QDebug>
 
 DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
     : SkyObject( o )

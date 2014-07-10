@@ -21,7 +21,7 @@
 #include "skyobjects/stardata.h"
 #include "skyobjects/deepstardata.h"
 
-#include <kdebug.h>
+#include <QDebug>
 
 
 StarBlock::StarBlock( int nstars ) :

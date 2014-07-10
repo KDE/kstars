@@ -22,7 +22,7 @@
 #include <QFrame>
 #include <QKeyEvent>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <KPlotWidget>
 #include <KPlotObject>

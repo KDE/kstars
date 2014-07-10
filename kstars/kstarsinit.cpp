@@ -615,7 +615,7 @@ void KStars::datainitFinished() {
     KTipDialog::showTip(this, "kstars/tips");
 
     //DEBUG
-    kDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
+    qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
 }
 
 void KStars::initFocus() {
@@ -636,7 +636,7 @@ void KStars::initFocus() {
             map()->setClickedObject( oFocus );
             map()->setFocusPoint( oFocus );
         } else {
-            kWarning() << "Cannot center on "
+            qWarning() << "Cannot center on "
                        << Options::focusObject()
                        << ": no object found." << endl;
         }

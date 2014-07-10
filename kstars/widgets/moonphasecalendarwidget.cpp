@@ -28,7 +28,7 @@
 #include <kcolorscheme.h>
 #include <kglobal.h>
 #include <kglobalsettings.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <kcalendarsystem.h>
 
 #include <QActionEvent>
@@ -60,7 +60,7 @@ QSize MoonPhaseCalendar::sizeHint() const {
 
 void MoonPhaseCalendar::loadImages() {
     computeMoonImageSize();
-    kDebug() << "Loading moon images. MoonImageSize = " << MoonImageSize;
+    qDebug() << "Loading moon images. MoonImageSize = " << MoonImageSize;
     for( int i = 0; i < 36; ++i ) {
         QString imName = QString().sprintf("moon%02d", i);
         m_Images[i] =
@@ -73,7 +73,7 @@ void MoonPhaseCalendar::loadImages() {
 void MoonPhaseCalendar::computeMoonImageSize() {
     cellWidth  = width() / ( double ) numDayColumns;
     cellHeight = height() / ( double ) numWeekRows;
-    kDebug() << cellWidth << cellHeight;
+    qDebug() << cellWidth << cellHeight;
     MoonImageSize = ( (cellWidth > cellHeight - 12) ? cellHeight - 12 : cellWidth ) - 2; // FIXME: Using hard-coded fontsize
 }
 
@@ -267,7 +267,7 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
                                  // 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2,
                                  // m_Images[ iPhase ] );
             // FIXME: Using hard coded fontsize
-            //            kDebug() << "Drew moon image " << iPhase;
+            //            qDebug() << "Drew moon image " << iPhase;
         }
     }
 

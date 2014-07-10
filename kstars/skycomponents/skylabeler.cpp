@@ -300,7 +300,7 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 {
     if ( m_maxY < 1 ) {
         if ( ! m_errors++ )
-            kDebug() << QString("Someone forgot to reset the SkyLabeler!");
+            qDebug() << QString("Someone forgot to reset the SkyLabeler!");
         return true;
     }
 

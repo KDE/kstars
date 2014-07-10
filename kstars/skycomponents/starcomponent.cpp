@@ -380,22 +380,22 @@ bool StarComponent::loadStaticData()
     /* Open the data files */
     // TODO: Maybe we don't want to hardcode the filename?
     if((dataFile = dataReader.openFile("namedstars.dat")) == NULL) {
-        kDebug() << "Could not open data file namedstars.dat" << endl;
+        qDebug() << "Could not open data file namedstars.dat" << endl;
         return false;
     }
 
     if(!(nameFile = nameReader.openFile("starnames.dat"))) {
-        kDebug() << "Could not open data file starnames.dat" << endl;
+        qDebug() << "Could not open data file starnames.dat" << endl;
         return false;
     }
 
     if(!dataReader.readHeader()) {
-        kDebug() << "Error reading namedstars.dat header : " << dataReader.getErrorNumber() << " : " << dataReader.getError() << endl;
+        qDebug() << "Error reading namedstars.dat header : " << dataReader.getErrorNumber() << " : " << dataReader.getError() << endl;
         return false;
     }
 
     if(!nameReader.readHeader()) {
-        kDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
+        qDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
         return false;
     }
     KDE_fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
@@ -422,14 +422,14 @@ bool StarComponent::loadStaticData()
         m_FaintMagnitude = faintmag / 100.0;
 
     if( htm_level != m_skyMesh->level() )
-        kDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
+        qDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
         Trixel trixel = i;// = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
         for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
             if(!fread(&stardata, sizeof(starData), 1, dataFile)){
-                kDebug() << "FILE FORMAT ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
+                qDebug() << "FILE FORMAT ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
 
             /* Swap Bytes when required */
@@ -440,7 +440,7 @@ bool StarComponent::loadStaticData()
                 /* Named Star - Read the nameFile */
                 visibleName = "";
                 if(!fread(&starname, sizeof( starName ), 1, nameFile))
-                    kDebug() << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j << endl;
+                    qDebug() << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j << endl;
                 name = QByteArray(starname.longName, 32);
                 gname = QByteArray(starname.bayerName, 8);
                 if ( ! gname.isEmpty() && gname.at(0) != '.')
@@ -453,7 +453,7 @@ bool StarComponent::loadStaticData()
                 }
             }
             else
-                kDebug() << "ERROR: Named star file contains unnamed stars! Expect trouble." << endl;
+                qDebug() << "ERROR: Named star file contains unnamed stars! Expect trouble." << endl;
 
             /* Create the new StarObject */
             star = new StarObject;
@@ -717,15 +717,15 @@ bool StarComponent::verifySBLIntegrity() {
                 faintMag = block->getBrightMag();
             // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
             if( block->getBrightMag() != faintMag && ( block->getBrightMag() - faintMag ) > 0.016) {
-                kDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag
+                qDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag
                          << ", brightMag of block #" << i << " = " << block->getBrightMag();
                 integrity = false;
             }
             if( i > 1 && ( !block->prev ) )
-                kDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
+                qDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
             if( block->prev && block->prev->parent == m_starBlockList[ trixel ]
                 && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
-                kDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
+                qDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
                 integrity = false;
             }
             faintMag = block->getFaintMag();

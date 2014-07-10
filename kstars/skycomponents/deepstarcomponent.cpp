@@ -53,7 +53,7 @@ DeepStarComponent::DeepStarComponent( SkyComposite *parent, QString fileName, fl
     openDataFile();
     if( staticStars )
         loadStaticStars();
-    kDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
+    qDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
 }
 
 bool DeepStarComponent::loadStaticStars() {
@@ -68,12 +68,12 @@ bool DeepStarComponent::loadStaticStars() {
     rewind( dataFile );
 
     if( !starReader.readHeader() ) {
-        kDebug() << "Error reading header of catalog file " << dataFileName << ": " << starReader.getErrorNumber() << ": " << starReader.getError() << endl;
+        qDebug() << "Error reading header of catalog file " << dataFileName << ": " << starReader.getErrorNumber() << ": " << starReader.getError() << endl;
         return false;
     }
 
     if( starReader.guessRecordSize() != 16 && starReader.guessRecordSize() != 32 ) {
-        kDebug() << "Cannot understand catalog file " << dataFileName << endl;
+        qDebug() << "Cannot understand catalog file " << dataFileName << endl;
         return false;
     }
 
@@ -96,14 +96,14 @@ bool DeepStarComponent::loadStaticStars() {
     m_FaintMagnitude = faintmag / 100.0;
 
     if( htm_level != m_skyMesh->level() )
-        kDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
+        qDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
     for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i) {
 
         Trixel trixel = i;
         StarBlock *SB = new StarBlock( starReader.getRecordCount( i ) );
         if( !SB )
-            kDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
+            qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
         m_starBlockList.at( trixel )->setStaticBlock( SB );
         
         for(unsigned long j = 0; j < (unsigned long) starReader.getRecordCount(i); ++j) {
@@ -114,7 +114,7 @@ bool DeepStarComponent::loadStaticStars() {
                 fread_success = fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
 
             if( !fread_success ) {
-                kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
+                qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
 
             /* Swap Bytes when required */            
@@ -138,7 +138,7 @@ bool DeepStarComponent::loadStaticStars() {
                 if( star->getHDIndex() != 0 )
                     m_CatalogNumber.insert( star->getHDIndex(), star );
             } else {
-                kDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
+                qDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
             }
         }
     }
@@ -160,7 +160,7 @@ bool openIndexFile( ) {
     // TODO: Work out the details
     /*
     if( hdidxReader.openFile( "Henry-Draper.idx" ) )
-        kDebug() << "Could not open HD Index file. Search by HD numbers for deep stars will not work." << endl;
+        qDebug() << "Could not open HD Index file. Search by HD numbers for deep stars will not work." << endl;
     */
     return 0;
 }
@@ -219,7 +219,7 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
     StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
     //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
-    //    kDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
+    //    qDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
     QTime t;
     int nTrixels = 0;
 
@@ -240,9 +240,9 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
                 StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
                 
                 if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
-                    kDebug() << "markFirst failed in trixel" << currentRegion;
+                    qDebug() << "markFirst failed in trixel" << currentRegion;
                 if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
-                    kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+                    qDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
                 if( i < m_starBlockList.at( currentRegion )->getBlockCount() 
                     && m_starBlockList.at( currentRegion )->block( i )->getFaintMag() < maglim )
                     break;
@@ -263,24 +263,24 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
         // Static stars need not execute fillToMag
 
 	if( !staticStars && !m_starBlockList.at( currentRegion )->fillToMag( maglim ) && maglim <= m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
-            kDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
+            qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
                      << currentRegion << " !"<< endl;
 	}
 
         t_dynamicLoad += t.restart();
 
-        //        kDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
+        //        qDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
 
         for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
-            //            kDebug() << "---> Drawing stars from block " << i << " of trixel " << 
+            //            qDebug() << "---> Drawing stars from block " << i << " of trixel " << 
             //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
             for( int j = 0; j < block->getStarCount(); j++ ) {
 
                 StarObject *curStar = block->star( j );
 
-                //                kDebug() << "We claim that he's from trixel " << currentRegion 
+                //                qDebug() << "We claim that he's from trixel " << currentRegion 
                 //<< ", and indexStar says he's from " << m_skyMesh->indexStar( curStar );
 
                 if ( curStar->updateID != updateID )
@@ -313,9 +313,9 @@ bool DeepStarComponent::openDataFile() {
     starReader.openFile( dataFileName );
     fileOpened = false;
     if( !starReader.getFileHandle() )
-        kDebug() << "WARNING: Failed to open deep star catalog " << dataFileName << ". Disabling it." << endl;
+        qDebug() << "WARNING: Failed to open deep star catalog " << dataFileName << ". Disabling it." << endl;
     else if( !starReader.readHeader() )
-        kDebug() << "WARNING: Header read error for deep star catalog " << dataFileName << "!! Disabling it!" << endl;
+        qDebug() << "WARNING: Header read error for deep star catalog " << dataFileName << "!! Disabling it!" << endl;
     else {
         qint16 faintmag;
         quint8 htm_level;
@@ -327,11 +327,11 @@ bool DeepStarComponent::openDataFile() {
         else
             m_FaintMagnitude = faintmag / 100.0;
         fread( &htm_level, 1, 1, starReader.getFileHandle() );
-        kDebug() << "Processing " << dataFileName << ", HTMesh Level" << htm_level;
+        qDebug() << "Processing " << dataFileName << ", HTMesh Level" << htm_level;
         m_skyMesh = SkyMesh::Instance( htm_level );
         if( !m_skyMesh ) {
             if( !( m_skyMesh = SkyMesh::Create( htm_level ) ) ) {
-                kDebug() << "Could not create HTMesh of level " << htm_level << " for catalog " << dataFileName << ". Skipping it.";
+                qDebug() << "Could not create HTMesh of level " << htm_level << " for catalog " << dataFileName << ". Skipping it.";
                 return false;
             }
         }
@@ -340,11 +340,11 @@ bool DeepStarComponent::openDataFile() {
         if( starReader.getByteSwap() )
             MSpT = bswap_16( MSpT );
         fileOpened = true;
-        kDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
+        qDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
         for (long int i = 0; i < m_skyMesh->size(); i++) {
             StarBlockList *sbl = new StarBlockList( i, this );
             if( !sbl ) {
-                kDebug() << "NULL starBlockList. Expect trouble!";
+                qDebug() << "NULL starBlockList. Expect trouble!";
             }
             m_starBlockList.append( sbl );
         }
@@ -480,15 +480,15 @@ bool DeepStarComponent::verifySBLIntegrity() {
                 faintMag = block->getBrightMag();
             // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
             if( block->getBrightMag() != faintMag && ( block->getBrightMag() - faintMag ) > 0.5) {
-                kDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag 
+                qDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag 
                          << ", brightMag of block #" << i << " = " << block->getBrightMag();
                 integrity = false;
             }
             if( i > 1 && ( !block->prev ) )
-                kDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
+                qDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
             if( block->prev && block->prev->parent == m_starBlockList[ trixel ] 
                 && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
-                kDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
+                qDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
                 integrity = false;
             }
             faintMag = block->getFaintMag();

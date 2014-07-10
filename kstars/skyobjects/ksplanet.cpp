@@ -22,7 +22,7 @@
 #include <QFile>
 #include <QTextStream>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <kglobal.h>
 
 #include "ksnumbers.h"
@@ -143,7 +143,7 @@ KSPlanet::KSPlanet( int n )
             KSPlanetBase::init( i18n("Neptune"), "neptune", KSPlanetBase::planetColor[KSPlanetBase::NEPTUNE], 49572. );
             break;
         default:
-            kDebug() << i18n("Error: Illegal identifier in KSPlanet constructor: %1", n) << endl;
+            qDebug() << i18n("Error: Illegal identifier in KSPlanet constructor: %1", n) << endl;
             break;
     }
 }
@@ -203,13 +203,13 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
         for (int j = 0; j < odc.Lon[i].size(); ++j) {
             sum[i] += odc.Lon[i][j].A * cos( odc.Lon[i][j].B + odc.Lon[i][j].C*Tau );
             /*
-            kDebug() << "sum[" << i <<"] =" << sum[i] <<
+            qDebug() << "sum[" << i <<"] =" << sum[i] <<
             	" A = " << odc.Lon[i][j].A << " B = " << odc.Lon[i][j].B <<
             	" C = " << odc.Lon[i][j].C << endl;
             	*/
         }
         sum[i] *= Tpow[i];
-        //kDebug() << name() << " : sum[" << i << "] = " << sum[i];
+        //qDebug() << name() << " : sum[" << i << "] = " << sum[i];
     }
 
     epret.longitude.setRadians( sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5] );
@@ -239,7 +239,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
     epret.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
 
     /*
-    kDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
+    qDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
     	epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
     */
 

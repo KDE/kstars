@@ -321,11 +321,11 @@ void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
 
     if(scale) {
         //scale sky image to fit paint device
-        kDebug() << "Scaling true while exporting Sky Image";
+        qDebug() << "Scaling true while exporting Sky Image";
         double xscale = double(painter->device()->width()) / double(m_SkyMap->width());
         double yscale = double(painter->device()->height()) / double(m_SkyMap->height());
         double scale = qMin(xscale, yscale);
-        kDebug() << "xscale: " << xscale << "yscale: " << yscale << "chosen scale: " << scale;
+        qDebug() << "xscale: " << xscale << "yscale: " << yscale << "chosen scale: " << scale;
         painter->scale(scale, scale);
     }
 
@@ -339,7 +339,7 @@ void SkyMapDrawAbstract::calculateFPS()
 {
     if(m_framecount == 25) {
         //float sec = m_fpstime.elapsed()/1000.;
-        // kDebug() << "FPS " << m_framecount/sec;
+        // qDebug() << "FPS " << m_framecount/sec;
         m_framecount = 0;
         m_fpstime.restart();
     }

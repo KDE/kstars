@@ -17,7 +17,7 @@
 
 #include "kstarsdatetime.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 #include "ksnumbers.h"
@@ -74,7 +74,7 @@ KStarsDateTime KStarsDateTime::currentDateTime( KDateTime::Spec spec ) {
 
 KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     //DEBUG
-    kDebug() << "Date string: " << s;
+    qDebug() << "Date string: " << s;
 
     KStarsDateTime dtResult = KDateTime::fromString( s, KDateTime::QtTextDate );
     if ( dtResult.isValid() )
@@ -88,11 +88,11 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     if ( dtResult.isValid() )
         return dtResult;
 
-    kWarning() << i18n( "Could not parse Date/Time string: " ) << s ;
-    kWarning() << i18n( "Valid date formats: " ) ;
-    kWarning() << "  1950-02-25   ;  1950-02-25T05:30:00" ;
-    kWarning() << "  25 Feb 1950  ;  25 Feb 1950 05:30:00" ;
-    kWarning() << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";
+    qWarning() << i18n( "Could not parse Date/Time string: " ) << s ;
+    qWarning() << i18n( "Valid date formats: " ) ;
+    qWarning() << "  1950-02-25   ;  1950-02-25T05:30:00" ;
+    qWarning() << "  25 Feb 1950  ;  25 Feb 1950 05:30:00" ;
+    qWarning() << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";
     return KStarsDateTime( KDateTime() ); //invalid
 }
 

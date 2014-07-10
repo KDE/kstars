@@ -38,7 +38,7 @@
 #include <kio/jobuidelegate.h>
 #include <kaction.h>
 #include <ktemporaryfile.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <ktoolbar.h>
 
 ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
@@ -106,7 +106,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *pare
     connect( this, SIGNAL( user2Clicked() ), this, SLOT ( invertColors() ) );
     // check URL
     if (!m_ImageUrl.isValid())
-        kDebug() << "URL is malformed: " << m_ImageUrl;
+        qDebug() << "URL is malformed: " << m_ImageUrl;
     
     // FIXME: check the logic with temporary files. Races are possible
     {
@@ -181,7 +181,7 @@ void ImageViewer::loadImageFromURL()
 {
     KUrl saveURL = KUrl::fromPath( file.fileName() );
     if (!saveURL.isValid())
-        kDebug()<<"tempfile-URL is malformed\n";
+        qDebug()<<"tempfile-URL is malformed\n";
 
     downloadJob = KIO::copy (m_ImageUrl, saveURL);	// starts the download asynchron
     connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));

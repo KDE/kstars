@@ -19,7 +19,7 @@
 
 // TODO: Remove later
 #include <cstdio>
-#include <kdebug.h>
+#include <QDebug>
 
 // TODO: Implement a better way of deciding this
 #define DEFAULT_NCACHE 12
@@ -56,9 +56,9 @@ StarBlock *StarBlockFactory::getBlock() {
         }
     }
     if( last && ( last->drawID != drawID || last->drawID == 0 ) ) {
-        //        kDebug() << "Recycling block with drawID =" << last->drawID << "and current drawID =" << drawID;
+        //        qDebug() << "Recycling block with drawID =" << last->drawID << "and current drawID =" << drawID;
         if( last->parent->block( last->parent->getBlockCount() - 1 ) != last )
-            kDebug() << "ERROR: Goof up here!";
+            qDebug() << "ERROR: Goof up here!";
         freeBlock = last;
         last = last->prev;
         if( last )
@@ -83,7 +83,7 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
 
     //    fprintf(stderr, "markFirst()!\n");
     if( !first ) {
-        //        kDebug() << "INFO: Linking in first block" << endl;
+        //        qDebug() << "INFO: Linking in first block" << endl;
         last = first = block;
         first->prev = first->next = NULL;
         first->drawID = drawID;
@@ -118,17 +118,17 @@ bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
 
     //    fprintf(stderr, "markNext()!\n");
     if( !block || !after ) {
-        kDebug() << "WARNING: markNext called with NULL argument" << endl;
+        qDebug() << "WARNING: markNext called with NULL argument" << endl;
         return false;
     }
 
     if( !first ) {
-        kDebug() << "WARNING: markNext called without an existing linked list" << endl;
+        qDebug() << "WARNING: markNext called without an existing linked list" << endl;
         return false;
     }
 
     if( block == after ) {
-        kDebug() << "ERROR: Trying to mark a block after itself!" << endl;
+        qDebug() << "ERROR: Trying to mark a block after itself!" << endl;
         return false;
     }
 
@@ -139,14 +139,14 @@ bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
 
     if( block == first ) {
         if( block->next == NULL ) {
-            kDebug() << "ERROR: Trying to mark only block after some other block";
+            qDebug() << "ERROR: Trying to mark only block after some other block";
             return false;
         }
         first = block->next;
     }
 
     if( after->getFaintMag() > block->getFaintMag() && block->getFaintMag() != -5 ) {
-        kDebug() << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag " 
+        qDebug() << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag " 
                  << after->getFaintMag() << "in trixel" << block->parent->getTrixel();
     }
 
@@ -235,7 +235,7 @@ int StarBlockFactory::deleteBlocks( int nblocks ) {
     else
         first = NULL;
 
-    kDebug() << nblocks << "StarBlocks freed from StarBlockFactory" << endl;
+    qDebug() << nblocks << "StarBlocks freed from StarBlockFactory" << endl;
 
     nBlocks -= i;
     return i;
@@ -251,15 +251,15 @@ void StarBlockFactory::printStructure() const {
     index = 0;
     do {
         if( curTrixel != cur->parent->getTrixel() ) {
-            kDebug() << "Trixel" << cur->parent->getTrixel() << "starts at index" << index << endl;
+            qDebug() << "Trixel" << cur->parent->getTrixel() << "starts at index" << index << endl;
             curTrixel = cur->parent->getTrixel();
         }
         if( cur->drawID == drawID && !draw ) {
-            kDebug() << "Blocks from index" << index << "are drawn";
+            qDebug() << "Blocks from index" << index << "are drawn";
             draw = true;
         }
         if( cur->drawID != drawID && draw ) {
-            kDebug() << "Blocks from index" << index << "are not drawn";
+            qDebug() << "Blocks from index" << index << "are not drawn";
             draw = false;
         }
         cur = cur->next;
@@ -283,7 +283,7 @@ int StarBlockFactory::freeUnused() {
     else
         first = NULL;
 
-    kDebug() << i << "StarBlocks freed from StarBlockFactory" << endl;
+    qDebug() << i << "StarBlocks freed from StarBlockFactory" << endl;
 
     nBlocks -= i;
     return i;

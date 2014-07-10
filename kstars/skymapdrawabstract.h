@@ -150,7 +150,7 @@ class SkyMapDrawAbstract {
     SkyMap *m_SkyMap;
     static bool m_DrawLock;
 
-    /** Calculate FPS and dump result to stderr using kDebug */
+    /** Calculate FPS and dump result to stderr using qDebug */
     void calculateFPS();
 private:
     int m_framecount;     // To count FPS

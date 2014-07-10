@@ -22,7 +22,7 @@
 #include <QPen>
 #include <kstandarddirs.h>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 #include "Options.h"
@@ -236,7 +236,7 @@ PolyList* ConstellationBoundaryLines::ContainingPoly( SkyPoint *p )
         PolyList* polyList = iter.key();
         iter++;
 
-        //kDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
+        //qDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
 
         const QPolygonF* poly = polyList->poly();
         if ( wrapRA && polyList->wrapRA() ) {

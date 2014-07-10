@@ -21,7 +21,7 @@
 #include <QTextStream>
 
 #include <kcolorbutton.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <kmessagebox.h>
 #include <knuminput.h>
 #include <ktemporaryfile.h>

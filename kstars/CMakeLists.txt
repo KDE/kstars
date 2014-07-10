@@ -487,6 +487,8 @@ target_link_libraries(KStarsLib
         KF5::I18n
         KF5::NewStuff
         KF5::KIO
+        KF5::WidgetsAddons
+        Qt5::Gui
 #        ${KDE4_KDECORE_LIBS}
 #    ${QT_QTDECLARATIVE_LIBRARY}
 #    kdeclarative

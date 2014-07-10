@@ -19,7 +19,7 @@
 
 #include <cstdlib>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 #include <QRegExp>

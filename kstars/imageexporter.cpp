@@ -82,7 +82,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     else if(ext.toLower() == "bmp") { format = "BMP"; }
     else
     {
-        kWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
+        qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
     }
 
     SkyMap *map = m_KStars->map();
@@ -154,13 +154,13 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     if(!outimage.save(fileName, format))
     {
         m_lastErrorMessage = i18n("Error: Unable to save image: %1 ", fileName);
-        kDebug() << m_lastErrorMessage;
+        qDebug() << m_lastErrorMessage;
         return false;
     }
 
     else
     {
-        kDebug() << i18n("Image saved to file: %1", fileName);
+        qDebug() << i18n("Image saved to file: %1", fileName);
         return true;
     }
 }
@@ -231,14 +231,14 @@ bool ImageExporter::exportImage( QString url )
             {
                 m_lastErrorMessage = i18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
 //                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
-                kWarning() << m_lastErrorMessage;
+                qWarning() << m_lastErrorMessage;
                 return false;
             }
         }
         return true;
     }
     m_lastErrorMessage = i18n( "Could not export image: URL %1 invalid", fileURL.prettyUrl() );
-    kWarning() << m_lastErrorMessage;
+    qWarning() << m_lastErrorMessage;
     return false;
 }
 

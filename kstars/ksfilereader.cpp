@@ -21,7 +21,7 @@
 #include <QObject>
 #include <QFile>
 
-#include "kdebug.h"
+#include "qDebug"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
@@ -46,7 +46,7 @@ KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) :
 bool KSFileReader::open( const QString& fname )
 {
     if (  !KSUtils::openDataFile( m_file, fname ) ) {
-        kWarning() << QString("Couldn't open(%1)").arg(fname);
+        qWarning() << QString("Couldn't open(%1)").arg(fname);
         return false;
     }
     QTextStream::setDevice( &m_file );

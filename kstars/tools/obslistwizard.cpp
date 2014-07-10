@@ -291,7 +291,7 @@ void ObsListWizard::slotParseRegion()
             if ( xRect2 == 0.0 ) xRect2 = 24.0;
 
             if ( !rectOk ) {
-                //			kWarning() << i18n( "Illegal rectangle specified, no region selection possible." ) ;
+                //			qWarning() << i18n( "Illegal rectangle specified, no region selection possible." ) ;
                 return;
             }
 
@@ -327,7 +327,7 @@ void ObsListWizard::slotParseRegion()
             pCirc.set( ra, dc );
             rCirc = olw->Radius->createDms( true, &circOk ).Degrees();
         } else {
-            kWarning() << i18n( "Illegal circle specified, no region selection possible." ) ;
+            qWarning() << i18n( "Illegal circle specified, no region selection possible." ) ;
             return;
         }
         //            slotUpdateObjectCount();
@@ -412,7 +412,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
         }
 
         //DEBUG
-        kDebug() << QString("starIndex for mag %1: %2").arg(maglimit).arg(starIndex) << endl;
+        qDebug() << QString("starIndex for mag %1: %2").arg(maglimit).arg(starIndex) << endl;
 
         if( !doBuildList )
         {

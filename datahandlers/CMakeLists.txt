@@ -7,3 +7,6 @@ set(LibKSDataHandlers_SRCS
 
 add_library(LibKSDataHandlers STATIC ${LibKSDataHandlers_SRCS})
 
+# Added this because includedir was missing, is this required?
+target_link_libraries(LibKSDataHandlers KF5::WidgetsAddons Qt5::Sql Qt5::Core Qt5::Gui)
+

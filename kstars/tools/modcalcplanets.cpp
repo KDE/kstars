@@ -283,7 +283,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
         if (fields.count() != numberOfRequiredFields ) {
             lineIsValid = false;
-            kWarning() << i18n( "Incorrect number of fields in line %1: " , nline)
+            qWarning() << i18n( "Incorrect number of fields in line %1: " , nline)
             << i18n( "Present fields %1. " , fields.count())
             << i18n( "Required fields %1. " , numberOfRequiredFields) << endl;
             nline++;
@@ -295,7 +295,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
             planetB = fields[i];
             int j = pNamesi18n.indexOf( planetB );
             if (j == -1) {
-                kWarning() << i18n("Unknown planet ")
+                qWarning() << i18n("Unknown planet ")
                 << fields[i]
                 << i18n(" in line %1: ", nline) << endl;
                 continue;
@@ -314,7 +314,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
         if(UTCheckBatch->isChecked() ) {
             utB = QTime::fromString( fields[i] );
             if ( !utB.isValid() ) {
-                kWarning() << i18n( "Line %1 contains an invalid time" , nline) ;
+                qWarning() << i18n( "Line %1 contains an invalid time" , nline) ;
                 lineIsValid=false;
                 nline++;
                 continue;
@@ -330,7 +330,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
         if(DateCheckBatch->isChecked() ) {
             dtB = QDate::fromString( fields[i], Qt::ISODate );
             if ( !dtB.isValid() ) {
-                kWarning() << i18n( "Line %1 contains an invalid date: " , nline) <<
+                qWarning() << i18n( "Line %1 contains an invalid date: " , nline) <<
                 fields[i] << endl ;
                 lineIsValid=false;
                 nline++;

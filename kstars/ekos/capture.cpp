@@ -882,7 +882,7 @@ void Capture::addJob(bool preview)
 
     if (job == NULL)
     {
-        kWarning() << "Job is NULL!" << endl;
+        qWarning() << "Job is NULL!" << endl;
         return;
     }
 

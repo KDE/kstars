@@ -26,15 +26,15 @@ bool CatalogDB::Initialize() {
   QFile testdb(dbfile);
   bool first_run = false;
   if (!testdb.exists()) {
-      kDebug()<< i18n("DSO DB does not exist!");
+      qDebug()<< i18n("DSO DB does not exist!");
       first_run = true;
   }
   skydb_.setDatabaseName(dbfile);
   if (!skydb_.open()) {
-          kWarning() << i18n("Unable to open DSO database file!");
-          kWarning() << LastError();
+          qWarning() << i18n("Unable to open DSO database file!");
+          qWarning() << LastError();
   } else {
-      kDebug() << i18n("Opened the DSO Database. Ready!");
+      qDebug() << i18n("Opened the DSO Database. Ready!");
       if (first_run == true) {
           FirstRun();
       }
@@ -44,7 +44,7 @@ bool CatalogDB::Initialize() {
 }
 
 void CatalogDB::FirstRun() {
-    kWarning() << i18n("Rebuilding Additional Sky Catalog Database");
+    qWarning() << i18n("Rebuilding Additional Sky Catalog Database");
     QVector<QString> tables;
     tables.append("CREATE TABLE Version ("
                   "Version CHAR DEFAULT NULL)");
@@ -90,7 +90,7 @@ void CatalogDB::FirstRun() {
     for (int i = 0; i < tables.count(); ++i) {
         QSqlQuery query(skydb_);
         if (!query.exec(tables[i])) {
-            kDebug() << query.lastError();
+            qDebug() << query.lastError();
         }
     }
     return;
@@ -218,7 +218,7 @@ void CatalogDB::ClearDSOEntries(int catalog_id) {
     for (int i = 0; i < del_query.count(); ++i) {
         QSqlQuery query(skydb_);
         if (!query.exec(del_query[i])) {
-            kDebug() << query.lastError();
+            qDebug() << query.lastError();
         }
     }
 
@@ -239,7 +239,7 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
     "((RA - " + QString().setNum(ra) + ") between -0.0016 and 0.0016) and "
     "((Dec - " + QString().setNum(dec) + ") between -0.0016 and 0.0016) and"
     "((Magnitude - " + QString().setNum(magnitude) + ") between -0.1 and 0.1)";
-//   kDebug() << filter;
+//   qDebug() << filter;
   dsoentries.setTable("DSO");
   dsoentries.setFilter(filter);
   dsoentries.select();
@@ -253,7 +253,7 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
 
   dsoentries.clear();
   skydb_.close();
-//   kDebug() << returnval;
+//   qDebug() << returnval;
   return returnval;
 }
 
@@ -266,7 +266,7 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
       catalog_entry.ra == 0.0 ||
       catalog_entry.dec == KSParser::EBROKEN_DOUBLE ||
       catalog_entry.dec == 0.0) {
-    kDebug() << "Attempt to add incorrect ra & dec with ID:"
+    qDebug() << "Attempt to add incorrect ra & dec with ID:"
              << catalog_entry.ID << " Long Name: "
              << catalog_entry.long_name;
     return;
@@ -296,8 +296,8 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
     add_query.bindValue("MinorAxis", catalog_entry.minor_axis);
     add_query.bindValue("Flux", catalog_entry.flux);
     if (!add_query.exec()) {
-      kWarning() << "Custom Catalog Insert Query FAILED!";
-      kWarning() << add_query.lastQuery();
+      qWarning() << "Custom Catalog Insert Query FAILED!";
+      qWarning() << add_query.lastQuery();
     }
 
     // Find UID of the Row just added
@@ -327,8 +327,8 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
   add_od.bindValue("longname", catalog_entry.long_name);
   add_od.bindValue("id", catalog_entry.ID);
   if (!add_od.exec()) {
-    kWarning() << add_od.lastQuery();
-    kWarning() << skydb_.lastError();
+    qWarning() << add_od.lastQuery();
+    qWarning() << skydb_.lastError();
   }
   add_od.clear();
 
@@ -363,7 +363,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
 
       if (lines.size() < 1 ||
           !ParseCatalogInfoToDB(lines, columns, catalog_name, delimiter)) {
-          kWarning() << "Issue in catalog file header: " << filename;
+          qWarning() << "Issue in catalog file header: " << filename;
           ccFile.close();
           return false;
       }
@@ -391,7 +391,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
 
         dms read_ra(row_content["RA"].toString(), false);
         dms read_dec(row_content["Dc"].toString(), true);
-        kDebug()<<row_content["Nm"].toString();
+        qDebug()<<row_content["Nm"].toString();
         catalog_entry.catalog_name = catalog_name;
         catalog_entry.ID = row_content["ID"].toInt();
         catalog_entry.long_name = row_content["Nm"].toString();
@@ -454,7 +454,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
 
       if (idelimiter == 0) {  // line contains delimiter
           idelimiter = d.indexOf(":") + 2;
-          kWarning() << idelimiter << d;
+          qWarning() << idelimiter << d;
           if (delimiter == '\0') {
               delimiter = d.mid(idelimiter).at(0).toAscii();
           } else {  // duplicate name in header
@@ -687,13 +687,13 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                       "ObjectDesignation.UID_DSO = DSO.UID");
     get_query.bindValue("catID", selected_catalog);
 
-//     kWarning() << get_query.lastQuery();
-//     kWarning() << get_query.lastError();
-//     kWarning() << FindCatalog(catalog);
+//     qWarning() << get_query.lastQuery();
+//     qWarning() << get_query.lastError();
+//     qWarning() << FindCatalog(catalog);
 
     if (!get_query.exec()) {
-        kWarning() << get_query.lastQuery();
-        kWarning() << get_query.lastError();
+        qWarning() << get_query.lastQuery();
+        qWarning() << get_query.lastError();
     }
 
     while (get_query.next()) {
@@ -726,7 +726,7 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                  // FIXME: What should we do?
                  // FIXME: This warning will be printed for each line in the
                  //        catalog rather than once for the entire catalog
-                 kWarning() << "Unknown epoch while dealing with custom "
+                 qWarning() << "Unknown epoch while dealing with custom "
                                "catalog. Will ignore the epoch and assume"
                                " J2000.0";
         }

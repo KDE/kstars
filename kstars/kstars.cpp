@@ -22,7 +22,7 @@
 
 #include <KGlobal>
 #include <KLocale>
-#include <kdebug.h>
+#include <QDebug>
 #include <kactioncollection.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
@@ -120,9 +120,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     datainitFinished();
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
-    kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
+    qDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
 #else
-    kDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
+    qDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
 #endif
 }
 

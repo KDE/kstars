@@ -35,7 +35,7 @@
 #include <QPaintEvent>
 
 #include <KUndoStack>
-#include <kdebug.h>
+#include <QDebug>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>

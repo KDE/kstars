@@ -21,7 +21,7 @@
 
 #include <QFile>
 
-#include <kdebug.h>
+#include <QDebug>
 
 #include "ksnumbers.h"
 #include "kstarsdatetime.h" //for J2000 define

@@ -151,17 +151,17 @@ void FovEditorDialog::slotSaveImage()
         else if(ext.toLower() == "bmp") {format = "BMP";}
         else
         {
-            kWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
+            qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
         }
 
         if(!m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getPixmap().save(fname, format))
         {
-            kDebug() << i18n("Error: Unable to save image: %1 ", fname);
+            qDebug() << i18n("Error: Unable to save image: %1 ", fname);
         }
 
         else
         {
-            kDebug() << i18n("Image saved to file: %1", fname);
+            qDebug() << i18n("Image saved to file: %1", fname);
         }
     }
 

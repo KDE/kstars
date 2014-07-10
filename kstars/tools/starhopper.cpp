@@ -46,7 +46,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
     QHash<SkyPoint const *, double> f_score;
     QHash<SkyPoint const *, double> h_score;
 
-    kDebug() << "StarHopper is trying to compute a path from source: " << src.ra().toHMSString() << src.dec().toDMSString() << " to destination: " << dest.ra().toHMSString() << dest.dec().toDMSString() << "; a starhop of " << src.angularDistanceTo( &dest ).Degrees() << " degrees!";
+    qDebug() << "StarHopper is trying to compute a path from source: " << src.ra().toHMSString() << src.dec().toDMSString() << " to destination: " << dest.ra().toHMSString() << dest.dec().toDMSString() << "; a starhop of " << src.angularDistanceTo( &dest ).Degrees() << " degrees!";
 
     oSet.append( &src );
     g_score[ &src ] = 0;
@@ -54,7 +54,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
     f_score[ &src ] = h_score[ &src ];
     
     while( !oSet.isEmpty() ) {
-        kDebug() << "Next step";
+        qDebug() << "Next step";
         // Find the node with the lowest f_score value
         SkyPoint const *curr_node = NULL;
         double lowfscore = 1.0e8;
@@ -64,14 +64,14 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
                 curr_node = sp;
             }
         }
-        kDebug() << "Lowest fscore (vertex distance-plus-cost score) is " << lowfscore << " with coords: " << curr_node->ra().toHMSString() << curr_node->dec().toDMSString() << ". Considering this node now.";
+        qDebug() << "Lowest fscore (vertex distance-plus-cost score) is " << lowfscore << " with coords: " << curr_node->ra().toHMSString() << curr_node->dec().toDMSString() << ". Considering this node now.";
         if( curr_node == &dest || (curr_node != &src && h_score[ curr_node ] < 0.5) ) {
             // We are at destination
             reconstructPath( came_from[ curr_node ] );
-            kDebug() << "We've arrived at the destination! Yay! Result path count: " << result_path.count();
+            qDebug() << "We've arrived at the destination! Yay! Result path count: " << result_path.count();
 
             // Just a test -- try to print out useful instructions to the debug console. Once we make star hopper unexperimental, we should move this to some sort of a display
-            kDebug() << "Star Hopping Directions: ";
+            qDebug() << "Star Hopping Directions: ";
             const SkyPoint *prevHop = start;
             foreach( const StarObject *hopStar, result_path ) {
                 QString direction;
@@ -84,13 +84,13 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
                 direction = KSUtils::toDirectionString( dmsPA );
 
                 if( !patternNames.contains( hopStar ) )
-                    kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
+                    qDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
                 else
-                    kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a(n) " << patternNames.value( hopStar );
+                    qDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a(n) " << patternNames.value( hopStar );
                 prevHop = hopStar;
 
             }
-            kDebug() << "  The destination is within a field-of-view";
+            qDebug() << "  The destination is within a field-of-view";
 
             return result_path;
         }
@@ -103,7 +103,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
         // even bother considering it.
 
         if( h_score[ curr_node ] > h_score[ &src ] * 1.2 ) {
-            kDebug() << "Node under consideration has larger distance to destination (h-score) than start node! Ignoring it.";
+            qDebug() << "Node under consideration has larger distance to destination (h-score) than start node! Ignoring it.";
             continue;
         }
 
@@ -118,9 +118,9 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
         // equatorial and horizontal coordinates nicely
         SkyPoint *CurrentNode = const_cast<SkyPoint *>(curr_node);
         CurrentNode->deprecess( KStarsData::Instance()->updateNum() );
-        kDebug() << "Calling starsInAperture";
+        qDebug() << "Calling starsInAperture";
         StarComponent::Instance()->starsInAperture( neighbors, *curr_node, fov, maglim );
-        kDebug() << "Choosing next node from a set of " << neighbors.count();
+        qDebug() << "Choosing next node from a set of " << neighbors.count();
         // Look for the potential next node
         double curr_g_score = g_score[ curr_node ];
         foreach( nhd_node, neighbors ) {
@@ -147,7 +147,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
             }
         }
     }
-    kDebug() << "REGRET! Returning empty list!";
+    qDebug() << "REGRET! Returning empty list!";
     return QList<StarObject const *>(); // Return an empty QList
 }
 
@@ -294,6 +294,6 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     netcost = magcost + speccost + distcost + stardensitycost + patterncost;
     if( netcost < 0 )
         netcost = 0.1; // FIXME: Heuristics aren't supposed to be entirely random. This one is.
-    kDebug() << "Mag cost: " << magcost << "; Spec Cost: " << speccost << "; Dist Cost: " << distcost << "; Density cost: " << stardensitycost << "; Pattern cost: " << patterncost << "; Net cost: " << netcost << "; Pattern: " << patternName;
+    qDebug() << "Mag cost: " << magcost << "; Spec Cost: " << speccost << "; Dist Cost: " << distcost << "; Density cost: " << stardensitycost << "; Pattern cost: " << patterncost << "; Net cost: " << netcost << "; Pattern: " << patternName;
     return netcost;
 }

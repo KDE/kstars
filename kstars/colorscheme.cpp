@@ -21,7 +21,7 @@
 #include <QTextStream>
 
 #include <kconfig.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
@@ -96,7 +96,7 @@ void ColorScheme::appendItem(QString key, QString name, QString def) {
 
 QColor ColorScheme::colorNamed( const QString &name ) const {
     if ( ! hasColorNamed( name ) ) {
-        kWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) ;
+        qWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) ;
         // Return white if no color found
         return QColor( Qt::white );
     }
@@ -154,7 +154,7 @@ bool ColorScheme::load( const QString &name ) {
         }
 
         if ( ! ok ) {
-            kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
+            qDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
             return false;
         }
     }
@@ -193,7 +193,7 @@ bool ColorScheme::load( const QString &name ) {
                 if ( KeyName.contains( k ) ) {
                     setColor( k, tname );
                 } else {
-                    kWarning() << "Could not use the key \"" << tkey
+                    qWarning() << "Could not use the key \"" << tkey
                                << "\" from the color scheme file \"" << filename
                                << "\".  I also tried \"" << k << "\"." << endl;
                 }

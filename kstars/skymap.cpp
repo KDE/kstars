@@ -583,16 +583,16 @@ void SkyMap::slotEndRulerMode() {
 
         if( ok ) {
 
-            kDebug() << "fov = " << fov;
+            qDebug() << "fov = " << fov;
 
             QList<const StarObject *> path = hopper.computePath( startHop, stopHop, fov/60.0, 9.0 ); // FIXME: Hardcoded magnitude limits for testing
 
             QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>(); // FIXME: Memory leak
-            kDebug() << "path count: " << path.count();
+            qDebug() << "path count: " << path.count();
             foreach( const StarObject *conststar, path ) {
                 StarObject *mutablestar = const_cast<StarObject *>(conststar); // FIXME: Ugly const_cast
                 mutablestarlist->append( mutablestar );
-                kDebug() << "Added star!";
+                qDebug() << "Added star!";
             }
 
             TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
@@ -656,10 +656,10 @@ void SkyMap::slotImage() {
     if ( index >= 0 && index < clickedObject()->ImageList().size() ) {
         sURL = clickedObject()->ImageList()[ index ];
     } else {
-        kWarning() << "ImageList index out of bounds: " << index;
+        qWarning() << "ImageList index out of bounds: " << index;
         if ( index == -1 ) {
-            kWarning() << "Message string \"" << message << "\" not found in ImageTitle.";
-            kDebug() << clickedObject()->ImageTitle();
+            qWarning() << "Message string \"" << message << "\" not found in ImageTitle.";
+            qDebug() << clickedObject()->ImageTitle();
         }
     }
 
@@ -685,10 +685,10 @@ void SkyMap::slotInfo() {
     if ( index >= 0 && index < clickedObject()->InfoList().size() ) {
         sURL = clickedObject()->InfoList()[ index ];
     } else {
-        kWarning() << "InfoList index out of bounds: " << index;
+        qWarning() << "InfoList index out of bounds: " << index;
         if ( index == -1 ) {
-            kWarning() << "Message string \"" << message << "\" not found in InfoTitle.";
-            kDebug() << clickedObject()->InfoTitle();
+            qWarning() << "Message string \"" << message << "\" not found in InfoTitle.";
+            qDebug() << clickedObject()->InfoTitle();
         }
     }
 
@@ -893,7 +893,7 @@ void SkyMap::slewFocus() {
             double r  = r0;
             while ( r > step ) {
                 //DEBUG
-                kDebug() << step << ": " << r << ": " << r0 << endl;
+                qDebug() << step << ": " << r << ": " << r0 << endl;
                 double fX = dX / r;
                 double fY = dY / r;
 
@@ -1236,7 +1236,7 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     *xplanetProc << "-origin" << "earth";
 
     // Run xplanet
-    kDebug() << "Run:" << xplanetProc->program().join(" ");
+    qDebug() << "Run:" << xplanetProc->program().join(" ");
     xplanetProc->start();
 }
 

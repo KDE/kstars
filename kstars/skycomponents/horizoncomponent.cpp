@@ -326,7 +326,7 @@ void HorizonComponent::draw( SkyPainter *skyp )
                 r0 = 2.0*r0;
                 break;
             default:
-                kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
+                qWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
                 //default to Orthographic
                 break;
             }

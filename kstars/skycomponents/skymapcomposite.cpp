@@ -276,12 +276,12 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     /*
     QPainter *psky = dynamic_cast< QPainter *>( skyp );
     if( psky ) {
-        kDebug() << "Drawing trixel boundaries for debugging.";
+        qDebug() << "Drawing trixel boundaries for debugging.";
         psky->setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
         m_skyMesh->draw( *psky, OBJ_NEAREST_BUF );
         SkyMesh *p;
         if( p = SkyMesh::Instance( 6 ) ) {
-            kDebug() << "We have a deep sky mesh to draw";
+            qDebug() << "We have a deep sky mesh to draw";
             p->draw( *psky, OBJ_NEAREST_BUF );
         }
 
@@ -363,14 +363,14 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 
     rTry = maxrad;
     oTry = m_Supernovae->objectNearest(p,rTry);
-    //kDebug()<<rTry<<rBest<<maxrad;
+    //qDebug()<<rTry<<rBest<<maxrad;
     if ( rTry < rBest ) {
         rBest = rTry;
         oBest = oTry;
     }
 
     if ( oBest )
-        kDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
+        qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
 
@@ -484,7 +484,7 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
         }
     }
 
-    kWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
+    qWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
 }
 
 void SkyMapComposite::reloadCLines( ) {
@@ -548,7 +548,7 @@ bool SkyMapComposite::isLocalCNames() {
 void SkyMapComposite::emitProgressText( const QString &message ) {
     emit progressText( message );
     qApp->processEvents();         // -jbb: this seemed to make it work.
-    //kDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
+    //qDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 
 const QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() const {

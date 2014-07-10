@@ -7,24 +7,28 @@ set (KStars_VERSION_REVISION 0)
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 set (QT_MIN_VERSION "5.2.0")
 
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+
 find_package(ECM 0.0.9 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.2 REQUIRED NO_MODULE COMPONENTS Qml Quick Xml Svg OpenGL PrintSupport Test)
+find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg OpenGL PrintSupport Test)
 include(KDEInstallDirs)
 include(KDECompilerSettings)
 include(KDECMakeSettings)
 include(ECMInstallIcons)
 include(FeatureSummary)
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core DBus Widgets Script Sql Test)
-
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
   Config
   DocTools
   GuiAddons
+  WidgetsAddons
   NewStuff
   DBusAddons
   I18n
@@ -63,9 +67,17 @@ add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexcep
 
 enable_testing(true)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/kstars/version.h )
+
+# let our config.h be found first in any case
+include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
+
+# FIXME should we explicity include it?
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(doc)
 add_subdirectory(kstars)

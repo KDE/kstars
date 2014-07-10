@@ -319,7 +319,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
             ascii_data_file->setFileName(filename);
             if (!ascii_data_file->open(QIODevice::WriteOnly))
             {
-                        kDebug() << "Error: Unable to open " << ascii_data_file->fileName() << endl;
+                        qDebug() << "Error: Unable to open " << ascii_data_file->fileName() << endl;
                         return;
             }
 
@@ -340,7 +340,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
         QFile fits_temp_file(filename);
         if (!fits_temp_file.open(QIODevice::WriteOnly))
         {
-                kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+                qDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
         return;
         }
 

@@ -35,7 +35,7 @@
 
 #include <QBrush>
 
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 
 #include "Options.h"
@@ -226,7 +226,7 @@ void LineListIndex::intro()
     emitProgressText( i18n( "Loading %1", m_name ));
 
     if ( skyMesh()->debug() >= 1 )
-        kDebug() << QString("Loading %1 ...").arg( m_name );
+        qDebug() << QString("Loading %1 ...").arg( m_name );
 }
 
 void LineListIndex::summary()

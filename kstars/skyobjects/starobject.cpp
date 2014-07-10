@@ -22,7 +22,7 @@
 #include <QPainter>
 #include <QFontMetricsF>
 #include <QPixmap>
-#include <kdebug.h>
+#include <QDebug>
 
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
@@ -162,7 +162,7 @@ void StarObject::init( const starData *stardata )
     testStar = false;
     if( stardata->HD == 103095 && Trail.size() == 0 ) {
       // Populate Trail with various positions
-        kDebug() << "TEST STAR FOUND!";
+        qDebug() << "TEST STAR FOUND!";
         testStar = true;
         KSNumbers num( J2000 ); // Some estimate, doesn't matter.
         long double jy;
@@ -172,7 +172,7 @@ void StarObject::init( const starData *stardata )
             getIndexCoords( &num, &ra, &dec );
             Trail.append( new SkyPoint( ra / 15.0, dec ) );
         }
-        kDebug() << "Populated the star's trail with " << Trail.size() << " entries.";
+        qDebug() << "Populated the star's trail with " << Trail.size() << " entries.";
     }
     */
     // END DEBUG.

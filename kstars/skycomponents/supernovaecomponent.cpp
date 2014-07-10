@@ -25,7 +25,7 @@
 #include "Options.h"
 #include "notifyupdatesui.h"
 
-#include "kdebug.h"
+#include "qDebug"
 #include "ksfilereader.h"
 #include "kstandarddirs.h"
 #include "kstarsdata.h"
@@ -59,7 +59,7 @@ void SupernovaeComponent::loadData()
     QString serialNo, hostGalaxy, date, type, offset, SNPosition, discoverers ;
     dms ra, dec;
     float magnitude;
-    kDebug()<<"Loading Supernovae data"<<endl;
+    qDebug()<<"Loading Supernovae data"<<endl;
     //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
@@ -114,7 +114,7 @@ void SupernovaeComponent::loadData()
         {
             if ( findByName(sup->name() ) == 0 )
             {
-                //kDebug()<<"List of supernovae not empty. Found new supernova";
+                //qDebug()<<"List of supernovae not empty. Found new supernova";
                 m_ObjectList.append(sup);
                 latest.append(sup);
             }/*
@@ -153,7 +153,7 @@ SkyObject* SupernovaeComponent::objectNearest(SkyPoint* p, double& maxrad)
     foreach ( SkyObject* so, m_ObjectList)
     {
         double r = so->angularDistanceTo(p).Degrees();
-        //kDebug()<<r;
+        //qDebug()<<r;
         if( r < rBest )
         {
             oBest=so;
@@ -177,7 +177,7 @@ float SupernovaeComponent::zoomMagnitudeLimit()
 
 void SupernovaeComponent::draw(SkyPainter *skyp)
 {
-    //kDebug()<<"selected()="<<selected();
+    //qDebug()<<"selected()="<<selected();
     if ( ! selected() )
         return;
 
@@ -199,7 +199,7 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
 void SupernovaeComponent::notifyNewSupernovae()
 {
-    //kDebug()<<"New Supernovae discovered";
+    //qDebug()<<"New Supernovae discovered";
     QList<SkyObject*> latestList;
     foreach (SkyObject * so, latest)
     {
@@ -207,11 +207,11 @@ void SupernovaeComponent::notifyNewSupernovae()
 
         if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae())) 
         {
-            kDebug()<<"Not Bright enough to be notified";
+            qDebug()<<"Not Bright enough to be notified";
             continue;
         }
 
-        kDebug()<<"Bright enough to be notified";
+        qDebug()<<"Bright enough to be notified";
         latestList.append(so);
     }
     if (!latestList.empty())
@@ -228,7 +228,7 @@ void SupernovaeComponent::notifyNewSupernovae()
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
     QString filename= KStandardDirs::locate("appdata","scripts/supernova_updates_parser.py") ;
-    kDebug()<<filename;
+    qDebug()<<filename;
     m_Parser = new QProcess;
     connect( m_Parser, SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( slotDataFileUpdateFinished( int, QProcess::ExitStatus ) ) );
     m_Parser->start("python2", QStringList( filename ));
@@ -256,7 +256,7 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
         // FIXME: There should be a better way to check if KStars is fully initialized. Maybe we should have a static boolean in the KStars class. --asimha
     }
     else {
-        kDebug()<<"HERE";
+        qDebug()<<"HERE";
         latest.clear();
         loadData();
         notifyNewSupernovae();

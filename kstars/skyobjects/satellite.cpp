@@ -19,7 +19,7 @@
 #include "satellite.h"
 
 #include "math.h"
-#include <kdebug.h>
+#include <QDebug>
 
 #include "kstarsdata.h"
 #include "ksplanetbase.h"
@@ -812,7 +812,7 @@ int Satellite::sgp4( double tsince )
     }
 
     if ( nm <= 0.0 ) {
-        kDebug() << "Mean motion less than 0.0";
+        qDebug() << "Mean motion less than 0.0";
         return(2);
     }
 
@@ -821,7 +821,7 @@ int Satellite::sgp4( double tsince )
     em = em - tempe;
 
     if ( ( em >= 1.0 ) || ( em < -0.001 ) ) {
-        kDebug() << "Eccentricity >= 1.0 or < -0.001";
+        qDebug() << "Eccentricity >= 1.0 or < -0.001";
         return(1);
     }
 
@@ -945,7 +945,7 @@ int Satellite::sgp4( double tsince )
         }
 
         if ( ( ep < 0.0 ) || ( ep > 1.0 ) ) {
-            kDebug() << "Eccentricity < 0.0  or > 1.0";
+            qDebug() << "Eccentricity < 0.0  or > 1.0";
             return( 3 );
         }
     }
@@ -988,7 +988,7 @@ int Satellite::sgp4( double tsince )
     pl    = am * ( 1.0 - el2 );
 
     if ( pl < 0.0 ) {
-        kDebug() << "Semi-latus rectum < 0.0";
+        qDebug() << "Semi-latus rectum < 0.0";
         return( 4 );
     }
 
@@ -1057,7 +1057,7 @@ int Satellite::sgp4( double tsince )
 //     printf("sat_velz=%.15f\n", sat_velz);
 
     if ( mrt < 1.0 ) {
-        kDebug() << "Satellite has decayed";
+        qDebug() << "Satellite has decayed";
         return( 6 );
     }
 

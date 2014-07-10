@@ -24,7 +24,7 @@
 #include <QImage>
 #include <QColor>
 
-#include <kdebug.h>
+#include <QDebug>
 
 #include "trailobject.h"
 

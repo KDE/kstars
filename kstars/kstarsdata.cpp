@@ -24,7 +24,7 @@
 
 #include <kcomponentdata.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <klocale.h>
 #include <kstandarddirs.h>
 
@@ -53,7 +53,7 @@ namespace {
         bool ok;
         i = str.toInt( &ok );
         if( !ok )
-            kDebug() << str << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << line;
+            qDebug() << str << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << line;
         return ok;
     }
 
@@ -385,8 +385,8 @@ bool KStarsData::processCity( const QString& line ) {
         fields[i] = fields[i].trimmed();
 
     if ( fields.size() < 11 ) {
-        kDebug() << i18n( "Cities.dat: Ran out of fields.  Line was:" );
-        kDebug() << line;
+        qDebug() << i18n( "Cities.dat: Ran out of fields.  Line was:" );
+        qDebug() << line;
         return false;
     } else if ( fields.size() < 12 ) {
         // allow old format (without TZ) for mycities.dat
@@ -423,7 +423,7 @@ bool KStarsData::processCity( const QString& line ) {
     case 'N' : break;
     case 'S' : lat *= -1; break;
     default :
-        kDebug() << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << line;
+        qDebug() << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << line;
         return false;
     }
 
@@ -432,7 +432,7 @@ bool KStarsData::processCity( const QString& line ) {
     case 'E' : break;
     case 'W' : lng *= -1; break;
     default:
-        kDebug() << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << line;
+        qDebug() << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << line;
         return false;
     }
 
@@ -444,7 +444,7 @@ bool KStarsData::processCity( const QString& line ) {
         bool doubleCheck;
         TZ = fields[11].toDouble( &doubleCheck);
         if ( !doubleCheck ) {
-            kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
+            qDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
             return false;
         }
     }
@@ -567,7 +567,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
 
         } else {
             if ( KSUtils::openDataFile( file, urlfile ) ) {
-                if ( locale->language() != "en_US" ) kDebug() << i18n( "No localized URL file; using default English file." );
+                if ( locale->language() != "en_US" ) qDebug() << i18n( "No localized URL file; using default English file." );
                 // we found urlfile, we need to copy it to locale
                 localeFile.setFileName( KStandardDirs::locateLocal( "appdata", urlfile ) );
                 if (localeFile.open(QIODevice::WriteOnly)) {
@@ -582,7 +582,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                     localeFile.close();
                     file.reset();
                 } else {
-                    kDebug() << i18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" );
+                    qDebug() << i18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" );
                 }
                 fileFound = true;
             }
@@ -617,7 +617,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
                 o = skyComposite()->findByName( name );
 
             if ( !o ) {
-                kWarning() << i18n( "Object named %1 not found", name ) ;
+                qWarning() << i18n( "Object named %1 not found", name ) ;
             } else {
                 if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
                     if ( type==0 ) { //image URL
@@ -665,7 +665,7 @@ bool KStarsData::readUserLog()
         //of star genetive names, so stars are identified that way in the user log.
         SkyObject *o = skyComposite()->findByName(name);
         if ( !o ) {
-            kWarning() << name << " not found" ;
+            qWarning() << name << " not found" ;
         } else {
             o->userLog() = data;
         }
@@ -748,7 +748,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
     QFile f( scriptname );
     if ( !f.open( QIODevice::ReadOnly) ) {
-        kDebug() << i18n( "Could not open file %1", f.fileName() );
+        qDebug() << i18n( "Could not open file %1", f.fileName() );
         return false;
     }
 
@@ -776,14 +776,14 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 }
             }
             if ( i < 0 ) {
-                kWarning() << "Could not parse line: " << line;
+                qWarning() << "Could not parse line: " << line;
                 return false;
             }
 
             QStringList fn = line.mid(i).split( ' ' );
 
             //DEBUG
-            kDebug() << fn << endl;
+            qDebug() << fn << endl;
 
             if ( fn[0] == "lookTowards" && fn.size() >= 2 ) {
                 double az(-1.0);
@@ -849,7 +849,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
             } else if ( fn[0] == "loadColorScheme" ) {
                 fn.removeAll( fn.first() );
                 QString csName = fn.join(" ").remove( '\"' );
-                kDebug() << "Color scheme: " << csName << endl;
+                qDebug() << "Color scheme: " << csName << endl;
 
                 QString filename = csName.toLower().trimmed();
                 bool ok( false );
@@ -874,7 +874,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                         ok = colorScheme()->load( filename );
                     }
             
-                    if ( ! ok ) kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", csName, filename ) << endl;
+                    if ( ! ok ) qDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", csName, filename ) << endl;
                 }
 
             } else if ( fn[0] == "zoom" && fn.size() == 2 ) {
@@ -914,7 +914,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                     changeDateTime( geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,mnt,sec) ) ) );
                     cmdCount++;
                 } else {
-                    kWarning() << ki18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
+                    qWarning() << ki18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
                     .subs( day ).subs( mth ).subs( yr )
                     .subs( hr ).subs( mnt ).subs( sec ).toString() << endl;
                 }
@@ -1033,7 +1033,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 }
 
                 if ( !cityFound )
-                    kWarning() << i18n( "Could not set location named %1, %2, %3" , city, province, country) ;
+                    qWarning() << i18n( "Could not set location named %1, %2, %3" , city, province, country) ;
             }
         }
     }  //end while

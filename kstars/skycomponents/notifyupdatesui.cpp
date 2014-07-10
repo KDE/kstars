@@ -23,7 +23,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "kdebug.h"
+#include "qDebug"
 #include "QTreeWidget"
 #include <QtGui/QApplication>
 

@@ -17,7 +17,7 @@
 
 #include "simclock.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <kglobal.h>
 #include <klocale.h>
 
@@ -62,7 +62,7 @@ void SimClock::tick() {
         long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
         UTC.setDJD( julianmark + scaledsec / (24. * 3600.) );
 
-        // 		kDebug() << "tick() : JD = " << KGlobal::locale()->formatNumber( UTC.djd(), 7 ) <<
+        // 		qDebug() << "tick() : JD = " << KGlobal::locale()->formatNumber( UTC.djd(), 7 ) <<
         // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
         // 			"  scaledsec = " << double(scaledsec) << endl;
 
@@ -108,7 +108,7 @@ void SimClock::stop() {
     }
 
     if (!ManualMode && tmr.isActive()) {
-        kDebug() << i18n( "Stopping the timer" );
+        qDebug() << i18n( "Stopping the timer" );
         tmr.stop();
         emit clockToggled(true);
     }
@@ -124,7 +124,7 @@ void SimClock::start() {
         //emit timeChanged() in order to restart calls to updateTime()
         emit timeChanged();
     } else if ( !ManualMode && !tmr.isActive()) {
-        kDebug() << i18n( "Starting the timer" );
+        qDebug() << i18n( "Starting the timer" );
         sysmark.start();
         julianmark = UTC.djd();
         lastelapsed = 0;
@@ -135,8 +135,8 @@ void SimClock::start() {
 
 void SimClock::setUTC(const KStarsDateTime &newtime) {
     //DEBUG
-    kDebug() << newtime.dateTime().toString();
-    kDebug() << "is dateTime valid? " << newtime.dateTime().isValid();
+    qDebug() << newtime.dateTime().toString();
+    qDebug() << "is dateTime valid? " << newtime.dateTime().isValid();
 
     if ( newtime.isValid() ) {
         UTC = newtime;
@@ -146,17 +146,17 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
             lastelapsed = 0;
         }
 
-        kDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" ,
+        qDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" ,
                           UTC.toString(), KGlobal::locale()->formatNumber( UTC.djd() ) ) << endl;
         emit timeChanged();
     } else {
-        kDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." );
+        qDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." );
     }
 }
 
 void SimClock::setClockScale(float s) {
     if (Scale != s ) {
-        kDebug() << i18n( "New clock scale: %1 sec", s );
+        qDebug() << i18n( "New clock scale: %1 sec", s );
         Scale = s;
         if (tmr.isActive()) {
             julianmark = UTC.djd();

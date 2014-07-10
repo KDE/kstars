@@ -170,9 +170,9 @@ SkyObject* SatellitesComponent::objectNearest( SkyPoint* p, double& maxrad ) {
                 continue;
 
             r = sat->angularDistanceTo( p ).Degrees();
-            //kDebug() << sat->name();
-            //kDebug() << "r = " << r << " - max = " << rBest;
-            //kDebug() << "ra2=" << sat->ra().Degrees() << " - dec2=" << sat->dec().Degrees();
+            //qDebug() << sat->name();
+            //qDebug() << "r = " << r << " - max = " << rBest;
+            //qDebug() << "ra2=" << sat->ra().Degrees() << " - dec2=" << sat->dec().Degrees();
             if ( r < rBest ) {
                 rBest = r;
                 oBest = sat;

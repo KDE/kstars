@@ -15,7 +15,7 @@
 
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <kpushbutton.h>
 #include <kiconloader.h>
 #include <ktemporaryfile.h>

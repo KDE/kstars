@@ -19,7 +19,7 @@
 
 #include <QPainter>
 #include <KPlotObject>
-#include <kdebug.h>
+#include <QDebug>
 
 #include "kstarsdata.h"
 #include "skyobjects/kssun.h"
