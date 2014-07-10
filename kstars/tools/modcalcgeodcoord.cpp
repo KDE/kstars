@@ -23,6 +23,7 @@
 #include <kglobal.h>
 #include <kmessagebox.h>
 #include <QFileDialog>
+#include <KLocale>
 
 #include "dms.h"
 #include "geolocation.h"
@@ -72,9 +73,9 @@ void modCalcGeodCoord::setEllipsoid(int index) {
 void modCalcGeodCoord::getCartGeoCoords (void)
 {
 
-    geoPlace->setXPos( KGlobal::locale()->readNumber(XGeoBox->text())*1000. );
-    geoPlace->setYPos( KGlobal::locale()->readNumber(YGeoBox->text())*1000. );
-    geoPlace->setZPos( KGlobal::locale()->readNumber(ZGeoBox->text())*1000. );
+    geoPlace->setXPos( KLocale::global()->readNumber(XGeoBox->text())*1000. );
+    geoPlace->setYPos( KLocale::global()->readNumber(YGeoBox->text())*1000. );
+    geoPlace->setZPos( KLocale::global()->readNumber(ZGeoBox->text())*1000. );
 }
 
 void modCalcGeodCoord::getSphGeoCoords (void)
@@ -111,15 +112,15 @@ void modCalcGeodCoord::showSpheGeoCoords(void)
 {
     LongGeoBox->show( geoPlace->lng() );
     LatGeoBox->show( geoPlace->lat() );
-    AltGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->height(), 3) );
+    AltGeoBox->setText( KLocale::global()->formatNumber( geoPlace->height(), 3) );
 }
 
 void modCalcGeodCoord::showCartGeoCoords(void)
 {
 
-    XGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->xPos()/1000. ,6));
-    YGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->yPos()/1000. ,6));
-    ZGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->zPos()/1000. ,6));
+    XGeoBox->setText( KLocale::global()->formatNumber( geoPlace->xPos()/1000. ,6));
+    YGeoBox->setText( KLocale::global()->formatNumber( geoPlace->yPos()/1000. ,6));
+    ZGeoBox->setText( KLocale::global()->formatNumber( geoPlace->zPos()/1000. ,6));
 }
 
 void modCalcGeodCoord::geoCheck(void) {
@@ -290,7 +291,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
                 xB = fields[i].toDouble();
                 i++;
             } else
-                xB = KGlobal::locale()->readNumber(XGeoBoxBatch->text()) ;
+                xB = KLocale::global()->readNumber(XGeoBoxBatch->text()) ;
 
             if ( AllRadioBatch->isChecked() )
                 ostream << xB << space;
@@ -304,7 +305,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
                 yB = fields[i].toDouble();
                 i++;
             } else
-                yB = KGlobal::locale()->readNumber( YGeoBoxBatch->text()) ;
+                yB = KLocale::global()->readNumber( YGeoBoxBatch->text()) ;
 
             if ( AllRadioBatch->isChecked() )
                 ostream << yB << space;
@@ -317,7 +318,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
                 zB = fields[i].toDouble();
                 i++;
             } else
-                zB = KGlobal::locale()->readNumber( ZGeoBoxBatch->text());
+                zB = KLocale::global()->readNumber( ZGeoBoxBatch->text());
 
             if ( AllRadioBatch->isChecked() )
                 ostream << zB << space;

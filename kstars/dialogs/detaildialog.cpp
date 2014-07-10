@@ -59,6 +59,7 @@
 
 #ifdef HAVE_INDI_H
 #include <basedevice.h>
+#include <KLocale>
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
 #include "indi/driverinfo.h"
@@ -145,7 +146,7 @@ void DetailDialog::createGeneralTab()
         }
         objecttyp = s->sptype() + ' ' + i18n("star");
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                         KGlobal::locale()->formatNumber( s->mag(), 2 ) ) );  //show to hundredth place
+                                         KLocale::global()->formatNumber( s->mag(), 2 ) ) );  //show to hundredth place
 
         Data->BVLabel->setVisible( true );
         Data->BVIndex->setVisible( true );
@@ -162,13 +163,13 @@ void DetailDialog::createGeneralTab()
             Data->Distance->setText( QString(i18nc("larger than 2000 parsecs", "> 2000 pc") ) );
         else if ( s->distance() > 50.0 ) //show to nearest integer
             Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
-                                            KGlobal::locale()->formatNumber( s->distance(), 0 ) ) );
+                                            KLocale::global()->formatNumber( s->distance(), 0 ) ) );
         else if ( s->distance() > 10.0 ) //show to tenths place
             Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
-                                            KGlobal::locale()->formatNumber( s->distance(), 1 ) ) );
+                                            KLocale::global()->formatNumber( s->distance(), 1 ) ) );
         else //show to hundredths place
             Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
-                                            KGlobal::locale()->formatNumber( s->distance(), 2 ) ) );
+                                            KLocale::global()->formatNumber( s->distance(), 2 ) ) );
 
         //Note multiplicity/variablility in angular size label
         Data->AngSizeLabel->setText( QString() );
@@ -204,36 +205,36 @@ void DetailDialog::createGeneralTab()
         if ( selectedObject->name() == "Moon" ) {
             Data->IllumLabel->setVisible( true );
             Data->Illumination->setVisible( true );
-            Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
+            Data->Illumination->setText( QString("%1 %").arg( KLocale::global()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
             ((KSMoon *)selectedObject)->updateMag();
         }
         
         if(selectedObject->type() == SkyObject::COMET){
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                             KGlobal::locale()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 2 ) ) );  //show to hundredth place
+                                             KLocale::global()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 2 ) ) );  //show to hundredth place
         }
         else{
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                             KGlobal::locale()->formatNumber( ps->mag(), 2 ) ) );  //show to hundredth place
+                                             KLocale::global()->formatNumber( ps->mag(), 2 ) ) );  //show to hundredth place
         }
 
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
-                                           KGlobal::locale()->formatNumber( ps->rearth()*AU_KM ) ) );
+                                           KLocale::global()->formatNumber( ps->rearth()*AU_KM ) ) );
         } else {
             Data->Distance->setText( i18nc("distance in Astronomical Units", "%1 AU",
-                                           KGlobal::locale()->formatNumber( ps->rearth() ) ) );
+                                           KLocale::global()->formatNumber( ps->rearth() ) ) );
         }
 
         //Angular size; moon and sun in arcmin, others in arcsec
         if ( ps->angSize() ) {
             if ( ps->name() == "Sun" || ps->name() == "Moon" )
                 Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
-                                              KGlobal::locale()->formatNumber( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
+                                              KLocale::global()->formatNumber( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
             else
                 Data->AngSize->setText( i18nc("angular size in arcseconds","%1 arcsec",
-                                              KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) ) ); 
+                                              KLocale::global()->formatNumber( ps->angSize()*60.0 ) ) ); 
         } else {
             Data->AngSize->setText( "--" );
         }
@@ -246,7 +247,7 @@ void DetailDialog::createGeneralTab()
         Data->Names->setText(sup->name());
 
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                         KGlobal::locale()->formatNumber( sup->mag(), 2 ) ) );
+                                         KLocale::global()->formatNumber( sup->mag(), 2 ) ) );
         Data->Distance->setText( "---" );
 
         break;
@@ -285,13 +286,13 @@ void DetailDialog::createGeneralTab()
         {
             Data->MagLabel->setText(i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
             Data->Magnitude->setText( i18nc( "integrated flux value", "%1 %2" ,
-                                             KGlobal::locale()->formatNumber( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
+                                             KLocale::global()->formatNumber( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
         }
         else if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
         else
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                             KGlobal::locale()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
+                                             KLocale::global()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
 
         //No distances at this point...
         Data->Distance->setText( "--" );
@@ -299,10 +300,10 @@ void DetailDialog::createGeneralTab()
         //Only show decimal place for small angular sizes
         if ( dso->a() > 10.0 )
             Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
-                                          KGlobal::locale()->formatNumber(dso->a(), 0 ) ) );
+                                          KLocale::global()->formatNumber(dso->a(), 0 ) ) );
         else if ( dso->a() )
             Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
-                                          KGlobal::locale()->formatNumber( dso->a(), 1 ) ) );
+                                          KLocale::global()->formatNumber( dso->a(), 1 ) ) );
         else
             Data->AngSize->setText( "--" );
 
@@ -449,7 +450,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //because we don't want a thousands-place separator!
     QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
     //Replace the decimal point with localized decimal symbol
-    sEpoch.replace( '.', KGlobal::locale()->decimalSymbol() );
+    sEpoch.replace( '.', KLocale::global()->decimalSymbol() );
     
     qDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
     //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
@@ -493,7 +494,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //Airmass is approximated as the secant of the zenith distance,
     //equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
     if ( selectedObject->alt().Degrees() > 0.0 )
-        Pos->Airmass->setText( KGlobal::locale()->formatNumber(
+        Pos->Airmass->setText( KLocale::global()->formatNumber(
                                    1./sin( selectedObject->alt().radians() ), 2 ) );
     else
         Pos->Airmass->setText( "--" );

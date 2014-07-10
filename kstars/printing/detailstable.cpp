@@ -84,7 +84,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             }
 
             objTypeVal = s->sptype() + ' ' + i18n("star");
-            objMagVal = i18nc("number in magnitudes", "%1 mag", KGlobal::locale()->formatNumber(s->mag(), 1)); //show to tenths place
+            objMagVal = i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1)); //show to tenths place
 
             if(s->getBVIndex() < 30.0)
             {
@@ -99,17 +99,17 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             else if(s->distance() > 50.0) //show to nearest integer
             {
-                objDistVal = i18nc("number in parsecs", "%1 pc", KGlobal::locale()->formatNumber(s->distance(), 0));
+                objDistVal = i18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 0));
             }
 
             else if(s->distance() > 10.0) //show to tenths place
             {
-                objDistVal = i18nc("number in parsecs", "%1 pc", KGlobal::locale()->formatNumber(s->distance(), 1));
+                objDistVal = i18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 1));
             }
 
             else //show to hundredths place
             {
-                objDistVal = i18nc("number in parsecs", "%1 pc", KGlobal::locale()->formatNumber(s->distance(), 2));
+                objDistVal = i18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 2));
             }
 
             //Note multiplicity/variablility in angular size label
@@ -169,20 +169,20 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Magnitude: The moon displays illumination fraction instead
             if(obj->name() == "Moon")
             {
-                objIllumVal = QString("%1 %").arg(KGlobal::locale()->formatNumber(((KSMoon *)obj)->illum()*100., 0));
+                objIllumVal = QString("%1 %").arg(KLocale::global()->formatNumber(((KSMoon *)obj)->illum()*100., 0));
             }
 
-            objMagVal = i18nc("number in magnitudes", "%1 mag", KGlobal::locale()->formatNumber(ps->mag(), 1)); //show to tenths place
+            objMagVal = i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1)); //show to tenths place
 
             //Distance from Earth.  The moon requires a unit conversion
             if(ps->name() == "Moon")
             {
-                objDistVal = i18nc("distance in kilometers", "%1 km", KGlobal::locale()->formatNumber(ps->rearth() * AU_KM ));
+                objDistVal = i18nc("distance in kilometers", "%1 km", KLocale::global()->formatNumber(ps->rearth() * AU_KM ));
             }
 
             else
             {
-                objDistVal = i18nc("distance in Astronomical Units", "%1 AU", KGlobal::locale()->formatNumber(ps->rearth()));
+                objDistVal = i18nc("distance in Astronomical Units", "%1 AU", KLocale::global()->formatNumber(ps->rearth()));
             }
 
             //Angular size; moon and sun in arcmin, others in arcsec
@@ -191,12 +191,12 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 if(ps->name() == "Sun" || ps->name() == "Moon")
                 {
                     // Needn't be a plural form because sun / moon will never contract to 1 arcminute
-                    objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KGlobal::locale()->formatNumber(ps->angSize()));
+                    objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(ps->angSize()));
                 }
 
                 else
                 {
-                    objSizeVal = i18nc("angular size in arcseconds","%1 arcsec", KGlobal::locale()->formatNumber(ps->angSize() * 60.0));
+                    objSizeVal = i18nc("angular size in arcseconds","%1 arcsec", KLocale::global()->formatNumber(ps->angSize() * 60.0));
                 }
             }
 
@@ -268,7 +268,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             if(dso->type() == SkyObject::RADIO_SOURCE)
             {
                 objMagLabel = i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
-                objMagVal = i18nc("integrated flux value", "%1 %2", KGlobal::locale()->formatNumber(dso->flux(), 1),
+                objMagVal = i18nc("integrated flux value", "%1 %2", KLocale::global()->formatNumber(dso->flux(), 1),
                                   dso->customCatalog()->fluxUnit()); //show to tenths place
             }
 
@@ -279,7 +279,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             else
             {
-                objMagVal = i18nc("number in magnitudes", "%1 mag", KGlobal::locale()->formatNumber(dso->mag(), 1)); //show to tenths place
+                objMagVal = i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(dso->mag(), 1)); //show to tenths place
             }
 
             //No distances at this point...
@@ -288,12 +288,12 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Only show decimal place for small angular sizes
             if(dso->a() > 10.0)
             {
-                objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KGlobal::locale()->formatNumber(dso->a(), 0));
+                objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 0));
             }
 
             else if(dso->a())
             {
-                objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KGlobal::locale()->formatNumber(dso->a(), 1));
+                objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 1));
             }
 
             else
@@ -536,7 +536,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     //because we don't want a thousands-place separator!
     QString sEpoch = QString::number(ut.epoch(), 'f', 1);
     //Replace the decimal point with localized decimal symbol
-    sEpoch.replace('.', KGlobal::locale()->decimalSymbol());
+    sEpoch.replace('.', KLocale::global()->decimalSymbol());
 
     table->cellAt(1, 0).firstCursorPosition().insertText(i18n("RA (%1):", sEpoch), m_ItemNameCharFormat);
     table->cellAt(1, 0).firstCursorPosition().setBlockFormat(centered);
@@ -585,7 +585,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     QString aMassStr;
     if(obj->alt().Degrees() > 0.0)
     {
-        aMassStr = KGlobal::locale()->formatNumber(1./sin(obj->alt().radians() ), 2);
+        aMassStr = KLocale::global()->formatNumber(1./sin(obj->alt().radians() ), 2);
     }
 
     else

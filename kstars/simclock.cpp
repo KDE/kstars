@@ -20,6 +20,7 @@
 #include <QDebug>
 #include <kglobal.h>
 #include <klocale.h>
+#include <KLocale>
 
 #include "kstars.h"
 #include "simclockadaptor.h"
@@ -62,7 +63,7 @@ void SimClock::tick() {
         long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
         UTC.setDJD( julianmark + scaledsec / (24. * 3600.) );
 
-        // 		qDebug() << "tick() : JD = " << KGlobal::locale()->formatNumber( UTC.djd(), 7 ) <<
+        // 		qDebug() << "tick() : JD = " << KLocale::global()->formatNumber( UTC.djd(), 7 ) <<
         // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
         // 			"  scaledsec = " << double(scaledsec) << endl;
 
@@ -147,7 +148,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
         }
 
         qDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" ,
-                          UTC.toString(), KGlobal::locale()->formatNumber( UTC.djd() ) ) << endl;
+                          UTC.toString(), KLocale::global()->formatNumber( UTC.djd() ) ) << endl;
         emit timeChanged();
     } else {
         qDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." );

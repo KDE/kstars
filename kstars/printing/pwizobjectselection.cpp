@@ -25,6 +25,7 @@
 #include "ksplanetbase.h"
 #include "deepskyobject.h"
 #include <QPointer>
+#include <KLocale>
 
 PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
     m_ParentWizard(wizard)
@@ -111,7 +112,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             }
 
             retVal += "; " + s->sptype() + ' ' + i18n("star");
-            retVal += "; " + i18nc("number in magnitudes", "%1 mag", KGlobal::locale()->formatNumber(s->mag(), 1));
+            retVal += "; " + i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1));
 
             break;
         }
@@ -149,7 +150,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             }
 
             retVal += "; " + type;
-            retVal += "; " + i18nc("number in magnitudes", "%1 mag", KGlobal::locale()->formatNumber(ps->mag(), 1));
+            retVal += "; " + i18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1));
 
             break;
         }

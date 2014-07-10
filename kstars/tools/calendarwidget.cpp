@@ -20,6 +20,7 @@
 #include <QPainter>
 #include <KPlotObject>
 #include <QDebug>
+#include <KLocale>
 
 #include "kstarsdata.h"
 #include "skyobjects/kssun.h"
@@ -233,8 +234,8 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         int h = int(xx);
         if ( h < 0 ) h += 24;
         QTime time( h, 0, 0 );
-        QString sTime = KGlobal::locale()->formatLocaleTime( time, KLocale::TimeWithoutSeconds );
-        QString sUtTime =  KGlobal::locale()->formatLocaleTime( time.addSecs( skycal->get_geo()->TZ() * -3600 ), KLocale::TimeWithoutSeconds );
+        QString sTime = KLocale::global()->formatLocaleTime( time, KLocale::TimeWithoutSeconds );
+        QString sUtTime =  KLocale::global()->formatLocaleTime( time.addSecs( skycal->get_geo()->TZ() * -3600 ), KLocale::TimeWithoutSeconds );
 
         // Draw a small tick every hours and a big tick every two hours.
         QPointF pBottomTick = mapToWidget( QPointF( xx, dataRect().y() ) );

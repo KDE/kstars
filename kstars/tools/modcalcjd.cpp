@@ -71,7 +71,7 @@ void modCalcJD::slotUpdateModJD()
 {
     long double julianDay, modjulianDay;
 
-    modjulianDay = KGlobal::locale()->readNumber( ModJDBox->text() );
+    modjulianDay = KLocale::global()->readNumber( ModJDBox->text() );
     julianDay = MJD0 + modjulianDay;
     showJd( julianDay );
     DateTimeBox->setDateTime( KStarsDateTime( julianDay ).dateTime() );
@@ -80,7 +80,7 @@ void modCalcJD::slotUpdateModJD()
 void modCalcJD::slotUpdateJD()
 {
     long double julianDay, modjulianDay;
-    julianDay = KGlobal::locale()->readNumber( JDBox->text() );
+    julianDay = KLocale::global()->readNumber( JDBox->text() );
     KStarsDateTime dt( julianDay );
 
     DateTimeBox->setDateTime( dt.dateTime() );
@@ -97,12 +97,12 @@ void modCalcJD::showCurrentTime (void)
 
 void modCalcJD::showJd(long double julianDay)
 {
-    JDBox->setText(KGlobal::locale()->formatNumber( (double)julianDay, 5 ) );
+    JDBox->setText(KLocale::global()->formatNumber( (double)julianDay, 5 ) );
 }
 
 void modCalcJD::showMjd(long double modjulianDay)
 {
-    ModJDBox->setText(KGlobal::locale()->formatNumber( (double)modjulianDay, 5 ) );
+    ModJDBox->setText(KLocale::global()->formatNumber( (double)modjulianDay, 5 ) );
 }
 
 void modCalcJD::slotCheckFiles() {
@@ -207,7 +207,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
         }
 
         //Write to output file
-        ostream << KGlobal::locale()->formatDateTime( dt, KLocale::LongDate ) << "  "
+        ostream << KLocale::global()->formatDateTime( dt, KLocale::LongDate ) << "  "
         << QString::number( jd, 'f', 2 ) << "  "
         << QString::number( mjd, 'f', 2 ) << endl;
 

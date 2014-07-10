@@ -27,6 +27,7 @@
 
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <KLocale>
 
 #include "kstarsdata.h"
 
@@ -43,7 +44,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     for ( int i=0; i<25; ++i )
-        ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
+        ui->TZBox->addItem( KLocale::global()->formatNumber( (double)(i-12) ) );
 
     //Populate DSTRuleBox
     foreach( const QString& key, data->getRulebook().keys() ) {
@@ -98,10 +99,10 @@ void LocationDialog::initCityList() {
         filteredCityList.append( loc );
 
         //If TZ is not an even integer value, add it to listbox
-        if ( loc->TZ0() - int( loc->TZ0() ) && ui->TZBox->findText( KGlobal::locale()->formatNumber( loc->TZ0() ) ) != -1 ) {
+        if ( loc->TZ0() - int( loc->TZ0() ) && ui->TZBox->findText( KLocale::global()->formatNumber( loc->TZ0() ) ) != -1 ) {
             for ( int i=0; i < ui->TZBox->count(); ++i ) {
                 if ( ui->TZBox->itemText( i ).toDouble() > loc->TZ0() ) {
-                    ui->TZBox->addItem( KGlobal::locale()->formatNumber( loc->TZ0() ), i-1 );
+                    ui->TZBox->addItem( KLocale::global()->formatNumber( loc->TZ0() ), i-1 );
                     break;
                 }
             }
@@ -198,7 +199,7 @@ void LocationDialog::changeCity() {
         ui->NewCountryName->setText( SelectedCity->translatedCountry() );
         ui->NewLong->showInDegrees( SelectedCity->lng() );
         ui->NewLat->showInDegrees( SelectedCity->lat() );
-        ui->TZBox->setEditText( KGlobal::locale()->formatNumber( SelectedCity->TZ0() ) );
+        ui->TZBox->setEditText( KLocale::global()->formatNumber( SelectedCity->TZ0() ) );
 
         //Pick the City's rule from the rulebook
         for ( int i=0; i < ui->DSTRuleBox->count(); ++i ) {
@@ -227,7 +228,7 @@ bool LocationDialog::addCity( ) {
     dms lat = ui->NewLat->createDms( true, &latOk );
     dms lng = ui->NewLong->createDms( true, &lngOk );
     QString TimeZoneString = ui->TZBox->lineEdit()->text();
-    TimeZoneString.replace( KGlobal::locale()->decimalSymbol(), "." );
+    TimeZoneString.replace( KLocale::global()->decimalSymbol(), "." );
     double TZ = TimeZoneString.toDouble( &tzOk );
 
     if ( ui->NewCityName->text().isEmpty() || ui->NewCountryName->text().isEmpty() ) {
@@ -357,7 +358,7 @@ void LocationDialog::clearFields() {
     ui->NewCountryName->clear();
     ui->NewLong->clearFields();
     ui->NewLat->clearFields();
-    ui->TZBox->lineEdit()->setText( KGlobal::locale()->formatNumber( 0.0 ) );
+    ui->TZBox->lineEdit()->setText( KLocale::global()->formatNumber( 0.0 ) );
     ui->DSTRuleBox->setCurrentIndex( 0 );
     nameModified = true;
     dataModified = false;

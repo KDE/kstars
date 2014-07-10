@@ -24,6 +24,7 @@
 #include <kcombobox.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+#include <KLocale>
 
 #include "ui_wutdialog.h"
 
@@ -78,7 +79,7 @@ WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsD
     if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
     sGeo += ", " + geo->translatedCountry();
     WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
-    WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
+    WUT->DateLabel->setText( i18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
     m_Mag = 10.0;
     WUT->MagnitudeEdit->setValue( m_Mag );
     WUT->MagnitudeEdit->setSliderEnabled( true );
@@ -161,8 +162,8 @@ void WUTDialog::init() {
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
-        sRise = KGlobal::locale()->formatTime( sunRiseTomorrow );
-        sSet = KGlobal::locale()->formatTime( sunSetToday );
+        sRise = KLocale::global()->formatTime( sunRiseTomorrow );
+        sSet = KLocale::global()->formatTime( sunSetToday );
 
         Dur = 24.0 + (float)sunRiseTomorrow.hour()
                     + (float)sunRiseTomorrow.minute()/60.0
@@ -173,11 +174,11 @@ void WUTDialog::init() {
         hDur = int(Dur);
         mDur = int(60.0*(Dur - (float)hDur));
         QTime tDur( hDur, mDur );
-        sDuration = KGlobal::locale()->formatTime( tDur, false, true );
+        sDuration = KLocale::global()->formatTime( tDur, false, true );
     }
 
-    WUT->SunSetLabel->setText( i18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
-    WUT->SunRiseLabel->setText( i18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+    WUT->SunSetLabel->setText( i18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    WUT->SunRiseLabel->setText( i18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
     if( Dur == 0 )
         WUT->NightDurationLabel->setText( i18n("Night duration: %1", sDuration ) );
     else if( Dur > 1 )
@@ -206,18 +207,18 @@ void WUTDialog::init() {
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
-        sRise = KGlobal::locale()->formatTime( moonRise.addSecs(30) );
-        sSet = KGlobal::locale()->formatTime( moonSet.addSecs(30) );
+        sRise = KLocale::global()->formatTime( moonRise.addSecs(30) );
+        sSet = KLocale::global()->formatTime( moonSet.addSecs(30) );
     }
 
-    WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1 on %2", sRise, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1 on %2", sRise, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
 
     // If the moon rises and sets on the same day, this will be valid [ Unless
     // the moon sets on the next day after staying on for over 24 hours ]
     if( moonSet > moonRise )
-        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
+        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
     else
-        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
     oMoon->findPhase();
     WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
                                       int(100.0*oMoon->illum() ) ) );
@@ -502,7 +503,7 @@ void WUTDialog::slotChangeDate() {
         Evening = T0.addSecs( -6*3600 );
         EveningUT = geo->LTtoUT( Evening );
 
-        WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
+        WUT->DateLabel->setText( i18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
 
         init();
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );

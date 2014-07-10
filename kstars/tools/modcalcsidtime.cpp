@@ -309,10 +309,10 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
         }
 
         //Write to output file
-        ostream << KGlobal::locale()->formatDate( dt, KLocale::LongDate ) << "  \""
+        ostream << KLocale::global()->formatDate( dt, KLocale::LongDate ) << "  \""
         << geoBatch->fullName() << "\"  "
-        << KGlobal::locale()->formatTime( inTime, true ) << "  " 
-        << KGlobal::locale()->formatTime( outTime, true ) << endl;
+        << KLocale::global()->formatTime( inTime, true ) << "  " 
+        << KLocale::global()->formatTime( outTime, true ) << endl;
     }
 
     fOut.close();

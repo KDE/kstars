@@ -387,7 +387,7 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
             typeItem = new QStandardItem( i18n( "Opposition" ) );
 
         itemList << typeItem
-                << new QStandardItem( KGlobal::locale()->formatDateTime( dt, KLocale::IsoDate ) )
+                << new QStandardItem( KLocale::global()->formatDateTime( dt, KLocale::IsoDate ) )
                 << new QStandardItem( object1 )
                 << new QStandardItem( object2 )
                 << new QStandardItem( it.value().toDMSString() );

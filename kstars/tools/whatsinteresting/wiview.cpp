@@ -204,7 +204,7 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     if (soitem->getType() == SkyObjItem::Constellation)
         magText = i18n("Magnitude:  --");
     else
-        magText = i18n("Magnitude: %1 mag", KGlobal::locale()->formatNumber(soitem->getMagnitude(), 2));
+        magText = i18n("Magnitude: %1 mag", KLocale::global()->formatNumber(soitem->getMagnitude(), 2));
     magTextObj->setProperty("text", magText);
 
     QString sbText = i18n("Surface Brightness: %1", soitem->getSurfaceBrightness());

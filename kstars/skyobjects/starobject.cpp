@@ -44,6 +44,7 @@
 // END DEBUG
 
 #include <cmath>
+#include <KLocale>
 
 //----- Static Methods -----
 //
@@ -501,14 +502,14 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
             sName = gname( true );
         else {
             if ( drawMag )
-                return KGlobal::locale()->formatNumber( mag(), 1 );
+                return KLocale::global()->formatNumber( mag(), 1 );
         }
         if ( ! drawMag )
             return sName;
         else
-            return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
+            return sName + ' ' + KLocale::global()->formatNumber( mag(), 1 );
     }
-    return KGlobal::locale()->formatNumber( mag(), 1 );
+    return KLocale::global()->formatNumber( mag(), 1 );
 }
 
 //If this works, we can maybe get rid of customLabel() and nameLabel()??

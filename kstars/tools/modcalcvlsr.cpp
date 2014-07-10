@@ -336,10 +336,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
             utB = UTBoxBatch->time();
 
         if ( AllRadioBatch->isChecked() )
-            ostream << KGlobal::locale()->formatTime( utB ) << space;
+            ostream << KLocale::global()->formatTime( utB ) << space;
         else
             if(UTCheckBatch->isChecked() )
-                ostream << KGlobal::locale()->formatTime( utB ) << space;
+                ostream << KLocale::global()->formatTime( utB ) << space;
 
         // Read date and write in ostream if corresponds
 
@@ -349,10 +349,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
         } else
             dtB = DateBoxBatch->date();
         if ( AllRadioBatch->isChecked() )
-            ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
+            ostream << KLocale::global()->formatDate( dtB, KLocale::LongDate ).append(space);
         else
             if(DateCheckBatch->isChecked() )
-                ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
+                ostream << KLocale::global()->formatDate( dtB, KLocale::LongDate ).append(space);
 
         // Read RA and write in ostream if corresponds
 

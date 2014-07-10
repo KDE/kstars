@@ -108,7 +108,7 @@ void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo)
 
     geoFont.setBold(false);
     geoCharFmt.setFont(geoFont);
-    cursor.insertText(KGlobal::locale()->formatDateTime(ut) + ", " + geoStr, geoCharFmt);
+    cursor.insertText(KLocale::global()->formatDateTime(ut) + ", " + geoStr, geoCharFmt);
 
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }

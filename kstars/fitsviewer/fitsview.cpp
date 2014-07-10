@@ -91,9 +91,9 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     y -= 1;
 
     if (image_data->getBPP() == -32 || image_data->getBPP() == 32)
-        emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)], 5), FITS_VALUE);
+        emit newStatus(KLocale::global()->formatNumber( buffer[(int) (y * width + x)], 5), FITS_VALUE);
     else
-        emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
+        emit newStatus(KLocale::global()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
 
 
     if (image_data->hasWCS())

@@ -23,6 +23,7 @@
 
 #include <kglobal.h>
 #include <klocale.h>
+#include <KLocale>
 
 void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
     D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
@@ -51,7 +52,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
     //Account for localized decimal-point settings
     //QString::toDouble() requires that the decimal symbol is "."
-    entry.replace( KGlobal::locale()->decimalSymbol(), "." );
+    entry.replace( KLocale::global()->decimalSymbol(), "." );
 
     //empty entry returns false
     if ( entry.isEmpty() ) {

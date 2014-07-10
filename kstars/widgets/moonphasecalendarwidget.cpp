@@ -37,6 +37,7 @@
 #include <QtGui/QStyleOptionViewItem>
 
 #include <cmath>
+#include <KLocale>
 
 MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent ) :
     KDateTable(parent),
@@ -134,12 +135,12 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
     }
 
     //See if cell day is normally a working day
-    if ( KGlobal::locale()->workingWeekStartDay() <= KGlobal::locale()->workingWeekEndDay() ) {
-        workingDay = cellWeekDay >= KGlobal::locale()->workingWeekStartDay()
-                  && cellWeekDay <= KGlobal::locale()->workingWeekEndDay();
+    if ( KLocale::global()->workingWeekStartDay() <= KLocale::global()->workingWeekEndDay() ) {
+        workingDay = cellWeekDay >= KLocale::global()->workingWeekStartDay()
+                  && cellWeekDay <= KLocale::global()->workingWeekEndDay();
     } else {
-        workingDay = cellWeekDay >= KGlobal::locale()->workingWeekStartDay()
-                  || cellWeekDay <= KGlobal::locale()->workingWeekEndDay();
+        workingDay = cellWeekDay >= KLocale::global()->workingWeekStartDay()
+                  || cellWeekDay <= KLocale::global()->workingWeekEndDay();
     }
 
     if( row == 0 ) {
@@ -203,7 +204,7 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
             //Determine various characteristics of the cell date
             bool selectedDay = ( cellDate == date() );
             bool currentDay = ( cellDate == QDate::currentDate() );
-            bool dayOfPray = ( calendar()->dayOfWeek( cellDate ) == KGlobal::locale()->weekDayOfPray() );
+            bool dayOfPray = ( calendar()->dayOfWeek( cellDate ) == KLocale::global()->weekDayOfPray() );
 
             //Default values for a normal cell
             cellBackgroundColor = palette().color( backgroundRole() );

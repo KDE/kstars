@@ -33,6 +33,7 @@
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <KLocale>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -47,7 +48,7 @@ namespace {
     // Try to convert text in KLine edit to double
     inline double textToDouble(const KLineEdit* edit, bool* ok = 0)
     {
-        return edit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(ok);
+        return edit->text().replace( KLocale::global()->decimalSymbol(), "." ).toDouble(ok);
     }
 
     // Extract FOV from QListWidget. No checking is done
@@ -59,7 +60,7 @@ namespace {
     // Convert double to QString 
     QString toString(double x, int precision = 2)
     {
-        return QString::number(x, 'f', precision).replace( '.', KGlobal::locale()->decimalSymbol() );
+        return QString::number(x, 'f', precision).replace( '.', KLocale::global()->decimalSymbol() );
     }
 }
 

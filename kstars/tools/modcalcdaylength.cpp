@@ -130,12 +130,12 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         stAltString = stAlt.toDMSString();
         srAzString = srAz.toDMSString();
 
-        ssTimeString = KGlobal::locale()->formatTime( ssTime );
-        srTimeString = KGlobal::locale()->formatTime( srTime );
-        stTimeString = KGlobal::locale()->formatTime( stTime );
+        ssTimeString = KLocale::global()->formatTime( ssTime );
+        srTimeString = KLocale::global()->formatTime( srTime );
+        stTimeString = KLocale::global()->formatTime( stTime );
 
         QTime daylength = lengthOfDay(ssTime,srTime);
-        daylengthString = KGlobal::locale()->formatTime( daylength, false, true );
+        daylengthString = KLocale::global()->formatTime( daylength, false, true );
 
         //...but not always!
     } else if ( stAlt.Degrees() > 0. ) {
@@ -145,7 +145,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
-        stTimeString = KGlobal::locale()->formatTime( stTime );
+        stTimeString = KLocale::global()->formatTime( stTime );
         daylengthString = "24:00";
 
     } else if (stAlt.Degrees() < 0. ) {
@@ -155,7 +155,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
-        stTimeString = KGlobal::locale()->formatTime( stTime );
+        stTimeString = KLocale::global()->formatTime( stTime );
         daylengthString = "00:00";
     }
 
@@ -176,9 +176,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         mtAltString = mtAlt.toDMSString();
         mrAzString = mrAz.toDMSString();
 
-        msTimeString = KGlobal::locale()->formatTime( msTime );
-        mrTimeString = KGlobal::locale()->formatTime( mrTime );
-        mtTimeString = KGlobal::locale()->formatTime( mtTime );
+        msTimeString = KLocale::global()->formatTime( msTime );
+        mrTimeString = KLocale::global()->formatTime( mrTime );
+        mtTimeString = KLocale::global()->formatTime( mtTime );
 
         //...but not always!
     } else if ( mtAlt.Degrees() > 0. ) {
@@ -188,7 +188,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = KGlobal::locale()->formatTime( mtTime );
+        mtTimeString = KLocale::global()->formatTime( mtTime );
 
     } else if ( mtAlt.Degrees() < 0. ) {
         msAzString = i18n("Does not rise");
@@ -197,7 +197,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = KGlobal::locale()->formatTime( mtTime );
+        mtTimeString = KLocale::global()->formatTime( mtTime );
     }
 
     //after calling riseSetTime Phase needs to reset, setting it before causes Phase to set nan

@@ -35,6 +35,7 @@
 #include "texturemanager.h"
 
 #include <QDebug>
+#include <KLocale>
 
 DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
     : SkyObject( o )
@@ -128,7 +129,7 @@ QString DeepSkyObject::labelString() const {
     if( Options::showDeepSkyMagnitudes() ) {
         if( Options::showDeepSkyNames() )
             oName += "; ";
-        oName += KGlobal::locale()->formatNumber( mag(), 1 );
+        oName += KLocale::global()->formatNumber( mag(), 1 );
     }
 
     return oName;
