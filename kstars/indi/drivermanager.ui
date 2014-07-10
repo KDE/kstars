@@ -30,7 +30,7 @@
     <number>2</number>
    </property>
    <item>
-    <widget class="KTabWidget" name="ConfTabWidget">
+    <widget class="QTabWidget" name="ConfTabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -380,7 +380,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

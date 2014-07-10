@@ -17,7 +17,7 @@
     <number>9</number>
    </property>
    <item>
-    <widget class="KTabWidget" name="tabWidget" >
+    <widget class="QTabWidget" name="tabWidget" >
      <widget class="QWidget" name="interact" >
       <property name="geometry" >
        <rect>
@@ -630,7 +630,7 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

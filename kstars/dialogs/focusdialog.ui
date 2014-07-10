@@ -27,7 +27,7 @@
     <number>8</number>
    </property>
    <item>
-    <widget class="KTabWidget" name="fdTab">
+    <widget class="QTabWidget" name="fdTab">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -167,7 +167,7 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

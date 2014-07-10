@@ -33,7 +33,7 @@
     <number>9</number>
    </property>
    <item>
-    <widget class="KTabWidget" name="tabWidget3">
+    <widget class="QTabWidget" name="tabWidget3">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -375,7 +375,7 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

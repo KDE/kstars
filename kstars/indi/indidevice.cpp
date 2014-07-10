@@ -36,7 +36,7 @@
 #include <kstatusbar.h>
 #include <QMenu>
 #include <kvbox.h>
-#include <ktabwidget.h>
+#include <QTabWidget>
 #include <ktextedit.h>
 
 #include "kstars.h"
@@ -62,7 +62,7 @@ INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *i
     deviceVBox     	= new QSplitter();
     deviceVBox->setOrientation(Qt::Vertical);
 
-    groupContainer 	= new KTabWidget();
+    groupContainer 	= new QTabWidget();
 
     msgST_w        	= new KTextEdit();
     msgST_w->setReadOnly(true);

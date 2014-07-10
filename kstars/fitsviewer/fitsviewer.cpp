@@ -35,7 +35,7 @@
 #include <kicon.h>
 
 #include <KUndoStack>
-#include <KTabWidget>
+#include <QTabWidget>
 #include <QAction>
 #include <KActionCollection>
 #include <KLed>
@@ -79,7 +79,7 @@ QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch")
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
 {
-    fitsTab   = new KTabWidget(this);
+    fitsTab   = new QTabWidget(this);
     undoGroup = new QUndoGroup(this);
 
     fitsID = 0;

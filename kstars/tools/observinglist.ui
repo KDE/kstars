@@ -364,7 +364,7 @@
     </layout>
    </item>
    <item>
-    <widget class="KTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="tabWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -670,7 +670,7 @@
    <header>ktextedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

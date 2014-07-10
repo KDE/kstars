@@ -39,7 +39,7 @@ class QCloseEvent;
 class QUndoGroup;
 
 class KUndoStack;
-class KTabWidget;
+class QTabWidget;
 class KUrl;
 class KAction;
 class KLed;
@@ -100,7 +100,7 @@ public slots:
 
 private:
 
-    KTabWidget *fitsTab;
+    QTabWidget *fitsTab;
     QUndoGroup *undoGroup;
 
     KLed *led;

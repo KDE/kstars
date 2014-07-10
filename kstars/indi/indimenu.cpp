@@ -46,7 +46,7 @@
 #include <KComboBox>
 #include <KNumInput>
 #include <KDialog>
-#include <KTabWidget>
+#include <QTabWidget>
 
 #include "kstars.h"
 #include "indidriver.h"
@@ -64,7 +64,7 @@ INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
     mainLayout->setMargin(10);
     mainLayout->setSpacing(10);
 
-    mainTabWidget = new KTabWidget(this);
+    mainTabWidget = new QTabWidget(this);
 
     mainLayout->addWidget(mainTabWidget);
 
