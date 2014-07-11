@@ -30,9 +30,16 @@ ObserverAdd::ObserverAdd() {
     // Setting up the widget from the .ui file and adding it to the QDialog
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
-    setMainWidget( widget );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(widget);
+    setLayout(mainLayout);
+
     setWindowTitle( xi18n( "Add Observer" ) );
-    setButtons( QDialog::Close );
+
+    //FIXME Need porting to KF5
+    //setMainWidget( widget );
+    //setButtons( QDialog::Close );
     ks = KStars::Instance();
     nextObserver = 0;
 

@@ -19,8 +19,11 @@
 #define THUMBNAILPICKER_H_
 
 #include <QPixmap>
-
 #include <QDialog>
+
+#include <KJob>
+#include <KLocalizedString>
+#include <KIO/Job>
 
 #include "ui_thumbnailpicker.h"
 

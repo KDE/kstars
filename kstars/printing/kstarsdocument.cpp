@@ -20,7 +20,7 @@
 #include "QPainter"
 #include "QTextDocument"
 #include "QTextDocumentWriter"
-#include "QPrinter"
+#include <QtPrintSupport/QPrinter>
 
 KStarsDocument::KStarsDocument()
 {
@@ -54,7 +54,8 @@ bool KStarsDocument::writeOdt(const QString &fname)
 void KStarsDocument::writePsPdf(const QString &fname)
 {
     QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFileName(fname);
-    printer.setOutputFormat(fname.endsWith(".pdf") ? QPrinter::PdfFormat : QPrinter::PostScriptFormat);
+    printer.setOutputFileName(fname);    
+    //FIXME Need porting to KF5
+    //printer.setOutputFormat(fname.endsWith(".pdf") ? QPrinter::PdfFormat : QPrinter::PostScriptFormat);
     m_Document->print(&printer);
 }

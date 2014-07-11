@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "addlinQDialog"
+#include "addlinkdialog.h"
 
-#include <kurl.h>
-#include <kmessagebox.h>
 #include <QPushButton>
-#include <ktoolinvocation.h>
+#include <QUrl>
+
+#include <kmessagebox.h>
+#include <KToolInvocation>
 
 #include "skyobjects/skyobject.h"
 
@@ -32,9 +33,16 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
         : QDialog( parent ),  ObjectName( oname )
 {
     ald = new AddLinkDialogUI(this);
-    setMainWidget( ald );
+
     setWindowTitle( xi18n( "Add Custom URL to %1", oname ) );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(ald);
+    setLayout(mainLayout);
+
+    //FIXME Need porting to KF5
+    //setMainWidget( ald );
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     //connect signals to slots
     connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );

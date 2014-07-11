@@ -20,6 +20,8 @@
 
 #include "ui_foveditordialog.h"
 
+#include <QDialog>
+
 class PrintingWizard;
 
 /**

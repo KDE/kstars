@@ -91,7 +91,7 @@ QHash<int, QByteArray> SkyObjItem::roleNames() const
 void SkyObjItem::setPosition(SkyObject* so)
 {
     KStarsData *data = KStarsData::Instance();
-    KStarsDateTime ut = data->geo()->LTtoUT(KStarsDateTime(KDateTime::currentLocalDateTime()));
+    KStarsDateTime ut = data->geo()->LTtoUT(KStarsDateTime(QDateTime::currentLocalDateTime()));
     SkyPoint sp = so->recomputeCoords(ut, data->geo());
 
     //check altitude of object at this time.

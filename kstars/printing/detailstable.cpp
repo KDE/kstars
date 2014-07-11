@@ -536,7 +536,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     //because we don't want a thousands-place separator!
     QString sEpoch = QString::number(ut.epoch(), 'f', 1);
     //Replace the decimal point with localized decimal symbol
-    sEpoch.replace('.', KLocale::global()->decimalSymbol());
+    sEpoch.replace('.', QLocale().decimalPoint());
 
     table->cellAt(1, 0).firstCursorPosition().insertText(xi18n("RA (%1):", sEpoch), m_ItemNameCharFormat);
     table->cellAt(1, 0).firstCursorPosition().setBlockFormat(centered);

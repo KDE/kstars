@@ -25,7 +25,7 @@
 #include "ksplanetbase.h"
 #include "deepskyobject.h"
 #include <QPointer>
-#include <KLocale>
+#include <KLocalizedString>
 
 PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
     m_ParentWizard(wizard)

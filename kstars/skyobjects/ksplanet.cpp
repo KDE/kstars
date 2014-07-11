@@ -23,7 +23,6 @@
 #include <QTextStream>
 
 #include <QDebug>
-#include <kglobal.h>
 
 #include "ksnumbers.h"
 #include "ksutils.h"
@@ -193,7 +192,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
         epret.longitude = dms(0.0);
         epret.latitude  = dms(0.0);
         epret.radius    = 0.0;
-        kError() << "Could not get data for '" << name() << "'" << endl;
+        qWarning() << "Could not get data for '" << name() << "'" << endl;
         return;
     }
 

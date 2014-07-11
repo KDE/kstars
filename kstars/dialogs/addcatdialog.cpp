@@ -19,13 +19,13 @@
 
 #include <QFrame>
 #include <QTextStream>
-
-#include <kcolorbutton.h>
 #include <QDebug>
-#include <kmessagebox.h>
 #include <QDoubleSpinBox>
-#include <ktemporaryfile.h>
-#include <kurl.h>
+#include <QTemporaryFile>
+#include <QUrl>
+
+#include <KColorButton>
+#include <kmessagebox.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -42,9 +42,16 @@ AddCatDialog::AddCatDialog( KStars *_ks )
 {
     QDir::setCurrent( QDir::homePath() );
     acd = new AddCatDialogUI(this);
-    setMainWidget(acd);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(acd);
+    setLayout(mainLayout);
+
     setWindowTitle( xi18n( "Import Catalog" ) );
-    setButtons( QDialog::Help|QDialog::Ok|QDialog::Cancel );
+
+    //FIXME Need Porting to KF5
+    //setMainWidget(acd);
+    //setButtons( QDialog::Help|QDialog::Ok|QDialog::Cancel );
 
     connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
     connect( acd->DataURL, SIGNAL( urlSelected( const QUrl & ) ),
@@ -78,7 +85,8 @@ void AddCatDialog::slotOk() {
 
     //the validation code needs to be aware of AddCatDialog members, so I will just
     //emit the okClicked() signal, which is connected to AddCatDialog::validateFile()
-    emit okClicked();
+    // FIXME Check this?
+    //emit okClicked();
 }
 
 void AddCatDialog::slotHelp() {

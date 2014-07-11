@@ -40,7 +40,7 @@
 #include <QSignalMapper>
 #include <QStatusBar>
 #include <QMenuBar>
-#include <QShortcut>
+#include <QKeySequence>
 
 #include <KActionCollection>
 #include <KLed>

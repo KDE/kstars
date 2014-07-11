@@ -19,14 +19,14 @@
 
 #include <QApplication>
 #include <QDockWidget>
-
-#include <KGlobal>
-#include <KLocale>
 #include <QDebug>
-#include <kactioncollection.h>
-#include <kstatusbar.h>
-#include <ktoolbar.h>
-#include <kicon.h>
+#include <QStatusBar>
+#include <QIcon>
+
+#include <KLocalizedString>
+#include <KActionCollection>
+#include <KToolBar>
+#include <KSharedConfig>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -44,12 +44,8 @@
 #include "kstarsadaptor.h"
 
 #include <config-kstars.h>
-#include <KSharedConfig>
 
 #ifdef HAVE_INDI
-//#include "indi/indimenu.h"
-//#include "indi/indidriver.h"
-//#include "indi/imagesequence.h"
 #include "indi/drivermanager.h"
 #endif
 

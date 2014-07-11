@@ -21,6 +21,7 @@
 #include "ui_pwizprint.h"
 
 class PrintingWizard;
+class QPrinter;
 
 /**
   * \class PWizPrintUI

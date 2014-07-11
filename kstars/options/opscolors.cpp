@@ -20,18 +20,15 @@
 #include <QFile>
 #include <QPixmap>
 #include <QTextStream>
-
-#include <kactioncollection.h>
-#include <kapplication.h>
-#include <klocale.h>
 #include <QDoubleSpinBox>
-#include <QComboBox.h>
+#include <QComboBox>
 #include <QPushButton>
-#include <kcolordialog.h>
-#include <kmessagebox.h>
-#include <kinputdialog.h>
 #include <QStandardPaths>
+#include <QColorDialog>
 
+#include <KActionCollection>
+#include <KLocalizedString>
+#include <kmessagebox.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -116,7 +113,7 @@ void OpsColors::newColor( QListWidgetItem *item ) {
     int index = ColorPalette->row( item );
     if ( index < 0 || index >= ColorPalette->count() ) return;
     QColor col = item->data( ItemColorData ).value<QColor>();
-    if ( KColorDialog::getColor( col ) ) NewColor = col;
+    NewColor = QColorDialog::getColor( col );
 
     //NewColor will only be valid if the above if statement was found to be true during one of the for loop iterations
     if ( NewColor.isValid() ) {
@@ -147,7 +144,7 @@ bool OpsColors::setColors( const QString &filename ) {
 		QString actionName = QString("cs_" + filename.left(filename.indexOf(".colors"))).toUtf8();
 		QAction *a = ksw->actionCollection()->action( actionName );
 		if ( a ) a->setChecked( true );
-		kapp->processEvents();
+        qApp->processEvents();
 
     kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
     kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
@@ -164,6 +161,10 @@ bool OpsColors::setColors( const QString &filename ) {
 }
 
 void OpsColors::slotAddPreset() {
+
+    /*
+     * FIXME Need to Port to KF5
+     *
     bool okPressed = false;
     QString schemename = KInputDialog::getText( xi18n( "New Color Scheme" ),
                          xi18n( "Enter a name for the new color scheme:" ),
@@ -182,6 +183,7 @@ void OpsColors::slotAddPreset() {
             PresetBox->setCurrentItem( item );
         }
     }
+    */
 }
 
 void OpsColors::slotRemovePreset() {

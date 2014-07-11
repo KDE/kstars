@@ -21,7 +21,7 @@
 #include "QTextDocumentFragment"
 #include "QTextTable"
 #include "QTextDocumentWriter"
-#include "QSvgGenerator"
+#include <QtSvg/QSvgGenerator>
 #include "QPainter"
 #include "kstars.h"
 #include "loggingform.h"
@@ -108,7 +108,7 @@ void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo)
 
     geoFont.setBold(false);
     geoCharFmt.setFont(geoFont);
-    cursor.insertText(QLocale().toStringTime(ut) + ", " + geoStr, geoCharFmt);
+    cursor.insertText(QLocale().toString(ut.dateTime()) + ", " + geoStr, geoCharFmt);
 
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }

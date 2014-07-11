@@ -24,14 +24,12 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QTreeWidgetItem>
-
+#include <QLineEdit>
+#include <QPushButton>
+#include <QTemporaryFile>
 
 #include <kmessagebox.h>
-#include <QPushButton>
-#include <klineedit.h>
-#include <ktoolinvocation.h>
-#include <ktemporaryfile.h>
-#include <kio/netaccess.h>
+#include <KToolInvocation>
 
 #include "kstars.h"
 #include <QDebug>
@@ -53,13 +51,13 @@
 #include "thumbnailpicker.h"
 #include "Options.h"
 #include "widgets/kshelplabel.h"
-#include "addlinQDialog"
+#include "addlinkdialog.h"
 
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
-#include <KLocale>
+#include <KLocalizedString>
 #include <QStandardPaths>
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
@@ -85,7 +83,9 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
     Thumbnail = new QPixmap( 200, 200 );
 
     setWindowTitle( xi18n( "Object Details" ) );
-    setButtons( QDialog::Close );
+
+    //FIXME Need porting to KF5
+    //setButtons( QDialog::Close );
 
     createGeneralTab();
     createPositionTab( ut, geo );
@@ -451,7 +451,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //because we don't want a thousands-place separator!
     QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
     //Replace the decimal point with localized decimal symbol
-    sEpoch.replace( '.', KLocale::global()->decimalSymbol() );
+    sEpoch.replace( '.', QLocale().decimalPoint() );
     
     qDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
     //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
@@ -743,7 +743,10 @@ void DetailDialog::editLinkDialog()
 
     QDialog editDialog( this );
     editDialog.setWindowTitle( xi18n("Edit Link") );
-    editDialog.setButtons( QDialog::Ok | QDialog::Cancel );
+
+    //FIXME Need porting to KF5
+    //editDialog.setButtons( QDialog::Ok | QDialog::Cancel );
+
     QFrame editFrame( &editDialog );
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
@@ -791,7 +794,9 @@ void DetailDialog::editLinkDialog()
     editLinkLayout.addWidget(&editLinkField);
     vlay.addWidget( &editNameField );
     vlay.addLayout( &editLinkLayout );
-    editDialog.setMainWidget( &editFrame );
+
+    //FIXME Need porting to KF5
+    //editDialog.setMainWidget( &editFrame );
 
     bool go( true );
     // If user presses cancel then skip the action
@@ -832,7 +837,7 @@ void DetailDialog::removeLinkDialog()
     int type=0, row=0;
     QString currentItemURL, currentItemTitle, LineEntry, TempFileName, FileLine;
     QFile URLFile;
-    KTemporaryFile TempFile;
+    QTemporaryFile TempFile;
     TempFile.setAutoRemove(false);
     TempFile.open();
     TempFileName = TempFile.fileName();
@@ -894,7 +899,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 {
     QString TempFileName, file_line;
     QFile URLFile;
-    KTemporaryFile TempFile;
+    QTemporaryFile TempFile;
     TempFile.setAutoRemove(false);
     TempFile.open();
     QTextStream *temp_stream=NULL, *out_stream=NULL;
@@ -921,7 +926,9 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
     }
 
     // Copy URL file to temp file
-    KIO::file_copy(QUrl::fromPath(URLFile.fileName()), QUrl::fromPath(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
+    //TODO Check if this works OK
+    //KIO::file_copy(QUrl::fromPath(URLFile.fileName()), QUrl::fromPath(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
+    KIO::file_copy(QUrl::fromLocalFile(URLFile.fileName()), QUrl::fromLocalFile(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
 
 
     if ( !URLFile.open( QIODevice::WriteOnly) )

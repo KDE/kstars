@@ -41,9 +41,15 @@ ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
     w = _w;
     h = _h;
     ui->MessageLabel->setText( xi18n( "Crop region will be scaled to [ %1 * %2 ]", w, h) );
-    setMainWidget( ui );
+
     setWindowTitle( xi18n( "Edit Thumbnail Image" ) );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(ui);
+    setLayout(mainLayout);
+
+    //FIXME Need porting to KF5
+    //setMainWidget( ui );
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
                                   tp->imageRect()->width(), tp->imageRect()->height() );

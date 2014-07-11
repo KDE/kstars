@@ -18,9 +18,7 @@
 #include "simclock.h"
 
 #include <QDebug>
-#include <kglobal.h>
-#include <klocale.h>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "kstars.h"
 #include "simclockadaptor.h"
@@ -147,8 +145,9 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
             lastelapsed = 0;
         }
 
-        qDebug() << xi18n( "Setting clock:  UTC: %1  JD: %2" ,
-                          UTC.toString(), QLocale().toString( UTC.djd() ) ) << endl;
+        //FIXME Check this conversion
+        //qDebug() << xi18n( "Setting clock:  UTC: %1  JD: %2" ,  UTC.toString(), QLocale().toString( UTC.djd() ) ) << endl;
+        qDebug() << xi18n( "Setting clock:  UTC: %1  JD: %2" ,  UTC.toString(), QLocale().toString( (double) UTC.djd() ) ) << endl;
         emit timeChanged();
     } else {
         qDebug() << xi18n( "Cannot set SimClock:  Invalid Date/Time." );

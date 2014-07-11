@@ -44,7 +44,7 @@
 // END DEBUG
 
 #include <cmath>
-#include <KLocale>
+#include <KLocalizedString>
 
 //----- Static Methods -----
 //

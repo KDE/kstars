@@ -55,11 +55,18 @@ KSWizard::KSWizard( QWidget *parent ) :
     QDialog( parent )
 {
     wizardStack = new QStackedWidget( this );
-    setMainWidget( wizardStack );
+
     setWindowTitle( xi18n("Setup Wizard") );
-    setButtons( QDialog::User1|QDialog::User2|QDialog::Ok|QDialog::Cancel );
-    setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Next >"), QString(), xi18n("Go to next Wizard page") ) );
-    setButtonGuiItem( QDialog::User2, KGuiItem( xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page") ) );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(wizardStack);
+    setLayout(mainLayout);
+
+    //FIXME Needs Porting to KF5
+    //setMainWidget( wizardStack );
+    //setButtons( QDialog::User1|QDialog::User2|QDialog::Ok|QDialog::Cancel );
+    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Next >"), QString(), xi18n("Go to next Wizard page") ) );
+    //setButtonGuiItem( QDialog::User2, KGuiItem( xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page") ) );
 
     WizWelcomeUI* welcome = new WizWelcomeUI( wizardStack );
     location = new WizLocationUI( wizardStack );
@@ -89,7 +96,8 @@ KSWizard::KSWizard( QWidget *parent ) :
     connect( download->DownloadButton, SIGNAL( clicked() ), this, SLOT( slotDownload() ) );
 
     //Disable Back button
-    enableButton( QDialog::User2, false );
+    //FIXME Needs porting to KF5
+    //enableButton( QDialog::User2, false );
 
     //Initialize Geographic Location page
     initGeoPage();
@@ -100,8 +108,9 @@ KSWizard::~KSWizard()
 {}
 
 void KSWizard::setButtonsEnabled() {
-    enableButton( QDialog::User1, wizardStack->currentIndex() < wizardStack->count()-1 );
-    enableButton( QDialog::User2, wizardStack->currentIndex() > 0 );
+    //FIXME Needs porting to KF5
+    //enableButton( QDialog::User1, wizardStack->currentIndex() < wizardStack->count()-1 );
+    //enableButton( QDialog::User2, wizardStack->currentIndex() > 0 );
 }
 
 void KSWizard::slotNextPage() {

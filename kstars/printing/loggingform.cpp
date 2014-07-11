@@ -19,7 +19,7 @@
 
 #include "QTextDocument"
 #include "QTextTable"
-#include "QPrinter"
+#include <QtPrintSupport/QPrinter>
 #include "kstars.h"
 
 LoggingForm::LoggingForm()

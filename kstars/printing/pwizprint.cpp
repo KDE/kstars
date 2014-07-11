@@ -19,16 +19,17 @@
 
 #include "printingwizard.h"
 #include "finderchart.h"
-#include "loggingform.h"
-#include "kfiledialog.h"
-#include "kmessagebox.h"
 #include "kstars.h"
-#include "ktemporaryfile.h"
-#include "kio/netaccess.h"
-#include "QPrintPreviewDialog"
-#include "QPrinter"
-#include "QPrintDialog"
-#include "QPointer"
+#include "loggingform.h"
+
+#include <kmessagebox.h>
+
+#include <QFileDialog>
+#include <QTemporaryFile>
+#include <QtPrintSupport/QPrintPreviewDialog>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#include <QPointer>
 
 PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
     m_ParentWizard(wizard)
@@ -72,7 +73,7 @@ void PWizPrintUI::printDocument(QPrinter *printer)
 
 void PWizPrintUI::slotExport()
 {
-    QUrl url = KFileDialog::getSaveUrl(QDir::homePath(), "application/pdf application/postscript application/vnd.oasis.opendocument.text");
+    QUrl url = QFileDialog::getSaveFileUrl(0, xi18n("Export"), QUrl(QDir::homePath()), "application/pdf application/postscript application/vnd.oasis.opendocument.text");
     //User cancelled file selection dialog - abort image export
     if(url.isEmpty())
     {
@@ -96,7 +97,7 @@ void PWizPrintUI::slotExport()
         urlStr = QDir::homePath() + '/' + urlStr;
     }
 
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     tmpfile.open();
     QString fname;
 
@@ -125,11 +126,12 @@ void PWizPrintUI::slotExport()
         if(tmpfile.fileName() == fname)
         {
             //attempt to upload image to remote location
-            if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
+            //FIXME need porting to KF5
+            /*if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
                 QString message = xi18n( "Could not upload file to remote location: %1", url.prettyUrl() );
                 KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
-            }
+            }*/
         }
     }
 }

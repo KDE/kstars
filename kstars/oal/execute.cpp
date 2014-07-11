@@ -21,7 +21,7 @@
 #include <QFile>
 
 #include <kmessagebox.h>
-#include <kfiledialog.h>
+#include <QFileDialog>
 #include "kstarsdata.h"
 #include "oal/observer.h"
 #include "oal/site.h"
@@ -37,10 +37,18 @@
 Execute::Execute() {
     QWidget *w = new QWidget;
     ui.setupUi( w );
-    setMainWidget( w );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(w);
+    setLayout(mainLayout);
+    //FIXME Need porting to KF5
+    //setMainWidget( w );
+    //setButtons( QDialog::User1|QDialog::Close );
+
     setWindowTitle( xi18n( "Execute Session" ) );
-    setButtons( QDialog::User1|QDialog::Close );
-    setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("End Session"), QString(), xi18n("Save and End the current session") ) );
+
+    //FIXME Need porting to KF5
+    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("End Session"), QString(), xi18n("Save and End the current session") ) );
     ks = KStars::Instance();
     currentTarget = NULL;
     currentObserver = NULL;
@@ -263,7 +271,7 @@ void Execute::slotEndSession() {
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
-        QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
+        QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
 
         if( fileURL.isEmpty() ) {
             // Cancel

@@ -20,7 +20,7 @@
 #include <QVector>
 #include <QColor>
 
-#include <kicon.h>
+#include <QIcon>
 
 #include "ui_streamform.h"
 

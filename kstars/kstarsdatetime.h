@@ -22,12 +22,12 @@
 #define B1950 2433282.4235  // Julian date for Jan 0.9235, 1950
 #define SIDEREALSECOND 1.002737909 //number of sidereal seconds in one solar second
 
-#include <kdatetime.h>
+#include <QDateTime>
 
 class dms;
 
 /**@class KStarsDateTime
- *@short Extension of KDateTime for KStars
+ *@short Extension of QDateTime for KStars
  *KStarsDateTime can represent the date/time as a Julian Day, using a long double, 
  *in which the fractional portion encodes the time of day to a precision of a less than a second.
  *Also adds Greenwich Sidereal Time and "epoch", which is just the date expressed as a floating
@@ -42,7 +42,7 @@ class dms;
  *@version 1.0
  */
 
-class KStarsDateTime : public KDateTime
+class KStarsDateTime : public QDateTime
 {
 public:
     /**
@@ -63,12 +63,6 @@ public:
      *@p kdt The KStarsDateTime object to copy.
      */
     KStarsDateTime( const KStarsDateTime &kdt );
-
-    /**
-     *@short Copy constructor
-     *@p kdt The KDateTime object to copy.
-     */
-    KStarsDateTime( const KDateTime &kdt );
 
     /**
      *@short Copy constructor
@@ -129,7 +123,7 @@ public:
      *computed from the Local Time or the Universal Time.
      *@sa Qt::TimeSpec
      */
-    static KStarsDateTime currentDateTime(KDateTime::Spec ts = KDateTime::Spec::ClockTime());
+    static KStarsDateTime currentDateTime(QDateTime::Spec ts = QDateTime::Spec::ClockTime());
 
     /**
      *@return a KStarsDateTime object parsed from the given string.

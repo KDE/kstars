@@ -33,17 +33,14 @@
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QInputDialog>
+#include <QIcon>
 
-#include <kactioncollection.h>
-#include <kconfig.h>
-#include <kiconloader.h>
-#include <kstatusbar.h>
+#include <KActionCollection>
+#include <KConfig>
+#include <KIconThemes/KIconLoader>
+#include <KToolBar>
+#include <KToolInvocation>
 #include <kmessagebox.h>
-#include <kaction.h>
-
-#include <ktoolbar.h>
-#include <ktoolinvocation.h>
-#include <kicon.h>
 
 #include "Options.h"
 #include "kstars.h"
@@ -86,7 +83,7 @@
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
-#include <kfiledialog.h>
+#include <QFileDialog>
 #endif
 
 namespace {
@@ -1245,7 +1242,7 @@ void SkyMap::slotXplanetToScreen() {
 }
 
 void SkyMap::slotXplanetToFile() {
-    QString filename = KFileDialog::getSaveFileName( );
+    QString filename = QFileDialog::getSaveFileName( );
     if ( ! filename.isEmpty() ) {
         startXplanet( filename );
     }

@@ -109,13 +109,14 @@ if ( XPLANET_FOUND )
     )
 endif ( XPLANET_FOUND )
 
-if ( OPENGL_FOUND )
-  include_directories( ${OPENGL_INCLUDE_DIRS} )
-  set(kstars_gl_SRCS
-    skyglpainter.cpp skymapgldraw.cpp
-    )
-  add_definitions(-DHAVE_OPENGL)
-endif( OPENGL_FOUND )
+#FIXME Enable OpenGL Later
+#if ( OPENGL_FOUND )
+#  include_directories( ${OPENGL_INCLUDE_DIRS} )
+#  set(kstars_gl_SRCS
+#    skyglpainter.cpp skymapgldraw.cpp
+#    )
+#  add_definitions(-DHAVE_OPENGL)
+#endif( OPENGL_FOUND )
 
 include_directories(
     ${kstars_SOURCE_DIR}/kstars/tools
@@ -393,7 +394,7 @@ set(kstars_extra_SRCS
 	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
 	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
         kstarsinit.cpp kstars.cpp
-	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp
+        kstarssplash.cpp ksutils.cpp kswizard.cpp
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
 	texturemanager.cpp
@@ -478,7 +479,7 @@ qt5_wrap_ui(kstars_SRCS
 
 #FIXME We need to port this
 #kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
-add_executable(kstars kstars.cpp)
+add_executable(kstars main.cpp)
 add_library( KStarsLib STATIC ${kstars_SRCS})
 
 # kde4_add_executable(kstars ${kstars_SRCS})
@@ -489,19 +490,18 @@ add_library( KStarsLib STATIC ${kstars_SRCS})
 target_link_libraries(KStarsLib
         LibKSDataHandlers
         htmesh
-
         KF5::I18n
         KF5::NewStuff
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
         KF5::TextEditor
+        KF5::IconThemes
         Qt5::Gui
-#        ${KDE4_KDECORE_LIBS}
-#    ${QT_QTDECLARATIVE_LIBRARY}
-#    kdeclarative
+        Qt5::PrintSupport
+        Qt5::Sql
+        Qt5::Svg
 	${ZLIB_LIBRARIES}
-	${QT_QTSQL_LIBRARY}
         )
 # qt4_automoc(kstars.h)
 if(NOT WIN32)
@@ -516,12 +516,13 @@ endif (INDI_FOUND)
 if (WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
-if( OPENGL_FOUND )
-    target_link_libraries(KStarsLib
-    ${OPENGL_LIBRARIES}
-    ${QT_QTOPENGL_LIBRARY}
-    )
-endif( OPENGL_FOUND )
+#FIXME Enable OpenGL Later
+#if( OPENGL_FOUND )
+#    target_link_libraries(KStarsLib
+#    ${OPENGL_LIBRARIES}
+#    ${QT_QTOPENGL_LIBRARY}
+#    )
+#endif( OPENGL_FOUND )
 if (QJSON_FOUND)
     target_link_libraries(KStarsLib ${QJSON_LIBRARIES})
 endif(QJSON_FOUND)

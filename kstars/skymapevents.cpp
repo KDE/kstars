@@ -26,8 +26,7 @@
 #include <QKeySequence>
 #include <QPaintEvent>
 #include <QToolTip>
-
-#include <kstatusbar.h>
+#include <QStatusBar>
 
 #include "skymap.h"
 #include "skyqpainter.h"
@@ -586,7 +585,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                     name = clickedObject()->translatedLongName();
                 else
                     name = xi18n( "Empty sky" );
-                kstars->statusBar()->changeItem(name, 0 );
+                //kstars->statusBar()->changeItem(name, 0 );
+                kstars->statusBar()->showMessage(name, 0 );
             }
             break;
         case Qt::RightButton:

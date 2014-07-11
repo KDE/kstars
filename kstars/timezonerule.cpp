@@ -213,7 +213,7 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
     KStarsDateTime result;
 
     // return an invalid date if the rule is the empty rule.
-    if ( isEmptyRule() ) result = KDateTime();
+    if ( isEmptyRule() ) result = QDateTime();
 
     else if ( deltaTZ() ) {
         // Next change is reverting back to standard time.
@@ -247,7 +247,7 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
     KStarsDateTime result;
 
     // return an invalid date if the rule is the empty rule
-    if ( isEmptyRule() ) next_change_ltime = KDateTime();
+    if ( isEmptyRule() ) next_change_ltime = QDateTime();
 
     if ( deltaTZ() ) {
         // Last change was starting DST.

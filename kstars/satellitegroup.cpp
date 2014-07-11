@@ -74,7 +74,7 @@ void SatelliteGroup::updateSatellitesPos()
 QUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
-    return QUrl( "file:" + QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "") + m_tle_file ;
+    return QUrl( "file:" + (QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "") + m_tle_file) ;
 }
 
 QUrl SatelliteGroup::tleUrl()

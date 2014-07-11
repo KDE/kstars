@@ -55,9 +55,17 @@ FindDialog::FindDialog( QWidget* parent ) :
     timer(0)
 {
     ui = new FindDialogUI( this );
-    setMainWidget( ui );
+
     setWindowTitle( xi18n( "Find Object" ) );
-    setButtons( QDialog::Ok|QDialog::User1|QDialog::Cancel );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(ui);
+    setLayout(mainLayout);
+
+    //FIXME Need porting to KF5
+    //setMainWidget( ui );
+    //setButtons( QDialog::Ok|QDialog::User1|QDialog::Cancel );
+
     ui->FilterType->setCurrentIndex(0);  // show all types of objects
 
     fModel = new QStringListModel( this );
@@ -66,7 +74,9 @@ FindDialog::FindDialog( QWidget* parent ) :
     ui->SearchList->setModel( sortModel );
     sortModel->setSourceModel( fModel );
     ui->SearchList->setModel( sortModel );
-    setButtonText(QDialog::User1, xi18n("Details..."));
+
+    //FIXME Need porting to KF5
+    //setButtonText(QDialog::User1, xi18n("Details..."));
 
     // Connect signals to slots
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotOk() ) );
@@ -96,10 +106,12 @@ void FindDialog::init() {
 }
 
 void FindDialog::initSelection() {
+    //FIXME Need porting to KF5
+    /*
     if ( sortModel->rowCount() <= 0 ) {
         button( Ok )->setEnabled( false );
         return;
-    }
+    }*/
 
     if ( ui->SearchBox->text().isEmpty() ) {
         //Pre-select the first item
@@ -137,7 +149,9 @@ void FindDialog::initSelection() {
             ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
             ui->SearchList->scrollTo( selectItem );
             ui->SearchList->setCurrentIndex( selectItem );
-            button( Ok )->setEnabled( true );
+
+            //FIXME Need porting to KF5
+            //button( Ok )->setEnabled( true );
         }
     }
 
@@ -225,7 +239,9 @@ void FindDialog::filterList() {
                 ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
                 ui->SearchList->scrollTo( selectItem );
                 ui->SearchList->setCurrentIndex( selectItem );
-                button( Ok )->setEnabled( true );
+
+                //FIXME Need porting to KF5
+                //button( Ok )->setEnabled( true );
             }
         }
     }

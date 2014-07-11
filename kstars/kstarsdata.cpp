@@ -260,10 +260,10 @@ unsigned int KStarsData::incUpdateID() {
 
 void KStarsData::setFullTimeUpdate() {
     //Set the update markers to invalid dates to trigger updates in each category
-    LastSkyUpdate = KDateTime();
-    LastPlanetUpdate = KDateTime();
-    LastMoonUpdate = KDateTime();
-    LastNumUpdate = KDateTime();
+    LastSkyUpdate = QDateTime();
+    LastPlanetUpdate = QDateTime();
+    LastMoonUpdate = QDateTime();
+    LastNumUpdate = QDateTime();
 }
 
 void KStarsData::syncLST() {

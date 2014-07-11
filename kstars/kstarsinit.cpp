@@ -21,16 +21,16 @@
 #include <QStatusBar>
 #include <QMenu>
 
-#include <kactioncollection.h>
-#include <kactionmenu.h>
-#include <ktip.h>
-#include <kmessagebox.h>
-#include <kstandardaction.h>
+#include <KIconThemes/KIconLoader>
+#include <KActionCollection>
+#include <KActionMenu>
+#include <KTipDialog>
+#include <KStandardAction>
+#include <KToggleAction>
+#include <KToolBar>
+#include <KNewStuff3/kns3/knewstuffaction.h>
 
-#include <ktoggleaction.h>
-#include <ktoolbar.h>
-#include <kicon.h>
-#include <kns3/knewstuffaction.h>
+#include <kmessagebox.h>
 
 #include "Options.h"
 #include "fov.h"
@@ -75,13 +75,13 @@ namespace {
         return ka;
     }
     // Set icon for QAction
-    QAction * operator << (QAction* ka, const KIcon& icon) {
+    QAction * operator << (QAction* ka, const QIcon& icon) {
         ka->setIcon(icon);
         return ka;
     }
     // Set keyboard shortcut
-    QAction * operator << (QAction* ka, const KShortcut& sh) {
-        ka->setShortcuts(sh);
+    QAction * operator << (QAction* ka, const QKeySequence sh) {
+        ka->setShortcut(sh);
         return ka;
     }
 
@@ -132,7 +132,7 @@ void KStars::initActions() {
 
     // ==== File menu ================
     ka = KNS3::standardAction(xi18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
-        << KShortcut( Qt::CTRL+Qt::Key_D );
+        << QKeySequence( Qt::CTRL+Qt::Key_D );
     ka->setWhatsThis(xi18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
@@ -141,17 +141,17 @@ void KStars::initActions() {
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()) )
         << xi18n("Open FITS...")
         << QIcon::fromTheme("document-open")
-        << KShortcut( Qt::CTRL+Qt::Key_O );
+        << QKeySequence( Qt::CTRL+Qt::Key_O );
 #endif
 
     actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
         << xi18n("&Save Sky Image...")
         << QIcon::fromTheme("document-export-image")
-        << KShortcut( Qt::CTRL+Qt::Key_I );
+        << QKeySequence( Qt::CTRL+Qt::Key_I );
     actionCollection()->addAction("run_script", this, SLOT( slotRunScript() ))
         << xi18n("&Run Script...")
         << QIcon::fromTheme("system-run" )
-        << KShortcut( Qt::CTRL+Qt::Key_R );
+        << QKeySequence( Qt::CTRL+Qt::Key_R );
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard() ) )
             << xi18nc("start Printing Wizard", "Printing &Wizard");
     actionCollection()->addAction( KStandardAction::Print, "print", this, SLOT( slotPrint() ) );
@@ -160,12 +160,12 @@ void KStars::initActions() {
     // ==== Time Menu ================
     actionCollection()->addAction("time_to_now", this, SLOT( slotSetTimeToNow() ))
         << xi18n("Set Time to &Now")
-        << KShortcut( Qt::CTRL+Qt::Key_E )
+        << QKeySequence( Qt::CTRL+Qt::Key_E )
         << QIcon::fromTheme("clock");
 
     actionCollection()->addAction("time_dialog", this, SLOT( slotSetTime() ) )
         << xi18nc("set Clock to New Time", "&Set Time..." )
-        << KShortcut( Qt::CTRL+Qt::Key_S )
+        << QKeySequence( Qt::CTRL+Qt::Key_S )
         << QIcon::fromTheme("view-history");
 
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
@@ -180,40 +180,40 @@ void KStars::initActions() {
     actionCollection()->addAction("time_step_forward", this, SLOT( slotStepForward() ) )
         << xi18n("Advance one step forward in time")
         << QIcon::fromTheme("media-skip-forward" )
-        << KShortcut( Qt::Key_Greater, Qt::Key_Period );
+        << QKeySequence( Qt::Key_Greater, Qt::Key_Period );
     actionCollection()->addAction("time_step_backward", this, SLOT( slotStepBackward() ) )
         << xi18n("Advance one step backward in time")
         << QIcon::fromTheme("media-skip-backward" )
-        << KShortcut( Qt::Key_Less, Qt::Key_Comma );
+        << QKeySequence( Qt::Key_Less, Qt::Key_Comma );
 
     // ==== Pointing Menu ================
     actionCollection()->addAction("zenith", this, SLOT( slotPointFocus() ) )
         << xi18n("&Zenith")
-        << KShortcut("Z");
+        << QKeySequence("Z");
     actionCollection()->addAction("north", this, SLOT( slotPointFocus() ) )
         << xi18n("&North")
-        << KShortcut("N");
+        << QKeySequence("N");
     actionCollection()->addAction("east", this, SLOT( slotPointFocus() ) )
         << xi18n("&East")
-        << KShortcut("E");
+        << QKeySequence("E");
     actionCollection()->addAction("south", this, SLOT( slotPointFocus() ) )
         << xi18n("&South")
-        << KShortcut("S");
+        << QKeySequence("S");
     actionCollection()->addAction("west", this, SLOT( slotPointFocus() ) )
         << xi18n("&West")
-        << KShortcut("W");
+        << QKeySequence("W");
 
     actionCollection()->addAction("find_object", this, SLOT( slotFind() ) )
         << xi18n("&Find Object...")
         << QIcon::fromTheme("edit-find")
-        << KShortcut( Qt::CTRL+Qt::Key_F );
+        << QKeySequence( Qt::CTRL+Qt::Key_F );
     actionCollection()->addAction("track_object", this, SLOT( slotTrack() ) )
         << xi18n("Engage &Tracking")
         << QIcon::fromTheme("object-locked" )
-        << KShortcut( Qt::CTRL+Qt::Key_T  );
+        << QKeySequence( Qt::CTRL+Qt::Key_T  );
     actionCollection()->addAction("manual_focus", this, SLOT( slotManualFocus() ) )
         << xi18n("Set Coordinates &Manually..." )
-        << KShortcut( Qt::CTRL+Qt::Key_M );
+        << QKeySequence( Qt::CTRL+Qt::Key_M );
 
     // ==== View Menu ================
     actionCollection()->addAction( KStandardAction::ZoomIn,  "zoom_in",  map(), SLOT( slotZoomIn() ) );
@@ -221,17 +221,17 @@ void KStars::initActions() {
     actionCollection()->addAction("zoom_default", map(), SLOT( slotZoomDefault() ) )
         << xi18n("&Default Zoom")
         << QIcon::fromTheme("zoom-fit-best" )
-        << KShortcut( Qt::CTRL+Qt::Key_Z );
+        << QKeySequence( Qt::CTRL+Qt::Key_Z );
     actionCollection()->addAction("zoom_set", this, SLOT( slotSetZoom() ) )
         << xi18n("&Zoom to Angular Size..." )
         << QIcon::fromTheme("zoom-original" )
-        << KShortcut( Qt::CTRL+Qt::SHIFT+Qt::Key_Z );
+        << QKeySequence( Qt::CTRL+Qt::SHIFT+Qt::Key_Z );
 
     actionCollection()->addAction( KStandardAction::FullScreen, this, SLOT( slotFullScreen() ) );
 
     actionCollection()->addAction("coordsys", this, SLOT( slotCoordSys() ) )
         << (Options::useAltAz() ? xi18n("Switch to star globe view (Equatorial &Coordinates)"): xi18n("Switch to horizonal view (Horizontal &Coordinates)"))
-        << KShortcut("Space" );
+        << QKeySequence("Space" );
 
     #ifdef HAVE_OPENGL
     Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
@@ -241,32 +241,32 @@ void KStars::initActions() {
 
     actionCollection()->addAction("project_lambert", this, SLOT( slotMapProjection() ) )
         << xi18n("&Lambert Azimuthal Equal-area" )
-        << KShortcut("F5" )
+        << QKeySequence("F5" )
         << AddToGroup(projectionGroup)
         << Checked(Options::projection() == SkyMap::Lambert);
     actionCollection()->addAction("project_azequidistant", this, SLOT( slotMapProjection() ) )
         << xi18n("&Azimuthal Equidistant" )
-        << KShortcut("F6" )
+        << QKeySequence("F6" )
         << AddToGroup(projectionGroup)
         << Checked(Options::projection() == SkyMap::AzimuthalEquidistant);
     actionCollection()->addAction("project_orthographic", this, SLOT( slotMapProjection() ) )
         << xi18n("&Orthographic" )
-        << KShortcut("F7" )
+        << QKeySequence("F7" )
         << AddToGroup(projectionGroup)
         << Checked(Options::projection() == SkyMap::Orthographic);
     actionCollection()->addAction("project_equirectangular", this, SLOT( slotMapProjection() ) )
         << xi18n("&Equirectangular" )
-        << KShortcut("F8" )
+        << QKeySequence("F8" )
         << AddToGroup(projectionGroup)
         << Checked(Options::projection() == SkyMap::Equirectangular);
     actionCollection()->addAction("project_stereographic", this, SLOT( slotMapProjection() ) )
         << xi18n("&Stereographic" )
-        << KShortcut("F9" )
+        << QKeySequence("F9" )
         << AddToGroup(projectionGroup)
         << Checked(Options::projection() == SkyMap::Stereographic);
     actionCollection()->addAction("project_gnomonic", this, SLOT( slotMapProjection() ) )
         << xi18n("&Gnomonic" )
-        << KShortcut("F10" )
+        << QKeySequence("F10" )
         << AddToGroup(projectionGroup)
         << Checked(Options::projection() == SkyMap::Gnomonic);
 
@@ -343,7 +343,7 @@ void KStars::initActions() {
     actionCollection()->addAction("geolocation", this, SLOT( slotGeoLocator() ) )
         << xi18nc("Location on Earth", "&Geographic..." )
         << QIcon::fromTheme("applications-internet" )
-        << KShortcut( Qt::CTRL+Qt::Key_G );
+        << QKeySequence( Qt::CTRL+Qt::Key_G );
     actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
     actionCollection()->addAction("startwizard", this, SLOT( slotWizard() ) )
         << xi18n("Startup Wizard..." )
@@ -363,24 +363,24 @@ void KStars::initActions() {
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )
         << xi18n("Calculator")
         << QIcon::fromTheme("accessories-calculator" )
-        << KShortcut( Qt::CTRL+Qt::Key_C );
+        << QKeySequence( Qt::CTRL+Qt::Key_C );
 
     actionCollection()->addAction("moonphasetool", this, SLOT( slotMoonPhaseTool() ) )
         << xi18n("Moon Phase Calendar");
 
     actionCollection()->addAction("obslist", this, SLOT( slotObsList() ) )
         << xi18n("Observation Planner")
-        << KShortcut( Qt::CTRL+Qt::Key_L );
+        << QKeySequence( Qt::CTRL+Qt::Key_L );
 
     actionCollection()->addAction("altitude_vs_time", this, SLOT( slotAVT() ) )
         << xi18n("Altitude vs. Time")
-        << KShortcut( Qt::CTRL+Qt::Key_A );
+        << QKeySequence( Qt::CTRL+Qt::Key_A );
     actionCollection()->addAction("whats_up_tonight", this, SLOT( slotWUT() ) )
         << xi18n("What's up Tonight")
-        << KShortcut(Qt::CTRL+Qt::Key_U );
+        << QKeySequence(Qt::CTRL+Qt::Key_U );
     actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )
         << xi18n("What's Interesting...")
-        << KShortcut(Qt::CTRL+Qt::Key_W );
+        << QKeySequence(Qt::CTRL+Qt::Key_W );
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << xi18n("Sky Calendar");
 
@@ -394,32 +394,32 @@ void KStars::initActions() {
 //FIXME: implement glossary
 //     ka = actionCollection()->addAction("glossary");
 //     ka->setText( xi18n("Glossary...") );
-//     ka->setShortcuts( KShortcut(Qt::CTRL+Qt::Key_K ) );
+//     ka->setShortcuts( QKeySequence(Qt::CTRL+Qt::Key_K ) );
 //     connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
 
     actionCollection()->addAction("scriptbuilder", this, SLOT( slotScriptBuilder() ) )
         << xi18n("Script Builder")
-        << KShortcut(Qt::CTRL+Qt::Key_B );
+        << QKeySequence(Qt::CTRL+Qt::Key_B );
     actionCollection()->addAction("solarsystem", this, SLOT( slotSolarSystem() ) )
         << xi18n("Solar System")
-        << KShortcut(Qt::CTRL+Qt::Key_Y );
+        << QKeySequence(Qt::CTRL+Qt::Key_Y );
     actionCollection()->addAction("jmoontool", this, SLOT( slotJMoonTool() ) )
         << xi18n("Jupiter's Moons")
-        << KShortcut(Qt::CTRL+Qt::Key_J );
+        << QKeySequence(Qt::CTRL+Qt::Key_J );
     actionCollection()->addAction("flagmanager", this, SLOT( slotFlagManager() ) )
         << xi18n("Flags");
 
     actionCollection()->addAction("ewriter", this, SLOT( slotEquipmentWriter() ) )
         << xi18n("Define Equipment...")
-        << KShortcut( Qt::CTRL+Qt::Key_0 );
+        << QKeySequence( Qt::CTRL+Qt::Key_0 );
     actionCollection()->addAction("obsadd", this, SLOT( slotObserverAdd() ) )
         << xi18n( "Add Observer..." )
-        << KShortcut( Qt::CTRL+Qt::Key_1 );
+        << QKeySequence( Qt::CTRL+Qt::Key_1 );
 
     // ==== observation menu ================
     ka = actionCollection()->addAction("execute", this, SLOT( slotExecute() ) )
         << xi18n( "Execute the session Plan..." )
-        << KShortcut( Qt::CTRL+Qt::Key_2 );
+        << QKeySequence( Qt::CTRL+Qt::Key_2 );
 
     // ==== devices Menu ================
 #ifdef HAVE_INDI
@@ -454,7 +454,8 @@ void KStars::initActions() {
     TimeStep->tsbox()->setToolTip( TSBToolTip );
     ka = actionCollection()->addAction("timestep_control")
         << xi18n("Time step control");
-    ka->setDefaultWidget( TimeStep );
+    //FIXME Needs porting to KF5
+   // ka->setDefaultWidget( TimeStep );
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT( slotViewToolBar() ) )
@@ -541,6 +542,8 @@ void KStars::repopulateFOV() {
 }
 
 void KStars::initStatusBar() {
+    //FIXME Needs porting to KF5
+    /*
     statusBar()->insertPermanentItem( xi18n( " Welcome to KStars " ), 0, 1 );
     statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
 
@@ -559,6 +562,7 @@ void KStars::initStatusBar() {
 
     if ( ! Options::showStatusBar() )
         statusBar()->hide();
+        */
 }
 
 void KStars::datainitFinished() {

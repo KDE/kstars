@@ -39,12 +39,19 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
     UTCNow = UTCFrame;
 
     QFrame *page = new QFrame(this);
-    setMainWidget( page );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(page);
+    setLayout(mainLayout);
+
     if( UTCNow )
         setWindowTitle( xi18nc( "set clock to a new time", "Set UTC Time" ) );
     else
         setWindowTitle( xi18nc( "set clock to a new time", "Set Time" ) );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+
+    //FIXME Need porting to KF5
+    //setMainWidget( page );
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     vlay = new QVBoxLayout( page );
     vlay->setMargin( 2 );
@@ -88,7 +95,7 @@ void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 
 void TimeDialog::setNow( void )
 {
-    KStarsDateTime dt( KStarsDateTime::currentDateTime( KDateTime::Spec::UTC() ) );
+    KStarsDateTime dt( KStarsDateTime::currentDateTime( QDateTime::Spec::UTC() ) );
     if ( ! UTCNow )
         dt = geo->UTtoLT( dt );
 

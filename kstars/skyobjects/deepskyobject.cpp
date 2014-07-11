@@ -17,8 +17,6 @@
 
 #include "deepskyobject.h"
 
-#include <kglobal.h>
-
 #include <QFile>
 #include <QRegExp>
 #include <QPainter>
@@ -35,7 +33,7 @@
 #include "texturemanager.h"
 
 #include <QDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
     : SkyObject( o )

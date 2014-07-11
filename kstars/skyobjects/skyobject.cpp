@@ -19,8 +19,6 @@
 
 #include <iostream>
 
-#include <kglobal.h>
-
 #include <QPainter>
 #include <QTextStream>
 #include <QFile>

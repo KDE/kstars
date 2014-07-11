@@ -25,7 +25,7 @@
 #include <kmessagebox.h>
 #include <kurl.h>
 
-#include <QSvgGenerator>
+#include <QtSvg/QSvgGenerator>
 #include <QDir>
 #include <QDesktopWidget>
 
@@ -40,7 +40,13 @@ ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, Imag
     : QDialog((QWidget*) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
 {
     m_DialogUI = new ExportImageDialogUI(this);
-    setMainWidget(m_DialogUI);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(m_DialogUI);
+    setLayout(mainLayout);
+
+    //FIXME need porting to KF5
+    //setMainWidget(m_DialogUI);
 
     m_ImageExporter = ( ( imgExporter ) ? imgExporter : new ImageExporter( this ) );
 
@@ -78,9 +84,10 @@ void ExportImageDialog::previewImage()
 
 void ExportImageDialog::setupWidgets()
 {
-    setButtons(QDialog::Ok | QDialog::Cancel | QDialog::User1);
-    setButtonText(QDialog::User1, xi18n("Preview image"));
-    setButtonText(QDialog::Ok, xi18n("Export image"));
+    //FIXME need porting to KF5
+    //setButtons(QDialog::Ok | QDialog::Cancel | QDialog::User1);
+    //setButtonText(QDialog::User1, xi18n("Preview image"));
+    //setButtonText(QDialog::Ok, xi18n("Export image"));
 
     m_DialogUI->addLegendCheckBox->setChecked(true);
 
@@ -105,7 +112,8 @@ void ExportImageDialog::setupConnections()
     connect(this, SIGNAL(user1Clicked()), this, SLOT(previewImage()));
 
     connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), this, SLOT(switchLegendEnabled(bool)));
-    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), button(QDialog::User1), SLOT(setEnabled(bool)));
+    //FIXME need porting to KF5
+    //connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), button(QDialog::User1), SLOT(setEnabled(bool)));
 }
 
 void ExportImageDialog::updateLegendSettings()

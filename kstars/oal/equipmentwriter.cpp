@@ -40,9 +40,16 @@ EquipmentWriter::EquipmentWriter() {
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
     ui.tabWidget->setCurrentIndex(0);
-    setMainWidget( widget );
+
     setWindowTitle( xi18n( "Define Equipment" ) );
-    setButtons( QDialog::Close );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(widget);
+    setLayout(mainLayout);
+
+    //FIXME need porting to KF5
+    //setMainWidget( widget );
+    //setButtons( QDialog::Close );
     ks = KStars::Instance();
     nextScope = 0;
     nextEyepiece = 0;

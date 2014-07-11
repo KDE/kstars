@@ -23,18 +23,18 @@
 #include "ksnumbers.h"
 #include "dms.h"
 
-KStarsDateTime::KStarsDateTime() : KDateTime()
+KStarsDateTime::KStarsDateTime() : QDateTime()
 {
     setDJD( J2000 );
 }
 
-KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : KDateTime()
+KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : QDateTime()
 {
     setDJD( kdt.djd() );
 }
 
-KStarsDateTime::KStarsDateTime( const KDateTime &kdt ) :
-    KDateTime( kdt )
+KStarsDateTime::KStarsDateTime( const QDateTime &kdt ) :
+    QDateTime( kdt )
 {
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     QTime _t = kdt.time();
@@ -44,7 +44,7 @@ KStarsDateTime::KStarsDateTime( const KDateTime &kdt ) :
 }
 
 KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
-    KDateTime( qdt, KDateTime::Spec::UTC() )
+    QDateTime( qdt, QDateTime::Spec::UTC() )
 {
     QTime _t = qdt.time();
     QDate _d = qdt.date();
@@ -53,21 +53,21 @@ KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
 }
 
 KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t ) :
-    KDateTime( _d, _t, KDateTime::Spec::UTC() )
+    QDateTime( _d, _t, QDateTime::Spec::UTC() )
 {
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
 }
 
-KStarsDateTime::KStarsDateTime( long double _jd ) : KDateTime() {
+KStarsDateTime::KStarsDateTime( long double _jd ) : QDateTime() {
     setDJD( _jd );
 }
 
-KStarsDateTime KStarsDateTime::currentDateTime( KDateTime::Spec spec ) {
-    KStarsDateTime dt( KDateTime::currentDateTime(spec) );
+KStarsDateTime KStarsDateTime::currentDateTime( QDateTime::Spec spec ) {
+    KStarsDateTime dt( QDateTime::currentDateTime(spec) );
     if ( dt.time().hour()==0 && dt.time().minute()==0 )        // midnight or right after?
-        dt.setDate( KDateTime::currentDateTime(spec).date() ); // fetch date again
+        dt.setDate( QDateTime::currentDateTime(spec).date() ); // fetch date again
 
     return dt;
 }
@@ -76,15 +76,15 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     //DEBUG
     qDebug() << "Date string: " << s;
 
-    KStarsDateTime dtResult = KDateTime::fromString( s, KDateTime::QtTextDate );
+    KStarsDateTime dtResult = QDateTime::fromString( s, QDateTime::QtTextDate );
     if ( dtResult.isValid() )
         return dtResult;
 
-    dtResult = KDateTime::fromString( s, KDateTime::ISODate );
+    dtResult = QDateTime::fromString( s, QDateTime::ISODate );
     if ( dtResult.isValid() )
         return dtResult;
 
-    dtResult = KDateTime::fromString( s, KDateTime::RFCDate );
+    dtResult = QDateTime::fromString( s, QDateTime::RFCDate );
     if ( dtResult.isValid() )
         return dtResult;
 
@@ -93,11 +93,11 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     qWarning() << "  1950-02-25   ;  1950-02-25T05:30:00" ;
     qWarning() << "  25 Feb 1950  ;  25 Feb 1950 05:30:00" ;
     qWarning() << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";
-    return KStarsDateTime( KDateTime() ); //invalid
+    return KStarsDateTime( QDateTime() ); //invalid
 }
 
 void KStarsDateTime::setDJD( long double _jd ) {
-    KDateTime::setTimeSpec( KDateTime::Spec::UTC() );
+    QDateTime::setTimeSpec( QDateTime::Spec::UTC() );
 
     DJD = _jd;
     long int ijd = (long int)_jd;
@@ -105,7 +105,7 @@ void KStarsDateTime::setDJD( long double _jd ) {
     if ( dayfrac > 1.0 ) { ijd++; dayfrac -= 1.0; }
 
     QDate dd = QDate::fromJulianDay( ijd );
-    KDateTime::setDate( dd );
+    QDateTime::setDate( dd );
 
     double hour = 24.*dayfrac;
     int h = int(hour);
@@ -113,7 +113,7 @@ void KStarsDateTime::setDJD( long double _jd ) {
     int s = int( 60.*(60.*(hour - h) - m) );
     int ms = int( 1000.*(60.*(60.*(hour - h) - m) - s) );
 
-    KDateTime::setTime( QTime( h, m, s, ms ) );
+    QDateTime::setTime( QTime( h, m, s, ms ) );
 }
 
 void KStarsDateTime::setDate( const QDate &_d ) {

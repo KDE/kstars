@@ -22,18 +22,17 @@
 #include <QPainter>
 #include <QTextStream>
 #include <QPaintEvent>
-
-#include <kactioncollection.h>
-#include <klocale.h>
 #include <QDebug>
 #include <QPushButton>
-#include <kcolorbutton.h>
-#include <QComboBox.h>
+#include <QComboBox>
 #include <QDoubleSpinBox>
-#include <klineedit.h>
-#include <kmessagebox.h>
+#include <QLineEdit>
 
-#include <KLocale>
+#include <KActionCollection>
+#include <KLocalizedString>
+#include <kcolorbutton.h>
+#include <KLocalizedString>
+#include <kmessagebox.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -48,7 +47,7 @@ namespace {
     // Try to convert text in KLine edit to double
     inline double textToDouble(const QLineEdit* edit, bool* ok = 0)
     {
-        return edit->text().replace( KLocale::global()->decimalSymbol(), "." ).toDouble(ok);
+        return edit->text().replace( QLocale().decimalPoint(), "." ).toDouble(ok);
     }
 
     // Extract FOV from QListWidget. No checking is done
@@ -60,7 +59,7 @@ namespace {
     // Convert double to QString 
     QString toString(double x, int precision = 2)
     {
-        return QString::number(x, 'f', precision).replace( '.', KLocale::global()->decimalSymbol() );
+        return QString::number(x, 'f', precision).replace( '.', QLocale().decimalPoint() );
     }
 }
 
@@ -81,9 +80,16 @@ FOVDialog::FOVDialog( QWidget* p ) :
     if( fovID == -1 )
         fovID = qRegisterMetaType<FOV*>("FOV*");
     fov = new FOVDialogUI( this );
-    setMainWidget( fov );
+
     setWindowTitle( xi18n( "Set FOV Indicator" ) );
-    setButtons( QDialog::Ok | QDialog::Cancel );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(fov);
+    setLayout(mainLayout);
+
+    //FIXME Need porting to KF5
+    //setMainWidget( fov );
+    //setButtons( QDialog::Ok | QDialog::Cancel );
     
     connect( fov->FOVListBox,   SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
     connect( fov->NewButton,    SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
@@ -172,9 +178,16 @@ NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
     QDialog( parent ), f()
 {
     ui = new NewFOVUI( this );
-    setMainWidget( ui );
+
     setWindowTitle( xi18n( "New FOV Indicator" ) );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(ui);
+    setLayout(mainLayout);
+
+    //FIXME Need porting to KF5
+    //setMainWidget( ui );
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     // Initialize FOV if required
     if( fov != 0 ) {
@@ -255,7 +268,8 @@ void NewFOV::slotUpdateFOV() {
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
 
-    enableButtonOk( !f.name().isEmpty() && okX && okY );
+    //FIXME Need porting to KF5
+    //enableButtonOk( !f.name().isEmpty() && okX && okY );
     
     ui->ViewBox->setFOV( &f );
     ui->ViewBox->update();
@@ -315,15 +329,27 @@ TelescopeFL::TelescopeFL( QWidget *parent ) :
     QDialog( parent ), aperture( 0 ), fNumber( 0 ), apertureUnit( 0 ) {
 
     setWindowTitle( xi18n( "Telescope Focal Length Calculator" ) );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+
+    //FIXME Need porting to KF5
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     QWidget *mainWidget = new QWidget( this );
     QGridLayout *mainLayout = new QGridLayout( mainWidget );
     mainWidget->setLayout( mainLayout );
-    setMainWidget( mainWidget );
 
-    aperture = new QDoubleSpinBox( 0.0, 100000.0, 0.0, this, 0.1, 2 );
-    fNumber = new QDoubleSpinBox( 0.0, 99.9, 0.0, this, 0.1, 2 );
+    //FIXME Need porting to KF5
+    //setMainWidget( mainWidget );
+
+    aperture = new QDoubleSpinBox();
+    aperture->setRange(0.0, 100000.0);
+    aperture->setDecimals(2);
+    aperture->setSingleStep(0.1);
+
+    fNumber = new QDoubleSpinBox();
+    fNumber->setRange(0.0, 99.9);
+    fNumber->setDecimals(2);
+    fNumber->setSingleStep(0.1);
+
     apertureUnit = new QComboBox( this );
     apertureUnit->insertItem( 0, xi18nc("millimeters", "mm") );
     apertureUnit->insertItem( 1, xi18n("inch") );

@@ -16,10 +16,13 @@
  ***************************************************************************/
 
 
-#include <K4AboutData>
-#include <klocale.h>
 #include <QDebug>
-#include <kapplication.h>
+#include <QPixmap>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
+
+#include <KAboutData>
+#include <KLocalizedString>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -29,11 +32,6 @@
 #include "ksnumbers.h"
 #include "version.h"
 #include "Options.h"
-//Added by qt3to4:
-#include <QPixmap>
-#include <kglobal.h>
-#include <qcommandlineparser.h>
-#include <qcommandlineoption.h>
 
 
 static const char description[] =
@@ -44,38 +42,36 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
-    K4AboutData aboutData( "kstars", 0, kxi18n("KStars"),
-                          KSTARS_VERSION, ki18n(description), K4AboutData::License_GPL,
-                          kxi18n("(c) 2001-2013, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
-    aboutData.addAuthor(kxi18n("Jason Harris"),KLocalizedString(), "jharris@30doradus.org", "http://www.30doradus.org");
-    aboutData.addAuthor(kxi18n("Jasem Mutlaq"), KLocalizedString(), "mutlaqja@ikarustech.com");
-    aboutData.addAuthor(kxi18n("James Bowlin"), KLocalizedString(), "bowlin@mindspring.com");
-    aboutData.addAuthor(kxi18n("Pablo de Vicente"), KLocalizedString(), "pvicentea@wanadoo.es");
-    aboutData.addAuthor(kxi18n("Thomas Kabelmann"), KLocalizedString(), "tk78@gmx.de");
-    aboutData.addAuthor(kxi18n("Heiko Evermann"),KLocalizedString(), "heiko@evermann.de", "http://www.evermann.de");
-    aboutData.addAuthor(kxi18n("Carsten Niehaus"), KLocalizedString(), "cniehaus@gmx.de");
-    aboutData.addAuthor(kxi18n("Mark Hollomon"), KLocalizedString(), "mhh@mindspring.com");
-    aboutData.addAuthor(kxi18n("Alexey Khudyakov"), KLocalizedString(), "alexey.skladnoy@gmail.com");
-    aboutData.addAuthor(kxi18n("M&eacute;d&eacute;ric Boquien"), KLocalizedString(), "mboquien@free.fr");
-    aboutData.addAuthor(kxi18n("Akarsh Simha"), KLocalizedString(), "akarsh.simha@kdemail.net", "http://www.ph.utexas.edu/~asimha");
-    aboutData.addAuthor(kxi18n("J&eacute;r&ocirc;me Sonrier"), KLocalizedString(), "jsid@emor3j.fr.eu.org");
-    aboutData.addAuthor(kxi18n("Prakash Mohan"), KLocalizedString(), "prakash.mohan@kdemail.net");
-    aboutData.addAuthor(kxi18n("Victor Cărbune"), KLocalizedString(), "victor.carbune@kdemail.net");
-    aboutData.addAuthor(kxi18n("Henry de Valence"), KLocalizedString(), "hdevalence@gmail.com");
-    aboutData.addAuthor(kxi18n("Samikshan Bairagya"), KLocalizedString(), "samikshan.bairagya@kdemail.net");
-    aboutData.addAuthor(kxi18n("Rafał Kułaga"), KLocalizedString(), "rl.kulaga@gmail.com");
-    aboutData.addAuthor(kxi18n("Rishab Arora"), KLocalizedString(), "ra.rishab@gmail.com");
+    KAboutData aboutData( "kstars", xi18n("KStars"), KSTARS_VERSION, xi18n(description), KAboutLicense::GPL,
+                          xi18n("(c) 2001-2014, The KStars Team"), xi18n(notice), "http://edu.kde.org/kstars");
+    aboutData.addAuthor(xi18n("Jason Harris"),QString(), "jharris@30doradus.org", "http://www.30doradus.org");
+    aboutData.addAuthor(xi18n("Jasem Mutlaq"), QString(), "mutlaqja@ikarustech.com", "http://www.indilib.org");
+    aboutData.addAuthor(xi18n("James Bowlin"), QString(), "bowlin@mindspring.com");
+    aboutData.addAuthor(xi18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
+    aboutData.addAuthor(xi18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
+    aboutData.addAuthor(xi18n("Heiko Evermann"),QString(), "heiko@evermann.de", "http://www.evermann.de");
+    aboutData.addAuthor(xi18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
+    aboutData.addAuthor(xi18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
+    aboutData.addAuthor(xi18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
+    aboutData.addAuthor(xi18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");
+    aboutData.addAuthor(xi18n("Akarsh Simha"), QString(), "akarsh.simha@kdemail.net", "http://www.ph.utexas.edu/~asimha");
+    aboutData.addAuthor(xi18n("J&eacute;r&ocirc;me Sonrier"), QString(), "jsid@emor3j.fr.eu.org");
+    aboutData.addAuthor(xi18n("Prakash Mohan"), QString(), "prakash.mohan@kdemail.net");
+    aboutData.addAuthor(xi18n("Victor Cărbune"), QString(), "victor.carbune@kdemail.net");
+    aboutData.addAuthor(xi18n("Henry de Valence"), QString(), "hdevalence@gmail.com");
+    aboutData.addAuthor(xi18n("Samikshan Bairagya"), QString(), "samikshan.bairagya@kdemail.net");
+    aboutData.addAuthor(xi18n("Rafał Kułaga"), QString(), "rl.kulaga@gmail.com");
+    aboutData.addAuthor(xi18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
 
-    aboutData.addCredit(kxi18n("Valery Kharitonov"), kxi18n("Converted labels containing technical terms to links to documentation") );
-    aboutData.addCredit(kxi18n("Ana-Maria Constantin"), kxi18n("Technical documentation on Astronomy and KStars") );
-    aboutData.addCredit(kxi18n("Andrew Stepanenko"), kxi18n("Guiding code based on lin_guider") );
-    aboutData.addCredit(kxi18n("Nuno Pinheiro"), kxi18n("Artwork") );
+    aboutData.addCredit(xi18n("Valery Kharitonov"), xi18n("Converted labels containing technical terms to links to documentation") );
+    aboutData.addCredit(xi18n("Ana-Maria Constantin"), xi18n("Technical documentation on Astronomy and KStars") );
+    aboutData.addCredit(xi18n("Andrew Stepanenko"), xi18n("Guiding code based on lin_guider") );
+    aboutData.addCredit(xi18n("Nuno Pinheiro"), xi18n("Artwork") );
 
 
-    QCommandLineParser *parser = new QCommandLineParser;
-    app.setApplicationVersion(INSERT_VERSION_HERE);
+    QCommandLineParser *parser = new QCommandLineParser;    
     parser->addVersionOption();
-    parser->addHelpOption(INSERT_DESCRIPTION_HERE);
+    //parser->addHelpOption(INSERT_DESCRIPTION_HERE);
     parser->addOption(QCommandLineOption(QStringList() << "!dump", xi18n( "Dump sky image to file" )));
     parser->addOption(QCommandLineOption(QStringList() << "script ", xi18n( "Script to execute" )));
     parser->addOption(QCommandLineOption(QStringList() << "width ", xi18n( "Width of sky image" ), false, "640"));
@@ -84,14 +80,15 @@ int main(int argc, char *argv[])
     parser->addOption(QCommandLineOption(QStringList() << "date ", xi18n( "Date and time" )));
     parser->addOption(QCommandLineOption(QStringList() << "!paused", xi18n( "Start with clock paused" )));
 
-    KApplication a;
+    QApplication a(argc, argv);
+    a.setApplicationVersion(KSTARS_VERSION);
 
     if ( parser->isSet( "dump" ) ) {
         qDebug() << xi18n( "Dumping sky image" );
 
         //parse filename and image format
         const char* format = "PNG";
-        QString fname = parser->argument( "filename" );
+        QString fname = parser->value( "filename" );
         QString ext = fname.mid( fname.lastIndexOf(".")+1 );
         if ( ext.toLower() == "png" ) { format = "PNG"; }
         else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
@@ -103,12 +100,12 @@ int main(int argc, char *argv[])
         //parse width and height
         bool ok(false);
         int w(0), h(0);
-        w = parser->argument( "width" ).toInt( &ok );
-        if ( ok ) h =  parser->argument( "height" ).toInt( &ok );
+        w = parser->value( "width" ).toInt( &ok );
+        if ( ok ) h =  parser->value( "height" ).toInt( &ok );
         if ( !ok ) {
             qWarning() << "Unable to parse arguments: " ;
-            qWarning() << "Width: " << parser->argument( "width" )
-            << "  Height: " << parser->argument( "height" ) << endl;
+            qWarning() << "Width: " << parser->value( "width" )
+            << "  Height: " << parser->value( "height" ) << endl;
             return 1;
         }
 
@@ -124,18 +121,18 @@ int main(int argc, char *argv[])
 
         //set clock now that we have a location:
         //Check to see if user provided a date/time string.  If not, use current CPU time
-        QString datestring = parser->argument( "date" );
+        QString datestring = parser->value( "date" );
         KStarsDateTime kdt;
         if ( ! datestring.isEmpty() ) {
             if ( datestring.contains( "-" ) ) { //assume ISODate format
                 if ( datestring.contains( ":" ) ) { //also includes time
-                    kdt = KDateTime::fromString( datestring, KDateTime::ISODate );
+                    kdt = QDateTime::fromString( datestring, QDateTime::ISODate );
                 } else { //string probably contains date only
                     kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
                     kdt.setTime( QTime( 0, 0, 0 ) );
                 }
             } else { //assume Text format for date string
-                kdt = dat->geo()->LTtoUT( KDateTime::fromString( datestring, KDateTime::QtTextDate ) );
+                kdt = dat->geo()->LTtoUT( QDateTime::fromString( datestring, QDateTime::QtTextDate ) );
             }
 
             if ( ! kdt.isValid() ) {
@@ -165,7 +162,7 @@ int main(int argc, char *argv[])
         map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
 
         //Execute the specified script
-        QString scriptfile = parser->argument( "script" );
+        QString scriptfile = parser->value( "script" );
         if ( ! scriptfile.isEmpty() ) {
             if ( dat->executeScript( scriptfile, map ) ) {
                 std::cout << xi18n( "Script executed." ).toUtf8().data() << std::endl;
@@ -190,7 +187,7 @@ int main(int argc, char *argv[])
     //start up normally in GUI mode
 
     //Try to parse the given date string
-    QString datestring = parser->argument( "date" );
+    QString datestring = parser->value( "date" );
     //DEBUG
     qDebug() << "Date string: " << datestring;
 
@@ -200,8 +197,10 @@ int main(int argc, char *argv[])
     }
 
     KStars::createInstance( true, ! parser->isSet( "paused" ), datestring );
-    args->clear();
-    QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
+    //FIXME Need porting to KF5
+    //args->clear();
+    //QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
+    QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
     return a.exec();
 
 }

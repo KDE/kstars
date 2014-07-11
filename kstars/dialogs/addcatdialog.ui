@@ -30,7 +30,7 @@
        <number>10</number>
       </property>
       <item>
-       <widget class="QUrlRequester" name="DataURL">
+       <widget class="KUrlRequester" name="DataURL">
         <property name="toolTip">
          <string>Enter import data filename</string>
         </property>
@@ -40,7 +40,7 @@
        </widget>
       </item>
       <item>
-       <widget class="KListWidget" name="DataFileBox">
+       <widget class="QListWidget" name="DataFileBox">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -257,7 +257,7 @@
       <number>6</number>
      </property>
      <item row="1" column="1">
-      <widget class="QUrlRequester" name="CatalogURL">
+      <widget class="KUrlRequester" name="CatalogURL">
        <property name="toolTip">
         <string>Enter the filename for the output catalog file</string>
        </property>
@@ -288,34 +288,14 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QDoubleSpinBox</class>
-   <extends>QWidget</extends>
-   <header>QDoubleSpinBox</header>
-  </customwidget>
+ <customwidgets>  
   <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QUrlRequester</class>
+   <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>

@@ -22,6 +22,8 @@
 
 #include "../printing/legend.h"
 
+#include <QDialog>
+
 class KStars;
 class SkyQPainter;
 class QString;

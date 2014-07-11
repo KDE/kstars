@@ -39,6 +39,7 @@ find_package(KF5 REQUIRED COMPONENTS
   XmlGui
   Plotting
   TextEditor
+  IconThemes
 )
 
 find_package(Eigen3 REQUIRED)

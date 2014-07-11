@@ -27,7 +27,7 @@
 
 #include <kmessagebox.h>
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QStandardPaths>
 
 #include "kstarsdata.h"
@@ -37,12 +37,16 @@ LocationDialog::LocationDialog( QWidget* parent ) :
 {
     KStarsData* data = KStarsData::Instance();
     ui = new Ui::LocationDialog();
-    ui->setupUi( mainWidget() );
+
+    //FIXME Needs porting to KF5
+    //ui->setupUi( mainWidget() );
     // FIXME: temporary plug! (See MapCanvas for details)
     ui->MapView->setLocationDialog( this );
 
     setWindowTitle( xi18n( "Set Geographic Location" ) );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+
+    //FIXME Needs porting to KF5
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     for ( int i=0; i<25; ++i )
         ui->TZBox->addItem( QLocale().toString( (double)(i-12) ) );
@@ -75,12 +79,13 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     nameModified = false;
     ui->AddCityButton->setEnabled( false );
 
-    ui->NewCityName->setTrapReturnKey(true);
-    ui->NewProvinceName->setTrapReturnKey(true);
-    ui->NewCountryName->setTrapReturnKey(true);
-    ui->CityFilter->setTrapReturnKey(true);
-    ui->ProvinceFilter->setTrapReturnKey(true);
-    ui->CountryFilter->setTrapReturnKey(true);
+    //FIXME Needs porting to KF5
+    //ui->NewCityName->setTrapReturnKey(true);
+    //ui->NewProvinceName->setTrapReturnKey(true);
+    //ui->NewCountryName->setTrapReturnKey(true);
+    //ui->CityFilter->setTrapReturnKey(true);
+    //ui->ProvinceFilter->setTrapReturnKey(true);
+    //ui->CountryFilter->setTrapReturnKey(true);
 
     initCityList();
     resize (640, 480);
@@ -229,7 +234,7 @@ bool LocationDialog::addCity( ) {
     dms lat = ui->NewLat->createDms( true, &latOk );
     dms lng = ui->NewLong->createDms( true, &lngOk );
     QString TimeZoneString = ui->TZBox->lineEdit()->text();
-    TimeZoneString.replace( KLocale::global()->decimalSymbol(), "." );
+    TimeZoneString.replace( QLocale().decimalPoint(), "." );
     double TZ = TimeZoneString.toDouble( &tzOk );
 
     if ( ui->NewCityName->text().isEmpty() || ui->NewCountryName->text().isEmpty() ) {
@@ -403,7 +408,10 @@ void LocationDialog::showTZRules() {
 
     QPointer<QDialog> tzd = new QDialog( this );
     tzd->setWindowTitle( message );
-    tzd->setButtons( QDialog::Close );
+
+    //FIXME Needs porting to KF5
+    //tzd->setButtons( QDialog::Close );
+
     QListWidget *lw = new QListWidget( tzd );
     lw->addItems( lines );
     //This is pretty lame...I have to measure the width of the first item in the
@@ -412,7 +420,10 @@ void LocationDialog::showTZRules() {
     //no joy...
     int w = int( 1.1*lw->visualItemRect( lw->item(0) ).width() );
     lw->setMinimumWidth( w );
-    tzd->setMainWidget( lw );
+
+    //FIXME Needs porting to KF5
+    //tzd->setMainWidget( lw );
+
     tzd->exec();
 
     delete tzd;

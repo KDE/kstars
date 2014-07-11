@@ -20,11 +20,11 @@
 #include <QList>
 #include <QListWidgetItem>
 #include <QTextStream>
-
-#include <kfiledialog.h>
-#include <kactioncollection.h>
-#include <kconfigdialog.h>
 #include <QFileDialog>
+
+#include <QFileDialog>
+#include <KActionCollection>
+#include <KConfigDialog>
 
 #include "Options.h"
 #include "kstars.h"
@@ -129,7 +129,8 @@ void OpsCatalog::updateCustomCatalogs() {
         }
     }
 
-    m_ConfigDialog->enableButtonApply( false );
+    //FIXME Need porting to KF5
+    //m_ConfigDialog->enableButtonApply( false );
 }
 
 
@@ -165,7 +166,8 @@ void OpsCatalog::slotLoadCatalog() {
         ksw->data()->catalogdb()->AddCatalogContents(filename);
         refreshCatalogList();
     }
-    m_ConfigDialog->enableButtonApply( false );
+    //FIXME Need porting to KF5
+    //m_ConfigDialog->enableButtonApply( false );
 }
 
 
@@ -199,7 +201,8 @@ void OpsCatalog::slotRemoveCatalog() {
     QListWidgetItem *todelete = CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
     delete todelete;
     refreshCatalogList();
-    m_ConfigDialog->enableButtonApply( false );
+    //FIXME Need porting to KF5
+    //m_ConfigDialog->enableButtonApply( false );
     KStars::Instance()->data()->skyComposite()->reloadDeepSky();
 }
 

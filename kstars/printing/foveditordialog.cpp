@@ -17,9 +17,8 @@
 
 #include "foveditordialog.h"
 #include "printingwizard.h"
-#include "kio/netaccess.h"
-#include "ktemporaryfile.h"
-#include "kfiledialog.h"
+#include <QTemporaryFile>
+#include <QFileDialog>
 #include "kmessagebox.h"
 
 FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
@@ -33,8 +32,14 @@ FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent) : QDia
     m_ParentWizard(wizard), m_CurrentIndex(0)
 {
     m_EditorUi = new FovEditorDialogUI(this);
-    setMainWidget(m_EditorUi);
-    setButtons(QDialog::Close);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(m_EditorUi);
+    setLayout(mainLayout);
+
+    //FIXME Need porting to KF5
+    //setMainWidget(m_EditorUi);
+    //setButtons(QDialog::Close);
 
     setupWidgets();
     setupConnections();
@@ -111,7 +116,7 @@ void FovEditorDialog::slotSaveImage()
 
     //If the filename string contains no "/" separators, assume the
     //user wanted to place a file in their home directory.
-    QString url = KFileDialog::getSaveUrl(QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
+    QString url = QFileDialog::getSaveFileUrl(0, xi18n("Save Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
     QUrl fileUrl;
     if(!url.contains("/"))
     {
@@ -123,7 +128,7 @@ void FovEditorDialog::slotSaveImage()
         fileUrl = url;
     }
 
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     tmpfile.open();
     QString fname;
 
@@ -167,12 +172,13 @@ void FovEditorDialog::slotSaveImage()
 
     if(tmpfile.fileName() == fname)
     {
-        //attempt to upload image to remote location
-        if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
+        //attempt to upload image to remote location      
+        //FIXME Need porting to KF5
+        /*if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
         {
             QString message = xi18n( "Could not upload image to remote location: %1", fileUrl.prettyUrl() );
             KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
-        }
+        }*/
     }
 }
 

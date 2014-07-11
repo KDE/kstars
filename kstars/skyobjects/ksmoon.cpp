@@ -226,7 +226,7 @@ void KSMoon::findMagnitude(const KSNumbers*)
     // relevant data put into ksplanetbase.h) was taken from
     // SkyChart v3 Beta
     double phd = phase().Degrees();
-    if( isnan( phd ) ) // Avoid nanny phases.
+    if( std::isnan( phd ) ) // Avoid nanny phases.
         return;
     int p = floor( phd );
     if( p > 180 )

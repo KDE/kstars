@@ -42,9 +42,16 @@ FocusDialog::FocusDialog( KStars *_ks )
     UsedAltAz = false; //assume RA/Dec by default
 
     fd = new FocusDialogUI(this);
-    setMainWidget(fd);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(fd);
+    setLayout(mainLayout);
+
     setWindowTitle( xi18n( "Set Coordinates Manually" ) );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+
+    //FIXME Need porting to KF5
+    //setMainWidget(fd);
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
     fd->raBox->setMinimumWidth( fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width() );
@@ -52,7 +59,9 @@ FocusDialog::FocusDialog( KStars *_ks )
 
     fd->raBox->setDegType(false); //RA box should be HMS-style
     fd->raBox->setFocus(); //set input focus
-    enableButtonOk( false ); //disable until both lineedits are filled
+
+    //FIXME Need porting to KF5
+    //enableButtonOk( false ); //disable until both lineedits are filled
 
     connect( fd->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect( fd->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
@@ -70,10 +79,14 @@ void FocusDialog::checkLineEdits() {
     fd->decBox->createDms( true, &decOk );
     fd->azBox->createDms( true, &azOk );
     fd->altBox->createDms( true, &altOk );
+
+    //FIXME Need porting to KF5
+    /*
     if ( ( raOk && decOk ) || ( azOk && altOk ) )
         enableButtonOk( true );
     else
         enableButtonOk( false );
+        */
 }
 
 void FocusDialog::validatePoint() {

@@ -32,7 +32,7 @@
 #include <KProcess>
 #include <QAction>
 #include <KActionCollection>
-//#include <KIconLoader>
+//#include <QIconLoader>
 
 
 

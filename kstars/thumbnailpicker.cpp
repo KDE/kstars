@@ -22,15 +22,17 @@
 #include <QDesktopWidget>
 #include <QTextStream>
 #include <QPainter>
-#include <kio/copyjob.h>
+#include <QUrlQuery>
+#include <QUrl>
+#include <KIO/CopyJob>
 
 #include <kdeversion.h>
 #include <QPushButton>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <QUrl>
-#include <kurlrequester.h>
-#include <klocale.h>
+
+#include <KUrlRequester>
+#include <KLocalizedString>
 
 
 #include "ksutils.h"
@@ -50,9 +52,16 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
     ImageRect = new QRect( 0, 0, 200, 200 );
 
     ui = new ThumbnailPickerUI( this );
-    setMainWidget( ui );
+
     setWindowTitle( cap );
-    setButtons( QDialog::Ok|QDialog::Cancel );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(ui);
+    setLayout(mainLayout);
+
+    //FIXME Need Porting to KF5
+    //setMainWidget( ui );
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     ui->CurrentImage->setPixmap( *Image );
 
@@ -81,7 +90,7 @@ void ThumbnailPicker::slotFillList() {
     QStringList ImageList( Object->ImageList() );
 
     //Query Google Image Search:
-    QUrl gURL( "http://images.google.com/images" );
+    QUrlQuery gURL( "http://images.google.com/images" );
     //Search for the primary name, or longname and primary name
     QString sName = QString("%1 ").arg( Object->name() );
     if ( Object->longname() != Object->name() ) {
@@ -90,7 +99,7 @@ void ThumbnailPicker::slotFillList() {
     gURL.addQueryItem( "q", sName ); //add the Google-image query string
 
     //Download the google page and parse it for image URLs
-    parseGooglePage( ImageList, gURL.prettyUrl() );
+    parseGooglePage( ImageList, gURL.query() );
 
     //Total Number of images to be loaded:
     int nImages = ImageList.count();
@@ -148,13 +157,15 @@ void ThumbnailPicker::slotJobResult( KJob *job ) {
     //Add 50x50 image and URL to listbox
     //ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
     //		cjob->srcURLs().first().prettyUrl() );
-    ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), stjob->url().prettyUrl() ));
+    ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), stjob->url().url()));
 }
 
 void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL ) {
     QString tmpFile;
     QString PageHTML;
 
+    /* FIXME Need to port to KF5
+     *
     //Read the google image page's HTML into the PageHTML QString:
     if ( KIO::NetAccess::exists(URL, KIO::NetAccess::SourceSide, this) && KIO::NetAccess::download( URL, tmpFile, this ) ) {
         QFile file( tmpFile );
@@ -172,6 +183,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
         qDebug() << KIO::NetAccess::lastErrorString();
         return;
     }
+    */
 
     int index = PageHTML.indexOf( "src=\"http:", 0 );
     while ( index >= 0 ) {
@@ -312,7 +324,7 @@ void ThumbnailPicker::slotSetFromURL() {
 
             //Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
             PixList.insert( 0, new QPixmap( QPixmap::fromImage( im ) ) );
-            ui->ImageList->insertItem( 0, new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), u.prettyUrl() ));
+            ui->ImageList->insertItem( 0, new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), u.url() ));
 
             //Select the new image
             ui->ImageList->setCurrentRow( 0 );

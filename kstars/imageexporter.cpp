@@ -22,12 +22,10 @@
 #include "skyqpainter.h"
 #include "skymap.h"
 
-/* KDE Includes */
-#include <kio/netaccess.h>
-#include <ktemporaryfile.h>
-
 /* Qt Includes */
-#include <QSvgGenerator>
+//#include <QSvgGenerator>
+#include <QTemporaryFile>
+#include <QtSvg/QSvgGenerator>
 
 ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_KStars( KStars::Instance() ), m_includeLegend( false ), m_Size( 0 )
 {
@@ -197,7 +195,7 @@ bool ImageExporter::exportImage( QString url )
     m_lastErrorMessage = QString();
     if(fileURL.isValid())
     {
-        KTemporaryFile tmpfile;
+        QTemporaryFile tmpfile;
         QString fname;
         bool isLocalFile = fileURL.isLocalFile();
 
@@ -226,6 +224,8 @@ bool ImageExporter::exportImage( QString url )
 
         if(!isLocalFile)
         {
+            /* FIXME Need porting to KF5
+             *
             //attempt to upload image to remote location
             if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
             {
@@ -234,10 +234,11 @@ bool ImageExporter::exportImage( QString url )
                 qWarning() << m_lastErrorMessage;
                 return false;
             }
+            */
         }
         return true;
     }
-    m_lastErrorMessage = xi18n( "Could not export image: URL %1 invalid", fileURL.prettyUrl() );
+    m_lastErrorMessage = xi18n( "Could not export image: URL %1 invalid", fileURL.url() );
     qWarning() << m_lastErrorMessage;
     return false;
 }

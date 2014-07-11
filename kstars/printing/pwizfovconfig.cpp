@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "pwizfovconfig.h"
+#include <KLocalizedString>
 
 PWizFovConfigUI::PWizFovConfigUI(QWidget *parent) : QFrame(parent)
 {
