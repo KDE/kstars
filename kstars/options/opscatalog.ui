@@ -557,9 +557,9 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
+   <class>QDoubleSpinBox</class>
    <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <header>QDoubleSpinBox</header>
   </customwidget>
   <customwidget>
    <class>QPushButton</class>
@@ -568,7 +568,7 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
   </customwidget>
   <customwidget>
    <class>MagnitudeSpinBox</class>
-   <extends>KDoubleNumInput</extends>
+   <extends>QDoubleSpinBox</extends>
    <header>widgets/magnitudespinbox.h</header>
   </customwidget>
  </customwidgets>

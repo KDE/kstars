@@ -129,7 +129,7 @@ QString DeepSkyObject::labelString() const {
     if( Options::showDeepSkyMagnitudes() ) {
         if( Options::showDeepSkyNames() )
             oName += "; ";
-        oName += KLocale::global()->formatNumber( mag(), 1 );
+        oName += QLocale().toString( mag(), 1 );
     }
 
     return oName;

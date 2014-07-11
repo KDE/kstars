@@ -21,7 +21,7 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 
-#include <kdialog.h>
+#include <QDialog>
 
 #include "ui_thumbnaileditor.h"
 
@@ -33,7 +33,7 @@ public:
     explicit ThumbnailEditorUI( QWidget *parent );
 };
 
-class ThumbnailEditor : public KDialog
+class ThumbnailEditor : public QDialog
 {
     Q_OBJECT
 public:

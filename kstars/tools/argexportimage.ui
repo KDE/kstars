@@ -76,7 +76,7 @@
         <number>6</number>
        </property>
        <item row="1" column="1" >
-        <widget class="KIntNumInput" name="ExportHeight" >
+        <widget class="QSpinBox" name="ExportHeight" >
          <property name="value" >
           <number>600</number>
          </property>
@@ -89,7 +89,7 @@
         </widget>
        </item>
        <item row="0" column="1" >
-        <widget class="KIntNumInput" name="ExportWidth" >
+        <widget class="QSpinBox" name="ExportWidth" >
          <property name="value" >
           <number>800</number>
          </property>
@@ -138,13 +138,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends></extends>

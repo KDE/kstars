@@ -16,6 +16,7 @@
 #include <assert.h>
 
 #include <KMessageBox>
+#include <KLocalizedString>
 
 #include "gmath.h"
 #include "vect.h"

@@ -20,17 +20,17 @@
 
 /**@class MagnitudeSpinBox
 	*A special spinbox for entering magnitude values.
-	*This class now inherits KDoubleNumInput instead of QSpinBox
+	*This class now inherits QDoubleSpinBox instead of QSpinBox
 	*@short a custom spinbox for magnitude (float) values.
 	*@author Heiko Evermann
 	*@version 1.0
 	*/
 
-#include <knuminput.h>
+#include <QDoubleSpinBox>
 
 class QWidget;
 
-class MagnitudeSpinBox  : public KDoubleNumInput
+class MagnitudeSpinBox  : public QDoubleSpinBox
 {
 public:
 

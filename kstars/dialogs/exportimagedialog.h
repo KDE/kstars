@@ -41,7 +41,7 @@ public:
 /**@short Export sky image dialog. This dialog enables user to set up basic legend
   properties before image is exported.
   */
-class ExportImageDialog : public KDialog
+class ExportImageDialog : public QDialog
 {
     Q_OBJECT
 

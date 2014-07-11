@@ -27,12 +27,12 @@
 #include "observer.h"
 
 ObserverAdd::ObserverAdd() {
-    // Setting up the widget from the .ui file and adding it to the KDialog
+    // Setting up the widget from the .ui file and adding it to the QDialog
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
     setMainWidget( widget );
-    setCaption( xi18n( "Add Observer" ) );
-    setButtons( KDialog::Close );
+    setWindowTitle( xi18n( "Add Observer" ) );
+    setButtons( QDialog::Close );
     ks = KStars::Instance();
     nextObserver = 0;
 

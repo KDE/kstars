@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "addlinkdialog.h"
+#include "addlinQDialog"
 
 #include <kurl.h>
 #include <kmessagebox.h>
@@ -29,12 +29,12 @@ AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
-        : KDialog( parent ),  ObjectName( oname )
+        : QDialog( parent ),  ObjectName( oname )
 {
     ald = new AddLinkDialogUI(this);
     setMainWidget( ald );
-    setCaption( xi18n( "Add Custom URL to %1", oname ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( xi18n( "Add Custom URL to %1", oname ) );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     //connect signals to slots
     connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
@@ -45,7 +45,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 }
 
 void AddLinkDialog::checkURL( void ) {
-    KUrl _url ( url() );
+    QUrl _url ( url() );
     if ( _url.isValid() ) {   //Is the string a valid URL?
         KToolInvocation::invokeBrowser( _url.url() );   //If so, launch the browser to see if it's the correct document
     } else {   //If not, print a warning message box that offers to open the browser to a search engine.

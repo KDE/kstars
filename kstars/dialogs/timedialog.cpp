@@ -34,17 +34,17 @@
 #include "geolocation.h"
 
 TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame )
-        : KDialog( parent ), geo( _geo )
+        : QDialog( parent ), geo( _geo )
 {
     UTCNow = UTCFrame;
 
     QFrame *page = new QFrame(this);
     setMainWidget( page );
     if( UTCNow )
-        setCaption( xi18nc( "set clock to a new time", "Set UTC Time" ) );
+        setWindowTitle( xi18nc( "set clock to a new time", "Set UTC Time" ) );
     else
-        setCaption( xi18nc( "set clock to a new time", "Set Time" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+        setWindowTitle( xi18nc( "set clock to a new time", "Set Time" ) );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     vlay = new QVBoxLayout( page );
     vlay->setMargin( 2 );

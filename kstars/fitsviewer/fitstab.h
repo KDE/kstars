@@ -18,7 +18,7 @@
 #define FITSTAB_H
 
 #include <QWidget>
-#include <KUrl>
+#include <QUrl>
 
 #include "fitscommon.h"
 
@@ -35,11 +35,11 @@ public:
 
    FITSTab(FITSViewer *parent);
    ~FITSTab();
-   bool loadFITS(const KUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter=FITS_NONE);
+   bool loadFITS(const QUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter=FITS_NONE);
    int saveFITS(const QString &filename);
 
    inline QUndoStack *getUndoStack() { return undoStack; }
-   inline KUrl * getCurrentURL() { return &currentURL; }
+   inline QUrl * getCurrentURL() { return &currentURL; }
    inline FITSView *getImage() { return image; }
    inline FITSHistogram *getHistogram() { return histogram; }
    inline FITSViewer *getViewer() { return viewer; }
@@ -77,7 +77,7 @@ private:
     FITSViewer *viewer;
 
     QUndoStack *undoStack;        /* History for undo/redo */
-    KUrl currentURL;            /* FITS File name and path */
+    QUrl currentURL;            /* FITS File name and path */
 
     bool mDirty;
 

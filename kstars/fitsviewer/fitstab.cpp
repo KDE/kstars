@@ -16,10 +16,10 @@
 
 #include <QClipboard>
 
-#include <KUndoStack>
-#include <KLocale>
+#include <QUndoStack>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KFileDialog>
+#include <QFileDialog>
 
 #include "Options.h"
 #include "fitstab.h"
@@ -37,7 +37,7 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget()
     viewer     = parent;
 
     mDirty     = false;
-    undoStack = new KUndoStack(this);
+    undoStack = new QUndoStack(this);
     undoStack->setUndoLimit(10);
     undoStack->clear();
     connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(modifyFITSState(bool)));
@@ -77,7 +77,7 @@ void FITSTab::closeEvent(QCloseEvent *ev)
 
 }
 
-bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
+bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
 {
     if (image == NULL)
     {
@@ -229,7 +229,7 @@ void FITSTab::saveFile()
     int err_status;
     char err_text[FLEN_STATUS];
 
-    KUrl backupCurrent = currentURL;
+    QUrl backupCurrent = currentURL;
     QString currentDir = Options::fitsDir();
 
     if (currentURL.path().contains("/tmp/"))
@@ -241,7 +241,7 @@ void FITSTab::saveFile()
 
     if (currentURL.isEmpty())
     {
-        currentURL = KFileDialog::getSaveUrl( currentDir, "*.fits |Flexible Image Transport System");
+        currentURL = QFileDialog::getSaveFileUrl(0, xi18n("Save FITS"), currentDir, "FITS (*.fits, *.fit)");
         // if user presses cancel
         if (currentURL.isEmpty())
         {

@@ -23,9 +23,9 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "qDebug"
 #include "QTreeWidget"
-#include <QtGui/QApplication>
+
+#include <QApplication>
 
 NotifyUpdatesUI::NotifyUpdatesUI(QWidget *parent) :
     QDialog(parent),

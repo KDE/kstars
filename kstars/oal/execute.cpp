@@ -38,9 +38,9 @@ Execute::Execute() {
     QWidget *w = new QWidget;
     ui.setupUi( w );
     setMainWidget( w );
-    setCaption( xi18n( "Execute Session" ) );
-    setButtons( KDialog::User1|KDialog::Close );
-    setButtonGuiItem( KDialog::User1, KGuiItem( xi18n("End Session"), QString(), xi18n("Save and End the current session") ) );
+    setWindowTitle( xi18n( "Execute Session" ) );
+    setButtons( QDialog::User1|QDialog::Close );
+    setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("End Session"), QString(), xi18n("Save and End the current session") ) );
     ks = KStars::Instance();
     currentTarget = NULL;
     currentObserver = NULL;
@@ -263,7 +263,7 @@ void Execute::slotEndSession() {
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
-        KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
+        QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
 
         if( fileURL.isEmpty() ) {
             // Cancel

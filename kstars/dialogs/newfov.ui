@@ -116,7 +116,7 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="KDoubleNumInput" name="TLength1" native="true">
+              <widget class="QDoubleSpinBox" name="TLength1" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -158,7 +158,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="EyeLength" native="true">
+              <widget class="QDoubleSpinBox" name="EyeLength" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -259,7 +259,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="EyeFOV" native="true">
+              <widget class="QDoubleSpinBox" name="EyeFOV" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -492,7 +492,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="TLength2" native="true">
+              <widget class="QDoubleSpinBox" name="TLength2" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -540,7 +540,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="ChipSize" native="true">
+              <widget class="QDoubleSpinBox" name="ChipSize" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -739,7 +739,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="LinearFOV" native="true">
+              <widget class="QDoubleSpinBox" name="LinearFOV" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -787,7 +787,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KComboBox" name="LinearFOVDistance"/>
+              <widget class="QComboBox" name="LinearFOVDistance"/>
              </item>
             </layout>
            </item>
@@ -857,7 +857,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="RTDiameter" native="true">
+              <widget class="QDoubleSpinBox" name="RTDiameter" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -905,7 +905,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <number>0</number>
              </property>
              <item>
-              <widget class="KDoubleNumInput" name="WaveLength" native="true">
+              <widget class="QDoubleSpinBox" name="WaveLength" native="true">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -1218,7 +1218,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="KComboBox" name="ShapeBox">
+          <widget class="QComboBox" name="ShapeBox">
            <property name="toolTip">
             <string>Select a shape for the field-of-view symbol</string>
            </property>
@@ -1303,9 +1303,9 @@ Circle, Square, Crosshairs, Bullseye.</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QLineEdit</class>
@@ -1325,9 +1325,9 @@ Circle, Square, Crosshairs, Bullseye.</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
+   <class>QDoubleSpinBox</class>
    <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <header>QDoubleSpinBox</header>
   </customwidget>
   <customwidget>
    <class>KColorButton</class>

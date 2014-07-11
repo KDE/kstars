@@ -20,15 +20,15 @@
 #include <QVBoxLayout>
 #include <QFrame>
 
-#include <klocale.h>
-#include <kdialog.h>
+#include <KLocalizedString>
+#include <QDialog>
 #include <kplotobject.h>
 #include <kplotwidget.h>
 #include <kplotaxis.h>
 #include <QPainter>
-#include <QPrinter>
-#include <QPrintDialog>
 #include <kdeprintdialog.h>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 
 #include "dms.h"
 #include "ksalmanac.h"
@@ -52,19 +52,27 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) :
 }
 
 AltVsTime::AltVsTime( QWidget* parent)  :
-    KDialog( parent )
+    QDialog( parent )
 {
     QFrame *page = new QFrame( this );
-    setMainWidget(page);
-    setCaption( xi18n( "Altitude vs. Time" ) );
-    setButtons( KDialog::Close | KDialog::User1 );
-    setButtonGuiItem( KDialog::User1, KGuiItem( xi18n("&Print..."), "document-print", xi18n("Print the Altitude vs. time plot") ) );
+
+    //setMainWidget(page);
+    //setWindowTitle( xi18n( "Altitude vs. Time" ) );
+    setWindowTitle(xi18n( "Altitude vs. Time" ) );
+
+
+    // FIXME How do we migrate this?
+    //setButtons( QDialog::Close | QDialog::User1 );
+    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Print..."), "document-print", xi18n("Print the Altitude vs. time plot") ) );
     setModal( false );
 
-    QVBoxLayout* topLayout = new QVBoxLayout( page );
-    topLayout->setMargin( 0 );
-    topLayout->setSpacing( spacingHint() );
 
+    QVBoxLayout* topLayout = new QVBoxLayout;
+    topLayout->setMargin( 0 );
+    topLayout->addWidget(page);
+    //topLayout->setSpacing( spacingHint() );
+
+    //avtUI = new AltVsTimeUI( page );
     avtUI = new AltVsTimeUI( page );
 
     avtUI->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
@@ -84,7 +92,19 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->longBox->setReadOnly( true );
     avtUI->latBox->setReadOnly( true );
 
-    topLayout->addWidget( avtUI );
+    //topLayout->addWidget( avtUI );
+
+    QDialogButtonBox *buttons = new QDialogButtonBox(this);
+    topLayout->addWidget(buttons);
+
+    QPushButton *okButton = new QPushButton(QIcon::fromTheme("window-close"), xi18n("Close"));
+    buttons->addButton(okButton, QDialogButtonBox::AcceptRole);
+    connect(okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
+
+    QPushButton *printButton = new QPushButton(QIcon::fromTheme("document-print"), xi18n("&Print..."));
+    printButton->setToolTip(xi18n("Print the Altitude vs. time plot."));
+    buttons->addButton(printButton, QDialogButtonBox::ApplyRole);
+    connect(printButton, SIGNAL(clicked()), this, SLOT(slotPrint()));
 
     geo = KStarsData::Instance()->geo();
 
@@ -112,12 +132,14 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->PlotList, SIGNAL( currentRowChanged(int) ), this, SLOT( slotHighlight(int) ) );
-    connect( button( KDialog::User1 ), SIGNAL( clicked() ), this, SLOT( slotPrint() ) );
+    // FIXME
+    //connect( button( QDialog::User1 ), SIGNAL( clicked() ), this, SLOT( slotPrint() ) );
 
     //the edit boxes should not pass on the return key!
-    avtUI->nameBox->setTrapReturnKey( true );
-    avtUI->raBox->setTrapReturnKey( true );
-    avtUI->decBox->setTrapReturnKey( true );
+    // FIXME TODO
+    //avtUI->nameBox->setTrapReturnKey( true );
+    //avtUI->raBox->setTrapReturnKey( true );
+    //avtUI->decBox->setTrapReturnKey( true );
 
     setMouseTracking( true );
 }

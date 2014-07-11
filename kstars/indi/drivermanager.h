@@ -13,8 +13,8 @@
 
 #include <QFrame>
 #include <QHash>
-#include <qstringlist.h>
-#include <kdialog.h>
+#include <QStringList>
+#include <QDialog>
 #include <unistd.h>
 
 #include <lilxml.h>
@@ -51,7 +51,7 @@ public slots:
 
 };
 
-class DriverManager : public KDialog
+class DriverManager : public QDialog
 {
 
     Q_OBJECT

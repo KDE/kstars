@@ -35,15 +35,15 @@ ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
-        : KDialog( _tp ),  tp( _tp )
+        : QDialog( _tp ),  tp( _tp )
 {
     ui = new ThumbnailEditorUI( this );
     w = _w;
     h = _h;
     ui->MessageLabel->setText( xi18n( "Crop region will be scaled to [ %1 * %2 ]", w, h) );
     setMainWidget( ui );
-    setCaption( xi18n( "Edit Thumbnail Image" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( xi18n( "Edit Thumbnail Image" ) );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
                                   tp->imageRect()->width(), tp->imageRect()->height() );

@@ -16,8 +16,8 @@
  ***************************************************************************/
 
 #include "kshelplabel.h"
-#include <ktoolinvocation.h>
-#include <QtGui/QMessageBox>
+#include <KHelpClient>
+#include <QMessageBox>
 
 KSHelpLabel::KSHelpLabel(const QString& text, const QString& anchor,
 			 QWidget *parent) : QLabel(parent), m_anchor(anchor)
@@ -42,7 +42,7 @@ void KSHelpLabel::updateText() {
 }
 
 void KSHelpLabel::slotShowDefinition(const QString & term) {
-    KToolInvocation::invokeHelp(term);
+    KHelpClient::invokeHelp(term);
 }
 
 void KSHelpLabel::setText(const QString& txt) {

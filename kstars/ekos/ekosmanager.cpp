@@ -15,7 +15,7 @@
 #include "kstars.h"
 
 #include <KMessageBox>
-#include <KComboBox>
+#include <QComboBox>
 
 #include <config-kstars.h>
 

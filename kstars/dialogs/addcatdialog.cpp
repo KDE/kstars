@@ -23,7 +23,7 @@
 #include <kcolorbutton.h>
 #include <QDebug>
 #include <kmessagebox.h>
-#include <knuminput.h>
+#include <QDoubleSpinBox>
 #include <ktemporaryfile.h>
 #include <kurl.h>
 
@@ -38,16 +38,16 @@ AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 AddCatDialog::AddCatDialog( KStars *_ks )
-        : KDialog( ( QWidget* )_ks )
+        : QDialog( ( QWidget* )_ks )
 {
     QDir::setCurrent( QDir::homePath() );
     acd = new AddCatDialogUI(this);
     setMainWidget(acd);
-    setCaption( xi18n( "Import Catalog" ) );
-    setButtons( KDialog::Help|KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( xi18n( "Import Catalog" ) );
+    setButtons( QDialog::Help|QDialog::Ok|QDialog::Cancel );
 
     connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
-    connect( acd->DataURL, SIGNAL( urlSelected( const KUrl & ) ),
+    connect( acd->DataURL, SIGNAL( urlSelected( const QUrl & ) ),
              this, SLOT( slotShowDataFile() ) );
     connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
@@ -74,7 +74,7 @@ AddCatDialog::~AddCatDialog(){
 
 void AddCatDialog::slotOk() {
     //Overriding slotOk() so that custom data file can be validated before
-    //KDialog::accept() is emitted and the window is closed.
+    //QDialog::accept() is emitted and the window is closed.
 
     //the validation code needs to be aware of AddCatDialog members, so I will just
     //emit the okClicked() signal, which is connected to AddCatDialog::validateFile()
@@ -208,7 +208,7 @@ void AddCatDialog::slotCreateCatalog() {
         //Warn user if file exists!
         if ( QFile::exists( acd->CatalogURL->url().toLocalFile() ) )
         {
-            KUrl u( acd->CatalogURL->url() );
+            QUrl u( acd->CatalogURL->url() );
             int r=KMessageBox::warningContinueCancel( 0,
                     xi18n( "A file named \"%1\" already exists. "
                           "Overwrite it?", u.fileName() ),
@@ -230,7 +230,7 @@ void AddCatDialog::slotCreateCatalog() {
 
             KStarsData::Instance()->skyComposite()->addCustomCatalog(OutFile.fileName(), 0);
 
-            emit KDialog::accept();
+            emit QDialog::accept();
             close();
         }
     }

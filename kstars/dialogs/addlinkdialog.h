@@ -1,5 +1,5 @@
 /***************************************************************************
-                          addlinkdialog.h  -  K Desktop Planetarium
+                          addlinQDialog  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Oct 21 2001
     copyright            : (C) 2001 by Jason Harris
@@ -19,11 +19,11 @@
 #define ADDLINKDIALOG_H_
 
 #include <QVBoxLayout>
-#include <kdialog.h>
+#include <QDialog>
 #include <klineedit.h>
 #include <klocale.h>
 
-#include "ui_addlinkdialog.h"
+#include "ui_addlinQDialog"
 
 class QString;
 
@@ -38,7 +38,7 @@ public:
   *@author Jason Harris
   *@version 1.0
   */
-class AddLinkDialog : public KDialog  {
+class AddLinkDialog : public QDialog  {
     Q_OBJECT
 public:
     /**

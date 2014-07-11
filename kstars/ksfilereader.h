@@ -82,7 +82,7 @@ public:
         */
     explicit KSFileReader( QFile& file, qint64 maxLen=1024 );
 
-    /* @short opens the file fname from the "appdata" directory and uses that
+    /* @short opens the file fname from the QStandardPaths::DataLocation directory and uses that
      * file for the QTextStream.
      *
      * @param fname the name of the file to open
@@ -92,7 +92,7 @@ public:
     bool open( const QString& fname );
 
     /* @short opens the file with full path fname and uses that
-     * file for the QTextStream. open() locates "appdata" behind the scenes,
+     * file for the QTextStream. open() locates QStandardPaths::DataLocation behind the scenes,
      * so passing fname such that
      * QString fname = QStandardPaths::locate(QStandardPaths::DataLocation, "file_name" );
      * is equivalent

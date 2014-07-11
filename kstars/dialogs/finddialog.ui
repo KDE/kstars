@@ -57,7 +57,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="FilterType"/>
+      <widget class="QComboBox" name="FilterType"/>
      </item>
     </layout>
    </item>
@@ -68,9 +68,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QLineEdit</class>

@@ -21,10 +21,8 @@
 #include "deepstarcomponent.h"
 
 #include <QPixmap>
-
 #include <QRectF>
 #include <QFontMetricsF>
-#include <kglobal.h>
 
 #include "Options.h"
 #include "kstarsdata.h"

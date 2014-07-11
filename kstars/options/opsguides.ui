@@ -43,7 +43,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="kcfg_SkyCulture">
+      <widget class="QComboBox" name="kcfg_SkyCulture">
        <property name="toolTip">
         <string>Choose sky culture</string>
        </property>
@@ -317,9 +317,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -9,6 +9,7 @@
  */
 
 #include <errno.h>
+#include <sys/stat.h>
 
 #include <indicom.h>
 
@@ -18,11 +19,11 @@
 #include <QTextEdit>
 
 #include <KProcess>
-#include <KLocale>
-#include <KDebug>
+#include <QLocale>
+#include <QDebug>
 #include <KMessageBox>
-#include <KStatusBar>
-#include <KStandardDirs>
+#include <QStatusBar>
+#include <QStandardPaths>
 
 
 #include "servermanager.h"
@@ -120,11 +121,13 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
     dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getTreeLabel()));
 
-     if (KStandardDirs::findExe(dv->getDriver()).isEmpty())
-     {
+     //if (QStandardPaths::findExe(dv->getDriver()).isEmpty())
+    //TODO Check if this works!
+    if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
+    {
          KMessageBox::error(NULL, xi18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
          return false;
-     }
+    }
 
         //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
 

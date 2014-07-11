@@ -45,8 +45,8 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
     connect( Location, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
 
     connect( LocationBatch, SIGNAL( clicked() ), this, SLOT( slotLocationBatch() ) );
-    connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
-    connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( InputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
     connect( RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
     connect( ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()) );
 
@@ -130,12 +130,12 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         stAltString = stAlt.toDMSString();
         srAzString = srAz.toDMSString();
 
-        ssTimeString = KLocale::global()->formatTime( ssTime );
-        srTimeString = KLocale::global()->formatTime( srTime );
-        stTimeString = KLocale::global()->formatTime( stTime );
+        ssTimeString = QLocale().toString( ssTime );
+        srTimeString = QLocale().toString( srTime );
+        stTimeString = QLocale().toString( stTime );
 
         QTime daylength = lengthOfDay(ssTime,srTime);
-        daylengthString = KLocale::global()->formatTime( daylength, false, true );
+        daylengthString = QLocale().toString( daylength, false, true );
 
         //...but not always!
     } else if ( stAlt.Degrees() > 0. ) {
@@ -145,7 +145,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
-        stTimeString = KLocale::global()->formatTime( stTime );
+        stTimeString = QLocale().toString( stTime );
         daylengthString = "24:00";
 
     } else if (stAlt.Degrees() < 0. ) {
@@ -155,7 +155,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
-        stTimeString = KLocale::global()->formatTime( stTime );
+        stTimeString = QLocale().toString( stTime );
         daylengthString = "00:00";
     }
 
@@ -176,9 +176,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         mtAltString = mtAlt.toDMSString();
         mrAzString = mrAz.toDMSString();
 
-        msTimeString = KLocale::global()->formatTime( msTime );
-        mrTimeString = KLocale::global()->formatTime( mrTime );
-        mtTimeString = KLocale::global()->formatTime( mtTime );
+        msTimeString = QLocale().toString( msTime );
+        mrTimeString = QLocale().toString( mrTime );
+        mtTimeString = QLocale().toString( mtTime );
 
         //...but not always!
     } else if ( mtAlt.Degrees() > 0. ) {
@@ -188,7 +188,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = KLocale::global()->formatTime( mtTime );
+        mtTimeString = QLocale().toString( mtTime );
 
     } else if ( mtAlt.Degrees() < 0. ) {
         msAzString = xi18n("Does not rise");
@@ -197,7 +197,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = KLocale::global()->formatTime( mtTime );
+        mtTimeString = QLocale().toString( mtTime );
     }
 
     //after calling riseSetTime Phase needs to reset, setting it before causes Phase to set nan

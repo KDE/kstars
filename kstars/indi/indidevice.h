@@ -10,7 +10,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QFrame>
 #include <QHBoxLayout>
@@ -27,7 +27,7 @@ class GUIManager;
 class ClientManager;
 class INDI_G;
 
-class INDI_D : public KDialog
+class INDI_D : public QDialog
 {
     Q_OBJECT
 public:

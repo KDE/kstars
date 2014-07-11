@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KIntNumInput" name="speedIN" />
+      <widget class="QSpinBox" name="speedIN" />
      </item>
      <item>
       <spacer>
@@ -69,16 +69,7 @@
     </spacer>
    </item>
   </layout>
- </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
+ </widget>  
  <resources/>
  <connections/>
 </ui>

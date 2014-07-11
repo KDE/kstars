@@ -130,7 +130,7 @@
        </widget>
       </item>
       <item>
-       <widget class="KComboBox" name="selectMonth">
+       <widget class="QComboBox" name="selectMonth">
         <property name="minimumSize">
          <size>
           <width>90</width>
@@ -200,12 +200,12 @@
   <customwidget>
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
+   <header>QDoubleSpinBox</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -39,8 +39,8 @@ modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
     connect( DateTimeBox, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotUpdateCalendar()) );
     connect( JDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateJD()) );
     connect( ModJDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateModJD()) );
-    connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
-    connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( InputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
     connect( RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
     connect( ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()) );
 
@@ -97,12 +97,12 @@ void modCalcJD::showCurrentTime (void)
 
 void modCalcJD::showJd(long double julianDay)
 {
-    JDBox->setText(KLocale::global()->formatNumber( (double)julianDay, 5 ) );
+    JDBox->setText(QLocale().toString( (double)julianDay, 5 ) );
 }
 
 void modCalcJD::showMjd(long double modjulianDay)
 {
-    ModJDBox->setText(KLocale::global()->formatNumber( (double)modjulianDay, 5 ) );
+    ModJDBox->setText(QLocale().toString( (double)modjulianDay, 5 ) );
 }
 
 void modCalcJD::slotCheckFiles() {
@@ -207,7 +207,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
         }
 
         //Write to output file
-        ostream << KLocale::global()->formatDateTime( dt, KLocale::LongDate ) << "  "
+        ostream << QLocale().toStringTime( dt, KLocale::LongDate ) << "  "
         << QString::number( jd, 'f', 2 ) << "  "
         << QString::number( mjd, 'f', 2 ) << endl;
 

@@ -20,7 +20,7 @@
 
 #include "ui_pwizwelcome.h"
 
-#include "kdialog.h"
+#include "QDialog"
 #include "simplefovexporter.h"
 #include "fovsnapshot.h"
 #include "QSize"
@@ -63,7 +63,7 @@ public:
   * \brief Class representing Printing Wizard for KStars printed documents (currently only finder charts).
   * \author Rafał Kułaga
   */
-class PrintingWizard : public KDialog
+class PrintingWizard : public QDialog
 {
     Q_OBJECT
 public:

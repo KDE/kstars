@@ -327,7 +327,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="KComboBox" name="DSTRuleBox"/>
+             <widget class="QComboBox" name="DSTRuleBox"/>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="TZLabel">
@@ -337,7 +337,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="KComboBox" name="TZBox">
+             <widget class="QComboBox" name="TZBox">
               <property name="editable">
                <bool>true</bool>
               </property>
@@ -396,9 +396,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QLineEdit</class>

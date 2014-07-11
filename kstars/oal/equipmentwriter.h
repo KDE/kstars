@@ -22,13 +22,13 @@
 #include "ui_equipmentwriter.h"
 
 #include <QWidget>
-#include <kdialog.h>
+#include <QDialog>
 
 #include "kstars.h"
 
 class KStars;
 
-class EquipmentWriter : public KDialog {
+class EquipmentWriter : public QDialog {
 Q_OBJECT
     public:
         EquipmentWriter();

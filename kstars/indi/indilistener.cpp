@@ -12,7 +12,7 @@
 #include <QDebug>
 
 #include <KMessageBox>
-#include <KStatusBar>
+#include <QStatusBar>
 
 #include <baseclient.h>
 #include <basedevice.h>

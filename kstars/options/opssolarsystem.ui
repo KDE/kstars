@@ -392,7 +392,7 @@
         <item row="2" column="2">
          <layout class="QHBoxLayout">
           <item>
-           <widget class="KDoubleNumInput" name="kcfg_MaxRadCometName">
+           <widget class="QDoubleSpinBox" name="kcfg_MaxRadCometName">
             <property name="toolTip">
              <string>Maximum distance for comet names</string>
             </property>
@@ -542,9 +542,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
+   <class>QDoubleSpinBox</class>
    <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <header>QDoubleSpinBox</header>
   </customwidget>
   <customwidget>
    <class>QPushButton</class>
@@ -553,7 +553,7 @@
   </customwidget>
   <customwidget>
    <class>MagnitudeSpinBox</class>
-   <extends>KDoubleNumInput</extends>
+   <extends>QDoubleSpinBox</extends>
    <header>widgets/magnitudespinbox.h</header>
   </customwidget>
  </customwidgets>

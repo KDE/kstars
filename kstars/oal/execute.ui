@@ -31,7 +31,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KListWidget" name="Target"/>
+      <widget class="QListWidget" name="Target"/>
      </item>
      <item>
       <widget class="KUrlLabel" name="AddObject">
@@ -104,7 +104,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="KDateTimeWidget" name="Begin"/>
+            <widget class="QDateTimeEdit" name="Begin"/>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_4">
@@ -114,7 +114,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KTextEdit" name="Weather">
+            <widget class="QTextEdit" name="Weather">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
@@ -283,7 +283,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="KTextEdit" name="Notes">
+            <widget class="QTextEdit" name="Notes">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
@@ -339,7 +339,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KComboBox" name="Observer"/>
+            <widget class="QComboBox" name="Observer"/>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_11">
@@ -349,7 +349,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="KComboBox" name="Scope"/>
+            <widget class="QComboBox" name="Scope"/>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_12">
@@ -359,7 +359,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KComboBox" name="Eyepiece"/>
+            <widget class="QComboBox" name="Eyepiece"/>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_17">
@@ -369,7 +369,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KComboBox" name="Lens"/>
+            <widget class="QComboBox" name="Lens"/>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_18">
@@ -379,7 +379,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KComboBox" name="Filter"/>
+            <widget class="QComboBox" name="Filter"/>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="label_14">
@@ -391,7 +391,7 @@
            <item row="5" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
-              <widget class="KDoubleNumInput" name="Seeing"/>
+              <widget class="QDoubleSpinBox" name="Seeing"/>
              </item>
              <item>
               <widget class="QLabel" name="label_8">
@@ -412,7 +412,7 @@
            <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
-              <widget class="KDoubleNumInput" name="FaintestStar"/>
+              <widget class="QDoubleSpinBox" name="FaintestStar"/>
              </item>
              <item>
               <widget class="QLabel" name="label">
@@ -479,44 +479,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>KTitleWidget</class>
    <extends>QWidget</extends>
    <header>ktitlewidget.h</header>
   </customwidget>
   <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlLabel</class>
    <extends>QLabel</extends>
    <header>kurllabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDateTimeWidget</class>
-   <extends>QWidget</extends>
-   <header>kdatetimewidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

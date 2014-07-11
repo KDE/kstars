@@ -19,6 +19,7 @@
 #define ALTVSTIME_H_
 
 #include <QList>
+#include <QDialog>
 
 #include "ui_altvstime.h"
 
@@ -40,7 +41,7 @@ public:
  *
  * @author Jason Harris
  */
-class AltVsTime : public KDialog
+class AltVsTime : public QDialog
 {
     Q_OBJECT
 

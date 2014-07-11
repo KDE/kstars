@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="FocusEdit" >
+      <widget class="QComboBox" name="FocusEdit" >
        <property name="toolTip" >
         <string>Target object or direction</string>
        </property>
@@ -155,9 +155,9 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QPushButton</class>

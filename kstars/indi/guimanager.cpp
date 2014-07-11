@@ -24,12 +24,11 @@
 #include <KLed>
 #include <QLineEdit>
 #include <QPushButton>
-#include <KLocale>
-#include <KMessageBox>
-#include <KDebug>
-#include <KComboBox>
-#include <KNumInput>
-#include <KDialog>
+#include <QLocale>
+#include <kmessagebox.h>
+#include <QDebug>
+#include <QComboBox>
+#include <QDialog>
 #include <QTabWidget>
 
 #include <basedevice.h>

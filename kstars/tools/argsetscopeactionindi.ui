@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="actionCombo" />
+      <widget class="QComboBox" name="actionCombo" />
      </item>
      <item>
       <spacer>
@@ -72,9 +72,9 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -7,12 +7,20 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "capture.h"
-#include "Options.h"
+#include <QFileDialog>
+#include <QDirIterator>
+#include <QStandardPaths>
 
 #include <KMessageBox>
-#include <KFileDialog>
+#include <KDirWatch>
+#include <KLocalizedString>
+
+#include <basedevice.h>
 #include <lilxml.h>
+
+#include "Options.h"
+
+#include "capture.h"
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
@@ -22,7 +30,7 @@
 
 #include "QProgressIndicator.h"
 
-#include <basedevice.h>
+
 
 namespace Ekos
 {
@@ -214,7 +222,7 @@ Capture::Capture()
 
     progressLayout->addWidget(pi, 0, 4, 1, 1);
 
-    seqLister		= new KDirLister();
+    seqWatcher		= new KDirWatch();
     seqTimer = new QTimer(this);
     connect(startB, SIGNAL(clicked()), this, SLOT(startSequence()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(stopSequence()));
@@ -228,7 +236,8 @@ Capture::Capture()
 
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
-    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
+    //connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
+    connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqBoundary(QString)));
 
     connect(addToQueueB, SIGNAL(clicked()), this, SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
@@ -302,7 +311,7 @@ void Capture::addGuideHead(ISD::GDInterface *newCCD)
 {
     QString guiderName = newCCD->getDeviceName() + QString(" Guider");
 
-    if (CCDCaptureCombo->contains(guiderName) == false)
+    if (CCDCaptureCombo->findText(guiderName) == -1)
     {
         CCDCaptureCombo->addItem(guiderName);
         CCDs.append(static_cast<ISD::CCD *> (newCCD));
@@ -769,13 +778,14 @@ void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir
 {
     seqPrefix = newPrefix;
 
-    seqLister->setNameFilter(QString("*.fits"));
+    //seqLister->setNameFilter(QString("*.fits"));
+    seqWatcher->addDir(dir, KDirWatch::WatchFiles);
 
     seqCount = 1;
 
-    seqLister->openUrl(dir);
+    //seqLister->openUrl(dir);
 
-    checkSeqBoundary(seqLister->items());
+    checkSeqBoundary(dir);
 
 }
 
@@ -783,16 +793,17 @@ void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir
 /* Determine the next file number sequence. That is, if we have file1.png      */
 /* and file2.png, then the next sequence should be file3.png		       */
 /*******************************************************************************/
-void Capture::checkSeqBoundary(const KFileItemList & items)
+void Capture::checkSeqBoundary(const QString &path)
 {
     int newFileIndex;
     QString tempName;
 
-    KFileItemList::const_iterator it = items.begin();
-    const KFileItemList::const_iterator end = items.end();
-    for ( ; it != end; ++it )
+    //KFileItemList::const_iterator it = items.begin();
+    //const KFileItemList::const_iterator end = items.end();
+    QDirIterator it(path, QDir::Files);
+    while (it.hasNext())
     {
-        tempName = (*it).name();
+        tempName = it.next();
 
         // find the prefix first
         if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
@@ -800,7 +811,6 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
 
         if (seqPrefix.isEmpty() == false)
            tempName.remove(seqPrefix + '_');
-
 
         int usIndex = tempName.indexOf('_');
 
@@ -1284,7 +1294,7 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = KFileDialog::getExistingDirectory(fitsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(0, xi18n("FITS Save Directory"), fitsDir->text());
 
     if (!dir.isEmpty())
         fitsDir->setText(dir);
@@ -1309,7 +1319,7 @@ void Capture::updateScopeCoords(INumberVectorProperty *coord)
 
 void Capture::loadSequenceQueue()
 {
-    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.esq|Ekos Sequence Queue");
+    QUrl fileURL = QFileDialog::getOpenFileName(0, xi18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
 
@@ -1468,7 +1478,7 @@ bool Capture::processJobInfo(XMLEle *root)
 
 void Capture::saveSequenceQueue()
 {
-    KUrl backupCurrent = sequenceURL;
+    QUrl backupCurrent = sequenceURL;
 
     if (sequenceURL.path().contains("/tmp/"))
         sequenceURL.clear();
@@ -1479,7 +1489,7 @@ void Capture::saveSequenceQueue()
 
     if (sequenceURL.isEmpty())
     {
-        sequenceURL = KFileDialog::getSaveUrl( KUrl(), "*.esq |Ekos Sequence Queue");
+        sequenceURL = QFileDialog::getSaveFileName(0, xi18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (sequenceURL.isEmpty())
         {

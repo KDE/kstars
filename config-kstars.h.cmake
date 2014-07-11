@@ -1,8 +1,8 @@
 /* Define if you have fitsio.h */
-#cmakedefine   HAVE_CFITSIO_H 1
+#cmakedefine   HAVE_CFITSIO 1
 
 /* Define if you have indidevapi.h */
-#cmakedefine   HAVE_INDI_H 1
+#cmakedefine   HAVE_INDI 1
 
 /* Define if you have xplanet */
 #cmakedefine HAVE_XPLANET 1

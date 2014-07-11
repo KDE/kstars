@@ -29,7 +29,7 @@
     <number>10</number>
    </property>
    <item>
-    <widget class="KListWidget" name="FOVListBox" />
+    <widget class="QListWidget" name="FOVListBox" />
    </item>
    <item>
     <layout class="QVBoxLayout" >
@@ -155,17 +155,7 @@
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
+  <customwidgets>  
   <customwidget>
    <class>FOVWidget</class>
    <extends>QFrame</extends>

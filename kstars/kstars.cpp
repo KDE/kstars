@@ -46,7 +46,7 @@
 #include <config-kstars.h>
 #include <KSharedConfig>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 //#include "indi/indimenu.h"
 //#include "indi/indidriver.h"
 //#include "indi/imagesequence.h"
@@ -139,7 +139,7 @@ KStars::~KStars()
 {
     Q_ASSERT( pinstance );
 
-    #ifdef HAVE_INDI_H
+    #ifdef HAVE_INDI
     DriverManager::Instance()->clearServers();
     #endif
 

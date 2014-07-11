@@ -21,7 +21,7 @@
 #include <QFile>
 
 #include <klocale.h>
-#include <kstandarddirs.h>
+#include <QStandardPaths>
 #include <QStandardPaths>
 
 #include "skyobjects/deepskyobject.h"
@@ -136,8 +136,7 @@ void DeepSkyComponent::loadData()
     sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING));
     //No width to be appended for last sequence object
 
-    QString file_name = KStandardDirs::locate( "appdata",
-                                           QString("ngcic.dat") );
+    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("ngcic.dat") );
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
     deep_sky_parser.SetProgress( xi18n("Loading NGC/IC objects"), 13444, 10 );

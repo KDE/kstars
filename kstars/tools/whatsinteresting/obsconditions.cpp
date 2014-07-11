@@ -17,7 +17,7 @@
 
 #include "obsconditions.h"
 #include "math.h"
-#include "qDebug"
+#include <QDebug>
 
 ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, TelescopeType telType):
     m_BortleClass(bortle), m_Equip(equip), m_TelType(telType), m_Aperture(aperture)

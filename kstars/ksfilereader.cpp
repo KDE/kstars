@@ -21,7 +21,7 @@
 #include <QObject>
 #include <QFile>
 
-#include "qDebug"
+#include <QDebug>
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"

@@ -34,7 +34,7 @@
 #include <kio/netaccess.h>
 
 #include "kstars.h"
-#include "qDebug"
+#include <QDebug>
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
@@ -53,11 +53,11 @@
 #include "thumbnailpicker.h"
 #include "Options.h"
 #include "widgets/kshelplabel.h"
-#include "addlinkdialog.h"
+#include "addlinQDialog"
 
 #include <config-kstars.h>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include <basedevice.h>
 #include <KLocale>
 #include <QStandardPaths>
@@ -84,8 +84,8 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
     //Create thumbnail image
     Thumbnail = new QPixmap( 200, 200 );
 
-    setCaption( xi18n( "Object Details" ) );
-    setButtons( KDialog::Close );
+    setWindowTitle( xi18n( "Object Details" ) );
+    setButtons( QDialog::Close );
 
     createGeneralTab();
     createPositionTab( ut, geo );
@@ -108,7 +108,7 @@ void DetailDialog::createGeneralTab()
     //Connections
     connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
     connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
-    #ifdef HAVE_INDI_H
+    #ifdef HAVE_INDI
     connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
     #else
     Data->ScopeButton->setEnabled(false);
@@ -147,7 +147,7 @@ void DetailDialog::createGeneralTab()
         }
         objecttyp = s->sptype() + ' ' + xi18n("star");
         Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                         KLocale::global()->formatNumber( s->mag(), 2 ) ) );  //show to hundredth place
+                                         QLocale().toString( s->mag(), 2 ) ) );  //show to hundredth place
 
         Data->BVLabel->setVisible( true );
         Data->BVIndex->setVisible( true );
@@ -164,13 +164,13 @@ void DetailDialog::createGeneralTab()
             Data->Distance->setText( QString(xi18nc("larger than 2000 parsecs", "> 2000 pc") ) );
         else if ( s->distance() > 50.0 ) //show to nearest integer
             Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
-                                            KLocale::global()->formatNumber( s->distance(), 0 ) ) );
+                                            QLocale().toString( s->distance(), 0 ) ) );
         else if ( s->distance() > 10.0 ) //show to tenths place
             Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
-                                            KLocale::global()->formatNumber( s->distance(), 1 ) ) );
+                                            QLocale().toString( s->distance(), 1 ) ) );
         else //show to hundredths place
             Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
-                                            KLocale::global()->formatNumber( s->distance(), 2 ) ) );
+                                            QLocale().toString( s->distance(), 2 ) ) );
 
         //Note multiplicity/variablility in angular size label
         Data->AngSizeLabel->setText( QString() );
@@ -206,36 +206,36 @@ void DetailDialog::createGeneralTab()
         if ( selectedObject->name() == "Moon" ) {
             Data->IllumLabel->setVisible( true );
             Data->Illumination->setVisible( true );
-            Data->Illumination->setText( QString("%1 %").arg( KLocale::global()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
+            Data->Illumination->setText( QString("%1 %").arg( QLocale().toString( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
             ((KSMoon *)selectedObject)->updateMag();
         }
         
         if(selectedObject->type() == SkyObject::COMET){
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                             KLocale::global()->formatNumber( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 2 ) ) );  //show to hundredth place
+                                             QLocale().toString( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 2 ) ) );  //show to hundredth place
         }
         else{
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                             KLocale::global()->formatNumber( ps->mag(), 2 ) ) );  //show to hundredth place
+                                             QLocale().toString( ps->mag(), 2 ) ) );  //show to hundredth place
         }
 
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( xi18nc("distance in kilometers", "%1 km",
-                                           KLocale::global()->formatNumber( ps->rearth()*AU_KM ) ) );
+                                           QLocale().toString( ps->rearth()*AU_KM ) ) );
         } else {
             Data->Distance->setText( xi18nc("distance in Astronomical Units", "%1 AU",
-                                           KLocale::global()->formatNumber( ps->rearth() ) ) );
+                                           QLocale().toString( ps->rearth() ) ) );
         }
 
         //Angular size; moon and sun in arcmin, others in arcsec
         if ( ps->angSize() ) {
             if ( ps->name() == "Sun" || ps->name() == "Moon" )
                 Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
-                                              KLocale::global()->formatNumber( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
+                                              QLocale().toString( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
             else
                 Data->AngSize->setText( xi18nc("angular size in arcseconds","%1 arcsec",
-                                              KLocale::global()->formatNumber( ps->angSize()*60.0 ) ) ); 
+                                              QLocale().toString( ps->angSize()*60.0 ) ) ); 
         } else {
             Data->AngSize->setText( "--" );
         }
@@ -248,7 +248,7 @@ void DetailDialog::createGeneralTab()
         Data->Names->setText(sup->name());
 
         Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                         KLocale::global()->formatNumber( sup->mag(), 2 ) ) );
+                                         QLocale().toString( sup->mag(), 2 ) ) );
         Data->Distance->setText( "---" );
 
         break;
@@ -287,13 +287,13 @@ void DetailDialog::createGeneralTab()
         {
             Data->MagLabel->setText(xi18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
             Data->Magnitude->setText( xi18nc( "integrated flux value", "%1 %2" ,
-                                             KLocale::global()->formatNumber( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
+                                             QLocale().toString( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
         }
         else if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
         else
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                             KLocale::global()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
+                                             QLocale().toString( dso->mag(), 1 ) ) );  //show to tenths place
 
         //No distances at this point...
         Data->Distance->setText( "--" );
@@ -301,10 +301,10 @@ void DetailDialog::createGeneralTab()
         //Only show decimal place for small angular sizes
         if ( dso->a() > 10.0 )
             Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
-                                          KLocale::global()->formatNumber(dso->a(), 0 ) ) );
+                                          QLocale().toString(dso->a(), 0 ) ) );
         else if ( dso->a() )
             Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
-                                          KLocale::global()->formatNumber( dso->a(), 1 ) ) );
+                                          QLocale().toString( dso->a(), 1 ) ) );
         else
             Data->AngSize->setText( "--" );
 
@@ -495,7 +495,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //Airmass is approximated as the secant of the zenith distance,
     //equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
     if ( selectedObject->alt().Degrees() > 0.0 )
-        Pos->Airmass->setText( KLocale::global()->formatNumber(
+        Pos->Airmass->setText( QLocale().toString(
                                    1./sin( selectedObject->alt().radians() ), 2 ) );
     else
         Pos->Airmass->setText( "--" );
@@ -741,9 +741,9 @@ void DetailDialog::editLinkDialog()
 
     if (m_CurrentLink == NULL) return;
 
-    KDialog editDialog( this );
-    editDialog.setCaption( xi18n("Edit Link") );
-    editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
+    QDialog editDialog( this );
+    editDialog.setWindowTitle( xi18n("Edit Link") );
+    editDialog.setButtons( QDialog::Ok | QDialog::Cancel );
     QFrame editFrame( &editDialog );
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
@@ -921,7 +921,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
     }
 
     // Copy URL file to temp file
-    KIO::file_copy(KUrl::fromPath(URLFile.fileName()), KUrl::fromPath(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
+    KIO::file_copy(QUrl::fromPath(URLFile.fileName()), QUrl::fromPath(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
 
 
     if ( !URLFile.open( QIODevice::WriteOnly) )
@@ -1072,7 +1072,7 @@ void DetailDialog::centerMap() {
 void DetailDialog::centerTelescope()
 {
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 
     if (INDIListener::Instance()->size() == 0)
     {

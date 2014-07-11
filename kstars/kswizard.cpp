@@ -52,14 +52,14 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 KSWizard::KSWizard( QWidget *parent ) :
-    KDialog( parent )
+    QDialog( parent )
 {
     wizardStack = new QStackedWidget( this );
     setMainWidget( wizardStack );
-    setCaption( xi18n("Setup Wizard") );
-    setButtons( KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel );
-    setButtonGuiItem( KDialog::User1, KGuiItem( xi18n("&Next >"), QString(), xi18n("Go to next Wizard page") ) );
-    setButtonGuiItem( KDialog::User2, KGuiItem( xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page") ) );
+    setWindowTitle( xi18n("Setup Wizard") );
+    setButtons( QDialog::User1|QDialog::User2|QDialog::Ok|QDialog::Cancel );
+    setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Next >"), QString(), xi18n("Go to next Wizard page") ) );
+    setButtonGuiItem( QDialog::User2, KGuiItem( xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page") ) );
 
     WizWelcomeUI* welcome = new WizWelcomeUI( wizardStack );
     location = new WizLocationUI( wizardStack );
@@ -89,7 +89,7 @@ KSWizard::KSWizard( QWidget *parent ) :
     connect( download->DownloadButton, SIGNAL( clicked() ), this, SLOT( slotDownload() ) );
 
     //Disable Back button
-    enableButton( KDialog::User2, false );
+    enableButton( QDialog::User2, false );
 
     //Initialize Geographic Location page
     initGeoPage();
@@ -100,8 +100,8 @@ KSWizard::~KSWizard()
 {}
 
 void KSWizard::setButtonsEnabled() {
-    enableButton( KDialog::User1, wizardStack->currentIndex() < wizardStack->count()-1 );
-    enableButton( KDialog::User2, wizardStack->currentIndex() > 0 );
+    enableButton( QDialog::User1, wizardStack->currentIndex() < wizardStack->count()-1 );
+    enableButton( QDialog::User2, wizardStack->currentIndex() > 0 );
 }
 
 void KSWizard::slotNextPage() {

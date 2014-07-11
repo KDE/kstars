@@ -231,7 +231,7 @@ Please select your telescope model from the list below. Click next after selecti
           <number>0</number>
          </property>
          <item>
-          <widget class="KComboBox" name="telescopeCombo" />
+          <widget class="QComboBox" name="telescopeCombo" />
          </item>
          <item>
           <spacer>
@@ -646,9 +646,9 @@ Enter the port number your telescope is connected to. If you only have one seria
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QLineEdit</class>

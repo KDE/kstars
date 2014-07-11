@@ -606,7 +606,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="InputVelocityComboBatch" >
+             <widget class="QComboBox" name="InputVelocityComboBatch" >
               <item>
                <property name="text" >
                 <string>Heliocentric</string>
@@ -695,10 +695,10 @@
            <number>6</number>
           </property>
           <item row="1" column="1" >
-           <widget class="KUrlRequester" name="OutputFileBoxBatch" />
+           <widget class="QUrlRequester" name="OutputFileBoxBatch" />
           </item>
           <item row="0" column="1" >
-           <widget class="KUrlRequester" name="InputFileBoxBatch" />
+           <widget class="QUrlRequester" name="InputFileBoxBatch" />
           </item>
           <item row="1" column="0" >
            <widget class="QLabel" name="label_10" >
@@ -811,9 +811,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QLineEdit</class>
@@ -837,7 +837,7 @@
    <header>ktextbrowser.h</header>
   </customwidget>
   <customwidget>
-   <class>KUrlRequester</class>
+   <class>QUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>

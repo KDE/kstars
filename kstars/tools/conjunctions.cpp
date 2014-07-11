@@ -29,9 +29,9 @@
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
 #include <QPointer>
-#include <KGlobal>
-#include <KLocale>
-#include <kfiledialog.h>
+#include <QFileDialog>
+
+#include <KLocalizedString>
 #include <kmessagebox.h>
 
 #include "ksconjunct.h"
@@ -111,7 +111,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     OutputList->setModel( m_SortModel );
     OutputList->setSortingEnabled(true);
     OutputList->horizontalHeader()->setStretchLastSection( true );
-    OutputList->horizontalHeader()->setResizeMode(  QHeaderView::Interactive );
+    //TODO Check this
+    //OutputList->horizontalHeader()->setResizeMode(  QHeaderView::Interactive );
     OutputList->horizontalHeader()->resizeSection(2, 100);
     OutputList->horizontalHeader()->resizeSection(3, 100);
     OutputList->horizontalHeader()->resizeSection(4, 120); //is it bad way to fix default size of columns ?
@@ -201,7 +202,9 @@ void ConjunctionsTool::slotExport()
     int i, j;
     QByteArray line;
 
-    QFile file( KFileDialog::getSaveFileName( QDir::homePath(), "*|All files", this, "Save Conjunctions" ) );
+    //QFile file( KFileDialog::getSaveFileName( QDir::homePath(), "*|All files", this, "Save Conjunctions" ) );
+   QFile file( QFileDialog::getSaveFileName(0, xi18n("Save Conjunctions"), QDir::homePath(), "*|All files") );
+
     file.open( QIODevice::WriteOnly | QIODevice::Text );
 
     for ( i=0; i<m_Model->rowCount(); ++i ) {
@@ -387,7 +390,8 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
             typeItem = new QStandardItem( xi18n( "Opposition" ) );
 
         itemList << typeItem
-                << new QStandardItem( KLocale::global()->formatDateTime( dt, KLocale::IsoDate ) )
+                //FIXME TODO is this ISO date? is there a ready format to use?
+                << new QStandardItem( QLocale().toString( dt.dateTime(), "YYYY-MM-DDTHH:mm:SS" ) )
                 << new QStandardItem( object1 )
                 << new QStandardItem( object2 )
                 << new QStandardItem( it.value().toDMSString() );

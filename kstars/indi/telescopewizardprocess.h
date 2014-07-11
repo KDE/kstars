@@ -21,7 +21,7 @@ class QTimer;
 class INDI_D;
 class DriverInfo;
 
-class KProgressDialog;
+class QProgressDialog;
 
 class telescopeWizardProcess : public QDialog
 {
@@ -40,7 +40,7 @@ private:
 
     ISD::GDInterface *scopeDevice;
 
-    KProgressDialog *progressScan;
+    QProgressDialog *progressScan;
 
     QStringList portList;
     QString currentDevice;

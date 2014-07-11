@@ -9,8 +9,10 @@
 
 #include <unistd.h>
 
+#include <QDir>
+
 #include <KMessageBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include "Options.h"
 
 #include "offlineastrometryparser.h"

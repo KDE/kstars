@@ -21,7 +21,7 @@
 class INDI_G;
 class INDI_E;
 
-class KComboBox;
+class QComboBox;
 class KLed;
 class KSqueezedTextLabel;
 
@@ -97,7 +97,7 @@ private:
     QVBoxLayout    *PVBox;   		/* Vertical container */
 
     QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
-    KComboBox      *menuC;		/* Combo box for menu */
+    QComboBox      *menuC;		/* Combo box for menu */
 
     QString         name;
 

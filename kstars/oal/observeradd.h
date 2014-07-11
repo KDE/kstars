@@ -22,11 +22,11 @@
 #include "ui_observeradd.h"
 
 #include <QWidget>
-#include <kdialog.h>
+#include <QDialog>
 
 #include "kstars.h"
 
-class ObserverAdd : public KDialog {
+class ObserverAdd : public QDialog {
 Q_OBJECT
     public:
         //The default constructor

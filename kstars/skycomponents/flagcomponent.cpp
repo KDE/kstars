@@ -37,7 +37,7 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
 {
     // List user's directory
-    m_Job = KIO::listDir( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + ".") ), KIO::HideProgressInfo, false ;
+    m_Job = KIO::listDir( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + ".") ), KIO::HideProgressInfo, false ;
     connect( m_Job,SIGNAL( entries(KIO::Job*, const KIO::UDSEntryList& ) ),
             SLOT( slotLoadImages( KIO::Job*, const KIO::UDSEntryList& ) ) );
     connect( m_Job, SIGNAL( result( KJob * ) ), this, SLOT( slotInit( KJob * ) ) );

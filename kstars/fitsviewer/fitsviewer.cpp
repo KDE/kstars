@@ -19,27 +19,11 @@
 
 #include "fitsviewer.h"
 
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <kaction.h>
-
-#include <kstandardaction.h>
-
+#include <QFileDialog>
 #include <QDebug>
-#include <ktoolbar.h>
-#include <ktemporaryfile.h>
-#include <kmenubar.h>
-#include <kstatusbar.h>
-#include <klineedit.h>
-#include <kicon.h>
-
-#include <KUndoStack>
 #include <QTabWidget>
 #include <QAction>
-#include <KActionCollection>
-#include <KLed>
-
+#include <QTemporaryFile>
 #include <QFile>
 #include <QCursor>
 #include <QRadioButton>
@@ -54,6 +38,17 @@
 #include <QUndoStack>
 #include <QUndoGroup>
 #include <QSignalMapper>
+#include <QStatusBar>
+#include <QMenuBar>
+#include <QShortcut>
+
+#include <KActionCollection>
+#include <KLed>
+#include <KMessageBox>
+#include <KStandardAction>
+#include <KToolBar>
+#include <KLocalizedString>
+#include <klineedit.h>
 
 #include <cmath>
 #ifndef __MINGW32__
@@ -92,22 +87,37 @@ FITSViewer::FITSViewer (QWidget *parent)
     connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
     connect(fitsTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 
-    led = new KLed(this);
-    led->setColor(Qt::green);
+    led.setColor(Qt::green);
 
-    statusBar()->insertItem(QString(), FITS_POSITION);
-    statusBar()->setItemFixed(FITS_POSITION, 100);
-    statusBar()->insertItem(QString(), FITS_VALUE);
-    statusBar()->setItemFixed(FITS_VALUE, 100);
-    statusBar()->insertItem(QString(), FITS_RESOLUTION);
-    statusBar()->setItemFixed(FITS_RESOLUTION, 100);
-    statusBar()->insertItem(QString(), FITS_ZOOM);
-    statusBar()->setItemFixed(FITS_ZOOM, 50);
-    statusBar()->insertItem(QString(), FITS_WCS);
-    statusBar()->setItemFixed(FITS_WCS, 200);
-    statusBar()->insertWidget(0, led);
-    statusBar()->insertPermanentItem(xi18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
-    statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
+    statusBar()->insertPermanentWidget(FITS_LED, &led);
+
+    //statusBar()->insertItem(QString(), FITS_POSITION);
+    statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
+    //statusBar()->setItemFixed(FITS_POSITION, 100);
+
+    //statusBar()->insertItem(QString(), FITS_VALUE);
+    //statusBar()->setItemFixed(FITS_VALUE, 100);
+    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
+
+    //statusBar()->insertItem(QString(), FITS_RESOLUTION);
+    //statusBar()->setItemFixed(FITS_RESOLUTION, 100);
+    statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
+
+    //statusBar()->insertItem(QString(), FITS_ZOOM);
+    //statusBar()->setItemFixed(FITS_ZOOM, 50);
+    statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsZoom);
+
+    //statusBar()->insertItem(QString(), FITS_WCS);
+    //statusBar()->setItemFixed(FITS_WCS, 200);
+    statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
+
+    //statusBar()->insertWidget(0, led);
+
+    //statusBar()->insertPermanentItem(xi18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
+    fitsMessage.setText(xi18n("Welcome to KStars FITS Viewer"));
+    statusBar()->insertPermanentWidget(FITS_MESSAGE, &fitsMessage);
+
+    //statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
 
     QAction *action;
     QFile tempFile;
@@ -115,7 +125,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action = actionCollection()->addAction("image_histogram");
     action->setText(xi18n("Histogram"));
     connect(action, SIGNAL(triggered(bool)), SLOT (histoFITS()));
-    action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
+    action->setShortcuts(QKeySequence::Replace);
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
@@ -137,7 +147,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action = actionCollection()->addAction("image_stretch");
     action->setText(xi18n("Auto stretch"));
     connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
-    action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_A ));
+    action->setShortcuts(QKeySequence::SelectAll);
     action->setIcon(QIcon::fromTheme("transform-move"));
 
     KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());    
@@ -197,16 +207,16 @@ FITSViewer::~FITSViewer()
     qDeleteAll(fitsImages);
 }
 
-int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
+int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter)
 {
 
     FITSTab *tab = new FITSTab(this);
 
-    led->setColor(Qt::yellow);
+    led.setColor(Qt::yellow);
 
     if (tab->loadFITS(imageName,mode, filter) == false)
     {
-        led->setColor(Qt::red);
+        led.setColor(Qt::red);
         if (fitsImages.size() == 0)
         {
 
@@ -259,12 +269,12 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 
     tab->setUID(fitsID);
 
-    led->setColor(Qt::green);
+    led.setColor(Qt::green);
 
     return (fitsID++);
 }
 
-bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter)
+bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
 
@@ -274,7 +284,7 @@ bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter
     bool rc=false;
 
     if (tab->isVisible())
-        led->setColor(Qt::yellow);
+        led.setColor(Qt::yellow);
 
     if (tab)
     {
@@ -293,9 +303,9 @@ bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter
     if (tab->isVisible())
     {
         if (rc)
-            led->setColor(Qt::green);
+            led.setColor(Qt::green);
         else
-            led->setColor(Qt::red);
+            led.setColor(Qt::red);
     }
 
     return rc;
@@ -360,7 +370,8 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 
 void FITSViewer::openFile()
 {
-    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.fts|Flexible Image Transport System");
+    //TODO
+    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Open FITS Image"), QUrl(), "FITS (*.fits, *.fit)");
     if (fileURL.isEmpty())
         return;
 
@@ -479,7 +490,28 @@ int FITSViewer::saveUnsaved(int index)
 
 void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
 {
-   statusBar()->changeItem(msg, id);
+    switch (id)
+    {
+            case FITS_POSITION:
+                fitsPosition.setText(msg);
+                break;
+            case FITS_RESOLUTION:
+                fitsResolution.setText(msg);
+                break;
+             case FITS_ZOOM:
+                fitsZoom.setText(msg);
+                break;
+             case FITS_WCS:
+                fitsWCS.setText(msg);
+                break;
+             case FITS_MESSAGE:
+                fitsMessage.setText(msg);
+                break;
+
+             default:
+                break;
+
+    }
 }
 
 void FITSViewer::ZoomIn()

@@ -25,9 +25,12 @@
 #include <cstdlib>
 
 #include <QApplication>
+#include <QLocale>
 #include <QFile>
 #include <QProgressDialog>
+
 #include <KMessageBox>
+#include <klocale.h>
 
 #ifdef HAVE_WCSLIB
 #include <wcshdr.h>
@@ -131,7 +134,7 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
     filename.remove("file://");
 
 
-    if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
+    if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
@@ -285,7 +288,7 @@ int FITSImage::saveFITS( const QString &newFilename )
 
 
     /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, newFilename.toAscii(), &status))
+    if (fits_create_file(&new_fptr, newFilename.toLatin1(), &status))
     {
         fits_report_error(stderr, status);
         return status;
@@ -351,7 +354,7 @@ int FITSImage::saveFITS( const QString &newFilename )
 
     QString history = QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
     // History
-    if (fits_write_history(fptr, history.toAscii(), &status))
+    if (fits_write_history(fptr, history.toLatin1(), &status))
     {
         fits_report_error(stderr, status);
         return status;

@@ -46,15 +46,15 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QTimer>
+#include <QDialog>
 
-#include <kdialog.h>
 #include "geolocation.h"
 
 namespace Ui {
 class LocationDialog;
 }
 
-class LocationDialog : public KDialog {
+class LocationDialog : public QDialog {
     Q_OBJECT
 
 public:

@@ -28,22 +28,18 @@
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
 #include <QDirIterator>
-
 #include <QPushButton>
-#include <kstatusbar.h>
-#include <ktextedit.h>
+#include <QStatusBar>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QTextEdit>
+#include <QLineEdit>
+
+#include <KPlotting/KPlotAxis>
+#include <KPlotting/KPlotObject>
 #include <kinputdialog.h>
-#include <kicon.h>
-#include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <ktemporaryfile.h>
-#include <klineedit.h>
-#include <kplotobject.h>
-#include <kplotaxis.h>
-#include <kplotwidget.h>
-#include <kio/copyjob.h>
-#include <kstandarddirs.h>
+
 
 #include "ksalmanac.h"
 #include "obslistwizard.h"
@@ -70,7 +66,7 @@
 
 #include <config-kstars.h>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include <basedevice.h>
 #include <QStandardPaths>
 #include "indi/indilistener.h"
@@ -89,14 +85,20 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 // ObservingList
 // ---------------------------------
 ObservingList::ObservingList( KStars *_ks )
-        : KDialog( (QWidget*)_ks ),
+        : QDialog( (QWidget*)_ks ),
         ks( _ks ), LogObject(0), m_CurrentObject(0),
           isModified(false), bIsLarge(true), m_epf( 0 )
 {
     ui = new ObservingListUI( this );
-    setMainWidget( ui );
-    setCaption( xi18n( "Observation Planner" ) );
-    setButtons( KDialog::Close );
+    QVBoxLayout *mainLayout= new QVBoxLayout;
+
+    mainLayout->addWidget(ui);
+    //setMainWidget( ui );
+    setWindowTitle( xi18n( "Observation Planner" ) );
+
+    //TODO
+    //setButtons( QDialog::Close );
+
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);
     geo = ks->data()->geo();
@@ -126,13 +128,15 @@ ObservingList::ObservingList( KStars *_ks )
     m_SortModel->setDynamicSortFilter( true );
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
-    ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
+    //TODO
+    //ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
     m_SortModelSession = new SessionSortFilterProxyModel;
     m_SortModelSession->setSourceModel( m_Session );
     m_SortModelSession->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SortModelSession );
     ui->SessionView->horizontalHeader()->setStretchLastSection( true );
-    ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
+    //TODO
+    //ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
     ksal = new KSAlmanac;
     ksal->setLocation(geo);
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
@@ -246,13 +250,13 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if ( obsList().contains( obj ) ) {
         addToWishList = false;
         if( ! session ) {
-            ks->statusBar()->changeItem( xi18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
+            ks->statusBar()->showMessage( xi18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
             return;
         }
     }
 
     if ( session && sessionList().contains( obj ) ) {
-        ks->statusBar()->changeItem( xi18n( "%1 is already in the session plan.", finalObjectName ), 0 );
+        ks->statusBar()->showMessage( xi18n( "%1 is already in the session plan.", finalObjectName ), 0 );
         return;
     }
 
@@ -281,7 +285,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
         m_Model->appendRow( itemList );
         //Note addition in statusbar
-        ks->statusBar()->changeItem( xi18n( "Added %1 to observing list.", finalObjectName ), 0 );
+        ks->statusBar()->showMessage( xi18n( "Added %1 to observing list.", finalObjectName ), 0 );
         ui->TableView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     }
@@ -324,7 +328,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         isModified = true;
         ui->SessionView->resizeColumnsToContents();
         //Note addition in statusbar
-        ks->statusBar()->changeItem( xi18n( "Added %1 to session list.", finalObjectName ), 0 );
+        ks->statusBar()->showMessage( xi18n( "Added %1 to session list.", finalObjectName ), 0 );
     }
     setSaveImagesButton();
 }
@@ -471,7 +475,7 @@ void ObservingList::slotNewSelection() {
     if( singleSelection ) {
         //Enable buttons
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
-        #ifdef HAVE_INDI_H
+        #ifdef HAVE_INDI
             showScope = true;
         #endif
         setDefaultImage();
@@ -510,13 +514,13 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->GoogleImage->setEnabled( false );
             }
-            if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ).size() > 13000  {//If the image is present, show it!
-                ui->ImagePreview->showPreview( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+            if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//If the image is present, show it!
+                ui->ImagePreview->showPreview( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( false );
                 ui->DeleteImage->setEnabled( true );
-            } else if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ).size() > 13000  {
-                ui->ImagePreview->showPreview( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ) ;
+            } else if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ).size() > 13000 )  {
+                ui->ImagePreview->showPreview( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ) ;
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( true );
                 ui->DeleteImage->setEnabled( true );
@@ -574,7 +578,7 @@ void ObservingList::slotCenterObject() {
 
 void ObservingList::slotSlewToObject()
 {
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 
     if (INDIListener::Instance()->size() == 0)
     {
@@ -716,12 +720,18 @@ void ObservingList::saveCurrentUserLog() {
 }
 
 void ObservingList::slotOpenList() {
-    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
+    //TODO Can we set URL to home location?
+    QUrl fileURL =QFileDialog::getOpenFileUrl(0, xi18n("Open Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     QFile f;
+
     if ( fileURL.isValid() ) {
+
+        f.setFileName( fileURL.path() );
+    //FIXME do we still need to do this?
+    /*
         if ( ! fileURL.isLocalFile() ) {
             //Save remote list to a temporary local file
-            KTemporaryFile tmpfile;
+            QTemporaryFile tmpfile;
             tmpfile.setAutoRemove(false);
             tmpfile.open();
             FileName = tmpfile.fileName();
@@ -732,6 +742,7 @@ void ObservingList::slotOpenList() {
             FileName = fileURL.toLocalFile();
             f.setFileName( FileName );
         }
+        */
 
         if ( ! f.open( QIODevice::ReadOnly) ) {
             QString message = xi18n( "Could not open file %1", f.fileName() );
@@ -782,7 +793,7 @@ void ObservingList::saveCurrentList() {
 }
 
 void ObservingList::slotSaveSessionAs(bool nativeSave) {
-    KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
+    QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
         FileName = fileURL.path();
         slotSaveSession(nativeSave);
@@ -1039,21 +1050,21 @@ void ObservingList::slotGetImage( bool _dss ) {
     if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) 
         setCurrentImage( currentObject(), true );
     QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ;
-    KUrl url;
+    QUrl url;
     if( dss ) {
         url.setUrl( DSSUrl );
     } else {
         url.setUrl( SDSSUrl );
     }
-    downloadJob = KIO::copy ( url, KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+    downloadJob = KIO::copy ( url, QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
     connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
 }
 
 void ObservingList::downloadReady() {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
     downloadJob = 0;
-    if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ).size() > 13000  {//The default image is around 8689 bytes
-        ui->ImagePreview->showPreview( KUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+    if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//The default image is around 8689 bytes
+        ui->ImagePreview->showPreview( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1087,7 +1098,7 @@ void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
         QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
-    CurrentImagePath = KStandardDirs::locateLocal( "appdata" , CurrentImage );
+    CurrentImagePath = QStandardPaths::locate( QStandardPaths::DataLocation , CurrentImage );
     CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
     DSSUrl = KSUtils::getDSSURL( o );
     QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?");
@@ -1118,17 +1129,20 @@ void ObservingList::slotSaveAllImages() {
     foreach( SkyObject *o, currList ) {
         setCurrentImage( o );
         QString img( CurrentImagePath  );
-        KUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
+        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
             saveImage( url, img );
     }
 }
 
-void ObservingList::saveImage( KUrl url, QString filename ) {
+void ObservingList::saveImage( QUrl url, QString filename ) {
+
+    //FIXME KIO::NetAccess needs to be ported to KF5
+    /*
     if( ! QFile::exists( CurrentImagePath  ) && ! QFile::exists( CurrentTempPath ) ) {
         if(  KIO::NetAccess::download( url, filename, mainWidget() ) ) {
             if( QFile( CurrentImagePath ).size() < 13000 ) {//The default image is around 8689 bytes FIXME: This seems to have changed
-                url = KUrl( DSSUrl );
+                url = QUrl( DSSUrl );
                 KIO::NetAccess::download( url, filename, mainWidget() );
             }
             saveThumbImage();
@@ -1137,6 +1151,7 @@ void ObservingList::saveImage( KUrl url, QString filename ) {
         QFile f( CurrentTempPath );
         f.rename( CurrentImagePath );
     }
+    */
 }
 
 void ObservingList::slotSaveImage() {
@@ -1263,7 +1278,7 @@ void ObservingList::slotGoogleImage() {
         //If a real image was set, save it.
         if ( tp->imageFound() ) {
             tp->image()->save( f.fileName(), "PNG" );
-            ui->ImagePreview->showPreview( KUrl( f.fileName() ) );
+            ui->ImagePreview->showPreview( QUrl( f.fileName() ) );
             saveThumbImage();
             slotNewSelection();
         }
@@ -1329,7 +1344,7 @@ void ObservingList::setDefaultImage() {
     QFile file;
     if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
        file.close();
-       ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
+       ui->ImagePreview->showPreview( QUrl( file.fileName() ) );
     } else
         ui->ImagePreview->hide();
 }

@@ -23,7 +23,7 @@
 #include <QKeyEvent>
 #include <QPaintEvent>
 
-#include <kdialog.h>
+#include <QDialog>
 #include <QPushButton>
 
 #include "pvplotwidget.h"
@@ -45,7 +45,7 @@ public:
 	*@version 1.0
 	*@author Jason Harris
 	*/
-class PlanetViewer : public KDialog
+class PlanetViewer : public QDialog
 {
     Q_OBJECT
 public:

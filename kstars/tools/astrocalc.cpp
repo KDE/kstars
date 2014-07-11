@@ -41,7 +41,7 @@
 #include "conjunctions.h"
 
 AstroCalc::AstroCalc( QWidget* parent ) :
-        KDialog( parent )
+        QDialog( parent )
 {
     // List of messages. Maybe there is better place for it...
     QString message =
@@ -112,8 +112,8 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
     QSplitter* split = new QSplitter ( this );
     setMainWidget(split);
-    setCaption( xi18n("Calculator") );
-    setButtons( KDialog::Close );
+    setWindowTitle( xi18n("Calculator") );
+    setButtons( QDialog::Close );
 
     // Create navigation panel
     navigationPanel = new QTreeWidget(split);

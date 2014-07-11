@@ -35,12 +35,16 @@
 #include <QCheckBox>
 #include <QImage>
 
-EyepieceField::EyepieceField( QWidget *parent ) : KDialog( parent ) {
+EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
-    setCaption( xi18n( "Eyepiece Field View" ) );
+    setWindowTitle( xi18n( "Eyepiece Field View" ) );
 
     QWidget *mainWidget = new QWidget( this );
-    setMainWidget( mainWidget );
+    //setMainWidget( mainWidget );
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(mainWidget);
+    setLayout(mainLayout);
+
     QVBoxLayout *rows = new QVBoxLayout;
     mainWidget->setLayout( rows );
 
@@ -91,7 +95,8 @@ EyepieceField::EyepieceField( QWidget *parent ) : KDialog( parent ) {
     connect( m_invertColors, SIGNAL( stateChanged( int ) ), this, SLOT( render( int ) ) );
     connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render( int ) ) );
 
-    setButtons( KDialog::Close );
+    //FIXME Needs porting to KF5
+    //setButtons( QDialog::Close );
 
     m_skyChart = 0;
     m_skyImage = 0;

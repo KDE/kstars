@@ -32,7 +32,7 @@
 #include <KProcess>
 #include <QAction>
 #include <KActionCollection>
-#include <KIconLoader>
+//#include <KIconLoader>
 
 
 
@@ -97,7 +97,7 @@ DriverManager * DriverManager::Instance()
 }
 
 DriverManager::DriverManager()
-        : KDialog( KStars::Instance() )
+        : QDialog( KStars::Instance() )
 {
 
     currentPort = Options::serverPortStart().toInt()-1;
@@ -107,9 +107,12 @@ DriverManager::DriverManager()
     connectionMode = SERVER_CLIENT;
 
     ui = new DriverManagerUI( this );
-    setMainWidget( ui );
-    setCaption( xi18n( "Device Manager" ) );
-    setButtons( KDialog::Close );
+    // FIXME check if this works
+    //setMainWidget( ui );
+    //setWindowTitle( xi18n( "Device Manager" ) );
+    setWindowTitle( xi18n( "Device Manager" ) );
+    //setButtons( QDialog::Close );
+
 
     lastGroup = NULL;
 
@@ -1012,7 +1015,7 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
     else
         groupType = KSTARS_UNKNOWN;
 
-#ifndef HAVE_CFITSIO_H
+#ifndef HAVE_CFITSIO
     // We do not create these groups if we don't have CFITSIO support
     if (groupType == KSTARS_CCD || groupType == KSTARS_VIDEO)
         return true;

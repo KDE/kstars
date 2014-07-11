@@ -17,8 +17,7 @@
 
 #include "obslistpopupmenu.h"
 
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "kstars.h"
 #include "kstarsdata.h"

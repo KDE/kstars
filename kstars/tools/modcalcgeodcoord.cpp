@@ -112,15 +112,15 @@ void modCalcGeodCoord::showSpheGeoCoords(void)
 {
     LongGeoBox->show( geoPlace->lng() );
     LatGeoBox->show( geoPlace->lat() );
-    AltGeoBox->setText( KLocale::global()->formatNumber( geoPlace->height(), 3) );
+    AltGeoBox->setText( QLocale().toString( geoPlace->height(), 3) );
 }
 
 void modCalcGeodCoord::showCartGeoCoords(void)
 {
 
-    XGeoBox->setText( KLocale::global()->formatNumber( geoPlace->xPos()/1000. ,6));
-    YGeoBox->setText( KLocale::global()->formatNumber( geoPlace->yPos()/1000. ,6));
-    ZGeoBox->setText( KLocale::global()->formatNumber( geoPlace->zPos()/1000. ,6));
+    XGeoBox->setText( QLocale().toString( geoPlace->xPos()/1000. ,6));
+    YGeoBox->setText( QLocale().toString( geoPlace->yPos()/1000. ,6));
+    ZGeoBox->setText( QLocale().toString( geoPlace->zPos()/1000. ,6));
 }
 
 void modCalcGeodCoord::geoCheck(void) {

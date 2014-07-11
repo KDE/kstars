@@ -18,15 +18,16 @@
 #include "draglistbox.h"
 
 #include <QDragEnterEvent>
+#include <QDrag>
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QDropEvent>
-
-#include <klocale.h>
 #include <QDebug>
 
+#include <KLocalizedString>
+
 DragListBox::DragListBox( QWidget *parent, const char *name )
-        : KListWidget( parent ) {
+        : QListWidget( parent ) {
 
     if ( name ) {
         setObjectName( name );

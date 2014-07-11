@@ -202,7 +202,7 @@
           </widget>
          </item>
          <item row="0" column="4" rowspan="4">
-          <widget class="KListWidget" name="PlotList">
+          <widget class="QListWidget" name="PlotList">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -242,7 +242,7 @@
           </widget>
          </item>
          <item>
-          <widget class="KDateWidget" name="DateWidget"/>
+          <widget class="KDatePicker" name="DateWidget"/>
          </item>
          <item>
           <spacer>
@@ -368,35 +368,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDateWidget</class>
-   <extends>QWidget</extends>
-   <header>kdatewidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
+   <class>KDatePicker</class>
+   <extends>QFrame</extends>
+   <header>kdatepicker.h</header>
   </customwidget>
   <customwidget>
    <class>KPlotWidget</class>
    <extends>QFrame</extends>
    <header>kplotwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>dmsBox</class>

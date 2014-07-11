@@ -45,7 +45,7 @@
 #include <KDebug>
 #include <KComboBox>
 #include <KNumInput>
-#include <KDialog>
+#include <QDialog>
 #include <QTabWidget>
 
 #include "kstars.h"

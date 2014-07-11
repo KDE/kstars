@@ -66,7 +66,7 @@ StarObject::StarObject( dms r, dms d, float m,
           PM_RA(pmra), PM_Dec(pmdec),
           Parallax(par), Multiplicity(mult), Variability(var)
 {
-    QByteArray spt = sptype.toAscii();
+    QByteArray spt = sptype.toLatin1();
     SpType[0] = spt[0];
     SpType[1] = spt[1];
     QString lname;
@@ -93,7 +93,7 @@ StarObject::StarObject( double r, double d, float m,
       PM_RA(pmra), PM_Dec(pmdec),
       Parallax(par), Multiplicity(mult), Variability(var)
 {
-    QByteArray spt = sptype.toAscii();
+    QByteArray spt = sptype.toLatin1();
     SpType[0] = spt[0];
     SpType[1] = spt[1];
 
@@ -502,14 +502,14 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
             sName = gname( true );
         else {
             if ( drawMag )
-                return KLocale::global()->formatNumber( mag(), 1 );
+                return QLocale().toString( mag(), 1 );
         }
         if ( ! drawMag )
             return sName;
         else
-            return sName + ' ' + KLocale::global()->formatNumber( mag(), 1 );
+            return sName + ' ' + QLocale().toString( mag(), 1 );
     }
-    return KLocale::global()->formatNumber( mag(), 1 );
+    return QLocale().toString( mag(), 1 );
 }
 
 //If this works, we can maybe get rid of customLabel() and nameLabel()??

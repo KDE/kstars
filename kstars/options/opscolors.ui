@@ -55,7 +55,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KComboBox" name="kcfg_BoxBGMode">
+         <widget class="QComboBox" name="kcfg_BoxBGMode">
           <item>
            <property name="text">
             <string>No Fill</string>
@@ -94,7 +94,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KComboBox" name="kcfg_StarColorMode">
+         <widget class="QComboBox" name="kcfg_StarColorMode">
           <property name="toolTip">
            <string>Set the star color mode</string>
           </property>
@@ -121,7 +121,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KIntSpinBox" name="kcfg_StarColorIntensity">
+         <widget class="QSpinBox" name="kcfg_StarColorIntensity">
           <property name="toolTip">
            <string>Set the intensity of star colors</string>
           </property>
@@ -262,23 +262,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>ColorPalette</tabstop>
   <tabstop>kcfg_BoxBGMode</tabstop>

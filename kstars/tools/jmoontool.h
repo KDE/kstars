@@ -17,7 +17,7 @@
 #ifndef JMOONTOOL_H_
 #define JMOONTOOL_H_
 
-#include <kdialog.h>
+#include <QDialog>
 
 class KStars;
 class QColor;
@@ -28,7 +28,7 @@ class KPlotWidget;
 	*@version 1.0
 	*@author Jason Harris
 	*/
-class JMoonTool : public KDialog
+class JMoonTool : public QDialog
 {
     Q_OBJECT
 public:

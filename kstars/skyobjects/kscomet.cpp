@@ -29,7 +29,7 @@
 namespace {
     int letterToNum(QChar c)
     {
-        char l = c.toAscii();
+        char l = c.toLatin1();
         if( l < 'A' || l > 'Z' || l == 'I')
             return 0;
         if( l > 'I' )

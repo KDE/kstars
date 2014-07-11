@@ -26,16 +26,12 @@
 #include <QTextStream>
 
 #include <QDebug>
-#include <klocale.h>
-#include <kio/netaccess.h>
+#include <KLocalizedString>
 #include <kprocess.h>
 #include <kstandardguiitem.h>
 
-#include <kurl.h>
-#include <kiconloader.h>
-#include <ktemporaryfile.h>
 #include <kmessagebox.h>
-#include <kfiledialog.h>
+#include <QFileDialog>
 #include <QStandardPaths>
 
 #include "scriptfunction.h"
@@ -53,12 +49,19 @@ OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
 }
 
 OptionsTreeView::OptionsTreeView( QWidget *p )
-        : KDialog( p )
+        : QDialog( p )
 {
     otvw = new OptionsTreeViewWidget( this );
-    setMainWidget( otvw );
-    setCaption( xi18n( "Options" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(otvw);
+    setLayout(mainLayout);
+
+    //setMainWidget( otvw );
+    setWindowTitle( xi18n( "Options" ) );
+    // FIXME needs porting to KF5
+    //setButtons( QDialog::Ok|QDialog::Cancel );
     setModal( false );
 }
 
@@ -106,12 +109,20 @@ ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
 }
 
 ScriptNameDialog::ScriptNameDialog( QWidget *p )
-        : KDialog( p )
+        : QDialog( p )
 {
     snw = new ScriptNameWidget( this );
-    setMainWidget( snw );
-    setCaption( xi18n( "Script Data" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(snw);
+    setLayout(mainLayout);
+
+    setWindowTitle( xi18n( "Script Data" ) );
+
+    //FIXME needs porting to KF5
+    //setMainWidget( snw );
+    //setButtons( QDialog::Ok|QDialog::Cancel );
 
     connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
 }
@@ -120,8 +131,10 @@ ScriptNameDialog::~ScriptNameDialog() {
     delete snw;
 }
 
-void ScriptNameDialog::slotEnableOkButton() {
-    enableButtonOk( ! snw->ScriptName->text().isEmpty() );
+void ScriptNameDialog::slotEnableOkButton()
+{
+    //FIXME Needs porting to KF5
+    //enableButtonOk( ! snw->ScriptName->text().isEmpty() );
 }
 
 ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
@@ -129,16 +142,24 @@ ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
 }
 
 ScriptBuilder::ScriptBuilder( QWidget *parent )
-        : KDialog( parent ), UnsavedChanges(false), checkForChanges(true),
+        : QDialog( parent ), UnsavedChanges(false), checkForChanges(true),
         currentFileURL(), currentDir( QDir::homePath() ),
         currentScriptName(), currentAuthor()
 {
     ks = (KStars*)parent;
     sb = new ScriptBuilderUI(this);
-    setMainWidget(sb);
-    setCaption( xi18n( "Script Builder" ) );
-    setButtons( KDialog::User1 );
-    setButtonGuiItem( KDialog::User1, KGuiItem( xi18n("&Close"), "dialog-close", xi18n("Close the dialog") ) );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(sb);
+    setLayout(mainLayout);
+
+    //setMainWidget(sb);
+    setWindowTitle( xi18n( "Script Builder" ) );
+
+    //FIXME Needs porting to KF5
+    //setButtons( QDialog::User1 );
+    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Close"), "dialog-close", xi18n("Close the dialog") ) );
 
     sb->FuncDoc->setTextInteractionFlags( Qt::NoTextInteraction );
 
@@ -968,9 +989,12 @@ void ScriptBuilder::slotOpen() {
     saveWarning();
 
     QString fname;
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     tmpfile.open();
 
+    /*
+     * FIXME Needs porting to KF5
+     *
     if ( !UnsavedChanges ) {
         currentFileURL = KFileDialog::getOpenUrl( currentDir, "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
 
@@ -1007,14 +1031,18 @@ void ScriptBuilder::slotOpen() {
             currentFileURL.clear();
         }
     }
+    */
 }
 
 void ScriptBuilder::slotSave()
 {
     QString fname;
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     tmpfile.open();
 
+    /*
+     * FIXME Needs porting to KF5
+     *
     if ( currentScriptName.isEmpty() ) {
         //Get Script Name and Author info
         if ( snd->exec() == QDialog::Accepted ) {
@@ -1066,7 +1094,7 @@ void ScriptBuilder::slotSave()
         f.close();
 
         //set rwx for owner, rx for group, rx for other
-        chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+        chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
         if ( tmpfile.fileName() == fname ) { //need to upload to remote location
             if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) ) {
@@ -1082,6 +1110,7 @@ void ScriptBuilder::slotSave()
         KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
         currentFileURL.clear();
     }
+    */
 }
 
 void ScriptBuilder::slotSaveAs() {
@@ -1116,7 +1145,7 @@ void ScriptBuilder::slotRunScript() {
     //is not executable.  Bizarre...
     //KTempFile tmpfile;
     //QString fname = tmpfile.name();
-    QString fname = QDir::tempPath() + QLatin1Char('/') +  "kstars-tempscript" );
+    QString fname = QDir::tempPath() + QLatin1Char('/') +  "kstars-tempscript";
 
     QFile f( fname );
     if ( f.exists() ) f.remove();

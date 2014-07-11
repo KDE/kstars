@@ -42,7 +42,7 @@ ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, double _w, double _h, QString cap )
-        : KDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
+        : QDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
     wid = _w;
     ht = _h;
@@ -51,8 +51,8 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 
     ui = new ThumbnailPickerUI( this );
     setMainWidget( ui );
-    setCaption( cap );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( cap );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     ui->CurrentImage->setPixmap( *Image );
 
@@ -60,7 +60,7 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
     connect( ui->UnsetButton, SIGNAL( clicked() ), this, SLOT( slotUnsetImage() ) );
     connect( ui->ImageList, SIGNAL( currentRowChanged( int ) ),
              this, SLOT( slotSetFromList( int ) ) );
-    connect( ui->ImageURLBox, SIGNAL( urlSelected( const KUrl& ) ),
+    connect( ui->ImageURLBox, SIGNAL( urlSelected( const QUrl& ) ),
              this, SLOT( slotSetFromURL() ) );
     connect( ui->ImageURLBox, SIGNAL( returnPressed() ),
              this, SLOT( slotSetFromURL() ) );
@@ -103,7 +103,7 @@ void ThumbnailPicker::slotFillList() {
     //Add images from the ImageList
     for ( int i=0; i<ImageList.size(); ++i ) {
         QString s( ImageList[i] );
-        KUrl u( ImageList[i] );
+        QUrl u( ImageList[i] );
 
         if ( u.isValid() ) {
             KIO::StoredTransferJob *j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
@@ -137,7 +137,7 @@ void ThumbnailPicker::slotJobResult( KJob *job ) {
 
     uint w = pm->width();
     uint h = pm->height();
-    uint pad = 0; /*FIXME LATER 4* KDialogBase::marginHint() + 2*ui->SearchLabel->height() + KDialogBase::actionButton( KDialogBase::Ok )->height() + 25;*/
+    uint pad = 0; /*FIXME LATER 4* QDialogBase::marginHint() + 2*ui->SearchLabel->height() + QDialogBase::actionButton( QDialogBase::Ok )->height() + 25;*/
     uint hDesk = QApplication::desktop()->availableGeometry().height() - pad;
 
     if ( h > hDesk )

@@ -16,6 +16,7 @@
 #include <assert.h>
 
 #include <KMessageBox>
+#include <KLocalizedString>
 
 #include "scroll_graph.h"
 #include "gmath.h"

@@ -170,7 +170,7 @@ QString SkyObjItem::getSurfaceBrightness() const
     {
     case Galaxy:
     case Nebula:
-        return KLocale::global()->formatNumber(SB, 2) + " mag/arcmin^2";
+        return QLocale().toString(SB, 2) + " mag/arcmin^2";
     default:
         return QString(" --"); // Not applicable for other sky-objects
     }
@@ -183,9 +183,9 @@ QString SkyObjItem::getSize() const
     case Galaxy:
     case Cluster:
     case Nebula:
-        return KLocale::global()->formatNumber(((DeepSkyObject *)m_So)->a(), 2) + " arcminutes";
+        return QLocale().toString(((DeepSkyObject *)m_So)->a(), 2) + " arcminutes";
     case Planet:
-        return KLocale::global()->formatNumber(((KSPlanetBase *)m_So)->angSize(), 2) + " arcseconds";
+        return QLocale().toString(((KSPlanetBase *)m_So)->angSize(), 2) + " arcseconds";
     default:
         return QString(" --");
     }

@@ -156,7 +156,7 @@
        <item>
         <layout class="QHBoxLayout">
          <item>
-          <widget class="KComboBox" name="ComputeComboBatch">
+          <widget class="QComboBox" name="ComputeComboBatch">
            <item>
             <property name="text">
              <string>Compute sidereal time</string>
@@ -282,7 +282,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="KUrlRequester" name="InputFileBatch"/>
+          <widget class="QUrlRequester" name="InputFileBatch"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_4">
@@ -292,7 +292,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="KUrlRequester" name="OutputFileBatch"/>
+          <widget class="QUrlRequester" name="OutputFileBatch"/>
          </item>
         </layout>
        </item>
@@ -365,7 +365,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
+   <class>QUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>
@@ -375,9 +375,9 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QTabWidget</class>

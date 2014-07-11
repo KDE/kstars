@@ -15,6 +15,8 @@
 #include <QHttpMultiPart>
 #include <QFile>
 
+#include <KLocalizedString>
+
 #include "onlineastrometryparser.h"
 #include "align.h"
 
@@ -103,7 +105,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             image_data->getSize(&image_width, &image_height);
             QImage *display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
-            display_image->setNumColors(256);
+            display_image->setColorCount(256);
             for (int i=0; i < 256; i++)
                 display_image->setColor(i, qRgb(i,i,i));
 

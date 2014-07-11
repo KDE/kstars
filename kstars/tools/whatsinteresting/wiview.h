@@ -20,7 +20,7 @@
 
 class QDeclarativeView;
 
-#include "QDeclarativeContext"
+#include <QtDeclarative/QDeclarativeContext>
 #include "skyobject.h"
 #include "modelmanager.h"
 #include "skyobjlistmodel.h"

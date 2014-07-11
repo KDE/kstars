@@ -34,7 +34,7 @@ FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 FocusDialog::FocusDialog( KStars *_ks )
-        : KDialog( _ks ), ks( _ks )
+        : QDialog( _ks ), ks( _ks )
 {
     //initialize point to the current focus position
     Point = *ks->map()->focus();
@@ -43,8 +43,8 @@ FocusDialog::FocusDialog( KStars *_ks )
 
     fd = new FocusDialogUI(this);
     setMainWidget(fd);
-    setCaption( xi18n( "Set Coordinates Manually" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( xi18n( "Set Coordinates Manually" ) );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
     fd->raBox->setMinimumWidth( fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width() );
@@ -99,7 +99,7 @@ void FocusDialog::validatePoint() {
         Point.apparentCoord(jd0, ks->data()->ut().djd() );
         Point.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
 
-        KDialog::accept();
+        QDialog::accept();
     } else {
         dms az(  fd->azBox->createDms( true, &azOk ) );
         dms alt( fd->altBox->createDms( true, &altOk ) );
@@ -121,9 +121,9 @@ void FocusDialog::validatePoint() {
 
             UsedAltAz = true;
 
-            KDialog::accept();
+            QDialog::accept();
         } else {
-            KDialog::reject();
+            QDialog::reject();
         }
     }
 }

@@ -18,7 +18,7 @@
 #ifndef SKYCALENDAR_H_
 #define SKYCALENDAR_H_
 
-#include <KDialog>
+#include <QDialog>
 
 #include "ui_skycalendar.h"
 
@@ -34,7 +34,7 @@ public:
 /**
  *@class SkyCalendar
  */
-class SkyCalendar : public KDialog
+class SkyCalendar : public QDialog
 {
     Q_OBJECT
     friend class CalendarWidget;

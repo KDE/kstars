@@ -42,7 +42,7 @@ public:
   * \brief Class representing FOV Editor Dialog which enables user to edit FOV snapshots.
   * \author Rafał Kułaga
   */
-class FovEditorDialog : public KDialog
+class FovEditorDialog : public QDialog
 {
     Q_OBJECT
 public:

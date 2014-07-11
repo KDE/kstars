@@ -24,17 +24,15 @@
 #include <base64.h>
 #include <basedevice.h>
 
-#include <KDebug>
 #include <QMenu>
 #include <QLineEdit>
 #include <KLed>
-#include <KLocale>
-#include <KComboBox>
-#include <QPushButton>
-#include <KNumInput>
 #include <KMessageBox>
 #include <KSqueezedTextLabel>
 
+#include <QLocale>
+#include <QComboBox>
+#include <QPushButton>
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QLabel>
@@ -65,10 +63,12 @@ INDI_P::INDI_P(INDI_G *ipg, INDI::Property *prop)
 
     PHBox           = new QHBoxLayout();
     PHBox->setMargin(0);
-    PHBox->setSpacing(KDialog::spacingHint());
+    // TODO
+    //PHBox->setSpacing(QDialog::spacingHint());
     PVBox           = new QVBoxLayout();
     PVBox->setMargin(0);
-    PVBox->setSpacing(KDialog::spacingHint());
+    // TODO
+    //PVBox->setSpacing(QDialog::spacingHint());
 
     ledStatus      = NULL;
     labelW         = NULL;
@@ -497,7 +497,7 @@ void INDI_P::buildMenuGUI()
     if (svp == NULL)
         return;
 
-    menuC = new KComboBox(pg->getContainer());
+    menuC = new QComboBox(pg->getContainer());
 
     QObject::connect(menuC, SIGNAL(activated(int)), this, SLOT(newSwitch(int)));
 

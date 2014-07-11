@@ -20,7 +20,7 @@
 #define KSPOPUPMENU_H_
 
 #include <QMenu>
-#include <kaction.h>
+#include <QAction>
 #include <QHash>
 
 class StarObject;

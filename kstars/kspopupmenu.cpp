@@ -19,8 +19,7 @@
 
 #include <QSignalMapper>
 
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -37,7 +36,7 @@
 
 #include <config-kstars.h>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include "indi/indilistener.h"
 #include "indi/guimanager.h"
 #include "indi/driverinfo.h"
@@ -81,7 +80,7 @@ namespace {
         QTime t = o->riseSetTime( data->ut(), data->geo(), isRaise );
         if ( t.isValid() ) {
             //We can round to the nearest minute by simply adding 30 seconds to the time.
-            QString time = KLocale::global()->formatTime( t.addSecs(30) );
+            QString time = QLocale().toString( t.addSecs(30) );
             return isRaise ?
                 xi18n ("Rise time: %1", time) :
                 xi18nc("the time at which an object falls below the horizon", "Set time: %1" , time);
@@ -98,7 +97,7 @@ namespace {
         QTime t = o->transitTime( data->ut(), data->geo() );
         if ( t.isValid() )
             //We can round to the nearest minute by simply adding 30 seconds to the time.
-            return xi18n( "Transit time: %1", KLocale::global()->formatTime( t.addSecs(30) ) );
+            return xi18n( "Transit time: %1", QLocale().toString( t.addSecs(30) ) );
         else
             return "--:--";
     }
@@ -453,7 +452,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
 
 void KSPopupMenu::addINDI()
 {
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 
     if (INDIListener::Instance()->size() == 0)
         return;
@@ -550,7 +549,8 @@ void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
         label->setFont( font );
     }
     QAction * act = new QAction( this );
-    act->setDefaultWidget( label );
+    //FIXME Needs porting to KF5
+    //act->setDefaultWidget( label );
     addAction( act );
 }
 #include "kspopupmenu.moc"

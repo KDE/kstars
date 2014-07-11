@@ -150,7 +150,7 @@
            </widget>
           </item>
           <item>
-           <widget class="KComboBox" name="CCDCaptureCombo"/>
+           <widget class="QComboBox" name="CCDCaptureCombo"/>
           </item>
           <item>
            <widget class="QLabel" name="label_7">
@@ -928,9 +928,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QLineEdit</class>

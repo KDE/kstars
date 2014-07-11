@@ -18,7 +18,7 @@
 #ifndef KSTARS_KSPARSER_H
 #define KSTARS_KSPARSER_H
 #include "kstars/ksfilereader.h"
-#include <kstandarddirs.h>
+#include <QStandardPaths>
 #include <QList>
 #include <QFile>
 #include <QHash>

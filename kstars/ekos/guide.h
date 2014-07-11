@@ -12,8 +12,8 @@
 
 #include <QTimer>
 
-#include <KFileItemList>
-#include <KDirLister>
+//#include <KFileItemList>
+//#include <KDirLister>
 
 #include "guide/common.h"
 #include "guide.h"

@@ -21,10 +21,10 @@
 #include <QCursor>
 #include <QListWidgetItem>
 
-#include <kcombobox.h>
+#include <QComboBox>
 #include <klocale.h>
 #include <QPushButton>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "ui_wutdialog.h"
 
@@ -45,7 +45,7 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
 }
 
 WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsDateTime _lt ) :
-        KDialog( parent ),
+        QDialog( parent ),
         session(_session),
         T0(_lt),
         geo(_geo),
@@ -53,9 +53,18 @@ WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsD
         timer(NULL)
 {
     WUT = new WUTDialogUI( this );
-    setMainWidget( WUT );
-    setCaption( xi18n("What's up Tonight") );
-    setButtons( KDialog::Close );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(WUT);
+    setLayout(mainLayout);
+
+    setWindowTitle( xi18n("What's up Tonight") );
+
+    //FIXME Needs to be ported to KF5
+    //setMainWidget( WUT );
+    //setButtons( QDialog::Close );
+
     setModal( false );
 
     //If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
@@ -79,10 +88,11 @@ WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsD
     if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
     sGeo += ", " + geo->translatedCountry();
     WUT->LocationLabel->setText( xi18n( "at %1", sGeo ) );
-    WUT->DateLabel->setText( xi18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
+    //FIXME Need porting to KF5
+    //WUT->DateLabel->setText( xi18n( "The night of %1", QLocale().toString( Evening.date(), KLocale::LongDate ) ) );
     m_Mag = 10.0;
     WUT->MagnitudeEdit->setValue( m_Mag );
-    WUT->MagnitudeEdit->setSliderEnabled( true );
+    //WUT->MagnitudeEdit->setSliderEnabled( true );
     WUT->MagnitudeEdit->setSingleStep(0.100);
     initCategories();
 
@@ -162,8 +172,8 @@ void WUTDialog::init() {
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
-        sRise = KLocale::global()->formatTime( sunRiseTomorrow );
-        sSet = KLocale::global()->formatTime( sunSetToday );
+        sRise = QLocale().toString( sunRiseTomorrow );
+        sSet = QLocale().toString( sunSetToday );
 
         Dur = 24.0 + (float)sunRiseTomorrow.hour()
                     + (float)sunRiseTomorrow.minute()/60.0
@@ -174,11 +184,14 @@ void WUTDialog::init() {
         hDur = int(Dur);
         mDur = int(60.0*(Dur - (float)hDur));
         QTime tDur( hDur, mDur );
-        sDuration = KLocale::global()->formatTime( tDur, false, true );
+        //TODO Need Check
+        //sDuration = QLocale().toString( tDur, false, true );
+        sDuration = QLocale().toString( tDur);
     }
 
-    WUT->SunSetLabel->setText( xi18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
-    WUT->SunRiseLabel->setText( xi18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+    //FIXME Needs porting to KF5
+    //WUT->SunSetLabel->setText( xi18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, QLocale().toString( Evening.date(), KLocale::LongDate) ) );
+    //WUT->SunRiseLabel->setText( xi18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, QLocale().toString( Tomorrow.date(), KLocale::LongDate) ) );
     if( Dur == 0 )
         WUT->NightDurationLabel->setText( xi18n("Night duration: %1", sDuration ) );
     else if( Dur > 1 )
@@ -207,18 +220,22 @@ void WUTDialog::init() {
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
-        sRise = KLocale::global()->formatTime( moonRise.addSecs(30) );
-        sSet = KLocale::global()->formatTime( moonSet.addSecs(30) );
+        sRise = QLocale().toString( moonRise.addSecs(30) );
+        sSet = QLocale().toString( moonSet.addSecs(30) );
     }
 
-    WUT->MoonRiseLabel->setText( xi18n( "Moon rises at: %1 on %2", sRise, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    //FIXME Needs porting to KF5
+    //WUT->MoonRiseLabel->setText( xi18n( "Moon rises at: %1 on %2", sRise, QLocale().toString( Evening.date(), KLocale::LongDate) ) );
 
     // If the moon rises and sets on the same day, this will be valid [ Unless
     // the moon sets on the next day after staying on for over 24 hours ]
+
+    /* FIXME Needs porting to KF5
     if( moonSet > moonRise )
-        WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Evening.date(), KLocale::LongDate) ) );
+        WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, QLocale().toString( Evening.date(), KLocale::LongDate) ) );
     else
-        WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, KLocale::global()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+        WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, QLocale().toString( Tomorrow.date(), KLocale::LongDate) ) );
+        */
     oMoon->findPhase();
     WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
                                       int(100.0*oMoon->illum() ) ) );
@@ -503,7 +520,8 @@ void WUTDialog::slotChangeDate() {
         Evening = T0.addSecs( -6*3600 );
         EveningUT = geo->LTtoUT( Evening );
 
-        WUT->DateLabel->setText( xi18n( "The night of %1", KLocale::global()->formatDate( Evening.date(), KLocale::LongDate ) ) );
+        //FIXME Needs porting to KF5
+        //WUT->DateLabel->setText( xi18n( "The night of %1", QLocale().toString( Evening.date(), KLocale::LongDate ) ) );
 
         init();
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );

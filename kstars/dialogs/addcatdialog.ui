@@ -30,7 +30,7 @@
        <number>10</number>
       </property>
       <item>
-       <widget class="KUrlRequester" name="DataURL">
+       <widget class="QUrlRequester" name="DataURL">
         <property name="toolTip">
          <string>Enter import data filename</string>
         </property>
@@ -152,7 +152,7 @@
       <widget class="QLineEdit" name="Prefix"/>
      </item>
      <item row="0" column="1">
-      <widget class="KDoubleNumInput" name="Epoch">
+      <widget class="QDoubleSpinBox" name="Epoch">
        <property name="toolTip">
         <string>The coordinate epoch for the catalog</string>
        </property>
@@ -257,7 +257,7 @@
       <number>6</number>
      </property>
      <item row="1" column="1">
-      <widget class="KUrlRequester" name="CatalogURL">
+      <widget class="QUrlRequester" name="CatalogURL">
        <property name="toolTip">
         <string>Enter the filename for the output catalog file</string>
        </property>
@@ -290,9 +290,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
+   <class>QDoubleSpinBox</class>
    <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <header>QDoubleSpinBox</header>
   </customwidget>
   <customwidget>
    <class>KColorButton</class>
@@ -315,7 +315,7 @@
    <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
-   <class>KUrlRequester</class>
+   <class>QUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>

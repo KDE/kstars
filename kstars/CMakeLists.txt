@@ -128,27 +128,28 @@ include_directories(
 
 ########### next target ###############
 set(libkstarstools_SRCS
-	tools/altvstime.cpp
-	tools/astrocalc.cpp
+	tools/altvstime.cpp	
 	tools/avtplotwidget.cpp
 	tools/calendarwidget.cpp
-	tools/conjunctions.cpp
-	tools/eqplotwidget.cpp
+	tools/conjunctions.cpp	
 	tools/jmoontool.cpp
 	tools/ksconjunct.cpp
-	tools/modcalcangdist.cpp
-	tools/modcalcapcoord.cpp
-	tools/modcalcaltaz.cpp
-	tools/modcalcdaylength.cpp
-	tools/modcalceclipticcoords.cpp
-	tools/modcalcvizequinox.cpp
-	tools/modcalcgalcoord.cpp
-	tools/modcalcgeodcoord.cpp
-	tools/modcalcjd.cpp
-	tools/modcalcplanets.cpp
-	tools/modcalcsidtime.cpp
-	tools/modcalcvlsr.cpp
-	tools/observinglist.cpp
+#FIXME needs porting
+#       tools/eqplotwidget.cpp
+#       tools/astrocalc.cpp
+#	tools/modcalcangdist.cpp
+#	tools/modcalcapcoord.cpp
+#	tools/modcalcaltaz.cpp
+#	tools/modcalcdaylength.cpp
+#	tools/modcalceclipticcoords.cpp
+#	tools/modcalcvizequinox.cpp
+#	tools/modcalcgalcoord.cpp
+#	tools/modcalcgeodcoord.cpp
+#	tools/modcalcjd.cpp
+#	tools/modcalcplanets.cpp
+#	tools/modcalcsidtime.cpp
+#	tools/modcalcvlsr.cpp
+        tools/observinglist.cpp
 	tools/sessionsortfilterproxymodel.cpp
 	tools/obslistwizard.cpp
 	tools/planetviewer.cpp
@@ -209,18 +210,19 @@ qt5_wrap_ui(libkstarstools_SRCS
 	tools/argwaitforkey.ui
 	tools/argzoom.ui
 	tools/conjunctions.ui
-	tools/modcalcangdist.ui
-	tools/modcalcapcoord.ui
-	tools/modcalcaltaz.ui
-	tools/modcalcdaylength.ui
-	tools/modcalceclipticcoords.ui
-	tools/modcalcvizequinox.ui
-	tools/modcalcgalcoord.ui
-	tools/modcalcgeod.ui
-	tools/modcalcjd.ui
-	tools/modcalcplanets.ui
-	tools/modcalcsidtime.ui
-	tools/modcalcvlsr.ui
+#FIXME needs porting
+#	tools/modcalcangdist.ui
+#	tools/modcalcapcoord.ui
+#	tools/modcalcaltaz.ui
+#	tools/modcalcdaylength.ui
+#	tools/modcalceclipticcoords.ui
+#	tools/modcalcvizequinox.ui
+#	tools/modcalcgalcoord.ui
+#	tools/modcalcgeod.ui
+#	tools/modcalcjd.ui
+#	tools/modcalcplanets.ui
+#	tools/modcalcsidtime.ui
+#	tools/modcalcvlsr.ui
 	tools/observinglist.ui
 	tools/obslistwizard.ui
 	tools/optionstreeview.ui
@@ -291,14 +293,14 @@ set(libkstarswidgets_SRCS
 	widgets/timestepbox.cpp
 	widgets/timeunitbox.cpp
 	widgets/infoboxwidget.cpp
-	widgets/genericcalendarwidget.cpp
-	widgets/moonphasecalendarwidget.cpp
+#widgets/genericcalendarwidget.cpp
+#	widgets/moonphasecalendarwidget.cpp
 	widgets/kshelplabel.cpp
 )
 
-qt5_wrap_ui(libkstarswidgets_SRCS
-  widgets/genericcalendarwidget.ui
-)
+#qt5_wrap_ui(libkstarswidgets_SRCS
+#  widgets/genericcalendarwidget.ui
+#)
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
@@ -390,7 +392,7 @@ set(kstars_extra_SRCS
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
 	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
-	kstarsdcop.cpp kstarsinit.cpp kstars.cpp
+        kstarsinit.cpp kstars.cpp
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
@@ -487,10 +489,13 @@ add_library( KStarsLib STATIC ${kstars_SRCS})
 target_link_libraries(KStarsLib
         LibKSDataHandlers
         htmesh
+
         KF5::I18n
         KF5::NewStuff
-        KF5::KIO
+        KF5::KIOFileWidgets
         KF5::WidgetsAddons
+        KF5::Plotting
+        KF5::TextEditor
         Qt5::Gui
 #        ${KDE4_KDECORE_LIBS}
 #    ${QT_QTDECLARATIVE_LIBRARY}

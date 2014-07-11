@@ -49,8 +49,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parent) :
     connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotHelpLabel()));
     connect(ComputeComboBatch, SIGNAL(currentIndexChanged(int)), this, SLOT(slotHelpLabel()));
 
-    connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
-    connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( InputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
     connect(LocationButtonBatch, SIGNAL(clicked()), this, SLOT(slotLocationBatch()));
     connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
     connect(ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()));
@@ -309,10 +309,10 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
         }
 
         //Write to output file
-        ostream << KLocale::global()->formatDate( dt, KLocale::LongDate ) << "  \""
+        ostream << QLocale().toString( dt, KLocale::LongDate ) << "  \""
         << geoBatch->fullName() << "\"  "
-        << KLocale::global()->formatTime( inTime, true ) << "  " 
-        << KLocale::global()->formatTime( outTime, true ) << endl;
+        << QLocale().toString( inTime, true ) << "  " 
+        << QLocale().toString( outTime, true ) << endl;
     }
 
     fOut.close();

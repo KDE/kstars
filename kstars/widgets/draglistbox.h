@@ -18,8 +18,8 @@
 #ifndef DRAGLISTBOX_H
 #define DRAGLISTBOX_H
 
-#include <klistwidget.h>
-//Added by qt3to4:
+#include <QListWidget>
+
 #include <QDragEnterEvent>
 #include <QMouseEvent>
 #include <QDropEvent>
@@ -33,7 +33,7 @@ class QDragEnterEvent;
 	*@version 1.0
 	*/
 
-class DragListBox : public KListWidget {
+class DragListBox : public QListWidget {
     Q_OBJECT
 public:
     /**@short Default constructor

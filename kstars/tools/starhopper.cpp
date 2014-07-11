@@ -187,7 +187,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     
         // Test 2: Is the star strikingly red / yellow coloured?
         QString SpType = nextstar->sptype();
-        char spclass = SpType.at( 0 ).toAscii();
+        char spclass = SpType.at( 0 ).toLatin1();
         speccost = ( spclass == 'G' || spclass == 'K' || spclass == 'M' ) ? -0.3 : 0;
         /*
         // Test 3: Is the star in the general direction of the object?

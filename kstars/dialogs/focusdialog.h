@@ -18,7 +18,7 @@
 #ifndef FOCUSDIALOG_H_
 #define FOCUSDIALOG_H_
 
-#include <kdialog.h>
+#include <QDialog>
 
 #include "ui_focusdialog.h"
 
@@ -37,7 +37,7 @@ public:
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class FocusDialog : public KDialog {
+class FocusDialog : public QDialog {
     Q_OBJECT
 public:
     /**Constructor. */

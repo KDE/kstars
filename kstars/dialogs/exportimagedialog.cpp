@@ -37,7 +37,7 @@ ExportImageDialogUI::ExportImageDialogUI(QWidget *parent)
 }
 
 ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter)
-    : KDialog((QWidget*) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
+    : QDialog((QWidget*) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
 {
     m_DialogUI = new ExportImageDialogUI(this);
     setMainWidget(m_DialogUI);
@@ -78,9 +78,9 @@ void ExportImageDialog::previewImage()
 
 void ExportImageDialog::setupWidgets()
 {
-    setButtons(KDialog::Ok | KDialog::Cancel | KDialog::User1);
-    setButtonText(KDialog::User1, xi18n("Preview image"));
-    setButtonText(KDialog::Ok, xi18n("Export image"));
+    setButtons(QDialog::Ok | QDialog::Cancel | QDialog::User1);
+    setButtonText(QDialog::User1, xi18n("Preview image"));
+    setButtonText(QDialog::Ok, xi18n("Export image"));
 
     m_DialogUI->addLegendCheckBox->setChecked(true);
 
@@ -105,7 +105,7 @@ void ExportImageDialog::setupConnections()
     connect(this, SIGNAL(user1Clicked()), this, SLOT(previewImage()));
 
     connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), this, SLOT(switchLegendEnabled(bool)));
-    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), button(KDialog::User1), SLOT(setEnabled(bool)));
+    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), button(QDialog::User1), SLOT(setEnabled(bool)));
 }
 
 void ExportImageDialog::updateLegendSettings()

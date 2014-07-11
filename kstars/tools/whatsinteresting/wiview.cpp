@@ -16,13 +16,15 @@
  ***************************************************************************/
 
 
-#include "QDeclarativeView"
+//FIXME Needs porting to KF5
+//#include "QDeclarativeView"
+
 #include "QGraphicsObject"
 #include "wiview.h"
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
 
-#include "kstandarddirs.h"
+#include "QStandardPaths"
 #include "kdeclarative.h"
 
 WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
@@ -204,7 +206,7 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     if (soitem->getType() == SkyObjItem::Constellation)
         magText = xi18n("Magnitude:  --");
     else
-        magText = xi18n("Magnitude: %1 mag", KLocale::global()->formatNumber(soitem->getMagnitude(), 2));
+        magText = xi18n("Magnitude: %1 mag", QLocale().toString(soitem->getMagnitude(), 2));
     magTextObj->setProperty("text", magText);
 
     QString sbText = xi18n("Surface Brightness: %1", soitem->getSurfaceBrightness());

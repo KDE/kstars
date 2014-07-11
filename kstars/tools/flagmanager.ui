@@ -112,7 +112,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="KComboBox" name="flagCombobox"/>
+          <widget class="QComboBox" name="flagCombobox"/>
          </item>
          <item row="4" column="1">
           <widget class="KColorCombo" name="labelColorcombo">
@@ -249,9 +249,9 @@
    <header>kcolorcombo.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>dmsBox</class>

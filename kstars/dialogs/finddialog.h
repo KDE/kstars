@@ -19,8 +19,7 @@
 #define FINDDIALOG_H_
 
 #include <QKeyEvent>
-
-#include <kdialog.h>
+#include <QDialog>
 
 #include "ui_finddialog.h"
 #include "skyobjects/skyobject.h"
@@ -44,7 +43,7 @@ public:
  * @author Jason Harris
  * @version 1.0
  */
-class FindDialog : public KDialog {
+class FindDialog : public QDialog {
     Q_OBJECT
 public:
     /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
@@ -64,9 +63,9 @@ public slots:
      */
     void filterList();
 
-    //FIXME: Still valid for KDialog?  i.e., does KDialog have a slotOk() ?
+    //FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
     /**
-     *Overloading the Standard KDialogBase slotOk() to show a "sorry" message
+     *Overloading the Standard QDialogBase slotOk() to show a "sorry" message
      *box if no object is selected when the user presses Ok.  The window is
      *not closed in this case.
      */

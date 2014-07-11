@@ -23,6 +23,8 @@
 #include <QList>
 #include "typedef.h"
 
+class KJob;
+
 /**@class AsteroidsComponent
  * Represents the asteroids on the sky map.
  *

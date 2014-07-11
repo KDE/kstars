@@ -214,7 +214,7 @@
            <item row="2" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <widget class="KIntSpinBox" name="kcfg_XplanetWaitValue">
+              <widget class="QSpinBox" name="kcfg_XplanetWaitValue">
                <property name="toolTip">
                 <string>Number of seconds to wait before updating</string>
                </property>
@@ -243,7 +243,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KIntSpinBox" name="kcfg_XplanetGlare">
+            <widget class="QSpinBox" name="kcfg_XplanetGlare">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -266,7 +266,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KIntSpinBox" name="kcfg_XplanetMagnitude">
+            <widget class="QSpinBox" name="kcfg_XplanetMagnitude">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -384,7 +384,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KIntSpinBox" name="kcfg_XplanetQuality">
+            <widget class="QSpinBox" name="kcfg_XplanetQuality">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -524,7 +524,7 @@
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="KIntSpinBox" name="kcfg_XplanetFontSize">
+               <widget class="QSpinBox" name="kcfg_XplanetFontSize">
                 <property name="toolTip">
                  <string>Label font size</string>
                 </property>
@@ -762,7 +762,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KIntSpinBox" name="kcfg_XplanetLatitude">
+            <widget class="QSpinBox" name="kcfg_XplanetLatitude">
              <property name="toolTip">
               <string>Latitude in degrees</string>
              </property>
@@ -785,7 +785,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KIntSpinBox" name="kcfg_XplanetLongitude">
+            <widget class="QSpinBox" name="kcfg_XplanetLongitude">
              <property name="toolTip">
               <string>Longitude in degrees</string>
              </property>
@@ -850,7 +850,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KComboBox" name="kcfg_XplanetProjection">
+            <widget class="QComboBox" name="kcfg_XplanetProjection">
              <property name="toolTip">
               <string>The projection type</string>
              </property>
@@ -990,21 +990,6 @@
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>QTabWidget</class>

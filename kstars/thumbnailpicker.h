@@ -20,9 +20,7 @@
 
 #include <QPixmap>
 
-#include <kdialog.h>
-#include <kio/netaccess.h>
-#include <kio/job.h>
+#include <QDialog>
 
 #include "ui_thumbnailpicker.h"
 
@@ -40,7 +38,7 @@ public:
 /**@short Dialog for modifying an object's thumbnail image
 	*@author Jason Harris
 	*/
-class ThumbnailPicker : public KDialog
+class ThumbnailPicker : public QDialog
 {
     Q_OBJECT
 public:

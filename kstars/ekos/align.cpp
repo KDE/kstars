@@ -16,7 +16,7 @@
 #include "dms.h"
 #include "Options.h"
 
-#include <KFileDialog>
+#include <QFileDialog>
 #include <KMessageBox>
 
 #include "QProgressIndicator.h"
@@ -1141,7 +1141,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 
 void Align::loadFITS()
 {
-    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.jpg *.jpeg");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
     if (fileURL.isEmpty())
         return;
 

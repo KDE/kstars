@@ -21,7 +21,7 @@
 #include <QList>
 #include <QAbstractTableModel>
 
-#include <kdialog.h>
+#include <QDialog>
 #include <kio/copyjob.h>
 
 #include "ui_observinglist.h"
@@ -77,7 +77,7 @@ public:
     *@version 1.0
     */
 
-class ObservingList : public KDialog
+class ObservingList : public QDialog
 {
     Q_OBJECT
 
@@ -308,7 +308,7 @@ public slots:
         *@p filename the file onto which the url has to be copied to
         *NOTE: This is not a generic image saver, it is specific to the current object
         */
-    void saveImage( KUrl url , QString filename );
+    void saveImage( QUrl url , QString filename );
 
     /**@short saves the temporary image permanently
         */

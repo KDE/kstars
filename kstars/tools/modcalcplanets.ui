@@ -97,7 +97,7 @@
              </spacer>
             </item>
             <item row="2" column="1">
-             <widget class="KComboBox" name="PlanetComboBox">
+             <widget class="QComboBox" name="PlanetComboBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -446,7 +446,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="PlanetComboBoxBatch">
+             <widget class="QComboBox" name="PlanetComboBoxBatch">
               <item>
                <property name="text">
                 <string>Mercury</string>
@@ -724,7 +724,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="KUrlRequester" name="InputFileBoxBatch"/>
+           <widget class="QUrlRequester" name="InputFileBoxBatch"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_16">
@@ -734,7 +734,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="KUrlRequester" name="OutputFileBoxBatch"/>
+           <widget class="QUrlRequester" name="OutputFileBoxBatch"/>
           </item>
          </layout>
         </widget>
@@ -803,7 +803,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
+   <class>QUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>
@@ -818,9 +818,9 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QTabWidget</class>

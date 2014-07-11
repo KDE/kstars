@@ -31,11 +31,11 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <QDebug>
-#include <kcombobox.h>
-#include <knuminput.h>
-#include <kstatusbar.h>
+#include <QComboBox>
+#include <QStatusBar>
 #include <QMenu>
-#include <kvbox.h>
+// FIXME
+//#include <kvbox.h>
 #include <QTabWidget>
 #include <ktextedit.h>
 
@@ -52,7 +52,7 @@
 
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
-INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *in_cm) : KDialog( 0 )
+INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *in_cm) : QDialog( 0 )
   {
 
     guiManager		= in_manager;

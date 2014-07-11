@@ -31,7 +31,7 @@
       </attribute>
       <layout class="QHBoxLayout" name="_3">
        <item>
-        <widget class="KListWidget" name="ScopeList"/>
+        <widget class="QListWidget" name="ScopeList"/>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
@@ -85,7 +85,7 @@
             </widget>
            </item>
            <item row="5" column="1">
-            <widget class="KComboBox" name="Type">
+            <widget class="QComboBox" name="Type">
              <property name="focusPolicy">
               <enum>Qt::StrongFocus</enum>
              </property>
@@ -131,18 +131,12 @@
            <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="KDoubleNumInput" name="Aperture">
+              <widget class="QDoubleSpinBox" name="Aperture">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
-               <property name="label">
-                <string/>
-               </property>
                <property name="singleStep">
                 <double>0.100000000000000</double>
-               </property>
-               <property name="sliderEnabled">
-                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -165,7 +159,7 @@
            <item row="7" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="KDoubleNumInput" name="FocalLength">
+              <widget class="QDoubleSpinBox" name="FocalLength">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -249,7 +243,7 @@
       </attribute>
       <layout class="QHBoxLayout">
        <item>
-        <widget class="KListWidget" name="EyepieceList"/>
+        <widget class="QListWidget" name="EyepieceList"/>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -288,7 +282,7 @@
            <item row="4" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="KDoubleNumInput" name="e_focalLength">
+              <widget class="QDoubleSpinBox" name="e_focalLength">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -335,7 +329,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KDoubleNumInput" name="Fov">
+            <widget class="QDoubleSpinBox" name="Fov">
              <property name="focusPolicy">
               <enum>Qt::StrongFocus</enum>
              </property>
@@ -352,7 +346,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KComboBox" name="FovUnit">
+            <widget class="QComboBox" name="FovUnit">
              <item>
               <property name="text">
                <string>deg</string>
@@ -428,7 +422,7 @@
       </attribute>
       <layout class="QHBoxLayout" name="_4">
        <item>
-        <widget class="KListWidget" name="LensList"/>
+        <widget class="QListWidget" name="LensList"/>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout3">
@@ -488,7 +482,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KDoubleNumInput" name="l_Factor">
+            <widget class="QDoubleSpinBox" name="l_Factor">
              <property name="focusPolicy">
               <enum>Qt::StrongFocus</enum>
              </property>
@@ -554,7 +548,7 @@
       </attribute>
       <layout class="QHBoxLayout" name="_5">
        <item>
-        <widget class="KListWidget" name="FilterList"/>
+        <widget class="QListWidget" name="FilterList"/>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout4">
@@ -670,25 +664,10 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

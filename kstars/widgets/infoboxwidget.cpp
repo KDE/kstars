@@ -15,15 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QPainter>
+#include <QMouseEvent>
+#include <QFontMetrics>
+#include <QLocale>
+
+#include <KLocalizedString>
+
 #include "infoboxwidget.h"
 
 #include "kstarsdata.h"
 #include "colorscheme.h"
 #include "ksutils.h"
-#include <QPainter>
-#include <QMouseEvent>
-#include <QFontMetrics>
-#include <KLocale>
+
 
 const int InfoBoxWidget::padX = 6;
 const int InfoBoxWidget::padY = 2;
@@ -81,19 +85,19 @@ void InfoBoxWidget::slotTimeChanged() {
     m_strings.clear();
     m_strings <<
         xi18nc( "Local Time", "LT: " ) +
-        KLocale::global()->formatTime( data->lt().time(), true ) + "   " +
-        KLocale::global()->formatDate( data->lt().date() );
+        QLocale().toString( data->lt().time() ) + "   " +
+        QLocale().toString( data->lt().date() );
     m_strings <<
         xi18nc( "Universal Time", "UT: " ) +
-        KLocale::global()->formatTime( data->ut().time(), true ) + "   " +
-        KLocale::global()->formatDate( data->ut().date() );
+        QLocale().toString( data->ut().time() ) + "   " +
+        QLocale().toString( data->ut().date() );
 
     QString STString;
     STString = STString.sprintf( "%02d:%02d:%02d   ", data->lst()->hour(), data->lst()->minute(), data->lst()->second() );
     //Don't use KLocale::formatNumber() for Julian Day because we don't want
     //thousands-place separators
     QString JDString = QString::number( data->ut().djd(), 'f', 2 );
-    JDString.replace( '.', KLocale::global()->decimalSymbol() );
+    JDString.replace( '.', QLocale().decimalPoint());
     m_strings <<
         xi18nc( "Sidereal Time", "ST: " ) + STString +
         xi18nc( "Julian Day", "JD: " ) + JDString;
@@ -108,9 +112,9 @@ void InfoBoxWidget::slotGeoChanged() {
     m_strings << geo->fullName();
     m_strings <<
         xi18nc( "Longitude", "Long:" ) + ' ' +
-        KLocale::global()->formatNumber( geo->lng()->Degrees(),3) + "   " +
+        QLocale().toString( geo->lng()->Degrees(),3) + "   " +
         xi18nc( "Latitude", "Lat:" ) + ' ' +
-        KLocale::global()->formatNumber( geo->lat()->Degrees(),3);
+        QLocale().toString( geo->lat()->Degrees(),3);
     updateSize();
     update();
 }

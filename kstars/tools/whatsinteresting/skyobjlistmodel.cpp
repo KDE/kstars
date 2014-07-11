@@ -19,7 +19,8 @@
 
 SkyObjListModel::SkyObjListModel(SkyObjItem *soitem, QObject *parent): QAbstractListModel(parent)
 {
-    setRoleNames(soitem->roleNames());
+    //FIXME Needs porting to KF5
+    //setRoleNames(soitem->roleNames());
 }
 
 void SkyObjListModel::addSkyObject(SkyObjItem *soitem)

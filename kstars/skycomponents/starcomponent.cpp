@@ -20,8 +20,6 @@
 #endif
 #include "starcomponent.h"
 
-#include <kglobal.h>
-
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"

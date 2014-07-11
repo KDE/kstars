@@ -26,12 +26,11 @@
 #include <QPaintEvent>
 
 #include <QDebug>
-#include <klocale.h>
-#include <kglobal.h>
-#include <kicon.h>
-#include <KPlotAxis>
-#include <KPlotObject>
-#include <KPlotPoint>
+#include <KLocalizedString>
+
+#include <KPlotting/KPlotAxis>
+#include <KPlotting/KPlotObject>
+#include <KPlotting/KPlotPoint>
 
 #include "ui_planetviewer.h"
 #include "kstarsdata.h"
@@ -49,13 +48,19 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 }
 
 PlanetViewer::PlanetViewer(QWidget *parent)
-        : KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this)
+        : QDialog( parent ), scale(1.0), isClockRunning(false), tmr(this)
 {
     KStarsData *data = KStarsData::Instance();
     pw = new PlanetViewerUI( this );
-    setMainWidget( pw );
-    setCaption( xi18n("Solar System Viewer") );
-    setButtons( KDialog::Close );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(pw);
+    setLayout(mainLayout);
+
+    setWindowTitle( xi18n("Solar System Viewer") );
+    //setMainWidget( pw );
+    //setButtons( QDialog::Close );
     setModal( false );
 
     pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );

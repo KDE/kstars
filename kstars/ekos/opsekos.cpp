@@ -8,19 +8,17 @@
     
  */
 
-#include "opsekos.h"
-
 #include <QPushButton>
-#include <kfiledialog.h>
-#include <klineedit.h>
-#include <kconfigdialog.h>
-
+#include <QFileDialog>
 #include <QCheckBox>
 #include <QStringList>
 #include <QComboBox>
 
-#include "Options.h"
+#include <klineedit.h>
+#include <KConfigDialog>
 
+#include "opsekos.h"
+#include "Options.h"
 #include "kstars.h"
 #include "ekosmanager.h"
 

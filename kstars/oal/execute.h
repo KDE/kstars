@@ -22,7 +22,7 @@
 #include "ui_execute.h"
 
 #include <QWidget>
-#include<kdialog.h>
+#include<QDialog>
 
 #include "kstars.h"
 #include "geolocation.h"
@@ -32,7 +32,7 @@
 
 class KStars;
 
-class Execute : public KDialog {
+class Execute : public QDialog {
 Q_OBJECT
     public:
         /**@short Default constructor

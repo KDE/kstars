@@ -41,8 +41,8 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit) :
     setupUi(this);
 
     connect( Year,            SIGNAL( valueChanged(int) ),      this, SLOT( slotCompute() ) );
-    connect( InputFileBatch,  SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
-    connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( InputFileBatch,  SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
     connect( RunButtonBatch,  SIGNAL(clicked()),                this, SLOT(slotRunBatch()));
     connect( ViewButtonBatch, SIGNAL(clicked()),                this, SLOT(slotViewBatch()));
 
@@ -125,10 +125,10 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 
             //Write to output file
             ostream << 
-                KLocale::global()->formatDate( dSpring.date(), KLocale::LongDate ) << "\t"
-            << KLocale::global()->formatDate( dSummer.date(), KLocale::LongDate ) << "\t"
-            << KLocale::global()->formatDate( dAutumn.date(), KLocale::LongDate ) << "\t"
-            << KLocale::global()->formatDate( dWinter.date(), KLocale::LongDate ) << endl;
+                QLocale().toString( dSpring.date(), KLocale::LongDate ) << "\t"
+            << QLocale().toString( dSummer.date(), KLocale::LongDate ) << "\t"
+            << QLocale().toString( dAutumn.date(), KLocale::LongDate ) << "\t"
+            << QLocale().toString( dWinter.date(), KLocale::LongDate ) << endl;
         }
     }
 
@@ -197,10 +197,10 @@ void modCalcEquinox::slotCompute()
     dWinter = findSolstice( Year->value(), false );
 
     //Display the Date/Time of each event in the text fields
-    VEquinox->setText( KLocale::global()->formatDateTime( dSpring, KLocale::LongDate ) );
-    SSolstice->setText( KLocale::global()->formatDateTime( dSummer, KLocale::LongDate ) );
-    AEquinox->setText( KLocale::global()->formatDateTime( dAutumn, KLocale::LongDate ) );
-    WSolstice->setText( KLocale::global()->formatDateTime( dWinter, KLocale::LongDate ) );
+    VEquinox->setText( QLocale().toStringTime( dSpring, KLocale::LongDate ) );
+    SSolstice->setText( QLocale().toStringTime( dSummer, KLocale::LongDate ) );
+    AEquinox->setText( QLocale().toStringTime( dAutumn, KLocale::LongDate ) );
+    WSolstice->setText( QLocale().toStringTime( dWinter, KLocale::LongDate ) );
 
     //Add vertical dotted lines at times of the equinoxes and solstices
     KPlotObject *poSpring = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );

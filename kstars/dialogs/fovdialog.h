@@ -19,7 +19,8 @@
 #define FOVDIALOG_H_
 
 #include <QPaintEvent>
-#include <kdialog.h>
+#include <QDialog>
+#include <QDoubleSpinBox>
 
 #include "fov.h"
 #include "ui_fovdialog.h"
@@ -45,7 +46,7 @@ public:
     explicit NewFOVUI( QWidget *parent=0 );
 };
 
-class FOVDialog : public KDialog
+class FOVDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -71,7 +72,7 @@ private:
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class NewFOV : public KDialog
+class NewFOV : public QDialog
 {
     Q_OBJECT
 public:
@@ -102,7 +103,7 @@ private:
  *@version 1.0
  */
 
-class TelescopeFL : public KDialog
+class TelescopeFL : public QDialog
 {
     Q_OBJECT;
  public:
@@ -121,8 +122,8 @@ class TelescopeFL : public KDialog
     double computeFL() const;
 
  private:
-    KDoubleNumInput *aperture, *fNumber;
-    KComboBox *apertureUnit;
+    QDoubleSpinBox *aperture, *fNumber;
+    QComboBox *apertureUnit;
 };
 
 #endif

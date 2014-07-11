@@ -28,8 +28,8 @@
 #include <QDebug>
 #include <QPushButton>
 #include <kcolorbutton.h>
-#include <kcombobox.h>
-#include <knuminput.h>
+#include <QComboBox.h>
+#include <QDoubleSpinBox>
 #include <klineedit.h>
 #include <kmessagebox.h>
 
@@ -75,15 +75,15 @@ NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
 
 //---------FOVDialog---------------//
 FOVDialog::FOVDialog( QWidget* p ) :
-    KDialog( p )
+    QDialog( p )
 {
     // Register FOV* data type
     if( fovID == -1 )
         fovID = qRegisterMetaType<FOV*>("FOV*");
     fov = new FOVDialogUI( this );
     setMainWidget( fov );
-    setCaption( xi18n( "Set FOV Indicator" ) );
-    setButtons( KDialog::Ok | KDialog::Cancel );
+    setWindowTitle( xi18n( "Set FOV Indicator" ) );
+    setButtons( QDialog::Ok | QDialog::Cancel );
     
     connect( fov->FOVListBox,   SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
     connect( fov->NewButton,    SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
@@ -169,12 +169,12 @@ void FOVDialog::slotRemoveFOV() {
 //-------------NewFOV------------------//
 
 NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
-    KDialog( parent ), f()
+    QDialog( parent ), f()
 {
     ui = new NewFOVUI( this );
     setMainWidget( ui );
-    setCaption( xi18n( "New FOV Indicator" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( xi18n( "New FOV Indicator" ) );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     // Initialize FOV if required
     if( fov != 0 ) {
@@ -312,19 +312,19 @@ void NewFOV::slotComputeTelescopeFL() {
 //-------------TelescopeFL------------------//
 
 TelescopeFL::TelescopeFL( QWidget *parent ) :
-    KDialog( parent ), aperture( 0 ), fNumber( 0 ), apertureUnit( 0 ) {
+    QDialog( parent ), aperture( 0 ), fNumber( 0 ), apertureUnit( 0 ) {
 
-    setCaption( xi18n( "Telescope Focal Length Calculator" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( xi18n( "Telescope Focal Length Calculator" ) );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     QWidget *mainWidget = new QWidget( this );
     QGridLayout *mainLayout = new QGridLayout( mainWidget );
     mainWidget->setLayout( mainLayout );
     setMainWidget( mainWidget );
 
-    aperture = new KDoubleNumInput( 0.0, 100000.0, 0.0, this, 0.1, 2 );
-    fNumber = new KDoubleNumInput( 0.0, 99.9, 0.0, this, 0.1, 2 );
-    apertureUnit = new KComboBox( this );
+    aperture = new QDoubleSpinBox( 0.0, 100000.0, 0.0, this, 0.1, 2 );
+    fNumber = new QDoubleSpinBox( 0.0, 99.9, 0.0, this, 0.1, 2 );
+    apertureUnit = new QComboBox( this );
     apertureUnit->insertItem( 0, xi18nc("millimeters", "mm") );
     apertureUnit->insertItem( 1, xi18n("inch") );
     mainLayout->addWidget( new QLabel( xi18n("Aperture diameter: "), this ), 0, 0 );

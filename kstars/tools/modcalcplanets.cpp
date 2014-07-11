@@ -146,14 +146,14 @@ void modCalcPlanets::showHeliocentricEclipticCoords(const dms& hLong, const dms&
 {
     HelioLongBox->show( hLong );
     HelioLatBox->show( hLat );
-    HelioDistBox->setText( KLocale::global()->formatNumber( dist,6));
+    HelioDistBox->setText( QLocale().toString( dist,6));
 }
 
 void modCalcPlanets::showGeocentricEclipticCoords(const dms& eLong, const dms& eLat, double dist)
 {
     GeoLongBox->show( eLong );
     GeoLatBox->show( eLat );
-    GeoDistBox->setText( KLocale::global()->formatNumber( dist,6));
+    GeoDistBox->setText( QLocale().toString( dist,6));
 }
 
 void modCalcPlanets::showEquatorialCoords(const dms& ra, const dms& dec)
@@ -324,7 +324,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
             utB = UTBoxBatch->time();
         }
         if ( AllRadioBatch->isChecked() || UTCheckBatch->isChecked() )
-            lineToWrite += KLocale::global()->formatTime( utB, true ).append(space);
+            lineToWrite += QLocale().toString( utB, true ).append(space);
 
         // Read date and write in ostream if corresponds
         if(DateCheckBatch->isChecked() ) {
@@ -341,7 +341,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
             dtB = DateBoxBatch->date();
         }
         if ( AllRadioBatch->isChecked() || DateCheckBatch->isChecked() )
-            lineToWrite += KLocale::global()->formatDate( dtB, KLocale::LongDate ).append(space);
+            lineToWrite += QLocale().toString( dtB, KLocale::LongDate ).append(space);
 
 
         // Read Longitude and write in ostream if corresponds

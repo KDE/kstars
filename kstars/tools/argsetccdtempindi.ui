@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KIntNumInput" name="temp" >
+      <widget class="QDoubleSpinBox" name="temp" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>13</hsizetype>
@@ -79,15 +79,6 @@
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

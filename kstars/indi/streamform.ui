@@ -80,7 +80,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="imgFormatCombo" >
+        <widget class="QComboBox" name="imgFormatCombo" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
            <horstretch>0</horstretch>
@@ -138,9 +138,9 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

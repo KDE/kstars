@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KIntNumInput" name="timeOut" />
+      <widget class="QDoubleSpinBox" name="timeOut" />
      </item>
      <item>
       <spacer>
@@ -70,15 +70,6 @@
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

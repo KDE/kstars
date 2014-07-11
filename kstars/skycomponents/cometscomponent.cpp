@@ -29,15 +29,14 @@
 #include "projections/projector.h"
 
 #include <cmath>
-#include <kio/job.h>
-#include <kio/netaccess.h>
-#include <kio/jobuidelegate.h>
-#include <kstandarddirs.h>
-#include <kglobal.h>
+#include <QStandardPaths>
 #include <QDebug>
 #include <QFile>
 #include <QPen>
 #include <QStandardPaths>
+
+#include <KJobUiDelegate>
+#include <KIOCore/KIO/StoredTransferJob>
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent ) {
@@ -114,8 +113,7 @@ void CometsComponent::loadData() {
     sequence.append(qMakePair(QString("H"), KSParser::D_SKIP));
     sequence.append(qMakePair(QString("G"), KSParser::D_SKIP));
 
-    QString file_name = KStandardDirs::locate( "appdata",
-                                               QString("comets.dat") );
+    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("comets.dat") );
     KSParser cometParser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
@@ -205,7 +203,7 @@ void CometsComponent::draw( SkyPainter *skyp )
 
 void CometsComponent::updateDataFile()
 {
-    KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
+    QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
     QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbere"
     "d=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&com"
     "bine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&"
@@ -219,10 +217,11 @@ void CometsComponent::updateDataFile()
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file
-    KIO::StoredTransferJob* get_job = KIO::storedHttpPost( post_data,  url );
+    KIO::StoredTransferJob* get_job = KIO::storedPut( post_data,  url, -1 );
     get_job->addMetaData("content-type", content_type );
 
-    if( KIO::NetAccess::synchronousRun( get_job, 0 ) ) {
+    if( get_job->exec() )
+    {
         // Comment the first line
         QByteArray data = get_job->data();
         data.insert( 0, '#' );
@@ -237,7 +236,8 @@ void CometsComponent::updateDataFile()
         loadData();
 
         KStars::Instance()->data()->setFullTimeUpdate();
-    } else {
-        get_job->ui()->showErrorMessage();
+    } else
+    {
+        get_job->uiDelegate()->showErrorMessage();
     }
 }

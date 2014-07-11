@@ -20,7 +20,7 @@
 #ifndef EYEPIECEFIELD_H
 #define EYEPIECEFIELD_H
 
-#include <KDialog>
+#include <QDialog>
 #include <QImage>
 
 class SkyPoint;
@@ -37,7 +37,7 @@ class QObject;
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-class EyepieceField : public KDialog { // FIXME: Rename to EyepieceView
+class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
 
     Q_OBJECT;
 

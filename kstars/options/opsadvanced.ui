@@ -627,13 +627,13 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
+   <class>QDoubleSpinBox</class>
    <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <header>QDoubleSpinBox</header>
   </customwidget>
   <customwidget>
    <class>MagnitudeSpinBox</class>
-   <extends>KDoubleNumInput</extends>
+   <extends>QDoubleSpinBox</extends>
    <header>widgets/magnitudespinbox.h</header>
   </customwidget>
   <customwidget>

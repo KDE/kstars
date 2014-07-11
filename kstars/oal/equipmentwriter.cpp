@@ -32,7 +32,7 @@
 
 #include <config-kstars.h>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include "indi/drivermanager.h"
 #endif
 
@@ -41,8 +41,8 @@ EquipmentWriter::EquipmentWriter() {
     ui.setupUi( widget );
     ui.tabWidget->setCurrentIndex(0);
     setMainWidget( widget );
-    setCaption( xi18n( "Define Equipment" ) );
-    setButtons( KDialog::Close );
+    setWindowTitle( xi18n( "Define Equipment" ) );
+    setButtons( QDialog::Close );
     ks = KStars::Instance();
     nextScope = 0;
     nextEyepiece = 0;
@@ -55,7 +55,7 @@ EquipmentWriter::EquipmentWriter() {
     newFilter = true;
 
 
-    #ifdef HAVE_INDI_H
+    #ifdef HAVE_INDI
     ui.driverComboBox->insertItems(1, DriverManager::Instance()->getDriversStringList());
     #endif
 
@@ -309,7 +309,7 @@ void EquipmentWriter::loadEquipment() {
     foreach( OAL::Filter *f, *( ks->data()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
 
-    #ifdef HAVE_INDI_H
+    #ifdef HAVE_INDI
     DriverManager::Instance()->updateCustomDrivers();
     #endif
 }

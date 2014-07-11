@@ -33,15 +33,15 @@
 #include <QDateTime>
 #include <QPainter>
 #include <QPixmap>
-
-#include <KDebug>
-#include <KLocale>
+#include <QDebug>
 #include <QAction>
+#include <QStatusBar>
+#include <QProgressDialog>
+#include <QFileDialog>
+
 #include <KActionCollection>
-#include <KStatusBar>
-#include <KProgressDialog>
 #include <KMessageBox>
-#include <KFileDialog>
+#include <KLocalizedString>
 
 #include "ksutils.h"
 
@@ -91,9 +91,9 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     y -= 1;
 
     if (image_data->getBPP() == -32 || image_data->getBPP() == 32)
-        emit newStatus(KLocale::global()->formatNumber( buffer[(int) (y * width + x)], 5), FITS_VALUE);
+        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 5), FITS_VALUE);
     else
-        emit newStatus(KLocale::global()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
+        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)]), FITS_VALUE);
 
 
     if (image_data->hasWCS())
@@ -190,7 +190,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
 
     display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
-    display_image->setNumColors(256);
+    display_image->setColorCount(256);
     for (int i=0; i < 256; i++)
         display_image->setColor(i, qRgb(i,i,i));
 

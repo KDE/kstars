@@ -36,7 +36,7 @@
 #include "legend.h"
 #include "QStackedWidget"
 #include "QPrinter"
-#include "kstandarddirs.h"
+#include "QStandardPaths"
 #include "shfovexporter.h"
 #include "Options.h"
 
@@ -45,7 +45,7 @@ PWizWelcomeUI::PWizWelcomeUI(QWidget *parent) : QFrame(parent)
     setupUi(this);
 }
 
-PrintingWizard::PrintingWizard(QWidget *parent) : KDialog(parent),
+PrintingWizard::PrintingWizard(QWidget *parent) : QDialog(parent),
     m_KStars(KStars::Instance()), m_FinderChart(0), m_SkyObject(0),
     m_FovType(FT_UNDEFINED), m_FovImageSize(QSize(500, 500)), m_ShBeginObject(0),
     m_PointingShBegin(false), m_SwitchColors(false), m_RecapturingFov(false),
@@ -75,7 +75,7 @@ void PrintingWizard::updateStepButtons()
     {
     case PW_OBJECT_SELECTION: // object selection
         {
-            enableButton(KDialog::User1, m_SkyObject);
+            enableButton(QDialog::User1, m_SkyObject);
             break;
         }
     }
@@ -398,12 +398,12 @@ void PrintingWizard::setupWidgets()
     m_WizardStack = new QStackedWidget(this);
     setMainWidget(m_WizardStack);
 
-    setCaption(xi18n("Printing Wizard"));
+    setWindowTitle(xi18n("Printing Wizard"));
 
-    setButtons(KDialog::User1 | KDialog::User2 | KDialog::Close);
+    setButtons(QDialog::User1 | QDialog::User2 | QDialog::Close);
 
-    setButtonGuiItem(KDialog::User1, KGuiItem(xi18n("&Next >"), QString(), xi18n("Go to next Wizard page")));
-    setButtonGuiItem(KDialog::User2, KGuiItem(xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page")));
+    setButtonGuiItem(QDialog::User1, KGuiItem(xi18n("&Next >"), QString(), xi18n("Go to next Wizard page")));
+    setButtonGuiItem(QDialog::User2, KGuiItem(xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page")));
 
     // Create step widgets
     m_WizWelcomeUI = new PWizWelcomeUI(m_WizardStack);
@@ -445,7 +445,7 @@ void PrintingWizard::setupWidgets()
         m_WizPrintUI->banner->setPixmap(bannerImg);
     }
 
-    enableButton(KDialog::User2, false);
+    enableButton(QDialog::User2, false);
 }
 
 void PrintingWizard::setupConnections()
@@ -456,8 +456,8 @@ void PrintingWizard::setupConnections()
 
 void PrintingWizard::updateButtons()
 {
-    enableButton(KDialog::User1, m_WizardStack->currentIndex() < m_WizardStack->count() - 1);
-    enableButton(KDialog::User2, m_WizardStack->currentIndex() > 0);
+    enableButton(QDialog::User1, m_WizardStack->currentIndex() < m_WizardStack->count() - 1);
+    enableButton(QDialog::User2, m_WizardStack->currentIndex() > 0);
 }
 
 void PrintingWizard::slewAndBeginCapture(SkyPoint *center, FOV *fov)

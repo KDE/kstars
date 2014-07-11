@@ -24,8 +24,8 @@
 #include <kactioncollection.h>
 #include <kapplication.h>
 #include <klocale.h>
-#include <knuminput.h>
-#include <kcombobox.h>
+#include <QDoubleSpinBox>
+#include <QComboBox.h>
 #include <QPushButton>
 #include <kcolordialog.h>
 #include <kmessagebox.h>

@@ -20,12 +20,12 @@
 #include <QDesktopWidget>
 #include <QPixmap>
 #include <QPainter>
-#include <QPrinter>
-#include <QPrintDialog>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 #include <QFontInfo>
 #include <kdeprintdialog.h>
 #include <QDebug>
-#include <KPlotObject>
+#include <KPlotting/KPlotObject>
 #include <QPushButton>
 
 #include "calendarwidget.h"
@@ -43,15 +43,22 @@ SkyCalendarUI::SkyCalendarUI( QWidget *parent )
 }
 
 SkyCalendar::SkyCalendar( QWidget *parent )
-    : KDialog( parent )
+    : QDialog( parent )
 {
     scUI = new SkyCalendarUI( this );
-    setMainWidget( scUI );
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(scUI);
+    setLayout(mainLayout);
     
     geo = KStarsData::Instance()->geo();
 
-    setCaption( xi18n( "Sky Calendar" ) );
-    setButtons( KDialog::User1 | KDialog::Close );
+    setWindowTitle( xi18n( "Sky Calendar" ) );
+
+    //FIXME Needs porting to KF5
+    //setMainWidget( scUI );
+    //setButtons( QDialog::User1 | QDialog::Close );
     setModal( false );
 
     //Adjust minimum size for small screens:
@@ -63,7 +70,8 @@ SkyCalendar::SkyCalendar( QWidget *parent )
     scUI->Year->setValue( KStarsData::Instance()->lt().date().year() );
 
     scUI->LocationButton->setText( geo->fullName() );
-    setButtonGuiItem( KDialog::User1, KGuiItem( xi18n("&Print..."), "document-print", xi18n("Print the Sky Calendar") ) );
+    //FIXME Needs to be ported to KF5
+    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Print..."), "document-print", xi18n("Print the Sky Calendar") ) );
     
     scUI->CalendarView->setHorizon();
 

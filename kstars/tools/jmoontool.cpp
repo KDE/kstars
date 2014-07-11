@@ -23,10 +23,10 @@
 #include <QKeyEvent>
 
 #include <QDebug>
-#include <klocale.h>
-#include <KPlotWidget>
-#include <KPlotObject>
-#include <KPlotAxis>
+#include <KLocalizedString>
+#include <KPlotting/KPlotWidget>
+#include <KPlotting/KPlotObject>
+#include <KPlotting/KPlotAxis>
 
 #include "simclock.h"
 #include "dms.h"
@@ -39,18 +39,22 @@
 
 
 JMoonTool::JMoonTool(QWidget *parent)
-        : KDialog( parent )
+        : QDialog( parent )
 {
     ksw = (KStars*)parent;
     QFrame *page = new QFrame(this);
-    setMainWidget( page );
-    setCaption( xi18n("Jupiter Moons Tool") );
-    setButtons( KDialog::Close );
+    //setMainWidget( page );
+    //setWindowTitle( xi18n("Jupiter Moons Tool") );
+    setWindowTitle( xi18n("Jupiter Moons Tool") );
+    //setButtons( QDialog::Close );
     setModal( false );
 
-    QVBoxLayout *vlay = new QVBoxLayout( page );
+    //QVBoxLayout *vlay = new QVBoxLayout( page );
+    QVBoxLayout *vlay = new QVBoxLayout;
     vlay->setMargin( 0 );
     vlay->setSpacing( 0 );
+
+    vlay->addWidget(page);
 
     colJp = QColor(Qt::white);
     colIo = QColor(Qt::red);

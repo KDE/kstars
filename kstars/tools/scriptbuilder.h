@@ -18,7 +18,7 @@
 #ifndef SCRIPTBUILDER_H_
 #define SCRIPTBUILDER_H_
 
-#include <kdialog.h>
+#include <QDialog>
 
 #include "ui_scriptbuilder.h"
 #include "ui_scriptnamedialog.h"
@@ -28,7 +28,7 @@
 class QTreeWidget;
 class QTextStream;
 class QVBoxLayout;
-class KUrl;
+class QUrl;
 
 class KStars;
 class ScriptFunction;
@@ -39,7 +39,7 @@ public:
     explicit OptionsTreeViewWidget( QWidget *p );
 };
 
-class OptionsTreeView : public KDialog {
+class OptionsTreeView : public QDialog {
     Q_OBJECT
 public:
     explicit OptionsTreeView( QWidget *p );
@@ -57,7 +57,7 @@ public:
     explicit ScriptNameWidget( QWidget *p );
 };
 
-class ScriptNameDialog : public KDialog {
+class ScriptNameDialog : public QDialog {
     Q_OBJECT
 public:
     explicit ScriptNameDialog( QWidget *p );
@@ -83,7 +83,7 @@ public:
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class ScriptBuilder : public KDialog {
+class ScriptBuilder : public QDialog {
     Q_OBJECT
 public:
     explicit ScriptBuilder( QWidget *parent );
@@ -229,7 +229,7 @@ private:
 
     bool UnsavedChanges;
     bool checkForChanges;
-    KUrl currentFileURL;
+    QUrl currentFileURL;
     QString currentDir;
     QString currentScriptName, currentAuthor;
 };

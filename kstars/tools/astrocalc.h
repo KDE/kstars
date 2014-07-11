@@ -20,7 +20,7 @@
 
 #include <QMap>
 #include <QString>
-#include <kdialog.h>
+#include <QDialog>
 
 
 class QSplitter;
@@ -34,7 +34,7 @@ class KTextEdit;
  * @version 0.9
  */
 
-class AstroCalc : public KDialog
+class AstroCalc : public QDialog
 {
     Q_OBJECT
 public:

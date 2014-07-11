@@ -15,9 +15,9 @@
 #include "guide/guider.h"
 #include "Options.h"
 
-
 #include <KMessageBox>
 #include <KLed>
+#include <KLocalizedString>
 
 #include "indi/driverinfo.h"
 #include "fitsviewer/fitsviewer.h"

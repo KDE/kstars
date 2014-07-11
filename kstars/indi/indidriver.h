@@ -95,7 +95,7 @@ public slots:
 
 };
 
-class INDIDriver : public KDialog
+class INDIDriver : public QDialog
 {
 
     Q_OBJECT

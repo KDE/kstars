@@ -19,13 +19,15 @@
 #define _MOONPHASECALENDARWIDGET_H_
 
 #include <QWidget>
-#include <KDateTable>
+#include <QCalendarWidget>
+
+#include <KColorScheme>
 
 class KSMoon;
 class KSSun;
 class KStarsDateTime;
 
-class MoonPhaseCalendar : public KDateTable {
+class MoonPhaseCalendar : public QCalendarWidget {
 
     Q_OBJECT
 

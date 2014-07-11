@@ -11,9 +11,10 @@
 #include "Options.h"
 
 #include <KMessageBox>
-#include <KPlotWidget>
-#include <KPlotObject>
-#include <KPlotAxis>
+#include <KLocalizedString>
+#include <KPlotting/KPlotWidget>
+#include <KPlotting/KPlotObject>
+#include <KPlotting/KPlotAxis>
 
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"

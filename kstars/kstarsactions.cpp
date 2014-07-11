@@ -31,24 +31,26 @@
 #include <QPointer>
 
 #include <QDebug>
-#include <kaction.h>
+#include <QAction>
+#include <QFileDialog>
+#include <QMenu>
+#include <QStatusBar>
+#include <QProcess>
+#include <QIcon>
+#include <QTemporaryFile>
+
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
 #include <kmessagebox.h>
-#include <ktemporaryfile.h>
+
 #include <ktip.h>
-#include <kstandarddirs.h>
+#include <QStandardPaths>
 #include <kconfigdialog.h>
-#include <kfiledialog.h>
+
 #include <kinputdialog.h>
-#include <QMenu>
-#include <kstatusbar.h>
-#include <kprocess.h>
-#include <ktoolbar.h>
-#include <kicon.h>
+
 #include <kns3/downloaddialog.h>
-#include <kio/netaccess.h>
 
 #include "options/opscatalog.h"
 #include "options/opsguides.h"
@@ -94,7 +96,7 @@
 #include <KSharedConfig>
 #include <QStandardPaths>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include "indi/telescopewizardprocess.h"
 #include "indi/opsindi.h"
 #include "indi/drivermanager.h"
@@ -109,9 +111,9 @@
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/satellitescomponent.h"
 
-#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include "ekos/ekosmanager.h"
 #include "ekos/opsekos.h"
 #endif
@@ -370,7 +372,7 @@ void KStars::slotCalendar() {
 void KStars::slotGlossary(){
     // 	GlossaryDialog *dlg = new GlossaryDialog( this, true );
     // 	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
-    // 	KUrl u = glossaryfile;
+    // 	QUrl u = glossaryfile;
     // 	Glossary *g = new Glossary( u );
     // 	g->setName( xi18n( "Knowledge" ) );
     // 	dlg->addGlossary( g );
@@ -404,7 +406,7 @@ void KStars::slotFlagManager() {
 
 void KStars::slotTelescopeWizard()
 {
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
         KMessageBox::error(NULL, xi18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
@@ -419,7 +421,7 @@ void KStars::slotTelescopeWizard()
 
 void KStars::slotINDIPanel()
 {
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
         KMessageBox::error(NULL, xi18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
@@ -431,7 +433,7 @@ void KStars::slotINDIPanel()
 
 void KStars::slotINDIDriver()
 {
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
         KMessageBox::error(NULL, xi18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
@@ -444,8 +446,8 @@ void KStars::slotINDIDriver()
 
 void KStars::slotEkos()
 {
-#ifdef HAVE_CFITSIO_H
-#ifdef HAVE_INDI_H
+#ifdef HAVE_CFITSIO
+#ifdef HAVE_INDI
 
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
@@ -528,11 +530,11 @@ void KStars::slotViewOps() {
     dialog->addPage(opguides, xi18n("Guides"), "kstars_guides");
     dialog->addPage(opcolors, xi18n("Colors"), "kstars_colors");
 
-    #ifdef HAVE_INDI_H
+    #ifdef HAVE_INDI
     opsindi = new OpsINDI (this);
     dialog->addPage(opsindi, xi18n("INDI"), "kstars");
 
-    #ifdef HAVE_CFITSIO_H
+    #ifdef HAVE_CFITSIO
     opsekos = new OpsEkos(this);
     dialog->addPage(opsekos, xi18n("Ekos"), "kstars");
     #endif
@@ -546,7 +548,9 @@ void KStars::slotViewOps() {
 
     dialog->addPage(opadvanced, xi18n("Advanced"), "kstars_advanced");
 
-    dialog->setHelp(QString(), "kstars");
+    //FIXME needs porting to KF5
+    //dialog->setHelp(QString(), "kstars");
+
     dialog->show();
 }
 
@@ -644,9 +648,9 @@ void KStars::slotFind() {
 
 void KStars::slotOpenFITS()
 {
-#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_CFITSIO
 
-    QUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.fits *.fit *.fts|Flexible Image Transport System" );
+    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Open FITS"), QUrl(), "FITS (*.fits *.fit *.fts)");
 
     if (fileURL.isEmpty())
         return;
@@ -661,7 +665,9 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-    QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
+    //TODO Check this
+    //QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
+    QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Export Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
 
     //User cancelled file selection dialog - abort image export
     if ( fileURL.isEmpty() ) {
@@ -696,6 +702,9 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
+    /*
+     * FIXME Needs porting to KF5
+     *
     QUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
     QString fname;
@@ -730,7 +739,7 @@ void KStars::slotRunScript() {
                 }
 
                 if( KIO::NetAccess::download( fileURL, fname, this ) ) {
-                    chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
+                    chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
 
                     if ( tmpfile.fileName() == fname ) { //upload to remote location
                         if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) ) {
@@ -753,7 +762,7 @@ void KStars::slotRunScript() {
         if ( ! fileURL.isLocalFile() ) {
             fname = tmpfile.fileName();
             if( KIO::NetAccess::download( fileURL, fname, this ) ) {
-                chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+                chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
                 f.setFileName( fname );
             }
         } else {
@@ -812,6 +821,7 @@ void KStars::slotRunScript() {
 
         statusBar()->changeItem( xi18n( "Script finished."), 0 );
     }
+    */
 }
 
 void KStars::slotPrint() {
@@ -991,7 +1001,10 @@ void KStars::slotZoomChanged() {
         fovi18nstring = kxi18nc( "approximate field of view", "Approximate FOV: %1 arcseconds" );
     }
     QString fovstring = fovi18nstring.subs( QString::number( fov, 'f', 1 ) ).toString();
-    statusBar()->changeItem( fovstring, 0 );
+
+    //TODO Double check this
+    //statusBar()->changeItem( fovstring, 0 );
+    statusBar()->showMessage( fovstring, 0 );
 }
 
 void KStars::slotSetZoom() {
@@ -1143,6 +1156,7 @@ void KStars::slotShowGUIItem( bool show ) {
         statusBar()->setVisible(show);
     }
 
+    /* FIXME Needs porting to KF5
     if ( sender() == actionCollection()->action( "show_sbAzAlt" ) ) {
         Options::setShowAltAzField( show );
         if( !show )
@@ -1154,6 +1168,7 @@ void KStars::slotShowGUIItem( bool show ) {
         if( ! show )
             statusBar()->changeItem( QString(), 2 );
     }
+    */
 
 }
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
@@ -1179,7 +1194,7 @@ void KStars::removeColorMenuItem( const QString &actionName ) {
 
 void KStars::establishINDI()
 {
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
     if (indimenu == NULL)
         indimenu = GUIManager::Instance();
     if (indidriver == NULL)
@@ -1210,7 +1225,11 @@ void KStars::slotAboutToQuit()
     }
 }
 
-void KStars::slotShowPositionBar(SkyPoint* p ) {
+void KStars::slotShowPositionBar(SkyPoint* p )
+{
+
+    /* Needs porting to KF5
+     *
     if ( Options::showAltAzField() ) {
         dms a = p->alt();
         if ( Options::useAltAz() )
@@ -1224,6 +1243,7 @@ void KStars::slotShowPositionBar(SkyPoint* p ) {
                                           p->dec().toDMSString(true) ); //true: force +/- symbol
         statusBar()->changeItem( s, 2 );
     }
+    */
 }
 
 void KStars::slotUpdateComets() {

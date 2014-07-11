@@ -18,7 +18,7 @@
 #ifndef ADDCATDIALOG_H_
 #define ADDCATDIALOG_H_
 
-#include <kdialog.h>
+#include <QDialog>
 #include <klineedit.h>
 #include <kurlrequester.h>
 
@@ -39,7 +39,7 @@ public:
  *@author Jason Harris
  *@version 1.0
  */
-class AddCatDialog : public KDialog  {
+class AddCatDialog : public QDialog  {
     Q_OBJECT
 public:
     /**
@@ -80,13 +80,13 @@ private slots:
     void slotPreviewCatalog();
 
     /**
-      *Overridden from KDialog to show short help in a dialog rather
+      *Overridden from QDialog to show short help in a dialog rather
     	*than launch KHelpCenter.
     	*/
     void slotHelp();
 
     /**
-      *Overridden from KDialog, so that the entered file can be parsed
+      *Overridden from QDialog, so that the entered file can be parsed
     	*before window is closed.
     	*/
     void slotOk();

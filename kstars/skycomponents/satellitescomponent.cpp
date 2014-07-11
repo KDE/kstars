@@ -21,13 +21,8 @@
 #include <QObject>
 #include <QProgressDialog>
 
-#include <kjob.h>
-#include <kio/job.h>
-#include <kio/copyjob.h>
-#include <kio/netaccess.h>
-#include <kio/jobuidelegate.h>
-
-#include "klocale.h"
+#include <KJobUiDelegate>
+#include <KLocalizedString>
 
 #include "satellitegroup.h"
 #include "Options.h"
@@ -52,7 +47,7 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
         if ( line.trimmed().isEmpty() || line.at( 0 ) == '#' )
             continue;
         group_infos = line.split( ';' );
-        m_groups.append( new SatelliteGroup( group_infos.at( 0 ), group_infos.at( 1 ), KUrl( group_infos.at( 2 ) ) ) );
+        m_groups.append( new SatelliteGroup( group_infos.at( 0 ), group_infos.at( 1 ), QUrl( group_infos.at( 2 ) ) ) );
     }
 }
 
@@ -124,13 +119,15 @@ void SatellitesComponent::updateTLEs()
             continue;
         
         progressDlg.setLabelText( xi18n( "Update %1 satellites", group->name() ) );
-        KIO::Job* getJob = KIO::file_copy( group->tleUrl(), group->tleFilename(), -1, KIO::Overwrite | KIO::HideProgressInfo );
-        if( KIO::NetAccess::synchronousRun( getJob, 0 ) ) {
+        KIO::Job* getJob = KIO::file_copy(group->tleUrl(), group->tleFilename(), -1, KIO::Overwrite | KIO::HideProgressInfo );
+        if( getJob->exec() )
+        {
             group->readTLE();
             group->updateSatellitesPos();
             progressDlg.setValue( ++i );
-        } else {
-            getJob->ui()->showErrorMessage();
+        } else
+        {
+            getJob->uiDelegate()->showErrorMessage();
         }   
     }
 }

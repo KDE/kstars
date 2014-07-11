@@ -208,10 +208,10 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
             utB = utBoxBatch->time();
 
         if ( allRadioBatch->isChecked() )
-            ostream << KLocale::global()->formatTime( utB ) << space;
+            ostream << QLocale().toString( utB ) << space;
         else
             if(utCheckBatch->isChecked() )
-                ostream << KLocale::global()->formatTime( utB ) << space;
+                ostream << QLocale().toString( utB ) << space;
 
         // Read date and write in ostream if corresponds
 
@@ -222,10 +222,10 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
             dtB = dateBoxBatch->date();
 
         if ( allRadioBatch->isChecked() )
-            ostream << KLocale::global()->formatDate( dtB, KLocale::LongDate ).append(space);
+            ostream << QLocale().toString( dtB, KLocale::LongDate ).append(space);
         else
             if(dateCheckBatch->isChecked() )
-                ostream << KLocale::global()->formatDate( dtB, KLocale::LongDate ).append(space);
+                ostream << QLocale().toString( dtB, KLocale::LongDate ).append(space);
 
         // Read RA and write in ostream if corresponds
 

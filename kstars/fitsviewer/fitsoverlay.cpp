@@ -19,7 +19,7 @@ FITSOverlay::FITSOverlay() : downloadJob(0)
 {
 }
 
-void FITSOverlay::addFITSOverlay(const dms &ra, const dms &dec, const KUrl &imageURL)
+void FITSOverlay::addFITSOverlay(const dms &ra, const dms &dec, const QUrl &imageURL)
 {
     m_ImageUrl = imageURL;
     this->ra  = ra;
@@ -54,7 +54,7 @@ FITSOverlay::~FITSOverlay()
 
 void FITSOverlay::loadImageFromURL()
 {
-    KUrl saveURL = KUrl::fromPath( file.fileName() );
+    QUrl saveURL = QUrl::fromPath( file.fileName() );
     if (!saveURL.isValid())
         kDebug()<<"tempfile-URL is malformed\n";
 

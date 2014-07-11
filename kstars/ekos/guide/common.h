@@ -13,8 +13,11 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
+#include <QPainter>
+#include <QMouseEvent>
+#include <QWidget>
+
 #include "../indi/indicommon.h"
-#include <Qt/QtGui>
 
 extern const u_char DEF_BKGD_COLOR[];
 extern const u_char DEF_RA_COLOR[];

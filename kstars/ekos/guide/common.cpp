@@ -11,6 +11,7 @@
 
 #include "common.h"
 
+#include <QMessageBox>
 #include <sys/types.h>
 
 // define some colors

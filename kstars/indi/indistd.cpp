@@ -13,9 +13,9 @@
 
 #include <QDebug>
 #include <QImageReader>
+#include <QStatusBar>
 
 #include <KMessageBox>
-#include <KStatusBar>
 
 #include "indistd.h"
 #include "indicommon.h"
@@ -227,7 +227,7 @@ void GenericDevice::processNumber(INumberVectorProperty * nvp)
             if (!np)
                 return;
 
-        //sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
+        //sscanf(el->text.toLatin1().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
             lng.setD(np->value);
 
            np = IUFindNumber(nvp, "LAT");
@@ -235,7 +235,7 @@ void GenericDevice::processNumber(INumberVectorProperty * nvp)
            if (!np)
                 return;
 
-        //sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
+        //sscanf(el->text.toLatin1().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
         //lat.setD(d,min,sec);
          lat.setD(np->value);
 
@@ -271,7 +271,7 @@ void GenericDevice::processText(ITextVectorProperty * tvp)
             return;
 
         sscanf(tp->text, "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
-        indiDate.setYMD(y, m, d);
+        indiDate.setDate(y, m, d);
         indiTime.setHMS(hour, min, sec);
         indiDateTime.setDate(indiDate);
         indiDateTime.setTime(indiTime);
@@ -361,7 +361,9 @@ void GenericDevice::processBLOB(IBLOB* bp)
     }
 
     if (dataType == DATA_OTHER)
-            KStars::Instance()->statusBar()->changeItem( xi18n("Data file saved to %1", filename ), 0);
+        //TODO
+        //KStars::Instance()->statusBar()-> changeItem( xi18n("Data file saved to %1", filename ), 0);
+        KStars::Instance()->statusBar()->showMessage(xi18n("Data file saved to %1", filename ), 0);
 
 }
 
@@ -417,7 +419,7 @@ void GenericDevice::createDeviceInit()
 {
 
     if ( Options::showINDIMessages() )
-        KStars::Instance()->statusBar()->changeItem( xi18n("%1 is online.", baseDevice->getDeviceName()), 0);
+        KStars::Instance()->statusBar()->showMessage( xi18n("%1 is online.", baseDevice->getDeviceName()), 0);
 
     KStars::Instance()->map()->forceUpdateNow();
 }

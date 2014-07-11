@@ -18,12 +18,13 @@
 #ifndef _MOONPHASETOOL_H_
 #define _MOONPHASETOOL_H_
 
-#include "widgets/genericcalendarwidget.h"
+//#include "widgets/genericcalendarwidget.h"
 #include "widgets/moonphasecalendarwidget.h"
 
 #include "ksnumbers.h"
 
-#include <KDialog>
+#include <QDialog>
+#include <QCalendarWidget>
 
 class KSMoon;
 class KSSun;
@@ -43,7 +44,7 @@ class KSSun;
  * display a nice table
  */
 
-class MoonPhaseTool : public KDialog {
+class MoonPhaseTool : public QDialog {
 
     Q_OBJECT
 
@@ -64,7 +65,8 @@ private:
     KSNumbers *m_Num;
     unsigned short month;
     unsigned int year;
-    GenericCalendarWidget *gcw;
+    //GenericCalendarWidget *gcw;
+    QCalendarWidget *gcw;
     MoonPhaseCalendar *mpc;
 };
 

@@ -51,13 +51,13 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 FindDialog::FindDialog( QWidget* parent ) :
-    KDialog( parent ),
+    QDialog( parent ),
     timer(0)
 {
     ui = new FindDialogUI( this );
     setMainWidget( ui );
-    setCaption( xi18n( "Find Object" ) );
-    setButtons( KDialog::Ok|KDialog::User1|KDialog::Cancel );
+    setWindowTitle( xi18n( "Find Object" ) );
+    setButtons( QDialog::Ok|QDialog::User1|QDialog::Cancel );
     ui->FilterType->setCurrentIndex(0);  // show all types of objects
 
     fModel = new QStringListModel( this );
@@ -66,7 +66,7 @@ FindDialog::FindDialog( QWidget* parent ) :
     ui->SearchList->setModel( sortModel );
     sortModel->setSourceModel( fModel );
     ui->SearchList->setModel( sortModel );
-    setButtonText(KDialog::User1, xi18n("Details..."));
+    setButtonText(QDialog::User1, xi18n("Details..."));
 
     // Connect signals to slots
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotOk() ) );

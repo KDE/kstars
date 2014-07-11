@@ -19,7 +19,7 @@
 
 #include <QAbstractTableModel>
 
-#include <kdialog.h>
+#include <QDialog>
 
 #include "ui_flagmanager.h"
 
@@ -46,7 +46,7 @@ class FlagManagerUI : public QFrame, public Ui::FlagManager
  *@version 1.1
  *@author Jerome SONRIER
  */
-class FlagManager : public KDialog
+class FlagManager : public QDialog
 {
     Q_OBJECT
 public:

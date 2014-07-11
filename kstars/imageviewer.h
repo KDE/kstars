@@ -24,7 +24,7 @@
 #include <QPixmap>
 
 #include <kio/job.h>
-#include <kdialog.h>
+#include <QDialog>
 
 class QUrl;
 class QLabel;
@@ -63,7 +63,7 @@ private:
  * this time. The save-slave works synchronously, but this is not important
  * because the files are at this time local saved and this works not so long.
  */
-class ImageViewer : public KDialog {
+class ImageViewer : public QDialog {
     Q_OBJECT
 
 public:
@@ -85,11 +85,11 @@ private:
     void loadImageFromURL( void );
 
     /**Save the downloaded image to a local file. */
-    void saveFile (KUrl &url);
+    void saveFile (QUrl &url);
 
     QFile file;
 
-    const KUrl m_ImageUrl;
+    const QUrl m_ImageUrl;
     bool fileIsImage;
     QString filename;
 

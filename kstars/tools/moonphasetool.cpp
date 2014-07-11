@@ -20,16 +20,20 @@
 #include "skyobjects/kssun.h"
 
 MoonPhaseTool::MoonPhaseTool(QWidget *parent)
-    : KDialog( parent, Qt::Dialog )
+    : QDialog( parent, Qt::Dialog )
 {
-    setButtons( 0 );
-    KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
+
+    //KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
     m_Moon = new KSMoon;
     m_Sun = new KSSun;
     mpc = new MoonPhaseCalendar( *m_Moon, *m_Sun );
-    gcw = new GenericCalendarWidget( *mpc, this );
+    //gcw = new GenericCalendarWidget( *mpc, this );
+
+    gcw = new QCalendarWidget(this);
+    //FIXME Need porting to KF5, can we use QCalenderWidget instead of GenericCalenderWidget?
+    //setButtons( 0 );
     setFixedSize( gcw->size() );
-    setCaption( xi18n("Moon Phase Calendar") );
+    setWindowTitle( xi18n("Moon Phase Calendar") );
 }
 
 

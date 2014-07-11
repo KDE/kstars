@@ -26,7 +26,7 @@
 #include <kmessagebox.h>
 #include <QDebug>
 #include <klocale.h>
-#include <kstandarddirs.h>
+#include <QStandardPaths>
 
 #include "Options.h"
 #include "dms.h"
@@ -420,7 +420,7 @@ bool KStarsData::processCity( const QString& line ) {
     double lng = lngD + (lngM + lngS/60.0)/60.0;
 
     // Read sign for latitude
-    switch( fields[6].at(0).toAscii() ) {
+    switch( fields[6].at(0).toLatin1() ) {
     case 'N' : break;
     case 'S' : lat *= -1; break;
     default :
@@ -429,7 +429,7 @@ bool KStarsData::processCity( const QString& line ) {
     }
 
     // Read sign for longitude
-    switch( fields[10].at(0).toAscii() ) {
+    switch( fields[10].at(0).toLatin1() ) {
     case 'E' : break;
     case 'W' : lng *= -1; break;
     default:
@@ -508,7 +508,10 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
 
             //Find global file(s) in findAllResources() list.
             QFileInfo fi_local( file.fileName() );
-            QStringList flist = KGlobal::mainComponent().dirs()->findAllResources( "appdata", urlfile );
+
+            //FIXME Needs porting to KF5
+            //QStringList flist = KGlobal::mainComponent().dirs()->findAllResources( QStandardPaths::DataLocation, urlfile );
+            QStringList flist;
             for ( int i=0; i< flist.size(); i++ ) {
                 if ( flist[i] != file.fileName() ) {
                     QFileInfo fi_global( flist[i] );

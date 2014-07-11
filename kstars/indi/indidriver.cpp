@@ -91,7 +91,7 @@ void DeviceManagerUI::makePortEditable(QTreeWidgetItem* selectedItem, int column
 }
 
 INDIDriver::INDIDriver( KStars *_ks )
-        : KDialog( _ks ),  ksw( _ks )
+        : QDialog( _ks ),  ksw( _ks )
 {
 
     currentPort = Options::serverPortStart().toInt()-1;
@@ -101,7 +101,7 @@ INDIDriver::INDIDriver( KStars *_ks )
     ui = new DeviceManagerUI( this );
     setMainWidget( ui );
     setCaption( xi18n( "Device Manager" ) );
-    setButtons( KDialog::Close );
+    setButtons( QDialog::Close );
 
     foreach ( INDIHostsInfo * host, ksw->data()->INDIHostsList )
     {

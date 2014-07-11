@@ -50,7 +50,7 @@
      <item row="3" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="KComboBox" name="FilterTypeComboBox"/>
+        <widget class="QComboBox" name="FilterTypeComboBox"/>
        </item>
        <item>
         <widget class="QPushButton" name="Obj1FindButton">
@@ -70,7 +70,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="Obj2ComboBox">
+        <widget class="QComboBox" name="Obj2ComboBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -159,7 +159,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="KComboBox" name="Opposition">
+          <widget class="QComboBox" name="Opposition">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -296,9 +296,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
+   <class>QComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>QComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QPushButton</class>

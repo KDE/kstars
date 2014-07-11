@@ -51,10 +51,10 @@ public:
 
 private:
     bool	processStream;
-    int         		 streamWidth, streamHeight;
-    VideoWG		*streamFrame;
-    bool			 colorFrame;
-    KIcon                playPix, pausePix, capturePix;
+    int     streamWidth, streamHeight;
+    VideoWG	*streamFrame;
+    bool	colorFrame;
+    QIcon   playPix, pausePix, capturePix;
 
 protected:
     void closeEvent ( QCloseEvent * e );

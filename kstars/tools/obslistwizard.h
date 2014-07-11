@@ -17,7 +17,7 @@
 #ifndef OBSLISTWIZARD_H_
 #define OBSLISTWIZARD_H_
 
-#include <kdialog.h>
+#include <QDialog>
 
 #include "ui_obslistwizard.h"
 #include "skyobjects/skypoint.h"
@@ -35,7 +35,7 @@ public:
  *@short Wizard for constructing observing lists
  *@author Jason Harris
  */
-class ObsListWizard : public KDialog
+class ObsListWizard : public QDialog
 {
     Q_OBJECT
 public:

@@ -26,7 +26,7 @@
     <number>8</number>
    </property>
    <item>
-    <widget class="KDateWidget" name="DateWidget" />
+    <widget class="QDateEdit" name="DateWidget" />
    </item>
    <item>
     <layout class="QHBoxLayout" >
@@ -84,13 +84,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KDateWidget</class>
-   <extends>QWidget</extends>
-   <header>kdatewidget.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

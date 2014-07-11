@@ -33,7 +33,7 @@
 #include "kstarsdata.h"
 
 LocationDialog::LocationDialog( QWidget* parent ) :
-    KDialog( parent ), timer( 0 )
+    QDialog( parent ), timer( 0 )
 {
     KStarsData* data = KStarsData::Instance();
     ui = new Ui::LocationDialog();
@@ -41,11 +41,11 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     // FIXME: temporary plug! (See MapCanvas for details)
     ui->MapView->setLocationDialog( this );
 
-    setCaption( xi18n( "Set Geographic Location" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setWindowTitle( xi18n( "Set Geographic Location" ) );
+    setButtons( QDialog::Ok|QDialog::Cancel );
 
     for ( int i=0; i<25; ++i )
-        ui->TZBox->addItem( KLocale::global()->formatNumber( (double)(i-12) ) );
+        ui->TZBox->addItem( QLocale().toString( (double)(i-12) ) );
 
     //Populate DSTRuleBox
     foreach( const QString& key, data->getRulebook().keys() ) {
@@ -100,10 +100,10 @@ void LocationDialog::initCityList() {
         filteredCityList.append( loc );
 
         //If TZ is not an even integer value, add it to listbox
-        if ( loc->TZ0() - int( loc->TZ0() ) && ui->TZBox->findText( KLocale::global()->formatNumber( loc->TZ0() ) ) != -1 ) {
+        if ( loc->TZ0() - int( loc->TZ0() ) && ui->TZBox->findText( QLocale().toString( loc->TZ0() ) ) != -1 ) {
             for ( int i=0; i < ui->TZBox->count(); ++i ) {
                 if ( ui->TZBox->itemText( i ).toDouble() > loc->TZ0() ) {
-                    ui->TZBox->addItem( KLocale::global()->formatNumber( loc->TZ0() ), i-1 );
+                    ui->TZBox->addItem( QLocale().toString( loc->TZ0() ), i-1 );
                     break;
                 }
             }
@@ -200,7 +200,7 @@ void LocationDialog::changeCity() {
         ui->NewCountryName->setText( SelectedCity->translatedCountry() );
         ui->NewLong->showInDegrees( SelectedCity->lng() );
         ui->NewLat->showInDegrees( SelectedCity->lat() );
-        ui->TZBox->setEditText( KLocale::global()->formatNumber( SelectedCity->TZ0() ) );
+        ui->TZBox->setEditText( QLocale().toString( SelectedCity->TZ0() ) );
 
         //Pick the City's rule from the rulebook
         for ( int i=0; i < ui->DSTRuleBox->count(); ++i ) {
@@ -359,7 +359,7 @@ void LocationDialog::clearFields() {
     ui->NewCountryName->clear();
     ui->NewLong->clearFields();
     ui->NewLat->clearFields();
-    ui->TZBox->lineEdit()->setText( KLocale::global()->formatNumber( 0.0 ) );
+    ui->TZBox->lineEdit()->setText( QLocale().toString( 0.0 ) );
     ui->DSTRuleBox->setCurrentIndex( 0 );
     nameModified = true;
     dataModified = false;
@@ -401,9 +401,9 @@ void LocationDialog::showTZRules() {
     QString message = xi18n( "Daylight Saving Time Rules" );
     //	KMessageBox::informationList( 0, message, lines, message );
 
-    QPointer<KDialog> tzd = new KDialog( this );
-    tzd->setCaption( message );
-    tzd->setButtons( KDialog::Close );
+    QPointer<QDialog> tzd = new QDialog( this );
+    tzd->setWindowTitle( message );
+    tzd->setButtons( QDialog::Close );
     QListWidget *lw = new QListWidget( tzd );
     lw->addItems( lines );
     //This is pretty lame...I have to measure the width of the first item in the

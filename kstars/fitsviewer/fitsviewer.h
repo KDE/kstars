@@ -23,8 +23,10 @@
 #include <QList>
 #include <QMap>
 
-#include <KDialog>
+#include <QDialog>
+#include <QLabel>
 #include <kxmlguiwindow.h>
+#include <KLed>
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
@@ -40,9 +42,7 @@ class QUndoGroup;
 
 class KUndoStack;
 class QTabWidget;
-class KUrl;
-class KAction;
-class KLed;
+class QUrl;
 
 class FITSView;
 class FITSHistogram;
@@ -58,9 +58,9 @@ public:
     /**Constructor. */
     FITSViewer (QWidget *parent);
     ~FITSViewer();
-    int addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
+    int addFITS(const QUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
 
-    bool updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE);
+    bool updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE);
 
     void toggleMarkStars(bool enable) { markStars = enable; }
     bool isStarsMarked() { return markStars; }
@@ -103,8 +103,9 @@ private:
     QTabWidget *fitsTab;
     QUndoGroup *undoGroup;
 
-    KLed *led;
-    KAction *saveFileAction, *saveFileAsAction;
+    KLed led;
+    QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsMessage;
+    QAction *saveFileAction, *saveFileAsAction;
     QList<FITSTab*> fitsImages;
     int fitsID;
     bool markStars;

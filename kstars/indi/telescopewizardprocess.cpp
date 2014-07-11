@@ -12,11 +12,11 @@
 #include <QFile>
 #include <QPixmap>
 #include <QTimer>
+#include <QProgressDialog>
+#include <QStatusBar>
+#include <QDateTime>
 
 #include <KMessageBox>
-#include <KProgressDialog>
-#include <KDateTime>
-#include <KStatusBar>
 
 #include "Options.h"
 #include "kstars.h"
@@ -230,25 +230,20 @@ void telescopeWizardProcess::establishLink()
 
     if (ui->portIn->text().isEmpty())
     {
-        progressScan = new KProgressDialog(this, xi18n("Telescope Wizard"),
-                                           xi18n("Please wait while KStars scan communication ports for "
-                                                "attached telescopes.\nThis process might take few "
-                                                "minutes to complete."), Qt::Dialog);
-        progressScan->progressBar()->setValue(0);
+        progressScan = new QProgressDialog(xi18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), xi18n("Cancel"), 0, portList.count());
+        progressScan->setValue(0);
         //qDebug() << "KProgressDialog for automatic search has been initiated";
 
     }
     else
     {
-        progressScan = new KProgressDialog(this, xi18n("Telescope Wizard"), xi18n("Please wait while KStars tries to connect to your telescope..."), Qt::Dialog);
-        progressScan->progressBar()->setValue(portList.count());
+        progressScan = new QProgressDialog(xi18n("Please wait while KStars tries to connect to your telescope..."), xi18n("Cancel"), portList.count(), portList.count());
+        progressScan->setValue(portList.count());
         //qDebug() << "KProgressDialog for manual search has been initiated";
     }
 
     progressScan->setAutoClose(true);
     progressScan->setAutoReset(true);
-    progressScan->progressBar()->setMinimum(0);
-    progressScan->progressBar()->setMaximum(portList.count());
     progressScan->show();
 
     if (dv->getClientState() == false)
@@ -335,7 +330,7 @@ void telescopeWizardProcess::scanPorts()
 
     currentPort++;
 
-    if (progressScan->wasCancelled())
+    if (progressScan->wasCanceled())
     {
         if (linkRejected)
             return;
@@ -349,7 +344,7 @@ void telescopeWizardProcess::scanPorts()
         return;
     }
 
-    progressScan->progressBar()->setValue(currentPort);
+    progressScan->setValue(currentPort);
 
     //qDebug() << "Current port is " << currentPort << " and port count is " << portList.count() << endl;
 
@@ -379,7 +374,7 @@ void telescopeWizardProcess::linkSuccess()
 {
     Reset();
 
-    KStars::Instance()->statusBar()->changeItem( xi18n("Telescope Wizard completed successfully."), 0);
+    KStars::Instance()->statusBar()->showMessage( xi18n("Telescope Wizard completed successfully."), 0);
 
     close();
 

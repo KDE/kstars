@@ -23,9 +23,8 @@
 #include <QTime>
 #include <QLinearGradient>
 
-#include <KGlobal>
-#include <KLocale>
-#include <KPlotObject>
+#include <KLocalizedString>
+#include <KPlotting/KPlotObject>
 #include <QDebug>
 
 AVTPlotWidget::AVTPlotWidget( QWidget *parent )
@@ -164,7 +163,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     p.setFont( smallFont );
     p.translate( ix + 10, pH - 20 );
     p.rotate(-90);
-    p.drawText(0, 0, KLocale::global()->formatTime( t ) );
+    p.drawText(0, 0, QLocale().toString( t ) );
     p.restore();
 
     //Draw crosshairs at clicked position
@@ -184,7 +183,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
         p.save();
         p.translate( MousePoint.x() + 10, pH - 20 );
         p.rotate(-90);
-        p.drawText( 0, 0, KLocale::global()->formatTime( t ) );
+        p.drawText( 0, 0, QLocale().toString( t ) );
         p.restore();
     }
 

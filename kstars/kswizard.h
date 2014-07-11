@@ -18,7 +18,7 @@
 #ifndef KSWIZARD_H_
 #define KSWIZARD_H_
 
-#include <kdialog.h>
+#include <QDialog>
 
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
@@ -53,7 +53,7 @@ public:
  * @author Jason Harris
  * @version 1.0
  */
-class KSWizard : public KDialog
+class KSWizard : public QDialog
 {
     Q_OBJECT
 public:

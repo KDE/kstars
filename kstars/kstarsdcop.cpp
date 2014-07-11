@@ -22,18 +22,16 @@
 #include <QPixmap>
 #include <QKeySequence>
 #include <QPainter>
-//QPRINTER_FOR_NOW
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QSvgGenerator>
-#include <QXmlStreamWriter>
 
-//QPRINTER_FOR_NOW
-//#include <kprinter.h>
-#include <kdeprintdialog.h>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#include <QtSvg/QSvgGenerator>
+#include <QXmlStreamWriter>
 #include <QPushButton>
+#include <QDoubleSpinBox>
+
+#include <kdeprintdialog.h>
 #include <klineedit.h>
-#include <knuminput.h>
 #include <kactioncollection.h>
 
 #include "colorscheme.h"
@@ -52,7 +50,7 @@
 // INDI includes
 #include <config-kstars.h>
 
-/*#ifdef HAVE_INDI_H
+/*#ifdef HAVE_INDI
 #include "indi/indidriver.h"
 #include "indi/indimenu.h"
 #include "indi/indielement.h"

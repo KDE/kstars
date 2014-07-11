@@ -20,8 +20,9 @@
 #define OAL_H_
 
 #include <QString>
-#include <KLocale>
+#include <QLocale>
 #include <kmessagebox.h>
+#include <KLocalizedString>
 namespace OAL {
     class Log;
     class Observer;

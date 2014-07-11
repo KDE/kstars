@@ -112,7 +112,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             }
 
             retVal += "; " + s->sptype() + ' ' + xi18n("star");
-            retVal += "; " + xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1));
+            retVal += "; " + xi18nc("number in magnitudes", "%1 mag", QLocale().toString(s->mag(), 1));
 
             break;
         }
@@ -150,7 +150,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             }
 
             retVal += "; " + type;
-            retVal += "; " + xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1));
+            retVal += "; " + xi18nc("number in magnitudes", "%1 mag", QLocale().toString(ps->mag(), 1));
 
             break;
         }

@@ -12,12 +12,11 @@
 #include <string.h>
 
 #include <KMessageBox>
-#include <KStatusBar>
-#include <KTemporaryFile>
+#include <QStatusBar>
 
 #include <basedevice.h>
 
-#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitscommon.h"
 #include "fitsviewer/fitsview.h"
@@ -590,7 +589,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 
 CCD::~CCD()
 {
-#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_CFITSIO
     delete (fv);
 #endif
     delete (primaryChip);
@@ -860,7 +859,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     QString currentDir =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
     int nr, n=0;
-    KTemporaryFile tmpFile;
+    QTemporaryFile tmpFile("fitsXXXXXX");
 
     if (currentDir.endsWith('/'))
         currentDir.truncate(sizeof(currentDir)-1);
@@ -877,7 +876,7 @@ void CCD::processBLOB(IBLOB* bp)
     if (Options::showFITS() && (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL))
     {
 
-        tmpFile.setPrefix("fits");
+        //tmpFile.setPrefix("fits");
         tmpFile.setAutoRemove(false);
 
          if (!tmpFile.open())
@@ -927,7 +926,7 @@ void CCD::processBLOB(IBLOB* bp)
     strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
-        KStars::Instance()->statusBar()->changeItem( xi18n("FITS file saved to %1", filename ), 0);
+        KStars::Instance()->statusBar()->showMessage( xi18n("FITS file saved to %1", filename ), 0);
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {
@@ -936,11 +935,11 @@ void CCD::processBLOB(IBLOB* bp)
     }
 
     // Unless we have cfitsio, we're done.
-    #ifdef HAVE_CFITSIO_H
+    #ifdef HAVE_CFITSIO
     if (Options::showFITS() && (targetChip->showFITS() || targetChip->getCaptureMode() != FITS_NORMAL)
             && targetChip->getCaptureMode() != FITS_WCSM)
     {
-        KUrl fileURL(filename);
+        QUrl fileURL(filename);
 
         if (fv == NULL)
         {
@@ -1006,7 +1005,7 @@ void CCD::processBLOB(IBLOB* bp)
 
 void CCD::addFITSKeywords(QString filename)
 {
-#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_CFITSIO
     int status=0;
 
     if (filter.isEmpty() == false)
@@ -1016,7 +1015,7 @@ void CCD::addFITSKeywords(QString filename)
 
         fitsfile* fptr=NULL;
 
-        if (fits_open_image(&fptr, filename.toAscii(), READWRITE, &status))
+        if (fits_open_image(&fptr, filename.toLatin1(), READWRITE, &status))
         {
             fits_report_error(stderr, status);
             return;

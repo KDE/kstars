@@ -171,10 +171,10 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="KComboBox" name="CCDCaptureCombo"/>
+           <widget class="QComboBox" name="CCDCaptureCombo"/>
           </item>
           <item>
-           <widget class="KDoubleNumInput" name="exposureIN" native="true">
+           <widget class="QDoubleSpinBox" name="exposureIN" native="true">
             <property name="value" stdset="0">
              <double>1.000000000000000</double>
             </property>
@@ -202,7 +202,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="binXCombo">
+             <widget class="QComboBox" name="binXCombo">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>1</horstretch>
@@ -245,7 +245,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="binYCombo">
+             <widget class="QComboBox" name="binYCombo">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>1</horstretch>
@@ -379,7 +379,7 @@
            </layout>
           </item>
           <item>
-           <widget class="KComboBox" name="frameTypeCombo"/>
+           <widget class="QComboBox" name="frameTypeCombo"/>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -865,10 +865,10 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="KComboBox" name="FilterCaptureCombo"/>
+             <widget class="QComboBox" name="FilterCaptureCombo"/>
             </item>
             <item>
-             <widget class="KComboBox" name="FilterPosCombo"/>
+             <widget class="QComboBox" name="FilterPosCombo"/>
             </item>
            </layout>
           </item>
@@ -1242,24 +1242,6 @@
   <zorder>verticalSpacer12</zorder>
   <zorder>line</zorder>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

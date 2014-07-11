@@ -18,12 +18,11 @@
 #include <QFile>
 #include <QDir>
 #include <QTextStream>
+#include <QStatusBar>
+#include <QMenu>
 
 #include <kactioncollection.h>
 #include <kactionmenu.h>
-#include <kiconloader.h>
-#include <QMenu>
-#include <kstatusbar.h>
 #include <ktip.h>
 #include <kmessagebox.h>
 #include <kstandardaction.h>
@@ -50,7 +49,7 @@
 #include <config-kstars.h>
 #include <QStandardPaths>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
 #endif
@@ -138,7 +137,7 @@ void KStars::initActions() {
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
 
-#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()) )
         << xi18n("Open FITS...")
         << QIcon::fromTheme("document-open")
@@ -385,7 +384,7 @@ void KStars::initActions() {
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << xi18n("Sky Calendar");
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #ifndef Q_WS_WIN
         actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
             << xi18n("Ekos");
@@ -423,7 +422,7 @@ void KStars::initActions() {
         << KShortcut( Qt::CTRL+Qt::Key_2 );
 
     // ==== devices Menu ================
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #ifndef Q_WS_WIN
 
 

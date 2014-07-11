@@ -18,9 +18,8 @@
 #ifndef TIMEDIALOG_H_
 #define TIMEDIALOG_H_
 
-#include <kdialog.h>
-#include <qvariant.h>
-//Added by qt3to4:
+#include <QDialog>
+#include <QVariant>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -44,7 +43,7 @@ class GeoLocation;
   *@version 1.0
   */
 
-class TimeDialog : public KDialog {
+class TimeDialog : public QDialog {
     Q_OBJECT
 public:
     /**

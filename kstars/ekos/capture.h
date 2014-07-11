@@ -13,9 +13,7 @@
 #include "capture.h"
 
 #include <QTimer>
-
-#include <KFileItemList>
-#include <KDirLister>
+#include <QUrl>
 
 #include "ui_capture.h"
 
@@ -26,6 +24,7 @@
 
 class QProgressIndicator;
 class QTableWidgetItem;
+class KDirWatch;
 
 namespace Ekos
 {
@@ -185,7 +184,7 @@ public slots:
     void updateScopeCoords(INumberVectorProperty *coord);
 
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
-    void checkSeqBoundary(const KFileItemList & items);
+    void checkSeqBoundary(const QString &path);
 
     void saveFITSDirectory();
 
@@ -214,7 +213,7 @@ private:
     void constructPrefix(QString &imagePrefix);
 
     /* Capture */
-    KDirLister          *seqLister;
+    KDirWatch          *seqWatcher;
     double	seqExpose;
     int	seqTotalCount;
     int	seqCurrentCount;
@@ -247,7 +246,7 @@ private:
     INumberVectorProperty *filterSlot;
 
     QStringList logText;
-    KUrl sequenceURL;
+    QUrl sequenceURL;
     bool mDirty;
     bool jobUnderEdit;
 

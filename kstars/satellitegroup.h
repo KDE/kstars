@@ -38,7 +38,7 @@ public:
     /**
      *@short Constructor
      */
-    SatelliteGroup( QString name, QString tle_filename, KUrl update_url );
+    SatelliteGroup( QString name, QString tle_filename, QUrl update_url );
 
     /**
      *@short Destructor
@@ -58,12 +58,12 @@ public:
     /**
      *@return TLE filename
      */
-    KUrl tleFilename();
+    QUrl tleFilename();
 
     /**
      *@return URL from which new TLE file must be download
      */
-    KUrl tleUrl();
+    QUrl tleUrl();
 
     /**
      *@return Name of the group
@@ -73,7 +73,7 @@ public:
 private:
     QString m_name;             // Group name
     QString m_tle_file;         // TLE filename
-    KUrl    m_tle_url;          // URL used to update TLE file
+    QUrl    m_tle_url;          // URL used to update TLE file
 };
 
 #endif

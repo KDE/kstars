@@ -18,7 +18,7 @@
 #ifndef KSHELPLABEL_H
 #define KSHELPLABEL_H
 
-#include <QtGui/qlabel.h>
+#include <QLabel>
 
 /** Label for displaying links to AstroInfo project
  * @author Valery Kharitonov

@@ -12,9 +12,9 @@
 #ifndef INDIELEMENT_H_
 #define INDIELEMENT_H_
 
-#include <kdialog.h>
 #include <unistd.h>
 
+#include <QDialog>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>

@@ -48,7 +48,7 @@
 
 #include <config-kstars.h>
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
 #include <baseclient.h>
 #include <basedevice.h>
 #include "indi/indilistener.h"
@@ -182,7 +182,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
     Q_UNUSED(psky);
 
-#ifdef HAVE_INDI_H
+#ifdef HAVE_INDI
     if (!Options::showTargetCrosshair())
         return;
 

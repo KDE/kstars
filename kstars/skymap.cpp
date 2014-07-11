@@ -445,7 +445,7 @@ void SkyMap::slotDSS() {
         urlstring = KSUtils::getDSSURL( ra, dec ); // Use default size for non-objects
     }
 
-    KUrl url ( urlstring );
+    QUrl url ( urlstring );
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
@@ -481,7 +481,7 @@ void SkyMap::slotSDSS() {
     DecString = DecString.sprintf( "&dec=%f", dec.Degrees() );
 
     //concat all the segments into the kview command line:
-    KUrl url (URLprefix + RAString + DecString + URLsuffix);
+    QUrl url (URLprefix + RAString + DecString + URLsuffix);
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
@@ -663,7 +663,7 @@ void SkyMap::slotImage() {
         }
     }
 
-    KUrl url ( sURL );
+    QUrl url ( sURL );
     if( !url.isEmpty() )
         new ImageViewer( url, clickedObject()->messageFromTitle(message), this );
 }
@@ -692,7 +692,7 @@ void SkyMap::slotInfo() {
         }
     }
 
-    KUrl url ( sURL );
+    QUrl url ( sURL );
     if (!url.isEmpty())
         KToolInvocation::invokeBrowser(sURL);
 }

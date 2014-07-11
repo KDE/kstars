@@ -15,8 +15,8 @@
 #include "indiproperty.h"
 #include "indidevice.h"
 
-#include <klocale.h>
-#include <kdialog.h>
+#include <QLocale>
+#include <QDialog>
 
 #include <QFrame>
 #include <QTimer>
@@ -38,7 +38,8 @@ INDI_G::INDI_G(INDI_D *idv, const QString &inName)
     propertyContainer = new QFrame(idv);
     propertyLayout    = new QVBoxLayout(propertyContainer);
     propertyLayout->setMargin(20);
-    propertyLayout->setSpacing(KDialog::spacingHint());
+    // TODO
+   // propertyLayout->setSpacing(QDialog::spacingHint());
     VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
 
     propertyLayout->addItem(VerticalSpacer);

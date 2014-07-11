@@ -34,7 +34,7 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 
-#include <KUndoStack>
+#include <QUndoStack>
 #include <QDebug>
 #include <klineedit.h>
 #include <klocale.h>

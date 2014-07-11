@@ -24,7 +24,7 @@
 #include "kstars/skyobjects/starobject.h"
 #include "kstars/skyobjects/deepskyobject.h"
 #include "kstars/skycomponents/skycomponent.h"
-#include <kstandarddirs.h>
+#include <QStandardPaths>
 #include <klocale.h>
 #include <QDebug>
 #include <KMessageBox>

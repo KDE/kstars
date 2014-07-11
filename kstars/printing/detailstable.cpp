@@ -84,7 +84,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             }
 
             objTypeVal = s->sptype() + ' ' + xi18n("star");
-            objMagVal = xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(s->mag(), 1)); //show to tenths place
+            objMagVal = xi18nc("number in magnitudes", "%1 mag", QLocale().toString(s->mag(), 1)); //show to tenths place
 
             if(s->getBVIndex() < 30.0)
             {
@@ -99,17 +99,17 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             else if(s->distance() > 50.0) //show to nearest integer
             {
-                objDistVal = xi18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 0));
+                objDistVal = xi18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 0));
             }
 
             else if(s->distance() > 10.0) //show to tenths place
             {
-                objDistVal = xi18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 1));
+                objDistVal = xi18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 1));
             }
 
             else //show to hundredths place
             {
-                objDistVal = xi18nc("number in parsecs", "%1 pc", KLocale::global()->formatNumber(s->distance(), 2));
+                objDistVal = xi18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 2));
             }
 
             //Note multiplicity/variablility in angular size label
@@ -169,20 +169,20 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Magnitude: The moon displays illumination fraction instead
             if(obj->name() == "Moon")
             {
-                objIllumVal = QString("%1 %").arg(KLocale::global()->formatNumber(((KSMoon *)obj)->illum()*100., 0));
+                objIllumVal = QString("%1 %").arg(QLocale().toString(((KSMoon *)obj)->illum()*100., 0));
             }
 
-            objMagVal = xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(ps->mag(), 1)); //show to tenths place
+            objMagVal = xi18nc("number in magnitudes", "%1 mag", QLocale().toString(ps->mag(), 1)); //show to tenths place
 
             //Distance from Earth.  The moon requires a unit conversion
             if(ps->name() == "Moon")
             {
-                objDistVal = xi18nc("distance in kilometers", "%1 km", KLocale::global()->formatNumber(ps->rearth() * AU_KM ));
+                objDistVal = xi18nc("distance in kilometers", "%1 km", QLocale().toString(ps->rearth() * AU_KM ));
             }
 
             else
             {
-                objDistVal = xi18nc("distance in Astronomical Units", "%1 AU", KLocale::global()->formatNumber(ps->rearth()));
+                objDistVal = xi18nc("distance in Astronomical Units", "%1 AU", QLocale().toString(ps->rearth()));
             }
 
             //Angular size; moon and sun in arcmin, others in arcsec
@@ -191,12 +191,12 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 if(ps->name() == "Sun" || ps->name() == "Moon")
                 {
                     // Needn't be a plural form because sun / moon will never contract to 1 arcminute
-                    objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(ps->angSize()));
+                    objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", QLocale().toString(ps->angSize()));
                 }
 
                 else
                 {
-                    objSizeVal = xi18nc("angular size in arcseconds","%1 arcsec", KLocale::global()->formatNumber(ps->angSize() * 60.0));
+                    objSizeVal = xi18nc("angular size in arcseconds","%1 arcsec", QLocale().toString(ps->angSize() * 60.0));
                 }
             }
 
@@ -268,7 +268,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             if(dso->type() == SkyObject::RADIO_SOURCE)
             {
                 objMagLabel = xi18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
-                objMagVal = xi18nc("integrated flux value", "%1 %2", KLocale::global()->formatNumber(dso->flux(), 1),
+                objMagVal = xi18nc("integrated flux value", "%1 %2", QLocale().toString(dso->flux(), 1),
                                   dso->customCatalog()->fluxUnit()); //show to tenths place
             }
 
@@ -279,7 +279,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             else
             {
-                objMagVal = xi18nc("number in magnitudes", "%1 mag", KLocale::global()->formatNumber(dso->mag(), 1)); //show to tenths place
+                objMagVal = xi18nc("number in magnitudes", "%1 mag", QLocale().toString(dso->mag(), 1)); //show to tenths place
             }
 
             //No distances at this point...
@@ -288,12 +288,12 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             //Only show decimal place for small angular sizes
             if(dso->a() > 10.0)
             {
-                objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 0));
+                objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", QLocale().toString(dso->a(), 0));
             }
 
             else if(dso->a())
             {
-                objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", KLocale::global()->formatNumber(dso->a(), 1));
+                objSizeVal = xi18nc("angular size in arcminutes", "%1 arcmin", QLocale().toString(dso->a(), 1));
             }
 
             else
@@ -585,7 +585,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     QString aMassStr;
     if(obj->alt().Degrees() > 0.0)
     {
-        aMassStr = KLocale::global()->formatNumber(1./sin(obj->alt().radians() ), 2);
+        aMassStr = QLocale().toString(1./sin(obj->alt().radians() ), 2);
     }
 
     else

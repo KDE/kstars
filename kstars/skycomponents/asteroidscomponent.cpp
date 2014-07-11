@@ -30,14 +30,12 @@
 
 #include <cmath>
 #include <QDebug>
-#include <kglobal.h>
-#include <kio/job.h>
-#include <kio/netaccess.h>
-#include <kio/jobuidelegate.h>
-#include <kstandarddirs.h>
+#include <QStandardPaths>
 #include <QPen>
 #include <QStandardPaths>
 
+#include <KIOCore/KIO/Job>
+#include <KJobUiDelegate>
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent)
     : SolarSystemListComponent(parent) {
@@ -119,8 +117,8 @@ void AsteroidsComponent::loadData() {
     sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
 
-    QString file_name = KStandardDirs::locate( "appdata",
-                                               QString("asteroids.dat") );
+    //QString file_name = QStandardPaths::locate( QStandardPaths::DataLocation,  );
+    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("asteroids.dat"));
     KSParser asteroid_parser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
@@ -227,7 +225,7 @@ SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 }
 
 void AsteroidsComponent::updateDataFile() {
-    KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
+    QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
     QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbere"
     "d=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value="
     "12&c_fields=AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=C"
@@ -239,10 +237,11 @@ void AsteroidsComponent::updateDataFile() {
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file
-    KIO::StoredTransferJob* get_job = KIO::storedHttpPost( post_data,  url );
+    KIO::StoredTransferJob* get_job = KIO::storedPut( post_data,  url, -1 );
     get_job->addMetaData("content-type", content_type );
 
-    if( KIO::NetAccess::synchronousRun( get_job, 0 ) ) {
+    if( get_job->exec() )
+    {
         // Comment the first line
         QByteArray data = get_job->data();
         data.insert( 0, '#' );
@@ -257,7 +256,8 @@ void AsteroidsComponent::updateDataFile() {
         loadData();
 
         KStars::Instance()->data()->setFullTimeUpdate();
-    } else {
-        get_job->ui()->showErrorMessage();
+    } else
+    {
+        get_job->uiDelegate()->showErrorMessage();
     }
 }

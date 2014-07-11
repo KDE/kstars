@@ -37,28 +37,38 @@ find_package(KF5 REQUIRED COMPONENTS
   KIO
   WindowSystem
   XmlGui
+  Plotting
+  TextEditor
 )
 
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})
+include_directories(${EIGEN3_INCLUDE_DIR})
 
 #PyKDE4 Package TODO? Is there KF5 Package?
 
 find_package(CFitsio)
+SET(HAVE_CFITSIO CFITSIO_FOUND)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
 find_package(INDI)
-SET(INDI_FOUND HAVE_INDI_H)
+SET(HAVE_INDI INDI_FOUND)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "http://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
 find_package(WCSLIB)
+set(HAVE_WCSLIB WCSLIB_FOUND)
 set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System library" URL "http://www.atnf.csiro.au/people/mcalabre/WCS" TYPE OPTIONAL PURPOSE "WCS enables KStars to read and process world coordinate systems in FITS header.")
 
 # FIXME QJSON is not needed in Qt5
 find_package(QJSON)
 
 find_package(Xplanet)
+set(HAVE_XPLANET XPLANET_FOUND)
 set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE OPTIONAL PURPOSE "Gives KStars support for xplanet.")
+
+find_package(AstrometryNet)
+set(HAVE_ASTROMETRYNET ASTROMETRYNET_FOUND)
+set_package_properties(OpenGL PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE OPTIONAL PURPOSE "Support for plate solving in KStars.")
 
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "http://www.opengl.org" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")

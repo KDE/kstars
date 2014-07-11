@@ -15,28 +15,26 @@
 
 #include <kmessagebox.h>
 #include <klocale.h>
+
+#include <QLocale>
 #include <QDebug>
 #include <QPushButton>
-#include <kiconloader.h>
-#include <ktemporaryfile.h>
-#include <kio/netaccess.h>
-#include <kfiledialog.h>
-#include <kcombobox.h>
-#include <kurl.h>
-
+#include <QFileDialog>
 #include <QRgb>
-#include <qsocketnotifier.h>
-#include <qimage.h>
-#include <qpainter.h>
-#include <qstringlist.h>
-#include <qdir.h>
-#include <qlayout.h>
+#include <QSocketNotifier>
+#include <QImage>
+#include <QPainter>
+#include <QStringList>
+#include <QDir>
+#include <QLayout>
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
 #include <QByteArray>
 #include <QImageWriter>
 #include <QImageReader>
+#include <QIcon>
+#include <QTemporaryFile>
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -149,22 +147,22 @@ void StreamWG::captureImage()
 {
     QString fname;
     QString fmt;
-    KUrl currentFileURL;
+    QUrl currentFileURL;
     QString currentDir = Options::fitsDir();
-    KTemporaryFile tmpfile;
+    QTemporaryFile tmpfile;
     tmpfile.open();
 
     fmt = imgFormatCombo->currentText();
 
-    currentFileURL = KFileDialog::getSaveUrl( currentDir, fmt );
+    currentFileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Image"), currentDir, fmt );
 
     if (currentFileURL.isEmpty()) return;
 
     if ( currentFileURL.isValid() )
     {
-        currentDir = currentFileURL.directory();
+        //currentDir = currentFileURL.path();
 
-        if ( currentFileURL.isLocalFile() )
+        /*if ( currentFileURL.isLocalFile() )
             fname = currentFileURL.path();
         else
             fname = tmpfile.fileName();
@@ -173,12 +171,12 @@ void StreamWG::captureImage()
         {
             fname += '.';
             fname += fmt.toLower();
-        }
+        }*/
 
-        streamFrame->kPix.save(fname, fmt.toAscii());
+        streamFrame->kPix.save(currentFileURL.path(), fmt.toLatin1());
 
         //set rwx for owner, rx for group, rx for other
-        chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+        /*chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
         if ( tmpfile.fileName() == fname )
         { //need to upload to remote location
@@ -188,7 +186,7 @@ void StreamWG::captureImage()
                 QString message = xi18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
                 KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
             }
-        }
+        }*/
     }
     else
     {

@@ -38,7 +38,7 @@ public:
 
     ~FITSOverlay();
 
-    void addFITSOverlay(const dms &ra, const dms &dec, const KUrl &imageURL);
+    void addFITSOverlay(const dms &ra, const dms &dec, const QUrl &imageURL);
     //void removeFITSOverlay(const SkyPoint *clickedPoint);
 
     //const QPixmap *getPixmap() { return &pix;}
@@ -55,7 +55,7 @@ private:
     void loadImageFromURL();
     void openImage();
 
-    KUrl m_ImageUrl;
+    QUrl m_ImageUrl;
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QString filename;
     QFile file;

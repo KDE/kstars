@@ -278,7 +278,6 @@
   <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends></extends>
    <header>kurlrequester.h</header>
    <container>0</container>
    <pixmap></pixmap>

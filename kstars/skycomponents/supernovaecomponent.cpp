@@ -25,9 +25,8 @@
 #include "Options.h"
 #include "notifyupdatesui.h"
 
-#include "qDebug"
 #include "ksfilereader.h"
-#include "kstandarddirs.h"
+#include "QStandardPaths"
 #include "kstarsdata.h"
 
 SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent), m_Parser(0)
@@ -82,7 +81,7 @@ void SupernovaeComponent::loadData()
     sequence.append(qMakePair(QString("ignore3"),       KSParser::D_SKIP));
     sequence.append(qMakePair(QString("discoverers"),   KSParser::D_QSTRING));
 
-    QString file_name = KStandardDirs::locate("appdata",
+    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation,
                                                QString("supernovae.dat"));
     KSParser snParser(file_name, '#', sequence);
 
