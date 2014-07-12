@@ -109,6 +109,14 @@ void EkosManager::processINDIModeChange()
     if (newLocalMode == localMode)
         return;
 
+    if (managedDevices.count() > 0 || remote_indi != NULL)
+    {
+        KMessageBox::error(0, i18n("Cannot switch modes while INDI services are running."), i18n("Ekos Mode"));
+        kcfg_localMode->setChecked(!newLocalMode);
+        kcfg_remoteMode->setChecked(newLocalMode);
+        return;
+    }
+
     localMode = newLocalMode;
 
     reset();
