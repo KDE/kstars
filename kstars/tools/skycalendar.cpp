@@ -23,7 +23,6 @@
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QFontInfo>
-#include <kdeprintdialog.h>
 #include <QDebug>
 #include <KPlotting/KPlotObject>
 #include <QPushButton>
@@ -340,9 +339,11 @@ void SkyCalendar::slotPrint() {
     printer.setResolution( 300 );
 
     // Open print dialog
-    QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
-    dialog->setWindowTitle( xi18n( "Print sky calendar" ) );
-    if ( dialog->exec() == QDialog::Accepted ) {
+    //NOTE Changed from pointer to statically allocated object, what effect will it have?
+    //QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
+    QPrintDialog dialog( &printer, this );
+    dialog.setWindowTitle( xi18n( "Print sky calendar" ) );
+    if ( dialog.exec() == QDialog::Accepted ) {
         // Change mouse cursor
         QApplication::setOverrideCursor( Qt::WaitCursor );
 
@@ -392,7 +393,7 @@ void SkyCalendar::slotPrint() {
         // Restore mouse cursor
         QApplication::restoreOverrideCursor();
     }
-    delete dialog;
+    //delete dialog;
 }
 
 void SkyCalendar::slotLocation() {

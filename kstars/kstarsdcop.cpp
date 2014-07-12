@@ -29,10 +29,9 @@
 #include <QXmlStreamWriter>
 #include <QPushButton>
 #include <QDoubleSpinBox>
+#include <QLineEdit>
 
-#include <kdeprintdialog.h>
-#include <klineedit.h>
-#include <kactioncollection.h>
+#include <KActionCollection>
 
 #include "colorscheme.h"
 #include "kstars.h"
@@ -249,7 +248,7 @@ void KStars::readConfig() {
     //Reset date, if one was stored
     if ( data()->StoredDate.isValid() ) {
         data()->changeDateTime( data()->geo()->LTtoUT( data()->StoredDate ) );
-        data()->StoredDate = KDateTime(); //invalidate StoredDate
+        data()->StoredDate = QDateTime(); //invalidate StoredDate
     }
 
     map()->forceUpdate();
@@ -535,7 +534,8 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     if ( usePrintDialog ) {
         //QPRINTER_FOR_NOW
 //        ok = printer.setup( this, xi18n("Print Sky") );
-        QPrintDialog *dialog = KdePrint::createPrintDialog(&printer, this);
+        //QPrintDialog *dialog = KdePrint::createPrintDialog(&printer, this);
+        QPrintDialog *dialog = new QPrintDialog(&printer, this);
         dialog->setWindowTitle( xi18n("Print Sky") );
         if ( dialog->exec() == QDialog::Accepted )
             ok = true;

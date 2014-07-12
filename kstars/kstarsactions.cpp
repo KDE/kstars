@@ -29,6 +29,7 @@
 #include <QDialog>
 #include <QDockWidget>
 #include <QPointer>
+#include <QInputDialog>
 
 #include <QDebug>
 #include <QAction>
@@ -79,14 +80,16 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
-#include "tools/whatsinteresting/wiview.h"
-#include "tools/whatsinteresting/wilpsettings.h"
-#include "tools/whatsinteresting/wiequipsettings.h"
+//FIXME Port to KF5
+//#include "tools/whatsinteresting/wiview.h"
+//#include "tools/whatsinteresting/wilpsettings.h"
+//#include "tools/whatsinteresting/wiequipsettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
-#include "tools/moonphasetool.h"
+//FIXME Port to KF5
+//#include "tools/moonphasetool.h"
 #include "tools/flagmanager.h"
 #include "oal/execute.h"
 #include "projections/projector.h"
@@ -217,9 +220,10 @@ void KStars::slotViewToolBar() {
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator() {
-    if( ! astrocalc )
+    //FIXME Port to KF5
+    /*if( ! astrocalc )
         astrocalc = new AstroCalc (this);
-    astrocalc->show();
+    astrocalc->show();*/
 }
 
 void KStars::slotWizard() {
@@ -294,6 +298,8 @@ void KStars::slotWUT() {
 
 void KStars::slotWISettings()
 {
+    /*FIXME Port to KF5
+     *
     if (wi && !wiDock->isVisible())
     {
         slotShowWIView(1);
@@ -316,10 +322,13 @@ void KStars::slotWISettings()
     dialog->addPage(wiLPSettings, xi18n("Light Pollution Settings"));
     dialog->addPage(wiEquipSettings, xi18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
+    */
 }
 
 void KStars::slotShowWIView(int status)
 {
+#if 0
+    //FIXME Port to KF5
     if (status == 0) return;          //Cancelled
 
     int bortle = Options::bortleClass();
@@ -362,6 +371,7 @@ void KStars::slotShowWIView(int status)
         wi->updateModels(wiObsConditions);
         wiDock->setVisible(true);
     }
+#endif
 }
 
 void KStars::slotCalendar() {
@@ -395,8 +405,9 @@ void KStars::slotJMoonTool() {
 }
 
 void KStars::slotMoonPhaseTool() {
-    if( ! mpt ) mpt = new MoonPhaseTool( this );
-    mpt->show();
+    //FIXME Port to KF5
+    //if( ! mpt ) mpt = new MoonPhaseTool( this );
+    //mpt->show();
 }
 
 void KStars::slotFlagManager() {
@@ -1013,10 +1024,10 @@ void KStars::slotSetZoom() {
     double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
     double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
 
-    double angSize = KInputDialog::getDouble( xi18nc( "The user should enter an angle for the field-of-view of the display",
+    double angSize = QInputDialog::getDouble(0,xi18nc( "The user should enter an angle for the field-of-view of the display",
                                                      "Enter Desired Field-of-View Angle" ),
                                               xi18n( "Enter a field-of-view angle in degrees: " ),
-                                              currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
+                                              currentAngle, minAngle, maxAngle, 1, &ok );
 
     if( ok ) {
         map()->setZoomFactor( map()->width() / ( angSize * dms::DegToRad ) );

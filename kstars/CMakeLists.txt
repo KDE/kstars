@@ -1,7 +1,8 @@
 add_subdirectory( data )
 add_subdirectory( icons )
 add_subdirectory( htmesh )
-add_subdirectory( tools/whatsinteresting/qml)
+#TODO Port to KF5
+#add_subdirectory( tools/whatsinteresting/qml)
 
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
@@ -160,16 +161,17 @@ set(libkstarstools_SRCS
 	tools/scriptfunction.cpp
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
-	tools/whatsinteresting/skyobjlistmodel.cpp
-	tools/whatsinteresting/wiview.cpp
-	tools/whatsinteresting/modelmanager.cpp
-	tools/whatsinteresting/skyobjitem.cpp
-	tools/whatsinteresting/wilpsettings.cpp
-	tools/whatsinteresting/wiequipsettings.cpp
-	tools/whatsinteresting/obsconditions.cpp
-        tools/whatsinteresting/skyobjdescription.cpp
+#FIXME Port to KF5
+#	tools/whatsinteresting/skyobjlistmodel.cpp
+#	tools/whatsinteresting/wiview.cpp
+#	tools/whatsinteresting/modelmanager.cpp
+#	tools/whatsinteresting/skyobjitem.cpp
+#	tools/whatsinteresting/wilpsettings.cpp
+#	tools/whatsinteresting/wiequipsettings.cpp
+#	tools/whatsinteresting/obsconditions.cpp
+ #       tools/whatsinteresting/skyobjdescription.cpp
 	tools/flagmanager.cpp
-	tools/moonphasetool.cpp
+#	tools/moonphasetool.cpp
 	tools/starhopper.cpp
 	tools/eyepiecefield.cpp
 	)
@@ -233,8 +235,9 @@ qt5_wrap_ui(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
-	tools/whatsinteresting/wilpsettings.ui
-	tools/whatsinteresting/wiequipsettings.ui
+#FIXME needs porting
+#	tools/whatsinteresting/wilpsettings.ui
+#	tools/whatsinteresting/wiequipsettings.ui
         )
 
 
@@ -389,7 +392,7 @@ set(kstars_projection_SRCS
 
 set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
-	imageviewer.cpp
+        imageviewer.cpp kstarsdcop.cpp
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
 	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
@@ -498,6 +501,7 @@ target_link_libraries(KStarsLib
         KF5::TextEditor
         KF5::DBusAddons
         KF5::IconThemes
+        KF5::Declarative
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql

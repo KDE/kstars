@@ -53,7 +53,7 @@ FocusDialog::FocusDialog( KStars *_ks )
     //setMainWidget(fd);
     //setButtons( QDialog::Ok|QDialog::Cancel );
 
-    fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
+    fd->epochBox->setValidator( new QDoubleValidator( fd->epochBox ) );
     fd->raBox->setMinimumWidth( fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width() );
     fd->azBox->setMinimumWidth( fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width() );
 
