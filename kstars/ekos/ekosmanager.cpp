@@ -957,6 +957,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     initCapture();
 
     connect(filter, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
+    connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processNewText(ITextVectorProperty*)));
 
     captureProcess->addFilter(filter);
 }
@@ -1008,6 +1009,14 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
 }
 
+void EkosManager::processNewText(ITextVectorProperty *tvp)
+{
+    if (!strcmp(tvp->name, "FILTER_NAME"))
+    {
+        if (captureProcess)
+            captureProcess->checkFilter();
+    }
+}
 
 void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 {
