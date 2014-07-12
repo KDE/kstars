@@ -25,7 +25,7 @@
 #include <QHBoxLayout>
 #include <QPaintEvent>
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QDebug>
 #include <QPushButton>
 

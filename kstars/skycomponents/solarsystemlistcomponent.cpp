@@ -19,7 +19,7 @@
 #include "solarsystemcomposite.h"
 
 #include <QPen>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "Options.h"
 #include "skyobjects/ksplanet.h"

@@ -23,7 +23,7 @@
 
 
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "Options.h"
 #include "kstarsdata.h"

@@ -90,7 +90,7 @@ ObsListWizard::ObsListWizard( QWidget *ksparent ) :
 
     geo = KStarsData::Instance()->geo();
     olw->LocationButton->setText( geo->fullName() );
-    olw->Date->setDate(KStarsDateTime::currentLocalDate());
+    olw->Date->setDate(KStarsDateTime::currentDateTime().date());
     olw->timeFrom->setTime(QTime(18, 0));
     olw->timeTo->setTime(QTime(23, 59));
 

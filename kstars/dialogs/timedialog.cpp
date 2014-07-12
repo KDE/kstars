@@ -18,7 +18,7 @@
 
 #include "timedialog.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QPushButton>
 #include <kdatepicker.h>
 
@@ -95,7 +95,7 @@ void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 
 void TimeDialog::setNow( void )
 {
-    KStarsDateTime dt( KStarsDateTime::currentDateTime( QDateTime::Spec::UTC() ) );
+    KStarsDateTime dt( KStarsDateTime::currentDateTimeUtc() );
     if ( ! UTCNow )
         dt = geo->UTtoLT( dt );
 

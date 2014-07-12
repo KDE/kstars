@@ -21,7 +21,7 @@
 #include <QPointF>
 #include <QPolygonF>
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "kstarsdata.h"
 #include "skymap.h"

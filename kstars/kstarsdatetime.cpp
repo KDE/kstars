@@ -18,7 +18,7 @@
 #include "kstarsdatetime.h"
 
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "ksnumbers.h"
 #include "dms.h"
@@ -33,7 +33,7 @@ KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : QDateTime()
     setDJD( kdt.djd() );
 }
 
-KStarsDateTime::KStarsDateTime( const QDateTime &kdt ) :
+/*KStarsDateTime::KStarsDateTime( const QDateTime &kdt ) :
     QDateTime( kdt )
 {
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
@@ -41,10 +41,10 @@ KStarsDateTime::KStarsDateTime( const QDateTime &kdt ) :
     QDate _d = kdt.date();
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
-}
+}*/
 
 KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
-    QDateTime( qdt, QDateTime::Spec::UTC() )
+    QDateTime( qdt )//, QDateTime::Spec::UTC() )
 {
     QTime _t = qdt.time();
     QDate _d = qdt.date();
@@ -53,7 +53,8 @@ KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
 }
 
 KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t ) :
-    QDateTime( _d, _t, QDateTime::Spec::UTC() )
+    //QDateTime( _d, _t, QDateTime::Spec::UTC() )
+    QDateTime( _d, _t, Qt::UTC )
 {
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
@@ -64,10 +65,19 @@ KStarsDateTime::KStarsDateTime( long double _jd ) : QDateTime() {
     setDJD( _jd );
 }
 
-KStarsDateTime KStarsDateTime::currentDateTime( QDateTime::Spec spec ) {
-    KStarsDateTime dt( QDateTime::currentDateTime(spec) );
-    if ( dt.time().hour()==0 && dt.time().minute()==0 )        // midnight or right after?
-        dt.setDate( QDateTime::currentDateTime(spec).date() ); // fetch date again
+//KStarsDateTime KStarsDateTime::currentDateTime( QDateTime::Spec spec ) {
+KStarsDateTime KStarsDateTime::currentDateTime() {
+    KStarsDateTime dt( QDateTime::currentDateTime() );
+   // if ( dt.time().hour()==0 && dt.time().minute()==0 )        // midnight or right after?
+     //   dt.setDate( QDateTime::currentDateTime(spec).date() ); // fetch date again
+
+    return dt;
+}
+
+KStarsDateTime KStarsDateTime::currentDateTimeUtc( ) {
+    KStarsDateTime dt( QDateTime::currentDateTimeUtc() );
+    //if ( dt.time().hour()==0 && dt.time().minute()==0 )        // midnight or right after?
+//        dt.setDate( QDateTime::currentDateTime(spec).date() ); // fetch date again
 
     return dt;
 }
@@ -76,15 +86,16 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     //DEBUG
     qDebug() << "Date string: " << s;
 
-    KStarsDateTime dtResult = QDateTime::fromString( s, QDateTime::QtTextDate );
+    KStarsDateTime dtResult = QDateTime::fromString( s, Qt::TextDate );
     if ( dtResult.isValid() )
         return dtResult;
 
-    dtResult = QDateTime::fromString( s, QDateTime::ISODate );
+    dtResult = QDateTime::fromString( s, Qt::ISODate );
     if ( dtResult.isValid() )
         return dtResult;
 
-    dtResult = QDateTime::fromString( s, QDateTime::RFCDate );
+    //dtResult = QDateTime::fromString( s, QDateTime::RFCDate );
+    dtResult = QDateTime::fromString( s, Qt::RFC2822Date );
     if ( dtResult.isValid() )
         return dtResult;
 
@@ -97,7 +108,8 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
 }
 
 void KStarsDateTime::setDJD( long double _jd ) {
-    QDateTime::setTimeSpec( QDateTime::Spec::UTC() );
+    //QDateTime::setTimeSpec( QDateTime::Spec::UTC() );
+    QDateTime::setTimeSpec( Qt::UTC );
 
     DJD = _jd;
     long int ijd = (long int)_jd;

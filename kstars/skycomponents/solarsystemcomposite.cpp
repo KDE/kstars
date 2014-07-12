@@ -17,7 +17,7 @@
 
 #include "solarsystemcomposite.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "solarsystemsinglecomponent.h"
 #include "asteroidscomponent.h"

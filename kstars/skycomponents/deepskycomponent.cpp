@@ -20,7 +20,7 @@
 #include <QDir>
 #include <QFile>
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QStandardPaths>
 #include <QStandardPaths>
 

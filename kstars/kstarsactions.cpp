@@ -607,7 +607,7 @@ void KStars::slotSetTime() {
 
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
-    data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
+    data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
 
     if ( Options::useAltAz() ) {
         if ( map()->focusObject() ) {

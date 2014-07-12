@@ -25,7 +25,7 @@
 #include <kcomponentdata.h>
 #include <kmessagebox.h>
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QStandardPaths>
 
 #include "Options.h"
@@ -113,7 +113,7 @@ KStarsData::KStarsData() :
     m_ksuserdb(),
     m_catalogdb(),
     temporaryTrail( false ),
-    locale( new KLocale( "kstars" ) ),
+    //locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
@@ -127,7 +127,7 @@ KStarsData::KStarsData() :
 KStarsData::~KStarsData() {
     Q_ASSERT( pinstance );
 
-    delete locale;
+    //delete locale;
     delete m_logObject;
 
     qDeleteAll( geoList );
@@ -490,8 +490,10 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
     bool fileFound = false;
     QFile localeFile;
 
-    if ( locale->language() != "en_US" )
-        localFile = locale->language() + '/' + urlfile;
+    //if ( locale->language() != "en_US" )
+    if ( QLocale().language() != QLocale::English )
+        //localFile = locale->language() + '/' + urlfile;
+        localFile = QLocale().languageToString(QLocale().language()) + '/' + urlfile;
 
     if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) ) {
         fileFound = true;
@@ -571,7 +573,8 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
 
         } else {
             if ( KSUtils::openDataFile( file, urlfile ) ) {
-                if ( locale->language() != "en_US" ) qDebug() << xi18n( "No localized URL file; using default English file." );
+                //if ( locale->language() != "en_US" ) qDebug() << xi18n( "No localized URL file; using default English file." );
+                if ( QLocale().language() != QLocale::English ) qDebug() << xi18n( "No localized URL file; using default English file." );
                 // we found urlfile, we need to copy it to locale
                 localeFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + urlfile ) ;
                 if (localeFile.open(QIODevice::WriteOnly)) {

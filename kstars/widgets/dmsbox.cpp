@@ -20,7 +20,7 @@
 #include <cstdlib>
 
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QRegExp>
 #include <QFocusEvent>

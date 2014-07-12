@@ -18,7 +18,7 @@
 #include "timezonerule.h"
 
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "kstarsdatetime.h"
 

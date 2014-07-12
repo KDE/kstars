@@ -20,7 +20,7 @@
 #define KSTARS_KSUSERDB_H
 #define KSTARS_USERDB "data/userdb.sqlite"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QSqlQuery>

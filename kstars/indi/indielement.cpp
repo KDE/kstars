@@ -32,7 +32,7 @@
 #include <QPushButton>
 #include <KSqueezedTextLabel>
 #include <QLineEdit>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KLed>
 #include <QFileDialog>
 #include <KMessageBox>

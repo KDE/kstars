@@ -20,7 +20,7 @@
 #include "skypoint.h"
 
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "skyobject.h"
 #include "dms.h"

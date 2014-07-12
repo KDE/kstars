@@ -21,7 +21,7 @@
 #include <kio/job.h>
 
 #include <kfileitem.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <qmath.h>
 #include <QStandardPaths>
 

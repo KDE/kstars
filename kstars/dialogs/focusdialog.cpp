@@ -19,7 +19,7 @@
 
 #include <QVBoxLayout>
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 #include <knumvalidator.h>
 

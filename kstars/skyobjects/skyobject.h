@@ -22,7 +22,7 @@
 #include <QStringList>
 #include <QSharedDataPointer>
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "skypoint.h"
 #include "kstars/dms.h"

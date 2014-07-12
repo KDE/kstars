@@ -126,22 +126,24 @@ int main(int argc, char *argv[])
         if ( ! datestring.isEmpty() ) {
             if ( datestring.contains( "-" ) ) { //assume ISODate format
                 if ( datestring.contains( ":" ) ) { //also includes time
-                    kdt = QDateTime::fromString( datestring, QDateTime::ISODate );
+                    //kdt = QDateTime::fromString( datestring, QDateTime::ISODate );
+                    kdt = QDateTime::fromString( datestring, Qt::ISODate );
                 } else { //string probably contains date only
+                    //kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
                     kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
                     kdt.setTime( QTime( 0, 0, 0 ) );
                 }
             } else { //assume Text format for date string
-                kdt = dat->geo()->LTtoUT( QDateTime::fromString( datestring, QDateTime::QtTextDate ) );
+                kdt = dat->geo()->LTtoUT( QDateTime::fromString( datestring, Qt::TextDate ) );
             }
 
             if ( ! kdt.isValid() ) {
                 qWarning() << xi18n( "Using CPU date/time instead." ) ;
 
-                kdt = KStarsDateTime::currentUtcDateTime();
+                kdt = KStarsDateTime::currentDateTimeUtc();
             }
         } else {
-            kdt = KStarsDateTime::currentUtcDateTime();
+            kdt = KStarsDateTime::currentDateTimeUtc();
         }
         dat->clock()->setUTC( kdt );
 

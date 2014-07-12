@@ -111,7 +111,7 @@ public:
     bool isTimeRunningForward() const { return TimeRunsForward; }
 
     /**@return pointer to the localization (KLocale) object */
-    KLocale *getLocale() { return locale; }
+    //KLocale *getLocale() { return locale; }
 
     /**@short Find object by name.
      * @param name Object name to find
@@ -364,7 +364,7 @@ private:
     // FIXME: Used in SkyMap only. Check!
     bool snapToFocus;
 
-    KLocale *locale;
+    //KLocale *locale;
 
     dms LST;
 

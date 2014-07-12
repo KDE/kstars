@@ -97,7 +97,7 @@ void Execute::init() {
     ui.Location->setText( geo->fullName() );
 
     //set the date time to the dateTime from the OL
-    ui.Begin->setDateTime( ks->observingList()->dateTime().dateTime() );
+    ui.Begin->setDateTime( ks->observingList()->dateTime() );
 
     //load Targets
     loadTargets();

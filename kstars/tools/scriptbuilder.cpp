@@ -1196,7 +1196,7 @@ void ScriptBuilder::writeScript( QTextStream &ostream )
     ostream << "#!/bin/bash" << endl;
     ostream << "#KStars DBus script: " << currentScriptName << endl;
     ostream << "#by " << currentAuthor << endl;
-    ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString( QDateTime::ISODate ) << endl;
+    ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString( Qt::ISODate ) << endl;
     ostream << "#" << endl;
 
     foreach ( ScriptFunction *sf, ScriptList )

@@ -21,7 +21,7 @@
 #include <QVBoxLayout>
 #include <QDialog>
 #include <klineedit.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "ui_addlinkdialog.h"
 

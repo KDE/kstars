@@ -25,7 +25,7 @@
 #include <QLineEdit>
 
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #define SECS_PER_DAY 86400.
 #define SIDEREAL_YEAR 31558149.77

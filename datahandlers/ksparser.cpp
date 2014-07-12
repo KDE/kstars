@@ -17,7 +17,7 @@
 
 #include "ksparser.h"
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 const int KSParser::EBROKEN_INT = 0;
 const double KSParser::EBROKEN_DOUBLE = 0.0;

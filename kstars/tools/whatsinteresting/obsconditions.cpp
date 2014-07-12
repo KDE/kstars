@@ -95,7 +95,7 @@ double ObsConditions::getTrueMagLim()
 
 bool ObsConditions::isVisible(GeoLocation *geo, dms *lst, SkyObject *so)
 {
-    KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(QDateTime::currentLocalDateTime()));
+    KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
     SkyPoint sp = so->recomputeCoords(ut, geo);
 
     //check altitude of object at this time.

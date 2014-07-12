@@ -22,7 +22,7 @@
 #include <QListWidgetItem>
 
 #include <QComboBox>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QPushButton>
 #include <KLocalizedString>
 

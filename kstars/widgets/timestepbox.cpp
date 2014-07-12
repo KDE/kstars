@@ -22,7 +22,7 @@
 #include <QHBoxLayout>
 
 #include <QDebug>
-#include <klocale.h>
+#include <KLocalizedString>
 
 TimeStepBox::TimeStepBox( QWidget *parent, bool daysonly )
         : QWidget( parent ) {

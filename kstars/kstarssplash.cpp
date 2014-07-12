@@ -17,7 +17,7 @@
 
 #include "kstarssplash.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <QStandardPaths>
 #include <QStandardPaths>
 

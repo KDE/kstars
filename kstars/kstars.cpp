@@ -83,7 +83,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     if ( ! StartDateString.isEmpty() && startDate.isValid() )
         data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
     else
-        data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
+        data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
 
     // Initialize clock. If --paused is not in the comand line, look in options
     if ( clockrun )

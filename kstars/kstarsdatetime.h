@@ -118,12 +118,14 @@ public:
     inline bool operator >= ( const KStarsDateTime &d ) const { return DJD >= d.djd(); }
 
     /**
-     *@return the date and time according to the CPU clock
-     *@p ts a Qt::TimeSpec value that determines whether the date is
-     *computed from the Local Time or the Universal Time.
-     *@sa Qt::TimeSpec
+     *@return the date and time according to the CPU clock     
      */
-    static KStarsDateTime currentDateTime(QDateTime::Spec ts = QDateTime::Spec::ClockTime());
+    static KStarsDateTime currentDateTime();
+
+    /**
+     *@return the UTC date and time according to the CPU clock
+     */
+    static KStarsDateTime currentDateTimeUtc();
 
     /**
      *@return a KStarsDateTime object parsed from the given string.

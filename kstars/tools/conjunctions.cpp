@@ -62,8 +62,11 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
     KStarsDateTime dtStop ( dtStart.djd() + 365.24 ); // TODO: Refine
 
-    startDate -> setDateTime( dtStart.dateTime() );
-    stopDate -> setDateTime( dtStop.dateTime() );
+    //startDate -> setDateTime( dtStart.dateTime() );
+    //stopDate -> setDateTime( dtStop.dateTime() );
+    //TODO Check if this change works
+    startDate -> setDateTime( dtStart );
+    stopDate -> setDateTime( dtStop );
 
     geoPlace = kd -> geo();
     LocationButton -> setText( geoPlace -> fullName() );
@@ -391,7 +394,9 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
 
         itemList << typeItem
                 //FIXME TODO is this ISO date? is there a ready format to use?
-                << new QStandardItem( QLocale().toString( dt.dateTime(), "YYYY-MM-DDTHH:mm:SS" ) )
+                //<< new QStandardItem( QLocale().toString( dt.dateTime(), "YYYY-MM-DDTHH:mm:SS" ) )
+                //<< new QStandardItem( QLocale().toString( dt, Qt::ISODate) )
+                << new QStandardItem( dt.toString(Qt::ISODate) )
                 << new QStandardItem( object1 )
                 << new QStandardItem( object2 )
                 << new QStandardItem( it.value().toDMSString() );

@@ -20,7 +20,7 @@
 #ifndef GEOLOCATION_H_
 #define GEOLOCATION_H_
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include "dms.h"
 #include "timezonerule.h"

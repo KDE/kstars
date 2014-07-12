@@ -30,7 +30,7 @@
 #include <QProgressDialog>
 
 #include <KMessageBox>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #ifdef HAVE_WCSLIB
 #include <wcshdr.h>

@@ -14,7 +14,7 @@
 #include "Options.h"
 
 #include <kmessagebox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QLocale>
 #include <QDebug>

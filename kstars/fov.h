@@ -21,7 +21,7 @@
 #include <QList>
 
 #include <QString>
-#include <klocale.h>
+#include <KLocalizedString>
 
 class QPainter;
 
