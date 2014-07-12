@@ -495,6 +495,18 @@ void EkosManager::processINDI()
 
     if (localMode)
     {
+        if (isRunning("indiserver"))
+        {
+            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you to shutdown down existing instance before starting a new one?"),
+                                                                i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
+            {
+                //TODO is there a better way to do this.
+                QProcess p;
+                p.start("pkill indiserver");
+                p.waitForFinished();
+            }
+        }
+
         if (DriverManager::Instance()->startDevices(managedDevices) == false)
         {
             INDIListener::Instance()->disconnect(this);
@@ -1330,6 +1342,15 @@ void EkosManager::removeTabs()
 
         aux = NULL;
 
+}
+
+bool EkosManager::isRunning(const QString &process)
+{
+  QProcess ps;
+  ps.start("ps", QStringList() << "-o" << "comm" << "--no-headers" << "-C" << process);
+  ps.waitForFinished();
+  QString output = ps.readAllStandardOutput();
+  return output.startsWith(process);
 }
 
 
