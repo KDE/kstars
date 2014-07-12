@@ -967,9 +967,9 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     initFocus();
 
-    focusProcess->setFocuser(focuser);
+    focusProcess->addFocuser(focuser);
 
-    appendLogText(i18n("%1 is online.", focuser->getDeviceName()));
+    appendLogText(i18n("%1 focuser is online.", focuser->getDeviceName()));
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
