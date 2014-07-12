@@ -288,6 +288,8 @@ bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter
             else
                 fitsTab->setTabText(tabIndex, imageName->fileName());
         }
+
+        tab->getUndoStack()->clear();
     }
 
     if (tab->isVisible())
