@@ -7,7 +7,6 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <config-kstars.h>
 #include <QProcess>
 
 #include "kstars.h"
@@ -374,8 +373,21 @@ void Align::generateArgs()
 
     getFormattedCoords(ra, dec, ra_dms, dec_dms);
 
-    solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
-                << "--downsample" << "2" << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
+    if (solverOptions->text().isEmpty())
+    {
+        solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
+                    << "--downsample" << "2" << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
+    }
+    else
+    {
+        solver_args = solverOptions->text().split(" ");
+        int fov_low_index = solver_args.indexOf("-L");
+        if (fov_low_index != -1)
+            solver_args.replace(fov_low_index+1, fov_low);
+        int fov_high_index = solver_args.indexOf("-H");
+        if (fov_high_index != -1)
+            solver_args.replace(fov_high_index+1, fov_high);
+    }
 
     if (raBox->isEmpty() == false && decBox->isEmpty() == false)
     {
@@ -408,7 +420,24 @@ void Align::generateArgs()
             return;
         }
 
-        solver_args << "-3" << QString().setNum(ra.Degrees()) << "-4" << QString().setNum(dec.Degrees()) << "-5" << QString().setNum(radius);
+        int ra_index = solver_args.indexOf("-3");
+        if (ra_index == -1)
+            solver_args << "-3" << QString().setNum(ra.Degrees());
+        else
+            solver_args.replace(ra_index+1, QString().setNum(ra.Degrees()));
+
+        int de_index = solver_args.indexOf("-4");
+        if (de_index == -1)
+            solver_args << "-4" << QString().setNum(dec.Degrees());
+        else
+            solver_args.replace(de_index+1, QString().setNum(dec.Degrees()));
+
+        int rad_index = solver_args.indexOf("-5");
+        if (rad_index == -1)
+            solver_args << "-5" << QString().setNum(radius);
+        else
+            solver_args.replace(rad_index+1, QString().setNum(radius));
+
      }
 
     solverOptions->setText(solver_args.join(" "));

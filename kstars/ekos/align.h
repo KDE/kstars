@@ -13,6 +13,8 @@
 #include <QProcess>
 #include <QTime>
 
+#include <config-kstars.h>
+
 #include "capture.h"
 
 #include "ui_align.h"
