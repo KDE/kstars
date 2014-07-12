@@ -1264,7 +1264,7 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 
 void Capture::syncTelescopeInfo()
 {
-    if (currentTelescope && currentTelescope->isConnected())
+    if (currentCCD && currentTelescope && currentTelescope->isConnected())
     {
         parkCheck->setEnabled(currentTelescope->canPark());
 
