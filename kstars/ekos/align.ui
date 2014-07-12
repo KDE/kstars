@@ -396,11 +396,27 @@
          <layout class="QHBoxLayout" name="horizontalLayout_12">
           <item>
            <widget class="QCheckBox" name="kcfg_solverUpdateCoords">
+            <property name="toolTip">
+             <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
+            </property>
             <property name="statusTip">
              <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
             </property>
             <property name="text">
-             <string>Update Coordinates After Slew</string>
+             <string>Update Coords</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_solverPreview">
+            <property name="toolTip">
+             <string>Display image in FITS Viewer</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Preview</string>
             </property>
            </widget>
           </item>
@@ -410,7 +426,7 @@
              <string>Log verbose solver output</string>
             </property>
             <property name="statusTip">
-             <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
+             <string/>
             </property>
             <property name="text">
              <string>Verbose</string>
