@@ -154,28 +154,57 @@
        <item>
         <widget class="QGroupBox" name="groupBox_6">
          <property name="title">
-          <string>Focus Mode</string>
+          <string>Focuser</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
           <item>
-           <widget class="QRadioButton" name="manualModeR">
-            <property name="text">
-             <string>Manual</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Focuser:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Mode:</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QRadioButton" name="AutoModeR">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Auto</string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <widget class="KComboBox" name="focuserCombo"/>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QRadioButton" name="manualModeR">
+                <property name="text">
+                 <string>Manual</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="AutoModeR">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Auto</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
           <item>
            <spacer name="horizontalSpacer_5">

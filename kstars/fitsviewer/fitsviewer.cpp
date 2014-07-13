@@ -207,7 +207,7 @@ FITSViewer::~FITSViewer()
     qDeleteAll(fitsImages);
 }
 
-int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter)
+int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter, bool preview)
 {
 
     FITSTab *tab = new FITSTab(this);
@@ -231,7 +231,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter)
     switch (mode)
     {
       case FITS_NORMAL:
-        fitsTab->addTab(tab, Options::singlePreviewFITS() ? xi18n("Preview") : imageName->fileName());
+        fitsTab->addTab(tab, preview ? i18n("Preview") : imageName->fileName());
         break;
 
        case FITS_CALIBRATE:
@@ -298,6 +298,8 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
             else
                 fitsTab->setTabText(tabIndex, imageName->fileName());
         }
+
+        tab->getUndoStack()->clear();
     }
 
     if (tab->isVisible())
@@ -555,9 +557,11 @@ void FITSViewer::updateTabStatus(bool clean)
   if (fitsImages[fitsTab->currentIndex()]->getImage()->getMode() != FITS_NORMAL)
       return;
 
-  QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
+  //QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
-  fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText : tabText + '*');
+  QString tabText = fitsTab->tabText(fitsTab->currentIndex());
+
+  fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
 }
 
 void FITSViewer::closeTab(int index)

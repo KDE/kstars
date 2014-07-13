@@ -73,6 +73,7 @@ Focus::Focus()
     connect(kcfg_subFrame, SIGNAL(toggled(bool)), this, SLOT(subframeUpdated(bool)));
 
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+    connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
 
     lastFocusDirection = FOCUS_NONE;
 
@@ -152,9 +153,24 @@ void Focus::checkCCD(int ccdNum)
 
 }
 
-void Focus::setFocuser(ISD::GDInterface *newFocuser)
+void Focus::addFocuser(ISD::GDInterface *newFocuser)
 {
+    focuserCombo->addItem(newFocuser->getDeviceName());
+
+    Focusers.append(static_cast<ISD::Focuser*>(newFocuser));
+
     currentFocuser = static_cast<ISD::Focuser *> (newFocuser);
+
+    checkFocuser();
+}
+
+void Focus::checkFocuser(int FocuserNum)
+{
+    if (FocuserNum == -1)
+        FocuserNum = focuserCombo->currentIndex();
+
+    if (FocuserNum <= Focusers.count())
+        currentFocuser = Focusers.at(FocuserNum);
 
     if (currentFocuser->canAbsMove())
     {
@@ -167,6 +183,7 @@ void Focus::setFocuser(ISD::GDInterface *newFocuser)
     AutoModeR->setEnabled(true);
 
     resetButtons();
+
 }
 
 void Focus::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)

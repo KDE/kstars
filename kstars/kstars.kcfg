@@ -1418,6 +1418,11 @@
               <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
               <default>false</default>
           </entry>
+          <entry name="SolverPreview" type="Bool">
+              <label>Display image in FITS Viewer.</label>
+              <whatsthis>Display captured image in FITS Viewer before starting the plate solving process.</whatsthis>
+              <default>false</default>
+          </entry>
           <entry name="SolverOnline" type="Bool">
               <label>Use astrometry.net online solver.</label>
               <default>true</default>
