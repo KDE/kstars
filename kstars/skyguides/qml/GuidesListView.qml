@@ -1,36 +1,43 @@
 import QtQuick 1.0
+import QtWebKit 1.0
 
 Rectangle
 {
+	id: rootRect
 	width: 210
 	height: 400
 
-// 	ListModel
-// 	{
-// 		id: guidesModel
-// 
-// 		ListElement
-// 		{
-// 			name: "Jupiter Tempests"
-// 			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_the_big/"
-// 		}
-// 		
-// 		ListElement {
-// 			name: "Jupiter the Big"
-// 			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_documentary/"
-// 		}
-// 		
-// 		ListElement
-// 		{
-// 			name: "Jupiter Eye"
-// 			path: "file:///home/gioacchino/Development/kstars/kstars/skyguides/example_guides/jupiter_the_big/"
-// 		}
-// 	}
+	WebView
+	{
+		id: webView
+		visible: false
+		z: 2
+		onLoadFinished:
+		{
+			rootRect.width = width;
+			rootRect.height = height;
+		}
+	}
+
+	Text
+	{
+		id: progressText
+		visible: ((webView.progress > 0.01) && (webView.progress < 1) )
+		z:3
+		color: "white"
+		text: webView.progress*100 + "%"
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.verticalCenter: parent.verticalCenter
+		height: 30
+		width: 100
+	}
 
 	ListView
 	{
 		height: parent.height - anchors.margins * 2
 		width: parent.width - anchors.margins * 2
+		visible: !webView.visible
+		z: 1
 		anchors.margins: 8
 		anchors.top: parent.top
 		anchors.left: parent.left
@@ -64,12 +71,18 @@ Rectangle
 					anchors.margins: 3
 					anchors.top: titleText.bottom
 					anchors.left: parent.left
-					source: path + "thumbnail.png"
+					source: path + "/thumbnail.png"
 				}
 				
 				MouseArea
 				{
-					onClicked: console.log("button clicked")
+					anchors.fill: parent
+
+					onClicked:
+					{
+						webView.visible = true;
+						webView.url = path + "/index.html"
+					}
 				}
 			}
 		}
