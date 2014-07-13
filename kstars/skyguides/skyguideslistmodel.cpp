@@ -54,7 +54,7 @@ void SkyGuidesListModel::updateSkyObject(const SkyObject * obj)
 {
 	if (obj)
 	{
-		if ( actualSkyObject && (!( (*actualSkyObject) == (*obj) )) )
+		if ( actualSkyObject && ( (*actualSkyObject) == (*obj) ) )
 			return;
 
 		KStandardDirs ksd;
