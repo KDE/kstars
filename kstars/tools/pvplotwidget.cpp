@@ -235,17 +235,6 @@ void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
         update();
     }
 
-    pv->setCenterPlanet( QString() );
-//    for ( unsigned int i=0; i<9; ++i ) {
-//        KPlotPoint *point = pv->planetObject(i)->points().at(0);
-//        double dx = ( point->x() - xc )/xscale;
-//        if ( dx < 4.0 ) {
-//            double dy = ( point->y() - yc )/yscale;
-//            if ( sqrt( dx*dx + dy*dy ) < 4.0 ) {
-//                pv->setCenterPlanet( pv->planetName(i) );
-//            }
-//        }
-//    }
 }
 
 void PVPlotWidget::wheelEvent( QWheelEvent *e ) {
