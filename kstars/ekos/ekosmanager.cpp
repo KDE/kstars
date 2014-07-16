@@ -505,7 +505,7 @@ void EkosManager::processINDI()
     {
         if (isRunning("indiserver"))
         {
-            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shutdown down the existing instance before starting a new one?"),
+            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
                                                                 i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
             {
                 //TODO is there a better way to do this.
