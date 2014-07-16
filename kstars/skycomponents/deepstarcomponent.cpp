@@ -24,6 +24,9 @@
 #include <QRectF>
 #include <QFontMetricsF>
 
+//NOTE Added this for QT_FSEEK, should we be including another file?
+#include <qplatformdefs.h>
+
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -36,7 +39,7 @@
 
 #include "skypainter.h"
 
-#include <kde_file.h>
+//#include <kde_file.h>
 #include "byteorder.h"
 
 DeepStarComponent::DeepStarComponent( SkyComposite *parent, QString fileName, float trigMag, bool staticstars ) :
@@ -75,7 +78,8 @@ bool DeepStarComponent::loadStaticStars() {
         return false;
     }
 
-    KDE_fseek(dataFile, starReader.getDataOffset(), SEEK_SET);
+    //KDE_fseek(dataFile, starReader.getDataOffset(), SEEK_SET);
+    QT_FSEEK(dataFile, starReader.getDataOffset(), SEEK_SET);
 
     qint16 faintmag;
     quint8 htm_level;
