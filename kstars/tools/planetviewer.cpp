@@ -118,6 +118,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     connect( pw->TodayButton,   SIGNAL( clicked() ), SLOT( slotToday() ) );
     connect( this,              SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
     connect( pw->AstroidsVisibilityBox, SIGNAL( valueChanged ( double ) ), SLOT( slotAstroidsVisibilityChanged() ) );
+    connect( pw->selectViewComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( initPlotObjects() ) );
 
     AstroidList = data->skyComposite()->solarSystemComposite()->asteroidsComponent()->astroids();
 
@@ -174,20 +175,51 @@ void PlanetViewer::slotCloseWindow() {
 void PlanetViewer::updatePlanets() {
     KSNumbers num( ut.djd() );
 
-    //Check each planet to see if it needs to be updated
-    for ( unsigned int i=0; i<9; ++i ) {
-        if ( abs( int(ut.date().toJulianDay()) - LastUpdate[i] ) > UpdateInterval[i] ) {
-            KSPlanetBase *p = PlanetList[i];
-            p->findPosition( &num );
+    if( pw->selectViewComboBox->currentIndex() == PlanetViewer::Planets || pw->selectViewComboBox->currentIndex() == PlanetViewer::Both)
+    {
+        //Check each planet to see if it needs to be updated
+        for ( unsigned int i=0; i<9; ++i ) {
+            if ( abs( int(ut.date().toJulianDay()) - LastUpdate[i] ) > UpdateInterval[i] ) {
+                KSPlanetBase *p = PlanetList[i];
+                p->findPosition( &num );
+
+                double s, c, s2, c2;
+                p->helEcLong().SinCos( s, c );
+                p->helEcLat().SinCos( s2, c2 );
+                QList<KPlotPoint*> points = planet[i]->points();
+                points.at(0)->setX( p->rsun()*c*c2 );
+                points.at(0)->setY( p->rsun()*s*c2 );
+
+                if ( centerPlanet() == p->name() ) {
+                    QRectF dataRect = pw->map->dataRect();
+                    double xc = (dataRect.right() + dataRect.left())*0.5;
+                    double yc = (dataRect.bottom() + dataRect.top())*0.5;
+                    double dx = points.at(0)->x() - xc;
+                    double dy = points.at(0)->y() - yc;
+                    pw->map->setLimits( dataRect.x() + dx, dataRect.right() + dx,
+                                        dataRect.y() + dy, dataRect.bottom() + dy );
+                }
+
+                LastUpdate[i] = int(ut.date().toJulianDay());
+            }
+        }
+    }
+
+    //Update Astroids if they are visible
+    if( pw->selectViewComboBox->currentIndex() == PlanetViewer::Astroids || pw->selectViewComboBox->currentIndex() == PlanetViewer::Both)
+    {
+        for ( int i=0; i < visibleAstroidList.length() ; ++i ) {
+            KSPlanetBase *a = visibleAstroidList[i];
+            a->findPosition( &num );
 
             double s, c, s2, c2;
-            p->helEcLong().SinCos( s, c );
-            p->helEcLat().SinCos( s2, c2 );
-            QList<KPlotPoint*> points = planet[i]->points();
-            points.at(0)->setX( p->rsun()*c*c2 );
-            points.at(0)->setY( p->rsun()*s*c2 );
+            a->helEcLong().SinCos( s, c );
+            a->helEcLat().SinCos( s2, c2 );
+            QList<KPlotPoint*> points = astroid[i]->points();
+            points.at(0)->setX( a->rsun()*c*c2 );
+            points.at(0)->setY( a->rsun()*s*c2 );
 
-            if ( centerPlanet() == p->name() ) {
+            if ( centerPlanet() == a->name() ) {
                 QRectF dataRect = pw->map->dataRect();
                 double xc = (dataRect.right() + dataRect.left())*0.5;
                 double yc = (dataRect.bottom() + dataRect.top())*0.5;
@@ -196,31 +228,6 @@ void PlanetViewer::updatePlanets() {
                 pw->map->setLimits( dataRect.x() + dx, dataRect.right() + dx,
                                     dataRect.y() + dy, dataRect.bottom() + dy );
             }
-
-            LastUpdate[i] = int(ut.date().toJulianDay());
-        }
-    }
-
-    //Update Astroids
-    for ( int i=0; i < visibleAstroidList.length() ; ++i ) {
-        KSPlanetBase *a = visibleAstroidList[i];
-        a->findPosition( &num );
-
-        double s, c, s2, c2;
-        a->helEcLong().SinCos( s, c );
-        a->helEcLat().SinCos( s2, c2 );
-        QList<KPlotPoint*> points = astroid[i]->points();
-        points.at(0)->setX( a->rsun()*c*c2 );
-        points.at(0)->setY( a->rsun()*s*c2 );
-
-        if ( centerPlanet() == a->name() ) {
-            QRectF dataRect = pw->map->dataRect();
-            double xc = (dataRect.right() + dataRect.left())*0.5;
-            double yc = (dataRect.bottom() + dataRect.top())*0.5;
-            double dx = points.at(0)->x() - xc;
-            double dy = points.at(0)->y() - yc;
-            pw->map->setLimits( dataRect.x() + dx, dataRect.right() + dx,
-                                dataRect.y() + dy, dataRect.bottom() + dy );
         }
     }
 
@@ -243,60 +250,74 @@ void PlanetViewer::initPlotObjects() {
     ksun->addPoint( 0.0, 0.0 );
     pw->map->addPlotObject( ksun );
 
-    //Read in the orbit curves
-    KPlotObject *orbit[9];
-    for ( unsigned int i=0; i<9; ++i ) {
-        KSPlanetBase *p = PlanetList[i];
-        orbit[i] = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
+    if( pw->selectViewComboBox->currentIndex() == PlanetViewer::Planets || pw->selectViewComboBox->currentIndex() == PlanetViewer::Both)
+    {
+        //Read in the orbit curves
+        KPlotObject *orbit[9];
+        for ( unsigned int i=0; i<9; ++i ) {
+            KSPlanetBase *p = PlanetList[i];
+            orbit[i] = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
 
-        QFile orbitFile;
-        QString orbitFileName = ( p->isMajorPlanet() ? ((KSPlanet *)p)->untranslatedName().toLower() : p->name().toLower() ) + ".orbit";
-        if ( KSUtils::openDataFile( orbitFile, orbitFileName ) ) {
-            KSFileReader fileReader( orbitFile ); // close file is included
-            double x,y;
-            while ( fileReader.hasMoreLines() ) {
-                QString line = fileReader.readLine();
-                QStringList fields = line.split( ' ', QString::SkipEmptyParts );
-                if ( fields.size() == 3 ) {
-                    x = fields[0].toDouble();
-                    y = fields[1].toDouble();
-                    orbit[i]->addPoint( x, y );
+            QFile orbitFile;
+            QString orbitFileName = ( p->isMajorPlanet() ? ((KSPlanet *)p)->untranslatedName().toLower() : p->name().toLower() ) + ".orbit";
+            if ( KSUtils::openDataFile( orbitFile, orbitFileName ) ) {
+                KSFileReader fileReader( orbitFile ); // close file is included
+                double x,y;
+                while ( fileReader.hasMoreLines() ) {
+                    QString line = fileReader.readLine();
+                    QStringList fields = line.split( ' ', QString::SkipEmptyParts );
+                    if ( fields.size() == 3 ) {
+                        x = fields[0].toDouble();
+                        y = fields[1].toDouble();
+                        orbit[i]->addPoint( x, y );
+                    }
                 }
+            }
+
+            pw->map->addPlotObject( orbit[i] );
+        }
+
+        //Add planets to map
+        for ( unsigned int i=0; i<9; ++i ) {
+            KSPlanetBase *p = PlanetList[i];
+            planet[i] = new KPlotObject( p->color(), KPlotObject::Points, 6, KPlotObject::Circle );
+
+            double s, c;
+            p->helEcLong().SinCos( s, c );
+
+            planet[i]->addPoint( p->rsun()*c, p->rsun()*s, p->translatedName() );
+            pw->map->addPlotObject( planet[i] );
+        }
+    }
+
+    if( pw->selectViewComboBox->currentIndex() == PlanetViewer::Astroids || pw->selectViewComboBox->currentIndex() == PlanetViewer::Both)
+    {
+        //Make magnitude value box editable
+        pw->AstroidsVisibilityBox->setReadOnly( false );
+
+        //Filter astoids
+        visibleAstroidList.clear();
+        for ( int i=0; i < AstroidList.length(); i++){
+            if( AstroidList[i]->mag() > astroidsVisibility && AstroidList[i]->mag() < astroidsVisibility + 0.20)
+            {
+                visibleAstroidList.append( AstroidList[i] );
             }
         }
 
-        pw->map->addPlotObject( orbit[i] );
-    }
+        //Add astroids to map
+        astroid.clear();
+        for ( int i=0; i < visibleAstroidList.length(); ++i ) {
+            KSPlanetBase *a = visibleAstroidList[i];
+            astroid.append( new KPlotObject( a->color(), KPlotObject::Points, 3, KPlotObject::Circle ) );
 
-    for ( unsigned int i=0; i<9; ++i ) {
-        KSPlanetBase *p = PlanetList[i];
-        planet[i] = new KPlotObject( p->color(), KPlotObject::Points, 6, KPlotObject::Circle );
+            double s, c;
+            a->helEcLong().SinCos( s, c );
 
-        double s, c;
-        p->helEcLong().SinCos( s, c );
-
-        planet[i]->addPoint( p->rsun()*c, p->rsun()*s, p->translatedName() );
-        pw->map->addPlotObject( planet[i] );
-    }
-
-    visibleAstroidList.clear();
-    for ( int i=0; i < AstroidList.length(); i++){
-        if( AstroidList[i]->mag() > astroidsVisibility && AstroidList[i]->mag() < astroidsVisibility + 0.20)
-        {
-            visibleAstroidList.append( AstroidList[i] );
+            astroid[i]->addPoint( a->rsun()*c, a->rsun()*s, a->translatedName() );
+            pw->map->addPlotObject( astroid[i] );
         }
-    }
-
-    astroid.clear();
-    for ( int i=0; i < visibleAstroidList.length(); ++i ) {
-        KSPlanetBase *a = visibleAstroidList[i];
-        astroid.append( new KPlotObject( a->color(), KPlotObject::Points, 3, KPlotObject::Circle ) );
-
-        double s, c;
-        a->helEcLong().SinCos( s, c );
-
-        astroid[i]->addPoint( a->rsun()*c, a->rsun()*s, a->translatedName() );
-        pw->map->addPlotObject( astroid[i] );
+    }else{
+        pw->AstroidsVisibilityBox->setReadOnly( true );
     }
 
     update();

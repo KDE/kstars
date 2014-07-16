@@ -50,7 +50,10 @@ class PlanetViewer : public KDialog
     Q_OBJECT
 public:
     PlanetViewer(QWidget *parent = 0);
+
     ~PlanetViewer();
+
+    enum ViewType { Planets = 0, Astroids = 1, Both = 2 };
 
     inline QString centerPlanet() const { return CenterPlanet; }
     inline void setCenterPlanet( const QString &cp ) { CenterPlanet = cp; }
