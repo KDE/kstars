@@ -954,7 +954,11 @@ void CCD::processBLOB(IBLOB* bp)
         switch (targetChip->getCaptureMode())
         {
             case FITS_NORMAL:
-                normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
+                if (normalTabID == -1 || Options::singlePreviewFITS() == false)
+                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, Options::singlePreviewFITS());
+                else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
+                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, Options::singlePreviewFITS());
+
                 targetChip->setImage(fv->getImage(normalTabID), FITS_NORMAL);
                 break;
 

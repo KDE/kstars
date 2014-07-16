@@ -27,6 +27,8 @@
 #include "skylabeler.h"
 #include "skypainter.h"
 #include "projections/projector.h"
+
+#include <cmath>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <kio/jobuidelegate.h>
@@ -191,7 +193,7 @@ void CometsComponent::draw( SkyPainter *skyp )
     foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
         double mag= com->mag();
-        if (isnan(mag) == 0)
+        if (std::isnan(mag) == 0)
         {
             bool drawn = skyp->drawPointSource(com,mag);
             if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )

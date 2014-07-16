@@ -88,7 +88,7 @@ class OAL::Log {
         void readTarget();
         void readSite( QString id );
         void readSession( QString id, QString lang );
-        void readPosition();
+        SkyPoint readPosition(bool &Ok);
         void readGeoDate();
         QString readResult();
         OAL::Observer* findObserverByName( QString fullName );

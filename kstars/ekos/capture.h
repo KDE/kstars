@@ -68,14 +68,25 @@ class SequenceJob
     const QString & getFITSDir() { return fitsDir; }
 
     void setFilter(int pos, const QString & name);
+    int getFilterPos() { return filterPos;}
+    const QString &getFilterName() { return filter; }
     void setFrameType(int type, const QString & name);
+    int getFrameType() { return frameType;}
     void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
     void setISOMode(bool mode) { isoMode = mode; }
+    bool getISOMode() { return isoMode;}
     void setPreview(bool enable) { preview = enable; }
     void setShowFITS(bool enable) { showFITS = enable; }
+    bool isShowFITS() { return showFITS;}
     void setPrefix(const QString &cprefix) { prefix = cprefix;}
     void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
+    int getSubX() { return x;}
+    int getSubY() { return y;}
+    int getSubW() { return w;}
+    int getSubH() { return h;}
     void setBin(int xbin, int ybin) { binX = xbin; binY=ybin;}
+    int getXBin() { return binX; }
+    int getYBin() { return binY; }
     void setDelay(int in_delay) { delay = in_delay; }
     void setCount(int in_count) { count = in_count;}
     void setImageType(int type) { imageType = type;}
@@ -85,6 +96,9 @@ class SequenceJob
 
     double getExposeLeft() const;
     void setExposeLeft(double value);
+    void resetStatus();
+    void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
+    void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
 
 private:
 
@@ -113,8 +127,10 @@ private:
     QTableWidgetItem *statusCell;
     QString fitsDir;
 
-    JOBStatus status;
+    bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled;
+    QString rawPrefix;
 
+    JOBStatus status;
 
 };
 
@@ -175,6 +191,14 @@ public slots:
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 
+    void loadSequenceQueue();
+    void saveSequenceQueue();
+    void saveSequenceQueueAs();
+
+    void resetJobs();
+    void editJob(QModelIndex i);
+    void resetJobEdit();
+
 signals:
         void newLog();
         void exposureComplete();
@@ -185,6 +209,9 @@ signals:
 private:
 
     void executeJob(SequenceJob *job);
+    bool processJobInfo(XMLEle *root);
+    bool saveSequenceQueue(const QString &path);
+    void constructPrefix(QString &imagePrefix);
 
     /* Capture */
     KDirLister          *seqLister;
@@ -220,6 +247,9 @@ private:
     INumberVectorProperty *filterSlot;
 
     QStringList logText;
+    KUrl sequenceURL;
+    bool mDirty;
+    bool jobUnderEdit;
 
     QProgressIndicator *pi;
 

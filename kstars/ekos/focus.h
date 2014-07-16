@@ -39,7 +39,7 @@ public:
     Focus();
     ~Focus();
 
-    void setFocuser(ISD::GDInterface *newFocuser);
+    void addFocuser(ISD::GDInterface *newFocuser);
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void focuserDisconnected();
     void resetFrame();
@@ -61,6 +61,7 @@ public slots:
     void startLooping();
 
     void checkCCD(int CCDNum=-1);
+    void checkFocuser(int FocuserNum=-1);
 
     void FocusIn(int ms=-1);
     void FocusOut(int ms=-1);
@@ -94,6 +95,7 @@ private:
     ISD::CCD *currentCCD;
 
     QList<ISD::CCD *> CCDs;
+    QList<ISD::Focuser*> Focusers;
 
     Ekos::Capture *captureP;
 

@@ -27,6 +27,8 @@
 #include "skyobjects/ksasteroid.h"
 #include "kstarsdata.h"
 #include "ksfilereader.h"
+
+#include <cmath>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kio/job.h>
@@ -194,7 +196,7 @@ void AsteroidsComponent::draw( SkyPainter *skyp )
         // FIXME: God help us!
         KSAsteroid *ast = (KSAsteroid*) so;
 
-        if ( ast->mag() > Options::magLimitAsteroid() || isnan(ast->mag()) != 0)
+        if ( ast->mag() > Options::magLimitAsteroid() || std::isnan(ast->mag()) != 0)
             continue;
 
         bool drawn = skyp->drawPointSource(ast,ast->mag());

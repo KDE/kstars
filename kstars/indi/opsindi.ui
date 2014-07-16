@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>495</width>
-    <height>485</height>
+    <height>523</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -274,11 +274,14 @@
        <property name="title">
         <string>Display</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QCheckBox" name="kcfg_showTargetCrosshair">
           <property name="toolTip">
            <string>Display the telescope position on the sky map</string>
+          </property>
+          <property name="statusTip">
+           <string>Display a telescope marker on the sky map in order to track the telescope motion across the sky.</string>
           </property>
           <property name="whatsThis">
            <string>Display a telescope marker on the sky map in order to track the telescope motion across the sky.</string>
@@ -296,6 +299,9 @@
           <property name="toolTip">
            <string>Display INDI status messages in the status bar</string>
           </property>
+          <property name="statusTip">
+           <string>Display incoming INDI status messages in KStars status bar</string>
+          </property>
           <property name="whatsThis">
            <string>Display incoming INDI status messages in KStars status bar</string>
           </property>
@@ -309,6 +315,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="kcfg_showFITS">
+          <property name="statusTip">
+           <string>When a FITS image is captured from a camera, download and display the FITS automatically in KStars FITS Viewer</string>
+          </property>
           <property name="whatsThis">
            <string>When a FITS image is captured from a camera, download and display the FITS automatically in KStars FITS Viewer</string>
           </property>
@@ -317,6 +326,22 @@
           </property>
           <property name="checked">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
+          <property name="statusTip">
+           <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+          </property>
+          <property name="whatsThis">
+           <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+          </property>
+          <property name="text">
+           <string>Single Preview FITS</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -400,7 +425,16 @@
         <property name="spacing">
          <number>6</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>11</number>
+        </property>
+        <property name="topMargin">
+         <number>11</number>
+        </property>
+        <property name="rightMargin">
+         <number>11</number>
+        </property>
+        <property name="bottomMargin">
          <number>11</number>
         </property>
         <item>
@@ -408,7 +442,16 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -432,7 +475,16 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -533,7 +585,16 @@
         <property name="spacing">
          <number>6</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>9</number>
+        </property>
+        <property name="rightMargin">
+         <number>9</number>
+        </property>
+        <property name="bottomMargin">
          <number>9</number>
         </property>
         <item>
@@ -541,7 +602,16 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -565,7 +635,16 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>

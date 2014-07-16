@@ -17,6 +17,7 @@
 
 #include "starobject.h"
 
+#include <cmath>
 #include <QColor>
 #include <QPainter>
 #include <QFontMetricsF>
@@ -229,7 +230,7 @@ void StarObject::setNames( QString name, QString name2 ) {
 
     setName2( name2 );
 
-    if ( hasName() ) {
+    if ( hasName() && name.startsWith("HD")==false) {
         lname = name;
         if ( hasName2() ) lname += " (" + gname() + ')';
     } else if ( hasName2() )
@@ -282,7 +283,7 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 
     pmms = pmMagnitudeSquared();
 
-    if( isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
+    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
         // Ignore corrections
         *ra = ra0().Degrees();
         *dec = dec0().Degrees();

@@ -12,9 +12,11 @@
 
 #include <KMessageBox>
 #include <KFileDialog>
+#include <lilxml.h>
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
+#include "indi/clientmanager.h"
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
 
@@ -44,6 +46,13 @@ void SequenceJob::reset()
     // Reset to default values
     activeChip->setBatchMode(false);
     activeChip->setShowFITS(Options::showFITS());
+}
+
+void SequenceJob::resetStatus()
+{
+    status = JOB_IDLE;
+    if (preview == false)
+        statusCell->setText(statusStrings[status]);
 }
 
 void SequenceJob::abort()
@@ -156,6 +165,22 @@ void SequenceJob::setExposeLeft(double value)
     exposeLeft = value;
 }
 
+void SequenceJob::setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled)
+{
+    rawPrefix               = prefix;
+    typePrefixEnabled       = typeEnabled;
+    filterPrefixEnabled     = filterEnabled;
+    expPrefixEnabled        = exposureEnabled;
+}
+
+void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled)
+{
+    prefix          = rawPrefix;
+    typeEnabled     = typePrefixEnabled;
+    filterEnabled   = filterPrefixEnabled;
+    exposureEnabled = expPrefixEnabled;
+}
+
 
 Capture::Capture()
 {
@@ -179,6 +204,9 @@ Capture::Capture()
     guideDither     = false;
     isAutoFocus     = false;
     autoFocusStatus = false;
+
+    mDirty          = false;
+    jobUnderEdit    = false;
 
     calibrationState = CALIBRATE_NONE;
 
@@ -204,17 +232,25 @@ Capture::Capture()
 
     connect(addToQueueB, SIGNAL(clicked()), this, SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
-
     connect(queueUpB, SIGNAL(clicked()), this, SLOT(moveJobUp()));
     connect(queueDownB, SIGNAL(clicked()), this, SLOT(moveJobDown()));
-
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
+    connect(queueSaveB, SIGNAL(clicked()), this, SLOT(saveSequenceQueue()));
+    connect(queueSaveAsB, SIGNAL(clicked()), this, SLOT(saveSequenceQueueAs()));
+    connect(queueLoadB, SIGNAL(clicked()), this, SLOT(loadSequenceQueue()));
+    connect(resetB, SIGNAL(clicked()), this, SLOT(resetJobs()));
+    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
+    connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     addToQueueB->setIcon(KIcon("list-add"));
     removeFromQueueB->setIcon(KIcon("list-remove"));
     queueUpB->setIcon(KIcon("go-up"));
     queueDownB->setIcon(KIcon("go-down"));
     selectFITSDirB->setIcon(KIcon("document-open-folder"));
+    queueLoadB->setIcon(KIcon("document-open"));
+    queueSaveB->setIcon(KIcon("document-save"));
+    queueSaveAsB->setIcon(KIcon("document-save-as"));
+    resetB->setIcon(KIcon("system-reboot"));
 
     fitsDir->setText(Options::fitsDir());
 
@@ -234,7 +270,7 @@ Capture::Capture()
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
     parkCheck->setChecked(Options::autoParkTelescope());
-    meridianCheck->setChecked(Options::autoMeridianFlip());
+    //meridianCheck->setChecked(Options::autoMeridianFlip());
 }
 
 Capture::~Capture()
@@ -302,7 +338,7 @@ void Capture::startSequence()
     Options::setGuideDeviation(guideDeviation->value());
     Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
-    Options::setAutoMeridianFlip(meridianCheck->isChecked());
+    //Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoParkTelescope(parkCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
@@ -830,7 +866,6 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
 void Capture::addJob(bool preview)
 {
-
     SequenceJob *job = NULL;
     QString imagePrefix;
 
@@ -840,7 +875,16 @@ void Capture::addJob(bool preview)
         return;
     }
 
-    job = new SequenceJob();
+    if (jobUnderEdit)
+        job = jobs.at(queueTable->currentRow());
+    else
+        job = new SequenceJob();
+
+    if (job == NULL)
+    {
+        kWarning() << "Job is NULL!" << endl;
+        return;
+    }
 
     if (ISOCheck->isChecked())
         job->setISOMode(true);
@@ -855,30 +899,9 @@ void Capture::addJob(bool preview)
 
     imagePrefix = prefixIN->text();
 
-    if (frameTypeCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false)
-            imagePrefix += '_';
+    constructPrefix(imagePrefix);
 
-        imagePrefix += frameTypeCombo->currentText();
-    }
-    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
-            frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
-                        frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
-    {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
-
-        imagePrefix += FilterPosCombo->currentText();
-    }
-    if (expDurationCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
-
-        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
-    }
-
+    job->setPrefixSettings(prefixIN->text(), frameTypeCheck->isChecked(), filterCheck->isChecked(), expDurationCheck->isChecked());
     job->setFrameType(frameTypeCombo->currentIndex(), frameTypeCombo->currentText());
     job->setPrefix(imagePrefix);
 
@@ -899,28 +922,32 @@ void Capture::addJob(bool preview)
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
-    jobs.append(job);
+    if (jobUnderEdit == false)
+        jobs.append(job);
 
     // Nothing more to do if preview
     if (preview)
         return;
 
-    int currentRow = queueTable->rowCount();
+    int currentRow = 0;
+    if (jobUnderEdit == false)
+    {
 
-    queueTable->insertRow(currentRow);
+        currentRow = queueTable->rowCount();
+        queueTable->insertRow(currentRow);
+    }
+    else
+        currentRow = queueTable->currentRow();
 
-    QTableWidgetItem *status = new QTableWidgetItem(job->getStatusString());
+    QTableWidgetItem *status = jobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
+    status->setText(job->getStatusString());
     status->setTextAlignment(Qt::AlignHCenter);
     status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     job->setStatusCell(status);
 
-    QTableWidgetItem *type = new QTableWidgetItem(frameTypeCombo->currentText());
-
-    type->setTextAlignment(Qt::AlignHCenter);
-    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-    QTableWidgetItem *filter = new QTableWidgetItem("--");
+    QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
+    filter->setText("--");
     if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
             frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
             FilterPosCombo->count() > 0)
@@ -929,34 +956,57 @@ void Capture::addJob(bool preview)
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *bin = new QTableWidgetItem(QString("%1x%2").arg(binXCombo->currentIndex()+1).arg(binYCombo->currentIndex()+1));
+    QTableWidgetItem *type = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    type->setText(frameTypeCombo->currentText());
+    type->setTextAlignment(Qt::AlignHCenter);
+    type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
+    QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
+    bin->setText(QString("%1x%2").arg(binXCombo->currentIndex()+1).arg(binYCombo->currentIndex()+1));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *exp = new QTableWidgetItem(QString::number(exposureIN->value()));
-
+    QTableWidgetItem *exp = jobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    exp->setText(QString::number(exposureIN->value()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *count = new QTableWidgetItem(QString::number(countIN->value()));
-
+    QTableWidgetItem *count = jobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    count->setText(QString::number(countIN->value()));
     count->setTextAlignment(Qt::AlignHCenter);
     count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    queueTable->setItem(currentRow, 0, status);
-    queueTable->setItem(currentRow, 1, filter);
-    queueTable->setItem(currentRow, 2, type);
-    queueTable->setItem(currentRow, 3, bin);
-    queueTable->setItem(currentRow, 4, exp);
-    queueTable->setItem(currentRow, 5, count);
+    if (jobUnderEdit == false)
+    {
+        queueTable->setItem(currentRow, 0, status);
+        queueTable->setItem(currentRow, 1, filter);
+        queueTable->setItem(currentRow, 2, type);
+        queueTable->setItem(currentRow, 3, bin);
+        queueTable->setItem(currentRow, 4, exp);
+        queueTable->setItem(currentRow, 5, count);
+    }
 
     removeFromQueueB->setEnabled(true);
+
+    if (queueTable->rowCount() > 0)
+    {
+        queueSaveAsB->setEnabled(true);
+        queueSaveB->setEnabled(true);
+        resetB->setEnabled(true);
+        mDirty = true;
+    }
 
     if (queueTable->rowCount() > 1)
     {
         queueUpB->setEnabled(true);
         queueDownB->setEnabled(true);
+    }
+
+    if (jobUnderEdit)
+    {
+        jobUnderEdit = false;
+        resetJobEdit();
+        appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
     }
 
 }
@@ -992,6 +1042,15 @@ void Capture::removeJob()
 
     queueTable->selectRow(queueTable->currentRow());
 
+    if (queueTable->rowCount() == 0)
+    {
+        queueSaveAsB->setEnabled(false);
+        queueSaveB->setEnabled(false);
+        resetB->setEnabled(false);
+    }
+
+    mDirty = true;
+
 
 }
 
@@ -1025,6 +1084,9 @@ void Capture::moveJobUp()
     for (int i=0; i < jobs.count(); i++)
       jobs.at(i)->setStatusCell(queueTable->item(i, 0));
 
+
+    mDirty = true;
+
 }
 
 void Capture::moveJobDown()
@@ -1056,6 +1118,8 @@ void Capture::moveJobDown()
 
     for (int i=0; i < jobs.count(); i++)
         jobs.at(i)->setStatusCell(queueTable->item(i, 0));
+
+    mDirty = true;
 
 }
 
@@ -1200,8 +1264,22 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 
 void Capture::syncTelescopeInfo()
 {
-    if (currentTelescope && currentTelescope->isConnected())
+    if (currentCCD && currentTelescope && currentTelescope->isConnected())
+    {
         parkCheck->setEnabled(currentTelescope->canPark());
+
+        ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+        if (activeDevices)
+        {
+            IText *activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
+            if (activeTelescope)
+            {
+                IUSaveText(activeTelescope, currentTelescope->getDeviceName());
+
+                currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+            }
+        }
+    }
 }
 
 void Capture::saveFITSDirectory()
@@ -1227,6 +1305,373 @@ void Capture::updateScopeCoords(INumberVectorProperty *coord)
      * 9. Resume exposure
     */
 
+}
+
+void Capture::loadSequenceQueue()
+{
+    KUrl fileURL = KFileDialog::getOpenUrl( KUrl(), "*.esq|Ekos Sequence Queue");
+    if (fileURL.isEmpty())
+        return;
+
+    if (fileURL.isValid() == false)
+    {
+       QString message = i18n( "Invalid URL: %1", fileURL.path() );
+       KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+    }
+
+    QFile sFile;
+    sFile.setFileName(fileURL.path());
+
+    if ( !sFile.open( QIODevice::ReadOnly))
+    {
+        QString message = i18n( "Unable to open file %1",  fileURL.path());
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return;
+    }
+
+    //QTextStream instream(&sFile);
+
+    qDeleteAll(jobs);
+    queueTable->clearContents();
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = NULL;
+    XMLEle *ep;
+    char c;
+
+    while ( sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+        {
+             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+             {
+                 if (!strcmp(tagXMLEle(ep), "Park"))
+                 {
+                     if (parkCheck->isEnabled() == false)
+                         continue;
+
+                     if (!strcmp(pcdataXMLEle(ep), "1"))
+                         parkCheck->setChecked(true);
+                     else
+                         parkCheck->setChecked(false);
+
+                 }
+                 else
+                 {
+                     processJobInfo(ep);
+                 }
+
+             }
+             delXMLEle(root);
+        }
+        else if (errmsg[0])
+        {
+            appendLogText(QString(errmsg));
+            delLilXML(xmlParser);
+            return;
+        }
+    }
+
+    sequenceURL = fileURL;
+    mDirty = false;
+    delLilXML(xmlParser);
+
+}
+
+bool Capture::processJobInfo(XMLEle *root)
+{
+
+    XMLEle *ep;
+    XMLEle *subEP;
+
+    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Exposure"))
+            exposureIN->setValue(atof(pcdataXMLEle(ep)));
+        else if (!strcmp(tagXMLEle(ep), "Binning"))
+        {
+            subEP = findXMLEle(ep, "X");
+            if (subEP)
+                binXCombo->setCurrentIndex(atoi(pcdataXMLEle(subEP))-1);
+            subEP = findXMLEle(ep, "Y");
+            if (subEP)
+                binYCombo->setCurrentIndex(atoi(pcdataXMLEle(subEP))-1);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Frame"))
+        {
+            subEP = findXMLEle(ep, "X");
+            if (subEP)
+                frameXIN->setValue(atoi(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "Y");
+            if (subEP)
+                frameYIN->setValue(atoi(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "W");
+            if (subEP)
+                frameWIN->setValue(atoi(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "H");
+            if (subEP)
+                frameHIN->setValue(atoi(pcdataXMLEle(subEP)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Filter"))
+        {
+            FilterPosCombo->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Type"))
+        {
+            frameTypeCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Prefix"))
+        {
+            subEP = findXMLEle(ep, "RawPrefix");
+            if (subEP)
+                prefixIN->setText(pcdataXMLEle(subEP));
+            subEP = findXMLEle(ep, "TypeEnabled");
+            if (subEP)
+                frameTypeCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "FilterEnabled");
+            if (subEP)
+                filterCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "ExpEnabled");
+            if (subEP)
+                expDurationCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Count"))
+        {
+            countIN->setValue(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Delay"))
+        {
+            delayIN->setValue(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
+        {
+            fitsDir->setText(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "ISOMode"))
+        {
+            ISOCheck->setChecked( !strcmp("1", pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "ShowFITS"))
+        {
+            displayCheck->setChecked( !strcmp("1", pcdataXMLEle(ep)));
+        }
+
+    }
+
+    addJob(false);
+
+    return true;
+}
+
+void Capture::saveSequenceQueue()
+{
+    KUrl backupCurrent = sequenceURL;
+
+    if (sequenceURL.path().contains("/tmp/"))
+        sequenceURL.clear();
+
+    // If no changes made, return.
+    if( mDirty == false && !sequenceURL.isEmpty())
+        return;
+
+    if (sequenceURL.isEmpty())
+    {
+        sequenceURL = KFileDialog::getSaveUrl( KUrl(), "*.esq |Ekos Sequence Queue");
+        // if user presses cancel
+        if (sequenceURL.isEmpty())
+        {
+            sequenceURL = backupCurrent;
+            return;
+        }
+
+        if (sequenceURL.path().contains('.') == 0)
+            sequenceURL.setPath(sequenceURL.path() + ".esq");
+
+        if (QFile::exists(sequenceURL.path()))
+        {
+            int r = KMessageBox::warningContinueCancel(0,
+                        i18n( "A file named \"%1\" already exists. "
+                              "Overwrite it?", sequenceURL.fileName() ),
+                        i18n( "Overwrite File?" ),
+                        KGuiItem(i18n( "&Overwrite" )) );
+            if(r==KMessageBox::Cancel) return;
+        }
+    }
+
+    if ( sequenceURL.isValid() )
+    {
+        if ( (saveSequenceQueue(sequenceURL.path())) == false)
+        {
+            KMessageBox::error(0, i18n("Failed to save sequence queue"), i18n("FITS Save"));
+            return;
+        }
+
+        mDirty = false;
+
+    } else
+    {
+        QString message = i18n( "Invalid URL: %1", sequenceURL.url() );
+        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+    }
+
+}
+
+void Capture::saveSequenceQueueAs()
+{
+    sequenceURL.clear();
+    saveSequenceQueue();
+}
+
+bool Capture::saveSequenceQueue(const QString &path)
+{
+    QFile file;
+    QString rawPrefix;
+    bool typeEnabled, filterEnabled, expEnabled;
+
+    file.setFileName(path);
+
+    if ( !file.open( QIODevice::WriteOnly))
+    {
+        QString message = i18n( "Unable to write to file %1",  path);
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return false;
+    }
+
+    QTextStream outstream(&file);
+
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
+    outstream << "<SequenceQueue>" << endl;
+    outstream << "<Park>" << (parkCheck->isChecked() ? 1 : 0) << "</Park>" << endl;
+    foreach(SequenceJob *job, jobs)
+    {
+        job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
+
+         outstream << "<Job>" << endl;
+
+         outstream << "<Exposure>" << job->getExposure() << "</Exposure>" << endl;
+         outstream << "<Binning>" << endl;
+            outstream << "<X>"<< job->getXBin() << "</X>" << endl;
+            outstream << "<Y>"<< job->getXBin() << "</Y>" << endl;
+         outstream << "</Binning>" << endl;
+         outstream << "<Frame>" << endl;
+            outstream << "<X>" << job->getSubX() << "</X>" << endl;
+            outstream << "<Y>" << job->getSubY() << "</Y>" << endl;
+            outstream << "<W>" << job->getSubW() << "</W>" << endl;
+            outstream << "<H>" << job->getSubH() << "</H>" << endl;
+        outstream << "</Frame>" << endl;
+        outstream << "<Filter>" << job->getFilterPos() << "</Filter>" << endl;
+        outstream << "<Type>" << job->getFrameType() << "</Type>" << endl;
+        outstream << "<Prefix>" << endl;
+            //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
+            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
+            outstream << "<TypeEnabled>" << (typeEnabled ? 1 : 0) << "</TypeEnabled>" << endl;
+            outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << endl;
+            outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
+        outstream << "</Prefix>" << endl;
+        outstream << "<Count>" << job->getCount() << "</Count>" << endl;
+        // ms to seconds
+        outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
+        outstream << "<FITSDirectory>" << job->getFITSDir() << "</FITSDirectory>" << endl;
+        outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
+        outstream << "<ShowFITS>" << (job->isShowFITS() ? 1 : 0) << "</ShowFITS>" << endl;
+
+        outstream << "</Job>" << endl;
+    }
+
+    outstream << "</SequenceQueue>" << endl;
+
+    appendLogText(i18n("Sequence queue saved to %1", path));
+    file.close();
+   return true;
+}
+
+void Capture::resetJobs()
+{
+    if (KMessageBox::warningContinueCancel(NULL, i18n("Are you sure you want to reset status of all jobs?"),
+                                           i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                           "reset_job_status_warning") !=KMessageBox::Continue)
+        return;
+
+    stopSequence();
+
+    foreach(SequenceJob *job, jobs)
+        job->resetStatus();
+}
+
+void Capture::editJob(QModelIndex i)
+{
+    SequenceJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;
+    QString rawPrefix;
+    bool typeEnabled, filterEnabled, expEnabled;
+
+     job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
+
+   exposureIN->setValue(job->getExposure());
+   binXCombo->setCurrentIndex(job->getXBin()-1);
+   binYCombo->setCurrentIndex(job->getYBin()-1);
+   frameXIN->setValue(job->getSubX());
+   frameYIN->setValue(job->getSubY());
+   frameWIN->setValue(job->getSubW());
+   frameHIN->setValue(job->getSubH());
+   FilterPosCombo->setCurrentIndex(job->getFilterPos()-1);
+   frameTypeCombo->setCurrentIndex(job->getFrameType());
+   prefixIN->setText(rawPrefix);
+   frameTypeCheck->setChecked(typeEnabled);
+   filterCheck->setChecked(filterEnabled);
+   expDurationCheck->setChecked(expEnabled);
+   countIN->setValue(job->getCount());
+   delayIN->setValue(job->getDelay()/1000);
+   fitsDir->setText(job->getFITSDir());
+   ISOCheck->setChecked(job->getISOMode());
+   displayCheck->setChecked(job->isShowFITS());
+
+   appendLogText(i18n("Editing job #%1...", i.row()+1));
+
+   addToQueueB->setIcon(KIcon("svn-update"));
+
+   jobUnderEdit = true;
+
+}
+
+void Capture::resetJobEdit()
+{
+   if (jobUnderEdit)
+       appendLogText(i18n("Editing job canceled."));
+
+   jobUnderEdit = false;
+   addToQueueB->setIcon(KIcon("list-add"));
+}
+
+void Capture::constructPrefix(QString &imagePrefix)
+{
+    if (frameTypeCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false)
+            imagePrefix += '_';
+
+        imagePrefix += frameTypeCombo->currentText();
+    }
+    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
+            frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
+                        frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += '_';
+
+        imagePrefix += FilterPosCombo->currentText();
+    }
+    if (expDurationCheck->isChecked())
+    {
+        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+            imagePrefix += '_';
+
+        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
+    }
 }
 
 }

@@ -80,7 +80,7 @@ StarComponent::StarComponent(SkyComposite *parent )
 }
 
 StarComponent::~StarComponent() {
-    // Empty
+    qDeleteAll(m_HDHash.values());
 }
 
 StarComponent *StarComponent::Create( SkyComposite *parent ) {
@@ -458,6 +458,8 @@ bool StarComponent::loadStaticData()
             /* Create the new StarObject */
             star = new StarObject;
             star->init( &stardata );
+            if( star->getHDIndex() != 0 && name == i18n("star"))
+                name = QString("HD %1").arg(star->getHDIndex());
             star->setNames( name, visibleName );
             star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             ++nstars;
@@ -496,6 +498,14 @@ bool StarComponent::loadStaticData()
 }
 
 SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
+    if (name.startsWith(QLatin1String("HD")))
+    {
+        QStringList fields = name.split( ' ', QString::SkipEmptyParts );
+        bool Ok=false;
+        unsigned int HDNum = fields[1].toInt(&Ok);
+        if (Ok)
+            return findByHDIndex(HDNum);
+    }
     return m_genName.value( name );
 }
 
@@ -555,7 +565,8 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         m_starObject.init( &stardata );
         m_starObject.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         m_starObject.JITupdate();
-        focusStar = &m_starObject;
+        focusStar = m_starObject.clone();
+        m_HDHash.insert(HDnum, focusStar);
         hdidxReader.closeFile();
         return focusStar;
     }

@@ -161,7 +161,13 @@ void OAL::Log::writeTarget( SkyObject *o ) {
     writer->writeCDATA( "KStars" );
     writer->writeEndElement();
     writer->writeStartElement("name");
-    writer->writeCDATA( o->name() );
+    QString name = o->name();
+   if (name == "star")
+    {
+        if ( ((StarObject*)o)->getHDIndex() != 0)
+            name = QString("HD %1").arg(((StarObject*)o)->getHDIndex());
+    }
+    writer->writeCDATA( name );
     writer->writeEndElement();
     writer->writeStartElement( "position" );
     writer->writeStartElement( "ra" );
@@ -497,6 +503,8 @@ void OAL::Log::readFilters() {
 
 void OAL::Log::readTarget() {
     SkyObject *o = NULL;
+    SkyPoint pos;
+    bool posOK=false;
     QString name, time, notes;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -507,12 +515,30 @@ void OAL::Log::readTarget() {
         if( reader->isStartElement() ) {
             if( reader->name() == "name" ) {
                 name = reader->readElementText();
-                if( name != "star" ) {
+                if( name != "star" )
+                {
                     o = ks->data()->objectNamed( name );
                     if( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( name );
                     if( o ) targetList()->append( o );
                 }
-            } else if( reader->name() == "time" ) {
+            }
+            else if( !o && reader->name() == "position" )
+            {
+                pos = readPosition(posOK);
+                if (posOK)
+                {
+                   double maxrd=0.5;
+                   while (!o && maxrd <= 2.0)
+                   {
+                        o = ks->data()->skyComposite()->starNearest(&pos, maxrd);
+                        if (!o)
+                            maxrd += 0.5;
+                   }
+
+                   if( o ) targetList()->append( o );
+                }
+            }
+            else if( reader->name() == "time" ) {
                 time = reader->readElementText();
                 if( o )
                     TimeHash.insert( o->name(), QTime::fromString( time, "h:mm:ss AP" ) );
@@ -592,7 +618,9 @@ void OAL::Log::readSession( QString id, QString lang ) {
 }
 
 
-void OAL::Log::readPosition() {
+SkyPoint OAL::Log::readPosition(bool &OK) {
+    SkyPoint p;
+    bool RAOK=false,DEOK=false;
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -601,13 +629,35 @@ void OAL::Log::readPosition() {
 
         if( reader->isStartElement() ) {
             if( reader->name() == "ra" )
+            {
                 kDebug() << reader->readElementText() << reader->attributes().value( "unit" );
+                dms ra;
+                if (reader->attributes().value("unit") == "rad")
+                    ra.setRadians(reader->readElementText().toDouble(&RAOK));
+                else
+                   ra.setD(reader->readElementText().toDouble(&RAOK));
+
+                p.setRA(ra);
+            }
             else if( reader->name() == "dec" )
+            {
                 kDebug() << reader->readElementText() << reader->attributes().value( "unit" );
+                dms de;
+                if (reader->attributes().value("unit") == "rad")
+                    de.setRadians(reader->readElementText().toDouble(&DEOK));
+                else
+                   de.setD(reader->readElementText().toDouble(&DEOK));
+
+                p.setDec(de);
+            }
             else
                 readUnknownElement();
         }
     }
+
+    OK = RAOK && DEOK;
+
+    return p;
 }
 
 void OAL::Log::readObservation( QString id ) {
@@ -690,6 +740,11 @@ void OAL::Log::readGeoDate() {
         }
     }
     geo = ks->data()->locationNamed( name, province, country );
+    if (geo == NULL)
+    {
+        qDebug() << "Warning! Location " << name << ", " << province << ", " << country << " not found in KStars. Using current location." << endl;
+        geo = ks->data()->geo();
+    }
     dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
 }
 

@@ -109,6 +109,14 @@ void EkosManager::processINDIModeChange()
     if (newLocalMode == localMode)
         return;
 
+    if (managedDevices.count() > 0 || remote_indi != NULL)
+    {
+        KMessageBox::error(0, i18n("Cannot switch modes while INDI services are running."), i18n("Ekos Mode"));
+        kcfg_localMode->setChecked(!newLocalMode);
+        kcfg_remoteMode->setChecked(newLocalMode);
+        return;
+    }
+
     localMode = newLocalMode;
 
     reset();
@@ -495,6 +503,18 @@ void EkosManager::processINDI()
 
     if (localMode)
     {
+        if (isRunning("indiserver"))
+        {
+            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shutdown down the existing instance before starting a new one?"),
+                                                                i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
+            {
+                //TODO is there a better way to do this.
+                QProcess p;
+                p.start("pkill indiserver");
+                p.waitForFinished();
+            }
+        }
+
         if (DriverManager::Instance()->startDevices(managedDevices) == false)
         {
             INDIListener::Instance()->disconnect(this);
@@ -535,7 +555,7 @@ void EkosManager::checkINDITimeout()
         return;
 
     if (nDevices != 0)
-        KMessageBox::error(this, i18np("Unable to completely establish remote devices. %1 device remaining.", "Unable to completely establish remote devices. %1 devices remaining.", nDevices));
+        KMessageBox::error(this, i18np("Unable to completely establish remote devices. %1 device remaining. Please ensure remote device name corresponds to actual device name.", "Unable to completely establish remote devices. %1 devices remaining. Please ensure remote device name corresponds to actual device name.", nDevices));
 }
 
 void EkosManager::refreshRemoteDrivers()
@@ -957,6 +977,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     initCapture();
 
     connect(filter, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
+    connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processNewText(ITextVectorProperty*)));
 
     captureProcess->addFilter(filter);
 }
@@ -967,9 +988,9 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     initFocus();
 
-    focusProcess->setFocuser(focuser);
+    focusProcess->addFocuser(focuser);
 
-    appendLogText(i18n("%1 is online.", focuser->getDeviceName()));
+    appendLogText(i18n("%1 focuser is online.", focuser->getDeviceName()));
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -1008,6 +1029,14 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
 }
 
+void EkosManager::processNewText(ITextVectorProperty *tvp)
+{
+    if (!strcmp(tvp->name, "FILTER_NAME"))
+    {
+        if (captureProcess)
+            captureProcess->checkFilter();
+    }
+}
 
 void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 {
@@ -1321,6 +1350,15 @@ void EkosManager::removeTabs()
 
         aux = NULL;
 
+}
+
+bool EkosManager::isRunning(const QString &process)
+{
+  QProcess ps;
+  ps.start("ps", QStringList() << "-o" << "comm" << "--no-headers" << "-C" << process);
+  ps.waitForFinished();
+  QString output = ps.readAllStandardOutput();
+  return output.startsWith(process);
 }
 
 

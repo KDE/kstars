@@ -135,7 +135,8 @@ void AltVsTime::slotAddSource() {
         //in the avt list, add it.
         bool found = false;
         foreach ( SkyObject *o, pList ) {
-            if ( o->name() == obj->name() ) {
+            //if ( o->name() == obj->name() ) {
+            if ( getObjectName(o, false) == getObjectName(obj, false) ) {
                 found = true;
                 break;
             }
@@ -257,17 +258,21 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
             while ( label_pos > 11.0 )
                 label_pos -= 23.0;
             if( h == label_pos )
-                po->addPoint( h, findAltitude( o, h ), o->translatedName() );
+                //po->addPoint( h, findAltitude( o, h ), o->translatedName() );
+                po->addPoint( h, findAltitude( o, h ), getObjectName(o) );
             else
                 po->addPoint( h, findAltitude( o, h ) );
         }
         avtUI->View->addPlotObject( po );
 
-        avtUI->PlotList->addItem( o->translatedName() );
+        //avtUI->PlotList->addItem( o->translatedName() );
+        avtUI->PlotList->addItem( getObjectName(o) );
         avtUI->PlotList->setCurrentRow( avtUI->PlotList->count() - 1 );
         avtUI->raBox->showInHours(o->ra() );
         avtUI->decBox->showInDegrees(o->dec() );
-        avtUI->nameBox->setText(o->translatedName() );
+        //avtUI->nameBox->setText(o->translatedName() );
+        avtUI->nameBox->setText( getObjectName(o) );
+
 
         //Set epochName to epoch shown in date tab
         avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
@@ -587,6 +592,24 @@ void AltVsTime::slotPrint()
         QApplication::restoreOverrideCursor();
     }
     delete dialog;
+}
+
+QString AltVsTime::getObjectName(const SkyObject *o, bool translated)
+{
+    QString finalObjectName;
+    if( o->name() == "star" )
+    {
+        StarObject *s = (StarObject *)o;
+
+        // JM: Enable HD Index stars to be added to the observing list.
+        if( s->getHDIndex() != 0 )
+                finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
+    }
+    else
+         finalObjectName = translated ? o->translatedName() : o->name();
+
+    return finalObjectName;
+
 }
 
 
