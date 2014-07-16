@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>KStars: Image Viewer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../data/textures/mars.png</normaloff>../data/textures/mars.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -35,6 +39,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>Zoom in</string>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -53,6 +60,9 @@
            <width>30</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>Zoom out</string>
          </property>
          <property name="text">
           <string/>
@@ -86,6 +96,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>Undo</string>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -105,8 +118,19 @@
            <height>16777215</height>
           </size>
          </property>
-         <property name="text">
+         <property name="font">
+          <font>
+           <family>Century Schoolbook L</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="toolTip">
           <string>Text</string>
+         </property>
+         <property name="text">
+          <string>T</string>
          </property>
         </widget>
        </item>
@@ -124,8 +148,17 @@
            <height>16777215</height>
           </size>
          </property>
-         <property name="text">
+         <property name="font">
+          <font>
+           <family>Nimbus Mono L</family>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
+         <property name="toolTip">
           <string>Circle</string>
+         </property>
+         <property name="text">
+          <string>O</string>
          </property>
         </widget>
        </item>
@@ -136,6 +169,9 @@
            <width>0</width>
            <height>30</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>Size of Circle</string>
          </property>
          <property name="minimum">
           <number>1</number>

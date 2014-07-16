@@ -28,6 +28,10 @@ class QNetworkAccessManager;
 class QNetworkReply;
 QT_END_NAMESPACE
 
+/**
+  * \class AstroBinApi
+  * \brief Contains API key and secrets. And slots search from API according to search query.
+  */
 
 class AstroBinApi : public QObject
 {

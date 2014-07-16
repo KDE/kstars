@@ -22,6 +22,12 @@
 #include <QString>
 
 
+/**
+  *\class DetailItem
+  *\brief Constructs item for each detail downloaded along with
+  * with image from astrobin API, to be added in QML Listview on detail page
+  *\author Vijay Dhameliya
+  */
 class DetailItem : public QObject
 {
     Q_OBJECT
@@ -43,6 +49,11 @@ private:
     QString item;
 };
 
+/**
+  *\class SearchResultItem
+  *\brief Constructs item from downloaded thumbnail image to be added in QML Listview
+  *\author Vijay Dhameliya
+  */
 class SearchResultItem : public QObject
 {
     Q_OBJECT

@@ -108,7 +108,7 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
 
     int progress = 0;
     // Show a progress dialog while processing
-    QProgressDialog progressDlg( i18n( "Downloading Astrophotographs from internet... " ) , i18n( "Hide" ), 0, 0, this);
+    QProgressDialog progressDlg( i18n( "Downloading Astrophotographs from internet... " ) , i18n( "Cancel" ), 0, 0, this);
     progressDlg.setValue( progress );
     progressDlg.show();
 
@@ -131,6 +131,9 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
         delay();
         progress += 5;
         progressDlg.setValue( progress );
+
+        if( progressDlg.wasCanceled() )
+            break;
     }
     m_Lock = false;
 }
