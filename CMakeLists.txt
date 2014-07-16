@@ -10,6 +10,7 @@ configure_file( "${kstars_SOURCE_DIR}/kstars/version.h.cmake"
 
 find_package(Eigen3 REQUIRED)
 find_package(KDE4   REQUIRED)
+
 include(KDE4Defaults)
 include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
@@ -20,6 +21,12 @@ add_definitions(${EIGEN_DEFINITIONS})
 
 # some configure checks needed for kstars
 include(CheckIncludeFiles)
+
+macro_optional_find_package(PyKDE4)
+macro_log_feature(PYKDE4_FOUND "python-kde4"
+                                "Bindings for Python in KDE4 used for updating supernovae data in KStars."
+                                "http://www.kde.org"
+                                FALSE "4.13" "")
 
 macro_optional_find_package(CFitsio)
 macro_bool_to_01(CFITSIO_FOUND HAVE_CFITSIO_H)
@@ -76,6 +83,8 @@ add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 add_subdirectory(Tests)
+
+install(FILES kstars.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata/)
 
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
    macro_display_feature_log()

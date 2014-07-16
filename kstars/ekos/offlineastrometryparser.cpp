@@ -170,8 +170,10 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
     return false;
 }
 
-bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStringList &args)
+bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStringList &args, bool generated)
 {
+    INDI_UNUSED(generated);
+
     QStringList solverArgs = args;
     solverArgs << "-W" << "/tmp/solution.wcs" << filename;
 

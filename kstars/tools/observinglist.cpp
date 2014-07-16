@@ -232,22 +232,25 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         kWarning() << "Trying to add null object to observing list!";
     }
 
-    if( obj->name() == "star" ) {
-        KMessageBox::sorry(0, i18n( "Unnamed stars are not supported in the observing lists"));
-        return;
+    QString finalObjectName = getObjectName(obj);
+
+    if (finalObjectName.isEmpty())
+    {
+            KMessageBox::sorry(0, i18n( "Unnamed stars are not supported in the observing lists"));
+            return;
     }
 
     //First, make sure object is not already in the list
     if ( obsList().contains( obj ) ) {
         addToWishList = false;
         if( ! session ) {
-            ks->statusBar()->changeItem( i18n( "%1 is already in your wishlist.", obj->name() ), 0 );
+            ks->statusBar()->changeItem( i18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
             return;
         }
     }
 
     if ( session && sessionList().contains( obj ) ) {
-        ks->statusBar()->changeItem( i18n( "%1 is already in the session plan.", obj->name() ), 0 );
+        ks->statusBar()->changeItem( i18n( "%1 is already in the session plan.", finalObjectName ), 0 );
         return;
     }
 
@@ -263,34 +266,27 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         m_CurrentObject = obj;
         QList<QStandardItem*> itemList;
 
-        QString ra, dec;
+        //QString ra, dec;
+        //ra = "";//p.ra().toHMSString();
+        //dec = p.dec().toDMSString();
 
-        if(obj->name() == "star" ) {
-            ra = obj->ra0().toHMSString();
-            dec = obj->dec0().toDMSString();
-        }
-        else {
-            ra = p.ra().toHMSString();
-            dec = p.dec().toDMSString();
-        }
-
-        itemList << new QStandardItem( obj->translatedName() )
-                 << new QStandardItem( obj->translatedLongName() )
-                << new QStandardItem( ra )
-                << new QStandardItem( dec )
+        itemList<< new QStandardItem( finalObjectName )
+                << new QStandardItem( obj->translatedLongName() )
+                << new QStandardItem( p.ra().toHMSString() )
+                << new QStandardItem( p.dec().toDMSString() )
                 << new QStandardItem( smag )
                 << new QStandardItem( obj->typeName() );
 
         m_Model->appendRow( itemList );
         //Note addition in statusbar
-        ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
+        ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", finalObjectName ), 0 );
         ui->TableView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     }
     //Insert object in the Session List
     if( session ){
         m_SessionList.append(obj);
-        dt.setTime( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ) );
+        dt.setTime( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ) );
         dms lst(geo->GSTtoLST( dt.gst() ));
         p.EquatorialToHorizontal( &lst, geo->lat() );
         QList<QStandardItem*> itemList;
@@ -298,21 +294,21 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         QString ra, dec, time = "--", alt = "--", az = "--";
 
         QStandardItem *BestTime = new QStandardItem();
-        if(obj->name() == "star" ) {
+        /*if(obj->name() == "star" ) {
             ra = obj->ra0().toHMSString();
             dec = obj->dec0().toDMSString();
             BestTime->setData( QString( "--" ), Qt::DisplayRole );
         }
-        else {
+        else {*/
             ra = p.ra().toHMSString();
             dec = p.dec().toDMSString();
-            BestTime->setData( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ), Qt::DisplayRole );
+            BestTime->setData( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ), Qt::DisplayRole );
             alt = p.alt().toDMSString();
             az = p.az().toDMSString();
-        }
+        //}
         // TODO: Change the rest of the parameters to their appropriate datatypes.
-        itemList << new QStandardItem( obj->translatedName() )
-                 << new QStandardItem( obj->translatedLongName() )
+        itemList<< new QStandardItem( finalObjectName )
+                << new QStandardItem( obj->translatedLongName() )
                 << new QStandardItem( ra )
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
@@ -326,7 +322,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         isModified = true;
         ui->SessionView->resizeColumnsToContents();
         //Note addition in statusbar
-        ks->statusBar()->changeItem( i18n( "Added %1 to session list.", obj->name() ), 0 );
+        ks->statusBar()->changeItem( i18n( "Added %1 to session list.", finalObjectName ), 0 );
     }
     setSaveImagesButton();
 }
@@ -353,26 +349,14 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 
     if ( o == LogObject ) saveCurrentUserLog();
     //Remove row from the TableView model
-    if ( o->name() == "star" ) {
-        //Find object in table by RA and Dec
-        for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
-            QString ra = currentModel->item(irow, 1)->text();
-            QString dc = currentModel->item(irow, 2)->text();
-            if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                currentModel->removeRow(irow);
-                break;
-            }
-        }
-    } else { // name is not "star"
-        //Find object in table by name
         for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
             QString name = currentModel->item(irow, 0)->text();
-            if ( o->translatedName() == name ) {
+            if ( getObjectName(o) == name ) {
                 currentModel->removeRow(irow);
                 break;
             }
         }
-    }
+
 
     if( ! session ) {
         obsList().removeAt(k);
@@ -420,26 +404,16 @@ void ObservingList::slotRemoveSelectedObjects() {
                 currList = obsList();
             }
 
-            int irow = mIndex.row();
-            QString ra = currentModel->item(irow, 1)->text();
-            QString dc = currentModel->item(irow, 2)->text();
-
             foreach ( SkyObject *o, currList ) {
                 //Stars named "star" must be matched by coordinates
-                if ( o->name() == "star" ) {
-                    if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                        slotRemoveObject(o, sessionView);
-                        break;
-                    }
-                } else {
-                    if ( o->translatedName() == mIndex.data().toString() ) {
+               if (getObjectName(o) == mIndex.data().toString() ) {
                         slotRemoveObject(o, sessionView);
                         break;
                     }
                 }
             }
         }
-    }
+
 
     if (sessionView) {
         //we've removed all selected objects, so clear the selection
@@ -485,7 +459,7 @@ void ObservingList::slotNewSelection() {
         //then break the loop.  Now SessionList.current()
         //points to the new selected object (until now it was the previous object)
         foreach ( o, currList ) {
-            if ( o->translatedName() == newName ) {
+            if ( getObjectName(o) == newName ) {
                 found = true;
                 break;
             }
@@ -514,9 +488,9 @@ void ObservingList::slotNewSelection() {
                 LogObject = currentObject();
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
-                ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
+                ui->NotesLabel->setText( i18n( "observing notes for %1:", getObjectName(LogObject) ) );
                 if ( LogObject->userLog().isEmpty() ) {
-                    ui->NotesEdit->setPlainText( i18n( "Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
+                    ui->NotesEdit->setPlainText( i18n( "Record here observation logs and/or data on %1.", getObjectName(LogObject)) );
                 } else {
                     ui->NotesEdit->setPlainText( LogObject->userLog() );
                 }
@@ -659,10 +633,10 @@ void ObservingList::slotAddToSession() {
     QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
     if ( selectedItems.size() ) {
         foreach ( const QModelIndex &i, selectedItems ) {
-            foreach ( SkyObject *o, obsList() ) {
-                if ( o->translatedName() == i.data().toString() )
+            foreach ( SkyObject *o, obsList() )
+                if ( getObjectName(o) == i.data().toString() )
                     slotAddObject( o, true );
-                }
+
         }
     }
 }
@@ -687,18 +661,8 @@ void ObservingList::slotAVT() {
             if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
                 QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
                 QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
-                int irow = mIndex.row();
-                QString ra = m_Session->item(irow, 1)->text();
-                QString dc = m_Session->item(irow, 2)->text();
                 foreach ( SkyObject *o, sessionList() ) {
-                    //Stars named "star" must be matched by coordinates
-                    if ( o->name() == "star" ) {
-                        if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                            avt->processObject( o );
-                            break;
-                        }
-
-                    } else if ( o->translatedName() == mIndex.data().toString() ) {
+                    if ( getObjectName(o) == mIndex.data().toString() ) {
                         avt->processObject( o );
                         break;
                     }
@@ -713,7 +677,7 @@ void ObservingList::slotAVT() {
             QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
             foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
                 foreach ( SkyObject *o, obsList() )
-                    if ( o->translatedName() == i.data().toString() )
+                    if ( getObjectName(o) == i.data().toString() )
                         avt->processObject( o );
             }
             avt->exec();
@@ -735,7 +699,7 @@ void ObservingList::slotClose() {
 void ObservingList::saveCurrentUserLog() {
     if ( ! ui->NotesEdit->toPlainText().isEmpty() &&
             ui->NotesEdit->toPlainText() !=
-            i18n( "Record here observation logs and/or data on %1.", LogObject->translatedName() ) ) {
+            i18n( "Record here observation logs and/or data on %1.", getObjectName(LogObject) ) ) {
         LogObject->saveUserLog( ui->NotesEdit->toPlainText() );
         ui->NotesEdit->clear();
         ui->NotesLabel->setText( i18n( "Observing notes for object:" ) );
@@ -831,7 +795,8 @@ void ObservingList::slotSaveList() {
             continue;
         }
         if ( o->name() == "star" ) {
-            ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
+            //ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
+            ostream << getObjectName(o, false) << endl;
         } else if ( o->type() == SkyObject::STAR ) {
             StarObject *s = (StarObject*)o;
             if ( s->name() == s->gname() )
@@ -858,16 +823,17 @@ void ObservingList::slotLoadWishList() {
         line = istream.readLine();
         //If the object is named "star", add it by coordinates
         SkyObject *o;
-        if ( line.startsWith( QLatin1String( "star" ) ) ) {
+        /*if ( line.startsWith( QLatin1String( "star" ) ) ) {
             QStringList fields = line.split( ' ', QString::SkipEmptyParts );
             dms ra = dms::fromString( fields[1], false ); //false = hours
             dms dc = dms::fromString( fields[2], true );  //true  = degrees
             SkyPoint p( ra, dc );
             double maxrad = 1000.0/Options::zoomFactor();
             o = ks->data()->skyComposite()->starNearest( &p, maxrad );
-        } else {
-            o = ks->data()->objectNamed( line );
         }
+        else {*/
+        o = ks->data()->objectNamed( line );
+        //}
         //If we haven't identified the object, try interpreting the
         //name as a star's genetive name (with ascii letters)
         if ( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );
@@ -1325,7 +1291,7 @@ void ObservingList::slotAddVisibleObj() {
     if ( selectedItems.size() )
         foreach ( const QModelIndex &i, selectedItems ) {
             foreach ( SkyObject *o, obsList() )
-                if ( o->translatedName() == i.data().toString() && w->checkVisibility( o ) )
+                if ( getObjectName(o) == i.data().toString() && w->checkVisibility( o ) )
                     slotAddObject( o, true );
         }
     delete w;
@@ -1333,7 +1299,7 @@ void ObservingList::slotAddVisibleObj() {
 
 SkyObject* ObservingList::findObjectByName( QString name ) {
     foreach( SkyObject* o, sessionList() )
-        if( o->name() == name )
+        if( getObjectName(o, false) == name )
             return o;
     return NULL;
 }
@@ -1345,7 +1311,7 @@ void ObservingList::selectObject( const SkyObject *o ) {
         QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
         QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
         int idxrow = mIndex.row();
-        if(  m_Session->item(idxrow, 0)->text() == o->translatedName() )
+        if(  m_Session->item(idxrow, 0)->text() == getObjectName(o) )
             ui->SessionView->selectRow( idxrow );
         slotNewSelection();
     }
@@ -1358,6 +1324,24 @@ void ObservingList::setDefaultImage() {
        ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
     } else
         ui->ImagePreview->hide();
+}
+
+QString ObservingList::getObjectName(const SkyObject *o, bool translated)
+{
+    QString finalObjectName;
+    if( o->name() == "star" )
+    {
+        StarObject *s = (StarObject *)o;
+
+        // JM: Enable HD Index stars to be added to the observing list.
+        if( s->getHDIndex() != 0 )
+                finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
+    }
+    else
+         finalObjectName = translated ? o->translatedName() : o->name();
+
+    return finalObjectName;
+
 }
 
 #include "observinglist.moc"

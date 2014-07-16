@@ -36,7 +36,7 @@ public:
     virtual void setAlign(Align *_align) { align = _align;}
     virtual bool init();
     virtual void verifyIndexFiles(double fov_x, double fov_y);
-    virtual bool startSovler(const QString &filename, const QStringList &args);
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true);
     virtual bool stopSolver();
 
     typedef enum { NO_STAGE, AUTH_STAGE, UPLOAD_STAGE, JOB_ID_STAGE, JOB_STATUS_STAGE, JOB_CALIBRATION_STAGE } WorkflowStage;
@@ -71,6 +71,7 @@ private:
     double lowerScale, upperScale, center_ra, center_dec, radius;
     double parity,ra,dec,orientation;
     int downsample_factor;
+    bool isGenerated;
     Align *align;
 
 };

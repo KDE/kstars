@@ -139,9 +139,9 @@ void DetailDialog::createGeneralTab()
 
         if( s->getHDIndex() != 0 ) {
             if( !s->longname().isEmpty() )
-                Data->Names->setText( s->longname() + QString( ", HD%1" ).arg( QString::number( s->getHDIndex() ) ) );
+                Data->Names->setText( s->longname() + QString( ", HD %1" ).arg( QString::number( s->getHDIndex() ) ) );
             else
-                Data->Names->setText( QString( ", HD%1" ).arg( QString::number( s->getHDIndex() ) ) );
+                Data->Names->setText( QString( ", HD %1" ).arg( QString::number( s->getHDIndex() ) ) );
         }
         objecttyp = s->sptype() + ' ' + i18n("star");
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,

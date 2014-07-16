@@ -178,6 +178,11 @@ public:
      */
     void setDefaultImage();
 
+    /**@short get object name. If star has no name, generate a name based on catalog number.
+     * @param translated set to true if the translated name is required.
+     */
+    QString getObjectName(const SkyObject *o, bool translated=true);
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list

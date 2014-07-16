@@ -32,7 +32,7 @@ public:
     virtual void setAlign(Align *_align) { align = _align; }
     virtual bool init();
     virtual void verifyIndexFiles(double fov_x, double fov_y);
-    virtual bool startSovler(const QString &filename, const QStringList &args);
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true);
     virtual bool stopSolver();
 
 public slots:

@@ -58,7 +58,7 @@ public:
     /**Constructor. */
     FITSViewer (QWidget *parent);
     ~FITSViewer();
-    int addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
+    int addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, bool preview=false);
 
     bool updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE);
 
