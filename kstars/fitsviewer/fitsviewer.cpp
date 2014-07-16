@@ -207,7 +207,7 @@ FITSViewer::~FITSViewer()
     qDeleteAll(fitsImages);
 }
 
-int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter, bool preview)
+int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, bool preview)
 {
 
     FITSTab *tab = new FITSTab(this);

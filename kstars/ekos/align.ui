@@ -384,7 +384,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="solverOptions">
+           <widget class="QLineEdit" name="kcfg_solverOptions">
             <property name="statusTip">
              <string>Additional options to be the solver</string>
             </property>

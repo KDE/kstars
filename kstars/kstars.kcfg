@@ -1427,6 +1427,9 @@
               <label>Use astrometry.net online solver.</label>
               <default>true</default>
           </entry>
+          <entry name="SolverOptions" type="String">
+              <label>Options passed to the astrometry solver.</label>
+          </entry>
     </group>
     <group name="Guide">
     <entry name="UseDither" type="Bool">

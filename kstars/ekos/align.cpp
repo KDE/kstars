@@ -134,6 +134,8 @@ Align::Align()
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
     }
 
+    kcfg_solverOptions->setText(Options::solverOptions());
+
 }
 
 Align::~Align()
@@ -373,14 +375,14 @@ void Align::generateArgs()
 
     getFormattedCoords(ra, dec, ra_dms, dec_dms);
 
-    if (solverOptions->text().isEmpty())
+    if (kcfg_solverOptions->text().isEmpty())
     {
         solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
                     << "--downsample" << "2" << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
     }
     else
     {
-        solver_args = solverOptions->text().split(" ");
+        solver_args = kcfg_solverOptions->text().split(" ");
         int fov_low_index = solver_args.indexOf("-L");
         if (fov_low_index != -1)
             solver_args.replace(fov_low_index+1, fov_low);
@@ -440,7 +442,7 @@ void Align::generateArgs()
 
      }
 
-    solverOptions->setText(solver_args.join(" "));
+    kcfg_solverOptions->setText(solver_args.join(" "));
 }
 
 void Align::checkLineEdits()
@@ -503,6 +505,8 @@ bool Align::capture()
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
    targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
+   if (kcfg_solverPreview->isChecked())
+       targetChip->setCaptureFilter(FITS_AUTO_STRETCH);
    targetChip->setBinning(kcfg_solverXBin->value(), kcfg_solverYBin->value());
    targetChip->setFrameType(ccdFrame);
 
@@ -542,6 +546,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
     Options::setSolverOnline(kcfg_onlineSolver->isChecked());
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
+    Options::setSolverOptions(kcfg_solverOptions->text());
 
     currentTelescope->getEqCoords(&ra, &dec);
 
@@ -550,7 +555,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
 
     solverTimer.start();
 
-    solverArgs = solverOptions->text().split(" ");
+    solverArgs = kcfg_solverOptions->text().split(" ");
 
     parser->startSovler(filename, solverArgs, isGenerated);
 
@@ -1006,6 +1011,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
     // In degrees
     double deviation = (3.81 * (decDeviation * 3600) ) / ( RATime * cos(initDEC * dms::DegToRad)) / 60.0;
+    dms devDMS(fabs(deviation));
 
     KLocalizedString deviationDirection;
 
@@ -1016,9 +1022,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = kxi18n("%1° too far west");
+                deviationDirection = kxi18n("%1 too far west");
             else
-                deviationDirection = kxi18n("%1° too far east");
+                deviationDirection = kxi18n("%1 too far east");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1027,17 +1033,18 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                 // East
                 case 0:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1° too far high");
+                    deviationDirection = kxi18n("%1 too far high");
                 else
-                    deviationDirection = kxi18n("%1° too far low");
+                    deviationDirection = kxi18n("%1 too far low");
+
                 break;
 
                 // West
                 case 1:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1° too far low");
+                    deviationDirection = kxi18n("%1 too far low");
                 else
-                    deviationDirection = kxi18n("%1° too far high");
+                    deviationDirection = kxi18n("%1 too far high");
                 break;
 
                 default:
@@ -1051,9 +1058,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = kxi18n("%1° too far east");
+                deviationDirection = kxi18n("%1 too far east");
             else
-                deviationDirection = kxi18n("%1° too far west");
+                deviationDirection = kxi18n("%1 too far west");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1062,17 +1069,17 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                 // East
                 case 0:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1° too far low");
+                    deviationDirection = kxi18n("%1 too far low");
                 else
-                    deviationDirection = kxi18n("%1° too far high");
+                    deviationDirection = kxi18n("%1 too far high");
                 break;
 
                 // West
                 case 1:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1° too far high");
+                    deviationDirection = kxi18n("%1 too far high");
                 else
-                    deviationDirection = kxi18n("%1° too far low");
+                    deviationDirection = kxi18n("%1 too far low");
                 break;
 
                 default:
@@ -1088,13 +1095,15 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
 
     if (azStage == AZ_FINISHED)
     {
-        azError->setText(deviationDirection.subs(QString("%1").arg(fabs(deviation), 0, 'g', 3)).toString());
+        azError->setText(deviationDirection.subs(QString("%1").arg(devDMS.toDMSString())).toString());
+        //azError->setText(deviationDirection.subs(QString("%1")azDMS.toDMSString());
         azDeviation = deviation * (decDeviation > 0 ? 1 : -1);
         correctAzB->setEnabled(true);
     }
     if (altStage == ALT_FINISHED)
     {
-        altError->setText(deviationDirection.subs(QString("%1").arg(fabs(deviation), 0, 'g', 3)).toString());
+        //altError->setText(deviationDirection.subs(QString("%1").arg(fabs(deviation), 0, 'g', 3)).toString());
+        altError->setText(deviationDirection.subs(QString("%1").arg(devDMS.toDMSString())).toString());
         altDeviation = deviation * (decDeviation > 0 ? 1 : -1);
         correctAltB->setEnabled(true);
     }
