@@ -38,6 +38,7 @@ SequenceJob::SequenceJob()
     activeChip=NULL;
     activeCCD=NULL;
     activeFilter= NULL;
+    statusCell = NULL;
     completed=0;
 }
 
@@ -51,14 +52,16 @@ void SequenceJob::reset()
 void SequenceJob::resetStatus()
 {
     status = JOB_IDLE;
-    if (preview == false)
+    completed=0;
+    exposeLeft=0;
+    if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
 }
 
 void SequenceJob::abort()
 {
     status = JOB_ABORTED;
-    if (preview == false)
+    if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
     if (activeChip->canAbort())
         activeChip->abortExposure();
@@ -69,7 +72,8 @@ void SequenceJob::done()
 {
     status = JOB_DONE;
 
-    statusCell->setText(statusStrings[status]);
+    if (statusCell)
+        statusCell->setText(statusStrings[status]);
 
 }
 
