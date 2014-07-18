@@ -49,18 +49,17 @@ AddCatDialog::AddCatDialog( KStars *_ks )
 
     setWindowTitle( xi18n( "Import Catalog" ) );
 
-    //FIXME Need Porting to KF5
-    //setMainWidget(acd);
-    //setButtons( QDialog::Help|QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
 
     connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
     connect( acd->DataURL, SIGNAL( urlSelected( const QUrl & ) ),
              this, SLOT( slotShowDataFile() ) );
     connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
-//    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
-    connect(this,SIGNAL(helpClicked()),this,SLOT(slotHelp()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(slotCancel()));
+    connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(slotHelp()));
 
     acd->FieldList->addItem( xi18n( "ID Number" ) );
     acd->FieldList->addItem( xi18n( "Right Ascension" ) );
