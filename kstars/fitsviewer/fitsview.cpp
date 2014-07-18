@@ -84,16 +84,16 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
 
-    emit newStatus(QString("%1 , %2").arg( (int)x ).arg( (int)y ), FITS_POSITION);
+    emit newStatus(QString("X:%1 Y:%2").arg( (int)x ).arg( (int)y ), FITS_POSITION);
 
     // Range is 0 to dim-1 when accessing array
     x -= 1;
     y -= 1;
 
     if (image_data->getBPP() == -32 || image_data->getBPP() == 32)
-        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 5), FITS_VALUE);
+        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'g', 5), FITS_VALUE);
     else
-        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)]), FITS_VALUE);
+        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'g', 2), FITS_VALUE);
 
 
     if (image_data->hasWCS())
@@ -246,6 +246,14 @@ int FITSView::rescale(FITSZoom type)
 
     bscale = 255. / (max - min);
     bzero  = (-min) * (255. / (max - min));
+
+    if ( (image_buffer[0] * bscale + bzero) < 0)
+    {
+        image_data->calculateStats(true);
+        image_data->getMinMax(&min, &max);
+        bscale = 255. / (max - min);
+        bzero  = (-min) * (255. / (max - min));
+    }
 
     image_frame->setScaledContents(true);
     currentWidth  = display_image->width();

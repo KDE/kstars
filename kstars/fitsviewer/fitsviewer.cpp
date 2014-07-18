@@ -89,35 +89,17 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     led.setColor(Qt::green);
 
-    statusBar()->insertPermanentWidget(FITS_LED, &led);
+    fitsPosition.setMidLineWidth(100);
+    fitsPosition.setAlignment(Qt::AlignCenter);
+    fitsValue.setMinimumWidth(100);
+    fitsValue.setAlignment(Qt::AlignCenter);
 
-    //statusBar()->insertItem(QString(), FITS_POSITION);
-    statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
-    //statusBar()->setItemFixed(FITS_POSITION, 100);
-
-    //statusBar()->insertItem(QString(), FITS_VALUE);
-    //statusBar()->setItemFixed(FITS_VALUE, 100);
-    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
-
-    //statusBar()->insertItem(QString(), FITS_RESOLUTION);
-    //statusBar()->setItemFixed(FITS_RESOLUTION, 100);
-    statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
-
-    //statusBar()->insertItem(QString(), FITS_ZOOM);
-    //statusBar()->setItemFixed(FITS_ZOOM, 50);
-    statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsZoom);
-
-    //statusBar()->insertItem(QString(), FITS_WCS);
-    //statusBar()->setItemFixed(FITS_WCS, 200);
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
-
-    //statusBar()->insertWidget(0, led);
-
-    //statusBar()->insertPermanentItem(xi18n("Welcome to KStars FITS Viewer"), FITS_MESSAGE, 1);
-    fitsMessage.setText(xi18n("Welcome to KStars FITS Viewer"));
-    statusBar()->insertPermanentWidget(FITS_MESSAGE, &fitsMessage);
-
-    //statusBar()->setItemAlignment(FITS_MESSAGE , Qt::AlignLeft);
+    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);    
+    statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
+    statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsZoom);
+    statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
+    statusBar()->insertPermanentWidget(FITS_LED, &led);
 
     QAction *action;
     QFile tempFile;
@@ -506,8 +488,11 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
              case FITS_WCS:
                 fitsWCS.setText(msg);
                 break;
+             case FITS_VALUE:
+                fitsValue.setText(msg);
+                break;
              case FITS_MESSAGE:
-                fitsMessage.setText(msg);
+                statusBar()->showMessage(msg);
                 break;
 
              default:
