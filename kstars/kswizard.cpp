@@ -62,11 +62,16 @@ KSWizard::KSWizard( QWidget *parent ) :
     mainLayout->addWidget(wizardStack);
     setLayout(mainLayout);
 
-    //FIXME Needs Porting to KF5
-    //setMainWidget( wizardStack );
-    //setButtons( QDialog::User1|QDialog::User2|QDialog::Ok|QDialog::Cancel );
-    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Next >"), QString(), xi18n("Go to next Wizard page") ) );
-    //setButtonGuiItem( QDialog::User2, KGuiItem( xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page") ) );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel, Qt::Horizontal);
+    nextB = new QPushButton(xi18n("&Next >"));
+    nextB->setDefault(true);
+    backB = new QPushButton(xi18n("< &Back"));
+    backB->setEnabled(false);
+
+    buttonBox->addButton(backB, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(nextB, QDialogButtonBox::ActionRole);
+
+    mainLayout->addWidget(buttonBox);
 
     WizWelcomeUI* welcome = new WizWelcomeUI( wizardStack );
     location = new WizLocationUI( wizardStack );
@@ -87,17 +92,16 @@ KSWizard::KSWizard( QWidget *parent ) :
         download->Banner->setPixmap( im );
 
     //connect signals/slots
-    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
-    connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotPrevPage() ) );
+    connect(nextB, SIGNAL(clicked()), this, SLOT(slotNextPage()));
+    connect(backB, SIGNAL(clicked()), this, SLOT(slotPrevPage()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
     connect( location->CityListBox, SIGNAL( itemSelectionChanged () ), this, SLOT( slotChangeCity() ) );
     connect( location->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
     connect( location->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
     connect( location->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
     connect( download->DownloadButton, SIGNAL( clicked() ), this, SLOT( slotDownload() ) );
-
-    //Disable Back button
-    //FIXME Needs porting to KF5
-    //enableButton( QDialog::User2, false );
 
     //Initialize Geographic Location page
     initGeoPage();
@@ -108,9 +112,8 @@ KSWizard::~KSWizard()
 {}
 
 void KSWizard::setButtonsEnabled() {
-    //FIXME Needs porting to KF5
-    //enableButton( QDialog::User1, wizardStack->currentIndex() < wizardStack->count()-1 );
-    //enableButton( QDialog::User2, wizardStack->currentIndex() > 0 );
+    nextB->setEnabled(wizardStack->currentIndex() < wizardStack->count()-1 );
+    backB->setEnabled(wizardStack->currentIndex() > 0 );
 }
 
 void KSWizard::slotNextPage() {

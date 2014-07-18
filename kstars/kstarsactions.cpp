@@ -40,10 +40,10 @@
 #include <QIcon>
 #include <QTemporaryFile>
 
-#include <kactioncollection.h>
-#include <kactionmenu.h>
-#include <ktoggleaction.h>
-#include <kmessagebox.h>
+#include <KActionCollection>
+#include <KActionMenu>
+#include <KToggleAction>
+#include <KMessageBox>
 
 #include <ktip.h>
 #include <QStandardPaths>

@@ -97,6 +97,7 @@ private:
 
     QStackedWidget *wizardStack;
     WizLocationUI  *location;
+    QPushButton *nextB,*backB;
 
     GeoLocation *Geo;
     QList<GeoLocation*> filteredCityList;
