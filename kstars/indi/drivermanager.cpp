@@ -106,13 +106,16 @@ DriverManager::DriverManager()
 
     connectionMode = SERVER_CLIENT;
 
+    QVBoxLayout *mainLayout = new QVBoxLayout;
     ui = new DriverManagerUI( this );
-    // FIXME check if this works
-    //setMainWidget( ui );
-    //setWindowTitle( xi18n( "Device Manager" ) );
+    mainLayout->addWidget(ui);
+    setLayout(mainLayout);
     setWindowTitle( xi18n( "Device Manager" ) );
-    //setButtons( QDialog::Close );
 
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+
+    QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
     lastGroup = NULL;
 
@@ -133,8 +136,6 @@ DriverManager::DriverManager()
     readINDIHosts();
 
     updateCustomDrivers();
-
-
 }
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)
