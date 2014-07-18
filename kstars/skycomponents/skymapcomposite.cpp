@@ -620,4 +620,4 @@ SupernovaeComponent* SkyMapComposite::supernovaeComponent()
     return m_Supernovae;
 }
 
-#include "skymapcomposite.moc"
+

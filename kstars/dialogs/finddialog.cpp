@@ -359,4 +359,4 @@ void FindDialog::slotDetails()
 
 }
 
-#include "finddialog.moc"
+

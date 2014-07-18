@@ -1171,5 +1171,5 @@ void cproc_out_params::reset( void )
 }
 
 
-#include "gmath.moc"
+
 

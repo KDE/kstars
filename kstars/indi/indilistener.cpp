@@ -284,4 +284,4 @@ void INDIListener::processBLOB(IBLOB* bp)
     }
 }
 
-#include "indilistener.moc"
+

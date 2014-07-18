@@ -203,7 +203,8 @@ void FlagComponent::slotInit( KJob *job ) {
     loadFromFile();
 
     // Redraw Skymap
-    SkyMap::Instance()->forceUpdate(false);
+    //FIXME JM: SkyMap is not initilized yet, this is causing SIGSEGV.
+    //SkyMap::Instance()->forceUpdate(false);
 }
 
 

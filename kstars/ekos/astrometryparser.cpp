@@ -24,4 +24,4 @@ AstrometryParser::~AstrometryParser()
 
 }
 
-#include "astrometryparser.moc"
+

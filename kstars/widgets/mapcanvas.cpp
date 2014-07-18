@@ -121,4 +121,4 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
     }
     p.end();
 }
-#include "mapcanvas.moc"
+

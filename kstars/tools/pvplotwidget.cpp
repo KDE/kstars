@@ -274,4 +274,4 @@ void PVPlotWidget::updateFactor( const int modifier ) {
     factor = ( modifier & Qt::ControlModifier ) ? 1 : 25;
 }
 
-#include "pvplotwidget.moc"
+

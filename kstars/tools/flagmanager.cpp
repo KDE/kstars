@@ -294,4 +294,4 @@ void FlagManager::insertFlag( bool isNew, int row ) {
     }
 }
 
-#include "flagmanager.moc"
+

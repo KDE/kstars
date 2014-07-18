@@ -596,4 +596,4 @@ void Guide::setSuspended(bool enable)
 
 }
 
-#include "guide.moc"
+

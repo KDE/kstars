@@ -175,4 +175,4 @@ void FocusDialog::activateAzAltPage() const {
     fd->fdTab->setCurrentWidget( fd->aaTab );
     fd->azBox->setFocus();
 }
-#include "focusdialog.moc"
+

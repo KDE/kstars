@@ -396,4 +396,4 @@ QString Execute::getObjectName(const SkyObject *o, bool translated)
 }
 
 
-#include "execute.moc"
+

@@ -115,4 +115,4 @@ KStarsDateTime TimeDialog::selectedDateTime( void ) {
     return KStarsDateTime( selectedDate(), selectedTime() );
 }
 
-#include "timedialog.moc"
+

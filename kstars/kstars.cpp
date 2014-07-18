@@ -363,5 +363,5 @@ Execute* KStars::getExecute() {
     return execute;
 }
 
-#include "kstars.moc"
+
 

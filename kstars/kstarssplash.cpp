@@ -38,4 +38,4 @@ void KStarsSplash::setMessage(const QString& message) {
     showMessage( message, Qt::AlignLeft, Qt::lightGray);
 }
 
-#include "kstarssplash.moc"
+

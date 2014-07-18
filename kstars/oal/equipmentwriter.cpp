@@ -371,4 +371,4 @@ void EquipmentWriter::slotClose()
    hide();
 }
 
-#include "equipmentwriter.moc"
+

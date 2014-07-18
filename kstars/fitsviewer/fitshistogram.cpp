@@ -424,4 +424,4 @@ QString FITSHistogramCommand::text() const
 
 }
 
-#include "fitshistogram.moc"
+

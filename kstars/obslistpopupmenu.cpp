@@ -82,4 +82,4 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession,
     }
 }
 
-#include "obslistpopupmenu.moc"
+

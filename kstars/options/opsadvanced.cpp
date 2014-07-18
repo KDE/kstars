@@ -49,4 +49,4 @@ void OpsAdvanced::slotToggleHideOptions() {
     HideBox->setEnabled( kcfg_HideOnSlew->isChecked() );
 }
 
-#include "opsadvanced.moc"
+

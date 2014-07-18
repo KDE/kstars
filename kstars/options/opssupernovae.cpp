@@ -72,5 +72,5 @@ void OpsSupernovae::slotSetAlertMagnitudeLimit(double value)
 
 
 
-#include "opssupernovae.moc"
+
 

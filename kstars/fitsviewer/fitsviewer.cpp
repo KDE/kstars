@@ -635,4 +635,4 @@ FITSView * FITSViewer::getImage(int fitsUID)
         return NULL;
 }
 
-#include "fitsviewer.moc"
+

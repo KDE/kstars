@@ -105,4 +105,4 @@ void OpsINDI::slotCancel()
   m_filterList = Options::filterAlias();
 }
 
-#include "opsindi.moc"
+

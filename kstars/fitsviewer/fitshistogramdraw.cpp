@@ -88,4 +88,4 @@ void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
     data->updateIntenFreq(event_x);
 }
 
-#include "fitshistogramdraw.moc"
+

@@ -1362,4 +1362,4 @@ bool EkosManager::isRunning(const QString &process)
 }
 
 
-#include "ekosmanager.moc"
+

@@ -71,4 +71,3 @@ void TimeStepBox::setDaysOnly( bool daysonly ) {
     unitbox()->setDaysOnly( daysonly );
 }
 
-#include "timestepbox.moc"

@@ -158,4 +158,4 @@ void OpsXplanet::slotBackgroundWidgets( bool on ) {
     kcfg_XplanetBackgroundColorValue->setEnabled( on );
 }
 
-#include "opsxplanet.moc"
+

@@ -233,4 +233,4 @@ QString ServerManager::errorString()
     return NULL;
 }
 
-#include "servermanager.moc"
+

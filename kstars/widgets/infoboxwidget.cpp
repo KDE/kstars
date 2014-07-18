@@ -247,4 +247,4 @@ void InfoBoxWidget::mouseReleaseEvent(QMouseEvent*) {
     m_grabbed = false;
 }
 
-#include "infoboxwidget.moc"
+

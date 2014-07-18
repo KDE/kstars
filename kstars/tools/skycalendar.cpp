@@ -416,4 +416,4 @@ GeoLocation* SkyCalendar::get_geo()
     return geo;
 }
 
-#include "skycalendar.moc"
+

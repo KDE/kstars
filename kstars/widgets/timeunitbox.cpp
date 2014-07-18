@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "timeunitbox.h"
-#include "timeunitbox.moc"
+
 
 #include <cstdlib>
 

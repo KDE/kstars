@@ -449,4 +449,3 @@ void LocationDialog::slotOk() {
 
 bool LocationDialog::addCityEnabled() { return ui->AddCityButton->isEnabled(); }
 
-#include "locationdialog.moc"

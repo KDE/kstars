@@ -201,4 +201,4 @@ int KSConjunct::sgn(dms a) {
   return ((a.radians() > 0)?1:((a.radians() < 0)?-1:0));
 
 }
-#include "ksconjunct.moc"
+

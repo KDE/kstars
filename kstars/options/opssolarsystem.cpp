@@ -81,4 +81,4 @@ void OpsSolarSystem::slotSelectPlanets() {
     kcfg_ShowNeptune->setChecked( b );
     kcfg_ShowPluto->setChecked( b );
 }
-#include "opssolarsystem.moc"
+

@@ -1198,4 +1198,4 @@ void Align::loadFITS()
 
 }
 
-#include "align.moc"
+

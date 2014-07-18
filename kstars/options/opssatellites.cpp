@@ -243,4 +243,4 @@ void OpsSatellites::slotItemChanged( QStandardItem* item )
 
 
 
-#include "opssatellites.moc"
+

@@ -368,4 +368,4 @@ double TelescopeFL::computeFL() const {
 
 unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentRow(); }
 
-#include "fovdialog.moc"
+

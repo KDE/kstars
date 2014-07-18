@@ -126,4 +126,4 @@ void DragListBox::mouseMoveEvent( QMouseEvent *evt ) {
     }
 }
 
-#include "draglistbox.moc"
+

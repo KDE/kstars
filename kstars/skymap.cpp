@@ -1249,4 +1249,4 @@ void SkyMap::slotXplanetToFile() {
 }
 #endif
 
-#include "skymap.moc"
+

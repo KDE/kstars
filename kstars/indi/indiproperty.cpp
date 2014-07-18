@@ -690,4 +690,4 @@ INDI_P::~INDI_P()
 
 
 
-#include "indiproperty.moc"
+

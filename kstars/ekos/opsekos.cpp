@@ -52,4 +52,4 @@ void OpsEkos::slotCancel()
 {
   }
 
-#include "opsekos.moc"
+

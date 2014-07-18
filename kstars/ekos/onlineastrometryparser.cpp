@@ -480,4 +480,4 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
 }
 
-#include "onlineastrometryparser.moc"
+

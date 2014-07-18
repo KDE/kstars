@@ -264,4 +264,4 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
         e->ignore();
 }
 
-#include "planetviewer.moc"
+

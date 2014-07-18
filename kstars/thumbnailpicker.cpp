@@ -338,4 +338,4 @@ void ThumbnailPicker::slotSetFromURL() {
     }
 }
 
-#include "thumbnailpicker.moc"
+

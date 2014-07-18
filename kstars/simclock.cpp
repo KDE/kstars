@@ -167,4 +167,4 @@ void SimClock::setClockScale(float s) {
     }
 }
 
-#include "simclock.moc"
+

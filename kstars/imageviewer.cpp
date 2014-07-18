@@ -304,4 +304,4 @@ void ImageViewer::invertColors() {
     m_View->update();
 }
 
-#include "imageviewer.moc"
+

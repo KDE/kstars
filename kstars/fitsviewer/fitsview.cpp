@@ -498,4 +498,4 @@ void FITSView::processPointSelection(int x, int y)
     emit guideStarSelected(x,y);
 }
 
-#include "fitsview.moc"
+

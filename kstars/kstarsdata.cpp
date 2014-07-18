@@ -1066,4 +1066,4 @@ void KStarsData::syncFOV()
     Options::setFOVNames( all.intersect(names).toList() );
 }
 
-#include "kstarsdata.moc"
+

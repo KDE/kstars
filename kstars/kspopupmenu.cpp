@@ -553,4 +553,4 @@ void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
     //act->setDefaultWidget( label );
     addAction( act );
 }
-#include "kspopupmenu.moc"
+

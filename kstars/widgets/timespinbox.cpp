@@ -221,4 +221,4 @@ void TimeSpinBox::reportChange() {
     emit scaleChanged( timeScale() );
 }
 
-#include "timespinbox.moc"
+

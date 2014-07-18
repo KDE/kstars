@@ -75,4 +75,4 @@ void ObserverAdd::loadObservers() {
     ks->data()->logObject()->readObservers();
 }
 
-#include "observeradd.moc"
+

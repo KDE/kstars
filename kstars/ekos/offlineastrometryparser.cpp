@@ -287,5 +287,5 @@ void OfflineAstrometryParser::logSolver()
 
 }
 
-#include "offlineastrometryparser.moc"
+
 

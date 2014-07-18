@@ -173,4 +173,4 @@ dms dmsBox::createDms ( bool deg, bool *ok )
 dmsBox::~dmsBox(){
 }
 
-#include "dmsbox.moc"
+

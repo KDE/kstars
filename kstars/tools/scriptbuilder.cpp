@@ -3023,4 +3023,4 @@ void ScriptBuilder::warningMismatch (const QString &expected) const {
     qWarning() << xi18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;
 }
 
-#include "scriptbuilder.moc"
+

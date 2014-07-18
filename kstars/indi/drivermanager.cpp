@@ -1434,4 +1434,4 @@ QString DriverManager::getUniqueDeviceLabel(const QString &label)
   return uniqueLabel;
 }
 
-#include "drivermanager.moc"
+

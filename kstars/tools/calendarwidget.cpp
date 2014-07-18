@@ -424,4 +424,4 @@ void CalendarWidget::drawAxes( QPainter *p ) {
     p->setFont( origFont );
 }
 
-#include "calendarwidget.moc"
+

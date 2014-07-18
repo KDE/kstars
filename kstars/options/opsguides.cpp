@@ -66,4 +66,4 @@ void OpsGuides::slotToggleAutoSelectGrid( bool state ) {
     kcfg_ShowHorizontalGrid->setEnabled( !state );
 }
 
-#include "opsguides.moc"
+

@@ -1263,4 +1263,4 @@ void Focus::setInSequenceFocus(bool autoFocusComplete)
 
 }
 
-#include "focus.moc"
+

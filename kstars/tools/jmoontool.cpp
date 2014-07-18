@@ -206,4 +206,4 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
     }
 }
 
-#include "jmoontool.moc"
+

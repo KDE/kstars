@@ -268,4 +268,4 @@ int VideoWG::imageHeight()
     return streamImage->height();
 }
 
-#include "streamwg.moc"
+

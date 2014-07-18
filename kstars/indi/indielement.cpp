@@ -703,4 +703,4 @@ QString INDI_E::getReadField()
         return NULL;
 }
 
-#include "indielement.moc"
+

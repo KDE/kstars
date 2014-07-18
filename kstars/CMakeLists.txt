@@ -508,7 +508,7 @@ target_link_libraries(KStarsLib
         Qt5::Svg
 	${ZLIB_LIBRARIES}
         )
-# qt4_automoc(kstars.h)
+
 if(NOT WIN32)
   target_link_libraries(KStarsLib m)
 endif(NOT WIN32)

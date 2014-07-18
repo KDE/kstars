@@ -636,4 +636,4 @@ QString AltVsTime::getObjectName(const SkyObject *o, bool translated)
 }
 
 
-#include "altvstime.moc"
+

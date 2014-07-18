@@ -1202,4 +1202,4 @@ LogWidget::LogWidget( QWidget *p ) : QFrame( p )
     setupUi( this );
 }
 
-#include "detaildialog.moc"
+

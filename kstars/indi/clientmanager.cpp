@@ -201,4 +201,4 @@ DriverInfo * ClientManager::findDriverInfoByLabel(const QString &label)
 
 }
 
-#include "clientmanager.moc"
+

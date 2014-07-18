@@ -23,4 +23,4 @@ ClickLabel::ClickLabel( QWidget *parent, const char *name ) : QLabel( parent )
     setObjectName( name );
 }
 
-#include "clicklabel.moc"
+

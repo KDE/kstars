@@ -53,4 +53,4 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
     p.end();
 }
 
-#include "fovwidget.moc"
+

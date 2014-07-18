@@ -1690,4 +1690,4 @@ void Capture::constructPrefix(QString &imagePrefix)
 
 }
 
-#include "capture.moc"
+

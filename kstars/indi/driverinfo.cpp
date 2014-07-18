@@ -129,4 +129,4 @@ void DriverInfo::setAuxInfo(const QVariantMap &value)
 }
 
 
-#include "driverinfo.moc"
+

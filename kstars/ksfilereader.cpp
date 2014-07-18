@@ -96,4 +96,4 @@ void KSFileReader::showProgress()
 }
 
 
-#include "ksfilereader.moc"
+

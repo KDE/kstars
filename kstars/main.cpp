@@ -83,7 +83,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationVersion(KSTARS_VERSION);
 
-    if ( parser->isSet( "dump" ) ) {
+    if ( parser->isSet( "dump" ) )
+    {
         qDebug() << xi18n( "Dumping sky image" );
 
         //parse filename and image format
@@ -193,7 +194,8 @@ int main(int argc, char *argv[])
     //DEBUG
     qDebug() << "Date string: " << datestring;
 
-    if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
+    if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() )
+    {
         qWarning() << xi18n( "Using CPU date/time instead." ) ;
         datestring.clear();
     }

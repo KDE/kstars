@@ -572,4 +572,4 @@ void WUTDialog::slotChangeMagnitude() {
     }
     timer->start( 500 );
 }
-#include "wutdialog.moc"
+

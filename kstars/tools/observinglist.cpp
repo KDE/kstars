@@ -1367,4 +1367,4 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
 
 }
 
-#include "observinglist.moc"
+

@@ -872,4 +872,4 @@ bool ST4::doPulse(GuideDirection dir, int msecs )
 
 }
 
-#include "indistd.moc"
+

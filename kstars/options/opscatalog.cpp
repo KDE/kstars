@@ -351,4 +351,4 @@ void OpsCatalog::populateCustomCatalogs() {
 }
 
 
-#include "opscatalog.moc"
+

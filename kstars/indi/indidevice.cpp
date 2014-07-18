@@ -309,4 +309,4 @@ void INDI_D::clearMessageLog()
 }
 
 
-#include "indidevice.moc"
+

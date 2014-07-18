@@ -79,4 +79,4 @@ void ThumbnailEditor::slotUpdateCropLabel() {
                                   r->left(), r->top(), r->width(), r->height() ) );
 }
 
-#include "thumbnaileditor.moc"
+

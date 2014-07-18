@@ -31,4 +31,4 @@ void LogEdit::focusOutEvent( QFocusEvent *e ) {
     QWidget::focusOutEvent(e);
 }
 
-#include "logedit.moc"
+

@@ -184,4 +184,4 @@ void KSWizard::slotDownload() {
     dlg.exec();
 }
 
-#include "kswizard.moc"
+

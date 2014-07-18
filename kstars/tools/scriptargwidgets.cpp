@@ -153,5 +153,5 @@ ArgSetFilterNumINDI::ArgSetFilterNumINDI ( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
-#include "scriptargwidgets.moc"
+
 

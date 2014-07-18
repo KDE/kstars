@@ -77,4 +77,4 @@ void AddLinkDialog::changeDefaultDescription( int id ) {
     }
 }
 
-#include "addlinkdialog.moc"
+

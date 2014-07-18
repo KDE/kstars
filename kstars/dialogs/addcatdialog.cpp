@@ -244,4 +244,4 @@ void AddCatDialog::slotCreateCatalog() {
     }
 }
 
-#include "addcatdialog.moc"
+

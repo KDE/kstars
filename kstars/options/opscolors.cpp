@@ -254,4 +254,4 @@ void OpsColors::slotStarColorIntensity( int i ) {
     ksw->data()->colorScheme()->setStarColorIntensity( i );
 }
 
-#include "opscolors.moc"
+

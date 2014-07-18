@@ -220,4 +220,4 @@ void GUIManager::buildDevice(DeviceInfo *di)
 }
 
 
-#include "guimanager.moc"
+

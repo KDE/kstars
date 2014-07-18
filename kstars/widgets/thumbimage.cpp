@@ -161,4 +161,4 @@ void ThumbImage::mouseMoveEvent( QMouseEvent *e ) {
     }
 }
 
-#include "thumbimage.moc"
+

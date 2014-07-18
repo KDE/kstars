@@ -579,10 +579,10 @@ void KStars::datainitFinished() {
              map(), SLOT( slotClockSlewing() ) );
 
     connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
-    connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
-    connect( TimeStep, SIGNAL( scaleChanged(float) ),
-             data()->clock(), SLOT( setClockScale( float )) );
-    connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
+    //FIXME This is causing crash, investigate TimeStep and related GUI controls.
+    //connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
+    //connect( TimeStep, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
+    //connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 
     //Initialize Observing List

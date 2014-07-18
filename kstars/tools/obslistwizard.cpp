@@ -868,4 +868,4 @@ bool ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool 
 
 }
 
-#include "obslistwizard.moc"
+

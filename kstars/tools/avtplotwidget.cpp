@@ -203,4 +203,4 @@ void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
 }
 
 
-#include "avtplotwidget.moc"
+
