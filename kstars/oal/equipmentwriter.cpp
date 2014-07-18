@@ -47,9 +47,11 @@ EquipmentWriter::EquipmentWriter() {
     mainLayout->addWidget(widget);
     setLayout(mainLayout);
 
-    //FIXME need porting to KF5
-    //setMainWidget( widget );
-    //setButtons( QDialog::Close );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+
+    QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+
     ks = KStars::Instance();
     nextScope = 0;
     nextEyepiece = 0;
