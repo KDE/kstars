@@ -129,8 +129,7 @@ void OpsCatalog::updateCustomCatalogs() {
         }
     }
 
-    //FIXME Need porting to KF5
-    //m_ConfigDialog->enableButtonApply( false );
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
 
 
@@ -166,8 +165,8 @@ void OpsCatalog::slotLoadCatalog() {
         ksw->data()->catalogdb()->AddCatalogContents(filename);
         refreshCatalogList();
     }
-    //FIXME Need porting to KF5
-    //m_ConfigDialog->enableButtonApply( false );
+
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
 
 
@@ -201,8 +200,7 @@ void OpsCatalog::slotRemoveCatalog() {
     QListWidgetItem *todelete = CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
     delete todelete;
     refreshCatalogList();
-    //FIXME Need porting to KF5
-    //m_ConfigDialog->enableButtonApply( false );
+    m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
     KStars::Instance()->data()->skyComposite()->reloadDeepSky();
 }
 
