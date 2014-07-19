@@ -70,6 +70,7 @@ private slots:
 
 private:
     ScriptNameWidget *snw;
+    QPushButton *okB;
 };
 
 class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder {

@@ -24,15 +24,14 @@
 #include <QFontMetrics>
 #include <QTreeWidget>
 #include <QTextStream>
-
-#include <QDebug>
-#include <KLocalizedString>
-#include <kprocess.h>
-#include <kstandardguiitem.h>
-
-#include <kmessagebox.h>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QDebug>
+
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KIO/StoredTransferJob>
+#include <KJob>
 
 #include "scriptfunction.h"
 #include "kstars.h"
@@ -58,10 +57,13 @@ OptionsTreeView::OptionsTreeView( QWidget *p )
     mainLayout->addWidget(otvw);
     setLayout(mainLayout);
 
-    //setMainWidget( otvw );
     setWindowTitle( xi18n( "Options" ) );
-    // FIXME needs porting to KF5
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
     setModal( false );
 }
 
@@ -120,9 +122,12 @@ ScriptNameDialog::ScriptNameDialog( QWidget *p )
 
     setWindowTitle( xi18n( "Script Data" ) );
 
-    //FIXME needs porting to KF5
-    //setMainWidget( snw );
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    okB = buttonBox->button(QDialogButtonBox::Ok);
 
     connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
 }
@@ -133,8 +138,7 @@ ScriptNameDialog::~ScriptNameDialog() {
 
 void ScriptNameDialog::slotEnableOkButton()
 {
-    //FIXME Needs porting to KF5
-    //enableButtonOk( ! snw->ScriptName->text().isEmpty() );
+    okB->setEnabled( ! snw->ScriptName->text().isEmpty() );
 }
 
 ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
@@ -154,12 +158,11 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     mainLayout->addWidget(sb);
     setLayout(mainLayout);
 
-    //setMainWidget(sb);
     setWindowTitle( xi18n( "Script Builder" ) );
 
-    //FIXME Needs porting to KF5
-    //setButtons( QDialog::User1 );
-    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Close"), "dialog-close", xi18n("Close the dialog") ) );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(slotClose()));
 
     sb->FuncDoc->setTextInteractionFlags( Qt::NoTextInteraction );
 
@@ -447,8 +450,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     initViewOptions();
     otv->resizeColumns();
 
-    //connect widgets in ScriptBuilderUI
-    connect( this, SIGNAL(user1Clicked()), this, SLOT(slotClose()));
+    //connect widgets in ScriptBuilderUI    
     connect( sb->FunctionTree, SIGNAL( itemDoubleClicked(QTreeWidgetItem *, int )), this, SLOT( slotAddFunction() ) );
     connect( sb->FunctionTree, SIGNAL( itemClicked(QTreeWidgetItem*, int) ), this, SLOT( slotShowDoc() ) );
     connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
@@ -992,14 +994,13 @@ void ScriptBuilder::slotOpen() {
     QTemporaryFile tmpfile;
     tmpfile.open();
 
-    /*
-     * FIXME Needs porting to KF5
-     *
-    if ( !UnsavedChanges ) {
-        currentFileURL = KFileDialog::getOpenUrl( currentDir, "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+    if ( !UnsavedChanges )
+    {
+        currentFileURL = QFileDialog::getOpenFileUrl(0, QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
 
-        if ( currentFileURL.isValid() ) {
-            currentDir = currentFileURL.directory();
+        if ( currentFileURL.isValid() )
+        {
+            currentDir = currentFileURL.path();
 
             ScriptList.clear();
             sb->ScriptListBox->clear();
@@ -1007,9 +1008,11 @@ void ScriptBuilder::slotOpen() {
 
             if ( currentFileURL.isLocalFile() ) {
                 fname = currentFileURL.toLocalFile();
-            } else {
+            } else
+            {
                 fname = tmpfile.fileName();
-                if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
+                if (KIO::copy(currentFileURL, QUrl(fname))->exec() == false)
+                //if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
                     KMessageBox::sorry( 0, xi18n( "Could not download remote file." ), xi18n( "Download Error" ) );
             }
 
@@ -1031,7 +1034,6 @@ void ScriptBuilder::slotOpen() {
             currentFileURL.clear();
         }
     }
-    */
 }
 
 void ScriptBuilder::slotSave()
@@ -1040,27 +1042,28 @@ void ScriptBuilder::slotSave()
     QTemporaryFile tmpfile;
     tmpfile.open();
 
-    /*
-     * FIXME Needs porting to KF5
-     *
-    if ( currentScriptName.isEmpty() ) {
+    if ( currentScriptName.isEmpty() )
+    {
         //Get Script Name and Author info
-        if ( snd->exec() == QDialog::Accepted ) {
+        if ( snd->exec() == QDialog::Accepted )
+        {
             currentScriptName = snd->scriptName();
             currentAuthor = snd->authorName();
-        } else {
+        }
+        else
+        {
             return;
         }
     }
 
     bool newFilename = false;
     if ( currentFileURL.isEmpty() ) {
-        currentFileURL = KFileDialog::getSaveUrl( currentDir, "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+        currentFileURL = QFileDialog::getSaveFileUrl(0, QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
         newFilename = true;
     }
 
     if ( currentFileURL.isValid() ) {
-        currentDir = currentFileURL.directory();
+        currentDir = currentFileURL.path();
 
         if ( currentFileURL.isLocalFile() ) {
             fname = currentFileURL.toLocalFile();
@@ -1096,9 +1099,13 @@ void ScriptBuilder::slotSave()
         //set rwx for owner, rx for group, rx for other
         chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
-        if ( tmpfile.fileName() == fname ) { //need to upload to remote location
-            if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) ) {
-                QString message = xi18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
+        if ( tmpfile.fileName() == fname )
+        {
+            //need to upload to remote location
+            //if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) )
+            if ( KIO::storedHttpPost(&tmpfile, currentFileURL)->exec() == false)
+            {
+                QString message = xi18n( "Could not upload image to remote location: %1", currentFileURL.url() );
                 KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
             }
         }
@@ -1110,7 +1117,6 @@ void ScriptBuilder::slotSave()
         KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
         currentFileURL.clear();
     }
-    */
 }
 
 void ScriptBuilder::slotSaveAs() {
@@ -1163,9 +1169,8 @@ void ScriptBuilder::slotRunScript() {
     //set rwx for owner, rx for group, rx for other
     chmod( QFile::encodeName( f.fileName() ), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
-    KProcess p;
-    p << f.fileName();
-    p.start();
+    QProcess p;
+    p.start(f.fileName());
 
     if( !p.waitForStarted() )
         qDebug() << "Process did not start.";
