@@ -559,9 +559,6 @@ void KStars::slotViewOps() {
 
     dialog->addPage(opadvanced, xi18n("Advanced"), "kstars_advanced");
 
-    //FIXME needs porting to KF5
-    //dialog->setHelp(QString(), "kstars");
-
     dialog->show();
 }
 
@@ -716,15 +713,15 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-    /*
-     * FIXME Needs porting to KF5
-     *
-    QUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+
+
+    QUrl fileURL = QFileDialog::getOpenFileUrl(0, QString(), QUrl(QDir::homePath()), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
     QString fname;
 
     if ( fileURL.isValid() ) {
-        if ( ! fileURL.isLocalFile() ) {
+        if ( ! fileURL.isLocalFile() )
+        {
             //Warn the user about executing remote code.
             QString message = xi18n( "Warning:  You are about to execute a remote shell script on your machine. " );
             message += xi18n( "If you absolutely trust the source of this script, press Continue to execute the script; " );
@@ -735,33 +732,46 @@ void KStars::slotRunScript() {
                          KStandardGuiItem::cont(), KStandardGuiItem::save() );
 
             if ( result == KMessageBox::Cancel ) return;
-            if ( result == KMessageBox::No ) { //save file
-                QUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
-                KTemporaryFile tmpfile;
+            if ( result == KMessageBox::No )
+            { //save file
+                QUrl saveURL = QFileDialog::getSaveFileUrl(0, QString(), QUrl(QDir::homePath()), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+                QTemporaryFile tmpfile;
                 tmpfile.open();
 
-                while ( ! saveURL.isValid() ) {
+                while ( ! saveURL.isValid() )
+                {
                     message = xi18n( "Save location is invalid. Try another location?" );
                     if ( KMessageBox::warningYesNo( 0, message, xi18n( "Invalid Save Location" ), KGuiItem(xi18n("Try Another")), KGuiItem(xi18n("Do Not Try")) ) == KMessageBox::No ) return;
-                    saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+                    saveURL = QFileDialog::getSaveFileUrl(0, QString(), QUrl(QDir::homePath()), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 }
 
-                if ( saveURL.isLocalFile() ) {
+                if ( saveURL.isLocalFile() )
+                {
                     fname = saveURL.toLocalFile();
-                } else {
+                }
+                else
+                {
                     fname = tmpfile.fileName();
                 }
 
-                if( KIO::NetAccess::download( fileURL, fname, this ) ) {
+                //if( KIO::NetAccess::download( fileURL, fname, this ) ) {
+                if (KIO::file_copy(fileURL, QUrl(fname))->exec() == true)
+                {
                     chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
 
-                    if ( tmpfile.fileName() == fname ) { //upload to remote location
-                        if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) ) {
-                            QString message = xi18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
+                    if ( tmpfile.fileName() == fname )
+                    { //upload to remote location
+                        //if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) )
+                        QUrl sourceURL(tmpfile.fileName());
+                        sourceURL.setScheme("file");
+                        if (KIO::file_copy(sourceURL, fileURL)->exec() == false)
+                        {
+                            QString message = xi18n( "Could not upload image to remote location: %1", fileURL.url() );
                             KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
                         }
                     }
-                } else {
+                } else
+                {
                     KMessageBox::sorry( 0, xi18n( "Could not download the file." ), xi18n( "Download Error" ) );
                 }
 
@@ -770,12 +780,15 @@ void KStars::slotRunScript() {
         }
 
         //Damn the torpedos and full speed ahead, we're executing the script!
-        KTemporaryFile tmpfile;
+        QTemporaryFile tmpfile;
         tmpfile.open();
 
-        if ( ! fileURL.isLocalFile() ) {
+        if ( ! fileURL.isLocalFile() )
+        {
             fname = tmpfile.fileName();
-            if( KIO::NetAccess::download( fileURL, fname, this ) ) {
+            //if( KIO::NetAccess::download( fileURL, fname, this ) )
+            if (KIO::file_copy(fileURL, QUrl(fname))->exec() == true)
+            {
                 chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
                 f.setFileName( fname );
             }
@@ -783,7 +796,8 @@ void KStars::slotRunScript() {
             f.setFileName( fileURL.toLocalFile() );
         }
 
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = xi18n( "Could not open file %1", f.fileName() );
             KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
             return;
@@ -797,7 +811,8 @@ void KStars::slotRunScript() {
         QString line;
         bool fileOK( true );
 
-        while (  ! istream.atEnd() ) {
+        while (  ! istream.atEnd() )
+        {
             line = istream.readLine();
             if ( line.left(1) != "#" && line.left(9) != "dbus-send")
             {
@@ -818,11 +833,10 @@ void KStars::slotRunScript() {
         }
 
         //Add statusbar message that script is running
-        statusBar()->changeItem( xi18n( "Running script: %1", fileURL.fileName() ), 0 );
+        statusBar()->showMessage(xi18n( "Running script: %1", fileURL.fileName() ));
 
-        KProcess p;
-        p << f.fileName();
-        p.start();
+        QProcess p;
+        p.start(f.fileName());
         if( !p.waitForStarted() )
             return;
 
@@ -833,9 +847,8 @@ void KStars::slotRunScript() {
                 break;
         }
 
-        statusBar()->changeItem( xi18n( "Script finished."), 0 );
+        statusBar()->showMessage(xi18n( "Script finished."), 0 );
     }
-    */
 }
 
 void KStars::slotPrint() {
@@ -1016,8 +1029,6 @@ void KStars::slotZoomChanged() {
     }
     QString fovstring = fovi18nstring.subs( QString::number( fov, 'f', 1 ) ).toString();
 
-    //TODO Double check this
-    //statusBar()->changeItem( fovstring, 0 );
     statusBar()->showMessage( fovstring, 0 );
 }
 
@@ -1170,20 +1181,24 @@ void KStars::slotShowGUIItem( bool show ) {
         statusBar()->setVisible(show);
     }
 
-    /* FIXME Needs porting to KF5
-    if ( sender() == actionCollection()->action( "show_sbAzAlt" ) ) {
+    if ( sender() == actionCollection()->action( "show_sbAzAlt" ) )
+    {
         Options::setShowAltAzField( show );
         if( !show )
-            statusBar()->changeItem( QString(), 1 );
+            AltAzField.hide();
+        else
+            AltAzField.show();
+
     }
 
-    if ( sender() == actionCollection()->action( "show_sbRADec" ) ) {
+    if ( sender() == actionCollection()->action( "show_sbRADec" ) )
+    {
         Options::setShowRADecField( show );
         if( ! show )
-            statusBar()->changeItem( QString(), 2 );
+            RADecField.hide();
+        else
+            RADecField.show();
     }
-    */
-
 }
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
     KToggleAction *kta = actionCollection()->add<KToggleAction>( actionName );
@@ -1242,22 +1257,23 @@ void KStars::slotAboutToQuit()
 void KStars::slotShowPositionBar(SkyPoint* p )
 {
 
-    /* Needs porting to KF5
-     *
-    if ( Options::showAltAzField() ) {
+    if ( Options::showAltAzField() )
+    {
         dms a = p->alt();
         if ( Options::useAltAz() )
             a = p->altRefracted();
         QString s = QString("%1, %2").arg( p->az().toDMSString(true), //true: force +/- symbol
                                            a.toDMSString(true) );                 //true: force +/- symbol
-        statusBar()->changeItem( s, 1 );
+        //statusBar()->changeItem( s, 1 );
+        AltAzField.setText(s);
     }
     if ( Options::showRADecField() ) {
         QString s = QString("%1, %2").arg(p->ra().toHMSString(),
                                           p->dec().toDMSString(true) ); //true: force +/- symbol
-        statusBar()->changeItem( s, 2 );
+        //statusBar()->changeItem( s, 2 );
+        RADecField.setText(s);
     }
-    */
+
 }
 
 void KStars::slotUpdateComets() {

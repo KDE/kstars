@@ -542,27 +542,25 @@ void KStars::repopulateFOV() {
 }
 
 void KStars::initStatusBar() {
-    //FIXME Needs porting to KF5
-    /*
-    statusBar()->insertPermanentItem( xi18n( " Welcome to KStars " ), 0, 1 );
-    statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
+
+    statusBar()->showMessage( xi18n( " Welcome to KStars " ));
 
     QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-    if ( Options::showAltAzField() ) {
-        statusBar()->insertPermanentFixedItem( s, 1 );
-        statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
-        statusBar()->changeItem( QString(), 1 );
+    if ( Options::showAltAzField() )
+    {
+        AltAzField.setText(s);
+        statusBar()->insertPermanentWidget(0, &AltAzField);
     }
 
-    if ( Options::showRADecField() ) {
-        statusBar()->insertPermanentFixedItem( s, 2 );
-        statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
-        statusBar()->changeItem( QString(), 2 );
+    if ( Options::showRADecField() )
+    {
+        RADecField.setText(s);
+        statusBar()->insertPermanentWidget(1, &RADecField);
     }
 
     if ( ! Options::showStatusBar() )
         statusBar()->hide();
-        */
+
 }
 
 void KStars::datainitFinished() {
