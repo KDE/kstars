@@ -49,9 +49,10 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
     else
         setWindowTitle( xi18nc( "set clock to a new time", "Set Time" ) );
 
-    //FIXME Need porting to KF5
-    //setMainWidget( page );
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     vlay = new QVBoxLayout( page );
     vlay->setMargin( 2 );
@@ -73,8 +74,6 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
 
     vlay->activate();
 
-    QObject::connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ));
-    QObject::connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ));
     QObject::connect( NowButton, SIGNAL( clicked() ), this, SLOT( setNow() ));
 }
 

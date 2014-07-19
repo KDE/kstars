@@ -226,10 +226,8 @@ bool ImageExporter::exportImage( QString url )
 
         if(!isLocalFile)
         {
-            tmpfile.open();
-            QByteArray data = tmpfile.readAll();
             //attempt to upload image to remote location
-            KIO::StoredTransferJob *put_job = KIO::storedPut(data, fileURL, -1);
+            KIO::StoredTransferJob *put_job = KIO::storedHttpPost(&tmpfile, fileURL, -1);
             //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
             if (put_job->exec() == false)
             {

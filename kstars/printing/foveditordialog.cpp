@@ -17,9 +17,13 @@
 
 #include "foveditordialog.h"
 #include "printingwizard.h"
+
 #include <QTemporaryFile>
 #include <QFileDialog>
-#include "kmessagebox.h"
+
+#include <KMessageBox>
+#include <KIO/StoredTransferJob>
+#include <KJob>
 
 FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
 {
@@ -37,9 +41,9 @@ FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent) : QDia
     mainLayout->addWidget(m_EditorUi);
     setLayout(mainLayout);
 
-    //FIXME Need porting to KF5
-    //setMainWidget(m_EditorUi);
-    //setButtons(QDialog::Close);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     setupWidgets();
     setupConnections();
@@ -172,13 +176,16 @@ void FovEditorDialog::slotSaveImage()
 
     if(tmpfile.fileName() == fname)
     {
-        //attempt to upload image to remote location      
-        //FIXME Need porting to KF5
-        /*if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
+
+        //attempt to upload image to remote location
+        KIO::TransferJob *uploadJob = KIO::storedHttpPost(&tmpfile, fileUrl);
+        //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
+        if (uploadJob->exec() == false)
         {
-            QString message = xi18n( "Could not upload image to remote location: %1", fileUrl.prettyUrl() );
+            QString message = xi18n( "Could not upload image to remote location: %1", fileUrl.url() );
             KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
-        }*/
+        }
+        uploadJob->kill();
     }
 }
 
