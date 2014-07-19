@@ -235,10 +235,6 @@ private:
       */
     void setupWidgets();
 
-    /**
-      * \brief Setup signal-slot connections.
-      */
-    void setupConnections();
 
     /**
       * \brief Update Previous/Next buttons.
@@ -277,6 +273,8 @@ private:
 
     bool m_RecapturingFov;
     int m_RecaptureIdx;
+
+    QPushButton *nextB, *backB;
 
     PWizWelcomeUI *m_WizWelcomeUI;
     PWizObjectSelectionUI *m_WizObjectSelectionUI;

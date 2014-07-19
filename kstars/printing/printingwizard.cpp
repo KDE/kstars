@@ -54,7 +54,6 @@ PrintingWizard::PrintingWizard(QWidget *parent) : QDialog(parent),
     m_Printer = new QPrinter(QPrinter::ScreenResolution);
 
     setupWidgets();
-    setupConnections();
 }
 
 PrintingWizard::~PrintingWizard()
@@ -75,9 +74,7 @@ void PrintingWizard::updateStepButtons()
     {
     case PW_OBJECT_SELECTION: // object selection
         {
-
-            //FIXME Need porting to KF5
-            //enableButton(QDialog::User1, m_SkyObject);
+            nextB->setEnabled(m_SkyObject != NULL);
             break;
         }
     }
@@ -399,18 +396,28 @@ void PrintingWizard::setupWidgets()
 {
     m_WizardStack = new QStackedWidget(this);
 
-
     setWindowTitle(xi18n("Printing Wizard"));
 
     QVBoxLayout *mainLayout= new QVBoxLayout;
     mainLayout->addWidget(m_WizardStack);
     setLayout(mainLayout);
 
-    //TODO Need porting to KF5
-    //setMainWidget(m_WizardStack);
-    //setButtons(QDialog::User1 | QDialog::User2 | QDialog::Close);
-    //setButtonGuiItem(QDialog::User1, KGuiItem(xi18n("&Next >"), QString(), xi18n("Go to next Wizard page")));
-    //setButtonGuiItem(QDialog::User2, KGuiItem(xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page")));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    nextB = new QPushButton(xi18n("&Next >"));
+    nextB->setToolTip(xi18n("Go to next Wizard page"));
+    nextB->setDefault(true);
+    backB = new QPushButton(xi18n("< &Back"));
+    backB->setToolTip(xi18n("Go to previous Wizard page"));
+    backB->setEnabled(false);
+
+    buttonBox->addButton(backB, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(nextB, QDialogButtonBox::ActionRole);
+
+    connect(nextB, SIGNAL(clicked()), this, SLOT(slotNextPage()));
+    connect(backB, SIGNAL(clicked()), this, SLOT(slotPrevPage()));
 
     // Create step widgets
     m_WizWelcomeUI = new PWizWelcomeUI(m_WizardStack);
@@ -453,23 +460,13 @@ void PrintingWizard::setupWidgets()
     }
 
 
-    //TODO Need porting to KF5
-    //enableButton(QDialog::User2, false);
-}
-
-void PrintingWizard::setupConnections()
-{
-    connect(this, SIGNAL(user1Clicked()), this, SLOT(slotNextPage()));
-    connect(this, SIGNAL(user2Clicked()), this, SLOT(slotPrevPage()));
+    backB->setEnabled(false);
 }
 
 void PrintingWizard::updateButtons()
 {
-
-
-    //TODO Need porting to KF5
-    //enableButton(QDialog::User1, m_WizardStack->currentIndex() < m_WizardStack->count() - 1);
-    //enableButton(QDialog::User2, m_WizardStack->currentIndex() > 0);
+    nextB->setEnabled( m_WizardStack->currentIndex() < m_WizardStack->count() - 1);
+    backB->setEnabled(m_WizardStack->currentIndex() > 0);
 }
 
 void PrintingWizard::slewAndBeginCapture(SkyPoint *center, FOV *fov)
