@@ -49,9 +49,13 @@ FocusDialog::FocusDialog( KStars *_ks )
 
     setWindowTitle( xi18n( "Set Coordinates Manually" ) );
 
-    //FIXME Need porting to KF5
-    //setMainWidget(fd);
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(validatePoint()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    okB = buttonBox->button(QDialogButtonBox::Ok);
+    okB->setEnabled(false);
 
     fd->epochBox->setValidator( new QDoubleValidator( fd->epochBox ) );
     fd->raBox->setMinimumWidth( fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width() );
@@ -60,14 +64,10 @@ FocusDialog::FocusDialog( KStars *_ks )
     fd->raBox->setDegType(false); //RA box should be HMS-style
     fd->raBox->setFocus(); //set input focus
 
-    //FIXME Need porting to KF5
-    //enableButtonOk( false ); //disable until both lineedits are filled
-
     connect( fd->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect( fd->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect( fd->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect( fd->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-    connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
 }
 
 FocusDialog::~FocusDialog(){
@@ -80,13 +80,10 @@ void FocusDialog::checkLineEdits() {
     fd->azBox->createDms( true, &azOk );
     fd->altBox->createDms( true, &altOk );
 
-    //FIXME Need porting to KF5
-    /*
     if ( ( raOk && decOk ) || ( azOk && altOk ) )
-        enableButtonOk( true );
+        okB->setEnabled(true );
     else
-        enableButtonOk( false );
-        */
+        okB->setEnabled(false);
 }
 
 void FocusDialog::validatePoint() {

@@ -91,6 +91,7 @@ private:
     SkyPoint Point;
     FocusDialogUI *fd;
     bool UsedAltAz;
+    QPushButton *okB;
 };
 
 #endif
