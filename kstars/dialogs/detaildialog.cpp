@@ -84,8 +84,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
     setWindowTitle( xi18n( "Object Details" ) );
 
-    //FIXME Need porting to KF5
-    //setButtons( QDialog::Close );
+    setStandardButtons(QDialogButtonBox::Close);
 
     createGeneralTab();
     createPositionTab( ut, geo );
@@ -147,12 +146,12 @@ void DetailDialog::createGeneralTab()
         }
         objecttyp = s->sptype() + ' ' + xi18n("star");
         Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                         QLocale().toString( s->mag(), 2 ) ) );  //show to hundredth place
+                                         QLocale().toString( s->mag(), 'f', 2 ) ) );  //show to hundredth place
 
         Data->BVLabel->setVisible( true );
         Data->BVIndex->setVisible( true );
         if( s->getBVIndex() < 30.0 )
-            Data->BVIndex->setText( QString::number( s->getBVIndex() , 'g', 2 ) );
+            Data->BVIndex->setText( QString::number( s->getBVIndex() , 'f', 2 ) );
 
         //The thumbnail image is empty, and isn't clickable for stars
         //Also, don't show the border around the Image QFrame.
@@ -164,13 +163,13 @@ void DetailDialog::createGeneralTab()
             Data->Distance->setText( QString(xi18nc("larger than 2000 parsecs", "> 2000 pc") ) );
         else if ( s->distance() > 50.0 ) //show to nearest integer
             Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
-                                            QLocale().toString( s->distance(), 0 ) ) );
+                                            QLocale().toString( s->distance(), 'f', 0 ) ) );
         else if ( s->distance() > 10.0 ) //show to tenths place
             Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
-                                            QLocale().toString( s->distance(), 1 ) ) );
+                                            QLocale().toString( s->distance(), 'f', 1 ) ) );
         else //show to hundredths place
             Data->Distance->setText( xi18nc( "number in parsecs", "%1 pc" ,
-                                            QLocale().toString( s->distance(), 2 ) ) );
+                                            QLocale().toString( s->distance(), 'f', 2 ) ) );
 
         //Note multiplicity/variablility in angular size label
         Data->AngSizeLabel->setText( QString() );
@@ -212,30 +211,30 @@ void DetailDialog::createGeneralTab()
         
         if(selectedObject->type() == SkyObject::COMET){
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                             QLocale().toString( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 2 ) ) );  //show to hundredth place
+                                             QLocale().toString( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 'f', 2 ) ) );  //show to hundredth place
         }
         else{
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                             QLocale().toString( ps->mag(), 2 ) ) );  //show to hundredth place
+                                             QLocale().toString( ps->mag(), 'f', 2 ) ) );  //show to hundredth place
         }
 
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( xi18nc("distance in kilometers", "%1 km",
-                                           QLocale().toString( ps->rearth()*AU_KM ) ) );
+                                           QLocale().toString( ps->rearth()*AU_KM, 'f', 2 ) ) );
         } else {
             Data->Distance->setText( xi18nc("distance in Astronomical Units", "%1 AU",
-                                           QLocale().toString( ps->rearth() ) ) );
+                                           QLocale().toString( ps->rearth(), 'f', 3 ) ) );
         }
 
         //Angular size; moon and sun in arcmin, others in arcsec
         if ( ps->angSize() ) {
             if ( ps->name() == "Sun" || ps->name() == "Moon" )
                 Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
-                                              QLocale().toString( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
+                                              QLocale().toString( ps->angSize(), 'f', 1 ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
             else
                 Data->AngSize->setText( xi18nc("angular size in arcseconds","%1 arcsec",
-                                              QLocale().toString( ps->angSize()*60.0 ) ) ); 
+                                              QLocale().toString( ps->angSize()*60.0 ), 'f', 1 ) );
         } else {
             Data->AngSize->setText( "--" );
         }
@@ -248,7 +247,7 @@ void DetailDialog::createGeneralTab()
         Data->Names->setText(sup->name());
 
         Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                         QLocale().toString( sup->mag(), 2 ) ) );
+                                         QLocale().toString( sup->mag(), 'f', 2 ) ) );
         Data->Distance->setText( "---" );
 
         break;
@@ -287,13 +286,13 @@ void DetailDialog::createGeneralTab()
         {
             Data->MagLabel->setText(xi18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
             Data->Magnitude->setText( xi18nc( "integrated flux value", "%1 %2" ,
-                                             QLocale().toString( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
+                                             QLocale().toString( dso->flux(), 'f', 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
         }
         else if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
         else
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
-                                             QLocale().toString( dso->mag(), 1 ) ) );  //show to tenths place
+                                             QLocale().toString( dso->mag(), 'f', 1 ) ) );  //show to tenths place
 
         //No distances at this point...
         Data->Distance->setText( "--" );
@@ -301,10 +300,10 @@ void DetailDialog::createGeneralTab()
         //Only show decimal place for small angular sizes
         if ( dso->a() > 10.0 )
             Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
-                                          QLocale().toString(dso->a(), 0 ) ) );
+                                          QLocale().toString(dso->a(), 'f', 0 ) ) );
         else if ( dso->a() )
             Data->AngSize->setText( xi18nc("angular size in arcminutes", "%1 arcmin",
-                                          QLocale().toString( dso->a(), 1 ) ) );
+                                          QLocale().toString( dso->a(), 'f', 1 ) ) );
         else
             Data->AngSize->setText( "--" );
 
@@ -744,10 +743,18 @@ void DetailDialog::editLinkDialog()
     QDialog editDialog( this );
     editDialog.setWindowTitle( xi18n("Edit Link") );
 
-    //FIXME Need porting to KF5
-    //editDialog.setButtons( QDialog::Ok | QDialog::Cancel );
+    QVBoxLayout *mainLayout = new QVBoxLayout;
 
     QFrame editFrame( &editDialog );
+
+    mainLayout->addWidget(&editFrame);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), &editDialog, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), &editDialog, SLOT(reject()));
+
+    editDialog.setLayout(mainLayout);
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
@@ -794,9 +801,6 @@ void DetailDialog::editLinkDialog()
     editLinkLayout.addWidget(&editLinkField);
     vlay.addWidget( &editNameField );
     vlay.addLayout( &editLinkLayout );
-
-    //FIXME Need porting to KF5
-    //editDialog.setMainWidget( &editFrame );
 
     bool go( true );
     // If user presses cancel then skip the action
@@ -1157,9 +1161,15 @@ void DetailDialog::updateThumbnail() {
 
         //If a real image was set, save it.
         //If the image was unset, delete the old image on disk.
-        if ( tp->imageFound() ) {
-            Data->Image->pixmap()->save( fname, "PNG" );
-            *Thumbnail = *(Data->Image->pixmap());
+        if ( tp->imageFound() )
+        {
+            bool rc = Data->Image->pixmap()->save( fname, "PNG" );
+            if (rc == false)
+            {
+                KMessageBox::error(0, xi18n("Error: Unable to save image to %1", fname), xi18n("Save Thumbnail"));
+            }
+            else
+                *Thumbnail = *(Data->Image->pixmap());
         } else {
             QFile f;
             f.setFileName( fname );
