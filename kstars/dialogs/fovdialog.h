@@ -95,6 +95,7 @@ public slots:
 private:
     FOV f;
     NewFOVUI *ui;
+    QPushButton *okB;
 };
 
 /**

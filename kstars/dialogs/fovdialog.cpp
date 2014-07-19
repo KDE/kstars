@@ -87,10 +87,11 @@ FOVDialog::FOVDialog( QWidget* p ) :
     mainLayout->addWidget(fov);
     setLayout(mainLayout);
 
-    //FIXME Need porting to KF5
-    //setMainWidget( fov );
-    //setButtons( QDialog::Ok | QDialog::Cancel );
-    
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+
     connect( fov->FOVListBox,   SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
     connect( fov->NewButton,    SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
     connect( fov->EditButton,   SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
@@ -185,9 +186,12 @@ NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    //FIXME Need porting to KF5
-    //setMainWidget( ui );
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    okB = buttonBox->button(QDialogButtonBox::Ok);
 
     // Initialize FOV if required
     if( fov != 0 ) {
@@ -268,8 +272,7 @@ void NewFOV::slotUpdateFOV() {
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
 
-    //FIXME Need porting to KF5
-    //enableButtonOk( !f.name().isEmpty() && okX && okY );
+    okB->setEnabled(!f.name().isEmpty() && okX && okY );
     
     ui->ViewBox->setFOV( &f );
     ui->ViewBox->update();
@@ -330,15 +333,14 @@ TelescopeFL::TelescopeFL( QWidget *parent ) :
 
     setWindowTitle( xi18n( "Telescope Focal Length Calculator" ) );
 
-    //FIXME Need porting to KF5
-    //setButtons( QDialog::Ok|QDialog::Cancel );
-
     QWidget *mainWidget = new QWidget( this );
     QGridLayout *mainLayout = new QGridLayout( mainWidget );
     mainWidget->setLayout( mainLayout );
 
-    //FIXME Need porting to KF5
-    //setMainWidget( mainWidget );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     aperture = new QDoubleSpinBox();
     aperture->setRange(0.0, 100000.0);
