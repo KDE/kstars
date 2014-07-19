@@ -59,13 +59,14 @@ private slots:
     void slotSetFromList( int i );
     void slotSetFromURL();
     void slotFillList();
+    void slotProcessGoogleResult(KJob*);
 
     /**Make sure download has finished, then make sure file exists, then add image to list */
     void slotJobResult(KJob *);
 
 private:
     QPixmap shrinkImage( QPixmap *original, int newSize, bool setImage=false );
-    void parseGooglePage( QStringList &ImList, const QString &URL );
+    void parseGooglePage(const QString &URL );
 
     int SelectedImageIndex;
     double wid, ht;

@@ -24,16 +24,17 @@
 #include <QPainter>
 #include <QUrlQuery>
 #include <QUrl>
-#include <KIO/CopyJob>
-
-#include <kdeversion.h>
+#include <QTemporaryFile>
 #include <QPushButton>
-#include <klineedit.h>
-#include <kmessagebox.h>
+#include <QLineEdit>
+#include <QPointer>
 
+#include <KIO/CopyJob>
+#include <KMessageBox>
 #include <KUrlRequester>
 #include <KLocalizedString>
-
+#include <KIO/FileCopyJob>
+#include <KJobUiDelegate>
 
 #include "ksutils.h"
 #include "dialogs/detaildialog.h"
@@ -59,9 +60,10 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    //FIXME Need Porting to KF5
-    //setMainWidget( ui );
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     ui->CurrentImage->setPixmap( *Image );
 
@@ -74,7 +76,7 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
     connect( ui->ImageURLBox, SIGNAL( returnPressed() ),
              this, SLOT( slotSetFromURL() ) );
 
-    ui->ImageURLBox->lineEdit()->setTrapReturnKey( true );
+    //ui->ImageURLBox->lineEdit()->setTrapReturnKey( true );
     ui->EditButton->setEnabled( false );
 
     slotFillList();
@@ -85,12 +87,10 @@ ThumbnailPicker::~ThumbnailPicker() {
 }
 
 //Query online sources for images of the object
-void ThumbnailPicker::slotFillList() {
-    //Preload ImageList with the URLs in the object's ImageList:
-    QStringList ImageList( Object->ImageList() );
-
+void ThumbnailPicker::slotFillList() {    
     //Query Google Image Search:
-    QUrlQuery gURL( "http://images.google.com/images" );
+
+    QUrlQuery gURL( "http://images.google.com/images?" );
     //Search for the primary name, or longname and primary name
     QString sName = QString("%1 ").arg( Object->name() );
     if ( Object->longname() != Object->name() ) {
@@ -98,16 +98,47 @@ void ThumbnailPicker::slotFillList() {
     }
     gURL.addQueryItem( "q", sName ); //add the Google-image query string
 
-    //Download the google page and parse it for image URLs
-    parseGooglePage( ImageList, gURL.query() );
+    parseGooglePage(gURL.query());
+}
+
+void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
+{
+    //Preload ImageList with the URLs in the object's ImageList:
+    QStringList ImageList( Object->ImageList() );
+
+    if (result->error())
+    {
+        result->uiDelegate()->showErrorMessage();
+        result->kill();
+        return;
+    }
+
+    QString PageHTML(static_cast<KIO::StoredTransferJob*>(result)->data());
+
+    int index = PageHTML.indexOf( "src=\"http:", 0 );
+    while ( index >= 0 )
+    {
+        index += 5; //move to end of "src=\"http:" marker
+
+        //Image URL is everything from index to next occurrence of "\""
+        ImageList.append( PageHTML.mid( index, PageHTML.indexOf( "\"", index ) - index ) );
+
+        index = PageHTML.indexOf( "src=\"http:", index );
+    }
 
     //Total Number of images to be loaded:
     int nImages = ImageList.count();
-    if ( nImages ) {
+    if ( nImages )
+    {
         ui->SearchProgress->setMinimum( 0 );
         ui->SearchProgress->setMaximum( nImages-1 );
         ui->SearchLabel->setText( xi18n( "Loading images..." ) );
     }
+    else
+    {
+            close();
+            return;
+   }
 
     //Add images from the ImageList
     for ( int i=0; i<ImageList.size(); ++i ) {
@@ -160,40 +191,14 @@ void ThumbnailPicker::slotJobResult( KJob *job ) {
     ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), stjob->url().url()));
 }
 
-void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL ) {
-    QString tmpFile;
-    QString PageHTML;
+//void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
+void ThumbnailPicker::parseGooglePage(const QString &URL )
+{
+    QUrl googleURL(URL);
+    KIO::StoredTransferJob *job = KIO::storedGet(googleURL);
+    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotProcessGoogleResult(KJob*)));
 
-    /* FIXME Need to port to KF5
-     *
-    //Read the google image page's HTML into the PageHTML QString:
-    if ( KIO::NetAccess::exists(URL, KIO::NetAccess::SourceSide, this) && KIO::NetAccess::download( URL, tmpFile, this ) ) {
-        QFile file( tmpFile );
-        if ( file.open( QIODevice::ReadOnly ) ) {
-            QTextStream instream(&file);
-            PageHTML = instream.readAll();
-            file.close();
-            KIO::NetAccess::removeTempFile( tmpFile );
-        } else {
-            qDebug() << "Could not read local copy of google image page";
-            KIO::NetAccess::removeTempFile( tmpFile );
-            return;
-        }
-    } else {
-        qDebug() << KIO::NetAccess::lastErrorString();
-        return;
-    }
-    */
-
-    int index = PageHTML.indexOf( "src=\"http:", 0 );
-    while ( index >= 0 ) {
-        index += 5; //move to end of "src=\"http:" marker
-
-        //Image URL is everything from index to next occurrence of "\""
-        ImList.append( PageHTML.mid( index, PageHTML.indexOf( "\"", index ) - index ) );
-
-        index = PageHTML.indexOf( "src=\"http:", index );
-    }
+    job->start();
 }
 
 QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
