@@ -41,14 +41,18 @@ Execute::Execute() {
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(w);
     setLayout(mainLayout);
-    //FIXME Need porting to KF5
-    //setMainWidget( w );
-    //setButtons( QDialog::User1|QDialog::Close );
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    QPushButton *execB = new QPushButton(xi18n("End Session"));
+    execB->setToolTip(xi18n("Save and End the current session"));
+    buttonBox->addButton(execB, QDialogButtonBox::ActionRole);
+    connect(execB, SIGNAL(clicked()), this, SLOT(slotEndSession()));
 
     setWindowTitle( xi18n( "Execute Session" ) );
 
-    //FIXME Need porting to KF5
-    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("End Session"), QString(), xi18n("Save and End the current session") ) );
     ks = KStars::Instance();
     currentTarget = NULL;
     currentObserver = NULL;
@@ -73,8 +77,6 @@ Execute::Execute() {
     ui.Slew->setEnabled( false );
 
     //make connections
-    connect( this, SIGNAL( user1Clicked() ), 
-             this, SLOT( slotEndSession() ) );
     connect( ui.NextButton, SIGNAL( clicked() ),
              this, SLOT( slotNext() ) );
     connect( ui.Slew, SIGNAL( clicked() ),
