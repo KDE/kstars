@@ -37,9 +37,10 @@ ObserverAdd::ObserverAdd() {
 
     setWindowTitle( xi18n( "Add Observer" ) );
 
-    //FIXME Need porting to KF5
-    //setMainWidget( widget );
-    //setButtons( QDialog::Close );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
     ks = KStars::Instance();
     nextObserver = 0;
 
