@@ -28,7 +28,7 @@
 #include <KLocalizedString>
 #include <QDebug>
 #include <QPushButton>
-
+#include <QDialogButtonBox>
 
 ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
@@ -47,16 +47,17 @@ ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    //FIXME Need porting to KF5
-    //setMainWidget( ui );
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
                                   tp->imageRect()->width(), tp->imageRect()->height() );
     ui->ImageCanvas->setImage( tp->currentListImage() );
 
     //DEBUG
-    qDebug() << tp->currentListImage()->size();
+    //qDebug() << tp->currentListImage()->size();
 
     connect( ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT( slotUpdateCropLabel() ) );
     slotUpdateCropLabel();
