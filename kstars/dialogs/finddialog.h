@@ -107,6 +107,7 @@ private:
     QSortFilterProxyModel* sortModel;
     QTimer* timer;
     bool listFiltered;
+    QPushButton *okB;
 };
 
 #endif

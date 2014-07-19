@@ -62,9 +62,16 @@ FindDialog::FindDialog( QWidget* parent ) :
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    //FIXME Need porting to KF5
-    //setMainWidget( ui );
-    //setButtons( QDialog::Ok|QDialog::User1|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    okB = buttonBox->button(QDialogButtonBox::Ok);
+
+    QPushButton *detailB = new QPushButton(xi18n("Details..."));
+    buttonBox->addButton(detailB, QDialogButtonBox::ActionRole);
+    connect(detailB, SIGNAL(clicked()), this, SLOT(slotDetails()));
 
     ui->FilterType->setCurrentIndex(0);  // show all types of objects
 
@@ -75,13 +82,7 @@ FindDialog::FindDialog( QWidget* parent ) :
     sortModel->setSourceModel( fModel );
     ui->SearchList->setModel( sortModel );
 
-    //FIXME Need porting to KF5
-    //setButtonText(QDialog::User1, xi18n("Details..."));
-
     // Connect signals to slots
-    connect( this, SIGNAL( okClicked() ), this, SLOT( slotOk() ) );
-    connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
-    connect(this, SIGNAL(user1Clicked()), this, SLOT(slotDetails()));
     connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
     connect( ui->SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
     connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
@@ -106,12 +107,11 @@ void FindDialog::init() {
 }
 
 void FindDialog::initSelection() {
-    //FIXME Need porting to KF5
-    /*
-    if ( sortModel->rowCount() <= 0 ) {
-        button( Ok )->setEnabled( false );
+    if ( sortModel->rowCount() <= 0 )
+    {
+        okB->setEnabled( false );
         return;
-    }*/
+    }
 
     if ( ui->SearchBox->text().isEmpty() ) {
         //Pre-select the first item
@@ -150,8 +150,7 @@ void FindDialog::initSelection() {
             ui->SearchList->scrollTo( selectItem );
             ui->SearchList->setCurrentIndex( selectItem );
 
-            //FIXME Need porting to KF5
-            //button( Ok )->setEnabled( true );
+            okB->setEnabled(true);
         }
     }
 
@@ -240,8 +239,7 @@ void FindDialog::filterList() {
                 ui->SearchList->scrollTo( selectItem );
                 ui->SearchList->setCurrentIndex( selectItem );
 
-                //FIXME Need porting to KF5
-                //button( Ok )->setEnabled( true );
+                okB->setEnabled(true);
             }
         }
     }
