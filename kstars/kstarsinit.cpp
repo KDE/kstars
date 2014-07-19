@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QStatusBar>
 #include <QMenu>
+#include <QWidgetAction>
 
 #include <KIconThemes/KIconLoader>
 #include <KActionCollection>
@@ -452,10 +453,13 @@ void KStars::initActions() {
     QString TSBToolTip = xi18nc( "Tooltip describing the nature of the time step control", "Use this to set the rate at which time in the simulation flows.\nFor time step \'X\' up to 10 minutes, time passes at the rate of \'X\' per second.\nFor time steps larger than 10 minutes, frames are displayed at an interval of \'X\'." );
     TimeStep->setToolTip( TSBToolTip );
     TimeStep->tsbox()->setToolTip( TSBToolTip );
-    ka = actionCollection()->addAction("timestep_control")
+    QWidgetAction *wa = new QWidgetAction(this);
+    wa->setDefaultWidget(TimeStep);
+    ka = actionCollection()->addAction("timestep_control",wa)
         << xi18n("Time step control");
     //FIXME Needs porting to KF5
    // ka->setDefaultWidget( TimeStep );
+
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT( slotViewToolBar() ) )
@@ -577,10 +581,9 @@ void KStars::datainitFinished() {
              map(), SLOT( slotClockSlewing() ) );
 
     connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
-    //FIXME This is causing crash, investigate TimeStep and related GUI controls.
-    //connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
-    //connect( TimeStep, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
-    //connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
+    connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
+    connect( TimeStep, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
+    connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 
     //Initialize Observing List
