@@ -200,6 +200,10 @@ int main(int argc, char *argv[])
         datestring.clear();
     }
 
+    // Create writable data dir if it does not exist
+    QDir writableDir;
+    writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+
     KStars::createInstance( true, ! parser->isSet( "paused" ), datestring );
     //FIXME Need porting to KF5
     //args->clear();
