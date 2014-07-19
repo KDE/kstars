@@ -930,8 +930,6 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
     }
 
     // Copy URL file to temp file
-    //TODO Check if this works OK
-    //KIO::file_copy(QUrl::fromPath(URLFile.fileName()), QUrl::fromPath(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
     KIO::file_copy(QUrl::fromLocalFile(URLFile.fileName()), QUrl::fromLocalFile(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
 
 
