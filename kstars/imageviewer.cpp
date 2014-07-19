@@ -92,7 +92,6 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
     if (!m_ImageUrl.isValid())
         qDebug() << "URL is malformed: " << m_ImageUrl;
     
-    // FIXME: check the logic with temporary files. Races are possible
     {
         QTemporaryFile tempfile;
         tempfile.open();
@@ -176,8 +175,6 @@ ImageViewer::~ImageViewer() {
 
 void ImageViewer::loadImageFromURL()
 {
-    //FIXME Need to check this
-    //QUrl saveURL = QUrl::fromPath( file.fileName() );
     QUrl saveURL = QUrl::fromLocalFile(file.fileName() );
 
     if (!saveURL.isValid())
@@ -257,9 +254,10 @@ void ImageViewer::showImage()
 
 void ImageViewer::saveFileToDisc()
 {
-    //QUrl newURL = KFileDialog::getSaveUrl(m_ImageUrl.fileName());  // save-dialog with default filename
-    //TODO We need to put the default filename in there?
-    QUrl newURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Image"));//m_ImageUrl.fileName());  // save-dialog with default filename
+    QFileDialog dialog;
+    dialog.selectFile(m_ImageUrl.fileName().remove(m_ImageUrl.path()));
+    dialog.setFileMode(QFileDialog::AnyFile);
+    QUrl newURL = dialog.getSaveFileUrl(0, xi18n("Save Image")); // save-dialog with default filename
     if (!newURL.isEmpty())
     {
         QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() + '/' +  newURL.fileName());
