@@ -279,9 +279,10 @@ void ImageViewer::saveFileToDisc()
 void ImageViewer::saveFile (QUrl &url) {
     // synchronous access to prevent segfaults
 
-    KIO::CopyJob *copyJob = KIO::copy(QUrl(file.fileName()), url);
     //if (!KIO::NetAccess::file_copy (QUrl (file.fileName()), url, (QWidget*) 0))
-    if (copyJob->exec() == false)
+    QUrl tmpURL((file.fileName()));
+    tmpURL.setScheme("file");
+    if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
         QString text = xi18n ("Saving of the image %1 failed.", url.toString());
         KMessageBox::error (this, text);
