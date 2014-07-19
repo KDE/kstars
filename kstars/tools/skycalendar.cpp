@@ -55,9 +55,15 @@ SkyCalendar::SkyCalendar( QWidget *parent )
 
     setWindowTitle( xi18n( "Sky Calendar" ) );
 
-    //FIXME Needs porting to KF5
-    //setMainWidget( scUI );
-    //setButtons( QDialog::User1 | QDialog::Close );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), xi18n("&Print..."));
+    printB->setToolTip(xi18n("Print the Sky Calendar"));
+    buttonBox->addButton(printB, QDialogButtonBox::ActionRole);
+    connect(printB, SIGNAL(clicked()), this, SLOT(slotPrint()));
+
     setModal( false );
 
     //Adjust minimum size for small screens:
@@ -69,14 +75,11 @@ SkyCalendar::SkyCalendar( QWidget *parent )
     scUI->Year->setValue( KStarsData::Instance()->lt().date().year() );
 
     scUI->LocationButton->setText( geo->fullName() );
-    //FIXME Needs to be ported to KF5
-    //setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Print..."), "document-print", xi18n("Print the Sky Calendar") ) );
     
     scUI->CalendarView->setHorizon();
 
     connect( scUI->CreateButton, SIGNAL(clicked()), this, SLOT(slotFillCalendar()) );
     connect( scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()) );
-    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotPrint() ) );
 }
 
 SkyCalendar::~SkyCalendar() {
