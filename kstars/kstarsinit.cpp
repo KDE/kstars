@@ -457,9 +457,6 @@ void KStars::initActions() {
     wa->setDefaultWidget(TimeStep);
     ka = actionCollection()->addAction("timestep_control",wa)
         << xi18n("Time step control");
-    //FIXME Needs porting to KF5
-   // ka->setDefaultWidget( TimeStep );
-
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT( slotViewToolBar() ) )
