@@ -40,9 +40,10 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
     mainLayout->addWidget(ald);
     setLayout(mainLayout);
 
-    //FIXME Need porting to KF5
-    //setMainWidget( ald );
-    //setButtons( QDialog::Ok|QDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     //connect signals to slots
     connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
