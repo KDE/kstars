@@ -18,6 +18,7 @@
 #include "kspopupmenu.h"
 
 #include <QSignalMapper>
+#include <QWidgetAction>
 
 #include <KLocalizedString>
 
@@ -548,9 +549,8 @@ void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
         font.setPointSize( font.pointSize() + deltaFontSize );
         label->setFont( font );
     }
-    QAction * act = new QAction( this );
-    //FIXME Needs porting to KF5
-    //act->setDefaultWidget( label );
+    QWidgetAction * act = new QWidgetAction( this );
+    act->setDefaultWidget(label);
     addAction( act );
 }
 
