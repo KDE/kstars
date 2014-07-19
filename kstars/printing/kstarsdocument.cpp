@@ -55,7 +55,6 @@ void KStarsDocument::writePsPdf(const QString &fname)
 {
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFileName(fname);    
-    //FIXME Need porting to KF5
-    //printer.setOutputFormat(fname.endsWith(".pdf") ? QPrinter::PdfFormat : QPrinter::PostScriptFormat);
+    printer.setOutputFormat(fname.endsWith(".pdf") ? QPrinter::PdfFormat : QPrinter::NativeFormat);
     m_Document->print(&printer);
 }
