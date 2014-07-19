@@ -68,7 +68,6 @@ private slots:
     void exportImage();
 
     void setupWidgets();
-    void setupConnections();
     void updateLegendSettings();
 
 private:

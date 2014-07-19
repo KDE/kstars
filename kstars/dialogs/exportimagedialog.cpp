@@ -45,15 +45,26 @@ ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, Imag
     mainLayout->addWidget(m_DialogUI);
     setLayout(mainLayout);
 
-    //FIXME need porting to KF5
-    //setMainWidget(m_DialogUI);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(exportImage()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+
+    QPushButton *previewB = new QPushButton(xi18n("Preview image"));
+    buttonBox->addButton(previewB, QDialogButtonBox::ActionRole);
+    connect(previewB, SIGNAL(clicked()), this, SLOT(previewImage()));
+
+    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), this, SLOT(switchLegendEnabled(bool)));
+    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), previewB, SLOT(setEnabled(bool)));
 
     m_ImageExporter = ( ( imgExporter ) ? imgExporter : new ImageExporter( this ) );
 
     setWindowTitle(xi18n("Export sky image"));
 
     setupWidgets();
-    setupConnections();
 }
 
 void ExportImageDialog::switchLegendEnabled(bool enabled)
@@ -83,12 +94,7 @@ void ExportImageDialog::previewImage()
 }
 
 void ExportImageDialog::setupWidgets()
-{
-    //FIXME need porting to KF5
-    //setButtons(QDialog::Ok | QDialog::Cancel | QDialog::User1);
-    //setButtonText(QDialog::User1, xi18n("Preview image"));
-    //setButtonText(QDialog::Ok, xi18n("Export image"));
-
+{    
     m_DialogUI->addLegendCheckBox->setChecked(true);
 
     m_DialogUI->legendOrientationComboBox->addItem(xi18n("Horizontal"));
@@ -103,17 +109,6 @@ void ExportImageDialog::setupWidgets()
     positions << xi18n("Upper left corner") << xi18n("Upper right corner") << xi18n("Lower left corner")
             << xi18n("Lower right corner");
     m_DialogUI->legendPositionComboBox->addItems(positions);
-}
-
-void ExportImageDialog::setupConnections()
-{
-    connect(this, SIGNAL(okClicked()), this, SLOT(exportImage()));
-    connect(this, SIGNAL(cancelClicked()), this, SLOT(close()));
-    connect(this, SIGNAL(user1Clicked()), this, SLOT(previewImage()));
-
-    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), this, SLOT(switchLegendEnabled(bool)));
-    //FIXME need porting to KF5
-    //connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), button(QDialog::User1), SLOT(setEnabled(bool)));
 }
 
 void ExportImageDialog::updateLegendSettings()

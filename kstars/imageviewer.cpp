@@ -30,6 +30,7 @@
 #include <QLabel>
 #include <QDebug>
 #include <QFileDialog>
+#include <QStatusBar>
 
 #include <KJobUiDelegate>
 #include <KLocalizedString>
@@ -86,21 +87,7 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
     downloadJob(0)
 {
     init(url.fileName(), capText);
-    // Add save button
-    //FIXME Needs porting to KF5
-    //setButtons( QDialog::User2 | QDialog::User1 | QDialog::Close );
 
-    KGuiItem saveButton( xi18n("Save"), "document-save", xi18n("Save the image to disk") );
-    //FIXME Needs porting to KF5
-    //setButtonGuiItem( QDialog::User1, saveButton );
-
-    // FIXME: Add more options, and do this more nicely
-    KGuiItem invertButton( xi18n("Invert colors"), "", xi18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
-    //FIXME Needs porting to KF5
-    //setButtonGuiItem( QDialog::User2, invertButton );
-
-    connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
-    connect( this, SIGNAL( user2Clicked() ), this, SLOT ( invertColors() ) );
     // check URL
     if (!m_ImageUrl.isValid())
         qDebug() << "URL is malformed: " << m_ImageUrl;
@@ -130,16 +117,6 @@ void ImageViewer::init(QString caption, QString capText) {
     setModal( false );
     setWindowTitle( xi18n( "KStars image viewer: %1", caption ) );
 
-    //FIXME Needs porting to KF5
-    //setButtons( QDialog::Close | QDialog::User1);
-
-    // FIXME: Add more options, and do this more nicely
-    KGuiItem invertButton( xi18n("Invert colors"), "", xi18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
-    //FIXME Needs porting to KF5
-    //setButtonGuiItem( QDialog::User1, invertButton );
-    connect( this, SIGNAL( user1Clicked() ), this, SLOT ( invertColors() ) );
-
-
     // Create widget
     QFrame* page = new QFrame( this );
 
@@ -147,6 +124,21 @@ void ImageViewer::init(QString caption, QString capText) {
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(page);
     setLayout(mainLayout);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    QPushButton *invertB = new QPushButton(xi18n("Invert colors"));
+    invertB->setToolTip(xi18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving."));
+    QPushButton *saveB   = new QPushButton(QIcon::fromTheme("document-save"), xi18n("Save"));
+    saveB->setToolTip(xi18n("Save the image to disk"));
+
+    buttonBox->addButton(invertB, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(saveB, QDialogButtonBox::ActionRole);
+
+    connect(invertB, SIGNAL(clicked()), this, SLOT(invertColors()));
+    connect(saveB, SIGNAL(clicked()), this, SLOT(saveFileToDisc()));
 
     m_View = new ImageLabel( page );
     m_View->setAutoFillBackground( true );
@@ -288,14 +280,16 @@ void ImageViewer::saveFileToDisc()
 
 void ImageViewer::saveFile (QUrl &url) {
     // synchronous access to prevent segfaults
-    //FIXME Needs porting to KF5
-    /*
-    if (!KIO::NetAccess::file_copy (QUrl (file.fileName()), url, (QWidget*) 0))
+
+    KIO::CopyJob *copyJob = KIO::copy(QUrl(file.fileName()), url);
+    //if (!KIO::NetAccess::file_copy (QUrl (file.fileName()), url, (QWidget*) 0))
+    if (copyJob->exec() == false)
     {
-        QString text = xi18n ("Saving of the image %1 failed.", url.prettyUrl());
+        QString text = xi18n ("Saving of the image %1 failed.", url.toString());
         KMessageBox::error (this, text);
     }
-    */
+    else
+        KStars::Instance()->statusBar()->showMessage(xi18n ("Saved image to %1", url.toString()));
 }
 
 void ImageViewer::invertColors() {

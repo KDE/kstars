@@ -22,8 +22,10 @@
 #include "skyqpainter.h"
 #include "skymap.h"
 
+#include <KJob>
+#include <KIO/StoredTransferJob>
+
 /* Qt Includes */
-//#include <QSvgGenerator>
 #include <QTemporaryFile>
 #include <QtSvg/QSvgGenerator>
 
@@ -224,17 +226,17 @@ bool ImageExporter::exportImage( QString url )
 
         if(!isLocalFile)
         {
-            /* FIXME Need porting to KF5
-             *
+            tmpfile.open();
+            QByteArray data = tmpfile.readAll();
             //attempt to upload image to remote location
-            if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
+            KIO::StoredTransferJob *put_job = KIO::storedPut(data, fileURL, -1);
+            //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
+            if (put_job->exec() == false)
             {
-                m_lastErrorMessage = xi18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
-//                KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
+                m_lastErrorMessage = xi18n( "Could not upload image to remote location: %1", fileURL.url());
                 qWarning() << m_lastErrorMessage;
                 return false;
             }
-            */
         }
         return true;
     }
