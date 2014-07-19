@@ -495,7 +495,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
     if ( selectedObject->alt().Degrees() > 0.0 )
         Pos->Airmass->setText( QLocale().toString(
-                                   1./sin( selectedObject->alt().radians() ), 2 ) );
+                                   1./sin( selectedObject->alt().radians() ), 'f', 2 ) );
     else
         Pos->Airmass->setText( "--" );
 
