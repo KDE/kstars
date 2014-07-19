@@ -25,6 +25,7 @@
 #include <QPushButton>
 #include <QStandardPaths>
 #include <QColorDialog>
+#include <QInputDialog>
 
 #include <KActionCollection>
 #include <KLocalizedString>
@@ -162,12 +163,10 @@ bool OpsColors::setColors( const QString &filename ) {
 
 void OpsColors::slotAddPreset() {
 
-    /*
-     * FIXME Need to Port to KF5
-     *
+
     bool okPressed = false;
-    QString schemename = KInputDialog::getText( xi18n( "New Color Scheme" ),
-                         xi18n( "Enter a name for the new color scheme:" ),
+    QString schemename = QInputDialog::getText(0, xi18n( "New Color Scheme" ),
+                         xi18n( "Enter a name for the new color scheme:" ), QLineEdit::Normal,
                          QString(), &okPressed, 0 );
 
     if ( okPressed && ! schemename.isEmpty() ) {
@@ -183,7 +182,6 @@ void OpsColors::slotAddPreset() {
             PresetBox->setCurrentItem( item );
         }
     }
-    */
 }
 
 void OpsColors::slotRemovePreset() {
