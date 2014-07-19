@@ -68,15 +68,16 @@ int main(int argc, char *argv[])
     aboutData.addCredit(xi18n("Andrew Stepanenko"), xi18n("Guiding code based on lin_guider") );
     aboutData.addCredit(xi18n("Nuno Pinheiro"), xi18n("Artwork") );
 
+    KAboutData::setApplicationData(aboutData);
 
     QCommandLineParser *parser = new QCommandLineParser;    
     parser->addVersionOption();
     //parser->addHelpOption(INSERT_DESCRIPTION_HERE);
     parser->addOption(QCommandLineOption(QStringList() << "!dump", xi18n( "Dump sky image to file" )));
     parser->addOption(QCommandLineOption(QStringList() << "script ", xi18n( "Script to execute" )));
-    parser->addOption(QCommandLineOption(QStringList() << "width ", xi18n( "Width of sky image" ), false, "640"));
-    parser->addOption(QCommandLineOption(QStringList() << "height ", xi18n( "Height of sky image" ), false, "480"));
-    parser->addOption(QCommandLineOption(QStringList() << "filename ", xi18n( "Filename for sky image" ), false, "kstars.png"));
+    parser->addOption(QCommandLineOption(QStringList() << "width ", xi18n( "Width of sky image" ),  "640"));
+    parser->addOption(QCommandLineOption(QStringList() << "height ", xi18n( "Height of sky image" ), "480"));
+    parser->addOption(QCommandLineOption(QStringList() << "filename ", xi18n( "Filename for sky image" ), "kstars.png"));
     parser->addOption(QCommandLineOption(QStringList() << "date ", xi18n( "Date and time" )));
     parser->addOption(QCommandLineOption(QStringList() << "!paused", xi18n( "Start with clock paused" )));
 
@@ -148,9 +149,6 @@ int main(int argc, char *argv[])
         }
         dat->clock()->setUTC( kdt );
 
-        KSNumbers num( dat->ut().djd() );
-        //		dat->initGuides(&num);
-
         SkyMap *map = SkyMap::Create();
         map->resize( w, h );
         QPixmap sky( w, h );
@@ -205,9 +203,7 @@ int main(int argc, char *argv[])
     writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
     KStars::createInstance( true, ! parser->isSet( "paused" ), datestring );
-    //FIXME Need porting to KF5
-    //args->clear();
-    //QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
+
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
     return a.exec();
 
