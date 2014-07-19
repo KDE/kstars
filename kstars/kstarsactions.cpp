@@ -677,8 +677,11 @@ void KStars::slotOpenFITS()
 
 void KStars::slotExportImage() {
     //TODO Check this
+    //For remote files, this returns
+    //QFileInfo::absolutePath: QFileInfo::absolutePath: Constructed with empty filename
+    //As of 2014-07-19
     //QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
-    QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Export Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
+    QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Export Image"), QUrl(), "Images (*.png *.jpeg *.gif *.bmp *.svg)" );
 
     //User cancelled file selection dialog - abort image export
     if ( fileURL.isEmpty() ) {
