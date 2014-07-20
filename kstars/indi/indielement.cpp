@@ -49,8 +49,6 @@ INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
 
   EHBox     = new QHBoxLayout;
   EHBox->setMargin(0);
-  //TODO
-  //EHBox->setSpacing(QDialog::spacingHint());
 
   tp        = NULL;
   sp        = NULL;

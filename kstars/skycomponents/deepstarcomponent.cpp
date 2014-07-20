@@ -357,7 +357,7 @@ bool DeepStarComponent::openDataFile() {
 }
 
 
-SkyObject *DeepStarComponent::findByHDIndex( int HDnum ) {
+StarObject *DeepStarComponent::findByHDIndex( int HDnum ) {
     // Currently, we only handle HD catalog indexes
     return m_CatalogNumber.value( HDnum, NULL ); // TODO: Maybe, make this more general.
 }

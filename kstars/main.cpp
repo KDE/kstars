@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setApplicationVersion(KSTARS_VERSION);
+    a.setApplicationDisplayName(xi18n("KStars"));
 
     if ( parser->isSet( "dump" ) )
     {

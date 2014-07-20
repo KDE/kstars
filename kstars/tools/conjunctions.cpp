@@ -114,8 +114,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     OutputList->setModel( m_SortModel );
     OutputList->setSortingEnabled(true);
     OutputList->horizontalHeader()->setStretchLastSection( true );
-    //TODO Check this
-    //OutputList->horizontalHeader()->setResizeMode(  QHeaderView::Interactive );
+    OutputList->horizontalHeader()->setSectionResizeMode(  QHeaderView::Interactive );
     OutputList->horizontalHeader()->resizeSection(2, 100);
     OutputList->horizontalHeader()->resizeSection(3, 100);
     OutputList->horizontalHeader()->resizeSection(4, 120); //is it bad way to fix default size of columns ?

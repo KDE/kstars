@@ -80,7 +80,7 @@ public:
      *@param HDnum Henry-Draper catalog number of the desired star
      *@return A star matching the given Henry-Draper catalog number
      */
-    SkyObject* findByHDIndex( int HDnum );
+    StarObject* findByHDIndex( int HDnum );
 
     /**
      *@return Nearest star within maxrad of SkyPoint p, or NULL if not found

@@ -35,6 +35,8 @@ class KSSun;
 
 class KSMoon : public KSPlanetBase  {
 public:
+    using KSPlanetBase::findPhase;
+
     /** Default constructor. Set name="Moon". */
     KSMoon();
     /** Copy constructor */

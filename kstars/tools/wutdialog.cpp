@@ -229,14 +229,14 @@ void WUTDialog::init() {
         WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, QLocale().toString( Evening.date(), QLocale::LongFormat) ) );
     else
         WUT->MoonSetLabel->setText( xi18n( "Moon sets at: %1 on %2", sSet, QLocale().toString( Tomorrow.date(), QLocale::LongFormat) ) );
-    oMoon->findPhase();
+    oMoon->findPhase(0);
     WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
                                       int(100.0*oMoon->illum() ) ) );
 
     //Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
     oMoon->updateCoords( oldNum, true, geo->lat(), data->lst() );
     oSun->updateCoords( oldNum, true, geo->lat(), data->lst() );
-    oMoon->findPhase();
+    oMoon->findPhase(0);
 
     if ( WUT->CategoryListWidget->currentItem() )
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );

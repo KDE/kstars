@@ -121,8 +121,7 @@ public:
      *        If it is a dynamic star, a fake copy will be created that survives till
      *        the next findByHDIndex() call. If no match was found, returns NULL.
      */
-    // FIXME: check whether return type should be StarObject*
-    SkyObject* findByHDIndex( int HDnum );
+    StarObject* findByHDIndex( int HDnum );
 
     /**
      *@short Add to the given list, the stars from this component,

@@ -72,18 +72,11 @@ protected:
     KStarsData();
 
 public:
-    //Friend classes can see the private data.
-    //FIXME: can we avoid having so many friend classes?
-    //
-    //FIXME: Yes we can. Moreover we should
-
     // FIXME: It uses temporary trail. There must be way to
     //        this better. And resumeKey in DBUS code
     friend class KStars;
     // FIXME: it uses temporary trail and resumeKey
     friend class SkyMap;
-    // FIXME: uses ADVTreeData and only user
-    friend class DetailDialog;
     // FIXME: uses geoList and changes it.
     friend class LocationDialog;
 
@@ -217,6 +210,9 @@ public:
 
     /** Return log object */
     OAL::Log *logObject() { return m_logObject; }
+
+    /** Return ADV Tree */
+    QList<ADVTreeData*> avdTree() { return ADVtreeList; }
 
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();

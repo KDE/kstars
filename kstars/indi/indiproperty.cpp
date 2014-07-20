@@ -63,12 +63,8 @@ INDI_P::INDI_P(INDI_G *ipg, INDI::Property *prop)
 
     PHBox           = new QHBoxLayout();
     PHBox->setMargin(0);
-    // TODO
-    //PHBox->setSpacing(QDialog::spacingHint());
     PVBox           = new QVBoxLayout();
     PVBox->setMargin(0);
-    // TODO
-    //PVBox->setSpacing(QDialog::spacingHint());
 
     ledStatus      = NULL;
     labelW         = NULL;

@@ -145,9 +145,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
             lastelapsed = 0;
         }
 
-        //FIXME Check this conversion
-        //qDebug() << xi18n( "Setting clock:  UTC: %1  JD: %2" ,  UTC.toString(), QLocale().toString( UTC.djd() ) ) << endl;
-        qDebug() << xi18n( "Setting clock:  UTC: %1  JD: %2" ,  UTC.toString(), QLocale().toString( (double) UTC.djd() ) ) << endl;
+        qDebug() << xi18n( "Setting clock:  UTC: %1  JD: %2" ,  UTC.toString(), QLocale().toString( (double) UTC.djd(), 'f' , 2 ) ) << endl;
         emit timeChanged();
     } else {
         qDebug() << xi18n( "Cannot set SimClock:  Invalid Date/Time." );

@@ -360,9 +360,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
         }
     }
 
-    if (dataType == DATA_OTHER)
-        //TODO
-        //KStars::Instance()->statusBar()-> changeItem( xi18n("Data file saved to %1", filename ), 0);
+    if (dataType == DATA_OTHER)      
         KStars::Instance()->statusBar()->showMessage(xi18n("Data file saved to %1", filename ), 0);
 
 }

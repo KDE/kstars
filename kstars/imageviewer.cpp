@@ -208,8 +208,6 @@ void ImageViewer::showImage()
 {
     QImage image;
     if( !image.load( file.fileName() )) {
-        //TODO Check this
-        //QString text = xi18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
         QString text = xi18n ("Loading of the image %1 failed.", m_ImageUrl.url());
         KMessageBox::error (this, text);
         close();

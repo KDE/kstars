@@ -91,13 +91,12 @@ ObservingList::ObservingList( KStars *_ks )
 {
     ui = new ObservingListUI( this );
     QVBoxLayout *mainLayout= new QVBoxLayout;
-
     mainLayout->addWidget(ui);
-    //setMainWidget( ui );
     setWindowTitle( xi18n( "Observation Planner" ) );
 
-    //TODO
-    //setButtons( QDialog::Close );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);
@@ -128,15 +127,14 @@ ObservingList::ObservingList( KStars *_ks )
     m_SortModel->setDynamicSortFilter( true );
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
-    //TODO
-    //ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
+
+    ui->TableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
     m_SortModelSession = new SessionSortFilterProxyModel;
     m_SortModelSession->setSourceModel( m_Session );
     m_SortModelSession->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SortModelSession );
     ui->SessionView->horizontalHeader()->setStretchLastSection( true );
-    //TODO
-    //ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::Interactive );
+    ui->SessionView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
     ksal = new KSAlmanac;
     ksal->setLocation(geo);
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
@@ -719,16 +717,17 @@ void ObservingList::saveCurrentUserLog() {
     }
 }
 
-void ObservingList::slotOpenList() {
-    //TODO Can we set URL to home location?
+void ObservingList::slotOpenList()
+{
     QUrl fileURL =QFileDialog::getOpenFileUrl(0, xi18n("Open Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     QFile f;
 
-    if ( fileURL.isValid() ) {
+    if ( fileURL.isValid() )
+    {
 
         f.setFileName( fileURL.path() );
-    //FIXME do we still need to do this?
-    /*
+        //FIXME do we still need to do this?
+        /*
         if ( ! fileURL.isLocalFile() ) {
             //Save remote list to a temporary local file
             QTemporaryFile tmpfile;
