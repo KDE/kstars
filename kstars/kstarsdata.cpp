@@ -511,9 +511,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
             //Find global file(s) in findAllResources() list.
             QFileInfo fi_local( file.fileName() );
 
-            //FIXME Needs porting to KF5
-            //QStringList flist = KGlobal::mainComponent().dirs()->findAllResources( QStandardPaths::DataLocation, urlfile );
-            QStringList flist;
+            QStringList flist = QStandardPaths::locateAll(QStandardPaths::DataLocation, urlfile);
             for ( int i=0; i< flist.size(); i++ ) {
                 if ( flist[i] != file.fileName() ) {
                     QFileInfo fi_global( flist[i] );
