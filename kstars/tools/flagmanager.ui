@@ -34,7 +34,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="dmsBox" name="raBox">
+          <widget class="dmsBox" name="raBox" native="true">
            <property name="maximumSize">
             <size>
              <width>150</width>
@@ -51,7 +51,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="dmsBox" name="decBox">
+          <widget class="dmsBox" name="decBox" native="true">
            <property name="maximumSize">
             <size>
              <width>150</width>
@@ -166,7 +166,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>To add custom icons, just add images in $HOME/.kde4/share/apps/kstars. File names must begin with &quot;_flags&quot;. For example, the file &quot;_flagSmall_red_cross.gif&quot; will be shown as &quot;Small red cross&quot; in the combo box.</string>
+        <string>To add custom icons, just add images in $HOME/.kde5/local/share/kstars. File names must begin with &quot;_flags&quot;. For example, the file &quot;_flagSmall_red_cross.gif&quot; will be shown as &quot;Small red cross&quot; in the combo box.</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -239,23 +239,13 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KColorCombo</class>
    <extends>QComboBox</extends>
    <header>kcolorcombo.h</header>
   </customwidget>
   <customwidget>
-   <class>QComboBox</class>
-   <extends>QComboBox</extends>
-   <header>QComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>dmsBox</class>
-   <extends>QLineEdit</extends>
+   <extends>QWidget</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>

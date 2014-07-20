@@ -18,12 +18,12 @@
 
 #include "flagcomponent.h"
 
-#include <kio/job.h>
-
-#include <kfileitem.h>
-#include <KLocalizedString>
-#include <qmath.h>
+#include <QtMath>
 #include <QStandardPaths>
+
+#include <KJob>
+#include <KFileItem>
+#include <KLocalizedString>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -36,11 +36,14 @@
 FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
 {
+    QUrl dir = QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation)) ;
+    dir.setScheme("file");
     // List user's directory
-    m_Job = KIO::listDir( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + ".") ), KIO::HideProgressInfo, false ;
+    m_Job = KIO::listDir( dir, KIO::HideProgressInfo, false) ;
     connect( m_Job,SIGNAL( entries(KIO::Job*, const KIO::UDSEntryList& ) ),
             SLOT( slotLoadImages( KIO::Job*, const KIO::UDSEntryList& ) ) );
     connect( m_Job, SIGNAL( result( KJob * ) ), this, SLOT( slotInit( KJob * ) ) );
+    m_Job->start();
 }
 
 
@@ -276,6 +279,8 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
 
     int ptr = 0;
     foreach ( SkyPoint *cp, pointList() ) {
+        if (std::isnan(cp->ra().Degrees()) || std::isnan(cp->dec().Degrees()))
+            continue;
         QPointF pos2 = proj->toScreen(cp);
         int dx = (pos2 - pos).x();
         int dy = (pos2 - pos).y();
@@ -292,7 +297,7 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
 }
 
 QImage FlagComponent::imageList( int index ) {
-    if ( index > m_Images.size() - 1 ) {
+    if ( index < 0 || index > m_Images.size() - 1 ) {
         return QImage();
     }
 

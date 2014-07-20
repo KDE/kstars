@@ -52,9 +52,9 @@ FlagManager::FlagManager( QWidget *ks )
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    //FIXME Needs porting to KF5
-    //setMainWidget( ui );
-    //setButtons( QDialog::Close );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     m_Ks = KStars::Instance();
 
@@ -68,8 +68,8 @@ FlagManager::FlagManager( QWidget *ks )
     m_SortModel->setDynamicSortFilter( true );
     ui->flagList->setModel( m_SortModel );
     ui->flagList->horizontalHeader()->setStretchLastSection( true );
-    //FIXME Needs porting to KF5
-    //ui->flagList->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
+
+    ui->flagList->horizontalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents );
 
     ui->saveButton->setEnabled( false );
 
@@ -144,8 +144,8 @@ void FlagManager::showFlag( int flagIdx )
         ui->decBox->setText( m_Model->data( m_Model->index( flagIdx, 1) ).toString() );
         ui->epochBox->setText( m_Model->data( m_Model->index( flagIdx, 2) ).toString() );
 
-        //FIXME Needs porting to KF5
         //ui->flagCombobox->setCurrentItem( m_Model->data( m_Model->index( flagIdx, 3) ).toString() );
+        ui->flagCombobox->setCurrentText( m_Model->data( m_Model->index( flagIdx, 3) ).toString() );
         ui->flagLabel->setText( m_Model->data( m_Model->index( flagIdx, 4) ).toString() );
 
         QColor labelColor = m_Model->item( flagIdx, 4 )->foreground().color();
