@@ -404,13 +404,9 @@ void LocationDialog::showTZRules() {
     lines.append( xi18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
 
     QString message = xi18n( "Daylight Saving Time Rules" );
-    //	KMessageBox::informationList( 0, message, lines, message );
 
     QPointer<QDialog> tzd = new QDialog( this );
     tzd->setWindowTitle( message );
-
-    //FIXME Needs porting to KF5
-    //tzd->setButtons( QDialog::Close );
 
     QListWidget *lw = new QListWidget( tzd );
     lw->addItems( lines );
@@ -419,10 +415,16 @@ void LocationDialog::showTZRules() {
     //the widget to fit the contents automatically?  I tried setting the sizePolicy,
     //no joy...
     int w = int( 1.1*lw->visualItemRect( lw->item(0) ).width() );
-    lw->setMinimumWidth( w );
+    lw->setMinimumWidth( w );   
 
-    //FIXME Needs porting to KF5
-    //tzd->setMainWidget( lw );
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(lw);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), tzd, SLOT(reject()));
+
+    tzd->setLayout(mainLayout);
 
     tzd->exec();
 
