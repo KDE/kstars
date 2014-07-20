@@ -205,7 +205,7 @@ void DetailDialog::createGeneralTab()
         if ( selectedObject->name() == "Moon" ) {
             Data->IllumLabel->setVisible( true );
             Data->Illumination->setVisible( true );
-            Data->Illumination->setText( QString("%1 %").arg( QLocale().toString( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
+            Data->Illumination->setText( QString("%1 %").arg( QLocale().toString( ((KSMoon *)selectedObject)->illum()*100., 'f', 0 ) ) );
             ((KSMoon *)selectedObject)->updateMag();
         }
         
@@ -648,7 +648,7 @@ void DetailDialog::createAdvancedTab()
     // Don't create an adv tab for an unnamed star or if advinterface file failed loading
     // We also don't need adv dialog for solar system objects.
     if (selectedObject->name() == QString("star") ||
-            KStarsData::Instance()->ADVtreeList.isEmpty() ||
+            KStarsData::Instance()->avdTree().isEmpty() ||
             selectedObject->type() == SkyObject::PLANET ||
             selectedObject->type() == SkyObject::COMET ||
             selectedObject->type() == SkyObject::ASTEROID )
@@ -973,7 +973,7 @@ void DetailDialog::populateADVTree()
 
     // We populate the tree iterativley, keeping track of parents as we go
     // This solution is more efficient than the previous recursion algorithm.
-    foreach (ADVTreeData *item, KStarsData::Instance()->ADVtreeList)
+    foreach (ADVTreeData *item, KStarsData::Instance()->avdTree())
     {
 
         switch (item->Type)
@@ -1009,7 +1009,7 @@ void  DetailDialog::viewADVData()
     //If the item has children or is invalid, do nothing
     if ( !current || current->childCount()>0 )  return;
 
-    foreach (ADVTreeData *item, KStarsData::Instance()->ADVtreeList)
+    foreach (ADVTreeData *item, KStarsData::Instance()->avdTree())
     {
         if (item->Name == current->text(0))
         {
