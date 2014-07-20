@@ -22,7 +22,8 @@
 #include "kstars.h"
 #include "loggingform.h"
 
-#include <kmessagebox.h>
+#include <KMessageBox>
+#include <KIO/StoredTransferJob>
 
 #include <QFileDialog>
 #include <QTemporaryFile>
@@ -126,12 +127,12 @@ void PWizPrintUI::slotExport()
         if(tmpfile.fileName() == fname)
         {
             //attempt to upload image to remote location
-            //FIXME need porting to KF5
-            /*if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
+            if (KIO::storedHttpPost(&tmpfile, url )->exec() == false)
+            //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
-                QString message = xi18n( "Could not upload file to remote location: %1", url.prettyUrl() );
+                QString message = xi18n( "Could not upload file to remote location: %1", url.url() );
                 KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
-            }*/
+            }
         }
     }
 }
