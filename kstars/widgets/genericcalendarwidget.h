@@ -20,7 +20,7 @@
 
 #include "ui_genericcalendarwidget.h"
 
-#include <KDateTable>
+//#include <KDateTable>
 
 #include <QDate>
 
@@ -114,7 +114,7 @@ class GenericCalendarWidget : public QWidget, public Ui::GenericCalendarWidgetUi
     void dateChangedSlot( const QDate &date_ );
 
  private:
-    KDateTable &m_DateTable;
+    //KDateTable &m_DateTable;
 
     /**
      *@short Fills the month combo box with month names
