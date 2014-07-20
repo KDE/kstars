@@ -234,7 +234,7 @@ void DetailDialog::createGeneralTab()
                                               QLocale().toString( ps->angSize(), 'f', 1 ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
             else
                 Data->AngSize->setText( xi18nc("angular size in arcseconds","%1 arcsec",
-                                              QLocale().toString( ps->angSize()*60.0 ), 'f', 1 ) );
+                                              QLocale().toString( ps->angSize()*60.0 , 'f', 1 ) ));
         } else {
             Data->AngSize->setText( "--" );
         }
