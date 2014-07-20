@@ -50,9 +50,14 @@
 
 #include "geolocation.h"
 
-namespace Ui {
-class LocationDialog;
-}
+#include "ui_locationdialog.h"
+
+class LocationDialogUI : public QFrame, public Ui::LocationDialog {
+    Q_OBJECT
+public:
+    explicit LocationDialogUI( QWidget *parent=0 );
+};
+
 
 class LocationDialog : public QDialog {
     Q_OBJECT
@@ -62,9 +67,6 @@ public:
      * Connect Signals to Slots.  Run initCityList().
      */
     explicit LocationDialog( QWidget* parent );
-
-    /** Destructor (empty) */
-    ~LocationDialog();
 
     /**Initialize list of cities.  Note that the database is not read in here,
      * that is done in the KStars constructor.  This simply loads the local QListBox
@@ -134,7 +136,7 @@ private:
 
     bool dataModified, nameModified;
 
-    Ui::LocationDialog *ui;
+    LocationDialogUI *ld;
     GeoLocation *SelectedCity;
     QList<GeoLocation*> filteredCityList;
     QTimer *timer;
