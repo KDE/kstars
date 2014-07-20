@@ -23,21 +23,18 @@
 #include <QSocketNotifier>
 #include <QDateTime>
 #include <QSplitter>
-
-
-#include <kled.h>
-#include <klineedit.h>
+#include <QLineEdit>
 #include <QPushButton>
-#include <KLocalizedString>
-#include <kmessagebox.h>
 #include <QDebug>
 #include <QComboBox>
 #include <QStatusBar>
 #include <QMenu>
-// FIXME
-//#include <kvbox.h>
 #include <QTabWidget>
-#include <ktextedit.h>
+#include <QTextEdit>
+
+#include <KLed>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "kstars.h"
 #include "skymap.h"
