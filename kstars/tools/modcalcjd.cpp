@@ -16,16 +16,14 @@
  ***************************************************************************/
 
 #include "modcalcjd.h"
-#include "modcalcjd.moc"
 
-#include <KGlobal>
-#include <KLocale>
-#include <qradiobutton.h>
-#include <klineedit.h>
-#include <kmessagebox.h>
+#include <QTextStream>
+#include <QLineEdit>
 #include <QDebug>
 
-#include <QtCore/QTextStream>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KLineEdit>
 
 #include "kstarsdatetime.h"
 
@@ -71,19 +69,19 @@ void modCalcJD::slotUpdateModJD()
 {
     long double julianDay, modjulianDay;
 
-    modjulianDay = KLocale::global()->readNumber( ModJDBox->text() );
+    modjulianDay = ModJDBox->text().toDouble();
     julianDay = MJD0 + modjulianDay;
     showJd( julianDay );
-    DateTimeBox->setDateTime( KStarsDateTime( julianDay ).dateTime() );
+    DateTimeBox->setDateTime( KStarsDateTime( julianDay ));
 }
 
 void modCalcJD::slotUpdateJD()
 {
     long double julianDay, modjulianDay;
-    julianDay = KLocale::global()->readNumber( JDBox->text() );
+    julianDay = JDBox->text().toDouble();
     KStarsDateTime dt( julianDay );
 
-    DateTimeBox->setDateTime( dt.dateTime() );
+    DateTimeBox->setDateTime( dt);
 
     modjulianDay = julianDay - MJD0;
     showMjd( modjulianDay );
@@ -92,7 +90,7 @@ void modCalcJD::slotUpdateJD()
 
 void modCalcJD::showCurrentTime (void)
 {
-    DateTimeBox->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
+    DateTimeBox->setDateTime( KStarsDateTime::currentDateTime() );
 }
 
 void modCalcJD::showJd(long double julianDay)
@@ -207,7 +205,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
         }
 
         //Write to output file
-        ostream << QLocale().toStringTime( dt, KLocale::LongDate ) << "  "
+        ostream << QLocale().toString( dt, QLocale::LongFormat ) << "  "
         << QString::number( jd, 'f', 2 ) << "  "
         << QString::number( mjd, 'f', 2 ) << endl;
 

@@ -17,10 +17,10 @@
 
 #include "modcalcdaylength.h"
 
-#include <KGlobal>
-#include <KLocale>
-#include <kmessagebox.h>
 #include <QLineEdit>
+
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "skyobjects/skyobject.h"
 #include "geolocation.h"
@@ -135,7 +135,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         stTimeString = QLocale().toString( stTime );
 
         QTime daylength = lengthOfDay(ssTime,srTime);
-        daylengthString = QLocale().toString( daylength, false, true );
+        daylengthString = QLocale().toString( daylength);
 
         //...but not always!
     } else if ( stAlt.Degrees() > 0. ) {
@@ -202,7 +202,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
     //after calling riseSetTime Phase needs to reset, setting it before causes Phase to set nan
     Moon.findPosition(&num);
-    Moon.findPhase();
+    Moon.findPhase(0);
     lunarphaseString = Moon.phaseName()+" ("+QString::number( int( 100*Moon.illum() ) )+"%)";
 
     //Fix length of Az strings
@@ -309,4 +309,4 @@ void modCalcDayLength::slotViewBatch() {
     KMessageBox::informationList( 0, xi18n("Results of Almanac calculation"), text, OutputFileBatch->url().toLocalFile() );
 }
 
-#include "modcalcdaylength.moc"
+

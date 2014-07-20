@@ -20,9 +20,8 @@
 
 #include <QTextStream>
 
-#include <klocale.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "dms.h"
 #include "widgets/dmsbox.h"

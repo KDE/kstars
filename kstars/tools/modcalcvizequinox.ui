@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>modCalcEquinox</class>
- <widget class="QWidget" name="modCalcEquinox" >
-  <property name="geometry" >
+ <widget class="QWidget" name="modCalcEquinox">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,42 +10,43 @@
     <height>520</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Equinoxes and Solstices</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>485</width>
-        <height>474</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
        <string>Interactive Mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <layout class="QHBoxLayout" >
-         <property name="spacing" >
+        <layout class="QHBoxLayout">
+         <property name="spacing">
           <number>6</number>
          </property>
-         <property name="margin" >
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -53,27 +55,37 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+          <widget class="QLabel" name="label">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Equinoxes and solstices for the year:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KIntNumInput" name="Year" />
+          <widget class="QSpinBox" name="Year">
+           <property name="minimum">
+            <number>100</number>
+           </property>
+           <property name="maximum">
+            <number>3000</number>
+           </property>
+           <property name="value">
+            <number>2014</number>
+           </property>
+          </widget>
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -84,13 +96,13 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -99,17 +111,17 @@
           </spacer>
          </item>
          <item>
-          <layout class="QGridLayout" >
-           <item row="0" column="0" >
-            <widget class="QLabel" name="VEquinoxText" >
-             <property name="text" >
+          <layout class="QGridLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="VEquinoxText">
+             <property name="text">
               <string>Vernal equinox:</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1" >
-            <widget class="QLabel" name="VEquinox" >
-             <property name="font" >
+           <item row="0" column="1">
+            <widget class="QLabel" name="VEquinox">
+             <property name="font">
               <font>
                <family>Monospace</family>
                <pointsize>12</pointsize>
@@ -117,27 +129,27 @@
                <bold>true</bold>
               </font>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>1 Jan 2007  00:00</string>
              </property>
-             <property name="indent" >
+             <property name="indent">
               <number>5</number>
              </property>
-             <property name="textInteractionFlags" >
+             <property name="textInteractionFlags">
               <set>Qt::TextSelectableByMouse</set>
              </property>
             </widget>
            </item>
-           <item row="1" column="0" >
-            <widget class="QLabel" name="SSolsticeText" >
-             <property name="text" >
+           <item row="1" column="0">
+            <widget class="QLabel" name="SSolsticeText">
+             <property name="text">
               <string>Summer solstice:</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1" >
-            <widget class="QLabel" name="SSolstice" >
-             <property name="font" >
+           <item row="1" column="1">
+            <widget class="QLabel" name="SSolstice">
+             <property name="font">
               <font>
                <family>Monospace</family>
                <pointsize>12</pointsize>
@@ -145,27 +157,27 @@
                <bold>true</bold>
               </font>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>1 Jan 2007  00:00</string>
              </property>
-             <property name="indent" >
+             <property name="indent">
               <number>5</number>
              </property>
-             <property name="textInteractionFlags" >
+             <property name="textInteractionFlags">
               <set>Qt::TextSelectableByMouse</set>
              </property>
             </widget>
            </item>
-           <item row="2" column="0" >
-            <widget class="QLabel" name="AEquinoxText" >
-             <property name="text" >
+           <item row="2" column="0">
+            <widget class="QLabel" name="AEquinoxText">
+             <property name="text">
               <string>Autumnal equinox:</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1" >
-            <widget class="QLabel" name="AEquinox" >
-             <property name="font" >
+           <item row="2" column="1">
+            <widget class="QLabel" name="AEquinox">
+             <property name="font">
               <font>
                <family>Monospace</family>
                <pointsize>12</pointsize>
@@ -173,27 +185,27 @@
                <bold>true</bold>
               </font>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>1 Jan 2007  00:00</string>
              </property>
-             <property name="indent" >
+             <property name="indent">
               <number>5</number>
              </property>
-             <property name="textInteractionFlags" >
+             <property name="textInteractionFlags">
               <set>Qt::TextSelectableByMouse</set>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" >
-            <widget class="QLabel" name="WSolsticeText" >
-             <property name="text" >
+           <item row="3" column="0">
+            <widget class="QLabel" name="WSolsticeText">
+             <property name="text">
               <string>Winter solstice:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1" >
-            <widget class="QLabel" name="WSolstice" >
-             <property name="font" >
+           <item row="3" column="1">
+            <widget class="QLabel" name="WSolstice">
+             <property name="font">
               <font>
                <family>Monospace</family>
                <pointsize>12</pointsize>
@@ -201,13 +213,13 @@
                <bold>true</bold>
               </font>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>1 Jan 2007  00:00</string>
              </property>
-             <property name="indent" >
+             <property name="indent">
               <number>5</number>
              </property>
-             <property name="textInteractionFlags" >
+             <property name="textInteractionFlags">
               <set>Qt::TextSelectableByMouse</set>
              </property>
             </widget>
@@ -216,10 +228,10 @@
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -230,9 +242,9 @@
         </layout>
        </item>
        <item>
-        <widget class="eqPlotWidget" name="Plot" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+        <widget class="eqPlotWidget" name="Plot">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -241,58 +253,50 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>485</width>
-        <height>474</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
        <string>Batch Mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QLabel" name="HelpLabel" >
-         <property name="text" >
+        <widget class="QLabel" name="HelpLabel">
+         <property name="text">
           <string>Specify years for the calculation in the input file.</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
+        <layout class="QGridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
             <string>Input file:</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" >
-          <widget class="QUrlRequester" name="InputFileBatch" />
+         <item row="0" column="1">
+          <widget class="KUrlRequester" name="InputFileBatch"/>
          </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_4" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
             <string>Output file:</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" >
-          <widget class="QUrlRequester" name="OutputFileBatch" />
+         <item row="1" column="1">
+          <widget class="KUrlRequester" name="OutputFileBatch"/>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -301,17 +305,17 @@
           </spacer>
          </item>
          <item>
-          <layout class="QVBoxLayout" >
+          <layout class="QVBoxLayout">
            <item>
-            <widget class="QPushButton" name="RunButtonBatch" >
-             <property name="text" >
+            <widget class="QPushButton" name="RunButtonBatch">
+             <property name="text">
               <string>Compute</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="ViewButtonBatch" >
-             <property name="text" >
+            <widget class="QPushButton" name="ViewButtonBatch">
+             <property name="text">
               <string>View output</string>
              </property>
             </widget>
@@ -320,10 +324,10 @@
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -335,10 +339,10 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>465</width>
            <height>16</height>
@@ -354,24 +358,13 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KIntNumInput</class>
-   <extends>QWidget</extends>
-   <header>QDoubleSpinBox</header>
-  </customwidget>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QUrlRequester</class>
+   <class>KPlotWidget</class>
    <extends>QFrame</extends>
+   <header>kplotwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>

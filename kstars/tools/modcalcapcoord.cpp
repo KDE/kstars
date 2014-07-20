@@ -18,11 +18,10 @@
 #include "modcalcapcoord.h"
 
 #include <QTextStream>
+#include <QFileDialog>
 
-#include <KGlobal>
-#include <KLocale>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "kstars.h"
 #include "dms.h"
@@ -222,10 +221,10 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
             dtB = dateBoxBatch->date();
 
         if ( allRadioBatch->isChecked() )
-            ostream << QLocale().toString( dtB, KLocale::LongDate ).append(space);
+            ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
         else
             if(dateCheckBatch->isChecked() )
-                ostream << QLocale().toString( dtB, KLocale::LongDate ).append(space);
+                ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
 
         // Read RA and write in ostream if corresponds
 
@@ -282,4 +281,3 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
     fOut.close();
 }
 
-#include "modcalcapcoord.moc"

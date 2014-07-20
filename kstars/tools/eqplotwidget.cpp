@@ -52,28 +52,28 @@ void eqPlotWidget::paintEvent( QPaintEvent *e ) {
     p.translate( leftPadding() + pSpring.x(), topPadding() + pSpring.y() );
     p.rotate(-90);
     p.drawText( 0, 0, xi18n("Vernal equinox:") );
-    p.drawText( 0, 14, QLocale().toStringTime( mc->dSpring, KLocale::LongDate ) );
+    p.drawText( 0, 14, QLocale().toString( mc->dSpring, QLocale::LongFormat ) );
     p.restore();
 
     p.save();
     p.translate( leftPadding() + pSummer.x(), topPadding() + pSummer.y() );
     p.rotate(-90);
     p.drawText( 0, 0, xi18n("Summer solstice:") );
-    p.drawText( 0, 14, QLocale().toStringTime( mc->dSummer, KLocale::LongDate ) );
+    p.drawText( 0, 14, QLocale().toString( mc->dSummer, QLocale::LongFormat ) );
     p.restore();
 
     p.save();
     p.translate( leftPadding() + pAutumn.x(), topPadding() + pAutumn.y() );
     p.rotate(-90);
     p.drawText( 0, 0, xi18n("Autumnal equinox:") );
-    p.drawText( 0, 14, QLocale().toStringTime( mc->dAutumn, KLocale::LongDate ) );
+    p.drawText( 0, 14, QLocale().toString( mc->dAutumn, QLocale::LongFormat ) );
     p.restore();
 
     p.save();
     p.translate( leftPadding() + pWinter.x(), topPadding() + pWinter.y() );
     p.rotate(-90);
     p.drawText( 0, 0, xi18n("Winter solstice:") );
-    p.drawText( 0, 14, QLocale().toStringTime( mc->dWinter, KLocale::LongDate ) );
+    p.drawText( 0, 14, QLocale().toString( mc->dWinter, QLocale::LongFormat ) );
     p.restore();
 
     //Draw month labels along top axis
@@ -96,4 +96,3 @@ void eqPlotWidget::paintEvent( QPaintEvent *e ) {
     p.end();
 }
 
-#include "eqplotwidget.moc"

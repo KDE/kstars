@@ -18,9 +18,9 @@
 #include "modcalcgalcoord.h"
 
 #include <QTextStream>
+#include <QFileDialog>
 
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include "dms.h"
 #include "skyobjects/skypoint.h"
@@ -331,4 +331,3 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
     fOut.close();
 }
 
-#include "modcalcgalcoord.moc"

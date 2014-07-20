@@ -18,12 +18,10 @@
 #include "modcalcvlsr.h"
 
 #include <QPointer>
-
-#include <KGlobal>
-#include <KLocale>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
 #include <QFileDialog>
+
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "ksnumbers.h"
 #include "dms.h"
@@ -41,7 +39,7 @@ modCalcVlsr::modCalcVlsr(QWidget *parentSplit) :
     setupUi(this);
     RA->setDegType(false);
 
-    Date->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
+    Date->setDateTime( KStarsDateTime::currentDateTime() );
     initGeo();
 
     VLSR->setValidator( new QDoubleValidator( VLSR ) );
@@ -78,7 +76,7 @@ void modCalcVlsr::initGeo(void)
 
 void modCalcVlsr::slotNow()
 {
-    Date->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
+    Date->setDateTime( KStarsDateTime::currentDateTime());
     slotCompute();
 }
 
@@ -258,7 +256,7 @@ void modCalcVlsr::slotInputFile() {
 
 void modCalcVlsr::slotOutputFile() {
     QString outputFileName;
-    outputFileName = KFileDialog::getSaveFileName( );
+    outputFileName = QFileDialog::getSaveFileName( );
     OutputFileBoxBatch->setUrl( outputFileName );
 }
 
@@ -349,10 +347,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
         } else
             dtB = DateBoxBatch->date();
         if ( AllRadioBatch->isChecked() )
-            ostream << QLocale().toString( dtB, KLocale::LongDate ).append(space);
+            ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
         else
             if(DateCheckBatch->isChecked() )
-                ostream << QLocale().toString( dtB, KLocale::LongDate ).append(space);
+                ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
 
         // Read RA and write in ostream if corresponds
 

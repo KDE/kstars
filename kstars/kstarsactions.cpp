@@ -220,10 +220,9 @@ void KStars::slotViewToolBar() {
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator() {
-    //FIXME Port to KF5
-    /*if( ! astrocalc )
+    if( ! astrocalc )
         astrocalc = new AstroCalc (this);
-    astrocalc->show();*/
+    astrocalc->show();
 }
 
 void KStars::slotWizard() {

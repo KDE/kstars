@@ -18,11 +18,11 @@
 #include "modcalceclipticcoords.h"
 
 #include <QTextStream>
+#include <QFileDialog>
 
-#include <klocale.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
-#include <kurlrequester.h>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KUrlRequester>
 
 #include "dms.h"
 #include "kstars.h"
@@ -39,7 +39,7 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
     RA->setDegType(false);
 
     //Initialize Date/Time and Location data
-    DateTime->setDateTime( KStarsData::Instance()->lt().dateTime() );
+    DateTime->setDateTime( KStarsData::Instance()->lt() );
     kdt = DateTime->dateTime();
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
@@ -58,7 +58,7 @@ modCalcEclCoords::~modCalcEclCoords() {
 }
 
 void modCalcEclCoords::slotNow() {
-    DateTime->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
+    DateTime->setDateTime( KStarsDateTime::currentDateTime() );
     slotCompute();
 }
 
@@ -111,4 +111,3 @@ void modCalcEclCoords::slotCompute(void) {
     }
 }
 
-#include "modcalceclipticcoords.moc"

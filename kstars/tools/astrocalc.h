@@ -27,7 +27,7 @@ class QSplitter;
 class QStackedWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
-class KTextEdit;
+class QTextEdit;
 
 /** Astrocalc is the base class for the KStars astronomical calculator
  * @author: Pablo de Vicente
@@ -101,7 +101,7 @@ private:
     QMap<QTreeWidgetItem*, WidgetThunk> dispatchTable;
     QTreeWidget *navigationPanel;
     QStackedWidget *acStack;
-    KTextEdit *splashScreen;
+    QTextEdit *splashScreen;
 };
 
 #endif

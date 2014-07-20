@@ -21,9 +21,10 @@
 #include <QStackedWidget>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
-#include <KTextEdit>
-#include <klocale.h>
-#include <ktextedit.h>
+#include <QDialogButtonBox>
+#include <QTextEdit>
+
+#include <KLocalizedString>
 
 #include "dms.h"
 #include "modcalcjd.h"
@@ -111,9 +112,16 @@ AstroCalc::AstroCalc( QWidget* parent ) :
              "</QT>");
 
     QSplitter* split = new QSplitter ( this );
-    setMainWidget(split);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(split);
+    setLayout(mainLayout);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
     setWindowTitle( xi18n("Calculator") );
-    setButtons( QDialog::Close );
 
     // Create navigation panel
     navigationPanel = new QTreeWidget(split);
@@ -126,14 +134,13 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
     acStack = new QStackedWidget( split );
 
-    splashScreen = new KTextEdit( message, acStack );
+    splashScreen = new QTextEdit( message, acStack );
     splashScreen->setReadOnly( true );
     //FIXME: Minimum size is set to resize calculator to correct size
     //when no modules is loaded. This is simply biggest size of
     //calculator modules. I think it should be set in more cleverly.
     splashScreen->setMinimumSize(640, 550);
     acStack->addWidget( splashScreen );
-
 
     // Load icons
     QIcon jdIcon = QIcon ("jd.png");
@@ -232,4 +239,3 @@ QWidget* AstroCalc::WidgetThunk::eval()
     return widget;
 }
 
-#include "astrocalc.moc"

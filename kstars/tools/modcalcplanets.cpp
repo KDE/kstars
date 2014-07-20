@@ -17,10 +17,10 @@
 
 #include "modcalcplanets.h"
 
-#include <KGlobal>
-#include <KLocale>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
+
+#include <QFileDialog>
 
 #include "geolocation.h"
 #include "dialogs/locationdialog.h"
@@ -40,7 +40,7 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit) :
 
     KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
-    DateTimeBox->setDateTime( dt.dateTime() );
+    DateTimeBox->setDateTime( dt );
     DateBoxBatch->setDate( dt.date() );
     UTBoxBatch->setTime( dt.time() );
 
@@ -324,7 +324,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
             utB = UTBoxBatch->time();
         }
         if ( AllRadioBatch->isChecked() || UTCheckBatch->isChecked() )
-            lineToWrite += QLocale().toString( utB, true ).append(space);
+            lineToWrite += QLocale().toString( utB).append(space);
 
         // Read date and write in ostream if corresponds
         if(DateCheckBatch->isChecked() ) {
@@ -341,7 +341,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
             dtB = DateBoxBatch->date();
         }
         if ( AllRadioBatch->isChecked() || DateCheckBatch->isChecked() )
-            lineToWrite += QLocale().toString( dtB, KLocale::LongDate ).append(space);
+            lineToWrite += QLocale().toString( dtB, QLocale::LongFormat ).append(space);
 
 
         // Read Longitude and write in ostream if corresponds
@@ -428,4 +428,3 @@ void modCalcPlanets::processLines( QTextStream &istream )
     fOut.close();
 }
 
-#include "modcalcplanets.moc"

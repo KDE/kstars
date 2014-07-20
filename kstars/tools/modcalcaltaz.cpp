@@ -18,11 +18,10 @@
 #include "modcalcaltaz.h"
 
 #include <QTextStream>
+#include <QFileDialog>
 
-#include <KGlobal>
-#include <KLocale>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "skyobjects/skypoint.h"
 #include "geolocation.h"
@@ -47,7 +46,7 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
 
     //Make sure slotDateTime() gets called, so that LST will be set
     connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
-    DateTime->setDateTime( data->lt().dateTime() );
+    DateTime->setDateTime( data->lt());
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
@@ -66,7 +65,7 @@ modCalcAltAz::~modCalcAltAz(){
 
 void modCalcAltAz::slotNow()
 {
-    DateTime->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
+    DateTime->setDateTime( KStarsDateTime::currentDateTime() );
     slotCompute();
 }
 
@@ -136,4 +135,3 @@ void modCalcAltAz::slotCompute()
     }
 }
 
-#include "modcalcaltaz.moc"

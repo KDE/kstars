@@ -23,9 +23,8 @@
 #include <KPlotAxis>
 #include <KPlotObject>
 #include <KPlotPoint>
-#include <KGlobal>
-#include <KLocale>
-#include <kmessagebox.h>
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "dms.h"
 #include "kstarsdata.h"
@@ -125,10 +124,10 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 
             //Write to output file
             ostream << 
-                QLocale().toString( dSpring.date(), KLocale::LongDate ) << "\t"
-            << QLocale().toString( dSummer.date(), KLocale::LongDate ) << "\t"
-            << QLocale().toString( dAutumn.date(), KLocale::LongDate ) << "\t"
-            << QLocale().toString( dWinter.date(), KLocale::LongDate ) << endl;
+                QLocale().toString( dSpring.date(), QLocale::LongFormat ) << "\t"
+            << QLocale().toString( dSummer.date(), QLocale::LongFormat ) << "\t"
+            << QLocale().toString( dAutumn.date(), QLocale::LongFormat ) << "\t"
+            << QLocale().toString( dWinter.date(), QLocale::LongFormat ) << endl;
         }
     }
 
@@ -197,10 +196,10 @@ void modCalcEquinox::slotCompute()
     dWinter = findSolstice( Year->value(), false );
 
     //Display the Date/Time of each event in the text fields
-    VEquinox->setText( QLocale().toStringTime( dSpring, KLocale::LongDate ) );
-    SSolstice->setText( QLocale().toStringTime( dSummer, KLocale::LongDate ) );
-    AEquinox->setText( QLocale().toStringTime( dAutumn, KLocale::LongDate ) );
-    WSolstice->setText( QLocale().toStringTime( dWinter, KLocale::LongDate ) );
+    VEquinox->setText( QLocale().toString( dSpring, QLocale::LongFormat ) );
+    SSolstice->setText( QLocale().toString( dSummer, QLocale::LongFormat ) );
+    AEquinox->setText( QLocale().toString( dAutumn, QLocale::LongFormat ) );
+    WSolstice->setText( QLocale().toString( dWinter, QLocale::LongFormat ) );
 
     //Add vertical dotted lines at times of the equinoxes and solstices
     KPlotObject *poSpring = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
@@ -343,5 +342,3 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
 
     return KStarsDateTime( jd2 );
 }
-
-#include "modcalcvizequinox.moc"

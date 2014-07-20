@@ -123,9 +123,6 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/tools
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents
-#    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh
-#	${CMAKE_SOURCE_DIR}/libkdeedu/extdate
-	${ZLIB_INCLUDE_DIR}
 )
 
 ########### next target ###############
@@ -136,21 +133,20 @@ set(libkstarstools_SRCS
 	tools/conjunctions.cpp	
 	tools/jmoontool.cpp
 	tools/ksconjunct.cpp
-#FIXME needs porting
-#       tools/eqplotwidget.cpp
-#       tools/astrocalc.cpp
-#	tools/modcalcangdist.cpp
-#	tools/modcalcapcoord.cpp
-#	tools/modcalcaltaz.cpp
-#	tools/modcalcdaylength.cpp
-#	tools/modcalceclipticcoords.cpp
-#	tools/modcalcvizequinox.cpp
-#	tools/modcalcgalcoord.cpp
-#	tools/modcalcgeodcoord.cpp
-#	tools/modcalcjd.cpp
-#	tools/modcalcplanets.cpp
-#	tools/modcalcsidtime.cpp
-#	tools/modcalcvlsr.cpp
+        tools/eqplotwidget.cpp
+        tools/astrocalc.cpp
+        tools/modcalcangdist.cpp
+        tools/modcalcapcoord.cpp
+        tools/modcalcaltaz.cpp
+        tools/modcalcdaylength.cpp
+        tools/modcalceclipticcoords.cpp
+        tools/modcalcvizequinox.cpp
+        tools/modcalcgalcoord.cpp
+        tools/modcalcgeodcoord.cpp
+        tools/modcalcjd.cpp
+        tools/modcalcplanets.cpp
+        tools/modcalcsidtime.cpp
+        tools/modcalcvlsr.cpp
         tools/observinglist.cpp
 	tools/sessionsortfilterproxymodel.cpp
 	tools/obslistwizard.cpp
@@ -213,19 +209,18 @@ qt5_wrap_ui(libkstarstools_SRCS
 	tools/argwaitforkey.ui
 	tools/argzoom.ui
 	tools/conjunctions.ui
-#FIXME needs porting
-#	tools/modcalcangdist.ui
-#	tools/modcalcapcoord.ui
-#	tools/modcalcaltaz.ui
-#	tools/modcalcdaylength.ui
-#	tools/modcalceclipticcoords.ui
-#	tools/modcalcvizequinox.ui
-#	tools/modcalcgalcoord.ui
-#	tools/modcalcgeod.ui
-#	tools/modcalcjd.ui
-#	tools/modcalcplanets.ui
-#	tools/modcalcsidtime.ui
-#	tools/modcalcvlsr.ui
+        tools/modcalcangdist.ui
+        tools/modcalcapcoord.ui
+        tools/modcalcaltaz.ui
+        tools/modcalcdaylength.ui
+        tools/modcalceclipticcoords.ui
+        tools/modcalcvizequinox.ui
+        tools/modcalcgalcoord.ui
+        tools/modcalcgeod.ui
+        tools/modcalcjd.ui
+        tools/modcalcplanets.ui
+        tools/modcalcsidtime.ui
+        tools/modcalcvlsr.ui
 	tools/observinglist.ui
 	tools/obslistwizard.ui
 	tools/optionstreeview.ui
@@ -458,7 +453,6 @@ set(printingui_SRCS
     printing/pwizwelcome.ui
 )
 
-##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
@@ -481,8 +475,6 @@ qt5_wrap_ui(kstars_SRCS
 #kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
 add_executable(kstars main.cpp)
 add_library( KStarsLib STATIC ${kstars_SRCS})
-
-# kde4_add_executable(kstars ${kstars_SRCS})
 
 # FIXME TODO
 #target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/>")
@@ -531,12 +523,7 @@ endif(QJSON_FOUND)
 
 target_link_libraries(kstars KStarsLib)
 
-#FIXME TODO
-#<move ecm_generate_headers calls here>
-#install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
-
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
-
 
 ########### install files ###############
 ecm_install_icons(${ICON_INSTALL_DIR})

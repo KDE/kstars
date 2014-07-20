@@ -854,7 +854,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QUrlRequester" name="InputFileBatch"/>
+          <widget class="KUrlRequester" name="InputFileBatch"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_6">
@@ -864,7 +864,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QUrlRequester" name="OutputFileBatch"/>
+          <widget class="KUrlRequester" name="OutputFileBatch"/>
          </item>
         </layout>
        </item>
@@ -956,7 +956,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QUrlRequester</class>
+   <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>

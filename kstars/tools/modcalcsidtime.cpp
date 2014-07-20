@@ -18,10 +18,10 @@
 #include "modcalcsidtime.h"
 
 #include <QTextStream>
-#include <KGlobal>
-#include <KLocale>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+#include <QFileDialog>
+
+#include <KLocalizedString>
+#include <KMessageBox>
 
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
@@ -309,10 +309,10 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
         }
 
         //Write to output file
-        ostream << QLocale().toString( dt, KLocale::LongDate ) << "  \""
+        ostream << QLocale().toString( dt, QLocale::LongFormat ) << "  \""
         << geoBatch->fullName() << "\"  "
-        << QLocale().toString( inTime, true ) << "  " 
-        << QLocale().toString( outTime, true ) << endl;
+        << QLocale().toString( inTime ) << "  "
+        << QLocale().toString( outTime ) << endl;
     }
 
     fOut.close();
@@ -331,5 +331,3 @@ void modCalcSidTime::slotViewBatch() {
 
     KMessageBox::informationList( 0, xi18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().toLocalFile() );
 }
-
-#include "modcalcsidtime.moc"
