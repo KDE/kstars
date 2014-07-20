@@ -43,18 +43,15 @@ JMoonTool::JMoonTool(QWidget *parent)
 {
     ksw = (KStars*)parent;
     QFrame *page = new QFrame(this);
-    //setMainWidget( page );
-    //setWindowTitle( xi18n("Jupiter Moons Tool") );
+
     setWindowTitle( xi18n("Jupiter Moons Tool") );
-    //setButtons( QDialog::Close );
     setModal( false );
 
-    //QVBoxLayout *vlay = new QVBoxLayout( page );
     QVBoxLayout *vlay = new QVBoxLayout;
     vlay->setMargin( 0 );
     vlay->setSpacing( 0 );
 
-    vlay->addWidget(page);
+    setLayout(vlay);
 
     colJp = QColor(Qt::white);
     colIo = QColor(Qt::red);
@@ -106,6 +103,10 @@ JMoonTool::JMoonTool(QWidget *parent)
     vlay->addLayout( glay );
     vlay->addWidget( pw );
     resize( 350, 600 );
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    vlay->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     initPlotObjects();
     update();
