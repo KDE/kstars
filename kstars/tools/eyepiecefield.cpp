@@ -40,10 +40,13 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     setWindowTitle( xi18n( "Eyepiece Field View" ) );
 
     QWidget *mainWidget = new QWidget( this );
-    //setMainWidget( mainWidget );
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(mainWidget);
     setLayout(mainLayout);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     QVBoxLayout *rows = new QVBoxLayout;
     mainWidget->setLayout( rows );
@@ -94,9 +97,6 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     connect( m_flipView, SIGNAL( stateChanged( int ) ), this, SLOT( render( int ) ) );
     connect( m_invertColors, SIGNAL( stateChanged( int ) ), this, SLOT( render( int ) ) );
     connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render( int ) ) );
-
-    //FIXME Needs porting to KF5
-    //setButtons( QDialog::Close );
 
     m_skyChart = 0;
     m_skyImage = 0;
