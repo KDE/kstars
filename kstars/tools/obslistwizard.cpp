@@ -21,6 +21,7 @@
 
 #include <QDoubleSpinBox>
 #include <QPushButton>
+#include <QDialogButtonBox>
 
 #include "kstarsdata.h"
 #include "geolocation.h"
@@ -41,26 +42,33 @@ ObsListWizard::ObsListWizard( QWidget *ksparent ) :
     QDialog( ksparent )
 {
     olw = new ObsListWizardUI( this );
-    //setMainWidget( olw );
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(olw);
+    setLayout(mainLayout);
 
     setWindowTitle( xi18n("Observing List Wizard") );
 
-    //FIXME Needs porting to KF5
-    /*setButtons( QDialog::User1|QDialog::User2|QDialog::Ok|QDialog::Cancel );
-    setButtonGuiItem( QDialog::User2, KGuiItem( xi18n("< &Back"), QString(), xi18n("Go to previous Wizard page") ) );
-    setButtonGuiItem( QDialog::User1, KGuiItem( xi18n("&Next >"), QString(), xi18n("Go to next Wizard page") ) );
-    enableButton( QDialog::User2, false );*/
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel, Qt::Horizontal);
+    nextB = new QPushButton(xi18n("&Next >"));
+    nextB->setDefault(true);
+    backB = new QPushButton(xi18n("< &Back"));
+    backB->setEnabled(false);
+
+    buttonBox->addButton(backB, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(nextB, QDialogButtonBox::ActionRole);
+    mainLayout->addWidget(buttonBox);
+
+    connect(nextB, SIGNAL(clicked()), this, SLOT(slotNextPage()));
+    connect(backB, SIGNAL(clicked()), this, SLOT(slotPrevPage()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotApplyFilters()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     connect( olw->AllButton, SIGNAL( clicked() ), this, SLOT( slotAllButton() ) );
     connect( olw->NoneButton, SIGNAL( clicked() ), this, SLOT( slotNoneButton() ) );
     connect( olw->DeepSkyButton, SIGNAL( clicked() ), this, SLOT( slotDeepSkyButton() ) );
     connect( olw->SolarSystemButton, SIGNAL( clicked() ), this, SLOT( slotSolarSystemButton() ) );
     connect( olw->LocationButton, SIGNAL( clicked() ), this, SLOT( slotChangeLocation() ) );
-
-    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
-    connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotPrevPage() ) );
 
     //Update the count of objects when the user asks for it
     connect( olw->updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
@@ -85,8 +93,6 @@ ObsListWizard::ObsListWizard( QWidget *ksparent ) :
 
     connect( olw->SelectByDate, SIGNAL( clicked() ), this, SLOT( slotToggleDateWidgets() ) );
     connect( olw->SelectByMagnitude, SIGNAL( clicked() ), this, SLOT( slotToggleMagWidgets() ) );
-
-    connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
 
     geo = KStarsData::Instance()->geo();
     olw->LocationButton->setText( geo->fullName() );
@@ -192,11 +198,11 @@ void ObsListWizard::slotNextPage() {
 
     olw->olwStack->setCurrentIndex( NextPage );
 
-    /* FIXME Needs porting to KF5
-    if ( olw->olwStack->currentIndex() == olw->olwStack->count() - 1 )
-        enableButton( QDialog::User1, false );
 
-    enableButton( QDialog::User2, true );*/
+    if ( olw->olwStack->currentIndex() == olw->olwStack->count() - 1 )
+        nextB->setEnabled(false);
+
+    backB->setEnabled(true);
 }
 
 //Advance to the previous page in the stack.  However, because the
@@ -214,11 +220,11 @@ void ObsListWizard::slotPrevPage() {
 
     olw->olwStack->setCurrentIndex( PrevPage );
 
-    /* FIXME Needs porting to KF5
-    if ( olw->olwStack->currentIndex() == 0 )
-        enableButton( QDialog::User2, false );
 
-    enableButton( QDialog::User1, true );*/
+    if ( olw->olwStack->currentIndex() == 0 )
+        backB->setEnabled(false);
+
+    nextB->setEnabled(true);
 }
 
 void ObsListWizard::slotAllButton() {

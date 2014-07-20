@@ -99,6 +99,7 @@ private:
     double xRect1, xRect2, yRect1, yRect2, rCirc;
     SkyPoint pCirc;
     GeoLocation *geo;
+    QPushButton *nextB,*backB;
 };
 
 #endif
