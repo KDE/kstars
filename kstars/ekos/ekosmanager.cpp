@@ -35,8 +35,9 @@ EkosManager::EkosManager()
     setupUi(this);
 
     nDevices=0;
-    useGuiderFromCCD=false;
-    useFilterFromCCD=false;
+    //useGuiderFromCCD=false;
+    //useFilterFromCCD=false;
+    useGuideHead    =false;
     useST4          =false;
     ccdStarted      =false;
 
@@ -243,8 +244,9 @@ void EkosManager::initRemoteDrivers()
 void EkosManager::reset()
 {
     nDevices=0;
-    useGuiderFromCCD=false;
-    useFilterFromCCD=false;
+    //useGuiderFromCCD=false;
+    //useFilterFromCCD=false;
+    useGuideHead    =false;
     guideStarted    =false;
     useST4          =false;
     ccdStarted      =false;
@@ -408,19 +410,24 @@ void EkosManager::processINDI()
         {
             if (guider_di == ccd_di)
             {
-                useGuiderFromCCD = true;
-                guider_di = NULL;
+                QVariantMap vMap;
+                vMap.insert("DELETE", 1);
+                guider_di = new DriverInfo(ccd_di);
+                guider_di->setUniqueLabel(guider_di->getTreeLabel() + " Guide");
+                guider_di->setAuxInfo(vMap);
+               // useGuiderFromCCD = true;
+               // guider_di = NULL;
             }
         }
 
-        if (filter_di)
+        /*if (filter_di)
         {
             if (filter_di == ccd_di)
             {
                 useFilterFromCCD = true;
                 filter_di = NULL;
             }
-        }
+        }*/
 
         if (scope_di != NULL)
             managedDevices.append(scope_di);
@@ -469,24 +476,26 @@ void EkosManager::processINDI()
         if (ccdCombo->currentText() != "--")
             nDevices++;
         if (guiderCombo->currentText() != "--")
-        {
+            nDevices++;
+        /*{
             if (guiderCombo->currentText() != ccdCombo->currentText())
                 nDevices++;
             else
                 useGuiderFromCCD = true;
-        }
+        }*/
 
         if (AOCombo->currentText() != "--")
             nDevices++;
         if (focuserCombo->currentText() != "--")
             nDevices++;
         if (filterCombo->currentText() != "--")
-        {
+            nDevices++;
+        /*{
             if (filterCombo->currentText() != ccdCombo->currentText())
                 nDevices++;
             else
                 useFilterFromCCD = true;
-        }
+        }*/
         if (auxCombo->currentText() != "--")
             nDevices++;
 
@@ -668,7 +677,17 @@ void EkosManager::cleanDevices()
     INDIListener::Instance()->disconnect(this);
 
     if (localMode)
+    {
         DriverManager::Instance()->stopDevices(managedDevices);
+        if (guider_di)
+        {
+            if (guider_di->getAuxInfo().value("DELETE") == 1)
+            {
+                delete(guider_di);
+                guider_di=NULL;
+            }
+        }
+    }
     else if (remote_indi)
     {
         DriverManager::Instance()->disconnectRemoteHost(remote_indi);
@@ -733,8 +752,8 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
              case KSTARS_FILTER:
                 if (filter_di == di)
                     filter = devInterface;
-                if (useFilterFromCCD)
-                    ccd = devInterface;
+                //if (useFilterFromCCD)
+                   // ccd = devInterface;
                 break;
 
              case KSTARS_AUXILIARY:
@@ -770,8 +789,8 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
     {
         ccd = devInterface;
 
-        if (useGuiderFromCCD)
-            guider = ccd;
+        //if (useGuiderFromCCD)
+           // guider = ccd;
     }
     else if (!strcmp(devInterface->getDeviceName(), Options::remoteGuiderName().toLatin1()))
     {
@@ -912,13 +931,14 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
     //if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
-    if (useGuiderFromCCD == false && guiderName == QString(ccdDevice->getDeviceName()))
+    //if (useGuiderFromCCD == false && guiderName == QString(ccdDevice->getDeviceName()))
+    if (isPrimaryCCD == false)
     {
         guider = ccdDevice;
         appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
 
         initGuide();
-        guideProcess->setCCD(guider);
+        guideProcess->addCCD(guider, true);
 
         initAlign();
         alignProcess->addCCD(guider, false);
@@ -947,7 +967,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         }
 
         // If guider is the same driver as the CCD
-        if (useGuiderFromCCD == true)
+        /*if (useGuiderFromCCD == true)
         {
             guider = ccd;
             initGuide();
@@ -958,7 +978,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
                 guideProcess->setTelescope(scope);
                 captureProcess->setTelescope(scope);
             }
-        }
+        }*/
     }
 
 }
@@ -966,13 +986,9 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 {
 
-    if (useFilterFromCCD == false && filterDevice != ccd)
-    {
-       filter = filterDevice;
-       appendLogText(xi18n("%1 is online.", filter->getDeviceName()));
-    }
-    else
-        filter = ccd;
+    filter = filterDevice;
+    appendLogText(i18n("%1 is online.", filter->getDeviceName()));
+
 
     initCapture();
 
@@ -1091,16 +1107,20 @@ void EkosManager::processNewProperty(INDI::Property* prop)
 
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
-        initCapture();
+        initCapture();        
 
         if (ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+        {
+            useGuideHead=true;
+            initGuide();
             captureProcess->addGuideHead(ccd);
+            guideProcess->addGuideHead(ccd);
+        }
         else if (guider)
+        {
             captureProcess->addGuideHead(guider);
-
-
-        if (guider && guideProcess)
             guideProcess->addGuideHead(guider);
+        }
 
         return;
     }
@@ -1155,6 +1175,10 @@ void EkosManager::processTabChange()
     else if (currentWidget == focusProcess)
     {
         focusProcess->checkCCD();
+    }
+    else if (currentWidget == guideProcess)
+    {
+        guideProcess->checkCCD();
     }
 
     updateLog();
@@ -1264,7 +1288,7 @@ void EkosManager::initGuide()
     if (guideProcess == NULL)
         guideProcess = new Ekos::Guide();
 
-    if (guider && guider->isConnected() && useST4 && guideStarted == false)
+    if ( ( (guider && guider->isConnected()) || useGuideHead) && useST4 && guideStarted == false)
     {
         guideStarted = true;
         if (scope && scope->isConnected())

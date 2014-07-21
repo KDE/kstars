@@ -86,8 +86,9 @@ public slots:
     void processRemoteDevice(ISD::GDInterface*);
     bool isRunning(const QString &process);
 
-    bool useGuiderFromCCD;
-    bool useFilterFromCCD;
+    //bool useGuiderFromCCD;
+    //bool useFilterFromCCD;
+    bool useGuideHead;
     bool useST4;
     bool guideStarted;
     bool ccdStarted;

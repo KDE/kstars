@@ -29,6 +29,7 @@ class DriverInfo : public QObject
 public:
 
     DriverInfo(const QString &inName);
+    DriverInfo(DriverInfo *di);
       ~DriverInfo();
 
     void clear();

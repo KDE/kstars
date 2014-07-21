@@ -119,7 +119,8 @@ bool ServerManager::startDriver(DriverInfo *dv)
     managedDrivers.append(dv);
     dv->setServerManager(this);
 
-    dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getTreeLabel()));
+    if (dv->getUniqueLabel().isEmpty())
+        dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getTreeLabel()));
 
      //if (QStandardPaths::findExe(dv->getDriver()).isEmpty())
     //TODO Check if this works!
@@ -129,7 +130,8 @@ bool ServerManager::startDriver(DriverInfo *dv)
          return false;
     }
 
-        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
+        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() <<
+        //            " Unique Label " << dv->getUniqueLabel() << endl;
 
         if (dv->getSkeletonFile().isEmpty())
             out << "start " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
