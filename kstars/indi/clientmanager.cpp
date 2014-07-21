@@ -54,22 +54,45 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
 {
     setBLOBMode(B_ALSO, dp->getDeviceName());
 
+    DriverInfo *deviceDriver=NULL;
+
+    // First iteration find unique matches
     foreach(DriverInfo *dv, managedDrivers)
     {
-        QString dvName = dv->getName().split(" ").first();
-        if (dvName.isEmpty())
-            dvName = dv->getName();
-        if (dv->getUniqueLabel() == dp->getDeviceName() ||
-                QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) || dv->getDriverSource() == HOST_SOURCE)
+        if (dv->getUniqueLabel() == QString(dp->getDeviceName()))
         {
-            dv->setUniqueLabel(dp->getDeviceName());
+            deviceDriver = dv;
+            break;
+        }
 
-            DeviceInfo *devInfo = new DeviceInfo(dv, dp);
-            dv->addDevice(devInfo);
-            emit newINDIDevice(devInfo);
-            return;
+    }
+
+    // Second iteration find partial matches
+    if (deviceDriver == NULL)
+    {
+        foreach(DriverInfo *dv, managedDrivers)
+        {
+            QString dvName = dv->getName();
+            dvName = dv->getName().split(" ").first();
+            if (dvName.isEmpty())
+                dvName = dv->getName();
+            if (dv->getUniqueLabel() == dp->getDeviceName() ||
+                    QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) || dv->getDriverSource() == HOST_SOURCE)
+            {
+                deviceDriver = dv;
+                break;
+            }
         }
     }
+
+    if (deviceDriver == NULL)
+        return;
+
+    deviceDriver->setUniqueLabel(dp->getDeviceName());
+    DeviceInfo *devInfo = new DeviceInfo(deviceDriver, dp);
+    deviceDriver->addDevice(devInfo);
+    emit newINDIDevice(devInfo);
+    return;
 
 }
 

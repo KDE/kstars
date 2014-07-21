@@ -38,6 +38,28 @@ DriverInfo::DriverInfo(const QString &inName)
 
 }
 
+DriverInfo::DriverInfo(DriverInfo *di)
+{
+
+    name            = di->getName();
+    treeLabel       = di->getTreeLabel();
+    uniqueLabel     = di->getUniqueLabel();
+    driver          = di->getDriver();
+    version         = di->getVersion();
+    userPort        = di->getUserPort();
+    skelFile        = di->getSkeletonFile();
+    port            = di->getPort();
+    hostname        = di->getHost();
+    type            = di->getType();
+    serverState     = di->getServerState();
+    clientState     = di->getClientState();
+    driverSource    = di->getDriverSource();
+    serverManager   = di->getServerManager();
+    clientManager   = di->getClientManager();
+    auxInfo         = di->getAuxInfo();
+    devices         = di->getDevices();
+}
+
 DriverInfo::~DriverInfo()
 {
     qDeleteAll(devices);
