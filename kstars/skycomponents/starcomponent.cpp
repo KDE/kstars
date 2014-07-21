@@ -467,7 +467,7 @@ bool StarComponent::loadStaticData()
             if ( ! name.isEmpty() ) {
                 objectNames(SkyObject::STAR).append( name );
             }
-            if ( ! gname.isEmpty() && gname != name ) {
+            if ( ! visibleName.isEmpty() && gname != name ) {
                 objectNames(SkyObject::STAR).append( star -> gname(false) );
             }
 
