@@ -57,8 +57,8 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
     const GeoLocation* _geo = geo;
     *RiseTime = o->riseSetTime( today.addDays(1), _geo, true ); // The addDays(1) gives the future rise time rather than past
     *SetTime = o->riseSetTime( today, _geo, false );
-    *riseTime = -1.0 * RiseTime->secsTo(QTime()) / 86400.0; 
-    *setTime = -1.0 * SetTime->secsTo(QTime()) / 86400.0;
+    *riseTime = -1.0 * RiseTime->secsTo(QTime(0,0,0,0)) / 86400.0;
+    *setTime = -1.0 * SetTime->secsTo(QTime(0,0,0,0)) / 86400.0;
 
     // Check to see if the object is circumpolar
     // NOTE: Since we are working on a local copy of the Sun / Moon,
