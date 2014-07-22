@@ -439,7 +439,12 @@ void LocationDialog::dataChanged() {
 }
 
 void LocationDialog::slotOk() {
-    if( addCityEnabled() && addCity() )
+    if( addCityEnabled())
+    {
+        if (addCity() )
+         accept();
+    }
+    else
         accept();
 }
 
