@@ -678,7 +678,12 @@ void Capture::newFITS(IBLOB *bp)
             appendLogText(i18n("Parking telescope..."));
             emit telescopeParking();
             currentTelescope->Park();
+            return;
         }
+
+        //Resume guiding if it was suspended before
+        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            emit suspendGuiding(false);
 
         return;
     }
@@ -697,6 +702,8 @@ void Capture::newFITS(IBLOB *bp)
             secondsLabel->setText(i18n("Dithering..."));
             emit exposureComplete();
         }
+        else
+            seqTimer->start(seqDelay);
     }
     else if (isAutoFocus)
     {

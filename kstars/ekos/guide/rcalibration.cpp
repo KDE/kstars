@@ -83,10 +83,6 @@ rcalibration::rcalibration(Ekos::Guide *parent)
     alertColor = Qt::red;
 
     fill_interface();
-
-
-    //connect( pmain_wnd->m_video, SIGNAL(calibrationFinished()),			this, SLOT(onVideoCalibrationFinished()) );
-	
 }
 
 
@@ -94,10 +90,6 @@ rcalibration::~rcalibration()
 {
 
 }
-
-
-
-
 
 void rcalibration::fill_interface( void )
 {
