@@ -986,9 +986,8 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 {
 
-    filter = filterDevice;
-    appendLogText(i18n("%1 is online.", filter->getDeviceName()));
-
+   filter = filterDevice;
+   appendLogText(i18n("%1 filter is online.", filter->getDeviceName()));
 
     initCapture();
 
