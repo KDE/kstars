@@ -140,7 +140,7 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
 
 void AstrophotographsBrowser::onResultListItemClicked(int index){
     if(m_Lock || m_AstroBinImageList.count() <= index){
-        //KMessageBox::error(this, i18n("Wait till search is complete", i18n("Could not load detail")));
+        //KMessageBox::error(this, i18n("Please wait. Image is being downloaded", i18n("Wait")));
         return;
     }
 
@@ -234,12 +234,14 @@ void AstrophotographsBrowser::onSaveButtonClicked(){
 
     if(m_Lock)
     {
+        KMessageBox::error(this, i18n("Please wait. Image is being downloaded", i18n("Wait")));
         return;
     }
 
     m_ImageType = 2;
     AstroBinImage image = m_AstroBinImageList.at(currentIndex);
 
+    m_Lock = true;
     KIO::StoredTransferJob *job = KIO::storedGet(image.hdUrl(), KIO::NoReload, KIO::HideProgressInfo);
     job->setUiDelegate(0);
     m_Jobs.append(job);
@@ -315,6 +317,7 @@ QString AstrophotographsBrowser::scaleAndAddPixmap(QPixmap *pixmap){
         }else{
             KMessageBox::error(this, i18n("File path is not selected", i18n("Could not save image")));
         }
+        m_Lock = false;
     }
 
     pixmap->save( path );
