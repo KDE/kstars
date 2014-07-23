@@ -131,7 +131,7 @@ void Guide::checkCCD(int ccdNum)
 
         currentCCD = CCDs.at(ccdNum);
 
-        currentCCD->disconnect();
+        currentCCD->disconnect(this);
         connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
