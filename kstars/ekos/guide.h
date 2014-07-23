@@ -44,7 +44,7 @@ public:
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
 
-    void setCCD(ISD::GDInterface *newCCD);
+    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider);
     void setTelescope(ISD::GDInterface *newTelescope);
     void addST4(ISD::ST4 *newST4);
     void setAO(ISD::ST4 *newAO);
@@ -70,6 +70,7 @@ public:
 
 public slots:
 
+        void checkCCD(int ccdNum=-1);
         void newFITS(IBLOB*);
         void newST4(int index);
         void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
@@ -101,6 +102,7 @@ private:
     ISD::ST4* GuideDriver;
 
     QList<ISD::ST4*> ST4List;
+    QList<ISD::CCD *> CCDs;
 
     QTabWidget *tabWidget;
 

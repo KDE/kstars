@@ -949,15 +949,16 @@ void CCD::processBLOB(IBLOB* bp)
             connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
-        FITSScale captureFilter = targetChip->getCaptureFilter();        
+        FITSScale captureFilter = targetChip->getCaptureFilter();
+        bool preview = !targetChip->isBatchMode() && Options::singlePreviewFITS();
 
         switch (targetChip->getCaptureMode())
         {
             case FITS_NORMAL:
                 if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, Options::singlePreviewFITS());
+                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, preview);
                 else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
-                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, Options::singlePreviewFITS());
+                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, preview);
 
                 targetChip->setImage(fv->getImage(normalTabID), FITS_NORMAL);
                 break;
