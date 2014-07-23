@@ -72,6 +72,7 @@ Guide::Guide() : QWidget()
     tabWidget->setTabEnabled(1, false);
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+    connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -85,18 +86,28 @@ Guide::~Guide()
     delete pmath;
 }
 
-void Guide::setCCD(ISD::GDInterface *newCCD)
+void Guide::addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider)
 {
     currentCCD = (ISD::CCD *) newCCD;
 
+    CCDs.append(currentCCD);
+
     guiderCombo->addItem(currentCCD->getDeviceName());
 
-    if (currentCCD->hasGuideHead())
-        addGuideHead(newCCD);
+    if (isPrimaryGuider)
+    {
+        checkCCD(CCDs.count()-1);
+        guiderCombo->setCurrentIndex(CCDs.count()-1);
+    }
+    else
+    {
+        checkCCD(0);
+        guiderCombo->setCurrentIndex(0);
+    }
 
-    connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
+    //if (currentCCD->hasGuideHead())
+       // addGuideHead(newCCD);
 
-    syncCCDInfo();
 
     //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
 
@@ -110,19 +121,40 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
 
 }
 
-void Guide::addGuideHead(ISD::GDInterface *ccd)
+void Guide::checkCCD(int ccdNum)
 {
-    if (currentCCD == NULL)
-        currentCCD = (ISD::CCD *) ccd;
+    if (ccdNum == -1)
+        ccdNum = guiderCombo->currentIndex();
 
-    // Let's just make sure
-    if (currentCCD->hasGuideHead())
+    if (ccdNum <= CCDs.count())
     {
-        guiderCombo->clear();
-        guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
-        useGuideHead = true;
+
+        currentCCD = CCDs.at(ccdNum);
+
+        currentCCD->disconnect();
+        connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
+
+        if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
+            useGuideHead=true;
+
         syncCCDInfo();
     }
+}
+
+void Guide::addGuideHead(ISD::GDInterface *ccd)
+{   
+    currentCCD = (ISD::CCD *) ccd;
+
+    CCDs.append(currentCCD);
+
+    // Let's just make sure
+    //if (currentCCD->hasGuideHead())
+    //{
+       // guiderCombo->clear();
+        guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
+        //useGuideHead = true;
+        checkCCD(0);
+    //}
 
 }
 
