@@ -1016,6 +1016,18 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
         break;
 
 
+    case FITS_ROTATE_CW:
+        break;
+
+    case FITS_ROTATE_CCW:
+        break;
+
+    case FITS_FLIP_H:
+        break;
+
+    case FITS_FLIP_V:
+        break;
+
     default:
         return;
         break;

@@ -91,9 +91,9 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     y -= 1;
 
     if (image_data->getBPP() == -32 || image_data->getBPP() == 32)
-        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'g', 5), FITS_VALUE);
+        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'f', 4), FITS_VALUE);
     else
-        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'g', 2), FITS_VALUE);
+        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'f', 2), FITS_VALUE);
 
 
     if (image_data->hasWCS())

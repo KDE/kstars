@@ -69,7 +69,9 @@
 #include "Options.h"
 
 QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
-                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass");
+                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass")
+                                                    << I18N_NOOP("Rotate Right") << I18N_NOOP("Rotate Left")
+                                                    << I18N_NOOP("Flip Horizontal") << I18N_NOOP("Flip Vertical");
 
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
@@ -102,6 +104,23 @@ FITSViewer::FITSViewer (QWidget *parent)
     statusBar()->insertPermanentWidget(FITS_LED, &led);
 
     QAction *action;
+
+    action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCCW()));
+    action->setText(xi18n("Rotate Right"));
+    action->setIcon(QIcon::fromTheme("object-rotate-right"));
+\
+    action = actionCollection()->addAction("rotate_left", this, SLOT(rotateCCW()));
+    action->setText(xi18n("Rotate Left"));
+    action->setIcon(QIcon::fromTheme("object-rotate-left"));
+
+    action = actionCollection()->addAction("flip_horizontal", this, SLOT(flipHorizontal()));
+    action->setText(xi18n("Flip Horizontal"));
+    action->setIcon(QIcon::fromTheme("object-flip-horizontal"));
+
+    action = actionCollection()->addAction("flip_vertical", this, SLOT(flipVertical()));
+    action->setText(xi18n("Flip Vertical"));
+    action->setIcon(QIcon::fromTheme("object-flip-vertical"));
+
     QFile tempFile;
 
     action = actionCollection()->addAction("image_histogram");
@@ -172,7 +191,6 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     connect(filterMapper, SIGNAL(mapped(int)), this, SLOT(applyFilter(int)));
 
-    
     /* Create GUI */
     createGUI("fitsviewer.rc");
 
@@ -425,6 +443,44 @@ void FITSViewer::stretchFITS()
     fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_AUTO_STRETCH);
     fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
 
+}
+
+void FITSViewer::rotateCW()
+{
+    if (fitsImages.empty())
+        return;
+
+    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CW);
+    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+
+}
+
+void FITSViewer::rotateCCW()
+{
+    if (fitsImages.empty())
+        return;
+
+    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CCW);
+    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+
+}
+
+void FITSViewer::flipHorizontal()
+{
+    if (fitsImages.empty())
+        return;
+
+    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_H);
+    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+}
+
+void FITSViewer::flipVertical()
+{
+    if (fitsImages.empty())
+        return;
+
+    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_V);
+    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
 }
 
 void FITSViewer::headerFITS()

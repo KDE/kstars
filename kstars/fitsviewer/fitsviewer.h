@@ -97,6 +97,10 @@ public slots:
     void closeTab(int index);
     void toggleStars();
     void applyFilter(int ftype);
+    void rotateCW();
+    void rotateCCW();
+    void flipHorizontal();
+    void flipVertical();
 
 private:
 

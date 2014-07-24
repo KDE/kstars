@@ -61,6 +61,12 @@
 	<Action name="view_zoom_in" />
 	<Action name="view_zoom_out" />	
 	<Action name="view_actual_size"/>
+        <Separator/>
+        <Action name="rotate_right" />
+        <Action name="rotate_left" />
+        <Action name="flip_horizontal" />
+        <Action name="flip_vertical" />
+        <Separator/>
 </ToolBar>
 	
 <ToolBar noMerge="1" name="processToolBar"><text>Process ToolBar</text>

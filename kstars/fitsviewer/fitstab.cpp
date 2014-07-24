@@ -230,7 +230,8 @@ void FITSTab::saveFile()
     char err_text[FLEN_STATUS];
 
     QUrl backupCurrent = currentURL;
-    QString currentDir = Options::fitsDir();
+    QUrl currentDir(Options::fitsDir());
+    currentDir.setScheme("file");
 
     if (currentURL.path().contains("/tmp/"))
         currentURL.clear();
@@ -241,7 +242,7 @@ void FITSTab::saveFile()
 
     if (currentURL.isEmpty())
     {
-        currentURL = QFileDialog::getSaveFileUrl(0, xi18n("Save FITS"), currentDir, "FITS (*.fits, *.fit)");
+        currentURL = QFileDialog::getSaveFileUrl(0, xi18n("Save FITS"), currentDir, "FITS (*.fits *.fit)");
         // if user presses cancel
         if (currentURL.isEmpty())
         {

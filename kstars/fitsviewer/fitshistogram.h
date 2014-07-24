@@ -95,7 +95,7 @@ public slots:
 class FITSHistogramCommand : public QUndoCommand
 {
 public:
-    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax);
+    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax, int w, int h);
     virtual ~FITSHistogramCommand();
 
     virtual void redo();
@@ -107,6 +107,7 @@ private:
     FITSHistogram *histogram;
     FITSScale type;
     int min, max;
+    int width,height;
     float *buffer;
     FITSTab *tab;
 };

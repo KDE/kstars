@@ -195,7 +195,7 @@ void FITSHistogram::applyScale()
 
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
-
+    FITSImage *image_data = tab->getImage()->getImageData();
     FITSHistogramCommand *histC;
 
     napply++;
@@ -213,7 +213,7 @@ void FITSHistogram::applyScale()
     else if (ui->sqrtR->isChecked())
         type = FITS_SQRT;
 
-    histC = new FITSHistogramCommand(tab, this, type, min, max);
+    histC = new FITSHistogramCommand(tab, this, type, min, max, image_data->getWidth(), image_data->getHeight());
 
     tab->getUndoStack()->push(histC);
 }
@@ -222,6 +222,7 @@ void FITSHistogram::applyFilter(FITSScale ftype)
 {
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
+    FITSImage *image_data = tab->getImage()->getImageData();
 
     napply++;
 
@@ -229,7 +230,7 @@ void FITSHistogram::applyFilter(FITSScale ftype)
 
     type = ftype;
 
-    histC = new FITSHistogramCommand(tab, this, type, min, max);
+    histC = new FITSHistogramCommand(tab, this, type, min, max, image_data->getWidth(), image_data->getHeight());
 
     tab->getUndoStack()->push(histC);
 
@@ -309,15 +310,17 @@ void FITSHistogram::updateHistogram()
     //constructHistogram(histogram_width, histogram_height);
 }
 
-FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax)
+FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax, int w, int h)
 {
     tab         = (FITSTab *) parent;
     type        = newType;
     histogram   = inHisto;
-    buffer = (float *) malloc (tab->getImage()->getImageData()->getWidth() * tab->getImage()->getImageData()->getHeight() * sizeof(float));
+    buffer = (float *) malloc (w * h * sizeof(float));
 
     min = lmin;
     max = lmax;
+    width = w;
+    height = h;
 }
 
 FITSHistogramCommand::~FITSHistogramCommand()
@@ -379,9 +382,9 @@ void FITSHistogramCommand::undo()
     FITSView *image = tab->getImage();
     FITSImage *image_data = image->getImageData();
     memcpy( image_data->getImageBuffer(), buffer, image_data->getWidth() * image_data->getHeight() * sizeof(float));
+
+    //FIXME set width , height of previous buffer
     image_data->calculateStats(true);
-
-
 
     if (histogram != NULL)
     {
