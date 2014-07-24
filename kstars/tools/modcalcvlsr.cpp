@@ -473,5 +473,3 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
     fOut.close();
 }
-
-#include "modcalcvlsr.moc"

@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "modcalcangdist.h"
-#include "modcalcangdist.moc"
 
 #include <QTextStream>
 
