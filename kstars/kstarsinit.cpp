@@ -516,8 +516,6 @@ void KStars::initActions() {
         << QIcon::fromTheme("kstars_supernovae" )
         << ToolTip( xi18n("Toggle supernovae") );
 
-    setXMLFile("kstarsui.rc" );
-
     if (Options::fitsDir().isEmpty())
         Options::setFitsDir(QDir:: homePath());
 }
