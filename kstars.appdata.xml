@@ -8,7 +8,6 @@
   <name xml:lang="de">KStars</name>
   <name xml:lang="en-GB">KStars</name>
   <name xml:lang="es">KStars</name>
-  <name xml:lang="et">KStars</name>
   <name xml:lang="lt">KStars</name>
   <name xml:lang="nds">KStars</name>
   <name xml:lang="nl">KStars</name>
@@ -24,7 +23,6 @@
   <summary>Desktop Planetarium</summary>
   <summary xml:lang="en-GB">Desktop Planetarium</summary>
   <summary xml:lang="es">Planetario para el escritorio</summary>
-  <summary xml:lang="et">Töölaua planetaarium</summary>
   <summary xml:lang="lt">Darbastalio planetariumas</summary>
   <summary xml:lang="nds">Planetarium för den Schriefdisch</summary>
   <summary xml:lang="nl">Planetarium op uw bureaublad</summary>
@@ -41,7 +39,6 @@
     <p>KStars is a desktop planetarium application. For any location, date, and time on Earth, it provides an accurate graphical simulation of the night sky. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, access to the Astroinfo project to help facilitate learning, and Internet links for further information and pictures of objects. Amateur astronomers can use KStars to plan their observations, use the FOV Editor to calculate field of view of equipment and display them, use the ObtainAAVSO light curves for variable stars, and get hints by the "What's up tonight tool". KStars integrates INDI and supports a wide range of instruments.</p>
     <p xml:lang="en-GB">KStars is a desktop planetarium application. For any location, date, and time on Earth, it provides an accurate graphical simulation of the night sky. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, access to the Astroinfo project to help facilitate learning, and Internet links for further information and pictures of objects. Amateur astronomers can use KStars to plan their observations, use the FOV Editor to calculate field of view of equipment and display them, use the ObtainAAVSO light curves for variable stars, and get hints by the "What's up tonight tool". KStars integrates INDI and supports a wide range of instruments.</p>
     <p xml:lang="es">KStars es una aplicación de planetario del escritorio. Proporciona una precisa simulación gráfica del cielo nocturno para cualquier lugar, fecha y hora de la Tierra. La pantalla incluye hasta 100 millones de estrellas, 13.000 objetos de cielo profundo, los 8 planetas, el Sol, la Luna y cientos de cometas y asteroides. Para estudiantes y profesores, permite velocidades de simulación ajustables para ver los fenómenos que ocurren a lo largo de grandes períodos de tiempo, contiene una calculadora astronómica para predecir conjunciones, accede al proyecto Astroinfo para ayudar al aprendizaje y contiene enlaces a sitios de Internet con más información e imágenes sobre diversos objetos. Los astrónomos aficionados pueden usar KStars para planificar sus observaciones, usar el editor de campo visual para calcular los campos visuales de su equipo astronómico y mostrarlos en la pantalla, usar las curvas de luz de la AAVSO para las estrellas variables y obtener datos con la herramienta «¿Qué ocurre esta noche?». KStars integra el protocolo INDI y permite usarlo con una amplia variedad de instrumentos.</p>
-    <p xml:lang="et">KStars on töölaua planetaarium. See pakub kõigile Maa asukohtadele, kuupäevadele ja kellaaegadele täpset öise taeva simulatsiooni. Näha võib lasta kuni 100 miljonit tähte, 13 000 Päikesesüsteemi välist objekti, kõiki 8 planeeti, Päikest ja Kuud ning tuhandeid komeete ja asteroide. Õppurite ja õpetajate huvides on toetatud simulatsioonikiiruse kohandamine, mis võimaldab visuaalselt uurida ka pika aja jooksul toimuvaid ilminguid. KStarsi astrokalkulaator lubab välja arvutada varjutuste toimumisaja. Samuti saab kasutada koolitarkusele tublisti juurde andvaid Astroinfo projekti materjale ning internetilinke, kust leiab lisateavet ja pilte taevakehade kohta. Amatöörastronoomid võivad KStarsi abil kavandada vaatlusi, vaatevälja redaktoriga arvutada oma seadme vaatevälja, uurida AAVSO andmete põhjal muutlikke tähti ning saada vastavast tööriistast teada, mida nad võivad just täna (või mõnel muul ööl) taevas näha. KStarsiga on lõimitud INDI, mis toetab väga paljusid taevauurimise instrumente.</p>
     <p xml:lang="nds">KStars is en Planetarium-Programm för den Schriefdisch, dat för elkeen Steed, Datum un Tiet op de Eer den Nachtheven akraat simuleert. De Dorstellen ümfaat bet to 100 Millionen Steerns, 13.000 Deepruum-Objekten, all 8 Planeten, de Sünn, den Maand un Dusend över Dusend Kometen un Asteroiden. För Schölers un Lehrers gifft dat verscheden Simuleren-Gauheiten, so laat sik Saken ankieken, de wat länger Tiet bruken doot. Dat gifft den KStars-Steernreekner, mit den sik Konjunkschonen utreken laat, Togriep op dat Astroinfo-Projekt, dat bi't Lehren hölpen schall, Internet-Links mit Bito-Informatschonen un Biller vun Objekten. Freetiet-Astronomen köönt mit KStars ehr Kiektörns planen, den SF-Editor bruken un dor dat Sichtfeld vun ehr Reedschappen mit utreken, AAVSO-Lichtdiagrammen för variabel Steerns halen un bruken un sik Tipps ünner „Wat geiht vunnacht af“ halen. KStars bruukt INDI un ünnerstütt en helen Barg vun Reedschappen.</p>
     <p xml:lang="nl">KStars is een planetariumprogramma voor op het bureaublad. Voor elke locatie, datum en tijdstip op aarde berekent het een nauwkeurige grafische simulatie van de nachtelijke hemel. Deze omvat tot tegen de 100 miljoen sterren, 13000 deepsky-objecten, alle 8 planeten (Vert.: Pluto wordt niet meer als een planeet beschouwd), de zon en de maan, en duizenden kometen en planetoïden. Voor leerlingen en leraren is het mogelijk de simulatiesnelheid aan te passen, zodat langdurige gebeurtenissen in een korte tijd kunnen worden afgespeeld. Met de Astrorekenmachine van KStars is het mogelijk om samenstanden van hemellichamen te berekenen. Het Astroinfo-project geeft leerzame informatie. Met behulp van internetkoppelingen kan nog meer informatie worden verkregen, en afbeeldingen van objecten. Amateurastronomen kunnen met KStars hun waarnemingen plannen, met het GV-bewerkingsprogramma het gezichtsveld van hun apparatuur berekenen en tonen, lichtkrommen van AAVSO verkrijgen voor variabele sterren, en het hulpmiddel "Wat is er vanavond te zien" gebruiken om ideeën op te doen. KStars bevat INDI en werkt samen met vele instrumenten.</p>
     <p xml:lang="pl">KStars jest programem dostarczającym planetarium na pulpicie. Dla każdego położenia, daty oraz czasu na Ziemi, dostarcza dokładnego graficznego przedstawienia symulacji nocnego nieba. Wyświetlacz uwzględnia 100 milionów gwiazd, 13,000 obiektów z głębokiego nieba, wszystkie 8 planet, Słońce i Księżyc oraz tysiące komet i asteroid. Uczniom i nauczycielom daje możliwość zmiany szybkości symulacji w celu obserwacji zjawisk dziejących się przez długi czas. Program KStars zawiera również Astrokalkulator do przewidywania połączeń, dostęp do projektu Astroinfo, aby ułatwić naukę oraz odsyłacze internetowe do poszerzenia liczby informacji i zdjęć nt. obiektów. Astronomowie amatorzy mogą używać KStars do planowania własnych obserwacji, Edytora FOV do obliczania i oglądania pola widoku sprzętu, krzywych światła ObtainAAWSO dla zmiennych gwiazd oraz uzyskiwać szczegóły poprzez narzędzie "Co dzisiaj na niebie". KStars integruje INDI i obsługuje szeroki zakres instrumentów.</p>
@@ -55,7 +52,6 @@
     <p>Astronomical Catalogs:</p>
     <p xml:lang="en-GB">Astronomical Catalogues:</p>
     <p xml:lang="es">Catálogos astronómicos:</p>
-    <p xml:lang="et">Tähekataloogid:</p>
     <p xml:lang="nds">Astronoomsch Katalogen:</p>
     <p xml:lang="nl">Astronomische catalogi:</p>
     <p xml:lang="pl">Katalogi astronomiczne:</p>
@@ -71,7 +67,6 @@
       <li>default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="en-GB">default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="es">el catálogo por omisión contiene estrellas hasta la magnitud 8</li>
-      <li xml:lang="et">vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
       <li xml:lang="nds">Standardkataloog mit Steerns bet Magnituud 8</li>
       <li xml:lang="nl">standaard catalogus bevat sterren tot magnitude 8</li>
       <li xml:lang="pl">domyślny katalog zawierający gwiazdy wielkości 8</li>
@@ -86,7 +81,6 @@
       <li>extra catalogs consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="en-GB">extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
-      <li xml:lang="et">lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
       <li xml:lang="nds">Bito-Katalogen mit 100 Millionen Steerns bet Magnituud 16</li>
       <li xml:lang="nl">extra catalogi die 100 miljoen sterren bevatten tot magnitude 16</li>
       <li xml:lang="pl">ekstra katalogi zawierające 100 milionów gwiazd wielkości 16</li>
@@ -101,7 +95,6 @@
       <li>downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
       <li xml:lang="en-GB">downloadable catalogues including Messier Images, Abell Planetary Nebulae</li>
       <li xml:lang="es">los catálogos que puede descargar contienen imágenes de objetos Messier, nebulosas planetarias Abell</li>
-      <li xml:lang="et">allalaaditavad kataloogid, sealhulgas Messieri pildid, Abelli planetaarudukogud</li>
       <li xml:lang="nds">Daallaadbor Katalogen mit Messier-Biller un Abell sien planetaarsch Nevels</li>
       <li xml:lang="nl">te downloaden catalogi, onder andere Messier-afbeeldingen, Abell Planetaire nevels.</li>
       <li xml:lang="pl">katalogi do pobrania zawierające obrazy Messier, Mgławicę planetarną Abell</li>
@@ -116,7 +109,6 @@
       <li>corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="en-GB">corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="es">correcciones de precesión, nutación y refracción atmosférica</li>
-      <li xml:lang="et">pretsessiooni, nutatsiooni ja atmosfääri refraktsiooni korrigeerimine</li>
       <li xml:lang="nds">Richten för Küselbewegen, Eerass-Swunken un atmosfeersch Lichtbreken</li>
       <li xml:lang="nl">correcties voor precessie, nutatie en atmosferische straalbreking</li>
       <li xml:lang="pl">poprawki do precesji, nutacji i załamania atmosferycznego</li>
@@ -131,7 +123,6 @@
       <li>tools for retrieval of data from online databases</li>
       <li xml:lang="en-GB">tools for retrieval of data from online databases</li>
       <li xml:lang="es">herramientas de obtención de datos de bases de datos en línea</li>
-      <li xml:lang="et">võimalus hankida andmeid võrguandmebaasidest</li>
       <li xml:lang="nds">Warktüüch för't Halen vun Daten ut Tokoppel-Datenbanken</li>
       <li xml:lang="nl">hulpmiddelen voor het verkrijgen van gegevens uit gegevensbanken op het internet</li>
       <li xml:lang="pl">narzędzia do pobierania danych z internetowych baz danych</li>
