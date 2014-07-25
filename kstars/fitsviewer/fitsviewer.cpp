@@ -402,12 +402,11 @@ void FITSViewer::saveFile()
 
 void FITSViewer::saveFileAs()
 {
-    //currentURL.clear();
-
     if (fitsImages.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->saveFileAs();
+    if (fitsImages[fitsTab->currentIndex()]->saveFileAs() && fitsImages[fitsTab->currentIndex()]->getImage()->getMode() == FITS_NORMAL)
+        fitsTab->setTabText(fitsTab->currentIndex(), fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName());
 
 }
 
@@ -600,9 +599,6 @@ void FITSViewer::updateTabStatus(bool clean)
   //QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
   QString tabText = fitsTab->tabText(fitsTab->currentIndex());
-
-  if (tabText.contains(".fits") || tabText.contains(".fts") || tabText.contains(".fit"))
-      tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
   fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
 }

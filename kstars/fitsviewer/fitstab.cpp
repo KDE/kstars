@@ -224,7 +224,7 @@ void FITSTab::headerFITS()
 }
 
 
-void FITSTab::saveFile()
+bool FITSTab::saveFile()
 {
     int err_status;
     char err_text[FLEN_STATUS];
@@ -238,7 +238,7 @@ void FITSTab::saveFile()
 
     // If no changes made, return.
     if( mDirty == false && !currentURL.isEmpty())
-        return;
+        return false;
 
     if (currentURL.isEmpty())
     {
@@ -247,7 +247,7 @@ void FITSTab::saveFile()
         if (currentURL.isEmpty())
         {
             currentURL = backupCurrent;
-            return;
+            return false;
         }
 
         if (currentURL.path().contains('.') == 0)
@@ -258,9 +258,11 @@ void FITSTab::saveFile()
             int r = KMessageBox::warningContinueCancel(0,
                         xi18n( "A file named \"%1\" already exists. "
                               "Overwrite it?", currentURL.fileName() ),
-                        xi18n( "Overwrite File?" ),
-                        KGuiItem(xi18n( "&Overwrite" )) );
-            if(r==KMessageBox::Cancel) return;
+                        i18n( "Overwrite File?" ),
+                        KGuiItem(i18n( "&Overwrite" )) );
+            if(r==KMessageBox::Cancel)
+                return false;
+
         }
     }
 
@@ -270,26 +272,28 @@ void FITSTab::saveFile()
         {
             fits_get_errstatus(err_status, err_text);
             // Use KMessageBox or something here
-            KMessageBox::error(0, xi18n("FITS file save error: %1",
-                                       QString::fromUtf8(err_text)), xi18n("FITS Save"));
-            return;
+            KMessageBox::error(0, i18n("FITS file save error: %1",
+                                       QString::fromUtf8(err_text)), i18n("FITS Save"));
+            return false;
         }
 
         //statusBar()->changeItem(xi18n("File saved."), 3);
 
-        emit newStatus(xi18n("File saved."), FITS_MESSAGE);
+        emit newStatus(i18n("File saved to %1", currentURL.url()), FITS_MESSAGE);
         modifyFITSState();
+        return true;
     } else
     {
-        QString message = xi18n( "Invalid URL: %1", currentURL.url() );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
+        QString message = i18n( "Invalid URL: %1", currentURL.url() );
+        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+        return false;
     }
 }
 
-void FITSTab::saveFileAs()
+bool FITSTab::saveFileAs()
 {
     currentURL.clear();
-    saveFile();
+    return saveFile();
 }
 
 void FITSTab::ZoomIn()

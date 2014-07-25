@@ -44,8 +44,8 @@ public:
    inline FITSHistogram *getHistogram() { return histogram; }
    inline FITSViewer *getViewer() { return viewer; }
 
-   void saveFile();
-   void saveFileAs();
+   bool saveFile();
+   bool saveFileAs();
    void copyFITS();
    void headerFITS();
    void histoFITS();
