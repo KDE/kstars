@@ -601,6 +601,9 @@ void FITSViewer::updateTabStatus(bool clean)
 
   QString tabText = fitsTab->tabText(fitsTab->currentIndex());
 
+  if (tabText.contains(".fits") || tabText.contains(".fts") || tabText.contains(".fit"))
+      tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
+
   fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
 }
 
