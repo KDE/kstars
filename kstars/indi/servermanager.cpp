@@ -232,7 +232,7 @@ void ServerManager::processStandardError()
             {
                 driverCrashed=true;
                 QString driverName = driver.left(driver.indexOf(':')).trimmed();
-                KMessageBox::information(0, i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
+                KMessageBox::information(0, xi18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
                 break;
             }
         }
