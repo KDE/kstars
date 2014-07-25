@@ -657,10 +657,14 @@ void KStars::slotOpenFITS()
 {
 #ifdef HAVE_CFITSIO
 
-    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Open FITS"), QUrl(), "FITS (*.fits *.fit *.fts)");
+    static QUrl path;
+    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Open FITS"), path, "FITS (*.fits *.fit *.fts)");
 
     if (fileURL.isEmpty())
         return;
+
+    // Remember last directory
+    path.setUrl(fileURL.path());
 
     FITSViewer * fv = new FITSViewer(this);
     // Error opening file

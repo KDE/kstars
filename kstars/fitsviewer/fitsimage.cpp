@@ -345,6 +345,20 @@ int FITSImage::saveFITS( const QString &newFilename )
         return status;
     }
 
+    // NAXIS1
+    if (fits_update_key(fptr, TINT, "NAXIS1", &(stats.dim[0]), "length of data axis 1", &status))
+    {
+        fits_report_error(stderr, status);
+        return status;
+    }
+
+    // NAXIS2
+    if (fits_update_key(fptr, TINT, "NAXIS2", &(stats.dim[1]), "length of data axis 2", &status))
+    {
+        fits_report_error(stderr, status);
+        return status;
+    }
+
     // ISO Date
     if (fits_write_date(fptr, &status))
     {
@@ -1017,17 +1031,22 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
 
 
     case FITS_ROTATE_CW:
+        rotFITS(90, 0);
         break;
 
     case FITS_ROTATE_CCW:
+        rotFITS(270, 0);
         break;
 
     case FITS_FLIP_H:
+        rotFITS(0, 1);
         break;
 
     case FITS_FLIP_V:
+        rotFITS(0, 2);
         break;
 
+    case FITS_CUSTOM:
     default:
         return;
         break;
@@ -1165,4 +1184,287 @@ void FITSImage::checkWCS()
     }
 #endif
 
+}
+
+/* Rotate an image by 90, 180, or 270 degrees, with an optional
+ * reflection across the vertical or horizontal axis.
+ * verbose generates extra info on stdout.
+ * return NULL if successful or rotated image.
+ */
+bool FITSImage::rotFITS (int rotate, int mirror)
+{
+    int ny, nx;
+    int x1, y1, x2, y2;
+    float *rotimage;
+
+    rotimage = NULL;
+
+    if (rotate == 1)
+    rotate = 90;
+    else if (rotate == 2)
+    rotate = 180;
+    else if (rotate == 3)
+    rotate = 270;
+    else if (rotate < 0)
+    rotate = rotate + 360;
+
+   //FIXME get image size nx, ny
+
+    nx = stats.dim[0];
+    ny = stats.dim[1];
+
+    /* Rotate WCS fields in header */
+
+    //if ((rotate != 0 || mirror))
+       // rotWCSFITS (rotate, mirror);
+
+    /* Allocate buffer for rotated image */
+    rotimage = (float *) calloc(nx*ny, sizeof(float));
+    float *image = image_buffer;
+
+    if (rotimage == NULL)
+    {
+        qWarning() << "Unable to allocate memory for rotated image buffer!" << endl;
+        return false;
+    }
+
+    /* Mirror image without rotation */
+    if (rotate < 45 && rotate > -45)
+    {
+        if (mirror == 1)
+        {
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                x2 = nx - x1 - 1;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    rotimage[(y1*nx) + x2] = image[(y1*nx) + x1];
+                    //movepix (image,bitpix,nx,x1,y1,rotimage,nx,x2,y1);
+                }
+            }
+
+            //TODO
+            //sprintf (history,"Copy of image %s reflected",filename);
+            //hputc (header,"HISTORY",history);
+        }
+        else if (mirror == 2)
+        {
+            for (y1 = 0; y1 < ny; y1++)
+            {
+                y2 = ny - y1 - 1;
+                for (x1 = 0; x1 < nx; x1++)
+                {
+                   rotimage[(y2*nx) + x1] = image[(y1*nx) + x1];
+                   //movepix (image,bitpix,nx,x1,y1,rotimage,nx,x1,y2);
+                }
+            }
+
+            //TODO
+            //sprintf (history,"Copy of image %s flipped",filename);
+            //hputc (header,"HISTORY",history);
+        }
+        else
+        {
+            for (y1 = 0; y1 < ny; y1++)
+            {
+                for (x1 = 0; x1 < nx; x1++)
+                {
+                   rotimage[(y1*nx) + x1] = image[(y1*nx) + x1];
+                   //movepix (image,bitpix,nx,x1,y1,rotimage,nx,x1,y1);
+                }
+            }
+       }
+    }
+
+    /* Rotate by 90 degrees */
+    else if (rotate >= 45 && rotate < 135)
+    {
+    if (mirror == 1)
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            x2 = ny - y1 - 1;
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                y2 = nx - x1 - 1;
+                rotimage[(y2*ny) + x2] = image[(y1*nx) + x1];
+                //movepix (image,nx,x1,y1,rotimage,ny,x2,y2);
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s reflected, rotated 90 degrees", filename);
+        //hputc (header,"HISTORY",history);
+    }
+    else if (mirror == 2)
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                rotimage[(x1*ny) + y1] = image[(y1*nx) + x1];
+                //movepix (image,nx,x1,y1,rotimage,ny,y1,x1);
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s reflected, rotated 90 degrees",  filename);
+        //hputc (header,"HISTORY",history);
+     }
+    else
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            x2 = ny - y1 - 1;
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                y2 = x1;
+                //movepix (image,nx,x1,y1,rotimage,ny,x2,y2);
+                rotimage[(y2*ny) + x2] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s reflected, rotated 90 degrees", filename);
+        //hputc (header,"HISTORY",history);
+    }
+
+    stats.dim[0] = ny;
+    stats.dim[1] = nx;
+    }
+
+    /* Rotate by 180 degrees */
+    else if (rotate >= 135 && rotate < 225)
+    {
+    if (mirror == 1)
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            y2 = ny - y1 - 1;
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                //movepix (image,nx,x1,y1,rotimage,nx,x1,y2);
+                rotimage[(y2*nx) + x1] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s reflected, rotated 180 degrees",  filename);
+        //hputc (header,"HISTORY",history);
+    }
+    else if (mirror == 2)
+    {
+        for (x1 = 0; x1 < nx; x1++)
+        {
+            x2 = nx - x1 - 1;
+            for (y1 = 0; y1 < ny; y1++)
+            {
+                //movepix (image,nx,x1,y1,rotimage,nx,x2,y1);
+                rotimage[(y1*nx) + x2] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s flipped, rotated 180 degrees",  filename);
+        //hputc (header,"HISTORY",history);
+    }
+    else
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            y2 = ny - y1 - 1;
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                x2 = nx - x1 - 1;
+                //movepix (image,nx,x1,y1,rotimage,nx,x2,y2);
+                rotimage[(y2*nx) + x2] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s rotated 180 degrees",filename);
+        //hputc (header,"HISTORY",history);
+    }
+   }
+
+    /* Rotate by 270 degrees */
+    else if (rotate >= 225 && rotate < 315)
+    {
+    if (mirror == 1)
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                //movepix (image,nx,x1,y1,rotimage,ny,y1,x1);
+                rotimage[(x1*ny) + y1] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s reflected, rotated 270 degrees",  filename);
+        //hputc (header,"HISTORY",history);
+    }
+    else if (mirror == 2)
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            x2 = ny - y1 - 1;
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                y2 = nx - x1 - 1;
+                //movepix (image,nx,x1,y1,rotimage,ny,x2,y2);
+                rotimage[(y2*ny) + x2] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s flipped, rotated 270 degrees",  filename);
+        //hputc (header,"HISTORY",history);
+    }
+    else
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            x2 = y1;
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                y2 = nx - x1 - 1;
+                //movepix (image,nx,x1,y1,rotimage,ny,x2,y2);
+                rotimage[(y2*ny) + x2] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s rotated 270 degrees",filename);
+        //hputc (header,"HISTORY",history);
+    }
+
+    stats.dim[0] = ny;
+    stats.dim[1] = nx;
+   }
+
+    /* If rotating by more than 315 degrees, assume top-bottom reflection */
+    else if (rotate >= 315 && mirror)
+    {
+        for (y1 = 0; y1 < ny; y1++)
+        {
+            for (x1 = 0; x1 < nx; x1++)
+            {
+                x2 = y1;
+                y2 = x1;
+                //movepix (image,nx,x1,y1,rotimage,ny,x2,y2);
+                rotimage[(y2*ny) + x2] = image[(y1*nx) + x1];
+            }
+        }
+
+        //TODO
+        //sprintf (history,"Copy of image %s reflected, rotated 270 degrees",  filename);
+        //hputc (header,"HISTORY",history);
+    }
+
+    free(image_buffer);
+    image_buffer = rotimage;
+
+    return true;
 }

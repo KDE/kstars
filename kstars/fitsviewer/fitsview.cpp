@@ -255,6 +255,21 @@ int FITSView::rescale(FITSZoom type)
         bzero  = (-min) * (255. / (max - min));
     }
 
+    if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
+    {
+        delete (display_image);
+        image_width  = image_data->getWidth();
+        image_height = image_data->getHeight();
+        display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
+
+        display_image->setColorCount(256);
+        for (int i=0; i < 256; i++)
+            display_image->setColor(i, qRgb(i,i,i));
+
+        if (isVisible())
+            emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
+    }
+
     image_frame->setScaledContents(true);
     currentWidth  = display_image->width();
     currentHeight = display_image->height();

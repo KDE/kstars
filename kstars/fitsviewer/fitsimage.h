@@ -95,6 +95,8 @@ public:
     double getMax() { return stats.max; }
     int getDetectedStars() { return starCenters.count(); }
     QList<Edge*> getStarCenters() { return starCenters;}
+    void setWidth(long w) { stats.dim[0] = w;}
+    void setHeight(long h) { stats.dim[1] = h;}
     long getWidth() { return stats.dim[0]; }
     long getHeight() { return stats.dim[1]; }
     double getStdDev() { return stats.stddev; }
@@ -140,6 +142,7 @@ public:
 private:
 
 
+    bool rotFITS (int rotate, int mirror);
     bool checkCollision(Edge* s1, Edge*s2);
     double average();
     double stddev();

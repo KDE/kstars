@@ -105,7 +105,7 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     QAction *action;
 
-    action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCCW()));
+    action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
     action->setText(xi18n("Rotate Right"));
     action->setIcon(QIcon::fromTheme("object-rotate-right"));
 \

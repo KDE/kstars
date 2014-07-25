@@ -1143,6 +1143,54 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
     return true;
 }
 
+void CCD::updateUploadSettings()
+{
+    QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("XX");
+
+    ITextVectorProperty *uploadSettingsTP=NULL;
+    IText *uploadT=NULL;
+
+    uploadSettingsTP = baseDevice->getText("UPLOAD_SETTINGS");
+    if (uploadSettingsTP)
+    {
+        uploadT = IUFindText(uploadSettingsTP, "UPLOAD_DIR");
+        if (uploadT)
+            IUSaveText(uploadT, fitsDir.toLatin1().constData());
+
+        uploadT = IUFindText(uploadSettingsTP, "UPLOAD_PREFIX");
+        if (uploadT)
+            IUSaveText(uploadT, filename.toLatin1().constData());
+
+
+
+        clientManager->sendNewText(uploadSettingsTP);
+    }
+}
+
+CCD::UploadMode CCD::getUploadMode()
+{
+    ISwitchVectorProperty *uploadModeSP=NULL;
+
+    uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+
+    if (uploadModeSP)
+    {
+        ISwitch *modeS= NULL;
+
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
+        if (modeS && modeS->s == ISS_ON)
+            return UPLOAD_CLIENT;
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
+        if (modeS && modeS->s == ISS_ON)
+            return UPLOAD_LOCAL;
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
+        if (modeS && modeS->s == ISS_ON)
+            return UPLOAD_BOTH;
+    }
+
+    // Default
+    return UPLOAD_CLIENT;
+}
 
 
 }

@@ -98,6 +98,9 @@ void SequenceJob::prepareCapture()
 
     activeCCD->setSeqPrefix(prefix);
 
+    if (activeChip->isBatchMode())
+        activeCCD->updateUploadSettings();
+
     if (filterPos != -1 && activeFilter != NULL)
         activeFilter->runCommand(INDI_SET_FILTER, &filterPos);
 
@@ -598,49 +601,51 @@ void Capture::checkFilter(int filterNum)
 
 void Capture::newFITS(IBLOB *bp)
 {
-
     ISD::CCDChip *tChip = NULL;
 
     // If there is no active job, ignore
     if (activeJob == NULL)
         return;
 
-    if (!strcmp(bp->name, "CCD2"))
-        tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
-    else
-        tChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-
-    if (tChip != targetChip)
-        return;
-
-    if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
-        return;
-
-    // If the FITS is not for our device, simply ignore
-    if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
-        return;    
-
-    if (calibrationState == CALIBRATE_START)
+    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
-        calibrationState = CALIBRATE_DONE;
-        seqTimer->start(seqDelay);
-        return;
-    }
+        if (!strcmp(bp->name, "CCD2"))
+            tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
+        else
+            tChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-    if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_DONE)
-    {
-        calibrationState = CALIBRATE_NONE;
+        if (tChip != targetChip)
+            return;
 
-        FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
-        FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+        if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
+            return;
 
-        FITSImage *image_data = NULL;
+        // If the FITS is not for our device, simply ignore
+        if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
+            return;
 
-        if (currentImage)
-            image_data = currentImage->getImageData();
+        if (calibrationState == CALIBRATE_START)
+        {
+            calibrationState = CALIBRATE_DONE;
+            seqTimer->start(seqDelay);
+            return;
+        }
 
-        if (image_data && calibrateImage && currentImage)
-            image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
+        if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_DONE)
+        {
+            calibrationState = CALIBRATE_NONE;
+
+            FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
+            FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+
+            FITSImage *image_data = NULL;
+
+            if (currentImage)
+                image_data = currentImage->getImageData();
+
+            if (image_data && calibrateImage && currentImage)
+                image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
+        }
     }
 
     secondsLabel->setText(xi18n("Complete."));
@@ -873,10 +878,13 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
     if (value == 0)
     {
-        secondsLabel->setText(xi18n("Downloading..."));
-
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
+
+        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+            secondsLabel->setText(i18n("Downloading..."));
+        else
+            newFITS(NULL);
     }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)

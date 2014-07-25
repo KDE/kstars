@@ -336,8 +336,8 @@ void FITSHistogramCommand::redo()
     FITSImage *image_data = image->getImageData();
 
     float *image_buffer = image_data->getImageBuffer();
-    int width  = image_data->getWidth();
-    int height = image_data->getHeight();
+    width  = image_data->getWidth();
+    height = image_data->getHeight();
 
     memcpy(buffer, image_buffer, width * height * sizeof(float));
 
@@ -383,7 +383,8 @@ void FITSHistogramCommand::undo()
     FITSImage *image_data = image->getImageData();
     memcpy( image_data->getImageBuffer(), buffer, image_data->getWidth() * image_data->getHeight() * sizeof(float));
 
-    //FIXME set width , height of previous buffer
+    image_data->setWidth(width);
+    image_data->setHeight(height);
     image_data->calculateStats(true);
 
     if (histogram != NULL)
