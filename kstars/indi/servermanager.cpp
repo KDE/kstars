@@ -81,6 +81,8 @@ bool ServerManager::start()
 
     indiFIFO.setFileName(fifoFile);
 
+    driverCrashed = false;
+
    if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
    {
          qDebug() << "Unable to create INDI FIFO file: " << fifoFile << endl;
@@ -219,10 +221,22 @@ void ServerManager::processServerError(QProcess::ProcessError err)
 
 void ServerManager::processStandardError()
 {
-
     serverBuffer.append(serverProcess->readAllStandardError());
 
-    //qDebug() << "Recevined new stderr from server " << serverBuffer << endl;
+    if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
+    {
+        QStringList parts = serverBuffer.split("Driver");
+        foreach(QString driver, parts)
+        {
+            if (driver.contains("stdin EOF") || driver.contains("stderr EOF"))
+            {
+                driverCrashed=true;
+                QString driverName = driver.left(driver.indexOf(':')).trimmed();
+                KMessageBox::information(0, i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
+                break;
+            }
+        }
+   }
 
     emit newServerLog();
 }
