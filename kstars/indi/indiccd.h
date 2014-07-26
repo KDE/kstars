@@ -38,7 +38,7 @@ public:
     bool setFrame(int x, int y, int w, int h);
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
-    bool setFrameType(const QString & name);
+    bool setFrameType(const QString & name);    
     CCDFrameType getFrameType();
     bool setBinning(int bin_x, int bin_y);
     bool setBinning(CCDBinType binType);
@@ -96,6 +96,7 @@ public:
     CCD(GDInterface *iPtr);
     ~CCD();
 
+    typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);
@@ -113,6 +114,9 @@ public:
     void setFilter(const QString & newFilter) { filter = newFilter;}
     bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
     bool setRapidGuide(CCDChip *targetChip, bool enable);
+    void updateUploadSettings();
+    UploadMode getUploadMode();
+
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
     void setFITSDir(const QString &dir) { fitsDir = dir;}

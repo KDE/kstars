@@ -989,7 +989,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     //if (useFilterFromCCD == false && filterDevice != ccd)
     //{
        filter = filterDevice;
-       appendLogText(i18n("%1 is online.", filter->getDeviceName()));
+       appendLogText(i18n("%1 filter is online.", filter->getDeviceName()));
     //}
     //else
     //    filter = ccd;
