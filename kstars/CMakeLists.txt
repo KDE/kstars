@@ -457,6 +457,7 @@ set(kstars_skyguides_SRCS
 	skyguides/skyguideslistview.cpp
 	skyguides/skyguideslistmodel.cpp
 	skyguides/skyguidedata.cpp
+	skyguides/skymapqmladapter.cpp
 )
 
 ##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}

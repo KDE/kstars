@@ -499,8 +499,6 @@ void SkyMap::slotShowSkyGuides()
 	SkyObject * obj = clickedObject(); 
 	if (obj && obj->hasName())
 	{
-// 		obj->name();
-// 		obj->translatedName();
 		SkyGuidesListView * skg = new SkyGuidesListView(mSkyGuidesListModel, this);
 		skg->show();
 	}

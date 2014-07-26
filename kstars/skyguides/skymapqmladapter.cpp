@@ -1,5 +1,5 @@
 /***************************************************************************
-                          skymapqmladapter.h  -  K Desktop Planetarium
+                          skymapqmladapter.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2014/04/07
     copyright            : (C) 2014 by Gioacchino Mazzurco
@@ -15,49 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYGUIDESLISTVIEW_H
-#define SKYGUIDESLISTVIEW_H
-
-#include <QDeclarativeView>
-
-#include "skyguideslistmodel.h"
 #include "skymapqmladapter.h"
+#include "skymap.h"
+#include "dms.h"
 
-class QWidget;
-class SkyMap;
+SkyMapQmlAdapter::SkyMapQmlAdapter(SkyMap * skymap, QObject * parent) :
+	QObject(parent),
+	mSkyMap(skymap)
+{}
 
-
-/**
-  * \class SkyGuidesListView
-  * \brief Manages the QML user interface for Sky Guides.
-  * SkyGuidesListView is used to display the QML UI using a QDeclarativeView.
-  * It acts on all signals emitted by the UI and manages the data
-  * sent to the UI for display.
-  * \author Gioacchino Mazzurco
-  */
-class SkyGuidesListView : public QWidget
+void SkyMapQmlAdapter::setZoomFactor(double factor) const
 {
-	Q_OBJECT
+	mSkyMap->setZoomFactor(factor);
+}
 
-public:
-	/**
-	 * \brief Constructor
-	 */
-	SkyGuidesListView(const SkyGuidesListModel & guidesModel, SkyMap * skyMap);
-
-	/**
-	 * \brief Destructor
-	 */
-	~SkyGuidesListView();
-	
-	/**
-	 * \brief Displays the user interface
-	 */
-	inline void show() { mBaseView.show(); };
-
-private:
-	SkyMapQmlAdapter * mSkyMapQmlAdapter;
-	QDeclarativeView mBaseView;
-};
-
-#endif // SKYGUIDESLISTVIEW_H
+void SkyMapQmlAdapter::setFocus( double ra, double dec ) const
+{
+	dms dRa(ra);
+	dms dDec(dec);
+	mSkyMap->setFocus( dRa, dDec );
+}

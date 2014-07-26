@@ -1,5 +1,5 @@
 /***************************************************************************
-                          skymapqmladapter.h  -  K Desktop Planetarium
+                          skyguideslistview.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2014/04/07
     copyright            : (C) 2014 by Gioacchino Mazzurco
@@ -15,49 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYGUIDESLISTVIEW_H
-#define SKYGUIDESLISTVIEW_H
+#ifndef SKYMAPQMLADAPTER_H
+#define SKYMAPQMLADAPTER_H
 
-#include <QDeclarativeView>
+#include <QObject>
 
-#include "skyguideslistmodel.h"
-#include "skymapqmladapter.h"
-
-class QWidget;
 class SkyMap;
 
-
-/**
-  * \class SkyGuidesListView
-  * \brief Manages the QML user interface for Sky Guides.
-  * SkyGuidesListView is used to display the QML UI using a QDeclarativeView.
-  * It acts on all signals emitted by the UI and manages the data
-  * sent to the UI for display.
-  * \author Gioacchino Mazzurco
-  */
-class SkyGuidesListView : public QWidget
+class SkyMapQmlAdapter : public QObject
 {
 	Q_OBJECT
 
 public:
-	/**
-	 * \brief Constructor
-	 */
-	SkyGuidesListView(const SkyGuidesListModel & guidesModel, SkyMap * skyMap);
+	SkyMapQmlAdapter(SkyMap * skymap, QObject * parent = 0);
 
 	/**
-	 * \brief Destructor
+	 * @short Set zoom factor.
+	 * @param factor zoom factor
 	 */
-	~SkyGuidesListView();
-	
+	Q_INVOKABLE void setZoomFactor(double factor) const;
+
 	/**
-	 * \brief Displays the user interface
+	 * @short sets the focus point of the skymap, using ra/dec coordinates
+	 *
+	 * @note This function behaves essentially like the above function.
+	 * It differs only in the data types of its arguments.
+	 *
+	 * @param ra the new right ascension
+	 * @param dec the new declination
 	 */
-	inline void show() { mBaseView.show(); };
+	Q_INVOKABLE void setFocus( double ra, double dec ) const;
 
 private:
-	SkyMapQmlAdapter * mSkyMapQmlAdapter;
-	QDeclarativeView mBaseView;
+	SkyMap * mSkyMap;
 };
 
-#endif // SKYGUIDESLISTVIEW_H
+#endif // SKYMAPQMLADAPTER_H
