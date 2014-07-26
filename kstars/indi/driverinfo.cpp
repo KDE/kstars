@@ -67,14 +67,10 @@ DriverInfo::~DriverInfo()
 
 void DriverInfo::clear()
 {
-    //managed = false;
     serverState = false;
     clientState = false;
     serverManager = NULL;
-
     uniqueLabel.clear();
-    qDeleteAll(devices);
-    devices.clear();
 }
 
 QString DriverInfo::getServerBuffer()
@@ -127,6 +123,12 @@ void DriverInfo::setUserPort(const QString &inUserPort)
 void DriverInfo::addDevice(DeviceInfo *idv)
 {
     devices.append(idv);
+}
+
+void DriverInfo::removeDevice(DeviceInfo *idv)
+{
+    devices.removeOne(idv);
+    delete(idv);
 }
 
 DeviceInfo* DriverInfo::getDevice(const QString &deviceName)

@@ -105,11 +105,14 @@ void INDIListener::removeClient(ClientManager *cm)
     while (it != devices.end())
     {
         DriverInfo *dv = (*it)->getDriverInfo();
-        //if ( (*it)->getDriverInfo()->getClientManager() == cm)
+        bool hostSource = (dv->getDriverSource() == HOST_SOURCE);
+
         if (dv && cm->isDriverManaged(dv))
         {
             cm->removeManagedDriver(dv);
             cm->disconnect(this);
+            if (hostSource)
+                return;
             it = devices.erase(it);
         }
       else
