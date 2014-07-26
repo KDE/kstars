@@ -929,6 +929,8 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     focusProcess->addCCD(ccdDevice, isPrimaryCCD);
 
+    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+
     // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
     //if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
     //if (useGuiderFromCCD == false && guiderName == QString(ccdDevice->getDeviceName()))
@@ -1074,6 +1076,19 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
             alignProcess->syncTelescopeInfo();
         }
 
+        return;
+
+    }
+
+    if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "GUIDER_INFO"))
+    {
+        if (guideProcess)
+            guideProcess->syncCCDInfo();
+
+        if (alignProcess)
+            alignProcess->syncCCDInfo();
+
+        return;
     }
 
     if (!strcmp(nvp->name, "FILTER_SLOT"))
