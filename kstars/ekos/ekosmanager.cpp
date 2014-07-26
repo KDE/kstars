@@ -691,7 +691,6 @@ void EkosManager::cleanDevices()
     else if (remote_indi)
     {
         DriverManager::Instance()->disconnectRemoteHost(remote_indi);
-        delete (remote_indi);
         remote_indi = 0;
     }
 

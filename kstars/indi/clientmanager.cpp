@@ -154,13 +154,14 @@ void ClientManager::appendManagedDriver(DriverInfo *dv)
 }
 
 void ClientManager::removeManagedDriver(DriverInfo *dv)
-{
-    managedDrivers.removeOne(dv);
-
+{    
     dv->setClientState(false);
 
     foreach(DeviceInfo *di, dv->getDevices())
+    {
         emit INDIDeviceRemoved(di);
+        dv->removeDevice(di);
+    }
 
     foreach(DriverInfo *dv, managedDrivers)
     {
@@ -168,8 +169,11 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
         {
             managedDrivers.removeOne(dv);
             delete (dv);
+            return;
         }
     }
+
+    managedDrivers.removeOne(dv);
 }
 
 

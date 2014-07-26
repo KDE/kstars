@@ -191,7 +191,6 @@ void GUIManager::removeDevice(DeviceInfo *di)
 void GUIManager::buildDevice(DeviceInfo *di)
 {
     //qDebug() << "In build Device for device with tree label " << di->getTreeLabel() << endl;
-    int nset=0;
     ClientManager *cm = di->getDriverInfo()->getClientManager();
 
     if (cm == NULL)
@@ -213,7 +212,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*, int)));
 
-    nset = mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getDriverInfo()->getUniqueLabel().toUtf8()));
+    mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getDriverInfo()->getUniqueLabel().toUtf8()));
 
     guidevices.append(gdm);
 
