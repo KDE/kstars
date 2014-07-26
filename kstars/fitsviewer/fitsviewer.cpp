@@ -392,12 +392,11 @@ void FITSViewer::saveFile()
 
 void FITSViewer::saveFileAs()
 {
-    //currentURL.clear();
-
     if (fitsImages.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->saveFileAs();
+    if (fitsImages[fitsTab->currentIndex()]->saveFileAs() && fitsImages[fitsTab->currentIndex()]->getImage()->getMode() == FITS_NORMAL)
+        fitsTab->setTabText(fitsTab->currentIndex(), fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName());
 
 }
 

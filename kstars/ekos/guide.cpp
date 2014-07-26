@@ -76,7 +76,6 @@ Guide::Guide() : QWidget()
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
-
 }
 
 Guide::~Guide()
@@ -128,11 +127,9 @@ void Guide::checkCCD(int ccdNum)
 
     if (ccdNum <= CCDs.count())
     {
-
         currentCCD = CCDs.at(ccdNum);
 
-        currentCCD->disconnect();
-        connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
+        connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
@@ -606,6 +603,7 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 
 void Guide::stopGuiding()
 {
+    isSuspended=false;
     guider->abort();
 }
 

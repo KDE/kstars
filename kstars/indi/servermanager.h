@@ -64,6 +64,7 @@ private:
     KProcess 		 *serverProcess;
 
     ServerMode          mode;
+    bool        driverCrashed;
 
     QList<DriverInfo *> managedDrivers;
 
