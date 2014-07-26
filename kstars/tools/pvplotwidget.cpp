@@ -22,6 +22,7 @@
 #include <qglobal.h>
 #include <KPlotObject>
 #include <KPlotPoint>
+#include <QDebug>
 
 #include "planetviewer.h"
 
@@ -200,7 +201,7 @@ void PVPlotWidget::mouseReleaseEvent( QMouseEvent * ) {
 }
 
 void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
-    if ( mouseButtonDown ) {
+    if ( mouseButtonDown && !pv->distanceButtonPressed() ) {
         //Determine how far we've moved
         double xc = (dataRect().right() + dataRect().x())*0.5;
         double yc = (dataRect().bottom() + dataRect().y())*0.5;
@@ -219,6 +220,12 @@ void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 
         oldx = e->x();
         oldy = e->y();
+    }
+    else if( mouseButtonDown && pv->distanceButtonPressed() ){
+        int dx = ( oldx - e->x() ) * dataRect().width() ;
+        int dy = ( oldy - e->y() ) * dataRect().height() ;
+        double distance =  sqrt( dx*dx + dy*dy ) / 1200;
+        qDebug() << distance << "AU";
     }
 }
 

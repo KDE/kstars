@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>770</width>
+    <width>868</width>
     <height>518</height>
    </rect>
   </property>
@@ -62,6 +62,19 @@
      </item>
      <item>
       <widget class="TimeStepBox" name="TimeStep"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="distanceButton">
+       <property name="maximumSize">
+        <size>
+         <width>34</width>
+         <height>34</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>D</string>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer>

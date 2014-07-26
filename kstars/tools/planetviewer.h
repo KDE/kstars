@@ -60,6 +60,7 @@ public:
 
     inline KPlotObject* planetObject(uint i) const { return planet[i]; }
     QString planetName(uint i) const;
+    bool distanceButtonPressed();
 
 protected:
     virtual void keyPressEvent( QKeyEvent *e );
@@ -74,6 +75,7 @@ private slots:
     void slotToday();
     void slotCloseWindow();
     void slotAstroidsVisibilityChanged();
+    void slotDistanceButtonPressed();
 
 private:
     void updatePlanets();

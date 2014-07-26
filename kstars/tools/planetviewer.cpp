@@ -119,6 +119,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     connect( this,              SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
     connect( pw->AstroidsVisibilityBox, SIGNAL( valueChanged ( double ) ), SLOT( slotAstroidsVisibilityChanged() ) );
     connect( pw->selectViewComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( initPlotObjects() ) );
+    connect( pw->distanceButton, SIGNAL( clicked() ), SLOT( slotDistanceButtonPressed() ) );
 
     AstroidList = data->skyComposite()->solarSystemComposite()->asteroidsComponent()->astroids();
 
@@ -328,6 +329,17 @@ void PlanetViewer::slotAstroidsVisibilityChanged(){
         astroidsVisibility = pw->AstroidsVisibilityBox->value();
         initPlotObjects();
     }
+}
+
+void PlanetViewer::slotDistanceButtonPressed(){
+    if( ! pw->distanceButton->isFlat() )
+        pw->distanceButton->setFlat( true );
+    else
+        pw->distanceButton->setFlat( false );
+}
+
+bool PlanetViewer::distanceButtonPressed(){
+    return pw->distanceButton->isFlat();
 }
 
 void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
