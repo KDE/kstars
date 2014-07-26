@@ -139,10 +139,20 @@ public:
         long dim[2];
     } stats;
 
+    int getRotCounter() const;
+    void setRotCounter(int value);
+
+    int getFlipHCounter() const;
+    void setFlipHCounter(int value);
+
+    int getFlipVCounter() const;
+    void setFlipVCounter(int value);
+
 private:
 
 
     bool rotFITS (int rotate, int mirror);
+    void rotWCSFITS (int angle, int mirror);
     bool checkCollision(Edge* s1, Edge*s2);
     double average();
     double stddev();
@@ -160,6 +170,9 @@ private:
     bool HasWCS;
     QString filename;
     FITSMode mode;
+    int rotCounter;
+    int flipHCounter;
+    int flipVCounter;
 
     wcs_point *wcs_coord;
     QList<Edge*> starCenters;

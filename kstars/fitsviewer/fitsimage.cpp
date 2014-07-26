@@ -221,6 +221,9 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
     nelements = stats.dim[0] * stats.dim[1];
     fpixel[0] = 1;
     fpixel[1] = 1;
+    rotCounter=0;
+    flipHCounter=0;
+    flipVCounter=0;
 
     qApp->processEvents();
 
@@ -278,8 +281,8 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
 
 int FITSImage::saveFITS( const QString &newFilename )
 {
-    int status=0;
-    long fpixel[2], nelements;
+    int status=0, exttype=0;
+    long fpixel[2], nelements;    
     fitsfile *new_fptr;
 
     nelements = stats.dim[0] * stats.dim[1];
@@ -294,7 +297,12 @@ int FITSImage::saveFITS( const QString &newFilename )
         return status;
     }
 
-    /* Copy ALL contents */
+    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
+    {
+        fits_report_error(stderr, status);
+        return status;
+    }
+
     if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
     {
         fits_report_error(stderr, status);
@@ -307,6 +315,8 @@ int FITSImage::saveFITS( const QString &newFilename )
         fits_report_error(stderr, status);
         return status;
     }
+
+    status=0;
 
     if (tempFile)
     {
@@ -321,6 +331,13 @@ int FITSImage::saveFITS( const QString &newFilename )
     // For color images, we return for now.
     if (stats.ndim > 2)
         return status;
+
+    if (fits_movabs_hdu(fptr, 1, &exttype, &status))
+    {
+        fits_report_error(stderr, status);
+        return status;
+    }
+
 
     /* Write Data */
     if (fits_write_pix(fptr, TFLOAT, fpixel, nelements, image_buffer, &status))
@@ -373,6 +390,21 @@ int FITSImage::saveFITS( const QString &newFilename )
         fits_report_error(stderr, status);
         return status;
     }
+
+    int rot=0, mirror=0;
+    if (rotCounter > 0)
+    {
+        rot = (90 * rotCounter) % 360;
+        if (rot < 0)
+            rot += 360;
+    }
+    if (flipHCounter %2 !=0 || flipVCounter % 2 != 0)
+        mirror = 1;
+
+    if (rot || mirror)
+        rotWCSFITS(rot, mirror);
+
+    rotCounter=flipHCounter=flipVCounter=0;
 
     return status;
 }
@@ -1032,18 +1064,22 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
 
     case FITS_ROTATE_CW:
         rotFITS(90, 0);
+        rotCounter++;
         break;
 
     case FITS_ROTATE_CCW:
         rotFITS(270, 0);
+        rotCounter--;
         break;
 
     case FITS_FLIP_H:
         rotFITS(0, 1);
+        flipHCounter++;
         break;
 
     case FITS_FLIP_V:
         rotFITS(0, 2);
+        flipVCounter++;
         break;
 
     case FITS_CUSTOM:
@@ -1185,6 +1221,36 @@ void FITSImage::checkWCS()
 #endif
 
 }
+int FITSImage::getFlipVCounter() const
+{
+    return flipVCounter;
+}
+
+void FITSImage::setFlipVCounter(int value)
+{
+    flipVCounter = value;
+}
+
+int FITSImage::getFlipHCounter() const
+{
+    return flipHCounter;
+}
+
+void FITSImage::setFlipHCounter(int value)
+{
+    flipHCounter = value;
+}
+
+int FITSImage::getRotCounter() const
+{
+    return rotCounter;
+}
+
+void FITSImage::setRotCounter(int value)
+{
+    rotCounter = value;
+}
+
 
 /* Rotate an image by 90, 180, or 270 degrees, with an optional
  * reflection across the vertical or horizontal axis.
@@ -1208,18 +1274,11 @@ bool FITSImage::rotFITS (int rotate, int mirror)
     else if (rotate < 0)
     rotate = rotate + 360;
 
-   //FIXME get image size nx, ny
-
     nx = stats.dim[0];
     ny = stats.dim[1];
 
-    /* Rotate WCS fields in header */
-
-    //if ((rotate != 0 || mirror))
-       // rotWCSFITS (rotate, mirror);
-
-    /* Allocate buffer for rotated image */
-    rotimage = (float *) calloc(nx*ny, sizeof(float));
+   /* Allocate buffer for rotated image */
+    rotimage = new float[nx*ny];
     float *image = image_buffer;
 
     if (rotimage == NULL)
@@ -1463,8 +1522,292 @@ bool FITSImage::rotFITS (int rotate, int mirror)
         //hputc (header,"HISTORY",history);
     }
 
-    free(image_buffer);
+    delete(image_buffer);
     image_buffer = rotimage;
 
     return true;
+}
+
+void FITSImage::rotWCSFITS (int angle, int mirror)
+{
+    int status=0;
+    char comment[100];
+    double ctemp1, ctemp2, ctemp3, ctemp4, naxis1, naxis2;
+    int WCS_DECIMALS=6;
+
+    naxis1=stats.dim[0];
+    naxis2=stats.dim[1];
+
+    if (fits_read_key_dbl(fptr, "CD1_1", &ctemp1, comment, &status ))
+    {
+        // No WCS keywords
+        return;
+    }
+
+    /* Reset CROTAn and CD matrix if axes have been exchanged */
+    if (angle == 90)
+    {
+        if (!fits_read_key_dbl(fptr, "CROTA1", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "CROTA1", ctemp1+90.0, WCS_DECIMALS, comment, &status );
+
+        if (!fits_read_key_dbl(fptr, "CROTA2", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "CROTA2", ctemp1+90.0, WCS_DECIMALS, comment, &status );
+    }
+
+    status=0;
+
+    /* Negate rotation angle if mirrored */
+    if (mirror)
+    {
+        if (!fits_read_key_dbl(fptr, "CROTA1", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "CROTA1", -ctemp1, WCS_DECIMALS, comment, &status );
+
+        if (!fits_read_key_dbl(fptr, "CROTA2", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "CROTA2", -ctemp1, WCS_DECIMALS, comment, &status );
+
+        status=0;
+
+        if (!fits_read_key_dbl(fptr, "LTM1_1", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "LTM1_1", -ctemp1, WCS_DECIMALS, comment, &status );
+
+        status=0;
+
+        if (!fits_read_key_dbl(fptr, "CD1_1", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "CD1_1", -ctemp1, WCS_DECIMALS, comment, &status );
+
+        if (!fits_read_key_dbl(fptr, "CD1_2", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "CD1_2", -ctemp1, WCS_DECIMALS, comment, &status );
+
+        if (!fits_read_key_dbl(fptr, "CD2_1", &ctemp1, comment, &status ))
+                fits_update_key_dbl(fptr, "CD2_1", -ctemp1, WCS_DECIMALS, comment, &status );
+    }
+
+    status=0;
+
+    /* Unbin CRPIX and CD matrix */
+    if (!fits_read_key_dbl(fptr, "LTM1_1", &ctemp1, comment, &status ))
+    {
+        if (ctemp1 != 1.0)
+        {
+            if (!fits_read_key_dbl(fptr, "LTM2_2", &ctemp2, comment, &status ))
+            if (ctemp1 == ctemp2)
+            {
+                double ltv1 = 0.0;
+                double ltv2 = 0.0;
+                status=0;
+                if (!fits_read_key_dbl(fptr, "LTV1", &ltv1, comment, &status))
+                    fits_delete_key(fptr, "LTV1", &status);
+                if (!fits_read_key_dbl(fptr, "LTV2", &ltv2, comment, &status))
+                    fits_delete_key(fptr, "LTV2", &status);
+
+                status=0;
+
+                if (!fits_read_key_dbl(fptr, "CRPIX1", &ctemp3, comment, &status ))
+                    fits_update_key_dbl(fptr, "CRPIX1", (ctemp3-ltv1)/ctemp1, WCS_DECIMALS, comment, &status );
+
+                if (!fits_read_key_dbl(fptr, "CRPIX2", &ctemp3, comment, &status ))
+                    fits_update_key_dbl(fptr, "CRPIX2", (ctemp3-ltv2)/ctemp1, WCS_DECIMALS, comment, &status );
+
+                status=0;
+
+                if (!fits_read_key_dbl(fptr, "CD1_1", &ctemp3, comment, &status ))
+                    fits_update_key_dbl(fptr, "CD1_1", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+
+                if (!fits_read_key_dbl(fptr, "CD1_2", &ctemp3, comment, &status ))
+                    fits_update_key_dbl(fptr, "CD1_2", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+
+                if (!fits_read_key_dbl(fptr, "CD2_1", &ctemp3, comment, &status ))
+                    fits_update_key_dbl(fptr, "CD2_1", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+
+                if (!fits_read_key_dbl(fptr, "CD2_2", &ctemp3, comment, &status ))
+                    fits_update_key_dbl(fptr, "CD2_2", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+
+                status=0;
+
+                fits_delete_key(fptr, "LTM1_1", &status);
+                fits_delete_key(fptr, "LTM1_2", &status);
+            }
+        }
+    }
+
+    status=0;
+
+    /* Reset CRPIXn */
+    if ( !fits_read_key_dbl(fptr, "CRPIX1", &ctemp1, comment, &status ) && !fits_read_key_dbl(fptr, "CRPIX2", &ctemp2, comment, &status ) )
+    {
+        if (mirror)
+        {
+            if (angle == 0)
+                 fits_update_key_dbl(fptr, "CRPIX1", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
+            else if (angle == 90)
+            {
+                fits_update_key_dbl(fptr, "CRPIX1", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CRPIX2", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 180)
+            {
+                fits_update_key_dbl(fptr, "CRPIX1", ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CRPIX2", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 270)
+            {
+                fits_update_key_dbl(fptr, "CRPIX1", ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CRPIX2", ctemp1, WCS_DECIMALS, comment, &status );
+            }
+        }
+        else
+        {
+        if (angle == 90)
+        {
+            fits_update_key_dbl(fptr, "CRPIX1", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CRPIX2", ctemp1, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 180)
+        {
+            fits_update_key_dbl(fptr, "CRPIX1", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CRPIX2", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 270)
+        {
+            fits_update_key_dbl(fptr, "CRPIX1", ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CRPIX2", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
+        }
+        }
+    }
+
+    status=0;
+
+    /* Reset CDELTn (degrees per pixel) */
+    if ( !fits_read_key_dbl(fptr, "CDELT1", &ctemp1, comment, &status ) && !fits_read_key_dbl(fptr, "CDELT2", &ctemp2, comment, &status ) )
+    {
+    if (mirror)
+    {
+        if (angle == 0)
+            fits_update_key_dbl(fptr, "CDELT1", -ctemp1, WCS_DECIMALS, comment, &status );
+        else if (angle == 90)
+        {
+            fits_update_key_dbl(fptr, "CDELT1", -ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CDELT2", -ctemp1, WCS_DECIMALS, comment, &status );
+
+        }
+        else if (angle == 180)
+        {
+            fits_update_key_dbl(fptr, "CDELT1", ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CDELT2", -ctemp2, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 270)
+        {
+            fits_update_key_dbl(fptr, "CDELT1", ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CDELT2", ctemp1, WCS_DECIMALS, comment, &status );
+        }
+    }
+    else
+    {
+        if (angle == 90)
+        {
+            fits_update_key_dbl(fptr, "CDELT1", -ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CDELT2", ctemp1, WCS_DECIMALS, comment, &status );
+
+        }
+        else if (angle == 180)
+        {
+            fits_update_key_dbl(fptr, "CDELT1", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CDELT2", -ctemp2, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 270)
+        {
+            fits_update_key_dbl(fptr, "CDELT1", ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CDELT2", -ctemp1, WCS_DECIMALS, comment, &status );
+        }
+     }
+    }
+
+    /* Reset CD matrix, if present */
+    ctemp1 = 0.0;
+    ctemp2 = 0.0;
+    ctemp3 = 0.0;
+    ctemp4 = 0.0;
+    status=0;
+    if ( !fits_read_key_dbl(fptr, "CD1_1", &ctemp1, comment, &status ) )
+    {
+        fits_read_key_dbl(fptr, "CD1_2", &ctemp2, comment, &status );
+        fits_read_key_dbl(fptr, "CD2_1", &ctemp3, comment, &status );
+        fits_read_key_dbl(fptr, "CD2_2", &ctemp4, comment, &status );
+        status=0;
+    if (mirror)
+    {
+        if (angle == 0)
+        {
+            fits_update_key_dbl(fptr, "CD1_2", -ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 90)
+        {
+            fits_update_key_dbl(fptr, "CD1_1", -ctemp4, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_2", -ctemp3, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", -ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_2", -ctemp1, WCS_DECIMALS, comment, &status );
+
+        }
+        else if (angle == 180)
+        {
+            fits_update_key_dbl(fptr, "CD1_1", ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_2", ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_2", -ctemp4, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 270)
+        {
+            fits_update_key_dbl(fptr, "CD1_1", ctemp4, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_2", ctemp3, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", ctemp3, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_2", ctemp1, WCS_DECIMALS, comment, &status );
+        }
+        }
+    else {
+        if (angle == 90)
+        {
+            fits_update_key_dbl(fptr, "CD1_1", -ctemp4, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_2", -ctemp3, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_2", ctemp1, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 180)
+        {
+            fits_update_key_dbl(fptr, "CD1_1", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_2", -ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_2", -ctemp4, WCS_DECIMALS, comment, &status );
+        }
+        else if (angle == 270)
+        {
+            fits_update_key_dbl(fptr, "CD1_1", ctemp4, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_2", ctemp3, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", -ctemp2, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_2", -ctemp1, WCS_DECIMALS, comment, &status );
+        }
+        }
+    }
+
+    /* Delete any polynomial solution */
+    /* (These could maybe be switched, but I don't want to work them out yet */
+    status=0;
+    if ( !fits_read_key_dbl(fptr, "CO1_1", &ctemp1, comment, &status ) )
+    {
+        int i;
+        char keyword[16];
+
+        for (i = 1; i < 13; i++)
+        {
+            sprintf (keyword,"CO1_%d", i);
+            fits_delete_key(fptr, keyword, &status);
+        }
+        for (i = 1; i < 13; i++)
+        {
+            sprintf (keyword,"CO2_%d", i);
+            fits_delete_key(fptr, keyword, &status);
+        }
+    }
+
+    return;
 }

@@ -387,6 +387,24 @@ void FITSHistogramCommand::undo()
     image_data->setHeight(height);
     image_data->calculateStats(true);
 
+    switch (type)
+    {
+        case FITS_ROTATE_CW:
+        image_data->setRotCounter(image_data->getRotCounter()-1);
+        break;
+        case FITS_ROTATE_CCW:
+        image_data->setRotCounter(image_data->getRotCounter()+1);
+        break;
+        case FITS_FLIP_H:
+        image_data->setFlipHCounter(image_data->getFlipHCounter()-1);
+        break;
+        case FITS_FLIP_V:
+        image_data->setFlipVCounter(image_data->getFlipVCounter()-1);
+        break;
+    default:
+        break;
+    }
+
     if (histogram != NULL)
     {
         histogram->updateHistogram();

@@ -24,6 +24,7 @@
 #include <QMap>
 
 #include <QDialog>
+#include <QUrl>
 #include <QLabel>
 #include <kxmlguiwindow.h>
 #include <KLed>
@@ -114,6 +115,7 @@ private:
     int fitsID;
     bool markStars;
     QMap<int, FITSTab*> fitsMap;
+    QUrl lastURL;
 
 
 signals:

@@ -372,10 +372,11 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 
 void FITSViewer::openFile()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Open FITS Image"), QUrl(), "FITS (*.fits, *.fit)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Open FITS Image"), lastURL, "FITS (*.fits *.fit)");
     if (fileURL.isEmpty())
         return;
 
+    lastURL = fileURL;
     QString fpath = fileURL.path();
     QString cpath;
 

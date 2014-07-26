@@ -268,7 +268,7 @@ bool FITSTab::saveFile()
 
     if ( currentURL.isValid() )
     {
-        if ( (err_status = saveFITS('!' + currentURL.path())) < 0)
+        if ( (err_status = saveFITS('!' + currentURL.path())) != 0)
         {
             fits_get_errstatus(err_status, err_text);
             // Use KMessageBox or something here
