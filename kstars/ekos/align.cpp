@@ -325,6 +325,11 @@ void Align::syncCCDInfo()
         kcfg_solverXBin->setMaximum(binx);
         kcfg_solverYBin->setMaximum(biny);
     }
+    else
+    {
+        kcfg_solverXBin->setValue(1);
+        kcfg_solverYBin->setValue(1);
+    }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
         return;
