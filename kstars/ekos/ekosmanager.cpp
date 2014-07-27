@@ -1001,6 +1001,10 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processNewText(ITextVectorProperty*)));
 
     captureProcess->addFilter(filter);
+
+    initFocus();
+
+    focusProcess->addFilter(filter);
 }
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
@@ -1056,6 +1060,9 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
     {
         if (captureProcess)
             captureProcess->checkFilter();
+
+        if (focusProcess)
+            focusProcess->checkFilter();
     }
 }
 
@@ -1095,6 +1102,9 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
     {
         if (captureProcess)
             captureProcess->checkFilter();
+
+        if (focusProcess)
+            focusProcess->checkFilter();
     }
 
 }
