@@ -406,6 +406,8 @@ void rguider::onStartStopButtonClick()
 
         emit autoGuidingToggled(true, ui.kcfg_useDither->isChecked());
 
+        pmain_wnd->setSuspended(false);
+
         if (ui.kfcg_guideSubFrame->isEnabled() && ui.kfcg_guideSubFrame->isChecked() && is_subframed == false)
             first_frame = true;
 
@@ -460,10 +462,11 @@ void rguider::capture()
 
         targetChip->setFrame(x, y, w, h);
     }
-    else if (ui.kfcg_guideSubFrame->isChecked() == false && is_subframed == true)
+    else if (ui.kfcg_guideSubFrame->isChecked() == false/* && is_subframed == true*/)
     {
         is_subframed = false;
-        targetChip->setFrame(fx, fy, fw, fh);
+        //targetChip->setFrame(fx, fy, fw, fh);
+        targetChip->resetFrame();
     }
 
     pmain_wnd->capture();

@@ -431,7 +431,6 @@ void Capture::checkCCD(int ccdNum)
     if (ccdNum <= CCDs.count())
     {
         int x,y,w,h;
-        int binx,biny;
         double min,max,step;
         int xstep=0, ystep=0;
         QString frameProp = QString("CCD_FRAME");
@@ -457,8 +456,24 @@ void Capture::checkCCD(int ccdNum)
         frameXIN->setEnabled(targetChip->canSubframe());
         frameYIN->setEnabled(targetChip->canSubframe());
 
-        binXCombo->setEnabled(targetChip->canBin());
-        binYCombo->setEnabled(targetChip->canBin());
+        binXIN->setEnabled(targetChip->canBin());
+        binYIN->setEnabled(targetChip->canBin());
+
+        if (targetChip->canBin())
+        {
+            int binx=1,biny=1;
+            targetChip->getMaxBin(&binx, &biny);
+            binXIN->setMaximum(binx);
+            binYIN->setMaximum(biny);
+            targetChip->getBinning(&binx, &biny);
+            binXIN->setValue(binx);
+            binYIN->setValue(biny);
+        }
+        else
+        {
+            binXIN->setValue(1);
+            binYIN->setValue(1);
+        }
 
         if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
         {
@@ -510,12 +525,6 @@ void Capture::checkCCD(int ccdNum)
             frameYIN->setValue(y);
             frameWIN->setValue(w);
             frameHIN->setValue(h);
-        }
-
-        if (targetChip->getBinning(&binx, &biny))
-        {
-            binXCombo->setCurrentIndex(binx-1);
-            binYCombo->setCurrentIndex(biny-1);
         }
 
         QStringList frameTypes = targetChip->getFrameTypes();
@@ -941,7 +950,7 @@ void Capture::addJob(bool preview)
 
     job->setCount(countIN->value());
 
-    job->setBin(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1);
+    job->setBin(binXIN->value(), binYIN->value());
 
     job->setDelay(delayIN->value() * 1000);		/* in ms */
 
@@ -991,7 +1000,7 @@ void Capture::addJob(bool preview)
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
-    bin->setText(QString("%1x%2").arg(binXCombo->currentIndex()+1).arg(binYCombo->currentIndex()+1));
+    bin->setText(QString("%1x%2").arg(binXIN->value()).arg(binYIN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
@@ -1424,10 +1433,10 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             subEP = findXMLEle(ep, "X");
             if (subEP)
-                binXCombo->setCurrentIndex(atoi(pcdataXMLEle(subEP))-1);
+                binXIN->setValue(atoi(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "Y");
             if (subEP)
-                binYCombo->setCurrentIndex(atoi(pcdataXMLEle(subEP))-1);
+                binYIN->setValue(atoi(pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Frame"))
         {
@@ -1641,8 +1650,8 @@ void Capture::editJob(QModelIndex i)
      job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
 
    exposureIN->setValue(job->getExposure());
-   binXCombo->setCurrentIndex(job->getXBin()-1);
-   binYCombo->setCurrentIndex(job->getYBin()-1);
+   binXIN->setValue(job->getXBin());
+   binYIN->setValue(job->getYBin());
    frameXIN->setValue(job->getSubX());
    frameYIN->setValue(job->getSubY());
    frameWIN->setValue(job->getSubW());

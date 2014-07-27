@@ -729,6 +729,7 @@ void rcalibration::select_auto_star(FITSView *image)
     Edge *guideStar = NULL;
 
     FITSImage *image_data = image->getImageData();
+    image_data->findStars();
 
 
     foreach(Edge *center, image_data->getStarCenters())
