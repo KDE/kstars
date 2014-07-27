@@ -609,7 +609,7 @@ void Guide::stopGuiding()
 
 void Guide::setSuspended(bool enable)
 {
-    if (enable == isSuspended)
+    if (enable == isSuspended || (enable && guider->is_guiding() == false))
         return;
 
     isSuspended = enable;
