@@ -11,12 +11,21 @@ Rectangle
 	{
 		id: webView
 		visible: false
+		preferredWidth: 640
+		preferredHeight: 480
 		z: 2
 		onLoadFinished:
 		{
 			rootRect.width = width;
 			rootRect.height = height;
 		}
+		javaScriptWindowObjects:
+			QtObject
+			{
+				WebView.windowObjectName: "skymap"
+				function setZoomFactor(factor) { skyMap.setZoomFactor(factor); console.log("JS: skymap.setZoomFactor( " + factor + ")"); }
+				function setFocus( ra, dec ) { skyMap.setFocus( ra, dec ); console.log("JS: skymap.setFocus( " + ra + ", " + dec + " )"); }
+			}
 	}
 
 	Text
