@@ -318,6 +318,13 @@ void Align::syncCCDInfo()
     targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
     kcfg_solverXBin->setEnabled(targetChip->canBin());
     kcfg_solverYBin->setEnabled(targetChip->canBin());
+    if (targetChip->canBin())
+    {
+        int binx=1,biny=1;
+        targetChip->getMaxBin(&binx, &biny);
+        kcfg_solverXBin->setMaximum(binx);
+        kcfg_solverYBin->setMaximum(biny);
+    }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
         return;

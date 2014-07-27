@@ -36,6 +36,9 @@ public:
     // Common commands
     bool getFrame(int *x, int *y, int *w, int *h);
     bool setFrame(int x, int y, int w, int h);
+    bool getFocusFrame(int *x, int *y, int *w, int *h);
+    bool setFocusFrame(int x, int y, int w, int h);
+    void resetFrame();
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
     bool setFrameType(const QString & name);    
@@ -44,6 +47,7 @@ public:
     bool setBinning(CCDBinType binType);
     CCDBinType getBinning();
     bool getBinning(int *bin_x, int *bin_y);
+    bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
     void setShowFITS(bool enable) { displayFITS = enable;}
     bool showFITS() const { return displayFITS; }    
@@ -83,7 +87,8 @@ private:
     QStringList frameTypes;
     bool CanBin;
     bool CanSubframe;
-    bool CanAbort;    
+    bool CanAbort;
+    int fx,fy,fw,fh;
 
 };
 

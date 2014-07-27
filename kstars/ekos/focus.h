@@ -119,8 +119,6 @@ private:
     bool reverseDir;
     bool starSelected;
     int fx,fy,fw,fh;
-    int subX, subY, subW, subH;
-    int subBinX, subBinY;
     int noStarCount;
 
     QStringList logText;

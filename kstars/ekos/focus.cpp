@@ -53,7 +53,7 @@ Focus::Focus()
 
     pulseDuration = 1000;
 
-    subX=subY=subW=subH=-1;
+    fx=fy=fw=fh=0;
 
     deltaHFR = 0;
 
@@ -127,7 +127,9 @@ void Focus::resetFrame()
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
         if (targetChip && !inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
-            targetChip->setFrame(fx, fy, fw, fh);
+        {
+            targetChip->resetFrame();
+        }
     }
 }
 
@@ -145,11 +147,17 @@ void Focus::checkCCD(int ccdNum)
         kcfg_focusXBin->setEnabled(targetChip->canBin());
         kcfg_focusYBin->setEnabled(targetChip->canBin());
         kcfg_subFrame->setEnabled(targetChip->canSubframe());
+        if (targetChip->canBin())
+        {
+            int binx=1,biny=1;
+            targetChip->getMaxBin(&binx, &biny);
+            kcfg_focusXBin->setMaximum(binx);
+            kcfg_focusYBin->setMaximum(biny);
+        }
 
-        if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
-            targetChip->getFrame(&fx, &fy, &fw, &fh);
+        //if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+        targetChip->getFocusFrame(&fx, &fy, &fw, &fh);
     }
-
 }
 
 void Focus::addFocuser(ISD::GDInterface *newFocuser)
@@ -243,7 +251,7 @@ void Focus::startFocus()
 
     reverseDir = false;
 
-    if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
+    if (fw > 0 && fh > 0)
         starSelected= true;
     else
         starSelected= false;
@@ -304,7 +312,7 @@ void Focus::stopFocus()
 
     targetChip->abortExposure();
     if (targetChip->canSubframe())
-        targetChip->setFrame(fx, fy, fw, fh);
+        targetChip->resetFrame();
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     if (targetImage)
@@ -343,10 +351,13 @@ void Focus::capture()
 
     targetChip->setFrameType(ccdFrame);
 
-    if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
+    /*if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
         targetChip->setFrame(subX, subY, subW, subH);
-    else
-        targetChip->setFrame(fx, fy, fw, fh);
+    else*/
+    if (fw == 0 || fh == 0)
+        targetChip->getFrame(&fx, &fy, &fw, &fh);
+
+     targetChip->setFrame(fx, fy, fw, fh);
 
     captureInProgress = true;
 
@@ -504,6 +515,7 @@ void Focus::newFITS(IBLOB *bp)
 
     if (starSelected == false)
     {
+        int subBinX=1, subBinY=1;
         targetChip->getBinning(&subBinX, &subBinY);
 
         if (kcfg_autoSelectStar->isChecked() && focusType == FOCUS_AUTO)
@@ -514,6 +526,8 @@ void Focus::newFITS(IBLOB *bp)
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
                 targetImage->updateMode(FITS_GUIDE);
                 targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
+                if (fw == 0 || fh == 0)
+                    targetChip->getFrame(&fx, &fy, &fw, &fh);
                 targetImage->setGuideSquare(fw/2, fh/2);
                 connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
                 return;
@@ -522,10 +536,10 @@ void Focus::newFITS(IBLOB *bp)
             if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
                 int offset = kcfg_focusBoxSize->value();
-                subX=(maxStar->x - offset) * subBinX;
-                subY=(maxStar->y - offset) * subBinY;
-                subW=offset*2*subBinX;
-                subH=offset*2*subBinY;
+                int subX=(maxStar->x - offset) * subBinX;
+                int subY=(maxStar->y - offset) * subBinY;
+                int subW=offset*2*subBinX;
+                int subH=offset*2*subBinY;
 
                 if (subX<0)
                     subX=0;
@@ -542,8 +556,14 @@ void Focus::newFITS(IBLOB *bp)
                     subH = DEFAULT_SUBFRAME_DIM;
 
 
-                targetChip->setFrame(subX, subY, subW, subH);
+                targetChip->setFocusFrame(subX, subY, subW, subH);
+                fx=subX;
+                fy=subY;
+                fw=subW;
+                fh=subH;
             }
+            else
+                targetChip->getFrame(&fx, &fy, &fw, &fh);
 
             starSelected=true;
 
@@ -1127,8 +1147,6 @@ void Focus::clearLog()
 
 void Focus::startLooping()
 {
-
-
     inFocusLoop = true;
 
     resetButtons();
@@ -1227,11 +1245,11 @@ void Focus::focusStarSelected(int x, int y)
 
     if (targetChip->canSubframe())
     {
-        targetChip->setFrame(x, y, w, h);
-        subX = x;
-        subY = y;
-        subW = w;
-        subH = h;
+        targetChip->setFocusFrame(x, y, w, h);
+        fx = x;
+        fy = y;
+        fw = w;
+        fh = h;
     }
 
     starSelected=true;
@@ -1250,7 +1268,9 @@ void Focus::subframeUpdated(bool enable)
 {
     if (enable == false)
     {
-        subX=subY=subW=subH=-1;        
+        fx=fy=fw=fh=0;
+        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        targetChip->setFocusFrame(0,0,0,0);
         starSelected = false;
     }
 }
