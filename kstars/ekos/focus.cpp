@@ -279,6 +279,9 @@ void Focus::startFocus()
     else
         appendLogText(i18n("Please wait until image capture is complete..."));
 
+    if (suspendGuideCheck->isChecked())
+         emit suspendGuiding(true);
+
     capture();
 }
 
@@ -288,6 +291,14 @@ void Focus::checkStopFocus()
     {
         inSequenceFocus = false;
         emit autoFocusFinished(false);
+    }
+
+    if (captureInProgress && inAutoFocus == false && inFocusLoop == false)
+    {
+        captureB->setEnabled(true);
+        stopFocusB->setEnabled(false);
+
+        appendLogText(i18n("Capture aborted."));
     }
 
     stopFocus();
@@ -364,8 +375,15 @@ void Focus::capture()
     targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
+    {
         appendLogText(i18n("Capturing image..."));
 
+        if (inAutoFocus == false)
+        {
+            captureB->setEnabled(false);
+            stopFocusB->setEnabled(true);
+        }
+    }
 }
 
 void Focus::FocusIn(int ms)
@@ -449,6 +467,12 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    if (captureInProgress && inFocusLoop == false && inAutoFocus==false)
+    {
+            captureB->setEnabled(true);
+            stopFocusB->setEnabled(false);
+    }
+
     captureInProgress = false;
 
     FITSImage *image_data = targetChip->getImageData();
@@ -492,9 +516,6 @@ void Focus::newFITS(IBLOB *bp)
         }
         else if (currentHFR > deltaHFR)
         {
-           if (suspendGuideCheck->isChecked())
-                emit suspendGuiding(true);
-
            inSequenceFocus = true;
            AutoModeR->setChecked(true);
            startFocus();
@@ -1271,6 +1292,7 @@ void Focus::subframeUpdated(bool enable)
         fx=fy=fw=fh=0;
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         targetChip->setFocusFrame(0,0,0,0);
+        targetChip->resetFrame();
         starSelected = false;
     }
 }
