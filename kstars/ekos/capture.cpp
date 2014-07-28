@@ -108,6 +108,10 @@ void SequenceJob::prepareCapture()
 
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 {
+
+    if (filterPos != -1 && activeFilter != NULL)
+        activeFilter->runCommand(INDI_SET_FILTER, &filterPos);
+
    if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
         status = JOB_ERROR;
@@ -399,6 +403,7 @@ void Capture::stopSequence()
         activeJob->reset();
     }
 
+    secondsLabel->clear();
     currentCCD->disconnect(this);
 
     currentCCD->setFITSDir("");
@@ -715,18 +720,13 @@ void Capture::newFITS(IBLOB *bp)
     if (isAutoFocus)
         autoFocusStatus = false;
 
-    if (isAutoGuiding)
-    {
-        if (currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-            emit suspendGuiding(false);
+    if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        emit suspendGuiding(false);
 
-        if (guideDither)
-        {
-            secondsLabel->setText(xi18n("Dithering..."));
+    if (isAutoGuiding && guideDither)
+    {
+            secondsLabel->setText(i18n("Dithering..."));
             emit exposureComplete();
-        }
-        else
-            seqTimer->start(seqDelay);
     }
     else if (isAutoFocus)
     {

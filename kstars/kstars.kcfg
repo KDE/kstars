@@ -1396,6 +1396,10 @@
            <label>Suspend guiding while autofocus in progress.</label>
            <default>true</default>
        </entry>
+       <entry name="LockFocusFilter" type="Bool">
+           <label>Use specified filter when performing focus regardless of current filter settings.</label>
+           <default>false</default>
+       </entry>
     </group>
     <group name="Align">
        <entry name="AlignExposure" type="Double">

@@ -19,6 +19,7 @@
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"
+#include "indi/indifilter.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
@@ -40,6 +41,9 @@ Focus::Focus()
 
     currentFocuser = NULL;
     currentCCD     = NULL;
+    currentFilter  = NULL;
+    filterName     = NULL;
+    filterSlot     = NULL;
 
     canAbsMove        = false;
     inAutoFocus       = false;
@@ -74,6 +78,9 @@ Focus::Focus()
 
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
+    connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
+    connect(FilterPosCombo, SIGNAL(activated(int)), this, SLOT(updateFilterPos(int)));
+    connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
 
     lastFocusDirection = FOCUS_NONE;
 
@@ -99,6 +106,7 @@ Focus::Focus()
     maxTravel->setValue(Options::focusMaxTravel());
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
+    lockFilterCheck->setChecked(Options::lockFocusFilter());
 
 }
 
@@ -159,6 +167,82 @@ void Focus::checkCCD(int ccdNum)
         //if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
         targetChip->getFocusFrame(&fx, &fy, &fw, &fh);
     }
+}
+
+void Focus::addFilter(ISD::GDInterface *newFilter)
+{
+    foreach(ISD::GDInterface *filter, Filters)
+    {
+        if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
+            return;
+    }
+
+    filterGroup->setEnabled(true);
+
+    FilterCaptureCombo->addItem(newFilter->getDeviceName());
+
+    Filters.append(static_cast<ISD::Filter *>(newFilter));
+
+    checkFilter(0);
+
+    FilterCaptureCombo->setCurrentIndex(0);
+
+}
+
+void Focus::checkFilter(int filterNum)
+{
+    if (filterNum == -1)
+        filterNum = FilterCaptureCombo->currentIndex();
+
+    QStringList filterAlias = Options::filterAlias();
+
+    if (filterNum <= Filters.count())
+        currentFilter = Filters.at(filterNum);
+
+    FilterPosCombo->clear();
+
+    filterName   = currentFilter->getBaseDevice()->getText("FILTER_NAME");
+    filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
+
+    if (filterSlot == NULL)
+    {
+        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
+        return;
+    }
+
+    for (int i=0; i < filterSlot->np[0].max; i++)
+    {
+        QString item;
+
+        if (filterName != NULL && (i < filterName->ntp))
+            item = filterName->tp[i].text;
+        else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
+            item = filterAlias.at(i);
+        else
+            item = QString("Filter_%1").arg(i+1);
+
+        FilterPosCombo->addItem(item);
+
+    }
+
+    if (lockFilterCheck->isChecked() == false)
+        FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value-1);
+    else
+        FilterPosCombo->setCurrentIndex(lastLockFilterPos);
+
+}
+
+void Focus::filterLockToggled(bool enable)
+{
+    if (enable)
+        lastLockFilterPos = FilterPosCombo->currentIndex();
+    else if (filterSlot != NULL)
+        FilterPosCombo->setCurrentIndex(filterSlot->np[0].value-1);
+}
+
+void Focus::updateFilterPos(int index)
+{
+    lastLockFilterPos = index;
 }
 
 void Focus::addFocuser(ISD::GDInterface *newFocuser)
@@ -252,10 +336,10 @@ void Focus::startFocus()
 
     reverseDir = false;
 
-    if (fw > 0 && fh > 0)
+    /*if (fw > 0 && fh > 0)
         starSelected= true;
     else
-        starSelected= false;
+        starSelected= false;*/
 
     qDeleteAll(HFRPoints);
     HFRPoints.clear();
@@ -270,6 +354,7 @@ void Focus::startFocus()
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
+    Options::setLockFocusFilter(lockFilterCheck->isChecked());
 
     #ifdef FOCUS_DEBUG
     qDebug() << "Starting focus with pulseDuration " << pulseDuration << endl;
@@ -352,6 +437,18 @@ void Focus::capture()
     {
         appendLogText(xi18n("Error: Lost connection to CCD."));
         return;
+    }
+
+    if (currentFilter != NULL)
+    {
+        if (currentFilter->isConnected() == false)
+        {
+            appendLogText(i18n("Error: Lost connection to filter wheel."));
+            return;
+        }
+
+        int filterPos = FilterPosCombo->currentIndex() + 1;
+        currentFilter->runCommand(INDI_SET_FILTER, &filterPos);
     }
 
     if (targetChip->canBin())
