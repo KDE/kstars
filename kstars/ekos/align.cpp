@@ -661,6 +661,7 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
 
         telescopeCoord.setRA(coord->np[0].value);
         telescopeCoord.setDec(coord->np[1].value);
+        telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
@@ -935,9 +936,7 @@ void Align::measureAltError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, altDirCombo->currentIndex() == 0
-                                                   ? xi18n("Point the telescope to the east with a minimum altitude of 20 degrees. Press continue when ready.")
-                                                   : xi18n("Point the telescope to the west with a minimum altitude of 20 degrees. Press continue when ready.")
+        if (KMessageBox::warningContinueCancel( 0, xi18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
                                                 , xi18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                 "ekos_measure_alt_error")!=KMessageBox::Continue)
             return;
@@ -1017,7 +1016,10 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     double raMotion = finalRA - initRA;
     decDeviation = finalDEC - initDEC;
 
+    // Northern/Southern hemisphere
     int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
+    // East/West of meridian
+    int horizon    = (telescopeCoord.az().Degrees() > 0 && telescopeCoord.az().Degrees() <= 180) ? 0 : 1;
 
     // How much time passed siderrally form initRA to finalRA?
     double RATime = fabs(raMotion / SIDRATE) / 60.0;
@@ -1045,7 +1047,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         }
         else if (altStage == ALT_FINISHED)
         {
-            switch (altDirCombo->currentIndex())
+            switch (horizon)
             {
                 // East
                 case 0:
@@ -1081,7 +1083,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         }
         else if (altStage == ALT_FINISHED)
         {
-            switch (altDirCombo->currentIndex())
+            switch (horizon)
             {
                 // East
                 case 0:
