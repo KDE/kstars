@@ -973,6 +973,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="decimals">
+            <number>2</number>
+           </property>
            <property name="maximum">
             <double>30.000000000000000</double>
            </property>
@@ -1015,6 +1018,9 @@
           <widget class="QDoubleSpinBox" name="HFRPixels">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="decimals">
+            <number>3</number>
            </property>
            <property name="minimum">
             <double>0.050000000000000</double>
