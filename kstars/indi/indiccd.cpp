@@ -956,7 +956,13 @@ void CCD::processBLOB(IBLOB* bp)
     else
         targetChip = primaryChip;
 
-    QString currentDir =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
+    QString currentDir;
+
+    if (targetChip->isBatchMode() == false)
+        currentDir = "/tmp";
+    else
+        currentDir  =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
+
     int nr, n=0;
     KTemporaryFile tmpFile;
 
@@ -966,6 +972,7 @@ void CCD::processBLOB(IBLOB* bp)
     if (QDir(currentDir).exists() == false)
     {
         KMessageBox::error(0, i18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
+        emit BLOBUpdated(NULL);
         return;
     }
 
@@ -981,6 +988,7 @@ void CCD::processBLOB(IBLOB* bp)
          if (!tmpFile.open())
          {
                  qDebug() << "Error: Unable to open " << filename << endl;
+                 emit BLOBUpdated(NULL);
                  return;
          }
 
@@ -1008,6 +1016,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (!fits_temp_file.open(QIODevice::WriteOnly))
             {
                     qDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+                    emit BLOBUpdated(NULL);
                     return;
             }
 
