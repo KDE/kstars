@@ -808,33 +808,6 @@
               </property>
              </spacer>
             </item>
-            <item>
-             <widget class="QLabel" name="label_9">
-              <property name="toolTip">
-               <string>Direction of the mount when measuring altitude error. It is either east or west of the meridian</string>
-              </property>
-              <property name="statusTip">
-               <string/>
-              </property>
-              <property name="text">
-               <string>Altitude Direction:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="altDirCombo">
-              <item>
-               <property name="text">
-                <string>East</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>West</string>
-               </property>
-              </item>
-             </widget>
-            </item>
            </layout>
           </item>
          </layout>
