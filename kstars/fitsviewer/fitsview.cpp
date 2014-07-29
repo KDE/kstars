@@ -248,14 +248,6 @@ int FITSView::rescale(FITSZoom type)
     bscale = 255. / (max - min);
     bzero  = (-min) * (255. / (max - min));
 
-    if ( (image_buffer[0] * bscale + bzero) < 0)
-    {
-        image_data->calculateStats(true);
-        image_data->getMinMax(&min, &max);
-        bscale = 255. / (max - min);
-        bzero  = (-min) * (255. / (max - min));
-    }
-
     if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
     {
         delete (display_image);
@@ -277,11 +269,15 @@ int FITSView::rescale(FITSZoom type)
 
     /* Fill in pixel values using indexed map, linear scale */
     for (int j = 0; j < image_height; j++)
+    {
+        unsigned char *scanLine = display_image->scanLine(j);
+
         for (int i = 0; i < image_width; i++)
         {
             val = image_buffer[j * image_width + i];
-            display_image->setPixel(i, j, ((int) (val * bscale + bzero)));
+            scanLine[i]= (val * bscale + bzero);
         }
+    }
 
     switch (type)
     {

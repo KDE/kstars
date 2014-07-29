@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>798</width>
-    <height>529</height>
+    <width>782</width>
+    <height>535</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -751,31 +751,64 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <layout class="QFormLayout" name="formLayout">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Hemisphere:</string>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Az Error:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="azError">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" rowspan="2">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1" rowspan="2">
+           <widget class="QLineEdit" name="altError">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Alt Error:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
-             </widget>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="hemisphereCombo">
-              <item>
-               <property name="text">
-                <string>Northern</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Southern</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="1" column="0">
+            <item>
              <widget class="QLabel" name="label_9">
               <property name="toolTip">
                <string>Direction of the mount when measuring altitude error. It is either east or west of the meridian</string>
@@ -788,7 +821,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item>
              <widget class="QComboBox" name="altDirCombo">
               <item>
                <property name="text">
@@ -800,45 +833,6 @@
                 <string>West</string>
                </property>
               </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="Line" name="line_5">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QFormLayout" name="formLayout_3">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Az Error:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="azError">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Alt Error:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="altError">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
              </widget>
             </item>
            </layout>
@@ -923,6 +917,11 @@
          </spacer>
         </item>
        </layout>
+       <zorder>line_6</zorder>
+       <zorder>label_9</zorder>
+       <zorder>label_9</zorder>
+       <zorder>altDirCombo</zorder>
+       <zorder>horizontalSpacer_7</zorder>
       </widget>
      </item>
     </layout>

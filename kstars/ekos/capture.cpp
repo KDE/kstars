@@ -243,7 +243,7 @@ Capture::Capture()
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
-    connect(displayCheck, SIGNAL(toggled(bool)), previewB, SLOT(setEnabled(bool)));
+    connect(displayCheck, SIGNAL(toggled(bool)), this, SLOT(checkPreview(bool)));
 
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
@@ -433,6 +433,9 @@ void Capture::checkCCD(int ccdNum)
     if (ccdNum == -1)
         ccdNum = CCDCaptureCombo->currentIndex();
 
+    foreach(ISD::CCD *ccd, CCDs)
+        disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)));
+
     if (ccdNum <= CCDs.count())
     {
         int x,y,w,h;
@@ -545,6 +548,21 @@ void Capture::checkCCD(int ccdNum)
             frameTypeCombo->setCurrentIndex(targetChip->getFrameType());
         }
 
+        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    }
+}
+
+void Capture::processCCDNumber(INumberVectorProperty *nvp)
+{
+    if (currentCCD && currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+        return;
+
+    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY &&
+            activeJob->getExposeLeft() == 0 && nvp->s == IPS_OK &&
+            (!strcmp(nvp->name, "CCD_EXPOSURE") || !strcmp(nvp->name, "GUIDER_EXPOSURE")))
+
+    {
+        newFITS(0);
     }
 }
 
@@ -623,6 +641,12 @@ void Capture::newFITS(IBLOB *bp)
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
+        if (bp == NULL)
+        {
+            stopSequence();
+            return;
+        }
+
         if (!strcmp(bp->name, "CCD2"))
             tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         else
@@ -860,6 +884,20 @@ void Capture::checkSeqBoundary(const QString &path)
 
 }
 
+void Capture::checkPreview(bool enable)
+{
+    if (enable && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        appendLogText(i18n("Cannot enable preview while CCD upload mode is set to local. Change upload mode to client or both and try again."));
+        displayCheck->disconnect(this);
+        displayCheck->setChecked(false);
+        connect(displayCheck, SIGNAL(toggled(bool)), this, SLOT(checkPreview(bool)));
+        return;
+    }
+
+    previewB->setEnabled(enable);
+}
+
 void Capture::appendLogText(const QString &text)
 {
 
@@ -890,10 +928,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
 
-        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
             secondsLabel->setText(i18n("Downloading..."));
-        else
-            newFITS(NULL);
     }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)
@@ -1133,7 +1168,7 @@ void Capture::moveJobDown()
 
     int columnCount = queueTable->columnCount();
 
-    if (currentRow < 0 || queueTable->rowCount() == 1)
+    if (currentRow < 0 || queueTable->rowCount() == 1 || (currentRow+1) == queueTable->rowCount() )
         return;
 
     int destinationRow = currentRow + 1;
@@ -1184,8 +1219,8 @@ void Capture::executeJob(SequenceJob *job)
         imgProgress->setMaximum(seqTotalCount);
         imgProgress->setValue(seqCurrentCount);
 
-        updateSequencePrefix(job->getPrefix(), job->getFITSDir());
-        //job->statusCell->setText(job->statusStrings[job->status]);
+        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+            updateSequencePrefix(job->getPrefix(), job->getFITSDir());
     }
 
     // Update button status
