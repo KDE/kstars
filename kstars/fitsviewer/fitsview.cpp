@@ -254,11 +254,15 @@ int FITSView::rescale(FITSZoom type)
 
     /* Fill in pixel values using indexed map, linear scale */
     for (int j = 0; j < image_height; j++)
+    {
+        unsigned char *scanLine = display_image->scanLine(j);
+
         for (int i = 0; i < image_width; i++)
         {
             val = image_buffer[j * image_width + i];
-            display_image->setPixel(i, j, ((int) (val * bscale + bzero)));
+            scanLine[i]= (val * bscale + bzero);
         }
+    }
 
     switch (type)
     {
