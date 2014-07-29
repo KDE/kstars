@@ -1436,17 +1436,78 @@
           </entry>
     </group>
     <group name="Guide">
-    <entry name="UseDither" type="Bool">
-        <label>Use Auto Dithering when guiding.</label>
+    <entry name="CalibrationPulseDuration" type="UInt">
+        <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
+        <default>1000</default>
+    </entry>
+    <entry name="UseAutoMode" type="Bool">
+        <label>Automatically calibrate selected axes.</label>
+        <default>true</default>
+    </entry>
+    <entry name="AutoModeIterations" type="UInt">
+        <label>Number of automode iterations for calibration process.</label>
+        <default>5</default>
+    </entry>
+    <entry name="UseTwoAxis" type="Bool">
+        <label>Use both axis to perform calibration.</label>
+        <default>true</default>
+    </entry>
+    <entry name="UseDarkFrame" type="Bool">
+        <label>Take dark frame for autoguider images.</label>
         <default>false</default>
     </entry>
     <entry name="DitherPixels" type="Double">
        <label>How many pixels to move between subsequent exposures under auto dithering mode.</label>
        <default>2</default>
      </entry>
+     <entry name="UseDither" type="Bool">
+         <label>Use Auto Dithering when guiding.</label>
+         <default>false</default>
+     </entry>
      <entry name="AOLimit" type="Double">
         <label>The Adaptive Optics unit is utilized if the guiding deviation is less than this limit in arcseconds. Once exceeded, mechanical guiding is utilized.</label>
         <default>2</default>
       </entry>
+      <entry name="EnableRAGuide" type="Bool">
+          <label>Enable autoguiding in the RA axes.</label>
+          <default>true</default>
+      </entry>
+      <entry name="EnableDECGuide" type="Bool">
+          <label>Enable autoguiding in the DEC axes.</label>
+          <default>true</default>
+      </entry>
+      <entry name="RAPropotionalGain" type="Double">
+         <default>133.33</default>
+       </entry>
+       <entry name="DECPropotionalGain" type="Double">
+          <default>133.33</default>
+        </entry>
+        <entry name="RAIntegralGain" type="Double">
+           <default>0</default>
+         </entry>
+        <entry name="DECIntegralGain" type="Double">
+            <default>0</default>
+        </entry>
+        <entry name="RADerivativeGain" type="Double">
+             <default>0</default>
+        </entry>
+        <entry name="DECDerivativeGain" type="Double">
+             <default>0</default>
+        </entry>
+        <entry name="RAMaximumPulse" type="UInt">
+             <default>5000</default>
+        </entry>
+        <entry name="DECMaximumPulse" type="UInt">
+             <default>5000</default>
+        </entry>
+        <entry name="RAMinimumPulse" type="UInt">
+             <default>100</default>
+        </entry>
+        <entry name="DECMinimumPulse" type="UInt">
+             <default>100</default>
+        </entry>
+        <entry name="Guiding Rate" type="Double">
+             <default>0.5</default>
+        </entry>
     </group>
 </kcfg>

@@ -55,9 +55,6 @@ rguider::rguider(Ekos::Guide *parent)
 	for( i = 0;guide_square_alg[i].idx != -1;++i )
 		ui.comboBox_ThresholdAlg->addItem( QString( guide_square_alg[i].name ) );
 
-	ui.spinBox_AccFramesRA->setMaximum( MAX_ACCUM_CNT );
-	ui.spinBox_AccFramesDEC->setMaximum( MAX_ACCUM_CNT );
-
 	// connect ui
 	connect( ui.spinBox_XScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onXscaleChanged(int)) );
 	connect( ui.spinBox_YScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onYscaleChanged(int)) );
@@ -66,8 +63,6 @@ rguider::rguider(Ekos::Guide *parent)
 	connect( ui.spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
 	connect( ui.checkBox_DirRA, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirRA(int)) );
 	connect( ui.checkBox_DirDEC, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirDEC(int)) );
-	connect( ui.spinBox_AccFramesRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-	connect( ui.spinBox_AccFramesDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_PropGainRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_PropGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_IntGainRA, 		SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
@@ -172,11 +167,8 @@ void rguider::fill_interface( void )
 	ui.comboBox_SquareSize->setCurrentIndex( pmath->get_square_index() );
 	ui.comboBox_ThresholdAlg->setCurrentIndex( pmath->get_square_algorithm_index() );
 
-
-    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
-
-
-	ui.spinBox_GuideRate->setValue( in_params->guiding_rate );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(Options::guidingRate()), 'f', 2 )) );
+    ui.spinBox_GuideRate->setValue( Options::guidingRate() );
 
 	// info params...
 	ui.l_Focal->setText( str.setNum( (int)info_params.focal) );
@@ -185,27 +177,23 @@ void rguider::fill_interface( void )
 	str = QString().setNum(info_params.fov_wd, 'f', 1) + 'x' + QString().setNum(info_params.fov_ht, 'f', 1);
 	ui.l_FOV->setText( str );
 
-    ui.checkBox_DirRA->setChecked( in_params->enabled[GUIDE_RA] );
-    ui.checkBox_DirDEC->setChecked( in_params->enabled[GUIDE_DEC] );
+    ui.checkBox_DirRA->setChecked( Options::enableRAGuide() );
+    ui.checkBox_DirDEC->setChecked( Options::enableDECGuide() );
 
-    ui.spinBox_AccFramesRA->setValue( (int)in_params->accum_frame_cnt[GUIDE_RA] );
-    ui.spinBox_AccFramesDEC->setValue( (int)in_params->accum_frame_cnt[GUIDE_DEC] );
+    ui.spinBox_PropGainRA->setValue( Options::rAPropotionalGain() );
+    ui.spinBox_PropGainDEC->setValue( Options::dECPropotionalGain()  );
 
-    ui.spinBox_PropGainRA->setValue( in_params->proportional_gain[GUIDE_RA] );
-    ui.spinBox_PropGainDEC->setValue( in_params->proportional_gain[GUIDE_DEC] );
+    ui.spinBox_IntGainRA->setValue( Options::rAIntegralGain() );
+    ui.spinBox_IntGainDEC->setValue( Options::dECIntegralGain() );
 
-    ui.spinBox_IntGainRA->setValue( in_params->integral_gain[GUIDE_RA] );
-    ui.spinBox_IntGainDEC->setValue( in_params->integral_gain[GUIDE_DEC] );
+    ui.spinBox_DerGainRA->setValue( Options::rADerivativeGain() );
+    ui.spinBox_DerGainDEC->setValue( Options::dECDerivativeGain() );
 
-    ui.spinBox_DerGainRA->setValue( in_params->derivative_gain[GUIDE_RA] );
-    ui.spinBox_DerGainDEC->setValue( in_params->derivative_gain[GUIDE_DEC] );
+    ui.spinBox_MaxPulseRA->setValue( Options::rAMaximumPulse() );
+    ui.spinBox_MaxPulseDEC->setValue( Options::dECMaximumPulse() );
 
-    ui.spinBox_MaxPulseRA->setValue( in_params->max_pulse_length[GUIDE_RA] );
-    ui.spinBox_MaxPulseDEC->setValue( in_params->max_pulse_length[GUIDE_DEC] );
-
-    ui.spinBox_MinPulseRA->setValue( in_params->min_pulse_length[GUIDE_RA] );
-    ui.spinBox_MinPulseDEC->setValue( in_params->min_pulse_length[GUIDE_DEC] );
-
+    ui.spinBox_MinPulseRA->setValue( Options::rAMinimumPulse() );
+    ui.spinBox_MinPulseDEC->setValue( Options::dECMinimumPulse() );
 
     ui.l_DeltaRA->setText(QString().setNum(out_params->delta[GUIDE_RA], 'f', 2) );
     ui.l_DeltaDEC->setText(QString().setNum(out_params->delta[GUIDE_DEC], 'f', 2) );
@@ -325,12 +313,6 @@ void rguider::onInputParamChanged()
 
 	if( (pSB = dynamic_cast<QSpinBox *>(obj)) )
 	{
-		if( pSB == ui.spinBox_AccFramesRA )
-            in_params->accum_frame_cnt[GUIDE_RA] = pSB->value();
-		else
-		if( pSB == ui.spinBox_AccFramesDEC )
-            in_params->accum_frame_cnt[GUIDE_DEC] = pSB->value();
-		else
 		if( pSB == ui.spinBox_MaxPulseRA )
             in_params->max_pulse_length[GUIDE_RA] = pSB->value();
 		else
@@ -385,10 +367,22 @@ void rguider::onStartStopButtonClick()
 	// start
 	if( !is_started )
 	{
-
         Options::setUseDither(ui.kcfg_useDither->isChecked());
         Options::setDitherPixels(ui.kcfg_ditherPixels->value());
         Options::setAOLimit(ui.spinBox_AOLimit->value());
+        Options::setGuidingRate(ui.spinBox_GuideRate->value());
+        Options::setEnableRAGuide(ui.checkBox_DirRA->isChecked());
+        Options::setEnableDECGuide(ui.checkBox_DirDEC->isChecked());
+        Options::setRAPropotionalGain(ui.spinBox_PropGainRA->value());
+        Options::setDECPropotionalGain(ui.spinBox_PropGainDEC->value());
+        Options::setRAIntegralGain(ui.spinBox_IntGainRA->value());
+        Options::setDECIntegralGain(ui.spinBox_IntGainDEC->value());
+        Options::setRADerivativeGain(ui.spinBox_DerGainRA->value());
+        Options::setDECDerivativeGain(ui.spinBox_DerGainDEC->value());
+        Options::setRAMaximumPulse(ui.spinBox_MaxPulseRA->value());
+        Options::setDECMaximumPulse(ui.spinBox_MaxPulseDEC->value());
+        Options::setRAMinimumPulse(ui.spinBox_MinPulseRA->value());
+        Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
 
         if (pimage)
             disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
@@ -469,6 +463,18 @@ void rguider::capture()
     }
 
     pmain_wnd->capture();
+}
+
+void rguider::onSetDECSwap(bool enable)
+{
+    pmain_wnd->setDECSwap(enable);
+}
+
+void rguider::set_dec_swap(bool enable)
+{
+    ui.swapCheck->disconnect(this);
+    ui.swapCheck->setChecked(enable);
+    connect(ui.swapCheck, SIGNAL(toggled(bool)), this, SLOT(set_dec_swap(bool)));
 }
 
 void rguider::guide( void )

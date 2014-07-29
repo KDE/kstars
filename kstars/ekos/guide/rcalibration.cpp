@@ -10,6 +10,7 @@
  */
 
 #include "rcalibration.h"
+#include "Options.h"
 
 #include <unistd.h>
 #include <time.h>
@@ -54,9 +55,13 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 	start_x2 = start_y2 = 0;
 	end_x2 = end_y2 = 0;
 
-    ui.checkBox_AutoMode->setChecked( true );
+    ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
+    ui.checkBox_AutoMode->setChecked( Options::useAutoMode() );
+    ui.checkBox_TwoAxis->setChecked( Options::useTwoAxis());
+    ui.checkBox_DarkFrame->setChecked(Options::useDarkFrame());
+    ui.spinBox_DriftTime->setValue( Options::autoModeIterations() );
+
     ui.spinBox_DriftTime->setVisible( true );
-	ui.spinBox_DriftTime->setValue( auto_drift_time );
     ui.progressBar->setVisible( false );
 	ui.spinBox_ReticleAngle->setMaximum( 360 );
 
@@ -248,6 +253,12 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 
     calibrationStage = CAL_START;
 
+    Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
+    Options::setUseAutoMode(ui.checkBox_AutoMode->isChecked());
+    Options::setUseTwoAxis(ui.checkBox_TwoAxis->isChecked());
+    Options::setUseDarkFrame(ui.checkBox_DarkFrame->isChecked());
+    Options::setAutoModeIterations(ui.spinBox_DriftTime->value());
+
 	// manual
 	if( ui.checkBox_AutoMode->checkState() != Qt::Checked )
 	{
@@ -367,11 +378,15 @@ void rcalibration::calibrate_reticle_manual( void )
                 if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &dec_swap ) )
 				{
 					fill_interface();
+                    if (dec_swap)
+                        pmain_wnd->appendLogText(i18n("DEC swap enabled."));
+                    else
+                        pmain_wnd->appendLogText(i18n("DEC swap disabled."));
+
                     pmain_wnd->appendLogText(i18n("Calibration completed."));
                     calibrationStage = CAL_FINISH;
 
-                    if (dec_swap)
-                        pmain_wnd->setDECSwap(dec_swap);
+                   pmain_wnd->setDECSwap(dec_swap);
 				}
 				else
 				{
@@ -631,11 +646,14 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     {
         calibrationStage = CAL_FINISH;
         fill_interface();
+        if (swap_dec)
+            pmain_wnd->appendLogText(i18n("DEC swap enabled."));
+        else
+            pmain_wnd->appendLogText(i18n("DEC swap disabled."));
         pmain_wnd->appendLogText(i18n("Calibration completed."));
         ui.startCalibrationLED->setColor(okColor);
 
-        if (swap_dec)
-            pmain_wnd->setDECSwap(swap_dec);
+        pmain_wnd->setDECSwap(swap_dec);
 
     }
     else

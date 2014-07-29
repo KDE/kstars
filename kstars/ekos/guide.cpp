@@ -433,10 +433,12 @@ void Guide::clearLog()
 
 void Guide::setDECSwap(bool enable)
 {
-    if (ST4Driver == NULL)
+    if (ST4Driver == NULL || guider == NULL)
         return;
 
+    guider->set_dec_swap(enable);
     ST4Driver->setDECSwap(enable);
+
 }
 
 bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )

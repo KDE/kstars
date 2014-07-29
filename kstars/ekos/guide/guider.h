@@ -43,7 +43,10 @@ public:
     void set_target_chip(ISD::CCDChip *chip);
     bool isRapidGuide() { return useRapidGuide;}
     bool is_dithering() { return isDithering; }
-    double get_ao_limit();
+    double get_ao_limit();    
+
+public slots:
+    void set_dec_swap(bool enable);
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -58,6 +61,7 @@ protected slots:
     void capture();
     void guideStarSelected(int x, int y);
 	void onStartStopButtonClick();
+    void onSetDECSwap(bool enable);
 
 signals:
     void ditherComplete();
