@@ -324,6 +324,8 @@ void Align::syncCCDInfo()
         targetChip->getMaxBin(&binx, &biny);
         kcfg_solverXBin->setMaximum(binx);
         kcfg_solverYBin->setMaximum(biny);
+        kcfg_solverXBin->setValue(Options::solverXBin());
+        kcfg_solverYBin->setValue(Options::solverYBin());
     }
     else
     {
@@ -840,6 +842,7 @@ void Align::executePolarAlign()
 void Align::measureAzError()
 {
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
+    int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
 
     switch (azStage)
     {
@@ -847,7 +850,7 @@ void Align::measureAzError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, hemisphereCombo->currentIndex() == 0
+        if (KMessageBox::warningContinueCancel( 0, hemisphere == 0
                                                    ? i18n("Point the telescope at the southern meridian. Press continue when ready.")
                                                    : i18n("Point the telescope at the northern meridian. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -1014,6 +1017,8 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     double raMotion = finalRA - initRA;
     decDeviation = finalDEC - initDEC;
 
+    int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
+
     // How much time passed siderrally form initRA to finalRA?
     double RATime = fabs(raMotion / SIDRATE) / 60.0;
 
@@ -1027,7 +1032,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
 
     KLocalizedString deviationDirection;
 
-    switch (hemisphereCombo->currentIndex())
+    switch (hemisphere)
     {
         // Northern hemisphere
         case 0:
