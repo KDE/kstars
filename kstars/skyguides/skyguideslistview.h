@@ -21,6 +21,8 @@
 #include <QDeclarativeView>
 
 #include "skyguideslistmodel.h"
+
+#include "skydataqmladapter.h"
 #include "skymapqmladapter.h"
 
 class QWidget;
@@ -56,7 +58,8 @@ public:
 	inline void show() { mBaseView.show(); };
 
 private:
-	SkyMapQmlAdapter * mSkyMapQmlAdapter;
+	SkyMapQmlAdapter mSkyMapQmlAdapter;
+	SkyDataQmlAdapter mKStarsDataQmlAdapter;
 	QDeclarativeView mBaseView;
 };
 

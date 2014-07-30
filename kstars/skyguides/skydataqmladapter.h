@@ -1,5 +1,5 @@
 /***************************************************************************
-                          skymapqmladapter.cpp  -  K Desktop Planetarium
+                          kstarsdataqmladapter.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2014/04/07
     copyright            : (C) 2014 by Gioacchino Mazzurco
@@ -15,26 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "skymapqmladapter.h"
-#include "skymap.h"
-#include "dms.h"
-#include "skydataqmladapter.h"
+#ifndef KSTARSDATAQMLADAPTER_H
+#define KSTARSDATAQMLADAPTER_H
 
-SkyMapQmlAdapter::SkyMapQmlAdapter(SkyMap * skymap, QObject * parent) :
-	QObject(parent),
-	mSkyMap(skymap)
-{}
+#include <QObject>
 
-void SkyMapQmlAdapter::setFocusByCoordinates( double ra, double dec ) const
+class SkyObject;
+
+class SkyDataQmlAdapter : public QObject
 {
-	dms dRa(ra);
-	dms dDec(dec);
-	mSkyMap->setFocus( dRa, dDec );
-}
+	Q_OBJECT
 
-void SkyMapQmlAdapter::setFocusBySkyObjectName(const QString & name) const
-{
-	SkyObject * obj = SkyDataQmlAdapter::findSkyObjectByName(name); 
-	if(obj)
-		mSkyMap->setFocus(obj);
-}
+public:
+	SkyDataQmlAdapter(QObject * parent = 0);
+	~SkyDataQmlAdapter();
+
+	static SkyObject * findSkyObjectByName(const QString & name);
+
+	Q_INVOKABLE double getSkyObjectRightAscention(const QString & name);
+	Q_INVOKABLE double getSkyObjectDeclination(const QString & name);
+	Q_INVOKABLE float getSkyObjectMagnitude(const QString & name);
+
+private:
+	const SkyObject * preloadedObject;
+
+	bool preloadObject(const QString & name);
+};
+
+#endif // KSTARSDATAQMLADAPTER_H

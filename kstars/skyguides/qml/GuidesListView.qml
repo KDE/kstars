@@ -9,6 +9,7 @@ Rectangle
 
 	WebView
 	{
+		settings.developerExtrasEnabled: true;
 		id: webView
 		visible: false
 		preferredWidth: 640
@@ -20,12 +21,26 @@ Rectangle
 			rootRect.height = height;
 		}
 		javaScriptWindowObjects:
+		[
 			QtObject
 			{
 				WebView.windowObjectName: "skymap"
-				function setZoomFactor(factor) { skyMap.setZoomFactor(factor); console.log("JS: skymap.setZoomFactor( " + factor + ")"); }
-				function setFocus( ra, dec ) { skyMap.setFocus( ra, dec ); console.log("JS: skymap.setFocus( " + ra + ", " + dec + " )"); }
+				function setFocusBySkyObjectName(name) { skymap.setFocusBySkyObjectName(name) }
+				function setFocusByCoordinates( ra, dec ) { skymap.setFocusByCoordinates( ra, dec ) }
+				function setZoomFactor(factor) { skymap.setZoomFactor(factor) }
+				function zoomIn() { skymap.zoomIn() }
+				function zoomOut() { skymap.zoomOut() }
+				function zoomDefault() { skyMap.zoomDefault() }
+				function forceUpdate() { skymap.forceUpdate() }
+			},
+			QtObject
+			{
+				WebView.windowObjectName: "skydata"
+				function getSkyObjectRightAscention(name) { return skydata.getSkyObjectRightAscention(name) }
+				function getSkyObjectDeclination(name) { return skydata.getSkyObjectDeclination(name) }
+				function getSkyObjectMagnitude(name) { return skydata.getSkyObjectMagnitude(name) }
 			}
+		]
 	}
 
 	Text
@@ -52,7 +67,7 @@ Rectangle
 		anchors.left: parent.left
 
 		spacing: 10
-		model: guidesModel
+		model: guidesmodel
 		delegate: Column
 		{
 			Rectangle

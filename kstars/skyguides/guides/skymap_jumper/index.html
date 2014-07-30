@@ -2,14 +2,29 @@
 <html>
 	<head>
 		<title>Sky Jumper</title>
+		<script type="text/javascript">
+			function sunDataMe(elem)
+			{
+				skd = window.skydata
+				ascention = skd.getSkyObjectRightAscention("Sun")
+				declination = skd.getSkyObjectDeclination("Sun")
+				magnitude = skd.getSkyObjectMagnitude("Sun")
+				elem.innerHTML = "Data from Sun:<br/>" + ascention + "<br/>" + declination + "<br/>" + magnitude
+			}
+		</script>
 	</head>
 	<body>
 		<table>
 			<tr>
-				<td bgcolor="red" onclick="window.skymap.setZoomFactor(1)">Set zoom factor to 1</td>
-				<td bgcolor="green" onclick="window.skymap.setZoomFactor(10)">Set zoom factor to 10</td>
-				<td bgcolor="yellow" onclick="window.skymap.setFocus( 10, 10 )">setFocus( 10, 10 )</td>
-				<td bgcolor="orange" onclick="window.skymap.setFocus( 100, 100 )">setFocus( 100, 100 )</td>
+				<td bgcolor="grey" onclick="sunDataMe(this)">Click to see Sun Ascention Declination and Magnitude</td>
+				<td bgcolor="red" onclick="window.skymap.setZoomFactor(300)">Set zoom factor to 300</td>
+				<td bgcolor="yellow" onclick="window.skymap.setFocusByCoordinates( 10, 10 )">setFocusByCoordinates( 10, 10 )</td>
+				<td bgcolor="orange" onclick="window.skymap.setFocusByCoordinates( 100, 100 )">setFocusByCoordinates( 100, 100 )</td>
+			</tr>
+			<tr>
+				<td bgcolor="orange" onclick="window.skymap.setFocusBySkyObjectName(&quot;Aldebaran&quot;)">setFocusBySkyObjectName(&quot;Aldebaran&quot;)</td>
+				<td bgcolor="green" onclick="window.skymap.setZoomFactor(3000)">Set zoom factor to 3000</td>
+				<td bgcolor="yellow" onclick="window.skymap.forceUpdate()">forceUpdate()</td>
 			</tr>
 		</table>
 	</body>

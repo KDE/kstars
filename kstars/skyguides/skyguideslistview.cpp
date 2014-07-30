@@ -23,24 +23,26 @@
 #include <kdeclarative.h>
 
 #include "skyguideslistview.h"
+
 #include "skyguideslistmodel.h"
 #include "../skymap.h"
 
 
 SkyGuidesListView::SkyGuidesListView(const SkyGuidesListModel & guidesModel, SkyMap * skyMap) :
 	QWidget(skyMap),
+	mSkyMapQmlAdapter(skyMap),
+	mKStarsDataQmlAdapter(this),
 	mBaseView()
-{
-	mSkyMapQmlAdapter = new SkyMapQmlAdapter(skyMap);
-	
+{	
 	///To use i18n() instead of qsTr() in qml/wiview.qml for translation
 	KDeclarative kd;
 	kd.setDeclarativeEngine(mBaseView.engine());
 	kd.initialize();
 	kd.setupBindings();
 
-	mBaseView.rootContext()->setContextProperty( "guidesModel", QVariant::fromValue(guidesModel.data()) );
-	mBaseView.rootContext()->setContextProperty( "skyMap", mSkyMapQmlAdapter);
+	mBaseView.rootContext()->setContextProperty( "guidesmodel", QVariant::fromValue(guidesModel.data()) );
+	mBaseView.rootContext()->setContextProperty( "skymap", &mSkyMapQmlAdapter );
+	mBaseView.rootContext()->setContextProperty( "skydata", &mKStarsDataQmlAdapter );
 
 	QString qmlpath = KStandardDirs::locate("appdata","skyguides/qml/GuidesListView.qml");
 	mBaseView.setSource(qmlpath);
@@ -48,6 +50,4 @@ SkyGuidesListView::SkyGuidesListView(const SkyGuidesListModel & guidesModel, Sky
 }
 
 SkyGuidesListView::~SkyGuidesListView()
-{
-	delete(mSkyMapQmlAdapter);
-}
+{}
