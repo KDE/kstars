@@ -248,10 +248,10 @@ void rcalibration::onStartReticleCalibrationButtonClick()
     if (pmath->get_image())
         disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
+    calibrationStage = CAL_START;
+
     pmath->set_lost_star(false);
     pmain_wnd->capture();
-
-    calibrationStage = CAL_START;
 
     Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
     Options::setUseAutoMode(ui.checkBox_AutoMode->isChecked());
@@ -697,12 +697,17 @@ void rcalibration::guideStarSelected(int x, int y)
 
 void rcalibration::capture()
 {
+    calibrationStage = CAL_CAPTURE_IMAGE;
+
     if (pmain_wnd->capture())
     {
-            calibrationStage = CAL_CAPTURE_IMAGE;
-            ui.captureLED->setColor(busyColor);
-
-        pmain_wnd->appendLogText(i18n("Capturing image..."));
+         ui.captureLED->setColor(busyColor);
+         pmain_wnd->appendLogText(i18n("Capturing image..."));
+    }
+    else
+    {
+        ui.captureLED->setColor(alertColor);
+        calibrationStage = CAL_ERROR;
     }
 }
 

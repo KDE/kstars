@@ -287,6 +287,13 @@ bool Guide::capture()
         return false;
     }
 
+    //If calibrating, reset frame
+    if (calibration->get_calibation_stage() == rcalibration::CAL_CAPTURE_IMAGE)
+    {
+        targetChip->resetFrame();
+        guider->set_subframed(false);
+    }
+
     // Exposure changed, take a new dark
     if (useDarkFrame && darkExposure != seqExpose)
     {
