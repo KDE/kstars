@@ -1449,7 +1449,7 @@
         <default>5</default>
     </entry>
     <entry name="UseTwoAxis" type="Bool">
-        <label>Use both axis to perform calibration.</label>
+        <label>Use both axes to perform calibration.</label>
         <default>true</default>
     </entry>
     <entry name="UseDarkFrame" type="Bool">
@@ -1469,11 +1469,11 @@
         <default>2</default>
       </entry>
       <entry name="EnableRAGuide" type="Bool">
-          <label>Enable autoguiding in the RA axes.</label>
+          <label>Enable autoguiding in the RA axis.</label>
           <default>true</default>
       </entry>
       <entry name="EnableDECGuide" type="Bool">
-          <label>Enable autoguiding in the DEC axes.</label>
+          <label>Enable autoguiding in the DEC axis.</label>
           <default>true</default>
       </entry>
       <entry name="RAPropotionalGain" type="Double">
