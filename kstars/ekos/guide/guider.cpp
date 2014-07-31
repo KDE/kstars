@@ -454,6 +454,8 @@ void rguider::capture()
         pmath->set_video_params(w, h);
 
         targetChip->setFrame(x, y, w, h);
+
+        guideStarSelected(w/2, h/2);
     }
     else if (ui.kfcg_guideSubFrame->isChecked() == false/* && is_subframed == true*/)
     {
