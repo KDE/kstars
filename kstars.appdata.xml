@@ -22,6 +22,7 @@
   <name xml:lang="uk">KStars</name>
   <name xml:lang="x-test">xxKStarsxx</name>
   <summary>Desktop Planetarium</summary>
+  <summary xml:lang="de">Elektronisches Planetarium</summary>
   <summary xml:lang="en-GB">Desktop Planetarium</summary>
   <summary xml:lang="es">Planetario para el escritorio</summary>
   <summary xml:lang="et">Töölaua planetaarium</summary>
@@ -69,6 +70,7 @@
     <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
     <ul>
       <li>default catalog consisting of stars to magnitude 8</li>
+      <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="es">el catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="et">vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
@@ -84,6 +86,7 @@
       <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
       <li xml:lang="x-test">xxdefault catalog consisting of stars to magnitude 8xx</li>
       <li>extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="et">lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
