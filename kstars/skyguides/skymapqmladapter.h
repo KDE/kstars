@@ -49,6 +49,12 @@ public:
 	Q_INVOKABLE void zoomDefault() { mSkyMap->slotZoomDefault(); }
 
 	/**
+	 * @short sets the central focus point of the sky map.
+	 * @param name the name of the SkyObject the map should be centered on
+	 */
+	Q_INVOKABLE void setFocusBySkyObjectName(const QString & name) const;
+
+	/**
 	 * @short sets the focus point of the skymap, using ra/dec coordinates
 	 *
 	 * @note This function behaves essentially like the above function.
@@ -59,16 +65,31 @@ public:
 	 */
 	Q_INVOKABLE void setFocusByCoordinates( double ra, double dec ) const;
 
-	/** @short sets the central focus point of the sky map.
-	 * @param name the name of the SkyObject the map should be centered on
-	 */
-	Q_INVOKABLE void setFocusBySkyObjectName(const QString & name) const;
-	
-	/** Recalculates the positions of objects in the sky, and then repaints the sky map.
+	/**
+	 * @short Recalculates the positions of objects in the sky, and then repaints the sky map.
      */
 	Q_INVOKABLE void forceUpdate() const { mSkyMap->forceUpdate(); }
-
 	
+	/**
+	 * @short sets the destination point of the sky map.
+	 * @note setDestination() emits the destinationChanged() SIGNAL,
+	 * which triggers the SLOT function SkyMap::slewFocus().  This
+	 * function iteratively steps the Focus point toward Destination,
+	 * repainting the sky at each step (if Options::useAnimatedSlewing()==true).
+	 * @param f a pointer to the SkyPoint the map should slew to
+	 */
+	Q_INVOKABLE void setDestinationBySkyObjectName(const QString & name) const;
+
+	/**
+	 * @short sets the destination point of the skymap, using ra/dec coordinates.
+	 *
+	 * @note This function behaves essentially like the above function.
+	 * It differs only in the data types of its arguments.
+	 *
+	 * @param ra the new right ascension
+	 * @param dec the new declination
+	 */
+	Q_INVOKABLE void setDestinationByCoordinates( double ra, double dec ) const;
 
 private:
 	SkyMap * mSkyMap;

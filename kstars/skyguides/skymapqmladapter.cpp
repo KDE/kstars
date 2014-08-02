@@ -34,7 +34,21 @@ void SkyMapQmlAdapter::setFocusByCoordinates( double ra, double dec ) const
 
 void SkyMapQmlAdapter::setFocusBySkyObjectName(const QString & name) const
 {
-	SkyObject * obj = SkyDataQmlAdapter::findSkyObjectByName(name); 
+	SkyObject * obj = SkyDataQmlAdapter::findSkyObjectByName(name);
 	if(obj)
 		mSkyMap->setFocus(obj);
+}
+
+void SkyMapQmlAdapter::setDestinationByCoordinates( double ra, double dec ) const
+{
+	dms dRa(ra);
+	dms dDec(dec);
+	mSkyMap->setDestination( dRa, dDec );
+}
+
+void SkyMapQmlAdapter::setDestinationBySkyObjectName(const QString & name) const
+{
+	SkyObject * obj = SkyDataQmlAdapter::findSkyObjectByName(name);
+	if(obj)
+		mSkyMap->setDestination(*obj);
 }

@@ -25,9 +25,12 @@ Rectangle
 			QtObject
 			{
 				WebView.windowObjectName: "skymap"
+				function setDestinationBySkyObjectName(name) { skymap.setDestinationBySkyObjectName(name) }
+				function setDestinationByCoordinates( ra, dec ) { skymap.setDestinationByCoordinates( ra, dec ) }
 				function setFocusBySkyObjectName(name) { skymap.setFocusBySkyObjectName(name) }
 				function setFocusByCoordinates( ra, dec ) { skymap.setFocusByCoordinates( ra, dec ) }
 				function setZoomFactor(factor) { skymap.setZoomFactor(factor) }
+				function zoomFactor() { skyMap.zoomFactor() }
 				function zoomIn() { skymap.zoomIn() }
 				function zoomOut() { skymap.zoomOut() }
 				function zoomDefault() { skyMap.zoomDefault() }

@@ -16,15 +16,28 @@
 	<body>
 		<table>
 			<tr>
-				<td bgcolor="grey" onclick="sunDataMe(this)">Click to see Sun Ascention Declination and Magnitude</td>
-				<td bgcolor="red" onclick="window.skymap.setZoomFactor(300)">Set zoom factor to 300</td>
 				<td bgcolor="yellow" onclick="window.skymap.setFocusByCoordinates( 10, 10 )">setFocusByCoordinates( 10, 10 )</td>
 				<td bgcolor="orange" onclick="window.skymap.setFocusByCoordinates( 100, 100 )">setFocusByCoordinates( 100, 100 )</td>
 			</tr>
 			<tr>
-				<td bgcolor="orange" onclick="window.skymap.setFocusBySkyObjectName(&quot;Aldebaran&quot;)">setFocusBySkyObjectName(&quot;Aldebaran&quot;)</td>
-				<td bgcolor="green" onclick="window.skymap.setZoomFactor(3000)">Set zoom factor to 3000</td>
+				<td bgcolor="green" onclick="window.skymap.setFocusBySkyObjectName(&quot;Aldebaran&quot;)">setFocusBySkyObjectName(&quot;Aldebaran&quot;)</td>
+				<td bgcolor="magenta" onclick="window.skymap.setFocusBySkyObjectName(&quot;Mars&quot;)">setFocusBySkyObjectName(&quot;Mars&quot;)</td>
+			</tr>
+			<tr>
+				<td bgcolor="grey" onclick="sunDataMe(this)">Click to see Sun Ascention Declination and Magnitude</td>
 				<td bgcolor="yellow" onclick="window.skymap.forceUpdate()">forceUpdate()</td>
+			</tr>
+			<tr>
+				<td bgcolor="aqua" onclick="window.skymap.setDestinationBySkyObjectName(&quot;Betelgeuse&quot;)">setDestinationBySkyObjectName(&quot;Betelgeuse&quot;)</td>
+				<td bgcolor="coral" onclick="window.skymap.setDestinationBySkyObjectName(&quot;Sirius&quot;)">setDestinationBySkyObjectName(&quot;Sirius&quot;)</td>
+			</tr>
+			<tr>
+				<td bgcolor="#8FBC8F" onclick="window.skymap.setDestinationByCoordinates( 10, 100 )">setDestinationByCoordinates( 10, 100 )</td>
+				<td bgcolor="#CD5C5C" onclick="window.skymap.setDestinationByCoordinates( 100, 10 )">setDestinationByCoordinates( 100, 10 )</td>
+			</tr>
+			<tr>
+				<td bgcolor="red" onclick="window.skymap.setZoomFactor(300)">Set zoom factor to 300</td>
+				<td bgcolor="green" onclick="window.skymap.setZoomFactor(3000)">Set zoom factor to 3000</td>
 			</tr>
 		</table>
 	</body>
