@@ -55,12 +55,6 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 	start_x2 = start_y2 = 0;
 	end_x2 = end_y2 = 0;
 
-    ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
-    ui.checkBox_AutoMode->setChecked( Options::useAutoMode() );
-    ui.checkBox_TwoAxis->setChecked( Options::useTwoAxis());
-    ui.checkBox_DarkFrame->setChecked(Options::useDarkFrame());
-    ui.spinBox_DriftTime->setValue( Options::autoModeIterations() );
-
     ui.spinBox_DriftTime->setVisible( true );
     ui.progressBar->setVisible( false );
 	ui.spinBox_ReticleAngle->setMaximum( 360 );
@@ -77,10 +71,15 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 	connect( ui.spinBox_ReticleAngle,	SIGNAL(valueChanged(double)),	this, SLOT(onReticleAngChanged(double)) );
     connect( ui.pushButton_StartCalibration, SIGNAL(clicked()), 		this, SLOT(onStartReticleCalibrationButtonClick()) );
 	connect( ui.checkBox_AutoMode, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
-
     connect (ui.checkBox_DarkFrame, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
-
     connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
+
+    ui.checkBox_DarkFrame->setChecked(Options::useDarkFrame());
+    ui.checkBox_AutoMode->setChecked( Options::useAutoMode() );
+    ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
+    ui.checkBox_TwoAxis->setChecked( Options::useTwoAxis());
+    ui.spinBox_DriftTime->setValue( Options::autoModeIterations() );
+
 
     idleColor.setRgb(200,200,200);
     okColor = Qt::green;
@@ -267,8 +266,6 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 	}
 
     ui.progressBar->setVisible(true);
-
-    pmain_wnd->setUseDarkFrame(ui.checkBox_DarkFrame->isChecked());
 
 	// automatic
 	if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
