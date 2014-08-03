@@ -9,6 +9,7 @@
   <name xml:lang="en-GB">KStars</name>
   <name xml:lang="es">KStars</name>
   <name xml:lang="et">KStars</name>
+  <name xml:lang="fi">KStars</name>
   <name xml:lang="lt">KStars</name>
   <name xml:lang="nds">KStars</name>
   <name xml:lang="nl">KStars</name>
@@ -26,6 +27,7 @@
   <summary xml:lang="en-GB">Desktop Planetarium</summary>
   <summary xml:lang="es">Planetario para el escritorio</summary>
   <summary xml:lang="et">Töölaua planetaarium</summary>
+  <summary xml:lang="fi">Työpöytäplanetaario</summary>
   <summary xml:lang="lt">Darbastalio planetariumas</summary>
   <summary xml:lang="nds">Planetarium för den Schriefdisch</summary>
   <summary xml:lang="nl">Planetarium op uw bureaublad</summary>
@@ -57,6 +59,7 @@
     <p xml:lang="en-GB">Astronomical Catalogues:</p>
     <p xml:lang="es">Catálogos astronómicos:</p>
     <p xml:lang="et">Tähekataloogid:</p>
+    <p xml:lang="fi">Tähtitieteelliset luettelot:</p>
     <p xml:lang="nds">Astronoomsch Katalogen:</p>
     <p xml:lang="nl">Astronomische catalogi:</p>
     <p xml:lang="pl">Katalogi astronomiczne:</p>
@@ -74,6 +77,7 @@
       <li xml:lang="en-GB">default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="es">el catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="et">vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
+      <li xml:lang="fi">oletusluettelo sisältää tähdet suuruusluokkaan 8 saakka</li>
       <li xml:lang="nds">Standardkataloog mit Steerns bet Magnituud 8</li>
       <li xml:lang="nl">standaard catalogus bevat sterren tot magnitude 8</li>
       <li xml:lang="pl">domyślny katalog zawierający gwiazdy wielkości 8</li>
@@ -90,6 +94,7 @@
       <li xml:lang="en-GB">extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="et">lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
+      <li xml:lang="fi">lisäluettelo sisältää 100 miljoonaa tähteä suuruusluokkaan 16 saakka</li>
       <li xml:lang="nds">Bito-Katalogen mit 100 Millionen Steerns bet Magnituud 16</li>
       <li xml:lang="nl">extra catalogi die 100 miljoen sterren bevatten tot magnitude 16</li>
       <li xml:lang="pl">ekstra katalogi zawierające 100 milionów gwiazd wielkości 16</li>
@@ -105,6 +110,7 @@
       <li xml:lang="en-GB">downloadable catalogues including Messier Images, Abell Planetary Nebulae</li>
       <li xml:lang="es">los catálogos que puede descargar contienen imágenes de objetos Messier, nebulosas planetarias Abell</li>
       <li xml:lang="et">allalaaditavad kataloogid, sealhulgas Messieri pildid, Abelli planetaarudukogud</li>
+      <li xml:lang="fi">ladattavia luetteloita kuten Messier-kuvat ja Abell planetaariset sumut</li>
       <li xml:lang="nds">Daallaadbor Katalogen mit Messier-Biller un Abell sien planetaarsch Nevels</li>
       <li xml:lang="nl">te downloaden catalogi, onder andere Messier-afbeeldingen, Abell Planetaire nevels.</li>
       <li xml:lang="pl">katalogi do pobrania zawierające obrazy Messier, Mgławicę planetarną Abell</li>
@@ -120,6 +126,7 @@
       <li xml:lang="en-GB">corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="es">correcciones de precesión, nutación y refracción atmosférica</li>
       <li xml:lang="et">pretsessiooni, nutatsiooni ja atmosfääri refraktsiooni korrigeerimine</li>
+      <li xml:lang="fi">korjaukset presessiolle, nutaatiolle ja ilmakehätaittumiselle</li>
       <li xml:lang="nds">Richten för Küselbewegen, Eerass-Swunken un atmosfeersch Lichtbreken</li>
       <li xml:lang="nl">correcties voor precessie, nutatie en atmosferische straalbreking</li>
       <li xml:lang="pl">poprawki do precesji, nutacji i załamania atmosferycznego</li>
@@ -135,6 +142,7 @@
       <li xml:lang="en-GB">tools for retrieval of data from online databases</li>
       <li xml:lang="es">herramientas de obtención de datos de bases de datos en línea</li>
       <li xml:lang="et">võimalus hankida andmeid võrguandmebaasidest</li>
+      <li xml:lang="fi">työkalut aineiston hakemiseen verkossa olevista tietokannoista</li>
       <li xml:lang="nds">Warktüüch för't Halen vun Daten ut Tokoppel-Datenbanken</li>
       <li xml:lang="nl">hulpmiddelen voor het verkrijgen van gegevens uit gegevensbanken op het internet</li>
       <li xml:lang="pl">narzędzia do pobierania danych z internetowych baz danych</li>
