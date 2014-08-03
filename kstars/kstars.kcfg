@@ -1291,6 +1291,26 @@
       <label>Always load device default configuration upon successful connection?</label>
       <default>false</default>
     </entry>
+    <entry name="PlayFITSAlarm" type="Bool">
+      <label>Play notification alarm whenever a new FITS is recieved.</label>
+      <default>false</default>
+    </entry>
+    <entry name="PlayCCDAlarm" type="Bool">
+      <label>Play notifications alarms in the CCD module.</label>
+      <default>true</default>
+    </entry>
+    <entry name="PlayFocusAlarm" type="Bool">
+      <label>Play notifications alarms in the focus module.</label>
+      <default>true</default>
+    </entry>
+    <entry name="PlayGuideAlarm" type="Bool">
+      <label>Play notifications alarms in the CCD module.</label>
+      <default>true</default>
+    </entry>
+    <entry name="PlayAlignmentAlarm" type="Bool">
+      <label>Play notifications alarms in the CCD module.</label>
+      <default>true</default>
+    </entry>
     <entry name="astrometrySolver" type="String">
       <label>astrometry.net solve-field binary</label>
       <whatsthis>Path to astrometry.net solver location.</whatsthis>

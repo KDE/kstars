@@ -26,6 +26,7 @@
 #include "fitsview.h"
 #include "fitshistogram.h"
 #include "fitsviewer.h"
+#include "kstars.h"
 
 #include "ui_statform.h"
 #include "ui_fitsheaderdialog.h"

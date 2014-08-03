@@ -488,6 +488,7 @@ target_link_libraries(KStarsLib
         ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
+        ${KDE4_PHONON_LIBS}
     ${QT_QTDECLARATIVE_LIBRARY}
     kdeclarative
 	${ZLIB_LIBRARIES}

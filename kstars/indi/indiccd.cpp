@@ -29,6 +29,8 @@
 #include "indiccd.h"
 #include "kstars.h"
 
+#include <ekos/ekosmanager.h>
+
 #include "Options.h"
 
 const int MAX_FILENAME_LEN = 1024;
@@ -1035,6 +1037,9 @@ void CCD::processBLOB(IBLOB* bp)
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
+
+    if (Options::playFITSAlarm() && KStars::Instance()->ekosManager())
+        KStars::Instance()->ekosManager()->playFITS();
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {
