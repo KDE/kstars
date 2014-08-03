@@ -31,7 +31,7 @@ public:
 
     void guide( void );
     void start();
-    void abort();
+    void abort(bool silence=false);
     bool dither();
     void set_half_refresh_rate( bool is_half );
     bool is_guiding( void ) const;
@@ -43,7 +43,8 @@ public:
     void set_target_chip(ISD::CCDChip *chip);
     bool isRapidGuide() { return useRapidGuide;}
     bool is_dithering() { return isDithering; }
-    double get_ao_limit();    
+    double get_ao_limit();
+    void set_subframed(bool enable) { is_subframed = enable;}
 
 public slots:
     void set_dec_swap(bool enable);

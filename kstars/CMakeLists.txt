@@ -495,6 +495,7 @@ target_link_libraries(KStarsLib
         Qt5::PrintSupport
         Qt5::Sql
         Qt5::Svg
+        Qt5::Multimedia
 	${ZLIB_LIBRARIES}
         )
 

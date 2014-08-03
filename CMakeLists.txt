@@ -16,7 +16,7 @@ find_package(ECM 0.0.9 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg OpenGL PrintSupport Test)
+find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg OpenGL PrintSupport Multimedia Test)
 include(KDEInstallDirs)
 include(KDECompilerSettings)
 include(KDECMakeSettings)

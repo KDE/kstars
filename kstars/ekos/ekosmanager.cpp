@@ -35,8 +35,6 @@ EkosManager::EkosManager()
     setupUi(this);
 
     nDevices=0;
-    //useGuiderFromCCD=false;
-    //useFilterFromCCD=false;
     useGuideHead    =false;
     useST4          =false;
     ccdStarted      =false;
@@ -91,6 +89,14 @@ EkosManager::EkosManager()
     else
         initRemoteDrivers();
 
+    playFITSFile  = new QMediaPlayer();
+    playFITSFile->setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-fits.ogg" )));
+
+    playOkFile    = new QMediaPlayer();
+    playOkFile->setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-ok.ogg" )));
+
+    playErrorFile = new QMediaPlayer();
+    playErrorFile->setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-error.ogg" )));
 }
 
 EkosManager::~EkosManager()
@@ -98,6 +104,10 @@ EkosManager::~EkosManager()
     delete captureProcess;
     delete focusProcess;
     delete guideProcess;
+    delete alignProcess;
+    delete playFITSFile;
+    delete playOkFile;
+    delete playErrorFile;
 }
 
 void EkosManager::processINDIModeChange()
@@ -1409,6 +1419,22 @@ bool EkosManager::isRunning(const QString &process)
   ps.waitForFinished();
   QString output = ps.readAllStandardOutput();
   return output.startsWith(process);
+}
+
+void EkosManager::playFITS()
+{
+    playFITSFile->play();
+}
+
+void EkosManager::playOk()
+{
+   playOkFile->play();
+
+}
+
+void EkosManager::playError()
+{
+   playErrorFile->play();
 }
 
 

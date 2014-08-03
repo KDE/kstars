@@ -22,6 +22,7 @@
 
 #include <QDialog>
 #include <QHash>
+#include <QtMultimedia/QMediaPlayer>
 
 class DriverInfo;
 class ClientManager;
@@ -37,6 +38,10 @@ public:
 
     void appendLogText(const QString &);
     void refreshRemoteDrivers();
+
+    void playFITS();
+    void playOk();
+    void playError();
 
 public slots:
     void processINDI();
@@ -86,8 +91,6 @@ public slots:
     void processRemoteDevice(ISD::GDInterface*);
     bool isRunning(const QString &process);
 
-    //bool useGuiderFromCCD;
-    //bool useFilterFromCCD;
     bool useGuideHead;
     bool useST4;
     bool guideStarted;
@@ -102,18 +105,14 @@ public slots:
     Ekos::Align *alignProcess;
 
     QString guiderName;
-
-
     bool localMode;
 
     unsigned short nDevices;
     QList<DriverInfo *> managedDevices;
-
     QHash<QString, DriverInfo *> driversList;
-
     QStringList logText;
 
-
+    QMediaPlayer *playFITSFile, *playOkFile, *playErrorFile;
 
 };
 

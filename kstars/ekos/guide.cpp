@@ -287,6 +287,13 @@ bool Guide::capture()
         return false;
     }
 
+    //If calibrating, reset frame
+    if (calibration->get_calibation_stage() == rcalibration::CAL_CAPTURE_IMAGE)
+    {
+        targetChip->resetFrame();
+        guider->set_subframed(false);
+    }
+
     // Exposure changed, take a new dark
     if (useDarkFrame && darkExposure != seqExpose)
     {
@@ -606,7 +613,7 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 void Guide::stopGuiding()
 {
     isSuspended=false;
-    guider->abort();
+    guider->abort(true);
 }
 
 void Guide::setSuspended(bool enable)

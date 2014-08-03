@@ -26,6 +26,9 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
 
+#include "ekosmanager.h"
+#include "kstars.h"
+
 #ifdef HAVE_QJSON
 #include "onlineastrometryparser.h"
 #endif
@@ -324,8 +327,6 @@ void Align::syncCCDInfo()
         targetChip->getMaxBin(&binx, &biny);
         kcfg_solverXBin->setMaximum(binx);
         kcfg_solverYBin->setMaximum(biny);
-        kcfg_solverXBin->setValue(Options::solverXBin());
-        kcfg_solverYBin->setValue(Options::solverYBin());
     }
     else
     {
@@ -513,6 +514,8 @@ bool Align::capture()
     if (currentCCD->isConnected() == false)
     {
         appendLogText(xi18n("Error: Lost connection to CCD."));
+        if (Options::playAlignmentAlarm())
+                KStars::Instance()->ekosManager()->playError();
         return false;
     }
 
@@ -594,12 +597,17 @@ void Align::solverFinished(double orientation, double ra, double dec)
      SolverRAOut->setText(ra_dms);
      SolverDecOut->setText(dec_dms);
 
+     if (Options::playAlignmentAlarm())
+             KStars::Instance()->ekosManager()->playOk();
+
      executeMode();
 
 }
 
 void Align::solverFailed()
 {
+    if (Options::playAlignmentAlarm())
+            KStars::Instance()->ekosManager()->playError();
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);

@@ -32,7 +32,7 @@ void SkyObjDescription::fileDownloaded(QNetworkReply* reply)
 
         const QString descOpeing( "<Description xml:space=\"preserve\">" );
         const QString descClosing( "</Description>" );
-        // retrieving description from recieved data
+        // retrieving description from received data
         if(data.contains( "description", Qt::CaseInsensitive ) )
         {
             int startIndex = data.lastIndexOf( descOpeing ) + descOpeing.length();

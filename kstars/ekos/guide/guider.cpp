@@ -20,8 +20,9 @@
 
 #include "scroll_graph.h"
 #include "gmath.h"
-
 #include "fitsviewer/fitsview.h"
+#include "../ekosmanager.h"
+#include "kstars.h"
 
 #include "Options.h"
 
@@ -455,6 +456,8 @@ void rguider::capture()
         pmath->set_video_params(w, h);
 
         targetChip->setFrame(x, y, w, h);
+
+        guideStarSelected(w/2, h/2);
     }
     else if (ui.kfcg_guideSubFrame->isChecked() == false/* && is_subframed == true*/)
     {
@@ -611,10 +614,18 @@ void rguider::start()
 
 }
 
-void rguider::abort()
+void rguider::abort(bool silence)
 {
     if (is_started == true)
+    {
         onStartStopButtonClick();
+
+        if (silence)
+            return;
+
+        if (Options::playGuideAlarm())
+                KStars::Instance()->ekosManager()->playError();
+    }
 }
 
 bool rguider::dither()

@@ -60,6 +60,7 @@ install( FILES kstars.png geomap.png
         classic.colors moonless-night.colors night.colors 
         tips TZrules.dat valaav.txt Interesting.dat PlanetFacts.dat
     advinterface.dat satellites.dat	histogram.png noimage.png glossary.xml defaultflag.gif
+    ekos-ok.ogg ekos-error.ogg ekos-fits.ogg
 	DESTINATION  ${DATA_INSTALL_DIR}/kstars 
 )
 
