@@ -90,15 +90,9 @@ EkosManager::EkosManager()
     else
         initRemoteDrivers();
 
-    playFITSFile = new Phonon::MediaObject();
-    playFITSFile->setCurrentSource( KStandardDirs::locate( "appdata", "ekos-fits.ogg" ));
-
-    playOkFile = new Phonon::MediaObject();
-    playOkFile->setCurrentSource(KStandardDirs::locate( "appdata", "ekos-ok.ogg" ));
-
-    playErrorFile = new Phonon::MediaObject();
-    playErrorFile->setCurrentSource(KStandardDirs::locate( "appdata", "ekos-error.ogg" ));
-
+    playFITSFile = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(QUrl(KStandardDirs::locate( "appdata", "ekos-fits.ogg" ))));
+    playOkFile = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(QUrl(KStandardDirs::locate( "appdata", "ekos-ok.ogg" ))));
+    playErrorFile = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(QUrl(KStandardDirs::locate( "appdata", "ekos-error.ogg" ))));
 }
 
 EkosManager::~EkosManager()

@@ -31,7 +31,7 @@ public:
 
     void guide( void );
     void start();
-    void abort();
+    void abort(bool silence=false);
     bool dither();
     void set_half_refresh_rate( bool is_half );
     bool is_guiding( void ) const;

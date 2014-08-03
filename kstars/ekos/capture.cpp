@@ -19,6 +19,8 @@
 #include "indi/clientmanager.h"
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
+#include "kstars.h"
+#include "ekosmanager.h"
 
 #include "QProgressIndicator.h"
 
@@ -389,7 +391,11 @@ void Capture::stopSequence()
     if (activeJob)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
+        {
+            if (Options::playCCDAlarm())
+                KStars::Instance()->ekosManager()->playError();
             activeJob->abort();
+        }
 
         activeJob->reset();
     }
@@ -716,12 +722,18 @@ void Capture::newFITS(IBLOB *bp)
 
         if (next_job)
             executeJob(next_job);
-        else if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
+        else
         {
-            appendLogText(i18n("Parking telescope..."));
-            emit telescopeParking();
-            currentTelescope->Park();
-            return;
+            if (Options::playCCDAlarm())
+                    KStars::Instance()->ekosManager()->playOk();
+
+            if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
+            {
+                appendLogText(i18n("Parking telescope..."));
+                emit telescopeParking();
+                currentTelescope->Park();
+                return;
+            }
         }
 
         //Resume guiding if it was suspended before
@@ -1088,7 +1100,7 @@ void Capture::removeJob()
     queueTable->removeRow(currentRow);
 
     SequenceJob *job = jobs.at(currentRow);
-    jobs.removeAt(currentRow);
+    jobs.removeOne(job);
     delete (job);
 
     if (queueTable->rowCount() == 0)
@@ -1658,10 +1670,10 @@ void Capture::resetJobs()
                                            "reset_job_status_warning") !=KMessageBox::Continue)
         return;
 
-    stopSequence();
-
     foreach(SequenceJob *job, jobs)
         job->resetStatus();
+
+    stopSequence();    
 }
 
 void Capture::editJob(QModelIndex i)

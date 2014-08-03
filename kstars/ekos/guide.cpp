@@ -613,7 +613,7 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 void Guide::stopGuiding()
 {
     isSuspended=false;
-    guider->abort();
+    guider->abort(true);
 }
 
 void Guide::setSuspended(bool enable)

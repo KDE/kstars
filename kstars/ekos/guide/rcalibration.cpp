@@ -25,6 +25,10 @@
 #include "../fitsviewer/fitsviewer.h"
 #include "../fitsviewer/fitsview.h"
 
+#include "../ekosmanager.h"
+
+#include "kstars.h"
+
 #undef MIN
 #undef MAX
 
@@ -381,6 +385,8 @@ void rcalibration::calibrate_reticle_manual( void )
                         pmain_wnd->appendLogText(i18n("DEC swap disabled."));
 
                     pmain_wnd->appendLogText(i18n("Calibration completed."));
+                    if (Options::playGuideAlarm())
+                            KStars::Instance()->ekosManager()->playOk();
                     calibrationStage = CAL_FINISH;
 
                    pmain_wnd->setDECSwap(dec_swap);
@@ -401,11 +407,15 @@ void rcalibration::calibrate_reticle_manual( void )
                 calibrationStage = CAL_FINISH;
 				fill_interface();
                 pmain_wnd->appendLogText(i18n("Calibration completed."));
+                if (Options::playGuideAlarm())
+                        KStars::Instance()->ekosManager()->playOk();
 			}
 			else
 			{
                 calibrationStage = CAL_ERROR;
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
+                if (Options::playGuideAlarm())
+                        KStars::Instance()->ekosManager()->playError();
 			}
 		}
 
@@ -531,6 +541,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             calibrationStage = CAL_ERROR;
             QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+            if (Options::playGuideAlarm())
+                    KStars::Instance()->ekosManager()->playError();
             reset();
             break;
         }
@@ -557,13 +569,16 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             fill_interface();
             pmain_wnd->appendLogText(i18n("Calibration completed."));
             ui.startCalibrationLED->setColor(okColor);
-
+            if (Options::playGuideAlarm())
+                    KStars::Instance()->ekosManager()->playError();
         }
         else
         {
             QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
             ui.startCalibrationLED->setColor(alertColor);
             calibrationStage = CAL_ERROR;
+            if (Options::playGuideAlarm())
+                    KStars::Instance()->ekosManager()->playError();
         }
 
         reset();
@@ -633,6 +648,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
         calibrationStage = CAL_ERROR;
         QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+        if (Options::playGuideAlarm())
+                KStars::Instance()->ekosManager()->playError();
         reset();
         break;
     }
@@ -647,10 +664,11 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             pmain_wnd->appendLogText(i18n("DEC swap enabled."));
         else
             pmain_wnd->appendLogText(i18n("DEC swap disabled."));
-        pmain_wnd->appendLogText(i18n("Calibration completed."));
+        pmain_wnd->appendLogText(i18n("Calibration completed."));        
         ui.startCalibrationLED->setColor(okColor);
-
         pmain_wnd->setDECSwap(swap_dec);
+        if (Options::playGuideAlarm())
+                KStars::Instance()->ekosManager()->playOk();
 
     }
     else
@@ -658,6 +676,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
+        if (Options::playGuideAlarm())
+                KStars::Instance()->ekosManager()->playError();
     }
 
     reset();

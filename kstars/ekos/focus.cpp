@@ -23,6 +23,9 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
+#include "ekosmanager.h"
+
+#include "kstars.h"
 
 #include <basedevice.h>
 
@@ -58,6 +61,8 @@ Focus::Focus()
     pulseDuration = 1000;
 
     fx=fy=fw=fh=0;
+    lastLockFilterPos=-1;
+
 
     deltaHFR = 0;
 
@@ -227,7 +232,11 @@ void Focus::checkFilter(int filterNum)
     if (lockFilterCheck->isChecked() == false)
         FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value-1);
     else
+    {
+        if (lastLockFilterPos < 0)
+            lastLockFilterPos = filterSlot->np[0].value-1;
         FilterPosCombo->setCurrentIndex(lastLockFilterPos);
+    }
 
 }
 
@@ -741,6 +750,8 @@ void Focus::autoFocusAbs(double currentHFR)
         appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
         emit autoFocusFinished(false);
+        if (Options::playFocusAlarm())
+                KStars::Instance()->ekosManager()->playError();
         return;
     }
 
@@ -826,7 +837,9 @@ void Focus::autoFocusAbs(double currentHFR)
                     appendLogText(i18n("Autofocus complete."));
                     stopFocus();
                     emit suspendGuiding(false);
-                    emit autoFocusFinished(true);                    
+                    emit autoFocusFinished(true);
+                    if (Options::playFocusAlarm())
+                            KStars::Instance()->ekosManager()->playOk();
                 }
                 break;
             }
@@ -1011,6 +1024,8 @@ void Focus::autoFocusAbs(double currentHFR)
             stopFocus();
             emit suspendGuiding(false);
             emit autoFocusFinished(true);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playOk();
             return;
         }
 
@@ -1020,6 +1035,8 @@ void Focus::autoFocusAbs(double currentHFR)
             appendLogText(i18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
             emit autoFocusFinished(false);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playError();
             return;
         }
 
@@ -1033,6 +1050,8 @@ void Focus::autoFocusAbs(double currentHFR)
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
             stopFocus();
             emit autoFocusFinished(false);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playError();
             #ifdef FOCUS_DEBUG
             qDebug() << "Maximum travel limit reached. Autofocus aborted." << endl;
             #endif
@@ -1074,6 +1093,8 @@ void Focus::autoFocusRel(double currentHFR)
         appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         stopFocus();
         emit autoFocusFinished(false);
+        if (Options::playFocusAlarm())
+                KStars::Instance()->ekosManager()->playError();
         return;
     }
 
@@ -1106,6 +1127,8 @@ void Focus::autoFocusRel(double currentHFR)
                 stopFocus();
                 emit suspendGuiding(false);
                 emit autoFocusFinished(true);
+                if (Options::playFocusAlarm())
+                        KStars::Instance()->ekosManager()->playOk();
                 break;
             }
             else if (currentHFR < HFR)
@@ -1157,6 +1180,8 @@ void Focus::autoFocusRel(double currentHFR)
             appendLogText(i18n("Autofocus complete."));
             emit suspendGuiding(false);
             emit autoFocusFinished(true);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playOk();
             stopFocus();
             break;
         }
@@ -1221,6 +1246,8 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                appendLogText(i18n("Focuser error, check INDI panel."));
                emit autoFocusFinished(false);
                stopFocus();
+               if (Options::playFocusAlarm())
+                       KStars::Instance()->ekosManager()->playError();
            }
 
        }
@@ -1239,6 +1266,8 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
                 stopFocus();
+                if (Options::playFocusAlarm())
+                        KStars::Instance()->ekosManager()->playError();
                 emit autoFocusFinished(false);
             }
 
