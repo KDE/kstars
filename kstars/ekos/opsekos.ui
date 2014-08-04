@@ -132,16 +132,16 @@
    <item>
     <widget class="QGroupBox" name="groupBox_5">
      <property name="title">
-      <string>Audiable Alarms</string>
+      <string>Audible Alarms</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
        <widget class="QCheckBox" name="kcfg_PlayFITSAlarm">
         <property name="toolTip">
-         <string>Play notification alarm whenever a new FITS is recieved.</string>
+         <string>Play notification alarm whenever a new FITS is received.</string>
         </property>
         <property name="text">
-         <string>When FITS is recieved.</string>
+         <string>When FITS is received.</string>
         </property>
        </widget>
       </item>

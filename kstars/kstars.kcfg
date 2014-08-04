@@ -1292,7 +1292,7 @@
       <default>false</default>
     </entry>
     <entry name="PlayFITSAlarm" type="Bool">
-      <label>Play notification alarm whenever a new FITS is recieved.</label>
+      <label>Play notification alarm whenever a new FITS is received.</label>
       <default>false</default>
     </entry>
     <entry name="PlayCCDAlarm" type="Bool">
