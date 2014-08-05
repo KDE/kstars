@@ -1292,7 +1292,7 @@
       <default>false</default>
     </entry>
     <entry name="PlayFITSAlarm" type="Bool">
-      <label>Play notification alarm whenever a new FITS is recieved.</label>
+      <label>Play notification alarm whenever a new FITS is received.</label>
       <default>false</default>
     </entry>
     <entry name="PlayCCDAlarm" type="Bool">
@@ -1526,7 +1526,7 @@
         <entry name="DECMinimumPulse" type="UInt">
              <default>100</default>
         </entry>
-        <entry name="Guiding Rate" type="Double">
+        <entry name="GuidingRate" type="Double">
              <default>0.5</default>
         </entry>
     </group>
