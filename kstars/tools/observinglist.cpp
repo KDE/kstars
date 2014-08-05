@@ -34,6 +34,7 @@
 #include <QStandardPaths>
 #include <QTextEdit>
 #include <QLineEdit>
+#include <QStandardPaths>
 
 #include <KPlotting/KPlotAxis>
 #include <KPlotting/KPlotObject>
@@ -66,7 +67,6 @@
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
-#include <QStandardPaths>
 #include "indi/indilistener.h"
 #include "indi/drivermanager.h"
 #include "indi/driverinfo.h"
