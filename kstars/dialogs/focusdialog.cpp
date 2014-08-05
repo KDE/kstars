@@ -20,8 +20,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <KLocalizedString>
-#include <kmessagebox.h>
-#include <knumvalidator.h>
+#include <KMessageBox>
 
 #include "kstars.h"
 #include "kstarsdata.h"
