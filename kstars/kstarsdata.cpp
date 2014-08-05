@@ -21,12 +21,11 @@
 #include <QFileInfo>
 #include <QSet>
 #include <QTextStream>
-
-#include <kcomponentdata.h>
-#include <kmessagebox.h>
 #include <QDebug>
-#include <KLocalizedString>
 #include <QStandardPaths>
+
+#include <KMessageBox>
+#include <KLocalizedString>
 
 #include "Options.h"
 #include "dms.h"
