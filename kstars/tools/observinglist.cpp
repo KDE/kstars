@@ -37,9 +37,7 @@
 
 #include <KPlotting/KPlotAxis>
 #include <KPlotting/KPlotObject>
-#include <kinputdialog.h>
-#include <kmessagebox.h>
-
+#include <KMessageBox>
 
 #include "ksalmanac.h"
 #include "obslistwizard.h"

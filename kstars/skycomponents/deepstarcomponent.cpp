@@ -39,7 +39,6 @@
 
 #include "skypainter.h"
 
-//#include <kde_file.h>
 #include "byteorder.h"
 
 DeepStarComponent::DeepStarComponent( SkyComposite *parent, QString fileName, float trigMag, bool staticstars ) :

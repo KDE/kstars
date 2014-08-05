@@ -20,6 +20,8 @@
 #endif
 #include "starcomponent.h"
 
+#include <qplatformdefs.h>
+
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -45,8 +47,6 @@
 #else
 #include "byteorder.h"
 #endif
-
-#include <kde_file.h>
 
 StarComponent *StarComponent::pinstance = 0;
 
@@ -396,12 +396,14 @@ bool StarComponent::loadStaticData()
         qDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
         return false;
     }
-    KDE_fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
+    //KDE_fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
+    QT_FSEEK(nameFile, nameReader.getDataOffset(), SEEK_SET);
     swapBytes = dataReader.getByteSwap();
 
     long int nstars = 0;
 
-    KDE_fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
+    //KDE_fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
+    QT_FSEEK(dataFile, dataReader.getDataOffset(), SEEK_SET);
 
     qint16 faintmag;
     quint8 htm_level;
@@ -548,14 +550,16 @@ StarObject *StarComponent::findByHDIndex( int HDnum ) {
         if( !hdidxFile )
             return 0;
         FILE *dataFile;
-        KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
+        //KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
+        QT_FSEEK(hdidxFile, (HDnum - 1) * 4, SEEK_SET);
         // TODO: Offsets need to be byteswapped if this is a big endian machine.
         // This means that the Henry Draper Index needs a endianness indicator.
         fread( &offset, 4, 1, hdidxFile );
         if( offset <= 0 )
             return 0;
         dataFile = m_DeepStarComponents.at( 1 )->getStarReader()->getFileHandle();
-        KDE_fseek( dataFile, offset, SEEK_SET );
+        //KDE_fseek( dataFile, offset, SEEK_SET );
+        QT_FSEEK(dataFile, offset, SEEK_SET);
         fread( &stardata, sizeof( starData ), 1, dataFile );
         if( m_DeepStarComponents.at( 1 )->getStarReader()->getByteSwap() ) {
             byteSwap( &stardata );

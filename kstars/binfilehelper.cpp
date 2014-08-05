@@ -18,8 +18,6 @@
 
 #include "binfilehelper.h"
 
-
-#include <kde_file.h>
 #include <QStandardPaths>
 #include "byteorder.h"
 
@@ -58,7 +56,7 @@ bool BinFileHelper::testFileExists( const QString &fileName ) {
     QString FilePath = QStandardPaths::locate(QStandardPaths::DataLocation, fileName );
     QByteArray b = FilePath.toLatin1();
     const char *filepath = b.data();
-    FILE *f  = KDE_fopen(filepath, "rb");
+    FILE *f  = fopen(filepath, "rb");
     if( f ) {
         fclose( f );
         return true;
@@ -73,7 +71,7 @@ FILE *BinFileHelper::openFile(const QString &fileName) {
     QByteArray b = FilePath.toLatin1();
     const char *filepath = b.data();
 
-    fileHandle = KDE_fopen(filepath, "rb");
+    fileHandle = fopen(filepath, "rb");
 
     if(!fileHandle) {
         errnum = ERR_FILEOPEN;
@@ -140,7 +138,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     quint32 nrecs;
     quint32 prev_nrecs;
 
-    itableOffset = KDE_ftell(fileHandle);
+    itableOffset = ftell(fileHandle);
 
     prev_offset = 0;
     prev_nrecs = 0;
@@ -191,7 +189,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
         prev_nrecs = nrecs;
     }
 
-    dataOffset = KDE_ftell(fileHandle);
+    dataOffset = ftell(fileHandle);
 
     indexUpdated = true;
 

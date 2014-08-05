@@ -22,8 +22,6 @@
 #include "skyobjects/deepstardata.h"
 #include "starcomponent.h"
 
-#include <kde_file.h>
-
 StarBlockList::StarBlockList( Trixel tr, DeepStarComponent *parent ) {
     trixel = tr;
     nStars = 0;
