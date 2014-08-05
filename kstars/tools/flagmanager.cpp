@@ -20,7 +20,7 @@
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 
 #include "Options.h"

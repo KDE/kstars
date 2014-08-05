@@ -25,7 +25,7 @@
 #include <QUrl>
 
 #include <KColorButton>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include "kstars.h"
 #include "kstarsdata.h"

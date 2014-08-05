@@ -13,7 +13,7 @@
 #include "indistd.h"
 #include "Options.h"
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <KLocalizedString>
 
 #include <QLocale>

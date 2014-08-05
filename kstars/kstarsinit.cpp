@@ -31,7 +31,7 @@
 #include <KToolBar>
 #include <KNewStuff3/kns3/knewstuffaction.h>
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include "Options.h"
 #include "fov.h"

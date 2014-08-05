@@ -40,7 +40,7 @@
 #include <KIconThemes/KIconLoader>
 #include <KToolBar>
 #include <KToolInvocation>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include "Options.h"
 #include "kstars.h"

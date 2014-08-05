@@ -34,7 +34,7 @@
 
 #include <KJobUiDelegate>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 {

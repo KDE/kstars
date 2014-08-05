@@ -28,7 +28,7 @@
 #include <QPushButton>
 #include <QTemporaryFile>
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <KToolInvocation>
 
 #include "kstars.h"

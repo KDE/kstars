@@ -38,7 +38,7 @@
 #include <QDebug>
 #include <klineedit.h>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 //#define HIST_LOG
 

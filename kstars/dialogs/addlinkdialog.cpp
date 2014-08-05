@@ -20,7 +20,7 @@
 #include <QPushButton>
 #include <QUrl>
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <KToolInvocation>
 
 #include "skyobjects/skyobject.h"

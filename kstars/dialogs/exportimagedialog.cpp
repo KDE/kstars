@@ -22,7 +22,7 @@
 #include "kstars/skyqpainter.h"
 #include "../imageexporter.h"
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kurl.h>
 
 #include <QtSvg/QSvgGenerator>

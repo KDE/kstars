@@ -32,7 +32,7 @@
 #include <QFileDialog>
 
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include "ksconjunct.h"
 #include "geolocation.h"

@@ -25,7 +25,7 @@
 #include <QTextStream>
 #include <QListWidget>
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <KLocalizedString>
 #include <QStandardPaths>

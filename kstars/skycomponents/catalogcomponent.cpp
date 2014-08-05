@@ -19,7 +19,7 @@
 
 #include <QDebug>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <QDir>
 #include <QFile>
 #include <QPixmap>

@@ -24,7 +24,7 @@
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>

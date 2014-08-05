@@ -32,7 +32,7 @@
 #include <KLocalizedString>
 #include <kcolorbutton.h>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include "kstars.h"
 #include "kstarsdata.h"

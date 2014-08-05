@@ -18,7 +18,7 @@
 
 #include <QFile>
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 
 #include "kstarsdata.h"

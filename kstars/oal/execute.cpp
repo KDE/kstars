@@ -20,7 +20,7 @@
 
 #include <QFile>
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <QFileDialog>
 #include "kstarsdata.h"
 #include "oal/observer.h"

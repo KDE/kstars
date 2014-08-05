@@ -25,7 +25,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QLocale>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <QDebug>
 #include <QComboBox>
 #include <QDialog>
