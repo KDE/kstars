@@ -18,7 +18,7 @@
 #include "opssolarsystem.h"
 #include "kstars.h"
 
-#include <kactioncollection.h>
+#include <KActionCollection>
 
 OpsSolarSystem::OpsSolarSystem( KStars *_ks )
         : QFrame( _ks ), ksw(_ks)

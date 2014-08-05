@@ -27,12 +27,12 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTemporaryFile>
+#include <QDebug>
 
 #include <KMessageBox>
 #include <KToolInvocation>
 
 #include "kstars.h"
-#include <QDebug>
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"

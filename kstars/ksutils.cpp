@@ -22,13 +22,11 @@
 #include "Options.h"
 
 #include <QFile>
-#include <qnumeric.h>
-
-
+#include <QtNumeric>
 #include <QUrl>
+#include <QStandardPaths>
 
 #include <cmath>
-#include <QStandardPaths>
 
 bool KSUtils::openDataFile( QFile &file, const QString &s ) {
     QString FileName = QStandardPaths::locate(QStandardPaths::DataLocation, s );

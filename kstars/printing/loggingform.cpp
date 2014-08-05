@@ -17,9 +17,10 @@
 
 #include "loggingform.h"
 
-#include "QTextDocument"
-#include "QTextTable"
+#include <QTextDocument>
+#include <QTextTable>
 #include <QtPrintSupport/QPrinter>
+
 #include "kstars.h"
 
 LoggingForm::LoggingForm()

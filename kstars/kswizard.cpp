@@ -20,8 +20,7 @@
 #include <QFile>
 #include <QStackedWidget>
 #include <QPixmap>
-
-#include <klineedit.h>
+#include <QLineEdit>
 #include <QPushButton>
 #include <kns3/downloaddialog.h>
 #include <QStandardPaths>

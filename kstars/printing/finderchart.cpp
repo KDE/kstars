@@ -17,12 +17,13 @@
 
 #include "finderchart.h"
 
-#include "QTextDocument"
-#include "QTextDocumentFragment"
-#include "QTextTable"
-#include "QTextDocumentWriter"
+#include <QTextDocument>
+#include <QTextDocumentFragment>
+#include <QTextTable>
+#include <QTextDocumentWriter>
 #include <QtSvg/QSvgGenerator>
-#include "QPainter"
+#include <QPainter>
+
 #include "kstars.h"
 #include "loggingform.h"
 #include "detailstable.h"

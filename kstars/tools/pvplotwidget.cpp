@@ -19,7 +19,7 @@
 #include <cmath> //for sqrt()
 
 #include <QApplication>
-#include <qglobal.h>
+#include <QtGlobal>
 #include <KPlotObject>
 #include <KPlotPoint>
 

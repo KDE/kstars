@@ -17,6 +17,10 @@
 
 #include "printingwizard.h"
 
+#include <QStackedWidget>
+#include <QtPrintSupport/QPrinter>
+#include <QStandardPaths>
+
 #include "finderchart.h"
 #include "loggingform.h"
 #include "detailstable.h"
@@ -34,9 +38,6 @@
 #include "kstars/kstarsdata.h"
 #include "skymap.h"
 #include "legend.h"
-#include "QStackedWidget"
-#include <QtPrintSupport/QPrinter>
-#include "QStandardPaths"
 #include "shfovexporter.h"
 #include "Options.h"
 

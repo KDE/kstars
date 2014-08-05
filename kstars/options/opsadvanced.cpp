@@ -17,8 +17,8 @@
 
 #include "opsadvanced.h"
 
-#include <qlabel.h>
-#include <qcheckbox.h>
+#include <QLabel>
+#include <QCheckBox>
 
 #include "Options.h"
 #include "kstars.h"

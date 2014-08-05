@@ -20,7 +20,7 @@
 
 #include <KLocalizedString>
 #include <QPushButton>
-#include <kdatepicker.h>
+#include <KDatePicker>
 
 #include <QFrame>
 #include <QVBoxLayout>

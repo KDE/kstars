@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QBrush>
+
 #include "legend.h"
 #include "skyqpainter.h"
 #include "skymap.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "colorscheme.h"
-
-#include <QBrush>
 
 namespace
 {

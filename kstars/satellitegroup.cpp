@@ -18,8 +18,6 @@
 #include <QFile>
 #include <QStandardPaths>
 
-
-
 #include "satellitegroup.h"
 #include "ksutils.h"
 

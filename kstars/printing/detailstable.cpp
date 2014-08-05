@@ -17,8 +17,9 @@
 
 #include "detailstable.h"
 
-#include "QTextDocument"
-#include "QTextTable"
+#include <QTextDocument>
+#include <QTextTable>
+
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksplanetbase.h"

@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QPainter>
+#include <QTextDocument>
+#include <QTextDocumentWriter>
+#include <QtPrintSupport/QPrinter>
+
 #include "kstarsdocument.h"
 #include "kstars.h"
-#include "QPainter"
-#include "QTextDocument"
-#include "QTextDocumentWriter"
-#include <QtPrintSupport/QPrinter>
 
 KStarsDocument::KStarsDocument()
 {

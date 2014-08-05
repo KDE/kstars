@@ -17,7 +17,7 @@
 
 #include "scriptfunction.h"
 
-#include <qstringlist.h>
+#include <QStringList>
 #include <QDebug>
 
 ScriptFunction::ScriptFunction( const QString &name, const QString &desc,
