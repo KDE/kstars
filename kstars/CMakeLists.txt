@@ -75,6 +75,7 @@ if (CFITSIO_FOUND)
       ekos/align.cpp
       ekos/astrometryparser.cpp
       ekos/offlineastrometryparser.cpp
+      ekos/onlineastrometryparser.cpp
       ekos/opsekos.cpp
       ekos/QProgressIndicator.cpp
       ekos/guide/common.cpp
@@ -88,11 +89,6 @@ if (CFITSIO_FOUND)
    )
 
 endif(CFITSIO_FOUND)
-
-if (QJSON_FOUND)
-   include_directories( ${QJSON_INCLUDE_DIR} )
-   set(onlineparser_SRCS ekos/onlineastrometryparser.cpp)
-endif(QJSON_FOUND)
 
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
@@ -518,9 +514,6 @@ endif (WCSLIB_FOUND)
 #    ${QT_QTOPENGL_LIBRARY}
 #    )
 #endif( OPENGL_FOUND )
-if (QJSON_FOUND)
-    target_link_libraries(KStarsLib ${QJSON_LIBRARIES})
-endif(QJSON_FOUND)
 
 target_link_libraries(kstars KStarsLib)
 
@@ -541,4 +534,3 @@ install( FILES fitsviewer.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kstars )
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kstars )
 endif (WIN32)
-

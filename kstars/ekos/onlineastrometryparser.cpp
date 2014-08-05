@@ -14,6 +14,8 @@
 #include <QDebug>
 #include <QHttpMultiPart>
 #include <QFile>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 #include <KLocalizedString>
 
@@ -184,7 +186,6 @@ bool OnlineAstrometryParser::stopSolver()
 void OnlineAstrometryParser::authenticate()
 {
     QNetworkRequest request;
-    bool ok;
     //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
@@ -195,9 +196,11 @@ void OnlineAstrometryParser::authenticate()
 
     QVariantMap apiReq;
     apiReq.insert("apikey", Options::astrometryAPIKey());
-    QByteArray json = serializer.serialize(apiReq, &ok);
+    //QByteArray json = serializer.serialize(apiReq, &ok);
+    QJsonObject json = QJsonObject::fromVariantMap(apiReq);
+    QJsonDocument json_doc(json);
 
-    QString json_request = QString("request-json=%1").arg(QString(json));
+    QString json_request = QString("request-json=%1").arg(QString(json_doc.toJson(QJsonDocument::Compact)));
 
     workflowStage = AUTH_STAGE;
 
@@ -206,7 +209,6 @@ void OnlineAstrometryParser::authenticate()
 
 void OnlineAstrometryParser::uploadFile()
 {
-    bool ok;
     QNetworkRequest request;
 
     QFile fitsFile(filename);
@@ -240,12 +242,14 @@ void OnlineAstrometryParser::uploadFile()
     if (downsample_factor != 0)
         uploadReq.insert("downsample_factor", downsample_factor);
 
-    QByteArray json = serializer.serialize(uploadReq, &ok);
+    QJsonObject json = QJsonObject::fromVariantMap(uploadReq);
+    QJsonDocument json_doc(json);
+
     QHttpPart jsonPart;
 
     jsonPart.setHeader(QNetworkRequest::ContentTypeHeader, "application/text/plain");
     jsonPart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"request-json\"");
-    jsonPart.setBody(json);
+    jsonPart.setBody(json_doc.toJson(QJsonDocument::Compact));
 
     QHttpPart filePart;
 
@@ -309,6 +313,7 @@ void OnlineAstrometryParser::checkJobCalibration()
 void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 {
     bool ok;
+    QJsonParseError parseError;
     QString status;
     QList<QVariant> jsonArray;
     int elapsed;
@@ -325,17 +330,20 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
     QString json = (QString) reply->readAll();
 
-    QVariantMap result = parser.parse (json.toUtf8(), &ok).toMap();
+    QJsonDocument json_doc = QJsonDocument::fromJson(json.toUtf8(), &parseError);
 
-     if (ok == false)
+     if (parseError.error != QJsonParseError::NoError)
      {
-         align->appendLogText(QString("JSon error during parsing."));
+         align->appendLogText(xi18n("JSon error during parsing (%1).", parseError.errorString()));
          emit solverFailed();
          return;
      }
 
+     QVariant json_result = json_doc.toVariant();
+     QVariantMap result = json_result.toMap();
+
      if (align->isVerbose())
-         align->appendLogText(json);
+         align->appendLogText(json_doc.toJson(QJsonDocument::Compact));
 
      switch (workflowStage)
      {
@@ -421,6 +429,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
              else
              {
                  align->appendLogText(xi18n("Solver timed out."));
+                 solver_retries=0;
                  emit solverFailed();
                  return;
              }

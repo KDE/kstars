@@ -129,9 +129,7 @@ private:
     static const float SIDRATE;
 
     AstrometryParser *parser;
-    #ifdef HAVE_QJSON
     OnlineAstrometryParser *onlineParser;
-    #endif
     OfflineAstrometryParser *offlineParser;
 
 

@@ -14,7 +14,6 @@
 #include <QStringList>
 #include <QComboBox>
 
-#include <klineedit.h>
 #include <KConfigDialog>
 
 #include "opsekos.h"
@@ -27,12 +26,11 @@ OpsEkos::OpsEkos( KStars *_ks )
 {
     setupUi(this);
     
-
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
     connect( m_ConfigDialog, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog, SIGNAL( okClicked() ), SLOT( slotApply() ) );
+    connect( m_ConfigDialog, SIGNAL(okClicked()), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( cancelClicked() ), SLOT( slotCancel() ) );
 
 }
@@ -50,6 +48,6 @@ void OpsEkos::slotApply()
 
 void OpsEkos::slotCancel()
 {
-  }
+}
 
 

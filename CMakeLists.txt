@@ -61,16 +61,13 @@ find_package(WCSLIB)
 set(HAVE_WCSLIB WCSLIB_FOUND)
 set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System library" URL "http://www.atnf.csiro.au/people/mcalabre/WCS" TYPE OPTIONAL PURPOSE "WCS enables KStars to read and process world coordinate systems in FITS header.")
 
-# FIXME QJSON is not needed in Qt5
-find_package(QJSON)
-
 find_package(Xplanet)
 set(HAVE_XPLANET XPLANET_FOUND)
 set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE OPTIONAL PURPOSE "Gives KStars support for xplanet.")
 
 find_package(AstrometryNet)
 set(HAVE_ASTROMETRYNET ASTROMETRYNET_FOUND)
-set_package_properties(OpenGL PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE OPTIONAL PURPOSE "Support for plate solving in KStars.")
+set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE OPTIONAL PURPOSE "Support for plate solving in KStars.")
 
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "http://www.opengl.org" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")

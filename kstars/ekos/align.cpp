@@ -29,9 +29,7 @@
 #include "ekosmanager.h"
 #include "kstars.h"
 
-#ifdef HAVE_QJSON
 #include "onlineastrometryparser.h"
-#endif
 #include "offlineastrometryparser.h"
 
 #include <basedevice.h>
@@ -58,9 +56,7 @@ Align::Align()
 
     parser = NULL;
 
-    #ifdef HAVE_QJSON
     onlineParser = NULL;
-    #endif
     offlineParser = NULL;
 
     connect(solveB, SIGNAL(clicked()), this, SLOT(capture()));
@@ -98,29 +94,15 @@ Align::Align()
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
 
-    #ifndef HAVE_QJSON
-    kcfg_onlineSolver->setChecked(false);
-    kcfg_onlineSolver->setEnabled(false);
-    #else
     kcfg_onlineSolver->setChecked(Options::solverOnline());
-    #endif
-
     kcfg_offlineSolver->setChecked(Options::solverOnline() == false);
     connect(kcfg_onlineSolver, SIGNAL(toggled(bool)), SLOT(updateSolverType(bool)));
 
 
     if (kcfg_onlineSolver->isChecked())
     {
-        #ifdef HAVE_QJSON
         onlineParser = new Ekos::OnlineAstrometryParser();
-        parser = onlineParser;
-        #else
-        kcfg_onlineSolver->setChecked(false);
-        kcfg_onlineSolver->setEnabled(false);
-        kcfg_offlineSolver->setChecked(true);
-        offlineParser = new OfflineAstrometryParser();
-        parser = offlineParser;
-        #endif
+        parser = onlineParser;  
     }
     else
     {
@@ -169,7 +151,6 @@ void Align::updateSolverType(bool useOnline)
 
     if (useOnline)
     {
-        #ifdef HAVE_QJSON
         if (onlineParser != NULL)
         {
             parser = onlineParser;
@@ -178,7 +159,6 @@ void Align::updateSolverType(bool useOnline)
 
         onlineParser = new Ekos::OnlineAstrometryParser();
         parser = onlineParser;
-        #endif
     }
     else
     {

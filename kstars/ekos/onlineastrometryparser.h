@@ -10,9 +10,6 @@
 #ifndef ONLINEASTROMETRYPARSER_H
 #define ONLINEASTROMETRYPARSER_H
 
-#include <qjson/parser.h>
-#include <qjson/serializer.h>
-
 #include <QTime>
 #include <QtNetwork/QNetworkAccessManager>
 
@@ -65,8 +62,6 @@ private:
     int job_retries, solver_retries;
 
     QTime solverTimer;
-    QJson::Parser parser;
-    QJson::Serializer serializer;
     QString filename, apiURL;
     double lowerScale, upperScale, center_ra, center_dec, radius;
     double parity,ra,dec,orientation;
