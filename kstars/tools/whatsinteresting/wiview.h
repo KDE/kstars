@@ -18,9 +18,10 @@
 #ifndef WIVIEW_H
 #define WIVIEW_H
 
-class QDeclarativeView;
+class QQuickView;
+class QQuickItem;
 
-#include <QtDeclarative/QDeclarativeContext>
+#include <QQmlContext>
 #include "skyobject.h"
 #include "modelmanager.h"
 #include "skyobjlistmodel.h"
@@ -29,7 +30,7 @@ class QDeclarativeView;
 /**
   * \class WIView
   * \brief Manages the QML user interface for What's Interesting.
-  * WIView is used to display the QML UI using a QDeclarativeView.
+  * WIView is used to display the QML UI using a QQuickView.
   * It acts on all signals emitted by the UI and manages the data
   * sent to the UI for display.
   * \author Samikshan Bairagya
@@ -61,7 +62,7 @@ public:
       */
     void updateModels(ObsConditions *obs);
 
-    inline QDeclarativeView *getWIBaseView() const { return m_BaseView; }
+    inline QQuickView *getWIBaseView() const { return m_BaseView; }
 
 public slots:
 
@@ -112,10 +113,10 @@ public slots:
     void onReloadIconClicked();
 
 private:
-    QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
+    QQuickItem *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
             *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
-    QDeclarativeContext *m_Ctxt;
-    QDeclarativeView *m_BaseView;
+    QQmlContext *m_Ctxt;
+    QQuickView *m_BaseView;
     ObsConditions *m_Obs;
     ModelManager *m_ModManager;
     SkyObjItem *m_CurSoItem;   ///Current sky-object item.

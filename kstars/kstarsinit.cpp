@@ -381,11 +381,9 @@ void KStars::initActions() {
     actionCollection()->addAction("whats_up_tonight", this, SLOT( slotWUT() ) )
         << xi18n("What's up Tonight")
         << QKeySequence(Qt::CTRL+Qt::Key_U );
-    /* FIXME Enable once port to KF5 is complete for whats_interesting
     actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )
         << xi18n("What's Interesting...")
         << QKeySequence(Qt::CTRL+Qt::Key_W );
-        */
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << xi18n("Sky Calendar");
 

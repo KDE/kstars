@@ -16,63 +16,60 @@
  ***************************************************************************/
 
 
-//FIXME Needs porting to KF5
-//#include "QDeclarativeView"
-
-#include "QGraphicsObject"
+#include <QtQuick/QQuickView>
+#include <QtQuick/QQuickItem>
+#include <QStandardPaths>
+#include <QGraphicsObject>
 #include "wiview.h"
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
-
-#include "QStandardPaths"
-#include "kdeclarative.h"
 
 WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
 {
     m_ModManager = new ModelManager(m_Obs);
 
-    m_BaseView = new QDeclarativeView();
+    m_BaseView = new QQuickView();
 
     ///To use i18n() instead of qsTr() in qml/wiview.qml for translation
-    KDeclarative kd;
-    kd.setDeclarativeEngine(m_BaseView->engine());
-    kd.initialize();
-    kd.setupBindings();
+    //KDeclarative kd;
+   // kd.setDeclarativeEngine(m_BaseView->engine());
+    //kd.initialize();
+    //kd.setupBindings();
 
     m_Ctxt = m_BaseView->rootContext();
 
     m_BaseView->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, "tools/whatsinteresting/qml/wiview.qml"));
 
-    m_BaseObj = dynamic_cast<QObject *>(m_BaseView->rootObject());
+    m_BaseObj = m_BaseView->rootObject();
 
     //soTypeTextObj = m_BaseObj->findChild<QObject *>("soTypeTextObj");
 
-    m_ViewsRowObj = m_BaseObj->findChild<QObject *>("viewsRowObj");
+    m_ViewsRowObj = m_BaseObj->findChild<QQuickItem*>(QString("viewsRowObj"));
     connect(m_ViewsRowObj, SIGNAL(categorySelected(int)), this, SLOT(onCategorySelected(int)));
 
-    m_SoListObj = m_BaseObj->findChild<QObject *>("soListObj");
+    m_SoListObj = m_BaseObj->findChild<QQuickItem *>("soListObj");
     connect(m_SoListObj, SIGNAL(soListItemClicked(int, QString, int)), this, SLOT(onSoListItemClicked(int, QString, int)));
 
-    m_DetailsViewObj = m_BaseObj->findChild<QObject *>("detailsViewObj");
+    m_DetailsViewObj = m_BaseObj->findChild<QQuickItem *>("detailsViewObj");
 
-    m_NextObj = m_BaseObj->findChild<QObject *>("nextObj");
+    m_NextObj = m_BaseObj->findChild<QQuickItem *>("nextObj");
     connect(m_NextObj, SIGNAL(nextObjClicked()), this, SLOT(onNextObjClicked()));
-    m_PrevObj = m_BaseObj->findChild<QObject *>("prevObj");
+    m_PrevObj = m_BaseObj->findChild<QQuickItem *>("prevObj");
     connect(m_PrevObj, SIGNAL(prevObjClicked()), this, SLOT(onPrevObjClicked()));
 
-    m_SlewButtonObj = m_BaseObj->findChild<QObject *>("slewButtonObj");
+    m_SlewButtonObj = m_BaseObj->findChild<QQuickItem*>("slewButtonObj");
     connect(m_SlewButtonObj, SIGNAL(slewButtonClicked()), this, SLOT(onSlewButtonClicked()));
 
-    m_DetailsButtonObj = m_BaseObj->findChild<QObject *>("detailsButtonObj");
+    m_DetailsButtonObj = m_BaseObj->findChild<QQuickItem *>("detailsButtonObj");
     connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this, SLOT(onDetailsButtonClicked()));
 
-    QObject *settingsIconObj = m_BaseObj->findChild<QObject *>("settingsIconObj");
+    QObject *settingsIconObj = m_BaseObj->findChild<QQuickItem *>("settingsIconObj");
     connect(settingsIconObj, SIGNAL(settingsIconClicked()), this, SLOT(onSettingsIconClicked()));
 
-    QObject *reloadIconObj = m_BaseObj->findChild<QObject *>("reloadIconObj");
+    QObject *reloadIconObj = m_BaseObj->findChild<QQuickItem*>("reloadIconObj");
     connect(reloadIconObj, SIGNAL(reloadIconClicked()), this, SLOT(onReloadIconClicked()));
 
-    m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
     m_BaseView->show();
 }
 

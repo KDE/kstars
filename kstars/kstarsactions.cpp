@@ -30,7 +30,8 @@
 #include <QDockWidget>
 #include <QPointer>
 #include <QInputDialog>
-
+#include <QQuickWindow>
+#include <QQuickView>
 #include <QDebug>
 #include <QAction>
 #include <QFileDialog>
@@ -39,17 +40,15 @@
 #include <QProcess>
 #include <QIcon>
 #include <QTemporaryFile>
+#include <QStandardPaths>
+#include <QInputDialog>
 
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KToggleAction>
 #include <KMessageBox>
-
-#include <ktip.h>
-#include <QStandardPaths>
-#include <kconfigdialog.h>
-
-#include <kinputdialog.h>
+#include <KTipDialog>
+#include <KConfigDialog>
 
 #include <kns3/downloaddialog.h>
 
@@ -80,10 +79,9 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
-//FIXME Port to KF5
-//#include "tools/whatsinteresting/wiview.h"
-//#include "tools/whatsinteresting/wilpsettings.h"
-//#include "tools/whatsinteresting/wiequipsettings.h"
+#include "tools/whatsinteresting/wiview.h"
+#include "tools/whatsinteresting/wilpsettings.h"
+#include "tools/whatsinteresting/wiequipsettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
@@ -297,8 +295,6 @@ void KStars::slotWUT() {
 
 void KStars::slotWISettings()
 {
-    /*FIXME Port to KF5
-     *
     if (wi && !wiDock->isVisible())
     {
         slotShowWIView(1);
@@ -321,13 +317,11 @@ void KStars::slotWISettings()
     dialog->addPage(wiLPSettings, xi18n("Light Pollution Settings"));
     dialog->addPage(wiEquipSettings, xi18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
-    */
 }
 
 void KStars::slotShowWIView(int status)
 {
-#if 0
-    //FIXME Port to KF5
+
     if (status == 0) return;          //Cancelled
 
     int bortle = Options::bortleClass();
@@ -360,8 +354,9 @@ void KStars::slotShowWIView(int status)
         wiDock = new QDockWidget(this);
         wiDock->setObjectName("What's Interesting");
         wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
-        wiDock->setWidget(wi->getWIBaseView());
-        wiDock->setMinimumWidth(wi->getWIBaseView()->width());
+        QWidget *container = QWidget::createWindowContainer(wi->getWIBaseView());
+        wiDock->setWidget(container);
+        wiDock->setMinimumWidth(container->width());
         addDockWidget(Qt::RightDockWidgetArea, wiDock);
         wiDock->setVisible(true);
     }
@@ -370,7 +365,6 @@ void KStars::slotShowWIView(int status)
         wi->updateModels(wiObsConditions);
         wiDock->setVisible(true);
     }
-#endif
 }
 
 void KStars::slotCalendar() {

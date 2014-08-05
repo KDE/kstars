@@ -1,8 +1,7 @@
 add_subdirectory( data )
 add_subdirectory( icons )
 add_subdirectory( htmesh )
-#TODO Port to KF5
-#add_subdirectory( tools/whatsinteresting/qml)
+add_subdirectory( tools/whatsinteresting/qml)
 
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
@@ -153,16 +152,16 @@ set(libkstarstools_SRCS
 	tools/scriptfunction.cpp
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
-#FIXME Port to KF5
-#	tools/whatsinteresting/skyobjlistmodel.cpp
-#	tools/whatsinteresting/wiview.cpp
-#	tools/whatsinteresting/modelmanager.cpp
-#	tools/whatsinteresting/skyobjitem.cpp
-#	tools/whatsinteresting/wilpsettings.cpp
-#	tools/whatsinteresting/wiequipsettings.cpp
-#	tools/whatsinteresting/obsconditions.cpp
-#       tools/whatsinteresting/skyobjdescription.cpp
+        tools/whatsinteresting/skyobjlistmodel.cpp
+        tools/whatsinteresting/wiview.cpp
+        tools/whatsinteresting/modelmanager.cpp
+        tools/whatsinteresting/skyobjitem.cpp
+        tools/whatsinteresting/wilpsettings.cpp
+        tools/whatsinteresting/wiequipsettings.cpp
+        tools/whatsinteresting/obsconditions.cpp
+        tools/whatsinteresting/skyobjdescription.cpp
 	tools/flagmanager.cpp
+#FIXME Port to KF5
 #        tools/moonphasetool.cpp
 	tools/starhopper.cpp
 	tools/eyepiecefield.cpp
@@ -226,9 +225,8 @@ qt5_wrap_ui(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
-#FIXME needs porting
-#	tools/whatsinteresting/wilpsettings.ui
-#	tools/whatsinteresting/wiequipsettings.ui
+        tools/whatsinteresting/wilpsettings.ui
+        tools/whatsinteresting/wiequipsettings.ui
         )
 
 
@@ -492,6 +490,8 @@ target_link_libraries(KStarsLib
         Qt5::Sql
         Qt5::Svg
         Qt5::Multimedia
+        Qt5::Qml
+        Qt5::Quick
 	${ZLIB_LIBRARIES}
         )
 
