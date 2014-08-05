@@ -23,7 +23,6 @@
 #include "../imageexporter.h"
 
 #include <KMessageBox>
-#include <kurl.h>
 
 #include <QtSvg/QSvgGenerator>
 #include <QDir>
