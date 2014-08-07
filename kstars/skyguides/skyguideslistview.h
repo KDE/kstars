@@ -19,13 +19,13 @@
 #define SKYGUIDESLISTVIEW_H
 
 #include <QDeclarativeView>
+#include <QGridLayout>
 
 #include "skyguideslistmodel.h"
 
 #include "skydataqmladapter.h"
 #include "skymapqmladapter.h"
 
-class QWidget;
 class SkyMap;
 
 
@@ -37,7 +37,7 @@ class SkyMap;
   * sent to the UI for display.
   * \author Gioacchino Mazzurco
   */
-class SkyGuidesListView : public QWidget
+class SkyGuidesListView : public QDeclarativeView
 {
 	Q_OBJECT
 
@@ -51,16 +51,17 @@ public:
 	 * \brief Destructor
 	 */
 	~SkyGuidesListView();
-	
-	/**
-	 * \brief Displays the user interface
-	 */
-	inline void show() { mBaseView.show(); };
+
+public slots:
+	void showNormal();
+	void showFullScreen();
+	void showMaximized();
+	int getScreenWidth();
+	int getScreenHeight();
 
 private:
 	SkyMapQmlAdapter mSkyMapQmlAdapter;
 	SkyDataQmlAdapter mKStarsDataQmlAdapter;
-	QDeclarativeView mBaseView;
 };
 
 #endif // SKYGUIDESLISTVIEW_H
