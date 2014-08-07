@@ -420,7 +420,11 @@ void INDI_P::newSwitch(const QString & name)
     else
     {
         if (svp->r == ISR_ATMOST1)
+        {
+            ISState prev_state = sp->s;
             IUResetSwitch(svp);
+            sp->s = prev_state;
+        }
 
         sp->s = (sp->s == ISS_ON) ? ISS_OFF : ISS_ON;
     }
