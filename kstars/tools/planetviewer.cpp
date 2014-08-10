@@ -321,6 +321,8 @@ void PlanetViewer::initPlotObjects() {
         pw->AstroidsVisibilityBox->setReadOnly( true );
     }
 
+    // Set sun at the center
+    pw->map->setLimits(-5.8, 5.8, -5.8, 5.8 );
     update();
 }
 
