@@ -71,6 +71,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     pw->RunButton->setIcon( KIcon("arrow-right") );
     pw->ZoomInButton->setIcon( KIcon("zoom-in") );
     pw->ZoomOutButton->setIcon( KIcon("zoom-out") );
+    pw->distanceButton->setIcon( KIcon("measure") );
     pw->DateBox->setDate( data->lt().date() );
 
     resize( 500, 500 );
