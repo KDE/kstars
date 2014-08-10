@@ -583,6 +583,23 @@
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <layout class="QGridLayout" name="gridLayout_3">
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="swapCheck">
+            <property name="toolTip">
+             <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
+            </property>
+            <property name="text">
+             <string>Swap</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="checkBox_DirDEC">
+            <property name="text">
+             <string>DEC</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="l_9">
             <property name="text">
@@ -594,34 +611,6 @@
            <widget class="QCheckBox" name="checkBox_DirRA">
             <property name="text">
              <string>RA</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QCheckBox" name="checkBox_DirDEC">
-            <property name="text">
-             <string>DEC</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="l_10">
-            <property name="text">
-             <string>Accumulate frames</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QSpinBox" name="spinBox_AccFramesRA">
-            <property name="minimum">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QSpinBox" name="spinBox_AccFramesDEC">
-            <property name="minimum">
-             <number>1</number>
             </property>
            </widget>
           </item>
@@ -868,8 +857,6 @@
   <tabstop>spinBox_GuideRate</tabstop>
   <tabstop>checkBox_DirRA</tabstop>
   <tabstop>checkBox_DirDEC</tabstop>
-  <tabstop>spinBox_AccFramesRA</tabstop>
-  <tabstop>spinBox_AccFramesDEC</tabstop>
   <tabstop>spinBox_PropGainRA</tabstop>
   <tabstop>spinBox_PropGainDEC</tabstop>
   <tabstop>spinBox_IntGainRA</tabstop>

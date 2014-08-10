@@ -16,6 +16,7 @@
 
 #include <KMessageBox>
 #include <KComboBox>
+#include <kstandarddirs.h>
 
 #include <config-kstars.h>
 
@@ -35,8 +36,6 @@ EkosManager::EkosManager()
     setupUi(this);
 
     nDevices=0;
-    //useGuiderFromCCD=false;
-    //useFilterFromCCD=false;
     useGuideHead    =false;
     useST4          =false;
     ccdStarted      =false;
@@ -91,6 +90,9 @@ EkosManager::EkosManager()
     else
         initRemoteDrivers();
 
+    playFITSFile = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(QUrl(KStandardDirs::locate( "appdata", "ekos-fits.ogg" ))));
+    playOkFile = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(QUrl(KStandardDirs::locate( "appdata", "ekos-ok.ogg" ))));
+    playErrorFile = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(QUrl(KStandardDirs::locate( "appdata", "ekos-error.ogg" ))));
 }
 
 EkosManager::~EkosManager()
@@ -98,6 +100,10 @@ EkosManager::~EkosManager()
     delete captureProcess;
     delete focusProcess;
     delete guideProcess;
+    delete alignProcess;
+    delete playFITSFile;
+    delete playOkFile;
+    delete playErrorFile;
 }
 
 void EkosManager::processINDIModeChange()
@@ -469,7 +475,7 @@ void EkosManager::processINDI()
 
         remote_indi->setHostParameters(Options::remoteHost(), Options::remotePort());
 
-        remote_indi->setDriverSource(HOST_SOURCE);
+        remote_indi->setDriverSource(GENERATED_SOURCE);
 
         if (telescopeCombo->currentText() != "--")
             nDevices++;
@@ -691,7 +697,6 @@ void EkosManager::cleanDevices()
     else if (remote_indi)
     {
         DriverManager::Instance()->disconnectRemoteHost(remote_indi);
-        delete (remote_indi);
         remote_indi = 0;
     }
 
@@ -929,6 +934,8 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     focusProcess->addCCD(ccdDevice, isPrimaryCCD);
 
+    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+
     // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
     //if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
     //if (useGuiderFromCCD == false && guiderName == QString(ccdDevice->getDeviceName()))
@@ -1000,6 +1007,10 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processNewText(ITextVectorProperty*)));
 
     captureProcess->addFilter(filter);
+
+    initFocus();
+
+    focusProcess->addFilter(filter);
 }
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
@@ -1055,6 +1066,9 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
     {
         if (captureProcess)
             captureProcess->checkFilter();
+
+        if (focusProcess)
+            focusProcess->checkFilter();
     }
 }
 
@@ -1074,12 +1088,29 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
             alignProcess->syncTelescopeInfo();
         }
 
+        return;
+
+    }
+
+    if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "GUIDER_INFO")
+            || !strcmp(nvp->name, "CCD_FRAME") || !strcmp(nvp->name, "GUIDER_FRAME"))
+    {
+        if (guideProcess)
+            guideProcess->syncCCDInfo();
+
+        if (alignProcess)
+            alignProcess->syncCCDInfo();
+
+        return;
     }
 
     if (!strcmp(nvp->name, "FILTER_SLOT"))
     {
         if (captureProcess)
             captureProcess->checkFilter();
+
+        if (focusProcess)
+            focusProcess->checkFilter();
     }
 
 }
@@ -1279,10 +1310,14 @@ void EkosManager::initFocus()
     if (captureProcess)
     {
         // Autofocus
-        captureProcess->disconnect(focusProcess);
-        focusProcess->disconnect(captureProcess);
-        connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)));
-        connect(focusProcess, SIGNAL(autoFocusFinished(bool)), captureProcess, SLOT(updateAutofocusStatus(bool)));
+        connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(autoFocusFinished(bool)), captureProcess, SLOT(updateAutofocusStatus(bool)), Qt::UniqueConnection);
+    }
+
+    if (guideProcess)
+    {
+        // Suspend
+        connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)), Qt::UniqueConnection);
     }
 
 }
@@ -1329,10 +1364,8 @@ void EkosManager::initGuide()
 
     if (focusProcess)
     {
-        focusProcess->disconnect(guideProcess);
-
         // Suspend
-        connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)));
+        connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)), Qt::UniqueConnection);
     }
 
 }
@@ -1387,6 +1420,22 @@ bool EkosManager::isRunning(const QString &process)
   ps.waitForFinished();
   QString output = ps.readAllStandardOutput();
   return output.startsWith(process);
+}
+
+void EkosManager::playFITS()
+{
+    playFITSFile->play();
+}
+
+void EkosManager::playOk()
+{
+   playOkFile->play();
+
+}
+
+void EkosManager::playError()
+{
+   playErrorFile->play();
 }
 
 

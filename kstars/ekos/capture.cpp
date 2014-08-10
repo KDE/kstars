@@ -19,6 +19,8 @@
 #include "indi/clientmanager.h"
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
+#include "kstars.h"
+#include "ekosmanager.h"
 
 #include "QProgressIndicator.h"
 
@@ -100,6 +102,10 @@ void SequenceJob::prepareCapture()
 
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 {
+
+    if (filterPos != -1 && activeFilter != NULL)
+        activeFilter->runCommand(INDI_SET_FILTER, &filterPos);
+
    if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
         status = JOB_ERROR;
@@ -231,7 +237,7 @@ Capture::Capture()
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
-    connect(displayCheck, SIGNAL(toggled(bool)), previewB, SLOT(setEnabled(bool)));
+    connect(displayCheck, SIGNAL(toggled(bool)), this, SLOT(checkPreview(bool)));
 
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
@@ -385,11 +391,16 @@ void Capture::stopSequence()
     if (activeJob)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
+        {
+            if (Options::playCCDAlarm())
+                KStars::Instance()->ekosManager()->playError();
             activeJob->abort();
+        }
 
         activeJob->reset();
     }
 
+    secondsLabel->clear();
     currentCCD->disconnect(this);
 
     currentCCD->setFITSDir("");
@@ -419,10 +430,12 @@ void Capture::checkCCD(int ccdNum)
     if (ccdNum == -1)
         ccdNum = CCDCaptureCombo->currentIndex();
 
+    foreach(ISD::CCD *ccd, CCDs)
+        disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)));
+
     if (ccdNum <= CCDs.count())
     {
         int x,y,w,h;
-        int binx,biny;
         double min,max,step;
         int xstep=0, ystep=0;
         QString frameProp = QString("CCD_FRAME");
@@ -448,8 +461,24 @@ void Capture::checkCCD(int ccdNum)
         frameXIN->setEnabled(targetChip->canSubframe());
         frameYIN->setEnabled(targetChip->canSubframe());
 
-        binXCombo->setEnabled(targetChip->canBin());
-        binYCombo->setEnabled(targetChip->canBin());
+        binXIN->setEnabled(targetChip->canBin());
+        binYIN->setEnabled(targetChip->canBin());
+
+        if (targetChip->canBin())
+        {
+            int binx=1,biny=1;
+            targetChip->getMaxBin(&binx, &biny);
+            binXIN->setMaximum(binx);
+            binYIN->setMaximum(biny);
+            targetChip->getBinning(&binx, &biny);
+            binXIN->setValue(binx);
+            binYIN->setValue(biny);
+        }
+        else
+        {
+            binXIN->setValue(1);
+            binYIN->setValue(1);
+        }
 
         if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
         {
@@ -503,12 +532,6 @@ void Capture::checkCCD(int ccdNum)
             frameHIN->setValue(h);
         }
 
-        if (targetChip->getBinning(&binx, &biny))
-        {
-            binXCombo->setCurrentIndex(binx-1);
-            binYCombo->setCurrentIndex(biny-1);
-        }
-
         QStringList frameTypes = targetChip->getFrameTypes();
 
         frameTypeCombo->clear();
@@ -522,6 +545,21 @@ void Capture::checkCCD(int ccdNum)
             frameTypeCombo->setCurrentIndex(targetChip->getFrameType());
         }
 
+        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    }
+}
+
+void Capture::processCCDNumber(INumberVectorProperty *nvp)
+{
+    if (currentCCD && currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+        return;
+
+    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY &&
+            activeJob->getExposeLeft() == 0 && nvp->s == IPS_OK &&
+            (!strcmp(nvp->name, "CCD_EXPOSURE") || !strcmp(nvp->name, "GUIDER_EXPOSURE")))
+
+    {
+        newFITS(0);
     }
 }
 
@@ -600,6 +638,12 @@ void Capture::newFITS(IBLOB *bp)
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
+        if (bp == NULL)
+        {
+            stopSequence();
+            return;
+        }
+
         if (!strcmp(bp->name, "CCD2"))
             tChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         else
@@ -678,12 +722,18 @@ void Capture::newFITS(IBLOB *bp)
 
         if (next_job)
             executeJob(next_job);
-        else if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
+        else
         {
-            appendLogText(i18n("Parking telescope..."));
-            emit telescopeParking();
-            currentTelescope->Park();
-            return;
+            if (Options::playCCDAlarm())
+                    KStars::Instance()->ekosManager()->playOk();
+
+            if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
+            {
+                appendLogText(i18n("Parking telescope..."));
+                emit telescopeParking();
+                currentTelescope->Park();
+                return;
+            }
         }
 
         //Resume guiding if it was suspended before
@@ -697,18 +747,13 @@ void Capture::newFITS(IBLOB *bp)
     if (isAutoFocus)
         autoFocusStatus = false;
 
-    if (isAutoGuiding)
-    {
-        if (currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-            emit suspendGuiding(false);
+    if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        emit suspendGuiding(false);
 
-        if (guideDither)
-        {
+    if (isAutoGuiding && guideDither)
+    {
             secondsLabel->setText(i18n("Dithering..."));
             emit exposureComplete();
-        }
-        else
-            seqTimer->start(seqDelay);
     }
     else if (isAutoFocus)
     {
@@ -841,6 +886,20 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
 
 }
 
+void Capture::checkPreview(bool enable)
+{
+    if (enable && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        appendLogText(i18n("Cannot enable preview while CCD upload mode is set to local. Change upload mode to client or both and try again."));
+        displayCheck->disconnect(this);
+        displayCheck->setChecked(false);
+        connect(displayCheck, SIGNAL(toggled(bool)), this, SLOT(checkPreview(bool)));
+        return;
+    }
+
+    previewB->setEnabled(enable);
+}
+
 void Capture::appendLogText(const QString &text)
 {
 
@@ -871,10 +930,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
 
-        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
             secondsLabel->setText(i18n("Downloading..."));
-        else
-            newFITS(NULL);
     }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)
@@ -931,7 +987,7 @@ void Capture::addJob(bool preview)
 
     job->setCount(countIN->value());
 
-    job->setBin(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1);
+    job->setBin(binXIN->value(), binYIN->value());
 
     job->setDelay(delayIN->value() * 1000);		/* in ms */
 
@@ -981,7 +1037,7 @@ void Capture::addJob(bool preview)
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
-    bin->setText(QString("%1x%2").arg(binXCombo->currentIndex()+1).arg(binYCombo->currentIndex()+1));
+    bin->setText(QString("%1x%2").arg(binXIN->value()).arg(binYIN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
@@ -1044,7 +1100,7 @@ void Capture::removeJob()
     queueTable->removeRow(currentRow);
 
     SequenceJob *job = jobs.at(currentRow);
-    jobs.removeAt(currentRow);
+    jobs.removeOne(job);
     delete (job);
 
     if (queueTable->rowCount() == 0)
@@ -1114,7 +1170,7 @@ void Capture::moveJobDown()
 
     int columnCount = queueTable->columnCount();
 
-    if (currentRow < 0 || queueTable->rowCount() == 1)
+    if (currentRow < 0 || queueTable->rowCount() == 1 || (currentRow+1) == queueTable->rowCount() )
         return;
 
     int destinationRow = currentRow + 1;
@@ -1165,8 +1221,8 @@ void Capture::executeJob(SequenceJob *job)
         imgProgress->setMaximum(seqTotalCount);
         imgProgress->setValue(seqCurrentCount);
 
-        updateSequencePrefix(job->getPrefix(), job->getFITSDir());
-        //job->statusCell->setText(job->statusStrings[job->status]);
+        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+            updateSequencePrefix(job->getPrefix(), job->getFITSDir());
     }
 
     // Update button status
@@ -1414,10 +1470,10 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             subEP = findXMLEle(ep, "X");
             if (subEP)
-                binXCombo->setCurrentIndex(atoi(pcdataXMLEle(subEP))-1);
+                binXIN->setValue(atoi(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "Y");
             if (subEP)
-                binYCombo->setCurrentIndex(atoi(pcdataXMLEle(subEP))-1);
+                binYIN->setValue(atoi(pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Frame"))
         {
@@ -1614,10 +1670,10 @@ void Capture::resetJobs()
                                            "reset_job_status_warning") !=KMessageBox::Continue)
         return;
 
-    stopSequence();
-
     foreach(SequenceJob *job, jobs)
         job->resetStatus();
+
+    stopSequence();    
 }
 
 void Capture::editJob(QModelIndex i)
@@ -1631,8 +1687,8 @@ void Capture::editJob(QModelIndex i)
      job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
 
    exposureIN->setValue(job->getExposure());
-   binXCombo->setCurrentIndex(job->getXBin()-1);
-   binYCombo->setCurrentIndex(job->getYBin()-1);
+   binXIN->setValue(job->getXBin());
+   binYIN->setValue(job->getYBin());
    frameXIN->setValue(job->getSubX());
    frameYIN->setValue(job->getSubY());
    frameWIN->setValue(job->getSubW());

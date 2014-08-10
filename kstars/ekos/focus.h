@@ -41,6 +41,7 @@ public:
 
     void addFocuser(ISD::GDInterface *newFocuser);
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
+    void addFilter(ISD::GDInterface *newFilter);
     void focuserDisconnected();
     void resetFrame();
 
@@ -62,6 +63,10 @@ public slots:
 
     void checkCCD(int CCDNum=-1);
     void checkFocuser(int FocuserNum=-1);
+    void checkFilter(int filterNum=-1);
+
+    void filterLockToggled(bool);
+    void updateFilterPos(int index);
 
     void FocusIn(int ms=-1);
     void FocusOut(int ms=-1);
@@ -93,6 +98,10 @@ private:
     /* Focus */
     ISD::Focuser *currentFocuser;
     ISD::CCD *currentCCD;
+    ISD::GDInterface *currentFilter;
+
+    // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
+    QList<ISD::GDInterface *> Filters;
 
     QList<ISD::CCD *> CCDs;
     QList<ISD::Focuser*> Focusers;
@@ -107,6 +116,7 @@ private:
     bool canAbsMove;
     bool captureInProgress;
     int absIterations;
+    int lastLockFilterPos;
 
     bool inAutoFocus, inFocusLoop, inSequenceFocus;
 
@@ -119,13 +129,13 @@ private:
     bool reverseDir;
     bool starSelected;
     int fx,fy,fw,fh;
-    int subX, subY, subW, subH;
-    int subBinX, subBinY;
     int noStarCount;
 
     QStringList logText;
-
     QList<HFRPoint *> HFRPoints;
+
+    ITextVectorProperty *filterName;
+    INumberVectorProperty *filterSlot;
 };
 
 }

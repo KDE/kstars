@@ -10,7 +10,7 @@
     <height>522</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
+  <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -124,6 +124,94 @@
    </item>
    <item>
     <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>Audible Alarms</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QCheckBox" name="kcfg_PlayFITSAlarm">
+        <property name="toolTip">
+         <string>Play notification alarm whenever a new FITS is received.</string>
+        </property>
+        <property name="text">
+         <string>When FITS is received.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="kcfg_PlayCCDAlarm">
+          <property name="toolTip">
+           <string>Play notifications alarms in the CCD module.</string>
+          </property>
+          <property name="text">
+           <string>CCD</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_PlayFocusAlarm">
+          <property name="toolTip">
+           <string>Play notifications alarms in the focus module.</string>
+          </property>
+          <property name="text">
+           <string>Focus</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_PlayGuideAlarm">
+          <property name="toolTip">
+           <string>Play notifications alarms in the guide module.</string>
+          </property>
+          <property name="text">
+           <string>Guide</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_PlayAlignmentAlarm">
+          <property name="toolTip">
+           <string>Play notifications alarms in the alignment module.</string>
+          </property>
+          <property name="text">
+           <string>Alignment</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+     <zorder>kcfg_PlayFITSAlarm</zorder>
+     <zorder>kcfg_PlayCCDAlarm</zorder>
+     <zorder>kcfg_PlayFocusAlarm</zorder>
+     <zorder>kcfg_PlayGuideAlarm</zorder>
+     <zorder>line_3</zorder>
+     <zorder>kcfg_PlayAlignmentAlarm</zorder>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

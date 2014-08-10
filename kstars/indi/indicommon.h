@@ -12,7 +12,7 @@
 
 #define	INDIVERSION	1.7	/* we support this or less */
 
-typedef enum { PRIMARY_XML, THIRD_PARTY_XML, EM_XML, HOST_SOURCE } DriverSource;
+typedef enum { PRIMARY_XML, THIRD_PARTY_XML, EM_XML, HOST_SOURCE, GENERATED_SOURCE } DriverSource;
 
 typedef enum { SERVER_CLIENT, SERVER_ONLY} ServerMode;
 

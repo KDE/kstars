@@ -18,10 +18,14 @@
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"
+#include "indi/indifilter.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
+#include "ekosmanager.h"
+
+#include "kstars.h"
 
 #include <basedevice.h>
 
@@ -39,6 +43,9 @@ Focus::Focus()
 
     currentFocuser = NULL;
     currentCCD     = NULL;
+    currentFilter  = NULL;
+    filterName     = NULL;
+    filterSlot     = NULL;
 
     canAbsMove        = false;
     inAutoFocus       = false;
@@ -53,7 +60,9 @@ Focus::Focus()
 
     pulseDuration = 1000;
 
-    subX=subY=subW=subH=-1;
+    fx=fy=fw=fh=0;
+    lastLockFilterPos=-1;
+
 
     deltaHFR = 0;
 
@@ -73,6 +82,9 @@ Focus::Focus()
 
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
+    connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
+    connect(FilterPosCombo, SIGNAL(activated(int)), this, SLOT(updateFilterPos(int)));
+    connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
 
     lastFocusDirection = FOCUS_NONE;
 
@@ -98,6 +110,7 @@ Focus::Focus()
     maxTravel->setValue(Options::focusMaxTravel());
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
+    lockFilterCheck->setChecked(Options::lockFocusFilter());
 
 }
 
@@ -127,7 +140,9 @@ void Focus::resetFrame()
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
         if (targetChip && !inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
-            targetChip->setFrame(fx, fy, fw, fh);
+        {
+            targetChip->resetFrame();
+        }
     }
 }
 
@@ -145,11 +160,97 @@ void Focus::checkCCD(int ccdNum)
         kcfg_focusXBin->setEnabled(targetChip->canBin());
         kcfg_focusYBin->setEnabled(targetChip->canBin());
         kcfg_subFrame->setEnabled(targetChip->canSubframe());
+        if (targetChip->canBin())
+        {
+            int binx=1,biny=1;
+            targetChip->getMaxBin(&binx, &biny);
+            kcfg_focusXBin->setMaximum(binx);
+            kcfg_focusYBin->setMaximum(biny);
+        }
 
-        if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
-            targetChip->getFrame(&fx, &fy, &fw, &fh);
+        //if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+        targetChip->getFocusFrame(&fx, &fy, &fw, &fh);
+    }
+}
+
+void Focus::addFilter(ISD::GDInterface *newFilter)
+{
+    foreach(ISD::GDInterface *filter, Filters)
+    {
+        if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
+            return;
     }
 
+    filterGroup->setEnabled(true);
+
+    FilterCaptureCombo->addItem(newFilter->getDeviceName());
+
+    Filters.append(static_cast<ISD::Filter *>(newFilter));
+
+    checkFilter(0);
+
+    FilterCaptureCombo->setCurrentIndex(0);
+
+}
+
+void Focus::checkFilter(int filterNum)
+{
+    if (filterNum == -1)
+        filterNum = FilterCaptureCombo->currentIndex();
+
+    QStringList filterAlias = Options::filterAlias();
+
+    if (filterNum <= Filters.count())
+        currentFilter = Filters.at(filterNum);
+
+    FilterPosCombo->clear();
+
+    filterName   = currentFilter->getBaseDevice()->getText("FILTER_NAME");
+    filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
+
+    if (filterSlot == NULL)
+    {
+        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
+        return;
+    }
+
+    for (int i=0; i < filterSlot->np[0].max; i++)
+    {
+        QString item;
+
+        if (filterName != NULL && (i < filterName->ntp))
+            item = filterName->tp[i].text;
+        else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
+            item = filterAlias.at(i);
+        else
+            item = QString("Filter_%1").arg(i+1);
+
+        FilterPosCombo->addItem(item);
+
+    }
+
+    if (lockFilterCheck->isChecked() == false)
+        FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value-1);
+    else
+    {
+        if (lastLockFilterPos < 0)
+            lastLockFilterPos = filterSlot->np[0].value-1;
+        FilterPosCombo->setCurrentIndex(lastLockFilterPos);
+    }
+
+}
+
+void Focus::filterLockToggled(bool enable)
+{
+    if (enable)
+        lastLockFilterPos = FilterPosCombo->currentIndex();
+    else if (filterSlot != NULL)
+        FilterPosCombo->setCurrentIndex(filterSlot->np[0].value-1);
+}
+
+void Focus::updateFilterPos(int index)
+{
+    lastLockFilterPos = index;
 }
 
 void Focus::addFocuser(ISD::GDInterface *newFocuser)
@@ -243,10 +344,10 @@ void Focus::startFocus()
 
     reverseDir = false;
 
-    if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
+    /*if (fw > 0 && fh > 0)
         starSelected= true;
     else
-        starSelected= false;
+        starSelected= false;*/
 
     qDeleteAll(HFRPoints);
     HFRPoints.clear();
@@ -261,6 +362,7 @@ void Focus::startFocus()
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
+    Options::setLockFocusFilter(lockFilterCheck->isChecked());
 
     #ifdef FOCUS_DEBUG
     qDebug() << "Starting focus with pulseDuration " << pulseDuration << endl;
@@ -271,6 +373,9 @@ void Focus::startFocus()
     else
         appendLogText(i18n("Please wait until image capture is complete..."));
 
+    if (suspendGuideCheck->isChecked())
+         emit suspendGuiding(true);
+
     capture();
 }
 
@@ -280,6 +385,14 @@ void Focus::checkStopFocus()
     {
         inSequenceFocus = false;
         emit autoFocusFinished(false);
+    }
+
+    if (captureInProgress && inAutoFocus == false && inFocusLoop == false)
+    {
+        captureB->setEnabled(true);
+        stopFocusB->setEnabled(false);
+
+        appendLogText(i18n("Capture aborted."));
     }
 
     stopFocus();
@@ -304,7 +417,7 @@ void Focus::stopFocus()
 
     targetChip->abortExposure();
     if (targetChip->canSubframe())
-        targetChip->setFrame(fx, fy, fw, fh);
+        targetChip->resetFrame();
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     if (targetImage)
@@ -334,6 +447,18 @@ void Focus::capture()
         return;
     }
 
+    if (currentFilter != NULL)
+    {
+        if (currentFilter->isConnected() == false)
+        {
+            appendLogText(i18n("Error: Lost connection to filter wheel."));
+            return;
+        }
+
+        int filterPos = FilterPosCombo->currentIndex() + 1;
+        currentFilter->runCommand(INDI_SET_FILTER, &filterPos);
+    }
+
     if (targetChip->canBin())
         targetChip->setBinning(kcfg_focusXBin->value(), kcfg_focusXBin->value());
     targetChip->setCaptureMode(FITS_FOCUS);
@@ -343,18 +468,28 @@ void Focus::capture()
 
     targetChip->setFrameType(ccdFrame);
 
-    if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
+    /*if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
         targetChip->setFrame(subX, subY, subW, subH);
-    else
-        targetChip->setFrame(fx, fy, fw, fh);
+    else*/
+    if (fw == 0 || fh == 0)
+        targetChip->getFrame(&fx, &fy, &fw, &fh);
+
+     targetChip->setFrame(fx, fy, fw, fh);
 
     captureInProgress = true;
 
     targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
+    {
         appendLogText(i18n("Capturing image..."));
 
+        if (inAutoFocus == false)
+        {
+            captureB->setEnabled(false);
+            stopFocusB->setEnabled(true);
+        }
+    }
 }
 
 void Focus::FocusIn(int ms)
@@ -438,6 +573,12 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    if (captureInProgress && inFocusLoop == false && inAutoFocus==false)
+    {
+            captureB->setEnabled(true);
+            stopFocusB->setEnabled(false);
+    }
+
     captureInProgress = false;
 
     FITSImage *image_data = targetChip->getImageData();
@@ -481,9 +622,6 @@ void Focus::newFITS(IBLOB *bp)
         }
         else if (currentHFR > deltaHFR)
         {
-           if (suspendGuideCheck->isChecked())
-                emit suspendGuiding(true);
-
            inSequenceFocus = true;
            AutoModeR->setChecked(true);
            startFocus();
@@ -504,6 +642,7 @@ void Focus::newFITS(IBLOB *bp)
 
     if (starSelected == false)
     {
+        int subBinX=1, subBinY=1;
         targetChip->getBinning(&subBinX, &subBinY);
 
         if (kcfg_autoSelectStar->isChecked() && focusType == FOCUS_AUTO)
@@ -514,6 +653,8 @@ void Focus::newFITS(IBLOB *bp)
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
                 targetImage->updateMode(FITS_GUIDE);
                 targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
+                if (fw == 0 || fh == 0)
+                    targetChip->getFrame(&fx, &fy, &fw, &fh);
                 targetImage->setGuideSquare(fw/2, fh/2);
                 connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
                 return;
@@ -522,10 +663,10 @@ void Focus::newFITS(IBLOB *bp)
             if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
                 int offset = kcfg_focusBoxSize->value();
-                subX=(maxStar->x - offset) * subBinX;
-                subY=(maxStar->y - offset) * subBinY;
-                subW=offset*2*subBinX;
-                subH=offset*2*subBinY;
+                int subX=(maxStar->x - offset) * subBinX;
+                int subY=(maxStar->y - offset) * subBinY;
+                int subW=offset*2*subBinX;
+                int subH=offset*2*subBinY;
 
                 if (subX<0)
                     subX=0;
@@ -542,8 +683,14 @@ void Focus::newFITS(IBLOB *bp)
                     subH = DEFAULT_SUBFRAME_DIM;
 
 
-                targetChip->setFrame(subX, subY, subW, subH);
+                targetChip->setFocusFrame(subX, subY, subW, subH);
+                fx=subX;
+                fy=subY;
+                fw=subW;
+                fh=subH;
             }
+            else
+                targetChip->getFrame(&fx, &fy, &fw, &fh);
 
             starSelected=true;
 
@@ -603,6 +750,8 @@ void Focus::autoFocusAbs(double currentHFR)
         appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
         emit autoFocusFinished(false);
+        if (Options::playFocusAlarm())
+                KStars::Instance()->ekosManager()->playError();
         return;
     }
 
@@ -688,7 +837,9 @@ void Focus::autoFocusAbs(double currentHFR)
                     appendLogText(i18n("Autofocus complete."));
                     stopFocus();
                     emit suspendGuiding(false);
-                    emit autoFocusFinished(true);                    
+                    emit autoFocusFinished(true);
+                    if (Options::playFocusAlarm())
+                            KStars::Instance()->ekosManager()->playOk();
                 }
                 break;
             }
@@ -873,6 +1024,8 @@ void Focus::autoFocusAbs(double currentHFR)
             stopFocus();
             emit suspendGuiding(false);
             emit autoFocusFinished(true);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playOk();
             return;
         }
 
@@ -882,6 +1035,8 @@ void Focus::autoFocusAbs(double currentHFR)
             appendLogText(i18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
             emit autoFocusFinished(false);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playError();
             return;
         }
 
@@ -895,6 +1050,8 @@ void Focus::autoFocusAbs(double currentHFR)
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
             stopFocus();
             emit autoFocusFinished(false);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playError();
             #ifdef FOCUS_DEBUG
             qDebug() << "Maximum travel limit reached. Autofocus aborted." << endl;
             #endif
@@ -936,6 +1093,8 @@ void Focus::autoFocusRel(double currentHFR)
         appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         stopFocus();
         emit autoFocusFinished(false);
+        if (Options::playFocusAlarm())
+                KStars::Instance()->ekosManager()->playError();
         return;
     }
 
@@ -968,6 +1127,8 @@ void Focus::autoFocusRel(double currentHFR)
                 stopFocus();
                 emit suspendGuiding(false);
                 emit autoFocusFinished(true);
+                if (Options::playFocusAlarm())
+                        KStars::Instance()->ekosManager()->playOk();
                 break;
             }
             else if (currentHFR < HFR)
@@ -1019,6 +1180,8 @@ void Focus::autoFocusRel(double currentHFR)
             appendLogText(i18n("Autofocus complete."));
             emit suspendGuiding(false);
             emit autoFocusFinished(true);
+            if (Options::playFocusAlarm())
+                    KStars::Instance()->ekosManager()->playOk();
             stopFocus();
             break;
         }
@@ -1083,6 +1246,8 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                appendLogText(i18n("Focuser error, check INDI panel."));
                emit autoFocusFinished(false);
                stopFocus();
+               if (Options::playFocusAlarm())
+                       KStars::Instance()->ekosManager()->playError();
            }
 
        }
@@ -1101,6 +1266,8 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
                 stopFocus();
+                if (Options::playFocusAlarm())
+                        KStars::Instance()->ekosManager()->playError();
                 emit autoFocusFinished(false);
             }
 
@@ -1127,8 +1294,6 @@ void Focus::clearLog()
 
 void Focus::startLooping()
 {
-
-
     inFocusLoop = true;
 
     resetButtons();
@@ -1227,11 +1392,11 @@ void Focus::focusStarSelected(int x, int y)
 
     if (targetChip->canSubframe())
     {
-        targetChip->setFrame(x, y, w, h);
-        subX = x;
-        subY = y;
-        subW = w;
-        subH = h;
+        targetChip->setFocusFrame(x, y, w, h);
+        fx = x;
+        fy = y;
+        fw = w;
+        fh = h;
     }
 
     starSelected=true;
@@ -1250,7 +1415,10 @@ void Focus::subframeUpdated(bool enable)
 {
     if (enable == false)
     {
-        subX=subY=subW=subH=-1;        
+        fx=fy=fw=fh=0;
+        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        targetChip->setFocusFrame(0,0,0,0);
+        targetChip->resetFrame();
         starSelected = false;
     }
 }

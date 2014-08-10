@@ -10,6 +10,7 @@
  */
 
 #include "rcalibration.h"
+#include "Options.h"
 
 #include <unistd.h>
 #include <time.h>
@@ -23,6 +24,10 @@
 #include "../guide.h"
 #include "../fitsviewer/fitsviewer.h"
 #include "../fitsviewer/fitsview.h"
+
+#include "../ekosmanager.h"
+
+#include "kstars.h"
 
 #undef MIN
 #undef MAX
@@ -54,9 +59,7 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 	start_x2 = start_y2 = 0;
 	end_x2 = end_y2 = 0;
 
-    ui.checkBox_AutoMode->setChecked( true );
     ui.spinBox_DriftTime->setVisible( true );
-	ui.spinBox_DriftTime->setValue( auto_drift_time );
     ui.progressBar->setVisible( false );
 	ui.spinBox_ReticleAngle->setMaximum( 360 );
 
@@ -72,10 +75,15 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 	connect( ui.spinBox_ReticleAngle,	SIGNAL(valueChanged(double)),	this, SLOT(onReticleAngChanged(double)) );
     connect( ui.pushButton_StartCalibration, SIGNAL(clicked()), 		this, SLOT(onStartReticleCalibrationButtonClick()) );
 	connect( ui.checkBox_AutoMode, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
-
     connect (ui.checkBox_DarkFrame, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
-
     connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
+
+    ui.checkBox_DarkFrame->setChecked(Options::useDarkFrame());
+    ui.checkBox_AutoMode->setChecked( Options::useAutoMode() );
+    ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
+    ui.checkBox_TwoAxis->setChecked( Options::useTwoAxis());
+    ui.spinBox_DriftTime->setValue( Options::autoModeIterations() );
+
 
     idleColor.setRgb(200,200,200);
     okColor = Qt::green;
@@ -243,10 +251,16 @@ void rcalibration::onStartReticleCalibrationButtonClick()
     if (pmath->get_image())
         disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
+    calibrationStage = CAL_START;
+
     pmath->set_lost_star(false);
     pmain_wnd->capture();
 
-    calibrationStage = CAL_START;
+    Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
+    Options::setUseAutoMode(ui.checkBox_AutoMode->isChecked());
+    Options::setUseTwoAxis(ui.checkBox_TwoAxis->isChecked());
+    Options::setUseDarkFrame(ui.checkBox_DarkFrame->isChecked());
+    Options::setAutoModeIterations(ui.spinBox_DriftTime->value());
 
 	// manual
 	if( ui.checkBox_AutoMode->checkState() != Qt::Checked )
@@ -256,8 +270,6 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 	}
 
     ui.progressBar->setVisible(true);
-
-    pmain_wnd->setUseDarkFrame(ui.checkBox_DarkFrame->isChecked());
 
 	// automatic
 	if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
@@ -367,11 +379,17 @@ void rcalibration::calibrate_reticle_manual( void )
                 if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &dec_swap ) )
 				{
 					fill_interface();
+                    if (dec_swap)
+                        pmain_wnd->appendLogText(i18n("DEC swap enabled."));
+                    else
+                        pmain_wnd->appendLogText(i18n("DEC swap disabled."));
+
                     pmain_wnd->appendLogText(i18n("Calibration completed."));
+                    if (Options::playGuideAlarm())
+                            KStars::Instance()->ekosManager()->playOk();
                     calibrationStage = CAL_FINISH;
 
-                    if (dec_swap)
-                        pmain_wnd->setDECSwap(dec_swap);
+                   pmain_wnd->setDECSwap(dec_swap);
 				}
 				else
 				{
@@ -389,11 +407,15 @@ void rcalibration::calibrate_reticle_manual( void )
                 calibrationStage = CAL_FINISH;
 				fill_interface();
                 pmain_wnd->appendLogText(i18n("Calibration completed."));
+                if (Options::playGuideAlarm())
+                        KStars::Instance()->ekosManager()->playOk();
 			}
 			else
 			{
                 calibrationStage = CAL_ERROR;
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
+                if (Options::playGuideAlarm())
+                        KStars::Instance()->ekosManager()->playError();
 			}
 		}
 
@@ -519,6 +541,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             calibrationStage = CAL_ERROR;
             QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+            if (Options::playGuideAlarm())
+                    KStars::Instance()->ekosManager()->playError();
             reset();
             break;
         }
@@ -545,13 +569,16 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             fill_interface();
             pmain_wnd->appendLogText(i18n("Calibration completed."));
             ui.startCalibrationLED->setColor(okColor);
-
+            if (Options::playGuideAlarm())
+                    KStars::Instance()->ekosManager()->playError();
         }
         else
         {
             QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
             ui.startCalibrationLED->setColor(alertColor);
             calibrationStage = CAL_ERROR;
+            if (Options::playGuideAlarm())
+                    KStars::Instance()->ekosManager()->playError();
         }
 
         reset();
@@ -621,6 +648,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
         calibrationStage = CAL_ERROR;
         QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+        if (Options::playGuideAlarm())
+                KStars::Instance()->ekosManager()->playError();
         reset();
         break;
     }
@@ -631,11 +660,15 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     {
         calibrationStage = CAL_FINISH;
         fill_interface();
-        pmain_wnd->appendLogText(i18n("Calibration completed."));
-        ui.startCalibrationLED->setColor(okColor);
-
         if (swap_dec)
-            pmain_wnd->setDECSwap(swap_dec);
+            pmain_wnd->appendLogText(i18n("DEC swap enabled."));
+        else
+            pmain_wnd->appendLogText(i18n("DEC swap disabled."));
+        pmain_wnd->appendLogText(i18n("Calibration completed."));        
+        ui.startCalibrationLED->setColor(okColor);
+        pmain_wnd->setDECSwap(swap_dec);
+        if (Options::playGuideAlarm())
+                KStars::Instance()->ekosManager()->playOk();
 
     }
     else
@@ -643,6 +676,8 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
+        if (Options::playGuideAlarm())
+                KStars::Instance()->ekosManager()->playError();
     }
 
     reset();
@@ -679,12 +714,17 @@ void rcalibration::guideStarSelected(int x, int y)
 
 void rcalibration::capture()
 {
+    calibrationStage = CAL_CAPTURE_IMAGE;
+
     if (pmain_wnd->capture())
     {
-            calibrationStage = CAL_CAPTURE_IMAGE;
-            ui.captureLED->setColor(busyColor);
-
-        pmain_wnd->appendLogText(i18n("Capturing image..."));
+         ui.captureLED->setColor(busyColor);
+         pmain_wnd->appendLogText(i18n("Capturing image..."));
+    }
+    else
+    {
+        ui.captureLED->setColor(alertColor);
+        calibrationStage = CAL_ERROR;
     }
 }
 
@@ -728,6 +768,7 @@ void rcalibration::select_auto_star(FITSView *image)
     Edge *guideStar = NULL;
 
     FITSImage *image_data = image->getImageData();
+    image_data->findStars();
 
 
     foreach(Edge *center, image_data->getStarCenters())

@@ -26,6 +26,9 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
 
+#include "ekosmanager.h"
+#include "kstars.h"
+
 #ifdef HAVE_QJSON
 #include "onlineastrometryparser.h"
 #endif
@@ -318,6 +321,18 @@ void Align::syncCCDInfo()
     targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
     kcfg_solverXBin->setEnabled(targetChip->canBin());
     kcfg_solverYBin->setEnabled(targetChip->canBin());
+    if (targetChip->canBin())
+    {
+        int binx=1,biny=1;
+        targetChip->getMaxBin(&binx, &biny);
+        kcfg_solverXBin->setMaximum(binx);
+        kcfg_solverYBin->setMaximum(biny);
+    }
+    else
+    {
+        kcfg_solverXBin->setValue(1);
+        kcfg_solverYBin->setValue(1);
+    }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
         return;
@@ -499,6 +514,8 @@ bool Align::capture()
     if (currentCCD->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to CCD."));
+        if (Options::playAlignmentAlarm())
+                KStars::Instance()->ekosManager()->playError();
         return false;
     }
 
@@ -580,12 +597,17 @@ void Align::solverFinished(double orientation, double ra, double dec)
      SolverRAOut->setText(ra_dms);
      SolverDecOut->setText(dec_dms);
 
+     if (Options::playAlignmentAlarm())
+             KStars::Instance()->ekosManager()->playOk();
+
      executeMode();
 
 }
 
 void Align::solverFailed()
 {
+    if (Options::playAlignmentAlarm())
+            KStars::Instance()->ekosManager()->playError();
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
@@ -647,6 +669,7 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
 
         telescopeCoord.setRA(coord->np[0].value);
         telescopeCoord.setDec(coord->np[1].value);
+        telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
@@ -828,6 +851,7 @@ void Align::executePolarAlign()
 void Align::measureAzError()
 {
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
+    int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
 
     switch (azStage)
     {
@@ -835,7 +859,7 @@ void Align::measureAzError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, hemisphereCombo->currentIndex() == 0
+        if (KMessageBox::warningContinueCancel( 0, hemisphere == 0
                                                    ? i18n("Point the telescope at the southern meridian. Press continue when ready.")
                                                    : i18n("Point the telescope at the northern meridian. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -920,9 +944,7 @@ void Align::measureAltError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, altDirCombo->currentIndex() == 0
-                                                   ? i18n("Point the telescope to the east with a minimum altitude of 20 degrees. Press continue when ready.")
-                                                   : i18n("Point the telescope to the west with a minimum altitude of 20 degrees. Press continue when ready.")
+        if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                 "ekos_measure_alt_error")!=KMessageBox::Continue)
             return;
@@ -1002,6 +1024,11 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     double raMotion = finalRA - initRA;
     decDeviation = finalDEC - initDEC;
 
+    // Northern/Southern hemisphere
+    int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
+    // East/West of meridian
+    int horizon    = (telescopeCoord.az().Degrees() > 0 && telescopeCoord.az().Degrees() <= 180) ? 0 : 1;
+
     // How much time passed siderrally form initRA to finalRA?
     double RATime = fabs(raMotion / SIDRATE) / 60.0;
 
@@ -1015,7 +1042,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
 
     KLocalizedString deviationDirection;
 
-    switch (hemisphereCombo->currentIndex())
+    switch (hemisphere)
     {
         // Northern hemisphere
         case 0:
@@ -1028,7 +1055,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         }
         else if (altStage == ALT_FINISHED)
         {
-            switch (altDirCombo->currentIndex())
+            switch (horizon)
             {
                 // East
                 case 0:
@@ -1063,7 +1090,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         }
         else if (altStage == ALT_FINISHED)
         {
-            switch (altDirCombo->currentIndex())
+            switch (horizon)
             {
                 // East
                 case 0:

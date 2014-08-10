@@ -84,6 +84,7 @@ public:
     //INDI::BaseDevice* getBaseDevice() { return baseDevice; }
 
     void addDevice(DeviceInfo *idv);
+    void removeDevice(DeviceInfo *idv);
     DeviceInfo* getDevice(const QString &deviceName);
     QList<DeviceInfo *> getDevices() { return devices; }
 

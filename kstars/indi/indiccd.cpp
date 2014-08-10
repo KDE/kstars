@@ -29,6 +29,8 @@
 #include "indiccd.h"
 #include "kstars.h"
 
+#include <ekos/ekosmanager.h>
+
 #include "Options.h"
 
 const int MAX_FILENAME_LEN = 1024;
@@ -50,6 +52,8 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
 
     captureMode   = FITS_NORMAL;
     captureFilter = FITS_NONE;
+
+    fx=fy=fw=fh=0;
 
     normalImage = focusImage = guideImage = calibrationImage = NULL;
 }
@@ -164,6 +168,47 @@ bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
     *h = arg->value;
 
     return true;
+
+}
+
+void CCDChip::resetFrame()
+{
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDER_FRAME");
+        break;
+
+    }
+
+    if (frameProp == NULL)
+        return;
+
+    INumber *xarg = IUFindNumber(frameProp, "X");
+    INumber *yarg = IUFindNumber(frameProp, "Y");
+    INumber *warg = IUFindNumber(frameProp, "WIDTH");
+    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+
+    if (xarg && yarg && warg && harg)
+    {
+        if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max && harg->value == harg->max)
+            return;
+
+        xarg->value = xarg->min;
+        yarg->value = yarg->min;
+        warg->value = warg->max;
+        harg->value = harg->max;
+
+        clientManager->sendNewNumber(frameProp);
+        return;
+    }
+
 
 }
 
@@ -286,6 +331,26 @@ void CCDChip::setCanSubframe(bool value)
 bool CCDChip::canAbort() const
 {
     return CanAbort;
+}
+
+bool CCDChip::getFocusFrame(int *x, int *y, int *w, int *h)
+{
+    *x = fx;
+    *y = fy;
+    *w = fw;
+    *h = fh;
+
+    return true;
+}
+
+bool CCDChip::setFocusFrame(int x, int y, int w, int h)
+{
+    fx=x;
+    fy=y;
+    fw=w;
+    fh=h;
+
+    return true;
 }
 
 void CCDChip::setCanAbort(bool value)
@@ -524,6 +589,41 @@ bool CCDChip::getBinning(int *bin_x, int *bin_y)
 
     *bin_x = horBin->value;
     *bin_y = verBin->value;
+
+    return true;
+}
+
+bool CCDChip::getMaxBin(int *max_xbin, int *max_ybin)
+{
+
+    INumberVectorProperty *binProp=NULL;
+    *max_xbin=*max_ybin=1;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        binProp = baseDevice->getNumber("CCD_BINNING");
+        break;
+
+       case GUIDE_CCD:
+        binProp = baseDevice->getNumber("GUIDER_BINNING");
+        break;
+    }
+
+
+    if (binProp == NULL)
+        return false;
+
+    INumber *horBin = NULL, *verBin=NULL;
+
+    horBin = IUFindNumber(binProp, "HOR_BIN");
+    verBin = IUFindNumber(binProp, "VER_BIN");
+
+    if (!horBin || !verBin)
+        return false;
+
+    *max_xbin = horBin->max;
+    *max_ybin = verBin->max;
 
     return true;
 }
@@ -858,7 +958,13 @@ void CCD::processBLOB(IBLOB* bp)
     else
         targetChip = primaryChip;
 
-    QString currentDir =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
+    QString currentDir;
+
+    if (targetChip->isBatchMode() == false)
+        currentDir = "/tmp";
+    else
+        currentDir  =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
+
     int nr, n=0;
     KTemporaryFile tmpFile;
 
@@ -868,6 +974,7 @@ void CCD::processBLOB(IBLOB* bp)
     if (QDir(currentDir).exists() == false)
     {
         KMessageBox::error(0, i18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
+        emit BLOBUpdated(NULL);
         return;
     }
 
@@ -883,6 +990,7 @@ void CCD::processBLOB(IBLOB* bp)
          if (!tmpFile.open())
          {
                  qDebug() << "Error: Unable to open " << filename << endl;
+                 emit BLOBUpdated(NULL);
                  return;
          }
 
@@ -910,6 +1018,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (!fits_temp_file.open(QIODevice::WriteOnly))
             {
                     qDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+                    emit BLOBUpdated(NULL);
                     return;
             }
 
@@ -928,6 +1037,9 @@ void CCD::processBLOB(IBLOB* bp)
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
         KStars::Instance()->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
+
+    if (Options::playFITSAlarm() && KStars::Instance()->ekosManager())
+        KStars::Instance()->ekosManager()->playFITS();
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {

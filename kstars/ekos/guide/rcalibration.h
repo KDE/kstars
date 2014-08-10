@@ -49,7 +49,7 @@ public:
     bool is_calibrating();
     bool is_finished() { return calibrationStage == CAL_FINISH; }
     void process_calibration();
-
+    CalibrationStage get_calibation_stage() { return calibrationStage; }
     void reset();
 
 protected slots:

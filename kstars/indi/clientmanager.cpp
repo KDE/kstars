@@ -77,7 +77,8 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
             if (dvName.isEmpty())
                 dvName = dv->getName();
             if (dv->getUniqueLabel() == dp->getDeviceName() ||
-                    QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) || dv->getDriverSource() == HOST_SOURCE)
+                    QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) ||
+                    dv->getDriverSource() == HOST_SOURCE || dv->getDriverSource() == GENERATED_SOURCE)
             {
                 deviceDriver = dv;
                 break;
@@ -154,22 +155,26 @@ void ClientManager::appendManagedDriver(DriverInfo *dv)
 }
 
 void ClientManager::removeManagedDriver(DriverInfo *dv)
-{
-    managedDrivers.removeOne(dv);
-
+{    
     dv->setClientState(false);
 
     foreach(DeviceInfo *di, dv->getDevices())
+    {
         emit INDIDeviceRemoved(di);
+        dv->removeDevice(di);
+    }
 
     foreach(DriverInfo *dv, managedDrivers)
     {
-        if (dv->getDriverSource() == HOST_SOURCE)
+        if (dv->getDriverSource() == GENERATED_SOURCE)
         {
             managedDrivers.removeOne(dv);
             delete (dv);
+            return;
         }
     }
+
+    managedDrivers.removeOne(dv);
 }
 
 

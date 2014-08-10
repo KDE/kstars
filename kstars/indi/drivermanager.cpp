@@ -139,6 +139,9 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
    if (dv == NULL)
         return;
 
+   if (dv->getDriverSource() == GENERATED_SOURCE)
+       return;
+
    QString currentDriver;
    ServerMode   mode = connectionMode;
    ServerManager *manager = dv->getServerManager();
@@ -502,13 +505,16 @@ void DriverManager::updateLocalTab()
 void DriverManager::updateClientTab()
 {
 
-     if (ui->clientTreeWidget->currentItem() == NULL)
+    QTreeWidgetItem *item = ui->clientTreeWidget->currentItem();
+     if (item == NULL)
         return;
+
+    QString hostname = item->text(HOST_NAME_COLUMN);
+    QString hostport = item->text(HOST_PORT_COLUMN);
 
     foreach (DriverInfo *dv, driversList)
     {
-        if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) == dv->getName() &&
-                ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == dv->getPort())
+        if ( hostname == dv->getName() && hostport == dv->getPort())
         {
             processDeviceStatus(dv);
             break;
