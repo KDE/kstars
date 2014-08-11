@@ -221,8 +221,15 @@ void PVPlotWidget::mousePressEvent( QMouseEvent *e ) {
 }
 
 void PVPlotWidget::mouseReleaseEvent( QMouseEvent * ) {
+
+    if( distancePoints.length() == 1 ){
+        this->replacePlotObject( this->plotObjects().length() - 1 , new KPlotObject( "white", KPlotObject::Points, 1.5, KPlotObject::Circle )  );
+        distancePoints.clear();
+    }
+
     mouseButtonDown = false;
     update();
+
 }
 
 void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
