@@ -194,22 +194,30 @@ void PVPlotWidget::mousePressEvent( QMouseEvent *e ) {
     oldx = e->x();
     oldy = e->y();
 
-    double xscale = dataRect().width()/( width() - leftPadding() - rightPadding() );
-    double yscale = dataRect().height()/( height() - topPadding() - bottomPadding() );
+    if( mouseButtonDown && pv->distanceButtonPressed() ){
+        if( ! distancePoints.isEmpty() ){
+            this->replacePlotObject( this->plotObjects().length() - 1 , new KPlotObject( "white", KPlotObject::Points, 1.5, KPlotObject::Circle )  );
+            distancePoints.clear();
+        }
 
-    double xaxis = ( oldx - width()/2 - 10 ) * xscale ;
-    double yaxis = ( height()/2 - oldy - 10 ) * yscale ;
+        double xscale = dataRect().width()/( width() - leftPadding() - rightPadding() );
+        double yscale = dataRect().height()/( height() - topPadding() - bottomPadding() );
 
-    double xadjust = ( dataRect().bottomLeft().x() + dataRect().bottomRight().x() ) / 2;
-    double yadjust = ( dataRect().topLeft().y() + dataRect().bottomLeft().y() ) / 2;
+        double xaxis = ( oldx - width()/2 - 10 ) * xscale ;
+        double yaxis = ( height()/2 - oldy - 10 ) * yscale ;
 
-    double clickedX = xaxis + xadjust;
-    double clickedY = yaxis + yadjust;
+        double xadjust = ( dataRect().bottomLeft().x() + dataRect().bottomRight().x() ) / 2;
+        double yadjust = ( dataRect().topLeft().y() + dataRect().bottomLeft().y() ) / 2;
 
-    distancePoints.append( new KPlotObject( "red", KPlotObject::Points, 3, KPlotObject::Circle ) );
-    distancePoints[ distancePoints.length() - 1 ]->addPoint( clickedX ,  clickedY , "clicked" );
-    this->addPlotObject( distancePoints[ distancePoints.length() - 1 ] );
-    update();
+        initX = xaxis + xadjust;
+        initY = yaxis + yadjust;
+
+        distancePoints.append( new KPlotObject( "white", KPlotObject::Points, 1.5, KPlotObject::Circle ) );
+        distancePoints[ distancePoints.length() - 1 ]->addPoint( initX ,  initY);
+        this->addPlotObject( distancePoints[ distancePoints.length() - 1 ] );
+        update();
+    }
+
 }
 
 void PVPlotWidget::mouseReleaseEvent( QMouseEvent * ) {
@@ -239,10 +247,32 @@ void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
         oldy = e->y();
     }
     else if( mouseButtonDown && pv->distanceButtonPressed() ){
+
+
         int dx = ( oldx - e->x() ) * dataRect().width() ;
         int dy = ( oldy - e->y() ) * dataRect().height() ;
         double distance =  sqrt( dx*dx + dy*dy ) / 1200;
-        qDebug() << distance << "AU";
+
+        double xscale = dataRect().width()/( width() - leftPadding() - rightPadding() );
+        double yscale = dataRect().height()/( height() - topPadding() - bottomPadding() );
+
+        double xaxis = ( e->x() - width()/2 - 10 ) * xscale ;
+        double yaxis = ( height()/2 - e->y() - 10 ) * yscale ;
+
+        double xadjust = ( dataRect().bottomLeft().x() + dataRect().bottomRight().x() ) / 2;
+        double yadjust = ( dataRect().topLeft().y() + dataRect().bottomLeft().y() ) / 2;
+
+        double newX = xaxis + xadjust;
+        double newY = yaxis + yadjust;
+
+        distancePoints.append( new KPlotObject( "white", KPlotObject::Lines, 1.5, KPlotObject::Circle ) );
+        distancePoints[ distancePoints.length() - 1 ]->addPoint( initX ,  initY );
+        distancePoints[ distancePoints.length() - 1 ]->addPoint( newX ,  newY , QString::number(distance) + " AU \n" + QString::number( distance * 149597871 , 'f', 0 ) + " km" );
+
+        if( distancePoints.length() > 1){
+            this->replacePlotObject( this->plotObjects().length() - 1 , distancePoints[ distancePoints.length() - 1 ]  );
+            update();
+        }
     }
 }
 

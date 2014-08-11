@@ -48,6 +48,7 @@ protected:
 private:
     bool mouseButtonDown;
     int oldx, oldy;
+    double initX, initY;
     double factor;
     PlanetViewer *pv;
     void updateFactor( const int modifier );
