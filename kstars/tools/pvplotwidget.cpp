@@ -193,6 +193,23 @@ void PVPlotWidget::mousePressEvent( QMouseEvent *e ) {
     mouseButtonDown = true;
     oldx = e->x();
     oldy = e->y();
+
+    double xscale = dataRect().width()/( width() - leftPadding() - rightPadding() );
+    double yscale = dataRect().height()/( height() - topPadding() - bottomPadding() );
+
+    double xaxis = ( oldx - width()/2 - 10 ) * xscale ;
+    double yaxis = ( height()/2 - oldy - 10 ) * yscale ;
+
+    double xadjust = ( dataRect().bottomLeft().x() + dataRect().bottomRight().x() ) / 2;
+    double yadjust = ( dataRect().topLeft().y() + dataRect().bottomLeft().y() ) / 2;
+
+    double clickedX = xaxis + xadjust;
+    double clickedY = yaxis + yadjust;
+
+    distancePoints.append( new KPlotObject( "red", KPlotObject::Points, 3, KPlotObject::Circle ) );
+    distancePoints[ distancePoints.length() - 1 ]->addPoint( clickedX ,  clickedY , "clicked" );
+    this->addPlotObject( distancePoints[ distancePoints.length() - 1 ] );
+    update();
 }
 
 void PVPlotWidget::mouseReleaseEvent( QMouseEvent * ) {

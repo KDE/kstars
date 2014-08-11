@@ -51,6 +51,7 @@ private:
     double factor;
     PlanetViewer *pv;
     void updateFactor( const int modifier );
+    QList<KPlotObject*> distancePoints;
 };
 
 #endif
