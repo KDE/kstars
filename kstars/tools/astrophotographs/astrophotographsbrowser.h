@@ -109,6 +109,8 @@ private:
     QString scaleAndAddPixmap(QPixmap *pixmap);
 
     void delay();
+
+    bool downloadLock;
 };
 
 #endif // ASTROPHOTOGRAPHSBROWSER_H

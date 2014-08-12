@@ -26,7 +26,7 @@
 #include "dialogs/imageviewerdialog.h"
 
 AstrophotographsBrowser::AstrophotographsBrowser(QWidget *parent) : QWidget(parent),
-    m_Offset(0), m_ImageCount(0), currentIndex(-1), m_ImageType(0), m_Lock(false), m_PreviousQuery("")
+    m_Offset(0), m_ImageCount(0), currentIndex(-1), m_ImageType(0), m_Lock(false), m_PreviousQuery(""), downloadLock(false)
 {
     m_BaseView = new QDeclarativeView();
 
@@ -116,24 +116,24 @@ void AstrophotographsBrowser::slotAstrobinSearchCompleted(bool ok)
     m_ImageCount = 0;
     m_Jobs.clear();
     m_Lock = true;
+
     foreach(AstroBinImage image, result) {
+        if( progressDlg.wasCanceled() )
+            break;
+
         KIO::StoredTransferJob *job = KIO::storedGet(image.thumbImageUrl(), KIO::Reload, KIO::HideProgressInfo);
         job->setUiDelegate(0);
         m_Jobs.append(job);
         connect(job, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
         m_AstroBinImageList.append(image);
+        downloadLock = false;
 
-        //FIXME: We need to wait till slotJobResult is not executed
-        //So that images get downloaded and save in a order in which request for them has been sent.
-        //using delay() function is worst possible solution, we need something like while(lock)
-        //where lock is set close in the begining of this loop and set open in slotJobResult but plain
-        //while loop is not working in qt.
-        delay();
+        while( !downloadLock ){
+            delay();
+        }
+
         progress += 5;
         progressDlg.setValue( progress );
-
-        if( progressDlg.wasCanceled() )
-            break;
     }
     m_Lock = false;
 }
@@ -287,6 +287,7 @@ void AstrophotographsBrowser::slotJobResult(KJob *job)
     }
 
     delete pm;
+    downloadLock = true;
 
 }
 
