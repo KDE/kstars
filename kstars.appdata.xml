@@ -77,7 +77,7 @@
     <p xml:lang="uk">Каталоги астрономічних даних:</p>
     <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
     <ul>
-      <li>default catalog consisting of stars to magnitude 8</li>
+      <li>Default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="ca">catàleg per omissió consistent en estrelles fins a magnitud 8</li>
       <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">default catalog consisting of stars to magnitude 8</li>
@@ -95,7 +95,7 @@
       <li xml:lang="sv">standardkatalog som består av stjärnor till magnitud 8</li>
       <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
       <li xml:lang="x-test">xxdefault catalog consisting of stars to magnitude 8xx</li>
-      <li>extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="ca">catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
       <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">extra catalogues consisting of 100 million stars to magnitude 16</li>
@@ -113,7 +113,7 @@
       <li xml:lang="sv">extra kataloger bestående av 100 millioner stjärnor till magnitud 16</li>
       <li xml:lang="uk">додаткові каталоги з 100 мільйонами зірок до зоряної величини 16;</li>
       <li xml:lang="x-test">xxextra catalogs consisting of 100 million stars to magnitude 16xx</li>
-      <li>downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
+      <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
       <li xml:lang="ca">catàlegs descarregables que inclouen imatges de Messier, i les nebuloses planetàries Abell</li>
       <li xml:lang="de">Herunterladbare Kataloge einschließlich Messier-Bilder, Abell-Katalog Planetarischer Nebel</li>
       <li xml:lang="en-GB">downloadable catalogues including Messier Images, Abell Planetary Nebulae</li>
@@ -131,7 +131,7 @@
       <li xml:lang="sv">nerladdningsbara kataloger som omfattar Messier-bilder, Abell planetära nebulosor</li>
       <li xml:lang="uk">придатні до звантаження каталоги з зображеннями об’єктів каталогу Месьє та каталогу планетарних туманностей Абеля;</li>
       <li xml:lang="x-test">xxdownloadable catalogs including Messier Images, Abell Planetary Nebulaexx</li>
-      <li>corrections for precession, nutation and atmospheric refraction</li>
+      <li>Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="ca">correccions per la precessió, nutació i refracció atmosfèrica</li>
       <li xml:lang="de">Korrekturen für Präzession, Nutation und atmosphärische Brechung</li>
       <li xml:lang="en-GB">corrections for precession, nutation and atmospheric refraction</li>
@@ -149,7 +149,7 @@
       <li xml:lang="sv">korrektion för precession, nutation och atmosfärisk refraktion</li>
       <li xml:lang="uk">виправлення прецесії, нутації та атмосферної рефракції;</li>
       <li xml:lang="x-test">xxcorrections for precession, nutation and atmospheric refractionxx</li>
-      <li>tools for retrieval of data from online databases</li>
+      <li>Tools for retrieval of data from online databases</li>
       <li xml:lang="ca">eines per recuperar dades des de base de dades en línia</li>
       <li xml:lang="de">Werkzeuge zum Herunterladen von Daten aus Online-Datenbanken</li>
       <li xml:lang="en-GB">tools for retrieval of data from online databases</li>
