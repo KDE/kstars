@@ -51,6 +51,9 @@ public:
     MoonPhaseTool(QWidget *p);
     ~MoonPhaseTool();
 
+public slots:
+    void setCaptionSlot(const QDate &d);
+
     /*
 public slots:
 

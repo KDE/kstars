@@ -66,7 +66,7 @@ class MoonPhaseCalendar : public KDateTable {
 
     void setHemisphere(const bool type){ isNorthernHemisphere = type; }
 
-    void setMoonDetail(QLabel * phaseName, QLabel * nextFullMoon, const QDate &d );
+    QString getMoonName( const QDate &d );
 
  protected:
 

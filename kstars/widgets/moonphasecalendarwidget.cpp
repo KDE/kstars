@@ -324,12 +324,14 @@ unsigned short MoonPhaseCalendar::computeMoonPhase( const KStarsDateTime &date )
 
 }
 
-void MoonPhaseCalendar::setMoonDetail(QLabel * phaseName, QLabel * nextFullMoon, const QDate &d){
-    long double jd0 = KStarsDateTime(d, QTime(8,0,0)).djd();
-    KSNumbers num(jd0);
+QString MoonPhaseCalendar::getMoonName(const QDate &d){
+//    long double jd0 = KStarsDateTime(d, QTime(8,0,0)).djd();
+//    KSNumbers num(jd0);
 
-    m_Moon.findPosition(&num);
-    m_Moon.findPhase();
-    phaseName->setText ( m_Moon.phaseName()+" ("+QString::number( int( 100*m_Moon.illum() ) )+"%)" );
-    nextFullMoon->setText( fullMoonNames.at( d.month() - 1 ) );
+//    m_Moon.findPosition(&num);
+//    m_Moon.findPhase();
+//    phaseName->setText ( m_Moon.phaseName()+" ("+QString::number( int( 100*m_Moon.illum() ) )+"%)" );
+//    nextFullMoon->setText( fullMoonNames.at( d.month() - 1 ) );
+
+    return fullMoonNames.at( d.month() - 1 ) ;
 }

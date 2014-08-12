@@ -30,6 +30,8 @@ MoonPhaseTool::MoonPhaseTool(QWidget *parent)
     gcw = new GenericCalendarWidget( *mpc, this );
     setFixedSize( gcw->size() );
     setCaption( i18n("Moon Phase Calendar") );
+
+    connect( gcw, SIGNAL( dateChanged(const QDate& ) ), this, SLOT( setCaptionSlot( const QDate& ) ) );
 }
 
 
@@ -37,4 +39,8 @@ MoonPhaseTool::~MoonPhaseTool() {
     delete m_Moon;
     delete m_Sun;
     delete mpc;
+}
+
+void MoonPhaseTool::setCaptionSlot(const QDate &d){
+    setCaption( mpc->getMoonName( d ));
 }
