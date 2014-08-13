@@ -479,7 +479,7 @@ void EkosManager::processINDI()
 
         remote_indi->setHostParameters(Options::remoteHost(), Options::remotePort());
 
-        remote_indi->setDriverSource(HOST_SOURCE);
+        remote_indi->setDriverSource(GENERATED_SOURCE);
 
         if (telescopeCombo->currentText() != "--")
             nDevices++;

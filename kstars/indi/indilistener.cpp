@@ -105,7 +105,7 @@ void INDIListener::removeClient(ClientManager *cm)
     while (it != devices.end())
     {
         DriverInfo *dv = (*it)->getDriverInfo();
-        bool hostSource = (dv->getDriverSource() == HOST_SOURCE);
+        bool hostSource = (dv->getDriverSource() == HOST_SOURCE) || (dv->getDriverSource() == GENERATED_SOURCE);
 
         if (dv && cm->isDriverManaged(dv))
         {
@@ -137,13 +137,14 @@ void INDIListener::removeDevice(DeviceInfo *dv)
 {
     foreach(ISD::GDInterface *gd, devices)
     {
-        if (dv->getDriverInfo()->getUniqueLabel() == gd->getDeviceName() || dv->getDriverInfo()->getDriverSource() == HOST_SOURCE)
+        if (dv->getDriverInfo()->getUniqueLabel() == gd->getDeviceName() || dv->getDriverInfo()->getDriverSource() == HOST_SOURCE
+                || dv->getDriverInfo()->getDriverSource() == GENERATED_SOURCE)
         {           
             emit deviceRemoved(gd);
             devices.removeOne(gd);
             delete(gd);
 
-            if (dv->getDriverInfo()->getDriverSource() != HOST_SOURCE)
+            if (dv->getDriverInfo()->getDriverSource() != HOST_SOURCE && dv->getDriverInfo()->getDriverSource() != GENERATED_SOURCE)
                 return;
         }
     }
