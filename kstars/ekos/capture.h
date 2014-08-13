@@ -168,6 +168,7 @@ public slots:
     void newFITS(IBLOB *bp);
     void checkCCD(int CCDNum=-1);
     void checkFilter(int filterNum=-1);
+    void processCCDNumber(INumberVectorProperty *nvp);
 
     void addJob(bool preview=false);
     void removeJob();
@@ -180,6 +181,7 @@ public slots:
     void setGuideDither(bool enable);
     void setAutoguiding(bool enable, bool isDithering);
     void resumeCapture();
+    void checkPreview(bool enable);
 
     void updateAutofocusStatus(bool status);
     void updateScopeCoords(INumberVectorProperty *coord);

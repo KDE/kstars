@@ -287,6 +287,13 @@ bool Guide::capture()
         return false;
     }
 
+    //If calibrating, reset frame
+    if (calibration->get_calibation_stage() == rcalibration::CAL_CAPTURE_IMAGE)
+    {
+        targetChip->resetFrame();
+        guider->set_subframed(false);
+    }
+
     // Exposure changed, take a new dark
     if (useDarkFrame && darkExposure != seqExpose)
     {
@@ -433,10 +440,12 @@ void Guide::clearLog()
 
 void Guide::setDECSwap(bool enable)
 {
-    if (ST4Driver == NULL)
+    if (ST4Driver == NULL || guider == NULL)
         return;
 
+    guider->set_dec_swap(enable);
     ST4Driver->setDECSwap(enable);
+
 }
 
 bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
@@ -604,12 +613,12 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 void Guide::stopGuiding()
 {
     isSuspended=false;
-    guider->abort();
+    guider->abort(true);
 }
 
 void Guide::setSuspended(bool enable)
 {
-    if (enable == isSuspended)
+    if (enable == isSuspended || (enable && guider->is_guiding() == false))
         return;
 
     isSuspended = enable;
