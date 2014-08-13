@@ -77,96 +77,11 @@
     <p xml:lang="uk">Каталоги астрономічних даних:</p>
     <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
     <ul>
-      <li>default catalog consisting of stars to magnitude 8</li>
-      <li xml:lang="ca">catàleg per omissió consistent en estrelles fins a magnitud 8</li>
-      <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
-      <li xml:lang="en-GB">default catalog consisting of stars to magnitude 8</li>
-      <li xml:lang="es">el catálogo por omisión contiene estrellas hasta la magnitud 8</li>
-      <li xml:lang="et">vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
-      <li xml:lang="fi">oletusluettelo sisältää tähdet suuruusluokkaan 8 saakka</li>
-      <li xml:lang="nds">Standardkataloog mit Steerns bet Magnituud 8</li>
-      <li xml:lang="nl">standaard catalogus bevat sterren tot magnitude 8</li>
-      <li xml:lang="pl">domyślny katalog zawierający gwiazdy wielkości 8</li>
-      <li xml:lang="pt">catálogo predefinido que consiste nas estrelas de magnitude 8</li>
-      <li xml:lang="pt-BR">Catálogo padrão que consiste nas estrelas de magnitude 8</li>
-      <li xml:lang="ru">основной каталог содержит звёзды до 8 величины</li>
-      <li xml:lang="sk">predvolený katalóg obsahujúci hviezdy do magnitúdy 8</li>
-      <li xml:lang="sl">privzeti katalog, ki vsebuje zvezde do magnitude 8</li>
-      <li xml:lang="sv">standardkatalog som består av stjärnor till magnitud 8</li>
-      <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
-      <li xml:lang="x-test">xxdefault catalog consisting of stars to magnitude 8xx</li>
-      <li>extra catalogs consisting of 100 million stars to magnitude 16</li>
-      <li xml:lang="ca">catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
-      <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
-      <li xml:lang="en-GB">extra catalogues consisting of 100 million stars to magnitude 16</li>
-      <li xml:lang="es">los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
-      <li xml:lang="et">lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
-      <li xml:lang="fi">lisäluettelo sisältää 100 miljoonaa tähteä suuruusluokkaan 16 saakka</li>
-      <li xml:lang="nds">Bito-Katalogen mit 100 Millionen Steerns bet Magnituud 16</li>
-      <li xml:lang="nl">extra catalogi die 100 miljoen sterren bevatten tot magnitude 16</li>
-      <li xml:lang="pl">ekstra katalogi zawierające 100 milionów gwiazd wielkości 16</li>
-      <li xml:lang="pt">catálogos extra que consistem em 100 milhões de estrelas até à magnitude 16</li>
-      <li xml:lang="pt-BR">Catálogos adicionais que consistem em 100 milhões de estrelas de magnitude 16</li>
-      <li xml:lang="ru">дополнительные каталоги содержат 100 миллионов звёзд до 16 величины</li>
-      <li xml:lang="sk">dodatočné katalógy obsahujúce 100 miliónov hviezd do magnitúdy 16</li>
-      <li xml:lang="sl">dodatni katalogi, ki vsebujejo 100 milijonov zvezd do magnitude 16</li>
-      <li xml:lang="sv">extra kataloger bestående av 100 millioner stjärnor till magnitud 16</li>
-      <li xml:lang="uk">додаткові каталоги з 100 мільйонами зірок до зоряної величини 16;</li>
-      <li xml:lang="x-test">xxextra catalogs consisting of 100 million stars to magnitude 16xx</li>
-      <li>downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
-      <li xml:lang="ca">catàlegs descarregables que inclouen imatges de Messier, i les nebuloses planetàries Abell</li>
-      <li xml:lang="de">Herunterladbare Kataloge einschließlich Messier-Bilder, Abell-Katalog Planetarischer Nebel</li>
-      <li xml:lang="en-GB">downloadable catalogues including Messier Images, Abell Planetary Nebulae</li>
-      <li xml:lang="es">los catálogos que puede descargar contienen imágenes de objetos Messier, nebulosas planetarias Abell</li>
-      <li xml:lang="et">allalaaditavad kataloogid, sealhulgas Messieri pildid, Abelli planetaarudukogud</li>
-      <li xml:lang="fi">ladattavia luetteloita kuten Messier-kuvat ja Abell planetaariset sumut</li>
-      <li xml:lang="nds">Daallaadbor Katalogen mit Messier-Biller un Abell sien planetaarsch Nevels</li>
-      <li xml:lang="nl">te downloaden catalogi, onder andere Messier-afbeeldingen, Abell Planetaire nevels.</li>
-      <li xml:lang="pl">katalogi do pobrania zawierające obrazy Messier, Mgławicę planetarną Abell</li>
-      <li xml:lang="pt">catálogos que poderá transferir posteriormente, incluindo as imagens Messier e as Nébulas Planetárias Abell</li>
-      <li xml:lang="pt-BR">Catálogos disponíveis para transferência, incluindo as imagens Messier e as Nebulosas Planetárias Abell</li>
-      <li xml:lang="ru">загружаемые каталоги, включая изображения каталога Мессье, планетарные туманности Абеля</li>
-      <li xml:lang="sk">stiahnuteľné katalógy obsahujúce Messierove obrázky, Abellove planetárne hmloviny</li>
-      <li xml:lang="sl">katalogi, ki jih je mogoče prejeti in vsebujejo Messierjeve slike, Abellove planetarne meglice</li>
-      <li xml:lang="sv">nerladdningsbara kataloger som omfattar Messier-bilder, Abell planetära nebulosor</li>
-      <li xml:lang="uk">придатні до звантаження каталоги з зображеннями об’єктів каталогу Месьє та каталогу планетарних туманностей Абеля;</li>
-      <li xml:lang="x-test">xxdownloadable catalogs including Messier Images, Abell Planetary Nebulaexx</li>
-      <li>corrections for precession, nutation and atmospheric refraction</li>
-      <li xml:lang="ca">correccions per la precessió, nutació i refracció atmosfèrica</li>
-      <li xml:lang="de">Korrekturen für Präzession, Nutation und atmosphärische Brechung</li>
-      <li xml:lang="en-GB">corrections for precession, nutation and atmospheric refraction</li>
-      <li xml:lang="es">correcciones de precesión, nutación y refracción atmosférica</li>
-      <li xml:lang="et">pretsessiooni, nutatsiooni ja atmosfääri refraktsiooni korrigeerimine</li>
-      <li xml:lang="fi">korjaukset presessiolle, nutaatiolle ja ilmakehätaittumiselle</li>
-      <li xml:lang="nds">Richten för Küselbewegen, Eerass-Swunken un atmosfeersch Lichtbreken</li>
-      <li xml:lang="nl">correcties voor precessie, nutatie en atmosferische straalbreking</li>
-      <li xml:lang="pl">poprawki do precesji, nutacji i załamania atmosferycznego</li>
-      <li xml:lang="pt">correcções da precessão, nutação e refracção atmosférica</li>
-      <li xml:lang="pt-BR">Correções da precessão, nutação e refração atmosférica</li>
-      <li xml:lang="ru">поправки на прецессию, нутацию и атмосферную рефракцию</li>
-      <li xml:lang="sk">korekcie pre precesiu, nutáciu a atmosférickú refrakciu</li>
-      <li xml:lang="sl">popravke precesije, nutacije in loma v ozračju</li>
-      <li xml:lang="sv">korrektion för precession, nutation och atmosfärisk refraktion</li>
-      <li xml:lang="uk">виправлення прецесії, нутації та атмосферної рефракції;</li>
-      <li xml:lang="x-test">xxcorrections for precession, nutation and atmospheric refractionxx</li>
-      <li>tools for retrieval of data from online databases</li>
-      <li xml:lang="ca">eines per recuperar dades des de base de dades en línia</li>
-      <li xml:lang="de">Werkzeuge zum Herunterladen von Daten aus Online-Datenbanken</li>
-      <li xml:lang="en-GB">tools for retrieval of data from online databases</li>
-      <li xml:lang="es">herramientas de obtención de datos de bases de datos en línea</li>
-      <li xml:lang="et">võimalus hankida andmeid võrguandmebaasidest</li>
-      <li xml:lang="fi">työkalut aineiston hakemiseen verkossa olevista tietokannoista</li>
-      <li xml:lang="nds">Warktüüch för't Halen vun Daten ut Tokoppel-Datenbanken</li>
-      <li xml:lang="nl">hulpmiddelen voor het verkrijgen van gegevens uit gegevensbanken op het internet</li>
-      <li xml:lang="pl">narzędzia do pobierania danych z internetowych baz danych</li>
-      <li xml:lang="pt">ferramentas de obtenção de dados a partir de bases de dados 'online'</li>
-      <li xml:lang="pt-BR">Ferramentas para obtenção de dados dos bancos de dados online</li>
-      <li xml:lang="ru">инструменты для получения данных из онлайновых баз данных</li>
-      <li xml:lang="sk">nástroje na získanie všetkých údajov zo všetkých online databáz</li>
-      <li xml:lang="sl">orodja za pridobivanje podatkov iz spletnih podatkovnih zbirk</li>
-      <li xml:lang="sv">verktyg för hämtning av data från databaser på nätet</li>
-      <li xml:lang="uk">інструменти для отримання даних з баз даних у інтернеті.</li>
-      <li xml:lang="x-test">xxtools for retrieval of data from online databasesxx</li>
+      <li>Default catalog consisting of stars to magnitude 8</li>
+      <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
+      <li>Corrections for precession, nutation and atmospheric refraction</li>
+      <li>Tools for retrieval of data from online databases</li>
     </ul>
   </description>
   <url type="homepage">http://edu.kde.org/kstars/</url>
