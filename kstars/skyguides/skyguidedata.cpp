@@ -20,8 +20,10 @@
 
 #include "skyguidedata.h"
 
-SkyGuideData::SkyGuideData(const QString & title, const QString & path, QObject * parent) :
+SkyGuideData::SkyGuideData( const QString & title, const QString & path, uint width, uint height, QObject * parent) :
 		QObject(parent),
 		mTitle(title),
-		mPath(path)
+		mPath(path),
+		mWidth(width),
+		mHeight(height)
 {};

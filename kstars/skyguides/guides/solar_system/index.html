@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>KStars</title>
+
+		<meta name="description" content="Presentation about SOCIS's project SkyGuides which made possible load interactive multimedia tours">
+		<meta name="author" content="Gioacchino Mazzurco">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/vicky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<script type="text/javascript" src="jquery.min.1.7.js"></script>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<p style="font-size:12px;"><br/></p>
+					<h2>KStars SoCiS 2014</h2>
+					<p style="color:#2F0B3A;">SkyGuides: spacelocalized interactive HTML5 multimedia tours for KStars.</p>
+					<small>An example presentation about the Solar System to show some of the SkyGuides features</small>
+					<img src="img/car4.png" width="500" height="100" />
+					<small>Created by <b style="color:gold;">&nbsp;Gioacchino Mazzurco &lt;gio@eigenlab.org&gt;</b></small>
+				</section>
+
+
+				<section>
+
+					<section>
+						<h2>What is SkyGuides?</h2>
+						<p>SoCis 2014 has permitted the creation of a innovative tool called SkyGuides wich made possible load interactive multimedia tour that will help to pickup some tips for navigating the sky to explore things such as the fascinating science and history of the celestial object they are observing on the sky view.</p>
+					</section>
+
+					<section>
+						<h3>What is SkyGuides?</h3>
+						<small>Just right click on any celestial object in the sky, if some SkyGuide is available you will see "Show Guides" in the menu</small>
+						<img src="img/showguides.png"/>
+					</section>
+
+					<section>
+						<h3>What is SkyGuides?</h3>
+						<small>Then click on the SkyGuide you are interested</small>
+						<img src="img/showguides1.png"/>
+					</section>
+
+					<section>
+						<h3>What is SkyGuides?</h3>
+						<small>Throughout this multimedia menu users would discover images, presentations, videos, and anything embeddable in HTML5 to enhance the experience.</small>
+						<p><br/></p>
+						<small>SkyGuides also give users the opportunity to create their own multimedia presentation that can be shared in a similar way as custom star catalogs.<br/>To create a new SkyGuide, just create a folder that have inside of it:</small>
+						<pre style="font-size:12px;"><code data-trim>
+title.txt // Contains the title of your Presentation
+skyobjects.txt // Celestial objects related to the presentation, one per line
+thumbnail.png // Thumbnail image of your Presentation
+preferred_size.txt // Preferred size of your presentation es: 800x600
+index.html // This is your HTML5 presentation
+						</code></pre>
+						<small>Then put it inside your ${kstars_data_folder}/guides/yourguide</small>
+					</section>
+
+				</section>
+
+				<section>
+					<h3>Some History...</h3>
+					<small>For many thousands of years, humanity, with a few notable exceptions, did not recognize the existence of the Solar System. People believed Earth to be stationary at the centre of the universe and categorically different from the divine or ethereal objects that moved through the sky. Although the Greek philosopher Aristarchus of Samos had speculated on a heliocentric reordering of the cosmos, Nicolaus Copernicus was the first to develop a mathematically predictive heliocentric system. </small></p>
+					<img src="img/Heliocentric.jpg" height="250" />
+				</section>
+				
+				<section>
+					<h3> Where is the Solar System?</h3>
+					<p><small>The Solar System is located in the Milky Way, a barred spiral galaxy with a diameter of about 100,000 light-years containing about 200 billion stars.</small></p>
+					<img src="img/Milky-Way.jpg" height="400" />
+				</section>
+				
+				
+				<section>
+					<section>
+						<h3>The star at the center of the Solar System</h3>
+						<p><small> The Sun formed about 4.567 billion years ago from the gravitational collapse of a region within a large molecular cloud is is almost perfectly spherical and consists of hot plasma interwoven with magnetic fields.It accounts for about 99.86% of the total mass of the Solar System. </small></p>
+						<table><tr>
+						<td><img src="img/evolution.jpg" height="250" /></td>
+						<td><img src="img/sistema_solar.jpg" height="250" /></td>
+						</tr></table>
+					</section>
+
+					<section>
+						<h3>Introducing a SkyGuides Feature</h3>
+							<small>Click on the Sun then look at the SkyMap</small>
+							<img src="img/images.jpg" onclick="window.skymap.setDestinationBySkyObjectName('Sun')" />
+							<br/>
+							<small class="fragment" style="color:#2F0B3A;">How did you do that?</small>
+							<pre class="fragment" style="font-size:15px;"><code data-trim>onclick="window.skymap.setDestinationBySkyObjectName('Sun')"</code></pre>
+					</section>
+				</section>
+				
+				
+				<section>
+					<section>
+						<h3>Inner Planets &amp; Natural Satellites</h3>
+						<ol>
+							<li class="fragment" style="color:#610B21">Mercury</li>
+							<li class="fragment" style="color:#2F0B3A">Venus</li>
+							<li class="fragment" style="color:#610B21">Earth &amp; Moon</li>
+							<li class="fragment" style="color:#2F0B3A">Mars, Phobos &amp; Deimos</li>
+						</ol>
+						<img src="img/inner.jpg" height="200"/>
+						<small>The four inner or terrestrial planets have dense, rocky compositions, few or no moons, and no ring systems.</small>
+					</section>
+					
+					<section>
+						<h2>Mercury</h2>
+						<small> Mercury is the smallest and closest to the Sun of the eight planets in the Solar System, with an orbital period of about 88 Earth days. Seen from Earth, it appears to move around its orbit in about 116 days, which is much faster than any other planet.</small>
+						<img src="img/mercury.jpg" onclick="window.skymap.setDestinationBySkyObjectName('Mercury')"/>
+						<small>Click in the figure to find it on SkyMap.</small>
+					</section>
+					
+					<section>
+						<h2>Venus</h2>
+						<small>Venus (0.7 AU from the Sun) is close in size to Earth (0.815 Earth masses) and, like Earth, has a thick silicate mantle around an iron core, a substantial atmosphere, and evidence of internal geological activity. It is much drier than Earth, and its atmosphere is ninety times as dense.</small>
+						<img src="img/venus.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Venus')"/>
+					</section>
+					
+					<section>
+						<h2>Earth</h2>
+						<small>Earth (1 AU from the Sun) is the largest and densest of the inner planets, the only one known to have current geological activity, and the only place where life is known to exist.</small>
+						<table><tr>
+							<td><img src="img/earth.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Earth')"/></td>
+							<td><img src="img/moon.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Moon')"/></td>
+						</tr></table>
+						<small>It has one natural satellite, the Moon, the only large satellite of a terrestrial planet in the Solar System.</small>
+					</section>
+					
+					
+					<section>
+						<h2>Mars</h2>
+						<small>Mars (1.5 AU from the Sun) is smaller than Earth and Venus (0.107 Earth masses). It possesses an atmosphere of mostly carbon dioxide with a surface pressure of 6.1 millibars (roughly 0.6% of that of Earth).</small>
+						<img src="img/deimos.jpg" height="100" onclick="window.skymap.setDestinationBySkyObjectName('Deimos')"/>
+						<img src="img/mars.jpg"  height="300" onclick="window.skymap.setDestinationBySkyObjectName('Mars')"/>
+						<img src="img/phobos.jpg" height="100" onclick="window.skymap.setDestinationBySkyObjectName('Phobos')" />
+						<small>Mars has two tiny natural satellites Deimos and Phobos.</small>
+					</section>
+				</section>
+
+				
+				<section>
+					<section>
+						<h3>Asteroid belt</h3>
+						<small> Asteroids are small Solar System bodies composed mainly of refractory rocky, metallic minerals and some ice.</small>
+						<img src="img/asteroids.png" height="300" />
+						<small>The asteroid belt occupies the orbit between Mars and Jupiter, between 2.3 and 3.3 AU from the Sun. It is thought to be remnants from the Solar System's formation that failed to coalesce because of the gravitational interference of Jupiter.</small>
+					</section>
+					
+					<section>
+					<h2>Ceres</h2>
+						<small>Ceres is the largest asteroid, a protoplanet, and a dwarf planet. Ceres was considered a planet when it was discovered in 1801, and was reclassified to asteroid in the 1850s as further observations revealed additional asteroids.</small>
+						<img src="img/ceres.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Ceres')"/>
+					</section>
+				</section>
+				
+				
+				<section>
+					<section>
+						<h3>Outer Planets &amp; Natural Satellites</h3>
+						<ol>
+							<li class="fragment"><code style="color:#610B21">Jupiter, Ganymede &amp; Callisto</code></li>
+							<li class="fragment"><code style="color:#2F0B3A">Saturn, Titan &amp; Enceladus</code></li>
+							<li class="fragment"><code style="color:#610B21">Uranus, Titania &amp; Oberon</code></li>
+							<li class="fragment"><code style="color:#2F0B3A">Neptune &amp; Triton</code></li>
+						</ol>
+						<img src="img/outer.jpg" height="140" />
+						<small>The four outer planets, or gas giants, collectively make up 99% of the mass known to orbit the Sun.</small>
+					</section>
+					
+					
+					<section>
+						<h3>Jupiter</h3>
+						<small>Jupiter (5.2 AU), at 318 Earth masses, is 2.5 times the mass of all the other planets put together. A large group of objects called Trojan asteroids also share the orbit of the planet Jupiter around the Sun.</small></p>
+						<table><tr>
+							<td><img src="img/ganymede.jpg" width="100" onclick="window.skymap.setDestinationBySkyObjectName('Ganymede')" /></td>
+							<td><img src="img/jupiter.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Jupiter')" /></td>
+							<td><img src="img/Callisto.jpg" width="100" onclick="window.skymap.setDestinationBySkyObjectName('Callisto')" /></td>
+						</tr></table>
+						<small>Jupiter has 67 known satellites. The two largest are Ganymede and Callisto, show similarities to the terrestrial planets, such as volcanism and internal heating. Ganymede is the largest satellite in the Solar System.</small>
+					</section>
+					
+					
+					<section>
+						<h3>Saturn</h3>
+						<small>Saturn (9.5 AU), distinguished by its extensive ring system, has several similarities to Jupiter, such as its atmospheric composition and magnetosphere.</small>
+						<table><tr>
+							<td><img src="img/titan.jpg" width="100" onclick="window.skymap.setDestinationBySkyObjectName('Titan')" /></td>
+							<td><img src="img/saturn.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Saturn')" /></td>
+							<td><img src="img/enceladus.jpg" width="100" onclick="window.skymap.setDestinationBySkyObjectName('Enceladus')" /></td>
+						</tr></table>
+						<small>Saturn has 62 confirmed satellites; two of which, Titan and Enceladus, show signs of geological activity, though they are largely made of ice. Titan is the second-largest moon in the Solar System.</small>
+					</section>
+					
+					
+					<section>
+						<h3>Uranus</h3>
+						<small>Uranus (19.2 AU), at 14 Earth masses, is the lightest of the outer planets. Uniquely among the planets, it orbits the Sun on its side; its axial tilt is over ninety degrees to the ecliptic. It has a much colder core than the other gas giants and radiates very little heat into space.</small>
+						<table><tr>
+							<td><img src="img/titania.jpg" width="100" onclick="window.skymap.setDestinationBySkyObjectName('Titania')" /></td>
+							<td><img src="img/uranus.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Uranus')" /></td>
+							<td><img src="img/oberon.jpg" width="100" onclick="window.skymap.setDestinationBySkyObjectName('Oberon')" /></td>
+						</tr></table>
+						<small>Uranus has 27 known satellites, the two largest are Titania and Oberon</small>
+					</section>
+					
+					<section>
+						<h2>Neptune</h2>
+						<small>Neptune (30 AU), though slightly smaller than Uranus, is more massive (equivalent to 17 Earths) and therefore more dense. It radiates more internal heat, but not as much as Jupiter or Saturn.</small>
+						<table><tr>
+							<td><img src="img/neptune.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Neptune')" /></td>
+							<td><img src="img/triton.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Triton')" /></td>
+						</tr></table>
+						<small>Neptune has 14 known satellites. The largest, Triton, is geologically active, with geysers of liquid nitrogen.</small>
+					</section>
+				</section>
+				
+				
+				<section>
+					<h2>Centaurs</h2>
+					<small>The centaurs are icy comet-like bodies whose orbits have semi-major axes greater than Jupiter's (5.5 AU) and less than Neptune's (30 AU). They have unstable orbits that cross or have crossed the orbits of one or more of the giant planets, and have dynamic lifetimes of a few million years. The centaurs are those objects (in orange) that lie generally inwards of the Kuiper belt (in green) and outside the Jupiter Trojans (pink).</small>
+					<img src="img/centaur.png" height="290" />
+				</section>
+				
+				
+				<section>
+					<h2>Comet Halley</h2>
+					<small>Comets are small Solar System bodies, typically only a few kilometres across, composed largely of volatile ices.When a comet enters the inner Solar System, its proximity to the Sun causes its icy surface to sublimate and ionise, creating a coma: a long tail of gas and dust often visible to the naked eye. For example, Halley's Comet or Comet Halley, officially designated 1P/Halley, is the best-known of the short-period comets and is visible from Earth every 75–76 years.</small>
+					<img src="img/halley.jpg" height="250" />
+				</section>
+				
+				
+				<section>
+					<section>
+					<h3>Trans-Neptunian Region</h3>
+					<small>The area beyond Neptune, or the "trans-Neptunian region", is still largely unexplored. It appears to consist overwhelmingly of small worlds (the largest having a diameter only a fifth that of Earth and a mass far smaller than that of the Moon) composed mainly of rock and ice.</small>
+					<small style="color:#2F0B3A">Regions beyond Nepture:</small>
+					<ol style="font-size:16px;">
+						<li class="fragment"><b style="color:gold">KUIPER BELT: </b>A great ring of debris similar to the asteroid belt, but consisting mainly of objects composed primarily of ice. It extends between 30 and 50 AU from the Sun.</li>
+						<li class="fragment"><b style="color:gold">SCATTERED DISK: </b>Overlaps the Kuiper belt but extends much further outwards, is thought to be the source of short-period comets. Scattered disc objects are believed to have been ejected into erratic orbits by the gravitational influence of Neptune's early outward migration.</li>
+					</ol>	
+					</section>
+					
+					<section>
+						<h2>Pluto</h2>
+						<small>The dwarf planet Pluto (39 AU average) is the largest known object in the Kuiper belt. When discovered in 1930, it was considered to be the ninth planet; this changed in 2006 with the adoption of a formal definition of planet. Charon, Pluto's largest moon, is sometimes described as part of a binary system with Pluto, as the two bodies orbit a barycentre of gravity above their surfaces.</small>
+						<table><tr>
+							<td><img src="img/pluto.gif" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Pluto')"/></td>
+							<td><img src="img/charon.png" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Charon')"/></td>
+						</tr></table>
+					</section>
+					
+					<section>
+					<h2>Eris</h2>
+						<small>Eris (68 AU average) is the largest known scattered disc object, and caused a debate about what constitutes a planet, because it is 25% more massive than Pluto and about the same diameter. It is the most massive of the known dwarf planets. It has one known moon, Dysnomia. Like Pluto, its orbit is highly eccentric.</small>
+						<img src="img/eris.jpg" height="300" onclick="window.skymap.setDestinationBySkyObjectName('Eris')"/>
+					</section>
+				</section>
+				
+				
+				<section>
+					<h4>Farthest regions &amp; Future of the Solar System</h4>
+					<small style="font-size:18px;">The point at which the Solar System ends and interstellar space begins is not precisely defined because its outer boundaries are shaped by two separate forces: the solar wind and the Sun's gravity. The outer limit of the solar wind's influence is roughly four times Pluto's distance from the Sun.
+					<br/>All predictions of the future of the Earth, the Solar System and the Universe must account for the second law of thermodynamics, which states that entropy must increase over time. Stars must eventually exhaust their supply of hydrogen fuel and burn out.</small>
+					<img src="img/red_earth.jpg" height="200" />
+					<p style="font-size:18px;color:#2F0B3A;">The figure show what the Earth might look like seven billion years from now, after the Sun has entered the red giant phase.</p>
+				</section>
+					
+					
+				<section>
+					<img src="img/thanks.jpg"/>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				width: 800,
+				height: 600,
+
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

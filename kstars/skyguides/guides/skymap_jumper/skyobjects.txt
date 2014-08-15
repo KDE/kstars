@@ -1,3 +1,6 @@
 Jupiter
 Mars
 Sun
+Aldebaran
+Betelgeuse
+Sirius

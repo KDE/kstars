@@ -69,29 +69,45 @@ void SkyGuidesListModel::updateSkyObject(const SkyObject * obj)
 
 			QStringList gos;
 			QFile skOFile(path + "/skyobjects.txt");
-			skOFile.open(QIODevice::ReadOnly);
-			while(!skOFile.atEnd())
-				gos.append(skOFile.readLine().trimmed());
-			skOFile.close();
-
-			bool match = false;
-			if (obj->hasName())
-				match = gos.contains(obj->name(), Qt::CaseInsensitive) || gos.contains(obj->translatedName(), Qt::CaseInsensitive);
-			if (!match && obj->hasName2())
-				match = gos.contains(obj->name2(), Qt::CaseInsensitive) || gos.contains(obj->translatedName2(), Qt::CaseInsensitive);
-			if (!match && obj->hasLongName())
-				match |= gos.contains(obj->longname(), Qt::CaseInsensitive) || gos.contains(obj->translatedLongName(), Qt::CaseInsensitive);
-
-			if (match)
+			if (skOFile.open(QIODevice::ReadOnly))
 			{
-				QFile titleFile(path + "/title.txt");
-				titleFile.open(QIODevice::ReadOnly);
-				QString title(titleFile.readLine().trimmed());
-				titleFile.close();
+				while(!skOFile.atEnd())
+					gos.append(skOFile.readLine().trimmed());
+				skOFile.close();
 
-				mData.append(new SkyGuideData(title, path));
+				bool match = false;
+				if (obj->hasName())
+					match = gos.contains(obj->name(), Qt::CaseInsensitive) || gos.contains(obj->translatedName(), Qt::CaseInsensitive);
+				if (!match && obj->hasName2())
+					match = gos.contains(obj->name2(), Qt::CaseInsensitive) || gos.contains(obj->translatedName2(), Qt::CaseInsensitive);
+				if (!match && obj->hasLongName())
+					match |= gos.contains(obj->longname(), Qt::CaseInsensitive) || gos.contains(obj->translatedLongName(), Qt::CaseInsensitive);
 
-				qDebug() << "Found: "<< title << " at " << path;
+				if (match)
+				{
+					QFile titleFile(path + "/title.txt");
+					
+					if (titleFile.open(QIODevice::ReadOnly))
+					{
+						QString title(titleFile.readLine().trimmed());
+						titleFile.close();
+						
+						QFile sizeFile(path + "/preferred_size.txt");
+						if (sizeFile.open(QIODevice::ReadOnly))
+						{
+							QStringList widthXheight(QString(sizeFile.readLine().trimmed()).split("x"));
+							if ( widthXheight.length() == 2 )
+							{
+								bool widthOk, heightOk; 
+								uint width = widthXheight.at(0).toUInt(&widthOk);
+								uint height = widthXheight.at(1).toUInt(&heightOk);
+
+								if ( widthOk && heightOk )
+									mData.append(new SkyGuideData(title, path, width, height));
+							}
+						}
+					}
+				}
 			}
 		}
 

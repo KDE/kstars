@@ -15,11 +15,10 @@ Rectangle
 				target: presentationList
 				visible: true
 			}
-			PropertyChanges
+			StateChangeScript
 			{
-				target: rootRect
-				width: 210
-				height: 400
+				name: "resizeWidgetListing"
+				script: widget.resizeScene( 210, 400 )
 			}
 			PropertyChanges
 			{
@@ -35,12 +34,12 @@ Rectangle
 				target: presentationList
 				visible: false
 			}
-			PropertyChanges
-			{
-				target: rootRect
-				width: webView.preferredWidth
-				height: webView.preferredHeight
-			}
+// QML WebView is buggy and go crazy when going fullscreen from inside QML
+// 			StateChangeScript
+// 			{
+// 				name: "resizeWidgetNormal"
+// 				script: widget.showNormal()
+// 			}
 			PropertyChanges
 			{
 				target: webView
@@ -49,8 +48,8 @@ Rectangle
 			PropertyChanges
 			{
 				target: fullscreenButton
-				visible: true
-				state: "ghost"
+// 				state: "ghost" // QML WebView is buggy and go crazy when going fullscreen from inside QML
+				state: "invisible"
 				source: "view-fullscreen.png"
 			}
 		},
@@ -64,17 +63,19 @@ Rectangle
 			}
 			PropertyChanges
 			{
-				target: webView
-				visible: true;
-				preferredWidth: widget.getScreenWidth()
-				preferredHeight: widget.getScreenHeight()
-			}
-			PropertyChanges
-			{
 				target: fullscreenButton
-				visible: true
-				state: "ghost"
+// 				state: "ghost" // QML WebView is buggy and go crazy when going fullscreen from inside QML
+				state: "invisible"
 				source: "view-restore.png"
+			}
+			StateChangeScript
+			{
+				name: "fullScreenDebug"
+				script:
+				{
+					widget.resizeScene(widget.getScreenWidth(), widget.getScreenHeight())
+					widget.showFullScreen()
+				}
 			}
 		}
 	]
@@ -126,27 +127,9 @@ Rectangle
 		{
 			anchors.fill: parent
 			hoverEnabled : true
-			onClicked:
-			{
-				if (widget.fullScreen)
-				{
-					widget.showNormal()
-					rootRect.state = "normalPresentation"
-				}
-				else
-				{
-					widget.showFullScreen()
-					rootRect.state = "fullscreenPresentation"
-				}
-			}
-			onEntered:
-			{
-				parent.state = "visible"
-			}
-			onExited:
-			{
-				parent.state = "ghost"
-			}
+			onClicked: widget.fullScreen ? rootRect.state = "normalPresentation" : rootRect.state = "fullscreenPresentation"
+			onEntered: parent.state = "visible"
+			onExited: parent.state = "ghost"
 		}
 
 		Behavior on opacity { PropertyAnimation {} }
@@ -154,13 +137,15 @@ Rectangle
 
 	WebView
 	{
-		settings.developerExtrasEnabled: true;
 		id: webView
+		settings.developerExtrasEnabled: true
+		settings.pluginsEnabled: true
+		settings.localContentCanAccessRemoteUrls: true
+		focus: webView.visible
 		visible: false
-		preferredWidth: 640
-		preferredHeight: 480
-		z: 2
-		onLoadFinished: { rootRect.state = "normalPresentation" }
+		anchors.fill: parent
+		preferredWidth: rootRect.width
+		preferredHeight: rootRect.height
 		javaScriptWindowObjects:
 		[
 			QtObject
@@ -248,7 +233,12 @@ Rectangle
 				MouseArea
 				{
 					anchors.fill: parent
-					onClicked: { webView.url = path + "/index.html" }
+					onClicked:
+					{
+						rootRect.state = "normalPresentation"
+						widget.resizeScene(pWidth, pHeight)
+						webView.url = path + "/index.html"
+					}
 				}
 			}
 		}

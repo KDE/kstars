@@ -34,9 +34,10 @@ SkyGuidesListView::SkyGuidesListView(const SkyGuidesListModel & guidesModel, Sky
 	mSkyMapQmlAdapter(skyMap),
 	mKStarsDataQmlAdapter(this)
 {
-	///To use i18n() instead of qsTr() in qml/wiview.qml for translation
 	KDeclarative kd;
-	kd.setDeclarativeEngine(engine());
+	QString qmlpath = KStandardDirs::locate("appdata","skyguides/qml/GuidesListView.qml");
+
+	kd.setDeclarativeEngine(engine()); 	///To use i18n() instead of qsTr() in qml/wiview.qml for translation
 	kd.initialize();
 	kd.setupBindings();
 
@@ -45,27 +46,14 @@ SkyGuidesListView::SkyGuidesListView(const SkyGuidesListModel & guidesModel, Sky
 	rootContext()->setContextProperty( "skydata", &mKStarsDataQmlAdapter );
 	rootContext()->setContextProperty( "widget", this );
 
-	QString qmlpath = KStandardDirs::locate("appdata","skyguides/qml/GuidesListView.qml");
+	setMinimumSize(210, 400);
+	setResizeMode(QDeclarativeView::SizeRootObjectToView);
 	setSource(qmlpath);
-	setResizeMode(QDeclarativeView::SizeViewToRootObject);
 }
 
-void SkyGuidesListView::showNormal()
+void SkyGuidesListView::resizeScene(uint width, uint height)
 {
-	setResizeMode(QDeclarativeView::SizeViewToRootObject);
-	QDeclarativeView::showNormal();
-}
-
-void SkyGuidesListView::showFullScreen()
-{
-	setResizeMode(QDeclarativeView::SizeRootObjectToView);
-	QDeclarativeView::showFullScreen();
-}
-
-void SkyGuidesListView::showMaximized()
-{
-	setResizeMode(QDeclarativeView::SizeRootObjectToView);
-	QDeclarativeView::showFullScreen();
+	resize( width, height );
 }
 
 int SkyGuidesListView::getScreenWidth()

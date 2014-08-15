@@ -53,9 +53,7 @@ public:
 	~SkyGuidesListView();
 
 public slots:
-	void showNormal();
-	void showFullScreen();
-	void showMaximized();
+	void resizeScene(uint width, uint height);
 	int getScreenWidth();
 	int getScreenHeight();
 

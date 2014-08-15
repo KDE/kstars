@@ -27,18 +27,30 @@ class SkyGuideData : public QObject
 
 	Q_PROPERTY(QString title READ title CONSTANT FINAL)
 	Q_PROPERTY(QString path READ path CONSTANT FINAL)
+	Q_PROPERTY(uint pWidth READ pWidth CONSTANT FINAL)
+	Q_PROPERTY(uint pHeight READ pHeight CONSTANT FINAL)
 
 public:
-	SkyGuideData(const QString & title, const QString & path, QObject * parent = NULL);
+	SkyGuideData(
+		const QString & title,
+		const QString & path,
+		uint width,
+		uint height,
+		QObject * parent = NULL
+	);
 
 	~SkyGuideData() {};
 
 	inline QString title() const { return mTitle; };
 	inline QString path() const { return mPath; };
+	inline uint pWidth() const { return mWidth; };
+	inline uint pHeight() const { return mHeight; };
 
 private:
 	const QString mTitle;
 	const QString mPath;
+	const uint mWidth;
+	const uint mHeight;
 };
 
 #endif // SKYGUIDEDATA_H
