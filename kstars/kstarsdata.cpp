@@ -62,11 +62,10 @@ namespace {
     void fatalErrorMessage(QString fname) {
         KMessageBox::sorry(0, xi18n("The file  %1 could not be found. "
                                    "KStars cannot run properly without this file. "
-                                   "KStars search for this file in following locations:\n\n"
-                                   "\t$(KDEDIR)/share/apps/kstars/%1\n"
-                                   "\t~/.kde/share/apps/kstars/%1\n\n"
-                                   "It appears that your setup is broken.", fname),
-                           xi18n( "Critical File Not Found: %1", fname ));
+                                   "KStars searches for this file in following locations:\n\n\t"
+                                   "%2\n\n"
+                                   "It appears that your setup is broken.", fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
+                           xi18n( "Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
         qApp->exit(1);
     }
 
@@ -77,11 +76,11 @@ namespace {
         int res = KMessageBox::warningContinueCancel(0,
                       xi18n("The file %1 could not be found. "
                            "KStars can still run without this file. "
-                           "KStars search for this file in following locations:\n\n"
-                           "\t$(KDEDIR)/share/apps/kstars/%1\n"
-                           "\t~/.kde/share/apps/kstars/%1\n\n"
-                           "It appears that you setup is broken. Press Continue to run KStars without this file ", fname),
-                      xi18n( "Non-Critical File Not Found: %1", fname ));
+                           "KStars search for this file in following locations:\n\n\t"
+                           "%2\n\n"
+                           "It appears that you setup is broken. Press Continue to run KStars without this file ",
+                           fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
+                      xi18n( "Non-Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
         if( res != KMessageBox::Continue )
             qApp->exit(1);
         return res == KMessageBox::Continue;
