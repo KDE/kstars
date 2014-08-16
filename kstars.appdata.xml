@@ -78,35 +78,45 @@
     <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
+      <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="nl">Standaard catalogus bevat sterren tot magnitude 8</li>
+      <li xml:lang="pl">Domyślny katalog zawierający gwiazdy wielkości 8</li>
       <li xml:lang="pt-BR">Catálogo padrão que consiste nas estrelas de magnitude 8</li>
       <li xml:lang="sk">Predvolený katalóg obsahujúci hviezdy do magnitúdy 8</li>
       <li xml:lang="sv">Standardkatalog som består av stjärnor till magnitud 8</li>
       <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
       <li xml:lang="x-test">xxDefault catalog consisting of stars to magnitude 8xx</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="nl">Extra catalogi die 100 miljoen sterren bevatten tot magnitude 16</li>
+      <li xml:lang="pl">Ekstra katalogi zawierające 100 milionów gwiazd wielkości 16</li>
       <li xml:lang="pt-BR">Catálogos adicionais que consistem em 100 milhões de estrelas de magnitude 16</li>
       <li xml:lang="sk">Dodatočné katalógy obsahujúce 100 miliónov hviezd do magnitúdy 16</li>
       <li xml:lang="sv">Extra kataloger bestående av 100 millioner stjärnor till magnitud 16</li>
       <li xml:lang="uk">додаткові каталоги з 100 мільйонами зірок до зоряної величини 16;</li>
       <li xml:lang="x-test">xxExtra catalogs consisting of 100 million stars to magnitude 16xx</li>
       <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
+      <li xml:lang="es">Los catálogos que puede descargar contienen imágenes de objetos Messier, nebulosas planetarias Abell</li>
       <li xml:lang="nl">Te downloaden catalogi, onder andere Messier-afbeeldingen, Abell Planetaire nevels.</li>
+      <li xml:lang="pl">Katalogi do pobrania zawierające obrazy Messier, Mgławicę planetarną Abell</li>
       <li xml:lang="pt-BR">Catálogos disponíveis para transferência, incluindo as imagens Messier e as Nebulosas Planetárias Abell</li>
       <li xml:lang="sk">Stiahnuteľné katalógy obsahujúce Messierove obrázky, Abellove planetárne hmloviny</li>
       <li xml:lang="sv">Nerladdningsbara kataloger som omfattar Messier-bilder, Abell planetära nebulosor</li>
       <li xml:lang="uk">придатні до звантаження каталоги з зображеннями об’єктів каталогу Месьє та каталогу планетарних туманностей Абеля;</li>
       <li xml:lang="x-test">xxDownloadable catalogs including Messier Images, Abell Planetary Nebulaexx</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
+      <li xml:lang="es">Correcciones de precesión, nutación y refracción atmosférica</li>
       <li xml:lang="nl">Correcties voor precessie, nutatie en atmosferische straalbreking</li>
+      <li xml:lang="pl">Poprawki do precesji, nutacji i załamania atmosferycznego</li>
       <li xml:lang="pt-BR">Correções da precessão, nutação e refração atmosférica</li>
       <li xml:lang="sk">Korekcie pre precesiu, nutáciu a atmosférickú refrakciu</li>
       <li xml:lang="sv">Korrektion för precession, nutation och atmosfärisk refraktion</li>
       <li xml:lang="uk">виправлення прецесії, нутації та атмосферної рефракції;</li>
       <li xml:lang="x-test">xxCorrections for precession, nutation and atmospheric refractionxx</li>
       <li>Tools for retrieval of data from online databases</li>
+      <li xml:lang="es">Herramientas de obtención de datos de bases de datos en línea</li>
       <li xml:lang="nl">Hulpmiddelen voor het verkrijgen van gegevens uit gegevensbanken op het internet</li>
+      <li xml:lang="pl">Narzędzia do pobierania danych z internetowych baz danych</li>
       <li xml:lang="pt-BR">Ferramentas para obtenção de dados dos bancos de dados online</li>
       <li xml:lang="sk">Nástroje na získanie údajov z online databáz</li>
       <li xml:lang="sv">Verktyg för hämtning av data från databaser på nätet</li>
