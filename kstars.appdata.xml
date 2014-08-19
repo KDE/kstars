@@ -88,6 +88,7 @@
       <li xml:lang="nl">Standaard catalogus met sterren tot magnitude 8</li>
       <li xml:lang="pl">Domyślny katalog zawierający gwiazdy wielkości 8</li>
       <li xml:lang="pt-BR">Catálogo padrão que consiste nas estrelas de magnitude 8</li>
+      <li xml:lang="ru">Основной каталог содержит звёзды до 8 величины</li>
       <li xml:lang="sk">Predvolený katalóg obsahujúci hviezdy do magnitúdy 8</li>
       <li xml:lang="sv">Standardkatalog som består av stjärnor till magnitud 8</li>
       <li xml:lang="uk">типовий каталог з зірками до зоряної величини 8;</li>
@@ -100,6 +101,7 @@
       <li xml:lang="nl">Extra catalogi met 100 miljoen sterren tot magnitude 16</li>
       <li xml:lang="pl">Ekstra katalogi zawierające 100 milionów gwiazd wielkości 16</li>
       <li xml:lang="pt-BR">Catálogos adicionais que consistem em 100 milhões de estrelas de magnitude 16</li>
+      <li xml:lang="ru">Дополнительные каталоги содержат 100 миллионов звёзд до 16 величины</li>
       <li xml:lang="sk">Dodatočné katalógy obsahujúce 100 miliónov hviezd do magnitúdy 16</li>
       <li xml:lang="sv">Extra kataloger bestående av 100 millioner stjärnor till magnitud 16</li>
       <li xml:lang="uk">додаткові каталоги з 100 мільйонами зірок до зоряної величини 16;</li>
@@ -112,6 +114,7 @@
       <li xml:lang="nl">Te downloaden catalogi, onder andere Messier-afbeeldingen, Abell Planetaire nevels.</li>
       <li xml:lang="pl">Katalogi do pobrania zawierające obrazy Messier, Mgławicę planetarną Abell</li>
       <li xml:lang="pt-BR">Catálogos disponíveis para transferência, incluindo as imagens Messier e as Nebulosas Planetárias Abell</li>
+      <li xml:lang="ru">Загружаемые каталоги, включая изображения каталога Мессье, планетарные туманности Абеля</li>
       <li xml:lang="sk">Stiahnuteľné katalógy obsahujúce Messierove obrázky, Abellove planetárne hmloviny</li>
       <li xml:lang="sv">Nerladdningsbara kataloger som omfattar Messier-bilder, Abell planetära nebulosor</li>
       <li xml:lang="uk">придатні до звантаження каталоги з зображеннями об’єктів каталогу Месьє та каталогу планетарних туманностей Абеля;</li>
@@ -124,6 +127,7 @@
       <li xml:lang="nl">Correcties voor precessie, nutatie en atmosferische straalbreking</li>
       <li xml:lang="pl">Poprawki do precesji, nutacji i załamania atmosferycznego</li>
       <li xml:lang="pt-BR">Correções da precessão, nutação e refração atmosférica</li>
+      <li xml:lang="ru">Поправки на прецессию, нутацию и атмосферную рефракцию</li>
       <li xml:lang="sk">Korekcie pre precesiu, nutáciu a atmosférickú refrakciu</li>
       <li xml:lang="sv">Korrektion för precession, nutation och atmosfärisk refraktion</li>
       <li xml:lang="uk">виправлення прецесії, нутації та атмосферної рефракції;</li>
@@ -136,6 +140,7 @@
       <li xml:lang="nl">Hulpmiddelen voor het ophalen van gegevens uit gegevensbanken op het internet</li>
       <li xml:lang="pl">Narzędzia do pobierania danych z internetowych baz danych</li>
       <li xml:lang="pt-BR">Ferramentas para obtenção de dados dos bancos de dados online</li>
+      <li xml:lang="ru">Инструменты для получения данных из онлайновых баз данных</li>
       <li xml:lang="sk">Nástroje na získanie všetkých údajov zo všetkých online databáz</li>
       <li xml:lang="sv">Verktyg för hämtning av data från databaser på nätet</li>
       <li xml:lang="uk">інструменти для отримання даних з баз даних у інтернеті.</li>
