@@ -6,6 +6,11 @@ add_subdirectory( tools/whatsinteresting/qml)
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
 
+if(MSVC)
+    add_definitions(-D_USE_MATH_DEFINES=1)
+    add_definitions(-DNOMINMAX)
+endif()
+
 if (CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
