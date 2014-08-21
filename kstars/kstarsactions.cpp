@@ -754,7 +754,9 @@ void KStars::slotRunScript() {
                 //if( KIO::NetAccess::download( fileURL, fname, this ) ) {
                 if (KIO::file_copy(fileURL, QUrl(fname))->exec() == true)
                 {
+#ifndef _WIN32
                     chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
+#endif
 
                     if ( tmpfile.fileName() == fname )
                     { //upload to remote location
@@ -786,7 +788,9 @@ void KStars::slotRunScript() {
             //if( KIO::NetAccess::download( fileURL, fname, this ) )
             if (KIO::file_copy(fileURL, QUrl(fname))->exec() == true)
             {
+#ifndef _WIN32
                 chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+#endif
                 f.setFileName( fname );
             }
         } else {
