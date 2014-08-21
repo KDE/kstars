@@ -26,21 +26,17 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-#ifndef MAXUINT
-    #define MAXUINT (~0)
-#endif
-
 KSFileReader::KSFileReader( qint64 maxLen ) :
-        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
+        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
 {}
 
 KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) :
-        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
+        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
 {
     QIODevice* device = (QIODevice*) & file;
     QTextStream::setDevice( device );
     QTextStream::setCodec("UTF-8");
-    m_targetLine = MAXUINT;
+    m_targetLine = UINT_MAX;
 }
 
 bool KSFileReader::open( const QString& fname )
