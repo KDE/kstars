@@ -241,13 +241,13 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
         QString errmsg;
         switch ( exitCode ) {
             case -2:
-                errmsg = xi18n("Could not run python to update supernova information");
+                errmsg = xi18n("Could not run python to update supernova information. This could be because you do not have python2 installed, or the python2 binary could not be found in the usual locations.");
                 break;
             case -1:
                 errmsg = xi18n("Python process that updates the supernova information crashed");
                 break;
             default:
-                errmsg = xi18n( "Python process that updates the supernova information failed with error code %1", QString::number( exitCode ) );
+                errmsg = xi18n( "Python process that updates the supernova information failed with error code %1. This could likely be because the computer is not connected to the internet or because the server containing supernova information is not responding.", QString::number( exitCode ) );
                 break;
         }
         if( KStars::Instance() && SkyMap::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
