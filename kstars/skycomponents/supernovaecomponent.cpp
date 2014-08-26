@@ -241,7 +241,7 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
         QString errmsg;
         switch ( exitCode ) {
             case -2:
-                errmsg = xi18n("Could not run python to update supernova information. This could be because you do not have python2 installed, or the python2 binary could not be found in the usual locations.");
+                errmsg = xi18n("Could not run python to update supernova information. This could be because you do not have python2 installed, or the python2 binary could not be found in the usual locations.");       
                 break;
             case -1:
                 errmsg = xi18n("Python process that updates the supernova information crashed");

@@ -47,6 +47,9 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(jobIDFinished()), this, SLOT(checkJobs()));
     connect(this, SIGNAL(jobFinished()), this, SLOT(checkJobCalibration()));
 
+    connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
+    connect(this, SIGNAL(solverFinished(double,double,double)), this, SLOT(resetSolver()));
+
     apiURL = QString("%1/api/").arg(Options::astrometryAPIURL());
 
     downsample_factor = 0;
@@ -175,10 +178,16 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
    return true;
 }
 
+void OnlineAstrometryParser::resetSolver()
+{
+    stopSolver();
+}
+
 bool OnlineAstrometryParser::stopSolver()
 {
 
     workflowStage = NO_STAGE;
+    solver_retries=0;
 
     return true;
 }
@@ -440,8 +449,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
              align->appendLogText(xi18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
              emit solverFailed();
              return;
-         }
-         solver_retries=0;
+         }         
          break;
 
      case JOB_CALIBRATION_STAGE:

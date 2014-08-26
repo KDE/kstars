@@ -44,6 +44,7 @@ public slots:
     void getJobID();
     void checkJobs();
     void checkJobCalibration();
+    void resetSolver();
 signals:
     void authenticateFinished();
     void uploadFinished();

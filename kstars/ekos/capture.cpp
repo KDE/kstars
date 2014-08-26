@@ -41,7 +41,7 @@ SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << xi18n("Idle") << xi18n("In progress") << xi18n("Error") << xi18n("Aborted") << xi18n("Complete");
     status = JOB_IDLE;
-    exposure=count=delay=frameType=filterPos=-1;
+    exposure=count=delay=frameType=targetFilter=-1;
     captureFilter=FITS_NONE;
     preview=false;
     showFITS=false;
@@ -103,16 +103,23 @@ void SequenceJob::prepareCapture()
     if (activeChip->isBatchMode())
         activeCCD->updateUploadSettings();
 
-    if (filterPos != -1 && activeFilter != NULL)
-        activeFilter->runCommand(INDI_SET_FILTER, &filterPos);
+    if (targetFilter != -1 && activeFilter != NULL)
+    {
+        if (targetFilter == currentFilter)
+            emit prepareComplete();
+        else
+            activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+    }
+    else
+        emit prepareComplete();
 
 }
 
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 {
 
-    if (filterPos != -1 && activeFilter != NULL)
-        activeFilter->runCommand(INDI_SET_FILTER, &filterPos);
+    //if (targetFilter != -1 && activeFilter != NULL)
+        //activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
 
    if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
@@ -164,9 +171,9 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 
 }
 
-void SequenceJob::setFilter(int pos, const QString & name)
+void SequenceJob::setTargetFilter(int pos, const QString & name)
 {
-    filterPos = pos;
+    targetFilter = pos;
     filter    = name;
 }
 
@@ -201,7 +208,18 @@ void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &fi
     filterEnabled   = filterPrefixEnabled;
     exposureEnabled = expPrefixEnabled;
 }
+int SequenceJob::getCurrentFilter() const
+{
+    return currentFilter;
+}
 
+void SequenceJob::setCurrentFilter(int value)
+{
+    currentFilter = value;
+
+    if (currentFilter == targetFilter && (status == JOB_IDLE || status == JOB_ABORTED))
+        emit prepareComplete();
+}
 
 Capture::Capture()
 {
@@ -228,6 +246,7 @@ Capture::Capture()
 
     mDirty          = false;
     jobUnderEdit    = false;
+    currentFilterPosition   = -1;
 
     calibrationState = CALIBRATE_NONE;
 
@@ -386,7 +405,7 @@ void Capture::startSequence()
     deviationDetected = false;
     spikeDetected     = false;
 
-    executeJob(first_job);
+    prepareJob(first_job);
 
 }
 
@@ -635,6 +654,11 @@ void Capture::checkFilter(int filterNum)
 
     FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value-1);
 
+    currentFilterPosition = (int) filterSlot->np[0].value;
+
+    if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+        activeJob->setCurrentFilter(currentFilterPosition);
+
 }
 
 void Capture::newFITS(IBLOB *bp)
@@ -730,7 +754,7 @@ void Capture::newFITS(IBLOB *bp)
         }
 
         if (next_job)
-            executeJob(next_job);
+            prepareJob(next_job);
         else
         {
             if (Options::playCCDAlarm())
@@ -777,7 +801,7 @@ void Capture::captureOne()
 {
     addJob(true);
 
-    executeJob(jobs.last());
+    prepareJob(jobs.last());
 }
 
 void Capture::captureImage()
@@ -991,7 +1015,7 @@ void Capture::addJob(bool preview)
     job->setPrefix(imagePrefix);
 
     if (filterSlot != NULL && currentFilter != NULL)
-       job->setFilter(FilterPosCombo->currentIndex()+1, FilterPosCombo->currentText());
+       job->setTargetFilter(FilterPosCombo->currentIndex()+1, FilterPosCombo->currentText());
 
     job->setExposure(exposureIN->value());
 
@@ -1208,20 +1232,43 @@ void Capture::moveJobDown()
 
 }
 
-void Capture::executeJob(SequenceJob *job)
+void Capture::prepareJob(SequenceJob *job)
 {
-    job->prepareCapture();
+    activeJob = job;
 
-    if (job->isPreview())
+    if (currentFilterPosition > 0)
+    {
+        activeJob->setCurrentFilter(currentFilterPosition);
+
+        if (currentFilterPosition != activeJob->getTargetFilter())
+        {
+            appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
+            pi->startAnimation();
+            previewB->setEnabled(false);
+            startB->setEnabled(false);
+            stopB->setEnabled(true);
+        }
+    }
+
+    connect(activeJob, SIGNAL(prepareComplete()), this, SLOT(executeJob()));
+
+    job->prepareCapture();
+}
+
+void Capture::executeJob()
+{
+    activeJob->disconnect(this);
+
+    if (activeJob->isPreview())
         seqTotalCount = -1;
     else
-        seqTotalCount = job->getCount();
+        seqTotalCount = activeJob->getCount();
 
-    seqDelay = job->getDelay();
+    seqDelay = activeJob->getDelay();
 
-    seqCurrentCount = job->getCompleted();
+    seqCurrentCount = activeJob->getCompleted();
 
-    if (job->isPreview() == false)
+    if (activeJob->isPreview() == false)
     {
         fullImgCountOUT->setText( QString::number(seqTotalCount));
         currentImgCountOUT->setText(QString::number(seqCurrentCount));
@@ -1232,7 +1279,7 @@ void Capture::executeJob(SequenceJob *job)
         imgProgress->setValue(seqCurrentCount);
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-            updateSequencePrefix(job->getPrefix(), job->getFITSDir());
+            updateSequencePrefix(activeJob->getPrefix(), activeJob->getFITSDir());
     }
 
     // Update button status
@@ -1241,8 +1288,6 @@ void Capture::executeJob(SequenceJob *job)
     previewB->setEnabled(false);
 
     pi->startAnimation();
-
-    activeJob = job;
 
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
@@ -1647,7 +1692,7 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<W>" << job->getSubW() << "</W>" << endl;
             outstream << "<H>" << job->getSubH() << "</H>" << endl;
         outstream << "</Frame>" << endl;
-        outstream << "<Filter>" << job->getFilterPos() << "</Filter>" << endl;
+        outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
         outstream << "<Type>" << job->getFrameType() << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
@@ -1703,7 +1748,7 @@ void Capture::editJob(QModelIndex i)
    frameYIN->setValue(job->getSubY());
    frameWIN->setValue(job->getSubW());
    frameHIN->setValue(job->getSubH());
-   FilterPosCombo->setCurrentIndex(job->getFilterPos()-1);
+   FilterPosCombo->setCurrentIndex(job->getTargetFilter()-1);
    frameTypeCombo->setCurrentIndex(job->getFrameType());
    prefixIN->setText(rawPrefix);
    frameTypeCheck->setChecked(typeEnabled);
