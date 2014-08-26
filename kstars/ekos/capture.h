@@ -31,8 +31,10 @@ namespace Ekos
 {
 
 
-class SequenceJob
+class SequenceJob : public QObject
 {
+    Q_OBJECT
+
     public:
 
     typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
@@ -67,8 +69,11 @@ class SequenceJob
     void setFITSDir(const QString &dir) { fitsDir = dir;}
     const QString & getFITSDir() { return fitsDir; }
 
-    void setFilter(int pos, const QString & name);
-    int getFilterPos() { return filterPos;}
+    void setTargetFilter(int pos, const QString & name);
+    int getTargetFilter() { return targetFilter;}
+    int getCurrentFilter() const;
+    void setCurrentFilter(int value);
+
     const QString &getFilterName() { return filter; }
     void setFrameType(int type, const QString & name);
     int getFrameType() { return frameType;}
@@ -100,6 +105,10 @@ class SequenceJob
     void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
     void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
 
+
+signals:
+    void prepareComplete();
+
 private:
 
     QStringList statusStrings;
@@ -110,7 +119,9 @@ private:
     double exposure;
     int frameType;
     QString frameTypeName;
-    int filterPos;
+    int targetFilter;
+    int currentFilter;
+
     QString filter;
     int imageType;
     int binX, binY;
@@ -200,6 +211,7 @@ public slots:
     void resetJobs();
     void editJob(QModelIndex i);
     void resetJobEdit();
+    void executeJob();
 
 signals:
         void newLog();
@@ -210,7 +222,7 @@ signals:
 
 private:
 
-    void executeJob(SequenceJob *job);
+    void prepareJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
@@ -252,7 +264,7 @@ private:
     KUrl sequenceURL;
     bool mDirty;
     bool jobUnderEdit;
-
+    int currentFilterPosition;
     QProgressIndicator *pi;
 
     // Guide Deviation
