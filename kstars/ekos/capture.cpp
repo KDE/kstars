@@ -626,6 +626,18 @@ void Capture::checkFilter(int filterNum)
     if (filterNum <= Filters.count())
         currentFilter = Filters.at(filterNum);
 
+    ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+    if (activeDevices)
+    {
+        IText *activeFilter = IUFindText(activeDevices, "ACTIVE_FILTER");
+        if (activeFilter && strcmp(activeFilter->text, currentFilter->getDeviceName()))
+        {
+            IUSaveText(activeFilter, currentFilter->getDeviceName());
+
+            currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+        }
+    }
+
     FilterPosCombo->clear();
 
     filterName   = currentFilter->getBaseDevice()->getText("FILTER_NAME");
