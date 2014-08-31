@@ -80,6 +80,7 @@ Focus::Focus()
 
     connect(kcfg_subFrame, SIGNAL(toggled(bool)), this, SLOT(subframeUpdated(bool)));
 
+    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFocusFrame()));
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
@@ -146,6 +147,22 @@ void Focus::resetFrame()
     }
 }
 
+void Focus::resetFocusFrame()
+{
+    if (currentCCD)
+    {
+        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+        if (targetChip)
+        {
+            fx=fy=fw=fh=0;
+            targetChip->resetFrame();
+            targetChip->setFocusFrame(0,0,0,0);
+            starSelected = false;
+        }
+    }
+}
+
 void Focus::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
@@ -160,6 +177,7 @@ void Focus::checkCCD(int ccdNum)
         kcfg_focusXBin->setEnabled(targetChip->canBin());
         kcfg_focusYBin->setEnabled(targetChip->canBin());
         kcfg_subFrame->setEnabled(targetChip->canSubframe());
+        kcfg_autoSelectStar->setEnabled(targetChip->canSubframe());
         if (targetChip->canBin())
         {
             int binx=1,biny=1;
@@ -645,7 +663,7 @@ void Focus::newFITS(IBLOB *bp)
         int subBinX=1, subBinY=1;
         targetChip->getBinning(&subBinX, &subBinY);
 
-        if (kcfg_autoSelectStar->isChecked() && focusType == FOCUS_AUTO)
+        if (kcfg_autoSelectStar->isEnabled() && kcfg_autoSelectStar->isChecked() && focusType == FOCUS_AUTO)
         {
             Edge *maxStar = image_data->getMaxHFRStar();
             if (maxStar == NULL)
@@ -700,7 +718,7 @@ void Focus::newFITS(IBLOB *bp)
 
 
         }
-        else
+        else if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
         {
             appendLogText(i18n("Capture complete. Select a star to focus."));
             targetImage->updateMode(FITS_GUIDE);
@@ -1415,12 +1433,11 @@ void Focus::subframeUpdated(bool enable)
 {
     if (enable == false)
     {
-        fx=fy=fw=fh=0;
-        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-        targetChip->setFocusFrame(0,0,0,0);
-        targetChip->resetFrame();
-        starSelected = false;
+        resetFocusFrame();
+        kcfg_autoSelectStar->setChecked(false);
     }
+
+    starSelected = false;
 }
 
 void Focus::setInSequenceFocus(bool autoFocusComplete)
