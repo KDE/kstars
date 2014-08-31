@@ -43,11 +43,11 @@ public:
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
     void focuserDisconnected();
-    void resetFrame();
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
+    void resetFrame();
     void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
@@ -78,8 +78,9 @@ public slots:
     void processFocusProperties(INumberVectorProperty *nvp);
     void subframeUpdated(bool enable);
     void checkFocus(double delta);
-
     void setInSequenceFocus(bool);
+
+    void resetFocusFrame();
 
 signals:
         void newLog();
