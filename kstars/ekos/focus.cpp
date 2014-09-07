@@ -86,6 +86,7 @@ Focus::Focus()
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
     connect(FilterPosCombo, SIGNAL(activated(int)), this, SLOT(updateFilterPos(int)));
     connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
+    connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
 
     lastFocusDirection = FOCUS_NONE;
 
@@ -1445,6 +1446,11 @@ void Focus::setInSequenceFocus(bool autoFocusComplete)
     inSequenceFocus = !autoFocusComplete;
 }
 
+void Focus::filterChangeWarning(int index)
+{
+    if (index != 0)
+        appendLogText(i18n("Warning: Only use filters for preview as they may interface with autofocus operation."));
+}
 }
 
 #include "focus.moc"
