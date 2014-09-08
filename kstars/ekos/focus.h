@@ -81,6 +81,7 @@ public slots:
     void setInSequenceFocus(bool);
 
     void resetFocusFrame();
+    void filterChangeWarning(int index);
 
 signals:
         void newLog();

@@ -83,6 +83,7 @@
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="ca">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
+      <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">Default catalogue consisting of stars to magnitude 8</li>
       <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="et">Vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
@@ -100,6 +101,7 @@
       <li xml:lang="zh-TW">包含星等 8 的預設類別</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="ca">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
+      <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">Extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="et">Lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
@@ -117,6 +119,7 @@
       <li xml:lang="zh-TW">包含到星等 16 的一億個星體的額外類別</li>
       <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
       <li xml:lang="ca">Catàlegs descarregables que inclouen imatges de Messier, i la nebulosa planetària Abell</li>
+      <li xml:lang="de">Herunterladbare Kataloge einschließlich Messier-Bilder, Abell-Katalog Planetarischer Nebel</li>
       <li xml:lang="en-GB">Downloadable catalogues including Messier Images, Abell Planetary Nebulae</li>
       <li xml:lang="es">Los catálogos que puede descargar contienen imágenes de objetos Messier, nebulosas planetarias Abell</li>
       <li xml:lang="et">Allalaaditavad kataloogid, sealhulgas Messieri pildid, Abelli planetaarudukogud</li>
@@ -134,6 +137,7 @@
       <li xml:lang="zh-TW">可下載的類別，包括 Messier images，Abell Planetary Nebulae 等</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="ca">Correccions per la precessió, nutació i refracció atmosfèrica</li>
+      <li xml:lang="de">Korrekturen für Präzession, Nutation und atmosphärische Brechung</li>
       <li xml:lang="en-GB">Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="es">Correcciones de precesión, nutación y refracción atmosférica</li>
       <li xml:lang="et">Pretsessiooni, nutatsiooni ja atmosfääri refraktsiooni korrigeerimine</li>
@@ -151,6 +155,7 @@
       <li xml:lang="zh-TW">歲差、地軸震動與大氣磨擦修正</li>
       <li>Tools for retrieval of data from online databases</li>
       <li xml:lang="ca">Eines per a recuperar dades des d'una base de dades en línia</li>
+      <li xml:lang="de">Werkzeuge zum Herunterladen von Daten aus Online-Datenbanken</li>
       <li xml:lang="en-GB">Tools for retrieval of data from online databases</li>
       <li xml:lang="es">Herramientas de obtención de datos de bases de datos en línea</li>
       <li xml:lang="et">Võimalus hankida andmeid võrguandmebaasidest</li>
