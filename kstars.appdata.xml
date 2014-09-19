@@ -88,6 +88,7 @@
       <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="et">Vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
       <li xml:lang="fi">Oletusluettelo sisältää tähdet suuruusluokkaan 8 saakka</li>
+      <li xml:lang="nds">Standardkataloog mit Steerns bet Magnituud 8</li>
       <li xml:lang="nl">Standaard catalogus bevat sterren tot magnitude 8</li>
       <li xml:lang="pl">Domyślny katalog zawierający gwiazdy wielkości 8</li>
       <li xml:lang="pt">Catálogo predefinido que consiste nas estrelas de magnitude 8</li>
@@ -106,6 +107,7 @@
       <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="et">Lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
       <li xml:lang="fi">Lisäluettelo sisältää 100 miljoonaa tähteä suuruusluokkaan 16 saakka</li>
+      <li xml:lang="nds">Bito-Katalogen mit 100 Millionen Steerns bet Magnituud 16</li>
       <li xml:lang="nl">Extra catalogi die 100 miljoen sterren bevatten tot magnitude 16</li>
       <li xml:lang="pl">Ekstra katalogi zawierające 100 milionów gwiazd wielkości 16</li>
       <li xml:lang="pt">Catálogos extra que consistem em 100 milhões de estrelas até à magnitude 16</li>
@@ -124,6 +126,7 @@
       <li xml:lang="es">Los catálogos que puede descargar contienen imágenes de objetos Messier, nebulosas planetarias Abell</li>
       <li xml:lang="et">Allalaaditavad kataloogid, sealhulgas Messieri pildid, Abelli planetaarudukogud</li>
       <li xml:lang="fi">Ladattavia luetteloita kuten Messier-kuvat ja Abell planetaariset sumut</li>
+      <li xml:lang="nds">Daallaadbor Katalogen mit Messier-Biller un Abell sien planetaarsch Nevels</li>
       <li xml:lang="nl">Te downloaden catalogi, onder andere Messier-afbeeldingen, Abell Planetaire nevels.</li>
       <li xml:lang="pl">Katalogi do pobrania zawierające obrazy Messier, Mgławicę planetarną Abell</li>
       <li xml:lang="pt">Catálogos disponíveis para transferência, incluindo as imagens Messier e as Nebulosas Planetárias Abell</li>
@@ -142,6 +145,7 @@
       <li xml:lang="es">Correcciones de precesión, nutación y refracción atmosférica</li>
       <li xml:lang="et">Pretsessiooni, nutatsiooni ja atmosfääri refraktsiooni korrigeerimine</li>
       <li xml:lang="fi">Korjaukset presessiolle, nutaatiolle ja ilmakehätaittumiselle</li>
+      <li xml:lang="nds">Richten för Küselbewegen, Eerass-Swunken un atmosfeersch Lichtbreken</li>
       <li xml:lang="nl">Correcties voor precessie, nutatie en atmosferische straalbreking</li>
       <li xml:lang="pl">Poprawki do precesji, nutacji i załamania atmosferycznego</li>
       <li xml:lang="pt">Correcções da precessão, nutação e refracção atmosférica</li>
@@ -160,6 +164,7 @@
       <li xml:lang="es">Herramientas de obtención de datos de bases de datos en línea</li>
       <li xml:lang="et">Võimalus hankida andmeid võrguandmebaasidest</li>
       <li xml:lang="fi">Työkalut aineiston hakemiseen verkossa olevista tietokannoista</li>
+      <li xml:lang="nds">Warktüüch för't Halen vun Daten ut Tokoppel-Datenbanken</li>
       <li xml:lang="nl">Hulpmiddelen voor het verkrijgen van gegevens uit gegevensbanken op het internet</li>
       <li xml:lang="pl">Narzędzia do pobierania danych z internetowych baz danych</li>
       <li xml:lang="pt">Ferramentas de obtenção de dados a partir de bases de dados 'online'</li>
