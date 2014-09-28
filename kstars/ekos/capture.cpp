@@ -1004,6 +1004,8 @@ void Capture::addJob(bool preview)
 
     job->setPreview(preview);
 
+    job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
+
     job->setFITSDir(fitsDir->text());
 
     job->setShowFITS(displayCheck->isChecked());
