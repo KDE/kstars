@@ -389,8 +389,24 @@ void Capture::startSequence()
 
     if (first_job == NULL)
     {
-        appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
-        return;
+        foreach(SequenceJob *job, jobs)
+        {
+            if (job->getStatus() != SequenceJob::JOB_DONE)
+            {
+                appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
+                return;
+            }
+        }
+
+        if (KMessageBox::warningContinueCancel(NULL, i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
+                                               i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                               "reset_job_complete_status_warning") !=KMessageBox::Continue)
+            return;
+
+        foreach(SequenceJob *job, jobs)
+            job->resetStatus();
+
+        first_job = jobs.first();
     }
 
     deviationDetected = false;
