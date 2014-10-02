@@ -588,7 +588,7 @@
            <string>Use Off-Axis Guide Telescope for FOV calculations</string>
           </property>
           <property name="text">
-           <string>OTA</string>
+           <string>OAGT</string>
           </property>
          </widget>
         </item>
