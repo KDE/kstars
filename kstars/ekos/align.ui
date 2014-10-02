@@ -582,6 +582,16 @@
           </property>
          </spacer>
         </item>
+        <item row="2" column="2">
+         <widget class="QCheckBox" name="kcfg_solverOTA">
+          <property name="toolTip">
+           <string>Use Off-Axis Guide Telescope for FOV calculations</string>
+          </property>
+          <property name="text">
+           <string>OTA</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -890,11 +900,6 @@
          </spacer>
         </item>
        </layout>
-       <zorder>line_6</zorder>
-       <zorder>label_9</zorder>
-       <zorder>label_9</zorder>
-       <zorder>altDirCombo</zorder>
-       <zorder>horizontalSpacer_7</zorder>
       </widget>
      </item>
     </layout>

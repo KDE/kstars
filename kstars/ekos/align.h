@@ -43,8 +43,7 @@ public:
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
-    void addGuideHead();
-    void syncTelescopeInfo();
+    void addGuideHead();    
     void syncCCDInfo();
     void generateArgs();
     void startSovling(const QString &filename, bool isGenerated=true);
@@ -68,6 +67,9 @@ public slots:
     void solverFinished(double orientation, double ra, double dec);
     void solverFailed();
     void updateSolverType(bool useOnline);
+
+    /* CCD & Telescope Info */
+    void syncTelescopeInfo();
 
     /* Solver Options */
     void checkLineEdits();

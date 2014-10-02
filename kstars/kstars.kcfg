@@ -1454,6 +1454,10 @@
           <entry name="SolverOptions" type="String">
               <label>Options passed to the astrometry solver.</label>
           </entry>
+          <entry name="SolverOTA" type="Bool">
+            <label>Use Off-Axis Guide Telescope for Alignment FOV calculations</label>
+            <default>false</default>
+          </entry>
     </group>
     <group name="Guide">
     <entry name="CalibrationPulseDuration" type="UInt">
