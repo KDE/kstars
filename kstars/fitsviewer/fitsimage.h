@@ -30,7 +30,6 @@
 #include <QLabel>
 
 #include <kxmlguiwindow.h>
-#include <kurl.h>
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
