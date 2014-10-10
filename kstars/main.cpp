@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(ki18n("Ana-Maria Constantin"), ki18n("Technical documentation on Astronomy and KStars") );
     aboutData.addCredit(ki18n("Andrew Stepanenko"), ki18n("Guiding code based on lin_guider") );
     aboutData.addCredit(ki18n("Nuno Pinheiro"), ki18n("Artwork") );
+    aboutData.addCredit(ki18n("Utkarsh Simha"), ki18n("Improvements to observation plan execution") );
 
     KCmdLineArgs::init( argc, argv, &aboutData );
 

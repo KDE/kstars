@@ -438,7 +438,7 @@
       <item>
        <widget class="QCheckBox" name="kcfg_astrometryUseJPEG">
         <property name="toolTip">
-         <string>Use JPEG format, instead of FITS, to upload images to the online astromenety.net service</string>
+         <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
         </property>
         <property name="text">
          <string>Use JPG for upload</string>
