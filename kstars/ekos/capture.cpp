@@ -320,6 +320,8 @@ void Capture::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
 
     if (isPrimaryCCD)
     {
+        if (Filters.count() > 0)
+            syncFilterInfo();
         checkCCD(CCDs.count()-1);
         CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
     }
@@ -633,17 +635,7 @@ void Capture::checkFilter(int filterNum)
     if (filterNum <= Filters.count())
         currentFilter = Filters.at(filterNum);
 
-    ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
-    if (activeDevices)
-    {
-        IText *activeFilter = IUFindText(activeDevices, "ACTIVE_FILTER");
-        if (activeFilter && strcmp(activeFilter->text, currentFilter->getDeviceName()))
-        {
-            IUSaveText(activeFilter, currentFilter->getDeviceName());
-
-            currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
-        }
-    }
+    syncFilterInfo();
 
     FilterPosCombo->clear();
 
@@ -678,6 +670,23 @@ void Capture::checkFilter(int filterNum)
     if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
         activeJob->setCurrentFilter(currentFilterPosition);
 
+}
+
+void Capture::syncFilterInfo()
+{
+    if (currentCCD && currentFilter)
+    {
+        ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+        if (activeDevices)
+        {
+            IText *activeFilter = IUFindText(activeDevices, "ACTIVE_FILTER");
+            if (activeFilter && strcmp(activeFilter->text, currentFilter->getDeviceName()))
+            {
+                IUSaveText(activeFilter, currentFilter->getDeviceName());
+                currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+            }
+        }
+    }
 }
 
 void Capture::newFITS(IBLOB *bp)
