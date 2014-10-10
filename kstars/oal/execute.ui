@@ -47,6 +47,19 @@
       </widget>
      </item>
      <item>
+      <widget class="KUrlLabel" name="RemoveObject">
+       <property name="maximumSize">
+        <size>
+         <width>158</width>
+         <height>18</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Remove object from list</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
