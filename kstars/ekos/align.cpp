@@ -72,6 +72,7 @@ Align::Align()
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadFITS()));
+    connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
 
     kcfg_solverXBin->setValue(Options::solverXBin());
     kcfg_solverYBin->setValue(Options::solverYBin());
@@ -120,6 +121,7 @@ Align::Align()
     }
 
     kcfg_solverOptions->setText(Options::solverOptions());
+    kcfg_solverOTA->setChecked(Options::solverOTA());
 
 }
 
@@ -228,26 +230,23 @@ void Align::syncTelescopeInfo()
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        INumber *np = NULL;
+
+        if (kcfg_solverOTA->isChecked())
+            np = IUFindNumber(nvp, "GUIDER_APERTURE");
+        else
+            np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
         if (np && np->value > 0)
             aperture = np->value;
-        else
-        {
-            np = IUFindNumber(nvp, "GUIDER_APERTURE");
-            if (np && np->value > 0)
-                aperture = np->value;
-        }
 
-        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+        if (kcfg_solverOTA->isChecked())
+            np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
+        else
+            np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+
         if (np && np->value > 0)
             focal_length = np->value;
-        else
-        {
-            np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-            if (np && np->value > 0)
-                focal_length = np->value;
-        }
     }
 
     if (focal_length == -1 || aperture == -1)
@@ -544,6 +543,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverOnline(kcfg_onlineSolver->isChecked());
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
     Options::setSolverOptions(kcfg_solverOptions->text());
+    Options::setSolverOTA(kcfg_solverOTA->isChecked());
 
     currentTelescope->getEqCoords(&ra, &dec);
 

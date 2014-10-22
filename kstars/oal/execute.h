@@ -127,6 +127,8 @@ Q_OBJECT
 
         void slotAddObject();
 
+        void slotRemoveObject();
+
     private:
         KStars *ks;
         Ui::Execute ui;

@@ -33,6 +33,7 @@
 #include "skyobjects/skyobject.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
+#include "skycomponents/skymapcomposite.h"
 
 Execute::Execute() {
     QWidget *w = new QWidget;
@@ -72,6 +73,7 @@ Execute::Execute() {
     init();
     ui.Target->hide();
     ui.AddObject->hide();
+    ui.RemoveObject->hide();
     ui.NextButton->hide();
     ui.NextButton->setEnabled( false );
     ui.Slew->setEnabled( false );
@@ -91,6 +93,8 @@ Execute::Execute() {
              this, SLOT( slotShowTargets() ) );
     connect( ui.AddObject, SIGNAL( leftClickedUrl() ),
              this, SLOT( slotAddObject() ) );
+    connect( ui.RemoveObject, SIGNAL( leftClickedUrl() ),
+             this, SLOT( slotRemoveObject() ) );
 }
 
 void Execute::init() {
@@ -355,12 +359,14 @@ void Execute::slotShowSession() {
     ui.stackedWidget->setCurrentIndex( 0 );
     ui.NextButton->hide();
     ui.AddObject->hide();
+    ui.RemoveObject->hide();
 }
 
 void Execute::slotShowTargets() {
     if( saveSession() ) {
         ui.Target->show();
         ui.AddObject->show();
+        ui.RemoveObject->show();
         ui.stackedWidget->setCurrentIndex( 1 );
         ui.NextButton->show();
         ui.NextButton->setText( xi18n( "Next Page >" ) );
@@ -377,6 +383,23 @@ void Execute::slotAddObject() {
        }
    }
    delete fd;
+}
+
+void Execute::slotRemoveObject()
+{
+	QModelIndex i = ui.Target->currentIndex();
+	SkyObject *obj = 0;
+	if( i.isValid() )
+	{
+		QString ObjName = i.data().toString();
+		obj = KStarsData::Instance()->skyComposite()->findByName( ObjName );
+	}
+
+	if( obj!=0 )
+	{
+		ks->observingList()->slotRemoveObject( obj, true );
+		loadTargets();
+	}
 }
 
 QString Execute::getObjectName(const SkyObject *o, bool translated)

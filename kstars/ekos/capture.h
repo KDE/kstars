@@ -161,6 +161,7 @@ public:
     void syncFrameType(ISD::GDInterface *ccd);
     void setTelescope(ISD::GDInterface *newTelescope);
     void syncTelescopeInfo();
+    void syncFilterInfo();
 
     void appendLogText(const QString &);
     void clearLog();
