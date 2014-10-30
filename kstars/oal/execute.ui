@@ -352,7 +352,14 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KComboBox" name="Observer"/>
+            <widget class="KComboBox" name="Observer">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_11">
@@ -362,7 +369,14 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="KComboBox" name="Scope"/>
+            <widget class="KComboBox" name="Scope">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_12">
@@ -372,7 +386,14 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KComboBox" name="Eyepiece"/>
+            <widget class="KComboBox" name="Eyepiece">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_17">
@@ -382,7 +403,14 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KComboBox" name="Lens"/>
+            <widget class="KComboBox" name="Lens">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_18">
@@ -392,7 +420,14 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KComboBox" name="Filter"/>
+            <widget class="KComboBox" name="Filter">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="label_14">
@@ -492,19 +527,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KTitleWidget</class>
-   <extends>QWidget</extends>
-   <header>ktitlewidget.h</header>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -517,19 +547,24 @@
    <header>kurllabel.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDateTimeWidget</class>
+   <class>KTitleWidget</class>
    <extends>QWidget</extends>
-   <header>kdatetimewidget.h</header>
+   <header>ktitlewidget.h</header>
   </customwidget>
   <customwidget>
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KDateTimeWidget</class>
+   <extends>QWidget</extends>
+   <header>kdatetimewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
