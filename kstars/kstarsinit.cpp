@@ -419,7 +419,7 @@ void KStars::initActions() {
     // ==== observation menu ================
     ka = actionCollection()->addAction("execute", this, SLOT( slotExecute() ) )
         << i18n( "Execute the session Plan..." )
-        << KShortcut( Qt::CTRL+Qt::Key_2 );
+        << KShortcut( Qt::CTRL+Qt::Key_X );
 
     // ==== devices Menu ================
 #ifdef HAVE_INDI_H
