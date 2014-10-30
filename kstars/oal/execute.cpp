@@ -104,6 +104,13 @@ void Execute::init() {
     //load Observers
     loadObservers();
 
+    if( logObject->scopeList()->isEmpty() || logObject->observerList()->isEmpty() ) {
+        ui.hintLabel->show();
+    }
+    else {
+        ui.hintLabel->hide();
+    }
+
     //set Current Items
     loadCurrentItems();
 }
