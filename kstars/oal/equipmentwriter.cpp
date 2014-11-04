@@ -41,7 +41,7 @@ EquipmentWriter::EquipmentWriter() {
     ui.setupUi( widget );
     ui.tabWidget->setCurrentIndex(0);
     setMainWidget( widget );
-    setCaption( i18n( "Define Equipment" ) );
+    setCaption( i18n( "Configure Equipment" ) );
     setButtons( KDialog::Close );
     ks = KStars::Instance();
     nextScope = 0;

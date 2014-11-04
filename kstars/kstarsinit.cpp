@@ -410,16 +410,16 @@ void KStars::initActions() {
         << i18n("Flags");
 
     actionCollection()->addAction("ewriter", this, SLOT( slotEquipmentWriter() ) )
-        << i18n("Define Equipment...")
+        << i18n("List your &Equipment...")
         << KShortcut( Qt::CTRL+Qt::Key_0 );
     actionCollection()->addAction("obsadd", this, SLOT( slotObserverAdd() ) )
-        << i18n( "Add Observer..." )
+        << i18n( "Add &Observer..." )
         << KShortcut( Qt::CTRL+Qt::Key_1 );
 
     // ==== observation menu ================
     ka = actionCollection()->addAction("execute", this, SLOT( slotExecute() ) )
         << i18n( "Execute the session Plan..." )
-        << KShortcut( Qt::CTRL+Qt::Key_2 );
+        << KShortcut( Qt::CTRL+Qt::Key_X );
 
     // ==== devices Menu ================
 #ifdef HAVE_INDI_H

@@ -109,8 +109,10 @@
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 		<Action name="opengl" />
 		<Separator />
-		<Action name="ewriter"/>
-		<Action name="obsadd"/>
+		<Menu name="config_oal"><text>Configure Observation &amp;Logging</text>
+		  <Action name="ewriter"/>
+		  <Action name="obsadd"/>
+		</Menu>
 		<Separator />
 		<Action name="geolocation" />
         <Separator />
