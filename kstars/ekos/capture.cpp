@@ -109,9 +109,11 @@ void SequenceJob::prepareCapture()
 
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 {
-
-    //if (targetFilter != -1 && activeFilter != NULL)
-        //activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+    if (targetFilter != -1 && activeFilter != NULL)
+    {
+        if (targetFilter != currentFilter)
+            activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+    }
 
    if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
@@ -841,6 +843,12 @@ void Capture::captureImage()
     if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
         isDark = true;
 
+
+    if (filterSlot != NULL)
+    {
+        currentFilterPosition = (int) filterSlot->np[0].value;
+        activeJob->setCurrentFilter(currentFilterPosition);
+    }
 
      rc = activeJob->capture(isDark);
 
