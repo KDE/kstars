@@ -334,9 +334,7 @@ void Align::calculateFOV()
     fov_x /= 60.0;
     fov_y /= 60.0;
 
-    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
-
-    parser->verifyIndexFiles(fov_x, fov_y);
+    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));    
 
 }
 
@@ -549,6 +547,8 @@ void Align::startSovling(const QString &filename, bool isGenerated)
 
     targetCoord.setRA(ra);
     targetCoord.setDec(dec);
+
+    parser->verifyIndexFiles(fov_x, fov_y);
 
     solverTimer.start();
 

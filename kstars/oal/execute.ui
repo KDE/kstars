@@ -344,64 +344,99 @@
            <property name="fieldGrowthPolicy">
             <enum>QFormLayout::ExpandingFieldsGrow</enum>
            </property>
-           <item row="0" column="0">
+           <item row="1" column="0">
             <widget class="QLabel" name="label_19">
              <property name="text">
               <string>Observer</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="Observer"/>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="Observer">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_11">
              <property name="text">
               <string>Telescope:</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="Scope"/>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="Scope">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
-           <item row="2" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="label_12">
              <property name="text">
               <string>Eyepiece:</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QComboBox" name="Eyepiece"/>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="Eyepiece">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_17">
              <property name="text">
               <string>Lens:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QComboBox" name="Lens"/>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="Lens">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
-           <item row="4" column="0">
+           <item row="5" column="0">
             <widget class="QLabel" name="label_18">
              <property name="text">
               <string>Filter:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
-            <widget class="QComboBox" name="Filter"/>
+           <item row="5" column="1">
+            <widget class="QComboBox" name="Filter">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
-           <item row="5" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_14">
              <property name="text">
               <string>Seeing:</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
               <widget class="QDoubleSpinBox" name="Seeing"/>
@@ -415,14 +450,14 @@
              </item>
             </layout>
            </item>
-           <item row="6" column="0">
+           <item row="7" column="0">
             <widget class="QLabel" name="label_15">
              <property name="text">
               <string>Faintest Star:</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="7" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
               <widget class="QDoubleSpinBox" name="FaintestStar"/>
@@ -436,25 +471,41 @@
              </item>
             </layout>
            </item>
-           <item row="7" column="0">
+           <item row="8" column="0">
             <widget class="QLabel" name="label_16">
              <property name="text">
               <string>Time:</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="1">
+           <item row="8" column="1">
             <widget class="QTimeEdit" name="Time"/>
            </item>
-           <item row="8" column="0">
+           <item row="9" column="0">
             <widget class="QLabel" name="label_13">
              <property name="text">
               <string>Description:</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
+           <item row="9" column="1">
             <widget class="KTextEdit" name="Description"/>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="hintLabel">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Looks like you haven't listed out your observers / equipment. Please hit Ctrl + 0 and Ctrl + 1 to fix this situation and come back here.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

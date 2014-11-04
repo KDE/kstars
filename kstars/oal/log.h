@@ -112,8 +112,8 @@ class OAL::Log {
     private:
         QList<SkyObject *> m_targetList;
         QList<OAL::Observer *> m_observerList;
-        QList<OAL::Eyepiece *> m_eyepieceList; 
-        QList<OAL::Lens *> m_lensList; 
+        QList<OAL::Eyepiece *> m_eyepieceList;
+        QList<OAL::Lens *> m_lensList;
         QList<OAL::Filter *> m_filterList;
 //        QList<OAL::Equipment *> m_equipmentList;
 //        QList<OAL::Imager *> m_imagerList;

@@ -114,6 +114,13 @@ void Execute::init() {
     //load Observers
     loadObservers();
 
+    if( logObject->scopeList()->isEmpty() || logObject->observerList()->isEmpty() ) {
+        ui.hintLabel->show();
+    }
+    else {
+        ui.hintLabel->hide();
+    }
+
     //set Current Items
     loadCurrentItems();
 }
@@ -123,7 +130,7 @@ void Execute::loadCurrentItems() {
         ui.Target->setCurrentRow( findIndexOfTarget( currentTarget->name() ), QItemSelectionModel::SelectCurrent );
     else
         ui.Target->setCurrentRow( 0, QItemSelectionModel::SelectCurrent );
-        
+
     if( currentObserver )
         ui.Observer->setCurrentIndex( ui.Observer->findText( currentObserver->name() + ' ' + currentObserver->surname() ) );
     if( currentScope )
@@ -167,7 +174,7 @@ void Execute::slotNext() {
 }
 
 bool Execute::saveSession() {
-    OAL::Site *site = logObject->findSiteByName( geo->fullName() ); 
+    OAL::Site *site = logObject->findSiteByName( geo->fullName() );
     if( ! site ) {
         while( logObject->findSiteById( xi18n( "site_" ) + QString::number( nextSite ) ) )
             nextSite++;
@@ -181,7 +188,7 @@ bool Execute::saveSession() {
             nextSession++;
         currentSession = new OAL::Session( xi18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         logObject->sessionList()->append( currentSession );
-    } 
+    }
     ui.stackedWidget->setCurrentIndex( 1 ); //Move to the next page
     return true;
 }
@@ -307,7 +314,7 @@ void Execute::slotEndSession() {
     currentSession = NULL;
 }
 
-void Execute::slotSetTarget( QString name ) { 
+void Execute::slotSetTarget( QString name ) {
     currentTarget = ks->observingList()->findObjectByName( name );
     if( ! currentTarget ) {
         ui.NextButton->setEnabled( false );
@@ -339,7 +346,7 @@ void Execute::slotSlew() {
 }
 
 void Execute::selectNextTarget() {
-    int i = findIndexOfTarget( currentTarget->name() ) + 1; 
+    int i = findIndexOfTarget( currentTarget->name() ) + 1;
     if( i < ui.Target->count() ) {
         ui.Target->selectionModel()->clear();
         ui.Target->setCurrentRow( i, QItemSelectionModel::SelectCurrent );
@@ -374,11 +381,11 @@ void Execute::slotShowTargets() {
 }
 
 void Execute::slotAddObject() {
-   QPointer<FindDialog> fd = new FindDialog( ks );    
+   QPointer<FindDialog> fd = new FindDialog( ks );
    if ( fd->exec() == QDialog::Accepted ) {
        SkyObject *o = fd->selectedObject();
        if( o != 0 ) {
-           ks->observingList()->slotAddObject( o, true );  
+           ks->observingList()->slotAddObject( o, true );
            init();
        }
    }

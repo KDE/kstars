@@ -413,7 +413,7 @@ void KStars::initActions() {
         << xi18n("Flags");
 
     actionCollection()->addAction("ewriter", this, SLOT( slotEquipmentWriter() ) )
-        << xi18n("Define Equipment...")
+        << xi18n("List your &Equipment...")
         << QKeySequence( Qt::CTRL+Qt::Key_0 );
     actionCollection()->addAction("obsadd", this, SLOT( slotObserverAdd() ) )
         << xi18n( "Add Observer..." )
