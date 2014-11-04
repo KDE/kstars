@@ -16,9 +16,6 @@
 #include "indi/indistd.h"
 #include "ui_telescopewizard.h"
 
-class KStars;
-class QTimer;
-class INDI_D;
 class DriverInfo;
 
 class QProgressDialog;

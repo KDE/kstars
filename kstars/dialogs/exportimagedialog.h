@@ -25,7 +25,6 @@
 #include <QDialog>
 
 class KStars;
-class SkyQPainter;
 class QString;
 class QSize;
 class ImageExporter;

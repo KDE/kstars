@@ -20,7 +20,6 @@
 
 #include "ui_pwizchartconfig.h"
 
-class PrintingWizard;
 
 /**
   * \class PWizChartConfigUI

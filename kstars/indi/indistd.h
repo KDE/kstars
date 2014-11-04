@@ -21,10 +21,8 @@
 
 
 class ClientManager;
-class FITSViewer;
 class DriverInfo;
 class DeviceInfo;
-class StreamWG;
 
 // INDI Standard Device Namespace
 namespace ISD

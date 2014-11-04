@@ -36,7 +36,6 @@ class PWizChartConfigUI;
 class PWizChartContentsUI;
 class PWizPrintUI;
 class FinderChart;
-class KStarsDocument;
 class SkyObject;
 class QStackedWidget;
 class QPrinter;

@@ -28,7 +28,6 @@
 
 class QUrl;
 class QLabel;
-class QVBoxLayout;
 
 class ImageLabel : public QFrame {
     Q_OBJECT

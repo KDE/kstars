@@ -27,12 +27,10 @@
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 
-class WIUserSettings;
 // forward declaration is enough. We only need pointers
 class QPalette;
 class KActionMenu;
 
-class dms;
 class KStarsData;
 class SkyMap;
 class GeoLocation;
@@ -40,8 +38,6 @@ class FindDialog;
 class TimeStepBox;
 class ImageExporter;
 
-class GUIManager;
-class DriverManager;
 
 class AltVsTime;
 class WUTDialog;

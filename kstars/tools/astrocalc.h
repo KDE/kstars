@@ -23,7 +23,6 @@
 #include <QDialog>
 
 
-class QSplitter;
 class QStackedWidget;
 class QTreeWidget;
 class QTreeWidgetItem;

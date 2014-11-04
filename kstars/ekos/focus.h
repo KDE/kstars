@@ -19,7 +19,6 @@
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
 
-class KPlotObject;
 
 namespace Ekos
 {

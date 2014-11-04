@@ -29,7 +29,6 @@
 #include "auxinfo.h"
 
 class QPoint;
-class QPainter;
 class GeoLocation;
 class KStarsDateTime;
 class KSPopupMenu;

@@ -406,11 +406,6 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>dmsBox</class>
    <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>

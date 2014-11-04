@@ -22,7 +22,6 @@
 
 class QTextDocument;
 class QString;
-class QPainter;
 class QPrinter;
 
 /**

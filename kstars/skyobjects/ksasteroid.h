@@ -20,7 +20,6 @@
 
 #include "ksplanetbase.h"
 
-class KStarsData;
 class KSNumbers;
 class dms;
 

@@ -21,7 +21,6 @@
 #include "kstarsdocument.h"
 
 class QTextDocument;
-class QPrinter;
 
 /**
   * \class LoggingForm

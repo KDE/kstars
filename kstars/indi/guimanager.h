@@ -35,7 +35,6 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QFrame;
 class QString;
-class QTextEdit;
 class QTabWidget;
 class QGridLayout;
 class QPushButton;

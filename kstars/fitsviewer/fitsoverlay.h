@@ -19,7 +19,6 @@
 
 class FITSImage;
 class SkyPoint;
-class SkyObject;
 
 typedef struct
 {

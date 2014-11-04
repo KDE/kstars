@@ -40,7 +40,6 @@
 
 class GeoLocation;
 class QHBoxLayout;
-class QLineEdit;
 class QListWidgetItem;
 class QPixmap;
 class QString;

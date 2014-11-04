@@ -25,7 +25,6 @@
 class QUndoStack;
 class FITSView;
 class FITSHistogram;
-class FITSHistogramCommand;
 class FITSViewer;
 
 class FITSTab : public QWidget

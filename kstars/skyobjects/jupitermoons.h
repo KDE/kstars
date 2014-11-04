@@ -25,8 +25,6 @@
 class KSNumbers;
 class KSPlanet;
 class KSSun;
-class TrailObject;
-class dms;
 
 /**
   *@class JupiterMoons

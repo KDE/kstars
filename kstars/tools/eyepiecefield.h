@@ -29,7 +29,6 @@ class QString;
 class QLabel;
 class QSlider;
 class QCheckBox;
-class QObject;
 
 /**
  * @class EyepieceField

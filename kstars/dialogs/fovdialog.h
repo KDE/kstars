@@ -31,8 +31,6 @@
 	*@version 1.0
 	*/
 
-class KStars;
-class FOVWidget;
 
 class FOVDialogUI : public QFrame, public Ui::FOVDialog {
     Q_OBJECT

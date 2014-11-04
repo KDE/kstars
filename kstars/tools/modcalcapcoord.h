@@ -20,7 +20,6 @@
 
 #include "ui_modcalcapcoord.h"
 
-class dms;
 class QTextStream;
 
 /** Module to compute the equatorial coordinates for a given date and time

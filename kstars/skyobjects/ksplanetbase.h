@@ -29,7 +29,6 @@
 #include "trailobject.h"
 
 class KSNumbers;
-class KSPopupMenu;
 
 /**
  *@class EclipticPosition

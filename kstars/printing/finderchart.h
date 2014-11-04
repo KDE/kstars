@@ -26,10 +26,6 @@ class DetailsTable;
 class KStarsDateTime;
 class GeoLocation;
 class QString;
-class QTextDocument;
-class QTextFrameFormat;
-class QPrinter;
-class QPainter;
 class QRectF;
 class QImage;
 

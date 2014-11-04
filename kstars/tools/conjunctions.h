@@ -37,7 +37,6 @@
 class GeoLocation;
 class KSPlanetBase;
 class dms;
-class QListWidgetItem;
 
 /**
   *@short Predicts conjunctions using KSConjunct in the background

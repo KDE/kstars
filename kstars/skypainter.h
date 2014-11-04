@@ -25,10 +25,7 @@
 
 #include "skycomponents/typedef.h"
 
-class TrailObject;
 class KSPlanetBase;
-class KSAsteroid;
-class KSComet;
 class DeepSkyObject;
 class SkyPoint;
 class SkyObject;

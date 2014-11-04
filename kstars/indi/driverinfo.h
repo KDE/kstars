@@ -17,7 +17,6 @@
 #include <baseclient.h>
 #include "indicommon.h"
 
-class DriverManager;
 class ServerManager;
 class ClientManager;
 class DeviceInfo;

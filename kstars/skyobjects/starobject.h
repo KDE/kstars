@@ -26,7 +26,6 @@
 #include "deepstardata.h"
 
 class KSPopupMenu;
-class KStarsData;
 
 /**@class StarObject
         *This is a subclass of SkyObject.  It adds the Spectral type, and flags

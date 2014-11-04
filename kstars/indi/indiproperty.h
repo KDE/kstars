@@ -30,7 +30,6 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QButtonGroup;
 class QAbstractButton;
-class QAction;
 class QCheckBox;
 
 /* INDI property */

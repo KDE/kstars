@@ -25,8 +25,6 @@
 #include <QtMultimedia/QMediaPlayer>
 
 class DriverInfo;
-class ClientManager;
-class QTimer;
 
 class EkosManager : public QDialog, public Ui::EkosManager
 {

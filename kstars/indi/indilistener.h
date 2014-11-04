@@ -19,7 +19,6 @@
 
 class ClientManager;
 class FITSViewer;
-class DriverInfo;
 class DeviceInfo;
 
 class INDIListener : public QObject

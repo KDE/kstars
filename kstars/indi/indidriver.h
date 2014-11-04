@@ -32,7 +32,6 @@ class QIcon;
 class INDI_D;
 class KStars;
 class DeviceManager;
-class KProcess;
 
 struct INDIHostsInfo
 {

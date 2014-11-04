@@ -41,12 +41,10 @@
 class QCloseEvent;
 class QUndoGroup;
 
-class KUndoStack;
 class QTabWidget;
 class QUrl;
 
 class FITSView;
-class FITSHistogram;
 class FITSTab;
 
 

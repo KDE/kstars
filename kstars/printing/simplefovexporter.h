@@ -21,11 +21,9 @@
 #include "QList"
 
 class SkyPoint;
-class SkyQPainter;
 class FOV;
 class KStarsData;
 class SkyMap;
-class QPainter;
 class QPaintDevice;
 
 /**
