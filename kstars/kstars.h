@@ -19,7 +19,6 @@
 
 #include <QtDBus/QtDBus>
 #include <kxmlguiwindow.h>
-#include <QtDeclarative/QDeclarativeView>
 
 #include <config-kstars.h>
 

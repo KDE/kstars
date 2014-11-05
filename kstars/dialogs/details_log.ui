@@ -58,13 +58,8 @@
  <customwidgets>
   <customwidget>
    <class>LogEdit</class>
-   <extends>KTextEdit</extends>
-   <header>widgets/logedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
+   <header>widgets/logedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

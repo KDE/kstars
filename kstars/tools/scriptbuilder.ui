@@ -408,7 +408,7 @@
            </property>
           </column>
          </widget>
-         <widget class="KTextEdit" name="FuncDoc">
+         <widget class="QTextEdit" name="FuncDoc">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -430,13 +430,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -19,7 +19,7 @@
 
 #include <QFrame>
 
-LogEdit::LogEdit( QWidget *parent ) : KTextEdit( parent )
+LogEdit::LogEdit( QWidget *parent ) : QTextEdit( parent )
 {
     setFrameStyle( QFrame::StyledPanel );
     setFrameShadow( QFrame::Plain );
