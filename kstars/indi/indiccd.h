@@ -16,7 +16,9 @@
 #include <QStringList>
 
 class FITSView;
+class FITSViewer;
 class FITSImage;
+class StreamWG;
 
 namespace ISD
 {
