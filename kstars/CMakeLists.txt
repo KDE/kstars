@@ -172,7 +172,7 @@ set(libkstarstools_SRCS
 	tools/eyepiecefield.cpp
 	)
 
-qt5_wrap_ui(libkstarstools_SRCS
+ki18n_wrap_ui(libkstarstools_SRCS
 	tools/altvstime.ui
 	tools/argchangeviewoption.ui
 	tools/argexportimage.ui
@@ -296,7 +296,7 @@ set(libkstarswidgets_SRCS
 	widgets/kshelplabel.cpp
 )
 
-#qt5_wrap_ui(libkstarswidgets_SRCS
+#ki18n_wrap_ui(libkstarswidgets_SRCS
 #  widgets/genericcalendarwidget.ui
 #)
 
@@ -464,7 +464,7 @@ qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
-qt5_wrap_ui(kstars_SRCS
+ki18n_wrap_ui(kstars_SRCS
        ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui  skycomponents/notifyupdatesui.ui
