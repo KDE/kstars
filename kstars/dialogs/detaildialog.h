@@ -27,7 +27,6 @@
 #include <QPalette>
 
 #include <kpagedialog.h>
-#include <ktextedit.h>
 
 #include "skyobjects/skyobject.h"
 //UI headers

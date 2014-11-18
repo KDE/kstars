@@ -61,7 +61,7 @@ INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *i
 
     groupContainer 	= new QTabWidget();
 
-    msgST_w        	= new KTextEdit();
+    msgST_w        	= new QTextEdit();
     msgST_w->setReadOnly(true);
 
 

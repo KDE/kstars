@@ -141,7 +141,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KTextEdit" name="Equipment">
+            <widget class="QTextEdit" name="Equipment">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
@@ -155,7 +155,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KTextEdit" name="Comment">
+            <widget class="QTextEdit" name="Comment">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
@@ -489,7 +489,7 @@
             </widget>
            </item>
            <item row="9" column="1">
-            <widget class="KTextEdit" name="Description"/>
+            <widget class="QTextEdit" name="Description"/>
            </item>
            <item row="0" column="0" colspan="2">
             <widget class="QLabel" name="hintLabel">
