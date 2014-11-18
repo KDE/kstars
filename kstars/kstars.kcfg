@@ -145,7 +145,7 @@
     <entry name="singlePreviewFITS" type="Bool">
       <label>Preview FITS in a single tab?</label>
       <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="telescopePort" type="String">
       <label>INDI Telescope port</label>

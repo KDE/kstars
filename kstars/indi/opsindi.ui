@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>495</width>
-    <height>523</height>
+    <height>550</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -341,7 +341,7 @@
            <string>Single Preview FITS</string>
           </property>
           <property name="checked">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -675,19 +675,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QComboBox</class>
-   <extends>QComboBox</extends>
-   <header>QComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>kcfg_useTimeUpdate</tabstop>
   <tabstop>kcfg_useGeographicUpdate</tabstop>
