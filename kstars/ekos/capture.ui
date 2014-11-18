@@ -147,7 +147,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="KComboBox" name="CCDCaptureCombo"/>
+             <widget class="KComboBox" name="CCDCaptureCombo" native="true"/>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -159,8 +159,11 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="decimals">
+                 <number>3</number>
+                </property>
                 <property name="minimum">
-                 <double>0.010000000000000</double>
+                 <double>0.001000000000000</double>
                 </property>
                 <property name="maximum">
                  <double>3600.000000000000000</double>
@@ -367,7 +370,7 @@
              </layout>
             </item>
             <item>
-             <widget class="KComboBox" name="frameTypeCombo"/>
+             <widget class="KComboBox" name="frameTypeCombo" native="true"/>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1267,6 +1270,13 @@
   <zorder>verticalSpacer12</zorder>
   <zorder>line</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QWidget</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
