@@ -925,7 +925,7 @@ void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir
 /*******************************************************************************/
 void Capture::checkSeqBoundary(const QString &path)
 {
-    int newFileIndex;
+    int newFileIndex=-1;
     QString tempName;
 
     //KFileItemList::const_iterator it = items.begin();
@@ -934,12 +934,27 @@ void Capture::checkSeqBoundary(const QString &path)
     while (it.hasNext())
     {
         tempName = it.next();
+        tempName.remove(path + "/");
 
         // find the prefix first
-        if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
+        //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
+        if (tempName.startsWith(seqPrefix) == false)
             continue;
 
-        if (seqPrefix.isEmpty() == false)
+        int lastIndex = tempName.lastIndexOf('.');
+
+        if (seqPrefix.isEmpty() && lastIndex != 2)
+            continue;
+
+        if (lastIndex != -1)
+        {
+            bool indexOK = false;
+            newFileIndex = tempName.mid(lastIndex-2, 2).toInt(&indexOK);
+            if (indexOK && newFileIndex >= seqCount)
+                seqCount = newFileIndex + 1;
+        }
+
+        /*if (seqPrefix.isEmpty() == false)
            tempName.remove(seqPrefix + '_');
 
         int usIndex = tempName.indexOf('_');
@@ -951,11 +966,10 @@ void Capture::checkSeqBoundary(const QString &path)
 
         bool indexOK = false;
 
-        newFileIndex = tempName.toInt(&indexOK);
+        newFileIndex = tempName.toInt(&indexOK);*/
 
-
-        if (indexOK && newFileIndex >= seqCount)
-            seqCount = newFileIndex + 1;
+        //if (newFileIndex >= seqCount)
+          //  seqCount = newFileIndex + 1;
 
         //qDebug() << "Now the tempName is " << tempName << " conversion is " << (indexOK ? "OK" : "Failed") << " and valu is " << newFileIndex
           //          << " and seqCount is " << seqCount << endl;

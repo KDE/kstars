@@ -527,7 +527,9 @@ void Align::newFITS(IBLOB *bp)
 
     appendLogText(xi18n("Image received."));
 
-    startSovling(QString(bp->label));
+    char *finalFileName = (char *) bp->aux1;
+
+    startSovling(QString(finalFileName));
 }
 
 void Align::startSovling(const QString &filename, bool isGenerated)

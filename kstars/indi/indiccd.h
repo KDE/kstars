@@ -20,6 +20,8 @@ class FITSViewer;
 class FITSImage;
 class StreamWG;
 
+#define MAXINDIFILENAME 512
+
 namespace ISD
 {
 
@@ -152,6 +154,7 @@ private:
     ISD::ST4 *ST4Driver;
     int normalTabID, calibrationTabID, focusTabID, guideTabID;
     CCDChip *primaryChip, *guideChip;
+    char finalFileName[MAXINDIFILENAME];
 };
 
 }

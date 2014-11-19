@@ -13,6 +13,7 @@
 
 #include <KMessageBox>
 #include <QStatusBar>
+#include <QImageReader>
 
 #include <basedevice.h>
 
@@ -30,6 +31,7 @@
 
 #include <ekos/ekosmanager.h>
 
+#include "imageviewer.h"
 #include "Options.h"
 
 const int MAX_FILENAME_LEN = 1024;
@@ -930,6 +932,10 @@ void CCD::processText(ITextVectorProperty *tvp)
 void CCD::processBLOB(IBLOB* bp)
 {
 
+    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_CR2, BLOB_OTHER} BType;
+
+    BType = BLOB_OTHER;
+
     QString format(bp->format);
 
     // If stream, process it first
@@ -943,8 +949,17 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }
 
-    // If it's not FITS, don't process it.
-    if (format.contains("fits") == false)
+    QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
+
+    // If it's not FITS or an image, don't process it.
+    if ( (QImageReader::supportedImageFormats().contains(fmt)))
+        BType = BLOB_IMAGE;
+    else if (format.contains("fits"))
+        BType = BLOB_FITS;
+    else if (format.contains("cr2"))
+        BType = BLOB_CR2;
+
+    if (BType == BLOB_OTHER)
     {
         DeviceDecorator::processBLOB(bp);
         return;
@@ -984,7 +999,7 @@ void CCD::processBLOB(IBLOB* bp)
     {
 
         //tmpFile.setPrefix("fits");
-        tmpFile.setAutoRemove(false);
+        tmpFile.setAutoRemove(true);
 
          if (!tmpFile.open())
          {
@@ -1009,9 +1024,9 @@ void CCD::processBLOB(IBLOB* bp)
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
          if (ISOMode == false)
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(QString().sprintf("%02d", seqCount));
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%02d", seqCount)).arg(QString(fmt));
           else
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(QString().sprintf("%02d", seqCount)).arg(ts);
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%02d", seqCount)).arg(ts).arg(QString(fmt));
 
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
@@ -1029,13 +1044,15 @@ void CCD::processBLOB(IBLOB* bp)
             fits_temp_file.close();
     }
 
-    addFITSKeywords(filename);
+    if (BType == BLOB_FITS)
+        addFITSKeywords(filename);
 
     // store file name
-    strncpy(bp->label, filename.toLatin1(), MAXINDILABEL);
+    strncpy(finalFileName, filename.toLatin1(), MAXINDIFILENAME);
+    bp->aux1 = finalFileName;
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
-        KStars::Instance()->statusBar()->showMessage( xi18n("FITS file saved to %1", filename ), 0);
+        KStars::Instance()->statusBar()->showMessage( xi18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
     if (Options::playFITSAlarm() && KStars::Instance()->ekosManager())
         KStars::Instance()->ekosManager()->playFITS();
@@ -1046,9 +1063,38 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }
 
+    if (BType == BLOB_IMAGE || BType == BLOB_CR2)
+    {
+        if (BType == BLOB_CR2)
+        {
+            if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
+            {
+                QProcess dcraw;
+                QString jpeg_filename(filename);
+                jpeg_filename.replace("cr2", "jpg");
+                dcraw.setProgram("dcraw");
+                QStringList args;
+                args << "-c" << "-q" << "0" << "-B" << "2" << "4" << "-w" << "-H" << "5" << "-b" << "8" << filename << "|" << "cjpeg" << "-quality" << "80" << jpeg_filename;
+                dcraw.setArguments(args);
+                dcraw.start();
+                dcraw.waitForFinished();
+                filename = jpeg_filename;
+            }
+            else
+            {
+                KStars::Instance()->statusBar()->showMessage(xi18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                emit BLOBUpdated(bp);
+                return;
+            }
+        }
+
+        ImageViewer *iv = new ImageViewer(filename, QString(), KStars::Instance());
+        if (iv)
+           iv->show();
+    }
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO
-    if (Options::showFITS() && (targetChip->showFITS() || targetChip->getCaptureMode() != FITS_NORMAL)
+    if (BType == BLOB_FITS && Options::showFITS() && (targetChip->showFITS() || targetChip->getCaptureMode() != FITS_NORMAL)
             && targetChip->getCaptureMode() != FITS_WCSM)
     {
         QUrl fileURL(filename);
