@@ -354,7 +354,9 @@ void GenericDevice::processBLOB(IBLOB* bp)
         QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
         if (QImageReader::supportedImageFormats().contains(fmt))
         {
-             ImageViewer *iv = new ImageViewer(filename, QString(), KStars::Instance());
+            QUrl url (filename);
+            url.setScheme("file");
+             ImageViewer *iv = new ImageViewer(url, QString(), KStars::Instance());
              if (iv)
                 iv->show();
         }

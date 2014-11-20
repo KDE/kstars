@@ -980,7 +980,7 @@ void CCD::processBLOB(IBLOB* bp)
         currentDir  =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
 
     int nr, n=0;
-    QTemporaryFile tmpFile("fitsXXXXXX");
+    QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
     if (currentDir.endsWith('/'))
         currentDir.truncate(sizeof(currentDir)-1);
@@ -1065,18 +1065,24 @@ void CCD::processBLOB(IBLOB* bp)
 
     if (BType == BLOB_IMAGE || BType == BLOB_CR2)
     {
+
+
         if (BType == BLOB_CR2)
         {
             if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
             {
                 QProcess dcraw;
-                QString jpeg_filename(filename);
-                jpeg_filename.replace("cr2", "jpg");
-                dcraw.setProgram("dcraw");
-                QStringList args;
-                args << "-c" << "-q" << "0" << "-B" << "2" << "4" << "-w" << "-H" << "5" << "-b" << "8" << filename << "|" << "cjpeg" << "-quality" << "80" << jpeg_filename;
-                dcraw.setArguments(args);
-                dcraw.start();
+                QString rawFileName = filename;
+                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf("/"));
+                QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
+                QTemporaryFile jpgPreview(templateName);
+                jpgPreview.setAutoRemove(false);
+                jpgPreview.open();
+                jpgPreview.close();
+                QString jpeg_filename = jpgPreview.fileName();
+
+                QString cmd = QString("/bin/sh -c \"dcraw -c -q 0 -w -H 5 -b 8 %1 | cjpeg -quality 80 > %2\"").arg(filename).arg(jpeg_filename);
+                dcraw.start(cmd);
                 dcraw.waitForFinished();
                 filename = jpeg_filename;
             }
@@ -1088,7 +1094,8 @@ void CCD::processBLOB(IBLOB* bp)
             }
         }
 
-        ImageViewer *iv = new ImageViewer(filename, QString(), KStars::Instance());
+        QUrl url = QUrl::fromLocalFile(filename);
+        ImageViewer *iv = new ImageViewer(url, QString(), KStars::Instance());
         if (iv)
            iv->show();
     }
