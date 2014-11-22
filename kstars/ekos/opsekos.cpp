@@ -29,9 +29,9 @@ OpsEkos::OpsEkos( KStars *_ks )
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
-    connect( m_ConfigDialog, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog, SIGNAL(okClicked()), SLOT( slotApply() ) );
-    connect( m_ConfigDialog, SIGNAL( cancelClicked() ), SLOT( slotCancel() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
 
 }
 

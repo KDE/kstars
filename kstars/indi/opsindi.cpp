@@ -12,8 +12,8 @@
 
 #include <QPushButton>
 #include <QFileDialog>
-#include <klineedit.h>
-#include <kconfigdialog.h>
+#include <KLineEdit>
+#include <KConfigDialog>
 
 #include <QCheckBox>
 #include <QStringList>
@@ -58,9 +58,9 @@ OpsINDI::OpsINDI( KStars *_ks )
     connect(kcfg_filterAlias, SIGNAL(editingFinished()), this, SLOT(saveFilterAlias()));
     connect(filterSlotCombo, SIGNAL(activated(int)), this, SLOT(updateFilterAlias(int)));
 
-    connect( m_ConfigDialog, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog, SIGNAL( okClicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog, SIGNAL( cancelClicked() ), SLOT( slotCancel() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
 }
 
 
