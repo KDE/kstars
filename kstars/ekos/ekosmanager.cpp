@@ -46,6 +46,7 @@ EkosManager::EkosManager()
     filter  =  NULL;
     aux     =  NULL;
     ao      =  NULL;
+    dome    =  NULL;
 
     scope_di   = NULL;
     ccd_di     = NULL;
@@ -54,6 +55,7 @@ EkosManager::EkosManager()
     filter_di  = NULL;
     aux_di     = NULL;
     ao_di      = NULL;
+    dome_di    = NULL;
     remote_indi= NULL;
 
     captureProcess = NULL;
@@ -149,6 +151,7 @@ void EkosManager::initLocalDrivers()
     AOCombo->clear();
     focuserCombo->clear();
     filterCombo->clear();
+    domeCombo->clear();
     auxCombo->clear();
 
     telescopeCombo->addItem("--");
@@ -157,6 +160,7 @@ void EkosManager::initLocalDrivers()
     AOCombo->addItem("--");
     focuserCombo->addItem("--");
     filterCombo->addItem("--");
+    domeCombo->addItem("--");
     auxCombo->addItem("--");
 
     foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
@@ -182,6 +186,10 @@ void EkosManager::initLocalDrivers()
 
         case KSTARS_FILTER:
             filterCombo->addItem(dv->getTreeLabel());
+            break;
+
+        case KSTARS_DOME:
+            domeCombo->addItem(dv->getTreeLabel());
             break;
 
         case KSTARS_AUXILIARY:
@@ -211,6 +219,7 @@ void EkosManager::initRemoteDrivers()
     AOCombo->clear();
     focuserCombo->clear();
     filterCombo->clear();
+    domeCombo->clear();
     auxCombo->clear();
 
     if (Options::remoteScopeName().isEmpty() == false)
@@ -244,6 +253,11 @@ void EkosManager::initRemoteDrivers()
     else
         filterCombo->addItem("--");
 
+    if (Options::remoteDomeName().isEmpty() == false)
+        domeCombo->addItem(Options::remoteDomeName());
+    else
+        domeCombo->addItem("--");
+
     if (Options::remoteAuxName().isEmpty() == false)
         auxCombo->addItem(Options::remoteAuxName());
     else
@@ -269,6 +283,7 @@ void EkosManager::reset()
     focuser =  NULL;
     filter  =  NULL;
     aux     =  NULL;
+    dome    =  NULL;
     ao      =  NULL;
 
     scope_di   = NULL;
@@ -277,6 +292,7 @@ void EkosManager::reset()
     focuser_di = NULL;
     filter_di  = NULL;
     aux_di     = NULL;
+    dome_di    = NULL;
     ao_di      = NULL;
 
     captureProcess = NULL;
@@ -300,6 +316,7 @@ void EkosManager::loadDefaultDrivers()
     QString AODriver = Options::aODriver();
     QString FocuserDriver = Options::focuserDriver();
     QString FilterDriver = Options::filterDriver();
+    QString DomeDriver   = Options::domeDriver();
     QString AuxDriver = Options::auxDriver();
 
     if (TelescopeDriver.isEmpty() == false && TelescopeDriver != "--")
@@ -362,6 +379,15 @@ void EkosManager::loadDefaultDrivers()
             }
     }
 
+    if (DomeDriver.isEmpty() == false && DomeDriver != "--")
+    {
+        for (int i=0; i < domeCombo->count(); i++)
+            if (domeCombo->itemText(i) == DomeDriver)
+            {
+                domeCombo->setCurrentIndex(i);
+                break;
+            }
+    }
 
     if (AuxDriver.isEmpty() == false && AuxDriver != "--")
     {
@@ -378,17 +404,19 @@ void EkosManager::loadDefaultDrivers()
 void EkosManager::saveDefaultDrivers()
 {
 
-     Options::setTelescopeDriver(telescopeCombo->currentText());
+   Options::setTelescopeDriver(telescopeCombo->currentText());
 
-    Options::setCCDDriver(ccdCombo->currentText());
+   Options::setCCDDriver(ccdCombo->currentText());
 
-    Options::setGuiderDriver(guiderCombo->currentText());
+   Options::setGuiderDriver(guiderCombo->currentText());
 
-    Options::setFilterDriver(filterCombo->currentText());
+   Options::setFilterDriver(filterCombo->currentText());
 
    Options::setFocuserDriver(focuserCombo->currentText());
 
    Options::setAuxDriver(auxCombo->currentText());
+
+   Options::setDomeDriver(domeCombo->currentText());
 
    Options::setAODriver(AOCombo->currentText());
 
@@ -415,6 +443,7 @@ void EkosManager::processINDI()
         filter_di  = driversList.value(filterCombo->currentText());
         focuser_di = driversList.value(focuserCombo->currentText());
         aux_di     = driversList.value(auxCombo->currentText());
+        dome_di    = driversList.value(domeCombo->currentText());
 
         if (guider_di)
         {
@@ -451,8 +480,10 @@ void EkosManager::processINDI()
             managedDevices.append(filter_di);
         if (focuser_di != NULL)
             managedDevices.append(focuser_di);
+        if (dome_di != NULL)
+            managedDevices.append(dome_di);
         if (aux_di != NULL)
-            managedDevices.append(aux_di);
+            managedDevices.append(aux_di);        
 
         if (managedDevices.empty())
             return;
@@ -506,6 +537,8 @@ void EkosManager::processINDI()
             else
                 useFilterFromCCD = true;
         }*/
+        if (domeCombo->currentText() != "--")
+            nDevices++;
         if (auxCombo->currentText() != "--")
             nDevices++;
 
@@ -621,6 +654,9 @@ void EkosManager::connectDevices()
             focusProcess->setEnabled(true);
     }
 
+    if (dome)
+        dome->Connect();
+
     if (aux)
         aux->Connect();
 
@@ -672,6 +708,9 @@ void EkosManager::disconnectDevices()
             focusProcess->setEnabled(false);
         }
      }
+
+    if (dome)
+        dome->Disconnect();
 
     if (aux)
         aux->Disconnect();
@@ -765,6 +804,11 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                    // ccd = devInterface;
                 break;
 
+             case KSTARS_DOME:
+                if (dome_di == di)
+                    dome = devInterface;
+                break;
+
              case KSTARS_AUXILIARY:
                 if (aux_di == di)
                     aux = devInterface;
@@ -812,6 +856,8 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         focuser = devInterface;
     else if (!strcmp(devInterface->getDeviceName(), Options::remoteFilterName().toLatin1()))
         filter = devInterface;
+    else if (!strcmp(devInterface->getDeviceName(), Options::remoteDomeName().toLatin1()))
+        dome = devInterface;
     else if (!strcmp(devInterface->getDeviceName(), Options::remoteAuxName().toLatin1()))
         aux = devInterface;
     else
@@ -889,6 +935,13 @@ void EkosManager::deviceConnected()
         configProp = filter->getBaseDevice()->getSwitch("CONFIG_PROCESS");
         if (configProp && configProp->s == IPS_IDLE)
            filter->setConfig(tConfig);
+    }
+
+    if (dome && dome->isConnected())
+    {
+        configProp = dome->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+        if (configProp && configProp->s == IPS_IDLE)
+           dome->setConfig(tConfig);
     }
 
     if (aux && aux->isConnected())
@@ -1408,6 +1461,7 @@ void EkosManager::removeTabs()
         delete (focusProcess);
         focusProcess = NULL;
 
+        dome = NULL;
         aux = NULL;
 
 }
@@ -1436,6 +1490,4 @@ void EkosManager::playError()
 {
    playErrorFile->play();
 }
-
-
 

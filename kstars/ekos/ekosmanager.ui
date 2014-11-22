@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>473</width>
-    <height>615</height>
+    <height>644</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,7 +72,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
+             <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
                <widget class="QLabel" name="label_6">
                 <property name="text">
@@ -116,6 +116,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Dome:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QLabel" name="label_11">
                 <property name="text">
                  <string>Auxiliary:</string>
@@ -125,7 +132,7 @@
              </layout>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
+             <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
                <widget class="QComboBox" name="telescopeCombo">
                 <property name="sizePolicy">
@@ -178,6 +185,16 @@
               </item>
               <item>
                <widget class="QComboBox" name="focuserCombo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="domeCombo">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -364,13 +381,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

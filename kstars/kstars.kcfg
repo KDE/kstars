@@ -1230,6 +1230,9 @@
     <entry name="AuxDriver" type="String">
       <label>Default Auxiliary driver</label>
     </entry>
+    <entry name="DomeDriver" type="String">
+      <label>Default Dome driver</label>
+    </entry>
     <entry name="AODriver" type="String">
       <label>Default Adaptive Optics driver</label>
     </entry>
@@ -1256,6 +1259,10 @@
     <entry name="remoteAuxName" type="String">
       <label>Remote Auxiliary Name</label>
       <whatsthis>Name of the remote INDI Auxiliary device.</whatsthis>
+    </entry>
+    <entry name="remoteDomeName" type="String">
+      <label>Remote Dome Name</label>
+      <whatsthis>Name of the remote INDI Dome device.</whatsthis>
     </entry>
     <entry name="remoteAOName" type="String">
       <label>Remote Adaptive Optics Name</label>
