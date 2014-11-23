@@ -999,7 +999,7 @@ void CCD::processBLOB(IBLOB* bp)
     {
 
         //tmpFile.setPrefix("fits");
-        tmpFile.setAutoRemove(true);
+        tmpFile.setAutoRemove(false);
 
          if (!tmpFile.open())
          {
