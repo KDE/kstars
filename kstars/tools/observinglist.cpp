@@ -150,7 +150,6 @@ ObservingList::ObservingList( KStars *_ks )
     ui->SessionView->installEventFilter( this );
     // setDefaultImage();
     //Connections
-    connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
              this, SLOT( slotCenterObject() ) );
     connect( ui->TableView->selectionModel(),

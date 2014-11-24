@@ -68,7 +68,6 @@ EquipmentWriter::EquipmentWriter() {
     #endif
 
     //make connections
-    connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui.NewScope, SIGNAL( clicked() ), this, SLOT( slotNewScope() ) );
     connect( ui.NewEyepiece, SIGNAL( clicked() ), this, SLOT( slotNewEyepiece() ) );
     connect( ui.NewLens, SIGNAL( clicked() ), this, SLOT( slotNewLens() ) );
