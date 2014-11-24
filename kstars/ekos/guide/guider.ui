@@ -133,6 +133,22 @@
             </item>
            </layout>
           </item>
+          <item>
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
        </item>
@@ -500,18 +516,18 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="0" colspan="2">
+              <item row="4" column="0">
+               <widget class="QCheckBox" name="kcfg_useDither">
+                <property name="toolTip">
+                 <string>Subframe the image around the guide star</string>
+                </property>
+                <property name="text">
+                 <string>Dither</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <item>
-                 <widget class="QCheckBox" name="kcfg_useDither">
-                  <property name="toolTip">
-                   <string>Subframe the image around the guide star</string>
-                  </property>
-                  <property name="text">
-                   <string>Dither</string>
-                  </property>
-                 </widget>
-                </item>
                 <item>
                  <widget class="QDoubleSpinBox" name="kcfg_ditherPixels">
                   <property name="minimum">
@@ -560,7 +576,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::MinimumExpanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
