@@ -22,9 +22,13 @@
 bool CatalogDB::Initialize() {
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
   QString dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, QString("skycomponents.db"));
+  if (dbfile.isEmpty())
+      dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QString("/skycomponents.db");
+
   QFile testdb(dbfile);
   bool first_run = false;
-  if (!testdb.exists()) {
+  if (!testdb.exists())
+  {
       qDebug()<< i18n("DSO DB does not exist!");
       first_run = true;
   }
@@ -231,7 +235,7 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
    * with certain fuzz. If found, store it in rowuid
    * This Fuzz has not been established after due discussion
   */
-  skydb_.open();
+  //skydb_.open();
   QSqlTableModel dsoentries(0, skydb_);
 
   QString filter =
@@ -251,13 +255,14 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
     returnval = record.value("UID").toInt();
 
   dsoentries.clear();
-  skydb_.close();
+  //skydb_.close();
 //   qDebug() << returnval;
   return returnval;
 }
 
 
-void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
+void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
+{
   // Verification step
   // If RA, Dec are Null, it denotes an invalid object and should not be written
 
@@ -275,28 +280,28 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
   // out the lastInsertId
 
   // Part 2: Fuzzy Match or Create New Entry
-  int rowuid = FindFuzzyEntry(catalog_entry.ra, catalog_entry.dec,
-                              catalog_entry.magnitude);
-  int catid;
+  int rowuid = FindFuzzyEntry(catalog_entry.ra, catalog_entry.dec, catalog_entry.magnitude);
 
-  skydb_.open();
+  //skydb_.open();
+
   if ( rowuid == -1) { //i.e. No fuzzy match found. Proceed to add new entry
     QSqlQuery add_query(skydb_);
     add_query.prepare("INSERT INTO DSO (RA, Dec, Type, Magnitude, PositionAngle,"
                       " MajorAxis, MinorAxis, Flux) VALUES (:RA, :Dec, :Type,"
                       " :Magnitude, :PositionAngle, :MajorAxis, :MinorAxis,"
                       " :Flux)");
-    add_query.bindValue("RA", catalog_entry.ra);
-    add_query.bindValue("Dec", catalog_entry.dec);
-    add_query.bindValue("Type", catalog_entry.type);
-    add_query.bindValue("Magnitude", catalog_entry.magnitude);
-    add_query.bindValue("PositionAngle", catalog_entry.position_angle);
-    add_query.bindValue("MajorAxis", catalog_entry.major_axis);
-    add_query.bindValue("MinorAxis", catalog_entry.minor_axis);
-    add_query.bindValue("Flux", catalog_entry.flux);
+    add_query.bindValue(":RA", catalog_entry.ra);
+    add_query.bindValue(":Dec", catalog_entry.dec);
+    add_query.bindValue(":Type", catalog_entry.type);
+    add_query.bindValue(":Magnitude", catalog_entry.magnitude);
+    add_query.bindValue(":PositionAngle", catalog_entry.position_angle);
+    add_query.bindValue(":MajorAxis", catalog_entry.major_axis);
+    add_query.bindValue(":MinorAxis", catalog_entry.minor_axis);
+    add_query.bindValue(":Flux", catalog_entry.flux);
     if (!add_query.exec()) {
       qWarning() << "Custom Catalog Insert Query FAILED!";
-      qWarning() << add_query.lastQuery();
+      qWarning() << add_query.lastQuery() << endl;
+      qWarning() << add_query.lastError() << endl;
     }
 
     // Find UID of the Row just added
@@ -313,25 +318,25 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
    */
 
   // Find ID of catalog
-  skydb_.close();
-  catid = FindCatalog(catalog_entry.catalog_name);
+  //skydb_.close();
+  //catid = FindCatalog(catalog_entry.catalog_name);
 
   // Part 3: Add in Object Designation
-  skydb_.open();
+  //skydb_.open();
   QSqlQuery add_od(skydb_);
   add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
                  ", IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
-  add_od.bindValue("catid", catid);
-  add_od.bindValue("rowuid", rowuid);
-  add_od.bindValue("longname", catalog_entry.long_name);
-  add_od.bindValue("id", catalog_entry.ID);
+  add_od.bindValue(":catid", catid);
+  add_od.bindValue(":rowuid", rowuid);
+  add_od.bindValue(":longname", catalog_entry.long_name);
+  add_od.bindValue(":id", catalog_entry.ID);
   if (!add_od.exec()) {
     qWarning() << add_od.lastQuery();
     qWarning() << skydb_.lastError();
   }
   add_od.clear();
 
-  skydb_.close();
+  //skydb_.close();
 }
 
 
@@ -345,7 +350,8 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
 
   QFile ccFile(filename);
 
-  if (ccFile.open(QIODevice::ReadOnly)) {
+  if (ccFile.open(QIODevice::ReadOnly))
+  {
       QStringList columns;  // list of data column descriptors in the header
       QString catalog_name;
       char delimiter;
@@ -382,15 +388,21 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
       // Part 2) Read file and store into DB
       KSParser catalog_text_parser(filename, '#', sequence, delimiter);
 
+      int catid = FindCatalog(catalog_name);
+
+      skydb_.open();
+      skydb_.transaction();
+
       QHash<QString, QVariant> row_content;
-      while (catalog_text_parser.HasNextRow()) {
+      while (catalog_text_parser.HasNextRow())
+      {
         row_content = catalog_text_parser.ReadNextRow();
 
         CatalogEntryData catalog_entry;
 
         dms read_ra(row_content["RA"].toString(), false);
         dms read_dec(row_content["Dc"].toString(), true);
-        qDebug()<<row_content["Nm"].toString();
+        //qDebug()<<row_content["Nm"].toString();
         catalog_entry.catalog_name = catalog_name;
         catalog_entry.ID = row_content["ID"].toInt();
         catalog_entry.long_name = row_content["Nm"].toString();
@@ -403,8 +415,11 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
         catalog_entry.minor_axis = row_content["Mn"].toFloat();
         catalog_entry.flux = row_content["Flux"].toFloat();
 
-        AddEntry(catalog_entry);
+        AddEntry(catalog_entry, catid);
       }
+
+      skydb_.commit();
+      skydb_.close();
   }
   return true;
 }
@@ -684,7 +699,7 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                       "JOIN Catalog WHERE Catalog.id = :catID AND "
                       "ObjectDesignation.id_Catalog = Catalog.id AND "
                       "ObjectDesignation.UID_DSO = DSO.UID");
-    get_query.bindValue("catID", selected_catalog);
+    get_query.bindValue(":catID", selected_catalog);
 
 //     qWarning() << get_query.lastQuery();
 //     qWarning() << get_query.lastError();

@@ -85,12 +85,6 @@ private slots:
     	*/
     void slotHelp();
 
-    /**
-      *Overridden from QDialog, so that the entered file can be parsed
-    	*before window is closed.
-    	*/
-    void slotOk();
-
 private:
     /**
       *Attempt to parse the user's data file according to the fields

@@ -14,7 +14,16 @@
    <property name="spacing">
     <number>6</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
+   <property name="topMargin">
+    <number>8</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
+   </property>
+   <property name="bottomMargin">
     <number>8</number>
    </property>
    <item>
@@ -26,7 +35,16 @@
       <property name="spacing">
        <number>6</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>10</number>
+      </property>
+      <property name="topMargin">
+       <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>10</number>
+      </property>
+      <property name="bottomMargin">
        <number>10</number>
       </property>
       <item>
@@ -74,7 +92,16 @@
       <property name="spacing">
        <number>0</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
        <number>4</number>
       </property>
       <item>
@@ -82,7 +109,16 @@
         <property name="spacing">
          <number>6</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -103,7 +139,7 @@
          </widget>
         </item>
         <item>
-         <widget class="DragListBox" name="FieldList"/>
+         <widget class="DragListBox" name="FieldList" native="true"/>
         </item>
        </layout>
       </item>
@@ -112,7 +148,16 @@
         <property name="spacing">
          <number>6</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -133,7 +178,7 @@
          </widget>
         </item>
         <item>
-         <widget class="DragListBox" name="FieldPool"/>
+         <widget class="DragListBox" name="FieldPool" native="true"/>
         </item>
        </layout>
       </item>
@@ -142,7 +187,16 @@
    </item>
    <item>
     <layout class="QGridLayout">
-     <property name="margin">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <property name="spacing">
@@ -155,6 +209,15 @@
       <widget class="QDoubleSpinBox" name="Epoch">
        <property name="toolTip">
         <string>The coordinate epoch for the catalog</string>
+       </property>
+       <property name="minimum">
+        <double>1900.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>2050.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>50.000000000000000</double>
        </property>
        <property name="value">
         <double>2000.000000000000000</double>
@@ -173,7 +236,16 @@
        <property name="spacing">
         <number>6</number>
        </property>
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -188,7 +260,7 @@
          <property name="text">
           <string/>
          </property>
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>255</red>
            <green>0</green>
@@ -211,7 +283,16 @@
        <property name="spacing">
         <number>6</number>
        </property>
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -226,11 +307,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="SpaceButton">
-         <property name="checked">
-          <bool>true</bool>
-         </property>
          <property name="text">
           <string>Space Delimited</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -250,7 +331,16 @@
    </item>
    <item>
     <layout class="QGridLayout">
-     <property name="margin">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <property name="spacing">
@@ -288,7 +378,7 @@
    </item>
   </layout>
  </widget>
- <customwidgets>  
+ <customwidgets>
   <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>
@@ -298,10 +388,11 @@
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>DragListBox</class>
-   <extends>KListWidget</extends>
+   <extends>QWidget</extends>
    <header>widgets/draglistbox.h</header>
   </customwidget>
  </customwidgets>

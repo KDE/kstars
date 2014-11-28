@@ -104,9 +104,10 @@ class CatalogDB {
    * @brief Used to add a cross referenced entry into the database
    *
    * @param catalog_entry Data structure with entry details
+   * @param catid Category ID in the database
    * @return void
    **/
-  void AddEntry(const CatalogEntryData &catalog_entry);
+  void AddEntry(const CatalogEntryData &catalog_entry, int catid);
 
   /**
    * @brief Removes the catalog from the database and refreshes the listing.
