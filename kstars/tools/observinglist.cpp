@@ -2,8 +2,8 @@
                           observinglist.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 29 Nov 2004
-    copyright            : (C) 2004 by Jeff Woods, Jason Harris
-    email                : jcwoods@bellsouth.net, jharris@30doradus.org
+    copyright            : (C) 2012 by Jeff Woods, Jason Harris, Prakash Mohan, Akarsh Simha
+    email                : jcwoods@bellsouth.net, jharris@30doradus.org, prakash.mohan@kdemail.net, akarsh@kde.org
  ***************************************************************************/
 
 /***************************************************************************
