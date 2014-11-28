@@ -683,6 +683,11 @@
       <whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed out.</whatsthis>
       <default>5.0</default>
     </entry>
+    <entry name="ShowUnknownMagObjects" type="Bool">
+      <label>Show deep-sky objects of unknown magnitude</label>
+      <whatsthis>When enabled, objects whose magnitudes are unknown, or not available to KStars, are drawn irrespective of the faint limits set.</whatsthis>
+      <default>true</default>
+    </entry>
     <!--
         <entry name="MagLimitDrawStar" type="Double">
         <label>Faint limit for stars</label>

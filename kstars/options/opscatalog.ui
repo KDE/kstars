@@ -599,6 +599,13 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
          </layout>
         </item>
         <item>
+         <widget class="QCheckBox" name="kcfg_ShowUnknownMagObjects">
+          <property name="text">
+           <string>Show objects of unknown magnitude</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
