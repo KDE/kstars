@@ -56,9 +56,8 @@ AddCatDialog::AddCatDialog( KStars *_ks )
     connect( acd->DataURL, SIGNAL( urlSelected( const QUrl & ) ),
              this, SLOT( slotShowDataFile() ) );
     connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
-    connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(slotCancel()));
+    connect( buttonBox->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), this, SLOT( slotCreateCatalog() ) );
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(slotHelp()));
 
     acd->FieldList->addItem( xi18n( "ID Number" ) );
@@ -76,16 +75,6 @@ AddCatDialog::AddCatDialog( KStars *_ks )
 }
 
 AddCatDialog::~AddCatDialog(){
-}
-
-void AddCatDialog::slotOk() {
-    //Overriding slotOk() so that custom data file can be validated before
-    //QDialog::accept() is emitted and the window is closed.
-
-    //the validation code needs to be aware of AddCatDialog members, so I will just
-    //emit the okClicked() signal, which is connected to AddCatDialog::validateFile()
-    // FIXME Check this?
-    //emit okClicked();
 }
 
 void AddCatDialog::slotHelp() {
