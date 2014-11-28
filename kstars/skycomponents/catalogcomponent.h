@@ -71,7 +71,7 @@ public:
     /**
      *@return true if visibility Option is set for this catalog
      *@note this is complicated for custom catalogs, because
-     *Option::showCatalog() returns a QList<int>, not a bool.
+     *Options::showCatalog() returns a QList<int>, not a bool.
      *This function extracts the correct visibility value and
      *returns the appropriate bool value
      */

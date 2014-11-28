@@ -138,7 +138,7 @@ void KSPopupMenu::slotEditFlag() {
 }
 
 void KSPopupMenu::slotDeleteFlag() {
-    if ( m_CurrentFlagIdx != -1 ) { 
+    if ( m_CurrentFlagIdx != -1 ) {
         KStars::Instance()->map()->slotDeleteFlag( m_CurrentFlagIdx );
     }
 }
@@ -194,15 +194,15 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
     QString name     = getObjectName(obj);
     QString typeName = obj->typeName();
-	// FIXME: information about angular sizes should be added.
-	QString info = magToStr( obj->mag() );
-	initPopupMenu( obj, name, typeName, info );
+    // FIXME: information about angular sizes should be added.
+    QString info = magToStr( obj->mag() );
+    initPopupMenu( obj, name, typeName, info );
     addLinksToMenu( obj );
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     QString info = magToStr( p->mag() );
-	QString type = xi18n("Solar system object");;
+    QString type = xi18n("Solar system object");;
     initPopupMenu( p, p->translatedName(), type, info);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
@@ -221,7 +221,7 @@ void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
     range.setNum( satellite->range() );
 
     clear();
-    
+
     addFancyLabel( satellite->name() );
     addFancyLabel( satellite->id() );
     addFancyLabel( xi18n( "satellite" ) );
@@ -301,7 +301,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addAction( xi18n( "Angular Distance To...            [" ), ks->map(),
                SLOT(slotBeginAngularDistance()) );
     addAction( xi18n( "Starhop from here to...            " ), ks->map(),
-               SLOT(slotBeginStarHop()) ); 
+               SLOT(slotBeginStarHop()) );
 
     //Insert item for Showing details dialog
     if ( showDetails )
@@ -553,4 +553,3 @@ void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
     act->setDefaultWidget(label);
     addAction( act );
 }
-

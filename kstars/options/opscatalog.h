@@ -78,4 +78,3 @@ private:
 };
 
 #endif  //OPSCATALOG_H_
-
