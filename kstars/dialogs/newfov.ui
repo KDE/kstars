@@ -170,6 +170,12 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
 
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
                </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <double>100000.000000000000000</double>
+               </property>
               </widget>
              </item>
              <item>
@@ -270,6 +276,9 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                 <string>Enter the eyepiece field-of-view angle, in arcminutes.
 
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
+               </property>
+               <property name="maximum">
+                <double>180.000000000000000</double>
                </property>
               </widget>
              </item>
