@@ -4,6 +4,7 @@ install( FILES kstars.png geomap.png
     Cities.dat
     stars.dat
     starnames.dat namedstars.dat unnamedstars.dat
+    Henry-Draper.idx
     starlnum.idx
     ngcic.dat
     clines.dat
