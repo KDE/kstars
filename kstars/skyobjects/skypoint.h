@@ -185,8 +185,8 @@ public:
     inline const dms& alt() const { return Alt; }
 
     /**@return refracted altitude. This function uses
-     * Option::useRefraction to determine whether refraction
-     * correction should be aplied */
+     * Options::useRefraction to determine whether refraction
+     * correction should be applied */
     dms altRefracted() const;
 
     ////

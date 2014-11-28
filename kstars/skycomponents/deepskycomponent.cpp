@@ -407,6 +407,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
 
 
     double maglim = Options::magLimitDrawDeepSky();
+    bool showUnknownMagObjects = Options::showUnknownMagObjects();
 
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
@@ -449,8 +450,9 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
             //only draw objects if flags set, it's bigger than 1 pixel (unless
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
-            if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
-                 ( mag < (float)maglim || obj->isCatalogIC() ) )
+            bool sizeCriterion = (size > 1.0 || Options::zoomFactor() > 2000.);
+            bool magCriterion = ( mag < (float)maglim ) || ( showUnknownMagObjects && ( std::isnan( mag ) || mag > 36.0 ) );
+            if ( sizeCriterion && magCriterion )
             {
 
                 bool drawn = skyp->drawDeepSkyObject(obj, drawImage);

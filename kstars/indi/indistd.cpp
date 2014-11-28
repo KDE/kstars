@@ -577,7 +577,7 @@ bool GenericDevice::setProperty(QObject * setPropCommand)
         if (sp == NULL)
             return false;
 
-        if (svp->r == ISR_1OFMANY)
+        if (svp->r == ISR_1OFMANY || svp->r == ISR_ATMOST1)
             IUResetSwitch(svp);
 
         sp->s = indiCommand->elementValue.toInt() == 0 ? ISS_OFF : ISS_ON;

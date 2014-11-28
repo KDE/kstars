@@ -2,8 +2,8 @@
                           observinglist.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 29 Nov 2004
-    copyright            : (C) 2004 by Jeff Woods, Jason Harris
-    email                : jcwoods@bellsouth.net, jharris@30doradus.org
+    copyright            : (C) 2012 by Jeff Woods, Jason Harris, Prakash Mohan, Akarsh Simha
+    email                : jcwoods@bellsouth.net, jharris@30doradus.org, prakash.mohan@kdemail.net, akarsh@kde.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -509,7 +509,7 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->GoogleImage->setEnabled( false );
             }
-            if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//If the image is present, show it!
+            if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//If the image is present, show it! // FIXME: This 13000 bytes is extremely ugly and a terrible idea. -- asimha
                 ui->ImagePreview->showPreview( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( false );
@@ -1097,7 +1097,7 @@ void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
     CurrentImagePath = QStandardPaths::locate( QStandardPaths::DataLocation , CurrentImage );
     CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
     DSSUrl = KSUtils::getDSSURL( o );
-    QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?");
+    QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
 
     QString RA, Dec;
