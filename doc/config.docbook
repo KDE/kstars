@@ -145,7 +145,7 @@ The <guilabel>Configure &kstars;</guilabel> window is divided into nine
 pages:
 <guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
 <guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, 
-<guilabel>INDI</guilabel>, <guilabel>Xplanet</guilabel>, and <guilabel>Advanced</guilabel>.
+<guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel>, <guilabel>Xplanet</guilabel>, and <guilabel>Advanced</guilabel>.
 </para>
 
 <para>
@@ -162,7 +162,10 @@ several non-stellar object catalogs.  By default, the list includes the
 Messier, NGC and IC catalogs.  You can add your own custom object catalogs
 by pressing the <guibutton>Import Catalog</guibutton> or <guilabel>Load Catalog</guilabel> button.  For
 detailed instructions on preparing a catalog data file, see the
-<filename>README.customize</filename> file that ships with &kstars;.
+<filename>README.customize</filename> file that ships with &kstars;. It is possible to define
+faint limits for sky objects for zoomed in and zoomed out states of the rendering. When
+the <guilabel>Show objects of unknown magnitude</guilabel> item is enabled, objects whose
+magnitudes are unknown, or not available to &kstars;, are drawn irrespective of the faint limits set.
 </para>
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
@@ -228,7 +231,7 @@ page see the <link linkend="indi-configure">Configure INDI</link> section.
 </para>
 <!--
 missing:
-Xplanet
+INDI, Ekos, Xplanet
 -->
 
 <para>
