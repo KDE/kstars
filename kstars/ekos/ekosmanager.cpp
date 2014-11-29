@@ -457,7 +457,7 @@ void EkosManager::processINDI()
             // since this is the only way to find out in real time.
             if (guider_di == ccd_di)
             {
-                if (guider_di->getAuxInfo().value("mdpd").toBool() == true)
+                if (guider_di->getAuxInfo().value("mdpd", false).toBool() == true)
                     guider_di = NULL;
                 else
                 {
@@ -799,7 +799,7 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                     guider = devInterface;
                     guiderName = devInterface->getDeviceName();
                 }
-                else if (ccd_di->getAuxInfo().value("mdpd").toBool() == true)
+                else if (ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
                 {
                     if (ccdDriverSelected == false)
                     {
@@ -1013,7 +1013,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     // For multiple devices per driver, we always treat the first device as the primary CCD
     // but this shouldn't matter since the user can select the final ccd from the drop down in both CCD and Guide modules
-    if (ccd_di->getAuxInfo().value("mdpd").toBool() == true)
+    if (ccd_di && ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
     {
         if (ccdStarted == false)
             isPrimaryCCD = true;
@@ -1068,7 +1068,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
         // For multipe devices per driver, we also add the CCD to the guider selection
         // since the order of initilization is not guranteed in real time
-        if (ccd_di->getAuxInfo().value("mdpd").toBool() == true)
+        if (ccd_di && ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
         {
             initGuide();
             guideProcess->addCCD(ccdDevice, true);
