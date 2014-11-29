@@ -126,8 +126,6 @@ void INDIListener::processDevice(DeviceInfo *dv)
 
     ISD::GDInterface *gd = new ISD::GenericDevice(dv);
 
-    //qDebug() << "Unique label for dv " << dv->getName() << " is: " << dv->getUniqueLabel() << endl;
-
     devices.append(gd);
 
     emit newDevice(gd);
@@ -135,11 +133,14 @@ void INDIListener::processDevice(DeviceInfo *dv)
 
 void INDIListener::removeDevice(DeviceInfo *dv)
 {
+    //qDebug() << "Removing " << dv->getDriverInfo()->getUniqueLabel() << endl;
+
     foreach(ISD::GDInterface *gd, devices)
     {
-        if (dv->getDriverInfo()->getUniqueLabel() == gd->getDeviceName() || dv->getDriverInfo()->getDriverSource() == HOST_SOURCE
+        if ( (dv->getDriverInfo()->getDevices().size() > 1 && gd->getDeviceName() == dv->getBaseDevice()->getDeviceName())
+            || dv->getDriverInfo()->getUniqueLabel() == gd->getDeviceName() || dv->getDriverInfo()->getDriverSource() == HOST_SOURCE
                 || dv->getDriverInfo()->getDriverSource() == GENERATED_SOURCE)
-        {           
+        {
             emit deviceRemoved(gd);
             devices.removeOne(gd);
             delete(gd);
@@ -153,6 +154,8 @@ void INDIListener::removeDevice(DeviceInfo *dv)
 
 void INDIListener::registerProperty(INDI::Property *prop)
 {
+
+    //qDebug() << "Registered " << prop->getDeviceName() << ":" << prop->getName() << endl;
 
     foreach(ISD::GDInterface *gd, devices)
     {

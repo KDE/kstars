@@ -38,6 +38,7 @@ EkosManager::EkosManager()
     useGuideHead    =false;
     useST4          =false;
     ccdStarted      =false;
+    ccdDriverSelected =false;
 
     scope   =  NULL;
     ccd     =  NULL;
@@ -274,6 +275,7 @@ void EkosManager::reset()
     guideStarted    =false;
     useST4          =false;
     ccdStarted      =false;
+    ccdDriverSelected =false;
 
     removeTabs();
 
@@ -447,15 +449,27 @@ void EkosManager::processINDI()
 
         if (guider_di)
         {
+            // If the guider and ccd are the same driver, we have two cases:
+            // #1 Drivers that only support ONE device per driver (such as sbig)
+            // #2 Drivers that supports multiples devices per driver (such as sx)
+            // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
+            // For #2, we set guider_di to NULL and we prompt the user to select which device is primary ccd and which is guider
+            // since this is the only way to find out in real time.
             if (guider_di == ccd_di)
             {
-                QVariantMap vMap;
-                vMap.insert("DELETE", 1);
-                guider_di = new DriverInfo(ccd_di);
-                guider_di->setUniqueLabel(guider_di->getTreeLabel() + " Guide");
-                guider_di->setAuxInfo(vMap);
-               // useGuiderFromCCD = true;
-               // guider_di = NULL;
+                if (guider_di->getAuxInfo().value("mdpd").toBool() == true)
+                    guider_di = NULL;
+                else
+                {
+                    QVariantMap vMap = guider_di->getAuxInfo();
+                    vMap.insert("DELETE", 1);
+                    guider_di = new DriverInfo(ccd_di);
+                    guider_di->setUniqueLabel(guider_di->getTreeLabel() + " Guide");
+                    guider_di->setAuxInfo(vMap);
+                   // useGuiderFromCCD = true;
+                   // guider_di = NULL;
+
+                }
             }
         }
 
@@ -557,8 +571,8 @@ void EkosManager::processINDI()
     {
         if (isRunning("indiserver"))
         {
-            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
-                                                                i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
+            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, xi18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
+                                                                xi18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
             {
                 //TODO is there a better way to do this.
                 QProcess p;
@@ -785,8 +799,25 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                     guider = devInterface;
                     guiderName = devInterface->getDeviceName();
                 }
+                else if (ccd_di->getAuxInfo().value("mdpd").toBool() == true)
+                {
+                    if (ccdDriverSelected == false)
+                    {
+                        ccd = devInterface;
+                        ccdDriverSelected = true;
+
+                    }
+                    else
+                    {
+                        guider = devInterface;
+                        guiderName = devInterface->getDeviceName();
+                        //guideDriverSelected = true;
+
+                    }
+                }
                 else
                     ccd = devInterface;
+
                 break;
 
             case KSTARS_ADAPTIVE_OPTICS:
@@ -980,7 +1011,14 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
     bool isPrimaryCCD = false;
 
-    if (ccd_di == ccdDevice->getDriverInfo() || (ccd_di == NULL && Options::remoteCCDName() == ccdDevice->getDeviceName()))
+    // For multiple devices per driver, we always treat the first device as the primary CCD
+    // but this shouldn't matter since the user can select the final ccd from the drop down in both CCD and Guide modules
+    if (ccd_di->getAuxInfo().value("mdpd").toBool() == true)
+    {
+        if (ccdStarted == false)
+            isPrimaryCCD = true;
+    }
+    else if ( ccd_di == ccdDevice->getDriverInfo() || (ccd_di == NULL && Options::remoteCCDName() == ccdDevice->getDeviceName()))
         isPrimaryCCD = true;
 
     initCapture();
@@ -994,8 +1032,6 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
-    //if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
-    //if (useGuiderFromCCD == false && guiderName == QString(ccdDevice->getDeviceName()))
     if (isPrimaryCCD == false)
     {
         guider = ccdDevice;
@@ -1030,19 +1066,13 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
             captureProcess->setTelescope(scope);
         }
 
-        // If guider is the same driver as the CCD
-        /*if (useGuiderFromCCD == true)
+        // For multipe devices per driver, we also add the CCD to the guider selection
+        // since the order of initilization is not guranteed in real time
+        if (ccd_di->getAuxInfo().value("mdpd").toBool() == true)
         {
-            guider = ccd;
             initGuide();
-            guideProcess->setCCD(guider);
-
-            if (scope && scope->isConnected())
-            {
-                guideProcess->setTelescope(scope);
-                captureProcess->setTelescope(scope);
-            }
-        }*/
+            guideProcess->addCCD(ccdDevice, true);
+        }
     }
 
 }

@@ -103,7 +103,7 @@ public slots:
     Ekos::Align *alignProcess;
 
     QString guiderName;
-    bool localMode;
+    bool localMode, ccdDriverSelected;
 
     unsigned short nDevices;
     QList<DriverInfo *> managedDevices;

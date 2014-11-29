@@ -1090,6 +1090,15 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
                 vMap.insert("TELESCOPE_FOCAL_LENGTH", focal_length);
         }
 
+        // Find MDPD: Multiple Devices Per Driver
+        ap = findXMLAtt(root, "mdpd");
+        if (ap)
+        {
+            bool mdpd = false;
+            mdpd = ( QString(valuXMLAtt(ap)) == QString("true") ) ? true : false;
+            vMap.insert("mdpd", mdpd);
+        }
+
         ap = findXMLAtt(root, "aperture");
         if (ap)
         {
