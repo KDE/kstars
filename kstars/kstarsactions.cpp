@@ -264,20 +264,49 @@ void KStars::slotDownload() {
     dlg->exec();
 
     // Get the list of all the installed entries.
-    KNS3::Entry::List entries;
+    KNS3::Entry::List installed_entries;
+    KNS3::Entry::List changed_entries;
     if (dlg) {
-        entries = dlg->installedEntries();
+        installed_entries = dlg->installedEntries();
+        changed_entries = dlg->changedEntries();
     }
 
     delete dlg;
 
-    foreach (const KNS3::Entry &entry, entries) {
-        foreach (const QString &name, entry.installedFiles()) {
-            if ( name.endsWith( QLatin1String( ".cat" ) ) ) {
+    foreach (const KNS3::Entry &entry, installed_entries)
+    {
+        foreach (const QString &name, entry.installedFiles())
+        {
+            if ( name.endsWith( QLatin1String( ".cat" ) ) )
+            {
+                data()->catalogdb()->AddCatalogContents(name);
                 // To start displaying the custom catalog, add it to SkyMapComposite
                 Options::setCatalogFile(Options::catalogFile() << name);
                 Options::setShowCatalog(Options::showCatalog() << 1);
-                data()->skyComposite()->addCustomCatalog(name, Options::catalogFile().size() - 1);
+                //data()->skyComposite()->addCustomCatalog(name, Options::catalogFile().size() - 1);
+
+            }
+        }
+
+        KStars::Instance()->data()->skyComposite()->reloadDeepSky();
+        // update time for all objects because they might be not initialized
+        // it's needed when using horizontal coordinates
+        KStars::Instance()->data()->setFullTimeUpdate();
+        KStars::Instance()->updateTime();
+        KStars::Instance()->map()->forceUpdate();
+    }
+
+    foreach (const KNS3::Entry &entry, changed_entries)
+    {
+        foreach (const QString &name, entry.uninstalledFiles())
+        {
+            if ( name.endsWith( QLatin1String( ".cat" ) ) )
+            {
+                data()->catalogdb()->RemoveCatalog(name);
+                // To start displaying the custom catalog, add it to SkyMapComposite
+                QStringList catFile = Options::catalogFile();
+                catFile.removeOne(name);
+                Options::setCatalogFile(catFile);
             }
         }
     }
