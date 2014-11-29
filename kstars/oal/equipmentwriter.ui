@@ -135,6 +135,9 @@
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
+               <property name="maximum">
+                <double>10000.000000000000000</double>
+               </property>
                <property name="singleStep">
                 <double>0.100000000000000</double>
                </property>
@@ -162,6 +165,9 @@
               <widget class="QDoubleSpinBox" name="FocalLength">
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="maximum">
+                <double>40000.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -332,6 +338,9 @@
             <widget class="QDoubleSpinBox" name="Fov">
              <property name="focusPolicy">
               <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="maximum">
+              <double>180.000000000000000</double>
              </property>
              <property name="singleStep">
               <double>0.100000000000000</double>
@@ -662,14 +671,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>ScopeList</tabstop>
