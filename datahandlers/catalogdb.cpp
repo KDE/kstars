@@ -339,6 +339,39 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
   //skydb_.close();
 }
 
+QString CatalogDB::GetCatalogName(const QString &fname)
+{
+    QDir::setCurrent(QDir::homePath());  // for files with relative path
+    QString filename = fname;
+    // If the filename begins with "~", replace the "~" with the user's home
+    // directory (otherwise, the file will not successfully open)
+    if (filename.at(0) == '~')
+        filename = QDir::homePath() + filename.mid(1, filename.length());
+
+    QFile ccFile(filename);
+
+    if (ccFile.open(QIODevice::ReadOnly))
+    {
+        QString catalog_name;
+        QTextStream stream(&ccFile);
+        QString line;
+
+        for (int times = 10; times >= 0 && !stream.atEnd(); --times)
+        {
+          line = stream.readLine();
+          int iname      = line.indexOf("# Name: ");
+          if (iname == 0)
+          {  // line contains catalog name
+             iname = line.indexOf(":")+2;
+             catalog_name = line.mid(iname);
+             return catalog_name;
+          }
+        }
+    }
+
+    return QString();
+
+}
 
 bool CatalogDB::AddCatalogContents(const QString& fname) {
   QDir::setCurrent(QDir::homePath());  // for files with relative path

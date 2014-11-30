@@ -281,9 +281,11 @@ void KStars::slotDownload() {
             {
                 data()->catalogdb()->AddCatalogContents(name);
                 // To start displaying the custom catalog, add it to SkyMapComposite
+
+                QString catalogName = data()->catalogdb()->GetCatalogName(name);
+                Options::setShowCatalogNames(Options::showCatalogNames() << catalogName);
                 Options::setCatalogFile(Options::catalogFile() << name);
                 Options::setShowCatalog(Options::showCatalog() << 1);
-                //data()->skyComposite()->addCustomCatalog(name, Options::catalogFile().size() - 1);
 
             }
         }

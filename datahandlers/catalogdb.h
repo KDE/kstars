@@ -81,6 +81,15 @@ class CatalogDB {
     * @return void
     **/
    void RefreshCatalogList();
+
+   /**
+     * @short Parses the catalog header and returns the catalog name
+     *
+     * @p filename the name of the file containing the data to be read
+     * @return Catalog name or empty string if there is an error
+   */
+  QString GetCatalogName(const QString &filename);
+
   /**
     * @short Add contents of custom catalog to the program database
     *
