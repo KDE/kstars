@@ -268,7 +268,8 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
         return;
 
     msgST_w->ensureCursorVisible();
-    msgST_w->insertPlainText(dv->messageQueue(messageID) + QString("\n"));
+    msgST_w->insertPlainText(QString::fromStdString(dv->messageQueue(messageID)));
+    msgST_w->insertPlainText("\n");
     QTextCursor c = msgST_w->textCursor();
     c.movePosition(QTextCursor::Start);
     msgST_w->setTextCursor(c);
