@@ -42,6 +42,8 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
+    KLocalizedString::setApplicationDomain("kstars");
+
     KAboutData aboutData( "kstars", xi18n("KStars"), KSTARS_VERSION, xi18n(description), KAboutLicense::GPL,
                           xi18n("(c) 2001-2015, The KStars Team"), xi18n(notice), "http://edu.kde.org/kstars");
     aboutData.addAuthor(xi18n("Jason Harris"),QString(), "jharris@30doradus.org", "http://www.30doradus.org");
