@@ -41,7 +41,7 @@ SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << xi18n("Idle") << xi18n("In progress") << xi18n("Error") << xi18n("Aborted") << xi18n("Complete");
     status = JOB_IDLE;
-    exposure=count=delay=frameType=targetFilter=-1;
+    exposure=count=delay=frameType=targetFilter=isoIndex=-1;
     captureFilter=FITS_NONE;
     preview=false;
     showFITS=false;
@@ -103,6 +103,12 @@ void SequenceJob::prepareCapture()
     if (activeChip->isBatchMode())
         activeCCD->updateUploadSettings();
 
+    if (isoIndex != -1)
+    {
+        if (isoIndex != activeChip->getISOIndex())
+             activeChip->setISOIndex(isoIndex);
+    }
+
     if (targetFilter != -1 && activeFilter != NULL)
     {
         if (targetFilter == currentFilter)
@@ -122,6 +128,12 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
         if (targetFilter != currentFilter)
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
     }
+
+   if (isoIndex != -1)
+   {
+       if (isoIndex != activeChip->getISOIndex())
+            activeChip->setISOIndex(isoIndex);
+   }
 
    if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
@@ -210,6 +222,16 @@ void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &fi
     filterEnabled   = filterPrefixEnabled;
     exposureEnabled = expPrefixEnabled;
 }
+int SequenceJob::getISOIndex() const
+{
+    return isoIndex;
+}
+
+void SequenceJob::setISOIndex(int value)
+{
+    isoIndex = value;
+}
+
 int SequenceJob::getCurrentFilter() const
 {
     return currentFilter;
@@ -270,7 +292,6 @@ Capture::Capture()
 
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
-    //connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
     connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqBoundary(QString)));
 
     connect(addToQueueB, SIGNAL(clicked()), this, SLOT(addJob()));
@@ -591,6 +612,22 @@ void Capture::checkCCD(int ccdNum)
             frameTypeCombo->setEnabled(true);
             frameTypeCombo->addItems(frameTypes);
             frameTypeCombo->setCurrentIndex(targetChip->getFrameType());
+        }
+
+        QStringList isoList = targetChip->getISOList();
+        ISOCombo->clear();
+
+        if (isoList.isEmpty())
+        {
+            ISOCombo->setEnabled(false);
+            ISOLabel->setEnabled(false);
+        }
+        else
+        {
+            ISOCombo->setEnabled(true);
+            ISOLabel->setEnabled(true);
+            ISOCombo->addItems(isoList);
+            ISOCombo->setCurrentIndex(targetChip->getISOIndex());
         }
 
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
@@ -1059,6 +1096,9 @@ void Capture::addJob(bool preview)
     else
         job->setISOMode(false);
 
+    if (ISOCombo->isEnabled())
+        job->setISOIndex(ISOCombo->currentIndex());
+
     job->setPreview(preview);
 
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
@@ -1141,7 +1181,16 @@ void Capture::addJob(bool preview)
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *count = jobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    QTableWidgetItem *iso = jobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    if (ISOCombo->currentIndex() != -1)
+        iso->setText(ISOCombo->currentText());
+    else
+        iso->setText("--");
+    iso->setTextAlignment(Qt::AlignHCenter);
+    iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+
+    QTableWidgetItem *count = jobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
     count->setText(QString::number(countIN->value()));
     count->setTextAlignment(Qt::AlignHCenter);
     count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -1153,7 +1202,8 @@ void Capture::addJob(bool preview)
         queueTable->setItem(currentRow, 2, type);
         queueTable->setItem(currentRow, 3, bin);
         queueTable->setItem(currentRow, 4, exp);
-        queueTable->setItem(currentRow, 5, count);
+        queueTable->setItem(currentRow, 5, iso);
+        queueTable->setItem(currentRow, 6, count);
     }
 
     removeFromQueueB->setEnabled(true);
@@ -1645,6 +1695,11 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             ISOCheck->setChecked( !strcmp("1", pcdataXMLEle(ep)));
         }
+        else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
+        {
+            if (ISOCombo->isEnabled())
+                ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+        }
         else if (!strcmp(tagXMLEle(ep), "ShowFITS"))
         {
             displayCheck->setChecked( !strcmp("1", pcdataXMLEle(ep)));
@@ -1767,6 +1822,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
         outstream << "<FITSDirectory>" << job->getFITSDir() << "</FITSDirectory>" << endl;
         outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
+        if (job->getISOIndex() != -1)
+            outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
         outstream << "<ShowFITS>" << (job->isShowFITS() ? 1 : 0) << "</ShowFITS>" << endl;
 
         outstream << "</Job>" << endl;
@@ -1819,6 +1876,8 @@ void Capture::editJob(QModelIndex i)
    delayIN->setValue(job->getDelay()/1000);
    fitsDir->setText(job->getFITSDir());
    ISOCheck->setChecked(job->getISOMode());
+   if (ISOCombo->isEnabled())
+        ISOCombo->setCurrentIndex(job->getISOIndex());
    displayCheck->setChecked(job->isShowFITS());
 
    appendLogText(xi18n("Editing job #%1...", i.row()+1));

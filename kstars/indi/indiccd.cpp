@@ -367,11 +367,47 @@ void CCDChip::setImageData(FITSImage *value)
 {
     imageData = value;
 }
+int CCDChip::getISOIndex() const
+{
+    ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
+    if (isoProp == NULL)
+        return -1;
+
+    return IUFindOnSwitchIndex(isoProp);
+}
+
+bool CCDChip::setISOIndex(int value)
+{
+    ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
+    if (isoProp == NULL)
+        return false;
+
+    IUResetSwitch(isoProp);
+    isoProp->sp[value].s = ISS_ON;
+
+    clientManager->sendNewSwitch(isoProp);
+
+    return true;
+}
+
+QStringList CCDChip::getISOList() const
+{
+   QStringList isoList;
+
+   ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
+   if (isoProp == NULL)
+       return isoList;
+
+   for (int i=0; i < isoProp->nsp; i++)
+       isoList << isoProp->sp[i].label;
+
+    return isoList;
+}
 
 bool CCDChip::isCapturing()
 {
     INumberVectorProperty *expProp = NULL;
-
+    
     switch (type)
     {
     case PRIMARY_CCD:

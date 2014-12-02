@@ -78,6 +78,11 @@ public:
     FITSImage *getImageData() const;
     void setImageData(FITSImage *value);
 
+    int getISOIndex() const;
+    bool setISOIndex(int value);
+
+    QStringList getISOList() const;
+
 private:
     FITSView *normalImage, *focusImage, *guideImage, *calibrationImage;
     FITSImage *imageData;

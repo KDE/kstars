@@ -97,12 +97,16 @@ class SequenceJob : public QObject
     void setExposure(double duration) { exposure = duration;}
     void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
     void setCompleted(unsigned int in_completed) { completed = in_completed;}
+    int getISOIndex() const;
+    void setISOIndex(int value);
 
     double getExposeLeft() const;
     void setExposeLeft(double value);
     void resetStatus();
     void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
     void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
+
+
 
 
 signals:
@@ -131,6 +135,7 @@ private:
     bool isoMode;
     bool preview;
     bool showFITS;
+    int isoIndex;
     unsigned int completed;
     double exposeLeft;
     FITSScale captureFilter;
