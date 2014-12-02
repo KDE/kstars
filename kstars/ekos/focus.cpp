@@ -188,6 +188,22 @@ void Focus::checkCCD(int ccdNum)
             kcfg_focusYBin->setMaximum(biny);
         }
 
+        QStringList isoList = targetChip->getISOList();
+        ISOCombo->clear();
+
+        if (isoList.isEmpty())
+        {
+            ISOCombo->setEnabled(false);
+            ISOLabel->setEnabled(false);
+        }
+        else
+        {
+            ISOCombo->setEnabled(true);
+            ISOLabel->setEnabled(true);
+            ISOCombo->addItems(isoList);
+            ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+        }
+
         //if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
         targetChip->getFocusFrame(&fx, &fy, &fw, &fh);
     }
@@ -483,6 +499,9 @@ void Focus::capture()
         targetChip->setBinning(kcfg_focusXBin->value(), kcfg_focusXBin->value());
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+
+    if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 && targetChip->getISOIndex() != ISOCombo->currentIndex())
+        targetChip->setISOIndex(ISOCombo->currentIndex());
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
