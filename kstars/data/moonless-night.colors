@@ -30,3 +30,6 @@
 #FF0000 :SatColor
 #640000 :SatLabelColor
 #FFA500 :SupernovaColor
+#00FF00 :RAGuideError
+#00A5FF :DEGuideError
+

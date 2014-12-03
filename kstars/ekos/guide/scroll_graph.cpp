@@ -14,8 +14,9 @@
 
 #include "scroll_graph.h"
 #include "common.h"
-
-
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "colorscheme.h"
 
 cscroll_graph::cscroll_graph( QWidget *own, int client_width, int client_height )
 {
@@ -41,8 +42,8 @@ cscroll_graph::cscroll_graph( QWidget *own, int client_width, int client_height 
 	pen.setWidth(1);
 	brush.setStyle(Qt::SolidPattern);
 
-	RA_COLOR 		= QColor( DEF_RA_COLOR[0], DEF_RA_COLOR[1], DEF_RA_COLOR[2] );
-	DEC_COLOR 		= QColor( DEF_DEC_COLOR[0], DEF_DEC_COLOR[1], DEF_DEC_COLOR[2] );
+    RA_COLOR 		= QColor(KStars::Instance()->data()->colorScheme()->colorNamed( "RAGuideError" ));
+    DEC_COLOR 		= QColor(KStars::Instance()->data()->colorScheme()->colorNamed( "DEGuideError" ));
 	GRID_COLOR 		= QColor( DEF_GRID_COLOR[0], DEF_GRID_COLOR[1], DEF_GRID_COLOR[2] );
 	BKGD_COLOR 		= QColor( DEF_BKGD_COLOR[0], DEF_BKGD_COLOR[1], DEF_BKGD_COLOR[2] );
 	WHITE_COLOR 	= QColor( DEF_WHITE_COLOR[0], DEF_WHITE_COLOR[1], DEF_WHITE_COLOR[2] );

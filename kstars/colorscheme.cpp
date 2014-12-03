@@ -80,6 +80,8 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("SatColor",         xi18n("Satellites"),             "#FF0000");
     appendItem("SatLabelColor",    xi18n("Satellites Labels"),      "#640000");
     appendItem("SupernovaColor",   xi18n("Supernovae"),             "#FFA500");
+    appendItem("RAGuideError",     xi18n("RA Guide Error"),         "#00FF00");
+    appendItem("DEGuideError",     xi18n("DEC Guide Error"),        "#00A5FF");
 
     //Load colors from config object
     loadFromConfig();
