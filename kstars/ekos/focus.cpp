@@ -63,6 +63,7 @@ Focus::Focus()
     pulseDuration = 1000;
 
     fy=fw=fh=0;
+    orig_x = orig_y = orig_w = orig_h =-1;
     lastLockFilterPos=-1;
     maxHFR=1;
     deltaHFR = 0;
@@ -155,9 +156,15 @@ void Focus::resetFrame()
     {
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-        if (targetChip && frameModified && !inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+        if (targetChip && frameModified && !inAutoFocus && !inFocusLoop && /*!captureInProgress &&*/ !inSequenceFocus)
         {
-            targetChip->resetFrame();
+            if (orig_x != -1)
+            {
+                if (targetChip->canSubframe())
+                    targetChip->setFrame(orig_x, orig_y, orig_w, orig_h);
+                //orig_x = orig_y = orig_w = orig_h = -1;
+            }
+            //targetChip->resetFrame();
             frameModified = false;
         }
     }
@@ -328,7 +335,7 @@ void Focus::checkFocuser(int FocuserNum)
         getAbsFocusPosition();
     }
 
-    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)));
+    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)), Qt::UniqueConnection);
 
     AutoModeR->setEnabled(true);
 
@@ -466,8 +473,8 @@ void Focus::stopFocus()
     currentCCD->disconnect(this);
 
     targetChip->abortExposure();
-    if (targetChip->canSubframe())
-        targetChip->resetFrame();
+
+    resetFrame();
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     if (targetImage)
@@ -528,6 +535,9 @@ void Focus::capture()
         targetChip->getFrame(&fx, &fy, &fw, &fh);
 
      targetChip->setFrame(fx, fy, fw, fh);
+
+     if (fx != orig_x || fy != orig_y || fw != orig_w || fh != orig_h)
+         frameModified = true;
 
     captureInProgress = true;
 
@@ -723,7 +733,7 @@ void Focus::newFITS(IBLOB *bp)
                 if (fw == 0 || fh == 0)
                     targetChip->getFrame(&fx, &fy, &fw, &fh);
                 targetImage->setGuideSquare(fw/2, fh/2);
-                connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
+                connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
                 return;
             }
 
@@ -752,6 +762,13 @@ void Focus::newFITS(IBLOB *bp)
 
 
                 targetChip->setFocusFrame(subX, subY, subW, subH);
+
+
+                orig_x = fx;
+                orig_y = fy;
+                orig_w = fw;
+                orig_h = fh;
+
                 fx += subX;
                 fy += subY;
                 fw = subW;
@@ -775,7 +792,7 @@ void Focus::newFITS(IBLOB *bp)
             targetImage->updateMode(FITS_GUIDE);
             targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
             targetImage->setGuideSquare(fw/2, fh/2);
-            connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
+            connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
     }
@@ -1470,6 +1487,8 @@ void Focus::focusStarSelected(int x, int y)
     int offset = kcfg_focusBoxSize->value();
     int binx, biny;
 
+    disconnect(this, SLOT(focusStarSelected(int,int)));
+
     targetChip->getBinning(&binx, &biny);
 
     x = (x - offset) * binx;
@@ -1496,6 +1515,12 @@ void Focus::focusStarSelected(int x, int y)
 
     if (targetChip->canSubframe())
     {
+
+        orig_x = fx;
+        orig_y = fy;
+        orig_w = fw;
+        orig_h = fh;
+
         fx += x;
         fy += y;
         fw = w;

@@ -135,6 +135,7 @@ private:
     bool reverseDir;
     bool starSelected;
     int fx,fy,fw,fh;
+    int orig_x, orig_y, orig_w, orig_h;
     int noStarCount;
 
     QStringList logText;
