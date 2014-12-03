@@ -470,7 +470,9 @@ void Capture::stopSequence()
     }
 
     secondsLabel->clear();
-    currentCCD->disconnect(this);
+    //currentCCD->disconnect(this);
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
 
     currentCCD->setFITSDir("");
 
@@ -503,18 +505,12 @@ void Capture::checkCCD(int ccdNum)
         disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)));
 
     if (ccdNum <= CCDs.count())
-    {
-        int x,y,w,h;
-        double min,max,step;
-        int xstep=0, ystep=0;
-        QString frameProp = QString("CCD_FRAME");
-
+    {                
         // Check whether main camera or guide head only
         currentCCD = CCDs.at(ccdNum);
 
         if (CCDCaptureCombo->itemText(ccdNum).right(6) == QString("Guider"))
         {
-            frameProp = QString("GUIDER_FRAME");
             useGuideHead = true;
             targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
         }
@@ -525,81 +521,7 @@ void Capture::checkCCD(int ccdNum)
             useGuideHead = false;
         }
 
-        frameWIN->setEnabled(targetChip->canSubframe());
-        frameHIN->setEnabled(targetChip->canSubframe());
-        frameXIN->setEnabled(targetChip->canSubframe());
-        frameYIN->setEnabled(targetChip->canSubframe());
-
-        binXIN->setEnabled(targetChip->canBin());
-        binYIN->setEnabled(targetChip->canBin());
-
-        if (targetChip->canBin())
-        {
-            int binx=1,biny=1;
-            targetChip->getMaxBin(&binx, &biny);
-            binXIN->setMaximum(binx);
-            binYIN->setMaximum(biny);
-            targetChip->getBinning(&binx, &biny);
-            binXIN->setValue(binx);
-            binYIN->setValue(biny);
-        }
-        else
-        {
-            binXIN->setValue(1);
-            binYIN->setValue(1);
-        }
-
-        if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
-        {
-            if (step == 0)
-                xstep = (int) max * 0.05;
-            else
-                xstep = step;
-
-            frameWIN->setMinimum(min);
-            frameWIN->setMaximum(max);
-            frameWIN->setSingleStep(xstep);
-        }
-
-        if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
-        {
-            if (step == 0)
-                ystep = (int) max * 0.05;
-            else
-                ystep = step;
-
-            frameHIN->setMinimum(min);
-            frameHIN->setMaximum(max);
-            frameHIN->setSingleStep(ystep);
-        }
-
-        if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
-        {
-            if (step == 0)
-                step = xstep;
-
-            frameXIN->setMinimum(min);
-            frameXIN->setMaximum(max);
-            frameXIN->setSingleStep(step);
-        }
-
-        if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
-        {
-            if (step == 0)
-                step = ystep;
-
-            frameYIN->setMinimum(min);
-            frameYIN->setMaximum(max);
-            frameYIN->setSingleStep(step);
-        }
-
-        if (targetChip->getFrame(&x,&y,&w,&h))
-        {
-            frameXIN->setValue(x);
-            frameYIN->setValue(y);
-            frameWIN->setValue(w);
-            frameHIN->setValue(h);
-        }
+        updateFrameProperties();
 
         QStringList frameTypes = targetChip->getFrameTypes();
 
@@ -634,8 +556,98 @@ void Capture::checkCCD(int ccdNum)
     }
 }
 
+void Capture::updateFrameProperties()
+{
+    int x,y,w,h;
+    double min,max,step;
+    int xstep=0, ystep=0;
+
+    QString frameProp = useGuideHead ? QString("GUIDER_FRAME") : QString("CCD_FRAME");
+    targetChip = useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+    frameWIN->setEnabled(targetChip->canSubframe());
+    frameHIN->setEnabled(targetChip->canSubframe());
+    frameXIN->setEnabled(targetChip->canSubframe());
+    frameYIN->setEnabled(targetChip->canSubframe());
+
+    binXIN->setEnabled(targetChip->canBin());
+    binYIN->setEnabled(targetChip->canBin());
+
+    if (targetChip->canBin())
+    {
+        int binx=1,biny=1;
+        targetChip->getMaxBin(&binx, &biny);
+        binXIN->setMaximum(binx);
+        binYIN->setMaximum(biny);
+        targetChip->getBinning(&binx, &biny);
+        binXIN->setValue(binx);
+        binYIN->setValue(biny);
+    }
+    else
+    {
+        binXIN->setValue(1);
+        binYIN->setValue(1);
+    }
+
+    if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
+    {
+        if (step == 0)
+            xstep = (int) max * 0.05;
+        else
+            xstep = step;
+
+        frameWIN->setMinimum(min);
+        frameWIN->setMaximum(max);
+        frameWIN->setSingleStep(xstep);
+    }
+
+    if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
+    {
+        if (step == 0)
+            ystep = (int) max * 0.05;
+        else
+            ystep = step;
+
+        frameHIN->setMinimum(min);
+        frameHIN->setMaximum(max);
+        frameHIN->setSingleStep(ystep);
+    }
+
+    if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
+    {
+        if (step == 0)
+            step = xstep;
+
+        frameXIN->setMinimum(min);
+        frameXIN->setMaximum(max);
+        frameXIN->setSingleStep(step);
+    }
+
+    if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
+    {
+        if (step == 0)
+            step = ystep;
+
+        frameYIN->setMinimum(min);
+        frameYIN->setMaximum(max);
+        frameYIN->setSingleStep(step);
+    }
+
+    if (targetChip->getFrame(&x,&y,&w,&h))
+    {
+        frameXIN->setValue(x);
+        frameYIN->setValue(y);
+        frameWIN->setValue(w);
+        frameHIN->setValue(h);
+    }
+
+}
+
 void Capture::processCCDNumber(INumberVectorProperty *nvp)
 {
+    if (currentCCD && ( (!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead)))
+        updateFrameProperties();
+
     if (currentCCD && currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
         return;
 
