@@ -117,6 +117,7 @@ private:
     int pulseDuration;
     bool canAbsMove;
     bool captureInProgress;
+    bool frameModified;
     int absIterations;
     int lastLockFilterPos;
 

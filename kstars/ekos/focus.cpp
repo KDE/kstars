@@ -54,6 +54,7 @@ Focus::Focus()
     captureInProgress = false;
     inSequenceFocus   = false;
     starSelected      = false;
+    frameModified     = false;
 
     HFRInc =0;
     noStarCount=0;
@@ -61,7 +62,7 @@ Focus::Focus()
 
     pulseDuration = 1000;
 
-    fx=fy=fw=fh=0;
+    fy=fw=fh=0;
     lastLockFilterPos=-1;
     maxHFR=1;
     deltaHFR = 0;
@@ -154,9 +155,10 @@ void Focus::resetFrame()
     {
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-        if (targetChip && !inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+        if (targetChip && frameModified && !inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
         {
             targetChip->resetFrame();
+            frameModified = false;
         }
     }
 }
@@ -397,8 +399,7 @@ void Focus::startFocus()
     else
         starSelected= false;*/
 
-    qDeleteAll(HFRAbsolutePoints);
-    HFRAbsolutePoints.clear();
+    clearDataPoints();
 
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
@@ -460,7 +461,7 @@ void Focus::stopFocus()
     //starSelected= false;
     deltaHFR    = 0;
     noStarCount = 0;
-    maxHFR=1;
+    //maxHFR=1;
 
     currentCCD->disconnect(this);
 
@@ -749,11 +750,13 @@ void Focus::newFITS(IBLOB *bp)
                     subH = DEFAULT_SUBFRAME_DIM;
 
 
+
                 targetChip->setFocusFrame(subX, subY, subW, subH);
-                fx=subX;
-                fy=subY;
-                fw=subW;
-                fh=subH;
+                fx += subX;
+                fy += subY;
+                fw = subW;
+                fh = subH;
+                frameModified = true;
             }
             else
                 targetChip->getFrame(&fx, &fy, &fw, &fh);
@@ -789,6 +792,7 @@ void Focus::newFITS(IBLOB *bp)
 
 void Focus::clearDataPoints()
 {
+    maxHFR=1;
     qDeleteAll(HFRIterativePoints);
     HFRIterativePoints.clear();
     qDeleteAll(HFRAbsolutePoints);
@@ -1492,11 +1496,12 @@ void Focus::focusStarSelected(int x, int y)
 
     if (targetChip->canSubframe())
     {
-        targetChip->setFocusFrame(x, y, w, h);
-        fx = x;
-        fy = y;
+        fx += x;
+        fy += y;
         fw = w;
         fh = h;
+        targetChip->setFocusFrame(fx, fy, fw, fh);
+        frameModified=true;
     }
 
     starSelected=true;
