@@ -682,6 +682,13 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QPushButton" name="clearDataB">
+          <property name="text">
+           <string>Clear Data</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>

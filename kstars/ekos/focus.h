@@ -66,6 +66,7 @@ public slots:
 
     void filterLockToggled(bool);
     void updateFilterPos(int index);
+    void clearDataPoints();
 
     void FocusIn(int ms=-1);
     void FocusOut(int ms=-1);
@@ -89,10 +90,10 @@ signals:
 
 private:
 
+    void drawHFRPlot();
     void getAbsFocusPosition();
-    void autoFocusAbs(double currentHFR);
-    void autoFocusRel(double currentHFR);
-
+    void autoFocusAbs();
+    void autoFocusRel();
     void resetButtons();
 
 
@@ -125,15 +126,19 @@ private:
     double pulseStep;
     double absMotionMax, absMotionMin;
     double deltaHFR;
+    double currentHFR;
+    double maxHFR;
     int HFRInc;
     int HFRDec;
+    int minPos, maxPos;
     bool reverseDir;
     bool starSelected;
     int fx,fy,fw,fh;
     int noStarCount;
 
     QStringList logText;
-    QList<HFRPoint *> HFRPoints;
+    QList<HFRPoint *> HFRAbsolutePoints;
+    QList<HFRPoint *> HFRIterativePoints;
 
     ITextVectorProperty *filterName;
     INumberVectorProperty *filterSlot;

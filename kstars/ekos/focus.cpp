@@ -63,9 +63,10 @@ Focus::Focus()
 
     fx=fy=fw=fh=0;
     lastLockFilterPos=-1;
-
-
+    maxHFR=1;
     deltaHFR = 0;
+    minPos=1e6;
+    maxPos=0;
 
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(startFocus()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
@@ -89,12 +90,17 @@ Focus::Focus()
     connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
     connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
 
+    connect(clearDataB, SIGNAL(clicked()) , this, SLOT(clearDataPoints()));
+
     lastFocusDirection = FOCUS_NONE;
 
     focusType = FOCUS_MANUAL;
 
     HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( xi18nc("Half Flux Radius", "HFR") );
-    HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( xi18n("Absolute Position") );
+    HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( xi18n("Iterations") );
+
+    //HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( xi18nc("Half Flux Radius", "HFR") );
+    //HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( xi18n("Absolute Position") );
 
     resetButtons();
 
@@ -119,16 +125,22 @@ Focus::Focus()
 
 Focus::~Focus()
 {
-    qDeleteAll(HFRPoints);
-    HFRPoints.clear();
+    qDeleteAll(HFRAbsolutePoints);
+    HFRAbsolutePoints.clear();
 }
 
 void Focus::toggleAutofocus(bool enable)
 {
     if (enable)
+    {
         focusType = FOCUS_AUTO;
+        drawHFRPlot();
+    }
     else
+    {
         focusType = FOCUS_MANUAL;
+        drawHFRPlot();
+    }
 
     if (inFocusLoop || inAutoFocus)
         stopFocus();
@@ -385,8 +397,8 @@ void Focus::startFocus()
     else
         starSelected= false;*/
 
-    qDeleteAll(HFRPoints);
-    HFRPoints.clear();
+    qDeleteAll(HFRAbsolutePoints);
+    HFRAbsolutePoints.clear();
 
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
@@ -448,6 +460,7 @@ void Focus::stopFocus()
     //starSelected= false;
     deltaHFR    = 0;
     noStarCount = 0;
+    maxHFR=1;
 
     currentCCD->disconnect(this);
 
@@ -626,7 +639,7 @@ void Focus::newFITS(IBLOB *bp)
 
     image_data->findStars();
 
-    double currentHFR= image_data->getHFR(HFR_MAX);
+    currentHFR= image_data->getHFR(HFR_MAX);
 
     if (currentHFR == -1)
     {
@@ -643,6 +656,20 @@ void Focus::newFITS(IBLOB *bp)
             appendLogText(xi18n("FITS received. No stars detected."));
 
     HFROut->setText(HFRText);
+
+    if (currentHFR > 0)
+    {
+        if (currentHFR > maxHFR)
+            maxHFR = currentHFR;
+
+        HFRPoint *p = new HFRPoint();
+        p->HFR = currentHFR;
+        p->pos = HFRIterativePoints.size()+1;
+        HFRIterativePoints.append(p);
+
+        if (focusType == FOCUS_MANUAL)
+            drawHFRPlot();
+    }
 
     if (deltaHFR > 0)
     {
@@ -754,17 +781,56 @@ void Focus::newFITS(IBLOB *bp)
         return;
 
     if (canAbsMove)
-        autoFocusAbs(currentHFR);
+        autoFocusAbs();
     else
-        autoFocusRel(currentHFR);
+        autoFocusRel();
 
 }
 
-
-void Focus::autoFocusAbs(double currentHFR)
+void Focus::clearDataPoints()
 {
-    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0, minPos=1e6, maxPos=0;
-    static double initHFR=0, minHFR=0, maxHFR=1,initSlopeHFR=0;
+    qDeleteAll(HFRIterativePoints);
+    HFRIterativePoints.clear();
+    qDeleteAll(HFRAbsolutePoints);
+    HFRAbsolutePoints.clear();
+}
+
+void Focus::drawHFRPlot()
+{
+    HFRPlot->removeAllPlotObjects();
+
+    KPlotObject * HFRObj = NULL;
+
+    if (focusType == FOCUS_AUTO)
+    {
+        HFRObj = new KPlotObject( Qt::red, KPlotObject::Points, 2 );
+
+        foreach(HFRPoint *p, HFRAbsolutePoints)
+            HFRObj->addPoint(p->pos, p->HFR);
+
+        HFRPlot->addPlotObject(HFRObj);
+        HFRPlot->setLimits(minPos-pulseDuration, maxPos+pulseDuration, currentHFR/1.5, maxHFR );
+        HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( xi18n("Absolute Position") );
+    }
+    else
+    {
+        HFRObj = new KPlotObject( Qt::red, KPlotObject::Lines, 2 );
+
+        foreach(HFRPoint *p, HFRIterativePoints)
+            HFRObj->addPoint(p->pos, p->HFR);
+
+        HFRPlot->addPlotObject(HFRObj);
+        HFRPlot->setLimits(1, HFRIterativePoints.size() + 1, currentHFR/1.5, maxHFR);
+        HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( xi18n("Iterations") );
+    }
+
+    HFRPlot->update();
+}
+
+void Focus::autoFocusAbs()
+{
+    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0;
+    static double initHFR=0, minHFR=0, initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 3);
@@ -809,15 +875,21 @@ void Focus::autoFocusAbs(double currentHFR)
     else
         noStarCount = 0;
 
-    if (currentHFR > maxHFR || HFRPoints.empty())
+    /*if (currentHFR > maxHFR || HFRAbsolutePoints.empty())
     {
         maxHFR = currentHFR;
 
-        if (HFRPoints.empty())
+        if (HFRAbsolutePoints.empty())
         {
             maxPos=1;
             minPos=1e6;
         }
+    }*/
+
+    if (HFRAbsolutePoints.empty())
+    {
+        maxPos=1;
+        minPos=1e6;
     }
 
     if (pulseStep > maxPos)
@@ -830,20 +902,9 @@ void Focus::autoFocusAbs(double currentHFR)
     p->HFR = currentHFR;
     p->pos = pulseStep;
 
-    HFRPoints.append(p);
+    HFRAbsolutePoints.append(p);
 
-    HFRPlot->removeAllPlotObjects();
-
-    HFRPlot->setLimits(minPos-pulseDuration, maxPos+pulseDuration, currentHFR/1.5, maxHFR );
-
-    KPlotObject *hfrObj = new KPlotObject( Qt::red, KPlotObject::Points, 2 );
-
-    foreach(HFRPoint *p, HFRPoints)
-        hfrObj->addPoint(p->pos, p->HFR);
-
-    HFRPlot->addPlotObject(hfrObj);
-
-    HFRPlot->update();
+    drawHFRPlot();
 
     switch (lastFocusDirection)
     {
@@ -1119,7 +1180,7 @@ void Focus::autoFocusAbs(double currentHFR)
 }
 
 
-void Focus::autoFocusRel(double currentHFR)
+void Focus::autoFocusRel()
 {
     static int noStarCount=0;
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-HFR)*100.0, 0,'g', 2);

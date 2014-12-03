@@ -1291,6 +1291,8 @@ void DriverManager::addINDIHost()
 
         hostItem->setDriverSource(HOST_SOURCE);
 
+        connect(hostItem, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
+
         driversList.append(hostItem);
 
         QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget);
