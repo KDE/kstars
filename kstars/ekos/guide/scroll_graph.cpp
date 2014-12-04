@@ -144,6 +144,9 @@ void cscroll_graph::reset_data( void )
 	memset( data.line[RA_LINE], 0, sizeof(double)*data_cnt );
 	memset( data.line[DEC_LINE], 0, sizeof(double)*data_cnt );
 	data_idx = 0;
+
+    RA_COLOR 		= QColor(KStars::Instance()->data()->colorScheme()->colorNamed( "RAGuideError" ));
+    DEC_COLOR 		= QColor(KStars::Instance()->data()->colorScheme()->colorNamed( "DEGuideError" ));
 }
 
 
