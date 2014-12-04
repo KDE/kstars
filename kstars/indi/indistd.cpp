@@ -308,7 +308,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
 
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-    filename += QString("file_") + ts +  bp->format;
+    filename += QString("file_") + ts +  QString(bp->format).trimmed();
 
     if (dataType == DATA_ASCII)
     {
