@@ -1352,6 +1352,12 @@ void Focus::autoFocusRel()
 void Focus::processFocusProperties(INumberVectorProperty *nvp)
 {
 
+    if (canAbsMove == false && currentFocuser->canAbsMove())
+    {
+        canAbsMove = true;
+        getAbsFocusPosition();
+    }
+
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
        INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
