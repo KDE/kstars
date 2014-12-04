@@ -943,6 +943,16 @@
       <whatsthis>The color for user-added object labels.</whatsthis>
       <default>#439</default>
     </entry>
+    <entry name="RAGuideColor" type="String">
+      <label>Color of RA Guide Error</label>
+      <whatsthis>The color for RA Guide Error bar in Ekos guide module.</whatsthis>
+      <default>#00FF00</default>
+    </entry>
+    <entry name="DEGuideColor" type="String">
+      <label>Color of DEC Guide Error</label>
+      <whatsthis>The color for DEC Guide Error bar in Ekos guide module.</whatsthis>
+      <default>#00A5FF</default>
+    </entry>
   </group>
   <group name="Xplanet">
     <entry name="XplanetPath" type="String">
