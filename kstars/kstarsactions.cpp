@@ -1237,13 +1237,15 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
     kta->setText( name );
     kta->setObjectName( actionName );
     kta->setActionGroup( cschemeGroup );
-    connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
+
     colorActionMenu->addAction( kta );
 
     KConfigGroup cg = KSharedConfig::openConfig()->group( "Colors" );
     if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "moonless-night.colors" ).remove( ".colors" ) ) {
         kta->setChecked( true );
     }
+
+    connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
