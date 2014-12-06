@@ -27,6 +27,7 @@
   <name xml:lang="zh-TW">天文_KStars</name>
   <summary>Desktop Planetarium</summary>
   <summary xml:lang="ca">Planetari per a l'escriptori</summary>
+  <summary xml:lang="cs">Planetárium na vaší obrazovce</summary>
   <summary xml:lang="de">Elektronisches Planetarium</summary>
   <summary xml:lang="en-GB">Desktop Planetarium</summary>
   <summary xml:lang="es">Planetario para el escritorio</summary>
@@ -64,6 +65,7 @@
     <p xml:lang="zh-TW">KStars 是一套桌面星象儀。它可以提供地球上任何地點、日期、時間的夜空的精確模擬。可以顯示最多一億個星體，一萬三千個深天空物件，所有八個行星，太陽與月球，還有數以千計的彗星與小行星等。它也支援可調整的速度模擬，讓學生與老師可以觀察一些需要非常長時間才能觀測出來的現象。KStars 天文計算器可以預測會合，並結合天文資訊專案來協助學習。業餘天文觀測者可以用 KStars 來計畫他們要觀察的物件，用視場編輯器來計算他們的裝備的檢視視場，並顯示出來。KStars 並整合了 INDI 資料庫，並支援多個指令。</p>
     <p>Astronomical Catalogs:</p>
     <p xml:lang="ca">Catàlegs astronòmics:</p>
+    <p xml:lang="cs">Astronomické katalogy:</p>
     <p xml:lang="de">Astronomische Kataloge:</p>
     <p xml:lang="en-GB">Astronomical Catalogues:</p>
     <p xml:lang="es">Catálogos astronómicos:</p>
@@ -160,6 +162,7 @@
       <li xml:lang="zh-TW">歲差、地軸震動與大氣磨擦修正</li>
       <li>Tools for retrieval of data from online databases</li>
       <li xml:lang="ca">Eines per a recuperar dades des d'una base de dades en línia</li>
+      <li xml:lang="cs">Nástroje pro získávání dat z databází online</li>
       <li xml:lang="de">Werkzeuge zum Herunterladen von Daten aus Online-Datenbanken</li>
       <li xml:lang="en-GB">Tools for retrieval of data from online databases</li>
       <li xml:lang="es">Herramientas de obtención de datos de bases de datos en línea</li>
