@@ -1263,7 +1263,7 @@ void Focus::autoFocusRel()
                 HFRInc++;
 
 
-                if (HFRInc < 1)
+                if (HFRInc <= 1)
                 {
                     capture();
                     return;
@@ -1275,7 +1275,7 @@ void Focus::autoFocusRel()
 
                     HFRInc=0;
 
-                    if (reverseDir)
+                    /*if (reverseDir)
                         pulseDuration /= 2;
 
                     if (canAbsMove)
@@ -1290,6 +1290,9 @@ void Focus::autoFocusRel()
                     }
                     else
                         FocusOut(pulseDuration);
+                        */
+                    pulseDuration *= 0.75;
+                    FocusOut(pulseDuration);
                 }
             }
 
@@ -1316,7 +1319,7 @@ void Focus::autoFocusRel()
         {
             HFRInc++;
 
-            if (HFRInc < 1)
+            if (HFRInc <= 1)
                 capture();
             else
             {
@@ -1325,7 +1328,7 @@ void Focus::autoFocusRel()
 
                 HFRInc=0;
 
-                if (reverseDir)
+                /*if (reverseDir)
                     pulseDuration /= 2;
 
                 if (canAbsMove)
@@ -1339,7 +1342,10 @@ void Focus::autoFocusRel()
                     }
                 }
                 else
-                    FocusIn(pulseDuration);
+                    FocusIn(pulseDuration);*/
+
+                pulseDuration *= 0.75;
+                FocusIn(pulseDuration);
             }
         }
 
