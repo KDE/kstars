@@ -491,7 +491,7 @@ void KStars::slotEkos()
     }
 
     if (ekosmenu == NULL)
-        ekosmenu = new EkosManager();
+        ekosmenu = new EkosManager(this);
 
     ekosmenu->show();
     ekosmenu->raise();
@@ -1252,19 +1252,6 @@ void KStars::removeColorMenuItem( const QString &actionName ) {
     qDebug() << "removing " << actionName;
     colorActionMenu->removeAction( actionCollection()->action( actionName ) );
 }
-
-/*
-
-void KStars::establishINDI()
-{
-#ifdef HAVE_INDI
-    if (indimenu == NULL)
-        indimenu = GUIManager::Instance();
-    if (indidriver == NULL)
-        indidriver = new DriverManager();
-#endif
-}
-*/
 
 void KStars::slotAboutToQuit()
 {

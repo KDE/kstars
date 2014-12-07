@@ -29,8 +29,8 @@
 
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 
-EkosManager::EkosManager()
-        : QDialog()
+EkosManager::EkosManager(QWidget *parent)
+        : QDialog(parent)
 {
     setupUi(this);
 
@@ -39,6 +39,7 @@ EkosManager::EkosManager()
     useST4          =false;
     ccdStarted      =false;
     ccdDriverSelected =false;
+    scopeRegistered = false;
 
     scope   =  NULL;
     ccd     =  NULL;
@@ -276,6 +277,7 @@ void EkosManager::reset()
     useST4          =false;
     ccdStarted      =false;
     ccdDriverSelected =false;
+    scopeRegistered = false;
 
     removeTabs();
 
@@ -998,6 +1000,8 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     appendLogText(xi18n("%1 is online.", scope->getDeviceName()));
 
+    scopeRegistered = true;
+
     connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
 
     if (guideProcess)
@@ -1043,7 +1047,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         initAlign();
         alignProcess->addCCD(guider, false);
 
-        if (scope && scope->isConnected())
+        if (scopeRegistered)
         {
             guideProcess->setTelescope(scope);
             captureProcess->setTelescope(scope);
