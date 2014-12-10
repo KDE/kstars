@@ -104,6 +104,7 @@ void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
     {
     case PG_BUTTONS:
         push_w = new QPushButton(label, guiProp->getGroup()->getContainer());
+        push_w->setCheckable(true);
         groupB->addButton(push_w);
 
         syncSwitch();
@@ -217,15 +218,17 @@ void INDI_E::syncSwitch()
     {
        case PG_BUTTONS:
         if (sp->s == ISS_ON)
-        {
-            push_w->setDown(true);
+        {                       
+            push_w->setChecked(true);
+            //push_w->setDown(true);
             buttonFont = push_w->font();
             buttonFont.setBold(true);
             push_w->setFont(buttonFont);
         }
         else
-        {
-            push_w->setDown(false);
+        {            
+            push_w->setChecked(false);
+            //push_w->setDown(false);
             buttonFont = push_w->font();
             buttonFont.setBold(false);
             push_w->setFont(buttonFont);

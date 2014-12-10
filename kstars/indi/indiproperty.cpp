@@ -198,7 +198,12 @@ void INDI_P::buildSwitchGUI()
     groupB = new QButtonGroup(0);
 
     if (guiType == PG_BUTTONS)
-        groupB->setExclusive(true);
+    {
+        if (svp->r == ISR_1OFMANY)
+            groupB->setExclusive(true);
+        else
+            groupB->setExclusive(false);
+    }
     else if (guiType == PG_RADIO)
         groupB->setExclusive(false);
 
