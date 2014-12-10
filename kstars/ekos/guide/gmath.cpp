@@ -19,10 +19,11 @@
 
 #include "fitsviewer/fitsview.h"
 
-#define DEF_SQR_0	(16-0)
-#define DEF_SQR_1	(32-0)
-#define DEF_SQR_2	(64-0)
-#define DEF_SQR_3	(128-0)
+#define DEF_SQR_0	(8-0)
+#define DEF_SQR_1	(16-0)
+#define DEF_SQR_2	(32-0)
+#define DEF_SQR_3	(64-0)
+#define DEF_SQR_4	(128-0)
 
 //#define GUIDE_LOG
 
@@ -30,6 +31,7 @@ const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 											{DEF_SQR_1, DEF_SQR_1*DEF_SQR_1*1.0},
 											{DEF_SQR_2, DEF_SQR_2*DEF_SQR_2*1.0},
 											{DEF_SQR_3, DEF_SQR_3*DEF_SQR_3*1.0},
+                                            {DEF_SQR_4, DEF_SQR_4*DEF_SQR_4*1.0},
 											{-1, -1}
 											};
 
