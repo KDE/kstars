@@ -1482,15 +1482,15 @@ void Focus::resetButtons()
             focusInB->setEnabled(true);
         }
 
-        captureB->setEnabled(true);
         startLoopB->setEnabled(true);
-
     }
     else
     {
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
     }
+
+    captureB->setEnabled(true);
 }
 
 void Focus::focusStarSelected(int x, int y)
