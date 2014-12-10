@@ -306,6 +306,8 @@ void Align::syncCCDInfo()
         targetChip->getMaxBin(&binx, &biny);
         kcfg_solverXBin->setMaximum(binx);
         kcfg_solverYBin->setMaximum(biny);
+        kcfg_solverXBin->setValue(Options::solverXBin());
+        kcfg_solverYBin->setValue(Options::solverYBin());
     }
     else
     {
