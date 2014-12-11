@@ -694,12 +694,7 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
         case AZ_CORRECTING:
          if (currentTelescope->isSlewing() == false)
          {
-             if(decDeviation > 0){
-                 appendLogText(xi18n("Slew complete. Please adjust your mount's' azimuth knob eastward until the target is in the center of the view."));
-             }
-             else{
-                 appendLogText(xi18n("Slew complete. Please adjust your mount's' azimuth knob westward until the target is in the center of the view."));
-             }
+             appendLogText(xi18n("Slew complete. Please adjust azimuth knob until the target is in the center of the view."));
              azStage = AZ_INIT;
          }
          break;
@@ -725,13 +720,8 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
 
            case ALT_CORRECTING:
             if (currentTelescope->isSlewing() == false)
-            {
-                if(decDeviation > 0){
-                    appendLogText(xi18n("Slew complete. Please lower the altitude knob on your mount until the target is in the center of the view."));
-                }
-                else{
-                    appendLogText(xi18n("Slew complete. Please raise the altitude knob on your mount until the target is in the center of the view."));
-                }
+            {                
+                appendLogText(xi18n("Slew complete. Please adjust altitude knob until the target is in the center of the view."));
                 altStage = ALT_INIT;
             }
             break;
