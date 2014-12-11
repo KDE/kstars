@@ -347,6 +347,37 @@ protected slots:
     void downloadReady();
 
 private:
+
+    /**
+     * @short Return the active list
+     * @return The session list or the wish list depending on which tab is currently being viewed.
+     */
+    inline QList<SkyObject *>& getActiveList() { return ( ( sessionView ) ? m_SessionList : m_WishList ); }
+
+    /**
+     * @short Return the active itemmodel
+     * @return the session model or the wishlist model depending on which tab is currently being viewed.
+     */
+    inline QStandardItemModel *getActiveModel() const { return ( ( sessionView ) ? m_SessionModel : m_WishListModel ); }
+
+    /**
+     * @short Return the active sort model
+     * @return the session sort model or the wishlist sort model depending on which tab is currently being viewed.
+     */
+    inline QSortFilterProxyModel *getActiveSortModel() const { return ( ( sessionView ) ? m_SessionSortModel : m_WishListSortModel ); }
+
+    /**
+     * @short Return the active view
+     * @return the active view in the UI -- session view or wishlist view depending on which one is active.
+     */
+    inline QTableView *getActiveView() const { return ( ( sessionView ) ? ( ui->SessionView ) : ( ui->TableView ) ); }
+
+    /**
+     * @short Get the currently selected item indexes
+     * @return a QModelIndexList containing the selected rows in the active QTableView
+     */
+    inline QModelIndexList getSelectedItems() const { return getActiveView()->selectionModel()->selectedRows(); }
+
     KStars *ks;
     KSAlmanac *ksal;
     ObservingListUI *ui;
