@@ -332,7 +332,7 @@ public slots:
 
     /**@short Export a target list to the oal compliant format
         */
-    void slotOALExport(); 
+    void slotOALExport();
 
     void slotAddVisibleObj();
 
@@ -359,9 +359,9 @@ private:
     QStandardItemModel *m_Model, *m_Session;
     QSortFilterProxyModel *m_SortModel, *m_SortModelSession;
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
-    QHash<QString, QTime> TimeHash; 
+    QHash<QString, QTime> TimeHash;
     QList<QString> ImageList;
-    ObsListPopupMenu *pmenu; 
+    ObsListPopupMenu *pmenu;
     EyepieceField *m_epf;
 };
 
