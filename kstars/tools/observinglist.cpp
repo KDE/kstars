@@ -20,28 +20,6 @@
 #include "observinglist.h"
 #include "sessionsortfilterproxymodel.h"
 
-#include <cstdio>
-
-#include <QFile>
-#include <QDir>
-#include <QFrame>
-#include <QTextStream>
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <QHeaderView>
-#include <QDirIterator>
-#include <QPushButton>
-#include <QStatusBar>
-#include <QFileDialog>
-#include <QStandardPaths>
-#include <QTextEdit>
-#include <QLineEdit>
-#include <QStandardPaths>
-
-#include <KPlotting/KPlotAxis>
-#include <KPlotting/KPlotObject>
-#include <KMessageBox>
-
 #include "ksalmanac.h"
 #include "obslistwizard.h"
 #include "kstars.h"
@@ -73,6 +51,28 @@
 #include "indi/drivermanager.h"
 #include "indi/driverinfo.h"
 #endif
+
+#include <KPlotting/KPlotAxis>
+#include <KPlotting/KPlotObject>
+#include <KMessageBox>
+
+#include <QFile>
+#include <QDir>
+#include <QFrame>
+#include <QTextStream>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
+#include <QHeaderView>
+#include <QDirIterator>
+#include <QPushButton>
+#include <QStatusBar>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QTextEdit>
+#include <QLineEdit>
+#include <QStandardPaths>
+
+#include <cstdio>
 
 //
 // ObservingListUI
