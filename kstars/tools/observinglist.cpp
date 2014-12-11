@@ -378,16 +378,10 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 }
 
 void ObservingList::slotRemoveSelectedObjects() {
-    QStandardItemModel *currentModel;
-//    ObservingListUI local_ui;
-    if ( sessionView )
-        currentModel = m_SessionModel;
-    else
-        currentModel = m_WishListModel;
 
     //Find each object by name in the session list, and remove it
     //Go backwards so item alignment doesn't get screwed up as rows are removed.
-    for ( int irow = currentModel->rowCount()-1; irow >= 0; --irow ) {
+    for ( int irow = getActiveModel()->rowCount()-1; irow >= 0; --irow ) {
         bool rowSelected;
         if ( sessionView )
             rowSelected = ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() );
@@ -395,27 +389,19 @@ void ObservingList::slotRemoveSelectedObjects() {
             rowSelected = ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() );
 
         if ( rowSelected ) {
-            QList<SkyObject*> currList;
-            QModelIndex mSortIndex, mIndex;
-             if ( sessionView ) {
-                mSortIndex = m_SessionSortModel->index( irow, 0 );
-                mIndex = m_SessionSortModel->mapToSource( mSortIndex );
-                currList = sessionList();
-            } else {
-                mSortIndex = m_WishListSortModel->index( irow, 0 );
-                mIndex = m_WishListSortModel->mapToSource( mSortIndex );
-                currList = obsList();
-            }
+            QModelIndex sortIndex, index;
+            sortIndex = getActiveSortModel()->index( irow, 0 );
+            index = getActiveSortModel()->mapToSource( sortIndex );
 
-            foreach ( SkyObject *o, currList ) {
+            foreach ( SkyObject *o, getActiveList() ) {
                 //Stars named "star" must be matched by coordinates
-               if (getObjectName(o) == mIndex.data().toString() ) {
-                        slotRemoveObject(o, sessionView);
-                        break;
-                    }
+                if (getObjectName(o) == index.data().toString() ) {
+                    slotRemoveObject(o, sessionView);
+                    break;
                 }
             }
         }
+    }
 
 
     if (sessionView) {
@@ -442,26 +428,15 @@ void ObservingList::slotNewSelection() {
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
 
-    QStandardItemModel *currentModel;
-    QList<SkyObject*> currList;
+    selectedItems = getActiveSortModel()->mapSelectionToSource( getActiveView()->selectionModel()->selection() ).indexes();
 
-    if ( sessionView ) {
-        selectedItems = m_SessionSortModel->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
-        currentModel = m_SessionModel;
-        currList = sessionList();
-    } else {
-        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-        currentModel = m_WishListModel;
-        currList = obsList();
-    }
-
-    if ( selectedItems.size() == currentModel->columnCount() ) {
+    if ( selectedItems.size() == getActiveModel()->columnCount() ) {
         newName = selectedItems[0].data().toString();
         singleSelection = true;
         //Find the selected object in the SessionList,
         //then break the loop.  Now SessionList.current()
         //points to the new selected object (until now it was the previous object)
-        foreach ( o, currList ) {
+        foreach ( o,  getActiveList() ) {
             if ( getObjectName(o) == newName ) {
                 found = true;
                 break;
@@ -559,14 +534,7 @@ void ObservingList::slotNewSelection() {
 }
 
 void ObservingList::slotCenterObject() {
-    QModelIndexList selectedItems;
-    if (sessionView) {
-        selectedItems = ui->SessionView->selectionModel()->selectedRows();
-    } else {
-        selectedItems = ui->TableView->selectionModel()->selectedRows();
-    }
-
-    if (selectedItems.size() == 1) {
+    if ( getSelectedItems().size() == 1 ) {
         ks->map()->setClickedObject( currentObject() );
         ks->map()->setClickedPoint( currentObject() );
         ks->map()->slotCenter();
@@ -1118,13 +1086,7 @@ void ObservingList::slotSaveAllImages() {
     ui->TableView->clearSelection();
     ui->SessionView->clearSelection();
 
-    QList<SkyObject*> currList;
-    if ( sessionView )
-        currList = sessionList();
-    else
-        currList = obsList();
-
-    foreach( SkyObject *o, currList ) {
+    foreach( SkyObject *o, getActiveList() ) {
         setCurrentImage( o );
         QString img( CurrentImagePath  );
         QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
@@ -1195,10 +1157,7 @@ void ObservingList::slotDeleteAllImages() {
 }
 
 void ObservingList::setSaveImagesButton() {
-    ui->saveImages->setEnabled(
-        (sessionView &&  !sessionList().isEmpty())  ||
-                         !obsList().isEmpty()
-        );
+    ui->saveImages->setEnabled( ! getActiveList().isEmpty() );
 }
 
 // FIXME: Is there a reason to implement these as an event filter,
