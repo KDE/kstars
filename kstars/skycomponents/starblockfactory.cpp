@@ -229,7 +229,7 @@ int StarBlockFactory::deleteBlocks( int nblocks ) {
         delete last;
         last = temp;
         i++;
-    }   
+    }
     if( last )
         last->next = NULL;
     else
@@ -277,7 +277,7 @@ int StarBlockFactory::freeUnused() {
         delete last;
         last = temp;
         i++;
-    }   
+    }
     if( last )
         last->next = NULL;
     else

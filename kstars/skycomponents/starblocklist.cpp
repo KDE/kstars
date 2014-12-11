@@ -50,10 +50,10 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
         nStars -= block->getStarCount();
 
         readOffset -= parent->getStarReader()->guessRecordSize() * block->getStarCount();
-	if( nBlocks <= 0 )
-	  faintMag = -5.0;
-	else
-	  faintMag = blocks[nBlocks - 1]->faintMag;
+        if( nBlocks <= 0 )
+          faintMag = -5.0;
+        else
+          faintMag = blocks[nBlocks - 1]->faintMag;
 
         return 1;
     }

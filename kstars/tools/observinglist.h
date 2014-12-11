@@ -53,20 +53,20 @@ public:
     *
     *By selecting an object in the list, you can perform a number of functions
     *on that object:
-    *+ Center it in the display 
-    *+ Examine its Details Window 
-    *+ Point the telescope at it 
+    *+ Center it in the display
+    *+ Examine its Details Window
+    *+ Point the telescope at it
     *+ Attach a custom icon or name label (TBD)
     *+ Attach a trail (solar system only) (TBD)
-    *+ Open the AltVsTime tool 
+    *+ Open the AltVsTime tool
     *
-    *The user can also save/load their observing lists, and can export 
+    *The user can also save/load their observing lists, and can export
     *list data (TBD: as HTML table?  CSV format?  plain text?)
     *
-    *The observing notes associated with the selected object are displayed 
+    *The observing notes associated with the selected object are displayed
     *below the list.
     *
-    *TODO: 
+    *TODO:
     *+ Implement a "shaded" state, in which the UI is compressed to
     *  make it easier to float on the KStars window.  Displays only
     *  object names, and single-letter action buttons, and no user log.
@@ -122,7 +122,7 @@ public:
     void plot( SkyObject *o );
 
     /**@short Return the altitude of the given SkyObject for the given hour.
-        *@p p pointer to the SkyObject 
+        *@p p pointer to the SkyObject
         *@p hour time at which altitude has to be found
         */
     double findAltitude( SkyPoint *p, double hour=0);
@@ -171,7 +171,7 @@ public:
      */
     SkyObject* findObjectByName( QString name );
 
-    /**@short make a selection in the session view 
+    /**@short make a selection in the session view
      */
     void selectObject( const SkyObject *o );
 
@@ -235,8 +235,8 @@ public slots:
     void slotFind();
 
     /**@short Tasks needed when changing the selected object
-        *Save the user log of the previous selected object, 
-        *find the new selected object in the obsList, and 
+        *Save the user log of the previous selected object,
+        *find the new selected object in the obsList, and
         *show the notes associated with the new selected object
         */
     void slotNewSelection();
