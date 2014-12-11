@@ -105,15 +105,15 @@ ObservingList::ObservingList( KStars *_ks )
     FileName = "";
     pmenu = new ObsListPopupMenu();
     //Set up the Table Views
-    m_Model = new QStandardItemModel( 0, 5, this );
-    m_Session = new QStandardItemModel( 0, 5 );
-    m_Model->setHorizontalHeaderLabels( QStringList() << xi18n( "Name" )
+    m_WishListModel = new QStandardItemModel( 0, 5, this );
+    m_SessionModel = new QStandardItemModel( 0, 5 );
+    m_WishListModel->setHorizontalHeaderLabels( QStringList() << xi18n( "Name" )
                                         << xi18n( "Alternate Name" )
                                         << xi18nc( "Right Ascension", "RA" )
                                         << xi18nc( "Declination", "Dec" )
                                         << xi18nc( "Magnitude", "Mag" )
                                         << xi18n( "Type" ) );
-    m_Session->setHorizontalHeaderLabels( QStringList() << xi18n( "Name" )
+    m_SessionModel->setHorizontalHeaderLabels( QStringList() << xi18n( "Name" )
                                           << xi18n( "Alternate Name" )
                                           << xi18nc( "Right Ascension", "RA" )
                                           << xi18nc( "Declination", "Dec" )
@@ -122,17 +122,17 @@ ObservingList::ObservingList( KStars *_ks )
                                           << xi18n( "Time" )
                                           << xi18nc( "Altitude", "Alt" )
                                           << xi18nc( "Azimuth", "Az" ));
-    m_SortModel = new QSortFilterProxyModel( this );
-    m_SortModel->setSourceModel( m_Model );
-    m_SortModel->setDynamicSortFilter( true );
-    ui->TableView->setModel( m_SortModel );
+    m_WishListSortModel = new QSortFilterProxyModel( this );
+    m_WishListSortModel->setSourceModel( m_WishListModel );
+    m_WishListSortModel->setDynamicSortFilter( true );
+    ui->TableView->setModel( m_WishListSortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
 
     ui->TableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
-    m_SortModelSession = new SessionSortFilterProxyModel;
-    m_SortModelSession->setSourceModel( m_Session );
-    m_SortModelSession->setDynamicSortFilter( true );
-    ui->SessionView->setModel( m_SortModelSession );
+    m_SessionSortModel = new SessionSortFilterProxyModel;
+    m_SessionSortModel->setSourceModel( m_SessionModel );
+    m_SessionSortModel->setDynamicSortFilter( true );
+    ui->SessionView->setModel( m_SessionSortModel );
     ui->SessionView->horizontalHeader()->setStretchLastSection( true );
     ui->SessionView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
     ksal = new KSAlmanac;
@@ -280,7 +280,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                 << new QStandardItem( smag )
                 << new QStandardItem( obj->typeName() );
 
-        m_Model->appendRow( itemList );
+        m_WishListModel->appendRow( itemList );
         //Note addition in statusbar
         ks->statusBar()->showMessage( xi18n( "Added %1 to observing list.", finalObjectName ), 0 );
         ui->TableView->resizeColumnsToContents();
@@ -320,7 +320,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                 << new QStandardItem( alt )
                 << new QStandardItem( az );
 
-        m_Session->appendRow( itemList );
+        m_SessionModel->appendRow( itemList );
         //Adding an object should trigger the modified flag
         isModified = true;
         ui->SessionView->resizeColumnsToContents();
@@ -342,11 +342,11 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 
     int k;
     if (! session) {
-        currentModel = m_Model;
+        currentModel = m_WishListModel;
         k = obsList().indexOf( o );
     }
     else {
-        currentModel = m_Session;
+        currentModel = m_SessionModel;
         k = sessionList().indexOf( o );
     }
 
@@ -381,9 +381,9 @@ void ObservingList::slotRemoveSelectedObjects() {
     QStandardItemModel *currentModel;
 //    ObservingListUI local_ui;
     if ( sessionView )
-        currentModel = m_Session;
+        currentModel = m_SessionModel;
     else
-        currentModel = m_Model;
+        currentModel = m_WishListModel;
 
     //Find each object by name in the session list, and remove it
     //Go backwards so item alignment doesn't get screwed up as rows are removed.
@@ -398,12 +398,12 @@ void ObservingList::slotRemoveSelectedObjects() {
             QList<SkyObject*> currList;
             QModelIndex mSortIndex, mIndex;
              if ( sessionView ) {
-                mSortIndex = m_SortModelSession->index( irow, 0 );
-                mIndex = m_SortModelSession->mapToSource( mSortIndex );
+                mSortIndex = m_SessionSortModel->index( irow, 0 );
+                mIndex = m_SessionSortModel->mapToSource( mSortIndex );
                 currList = sessionList();
             } else {
-                mSortIndex = m_SortModel->index( irow, 0 );
-                mIndex = m_SortModel->mapToSource( mSortIndex );
+                mSortIndex = m_WishListSortModel->index( irow, 0 );
+                mIndex = m_WishListSortModel->mapToSource( mSortIndex );
                 currList = obsList();
             }
 
@@ -446,12 +446,12 @@ void ObservingList::slotNewSelection() {
     QList<SkyObject*> currList;
 
     if ( sessionView ) {
-        selectedItems = m_SortModelSession->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
-        currentModel = m_Session;
+        selectedItems = m_SessionSortModel->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
+        currentModel = m_SessionModel;
         currList = sessionList();
     } else {
-        selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-        currentModel = m_Model;
+        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+        currentModel = m_WishListModel;
         currList = obsList();
     }
 
@@ -633,7 +633,7 @@ void ObservingList::slotWUT() {
 }
 
 void ObservingList::slotAddToSession() {
-    QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    QModelIndexList selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
     if ( selectedItems.size() ) {
         foreach ( const QModelIndex &i, selectedItems ) {
             foreach ( SkyObject *o, obsList() )
@@ -666,10 +666,10 @@ void ObservingList::slotAVT() {
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
     if( sessionView ) {
         QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
-        for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
+        for ( int irow = m_SessionModel->rowCount()-1; irow >= 0; --irow ) {
             if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-                QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
-                QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
+                QModelIndex mSortIndex = m_SessionSortModel->index( irow, 0 );
+                QModelIndex mIndex = m_SessionSortModel->mapToSource( mSortIndex );
                 foreach ( SkyObject *o, sessionList() ) {
                     if ( getObjectName(o) == mIndex.data().toString() ) {
                         avt->processObject( o );
@@ -681,7 +681,7 @@ void ObservingList::slotAVT() {
         avt->exec();
         delete avt;
     } else {
-        selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
             QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
             foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
@@ -753,7 +753,7 @@ void ObservingList::slotOpenList()
         sessionList().clear();
         TimeHash.clear();
         m_CurrentObject = 0;
-        m_Session->removeRows( 0, m_Session->rowCount() );
+        m_SessionModel->removeRows( 0, m_SessionModel->rowCount() );
         //First line is the name of the list. The rest of the file is
         //object names, one per line. With the TimeHash value if present
         QTextStream istream( &f );
@@ -1308,7 +1308,7 @@ void ObservingList::slotAddVisibleObj() {
     QPointer<WUTDialog> w = new WUTDialog( ks, sessionView, geo, lt );
     w->init();
     QModelIndexList selectedItems;
-    selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
     if ( selectedItems.size() )
         foreach ( const QModelIndex &i, selectedItems ) {
             foreach ( SkyObject *o, obsList() )
@@ -1328,11 +1328,11 @@ SkyObject* ObservingList::findObjectByName( QString name ) {
 void ObservingList::selectObject( const SkyObject *o ) {
     ui->tabWidget->setCurrentIndex( 1 );
     ui->SessionView->selectionModel()->clear();
-    for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
-        QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
-        QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
+    for ( int irow = m_SessionModel->rowCount()-1; irow >= 0; --irow ) {
+        QModelIndex mSortIndex = m_SessionSortModel->index( irow, 0 );
+        QModelIndex mIndex = m_SessionSortModel->mapToSource( mSortIndex );
         int idxrow = mIndex.row();
-        if(  m_Session->item(idxrow, 0)->text() == getObjectName(o) )
+        if(  m_SessionModel->item(idxrow, 0)->text() == getObjectName(o) )
             ui->SessionView->selectRow( idxrow );
         slotNewSelection();
     }

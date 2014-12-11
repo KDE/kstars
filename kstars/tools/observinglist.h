@@ -356,8 +356,8 @@ private:
     QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     KStarsDateTime dt;
     GeoLocation *geo;
-    QStandardItemModel *m_Model, *m_Session;
-    QSortFilterProxyModel *m_SortModel, *m_SortModelSession;
+    QStandardItemModel *m_WishListModel, *m_SessionModel;
+    QSortFilterProxyModel *m_WishListSortModel, *m_SessionSortModel;
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash;
     QList<QString> ImageList;
