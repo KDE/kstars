@@ -92,7 +92,7 @@ public:
     /**@return true if the object is in the observing list
         *@p o pointer to the object to test.
         */
-    inline bool contains( const SkyObject *o ) { return m_ObservingList.contains( const_cast<SkyObject*>(o) ); }
+    inline bool contains( const SkyObject *o ) { return m_WishList.contains( const_cast<SkyObject*>(o) ); }
 
     /**@return true if the window is in its default "large" state.
         */
@@ -100,8 +100,8 @@ public:
 
     /**@return reference to the current observing list
         */
-    QList<SkyObject*>& obsList() { return m_ObservingList; }
-    
+    QList<SkyObject*>& obsList() { return m_WishList; }
+
     /**@return reference to the current observing list
         */
     QList<SkyObject*>& sessionList() { return m_SessionList; }
@@ -350,7 +350,7 @@ private:
     KStars *ks;
     KSAlmanac *ksal;
     ObservingListUI *ui;
-    QList<SkyObject*> m_ObservingList, m_SessionList;
+    QList<SkyObject*> m_WishList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
     QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;

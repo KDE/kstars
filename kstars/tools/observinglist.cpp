@@ -265,7 +265,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
     //Insert object in the Wish List
     if( addToWishList  ) {
-        m_ObservingList.append( obj );
+        m_WishList.append( obj );
         m_CurrentObject = obj;
         QList<QStandardItem*> itemList;
 
@@ -1019,7 +1019,7 @@ void ObservingList::slotUpdate() {
     dt.setDate( ui->DateEdit->date() );
     ui->View->removeAllPlotObjects();
     //Creating a copy of the lists, we can't use the original lists as they'll keep getting modified as the loop iterates
-    QList<SkyObject*> _obsList=m_ObservingList, _SessionList=m_SessionList;
+    QList<SkyObject*> _obsList=m_WishList, _SessionList=m_SessionList;
     foreach ( SkyObject *o, _obsList ) {
         if( o->name() != "star" ) {
             slotRemoveObject( o, false, true );
