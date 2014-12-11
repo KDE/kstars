@@ -281,7 +281,7 @@ public slots:
         */
     void slotLocation();
 
-    /**@short Updates the tableviews for the new geolocation and date 
+    /**@short Updates the tableviews for the new geolocation and date
         */
     void slotUpdate();
 
@@ -295,7 +295,7 @@ public slots:
         */
     void slotGetImage( bool _dss = false );
 
-    void slotGoogleImage();
+    void slotSearchImage();
 
     /**@short Downloads the images of all the objects in the session list
         *Note: This downloads the SDSS image, checks if the size is > default image

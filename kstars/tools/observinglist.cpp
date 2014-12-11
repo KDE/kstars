@@ -182,8 +182,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotSaveImage() ) );
     connect( ui->DeleteImage, SIGNAL( clicked() ),
              this, SLOT( slotDeleteCurrentImage() ) );
-    connect( ui->GoogleImage, SIGNAL( clicked() ),
-             this, SLOT( slotGoogleImage() ) );
+    connect( ui->SearchImage, SIGNAL( clicked() ),
+             this, SLOT( slotSearchImage() ) );
     connect( ui->SetTime, SIGNAL( clicked() ),
              this, SLOT( slotSetTime() ) );
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
@@ -206,7 +206,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->NotesEdit->setEnabled( false );
     ui->SetTime->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
-    ui->GoogleImage->setEnabled( false );
+    ui->SearchImage->setEnabled( false );
     ui->saveImages->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
@@ -457,7 +457,7 @@ void ObservingList::slotNewSelection() {
             plot( o );
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
-            ui->GoogleImage->setEnabled( true );
+            ui->SearchImage->setEnabled( true );
             if ( newName != xi18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
                 //First, save the last object's user log to disk, if necessary
@@ -484,7 +484,7 @@ void ObservingList::slotNewSelection() {
                 ui->NotesLabel->setEnabled( false );
                 ui->NotesEdit->clear();
                 ui->NotesEdit->setEnabled( false );
-                ui->GoogleImage->setEnabled( false );
+                ui->SearchImage->setEnabled( false );
             }
             if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//If the image is present, show it! // FIXME: This 13000 bytes is extremely ugly and a terrible idea. -- asimha
                 ui->ImagePreview->showPreview( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
@@ -510,7 +510,7 @@ void ObservingList::slotNewSelection() {
             m_CurrentObject = 0;
             ui->TimeEdit->setEnabled( false );
             ui->SetTime->setEnabled( false );
-            ui->GoogleImage->setEnabled( false );
+            ui->SearchImage->setEnabled( false );
             //Clear the user log text box.
             saveCurrentUserLog();
             ui->NotesEdit->setPlainText("");
@@ -522,7 +522,7 @@ void ObservingList::slotNewSelection() {
             ui->NotesEdit->setEnabled( false );
             ui->TimeEdit->setEnabled( false );
             ui->SetTime->setEnabled( false );
-            ui->GoogleImage->setEnabled( false );
+            ui->SearchImage->setEnabled( false );
             m_CurrentObject = 0;
             //Clear the plot in the AVTPlotwidget
             ui->View->removeAllPlotObjects();
@@ -957,7 +957,7 @@ void ObservingList::slotChangeTab(int index) {
     ui->NotesEdit->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
     ui->SetTime->setEnabled( false );
-    ui->GoogleImage->setEnabled( false );
+    ui->SearchImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
@@ -1011,7 +1011,7 @@ void ObservingList::slotSetTime() {
 
 void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
-    ui->GoogleImage->setEnabled( false );
+    ui->SearchImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
     if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) 
         setCurrentImage( currentObject(), true );
@@ -1078,7 +1078,7 @@ void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
 }
 
 void ObservingList::slotSaveAllImages() {
-    ui->GoogleImage->setEnabled( false );
+    ui->SearchImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
@@ -1136,7 +1136,7 @@ void ObservingList::slotDeleteAllImages() {
     if( KMessageBox::warningYesNo( 0, xi18n( "This will delete all saved images. Are you sure you want to do this?" ), xi18n( "Delete All Images" ) ) == KMessageBox::No )
         return;
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
-    ui->GoogleImage->setEnabled( false );
+    ui->SearchImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
@@ -1172,7 +1172,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage( Options::obsListPreferDSS() );
                     else
-                        slotGoogleImage();
+                        slotSearchImage();
                 }
                 else
                     slotImageViewer();
@@ -1213,7 +1213,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     return false;
 }
 
-void ObservingList::slotGoogleImage() {
+void ObservingList::slotSearchImage() {
     QPixmap *pm = new QPixmap;
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, xi18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted ) {

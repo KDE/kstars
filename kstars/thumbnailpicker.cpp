@@ -342,5 +342,3 @@ void ThumbnailPicker::slotSetFromURL() {
         }
     }
 }
-
-

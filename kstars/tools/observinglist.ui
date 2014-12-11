@@ -582,7 +582,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="GoogleImage">
+        <widget class="QPushButton" name="SearchImage">
          <property name="text">
           <string>Find Image</string>
          </property>
