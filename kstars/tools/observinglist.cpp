@@ -601,9 +601,9 @@ void ObservingList::slotWUT() {
 }
 
 void ObservingList::slotAddToSession() {
-    QModelIndexList selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-    if ( selectedItems.size() ) {
-        foreach ( const QModelIndex &i, selectedItems ) {
+    Q_ASSERT( ! sessionView );
+    if ( getSelectedItems().size() ) {
+        foreach ( const QModelIndex &i, getSelectedItems() ) {
             foreach ( SkyObject *o, obsList() )
                 if ( getObjectName(o) == i.data().toString() )
                     slotAddObject( o, true );
