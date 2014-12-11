@@ -31,40 +31,41 @@ ObsListPopupMenu::ObsListPopupMenu()
 
 ObsListPopupMenu::~ObsListPopupMenu() { }
 
-void ObsListPopupMenu::initPopupMenu( bool showAddToSession,
-                                      bool showCenter,
-                                      bool showDetails,
-                                      bool showScope,
-                                      bool showRemove,
-                                      bool showLinks,
-                                      bool sessionView )
+void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, bool showScope )
 {
     KStars* ks = KStars::Instance();
 
     clear();
+
     //Insert item for adding the object to the session view
-    if( showAddToSession )
+    if( !sessionView ) {
         addAction( xi18n( "Add to session plan" ), ks->observingList(), SLOT( slotAddToSession() ) );
-    if( !sessionView )
         addAction( xi18n( "Add objects visible tonight to session plan" ), ks->observingList(), SLOT( slotAddVisibleObj() ) );
+    }
+
     addSeparator();
-    //Insert item for centering on object
-    if( showCenter )
-        addAction( xi18n( "Center" ), ks->observingList(), SLOT( slotCenterObject() ) );
-    //Insert item for Slewing to the object
-    if( showScope )
+
+    if( !multiSelection )
+        addAction( xi18n( "Center" ), ks->observingList(), SLOT( slotCenterObject() ) ); //Insert item for centering on object
+
+    if( !multiSelection && showScope ) // Insert item for slewing telescope
         addAction( xi18nc( "Show the selected object in the telescope", "Scope" ), ks->observingList(), SLOT( slotSlewToObject() ) );
+
     addSeparator();
-    //Insert item for Showing details dialog
-    if( showDetails )
-        addAction( xi18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) );
+
+
+    if( !multiSelection ) {
+        addAction( xi18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) ); // Insert item for showing details dialog
+        addAction( xi18n( "Eyepiece view (Beta)" ), ks->observingList(), SLOT( slotEyepieceView() ) ); // Insert item for showing eyepiece view
+    }
+
     //Insert item for opening the Altitude vs time dialog
     addAction( xi18n( "Altitude vs. Time" ), ks->observingList(), SLOT( slotAVT() ) );
-    // Insert item for opening the eyepiece view tool
-    addAction( xi18n( "Eyepiece view (Beta)" ), ks->observingList(), SLOT( slotEyepieceView() ) );
+
     addSeparator();
+
     //Insert item for dowloading different images
-    if( showLinks ) {
+    if( !multiSelection ) {
         if( ks->observingList()->currentObject() != NULL && ! ks->observingList()->currentObject()->isSolarSystem() )
         {
             addAction( xi18n( "Show SDSS image" ), ks->observingList(), SLOT( slotGetImage() ) );
@@ -73,13 +74,10 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession,
         addAction( xi18n( "Show images from web " ), ks->observingList(), SLOT( slotGoogleImage() ) );
         addSeparator();
     }
+
     //Insert item for Removing the object(s)
-    if( showRemove ) {
-        if( ! sessionView )
-            addAction( xi18n("Remove from WishList"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
-        else
-            addAction( xi18n("Remove from Session Plan"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
-    }
+    if( !sessionView )
+        addAction( xi18n("Remove from WishList"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
+    else
+        addAction( xi18n("Remove from Session Plan"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
 }
-
-

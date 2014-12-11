@@ -1180,37 +1180,24 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             return true;
         }
     }
-    if( obj == ui->TableView->viewport() && ! noSelection ) {
-        if( event->type() == QEvent::MouseButtonRelease ) {
+    if( obj == ui->TableView->viewport() || obj == ui->SessionView->viewport() ) {
+        bool sessionViewEvent = ( obj == ui->SessionView->viewport() );
+
+        if( event->type() == QEvent::MouseButtonRelease  ) { // Mouse button release event
             QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
+            QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
+
             if( mouseEvent->button() == Qt::RightButton ) {
-                QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
-                if( singleSelection )
-                    pmenu->initPopupMenu( true, true, true, showScope, true, true );
-                else
-                    pmenu->initPopupMenu( true, false, false, false, true );
-                pmenu->popup( pos );
+                if( !noSelection ) {
+                    pmenu->initPopupMenu( sessionViewEvent, !singleSelection, showScope );
+                    pmenu->popup( pos );
+                }
                 return true;
             }
         }
     }
 
-    if( obj == ui->SessionView->viewport() && ! noSelection ) {
-        if( event->type() == QEvent::MouseButtonRelease ) {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
-            if( mouseEvent->button() == Qt::RightButton ) {
-                QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
-                if( singleSelection )
-                    pmenu->initPopupMenu( false, true, true, showScope, true, true, true );
-                else
-                    pmenu->initPopupMenu( false, false, false, false, true, false, true );
-                pmenu->popup( pos );
-                return true;
-            }
-        }
-    }
-
-    if( obj == ui->TableView || obj == ui->SessionView)
+    if( obj == ui->TableView || obj == ui->SessionView )
     {
         if (event->type() == QEvent::KeyPress)
         {
