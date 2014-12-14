@@ -284,10 +284,11 @@ void NewFOV::slotComputeFOV() {
         ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
     else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 ) {
-        double sx = (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value();
-        const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)
+        double sx = (double) ui->ChipWidth->value() * 3438.0 / ui->TLength2->value();
+        double sy = (double) ui->ChipHeight->value() * 3438.0 / ui->TLength2->value();
+        //const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)
         ui->FOVEditX->setText( toString(sx) );
-        ui->FOVEditY->setText( toString(sx / aspectratio) );
+        ui->FOVEditY->setText( toString(sy) );
     }
     else if ( sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
         ui->FOVEditX->setText( toString(34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value()) );

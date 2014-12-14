@@ -65,91 +65,19 @@
       <attribute name="title">
        <string>Eyepiece</string>
       </attribute>
-      <layout class="QVBoxLayout">
-       <property name="spacing">
-        <number>6</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
-        <layout class="QHBoxLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
          <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
+          <layout class="QFormLayout" name="formLayout_3">
+           <item row="0" column="0">
             <widget class="QLabel" name="textLabel5">
              <property name="text">
               <string>Telescope focal length:</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="textLabel7_2">
-             <property name="text">
-              <string>Eyepiece focal length:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="textLabel8_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Enter the eyepiece's Apparent field-of-view</string>
-             </property>
-             <property name="text">
-              <string>Eyepiece AFOV:</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout">
-           <item>
+           <item row="0" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <widget class="QDoubleSpinBox" name="TLength1">
@@ -170,6 +98,9 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                <property name="maximum">
                 <double>100000.000000000000000</double>
                </property>
+               <property name="singleStep">
+                <double>100.000000000000000</double>
+               </property>
               </widget>
              </item>
              <item>
@@ -189,25 +120,33 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                </property>
               </widget>
              </item>
+             <item>
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </item>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
+           <item row="1" column="0">
+            <widget class="QLabel" name="textLabel7_2">
+             <property name="text">
+              <string>Eyepiece focal length:</string>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
              <item>
               <widget class="QDoubleSpinBox" name="EyeLength">
                <property name="focusPolicy">
@@ -240,138 +179,153 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                </property>
               </widget>
              </item>
+             <item>
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </item>
-           <item>
-            <widget class="QComboBox" name="EyepieceAFOV">
+           <item row="2" column="0">
+            <widget class="QLabel" name="textLabel8_2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize">
-              <size>
-               <width>250</width>
-               <height>0</height>
-              </size>
+             <property name="toolTip">
+              <string>Enter the eyepiece's Apparent field-of-view</string>
+             </property>
+             <property name="text">
+              <string>Eyepiece AFOV:</string>
              </property>
             </widget>
+           </item>
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <widget class="QComboBox" name="EyepieceAFOV">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>250</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout">
+               <property name="spacing">
+                <number>6</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QDoubleSpinBox" name="EyeFOV">
+                 <property name="focusPolicy">
+                  <enum>Qt::StrongFocus</enum>
+                 </property>
+                 <property name="toolTip">
+                  <string>field-of-view of the eyepiece, in arcminutes</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string>Enter the eyepiece field-of-view angle, in arcminutes.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
+                 </property>
+                 <property name="maximum">
+                  <double>180.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel6_2_2_2">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <weight>50</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
+                   <underline>false</underline>
+                   <strikeout>false</strikeout>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>degrees</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="leftMargin">
-            <number>0</number>
+           <property name="sizeType">
+            <enum>QSizePolicy::Minimum</enum>
            </property>
-           <property name="topMargin">
-            <number>0</number>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
            </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
+            <widget class="QPushButton" name="ComputeTLengthFromFNum1">
+             <property name="text">
+              <string>or compute from F-Number</string>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="ComputeTLengthFromFNum1">
-               <property name="text">
-                <string>or compute from F-Number</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer">
+            <spacer name="verticalSpacer_3">
              <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Minimum</enum>
+              <enum>Qt::Vertical</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>20</height>
+               <height>40</height>
               </size>
              </property>
             </spacer>
-           </item>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QDoubleSpinBox" name="EyeFOV">
-               <property name="focusPolicy">
-                <enum>Qt::StrongFocus</enum>
-               </property>
-               <property name="toolTip">
-                <string>field-of-view of the eyepiece, in arcminutes</string>
-               </property>
-               <property name="whatsThis">
-                <string>Enter the eyepiece field-of-view angle, in arcminutes.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
-               </property>
-               <property name="maximum">
-                <double>180.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="textLabel6_2_2_2">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                 <underline>false</underline>
-                 <strikeout>false</strikeout>
-                </font>
-               </property>
-               <property name="text">
-                <string>degrees</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
            </item>
           </layout>
          </item>
@@ -463,298 +417,253 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
       <attribute name="title">
        <string>Camera</string>
       </attribute>
-      <layout class="QGridLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <property name="spacing">
-        <number>6</number>
-       </property>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="ComputeCameraFOV">
-         <property name="toolTip">
-          <string>Compute field-of-view from above data fields</string>
-         </property>
-         <property name="whatsThis">
-          <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
-
-The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
-         </property>
-         <property name="text">
-          <string>Compute FOV</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>180</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>22</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>22</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <layout class="QHBoxLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
             <widget class="QLabel" name="textLabel5_2">
              <property name="text">
               <string>Telescope focal length:</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="TLength2">
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Telescope focal length, in millimeters</string>
+             </property>
+             <property name="whatsThis">
+              <string>Enter the telescope focal length, in millimeters.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+             </property>
+             <property name="maximum">
+              <double>100000.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>100.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="textLabel6_2_3">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+               <underline>false</underline>
+               <strikeout>false</strikeout>
+              </font>
+             </property>
+             <property name="text">
+              <string>mm</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
             <widget class="QLabel" name="textLabel9">
              <property name="text">
-              <string>Chip/Film size:</string>
+              <string>Chip/Film width:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="ChipWidth">
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Size of chip or film, in millimeters</string>
+             </property>
+             <property name="whatsThis">
+              <string>Enter the physical size of the CCD chip or film negative.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+             </property>
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>300.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="textLabel6_2_3_2">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+               <underline>false</underline>
+               <strikeout>false</strikeout>
+              </font>
+             </property>
+             <property name="text">
+              <string>mm</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="textLabel9_2">
+             <property name="text">
+              <string>Chip/Film height:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QDoubleSpinBox" name="ChipHeight">
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Size of chip or film, in millimeters</string>
+             </property>
+             <property name="whatsThis">
+              <string>Enter the physical size of the CCD chip or film negative.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+             </property>
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>300.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="textLabel6_2_3_3">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+               <underline>false</underline>
+               <strikeout>false</strikeout>
+              </font>
+             </property>
+             <property name="text">
+              <string>mm</string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="leftMargin">
-            <number>0</number>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
            </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QDoubleSpinBox" name="TLength2">
-               <property name="focusPolicy">
-                <enum>Qt::StrongFocus</enum>
-               </property>
-               <property name="toolTip">
-                <string>Telescope focal length, in millimeters</string>
-               </property>
-               <property name="whatsThis">
-                <string>Enter the telescope focal length, in millimeters.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="textLabel6_2_3">
-               <property name="minimumSize">
-                <size>
-                 <width>60</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                 <underline>false</underline>
-                 <strikeout>false</strikeout>
-                </font>
-               </property>
-               <property name="text">
-                <string>mm</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QDoubleSpinBox" name="ChipSize">
-               <property name="focusPolicy">
-                <enum>Qt::StrongFocus</enum>
-               </property>
-               <property name="toolTip">
-                <string>Size of chip or film, in millimeters</string>
-               </property>
-               <property name="whatsThis">
-                <string>Enter the physical size of the CCD chip or film negative.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="textLabel6_2_3_2">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                 <underline>false</underline>
-                 <strikeout>false</strikeout>
-                </font>
-               </property>
-               <property name="text">
-                <string>mm</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
+          </spacer>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QPushButton" name="ComputeTLengthFromFNum2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>or compute from F-Number</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QPushButton" name="ComputeTLengthFromFNum2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>or compute from F-Number</string>
+             </property>
+            </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_2">
+            <spacer>
              <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+              <enum>Qt::Vertical</enum>
              </property>
              <property name="sizeType">
-              <enum>QSizePolicy::Preferred</enum>
+              <enum>QSizePolicy::Expanding</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>40</width>
-               <height>20</height>
+               <width>20</width>
+               <height>22</height>
               </size>
              </property>
             </spacer>
            </item>
           </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>51</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <spacer>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>180</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ComputeCameraFOV">
+           <property name="toolTip">
+            <string>Compute field-of-view from above data fields</string>
+           </property>
+           <property name="whatsThis">
+            <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
+
+The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+           </property>
+           <property name="text">
+            <string>Compute FOV</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -764,169 +673,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
       <attribute name="title">
        <string>Binocular</string>
       </attribute>
-      <layout class="QGridLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <property name="spacing">
-        <number>6</number>
-       </property>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="ComputeBinocularFOV">
-         <property name="toolTip">
-          <string>Compute field-of-view from above data fields</string>
-         </property>
-         <property name="whatsThis">
-          <string>This button will compute the field-of-view (FOV) angle for a binocular.  You must specify the linear FOV as mentioned on the binocular.
-
-The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
-         </property>
-         <property name="text">
-          <string>Compute FOV</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>180</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>22</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>22</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <layout class="QHBoxLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="0">
             <widget class="QLabel" name="textLabel15_3">
              <property name="text">
               <string>Field of View:</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="textLabel9_31">
-             <property name="text">
-              <string>At a distance of:</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
+           <item row="0" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
               <widget class="QDoubleSpinBox" name="LinearFOV">
                <property name="focusPolicy">
@@ -939,6 +699,12 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
                 <string>Enter the telescope focal length, in millimeters.
 
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+               </property>
+               <property name="maximum">
+                <double>10000.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>100.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -967,29 +733,78 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
              </item>
             </layout>
            </item>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
+           <item row="1" column="0">
+            <widget class="QLabel" name="textLabel9_31">
+             <property name="text">
+              <string>At a distance of:</string>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QComboBox" name="LinearFOVDistance"/>
-             </item>
-            </layout>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="LinearFOVDistance"/>
            </item>
           </layout>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>78</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <spacer>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>180</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ComputeBinocularFOV">
+           <property name="toolTip">
+            <string>Compute field-of-view from above data fields</string>
+           </property>
+           <property name="whatsThis">
+            <string>This button will compute the field-of-view (FOV) angle for a binocular.  You must specify the linear FOV as mentioned on the binocular.
+
+The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+           </property>
+           <property name="text">
+            <string>Compute FOV</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -997,108 +812,22 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
      </widget>
      <widget class="QWidget" name="tab4">
       <attribute name="title">
-       <string>Radiotelescope</string>
+       <string>Radio Telescope</string>
       </attribute>
-      <layout class="QVBoxLayout">
-       <property name="spacing">
-        <number>6</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
-        <layout class="QHBoxLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
+          <layout class="QFormLayout" name="formLayout_2">
+           <item row="0" column="0">
             <widget class="QLabel" name="textLabel5_2_3">
              <property name="text">
-              <string>Radiotelescope diameter:</string>
+              <string>Radio Telescope diameter:</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="textLabel9_3">
-             <property name="text">
-              <string>Wavelength:</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
+           <item row="0" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
               <widget class="QDoubleSpinBox" name="RTDiameter">
                <property name="focusPolicy">
@@ -1112,13 +841,19 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
 
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
                </property>
+               <property name="maximum">
+                <double>500.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="textLabel6_2_3_4">
                <property name="minimumSize">
                 <size>
-                 <width>60</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
@@ -1139,23 +874,15 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
              </item>
             </layout>
            </item>
-           <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
+           <item row="1" column="0">
+            <widget class="QLabel" name="textLabel9_3">
+             <property name="text">
+              <string>Wavelength:</string>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
               <widget class="QDoubleSpinBox" name="WaveLength">
                <property name="focusPolicy">
@@ -1191,6 +918,19 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
             </layout>
            </item>
           </layout>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>
@@ -1489,7 +1229,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
            <property name="text">
             <string/>
            </property>
-           <property name="color">
+           <property name="color" stdset="0">
             <color>
              <red>255</red>
              <green>255</green>
@@ -1600,15 +1340,15 @@ Circle, Square, Crosshairs, Bullseye.</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>FOVWidget</class>
    <extends>QFrame</extends>
    <header>widgets/fovwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1617,7 +1357,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
   <tabstop>EyeFOV</tabstop>
   <tabstop>ComputeEyeFOV</tabstop>
   <tabstop>TLength2</tabstop>
-  <tabstop>ChipSize</tabstop>
+  <tabstop>ChipWidth</tabstop>
   <tabstop>ComputeCameraFOV</tabstop>
   <tabstop>LinearFOV</tabstop>
   <tabstop>LinearFOVDistance</tabstop>
