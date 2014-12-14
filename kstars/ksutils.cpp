@@ -84,7 +84,7 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
 }
 
 QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString & type) {
-    const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=poss2ukstu_blue" );
+    const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?" );
     QString URLsuffix = QString( "&e=J2000&f=%1&c=none&fov=NONE" ).arg(type);
     const double dss_default_size = Options::defaultDSSImageSize();
 
@@ -107,7 +107,7 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
 
     QString RAString, DecString, SizeString;
     DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-    RAString  = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
+    RAString  = RAString.sprintf( "r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
     SizeString = SizeString.sprintf( "&h=%02.1f&w=%02.1f", height, width );
 
     return ( URLprefix + RAString + DecString + SizeString + URLsuffix );
