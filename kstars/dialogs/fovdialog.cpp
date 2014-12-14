@@ -333,14 +333,9 @@ TelescopeFL::TelescopeFL( QWidget *parent ) :
 
     setWindowTitle( xi18n( "Telescope Focal Length Calculator" ) );
 
-    QWidget *mainWidget = new QWidget( this );
-    QGridLayout *mainLayout = new QGridLayout( mainWidget );
-    mainWidget->setLayout( mainLayout );
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-    mainLayout->addWidget(buttonBox);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    //QWidget *mainWidget = new QWidget( this );
+    QGridLayout *mainLayout = new QGridLayout( this );
+    setLayout( mainLayout );
 
     aperture = new QDoubleSpinBox();
     aperture->setRange(0.0, 100000.0);
@@ -355,11 +350,18 @@ TelescopeFL::TelescopeFL( QWidget *parent ) :
     apertureUnit = new QComboBox( this );
     apertureUnit->insertItem( 0, xi18nc("millimeters", "mm") );
     apertureUnit->insertItem( 1, xi18n("inch") );
+
     mainLayout->addWidget( new QLabel( xi18n("Aperture diameter: "), this ), 0, 0 );
     mainLayout->addWidget( aperture, 0, 1 );
     mainLayout->addWidget( apertureUnit, 0, 2 );
     mainLayout->addWidget( new QLabel( xi18nc("F-Number or F-Ratio of optical system", "F-Number: "), this ), 1, 0 );
     mainLayout->addWidget( fNumber, 1, 1 );
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    mainLayout->addWidget(buttonBox);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
     show();
 }
 

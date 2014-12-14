@@ -104,7 +104,7 @@ private:
 
 class TelescopeFL : public QDialog
 {
-    Q_OBJECT;
+    Q_OBJECT
  public:
     /**
      * Create a telescope focal length dialog
