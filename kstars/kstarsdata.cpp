@@ -378,32 +378,36 @@ bool KStarsData::readCityData()
 
     // Reading local database
     QSqlDatabase mycitydb = QSqlDatabase::addDatabase("QSQLITE", "mycitydb");
-    dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, "mycitydb.sqlite");
-    mycitydb.setDatabaseName(dbfile);
-    if (mycitydb.open())
+    dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/"  +  "mycitydb.sqlite";
+
+    if (QFile::exists(dbfile))
     {
-        QSqlQuery get_query(mycitydb);
-
-        if (!get_query.exec("SELECT * FROM city"))
+        mycitydb.setDatabaseName(dbfile);
+        if (mycitydb.open())
         {
-            qDebug() << get_query.lastError();
-            return false;
-        }
-        while (get_query.next())
-        {
-            QString name         = get_query.value(1).toString();
-            QString province     = get_query.value(2).toString();
-            QString country      = get_query.value(3).toString();
-            dms lat              = dms(get_query.value(4).toString());
-            dms lng              = dms(get_query.value(5).toString());
-            double TZ            = get_query.value(6).toDouble();
-            TimeZoneRule *TZrule = &( Rulebook[ get_query.value(7).toString() ] );
+            QSqlQuery get_query(mycitydb);
 
-            // appends city names to list
-            geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule, false));
-        }
-       mycitydb.close();
+            if (!get_query.exec("SELECT * FROM city"))
+            {
+                qDebug() << get_query.lastError();
+                return false;
+            }
+            while (get_query.next())
+            {
+                QString name         = get_query.value(1).toString();
+                QString province     = get_query.value(2).toString();
+                QString country      = get_query.value(3).toString();
+                dms lat              = dms(get_query.value(4).toString());
+                dms lng              = dms(get_query.value(5).toString());
+                double TZ            = get_query.value(6).toDouble();
+                TimeZoneRule *TZrule = &( Rulebook[ get_query.value(7).toString() ] );
 
+                // appends city names to list
+                geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule, false));
+            }
+           mycitydb.close();
+
+        }
     }
 
     return citiesFound;

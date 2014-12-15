@@ -125,6 +125,14 @@ public:
     /**@return pointer to time zone rule object */
     TimeZoneRule* tzrule() { return TZrule; }
 
+    /**Set Time zone.
+     * @param value the new time zone */
+    void setTZ(double value)  { TimeZone = value;}
+
+    /**Set Time zone rule.
+     * @param value pointer to the new time zone rule */
+    void setTZRule(TimeZoneRule* value) { TZrule = value; }
+
     /**Set longitude according to dms argument.
      * @param l the new longitude */
     void setLong( dms l ) {
