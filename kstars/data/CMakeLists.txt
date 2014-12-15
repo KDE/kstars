@@ -1,7 +1,7 @@
 ########### install files ###############
 
 install( FILES kstars.png geomap.png 
-    Cities.dat
+    citydb.sqlite
     stars.dat
     starnames.dat namedstars.dat unnamedstars.dat
     Henry-Draper.idx

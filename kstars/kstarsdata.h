@@ -256,8 +256,8 @@ public slots:
     void setTimeDirection( float scale );
 
 private:
-    /**Populate list of geographic locations from "Cities.dat". Also check for custom
-     * locations file "mycities.dat", but don't require it.  Each line in the file
+    /**Populate list of geographic locations from "citydb.sqlite" database. Also check for custom
+     * locations file "mycitydb.sqlite" database, but don't require it.  Each line in the file
      * provides the information required to create one GeoLocation object.
      * @short Fill list of geographic locations from file(s)
      * @return true if at least one city read successfully.
@@ -267,28 +267,6 @@ private:
 
     /**Read the data file that contains daylight savings time rules. */
     bool readTimeZoneRulebook();
-
-    /**Parse one line from a locations database file.  The line contains 10 or 11 fields
-     * separated by colons (":").  The fields are:
-     * @li City Name [string]
-     * @li Province Name (optional) [string]
-     * @li Country Name [string]
-     * @li Longitude degrees [int]
-     * @li Latitude arcminutes [int]
-     * @li Latitude arcseconds [int]
-     * @li Latitude sign [char; 'E' or 'W' ]
-     * @li Latitude degrees [int]
-     * @li Latitude arcminutes [int]
-     * @li Latitude arcseconds [int]
-     * @li Latitude sign [char; 'N' or 'S' ]
-     * @li Timezone [float; -12 <= TZ <= 12, or 'x' if TZ unknown]
-     *
-     * @short Parse one line from a geographic database
-     * @param line The line from the geographic database to be parsed
-     * @return true if location successfully parsed; otherwise false.
-     * @see KStarsData::readCityData()
-     */
-    bool processCity( const QString& line );
 
     //TODO JM: ADV tree should use XML instead
     /**Read Advanced interface structure to be used later to construct the list view in

@@ -41,7 +41,7 @@
 #include <QDir>
 
 
-/* Some notes about the database. (skycomponents.db)
+/* Some notes about the database. (skycomponents.sqlite)
  * 1) The uid for Object Designation is the uid being used by objects in KStars
  *    hence, the uid is a qint64 i.e. a 64 bit signed integer. Coincidentaly,
  *    this is the max limit of an int in Sqlite3.

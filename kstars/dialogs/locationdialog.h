@@ -63,6 +63,9 @@ class LocationDialog : public QDialog {
     Q_OBJECT
 
 public:
+
+    typedef enum { CITY_ADD, CITY_UPDATE, CITY_REMOVE } CityOperation;
+
     /**Constructor.  Create all widgets, and pack them into QLayouts.
      * Connect Signals to Slots.  Run initCityList().
      */
@@ -123,6 +126,26 @@ public slots:
      * @return true on success
      */
     bool addCity();
+
+    /**When the "Update City" QPushButton is clicked, update the city
+     * information in the user's custom city database.
+     * @return true on success
+     */
+    bool updateCity();
+
+    /**When the "Remove City" QPushButton is clicked, remove the
+     * city information from the user's custom city database.
+     * @return true on success
+     */
+    bool removeCity();
+
+    /**
+     * @brief updateCity Adds, updates, or removes a city from the user's database.
+     * @param operation Add, update, or remove city
+     * @return true on success
+     */
+    bool updateCity(CityOperation operation);
+
 
     void clearFields();
     void showTZRules();

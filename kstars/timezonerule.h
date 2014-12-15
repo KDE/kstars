@@ -23,7 +23,7 @@
 	*Savings Time (DST; a.k.a. "Summer Time") is currently active at a given 
 	*location.  There are (at least) 25 different "rules" which govern DST 
 	*around the world; a string identifying the appropriate rule is attachded 
-	*to each city in Cities.dat.
+    *to each city in citydb.sqlite.
 	*
 	*The rules themselves are stored in the TZrulebook.dat file, which is read
 	*on startup; each line in the file creates a TimeZoneRule object.

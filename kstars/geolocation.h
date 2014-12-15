@@ -46,6 +46,7 @@ public:
      * @param country the name of the country
      * @param TZ the base time zone offset from Greenwich, UK
      * @param TZrule pointer to the daylight savings time rule
+     * @param readOnly whether the location is read only or updatable.
      * @param iEllips type of geodetic ellipsoid model
      * @param hght the elevation above sea level (in meters?)
      */
@@ -53,7 +54,7 @@ public:
                 const QString &name="Nowhere",
                 const QString &province="Nowhere",
                 const QString &country="Nowhere",
-                double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
+                double TZ=0, TimeZoneRule *TZrule=NULL, bool readOnly=false, int iEllips=4, double hght=-10 );
 
     /**Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
      * @param x the x-position, in m
@@ -64,13 +65,14 @@ public:
      * @param country the name of the country
      * @param TZ the base time zone offset from Greenwich, UK
      * @param TZrule pointer to the daylight savings time rule
+     * @param readOnly whether the location is read only or updatable.
      * @param iEllips type of geodetic ellipsoid model
      */
     GeoLocation(double x, double y, double z,
                 const QString &name="Nowhere",
                 const QString &province="Nowhere",
                 const QString &country="Nowhere",
-                double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
+                double TZ=0, TimeZoneRule *TZrule=NULL, bool readOnly=false, int iEllips=4 );
 
     /**@return pointer to the longitude dms object */
     const dms* lng() const { return &Longitude; }
@@ -250,6 +252,9 @@ public:
      */
     double LMST( double jd );
 
+    bool isReadOnly() const;
+    void setReadOnly(bool value);
+
 private:
     dms Longitude, Latitude;
     QString Name, Province, Country;
@@ -258,6 +263,7 @@ private:
     double axis, flattening;
     long double PosCartX, PosCartY, PosCartZ;
     int indexEllipsoid;
+    bool ReadOnly;
 };
 
 #endif

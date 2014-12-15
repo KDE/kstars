@@ -66,6 +66,9 @@ LocationDialog::LocationDialog( QWidget* parent ) :
             ld->DSTRuleBox->addItem( key );
     }
 
+    ld->RemoveButton->setIcon(QIcon::fromTheme("list-remove"));
+    ld->UpdateButton->setIcon(QIcon::fromTheme("svn-update"));
+
     connect( ld->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
     connect( ld->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
     connect( ld->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
@@ -79,13 +82,15 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     connect( ld->GeoBox, SIGNAL( itemSelectionChanged () ), this, SLOT( changeCity() ) );
     connect( ld->AddCityButton, SIGNAL( clicked() ), this, SLOT( addCity() ) );
     connect( ld->ClearFieldsButton, SIGNAL( clicked() ), this, SLOT( clearFields() ) );
+    connect( ld->RemoveButton, SIGNAL(clicked()), this, SLOT(removeCity()));
+    connect( ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
     ld->DSTLabel->setText( "<a href=\"showrules\">" + xi18n("DST Rule:") + "</a>" );
     connect( ld->DSTLabel, SIGNAL( linkActivated(const QString &) ), this, SLOT( showTZRules() ) );
 
     dataModified = false;
     nameModified = false;
-    ld->AddCityButton->setEnabled( false );
+    ld->AddCityButton->setEnabled( false );    
 
     initCityList();
     resize (640, 480);    
@@ -145,6 +150,7 @@ void LocationDialog::filterCity() {
     nameModified = false;
     dataModified = false;
     ld->AddCityButton->setEnabled( false );
+    ld->UpdateButton->setEnabled( false );
 
     foreach ( GeoLocation *loc, data->getGeoList() ) {
         QString sc( loc->translatedName() );
@@ -209,17 +215,50 @@ void LocationDialog::changeCity() {
                 break;
             }
         }
+
+        ld->RemoveButton->setEnabled(SelectedCity->isReadOnly() == false);
     }
 
     nameModified = false;
     dataModified = false;
     ld->AddCityButton->setEnabled( false );
+    ld->UpdateButton->setEnabled( false );
 }
 
-bool LocationDialog::addCity( ) {
-    KStarsData* data = KStarsData::Instance();
-    if ( !nameModified && !dataModified ) {
-        QString message = xi18n( "This City already exists in the database." );
+bool LocationDialog::addCity()
+{
+    return updateCity(CITY_ADD);
+}
+
+bool LocationDialog::updateCity()
+{
+    if (SelectedCity == NULL)
+        return false;
+
+    return updateCity(CITY_UPDATE);
+
+}
+
+bool LocationDialog::removeCity()
+{
+    if (SelectedCity == NULL)
+        return false;
+
+    return updateCity(CITY_REMOVE);
+}
+
+
+bool LocationDialog::updateCity(CityOperation operation)
+{
+    if (operation == CITY_REMOVE)
+    {
+        QString message = xi18n( "Are you sure you want to remove %1?", selectedCityName() );
+        if ( KMessageBox::questionYesNo( 0, message, xi18n( "Remove City?" )) == KMessageBox::No )
+            return false; //user answered No.
+    }
+    else if (!nameModified && !dataModified )
+    {
+        QString message = xi18n( "This city already exists in the database." );
         KMessageBox::sorry( 0, message, xi18n( "Error: Duplicate Entry" ) );
         return false;
     }
@@ -231,20 +270,26 @@ bool LocationDialog::addCity( ) {
     TimeZoneString.replace( QLocale().decimalPoint(), "." );
     double TZ = TimeZoneString.toDouble( &tzOk );
 
-    if ( ld->NewCityName->text().isEmpty() || ld->NewCountryName->text().isEmpty() ) {
+    if ( ld->NewCityName->text().isEmpty() || ld->NewCountryName->text().isEmpty() )
+    {
         QString message = xi18n( "All fields (except province) must be filled to add this location." );
         KMessageBox::sorry( 0, message, xi18n( "Fields are Empty" ) );
         return false;
-    } else if ( ! latOk || ! lngOk ) {
+    } else if ( ! latOk || ! lngOk )
+    {
         QString message = xi18n( "Could not parse the Latitude/Longitude." );
         KMessageBox::sorry( 0, message, xi18n( "Bad Coordinates" ) );
         return false;
-    } else if( ! tzOk) {
+    } else if( ! tzOk)
+    {
     	QString message = xi18n( "Could not parse coordinates." );
         KMessageBox::sorry( 0, message, xi18n( "Bad Coordinates" ) );
         return false;
-    } else {
-        if ( !nameModified ) {
+    }
+    else
+    {
+        if ( !nameModified )
+        {
             QString message = xi18n( "Really override original data for this city?" );
             if ( KMessageBox::questionYesNo( 0, message, xi18n( "Override Existing Data?" ), KGuiItem(xi18n("Override Data")), KGuiItem(xi18n("Do Not Override"))) == KMessageBox::No )
                 return false; //user answered No.
@@ -283,9 +328,9 @@ bool LocationDialog::addCity( ) {
             //Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
             GeoLocation *g = new GeoLocation( lng, lat,
                                               ld->NewCityName->text(), ld->NewProvinceName->text(), ld->NewCountryName->text(),
-                                              TZ, &data->Rulebook[ TZrule ] );
+                                              TZ, & KStarsData::Instance()->Rulebook[ TZrule ] );
             // FIXME: Uses friendship
-            data->geoList.append( g );
+            KStarsData::Instance()->getGeoList().append( g );
 
             //(possibly) insert new city into GeoBox by running filterCity()
             filterCity();
@@ -363,6 +408,7 @@ void LocationDialog::clearFields() {
     nameModified = true;
     dataModified = false;
     ld->AddCityButton->setEnabled( false );
+    ld->UpdateButton->setEnabled( false );
     ld->NewCityName->setFocus();
 }
 
@@ -436,6 +482,10 @@ void LocationDialog::dataChanged() {
     ld->AddCityButton->setEnabled( !ld->NewCityName->text().isEmpty() &&
                                    !ld->NewCountryName->text().isEmpty() &&
                                    checkLongLat() );
+
+    ld->UpdateButton->setEnabled(!ld->NewCityName->text().isEmpty() &&
+                                 !ld->NewCountryName->text().isEmpty() &&
+                                 checkLongLat());
 }
 
 void LocationDialog::slotOk() {

@@ -21,8 +21,8 @@
 #include "timezonerule.h"
 
 
-GeoLocation::GeoLocation( dms lng, dms lat,
-                          const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
+GeoLocation::GeoLocation(dms lng, dms lat,
+                          const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, bool readOnly, int iEllips, double hght ) {
     Longitude = lng;
     Latitude = lat;
     Name = name;
@@ -32,14 +32,15 @@ GeoLocation::GeoLocation( dms lng, dms lat,
     TZrule = tzrule;
     Height = hght;
     indexEllipsoid = iEllips;
-    setEllipsoid ( indexEllipsoid );
+    ReadOnly = readOnly;
+    setEllipsoid ( indexEllipsoid );    
     geodToCart();
 }
 
-GeoLocation::GeoLocation( double x, double y, double z,
+GeoLocation::GeoLocation(double x, double y, double z,
                           const QString &name, const QString &province,
                           const QString &country, double TZ,
-                          TimeZoneRule *tzrule, int iEllips ) {
+                          TimeZoneRule *tzrule, bool readOnly, int iEllips ) {
     PosCartX = x;
     PosCartY = y;
     PosCartZ = z;
@@ -49,6 +50,7 @@ GeoLocation::GeoLocation( double x, double y, double z,
     TimeZone = TZ;
     TZrule = tzrule;
     indexEllipsoid = iEllips;
+    ReadOnly = readOnly;
     setEllipsoid ( indexEllipsoid );
     cartToGeod();
 }
@@ -170,3 +172,15 @@ double GeoLocation::LMST( double jd )
     divresult = (int)( ( theta + Longitude.radians() ) / ( 2. * dms::PI ) );
     return( ( theta + Longitude.radians() ) - (double)divresult * 2. * dms::PI );
 }
+
+bool GeoLocation::isReadOnly() const
+{
+    return ReadOnly;
+}
+
+void GeoLocation::setReadOnly(bool value)
+{
+    ReadOnly = value;
+}
+
+

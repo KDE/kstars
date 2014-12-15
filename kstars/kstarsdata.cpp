@@ -46,16 +46,6 @@
 #include "dialogs/detaildialog.h"
 
 namespace {
-    // Convert string to integer and complain on failure.
-    //
-    // This function is used in processCity
-    bool strToInt(int& i, QString str, QString line = QString()) {
-        bool ok;
-        i = str.toInt( &ok );
-        if( !ok )
-            qDebug() << str << xi18n( "\nCities.dat: Bad integer.  Line was:\n" ) << line;
-        return ok;
-    }
 
     // Report fatal error during data loading to user
     // Calls QApplication::exit
@@ -148,7 +138,7 @@ bool KStarsData::initialize() {
     //Load Cities//
     emit progressText( xi18n("Loading city data") );
     if ( !readCityData( ) ) {
-        fatalErrorMessage( "Cities.dat" );
+        fatalErrorMessage( "citydb.sqlite" );
         return false;
     }
 
@@ -316,7 +306,7 @@ GeoLocation* KStarsData::locationNamed( const QString &city, const QString &prov
 void KStarsData::setLocationFromOptions() {
     setLocation( GeoLocation ( dms(Options::longitude()), dms(Options::latitude()),
                                Options::cityName(), Options::provinceName(), Options::countryName(),
-                               Options::timeZone(), &(Rulebook[ Options::dST() ]), 4, Options::elevation() ) );
+                               Options::timeZone(), &(Rulebook[ Options::dST() ]), false, 4, Options::elevation() ) );
 }
 
 void KStarsData::setLocation( const GeoLocation &l ) {
@@ -347,114 +337,76 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
     return skyComposite()->findByName( name );
 }
 
-bool KStarsData::readCityData() {
-    QFile file;
-    bool citiesFound = false;
-
-    if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-        KSFileReader fileReader( file ); // close file is included
-        while ( fileReader.hasMoreLines() ) {
-            citiesFound |= processCity( fileReader.readLine() );
-        }
-        file.close();
+bool KStarsData::readCityData()
+{
+    QSqlDatabase citydb = QSqlDatabase::addDatabase("QSQLITE", "citydb");
+    QString dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, "citydb.sqlite");
+    //QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "citydb.sqlite";
+    citydb.setDatabaseName(dbfile);
+    if (citydb.open() == false)
+    {
+        qWarning() << "Unable to open city database file " << dbfile << endl;
+        return false;
     }
 
-    //check for local cities database, but don't require it.
-    //determine filename in local user KDE directory tree.
-    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, "mycities.dat" ) );
-    if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
-        QTextStream stream( &file );
-        while ( !stream.atEnd() ) {
-            QString line = stream.readLine();
-            citiesFound |= processCity( line );
+     QSqlQuery get_query(citydb);
+
+     //get_query.prepare("SELECT * FROM city");
+     if (!get_query.exec("SELECT * FROM city"))
+     {
+         qDebug() << get_query.lastError();
+         return false;
+     }
+
+     bool citiesFound = false;
+     // get_query.size() always returns -1 so we set citiesFound if at least one city is found
+     while (get_query.next())
+     {
+         citiesFound          = true;
+         QString name         = get_query.value(1).toString();
+         QString province     = get_query.value(2).toString();
+         QString country      = get_query.value(3).toString();
+         dms lat              = dms(get_query.value(4).toString());
+         dms lng              = dms(get_query.value(5).toString());
+         double TZ            = get_query.value(6).toDouble();
+         TimeZoneRule *TZrule = &( Rulebook[ get_query.value(7).toString() ] );
+
+         // appends city names to list
+         geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule, true));
+     }
+    citydb.close();
+
+    // Reading local database
+    QSqlDatabase mycitydb = QSqlDatabase::addDatabase("QSQLITE", "mycitydb");
+    dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, "mycitydb.sqlite");
+    mycitydb.setDatabaseName(dbfile);
+    if (mycitydb.open())
+    {
+        QSqlQuery get_query(mycitydb);
+
+        if (!get_query.exec("SELECT * FROM city"))
+        {
+            qDebug() << get_query.lastError();
+            return false;
         }
-        file.close();
+        while (get_query.next())
+        {
+            QString name         = get_query.value(1).toString();
+            QString province     = get_query.value(2).toString();
+            QString country      = get_query.value(3).toString();
+            dms lat              = dms(get_query.value(4).toString());
+            dms lng              = dms(get_query.value(5).toString());
+            double TZ            = get_query.value(6).toDouble();
+            TimeZoneRule *TZrule = &( Rulebook[ get_query.value(7).toString() ] );
+
+            // appends city names to list
+            geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule, false));
+        }
+       mycitydb.close();
+
     }
 
     return citiesFound;
-}
-
-bool KStarsData::processCity( const QString& line ) {
-    TimeZoneRule *TZrule;
-    double TZ;
-
-    // separate fields
-    QStringList fields = line.split( ':' );
-    for(int i = 0; i < fields.size(); ++i )
-        fields[i] = fields[i].trimmed();
-
-    if ( fields.size() < 11 ) {
-        qDebug() << xi18n( "Cities.dat: Ran out of fields.  Line was:" );
-        qDebug() << line;
-        return false;
-    } else if ( fields.size() < 12 ) {
-        // allow old format (without TZ) for mycities.dat
-        fields.append(QString());
-        fields.append("--");
-    } else if ( fields.size() < 13 ) {
-        // Set TZrule to "--"
-        fields.append("--");
-    }
-
-    // Read names
-    QString name     = fields[0];
-    QString province = fields[1];
-    QString country  = fields[2];
-
-    // Read coordinates
-    int lngD, lngM, lngS;
-    int latD, latM, latS;
-    bool ok =
-        strToInt(latD, fields[3], line) &&
-        strToInt(latM, fields[4], line) &&
-        strToInt(latS, fields[5], line) &&
-        strToInt(lngD, fields[7], line) &&
-        strToInt(lngM, fields[8], line) &&
-        strToInt(lngS, fields[9], line);
-    if( !ok )
-        return false;
-
-    double lat = latD + (latM + latS/60.0)/60.0;
-    double lng = lngD + (lngM + lngS/60.0)/60.0;
-
-    // Read sign for latitude
-    switch( fields[6].at(0).toLatin1() ) {
-    case 'N' : break;
-    case 'S' : lat *= -1; break;
-    default :
-        qDebug() << xi18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << line;
-        return false;
-    }
-
-    // Read sign for longitude
-    switch( fields[10].at(0).toLatin1() ) {
-    case 'E' : break;
-    case 'W' : lng *= -1; break;
-    default:
-        qDebug() << xi18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << line;
-        return false;
-    }
-
-    // find time zone. Use value from Cities.dat if available.
-    // otherwise use the old approximation: int(lng/15.0);
-    if ( fields[11].isEmpty() || ('x' == fields[11].at(0)) ) {
-        TZ = int(lng/15.0);
-    } else {
-        bool doubleCheck;
-        TZ = fields[11].toDouble( &doubleCheck);
-        if ( !doubleCheck ) {
-            qDebug() << fields[11] << xi18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
-            return false;
-        }
-    }
-
-    //last field is the TimeZone Rule ID.
-    // FIXME: no checking performed. Crash is possible
-    TZrule = &( Rulebook[ fields[12] ] );
-
-    // appends city names to list
-    geoList.append ( new GeoLocation( dms(lng), dms(lat), name, province, country, TZ, TZrule ));
-    return true;
 }
 
 bool KStarsData::readTimeZoneRulebook() {
