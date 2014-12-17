@@ -39,6 +39,7 @@ public:
 
     // Common commands
     bool getFrame(int *x, int *y, int *w, int *h);
+    bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
     bool setFrame(int x, int y, int w, int h);
     bool getFocusFrame(int *x, int *y, int *w, int *h);
     bool setFocusFrame(int x, int y, int w, int h);

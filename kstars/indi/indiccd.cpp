@@ -122,6 +122,59 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
 
 }
 
+bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH)
+{
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDER_FRAME");
+        break;
+
+    }
+
+    if (frameProp == NULL)
+        return false;
+
+    INumber *arg = IUFindNumber(frameProp, "X");
+    if (arg == NULL)
+        return false;
+
+    *minX = arg->min;
+    *maxX = arg->max;
+
+
+    arg = IUFindNumber(frameProp, "Y");
+    if (arg == NULL)
+        return false;
+
+    *minY = arg->min;
+    *maxY = arg->max;
+
+    arg = IUFindNumber(frameProp, "WIDTH");
+    if (arg == NULL)
+        return false;
+
+    *minW = arg->min;
+    *maxW = arg->max;
+
+
+    arg = IUFindNumber(frameProp, "HEIGHT");
+    if (arg == NULL)
+        return false;
+
+    *minH = arg->min;
+    *maxH = arg->max;
+
+    return true;
+
+}
+
 bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
 {
 

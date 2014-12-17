@@ -442,16 +442,19 @@ void rguider::capture()
         w=square_size*2*binx;
         h=square_size*2*biny;
 
+        int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+        targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+
         is_subframed = true;
 
-        if (x<0)
-            x=0;
-        if (y<0)
-            y=0;
-        if ((w+x)>fw)
-            w=fw-x;
-        if ((h+y)>fh)
-            h=fh-y;
+        if (x<minX)
+            x=minX;
+        if (y<minY)
+            y=minY;
+        if ((w+x)>maxW)
+            w=maxW-x;
+        if ((h+y)>maxH)
+            h=maxH-y;
 
         pmath->set_video_params(w, h);
 
