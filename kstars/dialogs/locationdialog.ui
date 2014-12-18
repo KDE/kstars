@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>760</width>
+    <width>776</width>
     <height>559</height>
    </rect>
   </property>
@@ -323,14 +323,14 @@
             <property name="spacing">
              <number>6</number>
             </property>
-            <item row="0" column="0">
+            <item row="1" column="0">
              <widget class="QLabel" name="LongLabel">
               <property name="text">
                <string>Longitude:</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
+            <item row="1" column="1">
              <widget class="dmsBox" name="NewLong">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -346,7 +346,14 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="0" column="0">
+             <widget class="QLabel" name="LatLabel">
+              <property name="text">
+               <string>Latitude:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
              <widget class="dmsBox" name="NewLat">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -359,13 +366,6 @@
                 <width>100</width>
                 <height>0</height>
                </size>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="LatLabel">
-              <property name="text">
-               <string>Latitude:</string>
               </property>
              </widget>
             </item>
@@ -545,6 +545,83 @@
           </item>
          </layout>
         </item>
+        <item>
+         <widget class="QLabel" name="errorLabel">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>255</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="Text">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>255</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="Text">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>190</red>
+                <green>190</green>
+                <blue>190</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="Text">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>190</red>
+                <green>190</green>
+                <blue>190</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -571,14 +648,16 @@
   <tabstop>CountryFilter</tabstop>
   <tabstop>GeoBox</tabstop>
   <tabstop>NewCityName</tabstop>
+  <tabstop>NewProvinceName</tabstop>
+  <tabstop>NewCountryName</tabstop>
+  <tabstop>NewLat</tabstop>
   <tabstop>NewLong</tabstop>
   <tabstop>TZBox</tabstop>
-  <tabstop>NewProvinceName</tabstop>
-  <tabstop>NewLat</tabstop>
   <tabstop>DSTRuleBox</tabstop>
-  <tabstop>NewCountryName</tabstop>
-  <tabstop>ClearFieldsButton</tabstop>
   <tabstop>AddCityButton</tabstop>
+  <tabstop>UpdateButton</tabstop>
+  <tabstop>RemoveButton</tabstop>
+  <tabstop>ClearFieldsButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

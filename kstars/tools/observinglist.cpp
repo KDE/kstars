@@ -1310,5 +1310,3 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
     return finalObjectName;
 
 }
-
-
