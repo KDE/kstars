@@ -94,8 +94,10 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     nameModified = false;
     ld->AddCityButton->setEnabled( false );    
 
+    ld->errorLabel->setText( QString() );
+
     initCityList();
-    resize (640, 480);    
+    resize (640, 480);
 }
 
 void LocationDialog::initCityList() {
@@ -575,12 +577,29 @@ void LocationDialog::dataChanged() {
     ld->AddCityButton->setEnabled( nameModified && !ld->NewCityName->text().isEmpty() &&
                                    !ld->NewCountryName->text().isEmpty() &&
                                    checkLongLat() );
-
-
     if (SelectedCity)
         ld->UpdateButton->setEnabled(SelectedCity->isReadOnly() == false && !ld->NewCityName->text().isEmpty()
                                  && !ld->NewCountryName->text().isEmpty() &&
                                  checkLongLat());
+
+    if( !addCityEnabled() ) {
+        if( ld->NewCityName->text().isEmpty() ) {
+            ld->errorLabel->setText( xi18n( "Cannot add new location -- city name blank" ) );
+        }
+        else if( ld->NewCountryName->text().isEmpty() ) {
+            ld->errorLabel->setText( xi18n( "Cannot add new location -- country name blank" ) );
+        }
+        else if( !checkLongLat() ) {
+            ld->errorLabel->setText( xi18n( "Cannot add new location -- invalid latitude / longitude" ) );
+        }
+        else {
+            ld->errorLabel->setText( xi18n( "Cannot add new location -- please check all fields" ) );
+        }
+    }
+    else {
+        ld->errorLabel->setText( QString() );
+    }
+
 }
 
 void LocationDialog::slotOk() {
