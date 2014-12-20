@@ -534,7 +534,7 @@ Verify if the following time, date, and location settings are correct. If any of
          <property name="text" >
           <string>&lt;h3>4. Determine Connection Port&lt;/h3>
 
-Enter the port number your telescope is connected to. If you only have one serial port in your computer, the port is usually &lt;tt>/dev/ttyS0&lt;/tt>
+Enter the port number your telescope is connected to. If you only have one serial port in your computer, the port is usually &lt;tt>/dev/ttyUSB0&lt;/tt>
 &lt;br>&lt;br>If you are unsure about the port number, you can leave the field empty and KStars will try to scan the ports for attached telescopes. Beware that the autoscan process might take a few minutes to complete. </string>
          </property>
          <property name="alignment" >
