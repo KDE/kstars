@@ -103,9 +103,8 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "DEVICE_PORT"))
     {
-        switch (driverInfo->getType())
+        if (driverInfo->getType() == KSTARS_TELESCOPE || QString(prop->getDeviceName()) == Options::remoteScopeName())
         {
-            case KSTARS_TELESCOPE:
             //qDebug() << "device port for Telescope!!!!!" << endl;
             if (Options::telescopePort().isEmpty() == false)
             {
@@ -118,9 +117,9 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 clientManager->sendNewText(prop->getText());
 
             }
-            break;
-
-        case KSTARS_FOCUSER:
+        }
+        else if (driverInfo->getType() == KSTARS_FOCUSER || QString(prop->getDeviceName()) == Options::remoteFocuserName())
+        {
             //qDebug() << "device port for CCD!!!!!" << endl;
             if (Options::focuserPort().isEmpty() == false)
             {
@@ -133,9 +132,9 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 clientManager->sendNewText(prop->getText());
 
             }
-            break;
-
-        case KSTARS_FILTER:
+        }
+        else if (driverInfo->getType() == KSTARS_FILTER || QString(prop->getDeviceName()) == Options::remoteFilterName())
+        {
             //qDebug() << "device port for CCD!!!!!" << endl;
             if (Options::filterPort().isEmpty() == false)
             {
@@ -148,9 +147,9 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 clientManager->sendNewText(prop->getText());
 
            }
-           break;
-
-        case KSTARS_VIDEO:
+        }
+        else if (driverInfo->getType() == KSTARS_VIDEO || driverInfo->getType() == KSTARS_CCD || QString(prop->getDeviceName()) == Options::remoteCCDName())
+        {
             if (Options::videoPort().isEmpty() == false)
             {
                 IText *tp = IUFindText(prop->getText(), "PORT");
@@ -162,9 +161,6 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 clientManager->sendNewText(prop->getText());
 
             }
-            break;
-            default:
-                break;
         }
 
     }
