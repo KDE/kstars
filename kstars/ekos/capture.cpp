@@ -1585,7 +1585,9 @@ void Capture::loadSequenceQueue()
     //QTextStream instream(&sFile);
 
     qDeleteAll(jobs);
-    queueTable->clearContents();
+    jobs.clear();
+    for (int i=0; i < queueTable->rowCount(); i++)
+        queueTable->removeRow(i);
 
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
