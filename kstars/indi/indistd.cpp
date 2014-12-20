@@ -103,17 +103,16 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "DEVICE_PORT"))
     {
+        IText *tp = IUFindText(prop->getText(), "PORT");
+        if (tp == NULL)
+            return;
+
         if (driverInfo->getType() == KSTARS_TELESCOPE || QString(prop->getDeviceName()) == Options::remoteScopeName())
         {
             //qDebug() << "device port for Telescope!!!!!" << endl;
             if (Options::telescopePort().isEmpty() == false)
             {
-                IText *tp = IUFindText(prop->getText(), "PORT");
-                if (tp == NULL)
-                    return;
-
                 IUSaveText(tp, Options::telescopePort().toLatin1().constData());
-
                 clientManager->sendNewText(prop->getText());
 
             }
@@ -123,14 +122,8 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             //qDebug() << "device port for CCD!!!!!" << endl;
             if (Options::focuserPort().isEmpty() == false)
             {
-                IText *tp = IUFindText(prop->getText(), "PORT");
-                if (tp == NULL)
-                    return;
-
                 IUSaveText(tp, Options::focuserPort().toLatin1().constData());
-
                 clientManager->sendNewText(prop->getText());
-
             }
         }
         else if (driverInfo->getType() == KSTARS_FILTER || QString(prop->getDeviceName()) == Options::remoteFilterName())
@@ -138,31 +131,26 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             //qDebug() << "device port for CCD!!!!!" << endl;
             if (Options::filterPort().isEmpty() == false)
             {
-                IText *tp = IUFindText(prop->getText(), "PORT");
-                if (tp == NULL)
-                    return;
-
                 IUSaveText(tp, Options::filterPort().toLatin1().constData());
-
                 clientManager->sendNewText(prop->getText());
-
            }
         }
         else if (driverInfo->getType() == KSTARS_VIDEO || driverInfo->getType() == KSTARS_CCD || QString(prop->getDeviceName()) == Options::remoteCCDName())
         {
             if (Options::videoPort().isEmpty() == false)
             {
-                IText *tp = IUFindText(prop->getText(), "PORT");
-                if (tp == NULL)
-                    return;
-
                 IUSaveText(tp, Options::videoPort().toLatin1().constData());
-
                 clientManager->sendNewText(prop->getText());
-
             }
         }
-
+        else if (driverInfo->getType() == KSTARS_AUXILIARY || QString(prop->getDeviceName()) == Options::remoteAuxName())
+        {
+            if (Options::videoPort().isEmpty() == false)
+            {
+                IUSaveText(tp, Options::videoPort().toLatin1().constData());
+                clientManager->sendNewText(prop->getText());
+            }
+        }
     }
     else if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useComputerSource())
     {

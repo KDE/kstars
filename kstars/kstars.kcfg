@@ -162,6 +162,11 @@
       <whatsthis>The port to which the filter is attached (e.g., /dev/ttyUSB0)</whatsthis>
       <default>/dev/ttyUSB2</default>
     </entry>
+    <entry name="auxPort" type="String">
+      <label>INDI Auxiliary port</label>
+      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default>/dev/ttyUSB3</default>
+    </entry>
     <entry name="videoPort" type="String">
       <label>INDI Video port</label>
       <whatsthis>The port to which the video device is connected</whatsthis>

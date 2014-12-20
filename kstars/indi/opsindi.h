@@ -24,15 +24,10 @@ public:
     ~OpsINDI();
 
 private slots:
-    void saveFilterAlias();
-    void updateFilterAlias(int index);
     void saveFITSDirectory();
     void saveDriversDirectory();
-    void slotApply();
-    void slotCancel();
 
 private:
-    QStringList m_filterList;
     KConfigDialog *m_ConfigDialog;
 };
 

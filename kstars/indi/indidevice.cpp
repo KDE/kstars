@@ -38,6 +38,7 @@
 
 #include "kstars.h"
 #include "skymap.h"
+#include "Options.h"
 #include "skyobjects/skyobject.h"
 #include "dialogs/timedialog.h"
 #include "geolocation.h"
@@ -273,6 +274,10 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     QTextCursor c = msgST_w->textCursor();
     c.movePosition(QTextCursor::Start);
     msgST_w->setTextCursor(c);
+
+    if (Options::showINDIMessages())
+        KStars::Instance()->statusBar()->showMessage(xi18n(dv->messageQueue(messageID).c_str()), 0);
+
 }
 
 INDI_D::~INDI_D()
