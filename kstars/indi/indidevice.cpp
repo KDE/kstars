@@ -268,15 +268,16 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     if (idv != dv)
         return;
 
+    QString message = QString::fromStdString(dv->messageQueue(messageID));
     msgST_w->ensureCursorVisible();
-    msgST_w->insertPlainText(QString::fromStdString(dv->messageQueue(messageID)));
+    msgST_w->insertPlainText(xi18nc("Message shown in INDI control panel", "%1", message));
     msgST_w->insertPlainText("\n");
     QTextCursor c = msgST_w->textCursor();
     c.movePosition(QTextCursor::Start);
     msgST_w->setTextCursor(c);
 
     if (Options::showINDIMessages())
-        KStars::Instance()->statusBar()->showMessage(xi18n(dv->messageQueue(messageID).c_str()), 0);
+        KStars::Instance()->statusBar()->showMessage(xi18nc("INDI message shown in status bar", "%1", message), 0);
 
 }
 
