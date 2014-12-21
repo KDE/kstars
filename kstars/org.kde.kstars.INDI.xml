@@ -2,21 +2,76 @@
 <node>
   <interface name="org.kde.kstars.INDI">
     <method name="startINDI">
+    <arg type="b" direction="out"/>
     <arg name="port" type="s" direction="in"/>
     <arg name="drivers" type="as" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>   
     <method name="stopINDI">
+    <arg type="b" direction="out"/>
     <arg name="port" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="connectINDI">
-    <arg name="host" type="s" direction="in"/>
-    <arg name="port" type="s" direction="in"/>
+        <arg type="b" direction="out"/>
+        <arg name="host" type="s" direction="in"/>
+        <arg name="port" type="s" direction="in"/>
     </method>
     <method name="disconnectINDI">
-    <arg name="host" type="s" direction="in"/>
-    <arg name="port" type="s" direction="in"/>
+        <arg type="b" direction="out"/>
+        <arg name="host" type="s" direction="in"/>
+        <arg name="port" type="s" direction="in"/>
+    </method>
+    <method name="getINDIProperties">
+        <arg type="as" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+    </method>
+    <method name="getINDIPropertyState">
+        <arg type="s" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+    </method>
+    <method name="sendINDIProperty">
+        <arg type="b" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+    </method>
+    <method name="setINDISwitch">
+        <arg type="b" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="switchName" type="s" direction="in"/>
+        <arg name="status" type="s" direction="in"/>
+    </method>
+    <method name="getINDISwitch">
+        <arg type="s" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="switchName" type="s" direction="in"/>
+    </method>
+    <method name="setINDIText">
+        <arg type="b" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="textName" type="s" direction="in"/>
+        <arg name="text" type="s" direction="in"/>
+    </method>
+    <method name="getINDIText">
+        <arg type="s" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="textName" type="s" direction="in"/>
+    </method>
+    <method name="setINDINumber">
+        <arg type="b" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="numberName" type="s" direction="in"/>
+        <arg name="value" type="d" direction="in"/>
+    </method>
+    <method name="getINDINumber">
+        <arg type="d" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="numberName" type="s" direction="in"/>
     </method>
   </interface>
 </node>

@@ -25,12 +25,12 @@ public:
     * @param port Port used to establish INDI server. If empty, default port 7624 is used.
     * @param drivers List of drivers executables to run
     */
-    Q_SCRIPTABLE Q_NOREPLY void startINDI (const QString &port, const QStringList &drivers);
+    Q_SCRIPTABLE bool startINDI (const QString &port, const QStringList &drivers);
 
     /**DBUS interface function.  Stops INDI server running on the given port
       @param port Port of existing INDI server to stop
     */
-    Q_SCRIPTABLE Q_NOREPLY void stopINDI (const QString &port);
+    Q_SCRIPTABLE bool stopINDI (const QString &port);
 
     /**DBUS interface function. Connect to an INDI server
     * @host hostname of INDI server to connect to.
@@ -43,6 +43,78 @@ public:
     * @param port Port of INDI server.
     */
     Q_SCRIPTABLE bool disconnectINDI (const QString &host, const QString &port);
+
+    /**DBUS interface function. Returns a list of INDI properties
+    * @device device name
+    * @returns List of INDI properties in the format DEVICE.PROPERTY.ELEMENT.
+    */
+    Q_SCRIPTABLE QStringList getINDIProperties(const QString &device);
+
+    /**DBUS interface function. Returns INDI property state
+    * @device device name
+    * @property property name
+    * @returns Idle, Ok, Busy, or Alert. If no property is found, it returns "Invalid"
+    */
+    Q_SCRIPTABLE QString getINDIPropertyState(const QString &device, const QString &property);
+
+    /**DBUS interface function. Sends propery to INDI server
+    * @device device name
+    * @property property name
+    * @returns true if property is found and sent to INDI server, false otherwise.
+    */
+    Q_SCRIPTABLE bool sendINDIProperty(const QString &device, const QString &property);
+
+    /**DBUS interface function. Set INDI Switch status
+    * @device device name
+    * @property property name
+    * @switchName switch name
+    * @status Either On or Off.
+    * /note This function ONLY sets the switch status but does not send it to INDI server. Use sendProperty to send a switch to INDI server.
+    */
+    Q_SCRIPTABLE bool setINDISwitch(const QString &device, const QString &property, const QString &switchName, const QString &status);
+
+    /**DBUS interface function. Returns INDI switch status
+    * @device device name
+    * @property property name
+    * @switchName switch name
+    * @returns On or Off if switch is found. If no switch is found, it returns "Invalid".
+    */
+    Q_SCRIPTABLE QString getINDISwitch(const QString &device, const QString &property, const QString &switchName);
+
+    /**DBUS interface function. Set INDI Text
+    * @device device name
+    * @property property name
+    * @textName text element name
+    * @text text value
+    * /note This function ONLY sets the text value but does not send it to INDI server. Use sendProperty to send a text to INDI server.
+    */
+    Q_SCRIPTABLE bool setINDIText(const QString &device, const QString &property, const QString &textName, const QString &text);
+
+    /**DBUS interface function. Returns INDI text value
+    * @device device name
+    * @property property name
+    * @textName text element name
+    * @returns text value. If no text is found, it returns "Invalid".
+    */
+    Q_SCRIPTABLE QString getINDIText(const QString &device, const QString &property, const QString &textName);
+
+    /**DBUS interface function. Set INDI Number
+    * @device device name
+    * @property property name
+    * @NumberName number element name
+    * @value number value
+    * /note This function ONLY sets the number value but does not send it to INDI server. Use sendProperty to send a number to INDI server.
+    */
+    Q_SCRIPTABLE bool setINDINumber(const QString &device, const QString &property, const QString &numberName, double value);
+
+    /**DBUS interface function. Returns INDI number value
+    * @device device name
+    * @property property name
+    * @numberName number element name
+    * @returns number value. If no text is found, it returns NAN.
+    */
+    Q_SCRIPTABLE double getINDINumber(const QString &device, const QString &property, const QString &numberName);
+
 
 };
 
