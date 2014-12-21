@@ -73,6 +73,14 @@
         <arg name="property" type="s" direction="in"/>
         <arg name="numberName" type="s" direction="in"/>
     </method>
+    <method name="getINDIBLOB">
+        <arg type="ay" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="blobName" type="s" direction="in"/>
+        <arg name="blobFormat" type="s" direction="out"/>
+        <arg name="size" type="ui" direction="out"/>
+    </method>
   </interface>
 </node>
 

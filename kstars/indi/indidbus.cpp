@@ -197,7 +197,6 @@ QStringList INDIDBUS::getINDIProperties(const QString &device)
 QString INDIDBUS::getINDIPropertyState(const QString &device, const QString &property)
 {
     QString status = "Invalid";
-    char statusString[MAXINDIFORMAT];
 
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
@@ -494,4 +493,15 @@ double INDIDBUS:: getINDINumber(const QString &device, const QString &property, 
 
     qWarning() << "Could not find property: " << device << "." << property << "." << numberName << endl;
     return result;
+}
+
+QByteArray INDIDBUS::getINDIBLOB(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, unsigned int & size)
+{
+    QByteArray array;
+    array+= "hello";
+
+    blobFormat = ".fits";
+    size = 5000;
+
+    return array;
 }

@@ -115,6 +115,14 @@ public:
     */
     Q_SCRIPTABLE double getINDINumber(const QString &device, const QString &property, const QString &numberName);
 
+    /**DBUS interface function. Returns INDI blob
+    * @device device name
+    * @property property name
+    * @blobName blob element name
+    * @returns array of bytes containing blob.
+    */
+    Q_SCRIPTABLE QByteArray getINDIBLOB(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, unsigned int & size);
+
 
 };
 
