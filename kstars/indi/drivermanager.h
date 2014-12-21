@@ -19,7 +19,7 @@
 
 #include <lilxml.h>
 #include "ui_drivermanager.h"
-
+#include "indidbus.h"
 #include "indicommon.h"
 
 class QTreeWidgetItem;
@@ -97,6 +97,9 @@ public:
 
     void getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<DriverInfo *> > & uHosts);
 
+    void addDriver(DriverInfo *di) { driversList.append(di) ; }
+    void removeDriver(DriverInfo *di) { driversList.removeOne(di) ; }
+
     bool startDevices(QList<DriverInfo*> & dList);
     void stopDevices(const QList<DriverInfo*> & dList);
 
@@ -119,6 +122,8 @@ private:
     QList<ServerManager *> servers;
     QList<ClientManager *> clients;
     QStringList driversStringList;
+
+    INDIDBUS indiDBUS;
 
 public slots:
     //void enableDevice(INDI_D *device);

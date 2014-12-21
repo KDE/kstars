@@ -47,6 +47,7 @@ if (INDI_FOUND)
     indi/indiccd.cpp
     indi/indifocuser.cpp
     indi/indifilter.cpp
+    indi/indidbus.cpp
     indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
     indi/streamwg.cpp
@@ -386,7 +387,7 @@ set(kstars_projection_SRCS
 
 set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
-        imageviewer.cpp kstarsdcop.cpp
+        imageviewer.cpp kstarsdbus.cpp
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
 	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
@@ -461,6 +462,10 @@ set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
 
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+
+if (INDI_FOUND)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBUS)
+endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
