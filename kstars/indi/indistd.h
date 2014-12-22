@@ -19,6 +19,7 @@
 #include "indicommon.h"
 #include "fitsviewer/fitscommon.h"
 
+#define MAXINDIFILENAME 512
 
 class ClientManager;
 class DriverInfo;
@@ -139,11 +140,11 @@ protected:
 
 private:
     bool connected;
-
     DriverInfo *driverInfo;
     DeviceInfo *deviceInfo;
     INDI::BaseDevice *baseDevice;
     ClientManager *clientManager;
+    char BLOBFilename[MAXINDIFILENAME];
 
 };
 

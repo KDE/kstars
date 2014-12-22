@@ -115,6 +115,22 @@ bool INDIDBUS::disconnectINDI(const QString &host, const QString &port)
     return false;
 }
 
+QStringList INDIDBUS::getINDIDevices()
+{
+    QStringList devices;
+
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *dp = gd->getBaseDevice();
+        if (!dp)
+            continue;
+
+        devices << dp->getDeviceName();
+    }
+
+    return devices;
+}
+
 QStringList INDIDBUS::getINDIProperties(const QString &device)
 {
     QStringList properties;
@@ -270,6 +286,43 @@ bool INDIDBUS::sendINDIProperty(const QString &device, const QString &property)
     qWarning() << "Could not find property: " << device << "." << property << endl;
     return false;
 
+}
+
+QString INDIDBUS::getINDILight(const QString &device, const QString &property, const QString &lightName)
+{
+    QString status = "Invalid";
+
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *dp = gd->getBaseDevice();
+        if (!dp)
+            continue;
+
+        if (dp->getDeviceName() == device)
+        {
+            INDI::Property *prop = dp->getProperty(property.toLatin1());
+            if (prop)
+            {
+                ILightVectorProperty *lp = prop->getLight();
+                if (lp)
+                {
+                    ILight *l = IUFindLight(lp, lightName.toLatin1());
+                    if (l)
+                    {
+                        status = QString(pstateStr(l->s));
+                        return status;
+                    }
+                }
+
+            }
+
+            qWarning() << "Could not find property: " << device << "." << property << endl;
+            return status;
+        }
+    }
+
+    qWarning() << "Could not find property: " << device << "." << property << endl;
+    return status;
 }
 
 bool INDIDBUS::setINDISwitch(const QString &device, const QString &property, const QString &switchName, const QString &status)
@@ -495,13 +548,81 @@ double INDIDBUS:: getINDINumber(const QString &device, const QString &property, 
     return result;
 }
 
-QByteArray INDIDBUS::getINDIBLOB(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, unsigned int & size)
+QByteArray INDIDBUS::getINDIBLOBData(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size)
 {
     QByteArray array;
-    array+= "hello";
+    size = -1;
 
-    blobFormat = ".fits";
-    size = 5000;
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *dp = gd->getBaseDevice();
+        if (!dp)
+            continue;
 
+        if (dp->getDeviceName() == device)
+        {
+            IBLOBVectorProperty *bp = dp->getBLOB(property.toLatin1());
+            if (bp)
+            {
+                IBLOB *b = IUFindBLOB(bp, blobName.toLatin1());
+                if (b)
+                {
+                    const char *rawData = (const char *) b->blob;
+                    array = QByteArray::fromRawData(rawData, b->size);
+                    size  = b->bloblen;
+                    blobFormat = QString(b->format).trimmed();
+
+                    return array;
+                }
+
+                qWarning() << "Could not find property: " << device << "." << property << "." << blobName << endl;
+                return array;
+            }
+
+            qWarning() << "Could not find property: " << device << "." << property << "." << blobName << endl;
+            return array;
+        }
+    }
+
+    qWarning() << "Could not find property: " << device << "." << property << "." << blobName << endl;
     return array;
+}
+
+QString INDIDBUS::getINDIBLOBFile(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size)
+{
+    QString filename;
+    size = -1;
+
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *dp = gd->getBaseDevice();
+        if (!dp)
+            continue;
+
+        if (dp->getDeviceName() == device)
+        {
+            IBLOBVectorProperty *bp = dp->getBLOB(property.toLatin1());
+            if (bp)
+            {
+                IBLOB *b = IUFindBLOB(bp, blobName.toLatin1());
+                if (b)
+                {
+                    filename = QString(((char *) b->aux2));
+                    size  = b->bloblen;
+                    blobFormat = QString(b->format).trimmed();
+
+                    return filename;
+                }
+
+                qWarning() << "Could not find property: " << device << "." << property << "." << blobName << endl;
+                return filename;
+            }
+
+            qWarning() << "Could not find property: " << device << "." << property << "." << blobName << endl;
+            return filename;
+        }
+    }
+
+    qWarning() << "Could not find property: " << device << "." << property << "." << blobName << endl;
+    return filename;
 }

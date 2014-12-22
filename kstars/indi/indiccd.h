@@ -20,8 +20,6 @@ class FITSViewer;
 class FITSImage;
 class StreamWG;
 
-#define MAXINDIFILENAME 512
-
 namespace ISD
 {
 
@@ -153,14 +151,13 @@ private:
     bool HasGuideHead;
     QString		seqPrefix;
     QString     fitsDir;
-
+    char BLOBFilename[MAXINDIFILENAME];
     int seqCount;
     FITSViewer * fv;
     StreamWG *streamWindow;
     ISD::ST4 *ST4Driver;
     int normalTabID, calibrationTabID, focusTabID, guideTabID;
-    CCDChip *primaryChip, *guideChip;
-    char finalFileName[MAXINDIFILENAME];
+    CCDChip *primaryChip, *guideChip;    
 };
 
 }

@@ -20,6 +20,9 @@
         <arg name="host" type="s" direction="in"/>
         <arg name="port" type="s" direction="in"/>
     </method>
+    <method name="getINDIDevices">
+        <arg type="as" direction="out"/>
+    </method>
     <method name="getINDIProperties">
         <arg type="as" direction="out"/>
         <arg name="device" type="s" direction="in"/>
@@ -33,6 +36,12 @@
         <arg type="b" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
+    </method>
+    <method name="getINDILight">
+        <arg type="s" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="lightName" type="s" direction="in"/>
     </method>
     <method name="setINDISwitch">
         <arg type="b" direction="out"/>
@@ -73,13 +82,21 @@
         <arg name="property" type="s" direction="in"/>
         <arg name="numberName" type="s" direction="in"/>
     </method>
-    <method name="getINDIBLOB">
+    <method name="getINDIBLOBData">
         <arg type="ay" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="blobName" type="s" direction="in"/>
         <arg name="blobFormat" type="s" direction="out"/>
-        <arg name="size" type="ui" direction="out"/>
+        <arg name="size" type="i" direction="out"/>
+    </method>
+    <method name="getINDIBLOBFile">
+        <arg type="s" direction="out"/>
+        <arg name="device" type="s" direction="in"/>
+        <arg name="property" type="s" direction="in"/>
+        <arg name="blobName" type="s" direction="in"/>
+        <arg name="blobFormat" type="s" direction="out"/>
+        <arg name="size" type="i" direction="out"/>
     </method>
   </interface>
 </node>

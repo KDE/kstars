@@ -44,6 +44,11 @@ public:
     */
     Q_SCRIPTABLE bool disconnectINDI (const QString &host, const QString &port);
 
+    /**DBUS interface function. Returns a list of INDI devices
+    * @returns List of INDI device names
+    */
+    Q_SCRIPTABLE QStringList getINDIDevices();
+
     /**DBUS interface function. Returns a list of INDI properties
     * @device device name
     * @returns List of INDI properties in the format DEVICE.PROPERTY.ELEMENT.
@@ -57,7 +62,7 @@ public:
     */
     Q_SCRIPTABLE QString getINDIPropertyState(const QString &device, const QString &property);
 
-    /**DBUS interface function. Sends propery to INDI server
+    /**DBUS interface function. Sends property to INDI server
     * @device device name
     * @property property name
     * @returns true if property is found and sent to INDI server, false otherwise.
@@ -115,13 +120,33 @@ public:
     */
     Q_SCRIPTABLE double getINDINumber(const QString &device, const QString &property, const QString &numberName);
 
-    /**DBUS interface function. Returns INDI blob
+    /**DBUS interface function. Returns INDI Light state
+    * @device device name
+    * @property property name
+    * @lightName light element name
+    * @returns Idle, Ok, Busy, or Alert. If no property is found, it returns "Invalid"
+    */
+    Q_SCRIPTABLE QString getINDILight(const QString &device, const QString &property, const QString &lightName);
+
+    /**DBUS interface function. Returns INDI blob data. It can be extremely inefficient transporting large amount of data via DBUS.
     * @device device name
     * @property property name
     * @blobName blob element name
+    * @blobFormat blob element format. It is usually the extension of the blob file.
+    * @size blob element size in bytes. If -1, then there is an error.
     * @returns array of bytes containing blob.
     */
-    Q_SCRIPTABLE QByteArray getINDIBLOB(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, unsigned int & size);
+    Q_SCRIPTABLE QByteArray getINDIBLOBData(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size);
+
+    /**DBUS interface function. Returns INDI blob filename stored on the local file system.
+    * @device device name
+    * @property property name
+    * @blobName blob element name
+    * @blobFormat blob element format. It is usually the extension of a file.
+    * @size blob element size in bytes. If -1, then there is an error.
+    * @returns full file name
+    */
+    Q_SCRIPTABLE QString getINDIBLOBFile(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size);
 
 
 };

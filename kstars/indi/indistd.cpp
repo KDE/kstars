@@ -294,6 +294,9 @@ void GenericDevice::processBLOB(IBLOB* bp)
 
     filename += QString("file_") + ts +  QString(bp->format).trimmed();
 
+    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    bp->aux2 = BLOBFilename;
+
     if (dataType == DATA_ASCII)
     {
         if (bp->aux0 == NULL)

@@ -1137,8 +1137,8 @@ void CCD::processBLOB(IBLOB* bp)
         addFITSKeywords(filename);
 
     // store file name
-    strncpy(finalFileName, filename.toLatin1(), MAXINDIFILENAME);
-    bp->aux1 = finalFileName;
+    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    bp->aux2 = BLOBFilename;
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
         KStars::Instance()->statusBar()->showMessage( xi18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
