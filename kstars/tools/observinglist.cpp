@@ -1095,23 +1095,26 @@ void ObservingList::slotSaveAllImages() {
     }
 }
 
-void ObservingList::saveImage( QUrl url, QString filename ) {
+void ObservingList::saveImage( QUrl url, QString filename )
+{
 
-    //FIXME KIO::NetAccess needs to be ported to KF5
-    /*
-    if( ! QFile::exists( CurrentImagePath  ) && ! QFile::exists( CurrentTempPath ) ) {
-        if(  KIO::NetAccess::download( url, filename, mainWidget() ) ) {
-            if( QFile( CurrentImagePath ).size() < 13000 ) {//The default image is around 8689 bytes FIXME: This seems to have changed
+    if( ! QFile::exists( CurrentImagePath  ) && ! QFile::exists( CurrentTempPath ) )
+    {
+        if (KIO::file_copy(url, QUrl::fromLocalFile(filename))->exec() == true)
+        {
+            /*if( QFile( CurrentImagePath ).size() < 13000 )
+            {//The default image is around 8689 bytes FIXME: This seems to have changed
                 url = QUrl( DSSUrl );
                 KIO::NetAccess::download( url, filename, mainWidget() );
-            }
+            }*/
             saveThumbImage();
         }
-    } else if( QFile::exists( CurrentTempPath ) ) {
+    } else if( QFile::exists( CurrentTempPath ) )
+    {
         QFile f( CurrentTempPath );
         f.rename( CurrentImagePath );
     }
-    */
+
 }
 
 void ObservingList::slotSaveImage() {
