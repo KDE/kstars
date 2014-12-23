@@ -24,7 +24,6 @@
 #include <QComboBox>
 #include <KLocalizedString>
 #include <QPushButton>
-#include <KLocalizedString>
 
 #include "ui_wutdialog.h"
 

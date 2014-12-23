@@ -22,8 +22,6 @@
 #include <QSplitter>
 
 #include <KLed>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QLocale>
 #include <KMessageBox>
 #include <QDebug>

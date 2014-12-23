@@ -38,8 +38,6 @@
 #include <QTimer>
 
 #include <KLed>
-#include <QLineEdit>
-#include <QPushButton>
 #include <KLocale>
 #include <KMessageBox>
 #include <KDebug>

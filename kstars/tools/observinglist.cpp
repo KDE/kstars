@@ -70,7 +70,6 @@
 #include <QStandardPaths>
 #include <QTextEdit>
 #include <QLineEdit>
-#include <QStandardPaths>
 
 #include <cstdio>
 

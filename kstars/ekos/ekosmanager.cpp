@@ -1070,8 +1070,8 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
             captureProcess->setTelescope(scope);
         }
 
-        // For multipe devices per driver, we also add the CCD to the guider selection
-        // since the order of initilization is not guranteed in real time
+        // For multiple devices per driver, we also add the CCD to the guider selection
+        // since the order of initialization is not guranteed in real time
         if (ccd_di && ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
         {
             initGuide();

@@ -29,7 +29,6 @@
 #include <QDebug>
 #include <KMessageBox>
 #include <QSqlDatabase>
-#include <QDebug>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlTableModel>

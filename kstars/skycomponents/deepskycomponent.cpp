@@ -22,7 +22,6 @@
 
 #include <KLocalizedString>
 #include <QStandardPaths>
-#include <QStandardPaths>
 
 #include "skyobjects/deepskyobject.h"
 #include "dms.h"

@@ -105,7 +105,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
 # let our config.h be found first in any case
 include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 
-# FIXME should we explicity include it?
+# FIXME should we explicitly include it?
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(doc)

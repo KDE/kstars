@@ -19,7 +19,6 @@
 
 #include <KLocalizedString>
 #include <QStandardPaths>
-#include <QStandardPaths>
 
 
 KStarsSplash::KStarsSplash(const QString& customMessage )

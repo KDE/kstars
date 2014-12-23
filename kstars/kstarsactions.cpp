@@ -41,7 +41,6 @@
 #include <QIcon>
 #include <QTemporaryFile>
 #include <QStandardPaths>
-#include <QInputDialog>
 
 #include <KActionCollection>
 #include <KActionMenu>
@@ -95,7 +94,6 @@
 
 #include <config-kstars.h>
 #include <KSharedConfig>
-#include <QStandardPaths>
 
 #ifdef HAVE_INDI
 #include "indi/telescopewizardprocess.h"

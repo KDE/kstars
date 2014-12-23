@@ -42,7 +42,6 @@
 #include "timezonerule.h"
 
 #include <config-kstars.h>
-#include <QStandardPaths>
 #include "dialogs/detaildialog.h"
 
 namespace {

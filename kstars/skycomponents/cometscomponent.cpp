@@ -33,7 +33,6 @@
 #include <QDebug>
 #include <QFile>
 #include <QPen>
-#include <QStandardPaths>
 
 #include <KJobUiDelegate>
 #include <KIOCore/KIO/StoredTransferJob>

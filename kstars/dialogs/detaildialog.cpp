@@ -24,7 +24,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QTreeWidgetItem>
-#include <QLineEdit>
 #include <QPushButton>
 #include <QTemporaryFile>
 #include <QDebug>

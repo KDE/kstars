@@ -24,7 +24,6 @@
 #include <QDateTime>
 #include <QSplitter>
 #include <QLineEdit>
-#include <QPushButton>
 #include <QDebug>
 #include <QComboBox>
 #include <QStatusBar>

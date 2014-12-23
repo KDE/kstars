@@ -266,7 +266,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
         if ( type() == SkyMap::Orthographic ) {
             daz = daz * 1.4;
         }
-        daz = qMin(90.0, daz);
+        daz = qMin(qreal(90.0), daz);
     }
 
     double faz = m_vp.focus->az().Degrees();

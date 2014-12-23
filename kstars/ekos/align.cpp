@@ -27,7 +27,6 @@
 #include "fitsviewer/fitsview.h"
 
 #include "ekosmanager.h"
-#include "kstars.h"
 
 #include "onlineastrometryparser.h"
 #include "offlineastrometryparser.h"

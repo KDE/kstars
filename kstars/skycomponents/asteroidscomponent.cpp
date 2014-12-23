@@ -32,7 +32,6 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QPen>
-#include <QStandardPaths>
 
 #include <KIOCore/KIO/Job>
 #include <KJobUiDelegate>

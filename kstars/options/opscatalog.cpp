@@ -22,7 +22,6 @@
 #include <QTextStream>
 #include <QFileDialog>
 
-#include <QFileDialog>
 #include <KActionCollection>
 #include <KConfigDialog>
 

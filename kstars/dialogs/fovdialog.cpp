@@ -31,7 +31,6 @@
 #include <KActionCollection>
 #include <KLocalizedString>
 #include <kcolorbutton.h>
-#include <KLocalizedString>
 #include <KMessageBox>
 
 #include "kstars.h"

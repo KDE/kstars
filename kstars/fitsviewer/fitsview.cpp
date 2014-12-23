@@ -36,7 +36,6 @@
 #include <QDebug>
 #include <QAction>
 #include <QStatusBar>
-#include <QProgressDialog>
 #include <QFileDialog>
 
 #include <KActionCollection>

@@ -43,7 +43,6 @@
 //QVector<SkyPoint *> StarObject::Trail;
 // END DEBUG
 
-#include <cmath>
 #include <KLocalizedString>
 
 //----- Static Methods -----
