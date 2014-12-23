@@ -144,3 +144,12 @@ QString KSUtils::toDirectionString( dms angle ) {
 
     return i18nc( "Abbreviated cardinal / intercardinal etc. direction", directions[ index ] );
 }
+
+
+QList<SkyObject *> * KSUtils::castStarObjListToSkyObjList( QList<StarObject *> *starObjList ) {
+    QList<SkyObject *> *skyObjList = new QList<SkyObject *>();
+    foreach( StarObject *so, *starObjList ) {
+        skyObjList->append( so );
+    }
+    return skyObjList;
+}

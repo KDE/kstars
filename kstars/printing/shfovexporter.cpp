@@ -33,7 +33,8 @@ bool ShFovExporter::calculatePath(const SkyPoint &src, const SkyPoint &dest, dou
     m_Src = src;
     m_Dest = dest;
 
-    m_Path = m_StarHopper.computePath(src, dest, fov, maglim);
+    m_skyObjList = KSUtils::castStarObjListToSkyObjList( m_StarHopper.computePath(src, dest, fov, maglim) );
+    m_Path = *m_skyObjList;
     if(m_Path.isEmpty())
     {
         return false;
@@ -52,15 +53,9 @@ bool ShFovExporter::exportPath()
     }
 
     // Show path on SkyMap
-    QList<SkyObject*> *mutablestarlist = new QList<SkyObject*>;
-    foreach(const StarObject *conststar, m_Path)
-    {
-        StarObject *mutablestar = const_cast<StarObject*>(conststar);
-        mutablestarlist->append(mutablestar);
-    }
     TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
     delete t->list;
-    t->list = mutablestarlist;
+    t->list = m_skyObjList;
 
     // Update SkyMap now
     m_Map->forceUpdate(true);

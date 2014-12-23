@@ -32,6 +32,7 @@
 using namespace Eigen;
 #include <QPointF>
 #include "dms.h"
+#include "skyobjects/starobject.h"
 
 class QFile;
 class QString;
@@ -127,6 +128,14 @@ namespace KSUtils {
      *@return A localized string corresponding to the approximate direction (eg: NNW)
      */
     QString toDirectionString( dms angle );
+    /**
+     *@short Converts StarObject list into SkyObject list
+     *@param starObjList QList of StarObject pointers
+     *@return Returns a pointer to QList of SkyObject pointers
+     *@note Used for Star-Hopper
+     */
+    QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> *starObjList );
+
 
 }
 

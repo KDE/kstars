@@ -19,6 +19,7 @@
 #define SHFOVEXPORTER_H
 
 #include "starhopper.h"
+#include "ksutils.h"
 
 class SkyMap;
 class PrintingWizard;
@@ -66,7 +67,8 @@ private:
     SkyPoint m_Src;
     SkyPoint m_Dest;
     PrintingWizard *m_ParentWizard;
-    QList<StarObject const *> m_Path;
+    QList<SkyObject *> m_Path;
+    QList<SkyObject *> *m_skyObjList;
 };
 
 #endif // SHFOVEXPORTER_H

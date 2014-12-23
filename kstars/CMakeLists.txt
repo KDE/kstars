@@ -171,6 +171,7 @@ set(libkstarstools_SRCS
 #        tools/moonphasetool.cpp
 	tools/starhopper.cpp
 	tools/eyepiecefield.cpp
+        tools/starhopperdialog.cpp
 	)
 
 ki18n_wrap_ui(libkstarstools_SRCS
@@ -233,6 +234,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
 	tools/flagmanager.ui
         tools/whatsinteresting/wilpsettings.ui
         tools/whatsinteresting/wiequipsettings.ui
+        tools/starhopperdialog.ui
         )
 
 

@@ -27,7 +27,16 @@
 #include <QList>
 
 
-QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_ ) {
+QList<StarObject *> * StarHopper::computePath( const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__ ) {
+    QList<const StarObject *> starHopList_const = computePath_const( src, dest, fov__, maglim__ );
+    QList<StarObject *> *starHopList_unconst = new QList<StarObject *>();
+    foreach( const StarObject *so, starHopList_const ) {
+        starHopList_unconst->append( const_cast<StarObject *>( so ) );
+    }
+    return starHopList_unconst;
+}
+
+QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_ ) {
 
     fov = fov_;
     maglim = maglim_;

@@ -76,10 +76,7 @@
 #include "skymapgldraw.h"
 #endif
 
-// DEBUG TODO: Remove later -- required to display starhop results for debug.
-#include "skycomponents/targetlistcomponent.h"
-
-#include "starhopper.h"
+#include "starhopperdialog.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -551,7 +548,7 @@ void SkyMap::slotEndRulerMode() {
         box->show();
     }
     else { // Star Hop
-        StarHopper hopper;
+        StarHopperDialog *shd = new StarHopperDialog( this );
         const SkyPoint &startHop = *AngularRuler.point( 0 );
         const SkyPoint &stopHop = *clickedPoint();
         double fov; // Field of view in arcminutes
@@ -582,19 +579,8 @@ void SkyMap::slotEndRulerMode() {
 
             qDebug() << "fov = " << fov;
 
-            QList<const StarObject *> path = hopper.computePath( startHop, stopHop, fov/60.0, 9.0 ); // FIXME: Hardcoded magnitude limits for testing
-
-            QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>(); // FIXME: Memory leak
-            qDebug() << "path count: " << path.count();
-            foreach( const StarObject *conststar, path ) {
-                StarObject *mutablestar = const_cast<StarObject *>(conststar); // FIXME: Ugly const_cast
-                mutablestarlist->append( mutablestar );
-                qDebug() << "Added star!";
-            }
-
-            TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
-            delete t->list;
-            t->list = mutablestarlist;
+            shd->starHop( startHop, stopHop, fov/60.0, 9.0 ); //FIXME: Hardcoded maglimit value
+            shd->show();
         }
 
         rulerMode = false;

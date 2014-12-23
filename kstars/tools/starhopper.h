@@ -30,10 +30,17 @@
 #include "starobject.h"
 
 class StarHopper {
-
  public:
-
-    QList<StarObject const *> computePath( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_ );
+    /**
+     *@short Computes path for Star Hop
+     *@param src SkyPoint to source of the Star Hop
+     *@param dest SkyPoint to destination of the Star Hop
+     *@param fov__ Field of view within which stars are considered
+     *@param maglim__ Magnitude limit of stars to consider
+     *@return QList of StarObject pointers which are the resultant path to Star Hop
+     *@note The StarObjects in the list returned are mutable and not constant
+     */
+    QList<StarObject *> * computePath( const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__ );
 
  private:
     float fov;
@@ -63,6 +70,10 @@ class StarHopper {
     void reconstructPath( SkyPoint const *curr_node );
 
     QHash< SkyPoint const *, QString > patternNames; // if patterns were identified, they are added to this hash.
+
+ protected:
+    //Returns a list of constant StarObject pointers which form the resultant path of Star Hop
+    QList<const StarObject *> computePath_const( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_ );
 
 };
 
