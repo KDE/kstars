@@ -45,9 +45,9 @@ OpsINDI::OpsINDI( KStars *_ks )
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));    
 
-    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+    //connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ),  m_ConfigDialog, SLOT( slotApply() ) );
+    //connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), m_ConfigDialog, SLOT( slotApply() ) );
+    //connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), m_ConfigDialog, SLOT( slotCancel() ) );
 }
 
 
