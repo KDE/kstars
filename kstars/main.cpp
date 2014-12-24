@@ -46,8 +46,8 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData( "kstars", xi18n("KStars"), KSTARS_VERSION, xi18n(description), KAboutLicense::GPL,
                           xi18n("(c) 2001-2015, The KStars Team"), xi18n(notice), "http://edu.kde.org/kstars");
-    aboutData.addAuthor(xi18n("Jason Harris"),QString(), "jharris@30doradus.org", "http://www.30doradus.org");
-    aboutData.addAuthor(xi18n("Jasem Mutlaq"), QString(), "mutlaqja@ikarustech.com", "http://www.indilib.org");
+    aboutData.addAuthor(xi18n("Jason Harris"), xi18n("Original Author"), "jharris@30doradus.org", "http://www.30doradus.org");
+    aboutData.addAuthor(xi18n("Jasem Mutlaq"), xi18n("Current Maintainer"), "mutlaqja@ikarustech.com", "http://www.indilib.org");
     aboutData.addAuthor(xi18n("James Bowlin"), QString(), "bowlin@mindspring.com");
     aboutData.addAuthor(xi18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
     aboutData.addAuthor(xi18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(xi18n("Ana-Maria Constantin"), xi18n("Technical documentation on Astronomy and KStars") );
     aboutData.addCredit(xi18n("Andrew Stepanenko"), xi18n("Guiding code based on lin_guider") );
     aboutData.addCredit(xi18n("Nuno Pinheiro"), xi18n("Artwork") );
-    aboutData.addCredit(xi18n("Utkarsh Simha"), xi18n("Improvements to observation plan execution") );
+    aboutData.addCredit(xi18n("Utkarsh Simha"), xi18n("Improvements to observation plan execution, star hopper etc.") );
 
     KAboutData::setApplicationData(aboutData);
 
