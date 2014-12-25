@@ -299,12 +299,12 @@ void DeepSkyComponent::loadData()
             appendIndex( o, &m_OtherIndex, trixel );
         }
 
-        //Add name to the list of object names
-        if ( ! name.isEmpty() )
+        //Add name to the list of object names if it does not exist already
+        if ( ! name.isEmpty() && !objectNames(type).contains(name))
             objectNames(type).append( name );
 
         //Add long name to the list of object names
-        if ( ! longname.isEmpty() && longname != name )
+        if ( ! longname.isEmpty() && longname != name  && !objectNames(type).contains(longname))
             objectNames(type).append( longname );
 
         deep_sky_parser.ShowProgress();

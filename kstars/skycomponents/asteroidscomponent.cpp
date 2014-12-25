@@ -126,7 +126,13 @@ void AsteroidsComponent::loadData() {
         full_name = row_content["full name"].toString();
         full_name = full_name.trimmed();
         int catN  = full_name.section(' ', 0, 0).toInt();
+
         name = full_name.section(' ', 1, -1);
+
+        //JM temporary hack to avoid Europa,Io, and Asterope duplication
+        if (name == "Europa" || name == "Io" || name == "Asterope")
+            name += i18n(" (Asteroid)");
+
         mJD  = row_content["epoch_mjd"].toInt();
         q    = row_content["q"].toDouble();
         a    = row_content["a"].toDouble();

@@ -366,7 +366,6 @@ bool StarComponent::loadStaticData()
     bool swapBytes = false;
     BinFileHelper dataReader, nameReader;
     QString name, gname, visibleName;
-    StarObject plainStarTemplate;
     StarObject *star;
 
     if(starsLoaded)
@@ -460,13 +459,14 @@ bool StarComponent::loadStaticData()
             star->init( &stardata );
             if( star->getHDIndex() != 0 && name == xi18n("star"))
                 name = QString("HD %1").arg(star->getHDIndex());
+
             star->setNames( name, visibleName );
             star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             ++nstars;
 
             if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
 
-            if ( ! name.isEmpty() ) {
+            if ( ! name.isEmpty() && name != xi18n("star")) {
                 objectNames(SkyObject::STAR).append( name );
             }
             if ( ! visibleName.isEmpty() && gname != name ) {

@@ -80,7 +80,8 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
     //If the name contains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
     if ( name().contains( "/" ) ) {
         setLongName( name() );
-        setName( name().mid( name().indexOf("/") + 1 ) );
+        setName(name().replace("P/", " ").trimmed());
+        setName(name().remove("C/"));
     }
 
     // Try to calculate UID for comets. It's derived from comet designation.
