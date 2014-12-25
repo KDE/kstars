@@ -106,7 +106,7 @@ void HorizontalCoordinateGrid::preDraw( SkyPainter* skyp )
 {
     KStarsData *data = KStarsData::Instance();
     QColor color = data->colorScheme()->colorNamed( "HorizontalGridColor" );
-    skyp->setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
+    skyp->setPen( QPen( QBrush( color ), 2, Qt::DotLine ) );
 }
 
 void HorizontalCoordinateGrid::update( KSNumbers* )
