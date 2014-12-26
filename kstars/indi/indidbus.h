@@ -1,4 +1,4 @@
-/*  INDI DBUS Interface
+/*   INDI DBUS Interface
     Copyright (C) 2014 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This application is free software; you can redistribute it and/or
@@ -21,114 +21,114 @@ class INDIDBUS : public QObject
 public:
     explicit INDIDBUS(QObject *parent = 0);
 
-    /**DBUS interface function.  Start INDI server locally on the given port and drivers list
-    * @param port Port used to establish INDI server. If empty, default port 7624 is used.
+    /**DBUS interface function.  Start  server locally on the given port and drivers list
+    * @param port Port used to establish  server. If empty, default port 7624 is used.
     * @param drivers List of drivers executables to run
     */
-    Q_SCRIPTABLE bool startINDI (const QString &port, const QStringList &drivers);
+    Q_SCRIPTABLE bool start (const QString &port, const QStringList &drivers);
 
-    /**DBUS interface function.  Stops INDI server running on the given port
-      @param port Port of existing INDI server to stop
+    /**DBUS interface function.  Stops  server running on the given port
+      @param port Port of existing  server to stop
     */
-    Q_SCRIPTABLE bool stopINDI (const QString &port);
+    Q_SCRIPTABLE bool stop (const QString &port);
 
-    /**DBUS interface function. Connect to an INDI server
-    * @host hostname of INDI server to connect to.
-    * @param port Port of INDI server.
+    /**DBUS interface function. Connect to an  server
+    * @host hostname of  server to connect to.
+    * @param port Port of  server.
     */
-    Q_SCRIPTABLE bool connectINDI (const QString &host, const QString &port);
+    Q_SCRIPTABLE bool connect (const QString &host, const QString &port);
 
-    /**DBUS interface function. Disconnect from an INDI server
-    * @host hostname of INDI server to disconnect.
-    * @param port Port of INDI server.
+    /**DBUS interface function. Disconnect from an  server
+    * @host hostname of  server to disconnect.
+    * @param port Port of  server.
     */
-    Q_SCRIPTABLE bool disconnectINDI (const QString &host, const QString &port);
+    Q_SCRIPTABLE bool disconnect (const QString &host, const QString &port);
 
-    /**DBUS interface function. Returns a list of INDI devices
-    * @returns List of INDI device names
+    /**DBUS interface function. Returns a list of  devices
+    * @returns List of  device names
     */
-    Q_SCRIPTABLE QStringList getINDIDevices();
+    Q_SCRIPTABLE QStringList getDevices();
 
-    /**DBUS interface function. Returns a list of INDI properties
+    /**DBUS interface function. Returns a list of  properties
     * @device device name
-    * @returns List of INDI properties in the format DEVICE.PROPERTY.ELEMENT.
+    * @returns List of  properties in the format DEVICE.PROPERTY.ELEMENT.
     */
-    Q_SCRIPTABLE QStringList getINDIProperties(const QString &device);
+    Q_SCRIPTABLE QStringList getProperties(const QString &device);
 
-    /**DBUS interface function. Returns INDI property state
+    /**DBUS interface function. Returns  property state
     * @device device name
     * @property property name
     * @returns Idle, Ok, Busy, or Alert. If no property is found, it returns "Invalid"
     */
-    Q_SCRIPTABLE QString getINDIPropertyState(const QString &device, const QString &property);
+    Q_SCRIPTABLE QString getPropertyState(const QString &device, const QString &property);
 
-    /**DBUS interface function. Sends property to INDI server
+    /**DBUS interface function. Sends property to  server
     * @device device name
     * @property property name
-    * @returns true if property is found and sent to INDI server, false otherwise.
+    * @returns true if property is found and sent to  server, false otherwise.
     */
-    Q_SCRIPTABLE bool sendINDIProperty(const QString &device, const QString &property);
+    Q_SCRIPTABLE bool sendProperty(const QString &device, const QString &property);
 
-    /**DBUS interface function. Set INDI Switch status
+    /**DBUS interface function. Set  Switch status
     * @device device name
     * @property property name
     * @switchName switch name
     * @status Either On or Off.
-    * /note This function ONLY sets the switch status but does not send it to INDI server. Use sendProperty to send a switch to INDI server.
+    * /note This function ONLY sets the switch status but does not send it to  server. Use sendProperty to send a switch to  server.
     */
-    Q_SCRIPTABLE bool setINDISwitch(const QString &device, const QString &property, const QString &switchName, const QString &status);
+    Q_SCRIPTABLE bool setSwitch(const QString &device, const QString &property, const QString &switchName, const QString &status);
 
-    /**DBUS interface function. Returns INDI switch status
+    /**DBUS interface function. Returns  switch status
     * @device device name
     * @property property name
     * @switchName switch name
     * @returns On or Off if switch is found. If no switch is found, it returns "Invalid".
     */
-    Q_SCRIPTABLE QString getINDISwitch(const QString &device, const QString &property, const QString &switchName);
+    Q_SCRIPTABLE QString getSwitch(const QString &device, const QString &property, const QString &switchName);
 
-    /**DBUS interface function. Set INDI Text
+    /**DBUS interface function. Set  Text
     * @device device name
     * @property property name
     * @textName text element name
     * @text text value
-    * /note This function ONLY sets the text value but does not send it to INDI server. Use sendProperty to send a text to INDI server.
+    * /note This function ONLY sets the text value but does not send it to  server. Use sendProperty to send a text to  server.
     */
-    Q_SCRIPTABLE bool setINDIText(const QString &device, const QString &property, const QString &textName, const QString &text);
+    Q_SCRIPTABLE bool setText(const QString &device, const QString &property, const QString &textName, const QString &text);
 
-    /**DBUS interface function. Returns INDI text value
+    /**DBUS interface function. Returns  text value
     * @device device name
     * @property property name
     * @textName text element name
     * @returns text value. If no text is found, it returns "Invalid".
     */
-    Q_SCRIPTABLE QString getINDIText(const QString &device, const QString &property, const QString &textName);
+    Q_SCRIPTABLE QString getText(const QString &device, const QString &property, const QString &textName);
 
-    /**DBUS interface function. Set INDI Number
+    /**DBUS interface function. Set  Number
     * @device device name
     * @property property name
     * @NumberName number element name
     * @value number value
-    * /note This function ONLY sets the number value but does not send it to INDI server. Use sendProperty to send a number to INDI server.
+    * /note This function ONLY sets the number value but does not send it to  server. Use sendProperty to send a number to  server.
     */
-    Q_SCRIPTABLE bool setINDINumber(const QString &device, const QString &property, const QString &numberName, double value);
+    Q_SCRIPTABLE bool setNumber(const QString &device, const QString &property, const QString &numberName, double value);
 
-    /**DBUS interface function. Returns INDI number value
+    /**DBUS interface function. Returns  number value
     * @device device name
     * @property property name
     * @numberName number element name
     * @returns number value. If no text is found, it returns NAN.
     */
-    Q_SCRIPTABLE double getINDINumber(const QString &device, const QString &property, const QString &numberName);
+    Q_SCRIPTABLE double getNumber(const QString &device, const QString &property, const QString &numberName);
 
-    /**DBUS interface function. Returns INDI Light state
+    /**DBUS interface function. Returns  Light state
     * @device device name
     * @property property name
     * @lightName light element name
     * @returns Idle, Ok, Busy, or Alert. If no property is found, it returns "Invalid"
     */
-    Q_SCRIPTABLE QString getINDILight(const QString &device, const QString &property, const QString &lightName);
+    Q_SCRIPTABLE QString getLight(const QString &device, const QString &property, const QString &lightName);
 
-    /**DBUS interface function. Returns INDI blob data. It can be extremely inefficient transporting large amount of data via DBUS.
+    /**DBUS interface function. Returns  blob data. It can be extremely inefficient transporting large amount of data via DBUS.
     * @device device name
     * @property property name
     * @blobName blob element name
@@ -136,9 +136,9 @@ public:
     * @size blob element size in bytes. If -1, then there is an error.
     * @returns array of bytes containing blob.
     */
-    Q_SCRIPTABLE QByteArray getINDIBLOBData(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size);
+    Q_SCRIPTABLE QByteArray getBLOBData(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size);
 
-    /**DBUS interface function. Returns INDI blob filename stored on the local file system.
+    /**DBUS interface function. Returns  blob filename stored on the local file system.
     * @device device name
     * @property property name
     * @blobName blob element name
@@ -146,7 +146,7 @@ public:
     * @size blob element size in bytes. If -1, then there is an error.
     * @returns full file name
     */
-    Q_SCRIPTABLE QString getINDIBLOBFile(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size);
+    Q_SCRIPTABLE QString getBLOBFile(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size);
 
 
 };

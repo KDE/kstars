@@ -14,6 +14,7 @@
 
 #include <QTimer>
 #include <QUrl>
+#include <QtDBus/QtDBus>
 
 #include "ui_capture.h"
 
@@ -29,10 +30,9 @@ class KDirWatch;
 namespace Ekos
 {
 
-
 class SequenceJob : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT    
 
     public:
 
@@ -106,9 +106,6 @@ class SequenceJob : public QObject
     void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
     void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
 
-
-
-
 signals:
     void prepareComplete();
 
@@ -153,6 +150,7 @@ class Capture : public QWidget, public Ui::Capture
 {
 
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Capture")
 
 public:
 
@@ -160,6 +158,10 @@ public:
 
     Capture();
     ~Capture();
+
+    Q_SCRIPTABLE Q_NOREPLY void selectCCD(QString device);
+    Q_SCRIPTABLE bool loadSequenceQueue(const QUrl &fileURL);
+
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
     void addGuideHead(ISD::GDInterface *newCCD);
@@ -177,12 +179,12 @@ public:
 public slots:
 
     /* Capture */
-    void startSequence();
-    void stopSequence();
+    Q_SCRIPTABLE Q_NOREPLY void startSequence();
+    Q_SCRIPTABLE Q_NOREPLY void stopSequence();
     void captureOne();
     void captureImage();
     void newFITS(IBLOB *bp);
-    void checkCCD(int CCDNum=-1);
+    void checkCCD(int CCDNum=-1);    
     void checkFilter(int filterNum=-1);
     void processCCDNumber(INumberVectorProperty *nvp);
 

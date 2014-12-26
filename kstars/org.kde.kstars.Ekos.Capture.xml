@@ -1,0 +1,20 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.Ekos.Capture">
+    <method name="loadSequenceQueue">
+        <arg type="b" direction="out"/>
+        <arg name="fileURL" type="s" direction="in"/>
+    </method>
+    <method name="selectCCD">
+        <arg name="device" type="s" direction="in"/>
+        <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="startSequence">
+        <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>   
+    <method name="stopSequence">
+        <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+  </interface>
+</node>
+

@@ -23,12 +23,14 @@
 #include <QDialog>
 #include <QHash>
 #include <QtMultimedia/QMediaPlayer>
+#include <QtDBus/QtDBus>
 
 class DriverInfo;
 
 class EkosManager : public QDialog, public Ui::EkosManager
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
 
 public:
     EkosManager(QWidget *parent);
@@ -41,10 +43,15 @@ public:
     void playOk();
     void playError();
 
+    Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
+    Q_SCRIPTABLE bool isConnected() { return disconnectB->isEnabled();}
+    Q_SCRIPTABLE bool start();
+    Q_SCRIPTABLE bool stop();
+
 public slots:
     void processINDI();
-    void connectDevices();
-    void disconnectDevices();
+    Q_SCRIPTABLE Q_NOREPLY void connectDevices();
+    Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
     void cleanDevices();
 
     void processNewDevice(ISD::GDInterface*);

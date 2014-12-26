@@ -53,6 +53,7 @@
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
+#include "ekos/ekosmanager.h"
 #endif
 
 //This file contains functions that kstars calls at startup (except constructors).
@@ -587,6 +588,9 @@ void KStars::datainitFinished() {
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
+    #ifdef HAVE_INDI
+    ekosmenu = new EkosManager(this);
+    #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )

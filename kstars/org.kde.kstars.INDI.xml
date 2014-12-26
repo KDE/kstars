@@ -1,88 +1,88 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.INDI">
-    <method name="startINDI">
+    <method name="start">
     <arg type="b" direction="out"/>
     <arg name="port" type="s" direction="in"/>
     <arg name="drivers" type="as" direction="in"/>
     </method>   
-    <method name="stopINDI">
+    <method name="stop">
     <arg type="b" direction="out"/>
     <arg name="port" type="s" direction="in"/>
     </method>
-    <method name="connectINDI">
+    <method name="connect">
         <arg type="b" direction="out"/>
         <arg name="host" type="s" direction="in"/>
         <arg name="port" type="s" direction="in"/>
     </method>
-    <method name="disconnectINDI">
+    <method name="disconnect">
         <arg type="b" direction="out"/>
         <arg name="host" type="s" direction="in"/>
         <arg name="port" type="s" direction="in"/>
     </method>
-    <method name="getINDIDevices">
+    <method name="getDevices">
         <arg type="as" direction="out"/>
     </method>
-    <method name="getINDIProperties">
+    <method name="getProperties">
         <arg type="as" direction="out"/>
         <arg name="device" type="s" direction="in"/>
     </method>
-    <method name="getINDIPropertyState">
+    <method name="getPropertyState">
         <arg type="s" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
     </method>
-    <method name="sendINDIProperty">
+    <method name="sendProperty">
         <arg type="b" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
     </method>
-    <method name="getINDILight">
+    <method name="getLight">
         <arg type="s" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="lightName" type="s" direction="in"/>
     </method>
-    <method name="setINDISwitch">
+    <method name="setSwitch">
         <arg type="b" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="switchName" type="s" direction="in"/>
         <arg name="status" type="s" direction="in"/>
     </method>
-    <method name="getINDISwitch">
+    <method name="getSwitch">
         <arg type="s" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="switchName" type="s" direction="in"/>
     </method>
-    <method name="setINDIText">
+    <method name="setText">
         <arg type="b" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="textName" type="s" direction="in"/>
         <arg name="text" type="s" direction="in"/>
     </method>
-    <method name="getINDIText">
+    <method name="getText">
         <arg type="s" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="textName" type="s" direction="in"/>
     </method>
-    <method name="setINDINumber">
+    <method name="setNumber">
         <arg type="b" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="numberName" type="s" direction="in"/>
         <arg name="value" type="d" direction="in"/>
     </method>
-    <method name="getINDINumber">
+    <method name="getNumber">
         <arg type="d" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
         <arg name="numberName" type="s" direction="in"/>
     </method>
-    <method name="getINDIBLOBData">
+    <method name="getBLOBData">
         <arg type="ay" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
@@ -90,7 +90,7 @@
         <arg name="blobFormat" type="s" direction="out"/>
         <arg name="size" type="i" direction="out"/>
     </method>
-    <method name="getINDIBLOBFile">
+    <method name="getBLOBFile">
         <arg type="s" direction="out"/>
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>

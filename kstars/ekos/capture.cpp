@@ -29,6 +29,7 @@
 #include "fitsviewer/fitsview.h"
 #include "kstars.h"
 #include "ekosmanager.h"
+#include "captureadaptor.h"
 
 #include "QProgressIndicator.h"
 
@@ -248,6 +249,9 @@ void SequenceJob::setCurrentFilter(int value)
 Capture::Capture()
 {
     setupUi(this);
+
+    new CaptureAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);
 
     currentCCD = NULL;
     currentTelescope = NULL;
@@ -494,6 +498,16 @@ void Capture::stopSequence()
     pi->stopAnimation();
     seqTimer->stop();
 
+}
+
+void Capture::selectCCD(QString device)
+{
+    for (int i=0; i < CCDCaptureCombo->count(); i++)
+        if (device == CCDCaptureCombo->itemText(i))
+        {
+            checkCCD(i);
+            return;
+        }
 }
 
 void Capture::checkCCD(int ccdNum)
@@ -1570,8 +1584,14 @@ void Capture::loadSequenceQueue()
     {
        QString message = xi18n( "Invalid URL: %1", fileURL.path() );
        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
+       return;
     }
 
+    loadSequenceQueue(fileURL);
+}
+
+bool Capture::loadSequenceQueue(const QUrl &fileURL)
+{
     QFile sFile;
     sFile.setFileName(fileURL.path());
 
@@ -1579,7 +1599,7 @@ void Capture::loadSequenceQueue()
     {
         QString message = xi18n( "Unable to open file %1",  fileURL.path());
         KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
-        return;
+        return false;
     }
 
     //QTextStream instream(&sFile);
@@ -1626,13 +1646,14 @@ void Capture::loadSequenceQueue()
         {
             appendLogText(QString(errmsg));
             delLilXML(xmlParser);
-            return;
+            return false;
         }
     }
 
     sequenceURL = fileURL;
     mDirty = false;
     delLilXML(xmlParser);
+    return true;
 
 }
 

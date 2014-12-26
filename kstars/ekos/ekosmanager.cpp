@@ -27,12 +27,17 @@
 #include "indi/indilistener.h"
 #include "indi/guimanager.h"
 
+#include "ekosadaptor.h"
+
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 
 EkosManager::EkosManager(QWidget *parent)
         : QDialog(parent)
 {
     setupUi(this);
+
+    new EkosAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos",  this);
 
     nDevices=0;
     useGuideHead    =false;
@@ -112,6 +117,14 @@ EkosManager::~EkosManager()
     delete playFITSFile;
     delete playOkFile;
     delete playErrorFile;
+}
+
+void EkosManager::setConnectionMode(bool isLocal)
+{
+    if (isLocal)
+        kcfg_localMode->setChecked(true);
+    else
+        kcfg_remoteMode->setChecked(true);
 }
 
 void EkosManager::processINDIModeChange()
@@ -430,10 +443,20 @@ void EkosManager::processINDI()
 {
     if (managedDevices.count() > 0 || remote_indi != NULL)
     {
-        cleanDevices();
-        return;
+        stop();
     }
+    else
+        start();
+}
 
+bool EkosManager::stop()
+{
+    cleanDevices();
+    return true;
+}
+
+bool EkosManager::start()
+{
     managedDevices.clear();
     reset();
 
@@ -502,13 +525,13 @@ void EkosManager::processINDI()
             managedDevices.append(aux_di);        
 
         if (managedDevices.empty())
-            return;
+            return false;
 
         if (ccd_di == NULL && guider_di == NULL)
         {
             KMessageBox::error(this, xi18n("Ekos requires at least one CCD or Guider to operate."));
             managedDevices.clear();
-            return;
+            return false;
         }
 
         nDevices = managedDevices.count();
@@ -586,7 +609,7 @@ void EkosManager::processINDI()
         if (DriverManager::Instance()->startDevices(managedDevices) == false)
         {
             INDIListener::Instance()->disconnect(this);
-            return;
+            return false;
         }
 
         appendLogText(xi18n("INDI services started. Please connect devices."));
@@ -599,7 +622,7 @@ void EkosManager::processINDI()
             INDIListener::Instance()->disconnect(this);
             delete (remote_indi);
             remote_indi=0;
-            return;
+            return false;
         }
 
         appendLogText(xi18n("INDI services started. Connection to %1 at %2 is successful.", Options::remoteHost(), Options::remotePort()));
@@ -613,6 +636,8 @@ void EkosManager::processINDI()
     controlPanelB->setEnabled(false);
 
     processINDIB->setText(xi18n("Stop INDI"));
+
+    return true;
 
 
 }
