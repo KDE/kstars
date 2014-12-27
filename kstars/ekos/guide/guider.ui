@@ -500,7 +500,7 @@
                <widget class="QComboBox" name="comboBox_ThresholdAlg"/>
               </item>
               <item row="3" column="0">
-               <widget class="QCheckBox" name="kfcg_guideSubFrame">
+               <widget class="QCheckBox" name="subFrameCheck">
                 <property name="toolTip">
                  <string>Subframe the image around the guide star</string>
                 </property>
@@ -510,14 +510,14 @@
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QCheckBox" name="kfcg_useRapidGuide">
+               <widget class="QCheckBox" name="rapidGuideCheck">
                 <property name="text">
                  <string>Rapid Guide</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="0">
-               <widget class="QCheckBox" name="kcfg_useDither">
+               <widget class="QCheckBox" name="ditherCheck">
                 <property name="toolTip">
                  <string>Subframe the image around the guide star</string>
                 </property>
@@ -529,7 +529,7 @@
               <item row="4" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
-                 <widget class="QDoubleSpinBox" name="kcfg_ditherPixels">
+                 <widget class="QDoubleSpinBox" name="ditherPixels">
                   <property name="minimum">
                    <double>0.100000000000000</double>
                   </property>

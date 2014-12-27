@@ -11,9 +11,7 @@
 #define guide_H
 
 #include <QTimer>
-
-//#include <KFileItemList>
-//#include <KDirLister>
+#include <QtDBus/QtDBus>
 
 #include "guide/common.h"
 #include "guide.h"
@@ -37,12 +35,25 @@ class Guide : public QWidget, public Ui::Guide
 {
 
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Guide")
 
 public:
     Guide();
     ~Guide();
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
+
+    Q_SCRIPTABLE bool selectCCD(QString device);
+    Q_SCRIPTABLE bool selectST4(QString device);
+    Q_SCRIPTABLE QStringList getST4Devices();
+    Q_SCRIPTABLE bool isCalibrationComplete();
+    Q_SCRIPTABLE bool isGuiding();
+    Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
+    Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString & value);
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationParams(int boxSize, int pulseDuration);
+    Q_SCRIPTABLE Q_NOREPLY void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
+    Q_SCRIPTABLE Q_NOREPLY void setDither(bool enable, double value);
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider);
     void setTelescope(ISD::GDInterface *newTelescope);
@@ -56,10 +67,9 @@ public:
     void appendLogText(const QString &);
     void clearLog();
 
-
     void setDECSwap(bool enable);
-    bool do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );	// do dual-axis pulse (thread-safe)
-    bool do_pulse( GuideDirection dir, int msecs );											// do single-axis pulse (thread-safe)
+    bool sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
+    bool sendPulse( GuideDirection dir, int msecs );
 
     QString getLogText() { return logText.join("\n"); }
 
@@ -70,17 +80,23 @@ public:
 
 public slots:
 
+        Q_SCRIPTABLE bool startGuiding();
+        Q_SCRIPTABLE bool stopGuiding();
+        Q_SCRIPTABLE bool startCalibration();
+        Q_SCRIPTABLE bool stopCalibration();
+        Q_SCRIPTABLE bool capture();
+
         void checkCCD(int ccdNum=-1);
         void newFITS(IBLOB*);
         void newST4(int index);
         void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
         void setUseDarkFrame(bool enable) { useDarkFrame = enable;}
         void updateGuideDriver(double delta_ra, double delta_dec);
-        bool capture();
+
         void viewerClosed();
-        void dither();        
+
+        void dither();
         void setSuspended(bool enable);
-        void stopGuiding();
 
 signals:
         void newLog();
@@ -91,7 +107,6 @@ signals:
         void ditherFailed();
         void ditherToggled(bool);
         void guideChipUpdated(ISD::CCDChip*);
-
 
 private:
     void updateGuideParams();
@@ -114,7 +129,6 @@ private:
 
     bool useGuideHead;
     bool isSuspended;
-
 
     bool useDarkFrame;
     double darkExposure;

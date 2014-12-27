@@ -1,0 +1,68 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.Ekos.Guide">
+    <method name="startGuiding">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="stopGuiding">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="startCalibration">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="stopCalibration">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="capture">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="selectCCD">
+      <arg type="b" direction="out"/>
+      <arg name="device" type="s" direction="in"/>
+    </method>
+    <method name="selectST4">
+      <arg type="b" direction="out"/>
+      <arg name="device" type="s" direction="in"/>
+    </method>
+    <method name="getST4Devices">
+      <arg type="as" direction="out"/>
+    </method>
+    <method name="isCalibrationComplete">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="isGuiding">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="setExposure">
+      <arg name="value" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setImageFilter">
+      <arg name="value" type="s" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCalibrationOptions">
+      <arg name="useTwoAxis" type="b" direction="in"/>
+      <arg name="autoCalibration" type="b" direction="in"/>
+      <arg name="useDarkFrame" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCalibrationParams">
+      <arg name="boxSize" type="i" direction="in"/>
+      <arg name="pulseDuration" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setGuideOptions">
+      <arg name="boxSize" type="i" direction="in"/>
+      <arg name="algorithm" type="s" direction="in"/>
+      <arg name="useSubFrame" type="b" direction="in"/>
+      <arg name="useRapidGuide" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setDither">
+      <arg name="enable" type="b" direction="in"/>
+      <arg name="value" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+  </interface>
+</node>

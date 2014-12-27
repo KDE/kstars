@@ -160,7 +160,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="exposureSpin">
+           <widget class="QDoubleSpinBox" name="exposureIN">
             <property name="minimum">
              <double>0.100000000000000</double>
             </property>
@@ -421,7 +421,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="solverVerbose">
+           <widget class="QCheckBox" name="kcfg_solverVerbose">
             <property name="toolTip">
              <string>Log verbose solver output</string>
             </property>
@@ -920,17 +920,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QComboBox</class>
-   <extends>QComboBox</extends>
-   <header>QComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>dmsBox</class>
    <extends>QLineEdit</extends>

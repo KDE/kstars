@@ -43,11 +43,11 @@ rguider::rguider(Ekos::Guide *parent)
 
     targetChip = NULL;
 
-    useRapidGuide = false;
+    m_useRapidGuide = false;
     first_frame = false;
-    is_subframed = false;
+    m_isSubFramed = false;
 
-    lost_star_try=0;       
+    m_lostStarTries=0;
 
 	ui.comboBox_SquareSize->clear();
 	for( i = 0;guide_squares[i].size != -1;++i )
@@ -75,13 +75,13 @@ rguider::rguider(Ekos::Guide *parent)
 	connect( ui.spinBox_MaxPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.kfcg_useRapidGuide,     SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
+    connect( ui.rapidGuideCheck,        SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
 
     connect(ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
 	connect( ui.pushButton_StartStop, SIGNAL(clicked()), this, SLOT(onStartStopButtonClick()) );
 
-    connect( ui.kcfg_useDither, SIGNAL(toggled(bool)), this, SIGNAL(ditherToggled(bool)));
+    connect( ui.ditherCheck, SIGNAL(toggled(bool)), this, SIGNAL(ditherToggled(bool)));
 
 
 	pmath = NULL;
@@ -101,13 +101,13 @@ rguider::rguider(Ekos::Guide *parent)
 	ui.frame_Graph->resize( DRIFT_GRAPH_WIDTH + 2*ui.frame_Graph->frameWidth(), DRIFT_GRAPH_HEIGHT + 2*ui.frame_Graph->frameWidth() );
 
 	// not UI vars
-	is_started = false;
-    is_ready   = false;
+    m_isStarted = false;
+    m_isReady   = false;
 	half_refresh_rate = false;
-    isDithering = false;
+    m_isDithering = false;
 
-    ui.kcfg_useDither->setChecked(Options::useDither());
-    ui.kcfg_ditherPixels->setValue(Options::ditherPixels());
+    ui.ditherCheck->setChecked(Options::useDither());
+    ui.ditherPixels->setValue(Options::ditherPixels());
     ui.spinBox_AOLimit->setValue(Options::aOLimit());
 
 }
@@ -119,37 +119,36 @@ rguider::~rguider()
 }
 
 
-void rguider::set_half_refresh_rate( bool is_half )
+void rguider::setHalfRefreshRate( bool is_half )
 {
 	half_refresh_rate = is_half;
 }
 
 
-bool rguider::is_guiding( void ) const
+bool rguider::isGuiding( void ) const
 {
-	return is_started;
+    return m_isStarted;
 }
 
 
-void rguider::set_math( cgmath *math )
+void rguider::setMathObject( cgmath *math )
 {
 	assert( math );
 	pmath = math;
 }
 
-void rguider::set_ao(bool enable)
+void rguider::setAO(bool enable)
 {
     ui.spinBox_AOLimit->setEnabled(enable);
 }
 
-double rguider::get_ao_limit()
+double rguider::getAOLimit()
 {
     return ui.spinBox_AOLimit->value();
 }
 
-void rguider::fill_interface( void )
+void rguider::setInterface( void )
 {
- const cproc_in_params *in_params;
  const cproc_out_params *out_params;
  info_params_t	info_params;
  QString str;
@@ -159,7 +158,6 @@ void rguider::fill_interface( void )
 	assert( pmath );
 
 	info_params = pmath->get_info_params();
-	in_params   = pmath->get_in_params();
 	out_params  = pmath->get_out_params();
 
 	drift_graph->get_visible_ranges( &rx, &ry );
@@ -217,7 +215,7 @@ void rguider::onXscaleChanged( int i )
  	drift_graph->set_visible_ranges( i*drift_graph->get_grid_N(), ry );
 
  	// refresh if not started
- 	if( !is_started )
+    if( !m_isStarted )
  	{
  		drift_graph->on_paint();
  //		pDriftOut->update();
@@ -234,7 +232,7 @@ void rguider::onYscaleChanged( int i )
 	drift_graph->set_visible_ranges( rx, i*drift_graph->get_grid_N() );
 
 	// refresh if not started
-	if( !is_started )
+    if( !m_isStarted )
 	{
 		drift_graph->on_paint();
 //		pDriftOut->update();
@@ -353,11 +351,76 @@ void rguider::onInputParamChanged()
 
 
 
-void rguider::set_target_chip(ISD::CCDChip *chip)
+void rguider::setTargetChip(ISD::CCDChip *chip)
 {
     targetChip = chip;
     targetChip->getFrame(&fx, &fy, &fw, &fh);
-    ui.kfcg_guideSubFrame->setEnabled(targetChip->canSubframe());
+    ui.subFrameCheck->setEnabled(targetChip->canSubframe());
+}
+
+bool rguider::start()
+{
+    Options::setUseDither(ui.ditherCheck->isChecked());
+    Options::setDitherPixels(ui.ditherPixels->value());
+    Options::setAOLimit(ui.spinBox_AOLimit->value());
+    Options::setGuidingRate(ui.spinBox_GuideRate->value());
+    Options::setEnableRAGuide(ui.checkBox_DirRA->isChecked());
+    Options::setEnableDECGuide(ui.checkBox_DirDEC->isChecked());
+    Options::setRAPropotionalGain(ui.spinBox_PropGainRA->value());
+    Options::setDECPropotionalGain(ui.spinBox_PropGainDEC->value());
+    Options::setRAIntegralGain(ui.spinBox_IntGainRA->value());
+    Options::setDECIntegralGain(ui.spinBox_IntGainDEC->value());
+    Options::setRADerivativeGain(ui.spinBox_DerGainRA->value());
+    Options::setDECDerivativeGain(ui.spinBox_DerGainDEC->value());
+    Options::setRAMaximumPulse(ui.spinBox_MaxPulseRA->value());
+    Options::setDECMaximumPulse(ui.spinBox_MaxPulseDEC->value());
+    Options::setRAMinimumPulse(ui.spinBox_MinPulseRA->value());
+    Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
+
+    if (pimage)
+        disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
+
+    drift_graph->reset_data();
+    ui.pushButton_StartStop->setText( xi18n("Stop") );
+    pmain_wnd->appendLogText(xi18n("Autoguiding started."));
+    pmath->start();
+    m_lostStarTries=0;
+    m_isStarted = true;
+    m_useRapidGuide = ui.rapidGuideCheck->isChecked();
+    if (m_useRapidGuide)
+        pmain_wnd->startRapidGuide();
+
+    emit autoGuidingToggled(true, ui.ditherCheck->isChecked());
+
+    pmain_wnd->setSuspended(false);
+
+    if (ui.subFrameCheck->isEnabled() && ui.subFrameCheck->isChecked() && m_isSubFramed == false)
+        first_frame = true;
+
+    capture();
+
+    return true;
+}
+
+bool rguider::stop()
+{
+    if (pimage)
+        connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
+    ui.pushButton_StartStop->setText( xi18n("Start Autoguide") );
+    pmain_wnd->appendLogText(xi18n("Autoguiding stopped."));
+    pmath->stop();
+
+    targetChip->abortExposure();
+
+    if (m_useRapidGuide)
+        pmain_wnd->stopRapidGuide();
+
+    emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+
+    m_isDithering = false;
+    m_isStarted = false;
+
+    return true;
 }
 
 // processing stuff
@@ -367,71 +430,17 @@ void rguider::onStartStopButtonClick()
     assert (targetChip);
 
 	// start
-	if( !is_started )
-	{
-        Options::setUseDither(ui.kcfg_useDither->isChecked());
-        Options::setDitherPixels(ui.kcfg_ditherPixels->value());
-        Options::setAOLimit(ui.spinBox_AOLimit->value());
-        Options::setGuidingRate(ui.spinBox_GuideRate->value());
-        Options::setEnableRAGuide(ui.checkBox_DirRA->isChecked());
-        Options::setEnableDECGuide(ui.checkBox_DirDEC->isChecked());
-        Options::setRAPropotionalGain(ui.spinBox_PropGainRA->value());
-        Options::setDECPropotionalGain(ui.spinBox_PropGainDEC->value());
-        Options::setRAIntegralGain(ui.spinBox_IntGainRA->value());
-        Options::setDECIntegralGain(ui.spinBox_IntGainDEC->value());
-        Options::setRADerivativeGain(ui.spinBox_DerGainRA->value());
-        Options::setDECDerivativeGain(ui.spinBox_DerGainDEC->value());
-        Options::setRAMaximumPulse(ui.spinBox_MaxPulseRA->value());
-        Options::setDECMaximumPulse(ui.spinBox_MaxPulseDEC->value());
-        Options::setRAMinimumPulse(ui.spinBox_MinPulseRA->value());
-        Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
-
-        if (pimage)
-            disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
-
-		drift_graph->reset_data();
-        ui.pushButton_StartStop->setText( xi18n("Stop") );
-        pmain_wnd->appendLogText(xi18n("Autoguiding started."));
-		pmath->start();
-        lost_star_try=0;
-		is_started = true;
-        useRapidGuide = ui.kfcg_useRapidGuide->isChecked();
-        if (useRapidGuide)
-            pmain_wnd->startRapidGuide();
-
-        emit autoGuidingToggled(true, ui.kcfg_useDither->isChecked());
-
-        pmain_wnd->setSuspended(false);
-
-        if (ui.kfcg_guideSubFrame->isEnabled() && ui.kfcg_guideSubFrame->isChecked() && is_subframed == false)
-            first_frame = true;
-
-        capture();
-	}
+    if( !m_isStarted )
+       start();
 	// stop
 	else
-	{
-        if (pimage)
-            connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
-        ui.pushButton_StartStop->setText( xi18n("Start Autoguide") );
-        pmain_wnd->appendLogText(xi18n("Autoguiding stopped."));
-		pmath->stop();
+       stop();
 
-        targetChip->abortExposure();
-
-        if (useRapidGuide)
-            pmain_wnd->stopRapidGuide();
-
-        emit autoGuidingToggled(false, ui.kcfg_useDither->isChecked());
-
-        isDithering = false;
-		is_started = false;
-	}
 }
 
 void rguider::capture()
 {
-    if (ui.kfcg_guideSubFrame->isChecked() && is_subframed == false)
+    if (ui.subFrameCheck->isChecked() && m_isSubFramed == false)
     {
         int x,y,w,h, square_size, binx, biny;
         targetChip->getBinning(&binx, &biny);
@@ -445,7 +454,7 @@ void rguider::capture()
         int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
         targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
 
-        is_subframed = true;
+        m_isSubFramed = true;
 
         if (x<minX)
             x=minX;
@@ -462,9 +471,9 @@ void rguider::capture()
 
         guideStarSelected(w/2, h/2);
     }
-    else if (ui.kfcg_guideSubFrame->isChecked() == false/* && is_subframed == true*/)
+    else if (ui.subFrameCheck->isChecked() == false/* && is_subframed == true*/)
     {
-        is_subframed = false;
+        m_isSubFramed = false;
         //targetChip->setFrame(fx, fy, fw, fh);
         targetChip->resetFrame();
     }
@@ -477,11 +486,11 @@ void rguider::onSetDECSwap(bool enable)
     pmain_wnd->setDECSwap(enable);
 }
 
-void rguider::set_dec_swap(bool enable)
+void rguider::setDECSwap(bool enable)
 {
     ui.swapCheck->disconnect(this);
     ui.swapCheck->setChecked(enable);
-    connect(ui.swapCheck, SIGNAL(toggled(bool)), this, SLOT(set_dec_swap(bool)));
+    connect(ui.swapCheck, SIGNAL(toggled(bool)), this, SLOT(setDECSwap(bool)));
 }
 
 void rguider::guide( void )
@@ -511,17 +520,17 @@ void rguider::guide( void )
 	 // calc math. it tracks square
 	 pmath->do_processing();
 
-     if(!is_started )
+     if(!m_isStarted )
 	 	 return;
 
-     if (pmath->is_lost_star() && ++lost_star_try > 2)
+     if (pmath->is_lost_star() && ++m_lostStarTries > 2)
      {
          onStartStopButtonClick();
          KMessageBox::error(NULL, xi18n("Lost track of the guide star. Try increasing the square size and check the mount."));
          return;
      }
      else
-         lost_star_try = 0;
+         m_lostStarTries = 0;
 
 	 // do pulse
 	 out = pmath->get_out_params();
@@ -538,9 +547,9 @@ void rguider::guide( void )
          maxPulseCounter=0;
      }
 
-     pmain_wnd->do_pulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
+     pmain_wnd->sendPulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
 
-     if (isDithering)
+     if (m_isDithering)
          return;
 
 	 pmath->get_star_drift( &drift_x, &drift_y );
@@ -572,11 +581,11 @@ void rguider::guide( void )
 
 }
 
-void rguider::set_image(FITSView *image)
+void rguider::setImage(FITSView *image)
 {
     pimage = image;
 
-    if (is_ready && pimage && is_started == false)
+    if (m_isReady && pimage && m_isStarted == false)
         connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 }
 
@@ -593,15 +602,15 @@ void rguider::guideStarSelected(int x, int y)
 
 void rguider::onRapidGuideChanged(bool enable)
 {
-    if (is_started)
+    if (m_isStarted)
     {
         pmain_wnd->appendLogText(xi18n("You must stop auto guiding before changing this setting."));
         return;
     }
 
-    useRapidGuide = enable;
+    m_useRapidGuide = enable;
 
-    if (useRapidGuide)
+    if (m_useRapidGuide)
     {
         pmain_wnd->appendLogText(xi18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
     }
@@ -610,25 +619,20 @@ void rguider::onRapidGuideChanged(bool enable)
 
 }
 
-void rguider::start()
+bool rguider::abort(bool silence)
 {
-    if (is_started == false)
-        onStartStopButtonClick();
-
-}
-
-void rguider::abort(bool silence)
-{
-    if (is_started == true)
+    if (m_isStarted == true)
     {
-        onStartStopButtonClick();
+        bool rc = stop();
 
         if (silence)
-            return;
+            return rc;
 
         if (Options::playGuideAlarm())
                 KStars::Instance()->ekosManager()->playError();
     }
+
+    return true;
 }
 
 bool rguider::dither()
@@ -636,7 +640,7 @@ bool rguider::dither()
     static Vector target_pos;
     static unsigned int retries=0;
 
-    if (ui.kcfg_useDither->isChecked() == false)
+    if (ui.ditherCheck->isChecked() == false)
         return false;
 
     double cur_x, cur_y, ret_angle;
@@ -646,17 +650,17 @@ bool rguider::dither()
 
     //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
 
-    if (isDithering == false)
+    if (m_isDithering == false)
     {
         retries =0;
         targetChip->abortExposure();
-        double ditherPixels = ui.kcfg_ditherPixels->value();
+        double ditherPixels = ui.ditherPixels->value();
         int polarity = (rand() %2 == 0) ? 1 : -1;
         double angle = ((double) rand() / RAND_MAX) * M_PI/2.0;
         double diff_x = ditherPixels * cos(angle);
         double diff_y = ditherPixels * sin(angle);
 
-        isDithering = true;
+        m_isDithering = true;
 
         if (pmath->get_dec_swap())
             diff_y *= -1;
@@ -677,7 +681,7 @@ bool rguider::dither()
         return true;
     }
 
-    if (isDithering == false)
+    if (m_isDithering == false)
         return false;
 
     Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( target_pos.x, target_pos.y, 0 );
@@ -690,7 +694,7 @@ bool rguider::dither()
     {
         pmath->set_reticle_params(cur_x, cur_y, ret_angle);
 
-        isDithering = false;
+        m_isDithering = false;
 
         emit ditherComplete();
     }
@@ -698,7 +702,7 @@ bool rguider::dither()
     {
         if (++retries > MAX_DITHER_RETIRES)
         {
-            isDithering = false;
+            m_isDithering = false;
             return false;
         }
 
@@ -708,6 +712,35 @@ bool rguider::dither()
     pmain_wnd->capture();
 
     return true;
+}
+
+void rguider::setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide)
+{
+    for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
+        if (ui.comboBox_SquareSize->itemText(i).toInt() == boxSize)
+        {
+            ui.comboBox_SquareSize->setCurrentIndex(i);
+            break;
+        }
+
+    for (int i=0; i < ui.comboBox_ThresholdAlg->count(); i++)
+        if (ui.comboBox_ThresholdAlg->itemText(i) == algorithm)
+        {
+            ui.comboBox_ThresholdAlg->setCurrentIndex(i);
+            break;
+        }
+
+    ui.subFrameCheck->setChecked(useSubFrame);
+    ui.rapidGuideCheck->setChecked(useRapidGuide);
+}
+
+void rguider::setDither(bool enable, double value)
+{
+    ui.ditherCheck->setChecked(enable);
+
+    if (enable && value > 0)
+        ui.ditherPixels->setValue(value);
+
 }
 
 

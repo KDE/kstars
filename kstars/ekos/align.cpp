@@ -21,6 +21,7 @@
 #include "QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
+//#include "alignadaptor.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
@@ -44,13 +45,17 @@ const float Align::SIDRATE  = 0.004178;
 Align::Align()
 {
     setupUi(this);
+    //new AlignAdaptor(this);
+    //QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align",  this);
 
     currentCCD     = NULL;
     currentTelescope = NULL;
     useGuideHead = false;
     canSync = false;
     loadSlewMode = false;
-    ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
+    isSolverComplete_m = false;
+    isSolverSuccessful_m = false;
+    ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
     parser = NULL;
@@ -58,7 +63,7 @@ Align::Align()
     onlineParser = NULL;
     offlineParser = NULL;
 
-    connect(solveB, SIGNAL(clicked()), this, SLOT(capture()));
+    connect(solveB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(stopSolving()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
@@ -70,7 +75,7 @@ Align::Align()
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
-    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadFITS()));
+    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
     connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
 
     kcfg_solverXBin->setValue(Options::solverXBin());
@@ -89,7 +94,7 @@ Align::Align()
 
     controlLayout->addWidget(pi, 0, 2, 1, 1);
 
-    exposureSpin->setValue(Options::alignExposure());
+    exposureIN->setValue(Options::alignExposure());
 
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
@@ -144,7 +149,7 @@ bool Align::parserOK()
 
 bool Align::isVerbose()
 {
-    return solverVerbose->isChecked();
+    return kcfg_solverVerbose->isChecked();
 }
 
 void Align::updateSolverType(bool useOnline)
@@ -182,6 +187,18 @@ void Align::updateSolverType(bool useOnline)
     else
         parser->disconnect();
 
+}
+
+bool Align::selectCCD(QString device)
+{
+    for (int i=0; i < CCDCaptureCombo->count(); i++)
+        if (device == CCDCaptureCombo->itemText(i))
+        {
+            checkCCD(i);
+            return true;
+        }
+
+    return false;
 }
 
 void Align::checkCCD(int ccdNum)
@@ -463,7 +480,7 @@ void Align::clearCoordBoxes()
     generateArgs();
 }
 
-bool Align::capture()
+bool Align::captureAndSolve()
 {
     if (currentCCD == NULL)
         return false;
@@ -483,7 +500,7 @@ bool Align::capture()
         return false;
     }
 
-    double seqExpose = exposureSpin->value();
+    double seqExpose = exposureIN->value();
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
@@ -533,6 +550,23 @@ void Align::newFITS(IBLOB *bp)
     startSovling(QString(finalFileName));
 }
 
+void Align::selectGOTOMode(int mode)
+{
+    switch (mode)
+    {
+        case 0:
+            syncR->setChecked(true);
+            break;
+
+        case 1:
+            slewR->setChecked(true);
+
+        default:
+            nothingR->setChecked(true);
+            break;
+    }
+}
+
 void Align::startSovling(const QString &filename, bool isGenerated)
 {
     QStringList solverArgs;
@@ -545,6 +579,9 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
     Options::setSolverOptions(kcfg_solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
+
+    isSolverComplete_m = false;
+    isSolverSuccessful_m = false;
 
     currentTelescope->getEqCoords(&ra, &dec);
 
@@ -567,6 +604,10 @@ void Align::solverFinished(double orientation, double ra, double dec)
     stopB->setEnabled(false);
     solveB->setEnabled(true);
 
+    sOrientation = orientation;
+    sRA  = ra;
+    sDEC = dec;
+
      alignCoord.setRA0(ra/15.0);
      alignCoord.setDec0(dec);
      RotOut->setText(QString("%1").arg(orientation, 0, 'g', 5));
@@ -583,6 +624,9 @@ void Align::solverFinished(double orientation, double ra, double dec)
      if (Options::playAlignmentAlarm())
              KStars::Instance()->ekosManager()->playOk();
 
+     isSolverComplete_m = true;
+     isSolverSuccessful_m = true;
+
      executeMode();
 
 }
@@ -598,6 +642,9 @@ void Align::solverFailed()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
+    isSolverComplete_m = true;
+    isSolverSuccessful_m = false;
+
 
 }
 
@@ -612,6 +659,8 @@ void Align::stopSolving()
     altStage = ALT_INIT;
 
     loadSlewMode = false;
+    isSolverComplete_m = false;
+    isSolverSuccessful_m = false;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
@@ -626,6 +675,13 @@ void Align::stopSolving()
         int elapsed = (int) round(solverTimer.elapsed()/1000.0);
         appendLogText(xi18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
     }
+}
+
+void Align::getSolutionResult(double &orientation, double &ra, double &dec)
+{
+    orientation = sOrientation;
+    ra          = sRA;
+    dec         = sDEC;
 }
 
 void Align::appendLogText(const QString &text)
@@ -669,7 +725,7 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
                 if (loadSlewMode)
                 {
                     loadSlewMode = false;
-                    capture();
+                    captureAndSolve();
                     return;
                 }
             }
@@ -1179,9 +1235,11 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
         dec_str = QString("%1:%2:%3").arg(dec_s.degree(), 2, 10, QChar('0')).arg(dec_s.arcmin(), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
 }
 
-void Align::loadFITS()
+void Align::loadAndSlew(QUrl fileURL)
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
+    if (fileURL.isEmpty())
+    fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
+
     if (fileURL.isEmpty())
         return;
 
@@ -1194,6 +1252,41 @@ void Align::loadFITS()
     pi->startAnimation();
 
     startSovling(fileURL.path(), false);
+}
+
+void Align::setExposure(double value)
+{
+    exposureIN->setValue(value);
+}
+
+void Align::setBinning(int binX, int binY)
+{
+   kcfg_solverXBin->setValue(binX);
+   kcfg_solverYBin->setValue(binY);
+}
+
+void Align::setSolverArguments(const QString & value)
+{
+    kcfg_solverOptions->setText(value);
+}
+
+void Align::setSolverSearchOptions(double ra, double dec, double radius)
+{
+    dms RA, DEC;
+    RA.setH(ra);
+    DEC.setD(dec);
+
+    raBox->setText(RA.toHMSString());
+    decBox->setText(DEC.toDMSString());
+    radiusBox->setText(QString::number(radius));
+}
+
+void Align::setSolverOptions(bool updateCoords, bool previewImage, bool verbose, bool useOAGT)
+{
+    kcfg_solverUpdateCoords->setChecked(updateCoords);
+    kcfg_solverPreview->setChecked(previewImage);
+    kcfg_solverVerbose->setChecked(verbose);
+    kcfg_solverOTA->setChecked(useOAGT);
 }
 
 }

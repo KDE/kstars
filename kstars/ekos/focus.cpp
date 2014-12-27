@@ -27,6 +27,7 @@
 #include "ekosmanager.h"
 
 #include "kstars.h"
+#include "focusadaptor.h"
 
 #include <basedevice.h>
 
@@ -42,6 +43,9 @@ Focus::Focus()
 {
     setupUi(this);
 
+    new FocusAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Focus",  this);
+
     currentFocuser = NULL;
     currentCCD     = NULL;
     currentFilter  = NULL;
@@ -55,6 +59,7 @@ Focus::Focus()
     inSequenceFocus   = false;
     starSelected      = false;
     frameModified     = false;
+    autoFocusComplete = false;
 
     HFRInc =0;
     noStarCount=0;
@@ -186,6 +191,18 @@ void Focus::resetFocusFrame()
     }
 }
 
+bool Focus::selectCCD(QString device)
+{
+    for (int i=0; i < CCDCaptureCombo->count(); i++)
+        if (device == CCDCaptureCombo->itemText(i))
+        {
+            checkCCD(i);
+            return true;
+        }
+
+    return false;
+}
+
 void Focus::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
@@ -248,6 +265,27 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
 
     FilterCaptureCombo->setCurrentIndex(0);
 
+}
+
+bool Focus::selectFilter(QString device, int filterSlot)
+{
+    bool deviceFound=false;
+
+    for (int i=0; i < FilterCaptureCombo->count(); i++)
+        if (device == FilterCaptureCombo->itemText(i))
+        {
+            checkFilter(i);
+            deviceFound = true;
+            break;
+        }
+
+    if (deviceFound == false)
+        return false;
+
+    if (filterSlot < FilterCaptureCombo->count())
+        FilterCaptureCombo->setCurrentIndex(filterSlot);
+
+    return true;
 }
 
 void Focus::checkFilter(int filterNum)
@@ -319,6 +357,18 @@ void Focus::addFocuser(ISD::GDInterface *newFocuser)
     currentFocuser = static_cast<ISD::Focuser *> (newFocuser);
 
     checkFocuser();
+}
+
+bool Focus::selectFocuser(QString device)
+{
+    for (int i=0; i < focuserCombo->count(); i++)
+        if (device == focuserCombo->itemText(i))
+        {
+            checkFilter(i);
+            return true;
+        }
+
+    return false;
 }
 
 void Focus::checkFocuser(int FocuserNum)
@@ -440,6 +490,7 @@ void Focus::checkStopFocus()
     if (inSequenceFocus == true)
     {
         inSequenceFocus = false;
+        autoFocusComplete = false;
         emit autoFocusFinished(false);
     }
 
@@ -465,6 +516,7 @@ void Focus::stopFocus()
 
     inAutoFocus = false;
     inFocusLoop = false;
+    autoFocusComplete = false;
     //starSelected= false;
     deltaHFR    = 0;
     noStarCount = 0;
@@ -694,6 +746,7 @@ void Focus::newFITS(IBLOB *bp)
             else
             {
                 noStarCount = 0;
+                autoFocusComplete = false;
                 emit autoFocusFinished(false);
             }
         }
@@ -704,7 +757,10 @@ void Focus::newFITS(IBLOB *bp)
            startFocus();
         }
         else
+        {
+            autoFocusComplete = true;
             emit autoFocusFinished(true);
+        }
 
         deltaHFR = 0;
 
@@ -850,8 +906,8 @@ void Focus::drawHFRPlot()
 
 void Focus::autoFocusAbs()
 {
-    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, initPulseDuration=0, focusOutLimit=0, focusInLimit=0;
-    static double initHFR=0, minHFR=0, initSlopeHFR=0;
+    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, focusOutLimit=0, focusInLimit=0;
+    static double minHFR=0, initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 3);
@@ -875,6 +931,7 @@ void Focus::autoFocusAbs()
     {
         appendLogText(xi18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
+        autoFocusComplete = false;
         emit autoFocusFinished(false);
         if (Options::playFocusAlarm())
                 KStars::Instance()->ekosManager()->playError();
@@ -932,14 +989,12 @@ void Focus::autoFocusAbs()
         case FOCUS_NONE:
             HFR = currentHFR;
             initHFRPos = pulseStep;
-            initHFR=HFR;
             minHFR=currentHFR;
             minHFRPos=pulseStep;
             HFRDec=0;
             HFRInc=0;
             focusOutLimit=0;
             focusInLimit=0;
-            initPulseDuration=pulseDuration;
             FocusOut(pulseDuration);
             break;
 
@@ -951,6 +1006,7 @@ void Focus::autoFocusAbs()
                 {
                     appendLogText(xi18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
                     stopFocus();
+                    autoFocusComplete = false;
                     emit autoFocusFinished(false);
                 }
                 else
@@ -958,6 +1014,7 @@ void Focus::autoFocusAbs()
                     appendLogText(xi18n("Autofocus complete."));
                     stopFocus();
                     emit suspendGuiding(false);
+                    autoFocusComplete = true;
                     emit autoFocusFinished(true);
                     if (Options::playFocusAlarm())
                             KStars::Instance()->ekosManager()->playOk();
@@ -1144,6 +1201,7 @@ void Focus::autoFocusAbs()
             appendLogText(xi18n("Autofocus complete."));
             stopFocus();
             emit suspendGuiding(false);
+            autoFocusComplete = true;
             emit autoFocusFinished(true);
             if (Options::playFocusAlarm())
                     KStars::Instance()->ekosManager()->playOk();
@@ -1155,6 +1213,7 @@ void Focus::autoFocusAbs()
         {
             appendLogText(xi18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
+            autoFocusComplete = false;
             emit autoFocusFinished(false);
             if (Options::playFocusAlarm())
                     KStars::Instance()->ekosManager()->playError();
@@ -1247,6 +1306,7 @@ void Focus::autoFocusRel()
                 appendLogText(xi18n("Autofocus complete."));                
                 stopFocus();
                 emit suspendGuiding(false);
+                autoFocusComplete = true;
                 emit autoFocusFinished(true);
                 if (Options::playFocusAlarm())
                         KStars::Instance()->ekosManager()->playOk();
@@ -1302,11 +1362,12 @@ void Focus::autoFocusRel()
         if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
             appendLogText(xi18n("Autofocus complete."));
+            stopFocus();
             emit suspendGuiding(false);
+            autoFocusComplete = true;
             emit autoFocusFinished(true);
             if (Options::playFocusAlarm())
                     KStars::Instance()->ekosManager()->playOk();
-            stopFocus();
             break;
         }
         else if (currentHFR < HFR)
@@ -1377,8 +1438,8 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
            else if (nvp->s == IPS_ALERT)
            {
                appendLogText(xi18n("Focuser error, check INDI panel."));
-               emit autoFocusFinished(false);
                stopFocus();
+               emit autoFocusFinished(false);               
                if (Options::playFocusAlarm())
                        KStars::Instance()->ekosManager()->playError();
            }
@@ -1574,6 +1635,42 @@ void Focus::filterChangeWarning(int index)
     if (index != 0)
         appendLogText(i18n("Warning: Only use filters for preview as they may interface with autofocus operation."));
 }
+
+void Focus::setExposure(double value)
+{
+    exposureIN->setValue(value);
+}
+
+void Focus::setBinning(int binX, int binY)
+{
+   kcfg_focusXBin->setValue(binX);
+   kcfg_focusYBin->setValue(binY);
+}
+
+void Focus::setImageFilter(const QString & value)
+{
+    for (int i=0; i < filterCombo->count(); i++)
+        if (filterCombo->itemText(i) == value)
+        {
+            filterCombo->setCurrentIndex(i);
+            break;
+        }
+}
+
+void Focus::setAutoFocusOptions(bool selectAutoStar, bool useSubFrame)
+{
+    kcfg_autoSelectStar->setChecked(selectAutoStar);
+    kcfg_subFrame->setChecked(useSubFrame);
+
+}
+
+void Focus::setAutoFocusParameters(int boxSize, int stepSize, double tolerance)
+{
+    kcfg_focusBoxSize->setValue(boxSize);
+    stepIN->setValue(stepSize);
+    toleranceIN->setValue(tolerance);
+}
+
 }
 
 

@@ -37,20 +37,27 @@ public:
     enum CalibrationStage { CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_FINISH, CAL_ERROR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };
     enum CalibrationType { CAL_NONE, CAL_MANUAL, CAL_RA_AUTO, CAL_RA_DEC_AUTO };
 
-    bool set_video_params( int vid_wd, int vid_ht );
-    void update_reticle_pos( double x, double y );
-    void set_math( cgmath *math );
-    void set_ccd(ISD::CCD *ccd);
 
-    void set_image(FITSView *image);
+    bool setVideoParams( int vid_wd, int vid_ht );
+    void update_reticle_pos( double x, double y );
+    void setMathObject( cgmath *math );
+    void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
+    void setCalibrationParams(int boxSize, int pulseDuration);
+    //void set_ccd(ISD::CCD *ccd);
+
+    void setImage(FITSView *image);
 
     double getReticleAngle() { return ui.spinBox_ReticleAngle->value();}
 
-    bool is_calibrating();
-    bool is_finished() { return calibrationStage == CAL_FINISH; }
-    void process_calibration();
-    CalibrationStage get_calibation_stage() { return calibrationStage; }
+    bool isCalibrating();
+    bool isAutoCalibration() { return ui.autoCalibrationCheck->isChecked(); }
+    bool isCalibrationComplete() { return calibrationStage == CAL_FINISH; }
+    void processCalibration();
+    CalibrationStage getCalibrationStage() { return calibrationStage; }
     void reset();
+
+    bool startCalibration();
+    bool stopCalibration();
 
 protected slots:
 	void onSquareSizeChanged( int index );
@@ -69,10 +76,10 @@ public slots:
 
 private:
 
-    void select_auto_star(FITSView *image);
-	void fill_interface( void );
-	void calibrate_reticle_manual( void );
-    void calibrate_reticle_by_ra_dec( bool ra_only ); // 1 or 2-axis calibration
+    QPair<double,double> selectAutoStar(FITSView *image);
+    void fillInterface( void );
+    void calibrateManualReticle( void );
+    void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
 
 	bool is_started;
 	

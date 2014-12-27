@@ -12,6 +12,7 @@
 
 #include <QProcess>
 #include <QTime>
+#include <QtDBus/QtDBus>
 
 #include <config-kstars.h>
 
@@ -33,6 +34,7 @@ class Align : public QWidget, public Ui::Align
 {
 
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Align")
 
 public:
     Align();
@@ -41,12 +43,24 @@ public:
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
 
+    Q_SCRIPTABLE bool selectCCD(QString device);
+    Q_SCRIPTABLE Q_NOREPLY void startSovling(const QString &filename, bool isGenerated=true);
+    Q_SCRIPTABLE Q_NOREPLY void selectGOTOMode(int mode);
+    Q_SCRIPTABLE Q_NOREPLY void getSolutionResult(double &orientation, double &ra, double &dec);
+    Q_SCRIPTABLE bool isSolverComplete() { return isSolverComplete_m; }
+    Q_SCRIPTABLE bool isSolverSuccessful() { return isSolverSuccessful_m; }
+    Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
+    Q_SCRIPTABLE Q_NOREPLY void setBinning(int binX, int binY);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString & value);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverSearchOptions(double ra, double dec, double radius);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverOptions(bool updateCoords, bool previewImage, bool verbose, bool useOAGT);
+
+
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
     void addGuideHead();    
     void syncCCDInfo();
-    void generateArgs();
-    void startSovling(const QString &filename, bool isGenerated=true);
+    void generateArgs();    
     void appendLogText(const QString &);
     void clearLog();
     bool parserOK();
@@ -62,11 +76,11 @@ public slots:
     void newFITS(IBLOB *bp);
 
     /* Solver */
-    bool capture();
-    void stopSolving();
+    Q_SCRIPTABLE Q_NOREPLY void stopSolving();
+    Q_SCRIPTABLE Q_NOREPLY void updateSolverType(bool useOnline);
+    Q_SCRIPTABLE bool captureAndSolve();
     void solverFinished(double orientation, double ra, double dec);
     void solverFailed();
-    void updateSolverType(bool useOnline);
 
     /* CCD & Telescope Info */
     void syncTelescopeInfo();
@@ -76,7 +90,6 @@ public slots:
     void copyCoordsToBoxes();
     void clearCoordBoxes();
 
-
     /* Polar Alignment */
     void checkPolarAlignment();
     void measureAltError();
@@ -85,7 +98,7 @@ public slots:
     void correctAltError();
 
     /* Reference Slew */
-    void loadFITS();
+     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
 
 signals:
         void newLog();
@@ -109,10 +122,13 @@ private:
     bool useGuideHead;
     bool canSync;
     bool loadSlewMode;
+    bool isSolverComplete_m;
+    bool isSolverSuccessful_m;
     QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
     int ccd_width, ccd_height;
+    double sOrientation, sRA, sDEC;
 
     SkyPoint alignCoord;
     SkyPoint targetCoord;

@@ -67,7 +67,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="exposureSpin">
+      <widget class="QDoubleSpinBox" name="exposureIN">
        <property name="maximum">
         <double>60.000000000000000</double>
        </property>

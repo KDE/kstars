@@ -500,14 +500,16 @@ void Capture::stopSequence()
 
 }
 
-void Capture::selectCCD(QString device)
+bool Capture::selectCCD(QString device)
 {
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
             checkCCD(i);
-            return;
+            return true;
         }
+
+    return false;
 }
 
 void Capture::checkCCD(int ccdNum)
@@ -696,6 +698,27 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
     }
 
 
+}
+
+bool Capture::selectFilter(QString device, int filterSlot)
+{
+    bool deviceFound=false;
+
+    for (int i=0; i < FilterCaptureCombo->count(); i++)
+        if (device == FilterCaptureCombo->itemText(i))
+        {
+            checkFilter(i);
+            deviceFound = true;
+            break;
+        }
+
+    if (deviceFound == false)
+        return false;
+
+    if (filterSlot < FilterCaptureCombo->count())
+        FilterCaptureCombo->setCurrentIndex(filterSlot);
+
+    return true;
 }
 
 void Capture::checkFilter(int filterNum)

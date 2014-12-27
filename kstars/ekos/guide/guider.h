@@ -30,24 +30,27 @@ public:
     ~rguider();
 
     void guide( void );
-    void start();
-    void abort(bool silence=false);
+    bool start();
+    bool stop();
+    bool abort(bool silence=false);
     bool dither();
-    void set_half_refresh_rate( bool is_half );
-    bool is_guiding( void ) const;
-    void set_math( cgmath *math );
-    void set_ao(bool enable);
-    void fill_interface( void );
-    void set_image(FITSView *image);
-    void set_ready(bool enable) { is_ready = enable;}
-    void set_target_chip(ISD::CCDChip *chip);
-    bool isRapidGuide() { return useRapidGuide;}
-    bool is_dithering() { return isDithering; }
-    double get_ao_limit();
-    void set_subframed(bool enable) { is_subframed = enable;}
+    void setHalfRefreshRate( bool is_half );
+    bool isGuiding( void ) const;
+    void setMathObject( cgmath *math );
+    void setAO(bool enable);
+    void setInterface( void );
+    void setImage(FITSView *image);
+    void setReady(bool enable) { m_isReady = enable;}
+    void setTargetChip(ISD::CCDChip *chip);
+    bool isRapidGuide() { return m_useRapidGuide;}
+    bool isDithering() { return m_isDithering; }
+    double getAOLimit();
+    void setSubFramed(bool enable) { m_isSubFramed = enable;}
+    void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
+    void setDither(bool enable, double value);
 
 public slots:
-    void set_dec_swap(bool enable);
+    void setDECSwap(bool enable);
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -77,17 +80,17 @@ private:
     cscroll_graph *drift_graph;
 
     FITSView *pimage;
-	bool is_started;
-    bool is_ready;
-    bool is_subframed;
+    bool m_isStarted;
+    bool m_isReady;
+    bool m_isSubFramed;
     bool first_frame;
 	bool half_refresh_rate;
-    int lost_star_try;
-    bool useRapidGuide;
+    int m_lostStarTries;
+    bool m_useRapidGuide;
     ISD::CCDChip *targetChip;
     int fx,fy,fw,fh;
     double ret_x, ret_y, ret_angle;
-    bool isDithering;
+    bool m_isDithering;
 
 private:
     Ui::guiderClass ui;

@@ -1,0 +1,71 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.Ekos.Focus">
+    <method name="startFocus">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="stopFocus">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="capture">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="FocusIn">
+      <arg name="ms" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="FocusIn">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="FocusOut">
+      <arg name="ms" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="FocusOut">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="selectCCD">
+      <arg type="b" direction="out"/>
+      <arg name="device" type="s" direction="in"/>
+    </method>
+    <method name="selectFocuser">
+      <arg type="b" direction="out"/>
+      <arg name="device" type="s" direction="in"/>
+    </method>
+    <method name="selectFilter">
+      <arg type="b" direction="out"/>
+      <arg name="device" type="s" direction="in"/>
+      <arg name="filterSlot" type="i" direction="in"/>
+    </method>
+    <method name="isAutoFocusComplete">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="setExposure">
+      <arg name="value" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setBinning">
+      <arg name="binX" type="i" direction="in"/>
+      <arg name="binY" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setImageFilter">
+      <arg name="value" type="s" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setAutoFocusOptions">
+      <arg name="selectAutoStar" type="b" direction="in"/>
+      <arg name="useSubFrame" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setAutoFocusParameters">
+      <arg name="boxSize" type="i" direction="in"/>
+      <arg name="stepSize" type="i" direction="in"/>
+      <arg name="tolerance" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="resetFrame">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+  </interface>
+</node>

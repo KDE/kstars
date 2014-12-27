@@ -75,15 +75,16 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 	connect( ui.spinBox_ReticleY, 		SIGNAL(valueChanged(double)),	this, SLOT(onReticleYChanged(double)) );
 	connect( ui.spinBox_ReticleAngle,	SIGNAL(valueChanged(double)),	this, SLOT(onReticleAngChanged(double)) );
     connect( ui.pushButton_StartCalibration, SIGNAL(clicked()), 		this, SLOT(onStartReticleCalibrationButtonClick()) );
-	connect( ui.checkBox_AutoMode, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
-    connect (ui.checkBox_DarkFrame, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
+    connect( ui.autoModeCheck, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
+    connect (ui.darkFrameCheck, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
     connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
-    ui.checkBox_DarkFrame->setChecked(Options::useDarkFrame());
-    ui.checkBox_AutoMode->setChecked( Options::useAutoMode() );
+    ui.darkFrameCheck->setChecked(Options::useDarkFrame());
+    ui.autoModeCheck->setChecked( Options::useAutoMode() );
     ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
-    ui.checkBox_TwoAxis->setChecked( Options::useTwoAxis());
+    ui.twoAxisCheck->setChecked( Options::useTwoAxis());
     ui.spinBox_DriftTime->setValue( Options::autoModeIterations() );
+    ui.autoCalibrationCheck->setChecked(Options::autoCalibration());
 
 
     idleColor.setRgb(200,200,200);
@@ -91,7 +92,7 @@ rcalibration::rcalibration(Ekos::Guide *parent)
     busyColor = Qt::yellow;
     alertColor = Qt::red;
 
-    fill_interface();
+    fillInterface();
 }
 
 
@@ -100,7 +101,7 @@ rcalibration::~rcalibration()
 
 }
 
-void rcalibration::fill_interface( void )
+void rcalibration::fillInterface( void )
 {
  double rx, ry, rang;
 
@@ -115,7 +116,7 @@ void rcalibration::fill_interface( void )
  	ui.spinBox_ReticleAngle->setValue( rang );
  	ui.progressBar->setValue( 0 );
 
-    if (is_calibrating() && ui.checkBox_AutoMode->isChecked())
+    if (isCalibrating() && ui.autoModeCheck->isChecked())
         ui.progressBar->setVisible(true);
     else
         ui.progressBar->setVisible(false);
@@ -123,7 +124,7 @@ void rcalibration::fill_interface( void )
 }
 
 
-bool rcalibration::set_video_params( int vid_wd, int vid_ht )
+bool rcalibration::setVideoParams( int vid_wd, int vid_ht )
 {
 	if( vid_wd <= 0 || vid_ht <= 0 )
 		return false;
@@ -144,7 +145,7 @@ void rcalibration::update_reticle_pos( double x, double y )
 	ui.spinBox_ReticleY->setValue( y );
 }
 
-void rcalibration::set_math( cgmath *math )
+void rcalibration::setMathObject( cgmath *math )
 {
 	assert( math );
 	pmath = math;
@@ -213,14 +214,30 @@ void rcalibration::onReticleAngChanged( double val )
 void rcalibration::onStartReticleCalibrationButtonClick()
 {
 
-    if (!pmath)
-        return;
-
     if (calibrationStage > CAL_START)
     {
-        reset();
+        stopCalibration();
         return;
     }
+
+    startCalibration();
+
+}
+
+bool rcalibration::stopCalibration()
+{
+    if (!pmath)
+        return false;
+
+    reset();
+
+    return true;
+}
+
+bool rcalibration::startCalibration()
+{
+    if (!pmath)
+        return false;
 
     bool ccdInfo=true, scopeInfo=true;
     QString errMsg;
@@ -246,7 +263,7 @@ void rcalibration::onStartReticleCalibrationButtonClick()
     if (ccdInfo == false || scopeInfo == false)
     {
             KMessageBox::error(this, xi18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg));
-            return;
+            return false;
     }
 
     if (pmath->get_image())
@@ -258,28 +275,31 @@ void rcalibration::onStartReticleCalibrationButtonClick()
     pmain_wnd->capture();
 
     Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
-    Options::setUseAutoMode(ui.checkBox_AutoMode->isChecked());
-    Options::setUseTwoAxis(ui.checkBox_TwoAxis->isChecked());
-    Options::setUseDarkFrame(ui.checkBox_DarkFrame->isChecked());
+    Options::setUseAutoMode(ui.autoModeCheck->isChecked());
+    Options::setUseTwoAxis(ui.twoAxisCheck->isChecked());
+    Options::setUseDarkFrame(ui.darkFrameCheck->isChecked());
     Options::setAutoModeIterations(ui.spinBox_DriftTime->value());
+    Options::setAutoCalibration(ui.autoCalibrationCheck->isChecked());
 
 	// manual
-	if( ui.checkBox_AutoMode->checkState() != Qt::Checked )
+    if( ui.autoModeCheck->checkState() != Qt::Checked )
 	{
-		calibrate_reticle_manual();
-		return;
+        calibrateManualReticle();
+        return true;
 	}
 
     ui.progressBar->setVisible(true);
 
 	// automatic
-	if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
-        calibrate_reticle_by_ra_dec(false);
+    if( ui.twoAxisCheck->checkState() == Qt::Checked )
+        calibrateRADECRecticle(false);
 	else
-        calibrate_reticle_by_ra_dec(true);
+        calibrateRADECRecticle(true);
+
+    return true;
 }
 
-void rcalibration::process_calibration()
+void rcalibration::processCalibration()
 {
     if (pmath->get_image())
         pmath->get_image()->setGuideBoxSize(pmath->get_square_size());
@@ -299,20 +319,20 @@ void rcalibration::process_calibration()
         break;
 
         case CAL_MANUAL:
-            calibrate_reticle_manual();
+            calibrateManualReticle();
             break;
 
         case CAL_RA_AUTO:
-            calibrate_reticle_by_ra_dec(true);
+            calibrateRADECRecticle(true);
             break;
 
         case CAL_RA_DEC_AUTO:
-            calibrate_reticle_by_ra_dec(false);
+            calibrateRADECRecticle(false);
             break;
     }
 }
 
-bool rcalibration::is_calibrating()
+bool rcalibration::isCalibrating()
 {
     if (calibrationStage >= CAL_START)
         return true;
@@ -331,7 +351,7 @@ void rcalibration::reset()
 
 }
 
-void rcalibration::calibrate_reticle_manual( void )
+void rcalibration::calibrateManualReticle( void )
 {
 	//----- manual mode ----
 	// get start point
@@ -340,7 +360,7 @@ void rcalibration::calibrate_reticle_manual( void )
 
 	if( !is_started )
 	{
-		if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
+        if( ui.twoAxisCheck->checkState() == Qt::Checked )
 		{
             ui.pushButton_StartCalibration->setText( xi18n("Stop GUIDE_RA") );
 		}
@@ -357,7 +377,7 @@ void rcalibration::calibrate_reticle_manual( void )
 	}
 	else	// get end point and calc orientation
 	{
-		if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
+        if( ui.twoAxisCheck->checkState() == Qt::Checked )
 		{
             if( axis == GUIDE_RA )
 			{
@@ -379,7 +399,7 @@ void rcalibration::calibrate_reticle_manual( void )
 				// calc orientation
                 if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &dec_swap ) )
 				{
-					fill_interface();
+                    fillInterface();
                     if (dec_swap)
                         pmain_wnd->appendLogText(xi18n("DEC swap enabled."));
                     else
@@ -406,7 +426,7 @@ void rcalibration::calibrate_reticle_manual( void )
 			if( pmath->calc_and_set_reticle( start_x1, start_y1, end_x1, end_y1 ) )
 			{
                 calibrationStage = CAL_FINISH;
-				fill_interface();
+                fillInterface();
                 pmain_wnd->appendLogText(xi18n("Calibration completed."));
                 if (Options::playGuideAlarm())
                         KStars::Instance()->ekosManager()->playOk();
@@ -425,7 +445,7 @@ void rcalibration::calibrate_reticle_manual( void )
 	}
 }
 
-void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
+void rcalibration::calibrateRADECRecticle( bool ra_only )
 {
  bool auto_term_ok = false;
 
@@ -470,7 +490,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             //qDebug() << "Start X1 " << start_x1 << " Start Y1 " << start_y1 << endl;
 
-            pmain_wnd->do_pulse( RA_INC_DIR, pulseDuration );
+            pmain_wnd->sendPulse( RA_INC_DIR, pulseDuration );
 
             iterations++;
 
@@ -483,7 +503,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             break;
 
         case CAL_RA_INC:
-            pmain_wnd->do_pulse( RA_INC_DIR, pulseDuration );
+            pmain_wnd->sendPulse( RA_INC_DIR, pulseDuration );
             iterations++;
             ui.progressBar->setValue( iterations );
 
@@ -533,7 +553,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         {
             if (iterations < turn_back_time)
             {
-                pmain_wnd->do_pulse( RA_DEC_DIR, pulseDuration );
+                pmain_wnd->sendPulse( RA_DEC_DIR, pulseDuration );
                 iterations++;
 
                 ui.progressBar->setValue( iterations );
@@ -556,7 +576,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
            // qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2 << endl;
 
-            pmain_wnd->do_pulse( DEC_INC_DIR, pulseDuration );
+            pmain_wnd->sendPulse( DEC_INC_DIR, pulseDuration );
             iterations++;
             dec_iterations = 1;
             ui.progressBar->setValue( iterations );
@@ -567,7 +587,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         if( pmath->calc_and_set_reticle( start_x1, start_y1, end_x1, end_y1, totalPulse) )
         {
             calibrationStage = CAL_FINISH;
-            fill_interface();
+            fillInterface();
             pmain_wnd->appendLogText(xi18n("Calibration completed."));
             ui.startCalibrationLED->setColor(okColor);
             if (Options::playGuideAlarm())
@@ -587,7 +607,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         }
 
     case CAL_DEC_INC:
-        pmain_wnd->do_pulse( DEC_INC_DIR, pulseDuration );
+        pmain_wnd->sendPulse( DEC_INC_DIR, pulseDuration );
         iterations++;
         dec_iterations++;
         ui.progressBar->setValue( iterations );
@@ -639,7 +659,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     {
         if (iterations < turn_back_time)
         {
-            pmain_wnd->do_pulse( DEC_DEC_DIR, pulseDuration );
+            pmain_wnd->sendPulse( DEC_DEC_DIR, pulseDuration );
             iterations++;
             dec_iterations++;
 
@@ -660,7 +680,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &swap_dec, totalPulse ) )
     {
         calibrationStage = CAL_FINISH;
-        fill_interface();
+        fillInterface();
         if (swap_dec)
             pmain_wnd->appendLogText(xi18n("DEC swap enabled."));
         else
@@ -711,6 +731,9 @@ void rcalibration::guideStarSelected(int x, int y)
     calibrationStage = CAL_START;
 
     ui.pushButton_StartCalibration->setEnabled(true);
+
+    if (ui.autoCalibrationCheck->isChecked())
+        startCalibration();
 }
 
 void rcalibration::capture()
@@ -729,7 +752,7 @@ void rcalibration::capture()
     }
 }
 
-void rcalibration::set_image(FITSView *image)
+void rcalibration::setImage(FITSView *image)
 {
 
     if (image == NULL)
@@ -749,11 +772,14 @@ void rcalibration::set_image(FITSView *image)
 
             FITSImage *image_data = image->getImageData();
 
-            set_video_params(image_data->getWidth(), image_data->getHeight());
+            setVideoParams(image_data->getWidth(), image_data->getHeight());
 
-            select_auto_star(image);
+            QPair<double,double> star = selectAutoStar(image);
 
-            connect(image, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+            if (ui.autoCalibrationCheck->isChecked())
+                guideStarSelected(star.first, star.second);
+            else
+                connect(image, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
          }
             break;
@@ -763,10 +789,11 @@ void rcalibration::set_image(FITSView *image)
     }
 }
 
-void rcalibration::select_auto_star(FITSView *image)
+QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 {
     int maxVal=-1;
     Edge *guideStar = NULL;
+    QPair<double,double> star;
 
     FITSImage *image_data = image->getImageData();
     image_data->findStars();
@@ -778,6 +805,7 @@ void rcalibration::select_auto_star(FITSView *image)
         {
             guideStar = center;
             maxVal = center->val;
+            star = qMakePair(guideStar->x, guideStar->y);
 
         }
 
@@ -785,5 +813,26 @@ void rcalibration::select_auto_star(FITSView *image)
 
     if (guideStar != NULL)
         image->setGuideSquare(guideStar->x, guideStar->y);
+
+    return star;
+}
+
+void rcalibration::setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame)
+{
+    ui.twoAxisCheck->setChecked(useTwoAxis);
+    ui.autoCalibrationCheck->setChecked(autoCalibration);
+    ui.darkFrameCheck->setChecked(useDarkFrame);
+}
+
+void rcalibration::setCalibrationParams(int boxSize, int pulseDuration)
+{
+    for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
+        if (ui.comboBox_SquareSize->itemText(i).toInt() == boxSize)
+        {
+            ui.comboBox_SquareSize->setCurrentIndex(i);
+            break;
+        }
+
+    ui.spinBox_Pulse->setValue(pulseDuration);
 }
 

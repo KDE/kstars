@@ -159,7 +159,8 @@ public:
     Capture();
     ~Capture();
 
-    Q_SCRIPTABLE Q_NOREPLY void selectCCD(QString device);
+    Q_SCRIPTABLE bool selectCCD(QString device);
+    Q_SCRIPTABLE bool selectFilter(QString device, int filterSlot);
     Q_SCRIPTABLE bool loadSequenceQueue(const QUrl &fileURL);
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
@@ -181,6 +182,7 @@ public slots:
     /* Capture */
     Q_SCRIPTABLE Q_NOREPLY void startSequence();
     Q_SCRIPTABLE Q_NOREPLY void stopSequence();
+
     void captureOne();
     void captureImage();
     void newFITS(IBLOB *bp);
