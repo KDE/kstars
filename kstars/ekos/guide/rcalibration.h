@@ -51,7 +51,8 @@ public:
 
     bool isCalibrating();
     bool isAutoCalibration() { return ui.autoCalibrationCheck->isChecked(); }
-    bool isCalibrationComplete() { return calibrationStage == CAL_FINISH; }
+    bool isCalibrationComplete() { return (calibrationStage == CAL_FINISH || calibrationStage == CAL_ERROR); }
+    bool isCalibrationSuccessful() { return (calibrationStage == CAL_FINISH); }
     void processCalibration();
     CalibrationStage getCalibrationStage() { return calibrationStage; }
     void reset();

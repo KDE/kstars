@@ -34,10 +34,8 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="getSolutionResult">
-      <arg name="orientation" type="d" direction="out"/>
-      <arg name="ra" type="d" direction="out"/>
-      <arg name="dec" type="d" direction="out"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg type="ad" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
     </method>
     <method name="isSolverComplete">
       <arg type="b" direction="out"/>

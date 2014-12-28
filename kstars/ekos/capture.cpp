@@ -1985,24 +1985,48 @@ QString Capture::getJobState(int id)
     return QString();
 }
 
-void Capture::getJobProgress(int id, int & completed, int & total)
+int Capture::getJobImageProgress(int id)
 {
     if (id < jobs.count())
     {
         SequenceJob *job = jobs.at(id);
-        completed = job->getCompleted();
-        total     = job->getCount();
+        return job->getCompleted();
     }
+
+    return -1;
 }
 
-void Capture::getJobExposureProgress(int id, double & exposureLeft, double & total)
+int Capture::getJobImageCount(int id)
 {
     if (id < jobs.count())
     {
         SequenceJob *job = jobs.at(id);
-        exposureLeft         = job->getExposeLeft();
-        total            = job->getExposure();
+        return job->getCount();
     }
+
+    return -1;
+}
+
+double Capture::getJobExposureProgress(int id)
+{
+    if (id < jobs.count())
+    {
+        SequenceJob *job = jobs.at(id);
+        return job->getExposeLeft();
+    }
+
+    return -1;
+}
+
+double Capture::getJobExposureDuration(int id)
+{
+    if (id < jobs.count())
+    {
+        SequenceJob *job = jobs.at(id);
+        return job->getExposure();
+    }
+
+    return -1;
 }
 
 void Capture::setMaximumGuidingDeviaiton(bool enable, double value)

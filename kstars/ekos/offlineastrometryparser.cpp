@@ -129,11 +129,11 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     if (indexesOK == false)
     {
         if (missingIndexes == 1)
-            KMessageBox::information(0, xi18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex), xi18n("Missing index files"), "missing_astrometry_indexs_warning");
+            align->appendLogText(xi18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
+                                             startIndex));
         else
-            KMessageBox::information(0, xi18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
-                                             startIndex, lastIndex), xi18n("Missing index files"), "missing_astrometry_indexs_warning");
+            align->appendLogText(xi18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
+                                             startIndex, lastIndex));
 
     }
 }
@@ -189,6 +189,12 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
     solver.start(Options::astrometrySolver(), solverArgs);
 
     align->appendLogText(xi18n("Starting solver..."));
+
+    if (align->isVerbose())
+    {
+        QString command = Options::astrometrySolver() + " " + solverArgs.join(" ");
+        align->appendLogText(command);
+    }
 
     return true;
 }

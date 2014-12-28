@@ -1678,6 +1678,8 @@ void Focus::setFocusMode(int mode)
         manualModeR->setChecked(true);
     else
         AutoModeR->setChecked(true);
+
+    checkCCD();
 }
 
 }

@@ -50,6 +50,8 @@ Guide::Guide() : QWidget()
     AODriver= NULL;
     GuideDriver=NULL;
 
+    guideDeviationRA = guideDeviationDEC = 0;
+
     tabWidget = new QTabWidget(this);
 
     tabLayout->addWidget(tabWidget);
@@ -554,7 +556,7 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
     if (rapidGuideReticleSet == false)
     {
         // Let's set reticle parameter on first capture to those of the star, then we check if there
-        // is any deviation
+        // is any set
         double x,y,angle;
         pmath->get_reticle_params(&x, &y, &angle);
         pmath->set_reticle_params(dx, dy, angle);
@@ -625,6 +627,9 @@ void Guide::dither()
 
 void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 {
+    guideDeviationRA  = delta_ra;
+    guideDeviationDEC = delta_dec;
+
     if (guider->isGuiding() == false)
         return;
 
@@ -652,6 +657,11 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 bool Guide::isCalibrationComplete()
 {
     return calibration->isCalibrationComplete();
+}
+
+bool Guide::isCalibrationSuccessful()
+{
+    return calibration->isCalibrationSuccessful();
 }
 
 bool Guide::startCalibration()
@@ -730,6 +740,15 @@ void Guide::setGuideOptions(int boxSize, const QString & algorithm, bool useSubF
 void Guide::setDither(bool enable, double value)
 {
     guider->setDither(enable, value);
+}
+
+QList<double> Guide::getGuidingDeviation()
+{
+    QList<double> deviation;
+
+    deviation << guideDeviationRA << guideDeviationDEC;
+
+    return deviation;
 }
 
 }

@@ -239,6 +239,12 @@ bool rcalibration::startCalibration()
     if (!pmath)
         return false;
 
+    if (calibrationStage != CAL_START && ui.autoCalibrationCheck->isChecked())
+    {
+        capture();
+        return true;
+    }
+
     bool ccdInfo=true, scopeInfo=true;
     QString errMsg;
     double ccd_w, ccd_h, g_aperture, g_focal;
@@ -345,7 +351,7 @@ void rcalibration::reset()
     is_started = false;
     ui.pushButton_StartCalibration->setText( xi18n("Start") );
     ui.startCalibrationLED->setColor(idleColor);
-    calibrationStage = CAL_FINISH;
+    //calibrationStage = CAL_FINISH;
     ui.progressBar->setVisible(false);
     connect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
@@ -592,6 +598,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             ui.startCalibrationLED->setColor(okColor);
             if (Options::playGuideAlarm())
                     KStars::Instance()->ekosManager()->playError();
+            if (ui.autoCalibrationCheck->isChecked())
+                selectAutoStar(pmath->get_image());
         }
         else
         {
@@ -690,6 +698,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         pmain_wnd->setDECSwap(swap_dec);
         if (Options::playGuideAlarm())
                 KStars::Instance()->ekosManager()->playOk();
+        if (ui.autoCalibrationCheck->isChecked())
+            selectAutoStar(pmath->get_image());
 
     }
     else

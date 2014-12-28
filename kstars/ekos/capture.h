@@ -165,10 +165,13 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviaiton(bool enable, double value);
     Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
     Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
-    Q_SCRIPTABLE int            getJobs() { return jobs.count(); }
+
+    Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
     Q_SCRIPTABLE QString        getJobState(int id);
-    Q_SCRIPTABLE void getJobProgress(int id, int & completed, int & total);
-    Q_SCRIPTABLE void getJobExposureProgress(int id, double & exposureLeft, double & total);
+    Q_SCRIPTABLE int            getJobImageProgress(int id);
+    Q_SCRIPTABLE int            getJobImageCount(int id);
+    Q_SCRIPTABLE double         getJobExposureProgress(int id);
+    Q_SCRIPTABLE double         getJobExposureDuration(int id);
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);

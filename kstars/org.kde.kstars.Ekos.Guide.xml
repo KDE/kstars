@@ -30,8 +30,15 @@
     <method name="isCalibrationComplete">
       <arg type="b" direction="out"/>
     </method>
+    <method name="isCalibrationSuccessful">
+      <arg type="b" direction="out"/>
+    </method>
     <method name="isGuiding">
       <arg type="b" direction="out"/>
+    </method>
+    <method name="getGuidingDeviation">
+      <arg type="ad" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
     </method>
     <method name="setExposure">
       <arg name="value" type="d" direction="in"/>

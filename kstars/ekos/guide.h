@@ -47,7 +47,9 @@ public:
     Q_SCRIPTABLE bool setST4(QString device);
     Q_SCRIPTABLE QStringList getST4Devices();
     Q_SCRIPTABLE bool isCalibrationComplete();
+    Q_SCRIPTABLE bool isCalibrationSuccessful();
     Q_SCRIPTABLE bool isGuiding();
+    Q_SCRIPTABLE QList<double> getGuidingDeviation();
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
     Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString & value);
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
@@ -136,7 +138,7 @@ private:
 
     QStringList logText;
 
-    double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture;
+    double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, guideDeviationRA, guideDeviationDEC;
     bool rapidGuideReticleSet;
 
 };

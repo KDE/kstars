@@ -482,6 +482,8 @@ void Align::clearCoordBoxes()
 
 bool Align::captureAndSolve()
 {
+    m_isSolverComplete = false;
+
     if (currentCCD == NULL)
         return false;
 
@@ -642,6 +644,7 @@ void Align::solverFailed()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
+    loadSlewMode = false;
     m_isSolverComplete = true;
     m_isSolverSuccessful = false;
 
@@ -677,11 +680,13 @@ void Align::stopSolving()
     }
 }
 
-void Align::getSolutionResult(double &orientation, double &ra, double &dec)
+QList<double> Align::getSolutionResult()
 {
-    orientation = sOrientation;
-    ra          = sRA;
-    dec         = sDEC;
+    QList<double> result;
+
+    result << sOrientation << sRA << sDEC;
+
+    return result;
 }
 
 void Align::appendLogText(const QString &text)
