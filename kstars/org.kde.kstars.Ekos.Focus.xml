@@ -24,21 +24,31 @@
     <method name="FocusOut">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="selectCCD">
+    <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>
-    <method name="selectFocuser">
+    <method name="setFocuser">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>
-    <method name="selectFilter">
+    <method name="setFilter">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
       <arg name="filterSlot" type="i" direction="in"/>
     </method>
     <method name="isAutoFocusComplete">
       <arg type="b" direction="out"/>
+    </method>
+    <method name="isAutoFocusSuccessful">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="getHFR">
+      <arg type="d" direction="out"/>
+    </method>
+    <method name="setFocusMode">
+      <arg name="mode" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setExposure">
       <arg name="value" type="d" direction="in"/>
@@ -61,6 +71,7 @@
     <method name="setAutoFocusParameters">
       <arg name="boxSize" type="i" direction="in"/>
       <arg name="stepSize" type="i" direction="in"/>
+      <arg name="maxTravel" type="i" direction="in"/>
       <arg name="tolerance" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

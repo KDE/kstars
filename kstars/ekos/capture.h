@@ -159,9 +159,16 @@ public:
     Capture();
     ~Capture();
 
-    Q_SCRIPTABLE bool selectCCD(QString device);
-    Q_SCRIPTABLE bool selectFilter(QString device, int filterSlot);
+    Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
     Q_SCRIPTABLE bool loadSequenceQueue(const QUrl &fileURL);
+    Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviaiton(bool enable, double value);
+    Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
+    Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
+    Q_SCRIPTABLE int            getJobs() { return jobs.count(); }
+    Q_SCRIPTABLE QString        getJobState(int id);
+    Q_SCRIPTABLE void getJobProgress(int id, int & completed, int & total);
+    Q_SCRIPTABLE void getJobExposureProgress(int id, double & exposureLeft, double & total);
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
@@ -204,8 +211,6 @@ public slots:
     void checkPreview(bool enable);
 
     void updateAutofocusStatus(bool status);
-    void updateScopeCoords(INumberVectorProperty *coord);
-
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const QString &path);
 

@@ -460,7 +460,6 @@ bool EkosManager::start()
     managedDevices.clear();
     reset();
 
-
     if (localMode)
     {
         scope_di   = driversList.value(telescopeCombo->currentText());
@@ -537,9 +536,6 @@ bool EkosManager::start()
         nDevices = managedDevices.count();
 
         saveDefaultDrivers();
-
-
-
     }
     else
     {
@@ -1548,5 +1544,134 @@ void EkosManager::playOk()
 void EkosManager::playError()
 {
    playErrorFile->play();
+}
+
+void EkosManager::setTelescope(const QString & telescopeName)
+{
+    if (localMode)
+    {
+        for (int i=0; i < telescopeCombo->count(); i++)
+            if (telescopeCombo->itemText(i) == telescopeName)
+            {
+                telescopeCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+    else
+        Options::setRemoteScopeName(telescopeName);
+
+}
+
+void EkosManager::setCCD(const QString & ccdName)
+{
+    if (localMode)
+    {
+        for (int i=0; i < ccdCombo->count(); i++)
+            if (ccdCombo->itemText(i) == ccdName)
+            {
+                ccdCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+    else
+        Options::setRemoteCCDName(ccdName);
+
+
+}
+
+void EkosManager::setGuider(const QString & guiderName)
+{
+    if (localMode)
+    {
+        for (int i=0; i < guiderCombo->count(); i++)
+            if (guiderCombo->itemText(i) == guiderName)
+            {
+                guiderCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+    else
+        Options::setRemoteGuiderName(guiderName);
+
+}
+
+void EkosManager::setFocuser(const QString & focuserName)
+{
+    if (localMode)
+    {
+        for (int i=0; i < focuserCombo->count(); i++)
+            if (focuserCombo->itemText(i) == focuserName)
+            {
+                focuserCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+    else
+        Options::setRemoteFocuserName(focuserName);
+
+}
+
+void EkosManager::setAO(const QString & AOName)
+{
+    if (localMode)
+    {
+        for (int i=0; i < AOCombo->count(); i++)
+            if (AOCombo->itemText(i) == AOName)
+            {
+                AOCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+    else
+        Options::setRemoteAOName(AOName);
+}
+
+void EkosManager::setFilter(const QString & filterName)
+{
+    if (localMode)
+    {
+            for (int i=0; i < filterCombo->count(); i++)
+                if (filterCombo->itemText(i) == filterName)
+                {
+                    filterCombo->setCurrentIndex(i);
+                    break;
+                }
+
+    }
+    else
+        Options::setRemoteFilterName(filterName);
+
+
+}
+
+void EkosManager::setDome(const QString & domeName)
+{
+  if (localMode)
+  {
+      for (int i=0; i < domeCombo->count(); i++)
+          if (domeCombo->itemText(i) == domeName)
+          {
+              domeCombo->setCurrentIndex(i);
+              break;
+          }
+  }
+  else
+      Options::setRemoteDomeName(domeName);
+
+}
+
+void EkosManager::setAuxiliary(const QString & auxiliaryName)
+{
+    if (localMode)
+    {
+        for (int i=0; i < auxCombo->count(); i++)
+            if (auxCombo->itemText(i) == auxiliaryName)
+            {
+                auxCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+    else
+        Options::setRemoteAuxName(auxiliaryName);
 }
 

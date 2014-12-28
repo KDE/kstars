@@ -124,7 +124,7 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
 
 }
 
-bool Guide::selectCCD(QString device)
+bool Guide::setCCD(QString device)
 {
     for (int i=0; i < guiderCombo->count(); i++)
         if (device == guiderCombo->itemText(i))
@@ -498,7 +498,7 @@ QStringList Guide::getST4Devices()
     return devices;
 }
 
-bool Guide::selectST4(QString device)
+bool Guide::setST4(QString device)
 {
     for (int i=0; i < ST4List.count(); i++)
         if (ST4List.at(i)->getDeviceName() == device)

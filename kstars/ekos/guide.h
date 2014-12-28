@@ -43,8 +43,8 @@ public:
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
 
-    Q_SCRIPTABLE bool selectCCD(QString device);
-    Q_SCRIPTABLE bool selectST4(QString device);
+    Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setST4(QString device);
     Q_SCRIPTABLE QStringList getST4Devices();
     Q_SCRIPTABLE bool isCalibrationComplete();
     Q_SCRIPTABLE bool isGuiding();

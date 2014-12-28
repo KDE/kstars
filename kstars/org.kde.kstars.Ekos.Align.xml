@@ -4,7 +4,7 @@
     <method name="stopSolving">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="updateSolverType">
+    <method name="setSolverType">
       <arg name="useOnline" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -12,9 +12,11 @@
       <arg type="b" direction="out"/>
     </method>
     <method name="loadAndSlew">
+      <arg name="fileURL" type="s" direction="in"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="selectCCD">
+    <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>
@@ -27,7 +29,7 @@
       <arg name="filename" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="selectGOTOMode">
+    <method name="setGOTOMode">
       <arg name="mode" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -41,6 +43,9 @@
       <arg type="b" direction="out"/>
     </method>
     <method name="isSolverSuccessful">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="isLoadAndSlewComplete">
       <arg type="b" direction="out"/>
     </method>
     <method name="setExposure">

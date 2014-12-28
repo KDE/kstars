@@ -21,7 +21,7 @@
 #include "QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
-//#include "alignadaptor.h"
+#include "alignadaptor.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
@@ -45,16 +45,16 @@ const float Align::SIDRATE  = 0.004178;
 Align::Align()
 {
     setupUi(this);
-    //new AlignAdaptor(this);
-    //QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align",  this);
+    new AlignAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align",  this);
 
     currentCCD     = NULL;
     currentTelescope = NULL;
     useGuideHead = false;
     canSync = false;
     loadSlewMode = false;
-    isSolverComplete_m = false;
-    isSolverSuccessful_m = false;
+    m_isSolverComplete = false;
+    m_isSolverSuccessful = false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
@@ -101,7 +101,7 @@ Align::Align()
 
     kcfg_onlineSolver->setChecked(Options::solverOnline());
     kcfg_offlineSolver->setChecked(Options::solverOnline() == false);
-    connect(kcfg_onlineSolver, SIGNAL(toggled(bool)), SLOT(updateSolverType(bool)));
+    connect(kcfg_onlineSolver, SIGNAL(toggled(bool)), SLOT(setSolverType(bool)));
 
 
     if (kcfg_onlineSolver->isChecked())
@@ -152,7 +152,7 @@ bool Align::isVerbose()
     return kcfg_solverVerbose->isChecked();
 }
 
-void Align::updateSolverType(bool useOnline)
+void Align::setSolverType(bool useOnline)
 {
 
     if (useOnline)
@@ -189,7 +189,7 @@ void Align::updateSolverType(bool useOnline)
 
 }
 
-bool Align::selectCCD(QString device)
+bool Align::setCCD(QString device)
 {
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
@@ -550,7 +550,7 @@ void Align::newFITS(IBLOB *bp)
     startSovling(QString(finalFileName));
 }
 
-void Align::selectGOTOMode(int mode)
+void Align::setGOTOMode(int mode)
 {
     switch (mode)
     {
@@ -580,8 +580,8 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverOptions(kcfg_solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
 
-    isSolverComplete_m = false;
-    isSolverSuccessful_m = false;
+    m_isSolverComplete = false;
+    m_isSolverSuccessful = false;
 
     currentTelescope->getEqCoords(&ra, &dec);
 
@@ -624,8 +624,8 @@ void Align::solverFinished(double orientation, double ra, double dec)
      if (Options::playAlignmentAlarm())
              KStars::Instance()->ekosManager()->playOk();
 
-     isSolverComplete_m = true;
-     isSolverSuccessful_m = true;
+     m_isSolverComplete = true;
+     m_isSolverSuccessful = true;
 
      executeMode();
 
@@ -642,8 +642,8 @@ void Align::solverFailed()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
-    isSolverComplete_m = true;
-    isSolverSuccessful_m = false;
+    m_isSolverComplete = true;
+    m_isSolverSuccessful = false;
 
 
 }
@@ -659,8 +659,8 @@ void Align::stopSolving()
     altStage = ALT_INIT;
 
     loadSlewMode = false;
-    isSolverComplete_m = false;
-    isSolverSuccessful_m = false;
+    m_isSolverComplete = false;
+    m_isSolverSuccessful = false;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 

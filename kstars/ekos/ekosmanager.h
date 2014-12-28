@@ -45,8 +45,17 @@ public:
 
     Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
     Q_SCRIPTABLE bool isConnected() { return disconnectB->isEnabled();}
+    Q_SCRIPTABLE bool isStarted() { return controlPanelB->isEnabled();}
     Q_SCRIPTABLE bool start();
     Q_SCRIPTABLE bool stop();
+    Q_SCRIPTABLE Q_NOREPLY void setTelescope(const QString & telescopeName);
+    Q_SCRIPTABLE Q_NOREPLY void setCCD(const QString & ccdName);
+    Q_SCRIPTABLE Q_NOREPLY void setGuider(const QString & guiderName);
+    Q_SCRIPTABLE Q_NOREPLY void setFocuser(const QString & focuserName);
+    Q_SCRIPTABLE Q_NOREPLY void setAO(const QString & AOName);
+    Q_SCRIPTABLE Q_NOREPLY void setFilter(const QString & filterName);
+    Q_SCRIPTABLE Q_NOREPLY void setDome(const QString & domeName);
+    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(const QString & auxiliaryName);
 
 public slots:
     void processINDI();

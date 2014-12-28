@@ -43,12 +43,13 @@ public:
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
 
-    Q_SCRIPTABLE bool selectCCD(QString device);
+    Q_SCRIPTABLE bool setCCD(QString device);
     Q_SCRIPTABLE Q_NOREPLY void startSovling(const QString &filename, bool isGenerated=true);
-    Q_SCRIPTABLE Q_NOREPLY void selectGOTOMode(int mode);
+    Q_SCRIPTABLE Q_NOREPLY void setGOTOMode(int mode);
     Q_SCRIPTABLE Q_NOREPLY void getSolutionResult(double &orientation, double &ra, double &dec);
-    Q_SCRIPTABLE bool isSolverComplete() { return isSolverComplete_m; }
-    Q_SCRIPTABLE bool isSolverSuccessful() { return isSolverSuccessful_m; }
+    Q_SCRIPTABLE bool isSolverComplete() { return m_isSolverComplete; }
+    Q_SCRIPTABLE bool isSolverSuccessful() { return m_isSolverSuccessful; }
+    Q_SCRIPTABLE bool isLoadAndSlewComplete() { return (loadSlewMode == false); }
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
     Q_SCRIPTABLE Q_NOREPLY void setBinning(int binX, int binY);
     Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString & value);
@@ -77,7 +78,7 @@ public slots:
 
     /* Solver */
     Q_SCRIPTABLE Q_NOREPLY void stopSolving();
-    Q_SCRIPTABLE Q_NOREPLY void updateSolverType(bool useOnline);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverType(bool useOnline);
     Q_SCRIPTABLE bool captureAndSolve();
     void solverFinished(double orientation, double ra, double dec);
     void solverFailed();
@@ -122,8 +123,8 @@ private:
     bool useGuideHead;
     bool canSync;
     bool loadSlewMode;
-    bool isSolverComplete_m;
-    bool isSolverSuccessful_m;
+    bool m_isSolverComplete;
+    bool m_isSolverSuccessful;
     QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;

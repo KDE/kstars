@@ -59,7 +59,7 @@ Focus::Focus()
     inSequenceFocus   = false;
     starSelected      = false;
     frameModified     = false;
-    autoFocusComplete = false;
+    m_autoFocusSuccesful = false;
 
     HFRInc =0;
     noStarCount=0;
@@ -123,7 +123,7 @@ Focus::Focus()
     kcfg_focusBoxSize->setValue(Options::focusBoxSize());
     kcfg_focusXBin->setValue(Options::focusXBin());
     kcfg_focusYBin->setValue(Options::focusYBin());
-    maxTravel->setValue(Options::focusMaxTravel());
+    maxTravelIN->setValue(Options::focusMaxTravel());
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
     lockFilterCheck->setChecked(Options::lockFocusFilter());
@@ -191,7 +191,7 @@ void Focus::resetFocusFrame()
     }
 }
 
-bool Focus::selectCCD(QString device)
+bool Focus::setCCD(QString device)
 {
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
@@ -267,7 +267,7 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
 
 }
 
-bool Focus::selectFilter(QString device, int filterSlot)
+bool Focus::setFilter(QString device, int filterSlot)
 {
     bool deviceFound=false;
 
@@ -359,7 +359,7 @@ void Focus::addFocuser(ISD::GDInterface *newFocuser)
     checkFocuser();
 }
 
-bool Focus::selectFocuser(QString device)
+bool Focus::setFocuser(QString device)
 {
     for (int i=0; i < focuserCombo->count(); i++)
         if (device == focuserCombo->itemText(i))
@@ -446,6 +446,7 @@ void Focus::startFocus()
       pulseDuration=1000;
 
     inAutoFocus = true;
+    m_autoFocusSuccesful = false;
 
     resetButtons();
 
@@ -463,7 +464,7 @@ void Focus::startFocus()
     Options::setFocusExposure(exposureIN->value());
     Options::setFocusXBin(kcfg_focusXBin->value());
     Options::setFocusYBin(kcfg_focusYBin->value());
-    Options::setFocusMaxTravel(maxTravel->value());
+    Options::setFocusMaxTravel(maxTravelIN->value());
 
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
@@ -490,7 +491,7 @@ void Focus::checkStopFocus()
     if (inSequenceFocus == true)
     {
         inSequenceFocus = false;
-        autoFocusComplete = false;
+        m_autoFocusSuccesful = false;
         emit autoFocusFinished(false);
     }
 
@@ -516,7 +517,6 @@ void Focus::stopFocus()
 
     inAutoFocus = false;
     inFocusLoop = false;
-    autoFocusComplete = false;
     //starSelected= false;
     deltaHFR    = 0;
     noStarCount = 0;
@@ -746,7 +746,7 @@ void Focus::newFITS(IBLOB *bp)
             else
             {
                 noStarCount = 0;
-                autoFocusComplete = false;
+                m_autoFocusSuccesful = false;
                 emit autoFocusFinished(false);
             }
         }
@@ -758,7 +758,7 @@ void Focus::newFITS(IBLOB *bp)
         }
         else
         {
-            autoFocusComplete = true;
+            m_autoFocusSuccesful = true;
             emit autoFocusFinished(true);
         }
 
@@ -931,7 +931,7 @@ void Focus::autoFocusAbs()
     {
         appendLogText(xi18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
-        autoFocusComplete = false;
+        m_autoFocusSuccesful = false;
         emit autoFocusFinished(false);
         if (Options::playFocusAlarm())
                 KStars::Instance()->ekosManager()->playError();
@@ -1006,7 +1006,7 @@ void Focus::autoFocusAbs()
                 {
                     appendLogText(xi18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
                     stopFocus();
-                    autoFocusComplete = false;
+                    m_autoFocusSuccesful = false;
                     emit autoFocusFinished(false);
                 }
                 else
@@ -1014,7 +1014,7 @@ void Focus::autoFocusAbs()
                     appendLogText(xi18n("Autofocus complete."));
                     stopFocus();
                     emit suspendGuiding(false);
-                    autoFocusComplete = true;
+                    m_autoFocusSuccesful = true;
                     emit autoFocusFinished(true);
                     if (Options::playFocusAlarm())
                             KStars::Instance()->ekosManager()->playOk();
@@ -1201,7 +1201,7 @@ void Focus::autoFocusAbs()
             appendLogText(xi18n("Autofocus complete."));
             stopFocus();
             emit suspendGuiding(false);
-            autoFocusComplete = true;
+            m_autoFocusSuccesful = true;
             emit autoFocusFinished(true);
             if (Options::playFocusAlarm())
                     KStars::Instance()->ekosManager()->playOk();
@@ -1213,18 +1213,18 @@ void Focus::autoFocusAbs()
         {
             appendLogText(xi18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
-            autoFocusComplete = false;
+            m_autoFocusSuccesful = false;
             emit autoFocusFinished(false);
             if (Options::playFocusAlarm())
                     KStars::Instance()->ekosManager()->playError();
             return;
         }
 
-        if (fabs(targetPulse - initHFRPos) > maxTravel->value())
+        if (fabs(targetPulse - initHFRPos) > maxTravelIN->value())
         {
             #ifdef FOCUS_DEBUG
             qDebug() << "targetPulse (" << targetPulse << ") - initHFRPos (" << initHFRPos << ") exceeds maxTravel distance of " <<
-            maxTravel->value() << endl;
+            maxTravelIN->value() << endl;
             #endif
 
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
@@ -1306,7 +1306,7 @@ void Focus::autoFocusRel()
                 appendLogText(xi18n("Autofocus complete."));                
                 stopFocus();
                 emit suspendGuiding(false);
-                autoFocusComplete = true;
+                m_autoFocusSuccesful = true;
                 emit autoFocusFinished(true);
                 if (Options::playFocusAlarm())
                         KStars::Instance()->ekosManager()->playOk();
@@ -1364,7 +1364,7 @@ void Focus::autoFocusRel()
             appendLogText(xi18n("Autofocus complete."));
             stopFocus();
             emit suspendGuiding(false);
-            autoFocusComplete = true;
+            m_autoFocusSuccesful = true;
             emit autoFocusFinished(true);
             if (Options::playFocusAlarm())
                     KStars::Instance()->ekosManager()->playOk();
@@ -1664,11 +1664,20 @@ void Focus::setAutoFocusOptions(bool selectAutoStar, bool useSubFrame)
 
 }
 
-void Focus::setAutoFocusParameters(int boxSize, int stepSize, double tolerance)
+void Focus::setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, double tolerance)
 {
     kcfg_focusBoxSize->setValue(boxSize);
     stepIN->setValue(stepSize);
+    maxTravelIN->setValue(maxTravel);
     toleranceIN->setValue(tolerance);
+}
+
+void Focus::setFocusMode(int mode)
+{
+    if (mode == 0)
+        manualModeR->setChecked(true);
+    else
+        AutoModeR->setChecked(true);
 }
 
 }

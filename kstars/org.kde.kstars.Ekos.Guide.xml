@@ -16,11 +16,11 @@
     <method name="capture">
       <arg type="b" direction="out"/>
     </method>
-    <method name="selectCCD">
+    <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>
-    <method name="selectST4">
+    <method name="setST4">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>

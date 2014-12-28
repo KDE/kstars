@@ -7,18 +7,52 @@
     <method name="stopSequence">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="loadSequenceQueue">
-      <arg type="b" direction="out"/>
-      <arg name="fileURL" type="s" direction="in"/>
-    </method>
-    <method name="selectCCD">
+    <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>
-    <method name="selectFilter">
+    <method name="setFilter">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
       <arg name="filterSlot" type="i" direction="in"/>
+    </method>
+    <method name="loadSequenceQueue">
+      <arg type="b" direction="out"/>
+      <arg name="fileURL" type="s" direction="in"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
+    </method>
+    <method name="setMaximumGuidingDeviaiton">
+      <arg name="enable" type="b" direction="in"/>
+      <arg name="value" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setInSequenceFocus">
+      <arg name="enable" type="b" direction="in"/>
+      <arg name="HFR" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setParkOnComplete">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getJobs">
+      <arg type="i" direction="out"/>
+    </method>
+    <method name="getJobState">
+      <arg type="s" direction="out"/>
+      <arg name="id" type="i" direction="in"/>
+    </method>
+    <method name="getJobProgress">
+      <arg name="id" type="i" direction="in"/>
+      <arg name="completed" type="i" direction="out"/>
+      <arg name="total" type="i" direction="out"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getJobExposureProgress">
+      <arg name="id" type="i" direction="in"/>
+      <arg name="exposureLeft" type="d" direction="out"/>
+      <arg name="total" type="d" direction="out"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
   </interface>
 </node>

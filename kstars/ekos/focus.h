@@ -43,16 +43,18 @@ public:
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
-    Q_SCRIPTABLE bool selectCCD(QString device);
-    Q_SCRIPTABLE bool selectFocuser(QString device);
-    Q_SCRIPTABLE bool selectFilter(QString device, int filterSlot);
-    Q_SCRIPTABLE bool isAutoFocusComplete() { return autoFocusComplete;}
-
+    Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setFocuser(QString device);
+    Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
+    Q_SCRIPTABLE bool isAutoFocusComplete() { return (inAutoFocus == false);}
+    Q_SCRIPTABLE bool isAutoFocusSuccessful() { return m_autoFocusSuccesful;}
+    Q_SCRIPTABLE double getHFR() { return currentHFR; }
+    Q_SCRIPTABLE Q_NOREPLY void setFocusMode(int mode);
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
     Q_SCRIPTABLE Q_NOREPLY void setBinning(int binX, int binY);
     Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString & value);
     Q_SCRIPTABLE Q_NOREPLY void setAutoFocusOptions(bool selectAutoStar, bool useSubFrame);
-    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusParameters(int boxSize, int stepSize, double tolerance);
+    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, double tolerance);
 
     Q_SCRIPTABLE Q_NOREPLY void resetFrame();
 
@@ -134,7 +136,7 @@ private:
     int absIterations;
     int lastLockFilterPos;
 
-    bool inAutoFocus, inFocusLoop, inSequenceFocus, autoFocusComplete;
+    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful;
 
     double absCurrentPos;
     double pulseStep;

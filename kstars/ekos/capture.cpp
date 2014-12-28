@@ -500,7 +500,7 @@ void Capture::stopSequence()
 
 }
 
-bool Capture::selectCCD(QString device)
+bool Capture::setCCD(QString device)
 {
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
@@ -579,6 +579,8 @@ void Capture::updateFrameProperties()
     int xstep=0, ystep=0;
 
     QString frameProp = useGuideHead ? QString("GUIDER_FRAME") : QString("CCD_FRAME");
+    QString exposureProp = useGuideHead ? QString("GUIDER_EXPOSURE") : QString("CCD_EXPOSURE");
+    QString exposureElem = useGuideHead ? QString("GUIDER_EXPOSURE_VALUE") : QString("CCD_EXPOSURE_VALUE");
     targetChip = useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     frameWIN->setEnabled(targetChip->canSubframe());
@@ -588,6 +590,13 @@ void Capture::updateFrameProperties()
 
     binXIN->setEnabled(targetChip->canBin());
     binYIN->setEnabled(targetChip->canBin());
+
+    if (currentCCD->getMinMaxStep(exposureProp, exposureElem, &min, &max, &step))
+    {
+        exposureIN->setMinimum(min);
+        exposureIN->setMaximum(max);
+        exposureIN->setSingleStep(step);
+    }
 
     if (targetChip->canBin())
     {
@@ -700,7 +709,7 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
 
 }
 
-bool Capture::selectFilter(QString device, int filterSlot)
+bool Capture::setFilter(QString device, int filterSlot)
 {
     bool deviceFound=false;
 
@@ -1547,7 +1556,7 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateScopeCoords(INumberVectorProperty*)));
+    //connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateScopeCoords(INumberVectorProperty*)));
 
     syncTelescopeInfo();
 }
@@ -1578,23 +1587,6 @@ void Capture::saveFITSDirectory()
 
     if (!dir.isEmpty())
         fitsDir->setText(dir);
-}
-
-void Capture::updateScopeCoords(INumberVectorProperty *coord)
-{
-
-    /* Meridian Flip TODO
-     * 1. Calculate pier side (west or east) from coord + geographic coords to get Alt/Az
-     * 2. Decide when to flip mount
-     * 3. Stop guiding
-     * 4. Flip mount
-     * 5. Plate solve
-     * 6. Swap DEC axis in guiding?
-     * 7. Auto select guide start (RapidGuide?)
-     * 8. Start guiding
-     * 9. Resume exposure
-    */
-
 }
 
 void Capture::loadSequenceQueue()
@@ -1980,6 +1972,64 @@ void Capture::constructPrefix(QString &imagePrefix)
 
         imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
     }
+}
+
+QString Capture::getJobState(int id)
+{
+    if (id < jobs.count())
+    {
+        SequenceJob *job = jobs.at(id);
+        return job->getStatusString();
+    }
+
+    return QString();
+}
+
+void Capture::getJobProgress(int id, int & completed, int & total)
+{
+    if (id < jobs.count())
+    {
+        SequenceJob *job = jobs.at(id);
+        completed = job->getCompleted();
+        total     = job->getCount();
+    }
+}
+
+void Capture::getJobExposureProgress(int id, double & exposureLeft, double & total)
+{
+    if (id < jobs.count())
+    {
+        SequenceJob *job = jobs.at(id);
+        exposureLeft         = job->getExposeLeft();
+        total            = job->getExposure();
+    }
+}
+
+void Capture::setMaximumGuidingDeviaiton(bool enable, double value)
+{
+    if (guideDeviationCheck->isEnabled())
+    {
+        guideDeviationCheck->setChecked(enable);
+        if (enable)
+            guideDeviation->setValue(value);
+    }
+
+}
+
+void Capture::setInSequenceFocus(bool enable, double HFR)
+{
+    if (autofocusCheck->isEnabled())
+    {
+        autofocusCheck->setChecked(enable);
+        if (enable)
+            HFRPixels->setValue(HFR);
+    }
+}
+
+void Capture::setParkOnComplete(bool enable)
+{
+    if (parkCheck->isEnabled())
+        parkCheck->setChecked(enable);
 }
 
 }
