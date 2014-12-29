@@ -40,7 +40,7 @@ namespace Ekos
 
 SequenceJob::SequenceJob()
 {
-    statusStrings = QStringList() << xi18n("Idle") << xi18n("In progress") << xi18n("Error") << xi18n("Aborted") << xi18n("Complete");
+    statusStrings = QStringList() << xi18n("Idle") << xi18n("In Progress") << xi18n("Error") << xi18n("Aborted") << xi18n("Complete");
     status = JOB_IDLE;
     exposure=count=delay=frameType=targetFilter=isoIndex=-1;
     captureFilter=FITS_NONE;

@@ -159,18 +159,77 @@ public:
     Capture();
     ~Capture();
 
+    /**DBUS interface function.
+     * select the CCD device from the available CCD drivers.
+     * @param device The CCD device name
+     */
     Q_SCRIPTABLE bool setCCD(QString device);
+
+    /**DBUS interface function.
+     * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
+     * @param device The filter device name
+     */
     Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
+
+    /**DBUS interface function.
+     * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
+     * @param fileURL full URL of the filename
+     */
     Q_SCRIPTABLE bool loadSequenceQueue(const QUrl &fileURL);
+
+    /**DBUS interface function.
+     * Enables or disables the maximum guiding deviation and sets its value.
+     * @param enable If true, enable the guiding deviation check, otherwise, disable it.
+     * @param if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviaiton(bool enable, double value);
+
+    /**DBUS interface function.
+     * Enables or disables the in sequence focus and sets Half-Flux-Radius (HFR) limit.
+     * @param enable If true, enable the in sequence auto focus check, otherwise, disable it.
+     * @param if enable is true, it sets HFR in pixels. After each exposure, the HFR is re-measured and if it exceeds the specified value, an autofocus operation will be commanded.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
+
+    /**DBUS interface function.
+     * Enables or disables park on complete option.
+     * @param enable If true, mount shall be commanded to parking position after all jobs are complete in the sequence queue.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
 
+    /**DBUS interface function.
+     * @return The number of jobs in the sequence queue.
+     */
     Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
+
+    /**DBUS interface function.
+     * @param id job number. Job IDs start from 0 to N-1.
+     * @return The job state (Idle, In Progress, Error, Aborted, Complete)
+     */
     Q_SCRIPTABLE QString        getJobState(int id);
+
+    /**DBUS interface function.
+     * @param id job number. Job IDs start from 0 to N-1.
+     * @return The number of images completed capture in the job.
+     */
     Q_SCRIPTABLE int            getJobImageProgress(int id);
+
+    /**DBUS interface function.
+     * @param id job number. Job IDs start from 0 to N-1.
+     * @return The total number of images to capture in the job.
+     */
     Q_SCRIPTABLE int            getJobImageCount(int id);
+
+    /**DBUS interface function.
+     * @param id job number. Job IDs start from 0 to N-1.
+     * @return The number of seconds left in an exposure operation.
+     */
     Q_SCRIPTABLE double         getJobExposureProgress(int id);
+
+    /**DBUS interface function.
+     * @param id job number. Job IDs start from 0 to N-1.
+     * @return The total requested exposure duration in the job.
+     */
     Q_SCRIPTABLE double         getJobExposureDuration(int id);
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
@@ -190,7 +249,14 @@ public:
 public slots:
 
     /* Capture */
+    /**DBUS interface function.
+     * Starts the sequence queue capture procedure sequentially by starting all jobs that are either Idle or Aborted in order.
+     */
     Q_SCRIPTABLE Q_NOREPLY void startSequence();
+
+    /**DBUS interface function.
+     * Aborts all jobs and set current job status to Aborted if it was In Progress.
+     */
     Q_SCRIPTABLE Q_NOREPLY void stopSequence();
 
     void captureOne();

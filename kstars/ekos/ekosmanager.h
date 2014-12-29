@@ -43,23 +43,94 @@ public:
     void playOk();
     void playError();
 
+    /**DBUS interface function.
+     * set Ekos connection mode.
+     * @param isLocal if true, it will establish INDI server locally, otherwise it will connect to a remote INDI server as defined in the Ekos options or by the user.
+     * /note This function must be called before all functions in Ekos DBUS Interface.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
+
+    /**DBUS interface function.
+     * @retrun true if all devices are conncted, false otherwise.
+     */
     Q_SCRIPTABLE bool isConnected() { return disconnectB->isEnabled();}
+
+    /**DBUS interface function.
+     * @retrun true if all INDI drivers are started, false otherwise.
+     */
     Q_SCRIPTABLE bool isStarted() { return controlPanelB->isEnabled();}
+
+    /**DBUS interface function.
+     * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
+     * it establishes connection to the remote INDI server.
+     */
     Q_SCRIPTABLE bool start();
+
+    /**DBUS interface function.
+     * If connection mode is local, the function terminates the local INDI server and drivers. For remote, it disconnects from the remote INDI server.
+     */
     Q_SCRIPTABLE bool stop();
+
+    /**DBUS interface function.
+     * Sets the telescope driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote telescope driver.
+     * @param telescopeName telescope driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setTelescope(const QString & telescopeName);
+
+    /**DBUS interface function.
+     * Sets the CCD driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote CCD driver.
+     * @param CCDName CCD driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setCCD(const QString & ccdName);
+
+    /**DBUS interface function.
+     * Sets the guider driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote guider driver.
+     * @param guiderName guider CCD driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup. If the primary CCD has a guide chip,
+     * do not set the guider name as the guide chip will be automatically selected as guider
+     */
     Q_SCRIPTABLE Q_NOREPLY void setGuider(const QString & guiderName);
+
+    /**DBUS interface function.
+     * Sets the focuser driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote focuser driver.
+     * @param focuserName focuser driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setFocuser(const QString & focuserName);
+
+    /**DBUS interface function.
+     * Sets the AO driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote AO driver.
+     * @param AOName Adaptive Optics driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setAO(const QString & AOName);
+
+    /**DBUS interface function.
+     * Sets the filter driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote filter driver.
+     * @param filterName filter driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setFilter(const QString & filterName);
+
+    /**DBUS interface function.
+     * Sets the dome driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote dome driver.
+     * @param domeName dome driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setDome(const QString & domeName);
+
+    /**DBUS interface function.
+     * Sets the auxiliary driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote auxiliary driver.
+     * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(const QString & auxiliaryName);
 
 public slots:
     void processINDI();
+
+    /**DBUS interface function.
+     * Connects all the INDI devices started by Ekos.
+     */
     Q_SCRIPTABLE Q_NOREPLY void connectDevices();
+
+    /**DBUS interface function.
+     * Disconnects all the INDI devices started by Ekos.
+     */
     Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
     void cleanDevices();
 

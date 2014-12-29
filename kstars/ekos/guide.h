@@ -43,18 +43,84 @@ public:
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
 
+    /**DBUS interface function.
+     * select the CCD device from the available CCD drivers.
+     * @param device The CCD device name
+     */
     Q_SCRIPTABLE bool setCCD(QString device);
+
+    /**DBUS interface function.
+     * select the ST4 device from the available ST4 drivers.
+     * @param device The ST4 device name
+     */
     Q_SCRIPTABLE bool setST4(QString device);
+
+    /**DBUS interface function.
+     * @return List of registered ST4 devices.
+     */
     Q_SCRIPTABLE QStringList getST4Devices();
+
+    /**DBUS interface function.
+     * @return True if calibration procedure is complete.
+     */
     Q_SCRIPTABLE bool isCalibrationComplete();
+
+    /**DBUS interface function.
+     * @return True if calibration procedure is successful.
+     */
     Q_SCRIPTABLE bool isCalibrationSuccessful();
+
+    /**DBUS interface function.
+     * @return True if is in progress.
+     */
     Q_SCRIPTABLE bool isGuiding();
+
+    /**DBUS interface function.
+     * @return Guiding deviation in arcsecs. First elemenet is RA guiding deviation, second element is DEC guiding deviation.
+     */
     Q_SCRIPTABLE QList<double> getGuidingDeviation();
+
+    /**DBUS interface function.
+     * Set CCD exposure value
+     * @value exposure value in seconds.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
+
+    /**DBUS interface function.
+     * Set image filter to apply to the image after capture.
+     * @param value Image filter (Auto Stretch, High Contrast, Equalize, High Pass)
+     */
     Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString & value);
+
+    /**DBUS interface function.
+     * Set calibration options. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
+     * @param useTwoAxis if true, calibration will be performed in both RA and DEC axis. Otherwise, only RA axis will be calibrated.
+     * @param autoCalibration if true, Ekos will attempt to automatically select the best guide star and proceed with the calibration procedure.
+     * @param useDarkFrame if true, a dark frame will be captured to subtract from the light frame.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
+
+    /**DBUS interface function.
+     * Set calibration parameters.
+     * @param boxSize box size in pixels around the guide star. The box size should be suitable for the size of the guide star selected.
+     * @param pulseDuration Pulse duration in milliseconds to use in the calibration steps.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationParams(int boxSize, int pulseDuration);
+
+    /**DBUS interface function.
+     * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+     * @param boxSize box size in pixels around the guide star. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star.
+     * @param algorithm Select the algorithm used to calculate the centroid of the guide star (Smart, Fast, Auto, No thresh).
+     * @param useSubFrame if true, it will select a subframe around the guide star depending on the boxSize size.
+     * @param useRapidGuide if true, it will activate RapidGuide in the CCD driver. When Rapid Guide is used, no frames are sent to Ekos for analysis and the centeroid calculations are done in the CCD driver.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
+
+    /**DBUS interface function.
+     * Enable or disables dithering
+     * @param enable if true, dithering is enabled and is performed after each exposure is complete. Otheriese, dithering is disabled.
+     * @param value dithering range in pixels. Ekos will move the guide star in a random direction for the specified dithering value in pixels.
+     */
     Q_SCRIPTABLE Q_NOREPLY void setDither(bool enable, double value);
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider);
@@ -82,11 +148,30 @@ public:
 
 public slots:
 
-        Q_SCRIPTABLE bool startGuiding();
-        Q_SCRIPTABLE bool stopGuiding();
-        Q_SCRIPTABLE bool startCalibration();
-        Q_SCRIPTABLE bool stopCalibration();
-        Q_SCRIPTABLE bool capture();
+    /**DBUS interface function.
+     * Start the autoguiding operation.
+     */
+     Q_SCRIPTABLE bool startGuiding();
+
+    /**DBUS interface function.
+     * Stop the autoguiding operation.
+     */
+     Q_SCRIPTABLE bool stopGuiding();
+
+    /**DBUS interface function.
+     * Start the calibration operation.
+     */
+     Q_SCRIPTABLE bool startCalibration();
+
+    /**DBUS interface function.
+     * Stop the calibration operation.
+     */
+     Q_SCRIPTABLE bool stopCalibration();
+
+    /**DBUS interface function.
+     * Capture a guide frame
+     */
+     Q_SCRIPTABLE bool capture();
 
         void checkCCD(int ccdNum=-1);
         void newFITS(IBLOB*);
