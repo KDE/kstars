@@ -13,7 +13,20 @@ in building (or so I think).
 
 Most of the perl scripts are due to James Bowlin, who can be contacted
 at <bowlin@mindspring.com>. Most of the C programs are my work, and I
-can be contacted at <akarsh.simha@kdemail.net>
+can be contacted at <akarsh@kde.org>
+
+Some of the Perl scripts require the HTMesh perl wrapper, which is
+also present in this directory. The library is released under a
+license more liberal than GPL, and the details are found in the README
+file in the relevant directory. This library needs to be built (it
+depends on the HTMesh C++ library, available in kstars/kstars/htmesh)
+and installed before running many of the Perl scripts in this
+directory.
+
+Many of the Perl scripts and C++ programs as of this writing require a
+MySQL database server to be available on localhost. The database is
+used as an intermediary to hold the data loaded from ASCII data files
+in a nice format.
 
 DESCRIPTIONS OF FILES:
 ----------------------
