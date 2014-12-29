@@ -30,7 +30,12 @@ class FITSImage;
 namespace Ekos
 {
 
-
+/**
+ *@class Guide
+ *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver.
+ *@author Jasem Mutlaq
+ *@version 1.0
+ */
 class Guide : public QWidget, public Ui::Guide
 {
 
@@ -43,56 +48,58 @@ public:
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * select the CCD device from the available CCD drivers.
      * @param device The CCD device name
+     * @return Returns true if CCD device is found and set, false otherwise.
      */
     Q_SCRIPTABLE bool setCCD(QString device);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * select the ST4 device from the available ST4 drivers.
      * @param device The ST4 device name
+     * @return Returns true if ST4 device is found and set, false otherwise.
      */
     Q_SCRIPTABLE bool setST4(QString device);
 
-    /**DBUS interface function.
-     * @return List of registered ST4 devices.
+    /** DBUS interface function.
+     * @return Returns List of registered ST4 devices.
      */
     Q_SCRIPTABLE QStringList getST4Devices();
 
-    /**DBUS interface function.
-     * @return True if calibration procedure is complete.
+    /** DBUS interface function.
+     * @return Returns true if calibration procedure is complete.
      */
     Q_SCRIPTABLE bool isCalibrationComplete();
 
-    /**DBUS interface function.
-     * @return True if calibration procedure is successful.
+    /** DBUS interface function.
+     * @return Returns true if calibration procedure is successful.
      */
     Q_SCRIPTABLE bool isCalibrationSuccessful();
 
-    /**DBUS interface function.
-     * @return True if is in progress.
+    /** DBUS interface function.
+     * @return Returns true if autoguiding is in progress.
      */
     Q_SCRIPTABLE bool isGuiding();
 
-    /**DBUS interface function.
-     * @return Guiding deviation in arcsecs. First elemenet is RA guiding deviation, second element is DEC guiding deviation.
+    /** DBUS interface function.
+     * @return Returns guiding deviation from guide star in arcsecs. First elemenet is RA guiding deviation, second element is DEC guiding deviation.
      */
     Q_SCRIPTABLE QList<double> getGuidingDeviation();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Set CCD exposure value
      * @value exposure value in seconds.
      */
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Set image filter to apply to the image after capture.
      * @param value Image filter (Auto Stretch, High Contrast, Equalize, High Pass)
      */
     Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString & value);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Set calibration options. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
      * @param useTwoAxis if true, calibration will be performed in both RA and DEC axis. Otherwise, only RA axis will be calibrated.
      * @param autoCalibration if true, Ekos will attempt to automatically select the best guide star and proceed with the calibration procedure.
@@ -100,14 +107,14 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Set calibration parameters.
      * @param boxSize box size in pixels around the guide star. The box size should be suitable for the size of the guide star selected.
      * @param pulseDuration Pulse duration in milliseconds to use in the calibration steps.
      */
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationParams(int boxSize, int pulseDuration);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
      * @param boxSize box size in pixels around the guide star. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star.
      * @param algorithm Select the algorithm used to calculate the centroid of the guide star (Smart, Fast, Auto, No thresh).
@@ -116,7 +123,7 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Enable or disables dithering
      * @param enable if true, dithering is enabled and is performed after each exposure is complete. Otheriese, dithering is disabled.
      * @param value dithering range in pixels. Ekos will move the guide star in a random direction for the specified dithering value in pixels.
@@ -135,7 +142,7 @@ public:
     void appendLogText(const QString &);
     void clearLog();
 
-    void setDECSwap(bool enable);
+    void setDECSwap(bool enable);    
     bool sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool sendPulse( GuideDirection dir, int msecs );
 
@@ -148,28 +155,33 @@ public:
 
 public slots:
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Start the autoguiding operation.
+     * @return Returns true if guiding started successfully, false otherwise.
      */
      Q_SCRIPTABLE bool startGuiding();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Stop the autoguiding operation.
+     * @return Returns true if guiding stopped successfully, false otherwise.
      */
      Q_SCRIPTABLE bool stopGuiding();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Start the calibration operation.
+     * @return Returns true if calibration started successfully, false otherwise.
      */
      Q_SCRIPTABLE bool startCalibration();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Stop the calibration operation.
+     * @return Returns true if calibration stopped successfully, false otherwise.
      */
      Q_SCRIPTABLE bool stopCalibration();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Capture a guide frame
+     * @return Returns true if capture command is sent successfully to INDI server.
      */
      Q_SCRIPTABLE bool capture();
 

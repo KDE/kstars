@@ -27,6 +27,28 @@ class QProgressIndicator;
 class QTableWidgetItem;
 class KDirWatch;
 
+/**
+ *@namespace Ekos
+ *@short Ekos is an advanced Astrophotography tool for Linux.
+ * It is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors ,
+ * auto-focus & auto-guide capabilities, and capture of single or stack of images with filter wheel support.\n
+ * Features:
+ * - Control your telescope, CCD (& DSLRs), filter wheel, focuser, guider, adaptive optics unit, and any INDI-compatible auxiliary device from Ekos.
+ * - Extremely accurate GOTOs using astrometry.net solver (both Online and Offline solvers supported).
+ * - Load & Slew: Load a FITS image, slew to solved coordinates, and center the mount on the exact image coordinates in order to get the same desired frame.
+ * - Measure & Correct Polar Alignment errors using astromety.net solver.
+ * - Auto and manual focus modes using Half-Flux-Radius (HFR) method.
+ * - Automatic focus between exposures when a user-configurable HFR limit is exceeded.
+ * - Auto guiding with support for automatic dithering between exposures and support for Adaptive Optics devices in addition to traditional guiders.
+ * - Powerful sequence queue for batch capture of images with optional prefixes, timestamps, filter wheel selection, and much more!
+ * - Export and import sequence queue sets as Ekos Sequence Queue (.esq) files.
+ * - Automatic abort and resumption of exposure tasks if guiding errors exceed a user-configurable value.
+ * - Support for dome slaving.
+ * - Complete integration with KStars Observation Planner and SkyMap
+ * - Integrate with all INDI native devices.
+*@author Jasem Mutlaq
+ *@version 1.0
+ */
 namespace Ekos
 {
 
@@ -146,6 +168,16 @@ private:
 
 };
 
+/**
+ *@class Capture
+ *@short Captures single or sequence of images from a CCD.
+ * The capture class support capturing single or multiple images from a CCD, it provides a powerful sequence queue with filter wheel selection. Any sequence queue can be saved as Ekos Sequence Queue (.esq).
+ * All image capture operations are saved as Sequence Jobs that encapsulate all the different options in a capture process. The user may select in sequence autofocusing by setting a maximum HFR limit. When the limit
+ * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
+ * the guiding deviation resume to acceptable levels and the capture operation is resumed.
+ *@author Jasem Mutlaq
+ *@version 1.0
+ */
 class Capture : public QWidget, public Ui::Capture
 {
 
@@ -159,76 +191,76 @@ public:
     Capture();
     ~Capture();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * select the CCD device from the available CCD drivers.
      * @param device The CCD device name
      */
     Q_SCRIPTABLE bool setCCD(QString device);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
      * @param device The filter device name
      */
     Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
      * @param fileURL full URL of the filename
      */
     Q_SCRIPTABLE bool loadSequenceQueue(const QUrl &fileURL);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Enables or disables the maximum guiding deviation and sets its value.
      * @param enable If true, enable the guiding deviation check, otherwise, disable it.
      * @param if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
      */
     Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviaiton(bool enable, double value);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Enables or disables the in sequence focus and sets Half-Flux-Radius (HFR) limit.
      * @param enable If true, enable the in sequence auto focus check, otherwise, disable it.
      * @param if enable is true, it sets HFR in pixels. After each exposure, the HFR is re-measured and if it exceeds the specified value, an autofocus operation will be commanded.
      */
     Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Enables or disables park on complete option.
      * @param enable If true, mount shall be commanded to parking position after all jobs are complete in the sequence queue.
      */
     Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
 
-    /**DBUS interface function.
-     * @return The number of jobs in the sequence queue.
+    /** DBUS interface function.
+     * @return Returns the number of jobs in the sequence queue.
      */
     Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
-     * @return The job state (Idle, In Progress, Error, Aborted, Complete)
+     * @return Returns the job state (Idle, In Progress, Error, Aborted, Complete)
      */
     Q_SCRIPTABLE QString        getJobState(int id);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
-     * @return The number of images completed capture in the job.
+     * @return Returns The number of images completed capture in the job.
      */
     Q_SCRIPTABLE int            getJobImageProgress(int id);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
-     * @return The total number of images to capture in the job.
+     * @return Returns the total number of images to capture in the job.
      */
     Q_SCRIPTABLE int            getJobImageCount(int id);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
-     * @return The number of seconds left in an exposure operation.
+     * @return Returns the number of seconds left in an exposure operation.
      */
     Q_SCRIPTABLE double         getJobExposureProgress(int id);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
-     * @return The total requested exposure duration in the job.
+     * @return Returns the total requested exposure duration in the job.
      */
     Q_SCRIPTABLE double         getJobExposureDuration(int id);
 
@@ -249,12 +281,12 @@ public:
 public slots:
 
     /* Capture */
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Starts the sequence queue capture procedure sequentially by starting all jobs that are either Idle or Aborted in order.
      */
     Q_SCRIPTABLE Q_NOREPLY void startSequence();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Aborts all jobs and set current job status to Aborted if it was In Progress.
      */
     Q_SCRIPTABLE Q_NOREPLY void stopSequence();

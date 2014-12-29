@@ -30,6 +30,15 @@ class AstrometryParser;
 class OnlineAstrometryParser;
 class OfflineAstrometryParser;
 
+/**
+ *@class Align
+ *@short Align class handles plate-solving and polar alignment measurement and correction using astrometry.net
+ * The align class can capture images from the CCD and use either online or offline astrometry.net engine to solve the plate constants and find the center RA/DEC coordinates. The user selects the action
+ * to perform when the solver completes successfully. Measurement of polar alignment errors is performed by capturing two images on selected points in the sky and measuring the declination drift to calculate
+ * the error in the mount's azimutn and altitude displacement from optimal. Correction is carried by asking the user to re-center a star by adjusting the telescope's azimuth and/or altitude knobs.
+ *@author Jasem Mutlaq
+ *@version 1.0
+ */
 class Align : public QWidget, public Ui::Align
 {
 
@@ -43,68 +52,68 @@ public:
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Select CCD
      * @param device CCD device name
-     * @return True if device if found and selected, false otherwise.
+     * @return Returns true if device if found and selected, false otherwise.
      */
     Q_SCRIPTABLE bool setCCD(QString device);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Start the plate-solving process given the passed image file.
      * @param filename Name of image file to solve. FITS and JPG/JPG/TIFF formats are accepted.
      * @param isGenerated Set to true if filename is generated from a CCD capture operation. If the file is loaded from any storage or network media, pass false.
-     * @return True if device if found and selected, false otherwise.
+     * @return Returns true if device if found and selected, false otherwise.
      */
     Q_SCRIPTABLE Q_NOREPLY void startSovling(const QString &filename, bool isGenerated=true);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Select Goto Mode of Solver. The solver mode is the action the solver performs upon successful solving.
      * @param mode 0 for Sync, 1 for SlewToTarget, 2 for Nothing
      */
     Q_SCRIPTABLE Q_NOREPLY void setGOTOMode(int mode);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Returns the solver's solution results
-     * @return array of doubles. First item is RA in degrees. Second item is DEC in degrees.
+     * @return Returns array of doubles. First item is RA in degrees. Second item is DEC in degrees.
      */
     Q_SCRIPTABLE QList<double> getSolutionResult();
 
-    /**DBUS interface function.
-     * Returns true if the solver process completed or aborted, false otherwise.
+    /** DBUS interface function.
+     * @return Returns true if the solver process completed or aborted, false otherwise.
      */
     Q_SCRIPTABLE bool isSolverComplete() { return m_isSolverComplete; }
 
-    /**DBUS interface function.
-     * Returns true if the solver process completed successfully, false otherwise.
+    /** DBUS interface function.
+     * @return Returns true if the solver process completed successfully, false otherwise.
      */
     Q_SCRIPTABLE bool isSolverSuccessful() { return m_isSolverSuccessful; }
 
-    /**DBUS interface function.
-     * Returns true if the solver load and slew operation completed, false otherwise.
+    /** DBUS interface function.
+     * @return Returns true if the solver load and slew operation completed, false otherwise.
      */
     Q_SCRIPTABLE bool isLoadAndSlewComplete() { return (loadSlewMode == false); }
 
-    /**DBUS interface function.
-     * Sets the exposure of the selected CCD device
+    /** DBUS interface function.
+     * Sets the exposure of the selected CCD device.
      * @param value Exposure value in seconds
      */
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
 
-    /**DBUS interface function.
-     * Sets the binning of the selected CCD device
+    /** DBUS interface function.
+     * Sets the binning of the selected CCD device.
      * @param binX horizontal binning
      * @param binY vertical binning
      */
     Q_SCRIPTABLE Q_NOREPLY void setBinning(int binX, int binY);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Sets the arguments that gets passed to the astrometry.net offline solver.
      * @param value space-separated arguments.
      */
     Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString & value);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Sets the solver search area options
      * @param ra center RA for search pattern, in hours.
      * @param dec center DEC for search pattern, in degrees.
@@ -112,7 +121,7 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setSolverSearchOptions(double ra, double dec, double radius);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Sets the solver's option
      * @param updateCoords if true, the telescope coordinates are automatically incorporated into the search pattern whenever the telescope completes slewing.
      * @param previewImage if true, the captured image is viewed in the FITSViewer tool before getting passed to the solver.
@@ -141,21 +150,20 @@ public slots:
     void checkCCD(int CCDNum=-1);
     void newFITS(IBLOB *bp);
 
-
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Aborts the solving operation.
      */
     Q_SCRIPTABLE Q_NOREPLY void stopSolving();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Select the solver type (online or offline)
      * @param useOnline if true, select the online solver, otherwise the offline solver is selected.
      */
     Q_SCRIPTABLE Q_NOREPLY void setSolverType(bool useOnline);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Capture and solve an image using the astrometry.net engine
-     * @return True if the procedure started successful, false otherwise.
+     * @return Returns true if the procedure started successful, false otherwise.
      */
     Q_SCRIPTABLE bool captureAndSolve();
     void solverFinished(double orientation, double ra, double dec);
@@ -176,7 +184,7 @@ public slots:
     void correctAzError();
     void correctAltError();
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
      * the telescope is pointing to the same coordinates of the image.
      * @param fileURL URL to the image to solve
