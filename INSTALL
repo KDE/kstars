@@ -5,19 +5,19 @@ After that you need to do only a handful of steps
 
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/path/to/your/kde4/install/dir ..
+cmake -DCMAKE_INSTALL_PREFIX=/path/to/your/kde5/install/dir ..
 make
 make install
 
-Obviously /path/to/your/kde4/install/dir is not a real path, you need to choose what you want to do:
- * Use the value returned by kde4-config --prefix
+Obviously /path/to/your/kde5/install/dir is not a real path, you need to choose what you want to do:
+ * Use the value returned by kf5-config --prefix
    - Will install it in the same prefix than your system kdelibs is installed
    - Will overwrite your distribution KStars if you have it installed
    - Will probably need administrator password
  * Use a random subdirectory in your home, e.g. /home/myuser/kstars_install
    - You will need to run 
- 	export KDEDIRS=/home/myuser/kstars_install:$(kde4-config --prefix)
-	kbuildsycoca4
+ 	export KDEDIRS=/home/myuser/kstars_install:$(kf5-config --prefix)
+	kbuildsycoca5
    - You will need to make sure the /home/myuser/kstars_install/bin is in your PATH environment variable
 
 

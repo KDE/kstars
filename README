@@ -1,15 +1,15 @@
 
       *****************************************************
-      **   KStars 2.0.0: A Desktop Planetarium for KDE   **
+      **   KStars 2.3.0: A Desktop Planetarium for KDE   **
       *****************************************************
 
-Copyright (c) 2001 - 2012 by The KStars Team:
+Copyright (c) 2001 - 2014 by The KStars Team:
 
              Jason Harris <kstars@30doradus.org>
              Heiko Evermann <heiko@evermann.de>
              Thomas Kabelmann <tk78@gmx.de>
              Pablo de Vicente <pvicentea@wanadoo.es>
-             Jasem Mutlaq <mutlaqja@ku.edu>
+             Jasem Mutlaq <mutlaqja@ikarustech.com>
              Mark Hollomon <mhh@mindspring.com>
              Carsten Niehaus <cniehaus@gmx.de>
              James Bowlin <bowlin@mindspring.com>
@@ -67,7 +67,7 @@ Main contributors:
    Heiko Evermann <heiko@evermann.de>
    Thomas Kabelmann <tk78@gmx.de>
    Pablo de Vicente <pvicentea@wanadoo.es>
-   Jasem Mutlaq <mutlaqja@ku.edu>
+   Jasem Mutlaq <mutlaqja@ikarustech.com>
    Mark Hollomon <mhh@mindspring.com>
    Carsten Niehaus <cniehaus@kde.org>
    James Bowlin <bowlin@mindspring.com>

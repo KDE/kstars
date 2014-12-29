@@ -1,5 +1,12 @@
 KStars Revision History
 
+ 2.3.0 (Altair):
+ ===================----------------------------------
+ 
+ - Migrated to KDE Frameworks 5
+ - Ekos DBUS Interface
+ - INDI DBUS Interface
+ 
  1.0 (Kornephoros): (* indicates to-be-done)
 ===================----------------------------------
 
