@@ -19,12 +19,15 @@
 
 StarHopperDialog::StarHopperDialog( QWidget *parent ) : QDialog( parent ), ui( new Ui::StarHopperDialog ) {
     ui->setupUi( this );
-    lw = ui->listWidget;
-    sh = new StarHopper();
+    m_lw = ui->listWidget;
+    m_Metadata = new QStringList();
+    ui->directionsLabel->setWordWrap( true );
+    m_sh = new StarHopper();
     connect( ui->NextButton, SIGNAL( clicked() ), this, SLOT( slotNext() ) );
     connect( ui->GotoButton, SIGNAL( clicked() ), this, SLOT( slotGoto() ) );
     connect( ui->DetailsButton, SIGNAL( clicked() ), this, SLOT( slotDetails() ) );
     connect(m_lw, SIGNAL( doubleClicked(const QModelIndex& ) ), this, SLOT( slotGoto() ));
+    connect(m_lw, SIGNAL( itemSelectionChanged() ), this, SLOT( slotRefreshMetadata() ));
     connect(this, SIGNAL(finished(int)), this, SLOT(deleteLater()));
 }
 
@@ -32,14 +35,15 @@ StarHopperDialog::~StarHopperDialog() {
     TargetListComponent *t = getTargetListComponent();
     t->list->clear();
     SkyMap::Instance()->forceUpdate( true );
-    delete sh;
+    delete m_sh;
 }
 
 void StarHopperDialog::starHop( const SkyPoint &startHop, const SkyPoint &stopHop, float fov, float maglim ) {
-    QList<StarObject *> *starList = sh->computePath( startHop, stopHop, fov, maglim );
+    QList<StarObject *> *starList = m_sh->computePath( startHop, stopHop, fov, maglim, m_Metadata );
     foreach( StarObject *so, *starList ) {
         setData( so );
     }
+    slotRefreshMetadata();
     m_skyObjList = KSUtils::castStarObjListToSkyObjList( starList );
     starList->clear();
     delete starList;
@@ -67,15 +71,17 @@ void StarHopperDialog::setData( StarObject * sobj ) {
     QVariant qv;
     qv.setValue( sobj );
     item->setData( Qt::UserRole, qv );
-    lw->addItem( item );
+    m_lw->addItem( item );
 }
 
 void StarHopperDialog::slotNext() {
-    lw->setCurrentRow( lw->currentRow()+1 );
+    m_lw->setCurrentRow( m_lw->currentRow()+1 );
+    slotGoto();
 }
 
 void StarHopperDialog::slotGoto() {
-    SkyObject *skyobj = getStarData( lw->currentItem() );
+    slotRefreshMetadata();
+    SkyObject *skyobj = getStarData( m_lw->currentItem() );
     if( skyobj ) {
         KStars *ks = KStars::Instance();
         ks->map()->setClickedObject( skyobj );
@@ -85,12 +91,12 @@ void StarHopperDialog::slotGoto() {
 }
 
 void StarHopperDialog::slotDetails() {
-    SkyObject *skyobj = getStarData( lw->currentItem() );
+    SkyObject *skyobj = getStarData( m_lw->currentItem() );
     if ( skyobj ) {
         DetailDialog *detailDialog = new DetailDialog( skyobj, KStarsData::Instance()->lt(), KStarsData::Instance()->geo(), KStars::Instance());
         detailDialog->exec();
         delete detailDialog;
-   }
+    }
 }
 
 SkyObject * StarHopperDialog::getStarData(QListWidgetItem *item) {
@@ -105,4 +111,16 @@ SkyObject * StarHopperDialog::getStarData(QListWidgetItem *item) {
 
 inline TargetListComponent * StarHopperDialog::getTargetListComponent() {
     return KStarsData::Instance()->skyComposite()->getStarHopRouteList();
+}
+
+void StarHopperDialog::slotRefreshMetadata() {
+    qDebug() << "Slot RefreshMetadata";
+    int row = m_lw->currentRow();
+    if( row >=0 ) {
+        ui->directionsLabel->setText( m_Metadata->at( row ) );
+    }
+    else {
+        ui->directionsLabel->setText( m_Metadata->at( 0 ) );
+    }
+    qDebug() << "Slot RefreshMetadata";
 }

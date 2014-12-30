@@ -32,8 +32,8 @@
 Q_DECLARE_METATYPE(StarObject *)
 
 class StarHopperDialog : public QDialog, public Ui::StarHopperDialog {
-    Q_OBJECT
-	public:
+    Q_OBJECT;
+    public:
         StarHopperDialog(QWidget *parent = 0);
         virtual ~StarHopperDialog();
         /**
@@ -46,19 +46,21 @@ class StarHopperDialog : public QDialog, public Ui::StarHopperDialog {
          */
         void starHop( const SkyPoint& startHop, const SkyPoint& stopHop, float fov, float maglim);
 
-	private slots:
+    private slots:
         void slotNext();
         void slotGoto();
         void slotDetails();
+        void slotRefreshMetadata();
 
-	private:
+    private:
         SkyObject * getStarData(QListWidgetItem *);
         void setData(StarObject *);
         inline TargetListComponent * getTargetListComponent();
         QList<SkyObject *> *m_skyObjList;
-        StarHopper *sh;
+        StarHopper *m_sh;
         Ui::StarHopperDialog *ui;
-        QListWidget *lw;
+        QListWidget *m_lw;
+        QStringList *m_Metadata;
 };
 #endif
 

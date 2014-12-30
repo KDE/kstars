@@ -27,8 +27,8 @@
 #include <QList>
 
 
-QList<StarObject *> * StarHopper::computePath( const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__ ) {
-    QList<const StarObject *> starHopList_const = computePath_const( src, dest, fov__, maglim__ );
+QList<StarObject *> * StarHopper::computePath( const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__, QStringList *metadata_ ) {
+    QList<const StarObject *> starHopList_const = computePath_const( src, dest, fov__, maglim__, metadata_ );
     QList<StarObject *> *starHopList_unconst = new QList<StarObject *>();
     foreach( const StarObject *so, starHopList_const ) {
         starHopList_unconst->append( const_cast<StarObject *>( so ) );
@@ -36,7 +36,7 @@ QList<StarObject *> * StarHopper::computePath( const SkyPoint &src, const SkyPoi
     return starHopList_unconst;
 }
 
-QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_ ) {
+QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_, QStringList *metadata ) {
 
     fov = fov_;
     maglim = maglim_;
@@ -84,6 +84,7 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
             const SkyPoint *prevHop = start;
             foreach( const StarObject *hopStar, result_path ) {
                 QString direction;
+                QString spectralChar="";
                 double pa; // should be 0 to 2pi
 
                 dms angDist = prevHop->angularDistanceTo( hopStar, &pa );
@@ -92,10 +93,19 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
                 dmsPA.setRadians( pa );
                 direction = KSUtils::toDirectionString( dmsPA );
 
-                if( !patternNames.contains( hopStar ) )
-                    qDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
-                else
-                    qDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a(n) " << patternNames.value( hopStar );
+                if( metadata ) {
+                    if( !patternNames.contains( hopStar ) ) {
+                        spectralChar += hopStar->spchar();
+                        starHopDirections = QString(" Slew %1 degrees %2 to find a %3 star of mag %4 ").arg( QString::number(angDist.Degrees()), direction, spectralChar, QString::number( hopStar->mag() ) );
+                        qDebug() << starHopDirections;
+                    }
+                    else {
+                        starHopDirections = QString(" Slew %1 degrees %2 to find a(n) %3").arg( QString::number( angDist.Degrees() ), direction, patternNames.value( hopStar ) );
+                        qDebug() << starHopDirections;
+                    }
+                    metadata->append( starHopDirections );
+                    qDebug() << "Appended starHopDirections to metadata";
+                }
                 prevHop = hopStar;
 
             }

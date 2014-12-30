@@ -37,14 +37,16 @@ class StarHopper {
      *@param dest SkyPoint to destination of the Star Hop
      *@param fov__ Field of view within which stars are considered
      *@param maglim__ Magnitude limit of stars to consider
+     *@param metadata_ Directions for starhopping
      *@return QList of StarObject pointers which are the resultant path to Star Hop
      *@note The StarObjects in the list returned are mutable and not constant
      */
-    QList<StarObject *> * computePath( const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__ );
+    QList<StarObject *> * computePath( const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__, QStringList *metadata_ = 0 );
 
  private:
     float fov;
     float maglim;
+    QString starHopDirections;
 
     // Useful for internal computations
     SkyPoint const *start;
@@ -73,7 +75,7 @@ class StarHopper {
 
  protected:
     //Returns a list of constant StarObject pointers which form the resultant path of Star Hop
-    QList<const StarObject *> computePath_const( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_ );
+    QList<const StarObject *> computePath_const( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_, QStringList *metadata = 0 );
 
 };
 
