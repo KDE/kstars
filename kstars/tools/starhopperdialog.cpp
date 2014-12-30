@@ -46,6 +46,7 @@ void StarHopperDialog::starHop( const SkyPoint &startHop, const SkyPoint &stopHo
     TargetListComponent *t = getTargetListComponent();
     delete t->list;
     t->list = m_skyObjList;
+    SkyMap::Instance()->forceUpdate( true );
 }
 
 void StarHopperDialog::setData( StarObject * sobj ) {
