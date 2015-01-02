@@ -16,7 +16,7 @@ WriteMakefile(
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
     CC                => $CC,
     LD                => '$(CC)',
-    INC               => '-I. -I../include', 
+    INC               => '-I. -I../../../htmesh', 
 	# Un-comment this if you add C files to link with later:
     # OBJECT            => '$(O_FILES)', # link all the C files too
     XSOPT             => '-C++',
