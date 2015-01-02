@@ -309,6 +309,7 @@ Capture::Capture()
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetJobs()));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
+    connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -518,7 +519,10 @@ void Capture::checkCCD(int ccdNum)
         ccdNum = CCDCaptureCombo->currentIndex();
 
     foreach(ISD::CCD *ccd, CCDs)
+    {
         disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)));
+        disconnect(ccd, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)));
+    }
 
     if (ccdNum <= CCDs.count())
     {                
@@ -537,6 +541,35 @@ void Capture::checkCCD(int ccdNum)
             useGuideHead = false;
         }
 
+        if (currentCCD->hasCooler())
+        {
+
+            temperatureLabel->setEnabled(true);
+            temperatureIN->setEnabled(true);
+
+            if (currentCCD->getBaseDevice()->getPropertyPermission("CCD_TEMPERATURE") != IP_RO)
+            {
+                double min,max,step;
+                setTemperatureB->setEnabled(true);
+                temperatureIN->setReadOnly(false);
+                currentCCD->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
+                temperatureIN->setMinimum(min);
+                temperatureIN->setMaximum(max);
+                temperatureIN->setSingleStep(1);
+            }
+            else
+            {
+                setTemperatureB->setEnabled(false);
+                temperatureIN->setReadOnly(true);
+            }
+        }
+        else
+        {
+            temperatureLabel->setEnabled(false);
+            temperatureIN->setEnabled(false);
+            temperatureIN->clear();
+            setTemperatureB->setEnabled(false);
+        }
         updateFrameProperties();
 
         QStringList frameTypes = targetChip->getFrameTypes();
@@ -569,6 +602,7 @@ void Capture::checkCCD(int ccdNum)
         }
 
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)), Qt::UniqueConnection);
     }
 }
 
@@ -1127,6 +1161,14 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
         secondsLabel->setText(xi18n("seconds left"));
 }
 
+void Capture::updateCCDTemperature(double value)
+{
+    if (temperatureIN->hasFocus() == false)
+    {
+        temperatureIN->setValue(value);
+    }
+}
+
 void Capture::addJob(bool preview)
 {
     SequenceJob *job = NULL;
@@ -1461,7 +1503,7 @@ void Capture::executeJob()
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
+    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));    
 
     captureImage();
 
@@ -2054,6 +2096,12 @@ void Capture::setParkOnComplete(bool enable)
 {
     if (parkCheck->isEnabled())
         parkCheck->setChecked(enable);
+}
+
+void Capture::setTemperature()
+{
+    if (currentCCD)
+        currentCCD->setTemperature(temperatureIN->value());
 }
 
 }

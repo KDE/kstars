@@ -310,7 +310,8 @@ public slots:
     void setAutoguiding(bool enable, bool isDithering);
     void resumeCapture();
     void checkPreview(bool enable);
-
+    void updateCCDTemperature(double value);
+    void setTemperature();
     void updateAutofocusStatus(bool status);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const QString &path);
