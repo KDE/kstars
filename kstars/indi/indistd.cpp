@@ -625,6 +625,15 @@ bool GenericDevice::getMinMaxStep(const QString & propName, const QString & elem
 
 }
 
+IPState GenericDevice::getState(const QString &propName)
+{
+    return baseDevice->getPropertyState(propName.toLatin1().constData());
+}
+
+IPerm GenericDevice::getPermission(const QString &propName)
+{
+    return baseDevice->getPropertyPermission(propName.toLatin1().constData());
+}
 
 DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
 {
@@ -749,6 +758,16 @@ bool DeviceDecorator::getMinMaxStep(const QString & propName, const QString & el
 
     return interfacePtr->getMinMaxStep(propName, elementName, min, max, step);
 
+}
+
+IPState DeviceDecorator::getState(const QString &propName)
+{
+    return interfacePtr->getState(propName);
+}
+
+IPerm DeviceDecorator::getPermission(const QString &propName)
+{
+    return interfacePtr->getPermission(propName);
 }
 
 

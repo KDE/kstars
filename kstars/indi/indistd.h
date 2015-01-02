@@ -70,6 +70,8 @@ public:
     virtual const char *getDeviceName()=0;
     virtual bool isConnected()=0;
     virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)=0;
+    virtual IPState getState(const QString &propName)=0;
+    virtual IPerm getPermission(const QString &propName)=0;
 
     virtual ~GDInterface() {}
 
@@ -126,6 +128,8 @@ public:
     virtual bool isConnected() { return connected; }
     virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
     virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
+    virtual IPState getState(const QString &propName);
+    virtual IPerm getPermission(const QString &propName);
 
 public slots:
     virtual bool Connect();
@@ -176,6 +180,8 @@ public:
     virtual INDI::BaseDevice* getBaseDevice();
 
     bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
+    IPState getState(const QString &propName);
+    IPerm getPermission(const QString &propName);
 
 
 public slots:
