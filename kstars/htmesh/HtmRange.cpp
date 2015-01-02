@@ -1,5 +1,18 @@
 #include <HtmRange.h>
 
+#include <stdio.h>
+#include <string.h>
+
+#define INSIDE     1
+#define OUTSIDE   -1
+#define INTERSECT  0
+#define GAP_HISTO_SIZE 10000
+
+
+extern "C" {
+  int cc_ID2name(char *name, uint64 id);
+}
+
 HtmRange::HtmRange()
 {
     my_los = new SkipList;

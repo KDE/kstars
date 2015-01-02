@@ -4,24 +4,25 @@
 #include <HtmRange.h>
 
 class HtmRangeIterator {
-public:
+ public:
     Key next();
+    char *nextSymbolic(char *buffer); /* User responsible for managing it */
     bool hasNext();
-    HtmRangeIterator(HtmRange *ran)
-    {
+    HtmRangeIterator(HtmRange *ran) {
         range = ran;
         range->reset();
         range->getNext(&currange[0], &currange[1]);
         nextval = currange[0] - 1;
         getNext();
     }
-private:
+ protected:
     HtmRange *range;
     void getNext();
 
+ private:
     Key nextval;
-    Key currange[2];
+    Key currange[2];            /* Low and High */
+ HtmRangeIterator() : range(0), nextval(-1) {}
 };
 
 #endif
-
