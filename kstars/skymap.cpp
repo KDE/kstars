@@ -34,6 +34,7 @@
 #include <QGraphicsScene>
 #include <QInputDialog>
 #include <QIcon>
+#include <QDesktopServices>
 
 #include <KActionCollection>
 #include <KConfig>
@@ -677,7 +678,7 @@ void SkyMap::slotInfo() {
 
     QUrl url ( sURL );
     if (!url.isEmpty())
-        KToolInvocation::invokeBrowser(sURL);
+        QDesktopServices::openUrl(sURL);
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
