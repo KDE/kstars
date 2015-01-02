@@ -82,6 +82,13 @@ Align::Align()
     kcfg_solverYBin->setValue(Options::solverYBin());
     kcfg_solverUpdateCoords->setChecked(Options::solverUpdateCoords());
     kcfg_solverPreview->setChecked(Options::solverPreview());
+    unsigned int solverGotoOption = Options::solverGotoOption();
+    if (solverGotoOption == 0)
+        syncR->setChecked(true);
+    else if (solverGotoOption == 1)
+        slewR->setChecked(true);
+    else
+        nothingR->setChecked(true);
 
     syncBoxesB->setIcon(QIcon::fromTheme("edit-copy"));
     clearBoxesB->setIcon(QIcon::fromTheme("edit-clear"));
@@ -581,6 +588,14 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
     Options::setSolverOptions(kcfg_solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
+
+    unsigned int solverGotoOption = 0;
+    if (slewR->isChecked())
+        solverGotoOption = 1;
+    else if (nothingR->isChecked())
+        solverGotoOption = 2;
+    Options::setSolverGotoOption(solverGotoOption);
+
 
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
