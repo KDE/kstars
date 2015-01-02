@@ -189,7 +189,7 @@ public slots:
     void subframeUpdated(bool enable);
     void checkFocus(double delta);
     void setInSequenceFocus(bool);
-
+    void updateFocusStatus(bool status);
     void resetFocusFrame();
     void filterChangeWarning(int index);
 
@@ -228,8 +228,8 @@ private:
     bool frameModified;
     int absIterations;
     int lastLockFilterPos;
-
-    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful;
+    int resetFocusIteration;
+    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;
 
     double absCurrentPos;
     double pulseStep;
@@ -240,6 +240,7 @@ private:
     int HFRInc;
     int HFRDec;
     int minPos, maxPos;
+    int initHFRPos;
     bool reverseDir;
     bool starSelected;
     int fx,fy,fw,fh;

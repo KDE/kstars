@@ -31,8 +31,9 @@
 
 #include <basedevice.h>
 
-#define MAXIMUM_ABS_ITERATIONS  30
-#define DEFAULT_SUBFRAME_DIM    128
+#define MAXIMUM_ABS_ITERATIONS      30
+#define MAXIMUM_RESET_ITERATIONS    2
+#define DEFAULT_SUBFRAME_DIM        128
 
 //#define FOCUS_DEBUG
 
@@ -59,6 +60,7 @@ Focus::Focus()
     inSequenceFocus   = false;
     starSelected      = false;
     frameModified     = false;
+    resetFocus        = false;
     m_autoFocusSuccesful = false;
 
     HFRInc =0;
@@ -67,6 +69,7 @@ Focus::Focus()
 
     pulseDuration = 1000;
 
+    resetFocusIteration=0;
     fy=fw=fh=0;
     orig_x = orig_y = orig_w = orig_h =-1;
     lastLockFilterPos=-1;
@@ -391,6 +394,8 @@ void Focus::checkFocuser(int FocuserNum)
 
     resetButtons();
 
+    if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+        emit autoFocusFinished(true);
 }
 
 void Focus::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
@@ -491,8 +496,7 @@ void Focus::checkStopFocus()
     if (inSequenceFocus == true)
     {
         inSequenceFocus = false;
-        m_autoFocusSuccesful = false;
-        emit autoFocusFinished(false);
+        updateFocusStatus(false);
     }
 
     if (captureInProgress && inAutoFocus == false && inFocusLoop == false)
@@ -746,8 +750,7 @@ void Focus::newFITS(IBLOB *bp)
             else
             {
                 noStarCount = 0;
-                m_autoFocusSuccesful = false;
-                emit autoFocusFinished(false);
+                updateFocusStatus(false);
             }
         }
         else if (currentHFR > deltaHFR)
@@ -758,8 +761,7 @@ void Focus::newFITS(IBLOB *bp)
         }
         else
         {
-            m_autoFocusSuccesful = true;
-            emit autoFocusFinished(true);
+            updateFocusStatus(true);
         }
 
         deltaHFR = 0;
@@ -906,7 +908,7 @@ void Focus::drawHFRPlot()
 
 void Focus::autoFocusAbs()
 {
-    static int initHFRPos=0, lastHFRPos=0, minHFRPos=0, initSlopePos=0, focusOutLimit=0, focusInLimit=0;
+    static int lastHFRPos=0, minHFRPos=0, initSlopePos=0, focusOutLimit=0, focusInLimit=0;
     static double minHFR=0, initSlopeHFR=0;
     double targetPulse=0, delta=0;
 
@@ -931,10 +933,7 @@ void Focus::autoFocusAbs()
     {
         appendLogText(xi18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
-        m_autoFocusSuccesful = false;
-        emit autoFocusFinished(false);
-        if (Options::playFocusAlarm())
-                KStars::Instance()->ekosManager()->playError();
+        updateFocusStatus(false);
         return;
     }
 
@@ -1006,18 +1005,14 @@ void Focus::autoFocusAbs()
                 {
                     appendLogText(xi18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
                     stopFocus();
-                    m_autoFocusSuccesful = false;
-                    emit autoFocusFinished(false);
+                    updateFocusStatus(false);
                 }
                 else
                 {
                     appendLogText(xi18n("Autofocus complete."));
                     stopFocus();
                     emit suspendGuiding(false);
-                    m_autoFocusSuccesful = true;
-                    emit autoFocusFinished(true);
-                    if (Options::playFocusAlarm())
-                            KStars::Instance()->ekosManager()->playOk();
+                    updateFocusStatus(true);
                 }
                 break;
             }
@@ -1201,10 +1196,7 @@ void Focus::autoFocusAbs()
             appendLogText(xi18n("Autofocus complete."));
             stopFocus();
             emit suspendGuiding(false);
-            m_autoFocusSuccesful = true;
-            emit autoFocusFinished(true);
-            if (Options::playFocusAlarm())
-                    KStars::Instance()->ekosManager()->playOk();
+            updateFocusStatus(true);
             return;
         }
 
@@ -1213,10 +1205,7 @@ void Focus::autoFocusAbs()
         {
             appendLogText(xi18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
-            m_autoFocusSuccesful = false;
-            emit autoFocusFinished(false);
-            if (Options::playFocusAlarm())
-                    KStars::Instance()->ekosManager()->playError();
+            updateFocusStatus(false);
             return;
         }
 
@@ -1229,9 +1218,7 @@ void Focus::autoFocusAbs()
 
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
             stopFocus();
-            emit autoFocusFinished(false);
-            if (Options::playFocusAlarm())
-                    KStars::Instance()->ekosManager()->playError();
+            updateFocusStatus(false);
             #ifdef FOCUS_DEBUG
             qDebug() << "Maximum travel limit reached. Autofocus aborted." << endl;
             #endif
@@ -1272,9 +1259,7 @@ void Focus::autoFocusRel()
     {
         appendLogText(xi18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         stopFocus();
-        emit autoFocusFinished(false);
-        if (Options::playFocusAlarm())
-                KStars::Instance()->ekosManager()->playError();
+        updateFocusStatus(false);
         return;
     }
 
@@ -1306,10 +1291,7 @@ void Focus::autoFocusRel()
                 appendLogText(xi18n("Autofocus complete."));                
                 stopFocus();
                 emit suspendGuiding(false);
-                m_autoFocusSuccesful = true;
-                emit autoFocusFinished(true);
-                if (Options::playFocusAlarm())
-                        KStars::Instance()->ekosManager()->playOk();
+                updateFocusStatus(true);
                 break;
             }
             else if (currentHFR < HFR)
@@ -1364,10 +1346,7 @@ void Focus::autoFocusRel()
             appendLogText(xi18n("Autofocus complete."));
             stopFocus();
             emit suspendGuiding(false);
-            m_autoFocusSuccesful = true;
-            emit autoFocusFinished(true);
-            if (Options::playFocusAlarm())
-                    KStars::Instance()->ekosManager()->playOk();
+            updateFocusStatus(true);
             break;
         }
         else if (currentHFR < HFR)
@@ -1431,6 +1410,13 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
        if (pos)
            pulseStep = pos->value;
 
+       if (resetFocus && nvp->s == IPS_OK)
+       {
+           resetFocus = false;
+           appendLogText(xi18n("Restarting autofocus process..."));
+           startFocus();
+       }
+
        if (canAbsMove && inAutoFocus)
        {
            if (nvp->s == IPS_OK && captureInProgress == false)
@@ -1439,9 +1425,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
            {
                appendLogText(xi18n("Focuser error, check INDI panel."));
                stopFocus();
-               emit autoFocusFinished(false);               
-               if (Options::playFocusAlarm())
-                       KStars::Instance()->ekosManager()->playError();
+               updateFocusStatus(false);
            }
 
        }
@@ -1450,8 +1434,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
     }
 
     if (!strcmp(nvp->name, "FOCUS_TIMER"))
-    {
-
+    {       
         if (canAbsMove == false && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
@@ -1460,9 +1443,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
             {
                 appendLogText(xi18n("Focuser error, check INDI panel."));
                 stopFocus();
-                if (Options::playFocusAlarm())
-                        KStars::Instance()->ekosManager()->playError();
-                emit autoFocusFinished(false);
+                updateFocusStatus(false);
             }
 
         }
@@ -1680,6 +1661,37 @@ void Focus::setFocusMode(int mode)
         AutoModeR->setChecked(true);
 
     checkCCD();
+}
+
+void Focus::updateFocusStatus(bool status)
+{
+    m_autoFocusSuccesful = status;
+
+    // In case of failure, go back to last position if the focuser is absolute
+    if (status == false &&  canAbsMove && currentFocuser)
+    {
+        currentFocuser->absMoveFocuser(initHFRPos);
+        appendLogText(xi18n("Autofocus failed, moving back to initial focus position %1.", initHFRPos));
+
+        // If we're doing in sequence focusing using an absolute focuser, let's retry focusing starting from last known good position before we give up
+        if (inSequenceFocus && resetFocusIteration++ < MAXIMUM_RESET_ITERATIONS && resetFocus == false)
+        {
+            resetFocus = true;
+            return;
+        }
+    }
+
+    resetFocusIteration = 0;
+
+    emit autoFocusFinished(status);
+
+    if (Options::playFocusAlarm())
+    {
+        if (status)
+            KStars::Instance()->ekosManager()->playOk();
+        else
+            KStars::Instance()->ekosManager()->playError();
+    }
 }
 
 }
