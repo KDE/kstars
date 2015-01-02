@@ -1389,7 +1389,7 @@ void EkosManager::initCapture()
          captureProcess->disconnect(focusProcess);
          focusProcess->disconnect(captureProcess);
          connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)));
-         connect(focusProcess, SIGNAL(autoFocusFinished(bool)), captureProcess, SLOT(updateAutofocusStatus(bool)));
+         connect(focusProcess, SIGNAL(autoFocusFinished(bool)), captureProcess, SLOT(updateAutofocusStatus(bool)),  Qt::UniqueConnection);
      }
 
 }
