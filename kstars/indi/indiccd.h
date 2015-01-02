@@ -119,8 +119,10 @@ public:
 
     DeviceFamily getType() { return dType;}
     bool hasGuideHead();
+    bool hasCooler();
 
     // Utitlity functions
+    bool setTemperature(double value);
     void setISOMode(bool enable) { ISOMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setSeqCount(int count) { seqCount = count; }
@@ -128,7 +130,7 @@ public:
     bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
     bool setRapidGuide(CCDChip *targetChip, bool enable);
     void updateUploadSettings();
-    UploadMode getUploadMode();
+    UploadMode getUploadMode();    
 
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
@@ -140,6 +142,7 @@ public slots:
 
 signals:
     void FITSViewerClosed();
+    void newTemperatureValue(double value);
     void newExposureValue(ISD::CCDChip *chip, double value);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
 
@@ -149,6 +152,7 @@ private:
 
     bool ISOMode;
     bool HasGuideHead;
+    bool HasCooler;
     QString		seqPrefix;
     QString     fitsDir;
     char BLOBFilename[MAXINDIFILENAME];

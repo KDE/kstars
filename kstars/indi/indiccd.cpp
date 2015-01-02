@@ -766,6 +766,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     dType = KSTARS_CCD;
     ISOMode   = true;
     HasGuideHead = false;
+    HasCooler    = false;
     fv          = NULL;
     streamWindow      = NULL;
     ST4Driver = NULL;
@@ -838,6 +839,13 @@ void CCD::registerProperty(INDI::Property *prop)
         if (sp && sp->p != IP_RO)
             guideChip->setCanAbort(true);
     }
+    else if (!strcmp(prop->getName(), "CCD_TEMPERATURE"))
+    {
+        INumberVectorProperty *np = prop->getNumber();
+        HasCooler = true;
+        if (np)
+            emit newTemperatureValue(np->np[0].value);
+    }
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -871,6 +879,17 @@ void CCD::processNumber(INumberVectorProperty *nvp)
             if (np)
                 emit newExposureValue(primaryChip, np->value);
         }
+
+        return;
+    }
+
+    if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
+    {
+        INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
+            if (np)
+                emit newTemperatureValue(np->value);
+
+            return;
     }
 
     if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
@@ -1314,6 +1333,11 @@ bool CCD::hasGuideHead()
     return HasGuideHead;
 }
 
+bool CCD::hasCooler()
+{
+    return HasCooler;
+}
+
 CCDChip * CCD::getChip(CCDChip::ChipType cType)
 {
     switch (cType)
@@ -1446,5 +1470,21 @@ CCD::UploadMode CCD::getUploadMode()
     return UPLOAD_CLIENT;
 }
 
+bool CCD::setTemperature(double value)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("CCD_TEMPERATURE");
+    if (nvp == NULL)
+        return false;
+
+    INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
+    if (np == NULL)
+        return false;
+
+    np->value = value;
+
+    clientManager->sendNewNumber(nvp);
+
+    return true;
+}
 
 }
