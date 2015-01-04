@@ -205,7 +205,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                      else
                      {
                          item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                         item->setText(LOCAL_PORT_COLUMN, dv->getUserPort());
+                         item->setText(LOCAL_PORT_COLUMN, dv->getUserPort() == "-1" ? "" : dv->getUserPort());
                      }
 
                      break;
