@@ -803,24 +803,19 @@ void Focus::newFITS(IBLOB *bp)
                 int subW=offset*2*subBinX;
                 int subH=offset*2*subBinY;
 
-                if (subX<0)
-                    subX=0;
-                if (subY<0)
-                    subY=0;
-                if ((subW+subX)>fw)
-                    subW=fw-subX;
-                if ((subH+subY)>fh)
-                    subH=fh-subY;
+                int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+                targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
 
-                if (subW <= 0)
-                    subW = DEFAULT_SUBFRAME_DIM;
-                if (subH <= 0)
-                    subH = DEFAULT_SUBFRAME_DIM;
-
-
+                if (subX< minX)
+                    subX=minX;
+                if (subY< minY)
+                    subY= minY;
+                if ((subW+subX)> maxW)
+                    subW=maxW-subX;
+                if ((subH+subY)> maxH)
+                    subH=maxH-subY;
 
                 targetChip->setFocusFrame(subX, subY, subW, subH);
-
 
                 orig_x = fx;
                 orig_y = fy;
@@ -1544,25 +1539,22 @@ void Focus::focusStarSelected(int x, int y)
     disconnect(this, SLOT(focusStarSelected(int,int)));
 
     targetChip->getBinning(&binx, &biny);
+    int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+    targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
 
     x = (x - offset) * binx;
     y = (y - offset) * biny;
     int w=offset*2*binx;
     int h=offset*2*biny;
 
-    if (x<0)
-        x=0;
-    if (y<0)
-        y=0;
-    if ((x+w)>fw)
-        w=fw-x;
-    if ((y+h)>fh)
-        h=fh-y;
-
-    if (w <= 0)
-        w = DEFAULT_SUBFRAME_DIM;
-    if (h <= 0)
-        h = DEFAULT_SUBFRAME_DIM;
+    if (x<minX)
+        x=minX;
+    if (y<minY)
+        y=minY;
+    if ((x+w)>maxW)
+        w=maxW-x;
+    if ((y+h)>maxH)
+        h=maxH-y;
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     targetImage->updateMode(FITS_FOCUS);
