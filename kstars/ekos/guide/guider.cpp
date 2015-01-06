@@ -108,7 +108,10 @@ rguider::rguider(Ekos::Guide *parent)
 
     ui.ditherCheck->setChecked(Options::useDither());
     ui.ditherPixels->setValue(Options::ditherPixels());
-    ui.spinBox_AOLimit->setValue(Options::aOLimit());
+    ui.spinBox_AOLimit->setValue(Options::aOLimit());    
+
+    QString logFileName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/guide_log.txt";
+    logFile.setFileName(logFileName);
 
 }
 
@@ -380,6 +383,15 @@ bool rguider::start()
     if (pimage)
         disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
 
+    logFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&logFile);
+    out << "Guiding rate,x15 arcsec/sec: " << ui.spinBox_GuideRate->value() << endl;
+    out << "Focal,mm: " << ui.l_Focal->text() << endl;
+    out << "Aperture,mm: " << ui.l_Aperture->text() << endl;
+    out << "F/D: " << ui.l_FbyD->text() << endl;
+    out << "FOV: " << ui.l_FOV->text() << endl;
+    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction" << endl;
+
     drift_graph->reset_data();
     ui.pushButton_StartStop->setText( xi18n("Stop") );
     pmain_wnd->appendLogText(xi18n("Autoguiding started."));
@@ -399,6 +411,8 @@ bool rguider::start()
 
     capture();
 
+    pmath->set_log_file(&logFile);
+
     return true;
 }
 
@@ -409,6 +423,8 @@ bool rguider::stop()
     ui.pushButton_StartStop->setText( xi18n("Start Autoguide") );
     pmain_wnd->appendLogText(xi18n("Autoguiding stopped."));
     pmath->stop();
+
+    logFile.close();
 
     targetChip->abortExposure();
 

@@ -91,6 +91,7 @@ private:
     int fx,fy,fw,fh;
     double ret_x, ret_y, ret_angle;
     bool m_isDithering;
+    QFile logFile;
 
 private:
     Ui::guiderClass ui;

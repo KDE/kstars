@@ -946,21 +946,16 @@ void cgmath::process_axes( void  )
  			out_params.pulse_dir[k] = NO_DIR;
 
     #ifdef GUIDE_LOG
-        if (out_params.pulse_dir[k] == NO_DIR)
-            qDebug() << "Direction: NO_DIR" << endl;
-        else if (out_params.pulse_dir[k] == RA_DEC_DIR)
-            qDebug() << "Direction: Decrease RA" << endl;
-        else if (out_params.pulse_dir[k] == RA_INC_DIR)
-            qDebug() << "Direction: Increase RA" << endl;
-        else if (out_params.pulse_dir[k] == DEC_INC_DIR)
-            qDebug() << "Direction: Increase DEC" << endl;
-        else if (out_params.pulse_dir[k] == DEC_DEC_DIR)
-            qDebug() << "Direction: Decrease DEC" << endl;
+            qDebug() << "Direction: " << get_direction_string(out_params.pulse_dir[k]) << << endl;
     #endif
 
  	}
 
     emit newAxisDelta(out_params.delta[0], out_params.delta[1]);
+
+     QTextStream out(logFile);
+     out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << "," << get_direction_string(out_params.pulse_dir[0])
+         << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
 
 }
 
@@ -1125,9 +1120,40 @@ void cgmath::setRapidStarData(double dx, double dy)
 }
 
 
+void cgmath::set_log_file(QFile *file)
+{
+   logFile = file;
+   logTime.restart();
+}
 
+const char *cgmath::get_direction_string(GuideDirection dir)
+{
+    switch (dir)
+    {
 
+        case RA_DEC_DIR:
+            return "Decrease RA";
+        break;
 
+        case RA_INC_DIR:
+            return "Increase RA";
+        break;
+
+        case DEC_DEC_DIR:
+            return "Decrease DEC";
+        break;
+
+        case DEC_INC_DIR:
+            return "Increase DEC";
+        break;
+
+        default:
+        break;
+    }
+
+    return "NO DIR";
+
+}
 
 //---------------------------------------------------------------------------------------
 cproc_in_params::cproc_in_params()

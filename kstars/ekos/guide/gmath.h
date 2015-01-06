@@ -13,6 +13,7 @@
 #define GMATH_H_
 
 #include <QObject>
+#include <QTime>
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -169,6 +170,7 @@ public:
     bool calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec, int totalPulse=-1);
 	double calc_phi( double start_x, double start_y, double end_x, double end_y ) const;
     double get_dither_rate(int axis);
+    void set_log_file(QFile *file);
 
 signals:
     void newAxisDelta(double delta_ra, double delta_dec);
@@ -219,6 +221,7 @@ private:
 	Vector find_star_local_pos( void ) const;
 	void process_axes( void );
 	void calc_square_err( void );
+    const char *get_direction_string(GuideDirection dir);
 
     // rapid guide
     bool useRapidGuide;
@@ -226,6 +229,9 @@ private:
 
     // dithering
     double ditherRate[2];
+
+    QFile *logFile;
+    QTime logTime;
 	
 };
 
