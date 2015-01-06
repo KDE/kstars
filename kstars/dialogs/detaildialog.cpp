@@ -27,6 +27,7 @@
 #include <QPushButton>
 #include <QTemporaryFile>
 #include <QDebug>
+#include <QDesktopServices>
 
 #include <KMessageBox>
 #include <KToolInvocation>
@@ -702,7 +703,7 @@ void DetailDialog::viewLink()
     }
 
     if ( !URL.isEmpty() )
-        KToolInvocation::invokeBrowser(URL);
+        QDesktopServices::openUrl(URL);
 }
 
 void DetailDialog::updateLists()
@@ -1014,7 +1015,7 @@ void  DetailDialog::viewADVData()
         {
             link = item->Link;
             link = parseADVData(link);
-            KToolInvocation::invokeBrowser(link);
+            QDesktopServices::openUrl(link);
             return;
         }
     }
