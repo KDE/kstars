@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Focus</class>
- <widget class="QWidget" name="Focus">
+ <class>Mount</class>
+ <widget class="QWidget" name="Mount">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>513</width>
-    <height>306</height>
+    <width>571</width>
+    <height>343</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -20,13 +20,16 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QGroupBox" name="groupBox_3">
+         <widget class="QGroupBox" name="primaryScopeGroup">
           <property name="title">
            <string>Primary Telescope</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <layout class="QFormLayout" name="formLayout_2">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
              <item row="0" column="0">
               <widget class="QLabel" name="label_3">
                <property name="text">
@@ -79,7 +82,11 @@
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit"/>
+              <widget class="QLineEdit" name="raOUT">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="0" column="2">
               <widget class="QLabel" name="label_7">
@@ -89,9 +96,12 @@
               </widget>
              </item>
              <item row="0" column="3">
-              <widget class="QLineEdit" name="lineEdit_3">
+              <widget class="QLineEdit" name="decOUT">
                <property name="text">
                 <string/>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -103,7 +113,11 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QLineEdit" name="lineEdit_2"/>
+              <widget class="QLineEdit" name="azOUT">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="1" column="2">
               <widget class="QLabel" name="label_8">
@@ -113,7 +127,11 @@
               </widget>
              </item>
              <item row="1" column="3">
-              <widget class="QLineEdit" name="lineEdit_4"/>
+              <widget class="QLineEdit" name="altOUT">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -121,7 +139,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_2">
+         <widget class="QGroupBox" name="guideScopeGroup">
           <property name="title">
            <string>Guide Telescope</string>
           </property>
@@ -168,6 +186,30 @@
            </item>
           </layout>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QPushButton" name="saveB">
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

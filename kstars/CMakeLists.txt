@@ -68,6 +68,7 @@ if (CFITSIO_FOUND)
       ekos/align.ui
       ekos/focus.ui
       ekos/guide.ui
+      ekos/mount.ui
       ekos/guide/guider.ui
       ekos/guide/rcalibration.ui
    )
@@ -78,6 +79,7 @@ if (CFITSIO_FOUND)
       ekos/focus.cpp
       ekos/guide.cpp
       ekos/align.cpp
+      ekos/mount.cpp
       ekos/astrometryparser.cpp
       ekos/offlineastrometryparser.cpp
       ekos/onlineastrometryparser.cpp

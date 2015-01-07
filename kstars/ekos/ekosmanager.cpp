@@ -69,6 +69,7 @@ EkosManager::EkosManager(QWidget *parent)
     focusProcess   = NULL;
     guideProcess   = NULL;
     alignProcess   = NULL;
+    mountProcess   = NULL;
 
     kcfg_localMode->setChecked(Options::localMode());
     kcfg_remoteMode->setChecked(Options::remoteMode());
@@ -114,6 +115,7 @@ EkosManager::~EkosManager()
     delete focusProcess;
     delete guideProcess;
     delete alignProcess;
+    delete mountProcess;
     delete playFITSFile;
     delete playOkFile;
     delete playErrorFile;
@@ -316,6 +318,7 @@ void EkosManager::reset()
     focusProcess   = NULL;
     guideProcess   = NULL;
     alignProcess   = NULL;
+    mountProcess   = NULL;
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
@@ -656,7 +659,12 @@ void EkosManager::refreshRemoteDrivers()
 void EkosManager::connectDevices()
 {
     if (scope)
+    {
          scope->Connect();
+
+         if (mountProcess)
+             mountProcess->setEnabled(true);
+    }
 
     if (ccd)
     {
@@ -707,7 +715,12 @@ void EkosManager::disconnectDevices()
 {
 
     if (scope)
+    {
          scope->Disconnect();
+
+         if (mountProcess)
+             mountProcess->setEnabled(false);
+    }
 
     if (ccd)
     {
@@ -720,6 +733,8 @@ void EkosManager::disconnectDevices()
             alignProcess->setEnabled(false);
         if (focusProcess)
             focusProcess->setEnabled(false);
+        if (alignProcess)
+            alignProcess->setEnabled(false);
 
     }
 
@@ -1025,6 +1040,10 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
 
+    initMount();
+
+    mountProcess->setTelescope(scope);
+
     if (guideProcess)
         guideProcess->setTelescope(scope);
 
@@ -1243,6 +1262,14 @@ void EkosManager::processNewProperty(INDI::Property* prop)
            guideProcess->syncTelescopeInfo();
         }
 
+        if (mountProcess)
+        {
+           mountProcess->setTelescope(scope);
+           mountProcess->syncTelescopeInfo();
+        }
+
+
+
         return;
 
     }
@@ -1284,6 +1311,17 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     {
         if (captureProcess)
             captureProcess->setTelescope(scope);
+
+        return;
+    }
+
+    if (!strcmp(prop->getName(), "FILTER_NAME"))
+    {
+        if (captureProcess)
+            captureProcess->checkFilter();
+
+        if (focusProcess)
+            focusProcess->checkFilter();
 
         return;
     }
@@ -1344,6 +1382,8 @@ void EkosManager::updateLog()
         ekosLogOut->setPlainText(focusProcess->getLogText());
     else if (currentWidget == guideProcess)
         ekosLogOut->setPlainText(guideProcess->getLogText());
+    else if (currentWidget == mountProcess)
+        ekosLogOut->setPlainText(mountProcess->getLogText());
 
 }
 
@@ -1372,6 +1412,9 @@ void EkosManager::clearLog()
         focusProcess->clearLog();
     else if (currentWidget == guideProcess)
         guideProcess->clearLog();
+    else if (currentWidget == mountProcess)
+        mountProcess->clearLog();
+
 }
 
 void EkosManager::initCapture()
@@ -1426,6 +1469,16 @@ void EkosManager::initFocus()
         // Suspend
         connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)), Qt::UniqueConnection);
     }
+
+}
+
+void EkosManager::initMount()
+{
+    if (mountProcess)
+        return;
+
+    mountProcess = new Ekos::Mount();
+    toolsWidget->addTab(mountProcess, xi18n("Mount"));
 
 }
 
@@ -1509,6 +1562,8 @@ void EkosManager::removeTabs()
         delete (guideProcess);
         guideProcess = NULL;
 
+        delete (mountProcess);
+        mountProcess = NULL;
 
         ao = NULL;
 

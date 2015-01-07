@@ -19,6 +19,7 @@
 #include "focus.h"
 #include "guide.h"
 #include "align.h"
+#include "mount.h"
 
 #include <QDialog>
 #include <QHash>
@@ -176,6 +177,7 @@ public slots:
     void initFocus();
     void initGuide();
     void initAlign();
+    void initMount();
 
     void initLocalDrivers();
     void initRemoteDrivers();
@@ -197,6 +199,7 @@ public slots:
     Ekos::Focus *focusProcess;
     Ekos::Guide *guideProcess;
     Ekos::Align *alignProcess;
+    Ekos::Mount *mountProcess;
 
     QString guiderName;
     bool localMode, ccdDriverSelected;

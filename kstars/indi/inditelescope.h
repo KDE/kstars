@@ -24,6 +24,9 @@ public:
     Telescope(GDInterface *iPtr);
     ~Telescope();
 
+    typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
+    typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
+
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);
@@ -36,6 +39,8 @@ public:
     bool Slew(double ra, double dec);
     bool Sync(SkyPoint *ScopeTarget);
     bool Sync(double ra, double dec);
+    bool MoveNS(TelescopeMotionNS dir);
+    bool MoveWE(TelescopeMotionWE dir);
     bool Abort();
     bool Park();
     bool canGuide();

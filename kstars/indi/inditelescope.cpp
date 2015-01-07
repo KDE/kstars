@@ -483,5 +483,67 @@ bool Telescope::getEqCoords(double *ra, double *dec)
 
 }
 
+bool Telescope::MoveNS(TelescopeMotionNS dir)
+{
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
+    if (motionSP == NULL)
+        return false;
+
+    ISwitch *motionNorth = IUFindSwitch(motionSP, "MOTION_NORTH");
+    ISwitch *motionSouth = IUFindSwitch(motionSP, "MOTION_SOUTH");
+
+    if (motionNorth == NULL || motionSouth == NULL)
+        return false;
+
+    // If same direction, return
+    if (dir == MOTION_NORTH && motionNorth->s == ISS_ON)
+        return true;
+
+    if (dir == MOTION_SOUTH && motionSouth->s == ISS_ON)
+        return true;
+
+    IUResetSwitch(motionSP);
+
+    if (dir == MOTION_NORTH)
+        motionNorth->s = ISS_ON;
+    else
+        motionSouth->s = ISS_ON;
+
+    clientManager->sendNewSwitch(motionSP);
+
+    return true;
+}
+
+bool Telescope::MoveWE(TelescopeMotionWE dir)
+{
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
+    if (motionSP == NULL)
+        return false;
+
+    ISwitch *motionWest = IUFindSwitch(motionSP, "MOTION_WEST");
+    ISwitch *motionEast = IUFindSwitch(motionSP, "MOTION_EAST");
+
+    if (motionWest == NULL || motionEast == NULL)
+        return false;
+
+    // If same direction, return
+    if (dir == MOTION_WEST && motionWest->s == ISS_ON)
+        return true;
+
+    if (dir == MOTION_EAST && motionEast->s == ISS_ON)
+        return true;
+
+    IUResetSwitch(motionSP);
+
+    if (dir == MOTION_WEST)
+        motionWest->s = ISS_ON;
+    else
+        motionEast->s = ISS_ON;
+
+    clientManager->sendNewSwitch(motionSP);
+
+    return true;
+}
+
 
 }
