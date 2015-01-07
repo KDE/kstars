@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>874</width>
-    <height>601</height>
+    <width>654</width>
+    <height>486</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -632,13 +632,13 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
      <property name="title">
       <string>V-Curve</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="KPlotWidget" name="HFRPlot">
         <property name="minimumSize">
          <size>
           <width>200</width>
-          <height>200</height>
+          <height>100</height>
          </size>
         </property>
        </widget>
@@ -677,7 +677,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
-            <height>20</height>
+            <height>13</height>
            </size>
           </property>
          </spacer>
@@ -702,7 +702,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>11</height>
+       <height>1</height>
       </size>
      </property>
     </spacer>
