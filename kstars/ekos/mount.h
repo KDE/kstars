@@ -48,9 +48,10 @@ public slots:
 
     /* Telescope Info */
     void syncTelescopeInfo();
-    void updateScopeCoords(INumberVectorProperty *coord);
+    void updateNumber(INumberVectorProperty *nvp);
     void move();
     void stop();
+    void save();
 
 
 signals:

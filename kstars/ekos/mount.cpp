@@ -79,6 +79,9 @@ Mount::Mount()
     connect(southeastB, SIGNAL(released()), this, SLOT(stop()));
     connect(southwestB, SIGNAL(pressed()), this, SLOT(move()));
     connect(southwestB, SIGNAL(released()), this, SLOT(stop()));
+    connect(stopB, SIGNAL(clicked()), this, SLOT(stop()));
+
+    connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
 
 
 }
@@ -92,7 +95,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateScopeCoords(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     syncTelescopeInfo();
 }
@@ -129,18 +132,25 @@ void Mount::syncTelescopeInfo()
 
 }
 
-void Mount::updateScopeCoords(INumberVectorProperty *coord)
+void Mount::updateNumber(INumberVectorProperty *nvp)
 {
-    if (!strcmp(coord->name, "EQUATORIAL_EOD_COORD"))
+    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
     {
-        telescopeCoord.setRA(coord->np[0].value);
-        telescopeCoord.setDec(coord->np[1].value);
+        telescopeCoord.setRA(nvp->np[0].value);
+        telescopeCoord.setDec(nvp->np[1].value);
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         raOUT->setText(telescopeCoord.ra().toHMSString());
         decOUT->setText(telescopeCoord.dec().toDMSString());
         azOUT->setText(telescopeCoord.az().toDMSString());
         altOUT->setText(telescopeCoord.alt().toDMSString());
+
+        return;
+    }
+
+    if (!strcmp(nvp->name, "TELESCOPE_INFO"))
+    {
+        syncTelescopeInfo();
     }
 }
 
@@ -203,6 +213,44 @@ void Mount::move()
 void Mount::stop()
 {
     currentTelescope->Abort();
+}
+
+void Mount::save()
+{
+    INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+
+    if (nvp)
+    {
+
+        primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
+        guideScopeGroup->setTitle(xi18n("%1 guide scope", currentTelescope->getDeviceName()));
+
+        INumber *np = NULL;
+
+        np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        if (np)
+            np->value = primaryScopeApertureIN->value();
+        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+        if (np)
+            np->value = primaryScopeFocalIN->value();
+        np = IUFindNumber(nvp, "GUIDER_APERTURE");
+        if (np)
+            np->value = guideScopeApertureIN->value();
+        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
+        if (np)
+            np->value = guideScopeFocalIN->value();
+
+        ClientManager *clientManager = currentTelescope->getDriverInfo()->getClientManager();
+
+        clientManager->sendNewNumber(nvp);
+
+        currentTelescope->setConfig(SAVE_CONFIG);
+
+        appendLogText(xi18n("Telescope information saved."));
+
+    }
+    else
+        appendLogText(xi18n("Failed to save telescope information."));
 }
 
 }

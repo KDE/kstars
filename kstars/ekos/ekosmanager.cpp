@@ -682,7 +682,7 @@ void EkosManager::connectDevices()
     if (guider && guider != ccd)
         guider->Connect();
 
-    if (guider && guideProcess)
+    if (guideProcess)
         guideProcess->setEnabled(true);
 
     if (filter && filter != ccd)
@@ -733,15 +733,12 @@ void EkosManager::disconnectDevices()
             alignProcess->setEnabled(false);
         if (focusProcess)
             focusProcess->setEnabled(false);
-        if (alignProcess)
-            alignProcess->setEnabled(false);
-
     }
 
     if (guider && guider != ccd)
         guider->Disconnect();
 
-    if (guider && guideProcess)
+    if (guideProcess)
         guideProcess->setEnabled(false);
 
     if (ao)
@@ -1340,7 +1337,7 @@ void EkosManager::processTabChange()
 
     if (currentWidget == alignProcess)
     {
-        if (alignProcess->isEnabled() == false && ccd && ccd->isConnected())
+        if (alignProcess->isEnabled() == false && captureProcess->isEnabled() && ccd && ccd->isConnected())
         {
             if (alignProcess->parserOK())
                 alignProcess->setEnabled(true);
@@ -1479,6 +1476,7 @@ void EkosManager::initMount()
 
     mountProcess = new Ekos::Mount();
     toolsWidget->addTab(mountProcess, xi18n("Mount"));
+    connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
 }
 
