@@ -1023,8 +1023,6 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
         emit switchUpdated(svp);
 
-        return;
-
     }
 
     DeviceDecorator::processSwitch(svp);
