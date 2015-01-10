@@ -67,6 +67,7 @@ bool greaterThan(Edge *s1, Edge *s2)
 FITSImage::FITSImage(FITSMode fitsMode)
 {
     image_buffer = NULL;
+    original_image_buffer = NULL;
     wcs_coord    = NULL;
     fptr = NULL;
     maxHFRStar = NULL;
@@ -81,6 +82,7 @@ FITSImage::~FITSImage()
     int status=0;
 
     delete(image_buffer);
+    delete(original_image_buffer);
 
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
@@ -198,6 +200,8 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
 
     delete (image_buffer);
     image_buffer = NULL;
+    delete (original_image_buffer);
+    original_image_buffer = NULL;
 
     image_buffer = new float[stats.dim[0] * stats.dim[1]];
 
@@ -206,6 +210,15 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         qDebug() << "Not enough memory for image_buffer";
         return false;
     }
+
+    original_image_buffer = new float[stats.dim[0] * stats.dim[1]];
+
+    if (original_image_buffer == NULL)
+    {
+        qDebug() << "Not enough memory for original_image_buffer";
+        return false;
+    }
+
     if (mode == FITS_NORMAL && progress)
     {
         if (progress->wasCanceled())
@@ -233,6 +246,8 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         fits_report_error(stderr, status);
         return false;
     }
+
+    memcpy(original_image_buffer, image_buffer, nelements*sizeof(float));
 
     if (mode == FITS_NORMAL && progress)
     {
@@ -928,14 +943,20 @@ double FITSImage::getHFR(HFRType type)
 
 void FITSImage::applyFilter(FITSScale type, float *image, double min, double max)
 {
-    if (type == FITS_NONE || histogram == NULL)
+    if (type == FITS_NONE /* || histogram == NULL*/)
         return;
 
     double coeff=0;
     float val=0,bufferVal =0;
 
+    float *target_image_buffer = image_buffer;
+
     if (image == NULL)
-        image = image_buffer;
+        image = original_image_buffer;
+    else
+    {
+        target_image_buffer = image;
+    }
 
     int width = stats.dim[0];
     int height = stats.dim[1];
@@ -955,7 +976,7 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 bufferVal = image[i * width + j];
                 if (bufferVal < min) bufferVal = min;
                 else if (bufferVal > max) bufferVal = max;
-                image[i * width + j] = bufferVal;
+                target_image_buffer[i * width + j] = bufferVal;
 
             }
         break;
@@ -972,7 +993,7 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 val = (coeff * log(1 + bufferVal));
                 if (val < min) val = min;
                 else if (val > max) val = max;
-                image[i * width + j] = val;
+                target_image_buffer[i * width + j] = val;
             }
         break;
 
@@ -986,7 +1007,7 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 if (bufferVal < min) bufferVal = min;
                 else if (bufferVal > max) bufferVal = max;
                 val = (int) (coeff * sqrt(bufferVal));
-                image[i * width + j] = val;
+                target_image_buffer[i * width + j] = val;
             }
         break;
 
@@ -1004,7 +1025,7 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                bufferVal = image[i * width + j];
                if (bufferVal < min) bufferVal = min;
                else if (bufferVal > max) bufferVal = max;
-               image[i * width + j] = bufferVal;
+               target_image_buffer[i * width + j] = bufferVal;
              }
        }
        break;
@@ -1024,13 +1045,15 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 bufferVal = image[i * width + j];
                 if (bufferVal < min) bufferVal = min;
                 else if (bufferVal > max) bufferVal = max;
-                image[i * width + j] = bufferVal;
+                target_image_buffer[i * width + j] = bufferVal;
               }
         }
         break;
 
      case FITS_EQUALIZE:
      {
+        if (histogram == NULL)
+            return;
         QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq = histogram->getCumulativeFreq();
         coeff = 255.0 / (height * width);
 
@@ -1044,7 +1067,7 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
 
                 val = (int) (coeff * cumulativeFreq[bufferVal]);
 
-                image[i * width + j] = val;
+                target_image_buffer[i * width + j] = val;
             }
      }
      break;
@@ -1057,7 +1080,7 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
               bufferVal = image[i * width + j];
               if (bufferVal < min) bufferVal = min;
               else if (bufferVal > max) bufferVal = max;
-              image[i * width + j] = bufferVal;
+              target_image_buffer[i * width + j] = bufferVal;
             }
         break;
 

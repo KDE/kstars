@@ -37,6 +37,7 @@
 #include <QAction>
 #include <QStatusBar>
 #include <QFileDialog>
+#include <QWheelEvent>
 
 #include <KActionCollection>
 #include <KMessageBox>
@@ -135,6 +136,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) , 
     image_data  = NULL;
     display_image = NULL;
     firstLoad = true;
+    gammaValue=0;
 
     mode = fitsMode;
 
@@ -143,10 +145,10 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) , 
     guide_x = guide_y = guide_box = -1;
 
     currentZoom = 0.0;
-    markStars = false;
+    markStars = false;    
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
-    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));    
 
     image_frame->setMouseTracking(true);
 
@@ -184,6 +186,16 @@ bool FITSView::loadFITS ( const QString &inFilename )
     image_frame->setSize(image_width, image_height);
 
     hasWCS = image_data->hasWCS();
+
+    maxPixel = image_data->getMax();
+    minPixel = image_data->getMin();
+
+    if (gammaValue != 0)
+    {
+        double maxGammaPixel = maxPixel* (100 * exp(-0.05 * gammaValue))/100.0;
+        // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
+        image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
+    }
 
     delete (display_image);
     display_image = NULL;
@@ -234,47 +246,46 @@ int FITSView::rescale(FITSZoom type)
     float *image_buffer = image_data->getImageBuffer();
 
     if (min == max)
+        display_image->fill(Qt::white);
+    else
     {
-        // For focus and guide, we silenty ignore saturation error.
-        if (mode == FITS_FOCUS || mode == FITS_GUIDE)
-            qDebug() << "FITS image is saturated and cannot be displayed." << endl;
-        else
-            KMessageBox::error(0, xi18n("FITS image is saturated and cannot be displayed."), xi18n("FITS Open"));
-        return -1;
-    }
+        if (max < maxPixel)
+            gammaValue = log(max/maxPixel)/-0.05;
 
+        emit newStatus(QString("%1").arg(gammaValue), FITS_GAMMA);
 
-    bscale = 255. / (max - min);
-    bzero  = (-min) * (255. / (max - min));
+        bscale = 255. / (max - min);
+        bzero  = (-min) * (255. / (max - min));
 
-    if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
-    {
-        delete (display_image);
-        image_width  = image_data->getWidth();
-        image_height = image_data->getHeight();
-        display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
-
-        display_image->setColorCount(256);
-        for (int i=0; i < 256; i++)
-            display_image->setColor(i, qRgb(i,i,i));
-
-        if (isVisible())
-            emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
-    }
-
-    image_frame->setScaledContents(true);
-    currentWidth  = display_image->width();
-    currentHeight = display_image->height();
-
-    /* Fill in pixel values using indexed map, linear scale */
-    for (int j = 0; j < image_height; j++)
-    {
-        unsigned char *scanLine = display_image->scanLine(j);
-
-        for (int i = 0; i < image_width; i++)
+        if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
         {
-            val = image_buffer[j * image_width + i];
-            scanLine[i]= (val * bscale + bzero);
+            delete (display_image);
+            image_width  = image_data->getWidth();
+            image_height = image_data->getHeight();
+            display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
+
+            display_image->setColorCount(256);
+            for (int i=0; i < 256; i++)
+                display_image->setColor(i, qRgb(i,i,i));
+
+            if (isVisible())
+                emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
+        }
+
+        image_frame->setScaledContents(true);
+        currentWidth  = display_image->width();
+        currentHeight = display_image->height();
+
+        /* Fill in pixel values using indexed map, linear scale */
+        for (int j = 0; j < image_height; j++)
+        {
+            unsigned char *scanLine = display_image->scanLine(j);
+
+            for (int i = 0; i < image_width; i++)
+            {
+                val = image_buffer[j * image_width + i];
+                scanLine[i]= (val * bscale + bzero);
+            }
         }
     }
 
@@ -518,6 +529,37 @@ void FITSView::processPointSelection(int x, int y)
 
     setGuideSquare(x,y);
     emit guideStarSelected(x,y);
+}
+int FITSView::getGammaValue() const
+{
+    return gammaValue;
+}
+
+void FITSView::setGammaValue(int value)
+{
+    if (value == gammaValue)
+        return;
+
+    gammaValue = value;
+
+    double maxGammaPixel = maxPixel* (100 * exp(-0.05 * gammaValue))/100.0;
+
+    // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
+    image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
+    rescale(ZOOM_KEEP_LEVEL);
+    updateFrame();
+
+}
+
+
+void FITSView::wheelEvent(QWheelEvent* event)
+{
+    if (event->angleDelta().y() > 0)
+        ZoomIn();
+    else
+        ZoomOut();
+
+    event->accept();
 }
 
 

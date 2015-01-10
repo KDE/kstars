@@ -96,6 +96,19 @@ FITSViewer::FITSViewer (QWidget *parent)
     fitsValue.setMinimumWidth(100);
     fitsValue.setAlignment(Qt::AlignCenter);
 
+    gammaSlider.setMinimum(0);
+    gammaSlider.setMaximum(100);
+    gammaSlider.setValue(0);
+    gammaSlider.setOrientation(Qt::Horizontal);
+    gammaSlider.setFixedWidth(100);
+
+    fitsPosition.setFixedWidth(70);
+    fitsValue.setFixedWidth(50);
+    fitsWCS.setVisible(false);
+
+    connect(&gammaSlider, SIGNAL(valueChanged(int)), this, SLOT(setGamma(int)));
+
+    statusBar()->insertPermanentWidget(FITS_GAMMA, &gammaSlider);
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
     statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);    
     statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
@@ -531,6 +544,8 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
 {
     switch (id)
     {
+            case FITS_GAMMA:
+                gammaSlider.setValue(msg.toInt());
             case FITS_POSITION:
                 fitsPosition.setText(msg);
                 break;
@@ -541,6 +556,7 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
                 fitsZoom.setText(msg);
                 break;
              case FITS_WCS:
+                fitsWCS.setVisible(true);
                 fitsWCS.setText(msg);
                 break;
              case FITS_VALUE:
@@ -673,6 +689,14 @@ FITSView * FITSViewer::getImage(int fitsUID)
         return tab->getImage();
     else
         return NULL;
+}
+
+void FITSViewer::setGamma(int value)
+{
+    if (fitsTab->currentIndex() < 0 || fitsTab->currentIndex() > fitsImages.count())
+        return;
+
+        fitsImages[fitsTab->currentIndex()]->getImage()->setGammaValue(value);
 }
 
 

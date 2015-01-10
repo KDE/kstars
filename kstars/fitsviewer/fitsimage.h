@@ -88,6 +88,7 @@ public:
 
     // Access functions
     float * getImageBuffer() { return image_buffer; }
+    float * getOriginalImageBuffer() { return original_image_buffer;}
     void getSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
     void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
     double getMin() { return stats.min; }
@@ -161,6 +162,7 @@ private:
 
     bool markStars;
     float *image_buffer;				/* scaled image buffer (0-255) range */
+    float *original_image_buffer;
     fitsfile* fptr;
     int data_type;                     /* FITS data type when opened */
     FITSHistogram *histogram;

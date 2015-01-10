@@ -110,9 +110,12 @@ public:
 
     // Star Detection
     void toggleStars(bool enable);
-
     void updateMode(FITSMode mode);
+    void wheelEvent(QWheelEvent* event);
 
+
+    int getGammaValue() const;
+    void setGammaValue(int value);
 
 public slots:
     void ZoomIn();
@@ -128,7 +131,7 @@ private:
 
     bool markStars;
     FITSLabel *image_frame;
-    FITSImage *image_data;
+    FITSImage *image_data;    
     int image_width, image_height;
     double currentWidth,currentHeight; /* Current width and height due to zoom */
     const double zoomFactor;           /* Image zoom factor */
@@ -137,6 +140,8 @@ private:
     QImage  *display_image;             /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
     int guide_x, guide_y, guide_box;
+    int gammaValue;
+    double maxPixel, minPixel;
     bool firstLoad;
     bool starsSearched;
     bool hasWCS;

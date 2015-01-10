@@ -26,6 +26,7 @@
 #include <QDialog>
 #include <QUrl>
 #include <QLabel>
+#include <QSlider>
 #include <kxmlguiwindow.h>
 #include <KLed>
 
@@ -100,6 +101,7 @@ public slots:
     void rotateCCW();
     void flipHorizontal();
     void flipVertical();
+    void setGamma(int value);
 
 private:
 
@@ -108,6 +110,7 @@ private:
 
     KLed led;
     QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsMessage;
+    QSlider gammaSlider;
     QAction *saveFileAction, *saveFileAsAction;
     QList<FITSTab*> fitsImages;
     int fitsID;
