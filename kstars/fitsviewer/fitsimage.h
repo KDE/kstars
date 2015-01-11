@@ -89,6 +89,7 @@ public:
     // Access functions
     float * getImageBuffer() { return image_buffer; }
     float * getOriginalImageBuffer() { return original_image_buffer;}
+    void setOriginalImageBuffer(float *buf);
     void getSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
     void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
     double getMin() { return stats.min; }

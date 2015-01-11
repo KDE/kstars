@@ -315,7 +315,8 @@ FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHi
     tab         = (FITSTab *) parent;
     type        = newType;
     histogram   = inHisto;
-    buffer = (float *) malloc (w * h * sizeof(float));
+    buffer = new float[w * h];
+    original_buffer = NULL;
 
     min = lmin;
     max = lmax;
@@ -325,8 +326,8 @@ FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHi
 
 FITSHistogramCommand::~FITSHistogramCommand()
 {
-    free(buffer);
-    //delete (oldImage);
+    delete(buffer);
+
 }
 
 void FITSHistogramCommand::redo()
@@ -335,12 +336,11 @@ void FITSHistogramCommand::redo()
     FITSView *image = tab->getImage();
     FITSImage *image_data = image->getImageData();
 
-    float *image_buffer = image_data->getImageBuffer();
+    float *image_buffer = image_data->getImageBuffer();    
     width  = image_data->getWidth();
     height = image_data->getHeight();
 
     memcpy(buffer, image_buffer, width * height * sizeof(float));
-
 
     switch (type)
     {
@@ -357,6 +357,28 @@ void FITSHistogramCommand::redo()
         image_data->applyFilter(FITS_SQRT, image_buffer, min, max);
         break;
 
+    case FITS_ROTATE_CW:
+    case FITS_ROTATE_CCW:
+    case FITS_FLIP_H:
+    case FITS_FLIP_V:
+    {
+        float *original_image_buffer = image_data->getOriginalImageBuffer();
+
+        if (image_buffer != original_image_buffer)
+        {
+            original_buffer = new float[width*height];
+            if (original_buffer == NULL)
+            {
+                qWarning() << "Error! not enough memory to create original_buffer in redo()" << endl;
+                return;
+            }
+
+            memcpy(original_buffer, original_image_buffer, width * height * sizeof(float));
+        }
+
+        image_data->applyFilter(type, image_buffer);
+        break;
+    }
     default:
        image_data->applyFilter(type, image_buffer);
        break;
@@ -391,15 +413,23 @@ void FITSHistogramCommand::undo()
     {
         case FITS_ROTATE_CW:
         image_data->setRotCounter(image_data->getRotCounter()-1);
+        if (original_buffer != NULL)
+            image_data->setOriginalImageBuffer(original_buffer);
         break;
         case FITS_ROTATE_CCW:
         image_data->setRotCounter(image_data->getRotCounter()+1);
+        if (original_buffer != NULL)
+            image_data->setOriginalImageBuffer(original_buffer);
         break;
         case FITS_FLIP_H:
         image_data->setFlipHCounter(image_data->getFlipHCounter()-1);
+        if (original_buffer != NULL)
+            image_data->setOriginalImageBuffer(original_buffer);
         break;
         case FITS_FLIP_V:
         image_data->setFlipVCounter(image_data->getFlipVCounter()-1);
+        if (original_buffer != NULL)
+            image_data->setOriginalImageBuffer(original_buffer);
         break;
     default:
         break;

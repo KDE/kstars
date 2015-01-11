@@ -51,6 +51,8 @@
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
 
+#define DECAY_CONSTANT  -0.04
+
 //#define FITS_DEBUG
 
 FITSLabel::FITSLabel(FITSView *img, QWidget *parent) : QLabel(parent)
@@ -192,7 +194,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
 
     if (gammaValue != 0)
     {
-        double maxGammaPixel = maxPixel* (100 * exp(-0.05 * gammaValue))/100.0;
+        double maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
         // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
         image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
     }
@@ -250,7 +252,7 @@ int FITSView::rescale(FITSZoom type)
     else
     {
         if (max < maxPixel)
-            gammaValue = log(max/maxPixel)/-0.05;
+            gammaValue = log(max/maxPixel)/DECAY_CONSTANT;
 
         emit newStatus(QString("%1").arg(gammaValue), FITS_GAMMA);
 
@@ -542,7 +544,7 @@ void FITSView::setGammaValue(int value)
 
     gammaValue = value;
 
-    double maxGammaPixel = maxPixel* (100 * exp(-0.05 * gammaValue))/100.0;
+    double maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
 
     // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
     image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);

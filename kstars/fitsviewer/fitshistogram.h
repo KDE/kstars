@@ -109,6 +109,7 @@ private:
     int min, max;
     int width,height;
     float *buffer;
+    float *original_buffer;
     FITSTab *tab;
 };
 
