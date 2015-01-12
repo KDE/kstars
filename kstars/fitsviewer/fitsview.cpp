@@ -132,14 +132,14 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 
 }
 
-FITSView::FITSView(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) , zoomFactor(1.2)
+FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent) , zoomFactor(1.2)
 {
     image_frame = new FITSLabel(this);
     image_data  = NULL;
     display_image = NULL;
     firstLoad = true;
     gammaValue=0;
-
+    filter = filterType;
     mode = fitsMode;
 
     setBackgroundRole(QPalette::Dark);
@@ -192,7 +192,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
     maxPixel = image_data->getMax();
     minPixel = image_data->getMin();
 
-    if (gammaValue != 0)
+    if (gammaValue != 0 && (filter== FITS_NONE || filter >= FITS_FLIP_H))
     {
         double maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
         // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
@@ -248,13 +248,18 @@ int FITSView::rescale(FITSZoom type)
     float *image_buffer = image_data->getImageBuffer();
 
     if (min == max)
+    {
         display_image->fill(Qt::white);
+        emit newStatus(xi18n("Image is saturated!"), FITS_MESSAGE);
+    }
     else
     {
-        if (max < maxPixel)
-            gammaValue = log(max/maxPixel)/DECAY_CONSTANT;
-
-        emit newStatus(QString("%1").arg(gammaValue), FITS_GAMMA);
+        if (filter == FITS_NONE || filter >= FITS_FLIP_H)
+        {
+            if (max < maxPixel)
+                gammaValue = log(max/maxPixel)/DECAY_CONSTANT;
+            emit newStatus(QString("%1").arg(gammaValue), FITS_GAMMA);
+        }
 
         bscale = 255. / (max - min);
         bzero  = (-min) * (255. / (max - min));
@@ -358,7 +363,10 @@ void FITSView::ZoomIn()
 
     emit actionUpdated("view_zoom_out", true);
     if (currentZoom >= ZOOM_MAX)
+    {
+        currentZoom = ZOOM_MAX;
         emit actionUpdated("view_zoom_in", false);
+    }
 
     currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
     currentHeight = image_height * (currentZoom / ZOOM_DEFAULT);
@@ -378,7 +386,10 @@ void FITSView::ZoomOut()
         currentZoom -= ZOOM_HIGH_INCR;
 
     if (currentZoom <= ZOOM_MIN)
+    {
+        currentZoom = ZOOM_MIN;
         emit actionUpdated("view_zoom_out", false);
+    }
 
     emit actionUpdated("view_zoom_in", true);
 

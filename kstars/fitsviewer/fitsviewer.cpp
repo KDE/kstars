@@ -91,9 +91,7 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     led.setColor(Qt::green);
 
-    fitsPosition.setMidLineWidth(100);
     fitsPosition.setAlignment(Qt::AlignCenter);
-    fitsValue.setMinimumWidth(100);
     fitsValue.setAlignment(Qt::AlignCenter);
 
     gammaSlider.setMinimum(0);
@@ -102,8 +100,8 @@ FITSViewer::FITSViewer (QWidget *parent)
     gammaSlider.setOrientation(Qt::Horizontal);
     gammaSlider.setFixedWidth(100);
 
-    fitsPosition.setFixedWidth(70);
-    fitsValue.setFixedWidth(50);
+    fitsPosition.setFixedWidth(100);
+    fitsValue.setFixedWidth(100);
     fitsWCS.setVisible(false);
 
     connect(&gammaSlider, SIGNAL(valueChanged(int)), this, SLOT(setGamma(int)));
@@ -271,14 +269,15 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);
 
-    undoGroup->addStack(tab->getUndoStack());
-    tab->tabPositionUpdated();
+    undoGroup->addStack(tab->getUndoStack());    
 
     fitsImages.push_back(tab);
 
     fitsMap[fitsID] = tab;
 
     fitsTab->setCurrentWidget(tab);
+
+    tab->tabPositionUpdated();
 
     tab->setUID(fitsID);
 

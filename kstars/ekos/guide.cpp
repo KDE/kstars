@@ -331,6 +331,8 @@ bool Guide::capture()
 
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setFrameType(ccdFrame);
+    if (darkImage == NULL || calibration->useDarkFrame() == false)
+        targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
 
     if (guider->isGuiding())
     {
@@ -387,11 +389,9 @@ void Guide::newFITS(IBLOB *bp)
     if (image_data == NULL)
         return;
 
-    if (darkImage)
-        image_data->subtract(darkImage->getImageBuffer());
-
-    if (filterCombo->currentIndex() != -1)
+    if (darkImage && darkImage->getImageBuffer() != image_data->getDarkFrame())
     {
+        image_data->setDarkFrame(darkImage->getImageBuffer());
         image_data->applyFilter((FITSScale) filterCombo->currentIndex());
         targetImage->rescale(ZOOM_KEEP_LEVEL);
         targetImage->updateFrame();

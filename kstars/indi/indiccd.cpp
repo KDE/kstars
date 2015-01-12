@@ -800,6 +800,8 @@ void CCD::registerProperty(INDI::Property *prop)
     {
         ISwitchVectorProperty *ccdFrame = prop->getSwitch();
 
+        primaryChip->clearFrameTypes();
+
         for (int i=0; i < ccdFrame->nsp; i++)
             primaryChip->addFrameLabel(ccdFrame->sp[i].label);
     }

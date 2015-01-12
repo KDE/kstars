@@ -149,6 +149,9 @@ public:
     int getFlipVCounter() const;
     void setFlipVCounter(int value);
 
+    float *getDarkFrame() const;
+    void setDarkFrame(float *value);
+
 private:
 
 
@@ -164,6 +167,7 @@ private:
     bool markStars;
     float *image_buffer;				/* scaled image buffer (0-255) range */
     float *original_image_buffer;
+    float *darkFrame;
     fitsfile* fptr;
     int data_type;                     /* FITS data type when opened */
     FITSHistogram *histogram;

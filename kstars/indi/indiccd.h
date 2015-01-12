@@ -64,6 +64,7 @@ public:
     void setBatchMode(bool enable) { batchMode = enable; }
     QStringList getFrameTypes() const { return frameTypes; }
     void addFrameLabel(const QString & label) { frameTypes << label; }
+    void clearFrameTypes() { frameTypes.clear();}
 
     bool canBin() const;
     void setCanBin(bool value);

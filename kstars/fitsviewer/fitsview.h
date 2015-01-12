@@ -81,7 +81,7 @@ class FITSView : public QScrollArea
 {
     Q_OBJECT
 public:
-    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL);
+    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
     ~FITSView();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
@@ -116,6 +116,7 @@ public:
 
     int getGammaValue() const;
     void setGammaValue(int value);
+    void setFilter(FITSScale newFilter) { filter = newFilter;}
 
 public slots:
     void ZoomIn();
@@ -147,6 +148,7 @@ private:
     bool hasWCS;
     QString filename;
     FITSMode mode;
+    FITSScale filter;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);

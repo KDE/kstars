@@ -53,6 +53,7 @@ public:
     bool isAutoCalibration() { return ui.autoCalibrationCheck->isChecked(); }
     bool isCalibrationComplete() { return (calibrationStage == CAL_FINISH || calibrationStage == CAL_ERROR); }
     bool isCalibrationSuccessful() { return (calibrationStage == CAL_FINISH); }
+    bool useDarkFrame() { return ui.darkFrameCheck->isChecked(); }
     void processCalibration();
     CalibrationStage getCalibrationStage() { return calibrationStage; }
     void reset();

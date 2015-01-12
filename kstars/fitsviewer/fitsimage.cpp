@@ -71,6 +71,7 @@ FITSImage::FITSImage(FITSMode fitsMode)
     wcs_coord    = NULL;
     fptr = NULL;
     maxHFRStar = NULL;
+    darkFrame = NULL;
     tempFile  = false;
     starsSearched = false;
     HasWCS = false;
@@ -245,6 +246,9 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         return false;
     }
 
+    if (darkFrame != NULL)
+        subtract(darkFrame);
+
     memcpy(original_image_buffer, image_buffer, nelements*sizeof(float));
 
     if (mode == FITS_NORMAL && progress)
@@ -252,11 +256,13 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         if (progress->wasCanceled())
         {
             delete (image_buffer);
+            delete (original_image_buffer);
             return false;
         }
     }
 
-    calculateStats();
+    if (darkFrame == NULL)
+        calculateStats();
 
     if (mode == FITS_NORMAL && progress)
         progress->setValue(80);
@@ -279,6 +285,7 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
         if (progress->wasCanceled())
         {
             delete (image_buffer);
+            delete (original_image_buffer);
             return false;
         }
     }
@@ -1242,6 +1249,16 @@ void FITSImage::checkWCS()
 #endif
 
 }
+float *FITSImage::getDarkFrame() const
+{
+    return darkFrame;
+}
+
+void FITSImage::setDarkFrame(float *value)
+{
+    darkFrame = value;
+}
+
 int FITSImage::getFlipVCounter() const
 {
     return flipVCounter;

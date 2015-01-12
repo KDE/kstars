@@ -82,7 +82,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
 {
     if (image == NULL)
     {
-        image = new FITSView(this, mode);
+        image = new FITSView(this, mode, filter);
         image->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 
@@ -93,6 +93,8 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
     }
 
     currentURL = *imageURL;
+
+    image->setFilter(filter);
 
     bool imageLoad = image->loadFITS(imageURL->url());
 

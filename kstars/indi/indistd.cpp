@@ -145,9 +145,9 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         }
         else if (driverInfo->getType() == KSTARS_AUXILIARY || QString(prop->getDeviceName()) == Options::remoteAuxName())
         {
-            if (Options::videoPort().isEmpty() == false)
+            if (Options::auxPort().isEmpty() == false)
             {
-                IUSaveText(tp, Options::videoPort().toLatin1().constData());
+                IUSaveText(tp, Options::auxPort().toLatin1().constData());
                 clientManager->sendNewText(prop->getText());
             }
         }
