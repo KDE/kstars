@@ -81,9 +81,6 @@ Mount::Mount()
     connect(southwestB, SIGNAL(released()), this, SLOT(stop()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(stop()));
 
-    connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
-
-
 }
 
 Mount::~Mount()
@@ -128,6 +125,17 @@ void Mount::syncTelescopeInfo()
         if (np && np->value > 0)
             guideScopeFocalIN->setValue(np->value);
 
+    }
+
+    if (currentTelescope->canPark())
+    {
+        parkB->setEnabled(true);
+        connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()));
+    }
+    else
+    {
+        parkB->setEnabled(false);
+        disconnect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()));
     }
 
 }

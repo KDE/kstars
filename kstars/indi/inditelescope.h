@@ -40,9 +40,7 @@ public:
     bool Sync(SkyPoint *ScopeTarget);
     bool Sync(double ra, double dec);
     bool MoveNS(TelescopeMotionNS dir);
-    bool MoveWE(TelescopeMotionWE dir);
-    bool Abort();
-    bool Park();
+    bool MoveWE(TelescopeMotionWE dir);    
     bool canGuide();
     bool canSync();
     bool canPark();
@@ -57,6 +55,8 @@ protected:
 
 public slots:
     virtual bool runCommand(int command, void *ptr=NULL);
+    bool Abort();
+    bool Park();
 
 private:
 
