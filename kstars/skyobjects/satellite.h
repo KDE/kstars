@@ -41,6 +41,12 @@ public:
     Satellite( QString name, QString line1, QString line2 );
 
     /**
+     *@return a clone of this object
+     *@note See SkyObject::clone()
+     */
+    virtual Satellite *clone() const;
+
+    /**
      *@short Destructor
      */
     ~Satellite();

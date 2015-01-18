@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "supernova.h"
+
+#include <typeinfo>
 #include "kspopupmenu.h"
 
 Supernova::Supernova(dms ra, dms dec, const QString& date ,float m, const QString& serialNo,
@@ -33,6 +35,11 @@ Supernova::Supernova(dms ra, dms dec, const QString& date ,float m, const QStrin
                       Magnitude(m)
 {}
 
+Supernova* Supernova::clone() const
+{
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const Supernova *>( this ) ) ); // Ensure we are not slicing a derived class
+    return new Supernova(*this);
+}
 
 void Supernova::initPopupMenu(KSPopupMenu* pmenu)
 {

@@ -18,6 +18,8 @@
 
 #include "satellite.h"
 
+#include <typeinfo>
+
 #include "math.h"
 #include <QDebug>
 
@@ -103,6 +105,12 @@ Satellite::Satellite( const QString name, const QString line1, const QString lin
     m_tle_jd = i + 1720994.5 + B + day;
 
     init();
+}
+
+Satellite* Satellite::clone() const
+{
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const Satellite *>( this ) ) ); // Ensure we are not slicing a derived class
+    return new Satellite(*this);
 }
 
 Satellite::~Satellite()
