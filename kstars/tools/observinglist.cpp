@@ -486,12 +486,12 @@ void ObservingList::slotNewSelection() {
                 ui->SearchImage->setEnabled( false );
             }
             if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//If the image is present, show it! // FIXME: This 13000 bytes is extremely ugly and a terrible idea. -- asimha
-                ui->ImagePreview->showPreview( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+                ui->ImagePreview->showPreview( QUrl::fromLocalFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( false );
                 ui->DeleteImage->setEnabled( true );
             } else if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ).size() > 13000 )  {
-                ui->ImagePreview->showPreview( QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ) ;
+                ui->ImagePreview->showPreview( QUrl::fromLocalFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ) ;
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( true );
                 ui->DeleteImage->setEnabled( true );
@@ -1227,7 +1227,7 @@ void ObservingList::slotSearchImage() {
         //If a real image was set, save it.
         if ( tp->imageFound() ) {
             tp->image()->save( f.fileName(), "PNG" );
-            ui->ImagePreview->showPreview( QUrl( f.fileName() ) );
+            ui->ImagePreview->showPreview( QUrl::fromLocalFile( f.fileName() ) );
             saveThumbImage();
             slotNewSelection();
         }
@@ -1292,8 +1292,8 @@ void ObservingList::selectObject( const SkyObject *o ) {
 void ObservingList::setDefaultImage() {
     QFile file;
     if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-       file.close();
-       ui->ImagePreview->showPreview( QUrl( file.fileName() ) );
+        file.close();
+        ui->ImagePreview->showPreview( QUrl::fromLocalFile( file.fileName() ) );
     } else
         ui->ImagePreview->hide();
 }
