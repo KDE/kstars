@@ -231,7 +231,7 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ){
     dms lat1, dtheta;
 
     if( dist == 0.0 ) {
-        qDebug() << "moveThrough called with zero distance!";
+        qDebug() << "moveAway called with zero distance!";
         return *this;
     }
 
@@ -355,7 +355,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
         precess(num);
         nutate(num);
         if( lens )
-            bendlight();
+            bendlight(); // FIXME: Shouldn't we apply this on the horizontal coordinates?
         aberrate(num);
         lastPrecessJD = num->getJD();
         Q_ASSERT( std::isfinite( RA.Degrees() ) && std::isfinite( Dec.Degrees() ) );

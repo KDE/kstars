@@ -42,7 +42,7 @@ class GeoLocation;
 class KSAlmanac {
 public:
     // TODO: Add documentation
-    KSAlmanac(); 
+    KSAlmanac();
 
     /**
      *@short Set the date for computations to the given date
@@ -66,7 +66,7 @@ public:
     inline double getMoonSet() { return MoonSet; }
     inline double getDuskAstronomicalTwilight() { return DuskAstronomicalTwilight; }
     inline double getDawnAstronomicalTwilight() { return DawnAstronomicalTwilight; }
-    
+
     inline QTime sunRise() { return SunRiseT; }
     inline QTime sunSet() { return SunSetT; }
     inline QTime moonRise() { return MoonRiseT; }
@@ -82,8 +82,8 @@ public:
      *@note This is accurate only for zenithal angles close to sunset. TODO: Make this more accurate
      */
     double sunZenithAngleToTime( double z );
-    
-private:
+
+ private:
     void update();
 
    /**
@@ -107,7 +107,7 @@ private:
     KSSun  m_Sun;
     KSMoon m_Moon;
     KStarsDateTime dt;
-    
+
     GeoLocation *geo;
     double SunRise,  SunSet,  MoonRise,  MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
     QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;

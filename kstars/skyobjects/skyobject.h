@@ -315,7 +315,7 @@ public:
 
     void setNotes( QString _notes) { getAuxInfo()->notes = _notes; }
 
-    /** @short Return UID for object.  
+    /** @short Return UID for object.
      * This method should be reimplemented in all concrete
      * subclasses. Implementation for SkyObject just returns
      * invalidUID. It's required SkyObject is not an abstract class.
@@ -390,7 +390,7 @@ private:
      *@note  This method creates the AuxInfo object if it is non-existent
      *@return Pointer to an AuxInfo structure
      */
-    AuxInfo *getAuxInfo();
+    AuxInfo *getAuxInfo(); // FIXME: Can this be made conceptually const or the like?
 
     unsigned char Type;
     float sortMagnitude; // This magnitude is used for sorting / making decisions about the visibility of an object. Should not be NaN.

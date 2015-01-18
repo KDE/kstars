@@ -88,11 +88,13 @@ public:
     //// 1.  Setting Coordinates
     //// =======================
 
-    /**Sets RA, Dec and RA0, Dec0 according to arguments.
-     * Does not set Altitude or Azimuth.
+    /**
+     * @short Sets RA, Dec and RA0, Dec0 according to arguments.
+     *        Does not set Altitude or Azimuth.
      * @param r Right Ascension
      * @param d Declination
      * @note This function also sets RA0 and Dec0 to the same values, so call at your own peril!
+     * @note FIXME: This method must be removed, or an epoch argument must be added.
      */
     void set( const dms& r, const dms& d );
 
@@ -367,6 +369,9 @@ public:
      **/
     dms angularDistanceTo(const SkyPoint *sp, double * const positionAngle = 0) const;
 
+    /**
+     * @return returns true if _current_ epoch RA / Dec match
+     */
     inline bool operator == ( SkyPoint &p ) const { return ( ra() == p.ra() && dec() == p.dec() ); }
 
     /** Computes the velocity of the Sun projected on the direction of the source.
@@ -441,7 +446,7 @@ public:
 
     /** Computes the radial velocity of a source referred to the center of the Earth from
      * the radial velocity referred to an observer site on the surface of the earth 
-     * 
+     *
      * @param vtopo radial velocity of the source referred to the observer's site in km/s
      * @param vsite Velocity at which the observer moves referred to the center of the earth.
      * @return Radial velocity of the source referred the center of the earth in km/s
@@ -449,7 +454,7 @@ public:
     double vTopoToVGeo(double vtopo, double vsite[3]);
 
     /** Find the SkyPoint obtained by moving distance dist
-     * (arcseconds) away from the givenSkyPoint 
+     * (arcseconds) away from the givenSkyPoint
      *
      * @param dist Distance to move through in arcseconds
      * @param from The SkyPoint to move away from

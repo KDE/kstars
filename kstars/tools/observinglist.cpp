@@ -263,7 +263,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     SkyPoint p = obj->recomputeCoords( dt, geo );
 
     //Insert object in the Wish List
-    if( addToWishList  ) {
+    if( addToWishList ) {
         m_WishList.append( obj );
         m_CurrentObject = obj;
         QList<QStandardItem*> itemList;
