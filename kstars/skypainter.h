@@ -100,7 +100,7 @@ public:
         */
     virtual void drawSkyPolyline(LineList* list, SkipList *skipList = 0,
                                  LineListLabel *label = 0) =0;
-    
+
     /** @short Draw a polygon in the sky.
         @param list a list of points in the sky
         @see drawSkyPolyline()

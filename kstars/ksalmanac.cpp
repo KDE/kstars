@@ -128,7 +128,7 @@ void KSAlmanac::findDawnDusk() {
 }
 
 void KSAlmanac::setDate( KStarsDateTime *newdt ) {
-    dt = *newdt; 
+    dt = *newdt;
     update();
 }
 
@@ -145,7 +145,6 @@ double KSAlmanac::sunZenithAngleToTime( double z ) {
     return SunSet + ( HA - HASunset ) / 24.0;
 }
 
-    
 double KSAlmanac::findAltitude( SkyPoint *p, double hour ) {
     KStarsDateTime ut = dt;
     ut.setTime( QTime() );
@@ -155,4 +154,3 @@ double KSAlmanac::findAltitude( SkyPoint *p, double hour ) {
     p->EquatorialToHorizontal( &LST, geo->lat() );
     return p->alt().Degrees();
 }
-
