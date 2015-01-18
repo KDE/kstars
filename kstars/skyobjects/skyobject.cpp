@@ -295,27 +295,35 @@ dms SkyObject::elevationCorrection(void) {
         return dms(-0.5667);
 }
 
-SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo ) {
-    //store current position
-    SkyPoint original = *this;
+SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo ) const {
 
-    // compute coords for new time jd
+    // Create a clone
+    SkyObject *c = this->clone();
+
+    // compute coords of the copy for new time jd
     KSNumbers num( dt.djd() );
+
+    // Note: isSolarSystem() below should give the same result on this
+    // and c. The only very minor reason to prefer this is so that we
+    // have an additional layer of warnings about subclasses of
+    // KSPlanetBase that do not implement SkyObject::clone() due to
+    // the passing of lat and LST
+
     if ( isSolarSystem() && geo ) {
         dms LST = geo->GSTtoLST( dt.gst() );
-        updateCoords( &num, true, geo->lat(), &LST );
+        c->updateCoords( &num, true, geo->lat(), &LST );
     } else {
-        updateCoords( &num );
+        c->updateCoords( &num );
     }
 
-    //the coordinates for the date dt:
-    SkyPoint sp = *this;
+    // Transfer the coordinates into a SkyPoint
+    SkyPoint p = *c;
 
-    // restore original coords
-    setRA( original.ra().Hours() );
-    setDec( original.dec().Degrees() );
+    // Delete the clone
+    delete c;
 
-    return sp;
+    // Return the SkyPoint
+    return p;
 }
 
 QString SkyObject::typeName( int t ) {
