@@ -187,8 +187,9 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     // FIXME_FOV: We may want to rejigger this to allow
     // wide-angle views --hdevalence
     float radius = map->projector()->fov();
-    if ( radius > 90.0 )
-        radius = 90.0;
+    if ( radius > 180.0 )
+        radius = 180.0;
+
 
     if ( m_skyMesh->inDraw() ) {
         printf("Warning: aborting concurrent SkyMapComposite::draw()\n");

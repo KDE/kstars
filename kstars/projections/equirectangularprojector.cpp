@@ -63,9 +63,9 @@ Vector2f EquirectangularProjector::toScreenVec(const SkyPoint* o, bool oRefract,
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
     p[0] = 0.5*m_vp.width - m_vp.zoomFactor*dX;
-    
+
     if ( onVisibleHemisphere )
-        *onVisibleHemisphere = dX*dX < M_PI*M_PI/4.;
+        *onVisibleHemisphere = ( p[0] > 0 && p[0] < m_vp.width );
 
     return p;
 }
