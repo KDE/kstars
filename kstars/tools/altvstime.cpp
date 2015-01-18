@@ -57,7 +57,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     setModal( false );
 
-    QVBoxLayout* topLayout = new QVBoxLayout;        
+    QVBoxLayout* topLayout = new QVBoxLayout;
     setLayout(topLayout);
     topLayout->setMargin( 0 );
 

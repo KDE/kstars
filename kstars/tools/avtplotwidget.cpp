@@ -103,7 +103,6 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
             grad.setColorAt( 0, SkyColor.darker( SunMaxAlt / -18.0 * 1000 ) );
             grad.setColorAt( 1, Qt::black );
             p.fillRect( QRectF( 0.0, 0.0, du+20.0, pH ), grad );
-            
             grad.setStart( QPointF( pW, 0.0 ) );
             grad.setFinalStop( QPointF( da-20.0, 0.0 ) );
             p.fillRect( QRectF( da-20.0, 0.0, pW, pH ), grad );
@@ -142,8 +141,9 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     //draw ground
     p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
 
-    foreach( KPlotObject *po, plotObjects() )
-    po->draw( &p, this );
+    foreach( KPlotObject *po, plotObjects() ) {
+        po->draw( &p, this );
+    }
 
     p.setClipping( false );
     drawAxes( &p );
@@ -201,6 +201,3 @@ void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
     SunMinAlt = min;
     SunMaxAlt = max;
 }
-
-
-

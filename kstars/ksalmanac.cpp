@@ -84,7 +84,7 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
 // FIXME: This is utter code duplication. All this should be handled
 // in the KStars engine. Forgive me for adding to the nonsense, but I
 // want to get the Observation Planner functional first. -- asimha
-
+// seems to be copied from AltVsTime::setDawnDusk
 void KSAlmanac::findDawnDusk() {
 
     KStarsDateTime today = dt;
