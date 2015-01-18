@@ -104,7 +104,7 @@ void SkyObject::setLongName( const QString &longname ) {
     }
 }
 
-QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact ) {
+QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact ) const {
 
     // If this object does not rise or set, return an invalid time
     SkyPoint p = recomputeCoords( dt, geo );
@@ -134,7 +134,7 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     return geo->UTtoLT( KStarsDateTime( dt2.date(), rstUt ) ).time();
 }
 
-QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT, bool exact ) {
+QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT, bool exact ) const {
     // First trial to calculate UT
     QTime UT = auxRiseSetTimeUT( dt, geo, &ra(), &dec(), riseT );
 
@@ -172,12 +172,12 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
 }
 
 QTime SkyObject::auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
-                                   const dms *righta, const dms *decl, bool riseT) {
+                                   const dms *righta, const dms *decl, bool riseT) const {
     dms LST = auxRiseSetTimeLST( geo->lat(), righta, decl, riseT );
     return dt.GSTtoUT( geo->LSTtoGST( LST ) );
 }
 
-dms SkyObject::auxRiseSetTimeLST( const dms *gLat, const dms *righta, const dms *decl, bool riseT ) {
+dms SkyObject::auxRiseSetTimeLST( const dms *gLat, const dms *righta, const dms *decl, bool riseT ) const {
     dms h0 = elevationCorrection();
     double H = approxHourAngle ( &h0, gLat, decl );
     dms LST;
@@ -191,7 +191,7 @@ dms SkyObject::auxRiseSetTimeLST( const dms *gLat, const dms *righta, const dms 
 }
 
 
-dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
+dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) const {
     dms Azimuth;
     double AltRad, AzRad;
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
@@ -220,7 +220,7 @@ dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, 
     return Azimuth;
 }
 
-QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo ) {
+QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo ) const {
     dms LST = geo->GSTtoLST( dt.gst() );
 
     //dSec is the number of seconds until the object transits.
@@ -240,11 +240,11 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     return dt.addSecs( dSec ).time();
 }
 
-QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo ) {
+QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo ) const {
     return geo->UTtoLT( KStarsDateTime( dt.date(), transitTimeUT( dt, geo ) ) ).time();
 }
 
-dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) {
+dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) const {
     KStarsDateTime dt0 = dt;
     dt0.setTime( transitTimeUT( dt, geo ) );
     SkyPoint sp = recomputeCoords( dt0, geo );
@@ -255,7 +255,7 @@ dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo
     return dms(delta);
 }
 
-double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *dec ) {
+double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *dec ) const {
 
     double sh0 = sin ( h0->radians() );
     double r = (sh0 - sin( gLat->radians() ) * sin(dec->radians() ))
@@ -266,7 +266,7 @@ double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *de
     return H;
 }
 
-dms SkyObject::elevationCorrection(void) {
+dms SkyObject::elevationCorrection(void) const {
 
     /* The atmospheric refraction at the horizon shifts altitude by
      * - 34 arcmin = 0.5667 degrees. This value changes if the observer
@@ -381,7 +381,7 @@ QString SkyObject::typeName() const {
     return typeName( Type );
 }
 
-QString SkyObject::messageFromTitle( const QString &imageTitle ) {
+QString SkyObject::messageFromTitle( const QString &imageTitle ) const {
     QString message = imageTitle;
 
     //HST Image

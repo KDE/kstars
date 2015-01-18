@@ -208,7 +208,7 @@ public:
      *@param rst If true, compute rise time. If false, compute set time.
      *@param exact If true, use a second iteration for more accurate time
      */
-    QTime riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact=true );
+    QTime riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact=true ) const;
 
     /**
      *@return the UT time when the object will rise or set
@@ -218,7 +218,7 @@ public:
      *       will compute set time.
      *@param exact If true, use a second iteration for more accurate time
      */
-    QTime riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact=true );
+    QTime riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact=true ) const;
 
     /**
      *@return the Azimuth time when the object will rise or set. This function
@@ -228,7 +228,7 @@ public:
      *@param rst Boolen. If true will compute rise time. If false
      *       will compute set time.
      */
-    dms riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
+    dms riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, bool rst) const;
 
     /**
      *The same iteration technique described in riseSetTime() is used here.
@@ -236,21 +236,21 @@ public:
      *@param dt  target date/time
      *@param geo pointer to the geographic location
      */
-    QTime transitTime( const KStarsDateTime &dt, const GeoLocation *geo );
+    QTime transitTime( const KStarsDateTime &dt, const GeoLocation *geo ) const;
 
     /**
      *@return the universal time that the object will transit the meridian.
      *@param dt   target date/time
      *@param geo pointer to the geographic location
      */
-    QTime transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo );
+    QTime transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo ) const;
 
     /**
      *@return the altitude of the object at the moment it transits the meridian.
      *@param dt  target date/time
      *@param geo pointer to the geographic location
      */
-    dms transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo );
+    dms transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) const;
 
     /**
      *The coordinates for the object on date dt are computed and returned,
@@ -270,7 +270,7 @@ public:
     /**
      *@short Given the Image title from a URL file, try to convert it to an image credit string.
      */
-    QString messageFromTitle( const QString &imageTitle );
+    QString messageFromTitle( const QString &imageTitle ) const;
 
     /**
      *@short Save new user log text
@@ -346,7 +346,7 @@ private:
      *@return the time at which the given position will rise or set.
      */
     QTime auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
-                            const dms *righta, const dms *decl, bool riseT);
+                            const dms *righta, const dms *decl, bool riseT) const;
 
     /**
      *Compute the LST time when the object will rise or set. It is an auxiliary
@@ -359,7 +359,7 @@ private:
      *@param rst Boolean. If true will compute rise time. If false
      *       will compute set time.
      */
-    dms auxRiseSetTimeLST( const dms *gLt, const dms *rga, const dms *decl, bool rst );
+    dms auxRiseSetTimeLST( const dms *gLt, const dms *rga, const dms *decl, bool rst ) const;
 
     /**
      *Compute the approximate hour angle that an object with declination d will have
@@ -370,7 +370,7 @@ private:
      *@param d pointer to the declination of the object.
      *@return the Hour Angle, in degrees.
      */
-    double approxHourAngle( const dms *h, const dms *gLat, const dms *d );
+    double approxHourAngle( const dms *h, const dms *gLat, const dms *d ) const;
 
     /**
      *Correct for the geometric altitude of the center of the body at the
@@ -386,7 +386,7 @@ private:
      *This function is only used by auxRiseSetTimeLST().
      *@return dms object with the correction.
      */
-    dms elevationCorrection(void);
+    dms elevationCorrection(void) const;
 
     /**
      *@short Return a pointer to the AuxInfo object associated with this SkyObject.

@@ -227,7 +227,7 @@ void SkyPoint::nutate(const KSNumbers *num) {
     }
 }
 
-SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ){
+SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ) const {
     dms lat1, dtheta;
 
     if( dist == 0.0 ) {
@@ -759,7 +759,7 @@ double SkyPoint::vTopocentric(double vgeo, double vsite[3])
     return vgeo - vRSite(vsite);
 }
 
-bool SkyPoint::checkCircumpolar( const dms *gLat ) {
+bool SkyPoint::checkCircumpolar( const dms *gLat ) const {
     return fabs(dec().Degrees())  >  (90 - fabs(gLat->Degrees()));
 }
 

@@ -460,12 +460,12 @@ public:
      * @param from The SkyPoint to move away from
      * @return a SkyPoint that is at the dist away from this SkyPoint in the direction away from from
      */
-    SkyPoint moveAway( const SkyPoint &from, double dist );
+    SkyPoint moveAway( const SkyPoint &from, double dist ) const;
 
     /**
      * @short Check if this point is circumpolar at the given geographic latitude
      */
-    bool checkCircumpolar( const dms *gLat );
+    bool checkCircumpolar( const dms *gLat ) const;
 
     /** Calculate refraction correction. Parameter and return value are in degrees */
     static double refractionCorr( double alt );
