@@ -145,12 +145,13 @@ double KSAlmanac::sunZenithAngleToTime( double z ) {
     return SunSet + ( HA - HASunset ) / 24.0;
 }
 
-double KSAlmanac::findAltitude( SkyPoint *p, double hour ) {
+double KSAlmanac::findAltitude( const SkyPoint *p, double hour ) {
+    SkyPoint sp = *p; // make a copy
     KStarsDateTime ut = dt;
     ut.setTime( QTime() );
     ut = geo->LTtoUT( ut );
     ut= ut.addSecs( hour*3600.0 );
     dms LST = geo->GSTtoLST( ut.gst() );
-    p->EquatorialToHorizontal( &LST, geo->lat() );
-    return p->alt().Degrees();
+    sp.EquatorialToHorizontal( &LST, geo->lat() );
+    return sp.alt().Degrees();
 }

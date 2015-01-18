@@ -102,7 +102,7 @@ public:
      * FIXME: More code duplication!
      * findAltitude should really be part of KSEngine. Copying from ObservingList.
      */
-    double findAltitude( SkyPoint *p, double hour );
+    double findAltitude( const SkyPoint *p, double hour );
 
     KSSun  m_Sun;
     KSMoon m_Moon;
