@@ -506,7 +506,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="AVTPlotWidget" name="View">
+      <widget class="AVTPlotWidget" name="avt">
        <property name="enabled">
         <bool>true</bool>
        </property>

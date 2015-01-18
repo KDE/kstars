@@ -136,12 +136,12 @@ ObservingList::ObservingList( KStars *_ks )
     ui->SessionView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
     ksal = new KSAlmanac;
     ksal->setLocation(geo);
-    ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
-    ui->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
-    ui->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
-    ui->View->axis(KPlotWidget::BottomAxis)->setLabel( xi18n( "Local Time" ) );
-    ui->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
-    ui->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
+    ui->avt->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
+    ui->avt->setLimits( -12.0, 12.0, -90.0, 90.0 );
+    ui->avt->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
+    ui->avt->axis(KPlotWidget::BottomAxis)->setLabel( xi18n( "Local Time" ) );
+    ui->avt->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
+    ui->avt->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
     ui->DateEdit->setDate(dt.date());
     ui->SetLocation->setText( geo -> fullName() );
     ui->ImagePreview->installEventFilter( this );
@@ -362,7 +362,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 
     if( ! session ) {
         obsList().removeAt(k);
-        ui->View->removeAllPlotObjects();
+        ui->avt->removeAllPlotObjects();
         ui->TableView->resizeColumnsToContents();
         if( ! update )
             slotSaveList();
@@ -371,7 +371,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             TimeHash.remove( o->name() );
         sessionList().removeAt(k); //Remove from the session list
         isModified = true;         //Removing an object should trigger the modified flag
-        ui->View->removeAllPlotObjects();
+        ui->avt->removeAllPlotObjects();
         ui->SessionView->resizeColumnsToContents();
     }
 }
@@ -514,7 +514,7 @@ void ObservingList::slotNewSelection() {
             saveCurrentUserLog();
             ui->NotesEdit->setPlainText("");
             //Clear the plot in the AVTPlotwidget
-            ui->View->removeAllPlotObjects();
+            ui->avt->removeAllPlotObjects();
         } else { //more than one object selected.
             ui->NotesLabel->setText( xi18n( "Select a single object to record notes on it here:" ) );
             ui->NotesLabel->setEnabled( false );
@@ -524,7 +524,7 @@ void ObservingList::slotNewSelection() {
             ui->SearchImage->setEnabled( false );
             m_CurrentObject = 0;
             //Clear the plot in the AVTPlotwidget
-            ui->View->removeAllPlotObjects();
+            ui->avt->removeAllPlotObjects();
             //Clear the user log text box.
             saveCurrentUserLog();
             ui->NotesEdit->setPlainText("");
@@ -666,7 +666,7 @@ void ObservingList::slotAVT() {
 void ObservingList::slotClose() {
     //Save the current User log text
     saveCurrentUserLog();
-    ui->View->removeAllPlotObjects();
+    ui->avt->removeAllPlotObjects();
     slotNewSelection();
     saveCurrentList();
     hide();
@@ -872,18 +872,18 @@ void ObservingList::plot( SkyObject *o ) {
     if ( h1 > 12.0 )
         h1 -= 24.0;
 
-    ui->View->setSecondaryLimits( h1, h1 + 24.0, -90.0, 90.0 );
+    ui->avt->setSecondaryLimits( h1, h1 + 24.0, -90.0, 90.0 );
     ksal->setLocation(geo);
     ksal->setDate( &ut );
-    ui->View->setSunRiseSetTimes( ksal->getSunRise(), ksal->getSunSet() );
-    ui->View->setDawnDuskTimes( ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight() );
-    ui->View->update();
+    ui->avt->setSunRiseSetTimes( ksal->getSunRise(), ksal->getSunSet() );
+    ui->avt->setDawnDuskTimes( ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight() );
+    ui->avt->update();
     KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
     for ( double h = -12.0; h <= 12.0; h += 0.5 ) {
         po->addPoint( h, findAltitude( o, ( h + DayOffset * 24.0 ) ) );
     }
-    ui->View->removeAllPlotObjects();
-    ui->View->addPlotObject( po );
+    ui->avt->removeAllPlotObjects();
+    ui->avt->addPlotObject( po );
 }
 
 double ObservingList::findAltitude( SkyPoint *p, double hour ) {
@@ -913,7 +913,7 @@ void ObservingList::slotToggleSize() {
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
-        ui->View->hide();
+        ui->avt->hide();
         //Set the width of the Table to be the width of 5 toolbar buttons,
         //or the width of column 1, whichever is larger
         int w = 5*ui->MiniButton->width();
@@ -942,7 +942,7 @@ void ObservingList::slotToggleSize() {
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();
-        ui->View->show();
+        ui->avt->show();
         adjustSize();
         bIsLarge = true;
     }
@@ -970,7 +970,7 @@ void ObservingList::slotChangeTab(int index) {
     //Clear the user log text box.
     saveCurrentUserLog();
     ui->NotesEdit->setPlainText("");
-    ui->View->removeAllPlotObjects();
+    ui->avt->removeAllPlotObjects();
 }
 
 void ObservingList::slotLocation() {
@@ -984,7 +984,7 @@ void ObservingList::slotLocation() {
 
 void ObservingList::slotUpdate() {
     dt.setDate( ui->DateEdit->date() );
-    ui->View->removeAllPlotObjects();
+    ui->avt->removeAllPlotObjects();
     //Creating a copy of the lists, we can't use the original lists as they'll keep getting modified as the loop iterates
     QList<SkyObject*> _obsList=m_WishList, _SessionList=m_SessionList;
     foreach ( SkyObject *o, _obsList ) {
