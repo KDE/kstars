@@ -72,7 +72,7 @@ DeepSkyObject* DeepSkyObject::clone() const
 {
     return new DeepSkyObject(*this);
 }
-    
+
 void DeepSkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
     pmenu->createDeepSkyObjectMenu( this );
 }

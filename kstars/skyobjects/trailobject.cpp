@@ -26,7 +26,7 @@
 
 QSet<TrailObject*> TrailObject::trailObjects;
 
-TrailObject::TrailObject( int t, dms r, dms d, float m, const QString &n ) 
+TrailObject::TrailObject( int t, dms r, dms d, float m, const QString &n )
   : SkyObject( t, r, d, m, n )
 {}
 

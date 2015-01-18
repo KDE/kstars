@@ -29,7 +29,7 @@ KSSun::KSSun( )
     setMag( -26.73 );
 }
 
-KSSun* KSSun::clone() const 
+KSSun* KSSun::clone() const
 {
     return new KSSun(*this);   
 }

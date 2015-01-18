@@ -506,10 +506,11 @@ public:
     static const double altCrit;
 
 protected:
-    /**Precess this SkyPoint's catalog coordinates to the epoch described by the
-    	*given KSNumbers object.
-    	*@param num pointer to a KSNumbers object describing the target epoch.
-    	*/
+    /**
+     * Precess this SkyPoint's catalog coordinates to the epoch described by the
+     * given KSNumbers object.
+     * @param num pointer to a KSNumbers object describing the target epoch.
+     */
     void precess(const KSNumbers *num);
 
 private:

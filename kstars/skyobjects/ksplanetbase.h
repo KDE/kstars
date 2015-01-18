@@ -1,4 +1,3 @@
-
 /***************************************************************************
                           ksplanetbase.h  -  K Desktop Planetarium
                              -------------------
@@ -207,7 +206,7 @@ protected:
 
     /** Compute high 32-bits of UID. */
     inline UID solarsysUID(UID type) const { return (SkyObject::UID_SOLARSYS << 60) | (type << 56); }
-   
+
     /**@short find the object's current geocentric equatorial coordinates (RA and Dec)
      * This function is pure virtual; it must be overloaded by subclasses.
      * This function is private; it is called by the public function findPosition()
@@ -218,7 +217,7 @@ protected:
      */
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL ) = 0;
 
-    /** 
+    /**
      * @short Computes the visual magnitude for the major planets.
      * @param num pointer to a ksnumbers object. Needed for the saturn rings contribution to 
      *            saturn's magnitude.

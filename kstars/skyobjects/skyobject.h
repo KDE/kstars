@@ -56,10 +56,10 @@ public:
     static const UID UID_GALAXY;
     static const UID UID_DEEPSKY;
     static const UID UID_SOLARSYS;
-    
+
     /** Invalid UID. Real sky object could not have such UID */
     static const UID invalidUID;
-    
+
     /**
      *Constructor.  Set SkyObject data according to arguments.
      *@param t Type of object
@@ -89,14 +89,17 @@ public:
     /** Destructor (empty) */
     virtual ~SkyObject();
 
-    /** Create copy of object.
+    /**
+     * @short Create copy of object.
      * This method is virtual copy constructor. It allows for safe
      * copying of objects. In other words, KSPlanet object stored in
      * SkyObject pointer will be copied as KSPlanet.
-     * Each subclass of SkyObject MUST implement clone method.
+     *
+     * Each subclass of SkyObject MUST implement clone method. There
+     * is no checking to ensure this, though.
      *
      *  @return pointer to newly allocated object. Caller takes full responsibility
-     *  for deallocating it. 
+     *  for deallocating it.
      */
     virtual SkyObject* clone() const;
 
@@ -106,7 +109,7 @@ public:
      */
     enum TYPE { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
                 GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8,
-                COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13, 
+                COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13,
                 GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, RADIO_SOURCE=18,
                 SATELLITE=19, SUPERNOVA=20, TYPE_UNKNOWN };
 
