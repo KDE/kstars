@@ -15,16 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QPainter>
+#include "trailobject.h"
 
-#include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "kspopupmenu.h"
-#include "trailobject.h"
+#include "skycomponents/skylabeler.h"
+#include "skypainter.h"
+#include "projections/projector.h"
+#include "Options.h"
+
+#include <QPainter>
 
 #include <typeinfo>
-#include "skypainter.h"
 
 QSet<TrailObject*> TrailObject::trailObjects;
 
@@ -54,20 +57,25 @@ void TrailObject::initPopupMenu( KSPopupMenu *pmenu ) {
     pmenu->createPlanetMenu( this );
 }
 
-void TrailObject::addToTrail() {
+void TrailObject::addToTrail( const QString &label ) {
     Trail.append( SkyPoint( *this ) );
+    m_TrailLabels.append( label );
     trailObjects.insert( this );
 }
 
 void TrailObject::clipTrail() {
-    if( Trail.size() )
+    if( Trail.size() ) {
         Trail.removeFirst();
-    if( Trail.size() )
+        Q_ASSERT( m_TrailLabels.size() );
+        m_TrailLabels.removeFirst();
+    }
+    if( Trail.size() ) // Eh? Shouldn't this be if( !Trail.size() ) -- asimha
         trailObjects.remove( this );
 }
 
 void TrailObject::clearTrail() {
     Trail.clear();
+    m_TrailLabels.clear();
     trailObjects.remove( this );
 }
 
@@ -93,6 +101,8 @@ void TrailObject::drawTrail(SkyPainter* skyp) const {
 
     QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
     skyp->setPen( QPen(tcolor, 1) );
+    SkyLabeler *labeler = SkyLabeler::Instance();
+    labeler->setPen( tcolor );
     int n = Trail.size();
     for(int i = 1; i < n; ++i) {
         if ( Options::fadePlanetTrails() ) {
@@ -102,5 +112,10 @@ void TrailObject::drawTrail(SkyPainter* skyp) const {
         SkyPoint a = Trail[i-1];
         SkyPoint b = Trail[i];
         skyp->drawSkyLine(&a, &b);
+        if( i % 5 == 1 ) { // TODO: Make drawing of labels configurable, incl. frequency etc.
+            QPointF pt = SkyMap::Instance()->projector()->toScreen( &a );
+            labeler->drawGuideLabel( pt, m_TrailLabels[i - 1], 0.0 );
+        }
     }
+
 }

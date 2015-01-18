@@ -130,7 +130,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
         localizeCoords( num, lat, LST ); //correct for figure-of-the-Earth
 
     if ( hasTrail() ) {
-        addToTrail();
+        addToTrail( KStarsDateTime( num->getJD() ).toString( "yyyy.MM.dd hh:mm" ) + xi18nc("Universal time", "UT") ); // TODO: Localize date/time format?
         if ( Trail.size() > TrailObject::MaxTrail )
             clipTrail();
     }

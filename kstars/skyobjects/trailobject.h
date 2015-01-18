@@ -49,7 +49,7 @@ public:
     inline const QList<SkyPoint>& trail() const { return Trail; }
 
     /** @short adds a point to the planet's trail */
-    void addToTrail();
+    void addToTrail( const QString &label = QString() );
 
     /** @short removes the oldest point from the trail */
     void clipTrail();
@@ -70,6 +70,7 @@ public:
     static const int MaxTrail = 400;
 protected:
     QList<SkyPoint> Trail;
+    QList<QString> m_TrailLabels;
     /// Store list of objects with trails.
     static QSet<TrailObject*> trailObjects;
 private:
