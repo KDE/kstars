@@ -52,7 +52,7 @@ Vector2f EquirectangularProjector::toScreenVec(const SkyPoint* o, bool oRefract,
         else
             Y = o->alt().radians();
         dX = m_vp.focus->az().reduce().radians() - o->az().reduce().radians();
-        
+
         p[1] = 0.5*m_vp.height - m_vp.zoomFactor*(Y - m_vp.focus->alt().radians());
     } else {
         dX = o->ra().reduce().radians() - m_vp.focus->ra().reduce().radians();
@@ -149,7 +149,7 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
         }
         if( drawLabel )
             *drawLabel = true;
-        
+
         return ground;
     } else {
         KStarsData *data = KStarsData::Instance();
@@ -208,8 +208,8 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
         }
         if( drawLabel )
             *drawLabel = true;
-        
-        //Now add points along the ground 
+
+        //Now add points along the ground
         ground.append( Vector2f( x0 + dX, ground.last().y() ) );
         ground.append( Vector2f( x0 + dX, y0 + dY ) );
         ground.append( Vector2f( x0 - dX, y0 + dY ) );
@@ -217,4 +217,3 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
         return ground;
     }
 }
-

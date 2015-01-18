@@ -32,7 +32,7 @@ TrailObject::TrailObject( int t, dms r, dms d, float m, const QString &n )
   : SkyObject( t, r, d, m, n )
 {}
 
-TrailObject::TrailObject( int t, double r, double d, float m, const QString &n ) 
+TrailObject::TrailObject( int t, double r, double d, float m, const QString &n )
   : SkyObject( t, r, d, m, n )
 {}
 

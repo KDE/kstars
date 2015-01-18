@@ -41,7 +41,7 @@ public:
     virtual ~TrailObject();
 
     virtual TrailObject* clone() const;
-    
+
     /** @return whether the planet has a trail */
     inline bool hasTrail() const { return ( Trail.count() > 0 ); }
 

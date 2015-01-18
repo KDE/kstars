@@ -117,7 +117,7 @@ void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum )
 
     return;
     if ( m_inDraw && bufNum != DRAW_BUF )
-        printf("Warining: overlapping buffer: %d\n", bufNum);
+        printf("Warning: overlapping buffer: %d\n", bufNum);
 }
 
 void SkyMesh::index( const SkyPoint* p1, const SkyPoint* p2 )

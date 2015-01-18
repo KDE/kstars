@@ -220,7 +220,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
                 SkyLabeler::AddLabel( obj, SkyLabeler::RUDE_LABEL );
             }
     }
-        
 
     m_MilkyWay->draw( skyp );
 

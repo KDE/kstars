@@ -151,7 +151,7 @@ public:
      *Convert a given Greenwich Sidereal Time to Universal Time (=Greenwich Mean Time).
      *@p GST the Greenwich Sidereal Time to convert to Universal Time.
      */
-    QTime GSTtoUT( dms GST ) const;
+    QTime GSTtoUT( dms GST ) const; // FIXME: Shouldn't this be static?
 
 
     /**
