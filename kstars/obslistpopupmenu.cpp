@@ -71,7 +71,7 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
             addAction( xi18n( "Show SDSS image" ), ks->observingList(), SLOT( slotGetImage() ) );
             addAction( xi18n( "Show DSS image" ), ks->observingList(), SLOT( slotDSS() ) );
         }
-        addAction( xi18n( "Show images from web " ), ks->observingList(), SLOT( slotGoogleImage() ) );
+        addAction( xi18n( "Show images from web " ), ks->observingList(), SLOT( slotSearchImage() ) );
         addSeparator();
     }
 
