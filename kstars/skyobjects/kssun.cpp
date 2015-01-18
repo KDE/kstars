@@ -17,6 +17,8 @@
 
 #include "kssun.h"
 
+#include <typeinfo>
+
 #include <cmath>
 
 #include "ksnumbers.h"
@@ -31,7 +33,8 @@ KSSun::KSSun( )
 
 KSSun* KSSun::clone() const
 {
-    return new KSSun(*this);   
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const KSSun *>( this ) ) ); // Ensure we are not slicing a derived class
+    return new KSSun(*this);
 }
 
 bool KSSun::loadData() {

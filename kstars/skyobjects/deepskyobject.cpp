@@ -17,6 +17,8 @@
 
 #include "deepskyobject.h"
 
+#include <typeinfo>
+
 #include <QFile>
 #include <QRegExp>
 #include <QPainter>
@@ -70,6 +72,7 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
 
 DeepSkyObject* DeepSkyObject::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const DeepSkyObject *>( this ) ) ); // Ensure we are not slicing a derived class
     return new DeepSkyObject(*this);
 }
 

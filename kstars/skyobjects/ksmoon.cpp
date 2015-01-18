@@ -17,6 +17,8 @@
 
 #include "ksmoon.h"
 
+#include <typeinfo>
+
 #include <cstdlib>
 #include <cmath>
 #if defined(_MSC_VER)
@@ -78,6 +80,7 @@ KSMoon::KSMoon(const KSMoon& o) :
 
 KSMoon* KSMoon::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const KSMoon *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSMoon(*this);
 }
 

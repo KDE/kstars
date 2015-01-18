@@ -22,6 +22,8 @@
 #include "skymap.h"
 #include "kspopupmenu.h"
 #include "trailobject.h"
+
+#include <typeinfo>
 #include "skypainter.h"
 
 QSet<TrailObject*> TrailObject::trailObjects;
@@ -39,6 +41,7 @@ TrailObject::~TrailObject() {
 }
 
 TrailObject* TrailObject::clone() const {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const TrailObject *>( this ) ) ); // Ensure we are not slicing a derived class
     return new TrailObject(*this);
 }
 

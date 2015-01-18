@@ -17,6 +17,8 @@
 
 #include "starobject.h"
 
+#include <typeinfo>
+
 #include <cmath>
 #include <QColor>
 #include <QPainter>
@@ -128,6 +130,7 @@ StarObject::StarObject( const StarObject &o ) :
 
 StarObject* StarObject::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const StarObject *>( this ) ) ); // Ensure we are not slicing a derived class
     return new StarObject(*this);
 }
 

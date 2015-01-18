@@ -17,6 +17,8 @@
 
 #include "skyobject.h"
 
+#include <typeinfo>
+
 #include <iostream>
 
 #include <QPainter>
@@ -74,6 +76,7 @@ SkyObject::SkyObject( int t, double r, double d, float m,
 
 SkyObject* SkyObject::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const SkyObject *>( this ) ) ); // Ensure we are not slicing a derived class
     return new SkyObject(*this);
 }
 

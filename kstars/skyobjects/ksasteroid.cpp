@@ -17,6 +17,8 @@
 
 #include "ksasteroid.h"
 
+#include <typeinfo>
+
 #include <QDebug>
 
 #include "dms.h"
@@ -35,6 +37,7 @@ KSAsteroid::KSAsteroid( int _catN, const QString &s, const QString &imfile,
 
 KSAsteroid* KSAsteroid::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const KSAsteroid *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSAsteroid(*this);
 }
 

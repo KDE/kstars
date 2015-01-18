@@ -17,6 +17,8 @@
 
 #include "ksplanet.h"
 
+#include <typeinfo>
+
 #include <cmath>
 
 #include <QFile>
@@ -149,6 +151,7 @@ KSPlanet::KSPlanet( int n )
 
 KSPlanet* KSPlanet::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const KSPlanet *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSPlanet(*this);
 }
 

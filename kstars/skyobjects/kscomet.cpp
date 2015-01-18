@@ -17,6 +17,8 @@
 
 #include "kscomet.h"
 
+#include <typeinfo>
+
 #include <QRegExp>
 #include <QDebug>
 #include <QMap>
@@ -134,6 +136,7 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
 
 KSComet* KSComet::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const KSComet *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSComet(*this);
 }
 

@@ -17,6 +17,8 @@
 
 #include "kspluto.h"
 
+#include <typeinfo>
+
 #include <cmath>
 
 #include <QFile>
@@ -57,6 +59,7 @@ KSPluto::KSPluto(const QString &fn, double pSize )
 
 KSPluto* KSPluto::clone() const
 {
+    Q_ASSERT( typeid( this ) == typeid( static_cast<const KSPluto *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSPluto(*this);
 }
 
