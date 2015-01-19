@@ -54,6 +54,8 @@
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/align.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -77,6 +79,8 @@ void SkyMapDrawAbstract::drawOverlays( QPainter& p, bool drawFov ) {
             fov->draw(p, Options::zoomFactor());
         }
     }
+
+    drawSolverFOV(p);
 
     drawTelescopeSymbols( p );
 
@@ -176,6 +180,23 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
     }
 
     skyLabeler->useStdFont();   // use the StdFont for the guides.
+}
+
+void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
+{
+    Q_UNUSED(psky);
+
+    #ifdef HAVE_INDI
+
+    Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
+    if (align)
+    {
+        FOV * fov = align->fov();
+        if (fov)
+            fov->draw(psky,  Options::zoomFactor());
+    }
+
+    #endif
 }
 
 void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)

@@ -74,6 +74,11 @@ class SkyMapDrawAbstract {
     	*/
     void drawTelescopeSymbols(QPainter &psky);
 
+    /**Draw FOV of solved image in Ekos Alignment Module
+        *@param psky reference to the QPainter on which to draw (this should be the Sky pixmap).
+        */
+    void drawSolverFOV(QPainter &psky);
+
     /**
     	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 

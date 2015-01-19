@@ -1727,4 +1727,3 @@ void EkosManager::setAuxiliary(const QString & auxiliaryName)
     else
         Options::setRemoteAuxName(auxiliaryName);
 }
-

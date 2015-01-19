@@ -13,6 +13,7 @@
 #include "kstarsdata.h"
 #include "align.h"
 #include "dms.h"
+#include "fov.h"
 #include "Options.h"
 
 #include <QFileDialog>
@@ -59,7 +60,7 @@ Align::Align()
     decDeviation = azDeviation = altDeviation = 0;
 
     parser = NULL;
-
+    solverFOV = new FOV();
     onlineParser = NULL;
     offlineParser = NULL;
 
@@ -139,6 +140,7 @@ Align::Align()
 Align::~Align()
 {
     delete(pi);
+    delete(solverFOV);
 }
 
 bool Align::parserOK()
@@ -358,6 +360,8 @@ void Align::calculateFOV()
 
     fov_x /= 60.0;
     fov_y /= 60.0;
+
+    solverFOV->setSize(fov_x, fov_y);
 
     FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));    
 
@@ -625,12 +629,16 @@ void Align::solverFinished(double orientation, double ra, double dec)
     sRA  = ra;
     sDEC = dec;
 
+    solverFOV->setRotation(sOrientation);
+
      alignCoord.setRA0(ra/15.0);
      alignCoord.setDec0(dec);
      RotOut->setText(QString("%1").arg(orientation, 0, 'g', 5));
 
      // Convert to JNow
      alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
+
+     solverFOV->setCenter(alignCoord);
 
      QString ra_dms, dec_dms;
      getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -1307,6 +1315,15 @@ void Align::setSolverOptions(bool updateCoords, bool previewImage, bool verbose,
     kcfg_solverPreview->setChecked(previewImage);
     kcfg_solverVerbose->setChecked(verbose);
     kcfg_solverOTA->setChecked(useOAGT);
+}
+
+FOV* Align::fov()
+{
+    if (sOrientation == -1)
+        return NULL;
+    else
+        return solverFOV;
+
 }
 
 }

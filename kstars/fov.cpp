@@ -17,6 +17,11 @@
 
 #include "fov.h"
 #include "Options.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "geolocation.h"
+#include "skymap.h"
+#include "projections/projector.h"
 
 #include <algorithm>
 
@@ -43,6 +48,8 @@ FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, floa
     m_rotation    = rot;
     m_shape       = sh;
     m_color       = col;
+    m_center.setRA(0);
+    m_center.setDec(0);
 } 
 
 FOV::FOV()
@@ -69,7 +76,15 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     float offsetYPixelSize = offsetY() * zoomFactor / 57.3 / 60.0;
 
     p.save();
-    p.translate(p.viewport().center());
+
+    if (m_center.ra().Degrees() != 0)
+    {
+        m_center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        QPointF skypoint_center = KStars::Instance()->map()->projector()->toScreen(&m_center);
+        p.translate(skypoint_center.toPoint());
+    }
+    else
+        p.translate(p.viewport().center());
 
     p.translate(offsetXPixelSize,  offsetYPixelSize);
     p.rotate(rotation());
@@ -80,6 +95,10 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     {
     case SQUARE: 
         p.drawRect( center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
+        p.drawRect( center.x() , center.y() - (3 * pixelSizeY/5), pixelSizeX/40, pixelSizeX/10);
+        p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5));
+        p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
+        p.drawLine( center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
         break;
     case CIRCLE: 
         p.drawEllipse( center, pixelSizeX/2, pixelSizeY/2 );
@@ -235,3 +254,13 @@ QList<FOV*> FOV::readFOVs()
     }
     return fovs;
 }
+SkyPoint FOV::center() const
+{
+    return m_center;
+}
+
+void FOV::setCenter(const SkyPoint &center)
+{
+    m_center = center;
+}
+

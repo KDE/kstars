@@ -23,6 +23,8 @@
 #include <QString>
 #include <KLocalizedString>
 
+#include "skypoint.h"
+
 class QPainter;
 
 /**@class FOV A simple class encapsulating a Field-of-View symbol
@@ -83,12 +85,17 @@ public:
     static void writeFOVs(const QList<FOV*> fovs);
     /** @short Read list of FOVs from "fov.dat" */
     static QList<FOV*>readFOVs();
+
+    SkyPoint center() const;
+    void setCenter(const SkyPoint &center);
+
 private:
     QString m_name, m_color;
     Shape   m_shape;
     float   m_sizeX, m_sizeY;
     float   m_offsetX, m_offsetY;
     float   m_rotation;
+    SkyPoint m_center;
 };
 
 #endif

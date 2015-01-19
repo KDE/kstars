@@ -23,6 +23,8 @@
 #include "indi/inditelescope.h"
 #include "indi/indistd.h"
 
+class FOV;
+
 namespace Ekos
 {
 
@@ -191,6 +193,8 @@ public slots:
      */
      Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
 
+    FOV *fov();
+
 signals:
         void newLog();
 
@@ -241,6 +245,7 @@ private:
     OnlineAstrometryParser *onlineParser;
     OfflineAstrometryParser *offlineParser;
 
+    FOV *solverFOV;
 
 };
 

@@ -167,6 +167,12 @@ public slots:
     void setFocuser(ISD::GDInterface *);
     void setST4(ISD::ST4 *);
 
+    Ekos::Capture *captureModule() { return captureProcess;}
+    Ekos::Focus *focusModule() { return focusProcess;}
+    Ekos::Guide *guideModule() { return guideProcess;}
+    Ekos::Align *alignModule() { return alignProcess;}
+    Ekos::Mount *mountModule() { return mountProcess;}
+
  private:
 
     void loadDefaultDrivers();
