@@ -61,6 +61,7 @@ Align::Align()
 
     parser = NULL;
     solverFOV = new FOV();
+    solverFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed( "SolverFOVColor" ).name());
     onlineParser = NULL;
     offlineParser = NULL;
 

@@ -82,6 +82,7 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("SupernovaColor",   xi18n("Supernovae"),             "#FFA500");
     appendItem("RAGuideError",     xi18n("RA Guide Error"),         "#00FF00");
     appendItem("DEGuideError",     xi18n("DEC Guide Error"),        "#00A5FF");
+    appendItem("SolverFOVColor",     xi18n("Solver FOV"),        "#FFFFFF");
 
     //Load colors from config object
     loadFromConfig();

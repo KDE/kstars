@@ -958,6 +958,11 @@
       <whatsthis>The color for DEC Guide Error bar in Ekos guide module.</whatsthis>
       <default>#00A5FF</default>
     </entry>
+    <entry name="SolverFOVColor" type="String">
+      <label>Color of solver FOV box</label>
+      <whatsthis>The color for solver FOV box in Ekos alignment module.</whatsthis>
+      <default>#FFFF00</default>
+    </entry>
   </group>
   <group name="Xplanet">
     <entry name="XplanetPath" type="String">
