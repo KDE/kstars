@@ -342,6 +342,8 @@ void FITSHistogramCommand::redo()
 
     memcpy(buffer, image_buffer, width * height * sizeof(float));
 
+    gamma = image->getGammaValue();
+
     switch (type)
     {
     case FITS_AUTO:
@@ -445,6 +447,8 @@ void FITSHistogramCommand::undo()
 
     image->rescale(ZOOM_KEEP_LEVEL);
     image->updateFrame();
+
+    image->setGammaValue(gamma);
 
 }
 

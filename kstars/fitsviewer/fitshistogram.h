@@ -108,6 +108,7 @@ private:
     FITSScale type;
     int min, max;
     int width,height;
+    int gamma;
     float *buffer;
     float *original_buffer;
     FITSTab *tab;
