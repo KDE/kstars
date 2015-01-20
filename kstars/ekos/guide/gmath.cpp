@@ -946,7 +946,7 @@ void cgmath::process_axes( void  )
  			out_params.pulse_dir[k] = NO_DIR;
 
     #ifdef GUIDE_LOG
-            qDebug() << "Direction: " << get_direction_string(out_params.pulse_dir[k]) << << endl;
+            qDebug() << "Direction: " << get_direction_string(out_params.pulse_dir[k]) << endl;
     #endif
 
  	}
