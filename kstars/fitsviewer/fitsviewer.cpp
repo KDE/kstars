@@ -100,18 +100,18 @@ FITSViewer::FITSViewer (QWidget *parent)
     gammaSlider.setOrientation(Qt::Horizontal);
     gammaSlider.setFixedWidth(100);
 
-    fitsPosition.setFixedWidth(100);
-    fitsValue.setFixedWidth(100);
+    //fitsPosition.setFixedWidth(100);
+    //fitsValue.setFixedWidth(100);
     fitsWCS.setVisible(false);
 
     connect(&gammaSlider, SIGNAL(valueChanged(int)), this, SLOT(setGamma(int)));
 
-    statusBar()->insertPermanentWidget(FITS_GAMMA, &gammaSlider);
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
     statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);    
     statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
     statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsZoom);
     statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
+    statusBar()->insertPermanentWidget(FITS_GAMMA, &gammaSlider);
     statusBar()->insertPermanentWidget(FITS_LED, &led);
 
     QAction *action;
