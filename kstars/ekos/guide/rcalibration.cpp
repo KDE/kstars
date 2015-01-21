@@ -229,6 +229,7 @@ bool rcalibration::stopCalibration()
     if (!pmath)
         return false;
 
+    calibrationStage = CAL_FINISH;
     reset();
 
     return true;
@@ -275,6 +276,8 @@ bool rcalibration::startCalibration()
     if (pmath->get_image())
         disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
+    ui.captureLED->setColor(okColor);
+    ui.selectStarLED->setColor(okColor);
     calibrationStage = CAL_START;
 
     pmath->set_lost_star(false);
@@ -351,10 +354,8 @@ void rcalibration::reset()
     is_started = false;
     ui.pushButton_StartCalibration->setText( xi18n("Start") );
     ui.startCalibrationLED->setColor(idleColor);
-    //calibrationStage = CAL_FINISH;
     ui.progressBar->setVisible(false);
     connect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
-
 }
 
 void rcalibration::calibrateManualReticle( void )
