@@ -147,6 +147,7 @@ public:
     void set_buffer(float *buffer);
     void set_image(FITSView *image);
     bool get_dec_swap() { return dec_swap;}
+    void set_dec_swap(bool enable) { dec_swap = enable;}
     FITSView *get_image() { return pimage; }
     void set_preview_mode(bool enable) { preview_mode = enable;}
 	

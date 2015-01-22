@@ -36,6 +36,8 @@
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 
+//#define GUIDE_LOG
+
 rcalibration::rcalibration(Ekos::Guide *parent)
     : QWidget(parent)
 {
@@ -280,6 +282,10 @@ bool rcalibration::startCalibration()
     ui.selectStarLED->setColor(okColor);
     calibrationStage = CAL_START;
 
+    // Must reset dec swap before we run any calibration procedure!
+    pmain_wnd->setDECSwap(false);
+    pmath->set_dec_swap(false);
+
     pmath->set_lost_star(false);
     pmain_wnd->capture();
 
@@ -514,7 +520,9 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             iterations++;
             ui.progressBar->setValue( iterations );
 
-            //qDebug() << "Iteration " << iterations << " and auto drift time is " << auto_drift_time << endl;
+            #ifdef GUIDE_LOG
+            qDebug() << "Iteration " << iterations << " and auto drift time is " << auto_drift_time << endl;
+            #endif
 
             if (iterations == auto_drift_time)
                 calibrationStage = CAL_RA_DEC;
@@ -526,7 +534,9 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             if (iterations == auto_drift_time)
             {
                 pmath->get_star_screen_pos( &end_x1, &end_y1 );
-                //qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1 << endl;
+                #ifdef GUIDE_LOG
+                qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1 << endl;
+                #endif
 
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
@@ -581,7 +591,9 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             start_x2 = cur_x;
             start_y2 = cur_y;
 
-           // qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2 << endl;
+           #ifdef GUIDE_LOG
+           qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2 << endl;
+           #endif
 
             pmain_wnd->sendPulse( DEC_INC_DIR, pulseDuration );
             iterations++;
@@ -621,7 +633,9 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         dec_iterations++;
         ui.progressBar->setValue( iterations );
 
-        //qDebug() << "Iteration " << iterations << " and auto drift time is " << auto_drift_time << endl;
+        #ifdef GUIDE_LOG
+        qDebug() << "Iteration " << iterations << " and auto drift time is " << auto_drift_time << endl;
+        #endif
 
         if (dec_iterations == auto_drift_time)
             calibrationStage = CAL_DEC_DEC;
@@ -633,7 +647,9 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         if (dec_iterations == auto_drift_time)
         {
             pmath->get_star_screen_pos( &end_x2, &end_y2 );
-            //qDebug() << "End X2 " << end_x2 << " End Y2 " << end_y2 << endl;
+            #ifdef GUIDE_LOG
+            qDebug() << "End X2 " << end_x2 << " End Y2 " << end_y2 << endl;
+            #endif
 
             phi = pmath->calc_phi( start_x2, start_y2, end_x2, end_y2 );
             ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
