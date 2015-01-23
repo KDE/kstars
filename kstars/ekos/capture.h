@@ -338,6 +338,7 @@ signals:
 
 private:
 
+    void startNextExposure();
     void updateFrameProperties();
     void prepareJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);

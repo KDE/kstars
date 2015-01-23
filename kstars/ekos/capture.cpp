@@ -829,6 +829,13 @@ void Capture::syncFilterInfo()
     }
 }
 
+void Capture::startNextExposure()
+{
+    if (seqDelay > 0)
+        secondsLabel->setText(xi18n("Waiting..."));
+    seqTimer->start(seqDelay);
+}
+
 void Capture::newFITS(IBLOB *bp)
 {
     ISD::CCDChip *tChip = NULL;
@@ -863,7 +870,7 @@ void Capture::newFITS(IBLOB *bp)
         if (calibrationState == CALIBRATE_START)
         {
             calibrationState = CALIBRATE_DONE;
-            seqTimer->start(seqDelay);
+            startNextExposure();
             return;
         }
 
@@ -962,7 +969,7 @@ void Capture::newFITS(IBLOB *bp)
         emit checkFocus(HFRPixels->value());
     }
     else
-        seqTimer->start(seqDelay);
+        startNextExposure();
 }
 
 void Capture::captureOne()
@@ -1027,7 +1034,7 @@ void Capture::resumeCapture()
         return;
     }
 
-    seqTimer->start(seqDelay);
+    startNextExposure();
 }
 
 /*******************************************************************************/
@@ -1584,7 +1591,7 @@ void Capture::updateAutofocusStatus(bool status)
     if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
         if (status)
-            seqTimer->start(seqDelay);
+            startNextExposure();
         else
         {
             appendLogText(xi18n("Autofocus failed. Aborting exposure..."));
