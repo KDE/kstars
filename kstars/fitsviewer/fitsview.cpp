@@ -254,12 +254,13 @@ int FITSView::rescale(FITSZoom type)
     }
     else
     {
-        if (filter == FITS_NONE || filter >= FITS_FLIP_H)
+        // Let the gamma value be independent of filters
+        /*if (filter == FITS_NONE || filter >= FITS_FLIP_H)
         {
             if (max < maxPixel)
                 gammaValue = log(max/maxPixel)/DECAY_CONSTANT;
             emit newStatus(QString("%1").arg(gammaValue), FITS_GAMMA);
-        }
+        }*/
 
         bscale = 255. / (max - min);
         bzero  = (-min) * (255. / (max - min));
