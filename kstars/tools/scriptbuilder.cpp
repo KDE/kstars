@@ -197,87 +197,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     SimClockFunctionList.append( new ScriptFunction( "start", xi18n( "Start the simulation clock." ), true ) );
     SimClockFunctionList.append( new ScriptFunction( "setClockScale", xi18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
 
-    //TODO JM: INDI Scripting to be supported in KDE 4.1
-    // INDI functions
-	#if 0
-    ScriptFunction *startINDIFunc(NULL), *shutdownINDIFunc(NULL), *switchINDIFunc(NULL), *setINDIPortFunc(NULL), *setINDIScopeActionFunc(NULL), *setINDITargetCoordFunc(NULL), *setINDITargetNameFunc(NULL), *setINDIGeoLocationFunc(NULL), *setINDIUTCFunc(NULL), *setINDIActionFunc(NULL), *waitForINDIActionFunc(NULL), *setINDIFocusSpeedFunc(NULL), *startINDIFocusFunc(NULL), *setINDIFocusTimeoutFunc(NULL), *setINDICCDTempFunc(NULL), *setINDIFilterNumFunc(NULL), *setINDIFrameTypeFunc(NULL), *startINDIExposureFunc(NULL), *setINDIDeviceFunc(NULL);
-
-    startINDIFunc = new ScriptFunction( "startINDI", xi18n("Establish an INDI device either in local mode or server mode."), false, "QString", "deviceName", "bool", "useLocal");
-    INDIFunctionList.append ( startINDIFunc );
-
-    setINDIDeviceFunc = new ScriptFunction( "setINDIDevice", xi18n("Change current active device. All subsequent function calls will communicate with this device until changed"), false, "QString", "deviceName");
-    INDIFunctionList.append(setINDIDeviceFunc);
-
-    shutdownINDIFunc = new ScriptFunction( "shutdownINDI", xi18n("Shutdown an INDI device."), false, "QString", "deviceName");
-    INDIFunctionList.append ( shutdownINDIFunc);
-
-    switchINDIFunc = new ScriptFunction( "switchINDI", xi18n("Connect or Disconnect an INDI device."), false, "bool", "turnOn");
-    switchINDIFunc->setINDIProperty("CONNECTION");
-    switchINDIFunc->setArg(0, "true");
-    INDIFunctionList.append ( switchINDIFunc);
-
-    setINDIPortFunc = new ScriptFunction( "setINDIPort", xi18n("Set INDI's device connection port."), false, "QString", "port");
-    setINDIPortFunc->setINDIProperty("DEVICE_PORT");
-    INDIFunctionList.append ( setINDIPortFunc);
-
-    setINDIScopeActionFunc = new ScriptFunction( "setINDIScopeAction", xi18n("Set the telescope action. Available actions are SLEW, TRACK, SYNC, PARK, and ABORT."), false, "QString", "action");
-    setINDIScopeActionFunc->setINDIProperty("CHECK");
-    setINDIScopeActionFunc->setArg(0, "SLEW");
-    INDIFunctionList.append( setINDIScopeActionFunc);
-
-    setINDITargetCoordFunc = new ScriptFunction ( "setINDITargetCoord", xi18n( "Set the telescope target coordinates to the RA/Dec coordinates.  RA is expressed in Hours; DEC is expressed in Degrees." ), false, "double", "RA", "double", "DEC" );
-    setINDITargetCoordFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
-    INDIFunctionList.append ( setINDITargetCoordFunc );
-
-    setINDITargetNameFunc = new ScriptFunction( "setINDITargetName", xi18n("Set the telescope target coordinates to the RA/Dec coordinates of the selected object."), false, "QString", "targetName");
-    setINDITargetNameFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
-    INDIFunctionList.append( setINDITargetNameFunc);
-
-    setINDIGeoLocationFunc = new ScriptFunction ( "setINDIGeoLocation", xi18n("Set the telescope longitude and latitude. The longitude is measured east from Greenwich, UK."), false, "double", "long", "double", "lat");
-    setINDIGeoLocationFunc->setINDIProperty("GEOGRAPHIC_COORD");
-    INDIFunctionList.append( setINDIGeoLocationFunc);
-
-    setINDIUTCFunc = new ScriptFunction ( "setINDIUTC", xi18n("Set the device UTC time in ISO 8601 format YYYY/MM/DDTHH:MM:SS."), false, "QString", "UTCDateTime");
-    setINDIUTCFunc->setINDIProperty("TIME_UTC");
-    INDIFunctionList.append( setINDIUTCFunc);
-
-    setINDIActionFunc = new ScriptFunction( "setINDIAction", xi18n("Activate an INDI action. The action is the name of any INDI switch property element supported by the device."), false, "QString", "actionName");
-    INDIFunctionList.append( setINDIActionFunc);
-
-    waitForINDIActionFunc = new ScriptFunction ("waitForINDIAction", xi18n("Pause script execution until action returns with OK status. The action can be the name of any INDI property supported by the device."), false, "QString", "actionName");
-    INDIFunctionList.append( waitForINDIActionFunc );
-
-    setINDIFocusSpeedFunc = new ScriptFunction ("setINDIFocusSpeed", xi18n("Set the telescope focuser speed. Set speed to 0 to halt the focuser. 1-3 correspond to slow, medium, and fast speeds respectively."), false, "unsigned int", "speed");
-    setINDIFocusSpeedFunc->setINDIProperty("FOCUS_SPEED");
-    INDIFunctionList.append( setINDIFocusSpeedFunc );
-
-    startINDIFocusFunc = new ScriptFunction ("startINDIFocus", xi18n("Start moving the focuser in the direction Dir, and for the duration specified by setINDIFocusTimeout."), false, "QString", "Dir");
-    startINDIFocusFunc->setINDIProperty("FOCUS_MOTION");
-    startINDIFocusFunc->setArg(0, "IN");
-    INDIFunctionList.append( startINDIFocusFunc);
-
-    setINDIFocusTimeoutFunc = new ScriptFunction ( "setINDIFocusTimeout", xi18n("Set the telescope focuser timer in seconds. This is the duration of any focusing procedure performed by calling startINDIFocus."), false, "int", "timeout");
-    setINDIFocusTimeoutFunc->setINDIProperty("FOCUS_TIMER");
-    INDIFunctionList.append( setINDIFocusTimeoutFunc);
-
-    setINDICCDTempFunc = new ScriptFunction( "setINDICCDTemp", xi18n("Set the target CCD chip temperature."), false, "int", "temp");
-    setINDICCDTempFunc->setINDIProperty("CCD_TEMPERATURE");
-    INDIFunctionList.append( setINDICCDTempFunc);
-
-    setINDIFilterNumFunc = new ScriptFunction( "setINDIFilterNum", xi18n("Set the target filter position."), false, "int", "filter_num");
-    setINDIFilterNumFunc->setINDIProperty("FILTER_SLOT");
-    INDIFunctionList.append ( setINDIFilterNumFunc);
-
-    setINDIFrameTypeFunc = new ScriptFunction( "setINDIFrameType", xi18n("Set the CCD camera frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT."), false, "QString", "type");
-    setINDIFrameTypeFunc->setINDIProperty("FRAME_TYPE");
-    setINDIFrameTypeFunc->setArg(0, "FRAME_LIGHT");
-    INDIFunctionList.append( setINDIFrameTypeFunc);
-
-    startINDIExposureFunc = new ScriptFunction ( "startINDIExposure", xi18n("Start Camera/CCD exposure. The duration is in seconds."), false, "int", "timeout");
-    startINDIExposureFunc->setINDIProperty("CCD_EXPOSE_DURATION");
-    INDIFunctionList.append( startINDIExposureFunc);
-	#endif
-
     // JM: We're using QTreeWdiget for Qt4 now
     QTreeWidgetItem *kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));
     QTreeWidgetItem *simclock_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("SimClock"));
@@ -294,44 +213,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->FunctionTree->setColumnCount(1);
     sb->FunctionTree->setHeaderLabels( QStringList(xi18n("Functions")) );
     sb->FunctionTree->setSortingEnabled( false );
-
-	#if 0
-    QTreeWidgetItem *INDI_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("INDI"));
-    QTreeWidgetItem *INDI_general = new QTreeWidgetItem( INDI_tree, QStringList("General"));
-    QTreeWidgetItem *INDI_telescope = new QTreeWidgetItem( INDI_tree, QStringList("Telescope"));
-    QTreeWidgetItem *INDI_ccd = new QTreeWidgetItem( INDI_tree, QStringList("Camera/CCD"));
-    QTreeWidgetItem *INDI_focuser = new QTreeWidgetItem( INDI_tree, QStringList("Focuser"));
-    QTreeWidgetItem *INDI_filter = new QTreeWidgetItem( INDI_tree, QStringList("Filter"));
-
-    // General
-    new QTreeWidgetItem(INDI_general, QStringList(startINDIFunc->prototype()));
-    new QTreeWidgetItem(INDI_general, QStringList(shutdownINDIFunc->prototype()));
-    new QTreeWidgetItem(INDI_general, QStringList(setINDIDeviceFunc->prototype()));
-    new QTreeWidgetItem(INDI_general, QStringList(switchINDIFunc->prototype()));
-    new QTreeWidgetItem(INDI_general, QStringList(setINDIPortFunc->prototype()));
-    new QTreeWidgetItem(INDI_general, QStringList(setINDIActionFunc->prototype()));
-    new QTreeWidgetItem(INDI_general, QStringList(waitForINDIActionFunc->prototype()));
-
-    // Telescope
-    new QTreeWidgetItem(INDI_telescope, QStringList(setINDIScopeActionFunc->prototype()));
-    new QTreeWidgetItem(INDI_telescope, QStringList(setINDITargetCoordFunc->prototype()));
-    new QTreeWidgetItem(INDI_telescope, QStringList(setINDITargetNameFunc->prototype()));
-    new QTreeWidgetItem(INDI_telescope, QStringList(setINDIGeoLocationFunc->prototype()));
-    new QTreeWidgetItem(INDI_telescope, QStringList(setINDIUTCFunc->prototype()));
-
-    // CCD
-    new QTreeWidgetItem(INDI_ccd, QStringList(setINDICCDTempFunc->prototype()));
-    new QTreeWidgetItem(INDI_ccd, QStringList(setINDIFrameTypeFunc->prototype()));
-    new QTreeWidgetItem(INDI_ccd, QStringList(startINDIExposureFunc->prototype()));
-
-    // Focuser
-    new QTreeWidgetItem(INDI_focuser, QStringList(setINDIFocusSpeedFunc->prototype()));
-    new QTreeWidgetItem(INDI_focuser, QStringList(setINDIFocusTimeoutFunc->prototype()));
-    new QTreeWidgetItem(INDI_focuser, QStringList(startINDIFocusFunc->prototype()));
-
-    // Filter
-    new QTreeWidgetItem(INDI_filter, QStringList(setINDIFilterNumFunc->prototype()));
-	#endif
 
     //Add icons to Push Buttons
     sb->NewButton->setIcon( QIcon::fromTheme( "document-new" ) );
@@ -364,42 +245,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     argSetColor = new ArgSetColor( sb->ArgStack );
     argLoadColorScheme = new ArgLoadColorScheme( sb->ArgStack );
 
-	#if 0
-    argStartINDI = new ArgStartINDI ( sb->ArgStack );
-    argSetDeviceINDI = new ArgSetDeviceINDI (sb->ArgStack);
-    argShutdownINDI = new ArgShutdownINDI ( sb->ArgStack );
-    argSwitchINDI   = new ArgSwitchINDI ( sb->ArgStack );
-    argSetPortINDI  = new ArgSetPortINDI ( sb->ArgStack );
-    argSetTargetCoordINDI = new ArgSetTargetCoordINDI ( sb->ArgStack );
-    argSetTargetNameINDI  = new ArgSetTargetNameINDI ( sb->ArgStack );
-    argSetActionINDI      = new ArgSetActionINDI ( sb->ArgStack );
-    argWaitForActionINDI  = new ArgSetActionINDI ( sb->ArgStack );
-    argSetFocusSpeedINDI  = new ArgSetFocusSpeedINDI ( sb->ArgStack );
-    argStartFocusINDI     = new ArgStartFocusINDI( sb->ArgStack );
-    argSetFocusTimeoutINDI = new ArgSetFocusTimeoutINDI( sb->ArgStack );
-    argSetGeoLocationINDI  = new ArgSetGeoLocationINDI( sb->ArgStack );
-    argStartExposureINDI   = new ArgStartExposureINDI( sb->ArgStack );
-    argSetUTCINDI          = new ArgSetUTCINDI( sb->ArgStack );
-    argSetScopeActionINDI  = new ArgSetScopeActionINDI( sb->ArgStack );
-    argSetFrameTypeINDI    = new ArgSetFrameTypeINDI ( sb->ArgStack );
-    argSetCCDTempINDI      = new ArgSetCCDTempINDI( sb->ArgStack );
-    argSetFilterNumINDI    = new ArgSetFilterNumINDI( sb->ArgStack );
-
-    argStartFocusINDI->directionCombo->addItem("IN");
-    argStartFocusINDI->directionCombo->addItem("OUT");
-
-    argSetScopeActionINDI->actionCombo->addItem("SLEW");
-    argSetScopeActionINDI->actionCombo->addItem("TRACK");
-    argSetScopeActionINDI->actionCombo->addItem("SYNC");
-    argSetScopeActionINDI->actionCombo->addItem("PARK");
-    argSetScopeActionINDI->actionCombo->addItem("ABORT");
-
-    argSetFrameTypeINDI->typeCombo->addItem("FRAME_LIGHT");
-    argSetFrameTypeINDI->typeCombo->addItem("FRAME_BIAS");
-    argSetFrameTypeINDI->typeCombo->addItem("FRAME_DARK");
-    argSetFrameTypeINDI->typeCombo->addItem("FRAME_FLAT");
-	#endif
-
     sb->ArgStack->addWidget( argBlank );
     sb->ArgStack->addWidget( argLookToward );
     sb->ArgStack->addWidget( argFindObject );
@@ -417,28 +262,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->ArgStack->addWidget( argPrintImage );
     sb->ArgStack->addWidget( argSetColor );
     sb->ArgStack->addWidget( argLoadColorScheme );
-
-	#if 0
-    sb->ArgStack->addWidget( argStartINDI);
-    sb->ArgStack->addWidget( argSetDeviceINDI);
-    sb->ArgStack->addWidget( argShutdownINDI);
-    sb->ArgStack->addWidget( argSwitchINDI);
-    sb->ArgStack->addWidget( argSetPortINDI);
-    sb->ArgStack->addWidget( argSetTargetCoordINDI);
-    sb->ArgStack->addWidget( argSetTargetNameINDI);
-    sb->ArgStack->addWidget( argSetActionINDI);
-    sb->ArgStack->addWidget( argWaitForActionINDI );
-    sb->ArgStack->addWidget( argSetFocusSpeedINDI );
-    sb->ArgStack->addWidget( argStartFocusINDI);
-    sb->ArgStack->addWidget( argSetFocusTimeoutINDI);
-    sb->ArgStack->addWidget( argSetGeoLocationINDI);
-    sb->ArgStack->addWidget( argStartExposureINDI);
-    sb->ArgStack->addWidget( argSetUTCINDI);
-    sb->ArgStack->addWidget( argSetScopeActionINDI);
-    sb->ArgStack->addWidget( argSetFrameTypeINDI);
-    sb->ArgStack->addWidget( argSetCCDTempINDI);
-    sb->ArgStack->addWidget( argSetFilterNumINDI);
-	#endif
 
     sb->ArgStack->setCurrentIndex( 0 );
 
@@ -469,14 +292,15 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     connect( argSetGeoLocation->FindCityButton, SIGNAL( clicked() ), this, SLOT( slotFindCity() ) );
     connect( argLookToward->FindButton, SIGNAL( clicked() ), this, SLOT( slotFindObject() ) );
     connect( argChangeViewOption->TreeButton, SIGNAL( clicked() ), this, SLOT( slotShowOptions() ) );
+    connect( argFindObject->FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()) );
 
-    connect( argLookToward->FocusEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotLookToward() ) );
+    connect( argLookToward->FocusEdit, SIGNAL( editTextChanged(const QString &) ), this, SLOT( slotLookToward() ) );
     connect( argFindObject->NameEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotArgFindObject() ) );
     connect( argSetRaDec->RABox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotRa() ) );
     connect( argSetRaDec->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotDec() ) );
     connect( argSetAltAz->AltBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAlt() ) );
     connect( argSetAltAz->AzBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAz() ) );
-    connect( argSetLocalTime->DateWidget, SIGNAL( changed(const QDate&) ), this, SLOT( slotChangeDate() ) );
+    connect( argSetLocalTime->DateWidget, SIGNAL( dateChanged(const QDate&) ), this, SLOT( slotChangeDate() ) );
     connect( argSetLocalTime->TimeBox, SIGNAL( timeChanged(const QTime&) ), this, SLOT( slotChangeTime() ) );
     connect( argWaitFor->DelayBox, SIGNAL( valueChanged(int) ), this, SLOT( slotWaitFor() ) );
     connect( argWaitForKey->WaitKeyEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotWaitForKey() ) );
@@ -497,73 +321,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
     connect( argLoadColorScheme->SchemeList, SIGNAL( itemClicked ( QListWidgetItem * )), this, SLOT( slotLoadColorScheme() ) );
 
-    //connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
-
-	#if 0
-    // Connections for INDI's Arg widgets
-
-    // INDI Start Device
-    connect (argStartINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIStartDeviceName()));
-    connect (argStartINDI->LocalButton, SIGNAL ( toggled(bool)), this, SLOT (slotINDIStartDeviceMode()));
-
-    // Set Device Name
-    connect (argSetDeviceINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetDevice()));
-
-    // INDI Shutdown Device
-    connect (argShutdownINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIShutdown()));
-
-    // INDI Swtich Device
-    connect (argSwitchINDI->OnButton, SIGNAL ( toggled( bool)), this, SLOT (slotINDISwitchDeviceConnection()));
-
-    // INDI Set Device Port
-    connect (argSetPortINDI->devicePort, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetPortDevicePort()));
-
-    // INDI Set Target Coord
-    connect( argSetTargetCoordINDI->RABox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetTargetCoordDeviceRA() ) );
-    connect( argSetTargetCoordINDI->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetTargetCoordDeviceDEC() ) );
-
-    // INDI Set Target Name
-    connect (argSetTargetNameINDI->targetName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetNameTargetName()));
-
-    // INDI Set Action
-    connect (argSetActionINDI->actionName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetActionName()));
-
-    // INDI Wait For Action
-    connect (argWaitForActionINDI->actionName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIWaitForActionName()));
-
-    // INDI Set Focus Speed
-    connect (argSetFocusSpeedINDI->speedIN, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFocusSpeed()));
-
-    // INDI Start Focus
-    connect (argStartFocusINDI->directionCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDIStartFocusDirection()));
-
-    // INDI Set Focus Timeout
-    connect (argSetFocusTimeoutINDI->timeOut, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFocusTimeout()));
-
-    // INDI Set Geo Location
-    connect( argSetGeoLocationINDI->longBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetGeoLocationDeviceLong() ) );
-    connect( argSetGeoLocationINDI->latBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetGeoLocationDeviceLat() ) );
-
-    // INDI Start Exposure
-    connect (argStartExposureINDI->timeOut, SIGNAL( valueChanged(int) ), this, SLOT(slotINDIStartExposureTimeout()));
-
-    // INDI Set UTC
-    connect (argSetUTCINDI->UTC, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTC()));
-
-    // INDI Set Scope Action
-    connect (argSetScopeActionINDI->actionCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetScopeAction()));
-
-    // INDI Set Frame type
-    connect (argSetFrameTypeINDI->typeCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetFrameType()));
-
-    // INDI Set CCD Temp
-    connect (argSetCCDTempINDI->temp, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetCCDTemp()));
-
-    // INDI Set Filter Num
-    connect (argSetFilterNumINDI->filter_num, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFilterNum()));
-	#endif
-
-
     //disable some buttons
     sb->CopyButton->setEnabled( false );
     sb->AddButton->setEnabled( false );
@@ -579,9 +336,6 @@ ScriptBuilder::~ScriptBuilder()
 {
     while ( ! KStarsFunctionList.isEmpty() )
         delete KStarsFunctionList.takeFirst();
-
-    //  while ( ! INDIFunctionList.isEmpty() )
-    //    delete INDIFunctionList.takeFirst();
 
     while( !SimClockFunctionList.isEmpty() )
         delete SimClockFunctionList.takeFirst();
@@ -1218,29 +972,6 @@ void ScriptBuilder::writeScript( QTextStream &ostream )
         } else
         {
             ostream << dbus_call << main_method << sf->scriptLine() << endl;
-
-            // TODO INDI scripting to be supported under KDE 4.1
-			#if 0
-
-            if (sb->AppendINDIWait->isChecked() && !sf->INDIProperty().isEmpty())
-            {
-                // Special case for telescope action, we need to know the parent property
-                if (sf->INDIProperty() == "CHECK")
-                {
-                    if (sf->argVal(1) == "SLEW" || sf->argVal(1) == "TRACK" || sf->argVal(1) == "SYNC")
-                        sf->setINDIProperty("ON_COORD_SET");
-                    else if (sf->argVal(1) == "ABORT")
-                        sf->setINDIProperty("ABORT_MOTION");
-                    else
-                        sf->setINDIProperty("PARK");
-                }
-
-                if ( sf->argVal(0).contains(" "))
-                    ostream << mainpre << "waitForINDIAction " << "\"" << sf->argVal(0) << "\" " << sf->INDIProperty() << endl;
-                else
-                    ostream << mainpre << "waitForINDIAction " << sf->argVal(0) << " " << sf->INDIProperty() << endl;
-            }
-			#endif
         }
     }
 
@@ -1397,23 +1128,6 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
 
         }
 
-        #if 0
-        foreach ( ScriptFunction *sf, INDIFunctionList )
-        {
-            if ( fn[0] == sf->name() )
-            {
-
-                if ( fn.count() != sf->numArgs() + 1 ) return false;
-
-                ScriptList.append( new ScriptFunction( sf ) );
-
-                for ( int i=0; i<sf->numArgs(); ++i )
-                    ScriptList.last()->setArg( i, fn[i+1] );
-
-                return true;
-            }
-        }
-        #endif
     }
 
     //if we get here, no function-name match was found
@@ -1485,18 +1199,6 @@ void ScriptBuilder::slotAddFunction() {
         found = sc;
         break;
     }
-
-	 #if 0
-    if (found == NULL)
-    {
-        foreach ( sc, INDIFunctionList )
-        if (sc->prototype() == currentItem->text(0))
-        {
-            found = sc;
-            break;
-        }
-    }
-	#endif
 
     if (found == NULL) return;
 
@@ -1753,215 +1455,7 @@ void ScriptBuilder::slotArgWidget() {
             if (ok) argTimeScale->TimeScale->tsbox()->changeScale( float(ts) );
             else argTimeScale->TimeScale->tsbox()->changeScale( 0.0 );
 
-        }
-
-        //TODO JM: INDI Scripting to be included in KDE 4.1
-		#if 0
-        else if (sf->name() == "startINDI") {
-            sb->ArgStack->setCurrentWidget( argStartINDI);
-
-            argStartINDI->deviceName->setText(sf->argVal(0));
-            if (sf->argVal(1) == "true")
-                argStartINDI->LocalButton->setChecked(true);
-            else if (! sf->argVal(1).isEmpty())
-                argStartINDI->LocalButton->setChecked(false);
-        }
-        else if (sf->name() == "setINDIDevice")
-        {
-            sb->ArgStack->setCurrentWidget( argSetDeviceINDI);
-            argSetDeviceINDI->deviceName->setText(sf->argVal(0));
-        }
-        else if (sf->name() == "shutdownINDI") {
-            sb->ArgStack->setCurrentWidget( argShutdownINDI);
-        }
-        else if (sf->name() == "switchINDI") {
-            sb->ArgStack->setCurrentWidget( argSwitchINDI);
-
-            if (sf->argVal(0) == "true" || sf->argVal(0).isEmpty())
-                argSwitchINDI->OnButton->setChecked(true);
-            else
-                argSwitchINDI->OffButton->setChecked(true);
-        }
-        else if (sf->name() == "setINDIPort") {
-            sb->ArgStack->setCurrentWidget( argSetPortINDI);
-
-            argSetPortINDI->devicePort->setText(sf->argVal(0));
-
-
-        }
-        else if (sf->name() == "setINDITargetCoord") {
-            bool ok(false);
-            double r(0.0),d(0.0);
-            dms ra(0.0);
-
-            sb->ArgStack->setCurrentWidget( argSetTargetCoordINDI);
-
-            ok = !sf->argVal(0).isEmpty();
-            if (ok) r = sf->argVal(0).toDouble(&ok);
-            else argSetTargetCoordINDI->RABox->clear();
-        if (ok) { ra.setH(r); argSetTargetCoordINDI->RABox->showInHours( ra ); }
-
-            ok = !sf->argVal(1).isEmpty();
-            if (ok) d = sf->argVal(1).toDouble(&ok);
-            else argSetTargetCoordINDI->DecBox->clear();
-            if (ok) argSetTargetCoordINDI->DecBox->showInDegrees( dms(d) );
-
-
-        }
-        else if (sf->name() == "setINDITargetName") {
-            sb->ArgStack->setCurrentWidget( argSetTargetNameINDI);
-
-            argSetTargetNameINDI->targetName->setText(sf->argVal(0));
-
-
-        }
-        else if (sf->name() == "setINDIAction") {
-            sb->ArgStack->setCurrentWidget( argSetActionINDI);
-
-            argSetActionINDI->actionName->setText(sf->argVal(0));
-
-
-        }
-        else if (sf->name() == "waitForINDIAction") {
-            sb->ArgStack->setCurrentWidget( argWaitForActionINDI);
-
-            argWaitForActionINDI->actionName->setText(sf->argVal(0));
-
-
-        }
-        else if (sf->name() == "setINDIFocusSpeed") {
-            int t(0);
-            bool ok(false);
-
-            sb->ArgStack->setCurrentWidget( argSetFocusSpeedINDI);
-
-            t = sf->argVal(0).toInt(&ok);
-            if (ok) argSetFocusSpeedINDI->speedIN->setValue(t);
-            else argSetFocusSpeedINDI->speedIN->setValue(0);
-
-
-        }
-        else if (sf->name() == "startINDIFocus") {
-            sb->ArgStack->setCurrentWidget( argStartFocusINDI);
-            bool itemSet(false);
-
-            for (int i=0; i < argStartFocusINDI->directionCombo->count(); i++)
-            {
-                if (argStartFocusINDI->directionCombo->itemText(i) == sf->argVal(0))
-                {
-                    argStartFocusINDI->directionCombo->setCurrentIndex(i);
-                    itemSet = true;
-                    break;
-                }
-            }
-
-            if (!itemSet) argStartFocusINDI->directionCombo->setCurrentIndex(0);
-
-
-        }
-        else if (sf->name() == "setINDIFocusTimeout") {
-            int t(0);
-            bool ok(false);
-
-            sb->ArgStack->setCurrentWidget( argSetFocusTimeoutINDI);
-
-            t = sf->argVal(0).toInt(&ok);
-            if (ok) argSetFocusTimeoutINDI->timeOut->setValue(t);
-            else argSetFocusTimeoutINDI->timeOut->setValue(0);
-
-
-        }
-        else if (sf->name() == "setINDIGeoLocation") {
-            bool ok(false);
-            double lo(0.0),la(0.0);
-
-            sb->ArgStack->setCurrentWidget( argSetGeoLocationINDI);
-
-            ok = !sf->argVal(0).isEmpty();
-            if (ok) lo = sf->argVal(0).toDouble(&ok);
-            else argSetGeoLocationINDI->longBox->clear();
-        if (ok) { argSetGeoLocationINDI->longBox->showInDegrees( dms(lo) ); }
-
-            ok = !sf->argVal(1).isEmpty();
-            if (ok) la = sf->argVal(1).toDouble(&ok);
-            else argSetGeoLocationINDI->latBox->clear();
-            if (ok) argSetGeoLocationINDI->latBox->showInDegrees( dms(la) );
-
-        }
-        else if (sf->name() == "startINDIExposure") {
-            int t(0);
-            bool ok(false);
-
-            sb->ArgStack->setCurrentWidget( argStartExposureINDI);
-
-            t = sf->argVal(0).toInt(&ok);
-            if (ok) argStartExposureINDI->timeOut->setValue(t);
-            else argStartExposureINDI->timeOut->setValue(0);
-
-        }
-        else if (sf->name() == "setINDIUTC") {
-            sb->ArgStack->setCurrentWidget( argSetUTCINDI);
-
-            argSetUTCINDI->UTC->setText(sf->argVal(0));
-
-        }
-        else if (sf->name() == "setINDIScopeAction") {
-            sb->ArgStack->setCurrentWidget( argSetScopeActionINDI);
-            bool itemSet(false);
-
-            for (int i=0; i < argSetScopeActionINDI->actionCombo->count(); i++)
-            {
-                if (argSetScopeActionINDI->actionCombo->itemText(i) == sf->argVal(0))
-                {
-                    argSetScopeActionINDI->actionCombo->setCurrentIndex(i);
-                    itemSet = true;
-                    break;
-                }
-            }
-
-            if (!itemSet) argSetScopeActionINDI->actionCombo->setCurrentIndex(0);
-
-        }
-        else if (sf->name() == "setINDIFrameType") {
-            sb->ArgStack->setCurrentWidget( argSetFrameTypeINDI);
-            bool itemSet(false);
-
-            for (int i=0; i < argSetFrameTypeINDI->typeCombo->count(); i++)
-            {
-                if (argSetFrameTypeINDI->typeCombo->itemText(i) == sf->argVal(0))
-                {
-                    argSetFrameTypeINDI->typeCombo->setCurrentIndex(i);
-                    itemSet = true;
-                    break;
-                }
-            }
-
-            if (!itemSet) argSetFrameTypeINDI->typeCombo->setCurrentIndex(0);
-
-        }
-        else if (sf->name() == "setINDICCDTemp") {
-            int t(0);
-            bool ok(false);
-
-            sb->ArgStack->setCurrentWidget( argSetCCDTempINDI);
-
-            t = sf->argVal(0).toInt(&ok);
-            if (ok) argSetCCDTempINDI->temp->setValue(t);
-            else argSetCCDTempINDI->temp->setValue(0);
-
-        }
-        else if (sf->name() == "setINDIFilterNum") {
-            int t(0);
-            bool ok(false);
-
-            sb->ArgStack->setCurrentWidget( argSetFilterNumINDI);
-
-            t = sf->argVal(0).toInt(&ok);
-            if (ok) argSetFilterNumINDI->filter_num->setValue(t);
-            else argSetFilterNumINDI->filter_num->setValue(0);
-
-        }
-		 #endif
+        }               
 
         checkForChanges = true; //signal unsaved changes if the argument widgets are changed
     }
@@ -1987,18 +1481,6 @@ void ScriptBuilder::slotShowDoc() {
         found = sc;
         break;
     }
-
-#if 0
-    if (found == NULL)
-    {
-        foreach (sc, INDIFunctionList )
-        if (sc->prototype() == currentItem->text(0))
-        {
-            found = sc;
-            break;
-        }
-    }
-#endif
 
     if (found == NULL)
     {
@@ -2047,31 +1529,13 @@ void ScriptBuilder::slotFindObject() {
     if ( fd->exec() == QDialog::Accepted && fd->selectedObject() ) {
         setUnsavedChanges( true );
 
-        argLookToward->FocusEdit->setEditText( fd->selectedObject()->name() );
+        if (sender() == argLookToward->FindButton)
+            argLookToward->FocusEdit->setEditText( fd->selectedObject()->name() );
+        else
+            argFindObject->NameEdit->setText(fd->selectedObject()->name());
     }
     delete fd;
 }
-
-//TODO JM: INDI Scripting to be included in KDE 4.1
-
-#if 0
-void ScriptBuilder::slotINDIFindObject() {
-    FindDialog fd( ks );
-
-    if ( fd.exec() == QDialog::Accepted && fd.selectedObject() ) {
-        setUnsavedChanges( true );
-
-        argSetTargetNameINDI->targetName->setText( fd.selectedObject()->name() );
-    }
-}
-
-void ScriptBuilder::slotINDIWaitCheck(bool /*toggleState*/)
-{
-
-    setUnsavedChanges(true);
-
-}
-#endif
 
 void ScriptBuilder::slotShowOptions() {
     //Show tree-view of view options
