@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>383</width>
-    <height>299</height>
+    <width>434</width>
+    <height>305</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -187,6 +187,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QPushButton" name="saveB">
+           <property name="toolTip">
+            <string>Save telescope information in configuration file</string>
+           </property>
            <property name="text">
             <string>Save</string>
            </property>
