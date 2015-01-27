@@ -102,8 +102,15 @@ void Execute::init() {
     geo = ks->observingList()->geoLocation();
     ui.Location->setText( geo->fullName() );
 
+
+    // JM: Aren't we suppose to take KStars time? The one returned by the OL is the time of the LAST object
+    // in the list which doesn't make sense.
+
+    /*
     //set the date time to the dateTime from the OL
     ui.Begin->setDateTime( ks->observingList()->dateTime() );
+    */
+    ui.Begin->setDateTime(KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc()));
 
     //load Targets
     loadTargets();
