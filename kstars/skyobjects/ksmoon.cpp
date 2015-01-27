@@ -230,7 +230,12 @@ void KSMoon::findMagnitude(const KSNumbers*)
     // SkyChart v3 Beta
     double phd = phase().Degrees();
     if( std::isnan( phd ) ) // Avoid nanny phases.
-        return;
+    {
+        findPhase(NULL);
+        phd = phase().Degrees();
+        if (std::isnan( phd ))
+            return;
+    }
     int p = floor( phd );
     if( p > 180 )
         p = p - 360;
@@ -262,9 +267,12 @@ QString KSMoon::phaseName() const {
     //First, handle the major phases
     if ( f > 0.99 ) return xi18nc( "moon phase, 100 percent illuminated", "Full moon" );
     if ( f < 0.01 ) return xi18nc( "moon phase, 0 percent illuminated", "New moon" );
-    if ( fabs( f - 0.50 ) < 0.01 ) {
-	if ( p < 180.0 ) return xi18nc( "moon phase, half-illuminated and growing", "First quarter" );
-        else return xi18nc( "moon phase, half-illuminated and shrinking", "Third quarter" );
+    if ( fabs( f - 0.50 ) < 0.06 )
+    {
+        if ( p < 180.0 )
+            return xi18nc( "moon phase, half-illuminated and growing", "First quarter" );
+        else
+            return xi18nc( "moon phase, half-illuminated and shrinking", "Third quarter" );
     }
 
     //Next, handle the more general cases
