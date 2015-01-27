@@ -242,7 +242,7 @@ void AsteroidsComponent::updateDataFile() {
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file
-    KIO::StoredTransferJob* get_job = KIO::storedPut( post_data,  url, -1 );
+    KIO::StoredTransferJob* get_job = KIO::storedHttpPost(post_data,  url);
     get_job->addMetaData("content-type", content_type );
 
     if( get_job->exec() )

@@ -202,6 +202,7 @@ void CometsComponent::draw( SkyPainter *skyp )
 
 void CometsComponent::updateDataFile()
 {
+
     QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
     QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbere"
     "d=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&com"
@@ -216,7 +217,7 @@ void CometsComponent::updateDataFile()
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file
-    KIO::StoredTransferJob* get_job = KIO::storedPut( post_data,  url, -1 );
+    KIO::StoredTransferJob* get_job = KIO::storedHttpPost(post_data,  url);
     get_job->addMetaData("content-type", content_type );
 
     if( get_job->exec() )
