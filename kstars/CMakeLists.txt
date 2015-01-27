@@ -184,30 +184,12 @@ ki18n_wrap_ui(libkstarstools_SRCS
 	tools/arglooktoward.ui
 	tools/argfindobject.ui
 	tools/argprintimage.ui
-	tools/argsetactionindi.ui
 	tools/argsetaltaz.ui
-	tools/argsetccdtempindi.ui
 	tools/argsetcolor.ui
-	tools/argsetdeviceindi.ui
-	tools/argsetfilternumindi.ui
-	tools/argsetfocusspeedindi.ui
-	tools/argsetfocustimeoutindi.ui
-	tools/argsetframetypeindi.ui
 	tools/argsetgeolocation.ui
-	tools/argsetgeolocationindi.ui
 	tools/argsetlocaltime.ui
-	tools/argsetportindi.ui
 	tools/argsetradec.ui
-	tools/argsetscopeactionindi.ui
-	tools/argsettargetcoordindi.ui
-	tools/argsettargetnameindi.ui
 	tools/argsettrack.ui
-	tools/argsetutcindi.ui
-	tools/argshutdownindi.ui
-	tools/argstartexposureindi.ui
-	tools/argstartfocusindi.ui
-	tools/argstartindi.ui
-	tools/argswitchindi.ui
 	tools/argtimescale.ui
 	tools/argwaitfor.ui
 	tools/argwaitforkey.ui
