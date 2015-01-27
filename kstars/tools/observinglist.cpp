@@ -256,9 +256,19 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         return;
     }
 
+    // JM: If we are loading observing list from disk, solar system objects magnitudes are not calculated until later
+    // Therefore, we manual invoke updateCoords to force computation of magnitude.
+    if ( (obj->type() == SkyObject::COMET || obj->type() == SkyObject::ASTEROID || obj->type() == SkyObject::MOON ||
+          obj->type() == SkyObject::PLANET) && obj->mag() == 0)
+    {
+        KSNumbers num( dt.djd() );
+        dms LST = geo->GSTtoLST( dt.gst() );
+        obj->updateCoords(&num, true, geo->lat(), &LST, true);
+    }
+
     QString smag = "--";
     if (  - 30.0 < obj->mag() && obj->mag() < 90.0 )
-        smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
+        smag = QString::number( obj->mag(), 'f', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
     SkyPoint p = obj->recomputeCoords( dt, geo );
 

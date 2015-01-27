@@ -209,14 +209,17 @@ void DetailDialog::createGeneralTab()
             ((KSMoon *)selectedObject)->updateMag();
         }
         
+        // JM: Shouldn't we use the calculated magnitude? Disabling the following
+        /*
         if(selectedObject->type() == SkyObject::COMET){
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
                                              QLocale().toString( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 'f', 2 ) ) );  //show to hundredth place
+
         }
-        else{
+        else{*/
             Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,
                                              QLocale().toString( ps->mag(), 'f', 2 ) ) );  //show to hundredth place
-        }
+        //}
 
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
