@@ -329,6 +329,7 @@ Capture::Capture()
     seqDelay = 0;
     useGuideHead = false;
     guideDither = false;
+    firstAutoFocus = true;
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -562,6 +563,10 @@ void Capture::checkCCD(int ccdNum)
                 setTemperatureB->setEnabled(false);
                 temperatureIN->setReadOnly(true);
             }
+
+            INumberVectorProperty *temperatureNP = currentCCD->getBaseDevice()->getNumber("CCD_TEMPERATURE");
+            if (temperatureNP)
+                temperatureIN->setValue(temperatureNP->np[0].value);
         }
         else
         {
@@ -1578,7 +1583,7 @@ void Capture::setAutoguiding(bool enable, bool isDithering)
     guideDither   = isDithering;
 }
 
-void Capture::updateAutofocusStatus(bool status)
+void Capture::updateAutofocusStatus(bool status, double HFR)
 {
     autoFocusStatus = status;
 
@@ -1586,6 +1591,11 @@ void Capture::updateAutofocusStatus(bool status)
     {
         autofocusCheck->setEnabled(true);
         HFRPixels->setEnabled(true);
+        if (HFR > 0 && firstAutoFocus)
+        {
+           firstAutoFocus = false;
+           HFRPixels->setValue(HFR);
+        }
     }
 
     if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)

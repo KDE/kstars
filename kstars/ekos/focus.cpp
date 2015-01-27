@@ -395,7 +395,7 @@ void Focus::checkFocuser(int FocuserNum)
     resetButtons();
 
     if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
-        emit autoFocusFinished(true);
+        emit autoFocusFinished(true, -1);
 }
 
 void Focus::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
@@ -1675,7 +1675,7 @@ void Focus::updateFocusStatus(bool status)
 
     resetFocusIteration = 0;
 
-    emit autoFocusFinished(status);
+    emit autoFocusFinished(status, currentHFR);
 
     if (Options::playFocusAlarm())
     {

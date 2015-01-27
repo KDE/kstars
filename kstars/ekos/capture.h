@@ -312,7 +312,7 @@ public slots:
     void checkPreview(bool enable);
     void updateCCDTemperature(double value);
     void setTemperature();
-    void updateAutofocusStatus(bool status);
+    void updateAutofocusStatus(bool status, double HFR);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const QString &path);
 
@@ -396,6 +396,7 @@ private:
     // Autofocus
     bool isAutoFocus;
     bool autoFocusStatus;
+    bool firstAutoFocus;
 
 };
 
