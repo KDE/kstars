@@ -160,9 +160,8 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
             if ( obj->name() == xi18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
         if ( (obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
-             (obj->type() >= SkyObject::ASTERISM) ||
-             (obj->type() <= SkyObject::QUASAR) ||
-             (obj->type() <= SkyObject::RADIO_SOURCE))
+             (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||
+             (obj->type() == SkyObject::RADIO_SOURCE))
         {
             if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) continue;
             if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) continue;
