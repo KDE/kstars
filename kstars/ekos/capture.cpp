@@ -33,7 +33,7 @@
 
 #include "QProgressIndicator.h"
 
-
+#define INVALID_TEMPERATURE 10000
 
 namespace Ekos
 {
@@ -43,9 +43,11 @@ SequenceJob::SequenceJob()
     statusStrings = QStringList() << xi18n("Idle") << xi18n("In Progress") << xi18n("Error") << xi18n("Aborted") << xi18n("Complete");
     status = JOB_IDLE;
     exposure=count=delay=frameType=targetFilter=isoIndex=-1;
+    currentTemperature=targetTemperature=INVALID_TEMPERATURE;
     captureFilter=FITS_NONE;
     preview=false;
     showFITS=false;
+    filterReady=temperatureReady=true;
     activeChip=NULL;
     activeCCD=NULL;
     activeFilter= NULL;
@@ -113,11 +115,23 @@ void SequenceJob::prepareCapture()
     if (targetFilter != -1 && activeFilter != NULL)
     {
         if (targetFilter == currentFilter)
-            emit prepareComplete();
+            //emit prepareComplete();
+            filterReady = true;
         else
+        {
+            filterReady = false;
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+        }
     }
-    else
+
+
+    if (targetTemperature != currentTemperature)
+    {
+        temperatureReady = false;
+        activeCCD->setTemperature(targetTemperature);
+    }
+
+    if (temperatureReady && filterReady)
         emit prepareComplete();
 
 }
@@ -223,6 +237,33 @@ void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &fi
     filterEnabled   = filterPrefixEnabled;
     exposureEnabled = expPrefixEnabled;
 }
+double SequenceJob::getCurrentTemperature() const
+{
+    return currentTemperature;
+}
+
+void SequenceJob::setCurrentTemperature(double value)
+{
+    currentTemperature = value;
+
+    if (fabs(targetTemperature - currentTemperature) <= 0.1)
+        temperatureReady = true;
+
+    if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
+        emit prepareComplete();
+}
+
+double SequenceJob::getTargetTemperature() const
+{
+    return targetTemperature;
+}
+
+void SequenceJob::setTargetTemperature(double value)
+{
+    targetTemperature = value;
+}
+
+
 int SequenceJob::getISOIndex() const
 {
     return isoIndex;
@@ -242,7 +283,10 @@ void SequenceJob::setCurrentFilter(int value)
 {
     currentFilter = value;
 
-    if (currentFilter == targetFilter && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (currentFilter == targetFilter)
+        filterReady = true;
+
+    if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
         emit prepareComplete();
 }
 
@@ -310,6 +354,7 @@ Capture::Capture()
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
     connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
+    connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -564,9 +609,13 @@ void Capture::checkCCD(int ccdNum)
                 temperatureIN->setReadOnly(true);
             }
 
-            INumberVectorProperty *temperatureNP = currentCCD->getBaseDevice()->getNumber("CCD_TEMPERATURE");
-            if (temperatureNP)
-                temperatureIN->setValue(temperatureNP->np[0].value);
+            double temperature=0;
+            if (currentCCD->getTemperature(&temperature))
+            {
+                temperatureOUT->setText(QString::number(temperature, 'f', 2));
+                if (temperatureIN->cleanText().isEmpty())
+                    temperatureIN->setValue(temperature);
+            }
         }
         else
         {
@@ -1000,6 +1049,13 @@ void Capture::captureImage()
         activeJob->setCurrentFilter(currentFilterPosition);
     }
 
+    if (currentCCD->hasCooler())
+    {
+        double temperature=0;
+        currentCCD->getTemperature(&temperature);
+        activeJob->setCurrentTemperature(temperature);
+    }
+
      rc = activeJob->capture(isDark);
 
      switch (rc)
@@ -1174,11 +1230,11 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 }
 
 void Capture::updateCCDTemperature(double value)
-{
-    if (temperatureIN->hasFocus() == false)
-    {
-        temperatureIN->setValue(value);
-    }
+{    
+    temperatureOUT->setText(QString::number(value, 'f', 2));
+
+    if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+        activeJob->setCurrentTemperature(value);
 }
 
 void Capture::addJob(bool preview)
@@ -1213,13 +1269,19 @@ void Capture::addJob(bool preview)
 
     job->setPreview(preview);
 
+    if (temperatureIN->isEnabled())
+    {
+        job->setTargetTemperature(temperatureIN->value());
+        //job->setCurrentTemperature();
+    }
+
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
 
     job->setFITSDir(fitsDir->text());
 
     job->setShowFITS(displayCheck->isChecked());
 
-    imagePrefix = prefixIN->text();
+    imagePrefix = prefixIN->text();        
 
     constructPrefix(imagePrefix);
 
@@ -1465,12 +1527,18 @@ void Capture::prepareJob(SequenceJob *job)
 
         if (currentFilterPosition != activeJob->getTargetFilter())
         {
-            appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
+            appendLogText(xi18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             pi->startAnimation();
             previewB->setEnabled(false);
             startB->setEnabled(false);
             stopB->setEnabled(true);
         }
+    }
+
+    if (currentCCD->hasCooler())
+    {
+        if (activeJob->getCurrentTemperature() != activeJob->getTargetTemperature())
+            appendLogText(xi18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
     }
 
     connect(activeJob, SIGNAL(prepareComplete()), this, SLOT(executeJob()));
@@ -1591,7 +1659,7 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
     {
         autofocusCheck->setEnabled(true);
         HFRPixels->setEnabled(true);
-        if (HFR > 0 && firstAutoFocus)
+        if (HFR > 0 && firstAutoFocus && HFRPixels->value() == 0)
         {
            firstAutoFocus = false;
            HFRPixels->setValue(HFR);
@@ -1765,6 +1833,11 @@ bool Capture::processJobInfo(XMLEle *root)
             if (subEP)
                 frameHIN->setValue(atoi(pcdataXMLEle(subEP)));
         }
+        else if (!strcmp(tagXMLEle(ep), "Temperature"))
+        {
+            if (temperatureIN->isEnabled())
+                temperatureIN->setValue(atof(pcdataXMLEle(ep))-1);
+        }
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
             FilterPosCombo->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
@@ -1917,6 +1990,8 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<W>" << job->getSubW() << "</W>" << endl;
             outstream << "<H>" << job->getSubH() << "</H>" << endl;
         outstream << "</Frame>" << endl;
+        if (job->getTargetTemperature() != INVALID_TEMPERATURE)
+            outstream << "<Temperature>" << job->getTargetTemperature() << "</Temperature>" << endl;
         outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
         outstream << "<Type>" << job->getFrameType() << "</Type>" << endl;
         outstream << "<Prefix>" << endl;

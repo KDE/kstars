@@ -74,7 +74,7 @@ Focus::Focus()
     orig_x = orig_y = orig_w = orig_h =-1;
     lastLockFilterPos=-1;
     maxHFR=1;
-    deltaHFR = 0;
+    deltaHFR = -1;
     minPos=1e6;
     maxPos=0;
 
@@ -522,7 +522,7 @@ void Focus::stopFocus()
     inAutoFocus = false;
     inFocusLoop = false;
     //starSelected= false;
-    deltaHFR    = 0;
+    deltaHFR    = -1;
     noStarCount = 0;
     //maxHFR=1;
 
@@ -738,7 +738,7 @@ void Focus::newFITS(IBLOB *bp)
             drawHFRPlot();
     }
 
-    if (deltaHFR > 0)
+    if (deltaHFR >= 0)
     {
         if (currentHFR == -1)
         {
@@ -764,7 +764,7 @@ void Focus::newFITS(IBLOB *bp)
             updateFocusStatus(true);
         }
 
-        deltaHFR = 0;
+        deltaHFR = -1;
 
         return;
     }

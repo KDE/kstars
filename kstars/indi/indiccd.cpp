@@ -1470,6 +1470,21 @@ CCD::UploadMode CCD::getUploadMode()
     return UPLOAD_CLIENT;
 }
 
+bool CCD::getTemperature(double *value)
+{
+    if (HasCooler == false)
+        return false;
+
+    INumberVectorProperty *temperatureNP = baseDevice->getNumber("CCD_TEMPERATURE");
+    if (temperatureNP == NULL)
+        return false;
+
+    *value = temperatureNP->np[0].value;
+
+    return true;
+
+}
+
 bool CCD::setTemperature(double value)
 {
     INumberVectorProperty *nvp = baseDevice->getNumber("CCD_TEMPERATURE");

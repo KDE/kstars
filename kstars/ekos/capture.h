@@ -128,6 +128,12 @@ class SequenceJob : public QObject
     void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
     void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
 
+    double getCurrentTemperature() const;
+    void setCurrentTemperature(double value);
+
+    double getTargetTemperature() const;
+    void setTargetTemperature(double value);
+
 signals:
     void prepareComplete();
 
@@ -154,9 +160,11 @@ private:
     bool isoMode;
     bool preview;
     bool showFITS;
+    bool filterReady, temperatureReady;
     int isoIndex;
     unsigned int completed;
     double exposeLeft;
+    double currentTemperature, targetTemperature;
     FITSScale captureFilter;
     QTableWidgetItem *statusCell;
     QString fitsDir;

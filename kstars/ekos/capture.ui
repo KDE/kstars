@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>766</width>
-    <height>504</height>
+    <width>821</width>
+    <height>508</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -380,8 +380,27 @@
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="text">
                    <string>Temperature:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="temperatureOUT">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -1127,7 +1146,7 @@
             <number>3</number>
            </property>
            <property name="minimum">
-            <double>0.050000000000000</double>
+            <double>0.000000000000000</double>
            </property>
            <property name="maximum">
             <double>10.000000000000000</double>
@@ -1136,7 +1155,7 @@
             <double>0.100000000000000</double>
            </property>
            <property name="value">
-            <double>0.500000000000000</double>
+            <double>0.000000000000000</double>
            </property>
           </widget>
          </item>

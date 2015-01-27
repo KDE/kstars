@@ -53,7 +53,7 @@ public:
     bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
     void setShowFITS(bool enable) { displayFITS = enable;}
-    bool showFITS() const { return displayFITS; }    
+    bool showFITS() const { return displayFITS; }
 
     bool isCapturing();
     bool abortExposure();
@@ -96,7 +96,7 @@ private:
     QStringList frameTypes;
     bool CanBin;
     bool CanSubframe;
-    bool CanAbort;
+    bool CanAbort;    
     int fx,fy,fw,fh;
 
 };
@@ -123,6 +123,7 @@ public:
     bool hasCooler();
 
     // Utitlity functions
+    bool getTemperature(double *value);
     bool setTemperature(double value);
     void setISOMode(bool enable) { ISOMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
@@ -131,7 +132,7 @@ public:
     bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
     bool setRapidGuide(CCDChip *targetChip, bool enable);
     void updateUploadSettings();
-    UploadMode getUploadMode();    
+    UploadMode getUploadMode();
 
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
