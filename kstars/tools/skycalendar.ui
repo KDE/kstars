@@ -279,7 +279,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Update</string>
+               <string>Plot Planetary Almanac</string>
               </property>
              </widget>
             </item>
@@ -318,11 +318,13 @@
    <class>KPlotWidget</class>
    <extends>QFrame</extends>
    <header>kplotwidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>CalendarWidget</class>
    <extends>KPlotWidget</extends>
    <header>tools/calendarwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
