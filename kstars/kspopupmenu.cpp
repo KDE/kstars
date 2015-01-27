@@ -55,7 +55,10 @@
 namespace {
     // Convert magnitude to string representation for QLabel
     QString magToStr(double m) {
-        return QString("%1<sup>m</sup>").arg(m, 0, 'f', 2);
+        if (m > -30 && m < 90)
+            return QString("%1<sup>m</sup>").arg(m, 0, 'f', 2);
+        else
+            return QString();
     }
 
     // Return object name
