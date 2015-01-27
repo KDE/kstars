@@ -49,6 +49,13 @@ class FITSView;
 class FITSTab;
 
 
+/**
+ *@class FITSViewer
+ *@short Primary window to open and process FITS images.
+ * The FITS viewer can open multiple images each in a separate. It supports simple filters, histogram transforms, flip and roration operations, and star detection.
+ *@author Jasem Mutlaq
+ *@version 1.0
+ */
 class FITSViewer : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -58,6 +65,7 @@ public:
     /**Constructor. */
     FITSViewer (QWidget *parent);
     ~FITSViewer();
+
     int addFITS(const QUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, bool preview=false);
 
     bool updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE);

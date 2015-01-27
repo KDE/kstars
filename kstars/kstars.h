@@ -172,64 +172,64 @@ public:
     void showWI(ObsConditions *obs);
 
 public Q_SLOTS:
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Set focus to given Ra/Dec coordinates
      * @param ra the Right Ascension coordinate for the focus (in Hours)
      * @param dec the Declination coordinate for the focus (in Degrees)
      */
     Q_SCRIPTABLE Q_NOREPLY void setRaDec( double ra, double dec );
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Set focus to given Alt/Az coordinates.
      * @param alt the Altitude coordinate for the focus (in Degrees)
      * @param az the Azimuth coordinate for the focus (in Degrees)
      */
     Q_SCRIPTABLE Q_NOREPLY void setAltAz(double alt, double az);
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Point in the direction described by the string argument.
      * @param direction either an object name, a compass direction (e.g., "north"), or "zenith"
      */
     Q_SCRIPTABLE Q_NOREPLY void lookTowards( const QString &direction );
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Add a name label to the named object
      * @param name the name of the object to which the label will be attached
      */
     Q_SCRIPTABLE Q_NOREPLY void addLabel( const QString &name );
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Remove a name label from the named object
      * @param name the name of the object from which the label will be removed
      */
     Q_SCRIPTABLE Q_NOREPLY void removeLabel( const QString &name );
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Add a trail to the named solar system body
      * @param name the name of the body to which the trail will be attached
      */
     Q_SCRIPTABLE Q_NOREPLY void addTrail( const QString &name );
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * Remove a trail from the named solar system body
      * @param name the name of the object from which the trail will be removed
      */
     Q_SCRIPTABLE Q_NOREPLY void removeTrail( const QString &name );
 
-    /**DBUS interface function.  Zoom in one step. */
+    /** DBUS interface function.  Zoom in one step. */
     Q_SCRIPTABLE Q_NOREPLY void zoomIn();
 
-    /**DBUS interface function.  Zoom out one step. */
+    /** DBUS interface function.  Zoom out one step. */
     Q_SCRIPTABLE Q_NOREPLY void zoomOut();
 
-    /**DBUS interface function.  reset to the default zoom level. */
+    /** DBUS interface function.  reset to the default zoom level. */
     Q_SCRIPTABLE Q_NOREPLY void defaultZoom();
 
     /** DBUS interface function. Set zoom level to specified value.
      *  @param z the zoom level. Units are pixels per radian. */
     Q_SCRIPTABLE Q_NOREPLY void zoom(double z);
 
-    /**DBUS interface function.  Set local time and date.
+    /** DBUS interface function.  Set local time and date.
      * @param yr year of date
      * @param mth month of date
      * @param day day of date
@@ -239,48 +239,48 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE Q_NOREPLY void setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
-    /**DBUS interface function.  Delay further execution of DBUS commands.
+    /** DBUS interface function.  Delay further execution of DBUS commands.
      * @param t number of seconds to delay
      */
     Q_SCRIPTABLE Q_NOREPLY void waitFor( double t );
 
-    /**DBUS interface function.  Pause further DBUS execution until a key is pressed.
+    /** DBUS interface function.  Pause further DBUS execution until a key is pressed.
      * @param k the key which will resume DBUS execution
      */
     Q_SCRIPTABLE Q_NOREPLY void waitForKey( const QString &k );
 
-    /**DBUS interface function.  Toggle tracking.
+    /** DBUS interface function.  Toggle tracking.
      * @param track engage tracking if true; else disengage tracking
      */
     Q_SCRIPTABLE Q_NOREPLY void setTracking( bool track );
 
-    /**DBUS interface function.  modify a view option.
+    /** DBUS interface function.  modify a view option.
      * @param option the name of the option to be modified
      * @param value the option's new value
      */
     Q_SCRIPTABLE Q_NOREPLY void changeViewOption( const QString &option, const QString &value );
 
-    /**DBUS interface function.
+    /** DBUS interface function.
      * @param name the name of the option to query
      * @return the current value of the named option
      */
     QString getOption( const QString &name );
 
-    /**DBUS interface function.  Read config file.
+    /** DBUS interface function.  Read config file.
      * This function is useful for restoring the user settings from the config file,
      * after having modified the settings in memory.
      * @sa writeConfig()
      */
     Q_SCRIPTABLE Q_NOREPLY void readConfig();
 
-    /**DBUS interface function.  Write current settings to config file.
+    /** DBUS interface function.  Write current settings to config file.
      * This function is useful for storing user settings before modifying them with a DBUS
      * script.  The original settings can be restored with readConfig().
      * @sa readConfig()
      */
     Q_SCRIPTABLE Q_NOREPLY void writeConfig();
 
-    /**DBUS interface function.  Show text message in a popup window.
+    /** DBUS interface function.  Show text message in a popup window.
      * @note Not Yet Implemented
      * @param x x-coordinate for message window
      * @param y y-coordinate for message window
@@ -288,7 +288,7 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE Q_NOREPLY void popupMessage( int x, int y, const QString &message );
 
-    /**DBUS interface function.  Draw a line on the sky map.
+    /** DBUS interface function.  Draw a line on the sky map.
      * @note Not Yet Implemented
      * @param x1 starting x-coordinate of line
      * @param y1 starting y-coordinate of line
@@ -298,25 +298,25 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE Q_NOREPLY void drawLine( int x1, int y1, int x2, int y2, int speed );
 
-    /**DBUS interface function.  Set the geographic location.
+    /** DBUS interface function.  Set the geographic location.
      * @param city the city name of the location
      * @param province the province name of the location
      * @param country the country name of the location
      */
     Q_SCRIPTABLE Q_NOREPLY void setGeoLocation( const QString &city, const QString &province, const QString &country );
 
-    /**DBUS interface function.  Modify a color.
+    /** DBUS interface function.  Modify a color.
      * @param colorName the name of the color to be modified (e.g., "SkyColor")
      * @param value the new color to use
      */
     Q_SCRIPTABLE Q_NOREPLY void setColor( const QString &colorName, const QString &value );
 
-    /**DBUS interface function.  Load a color scheme.
+    /** DBUS interface function.  Load a color scheme.
      * @param name the name of the color scheme to load (e.g., "Moonless Night")
      */
     Q_SCRIPTABLE Q_NOREPLY void loadColorScheme( const QString &name );
 
-    /**DBUS interface function.  Export the sky image to a file.
+    /** DBUS interface function.  Export the sky image to a file.
      * @param filename the filename for the exported image
      * @param width the width for the exported image. Map's width will be used if nothing or an invalid value is supplied.
      * @param height the height for the exported image. Map's height will be used if nothing or an invalid value is supplied.
@@ -324,13 +324,13 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, int width = -1, int height = -1, bool includeLegend = false );
 
-    /**DBUS interface function.  Return a URL to retrieve Digitized Sky Survey image.
+    /** DBUS interface function.  Return a URL to retrieve Digitized Sky Survey image.
      * @param objectName name of the object.
      * @note If the object is note found, the string "ERROR" is returned.
      */
     Q_SCRIPTABLE QString getDSSURL( const QString &objectName );
 
-    /**DBUS interface function.  Return a URL to retrieve Digitized Sky Survey image.
+    /** DBUS interface function.  Return a URL to retrieve Digitized Sky Survey image.
      * @param RA_J2000 J2000.0 RA
      * @param Dec_J2000 J2000.0 Declination
      * @param width width of the image, in arcminutes (default = 15)
@@ -338,37 +338,45 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE QString getDSSURL( double RA_J2000, double Dec_J2000, float width = 15, float height = 15 );
 
-    /**DBUS interface function.  Return XML containing information about a sky object
+    /** DBUS interface function.  Return XML containing information about a sky object
      * @param objectName name of the object.
      * @note If the object was not found, the XML is empty.
      */
     Q_SCRIPTABLE QString getObjectDataXML( const QString &objectName );
 
-    /**DBUS interface function.  Set the approx field-of-view
+    /** DBUS interface function.  Set the approx field-of-view
      * @param FOV_Degrees field of view in degrees
      */
     Q_SCRIPTABLE Q_NOREPLY void setApproxFOV( double FOV_Degrees );
 
-    /**DBUS interface function.  Get the dimensions of the Sky Map.
+    /** DBUS interface function.  Get the dimensions of the Sky Map.
      * @return a string containing widthxheight in pixels.
      */
     Q_SCRIPTABLE QString getSkyMapDimensions();
 
-    /**DBUS interface function.  Return a newline-separated list of objects in the observing wishlist.
+    /** DBUS interface function.  Return a newline-separated list of objects in the observing wishlist.
      * @note Unfortunately, unnamed objects are troublesome. Hopefully, we don't have them on the observing list.
      */
     Q_SCRIPTABLE QString getObservingWishListObjectNames();
 
-    /**DBUS interface function.  Return a newline-separated list of objects in the observing session plan.
+    /** DBUS interface function.  Return a newline-separated list of objects in the observing session plan.
      * @note Unfortunately, unnamed objects are troublesome. Hopefully, we don't have them on the observing list.
      */
     Q_SCRIPTABLE QString getObservingSessionPlanObjectNames();
 
-    /**DBUS interface function.  Print the sky image.
+    /** DBUS interface function.  Print the sky image.
      * @param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
      * @param useChartColors if true, the "Star Chart" color scheme will be used for the printout, which will save ink.
      */
     Q_SCRIPTABLE Q_NOREPLY void printImage( bool usePrintDialog, bool useChartColors );
+
+    /** DBUS interface function.  Open FITS image.
+     * @param imageURL URL of FITS image to load. For a local file the prefix must be file:// For example
+     * if the file is located at /home/john/m42.fits then the full URL is file:///home/john/m42.fits
+     */
+    #ifdef HAVE_CFITSIO
+    Q_SCRIPTABLE Q_NOREPLY void openFITS(const QUrl & imageURL);
+    #endif
 
     /**
      * Update time-dependent data and (possibly) repaint the sky map.

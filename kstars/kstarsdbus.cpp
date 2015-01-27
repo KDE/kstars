@@ -45,6 +45,10 @@
 #include "imageexporter.h"
 #include "skycomponents/constellationboundarylines.h"
 
+#ifdef HAVE_CFITSIO
+#include "fitsviewer/fitsviewer.h"
+#endif
+
 void KStars::setRaDec( double ra, double dec ) {
     SkyPoint p( ra, dec );
     map()->setDestination( p );
@@ -557,5 +561,14 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     }
 }
 
-
-
+#ifdef HAVE_CFITSIO
+void KStars::openFITS(const QUrl &imageURL)
+{
+    FITSViewer * fv = new FITSViewer(this);
+    // Error opening file
+    if (fv->addFITS(&imageURL) == -2)
+        delete (fv);
+    else
+       fv->show();
+}
+#endif
