@@ -26,7 +26,6 @@
 #include "ui_argwaitfor.h"
 #include "ui_argwaitforkey.h"
 #include "ui_argsettrack.h"
-#include "ui_argsetdeviceindi.h"
 #include "ui_argchangeviewoption.h"
 #include "ui_argsetgeolocation.h"
 #include "ui_argtimescale.h"
@@ -35,23 +34,6 @@
 #include "ui_argprintimage.h"
 #include "ui_argsetcolor.h"
 #include "ui_argloadcolorscheme.h"
-#include "ui_argstartindi.h"
-#include "ui_argshutdownindi.h"
-#include "ui_argswitchindi.h"
-#include "ui_argsetportindi.h"
-#include "ui_argsettargetcoordindi.h"
-#include "ui_argsettargetnameindi.h"
-#include "ui_argsetactionindi.h"
-#include "ui_argsetfocusspeedindi.h"
-#include "ui_argstartfocusindi.h"
-#include "ui_argsetfocustimeoutindi.h"
-#include "ui_argsetgeolocationindi.h"
-#include "ui_argstartexposureindi.h"
-#include "ui_argsetutcindi.h"
-#include "ui_argsetscopeactionindi.h"
-#include "ui_argsetframetypeindi.h"
-#include "ui_argsetccdtempindi.h"
-#include "ui_argsetfilternumindi.h"
 
 class ArgLookToward  : public QFrame, public Ui::ArgLookToward {
     Q_OBJECT
@@ -147,114 +129,6 @@ class ArgLoadColorScheme  : public QFrame, public Ui::ArgLoadColorScheme {
     Q_OBJECT
 public:
     ArgLoadColorScheme ( QWidget *p );
-};
-
-class ArgStartINDI  : public QFrame, public Ui::ArgStartINDI {
-    Q_OBJECT
-public:
-    ArgStartINDI ( QWidget *p );
-};
-
-class ArgSetDeviceINDI : public QFrame, public Ui::ArgSetDeviceINDI {
-    Q_OBJECT
-public:
-    ArgSetDeviceINDI( QWidget *p);
-};
-
-class ArgShutdownINDI  : public QFrame, public Ui::ArgShutdownINDI {
-    Q_OBJECT
-public:
-    ArgShutdownINDI ( QWidget *p );
-};
-
-class ArgSwitchINDI  : public QFrame, public Ui::ArgSwitchINDI {
-    Q_OBJECT
-public:
-    ArgSwitchINDI ( QWidget *p );
-};
-
-class ArgSetPortINDI  : public QFrame, public Ui::ArgSetPortINDI {
-    Q_OBJECT
-public:
-    ArgSetPortINDI ( QWidget *p );
-};
-
-class ArgSetTargetCoordINDI  : public QFrame, public Ui::ArgSetTargetCoordINDI {
-    Q_OBJECT
-public:
-    ArgSetTargetCoordINDI ( QWidget *p );
-};
-
-class ArgSetTargetNameINDI  : public QFrame, public Ui::ArgSetTargetNameINDI {
-    Q_OBJECT
-public:
-    ArgSetTargetNameINDI ( QWidget *p );
-};
-
-class ArgSetActionINDI  : public QFrame, public Ui::ArgSetActionINDI {
-    Q_OBJECT
-public:
-    ArgSetActionINDI ( QWidget *p );
-};
-
-class ArgSetFocusSpeedINDI  : public QFrame, public Ui::ArgSetFocusSpeedINDI {
-    Q_OBJECT
-public:
-    ArgSetFocusSpeedINDI ( QWidget *p );
-};
-
-class ArgStartFocusINDI  : public QFrame, public Ui::ArgStartFocusINDI {
-    Q_OBJECT
-public:
-    ArgStartFocusINDI ( QWidget *p );
-};
-
-class ArgSetFocusTimeoutINDI  : public QFrame, public Ui::ArgSetFocusTimeoutINDI {
-    Q_OBJECT
-public:
-    ArgSetFocusTimeoutINDI ( QWidget *p );
-};
-
-class ArgSetGeoLocationINDI  : public QFrame, public Ui::ArgSetGeoLocationINDI {
-    Q_OBJECT
-public:
-    ArgSetGeoLocationINDI ( QWidget *p );
-};
-
-class ArgStartExposureINDI  : public QFrame, public Ui::ArgStartExposureINDI {
-    Q_OBJECT
-public:
-    ArgStartExposureINDI ( QWidget *p );
-};
-
-class ArgSetUTCINDI  : public QFrame, public Ui::ArgSetUTCINDI {
-    Q_OBJECT
-public:
-    ArgSetUTCINDI ( QWidget *p );
-};
-
-class ArgSetScopeActionINDI  : public QFrame, public Ui::ArgSetScopeActionINDI {
-    Q_OBJECT
-public:
-    ArgSetScopeActionINDI ( QWidget *p );
-};
-
-class ArgSetFrameTypeINDI  : public QFrame, public Ui::ArgSetFrameTypeINDI {
-    Q_OBJECT
-public:
-    ArgSetFrameTypeINDI ( QWidget *p );
-};
-
-class ArgSetCCDTempINDI  : public QFrame, public Ui::ArgSetCCDTempINDI {
-    Q_OBJECT
-public:
-    ArgSetCCDTempINDI ( QWidget *p );
-};
-
-class ArgSetFilterNumINDI  : public QFrame, public Ui::ArgSetFilterNumINDI {
-    Q_OBJECT
-public:
-    ArgSetFilterNumINDI ( QWidget *p );
 };
 
 #endif
