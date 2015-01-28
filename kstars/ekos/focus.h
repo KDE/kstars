@@ -205,54 +205,97 @@ private:
     void autoFocusRel();
     void resetButtons();
 
-    /* Focus */
+    // Devices needed for Focus operation
     ISD::Focuser *currentFocuser;
     ISD::CCD *currentCCD;
+    // Optional device
     ISD::GDInterface *currentFilter;
 
+    // List of Focusers
+    QList<ISD::Focuser*> Focusers;
+    // List of CCDs
+    QList<ISD::CCD *> CCDs;
     // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
     QList<ISD::GDInterface *> Filters;
 
-    QList<ISD::CCD *> CCDs;
-    QList<ISD::Focuser*> Focusers;
-
-    Ekos::Capture *captureP;
-
+    // As the name implies
     FocusDirection lastFocusDirection;
+    // What type of focusing are we doing right now?
     FocusType focusType;
 
-    double HFR;
-    int pulseDuration;
-    bool canAbsMove;
-    bool captureInProgress;
-    bool frameModified;
-    int absIterations;
-    int lastLockFilterPos;
-    int resetFocusIteration;
-    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;
+    /*********************
+    * HFR Club variables
+    *********************/
 
-    double absCurrentPos;
-    double pulseStep;
-    double absMotionMax, absMotionMin;
-    double deltaHFR;
+    // Current HFR value just fetched from FITS file
     double currentHFR;
+    // Last HFR value recorded
+    double lastHFR;
+    // If (currentHFR > deltaHFR) we start the autofocus process.
+    double deltaHFR;
+    // Maximum HFR recorded
     double maxHFR;
+    // Is HFR increasing? We're going away from the sweet spot! If HFRInc=1, we re-capture just to make sure HFR calculations are correct, if HFRInc > 1, we switch directions
     int HFRInc;
+    // If HFR decreasing? Well, good job. Once HFR start decreasing, we can start calculating HFR slope and estimating our next move.
     int HFRDec;
-    int minPos, maxPos;
-    int initHFRPos;
+
+    /****************************
+    * Absolute position focusers
+    ****************************/
+    // Absolute focus position
+    double currentPosition;
+    // What was our position before we started the focus process?
+    int initialFocuserAbsPosition;
+    // Pulse duration in ms for relative focusers that only support timers, or the number of ticks in a relative or absolute focuser
+    int pulseDuration;
+    // Does the focuser support absolute motion?
+    bool canAbsMove;
+    // Range of motion for our lovely absolute focuser
+    double absMotionMax, absMotionMin;
+    // How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever
+    int absIterations;
+
+    /****************************
+    * Misc. variables
+    ****************************/
+
+    // Are we in the process of capturing an image?
+    bool captureInProgress;
+    // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
+    bool frameModified;
+    // If the autofocus process fails, let's not ruin the capture session probably taking place in the next tab. Instead, we should restart it and try again, but we keep count until we hit MAXIMUM_RESET_ITERATIONS
+    // and then we truely give up.
+    int resetFocusIteration;
+    // Which filter must we use once the autofocus process kicks in?
+    int lockFilterPosition;
+    // Keep track of what we're doing right now
+    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;   
+    // Did we reverse direction?
     bool reverseDir;
+    // Did the user or the auto selection process finish selecting our focus star?
     bool starSelected;
+    // Target frame dimensions
     int fx,fy,fw,fh;
+    // Origianl frame dimensions
     int orig_x, orig_y, orig_w, orig_h;
+    // If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
     int noStarCount;
 
     QStringList logText;
-    QList<HFRPoint *> HFRAbsolutePoints;
-    QList<HFRPoint *> HFRIterativePoints;
-
     ITextVectorProperty *filterName;
     INumberVectorProperty *filterSlot;
+
+    /****************************
+    * Plot variables
+    ****************************/
+
+    // Plot minimum and maximum positions
+    int minPos, maxPos;
+    // List of V curve plot points
+    QList<HFRPoint *> HFRAbsolutePoints;
+    // List of iterative curve points
+    QList<HFRPoint *> HFRIterativePoints;
 };
 
 }
