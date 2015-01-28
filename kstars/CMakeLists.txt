@@ -281,11 +281,13 @@ set(libkstarswidgets_SRCS
 #        widgets/genericcalendarwidget.cpp
 #        widgets/moonphasecalendarwidget.cpp
 	widgets/kshelplabel.cpp
+    widgets/unitspinboxwidget.cpp
 )
 
-#ki18n_wrap_ui(libkstarswidgets_SRCS
+ki18n_wrap_ui(libkstarswidgets_SRCS
 #  widgets/genericcalendarwidget.ui
-#)
+    widgets/unitspinboxwidget.ui
+)
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
