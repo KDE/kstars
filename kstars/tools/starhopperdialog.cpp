@@ -33,24 +33,32 @@ StarHopperDialog::StarHopperDialog( QWidget *parent ) : QDialog( parent ), ui( n
 
 StarHopperDialog::~StarHopperDialog() {
     TargetListComponent *t = getTargetListComponent();
-    t->list->clear();
+    if( t->list )
+        t->list->clear();
     SkyMap::Instance()->forceUpdate( true );
     delete m_sh;
 }
 
 void StarHopperDialog::starHop( const SkyPoint &startHop, const SkyPoint &stopHop, float fov, float maglim ) {
     QList<StarObject *> *starList = m_sh->computePath( startHop, stopHop, fov, maglim, m_Metadata );
-    foreach( StarObject *so, *starList ) {
-        setData( so );
+    if( !starList->empty() )
+    {
+        foreach( StarObject *so, *starList ) {
+            setData( so );
+        }
+        slotRefreshMetadata();
+        m_skyObjList = KSUtils::castStarObjListToSkyObjList( starList );
+        starList->clear();
+        delete starList;
+        TargetListComponent *t = getTargetListComponent();
+        delete t->list;
+        t->list = m_skyObjList;
+        SkyMap::Instance()->forceUpdate( true );
     }
-    slotRefreshMetadata();
-    m_skyObjList = KSUtils::castStarObjListToSkyObjList( starList );
-    starList->clear();
-    delete starList;
-    TargetListComponent *t = getTargetListComponent();
-    delete t->list;
-    t->list = m_skyObjList;
-    SkyMap::Instance()->forceUpdate( true );
+    else
+    {
+        KMessageBox::error( this, xi18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a smaller FOV or changing the source point") );
+    }
 }
 
 void StarHopperDialog::setData( StarObject * sobj ) {
