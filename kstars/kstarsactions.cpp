@@ -168,14 +168,21 @@ void KStars::slotViewToolBar() {
             opguides->kcfg_ShowMilkyWay->setChecked( a->isChecked() );
         }
     } else if ( a == actionCollection()->action( "show_equatorial_grid" ) ) {
+        // if autoSelectGrid is selected and the user clicked the
+        // show_equatorial_grid button, he probably wants us to disable
+        // the autoSelectGrid and display the equatorial grid.
+        Options::setAutoSelectGrid(false);
         Options::setShowEquatorialGrid( a->isChecked() );
         if ( kcd ) {
             opguides->kcfg_ShowEquatorialGrid->setChecked( a->isChecked() );
+            opguides->kcfg_AutoSelectGrid->setChecked(false);
         }
     } else if ( a == actionCollection()->action( "show_horizontal_grid" ) ) {
+        Options::setAutoSelectGrid(false);
         Options::setShowHorizontalGrid( a->isChecked() );
         if ( kcd ) {
             opguides->kcfg_ShowHorizontalGrid->setChecked( a->isChecked() );
+            opguides->kcfg_AutoSelectGrid->setChecked(false);
         }
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
