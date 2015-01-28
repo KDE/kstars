@@ -95,11 +95,19 @@ public:
      */
     SkyObject* objectNearest( SkyPoint* p, double& maxrad );
 
+    /**
+     * Return object given name
+     * @param name object name
+     * @return object if found, otherwise NULL
+     */
+    SkyObject* findByName( const QString &name );
+
 protected:
     virtual void drawTrails( SkyPainter* skyp );
 
 private:
     QList<SatelliteGroup*> m_groups;    // List of all groups
+    QHash<QString, Satellite*> nameHash;
 };
 
 #endif

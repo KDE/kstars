@@ -441,6 +441,8 @@ SkyObject* SkyMapComposite::findByName( const QString &name ) {
     if ( o ) return o;
     o = m_Supernovae->findByName(name);
     if ( o ) return o;
+    o = m_Satellites->findByName(name);
+    if ( o ) return o;
 
     return 0;
 }

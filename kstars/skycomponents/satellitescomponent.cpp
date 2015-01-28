@@ -49,6 +49,21 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
         group_infos = line.split( ';' );
         m_groups.append( new SatelliteGroup( group_infos.at( 0 ), group_infos.at( 1 ), QUrl( group_infos.at( 2 ) ) ) );
     }
+
+    objectNames(SkyObject::SATELLITE).clear();
+
+    foreach( SatelliteGroup *group, m_groups )
+    {
+        for ( int i=0; i<group->size(); i++ )
+        {
+            Satellite *sat = group->at( i );
+            if ( sat->selected() && nameHash.contains(sat->name().toLower()) == false)
+            {
+                objectNames(SkyObject::SATELLITE).append(sat->name());
+                nameHash[sat->name().toLower()] = sat;
+            }
+        }
+    }
 }
 
 SatellitesComponent::~SatellitesComponent()
@@ -179,4 +194,9 @@ SkyObject* SatellitesComponent::objectNearest( SkyPoint* p, double& maxrad ) {
 
     maxrad = rBest;
     return oBest;
+}
+
+SkyObject* SatellitesComponent::findByName( const QString &name )
+{
+     return nameHash[ name.toLower() ];
 }

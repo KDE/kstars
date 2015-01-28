@@ -45,6 +45,7 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     FilterType->addItem( xi18n ("Asteroids") );
     FilterType->addItem( xi18n ("Constellations") );
     FilterType->addItem( xi18n ("Supernovae") );
+    FilterType->addItem( xi18n ("Satellites") );
 
     SearchList->setMinimumWidth( 256 );
     SearchList->setMinimumHeight( 320 );
@@ -214,6 +215,8 @@ void FindDialog::filterByType() {
         break;
     case 11: //Supernovae
         fModel->setStringList( data->skyComposite()->objectNames( SkyObject::SUPERNOVA ) );
+    case 12: //Satellites
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::SATELLITE ) );
         break;
     }
 }
