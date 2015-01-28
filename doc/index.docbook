@@ -252,7 +252,7 @@ includes &DBus; functions that allow you to <link
 linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars;
 a powerful "demo engine" for classroom use or general illustration of
 astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using
-<ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/classKStars.html">&kstars; &DBUS; API</ulink>
+<ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/classKStars.html">&kstars; &DBus; API</ulink>
 </para>
 <para>
 However, &kstars; is not just for students.  You can control telescopes 
@@ -268,7 +268,7 @@ linkend="indi-kstars-setup">local</link> or <link
 linkend="indi-remote-control">remote</link> telescopes using a single
 &kstars; session.
 For advanced users, &kstars; provides Ekos, a complete astrophotography suite for Linux. <ulink url="http://www.indilib.org/about/ekos.html">Ekos</ulink> is based on a modular extensible framework to perform common astrophotography tasks.
-This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors , auto-focus & auto-guide capabilities,
+This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors , auto-focus and auto-guide capabilities,
 and capture of single or stack of images with filter wheel support.
 </para>
 <para>
