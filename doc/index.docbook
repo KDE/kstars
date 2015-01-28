@@ -55,8 +55,6 @@
   <!ENTITY stars SYSTEM "stars.docbook">
   <!ENTITY telescopes SYSTEM "telescopes.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
-  <!--  <!ENTITY tool-aavso SYSTEM "lightcurves.docbook"> 
-  removed after 4.9, see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d-->
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
@@ -154,14 +152,14 @@
 </authorgroup>
 
 <copyright>
-<year>2001-2007</year>
+<year>2001-2015</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
 <date>2013-11-09</date>
-<releaseinfo>2.1.0 (&kde; 4.12)</releaseinfo>
+<releaseinfo>2.3.0 (&kde; 15.04)</releaseinfo>
 
 <abstract>
 <para>
@@ -223,12 +221,7 @@ front-end to your observing logs and your personal astronomical notebook.
 Our <link linkend="tool-calculator">Astrocalculator</link> tool
 provides direct access to many of the algorithms the program uses
 behind the scenes, including coordinate converters and time
-calculators.  <!--The <link linkend="tool-aavso">AAVSO Lightcurve
-Generator</link> tool will download a lightcurve for any of the 6000+
-variable stars monitored by the American Association of Variable Star
-Observers (AAVSO).  The lightcurves are generated <quote>on the
-fly</quote> by querying the AAVSO server directly, ensuring that you
-  have the very latest data points.-->
+calculators.
 </para>
 <para>
 You can plan an observing session using our <link
@@ -258,7 +251,8 @@ topics that can be explored with &kstars;.  In addition, &kstars;
 includes &DBus; functions that allow you to <link
 linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars;
 a powerful "demo engine" for classroom use or general illustration of
-astronomical topics.
+astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using
+<ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/classKStars.html">&kstars; &DBUS; API</ulink>
 </para>
 <para>
 However, &kstars; is not just for students.  You can control telescopes 
@@ -273,6 +267,9 @@ architecture allows for seamless control of any number of <link
 linkend="indi-kstars-setup">local</link> or <link 
 linkend="indi-remote-control">remote</link> telescopes using a single
 &kstars; session.
+For advanced users, &kstars; provides Ekos, a complete astrophotography suite for Linux. <ulink url="http://www.indilib.org/about/ekos.html">Ekos</ulink> is based on a modular extensible framework to perform common astrophotography tasks.
+This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors , auto-focus & auto-guide capabilities,
+and capture of single or stack of images with filter wheel support.
 </para>
 <para>
 We are very interested in your feedback; please report bugs or
