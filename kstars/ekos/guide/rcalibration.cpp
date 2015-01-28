@@ -797,7 +797,7 @@ void rcalibration::setImage(FITSView *image)
             calibrationStage = CAL_SELECT_STAR;
             ui.selectStarLED->setColor(busyColor);
 
-            FITSImage *image_data = image->getImageData();
+            FITSData *image_data = image->getImageData();
 
             setVideoParams(image_data->getWidth(), image_data->getHeight());
 
@@ -822,7 +822,7 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
     Edge *guideStar = NULL;
     QPair<double,double> star;
 
-    FITSImage *image_data = image->getImageData();
+    FITSData *image_data = image->getImageData();
     image_data->findStars();
 
 

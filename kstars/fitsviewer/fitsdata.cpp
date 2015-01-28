@@ -19,7 +19,7 @@
 
 #include <config-kstars.h>
 
-#include "fitsimage.h"
+#include "fitsdata.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -64,7 +64,7 @@ bool greaterThan(Edge *s1, Edge *s2)
     return s1->width > s2->width;
 }
 
-FITSImage::FITSImage(FITSMode fitsMode)
+FITSData::FITSData(FITSMode fitsMode)
 {
     image_buffer = NULL;
     original_image_buffer = NULL;
@@ -78,7 +78,7 @@ FITSImage::FITSImage(FITSMode fitsMode)
     mode = fitsMode;
 }
 
-FITSImage::~FITSImage()
+FITSData::~FITSData()
 {
     int status=0;
 
@@ -100,7 +100,7 @@ FITSImage::~FITSImage()
     }
 }
 
-bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress )
+bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 {
     int status=0, nulval=0, anynull=0;
     long nelements, naxes[2];
@@ -299,7 +299,7 @@ bool FITSImage::loadFITS ( const QString &inFilename, QProgressDialog *progress 
 
 }
 
-int FITSImage::saveFITS( const QString &newFilename )
+int FITSData::saveFITS( const QString &newFilename )
 {
     int status=0, exttype=0;
     long fpixel[2], nelements;    
@@ -430,7 +430,7 @@ int FITSImage::saveFITS( const QString &newFilename )
 }
 
 
-int FITSImage::calculateMinMax(bool refresh)
+int FITSData::calculateMinMax(bool refresh)
 {
     int status, nfound=0;
     long npixels;
@@ -465,13 +465,15 @@ int FITSImage::calculateMinMax(bool refresh)
 }
 
 
-void FITSImage::calculateStats(bool refresh)
+void FITSData::calculateStats(bool refresh)
 {
     calculateMinMax(refresh);
     // #1 call average, average is used in std deviation
-    stats.average = average();
+    //stats.average = average();
     // #2 call std deviation
-    stats.stddev  = stddev();
+    //stats.stddev  = stddev();
+
+    runningAverageStdDev();
 
     if (refresh && markStars)
         // Let's try to find star positions again after transformation
@@ -479,6 +481,30 @@ void FITSImage::calculateStats(bool refresh)
 
 }
 
+void FITSData::runningAverageStdDev()
+{
+    int size    = stats.dim[0] * stats.dim[1];
+    int m_n = 2;
+    double m_oldM=0, m_newM=0, m_oldS=0, m_newS=0;
+    m_oldM = m_newM = image_buffer[0];
+
+    for (int i=1; i < size; i++)
+    {
+        m_newM = m_oldM + (image_buffer[i] - m_oldM)/m_n;
+        m_newS = m_oldS + (image_buffer[i] - m_oldM) * (image_buffer[i] - m_newM);
+
+        m_oldM = m_newM;
+        m_oldS = m_newS;
+        m_n++;
+    }
+
+    double variance = m_newS / (m_n -2);
+
+    stats.average = m_newM;
+    stats.stddev  = sqrt(variance);
+}
+
+/*
 double FITSImage::average()
 {
     double sum=0;
@@ -522,14 +548,15 @@ double FITSImage::stddev()
 
 
 }
+*/
 
-void FITSImage::setFITSMinMax(double newMin,  double newMax)
+void FITSData::setMinMax(double newMin,  double newMax)
 {
     stats.min = newMin;
     stats.max = newMax;
 }
 
-int FITSImage::getFITSRecord(QString &recordList, int &nkeys)
+int FITSData::getFITSRecord(QString &recordList, int &nkeys)
 {
     char *header;
     int status=0;
@@ -548,7 +575,7 @@ int FITSImage::getFITSRecord(QString &recordList, int &nkeys)
     return 0;
 }
 
-bool FITSImage::checkCollision(Edge* s1, Edge*s2)
+bool FITSData::checkCollision(Edge* s1, Edge*s2)
 {
     int dis; //distance
 
@@ -568,7 +595,7 @@ bool FITSImage::checkCollision(Edge* s1, Edge*s2)
 
 
 /*** Find center of stars and calculate Half Flux Radius */
-void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
+void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 {
     double threshold=0;
     double avg = 0;
@@ -897,7 +924,7 @@ void FITSImage::findCentroid(int initStdDev, int minEdgeWidth)
     qDeleteAll(edges);
 }
 
-double FITSImage::getHFR(HFRType type)
+double FITSData::getHFR(HFRType type)
 {
     // This method is less susceptible to noise
     // Get HFR for the brightest star only, instead of averaging all stars
@@ -946,7 +973,7 @@ double FITSImage::getHFR(HFRType type)
 
 }
 
-void FITSImage::applyFilter(FITSScale type, float *image, double min, double max)
+void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 {
     if (type == FITS_NONE /* || histogram == NULL*/)
         return;
@@ -971,11 +998,14 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
     if (max == -1)
         max = stats.max;
 
+    int size = height * width;
+
     switch (type)
     {
     case FITS_AUTO:
     case FITS_LINEAR:
-        for (int i=0; i < height; i++)
+    {
+        /*for (int i=0; i < height; i++)
             for (int j=0; j < width; j++)
             {
                 bufferVal = image[i * width + j];
@@ -983,10 +1013,24 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 else if (bufferVal > max) bufferVal = max;
                 target_image_buffer[i * width + j] = bufferVal;
 
-            }
-        break;
+            }*/
+
+        for (int i=0; i < size; i++)
+        {
+            bufferVal = image[i];
+            if (bufferVal < min) bufferVal = min;
+            else if (bufferVal > max) bufferVal = max;
+            target_image_buffer[i] = bufferVal;
+        }
+
+        stats.min = min;
+        stats.max = max;
+        //runningAverageStdDev();
+    }
+    break;
 
     case FITS_LOG:
+    {
         coeff = max / log(1 + max);
 
         for (int i=0; i < height; i++)
@@ -1000,9 +1044,14 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 else if (val > max) val = max;
                 target_image_buffer[i * width + j] = val;
             }
-        break;
+        stats.min = min;
+        stats.max = max;
+        runningAverageStdDev();
+    }
+    break;
 
     case FITS_SQRT:
+    {
         coeff = max / sqrt(max);
 
         for (int i=0; i < height; i++)
@@ -1014,7 +1063,11 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 val = (int) (coeff * sqrt(bufferVal));
                 target_image_buffer[i * width + j] = val;
             }
-        break;
+        stats.min = min;
+        stats.max = max;
+        runningAverageStdDev();
+    }
+    break;
 
     case FITS_AUTO_STRETCH:
     {
@@ -1032,8 +1085,12 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                else if (bufferVal > max) bufferVal = max;
                target_image_buffer[i * width + j] = bufferVal;
              }
-       }
-       break;
+
+        stats.min = min;
+        stats.max = max;
+        runningAverageStdDev();
+      }
+      break;
 
      case FITS_HIGH_CONTRAST:
      {
@@ -1053,6 +1110,9 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 target_image_buffer[i * width + j] = bufferVal;
               }
         }
+        stats.min = min;
+        stats.max = max;
+        runningAverageStdDev();
         break;
 
      case FITS_EQUALIZE:
@@ -1075,9 +1135,11 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
                 target_image_buffer[i * width + j] = val;
             }
      }
+     calculateStats(true);
      break;
 
      case FITS_HIGH_PASS:
+     {
         min = stats.average;
         for (int i=0; i < height; i++)
            for (int j=0; j < width; j++)
@@ -1087,6 +1149,11 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
               else if (bufferVal > max) bufferVal = max;
               target_image_buffer[i * width + j] = bufferVal;
             }
+
+        stats.min = min;
+        stats.max = max;
+        runningAverageStdDev();
+      }
         break;
 
 
@@ -1116,10 +1183,10 @@ void FITSImage::applyFilter(FITSScale type, float *image, double min, double max
         break;
     }
 
-    calculateStats(true);
+    //calculateStats(true);
 }
 
-void FITSImage::subtract(float *dark_buffer)
+void FITSData::subtract(float *dark_buffer)
 {
     for (int i=0; i < stats.dim[0]*stats.dim[1]; i++)
     {
@@ -1131,7 +1198,7 @@ void FITSImage::subtract(float *dark_buffer)
     calculateStats(true);
 }
 
-int FITSImage::findStars()
+int FITSData::findStars()
 {
     if (histogram == NULL)
         return -1;
@@ -1154,7 +1221,7 @@ int FITSImage::findStars()
 
 }
 
-void FITSImage::getCenterSelection(int *x, int *y)
+void FITSData::getCenterSelection(int *x, int *y)
 {
     if (starCenters.count() == 0)
         return;
@@ -1175,7 +1242,7 @@ void FITSImage::getCenterSelection(int *x, int *y)
     delete (pEdge);
 }
 
-void FITSImage::checkWCS()
+void FITSData::checkWCS()
 {
 #ifdef HAVE_WCSLIB
 
@@ -1249,42 +1316,42 @@ void FITSImage::checkWCS()
 #endif
 
 }
-float *FITSImage::getDarkFrame() const
+float *FITSData::getDarkFrame() const
 {
     return darkFrame;
 }
 
-void FITSImage::setDarkFrame(float *value)
+void FITSData::setDarkFrame(float *value)
 {
     darkFrame = value;
 }
 
-int FITSImage::getFlipVCounter() const
+int FITSData::getFlipVCounter() const
 {
     return flipVCounter;
 }
 
-void FITSImage::setFlipVCounter(int value)
+void FITSData::setFlipVCounter(int value)
 {
     flipVCounter = value;
 }
 
-int FITSImage::getFlipHCounter() const
+int FITSData::getFlipHCounter() const
 {
     return flipHCounter;
 }
 
-void FITSImage::setFlipHCounter(int value)
+void FITSData::setFlipHCounter(int value)
 {
     flipHCounter = value;
 }
 
-int FITSImage::getRotCounter() const
+int FITSData::getRotCounter() const
 {
     return rotCounter;
 }
 
-void FITSImage::setRotCounter(int value)
+void FITSData::setRotCounter(int value)
 {
     rotCounter = value;
 }
@@ -1295,7 +1362,7 @@ void FITSImage::setRotCounter(int value)
  * verbose generates extra info on stdout.
  * return NULL if successful or rotated image.
  */
-bool FITSImage::rotFITS (int rotate, int mirror)
+bool FITSData::rotFITS (int rotate, int mirror)
 {
     int ny, nx;
     int x1, y1, x2, y2;
@@ -1654,7 +1721,7 @@ bool FITSImage::rotFITS (int rotate, int mirror)
     return true;
 }
 
-void FITSImage::rotWCSFITS (int angle, int mirror)
+void FITSData::rotWCSFITS (int angle, int mirror)
 {
     int status=0;
     char comment[100];
@@ -1938,7 +2005,7 @@ void FITSImage::rotWCSFITS (int angle, int mirror)
     return;
 }
 
-void FITSImage::setOriginalImageBuffer(float *buf)
+void FITSData::setOriginalImageBuffer(float *buf)
 {
     delete (original_image_buffer);
     original_image_buffer = buf;

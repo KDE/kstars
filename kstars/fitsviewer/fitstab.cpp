@@ -105,7 +105,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
         else
             histogram->updateHistogram();
 
-        FITSImage *image_data = image->getImageData();
+        FITSData *image_data = image->getImageData();
 
         image_data->setHistogram(histogram);
         image_data->applyFilter(filter);
@@ -160,7 +160,7 @@ void FITSTab::statFITS()
     Ui::statForm stat;
     stat.setupUi(&statDialog);
 
-    FITSImage *image_data = image->getImageData();
+    FITSData *image_data = image->getImageData();
 
     stat.widthOUT->setText(QString::number(image_data->getWidth()));
     stat.heightOUT->setText(QString::number(image_data->getHeight()));
@@ -181,7 +181,7 @@ void FITSTab::headerFITS()
     int err_status;
     char err_text[FLEN_STATUS];
 
-    FITSImage *image_data = image->getImageData();
+    FITSData *image_data = image->getImageData();
 
     if ( (err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
     {

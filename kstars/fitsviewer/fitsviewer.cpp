@@ -61,7 +61,7 @@
   #include <netinet/in.h>
 #endif
 
-#include "fitsimage.h"
+#include "fitsdata.h"
 #include "fitstab.h"
 #include "fitsview.h"
 #include "fitshistogram.h"
@@ -119,7 +119,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
     action->setText(xi18n("Rotate Right"));
     action->setIcon(QIcon::fromTheme("object-rotate-right"));
-\
+
     action = actionCollection()->addAction("rotate_left", this, SLOT(rotateCCW()));
     action->setText(xi18n("Rotate Left"));
     action->setIcon(QIcon::fromTheme("object-rotate-left"));

@@ -935,7 +935,7 @@ void Capture::newFITS(IBLOB *bp)
             FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
             FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
 
-            FITSImage *image_data = NULL;
+            FITSData *image_data = NULL;
 
             if (currentImage)
                 image_data = currentImage->getImageData();

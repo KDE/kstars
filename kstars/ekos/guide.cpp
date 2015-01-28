@@ -384,7 +384,7 @@ void Guide::newFITS(IBLOB *bp)
         return;
     }
 
-    FITSImage *image_data = targetImage->getImageData();
+    FITSData *image_data = targetImage->getImageData();
 
     if (image_data == NULL)
         return;

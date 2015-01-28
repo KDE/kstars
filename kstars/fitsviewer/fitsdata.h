@@ -17,8 +17,8 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#ifndef FITSIMAGE_H_
-#define FITSIMAGE_H_
+#ifndef FITSDATA_H_
+#define FITSDATA_H_
 
 #include <QFrame>
 #include <QImage>
@@ -69,11 +69,11 @@ public:
     float sum;
 };
 
-class FITSImage
+class FITSData
 {
 public:
-    FITSImage(FITSMode mode=FITS_NORMAL);
-    ~FITSImage();
+    FITSData(FITSMode mode=FITS_NORMAL);
+    ~FITSData();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
     bool  loadFITS(const QString &filename, QProgressDialog *progress=NULL);
@@ -83,50 +83,75 @@ public:
     int rescale(FITSZoom type);
     /* Calculate stats */
     void calculateStats(bool refresh=false);
-
-    void subtract(float *darkFrame);
+    /* Calculate running average & standard deviation using Welford’s method for computing variance */
+    void runningAverageStdDev();
 
     // Access functions
     float * getImageBuffer() { return image_buffer; }
     float * getOriginalImageBuffer() { return original_image_buffer;}
     void setOriginalImageBuffer(float *buf);
+
+    // Size
     void getSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
-    void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
-    double getMin() { return stats.min; }
-    double getMax() { return stats.max; }
-    int getDetectedStars() { return starCenters.count(); }
-    QList<Edge*> getStarCenters() { return starCenters;}
     void setWidth(long w) { stats.dim[0] = w;}
     void setHeight(long h) { stats.dim[1] = h;}
     long getWidth() { return stats.dim[0]; }
     long getHeight() { return stats.dim[1]; }
+
+    // Statistics
+    void setMinMax(double newMin,  double newMax);
+    void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
+    double getMin() { return stats.min; }
+    double getMax() { return stats.max; }
     double getStdDev() { return stats.stddev; }
     double getAverage() { return stats.average; }
-    int getBPP() { return stats.bitpix; }
-    FITSMode getMode() { return mode;}
-    Edge * getMaxHFRStar() { return maxHFRStar;}
     void setMedian(double val) { stats.median = val;}
     double getMedian() { return stats.median;}
+    int getBPP() { return stats.bitpix; }
 
-
-    int getFITSRecord(QString &recordList, int &nkeys);
-
-    // Set functions
-    void setFITSMinMax(double newMin,  double newMax);
-
-    void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
-    void applyFilter(FITSScale type, float *image=NULL, double min=-1, double max=-1);
-
-
-    // Star Detection & HFR
+    // Star detection
+    int getDetectedStars() { return starCenters.count(); }
+    QList<Edge*> getStarCenters() { return starCenters;}\
     int findStars();
-    double getHFR(HFRType type=HFR_AVERAGE);
     void findCentroid(int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
     void getCenterSelection(int *x, int *y);
+
+    // Half Flux Radius
+    Edge * getMaxHFRStar() { return maxHFRStar;}
+    double getHFR(HFRType type=HFR_AVERAGE);
+
+    // FITS Mode (Normal, Guide, Focus..etc).
+    FITSMode getMode() { return mode;}
 
     // WCS
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
+
+    // FITS Record
+    int getFITSRecord(QString &recordList, int &nkeys);
+
+    // Histogram
+    void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
+
+    // Filter
+    void applyFilter(FITSScale type, float *image=NULL, double min=-1, double max=-1);
+
+    // Rotation counter. We keep count to rotate WCS keywords on save
+    int getRotCounter() const;
+    void setRotCounter(int value);
+
+    // Horizontal flip counter. We keep count to rotate WCS keywords on save
+    int getFlipHCounter() const;
+    void setFlipHCounter(int value);
+
+    // Horizontal flip counter. We keep count to rotate WCS keywords on save
+    int getFlipVCounter() const;
+    void setFlipVCounter(int value);
+
+    // Dark frame
+    float *getDarkFrame() const;
+    void setDarkFrame(float *value);    
+    void subtract(float *darkFrame);
 
     /* stats struct to hold statisical data about the FITS data */
     struct
@@ -140,49 +165,39 @@ public:
         long dim[2];
     } stats;
 
-    int getRotCounter() const;
-    void setRotCounter(int value);
-
-    int getFlipHCounter() const;
-    void setFlipHCounter(int value);
-
-    int getFlipVCounter() const;
-    void setFlipVCounter(int value);
-
-    float *getDarkFrame() const;
-    void setDarkFrame(float *value);
-
 private:
-
 
     bool rotFITS (int rotate, int mirror);
     void rotWCSFITS (int angle, int mirror);
     bool checkCollision(Edge* s1, Edge*s2);
-    double average();
-    double stddev();
     int calculateMinMax(bool refresh=false);
     void checkWCS();
     void readWCSKeys();
 
-    bool markStars;
-    float *image_buffer;				/* scaled image buffer (0-255) range */
-    float *original_image_buffer;
-    float *darkFrame;
-    fitsfile* fptr;
-    int data_type;                     /* FITS data type when opened */
-    FITSHistogram *histogram;
-    bool tempFile;
-    bool starsSearched;
-    bool HasWCS;
-    QString filename;
-    FITSMode mode;
-    int rotCounter;
-    int flipHCounter;
-    int flipVCounter;
+    FITSHistogram *histogram;           // Pointer to the FITS data histogram
+    fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    wcs_point *wcs_coord;
-    QList<Edge*> starCenters;
-    Edge* maxHFRStar;
+    float *original_image_buffer;       // Original float buffer unchanged by any operation
+    float *image_buffer;				// Current image buffer
+    float *darkFrame;                   // Optional dark frame pointer
+
+    int data_type;                      // FITS data type when opened */
+
+    bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
+    bool starsSearched;                 // Did we search for stars yet?
+    bool HasWCS;                        // Do we have WCS keywords in this FITS data?
+    bool markStars;                     // Do we need to mark stars for the user?
+
+    QString filename;                   // Our very own file name
+    FITSMode mode;                      // FITS Mode (Normal, WCS, Guide, Focus..etc)
+
+    int rotCounter;                     // How many times the image was rotated? Useful for WCS keywords rotation on save.
+    int flipHCounter;                   // How many times the image was flipped horizontally?
+    int flipVCounter;                   // How many times the image was flipped vertically?
+
+    wcs_point *wcs_coord;               // Pointer to WCS coordinate data, if any.
+    QList<Edge*> starCenters;           // All the stars we detected, if any.
+    Edge* maxHFRStar;                   // The biggest fattest star in the image.
 
 };
 

@@ -700,7 +700,7 @@ void Focus::newFITS(IBLOB *bp)
 
     captureInProgress = false;
 
-    FITSImage *image_data = targetChip->getImageData();
+    FITSData *image_data = targetChip->getImageData();
 
     currentCCD->disconnect(this);
 

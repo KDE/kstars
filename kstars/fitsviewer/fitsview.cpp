@@ -73,7 +73,7 @@ FITSLabel::~FITSLabel() {}
 void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 {
     double x,y;
-    FITSImage *image_data = image->getImageData();
+    FITSData *image_data = image->getImageData();
 
     float *buffer = image_data->getImageBuffer();
 
@@ -175,7 +175,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
     delete (image_data);
     image_data = NULL;
 
-    image_data = new FITSImage(mode);
+    image_data = new FITSData(mode);
 
     if (image_data->loadFITS(inFilename, &fitsProg) == false)
         return false;
@@ -560,7 +560,9 @@ void FITSView::setGammaValue(int value)
 
     // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
     image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
+    qApp->processEvents();
     rescale(ZOOM_KEEP_LEVEL);
+    qApp->processEvents();
     updateFrame();
 
 }

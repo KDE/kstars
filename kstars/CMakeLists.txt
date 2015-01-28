@@ -14,7 +14,7 @@ endif()
 if (CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
-    fitsviewer/fitsimage.cpp
+    fitsviewer/fitsdata.cpp
     fitsviewer/fitsview.cpp
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp

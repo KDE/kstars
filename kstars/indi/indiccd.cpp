@@ -21,7 +21,7 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitscommon.h"
 #include "fitsviewer/fitsview.h"
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsdata.h"
 #endif
 
 #include "clientmanager.h"
@@ -411,12 +411,12 @@ void CCDChip::setCanAbort(bool value)
 {
     CanAbort = value;
 }
-FITSImage *CCDChip::getImageData() const
+FITSData *CCDChip::getImageData() const
 {
     return imageData;
 }
 
-void CCDChip::setImageData(FITSImage *value)
+void CCDChip::setImageData(FITSData *value)
 {
     imageData = value;
 }

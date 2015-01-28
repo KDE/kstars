@@ -134,7 +134,7 @@ void cgmath::set_image(FITSView *image)
 
     if (pimage)
     {
-        FITSImage *image_data = pimage->getImageData();
+        FITSData *image_data = pimage->getImageData();
         set_buffer(image_data->getImageBuffer());
         set_video_params(image_data->getWidth(), image_data->getHeight());
     }

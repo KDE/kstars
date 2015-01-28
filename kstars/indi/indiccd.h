@@ -17,7 +17,7 @@
 
 class FITSView;
 class FITSViewer;
-class FITSImage;
+class FITSData;
 class StreamWG;
 
 namespace ISD
@@ -75,8 +75,8 @@ public:
     bool canAbort() const;
     void setCanAbort(bool value);
 
-    FITSImage *getImageData() const;
-    void setImageData(FITSImage *value);
+    FITSData *getImageData() const;
+    void setImageData(FITSData *value);
 
     int getISOIndex() const;
     bool setISOIndex(int value);
@@ -85,7 +85,7 @@ public:
 
 private:
     FITSView *normalImage, *focusImage, *guideImage, *calibrationImage;
-    FITSImage *imageData;
+    FITSData *imageData;
     FITSMode captureMode;
     FITSScale captureFilter;
     INDI::BaseDevice *baseDevice;

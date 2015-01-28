@@ -25,7 +25,7 @@ class QTabWidget;
 class cgmath;
 class rcalibration;
 class rguider;
-class FITSImage;
+class FITSData;
 
 namespace Ekos
 {
@@ -231,7 +231,7 @@ private:
 
     bool useDarkFrame;
     double darkExposure;
-    FITSImage *darkImage;
+    FITSData *darkImage;
 
     QStringList logText;
 

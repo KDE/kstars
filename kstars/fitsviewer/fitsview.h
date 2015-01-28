@@ -41,7 +41,7 @@
 #include "fitscommon.h"
 
 #include "dms.h"
-#include "fitsimage.h"
+#include "fitsdata.h"
 
 #define INITIAL_W	640
 #define INITIAL_H	480
@@ -91,10 +91,10 @@ public:
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
 
-    void setImageData(FITSImage *d) { image_data = d; }
+    void setImageData(FITSData *d) { image_data = d; }
 
     // Access functions
-    FITSImage *getImageData() { return image_data; }
+    FITSData *getImageData() { return image_data; }
     double getCurrentZoom() { return currentZoom; }
     QImage * getDisplayImage() { return display_image; }
     FITSMode getMode() { return mode;}
@@ -132,7 +132,7 @@ private:
 
     bool markStars;
     FITSLabel *image_frame;
-    FITSImage *image_data;    
+    FITSData *image_data;
     int image_width, image_height;
     double currentWidth,currentHeight; /* Current width and height due to zoom */
     const double zoomFactor;           /* Image zoom factor */

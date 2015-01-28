@@ -24,7 +24,7 @@
 
 #include "Options.h"
 
-#include "fitsviewer/fitsimage.h"
+#include "fitsviewer/fitsdata.h"
 
 #define JOB_RETRY_DURATION      2000 /* 2000 ms */
 #define JOB_RETRY_ATTEMPTS      10
@@ -98,7 +98,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             return false;
         }
 
-        FITSImage *image_data = new FITSImage();
+        FITSData *image_data = new FITSData();
         rc = image_data->loadFITS(in_filename);
         if (rc)
         {

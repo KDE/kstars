@@ -19,7 +19,7 @@
 #include "fitshistogram.h"
 #include "fitstab.h"
 #include "fitsview.h"
-#include "fitsimage.h"
+#include "fitsdata.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -82,7 +82,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
 {
     int id;
     double fits_w=0, fits_h=0;
-    FITSImage *image_data = tab->getImage()->getImageData();
+    FITSData *image_data = tab->getImage()->getImageData();
     float *buffer = image_data->getImageBuffer();
 
     image_data->getSize(&fits_w, &fits_h);
@@ -195,7 +195,7 @@ void FITSHistogram::applyScale()
 
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
-    FITSImage *image_data = tab->getImage()->getImageData();
+    FITSData *image_data = tab->getImage()->getImageData();
     FITSHistogramCommand *histC;
 
     napply++;
@@ -222,7 +222,7 @@ void FITSHistogram::applyFilter(FITSScale ftype)
 {
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
-    FITSImage *image_data = tab->getImage()->getImageData();
+    FITSData *image_data = tab->getImage()->getImageData();
 
     napply++;
 
@@ -334,7 +334,7 @@ void FITSHistogramCommand::redo()
 {
 
     FITSView *image = tab->getImage();
-    FITSImage *image_data = image->getImageData();
+    FITSData *image_data = image->getImageData();
 
     float *image_buffer = image_data->getImageBuffer();    
     width  = image_data->getWidth();
@@ -404,7 +404,7 @@ void FITSHistogramCommand::redo()
 void FITSHistogramCommand::undo()
 {
     FITSView *image = tab->getImage();
-    FITSImage *image_data = image->getImageData();
+    FITSData *image_data = image->getImageData();
     memcpy( image_data->getImageBuffer(), buffer, image_data->getWidth() * image_data->getHeight() * sizeof(float));
 
     image_data->setWidth(width);
