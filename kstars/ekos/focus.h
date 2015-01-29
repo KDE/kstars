@@ -132,11 +132,26 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void resetFrame();
 
-    void addFocuser(ISD::GDInterface *newFocuser);
+    /**
+     * @brief Add CCD to the list of available CCD.
+     * @param newCCD pointer to CCD device.
+     * @param isPrimaryCCD if true, if will be selected by default in the dropdown menu.
+     */
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
-    void addFilter(ISD::GDInterface *newFilter);
-    void focuserDisconnected();  
 
+    /**
+     * @brief addFocuser Add focuser to the list of available focusers.
+     * @param newFocuser pointer to focuser device.
+     */
+    void addFocuser(ISD::GDInterface *newFocuser);    
+
+    /**
+     * @brief addFilter Add filter to the list of available filters.
+     * @param newFilter pointer to filter device.
+     */
+    void addFilter(ISD::GDInterface *newFilter);
+
+    // Log
     void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
@@ -159,14 +174,51 @@ public slots:
      */
     Q_SCRIPTABLE Q_NOREPLY void capture();
 
-    void startLooping();
+    /**
+     * @brief startFraming Begins continious capture of the CCD and calculates HFR every frame.
+     */
+    void startFraming();
+
+    /**
+     * @brief checkStopFocus Perform checks before stopping the autofocus operation. Some checks are necessary for in-sequence focusing.
+     */
     void checkStopFocus();
+
+    /**
+     * @brief Check CCD and make sure information is updated accordingly.
+     * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu.
+     *  CCDNum is the index of the CCD in the dropdown menu.
+     */
     void checkCCD(int CCDNum=-1);
+
+    /**
+     * @brief Check Focuser and make sure information is updated accordingly.
+     * @param FocuserNum By default, we check the already selected focuser in the dropdown menu. If FocuserNum is specified, the check is made against this specific focuser in the dropdown menu.
+     *  FocuserNum is the index of the focuser in the dropdown menu.
+     */
     void checkFocuser(int FocuserNum=-1);
+
+    /**
+     * @brief Check Filter and make sure information is updated accordingly.
+     * @param filterNum By default, we check the already selected filter in the dropdown menu. If filterNum is specified, the check is made against this specific filter in the dropdown menu.
+     *  filterNum is the index of the filter in the dropdown menu.
+     */
     void checkFilter(int filterNum=-1);
 
+    /**
+     * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
+     */
     void filterLockToggled(bool);
+
+    /**
+     * @brief updateFilterPos If filter locking is checked, set the locked filter to the current filter position
+     * @param index current filter position
+     */
     void updateFilterPos(int index);
+
+    /**
+     * @brief clearDataPoints Remove all data points from HFR plots
+     */
     void clearDataPoints();
 
     /** DBUS interface function.
@@ -181,22 +233,64 @@ public slots:
      */
     Q_SCRIPTABLE Q_NOREPLY void FocusOut(int ms=-1);
 
+    /**
+     * @brief focusStarSelected The user selected a focus star, save its coordinates and subframe it if subframing is enabled.
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
     void focusStarSelected(int x, int y);
+
+    /**
+     * @brief toggleAutofocus Process switching between manual and automated focus.
+     * @param enable If true, auto focus is selected, if false, manual mode is selected.
+     */
     void toggleAutofocus(bool enable);
 
+    /**
+     * @brief toggleSubframe Process enabling and disabling subframing.
+     * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
+     */
+    void toggleSubframe(bool enable);
+
+    /**
+     * @brief newFITS A new FITS blob is recieved by the CCD driver.
+     * @param bp pointer to blob data
+     */
     void newFITS(IBLOB *bp);
+
+    /**
+     * @brief processFocusProperties Read focus properties of interest as they arrive from the focuser driver and process them accordingly.
+     * @param nvp pointer to updated focuser number property.
+     */
     void processFocusProperties(INumberVectorProperty *nvp);
-    void subframeUpdated(bool enable);
-    void checkFocus(double delta);
-    void setInSequenceFocus(bool);
+
+    /**
+     * @brief checkFocus Given the minimum required HFR, check focus and calculate HFR. If current HFR exceeds required HFR, start autofocus process, otherwise do nothing.
+     * @param requiredHFR Minimum HFR to trigger autofocus process.
+     */
+    void checkFocus(double requiredHFR);
+
+    /**
+     * @brief updateFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
+     * @param status If true, the focus process finished successfully. Otherwise, it failed.
+     */
     void updateFocusStatus(bool status);
+
+    /**
+     * @brief resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
+     */
     void resetFocusFrame();
+
+    /**
+     * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
+     * @param index Index of image filter selected by the user.
+     */
     void filterChangeWarning(int index);
 
 signals:
         void newLog();
-        void autoFocusFinished(bool,double);
-        void suspendGuiding(bool);
+        void autoFocusFinished(bool status, double finalHFR);
+        void suspendGuiding(bool suspend);
 
 private:
     void drawHFRPlot();
@@ -232,7 +326,7 @@ private:
     // Last HFR value recorded
     double lastHFR;
     // If (currentHFR > deltaHFR) we start the autofocus process.
-    double deltaHFR;
+    double minimumRequiredHFR;
     // Maximum HFR recorded
     double maxHFR;
     // Is HFR increasing? We're going away from the sweet spot! If HFRInc=1, we re-capture just to make sure HFR calculations are correct, if HFRInc > 1, we switch directions

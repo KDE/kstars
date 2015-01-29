@@ -74,7 +74,7 @@ Focus::Focus()
     orig_x = orig_y = orig_w = orig_h =-1;
     lockFilterPosition=-1;
     maxHFR=1;
-    deltaHFR = -1;
+    minimumRequiredHFR = -1;
     minPos=1e6;
     maxPos=0;
 
@@ -88,9 +88,9 @@ Focus::Focus()
 
     connect(AutoModeR, SIGNAL(toggled(bool)), this, SLOT(toggleAutofocus(bool)));
 
-    connect(startLoopB, SIGNAL(clicked()), this, SLOT(startLooping()));
+    connect(startLoopB, SIGNAL(clicked()), this, SLOT(startFraming()));
 
-    connect(kcfg_subFrame, SIGNAL(toggled(bool)), this, SLOT(subframeUpdated(bool)));
+    connect(kcfg_subFrame, SIGNAL(toggled(bool)), this, SLOT(toggleSubframe(bool)));
 
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFocusFrame()));
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
@@ -352,7 +352,8 @@ void Focus::filterLockToggled(bool enable)
 
 void Focus::updateFilterPos(int index)
 {
-    lockFilterPosition = index;
+    if (lockFilterCheck->isChecked() == true)
+        lockFilterPosition = index;
 }
 
 void Focus::addFocuser(ISD::GDInterface *newFocuser)
@@ -526,7 +527,7 @@ void Focus::stopFocus()
     inAutoFocus = false;
     inFocusLoop = false;
     //starSelected= false;
-    deltaHFR    = -1;
+    minimumRequiredHFR    = -1;
     noStarCount = 0;
     //maxHFR=1;
 
@@ -742,7 +743,7 @@ void Focus::newFITS(IBLOB *bp)
             drawHFRPlot();
     }
 
-    if (deltaHFR >= 0)
+    if (minimumRequiredHFR >= 0)
     {
         if (currentHFR == -1)
         {
@@ -757,7 +758,7 @@ void Focus::newFITS(IBLOB *bp)
                 updateFocusStatus(false);
             }
         }
-        else if (currentHFR > deltaHFR)
+        else if (currentHFR > minimumRequiredHFR)
         {
            inSequenceFocus = true;
            AutoModeR->setChecked(true);
@@ -768,7 +769,7 @@ void Focus::newFITS(IBLOB *bp)
             updateFocusStatus(true);
         }
 
-        deltaHFR = -1;
+        minimumRequiredHFR = -1;
 
         return;
     }
@@ -1466,7 +1467,7 @@ void Focus::clearLog()
     emit newLog();
 }
 
-void Focus::startLooping()
+void Focus::startFraming()
 {
     inFocusLoop = true;
 
@@ -1584,14 +1585,14 @@ void Focus::focusStarSelected(int x, int y)
     capture();
 }
 
-void Focus::checkFocus(double delta)
+void Focus::checkFocus(double requiredHFR)
 {
-    deltaHFR = delta;
+    minimumRequiredHFR = requiredHFR;
 
     capture();
 }
 
-void Focus::subframeUpdated(bool enable)
+void Focus::toggleSubframe(bool enable)
 {
     if (enable == false)
     {
@@ -1600,11 +1601,6 @@ void Focus::subframeUpdated(bool enable)
     }
 
     starSelected = false;
-}
-
-void Focus::setInSequenceFocus(bool autoFocusComplete)
-{
-    inSequenceFocus = !autoFocusComplete;
 }
 
 void Focus::filterChangeWarning(int index)
