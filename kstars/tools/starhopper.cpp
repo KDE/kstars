@@ -96,11 +96,11 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
                 if( metadata ) {
                     if( !patternNames.contains( hopStar ) ) {
                         spectralChar += hopStar->spchar();
-                        starHopDirections = QString(" Slew %1 degrees %2 to find a %3 star of mag %4 ").arg( QString::number(angDist.Degrees()), direction, spectralChar, QString::number( hopStar->mag() ) );
+                        starHopDirections = QString(" Slew %1 degrees %2 to find an %3 star of mag %4 ").arg( QString::number(angDist.Degrees(), 'f', 2), direction, spectralChar, QString::number( hopStar->mag() ) );
                         qDebug() << starHopDirections;
                     }
                     else {
-                        starHopDirections = QString(" Slew %1 degrees %2 to find a(n) %3").arg( QString::number( angDist.Degrees() ), direction, patternNames.value( hopStar ) );
+                        starHopDirections = QString(" Slew %1 degrees %2 to find a(n) %3").arg( QString::number( angDist.Degrees(), 'f', 2 ), direction, patternNames.value( hopStar ) );
                         qDebug() << starHopDirections;
                     }
                     metadata->append( starHopDirections );
