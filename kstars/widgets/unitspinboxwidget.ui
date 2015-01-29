@@ -10,9 +10,6 @@
     <height>44</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>UnitSpinBoxWidget</string>
-  </property>
   <widget class="QComboBox" name="comboBox">
    <property name="geometry">
     <rect>
