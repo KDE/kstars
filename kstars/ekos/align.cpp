@@ -144,7 +144,7 @@ Align::~Align()
     delete(solverFOV);
 }
 
-bool Align::parserOK()
+bool Align::isParserOK()
 {
     bool rc = parser->init();
 

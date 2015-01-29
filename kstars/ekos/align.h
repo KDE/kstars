@@ -133,23 +133,62 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setSolverOptions(bool updateCoords, bool previewImage, bool verbose, bool useOAGT);
 
 
+    /**
+     * @brief Add CCD to the list of available CCD.
+     * @param newCCD pointer to CCD device.
+     * @param isPrimaryCCD if true, if will be selected by default in the dropdown menu.
+     */
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
-    void setTelescope(ISD::GDInterface *newTelescope);
-    void addGuideHead();    
+
+    /**
+     * @brief Set the current telescope
+     * @newTelescope pointer to telescope device.
+     */
+    void setTelescope(ISD::GDInterface *newTelescope);    
+
+    /**
+     * @brief CCD information is updated, sync them.
+     */
     void syncCCDInfo();
-    void generateArgs();    
-    void appendLogText(const QString &);
-    void clearLog();
-    bool parserOK();
+
+    /**
+     * @brief Generate arguments we pass to the online and offline solvers. Keep user own arguments in place.
+     */
+    void generateArgs();        
+
+    /**
+     * @brief Does our parser exist in the system?
+     */
+    bool isParserOK();
+
+    /**
+     * @brief Are we displaying verbose information?
+     */
     bool isVerbose();
 
+    // Log
+    void appendLogText(const QString &);
     QString getLogText() { return logText.join("\n"); }
+    void clearLog();
 
 public slots:
 
-
+    /**
+     * @brief Process updated telescope coordinates.
+     * @coord pointer to telescope coordinate property.
+     */
     void updateScopeCoords(INumberVectorProperty *coord);
+
+    /**
+     * @brief Check CCD and make sure information is updated and FOV is re-calculated.
+     * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu. CCDNum is the index of the CCD in the dropdown menu.
+     */
     void checkCCD(int CCDNum=-1);
+
+    /**
+     * @brief Process new FITS recieved from CCD.
+     * @param bp pointer to blob property
+     */
     void newFITS(IBLOB *bp);
 
     /** DBUS interface function.
@@ -168,10 +207,23 @@ public slots:
      * @return Returns true if the procedure started successful, false otherwise.
      */
     Q_SCRIPTABLE bool captureAndSolve();
+
+    /**
+     * @brief Solver finished successfully, process the data and execute the required actions depending on the mode.
+     * @param orientation Orientation of image in degrees (East of North)
+     * @param ra Center RA in solved image, degrees.
+     * @param dec Center DEC in solved image, degrees.
+     */
     void solverFinished(double orientation, double ra, double dec);
+
+    /**
+     * @brief Process solver failure.
+     */
     void solverFailed();
 
-    /* CCD & Telescope Info */
+    /**
+     * @brief We received new telescope info, process them and update FOV.
+     */
     void syncTelescopeInfo();
 
     /* Solver Options */
@@ -193,60 +245,118 @@ public slots:
      */
      Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
 
+    /**
+     * @brief Return FOV object used to represent the solved image orientation on the sky map.
+     */
     FOV *fov();
 
 signals:
         void newLog();
 
 private:
+    /**
+    * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
+    */
     void calculateFOV();
+
+    /**
+     * @brief After a solver process is completed successfully, execute the mode as set by the user (GOTO or Polar Alignment)
+     */
     void executeMode();
+
+    /**
+     * @brief After a solver process is completed successfully, sync, slew to target, or do nothing as set by the user.
+     */
     void executeGOTO();
+
+    /**
+     * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
+     */
     void executePolarAlign();
+
+    /**
+     * @brief Sync the telescope to the solved alignment coordinate.
+     */
     void Sync();
+
+    /**
+     * @brief Sync the telescope to the solved alignment coordinate, and then slew to the target coordinate.
+     */
     void SlewToTarget();
+
+    /**
+     * @brief Calculate polar alignment error magnitude and direction.
+     * The calculation is performed by first capturing and solving a frame, then slewing 30 arcminutes and solving another frame to find the exact coordinates, then computing the error.
+     * @param initRA RA of first frame.
+     * @param initDEC DEC of first frame
+     * @param finalRA RA of second frame
+     * @param finalDEC DEC of second frame
+     */
     void calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC);
+
+    /**
+     * @brief Get formatted RA & DEC coordinates compatible with astrometry.net format.
+     * @param ra Right ascension
+     * @param dec Declination
+     * @param ra_str will contain the formatted RA string
+     * @param dec_str will contain the formatted DEC string
+     */
     void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
 
-    ISD::Telescope *currentTelescope;
-    ISD::CCD *currentCCD;
-    QList<ISD::CCD *> CCDs;
-
-    Ekos::Capture *captureP;
-
+    // Which chip should we invoke in the current CCD?
     bool useGuideHead;
+    // Can the mount sync its coordinates to those set by Ekos?
     bool canSync;
+    // LoadSlew mode is when we load an image and solve it, no capture is done.
     bool loadSlewMode;
-    bool m_isSolverComplete;
-    bool m_isSolverSuccessful;
-    QStringList logText;
 
+    // Keep track of solver status
+    bool m_isSolverComplete;
+    bool m_isSolverSuccessful;   
+
+    // FOV
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
     int ccd_width, ccd_height;
+
+    // Keep track of solver results
     double sOrientation, sRA, sDEC;
 
+    // Solver alignment coordinates
     SkyPoint alignCoord;
+    // Target coordinates we need to slew to
     SkyPoint targetCoord;
+    // Actual current telescope coordinates
     SkyPoint telescopeCoord;
 
+    // Progress icon if the solver is running
     QProgressIndicator *pi;
 
-
+    // Keep track of how long the solver is running
     QTime solverTimer;
+
+    // Polar Alignment
     AZStage azStage;
     ALTStage altStage;
     double azDeviation, altDeviation;
     double decDeviation;
-
     static const double RAMotion;
     static const float SIDRATE;
 
+    // Online and Offline parsers
     AstrometryParser *parser;
     OnlineAstrometryParser *onlineParser;
     OfflineAstrometryParser *offlineParser;
 
+    // Pointers to our devices
+    ISD::Telescope *currentTelescope;
+    ISD::CCD *currentCCD;
+    QList<ISD::CCD *> CCDs;
+
+    // Keep track of solver FOV to be plotted in the skymap after each successful solve operation
     FOV *solverFOV;
 
+    // Log
+    QStringList logText;
 };
 
 }

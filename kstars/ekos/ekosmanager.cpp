@@ -1339,7 +1339,7 @@ void EkosManager::processTabChange()
     {
         if (alignProcess->isEnabled() == false && captureProcess->isEnabled() && ccd && ccd->isConnected())
         {
-            if (alignProcess->parserOK())
+            if (alignProcess->isParserOK())
                 alignProcess->setEnabled(true);
         }
 
