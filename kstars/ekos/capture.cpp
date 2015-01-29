@@ -822,7 +822,12 @@ void Capture::checkFilter(int filterNum)
 {
 
     if (filterNum == -1)
+    {
         filterNum = FilterCaptureCombo->currentIndex();
+        if (filterNum == -1)
+            return;
+    }
+
 
     QStringList filterAlias = Options::filterAlias();
 
