@@ -145,8 +145,8 @@ SkyMap::update().
 KStars provides powerful scripting functionality via DBus. The most common DBus functions can be constructed and executed within the ScriptBuilder tool.
 Any 3rd party language or tool with support for DBus can access several interfaces provided by KStars:
 <ul>
-<li>KStars: Provides functions to manipulate the skymap including zoom and pan. Search for objects and adds and remove object trails. Wait for user input before running further actions.</li>
-<li>SimClock: Provides functions to start and stop time, and to set date and clock scale.</li>
+<li>KStars: Provides functions to manipulate the skymap including zoom, pan, and motion to selected objects. Add and remove object trails and labels. Wait for user input before running further actions.</li>
+<li>SimClock: Provides functions to start and stop time, set a different date and time, and to set the clock scale.</li>
 <li>Ekos: Provides functions to start and stop Ekos Manager, set Ekos connection mode, and access to Ekos modules:
     <ul>
     <li>Capture: Provides functions to capture images, load sequence queues, control filter wheel, and obtain information on job progress.</li>
