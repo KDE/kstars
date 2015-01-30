@@ -543,6 +543,7 @@ bool EkosManager::start()
     else
     {
         delete (remote_indi);
+        bool haveCCD=false, haveGuider=false;
 
         remote_indi = new DriverInfo(QString("Ekos Remote Host"));
 
@@ -553,9 +554,24 @@ bool EkosManager::start()
         if (telescopeCombo->currentText() != "--")
             nDevices++;
         if (ccdCombo->currentText() != "--")
+        {
+            haveCCD = true;
             nDevices++;
+        }
         if (guiderCombo->currentText() != "--")
+        {
+            haveGuider = true;
             nDevices++;
+        }
+
+        if (haveCCD == false && haveGuider == false)
+        {
+            KMessageBox::error(this, xi18n("Ekos requires at least one CCD or Guider to operate."));
+            delete (remote_indi);
+            nDevices=0;
+            return false;
+        }
+
         /*{
             if (guiderCombo->currentText() != ccdCombo->currentText())
                 nDevices++;
