@@ -130,7 +130,7 @@ void Mount::syncTelescopeInfo()
     if (currentTelescope->canPark())
     {
         parkB->setEnabled(true);
-        connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()));
+        connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()), Qt::UniqueConnection);
     }
     else
     {
@@ -168,7 +168,6 @@ void Mount::appendLogText(const QString &text)
 
     emit newLog();
 }
-
 
 void Mount::clearLog()
 {
