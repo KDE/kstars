@@ -17,8 +17,9 @@ for row in all_rows:
 cursor.execute('''SELECT DISTINCT Province from city''')
 all_rows = cursor.fetchall()
 all_rows.sort()
-for row in all_rows:  
-  print('xi18nc("Province name (optional, rarely needs a translation)", "{0}")'.format(row[0]))
+for row in all_rows:
+  if format(row[0]) != '':
+    print('xi18nc("Province name (optional, rarely needs a translation)", "{0}")'.format(row[0]))
 
 cursor.execute('''SELECT DISTINCT Country from city''')
 all_rows = cursor.fetchall()
