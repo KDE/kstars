@@ -1,11 +1,11 @@
-/***************************************************************************
+/** *************************************************************************
                           kstars.h  -  K Desktop Planetarium
                              -------------------
     begin                : Mon Feb  5 01:11:45 PST 2001
     copyright            : (C) 2001 by Jason Harris
     email                : jharris@30doradus.org
  ***************************************************************************/
-/***************************************************************************
+/** *************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -119,43 +119,43 @@ public:
     /** @return a pointer to the instance of this class */
     inline static KStars *Instance() { return pinstance; }
 
-    /**Destructor.  Synchs config file.  Deletes objects. */
+    /** Destructor.  Synchs config file.  Deletes objects. */
     virtual ~KStars();
 
-    /**@return pointer to KStarsData object which contains application data. */
+    /** @return pointer to KStarsData object which contains application data. */
     inline KStarsData* data() const { return kstarsData; }
 
-    /**@return pointer to SkyMap object which is the sky display widget. */
+    /** @return pointer to SkyMap object which is the sky display widget. */
     inline SkyMap* map() const { return skymap; }
 
-    inline ObservingList* observingList() const { return obsList; }
+    inline ObservingList* observingList() const { return m_observingList; }
 
-    inline EkosManager *ekosManager() const { return ekosmenu; }
+    inline EkosManager *ekosManager() const { return m_ekosManager; }
+
+    inline FlagManager* flagManager() const { return m_flagManager; }
+
+    inline PrintingWizard* printingWizard() const { return m_printingWizard; }
 
     Execute* getExecute();
 
-    /**Add an item to the color-scheme action manu
+    /** Add an item to the color-scheme action manu
      * @param name The name to use in the menu
      * @param actionName The internal name for the action (derived from filename)
      */
     void addColorMenuItem( const QString &name, const QString &actionName );
 
-    /**Remove an item from the color-scheme action manu
+    /** Remove an item from the color-scheme action manu
      * @param actionName The internal name of the action (derived from filename)
      */
     void removeColorMenuItem( const QString &actionName );
 
-    /**@short Apply config options throughout the program.
+    /** @short Apply config options throughout the program.
      * In most cases, options are set in the "Options" object directly,
      * but for some things we have to manually react to config changes.
      * @param doApplyFocus If true, then focus posiiton will be set
      * from config file
      */
     void applyConfig( bool doApplyFocus = true );
-
-    inline FlagManager* getFlagManager() const { return fm; }
-
-    inline PrintingWizard* getPrintingWizard() const { return printingWizard; }
 
     void showImgExportDialog();
 
@@ -407,7 +407,7 @@ public Q_SLOTS:
     /** action slot: open dialog for selecting a new geographic location */
     void slotGeoLocator();
 
-    /**Delete FindDialog because ObjNames list has changed in KStarsData due to
+    /** Delete FindDialog because ObjNames list has changed in KStarsData due to
      * reloading star data. So list in FindDialog must be new filled with current data. */
     void clearCachedFindDialog();
 
@@ -497,60 +497,60 @@ private slots:
     /** Open FITS image. */
     void slotOpenFITS();
 
-    /**Action slot to save the sky image to a file.*/
+    /** Action slot to save the sky image to a file.*/
     void slotExportImage();
 
-    /**Action slot to select a DBUS script and run it.*/
+    /** Action slot to select a DBUS script and run it.*/
     void slotRunScript();
 
-    /**Action slot to print skymap. */
+    /** Action slot to print skymap. */
     void slotPrint();
 
-    /**Action slot to start Printing Wizard. */
+    /** Action slot to start Printing Wizard. */
     void slotPrintingWizard();
 
-    /**Action slot to show tip-of-the-day window. */
+    /** Action slot to show tip-of-the-day window. */
     void slotTipOfDay();
 
-    /**Action slot to set focus coordinates manually (opens FocusDialog). */
+    /** Action slot to set focus coordinates manually (opens FocusDialog). */
     void slotManualFocus();
 
-    /**Meta-slot to point the focus at special points (zenith, N, S, E, W).
+    /** Meta-slot to point the focus at special points (zenith, N, S, E, W).
      * Uses the name of the Action which sent the Signal to identify the
      * desired direction.  */
     void slotPointFocus();
 
-    /**Meta-slot to set the color scheme according to the name of the
+    /** Meta-slot to set the color scheme according to the name of the
      * Action which sent the activating signal.  */
     void slotColorScheme();
 
-    /**Select the Target symbol (a.k.a. field-of-view indicator) */
+    /** Select the Target symbol (a.k.a. field-of-view indicator) */
     void slotTargetSymbol(bool flag);
 
-    /**Invoke the Field-of-View symbol editor window */
+    /** Invoke the Field-of-View symbol editor window */
     void slotFOVEdit();
 
-    /**Toggle between Equatorial and Ecliptic coordinte systems */
+    /** Toggle between Equatorial and Ecliptic coordinte systems */
     void slotCoordSys();
 
-    /**Set the map projection according to the menu selection */
+    /** Set the map projection according to the menu selection */
     void slotMapProjection();
 
-    /**Toggle display of the observing list tool*/
+    /** Toggle display of the observing list tool*/
     void slotObsList();
 
-    /**Meta-slot to handle display toggles for all of the viewtoolbar buttons.
+    /** Meta-slot to handle display toggles for all of the viewtoolbar buttons.
      * uses the name of the sender to identify the item to change.  */
     void slotViewToolBar();
 
-    /**Meta-slot to handle toggling display of GUI elements (toolbars and infoboxes)
+    /** Meta-slot to handle toggling display of GUI elements (toolbars and infoboxes)
      * uses name of the sender action to identify the widget to hide/show.  */
     void slotShowGUIItem( bool );
 
-    /**Toggle to and from full screen mode */
+    /** Toggle to and from full screen mode */
     void slotFullScreen();
 
-    /**Save data to config file before exiting.*/
+    /** Save data to config file before exiting.*/
     void slotAboutToQuit();
 
     void slotEquipmentWriter();
@@ -559,16 +559,16 @@ private slots:
 
     void slotExecute();
 
-    /**Update comets orbital elements*/
+    /** Update comets orbital elements*/
     void slotUpdateComets();
 
-    /**Update asteroids orbital elements*/
+    /** Update asteroids orbital elements*/
     void slotUpdateAsteroids();
 
-    /**Update list of recent supernovae*/
+    /** Update list of recent supernovae*/
     void slotUpdateSupernovae();
 
-    /**Update satellites orbital elements*/
+    /** Update satellites orbital elements*/
     void slotUpdateSatellites();
 
 private:
@@ -599,27 +599,26 @@ private:
     ImageExporter *imageExporter;
 
     //FIXME: move to KStarsData
-    ObservingList *obsList;
-    EquipmentWriter *eWriter;
-    ObserverAdd *oAdd;
-    Execute *execute;
-    AltVsTime *avt;
-    WUTDialog *wut;
-    WIView *wi;
-    WILPSettings *wiLPSettings;
-    WIEquipSettings *wiEquipSettings;
-    ObsConditions *wiObsConditions;
-    QDockWidget *wiDock;
-    SkyCalendar *skycal;
-    ScriptBuilder *sb;
-    PlanetViewer *pv;
-    JMoonTool *jmt;
-    MoonPhaseTool *mpt;
-    FlagManager *fm;
+    ObservingList *m_observingList;
+    EquipmentWriter *m_equipmentWriter;
+    ObserverAdd *m_observerAdd;
+    Execute *m_execute;
+    AltVsTime *m_altVsTime;
+    WUTDialog *m_WUTDialog;
+    WIView *m_WIView;
+    WILPSettings *m_WISettings;
+    WIEquipSettings *m_WIEquipmentSettings;
+    ObsConditions *m_ObsConditions;
+    QDockWidget *m_wiDock;
+    SkyCalendar *m_skyCalender;
+    ScriptBuilder *m_scriptBuilder;
+    PlanetViewer *m_planetViewer;
+    JMoonTool *m_JMoonTool;
+    MoonPhaseTool *m_moonPhaseTool;
+    FlagManager *m_flagManager;
     AstroCalc *astrocalc;
-    PrintingWizard *printingWizard;
-
-    EkosManager *ekosmenu;
+    PrintingWizard *m_printingWizard;
+    EkosManager *m_ekosManager;
 
     QActionGroup *projectionGroup, *cschemeGroup;
 

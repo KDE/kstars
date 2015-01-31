@@ -320,18 +320,18 @@ void KStars::slotDownload() {
 }
 
 void KStars::slotAVT() {
-    if ( ! avt ) avt = new AltVsTime(this);
-    avt->show();
+    if ( ! m_altVsTime ) m_altVsTime = new AltVsTime(this);
+    m_altVsTime->show();
 }
 
 void KStars::slotWUT() {
-    if ( ! wut ) wut = new WUTDialog(this);
-    wut->show();
+    if ( ! m_WUTDialog ) m_WUTDialog = new WUTDialog(this);
+    m_WUTDialog->show();
 }
 
 void KStars::slotWISettings()
 {
-    if (wi && !wiDock->isVisible())
+    if (m_WIView && !m_wiDock->isVisible())
     {
         slotShowWIView(1);
         return;
@@ -339,7 +339,7 @@ void KStars::slotWISettings()
 
     if (KConfigDialog::showDialog("wisettings"))
     {
-        wiEquipSettings->populateScopeListWidget();
+        m_WIEquipmentSettings->populateScopeListWidget();
         return;
     }
 
@@ -348,10 +348,10 @@ void KStars::slotWISettings()
     connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyWIConfigChanges()));
     connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
 
-    wiLPSettings = new WILPSettings(this);
-    wiEquipSettings = new WIEquipSettings(this);
-    dialog->addPage(wiLPSettings, xi18n("Light Pollution Settings"));
-    dialog->addPage(wiEquipSettings, xi18n("Equipment Settings - Equipment Type and Parameters"));
+    m_WISettings = new WILPSettings(this);
+    m_WIEquipmentSettings = new WIEquipSettings(this);
+    dialog->addPage(m_WISettings, xi18n("Light Pollution Settings"));
+    dialog->addPage(m_WIEquipmentSettings, xi18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
 }
 
@@ -361,7 +361,7 @@ void KStars::slotShowWIView(int status)
     if (status == 0) return;          //Cancelled
 
     int bortle = Options::bortleClass();
-    wiEquipSettings->setAperture();
+    m_WIEquipmentSettings->setAperture();
 
     /* NOTE This part of the code dealing with equipment type is presently not required
      * as WI does not differentiate between Telescope and Binoculars. It only needs the
@@ -374,38 +374,38 @@ void KStars::slotShowWIView(int status)
     : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
 
     ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope)
-                                           ? wiEquipSettings->getTelType() : ObsConditions::Invalid;
+                                           ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
 
-    int aperture = wiEquipSettings->getAperture();
+    int aperture = m_WIEquipmentSettings->getAperture();
 
     //Update observing conditions for What's Interesting
-    if (!wiObsConditions)
-        wiObsConditions = new ObsConditions(bortle, aperture, equip, telType);
+    if (!m_ObsConditions)
+        m_ObsConditions = new ObsConditions(bortle, aperture, equip, telType);
     else
-        wiObsConditions->setObsConditions(bortle, aperture, equip, telType);
+        m_ObsConditions->setObsConditions(bortle, aperture, equip, telType);
 
-    if (!wi)
+    if (!m_WIView)
     {
-        wi = new WIView(0, wiObsConditions);
-        wiDock = new QDockWidget(this);
-        wiDock->setObjectName("What's Interesting");
-        wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
-        QWidget *container = QWidget::createWindowContainer(wi->getWIBaseView());
-        wiDock->setWidget(container);
-        wiDock->setMinimumWidth(container->width());
-        addDockWidget(Qt::RightDockWidgetArea, wiDock);
-        wiDock->setVisible(true);
+        m_WIView = new WIView(0, m_ObsConditions);
+        m_wiDock = new QDockWidget(this);
+        m_wiDock->setObjectName("What's Interesting");
+        m_wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
+        QWidget *container = QWidget::createWindowContainer(m_WIView->getWIBaseView());
+        m_wiDock->setWidget(container);
+        m_wiDock->setMinimumWidth(container->width());
+        addDockWidget(Qt::RightDockWidgetArea, m_wiDock);
+        m_wiDock->setVisible(true);
     }
     else
     {
-        wi->updateModels(wiObsConditions);
-        wiDock->setVisible(true);
+        m_WIView->updateModels(m_ObsConditions);
+        m_wiDock->setVisible(true);
     }
 }
 
 void KStars::slotCalendar() {
-    if ( ! skycal ) skycal = new SkyCalendar(this);
-    skycal->show();
+    if ( ! m_skyCalender ) m_skyCalender = new SkyCalendar(this);
+    m_skyCalender->show();
 }
 
 void KStars::slotGlossary(){
@@ -419,18 +419,18 @@ void KStars::slotGlossary(){
 }
 
 void KStars::slotScriptBuilder() {
-    if ( ! sb ) sb = new ScriptBuilder(this);
-    sb->show();
+    if ( ! m_scriptBuilder ) m_scriptBuilder = new ScriptBuilder(this);
+    m_scriptBuilder->show();
 }
 
 void KStars::slotSolarSystem() {
-    if ( ! pv ) pv = new PlanetViewer(this);
-    pv->show();
+    if ( ! m_planetViewer ) m_planetViewer = new PlanetViewer(this);
+    m_planetViewer->show();
 }
 
 void KStars::slotJMoonTool() {
-    if ( ! jmt ) jmt = new JMoonTool(this);
-    jmt->show();
+    if ( ! m_JMoonTool ) m_JMoonTool = new JMoonTool(this);
+    m_JMoonTool->show();
 }
 
 void KStars::slotMoonPhaseTool() {
@@ -440,8 +440,8 @@ void KStars::slotMoonPhaseTool() {
 }
 
 void KStars::slotFlagManager() {
-    if ( ! fm ) fm = new FlagManager(this);
-    fm->show();
+    if ( ! m_flagManager ) m_flagManager = new FlagManager(this);
+    m_flagManager->show();
 }
 
 void KStars::slotTelescopeWizard()
@@ -495,12 +495,12 @@ void KStars::slotEkos()
         return;
     }
 
-    if (ekosmenu == NULL)
-        ekosmenu = new EkosManager(this);
+    if (m_ekosManager == NULL)
+        m_ekosManager = new EkosManager(this);
 
-    ekosmenu->show();
-    ekosmenu->raise();
-    ekosmenu->activateWindow();
+    m_ekosManager->show();
+    m_ekosManager->raise();
+    m_ekosManager->activateWindow();
 #endif
 #endif
 }
@@ -911,12 +911,12 @@ void KStars::slotPrint() {
 }
 
 void KStars::slotPrintingWizard() {
-    if(printingWizard) {
-        delete printingWizard;
+    if(m_printingWizard) {
+        delete m_printingWizard;
     }
 
-    printingWizard = new PrintingWizard(this);
-    printingWizard->show();
+    m_printingWizard = new PrintingWizard(this);
+    m_printingWizard->show();
 }
 
 void KStars::slotToggleTimer() {
@@ -1166,16 +1166,16 @@ void KStars::slotFOVEdit() {
 }
 
 void KStars::slotObsList() {
-    obsList->show();
+    m_observingList->show();
 }
 
 void KStars::slotEquipmentWriter() {
-    eWriter->loadEquipment();
-    eWriter->show();
+    m_equipmentWriter->loadEquipment();
+    m_equipmentWriter->show();
 }
 
 void KStars::slotObserverAdd() {
-    oAdd->show();
+    m_observerAdd->show();
 }
 
 void KStars::slotExecute() {
@@ -1275,7 +1275,7 @@ void KStars::slotAboutToQuit()
     writeConfig();
 
     if( !Options::obsListSaveImage() ) {
-        foreach ( const QString& file, obsList->imageList() )
+        foreach ( const QString& file, m_observingList->imageList() )
             QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + file ) ;
     }
 }

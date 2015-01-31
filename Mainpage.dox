@@ -22,11 +22,11 @@ KStars  (main window; master class for the frontend "view")
 KStarsData  (master class for the backend "model")
 + SimClock (controls passage of time in the simulation)
 + SkyMapComposite (top of hierarchy for plottable objects)
-  - Stars, planets, comets, asteroids, deep-sky objects, constellations,
+  - \subpage Stars, planets, comets, asteroids, deep-sky objects, constellations,
     guide lines, the Milky Way, etc. each have their own Component
-    (see skycomponents/README)
 
-SkyComponents are lists of objects of the same type that are drawn in the sky map.  Individual objects are represented as an instance of SkyPoint, or one of its children.  Only imaginary positions in the sky
+
+\subpage SkyComponents "SkyComponents" are lists of objects of the same type that are drawn in the sky map.  Individual objects are represented as an instance of SkyPoint, or one of its children.  Only imaginary positions in the sky
 use SkyPoint directly.  Most real objects use the derived class SkyObject, which adds names and other data.  SkyObject itself has many derivatives for different kinds of objects, like StarObject,
 DeepSkyObject, KSPlanetBase, KSAsteroid, KSComet, etc.
 

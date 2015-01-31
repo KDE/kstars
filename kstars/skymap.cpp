@@ -599,8 +599,8 @@ void SkyMap::slotAddFlag() {
 
     // popup FlagManager window and update coordinates
     ks->slotFlagManager();
-    ks->getFlagManager()->clearFields();
-    ks->getFlagManager()->setRaDec( clickedPoint()->ra(), clickedPoint()->dec() );
+    ks->flagManager()->clearFields();
+    ks->flagManager()->setRaDec( clickedPoint()->ra(), clickedPoint()->dec() );
 }
 
 void SkyMap::slotEditFlag( int flagIdx ) {
@@ -608,7 +608,7 @@ void SkyMap::slotEditFlag( int flagIdx ) {
 
     // popup FlagManager window and switch to selected flag
     ks->slotFlagManager();
-    ks->getFlagManager()->showFlag( flagIdx );
+    ks->flagManager()->showFlag( flagIdx );
 }
 
 void SkyMap::slotDeleteFlag( int flagIdx ) {
@@ -618,8 +618,8 @@ void SkyMap::slotDeleteFlag( int flagIdx ) {
     ks->data()->skyComposite()->flags()->saveToFile();
 
     // if there is FlagManager created, update its flag model
-    if ( ks->getFlagManager() ) {
-        ks->getFlagManager()->deleteFlagItem( flagIdx );
+    if ( ks->flagManager() ) {
+        ks->flagManager()->deleteFlagItem( flagIdx );
     }
 }
 
@@ -732,8 +732,8 @@ void SkyMap::slotDetail() {
 }
 
 void SkyMap::slotObjectSelected() {
-    if(m_objPointingMode && KStars::Instance()->getPrintingWizard()) {
-        KStars::Instance()->getPrintingWizard()->pointingDone(clickedObject());
+    if(m_objPointingMode && KStars::Instance()->printingWizard()) {
+        KStars::Instance()->printingWizard()->pointingDone(clickedObject());
         m_objPointingMode = false;
     }
 }
@@ -745,15 +745,15 @@ void SkyMap::slotCancelLegendPreviewMode() {
 }
 
 void SkyMap::slotFinishFovCaptureMode() {
-    if(m_fovCaptureMode && KStars::Instance()->getPrintingWizard()) {
-        KStars::Instance()->getPrintingWizard()->fovCaptureDone();
+    if(m_fovCaptureMode && KStars::Instance()->printingWizard()) {
+        KStars::Instance()->printingWizard()->fovCaptureDone();
         m_fovCaptureMode = false;
     }
 }
 
 void SkyMap::slotCaptureFov() {
-    if(KStars::Instance()->getPrintingWizard()) {
-        KStars::Instance()->getPrintingWizard()->captureFov();
+    if(KStars::Instance()->printingWizard()) {
+        KStars::Instance()->printingWizard()->captureFov();
     }
 }
 

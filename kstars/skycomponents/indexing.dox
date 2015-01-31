@@ -1,0 +1,491 @@
+/*! \page HTMIndexing HTM Indexing
+  \tableofcontents
+  Design Document for HTM Indexing in KStars
+  \section Theory Theory
+  A spatial index was introduced to drastically speed up both the
+  drawing of objects on the screen and searching for objects based upon
+  a position such as finding the object nearest to the cursor or finding
+  out which constellation a point is in.  Drawing to the screen is sped
+  up because the calculation to determine if an object is on screen
+  is very expensive.  Without the index we have to perform this
+  calculation for every object which is time consuming.  The index
+  speeds things up because it can give us a list of all the objects
+  on screen (plus a few extras that are off screen).
+
+  We are currently using a Hierarchical Triangular Mesh (HTM) spatial
+  indexing library written by A. Szalay, John Doug Reynolds, Jim Gray,
+  and Peter Z. Kunszt.  An HTM divides the surface of a sphere into a
+  bunch of little triangles just like a geodesic dome.  Each triangle is
+  called a trixel (triangular pixel) and each trixel has a unique
+  integer ID.
+
+  We index point objects (i.e. stars) by creating a data structure
+  that can quickly give us a list of all the stars that are located
+  inside any trixel.  To draw the stars, we get a list of all trixels
+  that are possibly visible on the current screen.  The worst case is
+  when the screen is zoomed out so all trixel on the visible half the
+  celestial sphere need to be used.  When the screen is zoomed in, the
+  number of visible trixels is reduced by roughly the area of the
+  celestial sphere that is visible.  To draw the stars, we use the HTM
+  to find all of the trixels that are possibly visible and for each such
+  trixel we draw the list of stars that are in that trixel.
+
+  Extended objects, such as  constellation lines are a bit more tricky.
+  If we indexed them with a single pointer in a single trixel then parts
+  of the object could be on screen and not drawn.  So for extended
+  objects we create a data structure similar to that used for the stars
+  which allows us to quickly get the list of all objects in any trixel
+  but since more than one trixel may be needed to cover an object, there
+  can be more than one pointer to an object in the index.  If we use the
+  point object algorithm and simply draw every object in the list of
+  every visible trixel than the same object can be drawn repeatedly if
+  it is covered by more than one trixel and if more than one of its
+  covering trixels is visible.  This is not a rare event.  It is
+  a very common occurence and if left unchecked, it would destroy much of
+  the efficiency we gained by implementing the index in the first place.
+
+  Fortunately, there is an easy solution to prevent any given object from
+  being drawn more than once in any given draw cycle (a draw cycle is
+  when we draw all the objects on the screen.  If the zoom scale or the
+  center point of the screen change, or if the celestial sphere appears
+  to rotate due to the rotation of the earth then we need to initiate a
+  new draw cycle to update the screen).  We use a global integer value
+  that gets incremented at the start of each draw cycle which we call
+  the global drawID.  Every indexed extended object has its own internal
+  integer drawID.  When we go through the lists of pointers to visible
+  object we compare the drawID of each object with the global drawID.
+  If they are the same, we don't draw the object.  If they are different
+  we draw the object and set the object's drawID to the value of the
+  global drawID which ensures that that object won't get drawn again in
+  the same draw cycle.  Since the global drawID is incremented at the
+  beginning of every draw cycle, setting an object's drawID to the
+  current global drawID will not prevent the object from being drawn in
+  future draw cycles.
+
+  \section Implementation Implementation
+  HTM Library Interface
+
+    + HTMesh
+     - SkyMesh
+
+  The HTMesh class is an addition to the HTM library that provides a
+  simple interface to that library by exposing only those parts that we
+  need and hiding the rest.  In addition, it contains some simple error
+  checking for indexing polygons and it also contains a routine for
+  indexing line segments (by creating a very narrow triangle that covers
+  the line segment).
+
+  The SkyMesh class is a subclass of HTMesh.  It mingles the HTM with
+  QT objects and KStars objects.  It has two purposes.  The first is
+  to provide a more convenient, higher level interface to the HTM
+  library.  For example to find the trixel containing a SkyPoint *p we
+  can call:
+
+     skyMesh->index( p )
+
+  instead of:
+
+     HTMesh->index( p->ra()->Degrees(), p->dec()->Degrees() );
+
+  SkyMesh also has some real code in it that is used to find all of the
+  trixels that cover a polygon with an arbitrary number of vertices and
+  to find all of the trixels that cover a connected series of line
+  segments (such as those that make up the outline of the Milky Way or
+  the lines that make up a constellation).  These routines work by
+  calling the more primitive indexing routines and then or'ing together
+  the resulting lists of indices.  The or'ing is needed so that a
+  pointer to a given object will show up at most once in the list of
+  objects for a given pixel.  The drawID would prevent these extra
+  entries from causing the same object from being drawn more than once
+  but the extra entries would still be a waste of both time and space.
+
+  The or'ing is done with a QHash that uses the trixel ID's as keys.
+  When the keys of the QHash are read out, each unique trixel ID will
+  only be read out once even if that ID was inserted multiple times.
+  Since that QHash was needed to create a unique list of keys, it is
+  also used as the output container of the indexing routines from which
+  the caller reads the ID's.  In the current implementation there is
+  only one QHash and the line/poly indexing routines are always
+  returning the address of the same QHash over and over.  It might have
+  looked better if we had copied the keys from the QHash into a QList or
+  a QVector but that extra copying would have been wasteful.
+
+  \subsection TopLevel Top Level
+  Most/all of the instances that use the HTM index are created from
+  within the SkyMapComposite class.   The SkyMesh parameter is currently
+  explicit so you can quickly see which classes/instances use the index
+  by looking that the list of constructors inside the SkyMapComposite
+  constructor.  SkyMapComposite is also where (for our purposes) the
+  draw() calls get initiated.  At the top of SkyMapComposite::draw()
+  there is the code:
+
+      float radius = ks->map()->fov();
+      if ( radius > 90.0 ) radius = 90.0;
+
+      SkyPoint* focus = ks->map()->focus();
+      skyMesh->aperture(focus, radius + 1.0);
+
+  This code determines what objects will end up in the draw loops of the
+  classes that use the index.  This information is stored in the skyMesh
+  object that was created at the top of the SkyMapComposite constructor.
+  All classes that use the index have a pointer to this object which the
+  use to construct an iterator which will iterate over all of the
+  trixels that cover the circular area in the aperture call above.
+
+  For debugging, it's useful to change "radius + 1.0" to "radius / 2.0"
+  which means that only trixels needed to cover a circle surrounding the
+  central quarter of the screen will be returned by the iterators.
+  Therefore objects that have been indexed properly will disappear as
+  you pan the screen and objects that have not been indexed will always
+  stay visible (as long as they are on screen).
+
+  You can also change the amount of debugging information that is
+  printed when indexing near the top of the SkyMapComposite constructor:
+
+    skyMesh->debug( 1 );
+
+  0 (zero) means no printout, 1 (one) prints out one line per index and
+  10 (ten) causes the number of trixels of every indexed object to be
+  printed.  This can give you a sense of the speed of the index and is
+  also useful for spotting bugs that cause an abnormal number of trixels
+  to be added to the index.  If you want to debug just one section you
+  can pass similar debug numbers to the indexLines() and indexPolygons()
+  calls in the LineListIndex end use subclasses.
+
+  \subsection DataDrawing Data and Drawing
+  In order to make the most efficient use of the HTM index, we need to
+  break the composite/component model and in same cases even break the
+  strict OOP model that insists that code and data go together.  The
+  approach used here is separate the code and the data.  In much of the
+  new code the data is held in very small lightweight classes that are
+  little more than structs.  The drawing code is in classes that hold
+  lists of the lightweight data elements.  This is not a new idea, in
+  fact it is a traditional approach to boosting OOP performance.
+
+  \subsection DrawingStars Drawing Stars
+  For the sake of efficiency, the stars were already all being drawn from
+  the single draw() routine in the StarComponent class which made adding
+  the HTM index almost trivial.  Two new data members were added:
+
+  +        SkyMesh* skyMesh;
+  +        QVector< StarList* > starIndex;
+
+  where StarList is a typedef for QVector<StarObject*>.  The starIndex
+  is populated when we read in the star data from the *.hip files:
+
+  +    int starID = skyMesh->index( (SkyPoint*) o );
+  +    starIndex[starID]->append( o );
+
+  For drawing, the biggest change is in the loop over stars inside the
+  draw() routine.  A simple loop over _all_ of the star objects is
+  replaced with a double loop, first iterating over all the visible
+  trixels and then for each visible trixel we iterate over all of the
+  stars that are in that trixel:
+
+  -   foreach ( SkyObject *o, objectList() ) {
+  -       StarObject *curStar = (StarObject*)o;
+
+  +    region = skyMesh->iterator();
+  +    while ( region->hasNext()) {
+  +        StarList* starList = starIndex[ region->next() ];
+  +        for (int i=0; i < starList->size(); ++i) {
+  +            StarObject *curStar = (StarObject*) starList->at( i );
+
+  The double loop looks more messy but this is where we get the
+  performance boost because the list of stars we finally iterate over is
+  at worst case slightly larger than half the original list and at best
+  case (when the screen is greatly zoomed in) we can gain a factor of 10
+  or 100 in speed because the number of stars we iterate over is reduced
+  by that factor.
+
+  The index was also used to drastically speed up the objectNearest()
+  routine in StarComponent but we leave the explanation of how that
+  works as an exercise for the reader.  Hint: it works just like the
+  change to the draw loop.
+
+  \subsection DrawingDSO DRAWING DSO's
+  Adding the index to the drawing of DSO's was almost as trivial as the
+  changes in StarComponent.  There were two differences.  First, the
+  DSO's are being stored (and drawn) separately by catalog so we needed
+  a separate index for each catalog.  The other change that these
+  indexes were implemented as:
+
+    typedef QVector< DeepSkyObject*> DeepSkyList;
+    QHash<int, DeepSkyList>          dsIndex;
+
+  This was done in order to save some space. The stars use a QVector
+  because it is smaller and faster than a QHash _if_ all of (or most of)
+  the indices are being used as is the case with the stars.  For indexes
+  of sparse objects (where most of the trixel are empty), we save some
+  space by using a QHash since the empty trixels take up no room at all.
+  Adding point objects to a hash based index is only slightly more
+  complicated than adding objects to a vector based index:
+
+      if ( ! dsIndex->contains( trixel ) ) {
+          dsIndex->insert(trixel, new DeepSkyList() );
+      }
+      dsIndex->value( trixel )->append( o );
+
+  Adding extended objects to a hash based index is the most complicated
+  case.  You can see two examples of the code for that in the routines
+  indexLines() and indexPolygons() both found in the LineListIndex
+  class.
+
+  \subsection DrawingLinesPolygons Drawing Lines and Polygons
+  Using the HTM index to help draw lines and polygons is a little bit
+  more complicated than using it to index and draw points as was done
+  with the stars and the DSO.  The indexing is a little more complicated
+  because if any part of an object may be visible then we want to draw
+  the entire object.  Also, we want to be able to clip objects that that
+  are on the celestial horizon.  Since there are several different kinds
+  of objects we want to draw which all require slightly different data
+  structures, we have several different classes to handle them.
+
+  Class Structure:
+
+  Index Classes
+  -------------
+
+    + LineListIndex
+      - ConstellationLines
+      - Ecliptic
+      + SkipListIndex
+        - MilkWay
+      + NoPrecessIndex
+        - CoordinateGrid
+        - ConsellationBoundary
+        - Equator
+
+    + PolyListIndex
+      - ConstellationBoundaryPoly
+
+  Data Container Classes
+  ----------------------
+
+    + LineList
+      - SkipList
+
+    + PolyList
+
+
+  The three abstract index classes and their associated data containers:
+
+     LineListIndex    SkipListIndex       PolyListIndex
+          ||               ||                  ||
+       LineList         SkipList            PolyList
+
+  NoPrecessIndex and LabeledListIndex uses the plain LineList data
+  container. NoPrecessIndex does not precess the data in the containers
+  and LabeledListIndex additionally allows a single label to be added to a
+  curved line (equator, ecliptic).  The LabeledListIndex code could easily
+  be combined into NoPrecessIndex but I think it is more clear as a
+  separate subclass at the expense of almost repeated code.
+
+  The LineList/LineListIndex (which we will call LineList[Index] for
+  brevity) provide the base for all the other classes.  They can be used
+  for indexing and drawing either a series of line segments or a series
+  of filled polygons but not both.  If you want to draw both lines and
+  filled polygons you need to use the SkipList[Index] combo that adds
+  the ability to skip some of the lines that are drawn.  If you don't
+  want to skip any lines and want to draw filled polygons and the
+  complete outline of the filled polygons then you can use the standard
+  LineList[Index] combo.
+
+  Both the LineList[Index] and the SkipList[Index] store their data in
+  QVector<SkyPoint*>'s.  There is one such data structure in each
+  LineList and each SkipList.  The PolyList stores the data in a
+  QPolygonF instead.  This was needed to implement the code that uses
+  the QPolygonF to find out which constellation a point is in.  At
+  present you can not directly draw the data stored in a PolyList's
+  combo although it would not be difficult to add code to do the drawing
+  if/when the need arises.
+
+
+  The LineListIndex class
+
+  The bulk of the code is in LineListLindex as can be seem by these
+  relative sizes:
+
+    $ wc *index.cpp
+
+      572  2088 19073 linelistindex.cpp
+       60   200  2138 noprecessindex.cpp
+      143   489  4594 polylistindex.cpp
+       43   137  1623 skiplistindex.cpp
+
+  LineListIndex contains code to index both filled polygons and lines.
+  There are two versions of each draw routine, one for integer drawing
+  and the other for anti-aliased (float) drawing for a total of four in
+  all.  There are two indexing routines, one for filled polygons and
+  another for lines.
+
+  In order to avoid code repetition there are three virtual "callback"
+  methods that subclasses can override in order to customize the
+  behavior.  Most end use classes (such as ConstellationLines or
+  CoordinateGrid) will want to override the preDraw() method in order to
+  set the QPen (and QBrush or whatever) before their data is drawn.
+  This routine is called right before the lines/polygons are drawn.  The
+  default is to set the QPen to a solid thin white line.  The end use
+  classes can also override the draw() method and set the QPen in their
+  own draw method but in most cases this is slightly more complicated
+  than overriding preDraw() because they will then have to call
+  LineListIndex::draw() from inside their own draw() routine which you
+  don't have to do if you use preDraw().
+
+  The other two virtual callback methods are overridden by the
+  "abstract" SkipListIndex subclass.  The method getIndexHash() is
+  used to modify the line indexing routine.  getIndexHash() is
+  overridden by SkipListIndex so line segments that should be skipped
+  from drawing are also skipped from the indexing.
+
+  Finally, skipAt() is overridden by SkipListIndex in order to not draw
+  lines segments that should be skipped.  It returns a boolean value and
+  the default behavior is to always return false which means that by
+  default all the line segments are drawn.  There might be a small
+  performance hit for having this callback since it is called for every
+  single _point_, not just every LineList but the speed hit may not even
+  be noticeable/measurable and it allows us to get by with just 4 almost
+  identical draw routines.  Without it, we would need 8 draw routines
+  which would make the code matainance even more of a headache.
+
+  The iterator in the four draw*() routines is similar to the iterator
+  in DeepSkyComponent but has the addition of the drawID to prevent
+  objects from being drawn more than once in any given draw cycle:
+
+      DrawID drawID = skyMesh()->drawID();
+      MeshIterator region( skyMesh() );
+      while ( region.hasNext() ) {
+
+          LineListList *lineListList = lineIndex()->value( region.next() );
+          if ( lineListList == 0 ) continue;
+
+          for (int i = 0; i < lineListList->size(); i++) {
+              LineList* lineList = lineListList->at( i );
+
+              if ( lineList->drawID == drawID ) continue;
+              lineList->drawID = drawID;
+
+    \subsubsection DataContainer  Data Container Classes
+    The data container classes: LineList, SkipList, and PolyList are
+    simple data containers with no non-trivial code.  All of them just
+    have header files and no .cpp files.
+
+    \subsubsection EndUseClasses End Use Classes
+    There are currently seven different end use classes:
+
+        - CoordinateGrid
+        - ConstellationLines
+        - ConsellationBoundary
+        - MilkWay
+        - ConstellationBoundaryPoly
+        - Ecliptic
+        - Equator
+
+    These classes are typically small and simple, with just an init()
+    routine to populate and append a bunch of LineList's (or their
+    descendents) and a preDraw() routine to set the QPen.  It is the
+    responsibility of the end use classes to make sure the data containers
+    they use match the *ListIndex file they subclass.
+
+    \subsubsection ConstellationBoundaryPoly ConstellationBoundaryPoly class
+    Originally this was a subclass of LineListIndex but everthing is
+    different about it so now it (and PolyListIndex) is in a class by
+    themselves.  Same with PolyList which used to be a subclass of
+    LineList.  Here are the differences:
+
+      o The data is stored on QPolygonF's instead of lists of SkyPoints.
+
+      o It is instantiated and initialized inside of
+        ConstellationBoundary and not SkyMapComposite.
+
+      o The index is stored in a QVector instead of a QHash because
+        the constellations are covered by every trixel on the sphere.
+
+      o There is no drawing done but there are routines for returning
+        which constellation a SkyPoint is in.
+
+      o PolyLists have a name which LineLists don't have.
+
+    The only real code duplication is the indexPolygons() routine that was
+    lifted directly from LineListIndex.  But since both the input and
+    output data structures were differt (QPolygonF vs. List of SkyPoints
+    and QVector instead of QHash) it made the most sense to give
+    ConstellationBoundaryPoly its own indexing routine.  There is now
+    duplication in the summary() debugging routine too.
+
+    \section JustInTimeUpdate Just-in-Time Updating
+    Just-in-time updating was recently added to all indexed objects.
+    Instead of updating all the objects in a separate update() routine,
+    the updates now take place inside the draw routine.  Before
+    SkyMapComposite::update() (which is still needed for objects that are
+    not yet indexed) is called, an updateID is incremented in KStarsData.
+    If the update call sends a non-zero KSNumbers then updateNumID is
+    incremented also.
+
+    Every indexed object has its own updateID and updateNumID.  Inside
+    the draw routine if an object's updateID does not match the global
+    updateID then the object is updated.  In addition if the objects
+    updateNumID does not match the global updateNumID then a more
+    expensive update is performed.  This should greatly speed up updates
+    especially if the screen is zoomed in on a small section of the sky.
+    This simple mechanism ensures that only objects that are (nearly) on
+    the screen get updated as needed.
+
+    \section ErrorDetection  Error Detection and Prevention
+    The HTM library we use does not have any built-in error detection or
+    prevention.  We have to provide all of that ourselves.  There are two
+    types of failure modes in the library.  The first failure mode has to
+    do with passing it coordinates out of range.  For example, if we pass
+    it NaN as one of the coordinates, it will return bad results.  The
+    second type of failure is triggered when we send it two consecutive
+    identical points to one of the polygon intersection routines.  Since
+    the library automatically wraps the last point back to the first point
+    when intersecting polygons, if the last point is identical to the
+    first we will also get a failure.
+
+    The identical point failures don't return incorrect results, instead,
+    they cause library to hang, crash, or consume RAM relentlessly.
+    Therefore these failures _must_ all be detected and prevented before
+    unleashing our code on the public even if it causes the program to run
+    more slowly.  Fortunately the polygon intersection routines are only
+    used in indexing, not in drawing so error prevention has no effect on
+    the drawing time.  Even more fortunately, it has a minimal impact on
+    the indexing time.
+
+    Repeated point failures in all the polygon intersection routines are
+    detected and prevented in the HTMesh class which we use as an
+    interface to the HTM library.  It contains a somewhat arbitrary
+    parameter called eps which is currently set to 1.0E-6.  We consider
+    two point identical if their Manhattan distance (in degrees) is less
+    than eps:
+
+       fabs(ra1 - ra2) + fabs(dec1 - dec2) < eps
+
+    Since we typically use a level 5 or less mesh and average edge of a
+    trixel at level 5 is about 3 degrees, an eps as large as 0.1 or so
+    would probably suffice since the two points are very likely to be in
+    the same trixel.  The eps we use is 5 orders of magnitude smaller and
+    yet still seems to prevent duplicate point errors in the library.
+
+    For the four-point polygon we check for four different consecutive
+    points: p1:p2, p2:p3, p3:p4, and p4:p1.  As soon as any one of these
+    tests detects a duplicate, we drop one of the dupes and send the
+    remaining three points to the three-point polygon intersection
+    routine.  If there are any dupes in the remaining three points, they
+    will be resolved in the three-point intersection.  We play the same
+    trick with the three-point intersection, we do three tests and send
+    two points to the two-point (line segment) intersection routine if we
+    found a dupe.  Finally if a dupe is found in the two-point
+    intersection routine, we do a circular intersection around one of the
+    points, using the distance between the two points as the radius.
+
+    Unlike the other polygon routines which use eps as the length scale,
+    the two-point (line segment) routine uses the average edge size
+    divided by 10 to trigger dropping down to the circular intersection.
+    We might want to fine tune this later.  The downside of the current
+    method is that very rarely a few unneeded trixels may be added to the
+    set of that covers a very short line segment.  The performance impact
+    (size and speed) of this slight imperfection may be too small to
+    measure.
+
+*/

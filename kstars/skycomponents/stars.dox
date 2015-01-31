@@ -1,0 +1,288 @@
+/*! \page Stars Stars
+  \tableofcontents
+  Design document for the implementation of star catalog support in KStars.
+  \section ClassInheritance Class Inheritance
+  + StarComponent - Manages all stars
+      - struct starName - Holds a star's names (defined within StarComponent)
+  + DeepStarComponent - Manages unnamed stars (instances managed by StarComponent)
+  + StarBlock - A block of many (usually 100) stars
+  + StarBlockList - A list of StarBlocks; machinery to load data dynamically from catalog files
+  + StarBlockFactory - Maintains a cache of recently used StarBlocks
+  + BinFileHelper - A generic helper class used to deal with binary data files (See ../binfilehelper.h)
+  + starData - holds 32 bits of data describing a star (See ../skyobjects/stardata.h)
+  + deepStarData - holds 16 bits of data describing a (faint) star (See ../skyobjects/deepstardata.h)
+
+  \section Categorization Categorization of Stars
+  Stars could be either named or unnamed. Named stars and unnamed stars
+  are treated differently in KStars. Stars having names are handled by
+  the methods defined in class StarComponent. Unnamed stars are handled
+  by the methods defined in class DeepStarComponent, which are invoked
+  via the methods of StarComponent.
+
+  A second categorization is "static" and "dynamic" stars. The
+  StarObjects for "static" stars are always kept in memory. They are
+  loaded into memory when KStars initializes. "Dynamic" stars are loaded
+  into memory from the disk when required. When the sky map is slewed to
+  a new region, or zoomed to a greater depth, dynamic stars are loaded
+  "on-demand" into memory from the disk and drawn. Named stars are
+  always static. Unnamed stars could be either static or
+  dynamic. Naturally, StarComponent deals only with static stars whereas
+  DeepStarComponent deals with both static and dynamic stars.
+
+  A third categorization is "shallow" and "deep" stars. Shallow stars
+  are the brighter stars, which have enough catalog data to require a
+  32-bit data structure (starData) to hold them. Deep stars are the
+  fainter ones, data for which can be fit into a 16-bit structure
+  (deepStarData). All named stars and all static stars are shallow. All
+  deep stars are dynamic and unnamed. StarComponent manages only shallow
+  stars. DeepStarComponent manages both shallow and deep stars.
+
+  Stars are indexed using \subpage HTMIndexing "multi-level Hierarchical Triangular Mesh" to speed
+  up drawing and searching for stars in the skymap.
+
+  \section Catalogs Catalogs
+  As of this writing, KStars supports the following catalogs:
+  1. Default named stars catalog ("namedstars.dat" in the data directory)
+     [Together with default unnamed stars catalog, makes up all stars to mag 8]
+       + Named
+       + Static
+       + Shallow
+       + Managed by StarComponent's methods
+       + Names of stars stored in "starnames.dat" in the data directory,
+         in order of appearance in namedstars.dat
+
+  2. Default unnamed stars catalog ("unnamedstars.dat" in the data directory)
+     [Together with default named stars catalog, makes up all stars to mag 8]
+       + Unnamed
+       + Static
+       + Shallow
+       + Managed by DeepStarComponent
+
+  3. Tycho-2 catalog (Downloadable add-on)
+     Prerequisite: Default catalogs (namedstars.dat, unnamedstars.dat and starnames.dat)
+       + Unnamed
+       + Dynamic
+       + Shallow
+       + Managed by DeepStarComponent
+       + Reside on a level-3 \subpage HTMIndexing HTMesh
+       + Down to mag ~12
+
+  4. USNO NOMAD (part) 100 million star catalog (Downloadable add-on)
+     Prerequisite: Tycho-2 catalog
+       + Unnamed
+       + Dynamic
+       + Deep
+       + Managed by DeepStarComponent
+       + Reside on a level-6 \subpage HTMIndexing HTMesh
+       + Down to mag ~16
+
+  \section NamedStars Named Stars
+  Named Stars are dealt with by StarComponent. Their case is very simple
+  because they are all static stars. The star names are stored in a
+  separate file (starnames.dat), in which the names are maintained in
+  the same order in which stars appear in the named star catalog
+  (namedstars.dat). Both files are opened while reading (See
+  StarComponent::loadStaticData()) and data is read off from the two
+  files sequentially, side-by-side.
+
+  Each record in starnames.dat is 40 bytes long, containing a long name
+  (32 bytes) and a Bayer designation (8 bytes).
+
+  Each record in namedstars.dat is 32 bytes long, and holds a direct
+  memory dump of struct starData, made on a little-endian system. (On
+  big endian systems, byte order inversion is done at runtime)
+
+  Named stars are read off the disk at initialization time by
+  StarComponent::loadStaticStars() and are drawn by the loops in
+  StarComponent::draw(). All of them reside in the memory throughout
+  KStars' life.
+
+  \section UnnamedStars Unnamed Stars
+  Much of the machinery listed out above go into maintenance of unnamed
+  stars.
+
+  Unnamed stars are dealt with by DeepStarComponent.
+
+  StarComponent has a QVector of DeepStarComponent objects, which are
+  created for each unnamed-star catalog loaded. (See
+  StarComponent::loadDeepStarCatalogs().) StarComponent takes
+  responsibility to call methods of the DeepStarComponents when
+  required. For instance, StarComponent::draw() calls
+  DeepStarComponent::draw() on each catalog, after drawing the named
+  stars. (StarComponent, on the other hand, is managed by
+  SkyMapComposite)
+
+  \subsection MemoryMap Memory map
+  Memory map of unnamed stars:
+  + StarComponent
+    + One DeepStarComponent for every catalog
+      + One StarBlockList for each trixel       + StarBlockFactory churns out StarBlocks
+        + Several StarBlocks are attached / detached dynamically to a StarBlockList
+          + Several StarObjects (usu. 100) in a StarBlock
+  \subsection Loading Loading unnamed stars
+  As mentioned earlier, unnamed stars may be both static and dynamic,
+  and could be both deep and shallow.
+  \subsubsection Creation Creation of unnamed StarObjects
+  TODO: This is outdated. Stars are now created differently.
+
+  IMPORTANT: Unnamed stars, for fast loading, are not constructed!!!
+             They are allocated in memory (using malloc) and data is
+             copied directly (using memcpy) onto them.
+             This can lead to very strange segfaults with misleading
+             backtraces if not understood carefully.
+
+  For each record read off the data file, a StarObject instance
+  (plainStarTemplate) is loaded with the data using
+  StarObject::init(...) and then memcpy()'d and held in a StarBlock
+  \subsubsection LoadingStatic Loading unnamed, static stars
+  The method DeepStarComponent::loadStaticStars() (invoked from
+  StarComponent) loads all static stars in an unnamed-star catalog.
+
+  The star data files are organized trixel by trixel. The method enters
+  each trixel, creates a StarBlock of variable size, enough to hold all
+  the unnamed stars in the current trixel, and then reads star-by-star
+  into memory.
+
+  Static stars always occupy the first StarBlock in a StarBlockList.
+  \subsubsection LoadingDynamic Loading unnamed, dynamic stars
+  Dynamic stars are loaded on-demand (during the draw() call) in
+  StarBlockList::fillToMag().
+
+  NOTE: This can be a problem for objectNearest(). objectNearest() calls
+  work correctly only when the sky map is centred on the required
+  trixel(s). For extending this when required, one must call
+  StarBlockList::fillToMag() from objectNearest()
+
+  fillToMag() is invoked by DeepStarComponent::draw(), for every trixel
+  present on-screen, with the current magnitude limit (calculated from
+  the zoom level) as an argument. fillToMag()'s job is to ensure that
+  the StarBlockList is filled with stars up to that magnitude by loading
+  more stars from disk if required.
+
+  An important point to note is that StarBlockList maintains stars
+  sorted by magnitude - brightest first - to match the data
+  file. StarBlocks at the "tail end" of the StarBlockList are the
+  faintest. fillToMag() quickly checks the magnitude of the last star in
+  the last StarBlock of the StarBlockList and starts filling into the
+  last StarBlock.
+
+  Each StarBlockList maintains the current read offset in the data file,
+  so that it can quickly seek to the point where it last loaded and
+  continue loading fainter stars. When stars are removed from a
+  StarBlockList, the read offset is decremented.
+
+  StarBlocks holding dynamic stars are always of fixed size
+  (default=100). There could be half-filled StarBlocks. (We save
+  allocation overhead by recycling StarBlocks using
+  StarBlockFactory. More about this later.) StarBlockList::fillToMag()
+  is aware of this fact and continues to fill half-filled StarBlocks
+  when required.
+
+  \subsection Recycling Recycling of StarBlocks
+  StarBlockFactory maintains a Least-Recently-Used cache of "dynamic"
+  StarBlocks (which hold dynamic stars).
+
+  When StarBlockList::fillToMag() asks for new star blocks,
+  StarBlockFactory sees if there are unused (trixel not-on-screen)
+  StarBlocks lying around. If there are none, it allocates a new
+  StarBlock and hands it over to StarBlockList. But if there are unused
+  StarBlocks lying around, StarBlockFactory recycles them.
+
+  Imagine a situation where the map is panned. A trixel that was
+  on-screen till now might no longer displayed on the screen, but a new
+  trixel might come into focus. In this case, StarBlockFactory detaches
+  the StarBlocks attached to the StarBlockList of the old trixel and
+  gives them to the StarBlockList of the new trixel. The new data read
+  off the disk is then StarObject::init()'ed into the StarBlock.
+
+  Each draw cycle in KStars has a drawID that is incremented upon every
+  draw. This makes the drawID almost unique, since it has a very large
+  period. StarBlockFactory has a local copy of this drawID that is
+  maintained in sync with KStars' drawID. When stars are drawn in
+  StarComponent::draw(), every dynamic StarBlock that's drawn is
+  "touched" by calling StarBlockFactory::mark*().
+
+  When drawing a trixel, markFirst() is called on the first StarBlock in
+  every StarBlockList and markNext() is called on subsequent ones. The
+  freshest StarBlocks are maintained at the beginning of the linked list
+  inside StarBlockFactory and equally-fresh StarBlocks are ordered in
+  the same order as they appear in StarBlockList. Thus, StarBlockFactory
+  can safely pluck out the last StarBlock in the linked list and recycle
+  it (provided it was last touched in an older draw) without affecting
+  the ordering of stars in StarBlockList (i.e. we ensure that we don't
+  pluck out a StarBlock from in-between a StarBlockList. Only the last
+  StarBlock of a StarBlockList can be released at any time). Thus, the
+  ordering of StarBlocks in the linked-list of StarBlockFactory, is:
+   + First, by drawID
+   + Then, by catalog (i.e. unnamedstars.dat / Tycho-2 / USNO-NOMAD-1e8)
+   + Then, by trixel (only those trixels that are on-screen are considered)
+   + Finally, by magnitude
+
+  When StarBlockFactory wants to re-use a StarBlock, it first verifies
+  that the drawID is outdated. Then, it calls
+  StarBlockList::releaseBlock() on the parent StarBlockList and thus
+  orphans the StarBlock. The orphaned StarBlock is handed over to the
+  new StarBlockList which adopts it.
+
+  Thus, KStars initially allocates new StarBlocks until a saturation
+  point is reached, where there are enough StarBlocks to keep
+  recycling. Sagittarius has the maximum number of stars, and setting
+  the focus on Sagittarius will usually lead to saturation (where KStars
+  consumes 200-odd MB of memory with USNO-NOMAD-1e8), and this memory is
+  not freed till KStars exits. A possible extension would be to free
+  StarBlocks lazily after their drawID's get really outdated, so that
+  the memory surge is temporary.
+
+  \subsection Files Star Catalog Files
+  Star catalogs are stored in the format described in
+  ../data/README.binfileformat
+
+  Star catalog files were created by first taking ASCII data and putting
+  them into MySQL database tables and then dumped in a sorted manner
+  into the catalog files. The tools used are in ../data/tools. The ASCII
+  originals from public domain sources are available with Akarsh Simha
+  and Jason Harris, or with the US Naval Observatory itself.
+
+  Stars in the catalog files are first ordered by trixel (the "Index"
+  parameter in the language of README.binfileformat) and then ordered by
+  magnitude (brightest first) within each trixel.
+
+  \subsection ProperMotion Proper Motion
+  All star data in KStars has first order proper motion rates (called
+  "dRA" and "dDec" or "pmRA" and "pmDec"), which are used to correct for
+  proper motion.
+
+  This leads to a problem in the case of dynamic stars, as a star may
+  cross over from one trixel to another trixel due to proper motion, in
+  which case it might not be drawn despite its corrected coordinates
+  being on-screen.
+
+  To solve this, stars are duplicated in all trixels that they will pass
+  through in a span of +/-10,000 years from the epoch. StarObject has
+  some commented code that can be used to track the position of a
+  star. [Maybe this should be turned into a feature in future]
+
+  # TODO: Describe details like the 25 arcminute "safety" margin.
+
+  \section HDCatalog Henry-Draper Catalog Numbers
+  StarObject allows for a Henry-Draper catalog number to be associated
+  with a star. KStars allows for both static and dynamic stars to have
+  an associated catalog number. This is currently used for the
+  Henry-Draper number, although it could be extended to other catalogs.
+
+  Both static and dynamic stars from Tycho-2 appear in the HD
+  catalog. To find dynamic stars by HD number, a downloadable add-on
+  "Henry Draper Index" is available. This file contains a list of 4-byte
+  offsets in sequential order of HD number. These offsets tell KStars
+  where to find the star in the Tycho-2 catalog binary data file. See
+  StarComponent::findByHDIndex() for details. See
+  ../data/README.indexfileformat for details about the format followed
+  by the Henry-Draper index file.
+
+  \section Credits Credits
+  Most of the memory layout and machinery outline described above was
+  the brainchild of James Bowlin and it was implemented in code by
+  Akarsh Simha. Jason Harris helped with the catalog data and also
+  mentored Akarsh along with James. Some of the parsing tools in the
+  kstars/data/tools directory have code due to James.
+*/

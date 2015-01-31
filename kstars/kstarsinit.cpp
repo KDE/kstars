@@ -585,11 +585,11 @@ void KStars::datainitFinished() {
 
 
     //Initialize Observing List
-    obsList = new ObservingList( this );
-    eWriter = new EquipmentWriter();
-    oAdd = new ObserverAdd;
+    m_observingList = new ObservingList( this );
+    m_equipmentWriter = new EquipmentWriter();
+    m_observerAdd = new ObserverAdd;
     #ifdef HAVE_INDI
-    ekosmenu = new EkosManager(this);
+    m_ekosManager = new EkosManager(this);
     #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
