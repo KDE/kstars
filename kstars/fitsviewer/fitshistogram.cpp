@@ -85,7 +85,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     FITSData *image_data = tab->getImage()->getImageData();
     float *buffer = image_data->getImageBuffer();
 
-    image_data->getSize(&fits_w, &fits_h);
+    image_data->getDimensions(&fits_w, &fits_h);
     image_data->getMinMax(&fits_min, &fits_max);
 
     int pixel_range = (int) (fits_max - fits_min);
@@ -315,7 +315,7 @@ FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHi
     tab         = (FITSTab *) parent;
     type        = newType;
     histogram   = inHisto;
-    buffer = new float[w * h];
+    buffer = NULL;
     original_buffer = NULL;
 
     min = lmin;
@@ -337,10 +337,17 @@ void FITSHistogramCommand::redo()
     FITSData *image_data = image->getImageData();
 
     float *image_buffer = image_data->getImageBuffer();    
-    width  = image_data->getWidth();
-    height = image_data->getHeight();
+    unsigned int size = image_data->getSize();
+    int channels = image_data->getNumOfChannels();
 
-    memcpy(buffer, image_buffer, width * height * sizeof(float));
+    buffer = new float[size * channels];
+    if (buffer == NULL)
+    {
+        qWarning() << "Error! not enough memory to create image buffer in redo()" << endl;
+        return;
+    }
+
+    memcpy(buffer, image_buffer, size * channels * sizeof(float));
 
     gamma = image->getGammaValue();
 
@@ -368,14 +375,15 @@ void FITSHistogramCommand::redo()
 
         if (image_buffer != original_image_buffer)
         {
-            original_buffer = new float[width*height];
+            original_buffer = new float[size * channels];
             if (original_buffer == NULL)
             {
+                delete(buffer);
                 qWarning() << "Error! not enough memory to create original_buffer in redo()" << endl;
                 return;
             }
 
-            memcpy(original_buffer, original_image_buffer, width * height * sizeof(float));
+            memcpy(original_buffer, original_image_buffer, size * channels * sizeof(float));
         }
 
         image_data->applyFilter(type, image_buffer);
@@ -405,7 +413,9 @@ void FITSHistogramCommand::undo()
 {
     FITSView *image = tab->getImage();
     FITSData *image_data = image->getImageData();
-    memcpy( image_data->getImageBuffer(), buffer, image_data->getWidth() * image_data->getHeight() * sizeof(float));
+    unsigned int size = image_data->getSize();
+    int channels = image_data->getNumOfChannels();
+    memcpy( image_data->getImageBuffer(), buffer, size * channels * sizeof(float));
 
     image_data->setWidth(width);
     image_data->setHeight(height);

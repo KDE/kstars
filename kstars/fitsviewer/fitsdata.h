@@ -72,6 +72,9 @@ public:
 class FITSData
 {
 public:
+
+    typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;
+
     FITSData(FITSMode mode=FITS_NORMAL);
     ~FITSData();
 
@@ -87,18 +90,21 @@ public:
     void runningAverageStdDev();
 
     // Access functions
-    float * getImageBuffer() { return image_buffer; }
-    float * getOriginalImageBuffer() { return original_image_buffer;}
+    void clearImageBuffers();
+    float * getImageBuffer(ColorChannel channel=CHANNEL_ONE);
+    float * getOriginalImageBuffer(ColorChannel channel=CHANNEL_ONE);
     void setOriginalImageBuffer(float *buf);
 
-    // Size
-    void getSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
+    // Stats
+    unsigned int getSize() { return stats.size; }
+    void getDimensions(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
     void setWidth(long w) { stats.dim[0] = w;}
     void setHeight(long h) { stats.dim[1] = h;}
     long getWidth() { return stats.dim[0]; }
     long getHeight() { return stats.dim[1]; }
 
     // Statistics
+    int getNumOfChannels() { return channels;}
     void setMinMax(double newMin,  double newMax);
     void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
     double getMin() { return stats.min; }
@@ -162,6 +168,7 @@ public:
         double median;
         int bitpix;
         int ndim;
+        unsigned int size;
         long dim[2];
     } stats;
 
@@ -177,7 +184,8 @@ private:
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    float *original_image_buffer;       // Original float buffer unchanged by any operation
+    int channels;                       // Number of channels
+    float *original_image_buffer;      // Original float buffer unchanged by any operation
     float *image_buffer;				// Current image buffer
     float *darkFrame;                   // Optional dark frame pointer
 

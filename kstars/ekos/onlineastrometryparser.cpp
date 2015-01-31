@@ -107,7 +107,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             double min, max;
             int val;
 
-            image_data->getSize(&image_width, &image_height);
+            image_data->getDimensions(&image_width, &image_height);
             QImage *display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
             display_image->setColorCount(256);

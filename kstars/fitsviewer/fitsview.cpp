@@ -180,7 +180,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
     if (image_data->loadFITS(inFilename, &fitsProg) == false)
         return false;
 
-    image_data->getSize(&currentWidth, &currentHeight);
+    image_data->getDimensions(&currentWidth, &currentHeight);
 
     image_width  = currentWidth;
     image_height = currentHeight;
@@ -199,14 +199,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
         image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
     }
 
-    delete (display_image);
-    display_image = NULL;
-
-    display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
-
-    display_image->setColorCount(256);
-    for (int i=0; i < 256; i++)
-        display_image->setColor(i, qRgb(i,i,i));
+    initDisplayImage();
 
     // Rescale to fits window
     if (firstLoad)
@@ -243,9 +236,8 @@ int FITSView::rescale(FITSZoom type)
     float val=0;
     double bscale, bzero;
     double min, max;
-
-    image_data->getMinMax(&min, &max);
-    float *image_buffer = image_data->getImageBuffer();
+    unsigned int size = image_data->getSize();
+    image_data->getMinMax(&min, &max);    
 
     if (min == max)
     {
@@ -254,27 +246,15 @@ int FITSView::rescale(FITSZoom type)
     }
     else
     {
-        // Let the gamma value be independent of filters
-        /*if (filter == FITS_NONE || filter >= FITS_FLIP_H)
-        {
-            if (max < maxPixel)
-                gammaValue = log(max/maxPixel)/DECAY_CONSTANT;
-            emit newStatus(QString("%1").arg(gammaValue), FITS_GAMMA);
-        }*/
-
         bscale = 255. / (max - min);
         bzero  = (-min) * (255. / (max - min));
 
         if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
-        {
-            delete (display_image);
+        {            
             image_width  = image_data->getWidth();
             image_height = image_data->getHeight();
-            display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
-            display_image->setColorCount(256);
-            for (int i=0; i < 256; i++)
-                display_image->setColor(i, qRgb(i,i,i));
+            initDisplayImage();
 
             if (isVisible())
                 emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
@@ -284,17 +264,45 @@ int FITSView::rescale(FITSZoom type)
         currentWidth  = display_image->width();
         currentHeight = display_image->height();
 
-        /* Fill in pixel values using indexed map, linear scale */
-        for (int j = 0; j < image_height; j++)
-        {
-            unsigned char *scanLine = display_image->scanLine(j);
+        float *image_buffer = image_data->getImageBuffer();
 
-            for (int i = 0; i < image_width; i++)
+        if (image_data->getNumOfChannels() == 1)
+        {
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < image_height; j++)
             {
-                val = image_buffer[j * image_width + i];
-                scanLine[i]= (val * bscale + bzero);
+                unsigned char *scanLine = display_image->scanLine(j);
+
+                for (int i = 0; i < image_width; i++)
+                {
+                    val = image_buffer[j * image_width + i];
+                    scanLine[i]= (val * bscale + bzero);
+                }
             }
         }
+        else
+        {
+            float rval=0,gval=0,bval=0;
+            QRgb value;
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < image_height; j++)
+            {
+                //QRgb *scanLine = static_cast<QRgb*>(display_image->scanLine(j));
+
+                for (int i = 0; i < image_width; i++)
+                {
+                    rval = image_buffer[j * image_width + i] * bscale + bzero;
+                    gval = image_buffer[j * image_width + i + size] * bscale + bzero;
+                    bval = image_buffer[j * image_width + i + size * 2] * bscale + bzero;
+                    value = qRgb(rval, gval, bval);
+
+                    display_image->setPixel(i, j, value);
+                    //scanLine[i] = (rval * bscale + bzero);
+                }
+            }
+
+        }
+
     }
 
     switch (type)
@@ -578,4 +586,22 @@ void FITSView::wheelEvent(QWheelEvent* event)
     event->accept();
 }
 
+void FITSView::initDisplayImage()
+{
+    delete (display_image);
+    display_image = NULL;
+
+    if (image_data->getNumOfChannels() == 1)
+    {
+        display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
+
+        display_image->setColorCount(256);
+        for (int i=0; i < 256; i++)
+            display_image->setColor(i, qRgb(i,i,i));
+    }
+    else
+    {
+        display_image = new QImage(image_width, image_height, QImage::Format_RGB32);
+    }
+}
 

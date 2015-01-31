@@ -129,6 +129,7 @@ private:
 
     double average();
     double stddev();
+    void initDisplayImage();
 
     bool markStars;
     FITSLabel *image_frame;

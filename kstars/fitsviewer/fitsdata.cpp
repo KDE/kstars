@@ -66,6 +66,7 @@ bool greaterThan(Edge *s1, Edge *s2)
 
 FITSData::FITSData(FITSMode fitsMode)
 {
+    channels = 0;
     image_buffer = NULL;
     original_image_buffer = NULL;
     wcs_coord    = NULL;
@@ -82,8 +83,10 @@ FITSData::~FITSData()
 {
     int status=0;
 
-    delete(image_buffer);
-    delete(original_image_buffer);
+    clearImageBuffers();
+
+    //delete(image_buffer);
+    //delete(original_image_buffer);
 
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
@@ -103,8 +106,9 @@ FITSData::~FITSData()
 bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 {
     int status=0, nulval=0, anynull=0;
-    long nelements, naxes[2];
+    long naxes[3];
     char error_status[512];
+
 
     qDeleteAll(starCenters);
     starCenters.clear();
@@ -154,7 +158,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
         progress->setValue(40);
 
 
-    if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
+    if (fits_get_img_param(fptr, 3, &(stats.bitpix), &(stats.ndim), naxes, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
@@ -170,6 +174,9 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
             KMessageBox::error(0, xi18n("1D FITS images are not supported in KStars."), xi18n("FITS Open"));
         return false;
     }
+
+    if (stats.ndim < 3)
+        naxes[2] = 1;
 
     if (naxes[0] == 0 || naxes[1] == 0)
     {
@@ -198,25 +205,31 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 
     stats.dim[0] = naxes[0];
     stats.dim[1] = naxes[1];
+    stats.size = stats.dim[0]*stats.dim[1];
 
-    delete (image_buffer);
-    image_buffer = NULL;
-    delete (original_image_buffer);
-    original_image_buffer = NULL;
+    clearImageBuffers();
 
-    image_buffer = new float[stats.dim[0] * stats.dim[1]];
+    //delete (image_buffer);
+    //image_buffer = NULL;
+    //delete (original_image_buffer);
+    //original_image_buffer = NULL;
 
+    channels = naxes[2];
+
+    image_buffer = new float[stats.size * channels];
     if (image_buffer == NULL)
     {
-        qDebug() << "Not enough memory for image_buffer";
-        return false;
+       qDebug() << "Not enough memory for image_buffer channel" << endl;
+       clearImageBuffers();
+       return false;
     }
 
-    original_image_buffer = new float[stats.dim[0] * stats.dim[1]];
+    original_image_buffer = new float[stats.size * channels];
 
     if (original_image_buffer == NULL)
     {
-        qDebug() << "Not enough memory for original_image_buffer";
+        qDebug() << "Not enough memory for original_image_buffer" << endl;
+        clearImageBuffers();
         return false;
     }
 
@@ -224,39 +237,49 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     {
         if (progress->wasCanceled())
         {
-        delete (image_buffer);
-        return false;
+            clearImageBuffers();
+            return false;
         }
     }
 
     if (mode == FITS_NORMAL && progress)
         progress->setValue(70);
 
-    nelements = stats.dim[0] * stats.dim[1];    
     rotCounter=0;
     flipHCounter=0;
     flipVCounter=0;
 
     qApp->processEvents();
 
-    if (fits_read_2d_flt(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
+    if (channels == 1)
     {
-        fprintf(stderr, "fits_read_pix error\n");
-        fits_report_error(stderr, status);
-        return false;
+        if (fits_read_2d_flt(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
+        {
+            qDebug() << "2D fits_read_pix error" << endl;
+            fits_report_error(stderr, status);
+            return false;
+        }
+    }
+    else
+    {
+        if (fits_read_3d_flt(fptr, 0, nulval, naxes[0], naxes[1], naxes[0], naxes[1], naxes[2], image_buffer, &anynull, &status))
+        {
+            qDebug() << "2D fits_read_pix error" << endl;
+            fits_report_error(stderr, status);
+            return false;
+        }
     }
 
     if (darkFrame != NULL)
         subtract(darkFrame);
 
-    memcpy(original_image_buffer, image_buffer, nelements*sizeof(float));
+    memcpy(original_image_buffer, image_buffer, stats.size*sizeof(float));
 
     if (mode == FITS_NORMAL && progress)
     {
         if (progress->wasCanceled())
         {
-            delete (image_buffer);
-            delete (original_image_buffer);
+            clearImageBuffers();
             return false;
         }
     }
@@ -284,8 +307,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     {
         if (progress->wasCanceled())
         {
-            delete (image_buffer);
-            delete (original_image_buffer);
+            clearImageBuffers();
             return false;
         }
     }
@@ -429,6 +451,13 @@ int FITSData::saveFITS( const QString &newFilename )
     return status;
 }
 
+void FITSData::clearImageBuffers()
+{
+        delete(image_buffer);
+        image_buffer=NULL;
+        delete(original_image_buffer);
+        original_image_buffer=NULL;
+}
 
 int FITSData::calculateMinMax(bool refresh)
 {
@@ -980,6 +1009,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 
     double coeff=0;
     float val=0,bufferVal =0;
+    int offset=0, row=0;
 
     float *target_image_buffer = image_buffer;
 
@@ -998,29 +1028,30 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
     if (max == -1)
         max = stats.max;
 
-    int size = height * width;
+    int size = stats.size;
+    int index=0;
 
     switch (type)
     {
     case FITS_AUTO:
     case FITS_LINEAR:
     {
-        /*for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
-            {
-                bufferVal = image[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                target_image_buffer[i * width + j] = bufferVal;
 
-            }*/
-
-        for (int i=0; i < size; i++)
+        for (int i=0; i < channels; i++)
         {
-            bufferVal = image[i];
-            if (bufferVal < min) bufferVal = min;
-            else if (bufferVal > max) bufferVal = max;
-            target_image_buffer[i] = bufferVal;
+            offset = i*size;
+            for (int j=0; j < height; j++)
+            {
+                row = offset + j * width;
+                for (int k=0; k < width; k++)
+                {
+                    index=k + row;
+                    bufferVal = image[index];
+                    if (bufferVal < min) bufferVal = min;
+                    else if (bufferVal > max) bufferVal = max;
+                    target_image_buffer[index] = bufferVal;
+                }
+            }
         }
 
         stats.min = min;
@@ -1033,17 +1064,27 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
     {
         coeff = max / log(1 + max);
 
-        for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
+        for (int i=0; i < channels; i++)
+        {
+            offset = i*size;
+            for (int j=0; j < height; j++)
             {
-                bufferVal = image[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                val = (coeff * log(1 + bufferVal));
-                if (val < min) val = min;
-                else if (val > max) val = max;
-                target_image_buffer[i * width + j] = val;
+                row = offset + j * width;
+                for (int k=0; k < width; k++)
+                {
+                    index=k + row;
+                    bufferVal = image[index];
+                    if (bufferVal < min) bufferVal = min;
+                    else if (bufferVal > max) bufferVal = max;
+                    val = (coeff * log(1 + bufferVal));
+                    if (val < min) val = min;
+                    else if (val > max) val = max;
+                    target_image_buffer[index] = val;
+                }
             }
+
+        }
+
         stats.min = min;
         stats.max = max;
         runningAverageStdDev();
@@ -1054,15 +1095,24 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
     {
         coeff = max / sqrt(max);
 
-        for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
+        for (int i=0; i < channels; i++)
+        {
+            offset = i*size;
+            for (int j=0; j < height; j++)
             {
-                bufferVal = (int) image[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                val = (int) (coeff * sqrt(bufferVal));
-                target_image_buffer[i * width + j] = val;
+               row = offset + j * width;
+               for (int k=0; k < width; k++)
+               {
+                    index=k + row;
+                    bufferVal = (int) image[index];
+                    if (bufferVal < min) bufferVal = min;
+                    else if (bufferVal > max) bufferVal = max;
+                    val = (int) (coeff * sqrt(bufferVal));
+                    target_image_buffer[index] = val;
+               }
             }
+        }
+
         stats.min = min;
         stats.max = max;
         runningAverageStdDev();
@@ -1072,19 +1122,24 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
     case FITS_AUTO_STRETCH:
     {
        min = stats.average - stats.stddev;
-       //if (min < 0)
-           //min =0;
-       //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
        max = stats.average + stats.stddev * 3;
 
-         for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
-            {
-               bufferVal = image[i * width + j];
-               if (bufferVal < min) bufferVal = min;
-               else if (bufferVal > max) bufferVal = max;
-               target_image_buffer[i * width + j] = bufferVal;
-             }
+           for (int i=0; i < channels; i++)
+           {
+               offset = i*size;
+               for (int j=0; j < height; j++)
+               {
+                  row = offset + j * width;
+                  for (int k=0; k < width; k++)
+                  {
+                     index=k + row;
+                     bufferVal = image[index];
+                     if (bufferVal < min) bufferVal = min;
+                     else if (bufferVal > max) bufferVal = max;
+                     target_image_buffer[index] = bufferVal;
+                  }
+               }
+            }
 
         stats.min = min;
         stats.max = max;
@@ -1093,27 +1148,33 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
       break;
 
      case FITS_HIGH_CONTRAST:
-     {
-        //min = stats.average - stats.stddev;
+     {        
         min = stats.average + stats.stddev;
         if (min < 0)
             min =0;
-        //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
         max = stats.average + stats.stddev * 3;
 
-          for (int i=0; i < height; i++)
-             for (int j=0; j < width; j++)
-             {
-                bufferVal = image[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                target_image_buffer[i * width + j] = bufferVal;
-              }
+        for (int i=0; i < channels; i++)
+        {
+            offset = i*size;
+            for (int j=0; j < height; j++)
+            {
+               row = offset + j * width;
+               for (int k=0; k < width; k++)
+               {
+                  index=k + row;
+                  bufferVal = image[index];
+                  if (bufferVal < min) bufferVal = min;
+                  else if (bufferVal > max) bufferVal = max;
+                  target_image_buffer[index] = bufferVal;
+                }
+            }
         }
         stats.min = min;
         stats.max = max;
         runningAverageStdDev();
-        break;
+      }
+      break;
 
      case FITS_EQUALIZE:
      {
@@ -1122,18 +1183,26 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
         QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq = histogram->getCumulativeFreq();
         coeff = 255.0 / (height * width);
 
-        for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
+        for (int i=0; i < channels; i++)
+        {
+            offset = i*size;
+            for (int j=0; j < height; j++)
             {
-                bufferVal = (int) (image[i * width + j] - min) * histogram->getBinWidth();
+                row = offset + j * width;
+                for (int k=0; k < width; k++)
+                {
+                    index=k + row;
+                    bufferVal = (int) (image[index] - min) * histogram->getBinWidth();
 
-                if (bufferVal >= cumulativeFreq.size())
-                    bufferVal = cumulativeFreq.size()-1;
+                    if (bufferVal >= cumulativeFreq.size())
+                        bufferVal = cumulativeFreq.size()-1;
 
-                val = (int) (coeff * cumulativeFreq[bufferVal]);
+                    val = (int) (coeff * cumulativeFreq[bufferVal]);
 
-                target_image_buffer[i * width + j] = val;
+                    target_image_buffer[index] = val;
+                }
             }
+        }
      }
      calculateStats(true);
      break;
@@ -1141,14 +1210,22 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
      case FITS_HIGH_PASS:
      {
         min = stats.average;
-        for (int i=0; i < height; i++)
-           for (int j=0; j < width; j++)
-           {
-              bufferVal = image[i * width + j];
-              if (bufferVal < min) bufferVal = min;
-              else if (bufferVal > max) bufferVal = max;
-              target_image_buffer[i * width + j] = bufferVal;
+        for (int i=0; i < channels; i++)
+        {
+            offset = i*size;
+            for (int j=0; j < height; j++)
+            {
+               row = offset + j * width;
+               for (int k=0; k < width; k++)
+               {
+                  index=k + row;
+                  bufferVal = image[index];
+                  if (bufferVal < min) bufferVal = min;
+                  else if (bufferVal > max) bufferVal = max;
+                  target_image_buffer[index] = bufferVal;
+                }
             }
+        }
 
         stats.min = min;
         stats.max = max;
@@ -1183,7 +1260,6 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
         break;
     }
 
-    //calculateStats(true);
 }
 
 void FITSData::subtract(float *dark_buffer)
@@ -1368,6 +1444,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     int x1, y1, x2, y2;
     float *rotimage = NULL;
     float *original_rotimage = NULL;
+    int offset=0;
 
     if (rotate == 1)
     rotate = 90;
@@ -1382,11 +1459,16 @@ bool FITSData::rotFITS (int rotate, int mirror)
     ny = stats.dim[1];
 
    /* Allocate buffer for rotated image */
-    rotimage = new float[nx*ny];
+    rotimage = new float[stats.size*channels];
+    if (rotimage == NULL)
+    {
+        qWarning() << "Unable to allocate memory for rotated image buffer!" << endl;
+        return false;
+    }
 
     if (image_buffer != original_image_buffer)
     {
-        original_rotimage = new float[nx*ny];
+        original_rotimage = new float[stats.size*channels];
         if (original_rotimage == NULL)
         {
             qWarning() << "Unable to allocate memory for rotated image buffer!" << endl;
@@ -1394,68 +1476,89 @@ bool FITSData::rotFITS (int rotate, int mirror)
         }
     }
 
-    if (rotimage == NULL)
-    {
-        qWarning() << "Unable to allocate memory for rotated image buffer!" << endl;
-        return false;
-    }
-
     /* Mirror image without rotation */
     if (rotate < 45 && rotate > -45)
     {
         if (mirror == 1)
         {
-            for (x1 = 0; x1 < nx; x1++)
+            for (int i=0; i < channels; i++)
             {
-                x2 = nx - x1 - 1;
-                for (y1 = 0; y1 < ny; y1++)
-                    rotimage[(y1*nx) + x2] = image_buffer[(y1*nx) + x1];
-            }
-
-            if (original_rotimage != NULL)
-            {
+                offset = stats.size * i;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
                     for (y1 = 0; y1 < ny; y1++)
-                        original_rotimage[(y1*nx) + x2] = original_image_buffer[(y1*nx) + x1];
+                        rotimage[(y1*nx) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
 
-        }
-        else if (mirror == 2)
-        {
-            for (y1 = 0; y1 < ny; y1++)
-            {
-                y2 = ny - y1 - 1;
-                for (x1 = 0; x1 < nx; x1++)
-                   rotimage[(y2*nx) + x1] = image_buffer[(y1*nx) + x1];
-            }
 
             if (original_rotimage != NULL)
             {
+
+                for (int i=0; i < channels; i++)
+                {
+                    offset = stats.size * i;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        x2 = nx - x1 - 1;
+                        for (y1 = 0; y1 < ny; y1++)
+                            original_rotimage[(y1*nx) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
+                }
+            }
+        }
+        else if (mirror == 2)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
                     for (x1 = 0; x1 < nx; x1++)
-                       original_rotimage[(y2*nx) + x1] = original_image_buffer[(y1*nx) + x1];
+                       rotimage[(y2*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                }
+            }
+
+            if (original_rotimage != NULL)
+            {
+                for (int i=0; i < channels; i++)
+                {
+                    offset = stats.size * i;
+
+                    for (y1 = 0; y1 < ny; y1++)
+                    {
+                        y2 = ny - y1 - 1;
+                        for (x1 = 0; x1 < nx; x1++)
+                           original_rotimage[(y2*nx) + x1 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
                 }
             }
         }
         else
         {
-            for (y1 = 0; y1 < ny; y1++)
+            for (int i=0; i < channels; i++)
             {
-                for (x1 = 0; x1 < nx; x1++)
-                   rotimage[(y1*nx) + x1] = image_buffer[(y1*nx) + x1];
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    for (x1 = 0; x1 < nx; x1++)
+                       rotimage[(y1*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                }
             }
 
             if (original_rotimage != NULL)
             {
-                for (x1 = 0; x1 < nx; x1++)
-                   original_rotimage[(y1*nx) + x1] = original_image_buffer[(y1*nx) + x1];
+                for (int i=0; i < channels; i++)
+                {
+                    offset = stats.size * i;
+                    for (x1 = 0; x1 < nx; x1++)
+                       original_rotimage[(y1*nx) + x1 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+
+                }
             }
-       }
+        }
     }
 
     /* Rotate by 90 degrees */
@@ -1463,73 +1566,94 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
     if (mirror == 1)
     {
-        for (y1 = 0; y1 < ny; y1++)
+        for (int i=0; i < channels; i++)
         {
-            x2 = ny - y1 - 1;
-            for (x1 = 0; x1 < nx; x1++)
-            {
-                y2 = nx - x1 - 1;
-                rotimage[(y2*ny) + x2] = image_buffer[(y1*nx) + x1];
-            }
-        }
-
-        if (original_rotimage != NULL)
-        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = ny - y1 - 1;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     y2 = nx - x1 - 1;
-                    original_rotimage[(y2*ny) + x2] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
         }
 
+        if (original_rotimage != NULL)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    x2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = nx - x1 - 1;
+                        original_rotimage[(y2*ny) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
+                }
+            }
+        }
     }
     else if (mirror == 2)
     {
-        for (y1 = 0; y1 < ny; y1++)
+        for (int i=0; i < channels; i++)
         {
-            for (x1 = 0; x1 < nx; x1++)
-                rotimage[(x1*ny) + y1] = image_buffer[(y1*nx) + x1];
-        }
-
-        if (original_rotimage != NULL)
-        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
-                    original_rotimage[(x1*ny) + y1] = original_image_buffer[(y1*nx) + x1];
-            }
-        }
-     }
-    else
-    {
-        for (y1 = 0; y1 < ny; y1++)
-        {
-            x2 = ny - y1 - 1;
-            for (x1 = 0; x1 < nx; x1++)
-            {
-                y2 = x1;
-                rotimage[(y2*ny) + x2] = image_buffer[(y1*nx) + x1];
+                    rotimage[(x1*ny) + y1 + offset] = image_buffer[(y1*nx) + x1 + offset];
             }
         }
 
         if (original_rotimage != NULL)
         {
-
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    for (x1 = 0; x1 < nx; x1++)
+                        original_rotimage[(x1*ny) + y1 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                }
+            }
+        }
+    }
+    else
+    {
+        for (int i=0; i < channels; i++)
+        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = ny - y1 - 1;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     y2 = x1;
-                    original_rotimage[(y2*ny) + x2] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
         }
 
+        if (original_rotimage != NULL)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    x2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = x1;
+                        original_rotimage[(y2*ny) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
+                }
+            }
+        }
     }
 
     stats.dim[0] = ny;
@@ -1541,67 +1665,87 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
     if (mirror == 1)
     {
-        for (y1 = 0; y1 < ny; y1++)
+        for (int i=0; i < channels; i++)
         {
-            y2 = ny - y1 - 1;
-            for (x1 = 0; x1 < nx; x1++)
-                rotimage[(y2*nx) + x1] = image_buffer[(y1*nx) + x1];
+            offset = stats.size * i;
+            for (y1 = 0; y1 < ny; y1++)
+            {
+                y2 = ny - y1 - 1;
+                for (x1 = 0; x1 < nx; x1++)
+                    rotimage[(y2*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
+            }
         }
 
         if (original_rotimage != NULL)
         {
-            y2 = ny - y1 - 1;
-            for (x1 = 0; x1 < nx; x1++)
-                original_rotimage[(y2*nx) + x1] = original_image_buffer[(y1*nx) + x1];
-
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                y2 = ny - y1 - 1;
+                for (x1 = 0; x1 < nx; x1++)
+                    original_rotimage[(y2*nx) + x1 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+            }
         }
-
     }
     else if (mirror == 2)
     {
-        for (x1 = 0; x1 < nx; x1++)
+        for (int i=0; i < channels; i++)
         {
-            x2 = nx - x1 - 1;
-            for (y1 = 0; y1 < ny; y1++)
-                rotimage[(y1*nx) + x2] = image_buffer[(y1*nx) + x1];
-        }
-
-        if (original_rotimage != NULL)
-        {
+            offset = stats.size * i;
             for (x1 = 0; x1 < nx; x1++)
             {
                 x2 = nx - x1 - 1;
                 for (y1 = 0; y1 < ny; y1++)
-                    original_rotimage[(y1*nx) + x2] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(y1*nx) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+            }
+        }
+
+        if (original_rotimage != NULL)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (x1 = 0; x1 < nx; x1++)
+                {
+                    x2 = nx - x1 - 1;
+                    for (y1 = 0; y1 < ny; y1++)
+                        original_rotimage[(y1*nx) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                }
             }
         }
     }
     else
     {
-        for (y1 = 0; y1 < ny; y1++)
+        for (int i=0; i < channels; i++)
         {
-            y2 = ny - y1 - 1;
-            for (x1 = 0; x1 < nx; x1++)
-            {
-                x2 = nx - x1 - 1;
-                rotimage[(y2*nx) + x2] = image_buffer[(y1*nx) + x1];
-            }
-        }
-
-        if (original_rotimage != NULL)
-        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 y2 = ny - y1 - 1;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
-                    original_rotimage[(y2*nx) + x2] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(y2*nx) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
         }
 
-
+        if (original_rotimage != NULL)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    y2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        x2 = nx - x1 - 1;
+                        original_rotimage[(y2*nx) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
+                }
+            }
+        }
     }
    }
 
@@ -1610,69 +1754,92 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
     if (mirror == 1)
     {
-        for (y1 = 0; y1 < ny; y1++)
+        for (int i=0; i < channels; i++)
         {
-            for (x1 = 0; x1 < nx; x1++)
-                rotimage[(x1*ny) + y1] = image_buffer[(y1*nx) + x1];
-        }
-
-        if (original_rotimage != NULL)
-        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
-                    original_rotimage[(x1*ny) + y1] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(x1*ny) + y1 + offset] = image_buffer[(y1*nx) + x1 + offset];
             }
         }
 
-
-    }
-    else if (mirror == 2)
-    {
-        for (y1 = 0; y1 < ny; y1++)
-        {
-            x2 = ny - y1 - 1;
-            for (x1 = 0; x1 < nx; x1++)
-            {
-                y2 = nx - x1 - 1;
-                rotimage[(y2*ny) + x2] = image_buffer[(y1*nx) + x1];
-            }
-        }
 
         if (original_rotimage != NULL)
         {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    for (x1 = 0; x1 < nx; x1++)
+                        original_rotimage[(x1*ny) + y1 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                }
+            }
+        }
+    }
+    else if (mirror == 2)
+    {
+        for (int i=0; i < channels; i++)
+        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = ny - y1 - 1;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     y2 = nx - x1 - 1;
-                    original_rotimage[(y2*ny) + x2] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                }
+            }
+        }
+
+        if (original_rotimage != NULL)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    x2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = nx - x1 - 1;
+                        original_rotimage[(y2*ny) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
                 }
             }
         }
     }
     else
     {
-        for (y1 = 0; y1 < ny; y1++)
+        for (int i=0; i < channels; i++)
         {
-            x2 = y1;
-            for (x1 = 0; x1 < nx; x1++)
-            {
-                y2 = nx - x1 - 1;
-                rotimage[(y2*ny) + x2] = image_buffer[(y1*nx) + x1];
-            }
-        }
-
-        if (original_rotimage != NULL)
-        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = y1;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     y2 = nx - x1 - 1;
-                    original_rotimage[(y2*ny) + x2] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                }
+            }
+        }
+
+        if (original_rotimage != NULL)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    x2 = y1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = nx - x1 - 1;
+                        original_rotimage[(y2*ny) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
                 }
             }
         }
@@ -1685,28 +1852,35 @@ bool FITSData::rotFITS (int rotate, int mirror)
     /* If rotating by more than 315 degrees, assume top-bottom reflection */
     else if (rotate >= 315 && mirror)
     {
-        for (y1 = 0; y1 < ny; y1++)
+        for (int i=0; i < channels; i++)
         {
-            for (x1 = 0; x1 < nx; x1++)
-            {
-                x2 = y1;
-                y2 = x1;
-                rotimage[(y2*ny) + x2] = image_buffer[(y1*nx) + x1];
-            }
-        }
-
-        if (original_rotimage != NULL)
-        {
+            offset = stats.size * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = y1;
                     y2 = x1;
-                    original_rotimage[(y2*ny) + x2] = original_image_buffer[(y1*nx) + x1];
+                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
+        }
 
+        if (original_rotimage != NULL)
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.size * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        x2 = y1;
+                        y2 = x1;
+                        original_rotimage[(y2*ny) + x2 + offset] = original_image_buffer[(y1*nx) + x1 + offset];
+                    }
+                }
+            }
         }
     }
 
@@ -2007,6 +2181,15 @@ void FITSData::rotWCSFITS (int angle, int mirror)
 
 void FITSData::setOriginalImageBuffer(float *buf)
 {
-    delete (original_image_buffer);
     original_image_buffer = buf;
+}
+
+float * FITSData::getImageBuffer(ColorChannel channel)
+{
+    return (image_buffer + (channel * stats.size));
+}
+
+float * FITSData::getOriginalImageBuffer(ColorChannel channel)
+{
+    return (original_image_buffer + (channel * stats.size));
 }
