@@ -129,6 +129,7 @@ private:
 
     double average();
     double stddev();
+    void calculateMaxPixel(double min, double max);
     void initDisplayImage();
 
     bool markStars;
@@ -143,7 +144,7 @@ private:
     FITSHistogram *histogram;
     int guide_x, guide_y, guide_box;
     int gammaValue;
-    double maxPixel, minPixel;
+    double maxPixel, maxGammaPixel, minPixel;
     bool firstLoad;
     bool starsSearched;
     bool hasWCS;

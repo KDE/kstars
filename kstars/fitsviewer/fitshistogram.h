@@ -95,7 +95,7 @@ public slots:
 class FITSHistogramCommand : public QUndoCommand
 {
 public:
-    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax, int w, int h);
+    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax);
     virtual ~FITSHistogramCommand();
 
     virtual void redo();
@@ -104,12 +104,32 @@ public:
 
 
 private:
+
+    /* stats struct to hold statisical data about the FITS data */
+    struct
+    {
+        double min, max;
+        double average;
+        double stddev;
+        double median;
+        int bitpix;
+        int ndim;
+        unsigned int size;
+        long dim[2];
+    } stats;
+
+    bool calculateDelta(unsigned char *buffer);
+    bool reverseDelta();
+    void saveStats(double min, double max, double stddev, double average, double median);
+    void restoreStats();
+
     FITSHistogram *histogram;
     FITSScale type;
     int min, max;
-    int width,height;
     int gamma;
-    float *buffer;
+
+    unsigned char *delta;
+    unsigned long compressedBytes;
     float *original_buffer;
     FITSTab *tab;
 };

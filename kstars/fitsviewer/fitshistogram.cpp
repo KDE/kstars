@@ -23,6 +23,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <zlib.h>
 
 #include <QPainter>
 #include <QSlider>
@@ -195,7 +196,6 @@ void FITSHistogram::applyScale()
 
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
-    FITSData *image_data = tab->getImage()->getImageData();
     FITSHistogramCommand *histC;
 
     napply++;
@@ -213,7 +213,7 @@ void FITSHistogram::applyScale()
     else if (ui->sqrtR->isChecked())
         type = FITS_SQRT;
 
-    histC = new FITSHistogramCommand(tab, this, type, min, max, image_data->getWidth(), image_data->getHeight());
+    histC = new FITSHistogramCommand(tab, this, type, min, max);
 
     tab->getUndoStack()->push(histC);
 }
@@ -222,7 +222,6 @@ void FITSHistogram::applyFilter(FITSScale ftype)
 {
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
-    FITSData *image_data = tab->getImage()->getImageData();
 
     napply++;
 
@@ -230,7 +229,7 @@ void FITSHistogram::applyFilter(FITSScale ftype)
 
     type = ftype;
 
-    histC = new FITSHistogramCommand(tab, this, type, min, max, image_data->getWidth(), image_data->getHeight());
+    histC = new FITSHistogramCommand(tab, this, type, min, max);
 
     tab->getUndoStack()->push(histC);
 
@@ -310,90 +309,182 @@ void FITSHistogram::updateHistogram()
     //constructHistogram(histogram_width, histogram_height);
 }
 
-FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax, int w, int h)
+FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax)
 {
     tab         = (FITSTab *) parent;
     type        = newType;
     histogram   = inHisto;
-    buffer = NULL;
+    delta  = NULL;
     original_buffer = NULL;
 
     min = lmin;
     max = lmax;
-    width = w;
-    height = h;
 }
 
 FITSHistogramCommand::~FITSHistogramCommand()
 {
-    delete(buffer);
+    delete(delta);
+}
 
+bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
+{
+    FITSData *image_data = tab->getImage()->getImageData();
+
+    unsigned char *image_buffer = (unsigned char *) image_data->getImageBuffer();
+    int totalPixels = image_data->getSize() * image_data->getNumOfChannels();
+    unsigned long totalBytes = totalPixels * sizeof(float);
+    //qDebug() << "raw total bytes " << totalBytes << " bytes" << endl;
+
+    unsigned char *raw_delta = new unsigned char[totalBytes];
+    if (raw_delta == NULL)
+    {
+        qWarning() << "Error! not enough memory to create image delta" << endl;
+        return false;
+    }
+
+    for (unsigned int i=0; i < totalBytes; i++)
+        raw_delta[i] = buffer[i] ^ image_buffer[i];
+
+    compressedBytes = sizeof(char) * totalBytes + totalBytes / 64 + 16 + 3;
+    delete(delta);
+    delta = new unsigned char[compressedBytes];
+
+    if (delta == NULL)
+    {
+        delete(raw_delta);
+        qDebug() << "Error: Ran out of memory compressing delta" << endl;
+        return false;
+    }
+
+    int r = compress2(delta, &compressedBytes, raw_delta, totalBytes, 5);
+    if (r != Z_OK)
+    {
+        /* this should NEVER happen */
+        qDebug() << "Error: Failed to compress raw_delta" << endl;
+        return false;
+    }
+
+    //qDebug() << "compressed bytes size " << compressedBytes << " bytes" << endl;
+
+    delete(raw_delta);
+
+    return true;
+}
+
+bool FITSHistogramCommand::reverseDelta()
+{
+    FITSView *image = tab->getImage();
+    FITSData *image_data = image->getImageData();
+    unsigned char *image_buffer = (unsigned char *) (image_data->getImageBuffer());
+
+    unsigned int size = image_data->getSize();
+    int channels = image_data->getNumOfChannels();
+
+    int totalPixels = size * channels;
+    unsigned long totalBytes = totalPixels * sizeof(float);
+
+    unsigned char *output_image = new unsigned char[totalBytes];
+    if (output_image == NULL)
+    {
+        qWarning() << "Error! not enough memory to create output image" << endl;
+        return false;
+    }
+
+    unsigned char *raw_delta = new unsigned char[totalBytes];
+    if (raw_delta == NULL)
+    {
+        delete(output_image);
+        qWarning() << "Error! not enough memory to create image delta" << endl;
+        return false;
+    }
+
+    int r = uncompress(raw_delta, &totalBytes, delta, compressedBytes);
+    if (r != Z_OK)
+    {
+        qDebug() << "compression error in reverseDelta()" << endl;
+        delete(raw_delta);
+        return false;
+    }
+
+    for (unsigned int i=0; i < totalBytes; i++)
+        output_image[i] = raw_delta[i] ^ image_buffer[i];
+
+    image_data->setImageBuffer((float *)output_image);
+
+    delete(raw_delta);
+
+    return true;
 }
 
 void FITSHistogramCommand::redo()
 {
-
     FITSView *image = tab->getImage();
     FITSData *image_data = image->getImageData();
 
     float *image_buffer = image_data->getImageBuffer();    
     unsigned int size = image_data->getSize();
-    int channels = image_data->getNumOfChannels();
-
-    buffer = new float[size * channels];
-    if (buffer == NULL)
-    {
-        qWarning() << "Error! not enough memory to create image buffer in redo()" << endl;
-        return;
-    }
-
-    memcpy(buffer, image_buffer, size * channels * sizeof(float));
+    int channels = image_data->getNumOfChannels();   
 
     gamma = image->getGammaValue();
 
-    switch (type)
+    if (delta != NULL)
     {
-    case FITS_AUTO:
-    case FITS_LINEAR:
-        image_data->applyFilter(FITS_LINEAR, image_buffer, min, max);
-        break;
+        double min,max,stddev,average,median;
+        min      = image_data->getMin();
+        max      = image_data->getMax();
+        stddev   = image_data->getStdDev();
+        average  = image_data->getAverage();
+        median   = image_data->getMedian();
 
-    case FITS_LOG:
-        image_data->applyFilter(FITS_LOG, image_buffer, min, max);
-        break;
+        reverseDelta();
 
-    case FITS_SQRT:
-        image_data->applyFilter(FITS_SQRT, image_buffer, min, max);
-        break;
+        restoreStats();
 
-    case FITS_ROTATE_CW:
-    case FITS_ROTATE_CCW:
-    case FITS_FLIP_H:
-    case FITS_FLIP_V:
+        saveStats(min, max, stddev, average, median);
+    }
+    else
     {
-        float *original_image_buffer = image_data->getOriginalImageBuffer();
+        saveStats(image_data->getMin(), image_data->getMax(), image_data->getStdDev(), image_data->getAverage(), image_data->getMedian());
 
-        if (image_buffer != original_image_buffer)
+        // If it's rotation of flip, no need to calculate delta
+        if (type >= FITS_ROTATE_CW && type <= FITS_FLIP_V)
         {
-            original_buffer = new float[size * channels];
-            if (original_buffer == NULL)
+            image_data->applyFilter(type, image_buffer);
+        }
+        else
+        {
+            float *buffer = new float[size * channels];
+            if (buffer == NULL)
             {
-                delete(buffer);
-                qWarning() << "Error! not enough memory to create original_buffer in redo()" << endl;
+                qWarning() << "Error! not enough memory to create image buffer in redo()" << endl;
                 return;
             }
 
-            memcpy(original_buffer, original_image_buffer, size * channels * sizeof(float));
+            memcpy(buffer, image_buffer, size * channels * sizeof(float));
+
+            switch (type)
+            {
+            case FITS_AUTO:
+            case FITS_LINEAR:
+                image_data->applyFilter(FITS_LINEAR, image_buffer, min, max);
+                break;
+
+            case FITS_LOG:
+                image_data->applyFilter(FITS_LOG, image_buffer, min, max);
+                break;
+
+            case FITS_SQRT:
+                image_data->applyFilter(FITS_SQRT, image_buffer, min, max);
+                break;
+
+            default:
+               image_data->applyFilter(type, image_buffer);
+               break;
+            }
+
+            calculateDelta( (unsigned char *) buffer);
+            delete (buffer);
         }
-
-        image_data->applyFilter(type, image_buffer);
-        break;
-    }
-    default:
-       image_data->applyFilter(type, image_buffer);
-       break;
-
-
     }
 
     if (histogram != NULL)
@@ -413,38 +504,40 @@ void FITSHistogramCommand::undo()
 {
     FITSView *image = tab->getImage();
     FITSData *image_data = image->getImageData();
-    unsigned int size = image_data->getSize();
-    int channels = image_data->getNumOfChannels();
-    memcpy( image_data->getImageBuffer(), buffer, size * channels * sizeof(float));
 
-    image_data->setWidth(width);
-    image_data->setHeight(height);
-    image_data->calculateStats(true);
-
-    switch (type)
+    if (delta != NULL)
     {
-        case FITS_ROTATE_CW:
-        image_data->setRotCounter(image_data->getRotCounter()-1);
-        if (original_buffer != NULL)
-            image_data->setOriginalImageBuffer(original_buffer);
-        break;
-        case FITS_ROTATE_CCW:
-        image_data->setRotCounter(image_data->getRotCounter()+1);
-        if (original_buffer != NULL)
-            image_data->setOriginalImageBuffer(original_buffer);
-        break;
-        case FITS_FLIP_H:
-        image_data->setFlipHCounter(image_data->getFlipHCounter()-1);
-        if (original_buffer != NULL)
-            image_data->setOriginalImageBuffer(original_buffer);
-        break;
-        case FITS_FLIP_V:
-        image_data->setFlipVCounter(image_data->getFlipVCounter()-1);
-        if (original_buffer != NULL)
-            image_data->setOriginalImageBuffer(original_buffer);
-        break;
-    default:
-        break;
+       double min,max,stddev,average,median;
+       min      = image_data->getMin();
+       max      = image_data->getMax();
+       stddev   = image_data->getStdDev();
+       average  = image_data->getAverage();
+       median   = image_data->getMedian();
+
+       reverseDelta();
+
+       restoreStats();
+
+       saveStats(min, max, stddev, average, median);
+    }
+    else
+    {
+        switch (type)
+        {
+            case FITS_ROTATE_CW:
+            image_data->applyFilter(FITS_ROTATE_CCW);
+            break;
+            case FITS_ROTATE_CCW:
+            image_data->applyFilter(FITS_ROTATE_CW);
+            break;
+            case FITS_FLIP_H:
+            case FITS_FLIP_V:
+            image_data->applyFilter(type);
+            break;
+        default:
+            break;
+        }
+
     }
 
     if (histogram != NULL)
@@ -488,6 +581,26 @@ QString FITSHistogramCommand::text() const
 
     return xi18n("Unknown");
 
+}
+
+void FITSHistogramCommand::saveStats(double min, double max, double stddev, double average, double median)
+{
+    stats.min       = min;
+    stats.max       = max;
+    stats.stddev    = stddev;
+    stats.average   = average;
+    stats.median    = median;
+
+}
+
+void FITSHistogramCommand::restoreStats()
+{
+    FITSData *image_data = tab->getImage()->getImageData();
+
+    image_data->setMinMax(stats.min, stats.max);
+    image_data->setStdDev(stats.stddev);
+    image_data->setAverage(stats.average);
+    image_data->setMedian(stats.median);
 }
 
 

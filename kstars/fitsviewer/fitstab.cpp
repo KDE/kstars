@@ -46,6 +46,7 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 
 FITSTab::~FITSTab()
 {
+    delete(image);
     disconnect(0,0,0);
 }
 

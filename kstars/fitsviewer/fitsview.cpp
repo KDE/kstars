@@ -163,14 +163,14 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
 FITSView::~FITSView()
 {
-    delete(display_image);
+    delete(image_frame);
     delete(image_data);
+    delete(display_image);    
 }
 
 bool FITSView::loadFITS ( const QString &inFilename )
 {
     QProgressDialog fitsProg;
-
 
     delete (image_data);
     image_data = NULL;
@@ -233,11 +233,16 @@ int FITSView::saveFITS( const QString &newFilename )
 
 int FITSView::rescale(FITSZoom type)
 {
-    float val=0;
+    double val=0;
     double bscale, bzero;
     double min, max;
     unsigned int size = image_data->getSize();
-    image_data->getMinMax(&min, &max);    
+    image_data->getMinMax(&min, &max);
+
+    calculateMaxPixel(min, max);
+
+    min = minPixel;
+    max = maxGammaPixel;
 
     if (min == max)
     {
@@ -276,13 +281,15 @@ int FITSView::rescale(FITSZoom type)
                 for (int i = 0; i < image_width; i++)
                 {
                     val = image_buffer[j * image_width + i];
+                    if (gammaValue > 0)
+                        val = qBound(minPixel, val, maxGammaPixel);
                     scanLine[i]= (val * bscale + bzero);
                 }
             }
         }
         else
         {
-            float rval=0,gval=0,bval=0;
+            double rval=0,gval=0,bval=0;
             QRgb value;
             /* Fill in pixel values using indexed map, linear scale */
             for (int j = 0; j < image_height; j++)
@@ -291,13 +298,19 @@ int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    rval = image_buffer[j * image_width + i] * bscale + bzero;
-                    gval = image_buffer[j * image_width + i + size] * bscale + bzero;
-                    bval = image_buffer[j * image_width + i + size * 2] * bscale + bzero;
-                    value = qRgb(rval, gval, bval);
+                    rval = image_buffer[j * image_width + i];
+                    gval = image_buffer[j * image_width + i + size];
+                    bval = image_buffer[j * image_width + i + size * 2];
+                    if (gammaValue > 0)
+                    {
+                        rval = qBound(minPixel, rval, maxGammaPixel);
+                        gval = qBound(minPixel, gval, maxGammaPixel);
+                        gval = qBound(minPixel, gval, maxGammaPixel);
+                    }
+
+                    value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
 
                     display_image->setPixel(i, j, value);
-                    //scanLine[i] = (rval * bscale + bzero);
                 }
             }
 
@@ -564,15 +577,26 @@ void FITSView::setGammaValue(int value)
 
     gammaValue = value;
 
-    double maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
+    calculateMaxPixel(minPixel, maxPixel);
 
     // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
-    image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
+    //image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
     qApp->processEvents();
     rescale(ZOOM_KEEP_LEVEL);
     qApp->processEvents();
     updateFrame();
 
+}
+
+void FITSView::calculateMaxPixel(double min, double max)
+{
+    minPixel=min;
+    maxPixel=max;
+
+    if (gammaValue == 0)
+        maxGammaPixel = maxPixel;
+    else
+        maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
 }
 
 

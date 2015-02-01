@@ -91,9 +91,8 @@ public:
 
     // Access functions
     void clearImageBuffers();
-    float * getImageBuffer(ColorChannel channel=CHANNEL_ONE);
-    float * getOriginalImageBuffer(ColorChannel channel=CHANNEL_ONE);
-    void setOriginalImageBuffer(float *buf);
+    void setImageBuffer(float *buffer);
+    float * getImageBuffer();
 
     // Stats
     unsigned int getSize() { return stats.size; }
@@ -109,10 +108,13 @@ public:
     void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
     double getMin() { return stats.min; }
     double getMax() { return stats.max; }
+    void setStdDev(double value) { stats.stddev = value;}
     double getStdDev() { return stats.stddev; }
+    void setAverage(double value) { stats.average = value; }
     double getAverage() { return stats.average; }
     void setMedian(double val) { stats.median = val;}
     double getMedian() { return stats.median;}
+    void setBPP(int value) { stats.bitpix = value;}
     int getBPP() { return stats.bitpix; }
 
     // Star detection
