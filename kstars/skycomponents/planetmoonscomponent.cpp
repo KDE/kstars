@@ -98,6 +98,9 @@ SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     SkyObject *oBest = 0;
     int nmoons = pmoons->nMoons();
     
+    if (Options::zoomFactor() < 3000)
+        return NULL;
+
     for ( int i=0; i<nmoons; ++i ) {
         SkyObject *moon = pmoons->moon(i);
         double r = moon->angularDistanceTo( p ).Degrees();
