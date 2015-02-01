@@ -399,11 +399,11 @@
             <property name="whatsThis">
              <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
             </property>
-            <property name="maximum">
-             <double>9999.000000000000000</double>
-            </property>
             <property name="decimals">
              <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>9999.000000000000000</double>
             </property>
            </widget>
           </item>
