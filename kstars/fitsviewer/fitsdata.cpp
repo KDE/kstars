@@ -462,7 +462,6 @@ void FITSData::clearImageBuffers()
 int FITSData::calculateMinMax(bool refresh)
 {
     int status, nfound=0;
-    long npixels;
 
     status = 0;
 
@@ -479,11 +478,10 @@ int FITSData::calculateMinMax(bool refresh)
             return 0;
     }
 
-    npixels  = stats.dim[0] * stats.dim[1];         /* number of pixels in the image */
     stats.min= 1.0E30;
     stats.max= -1.0E30;
 
-    for (int i=0; i < npixels; i++)
+    for (int i=0; i < stats.size; i++)
     {
         if (image_buffer[i] < stats.min) stats.min = image_buffer[i];
         else if (image_buffer[i] > stats.max) stats.max = image_buffer[i];
