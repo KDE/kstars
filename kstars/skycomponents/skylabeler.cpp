@@ -151,6 +151,8 @@ bool SkyLabeler::drawGuideLabel( QPointF& o, const QString& text, double angle )
 bool SkyLabeler::drawNameLabel(SkyObject* obj, const QPointF& _p)
 {
     QString sLabel = obj->labelString();
+    if (sLabel.isEmpty())
+        return false;
 
     double offset = obj->labelOffset();
     QPointF p( _p.x()+offset, _p.y()+offset );
