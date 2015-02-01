@@ -482,6 +482,10 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
         Moon[i]->setRA( Jupiter->ra().Hours() - 0.011*( XP[i] * cos( pa ) - YP[i] * sin( pa ) )/15.0 );
         Moon[i]->setDec( Jupiter->dec().Degrees() - 0.011*( XP[i] * sin( pa ) + YP[i] * cos( pa ) ) );
 
+        SkyPoint p = Moon[i]->deprecess( num ); // FIXME: Really, we should also denutate. Actually, we should also be aberrating these above, right?
+        Moon[i]->setRA0( p.ra() ); // Just to be sure, in case deprecess doesn't set it already because RA0 was not NaN or something.
+        Moon[i]->setDec0( p.dec() );
+
         if ( ZP[i] < 0.0 ) InFront[i] = true;
         else InFront[i] = false;
 
