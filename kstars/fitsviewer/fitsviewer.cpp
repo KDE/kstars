@@ -156,6 +156,11 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(xi18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
+    action = actionCollection()->addAction("fits_debayer");
+    action->setIcon(QIcon::fromTheme("view-preview"));
+    action->setText(xi18n( "Debayer..."));
+    connect(action, SIGNAL(triggered(bool) ), SLOT(debayerFITS()));
+
     action = actionCollection()->addAction("image_stretch");
     action->setText(xi18n("Auto stretch"));
     connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
@@ -501,6 +506,11 @@ void FITSViewer::headerFITS()
         return;
 
   fitsImages[fitsTab->currentIndex()]->headerFITS();
+}
+
+void FITSViewer::debayerFITS()
+{
+
 }
 
 int FITSViewer::saveUnsaved(int index)

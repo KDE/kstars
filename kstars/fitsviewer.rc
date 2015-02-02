@@ -8,6 +8,7 @@
                 <Action name="file_save_as"/>
                 <Separator/>
                 <Action name="fits_header"/>
+                <Action name="fits_debayer"/>
                 <Separator/>
                 <Action name="file_close"/>
 </Menu>

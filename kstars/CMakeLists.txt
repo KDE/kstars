@@ -23,6 +23,7 @@ if (CFITSIO_FOUND)
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui
     fitsviewer/statform.ui
+    fitsviewer/fitsdebayer.ui
     indi/streamform.ui
     fitsviewer/fitshistogramui.ui
     )

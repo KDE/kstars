@@ -166,11 +166,11 @@ void FITSTab::statFITS()
     stat.widthOUT->setText(QString::number(image_data->getWidth()));
     stat.heightOUT->setText(QString::number(image_data->getHeight()));
     stat.bitpixOUT->setText(QString::number(image_data->getBPP()));
-    stat.maxOUT->setText(QString::number(image_data->getMax()));
-    stat.minOUT->setText(QString::number(image_data->getMin()));
-    stat.meanOUT->setText(QString::number(image_data->getAverage()));
-    stat.stddevOUT->setText(QString::number(image_data->getStdDev(), 'g', 3));
-    stat.HFROUT->setText(QString::number(image_data->getHFR(), 'g', 3));
+    stat.maxOUT->setText(QString::number(image_data->getMax(), 'f', 3));
+    stat.minOUT->setText(QString::number(image_data->getMin() , 'f', 3));
+    stat.meanOUT->setText(QString::number(image_data->getAverage(), 'f' , 3));
+    stat.stddevOUT->setText(QString::number(image_data->getStdDev(), 'f', 3));
+    stat.HFROUT->setText(QString::number(image_data->getHFR(), 'f', 3));
 
     statDialog.exec();
 }

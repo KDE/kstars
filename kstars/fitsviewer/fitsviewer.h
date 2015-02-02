@@ -91,6 +91,7 @@ public slots:
     void copyFITS();
     void statFITS();
     void headerFITS();
+    void debayerFITS();
     void slotClose();
     void histoFITS();
     void stretchFITS();
