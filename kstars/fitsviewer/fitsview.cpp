@@ -171,14 +171,27 @@ FITSView::~FITSView()
 bool FITSView::loadFITS ( const QString &inFilename )
 {
     QProgressDialog fitsProg;
+    bool setBayerParams=false;
+
+    BayerParams param;
+    if (image_data && image_data->hasDebayer())
+    {
+        setBayerParams=true;
+        image_data->getBayerParams(&param);
+    }
 
     delete (image_data);
     image_data = NULL;
 
     image_data = new FITSData(mode);
 
+    if (setBayerParams)
+        image_data->setBayerParams(&param);
+
     if (image_data->loadFITS(inFilename, &fitsProg) == false)
         return false;
+
+    emit debayerToggled(image_data->hasDebayer());
 
     image_data->getDimensions(&currentWidth, &currentHeight);
 
@@ -549,6 +562,8 @@ void FITSView::toggleStars(bool enable)
 
      if (markStars == true)
      {
+       emit newStatus(xi18n("Finding stars..."), FITS_MESSAGE);
+       qApp->processEvents();
        int count = image_data->findStars();
        if (count >= 0 && isVisible())
                emit newStatus(xi18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);

@@ -82,12 +82,12 @@ dc1394_bayer_NearestNeighbor_float(const float * bayer, float * rgb, int sx, int
         || tile == DC1394_COLOR_FILTER_GBRG ? -1 : 1;
     int start_with_green = tile == DC1394_COLOR_FILTER_GBRG
         || tile == DC1394_COLOR_FILTER_GRBG;
-    int i, iinc, imax;
+
 
     if ((tile>DC1394_COLOR_FILTER_MAX)||(tile<DC1394_COLOR_FILTER_MIN))
       return DC1394_INVALID_COLOR_FILTER;
 
-    /* add black border */
+    int i, iinc, imax;
     imax = sx * sy * 3;
     for (i = sx * (sy - 1) * 3; i < imax; i++) {
         rgb[i] = 0;
@@ -101,7 +101,7 @@ dc1394_bayer_NearestNeighbor_float(const float * bayer, float * rgb, int sx, int
 
     rgb += 1;
     height -= 1;
-    width -= 1;
+    width -= 1;    
 
     for (; height--; bayer += bayerStep, rgb += rgbStep) {
       /*int t0, t1;*/
@@ -668,7 +668,7 @@ dc1394_bayer_Simple_float(const float * bayer, float * rgb, int sx, int sy, int 
         break;
     }
 
-    /* add black border */
+    /* add black border
     for (i = sx * (sy - 1) * 3; i < sx * sy * 3; i++) {
         rgb[i] = 0;
     }
@@ -677,6 +677,7 @@ dc1394_bayer_Simple_float(const float * bayer, float * rgb, int sx, int sy, int 
         rgb[i++] = 0;
         rgb[i++] = 0;
     }
+    */
 
     return DC1394_SUCCESS;
 
@@ -1276,12 +1277,8 @@ dc1394_bayer_decoding_float(const float * bayer, float * rgb, uint32_t sx, uint3
         return dc1394_bayer_Bilinear_float(bayer, rgb, sx, sy, tile);
     case DC1394_BAYER_METHOD_HQLINEAR:
         return dc1394_bayer_HQLinear_float(bayer, rgb, sx, sy, tile);
-    case DC1394_BAYER_METHOD_DOWNSAMPLE:
-        return dc1394_bayer_Downsample_float(bayer, rgb, sx, sy, tile);
     case DC1394_BAYER_METHOD_VNG:
         return dc1394_bayer_VNG_float(bayer, rgb, sx, sy, tile);
-    case DC1394_BAYER_METHOD_AHD:
-        return dc1394_bayer_AHD_float(bayer, rgb, sx, sy, tile);
     default:
         return DC1394_INVALID_BAYER_METHOD;
     }

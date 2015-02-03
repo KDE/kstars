@@ -273,6 +273,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
     connect(tab->getView(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
     connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
+    connect(tab, SIGNAL(debayerToggled(bool)), this, SLOT(setDebayerAction(bool)));
 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);
@@ -475,50 +476,27 @@ void FITSViewer::statFITS()
 
 void FITSViewer::stretchFITS()
 {
-    if (fitsTabs.empty())
-        return;
-
-    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_AUTO_STRETCH);
-    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
-
+    applyFilter(FITS_AUTO_STRETCH);
 }
 
 void FITSViewer::rotateCW()
 {
-    if (fitsTabs.empty())
-        return;
-
-    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CW);
-    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
-
+    applyFilter(FITS_ROTATE_CW);
 }
 
 void FITSViewer::rotateCCW()
 {
-    if (fitsTabs.empty())
-        return;
-
-    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CCW);
-    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
-
+    applyFilter(FITS_ROTATE_CCW);
 }
 
 void FITSViewer::flipHorizontal()
 {
-    if (fitsTabs.empty())
-        return;
-
-    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_H);
-    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
+    applyFilter(FITS_FLIP_H);
 }
 
 void FITSViewer::flipVertical()
 {
-    if (fitsTabs.empty())
-        return;
-
-    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_V);
-    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
+    applyFilter(FITS_FLIP_V);
 }
 
 void FITSViewer::headerFITS()
@@ -720,10 +698,12 @@ void FITSViewer::applyFilter(int ftype)
     if (fitsTabs.empty())
         return;
 
+    updateStatusBar(xi18n("Processing %1...", filterTypes[ftype-1]), FITS_MESSAGE);
+    qApp->processEvents();
     fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale) ftype);
+    qApp->processEvents();
     fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
-
-
+    updateStatusBar(xi18n("Ready."), FITS_MESSAGE);
 }
 
 FITSView * FITSViewer::getView(int fitsUID)
@@ -752,4 +732,8 @@ void FITSViewer::setGamma(int value)
         fitsTabs[fitsTab->currentIndex()]->getView()->setGammaValue(value);
 }
 
+void FITSViewer::setDebayerAction(bool enable)
+{
+    actionCollection()->addAction("fits_debayer")->setEnabled(enable);
+}
 

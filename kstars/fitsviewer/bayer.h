@@ -1,3 +1,26 @@
+/*
+ * 1394-Based Digital Camera Control Library
+ *
+ * Bayer pattern decoding functions
+ *
+ * Written by Damien Douxchamps and Frederic Devernay
+ * The original VNG and AHD Bayer decoding are from Dave Coffin's DCRAW.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 #include <stdint.h>
 
 #ifndef BAYER_H
@@ -8,9 +31,7 @@ typedef enum {
     DC1394_BAYER_METHOD_SIMPLE,
     DC1394_BAYER_METHOD_BILINEAR,
     DC1394_BAYER_METHOD_HQLINEAR,
-    DC1394_BAYER_METHOD_DOWNSAMPLE,
-    DC1394_BAYER_METHOD_VNG,
-    DC1394_BAYER_METHOD_AHD
+    DC1394_BAYER_METHOD_VNG
 } dc1394bayer_method_t;
 
 typedef enum {

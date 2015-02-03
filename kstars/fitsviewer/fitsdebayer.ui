@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>155</width>
-    <height>154</height>
+    <width>210</width>
+    <height>187</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,17 +78,7 @@
        </item>
        <item>
         <property name="text">
-         <string>DownSample</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>VNG</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>AHD</string>
         </property>
        </item>
       </widget>
@@ -124,6 +114,23 @@
        </property>
        <property name="maximum">
         <number>50</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Status:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="statusEdit">
+       <property name="text">
+        <string>Ready.</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

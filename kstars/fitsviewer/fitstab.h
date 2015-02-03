@@ -89,6 +89,7 @@ private:
     int uid;
 
 signals:
+    void debayerToggled(bool);
     void newStatus(const QString &msg, FITSBar id);
     void changeStatus(bool clean);
 

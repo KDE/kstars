@@ -93,7 +93,7 @@ FITSData::~FITSData()
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
 
-    delete (wcs_coord);
+    delete[] wcs_coord;
 
     if (fptr)
     {
@@ -346,6 +346,9 @@ int FITSData::saveFITS( const QString &newFilename )
     fpixel[0] = 1;
     fpixel[1] = 1;
 
+    if (HasDebayer)
+    if (KMessageBox::warningContinueCancel(NULL, xi18n("Are you sure you want to overwrite original image data with debayered data? This action is irreversible!"), xi18n("Save FITS")) != KMessageBox::Continue)
+        return -1000;
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, newFilename.toLatin1(), &status))
@@ -467,9 +470,9 @@ int FITSData::saveFITS( const QString &newFilename )
 
 void FITSData::clearImageBuffers()
 {
-        delete(image_buffer);
+        delete[] image_buffer;
         image_buffer=NULL;
-        delete(bayer_buffer);
+        delete [] bayer_buffer;
         bayer_buffer=NULL;
 }
 
@@ -1322,7 +1325,7 @@ void FITSData::checkWCS()
       return;
     }
 
-    delete (wcs_coord);
+    delete[] wcs_coord;
 
     wcs_coord = new wcs_point[width*height];
 
@@ -1644,7 +1647,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
         }
     }
 
-    delete(image_buffer);
+    delete[] image_buffer;
     image_buffer = rotimage;
 
     return true;
@@ -1941,7 +1944,7 @@ float * FITSData::getImageBuffer()
 
 void FITSData::setImageBuffer(float *buffer)
 {
-    delete(image_buffer);
+    delete[] image_buffer;
     image_buffer = buffer;
 }
 
@@ -1978,7 +1981,7 @@ bool FITSData::checkDebayer()
   fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, NULL, &status);
   fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status); 
 
-  delete (bayer_buffer);
+  delete[] bayer_buffer;
   bayer_buffer = new float[stats.size * channels];
   if (bayer_buffer == NULL)
   {
@@ -2013,25 +2016,54 @@ bool FITSData::debayer()
 {
     dc1394error_t error_code;
 
-    if (channels == 1)
+    int rgb_size = stats.size*3;
+    float * dst = new float[rgb_size];
+    if (dst == NULL)
     {
-        delete (image_buffer);
-        image_buffer = new float[stats.size * 3];
+        KMessageBox::error(NULL, xi18n("Unable to allocate memory for temporary bayer buffer."), xi18n("Debayer Error"));
+        return false;
     }
 
-    if ( (error_code = dc1394_bayer_decoding_float(bayer_buffer, image_buffer, stats.width, stats.height, debayerParams.filter, debayerParams.method)) != DC1394_SUCCESS)
+    if ( (error_code = dc1394_bayer_decoding_float(bayer_buffer, dst, stats.width, stats.height, debayerParams.filter, debayerParams.method)) != DC1394_SUCCESS)
     {
         KMessageBox::error(NULL, xi18n("Debayer failed (%1)", error_code), xi18n("Debayer error"));
         channels=1;
+        delete[] dst;
         //Restore buffer
-        delete(image_buffer);
+        delete[] image_buffer;
         image_buffer = new float[stats.size];
         memcpy(image_buffer, bayer_buffer, stats.size * sizeof(float));
         return false;
     }
 
+    if (channels == 1)
+    {
+        delete[] image_buffer;
+        image_buffer = new float[rgb_size];
+
+        if (image_buffer == NULL)
+        {
+            delete[] dst;
+            KMessageBox::error(NULL, xi18n("Unable to allocate memory for debayerd buffer."), xi18n("Debayer Error"));
+            return false;
+        }
+    }
+
+    // Data in R1G1B1, we need to copy them into 3 layers for FITS
+    float * rBuff = image_buffer;
+    float * gBuff = image_buffer + (stats.width * stats.height);
+    float * bBuff = image_buffer + (stats.width * stats.height * 2);
+
+    int imax = stats.size*3 - 3;
+    for (int i=0; i <= imax; i += 3)
+    {
+        *rBuff++ = dst[i];
+        *gBuff++ = dst[i+1];
+        *bBuff++ = dst[i+2];
+    }
+
     channels=3;
-    qDebug() << "Debayer completed successfully ... " << endl;
+    delete[] dst;
     return true;
 
 }

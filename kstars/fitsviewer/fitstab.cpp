@@ -91,6 +91,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
 
         setLayout(vlayout);
         connect(view, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
+        connect(view, SIGNAL(debayerToggled(bool)), this, SIGNAL(debayerToggled(bool)));
     }
 
     currentURL = *imageURL;
@@ -274,6 +275,10 @@ bool FITSTab::saveFile()
     {
         if ( (err_status = saveFITS('!' + currentURL.path())) != 0)
         {
+            // -1000 = user canceled
+            if (err_status == -1000)
+                return false;
+
             fits_get_errstatus(err_status, err_text);
             // Use KMessageBox or something here
             KMessageBox::error(0, i18n("FITS file save error: %1",

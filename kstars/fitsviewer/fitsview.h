@@ -154,6 +154,7 @@ private:
 
 signals:
     void newStatus(const QString &msg, FITSBar id);
+    void debayerToggled(bool);
     void actionUpdated(const QString &name, bool enable);
     void guideStarSelected(int x, int y);
 

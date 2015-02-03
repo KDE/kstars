@@ -112,6 +112,7 @@ public slots:
     void flipHorizontal();
     void flipVertical();
     void setGamma(int value);
+    void setDebayerAction(bool);
 
 private:
 
