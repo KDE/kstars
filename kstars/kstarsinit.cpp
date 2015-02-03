@@ -83,7 +83,8 @@ namespace {
     }
     // Set keyboard shortcut
     QAction * operator << (QAction* ka, const QKeySequence sh) {
-        ka->setShortcut(sh);
+        KStars::Instance()->actionCollection()->setDefaultShortcut(ka, sh);
+        //ka->setShortcut(sh);
         return ka;
     }
 
