@@ -67,7 +67,8 @@ bool greaterThan(Edge *s1, Edge *s2)
 FITSData::FITSData(FITSMode fitsMode)
 {
     channels = 0;
-    image_buffer = NULL;    
+    image_buffer = NULL;
+    bayer_buffer = NULL;
     wcs_coord    = NULL;
     fptr = NULL;
     maxHFRStar = NULL;
@@ -75,7 +76,12 @@ FITSData::FITSData(FITSMode fitsMode)
     tempFile  = false;
     starsSearched = false;
     HasWCS = false;
+    HasDebayer=false;
     mode = fitsMode;
+
+    debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
+    debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
+    debayerParams.offsetX  = debayerParams.offsetY = 0;
 }
 
 FITSData::~FITSData()
@@ -101,7 +107,7 @@ FITSData::~FITSData()
 
 bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 {
-    int status=0, nulval=0, anynull=0;
+    int status=0, anynull=0;
     long naxes[3];
     char error_status[512];
 
@@ -171,6 +177,31 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
         return false;
     }
 
+    switch (stats.bitpix)
+    {
+        case 8:
+            data_type = TBYTE;
+            break;
+        case 16:
+            data_type = TUSHORT;
+            break;
+        case 32:
+            data_type = TINT;
+            break;
+        case -32:
+             data_type = TFLOAT;
+             break;
+        case 64:
+             data_type = TLONGLONG;
+             break;
+        case -64:
+             data_type = TDOUBLE;
+        default:
+            KMessageBox::error(NULL, xi18n("Bit depth %1 is not supported.", stats.bitpix), xi18n("FITS Open"));
+            return false;
+            break;
+    }
+
     if (stats.ndim < 3)
         naxes[2] = 1;
 
@@ -182,16 +213,6 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     }
 
 
-    if (fits_get_img_type(fptr, &data_type, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-
-        if (progress)
-            KMessageBox::error(0, xi18n("FITS file open error (fits_get_img_type): %1", QString::fromUtf8(error_status)), xi18n("FITS Open"));
-        return false;
-    }
-
     if (mode == FITS_NORMAL && progress)
         if (progress->wasCanceled())
             return false;
@@ -199,9 +220,9 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     if (mode == FITS_NORMAL && progress)
         progress->setValue(60);
 
-    stats.dim[0] = naxes[0];
-    stats.dim[1] = naxes[1];
-    stats.size = stats.dim[0]*stats.dim[1];
+    stats.width  = naxes[0];
+    stats.height = naxes[1];
+    stats.size   = stats.width*stats.height;
 
     clearImageBuffers();
 
@@ -210,7 +231,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     image_buffer = new float[stats.size * channels];
     if (image_buffer == NULL)
     {
-       qDebug() << "Not enough memory for image_buffer channel" << endl;
+       qDebug() << "Not enough memory for image_buffer channel. Requested: " << stats.size * channels * sizeof(float) << " bytes." << endl;
        clearImageBuffers();
        return false;
     }
@@ -230,12 +251,22 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     rotCounter=0;
     flipHCounter=0;
     flipVCounter=0;
+    long nelements = stats.size * channels;
 
     qApp->processEvents();
 
-    if (channels == 1)
+    if (fits_read_img(fptr, TFLOAT, 1, nelements, 0, image_buffer, &anynull, &status))
     {
-        if (fits_read_2d_flt(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
+        char errmsg[512];
+        fits_get_errstatus(status, errmsg);
+        KMessageBox::error(NULL, xi18n("Error reading image: %1", QString(errmsg)), xi18n("FITS Open"));
+        fits_report_error(stderr, status);
+        return false;
+    }
+
+    /*if (channels == 1)
+    {
+        if (fits_read_2d(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
         {
             qDebug() << "2D fits_read_pix error" << endl;
             fits_report_error(stderr, status);
@@ -250,7 +281,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
             fits_report_error(stderr, status);
             return false;
         }
-    }
+    }*/
 
     if (darkFrame != NULL)
         subtract(darkFrame);
@@ -270,17 +301,14 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     if (mode == FITS_NORMAL && progress)
         progress->setValue(80);
 
-    //currentWidth  = stats.dim[0];
-   // currentHeight = stats.dim[1];
-
-    qApp->processEvents();
+    qApp->processEvents();    
 
     if (mode == FITS_NORMAL)
     {
         checkWCS();
 
         if (progress)
-            progress->setValue(90);
+            progress->setValue(85);
     }
 
     if (mode == FITS_NORMAL && progress)
@@ -291,6 +319,13 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
             return false;
         }
     }
+
+    if (mode == FITS_NORMAL && progress)
+        progress->setValue(90);
+
+    qApp->processEvents();
+    if (checkDebayer())
+        debayer();
 
     if (mode == FITS_NORMAL && progress)
         progress->setValue(100);
@@ -307,7 +342,7 @@ int FITSData::saveFITS( const QString &newFilename )
     long fpixel[2], nelements;    
     fitsfile *new_fptr;
 
-    nelements = stats.dim[0] * stats.dim[1];
+    nelements = stats.size * channels;
     fpixel[0] = 1;
     fpixel[1] = 1;
 
@@ -360,7 +395,6 @@ int FITSData::saveFITS( const QString &newFilename )
         return status;
     }
 
-
     /* Write Data */
     if (fits_write_pix(fptr, TFLOAT, fpixel, nelements, image_buffer, &status))
     {
@@ -385,14 +419,14 @@ int FITSData::saveFITS( const QString &newFilename )
     }
 
     // NAXIS1
-    if (fits_update_key(fptr, TINT, "NAXIS1", &(stats.dim[0]), "length of data axis 1", &status))
+    if (fits_update_key(fptr, TINT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
     {
         fits_report_error(stderr, status);
         return status;
     }
 
     // NAXIS2
-    if (fits_update_key(fptr, TINT, "NAXIS2", &(stats.dim[1]), "length of data axis 2", &status))
+    if (fits_update_key(fptr, TINT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
     {
         fits_report_error(stderr, status);
         return status;
@@ -435,6 +469,8 @@ void FITSData::clearImageBuffers()
 {
         delete(image_buffer);
         image_buffer=NULL;
+        delete(bayer_buffer);
+        bayer_buffer=NULL;
 }
 
 int FITSData::calculateMinMax(bool refresh)
@@ -488,12 +524,11 @@ void FITSData::calculateStats(bool refresh)
 
 void FITSData::runningAverageStdDev()
 {
-    int size    = stats.dim[0] * stats.dim[1];
     int m_n = 2;
     double m_oldM=0, m_newM=0, m_oldS=0, m_newS=0;
     m_oldM = m_newM = image_buffer[0];
 
-    for (int i=1; i < size; i++)
+    for (unsigned int i=1; i < stats.size; i++)
     {
         m_newM = m_oldM + (image_buffer[i] - m_oldM)/m_n;
         m_newS = m_oldS + (image_buffer[i] - m_oldM) * (image_buffer[i] - m_newM);
@@ -508,52 +543,6 @@ void FITSData::runningAverageStdDev()
     stats.average = m_newM;
     stats.stddev  = sqrt(variance);
 }
-
-/*
-double FITSImage::average()
-{
-    double sum=0;
-    int row=0;
-    int width   = stats.dim[0];
-    int height  = stats.dim[1];
-
-    if (!image_buffer) return -1;
-
-    for (int i= 0 ; i < height; i++)
-    {
-        row = (i * width);
-        for (int j= 0; j < width; j++)
-            sum += image_buffer[row+j];
-    }
-
-    return (sum / (width * height ));
-
-}
-
-double FITSImage::stddev()
-{
-
-    int row=0;
-    double lsum=0;
-    int width   = stats.dim[0];
-    int height  = stats.dim[1];
-
-    if (!image_buffer) return -1;
-
-    for (int i= 0 ; i < height; i++)
-    {
-        row = (i * width);
-        for (int j= 0; j < width; j++)
-        {
-            lsum += (image_buffer[row + j] - stats.average) * (image_buffer[row+j] - stats.average);
-        }
-    }
-
-    return (sqrt(lsum/(width * height - 1)));
-
-
-}
-*/
 
 void FITSData::setMinMax(double newMin,  double newMax)
 {
@@ -663,13 +652,13 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
         threshold -= stats.min;
 
     // Detect "edges" that are above threshold
-    for (int i=0; i < stats.dim[1]; i++)
+    for (int i=0; i < stats.height; i++)
     {
         pixelRadius = 0;
 
-        for(int j=0; j < stats.dim[0]; j++)
+        for(int j=0; j < stats.width; j++)
         {
-            pixVal = image_buffer[j+(i*stats.dim[0])] - min;
+            pixVal = image_buffer[j+(i*stats.width)] - min;
 
             // If pixel value > threshold, let's get its weighted average
             if ( pixVal >= threshold || (sum > 0 && badPix <= badPixLimit))
@@ -701,7 +690,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                         newEdge->x          = center;
                         newEdge->y          = i;
                         newEdge->scanned    = 0;
-                        newEdge->val        = image_buffer[i_center+(i*stats.dim[0])] - min;
+                        newEdge->val        = image_buffer[i_center+(i*stats.width)] - min;
                         newEdge->width      = pixelRadius;
                         newEdge->HFR        = 0;
                         newEdge->sum        = sum;
@@ -845,7 +834,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
            //qDebug() << "Profile for this center is:" << endl;
            //for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
-              // qDebug() << "#" << i << " , " << image_buffer[(int) round(rCenter->x-i+(rCenter->y*stats.dim[0]))] - stats.min <<  endl;
+              // qDebug() << "#" << i << " , " << image_buffer[(int) round(rCenter->x-i+(rCenter->y*stats.width))] - stats.min <<  endl;
 
            #endif
 
@@ -857,28 +846,28 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             cen_x = (int) round(rCenter->x);
             cen_y = (int) round(rCenter->y);
 
-            if (cen_x < 0 || cen_x > stats.dim[0] || cen_y < 0 || cen_y > stats.dim[1])
+            if (cen_x < 0 || cen_x > stats.width || cen_y < 0 || cen_y > stats.height)
                 continue;
 
 
             // Complete sum along the radius
             //for (int k=0; k < rCenter->width; k++)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
-                FSum += image_buffer[cen_x-k+(cen_y*stats.dim[0])] - min;
+                FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
 
             // Half flux
             HF = FSum / 2.0;
 
             // Total flux starting from center
-            TF = image_buffer[cen_y * stats.dim[0] + cen_x] - min;
+            TF = image_buffer[cen_y * stats.width + cen_x] - min;
 
             int pixelCounter = 1;
 
             // Integrate flux along radius axis until we reach half flux
             for (int k=1; k < rCenter->width/2; k++)
             {
-                TF += image_buffer[cen_y * stats.dim[0] + cen_x + k] - min;
-                TF += image_buffer[cen_y * stats.dim[0] + cen_x - k] - min;
+                TF += image_buffer[cen_y * stats.width + cen_x + k] - min;
+                TF += image_buffer[cen_y * stats.width + cen_x - k] - min;
 
                 if (TF >= HF)
                 {
@@ -991,8 +980,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
     if (image == NULL)
         image = image_buffer;
 
-    int width = stats.dim[0];
-    int height = stats.dim[1];
+    int width = stats.width;
+    int height = stats.height;
 
     if (min == -1)
         min = stats.min;
@@ -1235,7 +1224,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 
 void FITSData::subtract(float *dark_buffer)
 {
-    for (int i=0; i < stats.dim[0]*stats.dim[1]; i++)
+    for (int i=0; i < stats.width*stats.height; i++)
     {
         image_buffer[i] -= dark_buffer[i];
         if (image_buffer[i] < 0)
@@ -1425,8 +1414,8 @@ bool FITSData::rotFITS (int rotate, int mirror)
     else if (rotate < 0)
     rotate = rotate + 360;
 
-    nx = stats.dim[0];
-    ny = stats.dim[1];
+    nx = stats.width;
+    ny = stats.height;
 
    /* Allocate buffer for rotated image */
     rotimage = new float[stats.size*channels];
@@ -1533,8 +1522,8 @@ bool FITSData::rotFITS (int rotate, int mirror)
 
     }
 
-    stats.dim[0] = ny;
-    stats.dim[1] = nx;
+    stats.width = ny;
+    stats.height = nx;
     }
 
     /* Rotate by 180 degrees */
@@ -1633,8 +1622,8 @@ bool FITSData::rotFITS (int rotate, int mirror)
         }
     }
 
-    stats.dim[0] = ny;
-    stats.dim[1] = nx;
+    stats.width = ny;
+    stats.height = nx;
    }
 
     /* If rotating by more than 315 degrees, assume top-bottom reflection */
@@ -1668,8 +1657,8 @@ void FITSData::rotWCSFITS (int angle, int mirror)
     double ctemp1, ctemp2, ctemp3, ctemp4, naxis1, naxis2;
     int WCS_DECIMALS=6;
 
-    naxis1=stats.dim[0];
-    naxis2=stats.dim[1];
+    naxis1=stats.width;
+    naxis2=stats.height;
 
     if (fits_read_key_dbl(fptr, "CD1_1", &ctemp1, comment, &status ))
     {
@@ -1956,3 +1945,93 @@ void FITSData::setImageBuffer(float *buffer)
     image_buffer = buffer;
 }
 
+bool FITSData::checkDebayer()
+{
+
+  int status=0;
+  char bayerPattern[64];
+
+  // Let's search for BAYERPAT keyword, if it's not found we return as there is no bayer pattern in this image
+  if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, NULL, &status))
+      return false;
+
+  if (stats.bitpix != 16 && stats.bitpix != 8)
+  {
+      KMessageBox::error(NULL, xi18n("Only 8 and 16 bits bayered images supported."), xi18n("Debayer error"));
+      return false;
+  }
+  QString pattern(bayerPattern);
+  pattern = pattern.remove("'").trimmed();
+
+  if (pattern == "RGGB")
+      debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+  else if (pattern == "GBRG")
+      debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+  else if (pattern == "GRBG")
+      debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+  else if (pattern == "BGGR")
+      debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+  // We return unless we find a valid pattern
+  else
+      return false;
+
+  fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, NULL, &status);
+  fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status); 
+
+  delete (bayer_buffer);
+  bayer_buffer = new float[stats.size * channels];
+  if (bayer_buffer == NULL)
+  {
+      KMessageBox::error(NULL, xi18n("Unable to allocate memory for bayer buffer."), xi18n("Open FITS"));
+      return false;
+  }
+  memcpy(bayer_buffer, image_buffer, stats.size * channels * sizeof(float));
+
+  HasDebayer = true;
+
+  return true;
+
+}
+
+void FITSData::getBayerParams(BayerParams *param)
+{
+    param->method       = debayerParams.method;
+    param->filter       = debayerParams.filter;
+    param->offsetX      = debayerParams.offsetX;
+    param->offsetY      = debayerParams.offsetY;
+}
+
+void FITSData::setBayerParams(BayerParams *param)
+{
+    debayerParams.method   = param->method;
+    debayerParams.filter   = param->filter;
+    debayerParams.offsetX  = param->offsetX;
+    debayerParams.offsetY  = param->offsetY;
+}
+
+bool FITSData::debayer()
+{
+    dc1394error_t error_code;
+
+    if (channels == 1)
+    {
+        delete (image_buffer);
+        image_buffer = new float[stats.size * 3];
+    }
+
+    if ( (error_code = dc1394_bayer_decoding_float(bayer_buffer, image_buffer, stats.width, stats.height, debayerParams.filter, debayerParams.method)) != DC1394_SUCCESS)
+    {
+        KMessageBox::error(NULL, xi18n("Debayer failed (%1)", error_code), xi18n("Debayer error"));
+        channels=1;
+        //Restore buffer
+        delete(image_buffer);
+        image_buffer = new float[stats.size];
+        memcpy(image_buffer, bayer_buffer, stats.size * sizeof(float));
+        return false;
+    }
+
+    channels=3;
+    qDebug() << "Debayer completed successfully ... " << endl;
+    return true;
+
+}

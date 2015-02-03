@@ -33,7 +33,7 @@
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 {
-    image      = NULL;
+    view      = NULL;
     histogram  = NULL;
     viewer     = parent;
 
@@ -46,14 +46,14 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 
 FITSTab::~FITSTab()
 {
-    delete(image);
+    delete(view);
     disconnect(0,0,0);
 }
 
 void FITSTab::saveUnsaved()
 {
 
-    if( undoStack->isClean() || image->getMode() != FITS_NORMAL)
+    if( undoStack->isClean() || view->getMode() != FITS_NORMAL)
         return;
 
     QString caption = xi18n( "Save Changes to FITS?" );
@@ -81,23 +81,23 @@ void FITSTab::closeEvent(QCloseEvent *ev)
 
 bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
 {
-    if (image == NULL)
+    if (view == NULL)
     {
-        image = new FITSView(this, mode, filter);
-        image->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        view = new FITSView(this, mode, filter);
+        view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 
-        vlayout->addWidget(image);
+        vlayout->addWidget(view);
 
         setLayout(vlayout);
-        connect(image, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
+        connect(view, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
     }
 
     currentURL = *imageURL;
 
-    image->setFilter(filter);
+    view->setFilter(filter);
 
-    bool imageLoad = image->loadFITS(imageURL->url());
+    bool imageLoad = view->loadFITS(imageURL->url());
 
     if (imageLoad)
     {
@@ -106,18 +106,18 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
         else
             histogram->updateHistogram();
 
-        FITSData *image_data = image->getImageData();
+        FITSData *image_data = view->getImageData();
 
         image_data->setHistogram(histogram);
         image_data->applyFilter(filter);
 
         if (filter != FITS_NONE)
-            image->rescale(ZOOM_KEEP_LEVEL);
+            view->rescale(ZOOM_KEEP_LEVEL);
 
         if (viewer->isStarsMarked())
-            image->toggleStars(true);
+            view->toggleStars(true);
 
-        image->updateFrame();
+        view->updateFrame();
     }
 
 
@@ -141,12 +141,12 @@ void FITSTab::modifyFITSState(bool clean)
 
 int FITSTab::saveFITS(const QString &filename)
 {
-    return image->saveFITS(filename);
+    return view->saveFITS(filename);
 }
 
 void FITSTab::copyFITS()
 {
-    QApplication::clipboard()->setImage( *(image->getDisplayImage()) );
+    QApplication::clipboard()->setImage( *(view->getDisplayImage()) );
 }
 
 void FITSTab::histoFITS()
@@ -161,7 +161,7 @@ void FITSTab::statFITS()
     Ui::statForm stat;
     stat.setupUi(&statDialog);
 
-    FITSData *image_data = image->getImageData();
+    FITSData *image_data = view->getImageData();
 
     stat.widthOUT->setText(QString::number(image_data->getWidth()));
     stat.heightOUT->setText(QString::number(image_data->getHeight()));
@@ -182,7 +182,7 @@ void FITSTab::headerFITS()
     int err_status;
     char err_text[FLEN_STATUS];
 
-    FITSData *image_data = image->getImageData();
+    FITSData *image_data = view->getImageData();
 
     if ( (err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
     {
@@ -302,23 +302,23 @@ bool FITSTab::saveFileAs()
 
 void FITSTab::ZoomIn()
 {
-   image->ZoomIn();
+   view->ZoomIn();
 }
 
 void FITSTab::ZoomOut()
 {
-  image->ZoomOut();
+  view->ZoomOut();
 }
 
 void FITSTab::ZoomDefault()
 {
-  image->ZoomDefault();
+  view->ZoomDefault();
 }
 
 void FITSTab::tabPositionUpdated()
 {
     undoStack->setActive(true);
-    emit newStatus(QString("%1").arg(image->getGammaValue()), FITS_GAMMA);
-    emit newStatus(QString("%1%").arg(image->getCurrentZoom()), FITS_ZOOM);
-    emit newStatus(QString("%1x%2").arg(image->getImageData()->getWidth()).arg(image->getImageData()->getHeight()), FITS_RESOLUTION);
+    emit newStatus(QString("%1").arg(view->getGammaValue()), FITS_GAMMA);
+    emit newStatus(QString("%1%").arg(view->getCurrentZoom()), FITS_ZOOM);
+    emit newStatus(QString("%1x%2").arg(view->getImageData()->getWidth()).arg(view->getImageData()->getHeight()), FITS_RESOLUTION);
 }

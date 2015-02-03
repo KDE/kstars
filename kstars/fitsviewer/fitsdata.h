@@ -42,6 +42,7 @@
 
 #include "skypoint.h"
 #include "dms.h"
+#include "bayer.h"
 
 #define INITIAL_W	640
 #define INITIAL_H	480
@@ -90,17 +91,22 @@ public:
     void runningAverageStdDev();
 
     // Access functions
+    double getValue(float *buffer, int i);
+    void setValue(float *buffer, int i, double value);
+    double getValue(int i);
+    void setValue(int i, float value);
     void clearImageBuffers();
     void setImageBuffer(float *buffer);
     float * getImageBuffer();
 
     // Stats
+    int getDataType() { return data_type; }
     unsigned int getSize() { return stats.size; }
-    void getDimensions(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
-    void setWidth(long w) { stats.dim[0] = w;}
-    void setHeight(long h) { stats.dim[1] = h;}
-    long getWidth() { return stats.dim[0]; }
-    long getHeight() { return stats.dim[1]; }
+    void getDimensions(double *w, double *h) { *w = stats.width; *h = stats.height; }
+    void setWidth(long w) { stats.width = w;}
+    void setHeight(long h) { stats.height = h;}
+    long getWidth() { return stats.width; }
+    long getHeight() { return stats.height; }
 
     // Statistics
     int getNumOfChannels() { return channels;}
@@ -135,6 +141,12 @@ public:
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
 
+    // Debayer
+    bool hasDebayer() { return HasDebayer; }
+    bool debayer();
+    void getBayerParams(BayerParams *param);
+    void setBayerParams(BayerParams *param);
+
     // FITS Record
     int getFITSRecord(QString &recordList, int &nkeys);
 
@@ -158,7 +170,7 @@ public:
 
     // Dark frame
     float *getDarkFrame() const;
-    void setDarkFrame(float *value);    
+    void setDarkFrame(float *value);
     void subtract(float *darkFrame);
 
     /* stats struct to hold statisical data about the FITS data */
@@ -171,7 +183,8 @@ public:
         int bitpix;
         int ndim;
         unsigned int size;
-        long dim[2];
+        long width;
+        long height;
     } stats;
 
 private:
@@ -181,22 +194,22 @@ private:
     bool checkCollision(Edge* s1, Edge*s2);
     int calculateMinMax(bool refresh=false);
     void checkWCS();
+    bool checkDebayer();
     void readWCSKeys();
 
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    int channels;                       // Number of channels
-    float *original_image_buffer;      // Original float buffer unchanged by any operation
-    float *image_buffer;				// Current image buffer
-    float *darkFrame;                   // Optional dark frame pointer
-
-    int data_type;                      // FITS data type when opened */
+    int data_type;                      // FITS image data type
+    int channels;                       // Number of channels    
+    float *image_buffer;         		// Current image buffer
+    float *darkFrame;                    // Optional dark frame pointer
 
     bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
     bool starsSearched;                 // Did we search for stars yet?
     bool HasWCS;                        // Do we have WCS keywords in this FITS data?
     bool markStars;                     // Do we need to mark stars for the user?
+    bool HasDebayer;                    // Is the image debayarable?
 
     QString filename;                   // Our very own file name
     FITSMode mode;                      // FITS Mode (Normal, WCS, Guide, Focus..etc)
@@ -208,6 +221,9 @@ private:
     wcs_point *wcs_coord;               // Pointer to WCS coordinate data, if any.
     QList<Edge*> starCenters;           // All the stars we detected, if any.
     Edge* maxHFRStar;                   // The biggest fattest star in the image.
+
+    float *bayer_buffer;                // Bayer buffer
+    BayerParams debayerParams;          // Bayer parameters
 
 };
 

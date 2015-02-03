@@ -64,6 +64,7 @@
 #include "fitsdata.h"
 #include "fitstab.h"
 #include "fitsview.h"
+#include "fitsdebayer.h"
 #include "fitshistogram.h"
 #include "ksutils.h"
 #include "Options.h"
@@ -80,6 +81,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     undoGroup = new QUndoGroup(this);
 
     fitsID = 0;
+    debayerDialog= NULL;
     markStars = false;
 
     fitsTab->setTabsClosable(true);
@@ -137,7 +139,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action = actionCollection()->addAction("image_histogram");
     action->setText(xi18n("Histogram"));
     connect(action, SIGNAL(triggered(bool)), SLOT (histoFITS()));
-    action->setShortcuts(QKeySequence::Replace);
+    actionCollection()->setDefaultShortcut(action, QKeySequence::Replace);
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
@@ -157,6 +159,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
     action = actionCollection()->addAction("fits_debayer");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_B));
     action->setIcon(QIcon::fromTheme("view-preview"));
     action->setText(xi18n( "Debayer..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(debayerFITS()));
@@ -164,7 +167,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action = actionCollection()->addAction("image_stretch");
     action->setText(xi18n("Auto stretch"));
     connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
-    action->setShortcuts(QKeySequence::SelectAll);
+    actionCollection()->setDefaultShortcut(action, QKeySequence::SelectAll);
     action->setIcon(QIcon::fromTheme("transform-move"));
 
     KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());    
@@ -220,7 +223,7 @@ FITSViewer::~FITSViewer()
 {
     fitsTab->disconnect();
 
-    qDeleteAll(fitsImages);
+    qDeleteAll(fitsTabs);
 }
 
 int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, bool preview)
@@ -233,7 +236,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     if (tab->loadFITS(imageName,mode, filter) == false)
     {
         led.setColor(Qt::red);
-        if (fitsImages.size() == 0)
+        if (fitsTabs.size() == 0)
         {
 
             // Close FITS Viewer and let KStars know it is no longer needed in memory.
@@ -268,7 +271,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     }
 
     connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
-    connect(tab->getImage(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
+    connect(tab->getView(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
     connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
 
     saveFileAction->setEnabled(true);
@@ -276,11 +279,13 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
     undoGroup->addStack(tab->getUndoStack());    
 
-    fitsImages.push_back(tab);
+    fitsTabs.push_back(tab);
 
     fitsMap[fitsID] = tab;
 
     fitsTab->setCurrentWidget(tab);
+
+    actionCollection()->action("fits_debayer")->setEnabled(tab->getView()->getImageData()->hasDebayer());
 
     tab->tabPositionUpdated();
 
@@ -305,10 +310,10 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
 
     if (tab)
     {
-        rc = tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
+        rc = tab->loadFITS(imageName, tab->getView()->getMode(), filter);
 
         int tabIndex = fitsTab->indexOf(tab);
-        if (tabIndex != -1 && tab->getImage()->getMode() == FITS_NORMAL)
+        if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
         {
             if (imageName->path().startsWith("/tmp") && Options::singlePreviewFITS())
                 fitsTab->setTabText(tabIndex,xi18n("Preview"));
@@ -332,20 +337,36 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
 
 void FITSViewer::tabFocusUpdated(int currentIndex)
 {
-    if (currentIndex < 0 || fitsImages.empty())
+    if (currentIndex < 0 || fitsTabs.empty())
         return;
 
-    fitsImages[currentIndex]->tabPositionUpdated();
+    fitsTabs[currentIndex]->tabPositionUpdated();
 
-    fitsImages[currentIndex]->getImage()->toggleStars(markStars);
+    FITSView *view = fitsTabs[currentIndex]->getView();
+
+    view->toggleStars(markStars);
 
     if (isVisible())
-        fitsImages[currentIndex]->getImage()->updateFrame();
+        view->updateFrame();
 
     if (markStars)
-        updateStatusBar(xi18np("%1 star detected.", "%1 stars detected.",fitsImages[currentIndex]->getImage()->getImageData()->getDetectedStars()), FITS_MESSAGE);
+        updateStatusBar(xi18np("%1 star detected.", "%1 stars detected.",view->getImageData()->getDetectedStars()), FITS_MESSAGE);
     else
         updateStatusBar("", FITS_MESSAGE);
+
+    if (view->getImageData()->hasDebayer())
+    {
+        actionCollection()->action("fits_debayer")->setEnabled(true);
+
+        if (debayerDialog)
+        {
+            BayerParams param;
+            view->getImageData()->getBayerParams(&param);
+            debayerDialog->setBayerParams(&param);
+        }
+    }
+    else
+        actionCollection()->action("fits_debayer")->setEnabled(false);
 
     updateStatusBar("", FITS_WCS);
 
@@ -361,7 +382,7 @@ void FITSViewer::slotClose()
         close();
     else
     {
-        for (int i=0; i < fitsImages.size(); i++)
+        for (int i=0; i < fitsTabs.size(); i++)
             if ( (rc=saveUnsaved(i)) == 2)
                 return;
     }
@@ -374,7 +395,7 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
     fitsTab->disconnect();
 
 
-   for (int i=0; i < fitsImages.size(); i++)
+   for (int i=0; i < fitsTabs.size(); i++)
        if ( (rc=saveUnsaved(i)) == 2)
        {
            ev->ignore();
@@ -399,7 +420,7 @@ void FITSViewer::openFile()
 
 
     // Make sure we don't have it open already, if yes, switch to it
-    foreach (FITSTab *tab, fitsImages)
+    foreach (FITSTab *tab, fitsTabs)
     {
         cpath = tab->getCurrentURL()->path();
         if (fpath == cpath)
@@ -415,101 +436,116 @@ void FITSViewer::openFile()
 
 void FITSViewer::saveFile()
 {
-    fitsImages[fitsTab->currentIndex()]->saveFile();
+    fitsTabs[fitsTab->currentIndex()]->saveFile();
 }
 
 void FITSViewer::saveFileAs()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    if (fitsImages[fitsTab->currentIndex()]->saveFileAs() && fitsImages[fitsTab->currentIndex()]->getImage()->getMode() == FITS_NORMAL)
-        fitsTab->setTabText(fitsTab->currentIndex(), fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName());
+    if (fitsTabs[fitsTab->currentIndex()]->saveFileAs() && fitsTabs[fitsTab->currentIndex()]->getView()->getMode() == FITS_NORMAL)
+        fitsTab->setTabText(fitsTab->currentIndex(), fitsTabs[fitsTab->currentIndex()]->getCurrentURL()->fileName());
 
 }
 
 void FITSViewer::copyFITS()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-   fitsImages[fitsTab->currentIndex()]->copyFITS();
+   fitsTabs[fitsTab->currentIndex()]->copyFITS();
 }
 
 void FITSViewer::histoFITS()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->histoFITS();
+    fitsTabs[fitsTab->currentIndex()]->histoFITS();
 }
 
 void FITSViewer::statFITS()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-  fitsImages[fitsTab->currentIndex()]->statFITS();
+  fitsTabs[fitsTab->currentIndex()]->statFITS();
 }
 
 void FITSViewer::stretchFITS()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_AUTO_STRETCH);
-    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_AUTO_STRETCH);
+    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
 
 }
 
 void FITSViewer::rotateCW()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CW);
-    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CW);
+    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
 
 }
 
 void FITSViewer::rotateCCW()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CCW);
-    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_ROTATE_CCW);
+    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
 
 }
 
 void FITSViewer::flipHorizontal()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_H);
-    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_H);
+    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
 }
 
 void FITSViewer::flipVertical()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_V);
-    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter(FITS_FLIP_V);
+    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
 }
 
 void FITSViewer::headerFITS()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-  fitsImages[fitsTab->currentIndex()]->headerFITS();
+  fitsTabs[fitsTab->currentIndex()]->headerFITS();
 }
 
 void FITSViewer::debayerFITS()
 {
+    if (debayerDialog == NULL)
+    {
+        debayerDialog = new FITSDebayer(this);
+    }
+
+    FITSView *view = getCurrentView();
+
+    if (view == NULL)
+        return;
+
+    BayerParams param;
+    view->getImageData()->getBayerParams(&param);
+    debayerDialog->setBayerParams(&param);
+
+    debayerDialog->show();
 
 }
 
@@ -517,11 +553,11 @@ int FITSViewer::saveUnsaved(int index)
 {
     FITSTab *targetTab = NULL;
 
-    if (index < 0 || index >= fitsImages.size())
+    if (index < 0 || index >= fitsTabs.size())
         return -1;
-    targetTab = fitsImages[index];
+    targetTab = fitsTabs[index];
 
-    if (targetTab->getImage()->getMode() != FITS_NORMAL)
+    if (targetTab->getView()->getMode() != FITS_NORMAL)
         targetTab->getUndoStack()->clear();
 
     if (targetTab->getUndoStack()->isClean())
@@ -583,26 +619,26 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
 
 void FITSViewer::ZoomIn()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-  fitsImages[fitsTab->currentIndex()]->ZoomIn();
+  fitsTabs[fitsTab->currentIndex()]->ZoomIn();
 }
 
 void FITSViewer::ZoomOut()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-  fitsImages[fitsTab->currentIndex()]->ZoomOut();
+  fitsTabs[fitsTab->currentIndex()]->ZoomOut();
 }
 
 void FITSViewer::ZoomDefault()
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-  fitsImages[fitsTab->currentIndex()]->ZoomDefault();
+  fitsTabs[fitsTab->currentIndex()]->ZoomDefault();
 }
 
 void FITSViewer::updateAction(const QString &name, bool enable)
@@ -616,10 +652,10 @@ void FITSViewer::updateAction(const QString &name, bool enable)
 
 void FITSViewer::updateTabStatus(bool clean)
 {
-    if (fitsImages.empty() || (fitsTab->currentIndex() >= fitsImages.size()))
+    if (fitsTabs.empty() || (fitsTab->currentIndex() >= fitsTabs.size()))
         return;
 
-  if (fitsImages[fitsTab->currentIndex()]->getImage()->getMode() != FITS_NORMAL)
+  if (fitsTabs[fitsTab->currentIndex()]->getView()->getMode() != FITS_NORMAL)
       return;
 
   //QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
@@ -631,12 +667,12 @@ void FITSViewer::updateTabStatus(bool clean)
 
 void FITSViewer::closeTab(int index)
 {
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    FITSTab *tab = fitsImages[index];
+    FITSTab *tab = fitsTabs[index];
 
-    if (tab->getImage()->getMode() != FITS_NORMAL)
+    if (tab->getView()->getMode() != FITS_NORMAL)
         return;
 
     int rc = saveUnsaved(index);
@@ -645,10 +681,10 @@ void FITSViewer::closeTab(int index)
         return;
 
     fitsMap.remove(tab->getUID());
-    fitsImages.removeOne(tab);
+    fitsTabs.removeOne(tab);
     delete tab;
 
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
     {
         saveFileAction->setEnabled(false);
         saveFileAsAction->setEnabled(false);
@@ -670,10 +706,10 @@ void FITSViewer::toggleStars()
         actionCollection()->action("mark_stars")->setText( xi18n( "Unmark Stars" ) );
     }
 
-    foreach(FITSTab *tab, fitsImages)
+    foreach(FITSTab *tab, fitsTabs)
     {
-        tab->getImage()->toggleStars(markStars);
-        tab->getImage()->updateFrame();
+        tab->getView()->toggleStars(markStars);
+        tab->getView()->updateFrame();
     }
 
 }
@@ -681,31 +717,39 @@ void FITSViewer::toggleStars()
 void FITSViewer::applyFilter(int ftype)
 {
 
-    if (fitsImages.empty())
+    if (fitsTabs.empty())
         return;
 
-    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale) ftype);
-    fitsImages[fitsTab->currentIndex()]->getImage()->updateFrame();
+    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale) ftype);
+    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
 
 
 }
 
-FITSView * FITSViewer::getImage(int fitsUID)
+FITSView * FITSViewer::getView(int fitsUID)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
 
     if (tab)
-        return tab->getImage();
+        return tab->getView();
     else
         return NULL;
 }
 
+FITSView *FITSViewer::getCurrentView()
+{
+    if (fitsTabs.empty() || fitsTab->currentIndex() >= fitsTabs.count() )
+        return NULL;
+
+     return fitsTabs[fitsTab->currentIndex()]->getView();
+}
+
 void FITSViewer::setGamma(int value)
 {
-    if (fitsTab->currentIndex() < 0 || fitsTab->currentIndex() > fitsImages.count())
+    if (fitsTab->currentIndex() < 0 || fitsTab->currentIndex() > fitsTabs.count())
         return;
 
-        fitsImages[fitsTab->currentIndex()]->getImage()->setGammaValue(value);
+        fitsTabs[fitsTab->currentIndex()]->getView()->setGammaValue(value);
 }
 
 

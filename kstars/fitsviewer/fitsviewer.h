@@ -47,6 +47,7 @@ class QUrl;
 
 class FITSView;
 class FITSTab;
+class FITSDebayer;
 
 
 /**
@@ -73,9 +74,9 @@ public:
     void toggleMarkStars(bool enable) { markStars = enable; }
     bool isStarsMarked() { return markStars; }
 
-    QList<FITSTab*> getImages() { return fitsImages; }
-
-    FITSView *getImage(int fitsUID);
+    QList<FITSTab*> getTabs() { return fitsTabs; }
+    FITSView *getView(int fitsUID);
+    FITSView *getCurrentView();
 
     static QStringList filterTypes;
 
@@ -116,12 +117,12 @@ private:
 
     QTabWidget *fitsTab;
     QUndoGroup *undoGroup;
-
+    FITSDebayer *debayerDialog;
     KLed led;
     QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsMessage;
     QSlider gammaSlider;
     QAction *saveFileAction, *saveFileAsAction;
-    QList<FITSTab*> fitsImages;
+    QList<FITSTab*> fitsTabs;
     int fitsID;
     bool markStars;
     QMap<int, FITSTab*> fitsMap;

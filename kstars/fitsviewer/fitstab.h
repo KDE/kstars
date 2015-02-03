@@ -27,6 +27,12 @@ class FITSView;
 class FITSHistogram;
 class FITSViewer;
 
+/**
+ * @brief The FITSTab class holds information on the current view (drawing area) in addition to the undo/redo stacks
+ *  and status of current document (clean or dirty). It also creates the corresponding histogram associated with the
+ *  image data that is stored in the FITSView class.
+ * @author Jasem Mutlaq
+ */
 class FITSTab : public QWidget
 {
     Q_OBJECT
@@ -39,7 +45,7 @@ public:
 
    inline QUndoStack *getUndoStack() { return undoStack; }
    inline QUrl * getCurrentURL() { return &currentURL; }
-   inline FITSView *getImage() { return image; }
+   inline FITSView *getView() { return view; }
    inline FITSHistogram *getHistogram() { return histogram; }
    inline FITSViewer *getViewer() { return viewer; }
 
@@ -71,7 +77,7 @@ private:
     /** Ask user whether he wants to save changes and save if he do. */
 
 
-    FITSView *image;           /* FITS image object */
+    FITSView *view;           /* FITS image object */
     FITSHistogram *histogram;   /* FITS Histogram */
     FITSViewer *viewer;
 

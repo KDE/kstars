@@ -83,7 +83,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
 {
     int id;
     double fits_w=0, fits_h=0;
-    FITSData *image_data = tab->getImage()->getImageData();
+    FITSData *image_data = tab->getView()->getImageData();
     float *buffer = image_data->getImageBuffer();
 
     image_data->getDimensions(&fits_w, &fits_h);
@@ -262,7 +262,7 @@ void FITSHistogram::updateIntenFreq(int x)
     if (x < 0 || x >= histogram_width)
         return;
 
-    ui->intensityOUT->setText(QString("%1").arg( ceil(x / binWidth) + tab->getImage()->getImageData()->getMin()));
+    ui->intensityOUT->setText(QString("%1").arg( ceil(x / binWidth) + tab->getView()->getImageData()->getMin()));
 
     ui->frequencyOUT->setText(QString("%1").arg(histArray[x]));
 }
@@ -328,7 +328,7 @@ FITSHistogramCommand::~FITSHistogramCommand()
 
 bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
 {
-    FITSData *image_data = tab->getImage()->getImageData();
+    FITSData *image_data = tab->getView()->getImageData();
 
     unsigned char *image_buffer = (unsigned char *) image_data->getImageBuffer();
     int totalPixels = image_data->getSize() * image_data->getNumOfChannels();
@@ -373,7 +373,7 @@ bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
 
 bool FITSHistogramCommand::reverseDelta()
 {
-    FITSView *image = tab->getImage();
+    FITSView *image = tab->getView();
     FITSData *image_data = image->getImageData();
     unsigned char *image_buffer = (unsigned char *) (image_data->getImageBuffer());
 
@@ -418,7 +418,7 @@ bool FITSHistogramCommand::reverseDelta()
 
 void FITSHistogramCommand::redo()
 {
-    FITSView *image = tab->getImage();
+    FITSView *image = tab->getView();
     FITSData *image_data = image->getImageData();
 
     float *image_buffer = image_data->getImageBuffer();    
@@ -502,7 +502,7 @@ void FITSHistogramCommand::redo()
 
 void FITSHistogramCommand::undo()
 {
-    FITSView *image = tab->getImage();
+    FITSView *image = tab->getView();
     FITSData *image_data = image->getImageData();
 
     if (delta != NULL)
@@ -595,7 +595,7 @@ void FITSHistogramCommand::saveStats(double min, double max, double stddev, doub
 
 void FITSHistogramCommand::restoreStats()
 {
-    FITSData *image_data = tab->getImage()->getImageData();
+    FITSData *image_data = tab->getView()->getImageData();
 
     image_data->setMinMax(stats.min, stats.max);
     image_data->setStdDev(stats.stddev);

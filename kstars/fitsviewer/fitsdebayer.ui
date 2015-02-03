@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>fitsdebayer</class>
- <widget class="QDialog" name="fitsdebayer">
+ <class>FITSDebayerDialog</class>
+ <widget class="QDialog" name="FITSDebayerDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>179</width>
-    <height>124</height>
+    <width>155</width>
+    <height>154</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Image Debayering</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -19,32 +19,113 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Pattern:</string>
+        <string>Filter:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QComboBox" name="patternCombo"/>
+      <widget class="QComboBox" name="filterCombo">
+       <item>
+        <property name="text">
+         <string>RGGB</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>GBRG</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>GRBG</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>BGGR</string>
+        </property>
+       </item>
+      </widget>
      </item>
      <item row="1" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Method:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="methodCombo">
+       <item>
+        <property name="text">
+         <string>Nearest</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Simple</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>BILinear</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>HQLinear</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DownSample</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>VNG</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>AHD</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>X Offset:</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="XOffsetSpin"/>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="XOffsetSpin">
+       <property name="minimum">
+        <number>-50</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
+      </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Y Offset:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QSpinBox" name="YOffsetSpin"/>
+     <item row="3" column="1">
+      <widget class="QSpinBox" name="YOffsetSpin">
+       <property name="minimum">
+        <number>-50</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -65,7 +146,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>fitsdebayer</receiver>
+   <receiver>FITSDebayerDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -81,7 +162,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>fitsdebayer</receiver>
+   <receiver>FITSDebayerDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

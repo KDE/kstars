@@ -19,6 +19,8 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp
     fitsviewer/fitstab.cpp
+    fitsviewer/fitsdebayer.cpp
+    fitsviewer/bayer.c
     )
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui
