@@ -143,7 +143,7 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
-        action->setIcon(QIcon::fromTheme(tempFile.fileName()));
+        action->setIcon(QIcon(tempFile.fileName()));
         tempFile.close();
     }
     else
@@ -698,11 +698,13 @@ void FITSViewer::applyFilter(int ftype)
     if (fitsTabs.empty())
         return;
 
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     updateStatusBar(xi18n("Processing %1...", filterTypes[ftype-1]), FITS_MESSAGE);
     qApp->processEvents();
     fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale) ftype);
     qApp->processEvents();
     fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
+    QApplication::restoreOverrideCursor();
     updateStatusBar(xi18n("Ready."), FITS_MESSAGE);
 }
 

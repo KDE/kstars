@@ -562,11 +562,13 @@ void FITSView::toggleStars(bool enable)
 
      if (markStars == true)
      {
+       QApplication::setOverrideCursor(Qt::WaitCursor);
        emit newStatus(xi18n("Finding stars..."), FITS_MESSAGE);
        qApp->processEvents();
        int count = image_data->findStars();
        if (count >= 0 && isVisible())
                emit newStatus(xi18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
+       QApplication::restoreOverrideCursor();
      }
 }
 
