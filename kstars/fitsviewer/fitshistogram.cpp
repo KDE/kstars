@@ -262,9 +262,10 @@ void FITSHistogram::updateIntenFreq(int x)
     if (x < 0 || x >= histogram_width)
         return;
 
-    ui->intensityOUT->setText(QString("%1").arg( ceil(x / binWidth) + tab->getView()->getImageData()->getMin()));
+    //ui->intensityOUT->setText(QString("%1").arg( ceil(x / binWidth) + tab->getView()->getImageData()->getMin()));
+    ui->intensityOUT->setText(QString::number((x / binWidth) + fits_min, 'f', 3));
 
-    ui->frequencyOUT->setText(QString("%1").arg(histArray[x]));
+    ui->frequencyOUT->setText(QString::number(histArray[x]));
 }
 
 void FITSHistogram::updateLowerLimit()
