@@ -294,6 +294,8 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
     led.setColor(Qt::green);
 
+    updateStatusBar(xi18n("Ready."), FITS_MESSAGE);
+
     return (fitsID++);
 }
 
