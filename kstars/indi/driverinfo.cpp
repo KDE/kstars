@@ -152,5 +152,10 @@ void DriverInfo::setAuxInfo(const QVariantMap &value)
     auxInfo = value;
 }
 
+void DriverInfo::addAuxInfo(const QString & key, const QVariant & value)
+{
+    auxInfo[key] = value;
+}
+
 
 

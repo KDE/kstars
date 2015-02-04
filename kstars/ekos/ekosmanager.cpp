@@ -29,7 +29,7 @@
 
 #include "ekosadaptor.h"
 
-#define MAX_REMOTE_INDI_TIMEOUT 15000
+#define MAX_REMOTE_INDI_TIMEOUT 55000
 
 EkosManager::EkosManager(QWidget *parent)
         : QDialog(parent)
@@ -45,6 +45,8 @@ EkosManager::EkosManager(QWidget *parent)
     ccdStarted      =false;
     ccdDriverSelected =false;
     scopeRegistered = false;
+    remoteCCDRegistered    = false;
+    remoteGuideRegistered  = false;
 
     scope   =  NULL;
     ccd     =  NULL;
@@ -285,14 +287,15 @@ void EkosManager::initRemoteDrivers()
 void EkosManager::reset()
 {
     nDevices=0;
-    //useGuiderFromCCD=false;
-    //useFilterFromCCD=false;
-    useGuideHead    =false;
-    guideStarted    =false;
-    useST4          =false;
-    ccdStarted      =false;
-    ccdDriverSelected =false;
-    scopeRegistered = false;
+
+    useGuideHead           = false;
+    guideStarted           = false;
+    useST4                 = false;
+    ccdStarted             = false;
+    ccdDriverSelected      = false;
+    scopeRegistered        = false;
+    remoteCCDRegistered    = false;
+    remoteGuideRegistered  = false;
 
     removeTabs();
 
@@ -918,29 +921,50 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
 
 void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
 {
-    if (!strcmp(devInterface->getDeviceName(), Options::remoteScopeName().toLatin1()))
+    QString deviceName(devInterface->getDeviceName());
+
+    if (deviceName == Options::remoteScopeName())
         scope = devInterface;
-    else if (!strcmp(devInterface->getDeviceName(), Options::remoteCCDName().toLatin1()))
+    else if (deviceName == Options::remoteCCDName()
+             || (remoteCCDRegistered == false &&  deviceName.startsWith(Options::remoteCCDName())))
     {
         ccd = devInterface;
 
-        //if (useGuiderFromCCD)
-           // guider = ccd;
+        remoteCCDRegistered = true;
+
+        // In case we have a partial match only, then we are connecting to a driver that provides multiple devices per driver
+        // in such instance we increase the number of devices we expect to receive by one.
+        if (remoteGuideRegistered == false && deviceName != Options::remoteCCDName())
+        {
+            remote_indi->addAuxInfo("mdpd", true);
+            nDevices++;
+        }
+
     }
-    else if (!strcmp(devInterface->getDeviceName(), Options::remoteGuiderName().toLatin1()))
+    else if (deviceName == Options::remoteGuiderName()
+             || (remoteGuideRegistered == false &&  deviceName.startsWith(Options::remoteCCDName())))
+
     {
         guider = devInterface;
         guiderName = devInterface->getDeviceName();
+        remoteGuideRegistered = true;
+
+        // We only increase number of devices if CCD is not registered yet above.
+        if (remoteCCDRegistered == false &&  Options::remoteGuiderName().isEmpty() && deviceName.startsWith(Options::remoteCCDName()))
+        {
+            remote_indi->addAuxInfo("mdpd", true);
+            nDevices++;
+        }
     }
-    else if (!strcmp(devInterface->getDeviceName(), Options::remoteAOName().toLatin1()))
+    else if (deviceName == Options::remoteAOName())
         ao = devInterface;
-    else if (!strcmp(devInterface->getDeviceName(), Options::remoteFocuserName().toLatin1()))
+    else if (deviceName == Options::remoteFocuserName())
         focuser = devInterface;
-    else if (!strcmp(devInterface->getDeviceName(), Options::remoteFilterName().toLatin1()))
+    else if (deviceName == Options::remoteFilterName())
         filter = devInterface;
-    else if (!strcmp(devInterface->getDeviceName(), Options::remoteDomeName().toLatin1()))
+    else if (deviceName == Options::remoteDomeName())
         dome = devInterface;
-    else if (!strcmp(devInterface->getDeviceName(), Options::remoteAuxName().toLatin1()))
+    else if (deviceName == Options::remoteAuxName().toLatin1())
         aux = devInterface;
     else
         return;
@@ -1070,7 +1094,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     // For multiple devices per driver, we always treat the first device as the primary CCD
     // but this shouldn't matter since the user can select the final ccd from the drop down in both CCD and Guide modules
-    if (ccd_di && ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
+    if ( (ccd_di && ccd_di->getAuxInfo().value("mdpd", false).toBool()) == true || (remote_indi && remote_indi->getAuxInfo().value("mdpd", false).toBool()))
     {
         if (ccdStarted == false)
             isPrimaryCCD = true;

@@ -197,6 +197,8 @@ public slots:
     bool guideStarted;
     bool ccdStarted;
     bool scopeRegistered;
+    bool remoteCCDRegistered;
+    bool remoteGuideRegistered;
 
     ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux, *dome, *ao;
     DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di, *ao_di, *dome_di, *remote_indi;

@@ -89,6 +89,7 @@ public:
 
     QVariantMap getAuxInfo() const;
     void setAuxInfo(const QVariantMap &value);
+    void addAuxInfo(const QString & key, const QVariant & value);
 
 private:
 
