@@ -57,7 +57,7 @@ public:
 
     void constructHistogram(int hist_width, int hist_height);
     void updateHistogram();
-    int  findMax(int hist_width);
+    double  findMax(int hist_width);
     void applyFilter(FITSScale ftype);
     double getBinWidth() { return binWidth; }
     double getJMIndex() { return JMIndex; }
@@ -66,8 +66,9 @@ public:
 
     FITSScale type;
     int napply;
-    double histFactor;
+    double histHeightRatio;
     double binWidth;
+    double histFactor;
     double fits_min, fits_max;
     FITSTab *tab;
 
@@ -79,9 +80,10 @@ private:
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq;
     double JMIndex;
 
+
 public slots:
     void applyScale();
-    void updateBoxes(int lowerLimit, int upperLimit);
+    void updateBoxes(double lowerLimit, double upperLimit);
     void updateIntenFreq(int x);
     void minSliderUpdated(int value);
     void maxSliderUpdated(int value);
@@ -95,7 +97,7 @@ public slots:
 class FITSHistogramCommand : public QUndoCommand
 {
 public:
-    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax);
+    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, double lmin, double lmax);
     virtual ~FITSHistogramCommand();
 
     virtual void redo();
@@ -125,7 +127,7 @@ private:
 
     FITSHistogram *histogram;
     FITSScale type;
-    int min, max;
+    double min, max;
     int gamma;
 
     unsigned char *delta;

@@ -41,12 +41,6 @@ void histDrawArea::init()
 
     //qDebug() << "constructor VALID Width: " << valid_width << " - VALID height: " << valid_height;
     enclosedRect.setRect(0, 0, hist_width-1, hist_height);
-
-   // upperLimitX = hist_width;
-   // lowerLimitX  = 0;
-
-    //qDebug() << "Calling construction histogram";
-
 }
 
 histDrawArea::~histDrawArea()
@@ -60,7 +54,7 @@ void histDrawArea::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     QPen pen;
 
-    int pixelWidth = floor(data->binWidth);
+    int pixelWidth = floor(data->binWidth/data->histFactor);
     if (pixelWidth < 1)
         pixelWidth = 1;
 
@@ -69,7 +63,7 @@ void histDrawArea::paintEvent(QPaintEvent *event)
 
 
     for (int i=0; i < data->histArray.size(); i++)
-        painter.drawLine(i*pixelWidth, hist_height, i*pixelWidth, hist_height - (data->histArray[i]*data->histFactor));
+        painter.drawLine(i*pixelWidth, hist_height, i*pixelWidth, hist_height - (data->histArray[i]*data->histHeightRatio));
 
 
     // Draw box

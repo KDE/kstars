@@ -61,6 +61,7 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 
     type   = FITS_AUTO;
     napply = 0;
+    histFactor=1;
 
     connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
     connect(ui->minOUT, SIGNAL(editingFinished()), this, SLOT(updateLowerLimit()));
@@ -89,7 +90,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     image_data->getDimensions(&fits_w, &fits_h);
     image_data->getMinMax(&fits_min, &fits_max);
 
-    int pixel_range = (int) (fits_max - fits_min);
+    double pixel_range = fits_max - fits_min;
 
     #ifdef HIST_LOG
     qDebug() << "fits MIN: " << fits_min << " - fits MAX: " << fits_max << " - pixel range: " << pixel_range;
@@ -106,7 +107,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
         cumulativeFreq[i] = 0;
     }
 
-    binWidth = ((double) hist_width / (double) pixel_range);
+    binWidth = hist_width / pixel_range;
 
     #ifdef HIST_LOG
     qDebug() << "Hist Array is now " << hist_width << " wide..., pixel range is " << pixel_range << " Bin width is " << binWidth << endl;
@@ -150,7 +151,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     {
         if (cumulativeFreq[i] > halfCumulative)
         {
-            median = i * binWidth + fits_min;
+            median = i / binWidth + fits_min;
             break;
 
         }
@@ -164,7 +165,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     #endif
 
     // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
-    histFactor = ((double) hist_height) / ((double) findMax(hist_width));
+    histHeightRatio = ((double) hist_height) / (findMax(hist_width));
 
     histogram_height = hist_height;
     histogram_width = hist_width;
@@ -174,28 +175,34 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     ui->histFrame->update();
 }
 
-void FITSHistogram::updateBoxes(int lower_limit, int upper_limit)
+void FITSHistogram::updateBoxes(double lower_limit, double upper_limit)
 {
 
-    ui->minSlider->setMinimum(lower_limit);
-    ui->maxSlider->setMinimum(lower_limit);
+    histFactor=1;
 
-    ui->minSlider->setMaximum(upper_limit);
-    ui->maxSlider->setMaximum(upper_limit);
+    if ((upper_limit - lower_limit) <= 1)
+        histFactor *= histogram_width;
 
-    ui->minSlider->setValue(lower_limit);
-    ui->maxSlider->setValue(upper_limit);
+    ui->minSlider->setMinimum(lower_limit*histFactor);
+    ui->maxSlider->setMinimum(lower_limit*histFactor);
 
-    ui->minOUT->setText(QString::number(lower_limit));
-    ui->maxOUT->setText(QString::number(upper_limit));
+    ui->minSlider->setMaximum(upper_limit*histFactor);
+    ui->maxSlider->setMaximum(upper_limit*histFactor);
+
+    ui->minSlider->setValue(lower_limit*histFactor);
+    ui->maxSlider->setValue(upper_limit*histFactor);
+
+    ui->minOUT->setText(QString::number(lower_limit, 'f', 2));
+    ui->maxOUT->setText(QString::number(upper_limit, 'f', 2));
 
 }
 
 void FITSHistogram::applyScale()
 {
 
-    int min = ui->minSlider->value();
-    int max = ui->maxSlider->value();
+    double min = ui->minSlider->value() / histFactor;
+    double max = ui->maxSlider->value() / histFactor;
+
     FITSHistogramCommand *histC;
 
     napply++;
@@ -220,8 +227,8 @@ void FITSHistogram::applyScale()
 
 void FITSHistogram::applyFilter(FITSScale ftype)
 {
-    int min = ui->minSlider->value();
-    int max = ui->maxSlider->value();
+    double min = ui->minSlider->value() / histFactor;
+    double max = ui->maxSlider->value() / histFactor;
 
     napply++;
 
@@ -239,22 +246,22 @@ void FITSHistogram::minSliderUpdated(int value)
 {
     if (value >= ui->maxSlider->value())
     {
-        ui->minSlider->setValue(ui->minOUT->text().toInt());
+        ui->minSlider->setValue(ui->minOUT->text().toDouble()*histFactor);
         return;
     }
 
-    ui->minOUT->setText(QString::number(value));
+    ui->minOUT->setText(QString::number(value/histFactor, 'f', 3));
 }
 
 void FITSHistogram::maxSliderUpdated(int value)
 {
     if (value <= ui->minSlider->value())
     {
-        ui->maxSlider->setValue(ui->maxOUT->text().toInt());
+        ui->maxSlider->setValue(ui->maxOUT->text().toDouble()*histFactor);
         return;
     }
 
-    ui->maxOUT->setText(QString::number(value));
+    ui->maxOUT->setText(QString::number(value/histFactor, 'f', 3));
 }
 
 void FITSHistogram::updateIntenFreq(int x)
@@ -273,7 +280,7 @@ void FITSHistogram::updateLowerLimit()
     bool conversion_ok = false;
     int newLowerLimit=0;
 
-    newLowerLimit = ui->minOUT->text().toInt(&conversion_ok);
+    newLowerLimit = ui->minOUT->text().toDouble(&conversion_ok)*histFactor;
 
     if (conversion_ok == false)
         return;
@@ -286,7 +293,7 @@ void FITSHistogram::updateUpperLimit()
     bool conversion_ok = false;
     int newUpperLimit=0;
 
-    newUpperLimit = ui->maxOUT->text().toInt(&conversion_ok);
+    newUpperLimit = ui->maxOUT->text().toDouble(&conversion_ok)*histFactor;
 
     if (conversion_ok == false)
         return;
@@ -294,14 +301,14 @@ void FITSHistogram::updateUpperLimit()
     ui->maxSlider->setValue(newUpperLimit);
 }
 
-int FITSHistogram::findMax(int hist_width)
+double FITSHistogram::findMax(int hist_width)
 {
     double max = -1e9;
 
     for (int i=0; i < hist_width; i++)
         if (histArray[i] > max) max = histArray[i];
 
-    return ((int) max);
+    return max;
 }
 
 void FITSHistogram::updateHistogram()
@@ -310,7 +317,7 @@ void FITSHistogram::updateHistogram()
     //constructHistogram(histogram_width, histogram_height);
 }
 
-FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax)
+FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, double lmin, double lmax)
 {
     tab         = (FITSTab *) parent;
     type        = newType;
@@ -426,6 +433,8 @@ void FITSHistogramCommand::redo()
     unsigned int size = image_data->getSize();
     int channels = image_data->getNumOfChannels();   
 
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
     gamma = image->getGammaValue();
 
     if (delta != NULL)
@@ -458,6 +467,7 @@ void FITSHistogramCommand::redo()
             if (buffer == NULL)
             {
                 qWarning() << "Error! not enough memory to create image buffer in redo()" << endl;
+                QApplication::restoreOverrideCursor();
                 return;
             }
 
@@ -499,12 +509,16 @@ void FITSHistogramCommand::redo()
     image->rescale(ZOOM_KEEP_LEVEL);
     image->updateFrame();
 
+    QApplication::restoreOverrideCursor();
+
 }
 
 void FITSHistogramCommand::undo()
 {
     FITSView *image = tab->getView();
     FITSData *image_data = image->getImageData();
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
     if (delta != NULL)
     {
@@ -553,6 +567,8 @@ void FITSHistogramCommand::undo()
     image->updateFrame();
 
     image->setGammaValue(gamma);
+
+    QApplication::restoreOverrideCursor();
 
 }
 
