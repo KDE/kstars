@@ -29,7 +29,7 @@
 
 #include "ekosadaptor.h"
 
-#define MAX_REMOTE_INDI_TIMEOUT 55000
+#define MAX_REMOTE_INDI_TIMEOUT 15000
 
 EkosManager::EkosManager(QWidget *parent)
         : QDialog(parent)
