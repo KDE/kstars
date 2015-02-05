@@ -212,7 +212,7 @@ public slots:
     QString guiderName;
     bool localMode, ccdDriverSelected;
 
-    unsigned short nDevices;
+    int nDevices;
     QList<DriverInfo *> managedDevices;
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;

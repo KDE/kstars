@@ -30,6 +30,7 @@
 #include "ekosadaptor.h"
 
 #define MAX_REMOTE_INDI_TIMEOUT 15000
+#define MAX_LOCAL_INDI_TIMEOUT 5000
 
 EkosManager::EkosManager(QWidget *parent)
         : QDialog(parent)
@@ -632,6 +633,8 @@ bool EkosManager::start()
 
         appendLogText(xi18n("INDI services started. Please connect devices."));
 
+        QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
+
     }
     else
     {
@@ -662,10 +665,12 @@ bool EkosManager::start()
 
 void EkosManager::checkINDITimeout()
 {
-    if (localMode)
+    if (nDevices <= 0)
         return;
 
-    if (nDevices != 0)
+    if (localMode)
+        KMessageBox::error(this, xi18np("Unable to completely establish local devices. %1 device remaining. Please ensure device is connected and powered on.", "Unable to completely establish local devices. %1 devices remaining. Please ensure devices are connected and powered on.", nDevices));
+    else
         KMessageBox::error(this, xi18np("Unable to completely establish remote devices. %1 device remaining. Please ensure remote device name corresponds to actual device name.", "Unable to completely establish remote devices. %1 devices remaining. Please ensure remote device name corresponds to actual device name.", nDevices));
 }
 
@@ -910,7 +915,7 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
 
-    if (nDevices == 0)
+    if (nDevices <= 0)
     {
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
