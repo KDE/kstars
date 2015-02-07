@@ -177,7 +177,7 @@ public slots:
      * @brief Process updated telescope coordinates.
      * @coord pointer to telescope coordinate property.
      */
-    void updateScopeCoords(INumberVectorProperty *coord);
+    void processTelescopeNumber(INumberVectorProperty *coord);
 
     /**
      * @brief Check CCD and make sure information is updated and FOV is re-calculated.
@@ -250,8 +250,14 @@ public slots:
      */
     FOV *fov();
 
+    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
+
+    void processFilterNumber(INumberVectorProperty *nvp);
+
 signals:
         void newLog();
+        void solverComplete(bool);
+        void solverSlewComplete();
 
 private:
     /**
@@ -312,7 +318,8 @@ private:
 
     // Keep track of solver status
     bool m_isSolverComplete;
-    bool m_isSolverSuccessful;   
+    bool m_isSolverSuccessful;
+    bool m_slewToTargetSelected;
 
     // FOV
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
@@ -352,11 +359,20 @@ private:
     ISD::CCD *currentCCD;
     QList<ISD::CCD *> CCDs;
 
+    // Optional device filter
+    ISD::GDInterface *currentFilter;
+    int lockedFilterIndex;
+    int currentFilterIndex;
+    // True if we need to change filter position and wait for result before continuing capture
+    bool filterPositionPending;
+
     // Keep track of solver FOV to be plotted in the skymap after each successful solve operation
     FOV *solverFOV;
 
     // Log
     QStringList logText;
+
+
 };
 
 }

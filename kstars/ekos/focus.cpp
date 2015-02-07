@@ -62,6 +62,7 @@ Focus::Focus()
     frameModified     = false;
     resetFocus        = false;
     m_autoFocusSuccesful = false;
+    filterPositionPending= false;
 
     HFRInc =0;
     noStarCount=0;
@@ -72,9 +73,10 @@ Focus::Focus()
     resetFocusIteration=0;
     fy=fw=fh=0;
     orig_x = orig_y = orig_w = orig_h =-1;
-    lockFilterPosition=-1;
+    lockedFilterIndex=-1;
     maxHFR=1;
     minimumRequiredHFR = -1;
+    currentFilterIndex=-1;
     minPos=1e6;
     maxPos=0;
 
@@ -316,6 +318,8 @@ void Focus::checkFilter(int filterNum)
         return;
     }
 
+    currentFilterIndex = filterSlot->np[0].value - 1;
+
     for (int i=0; i < filterSlot->np[0].max; i++)
     {
         QString item;
@@ -332,12 +336,25 @@ void Focus::checkFilter(int filterNum)
     }
 
     if (lockFilterCheck->isChecked() == false)
-        FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value-1);
+        FilterPosCombo->setCurrentIndex( currentFilterIndex);
     else
     {
-        if (lockFilterPosition < 0)
-            lockFilterPosition = filterSlot->np[0].value-1;
-        FilterPosCombo->setCurrentIndex(lockFilterPosition);
+        if (lockedFilterIndex < 0)
+        {
+            lockedFilterIndex = currentFilterIndex;
+            emit filterLockUpdated(currentFilter, lockedFilterIndex);
+        }
+        FilterPosCombo->setCurrentIndex(lockedFilterIndex);
+    }
+
+    // If we are waiting to change the filter wheel, let's check if the condition is now met.
+    if (filterPositionPending)
+    {
+        if (lockedFilterIndex == currentFilterIndex)
+        {
+            filterPositionPending = false;
+            capture();
+        }
     }
 
 }
@@ -345,15 +362,24 @@ void Focus::checkFilter(int filterNum)
 void Focus::filterLockToggled(bool enable)
 {
     if (enable)
-        lockFilterPosition = FilterPosCombo->currentIndex();
+    {
+        lockedFilterIndex = FilterPosCombo->currentIndex();
+        emit filterLockUpdated(currentFilter, lockedFilterIndex);
+    }
     else if (filterSlot != NULL)
+    {
         FilterPosCombo->setCurrentIndex(filterSlot->np[0].value-1);
+        emit filterLockUpdated(NULL, 0);
+    }
 }
 
 void Focus::updateFilterPos(int index)
 {
     if (lockFilterCheck->isChecked() == true)
-        lockFilterPosition = index;
+    {
+        lockedFilterIndex = index;
+        emit filterLockUpdated(currentFilter, lockedFilterIndex);
+    }
 }
 
 void Focus::addFocuser(ISD::GDInterface *newFocuser)
@@ -393,7 +419,7 @@ void Focus::checkFocuser(int FocuserNum)
         getAbsFocusPosition();
     }
 
-    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     AutoModeR->setEnabled(true);
 
@@ -565,7 +591,7 @@ void Focus::capture()
         return;
     }
 
-    if (currentFilter != NULL)
+    if (currentFilter != NULL && lockFilterCheck->isChecked())
     {
         if (currentFilter->isConnected() == false)
         {
@@ -573,8 +599,14 @@ void Focus::capture()
             return;
         }
 
-        int filterPos = FilterPosCombo->currentIndex() + 1;
-        currentFilter->runCommand(INDI_SET_FILTER, &filterPos);
+        if (lockedFilterIndex != currentFilterIndex)
+        {
+            int lockedFilterPosition = lockedFilterIndex + 1;
+            filterPositionPending = true;
+            appendLogText(xi18n("Changing filter to %1", FilterPosCombo->currentText()));
+            currentFilter->runCommand(INDI_SET_FILTER, &lockedFilterPosition);
+            return;
+        }
     }
 
     if (targetChip->canBin())
@@ -743,37 +775,6 @@ void Focus::newFITS(IBLOB *bp)
             drawHFRPlot();
     }
 
-    if (minimumRequiredHFR >= 0)
-    {
-        if (currentHFR == -1)
-        {
-            if (noStarCount++ < 3)
-            {
-                capture();
-                return;
-            }
-            else
-            {
-                noStarCount = 0;
-                updateFocusStatus(false);
-            }
-        }
-        else if (currentHFR > minimumRequiredHFR)
-        {
-           inSequenceFocus = true;
-           AutoModeR->setChecked(true);
-           startFocus();
-        }
-        else
-        {
-            updateFocusStatus(true);
-        }
-
-        minimumRequiredHFR = -1;
-
-        return;
-    }
-
     if (inFocusLoop)
     {
         capture();
@@ -853,6 +854,37 @@ void Focus::newFITS(IBLOB *bp)
             connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
+    }
+
+    if (minimumRequiredHFR >= 0)
+    {
+        if (currentHFR == -1)
+        {
+            if (noStarCount++ < 3)
+            {
+                capture();
+                return;
+            }
+            else
+            {
+                noStarCount = 0;
+                updateFocusStatus(false);
+            }
+        }
+        else if (currentHFR > minimumRequiredHFR)
+        {
+           inSequenceFocus = true;
+           AutoModeR->setChecked(true);
+           startFocus();
+        }
+        else
+        {
+            updateFocusStatus(true);
+        }
+
+        minimumRequiredHFR = -1;
+
+        return;
     }
 
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
@@ -1395,7 +1427,7 @@ void Focus::autoFocusRel()
 
 }
 
-void Focus::processFocusProperties(INumberVectorProperty *nvp)
+void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
 
     if (canAbsMove == false && currentFocuser->canAbsMove())

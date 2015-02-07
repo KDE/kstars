@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>821</width>
-    <height>508</height>
+    <width>829</width>
+    <height>513</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_10">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_19">
+    <layout class="QHBoxLayout" name="TopLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0">
+      <layout class="QHBoxLayout" name="topLayout" stretch="0">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
@@ -466,7 +466,20 @@
                    <string>Append the expose duration to the prefix</string>
                   </property>
                   <property name="text">
-                   <string>Expose Duration</string>
+                   <string>Duration</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="ISOCheck">
+                  <property name="toolTip">
+                   <string>Append time stamp to the prefix</string>
+                  </property>
+                  <property name="text">
+                   <string>TS</string>
+                  </property>
+                  <property name="checked">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -618,7 +631,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="SequenceLayout">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
@@ -945,16 +958,16 @@
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line">
+    <widget class="Line" name="MiddleSeparator">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_13">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QGroupBox" name="setupGroup">
+      <widget class="QGroupBox" name="filterGroup">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -1026,14 +1039,14 @@
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line_3">
+      <widget class="Line" name="leftVerticalSeperator">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_9">
+      <layout class="QVBoxLayout" name="MiddleBottomLayout">
        <item>
         <widget class="QCheckBox" name="darkSubCheck">
          <property name="toolTip">
@@ -1041,19 +1054,6 @@
          </property>
          <property name="text">
           <string>Auto dark subtract</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="ISOCheck">
-         <property name="toolTip">
-          <string>Append time stamp to the file name</string>
-         </property>
-         <property name="text">
-          <string>Add ISO 8601 time stamp</string>
          </property>
          <property name="checked">
           <bool>false</bool>
@@ -1074,8 +1074,8 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
-         <item>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
           <widget class="QCheckBox" name="guideDeviationCheck">
            <property name="enabled">
             <bool>false</bool>
@@ -1084,14 +1084,14 @@
             <string>Abort sequence if guiding deviation exceed this value</string>
            </property>
            <property name="text">
-            <string>Maximum Guiding Deviation</string>
+            <string>Guiding Deviation &gt;</string>
            </property>
            <property name="checked">
             <bool>false</bool>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="1">
           <widget class="QDoubleSpinBox" name="guideDeviation">
            <property name="enabled">
             <bool>false</bool>
@@ -1107,7 +1107,7 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="2">
           <widget class="QLabel" name="textLabel1_2_4">
            <property name="toolTip">
             <string>Number of images to capture</string>
@@ -1120,11 +1120,7 @@
            </property>
           </widget>
          </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_12">
-         <item>
+         <item row="1" column="0">
           <widget class="QCheckBox" name="autofocusCheck">
            <property name="enabled">
             <bool>false</bool>
@@ -1137,7 +1133,7 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="1">
           <widget class="QDoubleSpinBox" name="HFRPixels">
            <property name="enabled">
             <bool>false</bool>
@@ -1159,7 +1155,7 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="2">
           <widget class="QLabel" name="textLabel1_2_5">
            <property name="toolTip">
             <string>Number of images to capture</string>
@@ -1169,6 +1165,54 @@
            </property>
            <property name="text">
             <string>pixels</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="meridianCheck">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Command a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspected and resumed after the flip is complete.</string>
+           </property>
+           <property name="text">
+            <string>Meridian Flip if HA &gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QDoubleSpinBox" name="meridianHours">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="decimals">
+            <number>2</number>
+           </property>
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>3.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="textLabel1_2_6">
+           <property name="toolTip">
+            <string>Number of images to capture</string>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="text">
+            <string>hours</string>
            </property>
           </widget>
          </item>
@@ -1195,7 +1239,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>279</width>
-           <height>1</height>
+           <height>13</height>
           </size>
          </property>
         </spacer>
@@ -1203,7 +1247,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_11">
+      <layout class="QHBoxLayout" name="ProgressLayout">
        <item>
         <widget class="Line" name="line_2">
          <property name="orientation">
@@ -1373,7 +1417,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer12">
+    <spacer name="ButtomSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -1387,8 +1431,8 @@
    </item>
   </layout>
   <zorder></zorder>
-  <zorder>verticalSpacer12</zorder>
-  <zorder>line</zorder>
+  <zorder>ButtomSpacer</zorder>
+  <zorder>MiddleSeparator</zorder>
   <zorder></zorder>
  </widget>
  <resources/>

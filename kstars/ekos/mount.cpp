@@ -23,6 +23,8 @@
 
 #include <basedevice.h>
 
+#define UPDATE_DELAY    1000
+
 namespace Ekos
 {
 
@@ -94,6 +96,8 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
+    QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
+
     syncTelescopeInfo();
 }
 
@@ -140,12 +144,14 @@ void Mount::syncTelescopeInfo()
 
 }
 
-void Mount::updateNumber(INumberVectorProperty *nvp)
+void Mount::updateTelescopeCoords()
 {
-    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
+    double ra, dec;
+
+    if (currentTelescope && currentTelescope->getEqCoords(&ra, &dec))
     {
-        telescopeCoord.setRA(nvp->np[0].value);
-        telescopeCoord.setDec(nvp->np[1].value);
+        telescopeCoord.setRA(ra);
+        telescopeCoord.setDec(dec);
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         raOUT->setText(telescopeCoord.ra().toHMSString());
@@ -153,9 +159,23 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         azOUT->setText(telescopeCoord.az().toDMSString());
         altOUT->setText(telescopeCoord.alt().toDMSString());
 
-        return;
-    }
+        dms lst = KStarsData::Instance()->geo()->GSTtoLST( KStarsData::Instance()->clock()->utc().gst() );
+        dms ha( lst.Degrees() - telescopeCoord.ra().Degrees() );
+        QChar sgn('+');
+        if ( ha.Hours() > 12.0 ) {
+            ha.setH( 24.0 - ha.Hours() );
+            sgn = '-';
+        }
+        haOUT->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
+        lstOUT->setText(lst.toHMSString());
 
+        if (currentTelescope->isConnected())
+            QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
+    }
+}
+
+void Mount::updateNumber(INumberVectorProperty *nvp)
+{
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
         syncTelescopeInfo();

@@ -195,6 +195,7 @@ class Capture : public QWidget, public Ui::Capture
 public:
 
     enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
+    typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
 
     Capture();
     ~Capture();
@@ -305,6 +306,7 @@ public slots:
     void checkCCD(int CCDNum=-1);    
     void checkFilter(int filterNum=-1);
     void processCCDNumber(INumberVectorProperty *nvp);
+    void processTelescopeNumber(INumberVectorProperty *nvp);
 
     void addJob(bool preview=false);
     void removeJob();
@@ -337,21 +339,34 @@ public slots:
     void resetJobEdit();
     void executeJob();
 
+    void checkMeridianFlipTimeout();
+    void checkAlignmentSlewComplete();
+    void enableAlignmentFlag();
+
 signals:
         void newLog();
         void exposureComplete();
         void checkFocus(double);
         void telescopeParking();
         void suspendGuiding(bool);
+        void meridianFlipStarted();
+        void meridialFlipTracked();
+        void meridianFlipCompleted();
 
 private:
 
+    bool resumeSequence();
     void startNextExposure();
     void updateFrameProperties();
     void prepareJob(SequenceJob *job);
-    bool processJobInfo(XMLEle *root);
+    bool processJobInfo(XMLEle *root);    
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
+
+    /* Meridian Flip */
+    bool checkMeridianFlip();
+    void checkGuidingAfterFlip();
+    double getCurrentHA();
 
     /* Capture */
     KDirWatch          *seqWatcher;
@@ -405,6 +420,16 @@ private:
     bool isAutoFocus;
     bool autoFocusStatus;
     bool firstAutoFocus;
+
+    //Meridan flip
+    double initialHA;
+    double initialRA;
+    bool resumeAlignmentAfterFlip;
+    bool resumeGuidingAfterFlip;
+
+    MFStage meridianFlipStage;
+
+
 
 };
 

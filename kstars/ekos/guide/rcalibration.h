@@ -67,14 +67,14 @@ protected slots:
 	void onReticleXChanged( double val );
 	void onReticleYChanged( double val );
 	void onReticleAngChanged( double val );
-
-
 	void onStartReticleCalibrationButtonClick();
 
 public slots:
     void capture();
     void guideStarSelected(int x, int y);
 
+signals:
+    void calibrationCompleted(bool);
 
 private:
 

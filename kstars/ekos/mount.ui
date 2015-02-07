@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>434</width>
-    <height>305</height>
+    <height>333</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="LeftLayout">
        <item>
         <widget class="QGroupBox" name="primaryScopeGroup">
          <property name="title">
@@ -129,6 +129,34 @@
               </property>
              </widget>
             </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>HA:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="haOUT">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>LST</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QLineEdit" name="lstOUT">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -184,7 +212,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="BottomLayout">
          <item>
           <widget class="QPushButton" name="saveB">
            <property name="toolTip">
@@ -223,7 +251,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="motionLayout">
        <item>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="sizePolicy">
@@ -233,7 +261,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Control</string>
+          <string>Motion</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <property name="sizeConstraint">
@@ -375,14 +403,14 @@
       </layout>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="topHorizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>13</width>
+         <height>38</height>
         </size>
        </property>
       </spacer>
@@ -390,7 +418,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="BottomSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -403,6 +431,11 @@
     </spacer>
    </item>
   </layout>
+  <zorder></zorder>
+  <zorder>guideScopeGroup</zorder>
+  <zorder>groupBox_4</zorder>
+  <zorder>groupBox_4</zorder>
+  <zorder></zorder>
  </widget>
  <resources/>
  <connections/>

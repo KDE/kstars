@@ -214,8 +214,7 @@ void rcalibration::onReticleAngChanged( double val )
 
 
 void rcalibration::onStartReticleCalibrationButtonClick()
-{
-
+{    
     if (calibrationStage > CAL_START)
     {
         stopCalibration();
@@ -241,6 +240,12 @@ bool rcalibration::startCalibration()
 {
     if (!pmath)
         return false;
+
+    if (pmain_wnd->isGuiding())
+    {
+        pmain_wnd->appendLogText(xi18n("Cannot calibrate while autoguiding is active."));
+        return false;
+    }
 
     if (calibrationStage != CAL_START && ui.autoCalibrationCheck->isChecked())
     {
@@ -422,6 +427,7 @@ void rcalibration::calibrateManualReticle( void )
                     if (Options::playGuideAlarm())
                             KStars::Instance()->ekosManager()->playOk();
                     calibrationStage = CAL_FINISH;
+                    emit calibrationCompleted(true);
 
                    pmain_wnd->setDECSwap(dec_swap);
 				}
@@ -429,6 +435,7 @@ void rcalibration::calibrateManualReticle( void )
 				{
                     QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                     calibrationStage = CAL_ERROR;
+                    emit calibrationCompleted(false);
 				}
 			}
 		}
@@ -441,12 +448,14 @@ void rcalibration::calibrateManualReticle( void )
                 calibrationStage = CAL_FINISH;
                 fillInterface();
                 pmain_wnd->appendLogText(xi18n("Calibration completed."));
+                emit calibrationCompleted(true);
                 if (Options::playGuideAlarm())
                         KStars::Instance()->ekosManager()->playOk();
 			}
 			else
 			{
                 calibrationStage = CAL_ERROR;
+                emit calibrationCompleted(false);
                 QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                 if (Options::playGuideAlarm())
                         KStars::Instance()->ekosManager()->playError();
@@ -578,6 +587,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             }
 
             calibrationStage = CAL_ERROR;
+            emit calibrationCompleted(false);
             QMessageBox::warning( this, xi18n("Warning"), xi18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
             if (Options::playGuideAlarm())
                     KStars::Instance()->ekosManager()->playError();
@@ -608,6 +618,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             calibrationStage = CAL_FINISH;
             fillInterface();
             pmain_wnd->appendLogText(xi18n("Calibration completed."));
+            emit calibrationCompleted(true);
             ui.startCalibrationLED->setColor(okColor);
             if (Options::playGuideAlarm())
                     KStars::Instance()->ekosManager()->playError();
@@ -617,8 +628,9 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         else
         {
             QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
-            ui.startCalibrationLED->setColor(alertColor);
+            ui.startCalibrationLED->setColor(alertColor);            
             calibrationStage = CAL_ERROR;
+            emit calibrationCompleted(false);
             if (Options::playGuideAlarm())
                     KStars::Instance()->ekosManager()->playError();
         }
@@ -693,6 +705,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         }
 
         calibrationStage = CAL_ERROR;
+        emit calibrationCompleted(false);
         QMessageBox::warning( this, xi18n("Warning"), xi18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
         if (Options::playGuideAlarm())
                 KStars::Instance()->ekosManager()->playError();
@@ -711,6 +724,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         else
             pmain_wnd->appendLogText(xi18n("DEC swap disabled."));
         pmain_wnd->appendLogText(xi18n("Calibration completed."));
+        emit calibrationCompleted(true);
         ui.startCalibrationLED->setColor(okColor);
         pmain_wnd->setDECSwap(swap_dec);
         if (Options::playGuideAlarm())
@@ -722,6 +736,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
     else
     {
         QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+        emit calibrationCompleted(false);
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
         if (Options::playGuideAlarm())

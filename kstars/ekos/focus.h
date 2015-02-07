@@ -262,7 +262,7 @@ public slots:
      * @brief processFocusProperties Read focus properties of interest as they arrive from the focuser driver and process them accordingly.
      * @param nvp pointer to updated focuser number property.
      */
-    void processFocusProperties(INumberVectorProperty *nvp);
+    void processFocusNumber(INumberVectorProperty *nvp);
 
     /**
      * @brief checkFocus Given the minimum required HFR, check focus and calculate HFR. If current HFR exceeds required HFR, start autofocus process, otherwise do nothing.
@@ -291,6 +291,7 @@ signals:
         void newLog();
         void autoFocusFinished(bool status, double finalHFR);
         void suspendGuiding(bool suspend);
+        void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
 
 private:
     void drawHFRPlot();
@@ -302,8 +303,13 @@ private:
     // Devices needed for Focus operation
     ISD::Focuser *currentFocuser;
     ISD::CCD *currentCCD;
-    // Optional device
+
+    // Optional device filter
     ISD::GDInterface *currentFilter;
+    // Current filter position
+    int currentFilterIndex;
+    // True if we need to change filter position and wait for result before continuing capture
+    bool filterPositionPending;
 
     // List of Focusers
     QList<ISD::Focuser*> Focusers;
@@ -362,7 +368,7 @@ private:
     // and then we truely give up.
     int resetFocusIteration;
     // Which filter must we use once the autofocus process kicks in?
-    int lockFilterPosition;
+    int lockedFilterIndex;
     // Keep track of what we're doing right now
     bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;   
     // Did we reverse direction?

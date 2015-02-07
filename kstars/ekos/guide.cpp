@@ -751,6 +751,27 @@ QList<double> Guide::getGuidingDeviation()
     return deviation;
 }
 
+void Guide::startAutoCalibrateGuiding()
+{
+    connect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+    calibration->startCalibration();
+}
+
+void Guide::checkAutoCalibrateGuiding(bool successful)
+{
+    calibration->disconnect(this);
+
+    if (successful)
+    {
+        appendLogText(xi18n("Auto calibration successful. Starting guiding..."));
+        startGuiding();
+    }
+    else
+    {
+        appendLogText(xi18n("Auto calibration failed."));
+    }
+}
+
 }
 
 

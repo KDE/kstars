@@ -49,6 +49,7 @@ public slots:
     /* Telescope Info */
     void syncTelescopeInfo();
     void updateNumber(INumberVectorProperty *nvp);
+    void updateTelescopeCoords();
     void move();
     void stop();
     void save();
@@ -63,6 +64,7 @@ private:
     ISD::Telescope *currentTelescope;
     QStringList logText;
     SkyPoint telescopeCoord;
+
 };
 
 }

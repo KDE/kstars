@@ -51,13 +51,19 @@ Align::Align()
 
     currentCCD     = NULL;
     currentTelescope = NULL;
+    currentFilter = NULL;
     useGuideHead = false;
     canSync = false;
     loadSlewMode = false;
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
+    m_slewToTargetSelected=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
+
+    currentFilter = NULL;
+    filterPositionPending = false;
+    lockedFilterIndex = currentFilterIndex = -1;
 
     parser = NULL;
     solverFOV = new FOV();
@@ -245,7 +251,7 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateScopeCoords(INumberVectorProperty*)));
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processTelescopeNumber(INumberVectorProperty*)));
 
     syncTelescopeInfo();
 }
@@ -514,6 +520,17 @@ bool Align::captureAndSolve()
         return false;
     }
 
+    if (currentFilter != NULL && lockedFilterIndex != -1)
+    {
+        if (lockedFilterIndex != currentFilterIndex)
+        {
+            int lockedFilterPosition = lockedFilterIndex + 1;
+            filterPositionPending = true;
+            currentFilter->runCommand(INDI_SET_FILTER, &lockedFilterPosition);
+            return true;
+        }
+    }
+
     double seqExpose = exposureIN->value();
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
@@ -530,6 +547,7 @@ bool Align::captureAndSolve()
 
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
+   targetChip->setBatchMode(false);
    targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
    if (kcfg_solverPreview->isChecked())
        targetChip->setCaptureFilter(FITS_AUTO_STRETCH);
@@ -555,7 +573,8 @@ void Align::newFITS(IBLOB *bp)
     if (!strcmp(bp->name, "CCD2"))
         return;
 
-    currentCCD->disconnect(this);
+    //currentCCD->disconnect(this);
+    disconnect(currentCCD, 0, this, SLOT(newFITS(IBLOB*)));
 
     appendLogText(xi18n("Image received."));
 
@@ -653,8 +672,9 @@ void Align::solverFinished(double orientation, double ra, double dec)
      m_isSolverComplete = true;
      m_isSolverSuccessful = true;
 
-     executeMode();
+     emit solverComplete(true);
 
+     executeMode();
 }
 
 void Align::solverFailed()
@@ -672,7 +692,7 @@ void Align::solverFailed()
     m_isSolverComplete = true;
     m_isSolverSuccessful = false;
 
-
+    emit solverComplete(false);
 }
 
 void Align::stopSolving()
@@ -688,6 +708,9 @@ void Align::stopSolving()
     loadSlewMode = false;
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
+    m_slewToTargetSelected=false;
+
+    appendLogText(xi18n("in stop solving, setting m_slewToTargetSelected to false"));
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
@@ -726,7 +749,7 @@ void Align::clearLog()
     emit newLog();
 }
 
-void Align::updateScopeCoords(INumberVectorProperty *coord)
+void Align::processTelescopeNumber(INumberVectorProperty *coord)
 {
     QString ra_dms, dec_dms;
     static bool slew_dirty=false;
@@ -744,6 +767,7 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
 
         if (kcfg_solverUpdateCoords->isChecked())
         {
+
             if (currentTelescope->isSlewing() && slew_dirty == false)
                 slew_dirty = true;
             else if (currentTelescope->isSlewing() == false && slew_dirty)
@@ -757,6 +781,12 @@ void Align::updateScopeCoords(INumberVectorProperty *coord)
                     captureAndSolve();
                     return;
                 }
+                else if (m_slewToTargetSelected)
+                {
+                    m_slewToTargetSelected=false;
+                    emit solverSlewComplete();
+                }
+
             }
         }
 
@@ -831,7 +861,7 @@ void Align::executeMode()
 
 
 void Align::executeGOTO()
-{
+{        
     if (loadSlewMode)
     {
         targetCoord = alignCoord;
@@ -856,6 +886,10 @@ void Align::SlewToTarget()
 {
     if (canSync && loadSlewMode == false)
         Sync();
+
+    m_slewToTargetSelected = slewR->isChecked();
+
+    appendLogText(xi18n("Asking scope to slew....m_slewToTargetSelected is %1", m_slewToTargetSelected ? "True" : "False"));
 
     currentTelescope->Slew(&targetCoord);
 
@@ -1220,7 +1254,7 @@ void Align::correctAltError()
 
     currentTelescope->Slew(newRA, newDEC);
 
-    appendLogText(xi18n("Slewing to calibration position, please wait until telescope is finished slewing."));
+    appendLogText(xi18n("Slewing to calibration position, please wait until telescope completes slewing."));
 
 }
 
@@ -1247,7 +1281,7 @@ void Align::correctAzError()
 
     currentTelescope->Slew(newRA, newDEC);
 
-    appendLogText(xi18n("Slewing to calibration position, please wait until telescope is finished slewing."));
+    appendLogText(xi18n("Slewing to calibration position, please wait until telescope completes slewing."));
 
 }
 
@@ -1325,6 +1359,38 @@ FOV* Align::fov()
     else
         return solverFOV;
 
+}
+
+void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
+{
+    currentFilter = filter;
+    if (currentFilter)
+    {
+        lockedFilterIndex = lockedPosition;
+
+        INumberVectorProperty *filterSlot = filter->getBaseDevice()->getNumber("FILTER_SLOT");
+        if (filterSlot)
+            currentFilterIndex = filterSlot->np[0].value-1;
+
+        connect(currentFilter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFilterNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    }
+}
+
+void Align::processFilterNumber(INumberVectorProperty *nvp)
+{
+    if (currentFilter && !strcmp(nvp->name, "FILTER_SLOT") && !strcmp(nvp->device, currentFilter->getDeviceName()))
+    {
+        currentFilterIndex = nvp->np[0].value - 1;
+
+        if (filterPositionPending)
+        {
+            if (currentFilterIndex == lockedFilterIndex)
+            {
+                filterPositionPending = false;
+                captureAndSolve();
+            }
+        }
+    }
 }
 
 }

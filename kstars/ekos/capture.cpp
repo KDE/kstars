@@ -20,20 +20,28 @@
 
 #include "Options.h"
 
+#include "kstars.h"
+#include "kstarsdata.h"
+
 #include "capture.h"
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
 #include "indi/clientmanager.h"
+
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
-#include "kstars.h"
+
 #include "ekosmanager.h"
 #include "captureadaptor.h"
 
 #include "QProgressIndicator.h"
 
 #define INVALID_TEMPERATURE 10000
+#define INVALID_HA          10000
+#define MF_TIMER_TIMEOUT    90000
+#define MF_RA_DIFF_LIMIT    4
+#define MAX_TEMP_DIFF       0.1
 
 namespace Ekos
 {
@@ -246,7 +254,7 @@ void SequenceJob::setCurrentTemperature(double value)
 {
     currentTemperature = value;
 
-    if (fabs(targetTemperature - currentTemperature) <= 0.1)
+    if (fabs(targetTemperature - currentTemperature) <= MAX_TEMP_DIFF)
         temperatureReady = true;
 
     if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
@@ -315,12 +323,15 @@ Capture::Capture()
     guideDither     = false;
     isAutoFocus     = false;
     autoFocusStatus = false;
+    resumeAlignmentAfterFlip= false;
 
     mDirty          = false;
     jobUnderEdit    = false;
     currentFilterPosition   = -1;
 
-    calibrationState = CALIBRATE_NONE;
+    calibrationState  = CALIBRATE_NONE;
+    meridianFlipStage = MF_NONE;
+    resumeGuidingAfterFlip = false;
 
     pi = new QProgressIndicator(this);
 
@@ -385,7 +396,8 @@ Capture::Capture()
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
     parkCheck->setChecked(Options::autoParkTelescope());
-    //meridianCheck->setChecked(Options::autoMeridianFlip());
+    meridianCheck->setChecked(Options::autoMeridianFlip());
+    meridianHours->setValue(Options::autoMeridianHours());
 }
 
 Capture::~Capture()
@@ -455,7 +467,8 @@ void Capture::startSequence()
     Options::setGuideDeviation(guideDeviation->value());
     Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
-    //Options::setAutoMeridianFlip(meridianCheck->isChecked());
+    Options::setAutoMeridianFlip(meridianCheck->isChecked());
+    Options::setAutoMeridianHours(meridianHours->value());
     Options::setAutoParkTelescope(parkCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
@@ -496,6 +509,9 @@ void Capture::startSequence()
 
     deviationDetected = false;
     spikeDetected     = false;
+
+    initialHA = getCurrentHA();
+    meridianFlipStage = MF_NONE;
 
     prepareJob(first_job);
 
@@ -900,7 +916,7 @@ void Capture::newFITS(IBLOB *bp)
     ISD::CCDChip *tChip = NULL;
 
     // If there is no active job, ignore
-    if (activeJob == NULL)
+    if (activeJob == NULL || meridianFlipStage >= MF_ALIGNING)
         return;
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
@@ -976,19 +992,14 @@ void Capture::newFITS(IBLOB *bp)
 
         stopSequence();
 
-        SequenceJob *next_job = NULL;
+        // Check if meridian condition is met
+        if (checkMeridianFlip())
+            return;
 
-        foreach(SequenceJob *job, jobs)
-        {
-            if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
-            {
-                next_job = job;
-                break;
-            }
-        }
-
-        if (next_job)
-            prepareJob(next_job);
+        // Check if there are more pending jobs and execute them
+        if (resumeSequence())
+            return;
+        // Otherwise, we're done. We park if required and resume guiding if no parking is done and autoguiding was engaged before.
         else
         {
             if (Options::playCCDAlarm())
@@ -1001,34 +1012,76 @@ void Capture::newFITS(IBLOB *bp)
                 currentTelescope->Park();
                 return;
             }
-        }
 
-        //Resume guiding if it was suspended before
-        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-            emit suspendGuiding(false);
+            //Resume guiding if it was suspended before
+            if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+                emit suspendGuiding(false);
+        }
 
         return;
     }
 
-    isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked());
-    if (isAutoFocus)
-        autoFocusStatus = false;
+    // Check if meridian condition is met
+    if (checkMeridianFlip())
+        return;
 
-    if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-        emit suspendGuiding(false);
+    resumeSequence();
+}
 
-    if (isAutoGuiding && guideDither)
+bool Capture::resumeSequence()
+{
+    // If seqTotalCount is zero, we have to find if there are more pending jobs in the queue
+    if (seqTotalCount == 0)
     {
-            secondsLabel->setText(i18n("Dithering..."));
-            emit exposureComplete();
+        SequenceJob *next_job = NULL;
+
+        foreach(SequenceJob *job, jobs)
+        {
+            if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
+            {
+                next_job = job;
+                break;
+            }
+        }
+
+        if (next_job)
+        {
+            prepareJob(next_job);
+
+            //Resume guiding if it was suspended before
+            if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+                emit suspendGuiding(false);
+
+            return true;
+        }
+        else
+            return false;
     }
-    else if (isAutoFocus)
-    {
-        secondsLabel->setText(xi18n("Focusing..."));
-        emit checkFocus(HFRPixels->value());
-    }
+    // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
-        startNextExposure();
+    {
+        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked());
+        if (isAutoFocus)
+            autoFocusStatus = false;
+
+        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            emit suspendGuiding(false);
+
+        if (isAutoGuiding && guideDither)
+        {
+                secondsLabel->setText(i18n("Dithering..."));
+                emit exposureComplete();
+        }
+        else if (isAutoFocus)
+        {
+            secondsLabel->setText(xi18n("Focusing..."));
+            emit checkFocus(HFRPixels->value());
+        }
+        else
+            startNextExposure();
+
+        return true;
+    }
 }
 
 void Capture::captureOne()
@@ -1130,6 +1183,10 @@ void Capture::checkSeqBoundary(const QString &path)
     int newFileIndex=-1;
     QString tempName;
 
+    // No updates during meridian flip
+    if (meridianFlipStage >= MF_ALIGNING)
+        return;
+
     //KFileItemList::const_iterator it = items.begin();
     //const KFileItemList::const_iterator end = items.end();
     QDirIterator it(path, QDir::Files);
@@ -1212,7 +1269,7 @@ void Capture::clearLog()
 void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 {
 
-    if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL)
+    if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL || meridianFlipStage >= MF_ALIGNING)
         return;
 
     exposeOUT->setText(QString::number(value, 'd', 2));
@@ -1542,7 +1599,8 @@ void Capture::prepareJob(SequenceJob *job)
 
     if (currentCCD->hasCooler())
     {
-        if (activeJob->getCurrentTemperature() != activeJob->getTargetTemperature())
+        if (activeJob->getCurrentTemperature() != INVALID_TEMPERATURE &&
+                fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) > MAX_TEMP_DIFF)
             appendLogText(xi18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
     }
 
@@ -1602,7 +1660,20 @@ void Capture::enableGuideLimits()
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
-    if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
+    // If guiding is started after a meridian flip we will start getting guide deviations again
+    // if the guide deviations are within our limits, we resume the sequence
+    if (meridianFlipStage == MF_GUIDING)
+    {
+        double deviation_rms = sqrt(delta_ra*delta_ra + delta_dec*delta_dec);
+        if (deviation_rms < guideDeviation->value())
+        {
+                initialHA = getCurrentHA();
+                meridianFlipStage = MF_NONE;
+                appendLogText(xi18n("Post meridian flip calibration completed successfully."));
+                resumeSequence();
+        }
+    }
+    else if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
         return;
 
     // We don't enforce limit on previews
@@ -1651,7 +1722,7 @@ void Capture::setGuideDither(bool enable)
 }
 
 void Capture::setAutoguiding(bool enable, bool isDithering)
-{
+{  
     isAutoGuiding = enable;
     guideDither   = isDithering;
 }
@@ -1688,7 +1759,10 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
-    //connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateScopeCoords(INumberVectorProperty*)));
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processTelescopeNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+
+    meridianCheck->setEnabled(true);
+    meridianHours->setEnabled(true);
 
     syncTelescopeInfo();
 }
@@ -2199,6 +2273,196 @@ void Capture::setTemperature()
 {
     if (currentCCD)
         currentCCD->setTemperature(temperatureIN->value());
+}
+
+void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
+{
+    // If it is not ours, return.
+    if (strcmp(nvp->device, currentTelescope->getDeviceName()) || strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
+        return;
+
+    switch (meridianFlipStage)
+    {
+        case MF_NONE:
+            break;
+        case MF_INITIATED:
+        {
+            if (nvp->s == IPS_BUSY)
+                meridianFlipStage = MF_FLIPPING;
+        }
+        break;
+
+        case MF_FLIPPING:
+        {
+            double ra, dec;
+            currentTelescope->getEqCoords(&ra, &dec);
+            double diffRA = initialRA - ra;
+            if (fabs(diffRA) > MF_RA_DIFF_LIMIT || nvp->s == IPS_OK)
+                meridianFlipStage = MF_SLEWING;
+        }
+        break;
+
+        case MF_SLEWING:
+
+            if (nvp->s != IPS_OK)
+                break;
+
+            // We are at a new initialHA
+            initialHA= getCurrentHA();
+
+            appendLogText(xi18n("Telescope completed the meridian flip."));
+
+            if (resumeAlignmentAfterFlip == true)
+            {
+                appendLogText(xi18n("Performing post flip re-alignment..."));
+                secondsLabel->setText(xi18n("Aligning..."));
+                meridianFlipStage = MF_ALIGNING;
+                emit meridialFlipTracked();
+                return;
+            }
+
+            checkGuidingAfterFlip();
+            break;
+
+       default:
+        break;
+    }
+
+}
+
+void Capture::checkGuidingAfterFlip()
+{
+    // If we're not autoguiding then we're done
+    if (resumeGuidingAfterFlip == false)
+    {
+        resumeSequence();
+        meridianFlipStage = MF_NONE;
+    }
+    else
+    {
+        appendLogText(xi18n("Performing post flip re-calibration and guiding..."));
+        secondsLabel->setText(xi18n("Calibrating..."));
+        meridianFlipStage = MF_GUIDING;
+        emit meridianFlipCompleted();
+    }
+}
+
+double Capture::getCurrentHA()
+{
+    double currentRA, currentDEC;
+
+    if (currentTelescope->getEqCoords(&currentRA, &currentDEC) == false)
+    {
+        appendLogText(xi18n("Failed to retrive telescope coordinates. Unable to calculate telescope's hour angle."));
+        return INVALID_HA;
+    }
+
+    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+
+    dms ha( lst.Degrees() - currentRA*15.0 );
+
+    double HA = ha.Hours();
+
+    if (HA > 12)
+        HA -= 24;
+
+    return HA;
+}
+
+bool Capture::checkMeridianFlip()
+{
+
+    if (meridianCheck->isEnabled() == false || meridianCheck->isChecked() == false || initialHA > 0)
+        return false;
+
+
+    double currentHA = getCurrentHA();
+
+    //appendLogText(xi18n("Current hour angle %1", currentHA));
+
+    if (currentHA == INVALID_HA)
+        return false;
+
+    if (currentHA > meridianHours->value())
+    {
+        //NOTE: DO NOT make the follow sentence PLURAL as the value is in double
+        appendLogText(xi18n("Current hour angle %1 hours exceeds meridian flip limit of %2 hours. Auto meridian flip is initiated.", QString::number(currentHA, 'f', 2), meridianHours->value()));
+        meridianFlipStage = MF_INITIATED;
+
+        // Suspend guiding first before commanding a meridian flip
+        //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+//            emit suspendGuiding(false);
+
+        // If we are autoguiding, we should resume autoguiding after flip
+        resumeGuidingAfterFlip = isAutoGuiding;
+
+        if (isAutoGuiding || isAutoFocus)
+            emit meridianFlipStarted();
+
+        double dec;
+        currentTelescope->getEqCoords(&initialRA, &dec);
+        currentTelescope->Slew(initialRA,dec);
+        secondsLabel->setText(xi18n("Meridian Flip..."));
+        QTimer::singleShot(MF_TIMER_TIMEOUT, this, SLOT(checkMeridianFlipTimeout()));
+        return true;
+    }
+
+    return false;
+}
+
+void Capture::checkMeridianFlipTimeout()
+{
+    static bool guidingEngaged = false, alignmentEngaged=false;
+
+    if (meridianFlipStage == MF_NONE)
+        return;
+
+    if (meridianFlipStage < MF_ALIGNING)
+    {
+        appendLogText(xi18n("Telescope meridian flip timed out."));
+        stopSequence();
+    }
+    else if (meridianFlipStage == MF_ALIGNING)
+    {
+        if (alignmentEngaged == false)
+        {
+            QTimer::singleShot(MF_TIMER_TIMEOUT*2, this, SLOT(checkMeridianFlipTimeout()));
+            alignmentEngaged = true;
+        }
+        else
+        {
+            appendLogText(xi18n("Alignment timed out."));
+            stopSequence();
+        }
+
+    }
+    else if (meridianFlipStage == MF_GUIDING)
+    {
+        if (guidingEngaged == false)
+        {
+            QTimer::singleShot(MF_TIMER_TIMEOUT*2, this, SLOT(checkMeridianFlipTimeout()));
+            guidingEngaged = true;
+        }
+        else
+        {
+            appendLogText(xi18n("Guiding timed out."));
+            stopSequence();
+        }
+    }
+}
+
+void Capture::enableAlignmentFlag()
+{
+    resumeAlignmentAfterFlip = true;
+}
+
+void Capture::checkAlignmentSlewComplete()
+{
+    if (meridianFlipStage == MF_ALIGNING)
+    {
+        appendLogText(xi18n("Post flip re-alignment completed successfully."));
+        checkGuidingAfterFlip();
+    }
 }
 
 }
