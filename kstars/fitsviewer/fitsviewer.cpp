@@ -154,12 +154,13 @@ FITSViewer::FITSViewer (QWidget *parent)
     saveFileAsAction  = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
 
     action = actionCollection()->addAction("fits_header");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_H));
     action->setIcon(QIcon::fromTheme("document-properties"));
     action->setText(xi18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
     action = actionCollection()->addAction("fits_debayer");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_B));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_D));
     action->setIcon(QIcon::fromTheme("view-preview"));
     action->setText(xi18n( "Debayer..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(debayerFITS()));
