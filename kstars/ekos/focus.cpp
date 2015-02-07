@@ -216,6 +216,15 @@ void Focus::checkCCD(int ccdNum)
     if (ccdNum <= CCDs.count())
         currentCCD = CCDs.at(ccdNum);
 
+    syncCCDInfo();
+}
+
+void Focus::syncCCDInfo()
+{
+
+    if (currentCCD == NULL)
+        return;
+
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     if (targetChip)
     {

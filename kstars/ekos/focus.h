@@ -185,11 +185,16 @@ public slots:
     void checkStopFocus();
 
     /**
-     * @brief Check CCD and make sure information is updated accordingly.
+     * @brief Check CCD and make sure information is updated accordingly. This simply calls syncCCDInfo for the current CCD.
      * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu.
      *  CCDNum is the index of the CCD in the dropdown menu.
      */
     void checkCCD(int CCDNum=-1);
+
+    /**
+     * @brief syncCCDInfo Read current CCD information and update settings accordingly.
+     */
+    void syncCCDInfo();
 
     /**
      * @brief Check Focuser and make sure information is updated accordingly.

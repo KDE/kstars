@@ -1263,6 +1263,9 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
     if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "GUIDER_INFO")
             || !strcmp(nvp->name, "CCD_FRAME") || !strcmp(nvp->name, "GUIDER_FRAME"))
     {
+        if (focusProcess)
+            focusProcess->syncCCDInfo();
+
         if (guideProcess)
             guideProcess->syncCCDInfo();
 
