@@ -1390,6 +1390,10 @@
       <label>Enforce Autofocus HFR limit.</label>
       <default>false</default>
     </entry>
+    <entry name="EnforceTemperatureControl" type="Bool">
+      <label>Enforce temperature settings when taking an image</label>
+      <default>true</default>
+    </entry>
     <entry name="AutoMeridianHours" type="Double">
       <label>Default hour angle to perform meridian flip</label>
          <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>

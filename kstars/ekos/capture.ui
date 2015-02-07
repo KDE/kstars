@@ -376,18 +376,15 @@
               <item row="3" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_17">
                 <item>
-                 <widget class="QLabel" name="temperatureLabel">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
+                 <widget class="QCheckBox" name="temperatureCheck">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enforce temperature value before capturing an image&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
-                   <string>Temperature:</string>
+                   <string>Temperature</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -1084,7 +1081,7 @@
             <string>Abort sequence if guiding deviation exceed this value</string>
            </property>
            <property name="text">
-            <string>Guiding Deviation &gt;</string>
+            <string>Guiding Deviation &lt;</string>
            </property>
            <property name="checked">
             <bool>false</bool>
@@ -1174,7 +1171,7 @@
             <bool>false</bool>
            </property>
            <property name="toolTip">
-            <string>Command a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspected and resumed after the flip is complete.</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Command a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspended and resumed after the flip is complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
             <string>Meridian Flip if HA &gt;</string>

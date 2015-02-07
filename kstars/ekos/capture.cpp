@@ -133,7 +133,7 @@ void SequenceJob::prepareCapture()
     }
 
 
-    if (targetTemperature != currentTemperature)
+    if (Options::enforceTemperatureControl() && targetTemperature != currentTemperature)
     {
         temperatureReady = false;
         activeCCD->setTemperature(targetTemperature);
@@ -254,7 +254,7 @@ void SequenceJob::setCurrentTemperature(double value)
 {
     currentTemperature = value;
 
-    if (fabs(targetTemperature - currentTemperature) <= MAX_TEMP_DIFF)
+    if (Options::enforceTemperatureControl() == false || fabs(targetTemperature - currentTemperature) <= MAX_TEMP_DIFF)
         temperatureReady = true;
 
     if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
@@ -398,6 +398,8 @@ Capture::Capture()
     parkCheck->setChecked(Options::autoParkTelescope());
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
+    temperatureCheck->setChecked(Options::enforceTemperatureControl());
+
 }
 
 Capture::~Capture()
@@ -469,7 +471,7 @@ void Capture::startSequence()
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoMeridianHours(meridianHours->value());
-    Options::setAutoParkTelescope(parkCheck->isChecked());
+    Options::setAutoParkTelescope(parkCheck->isChecked());    
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -606,7 +608,7 @@ void Capture::checkCCD(int ccdNum)
         if (currentCCD->hasCooler())
         {
 
-            temperatureLabel->setEnabled(true);
+            temperatureCheck->setEnabled(true);
             temperatureIN->setEnabled(true);
 
             if (currentCCD->getBaseDevice()->getPropertyPermission("CCD_TEMPERATURE") != IP_RO)
@@ -635,7 +637,7 @@ void Capture::checkCCD(int ccdNum)
         }
         else
         {
-            temperatureLabel->setEnabled(false);
+            temperatureCheck->setEnabled(false);
             temperatureIN->setEnabled(false);
             temperatureIN->clear();
             setTemperatureB->setEnabled(false);
@@ -1304,6 +1306,8 @@ void Capture::addJob(bool preview)
     SequenceJob *job = NULL;
     QString imagePrefix;
 
+    Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
+
     if (preview == false && darkSubCheck->isChecked())
     {
         KMessageBox::error(this, xi18n("Auto dark subtract is not supported in batch mode."));
@@ -1333,8 +1337,10 @@ void Capture::addJob(bool preview)
 
     if (temperatureIN->isEnabled())
     {
+        double currentTemperature;
+        currentCCD->getTemperature(&currentTemperature);
         job->setTargetTemperature(temperatureIN->value());
-        //job->setCurrentTemperature();
+        job->setCurrentTemperature(currentTemperature);
     }
 
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
@@ -1590,6 +1596,7 @@ void Capture::prepareJob(SequenceJob *job)
         if (currentFilterPosition != activeJob->getTargetFilter())
         {
             appendLogText(xi18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
+            secondsLabel->setText(xi18n("Set filter..."));
             pi->startAnimation();
             previewB->setEnabled(false);
             startB->setEnabled(false);
@@ -1597,11 +1604,18 @@ void Capture::prepareJob(SequenceJob *job)
         }
     }
 
-    if (currentCCD->hasCooler())
+    if (currentCCD->hasCooler() && temperatureCheck->isChecked())
     {
         if (activeJob->getCurrentTemperature() != INVALID_TEMPERATURE &&
                 fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) > MAX_TEMP_DIFF)
+        {
             appendLogText(xi18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
+            secondsLabel->setText(xi18n("Set %1 C...", activeJob->getTargetTemperature()));
+            pi->startAnimation();
+            previewB->setEnabled(false);
+            startB->setEnabled(false);
+            stopB->setEnabled(true);
+        }
     }
 
     connect(activeJob, SIGNAL(prepareComplete()), this, SLOT(executeJob()));
@@ -1916,6 +1930,13 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             if (temperatureIN->isEnabled())
                 temperatureIN->setValue(atof(pcdataXMLEle(ep))-1);
+
+            // If force attribute exist, we change temperatureCheck, otherwise do nothing.
+            if (!strcmp(findXMLAttValu(ep, "force"), "true"))
+                temperatureCheck->setChecked(true);
+            else if (!strcmp(findXMLAttValu(ep, "force"), "false"))
+                temperatureCheck->setChecked(false);
+
         }
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
@@ -2070,7 +2091,7 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<H>" << job->getSubH() << "</H>" << endl;
         outstream << "</Frame>" << endl;
         if (job->getTargetTemperature() != INVALID_TEMPERATURE)
-            outstream << "<Temperature>" << job->getTargetTemperature() << "</Temperature>" << endl;
+            outstream << "<Temperature force='" << (temperatureCheck->isChecked() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
         outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
         outstream << "<Type>" << job->getFrameType() << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
