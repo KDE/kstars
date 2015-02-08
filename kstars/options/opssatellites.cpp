@@ -141,7 +141,7 @@ void OpsSatellites::slotApply()
     QStandardItem* group_item;
     QStandardItem* sat_item;
     
-    // Retrive each satellite in the list and select it if checkbox is checked
+    // Retrieve each satellite in the list and select it if checkbox is checked
     for ( int i=0; i<m_Model->rowCount( SatListTreeView->rootIndex() ); ++i ) {
         group_index = m_Model->index( i, 0, SatListTreeView->rootIndex() );
         group_item = m_Model->itemFromIndex( group_index );
