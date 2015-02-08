@@ -2374,7 +2374,7 @@ double Capture::getCurrentHA()
 
     if (currentTelescope->getEqCoords(&currentRA, &currentDEC) == false)
     {
-        appendLogText(xi18n("Failed to retrive telescope coordinates. Unable to calculate telescope's hour angle."));
+        appendLogText(xi18n("Failed to retrieve telescope coordinates. Unable to calculate telescope's hour angle."));
         return INVALID_HA;
     }
 
