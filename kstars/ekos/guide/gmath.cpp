@@ -367,7 +367,7 @@ void cgmath::move_square( double newx, double newy )
 
 void cgmath::resize_square( int size_idx )
 {
-    if( size_idx < 0 || size_idx >= (int)(sizeof(guide_squares)/sizeof(guide_square_t))-1 || pimage == NULL)
+    if( size_idx < 0 || size_idx >= (int)(sizeof(guide_squares)/sizeof(guide_square_t))-1)
 		return;
 
 	square_size = guide_squares[size_idx].size;
@@ -378,8 +378,6 @@ void cgmath::resize_square( int size_idx )
     if (pimage)
         pimage->setGuideBoxSize(square_size);
 
-    // TODO: FIXME
-    //move_square( square_pos.x, square_pos.y );
 }
 
 
