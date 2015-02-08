@@ -838,7 +838,7 @@ void rcalibration::setImage(FITSView *image)
 
 bool brighterThan(Edge *s1, Edge *s2)
 {
-    return s1->HFR > s2->HFR;
+    return s1->width > s2->width;
 }
 
 QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
@@ -904,6 +904,19 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
     }
 
     star = qMakePair(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y);
+
+    // Select appropiate square size
+    int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
+
+    for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
+    {
+        if (idealSize < ui.comboBox_SquareSize->itemText(i).toInt())
+        {
+            ui.comboBox_SquareSize->setCurrentIndex(i);
+            pmath->resize_square(i);
+            break;
+        }
+    }
 
     /*foreach(Edge *center, image_data->getStarCenters())
     {
