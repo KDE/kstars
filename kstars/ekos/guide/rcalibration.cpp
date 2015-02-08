@@ -36,6 +36,8 @@
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 
+#define MAX_GUIDE_STARS 10
+
 //#define GUIDE_LOG
 
 rcalibration::rcalibration(Ekos::Guide *parent)
@@ -780,6 +782,9 @@ void rcalibration::guideStarSelected(int x, int y)
 
 void rcalibration::capture()
 {
+    if (isCalibrating())
+        stopCalibration();
+
     calibrationStage = CAL_CAPTURE_IMAGE;
 
     if (pmain_wnd->capture())
@@ -831,17 +836,76 @@ void rcalibration::setImage(FITSView *image)
     }
 }
 
+bool brighterThan(Edge *s1, Edge *s2)
+{
+    return s1->HFR > s2->HFR;
+}
+
 QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 {
-    int maxVal=-1;
-    Edge *guideStar = NULL;
+    //int maxVal=-1;
+    //Edge *guideStar = NULL;
     QPair<double,double> star;
 
     FITSData *image_data = image->getImageData();
     image_data->findStars();
 
+    QList<Edge*> starCenters = image_data->getStarCenters();
 
-    foreach(Edge *center, image_data->getStarCenters())
+    if (starCenters.empty())
+        return star;
+
+    qSort(starCenters.begin(), starCenters.end(), brighterThan);
+
+    int maxX = image_data->getWidth();
+    int maxY = image_data->getHeight();
+
+    int scores[MAX_GUIDE_STARS];
+
+    int maxIndex = MAX_GUIDE_STARS < starCenters.count() ? MAX_GUIDE_STARS : starCenters.count();
+
+    for (int i=0; i < maxIndex; i++)
+    {
+        int score=100;
+
+        Edge *center = starCenters.at(i);
+
+        //qDebug() << "#" << i << " X: " << center->x << " Y: " << center->y << " HFR: " << center->HFR << " Width" << center->width << endl;
+
+        // Severely reject stars close to edges
+        if (center->x < (center->width*6) || center->y < (center->width*6) || center->x > (maxX-center->width*6) || center->y > (maxY-center->width*6))
+            score-=50;
+
+        // Moderately reject stars close to other stars
+        foreach(Edge *edge, starCenters)
+        {
+            if (edge == center)
+                continue;
+
+            if (abs(center->x - edge->x) < center->width*2 && abs(center->y - edge->y) < center->width*2)
+            {
+                score -= 20;
+                break;
+            }
+        }
+
+        scores[i] = score;
+    }
+
+    int maxScore=0;
+    int maxScoreIndex=0;
+    for (int i=0; i < maxIndex; i++)
+    {
+        if (scores[i] > maxScore)
+        {
+            maxScore = scores[i];
+            maxScoreIndex = i;
+        }
+    }
+
+    star = qMakePair(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y);
+
+    /*foreach(Edge *center, image_data->getStarCenters())
     {
         if (center->val > maxVal)
         {
@@ -855,6 +919,7 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 
     if (guideStar != NULL)
         image->setGuideSquare(guideStar->x, guideStar->y);
+    */
 
     return star;
 }
