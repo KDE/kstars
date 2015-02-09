@@ -388,10 +388,6 @@ int FITSData::saveFITS( const QString &newFilename )
 
     fptr = new_fptr;
 
-    // For color images, we return for now.
-    if (stats.ndim > 2)
-        return status;
-
     if (fits_movabs_hdu(fptr, 1, &exttype, &status))
     {
         fits_report_error(stderr, status);
@@ -399,7 +395,7 @@ int FITSData::saveFITS( const QString &newFilename )
     }
 
     /* Write Data */
-    if (fits_write_pix(fptr, TFLOAT, fpixel, nelements, image_buffer, &status))
+    if (fits_write_img(fptr, TFLOAT, 1, nelements, image_buffer, &status))
     {
         fits_report_error(stderr, status);
         return status;
