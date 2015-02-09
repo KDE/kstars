@@ -112,7 +112,7 @@ extern "C" {
 #endif
 
 dc1394error_t
-dc1394_bayer_decoding_float(const float * bayer, float * rgb, uint32_t sx, uint32_t sy, dc1394color_filter_t tile, dc1394bayer_method_t method);
+dc1394_bayer_decoding_float(const float * bayer, float * rgb, uint32_t sx, uint32_t sy, int offsetX, int offsetY, dc1394color_filter_t tile, dc1394bayer_method_t method);
 
 #ifdef __cplusplus
 }

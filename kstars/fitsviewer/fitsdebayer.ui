@@ -93,10 +93,10 @@
      <item row="2" column="1">
       <widget class="QSpinBox" name="XOffsetSpin">
        <property name="minimum">
-        <number>-50</number>
+        <number>0</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>1</number>
        </property>
       </widget>
      </item>
@@ -110,10 +110,10 @@
      <item row="3" column="1">
       <widget class="QSpinBox" name="YOffsetSpin">
        <property name="minimum">
-        <number>-50</number>
+        <number>0</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>1</number>
        </property>
       </widget>
      </item>

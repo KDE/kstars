@@ -72,7 +72,7 @@ ClearBorders_float(float * rgb, int sx, int sy, int w)
 
 /* insprired by OpenCV's Bayer decoding */
 dc1394error_t
-dc1394_bayer_NearestNeighbor_float(const float * bayer, float * rgb, int sx, int sy, int tile)
+dc1394_bayer_NearestNeighbor_float(const float * bayer, float * rgb, int sx, int sy, int offsetX, int offsetY, dc1394color_filter_t tile)
 {
     const int bayerStep = sx;
     const int rgbStep = 3 * sx;
@@ -101,7 +101,18 @@ dc1394_bayer_NearestNeighbor_float(const float * bayer, float * rgb, int sx, int
 
     rgb += 1;
     height -= 1;
-    width -= 1;    
+    width -= 1;
+
+    if (offsetY == 1)
+    {
+        bayer += bayerStep;
+        height--;
+    }
+
+    if (offsetX == 1)
+    {
+         bayer++;
+    }
 
     for (; height--; bayer += bayerStep, rgb += rgbStep) {
       /*int t0, t1;*/
@@ -157,7 +168,7 @@ dc1394_bayer_NearestNeighbor_float(const float * bayer, float * rgb, int sx, int
 }
 /* OpenCV's Bayer decoding */
 dc1394error_t
-dc1394_bayer_Bilinear_float(const float * bayer, float * rgb, int sx, int sy, int tile)
+dc1394_bayer_Bilinear_float(const float * bayer, float * rgb, int sx, int sy, int offsetX, int offsetY, dc1394color_filter_t tile)
 {
     const int bayerStep = sx;
     const int rgbStep = 3 * sx;
@@ -174,6 +185,17 @@ dc1394_bayer_Bilinear_float(const float * bayer, float * rgb, int sx, int sy, in
     rgb += rgbStep + 3 + 1;
     height -= 2;
     width -= 2;
+
+    if (offsetY == 1)
+    {
+        bayer += bayerStep;
+        height--;
+    }
+
+    if (offsetX == 1)
+    {
+         bayer++;
+    }
 
     for (; height--; bayer += bayerStep, rgb += rgbStep) {
         int t0, t1;
@@ -257,7 +279,7 @@ dc1394_bayer_Bilinear_float(const float * bayer, float * rgb, int sx, int sy, in
    Bayer-Patterned Color Images, by Henrique S. Malvar, Li-wei He, and
    Ross Cutler, in ICASSP'04 */
 dc1394error_t
-dc1394_bayer_HQLinear_float(const float * bayer, float * rgb, int sx, int sy, int tile)
+dc1394_bayer_HQLinear_float(const float * bayer, float * rgb, int sx, int sy, int offsetX, int offsetY, dc1394color_filter_t tile)
 {
     const int bayerStep = sx;
     const int rgbStep = 3 * sx;
@@ -287,6 +309,17 @@ dc1394_bayer_HQLinear_float(const float * bayer, float * rgb, int sx, int sy, in
     rgb += 2 * rgbStep + 6 + 1;
     height -= 4;
     width -= 4;
+
+    if (offsetY == 1)
+    {
+        bayer += bayerStep;
+        height--;
+    }
+
+    if (offsetX == 1)
+    {
+         bayer++;
+    }
 
     /* We begin with a (+1 line,+1 column) offset with respect to bilinear decoding, so start_with_green is the same, but blue is opposite */
     blue = -blue;
@@ -467,67 +500,7 @@ dc1394_bayer_HQLinear_float(const float * bayer, float * rgb, int sx, int sy, in
 
 /* coriander's Bayer decoding */
 dc1394error_t
-dc1394_bayer_Downsample_float(const float * bayer, float * rgb, int sx, int sy, int tile)
-{
-    float *outR, *outG, *outB;
-    register int i, j;
-    int tmp;
-
-    switch (tile) {
-    case DC1394_COLOR_FILTER_GRBG:
-    case DC1394_COLOR_FILTER_BGGR:
-        outR = &rgb[0];
-        outG = &rgb[1];
-        outB = &rgb[2];
-        break;
-    case DC1394_COLOR_FILTER_GBRG:
-    case DC1394_COLOR_FILTER_RGGB:
-        outR = &rgb[2];
-        outG = &rgb[1];
-        outB = &rgb[0];
-        break;
-    default:
-      return DC1394_INVALID_COLOR_FILTER;
-    }
-
-    switch (tile) {
-    case DC1394_COLOR_FILTER_GRBG:
-    case DC1394_COLOR_FILTER_GBRG:
-        for (i = 0; i < sy*sx; i += (sx<<1)) {
-            for (j = 0; j < sx; j += 2) {
-                tmp =
-                    ((bayer[i + j] + bayer[i + sx + j + 1]) / 2);
-                CLIP_FLOAT(tmp, outG[((i / 4) + (j / 2)) * 3]);
-                tmp = bayer[i + sx + j + 1];
-                CLIP_FLOAT(tmp, outR[((i / 4) + (j / 2)) * 3]);
-                tmp = bayer[i + sx + j];
-                CLIP_FLOAT(tmp, outB[((i / 4) + (j / 2)) * 3]);
-            }
-        }
-        break;
-    case DC1394_COLOR_FILTER_BGGR:
-    case DC1394_COLOR_FILTER_RGGB:
-        for (i = 0; i < sy*sx; i += (sx<<1)) {
-            for (j = 0; j < sx; j += 2) {
-                tmp =
-                    ((bayer[i + sx + j] + bayer[i + j + 1]) / 2);
-                CLIP_FLOAT(tmp, outG[((i / 4) + (j / 2)) * 3]);
-                tmp = bayer[i + sx + j + 1];
-                CLIP_FLOAT(tmp, outR[((i / 4) + (j / 2)) * 3]);
-                tmp = bayer[i + j];
-                CLIP_FLOAT(tmp, outB[((i / 4) + (j / 2)) * 3]);
-            }
-        }
-        break;
-    }
-
-    return DC1394_SUCCESS;
-
-}
-
-/* coriander's Bayer decoding */
-dc1394error_t
-dc1394_bayer_Simple_float(const float * bayer, float * rgb, int sx, int sy, int tile)
+dc1394_bayer_Simple_float(const float * bayer, float * rgb, int sx, int sy, int offsetX, int offsetY, dc1394color_filter_t tile)
 {
     float *outR, *outG, *outB;
     register int i, j;
@@ -744,9 +717,7 @@ static const signed char bayervng_terms[] = {
 }, bayervng_chood[] = { -1,-1, -1,0, -1,+1, 0,+1, +1,+1, +1,0, +1,-1, 0,-1 };
 
 dc1394error_t
-dc1394_bayer_VNG_float(const float * bayer,
-                        float * dst, int sx, int sy,
-                        dc1394color_filter_t pattern)
+dc1394_bayer_VNG_float(const float * bayer, float * dst, int sx, int sy, int offsetX, int offsetY, dc1394color_filter_t pattern)
 {
     const int height = sy, width = sx;
     static const signed char *cp;
@@ -759,7 +730,7 @@ dc1394_bayer_VNG_float(const float * bayer,
 
     /* first, use bilinear bayer decoding */
 
-    dc1394_bayer_Bilinear_float(bayer, dst, sx, sy, pattern);
+    dc1394_bayer_Bilinear_float(bayer, dst, sx, sy, offsetX, offsetY, pattern);
 
     switch(pattern) {
     case DC1394_COLOR_FILTER_BGGR:
@@ -913,525 +884,23 @@ static void cam_to_cielab (float cam[3], float lab[3]) /* [SA] */
     }
 }
 
-/*
-   Adaptive Homogeneity-Directed interpolation is based on
-   the work of Keigo Hirakawa, Thomas Parks, and Paul Lee.
- */
-#define TS 256                /* Tile Size */
-
 dc1394error_t
-dc1394_bayer_AHD(const uint8_t * bayer,
-                 uint8_t * dst, int sx, int sy,
-                 dc1394color_filter_t pattern)
-{
-    int i, j, top, left, row, col, tr, tc, fc, c, d, val, hm[2];
-    /* the following has the same type as the image */
-    uint8_t (*pix)[3], (*rix)[3];      /* [SA] */
-    float rix16[3];                 /* [SA] */
-    static const int dir[4] = { -1, 1, -TS, TS };
-    unsigned ldiff[2][4], abdiff[2][4], leps, abeps;
-    float flab[3];                     /* [SA] */
-    uint8_t (*rgb)[TS][TS][3];
-    short (*lab)[TS][TS][3];
-    char (*homo)[TS][TS], *buffer;
-
-    /* start - new code for libdc1394 */
-    uint32_t filters;
-    const int height = sy, width = sx;
-    int x, y;
-
-    if (ahd_inited==DC1394_FALSE) {
-        /* WARNING: this might not be multi-processor safe */
-        cam_to_cielab (NULL,NULL);
-        ahd_inited = DC1394_TRUE;
-    }
-
-    switch(pattern) {
-    case DC1394_COLOR_FILTER_BGGR:
-        filters = 0x16161616;
-        break;
-    case DC1394_COLOR_FILTER_GRBG:
-        filters = 0x61616161;
-        break;
-    case DC1394_COLOR_FILTER_RGGB:
-        filters = 0x94949494;
-        break;
-    case DC1394_COLOR_FILTER_GBRG:
-        filters = 0x49494949;
-        break;
-    default:
-        return DC1394_INVALID_COLOR_FILTER;
-    }
-
-    /* fill-in destination with known exact values */
-    for (y = 0; y < height; y++) {
-        for (x = 0; x < width; x++) {
-            int channel = FC(y,x);
-            dst[(y*width+x)*3 + channel] = bayer[y*width+x];
-        }
-    }
-    /* end - new code for libdc1394 */
-
-    /* start - code from border_interpolate (int border) */
-    {
-        int border = 3;
-        unsigned row, col, y, x, f, c, sum[8];
-
-        for (row=0; row < height; row++)
-            for (col=0; col < width; col++) {
-                if (col==border && row >= border && row < height-border)
-                    col = width-border;
-                memset (sum, 0, sizeof sum);
-                for (y=row-1; y != row+2; y++)
-                    for (x=col-1; x != col+2; x++)
-                        if (y < height && x < width) {
-                            f = FC(y,x);
-                            sum[f] += dst[(y*width+x)*3 + f];           /* [SA] */
-                            sum[f+4]++;
-                        }
-                f = FC(row,col);
-                FORC3 if (c != f && sum[c+4])                     /* [SA] */
-                    dst[(row*width+col)*3 + c] = sum[c] / sum[c+4]; /* [SA] */
-            }
-    }
-    /* end - code from border_interpolate (int border) */
-
-
-    buffer = (char *) malloc (26*TS*TS);                /* 1664 kB */
-    /* merror (buffer, "ahd_interpolate()"); */
-    rgb  = (uint8_t(*)[TS][TS][3]) buffer;                /* [SA] */
-    lab  = (short (*)[TS][TS][3])(buffer + 12*TS*TS);
-    homo = (char  (*)[TS][TS])   (buffer + 24*TS*TS);
-
-    for (top=0; top < height; top += TS-6)
-        for (left=0; left < width; left += TS-6) {
-            memset (rgb, 0, 12*TS*TS);
-
-            /*  Interpolate green horizontally and vertically:                */
-            for (row = top < 2 ? 2:top; row < top+TS && row < height-2; row++) {
-                col = left + (FC(row,left) == 1);
-                if (col < 2) col += 2;
-                for (fc = FC(row,col); col < left+TS && col < width-2; col+=2) {
-                    pix = (uint8_t (*)[3])dst + (row*width+col);          /* [SA] */
-                    val = ((pix[-1][1] + pix[0][fc] + pix[1][1]) * 2
-                           - pix[-2][fc] - pix[2][fc]) / 4;
-                    rgb[0][row-top][col-left][1] = ULIM(val,pix[-1][1],pix[1][1]);
-                    val = ((pix[-width][1] + pix[0][fc] + pix[width][1]) * 2
-                           - pix[-2*width][fc] - pix[2*width][fc]) / 4;
-                    rgb[1][row-top][col-left][1] = ULIM(val,pix[-width][1],pix[width][1]);
-                }
-            }
-            /*  Interpolate red and blue, and convert to CIELab:                */
-            for (d=0; d < 2; d++)
-                for (row=top+1; row < top+TS-1 && row < height-1; row++)
-                    for (col=left+1; col < left+TS-1 && col < width-1; col++) {
-                        pix = (uint8_t (*)[3])dst + (row*width+col);        /* [SA] */
-                        rix = &rgb[d][row-top][col-left];
-                        if ((c = 2 - FC(row,col)) == 1) {
-                            c = FC(row+1,col);
-                            val = pix[0][1] + (( pix[-1][2-c] + pix[1][2-c]
-                                                 - rix[-1][1] - rix[1][1] ) / 2);
-                            rix[0][2-c] = CLIPOUT(val);         /* [SA] */
-                            val = pix[0][1] + (( pix[-width][c] + pix[width][c]
-                                                 - rix[-TS][1] - rix[TS][1] ) / 2);
-                        } else
-                            val = rix[0][1] + (( pix[-width-1][c] + pix[-width+1][c]
-                                                 + pix[+width-1][c] + pix[+width+1][c]
-                                                 - rix[-TS-1][1] - rix[-TS+1][1]
-                                                 - rix[+TS-1][1] - rix[+TS+1][1] + 1) / 4);
-                        rix[0][c] = CLIPOUT(val);             /* [SA] */
-                        c = FC(row,col);
-                        rix[0][c] = pix[0][c];
-                        rix16[0] = rix[0][0];                 /* [SA] */
-                        rix16[1] = rix[0][1];                 /* [SA] */
-                        rix16[2] = rix[0][2];                 /* [SA] */
-                        cam_to_cielab (rix16, flab);          /* [SA] */
-                        FORC3 lab[d][row-top][col-left][c] = 64*flab[c];
-                    }
-            /*  Build homogeneity maps from the CIELab images:                */
-            memset (homo, 0, 2*TS*TS);
-            for (row=top+2; row < top+TS-2 && row < height; row++) {
-                tr = row-top;
-                for (col=left+2; col < left+TS-2 && col < width; col++) {
-                    tc = col-left;
-                    for (d=0; d < 2; d++)
-                        for (i=0; i < 4; i++)
-                            ldiff[d][i] = ABS(lab[d][tr][tc][0]-lab[d][tr][tc+dir[i]][0]);
-                    leps = MIN(MAX(ldiff[0][0],ldiff[0][1]),
-                               MAX(ldiff[1][2],ldiff[1][3]));
-                    for (d=0; d < 2; d++)
-                        for (i=0; i < 4; i++)
-                            if (i / 2 == d || ldiff[d][i] <= leps)
-                                abdiff[d][i] = SQR(lab[d][tr][tc][1]-lab[d][tr][tc+dir[i]][1])
-                                    + SQR(lab[d][tr][tc][2]-lab[d][tr][tc+dir[i]][2]);
-                    abeps = MIN(MAX(abdiff[0][0],abdiff[0][1]),
-                                MAX(abdiff[1][2],abdiff[1][3]));
-                    for (d=0; d < 2; d++)
-                        for (i=0; i < 4; i++)
-                            if (ldiff[d][i] <= leps && abdiff[d][i] <= abeps)
-                                homo[d][tr][tc]++;
-                }
-            }
-            /*  Combine the most homogenous pixels for the final result:        */
-            for (row=top+3; row < top+TS-3 && row < height-3; row++) {
-                tr = row-top;
-                for (col=left+3; col < left+TS-3 && col < width-3; col++) {
-                    tc = col-left;
-                    for (d=0; d < 2; d++)
-                        for (hm[d]=0, i=tr-1; i <= tr+1; i++)
-                            for (j=tc-1; j <= tc+1; j++)
-                                hm[d] += homo[d][i][j];
-                    if (hm[0] != hm[1])
-                        FORC3 dst[(row*width+col)*3 + c] = CLIPOUT(rgb[hm[1] > hm[0]][tr][tc][c]); /* [SA] */
-                    else
-                        FORC3 dst[(row*width+col)*3 + c] =
-                            CLIPOUT((rgb[0][tr][tc][c] + rgb[1][tr][tc][c]) / 2);      /* [SA] */
-                }
-            }
-        }
-    free (buffer);
-
-    return DC1394_SUCCESS;
-}
-
-dc1394error_t
-dc1394_bayer_AHD_float(const float * bayer,
-                        float * dst, int sx, int sy,
-                        dc1394color_filter_t pattern)
-{
-    int i, j, top, left, row, col, tr, tc, fc, c, d, val, hm[2];
-    /* the following has the same type as the image */
-    float (*pix)[3], (*rix)[3];      /* [SA] */
-    static const int dir[4] = { -1, 1, -TS, TS };
-    unsigned ldiff[2][4], abdiff[2][4], leps, abeps;
-    float flab[3];
-    float (*rgb)[TS][TS][3];         /* [SA] */
-    short (*lab)[TS][TS][3];
-    char (*homo)[TS][TS], *buffer;
-
-    /* start - new code for libdc1394 */
-    uint32_t filters;
-    const int height = sy, width = sx;
-    int x, y;
-
-    if (ahd_inited==DC1394_FALSE) {
-        /* WARNING: this might not be multi-processor safe */
-        cam_to_cielab (NULL,NULL);
-        ahd_inited = DC1394_TRUE;
-    }
-
-    switch(pattern) {
-    case DC1394_COLOR_FILTER_BGGR:
-        filters = 0x16161616;
-        break;
-    case DC1394_COLOR_FILTER_GRBG:
-        filters = 0x61616161;
-        break;
-    case DC1394_COLOR_FILTER_RGGB:
-        filters = 0x94949494;
-        break;
-    case DC1394_COLOR_FILTER_GBRG:
-        filters = 0x49494949;
-        break;
-    default:
-        return DC1394_INVALID_COLOR_FILTER;
-    }
-
-    /* fill-in destination with known exact values */
-    for (y = 0; y < height; y++) {
-        for (x = 0; x < width; x++) {
-            int channel = FC(y,x);
-            dst[(y*width+x)*3 + channel] = bayer[y*width+x];
-        }
-    }
-    /* end - new code for libdc1394 */
-
-    /* start - code from border_interpolate(int border) */
-    {
-        int border = 3;
-        unsigned row, col, y, x, f, c, sum[8];
-
-        for (row=0; row < height; row++)
-            for (col=0; col < width; col++) {
-                if (col==border && row >= border && row < height-border)
-        col = width-border;
-                memset (sum, 0, sizeof sum);
-                for (y=row-1; y != row+2; y++)
-                    for (x=col-1; x != col+2; x++)
-                        if (y < height && x < width) {
-                            f = FC(y,x);
-                            sum[f] += dst[(y*width+x)*3 + f];           /* [SA] */
-                            sum[f+4]++;
-                        }
-                f = FC(row,col);
-                FORC3 if (c != f && sum[c+4])                     /* [SA] */
-                    dst[(row*width+col)*3 + c] = sum[c] / sum[c+4]; /* [SA] */
-            }
-    }
-    /* end - code from border_interpolate(int border) */
-
-
-    buffer = (char *) malloc (26*TS*TS);                /* 1664 kB */
-    /* merror (buffer, "ahd_interpolate()"); */
-    rgb  = (float(*)[TS][TS][3]) buffer;               /* [SA] */
-    lab  = (short (*)[TS][TS][3])(buffer + 12*TS*TS);
-    homo = (char  (*)[TS][TS])   (buffer + 24*TS*TS);
-
-    for (top=0; top < height; top += TS-6)
-        for (left=0; left < width; left += TS-6) {
-            memset (rgb, 0, 12*TS*TS);
-
-            /*  Interpolate green horizontally and vertically:                */
-            for (row = top < 2 ? 2:top; row < top+TS && row < height-2; row++) {
-                col = left + (FC(row,left) == 1);
-                if (col < 2) col += 2;
-                for (fc = FC(row,col); col < left+TS && col < width-2; col+=2) {
-                    pix = (float (*)[3])dst + (row*width+col);          /* [SA] */
-                    val = ((pix[-1][1] + pix[0][fc] + pix[1][1]) * 2
-                           - pix[-2][fc] - pix[2][fc]) / 4;
-                    rgb[0][row-top][col-left][1] = ULIM(val,pix[-1][1],pix[1][1]);
-                    val = ((pix[-width][1] + pix[0][fc] + pix[width][1]) * 2
-                           - pix[-2*width][fc] - pix[2*width][fc]) / 4;
-                    rgb[1][row-top][col-left][1] = ULIM(val,pix[-width][1],pix[width][1]);
-                }
-            }
-            /*  Interpolate red and blue, and convert to CIELab:                */
-            for (d=0; d < 2; d++)
-                for (row=top+1; row < top+TS-1 && row < height-1; row++)
-                    for (col=left+1; col < left+TS-1 && col < width-1; col++) {
-                        pix = (float (*)[3])dst + (row*width+col);        /* [SA] */
-                        rix = &rgb[d][row-top][col-left];
-                        if ((c = 2 - FC(row,col)) == 1) {
-                            c = FC(row+1,col);
-                            val = pix[0][1] + (( pix[-1][2-c] + pix[1][2-c]
-                                                 - rix[-1][1] - rix[1][1] ) / 2);
-                            rix[0][2-c] = CLIPOUT_FLOAT(val); /* [SA] */
-                            val = pix[0][1] + (( pix[-width][c] + pix[width][c]
-                                                 - rix[-TS][1] - rix[TS][1] ) / 2);
-                        } else
-                            val = rix[0][1] + (( pix[-width-1][c] + pix[-width+1][c]
-                                                 + pix[+width-1][c] + pix[+width+1][c]
-                                                 - rix[-TS-1][1] - rix[-TS+1][1]
-                                                 - rix[+TS-1][1] - rix[+TS+1][1] + 1) / 4);
-                        rix[0][c] = CLIPOUT_FLOAT(val);     /* [SA] */
-                        c = FC(row,col);
-                        rix[0][c] = pix[0][c];
-                        cam_to_cielab (rix[0], flab);
-                        FORC3 lab[d][row-top][col-left][c] = 64*flab[c];
-                    }
-            /*  Build homogeneity maps from the CIELab images:                */
-            memset (homo, 0, 2*TS*TS);
-            for (row=top+2; row < top+TS-2 && row < height; row++) {
-                tr = row-top;
-                for (col=left+2; col < left+TS-2 && col < width; col++) {
-                    tc = col-left;
-                    for (d=0; d < 2; d++)
-                        for (i=0; i < 4; i++)
-                            ldiff[d][i] = ABS(lab[d][tr][tc][0]-lab[d][tr][tc+dir[i]][0]);
-                    leps = MIN(MAX(ldiff[0][0],ldiff[0][1]),
-                               MAX(ldiff[1][2],ldiff[1][3]));
-                    for (d=0; d < 2; d++)
-                        for (i=0; i < 4; i++)
-                            if (i / 2 == d || ldiff[d][i] <= leps)
-                                abdiff[d][i] = SQR(lab[d][tr][tc][1]-lab[d][tr][tc+dir[i]][1])
-                                    + SQR(lab[d][tr][tc][2]-lab[d][tr][tc+dir[i]][2]);
-                    abeps = MIN(MAX(abdiff[0][0],abdiff[0][1]),
-                                MAX(abdiff[1][2],abdiff[1][3]));
-                    for (d=0; d < 2; d++)
-                        for (i=0; i < 4; i++)
-                            if (ldiff[d][i] <= leps && abdiff[d][i] <= abeps)
-                                homo[d][tr][tc]++;
-                }
-            }
-            /*  Combine the most homogenous pixels for the final result:        */
-            for (row=top+3; row < top+TS-3 && row < height-3; row++) {
-                tr = row-top;
-                for (col=left+3; col < left+TS-3 && col < width-3; col++) {
-                    tc = col-left;
-                    for (d=0; d < 2; d++)
-                        for (hm[d]=0, i=tr-1; i <= tr+1; i++)
-                            for (j=tc-1; j <= tc+1; j++)
-                                hm[d] += homo[d][i][j];
-                    if (hm[0] != hm[1])
-                        FORC3 dst[(row*width+col)*3 + c] = CLIPOUT_FLOAT(rgb[hm[1] > hm[0]][tr][tc][c]); /* [SA] */
-                    else
-                        FORC3 dst[(row*width+col)*3 + c] =
-                            CLIPOUT_FLOAT((rgb[0][tr][tc][c] + rgb[1][tr][tc][c]) / 2); /* [SA] */
-                }
-            }
-        }
-    free (buffer);
-
-    return DC1394_SUCCESS;
-}
-
-dc1394error_t
-dc1394_bayer_decoding_float(const float * bayer, float * rgb, uint32_t sx, uint32_t sy, dc1394color_filter_t tile, dc1394bayer_method_t method)
+dc1394_bayer_decoding_float(const float * bayer, float * rgb, uint32_t sx, uint32_t sy, int offsetX, int offsetY, dc1394color_filter_t tile, dc1394bayer_method_t method)
 {
     switch (method) {
     case DC1394_BAYER_METHOD_NEAREST:
-        return dc1394_bayer_NearestNeighbor_float(bayer, rgb, sx, sy, tile);
+        return dc1394_bayer_NearestNeighbor_float(bayer, rgb, sx, sy, offsetX, offsetY, tile);
     case DC1394_BAYER_METHOD_SIMPLE:
-        return dc1394_bayer_Simple_float(bayer, rgb, sx, sy, tile);
+        return dc1394_bayer_Simple_float(bayer, rgb, sx, sy,  offsetX, offsetY, tile);
     case DC1394_BAYER_METHOD_BILINEAR:
-        return dc1394_bayer_Bilinear_float(bayer, rgb, sx, sy, tile);
+        return dc1394_bayer_Bilinear_float(bayer, rgb, sx, sy,  offsetX, offsetY, tile);
     case DC1394_BAYER_METHOD_HQLINEAR:
-        return dc1394_bayer_HQLinear_float(bayer, rgb, sx, sy, tile);
+        return dc1394_bayer_HQLinear_float(bayer, rgb, sx, sy,  offsetX, offsetY, tile);
     case DC1394_BAYER_METHOD_VNG:
-        return dc1394_bayer_VNG_float(bayer, rgb, sx, sy, tile);
+        return dc1394_bayer_VNG_float(bayer, rgb, sx, sy, offsetX, offsetY, tile);
     default:
         return DC1394_INVALID_BAYER_METHOD;
     }
 
 }
 
-#if 0
-dc1394error_t
-Adapt_buffer_bayer(dc1394video_frame_t *in, dc1394video_frame_t *out, dc1394bayer_method_t method)
-{
-    uint32_t bpp;
-
-    // conversions will halve the buffer size if the method is DOWNSAMPLE:
-    out->size[0]=in->size[0];
-    out->size[1]=in->size[1];
-    if (method == DC1394_BAYER_METHOD_DOWNSAMPLE) {
-        out->size[0]/=2; // ODD SIZE CASES NOT TAKEN INTO ACCOUNT
-        out->size[1]/=2;
-    }
-
-    // as a convention we divide the image position by two in the case of a DOWNSAMPLE:
-    out->position[0]=in->position[0];
-    out->position[1]=in->position[1];
-    if (method == DC1394_BAYER_METHOD_DOWNSAMPLE) {
-        out->position[0]/=2;
-        out->position[1]/=2;
-    }
-
-    // the destination color coding is ALWAYS RGB. Set this.
-    if ( (in->color_coding==DC1394_COLOR_CODING_RAW16) || 
-	 (in->color_coding==DC1394_COLOR_CODING_MONO16) )
-        out->color_coding=DC1394_COLOR_CODING_RGB16;
-    else
-        out->color_coding=DC1394_COLOR_CODING_RGB8;
-
-    // keep the color filter value in all cases. If the format is not raw it will not be further used anyway
-    out->color_filter=in->color_filter;
-
-    // The output is never YUV, hence nothing to do about YUV byte order
-
-    // bit depth is conserved for 16 bit and set to 8bit for 8bit:
-    if ( (in->color_coding==DC1394_COLOR_CODING_RAW16) || 
-	 (in->color_coding==DC1394_COLOR_CODING_MONO16) )
-        out->data_depth=in->data_depth;
-    else
-        out->data_depth=8;
-
-    // don't know what to do with stride... >>>> TODO: STRIDE SHOULD BE TAKEN INTO ACCOUNT... <<<<
-    // out->stride=??
-
-    // the video mode should not change. Color coding and other stuff can be accessed in specific fields of this struct
-    out->video_mode = in->video_mode;
-
-    // padding is kept:
-    out->padding_bytes = in->padding_bytes;
-
-    // image bytes changes:    >>>> TODO: STRIDE SHOULD BE TAKEN INTO ACCOUNT... <<<<
-    dc1394_get_color_coding_bit_size(out->color_coding, &bpp);
-    out->image_bytes=(out->size[0]*out->size[1]*bpp)/8;
-
-    // total is image_bytes + padding_bytes
-    out->total_bytes = out->image_bytes + out->padding_bytes;
-
-    // bytes-per-packet and packets_per_frame are internal data that can be kept as is.
-    out->packet_size  = in->packet_size;
-    out->packets_per_frame = in->packets_per_frame;
-
-    // timestamp, frame_behind, id and camera are copied too:
-    out->timestamp = in->timestamp;
-    out->frames_behind = in->frames_behind;
-    out->camera = in->camera;
-    out->id = in->id;
-
-    // verify memory allocation:
-    if (out->total_bytes>out->allocated_image_bytes) {
-        free(out->image);
-        out->image=(uint8_t*)malloc(out->total_bytes*sizeof(uint8_t));
-        if (out->image)
-            out->allocated_image_bytes = out->total_bytes*sizeof(uint8_t);
-        else
-            out->allocated_image_bytes = 0;
-    }
-
-    // Copy padding bytes:
-    if(out->image)
-        memcpy(&(out->image[out->image_bytes]),&(in->image[in->image_bytes]),out->padding_bytes);
-
-    out->little_endian=0; // not used before 1.32 is out.
-    out->data_in_padding=0; // not used before 1.32 is out.
-    
-    if(out->image)
-        return DC1394_SUCCESS;
-        
-    return DC1394_MEMORY_ALLOCATION_FAILURE;
-}
-
-dc1394error_t
-dc1394_debayer_frames(dc1394video_frame_t *in, dc1394video_frame_t *out, dc1394bayer_method_t method)
-{
-    if ((method<DC1394_BAYER_METHOD_MIN)||(method>DC1394_BAYER_METHOD_MAX))
-        return DC1394_INVALID_BAYER_METHOD;
-
-    switch (in->color_coding) {
-    case DC1394_COLOR_CODING_RAW8:
-    case DC1394_COLOR_CODING_MONO8:
-        
-        if(DC1394_SUCCESS != Adapt_buffer_bayer(in,out,method))
-            return DC1394_MEMORY_ALLOCATION_FAILURE;
-            
-        switch (method) {
-        case DC1394_BAYER_METHOD_NEAREST:
-            return dc1394_bayer_NearestNeighbor(in->image, out->image, in->size[0], in->size[1], in->color_filter);
-        case DC1394_BAYER_METHOD_SIMPLE:
-            return dc1394_bayer_Simple(in->image, out->image, in->size[0], in->size[1], in->color_filter);
-        case DC1394_BAYER_METHOD_BILINEAR:
-            return dc1394_bayer_Bilinear(in->image, out->image, in->size[0], in->size[1], in->color_filter);
-        case DC1394_BAYER_METHOD_HQLINEAR:
-            return dc1394_bayer_HQLinear(in->image, out->image, in->size[0], in->size[1], in->color_filter);
-        case DC1394_BAYER_METHOD_DOWNSAMPLE:
-            return dc1394_bayer_Downsample(in->image, out->image, in->size[0], in->size[1], in->color_filter);
-        case DC1394_BAYER_METHOD_VNG:
-            return dc1394_bayer_VNG(in->image, out->image, in->size[0], in->size[1], in->color_filter);
-        case DC1394_BAYER_METHOD_AHD:
-            return dc1394_bayer_AHD(in->image, out->image, in->size[0], in->size[1], in->color_filter);
-        }
-        break;
-    case DC1394_COLOR_CODING_MONO16:
-    case DC1394_COLOR_CODING_RAW16:
-    
-        if(DC1394_SUCCESS != Adapt_buffer_bayer(in,out,method))
-            return DC1394_MEMORY_ALLOCATION_FAILURE;
-            
-        switch (method) {
-        case DC1394_BAYER_METHOD_NEAREST:
-            return dc1394_bayer_NearestNeighbor_float((float*)in->image, (float*)out->image, in->size[0], in->size[1], in->color_filter, in->data_depth);
-        case DC1394_BAYER_METHOD_SIMPLE:
-            return dc1394_bayer_Simple_float((float*)in->image, (float*)out->image, in->size[0], in->size[1], in->color_filter, in->data_depth);
-        case DC1394_BAYER_METHOD_BILINEAR:
-            return dc1394_bayer_Bilinear_float((float*)in->image, (float*)out->image, in->size[0], in->size[1], in->color_filter, in->data_depth);
-        case DC1394_BAYER_METHOD_HQLINEAR:
-            return dc1394_bayer_HQLinear_float((float*)in->image, (float*)out->image, in->size[0], in->size[1], in->color_filter, in->data_depth);
-        case DC1394_BAYER_METHOD_DOWNSAMPLE:
-            return dc1394_bayer_Downsample_float((float*)in->image, (float*)out->image, in->size[0], in->size[1], in->color_filter, in->data_depth);
-        case DC1394_BAYER_METHOD_VNG:
-            return dc1394_bayer_VNG_float((float*)in->image, (float*)out->image, in->size[0], in->size[1], in->color_filter, in->data_depth);
-        case DC1394_BAYER_METHOD_AHD:
-            return dc1394_bayer_AHD_float((float*)in->image, (float*)out->image, in->size[0], in->size[1], in->color_filter, in->data_depth);
-        }
-        break;
-    default:
-        return DC1394_FUNCTION_NOT_SUPPORTED;
-    }
-
-    return DC1394_SUCCESS;
-}
-#endif

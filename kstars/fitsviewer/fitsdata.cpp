@@ -339,12 +339,10 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 int FITSData::saveFITS( const QString &newFilename )
 {
     int status=0, exttype=0;
-    long fpixel[2], nelements;    
+    long nelements;
     fitsfile *new_fptr;
 
     nelements = stats.size * channels;
-    fpixel[0] = 1;
-    fpixel[1] = 1;
 
     if (HasDebayer)
     if (KMessageBox::warningContinueCancel(NULL, xi18n("Are you sure you want to overwrite original image data with debayered data? This action is irreversible!"), xi18n("Save FITS")) != KMessageBox::Continue)
@@ -2020,7 +2018,8 @@ bool FITSData::debayer()
         return false;
     }
 
-    if ( (error_code = dc1394_bayer_decoding_float(bayer_buffer, dst, stats.width, stats.height, debayerParams.filter, debayerParams.method)) != DC1394_SUCCESS)
+    if ( (error_code = dc1394_bayer_decoding_float(bayer_buffer, dst, stats.width, stats.height, debayerParams.offsetX, debayerParams.offsetY,
+                                                   debayerParams.filter, debayerParams.method)) != DC1394_SUCCESS)
     {
         KMessageBox::error(NULL, xi18n("Debayer failed (%1)", error_code), xi18n("Debayer error"));
         channels=1;
