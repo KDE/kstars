@@ -77,7 +77,7 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
 
     p.save();
 
-    if (m_center.ra().Degrees() != 0)
+    if (m_center.ra().Degrees() > 0)
     {
         m_center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
         QPointF skypoint_center = KStars::Instance()->map()->projector()->toScreen(&m_center);
