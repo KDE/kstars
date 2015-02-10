@@ -32,12 +32,92 @@ class SkyPainter;
 
 /**
  * @class SkyComponent
- * SkyComponent represents an object on the sky map. This may be a
- * star, a planet or an imaginary line like the equator.
- * The SkyComponent uses the composite design pattern.  So if a new
- * object type is needed, it has to be derived from this class and
- * must be added into the hierarchy of components.
- * ((TODO_DOX: Add outline of Components hierarchy))
+ SkyComponent represents an object on the sky map. This may be a  star, a planet or an imaginary line like the equator.
+ The SkyComponent uses the composite design pattern.  So if a new object type is needed, it has to be derived from this class and
+ must be added into the hierarchy of components.
+  \section Overview Overview
+  KStars utilizes the Composite/Component design pattern to store all elements
+  that must be drawn on the SkyMap.  In this design pattern, elements to
+  be drawn in the map are called "Components", and they are
+  hierarchically organized into groups called "Composites".  A Composite
+  can contain other Composites, as well as Components.  From an
+  organizational point of view, you can think of Composites and
+  Components as being analogous to "Directories" and "Files" in a
+  computer filesystem.
+
+  The advantage of this design pattern is that it minimizes code
+  duplication and maximizes modularity.  There is a set of operations
+  which all Components must perform periodically (such as drawing on
+  screen, or updating position), but each Component may perform its task
+  slightly differently.  Thus, each Component can implement its own
+  version of the functions, and each Composite calls on its child
+  Components to execute the desired function.  For example, if we wanted
+  to draw all Components in the SkyMap, we would simly need to call
+  "skyComposite()->draw()".  SkyComposite is the "toplevel" Composite;
+  its "draw()" function simply calls draw() on each of its children.
+  Its child Components will draw themselves, while its child Composites
+  will call "draw()" for each of *their* children.  Note that we don't
+  need to know *any* implementation details; when we need to draw the
+  elements, we just tell the toplevel Composite to spread the word.
+
+  \section ClassInheritance Class Inheritance
+  The base class in this directory is SkyComponent; all other classes
+  are derived from it (directly or indirectly).  Its most important
+  derivative is SkyComposite, the base classes for all Composites.
+
+  From SkyComponent, we derive three important subclasses:
+  SingleComponent, ListComponent, and PointListComponent.
+  SingleComponent represents a sky element consisting of a single
+  SkyObject, such as the Sun.  ListComponent represents a list of
+  SkyObjects, such as the Asteroids.  PointListComponent represents a
+  list of SkyPoints (not SkyObjects), such as the Ecliptic.
+  Almost all other Components are derived from one of
+  these three classes (two Components are derived directly from
+  SkyComponent).
+
+  The Solar System bodies require some special treatment.  For example,
+  only solar system bodies may have attached trails, and they move
+  across the sky, so their positions must be updated frequently.  To
+  handle these features, we derive SolarSystemComposite from
+  SkyComposite to be the container for all solar system Components.  In
+  addition, we derive SolarSystemSingleComponent from SingleComponent,
+  and SolarSystemListComponent from ListComponent.  These classes simply
+  add functions to handle Trails, and to update the positions of the
+  bodies.  Also, they contain KSPlanetBase objects, instead of
+  SkyObjects.
+
+  The Sun, Moon and Pluto each get a unique Component class, derived
+  from SolarSystemSingleComponent (this is needed because each of these
+  bodies uses a unique class derived from KSPlanetBase: KSSun, KSMoon,
+  and KSPluto).  The remaining major planets are each represented with a
+  PlanetComponent object, which is also derived from
+  SolarSystemSingleComponent.  Finally, we have AsteroidsComponent and
+  CometsComponent, each of which is derived from
+  SolarSystemListComponent.
+
+  Next, we have the Components derived from PointListComponent.  These
+  Components represent imaginary guide lines in the sky, such as
+  constellation boundaries or the coordinate grid.  They are listed
+  above, and most of them don't require further comment.  The
+  GuidesComposite contains two sub-Composites: CoordinateGridComposite,
+  and ConstellationLinesComposite.  Both of these contain a number of
+  PointListComponents: CoordinateGridComposite contains one
+  PointsListComponent for each circle in the grid, and
+  ConstellationLineComposite contains one PointsListComponent for each
+  constellation (representing the "stick figure" of the constellation).
+
+  Finally, we have the Components which don't inherit from either
+  SingleComponent, ListComponent, or PointListComponent:
+  PlanetMoonsComponent inherits from SkyComponent directly, because
+  the planet moons have their own class (PlanetMoons) not derived
+  directly from a SkyPoint.
+
+  \section StarComponent DeepStarComponent and StarComponent
+  StarComponent and DeepStarComponent manage stars in
+  KStars. StarComponent maintains a QVector of instances of
+  DeepStarComponents and takes care of calling their draw routines
+  etc. The machinery for handling stars is documented in great detail in
+  \subpage Stars
  *
  * @author Thomas Kabelmann
  */

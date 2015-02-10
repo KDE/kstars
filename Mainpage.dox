@@ -1,4 +1,8 @@
 /*! \mainpage KStars API
+\tableofcontents
+
+\section Introduction Introduction
+
 KStars is free, open source, cross-platform Astronomy Software.
 
 It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. 
@@ -7,154 +11,104 @@ For students and teachers, it supports adjustable simulation speeds in order to 
 
 Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.
 
-\section Introduction
+\section APIStructure Structure
 
 KStars is a simulation of the night sky.  The whole program is essentially a (very complicated) model/view implementation.  The "model" is all of the data regarding objects in the night sky, and how
 they change with time, and the "view" is the graphical display of this model on your screen.
 
-The "model" is encapsulated in the KStarsData class, and the "view" is encapsulated in the KStars class.  Here is a diagram showing the hierarchy of classes:
+The "model" is encapsulated in the KStarsData class, and the "view" is encapsulated in the KStars class.  Here is a list of the major components of KStars:
 
-KStars  (main window; master class for the frontend "view")
-+ SkyMap  (sky widget)
-  - KSPopupMenu (right-click menu)
-  - Infoboxes (on-screen information on time, position, and focused object)
-
-KStarsData  (master class for the backend "model")
-+ SimClock (controls passage of time in the simulation)
-+ SkyMapComposite (top of hierarchy for plottable objects)
-  - \subpage Stars, planets, comets, asteroids, deep-sky objects, constellations,
+\subsection Data Data
+    - KStarsData  (master class for the backend "model")
+    - SkyMapComposite (top of hierarchy for plottable objects)
+    - SkyComponents are lists of objects of the same type that are drawn in the sky map. Individual objects are represented as an instance of SkyPoint, or one of its children.
+    Only imaginary positions in the sky use SkyPoint directly.  Most real objects use the derived class SkyObject, which adds names and other data. \subpage Stars, planets, comets, asteroids, deep-sky objects, constellations,
     guide lines, the Milky Way, etc. each have their own Component
+    - SkyObject itself has many derivatives for different kinds of objects:
+        - StarObject
+        - DeepSkyObject
+        - KSPlanetBase
+            - KSSun
+            - KSPlanet
+            - KSMoon
+            - KSAsteroid
+                - KSPluto
+            - KSComet
+        - PlanetMoons
+            - JupiterMoons
+        - Satellite
+        - Supernova
+        - TrailObject
 
+\subsection View View
+    - KStars  (main window; master class for the frontend "view")
+    - SkyMap  (sky widget)
+    - KSPopupMenu (right-click menu)
+    - InfoBoxes (on-screen information on time, position, and focused object)
+    - SkyLabeler
+    - Flags
+    - FOVs
+    - Projections
 
-\subpage SkyComponents "SkyComponents" are lists of objects of the same type that are drawn in the sky map.  Individual objects are represented as an instance of SkyPoint, or one of its children.  Only imaginary positions in the sky
-use SkyPoint directly.  Most real objects use the derived class SkyObject, which adds names and other data.  SkyObject itself has many derivatives for different kinds of objects, like StarObject,
-DeepSkyObject, KSPlanetBase, KSAsteroid, KSComet, etc.
+\subsection Time Time
+    - \subpage TimeKeeping "Time Keeping": How is time stored and simulated in KStars?
+    - SimClock (controls passage of time in the simulation)
+    - KStarsDateTime
 
-Other important infrastructure classes include dms (which encapsulates an angle value), GeoLocation (which encapsulates a location on Earth), and TimeZoneRule (which encapsulates a daylight savings time rule).
+\subsection Math Math
+    - KSNumbers
+    - HTMesh: Primary backbone to index stars and deep sky objects using \subpage HTMIndexing "multi-level Hierarchical Triangular Mesh"
+    - KSAlmanac
 
-\section TimeKeeping Time Keeping
+\subsection Tools Tools
+    - Calculator
+    - FITSViewer
+    - Devices
+    - Ekos
+    - Sky Calender
+    - DetailDialog
+    - What's up tonight
+    - What's interesting
+    - Solar System
+    - Jupiter Moons
+    - Star Hopper
+    - Angular Distance
+    - Printing
 
-<ol>
-<li>The Basics</li>
+\subsection Observation Observation
+    - OAL
+    - Observation Planner
+    - Session Planner
 
-Timekeeping is handled by the SimClock class.  SimClock stores the
-simulation time as the Julian Day, in a long double variable
-("julian").  A long double is required to provide sub-second resolution
-in the Julian Day value.  The date can be converted to a calendar date
-(QDateTime object) with the UTC() function.  julian is updated every
-0.1 sec by an internal QTimer, using the SimClock::tick() SLOT,
-connected to the internal QTimer's timeout() SIGNAL.
+\subsection Auxiliary Auxiliary
+     Auxiliary are helper classes/dialogs/functions used throughout KStars.
+    - Image Viewer
+    - dms (encapsulates an angle value).
+    - GeoLocation (which encapsulates a location on Earth).
+    - TimeZoneRule (which encapsulates a daylight savings time rule).
+    - Color Schemes
+    - ThumbnailPicker / ThumbnailEditor
+    - FocusDialog
+    - Wizard
+    - Settings
 
-We make a distinction between "system time" and "simulation time".
-System time is real time, according to the computer's CPU clock.
-Simulation time is the time according to KStars; since the time and
-date are adjustable, system time and simulation time can have an
-arbitrary offset.  Furthermore, SimClock has an adjustable Scale
-parameter that determines how many seconds of simulation time pass for
-each second of system time.  Scale can even be negative, indicating
-that the simulation clock is running backwards.
+\subsection Scripting Scripting
+    - \ref DBusInterface DBus Interface
+    - Script builder
 
-The simplest way to advance the simulation time would be to add
-(0.1*Scale) seconds to julian every time tick() is called.  However,
-this is not accurate, because there is always some error associated
-with the time it takes to execute tick(), and these errors would
-accumulate during each cycle.  Instead, tick() measures the elapsed
-time since some fixed system-time marker ("sysmark"), and adds
-(elapsed_time*Scale) seconds to "julianmark", a fixed simulation-time
-marker that was the exact simulation time at the moment the system-time
-marker was set.  This is much more accurate, because any errors in
-tick() do not accumulate.  Any time the clock is started, or its
-scale changed, the sysmark and julianmark markers are reset (they are
-also reset if they have not changed in more than 24 hours of real time).
+\section HowItWorks How it works?
 
-tick() emits the timeAdvanced() signal, which is connected to
-KStarsData::updateTime(), which takes care of updating object
-coordinates and drawing the skymap (see below for details).
+TODO This is a work in progress, it might not be accurate.
 
-Note also that the SimClock class only handles the Julian Day and the
-Universal Time, not the local time.  Time zone corrections and daylight
-savings time are handled by KStarsData::updateTime().
+The following explanation is a \e very high level and general overview on the basic workflow in KStars. When you run KStars, the following general steps are executed (not necessarily in this order):
++ An Instance of KStars is created.
++ Data for stars, catalogs, deep sky objects, comets...etc are read and loaded into memory. Some data are not read unless necessary, such as stars that only appear at very high zoom levels.
++ Toolbars, menus, and GUI elements are initialized.
++ Time is initialized. Simulated clocks normally ticks forward at a particular interval, the default being once per second like a real clock.
++ The coordinates of the sky objects loaded previously are calculated given the current date and time settings. Effects for precession, nutation, aberration, and refraction are taken into account.
++ Each component draws itself on the skymap. The order of the drawing routine ensures layers such as equatorial/horizontal grid lines are drawn last.
++ The sky map responds to user input from keyboard and mouse to perform various actions such as panning, zooming, invoking the popup menu for a particular object...etc.
++ TODO Add more detials
 
-<li>Manual Mode</li>
-
-The above procedure works well, as long as tick() takes less than 0.1 sec,
-on average (including the time taken by KStarsData::updateTime()).  In
-practice, large values of Scale cause more calls to updateTime() than the
-CPU is able to handle.  This results in some time steps being skipped
-altogether, which makes the simulation seem jerky.
-
-To compensate for this, we implemented a "Manual Mode" for SimClock.  In
-Manual mode, the internal QTimer is stopped, so that tick() is not
-triggered every 0.1 seconds.  Instead, a similar function (manualTick())
-is called whenever KStarsData::updateTime() has finished.  manualTick()
-adds Scale seconds to the simulation time.  So, the Scale parameter has
-a slightly different meaning in Manual mode.  The simulation time
-no longer runs at strictly Scale seconds per real-time second; rather,
-every update of the simulation occurs exactly Scale simulation-seconds
-after the previous update, no matter how long the update takes.
-
-There are two bool variables in SimClock, ManualMode and ManualActive.
-The first controls whether the clock is using Manual Mode (accessed by
-isManualMode()); the second controls whether the clock is running in
-Manual Mode (recall that the internal timer is halted when in Manual
-Mode).  The function isActive() returns whether the clock is running,
-for both the standard mode and Manual Mode.
-
-
-<li>KStarsData::updateTime()</li>
-
-updateTime() is a SLOT connected to the SimClock's timeAdvanced()
-SIGNAL, which is emitted every tick() or manualTick().
-
-KStarsData keeps its own representation of the universal time as a
-QDateTime object (UTime); the first thing that updateTime() does is to
-reset this with clock->UTC().  It then sets the local time QDateTime
-object (LTime) by adding 3600*geo->TZ() seconds to UTime.  It then
-checks if it has reached the next daylight savings time change point,
-and adjusts the Time Zone offset, if necessary.
-
-There is a group of time-dependent numbers such as the obliquity and
-the sun's mean anomaly; these are kept in the KSNumbers class.  The next
-thing updateTime() does is create a KSNumbers object appropriate for the
-current julian day value [we may be able to save some time by keeping a
-persistent KSNumbers object, and not updating it on every call to
-updateTime(), as the values stored there don't change very quickly].
-
-There are several things that don't need to be updated on every call to
-updateTime().  To save time, we only update them if a certain amount of
-time has passed since the last update.  For example, the LastNumUpdate
-variable stores the julian day of the last time object coordinates were
-updated for precession/nutation/aberration.  This needs to happen once
-per simulation day, so whenever (CurrentDate-LastNumUpdate) exceeds 1.0,
-it signals the update (by setting needNewCoords=true) and resets
-LastNumUpdate to CurrentDate.  Similarly, we use LastPlanetUpdate to
-update planet coordinates 100 times per day.  LastSkyUpdate monitors
-the last time the horizontal coordinates were updated (the update
-interval is dependent on the current zoom setting).
-
-Next, we update the focus position.  If no object is being tracked, and
-useAltAz=true, then the focus RA needs to advance at the sidereal rate
-(one second on the sky per sidereal second of time).  If the simulation
-is tracking an object, then the focus is set to the object's coordinates.
-
-Finally, the last thing updateTime() does is to re-draw the sky by calling
-SkyMap::update().
-
-\section Scripting Scripting
-
-KStars provides powerful scripting functionality via DBus. The most common DBus functions can be constructed and executed within the ScriptBuilder tool.
-Any 3rd party language or tool with support for DBus can access several interfaces provided by KStars:
-<ul>
-<li>KStars: Provides functions to manipulate the skymap including zoom, pan, and motion to selected objects. Add and remove object trails and labels. Wait for user input before running further actions.</li>
-<li>SimClock: Provides functions to start and stop time, set a different date and time, and to set the clock scale.</li>
-<li>Ekos: Provides functions to start and stop Ekos Manager, set Ekos connection mode, and access to Ekos modules:
-    <ul>
-    <li>Capture: Provides functions to capture images, load sequence queues, control filter wheel, and obtain information on job progress.</li>
-    <li>Focus: Provides functions to focus control in manual and automated mode. Start and stop focusing procedures and set autofocus options.</li>
-    <li>Guide: Provides functions to start and stop calibration and autoguiding procedures. Set calibration and autoguide options.</li>
-    <li>Align: Provides functions to solve images use online or offline astrometry.net solver.</li>
-    </ul>
-</li>
-</ul>
 
 */

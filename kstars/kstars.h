@@ -76,15 +76,11 @@ class OpsXplanet;
  *@class KStars
  *@short This is the main window for KStars.
  *In addition to the GUI elements, the class contains the program clock,
- *KStarsData, and SkyMap objects.  It also contains functions for the D-Bus interface.
- *@author Jason Harris
- *@version 1.0
+ KStarsData, and SkyMap objects.  It also contains functions for the \ref DBusInterface D-Bus interface.  KStars is now a singleton class. Use KStars::createInstance() to
+ create an instance and KStars::Instance() to get a pointer to the instance
+ *@author Jason Harris, Jasem Mutlaq
+ *@version 1.1
  */
-
-// KStars is now a singleton class. Use KStars::createInstance() to
-// create an instance and KStars::Instance() to get a pointer to the
-// instance
-// asimha, 9th May 2009
 
 class KStars : public KXmlGuiWindow
 {
@@ -172,6 +168,25 @@ public:
     void showWI(ObsConditions *obs);
 
 public Q_SLOTS:
+    /** @defgroup DBusInterface DBus Interface
+     KStars provides powerful scripting functionality via DBus. The most common DBus functions can be constructed and executed within the ScriptBuilder tool.
+     Any 3rd party language or tool with support for DBus can access several interfaces provided by KStars:
+    <ul>
+    <li>KStars: Provides functions to manipulate the skymap including zoom, pan, and motion to selected objects. Add and remove object trails and labels. Wait for user input before running further actions.</li>
+    <li>SimClock: Provides functions to start and stop time, set a different date and time, and to set the clock scale.</li>
+    <li>Ekos: Provides functions to start and stop Ekos Manager, set Ekos connection mode, and access to Ekos modules:
+        <ul>
+        <li>Capture: Provides functions to capture images, load sequence queues, control filter wheel, and obtain information on job progress.</li>
+        <li>Focus: Provides functions to focus control in manual and automated mode. Start and stop focusing procedures and set autofocus options.</li>
+        <li>Guide: Provides functions to start and stop calibration and autoguiding procedures. Set calibration and autoguide options.</li>
+        <li>Align: Provides functions to solve images use online or offline astrometry.net solver.</li>
+        </ul>
+    </li>
+    </ul>
+    */
+
+    /*@{*/
+
     /** DBUS interface function.
      * Set focus to given Ra/Dec coordinates
      * @param ra the Right Ascension coordinate for the focus (in Hours)
@@ -264,7 +279,7 @@ public Q_SLOTS:
      * @param name the name of the option to query
      * @return the current value of the named option
      */
-    QString getOption( const QString &name );
+    Q_SCRIPTABLE QString getOption( const QString &name );
 
     /** DBUS interface function.  Read config file.
      * This function is useful for restoring the user settings from the config file,
@@ -377,6 +392,8 @@ public Q_SLOTS:
     #ifdef HAVE_CFITSIO
     Q_SCRIPTABLE Q_NOREPLY void openFITS(const QUrl & imageURL);
     #endif
+
+    /**@}*/
 
     /**
      * Update time-dependent data and (possibly) repaint the sky map.
