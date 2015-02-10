@@ -38,7 +38,7 @@ class QCheckBox;
 
 class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
 
-    Q_OBJECT;
+    Q_OBJECT
 
  public:
     
@@ -67,7 +67,7 @@ public slots:
      * @short Re-renders the view
      * Takes care of things like inverting colors, inverting orientation, flipping, rotation
      */
-    void render( int dummy = 0 );
+    void render();
 
  private:
     QLabel *m_skyChartDisplay;

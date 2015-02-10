@@ -93,10 +93,10 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     rows->addLayout( rotationLayout );
 
-    connect( m_invertView, SIGNAL( stateChanged( int ) ), this, SLOT( render( int ) ) );
-    connect( m_flipView, SIGNAL( stateChanged( int ) ), this, SLOT( render( int ) ) );
-    connect( m_invertColors, SIGNAL( stateChanged( int ) ), this, SLOT( render( int ) ) );
-    connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render( int ) ) );
+    connect( m_invertView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
+    connect( m_flipView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
+    connect( m_invertColors, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
+    connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render() ) );
 
     m_skyChart = 0;
     m_skyImage = 0;
@@ -168,7 +168,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
     render();
 }
 
-void EyepieceField::render( int dummy ) {
+void EyepieceField::render() {
 
     QImage renderImage;
     QImage renderChart;
