@@ -3,7 +3,7 @@
       **   KStars 2.3.0: A Desktop Planetarium for KDE   **
       *****************************************************
 
-Copyright (c) 2001 - 2014 by The KStars Team:
+Copyright (c) 2001 - 2015 by The KStars Team:
 
              Jason Harris <kstars@30doradus.org>
              Heiko Evermann <heiko@evermann.de>
@@ -106,13 +106,6 @@ B. Data Sources:
  Kitt Peak National Observatory.  If you are interested in astrophotography,
  you might consider checking out their program:
  http://www.noao.edu/outreach/aop/
-
- KStars user Jeamy Lee hosts updated versions of comet and asteroid
- orbital elements in KStars' format here:
- http://mpcreader.sourceforge.net/
- Users can download them and put them in the .kde4/share/apps/kstars
- directory under their home directory, till the KStars team comes up
- with a better solution.
 
  Credits for each image used in the program are listed in README.images
 
