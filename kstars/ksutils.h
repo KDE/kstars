@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-/**@class KSUtils
+/** @class KSUtils
 	*@short KStars utility functions
 	*@author Mark Hollomon
 	*@version 1.0

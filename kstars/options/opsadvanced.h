@@ -19,7 +19,7 @@
 
 #include "ui_opsadvanced.h"
 
-/**@class OpsAdvanced
+/** @class OpsAdvanced
 	*The Advanced Tab of the Options window.  In this Tab the user can configure
 	*advanced behaviors of the program, including:
 	*@li Whether some objects are hidden when the map is moving (and which objects)

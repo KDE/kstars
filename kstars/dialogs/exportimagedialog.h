@@ -39,7 +39,7 @@ public:
 };
 
 
-/**@short Export sky image dialog. This dialog enables user to set up basic legend
+/** @short Export sky image dialog. This dialog enables user to set up basic legend
   properties before image is exported.
   */
 class ExportImageDialog : public QDialog
@@ -55,7 +55,7 @@ public:
       */
     ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter = 0);
 
-    /**@short Default destructor. */
+    /** @short Default destructor. */
     ~ExportImageDialog() { }
 
     inline void setOutputUrl(const QString &url) { m_Url = url; }

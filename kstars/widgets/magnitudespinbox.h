@@ -18,7 +18,7 @@
  *                                                                         *
  ***************************************************************************/
 
-/**@class MagnitudeSpinBox
+/** @class MagnitudeSpinBox
 	*A special spinbox for entering magnitude values.
 	*This class now inherits QDoubleSpinBox instead of QSpinBox
 	*@short a custom spinbox for magnitude (float) values.

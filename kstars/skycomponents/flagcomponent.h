@@ -27,7 +27,7 @@
 #include "skymesh.h"
 
 
-/**@class FlagComponent
+/** @class FlagComponent
  * @short Represents a flag on the sky map.
  * Each flag is composed by a SkyPoint where coordinates are stored, an 
  * epoch and a label. This class also stores flag images and associates 
@@ -55,7 +55,7 @@ public:
 
     virtual bool selected();
 
-    /**@short Add a flag.
+    /** @short Add a flag.
      * @param SkyPoint Reference to the SkyPoint used to store coordinates
      * @param epoch Moment for which celestial coordinates are specified
      * @param image Image name
@@ -63,12 +63,12 @@ public:
      */
     void add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor );
 
-    /**@short Remove a flag.
+    /** @short Remove a flag.
      * @param index Index of the flag to be remove.
      */
     void remove( int index );
 
-    /**@short Update a flag.
+    /** @short Update a flag.
       *@param index index of the flag to be updated.
       *@param flagPoint new flag point.
       *@param epoch new flag epoch.
@@ -78,67 +78,67 @@ public:
       */
     void updateFlag ( int index, SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor );
 
-    /**@short Return image names.
+    /** @short Return image names.
      * @return the list of all image names
      */
     QStringList getNames();
 
-    /**@short Return the numbers of flags.
+    /** @short Return the numbers of flags.
      * @return the size of m_PointList
      */
     int size();
 
-    /**@short Get epoch.
+    /** @short Get epoch.
      * @return the epoch as a string
      * @param index Index of the flag
      */
     QString epoch( int index );
 
-    /**@short Get label.
+    /** @short Get label.
      * @return the label as a string
      * @param index Index of the flag
      */
     QString label( int index );
 
-    /**@short Get label color.
+    /** @short Get label color.
      * @return the label color
      * @param index Index of the flag
      */
     QColor labelColor( int index );
 
-    /**@short Get image.
+    /** @short Get image.
      * @return the image associated with the flag
      * @param index Index of the flag
      */
     QImage image( int index );
 
-    /**@short Get image name.
+    /** @short Get image name.
      * @return the name of the image associated with the flag
      * @param index Index of the flag
      */
     QString imageName( int index );
 
-    /**@short Get images.
+    /** @short Get images.
      * @return all images that can be use
      */
     QList<QImage> imageList();
 
-    /**@short Get image.
+    /** @short Get image.
      * @param index Index of the image in m_Images
      * @return an image from m_Images
      */
     QImage imageList( int index );
 
-    /**@short Get list of flag indexes near specified SkyPoint with radius specified in pixels.
+    /** @short Get list of flag indexes near specified SkyPoint with radius specified in pixels.
       *@param point central SkyPoint.
       *@param pixelRadius radius in pixels.
       */
     QList<int> getFlagsNearPix( SkyPoint *point, int pixelRadius );
 
-    /**@short Load flags from flags.dat file. */
+    /** @short Load flags from flags.dat file. */
     void loadFromFile();
 
-    /**@short Save flags to flags.dat file. */
+    /** @short Save flags to flags.dat file. */
     void saveToFile();
 
 private:

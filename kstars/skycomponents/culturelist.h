@@ -20,7 +20,7 @@
 
 #include <QStringList>
 
-/**@class CultureList
+/** @class CultureList
  * A list of all cultures
  * FIXME: Why not use a QStringList?
  */

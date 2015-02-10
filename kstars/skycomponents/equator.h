@@ -33,7 +33,7 @@ class Equator : public NoPrecessIndex
 {
 public:
 
-    /* @short Constructor
+    /** @short Constructor
      * @p parent pointer to the parent SkyComposite object
      * name is the name of the subclass
      */

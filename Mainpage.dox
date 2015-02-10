@@ -21,7 +21,7 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
 \subsection Data Data
     - KStarsData  (master class for the backend "model")
     - SkyMapComposite (top of hierarchy for plottable objects)
-    - SkyComponents are lists of objects of the same type that are drawn in the sky map. Individual objects are represented as an instance of SkyPoint, or one of its children.
+    - SkyComponent are lists of objects of the same type that are drawn in the sky map. Individual objects are represented as an instance of SkyPoint, or one of its children.
     Only imaginary positions in the sky use SkyPoint directly.  Most real objects use the derived class SkyObject, which adds names and other data. \subpage Stars, planets, comets, asteroids, deep-sky objects, constellations,
     guide lines, the Milky Way, etc. each have their own Component
     - SkyObject itself has many derivatives for different kinds of objects:
@@ -46,8 +46,8 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
     - KSPopupMenu (right-click menu)
     - InfoBoxes (on-screen information on time, position, and focused object)
     - SkyLabeler
-    - Flags
-    - FOVs
+    - Flags: FlagComponent represents a flag on the sky map and is managed by FlagManager.
+    - FOVs: FOV represents a Field-of-View symbol on the skymap. The \ref FOVDialog "FOV Dialog" enables editing and \ref NewFOV "adding a new FOV".
     - Projections
 
 \subsection Time Time

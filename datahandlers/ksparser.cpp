@@ -223,8 +223,7 @@ bool KSParser::HasNextRow() {
 }
 
 void KSParser::SetProgress(QString msg, int total_lines, int step_size) {
-    file_reader_.setProgress(i18n("Loading NGC/IC objects"),
-                             total_lines, step_size);
+    file_reader_.setProgress(msg, total_lines, step_size);
 }
 
 void KSParser::ShowProgress() {

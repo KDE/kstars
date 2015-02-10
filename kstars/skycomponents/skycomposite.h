@@ -43,7 +43,7 @@ class KSNumbers;
 class SkyComposite : public SkyComponent
 {
 public:
-    /**@short Constructor
+    /** @short Constructor
      * @p parent pointer to the parent SkyComponent
      */
     explicit SkyComposite( SkyComposite *parent );
@@ -51,12 +51,12 @@ public:
     /** *@short Destructor */
     virtual ~SkyComposite();
 
-    /**@short Delegate draw requests to all sub components
+    /** @short Delegate draw requests to all sub components
      * @p psky Reference to the QPainter on which to paint
      */
     virtual void draw( SkyPainter *skyp );
 
-    /**@short Delegate update-position requests to all sub components
+    /** @short Delegate update-position requests to all sub components
      *
      * This function usually just updates the Horizontal (Azimuth/Altitude)
      * coordinates.  However, the precession and nutation must also be 
@@ -71,17 +71,17 @@ public:
      */
     virtual void update( KSNumbers *num=0 );
 
-    /**@short Add a new sub component to the composite
+    /** @short Add a new sub component to the composite
      * @p comp Pointer to the SkyComponent to be added
      */
     void addComponent(SkyComponent *comp);
 
-    /**@short Remove a sub component from the composite
+    /** @short Remove a sub component from the composite
      * @p comp Pointer to the SkyComponent to be removed.
      */
     void removeComponent(SkyComponent *comp);
 
-    /**@short Search the children of this SkyComposite for 
+    /** @short Search the children of this SkyComposite for
      * a SkyObject whose name matches the argument.
      *
      * The objects' primary, secondary and long-form names will 
@@ -92,7 +92,7 @@ public:
      */
     virtual SkyObject* findByName( const QString &name );
 
-    /**@short Identify the nearest SkyObject to the given SkyPoint,
+    /** @short Identify the nearest SkyObject to the given SkyPoint,
      * among the children of this SkyComposite
      * @p p pointer to the SkyPoint around which to search.
      * @p maxrad reference to current search radius 

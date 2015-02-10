@@ -47,7 +47,7 @@ private:
 
 };
 
-/**@class ImageViewer
+/** @class ImageViewer
  * @short Image viewer window for KStars
  * @author Thomas Kabelmann
  * @version 1.0
@@ -71,19 +71,19 @@ public:
 
     explicit ImageViewer ( QString FileName, QWidget *parent = 0);
 
-    /**Destructor. If there is a partially downloaded image file, delete it.*/
+    /** Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();
 
 private:
-    /**Display the downloaded image.  Resize the window to fit the image,  If the image is
+    /** Display the downloaded image.  Resize the window to fit the image,  If the image is
      * larger than the screen, make the image as large as possible while preserving the
      * original aspect ratio */
     void showImage( void );
 
-    /**Download the image file pointed to by the URL string. */
+    /** Download the image file pointed to by the URL string. */
     void loadImageFromURL( void );
 
-    /**Save the downloaded image to a local file. */
+    /** Save the downloaded image to a local file. */
     void saveFile (QUrl &url);
 
     QFile file;
@@ -100,10 +100,10 @@ private:
 private slots:
     /** Initialize (common part of onstructors) */
     void init(QString caption, QString capText);
-    /**Make sure download has finished, then make sure file exists, then display the image */
+    /** Make sure download has finished, then make sure file exists, then display the image */
     void downloadReady (KJob *);
 
-    /**Saves file to disc. */
+    /** Saves file to disc. */
     void saveFileToDisc();
 
     /** Inverts colors **/

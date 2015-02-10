@@ -107,7 +107,7 @@ public:
                       bool oRefract = true,
                       bool* onVisibleHemisphere = 0) const;
 
-    /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
+    /** @short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
      * screen pixel coordinate offsets from the center of the Sky pixmap.
      * @param the screen pixel position to convert
      * @param LST pointer to the local sidereal time, as a dms object.
@@ -130,7 +130,7 @@ public:
     bool onScreen( const QPointF& p ) const;
     bool onScreen( const Vector2f& p ) const;
 
-    /**@short Determine if the skypoint p is likely to be visible in the display
+    /** @short Determine if the skypoint p is likely to be visible in the display
      * window.
      *
      * checkVisibility() is an optimization function.  It determines whether an object

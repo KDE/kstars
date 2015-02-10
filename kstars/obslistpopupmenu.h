@@ -32,13 +32,13 @@ class ObsListPopupMenu : public QMenu
 {
     Q_OBJECT
 public:
-    /**Default constructor*/
+    /** Default constructor*/
     ObsListPopupMenu();
 
-    /**Destructor (empty)*/
+    /** Destructor (empty)*/
     virtual ~ObsListPopupMenu();
 
-    /**Initialize the popup menus. */
+    /** Initialize the popup menus. */
     /**
      * @short initializes the popup menu based on the kind of selection in the observation planner
      * @param sessionView true if we are viewing the session, false if we are viewing the wish list

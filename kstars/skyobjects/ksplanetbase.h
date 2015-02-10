@@ -91,28 +91,28 @@ public:
     /** @return pointer to Ecliptic Latitude coordinate */
     const dms& ecLat() const { return ep.latitude; }
 
-    /**@short Set Ecliptic Geocentric Longitude according to argument.
+    /** @short Set Ecliptic Geocentric Longitude according to argument.
      * @param elong Ecliptic Longitude
      */
     void setEcLong( dms elong ) { ep.longitude = elong; }
 
-    /**@short Set Ecliptic Geocentric Latitude according to argument.
+    /** @short Set Ecliptic Geocentric Latitude according to argument.
      * @param elat Ecliptic Latitude
      */
     void setEcLat( dms elat ) { ep.latitude = elat; }
 
-    /**@return pointer to Ecliptic Heliocentric Longitude coordinate */
+    /** @return pointer to Ecliptic Heliocentric Longitude coordinate */
     const dms& helEcLong() const { return helEcPos.longitude; }
 
-    /**@return pointer to Ecliptic Heliocentric Latitude coordinate */
+    /** @return pointer to Ecliptic Heliocentric Latitude coordinate */
     const dms& helEcLat() const { return helEcPos.latitude; }
 
-    /**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
+    /** @short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
     void EclipticToEquatorial( const dms *Obliquity );
 
-    /**@short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
+    /** @short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
     void EquatorialToEcliptic( const dms *Obliquity );
@@ -120,23 +120,23 @@ public:
     /** @return pointer to this planet's texture */
     const QImage& image() const { return m_image; }
 
-    /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance) */
+    /** @return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance) */
     double rsun() const { return ep.radius; }
 
-    /**@short Set the solar distance in AU.
+    /** @short Set the solar distance in AU.
      * @param r the new solar distance in AU
      */
     void setRsun( double r ) { ep.radius = r; }
 
-    /**@return distance from Earth, in Astronomical Units (1 AU is Earth-Sun distance) */
+    /** @return distance from Earth, in Astronomical Units (1 AU is Earth-Sun distance) */
     double rearth() const { return Rearth; }
 
-    /**@short Set the distance from Earth, in AU.
+    /** @short Set the distance from Earth, in AU.
      * @param r the new earth-distance in AU
      */
     void setRearth( double r ) { Rearth = r; }
 
-    /**@short compute and set the distance from Earth, in AU.
+    /** @short compute and set the distance from Earth, in AU.
      * @param Earth pointer to the Earth from which to calculate the distance.
      */
     void setRearth( const KSPlanetBase *Earth );
@@ -149,7 +149,7 @@ public:
      */
     virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
-    /**@short Find position, including correction for Figure-of-the-Earth.
+    /** @short Find position, including correction for Figure-of-the-Earth.
      * @param num KSNumbers pointer for the target date/time
      * @param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
      * @param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
@@ -160,7 +160,7 @@ public:
     /** @return the Planet's position angle. */
     virtual double pa() const { return PositionAngle; }
 
-    /**@short Set the Planet's position angle.
+    /** @short Set the Planet's position angle.
      * @param p the new position angle
      */
     void setPA( double p ) { PositionAngle = p; }
@@ -168,7 +168,7 @@ public:
     /** @return the Planet's angular size, in arcminutes */
     double angSize() const { return AngularSize; }
 
-    /**@short set the planet's angular size, in km.
+    /** @short set the planet's angular size, in km.
      * @param size the planet's size, in km
      */
     void setAngularSize( double size ) { AngularSize = size; }
@@ -176,7 +176,7 @@ public:
     /** @return the Planet's physical size, in km */
     double physicalSize() const { return PhysicalSize; }
 
-    /**@short set the planet's physical size, in km.
+    /** @short set the planet's physical size, in km.
      * @param size the planet's size, in km
      */
     void setPhysicalSize( double size ) { PhysicalSize = size; }
@@ -207,7 +207,7 @@ protected:
     /** Compute high 32-bits of UID. */
     inline UID solarsysUID(UID type) const { return (SkyObject::UID_SOLARSYS << 60) | (type << 56); }
 
-    /**@short find the object's current geocentric equatorial coordinates (RA and Dec)
+    /** @short find the object's current geocentric equatorial coordinates (RA and Dec)
      * This function is pure virtual; it must be overloaded by subclasses.
      * This function is private; it is called by the public function findPosition()
      * which also includes the figure-of-the-earth correction, localizeCoords().

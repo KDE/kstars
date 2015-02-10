@@ -35,7 +35,7 @@ public:
     WUTDialogUI( QWidget *p=0 );
 };
 
-/**@class WUTDialog
+/** @class WUTDialog
     *What's up tonight dialog is a window which lists all skyobjects that will
     *be visible during the next night.
     *@author Thomas Kabelmann
@@ -44,37 +44,37 @@ public:
 class WUTDialog : public QDialog  {
     Q_OBJECT
 public:
-    /**@short Constructor*/
+    /** @short Constructor*/
     WUTDialog( QWidget *ks,
                bool session = false,
                GeoLocation *geo  = KStarsData::Instance()->geo(),
                KStarsDateTime lt = KStarsData::Instance()->lt() );
-    /**@short Destructor*/
+    /** @short Destructor*/
     ~WUTDialog();
 
-    /**@short Check visibility of object
+    /** @short Check visibility of object
         *@p o the object to check
         *@return true if visible
         */
     bool checkVisibility(SkyObject *o);
 
 public slots:
-    /**@short Determine which objects are visible, and store them in
+    /** @short Determine which objects are visible, and store them in
         *an array of lists, classified by object type 
         */
     void init();
 
 private slots:
-    /**@short Load the list of visible objects for selected object type.
+    /** @short Load the list of visible objects for selected object type.
         *@p category the string describing the type of object
         */
     void slotLoadList(const QString &category);
 
-    /**@short display the rise/transit/set times for selected object
+    /** @short display the rise/transit/set times for selected object
         */
     void slotDisplayObject(const QString &name);
 
-    /**@short Apply user's choice of what part of the night should
+    /** @short Apply user's choice of what part of the night should
         *be examined:
         *@li 0: Evening only (sunset to midnight)
         *@li 1: Morning only (midnight to sunrise)
@@ -82,29 +82,29 @@ private slots:
         */
     void slotEveningMorning( int flag );
 
-    /**@short Adjust the date for the WUT tool
+    /** @short Adjust the date for the WUT tool
         *@note this does NOT affect the date of the sky map 
         */
     void slotChangeDate();
 
-    /**@short Adjust the geographic location for the WUT tool
+    /** @short Adjust the geographic location for the WUT tool
         *@note this does NOT affect the geographic location for the sky map
         */
     void slotChangeLocation();
 
-    /**@short open the detail dialog for the current object
+    /** @short open the detail dialog for the current object
         */
     void slotDetails();
 
-    /**@short center the display on the current object
+    /** @short center the display on the current object
         */
     void slotCenter();
 
-    /**@short Add the object to the observing list
+    /** @short Add the object to the observing list
         */
     void slotObslist();
 
-    /**@short Filters the objects displayed by Magnitude
+    /** @short Filters the objects displayed by Magnitude
         */
     void slotChangeMagnitude();
 
@@ -113,9 +113,9 @@ private slots:
 private:
     QList<SkyObject*>& visibleObjects( const QString &category );
     bool isCategoryInitialized( const QString &category );
-    /**@short Initialize all SIGNAL/SLOT connections, used in constructor */
+    /** @short Initialize all SIGNAL/SLOT connections, used in constructor */
     void makeConnections();
-    /**@short Initialize catgory list, used in constructor */
+    /** @short Initialize catgory list, used in constructor */
     void initCategories();
 
     WUTDialogUI *WUT;

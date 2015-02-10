@@ -31,7 +31,7 @@ class KSMoon;
 class Satellite;
 class Supernova;
 
-/**@class KSPopupMenu
+/** @class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 
 	*object type of the object which was clicked to invoke the menu.
 	*Items in the menu include name and type data; rise/transit/set times;
@@ -44,13 +44,13 @@ class KSPopupMenu : public QMenu
 {
     Q_OBJECT
 public:
-    /**Default constructor*/
+    /** Default constructor*/
     KSPopupMenu();
 
-    /**Destructor (empty)*/
+    /** Destructor (empty)*/
     ~KSPopupMenu();
 
-    /**Add an item to the popup menu for each of the URL links associated with
+    /** Add an item to the popup menu for each of the URL links associated with
      * this object.  URL links appear in two categories: images and information pages.
      * For some objects, a link to Digitized Sky Survey images will automatically be added
      * in addition to the object's normal image links.  Also, for some objects, an
@@ -61,7 +61,7 @@ public:
      */
     void addLinksToMenu( SkyObject *obj, bool showDSS=true );
 
-    /**@short Create a popup menu for a star.
+    /** @short Create a popup menu for a star.
      *
      * Stars get the following labels: a primary name and/or a genetive name, 
      * a spectral type, an object type ("star"), and rise/transit/set times.  
@@ -73,7 +73,7 @@ public:
      */
     void createStarMenu( StarObject *star );
 
-    /**@short Create a popup menu for a deep-sky object.
+    /** @short Create a popup menu for a deep-sky object.
      *
      * DSOs get the following labels: 
      * a common name and/or a catalog name, an object type, and rise/transit/set
@@ -85,7 +85,7 @@ public:
      */
     void createDeepSkyObjectMenu( DeepSkyObject *obj );
 
-    /**@short Create a popup menu for a solar system body.
+    /** @short Create a popup menu for a solar system body.
      *
      * Solar System bodies get a name label, a type label ("solar system object"),
      * and rise/set/transit time labels. They also get Center&Track, 
@@ -99,7 +99,7 @@ public:
 
     void createMoonMenu( KSMoon *moon );
 
-    /**@short Create a popup menu for a satellite.
+    /** @short Create a popup menu for a satellite.
      * @param satellite the satellite which the menu describes.
      */
     void createSatelliteMenu( Satellite *satellite );
@@ -110,7 +110,7 @@ public:
      */
     void createSupernovaMenu(Supernova *supernova);
 
-    /**@short Create a popup menu for empty sky.
+    /** @short Create a popup menu for empty sky.
      *
      * The popup menu when right-clicking on nothing is still useful.
      * Instead of a name label, it shows "Empty Sky".  The rise/set/transit 
@@ -127,7 +127,7 @@ private slots:
     void slotDeleteFlag( QAction *action );
 
 private:
-    /**Initialize the popup menus. Adds name and type labels, and possibly
+    /** Initialize the popup menus. Adds name and type labels, and possibly
      * Rise/Set/Transit labels, Center/Track item, and Show Details item.
      * @short initialize the right-click popup menu
      * @param obj pointer to the skyobject which the menu describes
@@ -144,7 +144,7 @@ private:
 
     void initFlagActions( SkyObject *obj );
 
-    /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
+    /** Add a submenu for INDI controls (Slew, Track, Sync, etc).
      * @return true if a valid INDI menu was added.
      */
     void addINDI();

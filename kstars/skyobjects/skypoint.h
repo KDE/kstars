@@ -29,7 +29,7 @@
 class KSNumbers;
 class KSSun;
 
-/**@class SkyPoint
+/** @class SkyPoint
 	*
 	*The sky coordinates of a point in the sky.  The
 	*coordinates are stored in both Equatorial (Right Ascension,
@@ -49,7 +49,7 @@ class KSSun;
 	*/
 class SkyPoint {
 public:
-    /**Default constructor: Sets RA, Dec and RA0, Dec0 according
+    /** Default constructor: Sets RA, Dec and RA0, Dec0 according
     	*to arguments.  Does not set Altitude or Azimuth.
     	*@param r Right Ascension
     	*@param d Declination
@@ -62,7 +62,7 @@ public:
     {}
 
     
-    /**Alternate constructor using double arguments, for convenience.
+    /** Alternate constructor using double arguments, for convenience.
      *It behaves essentially like the default constructor.
      *@param r Right Ascension, expressed as a double
      *@param d Declination, expressed as a double
@@ -98,67 +98,67 @@ public:
      */
     void set( const dms& r, const dms& d );
 
-    /**Sets RA0, the catalog Right Ascension.
+    /** Sets RA0, the catalog Right Ascension.
     	*@param r catalog Right Ascension.
     	*/
     inline void setRA0( dms r ) { RA0 = r; }
 
-    /**Overloaded member function, provided for convenience.
+    /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param r Right Ascension, expressed as a double.
     	*/
     inline void setRA0( double r ) { RA0.setH( r ); }
 
-    /**Sets Dec0, the catalog Declination.
+    /** Sets Dec0, the catalog Declination.
     	*@param d catalog Declination.
     	*/
     inline void setDec0( dms d ) { Dec0 = d; }
 
-    /**Overloaded member function, provided for convenience.
+    /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param d Declination, expressed as a double.
     	*/
     inline void setDec0( double d ) { Dec0.setD( d ); }
 
-    /**Sets RA, the current Right Ascension.
+    /** Sets RA, the current Right Ascension.
     	*@param r Right Ascension.
     	*/
     inline void setRA( dms r ) { RA = r; }
 
-    /**Overloaded member function, provided for convenience.
+    /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param r Right Ascension, expressed as a double.
     	*/
     inline void setRA( double r ) { RA.setH( r ); }
 
-    /**Sets Dec, the current Declination
+    /** Sets Dec, the current Declination
     	*@param d Declination.
     	*/
     inline void setDec( dms d ) { Dec = d; }
 
-    /**Overloaded member function, provided for convenience.
+    /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param d Declination, expressed as a double.
     	*/
     inline void setDec( double d ) { Dec.setD( d ); }
 
-    /**Sets Alt, the Altitude.
+    /** Sets Alt, the Altitude.
     	*@param alt Altitude.
     	*/
     inline void setAlt( dms alt ) { Alt = alt; }
 
-    /**Overloaded member function, provided for convenience.
+    /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param alt Altitude, expressed as a double.
     	*/
     inline void setAlt( double alt ) { Alt.setD( alt ); }
 
-    /**Sets Az, the Azimuth.
+    /** Sets Az, the Azimuth.
     	*@param az Azimuth.
     	*/
     inline void setAz( dms az ) { Az = az; }
 
-    /**Overloaded member function, provided for convenience.
+    /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param az Azimuth, expressed as a double.
     	*/
@@ -168,25 +168,25 @@ public:
     //// 2. Returning coordinates.
     //// =========================
 
-    /**@return a pointer to the catalog Right Ascension. */
+    /** @return a pointer to the catalog Right Ascension. */
     inline const dms& ra0() const { return RA0; }
 
-    /**@return a pointer to the catalog Declination. */
+    /** @return a pointer to the catalog Declination. */
     inline const dms& dec0() const { return Dec0; }
 
-    /**@returns a pointer to the current Right Ascension. */
+    /** @returns a pointer to the current Right Ascension. */
     inline const dms& ra() const { return RA; }
 
-    /**@return a pointer to the current Declination. */
+    /** @return a pointer to the current Declination. */
     inline const dms& dec() const { return Dec; }
 
-    /**@return a pointer to the current Azimuth. */
+    /** @return a pointer to the current Azimuth. */
     inline const dms& az() const { return Az; }
 
-    /**@return a pointer to the current Altitude. */
+    /** @return a pointer to the current Altitude. */
     inline const dms& alt() const { return Alt; }
 
-    /**@return refracted altitude. This function uses
+    /** @return refracted altitude. This function uses
      * Options::useRefraction to determine whether refraction
      * correction should be applied */
     dms altRefracted() const;
@@ -195,7 +195,7 @@ public:
     //// 3. Coordinate conversions.
     //// ==========================
 
-    /**Determine the (Altitude, Azimuth) coordinates of the
+    /** Determine the (Altitude, Azimuth) coordinates of the
     	*SkyPoint from its (RA, Dec) coordinates, given the local
     	*sidereal time and the observer's latitude.
     	*@param LST pointer to the local sidereal time
@@ -203,7 +203,7 @@ public:
     	*/
     void EquatorialToHorizontal( const dms* LST, const dms* lat );
 
-    /**Determine the (RA, Dec) coordinates of the
+    /** Determine the (RA, Dec) coordinates of the
     	*SkyPoint from its (Altitude, Azimuth) coordinates, given the local
     	*sidereal time and the observer's latitude.
     	*@param LST pointer to the local sidereal time
@@ -211,13 +211,13 @@ public:
     	*/
     void HorizontalToEquatorial( const dms* LST, const dms* lat );
 
-    /**Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
+    /** Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
     	*The ecliptic coordinates are returned as reference arguments (since
     	*they are not stored internally)
     	*/
     void findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat );
 
-    /**Set the current (RA, Dec) coordinates of the
+    /** Set the current (RA, Dec) coordinates of the
     	*SkyPoint, given pointers to its Ecliptic (Long, Lat) coordinates, and
     	*to the current obliquity angle (the angle between the equator and ecliptic).
     	*/
@@ -239,7 +239,7 @@ public:
     //// 4. Coordinate update/corrections.
     //// =================================
 
-    /**Determine the current coordinates (RA, Dec) from the catalog
+    /** Determine the current coordinates (RA, Dec) from the catalog
     	*coordinates (RA0, Dec0), accounting for both precession and nutation.
     	*@param num pointer to KSNumbers object containing current values of
     	*time-dependent variables.
@@ -250,7 +250,7 @@ public:
     	*/
     virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
-    /**Computes the apparent coordinates for this SkyPoint for any epoch,
+    /** Computes the apparent coordinates for this SkyPoint for any epoch,
     	*accounting for the effects of precession, nutation, and aberration.
     	*Similar to updateCoords(), but the starting epoch need not be
     	*J2000, and the target epoch need not be the present time.
@@ -259,7 +259,7 @@ public:
     	*/
     void apparentCoord(long double jd0, long double jdf);
 
-    /**Determine the effects of nutation for this SkyPoint.
+    /** Determine the effects of nutation for this SkyPoint.
     	*@param num pointer to KSNumbers object containing current values of
     	*time-dependent variables.
     	*/
@@ -271,7 +271,7 @@ public:
      */
     bool checkBendLight();
 
-    /**Correct for the effect of "bending" of light around the sun for
+    /** Correct for the effect of "bending" of light around the sun for
      * positions near the sun.
      *
      * General Relativity tells us that a photon with an impact
@@ -289,13 +289,13 @@ public:
      */
     SkyPoint deprecess( const KSNumbers *num, long double epoch=J2000 );
 
-    /**Determine the effects of aberration for this SkyPoint.
+    /** Determine the effects of aberration for this SkyPoint.
     	*@param num pointer to KSNumbers object containing current values of
     	*time-dependent variables.
     	*/
     void aberrate(const KSNumbers *num);
 
-    /**General case of precession. It precess from an original epoch to a
+    /** General case of precession. It precess from an original epoch to a
     	*final epoch. In this case RA0, and Dec0 from SkyPoint object represent
     	*the coordinates for the original epoch and not for J2000, as usual.
     	*@param jd0 Julian Day which identifies the original epoch

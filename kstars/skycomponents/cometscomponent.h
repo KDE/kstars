@@ -24,7 +24,7 @@ class SkyLabeler;
 #include "datahandlers/ksparser.h"
 #include <QList>
 
-/**@class CometsComponent
+/** @class CometsComponent
  * This class encapsulates the Comets
  *
  * @author Jason Harris
@@ -33,7 +33,7 @@ class SkyLabeler;
 class CometsComponent : public SolarSystemListComponent
 {
 public:
-    /**@short Default constructor.
+    /** @short Default constructor.
      * @p parent pointer to the parent SolarSystemComposite
      */
     explicit CometsComponent(SolarSystemComposite *parent);

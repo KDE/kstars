@@ -33,8 +33,7 @@
 //#
 
 
-/**
-   The Spatial Index is a quad tree of spherical triangles. The tree
+/** @class SpatialIndex is a quad tree of spherical triangles. The tree
    is built in the following way: Start out with 8 triangles on the
    sphere using the 3 main circles to determine them. Then, every
    triangle can be decomposed into 4 new triangles by drawing main

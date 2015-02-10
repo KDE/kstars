@@ -24,7 +24,7 @@
 class KStars;
 
 
-/**@class OpsSupernovae
+/** @class OpsSupernovae
  *The Supernovae Tab of the Options window.  In this Tab the user can configure
  *supernovae options and select if supernovae should be drawn on the skymap.
  *Also the user is given the option to check for updates on startup. And whether

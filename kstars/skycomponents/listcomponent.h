@@ -40,7 +40,7 @@ public:
 
     virtual ~ListComponent();
 
-    /**@short Update the sky positions of this component.
+    /** @short Update the sky positions of this component.
      *
      * This function usually just updates the Horizontal (Azimuth/Altitude)
      * coordinates of the objects in this component.  If the KSNumbers* 

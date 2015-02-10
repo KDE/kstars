@@ -26,7 +26,7 @@
 #include "timezonerule.h"
 #include "kstarsdatetime.h"
 
-/**@class GeoLocation
+/** @class GeoLocation
  * Contains all relevant information for specifying a location
  * on Earth: City Name, State/Province name, Country Name,
  * Longitude, Latitude, Elevation, Time Zone, and Daylight Savings
@@ -38,7 +38,7 @@
  */
 class GeoLocation {
 public:
-    /**Constructor using dms objects to specify longitude and latitude.
+    /** Constructor using dms objects to specify longitude and latitude.
      * @param lng the longitude
      * @param lat the latitude
      * @param name the name of the city/town/location
@@ -56,7 +56,7 @@ public:
                 const QString &country="Nowhere",
                 double TZ=0, TimeZoneRule *TZrule=NULL, bool readOnly=false, int iEllips=4, double hght=-10 );
 
-    /**Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
+    /** Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
      * @param x the x-position, in m
      * @param y the y-position, in m
      * @param z the z-position, in m
@@ -74,73 +74,73 @@ public:
                 const QString &country="Nowhere",
                 double TZ=0, TimeZoneRule *TZrule=NULL, bool readOnly=false, int iEllips=4 );
 
-    /**@return pointer to the longitude dms object */
+    /** @return pointer to the longitude dms object */
     const dms* lng() const { return &Longitude; }
 
-    /**@return pointer to the latitude dms object */
+    /** @return pointer to the latitude dms object */
     const dms* lat() const { return &Latitude; }
 
-    /**@return elevation above seal level (meters) */
+    /** @return elevation above seal level (meters) */
     double height() const { return Height; }
 
-    /**@return X position in m */
+    /** @return X position in m */
     double xPos() const { return PosCartX; }
 
-    /**@return Y position in m */
+    /** @return Y position in m */
     double yPos() const { return PosCartY; }
 
-    /**@return Z position in m */
+    /** @return Z position in m */
     double zPos() const { return PosCartZ; }
 
-    /**@return index identifying the geodetic ellipsoid model */
+    /** @return index identifying the geodetic ellipsoid model */
     int ellipsoid() const { return indexEllipsoid; }
 
-    /**@return untranslated City name */
+    /** @return untranslated City name */
     QString name() const { return Name; }
 
-    /**@return translated City name */
+    /** @return translated City name */
     QString translatedName() const;
 
-    /**@return untranslated Province name */
+    /** @return untranslated Province name */
     QString province() const { return Province; }
 
-    /**@return translated Province name */
+    /** @return translated Province name */
     QString translatedProvince() const;
 
-    /**@return untranslated Country name */
+    /** @return untranslated Country name */
     QString country() const { return Country; }
 
-    /**@return translated Country name */
+    /** @return translated Country name */
     QString translatedCountry() const;
 
-    /**@return comma-separated city, province, country names (each localized) */
+    /** @return comma-separated city, province, country names (each localized) */
     QString fullName() const;
 
-    /**@return time zone without DST correction */
+    /** @return time zone without DST correction */
     double TZ0() const { return TimeZone; }
 
-    /**@return time zone, including any DST correction. */
+    /** @return time zone, including any DST correction. */
     double TZ() const { if( TZrule ) return TimeZone + TZrule->deltaTZ(); return TimeZone; }
 
-    /**@return pointer to time zone rule object */
+    /** @return pointer to time zone rule object */
     TimeZoneRule* tzrule() { return TZrule; }
 
-    /**Set Time zone.
+    /** Set Time zone.
      * @param value the new time zone */
     void setTZ(double value)  { TimeZone = value;}
 
-    /**Set Time zone rule.
+    /** Set Time zone rule.
      * @param value pointer to the new time zone rule */
     void setTZRule(TimeZoneRule* value) { TZrule = value; }
 
-    /**Set longitude according to dms argument.
+    /** Set longitude according to dms argument.
      * @param l the new longitude */
     void setLong( dms l ) {
         Longitude = l;
         geodToCart();
     }
 
-    /**Set latitude according to dms argument.
+    /** Set latitude according to dms argument.
      * @param l the new latitude
      */
     void setLat( dms l ) {
@@ -148,7 +148,7 @@ public:
         geodToCart();
     }
 
-    /**Set elevation above sea level
+    /** Set elevation above sea level
      * @param hg the new elevation (meters)
      */
     void setHeight( double hg ) {
@@ -156,21 +156,21 @@ public:
         geodToCart();
     }
 
-    /**Set X
+    /** Set X
      * @param x the new x-position (meters)
      */
     void setXPos( double x ) {
         PosCartX  = x;
         cartToGeod();
     }
-    /**Set Y
+    /** Set Y
      * @param y the new y-position (meters)
      */
     void setYPos( double y ) {
         PosCartY  = y;
         cartToGeod();
     }
-    /**Set Z
+    /** Set Z
      * @param z the new z-position (meters)
      */
     void setZPos( double z ) {
@@ -178,28 +178,28 @@ public:
         cartToGeod();
     }
 
-    /**Update Latitude, Longitude and Height according to new ellipsoid. These are
+    /** Update Latitude, Longitude and Height according to new ellipsoid. These are
      * computed from XYZ which do NOT change on changing the ellipsoid.
      * @param i index to identify the ellipsoid
      */
     void changeEllipsoid( int i );
 
-    /**Set City name according to argument.
+    /** Set City name according to argument.
      * @param n new city name
      */
     void setName( const QString &n ) { Name = n; }
 
-    /**Set Province name according to argument.
+    /** Set Province name according to argument.
      * @param n new province name
      */
     void setProvince( const QString &n ) { Province = n; }
 
-    /**Set Country name according to argument.
+    /** Set Country name according to argument.
      * @param n new country name
      */
     void setCountry( const QString &n ) { Country = n; }
 
-    /**Converts from cartesian coordinates in meters to longitude,
+    /** Converts from cartesian coordinates in meters to longitude,
      * latitude and height on a standard geoid for the Earth. The
      * geoid is characterized by two parameters: the semimajor axis
      * and the flattening.
@@ -213,7 +213,7 @@ public:
      */
     void cartToGeod();
 
-    /**Converts from longitude, latitude and height on a standard
+    /** Converts from longitude, latitude and height on a standard
      * geoid of the Earth to cartesian coordinates in meters. The geoid
      * is characterized by two parameters: the semimajor axis and the
      * flattening.
@@ -227,7 +227,7 @@ public:
      */
     void geodToCart();
 
-    /**The geoid is an elliposid which fits the shape of the Earth. It is
+    /** The geoid is an elliposid which fits the shape of the Earth. It is
      * characterized by two parameters: the semimajor axis and the
      * flattening.
      *
@@ -255,7 +255,7 @@ public:
      */
     void TopocentricVelocity(double vtopo[], dms gt);
 
-    /**@Return Local Mean Sidereal Time.
+    /** @Return Local Mean Sidereal Time.
      * @param jd Julian date
      */
     double LMST( double jd );

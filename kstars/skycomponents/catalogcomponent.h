@@ -82,7 +82,7 @@ private:
     /** @short Load data into custom catalog */
     void loadData();
 
-    /**@short Read data for existing custom catalogs from disk
+    /** @short Read data for existing custom catalogs from disk
      * @return true if catalog data was successfully read
      */
     bool readCustomCatalogs();

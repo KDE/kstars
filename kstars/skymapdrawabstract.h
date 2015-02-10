@@ -43,7 +43,7 @@ class SkyMapDrawAbstract {
     /**
      *@short Virtual Destructor
      */
-    virtual ~SkyMapDrawAbstract() { };
+    virtual ~SkyMapDrawAbstract() { }
 
  public:
 
@@ -92,7 +92,7 @@ class SkyMapDrawAbstract {
     void drawAngleRuler( QPainter &psky );
 
 
-    /**@short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
+    /** @short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
     	*
     	*@param pd pointer to the QPaintDevice on which to draw.  
     	*@see KStars::slotExportImage()
@@ -100,7 +100,7 @@ class SkyMapDrawAbstract {
     	*/
     void exportSkyImage( QPaintDevice *pd, bool scale = false );
 
-    /**@short Draw the current Sky map using passed SkyQPainter instance. Required when
+    /** @short Draw the current Sky map using passed SkyQPainter instance. Required when
       * used QPaintDevice doesn't support drawing using multiple painters (e.g. QSvgGenerator
       * which generates broken SVG output when more than one QPainter subclass is used).
       * Passed painter should already be initialized to draw on selected QPaintDevice subclass
@@ -110,7 +110,7 @@ class SkyMapDrawAbstract {
       */
     void exportSkyImage( SkyQPainter *painter, bool scale = false );
 
-    /**@short Draw "user labels".  User labels are name labels attached to objects manually with
+    /** @short Draw "user labels".  User labels are name labels attached to objects manually with
      * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
      * is true.
      * @param labelObjects QList of pointers to the objects which need labels (excluding the centered object)

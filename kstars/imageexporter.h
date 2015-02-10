@@ -34,7 +34,7 @@ class QSize;
  */
 class ImageExporter : public QObject {
     
-    Q_OBJECT;    
+    Q_OBJECT
 
 public:
 

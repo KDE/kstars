@@ -48,7 +48,7 @@ private:
     /** Process Lines **/
     void processLines( QTextStream &istream );
 
-    /**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
+    /** @returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
     SkyPoint getCoords(dmsBox * rBox, dmsBox* dBox, bool *ok);
 
 };

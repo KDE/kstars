@@ -20,7 +20,7 @@
 
 #include "ksplanetbase.h"
 
-/**@class KSComet
+/** @class KSComet
     *@short A subclass of KSPlanetBase that implements comets.
     *
     *The orbital elements are stored as private member variables, and
@@ -50,7 +50,7 @@ class dms;
 class KSComet : public KSPlanetBase
 {
 public:
-    /**Constructor.
+    /** Constructor.
         *@param s the name of the comet
         *@param image_file the filename for an image of the comet
         *@param JD the Julian Day for the orbital elements
@@ -72,10 +72,10 @@ public:
     virtual KSComet* clone() const;
     virtual SkyObject::UID getUID() const;
     
-    /**Destructor (empty)*/
+    /** Destructor (empty)*/
     virtual ~KSComet() {}
 
-    /**Unused virtual function inherited from KSPlanetBase,
+    /** Unused virtual function inherited from KSPlanetBase,
         *so it's simply empty here.
         */
     virtual bool loadData();
@@ -229,7 +229,7 @@ public:
 
 
 protected:
-    /**Calculate the geocentric RA, Dec coordinates of the Comet.
+    /** Calculate the geocentric RA, Dec coordinates of the Comet.
         *@note reimplemented from KSPlanetBase
         *@param num time-dependent values for the desired date
         *@param Earth planet Earth (needed to calculate geocentric coords)

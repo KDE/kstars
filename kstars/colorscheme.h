@@ -45,7 +45,7 @@ public:
     /** @return true if the Palette contains the given key name */
     bool hasColorNamed( const QString &name ) const { return ( Palette.contains( name ) ); }
 
-    /**@short Retrieve a color by name.
+    /** @short Retrieve a color by name.
      * @p name the key name of the color to be retrieved.
      * @return the requested color, or Qt::white if color name not found.
      */
@@ -56,40 +56,40 @@ public:
      */
     QColor colorAt( int i ) const;
 
-    /**@p i the index of the long name to retrieve
+    /** @p i the index of the long name to retrieve
      * @return the name of the color at index i
      */
     QString nameAt( int i ) const;
 
-    /**@p i the index of the key name to retrieve
+    /** @p i the index of the key name to retrieve
      * @return the key name of the color at index i
      */
     QString keyAt( int i ) const;
 
-    /**@return the long name of the color whose key name is given
+    /** @return the long name of the color whose key name is given
      * @p key the key name identifying the color.
      */
     QString nameFromKey( const QString &key ) const;
 
-    /**Change the color with the given key to the given value
+    /** Change the color with the given key to the given value
      * @p key the key-name of the color to be changed
      * @p color the new color value
      */
     void setColor( const QString &key, const QString &color );
 
-    /**Load a color scheme from a *.colors file
+    /** Load a color scheme from a *.colors file
      * @p filename the filename of the color scheme to be loaded.
      * @return true if the scheme was successfully loaded
      */
     bool load( const QString &filename );
 
-    /**Save the current color scheme to a *.colors file.
+    /** Save the current color scheme to a *.colors file.
      * @p name the filename to create
      * @return true if the color scheme is successfully writeen to a file
      */
     bool save( const QString &name );
 
-    /**@return the Filename associated with the color scheme. */
+    /** @return the Filename associated with the color scheme. */
     QString fileName() const { return FileName; }
 
     /** Read color-scheme data from the Config object. */

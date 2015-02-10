@@ -34,7 +34,7 @@ public:
     explicit AltVsTimeUI( QWidget *p=0 );
 };
 
-/**@class AltVsTime
+/** @class AltVsTime
  * @short the Altitude vs. Time Tool.
  * Plot the altitude as a function of time for any list of 
  * objects, as seen from any location, on any date.
@@ -64,7 +64,7 @@ public:
      */
     void showCurrentDate ();
 
-    /**@return a KStarsDateTime object constructed from the
+    /** @return a KStarsDateTime object constructed from the
      * current setting in the Date widget.
      */
     KStarsDateTime getDate ();
@@ -84,7 +84,7 @@ public:
      */
     double getEpoch( const QString &eName );
 
-    /**@short Add a SkyObject to the display.
+    /** @short Add a SkyObject to the display.
      * Constructs a PLotObject representing the Alt-vs-time curve for the object.
      * @param o pointer to the SkyObject to be added
      * @param forceAdd if true, then the object will be added, even if there 
@@ -92,7 +92,7 @@ public:
      */
     void processObject( SkyObject *o, bool forceAdd=false );
 
-    /**@short Determine the altitude coordinate of a SkyPoint,
+    /** @short Determine the altitude coordinate of a SkyPoint,
      * given an hour of the day.
      *
      * This is called for every 30-minute interval in the displayed Day, 
@@ -103,35 +103,35 @@ public:
      */
     double findAltitude( SkyPoint *p, double hour );
 
-    /**@short get object name. If star has no name, generate a name based on catalog number.
+    /** @short get object name. If star has no name, generate a name based on catalog number.
      * @param translated set to true if the translated name is required.
      */
     QString getObjectName(const SkyObject *o, bool translated=true);
 
 public slots:
-    /**@short Update the plot to reflec new Date and Location settings. */
+    /** @short Update the plot to reflec new Date and Location settings. */
     void slotUpdateDateLoc();
 
-    /**@short Clear the list of displayed objects. */
+    /** @short Clear the list of displayed objects. */
     void slotClear();
 
-    /**@short Clear the edit boxes for specifying a new object. */
+    /** @short Clear the edit boxes for specifying a new object. */
     void slotClearBoxes();
 
-    /**@short Add an object to the list of displayed objects, according
+    /** @short Add an object to the list of displayed objects, according
      * to the data entered in the edit boxes.
      */
     void slotAddSource();
 
-    /**@short Launch the Find Object window to select a new object for
+    /** @short Launch the Find Object window to select a new object for
      * the list of displayed objects.
      */
     void slotBrowseObject();
 
-    /**@short Launch the Location dialog to choose a new location. */
+    /** @short Launch the Location dialog to choose a new location. */
     void slotChooseCity();
 
-    /**@short Move input keyboard focus to the next logical widget.
+    /** @short Move input keyboard focus to the next logical widget.
      * We need a separate slot for this because we are intercepting 
      * Enter key events, which close the window by default, to 
      * advance input focus instead (when the Enter events occur in 
@@ -144,12 +144,12 @@ public slots:
      */
     void slotHighlight(int);
     
-    /**@short Print plot widget
+    /** @short Print plot widget
      */
     void slotPrint();
 
 private:
-    /**@short find start of dawn, end of dusk, maximum and minimum elevation of the sun */
+    /** @short find start of dawn, end of dusk, maximum and minimum elevation of the sun */
     void setDawnDusk();
     
     AltVsTimeUI *avtUI;

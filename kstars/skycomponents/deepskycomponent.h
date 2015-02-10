@@ -62,7 +62,7 @@ public:
 
     virtual void draw( SkyPainter *skyp );
 
-    /* @short draw all the labels in the prioritized LabelLists and then
+    /** @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists.
      */
     void drawLabels();

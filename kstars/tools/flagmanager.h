@@ -32,7 +32,7 @@ class FlagManagerUI : public QFrame, public Ui::FlagManager
     Q_OBJECT
 
     public:
-    /**@short Constructor
+    /** @short Constructor
      */
         explicit FlagManagerUI( QWidget *parent );
 };

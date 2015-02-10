@@ -41,11 +41,11 @@ public:
 
     enum { TopCandidate, BotCandidate, LeftCandidate, RightCandidate };
 
-    /* @short prepare the context for selecting label position candidates.
+    /** @short prepare the context for selecting label position candidates.
      */
     void reset();
 
-    /* @short draw the label if any.  Is currently called at the bottom of
+    /** @short draw the label if any.  Is currently called at the bottom of
      * draw() but that call could be removed and it could be called
      * externally AFTER draw() has been called so draw() can set up the label
      * position candidates.
@@ -65,7 +65,7 @@ private:
     float       m_marginLeft, m_marginRight, m_marginTop, m_marginBot;
     float       m_farLeft, m_farRight, m_farTop, m_farBot;
 
-    /* @short This routine does two things at once.  It returns the QPointF
+    /** @short This routine does two things at once.  It returns the QPointF
      * corresponding to pointList[i] and also computes the angle using
      * pointList[i] and pointList[i-1] therefore you MUST ensure that:
      *

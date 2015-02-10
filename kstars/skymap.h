@@ -54,7 +54,7 @@ class SkyMapGLDraw;
 class SkyMapQDraw;
 #endif
 
-/**@class SkyMap
+/** @class SkyMap
 	*
 	*This is the canvas on which the sky is painted.  It's the main widget for KStars.
 	*Contains SkyPoint members for the map's Focus (current central position), Destination
@@ -101,25 +101,25 @@ class SkyMap : public QGraphicsView {
                       Gnomonic,
                       UnknownProjection };
 
-    /**@return the angular field of view of the sky map, in degrees.
+    /** @return the angular field of view of the sky map, in degrees.
     *@note it must use either the height or the width of the window to calculate the
     *FOV angle.  It chooses whichever is larger.
     */
     float fov();
 
-    /**@short Update object name and coordinates in the Focus InfoBox */
+    /** @short Update object name and coordinates in the Focus InfoBox */
     void showFocusCoords();
 
-    /**@short Update the focus position according to current options. */
+    /** @short Update the focus position according to current options. */
     void updateFocus();
 
-    /**@short Retrieve the Focus point; the position on the sky at the
+    /** @short Retrieve the Focus point; the position on the sky at the
     	*center of the skymap.
     	*@return a pointer to the central focus point of the sky map
     	*/
     SkyPoint* focus() { return &Focus; }
 
-    /**@short retrieve the Destination position.
+    /** @short retrieve the Destination position.
     	*
     	*The Destination is the point on the sky to which the focus will
     	*be moved.
@@ -128,7 +128,7 @@ class SkyMap : public QGraphicsView {
     	*/
     SkyPoint* destination() { return &Destination; }
 
-    /**@short retrieve the FocusPoint position.
+    /** @short retrieve the FocusPoint position.
     	*
     	*The FocusPoint stores the position on the sky that is to be
     	*focused next.  This is not exactly the same as the Destination
@@ -139,12 +139,12 @@ class SkyMap : public QGraphicsView {
     	*/
     SkyPoint* focusPoint() { return &FocusPoint; }
 
-    /**@short sets the central focus point of the sky map.
+    /** @short sets the central focus point of the sky map.
     	*@param f a pointer to the SkyPoint the map should be centered on
     	*/
     void setFocus( SkyPoint *f );
 
-    /**@short sets the focus point of the skymap, using ra/dec coordinates
+    /** @short sets the focus point of the skymap, using ra/dec coordinates
     	*
     	*@note This function behaves essentially like the above function.
     	*It differs only in the data types of its arguments.
@@ -154,13 +154,13 @@ class SkyMap : public QGraphicsView {
     	*/
     void setFocus( const dms &ra, const dms &dec );
 
-    /**@short sets the focus point of the sky map, using its alt/az coordinates
+    /** @short sets the focus point of the sky map, using its alt/az coordinates
     	*@param alt the new altitude
     	*@param az the new azimuth
     	*/
     void setFocusAltAz( const dms &alt, const dms & az);
 
-    /**@short sets the destination point of the sky map.
+    /** @short sets the destination point of the sky map.
     	*@note setDestination() emits the destinationChanged() SIGNAL,
     	*which triggers the SLOT function SkyMap::slewFocus().  This
     	*function iteratively steps the Focus point toward Destination,
@@ -169,7 +169,7 @@ class SkyMap : public QGraphicsView {
     	*/
     void setDestination( const SkyPoint& f );
 
-    /**@short sets the destination point of the skymap, using ra/dec coordinates.
+    /** @short sets the destination point of the skymap, using ra/dec coordinates.
     	*
     	*@note This function behaves essentially like the above function.
     	*It differs only in the data types of its arguments.
@@ -179,18 +179,18 @@ class SkyMap : public QGraphicsView {
     	*/
     void setDestination( const dms &ra, const dms &dec );
 
-    /**@short sets the destination point of the sky map, using its alt/az coordinates.
+    /** @short sets the destination point of the sky map, using its alt/az coordinates.
     	*@param alt the new altitude
     	*@param az the new azimuth
     	*/
     void setDestinationAltAz( const dms &alt, const dms & az);
 
-    /**@short set the FocusPoint; the position that is to be the next Destination.
+    /** @short set the FocusPoint; the position that is to be the next Destination.
     	*@param f a pointer to the FocusPoint SkyPoint.
     	*/
     void setFocusPoint( SkyPoint *f ) { if ( f ) FocusPoint = *f; }
 
-    /**@short Retrieve the ClickedPoint position.
+    /** @short Retrieve the ClickedPoint position.
     	*
     	*When the user clicks on a point in the sky map, the sky coordinates of the mouse
     	*cursor are stored in the private member ClickedPoint.  This function retrieves
@@ -199,12 +199,12 @@ class SkyMap : public QGraphicsView {
     	*/
     SkyPoint* clickedPoint() { return &ClickedPoint; }
 
-    /**@short Set the ClickedPoint to the skypoint given as an argument.
+    /** @short Set the ClickedPoint to the skypoint given as an argument.
     	*@param f pointer to the new ClickedPoint.
     	*/
     void setClickedPoint( SkyPoint *f );
 
-    /**@short Retrieve the object nearest to a mouse click event.
+    /** @short Retrieve the object nearest to a mouse click event.
     	*
     	*If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
     	*the private member ClickedObject.  This function returns the ClickedObject pointer,
@@ -213,12 +213,12 @@ class SkyMap : public QGraphicsView {
     	*/
     SkyObject* clickedObject() const { return ClickedObject; }
 
-    /**@short Set the ClickedObject pointer to the argument.
+    /** @short Set the ClickedObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the ClickedObject
     	*/
     void setClickedObject( SkyObject *o );
 
-    /**@short Retrieve the object which is centered in the sky map.
+    /** @short Retrieve the object which is centered in the sky map.
     	*
     	*If the user centers the sky map on an object (by double-clicking or using the
     	*Find Object dialog), a pointer to the "focused" object is stored in
@@ -228,7 +228,7 @@ class SkyMap : public QGraphicsView {
     	*/
     SkyObject* focusObject() const { return FocusObject; }
 
-    /**@short Set the FocusObject pointer to the argument.
+    /** @short Set the FocusObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the FocusObject
     	*/
     void setFocusObject( SkyObject *o );
@@ -236,7 +236,7 @@ class SkyMap : public QGraphicsView {
     /** @short Call to set up the projector before a draw cycle. */
     void setupProjector();
 
-    /**@ Set zoom factor.
+    /** @ Set zoom factor.
       *@param factor zoom factor
       */
     void setZoomFactor(double factor);
@@ -244,10 +244,10 @@ class SkyMap : public QGraphicsView {
     bool isSlewing() const;
 
     // NOTE: This method is draw-backend independent.
-    /**@short update the geometry of the angle ruler. */
+    /** @short update the geometry of the angle ruler. */
     void updateAngleRuler();
 
-    /**@return true if the object currently has a user label attached.
+    /** @return true if the object currently has a user label attached.
     	*@note this function only checks for a label explicitly added to the object
     	*with the right-click popup menu; other kinds of labels are not detected by
     	*this function.
@@ -300,7 +300,7 @@ public slots:
      */
     void forceUpdate( bool now=false );
 
-    /**@short Convenience function; simply calls forceUpdate(true).
+    /** @short Convenience function; simply calls forceUpdate(true).
      * @see forceUpdate()
      */
     void forceUpdateNow() { forceUpdate( true ); }
@@ -323,7 +323,7 @@ public slots:
      */
     void slewFocus();
 
-    /**@short Center the display at the point ClickedPoint.
+    /** @short Center the display at the point ClickedPoint.
      *
      * The essential part of the function is to simply set the Destination point, which will emit
      * the destinationChanged() SIGNAL, which triggers the slewFocus() SLOT.  Additionally, this
@@ -335,27 +335,27 @@ public slots:
      */
     void slotCenter();
 
-    /**@short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
+    /** @short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
      * @note the URL is generated using the coordinates of ClickedPoint.
      */
     void slotDSS();
 
-    /**@short Popup menu function: Display Sloan Digital Sky Survey image with the Image Viewer.
+    /** @short Popup menu function: Display Sloan Digital Sky Survey image with the Image Viewer.
      * @note the URL is generated using the coordinates of ClickedPoint.
      */
     void slotSDSS();
 
-    /**@short Popup menu function: Show webpage about ClickedObject
+    /** @short Popup menu function: Show webpage about ClickedObject
      * (only available for some objects).
      */
     void slotInfo();
 
-    /**@short Popup menu function: Show image of ClickedObject
+    /** @short Popup menu function: Show image of ClickedObject
      * (only available for some objects).
      */
     void slotImage();
 
-    /**@short Popup menu function: Show the Detailed Information window for ClickedObject. */
+    /** @short Popup menu function: Show the Detailed Information window for ClickedObject. */
     void slotDetail();
 
     /**Add ClickedObject to KStarsData::ObjLabelList, which stores pointers to SkyObjects which
@@ -368,7 +368,7 @@ public slots:
      */
     void slotRemoveObjectLabel();
 
-    /**@short Add a Planet Trail to ClickedObject.
+    /** @short Add a Planet Trail to ClickedObject.
      * @note Trails are added simply by calling KSPlanetBase::addToTrail() to add the first point.
      * as long as the trail is not empty, new points will be automatically appended to it.
      * @note if ClickedObject is not a Solar System body, this function does nothing.
@@ -376,7 +376,7 @@ public slots:
      */
     void slotAddPlanetTrail();
 
-    /**@short Remove the PlanetTrail from ClickedObject.
+    /** @short Remove the PlanetTrail from ClickedObject.
      * @note The Trail is removed by simply calling KSPlanetBase::clearTrail().  As long as
      * the trail is empty, no new points will be automatically appended.
      * @see KSPlanetBase::clearTrail()
@@ -409,16 +409,16 @@ public slots:
      * in the status bar */
     void slotCancelRulerMode();
 
-    /**@short Open Flag Manager window with clickedObject() RA and Dec entered.
+    /** @short Open Flag Manager window with clickedObject() RA and Dec entered.
       */
     void slotAddFlag();
 
-    /**@short Open Flag Manager window with selected flag focused and ready to edit.
+    /** @short Open Flag Manager window with selected flag focused and ready to edit.
       *@param flagIdx index of flag to be edited.
       */
     void slotEditFlag( int flagIdx );
 
-    /**@short Delete selected flag.
+    /** @short Delete selected flag.
       *@param flagIdx index of flag to be deleted.
       */
     void slotDeleteFlag( int flagIdx );
@@ -537,10 +537,10 @@ private slots:
 
 private:
 
-    /**@short Sets the shape of the default mouse cursor to a cross. */
+    /** @short Sets the shape of the default mouse cursor to a cross. */
     void setDefaultMouseCursor();
 
-    /**@short Sets the shape of the mouse cursor to a magnifying glass. */
+    /** @short Sets the shape of the mouse cursor to a magnifying glass. */
     void setZoomMouseCursor();
 
     /** Calculate the zoom factor for the given keyboard modifier
@@ -609,7 +609,7 @@ private:
     KStarsData *data;
     KSPopupMenu *pmenu;
 
-    /**@short Coordinates of point under cursor. It's update in
+    /** @short Coordinates of point under cursor. It's update in
      * function mouseMoveEvent
      */
     SkyPoint m_MousePoint;

@@ -67,10 +67,10 @@ public:
     virtual ~StarComponent();
 
     // TODO: Desingletonize StarComponent
-    /**@short Create an instance of StarComponent */
+    /** @short Create an instance of StarComponent */
     static StarComponent *Create( SkyComposite* );
 
-    /**@return the instance of StarComponent if already created, NULL otherwise */
+    /** @return the instance of StarComponent if already created, NULL otherwise */
     static StarComponent *Instance() { return pinstance; }
 
     //This function is empty; we need that so that the JiT update 
@@ -81,7 +81,7 @@ public:
 
     void draw( SkyPainter *skyp );
 
-    /* @short draw all the labels in the prioritized LabelLists and then
+    /** @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists. */
     void drawLabels();
 
@@ -145,7 +145,7 @@ public:
     static void byteSwap( starData *stardata );
 
 private:
-    /**@short Read data for stars which will remain static in the memory
+    /** @short Read data for stars which will remain static in the memory
      *
      * This method reads data for named stars (stars having names,
      * which are stored by default in "namedstars.dat") into

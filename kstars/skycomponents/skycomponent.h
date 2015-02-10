@@ -124,7 +124,7 @@ class SkyPainter;
 class SkyComponent
 {
 public:
-    /**@short Constructor
+    /** @short Constructor
      * @p parent pointer to the parent SkyComposite
      */
     explicit SkyComponent( SkyComposite *parent );
@@ -132,12 +132,12 @@ public:
     /** @short Destructor */
     virtual ~SkyComponent();
 
-    /**@short Draw the object on the SkyMap
+    /** @short Draw the object on the SkyMap
      * @p skyp a pointer to the SkyPainter to use
      */
     virtual void draw( SkyPainter *skyp ) = 0;
 
-    /**@short Draw trails for objects. */
+    /** @short Draw trails for objects. */
     virtual void drawTrails( SkyPainter *skyp );
 
     /**
@@ -155,10 +155,10 @@ public:
     virtual void updatePlanets( KSNumbers * ) {}
     virtual void updateMoons( KSNumbers * ) {}
 
-    /**@return true if component is to be drawn on the map. */
+    /** @return true if component is to be drawn on the map. */
     virtual bool selected() { return true; }
 
-    /**@return Parent of component. If there is no parent returns NULL. */
+    /** @return Parent of component. If there is no parent returns NULL. */
     SkyComposite* parent() { return m_parent; }
 
     /**
@@ -198,7 +198,7 @@ public:
      */
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
-    /**@short Emit signal about progress.
+    /** @short Emit signal about progress.
      *
      * @sa SkyMapComposite::emitProgressText
      */

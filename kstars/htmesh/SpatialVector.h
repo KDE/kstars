@@ -22,8 +22,7 @@
 
 //########################################################################
 /**
-
-   The SpatialVector is a 3D vector usually living on the surface of
+   @class SpatialVector is a 3D vector usually living on the surface of
    the sphere. The corresponding ra, dec can be obtained if the vector
    has unit length. That can be ensured with the normalize() function.
 
@@ -97,9 +96,9 @@ public:
   /// subtraction
   SpatialVector operator -(const SpatialVector & ) const;
 
-  /**@name Scalar products with int and float */
+  /** @name Scalar products with int and float */
   //@{
-  /**@name operator *= */
+  /** @name operator *= */
   SpatialVector & operator *=(float64);
   SpatialVector & operator *=(int);
   friend SpatialVector operator *(float64, const SpatialVector &);

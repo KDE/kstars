@@ -27,7 +27,7 @@
 
 class KSPopupMenu;
 
-/**@class StarObject
+/** @class StarObject
         *This is a subclass of SkyObject.  It adds the Spectral type, and flags
         *for variability and multiplicity.
         *For stars, the primary name (n) is the latin name (e.g., "Betelgeuse").  The
@@ -132,7 +132,7 @@ public:
     /** If star is unnamed return "star" otherwise return the longname */
     inline virtual QString longname( void ) const { return hasLongName() ? LongName : starString; }
 
-    /**Returns entire spectral type string
+    /** Returns entire spectral type string
      * @return Spectral Type string
      */
     QString sptype( void ) const;
@@ -140,21 +140,21 @@ public:
     /** Returns just the first character of the spectral type string. */
     char spchar() const;
 
-    /**Returns the genetive name of the star.
+    /** Returns the genetive name of the star.
      * @return genetive name of the star
      */
     QString gname( bool useGreekChars=true ) const;
 
-    /**Returns the greek letter portion of the star's genetive name.
+    /** Returns the greek letter portion of the star's genetive name.
      * Returns empty string if star has no genetive name defined.
      * @return greek letter portion of genetive name
      */
     QString greekLetter( bool useGreekChars=true ) const;
 
-    /**@return the genitive form of the star's constellation. */
+    /** @return the genitive form of the star's constellation. */
     QString constell( void ) const;
 
-    /**Determine the current coordinates (RA, Dec) from the catalog
+    /** Determine the current coordinates (RA, Dec) from the catalog
      * coordinates (RA0, Dec0), accounting for both precession and nutation.
      * @param num pointer to KSNumbers object containing current values of
      * time-dependent variables.
@@ -164,7 +164,7 @@ public:
      */
     virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
-    /* @short fills ra and dec with the coordinates of the star with the proper
+    /** @short fills ra and dec with the coordinates of the star with the proper
      * motion correction but without precesion and its friends.  It is used
      * in StarComponent to re-index all the stars.
      *
@@ -172,10 +172,10 @@ public:
      */
     void getIndexCoords( KSNumbers *num, double *ra, double *dec );
 
-    /**@short added for JIT updates from both StarComponent and ConstellationLines */
+    /** @short added for JIT updates from both StarComponent and ConstellationLines */
     void JITupdate();
 
-    /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
+    /** @short returns the magnitude of the proper motion correction in milliarcsec/year */
     inline double pmMagnitude() const
     {
         double cosDec = dec0().cos();
@@ -192,48 +192,48 @@ public:
         return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
     }
 
-    /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
+    /** @short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
      * Note that the RA component is multiplied by cos(dec).
      * @param pmra the new RA propoer motion
      * @param pmdec the new Dec proper motion
      */
     inline void setProperMotion( double pmra, double pmdec ) { PM_RA = pmra; PM_Dec = pmdec; }
 
-    /**@return the RA component of the star's proper motion, in mas/yr (multiplied by cos(dec)) */
+    /** @return the RA component of the star's proper motion, in mas/yr (multiplied by cos(dec)) */
     inline double pmRA() const { return PM_RA; }
 
-    /**@return the Dec component of the star's proper motion, in mas/yr */
+    /** @return the Dec component of the star's proper motion, in mas/yr */
     inline double pmDec() const { return PM_Dec; }
 
-    /**@short set the star's parallax angle, in milliarcsec */
+    /** @short set the star's parallax angle, in milliarcsec */
     inline void setParallax( double plx ) { Parallax = plx; }
 
-    /**@return the star's parallax angle, in milliarcsec */
+    /** @return the star's parallax angle, in milliarcsec */
     inline double parallax() const { return Parallax; }
 
-    /**@return the star's distance from the Sun in parsecs, as computed from the parallax. */
+    /** @return the star's distance from the Sun in parsecs, as computed from the parallax. */
     inline double distance() const { return 1000./parallax(); }
 
-    /**@short set the star's multiplicity flag (i.e., is it a binary or multiple star?)
+    /** @short set the star's multiplicity flag (i.e., is it a binary or multiple star?)
      * @param m true if binary/multiple star system */
     inline void setMultiple( bool m ) { Multiplicity = m; }
 
-    /**@return whether the star is a binary or multiple starobject */
+    /** @return whether the star is a binary or multiple starobject */
     inline bool isMultiple() const { return Multiplicity; }
 
-    /**@return the star's HD index */
+    /** @return the star's HD index */
     inline int getHDIndex() const { return HD; }
 
-    /**@short set the star's variability flag
+    /** @short set the star's variability flag
         *@param v true if star is variable
         */
     inline void setVariable( bool v ) { Variability = v; }
 
-    /**@return whether the star is a binary or multiple starobject
+    /** @return whether the star is a binary or multiple starobject
         */
     inline bool isVariable() const { return Variability; }
 
-    /* @short returns the name, the magnitude or both.
+    /** @short returns the name, the magnitude or both.
      */
     QString nameLabel( bool drawName, bool drawMag ) const;
 

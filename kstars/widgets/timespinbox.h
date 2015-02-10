@@ -22,7 +22,7 @@
 
 class QStringList;
 
-/**@class TimeSpinBox
+/** @class TimeSpinBox
 	*Custom spinbox to handle selection of timestep values with variable units.
 	*@note this should only be used internally, embedded in a TimeStepBox widget.
 	*@author Jason Harris
@@ -51,7 +51,7 @@ public:
     	*/
     virtual int valueFromText( const QString &text ) const;
 
-    /**@return the current TimeStep setting */
+    /** @return the current TimeStep setting */
     float timeScale() const;
 
     void setDaysOnly( bool daysonly );

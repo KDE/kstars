@@ -23,7 +23,7 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 
-/**@class MapCanvas
+/** @class MapCanvas
 	*Used in LocationDialog for displaying a map of the Earth.
 	*In addition, cities in the database are drawn as grey or white dots.
 	*Also, the widget processes mouse clicks, to trim the list of

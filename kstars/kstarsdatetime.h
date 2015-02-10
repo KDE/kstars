@@ -26,7 +26,7 @@
 
 class dms;
 
-/**@class KStarsDateTime
+/** @class KStarsDateTime
  *@short Extension of QDateTime for KStars
  *KStarsDateTime can represent the date/time as a Julian Day, using a long double, 
  *in which the fractional portion encodes the time of day to a precision of a less than a second.

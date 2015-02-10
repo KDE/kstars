@@ -21,7 +21,7 @@
 #include <QLabel>
 #include <QMouseEvent>
 
-/**@class ClickLabel is a QLabel with a clicked() signal.
+/** @class ClickLabel is a QLabel with a clicked() signal.
 	*@author Jason Harris
 	*@version 1.0
 	*/

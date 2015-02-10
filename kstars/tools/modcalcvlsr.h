@@ -62,7 +62,7 @@ private slots:
 
 private:
 
-    /**@returns a SkyPoint constructed from the coordinates in the
+    /** @returns a SkyPoint constructed from the coordinates in the
      * RA and Dec dmsBoxes. */
     SkyPoint skypoint();
 

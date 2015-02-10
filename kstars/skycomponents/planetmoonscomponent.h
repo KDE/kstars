@@ -59,7 +59,7 @@ public:
 
     SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
-    /**@return a pointer to a moon if its name matches the argument
+    /** @return a pointer to a moon if its name matches the argument
      *
      * @p name the name to be matched
      * @return a SkyObject pointer to the moon whose name matches

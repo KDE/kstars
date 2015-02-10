@@ -23,7 +23,7 @@
 class KSNumbers;
 class dms;
 
-/**@class KSAsteroid
+/** @class KSAsteroid
 	*@short A subclass of KSPlanetBase that implements asteroids.
 	*
 	*The orbital elements are stored as private member variables, and it
@@ -48,7 +48,7 @@ class KSAsteroid : public KSPlanetBase
 {
 public:
 
-    /**Constructor.
+    /** Constructor.
         *@p catN number of asteroid
     	*@p s    the name of the asteroid
     	*@p image_file the filename for an image of the asteroid
@@ -68,15 +68,15 @@ public:
     virtual KSAsteroid* clone() const;
     virtual SkyObject::UID getUID() const;
 
-    /**Destructor (empty)*/
+    /** Destructor (empty)*/
     virtual ~KSAsteroid() {}
 
-    /**This is inherited from KSPlanetBase.  We don't use it in this class,
+    /** This is inherited from KSPlanetBase.  We don't use it in this class,
     	*so it is empty.
     	*/
     virtual bool loadData();
 
-    /**This lets other classes like KSPlanetBase access H and G values
+    /** This lets other classes like KSPlanetBase access H and G values
 	*Used by KSPlanetBase::FindMagnitude
 	*/
     double inline getAbsoluteMagnitude() const { return H; }
@@ -183,7 +183,7 @@ public:
     inline float getPeriod() const { return Period; }
 
 protected:
-    /**Calculate the geocentric RA, Dec coordinates of the Asteroid.
+    /** Calculate the geocentric RA, Dec coordinates of the Asteroid.
     	*@note reimplemented from KSPlanetBase
     	*@param num time-dependent values for the desired date
     	*@param Earth planet Earth (needed to calculate geocentric coords)

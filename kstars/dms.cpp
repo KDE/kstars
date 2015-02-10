@@ -224,12 +224,14 @@ const QString dms::toHMSString() const {
 
 dms dms::fromString(const QString &st, bool deg) {
     dms result;
-    bool ok( false );
+    result.setFromString( st, deg );
+    return result;
+    //bool ok( false );
 
-    ok = result.setFromString( st, deg );
+    //ok = result.setFromString( st, deg );
 
     //	if ( ok )
-    return result;
+    //return result;
     //	else {
     //		kDebug() << xi18n( "Could Not Set Angle from string: " ) << st;
     //		return result;

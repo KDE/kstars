@@ -21,7 +21,7 @@
 #include <QString>
 #include "ksplanet.h"
 
-/**@class KSSun
+/** @class KSSun
 	*Child class of KSPlanetBase; encapsulates information about the Sun.
 	*@short Provides necessary information about the Sun.
 	*@author Mark Hollomon
@@ -30,7 +30,7 @@
 
 class KSSun : public KSPlanet  {
 public:
-    /**Constructor.  Defines constants needed by findPosition().
+    /** Constructor.  Defines constants needed by findPosition().
     	*Sets Ecliptic coordinates appropriate for J2000.
     	*@param kd pointer to KStarsData object
     	*/
@@ -39,11 +39,11 @@ public:
     virtual KSSun* clone() const;
     virtual SkyObject::UID getUID() const;
 
-    /**Destructor (empty)
+    /** Destructor (empty)
     	*/
     virtual ~KSSun() {}
 
-    /**Read orbital data from disk
+    /** Read orbital data from disk
     	*@note reimplemented from KSPlanet
     	*@note we actually read Earth's orbital data.  The Sun's geocentric
     	*ecliptic coordinates are by definition exactly the opposite of the 
@@ -53,7 +53,7 @@ public:
 
 
 protected:
-    /**Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
+    /** Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
     	*@p Epoch current Julian Date
     	*@p Earth pointer to earth object
     	*/

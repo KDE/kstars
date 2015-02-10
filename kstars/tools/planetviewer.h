@@ -40,7 +40,7 @@ public:
     PlanetViewerUI(QWidget *parent = 0 );
 };
 
-/**@class PlanetViewer
+/** @class PlanetViewer
 	*@short Display an overhead view of the solar system
 	*@version 1.0
 	*@author Jason Harris

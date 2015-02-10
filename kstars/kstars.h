@@ -393,7 +393,7 @@ public Q_SLOTS:
     Q_SCRIPTABLE Q_NOREPLY void openFITS(const QUrl & imageURL);
     #endif
 
-    /**@}*/
+    /** @}*/
 
     /**
      * Update time-dependent data and (possibly) repaint the sky map.

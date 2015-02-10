@@ -41,7 +41,7 @@ typedef QVector<PolyListList*>    PolyIndex;
 class ConstellationBoundaryLines : public NoPrecessIndex
 {
 public:
-    /**@short Constructor
+    /** @short Constructor
      * Simply adds all of the coordinate grid circles
      * (meridians and parallels)
      * @p parent Pointer to the parent SkyComposite object
@@ -62,7 +62,7 @@ public:
 private:
     void appendPoly( PolyList* polyList, int debug=0);
 
-    /* @short reads the indices from the KSFileReader instead of using
+    /** @short reads the indices from the KSFileReader instead of using
      * the SkyMesh to create them.  If the file pointer is null or if
      * debug == -1 then we fall back to using the index.
      */

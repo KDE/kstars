@@ -24,7 +24,8 @@ class MeshIterator;
 class MeshBuffer;
 
 
-/* @class HTMesh was originally intended to be a simple interface to the HTM
+/**
+ * @class HTMesh was originally intended to be a simple interface to the HTM
  * library for the KStars project that would hide some of the complexity.  But
  * it has gained some complexity of its own. 
  *
@@ -57,7 +58,7 @@ class MeshBuffer;
 
 class HTMesh {
 public:
-        /* @short constructor.
+        /** @short constructor.
          * @param level is passed on to the underlying SpatialIndex
          * @param buildLevvel is also passed on to the SpatialIndex
          * @param numBuffers controls how many output buffers are created. Don't
@@ -68,12 +69,12 @@ public:
 
         ~HTMesh();
 
-        /* @short returns the index of the trixel that contains the specified
+        /** @short returns the index of the trixel that contains the specified
          * point.
          */
         Trixel index(double ra, double dec) const;
 
-        /* NOTE: The intersect() routines below are all used to find the trixels
+        /** NOTE: The intersect() routines below are all used to find the trixels
          * needed to cover a geometric object: circle, line, triangle, and
          * quadrilateral.  Since the number of trixels needed can be large and is
          * not known a priori, you must construct a MeshIterator to iterate over
@@ -97,43 +98,43 @@ public:
                        BufNum bufNum=0); 
 
 
-        /* @short finds the trixels that cover the specified line segment
+        /** @short finds the trixels that cover the specified line segment
          */
         void intersect(double ra1, double dec1, double ra2, double dec2,
                        BufNum bufNum=0);
 
         
-        /* @short find the trixels that cover the specified triangle
+        /** @short find the trixels that cover the specified triangle
          */
         void intersect(double ra1, double dec1, double ra2, double dec2,
                        double ra3, double dec3, BufNum bufNum=0);
 
 
-        /* @short finds the trixels that cover the specified quadrilateral
+        /** @short finds the trixels that cover the specified quadrilateral
          */
         void intersect(double ra1, double dec1, double ra2, double dec2,
                        double ra3, double dec3, double ra4, double dec4,
                        BufNum bufNum=0);
 
-        /* @short returns the number of trixels in the result buffer bufNum.
+        /** @short returns the number of trixels in the result buffer bufNum.
          */
         int intersectSize(BufNum bufNum=0);
 
-        /* @short returns the total number of trixels in the HTM.  This number
+        /** @short returns the total number of trixels in the HTM.  This number
          * is 8 * 4^level.
          */
         int size() const { return numTrixels; }
 
-		/* @short returns the mesh level.
+        /** @short returns the mesh level.
 		 */
 		int level() const { return m_level; }
 
-        /* @short sets the debug level which is used to print out intermediate
+        /** @short sets the debug level which is used to print out intermediate
          * results in the line intersection routine.
          */
         void setDebug(int debug) { htmDebug = debug; }
 
-        /* @short returns  a pointer to the MeshBuffer specified by bufNum.
+        /** @short returns  a pointer to the MeshBuffer specified by bufNum.
          * Currently this is only used in the MeshIterator constructor.
          */
         MeshBuffer* meshBuffer(BufNum bufNum=0);
@@ -156,12 +157,12 @@ public:
 
         int htmDebug;
 
-        /* @short fills the specified buffer with the intersection results in the
+        /** @short fills the specified buffer with the intersection results in the
          * RangeConvex.
          */
         bool performIntersection(RangeConvex* convex, BufNum bufNum=0);
 
-        /* @short users can only use the allocated buffers
+        /** @short users can only use the allocated buffers
          */
         inline bool validBufNum(BufNum bufNum)
         {
@@ -171,7 +172,7 @@ public:
             return false;
         }
 
-        /* @short used by the line intersection routine.  Maybe there is a
+        /** @short used by the line intersection routine.  Maybe there is a
          * simpler and faster approach that does not require this conversion.
          */
         void toXYZ( double ra, double dec, double *x, double *y, double *z);

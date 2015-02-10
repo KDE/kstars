@@ -21,7 +21,7 @@
 #include <QDate>
 #include <kplotwidget.h>
 
-/**@class CalendarWidget
+/** @class CalendarWidget
  *@short An extension of the KPlotWidget for the SkyCalendar tool.
  */
 class CalendarWidget : public KPlotWidget

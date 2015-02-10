@@ -34,7 +34,7 @@ class CultureList;
 class ConstellationNamesComponent : public ListComponent
 {
 public:
-    /**@short Constructor
+    /** @short Constructor
      * @p parent Pointer to the parent SkyComposite object
      *
      * Reads the constellation names data from cnames.dat
@@ -54,12 +54,12 @@ public:
     /** @short Destructor.  Delete list members */
     virtual ~ConstellationNamesComponent();
 
-    /**@short Draw constellation names on the sky map.
+    /** @short Draw constellation names on the sky map.
      * @p psky Reference to the QPainter on which to paint
      */
     virtual void draw( SkyPainter *skyp );
 
-    /**@short we need a custom routine (for now) so we don't
+    /** @short we need a custom routine (for now) so we don't
      * precess the locations of the names.
      */
     virtual void update( KSNumbers *num );

@@ -25,7 +25,7 @@
 
 class KJob;
 
-/**@class AsteroidsComponent
+/** @class AsteroidsComponent
  * Represents the asteroids on the sky map.
  *
  * @author Thomas Kabelmann
@@ -34,7 +34,7 @@ class KJob;
 class AsteroidsComponent: public SolarSystemListComponent
 {
 public:
-    /**@short Default constructor.
+    /** @short Default constructor.
      * @p parent pointer to the parent SolarSystemComposite
      */
     explicit AsteroidsComponent(SolarSystemComposite *parent);

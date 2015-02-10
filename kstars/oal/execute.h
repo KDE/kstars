@@ -35,17 +35,17 @@ class KStars;
 class Execute : public QDialog {
 Q_OBJECT
     public:
-        /**@short Default constructor
+        /** @short Default constructor
          */
         Execute();
         
-        /**@short This initializes the combo boxes, and sets up the 
+        /** @short This initializes the combo boxes, and sets up the 
          * dateTime and geolocation from the OL
          */
         void init();
 
     public slots:
-        /**@short Function to handle the UI when the 'next' button is pressed
+        /** @short Function to handle the UI when the 'next' button is pressed
          * This calls the corresponding functions based on the currentIndex
          */
         void slotNext();
@@ -53,60 +53,60 @@ Q_OBJECT
         /*Function to Save the session details*/
         bool saveSession();
 
-        /**@short Function to save the user notes set for 
+        /** @short Function to save the user notes set for 
          * the current object in the target combo box
          */
         void addTargetNotes();
 
-        /**@short Function to add the current observation to the observation list
+        /** @short Function to add the current observation to the observation list
          */
         bool addObservation();
 
-        /**@short Function to handle the state of current observation,
+        /** @short Function to handle the state of current observation,
          * and hiding the execute window
          */
         void slotEndSession();
 
-        /**@short Opens the location dialog for setting the current location
+        /** @short Opens the location dialog for setting the current location
          */
         void slotLocation();
 
-        /**@short Loads the sessionlist from the OL
+        /** @short Loads the sessionlist from the OL
          * into the target combo box
          */
         void loadTargets();
 
-        /**@short Sorts the target list using the scheduled time
+        /** @short Sorts the target list using the scheduled time
          */
         void sortTargetList();
 
-        /**@short Custom LessThan function for the sort by time
+        /** @short Custom LessThan function for the sort by time
          * This compares the times of the two skyobjects
          * using an edited QTime as next day 01:00 should
          * come later than previous night 23:00
          */
         static bool timeLessThan( SkyObject *, SkyObject * );
 
-        /**@short set the currentTarget when the user selection
+        /** @short set the currentTarget when the user selection
          * is changed in the target combo box
          */
         void slotSetTarget( QString name );
 
-        /**@short loads the equipment list from
+        /** @short loads the equipment list from
          * the global logObject into the comboBoxes
          */
         void loadEquipment();
 
-        /**@short loads the observer list from
+        /** @short loads the observer list from
          * the global logObject into the comboBoxes
          */
         void loadObservers();
         
-        /**@short loads the observation edit page
+        /** @short loads the observation edit page
          */
         void loadObservationTab();
 
-        /**@short get object name. If star has no name, generate a name based on catalog number.
+        /** @short get object name. If star has no name, generate a name based on catalog number.
          * @param translated set to true if the translated name is required.
          */
         QString getObjectName(const SkyObject *o, bool translated=true);

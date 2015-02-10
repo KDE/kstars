@@ -20,7 +20,7 @@
 
 #include "ksasteroid.h"
 
-/**@class KSPluto
+/** @class KSPluto
 	*A subclass of KSAsteroid that represents the planet Pluto.  Now, we 
 	*are certainly NOT claiming that Pluto is an asteroid.  However, the 
 	*findPosition() routines of KSPlanet do not work properly for Pluto.
@@ -42,7 +42,7 @@
 
 class KSPluto : public KSAsteroid  {
 public:
-    /**Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
+    /** Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
     	*in orbital element data (which is hard-coded for now).
     	*@param kd pointer to the KStarsData object
     	*@param fn filename of Pluto's image
@@ -56,7 +56,7 @@ public:
     virtual ~KSPluto();
 
 protected:
-    /**A custom findPosition() function for Pluto.  Computes the values of the
+    /** A custom findPosition() function for Pluto.  Computes the values of the
     	*orbital elements on the requested date, and calls KSAsteroid::findGeocentricPosition()
     	*using those elements.
     	*@param num time-dependent values for the desired date

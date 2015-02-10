@@ -100,30 +100,30 @@ public:
     inline QPixmap* thumbnail() { return Thumbnail; }
 
 public slots:
-    /**@short Slot to add this object to the observing list.
+    /** @short Slot to add this object to the observing list.
     	*/
     void addToObservingList();
 
-    /**@short Slot to center this object in the display.
+    /** @short Slot to center this object in the display.
     	*/
     void centerMap();
 
-    /**@short Slot to center this object in the telescope.
+    /** @short Slot to center this object in the telescope.
     	*/
     void centerTelescope();
 
     //TODO: showThumbnail() is only called in the ctor; make it private and not a slot.
-    /**@short Slot to display the thumbnail image for the object
+    /** @short Slot to display the thumbnail image for the object
     	*/
     void showThumbnail();
 
-    /**@short Slot to update thumbnail image for the object, using the Thumbnail
+    /** @short Slot to update thumbnail image for the object, using the Thumbnail
       *Picker tool.
     	*@sa ThumbnailPicker
     	*/
     void updateThumbnail();
 
-    /**@short Slot for viewing the selected image or info URL in the web browser.
+    /** @short Slot for viewing the selected image or info URL in the web browser.
     	*/
     void viewLink();
 
@@ -141,17 +141,17 @@ public slots:
      */
     void setCurrentLink(QListWidgetItem *it);
 
-    /**@short Rebuild the Image and Info URL lists for this object.
+    /** @short Rebuild the Image and Info URL lists for this object.
     	*@note used when an item is added to either list.
     	*/
     void updateLists();
 
-    /**@short Open a dialog to edit a URL in either the Images or Info lists,
+    /** @short Open a dialog to edit a URL in either the Images or Info lists,
     	*and update the user's *url.dat file.
     	*/
     void editLinkDialog();
 
-    /**@short remove a URL entry from either the Images or Info lists, and
+    /** @short remove a URL entry from either the Images or Info lists, and
     	*update the user's *url.dat file.
     	*/
     void removeLinkDialog();

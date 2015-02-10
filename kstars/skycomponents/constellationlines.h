@@ -25,7 +25,7 @@
 
 class CultureList;
 
-/*
+/**
 *@class ConstellationLines
 *Collection of lines making the 88 constellations
 
@@ -37,7 +37,7 @@ class ConstellationLines : public LineListIndex
 {
 
 public:
-    /* @short Constructor
+    /** @short Constructor
      * @p parent Pointer to the parent SkyComposite object
      *
      * Constellation lines data is read from clines.dat.
@@ -53,12 +53,12 @@ public:
 protected:
     const IndexHash& getIndexHash(LineList* lineList );
 
-    /* @short we need to override the update routine because stars are
+    /** @short we need to override the update routine because stars are
      * updated differently from mere SkyPoints.
      */
     virtual void JITupdate( LineList* lineList );
 
-    /* @short Set the QColor and QPen for drawing. */
+    /** @short Set the QColor and QPen for drawing. */
     virtual void preDraw( SkyPainter* skyp );
 
     bool selected();

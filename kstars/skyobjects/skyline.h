@@ -48,7 +48,7 @@ public:
      */
     void append( SkyPoint *p );
 
-    /**@return a const pointer to a point in the SkyLine
+    /** @return a const pointer to a point in the SkyLine
      * param i the index position of the point
      */
     inline SkyPoint* point( int i ) const { return m_pList[i]; }
@@ -64,7 +64,7 @@ public:
      */
     void setPoint( int i, SkyPoint *p );
 
-    /**@return the angle subtended by any line segment along the SkyLine.
+    /** @return the angle subtended by any line segment along the SkyLine.
      * @param i the index of the line segment to be measured.
      * If no argument is given, the first segment is assumed.
      */

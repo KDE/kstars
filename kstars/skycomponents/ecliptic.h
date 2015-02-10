@@ -32,7 +32,7 @@ class Ecliptic : public LineListIndex
 {
 public:
 
-    /* @short Constructor
+    /** @short Constructor
      * @p parent pointer to the parent SkyComposite object
      * name is the name of the subclass
      */

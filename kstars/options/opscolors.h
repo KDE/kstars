@@ -21,7 +21,7 @@
 
 #include "ui_opscolors.h"
 
-/**@class OpsColors
+/** @class OpsColors
 	*The Colors page allows the user to adjust all of the colors used to 
 	*display the night sky.  The colors are presented as a list of 
 	*colored rectangles and a description of its assignment in the map.  

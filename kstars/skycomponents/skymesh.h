@@ -56,7 +56,7 @@ enum MeshBufNum_t {
     NUM_MESH_BUF
 };
 
-/*@class SkyMesh
+/** @class SkyMesh
  * Provides an interface to the Hierarchical Triangular Mesh (HTM) library
  * written by A. Szalay, John Doug Reynolds, Jim Gray, and Peter Z. Kunszt.
  *
@@ -99,7 +99,7 @@ protected:
     SkyMesh( SkyMesh& skyMesh );
 
 public:
-    /* @short creates the single instance of SkyMesh.  The level indicates
+    /** @short creates the single instance of SkyMesh.  The level indicates
      * how fine a mesh we will use. The number of triangles (trixels) in the
      * mesh will be 8 * 4^level so a mesh of level 5 will have 8 * 4^5 = 8 *
      * 2^10 = 8192 trixels.  The size of the triangles are roughly pi / *
@@ -108,7 +108,7 @@ public:
            */
     static SkyMesh* Create( int level );
 
-    /* @short returns the default instance of SkyMesh or null if it has not
+    /** @short returns the default instance of SkyMesh or null if it has not
      * yet been created.
      */
     static SkyMesh* Instance();
@@ -135,7 +135,7 @@ public:
      */
     void aperture( SkyPoint *center, double radius, MeshBufNum_t bufNum=DRAW_BUF );
 
-    /* @short returns the index of the trixel containing p.
+    /** @short returns the index of the trixel containing p.
      */
     Trixel index( const SkyPoint *p );
 
@@ -147,88 +147,98 @@ public:
      */
     const SkyRegion& skyRegion( const SkyPoint& p1, const SkyPoint& p2 );
 
-    //----- Stars and CLines -----
+    /** @name Stars and CLines
+    Routines used for indexing stars and CLines.
+    The following four routines are used for indexing stars and CLines.
+    They differ from the normal routines because they take proper motion
+    into account while the normal routines always index the J2000
+    position.
 
-    // The follow four routines are used for indexing stars and CLines.
-    // They differ from the normal routines because they take proper motion
-    // into account while the normal routines always index the J2000
-    // position.
-    //
-    // Since the proper motion depends on time, it is essential to call
-    // setKSNumbers to set the time before doing the indexing.  The default
-    // value is J2000.
+    Since the proper motion depends on time, it is essential to call
+    setKSNumbers to set the time before doing the indexing.  The default
+    value is J2000.
+    */
 
-    /* @short sets the time for indexing StarObjects and CLines.
+    /** @{*/
+
+    /** @short sets the time for indexing StarObjects and CLines.
      */
     void setKSNumbers( KSNumbers* num ) { m_KSNumbers = KSNumbers( *num ); }
 
-    /* @short returns the trixel that contains the star at the set
+    /** @short returns the trixel that contains the star at the set
      * time with proper motion taken into account but not precession.
      * This is a feature not a bug.
      */
     Trixel indexStar( StarObject *star );
 
-    /* @short fills the default buffer with all the trixels needed to cover
+    /** @short fills the default buffer with all the trixels needed to cover
      * the line connecting the two stars.
      */
     void indexStar( StarObject* star1, StarObject* star2 );
 
-    /* @short Fills a hash with all the trixels needed to cover all the line
+    /** @short Fills a hash with all the trixels needed to cover all the line
      * segments in the SkyList where each SkyPoint is assumed to be a star
      * and proper motion is taken into account.  Used only by
      * ConstellationsLines.
      */
     const IndexHash& indexStarLine( SkyList* points );
 
+    /** @}*/
 
     //----- Here come index routines for various shapes -----
 
-    //--- First the QPointF routines ---
+    /** @name Multi Shape Index Routines
+     * The first two routines use QPoint and the rest use SkyPoint
+    */
 
-    /* @short finds the indices of the trixels that cover the triangle
+    /** @{*/
+
+    /** @short finds the indices of the trixels that cover the triangle
      * specified by the three QPointF's.
      */
     void index( const QPointF &p1, const QPointF &p2, const QPointF &p3 );
 
-    /* @short Finds the trixels needed to cover the quadrilateral specified
+    /** @short Finds the trixels needed to cover the quadrilateral specified
      * by the four QPointF's.
      */
     void index( const QPointF &p1, const QPointF &p2, const QPointF &p3,
                 const QPointF &p4 );
 
 
-    //--- Now the SkyPoint Routines ---
-
-    /* @short finds the indices of the trixels covering the circle specified
+    /** @short finds the indices of the trixels covering the circle specified
      * by center and radius.
      */
     void index( const SkyPoint *center, double radius, MeshBufNum_t bufNum=DRAW_BUF );
 
-    /* @short finds the indices of the trixels covering the line segment
+    /** @short finds the indices of the trixels covering the line segment
      * connecting p1 and p2.
      */
     void index( const SkyPoint* p1, const SkyPoint* p2 );
 
-    /* @short finds the indices of the trixels covering the triangle
+    /** @short finds the indices of the trixels covering the triangle
      * specified by vertices: p1, p2, and p3.
      */
     void index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3 );
 
-    /* @short finds the indices of the trixels covering the quadralateral
+    /** @short finds the indices of the trixels covering the quadralateral
      * specified by the vertices: p1, p2, p3, and p4.
      */
     void index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3, const SkyPoint* p4 );
 
+    /** @}*/
 
-    //----- IndexHash Routines -----
+    /** @name IndexHash Routines
 
-    // The follow routines are used to index SkyList data structures.  They
-    // fill a QHash with the indices of the trixels that cover the data
-    // structure.  These are all used as callbacks in the LineListIndex
-    // subclasses so they can use the same indexing code to index differnt
-    // data structures.  See also indexStarLine() above.
+    The follow routines are used to index SkyList data structures.  They
+    fill a QHash with the indices of the trixels that cover the data
+    structure.  These are all used as callbacks in the LineListIndex
+    subclasses so they can use the same indexing code to index differnt
+    data structures.  See also indexStarLine() above.
+    */
 
-    /* @short fills a QHash with the trixel indices needed to cover all the
+    /** @{*/
+
+    /** @short fills a QHash with the trixel indices needed to cover all the
      * line segments specified in the QVector<SkyPoints*> points.
      *
      * @param points the points of the line segment.  @debug causes extra
@@ -236,7 +246,7 @@ public:
      */
     const IndexHash& indexLine( SkyList* points );
 
-    /* @short as above but allows for skipping the indexing of some of
+    /** @short as above but allows for skipping the indexing of some of
      * the points.
      *
      * @param points the line segment to be indexed.
@@ -247,7 +257,7 @@ public:
      */
     const IndexHash& indexLine( SkyList* points, IndexHash* skip );
 
-    /* @short fills a QHash with the trixel indices needed to cover the
+    /** @short fills a QHash with the trixel indices needed to cover the
      * polygon specified in the QList<SkyPoints*> points.  There is no
      * version with a skip parameter because it does not make sense to
      * skip some of the edges of a filled polygon.
@@ -257,33 +267,35 @@ public:
      */
     const IndexHash& indexPoly( SkyList* points );
 
-    /* @short does the same as above but with a QPolygonF as the
+    /** @short does the same as above but with a QPolygonF as the
      * container for the points.
      */
     const IndexHash& indexPoly( const QPolygonF* points );
 
-    /* @short Returns the debug level.  This is used as a global debug level
+    /** @}*/
+
+    /** @short Returns the debug level.  This is used as a global debug level
      * for LineListIndex and its subclasses.
      */
     int debug() const { return m_debug; }
 
-    /* @short Sets the debug level.
+    /** @short Sets the debug level.
      */
     void debug( int debug ) { m_debug = debug; }
 
-    /* @return the current drawID which gets incremented each time aperture()
+    /** @return the current drawID which gets incremented each time aperture()
      * is called.
      */
     DrawID drawID( ) const { return m_drawID; }
 
-    /* @short increments the drawID and returns the new value.  This is
+    /** @short increments the drawID and returns the new value.  This is
      * useful when you want to use the drawID to ensure you are not
      * repeating yourself when iterating over the elements of an IndexHash.
      * It is currently used in LineListIndex::reindex().
      */
     int incDrawID() { return ++m_drawID; }
 
-    /* @short Draws the outline of all the trixels in the specified buffer.
+    /** @short Draws the outline of all the trixels in the specified buffer.
      * This was very useful during debugging.  I don't precess the points
      * because I mainly use it with the IN_CONSTELL_BUF which is not
      * precessed.  We will probably have buffers serve double and triple

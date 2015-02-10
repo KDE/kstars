@@ -22,7 +22,7 @@
 
 #include <kplotwidget.h>
 
-/**@class AVTPlotWidget
+/** @class AVTPlotWidget
     *@short An extension of the KPlotWidget for the AltVsTime tool.
     *The biggest difference is that in addition to the plot objects, it
     *draws the "ground" below Alt=0 and draws the sky light blue for day

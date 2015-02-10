@@ -25,7 +25,7 @@
 
 #include "kstarsdatetime.h"
 
-/**@class SimClock
+/** @class SimClock
 	*@short kstars simulation clock
 	*@author Mark Hollomon
 	*@version 1.0
@@ -43,10 +43,10 @@ public:
      */
     explicit SimClock(QObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTime() );
 
-    /**@return const reference to the current simulation Universal Time. */
+    /** @return const reference to the current simulation Universal Time. */
     const KStarsDateTime& utc() const { return UTC; }
 
-    /**Whether the clock is active or not is a bit complicated by the
+    /** Whether the clock is active or not is a bit complicated by the
     	*introduction of "manual mode".  In manual mode, SimClock's internal timer
     	*is stopped, because the clock is ticked manually when the current update
     	*has finished.  So, if ManualMode is true, then isActive() checks
@@ -56,10 +56,10 @@ public:
     	*/
     bool isActive();
 
-    /**@returns the current timestep setting */
+    /** @returns the current timestep setting */
     double scale() const { return Scale; }
 
-    /**Manual Mode is a new (04/2002) addition to the SimClock.  It is
+    /** Manual Mode is a new (04/2002) addition to the SimClock.  It is
     	*intended to be activated for large timesteps, when we want each frame
     	*drawn to the screen to be precisely Scale seconds later than the
     	*previous frame.  (i.e., if the timescale is 1 year, then each successive
@@ -87,10 +87,10 @@ public Q_SLOTS:
     /** DBUS function to set scale of simclock. */
     Q_SCRIPTABLE Q_NOREPLY void setClockScale(float s);
 
-    /**Respond to the QTimer::timeout signal */
+    /** Respond to the QTimer::timeout signal */
     void tick();
 
-    /**Equivalent of tick() for manual mode.
+    /** Equivalent of tick() for manual mode.
      * If ManualActive is true, add Scale seconds to the SimClock time.
      * (we may want to modify this slightly...e.g., the number of seconds in a
      * year is not constant (leap years), so it is better to increment the
@@ -98,13 +98,13 @@ public Q_SLOTS:
     void manualTick( bool force=false );
 
 signals:
-    /**The time has changed (emitted by setUTC() ) */
+    /** The time has changed (emitted by setUTC() ) */
     void timeChanged();
 
-    /**The clock has ticked (emitted by tick() )*/
+    /** The clock has ticked (emitted by tick() )*/
     void timeAdvanced();
 
-    /**The timestep has changed*/
+    /** The timestep has changed*/
     void scaleChanged(float);
 
     /** This is an signal that is called on either clock start or

@@ -38,7 +38,7 @@ public:
 
     virtual void update( KSNumbers *num );
 
-    /**@short Update the coordinates of the solar system bodies in this component.
+    /** @short Update the coordinates of the solar system bodies in this component.
      *
      * This function updates the position of the moving solar system bodies.
      * @p data Pointer to the KStarsData object

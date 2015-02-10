@@ -79,7 +79,7 @@ public:
     explicit ScriptBuilderUI( QWidget *p );
 };
 
-/**@class ScriptBuilder
+/** @class ScriptBuilder
 	*A GUI tool for building behavioral DBus scripts for KStars.
 	*@author Jason Harris
 	*@version 1.0

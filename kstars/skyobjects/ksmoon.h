@@ -21,7 +21,7 @@
 #include "ksplanetbase.h"
 #include "dms.h"
 
-/**@class KSMoon
+/** @class KSMoon
 	*A subclass of SkyObject that provides information
 	*needed for the Moon.  Specifically, KSMoon provides a moon-specific
 	*findPosition() function.  Also, there is a method findPhase(), which returns
@@ -45,7 +45,7 @@ public:
     virtual KSMoon* clone() const;
     virtual SkyObject::UID getUID() const;
 
-    /**Destructor (empty). */
+    /** Destructor (empty). */
     ~KSMoon();
 
     /**
@@ -56,10 +56,10 @@ public:
      */
     virtual void findPhase( const KSSun *Sun = 0 );
 
-    /**@return the illuminated fraction of the Moon as seen from Earth */
+    /** @return the illuminated fraction of the Moon as seen from Earth */
     double illum() const { return 0.5*(1.0 - cos( Phase * dms::PI / 180.0 ) ); }
 
-    /**@return a short string describing the moon's phase */
+    /** @return a short string describing the moon's phase */
     QString phaseName() const;
 
     /** reimplemented from KSPlanetBase */
@@ -95,7 +95,7 @@ private:
     static bool data_loaded;
     static int instance_count;
 
-    /**@class MoonLRData
+    /** @class MoonLRData
      * Encapsulates the Longitude and radius terms of the sums
      * used to compute the moon's position.
      * @short Moon Longitude and radius data object
@@ -113,7 +113,7 @@ private:
 
     static QList<MoonLRData> LRData;
 
-    /**@class MoonBData
+    /** @class MoonBData
      * Encapsulates the Latitude terms of the sums
      * used to compute the moon's position.
      * @short Moon Latitude data object

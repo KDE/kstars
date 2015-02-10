@@ -31,7 +31,7 @@ public:
     ObsListWizardUI( QWidget *p );
 };
 
-/**@class ObsListWizard
+/** @class ObsListWizard
  *@short Wizard for constructing observing lists
  *@author Jason Harris
  */
@@ -39,12 +39,12 @@ class ObsListWizard : public QDialog
 {
     Q_OBJECT
 public:
-    /**@short Constructor */
+    /** @short Constructor */
     ObsListWizard( QWidget *parent );
-    /**@short Destructor */
+    /** @short Destructor */
     ~ObsListWizard();
 
-    /**@return reference to QPtrList of objects selected by the wizard */
+    /** @return reference to QPtrList of objects selected by the wizard */
     QList<SkyObject*>& obsList() { return ObsList; }
 
 private slots:
@@ -60,7 +60,7 @@ private slots:
 
     void slotParseRegion();
 
-    /**@short Construct the observing list by applying the selected filters
+    /** @short Construct the observing list by applying the selected filters
     	*/
     void slotObjectCountDirty();
     void slotUpdateObjectCount();
@@ -69,7 +69,7 @@ private slots:
 private:
     void initialize();
     void applyFilters( bool doBuildList );
-    /**@return true if the object passes the filter region constraints, false otherwise.*/
+    /** @return true if the object passes the filter region constraints, false otherwise.*/
     bool applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount=true );
     bool applyObservableFilter( SkyObject *o, bool doBuildList, bool doAdjustCount=true);
 

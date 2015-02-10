@@ -1,5 +1,5 @@
 /***************************************************************************
-                          fovwidget.cpp  -  description
+                          infoboxwidet.h  -  description
                              -------------------
     begin                : 20 Aug 2009
     copyright            : (C) 2009 by Khudyakov Alexey
@@ -28,6 +28,9 @@ class SkyPoint;
 class SkyObject;
 class InfoBoxWidget;
 
+/**
+ * @brief The InfoBoxes class is a collection of InfoBoxWidget objects that display a transparent box for display of text messages
+ */
 class InfoBoxes : public QWidget
 {
     Q_OBJECT
@@ -44,7 +47,9 @@ private:
     QList<InfoBoxWidget*> m_boxes;
 };
 
-/** Small optianally transparent box for display of text messages. */
+/**
+* @brief The InfoBoxWidget class is a widget that displays a transparent box for display of text messages.
+*/
 class InfoBoxWidget : public QWidget
 {
     Q_OBJECT

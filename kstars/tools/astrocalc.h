@@ -41,7 +41,7 @@ public:
 
     ~AstroCalc();
 
-    /**@returns suggested size of calculator window. */
+    /** @returns suggested size of calculator window. */
     QSize sizeHint() const;
 public slots:
     /** Display calculator module or help text based on item selected.

@@ -23,7 +23,7 @@ class KStars;
 class QColor;
 class KPlotWidget;
 
-/**@class JMoonTool
+/** @class JMoonTool
 	*@short Display the positions of Jupiter's moons as a function of time
 	*@version 1.0
 	*@author Jason Harris

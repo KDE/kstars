@@ -32,7 +32,7 @@ public:
 };
 
 
-/**@class FocusDialog
+/** @class FocusDialog
 	*@short A small dialog for setting the focus coordinates manually.
 	*@author Jason Harris
 	*@version 1.0
@@ -46,13 +46,13 @@ public:
     /**Destructor (empty). */
     ~FocusDialog();
 
-    /**@return pointer to the SkyPoint described by the entered RA, Dec */
+    /** @return pointer to the SkyPoint described by the entered RA, Dec */
     inline SkyPoint& point() { return Point; }
 
-    /**@return suggested size of focus window. */
+    /** @return suggested size of focus window. */
     QSize sizeHint() const;
 
-    /**@return whether user set the AltAz coords */
+    /** @return whether user set the AltAz coords */
     inline bool usedAltAz() const { return UsedAltAz; }
 
     /**

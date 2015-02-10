@@ -25,7 +25,7 @@
 #include <cmath>
 #include "nan.h"
 
-/**@class dms
+/** @class dms
  * @short An angle, stored as degrees, but expressible in many ways.
  * @author Jason Harris
  * @version 1.0
@@ -44,7 +44,7 @@ public:
     /** Default constructor. */
     dms() : D( NaN::d ) {}
 
-    /**@short Set the floating-point value of the angle according to the four integer arguments.
+    /** @short Set the floating-point value of the angle according to the four integer arguments.
      * @param d degree portion of angle (int).  Defaults to zero.
      * @param m arcminute portion of angle (int).  Defaults to zero.
      * @param s arcsecond portion of angle (int).  Defaults to zero.
@@ -52,14 +52,14 @@ public:
      */
     explicit dms( const int &d, const int &m=0, const int &s=0, const int &ms=0 ) { setD( d, m, s, ms ); }
 
-    /**@short Construct an angle from a double value.
+    /** @short Construct an angle from a double value.
      *
      * Creates an angle whose value in Degrees is equal to the argument.
      * @param x angle expressed as a floating-point number (in degrees)
      */
     explicit dms( const double &x ) : D(x) {}
 
-    /**@short Construct an angle from a string representation.
+    /** @short Construct an angle from a string representation.
      *
      * Attempt to create the angle according to the string argument.  If the string
      * cannot be parsed as an angle value, the angle is set to zero.
@@ -74,62 +74,62 @@ public:
      */
     explicit dms( const QString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
 
-    /**@return integer degrees portion of the angle
+    /** @return integer degrees portion of the angle
      */
     inline int degree() const { return int( D ) ; }
 
-    /**@return integer arcminutes portion of the angle.
+    /** @return integer arcminutes portion of the angle.
      * @note an arcminute is 1/60 degree.
      */
     int arcmin() const;
 
-    /**@return integer arcseconds portion of the angle
+    /** @return integer arcseconds portion of the angle
      * @note an arcsecond is 1/60 arcmin, or 1/3600 degree.
      */
     int arcsec() const;
 
-    /**@return integer milliarcseconds portion of the angle
+    /** @return integer milliarcseconds portion of the angle
      * @note a  milliarcsecond is 1/1000 arcsecond.
      */
     int marcsec() const;
 
-    /**@return angle in degrees expressed as a double.
+    /** @return angle in degrees expressed as a double.
     	*/
     inline const double& Degrees() const { return D; }
 
-    /**@return integer hours portion of the angle
+    /** @return integer hours portion of the angle
      * @note an angle can be measured in degrees/arcminutes/arcseconds
      * or hours/minutes/seconds.  An hour is equal to 15 degrees.
      */
     inline int hour() const { return int( reduce().Degrees()/15.0 ); }
 
-    /**@return integer minutes portion of the angle
+    /** @return integer minutes portion of the angle
      * @note a minute is 1/60 hour (not the same as an arcminute)
      */
     int minute() const;
 
-    /**@return integer seconds portion of the angle
+    /** @return integer seconds portion of the angle
      * @note a second is 1/3600 hour (not the same as an arcsecond)
      */
     int second() const;
 
-    /**@return integer milliseconds portion of the angle
+    /** @return integer milliseconds portion of the angle
      * @note a millisecond is 1/1000 second (not the same as a milliarcsecond)
      */
     int msecond() const;
 
-    /**@return angle in hours expressed as a double.
+    /** @return angle in hours expressed as a double.
      * @note an angle can be measured in degrees/arcminutes/arcseconds
      * or hours/minutes/seconds.  An hour is equal to 15 degrees.
      */
     inline double Hours() const { return reduce().Degrees()/15.0; }
 
-    /**Sets floating-point value of angle, in degrees.
+    /** Sets floating-point value of angle, in degrees.
      * @param x new angle (double)
      */
     void setD( const double &x ) { D = x; }
 
-    /**@short Sets floating-point value of angle, in degrees.
+    /** @short Sets floating-point value of angle, in degrees.
      * 
      * This is an overloaded member function; it behaves essentially
      * like the above function.  The floating-point value of the angle
@@ -145,7 +145,7 @@ public:
      */
     void setD( const int &d, const int &m, const int &s, const int &ms=0 );
 
-    /**@short Sets floating-point value of angle, in hours.
+    /** @short Sets floating-point value of angle, in hours.
      * 
      * Converts argument from hours to degrees, then
      * sets floating-point value of angle, in degrees.
@@ -154,7 +154,7 @@ public:
      */
     void setH( const double &x );
 
-    /**@short Sets floating-point value of angle, in hours.
+    /** @short Sets floating-point value of angle, in hours.
      * 
      * Converts argument values from hours to degrees, then
      * sets floating-point value of angle, in degrees.
@@ -168,7 +168,7 @@ public:
      */
     void setH( const int &h, const int &m, const int &s, const int &ms=0 );
 
-    /**@short Attempt to parse the string argument as a dms value, and set the dms object
+    /** @short Attempt to parse the string argument as a dms value, and set the dms object
      * accordingly.
      * @param s the string to be parsed as a dms value.  The string can be an int or
      * floating-point value, or a triplet of values (d/h, m, s) separated by spaces or colons.
@@ -178,7 +178,7 @@ public:
      */
     bool setFromString( const QString &s, bool isDeg=true );
 
-    /**@short Compute Sine and Cosine of the angle simultaneously.
+    /** @short Compute Sine and Cosine of the angle simultaneously.
      * On machines using glibc >= 2.1, calling SinCos() is somewhat faster
      * than calling sin() and cos() separately.
      * The values are returned through the arguments (passed by reference).
@@ -189,26 +189,26 @@ public:
      */
     inline void SinCos( double &s, double &c ) const;
 
-    /**@short Compute the Angle's Sine.
+    /** @short Compute the Angle's Sine.
      *
      * @return the Sine of the angle.
      * @sa cos()
      */
     double sin() const { return ::sin(D*DegToRad); }
 
-    /**@short Compute the Angle's Cosine.
+    /** @short Compute the Angle's Cosine.
      *
      * @return the Cosine of the angle.
      * @sa sin()
      */
     double cos() const { return ::cos(D*DegToRad); }
 
-    /**@short Express the angle in radians.
+    /** @short Express the angle in radians.
      * @return the angle in radians (double)
      */
     double radians() const { return D*DegToRad; }
 
-    /**@short Set angle according to the argument, in radians.
+    /** @short Set angle according to the argument, in radians.
      *
      * This function converts the argument to degrees, then sets the angle
      * with setD().
@@ -216,32 +216,32 @@ public:
      */
     void setRadians( const double &a );
 
-    /**return the equivalent angle between 0 and 360 degrees.
+    /** return the equivalent angle between 0 and 360 degrees.
      * @warning does not change the value of the parent angle itself.
      */
     const dms reduce() const;
 
-    /**@return a nicely-formatted string representation of the angle
+    /** @return a nicely-formatted string representation of the angle
      * in degrees, arcminutes, and arcseconds.
      */
     const QString toDMSString(const bool forceSign = false) const;
 
-    /**@return a nicely-formatted string representation of the angle
+    /** @return a nicely-formatted string representation of the angle
      * in hours, minutes, and seconds.
      */
     const QString toHMSString() const;
 
-    /**PI is a const static member; it's public so that it can be used anywhere,
+    /** PI is a const static member; it's public so that it can be used anywhere,
      * as long as dms.h is included.
      */
     static const double PI;
 
-    /**DegToRad is a const static member equal to the number of radians in
+    /** DegToRad is a const static member equal to the number of radians in
      * one degree (dms::PI/180.0).
      */
     static const double DegToRad;
 
-    /**@short Static function to create a DMS object from a QString.
+    /** @short Static function to create a DMS object from a QString.
      *
      * There are several ways to specify the angle:
      * @li Integer numbers  ( 5 or -33 )

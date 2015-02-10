@@ -29,7 +29,7 @@ class AsteroidsComponent;
 class CometsComponent;
 class SkyLabeler;
 
-/**@class SolarSystemComposite
+/** @class SolarSystemComposite
 * The solar system composite manages all planets, asteroids and comets.
 * As every sub component of solar system needs the earth , the composite
 * is managing this object by itself.

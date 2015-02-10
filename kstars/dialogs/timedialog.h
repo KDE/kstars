@@ -34,7 +34,7 @@ class QTimeEdit;
 class QPushButton;
 class GeoLocation;
 
-/**@class TimeDialog
+/** @class TimeDialog
   *A class for adjusting the Time and Date.  Contains a KDatePicker widget
   *for selecting the date, and a QTimeEdit for selecting the time.  There 
   *is also a "Now" button for selecting the Time and Date from the system clock.
@@ -57,15 +57,15 @@ public:
     	*/
     ~TimeDialog() {}
 
-    /**@returns a QTime object with the selected time
+    /** @returns a QTime object with the selected time
     	*/
     QTime selectedTime( void );
 
-    /**@returns a QDate object with the selected date
+    /** @returns a QDate object with the selected date
     	*/
     QDate selectedDate( void );
 
-    /**@returns a KStarsDateTime object with the selected date and time
+    /** @returns a KStarsDateTime object with the selected date and time
     	*/
     KStarsDateTime selectedDateTime( void );
 

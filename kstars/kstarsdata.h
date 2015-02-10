@@ -54,7 +54,7 @@ class TimeZoneRule;
 struct ADVTreeData;
 
 
-/**@class KStarsData
+/** @class KStarsData
 	*KStarsData is the backbone of KStars.  It contains all the data used by KStars,
 	*including the SkyMapComposite that contains all items in the skymap
 	*(stars, deep-sky objects, planets, constellations, etc).  Other kinds of data
@@ -103,10 +103,10 @@ public:
      */
     bool isTimeRunningForward() const { return TimeRunsForward; }
 
-    /**@return pointer to the localization (KLocale) object */
+    /** @return pointer to the localization (KLocale) object */
     //KLocale *getLocale() { return locale; }
 
-    /**@short Find object by name.
+    /** @short Find object by name.
      * @param name Object name to find
      * @return pointer to SkyObject matching this name
      */
@@ -138,22 +138,22 @@ public:
     /** @return pointer to SkyComposite */
     SkyMapComposite* skyComposite() { return m_SkyComposite; }
 
-    /**@return pointer to the ColorScheme object */
+    /** @return pointer to the ColorScheme object */
     ColorScheme *colorScheme() { return &CScheme; }
 
-    /**@return pointer to the KSUserDB object */
+    /** @return pointer to the KSUserDB object */
     KSUserDB *userdb() { return &m_ksuserdb; }
 
-    /**@return pointer to the Catalog DB object */
+    /** @return pointer to the Catalog DB object */
     CatalogDB *catalogdb() { return &m_catalogdb; }
 
-    /**@return pointer to the simulation Clock object */
+    /** @return pointer to the simulation Clock object */
     SimClock *clock() { return &Clock; }
 
-    /**@return pointer to the local sidereal time: a dms object */
+    /** @return pointer to the local sidereal time: a dms object */
     dms *lst() { return &LST; }
 
-    /**@return pointer to the GeoLocation object*/
+    /** @return pointer to the GeoLocation object*/
     GeoLocation *geo() { return &m_Geo; }
 
     /** @return list of all geographic locations */
@@ -236,7 +236,7 @@ signals:
     void geoChanged();
 
 public slots:
-    /**@short send a message to the console*/
+    /** @short send a message to the console*/
     void slotConsoleMessage( QString s ) { std::cout << (const char*)(s.toLocal8Bit()) << std::endl; }
 
     /**Update the Simulation Clock.  Update positions of Planets.  Update

@@ -24,7 +24,7 @@
 #include "ksplanetbase.h"
 #include "dms.h"
 
-/**@class KSPlanet
+/** @class KSPlanet
  *A subclass of KSPlanetBase for seven of the major planets in the solar system
  *(Earth and Pluto have their own specialized classes derived from KSPlanetBase).  
  *@note The Sun is subclassed from KSPlanet.
@@ -65,17 +65,17 @@ public:
      */
     virtual ~KSPlanet() {}
 
-    /**@short return the untranslated name
+    /** @short return the untranslated name
      *This is a dirty way to solve a lot of localization-related trouble for the KDE 4.2 release
      *TODO: Change the whole architecture for names later
      */
     QString untranslatedName( void ) const;
 
-    /**@short Preload the data used by findPosition.
+    /** @short Preload the data used by findPosition.
     	*/
     virtual bool loadData();
 
-    /**Calculate the ecliptic longitude and latitude of the planet for
+    /** Calculate the ecliptic longitude and latitude of the planet for
     	*the given date (expressed in Julian Millenia since J2000).  A reference
     	*to the ecliptic coordinates is returned as the second object.
     	*@param jm Julian Millenia (=jd/1000)
@@ -87,7 +87,7 @@ protected:
 
     bool data_loaded;
 
-    /**Calculate the geocentric RA, Dec coordinates of the Planet.
+    /** Calculate the geocentric RA, Dec coordinates of the Planet.
     	*@note reimplemented from KSPlanetBase
     	*@param num pointer to object with time-dependent values for the desired date
     	*@param Earth pointer to the planet Earth (needed to calculate geocentric coords)
@@ -95,7 +95,7 @@ protected:
     	*/
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
-    /**@class OrbitData
+    /** @class OrbitData
     	*This class contains doubles A,B,C which represent a single term in a planet's
     	*positional expansion sums (each sum-term is A*COS(B+C*T)).
     	*@author Mark Hollomon
@@ -125,7 +125,7 @@ protected:
 
     typedef QVector<OrbitData> OBArray[6];
 
-    /**OrbitDataColl contains three groups of six QVectors.  Each QVector is a
+    /** OrbitDataColl contains three groups of six QVectors.  Each QVector is a
     	*list of OrbitData objects, representing a single sum used in computing
     	*the planet's position.  A set of six of these vectors comprises the large
     	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
@@ -143,7 +143,7 @@ protected:
     };
 
 
-    /**OrbitDataManager places the OrbitDataColl objects for all planets in a QDict
+    /** OrbitDataManager places the OrbitDataColl objects for all planets in a QDict
     	*indexed by the planets' names.  It also loads the positional data of each planet
     	*from disk.
     	*@author Mark Hollomon
@@ -151,10 +151,10 @@ protected:
     	*/
     class OrbitDataManager {
     public:
-        /**Constructor*/
+        /** Constructor*/
         OrbitDataManager();
 
-        /**Load orbital data for a planet from disk.
+        /** Load orbital data for a planet from disk.
         	*The data is stored on disk in a series of files named 
         	*"name.[LBR][0...5].vsop", where "L"=Longitude data, "B"=Latitude data,
         	*and R=Radius data.
@@ -165,7 +165,7 @@ protected:
         bool loadData( OrbitDataColl &odc, const QString &n);
 
     private:
-        /**Read a single orbital data file from disk into an OrbitData vector.
+        /** Read a single orbital data file from disk into an OrbitData vector.
         *The data files are named "name.[LBR][0...5].vsop", where 
         *"L"=Longitude data, "B"=Latitude data, and R=Radius data.
         *@param fname the filename to be read.

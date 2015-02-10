@@ -34,7 +34,7 @@ public:
     explicit FindDialogUI( QWidget *parent=0 );
 };
 
-/**@class FindDialog
+/** @class FindDialog
  * Dialog window for finding SkyObjects by name.  The dialog contains
  * a QListBox showing the list of named objects, a QLineEdit for filtering
  * the list by name, and a QCombobox for filtering the list by object type.
@@ -92,12 +92,12 @@ protected:
 
 private:
 
-    /**@short Do some post processing on the search text to interpret what the user meant
+    /** @short Do some post processing on the search text to interpret what the user meant
      * This could include replacing text like "m93" with "m 93"
      */
      QString processSearchText();
 
-    /**@short pre-filter the list of objects according to the
+    /** @short pre-filter the list of objects according to the
      * selected object type.
      */
     void filterByType();

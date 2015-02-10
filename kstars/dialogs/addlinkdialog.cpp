@@ -19,6 +19,7 @@
 
 #include <QPushButton>
 #include <QUrl>
+#include <QDesktopServices>
 
 #include <KMessageBox>
 #include <KToolInvocation>
@@ -56,12 +57,12 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 void AddLinkDialog::checkURL( void ) {
     QUrl _url ( url() );
     if ( _url.isValid() ) {   //Is the string a valid URL?
-        KToolInvocation::invokeBrowser( _url.url() );   //If so, launch the browser to see if it's the correct document
+       QDesktopServices::openUrl(_url.url() );   //If so, launch the browser to see if it's the correct document
     } else {   //If not, print a warning message box that offers to open the browser to a search engine.
         QString message = xi18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
         QString caption = xi18n( "Invalid URL" );
         if ( KMessageBox::warningYesNo( 0, message, caption, KGuiItem(xi18n("Browse Google")), KGuiItem(xi18n("Do Not Browse")) )==KMessageBox::Yes ) {
-            KToolInvocation::invokeBrowser( "http://www.google.com" );
+            QDesktopServices::openUrl( QUrl("http://www.google.com") );
         }
     }
 }

@@ -53,7 +53,7 @@ class DeepSkyObject;
 class KSPlanetBase;
 class KSPlanet;
 
-/**@class SkyMapComposite
+/** @class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
 *All requests to update, init, draw etc. will be done with this class.
 *The requests will be delegated to it's children.

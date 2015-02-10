@@ -26,7 +26,7 @@
 #include "ui_fovdialog.h"
 #include "ui_newfov.h"
 
-/**@class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)
+/** @class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)
 	*@author Jason Harris
 	*@version 1.0
 	*/
@@ -66,7 +66,7 @@ private:
     static int fovID;
 };
 
-/**@class NewFOV Dialog for defining a new FOV symbol
+/** @class NewFOV Dialog for defining a new FOV symbol
 	*@author Jason Harris
 	*@version 1.0
 	*/

@@ -23,7 +23,7 @@
 #define ALLUNITS 8
 #define DAYUNITS 5
 
-/**@class TimeUnitBox
+/** @class TimeUnitBox
  *A pair of buttons, arranged one above the other, labeled "+"/"-".  These buttons 
  *are to be paired with the TimeSpinBox widget.  Their function is to provide 
  *a way to cycle through the possible time steps using larger intervals than the up/down
@@ -49,10 +49,10 @@ public:
     explicit TimeUnitBox(QWidget *parent=0, bool daysonly = false);
     /**Destructor (empty)*/
     ~TimeUnitBox();
-    /**@return the value of UnitStep for the current spinbox value() */
+    /** @return the value of UnitStep for the current spinbox value() */
     int unitValue();
 
-    /**@short the same as unitValue, except you can get the UnitStep for any value, not just the current one.
+    /** @short the same as unitValue, except you can get the UnitStep for any value, not just the current one.
     	*@return the value of UnitStep for the index value given as an argument.
     	*/
     int getUnitValue( int );
@@ -61,7 +61,7 @@ public:
     	*@p value the new value
     	*/
     void setValue( int value ) { Value = value; }
-    /**@return the internal value describing the time-unit of the TimeSpinBox.
+    /** @return the internal value describing the time-unit of the TimeSpinBox.
     	*/
     int value() const { return Value; }
 
@@ -72,10 +72,10 @@ public:
     	*/
     void setMaximum( int maxValue ) { MaximumValue = maxValue; }
 
-    /**@return the minimum value for the internal time-unit value
+    /** @return the minimum value for the internal time-unit value
     	*/
     int minValue() const { return MinimumValue; }
-    /**@return the maximum value for the internal time-unit value
+    /** @return the maximum value for the internal time-unit value
     	*/
     int maxValue() const { return MaximumValue; }
 

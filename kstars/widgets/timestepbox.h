@@ -22,7 +22,7 @@
 #include "timespinbox.h"
 #include "timeunitbox.h"
 
-/**@class TimeStepBox
+/** @class TimeStepBox
  *This composite widget consists of a TimeSpinBox (a QSpinBox), coupled with a 
  *TimeUnitBox (a second pair of up/down buttons).
  *The second set of buttons makes larger steps through the 82 possible 
@@ -39,10 +39,10 @@ public:
     /**Destructor. (empty)*/
     ~TimeStepBox() {}
 
-    /**@return a pointer to the child TimeSpinBox */
+    /** @return a pointer to the child TimeSpinBox */
     TimeSpinBox* tsbox() const { return timeBox; }
 
-    /**@return a pointer to the child TimeUnitBox*/
+    /** @return a pointer to the child TimeUnitBox*/
     TimeUnitBox* unitbox() const { return unitBox; }
 
     bool daysOnly() const { return DaysOnly; }

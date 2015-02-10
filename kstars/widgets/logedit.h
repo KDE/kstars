@@ -21,7 +21,7 @@
 #include <QTextEdit>
 #include <QFocusEvent>
 
-/**@class LogEdit is a simple derivative of QTextEdit, that just adds a
+/** @class LogEdit is a simple derivative of QTextEdit, that just adds a
 	*focusOut() signal, emitted when the edit loses focus.
 	*@author Jason Harris
 	*@version 1.0

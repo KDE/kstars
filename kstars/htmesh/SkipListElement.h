@@ -1,13 +1,12 @@
 #ifndef _SkipListElement_H
 #define _SkipListElement_H
 
-/*
-  File: SkipListElement.h
+/** \file SkipListElement.h
   Interface for skip list elements
   See William Pugh's paper: 
     Skip Lists: A Probabilistic Alternative to Balanced Trees
-  Author: Bruno Grossniklaus, 13.11.97
-  Version: 1.0
+  \author: Bruno Grossniklaus, 13.11.97
+  \version: 1.0
   History:
   13.11.97; Gro; Version 1.0
 */

@@ -23,7 +23,7 @@
 
 #include "dms.h"
 
-/**@class dmsBox
+/** @class dmsBox
 	*A QLineEdit which is capable of displaying and parsing angle values
 	*flexibly and robustly.  Angle values can be displayed and parsed as 
 	*Degrees or Hours.  When displaying a value, it uses a space-delimited
@@ -113,11 +113,11 @@ public:
     	*/
     dms createDms(bool deg=true, bool *ok=0);
 
-    /**@return a boolean indicating if object contains degrees or hours
+    /** @return a boolean indicating if object contains degrees or hours
     	*/
     bool degType(void) const {return deg;}
 
-    /**@short set the dmsBox to Degrees or Hours
+    /** @short set the dmsBox to Degrees or Hours
     	*@param t if true, the box expects angle values in degrees; otherwise 
     	*it expects values in hours
     	*/

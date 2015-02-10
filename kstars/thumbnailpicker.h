@@ -38,7 +38,7 @@ public:
     explicit ThumbnailPickerUI( QWidget *p );
 };
 
-/**@short Dialog for modifying an object's thumbnail image
+/** @short Dialog for modifying an object's thumbnail image
 	*@author Jason Harris
 	*/
 class ThumbnailPicker : public QDialog

@@ -34,7 +34,7 @@ public:
     bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const;
 };
 
-/**@class OpsSatellites
+/** @class OpsSatellites
  *The Satellites Tab of the Options window.  In this Tab the user can configure
  *satellites options and select satellites that should be draw 
  *@author Jérôme SONRIER

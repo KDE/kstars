@@ -21,7 +21,7 @@
 
 class KStars;
 
-/**@class OpsSolarSystem
+/** @class OpsSolarSystem
 	*The Solar System page for the Options window.  This page allows the user
 	*to modify display of solar system bodies in KStars, including the 
 	*major planets, the Sun and Moon, and the comets and asteroids.

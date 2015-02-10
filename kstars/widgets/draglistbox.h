@@ -26,7 +26,7 @@
 
 class QDragEnterEvent;
 
-/**@class DragListBox
+/** @class DragListBox
 	*@short Extension of KListWidget that allows Drag-and-Drop 
 	*with other DragListBoxes
 	*@author Jason Harris
@@ -36,11 +36,11 @@ class QDragEnterEvent;
 class DragListBox : public QListWidget {
     Q_OBJECT
 public:
-    /**@short Default constructor
+    /** @short Default constructor
      */
     explicit DragListBox( QWidget *parent = 0, const char* name = 0 );
 
-    /**@short Default destructor
+    /** @short Default destructor
      */
     ~DragListBox();
 

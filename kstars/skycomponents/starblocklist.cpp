@@ -89,7 +89,7 @@ bool StarBlockList::fillToMag( float maglim ) {
     if( readOffset <= 0 )
         readOffset = dSReader->getOffset( trixelId );
 
-    Q_ASSERT( nBlocks == blocks.size() );
+    Q_ASSERT( nBlocks == (unsigned int) blocks.size() );
 
     BinFileHelper::unsigned_KDE_fseek( dataFile, readOffset, SEEK_SET );
     

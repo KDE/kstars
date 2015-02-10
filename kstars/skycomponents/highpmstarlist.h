@@ -24,7 +24,7 @@
 class SkyMesh;
 struct HighPMStar;
 
-/* @class HighPMStarList
+/** @class HighPMStarList
  * Holds a list of stars with high proper motion along with the trixel each star
  * is currently located in.  The purpose of this class is to save some time by
  * only re-indexing the stars with high proper motion instead of the entire
@@ -40,40 +40,40 @@ struct HighPMStar;
 class HighPMStarList
 {
 public:
-    /* @short Constructor
+    /** @short Constructor
      */
     explicit HighPMStarList( double threshold );
 
     ~HighPMStarList();
 
-    /* @short adds the star located at trixel to the list if the pm is
+    /** @short adds the star located at trixel to the list if the pm is
      * greater than the threshold.  We also use the pm to determine the
      * update interval.  Returns true if the star was appended and false
      * otherwise.
      */
     bool append( Trixel trixel, StarObject* star, double pm );
 
-    /* @short returns the threshold.
+    /** @short returns the threshold.
      */
     double threshold() const { return m_threshold; }
 
-    /* @short returns the number of stars in the list.
+    /** @short returns the number of stars in the list.
      */
     int size() const { return m_stars.size(); }
 
-    /* @short sets the time this list was last indexed to.  Normally this
+    /** @short sets the time this list was last indexed to.  Normally this
      * is done automatically in the reindex() routine but this is useful
      * if the entire starIndex gets re-indexed.
      */
     void setIndexTime( KSNumbers *num );
 
-    /* @short if the date in num differs from the last time we indexed by
+    /** @short if the date in num differs from the last time we indexed by
      * more than our update interval then we re-index all the stars in our
      * list that have actually changed trixels.
      */
     void reindex( KSNumbers *num, StarIndex* starIndex );
 
-    /* @short prints out some brief statistics.
+    /** @short prints out some brief statistics.
      */
     void stats();
 

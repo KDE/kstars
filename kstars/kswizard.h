@@ -45,7 +45,7 @@ public:
     explicit WizDownloadUI( QWidget *parent=0 );
 };
 
-/**@class KSWizard
+/** @class KSWizard
  * The Setup Wizard will be automatically opened when KStars runs 
  * for the first time.  It allows the user to set up some basic parameters:
  * @li Geographic Location
@@ -72,13 +72,13 @@ private slots:
     void slotNextPage();
     void slotPrevPage();
 
-    /**Set the geo pointer to the user's selected city, and display
+    /** Set the geo pointer to the user's selected city, and display
      * its longitude and latitude in the window.
      * @note called when the highlighted city in the list box changes
      */
     void slotChangeCity();
 
-    /**Display only those cities which meet the user's search criteria 
+    /** Display only those cities which meet the user's search criteria
      * in the city list box.
      * @note called when one of the name filters is modified
      */
@@ -87,12 +87,12 @@ private slots:
     void slotDownload();
 
 private:
-    /**@short Initialize the geographic location page.
+    /** @short Initialize the geographic location page.
      * Populate the city list box, and highlight the current location in the list.
      */
     void initGeoPage();
 
-    /**@short set enabled/disable state of Next/Prev buttins based on current page */
+    /** @short set enabled/disable state of Next/Prev buttins based on current page */
     void setButtonsEnabled();
 
     QStackedWidget *wizardStack;

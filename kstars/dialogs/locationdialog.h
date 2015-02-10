@@ -18,7 +18,7 @@
 #ifndef LOCATIONDIALOG_H_
 #define LOCATIONDIALOG_H_
 
-/**@class LocationDialog
+/** @class LocationDialog
 	*Dialog for changing the geographic location of the observer.  The
 	*dialog is divided into two sections.
 	*
@@ -77,10 +77,10 @@ public:
      */
     void initCityList( void );
 
-    /**@return pointer to the highlighted city in the List. */
+    /** @return pointer to the highlighted city in the List. */
     GeoLocation* selectedCity() const { return SelectedCity; }
 
-    /**@return pointer to the List of filtered city pointers. */
+    /** @return pointer to the List of filtered city pointers. */
     QList<GeoLocation*> filteredList() { return filteredCityList; }
 
     /**
@@ -90,16 +90,16 @@ public:
      */
     void findCitiesNear( int longitude, int latitude );
 
-    /**@return the city name of the selected location. */
+    /** @return the city name of the selected location. */
     QString selectedCityName( void ) const { return SelectedCity->translatedName(); }
 
-    /**@return the province name of the selected location. */
+    /** @return the province name of the selected location. */
     QString selectedProvinceName( void ) const { return SelectedCity->translatedProvince(); }
 
-    /**@return the country name of the selected location. */
+    /** @return the country name of the selected location. */
     QString selectedCountryName( void ) const { return SelectedCity->translatedCountry(); }
 
-    /**@return true if the AddCityBUtton is enabled */
+    /** @return true if the AddCityBUtton is enabled */
     bool addCityEnabled();
 
 public slots:
