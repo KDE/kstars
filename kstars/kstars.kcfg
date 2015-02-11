@@ -147,6 +147,11 @@
       <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
       <default>true</default>
     </entry>
+    <entry name="singleWindowFITS" type="Bool">
+      <label>Display all FITS in one window?</label>
+      <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
+      <default>true</default>
+    </entry>
     <entry name="telescopePort" type="String">
       <label>INDI Telescope port</label>
       <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>
@@ -188,7 +193,7 @@
     <entry name="serverPortStart" type="String">
       <label>INDI Server Start Port</label>
       <whatsthis>INDI server will attempt to bind with ports starting from this port</whatsthis>
-      <default>7264</default>
+      <default>7624</default>
     </entry>
     <entry name="serverPortEnd" type="String">
       <label>INDI Server Final Port</label>

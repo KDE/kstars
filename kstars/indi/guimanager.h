@@ -25,6 +25,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QTabWidget>
+#include <QPointer>
 
 #include <indibase.h>
 
@@ -38,6 +39,7 @@ class QString;
 class QTabWidget;
 class QGridLayout;
 class QPushButton;
+class FITSViewer;
 
 class INDI_D;
 
@@ -61,6 +63,8 @@ public:
 
     int size() { return guidevices.size(); }
 
+    FITSViewer *getGenericFITSViewer();
+
   private:
     /*****************************************************************
     * GUI stuff
@@ -75,6 +79,7 @@ public:
     QList<ClientManager *> clients;
     QList<INDI_D*> guidevices;
 
+    QPointer<FITSViewer> genericViewer;
 
   public slots:
     void clearLog();

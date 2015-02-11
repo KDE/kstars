@@ -67,7 +67,7 @@ public:
     FITSViewer (QWidget *parent);
     ~FITSViewer();
 
-    int addFITS(const QUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, bool preview=false);
+    int addFITS(const QUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, const QString &previewText = QString());
 
     bool updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE);
 
@@ -128,7 +128,6 @@ private:
     bool markStars;
     QMap<int, FITSTab*> fitsMap;
     QUrl lastURL;
-
 
 signals:
     void guideStarSelected(int x, int y);

@@ -227,7 +227,7 @@ FITSViewer::~FITSViewer()
     qDeleteAll(fitsTabs);
 }
 
-int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, bool preview)
+int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText)
 {
 
     FITSTab *tab = new FITSTab(this);
@@ -248,10 +248,12 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
         return -1;
     }
 
+    tab->setPreviewText(previewText);
+
     switch (mode)
     {
       case FITS_NORMAL:
-        fitsTab->addTab(tab, preview ? i18n("Preview") : imageName->fileName());
+        fitsTab->addTab(tab, previewText.isEmpty() ? imageName->fileName() : previewText);
         break;
 
        case FITS_CALIBRATE:
@@ -320,7 +322,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
         if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
         {
             if (imageName->path().startsWith("/tmp") && Options::singlePreviewFITS())
-                fitsTab->setTabText(tabIndex,xi18n("Preview"));
+                fitsTab->setTabText(tabIndex, tab->getPreviewText());
             else
                 fitsTab->setTabText(tabIndex, imageName->fileName());
         }

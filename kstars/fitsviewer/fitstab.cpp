@@ -78,6 +78,16 @@ void FITSTab::closeEvent(QCloseEvent *ev)
         ev->ignore();
 
 }
+QString FITSTab::getPreviewText() const
+{
+    return previewText;
+}
+
+void FITSTab::setPreviewText(const QString &value)
+{
+    previewText = value;
+}
+
 
 bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
 {

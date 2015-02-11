@@ -31,6 +31,8 @@
 
 #include <basedevice.h>
 
+#include "fitsviewer/fitsviewer.h"
+
 #include "kstars.h"
 #include "indidevice.h"
 #include "guimanager.h"
@@ -52,7 +54,7 @@ GUIManager * GUIManager::Instance()
 GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 {
 
-    //ksw = (KStars *) parent;
+    genericViewer = NULL;
 
     mainLayout    = new QVBoxLayout(this);
     mainLayout->setMargin(10);
@@ -217,4 +219,13 @@ void GUIManager::buildDevice(DeviceInfo *di)
 }
 
 
+FITSViewer * GUIManager::getGenericFITSViewer()
+{
+    if (genericViewer == NULL)
+    {
+        genericViewer = new FITSViewer(KStars::Instance());
+        genericViewer->setAttribute(Qt::WA_DeleteOnClose);
+    }
 
+    return genericViewer;
+}

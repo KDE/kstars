@@ -27,6 +27,7 @@
 #include "clientmanager.h"
 #include "streamwg.h"
 #include "indiccd.h"
+#include "guimanager.h"
 #include "kstars.h"
 
 #include <ekos/ekosmanager.h>
@@ -1216,21 +1217,36 @@ void CCD::processBLOB(IBLOB* bp)
 
         if (fv == NULL)
         {
-            fv = new FITSViewer(KStars::Instance());
+            if (Options::singleWindowFITS())
+                fv = GUIManager::Instance()->getGenericFITSViewer();
+            else
+                fv = new FITSViewer(KStars::Instance());
+
             connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
             connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
         FITSScale captureFilter = targetChip->getCaptureFilter();
+
+        QString previewTitle;
+
         bool preview = !targetChip->isBatchMode() && Options::singlePreviewFITS();
+        if (preview)
+        {
+            if (Options::singleWindowFITS())
+                previewTitle = xi18n("%1 Preview", getDeviceName());
+            else
+                previewTitle = xi18n("Preview");
+        }
+
 
         switch (targetChip->getCaptureMode())
         {
             case FITS_NORMAL:
                 if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, preview);
+                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
                 else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
-                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, preview);
+                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
 
                 targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
                 break;

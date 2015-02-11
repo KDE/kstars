@@ -63,10 +63,12 @@ public:
    void tabPositionUpdated();
    void selectGuideStar();
 
+   QString getPreviewText() const;
+   void setPreviewText(const QString &value);
 
 public slots:
-       void modifyFITSState(bool clean=true);
-       void ZoomIn();
+   void modifyFITSState(bool clean=true);
+   void ZoomIn();
        void ZoomOut();
        void ZoomDefault();
 
@@ -85,7 +87,7 @@ private:
     QUrl currentURL;            /* FITS File name and path */
 
     bool mDirty;
-
+    QString previewText;
     int uid;
 
 signals:
