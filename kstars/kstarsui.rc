@@ -148,6 +148,7 @@
 	<Action name="show_stars" />
 	<Action name="show_deepsky" />
 	<Action name="show_planets" />
+        <Action name="show_supernovae" />
 	<Action name="show_satellites" />
 	<Action name="show_clines" />
 	<Action name="show_cnames" />
@@ -155,7 +156,6 @@
 	<Action name="show_mw" />
 	<Action name="show_equatorial_grid" />
     <Action name="show_horizontal_grid" />
-	<Action name="show_horizon" />
-    <Action name="show_supernovae" />
+	<Action name="show_horizon" />    
 </ToolBar>
 </kpartgui>
