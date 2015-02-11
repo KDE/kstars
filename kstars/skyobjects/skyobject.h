@@ -25,7 +25,7 @@
 #include <KLocalizedString>
 
 #include "skypoint.h"
-#include "kstars/dms.h"
+#include "dms.h"
 #include "auxinfo.h"
 
 class QPoint;

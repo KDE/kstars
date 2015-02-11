@@ -20,7 +20,7 @@
 #include "kstars/skymap.h"
 #include "../printing/legend.h"
 #include "kstars/skyqpainter.h"
-#include "../imageexporter.h"
+#include "imageexporter.h"
 
 #include <KMessageBox>
 

@@ -23,7 +23,7 @@
 #include <QString>
 
 #include <cmath>
-#include "nan.h"
+#include "../nan.h"
 
 /** @class dms
  * @short An angle, stored as degrees, but expressible in many ways.

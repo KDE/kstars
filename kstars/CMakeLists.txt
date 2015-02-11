@@ -11,6 +11,14 @@ if(MSVC)
     add_definitions(-DNOMINMAX)
 endif()
 
+include_directories(
+    ${kstars_SOURCE_DIR}/kstars/tools
+    ${kstars_SOURCE_DIR}/kstars/skyobjects
+    ${kstars_SOURCE_DIR}/kstars/skycomponents
+    ${kstars_SOURCE_DIR}/kstars/auxiliary
+    ${kstars_SOURCE_DIR}/kstars/time
+)
+
 if (CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
@@ -125,12 +133,6 @@ endif ( XPLANET_FOUND )
 #  add_definitions(-DHAVE_OPENGL)
 #endif( OPENGL_FOUND )
 
-include_directories(
-    ${kstars_SOURCE_DIR}/kstars/tools
-    ${kstars_SOURCE_DIR}/kstars/skyobjects
-    ${kstars_SOURCE_DIR}/kstars/skycomponents
-)
-
 ########### next target ###############
 set(libkstarstools_SRCS
 	tools/altvstime.cpp	
@@ -154,6 +156,7 @@ set(libkstarstools_SRCS
         tools/modcalcsidtime.cpp
         tools/modcalcvlsr.cpp
         tools/observinglist.cpp
+        tools/obslistpopupmenu.cpp
 	tools/sessionsortfilterproxymodel.cpp
 	tools/obslistwizard.cpp
 	tools/planetviewer.cpp
@@ -331,6 +334,7 @@ set(kstars_skyobjects_SRCS
   skyobjects/starobject.cpp
   skyobjects/trailobject.cpp
   skyobjects/satellite.cpp
+  skyobjects/satellitegroup.cpp
   skyobjects/supernova.cpp
 )
 
@@ -377,20 +381,38 @@ set(kstars_projection_SRCS
 )
 
 set(kstars_extra_SRCS
-	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
-        imageviewer.cpp kstarsdbus.cpp
-	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
-	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
-        kstarsinit.cpp kstars.cpp
-        kstarssplash.cpp ksutils.cpp kswizard.cpp
-	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
-	skypainter.cpp skyqpainter.cpp
-	texturemanager.cpp
-	timezonerule.cpp
-	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
-	satellitegroup.cpp
-	imageexporter.cpp
+        auxiliary/colorscheme.cpp
+        auxiliary/dms.cpp
+        auxiliary/fov.cpp
+        auxiliary/geolocation.cpp
+        auxiliary/imageviewer.cpp
+        auxiliary/ksfilereader.cpp
+        auxiliary/ksuserdb.cpp
+        auxiliary/thumbnailpicker.cpp
+        auxiliary/thumbnaileditor.cpp
+        auxiliary/binfilehelper.cpp
+        auxiliary/imageexporter.cpp
+        auxiliary/ksutils.cpp
+        auxiliary/kswizard.cpp
+        time/simclock.cpp
+        time/kstarsdatetime.cpp
+        time/timezonerule.cpp
+        kstarsdbus.cpp
+        ksnumbers.cpp
+        kspopupmenu.cpp
+        ksalmanac.cpp
+        kstarsactions.cpp
+        kstarsdata.cpp
+        kstarsinit.cpp
+        kstars.cpp
+        kstarssplash.cpp
+        skymap.cpp
+        skymapdrawabstract.cpp
+        skymapqdraw.cpp
+        skymapevents.cpp
+        skypainter.cpp
+        skyqpainter.cpp
+	texturemanager.cpp		
 )
 
 set(oal_SRCS
@@ -468,7 +490,12 @@ kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 ki18n_wrap_ui(kstars_SRCS
        ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
-         thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui  skycomponents/notifyupdatesui.ui
+       auxiliary/thumbnailpicker.ui
+       auxiliary/thumbnaileditor.ui
+       oal/observeradd.ui
+       oal/equipmentwriter.ui
+       oal/execute.ui
+       skycomponents/notifyupdatesui.ui
 )
 
 #FIXME We need to port this
