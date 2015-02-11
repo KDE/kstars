@@ -19,8 +19,8 @@ they change with time, and the "view" is the graphical display of this model on 
 The "model" is encapsulated in the KStarsData class, and the "view" is encapsulated in the KStars class.  Here is a list of the major components of KStars:
 
 \subsection Data Data
-    - KStarsData  (master class for the backend "model")
-    - SkyMapComposite (top of hierarchy for plottable objects)
+    - KStarsData: Master class for the backend "model".
+    - SkyMapComposite: Top of hierarchy for plottable objects.
     - SkyComponent are lists of objects of the same type that are drawn in the sky map. Individual objects are represented as an instance of SkyPoint, or one of its children.
     Only imaginary positions in the sky use SkyPoint directly.  Most real objects use the derived class SkyObject, which adds names and other data. \subpage Stars, planets, comets, asteroids, deep-sky objects, constellations,
     guide lines, the Milky Way, etc. each have their own Component
@@ -41,14 +41,14 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
         - TrailObject
 
 \subsection View View
-    - KStars  (main window; master class for the frontend "view")
-    - SkyMap  (sky widget)
-    - KSPopupMenu (right-click menu)
-    - InfoBoxes (on-screen information on time, position, and focused object)
+    - KStars: main window; master class for the frontend "view".
+    - SkyMap: sky widget
+    - KSPopupMenu: right-click menu
+    - InfoBoxes: on-screen information on time, position, and focused object
     - SkyLabeler
     - Flags: FlagComponent represents a flag on the sky map and is managed by FlagManager.
     - FOVs: FOV represents a Field-of-View symbol on the skymap. The \ref FOVDialog "FOV Dialog" enables editing and \ref NewFOV "adding a new FOV".
-    - Projections
+    - \ref Projector "Projections": Multiple projection systems are supported to map the celestial sphere unto a 2D surface.
 
 \subsection Time Time
     - \subpage TimeKeeping "Time Keeping": How is time stored and simulated in KStars?

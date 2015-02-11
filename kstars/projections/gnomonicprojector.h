@@ -1,6 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    Copyright (C) 2010 Henry de Valence <hdevalence@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +22,12 @@
 
 #include "projector.h"
 
-
+/**
+ * @class GnomonicProjector
+ *
+ * Implememntation of <a href="http://en.wikipedia.org/wiki/Gnomonic_projection">Gnomonic projection</a>
+ *
+ */
 class GnomonicProjector : public Projector
 {
 

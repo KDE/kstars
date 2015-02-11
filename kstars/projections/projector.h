@@ -45,7 +45,11 @@ public:
     SkyPoint *focus;
 };
 
-/** This class serves as an interface to handle projections. */
+/**
+ * @class Projector
+ *
+ * The Projector class is the primary class that serves as an interface to handle projections.
+ */
 class Projector
 {
 public:
@@ -65,14 +69,14 @@ public:
     /** Return the FOV of this projection */
     double fov() const;
 
-    /**Check if the current point on screen is a valid point on the sky. This is needed
+    /** Check if the current point on screen is a valid point on the sky. This is needed
         *to avoid a crash of the program if the user clicks on a point outside the sky (the
         *corners of the sky map at the lowest zoom level are the invalid points).
         *@param p the screen pixel position
         */
     virtual bool unusablePoint( const QPointF &p ) const;
     
-    /**Given the coordinates of the SkyPoint argument, determine the
+    /** Given the coordinates of the SkyPoint argument, determine the
      * pixel coordinates in the SkyMap.
      *
      * Since most of the projections used by KStars are very similar,
@@ -116,12 +120,12 @@ public:
     virtual SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat ) const;
 
 
-    /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
+    /** ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
      * between *p1 and *p2 that just clips.
      */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2 ) const;
 
-    /**ASSUMES *p1 did not clip but *p2 did.  Returns the Vector2f on the line
+    /** ASSUMES *p1 did not clip but *p2 did.  Returns the Vector2f on the line
      * between *p1 and *p2 that just clips.
      */
     Vector2f clipLineVec( SkyPoint *p1, SkyPoint *p2 ) const;
@@ -178,7 +182,7 @@ public:
      */
     bool checkVisibility( SkyPoint *p ) const;
 
-    /**Determine the on-screen position angle of a SkyObject.  This is the sum
+    /** Determine the on-screen position angle of a SkyObject.  This is the sum
      * of the object's sky position angle (w.r.t. North), and the position angle
      * of "North" at the position of the object (w.r.t. the screen Y-axis).
      * The latter is determined by constructing a test point with the same RA but
