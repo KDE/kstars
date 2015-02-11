@@ -1,6 +1,3 @@
-#ifndef DEVICEINFO_H
-#define DEVICEINFO_H
-
 /*  INDI Device Info
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -9,12 +6,20 @@
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
 
- */
+*/
+
+#ifndef DEVICEINFO_H
+#define DEVICEINFO_H
 
 #include <basedevice.h>
 
 #include "driverinfo.h"
 
+/**
+ * @class DeviceInfo Simple class to hold DriverInfo and INDI::BaseDevice associated with a particular device.
+ *
+ * @author Jasem Mutlaq
+ */
 class DeviceInfo
 {
 public:

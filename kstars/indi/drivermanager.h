@@ -51,6 +51,20 @@ public slots:
 
 };
 
+/**
+ * @brief DriverManager is the primary class to handle all operations related to starting and stopping INDI drivers.
+ *
+ * INDI drivers can be local or remote drivers. For remote hosts, driver information is not known and devices are built
+ * as they arrive dynamically. The class parses INDI primary devices XML file (drivers.xml) and any 3rd party INDI Driver
+ * XML file to build a tree of devices grouped by driver family type.
+ *
+ * When starting local drivers, DriverManager also establishes an INDI server with the requested drivers and then connect to
+ * the local server to receive the devices dynamically.
+ *
+ * The class also handles INDI hosts which can be added in order to connect to a local or remote INDI server.
+ *
+ * @author Jasem Mutlaq
+ */
 class DriverManager : public QDialog
 {
 

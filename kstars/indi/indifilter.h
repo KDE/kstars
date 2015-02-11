@@ -15,6 +15,11 @@
 namespace ISD
 {
 
+/**
+ * @class Filter class handles control of INDI Filter devices.
+ *
+ * @author Jasem Mutlaq
+ */
 class Filter : public DeviceDecorator
 {
     Q_OBJECT

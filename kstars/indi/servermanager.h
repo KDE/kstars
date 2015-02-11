@@ -23,6 +23,11 @@
 class DriverInfo;
 
 
+/**
+ * @class ServerManager is responsible for starting and shutting local INDI servers.
+ *
+ * @author Jasem Mutlaq
+ */
 class ServerManager : public QObject
 {
 

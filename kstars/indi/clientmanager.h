@@ -1,6 +1,3 @@
-#ifndef CLIENTMANAGER_H
-#define CLIENTMANAGER_H
-
 /*  INDI Client Manager
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -9,7 +6,10 @@
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
 
- */
+*/
+
+#ifndef CLIENTMANAGER_H
+#define CLIENTMANAGER_H
 
 #include <baseclient.h>
 
@@ -19,6 +19,15 @@ class DeviceInfo;
 class DriverInfo;
 class ServerManager;
 
+/**
+ * @class ClientManager manages connection to INDI server, creation of devices, and receving/sending properties.
+ *
+ * ClientManager is a subclass of INDI::BaseClient class part of the INDI Library.
+ * This enables the class to communicate with INDI server and to receive notification of devices, properties, and messages.
+ *
+ * @author Jasem Mutlaq
+ * @version 1.0
+ */
 class ClientManager : public QObject, public INDI::BaseClient
 {
     Q_OBJECT
@@ -80,7 +89,6 @@ signals:
     void newCCD();
 
     void INDIDeviceRemoved(DeviceInfo *dv);
-
 
 };
 

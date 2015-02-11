@@ -52,8 +52,8 @@ class FITSDebayer;
 
 /**
  *@class FITSViewer
- *@short Primary window to open and process FITS images.
- * The FITS viewer can open multiple images each in a separate. It supports simple filters, histogram transforms, flip and roration operations, and star detection.
+ *@short Primary window to view monochrome and color FITS images.
+ * The FITSviewer can open multiple images each in a separate. It supports simple filters, histogram transforms, flip and roration operations, and star detection.
  *@author Jasem Mutlaq
  *@version 1.0
  */

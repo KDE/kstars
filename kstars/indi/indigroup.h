@@ -28,7 +28,11 @@ class QVBoxLayout;
 class QSpacerItem;
 class QScrollArea;
 
-/* INDI group */
+/**
+ * @class INDI_G represents a collection of INDI properties that share a common group. The group is usually represented in the GUI as a separate tab with the device tab.
+ *
+ * @author Jasem Mutlaq
+ */
 class INDI_G
 {
 public:

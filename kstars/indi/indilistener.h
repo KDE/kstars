@@ -21,6 +21,15 @@ class ClientManager;
 class FITSViewer;
 class DeviceInfo;
 
+/**
+ * @class INDIListener is responsible for creating ISD::GDInterface generic devices as new devices arrive from ClientManager. It can support multiple ClientManagers
+ * and will first create a generic INDI device. Upon arrival of INDI properties, INDIListener can create specialized devices (e.g. Telescope) if it detects key Standard INDI
+ * property that signifies a particular device family. The generic device functionality is extended via the Decorator design pattern.
+ *
+ * INDIListener also delegates INDI properties as they are received from ClientManager to the appropiate device to be processed.
+ *
+ * @author Jasem Mutlaq
+ */
 class INDIListener : public QObject
 {
     Q_OBJECT
@@ -31,16 +40,12 @@ public:
     void addClient(ClientManager *cm);
     void removeClient(ClientManager *cm);
 
-    void setISOMode(bool enable) { ISOMode = enable; }
-    void setBatchMode(bool enable) { batchMode = enable; }
-
+    ISD::GDInterface * getDevice(const QString &name);
     QList<ISD::GDInterface *> getDevices() { return devices; }
 
     int size() { return devices.size(); }
 
-    bool isStandardProperty(const QString &name);
-
-    ISD::GDInterface * getDevice(const QString &name);
+    bool isStandardProperty(const QString &name);   
 
   private:
     INDIListener();
@@ -48,11 +53,6 @@ public:
     QList<ClientManager *> clients;
     QList<ISD::GDInterface *> devices;
     QList<ISD::ST4*> st4Devices;
-
-    bool batchMode;
-    bool ISOMode;
-
-    FITSViewer * fv;
 
 public slots:
 

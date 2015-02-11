@@ -15,7 +15,12 @@
 namespace ISD
 {
 
-
+/**
+ * @class Telescope device handle controlling telescope. It can slew and sync to a specific sky point and supports all standard propreties with INDI
+ * telescope device.
+ *
+ * @author Jasem Mutlaq
+ */
 class Telescope : public DeviceDecorator
 {
     Q_OBJECT
@@ -52,14 +57,12 @@ public:
 protected:
     bool sendCoords(SkyPoint *ScopeTarget);
 
-
 public slots:
     virtual bool runCommand(int command, void *ptr=NULL);
     bool Abort();
     bool Park();
 
 private:
-
     SkyPoint currentCoord;
 
 };

@@ -20,9 +20,17 @@ class FITSViewer;
 class FITSData;
 class StreamWG;
 
+/**
+ * \namespace ISD is collection of INDI Standard Devices. It encapsulates common type of INDI devices such as telescopes and CCDs.
+ *
+ */
 namespace ISD
 {
 
+/**
+ * @class CCDChip class controls a particular chip in CCD device. While most amateur CCDs only have a single chip on the CCD, some
+ * CCDs have additional chips targetted for guiding purposes.
+ */
 class CCDChip
 {
 public:
@@ -101,6 +109,12 @@ private:
 
 };
 
+/**
+ * @class CCD class controls an INDI CCD device. It can be used to issue and abort capture commands, receive and process BLOBs,
+ * and return information on the capabilities of the CCD.
+ *
+ * @author Jasem Mutlaq
+ */
 class CCD : public DeviceDecorator
 {
     Q_OBJECT

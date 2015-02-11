@@ -61,9 +61,9 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
     - KSAlmanac
 
 \subsection Tools Tools
-    - Calculator
-    - FITSViewer
-    - Devices
+    - \ref AstroCalc "Calculator": Calculator tool covering many astronomical calculations.
+    - FITSViewer: Open and preview FITS files.
+    - \ref INDI "Devices & INDI": Establish INDI drivers locally or connect to remote INDI servers.
     - Ekos
     - Sky Calender
     - DetailDialog

@@ -40,7 +40,12 @@ class QSlider;
 
 class INDI_P;
 
-/* INDI Element */
+/**
+ * @class INDI_E represents an INDI GUI element (Number, Text, Switch, Light, or BLOB) within an INDI property. It is the most basic
+ * GUI representation of property elements.
+ *
+ * @author Jasem Mutlaq
+ */
 class INDI_E : public QObject
 {
     Q_OBJECT
@@ -62,8 +67,6 @@ public:
     void buildLight(ILight *ilp);
     void buildBLOB(IBLOB *ibp);
 
-
-
     // Updates GUI from data in INDI properties
     void syncSwitch();
     void syncText();
@@ -75,7 +78,6 @@ public:
     void updateNP();
 
     void setText(const QString & newText);
-
 
     void setMin ();
     void setMax ();

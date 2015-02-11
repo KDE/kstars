@@ -27,6 +27,11 @@ class GUIManager;
 class ClientManager;
 class INDI_G;
 
+/**
+ * @class INDI_D represents an INDI GUI Device. INDI_D is the top level device container. It contains a collection of groups of properties. Each group is represented as a separate tab within the GUI.
+ *
+ * @author Jasem Mutlaq
+ */
 class INDI_D : public QDialog
 {
     Q_OBJECT

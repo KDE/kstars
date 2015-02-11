@@ -21,6 +21,30 @@ class ServerManager;
 class ClientManager;
 class DeviceInfo;
 
+/**
+ * @class DriverInfo holds all metadata associated with a particular INDI driver.
+ * An INDI drivers holds both static and dynamic information. Example for static information:
+ * <ul>
+ * <li>Device name.</li>
+ * <li>Device label.</li>
+ * <li>Driver version.</li>
+ * <li>Device Family: Telescope, CCD, Focuser...etc</li>
+ *
+ * Dynamic information include associated Server and Client managers, port in use, associated devices...etc.
+ * Most INDI drivers operate only one device, but some driver can present multiple devices simultaneously.
+ *
+ * Driver information are obtained from multiple sources:
+ * <ol>
+ * <li>INDI driver XML file: All INDI driver install an XML file (usually to /usr/share/indi) that contains information
+ * on the driver and device or devices it is capabale of running.</li>
+ * <li>Client DriverInfos: Users can add a new host/port combo in the Device Manager in order to connect to
+ * to local or remote INDI servers.</li>
+ * <li>Generated DriverInfos: DriverInfo can be created programatically to connect to local or remote INDI server with unknown
+ * number of actual drivers/devices at the server side.
+ * </ol>
+ *
+ * @author Jasem Mutlaq
+ */
 class DriverInfo : public QObject
 {
     Q_OBJECT

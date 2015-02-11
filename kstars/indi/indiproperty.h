@@ -32,7 +32,12 @@ class QButtonGroup;
 class QAbstractButton;
 class QCheckBox;
 
-/* INDI property */
+/**
+ * @class INDI_P represents a single INDI property (Switch, Text, Number, Light, or BLOB). It handles building the GUI and updating the property status and/or value as new data
+ * arrive from INDI Serve. It also sends any changes in the property value back to INDI server via the ClientManager.
+ *
+ * @author Jasem Mutlaq
+ */
 class INDI_P : public QObject
 {
     Q_OBJECT

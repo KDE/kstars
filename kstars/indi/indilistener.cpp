@@ -53,9 +53,7 @@ INDIListener * INDIListener::Instance()
 
 INDIListener::INDIListener()
 {
-    batchMode = false;
-    ISOMode   = true;
-    fv        = NULL;
+
 }
 
 bool INDIListener::isStandardProperty(const QString &name)

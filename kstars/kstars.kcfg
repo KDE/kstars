@@ -150,7 +150,7 @@
     <entry name="singleWindowFITS" type="Bool">
       <label>Display all FITS in one window?</label>
       <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
-      <default>true</default>
+      <default>false</default>
     </entry>
     <entry name="telescopePort" type="String">
       <label>INDI Telescope port</label>
