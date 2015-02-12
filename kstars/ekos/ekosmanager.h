@@ -51,6 +51,12 @@ public:
     void playOk();
     void playError();
 
+    /** @defgroup EkosDBusInterface Ekos DBus Interface
+     * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
+    */
+
+    /*@{*/
+
     /** DBUS interface function.
      * set Ekos connection mode.
      * @param isLocal if true, it will establish INDI server locally, otherwise it will connect to a remote INDI server as defined in the Ekos options or by the user.
@@ -128,6 +134,8 @@ public:
      * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
      */
     Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(const QString & auxiliaryName);
+
+    /** @}*/
 
 public slots:
     void processINDI();

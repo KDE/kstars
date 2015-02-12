@@ -22,7 +22,8 @@ class FITSViewer;
 class DeviceInfo;
 
 /**
- * @class INDIListener is responsible for creating ISD::GDInterface generic devices as new devices arrive from ClientManager. It can support multiple ClientManagers
+ * @class INDIListener
+ * INDIListener is responsible for creating ISD::GDInterface generic devices as new devices arrive from ClientManager. It can support multiple ClientManagers
  * and will first create a generic INDI device. Upon arrival of INDI properties, INDIListener can create specialized devices (e.g. Telescope) if it detects key Standard INDI
  * property that signifies a particular device family. The generic device functionality is extended via the Decorator design pattern.
  *

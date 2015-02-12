@@ -22,6 +22,12 @@ namespace Ekos
 
 class Align;
 
+/**
+ * @class  OnlineAstrometryParser
+ * OnlineAstrometryParser invokes the online services provided by astrometry.net solver to find solutions to captured images.
+ *
+ * @authro Jasem Mutlaq
+ */
 class OnlineAstrometryParser: public AstrometryParser
 {
         Q_OBJECT

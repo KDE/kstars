@@ -24,6 +24,11 @@
 
 #include "geolocation.h"
 
+/**
+ * @class OAL::Site
+ *
+ * Information on site of observation.
+ */
 class OAL::Site {
     public:
        Site( const QString& id,  const QString& name, double lat, const QString& latUnit, double lon, const QString &lonUnit ) { setSite( id, name, lat, latUnit, lon, lonUnit ); }

@@ -34,7 +34,8 @@ public:
 };
 
 /**
-  *@class AddLinkDialog is a simple dialog for adding a custom URL to a popup menu.
+  *@class AddLinkDialog
+  *  AddLinkDialog is a simple dialog for adding a custom URL to a popup menu.
   *@author Jason Harris
   *@version 1.0
   */

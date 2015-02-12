@@ -137,7 +137,7 @@ private:
     QList<ClientManager *> clients;
     QStringList driversStringList;
 
-    INDIDBUS indiDBUS;
+    INDIDBus indiDBUS;
 
 public slots:
     //void enableDevice(INDI_D *device);

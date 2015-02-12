@@ -22,6 +22,11 @@
 
 #include <QString>
 
+/**
+ * @class OAL::Scope
+ *
+ * Information on telescope used in observation
+ */
 class OAL::Scope {
     public:
         Scope( const QString& id, const QString& model, const QString& vendor, const QString& type, double focalLength, double aperture ) { setScope( id, model, vendor, type, focalLength, aperture ); }

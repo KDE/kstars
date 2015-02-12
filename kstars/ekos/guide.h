@@ -48,6 +48,12 @@ public:
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
 
+    /** @defgroup GuideDBusInterface Ekos DBus Interface - Capture Module
+     * Ekos::Guide interface provides advanced scripting capabilities to calibrate and guide a mount via a CCD camera.
+    */
+
+    /*@{*/
+
     /** DBUS interface function.
      * select the CCD device from the available CCD drivers.
      * @param device The CCD device name
@@ -129,6 +135,8 @@ public:
      * @param value dithering range in pixels. Ekos will move the guide star in a random direction for the specified dithering value in pixels.
      */
     Q_SCRIPTABLE Q_NOREPLY void setDither(bool enable, double value);
+
+    /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider);
     void setTelescope(ISD::GDInterface *newTelescope);

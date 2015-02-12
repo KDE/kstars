@@ -33,6 +33,8 @@ public:
 
 /**
  *@class SkyCalendar
+ *
+ * Draws Rise/Set/Transit curves for major solar system planets for any calender year.
  */
 class SkyCalendar : public QDialog
 {

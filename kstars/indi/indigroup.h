@@ -29,7 +29,8 @@ class QSpacerItem;
 class QScrollArea;
 
 /**
- * @class INDI_G represents a collection of INDI properties that share a common group. The group is usually represented in the GUI as a separate tab with the device tab.
+ * @class INDI_G
+ * INDI_G represents a collection of INDI properties that share a common group. The group is usually represented in the GUI as a separate tab with the device tab.
  *
  * @author Jasem Mutlaq
  */

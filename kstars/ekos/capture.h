@@ -38,6 +38,7 @@ class KDirWatch;
  * - Load & Slew: Load a FITS image, slew to solved coordinates, and center the mount on the exact image coordinates in order to get the same desired frame.
  * - Measure & Correct Polar Alignment errors using astromety.net solver.
  * - Auto and manual focus modes using Half-Flux-Radius (HFR) method.
+ * - Automated unattended meridian flip. Ekos performs post meridian flip alignment, calibration, and guiding to resume the capture session.
  * - Automatic focus between exposures when a user-configurable HFR limit is exceeded.
  * - Auto guiding with support for automatic dithering between exposures and support for Adaptive Optics devices in addition to traditional guiders.
  * - Powerful sequence queue for batch capture of images with optional prefixes, timestamps, filter wheel selection, and much more!
@@ -46,6 +47,7 @@ class KDirWatch;
  * - Support for dome slaving.
  * - Complete integration with KStars Observation Planner and SkyMap
  * - Integrate with all INDI native devices.
+ * - Powerful scripting capabilities via \ref EkosDBusInterface "DBus."
 *@author Jasem Mutlaq
  *@version 1.0
  */
@@ -200,6 +202,12 @@ public:
     Capture();
     ~Capture();
 
+    /** @defgroup CaptureDBusInterface Ekos DBus Interface - Capture Module
+     * Ekos::Capture interface provides advanced scripting capabilities to capture image sequences.
+    */
+
+    /*@{*/
+
     /** DBUS interface function.
      * select the CCD device from the available CCD drivers.
      * @param device The CCD device name
@@ -272,6 +280,8 @@ public:
      * @return Returns the total requested exposure duration in the job.
      */
     Q_SCRIPTABLE double         getJobExposureDuration(int id);
+
+    /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);

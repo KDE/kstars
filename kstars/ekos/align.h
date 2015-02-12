@@ -54,6 +54,12 @@ public:
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
 
+    /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
+     * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
+    */
+
+    /*@{*/
+
     /** DBUS interface function.
      * Select CCD
      * @param device CCD device name
@@ -132,6 +138,7 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setSolverOptions(bool updateCoords, bool previewImage, bool verbose, bool useOAGT);
 
+    /** @}*/
 
     /**
      * @brief Add CCD to the list of available CCD.

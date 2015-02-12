@@ -23,6 +23,12 @@
 #include <QString>
 
 /// FIXME: why not just use a QHash?
+
+/**
+ * @class OAL::Observer
+ *
+ * Information on user who created or contributed to the observation.
+ */
 class OAL::Observer {
     public:
        QString id() const { return m_Id; }

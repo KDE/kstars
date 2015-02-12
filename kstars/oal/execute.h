@@ -32,6 +32,11 @@
 
 class KStars;
 
+/**
+ * @class Execute
+ *
+ * Executes an observation session.
+ */
 class Execute : public QDialog {
 Q_OBJECT
     public:

@@ -477,7 +477,7 @@ qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
 
 if (INDI_FOUND)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBUS)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture.h Ekos::Capture)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus.h Ekos::Focus)

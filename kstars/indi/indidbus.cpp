@@ -22,14 +22,14 @@
 #include "indidbus.h"
 #include "indiadaptor.h"
 
-INDIDBUS::INDIDBUS(QObject *parent) :
+INDIDBus::INDIDBus(QObject *parent) :
     QObject(parent)
 {
     new INDIAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/INDI",  this);
 }
 
-bool INDIDBUS::start(const QString &port, const QStringList &drivers)
+bool INDIDBus::start(const QString &port, const QStringList &drivers)
 {
     QList<DriverInfo*> newDrivers;
 
@@ -48,7 +48,7 @@ bool INDIDBUS::start(const QString &port, const QStringList &drivers)
     return DriverManager::Instance()->startDevices(newDrivers);
 }
 
-bool INDIDBUS::stop(const QString &port)
+bool INDIDBus::stop(const QString &port)
 {
     QList<DriverInfo*> stopDrivers;
 
@@ -75,7 +75,7 @@ bool INDIDBUS::stop(const QString &port)
 }
 
 
-bool INDIDBUS::connect(const QString &host, const QString &port)
+bool INDIDBus::connect(const QString &host, const QString &port)
 {
     DriverInfo *remote_indi = new DriverInfo(QString("INDI Remote Host"));
 
@@ -95,7 +95,7 @@ bool INDIDBUS::connect(const QString &host, const QString &port)
     return true;
 }
 
-bool INDIDBUS::disconnect(const QString &host, const QString &port)
+bool INDIDBus::disconnect(const QString &host, const QString &port)
 {
 
     foreach(DriverInfo *di, DriverManager::Instance()->getDrivers())
@@ -115,7 +115,7 @@ bool INDIDBUS::disconnect(const QString &host, const QString &port)
     return false;
 }
 
-QStringList INDIDBUS::getDevices()
+QStringList INDIDBus::getDevices()
 {
     QStringList devices;
 
@@ -131,7 +131,7 @@ QStringList INDIDBUS::getDevices()
     return devices;
 }
 
-QStringList INDIDBUS::getProperties(const QString &device)
+QStringList INDIDBus::getProperties(const QString &device)
 {
     QStringList properties;
 
@@ -210,7 +210,7 @@ QStringList INDIDBUS::getProperties(const QString &device)
 
 }
 
-QString INDIDBUS::getPropertyState(const QString &device, const QString &property)
+QString INDIDBus::getPropertyState(const QString &device, const QString &property)
 {
     QString status = "Invalid";
 
@@ -238,7 +238,7 @@ QString INDIDBUS::getPropertyState(const QString &device, const QString &propert
     return status;
 }
 
-bool INDIDBUS::sendProperty(const QString &device, const QString &property)
+bool INDIDBus::sendProperty(const QString &device, const QString &property)
 {
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
@@ -288,7 +288,7 @@ bool INDIDBUS::sendProperty(const QString &device, const QString &property)
 
 }
 
-QString INDIDBUS::getLight(const QString &device, const QString &property, const QString &lightName)
+QString INDIDBus::getLight(const QString &device, const QString &property, const QString &lightName)
 {
     QString status = "Invalid";
 
@@ -325,7 +325,7 @@ QString INDIDBUS::getLight(const QString &device, const QString &property, const
     return status;
 }
 
-bool INDIDBUS::setSwitch(const QString &device, const QString &property, const QString &switchName, const QString &status)
+bool INDIDBus::setSwitch(const QString &device, const QString &property, const QString &switchName, const QString &status)
 {
     if (status != "On" && status != "Off")
     {
@@ -374,7 +374,7 @@ bool INDIDBUS::setSwitch(const QString &device, const QString &property, const Q
     return false;
 }
 
-QString INDIDBUS::getSwitch(const QString &device, const QString &property, const QString &switchName)
+QString INDIDBus::getSwitch(const QString &device, const QString &property, const QString &switchName)
 {
     QString result("Invalid");
 
@@ -409,7 +409,7 @@ QString INDIDBUS::getSwitch(const QString &device, const QString &property, cons
     return result;
 }
 
-bool INDIDBUS::setText(const QString &device, const QString &property, const QString &textName, const QString &text)
+bool INDIDBus::setText(const QString &device, const QString &property, const QString &textName, const QString &text)
 {
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
@@ -443,7 +443,7 @@ bool INDIDBUS::setText(const QString &device, const QString &property, const QSt
     return false;
 }
 
-QString INDIDBUS:: getText(const QString &device, const QString &property, const QString &textName)
+QString INDIDBus:: getText(const QString &device, const QString &property, const QString &textName)
 {
     QString result("Invalid");
 
@@ -479,7 +479,7 @@ QString INDIDBUS:: getText(const QString &device, const QString &property, const
 
 }
 
-bool INDIDBUS::setNumber(const QString &device, const QString &property, const QString &numberName, double value)
+bool INDIDBus::setNumber(const QString &device, const QString &property, const QString &numberName, double value)
 {
     foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
@@ -513,7 +513,7 @@ bool INDIDBUS::setNumber(const QString &device, const QString &property, const Q
     return false;
 }
 
-double INDIDBUS:: getNumber(const QString &device, const QString &property, const QString &numberName)
+double INDIDBus:: getNumber(const QString &device, const QString &property, const QString &numberName)
 {
     double result = NaN::d;
 
@@ -548,7 +548,7 @@ double INDIDBUS:: getNumber(const QString &device, const QString &property, cons
     return result;
 }
 
-QByteArray INDIDBUS::getBLOBData(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size)
+QByteArray INDIDBus::getBLOBData(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size)
 {
     QByteArray array;
     size = -1;
@@ -588,7 +588,7 @@ QByteArray INDIDBUS::getBLOBData(const QString &device, const QString &property,
     return array;
 }
 
-QString INDIDBUS::getBLOBFile(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size)
+QString INDIDBus::getBLOBFile(const QString &device, const QString &property, const QString &blobName, QString &blobFormat, int & size)
 {
     QString filename;
     size = -1;

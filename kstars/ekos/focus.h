@@ -49,6 +49,12 @@ public:
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
+    /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
+     * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
+    */
+
+    /*@{*/
+
     /** DBUS interface function.
      * select the CCD device from the available CCD drivers.
      * @param device The CCD device name
@@ -131,6 +137,8 @@ public:
      * Resets the CCD frame to its full resolution.
      */
     Q_SCRIPTABLE Q_NOREPLY void resetFrame();
+
+    /** @}*/
 
     /**
      * @brief Add CCD to the list of available CCD.

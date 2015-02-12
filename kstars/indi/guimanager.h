@@ -1,23 +1,14 @@
+/*  INDI GUI Manager
+    Copyright (C) 2012 Jasem Mutlaq
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
+
 #ifndef GUIMANAGER_H
 #define GUIMANAGER_H
-
-/*  INDI frontend for KStars
-    Copyright (C) 2012 Jasem Mutlaq
-
-    This application is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
- */
-
-/*  INDI frontend for KStars
-    Copyright (C) 2012 Jasem Mutlaq
-
-    This application is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
- */
 
 #include <QGridLayout>
 #include <QFrame>
@@ -44,7 +35,8 @@ class FITSViewer;
 class INDI_D;
 
 /**
- * @class GUIManager creates the INDI Control Panel upon receving a new device. Each device is displayed
+ * @class GUIManager
+ * GUIManager creates the INDI Control Panel upon receving a new device. Each device is displayed
  * on a separate tab. The device and property GUI creation is performed dynamically via introspection. As new properties
  * arrive from the ClientManager, they get created in the GUI.
  *

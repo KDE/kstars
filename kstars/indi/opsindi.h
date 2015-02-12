@@ -15,6 +15,13 @@
 class KStars;
 class KConfigDialog;
 
+/**
+ * @class OpsINDI
+ *
+ * Enables the user to change several INDI options including default ports for common devices, time and location source, and options pertnaning to FITSViewer tool.
+ *
+ * @author Jasem Mutlaq
+ */
 class OpsINDI : public QFrame, public Ui::OpsINDI
 {
     Q_OBJECT

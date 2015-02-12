@@ -21,6 +21,11 @@
 
 class KStars;
 
+/**
+ * @class OpsGuides
+ * The guide page enables to user to select to turn on and off guide overlays such as
+ * constellation lines, boundaries, flags..etc.
+ */
 class OpsGuides : public QFrame, public Ui::OpsGuides
 {
     Q_OBJECT

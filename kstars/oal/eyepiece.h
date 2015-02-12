@@ -22,6 +22,11 @@
 
 #include <QString>
 
+/**
+ * @class Eyepiece
+ *
+ * Information on user eye pieces
+ */
 class OAL::Eyepiece {
     public:
         Eyepiece( const QString& id, const QString& model, const QString& vendor, double fov, const QString& fovUnit, double focalLength ) { setEyepiece( id, model, vendor, fov, fovUnit, focalLength ); }

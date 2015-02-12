@@ -16,7 +16,8 @@ namespace ISD
 {
 
 /**
- * @class Focuser class handles control of INDI focuser devices. Both relative and absolute focusers can be controlled.
+ * @class Focuser
+ * Focuser class handles control of INDI focuser devices. Both relative and absolute focusers can be controlled.
  *
  * @author Jasem Mutlaq
  */

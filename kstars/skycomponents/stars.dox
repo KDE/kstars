@@ -1,7 +1,7 @@
 /*! \page Stars Stars
   \tableofcontents
   Design document for the implementation of star catalog support in KStars.
-  \section ClassInheritance Class Inheritance
+  \section StarsClassInheritance Class Inheritance
   + StarComponent - Manages all stars
       - struct starName - Holds a star's names (defined within StarComponent)
   + DeepStarComponent - Manages unnamed stars (instances managed by StarComponent)

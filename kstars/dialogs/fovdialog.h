@@ -26,12 +26,6 @@
 #include "ui_fovdialog.h"
 #include "ui_newfov.h"
 
-/** @class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)
-	*@author Jason Harris
-	*@version 1.0
-	*/
-
-
 class FOVDialogUI : public QFrame, public Ui::FOVDialog {
     Q_OBJECT
 public:
@@ -44,6 +38,11 @@ public:
     explicit NewFOVUI( QWidget *parent=0 );
 };
 
+/** @class FOVDialog
+ *  FOVDialog is dialog to select a Field-of-View indicator (or create a new one)
+    *@author Jason Harris
+    *@version 1.0
+    */
 class FOVDialog : public QDialog
 {
     Q_OBJECT

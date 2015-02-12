@@ -23,6 +23,11 @@
 
 #include <QString>
 
+/**
+ * @class OAL::Session
+ *
+ * Information on session details.
+ */
 class OAL::Session {
     public:
        Session ( const QString &name, const QString& site, const KStarsDateTime& begin, const KStarsDateTime& end, const QString& weather, const QString& equipment, const QString& comment, const QString& lang ) { setSession( name, site, begin, end, weather, equipment, comment, lang ); }

@@ -65,50 +65,54 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
     - FITSViewer: Open and preview FITS files.
     - \ref INDI "Devices & INDI": Establish INDI drivers locally or connect to remote INDI servers.
     - Ekos
-    - Sky Calender
-    - DetailDialog
-    - What's up tonight
+    - \ref SkyCalender "Sky Calender"
+    - \ref DetailDialog "Detail Dialog"
+    - \ref WUTDialog "What's up tonight"
     - What's interesting
-    - Solar System
-    - Jupiter Moons
-    - Star Hopper
-    - Angular Distance
-    - Printing
+    - \ref PlanetViewer "Solar System": Display an overhead view of the solar system
+    - \ref JMoonTool "Jupiter Moons"
+    - \ref StarHopper "Star Hopper"
+    - \ref PrintingWizard "Printing"
 
 \subsection Observation Observation
-    - OAL
-    - Observation Planner
-    - Session Planner
+    - OAL: Open Astronomy Log
+    - \ref ObservingList "Observation Planner"
 
 \subsection Auxiliary Auxiliary
      Auxiliary are helper classes/dialogs/functions used throughout KStars.
-    - Image Viewer
+    - \ref ImageView "Image Viewer"
     - dms (encapsulates an angle value).
     - GeoLocation (which encapsulates a location on Earth).
     - TimeZoneRule (which encapsulates a daylight savings time rule).
-    - Color Schemes
+    - \ref ColorScheme "Color Schemes"
     - ThumbnailPicker / ThumbnailEditor
     - FocusDialog
-    - Wizard
-    - Settings
+    - \ref KSWizard Wizard
+    - Settings: OpsCatalog, OpsAdvanced, OpsColors, OpsGuides, OpsSatellites, OpsSolarSystem, OpsSupernovae, OpsINDI, OpsEkos
 
 \subsection Scripting Scripting
     - \ref DBusInterface DBus Interface
-    - Script builder
+    - \ref ScriptBuilder Script builder
 
-\section HowItWorks How it works?
-
-TODO This is a work in progress, it might not be accurate.
+\section HowItWorks How does it work?
 
 The following explanation is a \e very high level and general overview on the basic workflow in KStars. When you run KStars, the following general steps are executed (not necessarily in this order):
-+ An Instance of KStars is created.
-+ Data for stars, catalogs, deep sky objects, comets...etc are read and loaded into memory. Some data are not read unless necessary, such as stars that only appear at very high zoom levels.
-+ Toolbars, menus, and GUI elements are initialized.
-+ Time is initialized. Simulated clocks normally ticks forward at a particular interval, the default being once per second like a real clock.
-+ The coordinates of the sky objects loaded previously are calculated given the current date and time settings. Effects for precession, nutation, aberration, and refraction are taken into account.
-+ Each component draws itself on the skymap. The order of the drawing routine ensures layers such as equatorial/horizontal grid lines are drawn last.
-+ The sky map responds to user input from keyboard and mouse to perform various actions such as panning, zooming, invoking the popup menu for a particular object...etc.
-+ TODO Add more detials
+-# An Instance of KStars is created. KStars will start with the SimClock running and set to the system date and time unless otherwise specified in command line arguments.
+-# An Instance of KStarsData is created. Data for stars, catalogs, deep sky objects, comets...etc are read and loaded into memory.
+  Some data are not read unless necessary, such as stars that only appear at very high zoom levels.
+-# Date and Time are initialized. Simulated clocks normally ticks forward at a particular interval, the default being once per second like a real clock.
+-# KStars splash screen is created.
+-# An Instance of SkyMap is created. The SkyMap is the primary central widget in KStars. Toolbars, menus, actions, and status bar are initialized.
+-# SimClock emits the timeAdvanced() signal, which is connected to KStarsData::updateTime(), which takes care of updating object coordinates and drawing the skymap.
+  Effects for precession, nutation, aberration, and refraction are taken into account.
+-# SkyMap can have multiple draw backends (QPainter or OpenGL). It calls the selected backend to draw the overlays and objects unto the sky map.
+-# The backend implementing SkyMapDrawAbstract receives a PaintEvent(..) from SkyMap which begins by drawing the background first. Afterwards, it calls KStarsData SkyMapComposite instance which in turn calls
+  all child composites and components to draw themselves. Each component draws itself on the skymap. The order of the drawing routine ensures layers such as equatorial/horizontal
+  grid lines are drawn last.
+-# The sky map responds to user input from keyboard and mouse to perform various actions such as panning, zooming, invoking the popup menu for a particular object...etc.
+-# SimClock emits timeAdvanced() signal and the cycle repeats.
+-# The user can invoke tools, change settings, download new data, run scripts..etc while the cycle above is taking place in the background.
+-# Upon exist destructors are called to properly terminate all objects, free memory, and save options if necessary.
 
-
+\author Jasem Mutlaq
 */

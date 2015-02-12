@@ -26,6 +26,11 @@
 
 #include "kstars.h"
 
+/**
+ * @class ObserverAdd
+ *
+ * Dialog to add new observers.
+ */
 class ObserverAdd : public QDialog {
 Q_OBJECT
     public:

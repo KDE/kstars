@@ -15,6 +15,14 @@
 class KStars;
 class KConfigDialog;
 
+/**
+ * @class OpsEkos
+ *
+ * Enables the user to set remote connection devices and options in addition to online and offline astrometry.net settings.
+ * The user can also select to enable or disable audiable alarms upon capturing FITS or when an operation is completed.
+ *
+ * @author Jasem Mutlaq
+ */
 class OpsEkos : public QFrame, public Ui::OpsEkos
 {
     Q_OBJECT

@@ -21,6 +21,13 @@ namespace Ekos
 
 class Align;
 
+/**
+ * @class  OfflineAstrometryParser
+ * OfflineAstrometryParser invokes the offline astrometry.net solver to find solutions to captured images.
+ *
+ * @authro Jasem Mutlaq
+ */
+
 class OfflineAstrometryParser: public AstrometryParser
 {
         Q_OBJECT

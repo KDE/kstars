@@ -13,7 +13,8 @@
 
 class HTMesh;
 
-/** @class MeshIterator is a very lightweight class used to iterate over the
+/** @class MeshIterator
+ * MeshIterator is a very lightweight class used to iterate over the
  * result set of an HTMesh intersection.  If you want to iterate over the same
  * result set multiple times in the same block of code, you don't need to create
  * a new MeshIterator, just call the reset() method and then re-use the iterator.

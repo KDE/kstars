@@ -25,7 +25,8 @@ class MeshBuffer;
 
 
 /**
- * @class HTMesh was originally intended to be a simple interface to the HTM
+ * @class HTMesh
+ * HTMesh was originally intended to be a simple interface to the HTM
  * library for the KStars project that would hide some of the complexity.  But
  * it has gained some complexity of its own. 
  *

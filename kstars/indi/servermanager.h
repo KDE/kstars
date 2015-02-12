@@ -24,7 +24,8 @@ class DriverInfo;
 
 
 /**
- * @class ServerManager is responsible for starting and shutting local INDI servers.
+ * @class ServerManager
+ * ServerManager is responsible for starting and shutting local INDI servers.
  *
  * @author Jasem Mutlaq
  */

@@ -27,10 +27,11 @@
 
 class QPainter;
 
-/** @class FOV A simple class encapsulating a Field-of-View symbol
-	*@author Jason Harris
-	*@version 1.0
-	*/
+/** @class FOV
+ *  A simple class encapsulating a Field-of-View symbol
+ *@author Jason Harris
+ *@version 1.0
+*/
 class FOV {
 public:
     enum Shape { SQUARE,

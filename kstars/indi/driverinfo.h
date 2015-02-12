@@ -22,7 +22,8 @@ class ClientManager;
 class DeviceInfo;
 
 /**
- * @class DriverInfo holds all metadata associated with a particular INDI driver.
+ * @class DriverInfo
+ * DriverInfo holds all metadata associated with a particular INDI driver.
  * An INDI drivers holds both static and dynamic information. Example for static information:
  * <ul>
  * <li>Device name.</li>

@@ -41,7 +41,8 @@ class QSlider;
 class INDI_P;
 
 /**
- * @class INDI_E represents an INDI GUI element (Number, Text, Switch, Light, or BLOB) within an INDI property. It is the most basic
+ * @class INDI_E
+ *  INDI_E represents an INDI GUI element (Number, Text, Switch, Light, or BLOB) within an INDI property. It is the most basic
  * GUI representation of property elements.
  *
  * @author Jasem Mutlaq

@@ -45,7 +45,8 @@ public:
 };
 
 /**
- * @class GDInterface is the Generic Device <i>Interface</i> for INDI devices. It is used as part of the Decorater Pattern when initally a new INDI device is created as a
+ * @class GDInterface
+ *  GDInterface is the Generic Device <i>Interface</i> for INDI devices. It is used as part of the Decorater Pattern when initally a new INDI device is created as a
  * Generic Device in INDIListener. If the device registers an INDI Standard Property belonging to one specific device type (e.g. Telescope), then the device functionality
  * is extended to the particular device type.
  *
@@ -110,7 +111,8 @@ signals:
 };
 
 /**
- * @class GenericDevice is the Generic Device for INDI devices. When a new INDI device is created in INDIListener, it gets created as a GenericDevice initially. If the device
+ * @class GenericDevice
+ * GenericDevice is the Generic Device for INDI devices. When a new INDI device is created in INDIListener, it gets created as a GenericDevice initially. If the device
  * registers a standard property that is a key property to a device type family (e.g. Number property EQUATORIAL_EOD_COORD signifies a Telescope device), then the specialized version of
  * the device is exnteded via the Decorater Pattern.
  *
@@ -170,7 +172,8 @@ private:
 };
 
 /**
- * @class DeviceDecorator is the base decorater for all specialized devices. It extends the functionality of GenericDevice.
+ * @class DeviceDecorator
+ * DeviceDecorator is the base decorater for all specialized devices. It extends the functionality of GenericDevice.
  *
  * @author Jasem Mutlaq
  */
@@ -220,7 +223,8 @@ protected:
 };
 
 /**
- * @class ST4 is a special class that handles ST4 commands. Since ST4 functionalty can be part of a stand alone ST4 device,
+ * @class ST4
+ * ST4 is a special class that handles ST4 commands. Since ST4 functionalty can be part of a stand alone ST4 device,
  * or as part of a larger device as CCD or Telescope, it is handled separately to enable one ST4 device regardless of the parent device type.
  *
  *  ST4 is a hardware port dedicated to sending guiding correction pulses to the mount.

@@ -13,7 +13,8 @@
 
 class HTMesh;
 
-/** @class MeshBuffer the sole purpose of a MeshBuffer is to hold storage space
+/** @class MeshBuffer
+ * The sole purpose of a MeshBuffer is to hold storage space
  * for the results of an HTM inetersection and then allow multiple
  * MeshIterator's to walk through the result set.  The buffer space is allocated
  * when the MeshBuffer is created.  Mesh buffers will usually hang around for

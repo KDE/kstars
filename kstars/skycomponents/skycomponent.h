@@ -116,8 +116,7 @@ class SkyPainter;
   StarComponent and DeepStarComponent manage stars in
   KStars. StarComponent maintains a QVector of instances of
   DeepStarComponents and takes care of calling their draw routines
-  etc. The machinery for handling stars is documented in great detail in
-  \subpage Stars
+  etc. The machinery for handling stars is documented in great detail in \ref Stars
  *
  * @author Thomas Kabelmann
  */

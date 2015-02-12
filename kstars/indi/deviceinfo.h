@@ -16,7 +16,8 @@
 #include "driverinfo.h"
 
 /**
- * @class DeviceInfo Simple class to hold DriverInfo and INDI::BaseDevice associated with a particular device.
+ * @class DeviceInfo
+ * DeviceInfo is simple class to hold DriverInfo and INDI::BaseDevice associated with a particular device.
  *
  * @author Jasem Mutlaq
  */

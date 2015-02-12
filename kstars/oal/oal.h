@@ -23,7 +23,18 @@
 #include <QLocale>
 #include <kmessagebox.h>
 #include <KLocalizedString>
-namespace OAL {
+
+/**
+ * @namespace OAL
+ *
+ * Open Astronomy Log (OAL) is a free and open XML schema definition for all kinds of astronomical observations.
+ * KStars supports this schema and enables an observer to share observations with other observers or move observations among software products.
+ *
+ * The Schema was developed by the German "Fachgruppe für Computerastronomie" (section for computerastronomy) which is a subsection of Germany's largest
+ * astronomy union (VDS - Vereinigung der Sternfreunde e.V.)
+ */
+namespace OAL
+{
     class Log;
     class Observer;
     class Observation;
@@ -36,7 +47,8 @@ namespace OAL {
     class Session;
     class Target;
     class Lens;
-    inline int warningOverwrite( QString message ) {
+    inline int warningOverwrite( QString message )
+    {
         return KMessageBox::warningYesNo( 0, message, xi18n("Overwrite"), KGuiItem(xi18n("Overwrite")), KGuiItem(xi18n("Cancel")) );
     }
 }

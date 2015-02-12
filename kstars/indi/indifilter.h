@@ -16,7 +16,8 @@ namespace ISD
 {
 
 /**
- * @class Filter class handles control of INDI Filter devices.
+ * @class Filter
+ * Filter class handles control of INDI Filter devices.
  *
  * @author Jasem Mutlaq
  */

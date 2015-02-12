@@ -22,7 +22,8 @@
 
 //########################################################################
 /**
-   @class SpatialVector is a 3D vector usually living on the surface of
+   @class SpatialVector
+   SpatialVector is a 3D vector usually living on the surface of
    the sphere. The corresponding ra, dec can be obtained if the vector
    has unit length. That can be ensured with the normalize() function.
 

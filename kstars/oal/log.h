@@ -38,6 +38,11 @@
 
 class KStars;
 
+/**
+ * @class Log
+ *
+ * Implementation of <a href="https://code.google.com/p/openastronomylog/">Open Astronomy Log</a> (OAL) XML specifications to record observation logs.
+ */
 class OAL::Log {
     public:
         QString writeLog( bool native = true );

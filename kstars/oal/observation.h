@@ -33,6 +33,11 @@
 
 using namespace OAL;
 
+/**
+ * @class OAL::Observation
+ *
+ * Information on observation session details.
+ */
 class OAL::Observation {
     public:
         Observation( QString id, QString observer, QString site, QString session, QString target, KStarsDateTime begin, double faintestStar, double seeing, QString scope, QString eyepiece, QString lens, QString filter,  QString result, QString lang ) {

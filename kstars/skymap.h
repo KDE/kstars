@@ -293,7 +293,7 @@ class SkyMap : public QGraphicsView {
     SkyPoint getCenterPoint();
 
 public slots:
-    /**Recalculates the positions of objects in the sky, and then repaints the sky map.
+    /** Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
      * This saves a lot of CPU time.
      * @param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
@@ -317,7 +317,7 @@ public slots:
     /** Toggle visibility of all infoboxes */
     void slotToggleInfoboxes(bool);
 
-    /**Step the Focus point toward the Destination point.  Do this iteratively, redrawing the Sky
+    /** Step the Focus point toward the Destination point.  Do this iteratively, redrawing the Sky
      * Map after each step, until the Focus point is within 1 step of the Destination point.
      * For the final step, snap directly to Destination, and redraw the map.
      */
@@ -358,12 +358,12 @@ public slots:
     /** @short Popup menu function: Show the Detailed Information window for ClickedObject. */
     void slotDetail();
 
-    /**Add ClickedObject to KStarsData::ObjLabelList, which stores pointers to SkyObjects which
+    /** Add ClickedObject to KStarsData::ObjLabelList, which stores pointers to SkyObjects which
      * have User Labels attached.
      */
     void slotAddObjectLabel();
 
-    /**Remove ClickedObject from KStarsData::ObjLabelList, which stores pointers to SkyObjects which
+    /** Remove ClickedObject from KStarsData::ObjLabelList, which stores pointers to SkyObjects which
      * have User Labels attached.
      */
     void slotRemoveObjectLabel();
@@ -383,29 +383,32 @@ public slots:
      */
     void slotRemovePlanetTrail();
 
-    /**Checks whether the timestep exceeds a threshold value.  If so, sets
+    /** Checks whether the timestep exceeds a threshold value.  If so, sets
      * ClockSlewing=true and sets the SimClock to ManualMode.
      */
     void slotClockSlewing();
 
-    // NOTE: This method is draw-backend independent.
-    /**Enables the angular distance measuring mode. It saves the first
+
+    /** Enables the angular distance measuring mode. It saves the first
      * position of the ruler in a SkyPoint. It makes difference between
-     * having clicked on the skymap and not having done so */
+     * having clicked on the skymap and not having done so
+     * \note This method is draw-backend independent.
+    */
     void slotBeginAngularDistance();
 
     void slotBeginStarHop(); // TODO: Add docs
 
-    // NOTE: This method is draw-backend independent.
-    /**Computes the angular distance, prints the result in the status
+    /** Computes the angular distance, prints the result in the status
      * bar and disables the angular distance measuring mode
      * If the user has clicked on the map the status bar shows the
      * name of the clicked object plus the angular distance. If
      * the user did not clicked on the map, just pressed ], only
-     * the angular distance is printed */
+     * the angular distance is printed
+     * \note This method is draw-backend independent.
+    */
     void slotEndRulerMode();
 
-    /**Disables the angular distance measuring mode. Nothing is printed
+    /** Disables the angular distance measuring mode. Nothing is printed
      * in the status bar */
     void slotCancelRulerMode();
 
@@ -428,10 +431,10 @@ public slots:
 #endif
 
 #ifdef HAVE_XPLANET
-    /**Run Xplanet to print a view on the screen*/
+    /** Run Xplanet to print a view on the screen*/
     void slotXplanetToScreen();
 
-    /**Run Xplanet to print a view in a file */
+    /** Run Xplanet to print a view in a file */
     void slotXplanetToFile();
 #endif
 
@@ -454,7 +457,7 @@ public slots:
     void slotCaptureFov();
 
 signals:
-    /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
+    /** Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
      * point is changed, slewFocus() will iteratively step the Focus toward Destination
      * until it is reached.
      * @see SkyMap::setDestination()
@@ -475,7 +478,7 @@ signals:
     void mousePointChanged(SkyPoint*);
 
 protected:
-    /**Process keystrokes:
+    /** Process keystrokes:
      * @li arrow keys  Slew the map
      * @li +/- keys  Zoom in and out
      * @li <i>Space</i>  Toggle between Horizontal and Equatorial coordinate systems
@@ -488,11 +491,11 @@ protected:
      */
     virtual void keyPressEvent( QKeyEvent *e );
 
-    /**When keyRelease is triggered, just set the "slewing" flag to false,
+    /** When keyRelease is triggered, just set the "slewing" flag to false,
      * and update the display (to draw objects that are hidden when slewing==true). */
     virtual void keyReleaseEvent( QKeyEvent *e );
 
-    /**Determine RA, Dec coordinates of clicked location.  Find the SkyObject
+    /** Determine RA, Dec coordinates of clicked location.  Find the SkyObject
      * which is nearest to the clicked location.
      *
      * If left-clicked: Set set mouseButtonDown==true, slewing==true; display
@@ -501,13 +504,13 @@ protected:
      */
     virtual void mousePressEvent( QMouseEvent *e );
 
-    /**set mouseButtonDown==false, slewing==false */
+    /** set mouseButtonDown==false, slewing==false */
     virtual void mouseReleaseEvent( QMouseEvent *e );
 
-    /**Center SkyMap at double-clicked location  */
+    /** Center SkyMap at double-clicked location  */
     virtual void mouseDoubleClickEvent( QMouseEvent *e );
 
-    /**This function does several different things depending on the state of the program:
+    /** This function does several different things depending on the state of the program:
      * @li If Angle-measurement mode is active, update the end-ruler point to the mouse cursor,
      *     and continue this function.
      * @li If we are defining a ZoomBox, update the ZoomBox rectangle, redraw the screen,
@@ -518,10 +521,10 @@ protected:
      */
     virtual void mouseMoveEvent( QMouseEvent *e );
 
-    /**Zoom in and out with the mouse wheel. */
+    /** Zoom in and out with the mouse wheel. */
     virtual void wheelEvent( QWheelEvent *e );
 
-    /**If the skymap will be resized, the sky must be new computed. So this
+    /** If the skymap will be resized, the sky must be new computed. So this
      * function calls explicitly new computing of the skymap.
      */
     virtual void resizeEvent( QResizeEvent * );
@@ -532,7 +535,7 @@ private slots:
      */
     void slotTransientLabel();
 
-    /**Set the shape of mouse cursor to a cross with 4 arrows. */
+    /** Set the shape of mouse cursor to a cross with 4 arrows. */
     void setMouseMoveCursor();
 
 private:
@@ -639,7 +642,6 @@ private:
 
     bool m_objPointingMode;
     bool m_fovCaptureMode;
-
 
     QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract
 

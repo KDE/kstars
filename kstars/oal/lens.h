@@ -22,6 +22,11 @@
 
 #include <QString>
 
+/**
+ * @class OAL::Lens
+ *
+ * Information of lens utilized in the observation
+ */
 class OAL::Lens {
     public:
         Lens( const QString &id, const QString& model, const QString &vendor, double factor ) { setLens( id, model, vendor, factor ); }

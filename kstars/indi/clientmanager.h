@@ -20,7 +20,8 @@ class DriverInfo;
 class ServerManager;
 
 /**
- * @class ClientManager manages connection to INDI server, creation of devices, and receving/sending properties.
+ * @class ClientManager
+ * ClientManager manages connection to INDI server, creation of devices, and receving/sending properties.
  *
  * ClientManager is a subclass of INDI::BaseClient class part of the INDI Library.
  * This enables the class to communicate with INDI server and to receive notification of devices, properties, and messages.

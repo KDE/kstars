@@ -22,6 +22,11 @@
 
 #include <QString>
 
+/**
+ * @class OAL::Filter
+ *
+ * Information of user filters
+ */
 class OAL::Filter {
     public:
         Filter( const QString& id, const QString& model, const QString& vendor, const QString& type, const QString& color ) { setFilter( id, model, vendor, type, color ); }

@@ -61,7 +61,8 @@ struct ADVTreeData
 };
 
 /**
-  *@class DetailDialog is a window showing detailed information for a selected object.
+  *@class DetailDialog
+  *  DetailDialog is a window showing detailed information for a selected object.
 	*The window is split into four Tabs: General, Links, Advanced and Log.
 	*The General Tab displays some type-specific data about the object, as well as its 
 	*present coordinates and Rise/Set/Transit times for the current date.  The Type-specific 
