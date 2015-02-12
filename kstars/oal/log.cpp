@@ -25,10 +25,10 @@
 #include "skycomponents/skymapcomposite.h"
 #include "kstarsdatetime.h"
 
-void OAL::Log::writeBegin() {
-    ks = KStars::Instance();
+void OAL::Log::writeBegin()
+{
     output = "";
-    m_targetList = ks->observingList()->sessionList();
+    m_targetList = KStarsData::Instance()->observingList()->sessionList();
     writer = new QXmlStreamWriter(&output);
     writer->setAutoFormatting( true );
     writer->writeStartDocument();
@@ -179,9 +179,9 @@ void OAL::Log::writeTarget( SkyObject *o ) {
     writer->writeCharacters( QString::number( o->dec().radians() ) );
     writer->writeEndElement();
     writer->writeEndElement();
-    if( native && ! ks->observingList()->getTime( o ).isEmpty() ) {
+    if( native && ! KStarsData::Instance()->observingList()->getTime( o ).isEmpty() ) {
         writer->writeStartElement("time");
-        writer->writeCDATA( ks->observingList()->getTime( o ) );
+        writer->writeCDATA( KStarsData::Instance()->observingList()->getTime( o ) );
         writer->writeEndElement();
     }
     writer->writeStartElement( "constellation" );
@@ -372,22 +372,21 @@ void OAL::Log::writeObservation( OAL::Observation *o ) {
 void OAL::Log::writeGeoDate() {
     writer->writeStartElement( "geodate" );
     writer->writeStartElement( "name" );
-    writer->writeCDATA( ks->observingList()->geoLocation()->name() );
+    writer->writeCDATA( KStarsData::Instance()->observingList()->geoLocation()->name() );
     writer->writeEndElement();
     writer->writeStartElement( "province" );
-    writer->writeCDATA( ks->observingList()->geoLocation()->province() );
+    writer->writeCDATA( KStarsData::Instance()->observingList()->geoLocation()->province() );
     writer->writeEndElement();
     writer->writeStartElement( "country" );
-    writer->writeCDATA( ks->observingList()->geoLocation()->country() );
+    writer->writeCDATA( KStarsData::Instance()->observingList()->geoLocation()->country() );
     writer->writeEndElement();
     writer->writeStartElement( "date" );
-    writer->writeCDATA( ks->observingList()->dateTime().date().toString( "ddMMyyyy" ) );
+    writer->writeCDATA( KStarsData::Instance()->observingList()->dateTime().date().toString( "ddMMyyyy" ) );
     writer->writeEndElement();
     writer->writeEndElement();
 }
 void OAL::Log::readBegin( QString input ) {
     reader = new QXmlStreamReader( input );
-    ks = KStars::Instance();
     while( ! reader->atEnd() ) {
         reader->readNext();
         if( reader->isStartElement() ) {
@@ -517,8 +516,8 @@ void OAL::Log::readTarget() {
                 name = reader->readElementText();
                 if( name != "star" )
                 {
-                    o = ks->data()->objectNamed( name );
-                    if( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( name );
+                    o = KStarsData::Instance()->objectNamed( name );
+                    if( ! o ) o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName( name );
                     if( o ) targetList()->append( o );
                 }
             }
@@ -530,7 +529,7 @@ void OAL::Log::readTarget() {
                    double maxrd=0.5;
                    while (!o && maxrd <= 2.0)
                    {
-                        o = ks->data()->skyComposite()->starNearest(&pos, maxrd);
+                        o = KStarsData::Instance()->skyComposite()->starNearest(&pos, maxrd);
                         if (!o)
                             maxrd += 0.5;
                    }
@@ -739,11 +738,11 @@ void OAL::Log::readGeoDate() {
                 readUnknownElement();
         }
     }
-    geo = ks->data()->locationNamed( name, province, country );
+    geo = KStarsData::Instance()->locationNamed( name, province, country );
     if (geo == NULL)
     {
         qDebug() << "Warning! Location " << name << ", " << province << ", " << country << " not found in KStars. Using current location." << endl;
-        geo = ks->data()->geo();
+        geo = KStarsData::Instance()->geo();
     }
     dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
 }

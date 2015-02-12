@@ -492,7 +492,7 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
 
 QString KStars::getObservingWishListObjectNames() {
     QString output;
-    foreach( const SkyObject *object,  observingList()->obsList() ) {
+    foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->obsList() ) {
         output.append( object->name() + '\n' );
     }
     return output;
@@ -500,7 +500,7 @@ QString KStars::getObservingWishListObjectNames() {
 
 QString KStars::getObservingSessionPlanObjectNames() {
     QString output;
-    foreach( const SkyObject *object,  observingList()->sessionList() ) {
+    foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->sessionList() ) {
         output.append( object->name() + '\n' );
     }
     return output;

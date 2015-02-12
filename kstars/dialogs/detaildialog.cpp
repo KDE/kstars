@@ -1072,18 +1072,17 @@ void DetailDialog::saveLogData() {
 }
 
 void DetailDialog::addToObservingList() {
-    KStars::Instance()->observingList()->slotAddObject( selectedObject );
+    KStarsData::Instance()->observingList()->slotAddObject( selectedObject );
 }
 
-void DetailDialog::centerMap() {
-    SkyMap* map = KStars::Instance()->map();
-    map->setClickedObject( selectedObject );
-    map->slotCenter();
+void DetailDialog::centerMap()
+{
+    SkyMap::Instance()->setClickedObject( selectedObject );
+    SkyMap::Instance()->slotCenter();
 }
 
 void DetailDialog::centerTelescope()
 {
-
 #ifdef HAVE_INDI
 
     if (INDIListener::Instance()->size() == 0)

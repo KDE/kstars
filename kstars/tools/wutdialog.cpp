@@ -469,15 +469,15 @@ void WUTDialog::slotDetails() {
 	delete detail;
     }
 }
-void WUTDialog::slotObslist() {
-    KStars* kstars = KStars::Instance();
+void WUTDialog::slotObslist()
+{
     SkyObject *o = 0;
     // get selected item
     if (WUT->ObjectListWidget->currentItem() != 0) {
-        o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
+        o = KStarsData::Instance()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if(o != 0) {
-        kstars->observingList()->slotAddObject( o, session ) ;
+        KStarsData::Instance()->observingList()->slotAddObject( o, session ) ;
     }
 }
 

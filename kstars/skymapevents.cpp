@@ -67,8 +67,8 @@ void SkyMap::resizeEvent( QResizeEvent * )
     m_iboxes->resize( size() );
 }
 
-void SkyMap::keyPressEvent( QKeyEvent *e ) {
-    KStars* kstars = KStars::Instance();
+void SkyMap::keyPressEvent( QKeyEvent *e )
+{
     QString s;
     bool arrowKeyPressed( false );
     bool shiftPressed( false );
@@ -271,7 +271,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         }
 
         if ( clickedObject() ) {
-            kstars->observingList()->slotAddObject();
+            data->observingList()->slotAddObject();
         }
 
         if ( orig ) {

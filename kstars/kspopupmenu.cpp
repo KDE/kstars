@@ -265,7 +265,8 @@ void KSPopupMenu::createSupernovaMenu(Supernova* supernova)
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                                  bool showDetails, bool showObsList, bool showFlags )
 {
-    KStars* ks = KStars::Instance();
+    KStarsData* data = KStarsData::Instance();
+    SkyMap * map = SkyMap::Instance();
 
     clear();
     bool showLabel = name != xi18n("star") && !name.isEmpty();
@@ -287,50 +288,51 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     delete o;
 
     // Show 'Select this object' item when in object pointing mode and when obj is not empty sky
-    if(KStars::Instance()->map()->isInObjectPointingMode() && obj->type() != 21) {
-        addAction( xi18n( "Select this object"), KStars::Instance()->map(), SLOT(slotObjectSelected()));
+    if(map->isInObjectPointingMode() && obj->type() != 21)
+    {
+        addAction( xi18n( "Select this object"), map, SLOT(slotObjectSelected()));
     }
 
     //Insert item for centering on object
-    addAction( xi18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
+    addAction( xi18n( "Center && Track" ), map, SLOT( slotCenter() ) );
 
-    if ( showFlags ) {
+    if ( showFlags )
+    {
         //Insert actions for flag operations
         initFlagActions( obj );
     }
 
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
-    addAction( xi18n( "Angular Distance To...            [" ), ks->map(),
-               SLOT(slotBeginAngularDistance()) );
-    addAction( xi18n( "Starhop from here to...            " ), ks->map(),
-               SLOT(slotBeginStarHop()) );
+    addAction( xi18n( "Angular Distance To...            [" ), map, SLOT(slotBeginAngularDistance()) );
+    addAction( xi18n( "Starhop from here to...            " ), map, SLOT(slotBeginStarHop()) );
 
     //Insert item for Showing details dialog
     if ( showDetails )
-        addAction( xi18nc( "Show Detailed Information Dialog", "Details" ), ks->map(), SLOT( slotDetail() ) );
+        addAction( xi18nc( "Show Detailed Information Dialog", "Details" ), map, SLOT( slotDetail() ) );
     //Insert "Add/Remove Label" item
-    if ( showLabel ) {
-        if ( ks->map()->isObjectLabeled( obj ) ) {
-            addAction( xi18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
+    if ( showLabel )
+    {
+        if ( map->isObjectLabeled( obj ) ) {
+            addAction( xi18n( "Remove Label" ), map, SLOT( slotRemoveObjectLabel() ) );
         } else {
-            addAction( xi18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
+            addAction( xi18n( "Attach Label" ), map, SLOT( slotAddObjectLabel() ) );
         }
     }
     // Should show observing list
     if( showObsList ) {
-        if ( ks->observingList()->contains( obj ) )
-            addAction( xi18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
+        if ( data->observingList()->contains( obj ) )
+            addAction( xi18n("Remove From Observing WishList"), data->observingList(), SLOT( slotRemoveObject() ) );
         else
-            addAction( xi18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
+            addAction( xi18n("Add to Observing WishList"), data->observingList(), SLOT( slotAddObject() ) );
     }
     // Should we show trail actions
     TrailObject* t = dynamic_cast<TrailObject*>( obj );
     if( t ) {
         if( t->hasTrail() )
-            addAction( xi18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
+            addAction( xi18n( "Remove Trail" ), map, SLOT( slotRemovePlanetTrail() ) );
         else
-            addAction( xi18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
+            addAction( xi18n( "Add Trail" ), map, SLOT( slotAddPlanetTrail() ) );
     }
 
     addSeparator();
@@ -338,8 +340,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) { // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
         QMenu *xplanetSubmenu = new QMenu();
         xplanetSubmenu->setTitle( xi18n( "Print Xplanet view" ) );
-        xplanetSubmenu->addAction( xi18n( "To screen" ), ks->map(), SLOT( slotXplanetToScreen() ) );
-        xplanetSubmenu->addAction( xi18n( "To file..." ), ks->map(), SLOT( slotXplanetToFile() ) );
+        xplanetSubmenu->addAction( xi18n( "To screen" ), map, SLOT( slotXplanetToScreen() ) );
+        xplanetSubmenu->addAction( xi18n( "To file..." ), map, SLOT( slotXplanetToFile() ) );
         addMenu( xplanetSubmenu );
     }
 #endif

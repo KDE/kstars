@@ -135,7 +135,6 @@ Q_OBJECT
         void slotRemoveObject();
 
     private:
-        KStars *ks;
         Ui::Execute ui;
         OAL::Session *currentSession;
         OAL::Log *logObject;

@@ -214,7 +214,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     // map->infoBoxes()->reserveBoxes( psky );
 
     if( KStars::Instance() ) {
-        const QList<SkyObject*> obsList = KStars::Instance()->observingList()->sessionList();
+        const QList<SkyObject*> obsList = KStarsData::Instance()->observingList()->sessionList();
         if( Options::obsListText() )
             foreach( SkyObject* obj, obsList ) {
                 SkyLabeler::AddLabel( obj, SkyLabeler::RUDE_LABEL );
@@ -258,7 +258,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), 1. );
     if( KStars::Instance() && !m_ObservingList->list )
-        m_ObservingList->list = &KStars::Instance()->observingList()->sessionList();
+        m_ObservingList->list = &KStarsData::Instance()->observingList()->sessionList();
     if( m_ObservingList )
         m_ObservingList->draw( skyp );
 

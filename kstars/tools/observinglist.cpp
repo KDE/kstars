@@ -83,9 +83,9 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 //
 // ObservingList
 // ---------------------------------
-ObservingList::ObservingList( KStars *_ks )
-        : QDialog( (QWidget*)_ks ),
-        ks( _ks ), LogObject(0), m_CurrentObject(0),
+ObservingList::ObservingList()
+        : QDialog( (QWidget*) KStars::Instance() ),
+        LogObject(0), m_CurrentObject(0),
           isModified(false), bIsLarge(true), m_epf( 0 )
 {
     ui = new ObservingListUI( this );
@@ -99,7 +99,7 @@ ObservingList::ObservingList( KStars *_ks )
 
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);
-    geo = ks->data()->geo();
+    geo = KStarsData::Instance()->geo();
     sessionView = false;
     FileName = "";
     pmenu = new ObsListPopupMenu();
@@ -228,7 +228,7 @@ ObservingList::~ObservingList()
 void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     bool addToWishList=true;
     if( ! obj )
-        obj = ks->map()->clickedObject();
+        obj = SkyMap::Instance()->clickedObject();
 
     if ( !obj ) {
         qWarning() << "Trying to add null object to observing list!";
@@ -246,13 +246,13 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if ( obsList().contains( obj ) ) {
         addToWishList = false;
         if( ! session ) {
-            ks->statusBar()->showMessage( xi18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
+            KStars::Instance()->statusBar()->showMessage( xi18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
             return;
         }
     }
 
     if ( session && sessionList().contains( obj ) ) {
-        ks->statusBar()->showMessage( xi18n( "%1 is already in the session plan.", finalObjectName ), 0 );
+        KStars::Instance()->statusBar()->showMessage( xi18n( "%1 is already in the session plan.", finalObjectName ), 0 );
         return;
     }
 
@@ -291,7 +291,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
         m_WishListModel->appendRow( itemList );
         //Note addition in statusbar
-        ks->statusBar()->showMessage( xi18n( "Added %1 to observing list.", finalObjectName ), 0 );
+        KStars::Instance()->statusBar()->showMessage( xi18n( "Added %1 to observing list.", finalObjectName ), 0 );
         ui->TableView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     }
@@ -334,7 +334,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         isModified = true;
         ui->SessionView->resizeColumnsToContents();
         //Note addition in statusbar
-        ks->statusBar()->showMessage( xi18n( "Added %1 to session list.", finalObjectName ), 0 );
+        KStars::Instance()->statusBar()->showMessage( xi18n( "Added %1 to session list.", finalObjectName ), 0 );
     }
     setSaveImagesButton();
 }
@@ -342,7 +342,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) {
     if( ! update ) {
         if ( ! o )
-            o = ks->map()->clickedObject();
+            o = SkyMap::Instance()->clickedObject();
         else if( sessionView ) //else if is needed as clickedObject should not be removed from the session list.
             session = true;
     }
@@ -417,7 +417,7 @@ void ObservingList::slotRemoveSelectedObjects() {
         //we've removed all selected objects, so clear the selection
         ui->SessionView->selectionModel()->clear();
         //Update the lists in the Execute window as well
-        ks->getExecute()->init();
+        KStars::Instance()->getExecute()->init();
     }
 
     setSaveImagesButton();
@@ -544,9 +544,9 @@ void ObservingList::slotNewSelection() {
 
 void ObservingList::slotCenterObject() {
     if ( getSelectedItems().size() == 1 ) {
-        ks->map()->setClickedObject( currentObject() );
-        ks->map()->setClickedPoint( currentObject() );
-        ks->map()->slotCenter();
+        SkyMap::Instance()->setClickedObject( currentObject() );
+        SkyMap::Instance()->setClickedPoint( currentObject() );
+        SkyMap::Instance()->slotCenter();
     }
 }
 
@@ -595,7 +595,7 @@ void ObservingList::slotSlewToObject()
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
     if ( currentObject() ) {
-        QPointer<DetailDialog> dd = new DetailDialog( currentObject(), ks->data()->lt(), geo, ks );
+        QPointer<DetailDialog> dd = new DetailDialog( currentObject(), KStarsData::Instance()->lt(), geo, KStars::Instance() );
         dd->exec();
         delete dd;
     }
@@ -604,7 +604,7 @@ void ObservingList::slotDetails() {
 void ObservingList::slotWUT() {
     KStarsDateTime lt = dt;
     lt.setTime( QTime(8,0,0) );
-    QPointer<WUTDialog> w = new WUTDialog( ks, sessionView, geo, lt );
+    QPointer<WUTDialog> w = new WUTDialog( KStars::Instance(), sessionView, geo, lt );
     w->exec();
     delete w;
 }
@@ -622,7 +622,7 @@ void ObservingList::slotAddToSession() {
 }
 
 void ObservingList::slotFind() {
-   QPointer<FindDialog> fd = new FindDialog( ks );
+   QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
        SkyObject *o = fd->selectedObject();
        if( o != 0 ) {
@@ -642,7 +642,7 @@ void ObservingList::slotAVT() {
     QModelIndexList selectedItems;
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
     if( sessionView ) {
-        QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
+        QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
         for ( int irow = m_SessionModel->rowCount()-1; irow >= 0; --irow ) {
             if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
                 QModelIndex mSortIndex = m_SessionSortModel->index( irow, 0 );
@@ -660,7 +660,7 @@ void ObservingList::slotAVT() {
     } else {
         selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
-            QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
+            QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
             foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
                 foreach ( SkyObject *o, obsList() )
                     if ( getObjectName(o) == i.data().toString() )
@@ -826,11 +826,11 @@ void ObservingList::slotLoadWishList() {
             o = ks->data()->skyComposite()->starNearest( &p, maxrad );
         }
         else {*/
-        o = ks->data()->objectNamed( line );
+        o = KStarsData::Instance()->objectNamed( line );
         //}
         //If we haven't identified the object, try interpreting the
         //name as a star's genetive name (with ascii letters)
-        if ( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );
+        if ( ! o ) o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName( line );
         if ( o ) slotAddObject( o, false, true );
     }
     f.close();
@@ -858,7 +858,7 @@ void ObservingList::slotSaveSession(bool nativeSave) {
 }
 
 void ObservingList::slotWizard() {
-    QPointer<ObsListWizard> wizard = new ObsListWizard( ks );
+    QPointer<ObsListWizard> wizard = new ObsListWizard( KStars::Instance() );
     if ( wizard->exec() == QDialog::Accepted ) {
         foreach ( SkyObject *o, wizard->obsList() ) {
             slotAddObject( o );
@@ -1266,7 +1266,7 @@ void ObservingList::slotOALExport() {
 void ObservingList::slotAddVisibleObj() {
     KStarsDateTime lt = dt;
     lt.setTime( QTime(8,0,0) );
-    QPointer<WUTDialog> w = new WUTDialog( ks, sessionView, geo, lt );
+    QPointer<WUTDialog> w = new WUTDialog( KStars::Instance(), sessionView, geo, lt );
     w->init();
     QModelIndexList selectedItems;
     selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();

@@ -122,9 +122,7 @@ public:
     inline KStarsData* data() const { return kstarsData; }
 
     /** @return pointer to SkyMap object which is the sky display widget. */
-    inline SkyMap* map() const { return skymap; }
-
-    inline ObservingList* observingList() const { return m_observingList; }
+    inline SkyMap* map() const { return skymap; }    
 
     inline EkosManager *ekosManager() const { return m_ekosManager; }
 
@@ -616,7 +614,7 @@ private:
     ImageExporter *imageExporter;
 
     //FIXME: move to KStarsData
-    ObservingList *m_observingList;
+
     EquipmentWriter *m_equipmentWriter;
     ObserverAdd *m_observerAdd;
     Execute *m_execute;

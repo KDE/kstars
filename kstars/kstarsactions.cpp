@@ -1166,7 +1166,7 @@ void KStars::slotFOVEdit() {
 }
 
 void KStars::slotObsList() {
-    m_observingList->show();
+    kstarsData->observingList()->show();
 }
 
 void KStars::slotEquipmentWriter() {
@@ -1275,7 +1275,7 @@ void KStars::slotAboutToQuit()
     writeConfig();
 
     if( !Options::obsListSaveImage() ) {
-        foreach ( const QString& file, m_observingList->imageList() )
+        foreach ( const QString& file, kstarsData->observingList()->imageList() )
             QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + file ) ;
     }
 }

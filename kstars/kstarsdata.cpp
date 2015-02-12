@@ -99,6 +99,7 @@ KStarsData::KStarsData() :
     m_Geo(dms(0), dms(0)),
     m_ksuserdb(),
     m_catalogdb(),
+    m_observingList(0),
     temporaryTrail( false ),
     //locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
@@ -166,6 +167,9 @@ bool KStarsData::initialize() {
         emit progressText( xi18n("Queueing update of list of supernovae from the internet") );
         skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
     }
+
+    //Initialize Observing List
+    m_observingList = new ObservingList();
 
     readUserLog();
 

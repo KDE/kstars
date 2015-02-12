@@ -54,7 +54,6 @@ Execute::Execute() {
 
     setWindowTitle( xi18n( "Execute Session" ) );
 
-    ks = KStars::Instance();
     currentTarget = NULL;
     currentObserver = NULL;
     currentScope = NULL;
@@ -67,7 +66,7 @@ Execute::Execute() {
     nextSite = 0;
 
     //initialize the global logObject
-    logObject = ks->data()->logObject();
+    logObject = KStarsData::Instance()->logObject();
 
     //initialize the lists and parameters
     init();
@@ -99,7 +98,7 @@ Execute::Execute() {
 
 void Execute::init() {
     //initialize geo to current location of the ObservingList
-    geo = ks->observingList()->geoLocation();
+    geo = KStarsData::Instance()->geo();
     ui.Location->setText( geo->fullName() );
 
 
@@ -212,7 +211,7 @@ void Execute::slotLocation() {
 void Execute::loadTargets() {
     ui.Target->clear();
     sortTargetList();
-    foreach( SkyObject *o, ks->observingList()->sessionList() ) {
+    foreach( SkyObject *o, KStarsData::Instance()->observingList()->sessionList() ) {
         ui.Target->addItem( getObjectName(o, false) );
     }
 }
@@ -239,11 +238,14 @@ void Execute::loadObservers() {
 }
 
 void Execute::sortTargetList() {
-    qSort( ks->observingList()->sessionList().begin(), ks->observingList()->sessionList().end(), Execute::timeLessThan );
+    qSort( KStarsData::Instance()->observingList()->sessionList().begin(), KStarsData::Instance()->observingList()->sessionList().end(), Execute::timeLessThan );
 }
 
- bool Execute::timeLessThan ( SkyObject *o1, SkyObject *o2 ) {
-    QTime t1 = KStars::Instance()->observingList()->scheduledTime( o1 ), t2 = KStars::Instance()->observingList()->scheduledTime( o2 );
+bool Execute::timeLessThan ( SkyObject *o1, SkyObject *o2 )
+{
+    QTime t1 = KStarsData::Instance()->observingList()->scheduledTime( o1 );
+    QTime t2 = KStarsData::Instance()->observingList()->scheduledTime( o2 );
+
     if( t1 < QTime(12,0,0) )
         t1.setHMS( t1.hour()+12, t1.minute(), t1.second() );
     else
@@ -258,7 +260,7 @@ void Execute::sortTargetList() {
 void Execute::addTargetNotes() {
     if( ! ui.Target->count() )
         return;
-    SkyObject *o = KStars::Instance()->observingList()->findObjectByName( ui.Target->currentItem()->text() );
+    SkyObject *o = KStarsData::Instance()->observingList()->findObjectByName( ui.Target->currentItem()->text() );
     if( o ) {
         currentTarget = o;
         o->setNotes( ui.Notes->toPlainText() );
@@ -322,7 +324,7 @@ void Execute::slotEndSession() {
 }
 
 void Execute::slotSetTarget( QString name ) {
-    currentTarget = ks->observingList()->findObjectByName( name );
+    currentTarget = KStarsData::Instance()->observingList()->findObjectByName( name );
     if( ! currentTarget ) {
         ui.NextButton->setEnabled( false );
         ui.Slew->setEnabled( false );
@@ -330,13 +332,13 @@ void Execute::slotSetTarget( QString name ) {
     } else {
         ui.NextButton->setEnabled( true );
         ui.Slew->setEnabled( true );
-        ks->observingList()->selectObject( currentTarget );
-        ks->observingList()->slotCenterObject();
+        KStarsData::Instance()->observingList()->selectObject( currentTarget );
+        KStarsData::Instance()->observingList()->slotCenterObject();
         QString smag = "--";
         if (  - 30.0 < currentTarget->mag() && currentTarget->mag() < 90.0 ) smag = QString::number( currentTarget->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
         ui.Mag->setText( smag );
         ui.Type->setText( currentTarget->typeName() );
-        ui.SchTime->setText( ks->observingList()->scheduledTime(currentTarget).toString( "h:mm:ss AP" ) ) ;
+        ui.SchTime->setText( KStarsData::Instance()->observingList()->scheduledTime(currentTarget).toString( "h:mm:ss AP" ) ) ;
         SkyPoint p = currentTarget->recomputeCoords( KStarsDateTime::currentDateTime() , geo );
         dms lst(geo->GSTtoLST( KStarsDateTime::currentDateTime().gst() ));
         p.EquatorialToHorizontal( &lst, geo->lat() );
@@ -349,7 +351,7 @@ void Execute::slotSetTarget( QString name ) {
 }
 
 void Execute::slotSlew() {
-    ks->observingList()->slotSlewToObject();
+    KStarsData::Instance()->observingList()->slotSlewToObject();
 }
 
 void Execute::selectNextTarget() {
@@ -388,11 +390,11 @@ void Execute::slotShowTargets() {
 }
 
 void Execute::slotAddObject() {
-   QPointer<FindDialog> fd = new FindDialog( ks );
+   QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
        SkyObject *o = fd->selectedObject();
        if( o != 0 ) {
-           ks->observingList()->slotAddObject( o, true );
+           KStarsData::Instance()->observingList()->slotAddObject( o, true );
            init();
        }
    }
@@ -411,7 +413,7 @@ void Execute::slotRemoveObject()
 
 	if( obj!=0 )
 	{
-		ks->observingList()->slotRemoveObject( obj, true );
+        KStarsData::Instance()->observingList()->slotRemoveObject( obj, true );
 		loadTargets();
 	}
 }

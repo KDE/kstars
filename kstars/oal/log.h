@@ -129,7 +129,6 @@ class OAL::Log {
         QString output;
         bool native;
         dms ra, dec;
-        KStars *ks;
         QXmlStreamWriter *writer;
         QXmlStreamReader *reader;
         QHash<QString, QTime> TimeHash;

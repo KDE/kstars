@@ -214,6 +214,8 @@ public:
     /** Return ADV Tree */
     QList<ADVTreeData*> avdTree() { return ADVtreeList; }
 
+    inline ObservingList* observingList() const { return m_observingList; }
+
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
@@ -333,6 +335,7 @@ private:
     CatalogDB m_catalogdb;
     ColorScheme CScheme;
     OAL::Log *m_logObject;
+    ObservingList *m_observingList;
 
     bool TimeRunsForward, temporaryTrail;
     // FIXME: Used in SkyMap only. Check!

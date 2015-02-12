@@ -584,9 +584,6 @@ void KStars::datainitFinished() {
     connect( TimeStep, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
-
-    //Initialize Observing List
-    m_observingList = new ObservingList( this );
     m_equipmentWriter = new EquipmentWriter();
     m_observerAdd = new ObserverAdd;
     #ifdef HAVE_INDI

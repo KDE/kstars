@@ -84,7 +84,7 @@ class ObservingList : public QDialog
 public:
     /** @short Constructor
         */
-    ObservingList( KStars *_ks );
+    ObservingList();
     /** @short Destuctor (empty)
         */
     ~ObservingList();
@@ -378,7 +378,6 @@ private:
      */
     inline QModelIndexList getSelectedItems() const { return getActiveView()->selectionModel()->selectedRows(); }
 
-    KStars *ks;
     KSAlmanac *ksal;
     ObservingListUI *ui;
     QList<SkyObject*> m_WishList, m_SessionList;
