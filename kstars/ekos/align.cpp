@@ -19,6 +19,7 @@
 #include <QFileDialog>
 #include <KMessageBox>
 
+#include "ksnotify.h"
 #include "QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
@@ -541,7 +542,7 @@ bool Align::captureAndSolve()
     {
         appendLogText(xi18n("Error: Lost connection to CCD."));
         if (Options::playAlignmentAlarm())
-                KStars::Instance()->ekosManager()->playError();
+                KSNotify::play(KSNotify::NOTIFY_ERROR);
         return false;
     }
 
@@ -667,7 +668,7 @@ void Align::solverFinished(double orientation, double ra, double dec)
      SolverDecOut->setText(dec_dms);
 
      if (Options::playAlignmentAlarm())
-             KStars::Instance()->ekosManager()->playOk();
+             KSNotify::play(KSNotify::NOTIFY_OK);
 
      m_isSolverComplete = true;
      m_isSolverSuccessful = true;
@@ -680,7 +681,7 @@ void Align::solverFinished(double orientation, double ra, double dec)
 void Align::solverFailed()
 {
     if (Options::playAlignmentAlarm())
-            KStars::Instance()->ekosManager()->playError();
+            KSNotify::play(KSNotify::NOTIFY_ERROR);
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);

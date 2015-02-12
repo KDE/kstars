@@ -13,6 +13,7 @@
 
 #include "Options.h"
 #include "kstars.h"
+#include "auxiliary/ksnotify.h"
 
 #include <KMessageBox>
 #include <QComboBox>
@@ -102,14 +103,6 @@ EkosManager::EkosManager(QWidget *parent)
     else
         initRemoteDrivers();
 
-    playFITSFile  = new QMediaPlayer();
-    playFITSFile->setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-fits.ogg" )));
-
-    playOkFile    = new QMediaPlayer();
-    playOkFile->setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-ok.ogg" )));
-
-    playErrorFile = new QMediaPlayer();
-    playErrorFile->setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-error.ogg" )));
 }
 
 EkosManager::~EkosManager()
@@ -119,9 +112,6 @@ EkosManager::~EkosManager()
     delete guideProcess;
     delete alignProcess;
     delete mountProcess;
-    delete playFITSFile;
-    delete playOkFile;
-    delete playErrorFile;
 }
 
 void EkosManager::setConnectionMode(bool isLocal)
@@ -1669,22 +1659,6 @@ bool EkosManager::isRunning(const QString &process)
   ps.waitForFinished();
   QString output = ps.readAllStandardOutput();
   return output.startsWith(process);
-}
-
-void EkosManager::playFITS()
-{
-    playFITSFile->play();
-}
-
-void EkosManager::playOk()
-{
-   playOkFile->play();
-
-}
-
-void EkosManager::playError()
-{
-   playErrorFile->play();
 }
 
 void EkosManager::setTelescope(const QString & telescopeName)

@@ -22,6 +22,7 @@
 #include "gmath.h"
 #include "vect.h"
 
+#include "ksnotify.h"
 #include "../guide.h"
 #include "../fitsviewer/fitsviewer.h"
 #include "../fitsviewer/fitsview.h"
@@ -427,7 +428,7 @@ void rcalibration::calibrateManualReticle( void )
 
                     pmain_wnd->appendLogText(xi18n("Calibration completed."));
                     if (Options::playGuideAlarm())
-                            KStars::Instance()->ekosManager()->playOk();
+                            KSNotify::play(KSNotify::NOTIFY_OK);
                     calibrationStage = CAL_FINISH;
                     emit calibrationCompleted(true);
 
@@ -452,7 +453,7 @@ void rcalibration::calibrateManualReticle( void )
                 pmain_wnd->appendLogText(xi18n("Calibration completed."));
                 emit calibrationCompleted(true);
                 if (Options::playGuideAlarm())
-                        KStars::Instance()->ekosManager()->playOk();
+                        KSNotify::play(KSNotify::NOTIFY_OK);
 			}
 			else
 			{
@@ -460,7 +461,7 @@ void rcalibration::calibrateManualReticle( void )
                 emit calibrationCompleted(false);
                 QMessageBox::warning( this, xi18n("Error"), xi18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                 if (Options::playGuideAlarm())
-                        KStars::Instance()->ekosManager()->playError();
+                        KSNotify::play(KSNotify::NOTIFY_ERROR);
 			}
 		}
 
@@ -592,7 +593,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             emit calibrationCompleted(false);
             QMessageBox::warning( this, xi18n("Warning"), xi18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
             if (Options::playGuideAlarm())
-                    KStars::Instance()->ekosManager()->playError();
+                    KSNotify::play(KSNotify::NOTIFY_ERROR);
             reset();
             break;
         }
@@ -623,7 +624,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             emit calibrationCompleted(true);
             ui.startCalibrationLED->setColor(okColor);
             if (Options::playGuideAlarm())
-                    KStars::Instance()->ekosManager()->playError();
+                    KSNotify::play(KSNotify::NOTIFY_ERROR);
             if (ui.autoCalibrationCheck->isChecked())
                 selectAutoStar(pmath->get_image());
         }
@@ -634,7 +635,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             calibrationStage = CAL_ERROR;
             emit calibrationCompleted(false);
             if (Options::playGuideAlarm())
-                    KStars::Instance()->ekosManager()->playError();
+                    KSNotify::play(KSNotify::NOTIFY_ERROR);
         }
 
         reset();
@@ -710,7 +711,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         emit calibrationCompleted(false);
         QMessageBox::warning( this, xi18n("Warning"), xi18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
         if (Options::playGuideAlarm())
-                KStars::Instance()->ekosManager()->playError();
+                KSNotify::play(KSNotify::NOTIFY_ERROR);
         reset();
         break;
     }
@@ -730,7 +731,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         ui.startCalibrationLED->setColor(okColor);
         pmain_wnd->setDECSwap(swap_dec);
         if (Options::playGuideAlarm())
-                KStars::Instance()->ekosManager()->playOk();
+                KSNotify::play(KSNotify::NOTIFY_OK);
         if (ui.autoCalibrationCheck->isChecked())
             selectAutoStar(pmath->get_image());
 
@@ -742,7 +743,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
         if (Options::playGuideAlarm())
-                KStars::Instance()->ekosManager()->playError();
+                KSNotify::play(KSNotify::NOTIFY_ERROR);
     }
 
     reset();

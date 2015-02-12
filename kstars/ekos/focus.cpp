@@ -26,6 +26,7 @@
 #include "fitsviewer/fitsview.h"
 #include "ekosmanager.h"
 
+#include "ksnotify.h"
 #include "kstars.h"
 #include "focusadaptor.h"
 
@@ -1721,9 +1722,9 @@ void Focus::updateFocusStatus(bool status)
     if (Options::playFocusAlarm())
     {
         if (status)
-            KStars::Instance()->ekosManager()->playOk();
+            KSNotify::play(KSNotify::NOTIFY_OK);
         else
-            KStars::Instance()->ekosManager()->playError();
+            KSNotify::play(KSNotify::NOTIFY_ERROR);
     }
 }
 

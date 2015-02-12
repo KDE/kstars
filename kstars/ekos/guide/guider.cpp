@@ -18,6 +18,7 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 
+#include "ksnotify.h"
 #include "scroll_graph.h"
 #include "gmath.h"
 #include "fitsviewer/fitsview.h"
@@ -645,7 +646,7 @@ bool rguider::abort(bool silence)
             return rc;
 
         if (Options::playGuideAlarm())
-                KStars::Instance()->ekosManager()->playError();
+                KSNotify::play(KSNotify::NOTIFY_ERROR);
     }
 
     return true;

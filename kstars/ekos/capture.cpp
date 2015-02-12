@@ -20,6 +20,7 @@
 
 #include "Options.h"
 
+#include "ksnotify.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 
@@ -531,7 +532,7 @@ void Capture::stopSequence()
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
             if (Options::playCCDAlarm())
-                KStars::Instance()->ekosManager()->playError();
+                KSNotify::play(KSNotify::NOTIFY_ERROR);
             activeJob->abort();
         }
 
@@ -1005,7 +1006,7 @@ void Capture::newFITS(IBLOB *bp)
         else
         {
             if (Options::playCCDAlarm())
-                    KStars::Instance()->ekosManager()->playOk();
+                    KSNotify::play(KSNotify::NOTIFY_OK);
 
             if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
             {

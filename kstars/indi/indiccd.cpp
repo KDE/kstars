@@ -32,6 +32,7 @@
 
 #include <ekos/ekosmanager.h>
 
+#include "ksnotify.h"
 #include "imageviewer.h"
 #include "Options.h"
 
@@ -1164,7 +1165,7 @@ void CCD::processBLOB(IBLOB* bp)
         KStars::Instance()->statusBar()->showMessage( xi18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
     if (Options::playFITSAlarm() && KStars::Instance()->ekosManager())
-        KStars::Instance()->ekosManager()->playFITS();
+        KSNotify::play(KSNotify::NOTIFY_FILE_RECEIVED);
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {

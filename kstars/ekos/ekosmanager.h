@@ -225,8 +225,6 @@ public slots:
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;
 
-    QMediaPlayer *playFITSFile, *playOkFile, *playErrorFile;
-
 };
 
 
