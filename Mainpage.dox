@@ -89,6 +89,7 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
     - FocusDialog
     - \ref KSWizard Wizard
     - Settings: OpsCatalog, OpsAdvanced, OpsColors, OpsGuides, OpsSatellites, OpsSolarSystem, OpsSupernovae, OpsINDI, OpsEkos
+    - \ref KSNotify "Notifications"
 
 \subsection Scripting Scripting
     - \ref DBusInterface DBus Interface
