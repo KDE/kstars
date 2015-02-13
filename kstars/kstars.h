@@ -612,7 +612,7 @@ private:
 
     //FIXME: move to KStarsData
 
-    EquipmentWriter *m_equipmentWriter;
+
     ObserverAdd *m_observerAdd;
     Execute *m_execute;
     AltVsTime *m_altVsTime;

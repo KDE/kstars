@@ -1169,8 +1169,10 @@ void KStars::slotObsList() {
 }
 
 void KStars::slotEquipmentWriter() {
-    m_equipmentWriter->loadEquipment();
-    m_equipmentWriter->show();
+    QPointer<EquipmentWriter> equipmentdlg = new EquipmentWriter();
+    equipmentdlg->loadEquipment();
+    equipmentdlg->exec();
+    delete equipmentdlg;
 }
 
 void KStars::slotObserverAdd() {

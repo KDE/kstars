@@ -343,6 +343,7 @@ private:
     #ifdef HAVE_INDI
     EkosManager *m_ekosManager;
     #endif
+    //EquipmentWriter *m_equipmentWriter;
 
     bool TimeRunsForward, temporaryTrail;
     // FIXME: Used in SkyMap only. Check!
