@@ -65,7 +65,7 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
     - FITSViewer: Open and preview FITS files.
     - \ref INDI "Devices & INDI": Establish INDI drivers locally or connect to remote INDI servers.
     - Ekos
-    - \ref SkyCalender "Sky Calender"
+    - \ref SkyCalendar "Sky Calendar"
     - \ref DetailDialog "Detail Dialog"
     - \ref WUTDialog "What's up tonight"
     - What's interesting
@@ -80,14 +80,14 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
 
 \subsection Auxiliary Auxiliary
      Auxiliary are helper classes/dialogs/functions used throughout KStars.
-    - \ref ImageView "Image Viewer"
-    - dms (encapsulates an angle value).
-    - GeoLocation (which encapsulates a location on Earth).
-    - TimeZoneRule (which encapsulates a daylight savings time rule).
+    - \ref ImageViewer "Image Viewer"
+    - dms : Encapsulates an angle value.
+    - GeoLocation: Encapsulates a location on Earth.
+    - TimeZoneRule: Encapsulates a daylight savings time rule.
     - \ref ColorScheme "Color Schemes"
     - ThumbnailPicker / ThumbnailEditor
-    - FocusDialog
-    - \ref KSWizard Wizard
+    - \ref FocusDialog "Focus Dialog"
+    - \ref KSWizard "Wizard"
     - Settings: OpsCatalog, OpsAdvanced, OpsColors, OpsGuides, OpsSatellites, OpsSolarSystem, OpsSupernovae, OpsINDI, OpsEkos
     - \ref KSNotify "Notifications"
 

@@ -135,7 +135,7 @@ public:
      * like the above function.  The floating-point value of the angle
      * (D) is determined from the following formulae:
      * 
-     * \f $ fabs(D) = fabs(d) + \frac{(m + (s/60))}{60} \f$
+     * \f$ fabs(D) = fabs(d) + \frac{(m + (s/60))}{60} \f$
      * \f$ sgn(D) = sgn(d) \f$
      * 
      * @param d integer degrees portion of angle
