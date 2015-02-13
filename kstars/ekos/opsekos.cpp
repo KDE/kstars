@@ -18,11 +18,11 @@
 
 #include "opsekos.h"
 #include "Options.h"
-#include "kstars.h"
+#include "kstarsdata.h"
 #include "ekosmanager.h"
 
-OpsEkos::OpsEkos( KStars *_ks )
-        : QFrame( _ks )
+OpsEkos::OpsEkos()
+        : QFrame( KStars::Instance() )
 {
     setupUi(this);
     
@@ -40,7 +40,7 @@ OpsEkos::~OpsEkos() {}
 
 void OpsEkos::slotApply()
 {
-    EkosManager *ekosManager = KStars::Instance()->ekosManager();
+    EkosManager *ekosManager = KStarsData::Instance()->ekosManager();
 
     if (ekosManager)
         ekosManager->refreshRemoteDrivers();

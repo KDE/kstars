@@ -41,7 +41,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
 
 public:
-    EkosManager(QWidget *parent);
+    EkosManager();
     ~EkosManager();
 
     void appendLogText(const QString &);

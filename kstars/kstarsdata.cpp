@@ -44,6 +44,10 @@
 #include <config-kstars.h>
 #include "dialogs/detaildialog.h"
 
+#ifdef HAVE_INDI
+#include "ekos/ekosmanager.h"
+#endif
+
 namespace {
 
     // Report fatal error during data loading to user
@@ -110,6 +114,10 @@ KStarsData::KStarsData() :
     // at startup times run forward
     setTimeDirection( 0.0 );
 
+    #ifdef HAVE_INDI
+    m_ekosManager = NULL;
+    #endif
+
 }
 
 KStarsData::~KStarsData() {
@@ -117,6 +125,11 @@ KStarsData::~KStarsData() {
 
     //delete locale;
     delete m_logObject;
+    delete m_observingList;
+
+    #ifdef HAVE_INDI
+    delete m_ekosManager;
+    #endif
 
     qDeleteAll( geoList );
     qDeleteAll( ADVtreeList );
@@ -170,6 +183,9 @@ bool KStarsData::initialize() {
 
     //Initialize Observing List
     m_observingList = new ObservingList();
+    #ifdef HAVE_INDI
+    m_ekosManager   = new EkosManager();
+    #endif
 
     readUserLog();
 

@@ -37,7 +37,6 @@ class FindDialog;
 class TimeStepBox;
 class ImageExporter;
 
-
 class AltVsTime;
 class WUTDialog;
 class WIView;
@@ -67,7 +66,7 @@ class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
 class OpsEkos;
-class EkosManager;
+
 #ifdef HAVE_XPLANET
 class OpsXplanet;
 #endif
@@ -122,9 +121,7 @@ public:
     inline KStarsData* data() const { return kstarsData; }
 
     /** @return pointer to SkyMap object which is the sky display widget. */
-    inline SkyMap* map() const { return skymap; }    
-
-    inline EkosManager *ekosManager() const { return m_ekosManager; }
+    inline SkyMap* map() const { return skymap; }        
 
     inline FlagManager* flagManager() const { return m_flagManager; }
 
@@ -632,8 +629,7 @@ private:
     MoonPhaseTool *m_moonPhaseTool;
     FlagManager *m_flagManager;
     AstroCalc *astrocalc;
-    PrintingWizard *m_printingWizard;
-    EkosManager *m_ekosManager;
+    PrintingWizard *m_printingWizard;    
 
     QActionGroup *projectionGroup, *cschemeGroup;
 

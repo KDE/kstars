@@ -13,6 +13,7 @@ hi22-actions-kstars_planets.png
 hi22-actions-kstars_satellites.png
 hi22-actions-kstars_stars.png
 hi22-actions-kstars_supernovae.png
+hi22-actions-kstars_ekos.png
 hi32-actions-kstars_clines.png
 hi32-actions-kstars_cnames.png
 hi32-actions-kstars_deepsky.png
@@ -25,6 +26,7 @@ hi32-actions-kstars_planets.png
 hi32-actions-kstars_satellites.png
 hi32-actions-kstars_stars.png
 hi32-actions-kstars_supernovae.png
+hi32-actions-kstars_ekos.png
 hi48-actions-kstars_clines.png
 hi48-actions-kstars_cnames.png
 hi48-actions-kstars_deepsky.png
@@ -37,6 +39,7 @@ hi48-actions-kstars_planets.png
 hi48-actions-kstars_satellites.png
 hi48-actions-kstars_stars.png
 hi48-actions-kstars_supernovae.png
+hi48-actions-kstars_ekos.png
 hi64-actions-kstars_advanced.png
 hi64-actions-kstars_catalog.png
 hi64-actions-kstars_cbound.png
@@ -56,5 +59,6 @@ hi64-actions-kstars_solarsystem.png
 hi64-actions-kstars_stars.png
 hi64-actions-kstars_supernovae.png
 hi64-actions-kstars_xplanet.png
+hi64-actions-kstars_ekos.png
 DESTINATION
 ${ICON_INSTALL_DIR})

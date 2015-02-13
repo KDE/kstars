@@ -12,7 +12,6 @@
 
 #include "ui_opsekos.h"
 
-class KStars;
 class KConfigDialog;
 
 /**
@@ -28,7 +27,7 @@ class OpsEkos : public QFrame, public Ui::OpsEkos
     Q_OBJECT
 
 public:
-    explicit OpsEkos( KStars *_ks );
+    explicit OpsEkos();
     ~OpsEkos();
 
 private slots:

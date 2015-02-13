@@ -57,7 +57,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
       imgExportDialog(0), imageExporter(0), m_execute(0),
       m_altVsTime(0), m_WUTDialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0), m_skyCalender(0),
       m_scriptBuilder(0), m_planetViewer(0), m_JMoonTool(0), m_moonPhaseTool(0), m_flagManager(0), astrocalc(0), m_printingWizard(0),
-      m_ekosManager(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
+      DialogIsObsolete(false), StartClockRunning( clockrun ),
       StartDateString( startdate )
 {
     new KstarsAdaptor(this);

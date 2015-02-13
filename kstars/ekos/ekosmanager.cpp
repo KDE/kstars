@@ -33,13 +33,15 @@
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 #define MAX_LOCAL_INDI_TIMEOUT 5000
 
-EkosManager::EkosManager(QWidget *parent)
-        : QDialog(parent)
+EkosManager::EkosManager()
+        : QDialog(KStars::Instance())
 {
     setupUi(this);
 
     new EkosAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos",  this);
+
+    setWindowIcon(QIcon::fromTheme("kstars_ekos"));
 
     nDevices=0;
     useGuideHead    =false;

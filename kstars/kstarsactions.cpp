@@ -495,8 +495,7 @@ void KStars::slotEkos()
         return;
     }
 
-    if (m_ekosManager == NULL)
-        m_ekosManager = new EkosManager(this);
+    EkosManager *m_ekosManager = KStarsData::Instance()->ekosManager();
 
     m_ekosManager->show();
     m_ekosManager->raise();
@@ -571,12 +570,12 @@ void KStars::slotViewOps() {
     dialog->addPage(opcolors, xi18n("Colors"), "kstars_colors");
 
     #ifdef HAVE_INDI
-    opsindi = new OpsINDI (this);
+    opsindi = new OpsINDI();
     dialog->addPage(opsindi, xi18n("INDI"), "kstars");
 
     #ifdef HAVE_CFITSIO
-    opsekos = new OpsEkos(this);
-    dialog->addPage(opsekos, xi18n("Ekos"), "kstars");
+    opsekos = new OpsEkos();
+    dialog->addPage(opsekos, xi18n("Ekos"), "kstars_ekos");
     #endif
 
     #endif

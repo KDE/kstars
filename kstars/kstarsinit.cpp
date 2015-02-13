@@ -586,9 +586,6 @@ void KStars::datainitFinished() {
 
     m_equipmentWriter = new EquipmentWriter();
     m_observerAdd = new ObserverAdd;
-    #ifdef HAVE_INDI
-    m_ekosManager = new EkosManager(this);
-    #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )

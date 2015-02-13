@@ -23,8 +23,8 @@
 
 #include "kstars.h"
 
-OpsINDI::OpsINDI( KStars *_ks )
-        : QFrame( _ks )
+OpsINDI::OpsINDI()
+        : QFrame(KStars::Instance())
 {
     setupUi(this);
     

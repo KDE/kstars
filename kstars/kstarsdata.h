@@ -49,6 +49,7 @@ class SkyMap;
 class SkyMapComposite;
 class SkyObject;
 class FOV;
+class EkosManager;
 
 class TimeZoneRule;
 struct ADVTreeData;
@@ -215,6 +216,9 @@ public:
     QList<ADVTreeData*> avdTree() { return ADVtreeList; }
 
     inline ObservingList* observingList() const { return m_observingList; }
+    #ifdef HAVE_INDI
+    inline EkosManager *ekosManager() const { return m_ekosManager; }
+    #endif
 
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
@@ -336,6 +340,9 @@ private:
     ColorScheme CScheme;
     OAL::Log *m_logObject;
     ObservingList *m_observingList;
+    #ifdef HAVE_INDI
+    EkosManager *m_ekosManager;
+    #endif
 
     bool TimeRunsForward, temporaryTrail;
     // FIXME: Used in SkyMap only. Check!

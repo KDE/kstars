@@ -27,7 +27,7 @@ class OpsINDI : public QFrame, public Ui::OpsINDI
     Q_OBJECT
 
 public:
-    OpsINDI( KStars *_ks );
+    OpsINDI();
     ~OpsINDI();
 
 private slots:
