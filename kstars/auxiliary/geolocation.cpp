@@ -67,7 +67,7 @@ void GeoLocation::setEllipsoid(int i) {
     static const double A[] = { 6378140.0,       6378137.0,       6378137.0,       6378137.0,        6378136.0 };
     static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
 
-    Q_ASSERT(i >= 0 && i < sizeof(A)/sizeof(A[0]) && "Index must be in bounds");
+    Q_ASSERT(i >= 0 && (unsigned int) i < sizeof(A)/sizeof(A[0]) && "Index must be in bounds");
     axis       = A[i];
     flattening = F[i];
 }
