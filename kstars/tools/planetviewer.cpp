@@ -88,12 +88,12 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::SATURN ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::URANUS ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::NEPTUNE ) );
-    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::PLUTO ) );
+    //PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::PLUTO ) );
 
     ut = data->ut();
     KSNumbers num( ut.djd() );
 
-    for ( uint i=0; i<9; ++i ) {
+    for ( uint i=0; i< KSPlanetBase::UNKNOWN_PLANET; ++i ) {
         PlanetList[i]->findPosition( &num, 0, 0 ); //NULL args: don't need geocent. coords.
         LastUpdate[i] = int( ut.date().toJulianDay() );
     }

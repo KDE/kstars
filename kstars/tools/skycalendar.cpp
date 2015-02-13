@@ -105,8 +105,8 @@ void SkyCalendar::slotFillCalendar() {
         addPlanetEvents( KSPlanetBase::URANUS );
     if ( scUI->checkBox_Neptune->isChecked() )
         addPlanetEvents( KSPlanetBase::NEPTUNE );
-    if ( scUI->checkBox_Pluto->isChecked() )
-        addPlanetEvents( KSPlanetBase::PLUTO );
+    //if ( scUI->checkBox_Pluto->isChecked() )
+        //addPlanetEvents( KSPlanetBase::PLUTO );
     
     scUI->CalendarView->update();
 }

@@ -79,5 +79,5 @@ void OpsSolarSystem::slotSelectPlanets() {
     kcfg_ShowSaturn->setChecked( b );
     kcfg_ShowUranus->setChecked( b );
     kcfg_ShowNeptune->setChecked( b );
-    kcfg_ShowPluto->setChecked( b );
+    //kcfg_ShowPluto->setChecked( b );
 }

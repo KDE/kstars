@@ -92,7 +92,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     pNames[KSPlanetBase::SATURN] = xi18n("Saturn");
     pNames[KSPlanetBase::URANUS] = xi18n("Uranus");
     pNames[KSPlanetBase::NEPTUNE] = xi18n("Neptune");
-    pNames[KSPlanetBase::PLUTO] = xi18n("Pluto");
+    //pNames[KSPlanetBase::PLUTO] = xi18n("Pluto");
     pNames[KSPlanetBase::SUN] = xi18n("Sun");
     pNames[KSPlanetBase::MOON] = xi18n("Moon");
 

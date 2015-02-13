@@ -82,9 +82,9 @@ KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
         case KSPlanetBase::NEPTUNE:
             return new KSPlanet( n );
             break;
-        case KSPlanetBase::PLUTO:
+        /*case KSPlanetBase::PLUTO:
             return new KSPluto();
-            break;
+            break;*/
         case KSPlanetBase::SUN:
             return new KSSun();
             break;

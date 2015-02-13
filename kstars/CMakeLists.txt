@@ -326,7 +326,7 @@ set(kstars_skyobjects_SRCS
   skyobjects/ksmoon.cpp
   skyobjects/ksplanetbase.cpp
   skyobjects/ksplanet.cpp
-  skyobjects/kspluto.cpp
+  #skyobjects/kspluto.cpp
   skyobjects/kssun.cpp
   skyobjects/skyline.cpp
   skyobjects/skyobject.cpp

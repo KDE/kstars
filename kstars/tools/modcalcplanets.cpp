@@ -30,7 +30,7 @@
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/ksmoon.h"
-#include "skyobjects/kspluto.h"
+//#include "skyobjects/kspluto.h"
 #include "widgets/dmsbox.h"
 
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit) :
@@ -116,11 +116,11 @@ void modCalcPlanets::slotComputePosition (void)
         p = new KSPlanet(KSPlanetBase::URANUS);  break;
     case 7:
         p = new KSPlanet(KSPlanetBase::NEPTUNE); break;
+    /*case 8:
+        p = new KSPluto(); break;*/
     case 8:
-        p = new KSPluto(); break;
-    case 9:
         p = new KSMoon();  break;
-    case 10:
+    case 9:
         p = new KSSun();
         p->setRsun(0.0);
         break;
@@ -263,11 +263,11 @@ void modCalcPlanets::processLines( QTextStream &istream )
     QString pn;
     QStringList pNames, pNamesi18n;
     pNames << "Mercury" << "Venus" << "Earth" << "Mars" << "Jupiter"
-    << "Saturn" << "Uranus" << "Neptune" << "Pluto"
+    << "Saturn" << "Uranus" << "Neptune" /* << "Pluto" */
     << "Sun" << "Moon";
     pNamesi18n << xi18n("Mercury") << xi18n("Venus") << xi18n("Earth")
     << xi18n("Mars") << xi18n("Jupiter") << xi18n("Saturn")
-    << xi18n("Uranus") << xi18n("Neptune") << xi18n("Pluto")
+    << xi18n("Uranus") << xi18n("Neptune") /* << xi18n("Pluto") */
     << xi18n("Sun") << xi18n("Moon");
 
     ///Parse the input file
@@ -375,9 +375,10 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
         // FIXME: allocate new object for every iteration is probably not wisest idea.
         KSPlanetBase *kspb = 0 ;
-        if ( pn == "Pluto" ) {
+        /*if ( pn == "Pluto" ) {
             kspb = new KSPluto();
-        } else if ( pn == "Sun" ) {
+        } else*/
+        if ( pn == "Sun" ) {
             kspb = new KSSun();
         } else if ( pn == "Moon" ) {
             kspb = new KSMoon();

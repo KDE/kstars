@@ -157,7 +157,7 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
             if ( obj->name() == xi18n( "Saturn" ) && ! Options::showSaturn() ) continue;
             if ( obj->name() == xi18n( "Uranus" ) && ! Options::showUranus() ) continue;
             if ( obj->name() == xi18n( "Neptune" ) && ! Options::showNeptune() ) continue;
-            if ( obj->name() == xi18n( "Pluto" ) && ! Options::showPluto() ) continue;
+            //if ( obj->name() == xi18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
         if ( (obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
              (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||

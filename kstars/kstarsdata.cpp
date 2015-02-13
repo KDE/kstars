@@ -573,7 +573,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
             // Dirty hack to fix things up for planets
             SkyObject *o;
             if( name == "Mercury" || name == "Venus" || name == "Mars" || name == "Jupiter"
-                || name == "Saturn" || name == "Uranus" || name == "Neptune" || name == "Pluto" )
+                || name == "Saturn" || name == "Uranus" || name == "Neptune" /* || name == "Pluto" */)
                 o = skyComposite()->findByName( i18n( name.toLocal8Bit().data() ) );
             else
                 o = skyComposite()->findByName( name );
@@ -922,7 +922,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( fn[1] == "ShowSaturn"      && bOk ) { Options::setShowSaturn(   bVal ); cmdCount++; }
                 if ( fn[1] == "ShowUranus"      && bOk ) { Options::setShowUranus(   bVal ); cmdCount++; }
                 if ( fn[1] == "ShowNeptune"     && bOk ) { Options::setShowNeptune(  bVal ); cmdCount++; }
-                if ( fn[1] == "ShowPluto"       && bOk ) { Options::setShowPluto(    bVal ); cmdCount++; }
+                //if ( fn[1] == "ShowPluto"       && bOk ) { Options::setShowPluto(    bVal ); cmdCount++; }
                 if ( fn[1] == "ShowAsteroids"   && bOk ) { Options::setShowAsteroids( bVal ); cmdCount++; }
                 if ( fn[1] == "ShowComets"      && bOk ) { Options::setShowComets(   bVal ); cmdCount++; }
                 if ( fn[1] == "ShowSolarSystem" && bOk ) { Options::setShowSolarSystem( bVal ); cmdCount++; }

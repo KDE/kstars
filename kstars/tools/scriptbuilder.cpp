@@ -441,9 +441,9 @@ void ScriptBuilder::initViewOptions() {
     fields.clear();
     fields << "ShowNeptune" << xi18n( "Toggle display of Neptune" ) << xi18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
-    fields.clear();
-    fields << "ShowPluto" << xi18n( "Toggle display of Pluto" ) << xi18n( "bool" );
-    new QTreeWidgetItem( opsShowObj, fields );
+    //fields.clear();
+    //fields << "ShowPluto" << xi18n( "Toggle display of Pluto" ) << xi18n( "bool" );
+    //new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
     fields << "ShowAsteroids" << xi18n( "Toggle display of Asteroids" ) << xi18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
@@ -468,7 +468,7 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "ShowSaturn" );
     argChangeViewOption->OptionName->addItem( "ShowUranus" );
     argChangeViewOption->OptionName->addItem( "ShowNeptune" );
-    argChangeViewOption->OptionName->addItem( "ShowPluto" );
+    //argChangeViewOption->OptionName->addItem( "ShowPluto" );
     argChangeViewOption->OptionName->addItem( "ShowAsteroids" );
     argChangeViewOption->OptionName->addItem( "ShowComets" );
 

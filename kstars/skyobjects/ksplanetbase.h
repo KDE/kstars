@@ -77,7 +77,8 @@ public:
 
     void init(const QString &s, const QString &image_file, const QColor &c, double pSize );
 
-    enum Planets { MERCURY=0, VENUS=1, MARS=2, JUPITER=3, SATURN=4, URANUS=5, NEPTUNE=6, PLUTO=7, SUN=8, MOON=9, UNKNOWN_PLANET };
+    //enum Planets { MERCURY=0, VENUS=1, MARS=2, JUPITER=3, SATURN=4, URANUS=5, NEPTUNE=6, PLUTO=7, SUN=8, MOON=9, UNKNOWN_PLANET };
+    enum Planets { MERCURY=0, VENUS=1, MARS=2, JUPITER=3, SATURN=4, URANUS=5, NEPTUNE=6, SUN=7, MOON=8, UNKNOWN_PLANET };
 
     static KSPlanetBase* createPlanet( int n );
 

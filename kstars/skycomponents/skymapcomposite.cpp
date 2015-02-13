@@ -462,7 +462,7 @@ KSPlanetBase* SkyMapComposite::planet( int n ) {
     if ( n == KSPlanetBase::SATURN ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Saturn" ) ) );
     if ( n == KSPlanetBase::URANUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Uranus" ) ) );
     if ( n == KSPlanetBase::NEPTUNE ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Neptune" ) ) );
-    if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Pluto" ) ) );
+    //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Pluto" ) ) );
 
 	return 0;
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1118</width>
-    <height>793</height>
+    <width>972</width>
+    <height>725</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,84 +21,61 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
         <string>Planets</string>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QCheckBox" name="checkBox_Mercury">
-            <property name="text">
-             <string>Mercury</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Saturn">
-            <property name="text">
-             <string>Saturn</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="checkBox_Mercury">
+          <property name="text">
+           <string>Mercury</string>
+          </property>
+         </widget>
         </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QCheckBox" name="checkBox_Venus">
-            <property name="text">
-             <string>Venus</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Neptune">
-            <property name="text">
-             <string>Neptune</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="checkBox_Venus">
+          <property name="text">
+           <string>Venus</string>
+          </property>
+         </widget>
         </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <widget class="QCheckBox" name="checkBox_Mars">
-            <property name="text">
-             <string>Mars</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Uranus">
-            <property name="text">
-             <string>Uranus</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="0" column="2">
+         <widget class="QCheckBox" name="checkBox_Mars">
+          <property name="text">
+           <string>Mars</string>
+          </property>
+         </widget>
         </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QCheckBox" name="checkBox_Jupiter">
-            <property name="text">
-             <string>Jupiter</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Pluto">
-            <property name="text">
-             <string>Pluto</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="0" column="3">
+         <widget class="QCheckBox" name="checkBox_Jupiter">
+          <property name="text">
+           <string>Jupiter</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="checkBox_Saturn">
+          <property name="text">
+           <string>Saturn</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="checkBox_Neptune">
+          <property name="text">
+           <string>Neptune</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QCheckBox" name="checkBox_Uranus">
+          <property name="text">
+           <string>Uranus</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -180,7 +157,7 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <layout class="QGridLayout" name="gridLayout">
+         <layout class="QFormLayout" name="formLayout">
           <item row="0" column="0">
            <widget class="QLabel" name="label_2">
             <property name="text">
@@ -335,7 +312,6 @@
   <tabstop>checkBox_Saturn</tabstop>
   <tabstop>checkBox_Neptune</tabstop>
   <tabstop>checkBox_Uranus</tabstop>
-  <tabstop>checkBox_Pluto</tabstop>
   <tabstop>checkBox_GridMonths</tabstop>
   <tabstop>checkBox_GridWeeks</tabstop>
   <tabstop>checkBox_GridVertical</tabstop>

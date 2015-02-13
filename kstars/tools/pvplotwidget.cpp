@@ -173,14 +173,14 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
             break;
         }
 
-    case Qt::Key_9: //Pluto
+    /*case Qt::Key_9: //Pluto
         {
             KPlotPoint *p = plotObjects().at(18)->points().at(0);
             setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
             pv->setCenterPlanet( "Pluto" );
             update();
             break;
-        }
+        }*/
 
     default:
         e->ignore();

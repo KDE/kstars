@@ -210,11 +210,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e )
         slotCenter();
         break;
 
-    case Qt::Key_9: //center on Pluto
+    /*case Qt::Key_9: //center on Pluto
         setClickedObject( data->skyComposite()->planet( KSPlanetBase::PLUTO ) );
         setClickedPoint( clickedObject() );
         slotCenter();
-        break;
+        break;*/
 
     case Qt::Key_BracketLeft:   // Begin measuring angular distance
         if( !rulerMode )

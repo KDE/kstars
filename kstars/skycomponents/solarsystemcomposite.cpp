@@ -31,7 +31,7 @@
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
-#include "skyobjects/kspluto.h"
+//#include "skyobjects/kspluto.h"
 #include "planetmoonscomponent.h"
 
 SolarSystemComposite::SolarSystemComposite(SkyComposite *parent ) :
@@ -55,7 +55,7 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite *parent ) :
     addComponent( sat );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::URANUS ), Options::showUranus ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune ) );
-    addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto ) );
+    //addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto ) );
 
     addComponent( m_AsteroidsComponent = new AsteroidsComponent( this  ));
     addComponent( m_CometsComponent    = new CometsComponent( this ));
