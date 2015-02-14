@@ -111,6 +111,8 @@ void Execute::init() {
     */
     ui.Begin->setDateTime(KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc()));
 
+    KStarsData::Instance()->logObject()->readAll();
+
     //load Targets
     loadTargets();
 

@@ -93,6 +93,7 @@ class OAL::Log {
         void readTarget();
         void readSite( QString id );
         void readSession( QString id, QString lang );
+        void readAll();
         SkyPoint readPosition(bool &Ok);
         void readGeoDate();
         QString readResult();

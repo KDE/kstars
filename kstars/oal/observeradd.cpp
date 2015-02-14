@@ -41,7 +41,6 @@ ObserverAdd::ObserverAdd() {
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    ks = KStars::Instance();
     nextObserver = 0;
 
     // Load the observers list from the file
@@ -73,7 +72,7 @@ void ObserverAdd::slotAddObserver() {
 }
 
 void ObserverAdd::loadObservers() {
-    ks->data()->logObject()->readObservers();
+    KStarsData::Instance()->logObject()->readObservers();
 }
 
 

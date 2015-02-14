@@ -37,7 +37,7 @@
 #include "skyobjects/skyobject.h"
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/skymapcomposite.h"
-
+#include "oal/execute.h"
 #include "simclock.h"
 #include "timezonerule.h"
 
@@ -104,6 +104,7 @@ KStarsData::KStarsData() :
     m_ksuserdb(),
     m_catalogdb(),
     m_observingList(0),
+    m_execute(0),
     temporaryTrail( false ),
     //locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
@@ -125,6 +126,7 @@ KStarsData::~KStarsData() {
 
     //delete locale;
     delete m_logObject;
+    delete m_execute;
     delete m_observingList;
 
     #ifdef HAVE_INDI
@@ -1035,6 +1037,13 @@ void KStarsData::syncFOV()
         all.insert(fov->name());
     }
     Options::setFOVNames( all.intersect(names).toList() );
+}
+
+Execute* KStarsData::executeSession() {
+    if( !m_execute )
+        m_execute = new Execute();
+
+    return m_execute;
 }
 
 

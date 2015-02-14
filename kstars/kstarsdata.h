@@ -220,6 +220,8 @@ public:
     inline EkosManager *ekosManager() const { return m_ekosManager; }
     #endif
 
+    Execute* executeSession();
+
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
@@ -343,6 +345,7 @@ private:
     #ifdef HAVE_INDI
     EkosManager *m_ekosManager;
     #endif
+    Execute *m_execute;
     //EquipmentWriter *m_equipmentWriter;
 
     bool TimeRunsForward, temporaryTrail;

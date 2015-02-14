@@ -417,7 +417,7 @@ void ObservingList::slotRemoveSelectedObjects() {
         //we've removed all selected objects, so clear the selection
         ui->SessionView->selectionModel()->clear();
         //Update the lists in the Execute window as well
-        KStars::Instance()->getExecute()->init();
+        KStarsData::Instance()->executeSession()->init();
     }
 
     setSaveImagesButton();

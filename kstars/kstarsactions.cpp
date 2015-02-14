@@ -1176,12 +1176,14 @@ void KStars::slotEquipmentWriter() {
 }
 
 void KStars::slotObserverAdd() {
-    m_observerAdd->show();
+    QPointer<ObserverAdd> m_observerAdd = new ObserverAdd();
+    m_observerAdd->exec();
+    delete m_observerAdd;
 }
 
 void KStars::slotExecute() {
-    getExecute()->init();
-    getExecute()->show();
+    KStarsData::Instance()->executeSession()->init();
+    KStarsData::Instance()->executeSession()->show();
 }
 
 //Help Menu

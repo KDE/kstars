@@ -844,3 +844,12 @@ OAL::Observation* OAL::Log::findObservationByName( QString id ) {
             return o;
     return NULL;
 }
+
+void OAL::Log::readAll()
+{
+    readObservers();
+    readScopes();
+    readEyepieces();
+    readLenses();
+    readFilters();
+}

@@ -49,7 +49,6 @@ Q_OBJECT
         void slotAddObserver();
 
     private:
-        KStars *ks;
         Ui::ObserverAdd ui;
         int nextObserver;
 };

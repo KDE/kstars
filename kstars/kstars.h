@@ -125,9 +125,7 @@ public:
 
     inline FlagManager* flagManager() const { return m_flagManager; }
 
-    inline PrintingWizard* printingWizard() const { return m_printingWizard; }
-
-    Execute* getExecute();
+    inline PrintingWizard* printingWizard() const { return m_printingWizard; }    
 
     /** Add an item to the color-scheme action manu
      * @param name The name to use in the menu
@@ -613,8 +611,6 @@ private:
     //FIXME: move to KStarsData
 
 
-    ObserverAdd *m_observerAdd;
-    Execute *m_execute;
     AltVsTime *m_altVsTime;
     WUTDialog *m_WUTDialog;
     WIView *m_WIView;

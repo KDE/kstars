@@ -585,7 +585,7 @@ void KStars::datainitFinished() {
     connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
     //m_equipmentWriter = new EquipmentWriter();
-    m_observerAdd = new ObserverAdd;
+    //m_observerAdd = new ObserverAdd;
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )
