@@ -676,7 +676,7 @@ int Satellite::sgp4( double tsince )
            xmdf , xmx   , xmy  , nodedf, xnode  , nodep , tc  ,
            sat_posx, sat_posy , sat_posz, sat_posw, sat_velx ,
            sat_vely  , sat_velz , sinlat, obs_posx, obs_posy,
-           obs_posz, obs_posw, obs_velx, obs_vely, obs_velz,
+           obs_posz, obs_posw, /*obs_velx, obs_vely, obs_velz,*/
            coslat, thetageo, sintheta, costheta, c, sq, achcp,
            vkmpersec;
 
@@ -1082,9 +1082,9 @@ int Satellite::sgp4( double tsince )
     obs_posy = achcp * sintheta;
     obs_posz = ( RADIUSEARTHKM * sq + MEANALT ) * sinlat;
     obs_posw = sqrt( obs_posx*obs_posx + obs_posy*sat_posy + obs_posz*obs_posz );
-    obs_velx = -MFACTOR * obs_posy;
+    /*obs_velx = -MFACTOR * obs_posy;
     obs_vely = MFACTOR * obs_posx;
-    obs_velz = 0.;
+    obs_velz = 0.;*/
 
     m_altitude = sat_posw - obs_posw + MEANALT;
 
