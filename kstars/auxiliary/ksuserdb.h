@@ -247,13 +247,13 @@ class KSUserDB {
      * @return void
      **/    
     void readScopes();
-    void readScope(QString id);
+    void readScope();
     void readEyepieces();
-    void readEyepiece(QString id);
+    void readEyepiece();
     void readLenses();
-    void readLens(QString id);
+    void readLens();
     void readFilters();
-    void readFilter(QString id);
+    void readFilter();
     /**
      * @brief Linked to the user database _once_.
      **/

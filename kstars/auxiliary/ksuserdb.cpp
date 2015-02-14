@@ -761,7 +761,7 @@ void KSUserDB::readScopes() {
 
         if( reader_->isStartElement() ) {
             if( reader_->name() == "scope" )
-                readScope( reader_->attributes().value( "id" ).toString() );
+                readScope();
         }
     }
 }
@@ -775,7 +775,7 @@ void KSUserDB::readEyepieces() {
 
         if( reader_->isStartElement() ) {
             if( reader_->name() == "eyepiece" )
-                readEyepiece( reader_->attributes().value( "id" ).toString() );
+                readEyepiece();
         }
     }
 }
@@ -789,7 +789,7 @@ void KSUserDB::readLenses() {
 
         if( reader_->isStartElement() ) {
             if( reader_->name() == "lens" )
-                readLens( reader_->attributes().value( "id" ).toString() );
+                readLens();
         }
     }
 }
@@ -803,12 +803,12 @@ void KSUserDB::readFilters() {
 
         if( reader_->isStartElement() ) {
             if( reader_->name() == "filter" )
-                readFilter( reader_->attributes().value( "id" ).toString() );
+                readFilter();
         }
     }
 }
 
-void KSUserDB::readScope( QString id ) {
+void KSUserDB::readScope() {
     QString model, vendor, type, driver = xi18nc("No driver", "None");
     double aperture, focalLength;
     while( ! reader_->atEnd() ) {
@@ -842,7 +842,7 @@ void KSUserDB::readScope( QString id ) {
     AddScope(model, vendor, driver, type, focalLength, aperture);
 }
 
-void KSUserDB::readEyepiece( QString id ) {
+void KSUserDB::readEyepiece() {
     QString model, focalLength, vendor, fov, fovUnit;
     while( ! reader_->atEnd() ) {
         reader_->readNext();
@@ -867,7 +867,7 @@ void KSUserDB::readEyepiece( QString id ) {
     AddEyepiece(vendor, model, focalLength.toDouble(), fov.toDouble(), fovUnit);
 }
 
-void KSUserDB::readLens( QString id ) {
+void KSUserDB::readLens() {
     QString model, factor, vendor;
     while( ! reader_->atEnd() ) {
         reader_->readNext();
@@ -889,7 +889,7 @@ void KSUserDB::readLens( QString id ) {
     AddLens(vendor, model, factor.toDouble());
 }
 
-void KSUserDB::readFilter( QString id ) {
+void KSUserDB::readFilter() {
     QString model, vendor, type, color;
     while( ! reader_->atEnd() ) {
         reader_->readNext();
