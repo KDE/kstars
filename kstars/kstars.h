@@ -56,6 +56,7 @@ class ObserverAdd;
 class Execute;
 class ExportImageDialog;
 class PrintingWizard;
+class EkosManager;
 
 class OpsCatalog;
 class OpsGuides;
@@ -118,14 +119,18 @@ public:
     virtual ~KStars();
 
     /** @return pointer to KStarsData object which contains application data. */
-    inline KStarsData* data() const { return kstarsData; }
+    inline KStarsData* data() const { return m_KStarsData; }
 
     /** @return pointer to SkyMap object which is the sky display widget. */
-    inline SkyMap* map() const { return skymap; }        
+    inline SkyMap* map() const { return m_SkyMap; }
 
-    inline FlagManager* flagManager() const { return m_flagManager; }
+    inline FlagManager* flagManager() const { return m_FlagManager; }
 
-    inline PrintingWizard* printingWizard() const { return m_printingWizard; }    
+    inline PrintingWizard* printingWizard() const { return m_PrintingWizard; }
+
+    #ifdef HAVE_INDI
+    EkosManager *ekosManager();
+    #endif
 
     /** Add an item to the color-scheme action manu
      * @param name The name to use in the menu
@@ -597,35 +602,44 @@ private:
     /** Build the KStars main window */
     void buildGUI();
 
-    KStarsData *kstarsData;
-    SkyMap *skymap;
-
-    TimeStepBox *TimeStep;
-
     KActionMenu *colorActionMenu, *fovActionMenu;
 
-    FindDialog *findDialog;
-    ExportImageDialog *imgExportDialog;
-    ImageExporter *imageExporter;
+    KStarsData *m_KStarsData;
+    SkyMap *m_SkyMap;
 
-    //FIXME: move to KStarsData
+    // Widgets
+    TimeStepBox *m_TimeStepBox;
 
+    // Dialogs & Tools
 
-    AltVsTime *m_altVsTime;
+    // File Menu
+    ExportImageDialog *m_ExportImageDialog;
+    PrintingWizard *m_PrintingWizard;
+
+    // Pointing Menu
+    FindDialog *m_FindDialog;
+
+    // Tool Menu
+    AstroCalc *m_AstroCalc;
+    AltVsTime *m_AltVsTime;
+    SkyCalendar *m_SkyCalendar;
+    ScriptBuilder *m_ScriptBuilder;
+    PlanetViewer *m_PlanetViewer;
+    JMoonTool *m_JMoonTool;
+    MoonPhaseTool *m_MoonPhaseTool;
+    FlagManager *m_FlagManager;
+    #ifdef HAVE_INDI
+    EkosManager *m_EkosManager;
+    #endif
+
+    // FIXME Port to QML2
     WUTDialog *m_WUTDialog;
     WIView *m_WIView;
     WILPSettings *m_WISettings;
     WIEquipSettings *m_WIEquipmentSettings;
     ObsConditions *m_ObsConditions;
     QDockWidget *m_wiDock;
-    SkyCalendar *m_skyCalender;
-    ScriptBuilder *m_scriptBuilder;
-    PlanetViewer *m_planetViewer;
-    JMoonTool *m_JMoonTool;
-    MoonPhaseTool *m_moonPhaseTool;
-    FlagManager *m_flagManager;
-    AstroCalc *astrocalc;
-    PrintingWizard *m_printingWizard;    
+
 
     QActionGroup *projectionGroup, *cschemeGroup;
 

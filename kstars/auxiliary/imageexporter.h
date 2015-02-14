@@ -102,7 +102,6 @@ private:
     void addLegend(SkyQPainter *painter);
     void addLegend(QPaintDevice *pd);
 
-    KStars *m_KStars;
     bool m_includeLegend;
     Legend *m_Legend;
     QSize *m_Size;

@@ -452,13 +452,13 @@ void KStars::initActions() {
     //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
     //Add timestep widget for toolbar
-    TimeStep = new TimeStepBox( toolBar("kstarsToolBar") );
+    m_TimeStepBox = new TimeStepBox( toolBar("kstarsToolBar") );
     // Add a tool tip to TimeStep describing the weird nature of time steps
     QString TSBToolTip = xi18nc( "Tooltip describing the nature of the time step control", "Use this to set the rate at which time in the simulation flows.\nFor time step \'X\' up to 10 minutes, time passes at the rate of \'X\' per second.\nFor time steps larger than 10 minutes, frames are displayed at an interval of \'X\'." );
-    TimeStep->setToolTip( TSBToolTip );
-    TimeStep->tsbox()->setToolTip( TSBToolTip );
+    m_TimeStepBox->setToolTip( TSBToolTip );
+    m_TimeStepBox->tsbox()->setToolTip( TSBToolTip );
     QWidgetAction *wa = new QWidgetAction(this);
-    wa->setDefaultWidget(TimeStep);
+    wa->setDefaultWidget(m_TimeStepBox);
     ka = actionCollection()->addAction("timestep_control",wa)
         << xi18n("Time step control");
 
@@ -580,9 +580,9 @@ void KStars::datainitFinished() {
              map(), SLOT( slotClockSlewing() ) );
 
     connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
-    connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
-    connect( TimeStep, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
-    connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
+    connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
+    connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
+    connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
     //m_equipmentWriter = new EquipmentWriter();
     //m_observerAdd = new ObserverAdd;
@@ -697,10 +697,10 @@ void KStars::buildGUI() {
     //create the texture manager
     TextureManager::Create();
     //create the skymap
-    skymap = SkyMap::Create();
-    connect(skymap, SIGNAL(mousePointChanged(SkyPoint*)), SLOT(slotShowPositionBar(SkyPoint*)));
-    connect(skymap, SIGNAL(zoomChanged()),                SLOT(slotZoomChanged()));
-    setCentralWidget( skymap );
+    m_SkyMap = SkyMap::Create();
+    connect(m_SkyMap, SIGNAL(mousePointChanged(SkyPoint*)), SLOT(slotShowPositionBar(SkyPoint*)));
+    connect(m_SkyMap, SIGNAL(zoomChanged()),                SLOT(slotZoomChanged()));
+    setCentralWidget( m_SkyMap );
 
     //Initialize menus, toolbars, and statusbars
     initStatusBar();

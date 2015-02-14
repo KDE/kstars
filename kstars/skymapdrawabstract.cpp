@@ -187,7 +187,7 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
 
     #ifdef HAVE_INDI
 
-    Ekos::Align *align = KStarsData::Instance()->ekosManager()->alignModule();
+    Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
     if (align)
     {
         FOV * fov = align->fov();

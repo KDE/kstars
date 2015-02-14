@@ -223,9 +223,9 @@ void KStars::slotViewToolBar() {
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator() {
-    if( ! astrocalc )
-        astrocalc = new AstroCalc (this);
-    astrocalc->show();
+    if( ! m_AstroCalc )
+        m_AstroCalc = new AstroCalc (this);
+    m_AstroCalc->show();
 }
 
 void KStars::slotWizard() {
@@ -320,8 +320,8 @@ void KStars::slotDownload() {
 }
 
 void KStars::slotAVT() {
-    if ( ! m_altVsTime ) m_altVsTime = new AltVsTime(this);
-    m_altVsTime->show();
+    if ( ! m_AltVsTime ) m_AltVsTime = new AltVsTime(this);
+    m_AltVsTime->show();
 }
 
 void KStars::slotWUT() {
@@ -404,8 +404,8 @@ void KStars::slotShowWIView(int status)
 }
 
 void KStars::slotCalendar() {
-    if ( ! m_skyCalender ) m_skyCalender = new SkyCalendar(this);
-    m_skyCalender->show();
+    if ( ! m_SkyCalendar ) m_SkyCalendar = new SkyCalendar(this);
+    m_SkyCalendar->show();
 }
 
 void KStars::slotGlossary(){
@@ -419,13 +419,13 @@ void KStars::slotGlossary(){
 }
 
 void KStars::slotScriptBuilder() {
-    if ( ! m_scriptBuilder ) m_scriptBuilder = new ScriptBuilder(this);
-    m_scriptBuilder->show();
+    if ( ! m_ScriptBuilder ) m_ScriptBuilder = new ScriptBuilder(this);
+    m_ScriptBuilder->show();
 }
 
 void KStars::slotSolarSystem() {
-    if ( ! m_planetViewer ) m_planetViewer = new PlanetViewer(this);
-    m_planetViewer->show();
+    if ( ! m_PlanetViewer ) m_PlanetViewer = new PlanetViewer(this);
+    m_PlanetViewer->show();
 }
 
 void KStars::slotJMoonTool() {
@@ -440,8 +440,8 @@ void KStars::slotMoonPhaseTool() {
 }
 
 void KStars::slotFlagManager() {
-    if ( ! m_flagManager ) m_flagManager = new FlagManager(this);
-    m_flagManager->show();
+    if ( ! m_FlagManager ) m_FlagManager = new FlagManager(this);
+    m_FlagManager->show();
 }
 
 void KStars::slotTelescopeWizard()
@@ -495,7 +495,7 @@ void KStars::slotEkos()
         return;
     }
 
-    EkosManager *m_ekosManager = KStarsData::Instance()->ekosManager();
+    EkosManager *m_ekosManager = KStars::Instance()->ekosManager();
 
     m_ekosManager->show();
     m_ekosManager->raise();
@@ -595,7 +595,7 @@ void KStars::slotApplyConfigChanges() {
 
     // If the focus object was a constellation and the sky culture has changed, remove the focus object
     if( map()->focusObject() && map()->focusObject()->type() == SkyObject::CONSTELLATION ) {
-        if( kstarsData->skyComposite()->currentCulture() != kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) || kstarsData->skyComposite()->isLocalCNames() != Options::useLocalConstellNames() ) {
+        if( m_KStarsData->skyComposite()->currentCulture() != m_KStarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) || m_KStarsData->skyComposite()->isLocalCNames() != Options::useLocalConstellNames() ) {
             map()->setClickedObject( NULL );
             map()->setFocusObject( NULL );
         }
@@ -605,9 +605,9 @@ void KStars::slotApplyConfigChanges() {
     data()->setFullTimeUpdate();
     map()->forceUpdate();
 
-    kstarsData->skyComposite()->setCurrentCulture(  kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
-    kstarsData->skyComposite()->reloadCLines();
-    kstarsData->skyComposite()->reloadCNames();
+    m_KStarsData->skyComposite()->setCurrentCulture(  m_KStarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
+    m_KStarsData->skyComposite()->reloadCLines();
+    m_KStarsData->skyComposite()->reloadCNames();
 }
 
 void KStars::slotApplyWIConfigChanges() {
@@ -665,13 +665,13 @@ void KStars::slotSetTimeToNow() {
 
 void KStars::slotFind() {
     clearCachedFindDialog();
-    if ( !findDialog ) {	  // create new dialog if no dialog is existing
-        findDialog = new FindDialog( this );
+    if ( !m_FindDialog ) {	  // create new dialog if no dialog is existing
+        m_FindDialog = new FindDialog( this );
     }
 
-    if ( !findDialog ) qWarning() << xi18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
+    if ( !m_FindDialog ) qWarning() << xi18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
     SkyObject *targetObject;
-    if ( findDialog->exec() == QDialog::Accepted && ( targetObject = findDialog->selectedObject() ) ) {
+    if ( m_FindDialog->exec() == QDialog::Accepted && ( targetObject = m_FindDialog->selectedObject() ) ) {
         map()->setClickedObject( targetObject );
         map()->setClickedPoint( map()->clickedObject() );
         map()->slotCenter();
@@ -731,17 +731,17 @@ void KStars::slotExportImage() {
     // execute image export dialog
 
     // Note: We don't let ExportImageDialog create its own ImageExporter because we want legend settings etc to be remembered between UI use and DBus scripting interface use.
-    if ( !imageExporter )
-        imageExporter = new ImageExporter( this );
+    //if ( !m_ImageExporter )
+        //m_ImageExporter = new ImageExporter( this );
 
-    if ( !imgExportDialog ) {
-        imgExportDialog = new ExportImageDialog( fileURL.url(), QSize( map()->width(), map()->height() ), imageExporter );
+    if ( !m_ExportImageDialog ) {
+        m_ExportImageDialog = new ExportImageDialog( fileURL.url(), QSize( map()->width(), map()->height() ), KStarsData::Instance()->imageExporter() );
     } else {
-        imgExportDialog->setOutputUrl( fileURL.url() );
-        imgExportDialog->setOutputSize( QSize ( map()->width(), map()->height() ) );
+        m_ExportImageDialog->setOutputUrl( fileURL.url() );
+        m_ExportImageDialog->setOutputSize( QSize ( map()->width(), map()->height() ) );
     }
 
-    imgExportDialog->show();
+    m_ExportImageDialog->show();
 }
 
 void KStars::slotRunScript() {
@@ -910,12 +910,12 @@ void KStars::slotPrint() {
 }
 
 void KStars::slotPrintingWizard() {
-    if(m_printingWizard) {
-        delete m_printingWizard;
+    if(m_PrintingWizard) {
+        delete m_PrintingWizard;
     }
 
-    m_printingWizard = new PrintingWizard(this);
-    m_printingWizard->show();
+    m_PrintingWizard = new PrintingWizard(this);
+    m_PrintingWizard->show();
 }
 
 void KStars::slotToggleTimer() {
@@ -1124,7 +1124,7 @@ void KStars::slotMapProjection() {
     //DEBUG
     qDebug() << xi18n( "Projection system: %1", Options::projection() );
 
-    skymap->forceUpdate();
+    m_SkyMap->forceUpdate();
 }
 
 //Settings Menu:
@@ -1165,7 +1165,7 @@ void KStars::slotFOVEdit() {
 }
 
 void KStars::slotObsList() {
-    kstarsData->observingList()->show();
+    m_KStarsData->observingList()->show();
 }
 
 void KStars::slotEquipmentWriter() {
@@ -1265,7 +1265,7 @@ void KStars::slotAboutToQuit()
 {
     // Delete skymap. This required to run destructors and save
     // current state in the option.
-    delete skymap;
+    delete m_SkyMap;
 
     //Store Window geometry in Options object
     Options::setWindowWidth( width() );
@@ -1278,7 +1278,7 @@ void KStars::slotAboutToQuit()
     writeConfig();
 
     if( !Options::obsListSaveImage() ) {
-        foreach ( const QString& file, kstarsData->observingList()->imageList() )
+        foreach ( const QString& file, m_KStarsData->observingList()->imageList() )
             QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + file ) ;
     }
 }

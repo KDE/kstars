@@ -40,13 +40,10 @@
 #include "oal/execute.h"
 #include "simclock.h"
 #include "timezonerule.h"
+#include "imageexporter.h"
 
 #include <config-kstars.h>
 #include "dialogs/detaildialog.h"
-
-#ifdef HAVE_INDI
-#include "ekos/ekosmanager.h"
-#endif
 
 namespace {
 
@@ -103,21 +100,18 @@ KStarsData::KStarsData() :
     m_Geo(dms(0), dms(0)),
     m_ksuserdb(),
     m_catalogdb(),
-    m_observingList(0),
-    m_execute(0),
+    m_ObservingList(0),
+    m_Execute(0),
+    m_ImageExporter(0),
     temporaryTrail( false ),
     //locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
-    m_logObject = new OAL::Log;
+    m_LogObject = new OAL::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
-
-    #ifdef HAVE_INDI
-    m_ekosManager = NULL;
-    #endif
 
 }
 
@@ -125,13 +119,10 @@ KStarsData::~KStarsData() {
     Q_ASSERT( pinstance );
 
     //delete locale;
-    delete m_logObject;
-    delete m_execute;
-    delete m_observingList;
-
-    #ifdef HAVE_INDI
-    delete m_ekosManager;
-    #endif
+    delete m_LogObject;
+    delete m_Execute;
+    delete m_ObservingList;
+    delete m_ImageExporter;
 
     qDeleteAll( geoList );
     qDeleteAll( ADVtreeList );
@@ -184,10 +175,7 @@ bool KStarsData::initialize() {
     }
 
     //Initialize Observing List
-    m_observingList = new ObservingList();
-    #ifdef HAVE_INDI
-    m_ekosManager   = new EkosManager();
-    #endif
+    m_ObservingList = new ObservingList();
 
     readUserLog();
 
@@ -1040,10 +1028,18 @@ void KStarsData::syncFOV()
 }
 
 Execute* KStarsData::executeSession() {
-    if( !m_execute )
-        m_execute = new Execute();
+    if( !m_Execute )
+        m_Execute = new Execute();
 
-    return m_execute;
+    return m_Execute;
+}
+
+ImageExporter * KStarsData::imageExporter()
+{
+    if (!m_ImageExporter)
+        m_ImageExporter = new ImageExporter(KStars::Instance());
+
+    return m_ImageExporter;
 }
 
 

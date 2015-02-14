@@ -46,22 +46,27 @@
 
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
+#include "ekos/ekosmanager.h"
 #endif
 
 KStars *KStars::pinstance = 0;
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
-    : KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
-      colorActionMenu(0), fovActionMenu(0), findDialog(0),
-      imgExportDialog(0), imageExporter(0),
-      m_altVsTime(0), m_WUTDialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0), m_skyCalender(0),
-      m_scriptBuilder(0), m_planetViewer(0), m_JMoonTool(0), m_moonPhaseTool(0), m_flagManager(0), astrocalc(0), m_printingWizard(0),
+    : KXmlGuiWindow(), colorActionMenu(0), fovActionMenu(0), m_KStarsData(0), m_SkyMap(0), m_TimeStepBox(0),
+      m_ExportImageDialog(0),  m_PrintingWizard(0), m_FindDialog(0),
+      m_AstroCalc(0), m_AltVsTime(0), m_SkyCalendar(0), m_ScriptBuilder(0),
+      m_PlanetViewer(0), m_JMoonTool(0), m_MoonPhaseTool(0), m_FlagManager(0),
+      m_WUTDialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0),
       DialogIsObsolete(false), StartClockRunning( clockrun ),
       StartDateString( startdate )
 {
     new KstarsAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars",  this);
     QDBusConnection::sessionBus().registerService("org.kde.kstars");
+
+    #ifdef HAVE_INDI
+    m_EkosManager = NULL;
+    #endif
 
     // Set pinstance to yourself
     pinstance = this;
@@ -72,10 +77,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     projectionGroup = new QActionGroup( this );
     cschemeGroup    = new QActionGroup( this );
 
-    kstarsData = KStarsData::Create();
-    Q_ASSERT( kstarsData );
+    m_KStarsData = KStarsData::Create();
+    Q_ASSERT( m_KStarsData );
     //Set Geographic Location from Options
-    kstarsData->setLocationFromOptions();
+    m_KStarsData->setLocationFromOptions();
 
     //Initialize Time and Date
     KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
@@ -92,10 +97,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     KStarsSplash *splash = 0;
     if ( doSplash ) {
         splash = new KStarsSplash(0);
-        connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
+        connect( m_KStarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
         splash->show();
     } else {
-        connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
+        connect( m_KStarsData, SIGNAL( progressText(QString) ), m_KStarsData, SLOT( slotConsoleMessage(QString) ) );
     }
 
     //set up Dark color scheme for application windows
@@ -110,7 +115,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     OriginalPalette = QApplication::palette();
 
     //Initialize data.  When initialization is complete, it will run dataInitFinished()
-    if( !kstarsData->initialize() )
+    if( !m_KStarsData->initialize() )
         return;
     delete splash;
     datainitFinished();
@@ -136,9 +141,10 @@ KStars::~KStars()
 
     #ifdef HAVE_INDI
     DriverManager::Instance()->clearServers();
+    delete m_EkosManager;
     #endif
 
-    delete kstarsData;
+    delete m_KStarsData;
     pinstance = 0;
 
     QSqlDatabase::removeDatabase("userdb");
@@ -146,11 +152,11 @@ KStars::~KStars()
 }
 
 void KStars::clearCachedFindDialog() {
-    if ( findDialog  ) {  // dialog is cached
+    if ( m_FindDialog  ) {  // dialog is cached
         /** Delete findDialog only if it is not opened */
-        if ( findDialog->isHidden() ) {
-            delete findDialog;
-            findDialog = 0;
+        if ( m_FindDialog->isHidden() ) {
+            delete m_FindDialog;
+            m_FindDialog = 0;
             DialogIsObsolete = false;
         }
         else
@@ -194,7 +200,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     statusBar()->setVisible( Options::showStatusBar() );
 
     //color scheme
-    kstarsData->colorScheme()->loadFromConfig();
+    m_KStarsData->colorScheme()->loadFromConfig();
     QApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
 
     //Set toolbar options from config file
@@ -224,8 +230,8 @@ void KStars::applyConfig( bool doApplyFocus ) {
 }
 
 void KStars::showImgExportDialog() {
-    if(imgExportDialog)
-        imgExportDialog->show();
+    if(m_ExportImageDialog)
+        m_ExportImageDialog->show();
 }
 
 void KStars::syncFOVActions() {
@@ -355,3 +361,15 @@ void KStars::updateTime( const bool automaticDSTchange ) {
         QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
     }
 }
+
+#ifdef HAVE_INDI
+EkosManager *KStars::ekosManager()
+{
+    if (!m_EkosManager)
+        m_EkosManager   = new EkosManager();
+
+    return m_EkosManager;
+}
+
+
+#endif

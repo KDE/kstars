@@ -1164,7 +1164,7 @@ void CCD::processBLOB(IBLOB* bp)
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
         KStars::Instance()->statusBar()->showMessage( xi18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
-    if (Options::playFITSAlarm() && KStarsData::Instance()->ekosManager())
+    if (Options::playFITSAlarm())
         KSNotify::play(KSNotify::NOTIFY_FILE_RECEIVED);
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)

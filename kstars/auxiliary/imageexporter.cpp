@@ -29,9 +29,8 @@
 #include <QTemporaryFile>
 #include <QtSvg/QSvgGenerator>
 
-ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_KStars( KStars::Instance() ), m_includeLegend( false ), m_Size( 0 )
+ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_includeLegend( false ), m_Size( 0 )
 {
-    Q_ASSERT( m_KStars );
     m_Legend = new Legend;
 
     // set font for legend labels
@@ -43,7 +42,7 @@ ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_KStars( K
 
 void ImageExporter::exportSvg(const QString &fileName)
 {
-    SkyMap *map = m_KStars->map();
+    SkyMap *map = SkyMap::Instance();
 
     // export as SVG
     QSvgGenerator svgGenerator;
@@ -54,7 +53,7 @@ void ImageExporter::exportSvg(const QString &fileName)
     svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
     svgGenerator.setViewBox(QRect(0, 0, map->width(), map->height()));
 
-    SkyQPainter painter(m_KStars, &svgGenerator);
+    SkyQPainter painter(KStars::Instance(), &svgGenerator);
     painter.begin();
 
     map->exportSkyImage(&painter);
@@ -85,7 +84,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
         qWarning() << xi18n("Could not parse image format of %1; assuming PNG.", fileName);
     }
 
-    SkyMap *map = m_KStars->map();
+    SkyMap *map = SkyMap::Instance();
 
     int width, height;
     if ( m_Size ) {
@@ -171,7 +170,7 @@ void ImageExporter::addLegend(SkyQPainter *painter)
 
 void ImageExporter::addLegend(QPaintDevice *pd)
 {
-    SkyQPainter painter(m_KStars, pd);
+    SkyQPainter painter(KStars::Instance(), pd);
     painter.begin();
 
     addLegend(&painter);

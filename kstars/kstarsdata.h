@@ -49,7 +49,6 @@ class SkyMap;
 class SkyMapComposite;
 class SkyObject;
 class FOV;
-class EkosManager;
 
 class TimeZoneRule;
 struct ADVTreeData;
@@ -210,15 +209,14 @@ public:
     inline const QList<FOV*> getAvailableFOVs() const { return availFOVs; }
 
     /** Return log object */
-    OAL::Log *logObject() { return m_logObject; }
+    OAL::Log *logObject() { return m_LogObject; }
 
     /** Return ADV Tree */
     QList<ADVTreeData*> avdTree() { return ADVtreeList; }
 
-    inline ObservingList* observingList() const { return m_observingList; }
-    #ifdef HAVE_INDI
-    inline EkosManager *ekosManager() const { return m_ekosManager; }
-    #endif
+    inline ObservingList* observingList() const { return m_ObservingList; }
+
+    ImageExporter * imageExporter();
 
     Execute* executeSession();
 
@@ -340,12 +338,11 @@ private:
     KSUserDB m_ksuserdb;
     CatalogDB m_catalogdb;
     ColorScheme CScheme;
-    OAL::Log *m_logObject;
-    ObservingList *m_observingList;
-    #ifdef HAVE_INDI
-    EkosManager *m_ekosManager;
-    #endif
-    Execute *m_execute;
+    OAL::Log *m_LogObject;
+    ObservingList *m_ObservingList;
+    Execute *m_Execute;
+    ImageExporter *m_ImageExporter;
+
     //EquipmentWriter *m_equipmentWriter;
 
     bool TimeRunsForward, temporaryTrail;

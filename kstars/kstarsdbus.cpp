@@ -415,15 +415,15 @@ void KStars::loadColorScheme( const QString &name ) {
 }
 
 void KStars::exportImage( const QString &url, int w, int h, bool includeLegend ) {
-    if ( !imageExporter )
-        imageExporter = new ImageExporter( this );
+
+    ImageExporter*  m_ImageExporter = m_KStarsData->imageExporter();
     if ( w <= 0 )
         w = map()->width();
     if ( h <= 0 )
         h = map()->height();
-    imageExporter->includeLegend( includeLegend );
-    imageExporter->setRasterOutputSize( new QSize( w, h ) );
-    imageExporter->exportImage( url );
+    m_ImageExporter->includeLegend( includeLegend );
+    m_ImageExporter->setRasterOutputSize( new QSize( w, h ) );
+    m_ImageExporter->exportImage( url );
 }
 
 QString KStars::getDSSURL( const QString &objectName ) {

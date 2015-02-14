@@ -40,7 +40,7 @@ OpsEkos::~OpsEkos() {}
 
 void OpsEkos::slotApply()
 {
-    EkosManager *ekosManager = KStarsData::Instance()->ekosManager();
+    EkosManager *ekosManager = KStars::Instance()->ekosManager();
 
     if (ekosManager)
         ekosManager->refreshRemoteDrivers();
