@@ -56,7 +56,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
       m_ExportImageDialog(0),  m_PrintingWizard(0), m_FindDialog(0),
       m_AstroCalc(0), m_AltVsTime(0), m_SkyCalendar(0), m_ScriptBuilder(0),
       m_PlanetViewer(0), m_JMoonTool(0), m_MoonPhaseTool(0), m_FlagManager(0),
-      m_WUTDialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0),
+      /*m_WUTDialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0),*/
       DialogIsObsolete(false), StartClockRunning( clockrun ),
       StartDateString( startdate )
 {
@@ -328,10 +328,13 @@ void KStars::selectPreviousFov()
     map()->update();
 }
 
+//FIXME Port to QML2
+/*
 void KStars::showWISettingsUI()
 {
     slotWISettings();
 }
+*/
 
 void KStars::updateTime( const bool automaticDSTchange ) {
     // Due to frequently use of this function save data and map pointers for speedup.

@@ -1,7 +1,8 @@
 add_subdirectory( data )
 add_subdirectory( icons )
 add_subdirectory( htmesh )
-add_subdirectory( tools/whatsinteresting/qml)
+#FIXME Port to QML2
+#add_subdirectory( tools/whatsinteresting/qml)
 
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
@@ -166,17 +167,20 @@ set(libkstarstools_SRCS
 	tools/scriptfunction.cpp
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
-        tools/whatsinteresting/skyobjlistmodel.cpp
-        tools/whatsinteresting/wiview.cpp
-        tools/whatsinteresting/modelmanager.cpp
-        tools/whatsinteresting/skyobjitem.cpp
-        tools/whatsinteresting/wilpsettings.cpp
-        tools/whatsinteresting/wiequipsettings.cpp
-        tools/whatsinteresting/obsconditions.cpp
-        tools/whatsinteresting/skyobjdescription.cpp
-	tools/flagmanager.cpp
-#FIXME Port to KF5
-#        tools/moonphasetool.cpp
+        tools/flagmanager.cpp
+
+        #FIXME Port to QML2
+        #tools/whatsinteresting/skyobjlistmodel.cpp
+        #tools/whatsinteresting/wiview.cpp
+        #tools/whatsinteresting/modelmanager.cpp
+        #tools/whatsinteresting/skyobjitem.cpp
+        #tools/whatsinteresting/wilpsettings.cpp
+        #tools/whatsinteresting/wiequipsettings.cpp
+        #tools/whatsinteresting/obsconditions.cpp
+        #tools/whatsinteresting/skyobjdescription.cpp
+
+        #FIXME Port to KF5
+        #tools/moonphasetool.cpp
 	tools/starhopper.cpp
 	tools/eyepiecefield.cpp
         tools/starhopperdialog.cpp

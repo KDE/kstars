@@ -78,9 +78,11 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
-#include "tools/whatsinteresting/wiview.h"
-#include "tools/whatsinteresting/wilpsettings.h"
-#include "tools/whatsinteresting/wiequipsettings.h"
+//FIXME Port to QML2
+//#include "tools/whatsinteresting/wiview.h"
+//#include "tools/whatsinteresting/wilpsettings.h"
+//#include "tools/whatsinteresting/wiequipsettings.h"
+
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
@@ -324,6 +326,8 @@ void KStars::slotAVT() {
     m_AltVsTime->show();
 }
 
+//FIXME Port to QML2
+#if 0
 void KStars::slotWUT() {
     if ( ! m_WUTDialog ) m_WUTDialog = new WUTDialog(this);
     m_WUTDialog->show();
@@ -402,6 +406,8 @@ void KStars::slotShowWIView(int status)
         m_wiDock->setVisible(true);
     }
 }
+
+#endif
 
 void KStars::slotCalendar() {
     if ( ! m_SkyCalendar ) m_SkyCalendar = new SkyCalendar(this);

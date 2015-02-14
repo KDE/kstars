@@ -463,6 +463,8 @@ private slots:
     /** action slot: open Elevation vs. Time tool */
     void slotAVT();
 
+    //FIXME Port to QML2
+    #if 0
     /** action slot: open What's up tonight dialog */
     void slotWUT();
 
@@ -471,6 +473,7 @@ private slots:
 
     /** action slot: open What's Interesting window */
     void slotShowWIView(int status);
+    #endif
 
     /** action slot: open Sky Calendar tool */
     void slotCalendar();
@@ -633,12 +636,12 @@ private:
     #endif
 
     // FIXME Port to QML2
-    WUTDialog *m_WUTDialog;
+    /*WUTDialog *m_WUTDialog;
     WIView *m_WIView;
     WILPSettings *m_WISettings;
     WIEquipSettings *m_WIEquipmentSettings;
     ObsConditions *m_ObsConditions;
-    QDockWidget *m_wiDock;
+    QDockWidget *m_wiDock;*/
 
 
     QActionGroup *projectionGroup, *cschemeGroup;
