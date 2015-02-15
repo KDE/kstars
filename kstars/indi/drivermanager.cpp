@@ -1180,6 +1180,7 @@ void DriverManager::updateCustomDrivers()
         group = treeList[0];
     else return;
 
+    KStarsData::Instance()->logObject()->readAll();
 
     // Find custom telescope to ADD/UPDATE
     foreach(OAL::Scope *s, *(KStarsData::Instance()->logObject()->scopeList()))
