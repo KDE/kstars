@@ -93,7 +93,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     ut = data->ut();
     KSNumbers num( ut.djd() );
 
-    for ( uint i=0; i< KSPlanetBase::UNKNOWN_PLANET; ++i ) {
+    for ( int i=0; i< PlanetList.count(); ++i ) {
         PlanetList[i]->findPosition( &num, 0, 0 ); //NULL args: don't need geocent. coords.
         LastUpdate[i] = int( ut.date().toJulianDay() );
     }
@@ -107,7 +107,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     UpdateInterval[5] = 13;
     UpdateInterval[6] = 38;
     UpdateInterval[7] = 75;
-    UpdateInterval[8] = 113;
+    //UpdateInterval[8] = 113;
 
     QTimer::singleShot( 0, this, SLOT( initPlotObjects() ) );
 
@@ -174,7 +174,7 @@ void PlanetViewer::updatePlanets() {
     bool changed(false);
 
     //Check each planet to see if it needs to be updated
-    for ( unsigned int i=0; i<9; ++i ) {
+    for ( int i=0; i< PlanetList.count(); ++i ) {
         if ( abs( int(ut.date().toJulianDay()) - LastUpdate[i] ) > UpdateInterval[i] ) {
             KSPlanetBase *p = PlanetList[i];
             p->findPosition( &num );
@@ -219,8 +219,8 @@ void PlanetViewer::initPlotObjects() {
     pw->map->addPlotObject( ksun );
 
     //Read in the orbit curves
-    KPlotObject *orbit[9];
-    for ( unsigned int i=0; i<9; ++i ) {
+    KPlotObject *orbit[PlanetList.count()];
+    for ( int i=0; i< PlanetList.count(); ++i ) {
         KSPlanetBase *p = PlanetList[i];
         orbit[i] = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
 
@@ -243,7 +243,7 @@ void PlanetViewer::initPlotObjects() {
         pw->map->addPlotObject( orbit[i] );
     }
 
-    for ( unsigned int i=0; i<9; ++i ) {
+    for ( int i=0; i< PlanetList.count(); ++i ) {
         KSPlanetBase *p = PlanetList[i];
         planet[i] = new KPlotObject( p->color(), KPlotObject::Points, 6, KPlotObject::Circle );
 
