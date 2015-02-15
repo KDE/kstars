@@ -56,7 +56,7 @@ set(HAVE_CFITSIO 0)
 endif(CFITSIO_FOUND)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
-find_package(INDI)
+find_package(INDI 1.0.0)
 #FIXME is there a better way to do this?
 if (INDI_FOUND)
 SET(HAVE_INDI 1)
