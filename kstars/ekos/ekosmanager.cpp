@@ -568,12 +568,12 @@ bool EkosManager::start()
             return false;
         }
 
-        /*{
-            if (guiderCombo->currentText() != ccdCombo->currentText())
-                nDevices++;
-            else
-                useGuiderFromCCD = true;
-        }*/
+
+        // If the user puts identical device names for both CCD & Guider then
+        // this is a case for Multiple-Devices-Per-Driver.
+        // We reduce the number of devices since it will be increased once device is detected.
+        if (guiderCombo->currentText() == ccdCombo->currentText())
+             nDevices--;
 
         if (AOCombo->currentText() != "--")
             nDevices++;
@@ -972,7 +972,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
 
 
-    if (nDevices == 0)
+    if (nDevices <= 0)
     {
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
@@ -1116,7 +1116,9 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
 
         initGuide();
+
         guideProcess->addCCD(guider, true);
+        guideProcess->addCCD(ccd, false);
 
         initAlign();
         alignProcess->addCCD(guider, false);
