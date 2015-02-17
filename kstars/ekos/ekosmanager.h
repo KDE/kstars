@@ -27,6 +27,7 @@
 #include <QtDBus/QtDBus>
 
 class DriverInfo;
+class KPageWidgetItem;
 
 /**
  *@class EkosManager
@@ -46,10 +47,7 @@ public:
 
     void appendLogText(const QString &);
     void refreshRemoteDrivers();
-
-    void playFITS();
-    void playOk();
-    void playError();
+    void setOptionsWidget(KPageWidgetItem *ops) { ekosOption = ops; }
 
     /** @defgroup EkosDBusInterface Ekos DBus Interface
      * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
@@ -156,6 +154,14 @@ public slots:
     void processNewNumber(INumberVectorProperty *nvp);
     void processNewText(ITextVectorProperty *tvp);
 
+    Ekos::Capture *captureModule() { return captureProcess;}
+    Ekos::Focus *focusModule() { return focusProcess;}
+    Ekos::Guide *guideModule() { return guideProcess;}
+    Ekos::Align *alignModule() { return alignProcess;}
+    Ekos::Mount *mountModule() { return mountProcess;}
+
+protected slots:
+
     void updateLog();
     void clearLog();
 
@@ -173,13 +179,7 @@ public slots:
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
     void setFocuser(ISD::GDInterface *);
-    void setST4(ISD::ST4 *);
-
-    Ekos::Capture *captureModule() { return captureProcess;}
-    Ekos::Focus *focusModule() { return focusProcess;}
-    Ekos::Guide *guideModule() { return guideProcess;}
-    Ekos::Align *alignModule() { return alignProcess;}
-    Ekos::Mount *mountModule() { return mountProcess;}
+    void setST4(ISD::ST4 *);    
 
  private:
 
@@ -224,6 +224,7 @@ public slots:
     QList<DriverInfo *> managedDevices;
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;
+    KPageWidgetItem *ekosOption;
 
 };
 

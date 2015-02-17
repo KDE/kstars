@@ -581,7 +581,9 @@ void KStars::slotViewOps() {
 
     #ifdef HAVE_CFITSIO
     opsekos = new OpsEkos();
-    dialog->addPage(opsekos, xi18n("Ekos"), "kstars_ekos");
+    KPageWidgetItem *ekosOption = dialog->addPage(opsekos, xi18n("Ekos"), "kstars_ekos");
+    if (m_EkosManager)
+        m_EkosManager->setOptionsWidget(ekosOption);
     #endif
 
     #endif

@@ -7,18 +7,19 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "ekosmanager.h"
+#include <QComboBox>
 
+#include <KConfigDialog>
+#include <KMessageBox>
+
+#include <config-kstars.h>
 #include <basedevice.h>
+
+#include "ekosmanager.h"
 
 #include "Options.h"
 #include "kstars.h"
 #include "auxiliary/ksnotify.h"
-
-#include <KMessageBox>
-#include <QComboBox>
-
-#include <config-kstars.h>
 
 #include "indi/clientmanager.h"
 #include "indi/indielement.h"
@@ -76,6 +77,8 @@ EkosManager::EkosManager()
     guideProcess   = NULL;
     alignProcess   = NULL;
     mountProcess   = NULL;
+
+    ekosOption     = NULL;
 
     kcfg_localMode->setChecked(Options::localMode());
     kcfg_remoteMode->setChecked(Options::remoteMode());
@@ -136,10 +139,30 @@ void EkosManager::processINDIModeChange()
 
     if (managedDevices.count() > 0 || remote_indi != NULL)
     {
-        KMessageBox::error(0, i18n("Cannot switch modes while INDI services are running."), i18n("Ekos Mode"));
+        KMessageBox::error(0, xi18n("Cannot switch modes while INDI services are running."), i18n("Ekos Mode"));
         kcfg_localMode->setChecked(!newLocalMode);
         kcfg_remoteMode->setChecked(newLocalMode);
         return;
+    }
+    else
+    {
+        if ( (ccdCombo->currentText() == "--" && guiderCombo->currentText() == "--") || (Options::remotePort().isEmpty() || Options::remoteHost().isEmpty()))
+        {
+           appendLogText(xi18n("Please fill the remote devices and server information in Ekos options before switching to remote mode."));
+           if (KConfigDialog::showDialog("settings") == false)
+               optionsB->click();
+
+           KConfigDialog *mConfigDialog = KConfigDialog::exists("settings");
+           if (mConfigDialog && ekosOption)
+           {
+                   mConfigDialog->setCurrentPage(ekosOption);
+                   kcfg_localMode->setChecked(!newLocalMode);
+                   kcfg_remoteMode->setChecked(newLocalMode);
+                   return;
+
+            }
+
+        }
     }
 
     localMode = newLocalMode;
@@ -521,9 +544,6 @@ bool EkosManager::start()
             managedDevices.append(dome_di);
         if (aux_di != NULL)
             managedDevices.append(aux_di);        
-
-        if (managedDevices.empty())
-            return false;
 
         if (ccd_di == NULL && guider_di == NULL)
         {
