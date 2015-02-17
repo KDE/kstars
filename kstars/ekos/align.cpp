@@ -890,8 +890,6 @@ void Align::SlewToTarget()
 
     m_slewToTargetSelected = slewR->isChecked();
 
-    appendLogText(xi18n("Asking scope to slew....m_slewToTargetSelected is %1", m_slewToTargetSelected ? "True" : "False"));
-
     currentTelescope->Slew(&targetCoord);
 
     appendLogText(xi18n("Slewing to target."));
