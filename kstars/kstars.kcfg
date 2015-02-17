@@ -1317,11 +1317,11 @@
     </entry>
     <entry name="neverLoadConfig" type="Bool">
       <label>Never load device configuration?</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
     <entry name="loadConfigOnConnection" type="Bool">
       <label>Load device configuration upon successful connection?</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="loadDefaultConfig" type="Bool">
       <label>Always load device default configuration upon successful connection?</label>
