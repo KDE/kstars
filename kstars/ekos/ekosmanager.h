@@ -217,7 +217,8 @@ protected slots:
     Ekos::Align *alignProcess;
     Ekos::Mount *mountProcess;
 
-    QString guiderName;
+    QString guiderCCDName;
+    QString primaryCCDName;
     bool localMode, ccdDriverSelected;
 
     int nDevices;
@@ -225,7 +226,6 @@ protected slots:
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;
     KPageWidgetItem *ekosOption;
-
 };
 
 

@@ -339,6 +339,9 @@ void EkosManager::reset()
     alignProcess   = NULL;
     mountProcess   = NULL;
 
+    guiderCCDName  = "";
+    primaryCCDName = "";
+
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
@@ -868,26 +871,30 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                 if (guider_di == di)
                 {
                     guider = devInterface;
-                    guiderName = devInterface->getDeviceName();
+                    guiderCCDName = devInterface->getDeviceName();
                 }
                 else if (ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
                 {
                     if (ccdDriverSelected == false)
                     {
                         ccd = devInterface;
+                        primaryCCDName = QString(devInterface->getDeviceName());
                         ccdDriverSelected = true;
 
                     }
                     else
                     {
                         guider = devInterface;
-                        guiderName = devInterface->getDeviceName();
+                        guiderCCDName = devInterface->getDeviceName();
                         //guideDriverSelected = true;
 
                     }
                 }
                 else
+                {
+                    primaryCCDName = QString(devInterface->getDeviceName());
                     ccd = devInterface;
+                }
 
                 break;
 
@@ -942,36 +949,38 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
 
     if (deviceName == Options::remoteScopeName())
         scope = devInterface;
-    else if (deviceName == Options::remoteCCDName()
-             || (remoteCCDRegistered == false &&  deviceName.startsWith(Options::remoteCCDName())))
+    else if (remoteCCDRegistered == false && (deviceName == Options::remoteCCDName() ||
+                                              deviceName.startsWith(Options::remoteCCDName())))
     {
         ccd = devInterface;
+
+        primaryCCDName = QString(devInterface->getDeviceName());
 
         remoteCCDRegistered = true;
 
         // In case we have a partial match only, then we are connecting to a driver that provides multiple devices per driver
         // in such instance we increase the number of devices we expect to receive by one.
-        if (remoteGuideRegistered == false && deviceName != Options::remoteCCDName())
+        /*if (remoteGuideRegistered == false && deviceName != Options::remoteCCDName())
         {
             remote_indi->addAuxInfo("mdpd", true);
             nDevices++;
-        }
+        }*/
 
     }
-    else if (deviceName == Options::remoteGuiderName()
-             || (remoteGuideRegistered == false &&  deviceName.startsWith(Options::remoteCCDName())))
-
+    else if (remoteGuideRegistered == false &&
+            ( (Options::remoteGuiderName().isEmpty() == false && deviceName.startsWith(Options::remoteGuiderName()) ) ||
+              (deviceName.startsWith(Options::remoteCCDName()))))
     {
         guider = devInterface;
-        guiderName = devInterface->getDeviceName();
+        guiderCCDName = QString(devInterface->getDeviceName());
         remoteGuideRegistered = true;
 
         // We only increase number of devices if CCD is not registered yet above.
-        if (remoteCCDRegistered == false &&  Options::remoteGuiderName().isEmpty() && deviceName.startsWith(Options::remoteCCDName()))
+        /*if (remoteCCDRegistered == false &&  Options::remoteGuiderName().isEmpty() && deviceName.startsWith(Options::remoteCCDName()))
         {
             remote_indi->addAuxInfo("mdpd", true);
             nDevices++;
-        }
+        }*/
     }
     else if (deviceName == Options::remoteAOName())
         ao = devInterface;
@@ -991,14 +1000,16 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
 
-
     if (nDevices <= 0)
     {
+        if (nDevices == 0)
+            appendLogText(xi18n("Remote devices established. Please connect devices."));
+
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
 
-        appendLogText(xi18n("Remote devices established. Please connect devices."));
+
     }
 
 }
@@ -1107,6 +1118,47 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
+    bool isPrimaryCCD = (primaryCCDName == QString(ccdDevice->getDeviceName()));
+
+    if (isPrimaryCCD)
+    {
+        ccd = ccdDevice;
+    }
+
+    initCapture();
+
+    captureProcess->addCCD(ccdDevice, isPrimaryCCD);
+
+    initFocus();
+
+    focusProcess->addCCD(ccdDevice, isPrimaryCCD);
+
+    initAlign();
+
+    alignProcess->addCCD(ccdDevice, isPrimaryCCD);
+
+    if (guiderCCDName.isEmpty() == false || useGuideHead)
+    {
+        guider = ccdDevice;
+        initGuide();
+        guideProcess->addCCD(ccdDevice, !isPrimaryCCD);
+    }
+
+    appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
+
+    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+
+   if (scopeRegistered)
+   {
+      alignProcess->setTelescope(scope);
+      captureProcess->setTelescope(scope);
+      guideProcess->setTelescope(scope);
+   }
+
+}
+
+/*void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
+{
     bool isPrimaryCCD = false;
 
     // For multiple devices per driver, we always treat the first device as the primary CCD
@@ -1175,7 +1227,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         }
     }
 
-}
+}*/
 
 void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 {
