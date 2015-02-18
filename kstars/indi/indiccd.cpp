@@ -889,6 +889,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
     {
+        HasCooler = true;
         INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
             if (np)
                 emit newTemperatureValue(np->value);

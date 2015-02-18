@@ -1296,6 +1296,9 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
 void Capture::updateCCDTemperature(double value)
 {    
+    if (temperatureCheck->isEnabled() == false)
+        checkCCD();
+
     temperatureOUT->setText(QString::number(value, 'f', 2));
 
     if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
