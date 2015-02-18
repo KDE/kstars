@@ -93,7 +93,7 @@ void SupernovaeComponent::loadData()
         if(row_content["serialNo"].toString() == "Null")
             continue;
 
-        serialNo    = row_content["serialNo"].toString();
+        serialNo    = row_content["serialNo"].toString().trimmed();
         hostGalaxy  = row_content["hostGalaxy"].toString();
         date        = row_content["date"].toString();
         ra          = dms(row_content["ra"].toString(), false);
@@ -206,11 +206,11 @@ void SupernovaeComponent::notifyNewSupernovae()
 
         if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae())) 
         {
-            qDebug()<<"Not Bright enough to be notified";
+            //qDebug()<<"Not Bright enough to be notified";
             continue;
         }
 
-        qDebug()<<"Bright enough to be notified";
+        //qDebug()<<"Bright enough to be notified";
         latestList.append(so);
     }
     if (!latestList.empty())
@@ -226,11 +226,14 @@ void SupernovaeComponent::notifyNewSupernovae()
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
+    QString output  = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "supernovae.dat";
     QString filename= QStandardPaths::locate(QStandardPaths::DataLocation, "scripts/supernova_updates_parser.py") ;
-    qDebug()<<filename;
+    QStringList args;
+    args << filename << output;
+    //qDebug()<<filename;
     m_Parser = new QProcess;
     connect( m_Parser, SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( slotDataFileUpdateFinished( int, QProcess::ExitStatus ) ) );
-    m_Parser->start("python2", QStringList( filename ));
+    m_Parser->start("python", args);
 }
 
 void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus )
@@ -255,7 +258,7 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
         // FIXME: There should be a better way to check if KStars is fully initialized. Maybe we should have a static boolean in the KStars class. --asimha
     }
     else {
-        qDebug()<<"HERE";
+        //qDebug()<<"HERE";
         latest.clear();
         loadData();
         notifyNewSupernovae();

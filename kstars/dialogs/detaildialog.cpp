@@ -247,6 +247,8 @@ void DetailDialog::createGeneralTab()
     case SkyObject::SUPERNOVA:
         sup=(Supernova *)selectedObject;
 
+        objecttyp = xi18n("Supernova");
+
         Data->Names->setText(sup->name());
 
         Data->Magnitude->setText( xi18nc( "number in magnitudes", "%1 mag" ,

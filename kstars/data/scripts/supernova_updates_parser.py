@@ -19,11 +19,11 @@
 ### This page gives details on supernovae that have occurred since the start of 2010.
 
 #!/usr/bin/env python
+import sys
 import re
 from urllib import urlopen
 import os
 import difflib
-from PyKDE4.kdecore import KStandardDirs
 
 def parse( line ) :
     parsed = toCSV(re.sub('<.*?>','',line))
@@ -46,7 +46,10 @@ sock.close()
 found = False
 firstLine = True
 
-output = open(KStandardDirs().locateLocal('data','kstars/supernovae.dat'),'w')
+output_file=sys.argv[1]
+#print "Output file is " + output_file
+
+output = open(output_file,'w')
 
 for i in pageLines:
     if(found):
@@ -65,7 +68,7 @@ for i in pageLines:
     p = re.compile("<pre>")
     m = p.search(i)
     if m:
-        print "found!!"+i
+        #print "found!!"+i
         firstLine=True
         found = True
 

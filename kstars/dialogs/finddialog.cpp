@@ -215,6 +215,7 @@ void FindDialog::filterByType() {
         break;
     case 11: //Supernovae
         fModel->setStringList( data->skyComposite()->objectNames( SkyObject::SUPERNOVA ) );
+        break;
     case 12: //Satellites
         fModel->setStringList( data->skyComposite()->objectNames( SkyObject::SATELLITE ) );
         break;
