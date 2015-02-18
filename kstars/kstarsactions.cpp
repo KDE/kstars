@@ -79,9 +79,11 @@
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
 //FIXME Port to QML2
-//#include "tools/whatsinteresting/wiview.h"
-//#include "tools/whatsinteresting/wilpsettings.h"
-//#include "tools/whatsinteresting/wiequipsettings.h"
+#if 0
+#include "tools/whatsinteresting/wiview.h"
+#include "tools/whatsinteresting/wilpsettings.h"
+#include "tools/whatsinteresting/wiequipsettings.h"
+#endif
 
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
@@ -326,13 +328,13 @@ void KStars::slotAVT() {
     m_AltVsTime->show();
 }
 
-//FIXME Port to QML2
-#if 0
 void KStars::slotWUT() {
     if ( ! m_WUTDialog ) m_WUTDialog = new WUTDialog(this);
     m_WUTDialog->show();
 }
 
+//FIXME Port to QML2
+#if 0
 void KStars::slotWISettings()
 {
     if (m_WIView && !m_wiDock->isVisible())

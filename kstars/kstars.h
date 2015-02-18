@@ -463,11 +463,11 @@ private slots:
     /** action slot: open Elevation vs. Time tool */
     void slotAVT();
 
-    //FIXME Port to QML2
-    #if 0
     /** action slot: open What's up tonight dialog */
     void slotWUT();
 
+    //FIXME Port to QML2
+    #if 0    
     /** action slot: open What's Interesting settings window */
     void slotWISettings();
 
@@ -628,6 +628,7 @@ private:
     SkyCalendar *m_SkyCalendar;
     ScriptBuilder *m_ScriptBuilder;
     PlanetViewer *m_PlanetViewer;
+    WUTDialog *m_WUTDialog;
     JMoonTool *m_JMoonTool;
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
@@ -636,12 +637,13 @@ private:
     #endif
 
     // FIXME Port to QML2
-    /*WUTDialog *m_WUTDialog;
+    #if 0
     WIView *m_WIView;
     WILPSettings *m_WISettings;
     WIEquipSettings *m_WIEquipmentSettings;
     ObsConditions *m_ObsConditions;
-    QDockWidget *m_wiDock;*/
+    QDockWidget *m_wiDock;
+    #endif
 
 
     QActionGroup *projectionGroup, *cschemeGroup;
