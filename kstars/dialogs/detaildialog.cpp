@@ -31,6 +31,8 @@
 
 #include <KMessageBox>
 #include <KToolInvocation>
+#include <KLocalizedString>
+#include <QStandardPaths>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -57,8 +59,6 @@
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
-#include <KLocalizedString>
-#include <QStandardPaths>
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
 #include "indi/driverinfo.h"

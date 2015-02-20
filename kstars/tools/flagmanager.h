@@ -80,9 +80,14 @@ public slots:
     void slotDeleteFlag();
 
     /**
-     *@short Center the selected object in the display
+     *@short Center the selected flag in the display
      */
     void slotCenterFlag();
+
+    /**
+     * @brief Center the selected flag in the telescope.
+     */
+    void slotCenterTelescope();
 
 private slots:
     void slotSaveChanges();

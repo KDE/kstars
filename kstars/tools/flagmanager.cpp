@@ -22,6 +22,14 @@
 
 #include <KMessageBox>
 
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI
+#include <basedevice.h>
+#include "indi/indilistener.h"
+#include "indi/indistd.h"
+#include "indi/driverinfo.h"
+#endif
 
 #include "Options.h"
 #include "kstars.h"
@@ -102,6 +110,7 @@ FlagManager::FlagManager( QWidget *ks )
     connect( ui->addButton, SIGNAL( clicked() ), this, SLOT( slotAddFlag() ) );
     connect( ui->delButton, SIGNAL( clicked() ), this, SLOT( slotDeleteFlag() ) );
     connect( ui->CenterButton, SIGNAL( clicked() ), this, SLOT( slotCenterFlag() ) );
+    connect( ui->ScopeButton, SIGNAL(clicked()), this, SLOT(slotCenterTelescope()));
     connect( ui->flagList, SIGNAL( clicked(QModelIndex) ), this, SLOT( slotSetShownFlag(QModelIndex) ) );
     connect( ui->flagList, SIGNAL( doubleClicked( const QModelIndex& ) ), this, SLOT( slotCenterFlag() ) );
 
@@ -234,6 +243,46 @@ void FlagManager::slotCenterFlag() {
         m_Ks->map()->setClickedPoint( m_Ks->data()->skyComposite()->flags()->pointList().at( ui->flagList->currentIndex().row() ) );
         m_Ks->map()->slotCenter();
     }
+}
+
+void FlagManager::slotCenterTelescope()
+{
+#ifdef HAVE_INDI
+
+    if (INDIListener::Instance()->size() == 0)
+    {
+        KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+        return;
+    }
+
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *bd = gd->getBaseDevice();
+
+        if (gd->getType() != KSTARS_TELESCOPE)
+            continue;
+
+        if (bd == NULL)
+            continue;
+
+        if (bd->isConnected() == false)
+        {
+            KMessageBox::error(0, xi18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            return;
+        }
+
+        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
+
+        gd->setProperty(&SlewCMD);
+        gd->runCommand(INDI_SEND_COORDS, m_Ks->data()->skyComposite()->flags()->pointList().at( ui->flagList->currentIndex().row()));
+
+        return;
+
+    }
+
+    KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+
+#endif
 }
 
 void FlagManager::slotSaveChanges() {

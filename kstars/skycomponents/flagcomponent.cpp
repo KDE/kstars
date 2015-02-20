@@ -36,6 +36,11 @@
 FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
 {
+    // Add the default flag images to available images list
+    m_Names.append( xi18n( "No icon" ) );
+    m_Images.append( QImage() );
+    m_Names.append( xi18n( "Default" ) );
+    m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
     QUrl dir = QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation)) ;
     dir.setScheme("file");
     // List user's directory
@@ -180,12 +185,6 @@ void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, Q
 }
 
 void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
-    // Add the default flag images to available images list
-    m_Names.append( xi18n( "No icon" ) );
-    m_Images.append( QImage() );
-    m_Names.append( xi18n( "Default" ) );
-    m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
-
     // Add all other images found in user appdata directory
     foreach( KIO::UDSEntry entry, list) {
         KFileItem item(entry, m_Job->url(), false, true);
