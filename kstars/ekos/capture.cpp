@@ -1200,41 +1200,17 @@ void Capture::checkSeqBoundary(const QString &path)
 
         // find the prefix first
         //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
-        if (tempName.startsWith(seqPrefix) == false)
+        if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
             continue;
 
-        int lastIndex = tempName.lastIndexOf('.');
-
-        if (seqPrefix.isEmpty() && lastIndex != 2)
-            continue;
-
-        if (lastIndex != -1)
-        {
-            bool indexOK = false;
-            newFileIndex = tempName.mid(lastIndex-2, 2).toInt(&indexOK);
-            if (indexOK && newFileIndex >= seqCount)
-                seqCount = newFileIndex + 1;
-        }
-
-        /*if (seqPrefix.isEmpty() == false)
-           tempName.remove(seqPrefix + '_');
-
-        int usIndex = tempName.indexOf('_');
-
-        if (usIndex == -1)
-            usIndex = tempName.indexOf('.');
-
-        tempName.remove(usIndex, tempName.size() - usIndex);
+        tempName = tempName.remove(seqPrefix);
+        if (tempName.startsWith("_"))
+            tempName = tempName.remove(0, 1);
 
         bool indexOK = false;
-
-        newFileIndex = tempName.toInt(&indexOK);*/
-
-        //if (newFileIndex >= seqCount)
-          //  seqCount = newFileIndex + 1;
-
-        //qDebug() << "Now the tempName is " << tempName << " conversion is " << (indexOK ? "OK" : "Failed") << " and valu is " << newFileIndex
-          //          << " and seqCount is " << seqCount << endl;
+        newFileIndex = tempName.mid(0, 2).toInt(&indexOK);
+        if (indexOK && newFileIndex >= seqCount)
+            seqCount = newFileIndex + 1;
     }
 
     currentCCD->setSeqCount(seqCount);
