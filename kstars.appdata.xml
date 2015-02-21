@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KStars</name>
+  <name xml:lang="bs">KStars</name>
   <name xml:lang="ca">KStars</name>
   <name xml:lang="cs">KStars</name>
   <name xml:lang="da">KStars</name>
@@ -26,6 +27,7 @@
   <name xml:lang="x-test">xxKStarsxx</name>
   <name xml:lang="zh-TW">天文_KStars</name>
   <summary>Desktop Planetarium</summary>
+  <summary xml:lang="bs">Stoni planetarij</summary>
   <summary xml:lang="ca">Planetari per a l'escriptori</summary>
   <summary xml:lang="cs">Planetárium na vaší obrazovce</summary>
   <summary xml:lang="de">Elektronisches Planetarium</summary>
@@ -48,6 +50,7 @@
   <summary xml:lang="zh-TW">桌面星象儀</summary>
   <description>
     <p>KStars is a desktop planetarium application. For any location, date, and time on Earth, it provides an accurate graphical simulation of the night sky. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, access to the Astroinfo project to help facilitate learning, and Internet links for further information and pictures of objects. Amateur astronomers can use KStars to plan their observations, use the FOV Editor to calculate field of view of equipment and display them, use the ObtainAAVSO light curves for variable stars, and get hints by the "What's up tonight tool". KStars integrates INDI and supports a wide range of instruments.</p>
+    <p xml:lang="bs">KStars je desktop aplikacija - planetarijum. Za bilo koje lokacije, datum, vrijeme i na Zemlji, ona pruža preciznu grafičku simulaciju noćnog nebu. Ekran sadrži do 100 miliona zvijezda, 13.000 dalekih-nebeskih tijela, svih 8 planeta, Sunca i Mjeseca, i hiljade kometa i asteroida. Za studente i nastavnike, podržava podesive brzine simulacije kako bi vidjeli fenomene koji se dešavaju tokom dugih vremenskih okvira, KStars Astrocalculator da predvidi konjunkcije, pristup projektu Astroinfo koje olakšava učenje i Internet veze za dalje informacije i slike objekata. Astronomi amateri mogu koristiti KStars da planiraju svoje primjedbe, koristiti FOV Editor da izračuna vidno polje od opreme i prikažei ih, koristite ObtainAAVSO svjetlosne krive za promenljive zvijezda, i dobiju nagovještaje od strane "Šta ima večeras alata". KStars integriše indi i podržava širok spektar instrumenata.</p>
     <p xml:lang="ca">El KStars és una aplicació de planetari per a l'escriptori. Per a qualsevol ubicació, data i hora a la terra, proporciona una simulació gràfica precisa del cel nocturn. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes de l'espai profund, tots els 8 planetes, el sol i la lluna, i milers de cometes i asteroides. Per a estudiants i mestres, implementa velocitats de simulació ajustables per tal de veure fenòmens que passen en escales de temps llargues, l'Astrocalculator del KStars per predir conjuncions, accés al projecte Astroinfo per ajudar l'aprenentatge, i enllaços d'Internet per a informació addicional i imatges d'objectes. Els astrònoms aficionats poden usar el KStars per planificar les seves observacions, usar l'editor FOV per calcular el camp de visió de l'equip i visualitzar-los, usar les curves de llum de l'ObtainAAVSO per les estrelles variables, i obtenir consells amb l'eina «Què passa aquesta nit» (What's up tonight tool). El KStars integra l'INDI i accepta una gran varietat d'instruments.</p>
     <p xml:lang="en-GB">KStars is a desktop planetarium application. For any location, date, and time on Earth, it provides an accurate graphical simulation of the night sky. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, access to the Astroinfo project to help facilitate learning, and Internet links for further information and pictures of objects. Amateur astronomers can use KStars to plan their observations, use the FOV Editor to calculate field of view of equipment and display them, use the ObtainAAVSO light curves for variable stars, and get hints by the "What's up tonight tool". KStars integrates INDI and supports a wide range of instruments.</p>
     <p xml:lang="es">KStars es una aplicación de planetario del escritorio. Proporciona una precisa simulación gráfica del cielo nocturno para cualquier lugar, fecha y hora de la Tierra. La pantalla incluye hasta 100 millones de estrellas, 13.000 objetos del espacio profundo, los 8 planetas, el Sol, la Luna y cientos de cometas y asteroides. Para estudiantes y profesores, permite velocidades de simulación ajustables para ver los fenómenos que ocurren a lo largo de grandes períodos de tiempo, contiene una calculadora astronómica para predecir conjunciones, accede al proyecto Astroinfo para ayudar al aprendizaje y contiene enlaces a sitios de Internet con más información e imágenes sobre diversos objetos. Los astrónomos aficionados pueden usar KStars para planificar sus observaciones, usar el editor de campo visual para calcular los campos visuales de su equipo astronómico y mostrarlos en la pantalla, usar las curvas de luz de la AAVSO para las estrellas variables y obtener datos con la herramienta «¿Qué ocurre esta noche?». KStars integra el protocolo INDI y permite usarlo con una amplia variedad de instrumentos.</p>
@@ -66,6 +69,7 @@
     <p xml:lang="x-test">xxKStars is a desktop planetarium application. For any location, date, and time on Earth, it provides an accurate graphical simulation of the night sky. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, access to the Astroinfo project to help facilitate learning, and Internet links for further information and pictures of objects. Amateur astronomers can use KStars to plan their observations, use the FOV Editor to calculate field of view of equipment and display them, use the ObtainAAVSO light curves for variable stars, and get hints by the "What's up tonight tool". KStars integrates INDI and supports a wide range of instruments.xx</p>
     <p xml:lang="zh-TW">KStars 是一套桌面星象儀。它可以提供地球上任何地點、日期、時間的夜空的精確模擬。可以顯示最多一億個星體，一萬三千個深天空物件，所有八個行星，太陽與月球，還有數以千計的彗星與小行星等。它也支援可調整的速度模擬，讓學生與老師可以觀察一些需要非常長時間才能觀測出來的現象。KStars 天文計算器可以預測會合，並結合天文資訊專案來協助學習。業餘天文觀測者可以用 KStars 來計畫他們要觀察的物件，用視場編輯器來計算他們的裝備的檢視視場，並顯示出來。KStars 並整合了 INDI 資料庫，並支援多個指令。</p>
     <p>Astronomical Catalogs:</p>
+    <p xml:lang="bs">Astronomski katalozi:</p>
     <p xml:lang="ca">Catàlegs astronòmics:</p>
     <p xml:lang="cs">Astronomické katalogy:</p>
     <p xml:lang="de">Astronomische Kataloge:</p>
@@ -87,6 +91,7 @@
     <p xml:lang="zh-TW">天文類別：</p>
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
+      <li xml:lang="bs">Uobičajeni Katalog se sastoji od zvijezda do magnitude 8</li>
       <li xml:lang="ca">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
       <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">Default catalogue consisting of stars to magnitude 8</li>
@@ -106,6 +111,7 @@
       <li xml:lang="x-test">xxDefault catalog consisting of stars to magnitude 8xx</li>
       <li xml:lang="zh-TW">包含星等 8 的預設類別</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li xml:lang="bs">Prošireni katalozi koji se sastoji od 100 milijuna zvijezda u veličini 16</li>
       <li xml:lang="ca">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
       <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">Extra catalogues consisting of 100 million stars to magnitude 16</li>
@@ -125,6 +131,7 @@
       <li xml:lang="x-test">xxExtra catalogs consisting of 100 million stars to magnitude 16xx</li>
       <li xml:lang="zh-TW">包含到星等 16 的一億個星體的額外類別</li>
       <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae</li>
+      <li xml:lang="bs">Mogučnost preuzimanja kataloga uključuje Messier Images, Abell planetarne magline</li>
       <li xml:lang="ca">Catàlegs descarregables que inclouen imatges de Messier, i la nebulosa planetària Abell</li>
       <li xml:lang="de">Herunterladbare Kataloge einschließlich Messier-Bilder, Abell-Katalog Planetarischer Nebel</li>
       <li xml:lang="en-GB">Downloadable catalogues including Messier Images, Abell Planetary Nebulae</li>
@@ -144,6 +151,7 @@
       <li xml:lang="x-test">xxDownloadable catalogs including Messier Images, Abell Planetary Nebulaexx</li>
       <li xml:lang="zh-TW">可下載的類別，包括 Messier images，Abell Planetary Nebulae 等</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
+      <li xml:lang="bs">Korekcije za precesiju, njihanje i atmosferske refrakcije</li>
       <li xml:lang="ca">Correccions per la precessió, nutació i refracció atmosfèrica</li>
       <li xml:lang="de">Korrekturen für Präzession, Nutation und atmosphärische Brechung</li>
       <li xml:lang="en-GB">Corrections for precession, nutation and atmospheric refraction</li>
@@ -163,6 +171,7 @@
       <li xml:lang="x-test">xxCorrections for precession, nutation and atmospheric refractionxx</li>
       <li xml:lang="zh-TW">歲差、地軸震動與大氣磨擦修正</li>
       <li>Tools for retrieval of data from online databases</li>
+      <li xml:lang="bs">Alati za preuzimanje podataka iz mrežnih baza podataka</li>
       <li xml:lang="ca">Eines per a recuperar dades des d'una base de dades en línia</li>
       <li xml:lang="cs">Nástroje pro získávání dat z databází online</li>
       <li xml:lang="de">Werkzeuge zum Herunterladen von Daten aus Online-Datenbanken</li>
