@@ -129,6 +129,13 @@ public:
      */
     QImage imageList( int index );
 
+    /**
+     * @brief epochCoords return coordinates recorded in original epoch
+     * @param index index of the flag
+     * @return pair of RA/DEC in original epoch
+     */
+    QPair<double, double> epochCoords(int index);
+
     /** @short Get list of flag indexes near specified SkyPoint with radius specified in pixels.
       *@param point central SkyPoint.
       *@param pixelRadius radius in pixels.
@@ -142,13 +149,16 @@ public:
     void saveToFile();
 
 private:
-    QStringList         m_Epoch;        /**< List of epochs                */
-    QList<int>          m_FlagImages;   /**< List of image index           */
-    QStringList         m_Labels;       /**< List of label                 */
-    QList<QColor>       m_LabelColors;  /**< List of label colors          */
-    QStringList         m_Names;        /**< List of image names           */
-    QList<QImage>       m_Images;       /**< List of flag images           */
-    KIO::ListJob*       m_Job;          /**< Used to list user's directory */
+    void toJNow(SkyPoint *p, QString epoch);
+
+    QStringList                     m_Epoch;        /**< List of epochs                  */
+    QList<QPair<double, double>>    m_EpochCoords;  /**< RA/DEC stored in original Epoch */
+    QList<int>                      m_FlagImages;   /**< List of image index             */
+    QStringList                     m_Labels;       /**< List of label                   */
+    QList<QColor>                   m_LabelColors;  /**< List of label colors            */
+    QStringList                     m_Names;        /**< List of image names             */
+    QList<QImage>                   m_Images;       /**< List of flag images             */
+    KIO::ListJob*                   m_Job;          /**< Used to list user's directory   */
 
 private slots:
     void slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list );

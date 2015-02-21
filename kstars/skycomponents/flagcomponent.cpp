@@ -82,7 +82,14 @@ void FlagComponent::loadFromFile() {
         // Read coordinates
         dms r( flagEntry.at( 0 ) );
         dms d( flagEntry.at( 1 ) );
+
+        m_EpochCoords.append(qMakePair(r.Degrees(), d.Degrees()));
+
         SkyPoint* flagPoint = new SkyPoint( r, d );
+
+        // Convert to JNow
+        toJNow(flagPoint, flagEntry.at( 2 ));
+
         pointList().append( flagPoint );
 
         // Read epoch
@@ -128,8 +135,8 @@ void FlagComponent::saveToFile() {
     KStarsData::Instance()->userdb()->EraseAllFlags();
 
     for ( int i=0; i < size(); ++i ) {
-        KStarsData::Instance()->userdb()->AddFlag(QString::number( pointList().at( i )->ra0().Degrees() ),
-                                                  QString::number( pointList().at( i )->dec0().Degrees() ),
+        KStarsData::Instance()->userdb()->AddFlag(QString::number(epochCoords(i).first) ,
+                                                  QString::number(epochCoords(i).second),
                                                   epoch ( i ),
                                                   imageName( i ).replace( ' ', '_' ),
                                                   label( i ),
@@ -138,6 +145,12 @@ void FlagComponent::saveToFile() {
 }
 
 void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
+
+    //JM 2015-02-21: Insert original coords in list and convert skypint to JNow
+    m_EpochCoords.append(qMakePair(flagPoint->ra().Degrees(), flagPoint->dec().Degrees()));
+
+    toJNow(flagPoint, epoch);
+
     pointList().append( flagPoint );
     m_Epoch.append( epoch );
 
@@ -157,6 +170,7 @@ void FlagComponent::remove( int index ) {
     }
 
     pointList().removeAt( index );
+    m_EpochCoords.removeAt(index);
     m_Epoch.removeAt( index );
     m_FlagImages.removeAt( index );
     m_Labels.removeAt( index );
@@ -171,6 +185,11 @@ void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, Q
         return;
     }
     delete pointList().at( index );
+
+    m_EpochCoords.replace(index, qMakePair(flagPoint->ra().Degrees(), flagPoint->dec().Degrees()));
+
+    toJNow(flagPoint, epoch);
+
     pointList().replace( index, flagPoint);
 
     m_Epoch.replace( index, epoch );
@@ -301,4 +320,22 @@ QImage FlagComponent::imageList( int index ) {
     }
 
     return m_Images.at( index );
+}
+
+void FlagComponent::toJNow(SkyPoint *p, QString epoch)
+{
+    KStarsDateTime dt;
+    dt.setFromEpoch(epoch);
+
+    p->apparentCoord(dt.djd(), KStarsData::Instance()->ut().djd());
+}
+
+QPair<double, double> FlagComponent::epochCoords(int index)
+{
+    if ( index > m_FlagImages.size() - 1 ) {
+         QPair<double, double> coord = qMakePair(0,0);
+         return coord;
+    }
+
+    return m_EpochCoords.at(index);
 }

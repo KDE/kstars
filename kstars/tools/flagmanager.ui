@@ -162,9 +162,9 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="hintLabel">
      <property name="text">
-      <string>To add custom icons, just add images in $HOME/.kde/share/apps/kstars. File names must begin with &quot;_flags&quot;. For example, the file &quot;_flagSmall_red_cross.gif&quot; will be shown as &quot;Small red cross&quot; in the combo box.</string>
+      <string/>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

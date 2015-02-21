@@ -600,7 +600,7 @@ void SkyMap::slotAddFlag() {
     // popup FlagManager window and update coordinates
     ks->slotFlagManager();
     ks->flagManager()->clearFields();
-    ks->flagManager()->setRaDec( clickedPoint()->ra(), clickedPoint()->dec() );
+    ks->flagManager()->setRaDec( clickedPoint()->ra0(), clickedPoint()->dec0() );
 }
 
 void SkyMap::slotEditFlag( int flagIdx ) {
