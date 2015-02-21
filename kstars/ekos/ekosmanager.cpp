@@ -1251,6 +1251,8 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 {
     focuser = focuserDevice;
 
+    initCapture();
+
     initFocus();
 
     focusProcess->addFocuser(focuser);
