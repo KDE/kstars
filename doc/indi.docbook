@@ -4,11 +4,9 @@
 <secondary>Overview</secondary>
 </indexterm>
 
-<para>&kstars; provides an interface to configure and control astronomical instruments via
-the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
+<para>&kstars; provides an interface to configure and control astronomical instruments via the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
 
-<para>The <acronym>INDI</acronym> protocol supports a variety of astronomical instruments
-  such as CCD cameras and focusers. For an up to date list of supported devices, please visit <acronym>INDI</acronym> <ulink url="http://indilib.org/index.php?title=Devices">supported devices page</ulink>.</para>
+<para>The <acronym>INDI</acronym> protocol supports a variety of astronomical instruments such as CCD cameras and focusers. For an up to date list of supported devices, please visit <acronym>INDI</acronym> <ulink url="http://indilib.org/index.php?title=Devices">supported devices page</ulink>.</para>
 
 <sect1 id="indi-kstars-setup">
 <title>INDI Setup</title>
@@ -215,49 +213,7 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 
 <para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu. Like all INDI devices, some of the device controls will be accessible from the skymap. The device can be controlled fully from the <guimenuitem>INDI Control Panel.</guimenuitem></para>
 
-<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link>. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
-</sect1>
-
-<sect1 id="indi-capture">
-<title>Capture Image Sequence</title>
-<indexterm><primary>Capture</primary>
-<secondary>Image</secondary>
-</indexterm>
-
-<para>The Capture Image Sequence tool can be used to aquire images from cameras and CCDs in interactive and batch modes. Furthermore, you can select which filter, if any, you want to use for your images. The capture tool remains disabled until you establish a connection to an imaging device.</para> 
-
-<screenshot>
-<screeninfo>Capture Image Sequence</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="indicapture.png" format="PNG"/>
-</imageobject>
-</mediaobject>
-</screenshot>
-
-<para>The above screenshot depicts a sample capture session. The tool provides the following options:</para>
-<itemizedlist>
-  <listitem><para>Camera/CCD</para>
-     <itemizedlist>
-         <listitem><para><option>Device:</option> The desired imaging device.</para></listitem>
-         <listitem><para><option>Prefix:</option> The image prefix which will be prepended to each captured filename.</para></listitem>
-         <listitem><para><option>Exposure:</option> The number of seconds to expose each frame.</para></listitem>
-         <listitem><para><option>Count:</option> The number of images to aquire.</para></listitem>
-         <listitem><para><option>Delay:</option> The delay in seconds between consecutive images.</para></listitem>
-         <listitem><para><option>ISO 8601 time stamp:</option> Append ISO 8601 time stamp to the filename. (e.g. image_01_20050427T09:48:05).</para></listitem>
-     </itemizedlist>
-    </listitem>
-   <listitem><para>Filter</para>
-      <itemizedlist>
-          <listitem><para><option>Device:</option> The desired filter device.</para></listitem>
-          <listitem><para><option>Filter:</option> The desired filter slot. You can assign color values to slot numbers using the <link linkend="indi-configure">INDI</link> page (e.g. Slot #1 = Red, Slot #2 = Blue..etc).</para></listitem>          
-       </itemizedlist>
-   </listitem>
-</itemizedlist>
-
-<para>After you fill in the desired options, you can begin the capture procedure by pressing the <guibutton>Start</guibutton> button. You may cancel at any time using the <guibutton>Stop</guibutton> button. All captured images will be saved to the default FITS directory which can be specified in the <link linkend="indi-configure">INDI</link> page of the settings dialog.</para>
-
-<para>If you have more complex capturing requirements and conditions to fulfil, it is recommended to create a script to meet your specific needs using the <link linkend="tool-scriptbuilder">Script Builder</link> tool in the <guimenu>Tools</guimenu> menu.</para>
+<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link>.</para>
 </sect1>
 
 <sect1 id="indi-configure">
@@ -287,7 +243,7 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
     <itemizedlist>
      <listitem><para><option>Device target crosshair:</option> When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure &kstars;</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
      <listitem><para><option>INDI messages in status bar:</option> When checked, &kstars; displays INDI status messages in the &kstars; status bar.</para></listitem>
-     <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, &kstars; will display captured FITS in &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link> tool. If you use the <link linkend="indi-capture">Capture Image Sequence</link> tool, all captured images will be saved to disk regardless of this option.</para></listitem>
+     <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, &kstars; will display captured FITS in &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link> tool.</para></listitem>
     </itemizedlist>
    </listitem>
   <listitem><para>Update Source: Synchronize &kstars; according to either the 
@@ -452,13 +408,14 @@ as following:</para>
 ...]</para>
 
 <para>Options:</para>
-<para> -l d  : log driver messages to d/YYYY-MM-DD.islog</para>
-<para> -m m  : kill client if gets more than this many MB behind, default 10</para>
-<para> -p p  : alternate IP port, default 7624</para>
-<para> -v    : show key events, no traffic</para>
-<para> -vv   : -v + key message content</para>
-<para> -vvv  : -vv + complete xml</para>
-<para> driver : executable or device@host[:port]</para>
+<para> -l d    : log driver messages to d/YYYY-MM-DD.islog</para>
+<para> -m m    : kill client if gets more than this many MB behind, default 10</para>
+<para> -p p    : alternate IP port, default 7624</para>
+<para> -f path : Path to fifo for dynamic startup and shutdown of drivers.</para>
+<para> -v      : show key events, no traffic</para>
+<para> -vv     : -v + key message content</para>
+<para> -vvv    : -vv + complete xml</para>
+<para> driver  : executable or device@host[:port]</para>
 
 <para>For example, if you want to start an INDI server running an LX200 GPS
 driver and listening to connections on port 8000, you would run the
@@ -527,19 +484,6 @@ What operations does &kstars; provide to control the telescope?
 <answer>
 <para>
 It depends on the particular telescope you're running, but the minimum three operations are <command>Slew</command>, <command>Track</command>, and <command>Sync</command>, which you can issue directly from the sky map. Your telescope must be aligned for those operations to perform correctly. Some telescopes offer you more operations like site management, slew modes, focusing, parking, and more. You can access the telescopes extended features from the INDI Control Panel in the Devices Menu.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>
-Can I use &kstars; to do guiding?
-</para>
-</question>
-<answer>
-<para>
-  Currently, there are no plans to support guiding in &kstars;. Users may utilize <ulink url="http://code.google.com/p/open-phd-guiding/">OpenPHD Guiding</ulink> as it is compatible with &kstars; and INDI.
 </para>
 </answer>
 </qandaentry>
