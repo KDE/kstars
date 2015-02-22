@@ -66,7 +66,7 @@ FlagManager::FlagManager( QWidget *ks )
 
     m_Ks = KStars::Instance();
 
-    ui->hintLabel->setText(xi18n("To add custom icons, just add images in %1. File names must begin with flags"
+    ui->hintLabel->setText(xi18n("To add custom icons, just add images in %1. File names must begin with flag. "
                                  "For example, the file <i>flagSmall_red_cross.gif</i> will be shown as <i>Small red cross</i> in the combo box.",
                                  QStandardPaths::writableLocation(QStandardPaths::DataLocation)));
     //Set up the Table Views
