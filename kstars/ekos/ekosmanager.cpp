@@ -684,9 +684,55 @@ void EkosManager::checkINDITimeout()
         return;
 
     if (localMode)
-        KMessageBox::error(this, xi18np("Unable to completely establish local devices. %1 device remaining. Please ensure device is connected and powered on.", "Unable to completely establish local devices. %1 devices remaining. Please ensure devices are connected and powered on.", nDevices));
+    {
+        QStringList remainingDevices;
+        if (scope_di && scope == NULL)
+            remainingDevices << QString("+ %1").arg(scope_di->getName());
+        if (ccd_di && ccd == NULL)
+            remainingDevices << QString("+ %1").arg(ccd_di->getName());
+        if (guider_di && guider == NULL)
+            remainingDevices << QString("+ %1").arg(guider_di->getName());
+        if (focuser_di && focuser == NULL)
+            remainingDevices << QString("+ %1").arg(focuser_di->getName());
+        if (filter_di && filter == NULL)
+            remainingDevices << QString("+ %1").arg(filter_di->getName());
+        if (aux_di && aux == NULL)
+            remainingDevices << QString("+ %1").arg(aux_di->getName());
+        if (ao_di && ao == NULL)
+            remainingDevices << QString("+ %1").arg(ao_di->getName());
+        if (dome_di && dome == NULL)
+            remainingDevices << QString("+ %1").arg(dome_di->getName());
+
+        if (remainingDevices.count() == 1)
+            KMessageBox::error(this, xi18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.", remainingDevices.at(0)));
+        else
+            KMessageBox::error(this, xi18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected and powered on.", remainingDevices.join("\n")));
+    }
     else
-        KMessageBox::error(this, xi18np("Unable to completely establish remote devices. %1 device remaining. Please ensure remote device name corresponds to actual device name.", "Unable to completely establish remote devices. %1 devices remaining. Please ensure remote device name corresponds to actual device name.", nDevices));
+    {
+        QStringList remainingDevices;
+        if (telescopeCombo->currentText() != "--" && scope == NULL)
+            remainingDevices << QString("+ %1").arg(telescopeCombo->currentText());
+        if (ccdCombo->currentText() != "--" && ccd == NULL)
+            remainingDevices << QString("+ %1").arg(ccdCombo->currentText());
+        if (guiderCombo->currentText() != "--" && guider == NULL)
+            remainingDevices << QString("+ %1").arg(guiderCombo->currentText());
+        if (focuserCombo->currentText() != "--" && focuser == NULL)
+            remainingDevices << QString("+ %1").arg(focuserCombo->currentText());
+        if (filterCombo->currentText() != "--" && filter == NULL)
+            remainingDevices << QString("+ %1").arg(filterCombo->currentText());
+        if (domeCombo->currentText() != "--" && dome == NULL)
+            remainingDevices << QString("+ %1").arg(domeCombo->currentText());
+        if (auxCombo->currentText() != "--" && aux == NULL)
+            remainingDevices << QString("+ %1").arg(auxCombo->currentText());
+        if (AOCombo->currentText() != "--" && ao == NULL)
+            remainingDevices << QString("+ %1").arg(AOCombo->currentText());
+
+        if (remainingDevices.count() == 1)
+            KMessageBox::error(this, xi18n("Unable to establish remote device:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.at(0)));
+        else
+            KMessageBox::error(this, xi18n("Unable to establish remote devices:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.join("\n")));
+    }
 }
 
 void EkosManager::refreshRemoteDrivers()
