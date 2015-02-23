@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KStars</name>
+  <name xml:lang="bs">KStars</name>
   <name xml:lang="ca">KStars</name>
   <name xml:lang="cs">KStars</name>
   <name xml:lang="da">KStars</name>
@@ -27,6 +28,7 @@
   <name xml:lang="zh-CN">KStars</name>
   <name xml:lang="zh-TW">天文_KStars</name>
   <summary>Desktop Planetarium</summary>
+  <summary xml:lang="bs">Stoni planetarij</summary>
   <summary xml:lang="ca">Planetari per a l'escriptori</summary>
   <summary xml:lang="cs">Planetárium na vaší obrazovce</summary>
   <summary xml:lang="de">Elektronisches Planetarium</summary>
@@ -62,6 +64,7 @@
     <p xml:lang="x-test">xxKStars is free, open source, cross-platform Astronomy Software. It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe! Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.xx</p>
     <p xml:lang="zh-TW">KStars 是一套開放源碼，跨平台的天文軟體。它提供全球任何地方，任何日期與時間點夜空精確的圖像模擬。顯示包括超過一億個星體，13,000 個深天空物件，所有八個行星，太陽與月球，還有上千個慧星、小行星、超新星與衛星等等。對學生跟老師來說，它可支援調整模擬速度的功能，以便顯示長時間的星象。KStars 太空計算器可用來預測天體會合，還有許多常用的天文學的計算。對業餘的天文學家來說，它可提供觀察計畫，天體行事曆工具，場域（FOV）編輯器以便計算檢視設備可顯示的範圍。您可以在「今晚有什麼」工具中找到有趣的星體物件，繪出位置與時間圖，印出高品質的天體圖表，並取得豐富的資源與資訊來協助您探索宇宙。KStars 裡並且包含了 Ekos astrophotography 套件，可以用來控制所有的 INDI 裝置，包括多種望遠鏡，CCD 鏡頭，DSLR，聚焦器，過濾器等等。Ekos 支援線上與離線高精確度的追蹤，自動對焦與自動導引，並可擷取單張或多張的影像。</p>
     <p>Astronomical Catalogs:</p>
+    <p xml:lang="bs">Astronomski katalozi:</p>
     <p xml:lang="ca">Catàlegs astronòmics:</p>
     <p xml:lang="cs">Astronomické katalogy:</p>
     <p xml:lang="de">Astronomische Kataloge:</p>
@@ -83,6 +86,7 @@
     <p xml:lang="zh-TW">天文類別：</p>
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
+      <li xml:lang="bs">Uobičajeni Katalog se sastoji od zvijezda do magnitude 8</li>
       <li xml:lang="ca">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
       <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">Default catalogue consisting of stars to magnitude 8</li>
@@ -102,6 +106,7 @@
       <li xml:lang="x-test">xxDefault catalog consisting of stars to magnitude 8xx</li>
       <li xml:lang="zh-TW">包含星等 8 的預設類別</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li xml:lang="bs">Prošireni katalozi koji se sastoji od 100 milijuna zvijezda u veličini 16</li>
       <li xml:lang="ca">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
       <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">Extra catalogues consisting of 100 million stars to magnitude 16</li>
@@ -134,6 +139,7 @@
       <li xml:lang="x-test">xxDownloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalogxx</li>
       <li xml:lang="zh-TW">可下載的類別，包括 Messier images，Abell Planetary Nebulae, Sharpless Catalog 等</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
+      <li xml:lang="bs">Korekcije za precesiju, njihanje i atmosferske refrakcije</li>
       <li xml:lang="ca">Correccions per la precessió, nutació i refracció atmosfèrica</li>
       <li xml:lang="de">Korrekturen für Präzession, Nutation und atmosphärische Brechung</li>
       <li xml:lang="en-GB">Corrections for precession, nutation and atmospheric refraction</li>
@@ -153,6 +159,7 @@
       <li xml:lang="x-test">xxCorrections for precession, nutation and atmospheric refractionxx</li>
       <li xml:lang="zh-TW">歲差、地軸震動與大氣磨擦修正</li>
       <li>Tools for retrieval of data from online databases</li>
+      <li xml:lang="bs">Alati za preuzimanje podataka iz mrežnih baza podataka</li>
       <li xml:lang="ca">Eines per a recuperar dades des d'una base de dades en línia</li>
       <li xml:lang="cs">Nástroje pro získávání dat z databází online</li>
       <li xml:lang="de">Werkzeuge zum Herunterladen von Daten aus Online-Datenbanken</li>
