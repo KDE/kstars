@@ -214,7 +214,7 @@ linkend="tool-jmoons">Jupiter Moons Tool</link> which shows the positions of Jup
 Our primary goal is to make &kstars; an interactive educational tool for learning about astronomy and the night sky.  To this end, the &kstars; Handbook includes the <link linkend="astroinfo">AstroInfo
 Project</link>, a series of short, hyperlinked articles on astronomical topics that can be explored with &kstars;.  In addition, &kstars;
 includes &DBus; functions that allow you to <link linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars; a powerful "demo engine" for classroom use or general illustration of
-astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using <ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/class&kstars;.html">&kstars; &DBus; API</ulink>
+astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using <ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/classkstars.html">&kstars; &DBus; API</ulink>
 </para>
 <para>
 However, &kstars; is not just for students.  You can control telescopes and cameras with &kstars;, using the elegant and powerful <link linkend="indi">INDI</link> protocol.  &kstars; supports several popular 
