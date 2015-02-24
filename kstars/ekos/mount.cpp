@@ -82,6 +82,7 @@ Mount::Mount()
     connect(southwestB, SIGNAL(pressed()), this, SLOT(move()));
     connect(southwestB, SIGNAL(released()), this, SLOT(stop()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(stop()));
+    connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
 
 }
 
@@ -178,7 +179,30 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
-        syncTelescopeInfo();
+        if (nvp->s == IPS_ALERT)
+        {
+            QString newMessage;
+            if (primaryScopeApertureIN->value() == 1 || primaryScopeFocalIN->value() == 1)
+                newMessage = xi18n("Error syncing telescope info. Please fill telescope aperture and focal length.");
+            else
+                newMessage = xi18n("Error syncing telescope info. Check INDI control panel for more details.");
+            if (newMessage != lastNotificationMessage)
+            {
+                appendLogText(newMessage);
+                lastNotificationMessage = newMessage;
+            }
+        }
+        else
+        {
+                syncTelescopeInfo();
+                QString newMessage = xi18n("Telescope info updated successfully.");
+                if (newMessage != lastNotificationMessage)
+                {
+                    appendLogText(newMessage);
+                    lastNotificationMessage = newMessage;
+                }
+
+        }
     }
 }
 
@@ -262,10 +286,10 @@ void Mount::save()
             np->value = primaryScopeFocalIN->value();
         np = IUFindNumber(nvp, "GUIDER_APERTURE");
         if (np)
-            np->value = guideScopeApertureIN->value();
+            np->value = guideScopeApertureIN->value() == 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
         if (np)
-            np->value = guideScopeFocalIN->value();
+            np->value = guideScopeFocalIN->value() == 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
 
         ClientManager *clientManager = currentTelescope->getDriverInfo()->getClientManager();
 
@@ -273,7 +297,7 @@ void Mount::save()
 
         currentTelescope->setConfig(SAVE_CONFIG);
 
-        appendLogText(xi18n("Telescope information saved."));
+        appendLogText(xi18n("Saving telescope information..."));
 
     }
     else

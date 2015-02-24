@@ -64,6 +64,7 @@ private:
     ISD::Telescope *currentTelescope;
     QStringList logText;
     SkyPoint telescopeCoord;
+    QString lastNotificationMessage;
 
 };
 
