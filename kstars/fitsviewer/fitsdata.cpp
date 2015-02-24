@@ -50,7 +50,7 @@
 const int MINIMUM_ROWS_PER_CENTER=3;
 
 #define JM_UPPER_LIMIT  .5
-
+#define MAX_EDGE_LIMIT  10000
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10
 #define DIFFUSE_THRESHOLD   0.15
@@ -717,6 +717,15 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     {
         initStdDev--;
         continue;
+    }
+
+    if (edges.count() >= MAX_EDGE_LIMIT)
+    {
+        #ifdef FITS_DEBUG
+        qDebug() << "Too many edges, aborting... " << edges.count() << endl;
+        #endif
+        qDeleteAll(edges);
+        return;
     }
 
     if (edges.count() >= minimumEdgeLimit)
