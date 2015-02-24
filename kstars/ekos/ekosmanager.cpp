@@ -146,9 +146,9 @@ void EkosManager::processINDIModeChange()
     }
     else
     {
-        if ( (ccdCombo->currentText() == "--" && guiderCombo->currentText() == "--") || (Options::remotePort().isEmpty() || Options::remoteHost().isEmpty()))
+        if ( Options::remotePort().isEmpty() || Options::remoteHost().isEmpty())
         {
-           appendLogText(xi18n("Please fill the remote devices and server information in Ekos options before switching to remote mode."));
+           appendLogText(xi18n("Please fill the remote server information in Ekos options before switching to remote mode."));
            if (KConfigDialog::showDialog("settings") == false)
                optionsB->click();
 
@@ -179,6 +179,7 @@ void EkosManager::processINDIModeChange()
 
 void EkosManager::initLocalDrivers()
 {
+    int i=0;
 
     telescopeCombo->clear();
     ccdCombo->clear();
@@ -198,55 +199,176 @@ void EkosManager::initLocalDrivers()
     domeCombo->addItem("--");
     auxCombo->addItem("--");
 
+    QString TelescopeDriver     = (Options::telescopeDriver() == "--") ? "" : Options::telescopeDriver();
+    QString CCDDriver           = (Options::cCDDriver() == "--") ? "" : Options::cCDDriver();
+    QString GuiderDriver        = (Options::guiderDriver() == "--") ? "" : Options::guiderDriver();
+    QString AODriver            = (Options::aODriver() == "--") ? "" : Options::aODriver();
+    QString FocuserDriver       = (Options::focuserDriver() == "--") ? "" : Options::focuserDriver();
+    QString FilterDriver        = (Options::filterDriver() == "--") ? "" : Options::filterDriver();
+    QString DomeDriver          = (Options::domeDriver() == "--") ? "" : Options::domeDriver();
+    QString AuxDriver           = (Options::auxDriver() == "--") ? "" : Options::auxDriver();
+
+    if (TelescopeDriver.isEmpty() == false)
+        telescopeCombo->addItem(TelescopeDriver);
+
+    if (CCDDriver.isEmpty() == false)
+        ccdCombo->addItem(CCDDriver);
+
+    if (GuiderDriver.isEmpty() == false)
+        guiderCombo->addItem(GuiderDriver);
+
+    if (AODriver.isEmpty() == false)
+        AOCombo->addItem(AODriver);
+
+    if (FocuserDriver.isEmpty() == false)
+        focuserCombo->addItem(FocuserDriver);
+
+    if (FilterDriver.isEmpty() == false)
+        filterCombo->addItem(FilterDriver);
+
+    if (DomeDriver.isEmpty() == false)
+        domeCombo->addItem(DomeDriver);
+
+    if (AuxDriver.isEmpty() == false)
+        auxCombo->addItem(AuxDriver);
+
     foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
         switch (dv->getType())
         {
         case KSTARS_TELESCOPE:
-             telescopeCombo->addItem(dv->getTreeLabel());
-             break;
+        {
+            for (i=0; i < telescopeCombo->count(); i++)
+                if (telescopeCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == telescopeCombo->count())
+                telescopeCombo->addItem(dv->getTreeLabel());
+        }
+        break;
 
         case KSTARS_CCD:
-            ccdCombo->addItem(dv->getTreeLabel());
-            guiderCombo->addItem(dv->getTreeLabel());
-            break;
+        {
+            for (i=0; i < ccdCombo->count(); i++)
+                if (ccdCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+
+            if (i == ccdCombo->count())
+            {
+                ccdCombo->addItem(dv->getTreeLabel());
+                guiderCombo->addItem(dv->getTreeLabel());
+            }
+
+        }
+        break;
 
         case KSTARS_ADAPTIVE_OPTICS:
-            AOCombo->addItem(dv->getTreeLabel());
-            break;
+        {
+            for (i=0; i < AOCombo->count(); i++)
+                if (AOCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == AOCombo->count())
+                AOCombo->addItem(dv->getTreeLabel());
+        }
+        break;
 
         case KSTARS_FOCUSER:
-            focuserCombo->addItem(dv->getTreeLabel());
+        {
+            for (i=0; i < focuserCombo->count(); i++)
+                if (focuserCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == focuserCombo->count())
+                focuserCombo->addItem(dv->getTreeLabel());
+        }
             break;
 
         case KSTARS_FILTER:
-            filterCombo->addItem(dv->getTreeLabel());
-            break;
+        {
+            for (i=0; i < filterCombo->count(); i++)
+                if (filterCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == filterCombo->count())
+                filterCombo->addItem(dv->getTreeLabel());
+        }
+        break;
 
         case KSTARS_DOME:
-            domeCombo->addItem(dv->getTreeLabel());
-            break;
+        {
+            for (i=0; i < domeCombo->count(); i++)
+                if (domeCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == domeCombo->count())
+                domeCombo->addItem(dv->getTreeLabel());
+        }
+        break;
 
         case KSTARS_AUXILIARY:
-            auxCombo->addItem(dv->getTreeLabel());
-            break;
+        {
+            for (i=0; i < auxCombo->count(); i++)
+                if (auxCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == auxCombo->count())
+                auxCombo->addItem(dv->getTreeLabel());
+        }
+        break;
 
         default:
             continue;
             break;
-
         }
 
         driversList[dv->getTreeLabel()] = dv;
     }
 
-    loadDefaultDrivers();
+    if (TelescopeDriver.isEmpty() == false)
+        telescopeCombo->setCurrentIndex(1);
 
+    if (CCDDriver.isEmpty() == false)
+        ccdCombo->setCurrentIndex(1);
+
+    if (GuiderDriver.isEmpty() == false)
+        guiderCombo->setCurrentIndex(1);
+
+    if (AODriver.isEmpty() == false)
+        AOCombo->setCurrentIndex(1);
+
+    if (FocuserDriver.isEmpty() == false)
+        focuserCombo->setCurrentIndex(1);
+
+    if (FilterDriver.isEmpty() == false)
+        filterCombo->setCurrentIndex(1);
+
+    if (DomeDriver.isEmpty() == false)
+        domeCombo->setCurrentIndex(1);
+
+    if (AuxDriver.isEmpty() == false)
+        auxCombo->setCurrentIndex(1);
+
+}
+
+void EkosManager::saveLocalDrivers()
+{
+
+   Options::setTelescopeDriver(telescopeCombo->currentText());
+
+   Options::setCCDDriver(ccdCombo->currentText());
+
+   Options::setGuiderDriver(guiderCombo->currentText());
+
+   Options::setFilterDriver(filterCombo->currentText());
+
+   Options::setFocuserDriver(focuserCombo->currentText());
+
+   Options::setAuxDriver(auxCombo->currentText());
+
+   Options::setDomeDriver(domeCombo->currentText());
+
+   Options::setAODriver(AOCombo->currentText());
 
 }
 
 void EkosManager::initRemoteDrivers()
 {
+    int i=0;
 
     telescopeCombo->clear();
     ccdCombo->clear();
@@ -257,46 +379,178 @@ void EkosManager::initRemoteDrivers()
     domeCombo->clear();
     auxCombo->clear();
 
-    if (Options::remoteScopeName().isEmpty() == false)
-        telescopeCombo->addItem(Options::remoteScopeName());
-    else
-        telescopeCombo->addItem("--");
+    telescopeCombo->addItem("--");
+    ccdCombo->addItem("--");
+    guiderCombo->addItem("--");
+    AOCombo->addItem("--");
+    focuserCombo->addItem("--");
+    filterCombo->addItem("--");
+    domeCombo->addItem("--");
+    auxCombo->addItem("--");
 
+    QString remoteScopeName     = (Options::remoteScopeName() == "--") ? "" : Options::remoteScopeName();
+    QString remoteCCDName       = (Options::remoteCCDName() == "--") ? "" : Options::remoteCCDName();
+    QString remoteGuiderName    = (Options::remoteGuiderName() == "--") ? "" : Options::remoteGuiderName();
+    QString remoteAOName        = (Options::remoteAOName() == "--") ? "" : Options::remoteAOName();
+    QString remoteFilterName    = (Options::remoteFilterName() == "--") ? "" : Options::remoteFilterName();
+    QString remoteFocuserName   = (Options::remoteFocuserName() == "--") ? "" : Options::remoteFocuserName();
+    QString remoteDomeName      = (Options::remoteDomeName() == "--") ? "" : Options::remoteDomeName();
+    QString remoteAuxName       = (Options::remoteAuxName() == "--") ? "" : Options::remoteAuxName();
 
-    if (Options::remoteCCDName().isEmpty() == false)
-        ccdCombo->addItem(Options::remoteCCDName());
-    else
-        ccdCombo->addItem("--");
+    if (remoteScopeName.isEmpty() == false)
+        telescopeCombo->addItem(remoteScopeName);
 
-    if (Options::remoteGuiderName().isEmpty() == false)
-        guiderCombo->addItem(Options::remoteGuiderName());
-    else
-        guiderCombo->addItem("--");
+    if (remoteCCDName.isEmpty() == false)
+        ccdCombo->addItem(remoteCCDName);
 
-    if (Options::remoteAOName().isEmpty() == false)
-        AOCombo->addItem(Options::remoteAOName());
-    else
-        AOCombo->addItem("--");
+    if (remoteGuiderName.isEmpty() == false)
+        guiderCombo->addItem(remoteGuiderName);
 
-    if (Options::remoteFocuserName().isEmpty() == false)
-        focuserCombo->addItem(Options::remoteFocuserName());
-    else
-        focuserCombo->addItem("--");
+    if (remoteAOName.isEmpty() == false)
+        AOCombo->addItem(remoteAOName);
 
-    if (Options::remoteFilterName().isEmpty() == false)
-        filterCombo->addItem(Options::remoteFilterName());
-    else
-        filterCombo->addItem("--");
+    if (remoteFilterName.isEmpty() == false)
+        focuserCombo->addItem(remoteFilterName);
 
-    if (Options::remoteDomeName().isEmpty() == false)
-        domeCombo->addItem(Options::remoteDomeName());
-    else
-        domeCombo->addItem("--");
+    if (remoteFocuserName.isEmpty() == false)
+        filterCombo->addItem(remoteFocuserName);
 
-    if (Options::remoteAuxName().isEmpty() == false)
-        auxCombo->addItem(Options::remoteAuxName());
-    else
-        auxCombo->addItem("--");
+    if (remoteDomeName.isEmpty() == false)
+        domeCombo->addItem(remoteDomeName);
+
+    if (remoteAuxName.isEmpty() == false)
+        auxCombo->addItem(remoteAuxName);
+
+    foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
+    {
+        switch (dv->getType())
+        {
+        case KSTARS_TELESCOPE:
+        {
+            for (i=0; i < telescopeCombo->count(); i++)
+                if (telescopeCombo->itemText(i) == dv->getName())
+                    break;
+            if (i == telescopeCombo->count())
+                telescopeCombo->addItem(dv->getName());
+        }
+             break;
+
+        case KSTARS_CCD:
+        {
+            for (i=0; i < ccdCombo->count(); i++)
+                if (ccdCombo->itemText(i) == dv->getName())
+                    break;
+
+            if (i == ccdCombo->count())
+            {
+                ccdCombo->addItem(dv->getName());
+                guiderCombo->addItem(dv->getName());
+            }
+
+        }
+        break;
+
+        case KSTARS_ADAPTIVE_OPTICS:
+        {
+            for (i=0; i < AOCombo->count(); i++)
+                if (AOCombo->itemText(i) == dv->getName())
+                    break;
+            if (i == AOCombo->count())
+                AOCombo->addItem(dv->getName());
+        }
+        break;
+
+        case KSTARS_FOCUSER:
+        {
+            for (i=0; i < focuserCombo->count(); i++)
+                if (focuserCombo->itemText(i) == dv->getName())
+                    break;
+            if (i == focuserCombo->count())
+                focuserCombo->addItem(dv->getName());
+        }
+            break;
+
+        case KSTARS_FILTER:
+        {
+            for (i=0; i < filterCombo->count(); i++)
+                if (filterCombo->itemText(i) == dv->getName())
+                    break;
+            if (i == filterCombo->count())
+                filterCombo->addItem(dv->getName());
+        }
+        break;
+
+        case KSTARS_DOME:
+        {
+            for (i=0; i < domeCombo->count(); i++)
+                if (domeCombo->itemText(i) == dv->getName())
+                    break;
+            if (i == domeCombo->count())
+                domeCombo->addItem(dv->getName());
+        }
+        break;
+
+        case KSTARS_AUXILIARY:
+        {
+            for (i=0; i < auxCombo->count(); i++)
+                if (auxCombo->itemText(i) == dv->getName())
+                    break;
+            if (i == auxCombo->count())
+                auxCombo->addItem(dv->getName());
+        }
+        break;
+
+        default:
+            continue;
+            break;
+
+        }
+    }
+
+    if (remoteScopeName.isEmpty() == false)
+        telescopeCombo->setCurrentIndex(1);
+
+    if (remoteCCDName.isEmpty() == false)
+        ccdCombo->setCurrentIndex(1);
+
+    if (remoteGuiderName.isEmpty() == false)
+        guiderCombo->setCurrentIndex(1);
+
+    if (remoteAOName.isEmpty() == false)
+        AOCombo->setCurrentIndex(1);
+
+    if (remoteFilterName.isEmpty() == false)
+        filterCombo->setCurrentIndex(1);
+
+    if (remoteFocuserName.isEmpty() == false)
+        focuserCombo->setCurrentIndex(1);
+
+    if (remoteDomeName.isEmpty() == false)
+        domeCombo->setCurrentIndex(1);
+
+    if (remoteAuxName.isEmpty() == false)
+        auxCombo->setCurrentIndex(1);
+
+}
+
+void EkosManager::saveRemoteDrivers()
+{
+
+   Options::setRemoteScopeName(telescopeCombo->currentText());
+
+   Options::setRemoteCCDName(ccdCombo->currentText());
+
+   Options::setRemoteGuiderName(guiderCombo->currentText());
+
+   Options::setRemoteFilterName(filterCombo->currentText());
+
+   Options::setRemoteFocuserName(focuserCombo->currentText());
+
+   Options::setRemoteAuxName(auxCombo->currentText());
+
+   Options::setRemoteDomeName(domeCombo->currentText());
+
+   Options::setRemoteAOName(AOCombo->currentText());
 
 }
 
@@ -350,120 +604,6 @@ void EkosManager::reset()
     processINDIB->setText(xi18n("Start INDI"));
 }
 
-void EkosManager::loadDefaultDrivers()
-{
-    QString TelescopeDriver = Options::telescopeDriver();
-    QString CCDDriver = Options::cCDDriver();
-    QString GuiderDriver = Options::guiderDriver();
-    QString AODriver = Options::aODriver();
-    QString FocuserDriver = Options::focuserDriver();
-    QString FilterDriver = Options::filterDriver();
-    QString DomeDriver   = Options::domeDriver();
-    QString AuxDriver = Options::auxDriver();
-
-    if (TelescopeDriver.isEmpty() == false && TelescopeDriver != "--")
-    {
-        for (int i=0; i < telescopeCombo->count(); i++)
-            if (telescopeCombo->itemText(i) == TelescopeDriver)
-            {
-                telescopeCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-    if (CCDDriver.isEmpty() == false && CCDDriver != "--")
-    {
-        for (int i=0; i < ccdCombo->count(); i++)
-            if (ccdCombo->itemText(i) == CCDDriver)
-            {
-                ccdCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-    if (GuiderDriver.isEmpty() == false && GuiderDriver != "--")
-    {
-        for (int i=0; i < guiderCombo->count(); i++)
-            if (guiderCombo->itemText(i) == GuiderDriver)
-            {
-                guiderCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-    if (AODriver.isEmpty() == false && AODriver != "--")
-    {
-        for (int i=0; i < AOCombo->count(); i++)
-            if (AOCombo->itemText(i) == AODriver)
-            {
-                AOCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-    if (FilterDriver.isEmpty() == false && FilterDriver != "--")
-    {
-        for (int i=0; i < filterCombo->count(); i++)
-            if (filterCombo->itemText(i) == FilterDriver)
-            {
-                filterCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-    if (FocuserDriver.isEmpty() == false && FocuserDriver != "--")
-    {
-        for (int i=0; i < focuserCombo->count(); i++)
-            if (focuserCombo->itemText(i) == FocuserDriver)
-            {
-                focuserCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-    if (DomeDriver.isEmpty() == false && DomeDriver != "--")
-    {
-        for (int i=0; i < domeCombo->count(); i++)
-            if (domeCombo->itemText(i) == DomeDriver)
-            {
-                domeCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-    if (AuxDriver.isEmpty() == false && AuxDriver != "--")
-    {
-        for (int i=0; i < auxCombo->count(); i++)
-            if (auxCombo->itemText(i) == AuxDriver)
-            {
-                auxCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-
-}
-
-void EkosManager::saveDefaultDrivers()
-{
-
-   Options::setTelescopeDriver(telescopeCombo->currentText());
-
-   Options::setCCDDriver(ccdCombo->currentText());
-
-   Options::setGuiderDriver(guiderCombo->currentText());
-
-   Options::setFilterDriver(filterCombo->currentText());
-
-   Options::setFocuserDriver(focuserCombo->currentText());
-
-   Options::setAuxDriver(auxCombo->currentText());
-
-   Options::setDomeDriver(domeCombo->currentText());
-
-   Options::setAODriver(AOCombo->currentText());
-
-}
-
 void EkosManager::processINDI()
 {
     if (managedDevices.count() > 0 || remote_indi != NULL)
@@ -515,21 +655,9 @@ bool EkosManager::start()
                     guider_di = new DriverInfo(ccd_di);
                     guider_di->setUniqueLabel(guider_di->getTreeLabel() + " Guide");
                     guider_di->setAuxInfo(vMap);
-                   // useGuiderFromCCD = true;
-                   // guider_di = NULL;
-
                 }
             }
         }
-
-        /*if (filter_di)
-        {
-            if (filter_di == ccd_di)
-            {
-                useFilterFromCCD = true;
-                filter_di = NULL;
-            }
-        }*/
 
         if (scope_di != NULL)
             managedDevices.append(scope_di);
@@ -557,7 +685,7 @@ bool EkosManager::start()
 
         nDevices = managedDevices.count();
 
-        saveDefaultDrivers();
+        saveLocalDrivers();
     }
     else
     {
@@ -591,12 +719,11 @@ bool EkosManager::start()
             return false;
         }
 
-
         // If the user puts identical device names for both CCD & Guider then
         // this is a case for Multiple-Devices-Per-Driver.
         // We reduce the number of devices since it will be increased once device is detected.
-        if (guiderCombo->currentText() == ccdCombo->currentText())
-             nDevices--;
+        //if (guiderCombo->currentText() == ccdCombo->currentText())
+             //nDevices--;
 
         if (AOCombo->currentText() != "--")
             nDevices++;
@@ -604,17 +731,12 @@ bool EkosManager::start()
             nDevices++;
         if (filterCombo->currentText() != "--")
             nDevices++;
-        /*{
-            if (filterCombo->currentText() != ccdCombo->currentText())
-                nDevices++;
-            else
-                useFilterFromCCD = true;
-        }*/
         if (domeCombo->currentText() != "--")
             nDevices++;
         if (auxCombo->currentText() != "--")
             nDevices++;
 
+        saveRemoteDrivers();
     }
 
     connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this, SLOT(processNewDevice(ISD::GDInterface*)));
@@ -1188,6 +1310,8 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         guider = ccdDevice;
         initGuide();
         guideProcess->addCCD(ccdDevice, !isPrimaryCCD);
+        if (scopeRegistered)
+            guideProcess->setTelescope(scope);
     }
 
     appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
@@ -1198,9 +1322,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
    {
       alignProcess->setTelescope(scope);
       captureProcess->setTelescope(scope);
-      guideProcess->setTelescope(scope);
    }
-
 }
 
 /*void EkosManager::setCCD(ISD::GDInterface *ccdDevice)

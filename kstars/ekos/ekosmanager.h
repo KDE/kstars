@@ -183,8 +183,6 @@ protected slots:
 
  private:
 
-    void loadDefaultDrivers();
-    void saveDefaultDrivers();
     void removeTabs();
     void reset();
     void initCapture();
@@ -195,6 +193,9 @@ protected slots:
 
     void initLocalDrivers();
     void initRemoteDrivers();
+
+    void saveLocalDrivers();
+    void saveRemoteDrivers();
 
     void processLocalDevice(ISD::GDInterface*);
     void processRemoteDevice(ISD::GDInterface*);
