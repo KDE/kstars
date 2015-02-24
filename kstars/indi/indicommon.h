@@ -133,7 +133,7 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSE
                      TELESCOPE_MOTION_WE, TELESCOPE_PARK,  /* Telescope */
                      CCD_EXPOSURE, CCD_TEMPERATURE_REQUEST, CCD_FRAME,           /* CCD */
                      CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO,
-                     VIDEO_STREAM,						/* Video */
+                     CCD_VIDEO_STREAM,						/* Video */
                      FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
                      FILTER_SLOT};						/* Filter */
 

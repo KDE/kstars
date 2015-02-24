@@ -973,7 +973,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
 void CCD::processSwitch(ISwitchVectorProperty *svp)
 {
-    if (!strcmp(svp->name, "VIDEO_STREAM"))
+    if (!strcmp(svp->name, "CCD_VIDEO_STREAM") || !strcmp(svp->name, "VIDEO_STREAM"))
     {
         if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
         {
@@ -1334,7 +1334,9 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowHidden()
 {
-        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+        if (streamSP == NULL)
+            streamSP = baseDevice->getSwitch("VIDEO_STREAM");
         if (streamSP)
         {
             IUResetSwitch(streamSP);
