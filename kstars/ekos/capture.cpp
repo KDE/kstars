@@ -778,18 +778,7 @@ void Capture::updateFrameProperties()
 void Capture::processCCDNumber(INumberVectorProperty *nvp)
 {
     if (currentCCD && ( (!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead)))
-        updateFrameProperties();
-
-    if (currentCCD && currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-        return;
-
-    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY &&
-            activeJob->getExposeLeft() == 0 && nvp->s == IPS_OK &&
-            (!strcmp(nvp->name, "CCD_EXPOSURE") || !strcmp(nvp->name, "GUIDER_EXPOSURE")))
-
-    {
-        newFITS(0);
-    }
+        updateFrameProperties();    
 }
 
 void Capture::syncFrameType(ISD::GDInterface *ccd)
@@ -1258,6 +1247,15 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
 
     if (value == 0)
     {
+        if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        {
+            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getExposeLeft() == 0)
+            {
+               newFITS(0);
+               return;
+            }
+        }
+
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
 
