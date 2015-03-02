@@ -26,6 +26,7 @@ set(HTMesh_LIB_SRCS
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 #TODO is there KF5_ENABLE_EXCEPTIONS?
 set (CMAKE_CXX_FLAGS "-fexceptions")
+#set (CMAKE_CXX_FLAGS "-fPIC") # If you wish to compile the HTMesh perl wrapper, uncomment this, rebuild and copy the library into /usr/lib/, because we will use it as a shared object. See README in th e perl wrapper directory (kstars/kstars/data/tools/HTMesh-*) for more details.
 
 add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
 

@@ -7,6 +7,7 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
 #include "ppport.h"
 
 #include <iostream>
@@ -50,19 +51,19 @@ public:
             delete htm;
         }
 
-        long lookupId(double ra, double dec) {
-             return htm->idByPoint(ra * 15.0, dec);
-        }
+        /* long lookupId(double ra, double dec) { */
+        /*      return htm->idByPoint(ra * 15.0, dec); */
+        /* } */
 
         const char* idToName(long id) {
             htm->nameById(id, name_buffer);
             return name_buffer;
         }
 
-        const char* lookupName(double ra, double dec) {
-            long id = lookupId(ra, dec);
-            return idToName(id);
-        }
+        /* const char* lookupName(double ra, double dec) { */
+        /*     long id = lookupId(ra, dec); */
+        /*     return idToName(id); */
+        /* } */
 
         void intersectCircle(double ra, double dec, double rad) {
             ra = ra * 15.0;
@@ -72,7 +73,7 @@ public:
             convex.add(c); // [ed:RangeConvex::add]
             convex.setOlevel(level);
             range = new HtmRange();
-            convex.intersect(htm, range, false);
+            convex.intersect(htm, range); // commit fec61ac2c400e7138425961e779fed3bbf5687a5 removed unmanipulated bool parameter from RangeConvex::intersect -- asimha
             iterator = new HtmRangeIterator(range);
         }
 
@@ -95,7 +96,7 @@ public:
             RangeConvex* convex = new RangeConvex(corner[0], corner[1], corner[2], corner[3]);
             convex->setOlevel(level);
             range = new HtmRange();
-            convex->intersect(htm, range, false);
+            convex->intersect(htm, range); // commit fec61ac2c400e7138425961e779fed3bbf5687a5 removed unmanipulated bool parameter from RangeConvex::intersect -- asimha
             iterator = new HtmRangeIterator(range);
         }
 
@@ -227,27 +228,12 @@ CODE:
 OUTPUT:
     RETVAL
 
-long
-HTMesh::lookup_id(double ra, double dec)
-CODE:
-    RETVAL = THIS->lookupId(ra, dec);
-OUTPUT:
-    RETVAL
-
-const char*
-HTMesh::lookup_name(double ra, double dec)
-CODE:
-    RETVAL = THIS->lookupName(ra, dec);
-OUTPUT:
-    RETVAL
-
 const char*
 HTMesh::id_to_name(long id)
 CODE:
     RETVAL = THIS->idToName(id);
 OUTPUT:
     RETVAL
-
 
 long
 HTMesh::next_id()

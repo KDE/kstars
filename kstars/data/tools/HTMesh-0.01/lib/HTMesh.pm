@@ -27,8 +27,9 @@ our @EXPORT = qw(
 
 our $VERSION = '0.01';
 
-require XSLoader;
-XSLoader::load('HTMesh', $VERSION);
+use XSLoader;
+
+XSLoader::load 'HTMesh', $VERSION;
 
 # Preloaded methods go here.
 
