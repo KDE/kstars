@@ -60,32 +60,32 @@ void KStars::setAltAz( double alt, double az ) {
 
 void KStars::lookTowards ( const QString &direction ) {
     QString dir = direction.toLower();
-    if        (dir == "zenith" || dir=="z") {
+    if        (dir == xi18n("zenith") || dir=="z") {
         actionCollection()->action("zenith")->trigger();
-    } else if (dir == "north"  || dir=="n") {
+    } else if (dir == xi18n("north")  || dir=="n") {
         actionCollection()->action("north")->trigger();
-    } else if (dir == "east"   || dir=="e") {
+    } else if (dir == xi18n("east")   || dir=="e") {
         actionCollection()->action("east")->trigger();
-    } else if (dir == "south"  || dir=="s") {
+    } else if (dir == xi18n("south")  || dir=="s") {
         actionCollection()->action("south")->trigger();
-    } else if (dir == "west"   || dir=="w") {
+    } else if (dir == xi18n("west")   || dir=="w") {
         actionCollection()->action("west")->trigger();
-    } else if (dir == "northeast" || dir=="ne") {
+    } else if (dir == xi18n("northeast") || dir=="ne") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == "southeast" || dir=="se") {
+    } else if (dir == xi18n("southeast") || dir=="se") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 135.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == "southwest" || dir=="sw") {
+    } else if (dir == xi18n("southwest") || dir=="sw") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 225.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == "northwest" || dir=="nw") {
+    } else if (dir == xi18n("northwest") || dir=="nw") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 315.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
