@@ -221,8 +221,8 @@ bool VideoWG::newFrame(IBLOB *bp)
     format.remove("stream_");
     bool rc = false;
 
-    int w = *((double *) bp->aux0);
-    int h = *((double *) bp->aux1);
+    int w = *((int *) bp->aux0);
+    int h = *((int *) bp->aux1);
 
     if (QImageReader::supportedImageFormats().contains(format.toLatin1()))
            rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);

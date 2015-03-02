@@ -861,20 +861,6 @@ void CCD::processLight(ILightVectorProperty *lvp)
 
 void CCD::processNumber(INumberVectorProperty *nvp)
 {
-    if (!strcmp(nvp->name, "CCD_FRAME"))
-    {
-        INumber *wd = IUFindNumber(nvp, "WIDTH");
-        INumber *ht = IUFindNumber(nvp, "HEIGHT");
-
-        if (wd && ht && streamWindow)
-            streamWindow->setSize(wd->value, ht->value);
-
-        emit numberUpdated(nvp);
-
-        return;
-
-    }
-
     if (!strcmp(nvp->name, "CCD_EXPOSURE"))
     {
         if (nvp->s == IPS_BUSY)
@@ -983,20 +969,21 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
             if (rawBP)
             {
-                INumberVectorProperty *ccdFrame = baseDevice->getNumber("CCD_FRAME");
+                int x,y,w,h;
+                int binx, biny;
 
-                if (ccdFrame == NULL)
-                    return;
+                primaryChip->getFrame(&x, &y, &w, &h);
+                primaryChip->getBinning(&binx, &biny);
+                streamW = w / binx;
+                streamH = h / biny;
 
-                INumber *wd = IUFindNumber(ccdFrame, "WIDTH");
-                INumber *ht = IUFindNumber(ccdFrame, "HEIGHT");
+                rawBP->bp[0].aux0 = &(streamW);
+                rawBP->bp[0].aux1 = &(streamH);
 
-                rawBP->bp[0].aux0 = &(wd->value);
-                rawBP->bp[0].aux1 = &(ht->value);
-
-                if (wd && ht)
-                    streamWindow->setSize(wd->value, ht->value);
+                if (streamWindow->getWidth() != streamW || streamWindow->getHeight() != streamH)
+                    streamWindow->setSize(streamW, streamH);
             }
+
         }
 
         streamWindow->disconnect();
@@ -1054,6 +1041,17 @@ void CCD::processBLOB(IBLOB* bp)
     {
         if (streamWindow->isStreamEnabled() == false)
             return;
+
+        int x,y,w,h;
+        int binx, biny;
+
+        primaryChip->getFrame(&x, &y, &w, &h);
+        primaryChip->getBinning(&binx, &biny);
+        streamW = w / binx;
+        streamH = h / biny;
+
+        if (streamWindow->getWidth() != streamW || streamWindow->getHeight() != streamH)
+            streamWindow->setSize(streamW, streamH);
 
         streamWindow->show();
         streamWindow->newFrame(bp);

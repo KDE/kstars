@@ -179,6 +179,7 @@ private:
     int seqCount;
     FITSViewer * fv;
     StreamWG *streamWindow;
+    int streamW, streamH;
     ISD::ST4 *ST4Driver;
     int normalTabID, calibrationTabID, focusTabID, guideTabID;
     CCDChip *primaryChip, *guideChip;    
