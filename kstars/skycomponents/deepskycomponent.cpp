@@ -262,6 +262,10 @@ void DeepSkyComponent::loadData()
             }
         }
 
+        name = i18nc("object name (optional)", name.toLatin1().constData());
+        if (!longname.isEmpty())
+            longname = i18nc("object name (optional)", longname.toLatin1().constData());
+
         // create new deepskyobject
         DeepSkyObject *o = 0;
         if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
