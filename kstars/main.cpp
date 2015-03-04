@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(xi18n("Andrew Stepanenko"), xi18n("Guiding code based on lin_guider") );
     aboutData.addCredit(xi18n("Nuno Pinheiro"), xi18n("Artwork") );
     aboutData.addCredit(xi18n("Utkarsh Simha"), xi18n("Improvements to observation plan execution, star hopper etc.") );
+    aboutData.addCredit(xi18n("Daniel Holler"), xi18n("Extensive testing and suggestions for Ekos/INDI.") );
 
     KAboutData::setApplicationData(aboutData);
 
