@@ -55,7 +55,8 @@ public slots:
     void move();
     void stop();
     void save();
-
+    void saveLimits();
+    void enableAltitudeLimits(bool enable);
 
 signals:
     void newLog();
@@ -67,6 +68,8 @@ private:
     QStringList logText;
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
+    double lastAlt;
+    int abortDispatch;
 
 };
 

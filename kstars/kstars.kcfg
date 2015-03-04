@@ -1376,6 +1376,22 @@
       <default>true</default>
     </entry>
    </group>
+   <group name="Mount">
+   <entry name="MinimumAltLimit" type="Double">
+     <label>Default minimum mount altitude limit</label>
+        <whatsthis>Minimum telescope altitude limit. If the telescope is below this limit, it will be commanded to stop.</whatsthis>
+        <default>0</default>
+   </entry>
+   <entry name="MaximumAltLimit" type="Double">
+     <label>Default maximum mount altitude limit.</label>
+        <whatsthis>Maximum telescope altitude limit. If the telescope is above this limit, it will be commanded to stop.</whatsthis>
+        <default>90.0</default>
+   </entry>
+   <entry name="EnableAltitudeLimits" type="Bool">
+     <label>Enable mount altitude limits.</label>
+     <default>false</default>
+   </entry>
+   </group>
    <group name="Capture">
     <entry name="GuideDeviation" type="Double">
       <label>Default maximum permittable guide deviation</label>

@@ -20,12 +20,14 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "ksnotify.h"
 
 #include <basedevice.h>
 
 extern const char *libindi_strings_context;
 
-#define UPDATE_DELAY    1000
+#define UPDATE_DELAY            1000
+#define ABORT_DISPATCH_LIMIT    3
 
 namespace Ekos
 {
@@ -39,6 +41,12 @@ Mount::Mount()
     westB->setIcon(QIcon::fromTheme("go-previous"));
     eastB->setIcon(QIcon::fromTheme("go-next"));
     southB->setIcon(QIcon::fromTheme("go-down"));
+
+    abortDispatch = -1;
+
+    enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
+    minAltLimit->setValue(Options::minimumAltLimit());
+    maxAltLimit->setValue(Options::maximumAltLimit());
 
 
     QFile tempFile;
@@ -86,6 +94,11 @@ Mount::Mount()
     connect(stopB, SIGNAL(clicked()), this, SLOT(stop()));
     connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
 
+    connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
+    connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
+
+    connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
+
 }
 
 Mount::~Mount()
@@ -98,8 +111,10 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateNumber(ISwitchVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
+
+    currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
 
     QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
 
@@ -197,6 +212,39 @@ void Mount::updateTelescopeCoords()
         }
         haOUT->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
         lstOUT->setText(lst.toHMSString());
+
+        double currentAlt = telescopeCoord.altRefracted().Degrees();
+
+        if (enableLimitsCheck->isChecked() && /*currentTelescope->isInMotion()
+             &&*/ ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
+        {
+            if (currentAlt < minAltLimit->value())
+            {
+                // Only stop if current altitude is less than last altitude indicate worse situation
+                if (currentAlt < lastAlt && (abortDispatch == -1 || ++abortDispatch > ABORT_DISPATCH_LIMIT))
+                {
+                    appendLogText(xi18n("Telescope altitude is below minimum altitude limit of %1, aborting motion.", QString::number(minAltLimit->value(), 'g', 2)));
+                    currentTelescope->Abort();
+                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+                    abortDispatch++;
+                }
+            }
+            else
+            {
+                // Only stop if current altitude is higher than last altitude indicate worse situation
+                if (currentAlt > lastAlt && (abortDispatch == -1 || ++abortDispatch > ABORT_DISPATCH_LIMIT))
+                {
+                    appendLogText(xi18n("Telescope altitude is above maximum altitude limit of %1, aborting motion.", QString::number(maxAltLimit->value(), 'g', 2)));
+                    currentTelescope->Abort();
+                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+                    abortDispatch++;
+                }
+            }
+        }
+        else
+            abortDispatch = -1;
+
+        lastAlt = currentAlt;
 
         if (currentTelescope->isConnected())
             QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
@@ -345,11 +393,46 @@ void Mount::save()
 
         currentTelescope->setConfig(SAVE_CONFIG);
 
-        appendLogText(xi18n("Saving telescope information..."));
+        //appendLogText(xi18n("Saving telescope information..."));
 
     }
     else
         appendLogText(xi18n("Failed to save telescope information."));
+}
+
+void Mount::saveLimits()
+{
+    Options::setMinimumAltLimit(minAltLimit->value());
+    Options::setMaximumAltLimit(maxAltLimit->value());
+    currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
+}
+
+void Mount::enableAltitudeLimits(bool enable)
+{
+    Options::setEnableAltitudeLimits(enable);
+
+    if (enable)
+    {
+        minAltLabel->setEnabled(true);
+        maxAltLabel->setEnabled(true);
+
+        minAltLimit->setEnabled(true);
+        maxAltLimit->setEnabled(true);
+
+        if (currentTelescope)
+            currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
+    }
+    else
+    {
+        minAltLabel->setEnabled(false);
+        maxAltLabel->setEnabled(false);
+
+        minAltLimit->setEnabled(false);
+        maxAltLimit->setEnabled(false);
+
+        if (currentTelescope)
+            currentTelescope->setAltLimits(-1, -1);
+    }
 }
 
 }

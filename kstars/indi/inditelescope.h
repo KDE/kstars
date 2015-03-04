@@ -51,9 +51,11 @@ public:
     bool canSync();
     bool canPark();
     bool isSlewing();
+    bool isInMotion();
     bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool doPulse(GuideDirection dir, int msecs );
     bool getEqCoords(double *ra, double *dec);
+    void setAltLimits(double minAltitude, double maxAltitude);
 
 protected:
     bool sendCoords(SkyPoint *ScopeTarget);
@@ -67,6 +69,7 @@ public slots:
 
 private:
     SkyPoint currentCoord;
+    double minAlt,maxAlt;
 
 };
 

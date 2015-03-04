@@ -21,6 +21,8 @@ namespace ISD
 Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
     dType = KSTARS_TELESCOPE;
+    minAlt=-1;
+    maxAlt=-1;
 }
 
 Telescope::~Telescope()
@@ -176,6 +178,22 @@ bool Telescope::isSlewing()
     return (EqProp->s == IPS_BUSY);
 }
 
+bool Telescope::isInMotion()
+{
+    ISwitchVectorProperty *movementSP(NULL);
+    bool inMotion=false;
+
+    movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
+    if (movementSP)
+        inMotion = (movementSP->s == IPS_BUSY);
+
+    movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
+    if (movementSP)
+        inMotion = ((movementSP->s == IPS_BUSY) || inMotion);
+
+    return (isSlewing() || inMotion);
+}
+
 bool Telescope::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
     if (canGuide() == false)
@@ -289,7 +307,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
 
     INumber *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL);
     INumberVectorProperty *EqProp(NULL), *HorProp(NULL);
-    double currentRA=0, currentDEC=0, currentAlt=0, currentAz=0;
+    double currentRA=0, currentDEC=0, currentAlt=0, currentAz=0, targetAlt=0;
     bool useJ2000 (false);
 
     EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
@@ -323,9 +341,9 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 ScopeTarget->apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
 
               currentRA  = RAEle->value;
-              currentDEC = DecEle->value;
-              RAEle->value  = ScopeTarget->ra().Hours();
-              DecEle->value = ScopeTarget->dec().Degrees();
+              currentDEC = DecEle->value;              
+
+              ScopeTarget->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
        }
 
         if (HorProp)
@@ -336,23 +354,58 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 if (!AltEle) return false;
 
             currentAz  = AzEle->value;
-            currentAlt = AltEle->value;
-            AzEle->value  = ScopeTarget->az().Degrees();
-            AltEle->value = ScopeTarget->alt().Degrees();
+            currentAlt = AltEle->value;           
         }
 
         /* Could not find either properties! */
         if (EqProp == NULL && HorProp == NULL)
             return false;
 
+        //targetAz = ScopeTarget->az().Degrees();
+        targetAlt= ScopeTarget->altRefracted().Degrees();
+
+        if (minAlt != -1 && maxAlt != -1)
+        {
+            if (targetAlt < minAlt || targetAlt > maxAlt)
+            {
+                KMessageBox::error(NULL, xi18n("Requested altitude %1 is outside the specificed boundary (%2,%3).", QString::number(targetAlt, 'g', 2), QString::number(minAlt, 'g', 2), QString::number(maxAlt, 'g', 2)),
+                                   xi18n("Telescope Motion"));
+                return false;
+            }
+        }
+
+        if (targetAlt < 0)
+        {
+            if (KMessageBox::warningContinueCancel(NULL, xi18n("Requested altitude is below the horizon. Are you sure you want to proceed?"), xi18n("Telescope Motion"),
+                                                   KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel)
+            {
+                if (EqProp)
+                {
+                    RAEle->value = currentRA;
+                    DecEle->value = currentDEC;
+                }
+                if (HorProp)
+                {
+                    AzEle->value  = currentAz;
+                    AltEle->value = currentAlt;
+                }
+
+                return false;
+            }
+        }
+
         if (EqProp)
         {
+            RAEle->value  = ScopeTarget->ra().Hours();
+            DecEle->value = ScopeTarget->dec().Degrees();
             clientManager->sendNewNumber(EqProp);
             RAEle->value = currentRA;
             DecEle->value = currentDEC;
         }
         if (HorProp)
         {
+            AzEle->value  = ScopeTarget->az().Degrees();
+            AltEle->value = ScopeTarget->alt().Degrees();
             clientManager->sendNewNumber(HorProp);
             AzEle->value  = currentAz;
             AltEle->value = currentAlt;
@@ -578,6 +631,12 @@ bool Telescope::setSlewRate(int index)
     clientManager->sendNewSwitch(slewRateSP);
 
     return true;
+}
+
+void Telescope::setAltLimits(double minAltitude, double maxAltitude)
+{
+    minAlt=minAltitude;
+    maxAlt=maxAltitude;
 }
 
 }
