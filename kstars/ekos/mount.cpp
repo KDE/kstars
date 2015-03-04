@@ -36,6 +36,8 @@ Mount::Mount()
 {
     setupUi(this);
 
+    currentTelescope = NULL;
+
     stopB->setIcon(QIcon::fromTheme("process-stop"));
     northB->setIcon(QIcon::fromTheme("go-up"));
     westB->setIcon(QIcon::fromTheme("go-previous"));
@@ -44,7 +46,6 @@ Mount::Mount()
 
     abortDispatch = -1;
 
-    enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     minAltLimit->setValue(Options::minimumAltLimit());
     maxAltLimit->setValue(Options::maximumAltLimit());
 
@@ -98,7 +99,7 @@ Mount::Mount()
     connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
 
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
-
+    enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
 }
 
 Mount::~Mount()
@@ -114,7 +115,8 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
 
-    currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
+    if (enableLimitsCheck->isChecked())
+        currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
 
     QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
 
@@ -215,13 +217,13 @@ void Mount::updateTelescopeCoords()
 
         double currentAlt = telescopeCoord.altRefracted().Degrees();
 
-        if (enableLimitsCheck->isChecked() && /*currentTelescope->isInMotion()
-             &&*/ ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
+        if (enableLimitsCheck->isChecked()
+             && ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
         {
             if (currentAlt < minAltLimit->value())
             {
                 // Only stop if current altitude is less than last altitude indicate worse situation
-                if (currentAlt < lastAlt && (abortDispatch == -1 || ++abortDispatch > ABORT_DISPATCH_LIMIT))
+                if (currentAlt < lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion() && ++abortDispatch > ABORT_DISPATCH_LIMIT)))
                 {
                     appendLogText(xi18n("Telescope altitude is below minimum altitude limit of %1, aborting motion.", QString::number(minAltLimit->value(), 'g', 2)));
                     currentTelescope->Abort();
@@ -232,7 +234,7 @@ void Mount::updateTelescopeCoords()
             else
             {
                 // Only stop if current altitude is higher than last altitude indicate worse situation
-                if (currentAlt > lastAlt && (abortDispatch == -1 || ++abortDispatch > ABORT_DISPATCH_LIMIT))
+                if (currentAlt > lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion() && ++abortDispatch > ABORT_DISPATCH_LIMIT)))
                 {
                     appendLogText(xi18n("Telescope altitude is above maximum altitude limit of %1, aborting motion.", QString::number(maxAltLimit->value(), 'g', 2)));
                     currentTelescope->Abort();
