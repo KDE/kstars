@@ -23,6 +23,8 @@
 
 #include <basedevice.h>
 
+extern const char *libindi_strings_context;
+
 #define UPDATE_DELAY    1000
 
 namespace Ekos
@@ -97,6 +99,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateNumber(ISwitchVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
 
     QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
 
@@ -141,7 +144,7 @@ void Mount::syncTelescopeInfo()
         slewSpeedCombo->setEnabled(true);
 
         for (int i=0; i < svp->nsp; i++)
-            slewSpeedCombo->addItem(svp->sp[i].label);
+            slewSpeedCombo->addItem(i18nc(libindi_strings_context, svp->sp[i].label));
 
         int index = IUFindOnSwitchIndex(svp);
         slewSpeedCombo->setCurrentIndex(index);
@@ -243,6 +246,17 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
 void Mount::appendLogText(const QString &text)
 {
     logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    emit newLog();
+}
+
+void Mount::updateLog(int messageID)
+{
+    INDI::BaseDevice *dv = currentTelescope->getBaseDevice();
+
+    QString message = QString::fromStdString(dv->messageQueue(messageID));
+
+    logText.insert(0, xi18nc("Message shown in Ekos Mount module", "%1", message));
 
     emit newLog();
 }

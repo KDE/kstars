@@ -50,6 +50,7 @@ public slots:
     void syncTelescopeInfo();
     void updateNumber(INumberVectorProperty *nvp);
     void updateSwitch(ISwitchVectorProperty *svp);
+    void updateLog(int messageID);
     void updateTelescopeCoords();
     void move();
     void stop();

@@ -65,6 +65,7 @@ public slots:
     void processNumber(INumberVectorProperty *nvp);
     void processLight(ILightVectorProperty *lvp);
     void processBLOB(IBLOB *bp);
+    void processMessage(INDI::BaseDevice *dp, int messageID);
     void removeDevice(DeviceInfo *dv);
 
 signals:

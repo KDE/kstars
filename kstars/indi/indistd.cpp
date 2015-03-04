@@ -272,6 +272,11 @@ void GenericDevice::processLight(ILightVectorProperty * lvp)
     INDI_UNUSED(lvp);
 }
 
+void GenericDevice::processMessage(int messageID)
+{
+   INDI_UNUSED(messageID);
+}
+
 void GenericDevice::processBLOB(IBLOB* bp)
 {
     QFile       *data_file = NULL;
@@ -690,6 +695,12 @@ void DeviceDecorator::processText(ITextVectorProperty *tvp)
     emit textUpdated(tvp);
 }
 
+void DeviceDecorator::processMessage(int messageID)
+{
+    interfacePtr->processMessage(messageID);
+    emit messageUpdated(messageID);
+}
+
 void DeviceDecorator::registerProperty(INDI::Property *prop)
 {
     interfacePtr->registerProperty(prop);
@@ -700,7 +711,6 @@ void DeviceDecorator::removeProperty(INDI::Property *prop)
     interfacePtr->removeProperty(prop);
     emit propertyDeleted(prop);
 }
-
 
 bool DeviceDecorator::setConfig(INDIConfig tConfig)
 {

@@ -92,6 +92,7 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), this, SLOT(processLight(ILightVectorProperty*)));
     connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), this, SLOT(processBLOB(IBLOB*)));
+    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*,int)), this, SLOT(processMessage(INDI::BaseDevice*,int)));
 
 }
 
@@ -284,6 +285,18 @@ void INDIListener::processBLOB(IBLOB* bp)
         if (!strcmp(gd->getDeviceName(), bp->bvp->device))
         {
             gd->processBLOB(bp);
+            break;
+        }
+    }
+}
+
+void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
+{
+    foreach(ISD::GDInterface *gd, devices)
+    {
+        if (!strcmp(gd->getDeviceName(), dp->getDeviceName()))
+        {
+            gd->processMessage(messageID);
             break;
         }
     }

@@ -67,6 +67,7 @@ public:
     virtual void processNumber(INumberVectorProperty *nvp)=0;
     virtual void processLight(ILightVectorProperty *lvp)=0;
     virtual void processBLOB(IBLOB *bp)=0;
+    virtual void processMessage(int messageID)=0;
 
     // Accessors
     virtual QList<INDI::Property *> getProperties() =0;
@@ -103,6 +104,7 @@ signals:
     void numberUpdated(INumberVectorProperty *nvp);
     void lightUpdated(ILightVectorProperty *lvp);
     void BLOBUpdated(IBLOB *bp);
+    void messageUpdated(int messageID);
 
     void propertyDefined(INDI::Property *prop);
     void propertyDeleted(INDI::Property *prop);
@@ -136,6 +138,8 @@ public:
     virtual void processNumber(INumberVectorProperty *nvp);
     virtual void processLight(ILightVectorProperty *lvp);
     virtual void processBLOB(IBLOB *bp);
+    virtual void processMessage(int messageID);
+
     virtual DeviceFamily getType() { return dType; }
     virtual const char *getDeviceName();
     virtual DriverInfo * getDriverInfo() { return driverInfo;}
@@ -194,6 +198,8 @@ public:
     virtual void processNumber(INumberVectorProperty *nvp);
     virtual void processLight(ILightVectorProperty *lvp);
     virtual void processBLOB(IBLOB *bp);
+    virtual void processMessage(int messageID);
+
     virtual DeviceFamily getType();
 
     virtual bool setConfig(INDIConfig tConfig);
