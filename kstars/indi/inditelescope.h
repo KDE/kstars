@@ -44,7 +44,7 @@ public:
     bool Slew(SkyPoint *ScopeTarget);
     bool Slew(double ra, double dec);
     bool Sync(SkyPoint *ScopeTarget);
-    bool Sync(double ra, double dec);
+    bool Sync(double ra, double dec);    
     bool MoveNS(TelescopeMotionNS dir);
     bool MoveWE(TelescopeMotionWE dir);    
     bool canGuide();
@@ -62,6 +62,8 @@ public slots:
     virtual bool runCommand(int command, void *ptr=NULL);
     bool Abort();
     bool Park();
+    bool UnPark();
+    bool setSlewRate(int index);
 
 private:
     SkyPoint currentCoord;

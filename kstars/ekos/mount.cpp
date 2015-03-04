@@ -96,6 +96,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateNumber(ISwitchVectorProperty*)), Qt::UniqueConnection);
 
     QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
 
@@ -132,15 +133,39 @@ void Mount::syncTelescopeInfo()
 
     }
 
+    ISwitchVectorProperty *svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
+
+    if (svp)
+    {
+        slewSpeedCombo->clear();
+        slewSpeedCombo->setEnabled(true);
+
+        for (int i=0; i < svp->nsp; i++)
+            slewSpeedCombo->addItem(svp->sp[i].label);
+
+        int index = IUFindOnSwitchIndex(svp);
+        slewSpeedCombo->setCurrentIndex(index);
+        connect(slewSpeedCombo, SIGNAL(activated(int)), currentTelescope, SLOT(setSlewRate(int)), Qt::UniqueConnection);
+    }
+    else
+    {
+        slewSpeedCombo->setEnabled(false);
+        disconnect(slewSpeedCombo, SIGNAL(activated(int)), currentTelescope, SLOT(setSlewRate(int)));
+    }
+
     if (currentTelescope->canPark())
     {
         parkB->setEnabled(true);
+        unparkB->setEnabled(true);
         connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()), Qt::UniqueConnection);
+        connect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()), Qt::UniqueConnection);
     }
     else
     {
         parkB->setEnabled(false);
+        unparkB->setEnabled(false);
         disconnect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()));
+        disconnect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()));
     }
 
 }
@@ -203,6 +228,15 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
                 }
 
         }
+    }
+}
+
+void Mount::updateSwitch(ISwitchVectorProperty *svp)
+{
+    if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE"))
+    {
+        int index = IUFindOnSwitchIndex(svp);
+        slewSpeedCombo->setCurrentIndex(index);
     }
 }
 

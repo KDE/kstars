@@ -445,19 +445,36 @@ bool Telescope::Abort()
 
 bool Telescope::Park()
 {
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_PARK");
-    if (motionSP == NULL)
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+    if (parkSP == NULL)
         return false;
 
-    ISwitch *parkSW = IUFindSwitch(motionSP, "PARK");
+    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
     if (parkSW == NULL)
         return false;
 
+     IUResetSwitch(parkSP);
      parkSW->s = ISS_ON;
-     clientManager->sendNewSwitch(motionSP);
+     clientManager->sendNewSwitch(parkSP);
 
      return true;
+}
 
+bool Telescope::UnPark()
+{
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+    if (parkSP == NULL)
+        return false;
+
+    ISwitch *parkSW = IUFindSwitch(parkSP, "UNPARK");
+    if (parkSW == NULL)
+        return false;
+
+     IUResetSwitch(parkSP);
+     parkSW->s = ISS_ON;
+     clientManager->sendNewSwitch(parkSP);
+
+     return true;
 }
 
 bool Telescope::getEqCoords(double *ra, double *dec)
@@ -545,5 +562,22 @@ bool Telescope::MoveWE(TelescopeMotionWE dir)
     return true;
 }
 
+bool Telescope::setSlewRate(int index)
+{
+    ISwitchVectorProperty *slewRateSP = baseDevice->getSwitch("TELESCOPE_SLEW_RATE");
+    if (slewRateSP == NULL)
+        return false;
+
+    if (index < 0 || index > slewRateSP->nsp)
+        return false;
+
+    IUResetSwitch(slewRateSP);
+
+    slewRateSP->sp[index].s = ISS_ON;
+
+    clientManager->sendNewSwitch(slewRateSP);
+
+    return true;
+}
 
 }
