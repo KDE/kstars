@@ -1727,6 +1727,13 @@ void EkosManager::initCapture()
          connect(captureProcess, SIGNAL(meridialFlipTracked()), alignProcess, SLOT(captureAndSolve()), Qt::UniqueConnection);
      }
 
+     if (mountProcess)
+     {
+         // Meridian Flip
+         connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
+         connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
+     }
+
 }
 
 void EkosManager::initAlign()
@@ -1797,6 +1804,13 @@ void EkosManager::initMount()
     mountProcess = new Ekos::Mount();
     toolsWidget->addTab(mountProcess, xi18n("Mount"));
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+
+    if (captureProcess)
+    {
+        // Meridian Flip
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
+    }
 
 }
 

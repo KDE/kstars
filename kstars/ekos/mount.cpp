@@ -100,6 +100,7 @@ Mount::Mount()
 
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
+    altLimitEnabled = enableLimitsCheck->isChecked();
 }
 
 Mount::~Mount()
@@ -217,15 +218,15 @@ void Mount::updateTelescopeCoords()
 
         double currentAlt = telescopeCoord.altRefracted().Degrees();
 
-        if (enableLimitsCheck->isChecked()
+        if (minAltLimit->isEnabled()
              && ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
         {
             if (currentAlt < minAltLimit->value())
             {
                 // Only stop if current altitude is less than last altitude indicate worse situation
-                if (currentAlt < lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion() && ++abortDispatch > ABORT_DISPATCH_LIMIT)))
+                if (currentAlt < lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(xi18n("Telescope altitude is below minimum altitude limit of %1, aborting motion.", QString::number(minAltLimit->value(), 'g', 2)));
+                    appendLogText(xi18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...", QString::number(minAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
                     KSNotify::play(KSNotify::NOTIFY_ERROR);
                     abortDispatch++;
@@ -234,9 +235,9 @@ void Mount::updateTelescopeCoords()
             else
             {
                 // Only stop if current altitude is higher than last altitude indicate worse situation
-                if (currentAlt > lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion() && ++abortDispatch > ABORT_DISPATCH_LIMIT)))
+                if (currentAlt > lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(xi18n("Telescope altitude is above maximum altitude limit of %1, aborting motion.", QString::number(maxAltLimit->value(), 'g', 2)));
+                    appendLogText(xi18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...", QString::number(maxAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
                     KSNotify::play(KSNotify::NOTIFY_ERROR);
                     abortDispatch++;
@@ -435,6 +436,21 @@ void Mount::enableAltitudeLimits(bool enable)
         if (currentTelescope)
             currentTelescope->setAltLimits(-1, -1);
     }
+}
+
+void Mount::enableAltLimits()
+{
+    //Only enable if it was already enabled before and the minAltLimit is currently disabled.
+    if (altLimitEnabled && minAltLimit->isEnabled() == false)
+        enableAltitudeLimits(true);
+}
+
+void Mount::disableAltLimits()
+{
+    altLimitEnabled = enableLimitsCheck->isChecked();
+
+    enableAltitudeLimits(false);
+
 }
 
 }
