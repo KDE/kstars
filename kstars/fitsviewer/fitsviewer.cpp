@@ -658,10 +658,13 @@ void FITSViewer::closeTab(int index)
     if (tab->getView()->getMode() != FITS_NORMAL)
         return;
 
-    int rc = saveUnsaved(index);
+    /* Disabling user confirmation for saving edited FITS
+       Since in most cases the modifications are done to enhance the view and not to change the data
+       This is _intentional_, it's a feature, not a bug! */
+    /*int rc = saveUnsaved(index);
 
     if (rc == 2)
-        return;
+        return;*/
 
     fitsMap.remove(tab->getUID());
     fitsTabs.removeOne(tab);
