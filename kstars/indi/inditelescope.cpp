@@ -368,7 +368,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         {
             if (targetAlt < minAlt || targetAlt > maxAlt)
             {
-                KMessageBox::error(NULL, xi18n("Requested altitude %1 is outside the specificed altitude limit boundary (%2,%3).", QString::number(targetAlt, 'g', 3), QString::number(minAlt, 'g', 3), QString::number(maxAlt, 'g', 3)),
+                KMessageBox::error(NULL, xi18n("Requested altitude %1 is outside the specified altitude limit boundary (%2,%3).", QString::number(targetAlt, 'g', 3), QString::number(minAlt, 'g', 3), QString::number(maxAlt, 'g', 3)),
                                    xi18n("Telescope Motion"));
                 return false;
             }
