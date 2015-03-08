@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <QStandardPaths>
-#include <QtMultimedia/QSoundEffect>
+#include <QtMultimedia/QMediaPlayer>
 
 #include "ksnotify.h"
 
@@ -11,7 +11,7 @@ namespace KSNotify
 
     namespace
     {
-        QSoundEffect effect;
+        QMediaPlayer player;
         int lastType = -1;
 
     }
@@ -23,22 +23,23 @@ void play(Type type)
         switch (type)
         {
             case NOTIFY_OK:
-                effect.setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-ok.ogg" )));
+                player.setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-ok.ogg" )));
                 break;
 
             case NOTIFY_FILE_RECEIVED:
-                effect.setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-fits.ogg" )));
+                player.setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-fits.ogg" )));
                 break;
 
             case NOTIFY_ERROR:
-                 effect.setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-error.ogg" )));
+                 player.setMedia(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::DataLocation, "ekos-error.ogg" )));
                  break;
         }
 
         lastType = type;
     }
 
-    effect.play();
+    player.stop();
+    player.play();
 }
 
 }
