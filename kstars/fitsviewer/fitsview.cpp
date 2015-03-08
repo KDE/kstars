@@ -29,6 +29,7 @@
 #include <QScrollArea>
 #include <QFile>
 #include <QCursor>
+#include <QToolTip>
 #include <QProgressDialog>
 #include <QDateTime>
 #include <QPainter>
@@ -129,6 +130,11 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     y = KSUtils::clamp(y, 1.0, height);
 
    emit pointSelected(x, y);
+
+   double HFR = image->getImageData()->getHFR(x, y);
+
+   if (HFR > 0)
+       QToolTip::showText(e->globalPos(), xi18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
 
 }
 

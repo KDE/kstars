@@ -133,6 +133,7 @@ public:
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}
     double getHFR(HFRType type=HFR_AVERAGE);
+    double getHFR(int x, int y);
 
     // FITS Mode (Normal, Guide, Focus..etc).
     FITSMode getMode() { return mode;}

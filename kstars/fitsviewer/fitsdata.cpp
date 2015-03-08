@@ -973,6 +973,22 @@ double FITSData::getHFR(HFRType type)
 
 }
 
+double FITSData::getHFR(int x, int y)
+{
+    if (starCenters.size() == 0)
+        return -1;
+
+    for (int i=0; i < starCenters.count() ; i++)
+    {
+           if (fabs(starCenters[i]->x-x) <= starCenters[i]->width/2 && fabs(starCenters[i]->y-y) <= starCenters[i]->width/2)
+           {
+               return starCenters[i]->HFR;
+           }
+    }
+
+    return -1;
+}
+
 void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 {
     if (type == FITS_NONE /* || histogram == NULL*/)
