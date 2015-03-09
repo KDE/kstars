@@ -1423,6 +1423,8 @@ void Align::setWCS(bool enable)
     if (currentCCD == NULL)
         return;
 
+    Options::setWCSAlign(enable);
+
     ISwitchVectorProperty *wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
 
     if (wcsControl == NULL)
@@ -1435,6 +1437,11 @@ void Align::setWCS(bool enable)
     ISwitch *wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
     ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
 
+    if (wcs_enable && enable)
+        appendLogText(xi18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the CCD driver or by solving an image before proceeding to capture any further images, otherwise the WCS information may be invalid."));
+    else if (wcs_disable && !enable)
+        appendLogText(xi18n("World Coordinate System (WCS) is disabled."));
+
     if (wcs_enable && wcs_disable)
     {
         if ( (enable && wcs_enable->s == ISS_ON) || (!enable && wcs_disable->s == ISS_ON))
@@ -1442,13 +1449,9 @@ void Align::setWCS(bool enable)
 
         IUResetSwitch(wcsControl);
         if (enable)
-        {
-            wcs_enable->s  = ISS_ON;
-            appendLogText(xi18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the CCD driver or by solving an image before proceeding to capture any further images, otherwise the WCS information may be invalid."));
-        }
+            wcs_enable->s  = ISS_ON;            
         else
-        {
-            appendLogText(xi18n("World Coordinate System (WCS) is disabled."));
+        {            
             wcs_disable->s = ISS_ON;
             m_wcsSynced=false;
         }
