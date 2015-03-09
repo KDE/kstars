@@ -739,8 +739,6 @@ void Align::stopSolving()
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
 
-    appendLogText(xi18n("in stop solving, setting m_slewToTargetSelected to false"));
-
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
