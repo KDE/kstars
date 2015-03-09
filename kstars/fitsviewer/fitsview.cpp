@@ -44,7 +44,9 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 
+#include "kstarsdata.h"
 #include "ksutils.h"
+#include "Options.h"
 
 #define ZOOM_DEFAULT	100.0
 #define ZOOM_MIN	10
@@ -138,6 +140,21 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 
 }
 
+void FITSLabel::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    double x,y;
+
+    x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+    y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+
+    x = KSUtils::clamp(x, 1.0, width);
+    y = KSUtils::clamp(y, 1.0, height);
+
+    emit markerSelected(x, y);
+
+    return;
+}
+
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent) , zoomFactor(1.2)
 {
     image_frame = new FITSLabel(this);
@@ -146,17 +163,19 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     firstLoad = true;
     gammaValue=0;
     filter = filterType;
-    mode = fitsMode;
+    mode = fitsMode;    
 
     setBackgroundRole(QPalette::Dark);
 
     guide_x = guide_y = guide_box = -1;
+    marker_x = marker_y = -1;
 
     currentZoom = 0.0;
     markStars = false;    
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
     connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));    
+    connect(image_frame, SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
 
     image_frame->setMouseTracking(true);
 
@@ -494,6 +513,9 @@ void FITSView::drawOverlay(QPainter *painter)
     if (mode == FITS_GUIDE)
         drawGuideBox(painter);
 
+    if (marker_x != -1)
+        drawMarker(painter);
+
 }
 
 void FITSView::updateMode(FITSMode fmode)
@@ -505,6 +527,32 @@ void FITSView::updateMode(FITSMode fmode)
     //else
         //image_frame->disconnect(this, SLOT(processPointSelection(int,int)));
 
+}
+
+void FITSView::drawMarker(QPainter *painter)
+{
+    painter->setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" ) ) ) );
+    painter->setBrush( Qt::NoBrush );
+    float pxperdegree = (currentZoom/ZOOM_DEFAULT)* (57.3/1.8);
+
+    float s1 = 0.5*pxperdegree;
+    float s2 = pxperdegree;
+    float s3 = 2.0*pxperdegree;
+
+    float x0 = marker_x  * (currentZoom / ZOOM_DEFAULT);
+    float y0 = marker_y  * (currentZoom / ZOOM_DEFAULT);
+    float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
+    float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
+    float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
+
+    //Draw radial lines
+    painter->drawLine( QPointF(x1, y0), QPointF(x3, y0) );
+    painter->drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
+    painter->drawLine( QPointF(x0, y1), QPointF(x0, y3) );
+    painter->drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
+    //Draw circles at 0.5 & 1 degrees
+    painter->drawEllipse( QRectF(x1, y1, s1, s1) );
+    painter->drawEllipse( QRectF(x2, y2, s2, s2) );
 }
 
 void FITSView::drawStarCentroid(QPainter *painter)
@@ -588,6 +636,15 @@ void FITSView::processPointSelection(int x, int y)
     setGuideSquare(x,y);
     emit guideStarSelected(x,y);
 }
+
+void FITSView::processMarkerSelection(int x, int y)
+{
+   marker_x = x;
+   marker_y = y;
+
+   updateFrame();
+}
+
 int FITSView::getGammaValue() const
 {
     return gammaValue;

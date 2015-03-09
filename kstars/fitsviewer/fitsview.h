@@ -63,6 +63,7 @@ public:
 protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
 private:
     FITSView *image;
@@ -73,6 +74,7 @@ private:
 signals:
     void newStatus(const QString &msg, FITSBar id);
     void pointSelected(int x, int y);
+    void markerSelected(int x, int y);
 
 
 };
@@ -106,6 +108,7 @@ public:
     void drawOverlay(QPainter *);
     void drawStarCentroid(QPainter *);
     void drawGuideBox(QPainter *);
+    void drawMarker(QPainter *);
     void updateFrame();
 
     // Star Detection
@@ -124,6 +127,7 @@ public slots:
     void ZoomDefault();
 
     void processPointSelection(int x, int y);
+    void processMarkerSelection(int x, int y);
 
 private:
 
@@ -143,6 +147,7 @@ private:
     QImage  *display_image;             /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
     int guide_x, guide_y, guide_box;
+    int marker_x, marker_y;
     int gammaValue;
     double maxPixel, maxGammaPixel, minPixel;
     bool firstLoad;
