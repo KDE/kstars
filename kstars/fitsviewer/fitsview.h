@@ -59,6 +59,7 @@ public:
     explicit FITSLabel(FITSView *img, QWidget *parent=NULL);
     virtual ~FITSLabel();
     void setSize(double w, double h);
+    void centerTelescope(double raJ2000, double decJ2000);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *e);

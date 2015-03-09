@@ -39,6 +39,8 @@
 #include <QStatusBar>
 #include <QFileDialog>
 #include <QWheelEvent>
+#include <QMenu>
+#include <QAction>
 
 #include <KActionCollection>
 #include <KMessageBox>
@@ -47,6 +49,13 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "Options.h"
+
+#ifdef HAVE_INDI
+#include <basedevice.h>
+#include "indi/indilistener.h"
+#include "indi/indistd.h"
+#include "indi/driverinfo.h"
+#endif
 
 #define ZOOM_DEFAULT	100.0
 #define ZOOM_MIN	10
@@ -107,13 +116,16 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
         wcs_point * wcs_coord = image_data->getWCSCoord();
 
-        if (index > size)
-            return;
+        if (wcs_coord)
+        {
+            if (index > size)
+                return;
 
-        ra.setD(wcs_coord[index].ra);
-        dec.setD(wcs_coord[index].dec);
+            ra.setD(wcs_coord[index].ra);
+            dec.setD(wcs_coord[index].dec);
 
-        emit newStatus(QString("%1 , %2").arg( ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
+            emit newStatus(QString("%1 , %2").arg( ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
+        }
     }
 
     setCursor(Qt::CrossCursor);
@@ -130,6 +142,33 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
+
+#ifdef HAVE_INDI
+    FITSData *image_data = image->getImageData();
+
+    if ( (e->buttons() & Qt::RightButton) && image_data->hasWCS())
+    {
+      QMenu fitspopup;
+      QAction *trackAction = fitspopup.addAction(xi18n("Center In Telescope"));
+
+      if (fitspopup.exec(e->globalPos()) == trackAction)
+      {
+          int index = x + y * width;
+
+          wcs_point * wcs_coord = image_data->getWCSCoord();
+
+          if (wcs_coord)
+          {
+              if (index > size)
+                  return;
+
+              centerTelescope(wcs_coord[index].ra/15.0, wcs_coord[index].dec);
+
+              return;
+          }
+      }
+    }
+#endif
 
    emit pointSelected(x, y);
 
@@ -153,6 +192,52 @@ void FITSLabel::mouseDoubleClickEvent(QMouseEvent *e)
     emit markerSelected(x, y);
 
     return;
+}
+
+void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
+{
+#ifdef HAVE_INDI
+
+    if (INDIListener::Instance()->size() == 0)
+    {
+        KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+        return;
+    }
+
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *bd = gd->getBaseDevice();
+
+        if (gd->getType() != KSTARS_TELESCOPE)
+            continue;
+
+        if (bd == NULL)
+            continue;
+
+        if (bd->isConnected() == false)
+        {
+            KMessageBox::error(0, xi18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            return;
+        }
+
+        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
+
+        SkyObject selectedObject;
+
+        selectedObject.setRA0(raJ2000);
+        selectedObject.setDec0(decJ2000);
+
+        selectedObject.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
+
+        gd->setProperty(&SlewCMD);
+        gd->runCommand(INDI_SEND_COORDS, &selectedObject);
+
+        return;
+    }
+
+    KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+
+#endif
 }
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent) , zoomFactor(1.2)
