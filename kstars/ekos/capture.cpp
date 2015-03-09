@@ -472,7 +472,8 @@ void Capture::startSequence()
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoMeridianHours(meridianHours->value());
-    Options::setAutoParkTelescope(parkCheck->isChecked());    
+    Options::setAutoParkTelescope(parkCheck->isChecked());
+    Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
         addJob();
