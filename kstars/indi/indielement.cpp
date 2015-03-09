@@ -261,7 +261,7 @@ void INDI_E::syncText()
 void INDI_E::syncNumber()
 {
 
-    char iNumber[32];
+    char iNumber[MAXINDIFORMAT];
     if (np == NULL || read_w == NULL)
         return;
 
@@ -376,7 +376,7 @@ void INDI_E::buildBLOB(IBLOB *ibp)
 void INDI_E::buildNumber  (INumber *inp)
 {
     bool scale = false;
-    char iNumber[32];
+    char iNumber[MAXINDIFORMAT];
 
     name  = inp->name;
     label = xi18nc(libindi_strings_context, inp->label);
