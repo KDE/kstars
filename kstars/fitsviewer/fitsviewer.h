@@ -80,9 +80,9 @@ public:
 
     static QStringList filterTypes;
 
-protected:
+//protected:
 
-    virtual void closeEvent(QCloseEvent *ev);
+    //virtual void closeEvent(QCloseEvent *ev);
 
 public slots:
 
@@ -93,7 +93,7 @@ public slots:
     void statFITS();
     void headerFITS();
     void debayerFITS();
-    void slotClose();
+    //void slotClose();
     void histoFITS();
     void stretchFITS();
     void tabFocusUpdated(int currentIndex);

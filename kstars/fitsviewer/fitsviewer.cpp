@@ -378,9 +378,9 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 
 }
 
-void FITSViewer::slotClose()
-{
-
+// No need to warn users about unsaved changes in a "viewer".
+/*void FITSViewer::slotClose()
+{        
     int rc=0;
     fitsTab->disconnect();
 
@@ -412,7 +412,7 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
         ev->accept();
     else
         ev->ignore();
-}
+}*/
 
 void FITSViewer::openFile()
 {
@@ -538,7 +538,7 @@ int FITSViewer::saveUnsaved(int index)
 
     if (index < 0 || index >= fitsTabs.size())
         return -1;
-    targetTab = fitsTabs[index];
+    targetTab = fitsTabs[index];        
 
     if (targetTab->getView()->getMode() != FITS_NORMAL)
         targetTab->getUndoStack()->clear();
