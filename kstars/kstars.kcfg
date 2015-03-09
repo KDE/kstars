@@ -1522,6 +1522,10 @@
             <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
             <default>0</default>
           </entry>
+          <entry name="WCSAlign" type="Bool">
+            <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
+            <default>false</default>
+          </entry>
     </group>
     <group name="Guide">
     <entry name="CalibrationPulseDuration" type="UInt">

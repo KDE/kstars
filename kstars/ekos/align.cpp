@@ -23,6 +23,7 @@
 #include "QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
+#include "indi/clientmanager.h"
 #include "alignadaptor.h"
 
 #include "fitsviewer/fitsviewer.h"
@@ -59,6 +60,7 @@ Align::Align()
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
+    m_wcsSynced=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
@@ -86,11 +88,13 @@ Align::Align()
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
     connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
+    connect(wcsCheck, SIGNAL(toggled(bool)), this, SLOT(setWCS(bool)));
 
     kcfg_solverXBin->setValue(Options::solverXBin());
     kcfg_solverYBin->setValue(Options::solverYBin());
     kcfg_solverUpdateCoords->setChecked(Options::solverUpdateCoords());
-    kcfg_solverPreview->setChecked(Options::solverPreview());
+    kcfg_solverPreview->setChecked(Options::solverPreview());    
+
     unsigned int solverGotoOption = Options::solverGotoOption();
     if (solverGotoOption == 0)
         syncR->setChecked(true);
@@ -240,6 +244,8 @@ void Align::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
     {
         checkCCD(CCDs.count()-1);
         CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
+
+        wcsCheck->setChecked(Options::wCSAlign());
     }
     else
     {
@@ -306,7 +312,7 @@ void Align::syncCCDInfo()
     int x,y;
 
     if (currentCCD == NULL)
-        return;
+        return;    
 
     if (useGuideHead)
         nvp = currentCCD->getBaseDevice()->getNumber("GUIDER_INFO");
@@ -613,6 +619,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
     Options::setSolverOptions(kcfg_solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
+    Options::setWCSAlign(wcsCheck->isChecked());
 
     unsigned int solverGotoOption = 0;
     if (slewR->isChecked())
@@ -666,6 +673,27 @@ void Align::solverFinished(double orientation, double ra, double dec)
 
      SolverRAOut->setText(ra_dms);
      SolverDecOut->setText(dec_dms);
+
+     if (wcsCheck->isChecked())
+     {
+         INumberVectorProperty *ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
+         if (ccdRotation)
+         {
+             INumber *rotation = IUFindNumber(ccdRotation, "CCD_ROTATION_VALUE");
+             if (rotation)
+             {
+                 ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
+                 rotation->value = orientation;
+                 clientManager->sendNewNumber(ccdRotation);
+
+                 if (m_wcsSynced == false)
+                 {
+                     appendLogText(xi18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
+                     m_wcsSynced=true;
+                 }
+             }
+         }
+     }
 
      if (Options::playAlignmentAlarm())
              KSNotify::play(KSNotify::NOTIFY_OK);
@@ -1389,6 +1417,47 @@ void Align::processFilterNumber(INumberVectorProperty *nvp)
                 captureAndSolve();
             }
         }
+    }
+}
+
+void Align::setWCS(bool enable)
+{
+    if (currentCCD == NULL)
+        return;
+
+    ISwitchVectorProperty *wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+
+    if (wcsControl == NULL)
+    {
+        appendLogText(xi18n("CCD driver does not support World System Coordinates."));
+        wcsCheck->setChecked(false);
+        return;
+    }
+
+    ISwitch *wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
+    ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
+
+    if (wcs_enable && wcs_disable)
+    {
+        if ( (enable && wcs_enable->s == ISS_ON) || (!enable && wcs_disable->s == ISS_ON))
+            return;
+
+        IUResetSwitch(wcsControl);
+        if (enable)
+        {
+            wcs_enable->s  = ISS_ON;
+            appendLogText(xi18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the CCD driver or by solving an image before proceeding to capture any further images, otherwise the WCS information may be invalid."));
+        }
+        else
+        {
+            appendLogText(xi18n("World Coordinate System (WCS) is disabled."));
+            wcs_disable->s = ISS_ON;
+            m_wcsSynced=false;
+        }
+
+        ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
+
+        clientManager->sendNewSwitch(wcsControl);
     }
 }
 

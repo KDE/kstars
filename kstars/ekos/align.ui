@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>676</width>
-    <height>497</height>
+    <width>762</width>
+    <height>505</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -417,6 +417,16 @@
             </property>
             <property name="text">
              <string>Preview</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="wcsCheck">
+            <property name="toolTip">
+             <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
+            </property>
+            <property name="text">
+             <string>WCS</string>
             </property>
            </widget>
           </item>

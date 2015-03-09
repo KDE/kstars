@@ -233,6 +233,12 @@ public slots:
      */
     void syncTelescopeInfo();
 
+    /**
+     * @brief setWCS enables/disables World Coordinate System settings in the CCD driver.
+     * @param enable true to enable WCS, false to disable.
+     */
+    void setWCS(bool enable);
+
     /* Solver Options */
     void checkLineEdits();
     void copyCoordsToBoxes();
@@ -375,6 +381,9 @@ private:
 
     // Keep track of solver FOV to be plotted in the skymap after each successful solve operation
     FOV *solverFOV;
+
+    // WCS
+    bool m_wcsSynced;
 
     // Log
     QStringList logText;
