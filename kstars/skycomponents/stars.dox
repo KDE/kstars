@@ -1,4 +1,4 @@
-/*! \page Stars Stars
+/*! \page Stars Stars    
   \tableofcontents
   Design document for the implementation of star catalog support in KStars.
   \section StarsClassInheritance Class Inheritance
@@ -36,9 +36,11 @@
   (deepStarData). All named stars and all static stars are shallow. All
   deep stars are dynamic and unnamed. StarComponent manages only shallow
   stars. DeepStarComponent manages both shallow and deep stars.
-
+  
   Stars are indexed using \subpage HTMIndexing "multi-level Hierarchical Triangular Mesh" to speed
   up drawing and searching for stars in the skymap.
+  
+  Stars are stored in a custom \ref BinaryFormat Binary Format to speed up reading and loading of data into memory.
 
   \section Catalogs Catalogs
   As of this writing, KStars supports the following catalogs:
@@ -261,8 +263,8 @@
   through in a span of +/-10,000 years from the epoch. StarObject has
   some commented code that can be used to track the position of a
   star. [Maybe this should be turned into a feature in future]
-
-  # TODO: Describe details like the 25 arcminute "safety" margin.
+  
+  TODO: Describe details like the 25 arcminute "safety" margin.
 
   \section HDCatalog Henry-Draper Catalog Numbers
   StarObject allows for a Henry-Draper catalog number to be associated
@@ -277,12 +279,116 @@
   where to find the star in the Tycho-2 catalog binary data file. See
   StarComponent::findByHDIndex() for details. See
   ../data/README.indexfileformat for details about the format followed
-  by the Henry-Draper index file.
+  by the Henry-Draper index file.  
+  
+  \section BinaryFormat Binary Format
+  
+  Stars data are stored in binary format to speed up reading and loading data into memory. There are a number of tools in the data/tools directory that parses the original ASCII data files and convert them to a KStars compatible binary format.
+  
+  \subsection Header The Header
+  \subsubsection Preamble Preamble
+  The preamble consists of the following:
 
-  \section Credits Credits
+ * A 124 byte-long string containing human-readable information about
+   the file
+
+ * A 2 byte-long endinanness indicator field, preinitialized to 'KS'
+   (0x4B53) on the host machine
+
+ The purpose of the endianness indicator is to make the file portable
+ across machines of different endianness. A machine on which the
+ endianness indicator field is read as 'SK' instead of 'KS' is of
+ different endinanness from the machine on which the file was
+ generated, and hence byteswapping must be performed.
+ 
+ \subsubsection FieldDescriptor Field Descriptor
+ The field descriptor describes the various fields used in the latter
+ half of the data region. The field descriptor consists of the
+ following:
+
+ * A 2 byte-long unsigned integer, indicating the number of fields per
+   record
+
+ * A set of entries describing the fields, amounting to the number
+   previously mentioned, each consisting of:
+
+     - A 10 byte-long character array, providing a human-readable name
+       for the field
+
+     - A 1 byte-long integer carrying the size of the field in bytes
+
+     - A 1 byte-long unsigned integer carrying the data type (see
+       Appendix A)
+
+     - A 4 byte-long integer storing a scale factor to divide the
+       contents of the associated field by, to interpret it
+       correctly. This is used for storing fixed-point fields. (Eg: A
+       fixed-point number with 2 decimal places would have a scale
+       factor of 100)
+
+  \subsubsection IndexTable Index Table
+   The format permits an index on one parameter. The parameter is to be
+ represented by 2-bytes (eg: A running index from 0 to 65535). The
+ index table consists of the following:
+
+ * A 2 byte unsigned integer indicating the number of index entries
+
+ * Index table entries, each consisting of:
+
+     - A 2 byte-long parameter, which is the index
+     
+     - A 4 byte-long unsigned integer, storing the offset of the first
+       record with this index parameter in the file
+
+     - A 2 byte-long unsigned integer, storing the number of records
+       under this index parameter.
+
+  \subsection TheData The Data
+
+  \subsubsection ExpansionFields Expansion Fields
+   Certain specific information about the contents of the field may be
+ added here. The contents could be specific to each application, and
+ could be empty. For KStars star data files, the entries in this
+ region are:
+
+   + Faint magnitude limit * 100, stored as a 16-bit integer
+
+   + HTM Level for this file, stored as a 8-bit integer. The
+     convention followed is that "N0000" would belong to a HTMesh of
+     level 3.
+
+   + Maximum Stars per Trixel, stored as a 2-byte unsigned integer.
+   
+   \subsubsection DataRecords Data Records
+   This region starts at the offset pointed out in the first entry of
+ the index table. The data consists of a series of records, the
+ details of whose fields (assumed to be placed continuously, without
+ any gaps) are as described in the field descriptor in the header.
+
+ NOTE: KStars _overrides_ the above defined convention for performance
+ gains and ease of programming in the star names file, where records
+ are stored as single blocks of the "starName" structure defined in
+ kstars/kstars/skycomponents/starcomponent.h
+ 
+ \section HDIndex Henry Draper Indexing
+The index file used to store the Henry Draper catalog indexes for
+KStars is just a list of 4-byte long offsets (to be treated as 32-bit
+integers ) describing the position of the Henry Draper stars' records
+in order, in the binary data files.
+
+If the offset is negative, it indicates that the star is in the
+shallow star file and not in the Tycho-2 deep star add on. The actual
+offset in this case is just the absolute value of the offset.
+
+The first four bytes in the index file correspond to the offset of the
+star HD000001 in the data files, and so on.
+
+\section Credits Credits
   Most of the memory layout and machinery outline described above was
   the brainchild of James Bowlin and it was implemented in code by
   Akarsh Simha. Jason Harris helped with the catalog data and also
   mentored Akarsh along with James. Some of the parsing tools in the
   kstars/data/tools directory have code due to James.
+  
+\author Akarsh Simha
 */

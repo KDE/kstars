@@ -22,8 +22,9 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
     - KStarsData: Master class for the backend "model".
     - SkyMapComposite: Top of hierarchy for plottable objects.
     - SkyComponent are lists of objects of the same type that are drawn in the sky map. Individual objects are represented as an instance of SkyPoint, or one of its children.
-    Only imaginary positions in the sky use SkyPoint directly.  Most real objects use the derived class SkyObject, which adds names and other data. \subpage Stars, planets, comets, asteroids, deep-sky objects, constellations,
+    Only imaginary positions in the sky use SkyPoint directly.  Most real objects use the derived class SkyObject, which adds names and other data. Stars, planets, comets, asteroids, deep-sky objects, constellations,
     guide lines, the Milky Way, etc. each have their own Component
+    - \subpage Stars "Stars: How stars are handled in KStars?"
     - SkyObject itself has many derivatives for different kinds of objects:
         - StarObject
         - DeepSkyObject
