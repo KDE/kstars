@@ -300,6 +300,8 @@
  endianness indicator field is read as 'SK' instead of 'KS' is of
  different endinanness from the machine on which the file was
  generated, and hence byteswapping must be performed.
+
+ * A 1 byte-long unsigned integer for the version of the binary format structure.
  
  \subsubsection FieldDescriptor Field Descriptor
  The field descriptor describes the various fields used in the latter
@@ -326,21 +328,23 @@
        fixed-point number with 2 decimal places would have a scale
        factor of 100)
 
+  The set of entries is read directly into dataElement structure and byte swapping is performed if needed.
+
   \subsubsection IndexTable Index Table
    The format permits an index on one parameter. The parameter is to be
- represented by 2-bytes (eg: A running index from 0 to 65535). The
+ represented by 4-bytes (eg: A running index from 0 to 4,294,967,295). The
  index table consists of the following:
 
- * A 2 byte unsigned integer indicating the number of index entries
+ * A 4 byte unsigned integer indicating the number of index entries
 
  * Index table entries, each consisting of:
 
-     - A 2 byte-long parameter, which is the index
+     - A 4 byte-long unsigned integer parameter, which is the index
      
      - A 4 byte-long unsigned integer, storing the offset of the first
        record with this index parameter in the file
 
-     - A 2 byte-long unsigned integer, storing the number of records
+     - A 4 byte-long unsigned integer, storing the number of records
        under this index parameter.
 
   \subsection TheData The Data
