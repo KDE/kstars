@@ -960,7 +960,7 @@ void EkosManager::disconnectDevices()
 
         if (focusProcess)
         {
-            disconnect(focuser, SIGNAL(numberUpdated(INumberVectorProperty*)), focusProcess, SLOT(processFocusProperties(INumberVectorProperty*)));
+            disconnect(focuser, SIGNAL(numberUpdated(INumberVectorProperty*)), focusProcess, SLOT(processFocusNumber(INumberVectorProperty*)));
             focusProcess->setEnabled(false);
         }
      }

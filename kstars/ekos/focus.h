@@ -272,7 +272,7 @@ public slots:
     void newFITS(IBLOB *bp);
 
     /**
-     * @brief processFocusProperties Read focus properties of interest as they arrive from the focuser driver and process them accordingly.
+     * @brief processFocusNumber Read focus number properties of interest as they arrive from the focuser driver and process them accordingly.
      * @param nvp pointer to updated focuser number property.
      */
     void processFocusNumber(INumberVectorProperty *nvp);
