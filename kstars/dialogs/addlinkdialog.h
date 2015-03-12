@@ -95,9 +95,9 @@ private slots:
       *We provide a default menu text string; this function changes the
     	*default string if the link type (image/webpage) is changed.  Note
     	*that if the user has changed the menu text, this function does nothing.
-    	*@param id 0=show image string; 1=show webpage string.
+        *@param imageEnabled if true, show image string; otherwise show webpage string.
     	*/
-    void changeDefaultDescription( int id );
+    void changeDefaultDescription( bool imageEnabled );
 
 private:
     QString ObjectName;

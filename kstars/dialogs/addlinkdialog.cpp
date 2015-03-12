@@ -48,7 +48,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 
     //connect signals to slots
     connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
-    connect( ald->TypeBox, SIGNAL( clicked( int ) ), this, SLOT( changeDefaultDescription( int ) ) );
+    connect( ald->ImageRadio, SIGNAL(toggled(bool)), this, SLOT(changeDefaultDescription( bool )));
 
     ald->ImageRadio->setChecked(true);
     ald->DescBox->setText( xi18n( "Show image of " ) + ObjectName );
@@ -67,16 +67,12 @@ void AddLinkDialog::checkURL( void ) {
     }
 }
 
-void AddLinkDialog::changeDefaultDescription( int id ) {
-    //If the user hasn't changed the default desc text, but the link type (image/webpage)
-    //has been toggled, update the default desc text
-    if ( id==1 && desc().startsWith( xi18n( "Show image of " ) ) ) {
-        ald->DescBox->setText( xi18n( "Show webpage about " ) + ObjectName );
-    }
-
-    if ( id==0 && desc().startsWith( xi18n( "Show webpage about " ) ) ) {
+void AddLinkDialog::changeDefaultDescription( bool imageEnabled )
+{
+    if (imageEnabled)
         ald->DescBox->setText( xi18n( "Show image of " ) + ObjectName );
-    }
+    else
+        ald->DescBox->setText( xi18n( "Show webpage about " ) + ObjectName );
 }
 
 
