@@ -27,7 +27,7 @@ class DeviceInfo;
  * and will first create a generic INDI device. Upon arrival of INDI properties, INDIListener can create specialized devices (e.g. Telescope) if it detects key Standard INDI
  * property that signifies a particular device family. The generic device functionality is extended via the Decorator design pattern.
  *
- * INDIListener also delegates INDI properties as they are received from ClientManager to the appropiate device to be processed.
+ * INDIListener also delegates INDI properties as they are received from ClientManager to the appropriate device to be processed.
  *
  * @author Jasem Mutlaq
  */

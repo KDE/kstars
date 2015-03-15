@@ -193,7 +193,7 @@ public slots:
     void checkCCD(int CCDNum=-1);
 
     /**
-     * @brief Process new FITS recieved from CCD.
+     * @brief Process new FITS received from CCD.
      * @param bp pointer to blob property
      */
     void newFITS(IBLOB *bp);

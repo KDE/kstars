@@ -36,7 +36,7 @@ class INDI_D;
 
 /**
  * @class GUIManager
- * GUIManager creates the INDI Control Panel upon receving a new device. Each device is displayed
+ * GUIManager creates the INDI Control Panel upon receiving a new device. Each device is displayed
  * on a separate tab. The device and property GUI creation is performed dynamically via introspection. As new properties
  * arrive from the ClientManager, they get created in the GUI.
  *

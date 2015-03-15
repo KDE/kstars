@@ -46,7 +46,7 @@ public:
 
 /**
  * @class GDInterface
- *  GDInterface is the Generic Device <i>Interface</i> for INDI devices. It is used as part of the Decorater Pattern when initally a new INDI device is created as a
+ *  GDInterface is the Generic Device <i>Interface</i> for INDI devices. It is used as part of the Decorater Pattern when initially a new INDI device is created as a
  * Generic Device in INDIListener. If the device registers an INDI Standard Property belonging to one specific device type (e.g. Telescope), then the device functionality
  * is extended to the particular device type.
  *

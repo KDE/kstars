@@ -34,7 +34,7 @@ public:
 /**
  *@class SkyCalendar
  *
- * Draws Rise/Set/Transit curves for major solar system planets for any calender year.
+ * Draws Rise/Set/Transit curves for major solar system planets for any calendar year.
  */
 class SkyCalendar : public QDialog
 {

@@ -30,7 +30,7 @@ MoonPhaseTool::MoonPhaseTool(QWidget *parent)
     //gcw = new GenericCalendarWidget( *mpc, this );
 
     gcw = new QCalendarWidget(this);
-    //FIXME Need porting to KF5, can we use QCalenderWidget instead of GenericCalenderWidget?
+    //FIXME Need porting to KF5, can we use QCalendarWidget instead of GenericCalendarWidget?
     //setButtons( 0 );
     setFixedSize( gcw->size() );
     setWindowTitle( xi18n("Moon Phase Calendar") );

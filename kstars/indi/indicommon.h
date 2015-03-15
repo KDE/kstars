@@ -44,7 +44,7 @@ The following is a description of some of the various classes that support INDI:
 <li>DriverManager: Manages local drivers as installed by INDI library. Enables users to start/stop local INDI servers (ServerManager) running one or more drivers (DriverInfo). Also enables connecting to local or remote
 INDI servers. For both local and remote connection, it creates a ClientManager to handle incoming data from each INDI server started, and creates a GUIManager to render the devices in INDI Control Panel.
 The user may also choose to only start an INDI server without a client manager and GUI.</li>
-<li>ClientManager: Manages sending and receving data from and to an INDI server. The ClientManager sends notifications (signals) when a new device or property is defined, updated, or deleted.</li>
+<li>ClientManager: Manages sending and receiving data from and to an INDI server. The ClientManager sends notifications (signals) when a new device or property is defined, updated, or deleted.</li>
 <li>GUIManager: Handles creation of GUI interface for devices (INDI_D) and their properties and updates the interface in accord with any data emitted by the associated ClientManager. The GUI manager supports
 multiple ClientManagers and consolidate all devices from all the ClientManagers into a single INDI Control Panel where each device is created as a tab.</li>
 <li>INDIListener: Once a ClientManager is created in DriverManager after successfully connecting to an INDI server, it is added to INDIListener where it monitors any new devices and if a new
@@ -58,7 +58,7 @@ Decorator Pattern</a>. All updated properties from INDI server are delegated to 
 <li>ISD::GenericDevice: Base class for all INDI devices. It implements processes shared across all INDI devices such as handling connection/disconnection, setting of configuration..etc.. When a
 specialized decorator is created (e.g. ISD::Telescope), the decorator is passed an ISD::GenericDevice pointer. Since ISD::Telescope is a child of ISD::DeviceDecorator, it can override some or all
  the device specific functions as defined in ISD::GDInterface (e.g. ProcessNumber(INumberVectorProperty *nvp)). For any function that is not overridden, the parent ISD::DeviceDecorator will invoke
- the function in ISD::GenericDevice instead. Moreover, The specialized decorator device can explicity call DeviceDecorator::ProcessNumber(INumberVectorProperty *nvp) for example to cause the ISD::DeviceDecorator to invoke
+ the function in ISD::GenericDevice instead. Moreover, The specialized decorator device can explicitly call DeviceDecorator::ProcessNumber(INumberVectorProperty *nvp) for example to cause the ISD::DeviceDecorator to invoke
  the same function but as defined in ISD::GenericDevice.</li>
  </ul>
 
@@ -78,7 +78,7 @@ in INDIListener. Upon detection of this key signature property, INDIListener cre
 
 Now suppose an updated Number property arrives from INDI server, the ClientManager emits a signal indicating a number property has a new updated value and INDIListener delegates the INDI Number
 property to the device, which is now of type ISD::Telescope. The ISD::Telescope overridden the processNumber(INumberVectorProperty *nvp) function in ISD::DeviceDecorator because it wants to handle some telescope
-specific numbers such as EQUATORIAL_EOD_COORD in order to move the telescope marker on the sky map as it changes. If the receieved property was indeed EQUATORIAL_EOD_COORD or any property handled
+specific numbers such as EQUATORIAL_EOD_COORD in order to move the telescope marker on the sky map as it changes. If the received property was indeed EQUATORIAL_EOD_COORD or any property handled
 by the ISD::Telescope ProcessNumber() function, then there is no futher action needed. But what if the property is not processed in ISD::Telescope ProcessNumber() function? In this case, the
 ProcessNumber() function simply calls DeviceDecorator::ProcessNumber() and it will delgate the call to ISD::GenericDevice ProcessNumber() to process. This is how the Decorator pattern work,
 the decorator classes implements extended functionlity, but the basic class is still responsible for handling all of the basic functions.

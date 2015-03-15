@@ -906,7 +906,7 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 
     star = qMakePair(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y);
 
-    // Select appropiate square size
+    // Select appropriate square size
     int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
 
     for (int i=0; i < ui.comboBox_SquareSize->count(); i++)

@@ -40,7 +40,6 @@
 #include <QFileDialog>
 #include <QWheelEvent>
 #include <QMenu>
-#include <QAction>
 
 #include <KActionCollection>
 #include <KMessageBox>
