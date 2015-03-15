@@ -167,16 +167,10 @@ void Focus::resetFrame()
     {
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-        if (targetChip && frameModified && !inAutoFocus && !inFocusLoop && /*!captureInProgress &&*/ !inSequenceFocus)
+        if (frameModified && orig_w > 0 && !inAutoFocus && !inFocusLoop && !inSequenceFocus && targetChip && targetChip->canSubframe())
         {
-            if (orig_x != -1)
-            {
-                if (targetChip->canSubframe())
                     targetChip->setFrame(orig_x, orig_y, orig_w, orig_h);
-                //orig_x = orig_y = orig_w = orig_h = -1;
-            }
-            //targetChip->resetFrame();
-            frameModified = false;
+                    frameModified = false;
         }
     }
 }
