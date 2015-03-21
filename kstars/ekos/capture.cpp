@@ -61,7 +61,7 @@ SequenceJob::SequenceJob()
     activeCCD=NULL;
     activeFilter= NULL;
     statusCell = NULL;
-    completed=0;
+    completed=0;    
 }
 
 void SequenceJob::reset()
@@ -101,7 +101,6 @@ void SequenceJob::done()
 
 void SequenceJob::prepareCapture()
 {
-
     activeChip->setBatchMode(!preview);
 
     activeChip->setShowFITS(showFITS);
@@ -272,6 +271,15 @@ void SequenceJob::setTargetTemperature(double value)
     targetTemperature = value;
 }
 
+double SequenceJob::getTargetADU() const
+{
+    return targetADU;
+}
+
+void SequenceJob::setTargetADU(double value)
+{
+    targetADU = value;
+}
 
 int SequenceJob::getISOIndex() const
 {
@@ -334,6 +342,9 @@ Capture::Capture()
     meridianFlipStage = MF_NONE;
     resumeGuidingAfterFlip = false;
 
+    ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
+    ADUSlope = 0;
+
     pi = new QProgressIndicator(this);
 
     progressLayout->addWidget(pi, 0, 4, 1, 1);
@@ -367,6 +378,7 @@ Capture::Capture()
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
     connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
     connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
+    connect(frameTypeCombo, SIGNAL(activated(int)), this, SLOT(checkFrameType(int)));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -391,6 +403,12 @@ Capture::Capture()
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
+    // Hide until required
+    ADUSeparator->setVisible(false);
+    ADULabel->setVisible(false);
+    ADUValue->setVisible(false);
+    ADUPercentageLabel->setVisible(false);
+
     displayCheck->setEnabled(Options::showFITS());
     displayCheck->setChecked(Options::showFITS());
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
@@ -400,7 +418,7 @@ Capture::Capture()
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
     temperatureCheck->setChecked(Options::enforceTemperatureControl());
-
+    ADUValue->setValue(Options::aDUValue());
 }
 
 Capture::~Capture()
@@ -474,6 +492,7 @@ void Capture::startSequence()
     Options::setAutoMeridianHours(meridianHours->value());
     Options::setAutoParkTelescope(parkCheck->isChecked());
     Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
+    Options::setADUValue(ADUValue->value());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -527,6 +546,8 @@ void Capture::stopSequence()
     retries              = 0;
     seqTotalCount        = 0;
     seqCurrentCount      = 0;
+    ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
+    ADUSlope = 0;
 
     if (activeJob)
     {
@@ -970,6 +991,38 @@ void Capture::newFITS(IBLOB *bp)
        return;
     }
 
+    // Check if we need to do flat field slope calculation if the user specified a desired ADU value
+    if (activeJob->getTargetADU() > 0 && activeJob->getFrameType() == FRAME_FLAT)
+    {
+        FITSData *image_data = NULL;
+        FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+        if (currentImage)
+        {
+            image_data = currentImage->getImageData();
+            double currentADU = image_data->getADUPercentage();
+            double currentSlope = ADUSlope;
+
+            double nextExposure = setCurrentADU(currentADU);
+
+            appendLogText(xi18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
+
+            activeJob->setExposure(nextExposure);
+
+            // Start next exposure in case ADU Slope is not calculated yet
+            if (currentSlope == 0)
+            {
+                startNextExposure();
+                return;
+            }
+        }
+        else
+        {
+            appendLogText(xi18n("An empty image is received, aborting..."));
+            stopSequence();
+            return;
+        }
+    }
+
     seqCurrentCount++;
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
@@ -1065,7 +1118,7 @@ bool Capture::resumeSequence()
                 secondsLabel->setText(i18n("Dithering..."));
                 emit exposureComplete();
         }
-        else if (isAutoFocus)
+        else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
             secondsLabel->setText(xi18n("Focusing..."));
             emit checkFocus(HFRPixels->value());
@@ -1327,6 +1380,8 @@ void Capture::addJob(bool preview)
     job->setFITSDir(fitsDir->text());
 
     job->setShowFITS(displayCheck->isChecked());
+
+    job->setTargetADU(ADUValue->value());
 
     imagePrefix = prefixIN->text();        
 
@@ -1948,6 +2003,10 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             delayIN->setValue(atoi(pcdataXMLEle(ep)));
         }
+        else if (!strcmp(tagXMLEle(ep), "ADU"))
+        {
+            ADUValue->setValue(atoi(pcdataXMLEle(ep)));
+        }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
             fitsDir->setText(pcdataXMLEle(ep));
@@ -2083,6 +2142,9 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Count>" << job->getCount() << "</Count>" << endl;
         // ms to seconds
         outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
+        if (job->getTargetADU() > 0)
+            outstream << "<ADU>" << job->getTargetADU() << "</ADU>" << endl;
+
         outstream << "<FITSDirectory>" << job->getFITSDir() << "</FITSDirectory>" << endl;
         outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
         if (job->getISOIndex() != -1)
@@ -2137,6 +2199,7 @@ void Capture::editJob(QModelIndex i)
    expDurationCheck->setChecked(expEnabled);
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
+   ADUValue->setValue(job->getTargetADU());
    fitsDir->setText(job->getFITSDir());
    ISOCheck->setChecked(job->getISOMode());
    if (ISOCombo->isEnabled())
@@ -2467,6 +2530,68 @@ void Capture::checkAlignmentSlewComplete()
         checkGuidingAfterFlip();
     }
 }
+
+void Capture::checkFrameType(int index)
+{
+    if (frameTypeCombo->itemText(index) == xi18n("Flat"))
+    {
+        ADUSeparator->setVisible(true);
+        ADULabel->setVisible(true);
+        ADUValue->setVisible(true);
+        ADUPercentageLabel->setVisible(true);
+    }
+    else
+    {
+        ADUSeparator->setVisible(false);
+        ADULabel->setVisible(false);
+        ADUValue->setVisible(false);
+        ADUPercentageLabel->setVisible(false);
+    }
+}
+
+double Capture::setCurrentADU(double value)
+{
+    double nextExposure = 0;
+
+    if (ExpRaw1 == -1)
+        ExpRaw1 = activeJob->getExposure();
+    else if (ExpRaw2 == -1)
+        ExpRaw2 = activeJob->getExposure();
+    else
+    {
+        ExpRaw1 = ExpRaw2;
+        ExpRaw2 = activeJob->getExposure();
+    }
+
+    if (ADURaw1 == -1)
+        ADURaw1 = value;
+    else if (ADURaw2 == -1)
+        ADURaw2 = value;
+    else
+    {
+        ADURaw1 = ADURaw2;
+        ADURaw2 = value;
+    }
+
+    // If we don't have the 2nd point, let's take another exposure with value relative to what we have now
+    if (ADURaw2 == -1 || ExpRaw2 == -1 || (ADURaw1 == ADURaw2))
+    {
+        if (value < activeJob->getTargetADU())
+            nextExposure = activeJob->getExposure()*10;
+        else
+            nextExposure = activeJob->getExposure()*0.1;
+
+        return nextExposure;
+    }
+
+    ADUSlope = (ExpRaw2 - ExpRaw1) / (ADURaw2 - ADURaw1);
+
+    nextExposure = ADUSlope * (activeJob->getTargetADU() - ADURaw2) + ExpRaw2;
+
+    return nextExposure;
+
+}
+
 
 }
 

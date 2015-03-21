@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>829</width>
+    <width>849</width>
     <height>513</height>
    </rect>
   </property>
@@ -962,7 +962,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="BottomLayout">
      <item>
       <widget class="QGroupBox" name="filterGroup">
        <property name="sizePolicy">
@@ -1043,19 +1043,76 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="MiddleBottomLayout">
+      <layout class="QVBoxLayout" name="MiddleLayout">
        <item>
-        <widget class="QCheckBox" name="darkSubCheck">
-         <property name="toolTip">
-          <string>Perform automatic dark subtraction in preview mode</string>
-         </property>
-         <property name="text">
-          <string>Auto dark subtract</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QCheckBox" name="darkSubCheck">
+           <property name="toolTip">
+            <string>Perform automatic dark subtraction in preview mode</string>
+           </property>
+           <property name="text">
+            <string>Auto dark subtract</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="ADUSeparator">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="ADULabel">
+           <property name="toolTip">
+            <string>If set, Ekos will capture a few flat images to determine the optimal exposure time to achieve the desired ADU percentage.</string>
+           </property>
+           <property name="text">
+            <string>ADU</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="ADUValue">
+           <property name="toolTip">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="ADUPercentageLabel">
+           <property name="toolTip">
+            <string>Number of images to capture</string>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="text">
+            <string>%</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QCheckBox" name="displayCheck">
@@ -1235,7 +1292,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>279</width>
+           <width>276</width>
            <height>13</height>
           </size>
          </property>
@@ -1431,6 +1488,10 @@
   <zorder>ButtomSpacer</zorder>
   <zorder>MiddleSeparator</zorder>
   <zorder></zorder>
+  <zorder>ADUSeparator</zorder>
+  <zorder>ADULabel</zorder>
+  <zorder>ADUPercentageLabel</zorder>
+  <zorder>ADUValue</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -23,6 +23,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <climits>
 
 #include <QApplication>
 #include <QLocale>
@@ -2086,4 +2087,31 @@ bool FITSData::debayer()
     delete[] dst;
     return true;
 
+}
+
+double FITSData::getADUPercentage()
+{
+    switch (stats.bitpix)
+    {
+        case 8:
+            return (stats.average / UCHAR_MAX) * 100.0;
+            break;
+        case 16:
+            return (stats.average / USHRT_MAX) * 100.0;
+            break;
+        case 32:
+            return (stats.average / UINT_MAX) * 100.0;
+            break;
+        case -32:
+             return (stats.average / INT_MAX) * 100.0;
+             break;
+        case 64:
+             return (stats.average / ULONG_LONG_MAX) * 100.0;
+             break;
+        case -64:
+             return (stats.average / LONG_LONG_MAX) * 100.0;
+        default:
+            return 0;
+            break;
+    }
 }

@@ -134,7 +134,10 @@ class SequenceJob : public QObject
     void setCurrentTemperature(double value);
 
     double getTargetTemperature() const;
-    void setTargetTemperature(double value);
+    void setTargetTemperature(double value);    
+
+    double getTargetADU() const;
+    void setTargetADU(double value);
 
 signals:
     void prepareComplete();
@@ -158,7 +161,7 @@ private:
     int x,y,w,h;
     QString prefix;
     int count;
-    int delay;
+    int delay;    
     bool isoMode;
     bool preview;
     bool showFITS;
@@ -176,6 +179,7 @@ private:
 
     JOBStatus status;
 
+    double targetADU;
 };
 
 /**
@@ -332,6 +336,8 @@ public slots:
     void checkPreview(bool enable);
     void updateCCDTemperature(double value);
     void setTemperature();
+
+    void checkFrameType(int index);
     void updateAutofocusStatus(bool status, double HFR);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value);
     void checkSeqBoundary(const QString &path);
@@ -372,6 +378,7 @@ private:
     bool processJobInfo(XMLEle *root);    
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
+    double setCurrentADU(double value);
 
     /* Meridian Flip */
     bool checkMeridianFlip();
@@ -436,10 +443,12 @@ private:
     double initialRA;
     bool resumeAlignmentAfterFlip;
     bool resumeGuidingAfterFlip;
-
     MFStage meridianFlipStage;
 
-
+    // Flat field automation
+    double ExpRaw1, ExpRaw2;
+    double ADURaw1, ADURaw2;
+    double ADUSlope;
 
 };
 

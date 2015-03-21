@@ -171,7 +171,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     actionCollection()->setDefaultShortcut(action, QKeySequence::SelectAll);
     action->setIcon(QIcon::fromTheme("transform-move"));
 
-    KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());    
+    KStandardAction::close(this,  SLOT(close()),  actionCollection());
 
     KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
 

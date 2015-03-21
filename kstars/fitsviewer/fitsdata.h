@@ -122,6 +122,7 @@ public:
     double getMedian() { return stats.median;}
     void setBPP(int value) { stats.bitpix = value;}
     int getBPP() { return stats.bitpix; }
+    double getADUPercentage();
 
     // Star detection
     int getDetectedStars() { return starCenters.count(); }
