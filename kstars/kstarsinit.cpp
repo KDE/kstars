@@ -135,7 +135,7 @@ void KStars::initActions() {
 
     // ==== File menu ================
     ka = KNS3::standardAction(xi18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
-        << QKeySequence( Qt::CTRL+Qt::Key_D );
+        << QKeySequence( Qt::CTRL+Qt::Key_N );
     ka->setWhatsThis(xi18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
@@ -399,7 +399,8 @@ void KStars::initActions() {
 #ifdef HAVE_INDI
 #ifndef Q_WS_WIN
         actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
-            << xi18n("Ekos");
+            << xi18n("Ekos")
+            << QKeySequence(Qt::CTRL+Qt::Key_K );
 #endif
 #endif
 
@@ -443,7 +444,8 @@ void KStars::initActions() {
             << QIcon::fromTheme("tools-wizard" );
         actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
             << xi18n("Device Manager...")
-            << QIcon::fromTheme("network-server" );
+            << QIcon::fromTheme("network-server" )
+            << QKeySequence(Qt::CTRL+Qt::Key_D);
         ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
             << xi18n("INDI Control Panel...");
         ka->setEnabled(false);
