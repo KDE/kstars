@@ -520,7 +520,7 @@ void INDI_E::setupElementScale(int length)
     spin_w->setRange(np->min, np->max);
     spin_w->setSingleStep(np->step);
     spin_w->setValue(np->value);
-    spin_w->setDecimals(2);
+    spin_w->setDecimals(3);
 
     slider_w  = new QSlider( Qt::Horizontal, guiProp->getGroup()->getContainer() );
     slider_w->setRange(0, steps);
