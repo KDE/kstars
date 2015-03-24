@@ -207,7 +207,8 @@ void INDI_P::buildSwitchGUI()
     else if (guiType == PG_RADIO)
         groupB->setExclusive(false);
 
-    QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton *)));
+    if (svp->p != IP_RO)
+        QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton *)));
 
     for (int i=0; i < svp->nsp; i++)
     {
@@ -382,6 +383,19 @@ void INDI_P::newSwitch(QAbstractButton * button)
 
 }
 
+void INDI_P::resetSwitch()
+{
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
+
+    if (svp == NULL)
+        return;
+
+    if (menuC)
+    {
+        menuC->setCurrentIndex(IUFindOnSwitchIndex(svp));
+    }
+}
+
 void INDI_P::newSwitch(int index)
 {
     ISwitchVectorProperty *svp = dataProp->getSwitch();
@@ -509,7 +523,10 @@ void INDI_P::buildMenuGUI()
 
     menuC = new QComboBox(pg->getContainer());
 
-    QObject::connect(menuC, SIGNAL(activated(int)), this, SLOT(newSwitch(int)));
+    if (svp->p == IP_RO)
+        QObject::connect(menuC, SIGNAL(activated(int)), this, SLOT(resetSwitch()));
+    else
+        QObject::connect(menuC, SIGNAL(activated(int)), this, SLOT(newSwitch(int)));
 
     for (int i=0; i < svp->nsp; i++)
     {

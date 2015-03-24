@@ -113,6 +113,7 @@ public slots:
     void newSwitch(QAbstractButton * button);
     void newSwitch(int index);
     void newSwitch(const QString & name);
+    void resetSwitch();
 
 
     void sendBlob();

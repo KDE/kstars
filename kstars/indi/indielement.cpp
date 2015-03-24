@@ -113,6 +113,9 @@ void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
 
         push_w->show();
 
+        if (sw->svp->p == IP_RO)
+            push_w->setEnabled(sw->s == ISS_ON);
+
         break;
 
     case PG_RADIO:
@@ -124,6 +127,9 @@ void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
         guiProp->addWidget(check_w);
 
         check_w->show();
+
+        if (sw->svp->p == IP_RO)
+            check_w->setEnabled(sw->s == ISS_ON);
 
         break;
 
@@ -224,6 +230,9 @@ void INDI_E::syncSwitch()
             buttonFont = push_w->font();
             buttonFont.setBold(true);
             push_w->setFont(buttonFont);
+
+            if (sp->svp->p == IP_RO)
+                push_w->setEnabled(true);
         }
         else
         {            
@@ -232,14 +241,25 @@ void INDI_E::syncSwitch()
             buttonFont = push_w->font();
             buttonFont.setBold(false);
             push_w->setFont(buttonFont);
+
+            if (sp->svp->p == IP_RO)
+                push_w->setEnabled(false);
         }
         break;
 
     case PG_RADIO:
         if (sp->s == ISS_ON)
+        {
             check_w->setChecked(true);
+            if (sp->svp->p == IP_RO)
+                check_w->setEnabled(true);
+        }
         else
+        {
             check_w->setChecked(false);
+            if (sp->svp->p == IP_RO)
+                check_w->setEnabled(false);
+        }
         break;
 
     default:
