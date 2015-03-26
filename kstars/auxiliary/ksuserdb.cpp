@@ -257,6 +257,7 @@ void KSUserDB::EraseAllFlags() {
     flags.setTable("flags");
     flags.select();
 
+    flags.setEditStrategy(QSqlTableModel::OnManualSubmit);
     flags.removeRows(0, flags.rowCount());
     flags.submitAll();
 
