@@ -143,8 +143,9 @@ KStars::~KStars()
     Q_ASSERT( pinstance );
 
     #ifdef HAVE_INDI
-    DriverManager::Instance()->clearServers();
     delete m_EkosManager;
+    DriverManager::Instance()->clearServers();
+    DriverManager::Instance()->close();
     #endif
 
     delete m_KStarsData;

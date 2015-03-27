@@ -97,7 +97,7 @@ DriverManager * DriverManager::Instance()
 }
 
 DriverManager::DriverManager()
-        : QDialog( KStars::Instance() )
+        : QDialog( /*KStars::Instance()*/ )
 {
 
     currentPort = Options::serverPortStart().toInt()-1;

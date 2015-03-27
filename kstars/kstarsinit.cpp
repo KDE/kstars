@@ -158,7 +158,8 @@ void KStars::initActions() {
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard() ) )
             << xi18nc("start Printing Wizard", "Printing &Wizard");
     actionCollection()->addAction( KStandardAction::Print, "print", this, SLOT( slotPrint() ) );
-    actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT( close() ) );
+    //actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT(close) );
+    actionCollection()->addAction( KStandardAction::Quit,  "quit",  qApp, SLOT(closeAllWindows()));
 
     // ==== Time Menu ================
     actionCollection()->addAction("time_to_now", this, SLOT( slotSetTimeToNow() ))

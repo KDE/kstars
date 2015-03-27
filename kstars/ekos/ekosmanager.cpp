@@ -35,7 +35,7 @@
 #define MAX_LOCAL_INDI_TIMEOUT 5000
 
 EkosManager::EkosManager()
-        : QDialog(KStars::Instance())
+        : QDialog(/*KStars::Instance()*/)
 {
     setupUi(this);
 
