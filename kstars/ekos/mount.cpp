@@ -176,8 +176,8 @@ void Mount::syncTelescopeInfo()
 
     if (currentTelescope->canPark())
     {
-        parkB->setEnabled(true);
-        unparkB->setEnabled(true);
+        parkB->setEnabled(!currentTelescope->isParked());
+        unparkB->setEnabled(currentTelescope->isParked());
         connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()), Qt::UniqueConnection);
         connect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()), Qt::UniqueConnection);
     }
@@ -291,6 +291,15 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
     {
         int index = IUFindOnSwitchIndex(svp);
         slewSpeedCombo->setCurrentIndex(index);
+    }
+    else if (!strcmp(svp->name, "TELESCOPE_PARK"))
+    {
+        ISwitch *sp = IUFindSwitch(svp, "PARK");
+        if (sp)
+        {
+            parkB->setEnabled((sp->s == ISS_OFF));
+            unparkB->setEnabled((sp->s == ISS_ON));
+        }
     }
 }
 

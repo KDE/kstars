@@ -23,6 +23,7 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     dType = KSTARS_TELESCOPE;
     minAlt=-1;
     maxAlt=-1;
+    IsParked=false;
 }
 
 Telescope::~Telescope()
@@ -78,6 +79,20 @@ void Telescope::registerProperty(INDI::Property *prop)
             clientManager->sendNewNumber(ti);
     }
 
+    if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
+    {
+         ISwitchVectorProperty *svp = prop->getSwitch();
+
+         if (svp)
+         {
+             ISwitch *sp = IUFindSwitch(svp, "PARK");
+             if (sp)
+             {
+                 IsParked = (sp->s == ISS_ON);
+             }
+         }
+    }
+
     DeviceDecorator::registerProperty(prop);
 }
 
@@ -124,6 +139,20 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
 void Telescope::processSwitch(ISwitchVectorProperty *svp)
 {
+
+    if (!strcmp(svp->name, "TELESCOPE_PARK"))
+    {
+        ISwitch *sp = IUFindSwitch(svp, "PARK");
+        if (sp)
+        {
+            IsParked = (sp->s == ISS_ON);
+        }
+
+        emit switchUpdated(svp);
+
+        return;
+
+    }
 
     DeviceDecorator::processSwitch(svp);
 }
@@ -637,6 +666,11 @@ void Telescope::setAltLimits(double minAltitude, double maxAltitude)
 {
     minAlt=minAltitude;
     maxAlt=maxAltitude;
+}
+
+bool Telescope::isParked()
+{
+    return IsParked;
 }
 
 }
