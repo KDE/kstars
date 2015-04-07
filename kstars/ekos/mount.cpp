@@ -333,45 +333,85 @@ void Mount::move()
 
     if (obj == northB)
     {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH);
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_START);
     }
     else if (obj == westB)
     {
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_START);
     }
     else if (obj == southB)
     {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH);
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_START);
     }
     else if (obj == eastB)
     {
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
     }
     else if (obj == northwestB)
     {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST);
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_START);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_START);
     }
     else if (obj == northeastB)
     {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST);
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_START);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
     }
     else if (obj == southwestB)
     {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST);
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_START);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_START);
     }
     else if (obj == southeastB)
     {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST);
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_START);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
     }
 }
 
 void Mount::stop()
 {
-    currentTelescope->Abort();
+    QObject* obj = sender();
+
+    if (obj == stopB)
+        currentTelescope->Abort();
+    else if (obj == northB)
+    {
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_STOP);
+    }
+    else if (obj == westB)
+    {
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_STOP);
+    }
+    else if (obj == southB)
+    {
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_STOP);
+    }
+    else if (obj == eastB)
+    {
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_STOP);
+    }
+    else if (obj == northwestB)
+    {
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_STOP);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_STOP);
+    }
+    else if (obj == northeastB)
+    {
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_STOP);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_STOP);
+    }
+    else if (obj == southwestB)
+    {
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_STOP);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_STOP);
+    }
+    else if (obj == southeastB)
+    {
+        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_STOP);
+        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_STOP);
+    }
+
 }
 
 void Mount::save()

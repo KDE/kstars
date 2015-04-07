@@ -32,6 +32,7 @@ public:
 
     typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
     typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
+    typedef enum { MOTION_START, MOTION_STOP } TelescopeMotionCommand;
 
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
@@ -45,8 +46,8 @@ public:
     bool Slew(double ra, double dec);
     bool Sync(SkyPoint *ScopeTarget);
     bool Sync(double ra, double dec);    
-    bool MoveNS(TelescopeMotionNS dir);
-    bool MoveWE(TelescopeMotionWE dir);    
+    bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
+    bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
     bool canGuide();
     bool canSync();
     bool canPark();

@@ -582,7 +582,7 @@ bool Telescope::getEqCoords(double *ra, double *dec)
 
 }
 
-bool Telescope::MoveNS(TelescopeMotionNS dir)
+bool Telescope::MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd)
 {
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
     if (motionSP == NULL)
@@ -595,25 +595,28 @@ bool Telescope::MoveNS(TelescopeMotionNS dir)
         return false;
 
     // If same direction, return
-    if (dir == MOTION_NORTH && motionNorth->s == ISS_ON)
-        return true;
+    if (dir == MOTION_NORTH && motionNorth->s == ((cmd == MOTION_START) ? ISS_ON : ISS_OFF))
+         return true;
 
-    if (dir == MOTION_SOUTH && motionSouth->s == ISS_ON)
-        return true;
+    if (dir == MOTION_SOUTH && motionSouth->s == ((cmd == MOTION_START) ? ISS_ON : ISS_OFF))
+         return true;
 
     IUResetSwitch(motionSP);
 
-    if (dir == MOTION_NORTH)
-        motionNorth->s = ISS_ON;
-    else
-        motionSouth->s = ISS_ON;
+    if (cmd == MOTION_START)
+    {
+        if (dir == MOTION_NORTH)
+            motionNorth->s = ISS_ON;
+        else
+            motionSouth->s = ISS_ON;
+    }
 
     clientManager->sendNewSwitch(motionSP);
 
     return true;
 }
 
-bool Telescope::MoveWE(TelescopeMotionWE dir)
+bool Telescope::MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd)
 {
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
     if (motionSP == NULL)
@@ -626,18 +629,21 @@ bool Telescope::MoveWE(TelescopeMotionWE dir)
         return false;
 
     // If same direction, return
-    if (dir == MOTION_WEST && motionWest->s == ISS_ON)
-        return true;
+    if (dir == MOTION_WEST && motionWest->s == ((cmd == MOTION_START) ? ISS_ON : ISS_OFF))
+         return true;
 
-    if (dir == MOTION_EAST && motionEast->s == ISS_ON)
-        return true;
+    if (dir == MOTION_EAST && motionEast->s == ((cmd == MOTION_START) ? ISS_ON : ISS_OFF))
+         return true;
 
     IUResetSwitch(motionSP);
 
-    if (dir == MOTION_WEST)
-        motionWest->s = ISS_ON;
-    else
-        motionEast->s = ISS_ON;
+    if (cmd == MOTION_START)
+    {
+        if (dir == MOTION_WEST)
+            motionWest->s = ISS_ON;
+        else
+            motionEast->s = ISS_ON;
+    }
 
     clientManager->sendNewSwitch(motionSP);
 
