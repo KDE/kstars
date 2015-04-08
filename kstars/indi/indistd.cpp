@@ -36,7 +36,11 @@ namespace ISD
 {
 
 
+#if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 1)
+GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement, QVariant qValue, QObject *parent) : QObject(parent)
+#else
 GDSetCommand::GDSetCommand(INDI_TYPE inPropertyType, const QString &inProperty, const QString &inElement, QVariant qValue, QObject *parent) : QObject(parent)
+#endif
 {
     propType     = inPropertyType;
     indiProperty = inProperty;
