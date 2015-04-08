@@ -1256,8 +1256,14 @@
     <entry name="FocuserDriver" type="String">
       <label>Default Focuser driver</label>
     </entry>
-    <entry name="AuxDriver" type="String">
-      <label>Default Auxiliary driver</label>
+    <entry name="Aux1Driver" type="String">
+      <label>Default Auxiliary driver #1</label>
+    </entry>
+    <entry name="Aux2Driver" type="String">
+      <label>Default Auxiliary driver #2</label>
+    </entry>
+    <entry name="Aux3Driver" type="String">
+      <label>Default Auxiliary driver #3</label>
     </entry>
     <entry name="DomeDriver" type="String">
       <label>Default Dome driver</label>
@@ -1285,9 +1291,17 @@
       <label>Remote Filter Name</label>
       <whatsthis>Name of the remote INDI Filter device.</whatsthis>
     </entry>
-    <entry name="remoteAuxName" type="String">
-      <label>Remote Auxiliary Name</label>
-      <whatsthis>Name of the remote INDI Auxiliary device.</whatsthis>
+    <entry name="remoteAux1Name" type="String">
+      <label>Remote Auxiliary Name #1</label>
+      <whatsthis>Name of the remote INDI Auxiliary device #1.</whatsthis>
+    </entry>
+    <entry name="remoteAux2Name" type="String">
+      <label>Remote Auxiliary Name #2</label>
+      <whatsthis>Name of the remote INDI Auxiliary device #2.</whatsthis>
+    </entry>
+    <entry name="remoteAux3Name" type="String">
+      <label>Remote Auxiliary Name #3</label>
+      <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
     </entry>
     <entry name="remoteDomeName" type="String">
       <label>Remote Dome Name</label>

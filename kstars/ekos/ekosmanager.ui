@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>469</width>
-    <height>517</height>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,7 +173,7 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="3" rowspan="2">
+          <item row="2" column="3">
            <widget class="QComboBox" name="domeCombo">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -183,14 +183,14 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0" rowspan="2">
+          <item row="3" column="0">
            <widget class="QLabel" name="label_10">
             <property name="text">
              <string>Focuser:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1" rowspan="2">
+          <item row="3" column="1">
            <widget class="QComboBox" name="focuserCombo">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -200,15 +200,49 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
+          <item row="3" column="2">
            <widget class="QLabel" name="label_11">
             <property name="text">
-             <string>Auxiliary:</string>
+             <string>Auxiliary 1:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QComboBox" name="aux1Combo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>Auxiliary 2:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="aux2Combo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>Auxiliary 3:</string>
             </property>
            </widget>
           </item>
           <item row="4" column="3">
-           <widget class="QComboBox" name="auxCombo">
+           <widget class="QComboBox" name="aux3Combo">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>

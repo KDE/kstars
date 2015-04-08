@@ -58,7 +58,9 @@ EkosManager::EkosManager()
     guider  =  NULL;
     focuser =  NULL;
     filter  =  NULL;
-    aux     =  NULL;
+    aux1    =  NULL;
+    aux2    =  NULL;
+    aux3    =  NULL;
     ao      =  NULL;
     dome    =  NULL;
 
@@ -67,7 +69,9 @@ EkosManager::EkosManager()
     guider_di  = NULL;
     focuser_di = NULL;
     filter_di  = NULL;
-    aux_di     = NULL;
+    aux1_di    = NULL;
+    aux2_di    = NULL;
+    aux3_di    = NULL;
     ao_di      = NULL;
     dome_di    = NULL;
     remote_indi= NULL;
@@ -188,7 +192,9 @@ void EkosManager::initLocalDrivers()
     focuserCombo->clear();
     filterCombo->clear();
     domeCombo->clear();
-    auxCombo->clear();
+    aux1Combo->clear();
+    aux2Combo->clear();
+    aux3Combo->clear();
 
     telescopeCombo->addItem("--");
     ccdCombo->addItem("--");
@@ -197,7 +203,9 @@ void EkosManager::initLocalDrivers()
     focuserCombo->addItem("--");
     filterCombo->addItem("--");
     domeCombo->addItem("--");
-    auxCombo->addItem("--");
+    aux1Combo->addItem("--");
+    aux2Combo->addItem("--");
+    aux3Combo->addItem("--");
 
     QString TelescopeDriver     = (Options::telescopeDriver() == "--") ? "" : Options::telescopeDriver();
     QString CCDDriver           = (Options::cCDDriver() == "--") ? "" : Options::cCDDriver();
@@ -206,7 +214,9 @@ void EkosManager::initLocalDrivers()
     QString FocuserDriver       = (Options::focuserDriver() == "--") ? "" : Options::focuserDriver();
     QString FilterDriver        = (Options::filterDriver() == "--") ? "" : Options::filterDriver();
     QString DomeDriver          = (Options::domeDriver() == "--") ? "" : Options::domeDriver();
-    QString AuxDriver           = (Options::auxDriver() == "--") ? "" : Options::auxDriver();
+    QString Aux1Driver           = (Options::aux1Driver() == "--") ? "" : Options::aux1Driver();
+    QString Aux2Driver           = (Options::aux2Driver() == "--") ? "" : Options::aux2Driver();
+    QString Aux3Driver           = (Options::aux3Driver() == "--") ? "" : Options::aux3Driver();
 
     if (TelescopeDriver.isEmpty() == false)
         telescopeCombo->addItem(TelescopeDriver);
@@ -229,8 +239,14 @@ void EkosManager::initLocalDrivers()
     if (DomeDriver.isEmpty() == false)
         domeCombo->addItem(DomeDriver);
 
-    if (AuxDriver.isEmpty() == false)
-        auxCombo->addItem(AuxDriver);
+    if (Aux1Driver.isEmpty() == false)
+        aux1Combo->addItem(Aux1Driver);
+
+    if (Aux2Driver.isEmpty() == false)
+        aux2Combo->addItem(Aux2Driver);
+
+    if (Aux3Driver.isEmpty() == false)
+        aux3Combo->addItem(Aux3Driver);
 
     foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
@@ -256,6 +272,17 @@ void EkosManager::initLocalDrivers()
             {
                 ccdCombo->addItem(dv->getTreeLabel());
                 guiderCombo->addItem(dv->getTreeLabel());
+            }
+
+            // Also add CCD drivers to AUX list
+            for (i=0; i < aux1Combo->count(); i++)
+                if (aux1Combo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == aux1Combo->count())
+            {
+                aux1Combo->addItem(dv->getTreeLabel());
+                aux2Combo->addItem(dv->getTreeLabel());
+                aux3Combo->addItem(dv->getTreeLabel());
             }
 
         }
@@ -303,11 +330,15 @@ void EkosManager::initLocalDrivers()
 
         case KSTARS_AUXILIARY:
         {
-            for (i=0; i < auxCombo->count(); i++)
-                if (auxCombo->itemText(i) == dv->getTreeLabel())
+            for (i=0; i < aux1Combo->count(); i++)
+                if (aux1Combo->itemText(i) == dv->getTreeLabel())
                     break;
-            if (i == auxCombo->count())
-                auxCombo->addItem(dv->getTreeLabel());
+            if (i == aux1Combo->count())
+            {
+                aux1Combo->addItem(dv->getTreeLabel());
+                aux2Combo->addItem(dv->getTreeLabel());
+                aux3Combo->addItem(dv->getTreeLabel());
+            }
         }
         break;
 
@@ -340,8 +371,14 @@ void EkosManager::initLocalDrivers()
     if (DomeDriver.isEmpty() == false)
         domeCombo->setCurrentIndex(1);
 
-    if (AuxDriver.isEmpty() == false)
-        auxCombo->setCurrentIndex(1);
+    if (Aux1Driver.isEmpty() == false)
+        aux1Combo->setCurrentIndex(1);
+
+    if (Aux2Driver.isEmpty() == false)
+        aux2Combo->setCurrentIndex(1);
+
+    if (Aux3Driver.isEmpty() == false)
+        aux3Combo->setCurrentIndex(1);
 
 }
 
@@ -358,7 +395,11 @@ void EkosManager::saveLocalDrivers()
 
    Options::setFocuserDriver(focuserCombo->currentText());
 
-   Options::setAuxDriver(auxCombo->currentText());
+   Options::setAux1Driver(aux1Combo->currentText());
+
+   Options::setAux2Driver(aux2Combo->currentText());
+
+   Options::setAux3Driver(aux3Combo->currentText());
 
    Options::setDomeDriver(domeCombo->currentText());
 
@@ -377,7 +418,9 @@ void EkosManager::initRemoteDrivers()
     focuserCombo->clear();
     filterCombo->clear();
     domeCombo->clear();
-    auxCombo->clear();
+    aux1Combo->clear();
+    aux2Combo->clear();
+    aux3Combo->clear();
 
     telescopeCombo->addItem("--");
     ccdCombo->addItem("--");
@@ -386,7 +429,9 @@ void EkosManager::initRemoteDrivers()
     focuserCombo->addItem("--");
     filterCombo->addItem("--");
     domeCombo->addItem("--");
-    auxCombo->addItem("--");
+    aux1Combo->addItem("--");
+    aux2Combo->addItem("--");
+    aux3Combo->addItem("--");
 
     QString remoteScopeName     = (Options::remoteScopeName() == "--") ? "" : Options::remoteScopeName();
     QString remoteCCDName       = (Options::remoteCCDName() == "--") ? "" : Options::remoteCCDName();
@@ -395,7 +440,9 @@ void EkosManager::initRemoteDrivers()
     QString remoteFilterName    = (Options::remoteFilterName() == "--") ? "" : Options::remoteFilterName();
     QString remoteFocuserName   = (Options::remoteFocuserName() == "--") ? "" : Options::remoteFocuserName();
     QString remoteDomeName      = (Options::remoteDomeName() == "--") ? "" : Options::remoteDomeName();
-    QString remoteAuxName       = (Options::remoteAuxName() == "--") ? "" : Options::remoteAuxName();
+    QString remoteAux1Name      = (Options::remoteAux1Name() == "--") ? "" : Options::remoteAux1Name();
+    QString remoteAux2Name      = (Options::remoteAux2Name() == "--") ? "" : Options::remoteAux2Name();
+    QString remoteAux3Name      = (Options::remoteAux3Name() == "--") ? "" : Options::remoteAux3Name();
 
     if (remoteScopeName.isEmpty() == false)
         telescopeCombo->addItem(remoteScopeName);
@@ -418,8 +465,14 @@ void EkosManager::initRemoteDrivers()
     if (remoteDomeName.isEmpty() == false)
         domeCombo->addItem(remoteDomeName);
 
-    if (remoteAuxName.isEmpty() == false)
-        auxCombo->addItem(remoteAuxName);
+    if (remoteAux1Name.isEmpty() == false)
+        aux1Combo->addItem(remoteAux1Name);
+
+    if (remoteAux2Name.isEmpty() == false)
+        aux2Combo->addItem(remoteAux2Name);
+
+    if (remoteAux3Name.isEmpty() == false)
+        aux3Combo->addItem(remoteAux3Name);
 
     foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
@@ -445,6 +498,16 @@ void EkosManager::initRemoteDrivers()
             {
                 ccdCombo->addItem(dv->getName());
                 guiderCombo->addItem(dv->getName());
+            }
+
+            for (i=0; i < aux1Combo->count(); i++)
+                if (aux1Combo->itemText(i) == dv->getName())
+                    break;
+            if (i == aux1Combo->count())
+            {
+                aux1Combo->addItem(dv->getName());
+                aux2Combo->addItem(dv->getName());
+                aux3Combo->addItem(dv->getName());
             }
 
         }
@@ -492,11 +555,15 @@ void EkosManager::initRemoteDrivers()
 
         case KSTARS_AUXILIARY:
         {
-            for (i=0; i < auxCombo->count(); i++)
-                if (auxCombo->itemText(i) == dv->getName())
+            for (i=0; i < aux1Combo->count(); i++)
+                if (aux1Combo->itemText(i) == dv->getName())
                     break;
-            if (i == auxCombo->count())
-                auxCombo->addItem(dv->getName());
+            if (i == aux1Combo->count())
+            {
+                aux1Combo->addItem(dv->getName());
+                aux2Combo->addItem(dv->getName());
+                aux3Combo->addItem(dv->getName());
+            }
         }
         break;
 
@@ -528,8 +595,14 @@ void EkosManager::initRemoteDrivers()
     if (remoteDomeName.isEmpty() == false)
         domeCombo->setCurrentIndex(1);
 
-    if (remoteAuxName.isEmpty() == false)
-        auxCombo->setCurrentIndex(1);
+    if (remoteAux1Name.isEmpty() == false)
+        aux1Combo->setCurrentIndex(1);
+
+    if (remoteAux2Name.isEmpty() == false)
+        aux2Combo->setCurrentIndex(1);
+
+    if (remoteAux3Name.isEmpty() == false)
+        aux3Combo->setCurrentIndex(1);
 
 }
 
@@ -544,13 +617,17 @@ void EkosManager::saveRemoteDrivers()
 
    Options::setRemoteFilterName(filterCombo->currentText());
 
-   Options::setRemoteFocuserName(focuserCombo->currentText());
-
-   Options::setRemoteAuxName(auxCombo->currentText());
+   Options::setRemoteFocuserName(focuserCombo->currentText());   
 
    Options::setRemoteDomeName(domeCombo->currentText());
 
    Options::setRemoteAOName(AOCombo->currentText());
+
+   Options::setRemoteAux1Name(aux1Combo->currentText());
+
+   Options::setRemoteAux2Name(aux2Combo->currentText());
+
+   Options::setRemoteAux3Name(aux3Combo->currentText());
 
 }
 
@@ -573,19 +650,23 @@ void EkosManager::reset()
     ccd     =  NULL;
     guider  =  NULL;
     focuser =  NULL;
-    filter  =  NULL;
-    aux     =  NULL;
+    filter  =  NULL;    
     dome    =  NULL;
     ao      =  NULL;
+    aux1    =  NULL;
+    aux2    =  NULL;
+    aux3    =  NULL;
 
     scope_di   = NULL;
     ccd_di     = NULL;
     guider_di  = NULL;
     focuser_di = NULL;
     filter_di  = NULL;
-    aux_di     = NULL;
     dome_di    = NULL;
     ao_di      = NULL;
+    aux1_di    = NULL;
+    aux2_di    = NULL;
+    aux3_di    = NULL;
 
     captureProcess = NULL;
     focusProcess   = NULL;
@@ -632,9 +713,11 @@ bool EkosManager::start()
         guider_di  = driversList.value(guiderCombo->currentText());
         ao_di      = driversList.value(AOCombo->currentText());
         filter_di  = driversList.value(filterCombo->currentText());
-        focuser_di = driversList.value(focuserCombo->currentText());
-        aux_di     = driversList.value(auxCombo->currentText());
+        focuser_di = driversList.value(focuserCombo->currentText());        
         dome_di    = driversList.value(domeCombo->currentText());
+        aux1_di    = driversList.value(aux1Combo->currentText());
+        aux2_di    = driversList.value(aux2Combo->currentText());
+        aux3_di    = driversList.value(aux3Combo->currentText());
 
         if (guider_di)
         {
@@ -673,8 +756,12 @@ bool EkosManager::start()
             managedDevices.append(focuser_di);
         if (dome_di != NULL)
             managedDevices.append(dome_di);
-        if (aux_di != NULL)
-            managedDevices.append(aux_di);        
+        if (aux1_di != NULL)
+            managedDevices.append(aux1_di);
+        if (aux2_di != NULL)
+            managedDevices.append(aux2_di);
+        if (aux3_di != NULL)
+            managedDevices.append(aux3_di);
 
         if (ccd_di == NULL && guider_di == NULL)
         {
@@ -733,7 +820,11 @@ bool EkosManager::start()
             nDevices++;
         if (domeCombo->currentText() != "--")
             nDevices++;
-        if (auxCombo->currentText() != "--")
+        if (aux1Combo->currentText() != "--")
+            nDevices++;
+        if (aux2Combo->currentText() != "--")
+            nDevices++;
+        if (aux3Combo->currentText() != "--")
             nDevices++;
 
         saveRemoteDrivers();
@@ -817,13 +908,17 @@ void EkosManager::checkINDITimeout()
         if (focuser_di && focuser == NULL)
             remainingDevices << QString("+ %1").arg(focuser_di->getName());
         if (filter_di && filter == NULL)
-            remainingDevices << QString("+ %1").arg(filter_di->getName());
-        if (aux_di && aux == NULL)
-            remainingDevices << QString("+ %1").arg(aux_di->getName());
+            remainingDevices << QString("+ %1").arg(filter_di->getName());        
         if (ao_di && ao == NULL)
             remainingDevices << QString("+ %1").arg(ao_di->getName());
         if (dome_di && dome == NULL)
             remainingDevices << QString("+ %1").arg(dome_di->getName());
+        if (aux1_di && aux1 == NULL)
+            remainingDevices << QString("+ %1").arg(aux1_di->getName());
+        if (aux2_di && aux2 == NULL)
+            remainingDevices << QString("+ %1").arg(aux2_di->getName());
+        if (aux3_di && aux3 == NULL)
+            remainingDevices << QString("+ %1").arg(aux3_di->getName());
 
         if (remainingDevices.count() == 1)
             KMessageBox::error(this, xi18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.", remainingDevices.at(0)));
@@ -844,11 +939,15 @@ void EkosManager::checkINDITimeout()
         if (filterCombo->currentText() != "--" && filter == NULL)
             remainingDevices << QString("+ %1").arg(filterCombo->currentText());
         if (domeCombo->currentText() != "--" && dome == NULL)
-            remainingDevices << QString("+ %1").arg(domeCombo->currentText());
-        if (auxCombo->currentText() != "--" && aux == NULL)
-            remainingDevices << QString("+ %1").arg(auxCombo->currentText());
+            remainingDevices << QString("+ %1").arg(domeCombo->currentText());        
         if (AOCombo->currentText() != "--" && ao == NULL)
             remainingDevices << QString("+ %1").arg(AOCombo->currentText());
+        if (aux1Combo->currentText() != "--" && aux1 == NULL)
+            remainingDevices << QString("+ %1").arg(aux1Combo->currentText());
+        if (aux2Combo->currentText() != "--" && aux2 == NULL)
+            remainingDevices << QString("+ %1").arg(aux2Combo->currentText());
+        if (aux3Combo->currentText() != "--" && aux3 == NULL)
+            remainingDevices << QString("+ %1").arg(aux3Combo->currentText());
 
         if (remainingDevices.count() == 1)
             KMessageBox::error(this, xi18n("Unable to establish remote device:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.at(0)));
@@ -909,8 +1008,14 @@ void EkosManager::connectDevices()
     if (dome)
         dome->Connect();
 
-    if (aux)
-        aux->Connect();
+    if (aux1)
+        aux1->Connect();
+
+    if (aux2)
+        aux2->Connect();
+
+    if (aux3)
+        aux3->Connect();
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
@@ -968,8 +1073,14 @@ void EkosManager::disconnectDevices()
     if (dome)
         dome->Disconnect();
 
-    if (aux)
-        aux->Disconnect();
+    if (aux1)
+        aux1->Disconnect();
+
+    if (aux2)
+        aux2->Disconnect();
+
+    if (aux3)
+        aux3->Disconnect();
 
 
     appendLogText(xi18n("Disconnecting INDI devices..."));
@@ -1036,6 +1147,22 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
 
 
                case KSTARS_CCD:
+                if (aux1_di == di)
+                {
+                    aux1 = devInterface;
+                    break;
+                }
+                else if (aux2_di == di)
+                {
+                    aux2 = devInterface;
+                    break;
+                }
+                else if (aux3_di == di)
+                {
+                    aux3 = devInterface;
+                    break;
+                }
+
                 if (guider_di == di)
                 {
                     guider = devInterface;
@@ -1087,8 +1214,12 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                 break;
 
              case KSTARS_AUXILIARY:
-                if (aux_di == di)
-                    aux = devInterface;
+                if (aux1_di == di)
+                    aux1 = devInterface;
+                else if (aux2_di == di)
+                    aux2 = devInterface;
+                else if (aux3_di == di)
+                    aux3 = devInterface;
                     break;
 
               default:
@@ -1158,8 +1289,12 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         filter = devInterface;
     else if (deviceName == Options::remoteDomeName())
         dome = devInterface;
-    else if (deviceName == Options::remoteAuxName().toLatin1())
-        aux = devInterface;
+    else if (deviceName == Options::remoteAux1Name().toLatin1())
+        aux1 = devInterface;
+    else if (deviceName == Options::remoteAux2Name().toLatin1())
+        aux2 = devInterface;
+    else if (deviceName == Options::remoteAux3Name().toLatin1())
+        aux3 = devInterface;
     else
         return;
 
@@ -1246,11 +1381,25 @@ void EkosManager::deviceConnected()
            dome->setConfig(tConfig);
     }
 
-    if (aux && aux->isConnected())
+    if (aux1 && aux1->isConnected())
     {
-        configProp = aux->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+        configProp = aux1->getBaseDevice()->getSwitch("CONFIG_PROCESS");
         if (configProp && configProp->s == IPS_IDLE)
-           aux->setConfig(tConfig);
+           aux1->setConfig(tConfig);
+    }
+
+    if (aux2 && aux2->isConnected())
+    {
+        configProp = aux2->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+        if (configProp && configProp->s == IPS_IDLE)
+           aux2->setConfig(tConfig);
+    }
+
+    if (aux3 && aux3->isConnected())
+    {
+        configProp = aux3->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+        if (configProp && configProp->s == IPS_IDLE)
+           aux3->setConfig(tConfig);
     }
 }
 
@@ -1908,7 +2057,9 @@ void EkosManager::removeTabs()
         focusProcess = NULL;
 
         dome = NULL;
-        aux = NULL;
+        aux1 = NULL;
+        aux2 = NULL;
+        aux3 = NULL;
 
 }
 
@@ -2035,17 +2186,64 @@ void EkosManager::setDome(const QString & domeName)
 
 }
 
-void EkosManager::setAuxiliary(const QString & auxiliaryName)
+void EkosManager::setAuxiliary(int index, const QString & auxiliaryName)
 {
     if (localMode)
     {
-        for (int i=0; i < auxCombo->count(); i++)
-            if (auxCombo->itemText(i) == auxiliaryName)
-            {
-                auxCombo->setCurrentIndex(i);
-                break;
-            }
+        switch (index)
+        {
+            case 1:
+            for (int i=0; i < aux1Combo->count(); i++)
+                if (aux1Combo->itemText(i) == auxiliaryName)
+                {
+                    aux1Combo->setCurrentIndex(i);
+                    break;
+                }
+            break;
+
+            case 2:
+            for (int i=0; i < aux2Combo->count(); i++)
+                if (aux2Combo->itemText(i) == auxiliaryName)
+                {
+                    aux2Combo->setCurrentIndex(i);
+                    break;
+                }
+            break;
+
+            case 3:
+            for (int i=0; i < aux3Combo->count(); i++)
+                if (aux3Combo->itemText(i) == auxiliaryName)
+                {
+                    aux3Combo->setCurrentIndex(i);
+                    break;
+                }
+            break;
+
+           default:
+            break;
+
+        }
+
+
     }
     else
-        Options::setRemoteAuxName(auxiliaryName);
+    {
+        switch (index)
+        {
+            case 1:
+            Options::setRemoteAux1Name(auxiliaryName);
+            break;
+
+            case 2:
+            Options::setRemoteAux2Name(auxiliaryName);
+            break;
+
+            case 3:
+            Options::setRemoteAux3Name(auxiliaryName);
+            break;
+
+            default:
+                break;
+        }
+    }
 }

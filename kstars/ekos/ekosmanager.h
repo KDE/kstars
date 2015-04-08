@@ -129,9 +129,10 @@ public:
 
     /** DBUS interface function.
      * Sets the auxiliary driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote auxiliary driver.
+     * @param index 1 for Aux 1, 2 for Aux 2, 3 for Aux 3
      * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(const QString & auxiliaryName);
+    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);
 
     /** @}*/
 
@@ -209,8 +210,8 @@ protected slots:
     bool remoteCCDRegistered;
     bool remoteGuideRegistered;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux, *dome, *ao;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di, *ao_di, *dome_di, *remote_indi;
+    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *dome, *ao;
+    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di, *ao_di, *dome_di, *remote_indi;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;

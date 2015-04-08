@@ -151,6 +151,8 @@ void Guide::checkCCD(int ccdNum)
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
+        else
+            useGuideHead=false;
 
         syncCCDInfo();
     }

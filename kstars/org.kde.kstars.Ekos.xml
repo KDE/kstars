@@ -52,6 +52,7 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setAuxiliary">
+      <arg name="index" type="i" direction="in"/>
       <arg name="auxiliaryName" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

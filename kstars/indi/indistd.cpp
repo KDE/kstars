@@ -35,9 +35,12 @@ const int MAX_FILENAME_LEN = 1024;
 namespace ISD
 {
 
-
+#ifdef INDI_VERSION_MAJOR
 #if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 1)
 GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement, QVariant qValue, QObject *parent) : QObject(parent)
+#else
+GDSetCommand::GDSetCommand(INDI_TYPE inPropertyType, const QString &inProperty, const QString &inElement, QVariant qValue, QObject *parent) : QObject(parent)
+#endif
 #else
 GDSetCommand::GDSetCommand(INDI_TYPE inPropertyType, const QString &inProperty, const QString &inElement, QVariant qValue, QObject *parent) : QObject(parent)
 #endif
@@ -147,7 +150,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 clientManager->sendNewText(prop->getText());
             }
         }
-        else if (driverInfo->getType() == KSTARS_AUXILIARY || QString(prop->getDeviceName()) == Options::remoteAuxName())
+        else if (driverInfo->getType() == KSTARS_AUXILIARY || QString(prop->getDeviceName()) == Options::remoteAux1Name())
         {
             if (Options::auxPort().isEmpty() == false)
             {
