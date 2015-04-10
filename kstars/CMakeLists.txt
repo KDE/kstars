@@ -509,7 +509,7 @@ add_executable(kstars main.cpp)
 add_library( KStarsLib STATIC ${kstars_SRCS})
 
 # FIXME TODO
-#target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/>")
+#target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
 
 target_link_libraries(KStarsLib
         LibKSDataHandlers
@@ -554,20 +554,20 @@ endif (WCSLIB_FOUND)
 
 target_link_libraries(kstars KStarsLib)
 
-install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
-ecm_install_icons(${ICON_INSTALL_DIR})
-install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
-install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+ecm_install_icons(${KDE_INSTALL_ICONDIR})
+install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
+install( FILES kstars.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
+install( FILES kstars.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
 if (INDI_FOUND)
-install( FILES kstarsui-indi.rc DESTINATION  ${KXMLGUI_INSTALL_DIR}/kstars RENAME kstarsui.rc)
+install( FILES kstarsui-indi.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars RENAME kstarsui.rc)
 else (INDI_FOUND)
-install( FILES kstarsui.rc DESTINATION  ${KXMLGUI_INSTALL_DIR}/kstars )
+install( FILES kstarsui.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
 endif(INDI_FOUND)
 
-install( FILES fitsviewer.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kstars )
+install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
 if (WIN32)
-  install( FILES kstarsui-win.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kstars )
+  install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
 endif (WIN32)

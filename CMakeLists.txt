@@ -12,7 +12,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 
-find_package(ECM 1.3.0 REQUIRED NO_MODULE)
+find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
@@ -22,6 +22,7 @@ include(KDECompilerSettings)
 include(KDECMakeSettings)
 include(ECMInstallIcons)
 include(FeatureSummary)
+include(ECMAddAppIcon)
 
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
@@ -115,7 +116,7 @@ add_subdirectory(datahandlers)
 # FIXME Enable Tests later!
 #add_subdirectory(Tests)
 
-install(FILES kstars.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata/)
+install(FILES kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
 
 #if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 #   macro_display_feature_log()

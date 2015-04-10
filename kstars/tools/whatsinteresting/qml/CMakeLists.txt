@@ -6,4 +6,4 @@ install( FILES wiview.qml ScrollBar.qml
          reloadIcon.png
          next.png
          previous.png
-         DESTINATION  ${DATA_INSTALL_DIR}/kstars/tools/whatsinteresting/qml )
+         DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/tools/whatsinteresting/qml )

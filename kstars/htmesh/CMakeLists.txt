@@ -35,4 +35,4 @@ add_definitions(-D_EXPORTING)
 set_target_properties(htmesh PROPERTIES
     VERSION 1.0.0
     SOVERSION 1)
-install(TARGETS htmesh ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS htmesh ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )

@@ -62,7 +62,7 @@ install( FILES kstars.png geomap.png
         tips TZrules.dat valaav.txt Interesting.dat PlanetFacts.dat
     advinterface.dat satellites.dat	histogram.png noimage.png go-nw.png go-ne.png go-sw.png go-se.png glossary.xml defaultflag.gif
     ekos-ok.ogg ekos-error.ogg ekos-fits.ogg
-	DESTINATION  ${DATA_INSTALL_DIR}/kstars 
+	DESTINATION  ${KDE_INSTALL_DATADIR}/kstars 
 )
 
 install( FILES textures/star.png 
@@ -119,10 +119,10 @@ install( FILES textures/star.png
 	       textures/moon34.png 
 	       textures/moon35.png
 	       textures/defaultflag.png 
-         DESTINATION ${DATA_INSTALL_DIR}/kstars/textures )
+         DESTINATION ${KDE_INSTALL_DATADIR}/kstars/textures )
 
 install ( FILES scripts/supernova_updates_parser.py 
-         DESTINATION ${DATA_INSTALL_DIR}/kstars/scripts )
+         DESTINATION ${KDE_INSTALL_DATADIR}/kstars/scripts )
 
 
 
