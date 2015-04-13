@@ -827,10 +827,11 @@ void Focus::newFITS(IBLOB *bp)
 
                 targetChip->setFocusFrame(subX, subY, subW, subH);
 
-                orig_x = fx;
+                targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
+                /*orig_x = fx;
                 orig_y = fy;
                 orig_w = fw;
-                orig_h = fh;
+                orig_h = fh;*/
 
                 fx += subX;
                 fy += subY;
@@ -1603,10 +1604,11 @@ void Focus::focusStarSelected(int x, int y)
     if (targetChip->canSubframe())
     {
 
-        orig_x = fx;
+        targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
+        /*orig_x = fx;
         orig_y = fy;
         orig_w = fw;
-        orig_h = fh;
+        orig_h = fh;*/
 
         fx += x;
         fy += y;
