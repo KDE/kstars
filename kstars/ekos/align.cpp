@@ -689,6 +689,12 @@ void Align::solverFinished(double orientation, double ra, double dec)
                  if (m_wcsSynced == false)
                  {
                      appendLogText(xi18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
+
+                     // Just send telescope info in case the CCD driver did not pick up before.
+                     INumberVectorProperty *telescopeInfo = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+                     if (telescopeInfo)
+                        clientManager->sendNewNumber(telescopeInfo);
+
                      m_wcsSynced=true;
                  }
              }
