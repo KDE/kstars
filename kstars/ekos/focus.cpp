@@ -1524,8 +1524,8 @@ void Focus::resetButtons()
         stopFocusB->setEnabled(true);
 
         captureB->setEnabled(false);
-        focusOutB->setEnabled(false);
-        focusInB->setEnabled(false);
+        focusOutB->setEnabled(true);
+        focusInB->setEnabled(true);
 
         return;
     }
