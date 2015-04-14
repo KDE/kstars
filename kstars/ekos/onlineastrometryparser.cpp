@@ -48,7 +48,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(jobFinished()), this, SLOT(checkJobCalibration()));
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
-    connect(this, SIGNAL(solverFinished(double,double,double)), this, SLOT(resetSolver()));
+    connect(this, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(resetSolver()));
 
     apiURL = QString("%1/api/").arg(Options::astrometryAPIURL());
 
@@ -483,9 +483,17 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
              return;
          }
 
+         pixscale = result["pixscale"].toDouble(&ok);
+         if (ok == false)
+         {
+             align->appendLogText(xi18n("Error parsing DEC."));
+             emit solverFailed();
+             return;
+         }
+
          elapsed = (int) round(solverTimer.elapsed()/1000.0);
          align->appendLogText(xi18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
-         emit solverFinished(orientation, ra, dec);
+         emit solverFinished(orientation, ra, dec, pixscale);
 
          break;
 

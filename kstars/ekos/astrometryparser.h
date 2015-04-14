@@ -39,7 +39,7 @@ public:
     virtual bool stopSolver() = 0;
 
 signals:
-    void solverFinished(double orientation, double ra, double dec);
+    void solverFinished(double orientation, double ra, double dec, double pixscale);
     void solverFailed();
 };
 

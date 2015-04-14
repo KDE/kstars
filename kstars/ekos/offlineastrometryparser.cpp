@@ -243,7 +243,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
     QStringList key_value;
 
-    double ra=0, dec=0, orientation=0;
+    double ra=0, dec=0, orientation=0, pixscale=0;
 
     foreach(QString key, wcskeys)
     {
@@ -257,11 +257,14 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
                 dec = key_value[1].toDouble();
             else if (key_value[0] == "orientation_center")
                 orientation = key_value[1].toDouble();
+            else if (key_value[0] == "pixscale")
+                pixscale = key_value[1].toDouble();
+
         }
 
     }
 
-    emit solverFinished(orientation,ra,dec);
+    emit solverFinished(orientation,ra,dec, pixscale);
 
 
     int elapsed = (int) round(solverTimer.elapsed()/1000.0);

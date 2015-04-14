@@ -220,8 +220,9 @@ public slots:
      * @param orientation Orientation of image in degrees (East of North)
      * @param ra Center RA in solved image, degrees.
      * @param dec Center DEC in solved image, degrees.
+     * @param pixscale Image scale is arcsec/pixel
      */
-    void solverFinished(double orientation, double ra, double dec);
+    void solverFinished(double orientation, double ra, double dec, double pixscale);
 
     /**
      * @brief Process solver failure.

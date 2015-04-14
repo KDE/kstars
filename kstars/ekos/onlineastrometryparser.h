@@ -70,7 +70,7 @@ private:
 
     QTime solverTimer;
     QString filename, apiURL;
-    double lowerScale, upperScale, center_ra, center_dec, radius;
+    double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
     double parity,ra,dec,orientation;
     int downsample_factor;
     bool isGenerated;

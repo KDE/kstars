@@ -140,7 +140,7 @@ Align::Align()
         setEnabled(false);
     else
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double)), this, SLOT(solverFinished(double,double,double)));
+        connect(parser, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(solverFinished(double,double,double, double)));
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
     }
 
@@ -202,7 +202,7 @@ void Align::setSolverType(bool useOnline)
     parser->setAlign(this);
     if (parser->init())
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double)), this, SLOT(solverFinished(double,double,double)));
+        connect(parser, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(solverFinished(double,double,double, double)));
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
     }
     else
@@ -647,7 +647,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
 
 }
 
-void Align::solverFinished(double orientation, double ra, double dec)
+void Align::solverFinished(double orientation, double ra, double dec, double pixscale)
 {
     pi->stopAnimation();
     stopB->setEnabled(false);
@@ -656,6 +656,14 @@ void Align::solverFinished(double orientation, double ra, double dec)
     sOrientation = orientation;
     sRA  = ra;
     sDEC = dec;
+
+    if (pixscale > 0)
+    {
+        double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale;
+        if (fabs(focal_length - solver_focal_length) > 1)
+            appendLogText(xi18n("Current focal length is %1 mm while computed focal length from the solver is %2 mm. Please update the mount focal length to obtain accurate results.",
+                                QString::number(focal_length, 'g' , 5), QString::number(solver_focal_length, 'g' , 5)));
+    }
 
     solverFOV->setRotation(sOrientation);
 
