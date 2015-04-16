@@ -60,6 +60,11 @@ DriverInfo::DriverInfo(DriverInfo *di)
     devices         = di->getDevices();
 }
 
+DriverInfo* DriverInfo::clone()
+{
+    return new DriverInfo(this);
+}
+
 DriverInfo::~DriverInfo()
 {
     qDeleteAll(devices);

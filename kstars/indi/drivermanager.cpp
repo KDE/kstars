@@ -1447,8 +1447,8 @@ QString DriverManager::getUniqueDeviceLabel(const QString &label)
                 nset++;
         }
 
-  if (nset > 1)
-      uniqueLabel = QString("%1 %2").arg(label).arg(nset);
+  if (nset > 0)
+      uniqueLabel = QString("%1 %2").arg(label).arg(nset+1);
 
   return uniqueLabel;
 }

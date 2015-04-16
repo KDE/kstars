@@ -56,6 +56,8 @@ public:
     DriverInfo(DriverInfo *di);
       ~DriverInfo();
 
+    DriverInfo *clone();
+
     void clear();
     QString getServerBuffer();
 

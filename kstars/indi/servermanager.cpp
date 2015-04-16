@@ -118,11 +118,27 @@ bool ServerManager::startDriver(DriverInfo *dv)
 {
     QTextStream out(&indiFIFO);
 
-    managedDrivers.append(dv);
-    dv->setServerManager(this);
-
+    // Check for duplicates within existing clients
     if (dv->getUniqueLabel().isEmpty())
         dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getTreeLabel()));
+
+    // Check for duplicates within managed drivers
+    int nset=0;
+    QString uniqueLabel;
+    QString label = dv->getUniqueLabel();
+    foreach(DriverInfo *drv, managedDrivers)
+    {
+        if (label == QString(drv->getUniqueLabel()))
+            nset++;
+    }
+    if (nset > 0)
+    {
+        uniqueLabel = QString("%1 %2").arg(label).arg(nset+1);
+        dv->setUniqueLabel(uniqueLabel);
+    }
+
+    managedDrivers.append(dv);
+    dv->setServerManager(this);
 
      //if (QStandardPaths::findExe(dv->getDriver()).isEmpty())
     //TODO Check if this works!

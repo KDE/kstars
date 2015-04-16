@@ -657,15 +657,25 @@ void EkosManager::reset()
     aux2    =  NULL;
     aux3    =  NULL;
 
+    delete(scope_di);
     scope_di   = NULL;
+    delete(ccd_di);
     ccd_di     = NULL;
+    delete(guider_di);
     guider_di  = NULL;
+    delete(focuser_di);
     focuser_di = NULL;
+    delete(filter_di);
     filter_di  = NULL;
+    delete(dome_di);
     dome_di    = NULL;
+    delete(ao_di);
     ao_di      = NULL;
+    delete(aux1_di);
     aux1_di    = NULL;
+    delete(aux2_di);
     aux2_di    = NULL;
+    delete(aux3_di);
     aux3_di    = NULL;
 
     captureProcess = NULL;
@@ -708,16 +718,47 @@ bool EkosManager::start()
 
     if (localMode)
     {
-        scope_di   = driversList.value(telescopeCombo->currentText());
-        ccd_di     = driversList.value(ccdCombo->currentText());
-        guider_di  = driversList.value(guiderCombo->currentText());
-        ao_di      = driversList.value(AOCombo->currentText());
-        filter_di  = driversList.value(filterCombo->currentText());
-        focuser_di = driversList.value(focuserCombo->currentText());        
-        dome_di    = driversList.value(domeCombo->currentText());
-        aux1_di    = driversList.value(aux1Combo->currentText());
-        aux2_di    = driversList.value(aux2Combo->currentText());
-        aux3_di    = driversList.value(aux3Combo->currentText());
+        DriverInfo *drv = NULL;
+
+        drv = driversList.value(telescopeCombo->currentText());
+        if (drv != NULL)
+            scope_di   = drv->clone();
+
+        drv = driversList.value(ccdCombo->currentText());
+        if (drv != NULL)
+            ccd_di     = drv->clone();
+
+        drv = driversList.value(guiderCombo->currentText());
+        if (drv != NULL)
+            guider_di  = drv->clone();
+
+        drv = driversList.value(AOCombo->currentText());
+        if (drv != NULL)
+            ao_di      = drv->clone();
+
+        drv = driversList.value(filterCombo->currentText());
+        if (drv != NULL)
+            filter_di  = drv->clone();
+
+        drv = driversList.value(focuserCombo->currentText());
+        if (drv != NULL)
+            focuser_di = drv->clone();
+
+        drv = driversList.value(domeCombo->currentText());
+        if (drv != NULL)
+            dome_di    = drv->clone();
+
+        drv = driversList.value(aux1Combo->currentText());
+        if (drv != NULL)
+            aux1_di    = drv->clone();
+
+        drv = driversList.value(aux2Combo->currentText());
+        if (drv != NULL)
+            aux2_di    = drv->clone();
+
+        drv = driversList.value(aux3Combo->currentText());
+        if (drv != NULL)
+            aux3_di    = drv->clone();
 
         if (guider_di)
         {
