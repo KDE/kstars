@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>490</height>
+    <height>516</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -110,14 +110,48 @@
            <string>Default INDI telescope port</string>
           </property>
           <property name="text">
-           <string notr="true">Aux port</string>
+           <string notr="true">Aux #1 port</string>
           </property>
          </widget>
         </item>
         <item row="2" column="3">
-         <widget class="QLineEdit" name="kcfg_auxPort">
+         <widget class="QLineEdit" name="kcfg_aux1Port">
           <property name="text">
            <string notr="true">/dev/ttyUSB3</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="telescopeLabel_5">
+          <property name="toolTip">
+           <string>Default INDI telescope port</string>
+          </property>
+          <property name="text">
+           <string notr="true">Aux #2 port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="kcfg_aux2Port">
+          <property name="text">
+           <string notr="true">/dev/ttyUSB4</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="telescopeLabel_6">
+          <property name="toolTip">
+           <string>Default INDI telescope port</string>
+          </property>
+          <property name="text">
+           <string notr="true">Aux #3 port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QLineEdit" name="kcfg_aux3Port">
+          <property name="text">
+           <string notr="true">/dev/ttyUSB5</string>
           </property>
          </widget>
         </item>

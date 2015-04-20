@@ -150,11 +150,27 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 clientManager->sendNewText(prop->getText());
             }
         }
-        else if (driverInfo->getType() == KSTARS_AUXILIARY || QString(prop->getDeviceName()) == Options::remoteAux1Name())
+        else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 1 || QString(prop->getDeviceName()) == Options::remoteAux1Name())
         {
-            if (Options::auxPort().isEmpty() == false)
+            if (Options::aux1Port().isEmpty() == false)
             {
-                IUSaveText(tp, Options::auxPort().toLatin1().constData());
+                IUSaveText(tp, Options::aux1Port().toLatin1().constData());
+                clientManager->sendNewText(prop->getText());
+            }
+        }
+        else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 2 || QString(prop->getDeviceName()) == Options::remoteAux2Name())
+        {
+            if (Options::aux2Port().isEmpty() == false)
+            {
+                IUSaveText(tp, Options::aux2Port().toLatin1().constData());
+                clientManager->sendNewText(prop->getText());
+            }
+        }
+        else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 3 || QString(prop->getDeviceName()) == Options::remoteAux3Name())
+        {
+            if (Options::aux3Port().isEmpty() == false)
+            {
+                IUSaveText(tp, Options::aux3Port().toLatin1().constData());
                 clientManager->sendNewText(prop->getText());
             }
         }

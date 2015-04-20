@@ -167,8 +167,18 @@
       <whatsthis>The port to which the filter is attached (e.g., /dev/ttyUSB0)</whatsthis>
       <default>/dev/ttyUSB2</default>
     </entry>
-    <entry name="auxPort" type="String">
-      <label>INDI Auxiliary port</label>
+    <entry name="aux1Port" type="String">
+      <label>INDI Auxiliary #1 port</label>
+      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default></default>
+    </entry>
+    <entry name="aux2Port" type="String">
+      <label>INDI Auxiliary #2 port</label>
+      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default></default>
+    </entry>
+    <entry name="aux3Port" type="String">
+      <label>INDI Auxiliary #3 port</label>
       <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
       <default></default>
     </entry>

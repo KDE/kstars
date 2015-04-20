@@ -798,11 +798,26 @@ bool EkosManager::start()
         if (dome_di != NULL)
             managedDevices.append(dome_di);
         if (aux1_di != NULL)
+        {
+            QVariantMap vMap = aux1_di->getAuxInfo();
+            vMap.insert("AUX#", 1);
+            aux1_di->setAuxInfo(vMap);
             managedDevices.append(aux1_di);
+        }
         if (aux2_di != NULL)
+        {
             managedDevices.append(aux2_di);
+            QVariantMap vMap = aux2_di->getAuxInfo();
+            vMap.insert("AUX#", 2);
+            aux2_di->setAuxInfo(vMap);
+        }
         if (aux3_di != NULL)
+        {
+            QVariantMap vMap = aux3_di->getAuxInfo();
+            vMap.insert("AUX#", 3);
+            aux3_di->setAuxInfo(vMap);
             managedDevices.append(aux3_di);
+        }
 
         if (ccd_di == NULL && guider_di == NULL)
         {
