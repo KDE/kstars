@@ -657,11 +657,16 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sRA  = ra;
     sDEC = dec;
 
+    int binx, biny;
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    targetChip->getBinning(&binx, &biny);
+
+    if (isVerbose())
+        appendLogText(xi18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
+                            QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
+
     if (pixscale > 0)
-    {
-        int binx, biny;
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-        targetChip->getBinning(&binx, &biny);
+    {        
         double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale * binx;
         if (fabs(focal_length - solver_focal_length) > 1)
             appendLogText(xi18n("Current focal length is %1 mm while computed focal length from the solver is %2 mm. Please update the mount focal length to obtain accurate results.",
