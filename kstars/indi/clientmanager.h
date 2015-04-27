@@ -12,8 +12,9 @@
 #define CLIENTMANAGER_H
 
 #include <baseclient.h>
-
 #include <QObject>
+
+#include "config-kstars.h"
 
 class DeviceInfo;
 class DriverInfo;
@@ -55,6 +56,11 @@ protected:
     virtual void newDevice(INDI::BaseDevice *dp);
     virtual void newProperty(INDI::Property *prop);
     virtual void removeProperty(INDI::Property *prop);
+    #ifdef INDI_VERSION_MAJOR
+    #if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 1)
+    virtual void removeDevice(INDI::BaseDevice *dp);
+    #endif
+    #endif
     virtual void newBLOB(IBLOB *bp);
     virtual void newSwitch(ISwitchVectorProperty *svp);
     virtual void newNumber(INumberVectorProperty *);
@@ -75,6 +81,7 @@ signals:
     void connectionFailure(ClientManager *);
 
     void newINDIDevice(DeviceInfo *dv);
+    void removeINDIDevice(DeviceInfo *dv);
 
     void newINDIProperty(INDI::Property *prop);
     void removeINDIProperty(INDI::Property *prop);
