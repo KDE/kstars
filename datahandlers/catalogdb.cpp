@@ -675,7 +675,6 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
                                 " new catalog will erase the old one!"),
                           i18n("Overwrite Existing Catalog"))
             == KMessageBox::No) {
-            KMessageBox::information(0, "Catalog addition cancelled.");
             return false;
         } else {
             RemoveCatalog(catalog_name);
