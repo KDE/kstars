@@ -14,6 +14,7 @@
   <name xml:lang="es">KStars</name>
   <name xml:lang="et">KStars</name>
   <name xml:lang="fi">KStars</name>
+  <name xml:lang="ko">KStars</name>
   <name xml:lang="lt">KStars</name>
   <name xml:lang="nds">KStars</name>
   <name xml:lang="nl">KStars</name>
@@ -37,6 +38,7 @@
   <summary xml:lang="es">Planetario para el escritorio</summary>
   <summary xml:lang="et">Töölaua planetaarium</summary>
   <summary xml:lang="fi">Työpöytäplanetaario</summary>
+  <summary xml:lang="ko">데스크톱 별자리판</summary>
   <summary xml:lang="lt">Darbastalio planetariumas</summary>
   <summary xml:lang="nds">Planetarium för den Schriefdisch</summary>
   <summary xml:lang="nl">Planetarium op uw bureaublad</summary>
@@ -73,6 +75,7 @@
     <p xml:lang="es">Catálogos astronómicos:</p>
     <p xml:lang="et">Tähekataloogid:</p>
     <p xml:lang="fi">Tähtitieteelliset luettelot:</p>
+    <p xml:lang="ko">천문 카탈로그:</p>
     <p xml:lang="nds">Astronoomsch Katalogen:</p>
     <p xml:lang="nl">Astronomische catalogi:</p>
     <p xml:lang="pl">Katalogi astronomiczne:</p>
