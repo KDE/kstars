@@ -49,6 +49,12 @@
 		</p>
 	</html>
 </tip>
+<tip category="KStars|General">
+	<html>
+		<p>Help us improve the KStars project! Visit our website at http://edu.kde.org/kstars and join our mailing list at kstars-devel@kde.org to learn more. We welcome you to help us with bug reports, contributions of astronomy know-how and knowledge, code contributions, translations and many more kinds of contributions!
+		</p>
+	</html>
+</tip>
 <tip category="KStars|Navigation">
 	<html>
 		<p>The N,S,E,W keys will point the display at the North,
@@ -248,9 +254,23 @@
 </tip>
 <tip category="KStars|Tools">
 	<html>
-		<p>The Observing List tool (Ctrl+L) gives you easy access to a selected group 
-			of objects.  Add objects to the list through the popup menu, or by
-			clicking on the object, and pressing "O".
+
+		<p>KStars has a powerful Observation Planner tool
+			  (Ctrl + L). The planner helps you maintain a
+			  wish list of objects that you would like to
+			  observe, and then select some of these
+			  objects to plan out an observing
+			  session. The planner can then assign
+			  observing times, and present the objects in
+			  time order for easy observing workflow on
+			  the field.
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Tools">
+	<html>
+
+		<p>KStars has a powerful astrophotography suite called Ekos! Ekos lets you control your astrophotography equipment through INDI, perform auto-focus etc, and set up automatic capture sequences.
 		</p>
 	</html>
 </tip>
@@ -293,6 +313,18 @@
 		<p>To add your own custom Object Catalogs, select "Import Catalog" or 
 			"Load Catalog" from the Catalogs tab in the KStars Configuration window.
 			See the Handbook for instructions on formatting your catalog file.
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Customize">
+	<html>
+		<p>By default, KStars ships with the NGC and IC deep-sky object catalogs. You can download many more catalogs from the File->Download New Data option. You can also make your own custom catalogs and add them.
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Customize">
+	<html>
+		<p>By default, KStars ships with a catalog of stars up to about magnitude 8. You can download additional star catalogs (Tycho-2 and USNO NOMAD) to show up to 100 million stars down to about magnitude 16 using the File->Download New Data option.
 		</p>
 	</html>
 </tip>
@@ -366,6 +398,12 @@
 </tip>
 <tip category="KStars|Customize">
 	<html>
+		<p>If you use a camera to capture images, you can create a field-of-view (FOV) symbol that matches your camera sensor's size. You can then adjust the orientation of the FOV symbol to match the orientation of your camera, to see what fits into your imaging field. The FOV Editor may be accessed from the Settings->FOV Symbols menu.
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Customize">
+	<html>
 		<p>The Advanced tab of the KStars Configuration window allows you to fine-tune
 			the behavior of KStars. You can specify whether to correct for atmospheric
 			refraction, and whether to use animated slewing. You can also specify which
@@ -375,7 +413,7 @@
 </tip>
 <tip category="KStars|Trivia">
 	<html>
-		<p>KStars displays 126,000 stars, 13,000 deep-sky objects, 88 constellations,
+		<p>KStars displays up to 100 million stars, more than 13,000 deep-sky objects, the 88 constellations,
 			all planets, the Sun, the Moon, thousands of comets and asteroids, and the
 			Milky Way.
 		</p>
@@ -397,8 +435,14 @@
 </tip>
 <tip category="KStars|Trivia">
 	<html>
+		<p>You can simulate the famous experimental test of general relativity in KStars -- KStars can calculate the bending of star-light around the sun. Simply center on the sun, zoom in the sky map and toggle the corrections by pressing 'r' on the keyboard.
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
 		<p>The nearest star to the Sun is Rigel Kentaurus (alpha Centauri).
-			The brightest star in the sky is Sirius (alpha Canis Majoris).
+			The brightest star in the night sky is Sirius (alpha Canis Majoris).
 		</p>
 	</html>
 </tip>
@@ -422,6 +466,54 @@
 		<p>The Messier Catalog is a list of 110 of the brightest non-stellar objects
 			in the sky.  It includes such famous objects as the Orion Nebula (M 42), the
 			Andromeda Galaxy (M 31), and the Pleiades (M 45).
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>Every now and then, planets seem to stop, and temporarily change their direction of motion across the night sky. This is called retrograde motion. You can simulate it in KStars by attaching a trail to an outer planet and letting the simulation clock step quickly (at 1 sid day or so).
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>From a dark, country-side location, the Andromeda Galaxy (M 31) is visible to the naked eye! The galaxy lies about 2.2 million light years away from us, and yet it has an apparent size of 3 degrees, 6 times the apparent size of the full moon!
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>Apparent sizes of deep-sky objects and planets are measured in arcminutes. An arc-minute is 1/60 of a degree. Stars have even smaller apparent sizes, which are measured in milli-arc-seconds (1/3600000 of a degree)!
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>Distance to the more nearby stars may be measured using "Parallax". The idea is explained in the Astro Info project. KStars shows the distances to many stars in the Details dialog. To access this information, simply right click on the star, and choose "Details" in the popup-menu.
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>The Hubble Space Telescope images are usually in false-color. The colors are chosen to indicate the presence of the elements Hydrogen, Oxygen, and Sulfur. For real-color images, try the other image options.
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>The Digitized Sky Survey (DSS) has digitized images from photographs of every region of the sky, made with the Oschin Schmidt telescope at Mt. Palomar, and the UK Schmidt Telescope. The DSS image of almost any region of the sky can be accessed from KStars by right-clicking on the sky map and selection "Show DSS Image".
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>Edwin Hubble made the first measurements that showed that the distant galaxies are receding at very fast speeds from us. This was early evidence for the expansion of the uuniverse. Learn more at the AstroInfo project in the KStars Handbook (Help->KStars Handbook).
+		</p>
+	</html>
+</tip>
+<tip category="KStars|Trivia">
+	<html>
+		<p>The best way to observe a faint object in the night-sky is to not look straight at it but look in the region around it! This technique, called "averted vision", works because of the way the rod cells, which are sensitive to dim light, are placed on the retina in our eyes.
 		</p>
 	</html>
 </tip>
