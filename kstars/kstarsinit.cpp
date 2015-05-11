@@ -382,10 +382,13 @@ void KStars::initActions() {
         << xi18n("Altitude vs. Time")
         << QKeySequence( Qt::CTRL+Qt::Key_A );
 
-
     actionCollection()->addAction("whats_up_tonight", this, SLOT( slotWUT() ) )
         << xi18n("What's up Tonight")
-        << QKeySequence(Qt::CTRL+Qt::Key_U );
+        << QKeySequence( Qt::CTRL+Qt::Key_U );
+
+    actionCollection()->addAction("skyguide", this, SLOT( slotSkyGuide() ) )
+        << xi18n("Sky Guide")
+        << QKeySequence( Qt::CTRL+Qt::Key_K );
 
     //FIXME Port to QML2
     #if 0

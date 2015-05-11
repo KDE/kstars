@@ -225,7 +225,6 @@ void KStars::slotViewToolBar() {
 }
 
 /** Major Dialog Window Actions **/
-
 void KStars::slotCalculator() {
     if( ! m_AstroCalc )
         m_AstroCalc = new AstroCalc (this);
@@ -331,6 +330,10 @@ void KStars::slotAVT() {
 void KStars::slotWUT() {
     if ( ! m_WUTDialog ) m_WUTDialog = new WUTDialog(this);
     m_WUTDialog->show();
+}
+
+void KStars::slotSkyGuide() {
+    // TODO(cardinot)
 }
 
 //FIXME Port to QML2

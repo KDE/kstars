@@ -466,6 +466,9 @@ private slots:
     /** action slot: open What's up tonight dialog */
     void slotWUT();
 
+    /** action slot: open Sky Guide */
+    void slotSkyGuide();
+
     //FIXME Port to QML2
     #if 0    
     /** action slot: open What's Interesting settings window */
