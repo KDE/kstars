@@ -228,10 +228,11 @@ ObservingList::~ObservingList()
 void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     bool addToWishList=true;
     if( ! obj )
-        obj = SkyMap::Instance()->clickedObject();
+        obj = SkyMap::Instance()->clickedObject(); // Eh? Why? Weird default behavior.
 
     if ( !obj ) {
-        qWarning() << "Trying to add null object to observing list!";
+        qWarning() << "Trying to add null object to observing list! Ignoring.";
+        return;
     }
 
     QString finalObjectName = getObjectName(obj);
@@ -779,13 +780,13 @@ void ObservingList::slotSaveList() {
     QFile f;
     f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << "Cannot write list to  file";
+        qDebug() << "Cannot write list to  file"; // TODO: This should be presented as a message box to the user
         return;
     }
     QTextStream ostream( &f );
     foreach ( SkyObject* o, obsList() ) {
         if ( !o ) {
-            qWarning() << "Null entry in observing wishlist!";
+            qWarning() << "Null entry in observing wishlist! Skipping!";
             continue;
         }
         if ( o->name() == "star" ) {

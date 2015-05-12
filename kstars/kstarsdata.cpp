@@ -342,7 +342,7 @@ void KStarsData::setLocation( const GeoLocation &l ) {
 
 SkyObject* KStarsData::objectNamed( const QString &name ) {
     if ( (name== "star") || (name== "nothing") || name.isEmpty() )
-        return NULL;
+        return 0;
     return skyComposite()->findByName( name );
 }
 

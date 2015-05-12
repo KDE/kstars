@@ -22,6 +22,7 @@
 #include <QStringList>
 #include <QSharedDataPointer>
 
+
 #include <KLocalizedString>
 
 #include "skypoint.h"

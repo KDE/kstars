@@ -367,7 +367,7 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 void SkyMap::slotCenter() {
     KStars* kstars = KStars::Instance();
     TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
-    
+
     setFocusPoint( clickedPoint() );
     if ( Options::useAltAz() )
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
