@@ -184,7 +184,7 @@ bool KStarsData::initialize() {
     return true;
 }
 
-void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
+void KStarsData::updateTime( GeoLocation *geo, const bool automaticDSTchange ) {
     // sync LTime with the simulation clock
     LTime = geo->UTtoLT( ut() );
     syncLST();
@@ -228,15 +228,9 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
     if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.1/Options::zoomFactor() || clock()->isManualMode() ) {
         LastSkyUpdate = ut();
         m_preUpdateID++;
-        skyComposite()->update(); //omit KSNumbers arg == just update Alt/Az coords
+        skyComposite()->update(); //omit KSNumbers arg == just update Alt/Az coords // <-- Eh? -- asimha. Looks like this behavior / ideology has changed drastically.
 
-        //Update focus
-        skymap->updateFocus();
-
-        if ( clock()->isManualMode() )
-            QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
-        else
-            skymap->forceUpdate();
+        emit skyUpdate( clock()->isManualMode() );
     }
 }
 

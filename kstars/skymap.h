@@ -305,6 +305,12 @@ public slots:
      */
     void forceUpdateNow() { forceUpdate( true ); }
 
+    /**
+     * @short Update the focus point and call forceUpdate()
+     * @param now is passed on to forceUpdate()
+     */
+    void slotUpdateSky( bool now );
+
     /** Toggle visibility of geo infobox */
     void slotToggleGeoBox(bool);
 
