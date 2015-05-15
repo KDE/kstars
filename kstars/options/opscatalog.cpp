@@ -150,9 +150,10 @@ void OpsCatalog::selectCatalog() {
 
 void OpsCatalog::slotAddCatalog() {
     QPointer<AddCatDialog> ac = new AddCatDialog( ksw );
-    if ( ac->exec()==QDialog::Accepted )
+    if ( ac->exec()==QDialog::Accepted ) {
         ksw->data()->catalogdb()->AddCatalogContents( ac->filename() );
         refreshCatalogList();
+    }
     delete ac;
 }
 
@@ -184,7 +185,7 @@ void OpsCatalog::slotRemoveCatalog() {
             KMessageBox::information(0, "Catalog deletion cancelled.");
             return;
     }
-    //Ask DB to remove catalog    
+    //Ask DB to remove catalog
     ksw->data()->catalogdb()->RemoveCatalog( CatalogList->currentItem()->text() );
 
     // Remove from Options if it exists in it (i.e. was marked as visible)
@@ -346,6 +347,3 @@ void OpsCatalog::populateCustomCatalogs() {
     }
 
 }
-
-
-

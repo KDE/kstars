@@ -233,7 +233,7 @@ signals:
     void progressText( const QString& );
 
     /** Should be used to refresh skymap. */
-    void update();
+    void skyUpdate( bool );
 
     /** If data changed, emit clearCache signal. */
     void clearCache();
@@ -246,14 +246,14 @@ public slots:
     void slotConsoleMessage( QString s ) { std::cout << (const char*)(s.toLocal8Bit()) << std::endl; }
 
     /**Update the Simulation Clock.  Update positions of Planets.  Update
-     * Alt/Az coordinates of objects.  Update precession.  Update Focus position.
-     * Draw new Skymap.
+     * Alt/Az coordinates of objects.  Update precession.
+     * emit the skyUpdate() signal so that SkyMap / whatever draws the sky can update itself
      *
      * This is ugly.
      * It _will_ change!
      * (JH:)hey, it's much less ugly now...can we lose the comment yet? :p
      */
-    void updateTime(GeoLocation *geo, SkyMap * skymap, const bool automaticDSTchange = true);
+    void updateTime(GeoLocation *geo, const bool automaticDSTchange = true);
 
     /**Sets the direction of time and stores it in bool TimeRunForwards. If scale >= 0
      * time is running forward else time runs backward. We need this to calculate just

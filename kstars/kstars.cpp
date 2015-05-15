@@ -345,10 +345,9 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     // Save options and geo() to a pointer would not speedup because most of time options
     // and geo will accessed only one time.
     KStarsData *Data = data();
-    SkyMap *Map = map();
     // dms oldLST( Data->lst()->Degrees() );
 
-    Data->updateTime( Data->geo(), Map, automaticDSTchange );
+    Data->updateTime( Data->geo(), automaticDSTchange );
 
     //We do this outside of kstarsdata just to get the coordinates
     //displayed in the infobox to update every second.
