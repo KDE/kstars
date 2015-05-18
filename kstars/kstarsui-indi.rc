@@ -67,6 +67,7 @@
 	</Menu>
 
                 <Action name="skycalendar" />
+		<Action name="skyguide" />
 		<Action name="moonphasetool" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
