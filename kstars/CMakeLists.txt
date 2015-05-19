@@ -1,6 +1,7 @@
 add_subdirectory( data )
 add_subdirectory( icons )
 add_subdirectory( htmesh )
+add_subdirectory( tools/skyguide )
 #FIXME Port to QML2
 #add_subdirectory( tools/whatsinteresting/qml)
 
