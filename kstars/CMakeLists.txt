@@ -170,6 +170,8 @@ set(libkstarstools_SRCS
 	tools/wutdialog.cpp
         tools/flagmanager.cpp
 
+	tools/skyguide/skyguidemgr.cpp
+
         #FIXME Port to QML2
         #tools/whatsinteresting/skyobjlistmodel.cpp
         #tools/whatsinteresting/wiview.cpp
