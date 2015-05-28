@@ -1021,6 +1021,7 @@ void KStarsData::syncFOV()
     Options::setFOVNames( all.intersect(names).toList() );
 }
 
+// FIXME: Why does KStarsData store the Execute instance??? -- asimha
 Execute* KStarsData::executeSession() {
     if( !m_Execute )
         m_Execute = new Execute();
@@ -1028,6 +1029,7 @@ Execute* KStarsData::executeSession() {
     return m_Execute;
 }
 
+// FIXME: Why does KStarsData store the ImageExporer instance??? KStarsData is supposed to work with no reference to KStars -- asimha
 ImageExporter * KStarsData::imageExporter()
 {
     if (!m_ImageExporter)
