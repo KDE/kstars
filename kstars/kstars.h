@@ -45,6 +45,7 @@ class WIEquipSettings;
 class ObsConditions;
 class AstroCalc;
 class SkyCalendar;
+class SkyGuideMgr;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
@@ -635,6 +636,8 @@ private:
     JMoonTool *m_JMoonTool;
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
+    SkyGuideMgr *m_SkyGuideMgr;
+    QDockWidget *m_skyGuideDock;
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

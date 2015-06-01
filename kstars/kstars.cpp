@@ -56,6 +56,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
       m_ExportImageDialog(0),  m_PrintingWizard(0), m_FindDialog(0),
       m_AstroCalc(0), m_AltVsTime(0), m_SkyCalendar(0), m_ScriptBuilder(0),
       m_PlanetViewer(0), m_WUTDialog(0), m_JMoonTool(0), m_MoonPhaseTool(0), m_FlagManager(0),
+      m_SkyGuideMgr(0), m_skyGuideDock(0),
       //FIXME Port to QML2
       #if 0
       m_WIView(0), m_ObsConditions(0), m_wiDock(0),
@@ -347,7 +348,6 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     // and geo will accessed only one time.
     KStarsData *Data = data();
     // dms oldLST( Data->lst()->Degrees() );
-
     Data->updateTime( Data->geo(), automaticDSTchange );
 
     //We do this outside of kstarsdata just to get the coordinates

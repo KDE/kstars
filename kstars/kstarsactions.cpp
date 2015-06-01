@@ -86,6 +86,7 @@
 #endif
 
 #include "tools/skycalendar.h"
+#include "tools/skyguide/skyguidemgr.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
@@ -333,7 +334,20 @@ void KStars::slotWUT() {
 }
 
 void KStars::slotSkyGuide() {
-    // TODO(cardinot)
+    if ( ! m_SkyGuideMgr ) m_SkyGuideMgr = new SkyGuideMgr();
+
+    if ( !m_skyGuideDock )
+    {
+        m_skyGuideDock = new QDockWidget(this);
+        m_skyGuideDock->setObjectName("Sky Guide");
+        m_skyGuideDock->setAllowedAreas(Qt::RightDockWidgetArea);
+
+        QWidget* container = m_SkyGuideMgr->getWindowContainer();
+        m_skyGuideDock->setWidget(container);
+        m_skyGuideDock->setMinimumWidth(container->width());
+        addDockWidget(Qt::RightDockWidgetArea, m_skyGuideDock);
+    }
+    m_skyGuideDock->setVisible(true);
 }
 
 //FIXME Port to QML2
