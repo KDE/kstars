@@ -18,6 +18,7 @@
 #ifndef SKYGUIDEMGR_H
 #define SKYGUIDEMGR_H
 
+#include <QDockWidget>
 #include <QQuickView>
 #include <QWidget>
 
@@ -29,11 +30,12 @@ public:
 
     virtual ~SkyGuideMgr();
 
-    inline QWidget* getWindowContainer() { return m_container; }
+    inline QDockWidget* getDock() { return m_dock; }
 
 private:
 
     QWidget* m_container;
+    QDockWidget* m_dock;
     QQuickView* m_view;
 };
 

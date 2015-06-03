@@ -29,6 +29,12 @@ SkyGuideMgr::SkyGuideMgr()
     m_container->setMinimumSize(400, 400);
     m_container->setMaximumSize(400, 400);
     m_container->setFocusPolicy(Qt::TabFocus);
+
+    m_dock = new QDockWidget();
+    m_dock->setObjectName("Sky Guide");
+    m_dock->setAllowedAreas(Qt::RightDockWidgetArea);
+    m_dock->setWidget(m_container);
+    m_dock->setMinimumWidth(m_container->width());
 }
 
 SkyGuideMgr::~SkyGuideMgr()

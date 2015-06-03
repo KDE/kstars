@@ -637,7 +637,6 @@ private:
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
     SkyGuideMgr *m_SkyGuideMgr;
-    QDockWidget *m_skyGuideDock;
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif
