@@ -25,8 +25,7 @@ set(HTMesh_LIB_SRCS
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 #TODO is there KF5_ENABLE_EXCEPTIONS?
-set (CMAKE_CXX_FLAGS "-fexceptions")
-#set (CMAKE_CXX_FLAGS "-fPIC") # If you wish to compile the HTMesh perl wrapper, uncomment this, rebuild and copy the library into /usr/lib/, because we will use it as a shared object. See README in th e perl wrapper directory (kstars/kstars/data/tools/HTMesh-*) for more details.
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
 
 add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
 
@@ -36,3 +35,7 @@ set_target_properties(htmesh PROPERTIES
     VERSION 1.0.0
     SOVERSION 1)
 install(TARGETS htmesh ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
+
+# If you wish to compile the HTMesh perl wrapper, uncomment this, rebuild and copy the library into /usr/lib/, because we will use it as a shared object. See README in the perl wrapper directory (kstars/kstars/data/tools/HTMesh-*) for more details.
+#set_property(TARGET htmesh PROPERTY POSITION_INDEPENDENT_CODE YES)
+
