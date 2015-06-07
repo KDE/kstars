@@ -48,9 +48,12 @@ Execute::Execute() {
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     QPushButton *execB = new QPushButton(xi18n("End Session"));
+    QPushButton *addObs = new QPushButton(xi18n("Manage Observers"));
     execB->setToolTip(xi18n("Save and End the current session"));
     buttonBox->addButton(execB, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(addObs, QDialogButtonBox::ActionRole);
     connect(execB, SIGNAL(clicked()), this, SLOT(slotEndSession()));
+    connect(addObs,SIGNAL(clicked()),this,SLOT(slotObserverAdd()));
 
     setWindowTitle( xi18n( "Execute Session" ) );
 
@@ -295,7 +298,7 @@ void Execute::slotEndSession() {
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
-        QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
+        QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
 
         if( fileURL.isEmpty() ) {
             // Cancel
@@ -323,6 +326,11 @@ void Execute::slotEndSession() {
     delete currentSession;
     currentTarget = NULL;
     currentSession = NULL;
+}
+void Execute::slotObserverAdd() {
+    QPointer<ObserverAdd> m_observerAdd = new ObserverAdd();
+    m_observerAdd->exec();
+    delete m_observerAdd;
 }
 
 void Execute::slotSetTarget( QString name ) {

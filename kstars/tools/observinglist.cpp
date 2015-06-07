@@ -696,7 +696,7 @@ void ObservingList::saveCurrentUserLog() {
 
 void ObservingList::slotOpenList()
 {
-    QUrl fileURL =QFileDialog::getOpenFileUrl(0, xi18n("Open Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
+    QUrl fileURL =QFileDialog::getOpenFileUrl(KStars::Instance(), xi18n("Open Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     QFile f;
 
     if ( fileURL.isValid() )
@@ -769,7 +769,7 @@ void ObservingList::saveCurrentList() {
 }
 
 void ObservingList::slotSaveSessionAs(bool nativeSave) {
-    QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
+    QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
         FileName = fileURL.path();
         slotSaveSession(nativeSave);
