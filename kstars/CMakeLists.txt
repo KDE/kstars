@@ -255,6 +255,7 @@ set(libkstarscomponents_SRCS
    skycomponents/catalogcomponent.cpp
    skycomponents/constellationboundarylines.cpp
    skycomponents/constellationlines.cpp
+   skycomponents/constellationsart.cpp
    skycomponents/constellationnamescomponent.cpp
    skycomponents/supernovaecomponent.cpp
    skycomponents/coordinategrid.cpp
