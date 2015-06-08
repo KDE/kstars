@@ -17,7 +17,7 @@
 
 #include "constellationlines.h"
 #include "linelist.h"
-
+#include "constellationsart.h"
 #include <QPen>
 
 #include <QDebug>
@@ -105,7 +105,7 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
                 qWarning() << xi18n( "Star HD%1 not found." , HDnum);
         }
     }
-
+    ConstellationsArt art(57);
     //Add the last clc component
     if( lineList )
         appendLine( lineList );
