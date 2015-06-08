@@ -1348,7 +1348,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 void Align::loadAndSlew(QUrl fileURL)
 {
     if (fileURL.isEmpty())
-    fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
+    fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), xi18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
 
     if (fileURL.isEmpty())
         return;

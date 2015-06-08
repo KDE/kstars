@@ -750,7 +750,7 @@ void ScriptBuilder::slotOpen() {
 
     if ( !UnsavedChanges )
     {
-        currentFileURL = QFileDialog::getOpenFileUrl(0, QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+        currentFileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
 
         if ( currentFileURL.isValid() )
         {
@@ -812,7 +812,7 @@ void ScriptBuilder::slotSave()
 
     bool newFilename = false;
     if ( currentFileURL.isEmpty() ) {
-        currentFileURL = QFileDialog::getSaveFileUrl(0, QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+        currentFileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
         newFilename = true;
     }
 
