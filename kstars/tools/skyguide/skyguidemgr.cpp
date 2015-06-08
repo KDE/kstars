@@ -24,6 +24,7 @@ SkyGuideMgr::SkyGuideMgr()
     m_view = new QQuickView();
     QString qmlViewPath = "tools/skyguide/qml/skyguideview.qml";
     m_view->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, qmlViewPath));
+    m_view->show();
 
     m_container = QWidget::createWindowContainer(m_view);
     m_container->setMinimumWidth(m_view->width());
