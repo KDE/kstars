@@ -338,7 +338,9 @@ void KStars::slotSkyGuide() {
         m_SkyGuideMgr = new SkyGuideMgr();
         addDockWidget(Qt::RightDockWidgetArea, m_SkyGuideMgr->getDock());
     }
-    m_SkyGuideMgr->getDock()->setVisible(true);
+    // toggle visibility
+    bool isVisible = m_SkyGuideMgr->getDock()->isVisible();
+    m_SkyGuideMgr->getDock()->setVisible(!isVisible);
 }
 
 //FIXME Port to QML2
