@@ -33,7 +33,7 @@ SkyGuideMgr::SkyGuideMgr()
 
     m_dock = new QDockWidget();
     m_dock->setObjectName("Sky Guide");
-    m_dock->setAllowedAreas(Qt::RightDockWidgetArea);
+    m_dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     m_dock->setWidget(m_container);
     m_dock->setMinimumWidth(m_view->width());
 }
