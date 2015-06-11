@@ -160,7 +160,7 @@ void OpsCatalog::slotAddCatalog() {
 
 void OpsCatalog::slotLoadCatalog() {
     //Get the filename from the user
-    QString filename = QFileDialog::getOpenFileName(0, QString(),  QDir::homePath(), "*");
+    QString filename = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QDir::homePath(), "*");
     if ( ! filename.isEmpty() ) {
         ksw->data()->catalogdb()->AddCatalogContents(filename);
         refreshCatalogList();

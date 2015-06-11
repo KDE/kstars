@@ -1237,24 +1237,24 @@ void Capture::checkSeqBoundary(const QString &path)
     //const KFileItemList::const_iterator end = items.end();
     QDirIterator it(path, QDir::Files);
     while (it.hasNext())
-    {
-        tempName = it.next();
-        tempName.remove(path + "/");
+        {
+            tempName = it.next();
+            tempName.remove(path + "/");
 
-        // find the prefix first
-        //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
-        if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
-            continue;
+            // find the prefix first
+            //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
+            if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
+                continue;
 
-        tempName = tempName.remove(seqPrefix);
-        if (tempName.startsWith("_"))
-            tempName = tempName.remove(0, 1);
+            tempName = tempName.remove(seqPrefix);
+            if (tempName.startsWith("_"))
+                tempName = tempName.remove(0, 1);
 
-        bool indexOK = false;
-        newFileIndex = tempName.mid(0, 2).toInt(&indexOK);
-        if (indexOK && newFileIndex >= seqCount)
-            seqCount = newFileIndex + 1;
-    }
+            bool indexOK = false;
+            newFileIndex = tempName.mid(0, 3).toInt(&indexOK);
+            if (indexOK && newFileIndex >= seqCount)
+                seqCount = newFileIndex + 1;
+        }
 
     currentCCD->setSeqCount(seqCount);
 
@@ -1837,7 +1837,7 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(0, xi18n("FITS Save Directory"), fitsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), xi18n("FITS Save Directory"), fitsDir->text());
 
     if (!dir.isEmpty())
         fitsDir->setText(dir);
@@ -1845,7 +1845,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileName(0, xi18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+    QUrl fileURL = QFileDialog::getOpenFileName(KStars::Instance(), xi18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
 
