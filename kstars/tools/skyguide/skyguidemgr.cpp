@@ -22,7 +22,7 @@
 SkyGuideMgr::SkyGuideMgr()
 {
     m_view = new QQuickView();
-    QString qmlViewPath = "tools/skyguide/qml/skyguideview.qml";
+    QString qmlViewPath = "tools/skyguide/resources/skyguideview.qml";
     m_view->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, qmlViewPath));
     m_view->show();
 

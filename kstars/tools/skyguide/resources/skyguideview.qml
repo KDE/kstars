@@ -1,6 +1,7 @@
 import QtQuick 2.2
 
 Rectangle {
+    id: window
     property alias mouseArea: mouseArea
     x: 0
     y: 0
