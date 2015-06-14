@@ -1,0 +1,19 @@
+{
+  "header":
+  {
+    "title": "Sample",
+    "description": "This is just an example!",
+    "language": "english",
+    "creationDate": "2015-06-13",
+    "version": 1,
+    "author": "Marcos Cardinot",
+    "contact": "mcardinot@gmail.com"
+  },
+  "1":
+  {
+    "title": "First Slide",
+    "image": "example.png",
+    "content": "This image shows something to us!",
+    "content": "centerPoint"
+  }
+}
