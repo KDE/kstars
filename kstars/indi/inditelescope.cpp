@@ -431,7 +431,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             RAEle->value = currentRA;
             DecEle->value = currentDEC;
         }
-        if (HorProp)
+        // Only send Horizontal Coord property if Equatorial is not available.
+        else if (HorProp)
         {
             AzEle->value  = ScopeTarget->az().Degrees();
             AltEle->value = ScopeTarget->alt().Degrees();
