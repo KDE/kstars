@@ -14,6 +14,6 @@
     "title": "First Slide",
     "image": "example.png",
     "content": "This image shows something to us!",
-    "content": "centerPoint"
+    "centerPoint": "Earth"
   }
 }
