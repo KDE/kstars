@@ -6,8 +6,13 @@
     "language": "english",
     "creationDate": "2015-06-13",
     "version": 1,
-    "author": "Marcos Cardinot",
-    "contact": "mcardinot@gmail.com"
+    "authors":
+    [
+      {
+        "name": "Marcos Cardinot",
+        "email": "mcardinot@gmail.com"
+      }
+    ]
   },
   "1":
   {
