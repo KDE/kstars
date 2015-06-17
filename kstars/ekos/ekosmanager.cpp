@@ -768,17 +768,17 @@ bool EkosManager::start()
             // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
             // For #2, we set guider_di to NULL and we prompt the user to select which device is primary ccd and which is guider
             // since this is the only way to find out in real time.
-            if (guider_di == ccd_di)
+            if (guider_di->getDriver() == ccd_di->getDriver())
             {
                 if (guider_di->getAuxInfo().value("mdpd", false).toBool() == true)
                     guider_di = NULL;
                 else
                 {
-                    QVariantMap vMap = guider_di->getAuxInfo();
-                    vMap.insert("DELETE", 1);
-                    guider_di = new DriverInfo(ccd_di);
+                    //QVariantMap vMap = guider_di->getAuxInfo();
+                    //vMap.insert("DELETE", 1);
+                    //guider_di = new DriverInfo(ccd_di);
                     guider_di->setUniqueLabel(guider_di->getTreeLabel() + " Guide");
-                    guider_di->setAuxInfo(vMap);
+                    //guider_di->setAuxInfo(vMap);
                 }
             }
         }
@@ -1151,14 +1151,14 @@ void EkosManager::cleanDevices()
     if (localMode)
     {
         DriverManager::Instance()->stopDevices(managedDevices);
-        if (guider_di)
+        /*if (guider_di)
         {
             if (guider_di->getAuxInfo().value("DELETE") == 1)
             {
                 delete(guider_di);
                 guider_di=NULL;
             }
-        }
+        }*/
     }
     else if (remote_indi)
     {
