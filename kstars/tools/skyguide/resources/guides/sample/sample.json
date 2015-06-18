@@ -14,11 +14,13 @@
       }
     ]
   },
-  "1":
-  {
-    "title": "First Slide",
-    "image": "example.png",
-    "content": "This image shows something to us!",
-    "centerPoint": "Earth"
-  }
+  "slides":
+  [
+    {
+      "title": "First Slide",
+      "image": "example.png",
+      "content": "This image shows something to us!",
+      "centerPoint": "Earth"
+    }
+  ]
 }
