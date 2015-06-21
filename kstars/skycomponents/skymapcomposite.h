@@ -48,10 +48,12 @@ class TargetListComponent;
 class TargetListComponent;
 class SatellitesComponent;
 class SupernovaeComponent;
+class ConstArtComponent;
 
 class DeepSkyObject;
 class KSPlanetBase;
 class KSPlanet;
+class ConstellationsArt;
 
 /** @class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
@@ -164,6 +166,7 @@ public:
     void reloadComets();
     void reloadCLines();
     void reloadCNames();
+    void reloadConstArt();
 
     FlagComponent* flags();
     SatellitesComponent* satellites();
@@ -206,6 +209,7 @@ private:
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;
+    ConstArtComponent           *m_ConstArt;
     EquatorialCoordinateGrid    *m_EquatorialCoordinateGrid;
     HorizontalCoordinateGrid    *m_HorizontalCoordinateGrid;
     DeepSkyComponent            *m_DeepSky;

@@ -17,7 +17,6 @@
 
 #include "constellationlines.h"
 #include "linelist.h"
-#include "constellationsart.h"
 #include <QPen>
 
 #include <QDebug>
@@ -33,7 +32,6 @@
 
 #include "skymesh.h"
 #include "ksfilereader.h"
-
 #include "skypainter.h"
 
 
@@ -105,7 +103,6 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
                 qWarning() << xi18n( "Star HD%1 not found." , HDnum);
         }
     }
-    ConstellationsArt art(57);
     //Add the last clc component
     if( lineList )
         appendLine( lineList );
@@ -113,7 +110,6 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
     m_reindexInterval = StarObject::reindexInterval( maxPM );
     //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
     //printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
-
     summary();
 }
 

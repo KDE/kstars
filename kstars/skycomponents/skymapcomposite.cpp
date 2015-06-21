@@ -26,6 +26,7 @@
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanet.h"
+#include "constellationsart.h"
 
 #include "targetlistcomponent.h"
 #include "constellationboundarylines.h"
@@ -46,6 +47,7 @@
 #include "flagcomponent.h"
 #include "satellitescomponent.h"
 #include "supernovaecomponent.h"
+#include "constartcomponent.h"
 
 
 #include "skymesh.h"
@@ -84,6 +86,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
+    addComponent(m_ConstArt    = new ConstArtComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
@@ -237,6 +240,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_Ecliptic->draw( skyp );
 
     m_DeepSky->draw( skyp );
+    m_ConstArt->draw( skyp );
 
     m_CustomCatalogs->draw( skyp );
 
@@ -509,6 +513,13 @@ void SkyMapComposite::reloadCNames( ) {
     objectNames(SkyObject::CONSTELLATION).clear();
     delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
+}
+
+void SkyMapComposite::reloadConstArt(){
+    Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+    SkyMapDrawAbstract::setDrawLock( true );
+    delete m_ConstArt;
+    m_ConstArt = new ConstArtComponent( this );
 }
 
 void SkyMapComposite::reloadDeepSky() {

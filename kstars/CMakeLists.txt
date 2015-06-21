@@ -253,9 +253,9 @@ set(libkstarscomponents_SRCS
    skycomponents/deepstarcomponent.cpp
    skycomponents/deepskycomponent.cpp
    skycomponents/catalogcomponent.cpp
+   skycomponents/constartcomponent.cpp
    skycomponents/constellationboundarylines.cpp
    skycomponents/constellationlines.cpp
-   skycomponents/constellationsart.cpp
    skycomponents/constellationnamescomponent.cpp
    skycomponents/supernovaecomponent.cpp
    skycomponents/coordinategrid.cpp
@@ -323,6 +323,7 @@ set(kstars_optionsui_SRCS
 )
 
 set(kstars_skyobjects_SRCS
+  skyobjects/constellationsart.cpp
   skyobjects/deepskyobject.cpp
   skyobjects/jupitermoons.cpp
   skyobjects/planetmoons.cpp
