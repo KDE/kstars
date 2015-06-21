@@ -419,6 +419,15 @@ Capture::Capture()
     meridianHours->setValue(Options::autoMeridianHours());
     temperatureCheck->setChecked(Options::enforceTemperatureControl());
     ADUValue->setValue(Options::aDUValue());
+
+    connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(HFRPixels, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
+    connect(guideDeviationCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(guideDeviation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
+    connect(meridianCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(meridianHours, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
+    connect(parkCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+
 }
 
 Capture::~Capture()
@@ -1892,12 +1901,42 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
         {
              for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
              {
-                 if (!strcmp(tagXMLEle(ep), "Park"))
+                 if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                  {
-                     if (parkCheck->isEnabled() == false)
-                         continue;
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                      {
+                         guideDeviationCheck->setChecked(true);
+                         guideDeviation->setValue(atof(pcdataXMLEle(ep)));
+                      }
+                     else
+                         guideDeviationCheck->setChecked(false);
 
-                     if (!strcmp(pcdataXMLEle(ep), "1"))
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
+                 {
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                      {
+                         autofocusCheck->setChecked(true);
+                         HFRPixels->setValue(atof(pcdataXMLEle(ep)));
+                      }
+                     else
+                         autofocusCheck->setChecked(false);
+
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
+                 {
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                      {
+                         meridianCheck->setChecked(true);
+                         meridianHours->setValue(atof(pcdataXMLEle(ep)));
+                      }
+                     else
+                         meridianCheck->setChecked(false);
+
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "Park"))
+                 {
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
                          parkCheck->setChecked(true);
                      else
                          parkCheck->setChecked(false);
@@ -2045,7 +2084,7 @@ void Capture::saveSequenceQueue()
 
     if (sequenceURL.isEmpty())
     {
-        sequenceURL = QFileDialog::getSaveFileName(0, xi18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+        sequenceURL = QFileDialog::getSaveFileName(KStars::Instance(), xi18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (sequenceURL.isEmpty())
         {
@@ -2071,7 +2110,7 @@ void Capture::saveSequenceQueue()
     {
         if ( (saveSequenceQueue(sequenceURL.path())) == false)
         {
-            KMessageBox::error(0, xi18n("Failed to save sequence queue"), xi18n("FITS Save"));
+            KMessageBox::error(KStars::Instance(), xi18n("Failed to save sequence queue"), xi18n("FITS Save"));
             return;
         }
 
@@ -2080,7 +2119,7 @@ void Capture::saveSequenceQueue()
     } else
     {
         QString message = xi18n( "Invalid URL: %1", sequenceURL.url() );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
+        KMessageBox::sorry(KStars::Instance(), message, xi18n( "Invalid URL" ) );
     }
 
 }
@@ -2109,8 +2148,11 @@ bool Capture::saveSequenceQueue(const QString &path)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue>" << endl;
-    outstream << "<Park>" << (parkCheck->isChecked() ? 1 : 0) << "</Park>" << endl;
+    outstream << "<SequenceQueue version='1.1'>" << endl;
+    outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
+    outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
+    outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;
+    outstream << "<Park enabled='" << (parkCheck->isChecked() ? "true" : "false") << "'></Park>" << endl;
     foreach(SequenceJob *job, jobs)
     {
         job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
@@ -2590,6 +2632,11 @@ double Capture::setCurrentADU(double value)
 
     return nextExposure;
 
+}
+
+void Capture::setDirty()
+{
+    mDirty = true;
 }
 
 
