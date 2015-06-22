@@ -1,5 +1,5 @@
 /***************************************************************************
-                          constartcomponent.h  -  K Desktop Planetarium
+                          ConstellationArtComponent.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2015-05-27
     copyright            : (C) 2015 by M.S.Adityan
@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTARTCOMPONENT_H
-#define CONSTARTCOMPONENT_H
+#ifndef ConstellationArtComponent_H
+#define ConstellationArtComponent_H
 
-#include "constellationsart.h"
+#include "kstars/skyobjects/constellationsart.h"
 #include "skycomponent.h"
 #include <QImage>
 
@@ -28,16 +28,17 @@ class SkyMap;
 class SkyPoint;
 class SkyMesh;
 class QImage;
+class QPainter;
 
-class ConstArtComponent : public SkyComponent
+class ConstellationArtComponent : public SkyComponent
 {
 public:
 
     //Constructor
-    explicit ConstArtComponent ( SkyComposite* );
+    explicit ConstellationArtComponent ( SkyComposite* );
 
     //Destructor
-    ~ConstArtComponent();
+    ~ConstellationArtComponent();
 
     /*Read the file constellationsart.txt
     This catalog has the following columns.
@@ -53,7 +54,7 @@ public:
 
 private:
 
-    void drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawImage = true);
+    void drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawFlag = true);
 };
 
-#endif // CONSTARTCOMPONENT_H
+#endif // ConstellationArtComponent_H

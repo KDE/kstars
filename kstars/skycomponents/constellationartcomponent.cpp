@@ -1,5 +1,5 @@
 /***************************************************************************
-                          constartcomponent.cpp  -  K Desktop Planetarium
+                          ConstellationArtComponent.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2015-05-27
     copyright            : (C) 2015 by M.S.Adityan
@@ -15,22 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "constartcomponent.h"
+#include "ConstellationArtComponent.h"
 #include "kstars/auxiliary/ksfilereader.h"
+#include "kstars/skymap.h"
+#include "kstars/projections/projector.h"
 
-ConstArtComponent::ConstArtComponent( SkyComposite *parent ):SkyComponent(parent)
+ConstellationArtComponent::ConstellationArtComponent( SkyComposite *parent ):SkyComponent(parent)
 {
     loadData();
 }
 
-ConstArtComponent::~ConstArtComponent()
+ConstellationArtComponent::~ConstellationArtComponent()
 {    while( !m_ConstList.isEmpty() ) {
         ConstellationsArt *o = m_ConstList.takeFirst();
         delete o;
     }
 }
 
-void ConstArtComponent::loadData(){
+void ConstellationArtComponent::loadData(){
 
     int i = 0;
 
@@ -86,7 +88,7 @@ void ConstArtComponent::loadData(){
         }
 }
 
-void ConstArtComponent::showList()
+void ConstellationArtComponent::showList()
 {
     int i = 0;
     for(i = 0; i < m_ConstList.size(); i++)
@@ -99,7 +101,7 @@ void ConstArtComponent::showList()
     }
 }
 
-void ConstArtComponent::draw(SkyPainter *skyp){
+void ConstellationArtComponent::draw(SkyPainter *skyp){
 
     int i = 0;
     //Loops through the QList containing all data required to draw western constellations.
@@ -109,9 +111,10 @@ void ConstArtComponent::draw(SkyPainter *skyp){
     }
 }
 
-void ConstArtComponent::drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawImage)
+
+void ConstellationArtComponent::drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawFlag)
 {
-    if(drawImage==false) return;
+    if(drawFlag==false) return;
 
     SkyMap *map = SkyMap::Instance();
     const Projector *proj = map->projector();
@@ -127,12 +130,11 @@ void ConstArtComponent::drawConstArtImage(SkyPainter *skyp, ConstellationsArt *o
         int w = obj->imageWidth();
         int h = obj->imageHeight();
 
-        QImage::save();
-
+        QPainter::save();
         //How do I define position to translate?
-        QImage::translate(pos);
-        QImage::drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
-        QImage::restore();
+        QPainter::translate(pos);
+        QPainter::drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
+        QPainter::restore();
 
     }
 }

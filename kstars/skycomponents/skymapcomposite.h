@@ -48,7 +48,7 @@ class TargetListComponent;
 class TargetListComponent;
 class SatellitesComponent;
 class SupernovaeComponent;
-class ConstArtComponent;
+class ConstellationArtComponent;
 
 class DeepSkyObject;
 class KSPlanetBase;
@@ -209,7 +209,7 @@ private:
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;
-    ConstArtComponent           *m_ConstArt;
+    ConstellationArtComponent   *m_ConstArt;
     EquatorialCoordinateGrid    *m_EquatorialCoordinateGrid;
     HorizontalCoordinateGrid    *m_HorizontalCoordinateGrid;
     DeepSkyComponent            *m_DeepSky;

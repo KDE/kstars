@@ -47,7 +47,7 @@
 #include "flagcomponent.h"
 #include "satellitescomponent.h"
 #include "supernovaecomponent.h"
-#include "constartcomponent.h"
+#include "ConstellationArtComponent.h"
 
 
 #include "skymesh.h"
@@ -86,7 +86,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
-    addComponent(m_ConstArt    = new ConstArtComponent( this ));
+    addComponent(m_ConstArt    = new ConstellationArtComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
@@ -229,7 +229,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_EquatorialCoordinateGrid->draw( skyp );
     m_HorizontalCoordinateGrid->draw( skyp );
 
-    // Draw constellation boundary lines only if we draw western constellations
+    //Draw constellation boundary lines only if we draw western constellations
     if ( m_Cultures->current() == "Western" )
         m_CBoundLines->draw( skyp );
 
@@ -519,7 +519,7 @@ void SkyMapComposite::reloadConstArt(){
     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
     SkyMapDrawAbstract::setDrawLock( true );
     delete m_ConstArt;
-    m_ConstArt = new ConstArtComponent( this );
+    m_ConstArt = new ConstellationArtComponent( this );
 }
 
 void SkyMapComposite::reloadDeepSky() {

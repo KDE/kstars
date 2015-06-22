@@ -25,7 +25,7 @@
 #include "culturelist.h"
 #include "kstars/skypainter.h"
 #include "kstars/skyobjects/skyobject.h"
-#include "constartcomponent.h"
+#include "ConstellationArtComponent.h"
 
 class QImage;
 
@@ -36,7 +36,7 @@ class QImage;
 
 class ConstellationsArt: public SkyObject{
 
-    friend class ConstArtComponent;
+    friend class ConstellationArtComponent;
 
 private:
     QString abbrev, imageFileName;
@@ -107,7 +107,7 @@ public:
     inline int gethd3() const { return hd3; }
 
     //UpdateID which would be compared with the global updateID to know when to redraw a skyobject in a draw cycle
-    quint64 updateID;
+    static quint64 updateID;
 };
 
 #endif // CONSTELLATIONSART_H
