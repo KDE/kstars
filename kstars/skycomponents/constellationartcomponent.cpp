@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ConstellationArtComponent.h"
+#include "constellationartcomponent.h"
 #include "kstars/auxiliary/ksfilereader.h"
 #include "kstars/skymap.h"
 #include "kstars/projections/projector.h"
@@ -46,6 +46,8 @@ void ConstellationArtComponent::loadData(){
 
     while ( fileReader.hasMoreLines() ) {
         QString line;
+        int rah1,ram1,ras1,dd1,dm1,ds1,rah2,ram2,ras2,dd2,dm2,ds2;
+        QChar sign1,sign2;
 
         line = fileReader.readLine();
         if( line.isEmpty() )
@@ -68,23 +70,48 @@ void ConstellationArtComponent::loadData(){
         m_ConstList[i]->y2 = line.mid( 22, 3 ).trimmed().toInt();
         m_ConstList[i]->hd2 = line.mid( 26, 6 ).trimmed().toInt();
 
-        //Read pixel coordinates and HD number of star 3
-        m_ConstList[i]->x3 = line.mid( 33, 3 ).trimmed().toInt();
-        m_ConstList[i]->y3 = line.mid( 37, 3 ).trimmed().toInt();
-        m_ConstList[i]->hd3 = line.mid( 41, 6 ).trimmed().toInt();
+        //Read J2000 coordinates of Star 1
+        rah1 = line.mid(33,2).trimmed().toInt();
+        ram1 = line.mid(35,2).trimmed().toInt();
+        ras1 = line.mid(37,2).trimmed().toInt();
+        sign1 = line.at(39);
+        dd1 = line.mid(40,2).trimmed().toInt();
+        dm1 = line.mid(42,2).trimmed().toInt();
+        ds1 = line.mid(44,2).trimmed().toInt();
+
+        //Read J2000 coordinates of Star 2
+        rah2 = line.mid(47,2).trimmed().toInt();
+        ram2 = line.mid(49,2).trimmed().toInt();
+        ras2 = line.mid(51,2).trimmed().toInt();
+        sign2 = line.at(53);
+        dd2 = line.mid(54,2).trimmed().toInt();
+        dm2 = line.mid(56,2).trimmed().toInt();
+        ds2 = line.mid(58,2).trimmed().toInt();
+
+        m_ConstList[i]->ra1.setH(rah1,ram1,ras1);
+        m_ConstList[i]->ra2.setH(rah2,ram2,ras2);
+        m_ConstList[i]->dec1 = dms(dd1,dm1,ds1);
+        m_ConstList[i]->dec2 = dms(dd2,dm2,ds2);
+
+        if ( sign1 == '-' )
+            m_ConstList[i]->dec1.setD( -1.0*m_ConstList[i]->dec1.Degrees() );
+
+        if ( sign2 == '-' )
+            m_ConstList[i]->dec2.setD( -1.0*m_ConstList[i]->dec2.Degrees() );
+
+        m_ConstList[i]->star1->setRA0(m_ConstList[i]->ra1);
+        m_ConstList[i]->star2->setRA0(m_ConstList[i]->ra2);
+        m_ConstList[i]->star1->setDec0(m_ConstList[i]->dec1);
+        m_ConstList[i]->star2->setDec0(m_ConstList[i]->dec2);
 
         //Read abbreviation and image file name
-        m_ConstList[i]->abbrev = line.mid( 48, 3 );
-        m_ConstList[i]->imageFileName  = line.mid( 52 ).trimmed();
+        m_ConstList[i]->abbrev = line.mid( 61, 3 );
+        m_ConstList[i]->imageFileName  = line.mid( 65 ).trimmed();
 
         //Make a QImage object pointing to constellation image
         m_ConstList[i]->constart_image = QImage(m_ConstList[i]->imageFileName,0);
         i++;
 
-        //qDebug()<<i;
-
-        //qDebug()<< "Serial number:"<<rank<<"x1:"<<x1<<"y1:"<<y1<<"HD1:"<<hd1<<"x2:"<<x2<<"y2:"<<y2<<"HD2:"<<hd2<<"x3:"<<x3<<"y3:"<<y3<<"HD3:"<<hd3<<"abbreviation:"<<abbrev<<"name"<<imageFileName;
-        //testing to see if the file opens and outputs the data
         }
 }
 
@@ -96,8 +123,6 @@ void ConstellationArtComponent::showList()
         qDebug()<<m_ConstList[i]->rank<<m_ConstList[i]->getAbbrev()<<m_ConstList[i]->getImageFileName();
         qDebug()<<m_ConstList[i]->getx1()<<m_ConstList[i]->gety1()<<m_ConstList[i]->gethd1();
         qDebug()<<m_ConstList[i]->getx2()<<m_ConstList[i]->gety2()<<m_ConstList[i]->gethd2();
-        qDebug()<<m_ConstList[i]->getx3()<<m_ConstList[i]->gety3()<<m_ConstList[i]->gethd3();
-
     }
 }
 
@@ -117,24 +142,31 @@ void ConstellationArtComponent::drawConstArtImage(SkyPainter *skyp, Constellatio
     if(drawFlag==false) return;
 
     SkyMap *map = SkyMap::Instance();
-    const Projector *proj = map->projector();
+    //const Projector *proj = map->projector();
 
     KStarsData *data = KStarsData::Instance();
-    UpdateID updateID = data->updateID();
+    //UpdateID updateID = data->updateID();
 
     skyp->setBrush( Qt::NoBrush );
 
-    if ( obj->updateID != updateID ) {
-        obj->updateID = updateID;
+    //if ( obj->updateID != updateID ) {
+        //obj->updateID = updateID;
 
         int w = obj->imageWidth();
         int h = obj->imageHeight();
 
-        QPainter::save();
-        //How do I define position to translate?
-        QPainter::translate(pos);
-        QPainter::drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
-        QPainter::restore();
+        QPointF position1,position2;
+        SkyPoint s1 = obj->getStar1();
+        SkyPoint s2 = obj->getStar2();
 
-    }
+        position1 = map->projector()->toScreen(&s1);
+        position2 = map->projector()->toScreen(&s2);
+
+        QPainter painter;
+        painter.save();
+        //How do I define position to translate?
+        painter.translate(position1);
+        painter.drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
+        painter.restore();
+
 }

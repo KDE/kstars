@@ -31,13 +31,10 @@ ConstellationsArt::ConstellationsArt(const ConstellationsArt &o){
 
     x1 = o.getx1();
     x2 = o.getx2();
-    x3 = o.getx3();
     y1 = o.gety1();
     y2 = o.gety2();
-    y3 = o.gety3();
     hd1 = o.gethd1();
     hd2 = o.gethd2();
-    hd3 = o.gethd3();
     abbrev = o.getAbbrev();
     imageFileName = o.getImageFileName();
     constart_image = o.image();

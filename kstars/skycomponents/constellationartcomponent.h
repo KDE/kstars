@@ -21,13 +21,16 @@
 #include "kstars/skyobjects/constellationsart.h"
 #include "skycomponent.h"
 #include <QImage>
-
+#include "kstars/auxiliary/dms.h"
 class ConstellationsArt;
 class QColor;
 class SkyMap;
 class SkyPoint;
 class SkyMesh;
 class QImage;
+class QPainter;
+class dms;
+class Projector;
 class QPainter;
 
 class ConstellationArtComponent : public SkyComponent
@@ -50,7 +53,8 @@ public:
 
     virtual void draw( SkyPainter *skyp );
 
-    QList<ConstellationsArt*> m_ConstList;
+    QVector<ConstellationsArt*> m_ConstList;
+
 
 private:
 

@@ -25,9 +25,13 @@
 #include "culturelist.h"
 #include "kstars/skypainter.h"
 #include "kstars/skyobjects/skyobject.h"
-#include "ConstellationArtComponent.h"
+#include "kstars/skycomponents/constellationartcomponent.h"
+#include "skypoint.h"
+#include "kstars/auxiliary/dms.h"
 
 class QImage;
+class SkyPoint;
+class dms;
 
 /** @class ConstellationsArt
  * @short Represents images for sky cultures
@@ -40,8 +44,11 @@ class ConstellationsArt: public SkyObject{
 
 private:
     QString abbrev, imageFileName;
-    int x1,y1,x2,y2,x3,y3,hd1,hd2,hd3,rank;
+    int x1,y1,x2,y2,hd1,hd2,rank;
     QImage constart_image;
+    SkyPoint *star1;
+    SkyPoint *star2;
+    dms ra1,dec1,ra2,dec2;
 
 public:
 
@@ -60,6 +67,12 @@ public:
 
     //Destructor
     virtual ~ConstellationsArt();
+
+    //Return Star 1 skypoint
+    SkyPoint getStar1(){return *star1;}
+
+    //Return Star 2 skypoint
+    SkyPoint getStar2(){return *star2;}
 
     /** @return an object's image */
     const QImage& image() const { return constart_image; }
@@ -91,23 +104,14 @@ public:
    /** @return an object's y2 */
     inline int gety2() const { return y2; }
 
-   /** @return an object's x3 */
-    inline int getx3() const { return x3; }
-
-   /** @return an object's y3 */
-    inline int gety3() const { return y3; }
-
    /** @return an object's hd1 */
     inline int gethd1() const { return hd1; }
 
    /** @return an object's hd2 */
     inline int gethd2() const { return hd2; }
 
-   /** @return an object's hd3 */
-    inline int gethd3() const { return hd3; }
-
     //UpdateID which would be compared with the global updateID to know when to redraw a skyobject in a draw cycle
-    static quint64 updateID;
+    //static quint64 updateID;
 };
 
 #endif // CONSTELLATIONSART_H
