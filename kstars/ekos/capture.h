@@ -336,6 +336,7 @@ public slots:
     void checkPreview(bool enable);
     void updateCCDTemperature(double value);
     void setTemperature();
+    void setDirty();
 
     void checkFrameType(int index);
     void updateAutofocusStatus(bool status, double HFR);
