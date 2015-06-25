@@ -137,10 +137,10 @@ endif ( XPLANET_FOUND )
 
 ########### next target ###############
 set(libkstarstools_SRCS
-	tools/altvstime.cpp	
+	tools/altvstime.cpp
 	tools/avtplotwidget.cpp
 	tools/calendarwidget.cpp
-	tools/conjunctions.cpp	
+	tools/conjunctions.cpp
 	tools/jmoontool.cpp
 	tools/ksconjunct.cpp
         tools/eqplotwidget.cpp
@@ -171,6 +171,7 @@ set(libkstarstools_SRCS
         tools/flagmanager.cpp
 
 	tools/skyguide/skyguidemgr.cpp
+	tools/skyguide/skyguideobject.cpp
 
         #FIXME Port to QML2
         #tools/whatsinteresting/skyobjlistmodel.cpp
@@ -420,7 +421,7 @@ set(kstars_extra_SRCS
         skymapevents.cpp
         skypainter.cpp
         skyqpainter.cpp
-	texturemanager.cpp		
+	texturemanager.cpp
 )
 
 set(oal_SRCS
