@@ -25,4 +25,16 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
     m_language = map.value("language").toString();
     m_creationDate = map.value("creationDate").toDate();
     m_version = map.value("version").toInt();
+
+    // authors
+    if (map.contains("authors")) {
+        foreach (const QVariant& author, map.value("authors").toList()) {
+            QVariantMap amap = author.toMap();
+            Author a;
+            a.name = amap.value("name").toString();
+            a.email = amap.value("email").toString();
+            a.url = amap.value("url").toString();
+            m_authors.append(a);
+        }
+    }
 }

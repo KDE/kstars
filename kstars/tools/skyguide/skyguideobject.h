@@ -27,6 +27,13 @@ class SkyGuideObject : public QObject
   Q_OBJECT
 
 public:
+    typedef struct
+    {
+        QString name;
+        QString email;
+        QString url;
+    } Author;
+
     SkyGuideObject(const QVariantMap &map);
 
     QString title() const;
@@ -38,6 +45,7 @@ private:
     QString m_language;
     QDate m_creationDate;
     int m_version;
+    QList<Author> m_authors;
 };
 
 #endif // SKYGUIDEOBJECT_H
