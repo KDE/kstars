@@ -1,7 +1,10 @@
 ########### install files ###############
 
-install( FILES kstars.png geomap.png 
+install( FILES
+    kstars.png
+    geomap.png
     citydb.sqlite
+    skycultures/skycultures.sqlite
     stars.dat
     starnames.dat namedstars.dat unnamedstars.dat
     Henry-Draper.idx

@@ -40,15 +40,12 @@ class dms;
 
 class ConstellationsArt: public SkyObject{
 
-    friend class ConstellationArtComponent;
-
 private:
     QString abbrev, imageFileName;
-    int x1,y1,x2,y2,hd1,hd2,rank;
+    int x1,y1,x2,y2,hd1,hd2;
     QImage constart_image;
-    SkyPoint *star1;
-    SkyPoint *star2;
-    dms ra1,dec1,ra2,dec2;
+    SkyPoint* star1;
+    SkyPoint* star2;
 
 public:
 
@@ -58,7 +55,7 @@ public:
      *@param serial Serial number from constellationsart.txt
      *@param n Primary name
      */
-    explicit ConstellationsArt(int t=SkyObject::CONSTELLATION, int serial=0, const QString &n=QString());
+    explicit ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2,int Y2,dms ra2,dms dec2,QString abbreviation,QString filename);
 
     /** @short Copy constructor.
      *  @param o SkyObject from which to copy data
@@ -66,7 +63,7 @@ public:
     ConstellationsArt (const ConstellationsArt &o );
 
     //Destructor
-    virtual ~ConstellationsArt();
+     ~ConstellationsArt();
 
     //Return Star 1 skypoint
     SkyPoint getStar1(){return *star1;}

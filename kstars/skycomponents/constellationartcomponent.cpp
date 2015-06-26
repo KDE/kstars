@@ -34,85 +34,57 @@ ConstellationArtComponent::~ConstellationArtComponent()
 
 void ConstellationArtComponent::loadData(){
 
-    int i = 0;
+        int i = 0;
 
-    // Find constellation art file and open it. If it doesn't exist, output an error message.
-    KSFileReader fileReader;
-    if ( ! fileReader.open("constellationsart.txt" ) )
-    {
-        qDebug() << "No constellationsart.txt file found for sky culture";
-        return;
-    }
+        QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
+        QString dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, "skycultures.sqlite");
 
-    while ( fileReader.hasMoreLines() ) {
-        QString line;
-        int rah1,ram1,ras1,dd1,dm1,ds1,rah2,ram2,ras2,dd2,dm2,ds2;
-        QChar sign1,sign2;
-
-        line = fileReader.readLine();
-        if( line.isEmpty() )
-            continue;
-        QChar mode = line.at( 0 );
-        //ignore lines beginning with "#":
-        if( mode == '#' )
-            continue;
-
-        //reads the first column from constellationart.txt
-        m_ConstList[i]->rank = line.mid(0,2).trimmed().toInt();
-
-        //Read pixel coordinates and HD number of star 1
-        m_ConstList[i]->x1 = line.mid( 3, 3 ).trimmed().toInt();
-        m_ConstList[i]->y1 = line.mid( 7, 3 ).trimmed().toInt();
-        m_ConstList[i]->hd1 = line.mid( 11, 6 ).trimmed().toInt();
-
-        //Read pixel coordinates and HD number of star 2
-        m_ConstList[i]->x2 = line.mid( 18, 3 ).trimmed().toInt();
-        m_ConstList[i]->y2 = line.mid( 22, 3 ).trimmed().toInt();
-        m_ConstList[i]->hd2 = line.mid( 26, 6 ).trimmed().toInt();
-
-        //Read J2000 coordinates of Star 1
-        rah1 = line.mid(33,2).trimmed().toInt();
-        ram1 = line.mid(35,2).trimmed().toInt();
-        ras1 = line.mid(37,2).trimmed().toInt();
-        sign1 = line.at(39);
-        dd1 = line.mid(40,2).trimmed().toInt();
-        dm1 = line.mid(42,2).trimmed().toInt();
-        ds1 = line.mid(44,2).trimmed().toInt();
-
-        //Read J2000 coordinates of Star 2
-        rah2 = line.mid(47,2).trimmed().toInt();
-        ram2 = line.mid(49,2).trimmed().toInt();
-        ras2 = line.mid(51,2).trimmed().toInt();
-        sign2 = line.at(53);
-        dd2 = line.mid(54,2).trimmed().toInt();
-        dm2 = line.mid(56,2).trimmed().toInt();
-        ds2 = line.mid(58,2).trimmed().toInt();
-
-        m_ConstList[i]->ra1.setH(rah1,ram1,ras1);
-        m_ConstList[i]->ra2.setH(rah2,ram2,ras2);
-        m_ConstList[i]->dec1 = dms(dd1,dm1,ds1);
-        m_ConstList[i]->dec2 = dms(dd2,dm2,ds2);
-
-        if ( sign1 == '-' )
-            m_ConstList[i]->dec1.setD( -1.0*m_ConstList[i]->dec1.Degrees() );
-
-        if ( sign2 == '-' )
-            m_ConstList[i]->dec2.setD( -1.0*m_ConstList[i]->dec2.Degrees() );
-
-        m_ConstList[i]->star1->setRA0(m_ConstList[i]->ra1);
-        m_ConstList[i]->star2->setRA0(m_ConstList[i]->ra2);
-        m_ConstList[i]->star1->setDec0(m_ConstList[i]->dec1);
-        m_ConstList[i]->star2->setDec0(m_ConstList[i]->dec2);
-
-        //Read abbreviation and image file name
-        m_ConstList[i]->abbrev = line.mid( 61, 3 );
-        m_ConstList[i]->imageFileName  = line.mid( 65 ).trimmed();
-
-        //Make a QImage object pointing to constellation image
-        m_ConstList[i]->constart_image = QImage(m_ConstList[i]->imageFileName,0);
-        i++;
-
+        skydb.setDatabaseName(dbfile);
+        if (skydb.open() == false)
+        {
+            qWarning() << "Unable to open sky cultures database file " << dbfile << endl;
+            return;
         }
+
+         QSqlQuery get_query(skydb);
+         if (!get_query.exec("SELECT * FROM western"))
+         {
+            qDebug() << get_query.lastError();
+             return;
+         }
+
+         while (get_query.next())
+         {
+
+             int X1                 = get_query.value("X1").toInt();
+             int Y1                 = get_query.value("Y1").toInt();
+             QString RA1            = get_query.value("RA1").toString();
+             QString DEC1           = get_query.value("DE1").toString();
+             int X2                 = get_query.value("X2").toInt();
+             int Y2                 = get_query.value("Y2").toInt();
+             QString RA2            = get_query.value("RA2").toString();
+             QString DEC2           = get_query.value("DE2").toString();
+             QString abbreviation   = get_query.value("Abbreviation").toString();
+             QString filename       = get_query.value("Filename").toString();
+
+             dms ra1 = dms::fromString(RA1,false);
+             dms dec1 = dms::fromString(DEC1,true);
+             dms ra2 = dms::fromString(RA2,false);
+             dms dec2 = dms::fromString(DEC2,true);
+
+
+             // appends constellation info
+             m_ConstList.append ( new ConstellationsArt (X1, Y1, ra1,dec1, X2,Y2,ra2,dec2,abbreviation,filename));
+
+             //Make a QImage object pointing to constellation image
+            m_ConstList[i]->loadImage();
+            i++;
+
+         }
+
+        skydb.close();
+
+
 }
 
 void ConstellationArtComponent::showList()
@@ -120,7 +92,7 @@ void ConstellationArtComponent::showList()
     int i = 0;
     for(i = 0; i < m_ConstList.size(); i++)
     {
-        qDebug()<<m_ConstList[i]->rank<<m_ConstList[i]->getAbbrev()<<m_ConstList[i]->getImageFileName();
+        qDebug()<<m_ConstList[i]->getAbbrev()<<m_ConstList[i]->getImageFileName();
         qDebug()<<m_ConstList[i]->getx1()<<m_ConstList[i]->gety1()<<m_ConstList[i]->gethd1();
         qDebug()<<m_ConstList[i]->getx2()<<m_ConstList[i]->gety2()<<m_ConstList[i]->gethd2();
     }

@@ -21,6 +21,7 @@
 #include "kstars/skyobjects/constellationsart.h"
 #include "skycomponent.h"
 #include <QImage>
+#include <QSqlDatabase>
 #include "kstars/auxiliary/dms.h"
 class ConstellationsArt;
 class QColor;
@@ -32,6 +33,7 @@ class QPainter;
 class dms;
 class Projector;
 class QPainter;
+class QSqlDatabase;
 
 class ConstellationArtComponent : public SkyComponent
 {

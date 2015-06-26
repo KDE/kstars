@@ -17,14 +17,22 @@
 #include "constellationsart.h"
 #include "kstars/texturemanager.h"
 
-ConstellationsArt::ConstellationsArt(int t, int serial, const QString &n){
-
-    setType(t);
-    setName(n);
-}
 
 ConstellationsArt::~ConstellationsArt()
 {
+}
+
+ConstellationsArt::ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2, int Y2, dms ra2, dms dec2, QString abbreviation, QString filename)
+{
+    x1 = X1;
+    y1 = Y1;
+    x2 = X2;
+    y2 = Y2;
+    abbrev = abbreviation;
+    imageFileName = filename;
+
+    *star1 = SkyPoint (ra1,dec1);
+    *star2 = SkyPoint (ra2,dec2);
 }
 
 ConstellationsArt::ConstellationsArt(const ConstellationsArt &o){
