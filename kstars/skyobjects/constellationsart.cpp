@@ -18,10 +18,6 @@
 #include "kstars/texturemanager.h"
 
 
-ConstellationsArt::~ConstellationsArt()
-{
-}
-
 ConstellationsArt::ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2, int Y2, dms ra2, dms dec2, QString abbreviation, QString filename)
 {
     x1 = X1;
@@ -31,8 +27,14 @@ ConstellationsArt::ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2, 
     abbrev = abbreviation;
     imageFileName = filename;
 
-    *star1 = SkyPoint (ra1,dec1);
-    *star2 = SkyPoint (ra2,dec2);
+    SkyPoint *star1 = new SkyPoint(ra1,dec1);
+    SkyPoint *star2 = new SkyPoint(ra2,dec2);
+}
+
+ConstellationsArt::~ConstellationsArt()
+{
+    delete star1;
+    delete star2;
 }
 
 ConstellationsArt::ConstellationsArt(const ConstellationsArt &o){

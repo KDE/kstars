@@ -33,7 +33,6 @@ ConstellationArtComponent::~ConstellationArtComponent()
 }
 
 void ConstellationArtComponent::loadData(){
-
         int i = 0;
 
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
@@ -55,7 +54,6 @@ void ConstellationArtComponent::loadData(){
 
          while (get_query.next())
          {
-
              int X1                 = get_query.value("X1").toInt();
              int Y1                 = get_query.value("Y1").toInt();
              QString RA1            = get_query.value("RA1").toString();
@@ -72,19 +70,15 @@ void ConstellationArtComponent::loadData(){
              dms ra2 = dms::fromString(RA2,false);
              dms dec2 = dms::fromString(DEC2,true);
 
-
              // appends constellation info
-             m_ConstList.append ( new ConstellationsArt (X1, Y1, ra1,dec1, X2,Y2,ra2,dec2,abbreviation,filename));
+             ConstellationsArt *ca = new ConstellationsArt (X1, Y1, ra1,dec1, X2,Y2,ra2,dec2,abbreviation,filename);
+             m_ConstList.append(ca);
 
              //Make a QImage object pointing to constellation image
             m_ConstList[i]->loadImage();
             i++;
-
          }
-
         skydb.close();
-
-
 }
 
 void ConstellationArtComponent::showList()
@@ -101,38 +95,37 @@ void ConstellationArtComponent::showList()
 void ConstellationArtComponent::draw(SkyPainter *skyp){
 
     int i = 0;
+    for(i=0; i < m_ConstList.size(); i++){
+            drawConstArtImage( skyp, m_ConstList[i], true);
+    }
     //Loops through the QList containing all data required to draw western constellations.
     //There are 85 images, so m_ConstList.size() should return 85.
-    for(i=0; i < m_ConstList.size(); i++){
-            drawConstArtImage( skyp, m_ConstList[i]);
-    }
 }
 
 
 void ConstellationArtComponent::drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawFlag)
 {
     if(drawFlag==false) return;
-
+QMessageBox::information(NULL, "Error", "before skymap");
     SkyMap *map = SkyMap::Instance();
-    //const Projector *proj = map->projector();
-
-    KStarsData *data = KStarsData::Instance();
-    //UpdateID updateID = data->updateID();
-
+    const Projector *proj = map->projector();
     skyp->setBrush( Qt::NoBrush );
 
+    SkyPoint s1 = obj->getStar1();
+    SkyPoint s2 = obj->getStar2();
+
+    int w = obj->imageWidth();
+    int h = obj->imageHeight();
+
+    //UpdateID updateID = data->updateID();
     //if ( obj->updateID != updateID ) {
         //obj->updateID = updateID;
 
-        int w = obj->imageWidth();
-        int h = obj->imageHeight();
+     if( (proj->checkVisibility(&s1)==true) && (proj->checkVisibility(&s2)==true) ){
 
-        QPointF position1,position2;
-        SkyPoint s1 = obj->getStar1();
-        SkyPoint s2 = obj->getStar2();
-
-        position1 = map->projector()->toScreen(&s1);
-        position2 = map->projector()->toScreen(&s2);
+    //Draw Image
+    QPointF position1 = map->projector()->toScreen(&s1);
+    QPointF position2 = map->projector()->toScreen(&s2);
 
         QPainter painter;
         painter.save();
@@ -141,4 +134,5 @@ void ConstellationArtComponent::drawConstArtImage(SkyPainter *skyp, Constellatio
         painter.drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
         painter.restore();
 
+    }
 }
