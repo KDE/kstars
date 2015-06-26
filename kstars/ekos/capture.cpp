@@ -1013,6 +1013,15 @@ void Capture::newFITS(IBLOB *bp)
 
             double nextExposure = setCurrentADU(currentADU);
 
+            if (nextExposure <= 0)
+            {
+                appendLogText(xi18n("Unable to calculate optimal exposure settings, please take the flats manually."));
+                activeJob->setTargetADU(0);
+                ADUValue->setValue(0);
+                stopSequence();
+                return;
+            }
+
             appendLogText(xi18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
 
             activeJob->setExposure(nextExposure);
@@ -2615,20 +2624,31 @@ double Capture::setCurrentADU(double value)
         ADURaw2 = value;
     }
 
+    qDebug() << "Exposure #1 (" << ExpRaw1 << "," << ADURaw1 << ") Exspoure #2 (" << ExpRaw2 << "," << ADURaw2 << ")";
+
     // If we don't have the 2nd point, let's take another exposure with value relative to what we have now
     if (ADURaw2 == -1 || ExpRaw2 == -1 || (ADURaw1 == ADURaw2))
     {
         if (value < activeJob->getTargetADU())
-            nextExposure = activeJob->getExposure()*10;
+            nextExposure = activeJob->getExposure()*1.5;
         else
-            nextExposure = activeJob->getExposure()*0.1;
+            nextExposure = activeJob->getExposure()*.75;
+
+        qDebug() << "Next Exposure: " << nextExposure;
 
         return nextExposure;
     }
 
-    ADUSlope = (ExpRaw2 - ExpRaw1) / (ADURaw2 - ADURaw1);
+    if (fabs(ADURaw2 - ADURaw1) < 0.01)
+        ADUSlope=1e-6;
+    else
+        ADUSlope = (ExpRaw2 - ExpRaw1) / (ADURaw2 - ADURaw1);
+
+    qDebug() << "ADU Slope: " << ADUSlope;
 
     nextExposure = ADUSlope * (activeJob->getTargetADU() - ADURaw2) + ExpRaw2;
+
+    qDebug() << "Next Exposure: " << nextExposure;
 
     return nextExposure;
 
