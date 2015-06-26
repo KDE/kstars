@@ -34,6 +34,14 @@ public:
         QString url;
     } Author;
 
+    typedef struct
+    {
+        QString title;
+        QString image;
+        QString content;
+        QString centerPoint;
+    } Slide;
+
     SkyGuideObject(const QVariantMap &map);
 
     QString title() const;
@@ -46,6 +54,7 @@ private:
     QDate m_creationDate;
     int m_version;
     QList<Author> m_authors;
+    QList<Slide> m_slides;
 };
 
 #endif // SKYGUIDEOBJECT_H

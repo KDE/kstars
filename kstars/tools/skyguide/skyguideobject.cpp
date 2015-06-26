@@ -37,4 +37,17 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
             m_authors.append(a);
         }
     }
+
+    // slides
+    if (map.contains("slides")) {
+        foreach (const QVariant& slide, map.value("slides").toList()) {
+            QVariantMap smap = slide.toMap();
+            Slide s;
+            s.title = smap.value("title").toString();
+            s.content = smap.value("content").toString();
+            s.image = smap.value("image").toString();
+            s.centerPoint = smap.value("centerPoint").toString();
+            m_slides.append(s);
+        }
+    }
 }
