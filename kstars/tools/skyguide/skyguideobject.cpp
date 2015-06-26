@@ -15,20 +15,33 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QJsonObject>
+
 #include "skyguideobject.h"
 
 SkyGuideObject::SkyGuideObject(const QVariantMap &map)
+    : m_isValid(false)
 {
+    if (map["formatVersion"].toInt() != SKYGUIDE_FORMAT_VERSION
+        || !map.contains("header") || !map.contains("slides"))
+    {
+        // invalid!
+        return;
+    }
+
+    QVariantMap headerMap = map.value("header").toMap();
+    QVariantMap slidesMap = map.value("slides").toMap();
+
     // header fields
-    m_title = map.value("title").toString();
-    m_description = map.value("description").toString();
-    m_language = map.value("language").toString();
-    m_creationDate = map.value("creationDate").toDate();
-    m_version = map.value("version").toInt();
+    m_title = headerMap.value("title").toString();
+    m_description = headerMap.value("description").toString();
+    m_language = headerMap.value("language").toString();
+    m_creationDate = headerMap.value("creationDate").toDate();
+    m_version = headerMap.value("version").toInt();
 
     // authors
-    if (map.contains("authors")) {
-        foreach (const QVariant& author, map.value("authors").toList()) {
+    if (headerMap.contains("authors")) {
+        foreach (const QVariant& author, headerMap.value("authors").toList()) {
             QVariantMap amap = author.toMap();
             Author a;
             a.name = amap.value("name").toString();
@@ -39,8 +52,8 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
     }
 
     // slides
-    if (map.contains("slides")) {
-        foreach (const QVariant& slide, map.value("slides").toList()) {
+    if (slidesMap.contains("slides")) {
+        foreach (const QVariant& slide, slidesMap.value("slides").toList()) {
             QVariantMap smap = slide.toMap();
             Slide s;
             s.title = smap.value("title").toString();
@@ -50,4 +63,6 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
             m_slides.append(s);
         }
     }
+
+    m_isValid = true;
 }

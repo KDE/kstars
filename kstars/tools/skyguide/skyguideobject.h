@@ -22,6 +22,8 @@
 #include <QObject>
 #include <QVariantMap>
 
+#define SKYGUIDE_FORMAT_VERSION 1
+
 class SkyGuideObject : public QObject
 {
   Q_OBJECT
@@ -44,10 +46,13 @@ public:
 
     SkyGuideObject(const QVariantMap &map);
 
+    inline bool isValid() { return m_isValid; }
+
     QString title() const;
     void setTitle(const QString &title);
 
 private:
+    bool m_isValid;
     QString m_title;
     QString m_description;
     QString m_language;
