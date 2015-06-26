@@ -38,7 +38,7 @@ class dms;
  * @author M.S.Adityan
  */
 
-class ConstellationsArt: public SkyObject{
+class ConstellationsArt{
 
 private:
     QString abbrev, imageFileName;

@@ -22,7 +22,10 @@
 #include "skycomponent.h"
 #include <QImage>
 #include <QSqlDatabase>
+#include "kstars/projections/projector.h"
 #include "kstars/auxiliary/dms.h"
+#include <QGraphicsPixmapItem>
+#include <QGraphicsView>
 class ConstellationsArt;
 class QColor;
 class SkyMap;
@@ -34,6 +37,8 @@ class dms;
 class Projector;
 class QPainter;
 class QSqlDatabase;
+class QGraphicsPixmapItem;
+class QGraphicsView;
 
 class ConstellationArtComponent : public SkyComponent
 {
@@ -55,7 +60,7 @@ public:
 
     virtual void draw( SkyPainter *skyp );
 
-    QVector<ConstellationsArt*> m_ConstList;
+    QList<ConstellationsArt*> m_ConstList;
 
 
 private:
