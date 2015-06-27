@@ -22,21 +22,25 @@
 #include <QQuickView>
 #include <QWidget>
 
+#include "skyguideobject.h"
+
 class SkyGuideMgr
 {
+
 public:
-
     SkyGuideMgr();
-
     virtual ~SkyGuideMgr();
 
     inline QDockWidget* getDock() { return m_dock; }
 
 private:
-
     QWidget* m_container;
     QDockWidget* m_dock;
     QQuickView* m_view;
+
+    QList<SkyGuideObject*> m_skyGuideObjects;
+
+    void loadSkyGuideObject(const QString& jsonPath);
 };
 
 #endif // SKYGUIDEMGR_H

@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QDebug>
+#include <QDir>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QStandardPaths>
 
 #include "skyguidemgr.h"
@@ -40,4 +44,25 @@ SkyGuideMgr::SkyGuideMgr()
 
 SkyGuideMgr::~SkyGuideMgr()
 {
+}
+
+void SkyGuideMgr::loadSkyGuideObject(const QString& jsonPath)
+{
+    QFile jsonFile(jsonPath);
+    if (!jsonFile.exists()) {
+        qWarning() << "SkyGuideMgr: The JSON file does not exist!"
+                   << QDir::toNativeSeparators(jsonPath);
+    } else if (!jsonFile.open(QIODevice::ReadOnly)) {
+        qWarning() << "SkyGuideMgr: Couldn't open the JSON file!"
+                   << QDir::toNativeSeparators(jsonPath);
+    } else {
+        QJsonObject json(QJsonDocument::fromJson(jsonFile.readAll()).object());
+        SkyGuideObject* s = new SkyGuideObject(json.toVariantMap());
+        if (s->isValid()) {
+            m_skyGuideObjects.append(s);
+        } else {
+            qWarning()  << "SkyGuideMgr: SkyGuide is invalid!"
+                        << QDir::toNativeSeparators(jsonPath);
+        }
+    }
 }
