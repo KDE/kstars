@@ -112,6 +112,9 @@ EkosManager::EkosManager()
     else
         initRemoteDrivers();
 
+    schedulerProcess = new Ekos::Scheduler();
+       toolsWidget->addTab( schedulerProcess, xi18n("Scheduler"));
+
 }
 
 EkosManager::~EkosManager()
@@ -121,6 +124,7 @@ EkosManager::~EkosManager()
     delete guideProcess;
     delete alignProcess;
     delete mountProcess;
+    delete schedulerProcess;
 }
 
 void EkosManager::setConnectionMode(bool isLocal)
@@ -683,6 +687,7 @@ void EkosManager::reset()
     guideProcess   = NULL;
     alignProcess   = NULL;
     mountProcess   = NULL;
+    schedulerProcess = NULL;
 
     guiderCCDName  = "";
     primaryCCDName = "";

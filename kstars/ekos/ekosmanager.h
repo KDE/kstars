@@ -20,6 +20,7 @@
 #include "guide.h"
 #include "align.h"
 #include "mount.h"
+#include "scheduler.h"
 
 #include <QDialog>
 #include <QHash>
@@ -218,6 +219,7 @@ protected slots:
     Ekos::Guide *guideProcess;
     Ekos::Align *alignProcess;
     Ekos::Mount *mountProcess;
+    Ekos::Scheduler *schedulerProcess;
 
     QString guiderCCDName;
     QString primaryCCDName;
