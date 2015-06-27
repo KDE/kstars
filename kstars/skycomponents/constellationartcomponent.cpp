@@ -95,9 +95,9 @@ void ConstellationArtComponent::showList()
 void ConstellationArtComponent::draw(SkyPainter *skyp){
 
     int i = 0;
-    for(i=0; i < m_ConstList.size(); i++){
+    //(i=0; i < m_ConstList.size(); i++){
             drawConstArtImage( skyp, m_ConstList[i], true);
-    }
+    //}
     //Loops through the QList containing all data required to draw western constellations.
     //There are 85 images, so m_ConstList.size() should return 85.
 }
@@ -106,13 +106,14 @@ void ConstellationArtComponent::draw(SkyPainter *skyp){
 void ConstellationArtComponent::drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawFlag)
 {
     if(drawFlag==false) return;
-QMessageBox::information(NULL, "Error", "before skymap");
     SkyMap *map = SkyMap::Instance();
     const Projector *proj = map->projector();
     skyp->setBrush( Qt::NoBrush );
 
-    SkyPoint s1 = obj->getStar1();
-    SkyPoint s2 = obj->getStar2();
+    SkyPoint *s1 = new SkyPoint;
+    SkyPoint *s2 = new SkyPoint;
+    s1 = obj->star1;
+    s2 = obj->star2;
 
     int w = obj->imageWidth();
     int h = obj->imageHeight();
@@ -121,11 +122,11 @@ QMessageBox::information(NULL, "Error", "before skymap");
     //if ( obj->updateID != updateID ) {
         //obj->updateID = updateID;
 
-     if( (proj->checkVisibility(&s1)==true) && (proj->checkVisibility(&s2)==true) ){
-
+     if( (proj->checkVisibility(s1)==true) && (proj->checkVisibility(s2)==true) ){
     //Draw Image
-    QPointF position1 = map->projector()->toScreen(&s1);
-    QPointF position2 = map->projector()->toScreen(&s2);
+
+    QPointF position1 = map->projector()->toScreen(s1);
+    QPointF position2 = map->projector()->toScreen(s2);
 
         QPainter painter;
         painter.save();
@@ -133,6 +134,7 @@ QMessageBox::information(NULL, "Error", "before skymap");
         painter.translate(position1);
         painter.drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
         painter.restore();
+        painter.end();
 
-    }
+   }
 }

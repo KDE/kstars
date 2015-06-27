@@ -44,10 +44,11 @@ private:
     QString abbrev, imageFileName;
     int x1,y1,x2,y2,hd1,hd2;
     QImage constart_image;
-    SkyPoint* star1;
-    SkyPoint* star2;
 
 public:
+
+    SkyPoint* star1;
+    SkyPoint* star2;
 
     /**
      *Constructor. Set SkyObject data according to arguments.
@@ -66,10 +67,10 @@ public:
      ~ConstellationsArt();
 
     //Return Star 1 skypoint
-    SkyPoint getStar1(){return *star1;}
+    //SkyPoint& getStar1(){return star1;}
 
     //Return Star 2 skypoint
-    SkyPoint getStar2(){return *star2;}
+    //SkyPoint& getStar2(){return star2;}
 
     /** @return an object's image */
     const QImage& image() const { return constart_image; }

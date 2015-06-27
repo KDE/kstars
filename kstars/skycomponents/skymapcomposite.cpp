@@ -515,12 +515,12 @@ void SkyMapComposite::reloadCNames( ) {
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
 }
 
-void SkyMapComposite::reloadConstArt(){
+/*void SkyMapComposite::reloadConstArt(){
     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
     SkyMapDrawAbstract::setDrawLock( true );
     delete m_ConstArt;
     m_ConstArt = new ConstellationArtComponent( this );
-}
+}*/
 
 void SkyMapComposite::reloadDeepSky() {
     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );

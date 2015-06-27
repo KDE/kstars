@@ -26,6 +26,7 @@
 #include "kstars/auxiliary/dms.h"
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
+#include "kstars/skymap.h"
 class ConstellationsArt;
 class QColor;
 class SkyMap;
@@ -39,6 +40,7 @@ class QPainter;
 class QSqlDatabase;
 class QGraphicsPixmapItem;
 class QGraphicsView;
+class SkyMap;
 
 class ConstellationArtComponent : public SkyComponent
 {
