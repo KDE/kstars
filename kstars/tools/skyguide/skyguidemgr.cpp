@@ -46,6 +46,25 @@ SkyGuideMgr::~SkyGuideMgr()
 {
 }
 
+void SkyGuideMgr::loadAllSkyGuideObjects() const {
+    QDir::Filters filters = QDir::NoDotAndDotDot | QDir::Hidden | QDir::NoSymLinks;
+    QDir root(QStandardPaths::locate(QStandardPaths::DataLocation,
+                                     "tools/skyguide/resources/guides",
+                                     QStandardPaths::LocateDirectory));
+    root.setFilter(filters | QDir::Dirs);
+    QFileInfoList guidesRoot = root.entryInfoList();
+    foreach (QFileInfo r, guidesRoot) {
+        QDir guideDir(r.filePath());
+        guideDir.setFilter(filters | QDir::Files);
+        QFileInfoList guideFiles = guideDir.entryInfoList();
+        foreach (QFileInfo g, guideFiles) {
+            if (g.fileName() == "guide.json") {
+                loadSkyGuideObject(g.absoluteFilePath());
+            }
+        }
+    }
+}
+
 void SkyGuideMgr::loadSkyGuideObject(const QString& jsonPath)
 {
     QFile jsonFile(jsonPath);

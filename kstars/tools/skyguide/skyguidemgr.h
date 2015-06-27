@@ -40,6 +40,7 @@ private:
 
     QList<SkyGuideObject*> m_skyGuideObjects;
 
+    void loadAllSkyGuideObjects() const;
     void loadSkyGuideObject(const QString& jsonPath);
 };
 
