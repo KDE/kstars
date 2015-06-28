@@ -1,7 +1,7 @@
 /***************************************************************************
-                          skyguidemgr.h  -  K Desktop Planetarium
+                          skyguideview.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2015/05/06
+    begin                : 2015/06/27
     copyright            : (C) 2015 by Marcos Cardinot
     email                : mcardinot@gmail.com
  ***************************************************************************/
@@ -15,27 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYGUIDEMGR_H
-#define SKYGUIDEMGR_H
+#ifndef SKYGUIDEVIEW_H
+#define SKYGUIDEVIEW_H
 
-#include "skyguideobject.h"
-#include "skyguideview.h"
+#include <QDockWidget>
+#include <QQuickView>
 
-class SkyGuideMgr
+class SkyGuideView : public QQuickView
 {
 
 public:
-    SkyGuideMgr();
-    virtual ~SkyGuideMgr();
+    SkyGuideView();
 
-    inline SkyGuideView* view() { return m_view; }
+    inline QDockWidget* dock() { return m_dock; }
 
 private:
-    SkyGuideView* m_view;
-    QList<SkyGuideObject*> m_skyGuideObjects;
+    QDockWidget* m_dock;
 
-    void loadAllSkyGuideObjects();
-    void loadSkyGuideObject(const QString& jsonPath);
 };
 
-#endif // SKYGUIDEMGR_H
+#endif // SKYGUIDEVIEW_H

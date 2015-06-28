@@ -24,29 +24,15 @@
 #include "skyguidemgr.h"
 
 SkyGuideMgr::SkyGuideMgr()
+    : m_view(new SkyGuideView())
 {
-    m_view = new QQuickView();
-    QString qmlViewPath = "tools/skyguide/resources/skyguideview.qml";
-    m_view->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, qmlViewPath));
-    m_view->show();
-
-    m_container = QWidget::createWindowContainer(m_view);
-    m_container->setMinimumWidth(m_view->width());
-    m_container->setMaximumWidth(m_view->width());
-    m_container->setFocusPolicy(Qt::TabFocus);
-
-    m_dock = new QDockWidget();
-    m_dock->setObjectName("Sky Guide");
-    m_dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_dock->setWidget(m_container);
-    m_dock->setMinimumWidth(m_view->width());
 }
 
 SkyGuideMgr::~SkyGuideMgr()
 {
 }
 
-void SkyGuideMgr::loadAllSkyGuideObjects() const {
+void SkyGuideMgr::loadAllSkyGuideObjects() {
     QDir::Filters filters = QDir::NoDotAndDotDot | QDir::Hidden | QDir::NoSymLinks;
     QDir root(QStandardPaths::locate(QStandardPaths::DataLocation,
                                      "tools/skyguide/resources/guides",

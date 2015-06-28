@@ -172,6 +172,7 @@ set(libkstarstools_SRCS
 
 	tools/skyguide/skyguidemgr.cpp
 	tools/skyguide/skyguideobject.cpp
+	tools/skyguide/skyguideview.cpp
 
         #FIXME Port to QML2
         #tools/whatsinteresting/skyobjlistmodel.cpp

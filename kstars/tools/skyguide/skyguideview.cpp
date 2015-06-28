@@ -1,7 +1,7 @@
 /***************************************************************************
-                          skyguidemgr.h  -  K Desktop Planetarium
+                          skyguideview.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2015/05/06
+    begin                : 2015/06/27
     copyright            : (C) 2015 by Marcos Cardinot
     email                : mcardinot@gmail.com
  ***************************************************************************/
@@ -15,27 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYGUIDEMGR_H
-#define SKYGUIDEMGR_H
+#include <QStandardPaths>
 
-#include "skyguideobject.h"
 #include "skyguideview.h"
 
-class SkyGuideMgr
+SkyGuideView::SkyGuideView()
 {
+    QString qmlViewPath = "tools/skyguide/resources/skyguideview.qml";
+    this->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, qmlViewPath));
 
-public:
-    SkyGuideMgr();
-    virtual ~SkyGuideMgr();
+    QWidget* container = QWidget::createWindowContainer(this);
+    container->setMinimumWidth(this->width());
+    container->setMaximumWidth(this->width());
+    container->setFocusPolicy(Qt::TabFocus);
 
-    inline SkyGuideView* view() { return m_view; }
+    m_dock = new QDockWidget();
+    m_dock->setObjectName("Sky Guide");
+    m_dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    m_dock->setWidget(container);
+    m_dock->setMinimumWidth(this->width());
 
-private:
-    SkyGuideView* m_view;
-    QList<SkyGuideObject*> m_skyGuideObjects;
-
-    void loadAllSkyGuideObjects();
-    void loadSkyGuideObject(const QString& jsonPath);
-};
-
-#endif // SKYGUIDEMGR_H
+    this->show();
+}
