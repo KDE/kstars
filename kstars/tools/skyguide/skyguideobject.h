@@ -28,7 +28,7 @@ class SkyGuideObject : public QObject
 {
   Q_OBJECT
 
-    Q_PROPERTY(QString title READ title)
+    Q_PROPERTY(QString title READ title CONSTANT)
 
 public:
     typedef struct
