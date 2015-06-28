@@ -35,7 +35,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: list.currentIndex = index
+                    onClicked: ListView.currentIndex = index
                 }
             }
         }
