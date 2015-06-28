@@ -25,7 +25,7 @@
 class Projector;
 class QWidget;
 class QSize;
-
+class QMessageBox;
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
     For documentation, @see SkyPainter. */
@@ -88,6 +88,7 @@ public:
     virtual bool drawSupernova(Supernova* sup);
     ///This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');
+    virtual bool drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage = true);
 
 private:
     virtual bool drawDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,

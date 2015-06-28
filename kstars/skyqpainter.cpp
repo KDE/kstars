@@ -39,7 +39,7 @@
 #include "skyobjects/trailobject.h"
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
-
+#include "skyobjects/constellationsart.h"
 #include "projections/projector.h"
 #include "ksutils.h"
 
@@ -419,6 +419,34 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
         else if( size >= 1 )
             drawPoint( pos.x(), pos.y() );
     }
+}
+
+bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage)
+{
+    KStarsData *data = KStarsData::Instance();
+
+    //Updating the position of star1 and star2 before drawing.
+    obj->star1->updateCoords(data->updateNum());
+    obj->star2->updateCoords(data->updateNum());
+
+    if ((!m_proj->checkVisibility(obj->star1))&&(!m_proj->checkVisibility(obj->star2))) return false;
+
+    QPointF position1 = m_proj->toScreen(obj->star1, true);
+    QPointF position2 = m_proj->toScreen(obj->star2, true);
+    qDebug()<<"THE STAR POSITION IS"<<position1<<position2;
+
+    int w = obj->imageWidth();
+    int h = obj->imageHeight();
+
+    if((m_proj->onScreen(position1))&&(m_proj->onScreen(position2))) {
+        begin();
+        save();
+        translate(position1);
+        drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
+        restore();
+        end();
+    }
+    return true;
 }
 
 bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)

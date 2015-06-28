@@ -26,9 +26,13 @@ ConstellationsArt::ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2, 
     y2 = Y2;
     abbrev = abbreviation;
     imageFileName = filename;
+    loadImage();
 
-    SkyPoint *star1 = new SkyPoint(ra1,dec1);
-    SkyPoint *star2 = new SkyPoint(ra2,dec2);
+    //This sets both current and J2000 RA/DEC to the values ra and dec.
+    //We need to update the star positions later on before attempting to draw the constellation image
+    //The star positions are updated in SkyQPainter::drawConstellationArtImage() function
+    star1 = new SkyPoint(ra1,dec1);
+    star2 = new SkyPoint(ra2,dec2);
 }
 
 ConstellationsArt::~ConstellationsArt()

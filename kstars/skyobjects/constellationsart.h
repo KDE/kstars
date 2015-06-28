@@ -59,7 +59,7 @@ public:
     explicit ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2,int Y2,dms ra2,dms dec2,QString abbreviation,QString filename);
 
     /** @short Copy constructor.
-     *  @param o SkyObject from which to copy data
+     *  @param o ConstellationsArt object from which to copy data
      */
     ConstellationsArt (const ConstellationsArt &o );
 

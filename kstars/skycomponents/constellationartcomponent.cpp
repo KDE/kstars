@@ -20,8 +20,9 @@
 #include "kstars/skymap.h"
 #include "kstars/projections/projector.h"
 
-ConstellationArtComponent::ConstellationArtComponent( SkyComposite *parent ):SkyComponent(parent)
+ConstellationArtComponent::ConstellationArtComponent( SkyComposite *parent, CultureList *cultures ):SkyComponent(parent)
 {
+    cultureName = cultures->current();
     loadData();
 }
 
@@ -33,7 +34,6 @@ ConstellationArtComponent::~ConstellationArtComponent()
 }
 
 void ConstellationArtComponent::loadData(){
-        int i = 0;
 
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
         QString dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, "skycultures.sqlite");
@@ -73,10 +73,7 @@ void ConstellationArtComponent::loadData(){
              // appends constellation info
              ConstellationsArt *ca = new ConstellationsArt (X1, Y1, ra1,dec1, X2,Y2,ra2,dec2,abbreviation,filename);
              m_ConstList.append(ca);
-
-             //Make a QImage object pointing to constellation image
-            m_ConstList[i]->loadImage();
-            i++;
+             qDebug()<<"Successsfully read skyculture.sqlite"<<X1<<Y1<<RA1<<DEC1;
          }
         skydb.close();
 }
@@ -94,47 +91,12 @@ void ConstellationArtComponent::showList()
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
 
-    int i = 0;
-    //(i=0; i < m_ConstList.size(); i++){
-            drawConstArtImage( skyp, m_ConstList[i], true);
-    //}
+    skyp->drawConstellationArtImage(m_ConstList[0], true);
     //Loops through the QList containing all data required to draw western constellations.
     //There are 85 images, so m_ConstList.size() should return 85.
 }
 
-
-void ConstellationArtComponent::drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawFlag)
+void ConstellationArtComponent::update(ConstellationsArt *num)
 {
-    if(drawFlag==false) return;
-    SkyMap *map = SkyMap::Instance();
-    const Projector *proj = map->projector();
-    skyp->setBrush( Qt::NoBrush );
 
-    SkyPoint *s1 = new SkyPoint;
-    SkyPoint *s2 = new SkyPoint;
-    s1 = obj->star1;
-    s2 = obj->star2;
-
-    int w = obj->imageWidth();
-    int h = obj->imageHeight();
-
-    //UpdateID updateID = data->updateID();
-    //if ( obj->updateID != updateID ) {
-        //obj->updateID = updateID;
-
-     if( (proj->checkVisibility(s1)==true) && (proj->checkVisibility(s2)==true) ){
-    //Draw Image
-
-    QPointF position1 = map->projector()->toScreen(s1);
-    QPointF position2 = map->projector()->toScreen(s2);
-
-        QPainter painter;
-        painter.save();
-        //How do I define position to translate?
-        painter.translate(position1);
-        painter.drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
-        painter.restore();
-        painter.end();
-
-   }
 }

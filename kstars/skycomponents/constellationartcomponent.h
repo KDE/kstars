@@ -24,30 +24,27 @@
 #include <QSqlDatabase>
 #include "kstars/projections/projector.h"
 #include "kstars/auxiliary/dms.h"
-#include <QGraphicsPixmapItem>
-#include <QGraphicsView>
 #include "kstars/skymap.h"
+#include "kstars/skyqpainter.h"
 class ConstellationsArt;
 class QColor;
 class SkyMap;
 class SkyPoint;
 class SkyMesh;
 class QImage;
-class QPainter;
 class dms;
 class Projector;
-class QPainter;
 class QSqlDatabase;
-class QGraphicsPixmapItem;
-class QGraphicsView;
 class SkyMap;
+class CultureList;
+class SkyQPainter;
 
 class ConstellationArtComponent : public SkyComponent
 {
 public:
 
     //Constructor
-    explicit ConstellationArtComponent ( SkyComposite* );
+    explicit ConstellationArtComponent ( SkyComposite*, CultureList* cultures );
 
     //Destructor
     ~ConstellationArtComponent();
@@ -62,12 +59,13 @@ public:
 
     virtual void draw( SkyPainter *skyp );
 
+    virtual void update( ConstellationsArt *num=0 );
+
     QList<ConstellationsArt*> m_ConstList;
 
 
 private:
-
-    void drawConstArtImage(SkyPainter *skyp, ConstellationsArt *obj, bool drawFlag = true);
+    QString cultureName;
 };
 
 #endif // ConstellationArtComponent_H

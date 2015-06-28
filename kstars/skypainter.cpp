@@ -30,6 +30,7 @@
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/trailobject.h"
+#include "skyobjects/constellationsart.h"
 
 SkyPainter::SkyPainter()
     : m_sizeMagLim(10.)
