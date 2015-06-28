@@ -28,6 +28,8 @@ class SkyGuideObject : public QObject
 {
   Q_OBJECT
 
+    Q_PROPERTY(QString title READ title)
+
 public:
     typedef struct
     {
@@ -47,9 +49,7 @@ public:
     SkyGuideObject(const QVariantMap &map);
 
     inline bool isValid() { return m_isValid; }
-
-    QString title() const;
-    void setTitle(const QString &title);
+    inline QString title() { return m_title; }
 
 private:
     bool m_isValid;

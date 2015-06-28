@@ -32,7 +32,7 @@ public:
 
 private:
     SkyGuideView* m_view;
-    QList<SkyGuideObject*> m_skyGuideObjects;
+    QList<QObject*> m_skyGuideObjects;
 
     void loadAllSkyGuideObjects();
     void loadSkyGuideObject(const QString& jsonPath);

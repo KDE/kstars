@@ -15,25 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QQmlContext>
 #include <QStandardPaths>
 
 #include "skyguideview.h"
 
 SkyGuideView::SkyGuideView()
 {
+    m_dock = new QDockWidget();
+    m_dock->setObjectName("Sky Guide");
+    m_dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+}
+
+void SkyGuideView::setModel(QList<QObject*> guides)
+{
+    QQmlContext* ctxt = this->rootContext();
+    ctxt->setContextProperty("guidesModel", QVariant::fromValue(guides));
+
     QString qmlViewPath = "tools/skyguide/resources/skyguideview.qml";
     this->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, qmlViewPath));
+    this->show();
+    updateDock();
+}
 
+void SkyGuideView::updateDock() {
     QWidget* container = QWidget::createWindowContainer(this);
     container->setMinimumWidth(this->width());
     container->setMaximumWidth(this->width());
     container->setFocusPolicy(Qt::TabFocus);
-
-    m_dock = new QDockWidget();
-    m_dock->setObjectName("Sky Guide");
-    m_dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     m_dock->setWidget(container);
     m_dock->setMinimumWidth(this->width());
-
-    this->show();
 }

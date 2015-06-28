@@ -21,6 +21,8 @@
 #include <QDockWidget>
 #include <QQuickView>
 
+#include "skyguideobject.h"
+
 class SkyGuideView : public QQuickView
 {
 
@@ -29,9 +31,12 @@ public:
 
     inline QDockWidget* dock() { return m_dock; }
 
+    void setModel(QList<QObject*> guides);
+
 private:
     QDockWidget* m_dock;
 
+    void updateDock();
 };
 
 #endif // SKYGUIDEVIEW_H

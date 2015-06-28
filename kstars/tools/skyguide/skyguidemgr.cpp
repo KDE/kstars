@@ -26,6 +26,8 @@
 SkyGuideMgr::SkyGuideMgr()
     : m_view(new SkyGuideView())
 {
+    loadAllSkyGuideObjects();
+    m_view->setModel(m_skyGuideObjects);
 }
 
 SkyGuideMgr::~SkyGuideMgr()

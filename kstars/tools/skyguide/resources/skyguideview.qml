@@ -30,7 +30,7 @@ Rectangle {
                 width: guidesArea.width
                 height: 25
                 Column {
-                    Text { text: modelData }
+                    Text { text: title }
                 }
                 MouseArea {
                     anchors.fill: parent
@@ -41,7 +41,6 @@ Rectangle {
         }
 
         ListView {
-            id: guidesList
             keyNavigationWraps: false
             boundsBehavior: Flickable.StopAtBounds
             anchors.fill: parent
