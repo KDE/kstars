@@ -29,10 +29,8 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
         return;
     }
 
-    QVariantMap headerMap = map.value("header").toMap();
-    QVariantMap slidesMap = map.value("slides").toMap();
-
     // header fields
+    QVariantMap headerMap = map.value("header").toMap();
     m_title = headerMap.value("title").toString();
     m_description = headerMap.value("description").toString();
     m_language = headerMap.value("language").toString();
@@ -52,16 +50,14 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
     }
 
     // slides
-    if (slidesMap.contains("slides")) {
-        foreach (const QVariant& slide, slidesMap.value("slides").toList()) {
-            QVariantMap smap = slide.toMap();
-            Slide s;
-            s.title = smap.value("title").toString();
-            s.content = smap.value("content").toString();
-            s.image = smap.value("image").toString();
-            s.centerPoint = smap.value("centerPoint").toString();
-            m_slides.append(s);
-        }
+    foreach (const QVariant& slide, map.value("slides").toList()) {
+        QVariantMap smap = slide.toMap();
+        Slide s;
+        s.title = smap.value("title").toString();
+        s.content = smap.value("content").toString();
+        s.image = smap.value("image").toString();
+        s.centerPoint = smap.value("centerPoint").toString();
+        m_slides.append(s);
     }
 
     m_isValid = true;
