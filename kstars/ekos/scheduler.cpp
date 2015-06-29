@@ -86,6 +86,13 @@ void Scheduler::processSession(int i, QUrl filename){
                                                    "org.kde.kstars.Ekos.Capture",
                                                    bus3,
                                                    this);
+
+    QDBusConnection bus4 = QDBusConnection::sessionBus();
+    QDBusInterface *mountinterface = new QDBusInterface("org.kde.kstars",
+                                                   "/KStars/Ekos/Mount",
+                                                   "org.kde.kstars.Ekos.Mount",
+                                                   bus4,
+                                                   this);
     //Ekos Start
     QDBusReply<bool> ekosisstarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
     if(!ekosisstarted.value())
@@ -103,30 +110,35 @@ void Scheduler::processSession(int i, QUrl filename){
     loop2.exec();
 
     //Telescope - here we slew (using INDI for the moment)
-    QList<QVariant> args6;
-    args6.append("Telescope Simulator");
-    args6.append("EQUATORIAL_EOD_COORD");
-    args6.append("RA");
-    args6.append(objects.at(i).getOb()->ra().Hours());
+//    QList<QVariant> args6;
+//    args6.append("Telescope Simulator");
+//    args6.append("EQUATORIAL_EOD_COORD");
+//    args6.append("RA");
+//    args6.append(objects.at(i).getOb()->ra().Hours());
 
-    QDBusReply<QString> reply6 = interface->callWithArgumentList(QDBus::AutoDetect,"setNumber",args6);
-    //DEC
-    QList<QVariant> args7;
-    args7.append("Telescope Simulator");
-    args7.append("EQUATORIAL_EOD_COORD");
-    args7.append("DEC");
-    args7.append(objects.at(i).getOb()->dec().Degrees());
-    QDBusReply<QString> reply7 = interface->callWithArgumentList(QDBus::AutoDetect,"setNumber",args7);
+//    QDBusReply<QString> reply6 = interface->callWithArgumentList(QDBus::AutoDetect,"setNumber",args6);
+//    //DEC
+//    QList<QVariant> args7;
+//    args7.append("Telescope Simulator");
+//    args7.append("EQUATORIAL_EOD_COORD");
+//    args7.append("DEC");
+//    args7.append(objects.at(i).getOb()->dec().Degrees());
+//    QDBusReply<QString> reply7 = interface->callWithArgumentList(QDBus::AutoDetect,"setNumber",args7);
 
-    QList<QVariant> argsaux;
-    argsaux.append("Telescope Simulator");
-    argsaux.append("EQUATORIAL_EOD_COORD");
-    QDBusReply<QString> replyaux = interface->callWithArgumentList(QDBus::AutoDetect,"sendProperty",argsaux);
+//    QList<QVariant> argsaux;
+//    argsaux.append("Telescope Simulator");
+//    argsaux.append("EQUATORIAL_EOD_COORD");
+//    QDBusReply<QString> replyaux = interface->callWithArgumentList(QDBus::AutoDetect,"sendProperty",argsaux);
+
+    QList<QVariant> telescopeSLew;
+    telescopeSLew.append(objects.at(i).getOb()->ra().Hours());
+    telescopeSLew.append(objects.at(i).getOb()->dec().Degrees());
+    mountinterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSLew);
 
     //Waiting for slew
     while(true){
-        QDBusReply<QString> replys = interface->callWithArgumentList(QDBus::AutoDetect,"getPropertyState",argsaux);
-        if(replys.value().toStdString()!="Ok")
+        QDBusReply<QString> replyslew = mountinterface->call(QDBus::AutoDetect,"getSlewStatus");
+        if(replyslew.value().toStdString()!="Complete")
         {
             QEventLoop loop;
             QTimer::singleShot(1000, &loop, SLOT(quit()));
@@ -144,6 +156,22 @@ void Scheduler::processSession(int i, QUrl filename){
 
       //Starting the jobs
       captureinterface->call(QDBus::AutoDetect,"startSequence");
+      //Wait for sequence
+      QEventLoop loop4;
+      QTimer::singleShot(4000, &loop4, SLOT(quit()));
+      loop4.exec();
+      while(true){
+          QDBusReply<QString> replysequence = captureinterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
+          if(replysequence.value().toStdString()!="Complete")
+          {
+              QEventLoop loop;
+              QTimer::singleShot(1000, &loop, SLOT(quit()));
+              loop.exec();
+          }
+          else break;
+      }
+      //Clear sequence
+      captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
 }
 
 void Scheduler::saveSlot()
@@ -197,9 +225,6 @@ void Scheduler::startSlot()
                    QUrl fileURL = objects.at(i).getFileName();
                    processSession(i,fileURL);
                    tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Done"));
-                   QEventLoop loop;
-                   QTimer::singleShot(4000, &loop, SLOT(quit()));
-                   loop.exec();
             }
             else tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Aborted"));
         }
