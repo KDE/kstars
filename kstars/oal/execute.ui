@@ -6,86 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>623</width>
-    <height>504</height>
+    <width>606</width>
+    <height>436</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Execute Session</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_6">
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_5">
-     <item>
-      <widget class="KUrlLabel" name="SessionURL">
-       <property name="text">
-        <string>Step 1: Session Details</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="KUrlLabel" name="ObservationsURL">
-       <property name="text">
-        <string>Step 2: Observations</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="Target"/>
-     </item>
-     <item>
-      <widget class="KUrlLabel" name="AddObject">
-       <property name="maximumSize">
-        <size>
-         <width>158</width>
-         <height>18</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Add new object to list</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="KUrlLabel" name="RemoveObject">
-       <property name="maximumSize">
-        <size>
-         <width>158</width>
-         <height>18</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Remove object from list</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="1" rowspan="3">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="Session">
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="KTitleWidget" name="ktitlewidget">
-           <property name="text">
+          <widget class="KTitleWidget" name="ktitlewidget" native="true">
+           <property name="text" stdset="0">
             <string>Enter Session Details:</string>
            </property>
           </widget>
@@ -178,8 +118,8 @@
        <widget class="QWidget" name="TargetDetails">
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <widget class="KTitleWidget" name="ktitlewidget_2">
-           <property name="text">
+          <widget class="KTitleWidget" name="ktitlewidget_2" native="true">
+           <property name="text" stdset="0">
             <string>View Object Details:</string>
            </property>
           </widget>
@@ -287,8 +227,8 @@
           </layout>
          </item>
          <item>
-          <widget class="KTitleWidget" name="ktitlewidget_4">
-           <property name="text">
+          <widget class="KTitleWidget" name="ktitlewidget_4" native="true">
+           <property name="text" stdset="0">
             <string>Set observing notes for the object:</string>
            </property>
           </widget>
@@ -333,8 +273,8 @@
        <widget class="QWidget" name="page_2">
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="KTitleWidget" name="ktitlewidget_3">
-           <property name="text">
+          <widget class="KTitleWidget" name="ktitlewidget_3" native="true">
+           <property name="text" stdset="0">
             <string>Enter the Observation Details:</string>
            </property>
           </widget>
@@ -538,6 +478,66 @@
       </layout>
      </item>
     </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="KUrlLabel" name="SessionURL">
+     <property name="text">
+      <string>Step 1: Session Details</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <widget class="QListWidget" name="Target"/>
+     </item>
+     <item>
+      <widget class="KUrlLabel" name="AddObject">
+       <property name="maximumSize">
+        <size>
+         <width>158</width>
+         <height>18</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Add new object to list</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KUrlLabel" name="RemoveObject">
+       <property name="maximumSize">
+        <size>
+         <width>158</width>
+         <height>18</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Remove object from list</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>60</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="KUrlLabel" name="ObservationsURL">
+     <property name="text">
+      <string>Step 2: Observations</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

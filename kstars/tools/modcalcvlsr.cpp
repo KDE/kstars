@@ -250,7 +250,7 @@ void modCalcVlsr::slotVlsrChecked(){
 
 void modCalcVlsr::slotInputFile() {
     QString inputFileName;
-    inputFileName = QFileDialog::getOpenFileName(0, QString(),  QString());
+    inputFileName = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QString());
     InputFileBoxBatch->setUrl( inputFileName );
 }
 

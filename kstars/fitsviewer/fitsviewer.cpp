@@ -61,6 +61,7 @@
   #include <netinet/in.h>
 #endif
 
+#include "kstars.h"
 #include "fitsdata.h"
 #include "fitstab.h"
 #include "fitsview.h"
@@ -416,7 +417,7 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 
 void FITSViewer::openFile()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(0, xi18n("Open FITS Image"), lastURL, "FITS (*.fits *.fit)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), xi18n("Open FITS Image"), lastURL, "FITS (*.fits *.fit)");
     if (fileURL.isEmpty())
         return;
 

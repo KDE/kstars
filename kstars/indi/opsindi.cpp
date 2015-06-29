@@ -55,7 +55,7 @@ OpsINDI::~OpsINDI() {}
 
 void OpsINDI::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(0, xi18n("FITS Default Directory"), kcfg_fitsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), xi18n("FITS Default Directory"), kcfg_fitsDir->text());
 
     if (!dir.isEmpty())
         kcfg_fitsDir->setText(dir);
@@ -63,7 +63,7 @@ void OpsINDI::saveFITSDirectory()
 
 void OpsINDI::saveDriversDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(0, xi18n("INDI Drivers Directory"), kcfg_indiDriversDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), xi18n("INDI Drivers Directory"), kcfg_indiDriversDir->text());
 
     if (!dir.isEmpty())
         kcfg_indiDriversDir->setText(dir);

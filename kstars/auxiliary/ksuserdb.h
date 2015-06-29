@@ -55,6 +55,11 @@ class KSUserDB {
      * @brief Adds a new observer into the database
      **/
     void AddObserver(const QString &name, const QString &surname, const QString &contact);
+    //
+    int GetID(const QString &name, const QString &surname);
+    //
+
+    QSqlDatabase GetDatabase();
     /**
      * @brief Returns the unique id of the user with given name & surname
      *

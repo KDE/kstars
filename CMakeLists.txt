@@ -116,7 +116,7 @@ add_subdirectory(datahandlers)
 # FIXME Enable Tests later!
 #add_subdirectory(Tests)
 
-install(FILES kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
+install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
 
 #if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 #   macro_display_feature_log()
