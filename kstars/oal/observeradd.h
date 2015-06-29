@@ -46,7 +46,11 @@ Q_OBJECT
         /*@short function to add the new observer
          * to the observerList of the global logObject
          */
+        void auxSlot();
+        void checkObserverInfo();
         void slotAddObserver();
+        void slotRemoveObserver();
+        void slotUpdateModel();
 
     private:
         Ui::ObserverAdd ui;

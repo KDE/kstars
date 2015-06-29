@@ -255,7 +255,7 @@ void ImageViewer::saveFileToDisc()
     QFileDialog dialog;
     dialog.selectFile(m_ImageUrl.fileName().remove(m_ImageUrl.path()));
     dialog.setFileMode(QFileDialog::AnyFile);
-    QUrl newURL = dialog.getSaveFileUrl(0, xi18n("Save Image")); // save-dialog with default filename
+    QUrl newURL = dialog.getSaveFileUrl(KStars::Instance(), xi18n("Save Image")); // save-dialog with default filename
     if (!newURL.isEmpty())
     {
         QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() + '/' +  newURL.fileName());

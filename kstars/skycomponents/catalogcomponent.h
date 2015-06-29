@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CUSTOMCATALOGCOMPONENT_H
-#define CUSTOMCATALOGCOMPONENT_H
+#ifndef CATALOGCOMPONENT_H
+#define CATALOGCOMPONENT_H
 
 
 #include "listcomponent.h"

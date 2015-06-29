@@ -21,6 +21,12 @@
       <arg name="fileURL" type="s" direction="in"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
     </method>
+    <method name="clearSequenceQueue">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getSequenceQueueStatus">
+      <arg type="s" direction="out"/>
+    </method>
     <method name="setMaximumGuidingDeviaiton">
       <arg name="enable" type="b" direction="in"/>
       <arg name="value" type="d" direction="in"/>

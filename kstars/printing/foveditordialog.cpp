@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kstars.h"
 #include "foveditordialog.h"
 #include "printingwizard.h"
 
@@ -120,7 +121,7 @@ void FovEditorDialog::slotSaveImage()
 
     //If the filename string contains no "/" separators, assume the
     //user wanted to place a file in their home directory.
-    QString url = QFileDialog::getSaveFileUrl(0, xi18n("Save Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
+    QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
     QUrl fileUrl;
     if(!url.contains("/"))
     {
