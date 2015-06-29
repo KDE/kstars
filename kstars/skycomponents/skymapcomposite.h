@@ -166,7 +166,7 @@ public:
     void reloadComets();
     void reloadCLines();
     void reloadCNames();
-    void reloadConstArt();
+    void reloadConstellationArt();
 
     FlagComponent* flags();
     SatellitesComponent* satellites();
@@ -209,7 +209,7 @@ private:
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;
-    ConstellationArtComponent   *m_ConstArt;
+    ConstellationArtComponent   *m_ConstellationArt;
     EquatorialCoordinateGrid    *m_EquatorialCoordinateGrid;
     HorizontalCoordinateGrid    *m_HorizontalCoordinateGrid;
     DeepSkyComponent            *m_DeepSky;

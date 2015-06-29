@@ -43,7 +43,7 @@ class ConstellationsArt{
 private:
     QString abbrev, imageFileName;
     int x1,y1,x2,y2,hd1,hd2;
-    QImage constart_image;
+    QImage constellationArtImage;
 
 public:
 
@@ -73,16 +73,16 @@ public:
     //SkyPoint& getStar2(){return star2;}
 
     /** @return an object's image */
-    const QImage& image() const { return constart_image; }
+    const QImage& image() const { return constellationArtImage; }
 
     /** Load the object's image */
     void loadImage();
 
     /** @return an object image's width */
-    inline int imageWidth() const{ return constart_image.width(); }
+    inline int imageWidth() const{ return constellationArtImage.width(); }
 
     /** @return an object image's height */
-    inline int imageHeight() const{ return constart_image.height(); }
+    inline int imageHeight() const{ return constellationArtImage.height(); }
 
     /** @return an object's abbreviation */
     inline QString getAbbrev() const { return abbrev;}

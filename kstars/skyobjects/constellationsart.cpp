@@ -51,10 +51,10 @@ ConstellationsArt::ConstellationsArt(const ConstellationsArt &o){
     hd2 = o.gethd2();
     abbrev = o.getAbbrev();
     imageFileName = o.getImageFileName();
-    constart_image = o.image();
+    constellationArtImage = o.image();
 }
 
 void ConstellationsArt::loadImage()
 {
-        constart_image = TextureManager::getImage( imageFileName );
+        constellationArtImage = TextureManager::getImage( imageFileName );
 }

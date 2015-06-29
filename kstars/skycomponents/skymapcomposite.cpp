@@ -86,7 +86,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
-    addComponent(m_ConstArt    = new ConstellationArtComponent( this, m_Cultures ));
+    addComponent(m_ConstellationArt    = new ConstellationArtComponent( this, m_Cultures ));
 
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
@@ -232,7 +232,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     //Draw constellation boundary lines only if we draw western constellations
     if ( m_Cultures->current() == "Western" ){
         m_CBoundLines->draw( skyp );
-        m_ConstArt->draw( skyp ); //for western sky culture ONLY as of now
+        m_ConstellationArt->draw( skyp ); //for western sky culture ONLY as of now
     }
     m_CLines->draw( skyp );
 
@@ -515,12 +515,12 @@ void SkyMapComposite::reloadCNames( ) {
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
 }
 
-void SkyMapComposite::reloadConstArt(){
+void SkyMapComposite::reloadConstellationArt(){
     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
     SkyMapDrawAbstract::setDrawLock( true );
-    delete m_ConstArt;
-    m_ConstArt=0;
-    m_ConstArt = new ConstellationArtComponent( this, m_Cultures );
+    delete m_ConstellationArt;
+    m_ConstellationArt=0;
+    m_ConstellationArt = new ConstellationArtComponent( this, m_Cultures );
 }
 
 void SkyMapComposite::reloadDeepSky() {

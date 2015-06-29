@@ -423,35 +423,21 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 
 bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage)
 {
-   // KStarsData *data = KStarsData::Instance();
-
-    //Updating the position of star1 and star2 before drawing.
-    //obj->star1->updateCoords(data->updateNum());
-    //obj->star2->updateCoords(data->updateNum());
-
     bool visible = false;
     obj->star1->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
     QPointF p1 = m_proj->toScreen(obj->star1, true, &visible);
     if ( !visible || !m_proj->onScreen(p1))
         return false;
 
-    //if ((!m_proj->checkVisibility(obj->star1))&&(!m_proj->checkVisibility(obj->star2))) return false;
-
-    //QPointF position1 = m_proj->toScreen(obj->star1, true);
-    //QPointF position2 = m_proj->toScreen(obj->star2, true);
     qDebug() << "THE STAR POSITION IS" << p1;
 
     int w = obj->imageWidth();
     int h = obj->imageHeight();
 
-    //if((m_proj->onScreen(position1))&&(m_proj->onScreen(position2))) {
-        //begin();
         save();
         translate(p1);
         drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
         restore();
-        //end();
-    //}
     return true;
 }
 
