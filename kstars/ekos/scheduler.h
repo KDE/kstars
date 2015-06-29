@@ -28,7 +28,7 @@ public:
      Scheduler();
     ~Scheduler();
      int checkWeather();
-     void processSession(int i,QUrl filename);
+     void processSession(Schedulerjob o);
      void stopindi();
 
 public slots:

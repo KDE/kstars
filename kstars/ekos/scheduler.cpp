@@ -65,7 +65,8 @@ void Scheduler::stopindi(){
     ekosinterface->call(QDBus::AutoDetect,"stop");
 }
 
-void Scheduler::processSession(int i, QUrl filename){
+void Scheduler::processSession(Schedulerjob o){
+    QUrl filename = o.getFileName();
     //Dbus
     QDBusConnection bus = QDBusConnection::sessionBus();
     QDBusInterface *interface = new QDBusInterface("org.kde.kstars",
@@ -131,8 +132,8 @@ void Scheduler::processSession(int i, QUrl filename){
 //    QDBusReply<QString> replyaux = interface->callWithArgumentList(QDBus::AutoDetect,"sendProperty",argsaux);
 
     QList<QVariant> telescopeSLew;
-    telescopeSLew.append(objects.at(i).getOb()->ra().Hours());
-    telescopeSLew.append(objects.at(i).getOb()->dec().Degrees());
+    telescopeSLew.append(o.getOb()->ra().Hours());
+    telescopeSLew.append(o.getOb()->dec().Degrees());
     mountinterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSLew);
 
     //Waiting for slew
@@ -223,7 +224,7 @@ void Scheduler::startSlot()
             //we clear sequence
             if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90){
                    QUrl fileURL = objects.at(i).getFileName();
-                   processSession(i,fileURL);
+                   processSession(objects.at(i));
                    tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Done"));
             }
             else tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Aborted"));
