@@ -14,16 +14,16 @@
       <arg type="b" direction="out"/>
     </method>    
     <method name="slew">
+      <arg type="b" direction="out"/>
       <arg name="RA" type="d" direction="in"/>
       <arg name="DEC" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="getEquatorialCoords">
     <arg type="ad" direction="out"/>
     <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
     </method>
     <method name="abort">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="getSlewStatus">
       <arg type="s" direction="out"/>
