@@ -15,6 +15,8 @@
 #include "ui_scheduler.h"
 #include <QtDBus/QtDBus>
 #include "scheduler.h"
+#include "kstars.h"
+#include "Schedulerjob.h"
 
 namespace Ekos {
 
@@ -26,7 +28,8 @@ public:
      Scheduler();
     ~Scheduler();
      int checkWeather();
-     void processSession(int i);
+     void processSession(int i,QUrl filename);
+     void stopindi();
 
 public slots:
     void selectSlot();
@@ -37,7 +40,12 @@ public slots:
     void saveSlot();
 
 private:
+
     Ekos::Scheduler *ui;
+    int tableCountRow=0;
+    int tableCountCol;
+    QVector<ObservableA> objects;
+    SkyObject *o;
 };
 }
 
