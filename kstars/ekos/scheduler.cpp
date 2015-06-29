@@ -163,16 +163,16 @@ void Scheduler::saveSlot()
         obj.setAttribute("RA",objects.at(i).getRA());
         obj.setAttribute("DEC",objects.at(i).getDEC());
         obj.setAttribute("Sequence",objects.at(i).getFileName());
-        obj.setAttribute("Now",objects.at(i).getNow());
-        obj.setAttribute("On Time",objects.at(i).getOnTime());
-        obj.setAttribute("On Alt",objects.at(i).getSpecAlt());
-        obj.setAttribute("Start Time",objects.at(i).getSpecTime());
-        obj.setAttribute("MoonSep",objects.at(i).getMoonSepbool());
-        obj.setAttribute("MoonSepVal",objects.at(i).getMoonSep());
-        obj.setAttribute("MerFlip",objects.at(i).getMerFlip());
-        obj.setAttribute("Loop",objects.at(i).getLoop());
-        obj.setAttribute("When Seq completes",objects.at(i).getWhenSeqComp());
-        obj.setAttribute("FinTime",objects.at(i).getOnTime());
+        obj.setAttribute("Now",objects.at(i).getNowCheck());
+        obj.setAttribute("On Time",objects.at(i).getOnTimeCheck());
+        obj.setAttribute("On Alt",objects.at(i).getSpecificAlt());
+        obj.setAttribute("Start Time",objects.at(i).getSpecificTime());
+        obj.setAttribute("MoonSep",objects.at(i).getMoonSeparationCheck());
+        obj.setAttribute("MoonSepVal",objects.at(i).getMoonSeparation());
+        obj.setAttribute("MerFlip",objects.at(i).getMeridianFlip());
+        obj.setAttribute("Loop",objects.at(i).getLoopCheck());
+        obj.setAttribute("When Seq completes",objects.at(i).getWhenSeqCompCheck());
+        obj.setAttribute("FinTime",objects.at(i).getOnTimeCheck());
         obj.setAttribute("FinTimeVal",objects.at(i).getFinTime());
         root.appendChild(obj);
     }
@@ -188,7 +188,7 @@ void Scheduler::startSlot()
 {
     int i;
     for(i=0;i<objects.length();i++){
-        if(objects.at(i).getNow()==true)
+        if(objects.at(i).getNowCheck()==true)
         {
             //here i use default limits but i will need a DBUS call to access the values
             //Also here i will need getSequenceStatus(), clearSequence(). After an ibject is done
@@ -239,46 +239,46 @@ void Scheduler::addToTableSlot()
     {
         //Adding to vector
         //Start up
-        ObservableA newOb;
+        Schedulerjob newOb;
         newOb.setOb(o);
         newOb.setName(NameEdit->text());
         newOb.setRA(RaEdit->text());
         newOb.setDEC(DecEdit->text());
         newOb.setFileName(FileNameEdit->text());
         if(OnButton->isChecked()){
-            newOb.setSpecTime(true);
+            newOb.setSpecificTime(true);
             newOb.setStartTime(dateTimeEdit->time().toString());
             newOb.setHours(dateTimeEdit->time().hour());
-            newOb.setMins(dateTimeEdit->time().minute());
+            newOb.setMinutes(dateTimeEdit->time().minute());
         }
         else if(NowButton->isChecked()){
-            newOb.setNow(true);
+            newOb.setNowCheck(true);
             newOb.setStartTime(QTime::currentTime().toString());
             newOb.setHours(QTime::currentTime().hour());
-            newOb.setMins(QTime::currentTime().minute());
+            newOb.setMinutes(QTime::currentTime().minute());
         }
         else if(altButton->isChecked()){
-            newOb.setSpecAlt(true);
+            newOb.setSpecificAlt(true);
             newOb.setAlt(doubleSpinBox->value());
         }
 
         //Constraints
         if(moonSepBox->isChecked()){
-            newOb.setMoonSepbool(true);
-            newOb.setMoonSep(doubleSpinBox_3->value());
+            newOb.setMoonSeparationCheck(true);
+            newOb.setMoonSeparation(doubleSpinBox_3->value());
         }
         else if(merFlipBox->isChecked())
-            newOb.setMerFlip(true);
+            newOb.setMeridianFlip(true);
 
         //Completion
         if(onFinButton->isChecked()){
-            newOb.setOnTime(true);
+            newOb.setOnTimeCheck(true);
             newOb.setFinTime(dateTimeEdit_2->time().toString());
         }
         else if(seqCompButton->isChecked())
-            newOb.setWhenSeqComp(true);
+            newOb.setWhenSeqCompCheck(true);
         else if(loopButton->isChecked())
-            newOb.setLoop(true);
+            newOb.setLoopCheck(true);
 
         objects.append(newOb);
 

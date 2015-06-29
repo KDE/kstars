@@ -16,7 +16,7 @@
 #include <QtDBus/QtDBus>
 #include "scheduler.h"
 #include "kstars.h"
-#include "Schedulerjob.h"
+#include "schedulerjob.h"
 
 namespace Ekos {
 
@@ -44,7 +44,7 @@ private:
     Ekos::Scheduler *ui;
     int tableCountRow=0;
     int tableCountCol;
-    QVector<ObservableA> objects;
+    QVector<Schedulerjob> objects;
     SkyObject *o;
 };
 }
