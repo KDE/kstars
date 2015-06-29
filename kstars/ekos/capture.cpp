@@ -2392,7 +2392,9 @@ void Capture::setTemperature()
 void Capture::clearSequenceQueue()
 {
     stopSequence();
-    queueTable->clearContents();
+    while (queueTable->rowCount() > 0)
+        queueTable->removeRow(0);
+    jobs.clear();
     qDeleteAll(jobs);
 }
 

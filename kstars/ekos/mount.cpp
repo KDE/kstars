@@ -37,6 +37,8 @@ namespace Ekos
 Mount::Mount()
 {
     setupUi(this);
+    new MountAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount",  this);
 
     currentTelescope = NULL;
 
@@ -528,32 +530,39 @@ bool Mount::isLimitsEnabled()
     return enableLimitsCheck->isChecked();
 }
 
-void Mount::slew(double RA, double DEC)
+bool Mount::slew(double RA, double DEC)
 {
-    currentTelescope->Slew(RA, DEC);
+    if (currentTelescope == NULL || currentTelescope->isConnected() == false)
+        return false;
+
+    return currentTelescope->Slew(RA, DEC);
 }
 
-void Mount::abort()
+bool Mount::abort()
 {
-    currentTelescope->Abort();
+    return currentTelescope->Abort();
 }
 
 QString Mount::getSlewStatus()
 {
-    IPState state = currentTelescope->getState("EQUATORIAL_EOD_COORDS");
+    IPState state = currentTelescope->getState("EQUATORIAL_EOD_COORD");
     QString status;
 
     switch (state)
     {
         case IPS_IDLE:
             status = "Idle";
+            break;
          case IPS_OK:
             status = "Complete";
+            break;
           case IPS_BUSY:
             status = "Busy";
+            break;
            case IPS_ALERT:
            default:
             status = "Error";
+            break;
     }
 
     return status;
