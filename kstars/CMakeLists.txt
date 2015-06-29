@@ -488,6 +488,7 @@ qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture.h 
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus.h Ekos::Focus)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide.h Ekos::Guide)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos::Align)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
 endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
