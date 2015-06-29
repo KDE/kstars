@@ -68,8 +68,9 @@ public:
      * Slew the mount to the RA/DEC (JNow).
      * @param RA Right ascention is hours.
      * @param DEC Declination in degrees.
+     * @return true if the command is sent successfully, false otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void slew(double RA, double DEC);
+    Q_SCRIPTABLE bool slew(double RA, double DEC);
 
     /** DBUS interface function.
      * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
@@ -78,8 +79,9 @@ public:
 
     /** DBUS interface function.
      * Aborts the mount motion
+     * @return true if the command is sent successfully, false otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void abort();
+    Q_SCRIPTABLE bool abort();
 
     /** DBUS interface function.
      * Get the mount slew status ("Idle","Complete", "Busy", "Error")
