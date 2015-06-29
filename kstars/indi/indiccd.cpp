@@ -1133,9 +1133,9 @@ void CCD::processBLOB(IBLOB* bp)
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
          if (ISOMode == false)
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%02d", seqCount)).arg(QString(fmt));
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", seqCount)).arg(QString(fmt));
           else
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%02d", seqCount)).arg(ts).arg(QString(fmt));
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", seqCount)).arg(ts).arg(QString(fmt));
 
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
@@ -1441,7 +1441,7 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
 
 void CCD::updateUploadSettings()
 {
-    QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("XX");
+    QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("XXX");
 
     ITextVectorProperty *uploadSettingsTP=NULL;
     IText *uploadT=NULL;

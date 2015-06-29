@@ -15,6 +15,8 @@
 #include "indi/clientmanager.h"
 #include "indi/indifilter.h"
 
+#include "mountadaptor.h"
+
 #include "ekosmanager.h"
 
 #include "kstars.h"
@@ -500,6 +502,94 @@ void Mount::disableAltLimits()
 
     enableAltitudeLimits(false);
 
+}
+
+QList<double> Mount::getAltitudeLimits()
+{
+    QList<double> limits;
+
+    limits.append(minAltLimit->value());
+    limits.append(maxAltLimit->value());
+
+    return limits;
+}
+
+void Mount::setAltitudeLimits(double minAltitude, double maxAltitude, bool enabled)
+{
+    minAltLimit->setValue(minAltitude);
+    maxAltLimit->setValue(maxAltitude);
+
+    enableLimitsCheck->setChecked(enabled);
+
+}
+
+bool Mount::isLimitsEnabled()
+{
+    return enableLimitsCheck->isChecked();
+}
+
+void Mount::slew(double RA, double DEC)
+{
+    currentTelescope->Slew(RA, DEC);
+}
+
+void Mount::abort()
+{
+    currentTelescope->Abort();
+}
+
+QString Mount::getSlewStatus()
+{
+    IPState state = currentTelescope->getState("EQUATORIAL_EOD_COORDS");
+    QString status;
+
+    switch (state)
+    {
+        case IPS_IDLE:
+            status = "Idle";
+         case IPS_OK:
+            status = "Complete";
+          case IPS_BUSY:
+            status = "Busy";
+           case IPS_ALERT:
+           default:
+            status = "Error";
+    }
+
+    return status;
+
+}
+
+QList<double> Mount::getEquatorialCoords()
+{
+    double ra,dec;
+    QList<double> coords;
+
+    currentTelescope->getEqCoords(&ra, &dec);
+    coords.append(ra);
+    coords.append(dec);
+
+    return coords;
+}
+
+QList<double> Mount::getTelescopeInfo()
+{
+    QList<double> info;
+
+    info.append(primaryScopeFocalIN->value());
+    info.append(primaryScopeApertureIN->value());
+    info.append(guideScopeFocalIN->value());
+    info.append(guideScopeApertureIN->value());
+
+    return info;
+}
+
+void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
+{
+    primaryScopeFocalIN->setValue(primaryFocalLength);
+    primaryScopeApertureIN->setValue(primaryAperture);
+    guideScopeFocalIN->setValue(guideFocalLength);
+    guideScopeApertureIN->setValue(guideAperture);
 }
 
 }

@@ -41,7 +41,7 @@ window:</para>
 
 <para>You can run devices by browsing the device tree, selecting a specific device, and then clicking on the <guibutton>Run Service</guibutton> button. You can select the operation mode, either local or server as defined above. The port number is randomly generated between the range from 7624 to 10,000. To specify a port, click on the port column next to the desired driver. &kstars; allows multiple drivers to run under one INDI server, and hence one port. Select multiple drivers then press <guibutton>Run Service</guibutton> button.</para>
 
-<para>To control remove devices, refer to the <link linkend="indi-remote-control">remote device control</link> section.</para>
+<para>To control remote devices, refer to the <link linkend="indi-remote-control">remote device control</link> section.</para>
 </sect1>
 
 <sect1 id="indi-telescope-setup">

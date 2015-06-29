@@ -63,6 +63,10 @@ Q_OBJECT
          */
         void addTargetNotes();
 
+        //
+        void slotObserverAdd();
+        //
+
         /** @short Function to add the current observation to the observation list
          */
         bool addObservation();

@@ -181,6 +181,7 @@ SkyMap::SkyMap() :
 
     connect( &m_HoverTimer,   SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
+    connect( KStarsData::Instance(), SIGNAL( skyUpdate( bool ) ), this, SLOT( slotUpdateSky( bool ) ) );
 
     // Time infobox
     m_timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
@@ -367,7 +368,7 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 void SkyMap::slotCenter() {
     KStars* kstars = KStars::Instance();
     TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
-    
+
     setFocusPoint( clickedPoint() );
     if ( Options::useAltAz() )
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -423,6 +424,17 @@ void SkyMap::slotCenter() {
     //display coordinates in statusBar
     emit mousePointChanged( focusPoint() );
     showFocusCoords(); //update FocusBox
+}
+
+void SkyMap::slotUpdateSky( bool now ) {
+    // Code moved from KStarsData::updateTime()
+    //Update focus
+    updateFocus();
+
+    if ( now )
+        QTimer::singleShot( 0, this, SLOT( forceUpdateNow() ) ); // Why is it done this way rather than just calling forceUpdateNow()? -- asimha
+    else
+        forceUpdate();
 }
 
 void SkyMap::slotDSS() {

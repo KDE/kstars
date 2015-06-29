@@ -419,6 +419,15 @@ Capture::Capture()
     meridianHours->setValue(Options::autoMeridianHours());
     temperatureCheck->setChecked(Options::enforceTemperatureControl());
     ADUValue->setValue(Options::aDUValue());
+
+    connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(HFRPixels, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
+    connect(guideDeviationCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(guideDeviation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
+    connect(meridianCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(meridianHours, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
+    connect(parkCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+
 }
 
 Capture::~Capture()
@@ -1004,6 +1013,15 @@ void Capture::newFITS(IBLOB *bp)
 
             double nextExposure = setCurrentADU(currentADU);
 
+            if (nextExposure <= 0)
+            {
+                appendLogText(xi18n("Unable to calculate optimal exposure settings, please take the flats manually."));
+                activeJob->setTargetADU(0);
+                ADUValue->setValue(0);
+                stopSequence();
+                return;
+            }
+
             appendLogText(xi18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
 
             activeJob->setExposure(nextExposure);
@@ -1237,24 +1255,24 @@ void Capture::checkSeqBoundary(const QString &path)
     //const KFileItemList::const_iterator end = items.end();
     QDirIterator it(path, QDir::Files);
     while (it.hasNext())
-    {
-        tempName = it.next();
-        tempName.remove(path + "/");
+        {
+            tempName = it.next();
+            tempName.remove(path + "/");
 
-        // find the prefix first
-        //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
-        if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
-            continue;
+            // find the prefix first
+            //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
+            if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
+                continue;
 
-        tempName = tempName.remove(seqPrefix);
-        if (tempName.startsWith("_"))
-            tempName = tempName.remove(0, 1);
+            tempName = tempName.remove(seqPrefix);
+            if (tempName.startsWith("_"))
+                tempName = tempName.remove(0, 1);
 
-        bool indexOK = false;
-        newFileIndex = tempName.mid(0, 2).toInt(&indexOK);
-        if (indexOK && newFileIndex >= seqCount)
-            seqCount = newFileIndex + 1;
-    }
+            bool indexOK = false;
+            newFileIndex = tempName.mid(0, 3).toInt(&indexOK);
+            if (indexOK && newFileIndex >= seqCount)
+                seqCount = newFileIndex + 1;
+        }
 
     currentCCD->setSeqCount(seqCount);
 
@@ -1837,7 +1855,7 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(0, xi18n("FITS Save Directory"), fitsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), xi18n("FITS Save Directory"), fitsDir->text());
 
     if (!dir.isEmpty())
         fitsDir->setText(dir);
@@ -1845,7 +1863,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileName(0, xi18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+    QUrl fileURL = QFileDialog::getOpenFileName(KStars::Instance(), xi18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
 
@@ -1892,12 +1910,42 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
         {
              for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
              {
-                 if (!strcmp(tagXMLEle(ep), "Park"))
+                 if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                  {
-                     if (parkCheck->isEnabled() == false)
-                         continue;
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                      {
+                         guideDeviationCheck->setChecked(true);
+                         guideDeviation->setValue(atof(pcdataXMLEle(ep)));
+                      }
+                     else
+                         guideDeviationCheck->setChecked(false);
 
-                     if (!strcmp(pcdataXMLEle(ep), "1"))
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
+                 {
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                      {
+                         autofocusCheck->setChecked(true);
+                         HFRPixels->setValue(atof(pcdataXMLEle(ep)));
+                      }
+                     else
+                         autofocusCheck->setChecked(false);
+
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
+                 {
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                      {
+                         meridianCheck->setChecked(true);
+                         meridianHours->setValue(atof(pcdataXMLEle(ep)));
+                      }
+                     else
+                         meridianCheck->setChecked(false);
+
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "Park"))
+                 {
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
                          parkCheck->setChecked(true);
                      else
                          parkCheck->setChecked(false);
@@ -2045,7 +2093,7 @@ void Capture::saveSequenceQueue()
 
     if (sequenceURL.isEmpty())
     {
-        sequenceURL = QFileDialog::getSaveFileName(0, xi18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+        sequenceURL = QFileDialog::getSaveFileName(KStars::Instance(), xi18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (sequenceURL.isEmpty())
         {
@@ -2071,7 +2119,7 @@ void Capture::saveSequenceQueue()
     {
         if ( (saveSequenceQueue(sequenceURL.path())) == false)
         {
-            KMessageBox::error(0, xi18n("Failed to save sequence queue"), xi18n("FITS Save"));
+            KMessageBox::error(KStars::Instance(), xi18n("Failed to save sequence queue"), xi18n("FITS Save"));
             return;
         }
 
@@ -2080,7 +2128,7 @@ void Capture::saveSequenceQueue()
     } else
     {
         QString message = xi18n( "Invalid URL: %1", sequenceURL.url() );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
+        KMessageBox::sorry(KStars::Instance(), message, xi18n( "Invalid URL" ) );
     }
 
 }
@@ -2109,8 +2157,11 @@ bool Capture::saveSequenceQueue(const QString &path)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue>" << endl;
-    outstream << "<Park>" << (parkCheck->isChecked() ? 1 : 0) << "</Park>" << endl;
+    outstream << "<SequenceQueue version='1.1'>" << endl;
+    outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
+    outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
+    outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;
+    outstream << "<Park enabled='" << (parkCheck->isChecked() ? "true" : "false") << "'></Park>" << endl;
     foreach(SequenceJob *job, jobs)
     {
         job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
@@ -2336,6 +2387,60 @@ void Capture::setTemperature()
 {
     if (currentCCD)
         currentCCD->setTemperature(temperatureIN->value());
+}
+
+void Capture::clearSequenceQueue()
+{
+    stopSequence();
+    queueTable->clearContents();
+    qDeleteAll(jobs);
+}
+
+QString Capture::getSequenceQueueStatus()
+{
+    if (jobs.count() == 0)
+        return "Invalid";
+
+    int idle=0, error=0, complete=0, aborted=0,running=0;
+
+    foreach(SequenceJob* job, jobs)
+    {
+        switch (job->getStatus())
+        {
+            case SequenceJob::JOB_ABORTED:
+                aborted++;
+                break;
+            case SequenceJob::JOB_BUSY:
+                running++;
+                break;
+            case SequenceJob::JOB_DONE:
+                complete++;
+                break;
+            case SequenceJob::JOB_ERROR:
+                error++;
+                break;
+            case SequenceJob::JOB_IDLE:
+                idle++;
+            break;
+        }
+    }
+
+    if (error > 0)
+        return "Error";
+
+    if (aborted > 0)
+        return "Aborted";
+
+    if (running > 0)
+        return "Running";
+
+    if (idle == jobs.count())
+        return "Idle";
+
+    if (complete == jobs.count())
+        return "Complete";
+
+    return "Invalid";
 }
 
 void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
@@ -2573,23 +2678,39 @@ double Capture::setCurrentADU(double value)
         ADURaw2 = value;
     }
 
+    qDebug() << "Exposure #1 (" << ExpRaw1 << "," << ADURaw1 << ") Exspoure #2 (" << ExpRaw2 << "," << ADURaw2 << ")";
+
     // If we don't have the 2nd point, let's take another exposure with value relative to what we have now
     if (ADURaw2 == -1 || ExpRaw2 == -1 || (ADURaw1 == ADURaw2))
     {
         if (value < activeJob->getTargetADU())
-            nextExposure = activeJob->getExposure()*10;
+            nextExposure = activeJob->getExposure()*1.5;
         else
-            nextExposure = activeJob->getExposure()*0.1;
+            nextExposure = activeJob->getExposure()*.75;
+
+        qDebug() << "Next Exposure: " << nextExposure;
 
         return nextExposure;
     }
 
-    ADUSlope = (ExpRaw2 - ExpRaw1) / (ADURaw2 - ADURaw1);
+    if (fabs(ADURaw2 - ADURaw1) < 0.01)
+        ADUSlope=1e-6;
+    else
+        ADUSlope = (ExpRaw2 - ExpRaw1) / (ADURaw2 - ADURaw1);
+
+    qDebug() << "ADU Slope: " << ADUSlope;
 
     nextExposure = ADUSlope * (activeJob->getTargetADU() - ADURaw2) + ExpRaw2;
 
+    qDebug() << "Next Exposure: " << nextExposure;
+
     return nextExposure;
 
+}
+
+void Capture::setDirty()
+{
+    mDirty = true;
 }
 
 

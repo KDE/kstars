@@ -228,10 +228,11 @@ ObservingList::~ObservingList()
 void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     bool addToWishList=true;
     if( ! obj )
-        obj = SkyMap::Instance()->clickedObject();
+        obj = SkyMap::Instance()->clickedObject(); // Eh? Why? Weird default behavior.
 
     if ( !obj ) {
-        qWarning() << "Trying to add null object to observing list!";
+        qWarning() << "Trying to add null object to observing list! Ignoring.";
+        return;
     }
 
     QString finalObjectName = getObjectName(obj);
@@ -695,7 +696,7 @@ void ObservingList::saveCurrentUserLog() {
 
 void ObservingList::slotOpenList()
 {
-    QUrl fileURL =QFileDialog::getOpenFileUrl(0, xi18n("Open Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
+    QUrl fileURL =QFileDialog::getOpenFileUrl(KStars::Instance(), xi18n("Open Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     QFile f;
 
     if ( fileURL.isValid() )
@@ -768,7 +769,7 @@ void ObservingList::saveCurrentList() {
 }
 
 void ObservingList::slotSaveSessionAs(bool nativeSave) {
-    QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
+    QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
         FileName = fileURL.path();
         slotSaveSession(nativeSave);
@@ -779,13 +780,13 @@ void ObservingList::slotSaveList() {
     QFile f;
     f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << "Cannot write list to  file";
+        qDebug() << "Cannot write list to  file"; // TODO: This should be presented as a message box to the user
         return;
     }
     QTextStream ostream( &f );
     foreach ( SkyObject* o, obsList() ) {
         if ( !o ) {
-            qWarning() << "Null entry in observing wishlist!";
+            qWarning() << "Null entry in observing wishlist! Skipping!";
             continue;
         }
         if ( o->name() == "star" ) {

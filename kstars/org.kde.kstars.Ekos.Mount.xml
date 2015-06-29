@@ -1,0 +1,43 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.Ekos.Mount">
+    <method name="getAltitudeLimits">
+    <arg type="ad" direction="out"/>
+    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
+    </method>   
+    <method name="setAltitudeLimits">
+      <arg name="minAltitude" type="d" direction="in"/>
+      <arg name="maxAltitude" type="d" direction="in"/>
+      <arg name="enabled" type="b" direction="in"/>
+    </method>
+     <method name="isLimitsEnabled">
+      <arg type="b" direction="out"/>
+    </method>    
+    <method name="slew">
+      <arg name="RA" type="d" direction="in"/>
+      <arg name="DEC" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getEquatorialCoords">
+    <arg type="ad" direction="out"/>
+    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
+    </method>
+    <method name="abort">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getSlewStatus">
+      <arg type="s" direction="out"/>
+    </method>    
+    <method name="getTelescopeInfo">
+    <arg type="ad" direction="out"/>
+    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
+    </method>
+    <method name="setTelescopeInfo">
+      <arg name="primaryFocalLength" type="d" direction="in"/>
+      <arg name="primaryAperture" type="d" direction="in"/>
+      <arg name="guideFocalLength" type="d" direction="in"/>
+      <arg name="guideAperture" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+  </interface>
+</node>

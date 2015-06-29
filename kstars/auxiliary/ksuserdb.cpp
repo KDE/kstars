@@ -225,6 +225,11 @@ bool KSUserDB::DeleteObserver(const QString &id) {
     userdb_.close();
     return (observer_count > 0);
 }
+QSqlDatabase KSUserDB::GetDatabase()
+{
+    userdb_.open();
+    return userdb_;
+}
 
 void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     userdb_.open();

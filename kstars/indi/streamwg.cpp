@@ -11,6 +11,7 @@
 
 #include "streamwg.h"
 #include "indistd.h"
+#include "kstars.h"
 #include "Options.h"
 
 #include <KMessageBox>
@@ -154,7 +155,7 @@ void StreamWG::captureImage()
 
     fmt = imgFormatCombo->currentText();
 
-    currentFileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Image"), currentDir, fmt );
+    currentFileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Image"), currentDir, fmt );
 
     if (currentFileURL.isEmpty()) return;
 
