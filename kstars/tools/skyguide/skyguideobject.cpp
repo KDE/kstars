@@ -20,7 +20,8 @@
 #include "skyguideobject.h"
 
 SkyGuideObject::SkyGuideObject(const QVariantMap &map)
-    : m_isValid(false)
+    : m_isValid(false),
+      m_currentSlide(0)
 {
     if (map["formatVersion"].toInt() != SKYGUIDE_FORMAT_VERSION
         || !map.contains("header") || !map.contains("slides"))

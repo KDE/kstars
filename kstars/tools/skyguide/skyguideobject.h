@@ -26,9 +26,12 @@
 
 class SkyGuideObject : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
     Q_PROPERTY(QString title READ title CONSTANT)
+    Q_PROPERTY(QString slideTitle READ slideTitle CONSTANT)
+
+    Q_PROPERTY(int currentSlide READ currentSlide WRITE setCurrentSlide NOTIFY slideChanged)
 
 public:
     typedef struct
@@ -49,10 +52,18 @@ public:
     SkyGuideObject(const QVariantMap &map);
 
     inline bool isValid() { return m_isValid; }
+    inline int currentSlide() { return m_currentSlide; }
     inline QString title() { return m_title; }
+    inline QString slideTitle() { return m_slides.at(m_currentSlide).title; }
+
+    inline void setCurrentSlide(int slide) { m_currentSlide = slide; }
+
+signals:
+    void slideChanged();
 
 private:
     bool m_isValid;
+    int m_currentSlide;
     QString m_title;
     QString m_description;
     QString m_language;
