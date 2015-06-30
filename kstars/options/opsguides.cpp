@@ -27,6 +27,8 @@ OpsGuides::OpsGuides( KStars *_ks )
     setupUi( this );
     connect( kcfg_ShowCNames, SIGNAL( toggled( bool ) ),
              this, SLOT( slotToggleConstellOptions( bool ) ) );
+    connect( kcfg_ShowConstellationArt, SIGNAL( toggled( bool ) ),
+             this, SLOT( slotToggleConstellationArt( bool ) ) );
     connect( kcfg_ShowMilkyWay, SIGNAL( toggled( bool ) ),
              this, SLOT( slotToggleMilkyWayOptions( bool ) ) );
     connect( kcfg_ShowGround, SIGNAL( toggled( bool ) ),
@@ -41,6 +43,7 @@ OpsGuides::OpsGuides( KStars *_ks )
     // checkboxes depending on the options.
     slotToggleOpaqueGround( Options::showGround() ); 
     slotToggleConstellOptions( Options::showCNames() );
+    slotToggleConstellationArt(Options::showConstellationArt);
     slotToggleMilkyWayOptions( Options::showMilkyWay() );
     slotToggleAutoSelectGrid( Options::autoSelectGrid() );
 
@@ -51,6 +54,10 @@ OpsGuides::~OpsGuides()
 
 void OpsGuides::slotToggleConstellOptions( bool state ) {
     ConstellOptions->setEnabled( state );
+}
+
+void OpsGuides::slotToggleConstellationArt( bool state ) {
+    kcfg_ShowConstellationArt->setEnabled( state );
 }
 
 void OpsGuides::slotToggleMilkyWayOptions( bool state ) {

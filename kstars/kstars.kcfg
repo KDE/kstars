@@ -437,6 +437,11 @@
       <whatsthis>Toggle whether constellation lines are drawn in the sky map.</whatsthis>
       <default>false</default>
     </entry>
+    <entry name="ShowConstellationArt" type="Bool">
+      <label>Draw constellation art in the sky map?</label>
+      <whatsthis>Toggle whether constellation art drawn in the sky map.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="ShowCNames" type="Bool">
       <label>Draw constellation names in the sky map?</label>
       <whatsthis>Toggle whether constellation name labels are drawn in the sky map.</whatsthis>

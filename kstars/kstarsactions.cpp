@@ -166,6 +166,11 @@ void KStars::slotViewToolBar() {
         if ( kcd ) {
             opguides->kcfg_ShowCBounds->setChecked( a->isChecked() );
         }
+    } else if ( a == actionCollection()->action( "show_constellationart" ) ) {
+        Options::setShowConstellationArt( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowConstellationArt->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_mw" ) ) {
         Options::setShowMilkyWay( a->isChecked() );
         if ( kcd ) {
@@ -618,6 +623,7 @@ void KStars::slotApplyConfigChanges() {
     m_KStarsData->skyComposite()->setCurrentCulture(  m_KStarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
     m_KStarsData->skyComposite()->reloadCLines();
     m_KStarsData->skyComposite()->reloadCNames();
+    m_KStarsData->skyComposite()->reloadConstellationArt();
 }
 
 void KStars::slotApplyWIConfigChanges() {

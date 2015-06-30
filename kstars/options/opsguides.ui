@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>423</width>
-    <height>552</height>
+    <height>592</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
@@ -29,7 +29,16 @@
      <property name="spacing">
       <number>6</number>
      </property>
-     <property name="margin">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <item>
@@ -62,6 +71,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_ShowConstellationArt">
+     <property name="text">
+      <string>Constellation Art</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="kcfg_ShowHighlightedCBound">
      <property name="text">
       <string>Highlight central constellation boundary</string>
@@ -90,7 +106,16 @@
       <property name="spacing">
        <number>6</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>8</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
        <number>8</number>
       </property>
       <item>
@@ -315,13 +340,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QComboBox</class>
-   <extends>QComboBox</extends>
-   <header>QComboBox.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>kcfg_ShowCLines</tabstop>
   <tabstop>kcfg_SkyCulture</tabstop>

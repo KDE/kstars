@@ -194,6 +194,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     actionCollection()->action("show_deepsky"         )->setChecked( Options::showDeepSky() );
     actionCollection()->action("show_planets"         )->setChecked( Options::showSolarSystem() );
     actionCollection()->action("show_clines"          )->setChecked( Options::showCLines() );
+    actionCollection()->action("show_constellationart")->setChecked( Options::showConstellationArt() );
     actionCollection()->action("show_cnames"          )->setChecked( Options::showCNames() );
     actionCollection()->action("show_cbounds"         )->setChecked( Options::showCBounds() );
     actionCollection()->action("show_mw"              )->setChecked( Options::showMilkyWay() );
