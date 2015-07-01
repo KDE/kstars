@@ -28,9 +28,15 @@ class SkyGuideObject : public QObject
 {
     Q_OBJECT
 
+    // header
     Q_PROPERTY(QString title READ title CONSTANT)
-    Q_PROPERTY(QString slideTitle READ slideTitle CONSTANT)
+    Q_PROPERTY(QString description READ description CONSTANT)
+    Q_PROPERTY(QString language READ language CONSTANT)
+    Q_PROPERTY(QString creationDate READ creationDate CONSTANT)
+    Q_PROPERTY(QString version  READ version CONSTANT)
 
+    // slides
+    Q_PROPERTY(QString slideTitle READ slideTitle CONSTANT)
     Q_PROPERTY(int currentSlide READ currentSlide WRITE setCurrentSlide NOTIFY slideChanged)
 
 public:
@@ -53,10 +59,15 @@ public:
 
     inline bool isValid() { return m_isValid; }
     inline int currentSlide() { return m_currentSlide; }
-    inline QString title() { return m_title; }
-    inline QString slideTitle() { return m_slides.at(m_currentSlide).title; }
-
     inline void setCurrentSlide(int slide) { m_currentSlide = slide; }
+
+    inline QString title() { return m_title; }
+    inline QString description() { return m_description; }
+    inline QString language() { return m_language; }
+    inline QString creationDate() { return m_creationDate.toString("MMMM d, yyyy"); }
+    inline QString version() { return QString::number(m_version); }
+
+    inline QString slideTitle() { return m_slides.at(m_currentSlide).title; }
 
 signals:
     void slideChanged();
