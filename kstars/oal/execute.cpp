@@ -298,7 +298,7 @@ void Execute::slotEndSession() {
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
-        QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
+        QUrl fileURL = QFileDialog::getSaveFileUrl(0, xi18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
 
         if( fileURL.isEmpty() ) {
             // Cancel
