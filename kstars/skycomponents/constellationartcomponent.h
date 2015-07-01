@@ -17,7 +17,7 @@
 
 #ifndef ConstellationArtComponent_H
 #define ConstellationArtComponent_H
-
+#include "kstars/Options.h"
 #include "kstars/skyobjects/constellationsart.h"
 #include "skycomponent.h"
 #include <QImage>
@@ -58,8 +58,6 @@ public:
     void showList();
 
     virtual void draw( SkyPainter *skyp );
-
-    virtual void update( ConstellationsArt *num=0 );
 
     QList<ConstellationsArt*> m_ConstList;
 

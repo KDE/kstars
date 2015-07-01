@@ -91,12 +91,10 @@ void ConstellationArtComponent::showList()
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
 
-    skyp->drawConstellationArtImage(m_ConstList[0], true);
+    if(Options::showConstellationArt()){
+         skyp->drawConstellationArtImage(m_ConstList[0], true);
+    }
+
     //Loops through the QList containing all data required to draw western constellations.
     //There are 85 images, so m_ConstList.size() should return 85.
-}
-
-void ConstellationArtComponent::update(ConstellationsArt *num)
-{
-
 }
