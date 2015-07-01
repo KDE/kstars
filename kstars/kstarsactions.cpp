@@ -341,6 +341,8 @@ void KStars::slotSkyGuide() {
     // toggle visibility
     bool isVisible = m_SkyGuideMgr->view()->dock()->isVisible();
     m_SkyGuideMgr->view()->dock()->setVisible(!isVisible);
+    this->update();
+    this->repaint();
 }
 
 //FIXME Port to QML2
