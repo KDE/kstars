@@ -3,9 +3,9 @@ import QtQuick 2.2
 Rectangle {
     id: home
 
-    function loadSlide(modelData) {
+    function loadGuide(modelData) {
         loader.modelData = modelData;
-        loader.source = "skyguideslide.qml";
+        loader.source = "skyguideinfo.qml";
     }
 
     Component {
@@ -21,7 +21,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: guidesList.currentIndex = index
-                onDoubleClicked: loadSlide(model.modelData)
+                onDoubleClicked: loadGuide(model.modelData)
             }
         }
     }
@@ -46,6 +46,6 @@ Rectangle {
         model: guidesModel
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
         delegate: guidesDelegate
-        Keys.onReturnPressed: loadSlide(currentItem.modelData)
+        Keys.onReturnPressed: loadGuide(currentItem.modelData)
     }
 }
