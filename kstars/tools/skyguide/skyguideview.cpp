@@ -29,6 +29,7 @@ SkyGuideView::SkyGuideView()
 
 void SkyGuideView::setModel(QList<QObject*> guides)
 {
+    this->setResizeMode(QQuickView::SizeRootObjectToView);
     QQmlContext* ctxt = this->rootContext();
     ctxt->setContextProperty("guidesModel", QVariant::fromValue(guides));
 

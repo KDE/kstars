@@ -1,10 +1,10 @@
 import QtQuick 2.2
 
 Rectangle {
-    id: slide
+    id: info
 
     Text {
-        text: loader.modelData.slideTitle
+        text: loader.modelData.title
         color: "#fd2121"
         font.pointSize: 21
         horizontalAlignment: Text.AlignHCenter

@@ -2,21 +2,8 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 
-Rectangle {
+ColumnLayout {
     id: view
-    x: 0
-    y: 0    
-    width: 360
-    height: 360
-
-    Loader {
-        id: loader
-        focus: true
-        anchors.fill: parent
-        property var modelData: null
-        anchors.topMargin: 46
-        source: "skyguidehome.qml"
-    }
 
     Action {
         id: homeAction
@@ -24,6 +11,9 @@ Rectangle {
     }
 
     ToolBar {
+        Layout.alignment: Qt.AlignTop
+        Layout.preferredWidth: 360
+        Layout.fillWidth: true
         RowLayout {
             anchors.fill: parent
             ToolButton {
@@ -34,5 +24,26 @@ Rectangle {
             }
             Item { Layout.fillWidth: true }
         }
+    }
+
+    Loader {
+        id: loader
+        Layout.alignment: Qt.AlignCenter
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+        Layout.minimumHeight: 360
+        focus: true
+        property var modelData: null
+        source: "skyguidehome.qml"
+    }
+
+    Item { Layout.fillHeight: true }
+
+    Rectangle {
+        id: menu
+        Layout.alignment: Qt.AlignBottom
+        Layout.fillWidth: true
+        Layout.preferredHeight: 46
+        color: "#bcbcb5"
     }
 }
