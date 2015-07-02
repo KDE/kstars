@@ -10,7 +10,7 @@ ColumnLayout {
     Text {
         Layout.fillWidth: true
         text: loader.modelData.title
-        font.pixelSize: 24
+        font.pixelSize: fontSizeHeader
         color: "#fd2121"
         horizontalAlignment: Text.AlignHCenter
     }

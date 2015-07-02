@@ -6,7 +6,7 @@ Rectangle {
     Text {
         text: loader.modelData.slideTitle
         color: "#fd2121"
-        font.pointSize: 21
+        font.pixelSize: fontSizeHeader
         horizontalAlignment: Text.AlignHCenter
         anchors.fill: parent
     }
