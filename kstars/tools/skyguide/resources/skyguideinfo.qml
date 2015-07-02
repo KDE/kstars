@@ -16,11 +16,33 @@ ColumnLayout {
     }
 
     TextArea {
-        Layout.preferredWidth: parent.width * 0.9
         Layout.alignment: Qt.AlignHCenter
+        Layout.preferredWidth: parent.width * 0.9
         text: loader.modelData.description
         readOnly: true
         font.pixelSize: 12
+    }
+
+    Rectangle {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredWidth: parent.width * 0.9
+        Layout.preferredHeight: 100
+        color: "#ffffff"
+        border.width: 1
+
+        GridLayout {
+            Layout.alignment: Qt.AlignHCenter
+            columns: 2
+
+            Text { text: "Creation Date:"; font.bold: true; }
+            Text { text: loader.modelData.creationDate; }
+
+            Text { text: "Language:"; font.bold: true; }
+            Text { text: loader.modelData.language; }
+
+            Text { text: "Version:"; font.bold: true; }
+            Text { text: loader.modelData.version; }
+        }
     }
 
     Item {
