@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 
 ColumnLayout {
     id: view
+    property int fontSizeText: 12
 
     Action {
         id: homeAction

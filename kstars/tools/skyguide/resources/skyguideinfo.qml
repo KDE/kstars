@@ -20,7 +20,7 @@ ColumnLayout {
         Layout.preferredWidth: parent.width * 0.9
         text: loader.modelData.description
         readOnly: true
-        font.pixelSize: 12
+        font.pixelSize: fontSizeText
     }
 
     Rectangle {
@@ -34,14 +34,14 @@ ColumnLayout {
             Layout.alignment: Qt.AlignHCenter
             columns: 2
 
-            Text { text: "Creation Date:"; font.bold: true; }
-            Text { text: loader.modelData.creationDate; }
+            Text { text: "Creation Date:"; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.creationDate; font.pixelSize: fontSizeText; }
 
-            Text { text: "Language:"; font.bold: true; }
-            Text { text: loader.modelData.language; }
+            Text { text: "Language:"; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.language; font.pixelSize: fontSizeText; }
 
-            Text { text: "Version:"; font.bold: true; }
-            Text { text: loader.modelData.version; }
+            Text { text: "Version:"; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.version; font.pixelSize: fontSizeText; }
         }
     }
 
