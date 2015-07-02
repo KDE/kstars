@@ -1,13 +1,29 @@
 import QtQuick 2.2
+import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.1
 
-Rectangle {
+ColumnLayout {
     id: info
+    spacing: 10
+    Layout.alignment: Qt.AlignHCenter
 
     Text {
+        Layout.fillWidth: true
         text: loader.modelData.title
+        font.pixelSize: 24
         color: "#fd2121"
-        font.pointSize: 21
         horizontalAlignment: Text.AlignHCenter
-        anchors.fill: parent
+    }
+
+    TextArea {
+        Layout.preferredWidth: parent.width * 0.9
+        Layout.alignment: Qt.AlignHCenter
+        text: loader.modelData.description
+        readOnly: true
+        font.pixelSize: 12
+    }
+
+    Item {
+        Layout.fillHeight: true;
     }
 }
