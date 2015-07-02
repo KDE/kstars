@@ -15,12 +15,23 @@ ColumnLayout {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    TextArea {
+    Rectangle {
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredWidth: parent.width * 0.9
-        text: loader.modelData.description
-        readOnly: true
-        font.pixelSize: fontSizeText
+        Layout.preferredHeight: 200
+        color: "#ffffff"
+        border.width: 1
+
+        TextArea {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height - 10
+            width: parent.width - 10
+            frameVisible: false
+            font.pixelSize: fontSizeText
+            readOnly: true
+            text: loader.modelData.description
+        }
     }
 
     Rectangle {
@@ -31,7 +42,10 @@ ColumnLayout {
         border.width: 1
 
         GridLayout {
-            Layout.alignment: Qt.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height - 10
+            width: parent.width - 10
             columns: 2
 
             Text { text: "Creation Date:"; font.bold: true; font.pixelSize: fontSizeText; }
