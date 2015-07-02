@@ -157,7 +157,7 @@ public:
         @param drawConstellationImage if true, try to draw the image of the object
         @return true if it was drawn
         */
-    virtual bool drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage = true) = 0;
+    virtual bool drawConstellationArtImage(ConstellationsArt *obj) = 0;
 
 protected:
 

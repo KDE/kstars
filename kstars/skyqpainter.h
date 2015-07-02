@@ -88,7 +88,7 @@ public:
     virtual bool drawSupernova(Supernova* sup);
     ///This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');
-    virtual bool drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage = true);
+    virtual bool drawConstellationArtImage(ConstellationsArt *obj);
 
 private:
     virtual bool drawDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,

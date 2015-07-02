@@ -597,7 +597,7 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
     drawTexturedRectangle( text_image, Vector2f(vx,vy), 0, w, h );
 }
 
-bool SkyGLPainter::drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage)
+bool SkyGLPainter::drawConstellationArtImage(ConstellationsArt *obj)
 {
 }
 

@@ -51,7 +51,7 @@ public:
     virtual void drawSatellite( Satellite* sat );
     virtual bool drawSupernova(Supernova* sup);
     void drawText( int x, int y, const QString text, QFont font, QColor color );
-    virtual bool drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage = true);
+    virtual bool drawConstellationArtImage(ConstellationsArt *obj);
 private:
     bool addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);

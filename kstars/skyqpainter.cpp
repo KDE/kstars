@@ -421,7 +421,7 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
     }
 }
 
-bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj, bool drawConstellationImage)
+bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 {
     bool visible = false;
     obj->star1->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
