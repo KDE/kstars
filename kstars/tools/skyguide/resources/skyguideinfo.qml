@@ -15,14 +15,13 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredWidth: parent.width * 0.9
         Layout.preferredHeight: 200
-        color: "#ffffff"
-        border.width: 1
+        border.width: frameBorderWidth
 
         TextArea {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            height: parent.height - 10
-            width: parent.width - 10
+            height: parent.height - frameHMargin
+            width: parent.width - frameVMargin
             frameVisible: false
             font.pixelSize: fontSizeText
             readOnly: true
@@ -34,14 +33,13 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredWidth: parent.width * 0.9
         Layout.preferredHeight: 100
-        color: "#ffffff"
-        border.width: 1
+        border.width: frameBorderWidth
 
         GridLayout {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            height: parent.height - 10
-            width: parent.width - 10
+            height: parent.height - frameHMargin
+            width: parent.width - frameVMargin
             columns: 2
 
             Text { text: "Creation Date:"; font.bold: true; font.pixelSize: fontSizeText; }

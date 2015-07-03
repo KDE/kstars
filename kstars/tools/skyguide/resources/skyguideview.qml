@@ -5,6 +5,9 @@ import QtQuick.Layouts 1.1
 ColumnLayout {
     id: view
     property int fontSizeText: 12
+    property int frameBorderWidth: 1
+    property int frameHMargin: 10
+    property int frameVMargin: 10
 
     Action {
         id: homeAction
