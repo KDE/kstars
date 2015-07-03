@@ -7,12 +7,8 @@ ColumnLayout {
     spacing: 10
     Layout.alignment: Qt.AlignHCenter
 
-    Text {
-        Layout.fillWidth: true
+    ObjTextHeader {
         text: loader.modelData.title
-        font.pixelSize: fontSizeHeader
-        color: "#fd2121"
-        horizontalAlignment: Text.AlignHCenter
     }
 
     Rectangle {

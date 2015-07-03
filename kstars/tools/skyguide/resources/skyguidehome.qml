@@ -26,12 +26,8 @@ Rectangle {
         }
     }
 
-    Text {
+    ObjTextHeader {
         text: "Sky Guide"
-        color: "#fd2121"
-        font.pixelSize: fontSizeHeader
-        horizontalAlignment: Text.AlignHCenter
-        anchors.fill: parent
     }
 
     ListView {
