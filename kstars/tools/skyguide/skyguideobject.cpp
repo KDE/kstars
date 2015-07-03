@@ -58,6 +58,7 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
         s.content = smap.value("content").toString();
         s.image = smap.value("image").toString();
         s.centerPoint = smap.value("centerPoint").toString();
+        m_summary.append(s.title);
         m_slides.append(s);
     }
 

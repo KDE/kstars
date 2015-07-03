@@ -53,6 +53,30 @@ ColumnLayout {
         }
     }
 
+    Rectangle {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredWidth: parent.width * 0.9
+        Layout.preferredHeight: 300
+        border.width: frameBorderWidth
+
+        ListView {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height - frameHMargin
+            width: parent.width - frameVMargin
+            focus: true
+            model: ListModel {}
+            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+            delegate: Text { text: title }
+            Component.onCompleted: {
+                var s = loader.modelData.summary;
+                for (var key in s) {
+                    model.append({"title": s[key]});
+                }
+            }
+        }
+    }
+
     Item {
         Layout.fillHeight: true;
     }
