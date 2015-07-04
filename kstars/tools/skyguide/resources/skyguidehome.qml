@@ -12,14 +12,13 @@ Rectangle {
         id: guidesDelegate
         Item {
             property var modelData: model.modelData
-            width: home.width
+            width: guidesList.width
             height: 25
-            Column {
-                Text { text: title }
+            Text {
+                text: title
             }
             MouseArea {
                 anchors.fill: parent
-                hoverEnabled: true
                 onClicked: guidesList.currentIndex = index
                 onDoubleClicked: loadGuide(model.modelData)
             }
@@ -37,7 +36,6 @@ Rectangle {
         anchors.rightMargin: 26
         anchors.leftMargin: 25
         anchors.topMargin: 74
-        boundsBehavior: Flickable.StopAtBounds
         anchors.fill: parent
         model: guidesModel
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
