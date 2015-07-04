@@ -55,6 +55,9 @@ ColumnLayout {
 
             Text { text: "Version:"; font.bold: true; font.pixelSize: fontSizeText; }
             Text { text: loader.modelData.version; font.pixelSize: fontSizeText; }
+
+            Text { text: "Slides:"; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.summary.length; font.pixelSize: fontSizeText; }
         }
     }
 
