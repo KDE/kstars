@@ -7,6 +7,11 @@ ColumnLayout {
     spacing: 10
     Layout.alignment: Qt.AlignHCenter
 
+    function loadSlide(index) {
+        loader.modelData.currentSlide = index;
+        loader.source = "skyguideslide.qml";
+    }
+
     ObjTextHeader {
         text: loader.modelData.title
     }
@@ -59,7 +64,24 @@ ColumnLayout {
         Layout.preferredHeight: 300
         border.width: frameBorderWidth
 
+        Component {
+            id: summaryDelegate
+            Item {
+                width: summary.width
+                height: 25
+                Text {
+                    text: title
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: summary.currentIndex = index
+                    onDoubleClicked: loadSlide(summary.currentIndex)
+                }
+            }
+        }
+
         ListView {
+            id: summary
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height - frameHMargin
@@ -67,7 +89,8 @@ ColumnLayout {
             focus: true
             model: ListModel {}
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            delegate: Text { text: title }
+            delegate: summaryDelegate
+            Keys.onReturnPressed: loadSlide(currentIndex)
             Component.onCompleted: {
                 var s = loader.modelData.summary;
                 for (var key in s) {
