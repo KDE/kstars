@@ -15,12 +15,7 @@ ColumnLayout {
         text: "Sky Guide"
     }
 
-    Rectangle {
-        Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: parent.width * 0.9
-        Layout.fillHeight: true
-        border.width: frameBorderWidth
-
+    ObjRectangle {
         Component {
             id: guidesDelegate
             Item {
