@@ -30,6 +30,8 @@ ColumnLayout {
     }
 
     ObjRectangle {
+        Layout.maximumHeight: 100
+
         GridLayout {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
