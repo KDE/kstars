@@ -1,45 +1,54 @@
 import QtQuick 2.2
+import QtQuick.Layouts 1.1
 
-Rectangle {
+ColumnLayout {
     id: home
+    spacing: 10
+    Layout.alignment: Qt.AlignHCenter
 
     function loadGuide(modelData) {
         loader.modelData = modelData;
         loader.source = "skyguideinfo.qml";
     }
 
-    Component {
-        id: guidesDelegate
-        Item {
-            property var modelData: model.modelData
-            width: guidesList.width
-            height: 25
-            Text {
-                text: title
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: guidesList.currentIndex = index
-                onDoubleClicked: loadGuide(model.modelData)
-            }
-        }
-    }
-
     ObjTextHeader {
         text: "Sky Guide"
     }
 
-    ListView {
-        id: guidesList
-        focus: true
-        anchors.bottomMargin: 16
-        anchors.rightMargin: 26
-        anchors.leftMargin: 25
-        anchors.topMargin: 74
-        anchors.fill: parent
-        model: guidesModel
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-        delegate: guidesDelegate
-        Keys.onReturnPressed: loadGuide(currentItem.modelData)
+    Rectangle {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredWidth: parent.width * 0.9
+        Layout.fillHeight: true
+        border.width: frameBorderWidth
+
+        Component {
+            id: guidesDelegate
+            Item {
+                property var modelData: model.modelData
+                width: guidesList.width
+                height: 25
+                Text {
+                    text: title
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: guidesList.currentIndex = index
+                    onDoubleClicked: loadGuide(model.modelData)
+                }
+            }
+        }
+
+        ListView {
+            id: guidesList
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height - frameHMargin
+            width: parent.width - frameVMargin
+            focus: true
+            model: guidesModel
+            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+            delegate: guidesDelegate
+            Keys.onReturnPressed: loadGuide(currentItem.modelData)
+        }
     }
 }
