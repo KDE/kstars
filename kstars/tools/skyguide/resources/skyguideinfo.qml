@@ -16,12 +16,7 @@ ColumnLayout {
         text: loader.modelData.title
     }
 
-    Rectangle {
-        Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: parent.width * 0.9
-        Layout.preferredHeight: 200
-        border.width: frameBorderWidth
-
+    ObjRectangle {
         TextArea {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -34,12 +29,7 @@ ColumnLayout {
         }
     }
 
-    Rectangle {
-        Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: parent.width * 0.9
-        Layout.preferredHeight: 100
-        border.width: frameBorderWidth
-
+    ObjRectangle {
         GridLayout {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -61,12 +51,7 @@ ColumnLayout {
         }
     }
 
-    Rectangle {
-        Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: parent.width * 0.9
-        Layout.preferredHeight: 300
-        border.width: frameBorderWidth
-
+    ObjRectangle {
         Component {
             id: summaryDelegate
             Item {
