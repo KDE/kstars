@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "header":
+  {
+    "title": "Sample2",
+    "description": "
+This is just an example! This is just an example! This is just an example!
+So, This is just an example! This is just an example! This is just an example!
+This is just an example! This is just an example! This is just an example!
+This is just an example! This is just an example! This is just an?",
+    "language": "english",
+    "creationDate": "2015-06-13",
+    "version": 1,
+    "authors":
+    [
+      {
+        "name": "Marcos Cardinot",
+        "email": "mcardinot@gmail.com"
+      }
+    ]
+  },
+  "slides":
+  [
+    {
+      "title": "First Slide",
+      "image": "example1.png",
+      "content": "This image shows something to us!",
+      "centerPoint": "Earth"
+    },
+    {
+      "title": "Second Slide",
+      "image": "example2.png",
+      "content": "This image shows something to us! This image shows something",
+      "centerPoint": "Earth"
+    },
+    {
+      "title": "Third Slide",
+      "image": "example3.png",
+      "content": "
+This image shows something to us! This image shows something This image shows
+something to us! This image shows something This image shows something to us!
+This image shows something!!!!
+This image shows something to us! This image shows something This image shows
+something to us! This image shows something",
+      "centerPoint": "Mercury"
+    }
+  ]
+}
