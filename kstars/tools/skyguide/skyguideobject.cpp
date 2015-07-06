@@ -55,10 +55,10 @@ SkyGuideObject::SkyGuideObject(const QVariantMap &map)
         QVariantMap smap = slide.toMap();
         Slide s;
         s.title = smap.value("title").toString();
-        s.content = smap.value("content").toString();
+        s.text = smap.value("text").toString();
         s.image = smap.value("image").toString();
         s.centerPoint = smap.value("centerPoint").toString();
-        m_summary.append(s.title);
+        m_contents.append(s.title);
         m_slides.append(s);
     }
 

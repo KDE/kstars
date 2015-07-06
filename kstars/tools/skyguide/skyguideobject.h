@@ -36,7 +36,7 @@ class SkyGuideObject : public QObject
     Q_PROPERTY(QString version  READ version CONSTANT)
 
     // slides
-    Q_PROPERTY(QStringList summary READ summary CONSTANT)
+    Q_PROPERTY(QStringList contents READ contents CONSTANT)
     Q_PROPERTY(QString slideTitle READ slideTitle CONSTANT)
     Q_PROPERTY(int currentSlide READ currentSlide WRITE setCurrentSlide NOTIFY slideChanged)
 
@@ -50,10 +50,10 @@ public:
 
     typedef struct
     {
-        QString title;
-        QString image;
-        QString content;
         QString centerPoint;
+        QString image;
+        QString text;
+        QString title;
     } Slide;
 
     SkyGuideObject(const QVariantMap &map);
@@ -68,7 +68,7 @@ public:
     inline QString creationDate() { return m_creationDate.toString("MMMM d, yyyy"); }
     inline QString version() { return QString::number(m_version); }
 
-    inline QStringList summary() { return m_summary; }
+    inline QStringList contents() { return m_contents; }
     inline QString slideTitle() { return m_slides.at(m_currentSlide).title; }
 
 signals:
@@ -84,7 +84,7 @@ private:
     int m_version;
     QList<Author> m_authors;
     QList<Slide> m_slides;
-    QStringList m_summary;
+    QStringList m_contents;
 };
 
 #endif // SKYGUIDEOBJECT_H

@@ -24,19 +24,19 @@ This is just an example! This is just an example! This is just an?",
     {
       "title": "First Slide",
       "image": "example1.png",
-      "content": "This image shows something to us!",
+      "text": "This image shows something to us!",
       "centerPoint": "Earth"
     },
     {
       "title": "Second Slide",
       "image": "example2.png",
-      "content": "This image shows something to us! This image shows something",
+      "text": "This image shows something to us! This image shows something",
       "centerPoint": "Earth"
     },
     {
       "title": "Third Slide",
       "image": "example3.png",
-      "content": "
+      "text": "
 This image shows something to us! This image shows something This image shows
 something to us! This image shows something This image shows something to us!
 This image shows something!!!!

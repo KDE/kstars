@@ -20,7 +20,7 @@
     {
       "title": "First Slide",
       "image": "example.png",
-      "content": "This image shows something to us!",
+      "text": "This image shows something to us!",
       "centerPoint": "Earth"
     }
   ]

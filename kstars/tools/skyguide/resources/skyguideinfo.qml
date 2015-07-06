@@ -49,29 +49,29 @@ ColumnLayout {
             Text { text: loader.modelData.version; font.pixelSize: fontSizeText; }
 
             Text { text: "Slides:"; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.summary.length; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.contents.length; font.pixelSize: fontSizeText; }
         }
     }
 
     ObjRectangle {
         Component {
-            id: summaryDelegate
+            id: contentsDelegate
             Item {
-                width: summary.width
+                width: contentsView.width
                 height: 25
                 Text {
                     text: title
                 }
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: summary.currentIndex = index
-                    onDoubleClicked: loadSlide(summary.currentIndex)
+                    onClicked: contentsView.currentIndex = index
+                    onDoubleClicked: loadSlide(contentsView.currentIndex)
                 }
             }
         }
 
         ListView {
-            id: summary
+            id: contentsView
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height - frameHMargin
@@ -79,10 +79,10 @@ ColumnLayout {
             focus: true
             model: ListModel {}
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            delegate: summaryDelegate
+            delegate: contentsDelegate
             Keys.onReturnPressed: loadSlide(currentIndex)
             Component.onCompleted: {
-                var s = loader.modelData.summary;
+                var s = loader.modelData.contents;
                 for (var key in s) {
                     model.append({"title": s[key]});
                 }
