@@ -227,7 +227,7 @@ bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
 
 }
 
-void CCDChip::resetFrame()
+bool CCDChip::resetFrame()
 {
     INumberVectorProperty *frameProp = NULL;
 
@@ -244,7 +244,7 @@ void CCDChip::resetFrame()
     }
 
     if (frameProp == NULL)
-        return;
+        return false;
 
     INumber *xarg = IUFindNumber(frameProp, "X");
     INumber *yarg = IUFindNumber(frameProp, "Y");
@@ -254,7 +254,7 @@ void CCDChip::resetFrame()
     if (xarg && yarg && warg && harg)
     {
         if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max && harg->value == harg->max)
-            return;
+            return false;
 
         xarg->value = xarg->min;
         yarg->value = yarg->min;
@@ -262,10 +262,11 @@ void CCDChip::resetFrame()
         harg->value = harg->max;
 
         clientManager->sendNewNumber(frameProp);
-        return;
+        return true;
     }
 
 
+    return false;
 }
 
 bool CCDChip::setFrame(int x, int y, int w, int h)

@@ -52,7 +52,7 @@ public:
     bool setFrame(int x, int y, int w, int h);
     bool getFocusFrame(int *x, int *y, int *w, int *h);
     bool setFocusFrame(int x, int y, int w, int h);
-    void resetFrame();
+    bool resetFrame();
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
     bool setFrameType(const QString & name);    

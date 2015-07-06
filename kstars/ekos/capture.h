@@ -359,6 +359,7 @@ public slots:
     void setDirty();
 
     void checkFrameType(int index);
+    void resetFrame();
     void updateAutofocusStatus(bool status, double HFR);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);

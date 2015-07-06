@@ -161,7 +161,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
             activeChip->setISOIndex(isoIndex);
    }
 
-   if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
+   if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
         status = JOB_ERROR;
 
@@ -392,6 +392,7 @@ Capture::Capture()
     connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
     connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
     connect(frameTypeCombo, SIGNAL(activated(int)), this, SLOT(checkFrameType(int)));
+    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -402,6 +403,7 @@ Capture::Capture()
     queueSaveB->setIcon(QIcon::fromTheme("document-save"));
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     resetB->setIcon(QIcon::fromTheme("system-reboot"));
+    resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
 
     fitsDir->setText(Options::fitsDir());
 
@@ -772,9 +774,12 @@ void Capture::updateFrameProperties()
         else
             xstep = step;
 
-        frameWIN->setMinimum(min);
-        frameWIN->setMaximum(max);
-        frameWIN->setSingleStep(xstep);
+        if (min >= 0 && max > 0)
+        {
+            frameWIN->setMinimum(min);
+            frameWIN->setMaximum(max);
+            frameWIN->setSingleStep(xstep);
+        }
     }
 
     if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
@@ -784,9 +789,12 @@ void Capture::updateFrameProperties()
         else
             ystep = step;
 
-        frameHIN->setMinimum(min);
-        frameHIN->setMaximum(max);
-        frameHIN->setSingleStep(ystep);
+        if (min >= 0 && max > 0)
+        {
+            frameHIN->setMinimum(min);
+            frameHIN->setMaximum(max);
+            frameHIN->setSingleStep(ystep);
+        }
     }
 
     if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
@@ -794,9 +802,12 @@ void Capture::updateFrameProperties()
         if (step == 0)
             step = xstep;
 
-        frameXIN->setMinimum(min);
-        frameXIN->setMaximum(max);
-        frameXIN->setSingleStep(step);
+        if (min >= 0 && max > 0)
+        {
+            frameXIN->setMinimum(min);
+            frameXIN->setMaximum(max);
+            frameXIN->setSingleStep(step);
+        }
     }
 
     if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
@@ -804,17 +815,24 @@ void Capture::updateFrameProperties()
         if (step == 0)
             step = ystep;
 
-        frameYIN->setMinimum(min);
-        frameYIN->setMaximum(max);
-        frameYIN->setSingleStep(step);
+        if (min >= 0 && max > 0)
+        {
+            frameYIN->setMinimum(min);
+            frameYIN->setMaximum(max);
+            frameYIN->setSingleStep(step);
+        }
     }
 
     if (targetChip->getFrame(&x,&y,&w,&h))
     {
-        frameXIN->setValue(x);
-        frameYIN->setValue(y);
-        frameWIN->setValue(w);
-        frameHIN->setValue(h);
+        if (x >= 0)
+            frameXIN->setValue(x);
+        if (y >= 0)
+            frameYIN->setValue(y);
+        if (w > 0)
+            frameWIN->setValue(w);
+        if (h > 0)
+            frameHIN->setValue(h);
     }
 
 }
@@ -823,6 +841,13 @@ void Capture::processCCDNumber(INumberVectorProperty *nvp)
 {
     if (currentCCD && ( (!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead)))
         updateFrameProperties();    
+}
+
+void Capture::resetFrame()
+{
+    targetChip = useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    targetChip->resetFrame();
+    updateFrameProperties();
 }
 
 void Capture::syncFrameType(ISD::GDInterface *ccd)
@@ -1137,7 +1162,7 @@ bool Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
     {
-        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked());
+        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked() && HFRPixels->value() > 0);
         if (isAutoFocus)
             autoFocusStatus = false;
 
