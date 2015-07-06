@@ -139,6 +139,9 @@ class SequenceJob : public QObject
     double getTargetADU() const;
     void setTargetADU(double value);
 
+    int getCaptureRetires() const;
+    void setCaptureRetires(int value);
+
 signals:
     void prepareComplete();
 
@@ -167,6 +170,7 @@ private:
     bool showFITS;
     bool filterReady, temperatureReady;
     int isoIndex;
+    int captureRetires;
     unsigned int completed;
     double exposeLeft;
     double currentTemperature, targetTemperature;
@@ -351,7 +355,7 @@ public slots:
 
     void checkFrameType(int index);
     void updateAutofocusStatus(bool status, double HFR);
-    void updateCaptureProgress(ISD::CCDChip *tChip, double value);
+    void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
 
     void saveFITSDirectory();

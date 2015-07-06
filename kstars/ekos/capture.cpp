@@ -43,6 +43,7 @@
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_TEMP_DIFF       0.1
+#define MAX_CAPTURE_RETRIES 3
 
 namespace Ekos
 {
@@ -61,7 +62,8 @@ SequenceJob::SequenceJob()
     activeCCD=NULL;
     activeFilter= NULL;
     statusCell = NULL;
-    completed=0;    
+    completed=0;
+    captureRetires=0;
 }
 
 void SequenceJob::reset()
@@ -76,6 +78,7 @@ void SequenceJob::resetStatus()
     status = JOB_IDLE;
     completed=0;
     exposeLeft=0;
+    captureRetires=0;
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
 }
@@ -280,6 +283,16 @@ void SequenceJob::setTargetADU(double value)
 {
     targetADU = value;
 }
+int SequenceJob::getCaptureRetires() const
+{
+    return captureRetires;
+}
+
+void SequenceJob::setCaptureRetires(int value)
+{
+    captureRetires = value;
+}
+
 
 int SequenceJob::getISOIndex() const
 {
@@ -573,7 +586,7 @@ void Capture::stopSequence()
     secondsLabel->clear();
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
 
     currentCCD->setFITSDir("");
 
@@ -1306,7 +1319,7 @@ void Capture::clearLog()
     emit newLog();
 }
 
-void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
+void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState state)
 {
 
     if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL || meridianFlipStage >= MF_ALIGNING)
@@ -1317,8 +1330,28 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
     if (activeJob)
         activeJob->setExposeLeft(value);
 
+    if (activeJob && state == IPS_ALERT)
+    {
+        int retries = activeJob->getCaptureRetires()+1;
+
+        activeJob->setCaptureRetires(retries);
+
+        appendLogText(xi18n("Capture failed."));
+        if (retries == 3)
+        {
+            stopSequence();
+            return;
+        }
+
+        appendLogText(xi18n("Restarting capture attempt #%1", retries));
+        captureImage();
+        return;
+    }
+
     if (value == 0)
     {
+        activeJob->setCaptureRetires(0);
+
         if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
             if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getExposeLeft() == 0)
@@ -1712,7 +1745,7 @@ void Capture::executeJob()
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));    
+    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
 
     captureImage();
 

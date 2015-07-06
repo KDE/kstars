@@ -863,12 +863,9 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "CCD_EXPOSURE"))
     {
-        if (nvp->s == IPS_BUSY)
-        {
-            INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
-            if (np)
-                emit newExposureValue(primaryChip, np->value);
-        }
+        INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
+        if (np)
+           emit newExposureValue(primaryChip, np->value, nvp->s);
 
         return;
     }
@@ -885,13 +882,9 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
     {
-        if (nvp->s == IPS_BUSY)
-        {
-            INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
-            if (np)
-                emit newExposureValue(guideChip, np->value);
-        }
-
+        INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
+        if (np)
+           emit newExposureValue(guideChip, np->value, nvp->s);
         return;
     }
 

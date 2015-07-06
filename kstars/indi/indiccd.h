@@ -163,7 +163,7 @@ public slots:
 signals:
     void FITSViewerClosed();
     void newTemperatureValue(double value);
-    void newExposureValue(ISD::CCDChip *chip, double value);
+    void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
 
 private:    
