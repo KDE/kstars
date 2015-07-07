@@ -173,6 +173,45 @@ void Schedulerjob::setOnTimeCheck(bool value)
 onTimeCheck = value;
 }
 
+int Schedulerjob::getScore() const
+{
+return score;
+}
+
+void Schedulerjob::setScore(int value)
+{
+score = value;
+}
+int Schedulerjob::getFinishingHour() const
+{
+    return finishingHour;
+}
+
+void Schedulerjob::setFinishingHour(int value)
+{
+    finishingHour = value;
+}
+int Schedulerjob::getFinishingMinute() const
+{
+    return finishingMinute;
+}
+
+void Schedulerjob::setFinishingMinute(int value)
+{
+    finishingMinute = value;
+}
+bool Schedulerjob::getFocusCheck() const
+{
+    return focusCheck;
+}
+
+void Schedulerjob::setFocusCheck(bool value)
+{
+    focusCheck = value;
+}
+
+
+
 
 
 

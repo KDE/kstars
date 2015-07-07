@@ -17,6 +17,7 @@
 #include "scheduler.h"
 #include "kstars.h"
 #include "schedulerjob.h"
+#include "skyobjects/ksmoon.h"
 
 namespace Ekos {
 
@@ -42,6 +43,8 @@ public slots:
 private:
 
     Ekos::Scheduler *ui;
+    KSMoon Moon;
+    SkyPoint *moon = &Moon;
     int tableCountRow=0;
     int tableCountCol;
     QVector<Schedulerjob> objects;

@@ -126,7 +126,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_9">
+           <widget class="QCheckBox" name="focusButton">
             <property name="text">
              <string>Focus</string>
             </property>

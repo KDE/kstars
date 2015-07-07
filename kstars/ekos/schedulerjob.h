@@ -59,6 +59,18 @@ public:
     bool getOnTimeCheck() const;
     void setOnTimeCheck(bool value);
 
+    int getScore() const;
+    void setScore(int value);
+
+    int getFinishingHour() const;
+    void setFinishingHour(int value);
+
+    int getFinishingMinute() const;
+    void setFinishingMinute(int value);
+
+    bool getFocusCheck() const;
+    void setFocusCheck(bool value);
+
 private:
     QString name;
     QString RA;
@@ -68,18 +80,23 @@ private:
     QString fileName;
     SkyObject *ob;
 
-    float alt;
+    float alt=-1;
     float moonSeparation;
     int hours;
     int minutes;
+    int finishingHour;
+    int finishingMinute;
+    int score=0;
 
-    bool NowCheck;
-    bool specificTime;
-    bool specificAlt;
-    bool moonSeparationCheck;
-    bool meridianFlip;
+    bool NowCheck=false;
+    bool specificTime=false;
+    bool specificAlt=false;
+    bool moonSeparationCheck=false;
+    bool meridianFlip=false;
 
-    bool whenSeqCompCheck;
-    bool loopCheck;
-    bool onTimeCheck;
+    bool whenSeqCompCheck=false;
+    bool loopCheck=false;
+    bool onTimeCheck=false;
+
+    bool focusCheck;
 };

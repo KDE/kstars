@@ -69,9 +69,9 @@ void Scheduler::processSession(Schedulerjob o){
     QUrl filename = o.getFileName();
     //Dbus
     QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusInterface *interface = new QDBusInterface("org.kde.kstars",
-                                                   "/KStars/INDI",
-                                                   "org.kde.kstars.INDI",
+    QDBusInterface *focusinterface = new QDBusInterface("org.kde.kstars",
+                                                   "/KStars/Ekos/Focus",
+                                                   "org.kde.kstars.Ekos.Focus",
                                                    bus,
                                                    this);
     QDBusConnection bus2 = QDBusConnection::sessionBus();
@@ -107,7 +107,7 @@ void Scheduler::processSession(Schedulerjob o){
 
     ekosinterface->call(QDBus::AutoDetect,"connectDevices");
     QEventLoop loop2;
-    QTimer::singleShot(5000, &loop2, SLOT(quit()));
+    QTimer::singleShot(3000, &loop2, SLOT(quit()));
     loop2.exec();
 
     //Telescope - here we slew (using INDI for the moment)
@@ -141,13 +141,47 @@ void Scheduler::processSession(Schedulerjob o){
         QDBusReply<QString> replyslew = mountinterface->call(QDBus::AutoDetect,"getSlewStatus");
         if(replyslew.value().toStdString()!="Complete")
         {
+            if(o.getOnTimeCheck())
+            {
+                if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+                    return;
+            }
             QEventLoop loop;
             QTimer::singleShot(1000, &loop, SLOT(quit()));
             loop.exec();
         }
         else break;
     }
-
+    //Focusing - optional
+    if(o.getFocusCheck())
+    {
+        QList<QVariant> focusMode;
+        focusMode.append(1);
+        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
+        QList<QVariant> focusList;
+        focusList.append(true);
+        focusList.append(true);
+        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setAutoFocusOptions",focusList);
+        focusinterface->call(QDBus::AutoDetect,"startFocus");
+        while(true){
+            QDBusReply<bool> replyfocus = focusinterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
+            if(!replyfocus.value())
+            {
+                if(o.getOnTimeCheck())
+                {
+                    if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+                        return;
+                }
+                QEventLoop loop;
+                QTimer::singleShot(1000, &loop, SLOT(quit()));
+                loop.exec();
+            }
+            else break;
+        }
+        QEventLoop loopFocus;
+        QTimer::singleShot(1000, &loopFocus, SLOT(quit()));
+        loopFocus.exec();
+    }
     //CCD Exposure
 
       //Loading Sequence file
@@ -158,13 +192,18 @@ void Scheduler::processSession(Schedulerjob o){
       //Starting the jobs
       captureinterface->call(QDBus::AutoDetect,"startSequence");
       //Wait for sequence
-      QEventLoop loop4;
-      QTimer::singleShot(4000, &loop4, SLOT(quit()));
-      loop4.exec();
+//      QEventLoop loop4;
+//      QTimer::singleShot(4000, &loop4, SLOT(quit()));
+//      loop4.exec();
       while(true){
           QDBusReply<QString> replysequence = captureinterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
           if(replysequence.value().toStdString()!="Complete")
           {
+              if(o.getOnTimeCheck())
+              {
+                  if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+                      return;
+              }
               QEventLoop loop;
               QTimer::singleShot(1000, &loop, SLOT(quit()));
               loop.exec();
@@ -215,35 +254,139 @@ void Scheduler::saveSlot()
 
 void Scheduler::startSlot()
 {
-    int i;
-    for(i=0;i<objects.length();i++){
-        if(objects.at(i).getNowCheck()==true)
-        {
-            //here i use default limits but i will need a DBUS call to access the values
-            //Also here i will need getSequenceStatus(), clearSequence(). After an ibject is done
-            //we clear sequence
-            if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90){
-                   QUrl fileURL = objects.at(i).getFileName();
-                   processSession(objects.at(i));
-                   tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Done"));
-            }
-            else tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Aborted"));
-        }
+    //QMessageBox::information(NULL, "Success", QString::number(objects.at(0).getOb()->angularDistanceTo(moon).Degrees()));
+    int i,iterations=0;
 
-        //Currently not working
-//        if(objects.at(i).specTime==true)
+    //Logic
+    while(iterations<objects.length())
+    {
+        QEventLoop loop;
+        QTimer::singleShot(1000, &loop, SLOT(quit()));
+        loop.exec();
+
+        //choose best object and process it
+        for(i=0;i<objects.length();i++)
+        {
+            if(objects.at(i).getScore()==0)
+            {
+                //scpecific time
+                if(objects.at(i).getSpecificTime())
+                {
+                     if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90)
+                        if(objects.at(i).getHours()==QTime::currentTime().hour() && objects.at(i).getMinutes() == QTime::currentTime().minute())
+                        {
+                            if(objects.at(i).getMoonSeparationCheck())
+                            {
+                                if(objects.at(i).getOb()->angularDistanceTo(moon).Degrees()>objects.at(i).getMoonSeparation() &&
+                                        objects.at(i).getOb()->alt().Degrees() > objects.at(i).getAlt())
+                                {
+                                    tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
+                                    processSession(objects.at(i));
+                                    iterations++;
+                                    objects[i].setScore(1);
+                                    tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
+                                }
+                            }
+                            else
+                            {
+                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
+                                processSession(objects.at(i));
+                                iterations++;
+                                objects[i].setScore(1);
+                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
+                            }
+                        }
+                }
+
+                //Altitude
+                if(objects.at(i).getSpecificAlt())
+                {
+                     if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90)
+                        if(objects.at(i).getOb()->alt().Degrees()>objects.at(i).getAlt())
+                        {
+                            if(objects.at(i).getMoonSeparationCheck())
+                            {
+                                if(objects.at(i).getOb()->angularDistanceTo(moon).Degrees()>objects.at(i).getMoonSeparation() &&
+                                        objects.at(i).getOb()->alt().Degrees() > objects.at(i).getAlt())
+                                {
+                                    tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
+                                    processSession(objects.at(i));
+                                    iterations++;
+                                    objects[i].setScore(1);
+                                    tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
+                                }
+                            }
+                            else
+                            {
+                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
+                                processSession(objects.at(i));
+                                iterations++;
+                                objects[i].setScore(1);
+                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
+                            }
+                        }
+                }
+
+                //Now
+                if(objects.at(i).getNowCheck())
+                {
+                     if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90){
+                        if(objects.at(i).getMoonSeparationCheck())
+                        {
+                            if(objects.at(i).getOb()->angularDistanceTo(moon).Degrees()>objects.at(i).getMoonSeparation() &&
+                                    objects.at(i).getOb()->alt().Degrees() > objects.at(i).getAlt())
+                            {
+                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
+                                processSession(objects.at(i));
+                                iterations++;
+                                objects[i].setScore(1);
+                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
+                            }
+                        }
+                        else
+                        {
+                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
+                            processSession(objects.at(i));
+                            iterations++;
+                            objects[i].setScore(1);
+                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
+                        }
+                     }
+                }
+
+            }
+        }
+    }
+
+//    for(i=0;i<objects.length();i++){
+//        if(objects.at(i).getNowCheck()==true)
 //        {
+//            //here i use default limits but i will need a DBUS call to access the values
+//            //Also here i will need getSequenceStatus(), clearSequence(). After an ibject is done
+//            //we clear sequence
+//            if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90){
+//                   QUrl fileURL = objects.at(i).getFileName();
+//                   processSession(objects.at(i));
+//                   tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Done"));
+//            }
+//            else tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Aborted"));
+//        }
+
+//        //Specific time functionality
+//        if(objects.at(i).getSpecificTime()==true)
+//        {
+//            QMessageBox::information(NULL, "Success", "Scheduler started");
 //            while(true){
 //                QEventLoop loop;
-//                QTimer::singleShot(10000, &loop, SLOT(quit()));
+//                QTimer::singleShot(5000, &loop, SLOT(quit()));
 //                loop.exec();
-//                if(objects.at(i).hours==QTime::currentTime().hour() && objects.at(i).mins == QTime::currentTime().minute())
+//                if(objects.at(i).getHours()<=QTime::currentTime().hour() && objects.at(i).getMinutes() <= QTime::currentTime().minute())
 //                    break;
 //            }
-//            processSession(i);
+//            processSession(objects.at(i));
 //        }
-        //
-    }
+//        //
+//    }
     //Jobs are finished, stoppig indi
     QEventLoop loop;
     QTimer::singleShot(4000, &loop, SLOT(quit()));
@@ -298,6 +441,8 @@ void Scheduler::addToTableSlot()
 
         //Completion
         if(onFinButton->isChecked()){
+            newOb.setFinishingHour(dateTimeEdit_2->time().hour());
+            newOb.setFinishingMinute(dateTimeEdit_2->time().minute());
             newOb.setOnTimeCheck(true);
             newOb.setFinTime(dateTimeEdit_2->time().toString());
         }
@@ -306,6 +451,10 @@ void Scheduler::addToTableSlot()
         else if(loopButton->isChecked())
             newOb.setLoopCheck(true);
 
+        //Proceedure
+        if(focusButton->isChecked())
+            newOb.setFocusCheck(true);
+        else newOb.setFocusCheck(false);
         objects.append(newOb);
 
         //Adding to table
@@ -314,7 +463,13 @@ void Scheduler::addToTableSlot()
         tableWidget->setRowCount(currentRow + 1);
         tableWidget->setItem(tableCountRow,tableCountCol,new QTableWidgetItem(NameEdit->text()));
         tableWidget->setItem(tableCountRow,tableCountCol+1,new QTableWidgetItem("Idle"));
-        tableWidget->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem(dateTimeEdit->time().toString()));
+        if(OnButton->isChecked())
+            tableWidget->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem(dateTimeEdit->time().toString()));
+        else if(NowButton->isChecked())
+            tableWidget->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem("On Startup"));
+        else if(altButton->isChecked())
+            tableWidget->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem("N/S"));
+
         if(onFinButton->isChecked())
             tableWidget->setItem(tableCountRow,tableCountCol+3,new QTableWidgetItem(dateTimeEdit_2->time().toString()));
         else
