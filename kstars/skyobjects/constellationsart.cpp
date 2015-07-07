@@ -18,29 +18,27 @@
 #include "kstars/texturemanager.h"
 
 
-ConstellationsArt::ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2, int Y2, dms ra2, dms dec2, QString abbreviation, QString filename)
+ConstellationsArt::ConstellationsArt(int midX, int midY, dms midra, dms middec, int X,int Y,dms ra,dms dec,QString abbreviation,QString filename)
 {
-    x1 = X1;
-    y1 = Y1;
-    x2 = X2;
-    y2 = Y2;
+    midx = midX;
+    midy = midY;
+    x = X;
+    y = Y;
     abbrev = abbreviation;
     imageFileName = filename;
     loadImage();
 
     //This sets both current and J2000 RA/DEC to the values ra and dec.
-    //We need to update the star positions later on before attempting to draw the constellation image
-    //The star positions are updated in SkyQPainter::drawConstellationArtImage() function
-    star1 = new SkyPoint(ra1,dec1);
-    star2 = new SkyPoint(ra2,dec2);
+    constellationMidPoint = new SkyPoint(midra,middec);
+    star = new SkyPoint(ra,dec);
 }
 
 ConstellationsArt::~ConstellationsArt()
 {
-    delete star1;
-    delete star2;
+    delete constellationMidPoint;
+    delete star;
 }
-
+/*
 ConstellationsArt::ConstellationsArt(const ConstellationsArt &o){
 
     x1 = o.getx1();
@@ -53,7 +51,7 @@ ConstellationsArt::ConstellationsArt(const ConstellationsArt &o){
     imageFileName = o.getImageFileName();
     constellationArtImage = o.image();
 }
-
+*/
 void ConstellationsArt::loadImage()
 {
         constellationArtImage = TextureManager::getImage( imageFileName );

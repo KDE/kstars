@@ -424,19 +424,58 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 {
     bool visible = false;
-    obj->star1->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-    QPointF p1 = m_proj->toScreen(obj->star1, true, &visible);
-    if ( !visible || !m_proj->onScreen(p1))
+    obj->constellationMidPoint->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF constellationmidpoint = m_proj->toScreen(obj->constellationMidPoint, true, &visible);
+
+    obj->star->EquatorialToHorizontal(KStarsData::Instance()->lst(),KStarsData::Instance()->geo()->lat());
+    QPointF pointInSky = m_proj->toScreen(obj->star,true, &visible);
+
+    if ( !visible || !m_proj->onScreen(constellationmidpoint))
         return false;
 
-    qDebug() << "THE STAR POSITION IS" << p1;
+    //This is the midpoint of the Image. For a 512x512 image, it will be 256,256
+    QPointF midpoint;
+    midpoint.setX(obj->getmidx());
+    midpoint.setY(obj->getmidy());
+
+    //This is a point in the image which represents a star.
+    QPointF point;
+    point.setX(obj->getx());
+    point.setY(obj->gety());
+
+    //We draw a line from the midpoint of image, to the point that represents a star. We then find the length of this line.
+    QLineF lineInImage(midpoint,point);
+    qreal lengthInImage = lineInImage.length();
+
+    //We draw a line in the sky from the point corresponding to midpoint of image, to point corresponding to the star. We find its length
+    QLineF lineInSky(constellationmidpoint, pointInSky);
+    qreal lengthInSky = lineInSky.length();
+    //Scale factor is defined as 'how many times does the length of the image needs to be multiplied, in order to make the distance
+    //between midpoint of image, and point in image equal to midpoint of constellation and corresponding star in constellation
+    qreal scaleFactor = lengthInSky/lengthInImage;
+
+    //A reference point is taken just above the midpoint of the constellation. We will draw an angle from here, because the
+    //line between constellation midpoint and a point just 1 unit above it is essentially along the Y axis.
+    QPointF referencePoint;
+    referencePoint.setX(constellationmidpoint.x());
+    referencePoint.setY (constellationmidpoint.y()+1);
+
+    //This reference line lies along the Y axis. Now we can get the rotation angle.
+    QLineF referenceLine(constellationmidpoint, referencePoint);
+    //The rotation angle is measured from the reference line, to the line drawn in the sky
+    qreal angle = lineInSky.angleTo(referenceLine);
+
+    qDebug() << "THE CONSTELLATION MIDPOINT POSITION IS" << constellationmidpoint;
+    qDebug() << "lengthInImage" <<lengthInImage<< "lengthInSky"<<lengthInSky;
+    qDebug() << "Scale factor" <<scaleFactor<<"rotation angle"<< angle;
 
     int w = obj->imageWidth();
     int h = obj->imageHeight();
 
         save();
-        translate(p1);
-        drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
+        translate(constellationmidpoint);
+        rotate(angle);
+        drawImage( QRect(-0.5*w, -0.5*h, w*scaleFactor, h*scaleFactor), obj->image() );
         restore();
     return true;
 }

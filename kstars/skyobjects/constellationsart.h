@@ -42,13 +42,13 @@ class ConstellationsArt{
 
 private:
     QString abbrev, imageFileName;
-    int x1,y1,x2,y2,hd1,hd2;
+    int midx,midy,x,y;
     QImage constellationArtImage;
 
 public:
 
-    SkyPoint* star1;
-    SkyPoint* star2;
+    SkyPoint* constellationMidPoint;
+    SkyPoint* star;
 
     /**
      *Constructor. Set SkyObject data according to arguments.
@@ -56,7 +56,7 @@ public:
      *@param serial Serial number from constellationsart.txt
      *@param n Primary name
      */
-    explicit ConstellationsArt(int X1, int Y1, dms ra1, dms dec1, int X2,int Y2,dms ra2,dms dec2,QString abbreviation,QString filename);
+    explicit ConstellationsArt(int midX, int midY, dms midra, dms middec, int X,int Y,dms ra,dms dec,QString abbreviation,QString filename);
 
     /** @short Copy constructor.
      *  @param o ConstellationsArt object from which to copy data
@@ -65,12 +65,6 @@ public:
 
     //Destructor
      ~ConstellationsArt();
-
-    //Return Star 1 skypoint
-    //SkyPoint& getStar1(){return star1;}
-
-    //Return Star 2 skypoint
-    //SkyPoint& getStar2(){return star2;}
 
     /** @return an object's image */
     const QImage& image() const { return constellationArtImage; }
@@ -90,26 +84,18 @@ public:
     /** @return an object's image file name*/
     inline QString getImageFileName() const {return imageFileName;}
 
-   /** @return an object's x1 */
-    inline int getx1() const { return x1; }
+   /** @return an object's midx */
+    inline int getmidx() const { return midx; }
 
-   /** @return an object's y1 */
-    inline int gety1() const { return y1; }
+   /** @return an object's midy */
+    inline int getmidy() const { return midy; }
 
-   /** @return an object's x2 */
-    inline int getx2() const { return x2; }
+   /** @return an object's x */
+    inline int getx() const { return x; }
 
-   /** @return an object's y2 */
-    inline int gety2() const { return y2; }
+   /** @return an object's y */
+    inline int gety() const { return y; }
 
-   /** @return an object's hd1 */
-    inline int gethd1() const { return hd1; }
-
-   /** @return an object's hd2 */
-    inline int gethd2() const { return hd2; }
-
-    //UpdateID which would be compared with the global updateID to know when to redraw a skyobject in a draw cycle
-    //static quint64 updateID;
 };
 
 #endif // CONSTELLATIONSART_H

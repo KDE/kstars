@@ -54,26 +54,26 @@ void ConstellationArtComponent::loadData(){
 
          while (get_query.next())
          {
-             int X1                 = get_query.value("X1").toInt();
-             int Y1                 = get_query.value("Y1").toInt();
-             QString RA1            = get_query.value("RA1").toString();
-             QString DEC1           = get_query.value("DE1").toString();
-             int X2                 = get_query.value("X2").toInt();
-             int Y2                 = get_query.value("Y2").toInt();
-             QString RA2            = get_query.value("RA2").toString();
-             QString DEC2           = get_query.value("DE2").toString();
+             int midX                 = get_query.value("X1").toInt();
+             int midY                 = get_query.value("Y1").toInt();
+             QString midRA            = get_query.value("RA1").toString();
+             QString midDEC           = get_query.value("DE1").toString();
+             int X                 = get_query.value("X2").toInt();
+             int Y                 = get_query.value("Y2").toInt();
+             QString RA            = get_query.value("RA2").toString();
+             QString DEC           = get_query.value("DE2").toString();
              QString abbreviation   = get_query.value("Abbreviation").toString();
              QString filename       = get_query.value("Filename").toString();
 
-             dms ra1 = dms::fromString(RA1,false);
-             dms dec1 = dms::fromString(DEC1,true);
-             dms ra2 = dms::fromString(RA2,false);
-             dms dec2 = dms::fromString(DEC2,true);
+             dms midra = dms::fromString(midRA,false);
+             dms middec = dms::fromString(midDEC,true);
+             dms ra = dms::fromString(RA,false);
+             dms dec = dms::fromString(DEC,true);
 
              // appends constellation info
-             ConstellationsArt *ca = new ConstellationsArt (X1, Y1, ra1,dec1, X2,Y2,ra2,dec2,abbreviation,filename);
+             ConstellationsArt *ca = new ConstellationsArt (midX, midY, midra,middec, X,Y,ra,dec,abbreviation,filename);
              m_ConstList.append(ca);
-             qDebug()<<"Successsfully read skyculture.sqlite"<<X1<<Y1<<RA1<<DEC1;
+             qDebug()<<"Successsfully read skyculture.sqlite"<<midX<<midY<<midRA<<midDEC;
          }
         skydb.close();
 }
@@ -84,8 +84,8 @@ void ConstellationArtComponent::showList()
     for(i = 0; i < m_ConstList.size(); i++)
     {
         qDebug()<<m_ConstList[i]->getAbbrev()<<m_ConstList[i]->getImageFileName();
-        qDebug()<<m_ConstList[i]->getx1()<<m_ConstList[i]->gety1()<<m_ConstList[i]->gethd1();
-        qDebug()<<m_ConstList[i]->getx2()<<m_ConstList[i]->gety2()<<m_ConstList[i]->gethd2();
+        qDebug()<<m_ConstList[i]->getmidx()<<m_ConstList[i]->getmidy();
+        qDebug()<<m_ConstList[i]->getx()<<m_ConstList[i]->gety();
     }
 }
 
