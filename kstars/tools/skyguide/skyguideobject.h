@@ -38,6 +38,8 @@ class SkyGuideObject : public QObject
     // slides
     Q_PROPERTY(QStringList contents READ contents CONSTANT)
     Q_PROPERTY(QString slideTitle READ slideTitle CONSTANT)
+    Q_PROPERTY(QString slideText READ slideText CONSTANT)
+    Q_PROPERTY(QString slideImgPath READ slideImgPath CONSTANT)
     Q_PROPERTY(int currentSlide READ currentSlide WRITE setCurrentSlide NOTIFY slideChanged)
 
 public:
@@ -70,6 +72,8 @@ public:
 
     inline QStringList contents() { return m_contents; }
     inline QString slideTitle() { return m_slides.at(m_currentSlide).title; }
+    inline QString slideText() { return m_slides.at(m_currentSlide).text; }
+    inline QString slideImgPath() { return m_slides.at(m_currentSlide).image; }
 
 signals:
     void slideChanged();
