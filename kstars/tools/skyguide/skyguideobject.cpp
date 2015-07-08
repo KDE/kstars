@@ -19,8 +19,9 @@
 
 #include "skyguideobject.h"
 
-SkyGuideObject::SkyGuideObject(const QVariantMap &map)
+SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     : m_isValid(false),
+      m_path(path),
       m_currentSlide(0)
 {
     if (map["formatVersion"].toInt() != SKYGUIDE_FORMAT_VERSION

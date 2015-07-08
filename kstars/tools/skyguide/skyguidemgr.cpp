@@ -47,29 +47,27 @@ void SkyGuideMgr::loadAllSkyGuideObjects() {
         QFileInfoList guideFiles = guideDir.entryInfoList();
         foreach (QFileInfo g, guideFiles) {
             if (g.fileName() == "guide.json") {
-                loadSkyGuideObject(g.absoluteFilePath());
+                loadSkyGuideObject(g.absolutePath(), g.fileName());
             }
         }
     }
 }
 
-void SkyGuideMgr::loadSkyGuideObject(const QString& jsonPath)
+void SkyGuideMgr::loadSkyGuideObject(const QString& guidePath, const QString& filename)
 {
+    QString jsonPath = QDir::toNativeSeparators(guidePath + "/" + filename);
     QFile jsonFile(jsonPath);
     if (!jsonFile.exists()) {
-        qWarning() << "SkyGuideMgr: The JSON file does not exist!"
-                   << QDir::toNativeSeparators(jsonPath);
+        qWarning() << "SkyGuideMgr: The JSON file does not exist!" << jsonPath;
     } else if (!jsonFile.open(QIODevice::ReadOnly)) {
-        qWarning() << "SkyGuideMgr: Couldn't open the JSON file!"
-                   << QDir::toNativeSeparators(jsonPath);
+        qWarning() << "SkyGuideMgr: Couldn't open the JSON file!" << jsonPath;
     } else {
         QJsonObject json(QJsonDocument::fromJson(jsonFile.readAll()).object());
-        SkyGuideObject* s = new SkyGuideObject(json.toVariantMap());
+        SkyGuideObject* s = new SkyGuideObject(guidePath, json.toVariantMap());
         if (s->isValid()) {
             m_skyGuideObjects.append(s);
         } else {
-            qWarning()  << "SkyGuideMgr: SkyGuide is invalid!"
-                        << QDir::toNativeSeparators(jsonPath);
+            qWarning()  << "SkyGuideMgr: SkyGuide is invalid!" << jsonPath;
         }
     }
 }

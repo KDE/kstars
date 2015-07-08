@@ -58,7 +58,7 @@ public:
         QString title;
     } Slide;
 
-    SkyGuideObject(const QVariantMap &map);
+    SkyGuideObject(const QString &path, const QVariantMap &map);
 
     inline bool isValid() { return m_isValid; }
     inline int currentSlide() { return m_currentSlide; }
@@ -80,6 +80,7 @@ signals:
 
 private:
     bool m_isValid;
+    QString m_path;
     int m_currentSlide;
     QString m_title;
     QString m_description;

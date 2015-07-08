@@ -35,7 +35,7 @@ private:
     QList<QObject*> m_skyGuideObjects;
 
     void loadAllSkyGuideObjects();
-    void loadSkyGuideObject(const QString& jsonPath);
+    void loadSkyGuideObject(const QString& guidePath, const QString &filename);
 };
 
 #endif // SKYGUIDEMGR_H
