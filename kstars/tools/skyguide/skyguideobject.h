@@ -19,6 +19,7 @@
 #define SKYGUIDEOBJECT_H
 
 #include <QDate>
+#include <QDir>
 #include <QObject>
 #include <QVariantMap>
 
@@ -73,7 +74,9 @@ public:
     inline QStringList contents() { return m_contents; }
     inline QString slideTitle() { return m_slides.at(m_currentSlide).title; }
     inline QString slideText() { return m_slides.at(m_currentSlide).text; }
-    inline QString slideImgPath() { return m_slides.at(m_currentSlide).image; }
+    inline QString slideImgPath() {
+        return m_path + QDir::toNativeSeparators("/" + m_slides.at(m_currentSlide).image);
+    }
 
 signals:
     void slideChanged();

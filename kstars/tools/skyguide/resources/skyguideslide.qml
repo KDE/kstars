@@ -11,6 +11,14 @@ ColumnLayout {
         text: loader.modelData.slideTitle
     }
 
+    Image {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.maximumHeight: parent.width * 0.5
+        Layout.maximumWidth: parent.width * 0.9
+        fillMode: Image.PreserveAspectFit
+        source: loader.modelData.slideImgPath
+    }
+
     ObjRectangle {
         TextArea {
             anchors.horizontalCenter: parent.horizontalCenter
