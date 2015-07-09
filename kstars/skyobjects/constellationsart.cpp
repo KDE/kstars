@@ -18,40 +18,23 @@
 #include "kstars/texturemanager.h"
 
 
-ConstellationsArt::ConstellationsArt(int midX, int midY, dms midra, dms middec, int X,int Y,dms ra,dms dec,QString abbreviation,QString filename)
+ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, float pa, float sf, QString abbreviation, QString filename)
 {
-    midx = midX;
-    midy = midY;
-    x = X;
-    y = Y;
+    positionAngle = pa;
+    scaleFactor = sf;
     abbrev = abbreviation;
     imageFileName = filename;
     loadImage();
 
     //This sets both current and J2000 RA/DEC to the values ra and dec.
-    constellationMidPoint = new SkyPoint(midra,middec);
-    star = new SkyPoint(ra,dec);
+    constellationMidPoint = new SkyPoint(midpointra,midpointdec);
 }
 
 ConstellationsArt::~ConstellationsArt()
 {
     delete constellationMidPoint;
-    delete star;
 }
-/*
-ConstellationsArt::ConstellationsArt(const ConstellationsArt &o){
 
-    x1 = o.getx1();
-    x2 = o.getx2();
-    y1 = o.gety1();
-    y2 = o.gety2();
-    hd1 = o.gethd1();
-    hd2 = o.gethd2();
-    abbrev = o.getAbbrev();
-    imageFileName = o.getImageFileName();
-    constellationArtImage = o.image();
-}
-*/
 void ConstellationsArt::loadImage()
 {
         constellationArtImage = TextureManager::getImage( imageFileName );

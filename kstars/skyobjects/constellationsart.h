@@ -38,17 +38,16 @@ class dms;
  * @author M.S.Adityan
  */
 
-class ConstellationsArt{
+class ConstellationsArt: public SkyObject{
 
 private:
     QString abbrev, imageFileName;
-    int midx,midy,x,y;
+    float positionAngle, scaleFactor;
     QImage constellationArtImage;
 
 public:
 
     SkyPoint* constellationMidPoint;
-    SkyPoint* star;
 
     /**
      *Constructor. Set SkyObject data according to arguments.
@@ -56,12 +55,7 @@ public:
      *@param serial Serial number from constellationsart.txt
      *@param n Primary name
      */
-    explicit ConstellationsArt(int midX, int midY, dms midra, dms middec, int X,int Y,dms ra,dms dec,QString abbreviation,QString filename);
-
-    /** @short Copy constructor.
-     *  @param o ConstellationsArt object from which to copy data
-     */
-    ConstellationsArt (const ConstellationsArt &o );
+    explicit ConstellationsArt(dms midpointra, dms midpointdec, float pa, float sf, QString abbreviation,QString filename);
 
     //Destructor
      ~ConstellationsArt();
@@ -72,11 +66,6 @@ public:
     /** Load the object's image */
     void loadImage();
 
-    /** @return an object image's width */
-    inline int imageWidth() const{ return constellationArtImage.width(); }
-
-    /** @return an object image's height */
-    inline int imageHeight() const{ return constellationArtImage.height(); }
 
     /** @return an object's abbreviation */
     inline QString getAbbrev() const { return abbrev;}
@@ -84,17 +73,11 @@ public:
     /** @return an object's image file name*/
     inline QString getImageFileName() const {return imageFileName;}
 
-   /** @return an object's midx */
-    inline int getmidx() const { return midx; }
+   /** @return an object's position angle */
+    inline float getPositionAngle() const { return positionAngle; }
 
-   /** @return an object's midy */
-    inline int getmidy() const { return midy; }
-
-   /** @return an object's x */
-    inline int getx() const { return x; }
-
-   /** @return an object's y */
-    inline int gety() const { return y; }
+   /** @return an object's scale factor */
+    inline float getScaleFactor() const { return scaleFactor; }
 
 };
 

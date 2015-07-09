@@ -54,26 +54,20 @@ void ConstellationArtComponent::loadData(){
 
          while (get_query.next())
          {
-             int midX                 = get_query.value("X1").toInt();
-             int midY                 = get_query.value("Y1").toInt();
-             QString midRA            = get_query.value("RA1").toString();
-             QString midDEC           = get_query.value("DE1").toString();
-             int X                 = get_query.value("X2").toInt();
-             int Y                 = get_query.value("Y2").toInt();
-             QString RA            = get_query.value("RA2").toString();
-             QString DEC           = get_query.value("DE2").toString();
              QString abbreviation   = get_query.value("Abbreviation").toString();
              QString filename       = get_query.value("Filename").toString();
+             QString midpointRA            = get_query.value("MidpointRA").toString();
+             QString midpointDEC           = get_query.value("MidpointDEC").toString();
+             float pa                 = get_query.value("Position Angle").toFloat();
+             float sf                 = get_query.value("Scale Factor").toFloat();
 
-             dms midra = dms::fromString(midRA,false);
-             dms middec = dms::fromString(midDEC,true);
-             dms ra = dms::fromString(RA,false);
-             dms dec = dms::fromString(DEC,true);
+             dms midpointra = dms::fromString(midpointRA,false);
+             dms midpointdec = dms::fromString(midpointDEC,true);
 
              // appends constellation info
-             ConstellationsArt *ca = new ConstellationsArt (midX, midY, midra,middec, X,Y,ra,dec,abbreviation,filename);
+             ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, sf, abbreviation, filename);
              m_ConstList.append(ca);
-             qDebug()<<"Successsfully read skyculture.sqlite"<<midX<<midY<<midRA<<midDEC;
+             qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<sf;
          }
         skydb.close();
 }
@@ -84,8 +78,7 @@ void ConstellationArtComponent::showList()
     for(i = 0; i < m_ConstList.size(); i++)
     {
         qDebug()<<m_ConstList[i]->getAbbrev()<<m_ConstList[i]->getImageFileName();
-        qDebug()<<m_ConstList[i]->getmidx()<<m_ConstList[i]->getmidy();
-        qDebug()<<m_ConstList[i]->getx()<<m_ConstList[i]->gety();
+        qDebug()<<m_ConstList[i]->getPositionAngle()<<m_ConstList[i]->getScaleFactor();
     }
 }
 
