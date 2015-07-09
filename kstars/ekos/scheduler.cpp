@@ -45,6 +45,8 @@ namespace Ekos
 Scheduler::Scheduler()
 {
     setupUi(this);
+    pi = new QProgressIndicator(this);
+    horizontalLayout_10->addWidget(pi,0,0);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
        // connect(SelectButton,SIGNAL(clicked()),this,SLOT(newslot()));
         connect(SelectButton,SIGNAL(clicked()),this,SLOT(selectSlot()));
@@ -94,6 +96,13 @@ void Scheduler::processSession(Schedulerjob o){
                                                    "org.kde.kstars.Ekos.Mount",
                                                    bus4,
                                                    this);
+    QDBusConnection bus5 = QDBusConnection::sessionBus();
+    QDBusInterface *aligninterface = new QDBusInterface("org.kde.kstars",
+                                                   "/KStars/Ekos/Align",
+                                                   "org.kde.kstars.Ekos.Align",
+                                                   bus5,
+                                                   this);
+
     //Ekos Start
     QDBusReply<bool> ekosisstarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
     if(!ekosisstarted.value())
@@ -182,6 +191,36 @@ void Scheduler::processSession(Schedulerjob o){
         QTimer::singleShot(1000, &loopFocus, SLOT(quit()));
         loopFocus.exec();
     }
+
+    //Allignment - not working
+    //i think it exits the while loop but then it stucks.
+    if(o.getAlignCheck())
+    {
+        aligninterface->call(QDBus::AutoDetect,"captureAndSolve");
+        while(true){
+            QDBusReply<bool> replyalign = aligninterface->call(QDBus::AutoDetect,"isSolverComplete");
+            if(!replyalign.value())
+            {
+                QMessageBox::information(NULL, "Success", QString::number(replyalign.value()));
+                if(o.getOnTimeCheck())
+                {
+                    if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+                        return;
+                }
+                QEventLoop loop;
+                QTimer::singleShot(1000, &loop, SLOT(quit()));
+                loop.exec();
+                //to be added state
+            }
+            else break;
+    }
+    }
+    QMessageBox::information(NULL, "Success", "test");
+    // QDBusReply<bool> replyalign = aligninterface->call(QDBus::AutoDetect,"isSolverComplete");
+     //to be completed
+    QEventLoop loopFocus;
+    QTimer::singleShot(1000, &loopFocus, SLOT(quit()));
+    loopFocus.exec();
     //CCD Exposure
 
       //Loading Sequence file
@@ -254,6 +293,7 @@ void Scheduler::saveSlot()
 
 void Scheduler::startSlot()
 {
+    pi->startAnimation();
     //QMessageBox::information(NULL, "Success", QString::number(objects.at(0).getOb()->angularDistanceTo(moon).Degrees()));
     int i,iterations=0;
 
@@ -392,6 +432,7 @@ void Scheduler::startSlot()
     QTimer::singleShot(4000, &loop, SLOT(quit()));
     loop.exec();
     stopindi();
+    pi->stopAnimation();
 }
 
 void Scheduler::setSequenceSlot()
@@ -455,6 +496,11 @@ void Scheduler::addToTableSlot()
         if(focusButton->isChecked())
             newOb.setFocusCheck(true);
         else newOb.setFocusCheck(false);
+
+        if(alignCheck->isChecked())
+            newOb.setAlignCheck(true);
+        else newOb.setAlignCheck(false);
+
         objects.append(newOb);
 
         //Adding to table

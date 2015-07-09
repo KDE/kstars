@@ -106,7 +106,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_7">
+           <widget class="QCheckBox" name="alignCheck">
             <property name="text">
              <string>Astrometry</string>
             </property>

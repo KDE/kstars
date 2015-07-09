@@ -209,6 +209,16 @@ void Schedulerjob::setFocusCheck(bool value)
 {
     focusCheck = value;
 }
+bool Schedulerjob::getAlignCheck() const
+{
+    return alignCheck;
+}
+
+void Schedulerjob::setAlignCheck(bool value)
+{
+    alignCheck = value;
+}
+
 
 
 

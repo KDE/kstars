@@ -18,6 +18,8 @@
 #include "kstars.h"
 #include "schedulerjob.h"
 #include "skyobjects/ksmoon.h"
+#include "QProgressIndicator.h"
+#include "ui_scheduler.h"
 
 namespace Ekos {
 
@@ -42,6 +44,7 @@ public slots:
 
 private:
 
+    QProgressIndicator *pi;
     Ekos::Scheduler *ui;
     KSMoon Moon;
     SkyPoint *moon = &Moon;

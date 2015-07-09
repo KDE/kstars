@@ -71,6 +71,9 @@ public:
     bool getFocusCheck() const;
     void setFocusCheck(bool value);
 
+    bool getAlignCheck() const;
+    void setAlignCheck(bool value);
+
 private:
     QString name;
     QString RA;
@@ -99,4 +102,5 @@ private:
     bool onTimeCheck=false;
 
     bool focusCheck;
+    bool alignCheck;
 };
