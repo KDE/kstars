@@ -225,6 +225,17 @@ public:
     Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
 
     /** DBUS interface function.
+     * Aborts any current jobs and remove all sequence queue jobs.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void clearSequenceQueue();
+
+    /** DBUS interface function.
+     * Returns the overall sequence queue status. If there are no jobs pending, it returns "Invalid". If all jobs are idle, it returns "Idle". If all jobs are complete, it returns "Complete". If one or more jobs are aborted
+     * it returns "Aborted". If one or more jobs have errors, it returns "Error". If any jobs is under progress, returns "Running".
+     */
+    Q_SCRIPTABLE QString getSequenceQueueStatus();
+
+    /** DBUS interface function.
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
      * @param fileURL full URL of the filename
      */

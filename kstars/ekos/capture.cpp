@@ -2389,6 +2389,62 @@ void Capture::setTemperature()
         currentCCD->setTemperature(temperatureIN->value());
 }
 
+void Capture::clearSequenceQueue()
+{
+    stopSequence();
+    while (queueTable->rowCount() > 0)
+        queueTable->removeRow(0);
+    jobs.clear();
+    qDeleteAll(jobs);
+}
+
+QString Capture::getSequenceQueueStatus()
+{
+    if (jobs.count() == 0)
+        return "Invalid";
+
+    int idle=0, error=0, complete=0, aborted=0,running=0;
+
+    foreach(SequenceJob* job, jobs)
+    {
+        switch (job->getStatus())
+        {
+            case SequenceJob::JOB_ABORTED:
+                aborted++;
+                break;
+            case SequenceJob::JOB_BUSY:
+                running++;
+                break;
+            case SequenceJob::JOB_DONE:
+                complete++;
+                break;
+            case SequenceJob::JOB_ERROR:
+                error++;
+                break;
+            case SequenceJob::JOB_IDLE:
+                idle++;
+            break;
+        }
+    }
+
+    if (error > 0)
+        return "Error";
+
+    if (aborted > 0)
+        return "Aborted";
+
+    if (running > 0)
+        return "Running";
+
+    if (idle == jobs.count())
+        return "Idle";
+
+    if (complete == jobs.count())
+        return "Complete";
+
+    return "Invalid";
+}
+
 void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
 {
     // If it is not ours, return.

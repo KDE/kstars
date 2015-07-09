@@ -15,6 +15,8 @@
 #include "indi/clientmanager.h"
 #include "indi/indifilter.h"
 
+#include "mountadaptor.h"
+
 #include "ekosmanager.h"
 
 #include "kstars.h"
@@ -35,6 +37,8 @@ namespace Ekos
 Mount::Mount()
 {
     setupUi(this);
+    new MountAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount",  this);
 
     currentTelescope = NULL;
 
@@ -500,6 +504,101 @@ void Mount::disableAltLimits()
 
     enableAltitudeLimits(false);
 
+}
+
+QList<double> Mount::getAltitudeLimits()
+{
+    QList<double> limits;
+
+    limits.append(minAltLimit->value());
+    limits.append(maxAltLimit->value());
+
+    return limits;
+}
+
+void Mount::setAltitudeLimits(double minAltitude, double maxAltitude, bool enabled)
+{
+    minAltLimit->setValue(minAltitude);
+    maxAltLimit->setValue(maxAltitude);
+
+    enableLimitsCheck->setChecked(enabled);
+
+}
+
+bool Mount::isLimitsEnabled()
+{
+    return enableLimitsCheck->isChecked();
+}
+
+bool Mount::slew(double RA, double DEC)
+{
+    if (currentTelescope == NULL || currentTelescope->isConnected() == false)
+        return false;
+
+    return currentTelescope->Slew(RA, DEC);
+}
+
+bool Mount::abort()
+{
+    return currentTelescope->Abort();
+}
+
+QString Mount::getSlewStatus()
+{
+    IPState state = currentTelescope->getState("EQUATORIAL_EOD_COORD");
+    QString status;
+
+    switch (state)
+    {
+        case IPS_IDLE:
+            status = "Idle";
+            break;
+         case IPS_OK:
+            status = "Complete";
+            break;
+          case IPS_BUSY:
+            status = "Busy";
+            break;
+           case IPS_ALERT:
+           default:
+            status = "Error";
+            break;
+    }
+
+    return status;
+
+}
+
+QList<double> Mount::getEquatorialCoords()
+{
+    double ra,dec;
+    QList<double> coords;
+
+    currentTelescope->getEqCoords(&ra, &dec);
+    coords.append(ra);
+    coords.append(dec);
+
+    return coords;
+}
+
+QList<double> Mount::getTelescopeInfo()
+{
+    QList<double> info;
+
+    info.append(primaryScopeFocalIN->value());
+    info.append(primaryScopeApertureIN->value());
+    info.append(guideScopeFocalIN->value());
+    info.append(guideScopeApertureIN->value());
+
+    return info;
+}
+
+void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
+{
+    primaryScopeFocalIN->setValue(primaryFocalLength);
+    primaryScopeApertureIN->setValue(primaryAperture);
+    guideScopeFocalIN->setValue(guideFocalLength);
+    guideScopeApertureIN->setValue(guideAperture);
 }
 
 }

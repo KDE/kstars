@@ -24,14 +24,13 @@ namespace Ekos
  *@class Mount
  *@short Supports Control INDI telescopes and displays information about them.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 class Mount : public QWidget, public Ui::Mount
 {
 
     Q_OBJECT
-    //TODO
-    //Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Focus")
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Mount")
 
 public:
     Mount();
@@ -47,6 +46,62 @@ public:
     void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
+
+    /** DBUS interface function.
+     * Returns the mount altitude limits.
+     * @return Returns array of doubles. First item is minimum altititde in degrees. Second item is maximum altitude limit in degrees.
+     */
+    Q_SCRIPTABLE QList<double> getAltitudeLimits();
+
+    /** DBUS interface function.
+     * Sets the mount altitude limits, and whether they are enabled or disabled.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setAltitudeLimits(double minAltitude, double maxAltitude, bool enabled);
+
+    /** DBUS interface function.
+     * Returns whether the mount limits are enabled or disabled.
+     * @return True if enabled, false otherwise.
+     */
+    Q_SCRIPTABLE bool isLimitsEnabled();
+
+    /** DBUS interface function.
+     * Slew the mount to the RA/DEC (JNow).
+     * @param RA Right ascention is hours.
+     * @param DEC Declination in degrees.
+     * @return true if the command is sent successfully, false otherwise.
+     */
+    Q_SCRIPTABLE bool slew(double RA, double DEC);
+
+    /** DBUS interface function.
+     * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
+     */
+    Q_SCRIPTABLE QList<double> getEquatorialCoords();
+
+    /** DBUS interface function.
+     * Aborts the mount motion
+     * @return true if the command is sent successfully, false otherwise.
+     */
+    Q_SCRIPTABLE bool abort();
+
+    /** DBUS interface function.
+     * Get the mount slew status ("Idle","Complete", "Busy", "Error")
+     */
+    Q_SCRIPTABLE QString getSlewStatus();
+
+    /** DBUS interface function.
+     * Get telescope and guide scope info. An array of doubles is returned in order.
+     * Primary Telescope Focal Length (mm), Primary Telescope Aperture (mm), Guide Telescope Focal Length (mm), Guide Telescope Aperture (mm)
+     */
+    Q_SCRIPTABLE QList<double> getTelescopeInfo();
+
+    /** DBUS interface function.
+     * Set telescope and guide scope info. All measurements is in millimeters.
+     * @param primaryFocalLength Primary Telescope Focal Length
+     * @param primaryAperture Primary Telescope Aperture
+     * @param guideFocalLength Guide Telescope Focal Length
+     * @param guideAperture Guide Telescope Aperture
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
 
 public slots:
 
