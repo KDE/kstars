@@ -620,8 +620,8 @@ void SkyPoint::subtractEterms(void) {
 
 dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle) const {
 
-    double dalpha = ra().radians() - sp->ra().radians() ;
-    double ddelta = dec().radians() - sp->dec().radians() ;
+    double dalpha = sp->ra().radians() - ra().radians() ;
+    double ddelta = sp->dec().radians() - dec().radians();
 
     double sa = sin(dalpha/2.);
     double sd = sin(ddelta/2.);
@@ -629,17 +629,19 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle
     double hava = sa*sa;
     double havd = sd*sd;
 
-    double aux = havd + cos (dec().radians()) * cos(sp->dec().radians()) // Haversine law
-                 * hava;
+     // Haversine law
+    double aux = havd + cos (sp->dec().radians()) * cos(dec().radians()) * hava;
 
     dms angDist;
     angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
 
-    if( positionAngle ) {
+    if( positionAngle )
+    {
         // Also compute the position angle of the line from this SkyPoint to sp
-        *positionAngle = acos( tan(-ddelta)/tan( angDist.radians() ) ); // FIXME: Might fail for large ddelta / zero angDist
-        if( -dalpha < 0 )
-            *positionAngle = 2*M_PI - *positionAngle;
+        //*positionAngle = acos( tan(-ddelta)/tan( angDist.radians() ) ); // FIXME: Might fail for large ddelta / zero angDist
+        //if( -dalpha < 0 )
+        //            *positionAngle = 2*M_PI - *positionAngle;
+        *positionAngle = atan2f(sin(dalpha), cos(dec().radians()) * tan(sp->dec().radians()) - sin(dec().radians()) * cos(dalpha)) * 180/M_PI;
     }
     return angDist;
 }

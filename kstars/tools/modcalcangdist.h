@@ -25,9 +25,10 @@ class dmsBox;
 class SkyPoint;
 class QTextStream;
 
-/** Module to compute the angular distance between two points in the sky
+/** Module to compute the angular distance between two points in the sky and position angle.
   *@author Pablo de Vicente
-  *@version 0.9
+  *@author Jasem Mutlaq
+  *@version 1.0
   */
 class modCalcAngDist : public QFrame, public Ui::modCalcAngDistDlg  {
 
