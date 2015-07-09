@@ -430,8 +430,7 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     if ( !visible || !m_proj->onScreen(constellationmidpoint))
         return false;
 
-    //int w = obj->imageWidth();
-    //int h = obj->imageHeight();
+    float positionangle = m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
     double zoom = Options::zoomFactor();
     qDebug()<<zoom;
 
@@ -440,7 +439,7 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 
     save();
     translate(constellationmidpoint);
-    rotate(45);
+    rotate(positionangle - 46);
     drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
     restore();
     return true;
