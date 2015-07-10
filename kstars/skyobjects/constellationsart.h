@@ -47,8 +47,6 @@ private:
 
 public:
 
-    SkyPoint* constellationMidPoint;
-
     /**
      *Constructor. Set SkyObject data according to arguments.
      *@param t Type of object
@@ -74,7 +72,9 @@ public:
     inline QString getImageFileName() const {return imageFileName;}
 
    /** @return an object's position angle */
-    inline float getPositionAngle() const { return positionAngle; }
+    inline double pa() const { return positionAngle; }
+
+    inline void setPositionAngle(double pa) { positionAngle = pa; }
 
    /** @return an object's scale factor */
     inline float getScaleFactor() const { return scaleFactor; }

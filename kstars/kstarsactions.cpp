@@ -78,6 +78,10 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
+
+//REMOVE THIS
+#include "dialogs/chelper.h"
+
 //FIXME Port to QML2
 #if 0
 #include "tools/whatsinteresting/wiview.h"
@@ -1012,6 +1016,10 @@ void KStars::slotTrack() {
 }
 
 void KStars::slotManualFocus() {
+    // REMOVE THIS
+    QPointer<CHelper> chelper = new CHelper(  );
+    chelper->show();
+
     QPointer<FocusDialog> focusDialog = new FocusDialog( this ); // = new FocusDialog( this );
     if ( Options::useAltAz() ) focusDialog->activateAzAltPage();
 

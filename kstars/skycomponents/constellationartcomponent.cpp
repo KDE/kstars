@@ -78,7 +78,7 @@ void ConstellationArtComponent::showList()
     for(i = 0; i < m_ConstList.size(); i++)
     {
         qDebug()<<m_ConstList[i]->getAbbrev()<<m_ConstList[i]->getImageFileName();
-        qDebug()<<m_ConstList[i]->getPositionAngle()<<m_ConstList[i]->getScaleFactor();
+        qDebug()<<m_ConstList[i]->pa()<<m_ConstList[i]->getScaleFactor();
     }
 }
 

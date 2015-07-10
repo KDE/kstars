@@ -27,12 +27,12 @@ ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, float pa, 
     loadImage();
 
     //This sets both current and J2000 RA/DEC to the values ra and dec.
-    constellationMidPoint = new SkyPoint(midpointra,midpointdec);
+    setRA(midpointra);
+    setDec(midpointdec);
 }
 
 ConstellationsArt::~ConstellationsArt()
 {
-    delete constellationMidPoint;
 }
 
 void ConstellationsArt::loadImage()

@@ -21,6 +21,8 @@
 #define SKYQPAINTER_H
 
 #include "skypainter.h"
+// REMOVE THIS TESTING ONLY
+#include "dms.h"
 
 class Projector;
 class QWidget;
@@ -90,6 +92,8 @@ public:
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');
     virtual bool drawConstellationArtImage(ConstellationsArt *obj);
 
+    static void setCHelper(dms cra, dms cdec, dms cpa, dms c_w, dms c_h) { ra = cra; dec=cdec; pa=cpa; cw=c_w; ch=c_h; }
+
 private:
     virtual bool drawDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
@@ -98,6 +102,8 @@ private:
     bool m_vectorStars;
     QSize m_size;
     static int starColorMode;
+
+    static dms ra, dec, pa, cw, ch ;
 };
 
 #endif

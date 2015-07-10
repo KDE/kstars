@@ -75,6 +75,15 @@ namespace {
 
 int SkyQPainter::starColorMode = 0;
 
+dms SkyQPainter::ra = dms(360);
+dms SkyQPainter::dec = dms(90);
+dms SkyQPainter::pa = dms(15);
+dms SkyQPainter::cw = dms(30);
+dms SkyQPainter::ch = dms(30);
+
+
+
+
 SkyQPainter::SkyQPainter( QPaintDevice *pd )
     : SkyPainter(), QPainter()
 {
@@ -423,23 +432,32 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 
 bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 {
+    qDebug() << "ra dms" << ra.toHMSString() << " dec dms " << dec.toDMSString() << " pa " << pa.toDMSString() << " w " << cw.toDMSString() << " h " << ch.toDMSString();
+
+    obj->setRA(ra);
+    obj->setDec(dec);
+    obj->setPositionAngle(pa.Degrees());
+
+
     bool visible = false;
-    obj->constellationMidPoint->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-    QPointF constellationmidpoint = m_proj->toScreen(obj->constellationMidPoint, true, &visible);
+    obj->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF constellationmidpoint = m_proj->toScreen(obj, true, &visible);
 
     if ( !visible || !m_proj->onScreen(constellationmidpoint))
         return false;
 
+    qDebug() << "o->pa() " << obj->pa();
     float positionangle = m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
+    qDebug() << " final PA " << positionangle;
     double zoom = Options::zoomFactor();
-    qDebug()<<zoom;
 
-    float w = 1997.047488*zoom/3500;
-    float h = w;
+
+    float w = cw.Degrees()*60* dms::PI*zoom/10800;
+    float h = ch.Degrees()*60* dms::PI*zoom/10800;
 
     save();
     translate(constellationmidpoint);
-    rotate(positionangle - 46);
+    rotate(positionangle);
     drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
     restore();
     return true;
@@ -462,6 +480,9 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
     //FIXME: this is probably incorrect
     float positionAngle = m_proj->findPA( obj, pos.x(), pos.y() );
+
+    if (obj->name().startsWith("M 31"))
+       qDebug() << "M 31 PA " << positionAngle;
 
     //Draw Image
     if ( drawImage && Options::zoomFactor() > 5.*MINZOOM )
