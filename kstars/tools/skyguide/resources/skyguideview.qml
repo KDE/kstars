@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 
 ColumnLayout {
     id: view
+    spacing: 0
     property int fontSizeText: 12
     property int frameBorderWidth: 1
     property int frameHMargin: 10
@@ -42,6 +43,8 @@ ColumnLayout {
     }
 
     Item {
+        Layout.minimumHeight: 5
+        Layout.fillWidth: true
         Layout.fillHeight: true
     }
 

@@ -12,9 +12,7 @@ ColumnLayout {
         loader.source = "skyguideslide.qml";
     }
 
-    ObjTextHeader {
-        text: loader.modelData.title
-    }
+    ObjHeader {}
 
     ObjRectangle {
         TextArea {

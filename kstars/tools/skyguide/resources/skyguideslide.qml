@@ -7,9 +7,7 @@ ColumnLayout {
     spacing: 10
     Layout.alignment: Qt.AlignHCenter
 
-    ObjTextHeader {
-        text: loader.modelData.slideTitle
-    }
+    ObjHeader {}
 
     Image {
         Layout.alignment: Qt.AlignHCenter

@@ -11,7 +11,13 @@ ColumnLayout {
         loader.source = "skyguideinfo.qml";
     }
 
-    ObjTextHeader {
+    Text {
+        anchors.topMargin: 5
+        anchors.fill: parent
+        horizontalAlignment: Text.AlignHCenter
+        color: "#1703ca"
+        font.pixelSize: 24
+        style: Text.Raised
         text: "Sky Guide"
     }
 
