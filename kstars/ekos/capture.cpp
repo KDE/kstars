@@ -43,6 +43,7 @@
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_TEMP_DIFF       0.1
+#define MAX_CAPTURE_RETRIES 3
 
 namespace Ekos
 {
@@ -61,7 +62,8 @@ SequenceJob::SequenceJob()
     activeCCD=NULL;
     activeFilter= NULL;
     statusCell = NULL;
-    completed=0;    
+    completed=0;
+    captureRetires=0;
 }
 
 void SequenceJob::reset()
@@ -76,6 +78,7 @@ void SequenceJob::resetStatus()
     status = JOB_IDLE;
     completed=0;
     exposeLeft=0;
+    captureRetires=0;
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
 }
@@ -158,7 +161,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
             activeChip->setISOIndex(isoIndex);
    }
 
-   if (activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
+   if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
    {
         status = JOB_ERROR;
 
@@ -280,6 +283,16 @@ void SequenceJob::setTargetADU(double value)
 {
     targetADU = value;
 }
+int SequenceJob::getCaptureRetires() const
+{
+    return captureRetires;
+}
+
+void SequenceJob::setCaptureRetires(int value)
+{
+    captureRetires = value;
+}
+
 
 int SequenceJob::getISOIndex() const
 {
@@ -379,6 +392,7 @@ Capture::Capture()
     connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
     connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
     connect(frameTypeCombo, SIGNAL(activated(int)), this, SLOT(checkFrameType(int)));
+    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -389,6 +403,7 @@ Capture::Capture()
     queueSaveB->setIcon(QIcon::fromTheme("document-save"));
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     resetB->setIcon(QIcon::fromTheme("system-reboot"));
+    resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
 
     fitsDir->setText(Options::fitsDir());
 
@@ -573,7 +588,7 @@ void Capture::stopSequence()
     secondsLabel->clear();
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
 
     currentCCD->setFITSDir("");
 
@@ -759,9 +774,12 @@ void Capture::updateFrameProperties()
         else
             xstep = step;
 
-        frameWIN->setMinimum(min);
-        frameWIN->setMaximum(max);
-        frameWIN->setSingleStep(xstep);
+        if (min >= 0 && max > 0)
+        {
+            frameWIN->setMinimum(min);
+            frameWIN->setMaximum(max);
+            frameWIN->setSingleStep(xstep);
+        }
     }
 
     if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
@@ -771,9 +789,12 @@ void Capture::updateFrameProperties()
         else
             ystep = step;
 
-        frameHIN->setMinimum(min);
-        frameHIN->setMaximum(max);
-        frameHIN->setSingleStep(ystep);
+        if (min >= 0 && max > 0)
+        {
+            frameHIN->setMinimum(min);
+            frameHIN->setMaximum(max);
+            frameHIN->setSingleStep(ystep);
+        }
     }
 
     if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
@@ -781,9 +802,12 @@ void Capture::updateFrameProperties()
         if (step == 0)
             step = xstep;
 
-        frameXIN->setMinimum(min);
-        frameXIN->setMaximum(max);
-        frameXIN->setSingleStep(step);
+        if (min >= 0 && max > 0)
+        {
+            frameXIN->setMinimum(min);
+            frameXIN->setMaximum(max);
+            frameXIN->setSingleStep(step);
+        }
     }
 
     if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
@@ -791,17 +815,24 @@ void Capture::updateFrameProperties()
         if (step == 0)
             step = ystep;
 
-        frameYIN->setMinimum(min);
-        frameYIN->setMaximum(max);
-        frameYIN->setSingleStep(step);
+        if (min >= 0 && max > 0)
+        {
+            frameYIN->setMinimum(min);
+            frameYIN->setMaximum(max);
+            frameYIN->setSingleStep(step);
+        }
     }
 
     if (targetChip->getFrame(&x,&y,&w,&h))
     {
-        frameXIN->setValue(x);
-        frameYIN->setValue(y);
-        frameWIN->setValue(w);
-        frameHIN->setValue(h);
+        if (x >= 0)
+            frameXIN->setValue(x);
+        if (y >= 0)
+            frameYIN->setValue(y);
+        if (w > 0)
+            frameWIN->setValue(w);
+        if (h > 0)
+            frameHIN->setValue(h);
     }
 
 }
@@ -810,6 +841,13 @@ void Capture::processCCDNumber(INumberVectorProperty *nvp)
 {
     if (currentCCD && ( (!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead)))
         updateFrameProperties();    
+}
+
+void Capture::resetFrame()
+{
+    targetChip = useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    targetChip->resetFrame();
+    updateFrameProperties();
 }
 
 void Capture::syncFrameType(ISD::GDInterface *ccd)
@@ -1124,7 +1162,7 @@ bool Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
     {
-        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked());
+        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked() && HFRPixels->value() > 0);
         if (isAutoFocus)
             autoFocusStatus = false;
 
@@ -1306,7 +1344,7 @@ void Capture::clearLog()
     emit newLog();
 }
 
-void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
+void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState state)
 {
 
     if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL || meridianFlipStage >= MF_ALIGNING)
@@ -1317,8 +1355,28 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value)
     if (activeJob)
         activeJob->setExposeLeft(value);
 
+    if (activeJob && state == IPS_ALERT)
+    {
+        int retries = activeJob->getCaptureRetires()+1;
+
+        activeJob->setCaptureRetires(retries);
+
+        appendLogText(xi18n("Capture failed."));
+        if (retries == 3)
+        {
+            stopSequence();
+            return;
+        }
+
+        appendLogText(xi18n("Restarting capture attempt #%1", retries));
+        captureImage();
+        return;
+    }
+
     if (value == 0)
     {
+        activeJob->setCaptureRetires(0);
+
         if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
             if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getExposeLeft() == 0)
@@ -1712,7 +1770,7 @@ void Capture::executeJob()
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double)));    
+    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
 
     captureImage();
 

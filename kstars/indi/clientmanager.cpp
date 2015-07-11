@@ -76,9 +76,9 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
             dvName = dv->getName().split(" ").first();
             if (dvName.isEmpty())
                 dvName = dv->getName();
-            if (dv->getUniqueLabel() == dp->getDeviceName() ||
-                    QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) ||
-                    dv->getDriverSource() == HOST_SOURCE || dv->getDriverSource() == GENERATED_SOURCE)
+            if (/*dv->getUniqueLabel() == dp->getDeviceName() ||*/
+               QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) ||
+               ((dv->getDriverSource() == HOST_SOURCE || dv->getDriverSource() == GENERATED_SOURCE)))
             {
                 deviceDriver = dv;
                 break;
@@ -90,6 +90,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
         return;
 
     deviceDriver->setUniqueLabel(dp->getDeviceName());
+
     DeviceInfo *devInfo = new DeviceInfo(deviceDriver, dp);
     deviceDriver->addDevice(devInfo);
     emit newINDIDevice(devInfo);

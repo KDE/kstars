@@ -43,13 +43,18 @@ class KDirWatch;
  * - Auto guiding with support for automatic dithering between exposures and support for Adaptive Optics devices in addition to traditional guiders.
  * - Powerful sequence queue for batch capture of images with optional prefixes, timestamps, filter wheel selection, and much more!
  * - Export and import sequence queue sets as Ekos Sequence Queue (.esq) files.
+ * - Center the telescope anywhere in a captured FITS image or any FITS with World Coordinate System (WCS) header.
+ * - Automatic flat field capture, just set the desired ADU and let Ekos does the rest!
  * - Automatic abort and resumption of exposure tasks if guiding errors exceed a user-configurable value.
  * - Support for dome slaving.
  * - Complete integration with KStars Observation Planner and SkyMap
  * - Integrate with all INDI native devices.
  * - Powerful scripting capabilities via \ref EkosDBusInterface "DBus."
+ *
+ * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
+ * interface to enable unattended scripting.
 *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 namespace Ekos
 {
@@ -139,6 +144,9 @@ class SequenceJob : public QObject
     double getTargetADU() const;
     void setTargetADU(double value);
 
+    int getCaptureRetires() const;
+    void setCaptureRetires(int value);
+
 signals:
     void prepareComplete();
 
@@ -167,6 +175,7 @@ private:
     bool showFITS;
     bool filterReady, temperatureReady;
     int isoIndex;
+    int captureRetires;
     unsigned int completed;
     double exposeLeft;
     double currentTemperature, targetTemperature;
@@ -350,8 +359,9 @@ public slots:
     void setDirty();
 
     void checkFrameType(int index);
+    void resetFrame();
     void updateAutofocusStatus(bool status, double HFR);
-    void updateCaptureProgress(ISD::CCDChip *tChip, double value);
+    void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
 
     void saveFITSDirectory();
