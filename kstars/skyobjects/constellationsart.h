@@ -42,8 +42,8 @@ class ConstellationsArt: public SkyObject{
 
 private:
     QString abbrev, imageFileName;
-    float positionAngle, scaleFactor;
     QImage constellationArtImage;
+    double positionAngle, width, height;
 
 public:
 
@@ -53,7 +53,7 @@ public:
      *@param serial Serial number from constellationsart.txt
      *@param n Primary name
      */
-    explicit ConstellationsArt(dms midpointra, dms midpointdec, float pa, float sf, QString abbreviation,QString filename);
+    explicit ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation,QString filename);
 
     //Destructor
      ~ConstellationsArt();
@@ -76,8 +76,8 @@ public:
 
     inline void setPositionAngle(double pa) { positionAngle = pa; }
 
-   /** @return an object's scale factor */
-    inline float getScaleFactor() const { return scaleFactor; }
+    inline double getWidth() {return width; }
+    inline double getHeight() {return height;}
 
 };
 

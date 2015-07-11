@@ -18,13 +18,14 @@
 #include "kstars/texturemanager.h"
 
 
-ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, float pa, float sf, QString abbreviation, QString filename)
+ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation, QString filename)
 {
     positionAngle = pa;
-    scaleFactor = sf;
     abbrev = abbreviation;
     imageFileName = filename;
     loadImage();
+    width = w;
+    height = h;
 
     //This sets both current and J2000 RA/DEC to the values ra and dec.
     setRA(midpointra);

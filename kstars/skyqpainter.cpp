@@ -455,6 +455,10 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     float w = cw.Degrees()*60* dms::PI*zoom/10800;
     float h = ch.Degrees()*60* dms::PI*zoom/10800;
 
+/*
+    float w = obj->getWidth()*60*dms::PI*zoom/10800;
+    float h = obj->getHeight()*60*dms::PI*zoom/10800;
+*/
     save();
     translate(constellationmidpoint);
     rotate(positionangle);

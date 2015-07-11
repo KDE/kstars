@@ -58,16 +58,17 @@ void ConstellationArtComponent::loadData(){
              QString filename       = get_query.value("Filename").toString();
              QString midpointRA            = get_query.value("MidpointRA").toString();
              QString midpointDEC           = get_query.value("MidpointDEC").toString();
-             float pa                 = get_query.value("Position Angle").toFloat();
-             float sf                 = get_query.value("Scale Factor").toFloat();
+             double pa                 = get_query.value("Position Angle").toDouble();
+             double w         = get_query.value("Width").toDouble();
+             double h         = get_query.value("Height").toDouble();
 
              dms midpointra = dms::fromString(midpointRA,false);
              dms midpointdec = dms::fromString(midpointDEC,true);
 
              // appends constellation info
-             ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, sf, abbreviation, filename);
+             ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, w,h, abbreviation, filename);
              m_ConstList.append(ca);
-             qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<sf;
+             qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
          }
         skydb.close();
 }
@@ -78,14 +79,15 @@ void ConstellationArtComponent::showList()
     for(i = 0; i < m_ConstList.size(); i++)
     {
         qDebug()<<m_ConstList[i]->getAbbrev()<<m_ConstList[i]->getImageFileName();
-        qDebug()<<m_ConstList[i]->pa()<<m_ConstList[i]->getScaleFactor();
+        qDebug()<<m_ConstList[i]->pa();
     }
 }
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
 
     if(Options::showConstellationArt()){
-         skyp->drawConstellationArtImage(m_ConstList[0]);
+         //for(int i =0; i<2; i++)
+         skyp->drawConstellationArtImage(m_ConstList[3]);
     }
 
     //Loops through the QList containing all data required to draw western constellations.
