@@ -434,10 +434,14 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 {
     qDebug() << "ra dms" << ra.toHMSString() << " dec dms " << dec.toDMSString() << " pa " << pa.toDMSString() << " w " << cw.toDMSString() << " h " << ch.toDMSString();
 
+    double zoom = Options::zoomFactor();
+/*
     obj->setRA(ra);
     obj->setDec(dec);
     obj->setPositionAngle(pa.Degrees());
-
+    float w = cw.Degrees()*60* dms::PI*zoom/10800;
+    float h = ch.Degrees()*60* dms::PI*zoom/10800;
+*/
 
     bool visible = false;
     obj->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -449,16 +453,11 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     qDebug() << "o->pa() " << obj->pa();
     float positionangle = m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
     qDebug() << " final PA " << positionangle;
-    double zoom = Options::zoomFactor();
 
 
-    float w = cw.Degrees()*60* dms::PI*zoom/10800;
-    float h = ch.Degrees()*60* dms::PI*zoom/10800;
-
-/*
     float w = obj->getWidth()*60*dms::PI*zoom/10800;
     float h = obj->getHeight()*60*dms::PI*zoom/10800;
-*/
+
     save();
     translate(constellationmidpoint);
     rotate(positionangle);

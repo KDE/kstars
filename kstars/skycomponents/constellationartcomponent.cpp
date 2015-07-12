@@ -86,8 +86,9 @@ void ConstellationArtComponent::showList()
 void ConstellationArtComponent::draw(SkyPainter *skyp){
 
     if(Options::showConstellationArt()){
-         //for(int i =0; i<2; i++)
-         skyp->drawConstellationArtImage(m_ConstList[3]);
+
+         for(int i =0; i<85; i++)
+         skyp->drawConstellationArtImage(m_ConstList[i]);
     }
 
     //Loops through the QList containing all data required to draw western constellations.
