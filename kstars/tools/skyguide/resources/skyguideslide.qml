@@ -9,6 +9,15 @@ ColumnLayout {
 
     ObjHeader {}
 
+    Text {
+        Layout.fillWidth: true
+        horizontalAlignment: Text.AlignHCenter
+        color: "#1703ca"
+        font.pixelSize: 24
+        style: Text.Raised
+        text: loader.modelData.slideTitle
+    }
+
     Image {
         Layout.alignment: Qt.AlignHCenter
         Layout.maximumHeight: parent.width * 0.5
