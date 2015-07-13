@@ -22,7 +22,7 @@
 SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     : m_isValid(false),
       m_path(path),
-      m_currentSlide(0)
+      m_currentSlide(-1)
 {
     if (map["formatVersion"].toInt() != SKYGUIDE_FORMAT_VERSION
         || !map.contains("header") || !map.contains("slides"))
@@ -64,4 +64,25 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     }
 
     m_isValid = true;
+}
+
+QString SkyGuideObject::slideTitle() {
+    if (m_currentSlide == -1) {
+        return "";
+    }
+    return m_slides.at(m_currentSlide).title;
+}
+
+QString SkyGuideObject::slideText() {
+    if (m_currentSlide == -1) {
+        return "";
+    }
+    return m_slides.at(m_currentSlide).text;
+}
+
+QString SkyGuideObject::slideImgPath() {
+    if (m_currentSlide == -1) {
+        return "";
+    }
+    return m_path + QDir::toNativeSeparators("/" + m_slides.at(m_currentSlide).image);
 }

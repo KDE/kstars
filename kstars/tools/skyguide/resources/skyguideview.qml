@@ -12,7 +12,10 @@ ColumnLayout {
 
     Action {
         id: homeAction
-        onTriggered: loader.source = "skyguidehome.qml"
+        onTriggered: {
+            loader.modelData.currentSlide = -1
+            loader.source = "skyguidehome.qml"
+        }
     }
 
     ToolBar {

@@ -72,11 +72,9 @@ public:
     QString version() { return QString::number(m_version); }
 
     QStringList contents() { return m_contents; }
-    QString slideTitle() { return m_slides.at(m_currentSlide).title; }
-    QString slideText() { return m_slides.at(m_currentSlide).text; }
-    QString slideImgPath() {
-        return m_path + QDir::toNativeSeparators("/" + m_slides.at(m_currentSlide).image);
-    }
+    QString slideTitle();
+    QString slideText();
+    QString slideImgPath();
 
 signals:
     void slideChanged();
