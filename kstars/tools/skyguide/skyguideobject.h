@@ -61,20 +61,20 @@ public:
 
     SkyGuideObject(const QString &path, const QVariantMap &map);
 
-    inline bool isValid() { return m_isValid; }
-    inline int currentSlide() { return m_currentSlide; }
-    inline void setCurrentSlide(int slide) { m_currentSlide = slide; }
+    bool isValid() { return m_isValid; }
+    int currentSlide() { return m_currentSlide; }
+    void setCurrentSlide(int slide) { m_currentSlide = slide; }
 
-    inline QString title() { return m_title; }
-    inline QString description() { return m_description; }
-    inline QString language() { return m_language; }
-    inline QString creationDate() { return m_creationDate.toString("MMMM d, yyyy"); }
-    inline QString version() { return QString::number(m_version); }
+    QString title() { return m_title; }
+    QString description() { return m_description; }
+    QString language() { return m_language; }
+    QString creationDate() { return m_creationDate.toString("MMMM d, yyyy"); }
+    QString version() { return QString::number(m_version); }
 
-    inline QStringList contents() { return m_contents; }
-    inline QString slideTitle() { return m_slides.at(m_currentSlide).title; }
-    inline QString slideText() { return m_slides.at(m_currentSlide).text; }
-    inline QString slideImgPath() {
+    QStringList contents() { return m_contents; }
+    QString slideTitle() { return m_slides.at(m_currentSlide).title; }
+    QString slideText() { return m_slides.at(m_currentSlide).text; }
+    QString slideImgPath() {
         return m_path + QDir::toNativeSeparators("/" + m_slides.at(m_currentSlide).image);
     }
 

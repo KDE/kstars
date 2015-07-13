@@ -29,7 +29,7 @@ class SkyGuideView : public QQuickView
 public:
     SkyGuideView();
 
-    inline QDockWidget* dock() { return m_dock; }
+    QDockWidget* dock() { return m_dock; }
 
     void setModel(QList<QObject*> guides);
 
