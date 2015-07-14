@@ -113,7 +113,8 @@ EkosManager::EkosManager()
         initRemoteDrivers();
 
     schedulerProcess = new Ekos::Scheduler();
-       toolsWidget->addTab( schedulerProcess, xi18n("Scheduler"));
+    toolsWidget->addTab( schedulerProcess, xi18n("Scheduler"));
+    connect(schedulerProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
 }
 
@@ -1875,6 +1876,8 @@ void EkosManager::updateLog()
         ekosLogOut->setPlainText(guideProcess->getLogText());
     else if (currentWidget == mountProcess)
         ekosLogOut->setPlainText(mountProcess->getLogText());
+    else if (currentWidget == schedulerProcess)
+        ekosLogOut->setPlainText(schedulerProcess->getLogText());
 
 }
 

@@ -218,6 +218,26 @@ void Schedulerjob::setAlignCheck(bool value)
 {
     alignCheck = value;
 }
+Schedulerjob::StateChoice Schedulerjob::getState() const
+{
+    return state;
+}
+
+void Schedulerjob::setState(const StateChoice &value)
+{
+    state = value;
+}
+int Schedulerjob::getRowNumber() const
+{
+    return rowNumber;
+}
+
+void Schedulerjob::setRowNumber(int value)
+{
+    rowNumber = value;
+}
+
+
 
 
 

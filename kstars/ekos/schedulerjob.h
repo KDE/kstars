@@ -2,6 +2,7 @@
 
 class Schedulerjob {
 public:
+    enum StateChoice{IDLE,SLEWING, FOCUSING, ALIGNING, GUIDING, CAPTURING, ABORTED};
     QString getName() const;
     void setName(const QString &value);
 
@@ -74,7 +75,14 @@ public:
     bool getAlignCheck() const;
     void setAlignCheck(bool value);
 
+    StateChoice getState() const;
+    void setState(const StateChoice &value);
+
+    int getRowNumber() const;
+    void setRowNumber(int value);
+
 private:
+    StateChoice state = IDLE;
     QString name;
     QString RA;
     QString DEC;
@@ -90,6 +98,7 @@ private:
     int finishingHour;
     int finishingMinute;
     int score=0;
+    int rowNumber;
 
     bool NowCheck=false;
     bool specificTime=false;
