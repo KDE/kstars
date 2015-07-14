@@ -17,22 +17,47 @@ Rectangle {
     }
 
     ColumnLayout {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-
         Text {
-            Layout.alignment: Qt.AlignHCenter
+            Layout.alignment: Qt.AlignLeft
+            Layout.fillWidth: true
             color: "#ffffff"
             font.pixelSize: 24
             style: Text.Raised
             text: loader.modelData.title
         }
 
-        Text {
-            Layout.alignment: Qt.AlignBaseline | Qt.AlignLeft
-            color: "#80b5f1"
-            font.pixelSize: 12
-            text: loader.modelData.slideTitle
+        RowLayout {
+            Text {
+                id: slidepath
+                color: "#80b5f1"
+                font.pixelSize: 12
+                text: "SkyGuide"
+            }
+
+            Text {
+                id: patharrow
+                color: "#6680b5f1"
+                font.pixelSize: 12
+                text: ">>"
+            }
+
+            Text {
+                color: slidepath.color
+                font: slidepath.font
+                text: loader.modelData.title
+            }
+
+            Text {
+                color: patharrow.color
+                font: patharrow.font
+                text: patharrow.text
+            }
+
+            Text {
+                color: slidepath.color
+                font: slidepath.font
+                text: loader.modelData.slideTitle
+            }
         }
     }
 }
