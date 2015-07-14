@@ -11,7 +11,9 @@ ColumnLayout {
     property int frameVMargin: 10
 
     function loadHome() {
-        loader.modelData.currentSlide = -1
+        if (loader.modelData) {
+            loader.modelData.currentSlide = -1
+        }
         loader.source = "skyguidehome.qml"
     }
 
