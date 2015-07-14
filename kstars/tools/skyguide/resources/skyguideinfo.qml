@@ -7,11 +7,6 @@ ColumnLayout {
     spacing: 10
     Layout.alignment: Qt.AlignHCenter
 
-    function loadSlide(index) {
-        loader.modelData.currentSlide = index;
-        loader.source = "skyguideslide.qml";
-    }
-
     ObjHeader {}
 
     ObjRectangle {

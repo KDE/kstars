@@ -10,12 +10,19 @@ ColumnLayout {
     property int frameHMargin: 10
     property int frameVMargin: 10
 
-    Action {
-        id: homeAction
-        onTriggered: {
-            loader.modelData.currentSlide = -1
-            loader.source = "skyguidehome.qml"
-        }
+    function loadHome() {
+        loader.modelData.currentSlide = -1
+        loader.source = "skyguidehome.qml"
+    }
+
+    function loadGuide(modelData) {
+        loader.modelData = modelData;
+        loader.source = "skyguideinfo.qml";
+    }
+
+    function loadSlide(index) {
+        loader.modelData.currentSlide = index;
+        loader.source = "skyguideslide.qml";
     }
 
     ToolBar {
@@ -25,10 +32,10 @@ ColumnLayout {
         RowLayout {
             anchors.fill: parent
             ToolButton {
-                width: 25
+                width: 20
                 height: 20
-                iconSource: "home.png"
-                action: homeAction
+                iconSource: "icons/home.png"
+                onClicked: loadHome()
             }
             Item { Layout.fillWidth: true }
         }

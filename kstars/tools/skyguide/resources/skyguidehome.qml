@@ -6,11 +6,6 @@ ColumnLayout {
     spacing: 10
     Layout.alignment: Qt.AlignHCenter
 
-    function loadGuide(modelData) {
-        loader.modelData = modelData;
-        loader.source = "skyguideinfo.qml";
-    }
-
     Text {
         anchors.topMargin: 5
         anchors.fill: parent
