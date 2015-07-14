@@ -354,6 +354,9 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
             //Because Saturn has rings, we inflate its image size by a factor 2.5
             if( planet->name() == "Saturn" )
                 size = int(2.5*size);
+            // Scale size exponentially so it is visible at large zooms
+            else if (planet->name() == "Pluto")
+                size = int(size*exp(1.5*size));
 
             save();
             translate(pos);
