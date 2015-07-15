@@ -73,6 +73,11 @@ TextureManager::CacheIter TextureManager::findTexture(const QString& name)
             if( !filename.isNull() ) {
                 return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
                } else {
+                //Try to load from the file in 'skycultures/inuit' subdirectory for Inuit constellation art
+                QString filename = QStandardPaths::locate(QStandardPaths::DataLocation, QString("skycultures/inuit/%1.png").arg(name));
+                if( !filename.isNull() ) {
+                    return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
+                   }else {
                 // Try to load from file in main data directory
                 filename = QStandardPaths::locate(QStandardPaths::DataLocation, QString("%1.png").arg(name));
                 if( !filename.isNull() ) {
@@ -82,7 +87,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString& name)
                 }
 
               }
-
+            }
         }
     }
 }

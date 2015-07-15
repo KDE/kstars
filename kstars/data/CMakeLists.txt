@@ -213,6 +213,20 @@ install( FILES skycultures/western/andromeda.png
 		skycultures/western/volans.png
 		skycultures/western/vulpecula.png
          DESTINATION ${KDE_INSTALL_DATADIR}/kstars/skycultures/western )
+         
+install( FILES skycultures/inuit/blubber-container.png
+	       skycultures/inuit/breastbone.png
+	       skycultures/inuit/caribou.png
+	       skycultures/inuit/collarbones.png
+	       skycultures/inuit/dogs.png
+	       skycultures/inuit/lamp-stand.png
+	       skycultures/inuit/runners.png
+	       skycultures/inuit/the-one-behind.png
+	       skycultures/inuit/two-in-front.png
+	       skycultures/inuit/two-placed-far-apart.png
+	       skycultures/inuit/two-sunbeams.png
+         DESTINATION ${KDE_INSTALL_DATADIR}/kstars/skycultures/inuit )
+
 
 
 

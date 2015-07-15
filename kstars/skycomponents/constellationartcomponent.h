@@ -64,6 +64,7 @@ public:
 
 private:
     QString cultureName;
+    int records;
 };
 
 #endif // ConstellationArtComponent_H

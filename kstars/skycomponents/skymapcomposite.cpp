@@ -232,8 +232,13 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     //Draw constellation boundary lines only if we draw western constellations
     if ( m_Cultures->current() == "Western" ){
         m_CBoundLines->draw( skyp );
-        m_ConstellationArt->draw( skyp ); //for western sky culture ONLY as of now
+        m_ConstellationArt->draw( skyp );
     }
+    if ( m_Cultures->current() == "Inuit" ){
+        m_ConstellationArt->draw( skyp );
+    }
+
+
     m_CLines->draw( skyp );
 
     m_Equator->draw( skyp );
