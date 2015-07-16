@@ -52,28 +52,15 @@ Rectangle {
             }
 
             Text {
-                id: patharrow
-                color: "#6680b5f1"
-                font.pixelSize: 12
-                text: ">>"
+                color: slidepath.color
+                font: slidepath.font
+                text: "> " + loader.modelData.title
             }
 
             Text {
                 color: slidepath.color
                 font: slidepath.font
-                text: loader.modelData.title
-            }
-
-            Text {
-                color: patharrow.color
-                font: patharrow.font
-                text: patharrow.text
-            }
-
-            Text {
-                color: slidepath.color
-                font: slidepath.font
-                text: loader.modelData.slideTitle
+                text: "> " + loader.modelData.slideTitle
             }
         }
     }
