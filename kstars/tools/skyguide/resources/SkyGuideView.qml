@@ -25,11 +25,11 @@ ColumnLayout {
 
         var src;
         if (page.name === "HOME") {
-            src = "skyguidehome.qml";
+            src = "SkyGuideHome.qml";
         } else if (page.name === "INFO") {
-            src = "skyguideinfo.qml";
+            src = "SkyGuideInfo.qml";
         } else if (page.name === "SLIDE") {
-            src = "skyguideslide.qml";
+            src = "SkyGuideSlide.qml";
         } else {
             console.log("SkyGuideQML: " + page.name + " is not a valid page!");
             return false;
