@@ -10,21 +10,75 @@ ColumnLayout {
     property int frameHMargin: 10
     property int frameVMargin: 10
 
-    function loadHome() {
-        if (loader.modelData) {
-            loader.modelData.currentSlide = -1
+    property var historyPrev: []
+    property var historyNext: []
+    property var currentPage: null
+    property int maxHistLenght: 16
+
+    function loadPage(page) {
+        if (!page.hasOwnProperty('name') || !page.hasOwnProperty('modelData')) {
+            console.log("SkyGuideQML:loadPage(PAGE): PAGE should hold a name and a modelData!");
+            return false;
+        } else if (currentPage && currentPage.name === page.name && currentPage.modelData === page.modelData) {
+            return false;
         }
-        loader.source = "skyguidehome.qml"
+
+        var src;
+        if (page.name === "HOME") {
+            src = "skyguidehome.qml";
+        } else if (page.name === "INFO") {
+            src = "skyguideinfo.qml";
+        } else if (page.name === "SLIDE") {
+            src = "skyguideslide.qml";
+        } else {
+            console.log("SkyGuideQML: " + page.name + " is not a valid page!");
+            return false;
+        }
+
+        if (page.modelData) {
+            loader.modelData = page.modelData;
+        }
+
+        loader.source = src;
+        currentPage = page;
+        return true;
     }
 
-    function loadGuide(modelData) {
-        loader.modelData = modelData;
-        loader.source = "skyguideinfo.qml";
+    function updateHistorySettings() {
+        if (historyNext.length + historyPrev.length > maxHistLenght) {
+            historyPrev.splice(0, 1); // remove the oldest one
+        }
+        btnPrev.enabled = historyPrev.length > 0;
+        btnNext.enabled = historyNext.length > 0;
     }
 
-    function loadSlide(index) {
-        loader.modelData.currentSlide = index;
-        loader.source = "skyguideslide.qml";
+    function goPrev() {
+        var cPage = currentPage;
+        var prevPageIdx = historyPrev.length - 1;
+        if (prevPageIdx > -1 && loadPage(historyPrev[prevPageIdx])) {
+            historyNext.push(cPage);
+            historyPrev.splice(prevPageIdx, 1);
+            updateHistorySettings();
+        }
+    }
+
+    function goNext() {
+        var cPage = currentPage;
+        var nextPageIdx = historyNext.length - 1;
+        if (nextPageIdx > -1 && loadPage(historyNext[nextPageIdx])) {
+            historyNext.splice(nextPageIdx, 1);
+            historyPrev.push(cPage);
+            updateHistorySettings();
+        }
+    }
+
+    function goToPage(newPage) {
+        var cPage = currentPage;
+        if (loadPage(newPage)) {
+            historyNext = [];
+            if (cPage) historyPrev.push(cPage);
+            updateHistorySettings();
+        }
     }
 
     ToolBar {
@@ -34,10 +88,24 @@ ColumnLayout {
         RowLayout {
             anchors.fill: parent
             ToolButton {
+                id: btnPrev
+                width: 20
+                height: 20
+                iconSource: "icons/prev.png"
+                onClicked: goPrev()
+            }
+            ToolButton {
+                id: btnNext
+                width: 20
+                height: 20
+                iconSource: "icons/next.png"
+                onClicked: goNext()
+            }
+            ToolButton {
                 width: 20
                 height: 20
                 iconSource: "icons/home.png"
-                onClicked: loadHome()
+                onClicked: goToPage({'name': 'HOME', 'modelData': null})
             }
             Item { Layout.fillWidth: true }
         }
@@ -51,7 +119,7 @@ ColumnLayout {
         Layout.minimumHeight: 360
         focus: true
         property var modelData: null
-        source: "skyguidehome.qml"
+        Component.onCompleted: goToPage({'name': 'HOME', 'modelData': null})
     }
 
     Item {

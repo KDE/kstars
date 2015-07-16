@@ -29,7 +29,10 @@ ColumnLayout {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: guidesList.currentIndex = index
-                    onDoubleClicked: loadGuide(model.modelData)
+                    onDoubleClicked: {
+                        model.modelData.currentSlide = -1;
+                        goToPage({'name': 'INFO', 'modelData': model.modelData});
+                    }
                 }
             }
         }
@@ -44,7 +47,10 @@ ColumnLayout {
             model: guidesModel
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             delegate: guidesDelegate
-            Keys.onReturnPressed: loadGuide(currentItem.modelData)
+            Keys.onReturnPressed: {
+                currentItem.modelData.currentSlide = -1;
+                goToPage({'name': 'INFO', 'modelData': currentItem.modelData});
+            }
         }
     }
 }
