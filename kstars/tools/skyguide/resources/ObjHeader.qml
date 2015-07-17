@@ -44,23 +44,54 @@ Rectangle {
         }
 
         RowLayout {
+            id: pathMenu
+            property string color: "#2a8af5"
+            property string colorHover: "#80b5f1"
+            property int fontSize: 12
+
             Text {
-                id: slidepath
-                color: "#80b5f1"
-                font.pixelSize: 12
+                id: homePath
+                color: pathMenu.color
+                font.pixelSize: pathMenu.fontSize
                 text: "SkyGuide"
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: homePath.color = pathMenu.colorHover
+                    onExited: homePath.color = pathMenu.color
+                    onClicked: goToPage({'name': 'HOME', 'modelData': null})
+                }
             }
 
             Text {
-                color: slidepath.color
-                font: slidepath.font
+                id: infoPath
+                color: pathMenu.color
+                font.pixelSize: pathMenu.fontSize
                 text: "> " + loader.modelData.title
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: infoPath.color = pathMenu.colorHover
+                    onExited: infoPath.color = pathMenu.color
+                    onClicked: {
+                        loader.modelData.currentSlide = -1;
+                        goToPage({'name': 'INFO', 'modelData': loader.modelData});
+                    }
+                }
             }
 
             Text {
-                color: slidepath.color
-                font: slidepath.font
-                text: "> " + loader.modelData.slideTitle
+                id: slidePath
+                color: pathMenu.color
+                font.pixelSize: pathMenu.fontSize
+                text: loader.modelData.slideTitle ? "> " + loader.modelData.slideTitle : ""
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: slidePath.color = pathMenu.colorHover
+                    onExited: slidePath.color = pathMenu.color
+                    onClicked: goToPage({'name': 'SLIDE', 'modelData': loader.modelData})
+                }
             }
         }
     }
