@@ -145,11 +145,56 @@ ColumnLayout {
         Layout.fillHeight: true
     }
 
-    Rectangle {
+    ToolBar {
         id: menu
         Layout.alignment: Qt.AlignBottom
         Layout.fillWidth: true
-        Layout.preferredHeight: 46
-        color: "#bcbcb5"
+        Layout.preferredHeight: 44
+
+        RowLayout {
+            id: menuHome
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            ToolButton {
+                width: 35
+                height: 40
+                iconSource: "icons/add.png"
+                tooltip: "Add a SkyGuide"
+            }
+            ToolButton {
+                width: 35
+                height: 40
+                iconSource: "icons/write.png"
+                tooltip: "Make a SkyGuide"
+            }
+            Item { Layout.fillWidth: true }
+        }
+
+        RowLayout {
+            id: menuSlide
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            ToolButton {
+                width: 35
+                height: 40
+                iconSource: "icons/info.png"
+                tooltip: "Contents"
+            }
+            ToolButton {
+                width: 35
+                height: 40
+                iconSource: "icons/prevSlide.png"
+                tooltip: "Previous Slide"
+            }
+            ToolButton {
+                width: 35
+                height: 40
+                iconSource: "icons/nextSlide.png"
+                tooltip: "Next Slide"
+            }
+            Item { Layout.fillWidth: true }
+        }
     }
 }
