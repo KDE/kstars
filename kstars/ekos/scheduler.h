@@ -28,71 +28,65 @@ class Scheduler : public QWidget, public Ui::Scheduler
     Q_OBJECT
 
 public:
+    enum StateChoice{IDLE, STARTING_EKOS, READY, ABORTED};
+
      Scheduler();
     ~Scheduler();
      int checkWeather();
      void processSession(Schedulerjob o);
-     void stopindi();
      void startEkos();
      void updateJobInfo(Schedulerjob *o);
      void appendLogText(const QString &);
      QString getLogText() { return logText.join("\n"); }
+     void startSlew();
+     void startFocusing();
+     void startAstrometry();
+     void startGuiding();
+     void startCapture();
+     void getNextAction();
+     void connectDevices();
+
+     Schedulerjob *getCurrentjob() const;
+     void setCurrentjob(Schedulerjob *value);
+     void terminateJob(Schedulerjob *value);
+     void executeJob(Schedulerjob *value);
+
+     StateChoice getState() const;
+     void setState(const StateChoice &value);
 
 public slots:
-    void selectSlot();
-    void addToTableSlot();
-    void removeTableSlot();
+     void selectSlot();
+     void addToTableSlot();
+     void removeTableSlot();
     void setSequenceSlot();
     void startSlot();
     void saveSlot();
     void evaluateJobs();
+    void checkJobStatus();
+    void stopindi();
 
 signals:
         void newLog();
 
 private:
     QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusInterface *focusinterface = new QDBusInterface("org.kde.kstars",
-                                                   "/KStars/Ekos/Focus",
-                                                   "org.kde.kstars.Ekos.Focus",
-                                                   bus,
-                                                   this);
-    QDBusConnection bus2 = QDBusConnection::sessionBus();
-    QDBusInterface *ekosinterface = new QDBusInterface("org.kde.kstars",
-                                                   "/KStars/Ekos",
-                                                   "org.kde.kstars.Ekos",
-                                                   bus2,
-                                                   this);
-
-    QDBusConnection bus3 = QDBusConnection::sessionBus();
-    QDBusInterface *captureinterface = new QDBusInterface("org.kde.kstars",
-                                                   "/KStars/Ekos/Capture",
-                                                   "org.kde.kstars.Ekos.Capture",
-                                                   bus3,
-                                                   this);
-
-    QDBusConnection bus4 = QDBusConnection::sessionBus();
-    QDBusInterface *mountinterface = new QDBusInterface("org.kde.kstars",
-                                                   "/KStars/Ekos/Mount",
-                                                   "org.kde.kstars.Ekos.Mount",
-                                                   bus4,
-                                                   this);
-    QDBusConnection bus5 = QDBusConnection::sessionBus();
-    QDBusInterface *aligninterface = new QDBusInterface("org.kde.kstars",
-                                                   "/KStars/Ekos/Align",
-                                                   "org.kde.kstars.Ekos.Align",
-                                                   bus5,
-                                                   this);
+    QDBusInterface *focusinterface;
+    QDBusInterface *ekosinterface;
+    QDBusInterface *captureinterface;
+    QDBusInterface *mountinterface;
+    QDBusInterface *aligninterface;
+    StateChoice state;
     QProgressIndicator *pi;
     Ekos::Scheduler *ui;
     KSMoon Moon;
-    SkyPoint *moon = &Moon;
-    int tableCountRow=0;
+    SkyPoint *moon;
+    int tableCountRow;
     int tableCountCol;
-    int iterations = 0;
+    int iterations ;
     QVector<Schedulerjob> objects;
     SkyObject *o;
     QStringList logText;
+    Schedulerjob *currentjob;
 };
 }
 

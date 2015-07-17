@@ -2,7 +2,10 @@
 
 class Schedulerjob {
 public:
-    enum StateChoice{IDLE,SLEWING, FOCUSING, ALIGNING, GUIDING, CAPTURING, ABORTED};
+    Schedulerjob();
+    enum StateChoice{IDLE, CONNECT_EKOS_COMPLETE, CONNECTING, CONNECTING_COMPLETE, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
+                     CAPTURING, CAPTURING_COMPLETE, ABORTED};
+    enum ActionChoice{NO_ACTION, START_SLEW, START_FOCUSING, START_GUIDING, START_ASTROMETRY, START_CAPTURING};
     QString getName() const;
     void setName(const QString &value);
 
@@ -81,8 +84,12 @@ public:
     int getRowNumber() const;
     void setRowNumber(int value);
 
+    bool getGuideCheck() const;
+    void setGuideCheck(bool value);
+
 private:
     StateChoice state = IDLE;
+    ActionChoice action = NO_ACTION;
     QString name;
     QString RA;
     QString DEC;
@@ -91,25 +98,26 @@ private:
     QString fileName;
     SkyObject *ob;
 
-    float alt=-1;
+    float alt;
     float moonSeparation;
     int hours;
     int minutes;
     int finishingHour;
     int finishingMinute;
-    int score=0;
+    int score;
     int rowNumber;
 
-    bool NowCheck=false;
-    bool specificTime=false;
-    bool specificAlt=false;
-    bool moonSeparationCheck=false;
-    bool meridianFlip=false;
+    bool NowCheck;
+    bool specificTime;
+    bool specificAlt;
+    bool moonSeparationCheck;
+    bool meridianFlip;
 
-    bool whenSeqCompCheck=false;
-    bool loopCheck=false;
-    bool onTimeCheck=false;
+    bool whenSeqCompCheck;
+    bool loopCheck;
+    bool onTimeCheck;
 
     bool focusCheck;
     bool alignCheck;
+    bool guideCheck;
 };

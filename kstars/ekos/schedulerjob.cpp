@@ -1,6 +1,20 @@
 #include <QApplication>
 #include "schedulerjob.h"
 
+Schedulerjob::Schedulerjob(){
+    NowCheck=false;
+    specificTime=false;
+    specificAlt=false;
+    moonSeparationCheck=false;
+    meridianFlip=false;
+
+    whenSeqCompCheck=false;
+    loopCheck=false;
+    onTimeCheck=false;
+    score=0;
+    alt=-1;
+}
+
 QString Schedulerjob::getName() const
 {
 return name;
@@ -236,6 +250,16 @@ void Schedulerjob::setRowNumber(int value)
 {
     rowNumber = value;
 }
+bool Schedulerjob::getGuideCheck() const
+{
+    return guideCheck;
+}
+
+void Schedulerjob::setGuideCheck(bool value)
+{
+    guideCheck = value;
+}
+
 
 
 

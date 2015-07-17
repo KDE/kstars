@@ -116,7 +116,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_8">
+           <widget class="QCheckBox" name="guideCheck">
             <property name="text">
              <string>Guide</string>
             </property>
