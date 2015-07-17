@@ -150,6 +150,8 @@ ColumnLayout {
         Layout.alignment: Qt.AlignBottom
         Layout.fillWidth: true
         Layout.preferredHeight: 44
+        property int btnHeight: 40
+        property int btnWidth: 35
 
         RowLayout {
             id: menuHome
@@ -157,14 +159,14 @@ ColumnLayout {
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             ToolButton {
-                width: 35
-                height: 40
+                width: menu.btnWidth
+                height: menu.btnHeight
                 iconSource: "icons/add.png"
                 tooltip: "Add a SkyGuide"
             }
             ToolButton {
-                width: 35
-                height: 40
+                width: menu.btnWidth
+                height: menu.btnHeight
                 iconSource: "icons/write.png"
                 tooltip: "Make a SkyGuide"
             }
@@ -177,20 +179,20 @@ ColumnLayout {
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             ToolButton {
-                width: 35
-                height: 40
+                width: menu.btnWidth
+                height: menu.btnHeight
                 iconSource: "icons/info.png"
                 tooltip: "Contents"
             }
             ToolButton {
-                width: 35
-                height: 40
+                width: menu.btnWidth
+                height: menu.btnHeight
                 iconSource: "icons/prevSlide.png"
                 tooltip: "Previous Slide"
             }
             ToolButton {
-                width: 35
-                height: 40
+                width: menu.btnWidth
+                height: menu.btnHeight
                 iconSource: "icons/nextSlide.png"
                 tooltip: "Next Slide"
             }
