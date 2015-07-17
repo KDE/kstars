@@ -170,7 +170,6 @@ ColumnLayout {
                 iconSource: "icons/write.png"
                 tooltip: "Make a SkyGuide"
             }
-            Item { Layout.fillWidth: true }
         }
 
         RowLayout {
@@ -196,7 +195,6 @@ ColumnLayout {
                 iconSource: "icons/nextSlide.png"
                 tooltip: "Next Slide"
             }
-            Item { Layout.fillWidth: true }
         }
     }
 }
