@@ -42,10 +42,16 @@ ColumnLayout {
 
         var src;
         if (page.name === "HOME") {
+            menuHome.visible = true
+            menuSlide.visible = false
             src = "SkyGuideHome.qml";
         } else if (page.name === "INFO") {
+            menuHome.visible = false
+            menuSlide.visible = true
             src = "SkyGuideInfo.qml";
         } else if (page.name === "SLIDE") {
+            menuHome.visible = false
+            menuSlide.visible = true
             src = "SkyGuideSlide.qml";
         } else {
             console.log("SkyGuideQML: " + page.name + " is not a valid page!");
