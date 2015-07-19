@@ -243,7 +243,6 @@ void Scheduler::checkJobStatus(){
          }
          if(replysequence.value().toStdString()=="Complete")
          {
-              QMessageBox::information(NULL, "Success", "CAPTURING");
              currentjob->setState(Schedulerjob::CAPTURING_COMPLETE);
              captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
              terminateJob(currentjob);
