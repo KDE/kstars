@@ -28,12 +28,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
     Q_OBJECT
 
 public:
-    enum StateChoice{IDLE, STARTING_EKOS, READY, ABORTED};
+    enum StateChoice{IDLE, STARTING_EKOS, EKOS_STARTED, CONNECTING, CONNECTED,  READY, FINISHED, ABORTED};
 
      Scheduler();
     ~Scheduler();
      int checkWeather();
-     void processSession(Schedulerjob o);
      void startEkos();
      void updateJobInfo(Schedulerjob *o);
      void appendLogText(const QString &);

@@ -3,7 +3,7 @@
 class Schedulerjob {
 public:
     Schedulerjob();
-    enum StateChoice{IDLE, CONNECT_EKOS_COMPLETE, CONNECTING, CONNECTING_COMPLETE, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
+    enum StateChoice{IDLE, READY, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
                      CAPTURING, CAPTURING_COMPLETE, ABORTED};
     enum ActionChoice{NO_ACTION, START_SLEW, START_FOCUSING, START_GUIDING, START_ASTROMETRY, START_CAPTURING};
     QString getName() const;
@@ -87,6 +87,9 @@ public:
     bool getGuideCheck() const;
     void setGuideCheck(bool value);
 
+    int getIsOk() const;
+    void setIsOk(int value);
+
 private:
     StateChoice state = IDLE;
     ActionChoice action = NO_ACTION;
@@ -105,6 +108,7 @@ private:
     int finishingHour;
     int finishingMinute;
     int score;
+    int isOk;
     int rowNumber;
 
     bool NowCheck;

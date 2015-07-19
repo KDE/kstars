@@ -13,6 +13,7 @@ Schedulerjob::Schedulerjob(){
     onTimeCheck=false;
     score=0;
     alt=-1;
+    isOk = 0;
 }
 
 QString Schedulerjob::getName() const
@@ -259,6 +260,16 @@ void Schedulerjob::setGuideCheck(bool value)
 {
     guideCheck = value;
 }
+int Schedulerjob::getIsOk() const
+{
+    return isOk;
+}
+
+void Schedulerjob::setIsOk(int value)
+{
+    isOk = value;
+}
+
 
 
 

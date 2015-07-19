@@ -89,7 +89,6 @@ Scheduler::Scheduler()
 
 void Scheduler::connectDevices(){
     ekosinterface->call(QDBus::AutoDetect,"connectDevices");
-    currentjob->setState(Schedulerjob::CONNECTING);
 }
 
 void Scheduler::startSlew(){
@@ -113,9 +112,11 @@ void Scheduler::startFocusing(){
 }
 
 void Scheduler::terminateJob(Schedulerjob *o){
-    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-    QMessageBox::information(NULL, "Success", "asdasd");
+    o->setIsOk(1);
+
+    currentjob = NULL;
     iterations++;
+    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
 }
 
 void Scheduler::startAstrometry(){
@@ -137,50 +138,61 @@ void Scheduler::startCapture(){
 
 void Scheduler::executeJob(Schedulerjob *o){
     currentjob = o;
-    switch(state)
-    {
-        case Scheduler::IDLE:
-            startEkos();
-            currentjob->setState(Schedulerjob::CONNECT_EKOS_COMPLETE);
-            getNextAction();
-            state = Scheduler::READY;
-            return;
-
-        case Scheduler::READY:
-            currentjob->setState(Schedulerjob::CONNECTING_COMPLETE);
-            getNextAction();
-            return;
-    }
-    if(iterations==objects.length())
-        stopindi();
+    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
+    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
+    //    if(iterations==objects.length())
+//        stopindi();
 }
 
 void Scheduler::checkJobStatus(){
     if(currentjob==NULL)
         return;
-    if(QTime::currentTime().hour() >= currentjob->getFinishingHour() && QTime::currentTime().minute() >= currentjob->getFinishingMinute())
-    {
-        terminateJob(currentjob);
-        return;
-    }
+//    if(QTime::currentTime().hour() >= currentjob->getFinishingHour() && QTime::currentTime().minute() >= currentjob->getFinishingMinute())
+//    {
+//        terminateJob(currentjob);
+//        return;
+//    }
     QDBusReply<QString> replyslew ;
     QDBusReply<bool> replyconnect;
     QDBusReply<bool> replyfocus;
     QDBusReply<bool> replyfocus2;
     QDBusReply<QString> replysequence;
+    QDBusReply<bool> ekosIsStarted;
+
+    switch(state)
+    {
+    case Scheduler::IDLE:
+        startEkos();
+        state = STARTING_EKOS;
+        return;
+    case Scheduler::STARTING_EKOS:
+        ekosIsStarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
+        if(ekosIsStarted.value())
+        {
+            state = EKOS_STARTED;
+        }
+        return;
+
+    case Scheduler::EKOS_STARTED:
+        connectDevices();
+        state = CONNECTING;
+        return;
+
+    case Scheduler::CONNECTING:
+        replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
+        if(replyconnect.value())
+        {
+            state=READY;
+            break;
+        }
+        else return;
+    }
+
+
     switch(currentjob->getState())
     {
     case Schedulerjob::IDLE:
-        break;
-
-    case Schedulerjob::CONNECTING:
-         replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
-         if(replyconnect.value())
-         {
-             currentjob->setState(Schedulerjob::CONNECTING_COMPLETE);
-             getNextAction();
-             return;
-         }
+        getNextAction();
         break;
 
     case Schedulerjob::SLEWING:
@@ -226,10 +238,10 @@ void Scheduler::checkJobStatus(){
              terminateJob(currentjob);
              return;
          }
-         if(replysequence.value().toStdString()=="Completed")
+         if(replysequence.value().toStdString()=="Complete")
          {
-             QMessageBox::information(NULL, "Success", "blabla");
              currentjob->setState(Schedulerjob::CAPTURING_COMPLETE);
+             captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
              terminateJob(currentjob);
              disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
              return;
@@ -241,11 +253,8 @@ void Scheduler::checkJobStatus(){
 void Scheduler::getNextAction(){
     switch(currentjob->getState())
     {
-    case Schedulerjob::CONNECT_EKOS_COMPLETE:
-        connectDevices();
-        break;
 
-    case Schedulerjob::CONNECTING_COMPLETE:
+    case Schedulerjob::IDLE:
         startSlew();
         break;
 
@@ -273,9 +282,6 @@ void Scheduler::getNextAction(){
         else startCapture();
         break;
 
-    case Schedulerjob::CAPTURING_COMPLETE:
-        terminateJob(currentjob);
-        break;
     }
 }
 
@@ -321,120 +327,51 @@ void Scheduler::updateJobInfo(Schedulerjob *o){
 void Scheduler::evaluateJobs()
 {
     int i;
+    int maxScore=0, index=-1;
     for(i=0;i<objects.length();i++)
     {
-        if(objects.at(i).getScore()==0)
-        {
-            //scpecific time
-            if(objects.at(i).getSpecificTime())
-            {
-                 if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90)
-                    if(objects.at(i).getHours()==QTime::currentTime().hour() && objects.at(i).getMinutes() == QTime::currentTime().minute())
-                    {
-                        if(objects.at(i).getMoonSeparationCheck())
-                        {
-                            if(objects.at(i).getOb()->angularDistanceTo(moon).Degrees()>objects.at(i).getMoonSeparation() &&
-                                    objects.at(i).getOb()->alt().Degrees() > objects.at(i).getAlt())
-                            {
-
-                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
-                                disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
-                                //processSession(objects.at(i));
-                                connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-                                executeJob(&objects[i]);
-                                objects[i].setScore(1);
-                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
-                            }
-                        }
-                        else
-                        {
-                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
-                            disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
-                           // processSession(objects.at(i));
-                            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-                            executeJob(&objects[i]);
-                            objects[i].setScore(1);
-                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
-                        }
-                    }
+        if(objects.at(i).getIsOk()==0){
+            if(objects[i].getNowCheck())
+                objects[i].setScore(10);
+            if(objects[i].getSpecificTime()){
+                if(objects[i].getHours()==QTime::currentTime().hour() && objects.at(i).getMinutes() == QTime::currentTime().minute())
+                    objects[i].setScore(10);
+                else objects[i].setScore(-1000);
             }
-
-            //Altitude
             if(objects.at(i).getSpecificAlt())
             {
-                 if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90)
-                    if(objects.at(i).getOb()->alt().Degrees()>objects.at(i).getAlt())
-                    {
-                        if(objects.at(i).getMoonSeparationCheck())
-                        {
-                            if(objects.at(i).getOb()->angularDistanceTo(moon).Degrees()>objects.at(i).getMoonSeparation() &&
-                                    objects.at(i).getOb()->alt().Degrees() > objects.at(i).getAlt())
-                            {
-                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
-                                disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
-                               // processSession(objects.at(i));
-                                connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-                                executeJob(&objects[i]);
-                                objects[i].setScore(1);
-                                tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
-                            }
-                        }
-                        else
-                        {
-                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
-                            disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
-                            //processSession(objects.at(i));
-                            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-                            executeJob(&objects[i]);
-                            objects[i].setScore(1);
-                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
-                        }
-                    }
+                if(objects[i].getOb()->alt().Degrees()>objects.at(i).getAlt())
+                    objects[i].setScore(10);
+                else objects[i].setScore(-1000);
             }
-
-            //Now
-            if(objects.at(i).getNowCheck())
-            {
-                 if(objects.at(i).getOb()->alt().degree() > 0 && objects.at(i).getOb()->alt().degree() < 90){
-                    if(objects.at(i).getMoonSeparationCheck())
-                    {
-                        if(objects.at(i).getOb()->angularDistanceTo(moon).Degrees()>objects.at(i).getMoonSeparation() &&
-                                objects.at(i).getOb()->alt().Degrees() > objects.at(i).getAlt())
-                        {
-                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
-                            disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
-                            //processSession(objects.at(i));
-                            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-                            executeJob(&objects[i]);
-                            objects[i].setScore(1);
-                            tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
-                        }
-                    }
-                    else
-                    {
-                        tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("In Progress"));
-                        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
-                        //processSession(objects.at(i));
-                        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-                        executeJob(&objects[i]);
-                        objects[i].setScore(1);
-                        tableWidget->setItem(i,tableCountCol+1,new QTableWidgetItem("Completed"));
-                    }
-                 }
+            objects[i].setScore(objects.at(i).getScore()+objects.at(i).getOb()->alt().Degrees());
+            if(objects.at(i).getMoonSeparation()){
+                if(objects.at(i).getOb()->angularDistanceTo(moon).Degrees()>objects.at(i).getMoonSeparation() &&
+                        objects.at(i).getOb()->alt().Degrees() > objects.at(i).getAlt())
+                    objects[i].setScore(objects.at(i).getScore()+10);
+                else objects[i].setScore(-1000);
             }
-
         }
     }
+    for(i=0;i<objects.length();i++){
+        if(objects.at(i).getScore()>maxScore && objects.at(i).getIsOk()==0)
+        {
+            maxScore = objects.at(i).getScore();
+            index = i;
+        }
+    }
+    if(maxScore>0)
+        if(index > -1){
+            tableWidget->setItem(index,tableCountCol+1,new QTableWidgetItem("In Progress"));
+           // objects[index].setIsOk(1);
+            executeJob(&objects[index]);
+        }
 }
 
 void Scheduler::startEkos(){
     //Ekos Start
    // QDBusReply<bool> ekosisstarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
         ekosinterface->call(QDBus::AutoDetect,"start");
-        QEventLoop loop2;
-        QTimer::singleShot(2000, &loop2, SLOT(quit()));
-        loop2.exec();
-
 
 }
 
@@ -453,184 +390,184 @@ void Scheduler::stopindi(){
 }
 
 
-void Scheduler::processSession(Schedulerjob o){
-    QUrl filename = o.getFileName();
-    //Dbus
+//void Scheduler::processSession(Schedulerjob o){
+//    QUrl filename = o.getFileName();
+//    //Dbus
 
 
-    //Telescope and CCD
+//    //Telescope and CCD
 
-    ekosinterface->call(QDBus::AutoDetect,"connectDevices");
+//    ekosinterface->call(QDBus::AutoDetect,"connectDevices");
 
-    //waiting for connection
-    int timer=0;
-    bool check = true;
-    while(true){
-        QDBusReply<bool> replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
-        if(!replyconnect.value())
-        {
-            if(o.getOnTimeCheck())
-            {
-                if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-                    return;
-            }
-            QEventLoop loop2;
-            QTimer::singleShot(1000, &loop2, SLOT(quit()));
-            loop2.exec();
-            timer = timer+1;
-            if(timer == 20)
-            {
-                check = false;
-                timer = 0;
-                break;
-            }
-        }
-        else break;
-    }
-    if(!check){
-        o.setState(Schedulerjob::ABORTED);
-        updateJobInfo(&o);
-        return;
-    }
-    QList<QVariant> telescopeSLew;
-    telescopeSLew.append(o.getOb()->ra().Hours());
-    telescopeSLew.append(o.getOb()->dec().Degrees());
-    mountinterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSLew);
-    o.setState(Schedulerjob::SLEWING);
-    updateJobInfo(&o);
-    //Waiting for slew
-    while(true){
-        QDBusReply<QString> replyslew = mountinterface->call(QDBus::AutoDetect,"getSlewStatus");
-        if(replyslew.value().toStdString()=="Error")
-        {
-            o.setState(Schedulerjob::ABORTED);
-            updateJobInfo(&o);
-            return;
-        }
-        if(replyslew.value().toStdString()!="Complete")
-        {
-            if(o.getOnTimeCheck())
-            {
-                if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-                    return;
-            }
-            QEventLoop loop2;
-            QTimer::singleShot(1000, &loop2, SLOT(quit()));
-            loop2.exec();
-        }
-        else break;
-    }
-    //Focusing - optional
-    if(o.getFocusCheck())
-    {
-        QList<QVariant> focusMode;
-        focusMode.append(1);
-        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
-        QList<QVariant> focusList;
-        focusList.append(true);
-        focusList.append(true);
-        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setAutoFocusOptions",focusList);
-        focusinterface->call(QDBus::AutoDetect,"startFocus");
-        o.setState(Schedulerjob::FOCUSING);
-        updateJobInfo(&o);
-        while(true){
-            QDBusReply<bool> replyfocus = focusinterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
-            if(!replyfocus.value())
-            {
-                if(o.getOnTimeCheck())
-                {
-                    if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-                        return;
-                }
-                QEventLoop loop;
-                QTimer::singleShot(1000, &loop, SLOT(quit()));
-                loop.exec();
-            }
-            else break;
-        }
-        QDBusReply<bool> replyfocus2 = focusinterface->call(QDBus::AutoDetect,"isAutoFocusSuccessful");
-        if(!replyfocus2){
-            o.setState(Schedulerjob::ABORTED);
-            updateJobInfo(&o);
-            return;
-        }
-        QEventLoop loopFocus;
-        QTimer::singleShot(1000, &loopFocus, SLOT(quit()));
-        loopFocus.exec();
-    }
-
-    //Allignment - not working
-    //i think it exits the while loop but then it stucks.
-//    if(o.getAlignCheck())
-//    {
-//        aligninterface->call(QDBus::AutoDetect,"captureAndSolve");
-//        while(true){
-//            QDBusReply<bool> replyalign = aligninterface->call(QDBus::AutoDetect,"isSolverComplete");
-//            QMessageBox::information(NULL, "Success", QString::number(replyalign.value()));
-//            if(!replyalign.value())
+//    //waiting for connection
+//    int timer=0;
+//    bool check = true;
+//    while(true){
+//        QDBusReply<bool> replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
+//        if(!replyconnect.value())
+//        {
+//            if(o.getOnTimeCheck())
 //            {
-//                QMessageBox::information(NULL, "Success", QString::number(replyalign.value()));
+//                if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+//                    return;
+//            }
+//            QEventLoop loop2;
+//            QTimer::singleShot(1000, &loop2, SLOT(quit()));
+//            loop2.exec();
+//            timer = timer+1;
+//            if(timer == 20)
+//            {
+//                check = false;
+//                timer = 0;
+//                break;
+//            }
+//        }
+//        else break;
+//    }
+//    if(!check){
+//        o.setState(Schedulerjob::ABORTED);
+//        updateJobInfo(&o);
+//        return;
+//    }
+//    QList<QVariant> telescopeSLew;
+//    telescopeSLew.append(o.getOb()->ra().Hours());
+//    telescopeSLew.append(o.getOb()->dec().Degrees());
+//    mountinterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSLew);
+//    o.setState(Schedulerjob::SLEWING);
+//    updateJobInfo(&o);
+//    //Waiting for slew
+//    while(true){
+//        QDBusReply<QString> replyslew = mountinterface->call(QDBus::AutoDetect,"getSlewStatus");
+//        if(replyslew.value().toStdString()=="Error")
+//        {
+//            o.setState(Schedulerjob::ABORTED);
+//            updateJobInfo(&o);
+//            return;
+//        }
+//        if(replyslew.value().toStdString()!="Complete")
+//        {
+//            if(o.getOnTimeCheck())
+//            {
+//                if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+//                    return;
+//            }
+//            QEventLoop loop2;
+//            QTimer::singleShot(1000, &loop2, SLOT(quit()));
+//            loop2.exec();
+//        }
+//        else break;
+//    }
+//    //Focusing - optional
+//    if(o.getFocusCheck())
+//    {
+//        QList<QVariant> focusMode;
+//        focusMode.append(1);
+//        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
+//        QList<QVariant> focusList;
+//        focusList.append(true);
+//        focusList.append(true);
+//        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setAutoFocusOptions",focusList);
+//        focusinterface->call(QDBus::AutoDetect,"startFocus");
+//        o.setState(Schedulerjob::FOCUSING);
+//        updateJobInfo(&o);
+//        while(true){
+//            QDBusReply<bool> replyfocus = focusinterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
+//            if(!replyfocus.value())
+//            {
 //                if(o.getOnTimeCheck())
 //                {
 //                    if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
 //                        return;
 //                }
-
-//                //to be added state
+//                QEventLoop loop;
+//                QTimer::singleShot(1000, &loop, SLOT(quit()));
+//                loop.exec();
 //            }
 //            else break;
 //        }
-
+//        QDBusReply<bool> replyfocus2 = focusinterface->call(QDBus::AutoDetect,"isAutoFocusSuccessful");
+//        if(!replyfocus2){
+//            o.setState(Schedulerjob::ABORTED);
+//            updateJobInfo(&o);
+//            return;
+//        }
+//        QEventLoop loopFocus;
+//        QTimer::singleShot(1000, &loopFocus, SLOT(quit()));
+//        loopFocus.exec();
 //    }
 
-      //CCD Exposure
+//    //Allignment - not working
+//    //i think it exits the while loop but then it stucks.
+////    if(o.getAlignCheck())
+////    {
+////        aligninterface->call(QDBus::AutoDetect,"captureAndSolve");
+////        while(true){
+////            QDBusReply<bool> replyalign = aligninterface->call(QDBus::AutoDetect,"isSolverComplete");
+////            QMessageBox::information(NULL, "Success", QString::number(replyalign.value()));
+////            if(!replyalign.value())
+////            {
+////                QMessageBox::information(NULL, "Success", QString::number(replyalign.value()));
+////                if(o.getOnTimeCheck())
+////                {
+////                    if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+////                        return;
+////                }
 
-      //Loading Sequence file
-      QList<QVariant> loadsequence;
-      loadsequence.append(filename);
-      captureinterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",loadsequence);
+////                //to be added state
+////            }
+////            else break;
+////        }
 
-      //Starting the jobs
-      captureinterface->call(QDBus::AutoDetect,"startSequence");
-      //Wait for sequence
-//      QEventLoop loop4;
-//      QTimer::singleShot(4000, &loop4, SLOT(quit()));
-//      loop4.exec();
-      o.setState(Schedulerjob::CAPTURING);
-      updateJobInfo(&o);
-      while(true){
-          QDBusReply<QString> replysequence = captureinterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
-          if(replysequence.value().toStdString()=="Aborted" || replysequence.value().toStdString()=="Error")
-          {
-              o.setState(Schedulerjob::ABORTED);
-              break;
-          }
-          if(replysequence.value().toStdString()!="Complete")
-          {
-              if(o.getOnTimeCheck())
-              {
-                  if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-                      return;
-              }
-              QEventLoop loop;
-              QTimer::singleShot(1000, &loop, SLOT(quit()));
-              loop.exec();
-          }
-          else break;
-      }
-    updateJobInfo(&o);
-      //Clear sequence
-      captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
+////    }
 
-      int checking = 0 ;
-      for(int j=0;j<objects.length();j++)
-          if(objects.at(j).getScore()==0)
-              checking = 1;
-      if(checking==1)
-           connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
-      if(iterations==objects.length())
-          stopindi();
-}
+//      //CCD Exposure
+
+//      //Loading Sequence file
+//      QList<QVariant> loadsequence;
+//      loadsequence.append(filename);
+//      captureinterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",loadsequence);
+
+//      //Starting the jobs
+//      captureinterface->call(QDBus::AutoDetect,"startSequence");
+//      //Wait for sequence
+////      QEventLoop loop4;
+////      QTimer::singleShot(4000, &loop4, SLOT(quit()));
+////      loop4.exec();
+//      o.setState(Schedulerjob::CAPTURING);
+//      updateJobInfo(&o);
+//      while(true){
+//          QDBusReply<QString> replysequence = captureinterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
+//          if(replysequence.value().toStdString()=="Aborted" || replysequence.value().toStdString()=="Error")
+//          {
+//              o.setState(Schedulerjob::ABORTED);
+//              break;
+//          }
+//          if(replysequence.value().toStdString()!="Complete")
+//          {
+//              if(o.getOnTimeCheck())
+//              {
+//                  if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
+//                      return;
+//              }
+//              QEventLoop loop;
+//              QTimer::singleShot(1000, &loop, SLOT(quit()));
+//              loop.exec();
+//          }
+//          else break;
+//      }
+//    updateJobInfo(&o);
+//      //Clear sequence
+//      captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
+
+//      int checking = 0 ;
+//      for(int j=0;j<objects.length();j++)
+//          if(objects.at(j).getScore()==0)
+//              checking = 1;
+//      if(checking==1)
+//           connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
+//      if(iterations==objects.length())
+//          stopindi();
+//}
 
 void Scheduler::saveSlot()
 {
