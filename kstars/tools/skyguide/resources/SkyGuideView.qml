@@ -36,7 +36,11 @@ ColumnLayout {
         if (!page.hasOwnProperty('name') || !page.hasOwnProperty('modelData')) {
             console.log("SkyGuideQML:loadPage(PAGE): PAGE should hold a name and a modelData!");
             return false;
-        } else if (currentPage && currentPage.name === page.name && currentPage.modelData === page.modelData) {
+        } else if (currentPage
+                   && currentPage.name === page.name
+                   && currentPage.modelData === page.modelData
+                   && currentPage.slide === page.modelData.currentSlide) {
+            console.log('igual');
             return false;
         }
 
@@ -46,6 +50,7 @@ ColumnLayout {
             menuSlide.visible = false
             src = "SkyGuideHome.qml";
         } else if (page.name === "INFO") {
+            btnPrevSlide.enabled = false
             menuHome.visible = false
             menuSlide.visible = true
             src = "SkyGuideInfo.qml";
@@ -58,12 +63,16 @@ ColumnLayout {
             return false;
         }
 
+        currentPage = page;
+        currentPage.slide = -1;
+
         if (page.modelData) {
             loader.modelData = page.modelData;
+            currentPage.slide = page.modelData.currentSlide.valueOf();
         }
 
         loader.source = src;
-        currentPage = page;
+
         return true;
     }
 
@@ -190,16 +199,36 @@ ColumnLayout {
                 tooltip: "Contents"
             }
             ToolButton {
+                id: btnPrevSlide
                 width: menu.btnWidth
                 height: menu.btnHeight
                 iconSource: "icons/prevSlide.png"
                 tooltip: "Previous Slide"
+                onClicked: {
+                    loader.modelData.currentSlide--;
+                    if (loader.modelData.currentSlide === -1) {
+                        goToPage({'name': 'INFO', 'modelData': loader.modelData});
+                        btnNextSlide.enabled = true;
+                        btnPrevSlide.enabled = false;
+                    } else {
+                        goToPage({'name': 'SLIDE', 'modelData': loader.modelData});
+                    }
+                }
             }
             ToolButton {
+                id: btnNextSlide
                 width: menu.btnWidth
                 height: menu.btnHeight
                 iconSource: "icons/nextSlide.png"
                 tooltip: "Next Slide"
+                onClicked: {
+                    loader.modelData.currentSlide++;
+                    goToPage({'name': 'SLIDE', 'modelData': loader.modelData});
+                    if (loader.modelData.currentSlide === loader.modelData.contents.length - 1) {
+                        btnNextSlide.enabled = false;
+                        btnPrevSlide.enabled = true;
+                    }
+                }
             }
         }
     }
