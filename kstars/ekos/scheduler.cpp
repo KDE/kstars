@@ -88,7 +88,9 @@ Scheduler::Scheduler()
 }
 
 void Scheduler::connectDevices(){
-    ekosinterface->call(QDBus::AutoDetect,"connectDevices");
+    QDBusReply<bool> replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
+    if(!replyconnect.value())
+        ekosinterface->call(QDBus::AutoDetect,"connectDevices");
 }
 
 void Scheduler::startSlew(){
@@ -102,6 +104,7 @@ void Scheduler::startSlew(){
 void Scheduler::startFocusing(){
     QList<QVariant> focusMode;
     focusMode.append(1);
+    focusinterface->call(QDBus::AutoDetect,"resetFrame");
     focusinterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
     QList<QVariant> focusList;
     focusList.append(true);
@@ -139,7 +142,7 @@ void Scheduler::startCapture(){
 void Scheduler::executeJob(Schedulerjob *o){
     currentjob = o;
     connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluteJobs()));
+    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
     //    if(iterations==objects.length())
 //        stopindi();
 }
@@ -240,6 +243,7 @@ void Scheduler::checkJobStatus(){
          }
          if(replysequence.value().toStdString()=="Complete")
          {
+              QMessageBox::information(NULL, "Success", "CAPTURING");
              currentjob->setState(Schedulerjob::CAPTURING_COMPLETE);
              captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
              terminateJob(currentjob);
@@ -330,7 +334,7 @@ void Scheduler::evaluateJobs()
     int maxScore=0, index=-1;
     for(i=0;i<objects.length();i++)
     {
-        if(objects.at(i).getIsOk()==0){
+        if(objects.at(i).getState()==Schedulerjob::IDLE){
             if(objects[i].getNowCheck())
                 objects[i].setScore(10);
             if(objects[i].getSpecificTime()){
@@ -370,7 +374,8 @@ void Scheduler::evaluateJobs()
 
 void Scheduler::startEkos(){
     //Ekos Start
-   // QDBusReply<bool> ekosisstarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
+    QDBusReply<bool> ekosisstarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
+    if(!ekosisstarted.value())
         ekosinterface->call(QDBus::AutoDetect,"start");
 
 }
