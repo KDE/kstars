@@ -57,10 +57,12 @@ ColumnLayout {
             src = "SkyGuideHome.qml";
         } else if (page.name === "INFO") {
             btnPrevSlide.enabled = false
+            btnContents.enabled = false
             menuHome.visible = false
             menuSlide.visible = true
             src = "SkyGuideInfo.qml";
         } else if (page.name === "SLIDE") {
+            btnContents.enabled = true
             menuHome.visible = false
             menuSlide.visible = true
             src = "SkyGuideSlide.qml";
@@ -198,10 +200,12 @@ ColumnLayout {
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             ToolButton {
+                id: btnContents
                 width: menu.btnWidth
                 height: menu.btnHeight
                 iconSource: "icons/info.png"
                 tooltip: "Contents"
+                onClicked: goToPage(getPageObj('INFO', loader.modelData, -1))
             }
             ToolButton {
                 id: btnPrevSlide
