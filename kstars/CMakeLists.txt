@@ -528,6 +528,7 @@ target_link_libraries(KStarsLib
         KF5::TextEditor
         KF5::DBusAddons
         KF5::IconThemes
+        KF5::Archive
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
