@@ -32,6 +32,10 @@ ColumnLayout {
     property var currentPage: null
     property int maxHistLenght: 16
 
+    function getPageObj(name, model, slide) {
+        return {'name': name, 'modelData': model, 'slide': slide};
+    }
+
     function loadPage(page) {
         if (!page.hasOwnProperty('name')
             || !page.hasOwnProperty('modelData')
@@ -138,7 +142,7 @@ ColumnLayout {
                 width: 20
                 height: 20
                 iconSource: "icons/home.png"
-                onClicked: goToPage({'name': 'HOME', 'modelData': null, 'slide': -1})
+                onClicked: goToPage(getPageObj('HOME', null, -1))
             }
             Item { Layout.fillWidth: true }
         }
@@ -152,7 +156,7 @@ ColumnLayout {
         Layout.minimumHeight: 360
         focus: true
         property var modelData: null
-        Component.onCompleted: goToPage({'name': 'HOME', 'modelData': null, 'slide': -1})
+        Component.onCompleted: goToPage(getPageObj('HOME', null, -1))
     }
 
     Item {
@@ -208,11 +212,11 @@ ColumnLayout {
                 onClicked: {
                     var slide = loader.modelData.currentSlide - 1;
                     if (slide === -1) {
-                        goToPage({'name': 'INFO', 'modelData': loader.modelData, 'slide': slide});
+                        goToPage(getPageObj('INFO', loader.modelData, slide));
                         btnNextSlide.enabled = true;
                         btnPrevSlide.enabled = false;
                     } else {
-                        goToPage({'name': 'SLIDE', 'modelData': loader.modelData, 'slide': slide});
+                        goToPage(getPageObj('SLIDE', loader.modelData, slide));
                     }
                 }
             }
@@ -223,10 +227,7 @@ ColumnLayout {
                 iconSource: "icons/nextSlide.png"
                 tooltip: "Next Slide"
                 onClicked: {
-                    goToPage({'name': 'SLIDE',
-                              'modelData': loader.modelData,
-                              'slide': loader.modelData.currentSlide + 1});
-
+                    goToPage(getPageObj('SLIDE', loader.modelData, loader.modelData.currentSlide + 1));
                     if (loader.modelData.currentSlide === loader.modelData.contents.length - 1) {
                         btnNextSlide.enabled = false;
                         btnPrevSlide.enabled = true;

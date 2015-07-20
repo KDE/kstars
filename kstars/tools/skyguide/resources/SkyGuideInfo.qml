@@ -75,11 +75,8 @@ ColumnLayout {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: contentsView.currentIndex = index
-                    onDoubleClicked: {
-                        goToPage({'name': 'SLIDE',
-                                  'modelData': loader.modelData,
-                                  'slide': contentsView.currentIndex});
-                    }
+                    onDoubleClicked: goToPage(getPageObj('SLIDE', loader.modelData,
+                                                         contentsView.currentIndex))
                 }
             }
         }
@@ -94,11 +91,8 @@ ColumnLayout {
             model: ListModel {}
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             delegate: contentsDelegate
-            Keys.onReturnPressed: {
-                goToPage({'name': 'SLIDE',
-                          'modelData': loader.modelData,
-                          'slide': contentsView.currentIndex});
-            }
+            Keys.onReturnPressed: goToPage(getPageObj('SLIDE', loader.modelData,
+                                                      contentsView.currentIndex))
             Component.onCompleted: {
                 var s = loader.modelData.contents;
                 for (var key in s) {

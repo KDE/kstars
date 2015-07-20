@@ -59,7 +59,7 @@ Rectangle {
                     hoverEnabled: true
                     onEntered: homePath.color = pathMenu.colorHover
                     onExited: homePath.color = pathMenu.color
-                    onClicked: goToPage({'name': 'HOME', 'modelData': null, 'slide': -1})
+                    onClicked: goToPage(getPageObj('HOME', null, -1))
                 }
             }
 
@@ -73,9 +73,7 @@ Rectangle {
                     hoverEnabled: true
                     onEntered: infoPath.color = pathMenu.colorHover
                     onExited: infoPath.color = pathMenu.color
-                    onClicked: {
-                        goToPage({'name': 'INFO', 'modelData': loader.modelData, 'slide': -1});
-                    }
+                    onClicked: goToPage(getPageObj('INFO', loader.modelData, -1))
                 }
             }
 
@@ -89,9 +87,7 @@ Rectangle {
                     hoverEnabled: true
                     onEntered: slidePath.color = pathMenu.colorHover
                     onExited: slidePath.color = pathMenu.color
-                    onClicked: goToPage({'name': 'SLIDE',
-                                         'modelData': loader.modelData,
-                                         'slide': loader.modelData.currentSlide})
+                    onClicked: goToPage(getPageObj('SLIDE', loader.modelData, loader.modelData.currentSlide))
                 }
             }
         }
