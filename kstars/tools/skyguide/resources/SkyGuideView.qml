@@ -70,6 +70,7 @@ ColumnLayout {
             loader.modelData.currentSlide = page.slide;
         }
 
+        loader.source = "";
         loader.source = src;
         currentPage = page;
 
