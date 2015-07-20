@@ -76,8 +76,9 @@ ColumnLayout {
                     anchors.fill: parent
                     onClicked: contentsView.currentIndex = index
                     onDoubleClicked: {
-                        loader.modelData.currentSlide = contentsView.currentIndex;
-                        goToPage({'name': 'SLIDE', 'modelData': loader.modelData});
+                        goToPage({'name': 'SLIDE',
+                                  'modelData': loader.modelData,
+                                  'slide': contentsView.currentIndex});
                     }
                 }
             }
@@ -94,8 +95,9 @@ ColumnLayout {
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             delegate: contentsDelegate
             Keys.onReturnPressed: {
-                loader.modelData.currentSlide = contentsView.currentIndex;
-                goToPage({'name': 'SLIDE', 'modelData': loader.modelData});
+                goToPage({'name': 'SLIDE',
+                          'modelData': loader.modelData,
+                          'slide': contentsView.currentIndex});
             }
             Component.onCompleted: {
                 var s = loader.modelData.contents;

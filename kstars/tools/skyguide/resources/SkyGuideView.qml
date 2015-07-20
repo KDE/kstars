@@ -33,14 +33,16 @@ ColumnLayout {
     property int maxHistLenght: 16
 
     function loadPage(page) {
-        if (!page.hasOwnProperty('name') || !page.hasOwnProperty('modelData')) {
-            console.log("SkyGuideQML:loadPage(PAGE): PAGE should hold a name and a modelData!");
+        if (!page.hasOwnProperty('name')
+            || !page.hasOwnProperty('modelData')
+            || !page.hasOwnProperty('slide')) {
+            console.log("SkyGuideQML:loadPage(PAGE): PAGE should hold "
+                        + "the properties: name; modelData; slide");
             return false;
         } else if (currentPage
                    && currentPage.name === page.name
                    && currentPage.modelData === page.modelData
-                   && currentPage.slide === page.modelData.currentSlide) {
-            console.log('igual');
+                   && currentPage.slide === page.slide) {
             return false;
         }
 
@@ -63,15 +65,13 @@ ColumnLayout {
             return false;
         }
 
-        currentPage = page;
-        currentPage.slide = -1;
-
         if (page.modelData) {
             loader.modelData = page.modelData;
-            currentPage.slide = page.modelData.currentSlide.valueOf();
+            loader.modelData.currentSlide = page.slide;
         }
 
         loader.source = src;
+        currentPage = page;
 
         return true;
     }
@@ -137,7 +137,7 @@ ColumnLayout {
                 width: 20
                 height: 20
                 iconSource: "icons/home.png"
-                onClicked: goToPage({'name': 'HOME', 'modelData': null})
+                onClicked: goToPage({'name': 'HOME', 'modelData': null, 'slide': -1})
             }
             Item { Layout.fillWidth: true }
         }
@@ -151,7 +151,7 @@ ColumnLayout {
         Layout.minimumHeight: 360
         focus: true
         property var modelData: null
-        Component.onCompleted: goToPage({'name': 'HOME', 'modelData': null})
+        Component.onCompleted: goToPage({'name': 'HOME', 'modelData': null, 'slide': -1})
     }
 
     Item {
@@ -205,13 +205,13 @@ ColumnLayout {
                 iconSource: "icons/prevSlide.png"
                 tooltip: "Previous Slide"
                 onClicked: {
-                    loader.modelData.currentSlide--;
-                    if (loader.modelData.currentSlide === -1) {
-                        goToPage({'name': 'INFO', 'modelData': loader.modelData});
+                    var slide = loader.modelData.currentSlide - 1;
+                    if (slide === -1) {
+                        goToPage({'name': 'INFO', 'modelData': loader.modelData, 'slide': slide});
                         btnNextSlide.enabled = true;
                         btnPrevSlide.enabled = false;
                     } else {
-                        goToPage({'name': 'SLIDE', 'modelData': loader.modelData});
+                        goToPage({'name': 'SLIDE', 'modelData': loader.modelData, 'slide': slide});
                     }
                 }
             }
@@ -222,8 +222,10 @@ ColumnLayout {
                 iconSource: "icons/nextSlide.png"
                 tooltip: "Next Slide"
                 onClicked: {
-                    loader.modelData.currentSlide++;
-                    goToPage({'name': 'SLIDE', 'modelData': loader.modelData});
+                    goToPage({'name': 'SLIDE',
+                              'modelData': loader.modelData,
+                              'slide': loader.modelData.currentSlide + 1});
+
                     if (loader.modelData.currentSlide === loader.modelData.contents.length - 1) {
                         btnNextSlide.enabled = false;
                         btnPrevSlide.enabled = true;
