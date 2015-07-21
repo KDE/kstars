@@ -89,7 +89,6 @@ Scheduler::Scheduler()
         connect(LoadButton,SIGNAL(clicked()),this,SLOT(setSequenceSlot()));
         connect(startButton,SIGNAL(clicked()),this,SLOT(startSlot()));
         connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveSlot()));
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(stopindi()));
 }
 
 void Scheduler::connectDevices(){
@@ -120,16 +119,23 @@ void Scheduler::startFocusing(){
 }
 
 void Scheduler::terminateJob(Schedulerjob *o){
+    updateJobInfo(currentjob);
     o->setIsOk(1);
     stopGuiding();
-    currentjob = NULL;
     iterations++;
     if(iterations==objects.length())
-        stopindi();
-    else connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
+        state = SHUTDOWN;
+    else {
+        currentjob = NULL;
+        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
+    }
 }
 
 void Scheduler::startAstrometry(){
+    QList<QVariant> astrometryArgs;
+    astrometryArgs.append(false);
+    aligninterface->callWithArgumentList(QDBus::AutoDetect,"setSolverType",astrometryArgs);
     aligninterface->call(QDBus::AutoDetect,"captureAndSolve");
     currentjob->setState(Schedulerjob::ALIGNING);
     updateJobInfo(currentjob);
@@ -176,6 +182,18 @@ void Scheduler::executeJob(Schedulerjob *o){
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
 }
 
+void Scheduler::parkTelescope(){
+    state = PARK_TELESCOPE;
+}
+
+void Scheduler::warmCCD(){
+    state = WARM_CCD;
+}
+
+void Scheduler::closeDome(){
+    state = CLOSE_DOME;
+}
+
 void Scheduler::stopGuiding(){
     guideinterface->call(QDBus::AutoDetect,"stopGuiding");
 }
@@ -193,6 +211,7 @@ void Scheduler::checkJobStatus(){
     QDBusReply<bool> replyfocus;
     QDBusReply<bool> replyfocus2;
     QDBusReply<bool> replyalign;
+    QDBusReply<bool> replyalign2;
     QDBusReply<QString> replysequence;
     QDBusReply<bool> ekosIsStarted;
     QDBusReply<bool> replyguide;
@@ -226,6 +245,31 @@ void Scheduler::checkJobStatus(){
             break;
         }
         else return;
+
+    case Scheduler::SHUTDOWN:
+        if(currentjob->getParkTelescopeCheck())
+            parkTelescope();
+            else if(currentjob->getWarmCCDCheck())
+                warmCCD();
+            else if(currentjob->getCloseDomeCheck())
+                closeDome();
+            else stopindi();
+
+
+    case Scheduler::PARK_TELESCOPE:
+        if(currentjob->getWarmCCDCheck())
+            warmCCD();
+        else if(currentjob->getCloseDomeCheck())
+            closeDome();
+        else stopindi();
+
+    case Scheduler::WARM_CCD:
+        if(currentjob->getCloseDomeCheck())
+            closeDome();
+        else stopindi();
+
+    case Scheduler::CLOSE_DOME:
+        stopindi();
     }
 
 
@@ -274,7 +318,10 @@ void Scheduler::checkJobStatus(){
         replyalign = aligninterface->call(QDBus::AutoDetect,"isSolverComplete");
         if(replyalign.value())
         {
-            currentjob->setState(Schedulerjob::ALIGNING_COMPLETE);
+            replyalign2 = aligninterface->call(QDBus::AutoDetect,"isSolverSuccessful");
+            if(replyalign2.value())
+                currentjob->setState(Schedulerjob::ALIGNING_COMPLETE);
+            else currentjob->setState(Schedulerjob::ABORTED);
             getNextAction();
         }
 
@@ -318,7 +365,6 @@ void Scheduler::checkJobStatus(){
              updateJobInfo(currentjob);
              captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
              terminateJob(currentjob);
-             disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
              return;
          }
         break;
@@ -474,10 +520,11 @@ void Scheduler::startEkos(){
 
 void Scheduler::stopindi(){
     if(iterations==objects.length()){
+        state = FINISHED;
         ekosinterface->call(QDBus::AutoDetect,"disconnectDevices");
         ekosinterface->call(QDBus::AutoDetect,"stop");
         pi->stopAnimation();
-        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(stopindi()));
+        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
     }
 }
 
@@ -584,6 +631,17 @@ void Scheduler::addToTableSlot()
             newOb.setWhenSeqCompCheck(true);
         else if(loopButton->isChecked())
             newOb.setLoopCheck(true);
+
+        //Shutdown
+        if(parkCheck->isChecked())
+            newOb.setParkTelescopeCheck(true);
+        else newOb.setParkTelescopeCheck(false);
+        if(warmCCDCheck->isChecked())
+            newOb.setWarmCCDCheck(true);
+        else newOb.setWarmCCDCheck(false);
+        if(closeDomeCheck->isChecked())
+            newOb.setCloseDomeCheck(true);
+        else newOb.setCloseDomeCheck(false);
 
         //Proceedure
         if(focusButton->isChecked())

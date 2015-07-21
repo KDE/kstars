@@ -269,6 +269,36 @@ void Schedulerjob::setIsOk(int value)
 {
     isOk = value;
 }
+bool Schedulerjob::getParkTelescopeCheck() const
+{
+    return parkTelescopeCheck;
+}
+
+void Schedulerjob::setParkTelescopeCheck(bool value)
+{
+    parkTelescopeCheck = value;
+}
+bool Schedulerjob::getWarmCCDCheck() const
+{
+    return warmCCDCheck;
+}
+
+void Schedulerjob::setWarmCCDCheck(bool value)
+{
+    warmCCDCheck = value;
+}
+bool Schedulerjob::getCloseDomeCheck() const
+{
+    return closeDomeCheck;
+}
+
+void Schedulerjob::setCloseDomeCheck(bool value)
+{
+    closeDomeCheck = value;
+}
+
+
+
 
 
 

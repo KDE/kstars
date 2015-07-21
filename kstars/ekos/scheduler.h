@@ -28,7 +28,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
     Q_OBJECT
 
 public:
-    enum StateChoice{IDLE, STARTING_EKOS, EKOS_STARTED, CONNECTING, CONNECTED,  READY, FINISHED, ABORTED};
+    enum StateChoice{IDLE, STARTING_EKOS, EKOS_STARTED, CONNECTING, CONNECTED,  READY, FINISHED, SHUTDOWN,
+                     PARK_TELESCOPE, WARM_CCD, CLOSE_DOME, ABORTED};
 
      Scheduler();
     ~Scheduler();
@@ -44,6 +45,11 @@ public:
      void startCapture();
      void getNextAction();
      void connectDevices();
+     void parkTelescope();
+     void warmCCD();
+     void closeDome();
+     void stopindi();
+     void stopGuiding();
 
      Schedulerjob *getCurrentjob() const;
      void setCurrentjob(Schedulerjob *value);
@@ -62,8 +68,6 @@ public slots:
     void saveSlot();
     void evaluateJobs();
     void checkJobStatus();
-    void stopindi();
-    void stopGuiding();
 
 signals:
         void newLog();

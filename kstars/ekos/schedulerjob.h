@@ -90,6 +90,15 @@ public:
     int getIsOk() const;
     void setIsOk(int value);
 
+    bool getParkTelescopeCheck() const;
+    void setParkTelescopeCheck(bool value);
+
+    bool getWarmCCDCheck() const;
+    void setWarmCCDCheck(bool value);
+
+    bool getCloseDomeCheck() const;
+    void setCloseDomeCheck(bool value);
+
 private:
     StateChoice state = IDLE;
     ActionChoice action = NO_ACTION;
@@ -124,4 +133,8 @@ private:
     bool focusCheck;
     bool alignCheck;
     bool guideCheck;
+
+    bool parkTelescopeCheck;
+    bool warmCCDCheck;
+    bool closeDomeCheck;
 };
