@@ -75,6 +75,11 @@ Scheduler::Scheduler()
                                                        "org.kde.kstars.Ekos.Align",
                                                        bus,
                                                        this);
+    guideinterface = new QDBusInterface("org.kde.kstars",
+                                                       "/KStars/Ekos/Guide",
+                                                       "org.kde.kstars.Ekos.Guide",
+                                                       bus,
+                                                       this);
     pi = new QProgressIndicator(this);
     horizontalLayout_10->addWidget(pi,0,0);
        // connect(SelectButton,SIGNAL(clicked()),this,SLOT(newslot()));
@@ -116,25 +121,51 @@ void Scheduler::startFocusing(){
 
 void Scheduler::terminateJob(Schedulerjob *o){
     o->setIsOk(1);
-
+    stopGuiding();
     currentjob = NULL;
     iterations++;
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
+    if(iterations==objects.length())
+        stopindi();
+    else connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
 }
 
 void Scheduler::startAstrometry(){
-
+    aligninterface->call(QDBus::AutoDetect,"captureAndSolve");
+    currentjob->setState(Schedulerjob::ALIGNING);
+    updateJobInfo(currentjob);
 }
 
 void Scheduler::startGuiding(){
-
+    QDBusReply<bool> replyguide;
+    QDBusReply<bool> replyguide2;
+    QList<QVariant> guideArgs;
+    guideArgs.append(true);
+    guideArgs.append(true);
+    guideArgs.append(true);
+    guideinterface->callWithArgumentList(QDBus::AutoDetect,"setCalibrationOptions",guideArgs);
+        replyguide = guideinterface->call(QDBus::AutoDetect,"startCalibration");
+        if(!replyguide.value())
+            currentjob->setState(Schedulerjob::ABORTED);
+        else currentjob->setState(Schedulerjob::GUIDING);
+        updateJobInfo(currentjob);
 }
 
 void Scheduler::startCapture(){
-    QUrl filename = currentjob->getFileName();
-    QList<QVariant> loadsequence;
-    loadsequence.append(filename);
-    captureinterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",loadsequence);
+    QString url = currentjob->getFileName();
+    QList<QVariant> dbusargs;
+    // convert to an url
+    QRegExp withProtocol(QStringLiteral("^[a-zA-Z]+:"));
+    if (withProtocol.indexIn(url) == 0)
+    {
+        dbusargs.append(QUrl::fromUserInput(url).toString());
+    }
+    else
+    {
+        const QString path = QDir::current().absoluteFilePath(url);
+        dbusargs.append(QUrl::fromLocalFile(path).toString());
+    }
+
+    captureinterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",dbusargs);
     captureinterface->call(QDBus::AutoDetect,"startSequence");
     currentjob->setState(Schedulerjob::CAPTURING);
 }
@@ -143,8 +174,10 @@ void Scheduler::executeJob(Schedulerjob *o){
     currentjob = o;
     connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
-    //    if(iterations==objects.length())
-//        stopindi();
+}
+
+void Scheduler::stopGuiding(){
+    guideinterface->call(QDBus::AutoDetect,"stopGuiding");
 }
 
 void Scheduler::checkJobStatus(){
@@ -159,8 +192,12 @@ void Scheduler::checkJobStatus(){
     QDBusReply<bool> replyconnect;
     QDBusReply<bool> replyfocus;
     QDBusReply<bool> replyfocus2;
+    QDBusReply<bool> replyalign;
     QDBusReply<QString> replysequence;
     QDBusReply<bool> ekosIsStarted;
+    QDBusReply<bool> replyguide;
+    QDBusReply<bool> replyguide2;
+    QDBusReply<bool> replyguide3;
 
     switch(state)
     {
@@ -233,6 +270,40 @@ void Scheduler::checkJobStatus(){
         }
         break;
 
+    case Schedulerjob::ALIGNING:
+        replyalign = aligninterface->call(QDBus::AutoDetect,"isSolverComplete");
+        if(replyalign.value())
+        {
+            currentjob->setState(Schedulerjob::ALIGNING_COMPLETE);
+            getNextAction();
+        }
+
+    case Schedulerjob::GUIDING:
+        replyguide = guideinterface->call(QDBus::AutoDetect,"isCalibrationComplete");
+        if(replyguide.value())
+        {
+            replyguide2 = guideinterface->call(QDBus::AutoDetect,"isCalibrationSuccessful");
+            if(replyguide2.value())
+            {
+                replyguide3 = guideinterface->call(QDBus::AutoDetect,"startGuiding");
+                if(!replyguide3.value())
+                {
+                    currentjob->setState(Schedulerjob::ABORTED);
+                    terminateJob(currentjob);
+                    return;
+                }
+                currentjob->setState(Schedulerjob::GUIDING_COMPLETE);
+                getNextAction();
+                return;
+            }
+            else {
+                currentjob->setState(Schedulerjob::ABORTED);
+                terminateJob(currentjob);
+                return;
+            }
+        }
+        break;
+
     case Schedulerjob::CAPTURING:
          replysequence = captureinterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
          if(replysequence.value().toStdString()=="Aborted" || replysequence.value().toStdString()=="Error")
@@ -244,6 +315,7 @@ void Scheduler::checkJobStatus(){
          if(replysequence.value().toStdString()=="Complete")
          {
              currentjob->setState(Schedulerjob::CAPTURING_COMPLETE);
+             updateJobInfo(currentjob);
              captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
              terminateJob(currentjob);
              disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
@@ -259,6 +331,7 @@ void Scheduler::getNextAction(){
 
     case Schedulerjob::IDLE:
         startSlew();
+        updateJobInfo(currentjob);
         break;
 
     case Schedulerjob::SLEW_COMPLETE:
@@ -269,6 +342,7 @@ void Scheduler::getNextAction(){
         else if(currentjob->getGuideCheck())
             startGuiding();
         else startCapture();
+        updateJobInfo(currentjob);
         break;
 
     case Schedulerjob::FOCUSING_COMPLETE:
@@ -277,12 +351,19 @@ void Scheduler::getNextAction(){
         else if(currentjob->getGuideCheck())
             startGuiding();
         else startCapture();
+        updateJobInfo(currentjob);
         break;
 
     case Schedulerjob::ALIGNING_COMPLETE:
         if(currentjob->getGuideCheck())
             startGuiding();
         else startCapture();
+        updateJobInfo(currentjob);
+        break;
+
+    case Schedulerjob::GUIDING_COMPLETE:
+        startCapture();
+        updateJobInfo(currentjob);
         break;
 
     }
@@ -316,9 +397,21 @@ void Scheduler::updateJobInfo(Schedulerjob *o){
         appendLogText("Focuser started");
         tableWidget->setItem(o->getRowNumber(),tableCountCol+1,new QTableWidgetItem("Focusing"));
     }
+    if(o->getState()==Schedulerjob::ALIGNING){
+        appendLogText("Aligning");
+        tableWidget->setItem(o->getRowNumber(),tableCountCol+1,new QTableWidgetItem("Aligning"));
+    }
+    if(o->getState()==Schedulerjob::GUIDING){
+        appendLogText("Guiding");
+        tableWidget->setItem(o->getRowNumber(),tableCountCol+1,new QTableWidgetItem("Guiding"));
+    }
     if(o->getState()==Schedulerjob::CAPTURING){
         appendLogText("Sequence in progress");
         tableWidget->setItem(o->getRowNumber(),tableCountCol+1,new QTableWidgetItem("Capturing"));
+    }
+    if(o->getState()==Schedulerjob::CAPTURING_COMPLETE){
+        appendLogText("Completed");
+        tableWidget->setItem(o->getRowNumber(),tableCountCol+1,new QTableWidgetItem("Completed"));
     }
     if(o->getState()==Schedulerjob::ABORTED){
         appendLogText("Job Aborted");
@@ -381,197 +474,13 @@ void Scheduler::startEkos(){
 
 void Scheduler::stopindi(){
     if(iterations==objects.length()){
-        QDBusConnection bus = QDBusConnection::sessionBus();
-        QDBusInterface *ekosinterface = new QDBusInterface("org.kde.kstars",
-                                                       "/KStars/Ekos",
-                                                       "org.kde.kstars.Ekos",
-                                                       bus,
-                                                       this);
+        ekosinterface->call(QDBus::AutoDetect,"disconnectDevices");
         ekosinterface->call(QDBus::AutoDetect,"stop");
         pi->stopAnimation();
         disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(stopindi()));
     }
 }
 
-
-//void Scheduler::processSession(Schedulerjob o){
-//    QUrl filename = o.getFileName();
-//    //Dbus
-
-
-//    //Telescope and CCD
-
-//    ekosinterface->call(QDBus::AutoDetect,"connectDevices");
-
-//    //waiting for connection
-//    int timer=0;
-//    bool check = true;
-//    while(true){
-//        QDBusReply<bool> replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
-//        if(!replyconnect.value())
-//        {
-//            if(o.getOnTimeCheck())
-//            {
-//                if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-//                    return;
-//            }
-//            QEventLoop loop2;
-//            QTimer::singleShot(1000, &loop2, SLOT(quit()));
-//            loop2.exec();
-//            timer = timer+1;
-//            if(timer == 20)
-//            {
-//                check = false;
-//                timer = 0;
-//                break;
-//            }
-//        }
-//        else break;
-//    }
-//    if(!check){
-//        o.setState(Schedulerjob::ABORTED);
-//        updateJobInfo(&o);
-//        return;
-//    }
-//    QList<QVariant> telescopeSLew;
-//    telescopeSLew.append(o.getOb()->ra().Hours());
-//    telescopeSLew.append(o.getOb()->dec().Degrees());
-//    mountinterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSLew);
-//    o.setState(Schedulerjob::SLEWING);
-//    updateJobInfo(&o);
-//    //Waiting for slew
-//    while(true){
-//        QDBusReply<QString> replyslew = mountinterface->call(QDBus::AutoDetect,"getSlewStatus");
-//        if(replyslew.value().toStdString()=="Error")
-//        {
-//            o.setState(Schedulerjob::ABORTED);
-//            updateJobInfo(&o);
-//            return;
-//        }
-//        if(replyslew.value().toStdString()!="Complete")
-//        {
-//            if(o.getOnTimeCheck())
-//            {
-//                if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-//                    return;
-//            }
-//            QEventLoop loop2;
-//            QTimer::singleShot(1000, &loop2, SLOT(quit()));
-//            loop2.exec();
-//        }
-//        else break;
-//    }
-//    //Focusing - optional
-//    if(o.getFocusCheck())
-//    {
-//        QList<QVariant> focusMode;
-//        focusMode.append(1);
-//        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
-//        QList<QVariant> focusList;
-//        focusList.append(true);
-//        focusList.append(true);
-//        focusinterface->callWithArgumentList(QDBus::AutoDetect,"setAutoFocusOptions",focusList);
-//        focusinterface->call(QDBus::AutoDetect,"startFocus");
-//        o.setState(Schedulerjob::FOCUSING);
-//        updateJobInfo(&o);
-//        while(true){
-//            QDBusReply<bool> replyfocus = focusinterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
-//            if(!replyfocus.value())
-//            {
-//                if(o.getOnTimeCheck())
-//                {
-//                    if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-//                        return;
-//                }
-//                QEventLoop loop;
-//                QTimer::singleShot(1000, &loop, SLOT(quit()));
-//                loop.exec();
-//            }
-//            else break;
-//        }
-//        QDBusReply<bool> replyfocus2 = focusinterface->call(QDBus::AutoDetect,"isAutoFocusSuccessful");
-//        if(!replyfocus2){
-//            o.setState(Schedulerjob::ABORTED);
-//            updateJobInfo(&o);
-//            return;
-//        }
-//        QEventLoop loopFocus;
-//        QTimer::singleShot(1000, &loopFocus, SLOT(quit()));
-//        loopFocus.exec();
-//    }
-
-//    //Allignment - not working
-//    //i think it exits the while loop but then it stucks.
-////    if(o.getAlignCheck())
-////    {
-////        aligninterface->call(QDBus::AutoDetect,"captureAndSolve");
-////        while(true){
-////            QDBusReply<bool> replyalign = aligninterface->call(QDBus::AutoDetect,"isSolverComplete");
-////            QMessageBox::information(NULL, "Success", QString::number(replyalign.value()));
-////            if(!replyalign.value())
-////            {
-////                QMessageBox::information(NULL, "Success", QString::number(replyalign.value()));
-////                if(o.getOnTimeCheck())
-////                {
-////                    if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-////                        return;
-////                }
-
-////                //to be added state
-////            }
-////            else break;
-////        }
-
-////    }
-
-//      //CCD Exposure
-
-//      //Loading Sequence file
-//      QList<QVariant> loadsequence;
-//      loadsequence.append(filename);
-//      captureinterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",loadsequence);
-
-//      //Starting the jobs
-//      captureinterface->call(QDBus::AutoDetect,"startSequence");
-//      //Wait for sequence
-////      QEventLoop loop4;
-////      QTimer::singleShot(4000, &loop4, SLOT(quit()));
-////      loop4.exec();
-//      o.setState(Schedulerjob::CAPTURING);
-//      updateJobInfo(&o);
-//      while(true){
-//          QDBusReply<QString> replysequence = captureinterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
-//          if(replysequence.value().toStdString()=="Aborted" || replysequence.value().toStdString()=="Error")
-//          {
-//              o.setState(Schedulerjob::ABORTED);
-//              break;
-//          }
-//          if(replysequence.value().toStdString()!="Complete")
-//          {
-//              if(o.getOnTimeCheck())
-//              {
-//                  if(QTime::currentTime().hour() >= o.getFinishingHour() && QTime::currentTime().minute() >= o.getFinishingMinute())
-//                      return;
-//              }
-//              QEventLoop loop;
-//              QTimer::singleShot(1000, &loop, SLOT(quit()));
-//              loop.exec();
-//          }
-//          else break;
-//      }
-//    updateJobInfo(&o);
-//      //Clear sequence
-//      captureinterface->call(QDBus::AutoDetect,"clearSequenceQueue");
-
-//      int checking = 0 ;
-//      for(int j=0;j<objects.length();j++)
-//          if(objects.at(j).getScore()==0)
-//              checking = 1;
-//      if(checking==1)
-//           connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
-//      if(iterations==objects.length())
-//          stopindi();
-//}
 
 void Scheduler::saveSlot()
 {

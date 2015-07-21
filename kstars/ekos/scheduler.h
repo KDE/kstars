@@ -63,6 +63,7 @@ public slots:
     void evaluateJobs();
     void checkJobStatus();
     void stopindi();
+    void stopGuiding();
 
 signals:
         void newLog();
@@ -74,6 +75,7 @@ private:
     QDBusInterface *captureinterface;
     QDBusInterface *mountinterface;
     QDBusInterface *aligninterface;
+    QDBusInterface *guideinterface;
     StateChoice state;
     QProgressIndicator *pi;
     Ekos::Scheduler *ui;
