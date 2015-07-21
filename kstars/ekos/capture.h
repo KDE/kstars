@@ -199,7 +199,7 @@ private:
  * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
  * the guiding deviation resume to acceptable levels and the capture operation is resumed.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 class Capture : public QWidget, public Ui::Capture
 {
@@ -334,28 +334,117 @@ public slots:
      */
     Q_SCRIPTABLE Q_NOREPLY void stopSequence();
 
+    /**
+     * @brief captureOne Capture one preview image
+     */
     void captureOne();
+
+    /**
+     * @brief captureImage Initiates image capture in the active job.
+     */
     void captureImage();
+
+    /**
+     * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
+     * @param bp pointer to blob contianing FITS data
+     */
     void newFITS(IBLOB *bp);
-    void checkCCD(int CCDNum=-1);    
+
+    /**
+     * @brief checkCCD Refreshes the CCD information in the capture module.
+     * @param CCDNum The CCD index in the CCD combo box to select as the active CCD.
+     */
+    void checkCCD(int CCDNum=-1);
+
+    /**
+     * @brief checkFilter Refreshes the filter wheel information in the capture module.
+     * @param filterNum The filter wheel index in the filter device combo box to set as the active filter.
+     */
     void checkFilter(int filterNum=-1);
+
+    /**
+     * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
+     * @param nvp pointer to number property.
+     */
     void processCCDNumber(INumberVectorProperty *nvp);
+
+    /**
+     * @brief processTelescopeNumber Process number properties arriving from telescope for meridian flip purposes.
+     * @param nvp pointer to number property.
+     */
     void processTelescopeNumber(INumberVectorProperty *nvp);
 
+    /**
+     * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
+     * @param preview True if the job is a preview job, otherwise, it is added as a batch job.
+     */
     void addJob(bool preview=false);
+
+    /**
+     * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
+     */
     void removeJob();
 
+    /**
+     * @brief moveJobUp Move the job in the sequence queue one place up.
+     */
     void moveJobUp();
+
+    /**
+     * @brief moveJobDown Move the job in the sequence queue one place down.
+     */
     void moveJobDown();
 
+    /**
+     * @brief enableGuideLimits Enable guide deviation check box and guide deviation limits spin box.
+     */
     void enableGuideLimits();
+
+    /**
+     * @brief setGuideDeviation Set the guiding deviaiton as measured by the guiding module. Abort capture if deviation exceeds user value. Resume capture if capture was aborted and guiding deviations are below user value.
+     * @param delta_ra Deviation in RA in arcsecs from the selected guide star.
+     * @param delta_dec Deviation in DEC in arcsecs from the selected guide star.
+     */
     void setGuideDeviation(double delta_ra, double delta_dec);
+
+    /**
+     * @brief setGuideDither Set whether dithering is enable/disabled in guiding module.
+     * @param enable True if dithering is enabled, false otherwise.
+     */
     void setGuideDither(bool enable);
+
+    /**
+     * @brief setAutoguiding Set autoguiding status from guiding module.
+     * @param enable True if autoguiding is enabled and running, false otherwise.
+     * @param isDithering true if dithering is enabled.
+     */
     void setAutoguiding(bool enable, bool isDithering);
+
+    /**
+     * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.
+     */
     void resumeCapture();
+
+    /**
+     * @brief checkPreview When "Display in FITS Viewer" button is toggled, enable/disable preview button accordingly since preview only works if we can display in the FITS Viewer.
+     * @param enable True if "Display in FITS Viewer" checkbox is true, false otherwise.
+     */
     void checkPreview(bool enable);
+
+    /**
+     * @brief updateCCDTemperature Update CCD temperature in capture module.
+     * @param value Temperature in celcius.
+     */
     void updateCCDTemperature(double value);
+
+    /**
+     * @brief setTemperature Set CCD temperature from the user GUI settings.
+     */
     void setTemperature();
+
+    /**
+     * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
+     */
     void setDirty();
 
     void checkFrameType(int index);
