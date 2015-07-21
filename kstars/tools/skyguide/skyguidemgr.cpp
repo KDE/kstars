@@ -19,15 +19,20 @@
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QFileDialog>
 #include <QStandardPaths>
+#include <kzip.h>
 
 #include "skyguidemgr.h"
 
 SkyGuideMgr::SkyGuideMgr()
     : m_view(new SkyGuideView())
 {
+    m_guidesDir = QDir(QStandardPaths::locate(QStandardPaths::DataLocation,
+            "tools/skyguide/resources/guides", QStandardPaths::LocateDirectory));
+
     loadAllSkyGuideObjects();
-    m_view->setModel(m_skyGuideObjects);
+    connect((QObject*)m_view->rootObject(), SIGNAL(addSkyGuide()), this, SLOT(slotAddSkyGuide()));
 }
 
 SkyGuideMgr::~SkyGuideMgr()
@@ -35,10 +40,8 @@ SkyGuideMgr::~SkyGuideMgr()
 }
 
 void SkyGuideMgr::loadAllSkyGuideObjects() {
+    QDir root = m_guidesDir;
     QDir::Filters filters = QDir::NoDotAndDotDot | QDir::Hidden | QDir::NoSymLinks;
-    QDir root(QStandardPaths::locate(QStandardPaths::DataLocation,
-                                     "tools/skyguide/resources/guides",
-                                     QStandardPaths::LocateDirectory));
     root.setFilter(filters | QDir::Dirs);
     QFileInfoList guidesRoot = root.entryInfoList();
     foreach (QFileInfo r, guidesRoot) {
@@ -51,6 +54,7 @@ void SkyGuideMgr::loadAllSkyGuideObjects() {
             }
         }
     }
+    m_view->setModel(m_skyGuideObjects);
 }
 
 void SkyGuideMgr::loadSkyGuideObject(const QString& guidePath, const QString& filename)
@@ -70,4 +74,26 @@ void SkyGuideMgr::loadSkyGuideObject(const QString& guidePath, const QString& fi
             qWarning()  << "SkyGuideMgr: SkyGuide is invalid!" << jsonPath;
         }
     }
+}
+
+void SkyGuideMgr::slotAddSkyGuide() {
+    if (!QFileInfo(m_guidesDir.absolutePath()).isWritable()){
+        qWarning() << "SkyGuideMgr: Cannot write " << m_guidesDir.absolutePath();
+        return;
+    }
+
+    QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
+    QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
+
+    KZip archive(path);
+    if (!archive.open(QIODevice::ReadOnly)) {
+        qWarning() << "SkyGuideMgr: Cannot open " << path;
+        return;
+    }
+
+    const KArchiveDirectory *root = archive.directory();
+    root->copyTo(m_guidesDir.absolutePath(), true);
+    archive.close();
+
+    loadAllSkyGuideObjects();
 }

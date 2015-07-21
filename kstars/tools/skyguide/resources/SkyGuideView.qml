@@ -32,6 +32,8 @@ ColumnLayout {
     property var currentPage: null
     property int maxHistLenght: 16
 
+    signal addSkyGuide()
+
     function getPageObj(name, model, slide) {
         return {'name': name, 'modelData': model, 'slide': slide};
     }
@@ -185,6 +187,7 @@ ColumnLayout {
                 height: menu.btnHeight
                 iconSource: "icons/add.png"
                 tooltip: "Add a SkyGuide"
+                onClicked: addSkyGuide()
             }
             ToolButton {
                 width: menu.btnWidth

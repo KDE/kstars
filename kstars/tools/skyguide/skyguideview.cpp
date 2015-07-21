@@ -33,8 +33,10 @@ void SkyGuideView::setModel(QList<QObject*> guides)
     QQmlContext* ctxt = this->rootContext();
     ctxt->setContextProperty("guidesModel", QVariant::fromValue(guides));
 
-    QString qmlViewPath = "tools/skyguide/resources/SkyGuideView.qml";
-    this->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, qmlViewPath));
+    if (this->source().isEmpty()) {
+        QString qmlViewPath = "tools/skyguide/resources/SkyGuideView.qml";
+        this->setSource(QStandardPaths::locate(QStandardPaths::DataLocation, qmlViewPath));
+    }
     this->show();
     updateDock();
 }

@@ -21,18 +21,22 @@
 #include "skyguideobject.h"
 #include "skyguideview.h"
 
-class SkyGuideMgr
+class SkyGuideMgr : public QObject
 {
-
+    Q_OBJECT
 public:
     SkyGuideMgr();
     virtual ~SkyGuideMgr();
 
     inline SkyGuideView* view() { return m_view; }
 
+private slots:
+    void slotAddSkyGuide();
+
 private:
     SkyGuideView* m_view;
     QList<QObject*> m_skyGuideObjects;
+    QDir m_guidesDir;
 
     void loadAllSkyGuideObjects();
     void loadSkyGuideObject(const QString& guidePath, const QString &filename);
