@@ -38,7 +38,7 @@ class dms;
  * @author M.S.Adityan
  */
 
-class ConstellationsArt: public SkyObject{
+class ConstellationsArt{
 
 private:
     QString abbrev, imageFileName;
@@ -47,13 +47,19 @@ private:
 
 public:
 
+    SkyPoint* topleft;
+    SkyPoint* topright;
+    SkyPoint* bottomleft;
+    SkyPoint* bottomright;
+    SkyPoint* constellationmidpoint;
+
     /**
      *Constructor. Set SkyObject data according to arguments.
      *@param t Type of object
      *@param serial Serial number from constellationsart.txt
      *@param n Primary name
      */
-    explicit ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation,QString filename);
+    explicit ConstellationsArt(dms midpointra, dms midpointdec,dms topleftra, dms topleftdec,dms toprightra, dms toprightdec,dms bottomleftra, dms bottomleftdec,dms bottomrightra, dms bottomrightdec, double pa, double w, double h, QString abbreviation,QString filename);
 
     //Destructor
      ~ConstellationsArt();

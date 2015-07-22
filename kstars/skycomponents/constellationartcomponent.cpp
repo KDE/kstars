@@ -73,12 +73,32 @@ void ConstellationArtComponent::loadData(){
              double pa                 = get_query.value("Position Angle").toDouble();
              double w         = get_query.value("Width").toDouble();
              double h         = get_query.value("Height").toDouble();
+             QString topleftRA           = get_query.value("TopLeftRA").toString();
+             QString topleftDEC           = get_query.value("TopLeftDEC").toString();
+             QString toprightRA           = get_query.value("TopRightRA").toString();
+             QString toprightDEC          = get_query.value("TopRightDEC").toString();
+             QString bottomleftRA          = get_query.value("BottomLeftRA").toString();
+             QString bottomleftDEC         = get_query.value("BottomLeftDEC").toString();
+             QString bottomrightRA          = get_query.value("BottomRightRA").toString();
+             QString bottomrightDEC         = get_query.value("BottomRightDEC").toString();
 
              dms midpointra = dms::fromString(midpointRA,false);
              dms midpointdec = dms::fromString(midpointDEC,true);
 
+             dms topleftra = dms::fromString(topleftRA,false);
+             dms topleftdec = dms::fromString(topleftDEC,true);
+
+             dms toprightra = dms::fromString(toprightRA,false);
+             dms toprightdec = dms::fromString(toprightDEC,true);
+
+             dms bottomleftra = dms::fromString(bottomleftRA,false);
+             dms bottomleftdec = dms::fromString(bottomleftDEC,true);
+
+             dms bottomrightra = dms::fromString(bottomrightRA,false);
+             dms bottomrightdec = dms::fromString(bottomrightDEC,true);
+
              // appends constellation info
-             ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, w,h, abbreviation, filename);
+             ConstellationsArt *ca = new ConstellationsArt(midpointra,midpointdec,topleftra,topleftdec,toprightra,toprightdec,bottomleftra,bottomleftdec,bottomrightra,bottomrightdec,pa,w,h,abbreviation,filename);
              m_ConstList.append(ca);
              qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
              records++;
@@ -101,8 +121,8 @@ void ConstellationArtComponent::draw(SkyPainter *skyp){
 
     if(Options::showConstellationArt()){
 
-         for(int i =0; i<records; i++)
-         skyp->drawConstellationArtImage(m_ConstList[i]);
+         //for(int i =0; i<records; i++)
+         skyp->drawConstellationArtImage(m_ConstList[80]);
     }
 
     //Loops through the QList containing all data required to draw constellations.

@@ -17,8 +17,7 @@
 #include "constellationsart.h"
 #include "kstars/texturemanager.h"
 
-
-ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation, QString filename)
+ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, dms topleftra, dms topleftdec, dms toprightra, dms toprightdec, dms bottomleftra, dms bottomleftdec, dms bottomrightra, dms bottomrightdec, double pa, double w, double h, QString abbreviation, QString filename)
 {
     positionAngle = pa;
     abbrev = abbreviation;
@@ -29,12 +28,20 @@ ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa,
     loadImage();
 
     //This sets both current and J2000 RA/DEC to the values ra and dec.
-    setRA(midpointra);
-    setDec(midpointdec);
+    constellationmidpoint = new SkyPoint(midpointra,midpointdec);
+    topleft = new SkyPoint(topleftra,topleftdec);
+    topright = new SkyPoint(toprightra,toprightdec);
+    bottomleft = new SkyPoint(bottomleftra,bottomleftdec);
+    bottomright = new SkyPoint(bottomrightra,bottomrightdec);
 }
 
 ConstellationsArt::~ConstellationsArt()
 {
+    delete constellationmidpoint;
+    delete topleft;
+    delete topright;
+    delete bottomleft;
+    delete bottomright;
 }
 
 void ConstellationsArt::loadImage()

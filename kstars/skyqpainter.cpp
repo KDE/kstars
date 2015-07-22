@@ -444,15 +444,28 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 */
 
     bool visible = false;
-    obj->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-    QPointF constellationmidpoint = m_proj->toScreen(obj, true, &visible);
+    obj->constellationmidpoint->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF constellationmidpoint = m_proj->toScreen(obj->constellationmidpoint, true, &visible);
 
-    if ( !visible || !m_proj->onScreen(constellationmidpoint))
+    obj->topleft->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF topleft = m_proj->toScreen(obj->topleft, true, &visible);
+
+    obj->topright->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF topright = m_proj->toScreen(obj->topright, true, &visible);
+
+    obj->bottomleft->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF bottomleft = m_proj->toScreen(obj->bottomleft, true, &visible);
+
+    obj->bottomright->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF bottomright = m_proj->toScreen(obj->bottomright, true, &visible);
+
+
+    if ( !visible || (!m_proj->onScreen(topleft))&&(!m_proj->onScreen(topright))&&(!m_proj->onScreen(bottomleft))&&(!m_proj->onScreen(bottomright)))
         return false;
 
     qDebug() << "o->pa() " << obj->pa();
-    float positionangle = m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
-    qDebug() << " final PA " << positionangle;
+    //float positionangle = m_proj->findPA(obj->constellationmidpoint, constellationmidpoint.x(), constellationmidpoint.y());
+    //qDebug() << " final PA " << positionangle;
 
 
     float w = obj->getWidth()*60*dms::PI*zoom/10800;
@@ -460,8 +473,8 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 
     save();
     translate(constellationmidpoint);
-    rotate(positionangle);
-    drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
+    //rotate(positionangle);
+    drawImage( QRectF(topleft,bottomright), obj->image() );
     restore();
     return true;
 }
