@@ -22,7 +22,7 @@ namespace Ekos
 
 /**
  *@class Mount
- *@short Supports Control INDI telescopes and displays information about them.
+ *@short Supports controlling INDI telescope devices including setting/retrieving mount properties, slewing, motion and speed controls, in addition to enforcing altitude limits and parking/unparking.
  *@author Jasem Mutlaq
  *@version 1.1
  */
@@ -46,6 +46,12 @@ public:
     void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
+
+    /** @defgroup MountDBusInterface Ekos Mount DBus Interface
+     * Mount interface provides advanced scripting capabilities to control INDI mounts.
+    */
+
+    /*@{*/
 
     /** DBUS interface function.
      * Returns the mount altitude limits.
@@ -102,6 +108,8 @@ public:
      * @param guideAperture Guide Telescope Aperture
      */
     Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
+
+    /** @}*/
 
 public slots:
 

@@ -81,9 +81,16 @@ void modCalcAngDist::slotValidatePositions(){
         sp1 = getCoords(SecondRA, SecondDec, &ok);
 
     if ( ok )
-        AngDist->setText( sp0.angularDistanceTo(&sp1).toDMSString() );
+    {
+        double PA=0;
+        AngDist->setText( sp0.angularDistanceTo(&sp1, &PA).toDMSString() );
+        PositionAngle->setText(QString::number(PA, 'f', 3));
+    }
     else
+    {
         AngDist->setText( " .... " );
+        PositionAngle->setText(" .... ");
+    }
 }
 
 void modCalcAngDist::slotObjectButton() {
@@ -158,6 +165,7 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
     QChar space = ' ';
     int i = 0;
     SkyPoint sp0, sp1;
+    double PA=0;
     dms ra0B, dec0B, ra1B, dec1B, dist;
 
     while ( ! istream.atEnd() ) {
@@ -228,9 +236,9 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 
         sp0 = SkyPoint (ra0B, dec0B);
         sp1 = SkyPoint (ra1B, dec1B);
-        dist = sp0.angularDistanceTo(&sp1);
+        dist = sp0.angularDistanceTo(&sp1, &PA);
 
-        ostream << dist.toDMSString() << endl;
+        ostream << dist.toDMSString() << QString::number(PA, 'f', 3) << endl;
     }
 
     fOut.close();

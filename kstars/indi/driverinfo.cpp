@@ -75,7 +75,7 @@ void DriverInfo::clear()
     serverState = false;
     clientState = false;
     serverManager = NULL;
-    uniqueLabel.clear();
+    //uniqueLabel.clear();
 }
 
 QString DriverInfo::getServerBuffer()

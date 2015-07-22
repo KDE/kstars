@@ -1435,6 +1435,17 @@ DriverInfo * DriverManager::findDriverByLabel(const QString &label)
     return NULL;
 }
 
+DriverInfo * DriverManager::findDriverByExec(const QString &exec)
+{
+    foreach(DriverInfo *dv, driversList)
+    {
+        if (dv->getDriver() == exec)
+            return dv;
+    }
+
+    return NULL;
+}
+
 QString DriverManager::getUniqueDeviceLabel(const QString &label)
 {
     int nset=0;

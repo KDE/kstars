@@ -33,9 +33,18 @@ class KPageWidgetItem;
 /**
  *@class EkosManager
  *@short Primary class to handle all Ekos modules.
- * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of Capture, Focus, Guide, and Align modules.
+ * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of \ref Ekos::Mount, \ref Ekos::Capture, \ref Ekos::Focus, \ref Ekos::Guide, and \ref Ekos::Align modules.
+ * \ref EkosDBusInterface "Ekos DBus Interface" provides high level functions to control devices and Ekos modules for a total robotic operation:
+ * <ul>
+ * <li>\ref CaptureDBusInterface "Capture Module DBus Interface"</li>
+ * <li>\ref FocusDBusInterface "Focus Module DBus Interface"</li>
+ * <li>\ref MountDBusInterface "Mount Module DBus Interface"</li>
+ * <li>\ref GuideDBusInterface "Guide Module DBus Interface"</li>
+ * <li>\ref AlignDBusInterface "Align Module DBus Interface"</li>
+ * </ul>
+ *  For low level access to INDI devices, the \ref INDIDBusInterface "INDI Dbus Interface" provides complete access to INDI devices and properties.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
@@ -133,12 +142,9 @@ public:
      * @param index 1 for Aux 1, 2 for Aux 2, 3 for Aux 3
      * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);
-
-    /** @}*/
+    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);    
 
 public slots:
-    void processINDI();
 
     /** DBUS interface function.
      * Connects all the INDI devices started by Ekos.
@@ -149,6 +155,10 @@ public slots:
      * Disconnects all the INDI devices started by Ekos.
      */
     Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
+
+    /** @}*/
+
+    void processINDI();   
     void cleanDevices();
 
     void processNewDevice(ISD::GDInterface*);

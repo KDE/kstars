@@ -52,7 +52,7 @@ public:
     bool setFrame(int x, int y, int w, int h);
     bool getFocusFrame(int *x, int *y, int *w, int *h);
     bool setFocusFrame(int x, int y, int w, int h);
-    void resetFrame();
+    bool resetFrame();
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
     bool setFrameType(const QString & name);    
@@ -163,7 +163,7 @@ public slots:
 signals:
     void FITSViewerClosed();
     void newTemperatureValue(double value);
-    void newExposureValue(ISD::CCDChip *chip, double value);
+    void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
 
 private:    

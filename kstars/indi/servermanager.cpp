@@ -119,29 +119,30 @@ bool ServerManager::startDriver(DriverInfo *dv)
     QTextStream out(&indiFIFO);
 
     // Check for duplicates within existing clients
-    if (dv->getUniqueLabel().isEmpty())
+    if (dv->getUniqueLabel().isEmpty() && dv->getTreeLabel().isEmpty() == false)
         dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getTreeLabel()));
 
     // Check for duplicates within managed drivers
-    int nset=0;
-    QString uniqueLabel;
-    QString label = dv->getUniqueLabel();
-    foreach(DriverInfo *drv, managedDrivers)
+    if (dv->getUniqueLabel().isEmpty() == false)
     {
-        if (label == QString(drv->getUniqueLabel()))
-            nset++;
-    }
-    if (nset > 0)
-    {
-        uniqueLabel = QString("%1 %2").arg(label).arg(nset+1);
-        dv->setUniqueLabel(uniqueLabel);
+        int nset=0;
+        QString uniqueLabel;
+        QString label = dv->getUniqueLabel();
+        foreach(DriverInfo *drv, managedDrivers)
+        {
+            if (label == QString(drv->getUniqueLabel()))
+                nset++;
+        }
+        if (nset > 0)
+        {
+            uniqueLabel = QString("%1 %2").arg(label).arg(nset+1);
+            dv->setUniqueLabel(uniqueLabel);
+        }
     }
 
     managedDrivers.append(dv);
     dv->setServerManager(this);
 
-     //if (QStandardPaths::findExe(dv->getDriver()).isEmpty())
-    //TODO Check if this works!
     if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
     {
          KMessageBox::error(NULL, xi18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
@@ -151,11 +152,12 @@ bool ServerManager::startDriver(DriverInfo *dv)
         //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() <<
         //            " Unique Label " << dv->getUniqueLabel() << endl;
 
-        if (dv->getSkeletonFile().isEmpty())
-            out << "start " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
-        else
-            out << "start " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << " -s \"" << Options::indiDriversDir() << "/" << dv->getSkeletonFile() << "\"" << endl;
-        //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
+        out << "start " << dv->getDriver();
+        if (dv->getUniqueLabel().isEmpty() == false)
+            out << " -n \"" << dv->getUniqueLabel() << "\"";
+        if (dv->getSkeletonFile().isEmpty() == false)
+            out << " -s \"" << Options::indiDriversDir() << "/" << dv->getSkeletonFile() << "\"";
+        out << endl;
         out.flush();
 
         dv->setServerState(true);
