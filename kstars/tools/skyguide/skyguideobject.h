@@ -62,6 +62,7 @@ public:
     SkyGuideObject(const QString &path, const QVariantMap &map);
 
     bool isValid() { return m_isValid; }
+    void setPath(QString path) { m_path = path; }
     int currentSlide() { return m_currentSlide; }
     void setCurrentSlide(int slide) { m_currentSlide = slide; }
 

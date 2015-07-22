@@ -39,7 +39,7 @@ private:
     QDir m_guidesDir;
 
     void loadAllSkyGuideObjects();
-    void loadSkyGuideObject(const QString& guidePath, const QString &filename);
+    bool loadSkyGuideObject(const QString& guidePath, const QString &filename);
 };
 
 #endif // SKYGUIDEMGR_H
