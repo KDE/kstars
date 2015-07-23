@@ -132,20 +132,20 @@ ColumnLayout {
                 id: btnPrev
                 width: 20
                 height: 20
-                iconSource: "icons/prev.png"
+                iconSource: "images/prev.png"
                 onClicked: goPrev()
             }
             ToolButton {
                 id: btnNext
                 width: 20
                 height: 20
-                iconSource: "icons/next.png"
+                iconSource: "images/next.png"
                 onClicked: goNext()
             }
             ToolButton {
                 width: 20
                 height: 20
-                iconSource: "icons/home.png"
+                iconSource: "images/home.png"
                 onClicked: goToPage(getPageObj('HOME', null, -1))
             }
             Item { Layout.fillWidth: true }
@@ -185,14 +185,14 @@ ColumnLayout {
             ToolButton {
                 width: menu.btnWidth
                 height: menu.btnHeight
-                iconSource: "icons/add.png"
+                iconSource: "images/add.png"
                 tooltip: "Add a SkyGuide"
                 onClicked: addSkyGuide()
             }
             ToolButton {
                 width: menu.btnWidth
                 height: menu.btnHeight
-                iconSource: "icons/write.png"
+                iconSource: "images/write.png"
                 tooltip: "Make a SkyGuide"
             }
         }
@@ -206,7 +206,7 @@ ColumnLayout {
                 id: btnContents
                 width: menu.btnWidth
                 height: menu.btnHeight
-                iconSource: "icons/info.png"
+                iconSource: "images/info.png"
                 tooltip: "Contents"
                 onClicked: goToPage(getPageObj('INFO', loader.modelData, -1))
             }
@@ -214,7 +214,7 @@ ColumnLayout {
                 id: btnPrevSlide
                 width: menu.btnWidth
                 height: menu.btnHeight
-                iconSource: "icons/prevSlide.png"
+                iconSource: "images/prevSlide.png"
                 tooltip: "Previous Slide"
                 onClicked: {
                     var slide = loader.modelData.currentSlide - 1;
@@ -231,7 +231,7 @@ ColumnLayout {
                 id: btnNextSlide
                 width: menu.btnWidth
                 height: menu.btnHeight
-                iconSource: "icons/nextSlide.png"
+                iconSource: "images/nextSlide.png"
                 tooltip: "Next Slide"
                 onClicked: {
                     goToPage(getPageObj('SLIDE', loader.modelData, loader.modelData.currentSlide + 1));
