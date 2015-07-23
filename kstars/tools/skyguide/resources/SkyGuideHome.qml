@@ -55,6 +55,7 @@ Rectangle {
             delegate: guidesDelegate
             spacing: 7
             focus: true
+            clip: true
             Keys.onReturnPressed: goToPage(getPageObj('INFO', currentItem.modelData, -1))
         }
 

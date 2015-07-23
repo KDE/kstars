@@ -88,6 +88,7 @@ ColumnLayout {
             height: parent.height - frameHMargin
             width: parent.width - frameVMargin
             focus: true
+            clip: true
             model: ListModel {}
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             delegate: contentsDelegate
