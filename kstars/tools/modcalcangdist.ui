@@ -32,7 +32,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget3">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="interact">
       <attribute name="title">
@@ -40,7 +40,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <layout class="QHBoxLayout">
+        <layout class="QHBoxLayout" name="topLayout">
          <property name="spacing">
           <number>6</number>
          </property>
@@ -78,7 +78,7 @@
              <number>6</number>
             </property>
             <item row="2" column="0" colspan="2">
-             <layout class="QHBoxLayout">
+             <layout class="QHBoxLayout" name="objectLayout">
               <property name="spacing">
                <number>6</number>
               </property>
@@ -181,7 +181,7 @@
              <number>6</number>
             </property>
             <item row="2" column="0" colspan="2">
-             <layout class="QHBoxLayout">
+             <layout class="QHBoxLayout" name="objectLayout2">
               <property name="spacing">
                <number>6</number>
               </property>
@@ -198,7 +198,7 @@
                <number>0</number>
               </property>
               <item>
-               <spacer>
+               <spacer name="SP1">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -218,7 +218,7 @@
                </widget>
               </item>
               <item>
-               <spacer>
+               <spacer name="SP2">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -283,7 +283,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <spacer>
+          <spacer name="LSP">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -367,7 +367,7 @@
           </layout>
          </item>
          <item>
-          <spacer>
+          <spacer name="RSP">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -385,7 +385,7 @@
         </layout>
        </item>
        <item>
-        <spacer>
+        <spacer name="bottomSP">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -444,7 +444,7 @@
            <number>8</number>
           </property>
           <item>
-           <layout class="QVBoxLayout">
+           <layout class="QVBoxLayout" name="batchLeftLayout">
             <property name="spacing">
              <number>6</number>
             </property>
@@ -503,7 +503,7 @@
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout">
+           <layout class="QVBoxLayout" name="batchRightLayout">
             <property name="spacing">
              <number>6</number>
             </property>
@@ -560,14 +560,14 @@
           <item>
            <widget class="QRadioButton" name="allRadioBatch">
             <property name="text">
-             <string>All parameters</string>
+             <string>A&amp;ll parameters</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="inputRadioBatch">
             <property name="text">
-             <string>Only parameters in input file</string>
+             <string>Onl&amp;y parameters in input file</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -622,7 +622,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout">
+        <layout class="QHBoxLayout" name="runLayout">
          <property name="spacing">
           <number>6</number>
          </property>
@@ -639,7 +639,7 @@
           <number>0</number>
          </property>
          <item>
-          <spacer>
+          <spacer name="LSP_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -668,7 +668,7 @@
           </widget>
          </item>
          <item>
-          <spacer>
+          <spacer name="RSP_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -686,7 +686,7 @@
         </layout>
        </item>
        <item>
-        <spacer>
+        <spacer name="bottomSP_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
