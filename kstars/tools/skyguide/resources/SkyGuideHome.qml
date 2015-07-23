@@ -18,50 +18,72 @@
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
 
-ColumnLayout {
-    id: home
-    spacing: 10
-    Layout.alignment: Qt.AlignHCenter
+Rectangle {
+    color: "#00020e"
 
-    Text {
-        anchors.topMargin: 5
-        anchors.fill: parent
-        horizontalAlignment: Text.AlignHCenter
-        color: "#1703ca"
-        font.pixelSize: 24
-        style: Text.Raised
-        text: "Sky Guide"
+    Image {
+        width: parent.width
+        height: parent.height
+        fillMode: Image.PreserveAspectCrop
+        source: "images/background.jpeg"
     }
 
-    ObjRectangle {
+    ColumnLayout {
+        id: home
+        spacing: 10
+        anchors.fill: parent
+
+        Text {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
+            Layout.preferredHeight: 100
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            color: "#ffffff"
+            font.pixelSize: 30
+            style: Text.Outline
+            text: "Sky Guide"
+            font.bold: true
+        }
+
+        ListView {
+            id: guidesList
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillHeight: true
+            width: parent.width - 40
+            model: guidesModel
+            delegate: guidesDelegate
+            spacing: 7
+            focus: true
+            Keys.onReturnPressed: goToPage(getPageObj('INFO', currentItem.modelData, -1))
+        }
+
         Component {
             id: guidesDelegate
-            Item {
+            Rectangle {
                 property var modelData: model.modelData
                 width: guidesList.width
                 height: 25
+
+                color: ListView.isCurrentItem ? "#157efb" : "#83a3d3"
+                radius: 5
+
                 Text {
+                    anchors.fill: parent
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    verticalAlignment: Text.AlignVCenter
+                    color: "#ffffff"
                     text: title
+                    style: Text.Sunken
                 }
+
                 MouseArea {
                     anchors.fill: parent
                     onClicked: guidesList.currentIndex = index
                     onDoubleClicked: goToPage(getPageObj('INFO', model.modelData, -1))
                 }
             }
-        }
-
-        ListView {
-            id: guidesList
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height - frameHMargin
-            width: parent.width - frameVMargin
-            focus: true
-            model: guidesModel
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            delegate: guidesDelegate
-            Keys.onReturnPressed: goToPage(getPageObj('INFO', currentItem.modelData, -1))
         }
     }
 }
