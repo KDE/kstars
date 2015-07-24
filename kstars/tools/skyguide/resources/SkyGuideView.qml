@@ -59,11 +59,14 @@ ColumnLayout {
             src = "SkyGuideHome.qml";
         } else if (page.name === "INFO") {
             btnPrevSlide.enabled = false
+            btnNextSlide.enabled = true
             btnContents.enabled = false
             menuHome.visible = false
             menuSlide.visible = true
             src = "SkyGuideInfo.qml";
         } else if (page.name === "SLIDE") {
+            btnNextSlide.enabled = page.slide < page.modelData.contents.length - 1;
+            btnPrevSlide.enabled = page.slide > 0;
             btnContents.enabled = true
             menuHome.visible = false
             menuSlide.visible = true
@@ -218,10 +221,8 @@ ColumnLayout {
                 tooltip: "Previous Slide"
                 onClicked: {
                     var slide = loader.modelData.currentSlide - 1;
-                    if (slide === -1) {
-                        goToPage(getPageObj('INFO', loader.modelData, slide));
-                        btnNextSlide.enabled = true;
-                        btnPrevSlide.enabled = false;
+                    if (slide < 0) {
+                        goToPage(getPageObj('INFO', loader.modelData, -1));
                     } else {
                         goToPage(getPageObj('SLIDE', loader.modelData, slide));
                     }
@@ -235,10 +236,6 @@ ColumnLayout {
                 tooltip: "Next Slide"
                 onClicked: {
                     goToPage(getPageObj('SLIDE', loader.modelData, loader.modelData.currentSlide + 1));
-                    if (loader.modelData.currentSlide === loader.modelData.contents.length - 1) {
-                        btnNextSlide.enabled = false;
-                        btnPrevSlide.enabled = true;
-                    }
                 }
             }
         }
