@@ -129,29 +129,24 @@ ColumnLayout {
         Layout.alignment: Qt.AlignTop
         Layout.preferredWidth: 360
         Layout.fillWidth: true
+
         RowLayout {
-            anchors.fill: parent
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
             ToolButton {
                 id: btnPrev
-                width: 20
-                height: 20
                 iconSource: "images/prev.png"
                 onClicked: goPrev()
             }
             ToolButton {
                 id: btnNext
-                width: 20
-                height: 20
                 iconSource: "images/next.png"
                 onClicked: goNext()
             }
             ToolButton {
-                width: 20
-                height: 20
                 iconSource: "images/home.png"
                 onClicked: goToPage(getPageObj('HOME', null, -1))
             }
-            Item { Layout.fillWidth: true }
         }
     }
 
@@ -169,10 +164,8 @@ ColumnLayout {
     ToolBar {
         id: menu
         Layout.alignment: Qt.AlignBottom
+        Layout.preferredWidth: 360
         Layout.fillWidth: true
-        Layout.preferredHeight: 44
-        property int btnHeight: 40
-        property int btnWidth: 35
 
         RowLayout {
             id: menuHome
@@ -180,15 +173,11 @@ ColumnLayout {
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             ToolButton {
-                width: menu.btnWidth
-                height: menu.btnHeight
                 iconSource: "images/add.png"
                 tooltip: "Add a SkyGuide"
                 onClicked: addSkyGuide()
             }
             ToolButton {
-                width: menu.btnWidth
-                height: menu.btnHeight
                 iconSource: "images/write.png"
                 tooltip: "Make a SkyGuide"
             }
@@ -201,16 +190,12 @@ ColumnLayout {
             anchors.verticalCenter: parent.verticalCenter
             ToolButton {
                 id: btnContents
-                width: menu.btnWidth
-                height: menu.btnHeight
                 iconSource: "images/info.png"
                 tooltip: "Contents"
                 onClicked: goToPage(getPageObj('INFO', loader.modelData, -1))
             }
             ToolButton {
                 id: btnPrevSlide
-                width: menu.btnWidth
-                height: menu.btnHeight
                 iconSource: "images/prevSlide.png"
                 tooltip: "Previous Slide"
                 onClicked: {
@@ -224,8 +209,6 @@ ColumnLayout {
             }
             ToolButton {
                 id: btnNextSlide
-                width: menu.btnWidth
-                height: menu.btnHeight
                 iconSource: "images/nextSlide.png"
                 tooltip: "Next Slide"
                 onClicked: {
