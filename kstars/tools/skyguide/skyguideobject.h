@@ -64,7 +64,7 @@ public:
     bool isValid() { return m_isValid; }
     void setPath(QString path) { m_path = path; }
     int currentSlide() { return m_currentSlide; }
-    void setCurrentSlide(int slide) { m_currentSlide = slide; }
+    void setCurrentSlide(int slide);
 
     QString title() { return m_title; }
     QString description() { return m_description; }
@@ -92,6 +92,8 @@ private:
     QList<Author> m_authors;
     QList<Slide> m_slides;
     QStringList m_contents;
+
+    void setCurrentCenterPoint(QString objName);
 };
 
 #endif // SKYGUIDEOBJECT_H

@@ -15,9 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QtDebug>
 #include <QJsonObject>
 
+#include "kstarsdata.h"
 #include "skyguideobject.h"
+#include "skymap.h"
+#include "skycomponents/starcomponent.h"
+#include "skycomponents/skymapcomposite.h"
 
 SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     : m_isValid(false),
@@ -64,6 +69,34 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     }
 
     m_isValid = true;
+}
+
+void SkyGuideObject::setCurrentCenterPoint(QString objName) {
+    SkyObject* obj = KStarsData::Instance()->skyComposite()->findByName(objName);
+
+    // is it a HD star?
+    if(!obj && objName.startsWith("HD")) {
+        objName.remove("HD");
+        int hd = objName.toInt();
+        if(hd) {
+            obj = StarComponent::Instance()->findByHDIndex(hd);
+        }
+    }
+
+    // nothing found?
+    if (!obj) {
+        qWarning() << "SkyGuideObject: No object named " + objName + " found.";
+        return;
+    }
+
+    KStars::Instance()->map()->setDestination(*obj);
+}
+
+void SkyGuideObject::setCurrentSlide(int slide) {
+    if (slide > -1) {
+        setCurrentCenterPoint(m_slides.at(slide).centerPoint);
+    }
+    m_currentSlide = slide;
 }
 
 QString SkyGuideObject::slideTitle() {
