@@ -50,12 +50,12 @@ Rectangle {
             id: guidesList
             Layout.alignment: Qt.AlignHCenter
             Layout.fillHeight: true
-            width: parent.width - 40
-            model: guidesModel
-            delegate: guidesDelegate
+            Layout.preferredWidth: parent.width * 0.9
             spacing: 7
             focus: true
             clip: true
+            model: guidesModel
+            delegate: guidesDelegate
             Keys.onReturnPressed: goToPage(getPageObj('INFO', currentItem.modelData, -1))
         }
 
@@ -66,7 +66,7 @@ Rectangle {
                 width: guidesList.width
                 height: 25
 
-                color: ListView.isCurrentItem ? "#157efb" : "#83a3d3"
+                color: ListView.isCurrentItem ? "#157efb" : "#39475C"
                 radius: 5
 
                 Text {
