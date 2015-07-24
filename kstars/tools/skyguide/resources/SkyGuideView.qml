@@ -136,15 +136,18 @@ ColumnLayout {
             ToolButton {
                 id: btnPrev
                 iconSource: "images/prev.png"
+                tooltip: "Goes to the previous page."
                 onClicked: goPrev()
             }
             ToolButton {
                 id: btnNext
                 iconSource: "images/next.png"
+                tooltip: "Goes to the next page."
                 onClicked: goNext()
             }
             ToolButton {
                 iconSource: "images/home.png"
+                tooltip: "Goes to the homepage."
                 onClicked: goToPage(getPageObj('HOME', null, -1))
             }
         }
@@ -174,12 +177,12 @@ ColumnLayout {
             anchors.verticalCenter: parent.verticalCenter
             ToolButton {
                 iconSource: "images/add.png"
-                tooltip: "Add a SkyGuide"
+                tooltip: "Adds a SkyGuide"
                 onClicked: addSkyGuide()
             }
             ToolButton {
                 iconSource: "images/write.png"
-                tooltip: "Make a SkyGuide"
+                tooltip: "Makes a SkyGuide"
             }
         }
 
