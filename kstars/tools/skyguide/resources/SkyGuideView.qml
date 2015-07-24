@@ -166,12 +166,6 @@ ColumnLayout {
         Component.onCompleted: goToPage(getPageObj('HOME', null, -1))
     }
 
-    Item {
-        Layout.minimumHeight: 5
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-    }
-
     ToolBar {
         id: menu
         Layout.alignment: Qt.AlignBottom
