@@ -22,8 +22,8 @@
 
 SkyGuideView::SkyGuideView()
 {
-    m_dock = new QDockWidget();
-    m_dock->setObjectName("Sky Guide");
+    m_dock = new QDockWidget("SkyGuide");
+    m_dock->setObjectName("SkyGuide");
     m_dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 }
 
