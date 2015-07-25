@@ -43,16 +43,13 @@ ColumnLayout {
         source: loader.modelData.slideImgPath
     }
 
-    ObjRectangle {
-        TextArea {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height - frameHMargin
-            width: parent.width - frameVMargin
-            frameVisible: false
-            font.pixelSize: fontSizeText
-            readOnly: true
-            text: loader.modelData.slideText
-        }
+    TextArea {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.fillHeight: true
+        Layout.preferredWidth: parent.width * 0.9
+        frameVisible: false
+        font.pixelSize: fontSizeText
+        readOnly: true
+        text: loader.modelData.slideText
     }
 }
