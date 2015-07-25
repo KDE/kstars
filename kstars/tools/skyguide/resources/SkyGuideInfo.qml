@@ -19,78 +19,73 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 
-ColumnLayout {
+Rectangle {
     id: info
-    spacing: 10
-    Layout.alignment: Qt.AlignHCenter
+    gradient: Gradient {
+        GradientStop {
+            position: 0.120
+            color: "#120f16"
+        }
 
-    ObjHeader {}
-
-    ObjRectangle {
-        TextArea {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height - frameHMargin
-            width: parent.width - frameVMargin
-            frameVisible: false
-            font.pixelSize: fontSizeText
-            readOnly: true
-            text: loader.modelData.description
+        GradientStop {
+            position: 0.220
+            color: "#28262f"
         }
     }
 
-    ObjRectangle {
-        Layout.maximumHeight: 100
+    ColumnLayout {
+        anchors.fill: parent
+        Layout.alignment: Qt.AlignHCenter
+
+        ObjHeader {
+            id: header
+        }
+
+        Text {
+            id: description
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: parent.width * 0.9
+            anchors.top: header.bottom
+            anchors.topMargin: 5
+            font.pixelSize: fontSizeText
+            text: loader.modelData.description
+            wrapMode: Text.WordWrap
+            color: "#A3D3F2"
+        }
 
         GridLayout {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height - frameHMargin
-            width: parent.width - frameVMargin
+            id: grid
             columns: 2
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: parent.width * 0.9
+            anchors.top: description.bottom
+            anchors.topMargin: 15
+            property string textcolor: "#ffffff"
 
-            Text { text: "Creation Date:"; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.creationDate; font.pixelSize: fontSizeText; }
+            Text { text: "Creation Date:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.creationDate; color: grid.textcolor; font.pixelSize: fontSizeText; }
 
-            Text { text: "Language:"; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.language; font.pixelSize: fontSizeText; }
+            Text { text: "Language:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.language; color: grid.textcolor; font.pixelSize: fontSizeText; }
 
-            Text { text: "Version:"; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.version; font.pixelSize: fontSizeText; }
+            Text { text: "Version:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.version; color: grid.textcolor; font.pixelSize: fontSizeText; }
 
-            Text { text: "Slides:"; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.contents.length; font.pixelSize: fontSizeText; }
-        }
-    }
-
-    ObjRectangle {
-        Component {
-            id: contentsDelegate
-            Item {
-                width: contentsView.width
-                height: 25
-                Text {
-                    text: title
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: contentsView.currentIndex = index
-                    onDoubleClicked: goToPage(getPageObj('SLIDE', loader.modelData,
-                                                         contentsView.currentIndex))
-                }
-            }
+            Text { text: "Slides:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.contents.length; color: grid.textcolor; font.pixelSize: fontSizeText; }
         }
 
         ListView {
             id: contentsView
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height - frameHMargin
-            width: parent.width - frameVMargin
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillHeight: true;
+            Layout.preferredWidth: parent.width * 0.9
+            anchors.top: grid.bottom
+            anchors.topMargin: 15
+            spacing: 7
             focus: true
             clip: true
             model: ListModel {}
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             delegate: contentsDelegate
             Keys.onReturnPressed: goToPage(getPageObj('SLIDE', loader.modelData,
                                                       contentsView.currentIndex))
@@ -101,9 +96,36 @@ ColumnLayout {
                 }
             }
         }
-    }
 
-    Item {
-        Layout.fillHeight: true;
+        Component {
+            id: contentsDelegate
+            Rectangle {
+                width: contentsView.width
+                height: 25
+                color: ListView.isCurrentItem ? "#157efb" : "#39475C"
+                radius: 5
+
+                Text {
+                    anchors.fill: parent
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    verticalAlignment: Text.AlignVCenter
+                    color: "#ffffff"
+                    text: title
+                    style: Text.Sunken
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: contentsView.currentIndex = index
+                    onDoubleClicked: goToPage(getPageObj('SLIDE', loader.modelData,
+                                                         contentsView.currentIndex))
+                }
+            }
+        }
+
+        Item {
+            Layout.preferredHeight: 40
+        }
     }
 }
