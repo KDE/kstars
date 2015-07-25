@@ -34,20 +34,27 @@ Rectangle {
     }
 
     ColumnLayout {
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+
         Text {
+            anchors.top: parent.top
+            anchors.topMargin: 4
             Layout.alignment: Qt.AlignLeft
             Layout.fillWidth: true
             color: "#ffffff"
-            font.pixelSize: 24
+            font.pixelSize: 22
             style: Text.Raised
             text: loader.modelData.title
         }
 
         RowLayout {
             id: pathMenu
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -2
             property string color: "#2a8af5"
             property string colorHover: "#80b5f1"
-            property int fontSize: 12
+            property int fontSize: 10
 
             Text {
                 id: homePath
