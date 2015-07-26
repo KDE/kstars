@@ -57,6 +57,7 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     }
 
     // slides
+    int i = 1;
     foreach (const QVariant& slide, map.value("slides").toList()) {
         QVariantMap smap = slide.toMap();
         Slide s;
@@ -64,8 +65,9 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
         s.text = smap.value("text").toString();
         s.image = smap.value("image").toString();
         s.centerPoint = smap.value("centerPoint").toString();
-        m_contents.append(s.title);
+        m_contents.append(QString("%1 - %2").arg(i).arg(s.title));
         m_slides.append(s);
+        i++;
     }
 
     m_isValid = true;
