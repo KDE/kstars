@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 2.8.9)
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 2)
 set (KStars_VERSION_MINOR 2)
@@ -10,6 +11,7 @@ configure_file( "${kstars_SOURCE_DIR}/kstars/version.h.cmake"
 
 find_package(Eigen3 REQUIRED)
 find_package(KDE4   REQUIRED)
+find_package(KDeclarative   REQUIRED)
 
 include(KDE4Defaults)
 include_directories (${CMAKE_SOURCE_DIR}
