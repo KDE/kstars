@@ -65,6 +65,7 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
         s.text = smap.value("text").toString();
         s.image = smap.value("image").toString();
         s.centerPoint = smap.value("centerPoint").toString();
+        s.zoomFactor = smap.value("zoomFactor").toDouble();
         m_contents.append(QString("%1 - %2").arg(i).arg(s.title));
         m_slides.append(s);
         i++;
@@ -73,7 +74,7 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     m_isValid = true;
 }
 
-void SkyGuideObject::setCurrentCenterPoint(QString objName) {
+void SkyGuideObject::setCurrentCenterPoint(QString objName) const {
     SkyObject* obj = KStarsData::Instance()->skyComposite()->findByName(objName);
 
     // is it a HD star?
@@ -94,9 +95,16 @@ void SkyGuideObject::setCurrentCenterPoint(QString objName) {
     KStars::Instance()->map()->setDestination(*obj);
 }
 
+void SkyGuideObject::setCurrentZoomFactor(double factor) const {
+    if (factor) {
+        KStars::Instance()->map()->setZoomFactor(factor);
+    }
+}
+
 void SkyGuideObject::setCurrentSlide(int slide) {
     if (slide > -1) {
         setCurrentCenterPoint(m_slides.at(slide).centerPoint);
+        setCurrentZoomFactor(m_slides.at(slide).zoomFactor);
     }
     m_currentSlide = slide;
 }

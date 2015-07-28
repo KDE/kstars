@@ -21,7 +21,8 @@
       "title": "First Slide",
       "image": "example.png",
       "text": "This image shows something to us!",
-      "centerPoint": "Earth"
+      "centerPoint": "Vega",
+      "zoomFactor": 500000
     }
   ]
 }

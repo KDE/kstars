@@ -57,6 +57,7 @@ public:
         QString image;
         QString text;
         QString title;
+        double zoomFactor;
     } Slide;
 
     SkyGuideObject(const QString &path, const QVariantMap &map);
@@ -93,7 +94,8 @@ private:
     QList<Slide> m_slides;
     QStringList m_contents;
 
-    void setCurrentCenterPoint(QString objName);
+    void setCurrentCenterPoint(QString objName) const;
+    void setCurrentZoomFactor(double factor) const;
 };
 
 #endif // SKYGUIDEOBJECT_H
