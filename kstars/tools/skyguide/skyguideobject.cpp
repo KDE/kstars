@@ -93,6 +93,8 @@ void SkyGuideObject::setCurrentCenterPoint(QString objName) const {
     }
 
     KStars::Instance()->map()->setDestination(*obj);
+    KStars::Instance()->map()->setFocusObject(obj);
+    KStars::Instance()->slotTrack();
 }
 
 void SkyGuideObject::setCurrentZoomFactor(double factor) const {
