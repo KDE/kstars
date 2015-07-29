@@ -65,6 +65,7 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
         s.text = smap.value("text").toString();
         s.image = smap.value("image").toString();
         s.centerPoint = smap.value("centerPoint").toString();
+        s.skyDateTime = smap.value("skyDateTime").toDateTime();
         s.zoomFactor = smap.value("zoomFactor").toDouble();
         m_contents.append(QString("%1 - %2").arg(i).arg(s.title));
         m_slides.append(s);
@@ -103,8 +104,15 @@ void SkyGuideObject::setCurrentZoomFactor(double factor) const {
     }
 }
 
+void SkyGuideObject::setCurrentSkyDateTime(QDateTime dt) const {
+    if (dt.isValid()) {
+        KStars::Instance()->data()->changeDateTime(dt);
+    }
+}
+
 void SkyGuideObject::setCurrentSlide(int slide) {
     if (slide > -1) {
+        setCurrentSkyDateTime(m_slides.at(slide).skyDateTime);
         setCurrentCenterPoint(m_slides.at(slide).centerPoint);
         setCurrentZoomFactor(m_slides.at(slide).zoomFactor);
     }

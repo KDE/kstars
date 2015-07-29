@@ -55,6 +55,7 @@ public:
     {
         QString centerPoint;
         QString image;
+        QDateTime skyDateTime;
         QString text;
         QString title;
         double zoomFactor;
@@ -95,6 +96,7 @@ private:
     QStringList m_contents;
 
     void setCurrentCenterPoint(QString objName) const;
+    void setCurrentSkyDateTime(QDateTime dt) const;
     void setCurrentZoomFactor(double factor) const;
 };
 

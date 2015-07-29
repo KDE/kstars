@@ -22,6 +22,7 @@
       "image": "example.png",
       "text": "This image shows something to us!",
       "centerPoint": "Vega",
+      "skyDateTime": "2000-12-01T20:33:06",
       "zoomFactor": 500000
     }
   ]
