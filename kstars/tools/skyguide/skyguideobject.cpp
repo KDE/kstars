@@ -19,6 +19,7 @@
 #include <QJsonObject>
 
 #include "kstarsdata.h"
+#include "Options.h"
 #include "skyguideobject.h"
 #include "skymap.h"
 #include "skycomponents/starcomponent.h"
@@ -93,7 +94,12 @@ void SkyGuideObject::setCurrentCenterPoint(QString objName) const {
         return;
     }
 
+    if (Options::isTracking()) {
+        KStars::Instance()->slotTrack(); // call it once to untrack
+    }
+
     KStars::Instance()->map()->setDestination(*obj);
+    KStars::Instance()->map()->setClickedObject(obj);
     KStars::Instance()->map()->setFocusObject(obj);
     KStars::Instance()->slotTrack();
 }
