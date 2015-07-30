@@ -390,6 +390,10 @@ void KStars::initActions() {
         << xi18n("Sky Guide")
         << QKeySequence( Qt::CTRL+Qt::Key_K );
 
+    actionCollection()->addAction("skyguidewriter", this, SLOT( slotSkyGuideWriter() ) )
+        << xi18n("SkyGuide Writer")
+        << QKeySequence( Qt::CTRL+Qt::Key_W );
+
     //FIXME Port to QML2
     #if 0
     actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )

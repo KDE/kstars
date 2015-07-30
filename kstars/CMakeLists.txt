@@ -159,20 +159,21 @@ set(libkstarstools_SRCS
         tools/modcalcvlsr.cpp
         tools/observinglist.cpp
         tools/obslistpopupmenu.cpp
-	tools/sessionsortfilterproxymodel.cpp
-	tools/obslistwizard.cpp
-	tools/planetviewer.cpp
-	tools/pvplotwidget.cpp
-	tools/scriptargwidgets.cpp
-	tools/scriptbuilder.cpp
-	tools/scriptfunction.cpp
-	tools/skycalendar.cpp
-	tools/wutdialog.cpp
+        tools/sessionsortfilterproxymodel.cpp
+        tools/obslistwizard.cpp
+        tools/planetviewer.cpp
+      	tools/pvplotwidget.cpp
+      	tools/scriptargwidgets.cpp
+      	tools/scriptbuilder.cpp
+      	tools/scriptfunction.cpp
+      	tools/skycalendar.cpp
+      	tools/wutdialog.cpp
         tools/flagmanager.cpp
 
-	tools/skyguide/skyguidemgr.cpp
-	tools/skyguide/skyguideobject.cpp
-	tools/skyguide/skyguideview.cpp
+      	tools/skyguide/skyguidemgr.cpp
+      	tools/skyguide/skyguideobject.cpp
+      	tools/skyguide/skyguideview.cpp
+        tools/skyguide/skyguidewriter.cpp
 
         #FIXME Port to QML2
         #tools/whatsinteresting/skyobjlistmodel.cpp
@@ -222,15 +223,16 @@ ki18n_wrap_ui(libkstarstools_SRCS
         tools/modcalcplanets.ui
         tools/modcalcsidtime.ui
         tools/modcalcvlsr.ui
-	tools/observinglist.ui
-	tools/obslistwizard.ui
-	tools/optionstreeview.ui
-	tools/planetviewer.ui
-	tools/scriptbuilder.ui
-	tools/scriptnamedialog.ui
-	tools/skycalendar.ui
-	tools/wutdialog.ui
-	tools/flagmanager.ui
+	      tools/observinglist.ui
+	      tools/obslistwizard.ui
+	      tools/optionstreeview.ui
+	      tools/planetviewer.ui
+	      tools/scriptbuilder.ui
+	      tools/scriptnamedialog.ui
+	      tools/skycalendar.ui
+	      tools/wutdialog.ui
+	      tools/flagmanager.ui
+        tools/skyguide/skyguidewriter.ui
         tools/whatsinteresting/wilpsettings.ui
         tools/whatsinteresting/wiequipsettings.ui
         tools/starhopperdialog.ui

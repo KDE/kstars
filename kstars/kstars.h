@@ -46,6 +46,7 @@ class ObsConditions;
 class AstroCalc;
 class SkyCalendar;
 class SkyGuideMgr;
+class SkyGuideWriter;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
@@ -470,6 +471,9 @@ private slots:
     /** action slot: open Sky Guide */
     void slotSkyGuide();
 
+    /** action slot: open Sky Guide Writer */
+    void slotSkyGuideWriter();
+
     //FIXME Port to QML2
     #if 0    
     /** action slot: open What's Interesting settings window */
@@ -637,6 +641,7 @@ private:
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
     SkyGuideMgr *m_SkyGuideMgr;
+    SkyGuideWriter *m_SkyGuideWriter;
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

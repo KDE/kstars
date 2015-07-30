@@ -87,6 +87,7 @@
 
 #include "tools/skycalendar.h"
 #include "tools/skyguide/skyguidemgr.h"
+#include "tools/skyguide/skyguidewriter.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
@@ -342,6 +343,13 @@ void KStars::slotSkyGuide() {
     bool isVisible = m_SkyGuideMgr->view()->dock()->isVisible();
     m_SkyGuideMgr->view()->dock()->setVisible(!isVisible);
     this->repaint();
+}
+
+void KStars::slotSkyGuideWriter() {
+    if ( ! m_SkyGuideWriter ) {
+        m_SkyGuideWriter = new SkyGuideWriter(this);
+    }
+    m_SkyGuideWriter->show();
 }
 
 //FIXME Port to QML2
