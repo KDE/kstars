@@ -387,7 +387,7 @@ void KStars::initActions() {
         << QKeySequence( Qt::CTRL+Qt::Key_U );
 
     actionCollection()->addAction("skyguide", this, SLOT( slotSkyGuide() ) )
-        << xi18n("Sky Guide")
+        << xi18n("SkyGuide Viewer")
         << QKeySequence( Qt::CTRL+Qt::Key_K );
 
     actionCollection()->addAction("skyguidewriter", this, SLOT( slotSkyGuideWriter() ) )
