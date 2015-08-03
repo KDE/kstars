@@ -244,6 +244,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="bSaveAs">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="bPreview">
        <property name="focusPolicy">
         <enum>Qt::TabFocus</enum>
