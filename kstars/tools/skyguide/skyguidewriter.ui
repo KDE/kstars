@@ -254,7 +254,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="bPreview">
+      <widget class="QPushButton" name="bInstall">
        <property name="focusPolicy">
         <enum>Qt::TabFocus</enum>
        </property>
