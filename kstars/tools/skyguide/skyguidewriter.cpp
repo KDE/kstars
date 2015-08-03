@@ -23,6 +23,11 @@ SkyGuideWriterUI::SkyGuideWriterUI(QWidget *parent) : QFrame(parent) {
 
 SkyGuideWriter::SkyGuideWriter(QWidget *parent) : QDialog(parent),
                                                   m_ui(new SkyGuideWriterUI) {
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    mainLayout->addWidget(m_ui);
+    setLayout(mainLayout);
+    setWindowTitle(xi18n("SkyGuide Writer"));
+    setModal( false );
 }
 
 SkyGuideWriter::~SkyGuideWriter() {
