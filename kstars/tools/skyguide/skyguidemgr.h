@@ -21,6 +21,8 @@
 #include "skyguideobject.h"
 #include "skyguideview.h"
 
+#define JSON_NAME QString("guide.json")
+
 class SkyGuideMgr : public QObject
 {
     Q_OBJECT
@@ -29,6 +31,10 @@ public:
     virtual ~SkyGuideMgr();
 
     SkyGuideView* view() { return m_view; }
+
+    QDir getGuidesDir() { return m_guidesDir; }
+
+    SkyGuideObject* buildSkyGuideObject(const QString& guideDir);
 
 private slots:
     void slotAddSkyGuide();
@@ -39,7 +45,7 @@ private:
     QDir m_guidesDir;
 
     void loadAllSkyGuideObjects();
-    bool loadSkyGuideObject(const QString& guidePath, const QString &filename);
+    bool loadSkyGuideObject(SkyGuideObject* skyGuideObj);
 };
 
 #endif // SKYGUIDEMGR_H
