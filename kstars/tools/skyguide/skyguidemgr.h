@@ -28,7 +28,7 @@ public:
     SkyGuideMgr();
     virtual ~SkyGuideMgr();
 
-    inline SkyGuideView* view() { return m_view; }
+    SkyGuideView* view() { return m_view; }
 
 private slots:
     void slotAddSkyGuide();
