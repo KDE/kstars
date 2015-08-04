@@ -34,7 +34,7 @@ public:
 
     QDir getGuidesDir() { return m_guidesDir; }
 
-    SkyGuideObject* buildSkyGuideObject(const QString& guideDir);
+    SkyGuideObject* buildSkyGuideObject(const QString& jsonPath);
 
 private slots:
     void slotAddSkyGuide();

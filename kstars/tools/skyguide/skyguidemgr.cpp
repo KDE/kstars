@@ -50,7 +50,7 @@ void SkyGuideMgr::loadAllSkyGuideObjects() {
         QFileInfoList guideFiles = guideDir.entryInfoList();
         foreach (QFileInfo g, guideFiles) {
             if (g.fileName() == JSON_NAME) {
-                SkyGuideObject* s = buildSkyGuideObject(g.absolutePath());
+                SkyGuideObject* s = buildSkyGuideObject(g.absoluteFilePath());
                 loadSkyGuideObject(s);
             }
         }
@@ -77,19 +77,24 @@ bool SkyGuideMgr::loadSkyGuideObject(SkyGuideObject* skyGuideObj) {
     return true;
 }
 
-SkyGuideObject* SkyGuideMgr::buildSkyGuideObject(const QString& guideDir) {
-    QString jsonPath = QDir::toNativeSeparators(guideDir + "/" + JSON_NAME);
-    QFile jsonFile(jsonPath);
-    if (!jsonFile.exists()) {
-        qWarning() << "SkyGuideMgr: The JSON file does not exist!" << jsonPath;
+SkyGuideObject* SkyGuideMgr::buildSkyGuideObject(const QString& jsonPath) {
+    QFileInfo info(jsonPath);
+    if (info.fileName() != JSON_NAME || !info.exists()) {
+        qWarning() << "SkyGuideMgr: The JSON file is invalid or does not exist!"
+                   << jsonPath;
         return NULL;
-    } else if (!jsonFile.open(QIODevice::ReadOnly)) {
+    }
+
+    QFile jsonFile(jsonPath);
+    if (!jsonFile.open(QIODevice::ReadOnly)) {
         qWarning() << "SkyGuideMgr: Couldn't open the JSON file!" << jsonPath;
         return NULL;
     }
 
     QJsonObject json(QJsonDocument::fromJson(jsonFile.readAll()).object());
-    SkyGuideObject* s = new SkyGuideObject(guideDir, json.toVariantMap());
+    jsonFile.close();
+
+    SkyGuideObject* s = new SkyGuideObject(info.absolutePath(), json.toVariantMap());
     if (!s->isValid()) {
         qWarning()  << "SkyGuideMgr: SkyGuide is invalid!" << jsonPath;
         return NULL;
@@ -137,7 +142,7 @@ void SkyGuideMgr::slotAddSkyGuide() {
     archive.close();
 
     // build the SkyGuideObject
-    SkyGuideObject* sObj = buildSkyGuideObject(tmpDir.absolutePath());
+    SkyGuideObject* sObj = buildSkyGuideObject(tmpDir.absoluteFilePath(JSON_NAME));
 
     // try to load it!
     if (!loadSkyGuideObject(sObj)) {
