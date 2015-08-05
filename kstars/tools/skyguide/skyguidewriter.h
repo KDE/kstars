@@ -20,6 +20,7 @@
 
 #include <QDialog>
 
+#include "skyguideobject.h"
 #include "ui_skyguidewriter.h"
 
 class SkyGuideWriterUI : public QFrame, public Ui::SkyGuideWriter {
@@ -39,8 +40,20 @@ class SkyGuideWriter : public QDialog
         SkyGuideWriter(QWidget *parent=0);
         ~SkyGuideWriter();
 
+    private slots:
+        void slotNew();
+        void slotOpen();
+        void slotSave();
+        void slotSaveAs();
+        void slotInstall();
+
     private:
         SkyGuideWriterUI* m_ui;
+        SkyGuideObject* m_skyGuideObject;
+        bool m_unsavedChanges;
+
+        void saveWarning();
+        void setUnsavedChanges(bool b);
 };
 
 #endif // SKYGUIDEWRITER_H

@@ -130,6 +130,9 @@ public:
 
     inline PrintingWizard* printingWizard() const { return m_PrintingWizard; }
 
+    /** @return the SkyGuideMgr instance. */
+    SkyGuideMgr* getSkyGuideMgr() { return m_SkyGuideMgr; }
+
     #ifdef HAVE_INDI
     EkosManager *ekosManager();
     #endif
