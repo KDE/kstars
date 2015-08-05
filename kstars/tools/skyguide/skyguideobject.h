@@ -33,8 +33,8 @@ class SkyGuideObject : public QObject
     Q_PROPERTY(QString title READ title CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(QString language READ language CONSTANT)
-    Q_PROPERTY(QString creationDate READ creationDate CONSTANT)
-    Q_PROPERTY(QString version  READ version CONSTANT)
+    Q_PROPERTY(QString creationDateStr READ creationDateStr CONSTANT)
+    Q_PROPERTY(int version  READ version CONSTANT)
 
     // slides
     Q_PROPERTY(QStringList contents READ contents CONSTANT)
@@ -64,15 +64,19 @@ public:
     SkyGuideObject(const QString &path, const QVariantMap &map);
 
     bool isValid() { return m_isValid; }
+
+    QString path() { return m_path; }
     void setPath(QString path) { m_path = path; }
+
     int currentSlide() { return m_currentSlide; }
     void setCurrentSlide(int slide);
 
     QString title() { return m_title; }
     QString description() { return m_description; }
     QString language() { return m_language; }
-    QString creationDate() { return m_creationDate.toString("MMMM d, yyyy"); }
-    QString version() { return QString::number(m_version); }
+    QDate creationDate() { return m_creationDate; }
+    QString creationDateStr() { return m_creationDate.toString("MMMM d, yyyy"); }
+    int version() { return m_version; }
 
     QStringList contents() { return m_contents; }
     QString slideTitle();

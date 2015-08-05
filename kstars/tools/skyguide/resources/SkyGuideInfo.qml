@@ -63,7 +63,7 @@ Rectangle {
             property string textcolor: "#ffffff"
 
             Text { text: "Creation Date:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.creationDate; color: grid.textcolor; font.pixelSize: fontSizeText; }
+            Text { text: loader.modelData.creationDateStr; color: grid.textcolor; font.pixelSize: fontSizeText; }
 
             Text { text: "Language:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
             Text { text: loader.modelData.language; color: grid.textcolor; font.pixelSize: fontSizeText; }
