@@ -20,6 +20,7 @@
 
 #include "skyguideobject.h"
 #include "skyguideview.h"
+#include "skyguidewriter.h"
 
 #define JSON_NAME QString("guide.json")
 
@@ -31,6 +32,7 @@ public:
     virtual ~SkyGuideMgr();
 
     SkyGuideView* view() { return m_view; }
+    SkyGuideWriter* getSkyGuideWriter() { return m_skyGuideWriter; }
 
     QDir getGuidesDir() { return m_guidesDir; }
 
@@ -41,6 +43,7 @@ private slots:
 
 private:
     SkyGuideView* m_view;
+    SkyGuideWriter* m_skyGuideWriter;
     QList<QObject*> m_skyGuideObjects;
     QDir m_guidesDir;
 

@@ -23,6 +23,8 @@
 #include "skyguideobject.h"
 #include "ui_skyguidewriter.h"
 
+class SkyGuideMgr;
+
 class SkyGuideWriterUI : public QFrame, public Ui::SkyGuideWriter {
     Q_OBJECT
 
@@ -37,7 +39,7 @@ class SkyGuideWriter : public QDialog
     Q_OBJECT
 
     public:
-        SkyGuideWriter(QWidget *parent=0);
+        SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent=0);
         ~SkyGuideWriter();
 
     private slots:
@@ -49,6 +51,7 @@ class SkyGuideWriter : public QDialog
 
     private:
         SkyGuideWriterUI* m_ui;
+        SkyGuideMgr* m_skyGuideMgr;
         SkyGuideObject* m_skyGuideObject;
         bool m_unsavedChanges;
 

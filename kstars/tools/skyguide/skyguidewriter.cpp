@@ -27,10 +27,13 @@ SkyGuideWriterUI::SkyGuideWriterUI(QWidget *parent) : QFrame(parent) {
     setupUi(this);
 }
 
-SkyGuideWriter::SkyGuideWriter(QWidget *parent) : QDialog(parent),
-                                                  m_ui(new SkyGuideWriterUI),
-                                                  m_skyGuideObject(NULL),
-                                                  m_unsavedChanges(false) {
+SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
+        : QDialog(parent)
+        , m_ui(new SkyGuideWriterUI)
+        , m_skyGuideMgr(mgr)
+        , m_skyGuideObject(NULL)
+        , m_unsavedChanges(false)
+{
     // setup main frame
     QVBoxLayout *mainLayout = new QVBoxLayout();
     mainLayout->addWidget(m_ui);
@@ -94,12 +97,11 @@ void SkyGuideWriter::slotOpen() {
     }
 
     QString initialDir = m_skyGuideObject
-                ? m_skyGuideObject->path()
-                : KStars::Instance()->getSkyGuideMgr()->getGuidesDir().absolutePath();
+                       ? m_skyGuideObject->path()
+                       : m_skyGuideMgr->getGuidesDir().absolutePath();
 
     QString jsonPath = QFileDialog::getOpenFileName(NULL, "Open SkyGuide", initialDir, "JSON (*.json)");
-
-    SkyGuideObject* s = KStars::Instance()->getSkyGuideMgr()->buildSkyGuideObject(jsonPath);
+    SkyGuideObject* s = m_skyGuideMgr->buildSkyGuideObject(jsonPath);
     if (!s) {
         return;
     }

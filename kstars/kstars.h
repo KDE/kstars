@@ -46,7 +46,6 @@ class ObsConditions;
 class AstroCalc;
 class SkyCalendar;
 class SkyGuideMgr;
-class SkyGuideWriter;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
@@ -129,9 +128,6 @@ public:
     inline FlagManager* flagManager() const { return m_FlagManager; }
 
     inline PrintingWizard* printingWizard() const { return m_PrintingWizard; }
-
-    /** @return the SkyGuideMgr instance. */
-    SkyGuideMgr* getSkyGuideMgr() { return m_SkyGuideMgr; }
 
     #ifdef HAVE_INDI
     EkosManager *ekosManager();
@@ -644,7 +640,6 @@ private:
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
     SkyGuideMgr *m_SkyGuideMgr;
-    SkyGuideWriter *m_SkyGuideWriter;
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

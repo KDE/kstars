@@ -337,19 +337,23 @@ void KStars::slotWUT() {
 void KStars::slotSkyGuide() {
     if ( ! m_SkyGuideMgr ) {
         m_SkyGuideMgr = new SkyGuideMgr();
+    }
+
+    bool isVisible = m_SkyGuideMgr->view()->dock()->isVisible();
+    if (!isVisible) {
         addDockWidget(Qt::RightDockWidgetArea, m_SkyGuideMgr->view()->dock());
     }
+
     // toggle visibility
-    bool isVisible = m_SkyGuideMgr->view()->dock()->isVisible();
     m_SkyGuideMgr->view()->dock()->setVisible(!isVisible);
     this->repaint();
 }
 
 void KStars::slotSkyGuideWriter() {
-    if ( ! m_SkyGuideWriter ) {
-        m_SkyGuideWriter = new SkyGuideWriter(this);
+    if ( ! m_SkyGuideMgr ) {
+        m_SkyGuideMgr = new SkyGuideMgr();
     }
-    m_SkyGuideWriter->show();
+    m_SkyGuideMgr->getSkyGuideWriter()->show();
 }
 
 //FIXME Port to QML2

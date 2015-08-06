@@ -23,20 +23,22 @@
 #include <QStandardPaths>
 #include <kzip.h>
 
+#include "kstars.h"
 #include "skyguidemgr.h"
 
 SkyGuideMgr::SkyGuideMgr()
-    : m_view(new SkyGuideView())
+        : m_view(new SkyGuideView())
 {
     m_guidesDir = QDir(QStandardPaths::locate(QStandardPaths::DataLocation,
             "tools/skyguide/resources/guides", QStandardPaths::LocateDirectory));
 
     loadAllSkyGuideObjects();
     connect((QObject*)m_view->rootObject(), SIGNAL(addSkyGuide()), this, SLOT(slotAddSkyGuide()));
+
+    m_skyGuideWriter = new SkyGuideWriter(this, KStars::Instance());
 }
 
-SkyGuideMgr::~SkyGuideMgr()
-{
+SkyGuideMgr::~SkyGuideMgr() {
 }
 
 void SkyGuideMgr::loadAllSkyGuideObjects() {
