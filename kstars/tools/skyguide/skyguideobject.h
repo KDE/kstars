@@ -77,7 +77,9 @@ public:
     QDate creationDate() { return m_creationDate; }
     QString creationDateStr() { return m_creationDate.toString("MMMM d, yyyy"); }
     int version() { return m_version; }
+    QList<Author> authors() { return m_authors; }
 
+    QList<Slide> slides() { return m_slides; }
     QStringList contents() { return m_contents; }
     QString slideTitle();
     QString slideText();

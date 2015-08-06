@@ -111,7 +111,15 @@ void SkyGuideWriter::slotOpen() {
     m_ui->fCreationDate->setDate(s->creationDate());
     m_ui->fVersion->setValue(s->version());
 
-    // TODO fill the list of authors and slides
+    QList<SkyGuideObject::Author> authors = s->authors();
+    foreach (SkyGuideObject::Author a, authors) {
+        m_ui->listOfAuthors->addItem(a.name);
+    }
+
+    QStringList contents = s->contents();
+    foreach (QString t, contents) {
+        m_ui->listOfSlides->addItem(t);
+    }
 
     m_skyGuideObject = s;
 }
