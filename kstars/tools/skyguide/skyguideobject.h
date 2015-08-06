@@ -74,11 +74,21 @@ public:
     void setCurrentSlide(int slide);
 
     QString title() { return m_title; }
+    void setTitle(QString title) { m_title = title; }
+
     QString description() { return m_description; }
+    void setDescription(QString desc) { m_description = desc; }
+
     QString language() { return m_language; }
+    void setLanguage(QString lang) { m_language = lang; }
+
     QDate creationDate() { return m_creationDate; }
     QString creationDateStr() { return m_creationDate.toString("MMMM d, yyyy"); }
+    void setCreationDate(QDate date) { m_creationDate = date; }
+
     int version() { return m_version; }
+    void setVersion(int version) { m_version = version; }
+
     QList<Author> authors() { return m_authors; }
 
     QList<Slide> slides() { return m_slides; }
