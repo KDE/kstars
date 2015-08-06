@@ -145,3 +145,41 @@ QString SkyGuideObject::slideImgPath() {
     }
     return m_path + QDir::toNativeSeparators("/" + m_slides.at(m_currentSlide).image);
 }
+
+QJsonDocument SkyGuideObject::toJsonDocument() {
+    QJsonArray authors;
+    foreach (Author a, m_authors) {
+        QJsonObject aObj;
+        aObj.insert("name", a.name);
+        aObj.insert("email", a.email);
+        aObj.insert("url", a.url);
+        authors.append(aObj);
+    }
+
+    QJsonObject header;
+    header.insert("title", m_title);
+    header.insert("description", m_description);
+    header.insert("language", m_language);
+    header.insert("creationDate", creationDateStr());
+    header.insert("version", m_version);
+    header.insert("authors", authors);
+
+    QJsonArray slides;
+    foreach (Slide s, m_slides) {
+        QJsonObject slide;
+        slide.insert("title", s.title);
+        slide.insert("image", s.image);
+        slide.insert("text", s.text);
+        slide.insert("centerPoint", s.centerPoint);
+        slide.insert("skyDateTime", s.skyDateTime.toString());
+        slide.insert("zoomFactor", s.zoomFactor);
+        authors.append(slide);
+    }
+
+    QJsonObject jsonObj;
+    jsonObj.insert("formatVersion", SKYGUIDE_FORMAT_VERSION);
+    jsonObj.insert("header", header);
+    jsonObj.insert("slides", slides);
+
+    return QJsonDocument(jsonObj);
+}

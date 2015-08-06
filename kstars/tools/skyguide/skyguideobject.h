@@ -63,6 +63,8 @@ public:
 
     SkyGuideObject(const QString &path, const QVariantMap &map);
 
+    QJsonDocument toJsonDocument();
+
     bool isValid() { return m_isValid; }
 
     QString path() { return m_path; }
