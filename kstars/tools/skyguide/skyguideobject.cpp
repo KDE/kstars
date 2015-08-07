@@ -206,10 +206,10 @@ QString SkyGuideObject::toZip() {
         if (s.image.isEmpty()) {
             continue;
         }
-        QFile img(s.image);
-        if (!img.exists() || !img.isReadable()) {
-            qWarning() << "SkyGuideMgr: Unable to copy image!"
-                       << s.image;
+        QString imgPath = m_path + "/" + s.image;
+        QFile img(imgPath);
+        if (!img.open(QIODevice::ReadOnly)) {
+            qWarning() << "SkyGuideMgr: Unable to read image!" << imgPath;
             continue;
         }
         archive.writeFile(s.image, img.readAll(), perm);
