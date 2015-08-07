@@ -61,6 +61,12 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     connect(m_ui->bSaveAs, SIGNAL(clicked()), this, SLOT(slotSaveAs()));
     connect(m_ui->bInstall, SIGNAL(clicked()), this, SLOT(slotInstall()));
 
+    // some field changed? calls slotFieldsChanged()
+    connect(m_ui->fTitle, SIGNAL(textChanged(QString)), this, SLOT(slotFieldsChanged()));
+    connect(m_ui->fDescription, SIGNAL(textChanged()), this, SLOT(slotFieldsChanged()));
+    connect(m_ui->fCreationDate, SIGNAL(dateChanged(QDate)), this, SLOT(slotFieldsChanged()));
+    connect(m_ui->fVersion, SIGNAL(valueChanged(int)), this, SLOT(slotFieldsChanged()));
+
     // create new SkyGuide
     slotNew();
 }
@@ -76,18 +82,24 @@ void SkyGuideWriter::slotNew() {
     if (m_unsavedChanges) {
         return;
     }
+
+    this->blockSignals(true);
     m_ui->fTitle->clear();
     m_ui->fDescription->clear();
     m_ui->fCreationDate->setDate(QDate::currentDate());
     m_ui->fVersion->clear();
     m_ui->listOfAuthors->clear();
     m_ui->listOfSlides->clear();
+    this->blockSignals(false);
 
     m_ui->bSave->setEnabled(false);
     m_ui->bInstall->setEnabled(false);
 
-    delete m_skyGuideObject;
-    m_skyGuideObject = NULL;
+    QVariantMap map;
+    map.insert("formatVersion", SKYGUIDE_FORMAT_VERSION);
+    map.insert("header", QVariant());
+    map.insert("slides", QVariant());
+    m_skyGuideObject = new SkyGuideObject("", map);
 }
 
 void SkyGuideWriter::slotOpen() {
@@ -134,6 +146,17 @@ void SkyGuideWriter::slotSaveAs() {
 
 void SkyGuideWriter::slotInstall() {
     // TODO
+}
+
+void SkyGuideWriter::slotFieldsChanged() {
+    if (!m_skyGuideObject) {
+        return;
+    }
+    m_skyGuideObject->setTitle(m_ui->fTitle->text());
+    m_skyGuideObject->setDescription(m_ui->fDescription->toPlainText());
+    m_skyGuideObject->setCreationDate(m_ui->fCreationDate->date());
+    m_skyGuideObject->setVersion(m_ui->fVersion->value());
+    setUnsavedChanges(true);
 }
 
 void SkyGuideWriter::saveWarning() {

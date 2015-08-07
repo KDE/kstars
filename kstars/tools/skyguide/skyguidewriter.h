@@ -49,6 +49,8 @@ class SkyGuideWriter : public QDialog
         void slotSaveAs();
         void slotInstall();
 
+        void slotFieldsChanged();
+
     private:
         SkyGuideWriterUI* m_ui;
         SkyGuideMgr* m_skyGuideMgr;
