@@ -17,9 +17,11 @@
 
 #include <QtDebug>
 #include <QJsonObject>
+#include <kzip.h>
 
 #include "kstarsdata.h"
 #include "Options.h"
+#include "skyguidemgr.h"
 #include "skyguideobject.h"
 #include "skymap.h"
 #include "skycomponents/starcomponent.h"
@@ -182,4 +184,37 @@ QJsonDocument SkyGuideObject::toJsonDocument() {
     jsonObj.insert("slides", slides);
 
     return QJsonDocument(jsonObj);
+}
+
+QString SkyGuideObject::toZip() {
+    // Create a zip archive
+    QString tmpZipPath = QDir::tempPath() + "/" + m_title + ".zip";
+    QFile(tmpZipPath).remove();
+    KZip archive(tmpZipPath);
+    if (!archive.open(QIODevice::WriteOnly)) {
+        qWarning() << "SkyGuideMgr: Couldn't create a temporary zip archive!";
+        return "";
+    }
+
+    mode_t perm = 0100644;
+    // creates the guide.json file
+    archive.writeFile(JSON_NAME, toJsonDocument().toJson(), perm);
+
+    // copy all images
+    QList<SkyGuideObject::Slide> slides = m_slides;
+    foreach (SkyGuideObject::Slide s, slides) {
+        if (s.image.isEmpty()) {
+            continue;
+        }
+        QFile img(s.image);
+        if (!img.exists() || !img.isReadable()) {
+            qWarning() << "SkyGuideMgr: Unable to copy image!"
+                       << s.image;
+            continue;
+        }
+        archive.writeFile(s.image, img.readAll(), perm);
+    }
+    archive.close();
+
+    return tmpZipPath;
 }

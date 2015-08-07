@@ -65,6 +65,8 @@ public:
 
     QJsonDocument toJsonDocument();
 
+    QString toZip();
+
     bool isValid() { return m_isValid; }
 
     QString path() { return m_path; }
