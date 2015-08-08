@@ -338,15 +338,10 @@ void KStars::slotSkyGuide() {
     if ( ! m_SkyGuideMgr ) {
         m_SkyGuideMgr = new SkyGuideMgr();
     }
-
-    bool isVisible = m_SkyGuideMgr->view()->dock()->isVisible();
-    if (!isVisible) {
-        addDockWidget(Qt::RightDockWidgetArea, m_SkyGuideMgr->view()->dock());
-    }
-
     // toggle visibility
-    m_SkyGuideMgr->view()->dock()->setVisible(!isVisible);
-    this->repaint();
+    bool isVisible = m_SkyGuideMgr->view()->isVisible();
+    m_SkyGuideMgr->view()->setVisible(!isVisible);
+    this->update();
 }
 
 void KStars::slotSkyGuideWriter() {

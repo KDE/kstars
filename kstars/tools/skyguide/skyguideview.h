@@ -31,12 +31,14 @@ public:
 
     QDockWidget* dock() { return m_dock; }
 
+    void setVisible(bool visible);
     void setModel(QList<QObject*> guides);
 
 private:
     QDockWidget* m_dock;
+    bool m_firstLoading;
 
-    void updateDock();
+    void initDock();
 };
 
 #endif // SKYGUIDEVIEW_H
