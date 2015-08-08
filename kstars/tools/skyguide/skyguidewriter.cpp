@@ -64,6 +64,7 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     // some field changed? calls slotFieldsChanged()
     connect(m_ui->fTitle, SIGNAL(textChanged(QString)), this, SLOT(slotFieldsChanged()));
     connect(m_ui->fDescription, SIGNAL(textChanged()), this, SLOT(slotFieldsChanged()));
+    connect(m_ui->fLanguage, SIGNAL(textChanged(QString)), this, SLOT(slotFieldsChanged()));
     connect(m_ui->fCreationDate, SIGNAL(dateChanged(QDate)), this, SLOT(slotFieldsChanged()));
     connect(m_ui->fVersion, SIGNAL(valueChanged(int)), this, SLOT(slotFieldsChanged()));
 
@@ -86,6 +87,7 @@ void SkyGuideWriter::slotNew() {
     this->blockSignals(true);
     m_ui->fTitle->clear();
     m_ui->fDescription->clear();
+    m_ui->fLanguage->clear();
     m_ui->fCreationDate->setDate(QDate::currentDate());
     m_ui->fVersion->clear();
     m_ui->listOfAuthors->clear();
@@ -124,6 +126,7 @@ void SkyGuideWriter::slotOpen() {
 
     m_ui->fTitle->setText(s->title());
     m_ui->fDescription->setText(s->description());
+    m_ui->fLanguage->setText(s->language());
     m_ui->fCreationDate->setDate(s->creationDate());
     m_ui->fVersion->setValue(s->version());
 
@@ -189,6 +192,7 @@ void SkyGuideWriter::slotFieldsChanged() {
     }
     m_skyGuideObject->setTitle(m_ui->fTitle->text());
     m_skyGuideObject->setDescription(m_ui->fDescription->toPlainText());
+    m_skyGuideObject->setTitle(m_ui->fLanguage->text());
     m_skyGuideObject->setCreationDate(m_ui->fCreationDate->date());
     m_skyGuideObject->setVersion(m_ui->fVersion->value());
     setUnsavedChanges(true);
