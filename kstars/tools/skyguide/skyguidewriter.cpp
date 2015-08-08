@@ -112,7 +112,11 @@ void SkyGuideWriter::slotOpen() {
                        ? m_skyGuideObject->path()
                        : m_skyGuideMgr->getGuidesDir().absolutePath();
 
-    QString jsonPath = QFileDialog::getOpenFileName(NULL, "Open SkyGuide", initialDir, "JSON (*.json)");
+    QString jsonPath = QFileDialog::getOpenFileName(KStars::Instance(),
+                                                    "Open SkyGuide",
+                                                    initialDir,
+                                                    "JSON (*.json)");
+
     SkyGuideObject* s = m_skyGuideMgr->buildSkyGuideObject(jsonPath);
     if (!s) {
         return;
@@ -137,11 +141,42 @@ void SkyGuideWriter::slotOpen() {
 }
 
 void SkyGuideWriter::slotSave() {
-    // TODO
+    if (!m_skyGuideObject) {
+        return;
+    }
+    QString savePath;
+    if (m_skyGuideObject->path().isEmpty()) {
+        savePath = QFileDialog::getSaveFileName(KStars::Instance(),
+                                                "Save SkyGuide",
+                                                m_skyGuideObject->title() + ".zip",
+                                                "Zip (*.zip)");
+    } else {
+        savePath = m_skyGuideObject->path() + "/" + m_skyGuideObject->title() + ".zip";
+    }
+    QFile::remove(savePath);
+    QFile tmpFile(m_skyGuideObject->toZip());
+    if (savePath.isEmpty() || !tmpFile.copy(savePath)) {
+        qWarning() << "SkyGuideMgr: the SkyGuide could not be stored on: "
+                   << QDir::toNativeSeparators(savePath);
+    } else {
+        m_skyGuideObject->setPath(QFileInfo(savePath).absolutePath());
+        setUnsavedChanges(false);
+    }
+    tmpFile.remove();
 }
 
 void SkyGuideWriter::slotSaveAs() {
-    // TODO
+    if (!m_skyGuideObject) {
+        return;
+    }
+
+    QString oldPath = m_skyGuideObject->path();
+    m_skyGuideObject->setPath("");
+    slotSave();
+
+    if (m_skyGuideObject->path().isEmpty()) {
+        m_skyGuideObject->setPath(oldPath);
+    }
 }
 
 void SkyGuideWriter::slotInstall() {
