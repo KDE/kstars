@@ -195,14 +195,28 @@ void SkyGuideWriter::slotUpdateButtons() {
 
 void SkyGuideWriter::slotRemoveAuthor() {
     QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
-    authors.removeAt(m_ui->listOfAuthors->currentRow());
+    for (int i = 0; i < m_ui->listOfAuthors->count(); ++i) {
+        QListWidgetItem* item = m_ui->listOfAuthors->item(i);
+        if (item->isSelected()) {
+            delete m_ui->listOfAuthors->takeItem(i);
+            authors.removeAt(i);
+            --i;
+        }
+    }
     m_skyGuideObject->setAuthors(authors);
     populateFields();
 }
 
 void SkyGuideWriter::slotRemoveSlide() {
     QList<SkyGuideObject::Slide> slides = m_skyGuideObject->slides();
-    slides.removeAt(m_ui->listOfSlides->currentRow());
+    for (int i = 0; i < m_ui->listOfSlides->count(); ++i) {
+        QListWidgetItem* item = m_ui->listOfSlides->item(i);
+        if (item->isSelected()) {
+            delete m_ui->listOfSlides->takeItem(i);
+            slides.removeAt(i);
+            --i;
+        }
+    }
     m_skyGuideObject->setSlides(slides);
     populateFields();
 }
