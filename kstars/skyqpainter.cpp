@@ -75,14 +75,6 @@ namespace {
 
 int SkyQPainter::starColorMode = 0;
 
-dms SkyQPainter::ra = dms(360);
-dms SkyQPainter::dec = dms(90);
-dms SkyQPainter::pa = dms(15);
-dms SkyQPainter::cw = dms(30);
-dms SkyQPainter::ch = dms(30);
-
-
-
 
 SkyQPainter::SkyQPainter( QPaintDevice *pd )
     : SkyPainter(), QPainter()
@@ -432,16 +424,7 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 
 bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 {
-    qDebug() << "ra dms" << ra.toHMSString() << " dec dms " << dec.toDMSString() << " pa " << pa.toDMSString() << " w " << cw.toDMSString() << " h " << ch.toDMSString();
-
     double zoom = Options::zoomFactor();
-/*
-    obj->setRA(ra);
-    obj->setDec(dec);
-    obj->setPositionAngle(pa.Degrees());
-    float w = cw.Degrees()*60* dms::PI*zoom/10800;
-    float h = ch.Degrees()*60* dms::PI*zoom/10800;
-*/
 
     bool visible = false;
     obj->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());

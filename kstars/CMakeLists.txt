@@ -354,10 +354,6 @@ set(kstars_dialogs_SRCS
   dialogs/locationdialog.cpp
   dialogs/timedialog.cpp
   dialogs/exportimagedialog.cpp
-
-
-  # REMOVE THIS IS ONLY FOR TESTING
-  dialogs/chelper.cpp
 )
 
 set(kstars_dialogsui_SRCS
@@ -378,9 +374,6 @@ set(kstars_dialogsui_SRCS
   dialogs/wizdownload.ui
   dialogs/newfov.ui
   dialogs/exportimagedialog.ui
-
-  # REMOVE THIS IS ONLY FOR TESTING
-  dialogs/chelper.ui
 )
 
 set(kstars_projection_SRCS
