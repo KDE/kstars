@@ -60,7 +60,7 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     }
 
     // slides
-    int i = 1;
+    QList<Slide> slides;
     foreach (const QVariant& slide, map.value("slides").toList()) {
         QVariantMap smap = slide.toMap();
         Slide s;
@@ -70,12 +70,21 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
         s.centerPoint = smap.value("centerPoint").toString();
         s.skyDateTime = smap.value("skyDateTime").toDateTime();
         s.zoomFactor = smap.value("zoomFactor").toDouble();
-        m_contents.append(QString("%1 - %2").arg(i).arg(s.title));
-        m_slides.append(s);
-        i++;
+        slides.append(s);
     }
+    setSlides(slides);
 
     m_isValid = true;
+}
+
+void SkyGuideObject::setSlides(QList<Slide> slides) {
+    m_contents.clear();
+    int i = 1;
+    foreach (Slide s, slides) {
+        m_contents.append(QString("%1 - %2").arg(i).arg(s.title));
+        ++i;
+    }
+    m_slides = slides;
 }
 
 void SkyGuideObject::setCurrentCenterPoint(QString objName) const {
@@ -175,7 +184,7 @@ QJsonDocument SkyGuideObject::toJsonDocument() {
         slide.insert("centerPoint", s.centerPoint);
         slide.insert("skyDateTime", s.skyDateTime.toString());
         slide.insert("zoomFactor", s.zoomFactor);
-        authors.append(slide);
+        slides.append(slide);
     }
 
     QJsonObject jsonObj;

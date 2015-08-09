@@ -92,8 +92,11 @@ public:
     void setVersion(int version) { m_version = version; }
 
     QList<Author> authors() { return m_authors; }
+    void setAuthors(QList<Author> authors) { m_authors = authors; }
 
     QList<Slide> slides() { return m_slides; }
+    void setSlides(QList<Slide> slides);
+
     QStringList contents() { return m_contents; }
     QString slideTitle();
     QString slideText();

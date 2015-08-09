@@ -61,6 +61,12 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     connect(m_ui->bSaveAs, SIGNAL(clicked()), this, SLOT(slotSaveAs()));
     connect(m_ui->bInstall, SIGNAL(clicked()), this, SLOT(slotInstall()));
 
+    // connect signals&slots of the list widgets (authors and slides)
+    connect(m_ui->listOfAuthors, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
+    connect(m_ui->listOfSlides, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
+    connect(m_ui->bRemoveAuthor, SIGNAL(clicked()), this, SLOT(slotRemoveAuthor()));
+    connect(m_ui->bRemoveSlide, SIGNAL(clicked()), this, SLOT(slotRemoveSlide()));
+
     // some field changed? calls slotFieldsChanged()
     connect(m_ui->fTitle, SIGNAL(textChanged(QString)), this, SLOT(slotFieldsChanged()));
     connect(m_ui->fDescription, SIGNAL(textChanged()), this, SLOT(slotFieldsChanged()));
@@ -96,6 +102,8 @@ void SkyGuideWriter::slotNew() {
 
     m_ui->bSave->setEnabled(false);
     m_ui->bInstall->setEnabled(false);
+    m_ui->bRemoveAuthor->setEnabled(false);
+    m_ui->bRemoveSlide->setEnabled(false);
 
     QVariantMap map;
     map.insert("formatVersion", SKYGUIDE_FORMAT_VERSION);
@@ -123,24 +131,8 @@ void SkyGuideWriter::slotOpen() {
     if (!s) {
         return;
     }
-
-    m_ui->fTitle->setText(s->title());
-    m_ui->fDescription->setText(s->description());
-    m_ui->fLanguage->setText(s->language());
-    m_ui->fCreationDate->setDate(s->creationDate());
-    m_ui->fVersion->setValue(s->version());
-
-    QList<SkyGuideObject::Author> authors = s->authors();
-    foreach (SkyGuideObject::Author a, authors) {
-        m_ui->listOfAuthors->addItem(a.name);
-    }
-
-    QStringList contents = s->contents();
-    foreach (QString t, contents) {
-        m_ui->listOfSlides->addItem(t);
-    }
-
     m_skyGuideObject = s;
+    populateFields();
 }
 
 void SkyGuideWriter::slotSave() {
@@ -192,10 +184,49 @@ void SkyGuideWriter::slotFieldsChanged() {
     }
     m_skyGuideObject->setTitle(m_ui->fTitle->text());
     m_skyGuideObject->setDescription(m_ui->fDescription->toPlainText());
-    m_skyGuideObject->setTitle(m_ui->fLanguage->text());
+    m_skyGuideObject->setLanguage(m_ui->fLanguage->text());
     m_skyGuideObject->setCreationDate(m_ui->fCreationDate->date());
     m_skyGuideObject->setVersion(m_ui->fVersion->value());
     setUnsavedChanges(true);
+}
+
+void SkyGuideWriter::slotUpdateButtons() {
+    m_ui->bRemoveAuthor->setEnabled(!m_ui->listOfAuthors->selectedItems().isEmpty());
+    m_ui->bRemoveSlide->setEnabled(!m_ui->listOfSlides->selectedItems().isEmpty());
+}
+
+void SkyGuideWriter::slotRemoveAuthor() {
+    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
+    authors.removeAt(m_ui->listOfAuthors->currentRow());
+    m_skyGuideObject->setAuthors(authors);
+    populateFields();
+}
+
+void SkyGuideWriter::slotRemoveSlide() {
+    QList<SkyGuideObject::Slide> slides = m_skyGuideObject->slides();
+    slides.removeAt(m_ui->listOfSlides->currentRow());
+    m_skyGuideObject->setSlides(slides);
+    populateFields();
+}
+
+void SkyGuideWriter::populateFields() {
+    m_ui->fTitle->setText(m_skyGuideObject->title());
+    m_ui->fDescription->setText(m_skyGuideObject->description());
+    m_ui->fLanguage->setText(m_skyGuideObject->language());
+    m_ui->fCreationDate->setDate(m_skyGuideObject->creationDate());
+    m_ui->fVersion->setValue(m_skyGuideObject->version());
+
+    m_ui->listOfAuthors->clear();
+    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
+    foreach (SkyGuideObject::Author a, authors) {
+        m_ui->listOfAuthors->addItem(a.name);
+    }
+
+    m_ui->listOfSlides->clear();
+    QStringList contents = m_skyGuideObject->contents();
+    foreach (QString t, contents) {
+        m_ui->listOfSlides->addItem(t);
+    }
 }
 
 void SkyGuideWriter::saveWarning() {

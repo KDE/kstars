@@ -49,6 +49,10 @@ class SkyGuideWriter : public QDialog
         void slotSaveAs();
         void slotInstall();
 
+        void slotUpdateButtons();
+        void slotRemoveAuthor();
+        void slotRemoveSlide();
+
         void slotFieldsChanged();
 
     private:
@@ -57,6 +61,7 @@ class SkyGuideWriter : public QDialog
         SkyGuideObject* m_skyGuideObject;
         bool m_unsavedChanges;
 
+        void populateFields();
         void saveWarning();
         void setUnsavedChanges(bool b);
 };
