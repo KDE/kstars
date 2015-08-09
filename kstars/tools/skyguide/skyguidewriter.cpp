@@ -48,10 +48,8 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     m_ui->bSaveAs->setIcon(QIcon::fromTheme("document-save-as"));
     m_ui->bInstall->setIcon(QIcon::fromTheme("system-software-install"));
     m_ui->bAddAuthor->setIcon(QIcon::fromTheme("list-add"));
-    m_ui->bEditAuthor->setIcon(QIcon::fromTheme("insert-text"));
     m_ui->bRemoveAuthor->setIcon(QIcon::fromTheme("list-remove"));
     m_ui->bAddSlide->setIcon(QIcon::fromTheme("list-add"));
-    m_ui->bEditSlide->setIcon(QIcon::fromTheme("insert-text"));
     m_ui->bRemoveSlide->setIcon(QIcon::fromTheme("list-remove"));
 
     // connect signals&slots of toolbar
