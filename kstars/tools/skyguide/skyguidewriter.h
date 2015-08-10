@@ -65,6 +65,7 @@ class SkyGuideWriter : public QDialog
         void populateFields();
         void saveWarning();
         void setUnsavedChanges(bool b);
+        void blockSignals(bool b);
 };
 
 #endif // SKYGUIDEWRITER_H

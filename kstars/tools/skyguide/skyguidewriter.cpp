@@ -88,7 +88,7 @@ void SkyGuideWriter::slotNew() {
         return;
     }
 
-    this->blockSignals(true);
+    blockSignals(true);
     m_ui->fTitle->clear();
     m_ui->fDescription->clear();
     m_ui->fLanguage->clear();
@@ -96,7 +96,7 @@ void SkyGuideWriter::slotNew() {
     m_ui->fVersion->clear();
     m_ui->listOfAuthors->clear();
     m_ui->listOfSlides->clear();
-    this->blockSignals(false);
+    blockSignals(false);
 
     m_ui->bSave->setEnabled(false);
     m_ui->bInstall->setEnabled(false);
@@ -232,6 +232,7 @@ void SkyGuideWriter::slotRemoveSlide() {
 }
 
 void SkyGuideWriter::populateFields() {
+    blockSignals(true);
     m_ui->fTitle->setText(m_skyGuideObject->title());
     m_ui->fDescription->setText(m_skyGuideObject->description());
     m_ui->fLanguage->setText(m_skyGuideObject->language());
@@ -249,6 +250,7 @@ void SkyGuideWriter::populateFields() {
     foreach (QString t, contents) {
         m_ui->listOfSlides->addItem(t);
     }
+    blockSignals(false);
 }
 
 void SkyGuideWriter::saveWarning() {
@@ -272,4 +274,14 @@ void SkyGuideWriter::saveWarning() {
 void SkyGuideWriter::setUnsavedChanges(bool b) {
     m_unsavedChanges = b;
     m_ui->bSave->setEnabled(b);
+}
+
+void SkyGuideWriter::blockSignals(bool b) {
+    m_ui->fTitle->blockSignals(b);
+    m_ui->fDescription->blockSignals(b);
+    m_ui->fLanguage->blockSignals(b);
+    m_ui->fCreationDate->blockSignals(b);
+    m_ui->fVersion->blockSignals(b);
+    m_ui->listOfAuthors->blockSignals(b);
+    m_ui->listOfSlides->blockSignals(b);
 }
