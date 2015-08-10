@@ -63,9 +63,11 @@ class SkyGuideWriter : public QDialog
         QString m_currentDir;
 
         void populateFields();
-        void saveWarning();
         void setUnsavedChanges(bool b);
         void blockSignals(bool b);
+
+        void saveWarning();
+        bool checkRequiredFieldsWarning();
 };
 
 #endif // SKYGUIDEWRITER_H

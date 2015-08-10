@@ -143,9 +143,10 @@ void SkyGuideWriter::slotOpen() {
 }
 
 void SkyGuideWriter::slotSave() {
-    if (!m_skyGuideObject) {
+    if (!m_skyGuideObject || !checkRequiredFieldsWarning()) {
         return;
     }
+
     QString savePath;
     if (m_currentDir.isEmpty()) {
         savePath = QFileDialog::getSaveFileName(KStars::Instance(),
@@ -269,6 +270,18 @@ void SkyGuideWriter::saveWarning() {
     } else if (ans == KMessageBox::No) {
         setUnsavedChanges(false);
     }
+}
+
+bool SkyGuideWriter::checkRequiredFieldsWarning() {
+    if (!m_ui->fTitle->text().isEmpty()
+            && !m_ui->fDescription->toPlainText().isEmpty()
+            && m_ui->listOfSlides->count()) {
+        return true; // it's ok
+    }
+    QString caption = xi18n("Required fields");
+    QString message = xi18n("A SkyGuide must have a title, description and one slide at least.");
+    KMessageBox::sorry(0, message, caption);
+    return false;
 }
 
 void SkyGuideWriter::setUnsavedChanges(bool b) {
