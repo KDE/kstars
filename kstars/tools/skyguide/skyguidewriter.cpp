@@ -39,7 +39,7 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     mainLayout->addWidget(m_ui);
     setLayout(mainLayout);
     setWindowTitle(xi18n("SkyGuide Writer"));
-    setModal( false );
+    setModal(false);
 
     // add icons to push buttons
     m_ui->bNew->setIcon(QIcon::fromTheme("document-new"));
@@ -120,15 +120,22 @@ void SkyGuideWriter::slotOpen() {
                        ? m_skyGuideObject->path()
                        : m_skyGuideMgr->getGuidesDir().absolutePath();
 
-    QString jsonPath = QFileDialog::getOpenFileName(KStars::Instance(),
+    QString filePath = QFileDialog::getOpenFileName(KStars::Instance(),
                                                     "Open SkyGuide",
                                                     initialDir,
-                                                    "JSON (*.json)");
+                                                    "SkyGuide (*.zip *.json)");
 
-    SkyGuideObject* s = m_skyGuideMgr->buildSkyGuideObject(jsonPath);
+    SkyGuideObject* s = NULL;
+    if (filePath.endsWith(".zip", Qt::CaseInsensitive)) {
+        s = m_skyGuideMgr->buildSGOFromZip(filePath);
+    } else if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
+        s = m_skyGuideMgr->buildSGOFromJson(filePath);
+    }
+
     if (!s) {
         return;
     }
+
     m_skyGuideObject = s;
     populateFields();
 }

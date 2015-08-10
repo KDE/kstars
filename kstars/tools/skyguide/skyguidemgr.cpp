@@ -52,7 +52,7 @@ void SkyGuideMgr::loadAllSkyGuideObjects() {
         QFileInfoList guideFiles = guideDir.entryInfoList();
         foreach (QFileInfo g, guideFiles) {
             if (g.fileName() == JSON_NAME) {
-                SkyGuideObject* s = buildSkyGuideObject(g.absoluteFilePath());
+                SkyGuideObject* s = buildSGOFromJson(g.absoluteFilePath());
                 loadSkyGuideObject(s);
             }
         }
@@ -79,7 +79,7 @@ bool SkyGuideMgr::loadSkyGuideObject(SkyGuideObject* skyGuideObj) {
     return true;
 }
 
-SkyGuideObject* SkyGuideMgr::buildSkyGuideObject(const QString& jsonPath) {
+SkyGuideObject* SkyGuideMgr::buildSGOFromJson(const QString& jsonPath) {
     QFileInfo info(jsonPath);
     if (info.fileName() != JSON_NAME || !info.exists()) {
         qWarning() << "SkyGuideMgr: The JSON file is invalid or does not exist!"
@@ -104,6 +104,39 @@ SkyGuideObject* SkyGuideMgr::buildSkyGuideObject(const QString& jsonPath) {
     return s;
 }
 
+SkyGuideObject* SkyGuideMgr::buildSGOFromZip(const QString& zipPath) {
+    // try to open the SkyGuide archive
+    KZip archive(zipPath);
+    if (!archive.open(QIODevice::ReadOnly)) {
+        qWarning() << "SkyGuideMgr: Unable to read the file!"
+                   << "Is it a zip archive?" << zipPath;
+        return NULL;
+    }
+
+    // check if this SkyGuide has a 'guide.json' file in the root
+    const KArchiveDirectory *root = archive.directory();
+    const KArchiveEntry *e = root->entry(JSON_NAME);
+    if (!e) {
+        qWarning() << "SkyGuideMgr: '" + JSON_NAME + "' not found!"
+                   << "A SkyGuide must have a 'guide.json' in the root!";
+        return NULL;
+    }
+
+    // create a clean /temp/skyguide dir
+    QDir tmpDir = QDir::temp();
+    if (tmpDir.cd("skyguide")) {    // already exists?
+        tmpDir.removeRecursively(); // remove everything
+    }
+    tmpDir.mkdir("skyguide");
+    tmpDir.cd("skyguide");
+
+    //  copy files from archive to the temporary dir
+    root->copyTo(tmpDir.absolutePath(), true);
+    archive.close();
+
+    return buildSGOFromJson(tmpDir.absoluteFilePath(JSON_NAME));
+}
+
 void SkyGuideMgr::slotAddSkyGuide() {
     // check if the installation dir is writable
     if (!QFileInfo(m_guidesDir.absolutePath()).isWritable()){
@@ -116,53 +149,23 @@ void SkyGuideMgr::slotAddSkyGuide() {
     QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
     QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
 
-    // try to open the SkyGuide archive
-    KZip archive(path);
-    if (!archive.open(QIODevice::ReadOnly)) {
-        qWarning() << "SkyGuideMgr: Unable to read the file!"
-                   << "Is it a zip archive?" << path;
-        return;
-    }
-
-    // check if this SkyGuide has a 'guide.json' file in the root
-    const QString jsonFilename = "guide.json";
-    const KArchiveDirectory *root = archive.directory();
-    const KArchiveEntry *e = root->entry(jsonFilename);
-    if (!e) {
-        qWarning() << "SkyGuideMgr: 'guide.json' not found!"
-                   << "A SkyGuide must have a 'guide.json' in the root!";
-        return;
-    }
-
-    // create a clean /temp folder
-    QDir tmpDir(m_guidesDir.absolutePath() + "/temp");
-    tmpDir.removeRecursively();
-    m_guidesDir.mkdir("temp");
-
-    //  copy files from archive to the /temp folder
-    root->copyTo(tmpDir.absolutePath(), true);
-    archive.close();
-
-    // build the SkyGuideObject
-    SkyGuideObject* sObj = buildSkyGuideObject(tmpDir.absoluteFilePath(JSON_NAME));
-
     // try to load it!
-    if (!loadSkyGuideObject(sObj)) {
-        tmpDir.removeRecursively();
+    SkyGuideObject* obj = buildSGOFromZip(path);
+    if (!loadSkyGuideObject(obj)) {
         return;
     }
 
-    // rename the temp folder
+    // rename and move the temp folder to the installation dir
     int i = 0;
-    SkyGuideObject* guide = ((SkyGuideObject*) m_skyGuideObjects.last());
-    QString title = guide->title();
-    while (!m_guidesDir.rename("temp", title)) {
-        title += QString::number(i);  // doesn't matter the number
+    QString newPath = m_guidesDir.absolutePath() + "/" + obj->title();
+    QDir dir;
+    while (!dir.rename(obj->path(), newPath)) {
+        newPath += QString::number(i);  // doesn't matter the number
         i++;
     }
 
     // fix path
-    guide->setPath(m_guidesDir.absoluteFilePath(title));
+    obj->setPath(newPath);
 
     // refresh view
     m_view->setModel(m_skyGuideObjects);
