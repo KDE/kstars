@@ -33,6 +33,7 @@ ColumnLayout {
     property int maxHistLenght: 16
 
     signal addSkyGuide()
+    signal openWriter()
 
     function getPageObj(name, model, slide) {
         return {'name': name, 'modelData': model, 'slide': slide};
@@ -183,6 +184,7 @@ ColumnLayout {
             ToolButton {
                 iconSource: "images/write.png"
                 tooltip: "Makes a SkyGuide"
+                onClicked: openWriter()
             }
         }
 

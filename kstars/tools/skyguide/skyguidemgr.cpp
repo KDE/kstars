@@ -33,9 +33,11 @@ SkyGuideMgr::SkyGuideMgr()
             "tools/skyguide/resources/guides", QStandardPaths::LocateDirectory));
 
     loadAllSkyGuideObjects();
-    connect((QObject*)m_view->rootObject(), SIGNAL(addSkyGuide()), this, SLOT(slotAddSkyGuide()));
 
     m_skyGuideWriter = new SkyGuideWriter(this, KStars::Instance());
+
+    connect((QObject*)m_view->rootObject(), SIGNAL(addSkyGuide()), this, SLOT(slotAddSkyGuide()));
+    connect((QObject*)m_view->rootObject(), SIGNAL(openWriter()), m_skyGuideWriter, SLOT(show()));
 }
 
 SkyGuideMgr::~SkyGuideMgr() {
