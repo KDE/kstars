@@ -60,6 +60,7 @@ class SkyGuideWriter : public QDialog
         SkyGuideMgr* m_skyGuideMgr;
         SkyGuideObject* m_skyGuideObject;
         bool m_unsavedChanges;
+        QString m_currentDir;
 
         void populateFields();
         void saveWarning();

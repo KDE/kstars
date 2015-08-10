@@ -108,6 +108,8 @@ void SkyGuideWriter::slotNew() {
     map.insert("header", QVariant());
     map.insert("slides", QVariant());
     m_skyGuideObject = new SkyGuideObject("", map);
+
+    m_currentDir.clear();
 }
 
 void SkyGuideWriter::slotOpen() {
@@ -116,9 +118,9 @@ void SkyGuideWriter::slotOpen() {
         return;
     }
 
-    QString initialDir = m_skyGuideObject
-                       ? m_skyGuideObject->path()
-                       : m_skyGuideMgr->getGuidesDir().absolutePath();
+    QString initialDir = m_currentDir.isEmpty()
+                       ? m_skyGuideMgr->getGuidesDir().absolutePath()
+                       : m_currentDir;
 
     QString filePath = QFileDialog::getOpenFileName(KStars::Instance(),
                                                     "Open SkyGuide",
@@ -135,7 +137,7 @@ void SkyGuideWriter::slotOpen() {
     if (!s) {
         return;
     }
-
+    m_currentDir = QFileInfo(filePath).absolutePath();
     m_skyGuideObject = s;
     populateFields();
 }
@@ -145,21 +147,22 @@ void SkyGuideWriter::slotSave() {
         return;
     }
     QString savePath;
-    if (m_skyGuideObject->path().isEmpty()) {
+    if (m_currentDir.isEmpty()) {
         savePath = QFileDialog::getSaveFileName(KStars::Instance(),
                                                 "Save SkyGuide",
                                                 m_skyGuideObject->title() + ".zip",
                                                 "Zip (*.zip)");
+        m_currentDir = QFileInfo(savePath).absolutePath();
     } else {
-        savePath = m_skyGuideObject->path() + "/" + m_skyGuideObject->title() + ".zip";
+        savePath = m_currentDir + "/" + m_skyGuideObject->title() + ".zip";
     }
     QFile::remove(savePath);
     QFile tmpFile(m_skyGuideObject->toZip());
-    if (savePath.isEmpty() || !tmpFile.copy(savePath)) {
+    if (m_currentDir.isEmpty() || !tmpFile.copy(savePath)) {
         qWarning() << "SkyGuideMgr: the SkyGuide could not be stored on: "
                    << QDir::toNativeSeparators(savePath);
     } else {
-        m_skyGuideObject->setPath(QFileInfo(savePath).absolutePath());
+        m_skyGuideObject->setPath(m_currentDir);
         setUnsavedChanges(false);
     }
     tmpFile.remove();
@@ -170,12 +173,12 @@ void SkyGuideWriter::slotSaveAs() {
         return;
     }
 
-    QString oldPath = m_skyGuideObject->path();
-    m_skyGuideObject->setPath("");
+    QString oldPath = m_currentDir;
+    m_currentDir.clear();
     slotSave();
 
-    if (m_skyGuideObject->path().isEmpty()) {
-        m_skyGuideObject->setPath(oldPath);
+    if (m_currentDir.isEmpty()) {
+        m_currentDir = oldPath;
     }
 }
 
