@@ -21,6 +21,7 @@
 #include <QJsonObject>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <KMessageBox>
 #include <kzip.h>
 
 #include "kstars.h"
@@ -68,12 +69,21 @@ bool SkyGuideMgr::loadSkyGuideObject(SkyGuideObject* skyGuideObj) {
     }
 
     // title is unique?
-    foreach (QObject* sg, m_skyGuideObjects) {
-        if (((SkyGuideObject*)sg)->title() == skyGuideObj->title()) {
-            qWarning()  << "SkyGuideMgr: The title '"
-                        << skyGuideObj->title()
-                        << "' is being used already.";
-            return false;
+    foreach (QObject* obj, m_skyGuideObjects) {
+        if (((SkyGuideObject*) obj)->title() == skyGuideObj->title()) {
+
+            QString caption = "Duplicated Title";
+            QString message = "The SkyGuide title must be unique! \""
+                            + skyGuideObj->title() + "\" is being used already.\n"
+                            + "Would you like to use the current one? "
+                            + "(it will not overwrite the file)";
+
+            if (KMessageBox::warningYesNo(0, message, caption)) {
+                m_skyGuideObjects.removeOne(obj);
+            } else {
+                qWarning()  << "SkyGuideMgr: Duplicated title! " << skyGuideObj->title();
+                return false;
+            }
         }
     }
 

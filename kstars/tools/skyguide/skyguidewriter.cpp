@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <QFileDialog>
-
 #include <KMessageBox>
 
 #include "kstars.h"
