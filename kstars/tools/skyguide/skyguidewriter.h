@@ -21,6 +21,8 @@
 #include <QDialog>
 
 #include "skyguideobject.h"
+#include "ui_skyguideauthor.h"
+#include "ui_skyguideslide.h"
 #include "ui_skyguidewriter.h"
 
 class SkyGuideMgr;
@@ -56,7 +58,13 @@ class SkyGuideWriter : public QDialog
         void slotFieldsChanged();
 
     private:
+        QDialog* m_authorDlg;
+        QDialog* m_slideDlg;
+
         SkyGuideWriterUI* m_ui;
+        Ui_SkyGuideAuthor* m_uiAuthor;
+        Ui_SkyGuideSlide* m_uiSlide;
+
         SkyGuideMgr* m_skyGuideMgr;
         SkyGuideObject* m_skyGuideObject;
         bool m_unsavedChanges;

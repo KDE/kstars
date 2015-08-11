@@ -234,6 +234,8 @@ ki18n_wrap_ui(libkstarstools_SRCS
               tools/skycalendar.ui
               tools/wutdialog.ui
               tools/flagmanager.ui
+              tools/skyguide/skyguideauthor.ui
+              tools/skyguide/skyguideslide.ui
               tools/skyguide/skyguidewriter.ui
               tools/whatsinteresting/wilpsettings.ui
               tools/whatsinteresting/wiequipsettings.ui

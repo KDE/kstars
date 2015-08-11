@@ -40,6 +40,20 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     setWindowTitle(xi18n("SkyGuide Writer"));
     setModal(false);
 
+    // setup author dialog
+    m_authorDlg = new QDialog(this);
+    m_authorDlg->setWindowTitle(xi18n("SkyGuide Author"));
+    m_authorDlg->setModal(false);
+    m_uiAuthor = new Ui_SkyGuideAuthor;
+    m_uiAuthor->setupUi(m_authorDlg);
+
+    // setup slides dialog
+    m_slideDlg = new QDialog(this);
+    m_slideDlg->setWindowTitle(xi18n("SkyGuide Slide"));
+    m_slideDlg->setModal(false);
+    m_uiSlide = new Ui_SkyGuideSlide;
+    m_uiSlide->setupUi(m_slideDlg);
+
     // add icons to push buttons
     m_ui->bNew->setIcon(QIcon::fromTheme("document-new"));
     m_ui->bOpen->setIcon(QIcon::fromTheme("document-open"));
