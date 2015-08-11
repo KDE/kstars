@@ -159,8 +159,9 @@ void SkyGuideWriter::slotSave() {
     QFile::remove(savePath);
     QFile tmpFile(m_skyGuideObject->toZip());
     if (m_currentDir.isEmpty() || !tmpFile.copy(savePath)) {
-        qWarning() << "SkyGuideMgr: the SkyGuide could not be stored on: "
-                   << QDir::toNativeSeparators(savePath);
+        QString message = "Unable to store the current SkyGuide on: \n" + savePath;
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideWriter: " << message;
     } else {
         m_skyGuideObject->setPath(m_currentDir);
         setUnsavedChanges(false);

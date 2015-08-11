@@ -94,14 +94,17 @@ bool SkyGuideMgr::loadSkyGuideObject(SkyGuideObject* skyGuideObj) {
 SkyGuideObject* SkyGuideMgr::buildSGOFromJson(const QString& jsonPath) {
     QFileInfo info(jsonPath);
     if (info.fileName() != JSON_NAME || !info.exists()) {
-        qWarning() << "SkyGuideMgr: The JSON file is invalid or does not exist!"
-                   << jsonPath;
+        QString message = "The JSON file is invalid or does not exist! \n" + jsonPath;
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
         return NULL;
     }
 
     QFile jsonFile(jsonPath);
     if (!jsonFile.open(QIODevice::ReadOnly)) {
-        qWarning() << "SkyGuideMgr: Couldn't open the JSON file!" << jsonPath;
+        QString message = "Couldn't open the JSON file! \n" + jsonPath;
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
         return NULL;
     }
 
@@ -110,7 +113,9 @@ SkyGuideObject* SkyGuideMgr::buildSGOFromJson(const QString& jsonPath) {
 
     SkyGuideObject* s = new SkyGuideObject(info.absolutePath(), json.toVariantMap());
     if (!s->isValid()) {
-        qWarning()  << "SkyGuideMgr: SkyGuide is invalid!" << jsonPath;
+        QString message = "The SkyGuide is invalid! \n" + jsonPath;
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
         return NULL;
     }
     return s;
@@ -120,8 +125,10 @@ SkyGuideObject* SkyGuideMgr::buildSGOFromZip(const QString& zipPath) {
     // try to open the SkyGuide archive
     KZip archive(zipPath);
     if (!archive.open(QIODevice::ReadOnly)) {
-        qWarning() << "SkyGuideMgr: Unable to read the file!"
-                   << "Is it a zip archive?" << zipPath;
+        QString message = "Unable to read the file! " + zipPath
+                        + "\n Please, make sure it is a zip archive!";
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
         return NULL;
     }
 
@@ -129,8 +136,10 @@ SkyGuideObject* SkyGuideMgr::buildSGOFromZip(const QString& zipPath) {
     const KArchiveDirectory *root = archive.directory();
     const KArchiveEntry *e = root->entry(JSON_NAME);
     if (!e) {
-        qWarning() << "SkyGuideMgr: '" + JSON_NAME + "' not found!"
-                   << "A SkyGuide must have a 'guide.json' in the root!";
+        QString message = "'" + JSON_NAME + "' not found! \n"
+                        + "A SkyGuide must have a 'guide.json' in the root!";
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
         return NULL;
     }
 
@@ -152,8 +161,10 @@ SkyGuideObject* SkyGuideMgr::buildSGOFromZip(const QString& zipPath) {
 void SkyGuideMgr::slotAddSkyGuide() {
     // check if the installation dir is writable
     if (!QFileInfo(m_guidesDir.absolutePath()).isWritable()){
-        qWarning() << "SkyGuideMgr: The installation directory must be writable!"
-                   << m_guidesDir.absolutePath();
+        QString message = "SkyGuideMgr: The installation directory must be writable! \n"
+                        + m_guidesDir.absolutePath();
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
         return;
     }
 

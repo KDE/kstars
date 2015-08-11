@@ -50,7 +50,6 @@ private:
 
     void loadAllSkyGuideObjects();
     bool loadSkyGuideObject(SkyGuideObject* skyGuideObj);
-    bool overwriteWarning();
 };
 
 #endif // SKYGUIDEMGR_H
