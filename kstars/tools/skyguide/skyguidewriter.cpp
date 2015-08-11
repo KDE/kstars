@@ -98,7 +98,6 @@ void SkyGuideWriter::slotNew() {
     blockSignals(false);
 
     m_ui->bSave->setEnabled(false);
-    m_ui->bInstall->setEnabled(false);
     m_ui->bRemoveAuthor->setEnabled(false);
     m_ui->bRemoveSlide->setEnabled(false);
 
@@ -184,7 +183,14 @@ void SkyGuideWriter::slotSaveAs() {
 }
 
 void SkyGuideWriter::slotInstall() {
-    // TODO
+    if (!checkRequiredFieldsWarning()) {
+        return;
+    }
+    slotSave();
+    QString zipPath = m_skyGuideObject->path() + "/" + m_skyGuideObject->title() + ".zip";
+    if (QFileInfo(zipPath).exists()) {
+        m_skyGuideMgr->installSkyGuide(zipPath);
+    }
 }
 
 void SkyGuideWriter::slotFieldsChanged() {

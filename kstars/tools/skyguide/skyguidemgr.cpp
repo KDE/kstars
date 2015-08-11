@@ -158,7 +158,7 @@ SkyGuideObject* SkyGuideMgr::buildSGOFromZip(const QString& zipPath) {
     return buildSGOFromJson(tmpDir.absoluteFilePath(JSON_NAME));
 }
 
-void SkyGuideMgr::slotAddSkyGuide() {
+void SkyGuideMgr::installSkyGuide(const QString& zipPath) {
     // check if the installation dir is writable
     if (!QFileInfo(m_guidesDir.absolutePath()).isWritable()){
         QString message = "SkyGuideMgr: The installation directory must be writable! \n"
@@ -168,12 +168,8 @@ void SkyGuideMgr::slotAddSkyGuide() {
         return;
     }
 
-    // open QFileDialog - select the SkyGuide
-    QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
-    QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
-
     // try to load it!
-    SkyGuideObject* obj = buildSGOFromZip(path);
+    SkyGuideObject* obj = buildSGOFromZip(zipPath);
     if (!loadSkyGuideObject(obj)) {
         return;
     }
@@ -192,4 +188,11 @@ void SkyGuideMgr::slotAddSkyGuide() {
 
     // refresh view
     m_view->setModel(m_skyGuideObjects);
+}
+
+void SkyGuideMgr::slotAddSkyGuide() {
+    // open QFileDialog - select the SkyGuide
+    QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
+    QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
+    installSkyGuide(path);
 }
