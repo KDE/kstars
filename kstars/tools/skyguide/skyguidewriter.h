@@ -21,11 +21,11 @@
 #include <QDialog>
 
 #include "skyguideobject.h"
-#include "ui_skyguideauthor.h"
-#include "ui_skyguideslide.h"
 #include "ui_skyguidewriter.h"
 
 class SkyGuideMgr;
+class Ui_SkyGuideAuthor;
+class Ui_SkyGuideSlide;
 
 class SkyGuideWriterUI : public QFrame, public Ui::SkyGuideWriter {
     Q_OBJECT
@@ -51,9 +51,15 @@ class SkyGuideWriter : public QDialog
         void slotSaveAs();
         void slotInstall();
 
-        void slotUpdateButtons();
+        void slotShowAuthorDlg();
+        void slotAddAuthor();
         void slotRemoveAuthor();
+
+        void slotShowSlideDlg();
+        void slotAddSlide();
         void slotRemoveSlide();
+
+        void slotUpdateButtons();
 
         void slotFieldsChanged();
 

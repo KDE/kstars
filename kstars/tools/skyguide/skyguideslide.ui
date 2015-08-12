@@ -33,13 +33,6 @@
    <item row="1" column="1" colspan="3">
     <widget class="QPlainTextEdit" name="fText"/>
    </item>
-   <item row="3" column="1" colspan="2">
-    <widget class="QDateEdit" name="fSkyDate">
-     <property name="toolTip">
-      <string>Change the sky date (optional)</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1" colspan="3">
     <widget class="QLineEdit" name="fTitle"/>
    </item>
@@ -181,6 +174,13 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="QDateTimeEdit" name="fSkyDateTime">
+     <property name="toolTip">
+      <string>Change the sky date (optional)</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

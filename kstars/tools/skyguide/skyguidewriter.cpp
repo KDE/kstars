@@ -21,6 +21,8 @@
 #include "kstars.h"
 #include "skyguidemgr.h"
 #include "skyguidewriter.h"
+#include "ui_skyguideauthor.h"
+#include "ui_skyguideslide.h"
 
 SkyGuideWriterUI::SkyGuideWriterUI(QWidget *parent) : QFrame(parent) {
     setupUi(this);
@@ -43,14 +45,14 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     // setup author dialog
     m_authorDlg = new QDialog(this);
     m_authorDlg->setWindowTitle(xi18n("SkyGuide Author"));
-    m_authorDlg->setModal(false);
+    m_authorDlg->setModal(true);
     m_uiAuthor = new Ui_SkyGuideAuthor;
     m_uiAuthor->setupUi(m_authorDlg);
 
     // setup slides dialog
     m_slideDlg = new QDialog(this);
     m_slideDlg->setWindowTitle(xi18n("SkyGuide Slide"));
-    m_slideDlg->setModal(false);
+    m_slideDlg->setModal(true);
     m_uiSlide = new Ui_SkyGuideSlide;
     m_uiSlide->setupUi(m_slideDlg);
 
@@ -75,8 +77,18 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     // connect signals&slots of the list widgets (authors and slides)
     connect(m_ui->listOfAuthors, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
     connect(m_ui->listOfSlides, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
+    connect(m_ui->bAddAuthor, SIGNAL(clicked()), this, SLOT(slotShowAuthorDlg()));
+    connect(m_ui->bAddSlide, SIGNAL(clicked()), this, SLOT(slotShowSlideDlg()));
     connect(m_ui->bRemoveAuthor, SIGNAL(clicked()), this, SLOT(slotRemoveAuthor()));
     connect(m_ui->bRemoveSlide, SIGNAL(clicked()), this, SLOT(slotRemoveSlide()));
+
+    // connect signals&slots of the authors dialog
+    connect(m_uiAuthor->bOk, SIGNAL(clicked()), this, SLOT(slotAddAuthor()));
+    connect(m_uiAuthor->bCancel, SIGNAL(clicked()), m_authorDlg, SLOT(close()));
+
+    // connect signals&slots of the slides dialog
+    connect(m_uiSlide->bOk, SIGNAL(clicked()), this, SLOT(slotAddSlide()));
+    connect(m_uiSlide->bCancel, SIGNAL(clicked()), m_slideDlg, SLOT(close()));
 
     // some field changed? calls slotFieldsChanged()
     connect(m_ui->fTitle, SIGNAL(textChanged(QString)), this, SLOT(slotFieldsChanged()));
@@ -217,6 +229,54 @@ void SkyGuideWriter::slotFieldsChanged() {
     m_skyGuideObject->setCreationDate(m_ui->fCreationDate->date());
     m_skyGuideObject->setVersion(m_ui->fVersion->value());
     setUnsavedChanges(true);
+}
+
+void SkyGuideWriter::slotShowAuthorDlg() {
+    m_uiAuthor->fName->clear();
+    m_uiAuthor->fEmail->clear();
+    m_uiAuthor->fUrl->clear();
+    m_authorDlg->show();
+}
+
+void SkyGuideWriter::slotShowSlideDlg() {
+    m_uiSlide->fTitle->clear();
+    m_uiSlide->fText->clear();
+    m_uiSlide->fImage->clear();
+    m_uiSlide->fSkyDateTime->clear();
+    m_uiSlide->fCenterPoint->clear();
+    m_uiSlide->fZoom->clear();
+    m_slideDlg->show();
+}
+
+void SkyGuideWriter::slotAddAuthor() {
+    m_authorDlg->hide();
+
+    SkyGuideObject::Author author;
+    author.name = m_uiAuthor->fName->text();
+    author.email = m_uiAuthor->fEmail->text();
+    author.url = m_uiAuthor->fUrl->text();
+
+    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
+    authors.append(author);
+    m_skyGuideObject->setAuthors(authors);
+    populateFields();
+}
+
+void SkyGuideWriter::slotAddSlide() {
+    m_slideDlg->hide();
+
+    SkyGuideObject::Slide slide;
+    slide.title = m_uiSlide->fTitle->text();
+    slide.text = m_uiSlide->fText->toPlainText();
+    slide.image = m_uiSlide->fImage->text();
+    slide.centerPoint = m_uiSlide->fCenterPoint->text();
+    slide.skyDateTime = m_uiSlide->fSkyDateTime->dateTime();
+    slide.zoomFactor = m_uiSlide->fZoom->value();
+
+    QList<SkyGuideObject::Slide> slides = m_skyGuideObject->slides();
+    slides.append(slide);
+    m_skyGuideObject->setSlides(slides);
+    populateFields();
 }
 
 void SkyGuideWriter::slotUpdateButtons() {
