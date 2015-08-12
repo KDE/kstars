@@ -55,6 +55,9 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     m_slideDlg->setModal(true);
     m_uiSlide = new Ui_SkyGuideSlide;
     m_uiSlide->setupUi(m_slideDlg);
+    m_uiSlide->fCenterPoint->setEnabled(false);
+    m_uiSlide->fSkyDateTime->setEnabled(false);
+    m_uiSlide->fZoom->setEnabled(false);
 
     // add icons to push buttons
     m_ui->bNew->setIcon(QIcon::fromTheme("document-new"));
@@ -89,6 +92,9 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     // connect signals&slots of the slides dialog
     connect(m_uiSlide->bOk, SIGNAL(clicked()), this, SLOT(slotAddSlide()));
     connect(m_uiSlide->bCancel, SIGNAL(clicked()), m_slideDlg, SLOT(close()));
+    connect(m_uiSlide->cCenterPoint, SIGNAL(clicked(bool)), m_uiSlide->fCenterPoint, SLOT(setEnabled(bool)));
+    connect(m_uiSlide->cSkyDate, SIGNAL(clicked(bool)), m_uiSlide->fSkyDateTime, SLOT(setEnabled(bool)));
+    connect(m_uiSlide->cZoom, SIGNAL(clicked(bool)), m_uiSlide->fZoom, SLOT(setEnabled(bool)));
 
     // some field changed? calls slotFieldsChanged()
     connect(m_ui->fTitle, SIGNAL(textChanged(QString)), this, SLOT(slotFieldsChanged()));
@@ -269,9 +275,16 @@ void SkyGuideWriter::slotAddSlide() {
     slide.title = m_uiSlide->fTitle->text();
     slide.text = m_uiSlide->fText->toPlainText();
     slide.image = m_uiSlide->fImage->text();
-    slide.centerPoint = m_uiSlide->fCenterPoint->text();
-    slide.skyDateTime = m_uiSlide->fSkyDateTime->dateTime();
-    slide.zoomFactor = m_uiSlide->fZoom->value();
+
+    if (m_uiSlide->cCenterPoint->isChecked()) {
+        slide.centerPoint = m_uiSlide->fCenterPoint->text();
+    }
+    if (m_uiSlide->cSkyDate->isChecked()) {
+        slide.skyDateTime = m_uiSlide->fSkyDateTime->dateTime();
+    }
+    if (m_uiSlide->cZoom->isChecked()) {
+        slide.zoomFactor = m_uiSlide->fZoom->value();
+    }
 
     QList<SkyGuideObject::Slide> slides = m_skyGuideObject->slides();
     slides.append(slide);
