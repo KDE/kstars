@@ -95,6 +95,7 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     connect(m_uiSlide->cCenterPoint, SIGNAL(clicked(bool)), m_uiSlide->fCenterPoint, SLOT(setEnabled(bool)));
     connect(m_uiSlide->cSkyDate, SIGNAL(clicked(bool)), m_uiSlide->fSkyDateTime, SLOT(setEnabled(bool)));
     connect(m_uiSlide->cZoom, SIGNAL(clicked(bool)), m_uiSlide->fZoom, SLOT(setEnabled(bool)));
+    connect(m_uiSlide->bOpenImage, SIGNAL(clicked()), this, SLOT(slotGetImagePath()));
 
     // some field changed? calls slotFieldsChanged()
     connect(m_ui->fTitle, SIGNAL(textChanged(QString)), this, SLOT(slotFieldsChanged()));
@@ -290,6 +291,12 @@ void SkyGuideWriter::slotAddSlide() {
     slides.append(slide);
     m_skyGuideObject->setSlides(slides);
     populateFields();
+}
+
+void SkyGuideWriter::slotGetImagePath() {
+    QString imgPath = QFileDialog::getOpenFileName(m_slideDlg, "Image",
+                                                   "", "Images (*.png *.jpg *.jpeg)");
+    m_uiSlide->fImage->setText(imgPath);
 }
 
 void SkyGuideWriter::slotUpdateButtons() {

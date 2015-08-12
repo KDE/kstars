@@ -206,23 +206,39 @@ QString SkyGuideObject::toZip() {
     }
 
     mode_t perm = 0100644;
-    // creates the guide.json file
-    archive.writeFile(JSON_NAME, toJsonDocument().toJson(), perm);
 
     // copy all images
-    QList<SkyGuideObject::Slide> slides = m_slides;
-    foreach (SkyGuideObject::Slide s, slides) {
+    const int count = m_slides.size();
+    for (int i = 0; i < count; ++i) {
+        SkyGuideObject::Slide s = m_slides.at(i);
         if (s.image.isEmpty()) {
             continue;
         }
-        QString imgPath = m_path + "/" + s.image;
+
+        QString imgPath;
+        if (s.image.contains(QDir::separator())) {
+            imgPath = s.image;
+        } else {
+            imgPath = m_path + "/" + s.image;
+        }
+
         QFile img(imgPath);
         if (!img.open(QIODevice::ReadOnly)) {
             qWarning() << "SkyGuideMgr: Unable to read image!" << imgPath;
             continue;
         }
+
+        // fix image name
+        s.image = QString("img%1_%2").arg(i).arg(s.image.split(QDir::separator()).last());
+        m_slides.replace(i, s);
+
         archive.writeFile(s.image, img.readAll(), perm);
+        i++;
     }
+
+    // creates the guide.json file
+    archive.writeFile(JSON_NAME, toJsonDocument().toJson(), perm);
+
     archive.close();
 
     return tmpZipPath;

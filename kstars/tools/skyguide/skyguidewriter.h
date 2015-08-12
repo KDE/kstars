@@ -58,6 +58,7 @@ class SkyGuideWriter : public QDialog
         void slotShowSlideDlg();
         void slotAddSlide();
         void slotRemoveSlide();
+        void slotGetImagePath();
 
         void slotUpdateButtons();
 
