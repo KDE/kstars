@@ -101,7 +101,10 @@ void SkyGuideObject::setCurrentCenterPoint(QString objName) const {
 
     // nothing found?
     if (!obj) {
-        qWarning() << "SkyGuideObject: No object named " + objName + " found.";
+        QString message = "The current SkyGuide tried to select a non-existent "
+                          "object named \"" + objName + "\"\n";
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideObject: " << message;
         return;
     }
 
@@ -201,7 +204,9 @@ QString SkyGuideObject::toZip() {
     QFile(tmpZipPath).remove();
     KZip archive(tmpZipPath);
     if (!archive.open(QIODevice::WriteOnly)) {
-        qWarning() << "SkyGuideMgr: Couldn't create a temporary zip archive!";
+        QString message = "Unable to create a temporary zip archive!\n" + tmpZipPath;
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideObject: " << message;
         return "";
     }
 
@@ -224,7 +229,9 @@ QString SkyGuideObject::toZip() {
 
         QFile img(imgPath);
         if (!img.open(QIODevice::ReadOnly)) {
-            qWarning() << "SkyGuideMgr: Unable to read image!" << imgPath;
+            QString message = "Unable to read image file!\n" + imgPath;
+            KMessageBox::sorry(0, message, "Warning!");
+            qWarning() << "SkyGuideObject: " << message;
             continue;
         }
 
