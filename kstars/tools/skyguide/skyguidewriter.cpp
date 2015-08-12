@@ -270,6 +270,13 @@ void SkyGuideWriter::slotAddAuthor() {
 }
 
 void SkyGuideWriter::slotAddSlide() {
+    if (m_uiSlide->fTitle->text().isEmpty() || m_uiSlide->fText->toPlainText().isEmpty()) {
+        QString caption = xi18n("Required fields");
+        QString message = xi18n("A slide must have title and text at least.");
+        KMessageBox::sorry(0, message, caption);
+        return;
+    }
+
     m_slideDlg->hide();
 
     SkyGuideObject::Slide slide;
