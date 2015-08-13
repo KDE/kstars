@@ -157,7 +157,7 @@ void SkyGuideWriter::slotOpen() {
                        ? m_skyGuideMgr->getGuidesDir().absolutePath()
                        : m_currentDir;
 
-    QString filePath = QFileDialog::getOpenFileName(KStars::Instance(),
+    QString filePath = QFileDialog::getOpenFileName(this,
                                                     "Open SkyGuide",
                                                     initialDir,
                                                     "SkyGuide (*.zip *.json)");
