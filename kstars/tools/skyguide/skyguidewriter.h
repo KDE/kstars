@@ -53,10 +53,12 @@ class SkyGuideWriter : public QDialog
 
         void slotShowAuthorDlg();
         void slotAddAuthor();
+        void slotEditAuthor(QModelIndex idx);
         void slotRemoveAuthor();
 
         void slotShowSlideDlg();
         void slotAddSlide();
+        void slotEditSlide(QModelIndex idx);
         void slotRemoveSlide();
         void slotGetImagePath();
 
@@ -76,6 +78,8 @@ class SkyGuideWriter : public QDialog
         SkyGuideObject* m_skyGuideObject;
         bool m_unsavedChanges;
         QString m_currentDir;
+        int m_isEditingAuthorIdx;
+        int m_isEditingSlideIdx;
 
         void populateFields();
         void setUnsavedChanges(bool b);

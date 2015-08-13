@@ -34,6 +34,8 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
         , m_skyGuideMgr(mgr)
         , m_skyGuideObject(NULL)
         , m_unsavedChanges(false)
+        , m_isEditingAuthorIdx(-1)
+        , m_isEditingSlideIdx(-1)
 {
     // setup main frame
     QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -80,6 +82,8 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     // connect signals&slots of the list widgets (authors and slides)
     connect(m_ui->listOfAuthors, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
     connect(m_ui->listOfSlides, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
+    connect(m_ui->listOfAuthors, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditAuthor(QModelIndex)));
+    connect(m_ui->listOfSlides, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditSlide(QModelIndex)));
     connect(m_ui->bAddAuthor, SIGNAL(clicked()), this, SLOT(slotShowAuthorDlg()));
     connect(m_ui->bAddSlide, SIGNAL(clicked()), this, SLOT(slotShowSlideDlg()));
     connect(m_ui->bRemoveAuthor, SIGNAL(clicked()), this, SLOT(slotRemoveAuthor()));
@@ -239,6 +243,7 @@ void SkyGuideWriter::slotFieldsChanged() {
 }
 
 void SkyGuideWriter::slotShowAuthorDlg() {
+    m_isEditingAuthorIdx = -1;
     m_uiAuthor->fName->clear();
     m_uiAuthor->fEmail->clear();
     m_uiAuthor->fUrl->clear();
@@ -246,12 +251,23 @@ void SkyGuideWriter::slotShowAuthorDlg() {
 }
 
 void SkyGuideWriter::slotShowSlideDlg() {
+    m_isEditingSlideIdx = -1;
     m_uiSlide->fTitle->clear();
     m_uiSlide->fText->clear();
     m_uiSlide->fImage->clear();
+
     m_uiSlide->fSkyDateTime->clear();
+    m_uiSlide->fSkyDateTime->setEnabled(false);
+    m_uiSlide->cSkyDate->setChecked(false);
+
     m_uiSlide->fCenterPoint->clear();
+    m_uiSlide->fCenterPoint->setEnabled(false);
+    m_uiSlide->cCenterPoint->setChecked(false);
+
     m_uiSlide->fZoom->clear();
+    m_uiSlide->fZoom->setEnabled(false);
+    m_uiSlide->cZoom->setChecked(false);
+
     m_slideDlg->show();
 }
 
@@ -271,7 +287,12 @@ void SkyGuideWriter::slotAddAuthor() {
     author.url = m_uiAuthor->fUrl->text();
 
     QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
-    authors.append(author);
+    if (m_isEditingAuthorIdx >= 0 && m_isEditingAuthorIdx < authors.size()) {
+        authors.replace(m_isEditingAuthorIdx, author);
+        m_isEditingAuthorIdx = -1;
+    } else {
+        authors.append(author);
+    }
     m_skyGuideObject->setAuthors(authors);
     populateFields();
 }
@@ -290,6 +311,7 @@ void SkyGuideWriter::slotAddSlide() {
     slide.title = m_uiSlide->fTitle->text();
     slide.text = m_uiSlide->fText->toPlainText();
     slide.image = m_uiSlide->fImage->text();
+    slide.zoomFactor = 0;
 
     if (m_uiSlide->cCenterPoint->isChecked()) {
         slide.centerPoint = m_uiSlide->fCenterPoint->text();
@@ -302,9 +324,45 @@ void SkyGuideWriter::slotAddSlide() {
     }
 
     QList<SkyGuideObject::Slide> slides = m_skyGuideObject->slides();
-    slides.append(slide);
+    if (m_isEditingSlideIdx >= 0 && m_isEditingSlideIdx < slides.size()) {
+        slides.replace(m_isEditingSlideIdx, slide);
+        m_isEditingSlideIdx = -1;
+    } else {
+        slides.append(slide);
+    }
     m_skyGuideObject->setSlides(slides);
     populateFields();
+}
+
+void SkyGuideWriter::slotEditAuthor(QModelIndex idx) {
+    m_isEditingAuthorIdx = idx.row();
+    SkyGuideObject::Author author = m_skyGuideObject->authors().at(m_isEditingAuthorIdx);
+    m_uiAuthor->fName->setText(author.name);
+    m_uiAuthor->fEmail->setText(author.email);
+    m_uiAuthor->fUrl->setText(author.url);
+    m_authorDlg->show();
+}
+
+void SkyGuideWriter::slotEditSlide(QModelIndex idx) {
+    m_isEditingSlideIdx = idx.row();
+    SkyGuideObject::Slide slide = m_skyGuideObject->slides().at(m_isEditingSlideIdx);
+    m_uiSlide->fTitle->setText(slide.title);
+    m_uiSlide->fText->setPlainText(slide.text);
+    m_uiSlide->fImage->setText(slide.image);
+
+    m_uiSlide->fCenterPoint->setText(slide.centerPoint);
+    m_uiSlide->fCenterPoint->setEnabled(!slide.centerPoint.isEmpty());
+    m_uiSlide->cCenterPoint->setChecked(!slide.centerPoint.isEmpty());
+
+    m_uiSlide->fSkyDateTime->setDateTime(slide.skyDateTime);
+    m_uiSlide->fSkyDateTime->setEnabled(!slide.skyDateTime.isNull());
+    m_uiSlide->cSkyDate->setChecked(!slide.skyDateTime.isNull());
+
+    m_uiSlide->fZoom->setValue(slide.zoomFactor);
+    m_uiSlide->fZoom->setEnabled(slide.zoomFactor > 0);
+    m_uiSlide->cZoom->setChecked(slide.zoomFactor > 0);
+
+    m_slideDlg->show();
 }
 
 void SkyGuideWriter::slotGetImagePath() {
