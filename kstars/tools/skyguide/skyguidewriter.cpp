@@ -256,6 +256,13 @@ void SkyGuideWriter::slotShowSlideDlg() {
 }
 
 void SkyGuideWriter::slotAddAuthor() {
+    if (m_uiAuthor->fName->text().isEmpty()) {
+        QString caption = xi18n("Required fields");
+        QString message = xi18n("The field 'name' must be filled!");
+        KMessageBox::sorry(0, message, caption);
+        return;
+    }
+
     m_authorDlg->hide();
 
     SkyGuideObject::Author author;
