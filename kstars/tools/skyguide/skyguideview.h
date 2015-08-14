@@ -23,6 +23,10 @@
 
 #include "skyguideobject.h"
 
+/**
+ * @class SkyGuideView
+ * @author Marcos Cardinot <mcardinot@gmail.com>
+ */
 class SkyGuideView : public QQuickView
 {
 

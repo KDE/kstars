@@ -28,9 +28,9 @@
 #include "skycomponents/skymapcomposite.h"
 
 SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
-    : m_isValid(false),
-      m_path(path),
-      m_currentSlide(-1)
+        : m_isValid(false)
+        , m_path(path)
+        , m_currentSlide(-1)
 {
     if (map["formatVersion"].toInt() != SKYGUIDE_FORMAT_VERSION
         || !map.contains("header") || !map.contains("slides"))

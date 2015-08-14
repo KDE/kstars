@@ -25,6 +25,10 @@
 
 #define SKYGUIDE_FORMAT_VERSION 1
 
+/**
+ * @class SkyGuideObject
+ * @author Marcos Cardinot <mcardinot@gmail.com>
+ */
 class SkyGuideObject : public QObject
 {
     Q_OBJECT
@@ -44,15 +48,13 @@ class SkyGuideObject : public QObject
     Q_PROPERTY(int currentSlide READ currentSlide WRITE setCurrentSlide NOTIFY slideChanged)
 
 public:
-    typedef struct
-    {
+    typedef struct {
         QString name;
         QString email;
         QString url;
     } Author;
 
-    typedef struct
-    {
+    typedef struct {
         QString centerPoint;
         QString image;
         QDateTime skyDateTime;

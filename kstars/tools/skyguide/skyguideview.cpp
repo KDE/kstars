@@ -21,8 +21,10 @@
 #include "kstars.h"
 #include "skyguideview.h"
 
-SkyGuideView::SkyGuideView() : m_firstLoading(true) {
-    m_dock = new QDockWidget("SkyGuide");
+SkyGuideView::SkyGuideView()
+        : m_dock(new QDockWidget("SkyGuide"))
+        , m_firstLoading(true)
+{
     m_dock->setObjectName("SkyGuide");
 }
 

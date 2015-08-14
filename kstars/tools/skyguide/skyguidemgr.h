@@ -24,6 +24,10 @@
 
 #define JSON_NAME QString("guide.json")
 
+/**
+ * @class SkyGuideMgr
+ * @author Marcos Cardinot <mcardinot@gmail.com>
+ */
 class SkyGuideMgr : public QObject
 {
     Q_OBJECT

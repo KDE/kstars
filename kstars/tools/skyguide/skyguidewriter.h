@@ -34,61 +34,63 @@ class SkyGuideWriterUI : public QFrame, public Ui::SkyGuideWriter {
         SkyGuideWriterUI(QWidget *p = 0);
 };
 
-//! @class SkyGuideWriter
-//! @author Marcos CARDINOT <mcardinot@gmail.com>
+/**
+ * @class SkyGuideWriter
+ * @author Marcos Cardinot <mcardinot@gmail.com>
+ */
 class SkyGuideWriter : public QDialog
 {
     Q_OBJECT
 
-    public:
-        SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent=0);
-        ~SkyGuideWriter();
+public:
+    SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent=0);
+    ~SkyGuideWriter();
 
-    private slots:
-        void slotNew();
-        void slotOpen();
-        void slotSave();
-        void slotSaveAs();
-        void slotInstall();
+private slots:
+    void slotNew();
+    void slotOpen();
+    void slotSave();
+    void slotSaveAs();
+    void slotInstall();
 
-        void slotShowAuthorDlg();
-        void slotAddAuthor();
-        void slotEditAuthor(QModelIndex idx);
-        void slotRemoveAuthor();
-        void slotAuthorsMoved(const QModelIndex&, int srcStart, int srcEnd, const QModelIndex&, int dstRow);
+    void slotShowAuthorDlg();
+    void slotAddAuthor();
+    void slotEditAuthor(QModelIndex idx);
+    void slotRemoveAuthor();
+    void slotAuthorsMoved(const QModelIndex&, int src, int, const QModelIndex&, int dst);
 
-        void slotShowSlideDlg();
-        void slotAddSlide();
-        void slotEditSlide(QModelIndex idx);
-        void slotRemoveSlide();
-        void slotGetImagePath();
-        void slotSlidesMoved(const QModelIndex&, int srcStart, int srcEnd, const QModelIndex&, int dstRow);
+    void slotShowSlideDlg();
+    void slotAddSlide();
+    void slotEditSlide(QModelIndex idx);
+    void slotRemoveSlide();
+    void slotGetImagePath();
+    void slotSlidesMoved(const QModelIndex&, int src, int, const QModelIndex&, int dst);
 
-        void slotUpdateButtons();
+    void slotUpdateButtons();
 
-        void slotFieldsChanged();
+    void slotFieldsChanged();
 
-    private:
-        QDialog* m_authorDlg;
-        QDialog* m_slideDlg;
+private:
+    QDialog* m_authorDlg;
+    QDialog* m_slideDlg;
 
-        SkyGuideWriterUI* m_ui;
-        Ui_SkyGuideAuthor* m_uiAuthor;
-        Ui_SkyGuideSlide* m_uiSlide;
+    SkyGuideWriterUI* m_ui;
+    Ui_SkyGuideAuthor* m_uiAuthor;
+    Ui_SkyGuideSlide* m_uiSlide;
 
-        SkyGuideMgr* m_skyGuideMgr;
-        SkyGuideObject* m_skyGuideObject;
-        bool m_unsavedChanges;
-        QString m_currentDir;
-        int m_isEditingAuthorIdx;
-        int m_isEditingSlideIdx;
+    SkyGuideMgr* m_skyGuideMgr;
+    SkyGuideObject* m_skyGuideObject;
+    bool m_unsavedChanges;
+    QString m_currentDir;
+    int m_isEditingAuthorIdx;
+    int m_isEditingSlideIdx;
 
-        void populateFields();
-        void setUnsavedChanges(bool b);
-        void blockSignals(bool b);
+    void populateFields();
+    void setUnsavedChanges(bool b);
+    void blockSignals(bool b);
 
-        void saveWarning();
-        bool checkRequiredFieldsWarning();
+    void saveWarning();
+    bool checkRequiredFieldsWarning();
 };
 
 #endif // SKYGUIDEWRITER_H
