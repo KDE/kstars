@@ -79,14 +79,20 @@ SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
     connect(m_ui->bSaveAs, SIGNAL(clicked()), this, SLOT(slotSaveAs()));
     connect(m_ui->bInstall, SIGNAL(clicked()), this, SLOT(slotInstall()));
 
-    // connect signals&slots of the list widgets (authors and slides)
+    // connect signals&slots of the authors listwidget
     connect(m_ui->listOfAuthors, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
-    connect(m_ui->listOfSlides, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
     connect(m_ui->listOfAuthors, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditAuthor(QModelIndex)));
-    connect(m_ui->listOfSlides, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditSlide(QModelIndex)));
+    connect(m_ui->listOfAuthors->model(), SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+            this, SLOT(slotAuthorsMoved(QModelIndex, int, int, QModelIndex, int)));
     connect(m_ui->bAddAuthor, SIGNAL(clicked()), this, SLOT(slotShowAuthorDlg()));
-    connect(m_ui->bAddSlide, SIGNAL(clicked()), this, SLOT(slotShowSlideDlg()));
     connect(m_ui->bRemoveAuthor, SIGNAL(clicked()), this, SLOT(slotRemoveAuthor()));
+
+    // connect signals&slots of the slides listwidget
+    connect(m_ui->listOfSlides, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateButtons()));
+    connect(m_ui->listOfSlides, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEditSlide(QModelIndex)));
+    connect(m_ui->listOfSlides->model(), SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+            this, SLOT(slotSlidesMoved(QModelIndex, int, int, QModelIndex, int)));
+    connect(m_ui->bAddSlide, SIGNAL(clicked()), this, SLOT(slotShowSlideDlg()));
     connect(m_ui->bRemoveSlide, SIGNAL(clicked()), this, SLOT(slotRemoveSlide()));
 
     // connect signals&slots of the authors dialog
@@ -400,6 +406,24 @@ void SkyGuideWriter::slotRemoveSlide() {
             --i;
         }
     }
+    m_skyGuideObject->setSlides(slides);
+    populateFields();
+}
+
+void SkyGuideWriter::slotAuthorsMoved(const QModelIndex&, int src, int,
+                                      const QModelIndex&, int dst) {
+    dst = src > dst? dst : dst - 1;
+    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
+    authors.move(src, dst);
+    m_skyGuideObject->setAuthors(authors);
+    populateFields();
+}
+
+void SkyGuideWriter::slotSlidesMoved(const QModelIndex&, int src, int,
+                                      const QModelIndex&, int dst) {
+    dst = src > dst? dst : dst - 1;
+    QList<SkyGuideObject::Slide> slides = m_skyGuideObject->slides();
+    slides.move(src, dst);
     m_skyGuideObject->setSlides(slides);
     populateFields();
 }

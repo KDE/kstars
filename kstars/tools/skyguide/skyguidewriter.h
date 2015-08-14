@@ -55,12 +55,14 @@ class SkyGuideWriter : public QDialog
         void slotAddAuthor();
         void slotEditAuthor(QModelIndex idx);
         void slotRemoveAuthor();
+        void slotAuthorsMoved(const QModelIndex&, int srcStart, int srcEnd, const QModelIndex&, int dstRow);
 
         void slotShowSlideDlg();
         void slotAddSlide();
         void slotEditSlide(QModelIndex idx);
         void slotRemoveSlide();
         void slotGetImagePath();
+        void slotSlidesMoved(const QModelIndex&, int srcStart, int srcEnd, const QModelIndex&, int dstRow);
 
         void slotUpdateButtons();
 
