@@ -50,6 +50,13 @@ public:
      void closeDome();
      void stopindi();
      void stopGuiding();
+     void clearLog();
+     void setGOTOMode(int mode);
+     void startSolving();
+     void getResults();
+     void processFITS(Schedulerjob *value);
+     void getNextFITSAction();
+     void terminateFITSJob(Schedulerjob *value);
 
      Schedulerjob *getCurrentjob() const;
      void setCurrentjob(Schedulerjob *value);
@@ -68,6 +75,10 @@ public slots:
     void saveSlot();
     void evaluateJobs();
     void checkJobStatus();
+    void selectFITSSlot();
+    void solveFITSSlot();
+    void solveFITSAction();
+    void checkFITSStatus();
 
 signals:
         void newLog();
@@ -88,10 +99,13 @@ private:
     int tableCountRow;
     int tableCountCol;
     int iterations ;
+    int isFITSSelected;
     QVector<Schedulerjob> objects;
     SkyObject *o;
     QStringList logText;
     Schedulerjob *currentjob;
+    Schedulerjob *currentFITSjob;
+    bool isStarted;
 };
 }
 

@@ -7,7 +7,7 @@ Schedulerjob::Schedulerjob(){
     specificAlt=false;
     moonSeparationCheck=false;
     meridianFlip=false;
-
+    isFITSSelected=false;
     whenSeqCompCheck=false;
     loopCheck=false;
     onTimeCheck=false;
@@ -296,6 +296,96 @@ void Schedulerjob::setCloseDomeCheck(bool value)
 {
     closeDomeCheck = value;
 }
+QString Schedulerjob::getFITSPath() const
+{
+    return FITSPath;
+}
+
+void Schedulerjob::setFITSPath(const QString &value)
+{
+    FITSPath = value;
+}
+double Schedulerjob::getFitsRA() const
+{
+    return fitsRA;
+}
+
+void Schedulerjob::setFitsRA(double value)
+{
+    fitsRA = value;
+}
+double Schedulerjob::getFitsDEC() const
+{
+    return fitsDEC;
+}
+
+void Schedulerjob::setFitsDEC(double value)
+{
+    fitsDEC = value;
+}
+bool Schedulerjob::getIsFITSSelected() const
+{
+    return isFITSSelected;
+}
+
+void Schedulerjob::setIsFITSSelected(bool value)
+{
+    isFITSSelected = value;
+}
+Schedulerjob::SolverChoice Schedulerjob::getSolverState() const
+{
+    return solverState;
+}
+
+void Schedulerjob::setSolverState(const SolverChoice &value)
+{
+    solverState = value;
+}
+int Schedulerjob::getMonth() const
+{
+    return month;
+}
+
+void Schedulerjob::setMonth(int value)
+{
+    month = value;
+}
+int Schedulerjob::getDay() const
+{
+    return day;
+}
+
+void Schedulerjob::setDay(int value)
+{
+    day = value;
+}
+int Schedulerjob::getFinishingMonth() const
+{
+    return finishingMonth;
+}
+
+void Schedulerjob::setFinishingMonth(int value)
+{
+    finishingMonth = value;
+}
+int Schedulerjob::getFinishingDay() const
+{
+    return finishingDay;
+}
+
+void Schedulerjob::setFinishingDay(int value)
+{
+    finishingDay = value;
+}
+
+
+
+
+
+
+
+
+
 
 
 

@@ -81,6 +81,7 @@ EkosManager::EkosManager()
     guideProcess   = NULL;
     alignProcess   = NULL;
     mountProcess   = NULL;
+    schedulerProcess = NULL;
 
     ekosOption     = NULL;
 
@@ -688,7 +689,6 @@ void EkosManager::reset()
     guideProcess   = NULL;
     alignProcess   = NULL;
     mountProcess   = NULL;
-    schedulerProcess = NULL;
 
     guiderCCDName  = "";
     primaryCCDName = "";
@@ -1876,8 +1876,9 @@ void EkosManager::updateLog()
         ekosLogOut->setPlainText(guideProcess->getLogText());
     else if (currentWidget == mountProcess)
         ekosLogOut->setPlainText(mountProcess->getLogText());
-    else if (currentWidget == schedulerProcess)
+     if (currentWidget == schedulerProcess)
         ekosLogOut->setPlainText(schedulerProcess->getLogText());
+
 
 }
 
@@ -1908,6 +1909,8 @@ void EkosManager::clearLog()
         guideProcess->clearLog();
     else if (currentWidget == mountProcess)
         mountProcess->clearLog();
+    else if (currentWidget == schedulerProcess)
+        schedulerProcess->clearLog();
 
 }
 

@@ -5,7 +5,7 @@ public:
     Schedulerjob();
     enum StateChoice{IDLE, READY, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
                      CAPTURING, CAPTURING_COMPLETE, ABORTED};
-    enum ActionChoice{NO_ACTION, START_SLEW, START_FOCUSING, START_GUIDING, START_ASTROMETRY, START_CAPTURING};
+    enum SolverChoice{NO_SOLVING, TO_BE_SOLVED, SOLVING, SOLVING_COMPLETE, ERROR};
     QString getName() const;
     void setName(const QString &value);
 
@@ -99,23 +99,57 @@ public:
     bool getCloseDomeCheck() const;
     void setCloseDomeCheck(bool value);
 
+    QString getFITSPath() const;
+    void setFITSPath(const QString &value);
+
+    double getFitsRA() const;
+    void setFitsRA(double value);
+
+    double getFitsDEC() const;
+    void setFitsDEC(double value);
+
+    bool getIsFITSSelected() const;
+    void setIsFITSSelected(bool value);
+
+    SolverChoice getSolverState() const;
+    void setSolverState(const SolverChoice &value);
+
+    int getMonth() const;
+    void setMonth(int value);
+
+    int getDay() const;
+    void setDay(int value);
+
+    int getFinishingMonth() const;
+    void setFinishingMonth(int value);
+
+    int getFinishingDay() const;
+    void setFinishingDay(int value);
+
 private:
     StateChoice state = IDLE;
-    ActionChoice action = NO_ACTION;
+    SolverChoice solverState = NO_SOLVING;
     QString name;
     QString RA;
     QString DEC;
     QString startTime;
     QString finTime;
     QString fileName;
+    QString FITSPath;
     SkyObject *ob;
 
     float alt;
     float moonSeparation;
+    double fitsRA;
+    double fitsDEC;
     int hours;
     int minutes;
+    int month;
+    int day;
     int finishingHour;
     int finishingMinute;
+    int finishingMonth;
+    int finishingDay;
     int score;
     int isOk;
     int rowNumber;
@@ -137,4 +171,5 @@ private:
     bool parkTelescopeCheck;
     bool warmCCDCheck;
     bool closeDomeCheck;
+    bool isFITSSelected;
 };
