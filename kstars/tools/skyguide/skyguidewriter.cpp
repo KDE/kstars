@@ -301,6 +301,7 @@ void SkyGuideWriter::slotAddAuthor() {
     }
     m_skyGuideObject->setAuthors(authors);
     populateFields();
+    setUnsavedChanges(true);
 }
 
 void SkyGuideWriter::slotAddSlide() {
@@ -338,6 +339,7 @@ void SkyGuideWriter::slotAddSlide() {
     }
     m_skyGuideObject->setSlides(slides);
     populateFields();
+    setUnsavedChanges(true);
 }
 
 void SkyGuideWriter::slotEditAuthor(QModelIndex idx) {
@@ -394,6 +396,7 @@ void SkyGuideWriter::slotRemoveAuthor() {
     }
     m_skyGuideObject->setAuthors(authors);
     populateFields();
+    setUnsavedChanges(true);
 }
 
 void SkyGuideWriter::slotRemoveSlide() {
@@ -408,6 +411,7 @@ void SkyGuideWriter::slotRemoveSlide() {
     }
     m_skyGuideObject->setSlides(slides);
     populateFields();
+    setUnsavedChanges(true);
 }
 
 void SkyGuideWriter::slotAuthorsMoved(const QModelIndex&, int src, int,
@@ -417,6 +421,7 @@ void SkyGuideWriter::slotAuthorsMoved(const QModelIndex&, int src, int,
     authors.move(src, dst);
     m_skyGuideObject->setAuthors(authors);
     populateFields();
+    setUnsavedChanges(true);
 }
 
 void SkyGuideWriter::slotSlidesMoved(const QModelIndex&, int src, int,
@@ -426,6 +431,7 @@ void SkyGuideWriter::slotSlidesMoved(const QModelIndex&, int src, int,
     slides.move(src, dst);
     m_skyGuideObject->setSlides(slides);
     populateFields();
+    setUnsavedChanges(true);
 }
 
 void SkyGuideWriter::populateFields() {
