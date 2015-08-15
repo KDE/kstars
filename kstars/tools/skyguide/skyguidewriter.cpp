@@ -23,26 +23,21 @@
 #include "skyguidewriter.h"
 #include "ui_skyguideauthor.h"
 #include "ui_skyguideslide.h"
-
-SkyGuideWriterUI::SkyGuideWriterUI(QWidget *parent) : QFrame(parent) {
-    setupUi(this);
-}
+#include "ui_skyguidewriter.h"
 
 SkyGuideWriter::SkyGuideWriter(SkyGuideMgr *mgr, QWidget *parent)
         : QDialog(parent)
-        , m_ui(new SkyGuideWriterUI)
         , m_skyGuideMgr(mgr)
         , m_skyGuideObject(NULL)
         , m_unsavedChanges(false)
         , m_isEditingAuthorIdx(-1)
         , m_isEditingSlideIdx(-1)
 {
-    // setup main frame
-    QVBoxLayout *mainLayout = new QVBoxLayout();
-    mainLayout->addWidget(m_ui);
-    setLayout(mainLayout);
+    // setup main dialog
     setWindowTitle(xi18n("SkyGuide Writer"));
     setModal(false);
+    m_ui = new Ui_SkyGuideWriter;
+    m_ui->setupUi(this);
 
     // setup author dialog
     m_authorDlg = new QDialog(this);

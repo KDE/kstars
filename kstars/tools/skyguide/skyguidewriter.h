@@ -21,18 +21,11 @@
 #include <QDialog>
 
 #include "skyguideobject.h"
-#include "ui_skyguidewriter.h"
 
 class SkyGuideMgr;
 class Ui_SkyGuideAuthor;
 class Ui_SkyGuideSlide;
-
-class SkyGuideWriterUI : public QFrame, public Ui::SkyGuideWriter {
-    Q_OBJECT
-
-    public:
-        SkyGuideWriterUI(QWidget *p = 0);
-};
+class Ui_SkyGuideWriter;
 
 /**
  * @class SkyGuideWriter
@@ -74,7 +67,7 @@ private:
     QDialog* m_authorDlg;
     QDialog* m_slideDlg;
 
-    SkyGuideWriterUI* m_ui;
+    Ui_SkyGuideWriter* m_ui;
     Ui_SkyGuideAuthor* m_uiAuthor;
     Ui_SkyGuideSlide* m_uiSlide;
 
