@@ -46,18 +46,7 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
     m_language = headerMap.value("language").toString();
     m_creationDate = headerMap.value("creationDate").toDate();
     m_version = headerMap.value("version").toInt();
-
-    // authors
-    if (headerMap.contains("authors")) {
-        foreach (const QVariant& author, headerMap.value("authors").toList()) {
-            QVariantMap amap = author.toMap();
-            Author a;
-            a.name = amap.value("name").toString();
-            a.email = amap.value("email").toString();
-            a.url = amap.value("url").toString();
-            m_authors.append(a);
-        }
-    }
+    m_authors = headerMap.value("authors").toList();
 
     // slides
     QList<Slide> slides;
@@ -160,14 +149,27 @@ QString SkyGuideObject::slideImgPath() {
     return m_path + QDir::toNativeSeparators("/" + m_slides.at(m_currentSlide).image);
 }
 
+SkyGuideObject::Author SkyGuideObject::authorFromQVariant(QVariant var) {
+    QVariantMap map = var.toMap();
+    Author author;
+    author.name = map.value("name").toString();
+    author.email = map.value("email").toString();
+    author.url = map.value("url").toString();
+    return author;
+}
+
+QVariant SkyGuideObject::authorToQVariant(Author author) {
+    QVariantMap map;
+    map.insert("name", author.name);
+    map.insert("email", author.email);
+    map.insert("url", author.url);
+    return map;
+}
+
 QJsonDocument SkyGuideObject::toJsonDocument() {
     QJsonArray authors;
-    foreach (Author a, m_authors) {
-        QJsonObject aObj;
-        aObj.insert("name", a.name);
-        aObj.insert("email", a.email);
-        aObj.insert("url", a.url);
-        authors.append(aObj);
+    foreach (QVariant a, m_authors) {
+        authors.append(QJsonObject::fromVariantMap(a.toMap()));
     }
 
     QJsonObject header;

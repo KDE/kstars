@@ -282,12 +282,13 @@ void SkyGuideWriter::slotAddAuthor() {
 
     m_authorDlg->hide();
 
-    SkyGuideObject::Author author;
-    author.name = m_uiAuthor->fName->text();
-    author.email = m_uiAuthor->fEmail->text();
-    author.url = m_uiAuthor->fUrl->text();
+    SkyGuideObject::Author a;
+    a.name = m_uiAuthor->fName->text();
+    a.email = m_uiAuthor->fEmail->text();
+    a.url = m_uiAuthor->fUrl->text();
+    QVariant author = SkyGuideObject::authorToQVariant(a);
 
-    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
+    QVariantList authors = m_skyGuideObject->authors();
     if (m_isEditingAuthorIdx >= 0 && m_isEditingAuthorIdx < authors.size()) {
         authors.replace(m_isEditingAuthorIdx, author);
         m_isEditingAuthorIdx = -1;
@@ -339,7 +340,8 @@ void SkyGuideWriter::slotAddSlide() {
 
 void SkyGuideWriter::slotEditAuthor(QModelIndex idx) {
     m_isEditingAuthorIdx = idx.row();
-    SkyGuideObject::Author author = m_skyGuideObject->authors().at(m_isEditingAuthorIdx);
+    QVariant aVar = m_skyGuideObject->authors().at(m_isEditingAuthorIdx);
+    SkyGuideObject::Author author = SkyGuideObject::authorFromQVariant(aVar);
     m_uiAuthor->fName->setText(author.name);
     m_uiAuthor->fEmail->setText(author.email);
     m_uiAuthor->fUrl->setText(author.url);
@@ -380,7 +382,7 @@ void SkyGuideWriter::slotUpdateButtons() {
 }
 
 void SkyGuideWriter::slotRemoveAuthor() {
-    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
+    QVariantList authors = m_skyGuideObject->authors();
     for (int i = 0; i < m_ui->listOfAuthors->count(); ++i) {
         QListWidgetItem* item = m_ui->listOfAuthors->item(i);
         if (item->isSelected()) {
@@ -412,7 +414,7 @@ void SkyGuideWriter::slotRemoveSlide() {
 void SkyGuideWriter::slotAuthorsMoved(const QModelIndex&, int src, int,
                                       const QModelIndex&, int dst) {
     dst = src > dst? dst : dst - 1;
-    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
+    QVariantList authors = m_skyGuideObject->authors();
     authors.move(src, dst);
     m_skyGuideObject->setAuthors(authors);
     populateFields();
@@ -438,8 +440,9 @@ void SkyGuideWriter::populateFields() {
     m_ui->fVersion->setValue(m_skyGuideObject->version());
 
     m_ui->listOfAuthors->clear();
-    QList<SkyGuideObject::Author> authors = m_skyGuideObject->authors();
-    foreach (SkyGuideObject::Author a, authors) {
+    QVariantList authors = m_skyGuideObject->authors();
+    foreach (QVariant v, authors) {
+        SkyGuideObject::Author a = SkyGuideObject::authorFromQVariant(v);
         m_ui->listOfAuthors->addItem(a.name);
     }
 

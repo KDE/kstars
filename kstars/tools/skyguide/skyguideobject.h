@@ -39,6 +39,7 @@ class SkyGuideObject : public QObject
     Q_PROPERTY(QString language READ language CONSTANT)
     Q_PROPERTY(QString creationDateStr READ creationDateStr CONSTANT)
     Q_PROPERTY(int version  READ version CONSTANT)
+    Q_PROPERTY(QVariantList authors READ authors)
 
     // slides
     Q_PROPERTY(QStringList contents READ contents CONSTANT)
@@ -93,8 +94,10 @@ public:
     int version() { return m_version; }
     void setVersion(int version) { m_version = version; }
 
-    QList<Author> authors() { return m_authors; }
-    void setAuthors(QList<Author> authors) { m_authors = authors; }
+    QVariantList authors() { return m_authors; }
+    void setAuthors(QVariantList authors) { m_authors = authors; }
+    static Author authorFromQVariant(QVariant var);
+    static QVariant authorToQVariant(Author author);
 
     QList<Slide> slides() { return m_slides; }
     void setSlides(QList<Slide> slides);
@@ -116,7 +119,7 @@ private:
     QString m_language;
     QDate m_creationDate;
     int m_version;
-    QList<Author> m_authors;
+    QVariantList m_authors;
     QList<Slide> m_slides;
     QStringList m_contents;
 
