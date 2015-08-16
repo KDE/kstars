@@ -176,7 +176,7 @@ QJsonDocument SkyGuideObject::toJsonDocument() {
     header.insert("title", m_title);
     header.insert("description", m_description);
     header.insert("language", m_language);
-    header.insert("creationDate", creationDateStr());
+    header.insert("creationDate", m_creationDate.toString(Qt::ISODate));
     header.insert("version", m_version);
     header.insert("authors", authors);
 
