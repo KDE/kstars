@@ -39,7 +39,7 @@ class SkyGuideObject : public QObject
     Q_PROPERTY(QString language READ language CONSTANT)
     Q_PROPERTY(QString creationDateStr READ creationDateStr CONSTANT)
     Q_PROPERTY(int version  READ version CONSTANT)
-    Q_PROPERTY(QVariantList authors READ authors)
+    Q_PROPERTY(QVariantList authors READ authors CONSTANT)
 
     // slides
     Q_PROPERTY(QStringList contents READ contents CONSTANT)

@@ -73,6 +73,23 @@ Rectangle {
 
             Text { text: "Slides:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
             Text { text: loader.modelData.contents.length; color: grid.textcolor; font.pixelSize: fontSizeText; }
+
+            Text { text: "Authors:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; Layout.alignment: Qt.AlignTop; }
+            GridLayout {
+                columns: 1
+                Repeater {
+                    model: loader.modelData.authors
+                    Text {
+                        text: "<b>" + modelData.name + "</b>" +
+                              "<i>" +
+                                (modelData.email ? "<br> - " + modelData.email : "") +
+                                (modelData.url   ? "<br> - " + modelData.url   : "") +
+                              "</i>";
+                        color: grid.textcolor;
+                        font.pixelSize: fontSizeText;
+                    }
+                }
+            }
         }
 
         ListView {
