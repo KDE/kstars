@@ -185,7 +185,7 @@ void SkyGuideWriter::slotSave() {
 
     QString savePath;
     if (m_currentDir.isEmpty()) {
-        savePath = QFileDialog::getSaveFileName(KStars::Instance(),
+        savePath = QFileDialog::getSaveFileName(this,
                                                 "Save SkyGuide",
                                                 m_skyGuideObject->title() + ".zip",
                                                 "Zip (*.zip)");
