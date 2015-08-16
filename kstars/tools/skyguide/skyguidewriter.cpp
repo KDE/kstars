@@ -189,6 +189,10 @@ void SkyGuideWriter::slotSave() {
                                                 "Save SkyGuide",
                                                 m_skyGuideObject->title() + ".zip",
                                                 "Zip (*.zip)");
+        if (savePath.isEmpty()) {
+            return;
+        }
+
         m_currentDir = QFileInfo(savePath).absolutePath();
     } else {
         savePath = m_currentDir + "/" + m_skyGuideObject->title() + ".zip";
