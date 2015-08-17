@@ -55,7 +55,7 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
         Slide s;
         s.title = smap.value("title").toString();
         s.text = smap.value("text").toString();
-        s.image = smap.value("image").toString();
+        s.imagePath = m_path + QDir::separator() + smap.value("image").toString();
         s.centerPoint = smap.value("centerPoint").toString();
         s.skyDateTime = smap.value("skyDateTime").toDateTime();
         s.zoomFactor = smap.value("zoomFactor").toDouble();
@@ -146,7 +146,7 @@ QString SkyGuideObject::slideImgPath() {
     if (m_currentSlide == -1) {
         return "";
     }
-    return m_path + QDir::toNativeSeparators("/" + m_slides.at(m_currentSlide).image);
+    return m_slides.at(m_currentSlide).imagePath;
 }
 
 SkyGuideObject::Author SkyGuideObject::authorFromQVariant(QVariant var) {
@@ -184,7 +184,7 @@ QJsonDocument SkyGuideObject::toJsonDocument() {
     foreach (Slide s, m_slides) {
         QJsonObject slide;
         slide.insert("title", s.title);
-        slide.insert("image", s.image);
+        slide.insert("image", QFileInfo(s.imagePath).fileName());
         slide.insert("text", s.text);
         slide.insert("centerPoint", s.centerPoint);
         slide.insert("skyDateTime", s.skyDateTime.toString());
@@ -215,34 +215,20 @@ QString SkyGuideObject::toZip() {
     mode_t perm = 0100644;
 
     // copy all images
-    const int count = m_slides.size();
-    for (int i = 0; i < count; ++i) {
-        SkyGuideObject::Slide s = m_slides.at(i);
-        if (s.image.isEmpty()) {
+    foreach (SkyGuideObject::Slide s, m_slides) {
+        if (s.imagePath.isEmpty()) {
             continue;
         }
 
-        QString imgPath;
-        if (s.image.contains(QDir::separator())) {
-            imgPath = s.image;
-        } else {
-            imgPath = m_path + "/" + s.image;
-        }
-
-        QFile img(imgPath);
+        QFile img(s.imagePath);
         if (!img.open(QIODevice::ReadOnly)) {
-            QString message = "Unable to read image file!\n" + imgPath;
+            QString message = "Unable to read image file!\n" + s.imagePath;
             KMessageBox::sorry(0, message, "Warning!");
             qWarning() << "SkyGuideObject: " << message;
             continue;
         }
 
-        // fix image name
-        s.image = QString("img%1_%2").arg(i).arg(s.image.split(QDir::separator()).last());
-        m_slides.replace(i, s);
-
-        archive.writeFile(s.image, img.readAll(), perm);
-        i++;
+        archive.writeFile(QFileInfo(s.imagePath).fileName(), img.readAll(), perm);
     }
 
     // creates the guide.json file

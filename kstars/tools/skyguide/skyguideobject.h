@@ -57,7 +57,7 @@ public:
 
     typedef struct {
         QString centerPoint;
-        QString image;
+        QString imagePath;
         QDateTime skyDateTime;
         QString text;
         QString title;

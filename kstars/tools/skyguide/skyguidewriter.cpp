@@ -317,7 +317,7 @@ void SkyGuideWriter::slotAddSlide() {
     SkyGuideObject::Slide slide;
     slide.title = m_uiSlide->fTitle->text();
     slide.text = m_uiSlide->fText->toPlainText();
-    slide.image = m_uiSlide->fImage->text();
+    slide.imagePath = m_uiSlide->fImage->text();
     slide.zoomFactor = 0;
 
     if (m_uiSlide->cCenterPoint->isChecked()) {
@@ -357,7 +357,7 @@ void SkyGuideWriter::slotEditSlide(QModelIndex idx) {
     SkyGuideObject::Slide slide = m_skyGuideObject->slides().at(m_isEditingSlideIdx);
     m_uiSlide->fTitle->setText(slide.title);
     m_uiSlide->fText->setPlainText(slide.text);
-    m_uiSlide->fImage->setText(slide.image);
+    m_uiSlide->fImage->setText(slide.imagePath);
 
     m_uiSlide->fCenterPoint->setText(slide.centerPoint);
     m_uiSlide->fCenterPoint->setEnabled(!slide.centerPoint.isEmpty());
