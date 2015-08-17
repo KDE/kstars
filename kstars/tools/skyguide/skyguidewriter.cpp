@@ -145,7 +145,7 @@ void SkyGuideWriter::slotNew() {
     map.insert("slides", QVariant());
     m_skyGuideObject = new SkyGuideObject("", map);
 
-    m_currentDir.clear();
+    m_currentFilePath.clear();
 }
 
 void SkyGuideWriter::slotOpen() {
@@ -154,9 +154,9 @@ void SkyGuideWriter::slotOpen() {
         return;
     }
 
-    QString initialDir = m_currentDir.isEmpty()
+    QString initialDir = m_currentFilePath.isEmpty()
                        ? m_skyGuideMgr->getGuidesDir().absolutePath()
-                       : m_currentDir;
+                       : m_currentFilePath;
 
     QString filePath = QFileDialog::getOpenFileName(this,
                                                     "Open SkyGuide",
@@ -173,7 +173,7 @@ void SkyGuideWriter::slotOpen() {
     if (!s) {
         return;
     }
-    m_currentDir = QFileInfo(filePath).absolutePath();
+    m_currentFilePath = filePath;
     m_skyGuideObject = s;
     populateFields();
 }
@@ -183,28 +183,22 @@ void SkyGuideWriter::slotSave() {
         return;
     }
 
-    QString savePath;
-    if (m_currentDir.isEmpty()) {
-        savePath = QFileDialog::getSaveFileName(this,
-                                                "Save SkyGuide",
-                                                m_skyGuideObject->title() + ".zip",
-                                                "Zip (*.zip)");
-        if (savePath.isEmpty()) {
-            return;
+    if (m_currentFilePath.isEmpty()) {
+        m_currentFilePath = QFileDialog::getSaveFileName(this, "Save SkyGuide",
+                                                         m_skyGuideObject->title() + ".zip",
+                                                         "Zip (*.zip)");
+        if (m_currentFilePath.isEmpty()) {
+            return; // the filedialog was closed/canceled
         }
-
-        m_currentDir = QFileInfo(savePath).absolutePath();
-    } else {
-        savePath = m_currentDir + "/" + m_skyGuideObject->title() + ".zip";
     }
-    QFile::remove(savePath);
+
+    QFile::remove(m_currentFilePath);
     QFile tmpFile(m_skyGuideObject->toZip());
-    if (m_currentDir.isEmpty() || !tmpFile.copy(savePath)) {
-        QString message = "Unable to store the current SkyGuide on: \n" + savePath;
+    if (!tmpFile.copy(m_currentFilePath)) {
+        QString message = "Unable to store the current SkyGuide on: \n" + m_currentFilePath;
         KMessageBox::sorry(0, message, "Warning!");
         qWarning() << "SkyGuideWriter: " << message;
     } else {
-        m_skyGuideObject->setPath(m_currentDir);
         setUnsavedChanges(false);
     }
     tmpFile.remove();
@@ -215,12 +209,12 @@ void SkyGuideWriter::slotSaveAs() {
         return;
     }
 
-    QString oldPath = m_currentDir;
-    m_currentDir.clear();
+    QString oldPath = m_currentFilePath;
+    m_currentFilePath.clear();
     slotSave();
 
-    if (m_currentDir.isEmpty()) {
-        m_currentDir = oldPath;
+    if (m_currentFilePath.isEmpty()) {
+        m_currentFilePath = oldPath;
     }
 }
 

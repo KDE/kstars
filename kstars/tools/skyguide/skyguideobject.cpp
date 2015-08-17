@@ -146,7 +146,8 @@ QString SkyGuideObject::slideImgPath() {
     if (m_currentSlide == -1) {
         return "";
     }
-    return m_slides.at(m_currentSlide).imagePath;
+    QString imgName = QFileInfo(m_slides.at(m_currentSlide).imagePath).fileName();
+    return m_path + QDir::separator() + imgName;
 }
 
 SkyGuideObject::Author SkyGuideObject::authorFromQVariant(QVariant var) {

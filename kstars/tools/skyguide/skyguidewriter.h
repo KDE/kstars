@@ -74,7 +74,7 @@ private:
     SkyGuideMgr* m_skyGuideMgr;
     SkyGuideObject* m_skyGuideObject;
     bool m_unsavedChanges;
-    QString m_currentDir;
+    QString m_currentFilePath;
     int m_isEditingAuthorIdx;
     int m_isEditingSlideIdx;
 
