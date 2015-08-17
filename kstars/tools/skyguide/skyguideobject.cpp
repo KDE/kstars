@@ -77,6 +77,10 @@ void SkyGuideObject::setSlides(QList<Slide> slides) {
 }
 
 void SkyGuideObject::setCurrentCenterPoint(QString objName) const {
+    if (objName.isEmpty()) {
+        return;
+    }
+
     SkyObject* obj = KStarsData::Instance()->skyComposite()->findByName(objName);
 
     // is it a HD star?
