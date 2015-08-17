@@ -376,8 +376,11 @@ void SkyGuideWriter::slotEditSlide(QModelIndex idx) {
 
 void SkyGuideWriter::slotGetImagePath() {
     QString imgPath = QFileDialog::getOpenFileName(m_slideDlg, "Image",
-                                                   "", "Images (*.png *.jpg *.jpeg)");
-    m_uiSlide->fImage->setText(imgPath);
+                                                   m_uiSlide->fImage->text(),
+                                                   "Images (*.png *.jpg *.jpeg)");
+    if (!imgPath.isEmpty()) {
+        m_uiSlide->fImage->setText(imgPath);
+    }
 }
 
 void SkyGuideWriter::slotUpdateButtons() {
