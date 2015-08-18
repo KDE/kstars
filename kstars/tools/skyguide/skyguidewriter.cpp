@@ -456,8 +456,8 @@ void SkyGuideWriter::saveWarning() {
         return;
     }
     QString caption = xi18n("Save Changes to SkyGuide?");
-    QString message = xi18n("The current SkyGuide has unsaved changes. "
-                            "Would you like to save before closing it?");
+    QString message = xi18n("The current SkyGuide has unsaved changes.\n"
+                            "Would you like to save it?");
     int ans = KMessageBox::warningYesNoCancel(0, message, caption,
                                               KStandardGuiItem::save(),
                                               KStandardGuiItem::discard());
