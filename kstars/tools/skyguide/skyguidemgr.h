@@ -43,6 +43,7 @@ public:
     SkyGuideObject* buildSGOFromJson(const QString& jsonPath);
     SkyGuideObject* buildSGOFromZip(const QString& zipPath);
     void installSkyGuide(const QString& zipPath);
+    bool uninstallSkyGuide(SkyGuideObject* obj);
 
 private slots:
     void slotAddSkyGuide();

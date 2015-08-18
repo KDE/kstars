@@ -70,23 +70,32 @@ bool SkyGuideMgr::loadSkyGuideObject(SkyGuideObject* skyGuideObj) {
 
     // title is unique?
     foreach (QObject* obj, m_skyGuideObjects) {
-        if (((SkyGuideObject*) obj)->title() == skyGuideObj->title()) {
-
+        SkyGuideObject* curObj((SkyGuideObject*) obj);
+        if (curObj->title() == skyGuideObj->title()) {
             QString caption = "Duplicated Title";
             QString message = "The SkyGuide title must be unique! \""
                             + skyGuideObj->title() + "\" is being used already.\n"
-                            + "Would you like to use the current one? "
-                            + "(it will not overwrite the file)";
+                            + "[1] creation date: " + curObj->creationDateStr()
+                            + " - version: " + QString::number(curObj->version())
+                            + "\n[2] creation date: " + skyGuideObj->creationDateStr()
+                            + " - version: " + QString::number(skyGuideObj->version())
+                            + "\nWould you like to overwrite the SkyGuide [1] or do you want to append a number on [2]?";
 
-            if (KMessageBox::warningYesNo(0, message, caption)) {
-                m_skyGuideObjects.removeOne(obj);
+            qWarning()  << "SkyGuideMgr: Duplicated title! " << skyGuideObj->title();
+
+            int ans = KMessageBox::warningYesNoCancel(0, message, caption,
+                                                      KStandardGuiItem::overwrite(),
+                                                      KStandardGuiItem::add());
+            if (ans == KMessageBox::Yes) {
+                uninstallSkyGuide(curObj);
+            } else if (ans == KMessageBox::No) {
+                skyGuideObj->setTitle(skyGuideObj->title() + QString::number(rand()));
             } else {
-                qWarning()  << "SkyGuideMgr: Duplicated title! " << skyGuideObj->title();
                 return false;
             }
+            break;
         }
     }
-
     m_skyGuideObjects.append(skyGuideObj);
     return true;
 }
@@ -206,4 +215,39 @@ void SkyGuideMgr::slotAddSkyGuide() {
     QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
     QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
     installSkyGuide(path);
+}
+
+bool SkyGuideMgr::uninstallSkyGuide(SkyGuideObject* obj) {
+    if (!m_skyGuideObjects.removeOne(obj)) {
+        QString message = "It seems that the SkyGuide \"" + obj->title()
+                        + "\" is not installed already!";
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
+        return true;
+    }
+
+    // we should remove only the skyguides which are on the installation dir!
+    // so, make sure it's there!
+    QDir root(obj->path());
+    root.cdUp();
+    if (root != m_guidesDir) {
+        QString message = "Unable to remove the SkyGuide \"" + obj->title() + "\".\n"
+                        + "It is not in the installation directory!\n"
+                        + obj->path();
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
+        return false;
+    }
+
+    if (!QDir(obj->path()).removeRecursively()) {
+        QString message = "Unable to remove the SkyGuide \"" + obj->title() + "\".\n"
+                        + "Please, check your permissions!\n"
+                        + obj->path();
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
+        return false;
+    }
+    qDebug() << "SkyGuideMgr: The SkyGuide \"" + obj->title() + "\" on "
+             << obj->path() << " was successfully removed!";
+    return true;
 }
