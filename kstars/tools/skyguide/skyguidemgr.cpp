@@ -174,16 +174,27 @@ void SkyGuideMgr::installSkyGuide(const QString& zipPath) {
         return;
     }
 
-    // rename and move the temp folder to the installation dir
+    // create a new folder on the installation dir to store this SkyGuide
+    QString dirName = obj->title();
     int i = 0;
-    QString newPath = m_guidesDir.absolutePath() + "/" + obj->title();
-    QDir dir;
-    while (!dir.rename(obj->path(), newPath)) {
-        newPath += QString::number(i);  // doesn't matter the number
+    while (!m_guidesDir.mkdir(dirName)) {
+        dirName += QString::number(i);  // doesn't matter the number
         i++;
     }
+    QString newPath = m_guidesDir.absolutePath() + QDir::separator() + dirName;
 
-    // fix path
+    // Copy the temp folder to the installation dir!
+    // Users may want to change something else,
+    // so we should leave the temp folder there for while
+    // just to ensure that all image paths remain valid.
+    QFileInfoList infoList = QDir(obj->path()).entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+    foreach (QFileInfo fileInfo, infoList) {
+        QFile file(fileInfo.absoluteFilePath());
+        QString newFilePath = newPath + QDir::separator() + fileInfo.fileName();
+        file.copy(newFilePath);
+    }
+
+    // fix the SkyGuide path - now it's on the installation dir
     obj->setPath(newPath);
 
     // refresh view
