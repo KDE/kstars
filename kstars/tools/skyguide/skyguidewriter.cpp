@@ -219,13 +219,9 @@ void SkyGuideWriter::slotSaveAs() {
 }
 
 void SkyGuideWriter::slotInstall() {
-    if (!checkRequiredFieldsWarning()) {
-        return;
-    }
-    slotSave();
-    QString zipPath = m_skyGuideObject->path() + "/" + m_skyGuideObject->title() + ".zip";
-    if (QFileInfo(zipPath).exists()) {
-        m_skyGuideMgr->installSkyGuide(zipPath);
+    saveWarning();
+    if (!m_unsavedChanges) {
+        m_skyGuideMgr->installSkyGuide(m_currentFilePath);
     }
 }
 
