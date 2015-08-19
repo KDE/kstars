@@ -19,9 +19,11 @@
 
 #include <QLabel>
 #include <QCheckBox>
+#include <QRadioButton>
 
 #include "Options.h"
 #include "kstars.h"
+#include "ksutils.h"
 #include "widgets/timestepbox.h"
 
 OpsAdvanced::OpsAdvanced( KStars *_ks )
@@ -35,6 +37,10 @@ OpsAdvanced::OpsAdvanced( KStars *_ks )
     connect( SlewTimeScale, SIGNAL( scaleChanged( float ) ), this, SLOT( slotChangeTimeScale( float ) ) );
 
     connect( kcfg_HideOnSlew, SIGNAL( clicked() ), this, SLOT( slotToggleHideOptions() ) );
+
+    connect (kcfg_VerboseLogging, SIGNAL(toggled(bool)), this, SLOT(slotToggleVerbosityOptions()));
+
+    connect(kcfg_LogToFile, SIGNAL(toggled(bool)), this, SLOT(slotToggleOutputOptions()));
 }
 
 OpsAdvanced::~OpsAdvanced() {}
@@ -49,4 +55,30 @@ void OpsAdvanced::slotToggleHideOptions() {
     HideBox->setEnabled( kcfg_HideOnSlew->isChecked() );
 }
 
+void OpsAdvanced::slotToggleVerbosityOptions()
+{
+    if (kcfg_DisableLogging->isChecked())
+        KSUtils::Logging::Disable();
+}
+
+void OpsAdvanced::slotToggleOutputOptions()
+{
+    if (kcfg_LogToDefault->isChecked())
+    {
+        kcfg_VerboseLogFile->setEnabled(false);
+
+        if (kcfg_DisableLogging->isChecked() == false)
+            KSUtils::Logging::UseDefault();
+    }
+    else
+    {
+        kcfg_VerboseLogFile->setEnabled(true);
+
+        if (kcfg_VerboseLogFile->text().isEmpty())
+            kcfg_VerboseLogFile->setText(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "kstars.log");
+
+        if (kcfg_DisableLogging->isChecked() == false)
+            KSUtils::Logging::UseFile(kcfg_VerboseLogFile->text());
+    }
+}
 

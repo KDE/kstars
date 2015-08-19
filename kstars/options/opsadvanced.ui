@@ -35,7 +35,7 @@
       <attribute name="title">
        <string>&amp;General</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QGroupBox" name="BackendsGroupBox">
          <property name="title">
@@ -180,64 +180,122 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Verbose Debug Output</string>
+          <string>Logging Output</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QRadioButton" name="kcfg_enableVerbosLogging">
-              <property name="toolTip">
-               <string>Enable verbose debug output to file</string>
-              </property>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>E&amp;nable</string>
+               <string>Verbosity:</string>
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QRadioButton" name="kcfg_disableVerboseLogging">
+            <item row="0" column="1">
+             <widget class="QRadioButton" name="kcfg_VerboseLogging">
               <property name="toolTip">
-               <string>Disable verbose debug output to file</string>
+               <string>Enable verbose debug output</string>
+              </property>
+              <property name="text">
+               <string>&amp;Verbose</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">verbosityButtonGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QRadioButton" name="kcfg_RegularLogging">
+              <property name="toolTip">
+               <string>Enable regular debug output</string>
+              </property>
+              <property name="text">
+               <string>Regular</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">verbosityButtonGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QRadioButton" name="kcfg_DisableLogging">
+              <property name="toolTip">
+               <string>Disable all logging output</string>
               </property>
               <property name="text">
                <string>Disable</string>
               </property>
               <property name="checked">
-               <bool>true</bool>
+               <bool>false</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">verbosityButtonGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Output:</string>
               </property>
              </widget>
             </item>
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="1" column="1">
+             <widget class="QRadioButton" name="kcfg_LogToDefault">
+              <property name="toolTip">
+               <string>Log debug messages to default output device used by the platform (e.g. Standard Error)</string>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
+              <property name="text">
+               <string>Default</string>
               </property>
-             </spacer>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">logbuttonGroup</string>
+              </attribute>
+             </widget>
             </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
+            <item row="1" column="2">
+             <widget class="QRadioButton" name="kcfg_LogToFile">
+              <property name="toolTip">
+               <string>Log output to log file</string>
+              </property>
+              <property name="text">
+               <string>File</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">logbuttonGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="2" column="0">
              <widget class="QLabel" name="label_2">
               <property name="text">
                <string>Log file:</string>
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QLineEdit" name="kcfg_verboseLogFile"/>
+            <item row="2" column="1" colspan="3">
+             <widget class="QLineEdit" name="kcfg_VerboseLogFile">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
          </layout>
+         <zorder>kcfg_RegularLogging</zorder>
+         <zorder>kcfg_VerboseLogFile</zorder>
+         <zorder>kcfg_LogToDefault</zorder>
+         <zorder>kcfg_LogToFile</zorder>
+         <zorder>label_4</zorder>
+         <zorder>label_5</zorder>
         </widget>
        </item>
        <item>
@@ -796,4 +854,8 @@
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="verbosityButtonGroup"/>
+  <buttongroup name="logbuttonGroup"/>
+ </buttongroups>
 </ui>

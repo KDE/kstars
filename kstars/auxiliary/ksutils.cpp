@@ -199,7 +199,7 @@ QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> *starObjLi
 
   void Logging::Write(QTextStream &stream, QtMsgType type, const QString &msg)
   {
-    stream << QTime::currentTime().toString("yyyy-MM-ddThh:mm:ss.zzz") << " - ";
+    stream << QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzz") << " - ";
 
     switch(type) {
       case QtDebugMsg:
