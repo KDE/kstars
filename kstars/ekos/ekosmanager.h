@@ -43,7 +43,7 @@ class KPageWidgetItem;
  * </ul>
  *  For low level access to INDI devices, the \ref INDIDBusInterface "INDI Dbus Interface" provides complete access to INDI devices and properties.
  *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
@@ -53,6 +53,8 @@ class EkosManager : public QDialog, public Ui::EkosManager
 public:
     EkosManager();
     ~EkosManager();
+
+    typedef enum { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR } CommunicationStatus;
 
     void appendLogText(const QString &);
     void refreshRemoteDrivers();
@@ -72,14 +74,14 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
 
     /** DBUS interface function.
-     * @retrun Retruns true if all devices are conncted, false otherwise.
+     * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
      */
-    Q_SCRIPTABLE bool isConnected() { return disconnectB->isEnabled();}
+    Q_SCRIPTABLE unsigned int getINDIConnectionStatus() { return indiConnectionStatus;}
 
     /** DBUS interface function.
-     * @retrun Retruns true if all INDI drivers are started, false otherwise.
+     * @retrun Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
      */
-    Q_SCRIPTABLE bool isStarted() { return controlPanelB->isEnabled();}
+    Q_SCRIPTABLE unsigned int getEkosStartingStatus() { return ekosStartingStatus;}
 
     /** DBUS interface function.
      * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
@@ -234,10 +236,13 @@ protected slots:
     bool localMode, ccdDriverSelected;
 
     int nDevices;
+    int nConnectedDevices;
     QList<DriverInfo *> managedDevices;
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;
     KPageWidgetItem *ekosOption;
+    CommunicationStatus ekosStartingStatus, indiConnectionStatus;
+
 };
 
 

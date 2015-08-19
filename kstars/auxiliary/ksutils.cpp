@@ -28,7 +28,10 @@
 
 #include <cmath>
 
-bool KSUtils::openDataFile( QFile &file, const QString &s ) {
+namespace KSUtils {
+
+
+bool openDataFile( QFile &file, const QString &s ) {
     QString FileName = QStandardPaths::locate(QStandardPaths::DataLocation, s );
     if ( !FileName.isNull() ) {
         file.setFileName( FileName );
@@ -37,7 +40,7 @@ bool KSUtils::openDataFile( QFile &file, const QString &s ) {
     return false;
 }
 
-QString KSUtils::getDSSURL( const SkyPoint * const p ) {
+QString getDSSURL( const SkyPoint * const p ) {
         const DeepSkyObject *dso = 0;
         double height, width;
 
@@ -83,7 +86,7 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
         return getDSSURL( p->ra0(), p->dec0(), width, height );
 }
 
-QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString & type) {
+QString getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString & type) {
     const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?" );
     QString URLsuffix = QString( "&e=J2000&f=%1&c=none&fov=NONE" ).arg(type);
     const double dss_default_size = Options::defaultDSSImageSize();
@@ -113,7 +116,7 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
     return ( URLprefix + RAString + DecString + SizeString + URLsuffix );
 }
 
-QString KSUtils::toDirectionString( dms angle ) {
+QString toDirectionString( dms angle ) {
     // TODO: Instead of doing it this way, it would be nicer to
     // compute the string to arbitrary precision. Although that will
     // not be easy to localize.  (Consider, for instance, Indian
@@ -146,10 +149,90 @@ QString KSUtils::toDirectionString( dms angle ) {
 }
 
 
-QList<SkyObject *> * KSUtils::castStarObjListToSkyObjList( QList<StarObject *> *starObjList ) {
+QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> *starObjList ) {
     QList<SkyObject *> *skyObjList = new QList<SkyObject *>();
     foreach( StarObject *so, *starObjList ) {
         skyObjList->append( so );
     }
     return skyObjList;
+}
+
+  QString Logging::_filename;
+
+  void Logging::UseFile(const QString &filename)
+  {
+    _filename = filename;
+    qInstallMessageHandler(File);
+  }
+
+  void Logging::File(QtMsgType type, const QMessageLogContext &, const QString &msg)
+  {
+    QFile file(_filename);
+    if(file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Append))
+    {
+      QTextStream stream(&file);
+      Write(stream, type, msg);
+    }
+  }
+
+  void Logging::UseStdout()
+  {
+    qInstallMessageHandler(Stdout);
+  }
+
+  void Logging::Stdout(QtMsgType type, const QMessageLogContext &, const QString &msg)
+  {
+    QTextStream stream(stdout, QIODevice::WriteOnly);
+    Write(stream, type, msg);
+  }
+
+  void Logging::UseStderr()
+  {
+    qInstallMessageHandler(Stderr);
+  }
+
+  void Logging::Stderr(QtMsgType type, const QMessageLogContext &, const QString &msg)
+  {
+    QTextStream stream(stderr, QIODevice::WriteOnly);
+    Write(stream, type, msg);
+  }
+
+  void Logging::Write(QTextStream &stream, QtMsgType type, const QString &msg)
+  {
+    stream << QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzz") << " - ";
+
+    switch(type) {
+      case QtDebugMsg:
+        stream << "DEBG - ";
+        break;
+      case QtWarningMsg:
+        stream << "WARN - ";
+        break;
+      case QtCriticalMsg:
+        stream << "CRIT - ";
+        break;
+      case QtFatalMsg:
+        stream << "FATL - ";
+        break;
+      default:
+        stream << "UNKN - ";
+    }
+
+    stream << msg << endl;
+  }
+
+  void Logging::UseDefault()
+  {
+    qInstallMessageHandler(0);
+  }
+
+  void Logging::Disable()
+  {
+    qInstallMessageHandler(Disabled);
+  }
+
+  void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
+  {
+  }
+
 }

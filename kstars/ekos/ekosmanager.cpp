@@ -45,6 +45,7 @@ EkosManager::EkosManager()
     setWindowIcon(QIcon::fromTheme("kstars_ekos"));
 
     nDevices=0;
+    nConnectedDevices=0;
     useGuideHead    =false;
     useST4          =false;
     ccdStarted      =false;
@@ -52,6 +53,9 @@ EkosManager::EkosManager()
     scopeRegistered = false;
     remoteCCDRegistered    = false;
     remoteGuideRegistered  = false;
+
+    indiConnectionStatus = STATUS_IDLE;
+    ekosStartingStatus   = STATUS_IDLE;
 
     scope   =  NULL;
     ccd     =  NULL;
@@ -634,6 +638,7 @@ void EkosManager::saveRemoteDrivers()
 void EkosManager::reset()
 {
     nDevices=0;
+    nConnectedDevices=0;
 
     useGuideHead           = false;
     guideStarted           = false;
@@ -684,6 +689,9 @@ void EkosManager::reset()
     alignProcess   = NULL;
     mountProcess   = NULL;
 
+    ekosStartingStatus  = STATUS_IDLE;
+    indiConnectionStatus= STATUS_IDLE;
+
     guiderCCDName  = "";
     primaryCCDName = "";
 
@@ -708,6 +716,7 @@ void EkosManager::processINDI()
 bool EkosManager::stop()
 {
     cleanDevices();
+    ekosStartingStatus = STATUS_IDLE;
     return true;
 }
 
@@ -912,8 +921,11 @@ bool EkosManager::start()
         if (DriverManager::Instance()->startDevices(managedDevices) == false)
         {
             INDIListener::Instance()->disconnect(this);
+            ekosStartingStatus = STATUS_ERROR;
             return false;
         }
+
+        ekosStartingStatus = STATUS_PENDING;
 
         appendLogText(xi18n("INDI services started. Please connect devices."));
 
@@ -927,8 +939,11 @@ bool EkosManager::start()
             INDIListener::Instance()->disconnect(this);
             delete (remote_indi);
             remote_indi=0;
+            ekosStartingStatus = STATUS_ERROR;
             return false;
         }
+
+        ekosStartingStatus = STATUS_PENDING;
 
         appendLogText(xi18n("INDI services started. Connection to %1 at %2 is successful.", Options::remoteHost(), Options::remotePort()));
 
@@ -950,7 +965,10 @@ bool EkosManager::start()
 void EkosManager::checkINDITimeout()
 {
     if (nDevices <= 0)
+    {
+        ekosStartingStatus = STATUS_SUCCESS;
         return;
+    }
 
     if (localMode)
     {
@@ -1010,6 +1028,8 @@ void EkosManager::checkINDITimeout()
         else
             KMessageBox::error(this, xi18n("Unable to establish remote devices:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.join("\n")));
     }
+
+    ekosStartingStatus = STATUS_ERROR;
 }
 
 void EkosManager::refreshRemoteDrivers()
@@ -1020,6 +1040,9 @@ void EkosManager::refreshRemoteDrivers()
 
 void EkosManager::connectDevices()
 {
+
+    indiConnectionStatus = STATUS_PENDING;
+
     if (scope)
     {
          scope->Connect();
@@ -1291,6 +1314,8 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
 
     if (nDevices <= 0)
     {
+        ekosStartingStatus = STATUS_SUCCESS;
+
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
@@ -1361,16 +1386,15 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
 
     if (nDevices <= 0)
     {
+        ekosStartingStatus = STATUS_SUCCESS;
+
         if (nDevices == 0)
             appendLogText(xi18n("Remote devices established. Please connect devices."));
 
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
-
-
     }
-
 }
 
 void EkosManager::deviceConnected()
@@ -1379,6 +1403,11 @@ void EkosManager::deviceConnected()
     disconnectB->setEnabled(true);
 
     processINDIB->setEnabled(false);
+
+    nConnectedDevices++;
+
+    if (nConnectedDevices == managedDevices.count())
+        indiConnectionStatus = STATUS_SUCCESS;
 
     if (Options::neverLoadConfig())
         return;
@@ -1461,6 +1490,23 @@ void EkosManager::deviceConnected()
 
 void EkosManager::deviceDisconnected()
 {
+    ISD::GDInterface *dev = static_cast<ISD::GDInterface *> (sender());
+
+    if (dev)
+    {
+        if (dev->getState("CONNECTION") == IPS_ALERT)
+            indiConnectionStatus = STATUS_ERROR;
+        else
+            indiConnectionStatus = STATUS_IDLE;
+    }
+    else
+        indiConnectionStatus = STATUS_IDLE;
+
+    nConnectedDevices--;
+
+    if (nConnectedDevices < 0)
+        nConnectedDevices = 0;
+
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
 
