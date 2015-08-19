@@ -1223,6 +1223,20 @@
       <whatsthis>To include parts of the star field, we add some extra padding around DSS images of deep-sky objects. This option configures the total (both sides) padding added to either dimension of the field.</whatsthis>
       <default>10.0</default>
     </entry>
+    <entry name="EnableVerboseLogging" type="Bool">
+      <label>Enable Verbose Logging</label>
+      <whatsthis>Checking this option causes KStars to generate verbose debug information for diagnostic purposes. This may cause slowdown of KStars.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="DisableVerboseLogging" type="Bool">
+      <label>Disable Verbose Logging</label>
+      <whatsthis>Checking this option causes KStars to stop generating verbose debug information.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="VerboseLogFile" type="String">
+      <label>Verbose Log File</label>
+      <whatsthis>Verbose log file to save all of KStars generated debug messages to.</whatsthis>
+    </entry>
   </group>
   <group name="WISettings">
       <entry name="BortleClass" type="UInt">

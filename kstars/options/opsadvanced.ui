@@ -14,7 +14,16 @@
    <property name="spacing">
     <number>6</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
+   <property name="topMargin">
+    <number>8</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
+   </property>
+   <property name="bottomMargin">
     <number>8</number>
    </property>
    <item>
@@ -26,7 +35,7 @@
       <attribute name="title">
        <string>&amp;General</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
         <widget class="QGroupBox" name="BackendsGroupBox">
          <property name="title">
@@ -169,6 +178,69 @@
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Verbose Debug Output</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QRadioButton" name="kcfg_enableVerbosLogging">
+              <property name="toolTip">
+               <string>Enable verbose debug output to file</string>
+              </property>
+              <property name="text">
+               <string>E&amp;nable</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="kcfg_disableVerboseLogging">
+              <property name="toolTip">
+               <string>Disable verbose debug output to file</string>
+              </property>
+              <property name="text">
+               <string>Disable</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Log file:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="kcfg_verboseLogFile"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <spacer name="GeneralTabSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -255,7 +327,16 @@
          <property name="spacing">
           <number>6</number>
          </property>
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -301,7 +382,16 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>8</number>
+          </property>
+          <property name="topMargin">
+           <number>8</number>
+          </property>
+          <property name="rightMargin">
+           <number>8</number>
+          </property>
+          <property name="bottomMargin">
            <number>8</number>
           </property>
           <item>
@@ -309,7 +399,16 @@
             <property name="spacing">
              <number>6</number>
             </property>
-            <property name="margin">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
              <number>0</number>
             </property>
             <item>
@@ -326,7 +425,7 @@
              </widget>
             </item>
             <item>
-             <widget class="MagnitudeSpinBox" name="kcfg_MagLimitHideStar" native="true">
+             <widget class="MagnitudeSpinBox" name="kcfg_MagLimitHideStar">
               <property name="minimumSize">
                <size>
                 <width>40</width>
@@ -368,7 +467,16 @@
           </item>
           <item>
            <layout class="QGridLayout">
-            <property name="margin">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
              <number>0</number>
             </property>
             <property name="spacing">
@@ -532,13 +640,22 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>8</number>
+          </property>
+          <property name="topMargin">
+           <number>8</number>
+          </property>
+          <property name="rightMargin">
+           <number>8</number>
+          </property>
+          <property name="bottomMargin">
            <number>8</number>
           </property>
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListSymbol">
             <property name="text">
-             <string>Symbol</string>
+             <string>Sy&amp;mbol</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -548,7 +665,7 @@
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListText">
             <property name="text">
-             <string>Text</string>
+             <string>Te&amp;xt</string>
             </property>
            </widget>
           </item>
@@ -583,13 +700,22 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>8</number>
+          </property>
+          <property name="topMargin">
+           <number>8</number>
+          </property>
+          <property name="rightMargin">
+           <number>8</number>
+          </property>
+          <property name="bottomMargin">
            <number>8</number>
           </property>
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListPreferDSS">
             <property name="text">
-             <string>&amp;Digitized Sky Survey (DSS)</string>
+             <string>Digiti&amp;zed Sky Survey (DSS)</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -599,7 +725,7 @@
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListPreferSDSS">
             <property name="text">
-             <string>&amp;Sloan Digital Sky Survey (SDSS)</string>
+             <string>Sloan Digital Sky Sur&amp;vey (SDSS)</string>
             </property>
            </widget>
           </item>
@@ -626,11 +752,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QDoubleSpinBox</class>
-   <extends>QWidget</extends>
-   <header>QDoubleSpinBox</header>
-  </customwidget>
   <customwidget>
    <class>MagnitudeSpinBox</class>
    <extends>QDoubleSpinBox</extends>
