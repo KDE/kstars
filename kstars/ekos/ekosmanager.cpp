@@ -2099,6 +2099,8 @@ void EkosManager::setST4(ISD::ST4 * st4Driver)
 void EkosManager::removeTabs()
 {
 
+    disconnect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
+
         for (int i=2; i < toolsWidget->count(); i++)
                 toolsWidget->removeTab(i);
 
@@ -2127,6 +2129,8 @@ void EkosManager::removeTabs()
         aux1 = NULL;
         aux2 = NULL;
         aux3 = NULL;
+
+        connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
 }
 
