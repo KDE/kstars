@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 import QtQuick 2.2
+import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 
 Rectangle {
@@ -81,10 +82,24 @@ Rectangle {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: guidesList.currentIndex = index
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                     onDoubleClicked: goToPage(getPageObj('INFO', model.modelData, -1))
+                    onClicked: {
+                        guidesList.currentIndex = index;
+                        if (mouse.button == Qt.RightButton) {
+                            ctxMenu.popup();
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    Menu {
+        id: ctxMenu
+        MenuItem {
+            text: "Uninstall"
+            onTriggered: uninstall(guidesList.currentIndex)
         }
     }
 }

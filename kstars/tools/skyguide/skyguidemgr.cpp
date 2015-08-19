@@ -39,6 +39,7 @@ SkyGuideMgr::SkyGuideMgr()
 
     connect((QObject*)m_view->rootObject(), SIGNAL(addSkyGuide()), this, SLOT(slotAddSkyGuide()));
     connect((QObject*)m_view->rootObject(), SIGNAL(openWriter()), m_skyGuideWriter, SLOT(show()));
+    connect((QObject*)m_view->rootObject(), SIGNAL(uninstall(int)), this, SLOT(slotUninstallSkyGuide(int)));
 }
 
 SkyGuideMgr::~SkyGuideMgr() {
@@ -210,13 +211,6 @@ void SkyGuideMgr::installSkyGuide(const QString& zipPath) {
     m_view->setModel(m_skyGuideObjects);
 }
 
-void SkyGuideMgr::slotAddSkyGuide() {
-    // open QFileDialog - select the SkyGuide
-    QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
-    QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
-    installSkyGuide(path);
-}
-
 bool SkyGuideMgr::uninstallSkyGuide(SkyGuideObject* obj) {
     if (!m_skyGuideObjects.removeOne(obj)) {
         QString message = "It seems that the SkyGuide \"" + obj->title()
@@ -226,12 +220,15 @@ bool SkyGuideMgr::uninstallSkyGuide(SkyGuideObject* obj) {
         return true;
     }
 
+    // refresh view
+    m_view->setModel(m_skyGuideObjects);
+
     // we should remove only the skyguides which are on the installation dir!
     // so, make sure it's there!
     QDir root(obj->path());
     root.cdUp();
     if (root != m_guidesDir) {
-        QString message = "Unable to remove the SkyGuide \"" + obj->title() + "\".\n"
+        QString message = "Unable to remove the files of the SkyGuide \"" + obj->title() + "\".\n"
                         + "It is not in the installation directory!\n"
                         + obj->path();
         KMessageBox::sorry(0, message, "Warning!");
@@ -240,14 +237,33 @@ bool SkyGuideMgr::uninstallSkyGuide(SkyGuideObject* obj) {
     }
 
     if (!QDir(obj->path()).removeRecursively()) {
-        QString message = "Unable to remove the SkyGuide \"" + obj->title() + "\".\n"
+        QString message = "Unable to remove all files of the SkyGuide \"" + obj->title() + "\".\n"
                         + "Please, check your permissions!\n"
                         + obj->path();
         KMessageBox::sorry(0, message, "Warning!");
         qWarning() << "SkyGuideMgr: " << message;
         return false;
     }
+
     qDebug() << "SkyGuideMgr: The SkyGuide \"" + obj->title() + "\" on "
              << obj->path() << " was successfully removed!";
+
     return true;
+}
+
+void SkyGuideMgr::slotAddSkyGuide() {
+    // open QFileDialog - select the SkyGuide
+    QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
+    QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
+    installSkyGuide(path);
+}
+
+void SkyGuideMgr::slotUninstallSkyGuide(int idx) {
+    SkyGuideObject* obj = (SkyGuideObject*) m_skyGuideObjects.at(idx);
+    QString message = "Are you sure that you want to remove the \""
+                    + obj->title() + "\" SkyGuide?";
+    int ans = KMessageBox::questionYesNo(0, message, "Warning!");
+    if (ans == KMessageBox::Yes) {
+        uninstallSkyGuide(obj);
+    }
 }

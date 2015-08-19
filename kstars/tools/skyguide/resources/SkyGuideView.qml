@@ -34,6 +34,7 @@ ColumnLayout {
 
     signal addSkyGuide()
     signal openWriter()
+    signal uninstall(int skyGuideIdx)
 
     function getPageObj(name, model, slide) {
         return {'name': name, 'modelData': model, 'slide': slide};

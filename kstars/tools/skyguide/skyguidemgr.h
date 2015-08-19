@@ -47,6 +47,7 @@ public:
 
 private slots:
     void slotAddSkyGuide();
+    void slotUninstallSkyGuide(int idx);
 
 private:
     SkyGuideView* m_view;
