@@ -11,11 +11,11 @@
       <arg name="isLocal" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="isConnected">
-      <arg type="b" direction="out"/>
+    <method name="getINDIConnectionStatus">
+      <arg type="i" direction="out"/>
     </method>
-    <method name="isStarted">
-      <arg type="b" direction="out"/>
+    <method name="getEkosStartingStatus">
+      <arg type="i" direction="out"/>
     </method>
     <method name="start">
       <arg type="b" direction="out"/>
