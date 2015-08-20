@@ -36,8 +36,6 @@
 #define MAXIMUM_RESET_ITERATIONS    2
 #define DEFAULT_SUBFRAME_DIM        128
 
-//#define FOCUS_DEBUG
-
 namespace Ekos
 {
 
@@ -511,9 +509,8 @@ void Focus::startFocus()
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
 
-    #ifdef FOCUS_DEBUG
-    qDebug() << "Starting focus with pulseDuration " << pulseDuration << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "Starting focus with pulseDuration " << pulseDuration;
 
     if (kcfg_autoSelectStar->isChecked())
         appendLogText(xi18n("Autofocus in progress..."));
@@ -548,9 +545,8 @@ void Focus::checkStopFocus()
 void Focus::stopFocus()
 {
 
-    #ifdef FOCUS_DEBUG
-    qDebug() << "Stopppig Focus" << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "Stopppig Focus";
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
@@ -666,9 +662,8 @@ void Focus::FocusIn(int ms)
     if (ms == -1)
         ms = stepIN->value();
 
-    #ifdef FOCUS_DEBUG
-    qDebug() << "Focus in (" << ms << ")"  << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "Focus in (" << ms << ")" ;
 
     lastFocusDirection = FOCUS_IN;
 
@@ -699,9 +694,8 @@ void Focus::FocusOut(int ms)
     if (ms == -1)
         ms = stepIN->value();
 
-    #ifdef FOCUS_DEBUG
-    qDebug() << "Focus out (" << ms << ")"  << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "Focus out (" << ms << ")" ;
 
      currentFocuser->focusOut();
 
@@ -754,9 +748,8 @@ void Focus::newFITS(IBLOB *bp)
         currentHFR = image_data->getHFR();
     }
 
-    #ifdef FOCUS_DEBUG
-    qDebug() << "newFITS: Current HFR " << currentHFR << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "newFITS: Current HFR " << currentHFR;
 
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
@@ -947,19 +940,20 @@ void Focus::autoFocusAbs()
 {
     static int lastHFRPos=0, minHFRPos=0, initSlopePos=0, focusOutLimit=0, focusInLimit=0;
     static double minHFR=0, initSlopeHFR=0;
-    double targetPulse=0, delta=0;
+    double targetPosition=0, delta=0;
 
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 3);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
-    #ifdef FOCUS_DEBUG
-    qDebug() << "########################################" << endl;
-    qDebug() << "========================================" << endl;
-    qDebug() << "Current HFR: " << currentHFR << " Current Position: " << pulseStep << endl;
-    qDebug() << "Last minHFR: " << minHFR << " Last MinHFR Pos: " << minHFRPos << endl;
-    qDebug() << "Delta: " << deltaTxt << "%" << endl;
-    qDebug() << "========================================" << endl;
-    #endif
+    if (Options::verboseLogging())
+    {
+        qDebug() << "########################################";
+        qDebug() << "========================================";
+        qDebug() << "Current HFR: " << currentHFR << " Current Position: " << currentPosition;
+        qDebug() << "Last minHFR: " << minHFR << " Last MinHFR Pos: " << minHFRPos;
+        qDebug() << "Delta: " << deltaTxt << "%";
+        qDebug() << "========================================";
+    }
 
     if (minHFR)
          appendLogText(xi18n("FITS received. HFR %1 @ %2. Delta (%3%)", HFRText, currentPosition, deltaTxt));
@@ -1063,26 +1057,22 @@ void Focus::autoFocusAbs()
                     initSlopeHFR = lastHFR;
                     initSlopePos = lastHFRPos;
 
-                    #ifdef FOCUS_DEBUG
-                    qDebug() << "Setting initial slop to " << initSlopePos << " @ HFR " << initSlopeHFR << endl;
-                    #endif
-
+                    if (Options::verboseLogging())
+                        qDebug() << "Setting initial slop to " << initSlopePos << " @ HFR " << initSlopeHFR;
                 }
 
                 // Let's now limit the travel distance of the focuser
                 if (lastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit && fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusInLimit = lastHFRPos;
-                    #ifdef FOCUS_DEBUG
-                    qDebug() << "New FocusInLimit " << focusInLimit << endl;
-                    #endif
+                    if (Options::verboseLogging())
+                        qDebug() << "New FocusInLimit " << focusInLimit;
                 }
                 else if (lastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit && fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusOutLimit = lastHFRPos;
-                    #ifdef FOCUS_DEBUG
-                    qDebug() << "New FocusOutLimit " << focusOutLimit << endl;
-                    #endif
+                    if (Options::verboseLogging())
+                        qDebug() << "New FocusOutLimit " << focusOutLimit;
                 }
 
                 // If we have slope, get next target position
@@ -1092,36 +1082,33 @@ void Focus::autoFocusAbs()
                     slope = (currentHFR - initSlopeHFR) / (currentPosition - initSlopePos);
                     if (fabs(currentHFR-minHFR)*100.0 < 0.5)
                         factor = 1 - fabs(currentHFR-minHFR)*10;
-                    targetPulse = currentPosition + (currentHFR*factor - currentHFR)/slope;
-                    if (targetPulse < 0)
+                    targetPosition = currentPosition + (currentHFR*factor - currentHFR)/slope;
+                    if (targetPosition < 0)
                     {
                         factor = 1;
-                        while (targetPulse < 0)
+                        while (targetPosition < 0)
                         {
                            factor -= 0.005;
-                            targetPulse = currentPosition + (currentHFR*factor - currentHFR)/slope;
+                            targetPosition = currentPosition + (currentHFR*factor - currentHFR)/slope;
                         }
                     }
-                    #ifdef FOCUS_DEBUG
-                    qDebug() << "Using slope to calculate target pulse..." << endl;
-                    #endif
+                    if (Options::verboseLogging())
+                        qDebug() << "Using slope to calculate target pulse...";
                 }
                 // Otherwise proceed iteratively
                 else
                 {
                      if (lastFocusDirection == FOCUS_IN)
-                         targetPulse = currentPosition - pulseDuration;
+                         targetPosition = currentPosition - pulseDuration;
                      else
-                         targetPulse = currentPosition + pulseDuration;
+                         targetPosition = currentPosition + pulseDuration;
 
-                     #ifdef FOCUS_DEBUG
-                     qDebug() << "Proceeding iteratively to next target pulse ..." << endl;
-                     #endif
+                     if (Options::verboseLogging())
+                        qDebug() << "Proceeding iteratively to next target pulse ...";
                 }
 
-                #ifdef FOCUS_DEBUG
-                qDebug() << "V-Curve Slope " << slope << " pulseStep " << pulseStep << " targetPulse " << targetPulse << endl;
-                #endif
+                if (Options::verboseLogging())
+                    qDebug() << "V-Curve Slope " << slope << " current Position " << currentPosition << " targetPosition " << targetPosition;
 
                 lastHFR = currentHFR;
 
@@ -1130,10 +1117,12 @@ void Focus::autoFocusAbs()
                 {
                     minHFR = lastHFR;
                     minHFRPos = currentPosition;
-                    #ifdef FOCUS_DEBUG
-                    qDebug() << "new minHFR " << minHFR << " @ positioin " << minHFRPos << endl;
-                    qDebug() << "########################################" << endl;
-                    #endif
+                    if (Options::verboseLogging())
+                    {
+                        qDebug() << "new minHFR " << minHFR << " @ positioin " << minHFRPos;
+                        qDebug() << "########################################";
+                    }
+
                 }
 
                 lastHFRPos = currentPosition;
@@ -1165,70 +1154,60 @@ void Focus::autoFocusAbs()
                     initSlopeHFR=0;
                     HFRInc=0;
 
-                    #ifdef FOCUS_DEBUG
-                    qDebug() << "We are going away from optimal HFR " << endl;
-                    #endif
+                    if (Options::verboseLogging())
+                        qDebug() << "We are going away from optimal HFR ";
 
                     // Let's set new limits
                     if (lastFocusDirection == FOCUS_IN)
                     {
                         focusInLimit = currentPosition;
-                        #ifdef FOCUS_DEBUG
-                        qDebug() << "Setting focus IN limit to " << focusInLimit << endl;
-                        #endif
-
+                        if (Options::verboseLogging())
+                            qDebug() << "Setting focus IN limit to " << focusInLimit;
                     }
                     else
                     {
                         focusOutLimit = currentPosition;
-                        #ifdef FOCUS_DEBUG
-                        qDebug() << "Setting focus OUT limit to " << focusOutLimit << endl;
-                        #endif
+                        if (Options::verboseLogging())
+                            qDebug() << "Setting focus OUT limit to " << focusOutLimit;
                     }
-
-
 
                     // Decrease pulse
                     pulseDuration = pulseDuration * 0.75;
 
                     // Let's get close to the minimum HFR position so far detected
                     if (lastFocusDirection == FOCUS_OUT)
-                          targetPulse = minHFRPos-pulseDuration/2;
+                          targetPosition = minHFRPos-pulseDuration/2;
                      else
-                          targetPulse = minHFRPos+pulseDuration/2;
+                          targetPosition = minHFRPos+pulseDuration/2;
 
-                    #ifdef FOCUS_DEBUG
-                    qDebug() << "new targetPulse " << targetPulse << endl;
-                    #endif
-
+                    if (Options::verboseLogging())
+                        qDebug() << "new targetPosition " << targetPosition;
 
                 }
             }
 
         // Limit target Pulse to algorithm limits
-        if (focusInLimit != 0 && lastFocusDirection == FOCUS_IN && targetPulse < focusInLimit)
+        if (focusInLimit != 0 && lastFocusDirection == FOCUS_IN && targetPosition < focusInLimit)
         {
-            targetPulse = focusInLimit;
-            #ifdef FOCUS_DEBUG
-            qDebug() << "Limiting target pulse to focus in limit " << targetPulse << endl;
-            #endif
+            targetPosition = focusInLimit;
+            if (Options::verboseLogging())
+                qDebug() << "Limiting target pulse to focus in limit " << targetPosition;
         }
-        else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPulse > focusOutLimit)
+        else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPosition > focusOutLimit)
         {
-            targetPulse = focusOutLimit;
-            #ifdef FOCUS_DEBUG
-            qDebug() << "Limiting target pulse to focus out limit " << targetPulse << endl;
-            #endif
+            targetPosition = focusOutLimit;
+            if (Options::verboseLogging())
+                qDebug() << "Limiting target pulse to focus out limit " << targetPosition;
         }
 
         // Limit target pulse to focuser limits
-        if (targetPulse < absMotionMin)
-            targetPulse = absMotionMin;
-        else if (targetPulse > absMotionMax)
-            targetPulse = absMotionMax;
+        if (targetPosition < absMotionMin)
+            targetPosition = absMotionMin;
+        else if (targetPosition > absMotionMax)
+            targetPosition = absMotionMax;
 
         // Ops, we can't go any further, we're done.
-        if (targetPulse == currentPosition)
+        if (targetPosition == currentPosition)
         {
             appendLogText(xi18n("Autofocus complete."));
             stopFocus();
@@ -1246,31 +1225,29 @@ void Focus::autoFocusAbs()
             return;
         }
 
-        if (fabs(targetPulse - initialFocuserAbsPosition) > maxTravelIN->value())
+        if (fabs(targetPosition - initialFocuserAbsPosition) > maxTravelIN->value())
         {
-            #ifdef FOCUS_DEBUG
-            qDebug() << "targetPulse (" << targetPulse << ") - initHFRPos (" << initHFRPos << ") exceeds maxTravel distance of " <<
-            maxTravelIN->value() << endl;
-            #endif
+            if (Options::verboseLogging())
+                qDebug() << "targetPosition (" << targetPosition << ") - initHFRAbsPos (" << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
 
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
             stopFocus();
             updateFocusStatus(false);
-            #ifdef FOCUS_DEBUG
-            qDebug() << "Maximum travel limit reached. Autofocus aborted." << endl;
-            #endif
+            if (Options::verboseLogging())
+                qDebug() << "Maximum travel limit reached. Autofocus aborted.";
             break;
 
         }
 
         // Get delta for next move
-        delta = (targetPulse - currentPosition);
+        delta = (targetPosition - currentPosition);
 
-        #ifdef FOCUS_DEBUG
-        qDebug() << "delta (targetPulse - pulseStep) " << delta << endl;
-        qDebug() << "Focusing " << ((delta < 0) ? "IN"  : "OUT") << endl;
-        qDebug() << "########################################" << endl;
-        #endif
+        if (Options::verboseLogging())
+        {
+            qDebug() << "delta (targetPosition - currentPosition) " << delta;
+            qDebug() << "Focusing " << ((delta < 0) ? "IN"  : "OUT");
+            qDebug() << "########################################";
+        }
 
         // Now cross your fingers and wait
        if (delta > 0)
@@ -1282,7 +1259,6 @@ void Focus::autoFocusAbs()
     }
 
 }
-
 
 void Focus::autoFocusRel()
 {

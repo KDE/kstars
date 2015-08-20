@@ -114,7 +114,7 @@ void Guide::addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider)
        // addGuideHead(newCCD);
 
 
-    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture;
 
 }
 
