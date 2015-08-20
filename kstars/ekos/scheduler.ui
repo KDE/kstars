@@ -574,6 +574,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_10">
      <item>
       <widget class="QPushButton" name="startButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Start Scheduler</string>
        </property>
@@ -581,6 +584,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="SolveFITSB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Solve FITS</string>
        </property>

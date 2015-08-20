@@ -157,6 +157,27 @@ void Scheduler::processObjectInfo(XMLEle *root , Schedulerjob *ob){
             {
                ob->setFileName(pcdataXMLEle(subEP));
             }
+            subEP = findXMLEle(ep, "Astrometry");
+            if (subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setAlignCheck(true);
+                else ob->setAlignCheck(false);
+            }
+            subEP = findXMLEle(ep, "Guide");
+            if (subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setGuideCheck(true);
+                else ob->setGuideCheck(false);
+            }
+            subEP = findXMLEle(ep, "Focus");
+            if (subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setFocusCheck(true);
+                else ob->setFocusCheck(false);
+            }
             subEP = findXMLEle(ep, "NowCheck");
             if (subEP)
             {
@@ -276,7 +297,8 @@ void Scheduler::processObjectInfo(XMLEle *root , Schedulerjob *ob){
             else
                 tableWidget->setItem(tableCountRow,tableCountCol+3,new QTableWidgetItem("N/S"));
             tableCountRow++;
-
+            if(ob->getIsFITSSelected())
+                appendLogText("FITS Selected. Don't forget to solve after the queue is selection is complete");
         }
     }
 }
@@ -322,7 +344,8 @@ void Scheduler::loadSlot(){
         }
 
     }
-
+    startButton->setEnabled(true);
+    SolveFITSB->setEnabled(true);
 
 }
 
@@ -855,6 +878,9 @@ void Scheduler::saveSlot()
     {
 
          outstream << "<Object>" << endl;
+         outstream << "<Astrometry>" << job.getAlignCheck() << "</Astrometry>";
+         outstream << "<Guide>" << job.getGuideCheck() << "</Guide>";
+         outstream << "<Focus>" << job.getFocusCheck() << "</Focus>";
          outstream << "<isFits>" << job.getIsFITSSelected() << "</isFits>";
          outstream << "<Name>" << job.getName() << "</Name>";
          outstream << "<RAValue>" << job.getNormalRA() << "</RAValue>";
@@ -1195,6 +1221,10 @@ void Scheduler::addToTableSlot()
         DecEdit->clear();
         NameEdit->clear();
         FITSEdit->clear();
+        startButton->setEnabled(true);
+        SolveFITSB->setEnabled(true);
+        if(isFITSSelected)
+            appendLogText("FITS Selected. Don't forget to solve after the queue selection is complete");
     }
     else
         QMessageBox::information(NULL, "Error", "All fields must be completed");
@@ -1219,12 +1249,15 @@ void Scheduler::removeTableSlot()
     for(int i = row; i<objects.length();i++)
         objects[i].setRowNumber(objects.at(i).getRowNumber()-1);
     tableCountRow--;
+    if(tableCountRow==0){
+        startButton->setEnabled(false);
+        SolveFITSB->setEnabled(false);
+    }
 }
 
 void Scheduler::selectSlot()
 {
     isFITSSelected = 0;
-    selectFITSButton->setEnabled(false);
     QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
         o = fd->selectedObject();
@@ -1232,6 +1265,7 @@ void Scheduler::selectSlot()
             NameEdit->setText(o->name());
             RaEdit->setText(o->ra().toHMSString());
             DecEdit->setText(o->dec().toDMSString());
+            appendLogText("Select the sequence file.");
         }
     }
     delete fd;
