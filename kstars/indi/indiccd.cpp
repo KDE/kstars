@@ -1328,15 +1328,18 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowHidden()
 {
-        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
-        if (streamSP == NULL)
-            streamSP = baseDevice->getSwitch("VIDEO_STREAM");
-        if (streamSP)
+        if (baseDevice->isConnected())
         {
-            IUResetSwitch(streamSP);
-            streamSP->sp[1].s = ISS_ON;
-            streamSP->s = IPS_IDLE;
-            clientManager->sendNewSwitch(streamSP);
+            ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+            if (streamSP == NULL)
+                streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+            if (streamSP)
+            {
+                IUResetSwitch(streamSP);
+                streamSP->sp[1].s = ISS_ON;
+                streamSP->s = IPS_IDLE;
+                clientManager->sendNewSwitch(streamSP);
+            }
         }
 
         streamWindow->disconnect();
