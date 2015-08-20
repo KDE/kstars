@@ -94,9 +94,11 @@ Scheduler::Scheduler()
         connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveSlot()));
         connect(selectFITSButton,SIGNAL(clicked()),this,SLOT(selectFITSSlot()));
         connect(SolveFITSB,SIGNAL(clicked()),this,SLOT(solveFITSSlot()));
+        connect(queueLoadB,SIGNAL(clicked()),this,SLOT(loadSlot()));
         addToQueueB->setIcon(QIcon::fromTheme("list-add"));
         removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
         queueSaveAsB->setIcon(QIcon::fromTheme("document-save"));
+        queueLoadB->setIcon(QIcon::fromTheme("document-open"));
 }
 
 void Scheduler::selectFITSSlot(){
@@ -115,9 +117,218 @@ void Scheduler::clearLog(){
     emit newLog();
 }
 
+void Scheduler::processObjectInfo(XMLEle *root , Schedulerjob *ob){
+    XMLEle *ep;
+    XMLEle *subEP;
+
+    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    {
+        qDebug()<<tagXMLEle(ep);
+        if(!strcmp(tagXMLEle(ep), "Object")){
+            SkyObject *o = new SkyObject();
+            subEP = findXMLEle(ep, "isFits");
+            if(subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setIsFITSSelected(true);
+                else ob->setIsFITSSelected(false);
+            }
+            subEP = findXMLEle(ep, "RAValue");
+            if(subEP)
+                ob->setNormalRA(atof(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "DECValue");
+            if(subEP)
+                ob->setNormalDEC(atof(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "Name");
+            if (subEP)
+                ob->setName(pcdataXMLEle(subEP));
+            subEP = findXMLEle(ep, "RA");
+            if (subEP)
+            {
+                ob->setRA(pcdataXMLEle(subEP));
+            }
+            subEP = findXMLEle(ep, "DEC");
+            if (subEP)
+            {
+                ob->setDEC(pcdataXMLEle(subEP));
+            }
+            subEP = findXMLEle(ep, "Sequence");
+            if (subEP)
+            {
+               ob->setFileName(pcdataXMLEle(subEP));
+            }
+            subEP = findXMLEle(ep, "NowCheck");
+            if (subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setNowCheck(true);
+                else ob->setNowCheck(false);
+            }
+            subEP = findXMLEle(ep, "SpecificTimeCheck");
+            if(subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setSpecificTime(true);
+                else ob->setSpecificTime(false);
+            }
+            subEP = findXMLEle(ep, "SpecificTimeValue");
+            if(subEP)
+            {
+                ob->setStartTime(pcdataXMLEle(subEP));
+            }
+            subEP = findXMLEle(ep, "Hours");
+            if(subEP)
+            {
+                ob->setHours(atoi(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "Minutes");
+            if(subEP)
+            {
+                ob->setMinutes(atoi(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "Day");
+            if(subEP)
+            {
+                ob->setDay(atoi(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "Month");
+            if(subEP)
+            {
+                ob->setMonth(atoi(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "AltCheck");
+            if(subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setSpecificAlt(true);
+                else ob->setSpecificAlt(false);
+            }
+            subEP = findXMLEle(ep, "AltValue");
+            if(subEP)
+            {
+                ob->setAlt(atof(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "MoonSepCheck");
+            if(subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setMoonSeparationCheck(true);
+                else ob->setMoonSeparationCheck(false);
+            }
+            subEP = findXMLEle(ep, "MoonSepValue");
+            if(subEP)
+            {
+                ob->setMoonSeparation(atof(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "WhenSeqCompletesCheck");
+            if(subEP)
+            {
+                if(atoi(pcdataXMLEle(subEP))==1)
+                    ob->setWhenSeqCompCheck(true);
+                else ob->setWhenSeqCompCheck(false);
+            }
+            subEP = findXMLEle(ep, "FinishingTime");
+            if(subEP)
+            {
+                ob->setFinTime(pcdataXMLEle(subEP));
+            }
+            subEP = findXMLEle(ep, "EndingHour");
+            if(subEP)
+            {
+                ob->setFinishingHour(atoi(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "EndingMinute");
+            if(subEP)
+            {
+                ob->setFinishingMinute(atoi(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "EndingDay");
+            if(subEP)
+            {
+                ob->setFinishingDay(atoi(pcdataXMLEle(subEP)));
+            }
+            subEP = findXMLEle(ep, "EndingMonth");
+            if(subEP)
+            {
+                ob->setFinishingMonth(atoi(pcdataXMLEle(subEP)));
+            }
+            o->setRA(ob->getNormalRA());
+            o->setDec(ob->getNormalDEC());
+            ob->setOb(o);
+            ob->setRowNumber(tableCountRow);
+            if(ob->getIsFITSSelected())
+                ob->setSolverState(Schedulerjob::TO_BE_SOLVED);
+            objects.append(*ob);
+            tableCountCol=0;
+            const int currentRow = tableWidget->rowCount();
+            tableWidget->setRowCount(currentRow + 1);
+            tableWidget->setItem(tableCountRow,tableCountCol,new QTableWidgetItem(ob->getName()));
+            tableWidget->setItem(tableCountRow,tableCountCol+1,new QTableWidgetItem("Idle"));
+            if(ob->getSpecificTime())
+                tableWidget->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem(ob->getStartTime()));
+            else if(ob->getNowCheck())
+                tableWidget->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem("On Startup"));
+            else if(ob->getSpecificAlt())
+                tableWidget->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem("N/S"));
+
+            if(ob->getOnTimeCheck())
+                tableWidget->setItem(tableCountRow,tableCountCol+3,new QTableWidgetItem(ob->getFinTime()));
+            else
+                tableWidget->setItem(tableCountRow,tableCountCol+3,new QTableWidgetItem("N/S"));
+            tableCountRow++;
+
+        }
+    }
+}
+
+void Scheduler::loadSlot(){
+    QString path = QFileDialog::getOpenFileName(this, tr("Open File"),
+    "",
+    tr("Scheduler Files (*.sch)"));
+    QFileInfo finfo(path);
+    QFile sFile(path);
+    if (!sFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        QMessageBox::information(NULL, "Error", "Error loading file!");
+    }
+
+   // Rxml.readNextStartElement();
+
+    Schedulerjob *obj ;
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = NULL;
+    XMLEle *ep;
+    char c;
+
+    while ( sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+        {
+             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+             {
+                 if (!strcmp(tagXMLEle(ep), "Object"))
+                 {
+                      obj = new Schedulerjob();
+                      processObjectInfo(root, obj);
+                 }
+
+
+             }
+             delXMLEle(root);
+        }
+
+    }
+
+
+}
+
 void Scheduler::connectDevices(){
-    QDBusReply<bool> replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
-    if(!replyconnect.value())
+    QDBusReply<int> replyconnect = ekosinterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
+    if(replyconnect.value()!=2)
         ekosinterface->call(QDBus::AutoDetect,"connectDevices");
 }
 
@@ -125,7 +336,6 @@ void Scheduler::startSlew(){
     QList<QVariant> telescopeSLew;
     telescopeSLew.append(currentjob->getOb()->ra().Hours());
     telescopeSLew.append(currentjob->getOb()->dec().Degrees());
-    qDebug()<<currentjob->getOb()->ra().Hours();
     mountinterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSLew);
     currentjob->setState(Schedulerjob::SLEWING);
 }
@@ -253,13 +463,13 @@ void Scheduler::checkJobStatus(){
         terminateJob(currentjob);
     }
     QDBusReply<QString> replyslew ;
-    QDBusReply<bool> replyconnect;
+    QDBusReply<int> replyconnect;
     QDBusReply<bool> replyfocus;
     QDBusReply<bool> replyfocus2;
     QDBusReply<bool> replyalign;
     QDBusReply<bool> replyalign2;
     QDBusReply<QString> replysequence;
-    QDBusReply<bool> ekosIsStarted;
+    QDBusReply<int> ekosIsStarted;
     QDBusReply<bool> replyguide;
     QDBusReply<bool> replyguide2;
     QDBusReply<bool> replyguide3;
@@ -271,12 +481,19 @@ void Scheduler::checkJobStatus(){
         state = STARTING_EKOS;
         return;
     case Scheduler::STARTING_EKOS:
-        ekosIsStarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
-        if(ekosIsStarted.value())
+        ekosIsStarted = ekosinterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
+        if(ekosIsStarted.value()==2)
         {
             appendLogText("Ekos started");
             state = EKOS_STARTED;
         }
+        else if(ekosIsStarted.value()==3){
+            appendLogText("Ekos start error!");
+            currentjob->setState(Schedulerjob::ABORTED);
+            terminateJob(currentjob);
+            return;
+        }
+
         return;
 
     case Scheduler::EKOS_STARTED:
@@ -285,12 +502,19 @@ void Scheduler::checkJobStatus(){
         return;
 
     case Scheduler::CONNECTING:
-        replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
-        if(replyconnect.value())
+        replyconnect = ekosinterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
+        if(replyconnect.value()==2)
         {
             appendLogText("Devices connected");
             state=READY;
             break;
+        }
+        else if(replyconnect.value()==3)
+        {
+            appendLogText("Ekos start error!");
+            currentjob->setState(Schedulerjob::ABORTED);
+            terminateJob(currentjob);
+            return;
         }
         else return;
 
@@ -318,6 +542,7 @@ void Scheduler::checkJobStatus(){
 
     case Scheduler::CLOSE_DOME:
         stopindi();
+    default:break;
     }
 
 
@@ -431,6 +656,9 @@ void Scheduler::checkJobStatus(){
              return;
          }
         break;
+
+    default:
+        break;
     }
 }
 
@@ -540,7 +768,6 @@ void Scheduler::evaluateJobs()
 
     for(i=0;i<objects.length();i++)
     {
-        if(objects[i].getIsFITSSelected())
             objects[i].getOb()->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
         if(objects.at(i).getState()==Schedulerjob::IDLE){
             if(objects[i].getNowCheck())
@@ -591,8 +818,8 @@ void Scheduler::evaluateJobs()
 
 void Scheduler::startEkos(){
     //Ekos Start
-    QDBusReply<bool> ekosisstarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
-    if(!ekosisstarted.value())
+    QDBusReply<int> ekosisstarted = ekosinterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
+    if(ekosisstarted.value()!=2)
         ekosinterface->call(QDBus::AutoDetect,"start");
 
 }
@@ -614,39 +841,49 @@ void Scheduler::saveSlot()
         QMessageBox::information(NULL, "Error", "No objects detected!");
         return;
     }
-    //Write xml
-    QDomDocument document;
-
-    //Root element
-    QDomElement root = document.createElement("Observable");
-    document.appendChild(root);
-
-    int i;
-    for(i=0;i<objects.length();i++)
-    {
-        QDomElement obj = document.createElement("Object");
-        obj.setAttribute("Name",objects.at(i).getName());
-        obj.setAttribute("RA",objects.at(i).getRA());
-        obj.setAttribute("DEC",objects.at(i).getDEC());
-        obj.setAttribute("Sequence",objects.at(i).getFileName());
-        obj.setAttribute("Now",objects.at(i).getNowCheck());
-        obj.setAttribute("On Time",objects.at(i).getOnTimeCheck());
-        obj.setAttribute("On Alt",objects.at(i).getSpecificAlt());
-        obj.setAttribute("Start Time",objects.at(i).getSpecificTime());
-        obj.setAttribute("MoonSep",objects.at(i).getMoonSeparationCheck());
-        obj.setAttribute("MoonSepVal",objects.at(i).getMoonSeparation());
-        obj.setAttribute("MerFlip",objects.at(i).getMeridianFlip());
-        obj.setAttribute("Loop",objects.at(i).getLoopCheck());
-        obj.setAttribute("When Seq completes",objects.at(i).getWhenSeqCompCheck());
-        obj.setAttribute("FinTime",objects.at(i).getOnTimeCheck());
-        obj.setAttribute("FinTimeVal",objects.at(i).getFinTime());
-        root.appendChild(obj);
-    }
 
     QFile file("SchedulerQueue.sch");
     file.open(QIODevice::ReadWrite | QIODevice::Text);
-    QTextStream stream(&file);
-    stream<<document.toString();
+
+
+    QTextStream outstream(&file);
+
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
+
+    outstream << "<Observable>" << endl;
+    foreach(Schedulerjob job, objects)
+    {
+
+         outstream << "<Object>" << endl;
+         outstream << "<isFits>" << job.getIsFITSSelected() << "</isFits>";
+         outstream << "<Name>" << job.getName() << "</Name>";
+         outstream << "<RAValue>" << job.getNormalRA() << "</RAValue>";
+         outstream << "<DECValue>" << job.getNormalDEC() << "</DECValue>";
+         outstream << "<RA>" << job.getRA() << "</RA>";
+         outstream << "<DEC>" << job.getDEC() << "</DEC>";
+         outstream << "<Sequence>" << job.getFileName() << "</Sequence>";
+         outstream << "<NowCheck>" << job.getNowCheck() << "</NowCheck>";
+         outstream << "<SpecificTimeCheck>" << job.getSpecificTime() << "</SpecificTimeCheck>";
+         outstream << "<SpecificTimeValue>" << job.getStartTime() << "</SpecificTimeValue>";
+         outstream << "<Hours>" << job.getHours() << "</Hours>";
+         outstream << "<Minutes>" << job.getMinutes() << "</Minutes>";
+         outstream << "<Day>" << job.getDay() << "</Day>";
+         outstream << "<Month>" << job.getMonth() << "</Month>";
+         outstream << "<AltCheck>" << job.getSpecificAlt() << "</AltCheck>";
+         outstream << "<AltValue>" << job.getAlt() << "</AltValue>";
+         outstream << "<MoonSepCheck>" << job.getMoonSeparationCheck() << "</MoonSepCheck>";
+         outstream << "<MoonSepValue>" << job.getMoonSeparation() << "</MoonSepValue>";
+         outstream << "<WhenSeqCompletesCheck>" << job.getWhenSeqCompCheck() << "</WhenSeqCompletesCheck>";
+         outstream << "<FinishingTime>" <<job.getFinTime() << "</FinishingTime>";
+         outstream << "<EndOnSpecTime>" << job.getOnTimeCheck() << "</EndOnSpecTime>";
+         outstream << "<EndingHour>" << job.getFinishingHour() << "</EndingHour>";
+         outstream << "<EndingMinute>" << job.getFinishingMinute() << "</EndingMinute>";
+         outstream << "<EndingDay>" << job.getFinishingDay() << "</EndingDay>";
+         outstream << "<EndingMonth>" << job.getFinishingMonth() << "</EndingMonth>";
+        outstream << "</Object>" << endl;
+    }
+
+    outstream << "</Observable>" << endl;
     file.close();
 }
 
@@ -722,10 +959,17 @@ void Scheduler::checkFITSStatus(){
         state = STARTING_EKOS;
         return;
     case Scheduler::STARTING_EKOS:
-        ekosIsStarted = ekosinterface->call(QDBus::AutoDetect,"isStarted");
-        if(ekosIsStarted.value())
+        ekosIsStarted = ekosinterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
+        if(ekosIsStarted.value()==2)
         {
+            appendLogText("Ekos started");
             state = EKOS_STARTED;
+        }
+        else if(ekosIsStarted.value()==3){
+            appendLogText("Ekos start error!");
+            currentjob->setState(Schedulerjob::ABORTED);
+            terminateJob(currentjob);
+            return;
         }
         return;
 
@@ -735,13 +979,24 @@ void Scheduler::checkFITSStatus(){
         return;
 
     case Scheduler::CONNECTING:
-        replyconnect = ekosinterface->call(QDBus::AutoDetect,"isConnected");
-        if(replyconnect.value())
+        replyconnect = ekosinterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
+        if(replyconnect.value()==2)
         {
+            appendLogText("Devices connected");
             state=READY;
             break;
         }
+        else if(replyconnect.value()==3)
+        {
+            appendLogText("Ekos start error!");
+            currentjob->setState(Schedulerjob::ABORTED);
+            terminateJob(currentjob);
+            return;
+        }
         else return;
+
+    default:
+        break;
     }
 
     QDBusReply<bool> replySolve;
@@ -770,7 +1025,8 @@ void Scheduler::checkFITSStatus(){
             return;
         }
         break;
-
+    default:
+        break;
     }
 
 }
@@ -843,6 +1099,8 @@ void Scheduler::addToTableSlot()
             newOb.setOb(o);
             newOb.setRA(RaEdit->text());
             newOb.setDEC(DecEdit->text());
+            newOb.setNormalRA(o->ra().Hours());
+            newOb.setNormalDEC(o->dec().Degrees());
         }
         newOb.setFileName(FileNameEdit->text());
         if(OnButton->isChecked()){
@@ -966,6 +1224,7 @@ void Scheduler::removeTableSlot()
 void Scheduler::selectSlot()
 {
     isFITSSelected = 0;
+    selectFITSButton->setEnabled(false);
     QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
         o = fd->selectedObject();

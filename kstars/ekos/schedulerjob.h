@@ -126,9 +126,18 @@ public:
     int getFinishingDay() const;
     void setFinishingDay(int value);
 
+    double getNormalRA() const;
+    void setNormalRA(double value);
+
+    double getNormalDEC() const;
+    void setNormalDEC(double value);
+
 private:
+    //default state for each schedulerJob object
     StateChoice state = IDLE;
+    //default state for the solver
     SolverChoice solverState = NO_SOLVING;
+    //Job details
     QString name;
     QString RA;
     QString DEC;
@@ -136,12 +145,19 @@ private:
     QString finTime;
     QString fileName;
     QString FITSPath;
+    //The SkyObject refrence used for getting data like the current altitude etc
     SkyObject *ob;
 
+    //The altitude of the object
     float alt;
+    //The moon separation of the current object
     float moonSeparation;
+    //The results that are obtained after the Solving is done
     double fitsRA;
     double fitsDEC;
+    double normalRA;
+    double normalDEC;
+    //The time limitations and constraints
     int hours;
     int minutes;
     int month;
@@ -150,10 +166,13 @@ private:
     int finishingMinute;
     int finishingMonth;
     int finishingDay;
+    //The score of each object. Based in this, the best object will be selected for evaluation
     int score;
     int isOk;
+    //The table location of the current object
     int rowNumber;
 
+    //We use this booleans to store the state of the current job.
     bool NowCheck;
     bool specificTime;
     bool specificAlt;

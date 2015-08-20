@@ -377,6 +377,26 @@ void Schedulerjob::setFinishingDay(int value)
 {
     finishingDay = value;
 }
+double Schedulerjob::getNormalRA() const
+{
+    return normalRA;
+}
+
+void Schedulerjob::setNormalRA(double value)
+{
+    normalRA = value;
+}
+double Schedulerjob::getNormalDEC() const
+{
+    return normalDEC;
+}
+
+void Schedulerjob::setNormalDEC(double value)
+{
+    normalDEC = value;
+}
+
+
 
 
 
