@@ -39,8 +39,6 @@
 
 #define MAX_GUIDE_STARS 10
 
-//#define GUIDE_LOG
-
 rcalibration::rcalibration(Ekos::Guide *parent)
     : QWidget(parent)
 {
@@ -513,7 +511,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             start_x1 = ui.spinBox_ReticleX->value();
             start_y1 = ui.spinBox_ReticleY->value();
 
-            //qDebug() << "Start X1 " << start_x1 << " Start Y1 " << start_y1 << endl;
+            if (Options::verboseLogging())
+                qDebug() << "Start X1 " << start_x1 << " Start Y1 " << start_y1;
 
             pmain_wnd->sendPulse( RA_INC_DIR, pulseDuration );
 
@@ -529,12 +528,12 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
         case CAL_RA_INC:
             pmain_wnd->sendPulse( RA_INC_DIR, pulseDuration );
-            iterations++;
-            ui.progressBar->setValue( iterations );
 
-            #ifdef GUIDE_LOG
-            qDebug() << "Iteration " << iterations << " and auto drift time is " << auto_drift_time << endl;
-            #endif
+            if (Options::verboseLogging())
+                qDebug() << "Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+
+            iterations++;
+            ui.progressBar->setValue( iterations );            
 
             if (iterations == auto_drift_time)
                 calibrationStage = CAL_RA_DEC;
@@ -546,9 +545,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             if (iterations == auto_drift_time)
             {
                 pmath->get_star_screen_pos( &end_x1, &end_y1 );
-                #ifdef GUIDE_LOG
-                qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1 << endl;
-                #endif
+                if (Options::verboseLogging())
+                    qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1;
 
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
@@ -561,13 +559,15 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             double cur_x, cur_y;
             pmath->get_star_screen_pos( &cur_x, &cur_y );
 
-            //qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y << endl;
+            if (Options::verboseLogging())
+                qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y;
 
             Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x1, start_y1, 0 );
             star_pos.y = -star_pos.y;
             star_pos = star_pos * ROT_Z;
 
-           //qDebug() << "Star x pos is " << star_pos.x << endl;
+            if (Options::verboseLogging())
+                qDebug() << "Star x pos is " << star_pos.x;
 
             // start point reached... so exit
             if( star_pos.x < 1.5 )
@@ -583,6 +583,10 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             if (iterations < turn_back_time)
             {
                 pmain_wnd->sendPulse( RA_DEC_DIR, pulseDuration );
+
+                if (Options::verboseLogging())
+                    qDebug() << "Iteration " << iterations << " Direction: " << RA_DEC_DIR << " Duration: " << pulseDuration << " ms.";
+
                 iterations++;
 
                 ui.progressBar->setValue( iterations );
@@ -604,11 +608,14 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             start_x2 = cur_x;
             start_y2 = cur_y;
 
-           #ifdef GUIDE_LOG
-           qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2 << endl;
-           #endif
+           if (Options::verboseLogging())
+            qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2;
 
             pmain_wnd->sendPulse( DEC_INC_DIR, pulseDuration );
+
+            if (Options::verboseLogging())
+                qDebug() << "Iteration " << iterations << " Direction: " << DEC_INC_DIR << " Duration: " << pulseDuration << " ms.";
+
             iterations++;
             dec_iterations = 1;
             ui.progressBar->setValue( iterations );
@@ -644,13 +651,13 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
     case CAL_DEC_INC:
         pmain_wnd->sendPulse( DEC_INC_DIR, pulseDuration );
+
+        if (Options::verboseLogging())
+            qDebug() << "Iteration " << iterations << " Direction: " << DEC_INC_DIR << " Duration: " << pulseDuration << " ms.";
+
         iterations++;
         dec_iterations++;
         ui.progressBar->setValue( iterations );
-
-        #ifdef GUIDE_LOG
-        qDebug() << "Iteration " << iterations << " and auto drift time is " << auto_drift_time << endl;
-        #endif
 
         if (dec_iterations == auto_drift_time)
             calibrationStage = CAL_DEC_DEC;
@@ -662,9 +669,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         if (dec_iterations == auto_drift_time)
         {
             pmath->get_star_screen_pos( &end_x2, &end_y2 );
-            #ifdef GUIDE_LOG
-            qDebug() << "End X2 " << end_x2 << " End Y2 " << end_y2 << endl;
-            #endif
+            if (Options::verboseLogging())
+                qDebug() << "End X2 " << end_x2 << " End Y2 " << end_y2;
 
             phi = pmath->calc_phi( start_x2, start_y2, end_x2, end_y2 );
             ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
@@ -678,13 +684,15 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
         //pmain_wnd->appendLogText(xi18n("GUIDE_DEC running back...");
 
-        //qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y << endl;
+        if (Options::verboseLogging())
+            qDebug() << "Cur X2 " << cur_x << " Cur Y2 " << cur_y;
 
         Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x2, start_y2, 0 );
         star_pos.y = -star_pos.y;
         star_pos = star_pos * ROT_Z;
 
-        //qDebug() << "start Pos X " << star_pos.x << endl;
+        if (Options::verboseLogging())
+            qDebug() << "start Pos X " << star_pos.x;
 
         // start point reached... so exit
         if( star_pos.x < 1.5 )
@@ -700,6 +708,10 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         if (iterations < turn_back_time)
         {
             pmain_wnd->sendPulse( DEC_DEC_DIR, pulseDuration );
+
+            if (Options::verboseLogging())
+                qDebug() << "Iteration " << iterations << " Direction: " << DEC_DEC_DIR << " Duration: " << pulseDuration << " ms.";
+
             iterations++;
             dec_iterations++;
 
@@ -871,7 +883,7 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 
         Edge *center = starCenters.at(i);
 
-        //qDebug() << "#" << i << " X: " << center->x << " Y: " << center->y << " HFR: " << center->HFR << " Width" << center->width << endl;
+        //qDebug() << "#" << i << " X: " << center->x << " Y: " << center->y << " HFR: " << center->HFR << " Width" << center->width;
 
         // Severely reject stars close to edges
         if (center->x < (center->width*6) || center->y < (center->width*6) || center->x > (maxX-center->width*6) || center->y > (maxY-center->width*6))

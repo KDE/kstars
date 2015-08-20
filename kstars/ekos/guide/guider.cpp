@@ -386,12 +386,12 @@ bool rguider::start()
 
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&logFile);
-    out << "Guiding rate,x15 arcsec/sec: " << ui.spinBox_GuideRate->value() << endl;
-    out << "Focal,mm: " << ui.l_Focal->text() << endl;
-    out << "Aperture,mm: " << ui.l_Aperture->text() << endl;
-    out << "F/D: " << ui.l_FbyD->text() << endl;
-    out << "FOV: " << ui.l_FOV->text() << endl;
-    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction" << endl;
+    out << "Guiding rate,x15 arcsec/sec: " << ui.spinBox_GuideRate->value();
+    out << "Focal,mm: " << ui.l_Focal->text();
+    out << "Aperture,mm: " << ui.l_Aperture->text();
+    out << "F/D: " << ui.l_FbyD->text();
+    out << "FOV: " << ui.l_FOV->text();
+    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction";
 
     drift_graph->reset_data();
     ui.pushButton_StartStop->setText( xi18n("Stop") );
@@ -665,7 +665,7 @@ bool rguider::dither()
     pmath->get_star_screen_pos( &cur_x, &cur_y );
     Matrix ROT_Z = pmath->get_ROTZ();
 
-    //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
+    //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y;
 
     if (m_isDithering == false)
     {
@@ -687,7 +687,7 @@ bool rguider::dither()
         else
             target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
-        //qDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
+        //qDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
         pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 
@@ -705,7 +705,7 @@ bool rguider::dither()
     star_pos.y = -star_pos.y;
     star_pos = star_pos * ROT_Z;
 
-    //qDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y << endl;
+    //qDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y;
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
