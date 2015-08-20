@@ -1005,6 +1005,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             streamWindow->enableStream(false);
             streamWindow->close();
+            delete(streamWindow);
+            streamWindow = NULL;
         }
 
         emit switchUpdated(svp);
