@@ -688,7 +688,9 @@ void Scheduler::checkJobStatus(){
 void Scheduler::getResults(){
     QDBusReply<QList<double>> results = aligninterface->call(QDBus::AutoDetect,"getSolutionResult");
     currentFITSjob->setFitsRA(results.value().at(1)*0.067);
+    currentFITSjob->setNormalRA(results.value().at(1)*0.067);
     currentFITSjob->setFitsDEC(results.value().at(2));
+    currentFITSjob->setNormalDEC(results.value().at(2));
     currentFITSjob->getOb()->setRA(results.value().at(1)*0.067);
     currentFITSjob->getOb()->setDec(results.value().at(2));
 }

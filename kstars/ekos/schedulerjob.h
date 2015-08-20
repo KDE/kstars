@@ -1,5 +1,8 @@
 #include "kstars.h"
 
+/**
+ * @brief The Schedulerjob class contains the information required to describe a scheduler job object
+ */
 class Schedulerjob {
 public:
     Schedulerjob();
