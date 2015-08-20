@@ -55,7 +55,8 @@ SkyGuideObject::SkyGuideObject(const QString &path, const QVariantMap &map)
         Slide s;
         s.title = smap.value("title").toString();
         s.text = smap.value("text").toString();
-        s.imagePath = m_path + QDir::separator() + smap.value("image").toString();
+        s.imagePath = smap.value("image").toString();
+        s.imagePath = s.imagePath.isEmpty() ? "" : QString(m_path + QDir::separator() + s.imagePath);
         s.centerPoint = smap.value("centerPoint").toString();
         s.skyDateTime = smap.value("skyDateTime").toDateTime();
         s.zoomFactor = smap.value("zoomFactor").toDouble();
