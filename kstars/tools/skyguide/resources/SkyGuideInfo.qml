@@ -58,6 +58,7 @@ Rectangle {
             columns: 2
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: parent.width * 0.9
+            Layout.maximumWidth: parent.width * 0.9
             anchors.top: description.bottom
             anchors.topMargin: 15
             property string textcolor: "#ffffff"
@@ -80,13 +81,18 @@ Rectangle {
                 Repeater {
                     model: loader.modelData.authors
                     Text {
-                        text: "<b>" + modelData.name + "</b>" +
+                        Layout.fillWidth: true;
+                        text: "<style> a:link { color:white; text-decoration:none; } </style>" +
+                              "<b>" + modelData.name + "</b>" +
                               "<i>" +
                                 (modelData.email ? "<br> - " + modelData.email : "") +
-                                (modelData.url   ? "<br> - " + modelData.url   : "") +
+                                (modelData.url   ? "<br> - <a href=\"" + modelData.url + "\">" + modelData.url +"</a>" : "") +
                               "</i>";
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
                         color: grid.textcolor;
+                        textFormat: Text.RichText;
                         font.pixelSize: fontSizeText;
+                        onLinkActivated: Qt.openUrlExternally(modelData.url);
                     }
                 }
             }
