@@ -122,7 +122,7 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
         qint64 fragment   = letterDesigToN( rePro.cap(6) );
 
         uidPart =
-            1          << 43 |
+            1LL        << 43 |
             type       << 40 |  // Bits 40-42 (3)
             halfMonth  << 33 |  // Bits 33-39 (7) Hope this is enough 
             nHalfMonth << 28 |  // Bits 28-32 (5)
