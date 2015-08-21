@@ -1,0 +1,64 @@
+{
+    "formatVersion": 1,
+    "header": {
+        "authors": [
+            {
+                "email": "mcardinot@gmail.com",
+                "name": "Marcos Cardinot",
+                "url": ""
+            },
+            {
+                "email": "",
+                "name": "KStars Team",
+                "url": "https://docs.kde.org/stable5/en/kdeedu/kstars/index.html"
+            }
+        ],
+        "creationDate": "2015-08-20",
+        "description": "It presents a guided tour of KStars, introducing many of its important features.",
+        "language": "English",
+        "title": "A Quick Tour of KStars",
+        "version": 1
+    },
+    "slides": [
+        {
+            "centerPoint": "",
+            "image": "kstars.png",
+            "skyDateTime": "",
+            "text": "KStars is free, open source, cross-platform Astronomy Software. It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time.\n\nThe display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.",
+            "title": "Introduction",
+            "zoomFactor": 0
+        },
+        {
+            "centerPoint": "",
+            "image": "setupwizard.png",
+            "skyDateTime": "",
+            "text": "The first time you run KStars, you will be presented with a Setup Wizard, which allows you to easily set your geographic location and download some extra data files. You can press the OK button at any time to exit the Setup Wizard.\n\nThe Setup Wizard can be opened again by clicking on the \"Startup Wizard\" option of the \"Settings\" menu.",
+            "title": "The Setup Wizard",
+            "zoomFactor": 0
+        },
+        {
+            "centerPoint": "",
+            "image": "",
+            "skyDateTime": "",
+            "text": "Now that we have the time and location set, let us have a look around.\n\nYou can pan the display using the arrow keys.\n\nIf you hold down the Shift key before panning, the scrolling speed is increased.\n\nThe display can also be panned by clicking and dragging with the mouse.",
+            "title": "Have a Look Around",
+            "zoomFactor": 0
+        },
+        {
+            "centerPoint": "",
+            "image": "moon.png",
+            "skyDateTime": "",
+            "text": "KStars displays thousands of celestial objects: stars, planets, comets, asteroids, clusters, nebulae and galaxies.\n\nYou can interact with displayed objects to perform actions on them or obtain more information about them.\n\nClicking on an object will identify it in the status bar, and simply hovering the mouse cursor on an object will label it temporarily in the map.\n\nDouble-clicking will recenter the display on the object and begin tracking it (so that it will remain centered as time passes).\n\nRight clicking an object opens the object's popup menu, which provides more options.",
+            "title": "Objects in the Sky",
+            "zoomFactor": 0
+        },
+        {
+            "centerPoint": "",
+            "image": "",
+            "skyDateTime": "",
+            "text": "KStars includes many useful astronomy tools, it can directly control your telescope, and it offers a wide variety of configuration and customization options.\n\nMore details about KStars and its features can be found on the KStars Handbook at https://docs.kde.org/stable5/en/kdeedu/kstars/index.html",
+            "title": "End of the Tour",
+            "zoomFactor": 0
+        }
+    ]
+}
