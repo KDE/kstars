@@ -87,7 +87,7 @@ if (CFITSIO_FOUND)
    )
 
    set(ekos_SRCS
-      ekos/schedulerjob.cpp
+      #ekos/schedulerjob.cpp
       ekos/scheduler.cpp
       ekos/ekosmanager.cpp
       ekos/capture.cpp

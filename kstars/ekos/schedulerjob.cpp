@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "schedulerjob.h"
 
+#if 0
 Schedulerjob::Schedulerjob(){
     NowCheck=false;
     specificTime=false;
@@ -233,12 +234,12 @@ void Schedulerjob::setAlignCheck(bool value)
 {
     alignCheck = value;
 }
-Schedulerjob::StateChoice Schedulerjob::getState() const
+Schedulerjob::JobState Schedulerjob::getState() const
 {
     return state;
 }
 
-void Schedulerjob::setState(const StateChoice &value)
+void Schedulerjob::setState(const JobState &value)
 {
     state = value;
 }
@@ -332,12 +333,12 @@ void Schedulerjob::setIsFITSSelected(bool value)
 {
     isFITSSelected = value;
 }
-Schedulerjob::SolverChoice Schedulerjob::getSolverState() const
+Schedulerjob::SolverState Schedulerjob::getSolverState() const
 {
     return solverState;
 }
 
-void Schedulerjob::setSolverState(const SolverChoice &value)
+void Schedulerjob::setSolverState(const SolverState &value)
 {
     solverState = value;
 }
@@ -395,42 +396,4 @@ void Schedulerjob::setNormalDEC(double value)
 {
     normalDEC = value;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif

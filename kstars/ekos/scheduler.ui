@@ -6,59 +6,259 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>772</width>
-    <height>506</height>
+    <width>658</width>
+    <height>585</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_7">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>1. Object &amp;&amp; Sequence Selection</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_17">
+      <item>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Select:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="selectObjectB">
+            <property name="text">
+             <string>Object...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>&lt;b&gt;OR&lt;/b&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectFITSB">
+            <property name="text">
+             <string>FITS...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string>Name:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="NameEdit"/>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="nameEdit"/>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
            <string>RA (J2000):</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="RaEdit"/>
+        <item row="2" column="1">
+         <widget class="dmsBox" name="raBox">
+          <property name="toolTip">
+           <string/>
+          </property>
+         </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>DEC (J2000):</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="DecEdit"/>
+        <item row="3" column="1">
+         <widget class="dmsBox" name="decBox">
+          <property name="toolTip">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>FITS File:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QLineEdit" name="fitsEdit">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="solveFITSB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Solve the FITS image to obtain the central RA &amp; DEC coordinates.</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Sequence:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <widget class="QLineEdit" name="sequenceFile">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadSequenceB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Load the image sequence queue.</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="toolTip">
+           <string>Select which Ekos modules to be utilized during the observation job</string>
+          </property>
+          <property name="text">
+           <string>Modules:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QCheckBox" name="focusModuleCheck">
+            <property name="toolTip">
+             <string>Perform autofocusing before proceeding to the next stage</string>
+            </property>
+            <property name="text">
+             <string>Focus</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="alignModuleCheck">
+            <property name="toolTip">
+             <string>Perform alignment using astrometry solver before proceeding to the next stage</string>
+            </property>
+            <property name="text">
+             <string>Align</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="guideModuleCheck">
+            <property name="toolTip">
+             <string>Perform calibration and autoguding before proceeding to the next stage.</string>
+            </property>
+            <property name="text">
+             <string>Guide</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
-      <item row="0" column="2" rowspan="4">
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_14">
           <item>
            <widget class="QPushButton" name="addToQueueB">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="minimumSize">
              <size>
@@ -80,7 +280,7 @@
           <item>
            <widget class="QPushButton" name="removeFromQueueB">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="minimumSize">
              <size>
@@ -114,6 +314,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="queueLoadB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="minimumSize">
              <size>
               <width>32</width>
@@ -134,7 +337,7 @@
           <item>
            <widget class="QPushButton" name="queueSaveAsB">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="minimumSize">
              <size>
@@ -156,7 +359,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget">
+         <widget class="QTableWidget" name="schedulerQueueTable">
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -184,117 +387,66 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+     </layout>
+     <zorder></zorder>
+     <zorder>raBox</zorder>
+     <zorder>decBox</zorder>
+     <zorder>horizontalSpacer_11</zorder>
+     <zorder>line</zorder>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="QGroupBox" name="groupBox_7">
+       <property name="title">
+        <string>2. Startup Conditions</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QPushButton" name="SelectButton">
-          <property name="text">
-           <string>Select Object...</string>
+         <widget class="QRadioButton" name="nowConditionR">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start the observation job as soon as all the constraints, if any, are met.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-         </widget>
-        </item>
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Or</string>
+           <string>&amp;Now</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="selectFITSButton">
-          <property name="text">
-           <string>Select FITS...</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0" rowspan="2" colspan="2">
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>FITS File</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="FITSEdit"/>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Sequence:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="FileNameEdit">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="LoadButton">
-              <property name="text">
-               <string>Load Sequence...</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QRadioButton" name="altConditionR">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start the observation job when the object reaches culmination.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Culmination</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QRadioButton" name="startupTimeConditionR">
+            <property name="toolTip">
+             <string>start the job on the specified date and time</string>
+            </property>
             <property name="text">
-             <string>Modules:</string>
+             <string>On</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="alignCheck">
-            <property name="text">
-             <string>Astrometry</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <widget class="QDateTimeEdit" name="startupTime"/>
           </item>
           <item>
-           <widget class="QCheckBox" name="guideCheck">
-            <property name="text">
-             <string>Guide</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="focusButton">
-            <property name="text">
-             <string>Focus</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_9">
+           <spacer name="horizontalSpacer_3">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -309,261 +461,143 @@
          </layout>
         </item>
        </layout>
-      </item>
-     </layout>
-     <zorder></zorder>
-    </widget>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_6">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_9">
-       <item>
-        <widget class="QGroupBox" name="groupBox_7">
-         <property name="title">
-          <string>2. Startup Conditions</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QRadioButton" name="NowButton">
-            <property name="text">
-             <string>Now</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QRadioButton" name="OnButton">
-              <property name="text">
-               <string>On</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDateTimeEdit" name="dateTimeEdit"/>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QRadioButton" name="altButton">
-              <property name="text">
-               <string>When A&amp;lt &gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_8">
-         <property name="title">
-          <string>3. Constraints</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QCheckBox" name="checkBox_4">
-              <property name="text">
-               <string>Alt &gt; </string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QCheckBox" name="moonSepBox">
-              <property name="text">
-               <string>Moon Separation &gt; </string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="merFlipBox">
-            <property name="text">
-             <string>No Meridian Flip</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_9">
-         <property name="title">
-          <string>4. Completion</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QRadioButton" name="seqCompButton">
-            <property name="text">
-             <string>When Se&amp;quence is complete</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="loopButton">
-            <property name="text">
-             <string>Loop until ter&amp;minated</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <item>
-             <widget class="QRadioButton" name="onFinButton">
-              <property name="text">
-               <string>On</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDateTimeEdit" name="dateTimeEdit_2"/>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
+      </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_10">
+      <widget class="QGroupBox" name="groupBox_8">
        <property name="title">
-        <string>5. Shutdown</string>
+        <string>3. Constraints</string>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QCheckBox" name="parkCheck">
-          <property name="enabled">
-           <bool>true</bool>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="altConstraintCheck">
+          <property name="toolTip">
+           <string>The object's altitude must remain equal or higher than the given value.</string>
           </property>
           <property name="text">
-           <string>Park Scope</string>
+           <string>Alt &gt; </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>°</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QDoubleSpinBox" name="moonSeparation"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>°</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="moonSeparationCheck">
+          <property name="toolTip">
+           <string>The moon separation must remain equal to or higher than the given value.</string>
+          </property>
+          <property name="text">
+           <string>Moon  &gt; </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="weatherB">
+          <property name="toolTip">
+           <string>Weather condition must remain safe</string>
+          </property>
+          <property name="text">
+           <string>Weather</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="noMeridianFlipCheck">
+          <property name="toolTip">
+           <string>Do not track past the meridian.</string>
+          </property>
+          <property name="text">
+           <string>No Meridian Flip</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_9">
+       <property name="title">
+        <string>4. Completion</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QRadioButton" name="sequenceCompletionR">
+          <property name="toolTip">
+           <string>The observation job is completed when the sequence is complete.</string>
+          </property>
+          <property name="text">
+           <string>Se&amp;quence completion</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="warmCCDCheck">
-          <property name="enabled">
-           <bool>true</bool>
+         <widget class="QRadioButton" name="loopCompletionR">
+          <property name="toolTip">
+           <string>Restart the sequence job indefinitely.</string>
           </property>
           <property name="text">
-           <string>Warm up CCD</string>
+           <string>Loop until ter&amp;minated</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="closeDomeCheck">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Close Dome</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QRadioButton" name="timeCompletionR">
+            <property name="toolTip">
+             <string>Terminate the job on the given date and time.</string>
+            </property>
+            <property name="text">
+             <string>On</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateTimeEdit" name="completionTime"/>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -573,22 +607,171 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_10">
      <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="toolTip">
+        <string>One-time startup script to be executed before starting Ekos devices</string>
+       </property>
+       <property name="title">
+        <string>Startup Procedure</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Script:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="startupScript">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectStartupScriptB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>19</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_10">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed after the initial shutdown procedures (e.g. parking), if selected, are completed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Shutdown Procedure</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QCheckBox" name="warmCCDCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Turn off CCD cooler.</string>
+            </property>
+            <property name="text">
+             <string>Warm up CCD</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="parkCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park telescope to home position.</string>
+            </property>
+            <property name="text">
+             <string>Park Scope</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="closeDomeCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park dome to home position</string>
+            </property>
+            <property name="text">
+             <string>Park Dome</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Script:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="shutdownScript">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectShutdownScriptB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="bottomLayout">
+     <item>
       <widget class="QPushButton" name="startButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <property name="text">
         <string>Start Scheduler</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="SolveFITSB">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Solve FITS</string>
        </property>
       </widget>
      </item>
@@ -609,6 +792,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>dmsBox</class>
+   <extends>QLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

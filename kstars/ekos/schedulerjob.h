@@ -1,14 +1,13 @@
-#include "kstars.h"
 
-/**
- * @brief The Schedulerjob class contains the information required to describe a scheduler job object
- */
+
+#if 0
 class Schedulerjob {
 public:
     Schedulerjob();
-    enum StateChoice{IDLE, READY, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
+    enum JobState{IDLE, READY, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
                      CAPTURING, CAPTURING_COMPLETE, ABORTED};
-    enum SolverChoice{NO_SOLVING, TO_BE_SOLVED, SOLVING, SOLVING_COMPLETE, ERROR};
+    enum SolverState{NO_SOLVING, TO_BE_SOLVED, SOLVING, SOLVING_COMPLETE, ERROR};
+
     QString getName() const;
     void setName(const QString &value);
 
@@ -81,8 +80,8 @@ public:
     bool getAlignCheck() const;
     void setAlignCheck(bool value);
 
-    StateChoice getState() const;
-    void setState(const StateChoice &value);
+    JobState getState() const;
+    void setState(const JobState &value);
 
     int getRowNumber() const;
     void setRowNumber(int value);
@@ -93,14 +92,6 @@ public:
     int getIsOk() const;
     void setIsOk(int value);
 
-    bool getParkTelescopeCheck() const;
-    void setParkTelescopeCheck(bool value);
-
-    bool getWarmCCDCheck() const;
-    void setWarmCCDCheck(bool value);
-
-    bool getCloseDomeCheck() const;
-    void setCloseDomeCheck(bool value);
 
     QString getFITSPath() const;
     void setFITSPath(const QString &value);
@@ -114,8 +105,8 @@ public:
     bool getIsFITSSelected() const;
     void setIsFITSSelected(bool value);
 
-    SolverChoice getSolverState() const;
-    void setSolverState(const SolverChoice &value);
+    SolverState getSolverState() const;
+    void setSolverState(const SolverState &value);
 
     int getMonth() const;
     void setMonth(int value);
@@ -137,9 +128,9 @@ public:
 
 private:
     //default state for each schedulerJob object
-    StateChoice state = IDLE;
+    JobState state = IDLE;
     //default state for the solver
-    SolverChoice solverState = NO_SOLVING;
+    SolverState solverState = NO_SOLVING;
     //Job details
     QString name;
     QString RA;
@@ -190,8 +181,5 @@ private:
     bool alignCheck;
     bool guideCheck;
 
-    bool parkTelescopeCheck;
-    bool warmCCDCheck;
-    bool closeDomeCheck;
-    bool isFITSSelected;
 };
+#endif
