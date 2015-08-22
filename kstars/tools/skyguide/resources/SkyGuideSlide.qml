@@ -21,6 +21,16 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: slide
+    focus: true
+
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Left) {
+            goToPrevSlide();
+        } else if (event.key === Qt.Key_Right) {
+            goToNextSlide();
+        }
+    }
+
     gradient: Gradient {
         GradientStop {
             position: 0.120

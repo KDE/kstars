@@ -127,6 +127,24 @@ ColumnLayout {
         }
     }
 
+    function goToPrevSlide() {
+        if (!btnPrevSlide.enabled) {
+            return;
+        }
+        var slide = loader.modelData.currentSlide - 1;
+        if (slide < 0) {
+            goToPage(getPageObj('INFO', loader.modelData, -1));
+        } else {
+            goToPage(getPageObj('SLIDE', loader.modelData, slide));
+        }
+    }
+
+    function goToNextSlide() {
+        if (btnNextSlide.enabled) {
+            goToPage(getPageObj('SLIDE', loader.modelData, loader.modelData.currentSlide + 1));
+        }
+    }
+
     ToolBar {
         Layout.alignment: Qt.AlignTop
         Layout.preferredWidth: 360
@@ -204,22 +222,13 @@ ColumnLayout {
                 id: btnPrevSlide
                 iconSource: "images/prevSlide.png"
                 tooltip: "Previous Slide"
-                onClicked: {
-                    var slide = loader.modelData.currentSlide - 1;
-                    if (slide < 0) {
-                        goToPage(getPageObj('INFO', loader.modelData, -1));
-                    } else {
-                        goToPage(getPageObj('SLIDE', loader.modelData, slide));
-                    }
-                }
+                onClicked: goToPrevSlide()
             }
             ToolButton {
                 id: btnNextSlide
                 iconSource: "images/nextSlide.png"
                 tooltip: "Next Slide"
-                onClicked: {
-                    goToPage(getPageObj('SLIDE', loader.modelData, loader.modelData.currentSlide + 1));
-                }
+                onClicked: goToNextSlide()
             }
         }
     }

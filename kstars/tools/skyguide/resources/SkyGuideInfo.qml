@@ -21,6 +21,7 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: info
+
     gradient: Gradient {
         GradientStop {
             position: 0.120
