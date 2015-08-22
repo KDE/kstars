@@ -29,6 +29,7 @@ class Ui_SkyGuideWriter;
 
 /**
  * @class SkyGuideWriter
+ * @short Implements a dialog that enable users to create and edit SkyGuides.
  * @author Marcos Cardinot <mcardinot@gmail.com>
  */
 class SkyGuideWriter : public QDialog

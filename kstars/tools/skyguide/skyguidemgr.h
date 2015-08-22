@@ -26,7 +26,9 @@
 
 /**
  * @class SkyGuideMgr
+ * @short This is the main class of the SkyGuide.
  * @author Marcos Cardinot <mcardinot@gmail.com>
+ * @version 1.0
  */
 class SkyGuideMgr : public QObject
 {

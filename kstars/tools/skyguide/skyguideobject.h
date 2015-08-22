@@ -27,6 +27,10 @@
 
 /**
  * @class SkyGuideObject
+ * @short This class holds all the stuff of a SkyGuide itself, such as title, description, slides etc.
+ * It enable us to build a SkyGuide object from a QVariantMap,
+ * which can be obtained from a simple parsing of a JSON file.
+ *
  * @author Marcos Cardinot <mcardinot@gmail.com>
  */
 class SkyGuideObject : public QObject

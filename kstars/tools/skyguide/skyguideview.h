@@ -25,6 +25,11 @@
 
 /**
  * @class SkyGuideView
+ * This class is extended from the QQuickView and is responsible to do the
+ * transactions between our C++ classes and the QML files.
+ * It enable us to send a list of loaded SkyGuideObjects to the main QML
+ * file (SkyGuideVIew.qml)
+ *
  * @author Marcos Cardinot <mcardinot@gmail.com>
  */
 class SkyGuideView : public QQuickView
