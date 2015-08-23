@@ -59,6 +59,7 @@ private:
 
     void loadAllSkyGuideObjects();
     bool loadSkyGuideObject(SkyGuideObject* skyGuideObj);
+    bool installDirIsWritable();
 };
 
 #endif // SKYGUIDEMGR_H

@@ -169,12 +169,7 @@ SkyGuideObject* SkyGuideMgr::buildSGOFromZip(const QString& zipPath) {
 }
 
 void SkyGuideMgr::installSkyGuide(const QString& zipPath) {
-    // check if the installation dir is writable
-    if (!QFileInfo(m_guidesDir.absolutePath()).isWritable()){
-        QString message = "SkyGuideMgr: The installation directory must be writable! \n"
-                        + m_guidesDir.absolutePath();
-        KMessageBox::sorry(0, message, "Warning!");
-        qWarning() << "SkyGuideMgr: " << message;
+    if (zipPath.isEmpty() || !installDirIsWritable()) {
         return;
     }
 
@@ -252,6 +247,9 @@ bool SkyGuideMgr::uninstallSkyGuide(SkyGuideObject* obj) {
 }
 
 void SkyGuideMgr::slotAddSkyGuide() {
+    if (!installDirIsWritable()) {
+        return;
+    }
     // open QFileDialog - select the SkyGuide
     QString desktop = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).first();
     QString path = QFileDialog::getOpenFileName(NULL, "Add SkyGuide", desktop, "Zip File (*.zip)");
@@ -266,4 +264,16 @@ void SkyGuideMgr::slotUninstallSkyGuide(int idx) {
     if (ans == KMessageBox::Yes) {
         uninstallSkyGuide(obj);
     }
+}
+
+bool SkyGuideMgr::installDirIsWritable() {
+    // check if the installation dir is writable
+    if (!QFileInfo(m_guidesDir.absolutePath()).isWritable()){
+        QString message = "SkyGuideMgr: The installation directory must be writable! \n"
+                        + m_guidesDir.absolutePath();
+        KMessageBox::sorry(0, message, "Warning!");
+        qWarning() << "SkyGuideMgr: " << message;
+        return false;
+    }
+    return true;
 }
