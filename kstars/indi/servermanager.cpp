@@ -198,7 +198,6 @@ bool ServerManager::isDriverManaged(DriverInfo *di)
 
 void ServerManager::stop()
 {
-
     if (serverProcess == NULL)
         return;
 
@@ -218,6 +217,16 @@ void ServerManager::stop()
 
     serverProcess = NULL;
 
+}
+
+void ServerManager::terminate()
+{
+    if (serverProcess == NULL)
+        return;
+
+    serverProcess->terminate();
+
+    serverProcess->waitForFinished();
 }
 
 void ServerManager::connectionSuccess()
