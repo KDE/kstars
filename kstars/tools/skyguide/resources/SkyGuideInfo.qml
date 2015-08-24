@@ -64,14 +64,14 @@ Rectangle {
             anchors.topMargin: 15
             property string textcolor: "#ffffff"
 
-            Text { text: "Creation Date:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.creationDateStr; color: grid.textcolor; font.pixelSize: fontSizeText; }
+            Text { text: "Creation Date:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; visible: loader.modelData.creationDateStr !== ""; }
+            Text { text: loader.modelData.creationDateStr; color: grid.textcolor; font.pixelSize: fontSizeText; visible: loader.modelData.creationDateStr !== ""; }
 
-            Text { text: "Language:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.language; color: grid.textcolor; font.pixelSize: fontSizeText; }
+            Text { text: "Language:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; visible: loader.modelData.language !== ""; }
+            Text { text: loader.modelData.language; color: grid.textcolor; font.pixelSize: fontSizeText; visible: loader.modelData.language !== ""; }
 
-            Text { text: "Version:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
-            Text { text: loader.modelData.version; color: grid.textcolor; font.pixelSize: fontSizeText; }
+            Text { text: "Version:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; visible: loader.modelData.version > 0; }
+            Text { text: loader.modelData.version; color: grid.textcolor; font.pixelSize: fontSizeText; visible: loader.modelData.version > 0; }
 
             Text { text: "Slides:"; color: grid.textcolor; font.bold: true; font.pixelSize: fontSizeText; }
             Text { text: loader.modelData.contents.length; color: grid.textcolor; font.pixelSize: fontSizeText; }
