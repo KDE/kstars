@@ -178,13 +178,13 @@ void GenericDevice::registerProperty(INDI::Property *prop)
     else if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useComputerSource())
     {
            ITextVectorProperty *tvp = prop->getText();
-            if (tvp)
+            if (tvp && tvp->p != IP_RO)
                 updateTime();
     }
     else if (!strcmp(prop->getName(), "GEOGRAPHIC_COORD") && Options::useGeographicUpdate() && Options::useComputerSource())
     {
             INumberVectorProperty *nvp = baseDevice->getNumber("GEOGRAPHIC_COORD");
-            if (nvp)
+            if (nvp && nvp->p != IP_RO)
                 updateLocation();
     }
 }
@@ -223,7 +223,7 @@ void GenericDevice::processNumber(INumberVectorProperty * nvp)
 {
     INumber *np=NULL;
 
-    if (!strcmp(nvp->name, "GEOGRAPHIC_LOCATION"))
+    if (!strcmp(nvp->name, "GEOGRAPHIC_COORD"))
     {
         // Update KStars Location once we receive update from INDI, if the source is set to DEVICE
         if (Options::useDeviceSource())
@@ -234,40 +234,41 @@ void GenericDevice::processNumber(INumberVectorProperty * nvp)
             if (!np)
                 return;
 
-        //sscanf(el->text.toLatin1().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
-            lng.setD(np->value);
+            // INDI Longitude convention is 0 to 360. We need to turn it back into 0 to 180 EAST, 0 to -180 WEST
+            if (np->value < 180)
+                lng.setD(np->value);
+            else
+                lng.setD(np->value-360.0);
 
            np = IUFindNumber(nvp, "LAT");
-
            if (!np)
                 return;
 
-        //sscanf(el->text.toLatin1().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
-        //lat.setD(d,min,sec);
          lat.setD(np->value);
 
-        KStars::Instance()->data()->geo()->setLong(lng);
-        KStars::Instance()->data()->geo()->setLat(lat);
+         GeoLocation *geo = KStars::Instance()->data()->geo();
+
+         geo->setLong(lng);
+         geo->setLat(lat);
+         KStars::Instance()->data()->setLocation(*geo);
+
       }
 
    }
-
-
-
 }
 
 void GenericDevice::processText(ITextVectorProperty * tvp)
-{
-
-    IText *tp=NULL;
-    int d, m, y, min, sec, hour;
-    QDate indiDate;
-    QTime indiTime;
-    KStarsDateTime indiDateTime;
-
+{    
 
     if (!strcmp(tvp->name, "TIME_UTC"))
     {
+        IText *tp=NULL;
+        int d, m, y, min, sec, hour;
+        float utcOffset;
+        QDate indiDate;
+        QTime indiTime;
+        KStarsDateTime indiDateTime;
+
 
         // Update KStars time once we receive update from INDI, if the source is set to DEVICE
     if (Options::useDeviceSource())
@@ -283,8 +284,18 @@ void GenericDevice::processText(ITextVectorProperty * tvp)
         indiDateTime.setDate(indiDate);
         indiDateTime.setTime(indiTime);
 
+        tp = IUFindText(tvp, "OFFSET");
+
+        if (!tp)
+            return;
+
+        sscanf(tp->text, "%f", &utcOffset);
+
         KStars::Instance()->data()->changeDateTime(indiDateTime);
         KStars::Instance()->data()->syncLST();
+
+        GeoLocation *geo = KStars::Instance()->data()->geo();
+        geo->setTZ(utcOffset);
     }
 
     }
