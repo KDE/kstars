@@ -1487,6 +1487,44 @@ CCD::UploadMode CCD::getUploadMode()
     return UPLOAD_CLIENT;
 }
 
+bool CCD::setUploadMode(UploadMode mode)
+{
+    ISwitchVectorProperty *uploadModeSP=NULL;
+    ISwitch *modeS= NULL;
+
+    uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+
+    switch (mode)
+    {
+        case UPLOAD_CLIENT:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
+        if (modeS == NULL)
+            return false;
+        break;
+
+        case UPLOAD_BOTH:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
+        if (modeS == NULL)
+            return false;
+        break;
+
+        case UPLOAD_LOCAL:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
+        if (modeS == NULL)
+            return false;
+        break;
+
+    }
+
+    IUResetSwitch(uploadModeSP);
+    modeS->s = ISS_ON;
+
+    clientManager->sendNewSwitch(uploadModeSP);
+
+    return true;
+
+}
+
 bool CCD::getTemperature(double *value)
 {
     if (HasCooler == false)

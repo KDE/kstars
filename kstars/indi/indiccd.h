@@ -151,6 +151,7 @@ public:
     bool setRapidGuide(CCDChip *targetChip, bool enable);
     void updateUploadSettings();
     UploadMode getUploadMode();
+    bool setUploadMode(UploadMode mode);
 
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);

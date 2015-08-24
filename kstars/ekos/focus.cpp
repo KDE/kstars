@@ -63,6 +63,7 @@ Focus::Focus()
     m_autoFocusSuccesful = false;
     filterPositionPending= false;
 
+    rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     HFRInc =0;
     noStarCount=0;
     reverseDir = false;
@@ -558,6 +559,8 @@ void Focus::stopFocus()
     //maxHFR=1;
 
     currentCCD->disconnect(this);
+    if (rememberUploadMode != currentCCD->getUploadMode())
+        currentCCD->setUploadMode(rememberUploadMode);
 
     targetChip->abortExposure();
 
@@ -607,6 +610,12 @@ void Focus::capture()
             currentFilter->runCommand(INDI_SET_FILTER, &lockedFilterPosition);
             return;
         }
+    }
+
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
+        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
     if (targetChip->canBin())
@@ -731,6 +740,7 @@ void Focus::newFITS(IBLOB *bp)
     {
             captureB->setEnabled(true);
             stopFocusB->setEnabled(false);
+            currentCCD->setUploadMode(rememberUploadMode);
     }
 
     captureInProgress = false;
