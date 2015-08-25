@@ -460,7 +460,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 void DriverManager::clearServers()
 {
     foreach(ServerManager *serverManager, servers)
-        serverManager->stop();
+        serverManager->terminate();
 
     qDeleteAll(servers);
 }

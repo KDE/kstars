@@ -1188,6 +1188,12 @@ bool Capture::resumeSequence()
 
 void Capture::captureOne()
 {
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        appendLogText(xi18n("Cannot take preview image while CCD upload mode is set to local. Please change upload mode to client and try again."));
+        return;
+    }
+
     addJob(true);
 
     prepareJob(jobs.last());
@@ -1379,7 +1385,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
 
         if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
-            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getExposeLeft() == 0)
+            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getExposeLeft() == 0 && state == IPS_OK)
             {
                newFITS(0);
                return;

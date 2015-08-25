@@ -9,6 +9,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "Options.h"
+
 #include "gmath.h"
 
 #include <math.h>
@@ -24,8 +26,6 @@
 #define DEF_SQR_2	(32-0)
 #define DEF_SQR_3	(64-0)
 #define DEF_SQR_4	(128-0)
-
-//#define GUIDE_LOG
 
 const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
 											{DEF_SQR_1, DEF_SQR_1*DEF_SQR_1*1.0},
@@ -448,9 +448,9 @@ bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x,
 
           ditherRate[GUIDE_RA] = totalPulse / len;
 
-          #ifdef GUIDE_LOG
-          qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
-          #endif
+          if (Options::verboseLogging())
+            qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
+
      }
 
  return true;
@@ -516,9 +516,8 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
 
           ditherRate[GUIDE_RA] = totalPulse / len;
 
-          #ifdef GUIDE_LOG
-          qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel" << endl;
-          #endif
+          if (Options::verboseLogging())
+            qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
 
           x = end_dec_x-start_dec_x;
           y = end_dec_y - start_dec_y;
@@ -526,9 +525,8 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
 
           ditherRate[GUIDE_DEC] = totalPulse / len;
 
-          #ifdef GUIDE_LOG
-          qDebug() << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel" << endl;
-          #endif
+          if (Options::verboseLogging())
+            qDebug() << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel";
 
      }
 
@@ -867,9 +865,8 @@ void cgmath::process_axes( void  )
  int cnt = 0;
  double t_delta = 0;
 
-    #ifdef GUIDE_LOG
-    qDebug() << "Processing Axes" << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "Processing Axes";
 
  	// process axes...
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
@@ -889,9 +886,8 @@ void cgmath::process_axes( void  )
  		{
  			t_delta += drift[k][idx];
 
-            #ifdef GUIDE_LOG
-            qDebug() << "At #" << i << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta  << endl;
-            #endif
+            if (Options::verboseLogging())
+                qDebug() << "At #" << i << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta ;
  		
 			if( idx > 0 )
 				--idx;
@@ -905,20 +901,21 @@ void cgmath::process_axes( void  )
 		out_params.delta[k] = t_delta / (double)cnt;
 		drift_integral[k] /= (double)MAX_ACCUM_CNT;
  	
-        #ifdef GUIDE_LOG
-        qDebug() << "cnt: " << cnt << endl;
-        qDebug() << "delta[" << k << "]= "  << out_params.delta[k] << endl;
-        qDebug() << "drift_integral[" << k << "]= "  << drift_integral[k] << endl;
-        #endif
+        if (Options::verboseLogging())
+        {
+            qDebug() << "cnt: " << cnt;
+            qDebug() << "delta[" << k << "]= "  << out_params.delta[k];
+            qDebug() << "drift_integral[" << k << "]= "  << drift_integral[k];
+        }
+
         //if( k == GUIDE_RA )
 		//	log_i( "PROP = %f INT = %f", out_params.delta[k], drift_integral[k] );
 
 		out_params.pulse_length[k] = fabs(out_params.delta[k]*in_params.proportional_gain[k] + drift_integral[k]*in_params.integral_gain[k]);
  		out_params.pulse_length[k] = out_params.pulse_length[k] <= in_params.max_pulse_length[k] ? out_params.pulse_length[k] : in_params.max_pulse_length[k];
 
-        #ifdef GUIDE_LOG
-        qDebug() << "pulse_length[" << k << "]= "  << out_params.pulse_length[k] << endl;
-        #endif
+        if (Options::verboseLogging())
+            qDebug() << "pulse_length[" << k << "]= "  << out_params.pulse_length[k];
 
  		// calc direction
  		if( !in_params.enabled[k] )
@@ -943,9 +940,8 @@ void cgmath::process_axes( void  )
  		else
  			out_params.pulse_dir[k] = NO_DIR;
 
-    #ifdef GUIDE_LOG
-            qDebug() << "Direction: " << get_direction_string(out_params.pulse_dir[k]) << endl;
-    #endif
+    if (Options::verboseLogging())
+            qDebug() << "Direction: " << get_direction_string(out_params.pulse_dir[k]);
 
  	}
 
@@ -953,7 +949,7 @@ void cgmath::process_axes( void  )
 
      QTextStream out(logFile);
      out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << "," << get_direction_string(out_params.pulse_dir[0])
-         << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
+         << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]);
 
 }
 
@@ -985,9 +981,8 @@ void cgmath::do_processing( void )
 	if( preview_mode )
 		return;
 
-    #ifdef GUIDE_LOG
-    qDebug() << "################## BEGIN PROCESSING ##################" << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "################## BEGIN PROCESSING ##################";
 
 	// translate star coords into sky coord. system
 
@@ -996,20 +991,20 @@ void cgmath::do_processing( void )
 	arc_reticle_pos = point2arcsec( reticle_pos );
 
 
-    #ifdef GUIDE_LOG
-    qDebug() << "Star X: " << star_pos.x << " Y: " << star_pos.y << endl;
-    qDebug() << "Reticle X: " << reticle_pos.x << " Y:" << reticle_pos.y << endl;
-    qDebug() << "Star Sky Coords RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y << endl;
-    qDebug() << "Reticle Sky Coords RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y << endl;
-    #endif
+    if (Options::verboseLogging())
+    {
+        qDebug() << "Star X: " << star_pos.x << " Y: " << star_pos.y;
+        qDebug() << "Reticle X: " << reticle_pos.x << " Y:" << reticle_pos.y;
+        qDebug() << "Star Sky Coords RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
+        qDebug() << "Reticle Sky Coords RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
+    }
 
 	// translate into sky coords.
 	star_pos = arc_star_pos - arc_reticle_pos;
     star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
 
-    #ifdef GUIDE_LOG
-    qDebug() << "-------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "-------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
 
 	star_pos = star_pos * ROT_Z;
 
@@ -1018,10 +1013,11 @@ void cgmath::do_processing( void )
     drift[GUIDE_RA][channel_ticks[GUIDE_RA]]   = star_pos.x;
     drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]] = star_pos.y;
 
-    #ifdef GUIDE_LOG
-    qDebug() << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y << endl;
-    qDebug() << "RA channel ticks: " << channel_ticks[GUIDE_RA] << " DEC channel ticks: " << channel_ticks[GUIDE_DEC] << endl;
-    #endif
+    if (Options::verboseLogging())
+    {
+        qDebug() << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
+        qDebug() << "RA channel ticks: " << channel_ticks[GUIDE_RA] << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
+    }
 
 	// make decision by axes
 	process_axes();
@@ -1032,9 +1028,8 @@ void cgmath::do_processing( void )
 	// finally process tickers
 	do_ticks();
 
-    #ifdef GUIDE_LOG
-    qDebug() << "################## FINISH PROCESSING ##################" << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "################## FINISH PROCESSING ##################";
 }
 
 

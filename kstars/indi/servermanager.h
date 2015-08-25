@@ -43,6 +43,7 @@ public:
 
     bool start();
     void stop();
+    void terminate();
 
     const QString & getLogBuffer() { return serverBuffer; }
     const QString & getHost() { return host;}

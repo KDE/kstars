@@ -64,6 +64,7 @@ Align::Align()
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
+    rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     currentFilter = NULL;
     filterPositionPending = false;
     lockedFilterIndex = currentFilterIndex = -1;
@@ -554,6 +555,12 @@ bool Align::captureAndSolve()
 
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
+   if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+   {
+       rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
+       currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+   }
+
    targetChip->setBatchMode(false);
    targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
    if (kcfg_solverPreview->isChecked())
@@ -677,7 +684,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      alignCoord.setRA0(ra/15.0);
      alignCoord.setDec0(dec);
-     RotOut->setText(QString("%1").arg(orientation, 0, 'g', 5));
+     RotOut->setText(QString::number(orientation, 'g', 5));
 
      // Convert to JNow
      alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
@@ -725,6 +732,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      emit solverComplete(true);
 
+     if (rememberUploadMode != currentCCD->getUploadMode())
+         currentCCD->setUploadMode(rememberUploadMode);
+
      executeMode();
 }
 
@@ -760,6 +770,9 @@ void Align::stopSolving()
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
+
+    if (rememberUploadMode != currentCCD->getUploadMode())
+        currentCCD->setUploadMode(rememberUploadMode);
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 

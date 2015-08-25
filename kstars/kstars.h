@@ -386,10 +386,9 @@ public Q_SLOTS:
     /** DBUS interface function.  Open FITS image.
      * @param imageURL URL of FITS image to load. For a local file the prefix must be file:// For example
      * if the file is located at /home/john/m42.fits then the full URL is file:///home/john/m42.fits
+     * @return True if successful, false otherwise.
      */
-    #ifdef HAVE_CFITSIO
-    Q_SCRIPTABLE Q_NOREPLY void openFITS(const QUrl & imageURL);
-    #endif
+    Q_SCRIPTABLE bool openFITS(const QUrl & imageURL);
 
     /** @}*/
 

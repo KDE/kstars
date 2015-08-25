@@ -1005,6 +1005,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             streamWindow->enableStream(false);
             streamWindow->close();
+            delete(streamWindow);
+            streamWindow = NULL;
         }
 
         emit switchUpdated(svp);
@@ -1326,15 +1328,18 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowHidden()
 {
-        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
-        if (streamSP == NULL)
-            streamSP = baseDevice->getSwitch("VIDEO_STREAM");
-        if (streamSP)
+        if (baseDevice->isConnected())
         {
-            IUResetSwitch(streamSP);
-            streamSP->sp[1].s = ISS_ON;
-            streamSP->s = IPS_IDLE;
-            clientManager->sendNewSwitch(streamSP);
+            ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+            if (streamSP == NULL)
+                streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+            if (streamSP)
+            {
+                IUResetSwitch(streamSP);
+                streamSP->sp[1].s = ISS_ON;
+                streamSP->s = IPS_IDLE;
+                clientManager->sendNewSwitch(streamSP);
+            }
         }
 
         streamWindow->disconnect();
@@ -1480,6 +1485,44 @@ CCD::UploadMode CCD::getUploadMode()
 
     // Default
     return UPLOAD_CLIENT;
+}
+
+bool CCD::setUploadMode(UploadMode mode)
+{
+    ISwitchVectorProperty *uploadModeSP=NULL;
+    ISwitch *modeS= NULL;
+
+    uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+
+    switch (mode)
+    {
+        case UPLOAD_CLIENT:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
+        if (modeS == NULL)
+            return false;
+        break;
+
+        case UPLOAD_BOTH:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
+        if (modeS == NULL)
+            return false;
+        break;
+
+        case UPLOAD_LOCAL:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
+        if (modeS == NULL)
+            return false;
+        break;
+
+    }
+
+    IUResetSwitch(uploadModeSP);
+    modeS->s = ISS_ON;
+
+    clientManager->sendNewSwitch(uploadModeSP);
+
+    return true;
+
 }
 
 bool CCD::getTemperature(double *value)

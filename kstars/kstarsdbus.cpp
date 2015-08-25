@@ -561,14 +561,24 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     }
 }
 
-#ifdef HAVE_CFITSIO
-void KStars::openFITS(const QUrl &imageURL)
+bool KStars::openFITS(const QUrl &imageURL)
 {
+    #ifndef HAVE_CFITSIO
+    qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
+    return false;
+    #else
     FITSViewer * fv = new FITSViewer(this);
     // Error opening file
     if (fv->addFITS(&imageURL) == -2)
+    {
         delete (fv);
+        return false;
+    }
     else
+    {
        fv->show();
+       return true;
+    }
+    #endif
 }
-#endif
+
