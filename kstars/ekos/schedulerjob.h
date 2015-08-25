@@ -1,185 +1,64 @@
+/*  Ekos Scheduler Job
+    Copyright (C) Jasem Mutlaq <mutlaqja@ikarustech.com>
 
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
 
-#if 0
-class Schedulerjob {
+#ifndef SchedulerJob_H
+#define SchedulerJob_H
+
+#include <QUrl>
+
+#include "dms.h"
+#include "skypoint.h"
+
+class SchedulerJob
+{
 public:
-    Schedulerjob();
-    enum JobState{IDLE, READY, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
-                     CAPTURING, CAPTURING_COMPLETE, ABORTED};
-    enum SolverState{NO_SOLVING, TO_BE_SOLVED, SOLVING, SOLVING_COMPLETE, ERROR};
+    SchedulerJob();
+    ~SchedulerJob();
+
+    typedef enum { START_NOW, START_CULMINATION, START_AT } StartupCondition;
 
     QString getName() const;
     void setName(const QString &value);
 
-    QString getRA() const;
-    void setRA(const QString &value);
+    void setTargetCoords(dms ra, dms dec);
+    const SkyPoint & getTargetCoords() const;
 
-    QString getDEC() const;
-    void setDEC(const QString &value);
+    StartupCondition getStartingCondition() const;
+    void setStartupCondition(const StartupCondition &value);
 
-    QString getStartTime() const;
-    void setStartTime(const QString &value);
+    QDateTime getStartupTime() const;
+    void setStartupTime(const QDateTime &value);
 
-    QString getFinTime() const;
-    void setFinTime(const QString &value);
+#if 0
+    enum JobState{IDLE, READY, SLEWING, SLEW_COMPLETE, FOCUSING, FOCUSING_COMPLETE, ALIGNING, ALIGNING_COMPLETE, GUIDING, GUIDING_COMPLETE,
+                     CAPTURING, CAPTURING_COMPLETE, ABORTED};
+#endif
 
-    QString getFileName() const;
-    void setFileName(const QString &value);
+    QUrl getSequenceFile() const;
+    void setSequenceFile(const QUrl &value);
 
-    SkyObject *getOb() const;
-    void setOb(SkyObject *value);
-
-    float getAlt() const;
-    void setAlt(float value);
-
-    float getMoonSeparation() const;
-    void setMoonSeparation(float value);
-
-    int getHours() const;
-    void setHours(int value);
-
-    int getMinutes() const;
-    void setMinutes(int value);
-
-    bool getNowCheck() const;
-    void setNowCheck(bool value);
-
-    bool getSpecificTime() const;
-    void setSpecificTime(bool value);
-
-    bool getSpecificAlt() const;
-    void setSpecificAlt(bool value);
-
-    bool getMoonSeparationCheck() const;
-    void setMoonSeparationCheck(bool value);
-
-    bool getMeridianFlip() const;
-    void setMeridianFlip(bool value);
-
-    bool getWhenSeqCompCheck() const;
-    void setWhenSeqCompCheck(bool value);
-
-    bool getLoopCheck() const;
-    void setLoopCheck(bool value);
-
-    bool getOnTimeCheck() const;
-    void setOnTimeCheck(bool value);
-
-    int getScore() const;
-    void setScore(int value);
-
-    int getFinishingHour() const;
-    void setFinishingHour(int value);
-
-    int getFinishingMinute() const;
-    void setFinishingMinute(int value);
-
-    bool getFocusCheck() const;
-    void setFocusCheck(bool value);
-
-    bool getAlignCheck() const;
-    void setAlignCheck(bool value);
-
-    JobState getState() const;
-    void setState(const JobState &value);
-
-    int getRowNumber() const;
-    void setRowNumber(int value);
-
-    bool getGuideCheck() const;
-    void setGuideCheck(bool value);
-
-    int getIsOk() const;
-    void setIsOk(int value);
-
-
-    QString getFITSPath() const;
-    void setFITSPath(const QString &value);
-
-    double getFitsRA() const;
-    void setFitsRA(double value);
-
-    double getFitsDEC() const;
-    void setFitsDEC(double value);
-
-    bool getIsFITSSelected() const;
-    void setIsFITSSelected(bool value);
-
-    SolverState getSolverState() const;
-    void setSolverState(const SolverState &value);
-
-    int getMonth() const;
-    void setMonth(int value);
-
-    int getDay() const;
-    void setDay(int value);
-
-    int getFinishingMonth() const;
-    void setFinishingMonth(int value);
-
-    int getFinishingDay() const;
-    void setFinishingDay(int value);
-
-    double getNormalRA() const;
-    void setNormalRA(double value);
-
-    double getNormalDEC() const;
-    void setNormalDEC(double value);
+    QUrl getFitsFile() const;
+    void setFitsFile(const QUrl &value);
 
 private:
-    //default state for each schedulerJob object
-    JobState state = IDLE;
-    //default state for the solver
-    SolverState solverState = NO_SOLVING;
-    //Job details
+
     QString name;
-    QString RA;
-    QString DEC;
-    QString startTime;
-    QString finTime;
-    QString fileName;
-    QString FITSPath;
-    //The SkyObject refrence used for getting data like the current altitude etc
-    SkyObject *ob;
+    SkyPoint targetCoords;
 
-    //The altitude of the object
-    float alt;
-    //The moon separation of the current object
-    float moonSeparation;
-    //The results that are obtained after the Solving is done
-    double fitsRA;
-    double fitsDEC;
-    double normalRA;
-    double normalDEC;
-    //The time limitations and constraints
-    int hours;
-    int minutes;
-    int month;
-    int day;
-    int finishingHour;
-    int finishingMinute;
-    int finishingMonth;
-    int finishingDay;
-    //The score of each object. Based in this, the best object will be selected for evaluation
-    int score;
-    int isOk;
-    //The table location of the current object
-    int rowNumber;
+    StartupCondition startupCondition;
 
-    //We use this booleans to store the state of the current job.
-    bool NowCheck;
-    bool specificTime;
-    bool specificAlt;
-    bool moonSeparationCheck;
-    bool meridianFlip;
+    QDateTime startupTime;
 
-    bool whenSeqCompCheck;
-    bool loopCheck;
-    bool onTimeCheck;
+    QUrl sequenceFile;
+    QUrl fitsFile;
 
-    bool focusCheck;
-    bool alignCheck;
-    bool guideCheck;
 
 };
-#endif
+
+#endif // SchedulerJob_H

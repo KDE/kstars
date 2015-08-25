@@ -53,7 +53,7 @@ public:
       * @brief updateJobInfo Updates the state cell of the current job
       * @param o the current job that is being evaluated
       */
-     void updateJobInfo(Schedulerjob *o);
+     void updateJobInfo(SchedulerJob *o);
 
      /**
       * @brief startSlew DBus call for initiating slew
@@ -104,14 +104,14 @@ public:
       */
      void startSolving();
      /**
-      * @brief getResults After solver is completed, we get the object coordinates and construct the schedulerJob object
+      * @brief getResults After solver is completed, we get the object coordinates and construct the SchedulerJob object
       */
      void getResults();
      /**
       * @brief processFITS I use this as an intermediary to start the solving process of the FITS objects that are currenty in the list
       * @param value
       */
-     void processFITS(Schedulerjob *value);
+     void processFITS(SchedulerJob *value);
      /**
       * @brief getNextFITSAction Similar process to the one used on regular objects. This one is used in case of FITS selection method
       */
@@ -120,21 +120,21 @@ public:
       * @brief terminateFITSJob After a FITS object is solved, we check if another FITS object exists. If not, we end the solving process.
       * @param value the current FITS job
       */
-     void terminateFITSJob(Schedulerjob *value);
+     void terminateFITSJob(SchedulerJob *value);
 
-     Schedulerjob *getCurrentjob() const;
-     void setCurrentjob(Schedulerjob *value);
+     SchedulerJob *getCurrentjob() const;
+     void setCurrentjob(SchedulerJob *value);
      /**
       * @brief terminateJob After a job is completed, we check if we have another one pending. If not, we start the shutdown sequence
       * @param value the current job
       */
-     void terminateJob(Schedulerjob *value);
+     void terminateJob(SchedulerJob *value);
      /**
       * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
       * checkJobStatus slot will be connected in order to fgiure the exact state of the current job each second
       * @param value
       */
-     void executeJob(Schedulerjob *value);
+     void executeJob(SchedulerJob *value);
 
      SchedulerState getState() const;
      void setState(const SchedulerState &value);
@@ -157,16 +157,18 @@ public slots:
       */
      void selectSequence();
 
+     /**
+      * @brief addToQueue Construct a SchedulerJob and add it to the queue
+      */
+     void addToQueue();
+
 #if 0
 
+
      /**
-      * @brief addToTableSlot The schedulerJob object is being constructed and added to the table
+      * @brief removeFromQueue Removing the object from the table and from the list
       */
-     void addToTableSlot();
-     /**
-      * @brief removeTableSlot Removing the object from the table and from the list
-      */
-     void removeTableSlot();
+     void removeFromQueue();
      /**
       * @brief setSequenceSlot File select functionality for the sequence file
       */
@@ -219,12 +221,14 @@ private:
     QProgressIndicator *pi;
 
     //The list of pending objects
-    //QVector<Schedulerjob> objects;
-    //SkyObject *o;
+    //QVector<SchedulerJob> objects;
+
+    QUrl sequenceURL;
+    QUrl fitsURL;
 
     QStringList logText;
     //The current job that is evaluated
-    //Schedulerjob *currentjob;
+    //SchedulerJob *currentjob;
 
 };
 }

@@ -389,9 +389,6 @@
       </item>
      </layout>
      <zorder></zorder>
-     <zorder>raBox</zorder>
-     <zorder>decBox</zorder>
-     <zorder>horizontalSpacer_11</zorder>
      <zorder>line</zorder>
     </widget>
    </item>
@@ -406,7 +403,7 @@
         <item>
          <widget class="QRadioButton" name="nowConditionR">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start the observation job as soon as all the constraints, if any, are met.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Start the observation job as soon as all the constraints, if any, are met. The best candidate target shall be imaged first.</string>
           </property>
           <property name="text">
            <string>&amp;Now</string>
@@ -419,12 +416,12 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
-           <widget class="QRadioButton" name="altConditionR">
+           <widget class="QRadioButton" name="culminationConditionR">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start the observation job when the object reaches culmination.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Culmination</string>
+             <string>C&amp;ulmination</string>
             </property>
            </widget>
           </item>

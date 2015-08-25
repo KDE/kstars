@@ -1,8 +1,19 @@
-#include <QApplication>
+/*  Ekos Scheduler Job
+    Copyright (C) Jasem Mutlaq <mutlaqja@ikarustech.com>
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
+
 #include "schedulerjob.h"
 
-#if 0
-Schedulerjob::Schedulerjob(){
+SchedulerJob::SchedulerJob()
+{
+    startupCondition = START_NOW;
+
+    #if 0
     NowCheck=false;
     specificTime=false;
     specificAlt=false;
@@ -15,384 +26,445 @@ Schedulerjob::Schedulerjob(){
     score=0;
     alt=-1;
     isOk = 0;
+    #endif
 }
 
-QString Schedulerjob::getName() const
+SchedulerJob::~SchedulerJob()
+{
+
+}
+
+QString SchedulerJob::getName() const
 {
 return name;
 }
 
-void Schedulerjob::setName(const QString &value)
+void SchedulerJob::setName(const QString &value)
 {
 name = value;
 }
-QString Schedulerjob::getRA() const
+
+const SkyPoint & SchedulerJob::getTargetCoords() const
 {
-return RA;
+    return targetCoords;
 }
 
-void Schedulerjob::setRA(const QString &value)
+SchedulerJob::StartupCondition SchedulerJob::getStartingCondition() const
+{
+    return startupCondition;
+}
+
+void SchedulerJob::setStartupCondition(const StartupCondition &value)
+{
+    startupCondition = value;
+}
+
+QDateTime SchedulerJob::getStartupTime() const
+{
+    return startupTime;
+}
+
+void SchedulerJob::setStartupTime(const QDateTime &value)
+{
+    startupTime = value;
+}
+QUrl SchedulerJob::getSequenceFile() const
+{
+    return sequenceFile;
+}
+
+void SchedulerJob::setSequenceFile(const QUrl &value)
+{
+    sequenceFile = value;
+}
+QUrl SchedulerJob::getFitsFile() const
+{
+    return fitsFile;
+}
+void SchedulerJob::setFitsFile(const QUrl &value)
+{
+    fitsFile = value;
+}
+
+
+
+
+
+
+void SchedulerJob::setTargetCoords(dms ra, dms dec)
+{
+    targetCoords.setRA0(ra);
+    targetCoords.setDec0(dec);
+}
+
+#if 0
+QString SchedulerJob::getRA() const
+{
+    return RA;
+}
+
+void SchedulerJob::setRA(const QString &value)
 {
 RA = value;
 }
-QString Schedulerjob::getDEC() const
+QString SchedulerJob::getDEC() const
 {
 return DEC;
 }
 
-void Schedulerjob::setDEC(const QString &value)
+void SchedulerJob::setDEC(const QString &value)
 {
 DEC = value;
 }
-QString Schedulerjob::getStartTime() const
+QString SchedulerJob::getStartTime() const
 {
 return startTime;
 }
 
-void Schedulerjob::setStartTime(const QString &value)
+void SchedulerJob::setStartTime(const QString &value)
 {
 startTime = value;
 }
-QString Schedulerjob::getFinTime() const
+QString SchedulerJob::getFinTime() const
 {
 return finTime;
 }
 
-void Schedulerjob::setFinTime(const QString &value)
+void SchedulerJob::setFinTime(const QString &value)
 {
 finTime = value;
 }
-QString Schedulerjob::getFileName() const
+QString SchedulerJob::getFileName() const
 {
 return fileName;
 }
 
-void Schedulerjob::setFileName(const QString &value)
+void SchedulerJob::setFileName(const QString &value)
 {
 fileName = value;
 }
-SkyObject *Schedulerjob::getOb() const
+SkyObject *SchedulerJob::getOb() const
 {
 return ob;
 }
 
-void Schedulerjob::setOb(SkyObject *value)
+void SchedulerJob::setOb(SkyObject *value)
 {
 ob = value;
 }
-float Schedulerjob::getAlt() const
+float SchedulerJob::getAlt() const
 {
 return alt;
 }
 
-void Schedulerjob::setAlt(float value)
+void SchedulerJob::setAlt(float value)
 {
 alt = value;
 }
-float Schedulerjob::getMoonSeparation() const
+float SchedulerJob::getMoonSeparation() const
 {
 return moonSeparation;
 }
 
-void Schedulerjob::setMoonSeparation(float value)
+void SchedulerJob::setMoonSeparation(float value)
 {
 moonSeparation = value;
 }
-int Schedulerjob::getHours() const
+int SchedulerJob::getHours() const
 {
 return hours;
 }
 
-void Schedulerjob::setHours(int value)
+void SchedulerJob::setHours(int value)
 {
 hours = value;
 }
-int Schedulerjob::getMinutes() const
+int SchedulerJob::getMinutes() const
 {
 return minutes;
 }
 
-void Schedulerjob::setMinutes(int value)
+void SchedulerJob::setMinutes(int value)
 {
 minutes = value;
 }
-bool Schedulerjob::getNowCheck() const
+bool SchedulerJob::getNowCheck() const
 {
 return NowCheck;
 }
 
-void Schedulerjob::setNowCheck(bool value)
+void SchedulerJob::setNowCheck(bool value)
 {
 NowCheck = value;
 }
-bool Schedulerjob::getSpecificTime() const
+bool SchedulerJob::getSpecificTime() const
 {
 return specificTime;
 }
 
-void Schedulerjob::setSpecificTime(bool value)
+void SchedulerJob::setSpecificTime(bool value)
 {
 specificTime = value;
 }
-bool Schedulerjob::getSpecificAlt() const
+bool SchedulerJob::getSpecificAlt() const
 {
 return specificAlt;
 }
 
-void Schedulerjob::setSpecificAlt(bool value)
+void SchedulerJob::setSpecificAlt(bool value)
 {
 specificAlt = value;
 }
-bool Schedulerjob::getMoonSeparationCheck() const
+bool SchedulerJob::getMoonSeparationCheck() const
 {
 return moonSeparationCheck;
 }
 
-void Schedulerjob::setMoonSeparationCheck(bool value)
+void SchedulerJob::setMoonSeparationCheck(bool value)
 {
 moonSeparationCheck = value;
 }
-bool Schedulerjob::getMeridianFlip() const
+bool SchedulerJob::getMeridianFlip() const
 {
 return meridianFlip;
 }
 
-void Schedulerjob::setMeridianFlip(bool value)
+void SchedulerJob::setMeridianFlip(bool value)
 {
 meridianFlip = value;
 }
-bool Schedulerjob::getWhenSeqCompCheck() const
+bool SchedulerJob::getWhenSeqCompCheck() const
 {
 return whenSeqCompCheck;
 }
 
-void Schedulerjob::setWhenSeqCompCheck(bool value)
+void SchedulerJob::setWhenSeqCompCheck(bool value)
 {
 whenSeqCompCheck = value;
 }
-bool Schedulerjob::getLoopCheck() const
+bool SchedulerJob::getLoopCheck() const
 {
 return loopCheck;
 }
 
-void Schedulerjob::setLoopCheck(bool value)
+void SchedulerJob::setLoopCheck(bool value)
 {
 loopCheck = value;
 }
-bool Schedulerjob::getOnTimeCheck() const
+bool SchedulerJob::getOnTimeCheck() const
 {
 return onTimeCheck;
 }
 
-void Schedulerjob::setOnTimeCheck(bool value)
+void SchedulerJob::setOnTimeCheck(bool value)
 {
 onTimeCheck = value;
 }
 
-int Schedulerjob::getScore() const
+int SchedulerJob::getScore() const
 {
 return score;
 }
 
-void Schedulerjob::setScore(int value)
+void SchedulerJob::setScore(int value)
 {
 score = value;
 }
-int Schedulerjob::getFinishingHour() const
+int SchedulerJob::getFinishingHour() const
 {
     return finishingHour;
 }
 
-void Schedulerjob::setFinishingHour(int value)
+void SchedulerJob::setFinishingHour(int value)
 {
     finishingHour = value;
 }
-int Schedulerjob::getFinishingMinute() const
+int SchedulerJob::getFinishingMinute() const
 {
     return finishingMinute;
 }
 
-void Schedulerjob::setFinishingMinute(int value)
+void SchedulerJob::setFinishingMinute(int value)
 {
     finishingMinute = value;
 }
-bool Schedulerjob::getFocusCheck() const
+bool SchedulerJob::getFocusCheck() const
 {
     return focusCheck;
 }
 
-void Schedulerjob::setFocusCheck(bool value)
+void SchedulerJob::setFocusCheck(bool value)
 {
     focusCheck = value;
 }
-bool Schedulerjob::getAlignCheck() const
+bool SchedulerJob::getAlignCheck() const
 {
     return alignCheck;
 }
 
-void Schedulerjob::setAlignCheck(bool value)
+void SchedulerJob::setAlignCheck(bool value)
 {
     alignCheck = value;
 }
-Schedulerjob::JobState Schedulerjob::getState() const
+SchedulerJob::JobState SchedulerJob::getState() const
 {
     return state;
 }
 
-void Schedulerjob::setState(const JobState &value)
+void SchedulerJob::setState(const JobState &value)
 {
     state = value;
 }
-int Schedulerjob::getRowNumber() const
+int SchedulerJob::getRowNumber() const
 {
     return rowNumber;
 }
 
-void Schedulerjob::setRowNumber(int value)
+void SchedulerJob::setRowNumber(int value)
 {
     rowNumber = value;
 }
-bool Schedulerjob::getGuideCheck() const
+bool SchedulerJob::getGuideCheck() const
 {
     return guideCheck;
 }
 
-void Schedulerjob::setGuideCheck(bool value)
+void SchedulerJob::setGuideCheck(bool value)
 {
     guideCheck = value;
 }
-int Schedulerjob::getIsOk() const
+int SchedulerJob::getIsOk() const
 {
     return isOk;
 }
 
-void Schedulerjob::setIsOk(int value)
+void SchedulerJob::setIsOk(int value)
 {
     isOk = value;
 }
-bool Schedulerjob::getParkTelescopeCheck() const
+bool SchedulerJob::getParkTelescopeCheck() const
 {
     return parkTelescopeCheck;
 }
 
-void Schedulerjob::setParkTelescopeCheck(bool value)
+void SchedulerJob::setParkTelescopeCheck(bool value)
 {
     parkTelescopeCheck = value;
 }
-bool Schedulerjob::getWarmCCDCheck() const
+bool SchedulerJob::getWarmCCDCheck() const
 {
     return warmCCDCheck;
 }
 
-void Schedulerjob::setWarmCCDCheck(bool value)
+void SchedulerJob::setWarmCCDCheck(bool value)
 {
     warmCCDCheck = value;
 }
-bool Schedulerjob::getCloseDomeCheck() const
+bool SchedulerJob::getCloseDomeCheck() const
 {
     return closeDomeCheck;
 }
 
-void Schedulerjob::setCloseDomeCheck(bool value)
+void SchedulerJob::setCloseDomeCheck(bool value)
 {
     closeDomeCheck = value;
 }
-QString Schedulerjob::getFITSPath() const
+QString SchedulerJob::getFITSPath() const
 {
     return FITSPath;
 }
 
-void Schedulerjob::setFITSPath(const QString &value)
+void SchedulerJob::setFITSPath(const QString &value)
 {
     FITSPath = value;
 }
-double Schedulerjob::getFitsRA() const
+double SchedulerJob::getFitsRA() const
 {
     return fitsRA;
 }
 
-void Schedulerjob::setFitsRA(double value)
+void SchedulerJob::setFitsRA(double value)
 {
     fitsRA = value;
 }
-double Schedulerjob::getFitsDEC() const
+double SchedulerJob::getFitsDEC() const
 {
     return fitsDEC;
 }
 
-void Schedulerjob::setFitsDEC(double value)
+void SchedulerJob::setFitsDEC(double value)
 {
     fitsDEC = value;
 }
-bool Schedulerjob::getIsFITSSelected() const
+bool SchedulerJob::getIsFITSSelected() const
 {
     return isFITSSelected;
 }
 
-void Schedulerjob::setIsFITSSelected(bool value)
+void SchedulerJob::setIsFITSSelected(bool value)
 {
     isFITSSelected = value;
 }
-Schedulerjob::SolverState Schedulerjob::getSolverState() const
+SchedulerJob::SolverState SchedulerJob::getSolverState() const
 {
     return solverState;
 }
 
-void Schedulerjob::setSolverState(const SolverState &value)
+void SchedulerJob::setSolverState(const SolverState &value)
 {
     solverState = value;
 }
-int Schedulerjob::getMonth() const
+int SchedulerJob::getMonth() const
 {
     return month;
 }
 
-void Schedulerjob::setMonth(int value)
+void SchedulerJob::setMonth(int value)
 {
     month = value;
 }
-int Schedulerjob::getDay() const
+int SchedulerJob::getDay() const
 {
     return day;
 }
 
-void Schedulerjob::setDay(int value)
+void SchedulerJob::setDay(int value)
 {
     day = value;
 }
-int Schedulerjob::getFinishingMonth() const
+int SchedulerJob::getFinishingMonth() const
 {
     return finishingMonth;
 }
 
-void Schedulerjob::setFinishingMonth(int value)
+void SchedulerJob::setFinishingMonth(int value)
 {
     finishingMonth = value;
 }
-int Schedulerjob::getFinishingDay() const
+int SchedulerJob::getFinishingDay() const
 {
     return finishingDay;
 }
 
-void Schedulerjob::setFinishingDay(int value)
+void SchedulerJob::setFinishingDay(int value)
 {
     finishingDay = value;
 }
-double Schedulerjob::getNormalRA() const
+double SchedulerJob::getNormalRA() const
 {
     return normalRA;
 }
 
-void Schedulerjob::setNormalRA(double value)
+void SchedulerJob::setNormalRA(double value)
 {
     normalRA = value;
 }
-double Schedulerjob::getNormalDEC() const
+double SchedulerJob::getNormalDEC() const
 {
     return normalDEC;
 }
 
-void Schedulerjob::setNormalDEC(double value)
+void SchedulerJob::setNormalDEC(double value)
 {
     normalDEC = value;
 }
