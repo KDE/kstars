@@ -1664,4 +1664,24 @@
              <default>0.5</default>
         </entry>
     </group>
+    <group name="Scheduler">
+    <entry name="startupScript" type="String">
+        <label>One-time startup script to be executed before starting Ekos devices.</label>
+    </entry>
+    <entry name="shutdownScript" type="String">
+        <label>One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed after the initial shutdown procedures (e.g. parking), if selected, are completed.</label>
+    </entry>
+    <entry name="WarmUpCCD" type="Bool">
+        <label>Warm up CCD if supported on shutdown.</label>
+        <default>false</default>
+    </entry>
+    <entry name="ParkScope" type="Bool">
+        <label>Park telescope on shutdown.</label>
+        <default>false</default>
+    </entry>
+    <entry name="ParkDome" type="Bool">
+        <label>Park dome on shutdown.</label>
+        <default>false</default>
+    </entry>
+    </group>
 </kcfg>

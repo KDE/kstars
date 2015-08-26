@@ -7,11 +7,22 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <KLocalizedString>
+
 #include "schedulerjob.h"
 
 SchedulerJob::SchedulerJob()
 {
-    startupCondition = START_NOW;
+    startupCondition    = START_NOW;
+    completionCondition = FINISH_SEQUENCE;
+    moduleUsage         = USE_NONE;
+    state               = JOB_IDLE;
+
+    statusCell          = NULL;
+    minAltitude         = -1;
+    minMoonSeparation   = -1;
+
+
 
     #if 0
     NowCheck=false;
@@ -85,9 +96,102 @@ void SchedulerJob::setFitsFile(const QUrl &value)
 {
     fitsFile = value;
 }
+double SchedulerJob::getMinAltitude() const
+{
+    return minAltitude;
+}
+
+void SchedulerJob::setMinAltitude(const double &value)
+{
+    minAltitude = value;
+}
+double SchedulerJob::getMinMoonSeparation() const
+{
+    return minMoonSeparation;
+}
+
+void SchedulerJob::setMinMoonSeparation(const double &value)
+{
+    minMoonSeparation = value;
+}
+bool SchedulerJob::getEnforceWeather() const
+{
+    return enforceWeather;
+}
+
+void SchedulerJob::setEnforceWeather(bool value)
+{
+    enforceWeather = value;
+}
+bool SchedulerJob::getNoMeridianFlip() const
+{
+    return noMeridianFlip;
+}
+
+void SchedulerJob::setNoMeridianFlip(bool value)
+{
+    noMeridianFlip = value;
+}
+QDateTime SchedulerJob::getcompletionTimeEdit() const
+{
+    return completionTimeEdit;
+}
+
+void SchedulerJob::setcompletionTimeEdit(const QDateTime &value)
+{
+    completionTimeEdit = value;
+}
+
+SchedulerJob::CompletionCondition SchedulerJob::getCompletionCondition() const
+{
+    return completionCondition;
+}
+
+void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
+{
+    completionCondition = value;
+}
+
+SchedulerJob::ModuleUsage SchedulerJob::getModuleUsage() const
+{
+    return moduleUsage;
+}
+
+void SchedulerJob::setModuleUsage(const ModuleUsage &value)
+{
+    moduleUsage = value;
+}
+
+SchedulerJob::JOBStatus SchedulerJob::getState() const
+{
+    return state;
+}
+
+void SchedulerJob::setState(const JOBStatus &value)
+{
+    state = value;
+
+    if (statusCell == NULL)
+        return;
+
+    switch (state)
+    {
+        case JOB_IDLE:
+            statusCell->setText(xi18n("Idle"));
+            break;
+
+        case JOB_BUSY:
+            statusCell->setText(xi18n("Busy"));
+            break;
 
 
+        default:
+            statusCell->setText(xi18n("Unknown"));
+            break;
 
+
+    }
+}
 
 
 

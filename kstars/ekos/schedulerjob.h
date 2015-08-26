@@ -11,6 +11,7 @@
 #define SchedulerJob_H
 
 #include <QUrl>
+#include <QTableWidgetItem>
 
 #include "dms.h"
 #include "skypoint.h"
@@ -21,7 +22,13 @@ public:
     SchedulerJob();
     ~SchedulerJob();
 
+    typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
     typedef enum { START_NOW, START_CULMINATION, START_AT } StartupCondition;
+    typedef enum { FINISH_SEQUENCE, FINISH_LOOP, FINISH_AT } CompletionCondition;
+    typedef enum { USE_NONE  = 0,
+                   USE_FOCUS = 1 << 0,
+                   USE_ALIGN = 1 << 1,
+                   USE_GUIDE = 1 << 2 } ModuleUsage;
 
     QString getName() const;
     void setName(const QString &value);
@@ -46,17 +53,56 @@ public:
     QUrl getFitsFile() const;
     void setFitsFile(const QUrl &value);
 
+    double getMinAltitude() const;
+    void setMinAltitude(const double &value);
+
+    double getMinMoonSeparation() const;
+    void setMinMoonSeparation(const double &value);
+
+    bool getEnforceWeather() const;
+    void setEnforceWeather(bool value);
+
+    bool getNoMeridianFlip() const;
+    void setNoMeridianFlip(bool value);
+
+    QDateTime getcompletionTimeEdit() const;
+    void setcompletionTimeEdit(const QDateTime &value);
+
+    CompletionCondition getCompletionCondition() const;
+    void setCompletionCondition(const CompletionCondition &value);
+
+    ModuleUsage getModuleUsage() const;
+    void setModuleUsage(const ModuleUsage &value);
+
+    void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
+
+    JOBStatus getState() const;
+    void setState(const JOBStatus &value);
+
 private:
 
     QString name;
     SkyPoint targetCoords;
+    JOBStatus state;
 
     StartupCondition startupCondition;
+    CompletionCondition completionCondition;
 
     QDateTime startupTime;
+    QDateTime completionTimeEdit;
 
     QUrl sequenceFile;
     QUrl fitsFile;
+
+    double minAltitude;
+    double minMoonSeparation;
+
+    bool enforceWeather;
+    bool noMeridianFlip;    
+
+    ModuleUsage moduleUsage;
+
+    QTableWidgetItem* statusCell;
 
 
 };

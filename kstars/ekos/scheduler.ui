@@ -118,25 +118,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="solveFITSB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Solve the FITS image to obtain the central RA &amp; DEC coordinates.</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item row="5" column="0">
@@ -149,7 +130,7 @@
         <item row="5" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_15">
           <item>
-           <widget class="QLineEdit" name="sequenceFile">
+           <widget class="QLineEdit" name="sequenceEdit">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -359,7 +340,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="schedulerQueueTable">
+         <widget class="QTableWidget" name="queueTable">
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -440,7 +421,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="startupTime"/>
+           <widget class="QDateTimeEdit" name="startupTimeEdit"/>
           </item>
           <item>
            <spacer name="horizontalSpacer_3">
@@ -479,7 +460,7 @@
         <item row="0" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+           <widget class="QDoubleSpinBox" name="minAltitude"/>
           </item>
           <item>
            <widget class="QLabel" name="label_10">
@@ -493,7 +474,7 @@
         <item row="1" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
-           <widget class="QDoubleSpinBox" name="moonSeparation"/>
+           <widget class="QDoubleSpinBox" name="minMoonSeparation"/>
           </item>
           <item>
            <widget class="QLabel" name="label_11">
@@ -579,7 +560,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="completionTime"/>
+           <widget class="QDateTimeEdit" name="completionTimeEdit"/>
           </item>
           <item>
            <spacer name="horizontalSpacer_7">
@@ -662,7 +643,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_10">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed after the initial shutdown procedures (e.g. parking), if selected, are completed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed after the initial shutdown procedures (e.g. parking), if selected, are completed.</string>
        </property>
        <property name="title">
         <string>Shutdown Procedure</string>
@@ -684,7 +665,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="parkCheck">
+           <widget class="QCheckBox" name="parkTelescopeCheck">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -697,7 +678,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="closeDomeCheck">
+           <widget class="QCheckBox" name="parkDomeCheck">
             <property name="enabled">
              <bool>true</bool>
             </property>

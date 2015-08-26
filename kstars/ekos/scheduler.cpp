@@ -31,9 +31,13 @@ Scheduler::Scheduler()
 
     state = Scheduler::IDLE;
 
+    currentJob = NULL;
+    jobUnderEdit = false;
+    mDirty       = false;
+
     // Set initial time for startup and completion times
-    startupTime->setDateTime(QDateTime::currentDateTime());
-    completionTime->setDateTime(QDateTime::currentDateTime());
+    startupTimeEdit->setDateTime(QDateTime::currentDateTime());
+    completionTimeEdit->setDateTime(QDateTime::currentDateTime());
 
     // Set up DBus interfaces
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
@@ -55,7 +59,6 @@ Scheduler::Scheduler()
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save"));
     queueLoadB->setIcon(QIcon::fromTheme("document-open"));
 
-    solveFITSB->setIcon(QIcon::fromTheme("games-solve"));
     loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
     selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
     selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
@@ -64,8 +67,17 @@ Scheduler::Scheduler()
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
     connect(loadSequenceB,SIGNAL(clicked()),this,SLOT(selectSequence()));
 
-    connect(addToQueueB,SIGNAL(clicked()),this,SLOT(addToQueue()));
-    connect(removeFromQueueB,SIGNAL(clicked()),this,SLOT(removeFromQueue()));
+    connect(addToQueueB,SIGNAL(clicked()),this,SLOT(addJob()));
+    connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
+    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
+    connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
+
+    // Load scheduler settings
+    startupScript->setText(Options::startupScript());
+    shutdownScript->setText(Options::shutdownScript());
+    warmCCDCheck->setChecked(Options::warmUpCCD());
+    parkTelescopeCheck->setChecked(Options::parkScope());
+    parkDomeCheck->setChecked(Options::parkDome());
 
 #if 0
 
@@ -122,14 +134,16 @@ void Scheduler::selectObject()
             raBox->setText(o->ra0().toHMSString());
             decBox->setText(o->dec0().toDMSString());
 
-            appendLogText(xi18n("Object selected. Please select the sequence file."));
+            if (sequenceEdit->text().isEmpty())
+                appendLogText(xi18n("Object selected. Please select the sequence file."));
+            else
+                addToQueueB->setEnabled(true);
+
         }
     }
 
     delete fd;
 
-    if (sequenceFile->text().isEmpty() == false)
-        addToQueueB->setEnabled(true);
 }
 
 void Scheduler::selectFITS()
@@ -143,12 +157,13 @@ void Scheduler::selectFITS()
     raBox->clear();
     decBox->clear();
 
-    solveFITSB->setEnabled(true);
-
     if (nameEdit->text().isEmpty())
         nameEdit->setText(fitsURL.fileName());
 
-    appendLogText(xi18n("FITS file selected. Please solve FITS to obtain target coordinates."));
+    if (sequenceEdit->text().isEmpty())
+        appendLogText(xi18n("FITS selected. Please select the sequence file."));
+    else
+        addToQueueB->setEnabled(true);
 }
 
 void Scheduler::selectSequence()
@@ -157,13 +172,16 @@ void Scheduler::selectSequence()
     if (sequenceURL.isEmpty())
         return;
 
-    sequenceFile->setText(sequenceURL.path());
+    sequenceEdit->setText(sequenceURL.path());
 
-    if (raBox->isEmpty() == false && decBox->isEmpty() == false && nameEdit->text().isEmpty() == false)
-        addToQueueB->setEnabled(true);
+    // For object selection, all fields must be filled
+    if ( (raBox->isEmpty() == false && decBox->isEmpty() == false && nameEdit->text().isEmpty() == false)
+    // For FITS selection, only the name and fits URL should be filled.
+        || (nameEdit->text().isEmpty() == false && fitsURL.isEmpty() == false) )
+                addToQueueB->setEnabled(true);
 }
 
-void Scheduler::addToQueue()
+void Scheduler::addJob()
 {
     if(nameEdit->text().isEmpty())
     {
@@ -171,47 +189,56 @@ void Scheduler::addToQueue()
         return;
     }
 
-    if (sequenceFile->text().isEmpty())
+    if (sequenceEdit->text().isEmpty())
     {
         appendLogText(xi18n("Sequence file is required."));
         return;
     }
 
-    if (raBox->isEmpty() || decBox->isEmpty())
+    // Coordinates are required unless it is a FITS file
+    if ( (raBox->isEmpty() || decBox->isEmpty()) && fitsURL.isEmpty())
     {
-        // Check first if FITS needs to be solved.
-        if (fitsEdit->text().isEmpty() == false)
-        {
-            appendLogText(xi18n("Please solve the FITS image to obtain target coordinates or add the coordinates manually."));
-            return;
-        }
-
         appendLogText(xi18n("Target coordinates are required."));
         return;
     }
 
-    bool raOk=false, decOk=false;
-    dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
-    dms dec( decBox->createDms( true, &decOk ) );
+    // Create or Update a scheduler job
+    SchedulerJob *job = NULL;
 
-    if (raOk == false)
-    {
-        appendLogText(xi18n("RA value %1 is invalid.", raBox->text()));
-        return;
-    }
+    if (jobUnderEdit)
+        job = jobs.at(queueTable->currentRow());
+    else
+        job = new SchedulerJob();
 
-    if (decOk == false)
-    {
-        appendLogText(xi18n("DEC value %1 is invalid.", decBox->text()));
-        return;
-    }
-
-
-    // Create a scheduler job
-
-    SchedulerJob *job = new SchedulerJob();
     job->setName(nameEdit->text());
-    job->setTargetCoords(ra, dec);
+
+    // Only get target coords if FITS file is not selected.
+    if (fitsURL.isEmpty())
+    {
+        bool raOk=false, decOk=false;
+        dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
+        dms dec( decBox->createDms( true, &decOk ) );
+
+        if (raOk == false)
+        {
+            appendLogText(xi18n("RA value %1 is invalid.", raBox->text()));
+            return;
+        }
+
+        if (decOk == false)
+        {
+            appendLogText(xi18n("DEC value %1 is invalid.", decBox->text()));
+            return;
+        }
+
+        job->setTargetCoords(ra, dec);
+    }
+
+    job->setSequenceFile(sequenceURL);
+    if (fitsURL.isEmpty() == false)
+        job->setFitsFile(fitsURL);
+
+    // #1 Startup conditions
 
     if (nowConditionR->isChecked())
         job->setStartupCondition(SchedulerJob::START_NOW);
@@ -220,91 +247,108 @@ void Scheduler::addToQueue()
     else
     {
         job->setStartupCondition(SchedulerJob::START_AT);
-        job->setStartupTime(startupTime->dateTime());
+        job->setStartupTime(startupTimeEdit->dateTime());
     }
 
-    job->setSequenceFile(sequenceURL);
-    if (fitsURL.isEmpty() == false)
-        job->setFitsFile(fitsURL);
+    // #2 Constraints
+
+    // Do we have minimum altitude constraint?
+    if (altConstraintCheck->isChecked())
+        job->setMinAltitude(minAltitude->value());
+    // Do we have minimum moon separation constraint?
+    if (moonSeparationCheck->isChecked())
+        job->setMinMoonSeparation(minMoonSeparation->value());
+
+    // Check weather enforcement and no meridian flip constraints
+    job->setEnforceWeather(weatherB->isChecked());
+    job->setNoMeridianFlip(noMeridianFlipCheck->isChecked());
+
+    // #3 Completion conditions
+    if (sequenceCompletionR->isChecked())
+        job->setCompletionCondition(SchedulerJob::FINISH_SEQUENCE);
+    else if (loopCompletionR->isChecked())
+        job->setCompletionCondition(SchedulerJob::FINISH_LOOP);
+    else
+    {
+        job->setCompletionCondition(SchedulerJob::FINISH_AT);
+        job->setcompletionTimeEdit(completionTimeEdit->dateTime());
+    }
+
+    // Ekos Modules usage
+    job->setModuleUsage(SchedulerJob::USE_NONE);
+    if (focusModuleCheck->isChecked())
+        job->setModuleUsage(static_cast<SchedulerJob::ModuleUsage> (job->getModuleUsage() | SchedulerJob::USE_FOCUS));
+    if (alignModuleCheck->isChecked())
+        job->setModuleUsage(static_cast<SchedulerJob::ModuleUsage> (job->getModuleUsage() | SchedulerJob::USE_ALIGN));
+    if (guideModuleCheck->isChecked())
+        job->setModuleUsage(static_cast<SchedulerJob::ModuleUsage> (job->getModuleUsage() | SchedulerJob::USE_GUIDE));
+
+
+    // Add job to queue if it is new
+    if (jobUnderEdit == false)
+        jobs.append(job);
+
+    int currentRow = 0;
+    if (jobUnderEdit == false)
+    {
+        currentRow = queueTable->rowCount();
+        queueTable->insertRow(currentRow);
+    }
+    else
+        currentRow = queueTable->currentRow();
+
+    QTableWidgetItem *nameCell = jobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
+    nameCell->setText(job->getName());
+    nameCell->setTextAlignment(Qt::AlignHCenter);
+    nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *statusCell = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
+    statusCell->setTextAlignment(Qt::AlignHCenter);
+    statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setStatusCell(statusCell);
+    // Refresh state
+    job->setState(job->getState());
+
+    QTableWidgetItem *startupCell = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    if (startupTimeConditionR->isChecked())
+        startupCell->setText(startupTimeEdit->text());
+    startupCell->setTextAlignment(Qt::AlignHCenter);
+    startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *completionCell = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
+    if (timeCompletionR->isChecked())
+        completionCell->setText(completionTimeEdit->text());
+    completionCell->setTextAlignment(Qt::AlignHCenter);
+    completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    if (jobUnderEdit == false)
+    {
+        queueTable->setItem(currentRow, 0, nameCell);
+        queueTable->setItem(currentRow, 1, statusCell);
+        queueTable->setItem(currentRow, 2, startupCell);
+        queueTable->setItem(currentRow, 3, completionCell);
+    }
+
+    removeFromQueueB->setEnabled(true);
+
+    if (queueTable->rowCount() > 0)
+    {
+        queueSaveAsB->setEnabled(true);
+        mDirty = true;
+    }
+
+    if (jobUnderEdit)
+    {
+        jobUnderEdit = false;
+        resetJobEdit();
+        appendLogText(xi18n("Job #%1 changes applied.", currentRow+1));
+    }
+
 
 
 #if 0
 
-    if(nameEdit->text().isEmpty() == false && sequenceFile->text().isEmpty() == false)
-    {
-        //Adding to vector
-        //Start up
-        SchedulerJob newObservation;
-        newObservation.setName(nameEdit->text());
 
-        if(fitsEdit->text().isEmpty() == false)
-        {
-            o = new SkyObject();
-            newObservation.setOb(o);
-            newObservation.setSolverState(SchedulerJob::TO_BE_SOLVED);
-            newObservation.setFITSPath(fitsEdit->text());
-            newObservation.setIsFITSSelected(true);
-        }
-        else
-        {
-            newObservation.setOb(o);
-            newObservation.setRA(raEdit->text());
-            newObservation.setDEC(decEdit->text());
-            newObservation.setNormalRA(o->ra().Hours());
-            newObservation.setNormalDEC(o->dec().Degrees());
-        }
-
-        newObservation.setFileName(sequenceFile->text());
-
-        if(startupTimeConditionR->isChecked())
-        {
-            newObservation.setSpecificTime(true);
-            newObservation.setStartTime(startupTime->dateTime());
-        }
-        else if(nowConditionR->isChecked())
-        {
-            newObservation.setNowCheck(true);
-            //newObservation.setStartTime(QTime::currentTime().toString());
-            //newObservation.setHours(QTime::currentTime().hour());
-            //newObservation.setMinutes(QTime::currentTime().minute());
-        }
-        else if(altConditionR->isChecked())
-        {
-            newObservation.setSpecificAlt(true);
-            newObservation.setAlt(startupAlt->value());
-        }
-
-        //Constraints
-        if(moonSepBox->isChecked())
-        {
-            newObservation.setMoonSeparationCheck(true);
-            newObservation.setMoonSeparation(moonSeparation->value());
-        }
-
-        newObservation.setMeridianFlip(!noMeridianFlipCheck->isChecked());
-
-        //Completion
-        if(sequenceCompletionR->isChecked())
-        {
-
-            newObservation.setCompletionTime(completionTime);
-
-        }
-        else if(sequenceCompletionR->isChecked())
-            newObservation.setWhenSeqCompCheck(true);
-        else if(loopCompletionR->isChecked())
-            newObservation.setLoopCheck(true);
-
-        //Shutdown
-        /*if(parkCheck->isChecked())
-            newObservation.setParkTelescopeCheck(true);
-        else newObservation.setParkTelescopeCheck(false);
-        if(warmCCDCheck->isChecked())
-            newObservation.setWarmCCDCheck(true);
-        else newObservation.setWarmCCDCheck(false);
-        if(closeDomeCheck->isChecked())
-            newObservation.setCloseDomeCheck(true);
-        else newObservation.setCloseDomeCheck(false);*/
 
         //Proceedure
         newObservation.setFocusCheck(focusModuleCheck->isChecked());
@@ -332,7 +376,7 @@ void Scheduler::addToQueue()
             schedulerQueueTable->setItem(tableCountRow,tableCountCol+2,new QTableWidgetItem("--"));
 
         if(onFinButton->isChecked())
-            schedulerQueueTable->setItem(tableCountRow,tableCountCol+3,new QTableWidgetItem(completionTime->time().toString()));
+            schedulerQueueTable->setItem(tableCountRow,tableCountCol+3,new QTableWidgetItem(completionTimeEdit->time().toString()));
         else
             schedulerQueueTable->setItem(tableCountRow,tableCountCol+3,new QTableWidgetItem("--"));
 
@@ -351,6 +395,120 @@ void Scheduler::addToQueue()
     else
         QMessageBox::information(NULL, "Error", "All fields must be completed.");
 #endif
+}
+
+void Scheduler::editJob(QModelIndex i)
+{
+    SchedulerJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;
+
+
+    nameEdit->setText(job->getName());
+
+    raBox->setText(job->getTargetCoords().ra0().toHMSString());
+    decBox->setText(job->getTargetCoords().dec0().toDMSString());
+
+    if (job->getFitsFile().isEmpty() == false)
+        fitsEdit->setText(job->getFitsFile().path());
+
+    sequenceEdit->setText(job->getSequenceFile().path());
+
+    switch (job->getStartingCondition())
+    {
+        case SchedulerJob::START_NOW:
+            nowConditionR->setChecked(true);
+            break;
+
+        case SchedulerJob::START_CULMINATION:
+            culminationConditionR->setChecked(true);
+            break;
+
+        case SchedulerJob::START_AT:
+            startupTimeConditionR->setChecked(true);
+            startupTimeEdit->setDateTime(job->getStartupTime());
+            break;
+    }
+
+    if (job->getMinAltitude() >= 0)
+    {
+        altConstraintCheck->setChecked(true);
+        minAltitude->setValue(job->getMinAltitude());
+    }
+
+    if (job->getMinMoonSeparation() >= 0)
+    {
+        moonSeparationCheck->setChecked(true);
+        minMoonSeparation->setValue(job->getMinMoonSeparation());
+    }
+
+    weatherB->setChecked(job->getEnforceWeather());
+    noMeridianFlipCheck->setChecked(job->getNoMeridianFlip());
+
+    switch (job->getCompletionCondition())
+    {
+        case SchedulerJob::FINISH_SEQUENCE:
+            sequenceCompletionR->setChecked(true);
+            break;
+
+        case SchedulerJob::FINISH_LOOP:
+            loopCompletionR->setChecked(true);
+            break;
+
+        case SchedulerJob::FINISH_AT:
+            timeCompletionR->setChecked(true);
+            completionTimeEdit->setDateTime(job->getcompletionTimeEdit());
+            break;
+    }
+
+   appendLogText(xi18n("Editing job #%1...", i.row()+1));
+
+   addToQueueB->setIcon(QIcon::fromTheme("svn-update"));
+
+   jobUnderEdit = true;
+}
+
+void Scheduler::resetJobEdit()
+{
+   if (jobUnderEdit)
+       appendLogText(xi18n("Editing job canceled."));
+
+   jobUnderEdit = false;
+   addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+}
+
+void Scheduler::removeJob()
+{
+    int currentRow = queueTable->currentRow();
+
+    if (currentRow < 0)
+    {
+        currentRow = queueTable->rowCount()-1;
+        if (currentRow < 0)
+            return;
+    }
+
+    queueTable->removeRow(currentRow);
+
+    SchedulerJob *job = jobs.at(currentRow);
+    jobs.removeOne(job);
+    delete (job);
+
+    if (queueTable->rowCount() == 0)
+        removeFromQueueB->setEnabled(false);
+
+    for (int i=0; i < jobs.count(); i++)
+        jobs.at(i)->setStatusCell(queueTable->item(i, 0));
+
+    queueTable->selectRow(queueTable->currentRow());
+
+    if (queueTable->rowCount() == 0)
+    {
+        queueSaveAsB->setEnabled(false);
+    }
+
+    mDirty = true;
+
 }
 
 

@@ -160,7 +160,18 @@ public slots:
      /**
       * @brief addToQueue Construct a SchedulerJob and add it to the queue
       */
-     void addToQueue();
+     void addJob();
+
+     /**
+      * @brief editJob Edit an observation job
+      * @param i index model in queue table
+      */
+     void editJob(QModelIndex i);
+
+     /**
+      * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
+      */
+     void removeJob();
 
 #if 0
 
@@ -207,6 +218,8 @@ signals:
         void newLog();
 
 private:        
+    void resetJobEdit();
+
     Ekos::Scheduler *ui;
 
     //DBus interfaces
@@ -220,15 +233,18 @@ private:
     SchedulerState state;
     QProgressIndicator *pi;
 
-    //The list of pending objects
-    //QVector<SchedulerJob> objects;
+    QList<SchedulerJob *> jobs;
+    SchedulerJob *currentJob;
 
     QUrl sequenceURL;
     QUrl fitsURL;
 
     QStringList logText;
-    //The current job that is evaluated
-    //SchedulerJob *currentjob;
+
+    bool jobUnderEdit;
+    // Was job modified and needs saving?
+    bool mDirty;
+
 
 };
 }
