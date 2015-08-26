@@ -21,6 +21,7 @@
 #include "schedulerjob.h"
 #include "QProgressIndicator.h"
 
+class KSMoon;
 
 namespace Ekos
 {
@@ -35,8 +36,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
     Q_OBJECT
 
 public:
-    typedef enum {IDLE, STARTING_EKOS, EKOS_STARTED, CONNECTING, CONNECTED,  READY, FINISHED, SHUTDOWN,
-                     PARK_TELESCOPE, WARM_CCD, CLOSE_DOME, ABORTED} SchedulerState;
+    typedef enum { SCHEDULER_IDLE, SCHEDULER_RUNNIG, SCHEDULER_ABORTED } SchedulerState;
+    typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
+    typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_READY } INDIState;
+
      Scheduler();
     ~Scheduler();
 
@@ -44,7 +47,6 @@ public:
      QString getLogText() { return logText.join("\n"); }
      void clearLog();
 
- #if 0
      /**
       * @brief startEkos DBus call for starting ekos
       */
@@ -53,7 +55,7 @@ public:
       * @brief updateJobInfo Updates the state cell of the current job
       * @param o the current job that is being evaluated
       */
-     void updateJobInfo(SchedulerJob *o);
+     //void updateJobInfo(SchedulerJob *o);
 
      /**
       * @brief startSlew DBus call for initiating slew
@@ -88,7 +90,7 @@ public:
      /**
       * @brief stopindi Stoping the indi services
       */
-     void stopindi();
+     void stopINDI();
      /**
       * @brief stopGuiding After guiding is done we need to stop the process
       */
@@ -107,38 +109,6 @@ public:
       * @brief getResults After solver is completed, we get the object coordinates and construct the SchedulerJob object
       */
      void getResults();
-     /**
-      * @brief processFITS I use this as an intermediary to start the solving process of the FITS objects that are currenty in the list
-      * @param value
-      */
-     void processFITS(SchedulerJob *value);
-     /**
-      * @brief getNextFITSAction Similar process to the one used on regular objects. This one is used in case of FITS selection method
-      */
-     void getNextFITSAction();
-     /**
-      * @brief terminateFITSJob After a FITS object is solved, we check if another FITS object exists. If not, we end the solving process.
-      * @param value the current FITS job
-      */
-     void terminateFITSJob(SchedulerJob *value);
-
-     SchedulerJob *getCurrentjob() const;
-     void setCurrentjob(SchedulerJob *value);
-     /**
-      * @brief terminateJob After a job is completed, we check if we have another one pending. If not, we start the shutdown sequence
-      * @param value the current job
-      */
-     void terminateJob(SchedulerJob *value);
-     /**
-      * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
-      * checkJobStatus slot will be connected in order to fgiure the exact state of the current job each second
-      * @param value
-      */
-     void executeJob(SchedulerJob *value);
-
-     SchedulerState getState() const;
-     void setState(const SchedulerState &value);
-#endif
 
 public slots:
 
@@ -171,7 +141,22 @@ public slots:
      /**
       * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
       */
-     void removeJob();
+     void removeJob();     
+
+     /**
+      * @brief start Start scheduler main loop and evaluate jobs and execute them accordingly
+      */
+     void start();
+
+     void save();
+     void load();
+
+     /**
+      * @brief checkJobStatus This will run each second until it is diconnected. Thus, it will decide the state of the
+      * scheduler at the present moment making sure all the pending operations are resolved.
+      */
+     void checkJobStatus();
+
 
 #if 0
 
@@ -184,22 +169,10 @@ public slots:
       * @brief setSequenceSlot File select functionality for the sequence file
       */
      void setSequence();
-     /**
-      * @brief startSlot We connect evaluateJobs() and start the scheduler for the given object list.
-      * we make sure that there are objects in the list.
-      */
-     void start();
 
-     /**
-      * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
-      * Given that score, the scheduler will decide which is the best job that needs to be executed.
-      */
-     void evaluateJobs();
-     /**
-      * @brief checkJobStatus This will run each second until it is diconnected. Thus, it will decide the state of the
-      * scheduler at the present moment making sure all the pending operations are resolved.
-      */
-     void checkJobStatus();
+
+
+
 
       * @brief solveFITSSlot Checks for any pending FITS objects that need to be solved
       */
@@ -217,8 +190,22 @@ public slots:
 signals:
         void newLog();
 
-private:        
-    void resetJobEdit();
+private:
+
+        /**
+         * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
+         * Given that score, the scheduler will decide which is the best job that needs to be executed.
+         */
+        void evaluateJobs();
+
+        /**
+         * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
+         * checkJobStatus slot will be connected in order to figure the exact state of the current job each second
+         * @param value
+         */
+        void executeJob(SchedulerJob *value);
+
+        void resetJobEdit();
 
     Ekos::Scheduler *ui;
 
@@ -231,6 +218,9 @@ private:
     QDBusInterface *guideInterface;
 
     SchedulerState state;
+    EkosState ekosState;
+    INDIState indiState;
+
     QProgressIndicator *pi;
 
     QList<SchedulerJob *> jobs;
@@ -244,6 +234,8 @@ private:
     bool jobUnderEdit;
     // Was job modified and needs saving?
     bool mDirty;
+
+    KSMoon *moon;
 
 
 };

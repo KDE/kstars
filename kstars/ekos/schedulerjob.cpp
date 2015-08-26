@@ -17,6 +17,7 @@ SchedulerJob::SchedulerJob()
     completionCondition = FINISH_SEQUENCE;
     moduleUsage         = USE_NONE;
     state               = JOB_IDLE;
+    fitsState           = FITS_IDLE;
 
     statusCell          = NULL;
     minAltitude         = -1;
@@ -88,11 +89,11 @@ void SchedulerJob::setSequenceFile(const QUrl &value)
 {
     sequenceFile = value;
 }
-QUrl SchedulerJob::getFitsFile() const
+QUrl SchedulerJob::getFITSFile() const
 {
     return fitsFile;
 }
-void SchedulerJob::setFitsFile(const QUrl &value)
+void SchedulerJob::setFITSFile(const QUrl &value)
 {
     fitsFile = value;
 }
@@ -192,6 +193,17 @@ void SchedulerJob::setState(const JOBStatus &value)
 
     }
 }
+
+SchedulerJob::FITSStatus SchedulerJob::getFITSState() const
+{
+    return fitsState;
+}
+
+void SchedulerJob::setFITSState(const FITSStatus &value)
+{
+    fitsState = value;
+}
+
 
 
 

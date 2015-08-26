@@ -23,6 +23,7 @@ public:
     ~SchedulerJob();
 
     typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
+    typedef enum { FITS_IDLE, FITS_SOLVING, FITS_COMPLETE, FITS_ERROR } FITSStatus;
     typedef enum { START_NOW, START_CULMINATION, START_AT } StartupCondition;
     typedef enum { FINISH_SEQUENCE, FINISH_LOOP, FINISH_AT } CompletionCondition;
     typedef enum { USE_NONE  = 0,
@@ -50,8 +51,8 @@ public:
     QUrl getSequenceFile() const;
     void setSequenceFile(const QUrl &value);
 
-    QUrl getFitsFile() const;
-    void setFitsFile(const QUrl &value);
+    QUrl getFITSFile() const;
+    void setFITSFile(const QUrl &value);
 
     double getMinAltitude() const;
     void setMinAltitude(const double &value);
@@ -79,11 +80,15 @@ public:
     JOBStatus getState() const;
     void setState(const JOBStatus &value);
 
+    FITSStatus getFITSState() const;
+    void setFITSState(const FITSStatus &value);
+
 private:
 
     QString name;
     SkyPoint targetCoords;
     JOBStatus state;
+    FITSStatus fitsState;
 
     StartupCondition startupCondition;
     CompletionCondition completionCondition;

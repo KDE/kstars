@@ -744,7 +744,7 @@
    <item>
     <layout class="QHBoxLayout" name="bottomLayout">
      <item>
-      <widget class="QPushButton" name="startButton">
+      <widget class="QPushButton" name="startB">
        <property name="enabled">
         <bool>false</bool>
        </property>
