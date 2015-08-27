@@ -48,10 +48,6 @@ public:
      void clearLog();
 
      /**
-      * @brief startEkos DBus call for starting ekos
-      */
-     void startEkos();
-     /**
       * @brief updateJobInfo Updates the state cell of the current job
       * @param o the current job that is being evaluated
       */
@@ -82,10 +78,6 @@ public:
       * @brief getNextAction Checking for the next appropiate action regarding the current state of the scheduler  and execute it
       */
      void getNextAction();
-     /**
-      * @brief connectDevices After ekos is started, we connect devices
-      */
-     void connectDevices();
 
      /**
       * @brief stopindi Stoping the indi services
@@ -98,17 +90,20 @@ public:
 
      /**
       * @brief setGOTOMode set the GOTO mode for the solver
-      * @param mode 1 for SlewToTarget, 2 for Nothing
+      * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
       */
      void setGOTOMode(int mode);
+
+     void startFITSSolving();
+     void getFITSAstrometryResults();
+
+
      /**
-      * @brief startSolving start the solving process for the FITS job
+      * @brief start Start scheduler main loop and evaluate jobs and execute them accordingly
       */
-     void startSolving();
-     /**
-      * @brief getResults After solver is completed, we get the object coordinates and construct the SchedulerJob object
-      */
-     void getResults();
+     void start();
+
+    void stop();
 
 public slots:
 
@@ -143,19 +138,17 @@ public slots:
       */
      void removeJob();     
 
-     /**
-      * @brief start Start scheduler main loop and evaluate jobs and execute them accordingly
-      */
-     void start();
-
+     void toggleScheduler();
      void save();
      void load();
+
+     void resetJobEdit();
 
      /**
       * @brief checkJobStatus This will run each second until it is diconnected. Thus, it will decide the state of the
       * scheduler at the present moment making sure all the pending operations are resolved.
       */
-     void checkJobStatus();
+     void checkStatus();
 
 
 #if 0
@@ -205,7 +198,7 @@ private:
          */
         void executeJob(SchedulerJob *value);
 
-        void resetJobEdit();
+
 
     Ekos::Scheduler *ui;
 
@@ -224,6 +217,7 @@ private:
     QProgressIndicator *pi;
 
     QList<SchedulerJob *> jobs;
+    QList<SchedulerJob *> fitsJobs;
     SchedulerJob *currentJob;
 
     QUrl sequenceURL;

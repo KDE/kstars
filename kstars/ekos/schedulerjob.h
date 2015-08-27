@@ -35,7 +35,7 @@ public:
     void setName(const QString &value);
 
     void setTargetCoords(dms ra, dms dec);
-    const SkyPoint & getTargetCoords() const;
+    SkyPoint & getTargetCoords();
 
     StartupCondition getStartingCondition() const;
     void setStartupCondition(const StartupCondition &value);
@@ -83,6 +83,12 @@ public:
     FITSStatus getFITSState() const;
     void setFITSState(const FITSStatus &value);
 
+    int getScore() const;
+    void setScore(int value);
+
+    uint16_t getCulminationOffset() const;
+    void setCulminationOffset(const uint16_t &value);
+
 private:
 
     QString name;
@@ -108,6 +114,9 @@ private:
     ModuleUsage moduleUsage;
 
     QTableWidgetItem* statusCell;
+
+    int score;
+    uint16_t culminationOffset;
 
 
 };

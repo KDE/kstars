@@ -23,6 +23,8 @@ SchedulerJob::SchedulerJob()
     minAltitude         = -1;
     minMoonSeparation   = -1;
 
+    culminationOffset   = 0;
+
 
 
     #if 0
@@ -56,7 +58,7 @@ void SchedulerJob::setName(const QString &value)
 name = value;
 }
 
-const SkyPoint & SchedulerJob::getTargetCoords() const
+SkyPoint & SchedulerJob::getTargetCoords()
 {
     return targetCoords;
 }
@@ -202,7 +204,45 @@ SchedulerJob::FITSStatus SchedulerJob::getFITSState() const
 void SchedulerJob::setFITSState(const FITSStatus &value)
 {
     fitsState = value;
+
+    switch (fitsState)
+    {
+        case FITS_SOLVING:
+            statusCell->setText(xi18n("Solving FITS"));
+            break;
+
+        case FITS_ERROR:
+            statusCell->setText(xi18n("Solver failed"));
+            break;
+
+        case FITS_COMPLETE:
+            statusCell->setText(xi18n("Solver completed"));
+            break;
+
+        default:
+        break;
+    }
 }
+int SchedulerJob::getScore() const
+{
+    return score;
+}
+
+void SchedulerJob::setScore(int value)
+{
+    score = value;
+}
+uint16_t SchedulerJob::getCulminationOffset() const
+{
+    return culminationOffset;
+}
+
+void SchedulerJob::setCulminationOffset(const uint16_t &value)
+{
+    culminationOffset = value;
+}
+
+
 
 
 

@@ -406,6 +406,32 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Offset:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="culminationOffset">
+            <property name="toolTip">
+             <string>Offset in minutes to start imaging before culmination time.</string>
+            </property>
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>240</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>60</number>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
