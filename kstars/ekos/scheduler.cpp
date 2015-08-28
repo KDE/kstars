@@ -1,7 +1,7 @@
 /*  Ekos Scheduler Module
-    Copyright (C) Jasem Mutlaq <mutlaqja@ikarustech.com>
+    Copyright (C) 2015 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
-    Based on GSoC 2015 Ekos Scheduler project by Daniel Leu <daniel_mihai.leu@cti.pub.ro>
+    DBus calls from GSoC 2015 Ekos Scheduler project by Daniel Leu <daniel_mihai.leu@cti.pub.ro>
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -23,6 +23,7 @@
 #include "skymapcomposite.h"
 #include "kstarsdata.h"
 #include "ksmoon.h"
+#include "ksalmanac.h"
 
 namespace Ekos
 {
@@ -36,12 +37,13 @@ Scheduler::Scheduler()
     indiState   = INDI_IDLE;
 
     currentJob = NULL;
+    geo        = 0;
     jobUnderEdit = false;
     mDirty       = false;
 
     // Set initial time for startup and completion times
-    startupTimeEdit->setDateTime(QDateTime::currentDateTime());
-    completionTimeEdit->setDateTime(QDateTime::currentDateTime());
+    startupTimeEdit->setDateTime(KStarsData::Instance()->lt());
+    completionTimeEdit->setDateTime(KStarsData::Instance()->lt());
 
     // Set up DBus interfaces
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
@@ -311,6 +313,7 @@ void Scheduler::addJob()
         startupCell->setText(startupTimeEdit->text());
     startupCell->setTextAlignment(Qt::AlignHCenter);
     startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setStartupCell(startupCell);
 
     QTableWidgetItem *completionCell = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     if (timeCompletionR->isChecked())
@@ -503,6 +506,10 @@ void Scheduler::start()
 
     startB->setText("Stop Scheduler");
 
+    geo = KStarsData::Instance()->geo();
+
+    calculateDawnDusk();
+
     state = SCHEDULER_RUNNIG;
 
     connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
@@ -513,12 +520,20 @@ void Scheduler::evaluateJobs()
 {
     foreach(SchedulerJob *job, jobs)
     {
-        int score = 0;
+        if (job->getState() > SchedulerJob::JOB_SCHEDULED)
+            continue;
 
-        // #1 Get current altitude & Moon separation
-        job->getTargetCoords().EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        double currentAlt  = job->getTargetCoords().alt().Degrees();
-        double mSeparation = moon->angularDistanceTo(&(job->getTargetCoords())).Degrees();
+        if (job->getState() == SchedulerJob::JOB_IDLE)
+            job->setState(SchedulerJob::JOB_EVALUATION);
+
+        int16_t score = 0, altScore=0, moonScore=0, darkScore=0, weatherScore=0;
+
+        // Update target horizontal coords.
+        SkyPoint target = job->getTargetCoords();
+        target.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+        // #1 Get current altitude, Moon separation, and weather scores.
+
 
         // #2 Check startup conditions
 
@@ -526,64 +541,278 @@ void Scheduler::evaluateJobs()
         switch (job->getStartingCondition())
         {
                 case SchedulerJob::START_NOW:
-                    if (currentAlt < 0)
-                        score -= 1000;
-                    // If minimum altitude is specified
-                    else if (job->getMinAltitude() > 0)
-                    {
-                        // if current altitude is lower that's not good
-                        if (currentAlt < job->getMinAltitude())
-                            score -= 100;
-                        // Otherwise, adjust score and add current altitude to score weight
-                        else
-                            score += 100 + currentAlt;
-                    }
-                    // If no minimum altitude, then adjust altitude score to account for current target altitude
-                    else
-                        score += currentAlt;
-
-                    if (job->getMinMoonSeparation() > 0)
-                    {
-                        if (mSeparation < job->getMinMoonSeparation())
-                            score -= 100;
-                        else
-                            score += job->getMinMoonSeparation();
-                    }
-                    else
-                        score += job->getMinMoonSeparation();
-
-                    //score += getWeatherScore();
-
+                    altScore     = getAltitudeScore(job, target);
+                    moonScore    = getMoonSeparationScore(job, target);
+                    darkScore    = getDarkSkyScore(KStarsData::Instance()->lt().time());
+                    weatherScore = getWeatherScore(job);
+                    score = altScore + moonScore + darkScore + weatherScore;
                     job->setScore(score);
 
+                    // If we can't start now, let's schedule it
+                    if (score < 0)
+                    {
+                        if ( (altScore < 0 || darkScore < 0) && calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()))
+                            return;
+                        else
+                        {
+                            job->setState(SchedulerJob::JOB_INVALID);
+                            appendLogText(xi18n("Cannot schedule %1", job->getName()));
+                        }
+                    }
                     break;
 
-
                   case SchedulerJob::START_CULMINATION:
-                         //if (job->getTargetCoords().
-                        // Create sky object from sky point, get transit time
-                        // Check if it is in "dark area". Get Dawk/Dusk from AltVsTime tool. This will be our limit window.
-                        // Get culmination time minus user selectable offset and check if it is after dusk, if OK, then this is START TIME
-                        // Account for altitude & moon & weather as well in scoring
-                        // If current time very close to START TIME, then score += 500
+                        if (calculateCulmination(job))
+                        {
+                            job->setState(SchedulerJob::JOB_SCHEDULED);
+                            return;
+                        }
+                        else
+                            job->setState(SchedulerJob::JOB_INVALID);
                         break;
-
 
                  case SchedulerJob::START_AT:
-                        // Check if it is after dusk and before dawn
-                        // Account for altitude & moon & weather as well in scoring
-                        // If current time very close to START TIME, then score += 500
-                        break;
+                    if (KStarsData::Instance()->lt().secsTo(job->getStartupTime()) <= 300)
+                    {
+                        score += getAltitudeScore(job, target);
+                        score += getMoonSeparationScore(job, target);
+                        score += getDarkSkyScore(job->getStartupTime().time());
+                        score += getWeatherScore(job);
+                    }
+                    else
+                        score += -1000;
 
-
-
-
+                    job->setScore(score);
+                    break;
         }
 
+       // appendLogText(xi18n("Job total score is %1", score));
 
+        if (score > 0 && job->getState() == SchedulerJob::JOB_EVALUATION)
+            job->setState(SchedulerJob::JOB_SCHEDULED);
+    }
+
+
+
+    int invalidJobs=0;
+
+    // Find invalid jobs
+    foreach(SchedulerJob *job, jobs)
+    {
+        if (job->getState() == SchedulerJob::JOB_INVALID)
+            invalidJobs++;
+    }
+
+    if (invalidJobs == jobs.count())
+    {
+        appendLogText(xi18n("No valid jobs found, aborting..."));
+        stop();
+        return;
+    }
+
+    int maxScore=0;
+    SchedulerJob *bestCandidate = NULL;
+
+    foreach(SchedulerJob *job, jobs)
+    {
+        int jobScore = job->getScore();
+        if (jobScore > 0 && jobScore > maxScore)
+        {
+                maxScore = jobScore;
+                bestCandidate = job;
+        }
+    }
+
+    if (bestCandidate != NULL)
+    {
+        appendLogText(xi18n("Found candidate job %1", bestCandidate->getName()));
+        currentJob = bestCandidate;
     }
 }
 
+bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
+{
+    //int DayOffset = 0;
+    double altitude=0;
+    QDateTime lt( KStarsData::Instance()->lt().date(), QTime() );
+    KStarsDateTime ut = geo->LTtoUT( lt );
+   // if (ut.time().hour() > 12 )
+       // DayOffset = 1;
+
+    SkyPoint target = job->getTargetCoords();
+
+    QTime now = QTime::currentTime();
+    double fraction = now.hour() + now.minute()/60.0 + now.second()/3600;
+    double rawFrac  = 0;
+
+    for (double hour=fraction; hour < (fraction+24); hour+= 1.0/60.0)
+    {
+        KStarsDateTime myUT = ut.addSecs(hour * 3600.0);
+
+        rawFrac = (hour > 24 ? (hour - 24) : hour) / 24.0;
+
+        if (rawFrac < Dawn || rawFrac > Dusk)
+        {
+
+            dms LST = geo->GSTtoLST( myUT.gst() );
+            target.EquatorialToHorizontal( &LST, geo->lat() );
+            altitude =  target.alt().Degrees();
+
+            if (altitude > minAltitude)
+            {
+                QDateTime startTime = geo->UTtoLT(myUT);
+                job->setStartupTime(startTime);
+                job->setStartupCondition(SchedulerJob::START_AT);
+                job->setState(SchedulerJob::JOB_SCHEDULED);
+                return true;
+            }
+
+        }
+
+    }
+
+
+    return false;
+
+}
+
+bool Scheduler::calculateCulmination(SchedulerJob *job)
+{
+    SkyPoint target = job->getTargetCoords();
+
+    SkyObject o;
+
+    o.setRA0(target.ra0());
+    o.setDec0(target.dec0());
+
+    o.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+    QDateTime lt (KStarsData::Instance()->lt().date(), QTime());
+    KStarsDateTime dt = geo->LTtoUT(lt);
+
+    QTime transitTime = o.transitTime(dt, geo);
+
+    appendLogText(xi18n("Transit time is %1", transitTime.toString()));
+
+    QDateTime observationDateTime(QDate::currentDate(), transitTime.addSecs(-1 * job->getCulminationOffset()* 60));
+
+    appendLogText(xi18n("Observation time is %1", observationDateTime.toString()));
+
+    if (getDarkSkyScore(observationDateTime.time()) < 0)
+    {
+        appendLogText(xi18n("%1 culminates during the day and cannot be scheduled for observation.", job->getName()));
+        return false;
+    }
+
+    if (observationDateTime < (static_cast<QDateTime> (KStarsData::Instance()->lt())))
+    {
+        appendLogText(xi18n("Observation time for %1 already passed.", job->getName()));
+        return false;
+    }
+
+
+    job->setStartupTime(observationDateTime);
+    job->setStartupCondition(SchedulerJob::START_AT);
+    return true;
+
+}
+
+int16_t Scheduler::getWeatherScore(SchedulerJob * job)
+{
+    INDI_UNUSED(job);
+    // TODO
+    return 0;
+}
+
+int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
+{
+  //  if (job->getStartingCondition() == SchedulerJob::START_CULMINATION)
+    //    return -1000;
+
+    int16_t score=0;
+    double dayFraction = 0;
+
+    //if (job->getStartingCondition() == SchedulerJob::START_AT)
+        //observationTime = job->getStartupTime().time();
+
+    dayFraction = (observationTime.hour() + observationTime.minute()/60.0 + observationTime.second()/3600.0)/24.0;
+
+    // The farther the target from dawn, the better.
+    if (dayFraction < Dawn)
+        score += (Dawn - dayFraction) * 100;
+    else if (dayFraction > Dusk)
+    {
+      score += (dayFraction - Dusk) * 100;
+    }
+    else
+      score -= 500;
+
+    appendLogText(xi18n("Dark sky score is %1", score));
+
+    return score;
+}
+
+int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
+{
+    int16_t score=0;
+    double currentAlt  = target.alt().Degrees();
+
+    if (currentAlt < 0)
+        score -= 1000;
+    // If minimum altitude is specified
+    else if (job->getMinAltitude() > 0)
+    {
+        // if current altitude is lower that's not good
+        if (currentAlt < job->getMinAltitude())
+            score -= 100;
+        // Otherwise, adjust score and add current altitude to score weight
+        else
+            score += 100 + currentAlt;
+    }
+    // If no minimum altitude, then adjust altitude score to account for current target altitude
+    else
+        score += (currentAlt - minAltitude->minimum()) * 10.0;
+
+    appendLogText(xi18n("Altitude score is %1", score));
+
+    return score;
+}
+
+int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, const SkyPoint &target)
+{
+    // TODO Add moon phase to the score
+    int16_t score=0;
+
+    double mSeparation = moon->angularDistanceTo(&target).Degrees();
+
+    if (job->getMinMoonSeparation() > 0)
+    {
+        if (mSeparation < job->getMinMoonSeparation())
+            score -= 500;
+        else
+            score += mSeparation / 10.0;
+    }
+    else
+        score += mSeparation / 10.0;
+
+    appendLogText(xi18n("Moon separation %1, moon score is %2", mSeparation, score));
+
+    return score;
+
+}
+
+void Scheduler::calculateDawnDusk()
+{
+    KSAlmanac ksal;
+    Dawn = ksal.getDawnAstronomicalTwilight();
+    Dusk = ksal.getDuskAstronomicalTwilight();
+
+    QTime now = KStarsData::Instance()->lt().time();
+
+    double fraction = (now.hour() + now.minute()/60.0 + now.second()/3600.0)/24.0;
+
+    appendLogText(xi18n("Dawn is %1 Dusk is %2 and current fraction is %3", Dawn, Dusk, fraction));
+}
 
 void Scheduler::executeJob(SchedulerJob *job)
 {

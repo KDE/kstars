@@ -407,6 +407,19 @@
            </widget>
           </item>
           <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QLabel" name="label_9">
             <property name="text">
              <string>Offset:</string>
@@ -486,7 +499,14 @@
         <item row="0" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QDoubleSpinBox" name="minAltitude"/>
+           <widget class="QDoubleSpinBox" name="minAltitude">
+            <property name="minimum">
+             <double>15.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>89.900000000000006</double>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_10">
@@ -500,7 +520,14 @@
         <item row="1" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
-           <widget class="QDoubleSpinBox" name="minMoonSeparation"/>
+           <widget class="QDoubleSpinBox" name="minMoonSeparation">
+            <property name="maximum">
+             <double>180.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>10.000000000000000</double>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_11">

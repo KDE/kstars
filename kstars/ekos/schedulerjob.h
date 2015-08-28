@@ -22,7 +22,7 @@ public:
     SchedulerJob();
     ~SchedulerJob();
 
-    typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
+    typedef enum { JOB_IDLE, JOB_EVALUATION, JOB_SCHEDULED, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_INVALID, JOB_DONE } JOBStatus;
     typedef enum { FITS_IDLE, FITS_SOLVING, FITS_COMPLETE, FITS_ERROR } FITSStatus;
     typedef enum { START_NOW, START_CULMINATION, START_AT } StartupCondition;
     typedef enum { FINISH_SEQUENCE, FINISH_LOOP, FINISH_AT } CompletionCondition;
@@ -89,6 +89,9 @@ public:
     uint16_t getCulminationOffset() const;
     void setCulminationOffset(const uint16_t &value);
 
+    QTableWidgetItem *getStartupCell() const;
+    void setStartupCell(QTableWidgetItem *value);
+
 private:
 
     QString name;
@@ -113,10 +116,12 @@ private:
 
     ModuleUsage moduleUsage;
 
-    QTableWidgetItem* statusCell;
+    QTableWidgetItem* statusCell, *startupCell;
 
     int score;
     uint16_t culminationOffset;
+
+    double Dawn, Dusk;
 
 
 };

@@ -1,7 +1,7 @@
 /*  Ekos Scheduler Module
-    Copyright (C) Jasem Mutlaq <mutlaqja@ikarustech.com>
+    Copyright (C) 2015 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
-    Based on GSoC 2015 Ekos Scheduler project by Daniel Leu <daniel_mihai.leu@cti.pub.ro>
+    DBus calls from GSoC 2015 Ekos Scheduler project by Daniel Leu <daniel_mihai.leu@cti.pub.ro>
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -22,6 +22,7 @@
 #include "QProgressIndicator.h"
 
 class KSMoon;
+class GeoLocation;
 
 namespace Ekos
 {
@@ -198,6 +199,15 @@ private:
          */
         void executeJob(SchedulerJob *value);
 
+        int16_t getDarkSkyScore(const QTime & observationTime);
+        int16_t getAltitudeScore(SchedulerJob *job, const SkyPoint & target);
+        int16_t getMoonSeparationScore(SchedulerJob *job, const SkyPoint & target);
+        int16_t getWeatherScore(SchedulerJob *job);
+
+        bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude);
+        bool    calculateCulmination(SchedulerJob *job);
+        void    calculateDawnDusk();
+
 
 
     Ekos::Scheduler *ui;
@@ -230,6 +240,10 @@ private:
     bool mDirty;
 
     KSMoon *moon;
+
+    GeoLocation *geo;
+
+    double Dawn, Dusk;
 
 
 };
