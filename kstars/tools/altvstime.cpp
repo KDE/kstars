@@ -465,8 +465,8 @@ void AltVsTime::showCurrentDate()
 KStarsDateTime AltVsTime::getDate()
 {
     //convert midnight local time to UT:
-    KStarsDateTime dt( avtUI->DateWidget->date(), QTime() );
-    return geo->LTtoUT( dt );
+    QDateTime lt( avtUI->DateWidget->date(), QTime() );
+    return geo->LTtoUT( lt );
 }
 
 double AltVsTime::getEpoch(const QString &eName)
