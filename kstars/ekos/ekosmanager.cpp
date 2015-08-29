@@ -20,6 +20,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "auxiliary/ksnotify.h"
+#include "fitsviewer/fitsviewer.h"
 
 #include "indi/clientmanager.h"
 #include "indi/indielement.h"
@@ -102,6 +103,10 @@ EkosManager::EkosManager()
     connect(disconnectB, SIGNAL(clicked()), this, SLOT(disconnectDevices()));
 
     connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
+
+    connect(INDIB, SIGNAL(clicked()), this, SLOT(toggleINDIPanel()));
+
+    connect(fitsViewerB, SIGNAL(clicked(bool)), this, SLOT(toggleFITSViewer()));
 
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
 
@@ -698,6 +703,8 @@ void EkosManager::reset()
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
+    fitsViewerB->setEnabled(false);
+    INDIB->setEnabled(false);
     processINDIB->setEnabled(true);
 
     processINDIB->setText(xi18n("Start INDI"));
@@ -954,6 +961,8 @@ bool EkosManager::start()
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
+    fitsViewerB->setEnabled(false);
+    INDIB->setEnabled(false);
 
     processINDIB->setText(xi18n("Stop INDI"));
 
@@ -1200,6 +1209,8 @@ void EkosManager::cleanDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
+    fitsViewerB->setEnabled(false);
+    INDIB->setEnabled(false);
 
     appendLogText(xi18n("INDI services stopped."));
 }
@@ -1319,6 +1330,8 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
+        INDIB->setEnabled(true);
+        fitsViewerB->setEnabled(true);
     }
 
 }
@@ -1394,6 +1407,8 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
+        INDIB->setEnabled(true);
+        fitsViewerB->setEnabled(true);
     }
 }
 
@@ -2353,3 +2368,45 @@ void EkosManager::setAuxiliary(int index, const QString & auxiliaryName)
         }
     }
 }
+
+void EkosManager::toggleINDIPanel()
+{
+    if (GUIManager::Instance()->isVisible())
+        GUIManager::Instance()->hide();
+    else
+        GUIManager::Instance()->show();
+}
+
+void EkosManager::toggleFITSViewer()
+{
+    FITSViewer *ccdViewer = NULL, *guiderViewer= NULL;
+
+    if (ccd)
+    {
+        ISD::CCD *myCCD = static_cast<ISD::CCD *> (ccd);
+        if ( (ccdViewer = myCCD->getViewer()) )
+        {
+            if (myCCD->getViewer()->isVisible())
+                myCCD->getViewer()->hide();
+            else
+                myCCD->getViewer()->show();
+        }
+    }
+
+    if (guider && guider != ccd)
+    {
+        ISD::CCD * myGuider = static_cast<ISD::CCD *> (guider);
+        if ( (guiderViewer = myGuider->getViewer()) )
+        {
+            if (myGuider->getViewer()->isVisible())
+                myGuider->getViewer()->hide();
+            else
+                myGuider->getViewer()->show();
+        }
+    }
+
+    if (ccdViewer == NULL && guiderViewer == NULL)
+        appendLogText(xi18n("No active FITS Viewer windows to show/hide."));
+}
+
+

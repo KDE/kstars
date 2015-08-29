@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>469</width>
-    <height>529</height>
+    <height>611</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
           <item>
            <widget class="QRadioButton" name="kcfg_localMode">
             <property name="text">
-             <string>Local</string>
+             <string>&amp;Local</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -55,7 +55,7 @@
           <item>
            <widget class="QRadioButton" name="kcfg_remoteMode">
             <property name="text">
-             <string>Remote</string>
+             <string>Re&amp;mote</string>
             </property>
            </widget>
           </item>
@@ -390,6 +390,41 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="fitsViewerB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Toggle FITS Viewer</string>
+       </property>
+       <property name="text">
+        <string>FITS Viewer</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="INDIB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Toggle INDI Control Panel</string>
+       </property>
+       <property name="text">
+        <string>INDI</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="clearB">
