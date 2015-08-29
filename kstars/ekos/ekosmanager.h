@@ -189,6 +189,9 @@ protected slots:
     void processINDIModeChange();
     void checkINDITimeout();
 
+    void toggleINDIPanel();
+    void toggleFITSViewer();
+
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
