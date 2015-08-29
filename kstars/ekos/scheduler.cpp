@@ -43,7 +43,7 @@ Scheduler::Scheduler()
 
     // Set initial time for startup and completion times
     startupTimeEdit->setDateTime(KStarsData::Instance()->lt());
-    completionTimeEdit->setDateTime(KStarsData::Instance()->lt());
+    completionTimeEdit->setDateTime(KStarsData::Instance()->lt());    
 
     // Set up DBus interfaces
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
@@ -230,6 +230,7 @@ void Scheduler::addJob()
         job->setTargetCoords(ra, dec);
     }
 
+    job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
     if (fitsURL.isEmpty() == false)
         job->setFITSFile(fitsURL);
@@ -454,7 +455,10 @@ void Scheduler::removeJob()
         removeFromQueueB->setEnabled(false);
 
     for (int i=0; i < jobs.count(); i++)
-        jobs.at(i)->setStatusCell(queueTable->item(i, 0));
+    {
+        jobs.at(i)->setStatusCell(queueTable->item(i, 1));
+        jobs.at(i)->setStartupCell(queueTable->item(i, 2));
+    }
 
     queueTable->selectRow(queueTable->currentRow());
 
@@ -528,18 +532,14 @@ void Scheduler::evaluateJobs()
 
         int16_t score = 0, altScore=0, moonScore=0, darkScore=0, weatherScore=0;
 
-        // Update target horizontal coords.
+        // #1 Update target horizontal coords.
         SkyPoint target = job->getTargetCoords();
         target.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-        // #1 Get current altitude, Moon separation, and weather scores.
-
-
         // #2 Check startup conditions
-
-        // #2.1 Now?
         switch (job->getStartingCondition())
         {
+                // #2.1 Now?
                 case SchedulerJob::START_NOW:
                     altScore     = getAltitudeScore(job, target);
                     moonScore    = getMoonSeparationScore(job, target);
@@ -551,6 +551,7 @@ void Scheduler::evaluateJobs()
                     // If we can't start now, let's schedule it
                     if (score < 0)
                     {
+                        // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
                         if ( (altScore < 0 || darkScore < 0) && calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()))
                             return;
                         else
@@ -822,10 +823,8 @@ void Scheduler::executeJob(SchedulerJob *job)
     //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
 }
 
-void Scheduler::checkStatus()
+bool    Scheduler::checkEkosState()
 {
-
-    // #1 Check if Ekos is started
     switch (ekosState)
     {
         case EKOS_IDLE:
@@ -836,13 +835,13 @@ void Scheduler::checkStatus()
         if (isEkosStarted.value() == EkosManager::STATUS_SUCCESS)
         {
             ekosState = EKOS_READY;
-            break;
+            return true;
         }
         else
         {
             ekosInterface->call(QDBus::AutoDetect,"start");
             ekosState = EKOS_STARTING;
-            return;
+            return false;
         }
         }
         break;
@@ -856,26 +855,28 @@ void Scheduler::checkStatus()
             {
                 appendLogText(xi18n("Ekos started."));
                 ekosState = EKOS_READY;
-                break;
+                return true;
             }
             else if(isEkosStarted.value()== EkosManager::STATUS_ERROR)
             {
                 appendLogText(xi18n("Ekos failed to start."));
-
                 stop();
-                // Stop scheduler
-
-                //currentJob->setState(SchedulerJob::ABORTED);
-                //terminateJob(currentJob);
+                return false;
             }
-            return;
         }
+        break;
 
         case EKOS_READY:
+            return true;
         break;
     }
 
-    // #2 Check if INDI devices are connected.
+    return false;
+
+}
+
+bool    Scheduler::checkINDIState()
+{
     switch (indiState)
     {
         case INDI_IDLE:
@@ -885,13 +886,13 @@ void Scheduler::checkStatus()
             if (isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
             {
                 indiState = INDI_READY;
-                break;
+                return true;
             }
             else
             {
                 ekosInterface->call(QDBus::AutoDetect,"connectDevices");
                 indiState = INDI_CONNECTING;
-                return;
+                return false;
             }
         }
         break;
@@ -903,7 +904,7 @@ void Scheduler::checkStatus()
         {
             appendLogText(xi18n("INDI devices connected."));
             indiState = INDI_READY;
-            break;
+            return true;
         }
         else if(isINDIConnected.value()== EkosManager::STATUS_ERROR)
         {
@@ -912,19 +913,23 @@ void Scheduler::checkStatus()
             stop();
 
             // TODO deal with INDI connection error? Wait until user resolves it? stop scheduler?
-            //currentJob->setState(SchedulerJob::ABORTED);
-            //terminateJob(currentJob);
-            return;
+           return false;
         }
-        else return;
+        else
+            return false;
         }
+        break;
 
     case INDI_READY:
+        return true;
         break;
     }
 
+    return false;
+}
 
-    // #3 Check for any FITS jobs
+bool    Scheduler::checkFITSJobState()
+{
     foreach(SchedulerJob *job, jobs)
     {
         if (job->getFITSFile().isEmpty() == false)
@@ -934,7 +939,8 @@ void Scheduler::checkStatus()
                 case SchedulerJob::FITS_IDLE:
                     currentJob = job;
                     startFITSSolving();
-                    return;
+                    return false;
+                    break;
 
                 case SchedulerJob::FITS_SOLVING:
                 {
@@ -947,24 +953,23 @@ void Scheduler::checkStatus()
                         {
                             getFITSAstrometryResults();
                             currentJob = NULL;
-                            break;
+                            return true;
                         }
                         else
                         {
 
                             currentJob->setFITSState(SchedulerJob::FITS_ERROR);
                             stop();
-                            return;
+                            return false;
                         }
                     }
                     else
                         // Still solver in progress, return
-                        return;
+                        return false;
                   }
                   break;
 
                 case SchedulerJob::FITS_ERROR:
-                    // Stop scheduler?
                     break;
 
                 case SchedulerJob::FITS_COMPLETE:
@@ -973,6 +978,24 @@ void Scheduler::checkStatus()
         }
     }
 
+    return true;
+
+}
+
+void Scheduler::checkStatus()
+{
+
+    // #1 Check if Ekos is started
+    if (checkEkosState() == false)
+        return;
+
+    // #2 Check if INDI devices are connected.
+    if (checkINDIState() == false)
+        return;
+
+    // #3 Check for any FITS jobs
+    if (checkFITSJobState() == false)
+        return;
 
     // #4 Now evaluate jobs and select the best candidate
     if (currentJob == NULL)

@@ -167,4 +167,13 @@
     <Action name="show_horizontal_grid" />
 	<Action name="show_horizon" />    
 </ToolBar>
+
+<ToolBar noMerge="1" name="INDIToolBar" iconText="icononly">
+        <text>INDI Toolbar</text>
+        <Action name="show_device_manager" />
+        <Action name="show_control_panel" />
+        <Action name="show_ekos" />
+        <Action name="show_fits_viewer" />
+</ToolBar>
+
 </kpartgui>

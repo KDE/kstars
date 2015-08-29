@@ -85,7 +85,7 @@ void SchedulerJob::setStartupTime(const QDateTime &value)
     startupTime = value;
 
     if (startupCell)
-        startupCell->setText(startupTime.toString("HH:mm @ ddd yyyy-MM-dd"));
+        startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
 
 }
 QUrl SchedulerJob::getSequenceFile() const
@@ -268,6 +268,11 @@ void SchedulerJob::setStartupCell(QTableWidgetItem *value)
 {
     startupCell = value;
 }
+void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
+{
+    dateTimeDisplayFormat = value;
+}
+
 
 
 

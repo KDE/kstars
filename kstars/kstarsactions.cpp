@@ -224,6 +224,21 @@ void KStars::slotViewToolBar() {
     map()->forceUpdate();
 }
 
+void KStars::slotINDIToolBar()
+{
+#ifdef HAVE_INDI
+    KToggleAction *a = (KToggleAction*)sender();
+
+    if ( a == actionCollection()->action( "show_device_manager" ) )
+    {
+       if (DriverManager::Instance()->isVisible())
+           DriverManager::Instance()->hide();
+       else
+           DriverManager::Instance()->show();
+    }
+#endif
+}
+
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator() {

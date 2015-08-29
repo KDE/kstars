@@ -92,6 +92,8 @@ public:
     QTableWidgetItem *getStartupCell() const;
     void setStartupCell(QTableWidgetItem *value);
 
+    void setDateTimeDisplayFormat(const QString &value);
+
 private:
 
     QString name;
@@ -121,7 +123,8 @@ private:
     int score;
     uint16_t culminationOffset;
 
-    double Dawn, Dusk;
+    double Dawn, Dusk;    
+    QString dateTimeDisplayFormat;
 
 
 };

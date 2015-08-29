@@ -208,6 +208,9 @@ private:
         bool    calculateCulmination(SchedulerJob *job);
         void    calculateDawnDusk();
 
+        bool    checkEkosState();
+        bool    checkINDIState();
+        bool    checkFITSJobState();
 
 
     Ekos::Scheduler *ui;

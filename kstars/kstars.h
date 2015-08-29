@@ -560,6 +560,10 @@ private slots:
      * uses the name of the sender to identify the item to change.  */
     void slotViewToolBar();
 
+    /** Meta-slot to handle display toggles for all of the INDItoolbar buttons.
+     * uses the name of the sender to identify the item to change.  */
+    void slotINDIToolBar();
+
     /** Meta-slot to handle toggling display of GUI elements (toolbars and infoboxes)
      * uses name of the sender action to identify the widget to hide/show.  */
     void slotShowGUIItem( bool );
