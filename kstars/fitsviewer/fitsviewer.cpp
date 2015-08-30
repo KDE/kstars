@@ -87,6 +87,8 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     fitsTab->setTabsClosable(true);
 
+    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer"));
+
     setCentralWidget(fitsTab);
 
     connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
@@ -226,6 +228,34 @@ FITSViewer::~FITSViewer()
     fitsTab->disconnect();
 
     qDeleteAll(fitsTabs);
+}
+
+void FITSViewer::closeEvent(QCloseEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+    if (viewers.count() == 1)
+    {
+        a->setEnabled(false);
+        a->setChecked(false);
+    }
+}
+
+void FITSViewer::hideEvent(QHideEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+    if (viewers.count() == 1)
+        a->setChecked(false);
+}
+
+void FITSViewer::showEvent(QShowEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    a->setEnabled(true);
+    a->setChecked(true);
 }
 
 int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText)

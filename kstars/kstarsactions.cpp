@@ -231,11 +231,65 @@ void KStars::slotINDIToolBar()
 
     if ( a == actionCollection()->action( "show_device_manager" ) )
     {
-       if (DriverManager::Instance()->isVisible())
+        if (a->isChecked())
+        {
+            DriverManager::Instance()->raise();
+            DriverManager::Instance()->activateWindow();
+            DriverManager::Instance()->showNormal();
+        }
+        else
            DriverManager::Instance()->hide();
+    }    
+    else if ( a == actionCollection()->action( "show_control_panel" ) )
+    {
+       if (a->isChecked())
+       {
+           GUIManager::Instance()->raise();
+           GUIManager::Instance()->activateWindow();
+           GUIManager::Instance()->showNormal();
+       }
        else
-           DriverManager::Instance()->show();
+           GUIManager::Instance()->hide();
     }
+    else if ( a == actionCollection()->action( "show_ekos" ) )
+    {
+       if (a->isChecked())
+       {
+           ekosManager()->raise();
+           ekosManager()->activateWindow();
+           ekosManager()->showNormal();
+       }
+       else
+           ekosManager()->hide();
+    }
+    else if ( a == actionCollection()->action( "show_fits_viewer" ) )
+    {
+       QList<FITSViewer *> viewers = findChildren<FITSViewer *>();
+
+       if (viewers.isEmpty())
+       {
+           a->setEnabled(false);
+           return;
+       }
+
+       if (a->isChecked())
+       {
+           foreach(FITSViewer *view, viewers)
+           {
+               view->raise();
+               view->activateWindow();
+               view->showNormal();
+           }
+       }
+       else
+       {
+           foreach(FITSViewer *view, viewers)
+           {
+               view->hide();
+           }
+       }
+    }
+
 #endif
 }
 
@@ -503,7 +557,10 @@ void KStars::slotINDIDriver()
         return;
     }
 
-    DriverManager::Instance()->show();
+    DriverManager::Instance()->raise();
+    DriverManager::Instance()->activateWindow();
+    DriverManager::Instance()->showNormal();
+
 #endif
 }
 
@@ -518,11 +575,10 @@ void KStars::slotEkos()
         return;
     }
 
-    EkosManager *m_ekosManager = KStars::Instance()->ekosManager();
+    ekosManager()->raise();
+    ekosManager()->activateWindow();
+    ekosManager()->showNormal();
 
-    m_ekosManager->show();
-    m_ekosManager->raise();
-    m_ekosManager->activateWindow();
 #endif
 #endif
 }

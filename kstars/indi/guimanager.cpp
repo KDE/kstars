@@ -20,14 +20,15 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QSplitter>
-
-#include <KLed>
 #include <QLocale>
 #include <KMessageBox>
 #include <QDebug>
 #include <QComboBox>
 #include <QDialog>
 #include <QTabWidget>
+
+#include <KLed>
+#include <KActionCollection>
 
 #include <basedevice.h>
 
@@ -83,19 +84,48 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
     resize( 640, 480);
 }
 
+void GUIManager::closeEvent(QCloseEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+    a->setChecked(false);
+}
+
+void GUIManager::hideEvent(QHideEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+    a->setChecked(false);
+}
+
+void GUIManager::showEvent(QShowEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+    a->setEnabled(true);
+    a->setChecked(true);
+}
+
 /*********************************************************************
 ** Traverse the drivers list, check for updated drivers and take
 ** appropriate action
 *********************************************************************/
 void GUIManager::updateStatus()
 {
-    if (clients.size() == 0)
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+
+    //if (clients.size() == 0)
+    if (guidevices.count() == 0)
     {
         KMessageBox::error(0, xi18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
+        a->setChecked(false);
         return;
     }
 
-    show();
+   a->setChecked(true);
+
+    raise();
+    activateWindow();
+    showNormal();
+
+
 }
 
 INDI_D * GUIManager::findGUIDevice(const QString &deviceName)
@@ -125,18 +155,11 @@ void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
 
-
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
 
     connect(cm, SIGNAL(INDIDeviceRemoved(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)));
 
-    //INDI_D *gdm = new INDI_D(this, cm);
-
-    //connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)));
-
-    //guidevices.append(gdm);
-
-    updateStatus();
+    //updateStatus();
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -186,6 +209,12 @@ void GUIManager::removeDevice(DeviceInfo *di)
 
     guidevices.removeOne(dp);
     delete (dp);
+
+    if (guidevices.isEmpty())
+    {
+        QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        a->setEnabled(false);
+    }
 }
 
 void GUIManager::buildDevice(DeviceInfo *di)
@@ -215,6 +244,11 @@ void GUIManager::buildDevice(DeviceInfo *di)
     mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getDriverInfo()->getUniqueLabel().toUtf8()));
 
     guidevices.append(gdm);
+
+    //QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+    //a->setEnabled(true);
+
+    updateStatus();
 
 }
 

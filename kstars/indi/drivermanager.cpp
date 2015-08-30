@@ -138,6 +138,24 @@ DriverManager::DriverManager()
     updateCustomDrivers();
 }
 
+void DriverManager::closeEvent(QCloseEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
+    a->setChecked(false);
+}
+
+void DriverManager::hideEvent(QHideEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
+    a->setChecked(false);
+}
+
+void DriverManager::showEvent(QShowEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
+    a->setChecked(true);
+}
+
 void DriverManager::processDeviceStatus(DriverInfo *dv)
 {
 

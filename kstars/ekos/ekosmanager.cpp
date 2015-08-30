@@ -11,6 +11,7 @@
 
 #include <KConfigDialog>
 #include <KMessageBox>
+#include <KActionCollection>
 
 #include <config-kstars.h>
 #include <basedevice.h>
@@ -109,6 +110,9 @@ EkosManager::EkosManager()
 
     connect(fitsViewerB, SIGNAL(clicked(bool)), this, SLOT(toggleFITSViewer()));
 
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    connect(a, SIGNAL(changed()), this, SLOT(checkFITSViewerState()));
+
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
 
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
@@ -136,6 +140,24 @@ EkosManager::~EkosManager()
     delete alignProcess;
     delete mountProcess;
     delete schedulerProcess;
+}
+
+void EkosManager::closeEvent(QCloseEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_ekos" );
+    a->setChecked(false);
+}
+
+void EkosManager::hideEvent(QHideEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_ekos" );
+    a->setChecked(false);
+}
+
+void EkosManager::showEvent(QShowEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_ekos" );
+    a->setChecked(true);
 }
 
 void EkosManager::setConnectionMode(bool isLocal)
@@ -1337,7 +1359,7 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
         INDIB->setEnabled(true);
-        fitsViewerB->setEnabled(true);
+        //fitsViewerB->setEnabled(true);
     }
 
 }
@@ -1414,7 +1436,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
         INDIB->setEnabled(true);
-        fitsViewerB->setEnabled(true);
+        //fitsViewerB->setEnabled(true);
     }
 }
 
@@ -2400,7 +2422,11 @@ void EkosManager::toggleFITSViewer()
             if (myCCD->getViewer()->isVisible())
                 myCCD->getViewer()->hide();
             else
-                myCCD->getViewer()->show();
+            {
+                myCCD->getViewer()->raise();
+                myCCD->getViewer()->activateWindow();
+                myCCD->getViewer()->showNormal();
+            }
         }
     }
 
@@ -2412,12 +2438,23 @@ void EkosManager::toggleFITSViewer()
             if (myGuider->getViewer()->isVisible())
                 myGuider->getViewer()->hide();
             else
-                myGuider->getViewer()->show();
+            {
+                myGuider->getViewer()->raise();
+                myGuider->getViewer()->activateWindow();
+                myGuider->getViewer()->showNormal();
+            }
         }
     }
 
     if (ccdViewer == NULL && guiderViewer == NULL)
         appendLogText(xi18n("No active FITS Viewer windows to show/hide."));
+}
+
+void EkosManager::checkFITSViewerState()
+{
+    QAction *a = (QAction *) sender();
+    if (a)
+        fitsViewerB->setEnabled(a->isEnabled());
 }
 
 

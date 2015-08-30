@@ -532,18 +532,20 @@ void KStars::initActions() {
         << xi18nc("Toggle the device manager in the display", "Device Manager" )
         << QIcon::fromTheme("computer" )
         << ToolTip( xi18n("Toggle Device Manager") );
-    actionCollection()->add<KToggleAction>("show_control_panel", this, SLOT( slotINDIToolBar() ) )
+    ka = actionCollection()->add<KToggleAction>("show_control_panel", this, SLOT( slotINDIToolBar() ) )
         << xi18nc("Toggle the control panel in the display", "Control Panel" )
         << QIcon::fromTheme("kstars" )
         << ToolTip( xi18n("Toggle Control Panel") );
+    ka->setEnabled(false);
     actionCollection()->add<KToggleAction>("show_ekos", this, SLOT( slotINDIToolBar() ) )
         << xi18nc("Toggle Ekos in the display", "Ekos" )
         << QIcon::fromTheme("kstars_ekos" )
         << ToolTip( xi18n("Toggle Ekos") );
-    actionCollection()->add<KToggleAction>("show_fits_viewer", this, SLOT( slotINDIToolBar() ) )
+    ka = actionCollection()->add<KToggleAction>("show_fits_viewer", this, SLOT( slotINDIToolBar() ) )
         << xi18nc("Toggle the FITS Viewer in the display", "FITS Viewer" )
         << QIcon::fromTheme("kstars_fitsviewer" )
         << ToolTip( xi18n("Toggle FITS Viewer") );
+    ka->setEnabled(false);
 #endif
 
     if (Options::fitsDir().isEmpty())

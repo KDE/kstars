@@ -146,6 +146,11 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);    
 
+protected:
+    void closeEvent(QCloseEvent *);
+    void hideEvent(QHideEvent *);
+    void showEvent(QShowEvent *);
+
 public slots:
 
     /** DBUS interface function.
@@ -191,6 +196,7 @@ protected slots:
 
     void toggleINDIPanel();
     void toggleFITSViewer();
+    void checkFITSViewerState();
 
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);
