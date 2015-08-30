@@ -106,12 +106,22 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString & value);
 
     /** DBUS interface function.
-     * Set calibration options. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
-     * @param useTwoAxis if true, calibration will be performed in both RA and DEC axis. Otherwise, only RA axis will be calibrated.
-     * @param autoCalibration if true, Ekos will attempt to automatically select the best guide star and proceed with the calibration procedure.
-     * @param useDarkFrame if true, a dark frame will be captured to subtract from the light frame.
+     * Set calibration Use Two Axis option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, calibration will be performed in both RA and DEC axis. Otherwise, only RA axis will be calibrated.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationTwoAxis(bool enable);
+
+    /** DBUS interface function.
+     * Set auto calibration option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, Ekos will attempt to automatically select the best guide star and proceed with the calibration procedure.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationAuto(bool enable);
+
+    /** DBUS interface function.
+     * Set calibration dark frame option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, a dark frame will be captured to subtract from the light frame.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationDarkFrame(bool enable);
 
     /** DBUS interface function.
      * Set calibration parameters.
@@ -121,13 +131,28 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationParams(int boxSize, int pulseDuration);
 
     /** DBUS interface function.
-     * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+     * Set guiding box size. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
      * @param boxSize box size in pixels around the guide star. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star.
-     * @param algorithm Select the algorithm used to calculate the centroid of the guide star (Smart, Fast, Auto, No thresh).
-     * @param useSubFrame if true, it will select a subframe around the guide star depending on the boxSize size.
-     * @param useRapidGuide if true, it will activate RapidGuide in the CCD driver. When Rapid Guide is used, no frames are sent to Ekos for analysis and the centeroid calculations are done in the CCD driver.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
+    Q_SCRIPTABLE Q_NOREPLY void setGuideBoxSize(int boxSize);
+
+    /** DBUS interface function.
+     * Set guiding algorithm. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+     * @param algorithm Select the algorithm used to calculate the centroid of the guide star (Smart, Fast, Auto, No thresh).
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setGuideAlgorithm(const QString & algorithm);
+
+    /** DBUS interface function.
+     * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setGuideSubFrame(bool enable);
+
+    /** DBUS interface function.
+     * Set rapid guiding option. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, it will activate RapidGuide in the CCD driver. When Rapid Guide is used, no frames are sent to Ekos for analysis and the centeroid calculations are done in the CCD driver.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setGuideRapid(bool enable);
 
     /** DBUS interface function.
      * Enable or disables dithering

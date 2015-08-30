@@ -49,11 +49,14 @@ public:
 
     double getReticleAngle() { return ui.spinBox_ReticleAngle->value();}
 
-    bool isCalibrating();
-    bool isAutoCalibration() { return ui.autoCalibrationCheck->isChecked(); }
+    bool isCalibrating();    
     bool isCalibrationComplete() { return (calibrationStage == CAL_FINISH || calibrationStage == CAL_ERROR); }
     bool isCalibrationSuccessful() { return (calibrationStage == CAL_FINISH); }
+
+    bool useAutoCalibration() { return ui.autoCalibrationCheck->isChecked(); }
     bool useDarkFrame() { return ui.darkFrameCheck->isChecked(); }
+    bool useTwoAxis() { return ui.twoAxisCheck->isChecked(); }
+
     void processCalibration();
     CalibrationStage getCalibrationStage() { return calibrationStage; }
     void reset();

@@ -731,6 +731,26 @@ bool rguider::dither()
     return true;
 }
 
+int rguider::getBoxSize()
+{
+    return ui.comboBox_SquareSize->currentText().toInt();
+}
+
+QString rguider::getAlgorithm()
+{
+     return ui.comboBox_ThresholdAlg->currentText();
+}
+
+bool rguider::useSubFrame()
+{
+    return ui.subFrameCheck->isChecked();
+}
+
+bool rguider::useRapidGuide()
+{
+    return ui.rapidGuideCheck->isChecked();
+}
+
 void rguider::setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide)
 {
     for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
@@ -759,7 +779,3 @@ void rguider::setDither(bool enable, double value)
         ui.ditherPixels->setValue(value);
 
 }
-
-
-
-

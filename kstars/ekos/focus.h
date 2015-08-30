@@ -118,10 +118,16 @@ public:
 
     /** DBUS interface function.
      * Set Auto Focus options. The options must be set before starting the autofocus operation. If no options are set, the options loaded from the user configuration are used.
-     * @param selectAutoStar If true, Ekos will attempt to automatically select the best focus star in the frame. If it fails to select a star, the user will be asked to select a star manually.
-     * @param useSubFrame if true, Ekos will capture a subframe around the selected focus star. The subframe size is determined by the boxSize parameter.
+     * @param enable If true, Ekos will attempt to automatically select the best focus star in the frame. If it fails to select a star, the user will be asked to select a star manually.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusOptions(bool selectAutoStar, bool useSubFrame);
+    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusStar(bool enable);
+
+
+    /** DBUS interface function.
+     * Set Auto Focus options. The options must be set before starting the autofocus operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, Ekos will capture a subframe around the selected focus star. The subframe size is determined by the boxSize parameter.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusSubFrame(bool enable);
 
     /** DBUS interface function.
      * Set Autofocus parameters
@@ -170,12 +176,12 @@ public slots:
     /** DBUS interface function.
      * Start the autofocus operation.
      */
-    Q_SCRIPTABLE Q_NOREPLY void startFocus();
+    Q_SCRIPTABLE Q_NOREPLY void start();
 
     /** DBUS interface function.
      * Abort the autofocus operation.
      */
-    Q_SCRIPTABLE Q_NOREPLY void stopFocus();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
     /** DBUS interface function.
      * Capture a focus frame.

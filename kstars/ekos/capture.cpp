@@ -364,8 +364,8 @@ Capture::Capture()
 
     seqWatcher		= new KDirWatch();
     seqTimer = new QTimer(this);
-    connect(startB, SIGNAL(clicked()), this, SLOT(startSequence()));
-    connect(stopB, SIGNAL(clicked()), this, SLOT(stopSequence()));
+    connect(startB, SIGNAL(clicked()), this, SLOT(start()));
+    connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(seqTimer, SIGNAL(timeout()), this, SLOT(captureImage()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
@@ -501,7 +501,7 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 
 }
 
-void Capture::startSequence()
+void Capture::start()
 {
     if (darkSubCheck->isChecked())
     {
@@ -564,7 +564,7 @@ void Capture::startSequence()
 
 }
 
-void Capture::stopSequence()
+void Capture::abort()
 {
 
     retries              = 0;
@@ -984,7 +984,7 @@ void Capture::newFITS(IBLOB *bp)
     {
         if (bp == NULL)
         {
-            stopSequence();
+            abort();
             return;
         }
 
@@ -1034,7 +1034,7 @@ void Capture::newFITS(IBLOB *bp)
        jobs.removeOne(activeJob);
        delete (activeJob);
        activeJob = NULL;
-       stopSequence();
+       abort();
        return;
     }
 
@@ -1056,7 +1056,7 @@ void Capture::newFITS(IBLOB *bp)
                 appendLogText(xi18n("Unable to calculate optimal exposure settings, please take the flats manually."));
                 activeJob->setTargetADU(0);
                 ADUValue->setValue(0);
-                stopSequence();
+                abort();
                 return;
             }
 
@@ -1074,7 +1074,7 @@ void Capture::newFITS(IBLOB *bp)
         else
         {
             appendLogText(xi18n("An empty image is received, aborting..."));
-            stopSequence();
+            abort();
             return;
         }
     }
@@ -1092,7 +1092,7 @@ void Capture::newFITS(IBLOB *bp)
     {
         activeJob->done();
 
-        stopSequence();
+        abort();
 
         // Check if meridian condition is met
         if (checkMeridianFlip())
@@ -1238,12 +1238,12 @@ void Capture::captureImage()
 
         case SequenceJob::CAPTURE_FRAME_ERROR:
             appendLogText(xi18n("Failed to set sub frame."));
-            stopSequence();
+            abort();
             break;
 
         case SequenceJob::CAPTURE_BIN_ERROR:
             appendLogText(xi18n("Failed to set binning."));
-            stopSequence();
+            abort();
             break;
      }
 
@@ -1370,7 +1370,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         appendLogText(xi18n("Capture failed."));
         if (retries == 3)
         {
-            stopSequence();
+            abort();
             return;
         }
 
@@ -1828,7 +1828,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             spikeDetected = false;
             deviationDetected = true;
             appendLogText(xi18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
-            stopSequence();
+            abort();
         }
         return;
     }
@@ -1839,7 +1839,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         {
             deviationDetected = false;
             appendLogText(xi18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
-            startSequence();
+            start();
             return;
         }
     }
@@ -1880,7 +1880,7 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
         {
             appendLogText(xi18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText("");
-            stopSequence();
+            abort();
         }
     }
 }
@@ -2286,7 +2286,7 @@ void Capture::resetJobs()
     foreach(SequenceJob *job, jobs)
         job->resetStatus();
 
-    stopSequence();    
+    abort();
 }
 
 void Capture::editJob(QModelIndex i)
@@ -2455,7 +2455,7 @@ void Capture::setTemperature()
 
 void Capture::clearSequenceQueue()
 {
-    stopSequence();
+    abort();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
     jobs.clear();
@@ -2657,7 +2657,7 @@ void Capture::checkMeridianFlipTimeout()
     if (meridianFlipStage < MF_ALIGNING)
     {
         appendLogText(xi18n("Telescope meridian flip timed out."));
-        stopSequence();
+        abort();
     }
     else if (meridianFlipStage == MF_ALIGNING)
     {
@@ -2669,7 +2669,7 @@ void Capture::checkMeridianFlipTimeout()
         else
         {
             appendLogText(xi18n("Alignment timed out."));
-            stopSequence();
+            abort();
         }
 
     }
@@ -2683,7 +2683,7 @@ void Capture::checkMeridianFlipTimeout()
         else
         {
             appendLogText(xi18n("Guiding timed out."));
-            stopSequence();
+            abort();
         }
     }
 }
@@ -2777,6 +2777,16 @@ double Capture::setCurrentADU(double value)
 void Capture::setDirty()
 {
     mDirty = true;
+}
+
+void Capture::setMeridianFlip(bool enable)
+{
+    meridianCheck->setChecked(enable);
+}
+
+void Capture::setMeridianFlipHour(double hours)
+{
+    meridianHours->setValue(hours);
 }
 
 

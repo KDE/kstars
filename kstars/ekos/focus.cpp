@@ -80,7 +80,7 @@ Focus::Focus()
     minPos=1e6;
     maxPos=0;
 
-    connect(startFocusB, SIGNAL(clicked()), this, SLOT(startFocus()));
+    connect(startFocusB, SIGNAL(clicked()), this, SLOT(start()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
 
     connect(focusOutB, SIGNAL(clicked()), this, SLOT(FocusOut()));
@@ -155,7 +155,7 @@ void Focus::toggleAutofocus(bool enable)
     }
 
     if (inFocusLoop || inAutoFocus)
-        stopFocus();
+        abort();
     else
         resetButtons();
 }
@@ -468,7 +468,7 @@ void Focus::getAbsFocusPosition()
 
 }
 
-void Focus::startFocus()
+void Focus::start()
 {
     lastFocusDirection = FOCUS_NONE;
 
@@ -540,10 +540,10 @@ void Focus::checkStopFocus()
         appendLogText(i18n("Capture aborted."));
     }
 
-    stopFocus();
+    abort();
 }
 
-void Focus::stopFocus()
+void Focus::abort()
 {
 
     if (Options::verboseLogging())
@@ -732,7 +732,7 @@ void Focus::newFITS(IBLOB *bp)
     if (targetImage == NULL)
     {
         appendLogText(xi18n("FITS image failed to load, aborting..."));
-        stopFocus();
+        abort();
         return;
     }
 
@@ -883,7 +883,7 @@ void Focus::newFITS(IBLOB *bp)
         {
            inSequenceFocus = true;
            AutoModeR->setChecked(true);
-           startFocus();
+           start();
         }
         else
         {
@@ -973,7 +973,7 @@ void Focus::autoFocusAbs()
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
         appendLogText(xi18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
-        stopFocus();
+        abort();
         updateFocusStatus(false);
         return;
     }
@@ -1045,13 +1045,13 @@ void Focus::autoFocusAbs()
                 if (absIterations <= 2)
                 {
                     appendLogText(xi18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
-                    stopFocus();
+                    abort();
                     updateFocusStatus(false);
                 }
                 else
                 {
                     appendLogText(xi18n("Autofocus complete."));
-                    stopFocus();
+                    abort();
                     emit suspendGuiding(false);
                     updateFocusStatus(true);
                 }
@@ -1220,7 +1220,7 @@ void Focus::autoFocusAbs()
         if (targetPosition == currentPosition)
         {
             appendLogText(xi18n("Autofocus complete."));
-            stopFocus();
+            abort();
             emit suspendGuiding(false);
             updateFocusStatus(true);
             return;
@@ -1230,7 +1230,7 @@ void Focus::autoFocusAbs()
         if (focusOutLimit && focusOutLimit == focusInLimit)
         {
             appendLogText(xi18n("Deadlock reached. Please try again with different settings."));
-            stopFocus();
+            abort();
             updateFocusStatus(false);
             return;
         }
@@ -1241,7 +1241,7 @@ void Focus::autoFocusAbs()
                 qDebug() << "targetPosition (" << targetPosition << ") - initHFRAbsPos (" << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
 
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
-            stopFocus();
+            abort();
             updateFocusStatus(false);
             if (Options::verboseLogging())
                 qDebug() << "Maximum travel limit reached. Autofocus aborted.";
@@ -1281,7 +1281,7 @@ void Focus::autoFocusRel()
     if (pulseDuration <= 32)
     {
         appendLogText(xi18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
-        stopFocus();
+        abort();
         updateFocusStatus(false);
         return;
     }
@@ -1312,7 +1312,7 @@ void Focus::autoFocusRel()
             if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
                 appendLogText(xi18n("Autofocus complete."));                
-                stopFocus();
+                abort();
                 emit suspendGuiding(false);
                 updateFocusStatus(true);
                 break;
@@ -1367,7 +1367,7 @@ void Focus::autoFocusRel()
         if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
             appendLogText(xi18n("Autofocus complete."));
-            stopFocus();
+            abort();
             emit suspendGuiding(false);
             updateFocusStatus(true);
             break;
@@ -1437,7 +1437,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
        {
            resetFocus = false;
            appendLogText(xi18n("Restarting autofocus process..."));
-           startFocus();
+           start();
        }
 
        if (canAbsMove && inAutoFocus)
@@ -1447,7 +1447,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
            else if (nvp->s == IPS_ALERT)
            {
                appendLogText(xi18n("Focuser error, check INDI panel."));
-               stopFocus();
+               abort();
                updateFocusStatus(false);
            }
 
@@ -1465,7 +1465,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(xi18n("Focuser error, check INDI panel."));
-                stopFocus();
+                abort();
                 updateFocusStatus(false);
             }
 
@@ -1654,11 +1654,14 @@ void Focus::setImageFilter(const QString & value)
         }
 }
 
-void Focus::setAutoFocusOptions(bool selectAutoStar, bool useSubFrame)
+void Focus::setAutoFocusStar(bool enable)
 {
-    kcfg_autoSelectStar->setChecked(selectAutoStar);
-    kcfg_subFrame->setChecked(useSubFrame);
+    kcfg_autoSelectStar->setChecked(enable);
+}
 
+void Focus::setAutoFocusSubFrame(bool enable)
+{
+    kcfg_subFrame->setChecked(enable);
 }
 
 void Focus::setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, double tolerance)

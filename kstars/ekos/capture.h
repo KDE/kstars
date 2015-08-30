@@ -271,6 +271,18 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
 
     /** DBUS interface function.
+     * Enable or Disable meridian flip, and sets its activation hour.
+     * @param enable If true, meridian flip will be command after user-configurable number of hours.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setMeridianFlip(bool enable);
+
+    /** DBUS interface function.
+     * Sets meridian flip trigger hour.
+     * @param hours Number of hours after the meridian at which the mount is commanded to flip.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setMeridianFlipHour(double hours);
+
+    /** DBUS interface function.
      * @return Returns the number of jobs in the sequence queue.
      */
     Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
@@ -327,12 +339,12 @@ public slots:
     /** DBUS interface function.
      * Starts the sequence queue capture procedure sequentially by starting all jobs that are either Idle or Aborted in order.
      */
-    Q_SCRIPTABLE Q_NOREPLY void startSequence();
+    Q_SCRIPTABLE Q_NOREPLY void start();
 
     /** DBUS interface function.
      * Aborts all jobs and set current job status to Aborted if it was In Progress.
      */
-    Q_SCRIPTABLE Q_NOREPLY void stopSequence();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
     /**
      * @brief captureOne Capture one preview image

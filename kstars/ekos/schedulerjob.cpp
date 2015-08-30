@@ -19,30 +19,13 @@ SchedulerJob::SchedulerJob()
     moduleUsage         = USE_NONE;
     state               = JOB_IDLE;
     fitsState           = FITS_IDLE;
+    stage               = STAGE_IDLE;
 
     statusCell          = NULL;
     startupCell         = NULL;
     minAltitude         = -1;
     minMoonSeparation   = -1;
-
     culminationOffset   = 0;
-
-
-
-    #if 0
-    NowCheck=false;
-    specificTime=false;
-    specificAlt=false;
-    moonSeparationCheck=false;
-    meridianFlip=false;
-    isFITSSelected=false;
-    whenSeqCompCheck=false;
-    loopCheck=false;
-    onTimeCheck=false;
-    score=0;
-    alt=-1;
-    isOk = 0;
-    #endif
 }
 
 SchedulerJob::~SchedulerJob()
@@ -141,12 +124,12 @@ void SchedulerJob::setNoMeridianFlip(bool value)
 {
     noMeridianFlip = value;
 }
-QDateTime SchedulerJob::getcompletionTimeEdit() const
+QDateTime SchedulerJob::getCompletionTime() const
 {
     return completionTimeEdit;
 }
 
-void SchedulerJob::setcompletionTimeEdit(const QDateTime &value)
+void SchedulerJob::setCompletionTime(const QDateTime &value)
 {
     completionTimeEdit = value;
 }
@@ -198,12 +181,15 @@ void SchedulerJob::setState(const JOBStatus &value)
             break;
 
         case JOB_BUSY:
-            statusCell->setText(xi18n("Busy"));
+            statusCell->setText(xi18n("Running"));
             break;
 
-
         case JOB_INVALID:
-            statusCell->setText(xi18n("Invalid"));
+            statusCell->setText(xi18n("Invalid"));                                   
+            break;
+
+        case JOB_COMPLETE:
+            statusCell->setText(xi18n("Complete"));
             break;
 
         default:
@@ -273,8 +259,57 @@ void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
     dateTimeDisplayFormat = value;
 }
 
+SchedulerJob::JOBStage SchedulerJob::getStage() const
+{
+    return stage;
+}
 
+void SchedulerJob::setStage(const JOBStage &value)
+{
+    stage = value;
 
+    switch (stage)
+    {
+        case STAGE_SLEWING:
+            statusCell->setText(xi18n("Slewing"));
+            break;
+
+        case STAGE_SLEW_COMPLETE:
+            statusCell->setText(xi18n("Slew complete"));
+            break;
+
+        case STAGE_FOCUSING:
+            statusCell->setText(xi18n("Focusing"));
+            break;
+
+        case STAGE_FOCUS_COMPLETE:
+            statusCell->setText(xi18n("Focus complete"));
+            break;
+
+        case STAGE_ALIGNING:
+            statusCell->setText(xi18n("Aligning"));
+            break;
+
+        case STAGE_ALIGN_COMPLETE:
+            statusCell->setText(xi18n("Align complete"));
+            break;
+
+        case STAGE_CALIBRATING:
+            statusCell->setText(xi18n("Calibrating"));
+            break;
+
+        case STAGE_GUIDING:
+            statusCell->setText(xi18n("Guiding"));
+            break;
+
+        case STAGE_CAPTURING:
+            statusCell->setText(xi18n("Capturing"));
+            break;
+
+        default:
+        break;
+    }
+}
 
 void SchedulerJob::setTargetCoords(dms ra, dms dec)
 {

@@ -49,6 +49,11 @@ public:
     void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
     void setDither(bool enable, double value);
 
+    int getBoxSize();
+    QString getAlgorithm();
+    bool useSubFrame();
+    bool useRapidGuide();
+
 public slots:
     void setDECSwap(bool enable);
 

@@ -320,7 +320,7 @@ bool Guide::capture()
         darkExposure = seqExpose;
         targetChip->setFrameType(FRAME_DARK);
 
-        if (calibration->isAutoCalibration() == false)
+        if (calibration->useAutoCalibration() == false)
             KMessageBox::information(NULL, xi18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), xi18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
         connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
@@ -724,9 +724,19 @@ void Guide::setImageFilter(const QString & value)
         }
 }
 
-void Guide::setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame)
+void Guide::setCalibrationTwoAxis(bool enable)
 {
-    calibration->setCalibrationOptions(useTwoAxis, autoCalibration, useDarkFrame);
+    calibration->setCalibrationOptions(enable, calibration->useAutoCalibration(), calibration->useDarkFrame());
+}
+
+void Guide::setCalibrationAuto(bool enable)
+{
+    calibration->setCalibrationOptions(calibration->useTwoAxis(), enable, calibration->useDarkFrame());
+}
+
+void Guide::setCalibrationDarkFrame(bool enable)
+{
+    calibration->setCalibrationOptions(calibration->useTwoAxis(), calibration->useAutoCalibration(), enable);
 }
 
 void Guide::setCalibrationParams(int boxSize, int pulseDuration)
@@ -734,9 +744,24 @@ void Guide::setCalibrationParams(int boxSize, int pulseDuration)
     calibration->setCalibrationParams(boxSize, pulseDuration);
 }
 
-void Guide::setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide)
+void Guide::setGuideBoxSize(int boxSize)
 {
-     guider->setGuideOptions(boxSize, algorithm, useSubFrame, useRapidGuide);
+     guider->setGuideOptions(boxSize, guider->getAlgorithm(), guider->useSubFrame(), guider->useRapidGuide());
+}
+
+void Guide::setGuideAlgorithm(const QString & algorithm)
+{
+     guider->setGuideOptions(guider->getBoxSize(), algorithm, guider->useSubFrame(), guider->useRapidGuide());
+}
+
+void Guide::setGuideSubFrame(bool enable)
+{
+     guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), enable , guider->useRapidGuide());
+}
+
+void Guide::setGuideRapid(bool enable)
+{
+     guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), guider->useSubFrame() , enable);
 }
 
 void Guide::setDither(bool enable, double value)

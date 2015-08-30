@@ -201,7 +201,7 @@ public slots:
     /** DBUS interface function.
      * Aborts the solving operation.
      */
-    Q_SCRIPTABLE Q_NOREPLY void stopSolving();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
     /** DBUS interface function.
      * Select the solver type (online or offline)

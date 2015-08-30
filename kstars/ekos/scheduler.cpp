@@ -271,7 +271,7 @@ void Scheduler::addJob()
     else
     {
         job->setCompletionCondition(SchedulerJob::FINISH_AT);
-        job->setcompletionTimeEdit(completionTimeEdit->dateTime());
+        job->setCompletionTime(completionTimeEdit->dateTime());
     }
 
     // Ekos Modules usage
@@ -414,7 +414,7 @@ void Scheduler::editJob(QModelIndex i)
 
         case SchedulerJob::FINISH_AT:
             timeCompletionR->setChecked(true);
-            completionTimeEdit->setDateTime(job->getcompletionTimeEdit());
+            completionTimeEdit->setDateTime(job->getCompletionTime());
             break;
     }
 
@@ -487,7 +487,7 @@ void Scheduler::stop()
     // TODO stop any running jobs!
 
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
-    //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
+    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
 
     state = SCHEDULER_IDLE;
     ekosState = EKOS_IDLE;
@@ -553,7 +553,10 @@ void Scheduler::evaluateJobs()
                     {
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
                         if ( (altScore < 0 || darkScore < 0) && calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()))
+                        {
+                            job->setState(SchedulerJob::JOB_SCHEDULED);
                             return;
+                        }
                         else
                         {
                             job->setState(SchedulerJob::JOB_INVALID);
@@ -562,6 +565,7 @@ void Scheduler::evaluateJobs()
                     }
                     break;
 
+                  // #2.2 Culmination?
                   case SchedulerJob::START_CULMINATION:
                         if (calculateCulmination(job))
                         {
@@ -572,6 +576,7 @@ void Scheduler::evaluateJobs()
                             job->setState(SchedulerJob::JOB_INVALID);
                         break;
 
+                 // #2.3 Start at?
                  case SchedulerJob::START_AT:
                     if (KStarsData::Instance()->lt().secsTo(job->getStartupTime()) <= 300)
                     {
@@ -595,18 +600,56 @@ void Scheduler::evaluateJobs()
 
 
 
-    int invalidJobs=0;
+    int invalidJobs=0, completedJobs=0, abortedJobs=0, upcomingJobs=0;
 
     // Find invalid jobs
     foreach(SchedulerJob *job, jobs)
     {
-        if (job->getState() == SchedulerJob::JOB_INVALID)
-            invalidJobs++;
+        switch (job->getState())
+        {
+            case SchedulerJob::JOB_INVALID:
+                invalidJobs++;
+                break;
+
+            case SchedulerJob::JOB_ERROR:
+            case SchedulerJob::JOB_ABORTED:
+                abortedJobs++;
+                break;
+
+            case SchedulerJob::JOB_COMPLETE:
+                completedJobs++;
+                break;
+
+            case SchedulerJob::JOB_SCHEDULED:
+            case SchedulerJob::JOB_BUSY:
+                upcomingJobs++;
+                break;
+
+           default:
+            break;
+        }
     }
 
-    if (invalidJobs == jobs.count())
+    if (upcomingJobs == 0)
     {
-        appendLogText(xi18n("No valid jobs found, aborting..."));
+        if (invalidJobs == jobs.count())
+        {
+            appendLogText(xi18n("No valid jobs found, aborting..."));
+            stop();
+            return;
+        }
+
+        if (invalidJobs > 0)
+            appendLogText(xi18np("%1 job is invalid.", "%1 jobs are invalid.", invalidJobs));
+
+        if (abortedJobs > 0)
+            appendLogText(xi18np("%1 job aborted.", "%1 jobs aborted", abortedJobs));
+
+        if (completedJobs > 0)
+            appendLogText(xi18np("%1 job completed.", "%1 jobs completed.", completedJobs));
+
+        appendLogText(xi18n("Scheduler complete. Starting shutdown procedure..."));
+
         stop();
         return;
     }
@@ -626,8 +669,8 @@ void Scheduler::evaluateJobs()
 
     if (bestCandidate != NULL)
     {
-        appendLogText(xi18n("Found candidate job %1", bestCandidate->getName()));
-        currentJob = bestCandidate;
+        appendLogText(xi18n("Found candidate job %1", bestCandidate->getName()));        
+        executeJob(bestCandidate);
     }
 }
 
@@ -663,8 +706,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
             {
                 QDateTime startTime = geo->UTtoLT(myUT);
                 job->setStartupTime(startTime);
-                job->setStartupCondition(SchedulerJob::START_AT);
-                job->setState(SchedulerJob::JOB_SCHEDULED);
+                job->setStartupCondition(SchedulerJob::START_AT);                
                 return true;
             }
 
@@ -672,9 +714,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
     }
 
-
     return false;
-
 }
 
 bool Scheduler::calculateCulmination(SchedulerJob *job)
@@ -819,8 +859,12 @@ void Scheduler::executeJob(SchedulerJob *job)
 {
     currentJob = job;
 
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
-    //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(evaluateJobs()));
+    currentJob->setState(SchedulerJob::JOB_BUSY);
+
+    // No need to continue evaluating jobs as we already have one.
+
+    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
 }
 
 bool    Scheduler::checkEkosState()
@@ -1000,253 +1044,271 @@ void Scheduler::checkStatus()
     // #4 Now evaluate jobs and select the best candidate
     if (currentJob == NULL)
     {
-        evaluateJobs();
-        return;
+        evaluateJobs();     
+    }
+    else
+        executeJob(currentJob);
+
+    //appendLogText(xi18n("Testing Complete, stopping"));
+
+    //stop();
+}
+
+void Scheduler::checkJobStage()
+{
+    Q_ASSERT(currentJob != NULL);
+
+    if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
+    {
+        // If the job reached it COMPLETION time, we stop it.
+        if (currentJob->getCompletionTime().secsTo(KStarsData::Instance()->lt()) <= 0)
+        {
+            appendLogText(xi18n("%1 observation job reached completion time. Stopping...", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+
+            stopEkosAction();
+
+            findNextJob();
+
+            return;
+
+        }
     }
 
-    appendLogText(xi18n("Testing Complete, stopping"));
-
-    stop();
-
-#if 0
-    if(currentJob==NULL)
-        return;
-
-    // Check if job timeout expired.
-    /*if(QDate::currentDate().day() >= currentJob->getFinishingDay() &&
-            QTime::currentTime().hour() >= currentJob->getFinishingHour() &&
-            QTime::currentTime().minute() >= currentJob->getFinishingMinute())
+    switch(currentJob->getStage())
     {
-        currentJob->setState(SchedulerJob::ABORTED);
-        terminateJob(currentJob);
-    }*/
-
-    QDBusReply<QString> replyslew ;
-    QDBusReply<int> replyconnect;
-    QDBusReply<bool> replyfocus;
-    QDBusReply<bool> replyfocus2;
-    QDBusReply<bool> replyalign;
-    QDBusReply<bool> replyalign2;
-    QDBusReply<QString> replysequence;
-
-    QDBusReply<bool> replyguide;
-    QDBusReply<bool> replyguide2;
-    QDBusReply<bool> replyguide3;
-
-    switch(state)
+    case SchedulerJob::STAGE_IDLE:
     {
-    case Scheduler::IDLE:
-        startEkos();
-        state = STARTING_EKOS;
-        return;
-    case Scheduler::STARTING_EKOS:
-        ekosIsStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-        if(ekosIsStarted.value()==2)
-        {
-            appendLogText("Ekos started");
-            state = EKOS_STARTED;
-        }
-        else if(ekosIsStarted.value()==3){
-            appendLogText("Ekos start error!");
-            currentJob->setState(SchedulerJob::ABORTED);
-            terminateJob(currentJob);
-            return;
-        }
-
-        return;
-
-    case Scheduler::EKOS_STARTED:
-        connectDevices();
-        state = CONNECTING;
-        return;
-
-    case Scheduler::CONNECTING:
-        replyconnect = ekosInterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
-        if(replyconnect.value()==2)
-        {
-            appendLogText("Devices connected");
-            state=READY;
-            break;
-        }
-        else if(replyconnect.value()==3)
-        {
-            appendLogText("Ekos start error!");
-            currentJob->setState(SchedulerJob::ABORTED);
-            terminateJob(currentJob);
-            return;
-        }
-        else return;
-
-    default:
-        break;
-    }
-
-
-    switch(currentJob->getState())
-    {
-    case SchedulerJob::IDLE:
+        QList<QVariant> meridianFlip;
+        meridianFlip.append(!currentJob->getNoMeridianFlip());
+        ekosInterface->callWithArgumentList(QDBus::AutoDetect,"setMeridianFlip",meridianFlip);
         getNextAction();
+    }
         break;
 
-    case SchedulerJob::SLEWING:
-        replyslew = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
-        if(replyslew.value().toStdString() == "Complete")
+    case SchedulerJob::STAGE_SLEWING:
+    {
+        QDBusReply<QString> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+        if(slewStatus.value().toStdString() == "Complete")
         {
-            appendLogText("Slewing completed without errors");
-            currentJob->setState(SchedulerJob::SLEW_COMPLETE);
+            appendLogText(xi18n("%1 slew is complete.", currentJob->getName()));
+            currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
             getNextAction();
             return;
         }
-        else if(replyslew.value().toStdString() == "Error")
+        else if(slewStatus.value().toStdString() == "Error")
         {
-            appendLogText("Error during slewing!");
-            currentJob->setState(SchedulerJob::ABORTED);
-            terminateJob(currentJob);
+            appendLogText(xi18n("%1 slew failed!", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
             return;
         }
+    }
         break;
 
-    case SchedulerJob::FOCUSING:
-        replyfocus = focusInterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
-        if(replyfocus.value())
+    case SchedulerJob::STAGE_FOCUSING:
+    {
+        QDBusReply<bool> focusReply = focusInterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
+        // Is focus complete?
+        if(focusReply.value())
         {
-            replyfocus2 = focusInterface->call(QDBus::AutoDetect,"isAutoFocusSuccessful");
-            if(replyfocus2.value())
+            focusReply = focusInterface->call(QDBus::AutoDetect,"isAutoFocusSuccessful");
+            // Is focus successful ?
+            if(focusReply.value())
             {
-                appendLogText("Focusing completed without errors");
-                currentJob->setState(SchedulerJob::FOCUSING_COMPLETE);
+                appendLogText(xi18n("%1 focusing is complete.", currentJob->getName()));
+                currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
                 getNextAction();
                 return;
             }
-            else {
-                appendLogText("Error during focusing!");
-                currentJob->setState(SchedulerJob::ABORTED);
-                terminateJob(currentJob);
+            else
+            {
+                appendLogText(xi18n("%1 focusing failed!", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
                 return;
             }
         }
+    }
         break;
 
-    case SchedulerJob::ALIGNING:
-        replyalign = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
-        if(replyalign.value())
+    case SchedulerJob::STAGE_ALIGNING:
+    {
+       QDBusReply<bool> alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
+       // Is solver complete?
+        if(alignReply.value())
         {
-            replyalign2 = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
-            if(replyalign2.value()){
-                appendLogText("Astrometry completed without error");
-                currentJob->setState(SchedulerJob::ALIGNING_COMPLETE);
+            alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
+            // Is solver successful?
+            if(alignReply.value())
+            {
+                appendLogText(xi18n("%1 alignment is complete.", currentJob->getName()));
+
+                currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
                 getNextAction();
                 return;
             }
-            else {
-                appendLogText("Error during aligning!");
-                currentJob->setState(SchedulerJob::ABORTED);
-                terminateJob(currentJob);
+            else
+            {
+                appendLogText(xi18n("%1 alignment failed!", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
             }
         }
+    }
+    break;
 
-    case SchedulerJob::GUIDING:
-        replyguide = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
-        if(replyguide.value())
+    case SchedulerJob::STAGE_CALIBRATING:
+    {
+        QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
+        // If calibration stage complete?
+        if(guideReply.value())
         {
-            replyguide2 = guideInterface->call(QDBus::AutoDetect,"isCalibrationSuccessful");
-            if(replyguide2.value())
+            guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationSuccessful");
+            // If calibration successful?
+            if(guideReply.value())
             {
-                appendLogText("Calibration completed without error");
-                replyguide3 = guideInterface->call(QDBus::AutoDetect,"startGuiding");
-                if(!replyguide3.value())
+                appendLogText(xi18n("%1 calibration is complete.", currentJob->getName()));
+
+                guideReply = guideInterface->call(QDBus::AutoDetect,"startGuiding");
+                if(guideReply.value() == false)
                 {
-                    appendLogText("Guiding start error!");
-                    currentJob->setState(SchedulerJob::ABORTED);
-                    terminateJob(currentJob);
+                    appendLogText(xi18n("%1 guiding failed!", currentJob->getName()));
+
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                    findNextJob();
                     return;
                 }
-                appendLogText("Guiding completed witout error");
-                currentJob->setState(SchedulerJob::GUIDING_COMPLETE);
+
+                appendLogText(xi18n("%1 guiding is in progress...", currentJob->getName()));
+
+                currentJob->setStage(SchedulerJob::STAGE_GUIDING);
                 getNextAction();
                 return;
             }
-            else {
-                appendLogText("Error during calibration!");
-                currentJob->setState(SchedulerJob::ABORTED);
-                terminateJob(currentJob);
+            else
+            {
+                appendLogText(xi18n("%1 calibration failed!", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
                 return;
             }
         }
-        break;
+    }
+    break;
 
-    case SchedulerJob::CAPTURING:
-         replysequence = captureInterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
-         if(replysequence.value().toStdString()=="Aborted" || replysequence.value().toStdString()=="Error")
+    case SchedulerJob::STAGE_CAPTURING:
+    {
+         QDBusReply<QString> captureReply = captureInterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
+         if(captureReply.value().toStdString()=="Aborted" || captureReply.value().toStdString()=="Error")
          {
-             currentJob->setState(SchedulerJob::ABORTED);
-             terminateJob(currentJob);
+             appendLogText(xi18n("%1 capture failed!", currentJob->getName()));
+             currentJob->setState(SchedulerJob::JOB_ERROR);
+
+             findNextJob();
              return;
          }
-         if(replysequence.value().toStdString()=="Complete")
+
+         if(captureReply.value().toStdString()=="Complete")
          {
-             currentJob->setState(SchedulerJob::CAPTURING_COMPLETE);
-             updateJobInfo(currentJob);
+             currentJob->setState(SchedulerJob::JOB_COMPLETE);
+             currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
              captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
-             terminateJob(currentJob);
+             if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+                 guideInterface->call(QDBus::AutoDetect,"stopGuiding");
+
+             findNextJob();
              return;
          }
+    }
         break;
 
     default:
         break;
     }
-
-#endif
 }
 
 void Scheduler::getNextAction()
 {
-#if 0
-    switch(currentJob->getState())
+    switch(currentJob->getStage())
     {
 
-    case SchedulerJob::IDLE:
+    case SchedulerJob::STAGE_IDLE:
         startSlew();
-        updateJobInfo(currentJob);
         break;
 
-    case SchedulerJob::SLEW_COMPLETE:
-        if(currentJob->getFocusCheck())
+    case SchedulerJob::STAGE_SLEW_COMPLETE:
+        if  (currentJob->getModuleUsage() & SchedulerJob::USE_FOCUS)
             startFocusing();
-        else if(currentJob->getAlignCheck())
+        else if (currentJob->getModuleUsage() & SchedulerJob::USE_ALIGN)
             startAstrometry();
-        else if(currentJob->getGuideCheck())
-            startGuiding();
-        else startCapture();
-        updateJobInfo(currentJob);
+        else if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+            startCalibrating();
+        else
+            startCapture();
         break;
 
-    case SchedulerJob::FOCUSING_COMPLETE:
-        if(currentJob->getAlignCheck())
-            startAstrometry();
-        else if(currentJob->getGuideCheck())
-            startGuiding();
-        else startCapture();
-        updateJobInfo(currentJob);
+    case SchedulerJob::STAGE_FOCUS_COMPLETE:
+        if (currentJob->getModuleUsage() & SchedulerJob::USE_ALIGN)
+             startAstrometry();
+         else if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+             startCalibrating();
+         else
+             startCapture();
         break;
 
-    case SchedulerJob::ALIGNING_COMPLETE:
-        if(currentJob->getGuideCheck())
-            startGuiding();
-        else startCapture();
-        updateJobInfo(currentJob);
+    case SchedulerJob::STAGE_ALIGN_COMPLETE:
+        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+           startCalibrating();
+        else
+           startCapture();
         break;
 
-    case SchedulerJob::GUIDING_COMPLETE:
+    case SchedulerJob::STAGE_GUIDING:
         startCapture();
-        updateJobInfo(currentJob);
         break;
 
+     default:
+        break;
     }
-#endif
 }
 
+void Scheduler::stopEkosAction()
+{
+    switch(currentJob->getStage())
+    {
+    case SchedulerJob::STAGE_IDLE:
+        break;
+
+    case SchedulerJob::STAGE_SLEWING:
+        mountInterface->call(QDBus::AutoDetect,"abort");
+        break;
+
+    case SchedulerJob::STAGE_FOCUSING:
+        focusInterface->call(QDBus::AutoDetect,"abort");
+        break;
+
+    case SchedulerJob::STAGE_ALIGNING:
+       alignInterface->call(QDBus::AutoDetect,"abort");
+       break;
+
+    case SchedulerJob::STAGE_CALIBRATING:
+        guideInterface->call(QDBus::AutoDetect,"stopCalibration");
+    break;
+
+    case SchedulerJob::STAGE_CAPTURING:
+        captureInterface->call(QDBus::AutoDetect,"abort");
+        break;
+
+    default:
+        break;
+    }
+}
 
 void Scheduler::load()
 {
@@ -1255,88 +1317,110 @@ void Scheduler::load()
 
 void Scheduler::save()
 {
-#if 0
-    if(objects.length()==0){
-        QMessageBox::information(NULL, "Error", "No objects detected!");
-        return;
-    }
-
-    QFile file("SchedulerQueue.sch");
-    file.open(QIODevice::ReadWrite | QIODevice::Text);
-
-
-    QTextStream outstream(&file);
-
-    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-
-    outstream << "<Observable>" << endl;
-    foreach(SchedulerJob job, objects)
-    {
-
-         outstream << "<Object>" << endl;
-         outstream << "<Astrometry>" << job.getAlignCheck() << "</Astrometry>";
-         outstream << "<Guide>" << job.getGuideCheck() << "</Guide>";
-         outstream << "<Focus>" << job.getFocusCheck() << "</Focus>";
-         outstream << "<isFits>" << job.getIsFITSSelected() << "</isFits>";
-         outstream << "<Name>" << job.getName() << "</Name>";
-         outstream << "<RAValue>" << job.getNormalRA() << "</RAValue>";
-         outstream << "<DECValue>" << job.getNormalDEC() << "</DECValue>";
-         outstream << "<RA>" << job.getRA() << "</RA>";
-         outstream << "<DEC>" << job.getDEC() << "</DEC>";
-         outstream << "<Sequence>" << job.getFileName() << "</Sequence>";
-         outstream << "<NowCheck>" << job.getNowCheck() << "</NowCheck>";
-         outstream << "<SpecificTimeCheck>" << job.getSpecificTime() << "</SpecificTimeCheck>";
-         outstream << "<SpecificTimeValue>" << job.getStartTime() << "</SpecificTimeValue>";
-         outstream << "<Hours>" << job.getHours() << "</Hours>";
-         outstream << "<Minutes>" << job.getMinutes() << "</Minutes>";
-         outstream << "<Day>" << job.getDay() << "</Day>";
-         outstream << "<Month>" << job.getMonth() << "</Month>";
-         outstream << "<AltCheck>" << job.getSpecificAlt() << "</AltCheck>";
-         outstream << "<AltValue>" << job.getAlt() << "</AltValue>";
-         outstream << "<MoonSepCheck>" << job.getMoonSeparationCheck() << "</MoonSepCheck>";
-         outstream << "<MoonSepValue>" << job.getMoonSeparation() << "</MoonSepValue>";
-         outstream << "<WhenSeqCompletesCheck>" << job.getWhenSeqCompCheck() << "</WhenSeqCompletesCheck>";
-         outstream << "<FinishingTime>" <<job.getFinTime() << "</FinishingTime>";
-         outstream << "<EndOnSpecTime>" << job.getOnTimeCheck() << "</EndOnSpecTime>";
-         outstream << "<EndingHour>" << job.getFinishingHour() << "</EndingHour>";
-         outstream << "<EndingMinute>" << job.getFinishingMinute() << "</EndingMinute>";
-         outstream << "<EndingDay>" << job.getFinishingDay() << "</EndingDay>";
-         outstream << "<EndingMonth>" << job.getFinishingMonth() << "</EndingMonth>";
-        outstream << "</Object>" << endl;
-    }
-
-    outstream << "</Observable>" << endl;
-    file.close();
-#endif
+    // TODO
 }
-
-
-
-
 
 void Scheduler::startSlew()
 {
-   /* QList<QVariant> telescopeSLew;
-    telescopeSLew.append(currentJob->getOb()->ra().Hours());
-    telescopeSLew.append(currentJob->getOb()->dec().Degrees());
+    Q_ASSERT(currentJob != NULL);
+
+    SkyPoint target = currentJob->getTargetCoords();
+    //target.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
+
+    QList<QVariant> telescopeSLew;
+    telescopeSLew.append(target.ra().Hours());
+    telescopeSLew.append(target.dec().Degrees());
+
     mountInterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSLew);
-    currentJob->setState(SchedulerJob::SLEWING);*/
+
+    currentJob->setStage(SchedulerJob::STAGE_SLEWING);
 }
 
 void Scheduler::startFocusing()
 {
-    /*
+
+    QDBusMessage reply;
+
+    // We always need to reset frame first
+    if ( (reply = focusInterface->call(QDBus::AutoDetect,"resetFrame")).type() == QDBusMessage::ErrorMessage)
+    {
+        appendLogText(xi18n("resetFrame DBUS error: %1", reply.errorMessage()));
+        return;
+    }
+
+    // Set focus mode to auto (1)
     QList<QVariant> focusMode;
     focusMode.append(1);
-    focusInterface->call(QDBus::AutoDetect,"resetFrame");
-    focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
-    QList<QVariant> focusList;
-    focusList.append(true);
-    focusList.append(true);
-    focusInterface->callWithArgumentList(QDBus::AutoDetect,"setAutoFocusOptions",focusList);
-    focusInterface->call(QDBus::AutoDetect,"startFocus");
-    currentJob->setState(SchedulerJob::FOCUSING);
-    */
+
+    if ( (reply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode)).type() == QDBusMessage::ErrorMessage)
+    {
+        appendLogText(xi18n("setFocusMode DBUS error: %1", reply.errorMessage()));
+        return;
+    }
+
+    // Set autostar & use subframe
+    QList<QVariant> autoStar;
+    autoStar.append(true);
+    if ( (reply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setAutoFocusStar",autoStar)).type() == QDBusMessage::ErrorMessage)
+    {
+        appendLogText(xi18n("setAutoFocusStar DBUS error: %1", reply.errorMessage()));
+        return;
+    }
+
+    // Start auto-focus
+    if ( (reply = focusInterface->call(QDBus::AutoDetect,"start")).type() == QDBusMessage::ErrorMessage)
+    {
+        appendLogText(xi18n("startFocus DBUS error: %1", reply.errorMessage()));
+        return;
+    }
+
+    currentJob->setStage(SchedulerJob::STAGE_FOCUSING);
+
+}
+
+void Scheduler::findNextJob()
+{
+    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+
+    // Check completion criteria
+
+    // We're done whether the job completed successfully or not.
+    if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
+    {
+        currentJob->setState(SchedulerJob::JOB_COMPLETE);
+        currentJob = NULL;
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        return;
+    }
+
+    if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+    {
+        currentJob->setState(SchedulerJob::JOB_SCHEDULED);
+        currentJob->setStage(SchedulerJob::STAGE_IDLE);
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        return;
+    }
+
+    if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
+    {
+        if (currentJob->getCompletionTime().secsTo(KStarsData::Instance()->lt()) <= 0)
+        {
+            appendLogText(xi18n("%1 observation job reached completion time. Stopping...", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+            stopEkosAction();
+            currentJob = NULL;
+            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+            return;
+        }
+        else
+        {
+            appendLogText(xi18n("%1 observation job completed and will restart now...", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_SCHEDULED);
+            currentJob->setStage(SchedulerJob::STAGE_IDLE);
+            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+            return;
+        }
+    }
 }
 
 /*void Scheduler::terminateJob(SchedulerJob *o)
@@ -1356,40 +1440,38 @@ void Scheduler::startFocusing()
 
 void Scheduler::startAstrometry()
 {
-    /*
+
+    /* Why do we need to set it to offline all the time?
     QList<QVariant> astrometryArgs;
     astrometryArgs.append(false);
     alignInterface->callWithArgumentList(QDBus::AutoDetect,"setSolverType",astrometryArgs);
-    alignInterface->call(QDBus::AutoDetect,"captureAndSolve");
-    currentJob->setState(SchedulerJob::ALIGNING);
-    updateJobInfo(currentJob);
     */
+
+    alignInterface->call(QDBus::AutoDetect,"captureAndSolve");
+    currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
+
 }
 
-void Scheduler::startGuiding()
-{
-    /*
-    QDBusReply<bool> replyguide;
-    QDBusReply<bool> replyguide2;
+void Scheduler::startCalibrating()
+{        
+    // Make sure calibration is auto
     QList<QVariant> guideArgs;
     guideArgs.append(true);
-    guideArgs.append(true);
-    guideArgs.append(true);
-    guideInterface->callWithArgumentList(QDBus::AutoDetect,"setCalibrationOptions",guideArgs);
-        replyguide = guideInterface->call(QDBus::AutoDetect,"startCalibration");
-        if(!replyguide.value())
-            currentJob->setState(SchedulerJob::ABORTED);
-        else currentJob->setState(SchedulerJob::GUIDING);
-        updateJobInfo(currentJob);
+    guideInterface->callWithArgumentList(QDBus::AutoDetect,"setCalibrationAuto",guideArgs);
 
-        */
+
+    QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startCalibration");
+    if (guideReply.value() == false)
+        currentJob->setState(SchedulerJob::JOB_ERROR);
+    else
+        currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
 }
 
 void Scheduler::startCapture()
 {
-    /*
-    QString url = currentJob->getFileName();
-    QList<QVariant> dbusargs;
+    QString url = currentJob->getSequenceFile().toString(QUrl::PreferLocalFile);
+
+   /*
     // convert to an url
     QRegExp withProtocol(QStringLiteral("^[a-zA-Z]+:"));
     if (withProtocol.indexIn(url) == 0)
@@ -1400,12 +1482,17 @@ void Scheduler::startCapture()
     {
         const QString path = QDir::current().absoluteFilePath(url);
         dbusargs.append(QUrl::fromLocalFile(path).toString());
-    }
+    }*/
 
+    QList<QVariant> dbusargs;
+    dbusargs.append(url);
     captureInterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",dbusargs);
-    captureInterface->call(QDBus::AutoDetect,"startSequence");
-    currentJob->setState(SchedulerJob::CAPTURING);
-    */
+
+    captureInterface->call(QDBus::AutoDetect,"start");
+
+    currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+
+    appendLogText(xi18n("%1 capture is in progress...", currentJob->getName()));
 }
 
 void Scheduler::stopGuiding()
@@ -1431,7 +1518,7 @@ void Scheduler::startFITSSolving()
     solveArgs.append(currentJob->getFITSFile().path());
     solveArgs.append(false);
     setGOTOMode(2);
-    alignInterface->callWithArgumentList(QDBus::AutoDetect,"startSovling",solveArgs);
+    alignInterface->callWithArgumentList(QDBus::AutoDetect,"start",solveArgs);
 
     appendLogText(xi18n("Solving %1 ...", currentJob->getFITSFile().fileName()));
 }
@@ -1452,9 +1539,6 @@ void Scheduler::getFITSAstrometryResults()
     appendLogText(xi18n("%1 FITS solution results are RA: %2 DEC: %3", currentJob->getName(), ra.toHMSString(), de.toDMSString()));
 }
 
-
-
-
 void Scheduler::stopINDI()
 {
    /* if(iterations==objects.length()){
@@ -1465,187 +1549,6 @@ void Scheduler::stopINDI()
         disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
     }*/
 }
-
-
-
-/*
-void Scheduler::getNextFITSAction()
-{
-    switch(currentFITSjob->getSolverState())
-    {
-    case SchedulerJob::TO_BE_SOLVED:
-        startSolving();
-        break;
-
-    case SchedulerJob::SOLVING_COMPLETE:
-        getResults();
-        setGOTOMode(1);
-        break;
-    }
-}
-
-void Scheduler::checkFITSStatus()
-{
-    QDBusReply<bool> ekosIsStarted;
-    QDBusReply<bool> replyconnect;
-    QDBusReply<bool> replySolveSuccesful;
-    if(currentFITSjob == NULL)
-        return;
-    switch(state)
-    {
-    case Scheduler::IDLE:
-        startEkos();
-        state = STARTING_EKOS;
-        return;
-    case Scheduler::STARTING_EKOS:
-        ekosIsStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-        if(ekosIsStarted.value()==2)
-        {
-            appendLogText("Ekos started");
-            state = EKOS_STARTED;
-        }
-        else if(ekosIsStarted.value()==3){
-            appendLogText("Ekos start error!");
-            currentJob->setState(SchedulerJob::ABORTED);
-            terminateJob(currentJob);
-            return;
-        }
-        return;
-
-    case Scheduler::EKOS_STARTED:
-        connectDevices();
-        state = CONNECTING;
-        return;
-
-    case Scheduler::CONNECTING:
-        replyconnect = ekosInterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
-        if(replyconnect.value()==2)
-        {
-            appendLogText("Devices connected");
-            state=READY;
-            break;
-        }
-        else if(replyconnect.value()==3)
-        {
-            appendLogText("Ekos start error!");
-            currentJob->setState(SchedulerJob::ABORTED);
-            terminateJob(currentJob);
-            return;
-        }
-        else return;
-
-    default:
-        break;
-    }
-
-    QDBusReply<bool> replySolve;
-
-    switch(currentFITSjob->getSolverState()){
-    case SchedulerJob::TO_BE_SOLVED:
-        getNextFITSAction();
-        break;
-
-    case SchedulerJob::SOLVING:
-        replySolve = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
-        qDebug()<<replySolve;
-        if(replySolve.value()){
-            replySolveSuccesful = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
-            if(replySolveSuccesful.value()){
-                appendLogText("Solver is Successful");
-                currentFITSjob->setSolverState(SchedulerJob::SOLVING_COMPLETE);
-                getNextFITSAction();
-                terminateFITSJob(currentFITSjob);
-            }
-            else{
-                currentFITSjob->setSolverState(SchedulerJob::ERROR);
-                appendLogText("Solver encountered an error");
-                terminateFITSJob(currentFITSjob);
-            }
-            return;
-        }
-        break;
-    default:
-        break;
-    }
-
-}
-
-void Scheduler::terminateFITSJob(SchedulerJob *value){
-     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkFITSStatus()));
-     int i,ok=0;
-     for(i=0;i<objects.length();i++){
-         if(objects[i].getSolverState()==SchedulerJob::TO_BE_SOLVED)
-             ok=1;
-     }
-     if(ok==1)
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(solveFITSAction()));
-     else pi->stopAnimation();
-}
-
-void Scheduler::processFITS(SchedulerJob *value){
-    currentFITSjob = value;
-    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(solveFITSAction()));
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkFITSStatus()));
-}
-
-void Scheduler::solveFITSAction(){
-    int i;
-    for(i=0;i<objects.length();i++)
-    {
-        if(objects.at(i).getSolverState()==SchedulerJob::TO_BE_SOLVED)
-        {
-            processFITS(&objects[i]);
-        }
-    }
-}
-
-void Scheduler::solveFITS(){
-    int i;
-    bool doSolve = false;
-    if(objects.length()==0)
-    {
-        QMessageBox::information(NULL, "Error", "No objects detected!");
-        return;
-    }
-    for(i=0;i<objects.length();i++)
-        if(objects.at(i).getSolverState()==SchedulerJob::TO_BE_SOLVED)
-            doSolve = true;
-    if(!doSolve){
-        QMessageBox::information(NULL, "Error", "No FITS object detected!");
-        return;
-    }
-    pi->startAnimation();
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(solveFITSAction()));
-}
-
-
-void Scheduler::removeFromQueue()
-{
-    if(objects.length()==0)
-    {
-        QMessageBox::information(NULL, "Error", "No objects detected!");
-        return;
-    }
-    int row = schedulerQueueTable->currentRow();
-    if (row < 0)
-    {
-        row = schedulerQueueTable->rowCount()-1;
-        if (row < 0)
-            return;
-    }
-    schedulerQueueTable->removeRow(row);
-    objects.remove(objects.at(row).getRowNumber());
-    for(int i = row; i<objects.length();i++)
-        objects[i].setRowNumber(objects.at(i).getRowNumber()-1);
-    tableCountRow--;
-    if(tableCountRow==0){
-        startButton->setEnabled(false);
-        solveFITSB->setEnabled(false);
-    }
-}
-
-*/
-
 
 }
 

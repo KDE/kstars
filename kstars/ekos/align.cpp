@@ -76,7 +76,7 @@ Align::Align()
     offlineParser = NULL;
 
     connect(solveB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
-    connect(stopB, SIGNAL(clicked()), this, SLOT(stopSolving()));
+    connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
     connect(polarR, SIGNAL(toggled(bool)), this, SLOT(checkPolarAlignment()));
@@ -756,7 +756,7 @@ void Align::solverFailed()
     emit solverComplete(false);
 }
 
-void Align::stopSolving()
+void Align::abort()
 {
     parser->stopSolver();
     pi->stopAnimation();

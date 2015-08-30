@@ -70,7 +70,7 @@ public:
      /**
       * @brief startGuiding After ekos is fed the calibration options, we start the guiging process
       */
-     void startGuiding();
+     void startCalibrating();
      /**
       * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
       */
@@ -146,10 +146,21 @@ public slots:
      void resetJobEdit();
 
      /**
-      * @brief checkJobStatus This will run each second until it is diconnected. Thus, it will decide the state of the
-      * scheduler at the present moment making sure all the pending operations are resolved.
+      * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
       */
      void checkStatus();
+
+     /**
+      * @brief checkJobStage Check the progress of the job states and make DBUS call to start the next stage until the job is complete.
+      */
+     void checkJobStage();
+
+     /**
+      * @brief findNextJob Check if the job met the completion criteria, and if it did, then it search for next job candidate. If no jobs are found, it starts the shutdown stage.
+      */
+     void findNextJob();
+
+     void stopEkosAction();
 
 
 #if 0
@@ -197,7 +208,7 @@ private:
          * checkJobStatus slot will be connected in order to figure the exact state of the current job each second
          * @param value
          */
-        void executeJob(SchedulerJob *value);
+        void executeJob(SchedulerJob *job);
 
         int16_t getDarkSkyScore(const QTime & observationTime);
         int16_t getAltitudeScore(SchedulerJob *job, const SkyPoint & target);
