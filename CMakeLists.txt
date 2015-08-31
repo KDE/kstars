@@ -1,6 +1,6 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 2)
-set (KStars_VERSION_MINOR 3)
+set (KStars_VERSION_MINOR 4)
 set (KStars_VERSION_REVISION 0)
 
 # minimal requirements
