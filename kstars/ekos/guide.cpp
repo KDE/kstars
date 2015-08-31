@@ -279,8 +279,19 @@ void Guide::addST4(ISD::ST4 *newST4)
     ST4List.append(newST4);
 
     ST4Driver = ST4List.at(0);
-    GuideDriver = ST4Driver;
     ST4Combo->setCurrentIndex(0);
+
+    for (int i=0; i < ST4List.count(); i++)
+    {
+        if (ST4List.at(i)->getDeviceName() == Options::sT4Driver())
+        {
+           ST4Driver = ST4List.at(i);
+           ST4Combo->setCurrentIndex(i);
+           break;
+        }
+    }
+
+    GuideDriver = ST4Driver;
 
 }
 
@@ -520,6 +531,9 @@ void Guide::newST4(int index)
         return;
 
     ST4Driver = ST4List.at(index);
+
+    Options::setST4Driver(ST4Driver->getDeviceName());
+
     GuideDriver = ST4Driver;
 
 }

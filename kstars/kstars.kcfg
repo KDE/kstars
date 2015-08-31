@@ -1586,6 +1586,9 @@
           </entry>
     </group>
     <group name="Guide">
+    <entry name="ST4Driver" type="String">
+        <label>Default ST4 Driver.</label>
+    </entry>
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>
