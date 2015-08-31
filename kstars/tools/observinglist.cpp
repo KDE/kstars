@@ -596,7 +596,7 @@ void ObservingList::slotSlewToObject()
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
     if ( currentObject() ) {
-        QPointer<DetailDialog> dd = new DetailDialog( currentObject(), KStarsData::Instance()->lt(), geo, KStars::Instance() );
+        QPointer<DetailDialog> dd = new DetailDialog( currentObject(), KStarsData::Instance()->ut(), geo, KStars::Instance() );
         dd->exec();
         delete dd;
     }
