@@ -1990,7 +1990,9 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
                       if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
                       {
                          autofocusCheck->setChecked(true);
-                         HFRPixels->setValue(atof(pcdataXMLEle(ep)));
+                         float HFRValue = atof(pcdataXMLEle(ep));
+                         if (HFRValue > 0)
+                            HFRPixels->setValue(HFRValue);
                       }
                      else
                          autofocusCheck->setChecked(false);
