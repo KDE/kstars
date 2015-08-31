@@ -101,7 +101,7 @@ void StarHopperDialog::slotGoto() {
 void StarHopperDialog::slotDetails() {
     SkyObject *skyobj = getStarData( m_lw->currentItem() );
     if ( skyobj ) {
-        DetailDialog *detailDialog = new DetailDialog( skyobj, KStarsData::Instance()->lt(), KStarsData::Instance()->geo(), KStars::Instance());
+        DetailDialog *detailDialog = new DetailDialog( skyobj, KStarsData::Instance()->ut(), KStarsData::Instance()->geo(), KStars::Instance());
         detailDialog->exec();
         delete detailDialog;
     }

@@ -464,7 +464,7 @@ void WUTDialog::slotDetails() {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if (o != 0) {
-        QPointer<DetailDialog> detail = new DetailDialog(o, kstars->data()->lt(), geo, kstars);
+        QPointer<DetailDialog> detail = new DetailDialog(o, kstars->data()->ut(), geo, kstars);
         detail->exec();
 	delete detail;
     }
