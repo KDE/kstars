@@ -31,6 +31,7 @@ KStarsDateTime::KStarsDateTime() : QDateTime()
 KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : QDateTime()
 {
     setDJD( kdt.djd() );
+    setUtcOffset(kdt.utcOffset());
 }
 
 /*KStarsDateTime::KStarsDateTime( const QDateTime &kdt ) :
@@ -50,6 +51,7 @@ KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
     QDate _d = qdt.date();
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
+    setUtcOffset(qdt.utcOffset());
 }
 
 KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t ) :
