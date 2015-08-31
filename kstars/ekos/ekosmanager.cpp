@@ -2145,7 +2145,7 @@ void EkosManager::initGuide()
         // Dithering
         connect(guideProcess, SIGNAL(autoGuidingToggled(bool,bool)), captureProcess, SLOT(setAutoguiding(bool,bool)));
         connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
-        connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(stopSequence()));
+        connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(abort()));
         connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));        
         connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
