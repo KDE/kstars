@@ -118,8 +118,8 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 
     if (mode == FITS_NORMAL && progress)
     {
-        progress->setLabelText(xi18n("Please hold while loading FITS file..."));
-        progress->setWindowTitle(xi18n("Loading FITS"));
+        progress->setLabelText(i18n("Please hold while loading FITS file..."));
+        progress->setWindowTitle(i18n("Loading FITS"));
     }
 
     if (mode == FITS_NORMAL && progress)
@@ -149,7 +149,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         if (progress)
-            KMessageBox::error(0, xi18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), xi18n("FITS Open"));
+            KMessageBox::error(0, i18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), i18n("FITS Open"));
         return false;
     }
 
@@ -167,14 +167,14 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
         fits_get_errstatus(status, error_status);
 
         if (progress)
-            KMessageBox::error(0, xi18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), xi18n("FITS Open"));
+            KMessageBox::error(0, i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
         return false;
     }
 
     if (stats.ndim < 2)
     {
         if (progress)
-            KMessageBox::error(0, xi18n("1D FITS images are not supported in KStars."), xi18n("FITS Open"));
+            KMessageBox::error(0, i18n("1D FITS images are not supported in KStars."), i18n("FITS Open"));
         return false;
     }
 
@@ -198,7 +198,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
         case -64:
              data_type = TDOUBLE;
         default:
-            KMessageBox::error(NULL, xi18n("Bit depth %1 is not supported.", stats.bitpix), xi18n("FITS Open"));
+            KMessageBox::error(NULL, i18n("Bit depth %1 is not supported.", stats.bitpix), i18n("FITS Open"));
             return false;
             break;
     }
@@ -209,7 +209,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         if (progress)
-            KMessageBox::error(0, xi18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), xi18n("FITS Open"));
+            KMessageBox::error(0, i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), i18n("FITS Open"));
         return false;
     }
 
@@ -260,7 +260,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     {
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
-        KMessageBox::error(NULL, xi18n("Error reading image: %1", QString(errmsg)), xi18n("FITS Open"));
+        KMessageBox::error(NULL, i18n("Error reading image: %1", QString(errmsg)), i18n("FITS Open"));
         fits_report_error(stderr, status);
         return false;
     }
@@ -346,7 +346,7 @@ int FITSData::saveFITS( const QString &newFilename )
     nelements = stats.size * channels;
 
     if (HasDebayer)
-    if (KMessageBox::warningContinueCancel(NULL, xi18n("Are you sure you want to overwrite original image data with debayered data? This action is irreversible!"), xi18n("Save FITS")) != KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel(NULL, i18n("Are you sure you want to overwrite original image data with debayered data? This action is irreversible!"), i18n("Save FITS")) != KMessageBox::Continue)
         return -1000;
 
     /* Create a new File, overwriting existing*/
@@ -1980,7 +1980,7 @@ bool FITSData::checkDebayer()
 
   if (stats.bitpix != 16 && stats.bitpix != 8)
   {
-      KMessageBox::error(NULL, xi18n("Only 8 and 16 bits bayered images supported."), xi18n("Debayer error"));
+      KMessageBox::error(NULL, i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
       return false;
   }
   QString pattern(bayerPattern);
@@ -2005,7 +2005,7 @@ bool FITSData::checkDebayer()
   bayer_buffer = new float[stats.size * channels];
   if (bayer_buffer == NULL)
   {
-      KMessageBox::error(NULL, xi18n("Unable to allocate memory for bayer buffer."), xi18n("Open FITS"));
+      KMessageBox::error(NULL, i18n("Unable to allocate memory for bayer buffer."), i18n("Open FITS"));
       return false;
   }
   memcpy(bayer_buffer, image_buffer, stats.size * channels * sizeof(float));
@@ -2040,14 +2040,14 @@ bool FITSData::debayer()
     float * dst = new float[rgb_size];
     if (dst == NULL)
     {
-        KMessageBox::error(NULL, xi18n("Unable to allocate memory for temporary bayer buffer."), xi18n("Debayer Error"));
+        KMessageBox::error(NULL, i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer Error"));
         return false;
     }
 
     if ( (error_code = dc1394_bayer_decoding_float(bayer_buffer, dst, stats.width, stats.height, debayerParams.offsetX, debayerParams.offsetY,
                                                    debayerParams.filter, debayerParams.method)) != DC1394_SUCCESS)
     {
-        KMessageBox::error(NULL, xi18n("Debayer failed (%1)", error_code), xi18n("Debayer error"));
+        KMessageBox::error(NULL, i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
         channels=1;
         delete[] dst;
         //Restore buffer
@@ -2065,7 +2065,7 @@ bool FITSData::debayer()
         if (image_buffer == NULL)
         {
             delete[] dst;
-            KMessageBox::error(NULL, xi18n("Unable to allocate memory for debayerd buffer."), xi18n("Debayer Error"));
+            KMessageBox::error(NULL, i18n("Unable to allocate memory for debayerd buffer."), i18n("Debayer Error"));
             return false;
         }
     }

@@ -18,7 +18,7 @@ SchedulerJob::SchedulerJob()
     completionCondition = FINISH_SEQUENCE;
     moduleUsage         = USE_NONE;
     state               = JOB_IDLE;
-    fitsState           = FITS_IDLE;
+    //fitsState           = FITS_IDLE;
     stage               = STAGE_IDLE;
 
     statusCell          = NULL;
@@ -169,38 +169,38 @@ void SchedulerJob::setState(const JOBStatus &value)
     switch (state)
     {
         case JOB_IDLE:
-            statusCell->setText(xi18n("Idle"));
+            statusCell->setText(i18n("Idle"));
             break;
 
         case JOB_EVALUATION:
-            statusCell->setText(xi18n("Evaluating"));
+            statusCell->setText(i18n("Evaluating"));
             break;
 
         case JOB_SCHEDULED:
-            statusCell->setText(xi18n("Scheduled"));
+            statusCell->setText(i18n("Scheduled"));
             break;
 
         case JOB_BUSY:
-            statusCell->setText(xi18n("Running"));
+            statusCell->setText(i18n("Running"));
             break;
 
         case JOB_INVALID:
-            statusCell->setText(xi18n("Invalid"));                                   
+            statusCell->setText(i18n("Invalid"));
             break;
 
         case JOB_COMPLETE:
-            statusCell->setText(xi18n("Complete"));
+            statusCell->setText(i18n("Complete"));
             break;
 
         default:
-            statusCell->setText(xi18n("Unknown"));
+            statusCell->setText(i18n("Unknown"));
             break;
 
 
     }
 }
 
-SchedulerJob::FITSStatus SchedulerJob::getFITSState() const
+/*SchedulerJob::FITSStatus SchedulerJob::getFITSState() const
 {
     return fitsState;
 }
@@ -212,21 +212,22 @@ void SchedulerJob::setFITSState(const FITSStatus &value)
     switch (fitsState)
     {
         case FITS_SOLVING:
-            statusCell->setText(xi18n("Solving FITS"));
+            statusCell->setText(i18n("Solving FITS"));
             break;
 
         case FITS_ERROR:
-            statusCell->setText(xi18n("Solver failed"));
+            statusCell->setText(i18n("Solver failed"));
             break;
 
         case FITS_COMPLETE:
-            statusCell->setText(xi18n("Solver completed"));
+            statusCell->setText(i18n("Solver completed"));
             break;
 
         default:
         break;
     }
-}
+}*/
+
 int SchedulerJob::getScore() const
 {
     return score;
@@ -271,39 +272,39 @@ void SchedulerJob::setStage(const JOBStage &value)
     switch (stage)
     {
         case STAGE_SLEWING:
-            statusCell->setText(xi18n("Slewing"));
+            statusCell->setText(i18n("Slewing"));
             break;
 
         case STAGE_SLEW_COMPLETE:
-            statusCell->setText(xi18n("Slew complete"));
+            statusCell->setText(i18n("Slew complete"));
             break;
 
         case STAGE_FOCUSING:
-            statusCell->setText(xi18n("Focusing"));
+            statusCell->setText(i18n("Focusing"));
             break;
 
         case STAGE_FOCUS_COMPLETE:
-            statusCell->setText(xi18n("Focus complete"));
+            statusCell->setText(i18n("Focus complete"));
             break;
 
         case STAGE_ALIGNING:
-            statusCell->setText(xi18n("Aligning"));
+            statusCell->setText(i18n("Aligning"));
             break;
 
         case STAGE_ALIGN_COMPLETE:
-            statusCell->setText(xi18n("Align complete"));
+            statusCell->setText(i18n("Align complete"));
             break;
 
         case STAGE_CALIBRATING:
-            statusCell->setText(xi18n("Calibrating"));
+            statusCell->setText(i18n("Calibrating"));
             break;
 
         case STAGE_GUIDING:
-            statusCell->setText(xi18n("Guiding"));
+            statusCell->setText(i18n("Guiding"));
             break;
 
         case STAGE_CAPTURING:
-            statusCell->setText(xi18n("Capturing"));
+            statusCell->setText(i18n("Capturing"));
             break;
 
         default:

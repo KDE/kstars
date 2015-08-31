@@ -68,7 +68,7 @@ public:
       *@param c color of the symbol to use for this planet
       *@param pSize the planet's physical size, in km
       */
-    explicit KSPlanetBase( const QString &s = xi18n("unnamed"),
+    explicit KSPlanetBase( const QString &s = i18n("unnamed"),
                            const QString &image_file=QString(),
                            const QColor &c=Qt::white, double pSize=0 );
 

@@ -114,7 +114,7 @@ ImageViewer::ImageViewer ( QString FileName, QWidget *parent ) :
 void ImageViewer::init(QString caption, QString capText) {
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
-    setWindowTitle( xi18n( "KStars image viewer: %1", caption ) );
+    setWindowTitle( i18n( "KStars image viewer: %1", caption ) );
 
     // Create widget
     QFrame* page = new QFrame( this );
@@ -128,10 +128,10 @@ void ImageViewer::init(QString caption, QString capText) {
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *invertB = new QPushButton(xi18n("Invert colors"));
-    invertB->setToolTip(xi18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving."));
-    QPushButton *saveB   = new QPushButton(QIcon::fromTheme("document-save"), xi18n("Save"));
-    saveB->setToolTip(xi18n("Save the image to disk"));
+    QPushButton *invertB = new QPushButton(i18n("Invert colors"));
+    invertB->setToolTip(i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving."));
+    QPushButton *saveB   = new QPushButton(QIcon::fromTheme("document-save"), i18n("Save"));
+    saveB->setToolTip(i18n("Save the image to disk"));
 
     buttonBox->addButton(invertB, QDialogButtonBox::ActionRole);
     buttonBox->addButton(saveB, QDialogButtonBox::ActionRole);
@@ -208,7 +208,7 @@ void ImageViewer::showImage()
 {
     QImage image;
     if( !image.load( file.fileName() )) {
-        QString text = xi18n ("Loading of the image %1 failed.", m_ImageUrl.url());
+        QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.url());
         KMessageBox::error (this, text);
         close();
         return;
@@ -255,16 +255,16 @@ void ImageViewer::saveFileToDisc()
     QFileDialog dialog;
     dialog.selectFile(m_ImageUrl.fileName().remove(m_ImageUrl.path()));
     dialog.setFileMode(QFileDialog::AnyFile);
-    QUrl newURL = dialog.getSaveFileUrl(KStars::Instance(), xi18n("Save Image")); // save-dialog with default filename
+    QUrl newURL = dialog.getSaveFileUrl(KStars::Instance(), i18n("Save Image")); // save-dialog with default filename
     if (!newURL.isEmpty())
     {
         QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() + '/' +  newURL.fileName());
         if (f.exists())
         {
             int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
-                    xi18n( "A file named \"%1\" already exists. "
+                    i18n( "A file named \"%1\" already exists. "
                           "Overwrite it?" , newURL.fileName()),
-                    xi18n( "Overwrite File?" ),
+                    i18n( "Overwrite File?" ),
                     KStandardGuiItem::overwrite() );
             if(r==KMessageBox::Cancel) return;
 
@@ -282,11 +282,11 @@ void ImageViewer::saveFile (QUrl &url) {
     tmpURL.setScheme("file");
     if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
-        QString text = xi18n ("Saving of the image %1 failed.", url.toString());
+        QString text = i18n ("Saving of the image %1 failed.", url.toString());
         KMessageBox::error (this, text);
     }
     else
-        KStars::Instance()->statusBar()->showMessage(xi18n ("Saved image to %1", url.toString()));
+        KStars::Instance()->statusBar()->showMessage(i18n ("Saved image to %1", url.toString()));
 }
 
 void ImageViewer::invertColors() {

@@ -53,7 +53,7 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) :
 AltVsTime::AltVsTime( QWidget* parent)  :
     QDialog( parent )
 {
-    setWindowTitle(xi18n( "Altitude vs. Time" ) );
+    setWindowTitle(i18n( "Altitude vs. Time" ) );
 
     setModal( false );
 
@@ -66,11 +66,11 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
     avtUI->View->setShowGrid( false );
     avtUI->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
-    avtUI->View->axis(KPlotWidget::BottomAxis)->setLabel( xi18n( "Local Time" ) );
+    avtUI->View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
     avtUI->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
     avtUI->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
-    avtUI->View->axis(KPlotWidget::TopAxis)->setLabel( xi18n( "Local Sidereal Time" ) );
-    avtUI->View->axis(KPlotWidget::LeftAxis)->setLabel( xi18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
+    avtUI->View->axis(KPlotWidget::TopAxis)->setLabel( i18n( "Local Sidereal Time" ) );
+    avtUI->View->axis(KPlotWidget::LeftAxis)->setLabel( i18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
 
     avtUI->raBox->setDegType( false );
     avtUI->decBox->setDegType( true );
@@ -86,8 +86,8 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     topLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), xi18n("&Print..."));
-    printB->setToolTip(xi18n("Print the Altitude vs. time plot"));
+    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), i18n("&Print..."));
+    printB->setToolTip(i18n("Print the Altitude vs. time plot"));
     buttonBox->addButton(printB, QDialogButtonBox::ActionRole);
     connect(printB, SIGNAL(clicked()), this, SLOT(slotPrint()));
 
@@ -542,7 +542,7 @@ void AltVsTime::slotPrint()
     //QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
     //QPointer<QPrintDialog> dialog( &printer, this );
     QPrintDialog dialog( &printer, this );
-    dialog.setWindowTitle( xi18n( "Print elevation vs time plot" ) );
+    dialog.setWindowTitle( i18n( "Print elevation vs time plot" ) );
     if ( dialog.exec() == QDialog::Accepted ) {
         // Change mouse cursor
         QApplication::setOverrideCursor( Qt::WaitCursor );
@@ -555,7 +555,7 @@ void AltVsTime::slotPrint()
         plot_size = avtUI->View->size();
 
         // Set text legend
-        str_legend = xi18n( "Elevation vs. Time Plot" );
+        str_legend = i18n( "Elevation vs. Time Plot" );
         str_legend += "\n";
         str_legend += geo->fullName();
         str_legend += " - ";

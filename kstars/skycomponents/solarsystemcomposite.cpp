@@ -37,7 +37,7 @@
 SolarSystemComposite::SolarSystemComposite(SkyComposite *parent ) :
     SkyComposite(parent)
 {
-    emitProgressText( xi18n("Loading solar system" ) );
+    emitProgressText( i18n("Loading solar system" ) );
     m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
     m_Sun = new KSSun();

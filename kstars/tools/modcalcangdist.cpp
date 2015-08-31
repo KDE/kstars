@@ -100,11 +100,11 @@ void modCalcAngDist::slotObjectButton() {
         if ( sender()->objectName() == QString("FirstObjectButton") ) {
             FirstRA->showInHours( o->ra() );
             FirstDec->showInDegrees( o->dec() );
-            FirstPositionBox->setTitle( xi18n("First position: %1", o->name()) );
+            FirstPositionBox->setTitle( i18n("First position: %1", o->name()) );
         } else {
             SecondRA->showInHours( o->ra() );
             SecondDec->showInDegrees( o->dec() );
-            SecondPositionBox->setTitle( xi18n("Second position: %1", o->name()) );
+            SecondPositionBox->setTitle( i18n("Second position: %1", o->name()) );
         }
 
         slotValidatePositions();
@@ -115,9 +115,9 @@ void modCalcAngDist::slotObjectButton() {
 void modCalcAngDist::slotResetTitle() {
     QString name = sender()->objectName();
     if ( name.contains( "First" ) )
-        FirstPositionBox->setTitle( xi18n("First position") );
+        FirstPositionBox->setTitle( i18n("First position") );
     else
-        SecondPositionBox->setTitle( xi18n("Second position") );
+        SecondPositionBox->setTitle( i18n("Second position") );
 }
 
 void modCalcAngDist::slotRunBatch() {
@@ -129,8 +129,8 @@ void modCalcAngDist::slotRunBatch() {
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
         if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = xi18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             inputFileName.clear();
             return;
         }
@@ -141,8 +141,8 @@ void modCalcAngDist::slotRunBatch() {
         //		readFile( istream );
         f.close();
     } else  {
-        QString message = xi18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid file" ) );
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         inputFileName.clear();
         InputLineEditBatch->setText( inputFileName );
         return;

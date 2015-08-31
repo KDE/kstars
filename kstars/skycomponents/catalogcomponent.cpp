@@ -47,7 +47,7 @@ CatalogComponent::~CatalogComponent() {
 }
 
 void CatalogComponent::loadData() {
-    emitProgressText( xi18n("Loading custom catalog: %1", m_catName ) );
+    emitProgressText( i18n("Loading custom catalog: %1", m_catName ) );
 
     QList < QPair <int, QString> > names;
 

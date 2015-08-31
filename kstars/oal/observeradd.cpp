@@ -35,7 +35,7 @@ ObserverAdd::ObserverAdd() {
     mainLayout->addWidget(widget);
     setLayout(mainLayout);
 
-    setWindowTitle( xi18n( "Manage Observers" ) );
+    setWindowTitle( i18n( "Manage Observers" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
@@ -98,7 +98,7 @@ void ObserverAdd::slotRemoveObserver(){
 
 void ObserverAdd::slotAddObserver() {
     if (KStarsData::Instance()->userdb()->FindObserver(ui.Name->text(),ui.Surname->text())){
-        if( OAL::warningOverwrite( xi18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;
+        if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;
     }
 
     KStarsData::Instance()->userdb()->AddObserver(ui.Name->text(),ui.Surname->text(),ui.Contact->text());

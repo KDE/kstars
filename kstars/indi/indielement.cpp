@@ -84,7 +84,7 @@ INDI_E::~INDI_E()
 void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
 {
     name  = sw->name;
-    label = xi18nc(libindi_strings_context, sw->label);
+    label = i18nc(libindi_strings_context, sw->label);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = sw->label;
@@ -92,7 +92,7 @@ void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
     sp = sw;
 
     if (label.isEmpty())
-        label = xi18nc(libindi_strings_context, sw->name);
+        label = i18nc(libindi_strings_context, sw->name);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = sw->name;
@@ -149,7 +149,7 @@ void INDI_E::buildText(IText *itp)
 {
     name  = itp->name;
     if (itp->label[0])
-        label = xi18nc(libindi_strings_context, itp->label);
+        label = i18nc(libindi_strings_context, itp->label);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = itp->label;
@@ -157,7 +157,7 @@ void INDI_E::buildText(IText *itp)
     tp = itp;
 
     if (label.isEmpty())
-        label = xi18nc(libindi_strings_context, itp->name);
+        label = i18nc(libindi_strings_context, itp->name);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = itp->name;
@@ -165,7 +165,7 @@ void INDI_E::buildText(IText *itp)
     setupElementLabel();
 
     if (tp->text[0])
-        text = xi18nc(libindi_strings_context, tp->text);
+        text = i18nc(libindi_strings_context, tp->text);
 
     switch (dataProp->getPermission())
     {
@@ -274,7 +274,7 @@ void INDI_E::syncText()
     if (tp == NULL)
         return;
 
-    read_w->setText(xi18nc(libindi_strings_context, tp->text));
+    read_w->setText(i18nc(libindi_strings_context, tp->text));
 
 }
 
@@ -354,7 +354,7 @@ void INDI_E::setText(const QString &newText)
 void INDI_E::buildBLOB(IBLOB *ibp)
 {
     name  = ibp->name;
-    label = xi18nc(libindi_strings_context, ibp->label);
+    label = i18nc(libindi_strings_context, ibp->label);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = ibp->label;
@@ -362,14 +362,14 @@ void INDI_E::buildBLOB(IBLOB *ibp)
     bp = ibp;
 
     if (label.isEmpty())
-        label = xi18nc(libindi_strings_context, ibp->name);
+        label = i18nc(libindi_strings_context, ibp->name);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = ibp->name;
 
     setupElementLabel();
 
-    text = xi18n("INDI DATA STREAM");
+    text = i18n("INDI DATA STREAM");
 
     switch (dataProp->getPermission())
     {
@@ -399,7 +399,7 @@ void INDI_E::buildNumber  (INumber *inp)
     char iNumber[MAXINDIFORMAT];
 
     name  = inp->name;
-    label = xi18nc(libindi_strings_context, inp->label);
+    label = i18nc(libindi_strings_context, inp->label);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = inp->label;
@@ -407,7 +407,7 @@ void INDI_E::buildNumber  (INumber *inp)
     np = inp;
 
     if (label.isEmpty())
-        label = xi18nc(libindi_strings_context, inp->name);
+        label = i18nc(libindi_strings_context, inp->name);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = inp->name;
@@ -453,7 +453,7 @@ void INDI_E::buildNumber  (INumber *inp)
 void INDI_E::buildLight(ILight *ilp)
 {
     name  = ilp->name;
-    label = xi18nc(libindi_strings_context, ilp->label);
+    label = i18nc(libindi_strings_context, ilp->label);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = ilp->label;
@@ -461,7 +461,7 @@ void INDI_E::buildLight(ILight *ilp)
     lp = ilp;
 
     if (label.isEmpty())
-        label = xi18nc(libindi_strings_context, ilp->name);
+        label = i18nc(libindi_strings_context, ilp->name);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = ilp->name;
@@ -670,7 +670,7 @@ void INDI_E::browseBlob()
 
     if (!fp.open(QIODevice::ReadOnly))
     {
-        KMessageBox::error(0, xi18n("Cannot open file %1 for reading", filename));
+        KMessageBox::error(0, i18n("Cannot open file %1 for reading", filename));
         return;
     }
 
@@ -682,7 +682,7 @@ void INDI_E::browseBlob()
 
     if (data_file == NULL)
     {
-        KMessageBox::error(0, xi18n("Not enough memory to load %1", filename));
+        KMessageBox::error(0, i18n("Not enough memory to load %1", filename));
         fp.close();
         return;
     }
@@ -692,7 +692,7 @@ void INDI_E::browseBlob()
     bp->blob = new unsigned char[4*fp.size()/3+4];
     if (bp->blob == NULL)
     {
-        KMessageBox::error(0, xi18n("Not enough memory to convert file %1 to base64", filename));
+        KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64", filename));
         fp.close();
     }
 

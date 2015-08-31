@@ -53,6 +53,7 @@ public:
 
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
+    typedef enum { ALIGN_SYNC, ALIGN_SLEW, ALIGN_SOLVE } GotoMode;
 
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
      * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net

@@ -136,7 +136,7 @@ void Mount::syncTelescopeInfo()
     {
 
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
-        guideScopeGroup->setTitle(xi18n("%1 guide scope", currentTelescope->getDeviceName()));
+        guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
         INumber *np = NULL;
 
@@ -230,7 +230,7 @@ void Mount::updateTelescopeCoords()
                 // Only stop if current altitude is less than last altitude indicate worse situation
                 if (currentAlt < lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(xi18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...", QString::number(minAltLimit->value(), 'g', 3)));
+                    appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...", QString::number(minAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
                     KSNotify::play(KSNotify::NOTIFY_ERROR);
                     abortDispatch++;
@@ -241,7 +241,7 @@ void Mount::updateTelescopeCoords()
                 // Only stop if current altitude is higher than last altitude indicate worse situation
                 if (currentAlt > lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(xi18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...", QString::number(maxAltLimit->value(), 'g', 3)));
+                    appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...", QString::number(maxAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
                     KSNotify::play(KSNotify::NOTIFY_ERROR);
                     abortDispatch++;
@@ -266,9 +266,9 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         {
             QString newMessage;
             if (primaryScopeApertureIN->value() == 1 || primaryScopeFocalIN->value() == 1)
-                newMessage = xi18n("Error syncing telescope info. Please fill telescope aperture and focal length.");
+                newMessage = i18n("Error syncing telescope info. Please fill telescope aperture and focal length.");
             else
-                newMessage = xi18n("Error syncing telescope info. Check INDI control panel for more details.");
+                newMessage = i18n("Error syncing telescope info. Check INDI control panel for more details.");
             if (newMessage != lastNotificationMessage)
             {
                 appendLogText(newMessage);
@@ -278,7 +278,7 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         else
         {
                 syncTelescopeInfo();
-                QString newMessage = xi18n("Telescope info updated successfully.");
+                QString newMessage = i18n("Telescope info updated successfully.");
                 if (newMessage != lastNotificationMessage)
                 {
                     appendLogText(newMessage);
@@ -309,7 +309,7 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
 
 void Mount::appendLogText(const QString &text)
 {
-    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -320,7 +320,7 @@ void Mount::updateLog(int messageID)
 
     QString message = QString::fromStdString(dv->messageQueue(messageID));
 
-    logText.insert(0, xi18nc("Message shown in Ekos Mount module", "%1", message));
+    logText.insert(0, i18nc("Message shown in Ekos Mount module", "%1", message));
 
     emit newLog();
 }
@@ -426,7 +426,7 @@ void Mount::save()
     {
 
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
-        guideScopeGroup->setTitle(xi18n("%1 guide scope", currentTelescope->getDeviceName()));
+        guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
         INumber *np = NULL;
 
@@ -449,11 +449,11 @@ void Mount::save()
 
         currentTelescope->setConfig(SAVE_CONFIG);
 
-        //appendLogText(xi18n("Saving telescope information..."));
+        //appendLogText(i18n("Saving telescope information..."));
 
     }
     else
-        appendLogText(xi18n("Failed to save telescope information."));
+        appendLogText(i18n("Failed to save telescope information."));
 }
 
 void Mount::saveLimits()

@@ -75,7 +75,7 @@ bool ServerManager::start()
 
     if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
-         KMessageBox::error(NULL, xi18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
+         KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
          return false;
    }
 
@@ -145,7 +145,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
     if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
     {
-         KMessageBox::error(NULL, xi18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
+         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
          return false;
     }
 
@@ -259,7 +259,7 @@ void ServerManager::processStandardError()
             {
                 driverCrashed=true;
                 QString driverName = driver.left(driver.indexOf(':')).trimmed();
-                KMessageBox::information(0, xi18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
+                KMessageBox::information(0, i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
                 break;
             }
         }

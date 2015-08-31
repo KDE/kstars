@@ -20,6 +20,7 @@
 #include "scheduler.h"
 #include "schedulerjob.h"
 #include "QProgressIndicator.h"
+#include "align.h"
 
 class KSMoon;
 class GeoLocation;
@@ -37,9 +38,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
     Q_OBJECT
 
 public:
-    typedef enum { SCHEDULER_IDLE, SCHEDULER_RUNNIG, SCHEDULER_ABORTED } SchedulerState;
+    typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
     typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
     typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_READY } INDIState;
+    typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_SCOPE, STARTUP_UNPARK_DOME, STARTUP_COMPLETE } StartupState;
+    typedef enum { SHUTDOWN_IDLE, SHUTDOWN_SCRIPT, SHUTDOWN_UNPARK_SCOPE, SHUTDOWN_UNPARK_DOME, SHUTDOWN_COMPLETE } ShutdownState;
+
 
      Scheduler();
     ~Scheduler();
@@ -48,33 +52,33 @@ public:
      QString getLogText() { return logText.join("\n"); }
      void clearLog();
 
-     /**
-      * @brief updateJobInfo Updates the state cell of the current job
-      * @param o the current job that is being evaluated
-      */
-     //void updateJobInfo(SchedulerJob *o);
 
      /**
       * @brief startSlew DBus call for initiating slew
       */
      void startSlew();
+
      /**
       * @brief startFocusing DBus call for feeding ekos the specified settings and initiating focus operation
       */
      void startFocusing();
+
      /**
       * @brief startAstrometry initiation of the capture and solve operation. We change the job state
       * after solver is started
       */
      void startAstrometry();
+
      /**
       * @brief startGuiding After ekos is fed the calibration options, we start the guiging process
       */
      void startCalibrating();
+
      /**
       * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
       */
      void startCapture();
+
      /**
       * @brief getNextAction Checking for the next appropiate action regarding the current state of the scheduler  and execute it
       */
@@ -84,27 +88,30 @@ public:
       * @brief stopindi Stoping the indi services
       */
      void stopINDI();
+
      /**
       * @brief stopGuiding After guiding is done we need to stop the process
       */
-     void stopGuiding();
+     //void stopGuiding();
 
      /**
       * @brief setGOTOMode set the GOTO mode for the solver
       * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
       */
-     void setGOTOMode(int mode);
+     void setGOTOMode(Align::GotoMode mode);
 
-     void startFITSSolving();
-     void getFITSAstrometryResults();
-
+     //void startFITSSolving();
+     //void getFITSAstrometryResults();
 
      /**
       * @brief start Start scheduler main loop and evaluate jobs and execute them accordingly
       */
      void start();
 
-    void stop();
+     /**
+      * @brief stop Stop the scheduler
+      */
+     void stop();
 
 public slots:
 
@@ -162,36 +169,6 @@ public slots:
 
      void stopEkosAction();
 
-
-#if 0
-
-
-     /**
-      * @brief removeFromQueue Removing the object from the table and from the list
-      */
-     void removeFromQueue();
-     /**
-      * @brief setSequenceSlot File select functionality for the sequence file
-      */
-     void setSequence();
-
-
-
-
-
-      * @brief solveFITSSlot Checks for any pending FITS objects that need to be solved
-      */
-     void solveFITS();
-     /**
-      * @brief solveFITSAction if a FITS job is detected, processFITS() is called and the solving process is started
-      */
-     void solveFITSAction();
-     /**
-      * @brief checkFITSStatus Checks the scheduler state each second, making sure all the operations are completed succesfully
-      */
-     void checkFITSStatus();
-#endif
-
 signals:
         void newLog();
 
@@ -221,7 +198,8 @@ private:
 
         bool    checkEkosState();
         bool    checkINDIState();
-        bool    checkFITSJobState();
+
+        //bool    checkFITSJobState();
 
 
     Ekos::Scheduler *ui;
@@ -237,6 +215,8 @@ private:
     SchedulerState state;
     EkosState ekosState;
     INDIState indiState;
+    StartupState startupState;
+    ShutdownState shutdownState;
 
     QProgressIndicator *pi;
 

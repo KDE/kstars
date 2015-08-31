@@ -1683,5 +1683,13 @@
         <label>Park dome on shutdown.</label>
         <default>false</default>
     </entry>
+    <entry name="UnParkScope" type="Bool">
+        <label>UnPark telescope on startup.</label>
+        <default>false</default>
+    </entry>
+    <entry name="UnParkDome" type="Bool">
+        <label>UnPark dome on startup.</label>
+        <default>false</default>
+    </entry>
     </group>
 </kcfg>

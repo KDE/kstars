@@ -47,7 +47,7 @@ AddCatDialog::AddCatDialog( KStars *_ks )
     mainLayout->addWidget(acd);
     setLayout(mainLayout);
 
-    setWindowTitle( xi18n( "Import Catalog" ) );
+    setWindowTitle( i18n( "Import Catalog" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
@@ -60,18 +60,18 @@ AddCatDialog::AddCatDialog( KStars *_ks )
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
     connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(slotHelp()));
 
-    acd->FieldList->addItem( xi18n( "ID Number" ) );
-    acd->FieldList->addItem( xi18n( "Right Ascension" ) );
-    acd->FieldList->addItem( xi18n( "Declination" ) );
-    acd->FieldList->addItem( xi18n( "Object Type" ) );
+    acd->FieldList->addItem( i18n( "ID Number" ) );
+    acd->FieldList->addItem( i18n( "Right Ascension" ) );
+    acd->FieldList->addItem( i18n( "Declination" ) );
+    acd->FieldList->addItem( i18n( "Object Type" ) );
 
-    acd->FieldPool->addItem( xi18n( "Common Name" ) );
-    acd->FieldPool->addItem( xi18n( "Magnitude" ) );
-    acd->FieldPool->addItem( xi18n( "Flux" ) );
-    acd->FieldPool->addItem( xi18n( "Major Axis" ) );
-    acd->FieldPool->addItem( xi18n( "Minor Axis" ) );
-    acd->FieldPool->addItem( xi18n( "Position Angle" ) );
-    acd->FieldPool->addItem( xi18n( "Ignore" ) );
+    acd->FieldPool->addItem( i18n( "Common Name" ) );
+    acd->FieldPool->addItem( i18n( "Magnitude" ) );
+    acd->FieldPool->addItem( i18n( "Flux" ) );
+    acd->FieldPool->addItem( i18n( "Major Axis" ) );
+    acd->FieldPool->addItem( i18n( "Minor Axis" ) );
+    acd->FieldPool->addItem( i18n( "Position Angle" ) );
+    acd->FieldPool->addItem( i18n( "Ignore" ) );
 }
 
 AddCatDialog::~AddCatDialog(){
@@ -79,21 +79,21 @@ AddCatDialog::~AddCatDialog(){
 
 void AddCatDialog::slotHelp() {
     QString message =
-        xi18n( "A valid custom catalog file has one line per object, "
+        i18n( "A valid custom catalog file has one line per object, "
               "with the following fields in each line:") + "\n\t" +
-        xi18n( "1. Type identifier.  Must be one of: 0 (star), 3 (open cluster), 4 (globular cluster), "
+        i18n( "1. Type identifier.  Must be one of: 0 (star), 3 (open cluster), 4 (globular cluster), "
               "5 (gaseous nebula), 6 (planetary nebula), 7 (supernova remnant), or 8 (galaxy)" ) + "\n\t" +
-        xi18n( "2. Right Ascension (floating-point value)" ) + "\n\t" +
-        xi18n( "3. Declination (floating-point value)" ) + "\n\t" +
-        xi18n( "4. Magnitude (floating-point value)" ) + "\n\t" +
-        xi18n( "5. Integrated Flux (floating-point value); frequency and units are set separately in the catalog file." ) + "\n\t" +
-        xi18n( "6. Spectral type (if type=0); otherwise object's catalog name" ) + "\n\t" +
-        xi18n( "7. Star name (if type=0); otherwise object's common name. [field 7 is optional]" ) + "\n\n" +
+        i18n( "2. Right Ascension (floating-point value)" ) + "\n\t" +
+        i18n( "3. Declination (floating-point value)" ) + "\n\t" +
+        i18n( "4. Magnitude (floating-point value)" ) + "\n\t" +
+        i18n( "5. Integrated Flux (floating-point value); frequency and units are set separately in the catalog file." ) + "\n\t" +
+        i18n( "6. Spectral type (if type=0); otherwise object's catalog name" ) + "\n\t" +
+        i18n( "7. Star name (if type=0); otherwise object's common name. [field 7 is optional]" ) + "\n\n" +
 
-        xi18n( "The fields should be separated by whitespace.  In addition, the catalog "
+        i18n( "The fields should be separated by whitespace.  In addition, the catalog "
               "may contain comment lines beginning with \'#\'." );
 
-    KMessageBox::information( 0, message, xi18n( "Help on custom catalog file format" ) );
+    KMessageBox::information( 0, message, i18n( "Help on custom catalog file format" ) );
 }
 
 /* Attempt to parse the catalog data file specified in the DataURL box.
@@ -134,7 +134,7 @@ bool AddCatDialog::validateDataFile() {
 }
 
 QString AddCatDialog::writeCatalogHeader() {
-    QString name = ( acd->CatalogName->text().isEmpty() ? xi18n("Custom") : acd->CatalogName->text() );
+    QString name = ( acd->CatalogName->text().isEmpty() ? i18n("Custom") : acd->CatalogName->text() );
     QString pre = ( acd->Prefix->text().isEmpty() ? "CC" : acd->Prefix->text() );
     char delimiter = ( acd->CSVButton->isChecked() ? ',' : ' ' );
 
@@ -148,27 +148,27 @@ QString AddCatDialog::writeCatalogHeader() {
     for ( int i=0; i < acd->FieldList->count(); ++i ) {
         QString f = acd->FieldList->item( i )->text();
 
-        if ( f == xi18n( "ID Number" ) ) {
+        if ( f == i18n( "ID Number" ) ) {
             h += "ID  ";
-        } else if ( f == xi18n( "Right Ascension" ) ) {
+        } else if ( f == i18n( "Right Ascension" ) ) {
             h += "RA  ";
-        } else if ( f == xi18n( "Declination" ) ) {
+        } else if ( f == i18n( "Declination" ) ) {
             h += "Dc  ";
-        } else if ( f == xi18n( "Object Type" ) ) {
+        } else if ( f == i18n( "Object Type" ) ) {
             h += "Tp  ";
-        } else if ( f == xi18n( "Common Name" ) ) {
+        } else if ( f == i18n( "Common Name" ) ) {
             h += "Nm  ";
-        } else if ( f == xi18n( "Magnitude" ) ) {
+        } else if ( f == i18n( "Magnitude" ) ) {
             h += "Mg  ";
-        } else if ( f == xi18n( "Flux" ) ) {
+        } else if ( f == i18n( "Flux" ) ) {
             h += "Flux  ";
-        } else if ( f == xi18n( "Major Axis" ) ) {
+        } else if ( f == i18n( "Major Axis" ) ) {
             h += "Mj  ";
-        } else if ( f == xi18n( "Minor Axis" ) ) {
+        } else if ( f == i18n( "Minor Axis" ) ) {
             h += "Mn  ";
-        } else if ( f == xi18n( "Position Angle" ) ) {
+        } else if ( f == i18n( "Position Angle" ) ) {
             h += "PA  ";
-        } else if ( f == xi18n( "Ignore" ) ) {
+        } else if ( f == i18n( "Ignore" ) ) {
             h += "Ig  ";
         }
     }
@@ -190,8 +190,8 @@ void AddCatDialog::slotShowDataFile() {
 
 void AddCatDialog::slotPreviewCatalog() {
     if ( validateDataFile() ) {
-        KMessageBox::informationList( 0, xi18n( "Preview of %1", acd->CatalogName->text() ),
-                                      CatalogContents.split( '\n' ), xi18n( "Catalog Preview" ) );
+        KMessageBox::informationList( 0, i18n( "Preview of %1", acd->CatalogName->text() ),
+                                      CatalogContents.split( '\n' ), i18n( "Catalog Preview" ) );
     }
 }
 
@@ -206,9 +206,9 @@ void AddCatDialog::slotCreateCatalog() {
         {
             QUrl u( acd->CatalogURL->url() );
             int r=KMessageBox::warningContinueCancel( 0,
-                    xi18n( "A file named \"%1\" already exists. "
+                    i18n( "A file named \"%1\" already exists. "
                           "Overwrite it?", u.fileName() ),
-                    xi18n( "Overwrite File?" ),
+                    i18n( "Overwrite File?" ),
                     KStandardGuiItem::overwrite() );
 
             if(r==KMessageBox::Cancel) return;
@@ -217,8 +217,8 @@ void AddCatDialog::slotCreateCatalog() {
         QFile OutFile( acd->CatalogURL->url().toLocalFile() );
         if ( ! OutFile.open( QIODevice::WriteOnly ) ) {
             KMessageBox::sorry( 0,
-                                xi18n( "Could not open the file %1 for writing.", acd->CatalogURL->url().toLocalFile() ),
-                                xi18n( "Error Opening Output File" ) );
+                                i18n( "Could not open the file %1 for writing.", acd->CatalogURL->url().toLocalFile() ),
+                                i18n( "Error Opening Output File" ) );
         } else {
             QTextStream outStream( &OutFile );
             outStream << CatalogContents;

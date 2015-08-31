@@ -171,7 +171,7 @@ void modCalcVlsr::slotCompute()
         }
 
     default: //oops
-        qDebug() << xi18n("Error: do not know which velocity to use for input.");
+        qDebug() << i18n("Error: do not know which velocity to use for input.");
         break;
     }
 }
@@ -270,8 +270,8 @@ void modCalcVlsr::slotRunBatch() {
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
         if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = xi18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             inputFileName.clear();
             return;
         }
@@ -282,8 +282,8 @@ void modCalcVlsr::slotRunBatch() {
         //		readFile( istream );
         f.close();
     } else  {
-        QString message = xi18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid file" ) );
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         inputFileName.clear();
         InputFileBoxBatch->setUrl( inputFileName );
         return;

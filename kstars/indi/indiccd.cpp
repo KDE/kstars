@@ -1092,7 +1092,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     if (QDir(currentDir).exists() == false)
     {
-        KMessageBox::error(0, xi18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
+        KMessageBox::error(0, i18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
         emit BLOBUpdated(NULL);
         return;
     }
@@ -1157,7 +1157,7 @@ void CCD::processBLOB(IBLOB* bp)
     bp->aux2 = BLOBFilename;
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
-        KStars::Instance()->statusBar()->showMessage( xi18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
+        KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
     if (Options::playFITSAlarm())
         KSNotify::play(KSNotify::NOTIFY_FILE_RECEIVED);
@@ -1193,7 +1193,7 @@ void CCD::processBLOB(IBLOB* bp)
             }
             else
             {
-                KStars::Instance()->statusBar()->showMessage(xi18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
                 emit BLOBUpdated(bp);
                 return;
             }
@@ -1230,9 +1230,9 @@ void CCD::processBLOB(IBLOB* bp)
         if (preview)
         {
             if (Options::singleWindowFITS())
-                previewTitle = xi18n("%1 Preview", getDeviceName());
+                previewTitle = i18n("%1 Preview", getDeviceName());
             else
-                previewTitle = xi18n("Preview");
+                previewTitle = i18n("Preview");
         }
 
 

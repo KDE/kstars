@@ -53,14 +53,14 @@ SkyCalendar::SkyCalendar( QWidget *parent )
     
     geo = KStarsData::Instance()->geo();
 
-    setWindowTitle( xi18n( "Sky Calendar" ) );
+    setWindowTitle( i18n( "Sky Calendar" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), xi18n("&Print..."));
-    printB->setToolTip(xi18n("Print the Sky Calendar"));
+    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), i18n("&Print..."));
+    printB->setToolTip(i18n("Print the Sky Calendar"));
     buttonBox->addButton(printB, QDialogButtonBox::ActionRole);
     connect(printB, SIGNAL(clicked()), this, SLOT(slotPrint()));
 
@@ -274,7 +274,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
            }
 
             if(needRiseLabel)
-                label = xi18nc( "A planet rises from the horizon", "%1 rises", ksp->name() );
+                label = i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() );
             else
                 label = QString();
         // Add the current point to KPlotObject
@@ -292,7 +292,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
            }
 
             if(needSetLabel)
-                label = xi18nc( "A planet sets from the horizon", "%1 sets", ksp->name() );
+                label = i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() );
             else
                 label = QString();
 
@@ -310,7 +310,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
            }
 
             if(needTransertLabel)
-                label = xi18nc( "A planet transits across the meridian", "%1 transits", ksp->name() );
+                label = i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() );
             else
                 label = QString();
 
@@ -345,7 +345,7 @@ void SkyCalendar::slotPrint() {
     //NOTE Changed from pointer to statically allocated object, what effect will it have?
     //QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
     QPrintDialog dialog( &printer, this );
-    dialog.setWindowTitle( xi18n( "Print sky calendar" ) );
+    dialog.setWindowTitle( i18n( "Print sky calendar" ) );
     if ( dialog.exec() == QDialog::Accepted ) {
         // Change mouse cursor
         QApplication::setOverrideCursor( Qt::WaitCursor );
@@ -359,7 +359,7 @@ void SkyCalendar::slotPrint() {
 
         // Set text legend
         str_year.setNum( year() );
-        str_legend = xi18n( "Sky Calendar" );
+        str_legend = i18n( "Sky Calendar" );
         str_legend += "\n";
         str_legend += geo->fullName();
         str_legend += " - ";

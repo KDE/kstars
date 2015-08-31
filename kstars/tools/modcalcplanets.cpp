@@ -204,8 +204,8 @@ void modCalcPlanets::slotRunBatch() {
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
         if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = xi18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             inputFileName.clear();
             return;
         }
@@ -214,8 +214,8 @@ void modCalcPlanets::slotRunBatch() {
         processLines(istream);
         f.close();
     } else  {
-        QString message = xi18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid file" ) );
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         inputFileName.clear();
         InputFileBoxBatch->setUrl( inputFileName );
         return;
@@ -265,10 +265,10 @@ void modCalcPlanets::processLines( QTextStream &istream )
     pNames << "Mercury" << "Venus" << "Earth" << "Mars" << "Jupiter"
     << "Saturn" << "Uranus" << "Neptune" /* << "Pluto" */
     << "Sun" << "Moon";
-    pNamesi18n << xi18n("Mercury") << xi18n("Venus") << xi18n("Earth")
-    << xi18n("Mars") << xi18n("Jupiter") << xi18n("Saturn")
-    << xi18n("Uranus") << xi18n("Neptune") /* << xi18n("Pluto") */
-    << xi18n("Sun") << xi18n("Moon");
+    pNamesi18n << i18n("Mercury") << i18n("Venus") << i18n("Earth")
+    << i18n("Mars") << i18n("Jupiter") << i18n("Saturn")
+    << i18n("Uranus") << i18n("Neptune") /* << i18n("Pluto") */
+    << i18n("Sun") << i18n("Moon");
 
     ///Parse the input file
     int numberOfRequiredFields = requiredBatchFields();
@@ -283,9 +283,9 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
         if (fields.count() != numberOfRequiredFields ) {
             lineIsValid = false;
-            qWarning() << xi18n( "Incorrect number of fields in line %1: " , nline)
-            << xi18n( "Present fields %1. " , fields.count())
-            << xi18n( "Required fields %1. " , numberOfRequiredFields) << endl;
+            qWarning() << i18n( "Incorrect number of fields in line %1: " , nline)
+            << i18n( "Present fields %1. " , fields.count())
+            << i18n( "Required fields %1. " , numberOfRequiredFields) << endl;
             nline++;
             continue;
         }
@@ -295,9 +295,9 @@ void modCalcPlanets::processLines( QTextStream &istream )
             planetB = fields[i];
             int j = pNamesi18n.indexOf( planetB );
             if (j == -1) {
-                qWarning() << xi18n("Unknown planet ")
+                qWarning() << i18n("Unknown planet ")
                 << fields[i]
-                << xi18n(" in line %1: ", nline) << endl;
+                << i18n(" in line %1: ", nline) << endl;
                 continue;
             }
             pn = pNames.at(j); //untranslated planet name
@@ -314,7 +314,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
         if(UTCheckBatch->isChecked() ) {
             utB = QTime::fromString( fields[i] );
             if ( !utB.isValid() ) {
-                qWarning() << xi18n( "Line %1 contains an invalid time" , nline) ;
+                qWarning() << i18n( "Line %1 contains an invalid time" , nline) ;
                 lineIsValid=false;
                 nline++;
                 continue;
@@ -330,7 +330,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
         if(DateCheckBatch->isChecked() ) {
             dtB = QDate::fromString( fields[i], Qt::ISODate );
             if ( !dtB.isValid() ) {
-                qWarning() << xi18n( "Line %1 contains an invalid date: " , nline) <<
+                qWarning() << i18n( "Line %1 contains an invalid date: " , nline) <<
                 fields[i] << endl ;
                 lineIsValid=false;
                 nline++;
@@ -422,8 +422,8 @@ void modCalcPlanets::processLines( QTextStream &istream )
     }
 
     if (!lineIsValid) {
-        QString message = xi18n("Errors found while parsing some lines in the input file");
-        KMessageBox::sorry( 0, message, xi18n( "Errors in lines" ) );
+        QString message = i18n("Errors found while parsing some lines in the input file");
+        KMessageBox::sorry( 0, message, i18n( "Errors in lines" ) );
     }
 
     fOut.close();

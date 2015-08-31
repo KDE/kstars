@@ -37,9 +37,9 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
 {
     // Add the default flag images to available images list
-    m_Names.append( xi18n( "No icon" ) );
+    m_Names.append( i18n( "No icon" ) );
     m_Images.append( QImage() );
-    m_Names.append( xi18n( "Default" ) );
+    m_Names.append( i18n( "Default" ) );
     m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
     QUrl dir = QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation)) ;
     dir.setScheme("file");

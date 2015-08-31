@@ -45,7 +45,7 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit) :
     connect( RunButtonBatch,  SIGNAL(clicked()),                this, SLOT(slotRunBatch()));
     connect( ViewButtonBatch, SIGNAL(clicked()),                this, SLOT(slotViewBatch()));
 
-    Plot->axis(KPlotWidget::LeftAxis)->setLabel( xi18n("Sun's Declination") );
+    Plot->axis(KPlotWidget::LeftAxis)->setLabel( i18n("Sun's Declination") );
     Plot->setTopPadding( 40 );
     //Don't draw Top & Bottom axes; custom axes drawn as plot objects
     Plot->axis(KPlotWidget::BottomAxis)->setVisible( false );
@@ -80,8 +80,8 @@ void modCalcEquinox::slotRunBatch() {
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
         if ( !f.open( QIODevice::ReadOnly) ) {
-            QString message = xi18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             inputFileName.clear();
             return;
         }
@@ -93,8 +93,8 @@ void modCalcEquinox::slotRunBatch() {
 
         f.close();
     } else  {
-        QString message = xi18n( "Invalid file: %1", inputFileName );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid file" ) );
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         inputFileName.clear();
         return;
     }
@@ -107,9 +107,9 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
     int originalYear = Year->value();
 
     //Write header to output file
-    ostream << xi18n("# Timing of Equinoxes and Solstices\n")
-    << xi18n("# computed by KStars\n#\n")
-    << xi18n("# Vernal Equinox\t\tSummer Solstice\t\t\tAutumnal Equinox\t\tWinter Solstice\n#\n");
+    ostream << i18n("# Timing of Equinoxes and Solstices\n")
+    << i18n("# computed by KStars\n#\n")
+    << i18n("# Vernal Equinox\t\tSummer Solstice\t\t\tAutumnal Equinox\t\tWinter Solstice\n#\n");
 
     while ( ! istream.atEnd() ) {
         QString line = istream.readLine();
@@ -146,7 +146,7 @@ void modCalcEquinox::slotViewBatch() {
 
     fOut.close();
 
-    KMessageBox::informationList( 0, xi18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().toLocalFile() );
+    KMessageBox::informationList( 0, i18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().toLocalFile() );
 }
 
 void modCalcEquinox::slotCompute()

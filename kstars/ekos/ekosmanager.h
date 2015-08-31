@@ -246,7 +246,7 @@ protected slots:
     QString primaryCCDName;
     bool localMode, ccdDriverSelected;
 
-    int nDevices;
+    int nDevices, nRemoveDevices;
     int nConnectedDevices;
     QList<DriverInfo *> managedDevices;
     QHash<QString, DriverInfo *> driversList;

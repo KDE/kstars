@@ -50,7 +50,7 @@ namespace Ekos
 
 SequenceJob::SequenceJob()
 {
-    statusStrings = QStringList() << xi18n("Idle") << xi18n("In Progress") << xi18n("Error") << xi18n("Aborted") << xi18n("Complete");
+    statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted") << i18n("Complete");
     status = JOB_IDLE;
     exposure=count=delay=frameType=targetFilter=isoIndex=-1;
     currentTemperature=targetTemperature=INVALID_TEMPERATURE;
@@ -505,7 +505,7 @@ void Capture::start()
 {
     if (darkSubCheck->isChecked())
     {
-        KMessageBox::error(this, xi18n("Auto dark subtract is not supported in batch mode."));
+        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
 
@@ -538,13 +538,13 @@ void Capture::start()
         {
             if (job->getStatus() != SequenceJob::JOB_DONE)
             {
-                appendLogText(xi18n("No pending jobs found. Please add a job to the sequence queue."));
+                appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
                 return;
             }
         }
 
-        if (KMessageBox::warningContinueCancel(NULL, xi18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
-                                               xi18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+        if (KMessageBox::warningContinueCancel(NULL, i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
+                                               i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                "reset_job_complete_status_warning") !=KMessageBox::Continue)
             return;
 
@@ -920,7 +920,7 @@ void Capture::checkFilter(int filterNum)
 
     if (filterSlot == NULL)
     {
-        KMessageBox::error(0, xi18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
+        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
         return;
     }
 
@@ -968,7 +968,7 @@ void Capture::syncFilterInfo()
 void Capture::startNextExposure()
 {
     if (seqDelay > 0)
-        secondsLabel->setText(xi18n("Waiting..."));
+        secondsLabel->setText(i18n("Waiting..."));
     seqTimer->start(seqDelay);
 }
 
@@ -1027,7 +1027,7 @@ void Capture::newFITS(IBLOB *bp)
         }
     }
 
-    secondsLabel->setText(xi18n("Complete."));
+    secondsLabel->setText(i18n("Complete."));
 
     if (seqTotalCount <= 0)
     {
@@ -1053,14 +1053,14 @@ void Capture::newFITS(IBLOB *bp)
 
             if (nextExposure <= 0)
             {
-                appendLogText(xi18n("Unable to calculate optimal exposure settings, please take the flats manually."));
+                appendLogText(i18n("Unable to calculate optimal exposure settings, please take the flats manually."));
                 activeJob->setTargetADU(0);
                 ADUValue->setValue(0);
                 abort();
                 return;
             }
 
-            appendLogText(xi18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
+            appendLogText(i18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
 
             activeJob->setExposure(nextExposure);
 
@@ -1073,7 +1073,7 @@ void Capture::newFITS(IBLOB *bp)
         }
         else
         {
-            appendLogText(xi18n("An empty image is received, aborting..."));
+            appendLogText(i18n("An empty image is received, aborting..."));
             abort();
             return;
         }
@@ -1083,7 +1083,7 @@ void Capture::newFITS(IBLOB *bp)
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
-    appendLogText(xi18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
+    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -1109,7 +1109,7 @@ void Capture::newFITS(IBLOB *bp)
 
             if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
             {
-                appendLogText(xi18n("Parking telescope..."));
+                appendLogText(i18n("Parking telescope..."));
                 emit telescopeParking();
                 currentTelescope->Park();
                 return;
@@ -1176,7 +1176,7 @@ bool Capture::resumeSequence()
         }
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
-            secondsLabel->setText(xi18n("Focusing..."));
+            secondsLabel->setText(i18n("Focusing..."));
             emit checkFocus(HFRPixels->value());
         }
         else
@@ -1190,7 +1190,7 @@ void Capture::captureOne()
 {
     if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
     {
-        appendLogText(xi18n("Cannot take preview image while CCD upload mode is set to local. Please change upload mode to client and try again."));
+        appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local. Please change upload mode to client and try again."));
         return;
     }
 
@@ -1230,19 +1230,19 @@ void Capture::captureImage()
          if (isDark)
          {
             calibrationState = CALIBRATE_START;
-            appendLogText(xi18n("Capturing dark frame..."));
+            appendLogText(i18n("Capturing dark frame..."));
          }
          else
-           appendLogText(xi18n("Capturing image..."));
+           appendLogText(i18n("Capturing image..."));
          break;
 
         case SequenceJob::CAPTURE_FRAME_ERROR:
-            appendLogText(xi18n("Failed to set sub frame."));
+            appendLogText(i18n("Failed to set sub frame."));
             abort();
             break;
 
         case SequenceJob::CAPTURE_BIN_ERROR:
-            appendLogText(xi18n("Failed to set binning."));
+            appendLogText(i18n("Failed to set binning."));
             abort();
             break;
      }
@@ -1252,11 +1252,11 @@ void Capture::captureImage()
 
 void Capture::resumeCapture()
 {
-    appendLogText(xi18n("Dither complete."));
+    appendLogText(i18n("Dither complete."));
 
     if (isAutoFocus && autoFocusStatus == false)
     {
-        secondsLabel->setText(xi18n("Focusing..."));
+        secondsLabel->setText(i18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
         return;
     }
@@ -1339,7 +1339,7 @@ void Capture::checkPreview(bool enable)
 void Capture::appendLogText(const QString &text)
 {
 
-    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -1367,14 +1367,14 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
 
         activeJob->setCaptureRetires(retries);
 
-        appendLogText(xi18n("Capture failed."));
+        appendLogText(i18n("Capture failed."));
         if (retries == 3)
         {
             abort();
             return;
         }
 
-        appendLogText(xi18n("Restarting capture attempt #%1", retries));
+        appendLogText(i18n("Restarting capture attempt #%1", retries));
         captureImage();
         return;
     }
@@ -1399,9 +1399,9 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
     }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)
-        secondsLabel->setText(xi18n("second left"));
+        secondsLabel->setText(i18n("second left"));
     else
-        secondsLabel->setText(xi18n("seconds left"));
+        secondsLabel->setText(i18n("seconds left"));
 }
 
 void Capture::updateCCDTemperature(double value)
@@ -1424,7 +1424,7 @@ void Capture::addJob(bool preview)
 
     if (preview == false && darkSubCheck->isChecked())
     {
-        KMessageBox::error(this, xi18n("Auto dark subtract is not supported in batch mode."));
+        KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
         return;
     }
 
@@ -1584,7 +1584,7 @@ void Capture::addJob(bool preview)
     {
         jobUnderEdit = false;
         resetJobEdit();
-        appendLogText(xi18n("Job #%1 changes applied.", currentRow+1));
+        appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
     }
 
 }
@@ -1711,8 +1711,8 @@ void Capture::prepareJob(SequenceJob *job)
 
         if (currentFilterPosition != activeJob->getTargetFilter())
         {
-            appendLogText(xi18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
-            secondsLabel->setText(xi18n("Set filter..."));
+            appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
+            secondsLabel->setText(i18n("Set filter..."));
             pi->startAnimation();
             previewB->setEnabled(false);
             startB->setEnabled(false);
@@ -1725,8 +1725,8 @@ void Capture::prepareJob(SequenceJob *job)
         if (activeJob->getCurrentTemperature() != INVALID_TEMPERATURE &&
                 fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) > MAX_TEMP_DIFF)
         {
-            appendLogText(xi18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
-            secondsLabel->setText(xi18n("Set %1 C...", activeJob->getTargetTemperature()));
+            appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
+            secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
             pi->startAnimation();
             previewB->setEnabled(false);
             startB->setEnabled(false);
@@ -1799,7 +1799,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         {
                 initialHA = getCurrentHA();
                 meridianFlipStage = MF_NONE;
-                appendLogText(xi18n("Post meridian flip calibration completed successfully."));
+                appendLogText(i18n("Post meridian flip calibration completed successfully."));
                 resumeSequence();
         }
     }
@@ -1827,7 +1827,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
             spikeDetected = false;
             deviationDetected = true;
-            appendLogText(xi18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
+            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
             abort();
         }
         return;
@@ -1838,7 +1838,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         if (deviation_rms <= guideDeviation->value())
         {
             deviationDetected = false;
-            appendLogText(xi18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
+            appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
             start();
             return;
         }
@@ -1878,7 +1878,7 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
             startNextExposure();
         else
         {
-            appendLogText(xi18n("Autofocus failed. Aborting exposure..."));
+            appendLogText(i18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText("");
             abort();
         }
@@ -1919,7 +1919,7 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), xi18n("FITS Save Directory"), fitsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), fitsDir->text());
 
     if (!dir.isEmpty())
         fitsDir->setText(dir);
@@ -1927,14 +1927,14 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileName(KStars::Instance(), xi18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+    QUrl fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
 
     if (fileURL.isValid() == false)
     {
-       QString message = xi18n( "Invalid URL: %1", fileURL.path() );
-       KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
+       QString message = i18n( "Invalid URL: %1", fileURL.path() );
+       KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
        return;
     }
 
@@ -1948,8 +1948,8 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
-        QString message = xi18n( "Unable to open file %1",  fileURL.path());
-        KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+        QString message = i18n( "Unable to open file %1",  fileURL.path());
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return false;
     }
 
@@ -2157,7 +2157,7 @@ void Capture::saveSequenceQueue()
 
     if (sequenceURL.isEmpty())
     {
-        sequenceURL = QFileDialog::getSaveFileName(KStars::Instance(), xi18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+        sequenceURL = QFileDialog::getSaveFileName(KStars::Instance(), i18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (sequenceURL.isEmpty())
         {
@@ -2171,10 +2171,10 @@ void Capture::saveSequenceQueue()
         if (QFile::exists(sequenceURL.path()))
         {
             int r = KMessageBox::warningContinueCancel(0,
-                        xi18n( "A file named \"%1\" already exists. "
+                        i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?", sequenceURL.fileName() ),
-                        xi18n( "Overwrite File?" ),
-                        KGuiItem(xi18n( "&Overwrite" )) );
+                        i18n( "Overwrite File?" ),
+                        KGuiItem(i18n( "&Overwrite" )) );
             if(r==KMessageBox::Cancel) return;
         }
     }
@@ -2183,7 +2183,7 @@ void Capture::saveSequenceQueue()
     {
         if ( (saveSequenceQueue(sequenceURL.path())) == false)
         {
-            KMessageBox::error(KStars::Instance(), xi18n("Failed to save sequence queue"), xi18n("FITS Save"));
+            KMessageBox::error(KStars::Instance(), i18n("Failed to save sequence queue"), i18n("FITS Save"));
             return;
         }
 
@@ -2191,8 +2191,8 @@ void Capture::saveSequenceQueue()
 
     } else
     {
-        QString message = xi18n( "Invalid URL: %1", sequenceURL.url() );
-        KMessageBox::sorry(KStars::Instance(), message, xi18n( "Invalid URL" ) );
+        QString message = i18n( "Invalid URL: %1", sequenceURL.url() );
+        KMessageBox::sorry(KStars::Instance(), message, i18n( "Invalid URL" ) );
     }
 
 }
@@ -2213,8 +2213,8 @@ bool Capture::saveSequenceQueue(const QString &path)
 
     if ( !file.open( QIODevice::WriteOnly))
     {
-        QString message = xi18n( "Unable to write to file %1",  path);
-        KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+        QString message = i18n( "Unable to write to file %1",  path);
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return false;
     }
 
@@ -2271,15 +2271,15 @@ bool Capture::saveSequenceQueue(const QString &path)
 
     outstream << "</SequenceQueue>" << endl;
 
-    appendLogText(xi18n("Sequence queue saved to %1", path));
+    appendLogText(i18n("Sequence queue saved to %1", path));
     file.close();
    return true;
 }
 
 void Capture::resetJobs()
 {
-    if (KMessageBox::warningContinueCancel(NULL, xi18n("Are you sure you want to reset status of all jobs?"),
-                                           xi18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+    if (KMessageBox::warningContinueCancel(NULL, i18n("Are you sure you want to reset status of all jobs?"),
+                                           i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                            "reset_job_status_warning") !=KMessageBox::Continue)
         return;
 
@@ -2321,7 +2321,7 @@ void Capture::editJob(QModelIndex i)
         ISOCombo->setCurrentIndex(job->getISOIndex());
    displayCheck->setChecked(job->isShowFITS());
 
-   appendLogText(xi18n("Editing job #%1...", i.row()+1));
+   appendLogText(i18n("Editing job #%1...", i.row()+1));
 
    addToQueueB->setIcon(QIcon::fromTheme("svn-update"));
 
@@ -2332,7 +2332,7 @@ void Capture::editJob(QModelIndex i)
 void Capture::resetJobEdit()
 {
    if (jobUnderEdit)
-       appendLogText(xi18n("Editing job canceled."));
+       appendLogText(i18n("Editing job canceled."));
 
    jobUnderEdit = false;
    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
@@ -2544,12 +2544,12 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
             // We are at a new initialHA
             initialHA= getCurrentHA();
 
-            appendLogText(xi18n("Telescope completed the meridian flip."));
+            appendLogText(i18n("Telescope completed the meridian flip."));
 
             if (resumeAlignmentAfterFlip == true)
             {
-                appendLogText(xi18n("Performing post flip re-alignment..."));
-                secondsLabel->setText(xi18n("Aligning..."));
+                appendLogText(i18n("Performing post flip re-alignment..."));
+                secondsLabel->setText(i18n("Aligning..."));
                 meridianFlipStage = MF_ALIGNING;
                 emit meridialFlipTracked();
                 return;
@@ -2574,8 +2574,8 @@ void Capture::checkGuidingAfterFlip()
     }
     else
     {
-        appendLogText(xi18n("Performing post flip re-calibration and guiding..."));
-        secondsLabel->setText(xi18n("Calibrating..."));
+        appendLogText(i18n("Performing post flip re-calibration and guiding..."));
+        secondsLabel->setText(i18n("Calibrating..."));
         meridianFlipStage = MF_GUIDING;
         emit meridianFlipCompleted();
     }
@@ -2590,7 +2590,7 @@ double Capture::getCurrentHA()
 
     if (currentTelescope->getEqCoords(&currentRA, &currentDEC) == false)
     {
-        appendLogText(xi18n("Failed to retrieve telescope coordinates. Unable to calculate telescope's hour angle."));
+        appendLogText(i18n("Failed to retrieve telescope coordinates. Unable to calculate telescope's hour angle."));
         return INVALID_HA;
     }
 
@@ -2615,7 +2615,7 @@ bool Capture::checkMeridianFlip()
 
     double currentHA = getCurrentHA();
 
-    //appendLogText(xi18n("Current hour angle %1", currentHA));
+    //appendLogText(i18n("Current hour angle %1", currentHA));
 
     if (currentHA == INVALID_HA)
         return false;
@@ -2623,7 +2623,7 @@ bool Capture::checkMeridianFlip()
     if (currentHA > meridianHours->value())
     {
         //NOTE: DO NOT make the follow sentence PLURAL as the value is in double
-        appendLogText(xi18n("Current hour angle %1 hours exceeds meridian flip limit of %2 hours. Auto meridian flip is initiated.", QString::number(currentHA, 'f', 2), meridianHours->value()));
+        appendLogText(i18n("Current hour angle %1 hours exceeds meridian flip limit of %2 hours. Auto meridian flip is initiated.", QString::number(currentHA, 'f', 2), meridianHours->value()));
         meridianFlipStage = MF_INITIATED;
 
         // Suspend guiding first before commanding a meridian flip
@@ -2639,7 +2639,7 @@ bool Capture::checkMeridianFlip()
         double dec;
         currentTelescope->getEqCoords(&initialRA, &dec);
         currentTelescope->Slew(initialRA,dec);
-        secondsLabel->setText(xi18n("Meridian Flip..."));
+        secondsLabel->setText(i18n("Meridian Flip..."));
         QTimer::singleShot(MF_TIMER_TIMEOUT, this, SLOT(checkMeridianFlipTimeout()));
         return true;
     }
@@ -2656,7 +2656,7 @@ void Capture::checkMeridianFlipTimeout()
 
     if (meridianFlipStage < MF_ALIGNING)
     {
-        appendLogText(xi18n("Telescope meridian flip timed out."));
+        appendLogText(i18n("Telescope meridian flip timed out."));
         abort();
     }
     else if (meridianFlipStage == MF_ALIGNING)
@@ -2668,7 +2668,7 @@ void Capture::checkMeridianFlipTimeout()
         }
         else
         {
-            appendLogText(xi18n("Alignment timed out."));
+            appendLogText(i18n("Alignment timed out."));
             abort();
         }
 
@@ -2682,7 +2682,7 @@ void Capture::checkMeridianFlipTimeout()
         }
         else
         {
-            appendLogText(xi18n("Guiding timed out."));
+            appendLogText(i18n("Guiding timed out."));
             abort();
         }
     }
@@ -2697,14 +2697,14 @@ void Capture::checkAlignmentSlewComplete()
 {
     if (meridianFlipStage == MF_ALIGNING)
     {
-        appendLogText(xi18n("Post flip re-alignment completed successfully."));
+        appendLogText(i18n("Post flip re-alignment completed successfully."));
         checkGuidingAfterFlip();
     }
 }
 
 void Capture::checkFrameType(int index)
 {
-    if (frameTypeCombo->itemText(index) == xi18n("Flat"))
+    if (frameTypeCombo->itemText(index) == i18n("Flat"))
     {
         ADUSeparator->setVisible(true);
         ADULabel->setVisible(true);

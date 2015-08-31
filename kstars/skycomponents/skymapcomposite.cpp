@@ -454,15 +454,15 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString name ) {
 
 KSPlanetBase* SkyMapComposite::planet( int n ) {
     if ( n == KSPlanetBase::SUN ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Sun" ) );
-    if ( n == KSPlanetBase::MERCURY ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Mercury" ) ) );
-    if ( n == KSPlanetBase::VENUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Venus" ) ) );
+    if ( n == KSPlanetBase::MERCURY ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Mercury" ) ) );
+    if ( n == KSPlanetBase::VENUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Venus" ) ) );
     if ( n == KSPlanetBase::MOON ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Moon" ) );
-    if ( n == KSPlanetBase::MARS ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Mars" ) ) );
-    if ( n == KSPlanetBase::JUPITER ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Jupiter" ) ) );
-    if ( n == KSPlanetBase::SATURN ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Saturn" ) ) );
-    if ( n == KSPlanetBase::URANUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Uranus" ) ) );
-    if ( n == KSPlanetBase::NEPTUNE ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Neptune" ) ) );
-    //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Pluto" ) ) );
+    if ( n == KSPlanetBase::MARS ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Mars" ) ) );
+    if ( n == KSPlanetBase::JUPITER ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Jupiter" ) ) );
+    if ( n == KSPlanetBase::SATURN ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Saturn" ) ) );
+    if ( n == KSPlanetBase::URANUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Uranus" ) ) );
+    if ( n == KSPlanetBase::NEPTUNE ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Neptune" ) ) );
+    //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Pluto" ) ) );
 
 	return 0;
 }
@@ -486,7 +486,7 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
         }
     }
 
-    qWarning() << xi18n( "Could not find custom catalog component named %1." , name) ;
+    qWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
 }
 
 void SkyMapComposite::reloadCLines( ) {

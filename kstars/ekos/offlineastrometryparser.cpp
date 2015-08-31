@@ -60,8 +60,8 @@ bool OfflineAstrometryParser::init()
     if (astrometryNetOK() == false)
     {
         if (align && align->isEnabled())
-            KMessageBox::information(NULL, xi18n("Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
-                                 xi18n("Missing astrometry files"), "missing_astrometry_binaries_warning");
+            KMessageBox::information(NULL, i18n("Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
+                                 i18n("Missing astrometry files"), "missing_astrometry_binaries_warning");
 
         return false;
     }
@@ -129,10 +129,10 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     if (indexesOK == false)
     {
         if (missingIndexes == 1)
-            align->appendLogText(xi18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
+            align->appendLogText(i18n("Index file %1 is missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
                                              startIndex));
         else
-            align->appendLogText(xi18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
+            align->appendLogText(i18n("Index files %1 to %2 are missing. Astrometry.net would not be able to adequately solve plates until you install the missing index files. Download the index files from http://www.astrometry.net",
                                              startIndex, lastIndex));
 
     }
@@ -144,7 +144,7 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(0, xi18n("Astrometry configuration file corrupted or missing: %1\nPlease set the configuration file full path in INDI options.", Options::astrometryConfFile()));
+        KMessageBox::error(0, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the configuration file full path in INDI options.", Options::astrometryConfFile()));
         return false;
     }
 
@@ -168,7 +168,7 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
       }
    }
 
-    KMessageBox::error(0, xi18n("Unable to find data dir in astrometry configuration file."));
+    KMessageBox::error(0, i18n("Unable to find data dir in astrometry configuration file."));
     return false;
 }
 
@@ -188,7 +188,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
     solver.start(Options::astrometrySolver(), solverArgs);
 
-    align->appendLogText(xi18n("Starting solver..."));
+    align->appendLogText(i18n("Starting solver..."));
 
     if (align->isVerbose())
     {
@@ -214,7 +214,7 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
 
     if (exist_status != 0 || access("/tmp/solution.wcs", F_OK)==-1)
     {
-        align->appendLogText(xi18n("Solver failed. Try again."));
+        align->appendLogText(i18n("Solver failed. Try again."));
         emit solverFailed();
 
         return;
@@ -232,7 +232,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
     if (exist_status != 0)
     {
-        align->appendLogText(xi18n("WCS header missing or corrupted. Solver failed."));
+        align->appendLogText(i18n("WCS header missing or corrupted. Solver failed."));
         emit solverFailed();
         return;
     }
@@ -268,7 +268,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
 
     int elapsed = (int) round(solverTimer.elapsed()/1000.0);
-    align->appendLogText(xi18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
+    align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
 
 
 

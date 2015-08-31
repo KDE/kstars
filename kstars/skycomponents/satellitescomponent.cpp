@@ -39,7 +39,7 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     
     if ( ! fileReader.open( "satellites.dat" ) ) return;
 
-    emitProgressText( xi18n("Loading satellites" ) );
+    emitProgressText( i18n("Loading satellites" ) );
     
 
     while ( fileReader.hasMoreLines() ) {
@@ -122,7 +122,7 @@ void SatellitesComponent::updateTLEs()
 {
     int i = 0;
     
-    QProgressDialog progressDlg( xi18n( "Update TLEs..." ), xi18n( "Abort" ), 0, m_groups.count() );
+    QProgressDialog progressDlg( i18n( "Update TLEs..." ), i18n( "Abort" ), 0, m_groups.count() );
     progressDlg.setWindowModality( Qt::WindowModal );
     progressDlg.setValue( 0 );
         
@@ -133,7 +133,7 @@ void SatellitesComponent::updateTLEs()
         if( group->tleUrl().isEmpty() )
             continue;
         
-        progressDlg.setLabelText( xi18n( "Update %1 satellites", group->name() ) );
+        progressDlg.setLabelText( i18n( "Update %1 satellites", group->name() ) );
         KIO::Job* getJob = KIO::file_copy(group->tleUrl(), group->tleFilename(), -1, KIO::Overwrite | KIO::HideProgressInfo );
         if( getJob->exec() )
         {

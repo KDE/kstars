@@ -39,7 +39,7 @@ TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QT
             RevertTime = rtime;
             HourOffset = dh;
         } else {
-            qWarning() << xi18n( "Error parsing TimeZoneRule, setting to empty rule." ) ;
+            qWarning() << i18n( "Error parsing TimeZoneRule, setting to empty rule." ) ;
             setEmpty();
         }
     } else { //Empty rule
@@ -62,10 +62,10 @@ void TimeZoneRule::setEmpty() {
 
 void TimeZoneRule::setDST( bool activate ) {
     if ( activate ) {
-        qDebug() << xi18n( "Daylight Saving Time active" );
+        qDebug() << i18n( "Daylight Saving Time active" );
         dTZ = HourOffset;
     } else {
-        qDebug() << xi18n( "Daylight Saving Time inactive" );
+        qDebug() << i18n( "Daylight Saving Time inactive" );
         dTZ = 0.0;
     }
 }
@@ -86,7 +86,7 @@ int TimeZoneRule::initMonth( const QString &mn ) {
     else if ( ml == "nov" ) return 11;
     else if ( ml == "dec" ) return 12;
 
-    qWarning() << xi18n( "Could not parse %1 as a valid month code.", mn );
+    qWarning() << i18n( "Could not parse %1 as a valid month code.", mn );
     return 0;
 }
 
@@ -126,7 +126,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
         else if ( dm == "sun" ) { Day = 7; Week = wn; return true; }
     }
 
-    qWarning() << xi18n( "Could not parse %1 as a valid day code.", dy );
+    qWarning() << i18n( "Could not parse %1 as a valid day code.", dy );
     return false;
 }
 
@@ -238,7 +238,7 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
         result = KStarsDateTime( QDate( y, StartMonth, findStartDay( result ) ), StartTime );
     }
 
-    qDebug() << xi18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString();
+    qDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString();
     next_change_ltime = result;
 }
 
@@ -272,7 +272,7 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
         result = KStarsDateTime( QDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
     }
 
-    qDebug() << xi18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString();
+    qDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString();
     next_change_ltime = result;
 }
 
@@ -281,7 +281,7 @@ void TimeZoneRule::nextDSTChange( const KStarsDateTime &local_date, const double
     // just decrement timezone offset and hour offset
     KStarsDateTime result = local_date.addSecs( int( (TZoffset + deltaTZ()) * -3600) );
 
-    qDebug() << xi18n( "Next Daylight Savings Time change (UTC): " ) << result.toString();
+    qDebug() << i18n( "Next Daylight Savings Time change (UTC): " ) << result.toString();
     next_change_utc = result;
 }
 
@@ -294,7 +294,7 @@ void TimeZoneRule::previousDSTChange( const KStarsDateTime &local_date, const do
     if ( result.date().month() == RevertMonth )
         result = result.addSecs( int(HourOffset * -3600) );
 
-    qDebug() << xi18n( "Previous Daylight Savings Time change (UTC): " ) << result.toString();
+    qDebug() << i18n( "Previous Daylight Savings Time change (UTC): " ) << result.toString();
     next_change_utc = result;
 }
 

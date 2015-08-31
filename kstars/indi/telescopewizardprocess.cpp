@@ -111,7 +111,7 @@ void telescopeWizardProcess::cancelCheck(void)
     case TELESCOPE_P:
     case LOCAL_P:
     case PORT_P:
-	if ( KMessageBox::warningYesNo(0, xi18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
+	if ( KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
 	    emit reject();
 	break;
     default:
@@ -230,14 +230,14 @@ void telescopeWizardProcess::establishLink()
 
     if (ui->portIn->text().isEmpty())
     {
-        progressScan = new QProgressDialog(xi18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), xi18n("Cancel"), 0, portList.count());
+        progressScan = new QProgressDialog(i18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), i18n("Cancel"), 0, portList.count());
         progressScan->setValue(0);
         //qDebug() << "KProgressDialog for automatic search has been initiated";
 
     }
     else
     {
-        progressScan = new QProgressDialog(xi18n("Please wait while KStars tries to connect to your telescope..."), xi18n("Cancel"), portList.count(), portList.count());
+        progressScan = new QProgressDialog(i18n("Please wait while KStars tries to connect to your telescope..."), i18n("Cancel"), portList.count(), portList.count());
         progressScan->setValue(portList.count());
         //qDebug() << "KProgressDialog for manual search has been initiated";
     }
@@ -359,7 +359,7 @@ void telescopeWizardProcess::scanPorts()
         DriverManager::Instance()->stopDevices(managedDevice);
         Reset();
 
-        KMessageBox::sorry(0, xi18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
+        KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
         return;
     }
 
@@ -374,7 +374,7 @@ void telescopeWizardProcess::linkSuccess()
 {
     Reset();
 
-    KStars::Instance()->statusBar()->showMessage( xi18n("Telescope Wizard completed successfully."), 0);
+    KStars::Instance()->statusBar()->showMessage( i18n("Telescope Wizard completed successfully."), 0);
 
     close();
 

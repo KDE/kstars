@@ -171,7 +171,7 @@ void rguider::setInterface( void )
 	ui.comboBox_SquareSize->setCurrentIndex( pmath->get_square_index() );
 	ui.comboBox_ThresholdAlg->setCurrentIndex( pmath->get_square_algorithm_index() );
 
-    ui.l_RecommendedGain->setText( xi18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(Options::guidingRate()), 'f', 2 )) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(Options::guidingRate()), 'f', 2 )) );
     ui.spinBox_GuideRate->setValue( Options::guidingRate() );
 
 	// info params...
@@ -272,7 +272,7 @@ void rguider::onInfoRateChanged( double val )
 
 	in_params->guiding_rate = val;
 
-    ui.l_RecommendedGain->setText( xi18n("P: %1", QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
 }
 
 
@@ -394,8 +394,8 @@ bool rguider::start()
     out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction";
 
     drift_graph->reset_data();
-    ui.pushButton_StartStop->setText( xi18n("Stop") );
-    pmain_wnd->appendLogText(xi18n("Autoguiding started."));
+    ui.pushButton_StartStop->setText( i18n("Stop") );
+    pmain_wnd->appendLogText(i18n("Autoguiding started."));
     pmath->start();
     m_lostStarTries=0;
     m_isStarted = true;
@@ -421,8 +421,8 @@ bool rguider::stop()
 {
     if (pimage)
         connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
-    ui.pushButton_StartStop->setText( xi18n("Start Autoguide") );
-    pmain_wnd->appendLogText(xi18n("Autoguiding stopped."));
+    ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
+    pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
     pmath->stop();
 
     logFile.close();
@@ -543,7 +543,7 @@ void rguider::guide( void )
      if (pmath->is_lost_star() && ++m_lostStarTries > 2)
      {
          onStartStopButtonClick();
-         KMessageBox::error(NULL, xi18n("Lost track of the guide star. Try increasing the square size and check the mount."));
+         KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
          return;
      }
      else
@@ -559,7 +559,7 @@ void rguider::guide( void )
 
      if (maxPulseCounter > 3)
      {
-         pmain_wnd->appendLogText(xi18n("Lost track of the guide star. Aborting guiding..."));
+         pmain_wnd->appendLogText(i18n("Lost track of the guide star. Aborting guiding..."));
          abort();
          maxPulseCounter=0;
      }
@@ -621,7 +621,7 @@ void rguider::onRapidGuideChanged(bool enable)
 {
     if (m_isStarted)
     {
-        pmain_wnd->appendLogText(xi18n("You must stop auto guiding before changing this setting."));
+        pmain_wnd->appendLogText(i18n("You must stop auto guiding before changing this setting."));
         return;
     }
 
@@ -629,10 +629,10 @@ void rguider::onRapidGuideChanged(bool enable)
 
     if (m_useRapidGuide)
     {
-        pmain_wnd->appendLogText(xi18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
     }
     else
-        pmain_wnd->appendLogText(xi18n("Rapid Guiding is disabled."));
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is disabled."));
 
 }
 

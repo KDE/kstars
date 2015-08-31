@@ -52,7 +52,7 @@ ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, Imag
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(exportImage()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
-    QPushButton *previewB = new QPushButton(xi18n("Preview image"));
+    QPushButton *previewB = new QPushButton(i18n("Preview image"));
     buttonBox->addButton(previewB, QDialogButtonBox::ActionRole);
     connect(previewB, SIGNAL(clicked()), this, SLOT(previewImage()));
 
@@ -61,7 +61,7 @@ ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, Imag
 
     m_ImageExporter = ( ( imgExporter ) ? imgExporter : new ImageExporter( this ) );
 
-    setWindowTitle(xi18n("Export sky image"));
+    setWindowTitle(i18n("Export sky image"));
 
     setupWidgets();
 }
@@ -96,17 +96,17 @@ void ExportImageDialog::setupWidgets()
 {    
     m_DialogUI->addLegendCheckBox->setChecked(true);
 
-    m_DialogUI->legendOrientationComboBox->addItem(xi18n("Horizontal"));
-    m_DialogUI->legendOrientationComboBox->addItem(xi18n("Vertical"));
+    m_DialogUI->legendOrientationComboBox->addItem(i18n("Horizontal"));
+    m_DialogUI->legendOrientationComboBox->addItem(i18n("Vertical"));
 
     QStringList types;
-    types << xi18n("Full legend") << xi18n("Scale with magnitudes chart") << xi18n("Only scale")
-            << xi18n("Only magnitudes") << xi18n("Only symbols");
+    types << i18n("Full legend") << i18n("Scale with magnitudes chart") << i18n("Only scale")
+            << i18n("Only magnitudes") << i18n("Only symbols");
     m_DialogUI->legendTypeComboBox->addItems(types);
 
     QStringList positions;
-    positions << xi18n("Upper left corner") << xi18n("Upper right corner") << xi18n("Lower left corner")
-            << xi18n("Lower right corner");
+    positions << i18n("Upper left corner") << i18n("Upper right corner") << i18n("Lower left corner")
+            << i18n("Lower right corner");
     m_DialogUI->legendPositionComboBox->addItems(positions);
 }
 
@@ -127,6 +127,6 @@ void ExportImageDialog::exportImage()
     updateLegendSettings();
     m_ImageExporter->includeLegend( m_DialogUI->addLegendCheckBox->isChecked() );
     if( !m_ImageExporter->exportImage( m_Url ) ) {
-        KMessageBox::sorry( 0, m_ImageExporter->getLastErrorMessage(), xi18n( "Could not export image" ) );
+        KMessageBox::sorry( 0, m_ImageExporter->getLastErrorMessage(), i18n( "Could not export image" ) );
     }
 }

@@ -39,7 +39,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
     if ( ! fileReader.open( "cnames.dat" ) )
         return;
 
-    emitProgressText( xi18n("Loading constellation names" ) );
+    emitProgressText( i18n("Loading constellation names" ) );
     
     localCNames = Options::useLocalConstellNames();
 

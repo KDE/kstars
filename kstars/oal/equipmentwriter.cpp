@@ -40,7 +40,7 @@ EquipmentWriter::EquipmentWriter() {
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
     ui.tabWidget->setCurrentIndex(0);
-    setWindowTitle( xi18n( "Configure Equipment" ) );
+    setWindowTitle( i18n( "Configure Equipment" ) );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(widget);

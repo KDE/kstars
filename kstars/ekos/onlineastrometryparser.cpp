@@ -80,7 +80,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
     if (networkManager.networkAccessible() == false)
     {
-        align->appendLogText(xi18n("Error: No connection to the internet."));
+        align->appendLogText(i18n("Error: No connection to the internet."));
         emit solverFailed();
         return false;
     }
@@ -93,7 +93,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         bool rc = fitsFile.open(QIODevice::ReadOnly);
         if (rc == false)
         {
-            align->appendLogText(xi18n("Failed to open file %1. %2", filename, fitsFile.errorString()));
+            align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile.errorString()));
             emit solverFailed();
             return false;
         }
@@ -144,7 +144,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         }
         else
         {
-            align->appendLogText(xi18n("Warning: Converting FITS to JPEG failed. Uploading original FITS image."));
+            align->appendLogText(i18n("Warning: Converting FITS to JPEG failed. Uploading original FITS image."));
         }
 
         delete (image_data);
@@ -224,7 +224,7 @@ void OnlineAstrometryParser::uploadFile()
     bool rc = fitsFile.open(QIODevice::ReadOnly);
     if (rc == false)
     {
-        align->appendLogText(xi18n("Failed to open file %1. %2", filename, fitsFile.errorString()));
+        align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile.errorString()));
         emit solverFailed();
         return;
     }
@@ -271,7 +271,7 @@ void OnlineAstrometryParser::uploadFile()
 
     workflowStage = UPLOAD_STAGE;
 
-    align->appendLogText(xi18n("Uploading file..."));
+    align->appendLogText(i18n("Uploading file..."));
 
     QEventLoop loop;
     networkManager.post(request, &reqEntity);
@@ -343,7 +343,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
      if (parseError.error != QJsonParseError::NoError)
      {
-         align->appendLogText(xi18n("JSon error during parsing (%1).", parseError.errorString()));
+         align->appendLogText(i18n("JSon error during parsing (%1).", parseError.errorString()));
          emit solverFailed();
          return;
      }
@@ -360,7 +360,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          status = result["status"].toString();
          if (status != "success")
          {
-             align->appendLogText(xi18n("Astrometry.net authentication failed. Check the validity of the Astrometry.net API Key."));
+             align->appendLogText(i18n("Astrometry.net authentication failed. Check the validity of the Astrometry.net API Key."));
              emit solverFailed();
              return;
          }
@@ -368,7 +368,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          sessionKey = result["session"].toString();
 
          if (align->isVerbose())
-            align->appendLogText(xi18n("Authentication to astrometry.net is successful. Session: %1", sessionKey));
+            align->appendLogText(i18n("Authentication to astrometry.net is successful. Session: %1", sessionKey));
 
          emit authenticateFinished();
          break;
@@ -377,7 +377,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          status = result["status"].toString();
          if (status != "success")
          {
-             align->appendLogText(xi18n("Upload failed."));
+             align->appendLogText(i18n("Upload failed."));
              emit solverFailed();
              return;
          }
@@ -386,12 +386,12 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
          if (ok == false)
          {
-             align->appendLogText(xi18n("Parsing submission ID failed."));
+             align->appendLogText(i18n("Parsing submission ID failed."));
              emit solverFailed();
              return;
          }
 
-         align->appendLogText(xi18n("Upload complete. Waiting for astrometry.net solver to complete..."));
+         align->appendLogText(i18n("Upload complete. Waiting for astrometry.net solver to complete..."));
          emit uploadFinished();
          if (isGenerated)
             QFile::remove(filename);
@@ -414,7 +414,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
              }
              else
              {
-                 align->appendLogText(xi18n("Failed to retrieve job ID."));
+                 align->appendLogText(i18n("Failed to retrieve job ID."));
                  emit solverFailed();
                  return;
              }
@@ -437,7 +437,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
              }
              else
              {
-                 align->appendLogText(xi18n("Solver timed out."));
+                 align->appendLogText(i18n("Solver timed out."));
                  solver_retries=0;
                  emit solverFailed();
                  return;
@@ -446,7 +446,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          else if (status == "failure")
          {
              elapsed = (int) round(solverTimer.elapsed()/1000.0);
-             align->appendLogText(xi18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
+             align->appendLogText(i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
              emit solverFailed();
              return;
          }         
@@ -456,14 +456,14 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          parity = result["parity"].toDouble(&ok);
          if (ok == false)
          {
-             align->appendLogText(xi18n("Error parsing parity."));
+             align->appendLogText(i18n("Error parsing parity."));
              emit solverFailed();
              return;
          }
          orientation = result["orientation"].toDouble(&ok);
          if (ok == false)
          {
-             align->appendLogText(xi18n("Error parsing orientation."));
+             align->appendLogText(i18n("Error parsing orientation."));
              emit solverFailed();
              return;
          }
@@ -471,14 +471,14 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          ra  = result["ra"].toDouble(&ok);
          if (ok == false)
          {
-             align->appendLogText(xi18n("Error parsing RA."));
+             align->appendLogText(i18n("Error parsing RA."));
              emit solverFailed();
              return;
          }
          dec = result["dec"].toDouble(&ok);
          if (ok == false)
          {
-             align->appendLogText(xi18n("Error parsing DEC."));
+             align->appendLogText(i18n("Error parsing DEC."));
              emit solverFailed();
              return;
          }
@@ -486,13 +486,13 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          pixscale = result["pixscale"].toDouble(&ok);
          if (ok == false)
          {
-             align->appendLogText(xi18n("Error parsing DEC."));
+             align->appendLogText(i18n("Error parsing DEC."));
              emit solverFailed();
              return;
          }
 
          elapsed = (int) round(solverTimer.elapsed()/1000.0);
-         align->appendLogText(xi18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
+         align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
          emit solverFinished(orientation, ra, dec, pixscale);
 
          break;

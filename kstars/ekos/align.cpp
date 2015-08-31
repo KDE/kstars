@@ -109,7 +109,7 @@ Align::Align()
 
     raBox->setDegType(false); //RA box should be HMS-style
 
-    appendLogText(xi18n("Idle."));
+    appendLogText(i18n("Idle."));
 
     pi = new QProgressIndicator(this);
 
@@ -302,7 +302,7 @@ void Align::syncTelescopeInfo()
     {
         syncR->setEnabled(false);
         slewR->setChecked(true);
-        appendLogText(xi18n("Telescope does not support syncing."));
+        appendLogText(i18n("Telescope does not support syncing."));
     }
 }
 
@@ -439,12 +439,12 @@ void Align::generateArgs()
         {
             //make sure values are in valid range
             if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
-                message = xi18n( "The Right Ascension value must be between 0.0 and 24.0." );
+                message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
             if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
-                message += '\n' + xi18n( "The Declination value must be between -90.0 and 90.0." );
+                message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
             if ( ! message.isEmpty() )
             {
-                KMessageBox::sorry( 0, message, xi18n( "Invalid Coordinate Data" ) );
+                KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
                 return;
             }
         }
@@ -454,7 +454,7 @@ void Align::generateArgs()
 
         if (radiusOk == false)
         {
-            KMessageBox::sorry( 0, message, xi18n( "Invalid radius value" ) );
+            KMessageBox::sorry( 0, message, i18n( "Invalid radius value" ) );
             return;
         }
 
@@ -518,13 +518,13 @@ bool Align::captureAndSolve()
 
     if (focal_length == -1 || aperture == -1)
     {
-        KMessageBox::error(0, xi18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
+        KMessageBox::error(0, i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
         return false;
     }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
     {
-        KMessageBox::error(0, xi18n("CCD pixel size is missing. Please check your driver settings and try again."));
+        KMessageBox::error(0, i18n("CCD pixel size is missing. Please check your driver settings and try again."));
         return false;
     }
 
@@ -547,7 +547,7 @@ bool Align::captureAndSolve()
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(xi18n("Error: Lost connection to CCD."));
+        appendLogText(i18n("Error: Lost connection to CCD."));
         if (Options::playAlignmentAlarm())
                 KSNotify::play(KSNotify::NOTIFY_ERROR);
         return false;
@@ -576,7 +576,7 @@ bool Align::captureAndSolve()
    stopB->setEnabled(true);
    pi->startAnimation();
 
-   appendLogText(xi18n("Capturing image..."));
+   appendLogText(i18n("Capturing image..."));
 
    return true;
 }
@@ -590,7 +590,7 @@ void Align::newFITS(IBLOB *bp)
     //currentCCD->disconnect(this);
     disconnect(currentCCD, 0, this, SLOT(newFITS(IBLOB*)));
 
-    appendLogText(xi18n("Image received."));
+    appendLogText(i18n("Image received."));
 
     char *finalFileName = (char *) bp->aux2;
 
@@ -669,14 +669,14 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     targetChip->getBinning(&binx, &biny);
 
     if (isVerbose())
-        appendLogText(xi18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
+        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
                             QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
 
     if (pixscale > 0)
     {        
         double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale * binx;
         if (fabs(focal_length - solver_focal_length) > 1)
-            appendLogText(xi18n("Current focal length is %1 mm while computed focal length from the solver is %2 mm. Please update the mount focal length to obtain accurate results.",
+            appendLogText(i18n("Current focal length is %1 mm while computed focal length from the solver is %2 mm. Please update the mount focal length to obtain accurate results.",
                                 QString::number(focal_length, 'g' , 5), QString::number(solver_focal_length, 'g' , 5)));
     }
 
@@ -711,7 +711,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
                  if (m_wcsSynced == false)
                  {
-                     appendLogText(xi18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
+                     appendLogText(i18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
 
                      // Just send telescope info in case the CCD driver did not pick up before.
                      INumberVectorProperty *telescopeInfo = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
@@ -780,12 +780,12 @@ void Align::abort()
     if (targetChip->isCapturing())
     {
         targetChip->abortExposure();
-        appendLogText(xi18n("Capture aborted."));
+        appendLogText(i18n("Capture aborted."));
     }
     else
     {
         int elapsed = (int) round(solverTimer.elapsed()/1000.0);
-        appendLogText(xi18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
+        appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
     }
 }
 
@@ -800,7 +800,7 @@ QList<double> Align::getSolutionResult()
 
 void Align::appendLogText(const QString &text)
 {
-    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -870,7 +870,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         case AZ_CORRECTING:
          if (currentTelescope->isSlewing() == false)
          {
-             appendLogText(xi18n("Slew complete. Please adjust azimuth knob until the target is in the center of the view."));
+             appendLogText(i18n("Slew complete. Please adjust azimuth knob until the target is in the center of the view."));
              azStage = AZ_INIT;
          }
          break;
@@ -897,7 +897,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
            case ALT_CORRECTING:
             if (currentTelescope->isSlewing() == false)
             {                
-                appendLogText(xi18n("Slew complete. Please adjust altitude knob until the target is in the center of the view."));
+                appendLogText(i18n("Slew complete. Please adjust altitude knob until the target is in the center of the view."));
                 altStage = ALT_INIT;
             }
             break;
@@ -938,9 +938,9 @@ void Align::executeGOTO()
 void Align::Sync()
 {
     if (currentTelescope->Sync(&alignCoord))
-        appendLogText(xi18n("Syncing successful."));
+        appendLogText(i18n("Syncing successful."));
     else
-        appendLogText(xi18n("Syncing failed."));
+        appendLogText(i18n("Syncing failed."));
 
 }
 
@@ -953,7 +953,7 @@ void Align::SlewToTarget()
 
     currentTelescope->Slew(&targetCoord);
 
-    appendLogText(xi18n("Slewing to target."));
+    appendLogText(i18n("Slewing to target."));
 }
 
 void Align::checkPolarAlignment()
@@ -974,7 +974,7 @@ void Align::checkPolarAlignment()
 
 void Align::executePolarAlign()
 {
-    appendLogText(xi18n("Processing solution for polar alignment..."));
+    appendLogText(i18n("Processing solution for polar alignment..."));
 
     switch (azStage)
     {
@@ -1012,13 +1012,13 @@ void Align::measureAzError()
         // Display message box confirming user point scope near meridian and south
 
         if (KMessageBox::warningContinueCancel( 0, hemisphere == 0
-                                                   ? xi18n("Point the telescope at the southern meridian. Press continue when ready.")
-                                                   : xi18n("Point the telescope at the northern meridian. Press continue when ready.")
-                                                , xi18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                   ? i18n("Point the telescope at the southern meridian. Press continue when ready.")
+                                                   : i18n("Point the telescope at the northern meridian. Press continue when ready.")
+                                                , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                 "ekos_measure_az_error")!=KMessageBox::Continue)
             return;
 
-        appendLogText(xi18n("Solving first frame near the meridian."));
+        appendLogText(i18n("Solving first frame near the meridian."));
         azStage = AZ_FIRST_TARGET;
         polarR->setChecked(true);
         solveB->click();
@@ -1043,13 +1043,13 @@ void Align::measureAzError()
             currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
         }
 
-        appendLogText(xi18n("Slewing 30 arcminutes in RA..."));
+        appendLogText(i18n("Slewing 30 arcminutes in RA..."));
         break;
 
       case AZ_SECOND_TARGET:
         // We reached second target now
         // Let now solver for RA/DEC
-        appendLogText(xi18n("Solving second frame near the meridian."));
+        appendLogText(i18n("Solving second frame near the meridian."));
         azStage = AZ_FINISHED;
         polarR->setChecked(true);
         solveB->click();
@@ -1060,7 +1060,7 @@ void Align::measureAzError()
         // Measure deviation in DEC
         // Call function to report error
         // set stage to AZ_FIRST_TARGET again
-        appendLogText(xi18n("Calculating azimuth alignment error..."));
+        appendLogText(i18n("Calculating azimuth alignment error..."));
         finalRA   = alignCoord.ra().Degrees();
         finalDEC  = alignCoord.dec().Degrees();
 
@@ -1072,7 +1072,7 @@ void Align::measureAzError()
             currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
         }
 
-        appendLogText(xi18n("Slewing back to original position..."));
+        appendLogText(i18n("Slewing back to original position..."));
 
         calculatePolarError(initRA, initDEC, finalRA, finalDEC);
 
@@ -1096,12 +1096,12 @@ void Align::measureAltError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, xi18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
-                                                , xi18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+        if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
+                                                , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                 "ekos_measure_alt_error")!=KMessageBox::Continue)
             return;
 
-        appendLogText(xi18n("Solving first frame."));
+        appendLogText(i18n("Solving first frame."));
         altStage = ALT_FIRST_TARGET;
         polarR->setChecked(true);
         solveB->click();
@@ -1128,13 +1128,13 @@ void Align::measureAltError()
         }
 
 
-        appendLogText(xi18n("Slewing 30 arcminutes in RA..."));
+        appendLogText(i18n("Slewing 30 arcminutes in RA..."));
         break;
 
       case ALT_SECOND_TARGET:
         // We reached second target now
         // Let now solver for RA/DEC
-        appendLogText(xi18n("Solving second frame."));
+        appendLogText(i18n("Solving second frame."));
         altStage = ALT_FINISHED;
         polarR->setChecked(true);
         solveB->click();
@@ -1144,7 +1144,7 @@ void Align::measureAltError()
       case ALT_FINISHED:
         // Measure deviation in DEC
         // Call function to report error
-        appendLogText(xi18n("Calculating altitude alignment error..."));
+        appendLogText(i18n("Calculating altitude alignment error..."));
         finalRA   = alignCoord.ra().Degrees();
         finalDEC  = alignCoord.dec().Degrees();
 
@@ -1157,7 +1157,7 @@ void Align::measureAltError()
             currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
         }
 
-        appendLogText(xi18n("Slewing back to original position..."));
+        appendLogText(i18n("Slewing back to original position..."));
 
         calculatePolarError(initRA, initDEC, finalRA, finalDEC);
 
@@ -1201,9 +1201,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = kxi18n("%1 too far east");
+                deviationDirection = ki18n("%1 too far east");
             else
-                deviationDirection = kxi18n("%1 too far west");
+                deviationDirection = ki18n("%1 too far west");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1212,18 +1212,18 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                 // East
                 case 0:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1 too far high");
+                    deviationDirection = ki18n("%1 too far high");
                 else
-                    deviationDirection = kxi18n("%1 too far low");
+                    deviationDirection = ki18n("%1 too far low");
 
                 break;
 
                 // West
                 case 1:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1 too far low");
+                    deviationDirection = ki18n("%1 too far low");
                 else
-                    deviationDirection = kxi18n("%1 too far high");
+                    deviationDirection = ki18n("%1 too far high");
                 break;
 
                 default:
@@ -1237,9 +1237,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = kxi18n("%1 too far west");
+                deviationDirection = ki18n("%1 too far west");
             else
-                deviationDirection = kxi18n("%1 too far east");
+                deviationDirection = ki18n("%1 too far east");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1248,17 +1248,17 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                 // East
                 case 0:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1 too far low");
+                    deviationDirection = ki18n("%1 too far low");
                 else
-                    deviationDirection = kxi18n("%1 too far high");
+                    deviationDirection = ki18n("%1 too far high");
                 break;
 
                 // West
                 case 1:
                 if (decDeviation > 0)
-                    deviationDirection = kxi18n("%1 too far high");
+                    deviationDirection = ki18n("%1 too far high");
                 else
-                    deviationDirection = kxi18n("%1 too far low");
+                    deviationDirection = ki18n("%1 too far low");
                 break;
 
                 default:
@@ -1314,7 +1314,7 @@ void Align::correctAltError()
 
     currentTelescope->Slew(newRA, newDEC);
 
-    appendLogText(xi18n("Slewing to calibration position, please wait until telescope completes slewing."));
+    appendLogText(i18n("Slewing to calibration position, please wait until telescope completes slewing."));
 
 }
 
@@ -1341,7 +1341,7 @@ void Align::correctAzError()
 
     currentTelescope->Slew(newRA, newDEC);
 
-    appendLogText(xi18n("Slewing to calibration position, please wait until telescope completes slewing."));
+    appendLogText(i18n("Slewing to calibration position, please wait until telescope completes slewing."));
 
 }
 
@@ -1361,7 +1361,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 void Align::loadAndSlew(QUrl fileURL)
 {
     if (fileURL.isEmpty())
-    fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), xi18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
+    fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
 
     if (fileURL.isEmpty())
         return;
@@ -1464,7 +1464,7 @@ void Align::setWCS(bool enable)
 
     if (wcsControl == NULL)
     {
-        appendLogText(xi18n("CCD driver does not support World System Coordinates."));
+        appendLogText(i18n("CCD driver does not support World System Coordinates."));
         wcsCheck->setChecked(false);
         return;
     }
@@ -1473,9 +1473,9 @@ void Align::setWCS(bool enable)
     ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
 
     if (wcs_enable && enable)
-        appendLogText(xi18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the CCD driver or by solving an image before proceeding to capture any further images, otherwise the WCS information may be invalid."));
+        appendLogText(i18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the CCD driver or by solving an image before proceeding to capture any further images, otherwise the WCS information may be invalid."));
     else if (wcs_disable && !enable)
-        appendLogText(xi18n("World Coordinate System (WCS) is disabled."));
+        appendLogText(i18n("World Coordinate System (WCS) is disabled."));
 
     if (wcs_enable && wcs_disable)
     {

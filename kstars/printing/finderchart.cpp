@@ -91,7 +91,7 @@ void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo)
     geoCharFmt.setFont(geoFont);
 
     cursor.insertBlock(geoBlockFmt);
-    cursor.insertText(xi18n("Date, time and location: "), geoCharFmt);
+    cursor.insertText(i18n("Date, time and location: "), geoCharFmt);
 
     QString geoStr = geo->translatedName();
     if(!geo->translatedProvince().isEmpty()) {

@@ -71,7 +71,7 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
         //Copy an item dragged from FieldPool to FieldList
         //If we dragged an "Ignore" item from the FieldPool to the FieldList, then we don't
         //need to insert the item, because FieldPool already has a persistent Ignore item.
-        if ( !( text == xi18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldList" &&
+        if ( !( text == i18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldList" &&
                 evt->source() != this )) {
 	    QListWidgetItem *lwi = itemAt( evt->pos() );
 	    if ( lwi == 0 && evt->pos().y() > visualItemRect(item(count()-1)).bottom() ) {
@@ -85,7 +85,7 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
         //Remove an item dragged from FieldList to FieldPool.
         //If we dragged the "Ignore" item from FieldList to FieldPool, then we don't
         //want to remove the item from the FieldPool
-        if ( !( text == xi18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldPool" &&
+        if ( !( text == i18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldPool" &&
                 evt->source() != this ) ) {
             DragListBox *fp = (DragListBox*)evt->source();
             delete fp->takeItem( fp->currentRow() );

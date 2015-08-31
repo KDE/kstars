@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
+    <width>663</width>
     <height>585</height>
    </rect>
   </property>
@@ -16,100 +16,73 @@
      <property name="title">
       <string>1. Object &amp;&amp; Sequence Selection</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_17">
+     <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,1,1">
       <item>
-       <layout class="QFormLayout" name="formLayout">
+       <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <widget class="QLabel" name="label_12">
           <property name="text">
-           <string>Select:</string>
+           <string>Target:</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
+           <widget class="QLineEdit" name="nameEdit"/>
+          </item>
+          <item>
            <widget class="QPushButton" name="selectObjectB">
             <property name="text">
-             <string>Object...</string>
+             <string>Find...</string>
             </property>
            </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>&lt;b&gt;OR&lt;/b&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="selectFITSB">
-            <property name="text">
-             <string>FITS...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_11">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="nameEdit"/>
-        </item>
-        <item row="2" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
            <string>RA (J2000):</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="dmsBox" name="raBox">
-          <property name="toolTip">
-           <string/>
-          </property>
-         </widget>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <item>
+           <widget class="dmsBox" name="raBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>DEC (J2000):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="decBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>DEC (J2000):</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="dmsBox" name="decBox">
-          <property name="toolTip">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="label_5">
+          <property name="toolTip">
+           <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
+          </property>
           <property name="text">
            <string>FITS File:</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="2" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_13">
           <item>
            <widget class="QLineEdit" name="fitsEdit">
@@ -118,16 +91,29 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="selectFITSB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
-        <item row="5" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>Sequence:</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="3" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_15">
           <item>
            <widget class="QLineEdit" name="sequenceEdit">
@@ -157,7 +143,7 @@
           </item>
          </layout>
         </item>
-        <item row="6" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="label_4">
           <property name="toolTip">
            <string>Select which Ekos modules to be utilized during the observation job</string>
@@ -167,7 +153,7 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="4" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
            <widget class="QCheckBox" name="focusModuleCheck">
@@ -399,30 +385,10 @@
           <item>
            <widget class="QRadioButton" name="culminationConditionR">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start the observation job when the object reaches culmination.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>Start the observation job when the object reaches culmination adjusted for the offset value in minutes. By default, the observation job runs 60 minutes prior to culmination.</string>
             </property>
             <property name="text">
-             <string>C&amp;ulmination</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>Offset:</string>
+             <string>Cu&amp;lmination Offset</string>
             </property>
            </widget>
           </item>
@@ -444,6 +410,19 @@
              <number>60</number>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -640,12 +619,55 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="toolTip">
-        <string>One-time startup script to be executed before starting Ekos devices</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time startup procedure to be executed before starting Ekos. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;before&lt;/span&gt; the startup procedures (e.g. unpark scope), if selected, are executed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="title">
         <string>Startup Procedure</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_16">
+          <item>
+           <widget class="QCheckBox" name="unparkTelescopeCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park telescope to home position.</string>
+            </property>
+            <property name="text">
+             <string>UnPark Scope</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="unparkDomeCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park dome to home position</string>
+            </property>
+            <property name="text">
+             <string>UnPark Dome</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_12">
           <item>
@@ -677,26 +699,13 @@
           </item>
          </layout>
         </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>19</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_10">
        <property name="toolTip">
-        <string>One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed after the initial shutdown procedures (e.g. parking), if selected, are completed.</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;after&lt;/span&gt; the shutdown procedures (e.g. parking), if selected, are completed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="title">
         <string>Shutdown Procedure</string>
@@ -713,7 +722,7 @@
              <string>Turn off CCD cooler.</string>
             </property>
             <property name="text">
-             <string>Warm up CCD</string>
+             <string>Warm CCD</string>
             </property>
            </widget>
           </item>

@@ -57,7 +57,7 @@ void StarHopperDialog::starHop( const SkyPoint &startHop, const SkyPoint &stopHo
     }
     else
     {
-        KMessageBox::error( this, xi18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a smaller FOV or changing the source point") );
+        KMessageBox::error( this, i18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a smaller FOV or changing the source point") );
     }
 }
 

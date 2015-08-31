@@ -127,7 +127,7 @@ EkosManager::EkosManager()
         initRemoteDrivers();
 
     schedulerProcess = new Ekos::Scheduler();
-    toolsWidget->addTab( schedulerProcess, xi18n("Scheduler"));
+    toolsWidget->addTab( schedulerProcess, i18n("Scheduler"));
     connect(schedulerProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
 }
@@ -180,7 +180,7 @@ void EkosManager::processINDIModeChange()
 
     if (managedDevices.count() > 0 || remote_indi != NULL)
     {
-        KMessageBox::error(0, xi18n("Cannot switch modes while INDI services are running."), i18n("Ekos Mode"));
+        KMessageBox::error(0, i18n("Cannot switch modes while INDI services are running."), i18n("Ekos Mode"));
         kcfg_localMode->setChecked(!newLocalMode);
         kcfg_remoteMode->setChecked(newLocalMode);
         return;
@@ -189,7 +189,7 @@ void EkosManager::processINDIModeChange()
     {
         if ( Options::remotePort().isEmpty() || Options::remoteHost().isEmpty())
         {
-           appendLogText(xi18n("Please fill the remote server information in Ekos options before switching to remote mode."));
+           appendLogText(i18n("Please fill the remote server information in Ekos options before switching to remote mode."));
            if (KConfigDialog::showDialog("settings") == false)
                optionsB->click();
 
@@ -735,7 +735,7 @@ void EkosManager::reset()
     INDIB->setEnabled(false);
     processINDIB->setEnabled(true);
 
-    processINDIB->setText(xi18n("Start INDI"));
+    processINDIB->setText(i18n("Start INDI"));
 }
 
 void EkosManager::processINDI()
@@ -865,7 +865,7 @@ bool EkosManager::start()
 
         if (ccd_di == NULL && guider_di == NULL)
         {
-            KMessageBox::error(this, xi18n("Ekos requires at least one CCD or Guider to operate."));
+            KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
             managedDevices.clear();
             return false;
         }
@@ -900,7 +900,7 @@ bool EkosManager::start()
 
         if (haveCCD == false && haveGuider == false)
         {
-            KMessageBox::error(this, xi18n("Ekos requires at least one CCD or Guider to operate."));
+            KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
             delete (remote_indi);
             nDevices=0;
             return false;
@@ -927,6 +927,8 @@ bool EkosManager::start()
         if (aux3Combo->currentText() != "--")
             nDevices++;
 
+        nRemoveDevices=0;
+
         saveRemoteDrivers();
     }
 
@@ -943,8 +945,8 @@ bool EkosManager::start()
     {
         if (isRunning("indiserver"))
         {
-            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, xi18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
-                                                                xi18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
+            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
+                                                                i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
             {
                 //TODO is there a better way to do this.
                 QProcess p;
@@ -962,7 +964,7 @@ bool EkosManager::start()
 
         ekosStartingStatus = STATUS_PENDING;
 
-        appendLogText(xi18n("INDI services started. Please connect devices."));
+        appendLogText(i18n("INDI services started. Please connect devices."));
 
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
@@ -980,7 +982,7 @@ bool EkosManager::start()
 
         ekosStartingStatus = STATUS_PENDING;
 
-        appendLogText(xi18n("INDI services started. Connection to %1 at %2 is successful.", Options::remoteHost(), Options::remotePort()));
+        appendLogText(i18n("INDI services started. Connection to %1 at %2 is successful.", Options::remoteHost(), Options::remotePort()));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
@@ -992,7 +994,7 @@ bool EkosManager::start()
     fitsViewerB->setEnabled(false);
     INDIB->setEnabled(false);
 
-    processINDIB->setText(xi18n("Stop INDI"));
+    processINDIB->setText(i18n("Stop INDI"));
 
     return true;
 
@@ -1032,9 +1034,9 @@ void EkosManager::checkINDITimeout()
             remainingDevices << QString("+ %1").arg(aux3_di->getName());
 
         if (remainingDevices.count() == 1)
-            KMessageBox::error(this, xi18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.", remainingDevices.at(0)));
+            KMessageBox::error(this, i18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.", remainingDevices.at(0)));
         else
-            KMessageBox::error(this, xi18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected and powered on.", remainingDevices.join("\n")));
+            KMessageBox::error(this, i18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected and powered on.", remainingDevices.join("\n")));
     }
     else
     {
@@ -1061,9 +1063,9 @@ void EkosManager::checkINDITimeout()
             remainingDevices << QString("+ %1").arg(aux3Combo->currentText());
 
         if (remainingDevices.count() == 1)
-            KMessageBox::error(this, xi18n("Unable to establish remote device:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.at(0)));
+            KMessageBox::error(this, i18n("Unable to establish remote device:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.at(0)));
         else
-            KMessageBox::error(this, xi18n("Unable to establish remote devices:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.join("\n")));
+            KMessageBox::error(this, i18n("Unable to establish remote devices:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.join("\n")));
     }
 
     ekosStartingStatus = STATUS_ERROR;
@@ -1136,7 +1138,7 @@ void EkosManager::connectDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
-    appendLogText(xi18n("Connecting INDI devices..."));
+    appendLogText(i18n("Connecting INDI devices..."));
 }
 
 void EkosManager::disconnectDevices()
@@ -1199,7 +1201,7 @@ void EkosManager::disconnectDevices()
         aux3->Disconnect();
 
 
-    appendLogText(xi18n("Disconnecting INDI devices..."));
+    appendLogText(i18n("Disconnecting INDI devices..."));
 
 }
 
@@ -1227,12 +1229,13 @@ void EkosManager::cleanDevices()
     }
 
 
+    nRemoveDevices=0;
     nDevices = 0;
     managedDevices.clear();
 
     reset();
 
-    processINDIB->setText(xi18n("Start INDI"));
+    processINDIB->setText(i18n("Start INDI"));
     processINDIB->setEnabled(true);
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
@@ -1240,7 +1243,7 @@ void EkosManager::cleanDevices()
     fitsViewerB->setEnabled(false);
     INDIB->setEnabled(false);
 
-    appendLogText(xi18n("INDI services stopped."));
+    appendLogText(i18n("INDI services stopped."));
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
@@ -1421,6 +1424,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         return;
 
     nDevices--;
+    nRemoveDevices++;
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
@@ -1430,7 +1434,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         ekosStartingStatus = STATUS_SUCCESS;
 
         if (nDevices == 0)
-            appendLogText(xi18n("Remote devices established. Please connect devices."));
+            appendLogText(i18n("Remote devices established. Please connect devices."));
 
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
@@ -1449,7 +1453,7 @@ void EkosManager::deviceConnected()
 
     nConnectedDevices++;
 
-    if (nConnectedDevices == managedDevices.count())
+    if (nConnectedDevices == managedDevices.count() || nConnectedDevices == nRemoveDevices)
         indiConnectionStatus = STATUS_SUCCESS;
 
     if (Options::neverLoadConfig())
@@ -1561,7 +1565,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 {
     scope = scopeDevice;
 
-    appendLogText(xi18n("%1 is online.", scope->getDeviceName()));
+    appendLogText(i18n("%1 is online.", scope->getDeviceName()));
 
     scopeRegistered = true;
 
@@ -1608,7 +1612,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
             guideProcess->setTelescope(scope);
     }
 
-    appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
+    appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
     connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
@@ -1647,7 +1651,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     if (isPrimaryCCD == false)
     {
         guider = ccdDevice;
-        appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
+        appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
         initGuide();
 
@@ -1668,7 +1672,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         ccd = ccdDevice;
 
         if (ccdStarted == false)
-            appendLogText(xi18n("%1 is online.", ccdDevice->getDeviceName()));
+            appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
         ccdStarted = true;
 
@@ -1739,7 +1743,7 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
     }
 
 
-    appendLogText(xi18n("%1 is offline.", devInterface->getDeviceName()));
+    appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 
     foreach(DriverInfo *drvInfo, managedDevices)
     {
@@ -1968,7 +1972,7 @@ void EkosManager::updateLog()
 void EkosManager::appendLogText(const QString &text)
 {
 
-    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     updateLog();
 }
@@ -2003,7 +2007,7 @@ void EkosManager::initCapture()
         return;
 
      captureProcess = new Ekos::Capture();
-     toolsWidget->addTab( captureProcess, xi18n("CCD"));
+     toolsWidget->addTab( captureProcess, i18n("CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
      if (focusProcess)
@@ -2041,7 +2045,7 @@ void EkosManager::initAlign()
         return;
 
      alignProcess = new Ekos::Align();
-     toolsWidget->addTab( alignProcess, xi18n("Alignment"));
+     toolsWidget->addTab( alignProcess, i18n("Alignment"));
      connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
      if (captureProcess)
@@ -2068,7 +2072,7 @@ void EkosManager::initFocus()
         return;
 
     focusProcess = new Ekos::Focus();
-    toolsWidget->addTab( focusProcess, xi18n("Focus"));
+    toolsWidget->addTab( focusProcess, i18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     if (captureProcess)
@@ -2101,7 +2105,7 @@ void EkosManager::initMount()
         return;
 
     mountProcess = new Ekos::Mount();
-    toolsWidget->addTab(mountProcess, xi18n("Mount"));
+    toolsWidget->addTab(mountProcess, i18n("Mount"));
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     if (captureProcess)
@@ -2124,7 +2128,7 @@ void EkosManager::initGuide()
         if (scope && scope->isConnected())
             guideProcess->setTelescope(scope);
 
-        toolsWidget->addTab( guideProcess, xi18n("Guide"));
+        toolsWidget->addTab( guideProcess, i18n("Guide"));
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     }
@@ -2167,7 +2171,7 @@ void EkosManager::initGuide()
 
 void EkosManager::setST4(ISD::ST4 * st4Driver)
 {
-     appendLogText(xi18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
+     appendLogText(i18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
      useST4=true;
 
      initGuide();
@@ -2447,7 +2451,7 @@ void EkosManager::toggleFITSViewer()
     }
 
     if (ccdViewer == NULL && guiderViewer == NULL)
-        appendLogText(xi18n("No active FITS Viewer windows to show/hide."));
+        appendLogText(i18n("No active FITS Viewer windows to show/hide."));
 }
 
 void EkosManager::checkFITSViewerState()

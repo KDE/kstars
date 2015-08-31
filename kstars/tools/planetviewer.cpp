@@ -58,14 +58,14 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     mainLayout->addWidget(pw);
     setLayout(mainLayout);
 
-    setWindowTitle( xi18n("Solar System Viewer") );
+    setWindowTitle( i18n("Solar System Viewer") );
     //setMainWidget( pw );
     //setButtons( QDialog::Close );
     setModal( false );
 
     pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );
-    pw->map->axis( KPlotWidget::BottomAxis )->setLabel( xi18nc( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", "X-position (AU)" ) );
-    pw->map->axis( KPlotWidget::LeftAxis )->setLabel( xi18nc( "axis label for y-coordinate of solar system viewer.  AU means astronomical unit.", "Y-position (AU)" ) );
+    pw->map->axis( KPlotWidget::BottomAxis )->setLabel( i18nc( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", "X-position (AU)" ) );
+    pw->map->axis( KPlotWidget::LeftAxis )->setLabel( i18nc( "axis label for y-coordinate of solar system viewer.  AU means astronomical unit.", "Y-position (AU)" ) );
 
     pw->TimeStep->setDaysOnly( true );
     pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep

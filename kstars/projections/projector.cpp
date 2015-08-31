@@ -254,7 +254,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     KStarsData *data = KStarsData::Instance();
     QVector<Vector2f> ground;
 
-    static const QString horizonLabel = xi18n("Horizon");
+    static const QString horizonLabel = i18n("Horizon");
     float marginLeft, marginRight, marginTop, marginBot;
     SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
                                         &marginTop, &marginBot );

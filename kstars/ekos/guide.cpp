@@ -251,7 +251,7 @@ void Guide::updateGuideParams()
 
         if (targetChip == NULL)
         {
-            appendLogText(xi18n("Connection to the guide CCD is lost."));
+            appendLogText(i18n("Connection to the guide CCD is lost."));
             return;
         }
 
@@ -303,7 +303,7 @@ bool Guide::capture()
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(xi18n("Error: Lost connection to CCD."));
+        appendLogText(i18n("Error: Lost connection to CCD."));
         return false;
     }
 
@@ -321,12 +321,12 @@ bool Guide::capture()
         targetChip->setFrameType(FRAME_DARK);
 
         if (calibration->useAutoCalibration() == false)
-            KMessageBox::information(NULL, xi18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), xi18n("Dark Exposure"), "dark_exposure_dialog_notification");
+            KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
         connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
         targetChip->capture(seqExpose);
 
-        appendLogText(xi18n("Taking a dark frame. "));
+        appendLogText(i18n("Taking a dark frame. "));
 
         return true;
     }
@@ -371,7 +371,7 @@ void Guide::newFITS(IBLOB *bp)
             capture();
         }
         else
-            appendLogText(xi18n("Dark frame processing failed."));
+            appendLogText(i18n("Dark frame processing failed."));
 
        return;
     }
@@ -416,7 +416,7 @@ void Guide::newFITS(IBLOB *bp)
         pmath->do_processing();
         if (guider->dither() == false)
         {
-            appendLogText(xi18n("Dithering failed. Autoguiding aborted."));
+            appendLogText(i18n("Dithering failed. Autoguiding aborted."));
             guider->abort();
             emit ditherFailed();
         }
@@ -448,7 +448,7 @@ void Guide::newFITS(IBLOB *bp)
 void Guide::appendLogText(const QString &text)
 {
 
-    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -541,7 +541,7 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
     // Check if guide star is lost
     if (dx == -1 && dy == -1 && fit == -1)
     {
-        KMessageBox::error(NULL, xi18n("Lost track of the guide star. Rapid guide aborted."));
+        KMessageBox::error(NULL, i18n("Lost track of the guide star. Rapid guide aborted."));
         guider->abort();
         return;
     }
@@ -572,7 +572,7 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
         pmath->do_processing();
         if (guider->dither() == false)
         {
-            appendLogText(xi18n("Dithering failed. Autoguiding aborted."));
+            appendLogText(i18n("Dithering failed. Autoguiding aborted."));
             guider->abort();
             emit ditherFailed();
         }
@@ -591,7 +591,7 @@ void Guide::startRapidGuide()
 
     if (currentCCD->setRapidGuide(targetChip, true) == false)
     {
-        appendLogText(xi18n("The CCD does not support Rapid Guiding. Aborting..."));
+        appendLogText(i18n("The CCD does not support Rapid Guiding. Aborting..."));
         guider->abort();
         return;
     }
@@ -645,13 +645,13 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
     if (AODriver != NULL && (fabs(delta_ra) < guider->getAOLimit()) && (fabs(delta_dec) < guider->getAOLimit()))
     {
         if (AODriver != GuideDriver)
-                appendLogText(xi18n("Using %1 to correct for guiding errors.", AODriver->getDeviceName()));
+                appendLogText(i18n("Using %1 to correct for guiding errors.", AODriver->getDeviceName()));
         GuideDriver = AODriver;
         return;
     }
 
     if (GuideDriver != ST4Driver)
-        appendLogText(xi18n("Using %1 to correct for guiding errors.", ST4Driver->getDeviceName()));
+        appendLogText(i18n("Using %1 to correct for guiding errors.", ST4Driver->getDeviceName()));
 
     GuideDriver = ST4Driver;
 }
@@ -703,9 +703,9 @@ void Guide::setSuspended(bool enable)
         capture();
 
     if (isSuspended)
-        appendLogText(xi18n("Guiding suspended."));
+        appendLogText(i18n("Guiding suspended."));
     else
-        appendLogText(xi18n("Guiding resumed."));
+        appendLogText(i18n("Guiding resumed."));
 }
 
 void Guide::setExposure(double value)
@@ -790,12 +790,12 @@ void Guide::checkAutoCalibrateGuiding(bool successful)
 
     if (successful)
     {
-        appendLogText(xi18n("Auto calibration successful. Starting guiding..."));
+        appendLogText(i18n("Auto calibration successful. Starting guiding..."));
         startGuiding();
     }
     else
     {
-        appendLogText(xi18n("Auto calibration failed."));
+        appendLogText(i18n("Auto calibration failed."));
     }
 }
 

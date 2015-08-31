@@ -86,7 +86,7 @@ void CometsComponent::loadData() {
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
 
-    emitProgressText(xi18n("Loading comets"));
+    emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
