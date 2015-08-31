@@ -354,7 +354,7 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
 void FindDialog::slotDetails()
 {
     if ( selectedObject() ) {
-        QPointer<DetailDialog> dd = new DetailDialog( selectedObject(), KStarsData::Instance()->lt(), KStarsData::Instance()->geo(), KStars::Instance());
+        QPointer<DetailDialog> dd = new DetailDialog( selectedObject(), KStarsData::Instance()->ut(), KStarsData::Instance()->geo(), KStars::Instance());
         dd->exec();
         delete dd;
     }
