@@ -237,6 +237,8 @@ private:
 
     GeoLocation *geo;
 
+    uint16_t captureBatch;
+
     double Dawn, Dusk;
 
 

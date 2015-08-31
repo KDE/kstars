@@ -126,12 +126,12 @@ void SchedulerJob::setNoMeridianFlip(bool value)
 }
 QDateTime SchedulerJob::getCompletionTime() const
 {
-    return completionTimeEdit;
+    return completionTime;
 }
 
 void SchedulerJob::setCompletionTime(const QDateTime &value)
 {
-    completionTimeEdit = value;
+    completionTime = value;
 }
 
 SchedulerJob::CompletionCondition SchedulerJob::getCompletionCondition() const
@@ -190,6 +190,10 @@ void SchedulerJob::setState(const JOBStatus &value)
 
         case JOB_COMPLETE:
             statusCell->setText(i18n("Complete"));
+            break;
+
+        case JOB_ABORTED:
+            statusCell->setText(i18n("Aborted"));
             break;
 
         default:

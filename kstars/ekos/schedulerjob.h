@@ -106,7 +106,7 @@ private:
     CompletionCondition completionCondition;
 
     QDateTime startupTime;
-    QDateTime completionTimeEdit;
+    QDateTime completionTime;
 
     QUrl sequenceFile;
     QUrl fitsFile;

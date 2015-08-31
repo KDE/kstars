@@ -650,7 +650,7 @@ void KStars::slotViewOps() {
 
     #ifdef HAVE_INDI
     opsindi = new OpsINDI();
-    dialog->addPage(opsindi, i18n("INDI"), "kstars");
+    dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
 
     #ifdef HAVE_CFITSIO
     opsekos = new OpsEkos();

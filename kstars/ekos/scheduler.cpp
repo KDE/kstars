@@ -39,8 +39,9 @@ Scheduler::Scheduler()
     startupState = STARTUP_IDLE;
     shutdownState= SHUTDOWN_IDLE;
 
-    currentJob = NULL;
-    geo        = 0;
+    currentJob   = NULL;
+    geo          = NULL;
+    captureBatch = 0;
     jobUnderEdit = false;
     mDirty       = false;
 
@@ -491,6 +492,12 @@ void Scheduler::stop()
         return;
 
     // TODO stop any running jobs!
+    if (currentJob && currentJob->getState() == SchedulerJob::JOB_BUSY)
+    {
+        currentJob->setStage(SchedulerJob::STAGE_IDLE);
+        currentJob->setState(SchedulerJob::JOB_ABORTED);
+        stopEkosAction();
+    }
 
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
@@ -500,9 +507,12 @@ void Scheduler::stop()
     indiState = INDI_IDLE;
 
     currentJob = NULL;
+    captureBatch =0;
 
      pi->stopAnimation();
      startB->setText("Start Scheduler");
+     addToQueueB->setEnabled(true);
+     removeFromQueueB->setEnabled(true);
 }
 
 void Scheduler::start()
@@ -530,6 +540,9 @@ void Scheduler::start()
     state = SCHEDULER_RUNNIG;
 
     currentJob = NULL;
+
+    addToQueueB->setEnabled(false);
+    removeFromQueueB->setEnabled(false);
 
     connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
 
@@ -837,7 +850,8 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
 
 int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, const SkyPoint &target)
 {
-    // TODO Add moon phase to the score
+    // TODO Use moon brightness model from Khisciunas and Shaefer
+
     int16_t score=0;
 
     double mSeparation = moon->angularDistanceTo(&target).Degrees();
@@ -1072,20 +1086,13 @@ void Scheduler::checkJobStage()
 {
     Q_ASSERT(currentJob != NULL);
 
-    if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
+    if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT && currentJob->getState() == SchedulerJob::JOB_BUSY)
     {
         // If the job reached it COMPLETION time, we stop it.
-        if (currentJob->getCompletionTime().secsTo(KStarsData::Instance()->lt()) <= 0)
+        if (KStarsData::Instance()->lt().secsTo(currentJob->getCompletionTime()) <= 0)
         {
-            appendLogText(i18n("%1 observation job reached completion time. Stopping...", currentJob->getName()));
-            currentJob->setState(SchedulerJob::JOB_COMPLETE);
-
-            stopEkosAction();
-
             findNextJob();
-
             return;
-
         }
     }
 
@@ -1293,7 +1300,7 @@ void Scheduler::getNextAction()
 }
 
 void Scheduler::stopEkosAction()
-{
+{    
     switch(currentJob->getStage())
     {
     case SchedulerJob::STAGE_IDLE:
@@ -1396,22 +1403,34 @@ void Scheduler::findNextJob()
 {
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
 
+    if (currentJob->getState() == SchedulerJob::JOB_ERROR)
+    {
+        appendLogText(i18n("%1 observation job terminated due to errors.", currentJob->getName()));
+        captureBatch=0;
+        currentJob = NULL;
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        return;
+    }
+
     // Check completion criteria
 
     // We're done whether the job completed successfully or not.
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
     {
         currentJob->setState(SchedulerJob::JOB_COMPLETE);
+        captureBatch=0;
         currentJob = NULL;
         connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
         return;
     }
 
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
-    {
-        currentJob->setState(SchedulerJob::JOB_SCHEDULED);
-        currentJob->setStage(SchedulerJob::STAGE_IDLE);
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+    {        
+        currentJob->setState(SchedulerJob::JOB_BUSY);
+        currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+        captureBatch++;
+        startCapture();
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
         return;
     }
 
@@ -1419,19 +1438,24 @@ void Scheduler::findNextJob()
     {
         if (currentJob->getCompletionTime().secsTo(KStarsData::Instance()->lt()) <= 0)
         {
-            appendLogText(i18n("%1 observation job reached completion time. Stopping...", currentJob->getName()));
+            appendLogText(i18np("%1 observation job reached completion time with #%2 batch done. Stopping...",
+                                "%1 observation job reached completion time with #%2 batches done. Stopping...", currentJob->getName(), captureBatch+1));
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
             stopEkosAction();
+            captureBatch=0;
             currentJob = NULL;
             connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
             return;
         }
         else
-        {
+        {            
             appendLogText(i18n("%1 observation job completed and will restart now...", currentJob->getName()));
-            currentJob->setState(SchedulerJob::JOB_SCHEDULED);
-            currentJob->setStage(SchedulerJob::STAGE_IDLE);
-            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+            currentJob->setState(SchedulerJob::JOB_BUSY);
+            currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+
+            captureBatch++;
+            startCapture();
+            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
             return;
         }
     }
@@ -1475,20 +1499,22 @@ void Scheduler::startCalibrating()
 
 void Scheduler::startCapture()
 {
-    QString url = currentJob->getSequenceFile().toString(QUrl::PreferLocalFile);
+    /*
+     // convert to an url
+     QRegExp withProtocol(QStringLiteral("^[a-zA-Z]+:"));
+     if (withProtocol.indexIn(url) == 0)
+     {
+         dbusargs.append(QUrl::fromUserInput(url).toString());
+     }
+     else
+     {
+         const QString path = QDir::current().absoluteFilePath(url);
+         dbusargs.append(QUrl::fromLocalFile(path).toString());
+     }*/
 
-   /*
-    // convert to an url
-    QRegExp withProtocol(QStringLiteral("^[a-zA-Z]+:"));
-    if (withProtocol.indexIn(url) == 0)
-    {
-        dbusargs.append(QUrl::fromUserInput(url).toString());
-    }
-    else
-    {
-        const QString path = QDir::current().absoluteFilePath(url);
-        dbusargs.append(QUrl::fromLocalFile(path).toString());
-    }*/
+    captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
+
+    QString url = currentJob->getSequenceFile().toString(QUrl::PreferLocalFile);  
 
     QList<QVariant> dbusargs;
     dbusargs.append(url);
@@ -1498,7 +1524,10 @@ void Scheduler::startCapture()
 
     currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
 
-    appendLogText(i18n("%1 capture is in progress...", currentJob->getName()));
+    if (captureBatch > 0)
+        appendLogText(i18n("%1 capture is in progress (Batch #%2)...", currentJob->getName(), captureBatch+1));
+    else
+        appendLogText(i18n("%1 capture is in progress...", currentJob->getName()));
 }
 
 /*void Scheduler::stopGuiding()

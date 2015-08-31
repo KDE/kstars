@@ -71,7 +71,6 @@
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
 	        <Action name="whats_interesting" />
-                <Action name="ekos" />
 		<Action name="glossary" />
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />

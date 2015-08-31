@@ -528,24 +528,24 @@ void KStars::initActions() {
 
 #ifdef HAVE_INDI
     // ==== INDIToolBar actions ================
-    actionCollection()->add<KToggleAction>("show_device_manager", this, SLOT( slotINDIToolBar() ) )
-        << i18nc("Toggle the device manager in the display", "Device Manager" )
-        << QIcon::fromTheme("computer" )
-        << ToolTip( i18n("Toggle Device Manager") );
-    ka = actionCollection()->add<KToggleAction>("show_control_panel", this, SLOT( slotINDIToolBar() ) )
-        << i18nc("Toggle the control panel in the display", "Control Panel" )
-        << QIcon::fromTheme("kstars" )
-        << ToolTip( i18n("Toggle Control Panel") );
-    ka->setEnabled(false);
     actionCollection()->add<KToggleAction>("show_ekos", this, SLOT( slotINDIToolBar() ) )
         << i18nc("Toggle Ekos in the display", "Ekos" )
         << QIcon::fromTheme("kstars_ekos" )
         << ToolTip( i18n("Toggle Ekos") );
+    ka = actionCollection()->add<KToggleAction>("show_control_panel", this, SLOT( slotINDIToolBar() ) )
+        << i18nc("Toggle the INDI Control Panel in the display", "INDI Control Panel" )
+        << QIcon::fromTheme("kstars_indi" )
+        << ToolTip( i18n("Toggle INDI Control Panel") );
+    ka->setEnabled(false);
     ka = actionCollection()->add<KToggleAction>("show_fits_viewer", this, SLOT( slotINDIToolBar() ) )
         << i18nc("Toggle the FITS Viewer in the display", "FITS Viewer" )
         << QIcon::fromTheme("kstars_fitsviewer" )
         << ToolTip( i18n("Toggle FITS Viewer") );
     ka->setEnabled(false);
+    actionCollection()->add<KToggleAction>("show_device_manager", this, SLOT( slotINDIToolBar() ) )
+        << i18nc("Toggle the device manager in the display", "Device Manager" )
+        << QIcon::fromTheme("computer" )
+        << ToolTip( i18n("Toggle Device Manager") );    
 #endif
 
     if (Options::fitsDir().isEmpty())

@@ -14,6 +14,7 @@ ecm_install_icons(ICONS
 22-actions-kstars_stars.png
 22-actions-kstars_supernovae.png
 22-actions-kstars_ekos.png
+22-actions-kstars_indi.png
 22-actions-kstars_fitsviewer.png
 32-actions-kstars_clines.png
 32-actions-kstars_cnames.png
@@ -29,6 +30,7 @@ ecm_install_icons(ICONS
 32-actions-kstars_supernovae.png
 32-actions-kstars_ekos.png
 32-actions-kstars_fitsviewer.png
+32-actions-kstars_indi.png
 48-actions-kstars_clines.png
 48-actions-kstars_cnames.png
 48-actions-kstars_deepsky.png
@@ -43,6 +45,7 @@ ecm_install_icons(ICONS
 48-actions-kstars_supernovae.png
 48-actions-kstars_ekos.png
 48-actions-kstars_fitsviewer.png
+48-actions-kstars_indi.png
 64-actions-kstars_advanced.png
 64-actions-kstars_catalog.png
 64-actions-kstars_cbound.png
@@ -64,5 +67,6 @@ ecm_install_icons(ICONS
 64-actions-kstars_xplanet.png
 64-actions-kstars_ekos.png
 64-actions-kstars_fitsviewer.png
+64-actions-kstars_indi.png
 DESTINATION
 ${KDE_INSTALL_ICONDIR} THEME hicolor)
