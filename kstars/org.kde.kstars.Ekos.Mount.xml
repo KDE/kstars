@@ -26,7 +26,7 @@
       <arg type="b" direction="out"/>
     </method>
     <method name="getSlewStatus">
-      <arg type="s" direction="out"/>
+      <arg type="i" direction="out"/>
     </method>    
     <method name="getTelescopeInfo">
     <arg type="ad" direction="out"/>
@@ -38,6 +38,15 @@
       <arg name="guideFocalLength" type="d" direction="in"/>
       <arg name="guideAperture" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="canPark">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="park">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="unpark">
+      <arg type="b" direction="out"/>
     </method>
   </interface>
 </node>
