@@ -59,6 +59,7 @@ if (INDI_FOUND)
     indi/indiccd.cpp
     indi/indifocuser.cpp
     indi/indifilter.cpp
+    indi/indidome.cpp
     indi/indidbus.cpp
     indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
@@ -95,6 +96,7 @@ if (CFITSIO_FOUND)
       ekos/guide.cpp
       ekos/align.cpp
       ekos/mount.cpp
+      ekos/dome.cpp
       ekos/astrometryparser.cpp
       ekos/offlineastrometryparser.cpp
       ekos/onlineastrometryparser.cpp
@@ -492,6 +494,7 @@ qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus.h Ekos
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide.h Ekos::Guide)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos::Align)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
 endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})

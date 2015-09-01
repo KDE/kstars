@@ -20,6 +20,7 @@
 #include "guide.h"
 #include "align.h"
 #include "mount.h"
+#include "dome.h"
 #include "scheduler.h"
 
 #include <QDialog>
@@ -202,6 +203,7 @@ protected slots:
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
     void setFocuser(ISD::GDInterface *);
+    void setDome(ISD::GDInterface *);
     void setST4(ISD::ST4 *);    
 
  private:
@@ -213,6 +215,7 @@ protected slots:
     void initGuide();
     void initAlign();
     void initMount();
+    void initDome();
 
     void initLocalDrivers();
     void initRemoteDrivers();
@@ -241,12 +244,13 @@ protected slots:
     Ekos::Align *alignProcess;
     Ekos::Mount *mountProcess;
     Ekos::Scheduler *schedulerProcess;
+    Ekos::Dome *domeProcess;
 
     QString guiderCCDName;
     QString primaryCCDName;
     bool localMode, ccdDriverSelected;
 
-    int nDevices, nRemoveDevices;
+    int nDevices, nRemoteDevices;
     int nConnectedDevices;
     QList<DriverInfo *> managedDevices;
     QHash<QString, DriverInfo *> driversList;

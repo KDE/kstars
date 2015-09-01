@@ -87,6 +87,7 @@ EkosManager::EkosManager()
     guideProcess   = NULL;
     alignProcess   = NULL;
     mountProcess   = NULL;
+    domeProcess    = NULL;
     schedulerProcess = NULL;
 
     ekosOption     = NULL;
@@ -138,6 +139,7 @@ EkosManager::~EkosManager()
     delete focusProcess;
     delete guideProcess;
     delete alignProcess;
+    delete domeProcess;
     delete mountProcess;
     delete schedulerProcess;
 }
@@ -719,6 +721,7 @@ void EkosManager::reset()
     captureProcess = NULL;
     focusProcess   = NULL;
     guideProcess   = NULL;
+    domeProcess    = NULL;
     alignProcess   = NULL;
     mountProcess   = NULL;
 
@@ -927,7 +930,7 @@ bool EkosManager::start()
         if (aux3Combo->currentText() != "--")
             nDevices++;
 
-        nRemoveDevices=0;
+        nRemoteDevices=0;
 
         saveRemoteDrivers();
     }
@@ -937,6 +940,7 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newCCD(ISD::GDInterface*)), this, SLOT(setCCD(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newFilter(ISD::GDInterface*)), this, SLOT(setFilter(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newFocuser(ISD::GDInterface*)), this, SLOT(setFocuser(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
     connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)));
     connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
@@ -1229,7 +1233,7 @@ void EkosManager::cleanDevices()
     }
 
 
-    nRemoveDevices=0;
+    nRemoteDevices=0;
     nDevices = 0;
     managedDevices.clear();
 
@@ -1424,7 +1428,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         return;
 
     nDevices--;
-    nRemoveDevices++;
+    nRemoteDevices++;
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
@@ -1453,7 +1457,7 @@ void EkosManager::deviceConnected()
 
     nConnectedDevices++;
 
-    if (nConnectedDevices == managedDevices.count() || nConnectedDevices == nRemoveDevices)
+    if (nConnectedDevices == managedDevices.count() || nConnectedDevices == nRemoteDevices)
         indiConnectionStatus = STATUS_SUCCESS;
 
     if (Options::neverLoadConfig())
@@ -1723,7 +1727,18 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     focusProcess->addFocuser(focuser);
 
-    appendLogText(i18n("%1 focuser is online.", focuser->getDeviceName()));
+    appendLogText(i18n("%1 is online.", focuser->getDeviceName()));
+}
+
+void EkosManager::setDome(ISD::GDInterface *domeDevice)
+{
+    initDome();
+
+    dome = domeDevice;
+
+    domeProcess->setDome(dome);
+
+    appendLogText(i18n("%1 is online.", dome->getDeviceName()));
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -2167,6 +2182,14 @@ void EkosManager::initGuide()
         connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)), Qt::UniqueConnection);
     }
 
+}
+
+void EkosManager::initDome()
+{
+    if (domeProcess)
+        return;
+
+    domeProcess = new Ekos::Dome();
 }
 
 void EkosManager::setST4(ISD::ST4 * st4Driver)
