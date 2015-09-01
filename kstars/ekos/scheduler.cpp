@@ -58,6 +58,7 @@ Scheduler::Scheduler()
     mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount", "org.kde.kstars.Ekos.Mount", QDBusConnection::sessionBus(), this);
     alignInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align", QDBusConnection::sessionBus(), this);
     guideInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Guide", "org.kde.kstars.Ekos.Guide", QDBusConnection::sessionBus(), this);
+    domeInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Dome", "org.kde.kstars.Ekos.Dome", QDBusConnection::sessionBus(), this);
 
     moon = dynamic_cast<KSMoon*> (KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
@@ -79,6 +80,8 @@ Scheduler::Scheduler()
     connect(selectObjectB,SIGNAL(clicked()),this,SLOT(selectObject()));
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
     connect(loadSequenceB,SIGNAL(clicked()),this,SLOT(selectSequence()));
+    connect(selectStartupScriptB, SIGNAL(clicked()), this, SLOT(selectStartupScript()));
+    connect(selectShutdownScriptB, SIGNAL(clicked()), this, SLOT(selectShutdownScript()));
 
     connect(addToQueueB,SIGNAL(clicked()),this,SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
@@ -90,13 +93,18 @@ Scheduler::Scheduler()
     connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
 
     // Load scheduler settings
-    startupScript->setText(Options::startupScript());
+    startupScript->setText(Options::startupScript());    
+    startupScriptURL = QUrl(Options::startupScript());
+
     shutdownScript->setText(Options::shutdownScript());
+    shutdownScriptURL = QUrl(Options::shutdownScript());
+
     warmCCDCheck->setChecked(Options::warmUpCCD());
     parkTelescopeCheck->setChecked(Options::parkScope());
     parkDomeCheck->setChecked(Options::parkDome());
     unparkTelescopeCheck->setChecked(Options::unParkScope());
     unparkDomeCheck->setChecked(Options::unParkDome());
+
 }
 
 Scheduler::~Scheduler()
@@ -131,10 +139,7 @@ void Scheduler::selectObject()
             raBox->setText(o->ra0().toHMSString());
             decBox->setText(o->dec0().toDMSString());
 
-            if (sequenceEdit->text().isEmpty())
-                appendLogText(i18n("Object selected. Please select the sequence file."));
-            else
-                addToQueueB->setEnabled(true);
+            addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
 
         }
     }
@@ -145,7 +150,7 @@ void Scheduler::selectObject()
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(this, i18n("Open FITS Image"), QDir::homePath(), "FITS (*.fits *.fit)");
+    fitsURL = QFileDialog::getOpenFileUrl(this, i18n("Select FITS Image"), QDir::homePath(), "FITS (*.fits *.fit)");
     if (fitsURL.isEmpty())
         return;
 
@@ -157,15 +162,12 @@ void Scheduler::selectFITS()
     if (nameEdit->text().isEmpty())
         nameEdit->setText(fitsURL.fileName());
 
-    if (sequenceEdit->text().isEmpty())
-        appendLogText(i18n("FITS selected. Please select the sequence file."));
-    else
-        addToQueueB->setEnabled(true);
+    addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
 }
 
 void Scheduler::selectSequence()
 {
-    sequenceURL = QFileDialog::getOpenFileUrl(this, i18n("Open Sequence Queue"), QDir::homePath(), i18n("Ekos Sequence Queue (*.esq)"));
+    sequenceURL = QFileDialog::getOpenFileUrl(this, i18n("Select Sequence Queue"), QDir::homePath(), i18n("Ekos Sequence Queue (*.esq)"));
     if (sequenceURL.isEmpty())
         return;
 
@@ -176,6 +178,24 @@ void Scheduler::selectSequence()
     // For FITS selection, only the name and fits URL should be filled.
         || (nameEdit->text().isEmpty() == false && fitsURL.isEmpty() == false) )
                 addToQueueB->setEnabled(true);
+}
+
+void Scheduler::selectStartupScript()
+{
+    startupScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Startup Script"), QDir::homePath(), i18n("Script (*)"));
+    if (startupScriptURL.isEmpty())
+        return;
+
+    startupScript->setText(startupScriptURL.path());
+}
+
+void Scheduler::selectShutdownScript()
+{
+    shutdownScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Shutdown Script"), QDir::homePath(), i18n("Script (*)"));
+    if (shutdownScriptURL.isEmpty())
+        return;
+
+    shutdownScript->setText(shutdownScriptURL.path());
 }
 
 void Scheduler::addJob()
@@ -491,20 +511,26 @@ void Scheduler::stop()
     if(state != SCHEDULER_RUNNIG)
         return;
 
-    // TODO stop any running jobs!
-    if (currentJob && currentJob->getState() == SchedulerJob::JOB_BUSY)
+    // Stop running job and abort all others
+    foreach(SchedulerJob *job, jobs)
     {
-        currentJob->setStage(SchedulerJob::STAGE_IDLE);
-        currentJob->setState(SchedulerJob::JOB_ABORTED);
-        stopEkosAction();
+        if (job == currentJob)
+            stopEkosAction();
+
+        if (job->getState() <= SchedulerJob::JOB_BUSY)
+            job->setState(SchedulerJob::JOB_ABORTED);
+
+        job->setStage(SchedulerJob::STAGE_IDLE);
     }
 
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
 
-    state = SCHEDULER_IDLE;
-    ekosState = EKOS_IDLE;
-    indiState = INDI_IDLE;
+    state           = SCHEDULER_IDLE;
+    ekosState       = EKOS_IDLE;
+    indiState       = INDI_IDLE;
+    startupState    = STARTUP_IDLE;
+    shutdownState   = SHUTDOWN_IDLE;
 
     currentJob = NULL;
     captureBatch =0;
@@ -977,8 +1003,8 @@ bool    Scheduler::checkINDIState()
         if(isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
         {
             appendLogText(i18n("INDI devices connected."));
-            indiState = INDI_READY;
-            return true;
+            indiState = INDI_PROPERTY_CHECK;
+            return false;
         }
         else if(isINDIConnected.value()== EkosManager::STATUS_ERROR)
         {
@@ -994,12 +1020,116 @@ bool    Scheduler::checkINDIState()
         }
         break;
 
+    case INDI_PROPERTY_CHECK:
+    {
+        // Check if mount and dome support parking or not.
+        QDBusReply<bool> boolReply = mountInterface->call(QDBus::AutoDetect,"canPark");
+        unparkTelescopeCheck->setEnabled(boolReply.value());
+        parkTelescopeCheck->setEnabled(boolReply.value());
+
+        //qDebug() << "Mount can park " << boolReply.value();
+
+        boolReply = domeInterface->call(QDBus::AutoDetect,"canPark");
+        unparkDomeCheck->setEnabled(boolReply.value());
+        parkDomeCheck->setEnabled(boolReply.value());
+
+        //qDebug() << "Dome can park " << boolReply.value();
+
+        indiState = INDI_READY;
+        return true;
+    }
+    break;
+
     case INDI_READY:
         return true;
-        break;
     }
 
     return false;
+}
+
+bool Scheduler::checkStartupState()
+{
+    switch (startupState)
+    {
+        case STARTUP_IDLE:
+            if (startupScriptURL.isEmpty() == false)
+            {
+               startupState = STARTUP_SCRIPT;
+               executeScript(startupScriptURL.toString(QUrl::PreferLocalFile));
+               return false;
+            }
+            if (unparkTelescopeCheck->isEnabled() && unparkTelescopeCheck->isChecked())
+            {
+                startupState = STARTUP_UNPARK_SCOPE;
+                getNextAction();
+                return false;
+            }
+            if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
+            {
+                startupState = STARTUP_UNPARK_DOME;
+                getNextAction();
+                return false;
+            }
+
+            startupState = STARTUP_COMPLETE;
+            return true;
+         break;
+
+        case STARTUP_SCRIPT:
+            break;
+
+        case STARTUP_UNPARK_SCOPE:
+            break;
+
+        case STARTUP_UNPARK_DOME:
+
+        case STARTUP_COMPLETE:
+            return true;
+
+        case STARTUP_ERROR:
+            appendLogText(i18n("Startup script failed, aborting..."));
+            stop();
+            break;
+
+    }
+
+    return false;
+}
+
+void Scheduler::executeScript(const QString &filename)
+{
+    appendLogText(i18n("Executing script %1 ...", filename));
+
+    connect(&scriptProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readProcessOutput()));
+
+    connect(&scriptProcess, SIGNAL(finished(int)), this, SLOT(checkProcessExit(int)));
+
+    scriptProcess.start(filename);
+}
+
+void Scheduler::readProcessOutput()
+{
+    appendLogText(scriptProcess.readAllStandardOutput().simplified());
+}
+
+void Scheduler::checkProcessExit(int exitCode)
+{
+    scriptProcess.disconnect();
+
+    if (exitCode == 0)
+    {
+        if (startupState != STARTUP_COMPLETE)
+            startupState = STARTUP_UNPARK_SCOPE;
+        else if (shutdownState != SHUTDOWN_COMPLETE)
+            shutdownState = SHUTDOWN_COMPLETE;
+
+        return;
+    }
+
+    if (startupState != STARTUP_COMPLETE)
+        startupState = STARTUP_ERROR;
+    else if (shutdownState != SHUTDOWN_COMPLETE)
+        shutdownState = SHUTDOWN_ERROR;
 }
 
 /*bool    Scheduler::checkFITSJobState()
@@ -1077,7 +1207,11 @@ void Scheduler::checkStatus()
         if (checkINDIState() == false)
             return;
 
-        // #5 Execute the job
+        // #5 Check if startup procedure is complete.
+        if (checkStartupState() == false)
+            return;
+
+        // #6 Execute the job
         executeJob(currentJob);
     }
 }
@@ -1109,15 +1243,15 @@ void Scheduler::checkJobStage()
 
     case SchedulerJob::STAGE_SLEWING:
     {
-        QDBusReply<QString> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
-        if(slewStatus.value().toStdString() == "Complete")
+        QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+        if(slewStatus.value() == IPS_OK)
         {
             appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
             currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
             getNextAction();
             return;
         }
-        else if(slewStatus.value().toStdString() == "Error")
+        else if(slewStatus.value() == IPS_ALERT)
         {
             appendLogText(i18n("%1 slew failed!", currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_ERROR);

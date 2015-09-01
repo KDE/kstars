@@ -15,6 +15,7 @@
 
 #include <QMainWindow>
 #include <QtDBus/QtDBus>
+#include <QProcess>
 
 #include "ui_scheduler.h"
 #include "scheduler.h"
@@ -40,10 +41,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
 public:
     typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
     typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
-    typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_READY } INDIState;
-    typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_SCOPE, STARTUP_UNPARK_DOME, STARTUP_COMPLETE } StartupState;
-    typedef enum { SHUTDOWN_IDLE, SHUTDOWN_SCRIPT, SHUTDOWN_UNPARK_SCOPE, SHUTDOWN_UNPARK_DOME, SHUTDOWN_COMPLETE } ShutdownState;
-
+    typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
+    typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_SCOPE, STARTUP_UNPARK_DOME, STARTUP_ERROR, STARTUP_COMPLETE } StartupState;
+    typedef enum { SHUTDOWN_IDLE, SHUTDOWN_SCRIPT, SHUTDOWN_UNPARK_SCOPE, SHUTDOWN_UNPARK_DOME, SHUTDOWN_ERROR, SHUTDOWN_COMPLETE } ShutdownState;
 
      Scheduler();
     ~Scheduler();
@@ -131,6 +131,16 @@ public slots:
      void selectSequence();
 
      /**
+      * @brief Selects sequence queue.
+      */
+     void selectStartupScript();
+
+     /**
+      * @brief Selects sequence queue.
+      */
+     void selectShutdownScript();
+
+     /**
       * @brief addToQueue Construct a SchedulerJob and add it to the queue
       */
      void addJob();
@@ -169,6 +179,9 @@ public slots:
 
      void stopEkosAction();
 
+     void readProcessOutput();
+     void checkProcessExit(int exitCode);
+
 signals:
         void newLog();
 
@@ -187,6 +200,8 @@ private:
          */
         void executeJob(SchedulerJob *job);
 
+        void executeScript(const QString &filename);
+
         int16_t getDarkSkyScore(const QTime & observationTime);
         int16_t getAltitudeScore(SchedulerJob *job, const SkyPoint & target);
         int16_t getMoonSeparationScore(SchedulerJob *job, const SkyPoint & target);
@@ -198,6 +213,7 @@ private:
 
         bool    checkEkosState();
         bool    checkINDIState();
+        bool    checkStartupState();
 
         //bool    checkFITSJobState();
 
@@ -211,6 +227,7 @@ private:
     QDBusInterface *mountInterface;
     QDBusInterface *alignInterface;
     QDBusInterface *guideInterface;
+    QDBusInterface *domeInterface;
 
     SchedulerState state;
     EkosState ekosState;
@@ -226,6 +243,7 @@ private:
 
     QUrl sequenceURL;
     QUrl fitsURL;
+    QUrl startupScriptURL, shutdownScriptURL;
 
     QStringList logText;
 
@@ -238,6 +256,8 @@ private:
     GeoLocation *geo;
 
     uint16_t captureBatch;
+
+    QProcess scriptProcess;
 
     double Dawn, Dusk;
 
