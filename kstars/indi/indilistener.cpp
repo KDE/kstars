@@ -22,6 +22,7 @@
 #include "inditelescope.h"
 #include "indifocuser.h"
 #include "indiccd.h"
+#include "indidome.h"
 #include "indifilter.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
@@ -31,13 +32,13 @@
 #include "kstars.h"
 #include "Options.h"
 
-#define NINDI_STD	28
+#define NINDI_STD	30
 
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] =
     {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "GEOGRAPHIC_COORD", "EQUATORIAL_COORD",
      "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
-     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "CCD_EXPOSURE",
+     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "CCD_EXPOSURE",
      "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCD_VIDEO_STREAM",
      "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
@@ -196,6 +197,18 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 }                
 
                emit newFocuser(gd);
+            }
+
+            else if (!strcmp(prop->getName(), "DOME_MOTION"))
+            {
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::Dome(gd);
+                    devices.append(gd);
+                }
+
+               emit newDome(gd);
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))

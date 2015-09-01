@@ -74,6 +74,7 @@ signals:
     void newCCD(ISD::GDInterface *);
     void newFilter(ISD::GDInterface *);
     void newFocuser(ISD::GDInterface *);
+    void newDome(ISD::GDInterface *);
     void newST4(ISD::ST4*);
     void deviceRemoved(ISD::GDInterface *);
 
