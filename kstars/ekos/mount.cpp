@@ -543,30 +543,12 @@ bool Mount::abort()
     return currentTelescope->Abort();
 }
 
-QString Mount::getSlewStatus()
+IPState Mount::getSlewStatus()
 {
-    IPState state = currentTelescope->getState("EQUATORIAL_EOD_COORD");
-    QString status;
+    if (currentTelescope == NULL)
+        return IPS_ALERT;
 
-    switch (state)
-    {
-        case IPS_IDLE:
-            status = "Idle";
-            break;
-         case IPS_OK:
-            status = "Complete";
-            break;
-          case IPS_BUSY:
-            status = "Busy";
-            break;
-           case IPS_ALERT:
-           default:
-            status = "Error";
-            break;
-    }
-
-    return status;
-
+    return currentTelescope->getState("EQUATORIAL_EOD_COORD");
 }
 
 QList<double> Mount::getEquatorialCoords()
@@ -599,6 +581,30 @@ void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
     primaryScopeApertureIN->setValue(primaryAperture);
     guideScopeFocalIN->setValue(guideFocalLength);
     guideScopeApertureIN->setValue(guideAperture);
+}
+
+bool Mount::canPark()
+{
+    if (currentTelescope == NULL)
+        return false;
+
+    return currentTelescope->canPark();
+}
+
+bool Mount::park()
+{
+    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+        return false;
+
+    return currentTelescope->Park();
+}
+
+bool Mount::unpark()
+{
+    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+        return false;
+
+    return currentTelescope->UnPark();
 }
 
 }

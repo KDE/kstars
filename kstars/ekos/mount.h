@@ -92,7 +92,7 @@ public:
     /** DBUS interface function.
      * Get the mount slew status ("Idle","Complete", "Busy", "Error")
      */
-    Q_SCRIPTABLE QString getSlewStatus();
+    Q_SCRIPTABLE IPState getSlewStatus();
 
     /** DBUS interface function.
      * Get telescope and guide scope info. An array of doubles is returned in order.
@@ -108,6 +108,21 @@ public:
      * @param guideAperture Guide Telescope Aperture
      */
     Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
+
+    /** DBUS interface function.
+     * Can mount park?
+     */
+    Q_SCRIPTABLE bool canPark();
+
+    /** DBUS interface function.
+     * Park mount
+     */
+    Q_SCRIPTABLE bool park();
+
+    /** DBUS interface function.
+     * Unpark mount
+     */
+    Q_SCRIPTABLE bool unpark();
 
     /** @}*/
 
