@@ -88,7 +88,7 @@ void Telescope::registerProperty(INDI::Property *prop)
              ISwitch *sp = IUFindSwitch(svp, "PARK");
              if (sp)
              {
-                 IsParked = (sp->s == ISS_ON);
+                 IsParked = ( (sp->s == ISS_ON) && svp->s == IPS_OK);
              }
          }
     }
@@ -145,7 +145,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         ISwitch *sp = IUFindSwitch(svp, "PARK");
         if (sp)
         {
-            IsParked = (sp->s == ISS_ON);
+            IsParked = ( (sp->s == ISS_ON) && svp->s == IPS_OK);
         }
 
         emit switchUpdated(svp);

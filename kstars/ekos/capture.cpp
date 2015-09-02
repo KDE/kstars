@@ -1868,7 +1868,9 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
         if (HFR > 0 && firstAutoFocus && HFRPixels->value() == 0)
         {
            firstAutoFocus = false;
-           HFRPixels->setValue(HFR);
+           // Add 1% to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
+           // in case in-sequence-focusing is used.
+           HFRPixels->setValue(HFR + (HFR * 0.01));
         }
     }
 

@@ -193,7 +193,11 @@ void SchedulerJob::setState(const JOBStatus &value)
             break;
 
         case JOB_ABORTED:
-            statusCell->setText(i18n("Aborted"));
+            statusCell->setText(i18n("Aborted"));                       
+            break;
+
+        case JOB_ERROR:
+            statusCell->setText(i18n("Error"));
             break;
 
         default:

@@ -59,7 +59,7 @@ bool Dome::isParked()
     if (parkSW == NULL)
         return false;
 
-    return (parkSW->s == ISS_ON);
+    return ( (parkSW->s == ISS_ON) && parkSP->s == IPS_OK);
 }
 
 bool Dome::Abort()

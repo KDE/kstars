@@ -515,7 +515,7 @@ void Scheduler::stop()
     foreach(SchedulerJob *job, jobs)
     {
         if (job == currentJob)
-            stopEkosAction();
+            stopEkosAction();       
 
         if (job->getState() <= SchedulerJob::JOB_BUSY)
             job->setState(SchedulerJob::JOB_ABORTED);
@@ -1163,9 +1163,7 @@ bool Scheduler::checkShutdownState()
             return false;
         }
 
-        shutdownState = SHUTDOWN_COMPLETE;
-        appendLogText(i18n("Shutdown complete."));
-        stop();
+        shutdownState = SHUTDOWN_COMPLETE;        
         return true;
         break;
 
@@ -1218,14 +1216,10 @@ bool Scheduler::checkShutdownState()
         case SHUTDOWN_SCRIPT_RUNNING:
             return false;
 
-        case SHUTDOWN_COMPLETE:
-            appendLogText(i18n("Shutdown complete."));
-            stop();
+        case SHUTDOWN_COMPLETE:            
             return true;
 
-        case SHUTDOWN_ERROR:
-            appendLogText(i18n("Shutdown script failed, aborting..."));
-            stop();
+        case SHUTDOWN_ERROR:            
             return true;
             break;
 
@@ -1334,7 +1328,14 @@ void Scheduler::checkStatus()
     {
         // #2.1 If shutdown is already complete or in error, we need to stop
         if (shutdownState == SHUTDOWN_COMPLETE || shutdownState == SHUTDOWN_ERROR)
+        {
+            if (shutdownState == SHUTDOWN_COMPLETE)
+                appendLogText(i18n("Shutdown complete."));
+            else
+                appendLogText(i18n("Shutdown script failed, aborting..."));
+            stop();
             return;
+        }
 
         // #2.2  Check if shutdown is in progress
         if (shutdownState > SHUTDOWN_IDLE)
@@ -1722,8 +1723,8 @@ void Scheduler::findNextJob()
     }
 
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
-    {
-        if (currentJob->getCompletionTime().secsTo(KStarsData::Instance()->lt()) <= 0)
+    {        
+        if (KStarsData::Instance()->lt().secsTo(currentJob->getCompletionTime()) <= 0)
         {
             appendLogText(i18np("%1 observation job reached completion time with #%2 batch done. Stopping...",
                                 "%1 observation job reached completion time with #%2 batches done. Stopping...", currentJob->getName(), captureBatch+1));
@@ -1773,9 +1774,8 @@ void Scheduler::startAstrometry()
 void Scheduler::startCalibrating()
 {        
     // Make sure calibration is auto
-    QList<QVariant> guideArgs;
-    guideArgs.append(true);
-    guideInterface->callWithArgumentList(QDBus::AutoDetect,"setCalibrationAuto",guideArgs);
+    QVariant arg(true);
+    guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
 
     QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startCalibration");
     if (guideReply.value() == false)

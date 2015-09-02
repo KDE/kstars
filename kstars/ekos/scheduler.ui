@@ -693,7 +693,7 @@
           <item>
            <widget class="QLineEdit" name="startupScript">
             <property name="readOnly">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -792,7 +792,7 @@
           <item>
            <widget class="QLineEdit" name="shutdownScript">
             <property name="readOnly">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
