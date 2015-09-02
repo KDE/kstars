@@ -113,7 +113,7 @@ public:
       */
      void stop();
 
-public slots:
+protected slots:
 
      /**
       * @brief select object from KStars's find dialog.
@@ -158,6 +158,7 @@ public slots:
 
      void toggleScheduler();
      void save();
+     void saveAs();
      void load();
 
      void resetJobEdit();
@@ -180,7 +181,8 @@ public slots:
      void stopEkosAction();
 
      void readProcessOutput();
-     void checkProcessExit(int exitCode);
+     void checkProcessExit(int exitCode);     
+     void setDirty();
 
 signals:
         void newLog();
@@ -207,24 +209,90 @@ private:
         int16_t getMoonSeparationScore(SchedulerJob *job, const SkyPoint & target);
         int16_t getWeatherScore(SchedulerJob *job);
 
+        /**
+         * @brief calculateAltitudeTime
+         * @param job
+         * @param minAltitude
+         * @return
+         */
         bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude);
+
+        /**
+         * @brief calculateCulmination
+         * @param job
+         * @return
+         */
         bool    calculateCulmination(SchedulerJob *job);
+
+        /**
+         * @brief calculateDawnDusk
+         */
         void    calculateDawnDusk();
 
+        /**
+         * @brief checkEkosState
+         * @return
+         */
         bool    checkEkosState();
+
+        /**
+         * @brief checkINDIState
+         * @return
+         */
         bool    checkINDIState();
-        /* False if running, true if complete */
+
+        /**
+         * @brief checkStartupState
+         * @return
+         */
         bool    checkStartupState();
+
+        /**
+         * @brief checkShutdownState
+         * @return
+         */
         bool    checkShutdownState();
 
+        /**
+         * @brief parkMount
+         */
         void    parkMount();
+
+        /**
+         * @brief unParkMount
+         */
         void    unParkMount();
 
+        /**
+         * @brief parkDome
+         */
         void    parkDome();
+
+        /**
+         * @brief unParkDome
+         */
         void    unParkDome();
 
-        //bool    checkFITSJobState();
+        /**
+         * @brief saveScheduler
+         * @param path
+         * @return
+         */
+        bool saveScheduler(const QUrl &fileURL);
 
+        /**
+         * @brief loadScheduler
+         * @param path
+         * @return
+         */
+        bool loadScheduler(const QUrl &fileURL);
+
+        /**
+         * @brief processJobInfo
+         * @param root
+         * @return
+         */
+        bool processJobInfo(XMLEle *root);
 
     Ekos::Scheduler *ui;
 
@@ -237,37 +305,36 @@ private:
     QDBusInterface *guideInterface;
     QDBusInterface *domeInterface;
 
+    // Scheduler and job state and stages
     SchedulerState state;
     EkosState ekosState;
     INDIState indiState;
     StartupState startupState;
     ShutdownState shutdownState;
 
-    QProgressIndicator *pi;
+    QList<SchedulerJob *> jobs;     // List of all jobs
+    SchedulerJob *currentJob;       // Active job
 
-    QList<SchedulerJob *> jobs;
-    QList<SchedulerJob *> fitsJobs;
-    SchedulerJob *currentJob;
+    QUrl schedulerURL;              // URL to store the scheduler file
+    QUrl sequenceURL;               // URL for Ekos Sequence
+    QUrl fitsURL;                   // FITS URL to solve
+    QUrl startupScriptURL;          // Startup script URL
+    QUrl shutdownScriptURL;         // Shutdown script URL
 
-    QUrl sequenceURL;
-    QUrl fitsURL;
-    QUrl startupScriptURL, shutdownScriptURL;
+    QStringList logText;            // Store all log strings
 
-    QStringList logText;
+    QProgressIndicator *pi;         // Busy indicator widget
+    bool jobUnderEdit;              // Are we editing a job right now?
 
-    bool jobUnderEdit;
-    // Was job modified and needs saving?
-    bool mDirty;
+    KSMoon *moon;                   // Pointer to Moon object
+    GeoLocation *geo;               // Pointer to Geograpic locatoin
 
-    KSMoon *moon;
+    uint16_t captureBatch;          // How many repeated job batches did we complete thus far?
 
-    GeoLocation *geo;
+    QProcess scriptProcess;         // Startup and Shutdown scripts process
 
-    uint16_t captureBatch;
-
-    QProcess scriptProcess;
-
-    double Dawn, Dusk;
+    double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
+    bool mDirty;                    // Was job modified and needs saving?
 
 
 };

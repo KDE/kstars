@@ -69,7 +69,8 @@ Scheduler::Scheduler()
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
-    queueSaveAsB->setIcon(QIcon::fromTheme("document-save"));
+    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
+    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
     queueLoadB->setIcon(QIcon::fromTheme("document-open"));
 
     loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
@@ -89,7 +90,8 @@ Scheduler::Scheduler()
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
-    connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(save()));
+    connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveAs()));
+    connect(queueSaveB,SIGNAL(clicked()),this,SLOT(save()));
     connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
 
     // Load scheduler settings
@@ -287,7 +289,7 @@ void Scheduler::addJob()
         job->setMinMoonSeparation(minMoonSeparation->value());
 
     // Check weather enforcement and no meridian flip constraints
-    job->setEnforceWeather(weatherB->isChecked());
+    job->setEnforceWeather(weatherCheck->isChecked());
     job->setNoMeridianFlip(noMeridianFlipCheck->isChecked());
 
     // #3 Completion conditions
@@ -339,6 +341,8 @@ void Scheduler::addJob()
     QTableWidgetItem *startupCell = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
     if (startupTimeConditionR->isChecked())
         startupCell->setText(startupTimeEdit->text());
+    else
+        startupCell->setText(QString());
     startupCell->setTextAlignment(Qt::AlignHCenter);
     startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setStartupCell(startupCell);
@@ -346,6 +350,8 @@ void Scheduler::addJob()
     QTableWidgetItem *completionCell = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     if (timeCompletionR->isChecked())
         completionCell->setText(completionTimeEdit->text());
+    else
+        completionCell->setText(QString());
     completionCell->setTextAlignment(Qt::AlignHCenter);
     completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
@@ -362,6 +368,7 @@ void Scheduler::addJob()
     if (queueTable->rowCount() > 0)
     {
         queueSaveAsB->setEnabled(true);
+        queueSaveB->setEnabled(true);
         mDirty = true;
     }
 
@@ -386,6 +393,8 @@ void Scheduler::editJob(QModelIndex i)
     SchedulerJob *job = jobs.at(i.row());
     if (job == NULL)
         return;
+
+    job->setState(SchedulerJob::JOB_IDLE);
 
     nameEdit->setText(job->getName());
 
@@ -426,7 +435,7 @@ void Scheduler::editJob(QModelIndex i)
         minMoonSeparation->setValue(job->getMinMoonSeparation());
     }
 
-    weatherB->setChecked(job->getEnforceWeather());
+    weatherCheck->setChecked(job->getEnforceWeather());
     noMeridianFlipCheck->setChecked(job->getNoMeridianFlip());
 
     switch (job->getCompletionCondition())
@@ -447,7 +456,8 @@ void Scheduler::editJob(QModelIndex i)
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
-   addToQueueB->setIcon(QIcon::fromTheme("svn-update"));
+   addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+   addToQueueB->setEnabled(true);
 
    jobUnderEdit = true;
 }
@@ -492,6 +502,7 @@ void Scheduler::removeJob()
     if (queueTable->rowCount() == 0)
     {
         queueSaveAsB->setEnabled(false);
+        queueSaveB->setEnabled(false);
     }
 
     mDirty = true;
@@ -646,26 +657,54 @@ void Scheduler::evaluateJobs()
 
                  // #2.3 Start at?
                  case SchedulerJob::START_AT:
-                    if (KStarsData::Instance()->lt().secsTo(job->getStartupTime()) <= 300)
+                 {
+                    if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
+                    {
+                        if (job->getStartupTime().secsTo(job->getCompletionTime()) <= 0)
+                        {
+                            appendLogText(i18n("%1 completion time (%2) is earliar than start up time (%3)", job->getName(), job->getCompletionTime().toString(), job->getStartupTime().toString()));
+                            job->setState(SchedulerJob::JOB_INVALID);
+                            continue;
+                        }
+                    }
+                    int timeUntil = KStarsData::Instance()->lt().secsTo(job->getStartupTime());
+                    // If starting time already passed by 5 minutes, we mark the job as invalid
+                    if (timeUntil < -300)
+                    {
+                        appendLogText(i18n("%1 start up time already passed by %2 seconds. Aborting...", job->getName(), abs(timeUntil)));
+                        job->setState(SchedulerJob::JOB_ABORTED);
+                        continue;
+                    }
+                    // If time is within 5 minutes, we start scoring it.
+                    else if (timeUntil <= 300)
                     {
                         score += getAltitudeScore(job, target);
                         score += getMoonSeparationScore(job, target);
                         score += getDarkSkyScore(job->getStartupTime().time());
                         score += getWeatherScore(job);
+
+                        if (score < 0)
+                        {
+                            appendLogText(i18n("%1 observation has low score (%2) %3 seconds before startup time. Aborting...", job->getName(), timeUntil, score));
+                            job->setState(SchedulerJob::JOB_ABORTED);
+                            continue;
+                        }
                     }
+                    // If time is far in the future, we make the score negative
                     else
                         score += -1000;
 
                     job->setScore(score);
+                  }
                     break;
         }
 
        // appendLogText(i18n("Job total score is %1", score));
 
-        if (score > 0 && job->getState() == SchedulerJob::JOB_EVALUATION)
+        //if (score > 0 && job->getState() == SchedulerJob::JOB_EVALUATION)
+        if (job->getState() == SchedulerJob::JOB_EVALUATION)
             job->setState(SchedulerJob::JOB_SCHEDULED);
     }
-
 
 
     int invalidJobs=0, completedJobs=0, abortedJobs=0, upcomingJobs=0;
@@ -729,6 +768,9 @@ void Scheduler::evaluateJobs()
 
     foreach(SchedulerJob *job, jobs)
     {
+        if (job->getState() != SchedulerJob::JOB_SCHEDULED)
+            continue;
+
         int jobScore = job->getScore();
         if (jobScore > 0 && jobScore > maxScore)
         {
@@ -740,7 +782,6 @@ void Scheduler::evaluateJobs()
     if (bestCandidate != NULL)
     {
         appendLogText(i18n("Found candidate job %1", bestCandidate->getName()));
-        //executeJob(bestCandidate);
         currentJob = bestCandidate;
     }
 }
@@ -804,11 +845,11 @@ bool Scheduler::calculateCulmination(SchedulerJob *job)
 
     QTime transitTime = o.transitTime(dt, geo);
 
-    appendLogText(i18n("Transit time is %1", transitTime.toString()));
+    appendLogText(i18n("%1 Transit time is %2", job->getName(), transitTime.toString()));
 
     QDateTime observationDateTime(QDate::currentDate(), transitTime.addSecs(-1 * job->getCulminationOffset()* 60));
 
-    appendLogText(i18n("Observation time is %1", observationDateTime.toString()));
+    appendLogText(i18n("%1 Observation time is %2", job->getName(), observationDateTime.toString()));
 
     if (getDarkSkyScore(observationDateTime.time()) < 0)
     {
@@ -859,7 +900,7 @@ int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
     else
       score -= 500;
 
-    appendLogText(i18n("Dark sky score is %1", score));
+    appendLogText(i18n("Dark sky score is %1 for %2", score, observationTime.toString()));
 
     return score;
 }
@@ -885,7 +926,7 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
     else
         score += (currentAlt - minAltitude->minimum()) * 10.0;
 
-    appendLogText(i18n("Altitude score is %1", score));
+    appendLogText(i18n("%1 altitude score is %2", job->getName(), score));
 
     return score;
 }
@@ -908,7 +949,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, const SkyPoint &tar
     else
         score += mSeparation / 10.0;
 
-    appendLogText(i18n("Moon separation %1, moon score is %2", mSeparation, score));
+    appendLogText(i18n("%1 Moon score %2 (separation %3)", job->getName(), score, mSeparation));
 
     return score;
 
@@ -1621,12 +1662,295 @@ void Scheduler::stopEkosAction()
 
 void Scheduler::load()
 {
-    // TODO
+    QUrl fileURL = QFileDialog::getOpenFileName(this, i18n("Open Ekos Scheduler List"), QDir::homePath(), "Ekos Scheduler List (*.esl)");
+    if (fileURL.isEmpty())
+        return;
+
+    if (fileURL.isValid() == false)
+    {
+       QString message = i18n( "Invalid URL: %1", fileURL.path() );
+       KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+       return;
+    }
+
+    loadScheduler(fileURL);
+
+}
+
+bool Scheduler::loadScheduler(const QUrl & fileURL)
+{
+    QFile sFile;
+    sFile.setFileName(fileURL.path());
+
+    if ( !sFile.open( QIODevice::ReadOnly))
+    {
+        QString message = i18n( "Unable to open file %1",  fileURL.path());
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return false;
+    }
+
+    qDeleteAll(jobs);
+    jobs.clear();
+    for (int i=0; i < queueTable->rowCount(); i++)
+        queueTable->removeRow(i);
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = NULL;
+    XMLEle *ep;
+    char c;
+
+    while ( sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+        {
+             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+             {
+                processJobInfo(ep);
+             }
+             delXMLEle(root);
+        }
+        else if (errmsg[0])
+        {
+            appendLogText(QString(errmsg));
+            delLilXML(xmlParser);
+            return false;
+        }
+    }
+
+    schedulerURL = fileURL;
+    mDirty = false;
+    delLilXML(xmlParser);
+    return true;
+
+}
+
+bool Scheduler::processJobInfo(XMLEle *root)
+{
+    XMLEle *ep;
+    XMLEle *subEP;
+
+    altConstraintCheck->setChecked(false);
+    moonSeparationCheck->setChecked(false);
+    weatherCheck->setChecked(false);
+    noMeridianFlipCheck->setChecked(false);
+    minAltitude->setValue(minAltitude->minimum());
+    minMoonSeparation->setValue(minMoonSeparation->minimum());
+
+    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Name"))
+            nameEdit->setText(pcdataXMLEle(ep));
+        else if (!strcmp(tagXMLEle(ep), "Coordinates"))
+        {
+            subEP = findXMLEle(ep, "J2000RA");
+            if (subEP)
+                raBox->setDMS(pcdataXMLEle(subEP));
+            subEP = findXMLEle(ep, "J2000DE");
+            if (subEP)
+                decBox->setDMS(pcdataXMLEle(subEP));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Sequence"))
+        {
+            sequenceEdit->setText(pcdataXMLEle(ep));
+            sequenceURL.setPath(sequenceEdit->text());
+        }
+        else if (!strcmp(tagXMLEle(ep), "FITS"))
+        {
+            fitsEdit->setText(pcdataXMLEle(ep));
+            fitsURL.setPath(fitsEdit->text());
+        }
+        else if (!strcmp(tagXMLEle(ep), "StartupCondition"))
+        {
+            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            {
+                if (!strcmp("Now", pcdataXMLEle(subEP)))
+                    nowConditionR->setChecked(true);
+                else if (!strcmp("Culmination", pcdataXMLEle(subEP)))
+                {
+                    culminationConditionR->setChecked(true);
+                    culminationOffset->setValue(atof(findXMLAttValu(subEP, "value")));
+                }
+                else if (!strcmp("At", pcdataXMLEle(subEP)))
+                {
+                    startupTimeConditionR->setChecked(true);
+                    startupTimeEdit->setDateTime(QDateTime::fromString(findXMLAttValu(subEP, "value"), Qt::ISODate));
+                }
+            }
+        }
+        else if (!strcmp(tagXMLEle(ep), "Constraints"))
+        {
+            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            {
+                if (!strcmp("MinimumAltitude", pcdataXMLEle(subEP)))
+                {
+                    altConstraintCheck->setChecked(true);
+                    minAltitude->setValue(atof(findXMLAttValu(subEP, "value")));
+                }
+                else if (!strcmp("MoonSeparation", pcdataXMLEle(subEP)))
+                {
+                    moonSeparationCheck->setChecked(true);
+                    minMoonSeparation->setValue(atof(findXMLAttValu(subEP, "value")));
+                }
+                else if (!strcmp("EnforceWeather", pcdataXMLEle(subEP)))
+                    weatherCheck->setChecked(true);
+                else if (!strcmp("NoMeridianFlip", pcdataXMLEle(subEP)))
+                    noMeridianFlipCheck->setChecked(true);
+            }
+        }
+        else if (!strcmp(tagXMLEle(ep), "CompletionCondition"))
+        {
+            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            {
+                if (!strcmp("Sequence", pcdataXMLEle(subEP)))
+                    sequenceCompletionR->setChecked(true);
+                else if (!strcmp("Loop", pcdataXMLEle(subEP)))
+                    loopCompletionR->setChecked(true);
+                else if (!strcmp("At", pcdataXMLEle(subEP)))
+                {
+                    timeCompletionR->setChecked(true);
+                    completionTimeEdit->setDateTime(QDateTime::fromString(findXMLAttValu(subEP, "value"), Qt::ISODate));
+                }
+            }
+        }
+    }
+
+    addJob();
+
+    return true;
+
+}
+
+void Scheduler::saveAs()
+{
+    schedulerURL.clear();
+    save();
+
 }
 
 void Scheduler::save()
 {
-    // TODO
+    QUrl backupCurrent = schedulerURL;
+
+    if (schedulerURL.path().contains("/tmp/"))
+        schedulerURL.clear();
+
+    // If no changes made, return.
+    if( mDirty == false && !schedulerURL.isEmpty())
+        return;
+
+    if (schedulerURL.isEmpty())
+    {
+        schedulerURL = QFileDialog::getSaveFileName(this, i18n("Save Ekos Scheduler List"), QDir::homePath(), "Ekos Scheduler List (*.esl)");
+        // if user presses cancel
+        if (schedulerURL.isEmpty())
+        {
+            schedulerURL = backupCurrent;
+            return;
+        }
+
+        if (schedulerURL.path().contains('.') == 0)
+            schedulerURL.setPath(schedulerURL.path() + ".esl");
+
+        if (QFile::exists(schedulerURL.path()))
+        {
+            int r = KMessageBox::warningContinueCancel(0,
+                        i18n( "A file named \"%1\" already exists. "
+                              "Overwrite it?", schedulerURL.fileName() ),
+                        i18n( "Overwrite File?" ),
+                        KGuiItem(i18n( "&Overwrite" )) );
+            if(r==KMessageBox::Cancel) return;
+        }
+    }
+
+    if ( schedulerURL.isValid() )
+    {
+        if ( (saveScheduler(schedulerURL)) == false)
+        {
+            KMessageBox::error(KStars::Instance(), i18n("Failed to save scheduler list"), i18n("Save"));
+            return;
+        }
+
+        mDirty = false;
+
+    } else
+    {
+        QString message = i18n( "Invalid URL: %1", schedulerURL.url() );
+        KMessageBox::sorry(KStars::Instance(), message, i18n( "Invalid URL" ) );
+    }
+}
+
+bool Scheduler::saveScheduler(const QUrl &fileURL)
+{
+    QFile file;
+    file.setFileName(fileURL.path());
+
+    if ( !file.open( QIODevice::WriteOnly))
+    {
+        QString message = i18n( "Unable to write to file %1",  fileURL.path());
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return false;
+    }
+
+    QTextStream outstream(&file);
+
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
+    outstream << "<SchedulerList version='1.0'>" << endl;
+
+    foreach(SchedulerJob *job, jobs)
+    {
+         outstream << "<Job>" << endl;
+
+         outstream << "<Name>" << job->getName() << "</Name>" << endl;
+         outstream << "<Coordinates>" << endl;
+            outstream << "<J2000RA>"<< job->getTargetCoords().ra0().Hours() << "</J2000RA>" << endl;
+            outstream << "<J2000DE>"<< job->getTargetCoords().dec0().Degrees() << "</J2000DE>" << endl;
+         outstream << "</Coordinates>" << endl;
+
+         if (job->getFITSFile().isEmpty() == false)
+             outstream << "<FITS>" << job->getFITSFile().path() << "</FITS>" << endl;
+
+         outstream << "<Sequence>" << job->getSequenceFile().path() << "</Sequence>" << endl;
+
+         outstream << "<StartupCondition>" << endl;
+        if (job->getStartingCondition() == SchedulerJob::START_NOW)
+            outstream << "<Condition>Now</Condition>" << endl;
+        else if (job->getStartingCondition() == SchedulerJob::START_CULMINATION)
+            outstream << "<Condition value='" << job->getCulminationOffset() << "'>Culmination</Condition>" << endl;
+        else if (job->getStartingCondition() == SchedulerJob::START_AT)
+            outstream << "<Condition value='" << job->getStartupTime().toString(Qt::ISODate) << "'>At</Condition>" << endl;
+        outstream << "</StartupCondition>" << endl;
+
+        outstream << "<Constraints>" << endl;
+        if (job->getMinAltitude() > 0)
+            outstream << "<Constraint value='" << job->getMinAltitude() << "'>MinimumAltitude</Constraint>" << endl;
+        if (job->getMinMoonSeparation() > 0)
+            outstream << "<Constraint value='" << job->getMinMoonSeparation() << "'>MoonSeparation</Constraint>" << endl;
+        if (job->getEnforceWeather())
+            outstream << "<Constraint>EnforceWeather</Constraint>" << endl;
+        if (job->getNoMeridianFlip())
+            outstream << "<Constraint>NoMeridianFlip</Constraint>" << endl;
+        outstream << "</Constraints>" << endl;
+
+        outstream << "<CompletionCondition>" << endl;
+       if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
+           outstream << "<Condition>Sequence</Condition>" << endl;
+       else if (job->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+           outstream << "<Condition>Loop</Condition>" << endl;
+       else if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
+           outstream << "<Condition value='" << job->getCompletionTime().toString(Qt::ISODate) << "'>At</Condition>" << endl;
+       outstream << "</CompletionCondition>" << endl;
+
+        outstream << "</Job>" << endl;
+    }
+
+    outstream << "</SchedulerList>" << endl;
+
+    appendLogText(i18n("Scheduler list saved to %1", fileURL.path()));
+    file.close();
+    return true;
 }
 
 void Scheduler::startSlew()
@@ -1942,6 +2266,11 @@ void    Scheduler::unParkDome()
         startupState = STARTUP_COMPLETE;
     }
 
+}
+
+void Scheduler::setDirty()
+{
+    mDirty = true;
 }
 
 }
