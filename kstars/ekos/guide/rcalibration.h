@@ -31,7 +31,7 @@ class rcalibration: public QWidget
     Q_OBJECT
 
 public:
-    explicit rcalibration(Ekos::Guide *parent = 0);
+    explicit rcalibration(cgmath *mathObject, Ekos::Guide *parent = 0);
     ~rcalibration();
 
     enum CalibrationStage { CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_FINISH, CAL_ERROR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };
@@ -41,9 +41,13 @@ public:
     bool setVideoParams( int vid_wd, int vid_ht );
     void update_reticle_pos( double x, double y );
     void setMathObject( cgmath *math );
-    void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
+
+    void setCalibrationTwoAxis(bool enable);
+    void setCalibrationAutoStar(bool enable);
+    void setCalibrationAutoSquareSize(bool enable);
+    void setCalibrationDarkFrame(bool enable);
+
     void setCalibrationParams(int boxSize, int pulseDuration);
-    //void set_ccd(ISD::CCD *ccd);
 
     void setImage(FITSView *image);
 
@@ -53,7 +57,8 @@ public:
     bool isCalibrationComplete() { return (calibrationStage == CAL_FINISH || calibrationStage == CAL_ERROR); }
     bool isCalibrationSuccessful() { return (calibrationStage == CAL_FINISH); }
 
-    bool useAutoCalibration() { return ui.autoCalibrationCheck->isChecked(); }
+    bool useAutoStar() { return ui.autoStarCheck->isChecked(); }
+    bool useAutoSquareSize() { return ui.autoSquareSizeCheck->isChecked(); }
     bool useDarkFrame() { return ui.darkFrameCheck->isChecked(); }
     bool useTwoAxis() { return ui.twoAxisCheck->isChecked(); }
 
@@ -71,6 +76,7 @@ protected slots:
 	void onReticleYChanged( double val );
 	void onReticleAngChanged( double val );
 	void onStartReticleCalibrationButtonClick();
+    void toggleAutoSquareSize(bool enable);
 
 public slots:
     void capture();

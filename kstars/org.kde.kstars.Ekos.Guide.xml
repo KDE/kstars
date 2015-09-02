@@ -52,7 +52,11 @@
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setCalibrationAuto">
+    <method name="setCalibrationAutoStar">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCalibrationAutoSquareSize">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

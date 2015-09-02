@@ -63,11 +63,9 @@ Guide::Guide() : QWidget()
     connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
     connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SLOT(updateGuideDriver(double,double)));
 
-    calibration = new rcalibration(this);
-    calibration->setMathObject(pmath);
+    calibration = new rcalibration(pmath, this);
 
-    guider = new rguider(this);
-    guider->setMathObject(pmath);
+    guider = new rguider(pmath, this);
 
     connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
     connect(guider, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
@@ -331,7 +329,7 @@ bool Guide::capture()
         darkExposure = seqExpose;
         targetChip->setFrameType(FRAME_DARK);
 
-        if (calibration->useAutoCalibration() == false)
+        if (calibration->useAutoStar() == false)
             KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
         connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
@@ -740,17 +738,22 @@ void Guide::setImageFilter(const QString & value)
 
 void Guide::setCalibrationTwoAxis(bool enable)
 {
-    calibration->setCalibrationOptions(enable, calibration->useAutoCalibration(), calibration->useDarkFrame());
+    calibration->setCalibrationTwoAxis(enable);
 }
 
-void Guide::setCalibrationAuto(bool enable)
+void Guide::setCalibrationAutoStar(bool enable)
 {
-    calibration->setCalibrationOptions(calibration->useTwoAxis(), enable, calibration->useDarkFrame());
+    calibration->setCalibrationAutoStar(enable);
+}
+
+void Guide::setCalibrationAutoSquareSize(bool enable)
+{
+    calibration->setCalibrationAutoSquareSize(enable);
 }
 
 void Guide::setCalibrationDarkFrame(bool enable)
 {
-    calibration->setCalibrationOptions(calibration->useTwoAxis(), calibration->useAutoCalibration(), enable);
+    calibration->setCalibrationDarkFrame(enable);
 }
 
 void Guide::setCalibrationParams(int boxSize, int pulseDuration)

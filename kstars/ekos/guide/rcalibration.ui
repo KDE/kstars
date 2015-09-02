@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>453</width>
-    <height>313</height>
+    <width>469</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -190,15 +190,28 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="autoCalibrationCheck">
+           <widget class="QCheckBox" name="autoStarCheck">
             <property name="toolTip">
-             <string>Automatically select the calibration star</string>
+             <string>Automatically select the calibration star.</string>
             </property>
             <property name="text">
-             <string>Automatic Calibration</string>
+             <string>Auto Star</string>
             </property>
             <property name="checked">
              <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoSquareSizeCheck">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Automatically select the square size based on the selected star width.</string>
+            </property>
+            <property name="text">
+             <string>Auto Square Size</string>
             </property>
            </widget>
           </item>

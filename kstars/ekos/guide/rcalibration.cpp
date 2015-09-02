@@ -39,7 +39,7 @@
 
 #define MAX_GUIDE_STARS 10
 
-rcalibration::rcalibration(Ekos::Guide *parent)
+rcalibration::rcalibration(cgmath *mathObject, Ekos::Guide *parent)
     : QWidget(parent)
 {
     int i;
@@ -48,7 +48,7 @@ rcalibration::rcalibration(Ekos::Guide *parent)
 
     setWindowTitle(i18n("Calibration"));
 
-	pmath = NULL;
+    pmath = mathObject;
 
     calibrationStage = CAL_CAPTURE_IMAGE;
 
@@ -80,14 +80,24 @@ rcalibration::rcalibration(Ekos::Guide *parent)
     connect( ui.pushButton_StartCalibration, SIGNAL(clicked()), 		this, SLOT(onStartReticleCalibrationButtonClick()) );
     connect( ui.autoModeCheck, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
     connect (ui.darkFrameCheck, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
+    connect( ui.autoStarCheck, SIGNAL(toggled(bool)), this, SLOT(toggleAutoSquareSize(bool)));
     connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
     ui.darkFrameCheck->setChecked(Options::useDarkFrame());
     ui.autoModeCheck->setChecked( Options::useAutoMode() );
     ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
+
+    ui.comboBox_SquareSize->setCurrentIndex(Options::calibrationSquareSizeIndex());
+    pmath->resize_square(ui.comboBox_SquareSize->currentIndex());
+
     ui.twoAxisCheck->setChecked( Options::useTwoAxis());
     ui.spinBox_DriftTime->setValue( Options::autoModeIterations() );
-    ui.autoCalibrationCheck->setChecked(Options::autoCalibration());
+    ui.autoStarCheck->setChecked(Options::autoStar());
+    if (ui.autoStarCheck->isChecked())
+    {
+        ui.autoSquareSizeCheck->setEnabled(true);
+        ui.autoSquareSizeCheck->setChecked(Options::autoSquareSize());
+    }
 
 
     idleColor.setRgb(200,200,200);
@@ -248,7 +258,7 @@ bool rcalibration::startCalibration()
         return false;
     }
 
-    if (calibrationStage != CAL_START && ui.autoCalibrationCheck->isChecked())
+    if (calibrationStage != CAL_START && ui.autoStarCheck->isChecked())
     {
         capture();
         return true;
@@ -296,11 +306,14 @@ bool rcalibration::startCalibration()
     pmain_wnd->capture();
 
     Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
+    Options::setCalibrationSquareSizeIndex(ui.comboBox_SquareSize->currentIndex());
     Options::setUseAutoMode(ui.autoModeCheck->isChecked());
     Options::setUseTwoAxis(ui.twoAxisCheck->isChecked());
     Options::setUseDarkFrame(ui.darkFrameCheck->isChecked());
     Options::setAutoModeIterations(ui.spinBox_DriftTime->value());
-    Options::setAutoCalibration(ui.autoCalibrationCheck->isChecked());
+    Options::setAutoStar(ui.autoStarCheck->isChecked());
+    if (ui.autoStarCheck->isChecked())
+        Options::setAutoSquareSize(ui.autoSquareSizeCheck->isChecked());
 
 	// manual
     if( ui.autoModeCheck->checkState() != Qt::Checked )
@@ -456,7 +469,7 @@ void rcalibration::calibrateManualReticle( void )
 			else
 			{
                 calibrationStage = CAL_ERROR;
-                emit calibrationCompleted(false);
+                emit calibrationCompleted(false);                
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                 if (Options::playGuideAlarm())
                         KSNotify::play(KSNotify::NOTIFY_ERROR);
@@ -595,7 +608,10 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
             calibrationStage = CAL_ERROR;
             emit calibrationCompleted(false);
-            QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+            if (ui.autoStarCheck->isChecked())
+                pmain_wnd->appendLogText(i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time));
+            else
+                QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time), QMessageBox::Ok );
             if (Options::playGuideAlarm())
                     KSNotify::play(KSNotify::NOTIFY_ERROR);
             reset();
@@ -632,12 +648,15 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             ui.startCalibrationLED->setColor(okColor);
             if (Options::playGuideAlarm())
                     KSNotify::play(KSNotify::NOTIFY_ERROR);
-            if (ui.autoCalibrationCheck->isChecked())
+            if (ui.autoStarCheck->isChecked())
                 selectAutoStar(pmath->get_image());
         }
         else
         {
-            QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+            if (ui.autoStarCheck->isChecked())
+                pmain_wnd->appendLogText(i18n("Calibration rejected. Star drift is too short."));
+            else
+                QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
             ui.startCalibrationLED->setColor(alertColor);            
             calibrationStage = CAL_ERROR;
             emit calibrationCompleted(false);
@@ -721,7 +740,10 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
         calibrationStage = CAL_ERROR;
         emit calibrationCompleted(false);
-        QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+        if (ui.autoStarCheck->isChecked())
+            pmain_wnd->appendLogText(i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time));
+        else
+            QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
         if (Options::playGuideAlarm())
                 KSNotify::play(KSNotify::NOTIFY_ERROR);
         reset();
@@ -744,13 +766,16 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         pmain_wnd->setDECSwap(swap_dec);
         if (Options::playGuideAlarm())
                 KSNotify::play(KSNotify::NOTIFY_OK);
-        if (ui.autoCalibrationCheck->isChecked())
+        if (ui.autoStarCheck->isChecked())
             selectAutoStar(pmath->get_image());
 
     }
     else
     {
-        QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+        if (ui.autoStarCheck->isChecked())
+            pmain_wnd->appendLogText(i18n("Calibration rejected. Star drift is too short."));
+        else
+            QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
         emit calibrationCompleted(false);
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
@@ -789,7 +814,7 @@ void rcalibration::guideStarSelected(int x, int y)
 
     ui.pushButton_StartCalibration->setEnabled(true);
 
-    if (ui.autoCalibrationCheck->isChecked())
+    if (ui.autoStarCheck->isChecked())
         startCalibration();
 }
 
@@ -836,7 +861,7 @@ void rcalibration::setImage(FITSView *image)
 
             QPair<double,double> star = selectAutoStar(image);
 
-            if (ui.autoCalibrationCheck->isChecked())
+            if (ui.autoStarCheck->isChecked())
                 guideStarSelected(star.first, star.second);
             else
                 connect(image, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
@@ -918,43 +943,50 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 
     star = qMakePair(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y);
 
-    // Select appropriate square size
-    int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
-
-    for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
+    if (ui.autoSquareSizeCheck->isEnabled() && ui.autoSquareSizeCheck->isChecked())
     {
-        if (idealSize < ui.comboBox_SquareSize->itemText(i).toInt())
+        // Select appropriate square size
+        int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
+
+        if (Options::verboseLogging())
+            qDebug() << "Ideal calibration box size for star width: " << starCenters[maxScoreIndex]->width << " is " << idealSize << " pixels";
+
+        for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
         {
-            ui.comboBox_SquareSize->setCurrentIndex(i);
-            pmath->resize_square(i);
-            break;
+            if (idealSize < ui.comboBox_SquareSize->itemText(i).toInt())
+            {
+                ui.comboBox_SquareSize->setCurrentIndex(i);
+
+                if (Options::verboseLogging())
+                    qDebug() << "Selecting standard square size " << ui.comboBox_SquareSize->itemText(i).toInt() << " pixels";
+
+                pmath->resize_square(i);
+                break;
+            }
         }
     }
-
-    /*foreach(Edge *center, image_data->getStarCenters())
-    {
-        if (center->val > maxVal)
-        {
-            guideStar = center;
-            maxVal = center->val;
-            star = qMakePair(guideStar->x, guideStar->y);
-
-        }
-
-    }
-
-    if (guideStar != NULL)
-        image->setGuideSquare(guideStar->x, guideStar->y);
-    */
 
     return star;
 }
 
-void rcalibration::setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame)
+void rcalibration::setCalibrationTwoAxis(bool enable)
 {
-    ui.twoAxisCheck->setChecked(useTwoAxis);
-    ui.autoCalibrationCheck->setChecked(autoCalibration);
-    ui.darkFrameCheck->setChecked(useDarkFrame);
+    ui.twoAxisCheck->setChecked(enable);
+}
+
+void rcalibration::setCalibrationAutoStar(bool enable)
+{
+    ui.autoStarCheck->setChecked(enable);
+}
+
+void rcalibration::setCalibrationAutoSquareSize(bool enable)
+{
+    ui.autoSquareSizeCheck->setChecked(enable);
+}
+
+void rcalibration::setCalibrationDarkFrame(bool enable)
+{
+    ui.darkFrameCheck->setChecked(enable);
 }
 
 void rcalibration::setCalibrationParams(int boxSize, int pulseDuration)
@@ -969,3 +1001,7 @@ void rcalibration::setCalibrationParams(int boxSize, int pulseDuration)
     ui.spinBox_Pulse->setValue(pulseDuration);
 }
 
+void rcalibration::toggleAutoSquareSize(bool enable)
+{
+    ui.autoSquareSizeCheck->setEnabled(enable);
+}

@@ -31,7 +31,7 @@
 #define DRIFT_GRAPH_HEIGHT	300
 #define MAX_DITHER_RETIRES  20
 
-rguider::rguider(Ekos::Guide *parent)
+rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
     : QWidget(parent)
 {
  int i;
@@ -85,7 +85,7 @@ rguider::rguider(Ekos::Guide *parent)
     connect( ui.ditherCheck, SIGNAL(toggled(bool)), this, SIGNAL(ditherToggled(bool)));
 
 
-	pmath = NULL;
+    pmath = mathObject;
 
 	// init drift widget
     pDriftOut = new custom_drawer( ui.frame_Graph );

@@ -1593,12 +1593,20 @@
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>
     </entry>
+    <entry name="CalibrationSquareSizeIndex" type="UInt">
+        <label>Calibration square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
+        <default>1</default>
+    </entry>
     <entry name="UseAutoMode" type="Bool">
         <label>Automatically calibrate selected axes.</label>
         <default>true</default>
     </entry>
-    <entry name="AutoCalibration" type="Bool">
+    <entry name="AutoStar" type="Bool">
         <label>Automatically select calibration star and perform calibration.</label>
+        <default>false</default>
+    </entry>
+    <entry name="AutoSquareSize" type="Bool">
+        <label>Automatically select the square size based on the selected star width.</label>
         <default>false</default>
     </entry>
     <entry name="AutoModeIterations" type="UInt">

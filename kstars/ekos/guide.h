@@ -112,10 +112,16 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationTwoAxis(bool enable);
 
     /** DBUS interface function.
-     * Set auto calibration option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
+     * Set auto star calibration option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable if true, Ekos will attempt to automatically select the best guide star and proceed with the calibration procedure.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setCalibrationAuto(bool enable);
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationAutoStar(bool enable);
+
+    /** DBUS interface function.
+     * In case of automatic star selection, calculate the appropiate square size given the selected star width. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, Ekos will attempt to automatically select the best square size for calibration and guiding phases.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationAutoSquareSize(bool enable);
 
     /** DBUS interface function.
      * Set calibration dark frame option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
