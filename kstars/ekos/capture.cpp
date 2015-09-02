@@ -2187,7 +2187,7 @@ void Capture::saveSequenceQueue()
     {
         if ( (saveSequenceQueue(sequenceURL.path())) == false)
         {
-            KMessageBox::error(KStars::Instance(), i18n("Failed to save sequence queue"), i18n("FITS Save"));
+            KMessageBox::error(KStars::Instance(), i18n("Failed to save sequence queue"), i18n("Save"));
             return;
         }
 
