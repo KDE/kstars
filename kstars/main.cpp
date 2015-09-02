@@ -77,17 +77,19 @@ int main(int argc, char *argv[])
     QCommandLineParser *parser = new QCommandLineParser;    
     parser->addVersionOption();
     //parser->addHelpOption(INSERT_DESCRIPTION_HERE);
-    parser->addOption(QCommandLineOption(QStringList() << "!dump", i18n( "Dump sky image to file" )));
+    parser->addOption(QCommandLineOption(QStringList() << "dump", i18n( "Dump sky image to file" )));
     parser->addOption(QCommandLineOption(QStringList() << "script ", i18n( "Script to execute" )));
     parser->addOption(QCommandLineOption(QStringList() << "width ", i18n( "Width of sky image" ),  "640"));
     parser->addOption(QCommandLineOption(QStringList() << "height ", i18n( "Height of sky image" ), "480"));
     parser->addOption(QCommandLineOption(QStringList() << "filename ", i18n( "Filename for sky image" ), "kstars.png"));
-    parser->addOption(QCommandLineOption(QStringList() << "date ", i18n( "Date and time" )));
-    parser->addOption(QCommandLineOption(QStringList() << "!paused", i18n( "Start with clock paused" )));
+    parser->addOption(QCommandLineOption(QStringList() << "date", i18n( "Date and time" )));
+    parser->addOption(QCommandLineOption(QStringList() << "paused", i18n( "Start with clock paused" )));
 
     QApplication a(argc, argv);
     a.setApplicationVersion(KSTARS_VERSION);
     a.setApplicationDisplayName(i18n("KStars"));
+
+    parser->process(a);
 
     if ( parser->isSet( "dump" ) )
     {
@@ -195,7 +197,7 @@ int main(int argc, char *argv[])
     //Try to parse the given date string
     QString datestring = parser->value( "date" );
     //DEBUG
-    qDebug() << "Date string: " << datestring;
+    //qDebug() << "Date string: " << datestring;
 
     if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() )
     {
