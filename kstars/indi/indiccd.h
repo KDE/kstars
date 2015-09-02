@@ -139,6 +139,8 @@ public:
     DeviceFamily getType() { return dType;}
     bool hasGuideHead();
     bool hasCooler();
+    bool hasCoolerControl();
+    bool setCoolerControl(bool enable);
 
     // Utitlity functions
     bool getTemperature(double *value);
@@ -174,6 +176,7 @@ private:
     bool ISOMode;
     bool HasGuideHead;
     bool HasCooler;
+    bool HasCoolerControl;
     QString		seqPrefix;
     QString     fitsDir;
     char BLOBFilename[MAXINDIFILENAME];

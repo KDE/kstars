@@ -48,6 +48,20 @@ bool Dome::canPark()
     return (parkSW != NULL);
 }
 
+bool Dome::isParked()
+{
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DOME_PARK");
+    if (parkSP == NULL)
+        return false;
+
+    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
+
+    if (parkSW == NULL)
+        return false;
+
+    return (parkSW->s == ISS_ON);
+}
+
 bool Dome::Abort()
 {
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_ABORT_MOTION");

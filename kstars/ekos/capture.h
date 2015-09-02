@@ -199,7 +199,7 @@ private:
  * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
  * the guiding deviation resume to acceptable levels and the capture operation is resumed.
  *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 class Capture : public QWidget, public Ui::Capture
 {
@@ -281,6 +281,17 @@ public:
      * @param hours Number of hours after the meridian at which the mount is commanded to flip.
      */
     Q_SCRIPTABLE Q_NOREPLY void setMeridianFlipHour(double hours);
+
+    /** DBUS interface function.
+     * Does the CCD has a cooler control (On/Off) ?
+     */
+    Q_SCRIPTABLE bool hasCoolerControl();
+
+    /** DBUS interface function.
+     * Set the CCD cooler ON/OFF
+     *
+     */
+    Q_SCRIPTABLE bool setCoolerControl(bool enable);
 
     /** DBUS interface function.
      * @return Returns the number of jobs in the sequence queue.

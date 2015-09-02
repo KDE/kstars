@@ -37,6 +37,7 @@ public:
     DeviceFamily getType() { return dType;}
 
     bool canPark();
+    bool isParked();
 
 public slots:
     bool Abort();

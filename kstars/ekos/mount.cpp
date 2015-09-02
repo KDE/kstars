@@ -607,4 +607,12 @@ bool Mount::unpark()
     return currentTelescope->UnPark();
 }
 
+bool Mount::isParked()
+{
+    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+        return false;
+
+    return currentTelescope->isParked();
+}
+
 }

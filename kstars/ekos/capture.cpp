@@ -2791,6 +2791,22 @@ void Capture::setMeridianFlipHour(double hours)
     meridianHours->setValue(hours);
 }
 
+bool Capture::hasCoolerControl()
+{
+    if (currentCCD && currentCCD->hasCoolerControl())
+        return true;
+
+    return false;
+}
+
+bool Capture::setCoolerControl(bool enable)
+{
+    if (currentCCD && currentCCD->hasCoolerControl())
+        return currentCCD->setCoolerControl(enable);
+
+    return false;
+}
+
 
 }
 

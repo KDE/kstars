@@ -770,6 +770,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     ISOMode   = true;
     HasGuideHead = false;
     HasCooler    = false;
+    HasCoolerControl = false;
     fv          = NULL;
     streamWindow      = NULL;
     ST4Driver = NULL;
@@ -850,6 +851,11 @@ void CCD::registerProperty(INDI::Property *prop)
         HasCooler = true;
         if (np)
             emit newTemperatureValue(np->np[0].value);
+    }
+    else if (!strcmp(prop->getName(), "CCD_COOLER"))
+    {
+        // Can turn cooling on/off
+        HasCoolerControl = true;
     }
 
     DeviceDecorator::registerProperty(prop);
@@ -953,6 +959,12 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
 void CCD::processSwitch(ISwitchVectorProperty *svp)
 {
+    if (!strcmp(svp->name, "CCD_COOLER"))
+    {
+        // Can turn cooling on/off
+        HasCoolerControl = true;
+    }
+
     if (!strcmp(svp->name, "CCD_VIDEO_STREAM") || !strcmp(svp->name, "VIDEO_STREAM"))
     {
         if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
@@ -1353,6 +1365,29 @@ bool CCD::hasGuideHead()
 bool CCD::hasCooler()
 {
     return HasCooler;
+}
+
+bool CCD::hasCoolerControl()
+{
+    return HasCoolerControl;
+}
+
+bool CCD::setCoolerControl(bool enable)
+{
+    if (HasCoolerControl == false)
+        return false;
+
+    ISwitchVectorProperty *coolerSP = baseDevice->getSwitch("CCD_COOLER");
+    if (coolerSP == NULL)
+        return false;
+
+    // Cooler ON/OFF
+    coolerSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
+    coolerSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(coolerSP);
+
+    return true;
 }
 
 CCDChip * CCD::getChip(CCDChip::ChipType cType)

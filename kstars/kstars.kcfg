@@ -1678,16 +1678,16 @@
         <label>Warm up CCD if supported on shutdown.</label>
         <default>false</default>
     </entry>
-    <entry name="ParkScope" type="Bool">
-        <label>Park telescope on shutdown.</label>
+    <entry name="ParkMount" type="Bool">
+        <label>Park mountk on shutdown.</label>
         <default>false</default>
     </entry>
     <entry name="ParkDome" type="Bool">
         <label>Park dome on shutdown.</label>
         <default>false</default>
     </entry>
-    <entry name="UnParkScope" type="Bool">
-        <label>UnPark telescope on startup.</label>
+    <entry name="UnParkMount" type="Bool">
+        <label>UnPark mount on startup.</label>
         <default>false</default>
     </entry>
     <entry name="UnParkDome" type="Bool">

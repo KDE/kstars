@@ -60,6 +60,14 @@ bool Dome::unpark()
     return currentDome->UnPark();
 }
 
+bool Dome::isParked()
+{
+    if (currentDome == NULL || currentDome->canPark() == false)
+        return false;
+
+    return currentDome->isParked();
+}
+
 bool Dome::abort()
 {
     if (currentDome == NULL)
@@ -75,6 +83,7 @@ IPState  Dome::getDomeState()
 
     return currentDome->getBaseDevice()->getPropertyState("DOME_PARK");
 }
+
 
 }
 

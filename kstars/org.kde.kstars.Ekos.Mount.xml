@@ -42,6 +42,9 @@
     <method name="canPark">
       <arg type="b" direction="out"/>
     </method>
+    <method name="isParked">
+      <arg type="b" direction="out"/>
+    </method>
     <method name="park">
       <arg type="b" direction="out"/>
     </method>

@@ -68,5 +68,12 @@
       <arg type="d" direction="out"/>
       <arg name="id" type="i" direction="in"/>
     </method>
+    <method name="hasCoolerControl">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="setCoolerControl">
+      <arg type="b" direction="out"/>
+      <arg type="b" name="enable" direction="in"/>
+    </method>
   </interface>
 </node>

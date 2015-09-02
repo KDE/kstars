@@ -100,9 +100,9 @@ Scheduler::Scheduler()
     shutdownScriptURL = QUrl(Options::shutdownScript());
 
     warmCCDCheck->setChecked(Options::warmUpCCD());
-    parkTelescopeCheck->setChecked(Options::parkScope());
+    parkMountCheck->setChecked(Options::parkMount());
     parkDomeCheck->setChecked(Options::parkDome());
-    unparkTelescopeCheck->setChecked(Options::unParkScope());
+    unparkMountCheck->setChecked(Options::unParkMount());
     unparkDomeCheck->setChecked(Options::unParkDome());
 
 }
@@ -529,7 +529,11 @@ void Scheduler::stop()
     state           = SCHEDULER_IDLE;
     ekosState       = EKOS_IDLE;
     indiState       = INDI_IDLE;
-    startupState    = STARTUP_IDLE;
+
+    // Only reset startup state to idle if the startup procedure was interrupted before it had the chance to complete.
+    if (startupState != STARTUP_COMPLETE)
+        startupState    = STARTUP_IDLE;
+
     shutdownState   = SHUTDOWN_IDLE;
 
     currentJob = NULL;
@@ -550,9 +554,9 @@ void Scheduler::start()
     Options::setStartupScript(startupScript->text());
     Options::setShutdownScript(shutdownScript->text());
     Options::setWarmUpCCD(warmCCDCheck->isChecked());
-    Options::setParkScope(parkTelescopeCheck->isChecked());
+    Options::setParkMount(parkMountCheck->isChecked());
     Options::setParkDome(parkDomeCheck->isChecked());
-    Options::setUnParkScope(unparkTelescopeCheck->isChecked());
+    Options::setUnParkMount(unparkMountCheck->isChecked());
     Options::setUnParkDome(unparkDomeCheck->isChecked());
 
     pi->startAnimation();
@@ -566,6 +570,16 @@ void Scheduler::start()
     state = SCHEDULER_RUNNIG;
 
     currentJob = NULL;
+
+    // Reset all aborted jobs
+    foreach(SchedulerJob *job, jobs)
+    {
+        if (job->getState() == SchedulerJob::JOB_ABORTED)
+        {
+            job->setState(SchedulerJob::JOB_IDLE);
+            job->setStage(SchedulerJob::STAGE_IDLE);
+        }
+    }
 
     addToQueueB->setEnabled(false);
     removeFromQueueB->setEnabled(false);
@@ -704,7 +718,9 @@ void Scheduler::evaluateJobs()
 
         appendLogText(i18n("Scheduler complete. Starting shutdown procedure..."));
 
-        stop();
+        // Let's start shutdown procedure
+        checkShutdownState();
+
         return;
     }
 
@@ -1024,8 +1040,8 @@ bool    Scheduler::checkINDIState()
     {
         // Check if mount and dome support parking or not.
         QDBusReply<bool> boolReply = mountInterface->call(QDBus::AutoDetect,"canPark");
-        unparkTelescopeCheck->setEnabled(boolReply.value());
-        parkTelescopeCheck->setEnabled(boolReply.value());
+        unparkMountCheck->setEnabled(boolReply.value());
+        parkMountCheck->setEnabled(boolReply.value());
 
         //qDebug() << "Mount can park " << boolReply.value();
 
@@ -1033,7 +1049,8 @@ bool    Scheduler::checkINDIState()
         unparkDomeCheck->setEnabled(boolReply.value());
         parkDomeCheck->setEnabled(boolReply.value());
 
-        //qDebug() << "Dome can park " << boolReply.value();
+         boolReply = captureInterface->call(QDBus::AutoDetect,"hasCoolerControl");
+         warmCCDCheck->setEnabled(boolReply.value());
 
         indiState = INDI_READY;
         return true;
@@ -1057,31 +1074,51 @@ bool Scheduler::checkStartupState()
                startupState = STARTUP_SCRIPT;
                executeScript(startupScriptURL.toString(QUrl::PreferLocalFile));
                return false;
-            }
-            if (unparkTelescopeCheck->isEnabled() && unparkTelescopeCheck->isChecked())
-            {
-                startupState = STARTUP_UNPARK_SCOPE;
-                getNextAction();
-                return false;
-            }
-            if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
-            {
-                startupState = STARTUP_UNPARK_DOME;
-                getNextAction();
-                return false;
-            }
+            }            
 
-            startupState = STARTUP_COMPLETE;
+            startupState = STARTUP_UNPARK_MOUNT;
             return true;
          break;
 
         case STARTUP_SCRIPT:
+            return false;
             break;
 
-        case STARTUP_UNPARK_SCOPE:
+        case STARTUP_UNPARK_MOUNT:
+        if (unparkMountCheck->isEnabled() && unparkMountCheck->isChecked())
+                unParkMount();
+        else
+                startupState = STARTUP_UNPARK_DOME;
             break;
+
+        case STARTUP_UNPARKING_MOUNT:
+        {
+            QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
+            if (mountReply.value() == false)
+            {
+                appendLogText(i18n("Mount unparked."));
+                startupState = STARTUP_UNPARK_DOME;
+            }
+        }
+        break;
 
         case STARTUP_UNPARK_DOME:
+        if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
+                unParkDome();
+        else
+                startupState = STARTUP_COMPLETE;
+            break;
+
+        case STARTUP_UNPARKING_DOME:
+        {
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
+            if (domeReply.value() == false)
+            {
+                appendLogText(i18n("Dome unparked."));
+                startupState = STARTUP_COMPLETE;
+            }
+        }
+        break;
 
         case STARTUP_COMPLETE:
             return true;
@@ -1089,12 +1126,114 @@ bool Scheduler::checkStartupState()
         case STARTUP_ERROR:
             appendLogText(i18n("Startup script failed, aborting..."));
             stop();
+            return true;
             break;
 
     }
 
     return false;
 }
+
+bool Scheduler::checkShutdownState()
+{
+    switch (shutdownState)
+    {
+        case SHUTDOWN_IDLE:
+        if (warmCCDCheck->isEnabled() && warmCCDCheck->isChecked())
+        {
+            // Turn it off
+            QVariant arg(false);
+            captureInterface->call(QDBus::AutoDetect, "setCoolerControl", arg);
+        }
+
+        if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+        {
+            shutdownState = SHUTDOWN_PARK_MOUNT;
+            return false;
+        }
+
+        if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
+        {
+            shutdownState = SHUTDOWN_PARK_DOME;
+            return false;
+        }
+        if (shutdownScriptURL.isEmpty() == false)
+        {
+            shutdownState = SHUTDOWN_SCRIPT;
+            return false;
+        }
+
+        shutdownState = SHUTDOWN_COMPLETE;
+        appendLogText(i18n("Shutdown complete."));
+        stop();
+        return true;
+        break;
+
+        case SHUTDOWN_PARK_MOUNT:
+            if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+                    parkMount();
+            else
+                    shutdownState = SHUTDOWN_PARK_DOME;
+       break;
+
+        case SHUTDOWN_PARKING_MOUNT:
+        {
+            QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
+            if (mountReply.value())
+            {
+                appendLogText(i18n("Mount parked."));
+                shutdownState = SHUTDOWN_PARK_DOME;
+            }
+        }
+        break;
+
+        case SHUTDOWN_PARK_DOME:
+        if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
+                parkDome();
+        else
+                shutdownState = SHUTDOWN_SCRIPT;
+        break;
+
+        case SHUTDOWN_PARKING_DOME:
+        {
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
+            if (domeReply.value())
+            {
+                appendLogText(i18n("Dome parked."));
+                shutdownState = SHUTDOWN_SCRIPT;
+            }
+        }
+        break;
+
+        case SHUTDOWN_SCRIPT:
+        if (shutdownScriptURL.isEmpty() == false)
+        {
+           shutdownState = SHUTDOWN_SCRIPT_RUNNING;
+           executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
+        }
+        else
+            shutdownState = SHUTDOWN_COMPLETE;
+        break;
+
+        case SHUTDOWN_SCRIPT_RUNNING:
+            return false;
+
+        case SHUTDOWN_COMPLETE:
+            appendLogText(i18n("Shutdown complete."));
+            stop();
+            return true;
+
+        case SHUTDOWN_ERROR:
+            appendLogText(i18n("Shutdown script failed, aborting..."));
+            stop();
+            return true;
+            break;
+
+    }
+
+    return false;
+}
+
 
 void Scheduler::executeScript(const QString &filename)
 {
@@ -1119,7 +1258,7 @@ void Scheduler::checkProcessExit(int exitCode)
     if (exitCode == 0)
     {
         if (startupState != STARTUP_COMPLETE)
-            startupState = STARTUP_UNPARK_SCOPE;
+            startupState = STARTUP_UNPARK_MOUNT;
         else if (shutdownState != SHUTDOWN_COMPLETE)
             shutdownState = SHUTDOWN_COMPLETE;
 
@@ -1189,29 +1328,43 @@ void Scheduler::checkProcessExit(int exitCode)
 
 void Scheduler::checkStatus()
 {
-    // #1 Check if startup procedure is done
-    // TODO
 
-    // #2 Now evaluate jobs and select the best candidate
+    // #1 Now evaluate jobs and select the best candidate
     if (currentJob == NULL)
     {
+        // #2.1 If shutdown is already complete or in error, we need to stop
+        if (shutdownState == SHUTDOWN_COMPLETE || shutdownState == SHUTDOWN_ERROR)
+            return;
+
+        // #2.2  Check if shutdown is in progress
+        if (shutdownState > SHUTDOWN_IDLE)
+        {
+            checkShutdownState();
+            return;
+        }
+
+        // #2.3 If not in shutdown state, evaluate the jobs
         evaluateJobs();
     }
-    else
+    else        
     {
-        // #3 Check if Ekos is started
+        // #3 Check if startup procedure Phase #1 is complete (Startup script)
+        if ( (startupState == STARTUP_IDLE && checkStartupState() == false) || startupState == STARTUP_SCRIPT)
+            return;
+
+        // #4 Check if Ekos is started
         if (checkEkosState() == false)
             return;
 
-        // #4 Check if INDI devices are connected.
+        // #5 Check if INDI devices are connected.
         if (checkINDIState() == false)
+            return;       
+
+        // #6 Check if startup procedure Phase #2 is complete (Unparking phase)
+        if (startupState > STARTUP_SCRIPT && startupState < STARTUP_ERROR && checkStartupState() == false)
             return;
 
-        // #5 Check if startup procedure is complete.
-        if (checkStartupState() == false)
-            return;
-
-        // #6 Execute the job
+        // #7 Execute the job
         executeJob(currentJob);
     }
 }
@@ -1719,6 +1872,76 @@ void Scheduler::stopINDI()
         pi->stopAnimation();
         disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
     }*/
+}
+
+void    Scheduler::parkMount()
+{
+    QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
+
+    if (mountReply.value() == false)
+    {
+        shutdownState = SHUTDOWN_PARKING_MOUNT;
+        mountInterface->call(QDBus::AutoDetect,"park");
+        appendLogText(i18n("Parking mount..."));
+    }
+    else
+    {
+        appendLogText(i18n("Mount already parked."));
+        shutdownState = SHUTDOWN_PARK_DOME;
+    }
+}
+
+void    Scheduler::unParkMount()
+{
+    QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
+
+    if (mountReply.value())
+    {
+        startupState = STARTUP_UNPARKING_MOUNT;
+        mountInterface->call(QDBus::AutoDetect,"unpark");
+        appendLogText(i18n("Unparking mount..."));
+    }
+    else
+    {
+        appendLogText(i18n("Mount already unparked."));
+        startupState = STARTUP_UNPARK_DOME;
+    }
+
+}
+
+void    Scheduler::parkDome()
+{
+    QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
+
+    if (domeReply.value() == false)
+    {
+       shutdownState = SHUTDOWN_PARKING_DOME;
+        domeInterface->call(QDBus::AutoDetect,"park");
+        appendLogText(i18n("Parking dome..."));
+    }
+    else
+    {
+        appendLogText(i18n("Dome already parked."));
+        shutdownState= SHUTDOWN_SCRIPT;
+    }
+}
+
+void    Scheduler::unParkDome()
+{
+    QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
+
+    if (domeReply.value())
+    {
+        startupState = STARTUP_UNPARKING_DOME;
+        domeInterface->call(QDBus::AutoDetect,"unpark");
+        appendLogText(i18n("Unparking dome..."));
+    }
+    else
+    {
+        appendLogText(i18n("Dome already unparked."));
+        startupState = STARTUP_COMPLETE;
+    }
+
 }
 
 }

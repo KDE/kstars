@@ -61,6 +61,11 @@ public:
     Q_SCRIPTABLE bool unpark();
 
     /** DBUS interface function.
+     * Return true if dome is parked, false otherwise.
+     */
+    Q_SCRIPTABLE bool isParked();
+
+    /** DBUS interface function.
      * Get Dome State. IDLE, BUSY, OK, or ALERT
      */
     Q_SCRIPTABLE IPState getDomeState();

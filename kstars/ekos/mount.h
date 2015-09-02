@@ -124,6 +124,11 @@ public:
      */
     Q_SCRIPTABLE bool unpark();
 
+    /** DBUS interface function.
+     * Return true if mount is parked, false otherwise.
+     */
+    Q_SCRIPTABLE bool isParked();
+
     /** @}*/
 
 public slots:

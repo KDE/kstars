@@ -42,8 +42,8 @@ public:
     typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
     typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
     typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
-    typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_SCOPE, STARTUP_UNPARK_DOME, STARTUP_ERROR, STARTUP_COMPLETE } StartupState;
-    typedef enum { SHUTDOWN_IDLE, SHUTDOWN_SCRIPT, SHUTDOWN_UNPARK_SCOPE, SHUTDOWN_UNPARK_DOME, SHUTDOWN_ERROR, SHUTDOWN_COMPLETE } ShutdownState;
+    typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_MOUNT, STARTUP_UNPARKING_MOUNT, STARTUP_UNPARK_DOME, STARTUP_UNPARKING_DOME, STARTUP_ERROR, STARTUP_COMPLETE } StartupState;
+    typedef enum { SHUTDOWN_IDLE, SHUTDOWN_PARK_MOUNT, SHUTDOWN_PARKING_MOUNT, SHUTDOWN_PARK_DOME, SHUTDOWN_PARKING_DOME, SHUTDOWN_SCRIPT, SHUTDOWN_SCRIPT_RUNNING, SHUTDOWN_ERROR, SHUTDOWN_COMPLETE } ShutdownState;
 
      Scheduler();
     ~Scheduler();
@@ -213,7 +213,15 @@ private:
 
         bool    checkEkosState();
         bool    checkINDIState();
+        /* False if running, true if complete */
         bool    checkStartupState();
+        bool    checkShutdownState();
+
+        void    parkMount();
+        void    unParkMount();
+
+        void    parkDome();
+        void    unParkDome();
 
         //bool    checkFITSJobState();
 

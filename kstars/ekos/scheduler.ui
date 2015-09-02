@@ -370,7 +370,6 @@
      </layout>
      <zorder></zorder>
      <zorder>line</zorder>
-     <zorder>label_6</zorder>
     </widget>
    </item>
    <item>
@@ -642,7 +641,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_16">
           <item>
-           <widget class="QCheckBox" name="unparkTelescopeCheck">
+           <widget class="QCheckBox" name="unparkMountCheck">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -650,7 +649,7 @@
              <string>Park telescope to home position.</string>
             </property>
             <property name="text">
-             <string>UnPark Scope</string>
+             <string>UnPark Mount</string>
             </property>
            </widget>
           </item>
@@ -741,7 +740,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="parkTelescopeCheck">
+           <widget class="QCheckBox" name="parkMountCheck">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -749,7 +748,7 @@
              <string>Park telescope to home position.</string>
             </property>
             <property name="text">
-             <string>Park Scope</string>
+             <string>Park Mount</string>
             </property>
            </widget>
           </item>
