@@ -38,7 +38,7 @@ public:
     void setTargetCoords(dms ra, dms dec);
     SkyPoint & getTargetCoords();
 
-    StartupCondition getStartingCondition() const;
+    StartupCondition getStartupCondition() const;
     void setStartupCondition(const StartupCondition &value);
 
     QDateTime getStartupTime() const;
@@ -93,6 +93,9 @@ public:
     JOBStage getStage() const;
     void setStage(const JOBStage &value);
 
+    StartupCondition getFileStartupCondition() const;
+    void setFileStartupCondition(const StartupCondition &value);
+
 private:
 
     QString name;
@@ -102,6 +105,7 @@ private:
 
     JOBStage stage;
 
+    StartupCondition fileStartupCondition;
     StartupCondition startupCondition;
     CompletionCondition completionCondition;
 
@@ -115,7 +119,7 @@ private:
     double minMoonSeparation;
 
     bool enforceWeather;
-    bool noMeridianFlip;    
+    bool noMeridianFlip;        
 
     ModuleUsage moduleUsage;
 

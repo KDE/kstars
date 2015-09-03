@@ -18,7 +18,6 @@ SchedulerJob::SchedulerJob()
     completionCondition = FINISH_SEQUENCE;
     moduleUsage         = USE_NONE;
     state               = JOB_IDLE;
-    //fitsState           = FITS_IDLE;
     stage               = STAGE_IDLE;
 
     statusCell          = NULL;
@@ -48,7 +47,7 @@ SkyPoint & SchedulerJob::getTargetCoords()
     return targetCoords;
 }
 
-SchedulerJob::StartupCondition SchedulerJob::getStartingCondition() const
+SchedulerJob::StartupCondition SchedulerJob::getStartupCondition() const
 {
     return startupCondition;
 }
@@ -320,11 +319,21 @@ void SchedulerJob::setStage(const JOBStage &value)
     }
 }
 
+SchedulerJob::StartupCondition SchedulerJob::getFileStartupCondition() const
+{
+    return fileStartupCondition;
+}
+
+void SchedulerJob::setFileStartupCondition(const StartupCondition &value)
+{
+    fileStartupCondition = value;
+}
+
 void SchedulerJob::setTargetCoords(dms ra, dms dec)
 {
     targetCoords.setRA0(ra);
     targetCoords.setDec0(dec);
-
+    
     targetCoords.updateCoords(KStarsData::Instance()->updateNum());
 }
 

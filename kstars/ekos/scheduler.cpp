@@ -47,6 +47,7 @@ Scheduler::Scheduler()
     captureBatch = 0;
     jobUnderEdit = false;
     mDirty       = false;
+    parkedWait   = false;
 
     // Set initial time for startup and completion times
     startupTimeEdit->setDateTime(KStarsData::Instance()->lt());
@@ -71,7 +72,11 @@ Scheduler::Scheduler()
     raBox->setDegType(false); //RA box should be HMS-style
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+    addToQueueB->setToolTip(i18n("Add observation job to list."));
+
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
+    removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
+
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     queueSaveB->setIcon(QIcon::fromTheme("document-save"));
     queueLoadB->setIcon(QIcon::fromTheme("document-open"));
@@ -282,6 +287,8 @@ void Scheduler::addJob()
         job->setStartupTime(startupTimeEdit->dateTime());
     }
 
+    job->setFileStartupCondition(job->getStartupCondition());
+
     // #2 Constraints
 
     // Do we have minimum altitude constraint?
@@ -409,7 +416,7 @@ void Scheduler::editJob(QModelIndex i)
 
     sequenceEdit->setText(job->getSequenceFile().path());
 
-    switch (job->getStartingCondition())
+    switch (job->getFileStartupCondition())
     {
         case SchedulerJob::START_NOW:
             nowConditionR->setChecked(true);
@@ -462,6 +469,9 @@ void Scheduler::editJob(QModelIndex i)
    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
    addToQueueB->setEnabled(true);
 
+   addToQueueB->setToolTip(i18n("Apply job changes."));
+   removeFromQueueB->setToolTip(i18n("Cancel job changes."));
+
    jobUnderEdit = true;
 }
 
@@ -472,10 +482,19 @@ void Scheduler::resetJobEdit()
 
    jobUnderEdit = false;
    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+
+   addToQueueB->setToolTip(i18n("Add observation job to list."));
+   removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
 }
 
 void Scheduler::removeJob()
 {
+    if (jobUnderEdit)
+    {
+        resetJobEdit();
+        return;
+    }
+
     int currentRow = queueTable->currentRow();
 
     if (currentRow < 0)
@@ -543,6 +562,8 @@ void Scheduler::stop()
     state           = SCHEDULER_IDLE;
     ekosState       = EKOS_IDLE;
     indiState       = INDI_IDLE;
+
+    parkedWait      = false;
 
     // Only reset startup state to idle if the startup procedure was interrupted before it had the chance to complete.
     if (startupState != STARTUP_COMPLETE)
@@ -619,7 +640,7 @@ void Scheduler::evaluateJobs()
         target.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         // #2 Check startup conditions
-        switch (job->getStartingCondition())
+        switch (job->getStartupCondition())
         {
                 // #2.1 Now?
                 case SchedulerJob::START_NOW:
@@ -784,8 +805,44 @@ void Scheduler::evaluateJobs()
 
     if (bestCandidate != NULL)
     {
-        appendLogText(i18n("Found candidate job %1", bestCandidate->getName()));
+        appendLogText(i18n("Found candidate job %1.", bestCandidate->getName()));
+
+        // If mount was previously parked awaiting job activation, we unpark it.
+        if (parkedWait)
+        {
+            unParkMount(false);
+            parkedWait = false;
+        }
+
         currentJob = bestCandidate;
+    }
+    // If we already started, we check when the next object is scheduled at.
+    // If it is more than 30 minutes in the future, we park the mount if that is supported
+    // and we unpark when it is due to start.
+    else if (parkedWait == false && startupState == STARTUP_COMPLETE && parkMountCheck->isEnabled())
+    {
+        int nextObservationTime= 1e6;
+        SchedulerJob *nextObservationJob = NULL;
+        foreach(SchedulerJob *job, jobs)
+        {
+            if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
+                continue;
+
+            int timeLeft = KStarsData::Instance()->lt().secsTo(job->getStartupTime());
+
+            if (timeLeft < nextObservationTime)
+            {
+                nextObservationTime = timeLeft;
+                nextObservationJob = job;
+            }
+        }
+
+        if (nextObservationJob && nextObservationTime > (60 * 30))
+        {
+            appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until the job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
+            parkMount(false);
+            parkedWait = true;
+        }
     }
 }
 
@@ -895,13 +952,13 @@ int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
 
     // The farther the target from dawn, the better.
     if (dayFraction < Dawn)
-        score += (Dawn - dayFraction) * 100;
+        score = (Dawn - dayFraction) * 100;
     else if (dayFraction > Dusk)
     {
-      score += (dayFraction - Dusk) * 100;
+      score = (dayFraction - Dusk) * 100;
     }
     else
-      score -= BAD_SCORE;
+      score = BAD_SCORE;
 
     appendLogText(i18n("Dark sky score is %1 for time (%2)", score, observationTime.toString()));
 
@@ -914,20 +971,20 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
     double currentAlt  = target.alt().Degrees();
 
     if (currentAlt < 0)
-        score -= BAD_SCORE;
+        score = BAD_SCORE;
     // If minimum altitude is specified
     else if (job->getMinAltitude() > 0)
     {
         // if current altitude is lower that's not good
         if (currentAlt < job->getMinAltitude())
-            score -= BAD_SCORE;
+            score = BAD_SCORE;
         // Otherwise, adjust score and add current altitude to score weight
         else
-            score += (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
+            score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
     }
     // If no minimum altitude, then adjust altitude score to account for current target altitude
     else
-        score += (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
+        score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
 
     appendLogText(i18n("%1 altitude score is %2", job->getName(), score));
 
@@ -1729,8 +1786,8 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
 
     qDeleteAll(jobs);
     jobs.clear();
-    for (int i=0; i < queueTable->rowCount(); i++)
-        queueTable->removeRow(i);
+    while (queueTable->rowCount() > 0)
+        queueTable->removeRow(0);
 
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
@@ -1953,11 +2010,11 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
          outstream << "<Sequence>" << job->getSequenceFile().path() << "</Sequence>" << endl;
 
          outstream << "<StartupCondition>" << endl;
-        if (job->getStartingCondition() == SchedulerJob::START_NOW)
+        if (job->getFileStartupCondition() == SchedulerJob::START_NOW)
             outstream << "<Condition>Now</Condition>" << endl;
-        else if (job->getStartingCondition() == SchedulerJob::START_CULMINATION)
+        else if (job->getFileStartupCondition() == SchedulerJob::START_CULMINATION)
             outstream << "<Condition value='" << job->getCulminationOffset() << "'>Culmination</Condition>" << endl;
-        else if (job->getStartingCondition() == SchedulerJob::START_AT)
+        else if (job->getFileStartupCondition() == SchedulerJob::START_AT)
             outstream << "<Condition value='" << job->getStartupTime().toString(Qt::ISODate) << "'>At</Condition>" << endl;
         outstream << "</StartupCondition>" << endl;
 
@@ -2246,37 +2303,42 @@ void Scheduler::stopINDI()
         ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
 }
 
-void    Scheduler::parkMount()
+void    Scheduler::parkMount(bool shutdown)
 {
     QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
 
     if (mountReply.value() == false)
     {
-        shutdownState = SHUTDOWN_PARKING_MOUNT;
+        if (shutdown)
+            shutdownState = SHUTDOWN_PARKING_MOUNT;
         mountInterface->call(QDBus::AutoDetect,"park");
         appendLogText(i18n("Parking mount..."));
     }
     else
     {
         appendLogText(i18n("Mount already parked."));
-        shutdownState = SHUTDOWN_PARK_DOME;
+        if (shutdown)
+            shutdownState = SHUTDOWN_PARK_DOME;
     }
+
 }
 
-void    Scheduler::unParkMount()
+void    Scheduler::unParkMount(bool startup)
 {
     QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
 
     if (mountReply.value())
     {
-        startupState = STARTUP_UNPARKING_MOUNT;
+        if (startup)
+            startupState = STARTUP_UNPARKING_MOUNT;
         mountInterface->call(QDBus::AutoDetect,"unpark");
         appendLogText(i18n("Unparking mount..."));
     }
     else
     {
         appendLogText(i18n("Mount already unparked."));
-        startupState = STARTUP_UNPARK_DOME;
+        if (startup)
+            startupState = STARTUP_UNPARK_DOME;
     }
 
 }

@@ -256,12 +256,12 @@ private:
         /**
          * @brief parkMount
          */
-        void    parkMount();
+        void    parkMount(bool shutdown=true);
 
         /**
          * @brief unParkMount
          */
-        void    unParkMount();
+        void    unParkMount(bool startup=true);
 
         /**
          * @brief parkDome
@@ -335,6 +335,7 @@ private:
 
     double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
     bool mDirty;                    // Was job modified and needs saving?
+    bool parkedWait;                // Used to park the mount in case scheduled time is far in the future. When job is ready, we unpark the mount
 
 
 };
