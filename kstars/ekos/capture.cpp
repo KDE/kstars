@@ -1959,8 +1959,8 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
 
     qDeleteAll(jobs);
     jobs.clear();
-    for (int i=0; i < queueTable->rowCount(); i++)
-        queueTable->removeRow(i);
+    while (queueTable->rowCount() > 0)
+        queueTable->removeRow(0);
 
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
