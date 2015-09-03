@@ -35,6 +35,7 @@
 #define MAXIMUM_ABS_ITERATIONS      30
 #define MAXIMUM_RESET_ITERATIONS    2
 #define DEFAULT_SUBFRAME_DIM        128
+#define AUTO_STAR_TIMEOUT           45000
 
 namespace Ekos
 {
@@ -67,6 +68,7 @@ Focus::Focus()
     HFRInc =0;
     noStarCount=0;
     reverseDir = false;
+    initialFocuserAbsPosition = -1;
 
     pulseDuration = 1000;
 
@@ -805,6 +807,9 @@ void Focus::newFITS(IBLOB *bp)
                     targetChip->getFrame(&fx, &fy, &fw, &fh);
                 targetImage->setGuideSquare(fw/2, fh/2);
                 connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+
+                QTimer::singleShot(AUTO_STAR_TIMEOUT, this, SLOT(checkAutoStarTimeout()));
+
                 return;
             }
 
@@ -1687,7 +1692,7 @@ void Focus::updateFocusStatus(bool status)
     m_autoFocusSuccesful = status;
 
     // In case of failure, go back to last position if the focuser is absolute
-    if (status == false &&  canAbsMove && currentFocuser)
+    if (status == false &&  canAbsMove && currentFocuser && initialFocuserAbsPosition >= 0)
     {
         currentFocuser->absMoveFocuser(initialFocuserAbsPosition);
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
@@ -1710,6 +1715,17 @@ void Focus::updateFocusStatus(bool status)
             KSNotify::play(KSNotify::NOTIFY_OK);
         else
             KSNotify::play(KSNotify::NOTIFY_ERROR);
+    }
+}
+
+void Focus::checkAutoStarTimeout()
+{
+    if (starSelected == false && inAutoFocus)
+    {
+        appendLogText(i18n("No star was seleted. Aborting..."));
+        initialFocuserAbsPosition=-1;
+        abort();
+        updateFocusStatus(false);
     }
 }
 

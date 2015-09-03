@@ -306,6 +306,8 @@ public slots:
      */
     void filterChangeWarning(int index);
 
+    void checkAutoStarTimeout();
+
 signals:
         void newLog();
         void autoFocusFinished(bool status, double finalHFR);
