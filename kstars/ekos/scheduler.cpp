@@ -24,6 +24,9 @@
 #include "kstarsdata.h"
 #include "ksmoon.h"
 #include "ksalmanac.h"
+#include "ksutils.h"
+
+#define BAD_SCORE   -1000
 
 namespace Ekos
 {
@@ -898,9 +901,9 @@ int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
       score += (dayFraction - Dusk) * 100;
     }
     else
-      score -= 500;
+      score -= BAD_SCORE;
 
-    appendLogText(i18n("Dark sky score is %1 for %2", score, observationTime.toString()));
+    appendLogText(i18n("Dark sky score is %1 for time (%2)", score, observationTime.toString()));
 
     return score;
 }
@@ -911,20 +914,20 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
     double currentAlt  = target.alt().Degrees();
 
     if (currentAlt < 0)
-        score -= 1000;
+        score -= BAD_SCORE;
     // If minimum altitude is specified
     else if (job->getMinAltitude() > 0)
     {
         // if current altitude is lower that's not good
         if (currentAlt < job->getMinAltitude())
-            score -= 100;
+            score -= BAD_SCORE;
         // Otherwise, adjust score and add current altitude to score weight
         else
-            score += 100 + currentAlt;
+            score += (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
     }
     // If no minimum altitude, then adjust altitude score to account for current target altitude
     else
-        score += (currentAlt - minAltitude->minimum()) * 10.0;
+        score += (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
 
     appendLogText(i18n("%1 altitude score is %2", job->getName(), score));
 
@@ -932,24 +935,49 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
 }
 
 int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, const SkyPoint &target)
-{
-    // TODO Use moon brightness model from Khisciunas and Shaefer
-
+{    
     int16_t score=0;
 
-    double mSeparation = moon->angularDistanceTo(&target).Degrees();
+    // Lunar illumination %
+    double illum = moon->illum() * 100.0;
 
-    if (job->getMinMoonSeparation() > 0)
-    {
-        if (mSeparation < job->getMinMoonSeparation())
-            score -= 500;
-        else
-            score += mSeparation / 10.0;
-    }
+    // Moon/Sky separation p
+    double separation = moon->angularDistanceTo(&target).Degrees();
+
+    // Zenith distance of the moon
+    double zMoon = (90 - moon->alt().Degrees());
+    // Zenith distance of target
+    double zTarget = (90 - target.alt().Degrees());
+
+    // If target = Moon, or no illuminiation, or moon below horizon, return static score.
+    if (zMoon == zTarget || illum == 0 || zMoon >= 90)
+        score =  100;
     else
-        score += mSeparation / 10.0;
+    {
+        // JM: Some magic voodoo formula I came up with!
+        double moonEffect = ( pow(separation, 1.7) * pow(zMoon, 0.5) ) / ( pow(zTarget, 1.1) * pow(illum, 0.5) );
 
-    appendLogText(i18n("%1 Moon score %2 (separation %3)", job->getName(), score, mSeparation));
+        // Limit to 0 to 100 range.
+        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);
+
+        qDebug() << "Moon Effect is " << moonEffect;
+
+        if (job->getMinMoonSeparation() > 0)
+        {
+            if (separation < job->getMinMoonSeparation())
+                score = BAD_SCORE * 5;
+            else
+                score = moonEffect;
+        }
+        else
+            score = moonEffect;
+
+    }
+
+    // Limit to 0 to 20
+    score /= 5.0;
+
+    appendLogText(i18n("%1 Moon score %2 (separation %3)", job->getName(), score, separation));
 
     return score;
 
@@ -1374,7 +1402,13 @@ void Scheduler::checkStatus()
                 appendLogText(i18n("Shutdown complete."));
             else
                 appendLogText(i18n("Shutdown script failed, aborting..."));
+
+            // Stop Scheduler
             stop();
+
+            // Stop INDI
+            stopINDI();
+
             return;
         }
 
@@ -1649,6 +1683,10 @@ void Scheduler::stopEkosAction()
 
     case SchedulerJob::STAGE_CALIBRATING:
         guideInterface->call(QDBus::AutoDetect,"stopCalibration");
+    break;
+
+    case SchedulerJob::STAGE_GUIDING:
+        guideInterface->call(QDBus::AutoDetect,"stopGuiding");
     break;
 
     case SchedulerJob::STAGE_CAPTURING:
@@ -2019,6 +2057,11 @@ void Scheduler::findNextJob()
     {
         appendLogText(i18n("%1 observation job terminated due to errors.", currentJob->getName()));
         captureBatch=0;
+
+        // Stop Guiding if it was used
+        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+            guideInterface->call(QDBus::AutoDetect, "stopGuiding");
+
         currentJob = NULL;
         connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
         return;
@@ -2031,6 +2074,11 @@ void Scheduler::findNextJob()
     {
         currentJob->setState(SchedulerJob::JOB_COMPLETE);
         captureBatch=0;
+
+        // Stop Guiding if it was used
+        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+            guideInterface->call(QDBus::AutoDetect, "stopGuiding");
+
         currentJob = NULL;
         connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
         return;
@@ -2053,7 +2101,13 @@ void Scheduler::findNextJob()
             appendLogText(i18np("%1 observation job reached completion time with #%2 batch done. Stopping...",
                                 "%1 observation job reached completion time with #%2 batches done. Stopping...", currentJob->getName(), captureBatch+1));
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
+
             stopEkosAction();
+
+            // Stop Guiding if it was used
+            if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+                guideInterface->call(QDBus::AutoDetect, "stopGuiding");
+
             captureBatch=0;
             currentJob = NULL;
             connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
@@ -2189,13 +2243,7 @@ void Scheduler::getFITSAstrometryResults()
 
 void Scheduler::stopINDI()
 {
-   /* if(iterations==objects.length()){
-        state = FINISHED;
         ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
-        ekosInterface->call(QDBus::AutoDetect,"stop");
-        pi->stopAnimation();
-        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStatus()));
-    }*/
 }
 
 void    Scheduler::parkMount()
