@@ -50,6 +50,7 @@
 #include "indi/indilistener.h"
 #include "indi/drivermanager.h"
 #include "indi/driverinfo.h"
+#include "ekos/ekosmanager.h"
 #endif
 
 #include <KPlotting/KPlotAxis>
@@ -592,6 +593,14 @@ void ObservingList::slotSlewToObject()
 #endif
 }
 
+void ObservingList::slotAddToEkosScheduler()
+{
+    #ifdef HAVE_INDI
+    KStars::Instance()->ekosManager()->addObjectToScheduler(currentObject());
+    #endif
+
+}
+
 //FIXME: This will open multiple Detail windows for each object;
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
@@ -874,11 +883,9 @@ void ObservingList::plot( SkyObject *o ) {
     float DayOffset = 0;
     if( TimeHash.value( o->name(), o->transitTime( dt, geo ) ).hour() > 12 )
         DayOffset = 1;
-    KStarsDateTime ut = dt; // This is still local time; we must convert it to UT.
-    ut.setTime(QTime());
-    ut = geo->LTtoUT(ut); // We convert it to UT. Now it makes sense.
-    ut = ut.addSecs( ( 0.5 + DayOffset ) * 86400.0 );
 
+    QDateTime midnight = QDateTime(dt.date(), QTime());
+    KStarsDateTime ut = geo->LTtoUT(midnight);
     double h1 = geo->GSTtoLST( ut.gst() ).Hours();
     if ( h1 > 12.0 )
         h1 -= 24.0;
@@ -898,13 +905,16 @@ void ObservingList::plot( SkyObject *o ) {
 }
 
 double ObservingList::findAltitude( SkyPoint *p, double hour ) {
-    KStarsDateTime ut = dt;
-    ut.setTime( QTime() );
-    ut = geo->LTtoUT( ut );
-    ut= ut.addSecs( hour*3600.0 );
-    dms LST = geo->GSTtoLST( ut.gst() );
-    p->EquatorialToHorizontal( &LST, geo->lat() );
-    return p->alt().Degrees();
+
+    // Jasem 2015-09-05 Using correct procedure to find altitude
+    SkyPoint sp = *p; // make a copy
+    QDateTime midnight = QDateTime(dt.date(), QTime());
+    KStarsDateTime ut = geo->LTtoUT(midnight);
+    KStarsDateTime targetDateTime = ut.addSecs( hour*3600.0 );
+    dms LST = geo->GSTtoLST( targetDateTime.gst() );
+    sp.EquatorialToHorizontal( &LST, geo->lat() );
+    return sp.alt().Degrees();
+
 }
 
 void ObservingList::slotToggleSize() {

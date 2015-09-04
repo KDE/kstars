@@ -41,6 +41,9 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
     if( !sessionView ) {
         addAction( i18n( "Add to session plan" ), ksdata->observingList(), SLOT( slotAddToSession() ) );
         addAction( i18n( "Add objects visible tonight to session plan" ), ksdata->observingList(), SLOT( slotAddVisibleObj() ) );
+        #ifdef HAVE_INDI
+        addAction( i18n( "Add to Ekos Scheduler" ), ksdata->observingList(), SLOT( slotAddToEkosScheduler() ) );
+        #endif
     }
 
     addSeparator();
