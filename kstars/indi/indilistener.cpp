@@ -23,6 +23,7 @@
 #include "indifocuser.h"
 #include "indiccd.h"
 #include "indidome.h"
+#include "indiweather.h"
 #include "indifilter.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
@@ -32,13 +33,13 @@
 #include "kstars.h"
 #include "Options.h"
 
-#define NINDI_STD	30
+#define NINDI_STD	31
 
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] =
     {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "GEOGRAPHIC_COORD", "EQUATORIAL_COORD",
      "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
-     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "CCD_EXPOSURE",
+     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "WEATHER_STATUS", "CCD_EXPOSURE",
      "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCD_VIDEO_STREAM",
      "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
@@ -77,15 +78,15 @@ ISD::GDInterface * INDIListener::getDevice(const QString &name)
 
 void INDIListener::addClient(ClientManager *cm)
 {
-    //qDebug() << "add client for listener called " << endl;
+
+    if (Options::verboseLogging())
+        qDebug() << "Adding a new client manager to INDI listener..";
+
     clients.append(cm);
 
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)));
-
     connect(cm, SIGNAL(INDIDeviceRemoved(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)));
-
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
-    //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));    
     connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)));
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
@@ -122,7 +123,8 @@ void INDIListener::removeClient(ClientManager *cm)
 
 void INDIListener::processDevice(DeviceInfo *dv)
 {
-    //qDebug() << "process Device called for " << dv->getBaseDevice()->getDeviceName() << endl;
+    if (Options::verboseLogging())
+        qDebug() << "INDI Listener is processing device " << dv->getBaseDevice()->getDeviceName();
 
     ISD::GDInterface *gd = new ISD::GenericDevice(dv);
 
@@ -132,8 +134,9 @@ void INDIListener::processDevice(DeviceInfo *dv)
 }
 
 void INDIListener::removeDevice(DeviceInfo *dv)
-{
-    //qDebug() << "Removing " << dv->getDriverInfo()->getUniqueLabel() << endl;
+{        
+    if (Options::verboseLogging())
+        qDebug() << "Removing device " << dv->getBaseDevice()->getDeviceName() << " with unique label " << dv->getDriverInfo()->getUniqueLabel();
 
     foreach(ISD::GDInterface *gd, devices)
     {
@@ -154,8 +157,8 @@ void INDIListener::removeDevice(DeviceInfo *dv)
 
 void INDIListener::registerProperty(INDI::Property *prop)
 {
-
-    //qDebug() << "Registered " << prop->getDeviceName() << ":" << prop->getName() << endl;
+    if (Options::verboseLogging())
+        qDebug() << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
 
     foreach(ISD::GDInterface *gd, devices)
     {
@@ -209,6 +212,17 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 }
 
                emit newDome(gd);
+            }
+            else if (!strcmp(prop->getName(), "WEATHER_STATUS"))
+            {
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::Weather(gd);
+                    devices.append(gd);
+                }
+
+               emit newWeather(gd);
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))

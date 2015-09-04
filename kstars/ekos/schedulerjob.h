@@ -56,9 +56,6 @@ public:
     double getMinMoonSeparation() const;
     void setMinMoonSeparation(const double &value);
 
-    bool getEnforceWeather() const;
-    void setEnforceWeather(bool value);
-
     bool getNoMeridianFlip() const;
     void setNoMeridianFlip(bool value);
 
@@ -118,7 +115,6 @@ private:
     double minAltitude;
     double minMoonSeparation;
 
-    bool enforceWeather;
     bool noMeridianFlip;        
 
     ModuleUsage moduleUsage;

@@ -182,6 +182,11 @@
       <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
       <default></default>
     </entry>
+    <entry name="aux4Port" type="String">
+      <label>INDI Auxiliary #4 port</label>
+      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default></default>
+    </entry>
     <entry name="videoPort" type="String">
       <label>INDI Video port</label>
       <whatsthis>The port to which the video device is connected</whatsthis>
@@ -1304,7 +1309,13 @@
     <entry name="Aux3Driver" type="String">
       <label>Default Auxiliary driver #3</label>
     </entry>
+    <entry name="Aux4Driver" type="String">
+      <label>Default Auxiliary driver #4</label>
+    </entry>
     <entry name="DomeDriver" type="String">
+      <label>Default Weather driver</label>
+    </entry>
+    <entry name="WeatherDriver" type="String">
       <label>Default Dome driver</label>
     </entry>
     <entry name="AODriver" type="String">
@@ -1342,9 +1353,17 @@
       <label>Remote Auxiliary Name #3</label>
       <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
     </entry>
+    <entry name="remoteAux4Name" type="String">
+      <label>Remote Auxiliary Name #3</label>
+      <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
+    </entry>
     <entry name="remoteDomeName" type="String">
       <label>Remote Dome Name</label>
       <whatsthis>Name of the remote INDI Dome device.</whatsthis>
+    </entry>
+    <entry name="remoteWeatherName" type="String">
+      <label>Remote Weather Station Name</label>
+      <whatsthis>Name of the remote INDI Weather device.</whatsthis>
     </entry>
     <entry name="remoteAOName" type="String">
       <label>Remote Adaptive Optics Name</label>
@@ -1676,6 +1695,10 @@
         </entry>
     </group>
     <group name="Scheduler">
+    <entry name="EnforceWeather" type="Bool">
+        <label>Weather conditions must remain safe while observatory is online.</label>
+        <default>false</default>
+    </entry>
     <entry name="startupScript" type="String">
         <label>One-time startup script to be executed before starting Ekos devices.</label>
     </entry>

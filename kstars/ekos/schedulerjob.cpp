@@ -105,15 +105,7 @@ void SchedulerJob::setMinMoonSeparation(const double &value)
 {
     minMoonSeparation = value;
 }
-bool SchedulerJob::getEnforceWeather() const
-{
-    return enforceWeather;
-}
 
-void SchedulerJob::setEnforceWeather(bool value)
-{
-    enforceWeather = value;
-}
 bool SchedulerJob::getNoMeridianFlip() const
 {
     return noMeridianFlip;

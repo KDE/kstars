@@ -21,6 +21,7 @@
 #include "align.h"
 #include "mount.h"
 #include "dome.h"
+#include "weather.h"
 #include "scheduler.h"
 
 #include <QDialog>
@@ -61,6 +62,7 @@ public:
     void appendLogText(const QString &);
     void refreshRemoteDrivers();
     void setOptionsWidget(KPageWidgetItem *ops) { ekosOption = ops; }
+    void addObjectToScheduler(SkyObject *object);
 
     /** @defgroup EkosDBusInterface Ekos DBus Interface
      * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
@@ -141,6 +143,12 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setDome(const QString & domeName);
 
     /** DBUS interface function.
+     * Sets the weather driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote dome driver.
+     * @param domeName dome driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setWeather(const QString & domeName);
+
+    /** DBUS interface function.
      * Sets the auxiliary driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote auxiliary driver.
      * @param index 1 for Aux 1, 2 for Aux 2, 3 for Aux 3
      * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
@@ -204,6 +212,7 @@ protected slots:
     void setFilter(ISD::GDInterface *);
     void setFocuser(ISD::GDInterface *);
     void setDome(ISD::GDInterface *);
+    void setWeather(ISD::GDInterface *);
     void setST4(ISD::ST4 *);    
 
  private:
@@ -216,6 +225,7 @@ protected slots:
     void initAlign();
     void initMount();
     void initDome();
+    void initWeather();
 
     void initLocalDrivers();
     void initRemoteDrivers();
@@ -235,8 +245,8 @@ protected slots:
     bool remoteCCDRegistered;
     bool remoteGuideRegistered;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *dome, *ao;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di, *ao_di, *dome_di, *remote_indi;
+    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *aux4, *dome, *ao, *weather;
+    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di,*aux4_di, *ao_di, *dome_di, *weather_di, *remote_indi;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
@@ -245,6 +255,7 @@ protected slots:
     Ekos::Mount *mountProcess;
     Ekos::Scheduler *schedulerProcess;
     Ekos::Dome *domeProcess;
+    Ekos::Weather *weatherProcess;
 
     QString guiderCCDName;
     QString primaryCCDName;

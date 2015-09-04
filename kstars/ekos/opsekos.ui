@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>444</width>
-    <height>623</height>
+    <width>463</width>
+    <height>633</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -83,7 +83,7 @@
         <item>
          <widget class="QRadioButton" name="kcfg_neverLoadConfig">
           <property name="text">
-           <string>Never</string>
+           <string>Ne&amp;ver</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -100,7 +100,7 @@
         <item>
          <widget class="QRadioButton" name="kcfg_loadDefaultConfig">
           <property name="text">
-           <string>Always load defaults</string>
+           <string>Always &amp;load defaults</string>
           </property>
          </widget>
         </item>
@@ -220,7 +220,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>Telescope</string>
+         <string>Mount</string>
         </property>
        </widget>
       </item>
@@ -241,6 +241,16 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Aux #1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLineEdit" name="kcfg_remoteAux1Name"/>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
@@ -254,7 +264,7 @@
       <item row="1" column="2">
        <widget class="QLabel" name="label_19">
         <property name="text">
-         <string>Adaptive Optics</string>
+         <string>AO</string>
         </property>
        </widget>
       </item>
@@ -264,6 +274,16 @@
          <string/>
         </property>
        </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Aux #2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="kcfg_remoteAux2Name"/>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_9">
@@ -289,6 +309,16 @@
       <item row="2" column="3">
        <widget class="QLineEdit" name="kcfg_remoteFilterName"/>
       </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>Aux #3</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5">
+       <widget class="QLineEdit" name="kcfg_remoteAux3Name"/>
+      </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_20">
         <property name="text">
@@ -300,34 +330,24 @@
        <widget class="QLineEdit" name="kcfg_remoteDomeName"/>
       </item>
       <item row="3" column="2">
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="label_24">
         <property name="text">
-         <string>Auxiliary #1</string>
+         <string>Weather</string>
         </property>
        </widget>
       </item>
       <item row="3" column="3">
-       <widget class="QLineEdit" name="kcfg_remoteAux1Name"/>
+       <widget class="QLineEdit" name="kcfg_remoteWeatherName"/>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_21">
+      <item row="3" column="4">
+       <widget class="QLabel" name="label_23">
         <property name="text">
-         <string>Auxiliary #2</string>
+         <string>Aux #4</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="kcfg_remoteAux2Name"/>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLabel" name="label_22">
-        <property name="text">
-         <string>Auxiliary #3</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3">
-       <widget class="QLineEdit" name="kcfg_remoteAux3Name"/>
+      <item row="3" column="5">
+       <widget class="QLineEdit" name="kcfg_remoteAux4Name"/>
       </item>
      </layout>
     </widget>

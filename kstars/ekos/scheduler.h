@@ -25,6 +25,7 @@
 
 class KSMoon;
 class GeoLocation;
+class SkyObject;
 
 namespace Ekos
 {
@@ -52,6 +53,7 @@ public:
      QString getLogText() { return logText.join("\n"); }
      void clearLog();
 
+     void addObject(SkyObject *object);
 
      /**
       * @brief startSlew DBus call for initiating slew
@@ -184,6 +186,8 @@ protected slots:
      void checkProcessExit(int exitCode);     
      void setDirty();
 
+     void checkWeather();
+
 signals:
         void newLog();
 
@@ -207,7 +211,7 @@ private:
         int16_t getDarkSkyScore(const QTime & observationTime);
         int16_t getAltitudeScore(SchedulerJob *job, const SkyPoint & target);
         int16_t getMoonSeparationScore(SchedulerJob *job, const SkyPoint & target);
-        int16_t getWeatherScore(SchedulerJob *job);
+        int16_t getWeatherScore();
 
         /**
          * @brief calculateAltitudeTime
@@ -304,6 +308,7 @@ private:
     QDBusInterface *alignInterface;
     QDBusInterface *guideInterface;
     QDBusInterface *domeInterface;
+    QDBusInterface *weatherInterface;
 
     // Scheduler and job state and stages
     SchedulerState state;
@@ -336,6 +341,9 @@ private:
     double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
     bool mDirty;                    // Was job modified and needs saving?
     bool parkedWait;                // Used to park the mount in case scheduled time is far in the future. When job is ready, we unpark the mount
+    IPState weatherStatus;          // Keep watch of weather status
+    QTimer weatherTimer;
+    uint8_t noWeatherCounter;       // Keep track of how many times we didn't recieve weather updates
 
 
 };

@@ -611,7 +611,7 @@ void KStars::datainitFinished() {
     connect( data()->clock(), SIGNAL( scaleChanged( float ) ),
              map(), SLOT( slotClockSlewing() ) );
 
-    connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
+    connect( data(),   SIGNAL(skyUpdate(bool)),            map(),  SLOT( forceUpdateNow() ) );
     connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
     connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
     connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );

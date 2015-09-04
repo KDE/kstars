@@ -67,8 +67,10 @@ EkosManager::EkosManager()
     aux1    =  NULL;
     aux2    =  NULL;
     aux3    =  NULL;
+    aux4    =  NULL;
     ao      =  NULL;
     dome    =  NULL;
+    weather =  NULL;
 
     scope_di   = NULL;
     ccd_di     = NULL;
@@ -78,8 +80,10 @@ EkosManager::EkosManager()
     aux1_di    = NULL;
     aux2_di    = NULL;
     aux3_di    = NULL;
+    aux4_di    = NULL;
     ao_di      = NULL;
     dome_di    = NULL;
+    weather_di = NULL;
     remote_indi= NULL;
 
     captureProcess = NULL;
@@ -89,6 +93,7 @@ EkosManager::EkosManager()
     mountProcess   = NULL;
     domeProcess    = NULL;
     schedulerProcess = NULL;
+    weatherProcess = NULL;
 
     ekosOption     = NULL;
 
@@ -140,6 +145,7 @@ EkosManager::~EkosManager()
     delete guideProcess;
     delete alignProcess;
     delete domeProcess;
+    delete weatherProcess;
     delete mountProcess;
     delete schedulerProcess;
 }
@@ -231,9 +237,11 @@ void EkosManager::initLocalDrivers()
     focuserCombo->clear();
     filterCombo->clear();
     domeCombo->clear();
+    weatherCombo->clear();
     aux1Combo->clear();
     aux2Combo->clear();
     aux3Combo->clear();
+    aux4Combo->clear();
 
     telescopeCombo->addItem("--");
     ccdCombo->addItem("--");
@@ -242,9 +250,11 @@ void EkosManager::initLocalDrivers()
     focuserCombo->addItem("--");
     filterCombo->addItem("--");
     domeCombo->addItem("--");
+    weatherCombo->addItem("--");
     aux1Combo->addItem("--");
     aux2Combo->addItem("--");
     aux3Combo->addItem("--");
+    aux4Combo->addItem("--");
 
     QString TelescopeDriver     = (Options::telescopeDriver() == "--") ? "" : Options::telescopeDriver();
     QString CCDDriver           = (Options::cCDDriver() == "--") ? "" : Options::cCDDriver();
@@ -253,9 +263,11 @@ void EkosManager::initLocalDrivers()
     QString FocuserDriver       = (Options::focuserDriver() == "--") ? "" : Options::focuserDriver();
     QString FilterDriver        = (Options::filterDriver() == "--") ? "" : Options::filterDriver();
     QString DomeDriver          = (Options::domeDriver() == "--") ? "" : Options::domeDriver();
+    QString WeatherDriver       = (Options::weatherDriver() == "--") ? "" : Options::weatherDriver();
     QString Aux1Driver           = (Options::aux1Driver() == "--") ? "" : Options::aux1Driver();
     QString Aux2Driver           = (Options::aux2Driver() == "--") ? "" : Options::aux2Driver();
     QString Aux3Driver           = (Options::aux3Driver() == "--") ? "" : Options::aux3Driver();
+    QString Aux4Driver           = (Options::aux4Driver() == "--") ? "" : Options::aux4Driver();
 
     if (TelescopeDriver.isEmpty() == false)
         telescopeCombo->addItem(TelescopeDriver);
@@ -278,6 +290,9 @@ void EkosManager::initLocalDrivers()
     if (DomeDriver.isEmpty() == false)
         domeCombo->addItem(DomeDriver);
 
+    if (WeatherDriver.isEmpty() == false)
+        weatherCombo->addItem(WeatherDriver);
+
     if (Aux1Driver.isEmpty() == false)
         aux1Combo->addItem(Aux1Driver);
 
@@ -286,6 +301,9 @@ void EkosManager::initLocalDrivers()
 
     if (Aux3Driver.isEmpty() == false)
         aux3Combo->addItem(Aux3Driver);
+
+    if (Aux4Driver.isEmpty() == false)
+        aux4Combo->addItem(Aux4Driver);
 
     foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
@@ -322,6 +340,7 @@ void EkosManager::initLocalDrivers()
                 aux1Combo->addItem(dv->getTreeLabel());
                 aux2Combo->addItem(dv->getTreeLabel());
                 aux3Combo->addItem(dv->getTreeLabel());
+                aux4Combo->addItem(dv->getTreeLabel());
             }
 
         }
@@ -367,6 +386,16 @@ void EkosManager::initLocalDrivers()
         }
         break;
 
+        case KSTARS_WEATHER:
+        {
+            for (i=0; i < weatherCombo->count(); i++)
+                if (weatherCombo->itemText(i) == dv->getTreeLabel())
+                    break;
+            if (i == weatherCombo->count())
+                weatherCombo->addItem(dv->getTreeLabel());
+        }
+        break;
+
         case KSTARS_AUXILIARY:
         {
             for (i=0; i < aux1Combo->count(); i++)
@@ -377,6 +406,7 @@ void EkosManager::initLocalDrivers()
                 aux1Combo->addItem(dv->getTreeLabel());
                 aux2Combo->addItem(dv->getTreeLabel());
                 aux3Combo->addItem(dv->getTreeLabel());
+                aux4Combo->addItem(dv->getTreeLabel());
             }
         }
         break;
@@ -410,6 +440,9 @@ void EkosManager::initLocalDrivers()
     if (DomeDriver.isEmpty() == false)
         domeCombo->setCurrentIndex(1);
 
+    if (WeatherDriver.isEmpty() == false)
+        weatherCombo->setCurrentIndex(1);
+
     if (Aux1Driver.isEmpty() == false)
         aux1Combo->setCurrentIndex(1);
 
@@ -419,6 +452,8 @@ void EkosManager::initLocalDrivers()
     if (Aux3Driver.isEmpty() == false)
         aux3Combo->setCurrentIndex(1);
 
+    if (Aux4Driver.isEmpty() == false)
+        aux4Combo->setCurrentIndex(1);
 }
 
 void EkosManager::saveLocalDrivers()
@@ -440,7 +475,11 @@ void EkosManager::saveLocalDrivers()
 
    Options::setAux3Driver(aux3Combo->currentText());
 
+   Options::setAux4Driver(aux4Combo->currentText());
+
    Options::setDomeDriver(domeCombo->currentText());
+
+   Options::setWeatherDriver(weatherCombo->currentText());
 
    Options::setAODriver(AOCombo->currentText());
 
@@ -457,9 +496,11 @@ void EkosManager::initRemoteDrivers()
     focuserCombo->clear();
     filterCombo->clear();
     domeCombo->clear();
+    weatherCombo->clear();
     aux1Combo->clear();
     aux2Combo->clear();
     aux3Combo->clear();
+    aux4Combo->clear();
 
     telescopeCombo->addItem("--");
     ccdCombo->addItem("--");
@@ -468,9 +509,11 @@ void EkosManager::initRemoteDrivers()
     focuserCombo->addItem("--");
     filterCombo->addItem("--");
     domeCombo->addItem("--");
+    weatherCombo->addItem("--");
     aux1Combo->addItem("--");
     aux2Combo->addItem("--");
     aux3Combo->addItem("--");
+    aux4Combo->addItem("--");
 
     QString remoteScopeName     = (Options::remoteScopeName() == "--") ? "" : Options::remoteScopeName();
     QString remoteCCDName       = (Options::remoteCCDName() == "--") ? "" : Options::remoteCCDName();
@@ -479,9 +522,11 @@ void EkosManager::initRemoteDrivers()
     QString remoteFilterName    = (Options::remoteFilterName() == "--") ? "" : Options::remoteFilterName();
     QString remoteFocuserName   = (Options::remoteFocuserName() == "--") ? "" : Options::remoteFocuserName();
     QString remoteDomeName      = (Options::remoteDomeName() == "--") ? "" : Options::remoteDomeName();
+    QString remoteWeatherName   = (Options::remoteWeatherName() == "--") ? "" : Options::remoteWeatherName();
     QString remoteAux1Name      = (Options::remoteAux1Name() == "--") ? "" : Options::remoteAux1Name();
     QString remoteAux2Name      = (Options::remoteAux2Name() == "--") ? "" : Options::remoteAux2Name();
     QString remoteAux3Name      = (Options::remoteAux3Name() == "--") ? "" : Options::remoteAux3Name();
+    QString remoteAux4Name      = (Options::remoteAux4Name() == "--") ? "" : Options::remoteAux4Name();
 
     if (remoteScopeName.isEmpty() == false)
         telescopeCombo->addItem(remoteScopeName);
@@ -504,6 +549,9 @@ void EkosManager::initRemoteDrivers()
     if (remoteDomeName.isEmpty() == false)
         domeCombo->addItem(remoteDomeName);
 
+    if (remoteWeatherName.isEmpty() == false)
+        weatherCombo->addItem(remoteWeatherName);
+
     if (remoteAux1Name.isEmpty() == false)
         aux1Combo->addItem(remoteAux1Name);
 
@@ -512,6 +560,9 @@ void EkosManager::initRemoteDrivers()
 
     if (remoteAux3Name.isEmpty() == false)
         aux3Combo->addItem(remoteAux3Name);
+
+    if (remoteAux4Name.isEmpty() == false)
+        aux4Combo->addItem(remoteAux4Name);
 
     foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
@@ -547,6 +598,7 @@ void EkosManager::initRemoteDrivers()
                 aux1Combo->addItem(dv->getName());
                 aux2Combo->addItem(dv->getName());
                 aux3Combo->addItem(dv->getName());
+                aux4Combo->addItem(dv->getName());
             }
 
         }
@@ -592,6 +644,16 @@ void EkosManager::initRemoteDrivers()
         }
         break;
 
+        case KSTARS_WEATHER:
+        {
+            for (i=0; i < weatherCombo->count(); i++)
+                if (weatherCombo->itemText(i) == dv->getName())
+                    break;
+            if (i == weatherCombo->count())
+                weatherCombo->addItem(dv->getName());
+        }
+        break;
+
         case KSTARS_AUXILIARY:
         {
             for (i=0; i < aux1Combo->count(); i++)
@@ -602,6 +664,7 @@ void EkosManager::initRemoteDrivers()
                 aux1Combo->addItem(dv->getName());
                 aux2Combo->addItem(dv->getName());
                 aux3Combo->addItem(dv->getName());
+                aux4Combo->addItem(dv->getName());
             }
         }
         break;
@@ -634,6 +697,9 @@ void EkosManager::initRemoteDrivers()
     if (remoteDomeName.isEmpty() == false)
         domeCombo->setCurrentIndex(1);
 
+    if (remoteWeatherName.isEmpty() == false)
+        weatherCombo->setCurrentIndex(1);
+
     if (remoteAux1Name.isEmpty() == false)
         aux1Combo->setCurrentIndex(1);
 
@@ -642,6 +708,9 @@ void EkosManager::initRemoteDrivers()
 
     if (remoteAux3Name.isEmpty() == false)
         aux3Combo->setCurrentIndex(1);
+
+    if (remoteAux4Name.isEmpty() == false)
+        aux4Combo->setCurrentIndex(1);
 
 }
 
@@ -660,6 +729,8 @@ void EkosManager::saveRemoteDrivers()
 
    Options::setRemoteDomeName(domeCombo->currentText());
 
+   Options::setRemoteWeatherName(weatherCombo->currentText());
+
    Options::setRemoteAOName(AOCombo->currentText());
 
    Options::setRemoteAux1Name(aux1Combo->currentText());
@@ -667,6 +738,8 @@ void EkosManager::saveRemoteDrivers()
    Options::setRemoteAux2Name(aux2Combo->currentText());
 
    Options::setRemoteAux3Name(aux3Combo->currentText());
+
+   Options::setRemoteAux4Name(aux4Combo->currentText());
 
 }
 
@@ -692,10 +765,12 @@ void EkosManager::reset()
     focuser =  NULL;
     filter  =  NULL;    
     dome    =  NULL;
+    weather =  NULL;
     ao      =  NULL;
     aux1    =  NULL;
     aux2    =  NULL;
     aux3    =  NULL;
+    aux4    = NULL;
 
     delete(scope_di);
     scope_di   = NULL;
@@ -709,6 +784,8 @@ void EkosManager::reset()
     filter_di  = NULL;
     delete(dome_di);
     dome_di    = NULL;
+    delete (weather_di);
+    weather_di = NULL;
     delete(ao_di);
     ao_di      = NULL;
     delete(aux1_di);
@@ -717,6 +794,8 @@ void EkosManager::reset()
     aux2_di    = NULL;
     delete(aux3_di);
     aux3_di    = NULL;
+    delete(aux4_di);
+    aux4_di = NULL;
 
     captureProcess = NULL;
     focusProcess   = NULL;
@@ -724,6 +803,7 @@ void EkosManager::reset()
     domeProcess    = NULL;
     alignProcess   = NULL;
     mountProcess   = NULL;
+    weatherProcess = NULL;
 
     ekosStartingStatus  = STATUS_IDLE;
     indiConnectionStatus= STATUS_IDLE;
@@ -795,6 +875,10 @@ bool EkosManager::start()
         if (drv != NULL)
             dome_di    = drv->clone();
 
+        drv = driversList.value(weatherCombo->currentText());
+        if (drv != NULL)
+            weather_di    = drv->clone();
+
         drv = driversList.value(aux1Combo->currentText());
         if (drv != NULL)
             aux1_di    = drv->clone();
@@ -806,6 +890,10 @@ bool EkosManager::start()
         drv = driversList.value(aux3Combo->currentText());
         if (drv != NULL)
             aux3_di    = drv->clone();
+
+        drv = driversList.value(aux4Combo->currentText());
+        if (drv != NULL)
+            aux4_di    = drv->clone();
 
         if (guider_di)
         {
@@ -844,6 +932,8 @@ bool EkosManager::start()
             managedDevices.append(focuser_di);
         if (dome_di != NULL)
             managedDevices.append(dome_di);
+        if (weather_di != NULL)
+            managedDevices.append(weather_di);
         if (aux1_di != NULL)
         {
             QVariantMap vMap = aux1_di->getAuxInfo();
@@ -864,6 +954,13 @@ bool EkosManager::start()
             vMap.insert("AUX#", 3);
             aux3_di->setAuxInfo(vMap);
             managedDevices.append(aux3_di);
+        }
+        if (aux4_di != NULL)
+        {
+            QVariantMap vMap = aux4_di->getAuxInfo();
+            vMap.insert("AUX#", 4);
+            aux4_di->setAuxInfo(vMap);
+            managedDevices.append(aux4_di);
         }
 
         if (ccd_di == NULL && guider_di == NULL)
@@ -923,11 +1020,15 @@ bool EkosManager::start()
             nDevices++;
         if (domeCombo->currentText() != "--")
             nDevices++;
+        if (weatherCombo->currentText() != "--")
+            nDevices++;
         if (aux1Combo->currentText() != "--")
             nDevices++;
         if (aux2Combo->currentText() != "--")
             nDevices++;
         if (aux3Combo->currentText() != "--")
+            nDevices++;
+        if (aux4Combo->currentText() != "--")
             nDevices++;
 
         nRemoteDevices=0;
@@ -941,6 +1042,7 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newFilter(ISD::GDInterface*)), this, SLOT(setFilter(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newFocuser(ISD::GDInterface*)), this, SLOT(setFocuser(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface*)), this, SLOT(setWeather(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
     connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)));
     connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
@@ -969,6 +1071,9 @@ bool EkosManager::start()
         ekosStartingStatus = STATUS_PENDING;
 
         appendLogText(i18n("INDI services started. Please connect devices."));
+
+        if (Options::verboseLogging())
+            qDebug() << "INDI services started.";
 
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
@@ -1030,12 +1135,16 @@ void EkosManager::checkINDITimeout()
             remainingDevices << QString("+ %1").arg(ao_di->getName());
         if (dome_di && dome == NULL)
             remainingDevices << QString("+ %1").arg(dome_di->getName());
+        if (weather_di && weather == NULL)
+            remainingDevices << QString("+ %1").arg(weather_di->getName());
         if (aux1_di && aux1 == NULL)
             remainingDevices << QString("+ %1").arg(aux1_di->getName());
         if (aux2_di && aux2 == NULL)
             remainingDevices << QString("+ %1").arg(aux2_di->getName());
         if (aux3_di && aux3 == NULL)
             remainingDevices << QString("+ %1").arg(aux3_di->getName());
+        if (aux4_di && aux4 == NULL)
+            remainingDevices << QString("+ %1").arg(aux4_di->getName());
 
         if (remainingDevices.count() == 1)
             KMessageBox::error(this, i18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.", remainingDevices.at(0)));
@@ -1057,6 +1166,8 @@ void EkosManager::checkINDITimeout()
             remainingDevices << QString("+ %1").arg(filterCombo->currentText());
         if (domeCombo->currentText() != "--" && dome == NULL)
             remainingDevices << QString("+ %1").arg(domeCombo->currentText());        
+        if (weatherCombo->currentText() != "--" && weather == NULL)
+            remainingDevices << QString("+ %1").arg(weatherCombo->currentText());
         if (AOCombo->currentText() != "--" && ao == NULL)
             remainingDevices << QString("+ %1").arg(AOCombo->currentText());
         if (aux1Combo->currentText() != "--" && aux1 == NULL)
@@ -1064,6 +1175,8 @@ void EkosManager::checkINDITimeout()
         if (aux2Combo->currentText() != "--" && aux2 == NULL)
             remainingDevices << QString("+ %1").arg(aux2Combo->currentText());
         if (aux3Combo->currentText() != "--" && aux3 == NULL)
+            remainingDevices << QString("+ %1").arg(aux3Combo->currentText());
+        if (aux4Combo->currentText() != "--" && aux4 == NULL)
             remainingDevices << QString("+ %1").arg(aux3Combo->currentText());
 
         if (remainingDevices.count() == 1)
@@ -1130,6 +1243,9 @@ void EkosManager::connectDevices()
     if (dome)
         dome->Connect();
 
+    if (weather)
+        weather->Connect();
+
     if (aux1)
         aux1->Connect();
 
@@ -1139,10 +1255,16 @@ void EkosManager::connectDevices()
     if (aux3)
         aux3->Connect();
 
+    if (aux4)
+        aux4->Connect();
+
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
     appendLogText(i18n("Connecting INDI devices..."));
+
+    if (Options::verboseLogging())
+        qDebug() << "Connecting INDI devices...";
 }
 
 void EkosManager::disconnectDevices()
@@ -1195,6 +1317,9 @@ void EkosManager::disconnectDevices()
     if (dome)
         dome->Disconnect();
 
+    if (weather)
+        weather->Disconnect();
+
     if (aux1)
         aux1->Disconnect();
 
@@ -1204,8 +1329,14 @@ void EkosManager::disconnectDevices()
     if (aux3)
         aux3->Disconnect();
 
+    if (aux4)
+        aux4->Disconnect();
+
 
     appendLogText(i18n("Disconnecting INDI devices..."));
+
+    if (Options::verboseLogging())
+        qDebug() << "Disconnecting INDI devices...";
 
 }
 
@@ -1248,6 +1379,9 @@ void EkosManager::cleanDevices()
     INDIB->setEnabled(false);
 
     appendLogText(i18n("INDI services stopped."));
+
+    if (Options::verboseLogging())
+        qDebug() << "Stopping INDI services.";
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
@@ -1262,6 +1396,9 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 
 void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
 {
+    if (Options::verboseLogging())
+        qDebug() << "Ekos received a new device: " << devInterface->getDeviceName();
+
     DriverInfo *di = devInterface->getDriverInfo();
 
             switch (di->getType())
@@ -1285,6 +1422,11 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                 else if (aux3_di == di)
                 {
                     aux3 = devInterface;
+                    break;
+                }
+                else if (aux4_di == di)
+                {
+                    aux4 = devInterface;
                     break;
                 }
 
@@ -1338,6 +1480,11 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                     dome = devInterface;
                 break;
 
+            case KSTARS_WEATHER:
+               if (weather_di == di)
+                   weather = devInterface;
+               break;
+
              case KSTARS_AUXILIARY:
                 if (aux1_di == di)
                     aux1 = devInterface;
@@ -1345,6 +1492,8 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
                     aux2 = devInterface;
                 else if (aux3_di == di)
                     aux3 = devInterface;
+                else if (aux4_di == di)
+                    aux4 = devInterface;
                     break;
 
               default:
@@ -1418,6 +1567,8 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         filter = devInterface;
     else if (deviceName == Options::remoteDomeName())
         dome = devInterface;
+    else if (deviceName == Options::remoteWeatherName())
+        weather = devInterface;
     else if (deviceName == Options::remoteAux1Name().toLatin1())
         aux1 = devInterface;
     else if (deviceName == Options::remoteAux2Name().toLatin1())
@@ -1517,6 +1668,13 @@ void EkosManager::deviceConnected()
            dome->setConfig(tConfig);
     }
 
+    if (weather && weather->isConnected())
+    {
+        configProp = weather->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+        if (configProp && configProp->s == IPS_IDLE)
+           weather->setConfig(tConfig);
+    }
+
     if (aux1 && aux1->isConnected())
     {
         configProp = aux1->getBaseDevice()->getSwitch("CONFIG_PROCESS");
@@ -1536,6 +1694,13 @@ void EkosManager::deviceConnected()
         configProp = aux3->getBaseDevice()->getSwitch("CONFIG_PROCESS");
         if (configProp && configProp->s == IPS_IDLE)
            aux3->setConfig(tConfig);
+    }
+
+    if (aux4 && aux4->isConnected())
+    {
+        configProp = aux4->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+        if (configProp && configProp->s == IPS_IDLE)
+           aux4->setConfig(tConfig);
     }
 }
 
@@ -1739,6 +1904,17 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
     domeProcess->setDome(dome);
 
     appendLogText(i18n("%1 is online.", dome->getDeviceName()));
+}
+
+void EkosManager::setWeather(ISD::GDInterface *weatherDevice)
+{
+    initWeather();
+
+    weather = weatherDevice;
+
+    weatherProcess->setWeather(weather);
+
+    appendLogText(i18n("%1 is online.", weather->getDeviceName()));
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -2192,6 +2368,14 @@ void EkosManager::initDome()
     domeProcess = new Ekos::Dome();
 }
 
+void EkosManager::initWeather()
+{
+    if (weatherProcess)
+        return;
+
+    weatherProcess = new Ekos::Weather();
+}
+
 void EkosManager::setST4(ISD::ST4 * st4Driver)
 {
      appendLogText(i18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
@@ -2236,9 +2420,17 @@ void EkosManager::removeTabs()
         focusProcess = NULL;
 
         dome = NULL;
+        delete (domeProcess);
+        domeProcess = NULL;
+
+        weather = NULL;
+        delete (weatherProcess);
+        weatherProcess = NULL;
+
         aux1 = NULL;
         aux2 = NULL;
         aux3 = NULL;
+        aux4 = NULL;
 
         connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
@@ -2367,6 +2559,22 @@ void EkosManager::setDome(const QString & domeName)
 
 }
 
+void EkosManager::setWeather(const QString & weatherName)
+{
+  if (localMode)
+  {
+      for (int i=0; i < weatherCombo->count(); i++)
+          if (weatherCombo->itemText(i) == weatherName)
+          {
+              weatherCombo->setCurrentIndex(i);
+              break;
+          }
+  }
+  else
+      Options::setRemoteWeatherName(weatherName);
+
+}
+
 void EkosManager::setAuxiliary(int index, const QString & auxiliaryName)
 {
     if (localMode)
@@ -2400,6 +2608,15 @@ void EkosManager::setAuxiliary(int index, const QString & auxiliaryName)
                 }
             break;
 
+            case 4:
+            for (int i=0; i < aux4Combo->count(); i++)
+                if (aux4Combo->itemText(i) == auxiliaryName)
+                {
+                    aux4Combo->setCurrentIndex(i);
+                    break;
+                }
+        break;
+
            default:
             break;
 
@@ -2421,6 +2638,10 @@ void EkosManager::setAuxiliary(int index, const QString & auxiliaryName)
 
             case 3:
             Options::setRemoteAux3Name(auxiliaryName);
+            break;
+
+            case 4:
+            Options::setRemoteAux4Name(auxiliaryName);
             break;
 
             default:
@@ -2482,6 +2703,12 @@ void EkosManager::checkFITSViewerState()
     QAction *a = (QAction *) sender();
     if (a)
         fitsViewerB->setEnabled(a->isEnabled());
+}
+
+void EkosManager::addObjectToScheduler(SkyObject *object)
+{
+    if (schedulerProcess)
+        schedulerProcess->addObject(object);
 }
 
 

@@ -26,7 +26,8 @@
 #include "ksalmanac.h"
 #include "ksutils.h"
 
-#define BAD_SCORE   -1000
+#define BAD_SCORE                   -1000
+#define MAXIMUM_NO_WEATHER_LIMIT    3           // Maximum tries until we warn the user of no weather updates
 
 namespace Ekos
 {
@@ -49,6 +50,10 @@ Scheduler::Scheduler()
     mDirty       = false;
     parkedWait   = false;
 
+    noWeatherCounter=0;
+
+    weatherStatus=IPS_IDLE;
+
     // Set initial time for startup and completion times
     startupTimeEdit->setDateTime(KStarsData::Instance()->lt());
     completionTimeEdit->setDateTime(KStarsData::Instance()->lt());    
@@ -63,6 +68,7 @@ Scheduler::Scheduler()
     alignInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align", QDBusConnection::sessionBus(), this);
     guideInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Guide", "org.kde.kstars.Ekos.Guide", QDBusConnection::sessionBus(), this);
     domeInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Dome", "org.kde.kstars.Ekos.Dome", QDBusConnection::sessionBus(), this);
+    weatherInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Weather", "org.kde.kstars.Ekos.Weather", QDBusConnection::sessionBus(), this);
 
     moon = dynamic_cast<KSMoon*> (KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
@@ -109,11 +115,12 @@ Scheduler::Scheduler()
     shutdownScript->setText(Options::shutdownScript());
     shutdownScriptURL = QUrl(Options::shutdownScript());
 
+    weatherCheck->setChecked(Options::enforceWeather());
     warmCCDCheck->setChecked(Options::warmUpCCD());
     parkMountCheck->setChecked(Options::parkMount());
     parkDomeCheck->setChecked(Options::parkDome());
     unparkMountCheck->setChecked(Options::unParkMount());
-    unparkDomeCheck->setChecked(Options::unParkDome());
+    unparkDomeCheck->setChecked(Options::unParkDome());    
 
 }
 
@@ -142,20 +149,24 @@ void Scheduler::selectObject()
     QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted )
     {
-        SkyObject *o = fd->selectedObject();
-        if( o != NULL )
-        {
-            nameEdit->setText(o->name());
-            raBox->setText(o->ra0().toHMSString());
-            decBox->setText(o->dec0().toDMSString());
-
-            addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
-
-        }
+        SkyObject *object = fd->selectedObject();
+        addObject(object);
     }
 
     delete fd;
 
+}
+
+void Scheduler::addObject(SkyObject *object)
+{
+    if( object != NULL )
+    {
+        nameEdit->setText(object->name());
+        raBox->setText(object->ra0().toHMSString());
+        decBox->setText(object->dec0().toDMSString());
+
+        addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
+    }
 }
 
 void Scheduler::selectFITS()
@@ -298,8 +309,7 @@ void Scheduler::addJob()
     if (moonSeparationCheck->isChecked())
         job->setMinMoonSeparation(minMoonSeparation->value());
 
-    // Check weather enforcement and no meridian flip constraints
-    job->setEnforceWeather(weatherCheck->isChecked());
+    // Checkno meridian flip constraints
     job->setNoMeridianFlip(noMeridianFlipCheck->isChecked());
 
     // #3 Completion conditions
@@ -445,7 +455,6 @@ void Scheduler::editJob(QModelIndex i)
         minMoonSeparation->setValue(job->getMinMoonSeparation());
     }
 
-    weatherCheck->setChecked(job->getEnforceWeather());
     noMeridianFlipCheck->setChecked(job->getNoMeridianFlip());
 
     switch (job->getCompletionCondition())
@@ -586,6 +595,7 @@ void Scheduler::start()
         return;
 
     // Save settings
+    Options::setEnforceWeather(weatherCheck->isChecked());
     Options::setStartupScript(startupScript->text());
     Options::setShutdownScript(shutdownScript->text());
     Options::setWarmUpCCD(warmCCDCheck->isChecked());
@@ -647,7 +657,7 @@ void Scheduler::evaluateJobs()
                     altScore     = getAltitudeScore(job, target);
                     moonScore    = getMoonSeparationScore(job, target);
                     darkScore    = getDarkSkyScore(KStarsData::Instance()->lt().time());
-                    weatherScore = getWeatherScore(job);
+                    weatherScore = getWeatherScore();
                     score = altScore + moonScore + darkScore + weatherScore;
                     job->setScore(score);
 
@@ -705,7 +715,7 @@ void Scheduler::evaluateJobs()
                         score += getAltitudeScore(job, target);
                         score += getMoonSeparationScore(job, target);
                         score += getDarkSkyScore(job->getStartupTime().time());
-                        score += getWeatherScore(job);
+                        score += getWeatherScore();
 
                         if (score < 0)
                         {
@@ -930,10 +940,75 @@ bool Scheduler::calculateCulmination(SchedulerJob *job)
 
 }
 
-int16_t Scheduler::getWeatherScore(SchedulerJob * job)
+void Scheduler::checkWeather()
 {
-    INDI_UNUSED(job);
-    // TODO
+    if (weatherCheck->isEnabled() == false || weatherCheck->isChecked() == false)
+        return;
+
+    IPState newStatus;
+    QString statusString;
+
+    QDBusReply<int> weatherReply = weatherInterface->call(QDBus::AutoDetect, "getWeatherStatus");
+    if (weatherReply.error().type() == QDBusError::NoError)
+    {
+        newStatus = (IPState) weatherReply.value();
+
+        switch (newStatus)
+        {
+            case IPS_OK:
+                statusString = i18n("Weather conditions are OK.");
+                break;
+
+            case IPS_BUSY:
+                statusString = i18n("Warning! Weather conditions are in the WARNING zone.");
+                break;
+
+            case IPS_ALERT:
+                statusString = i18n("Caution! Weather conditions are in the DANGER zone!");
+                break;
+
+            default:
+                noWeatherCounter++;
+                if (noWeatherCounter >= MAXIMUM_NO_WEATHER_LIMIT)
+                {
+                    noWeatherCounter=0;
+                    appendLogText(i18n("Warning: Ekos did not receive any weather updates for the last %1 minutes.", weatherTimer.interval()/(60000.0)));
+                }
+            break;
+        }
+
+        if (newStatus != weatherStatus)
+        {
+            weatherStatus = newStatus;
+            appendLogText(statusString);
+        }
+
+        if (weatherStatus == IPS_ALERT)
+        {
+            appendLogText(i18n("Starting shutdown procedure due to severe weather."));
+            if (currentJob)
+            {
+                disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+                currentJob->setStage(SchedulerJob::STAGE_IDLE);
+                stopEkosAction();
+            }
+            checkShutdownState();
+            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        }
+    }
+}
+
+int16_t Scheduler::getWeatherScore()
+{
+    if (weatherCheck->isEnabled() == false || weatherCheck->isChecked() == false)
+        return 0;
+
+      if (weatherStatus == IPS_BUSY)
+            return BAD_SCORE/2;
+      else if (weatherStatus == IPS_ALERT)
+            return BAD_SCORE;
+
     return 0;
 }
 
@@ -1178,6 +1253,20 @@ bool    Scheduler::checkINDIState()
          boolReply = captureInterface->call(QDBus::AutoDetect,"hasCoolerControl");
          warmCCDCheck->setEnabled(boolReply.value());
 
+         if (weatherInterface->isValid())
+         {
+            weatherCheck->setEnabled(true);
+            QDBusReply<int> updateReply = weatherInterface->call(QDBus::AutoDetect, "getUpdatePeriod");
+            if (updateReply.error().type() == QDBusError::NoError && updateReply.value() > 0)
+            {
+                weatherTimer.setInterval(updateReply.value() * 60000);
+                connect(&weatherTimer, SIGNAL(timeout()), this, SLOT(checkWeather()));
+                weatherTimer.start();
+            }
+         }
+         else
+             weatherCheck->setEnabled(false);
+
         indiState = INDI_READY;
         return true;
     }
@@ -1195,6 +1284,18 @@ bool Scheduler::checkStartupState()
     switch (startupState)
     {
         case STARTUP_IDLE:
+        {
+            // If Ekos is already started, we skip the script and move on to mount unpark step
+            QDBusReply<int> isEkosStarted;
+            isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
+            if (isEkosStarted.value() == EkosManager::STATUS_SUCCESS)
+            {
+               if (startupScriptURL.isEmpty() == false)
+                    appendLogText(i18n("Ekos is already started, skipping startup script..."));
+               startupState = STARTUP_UNPARK_MOUNT;
+               return true;
+            }
+
             if (startupScriptURL.isEmpty() == false)
             {
                startupState = STARTUP_SCRIPT;
@@ -1203,8 +1304,9 @@ bool Scheduler::checkStartupState()
             }            
 
             startupState = STARTUP_UNPARK_MOUNT;
-            return true;
-         break;
+            return false;
+       }
+       break;
 
         case STARTUP_SCRIPT:
             return false;
@@ -1265,6 +1367,9 @@ bool Scheduler::checkShutdownState()
     switch (shutdownState)
     {
         case SHUTDOWN_IDLE:
+        weatherTimer.stop();
+        weatherTimer.disconnect();
+
         if (warmCCDCheck->isEnabled() && warmCCDCheck->isChecked())
         {
             // Turn it off
@@ -1748,6 +1853,8 @@ void Scheduler::stopEkosAction()
 
     case SchedulerJob::STAGE_CAPTURING:
         captureInterface->call(QDBus::AutoDetect,"abort");
+        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+            guideInterface->call(QDBus::AutoDetect,"stopGuiding");
         break;
 
     default:
@@ -1829,7 +1936,6 @@ bool Scheduler::processJobInfo(XMLEle *root)
 
     altConstraintCheck->setChecked(false);
     moonSeparationCheck->setChecked(false);
-    weatherCheck->setChecked(false);
     noMeridianFlipCheck->setChecked(false);
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
@@ -1889,8 +1995,6 @@ bool Scheduler::processJobInfo(XMLEle *root)
                     moonSeparationCheck->setChecked(true);
                     minMoonSeparation->setValue(atof(findXMLAttValu(subEP, "value")));
                 }
-                else if (!strcmp("EnforceWeather", pcdataXMLEle(subEP)))
-                    weatherCheck->setChecked(true);
                 else if (!strcmp("NoMeridianFlip", pcdataXMLEle(subEP)))
                     noMeridianFlipCheck->setChecked(true);
             }
@@ -2023,8 +2127,6 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<Constraint value='" << job->getMinAltitude() << "'>MinimumAltitude</Constraint>" << endl;
         if (job->getMinMoonSeparation() > 0)
             outstream << "<Constraint value='" << job->getMinMoonSeparation() << "'>MoonSeparation</Constraint>" << endl;
-        if (job->getEnforceWeather())
-            outstream << "<Constraint>EnforceWeather</Constraint>" << endl;
         if (job->getNoMeridianFlip())
             outstream << "<Constraint>NoMeridianFlip</Constraint>" << endl;
         outstream << "</Constraints>" << endl;
@@ -2160,10 +2262,6 @@ void Scheduler::findNextJob()
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
 
             stopEkosAction();
-
-            // Stop Guiding if it was used
-            if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
-                guideInterface->call(QDBus::AutoDetect, "stopGuiding");
 
             captureBatch=0;
             currentJob = NULL;

@@ -1037,6 +1037,8 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_GPS;
     else if (groupName.indexOf("Auxiliary") != -1)
         groupType = KSTARS_AUXILIARY;
+    else if (groupName.indexOf("Weather") != -1)
+        groupType = KSTARS_WEATHER;
     else
         groupType = KSTARS_UNKNOWN;
 
