@@ -49,7 +49,9 @@ public:
 
     void setCalibrationParams(int boxSize, int pulseDuration);
 
-    void setImage(FITSView *image);
+    // 2015-09-05 return false in case of auto star selection because we don't want the guide module to do any processing
+    // otherwise return true
+    bool setImage(FITSView *image);
 
     double getReticleAngle() { return ui.spinBox_ReticleAngle->value();}
 

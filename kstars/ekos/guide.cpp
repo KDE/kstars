@@ -410,9 +410,15 @@ void Guide::newFITS(IBLOB *bp)
 
     pmath->set_image(targetImage);
     guider->setImage(targetImage);
-    calibration->setImage(targetImage);
 
     fv->show();
+
+    // It should be false in case we do not need to process the image for motion
+    // which happens when we take an image for auto star selection.
+    if (calibration->setImage(targetImage) == false)
+        return;
+
+
 
     if (isSuspended)
     {
