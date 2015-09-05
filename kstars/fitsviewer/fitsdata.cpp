@@ -2106,10 +2106,10 @@ double FITSData::getADUPercentage()
              return (stats.average / INT_MAX) * 100.0;
              break;
         case 64:
-             return (stats.average / ULONG_LONG_MAX) * 100.0;
+             return (stats.average / ULLONG_MAX) * 100.0;
              break;
         case -64:
-             return (stats.average / LONG_LONG_MAX) * 100.0;
+             return (stats.average / LLONG_MAX) * 100.0;
         default:
             return 0;
             break;

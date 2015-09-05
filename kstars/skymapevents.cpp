@@ -500,7 +500,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 void SkyMap::wheelEvent( QWheelEvent *e ) {
     if ( e->delta() > 0 )
         zoomInOrMagStep ( e->modifiers() );
-    else
+    else if ( e->delta() < 0 )
         zoomOutOrMagStep( e->modifiers() );
 }
 
