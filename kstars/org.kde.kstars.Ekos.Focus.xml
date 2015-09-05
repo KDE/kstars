@@ -81,5 +81,8 @@
     <method name="resetFrame">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="resetFocusFrame">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
   </interface>
 </node>

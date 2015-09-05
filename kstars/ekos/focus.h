@@ -139,10 +139,10 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, double tolerance);
 
-    /** DBUS interface function.
-     * Resets the CCD frame to its full resolution.
+     /** DBUS interface function.
+     * resetFrame Resets the CCD frame to its full native resolution.
      */
-    Q_SCRIPTABLE Q_NOREPLY void resetFrame();
+    Q_SCRIPTABLE Q_NOREPLY  void resetFrame();
 
     /** @}*/
 
@@ -295,10 +295,10 @@ public slots:
      */
     void updateFocusStatus(bool status);
 
-    /**
-     * @brief resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
+    /** DBUS interface function.
+     * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
      */
-    void resetFocusFrame();
+    Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
 
     /**
      * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
