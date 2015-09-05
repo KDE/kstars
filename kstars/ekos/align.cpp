@@ -561,6 +561,7 @@ bool Align::captureAndSolve()
        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
    }
 
+   targetChip->resetFrame();
    targetChip->setBatchMode(false);
    targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
    if (kcfg_solverPreview->isChecked())
