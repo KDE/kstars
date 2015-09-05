@@ -223,7 +223,7 @@ void Scheduler::addJob()
 {
     if (state == SCHEDULER_RUNNIG)
     {
-        appendLogText(i18n("Cannot add or modify a job while the scheduler is running."));
+        appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
         return;
     }
 
@@ -406,7 +406,7 @@ void Scheduler::editJob(QModelIndex i)
 {
     if (state == SCHEDULER_RUNNIG)
     {
-        appendLogText(i18n("Cannot add or modify a job while the scheduler is running."));
+        appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
         return;
     }
 
@@ -557,7 +557,7 @@ void Scheduler::stop()
     foreach(SchedulerJob *job, jobs)
     {
         if (job == currentJob)
-            stopEkosAction();       
+            stopCurrentJobAction();
 
         if (job->getState() <= SchedulerJob::JOB_BUSY)
             job->setState(SchedulerJob::JOB_ABORTED);
@@ -673,7 +673,7 @@ void Scheduler::evaluateJobs()
                         else
                         {
                             job->setState(SchedulerJob::JOB_INVALID);
-                            appendLogText(i18n("Cannot schedule %1", job->getName()));
+                            appendLogText(i18n("Ekos failed to schedule %1.", job->getName()));
                         }
                     }
                     break;
@@ -800,6 +800,48 @@ void Scheduler::evaluateJobs()
     int maxScore=0;
     SchedulerJob *bestCandidate = NULL;
 
+    // Make sure no two jobs have the same scheduled time
+    foreach(SchedulerJob *job, jobs)
+    {
+        if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
+            continue;
+
+        foreach(SchedulerJob *other_job, jobs)
+        {
+            if (other_job == job || other_job->getState() != SchedulerJob::JOB_SCHEDULED || other_job->getStartupCondition() != SchedulerJob::START_AT)
+                continue;
+
+            // If there are within 3 minutes of each other, cancel one
+            if ( fabs(job->getStartupTime().secsTo(other_job->getStartupTime())) < 180)
+            {
+                double job_altitude       = findAltitude(job->getTargetCoords(), job->getStartupTime());
+                double other_job_altitude = findAltitude(other_job->getTargetCoords(), other_job->getStartupTime());
+
+                if (job_altitude > other_job_altitude)
+                {
+                    appendLogText(i18n("Observation jobs %1 and %2 have identical start up times. At %3, %4 altitude is %5 while %6 altitude is %7. Selecting %8 and aborting %9.",
+
+                                       job->getName(), other_job->getName(), job->getStartupTime().toString(), job->getName(), job_altitude, other_job->getName(), other_job_altitude,
+                                       job->getName(), other_job->getName()));
+
+                    other_job->setState(SchedulerJob::JOB_ABORTED);
+                    continue;
+                }
+                else
+                {
+                    appendLogText(i18n("Observation jobs %1 and %2 have identical start up times. At %3, %4 altitude is %5 while %6 altitude is %7. Selecting %8 and aborting %9.",
+
+                                       other_job->getName(), job->getName(), other_job->getStartupTime().toString(), other_job->getName(), other_job_altitude, job->getName(), job_altitude,
+                                       other_job->getName(), job->getName()));
+
+                    job->setState(SchedulerJob::JOB_ABORTED);
+                    break;
+                }
+            }
+        }
+    }
+
+    // Find best score
     foreach(SchedulerJob *job, jobs)
     {
         if (job->getState() != SchedulerJob::JOB_SCHEDULED)
@@ -856,6 +898,21 @@ void Scheduler::evaluateJobs()
     }
 }
 
+double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
+{
+    // Make a copy
+    SkyPoint p = target;
+    QDateTime lt( when.date(), QTime() );
+    KStarsDateTime ut = geo->LTtoUT( lt );
+
+    KStarsDateTime myUT = ut.addSecs(when.time().hour() * 3600.0);
+
+    dms LST = geo->GSTtoLST( myUT.gst() );
+    p.EquatorialToHorizontal( &LST, geo->lat() );
+
+    return p.alt().Degrees();
+}
+
 bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 {
     //int DayOffset = 0;
@@ -896,6 +953,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
     }
 
+    appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees.", job->getName(), minAltitude));
     return false;
 }
 
@@ -910,16 +968,21 @@ bool Scheduler::calculateCulmination(SchedulerJob *job)
 
     o.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    QDateTime lt (KStarsData::Instance()->lt().date(), QTime());
-    KStarsDateTime dt = geo->LTtoUT(lt);
+    QDateTime midnight (KStarsData::Instance()->lt().date(), QTime());
+    KStarsDateTime dt = geo->LTtoUT(midnight);
 
     QTime transitTime = o.transitTime(dt, geo);
 
     appendLogText(i18n("%1 Transit time is %2", job->getName(), transitTime.toString()));
 
-    QDateTime observationDateTime(QDate::currentDate(), transitTime.addSecs(-1 * job->getCulminationOffset()* 60));
+    int dayOffset =0;
+    if (KStarsData::Instance()->lt().time() > transitTime)
+        dayOffset=1;
 
-    appendLogText(i18n("%1 Observation time is %2", job->getName(), observationDateTime.toString()));
+    QDateTime observationDateTime(QDate::currentDate().addDays(dayOffset), transitTime.addSecs(job->getCulminationOffset()* 60));
+
+    appendLogText(i18np("%1 Observation time is %2 adjusted for %3 minute.", "%1 Observation time is %2 adjusted for %3 minutes.",
+                        job->getName(), observationDateTime.toString(), job->getCulminationOffset()));
 
     if (getDarkSkyScore(observationDateTime.time()) < 0)
     {
@@ -980,6 +1043,15 @@ void Scheduler::checkWeather()
         if (newStatus != weatherStatus)
         {
             weatherStatus = newStatus;
+
+            if (weatherStatus == IPS_OK)
+                weatherLabel->setPixmap(QIcon::fromTheme("security-high").pixmap(QSize(32,32)));
+            else if (weatherStatus == IPS_BUSY)
+                weatherLabel->setPixmap(QIcon::fromTheme("security-medium").pixmap(QSize(32,32)));
+            else if (weatherStatus == IPS_ALERT)
+                weatherLabel->setPixmap(QIcon::fromTheme("security-low").pixmap(QSize(32,32)));
+            else
+                weatherLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
             appendLogText(statusString);
         }
 
@@ -991,7 +1063,7 @@ void Scheduler::checkWeather()
                 disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
                 currentJob->setState(SchedulerJob::JOB_ABORTED);
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);
-                stopEkosAction();
+                stopCurrentJobAction();
             }
             checkShutdownState();
             connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
@@ -1061,7 +1133,7 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
     else
         score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
 
-    appendLogText(i18n("%1 altitude score is %2", job->getName(), score));
+    appendLogText(i18n("%1 altitude score is %2.", job->getName(), score));
 
     return score;
 }
@@ -1109,7 +1181,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, const SkyPoint &tar
     // Limit to 0 to 20
     score /= 5.0;
 
-    appendLogText(i18n("%1 Moon score %2 (separation %3)", job->getName(), score, separation));
+    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));
 
     return score;
 
@@ -1121,11 +1193,11 @@ void Scheduler::calculateDawnDusk()
     Dawn = ksal.getDawnAstronomicalTwilight();
     Dusk = ksal.getDuskAstronomicalTwilight();
 
-    QTime now = KStarsData::Instance()->lt().time();
+    QTime now  = KStarsData::Instance()->lt().time();
+    QTime dawn = QTime(0,0,0).addSecs(Dawn*24*3600);
+    QTime dusk = QTime(0,0,0).addSecs(Dusk*24*3600);
 
-    double fraction = (now.hour() + now.minute()/60.0 + now.second()/3600.0)/24.0;
-
-    appendLogText(i18n("Dawn is %1 Dusk is %2 and current fraction is %3", Dawn, Dusk, fraction));
+    appendLogText(i18n("Dawn is at %1, Dusk is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
@@ -1611,11 +1683,51 @@ void Scheduler::checkJobStage()
 {
     Q_ASSERT(currentJob != NULL);
 
+    // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT && currentJob->getState() == SchedulerJob::JOB_BUSY)
     {
         // If the job reached it COMPLETION time, we stop it.
         if (KStarsData::Instance()->lt().secsTo(currentJob->getCompletionTime()) <= 0)
         {
+            findNextJob();
+            return;
+        }
+    }
+
+    // #2 Check if altitude restriction still holds true
+    if (currentJob->getMinAltitude() > 0)
+    {
+        SkyPoint p = currentJob->getTargetCoords();
+
+        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
+
+        if (p.alt().Degrees() < currentJob->getMinAltitude())
+        {
+            appendLogText(i18n("%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), aborting job...", currentJob->getName(),
+                               p.alt().Degrees(), currentJob->getMinAltitude()));
+
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            stopCurrentJobAction();
+            findNextJob();
+            return;
+        }
+    }
+
+    // #3 Check if moon separation is still valid
+    if (currentJob->getMinMoonSeparation() > 0)
+    {
+        SkyPoint p = currentJob->getTargetCoords();
+        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
+
+        double moonScore = getMoonSeparationScore(currentJob, p);
+
+        if (moonScore < 0)
+        {
+            appendLogText(i18n("Current moon separation is lower than %1 minimum constraint (%2 degrees), aborting job...", currentJob->getName(),
+                               currentJob->getMinMoonSeparation()));
+
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            stopCurrentJobAction();
             findNextJob();
             return;
         }
@@ -1664,6 +1776,10 @@ void Scheduler::checkJobStage()
             if(focusReply.value())
             {
                 appendLogText(i18n("%1 focusing is complete.", currentJob->getName()));
+
+                // Reset frame to original size.
+                //focusInterface->call(QDBus::AutoDetect,"resetFrame");
+
                 currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
                 getNextAction();
                 return;
@@ -1824,7 +1940,7 @@ void Scheduler::getNextAction()
     }
 }
 
-void Scheduler::stopEkosAction()
+void Scheduler::stopCurrentJobAction()
 {    
     switch(currentJob->getStage())
     {
@@ -2169,12 +2285,14 @@ void Scheduler::startSlew()
 void Scheduler::startFocusing()
 {
 
+    captureInterface->call(QDBus::AutoDetect,"clearAutoFocusHFR");
+
     QDBusMessage reply;
 
     // We always need to reset frame first
-    if ( (reply = focusInterface->call(QDBus::AutoDetect,"resetFrame")).type() == QDBusMessage::ErrorMessage)
+    if ( (reply = focusInterface->call(QDBus::AutoDetect,"resetFocusFrame")).type() == QDBusMessage::ErrorMessage)
     {
-        appendLogText(i18n("resetFrame DBUS error: %1", reply.errorMessage()));
+        appendLogText(i18n("resetFocusFrame DBUS error: %1", reply.errorMessage()));
         return;
     }
 
@@ -2226,6 +2344,13 @@ void Scheduler::findNextJob()
         return;
     }
 
+    if (currentJob->getState() == SchedulerJob::JOB_ABORTED)
+    {
+        currentJob = NULL;
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        return;
+    }
+
     // Check completion criteria
 
     // We're done whether the job completed successfully or not.
@@ -2261,7 +2386,7 @@ void Scheduler::findNextJob()
                                 "%1 observation job reached completion time with #%2 batches done. Stopping...", currentJob->getName(), captureBatch+1));
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
 
-            stopEkosAction();
+            stopCurrentJobAction();
 
             captureBatch=0;
             currentJob = NULL;

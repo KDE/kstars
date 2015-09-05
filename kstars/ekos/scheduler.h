@@ -180,7 +180,7 @@ protected slots:
       */
      void findNextJob();
 
-     void stopEkosAction();
+     void stopCurrentJobAction();
 
      void readProcessOutput();
      void checkProcessExit(int exitCode);     
@@ -297,6 +297,8 @@ private:
          * @return
          */
         bool processJobInfo(XMLEle *root);
+
+        double findAltitude(const SkyPoint & target, const QDateTime when);
 
     Ekos::Scheduler *ui;
 

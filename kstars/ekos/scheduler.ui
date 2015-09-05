@@ -208,12 +208,32 @@
            </widget>
           </item>
           <item>
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="weatherCheck">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Weather conditions must remain safe. When weather conditions become dangerous, shutdown procedure is initiated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Weather</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="weatherLabel">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -440,10 +460,10 @@
           <item>
            <widget class="QSpinBox" name="culminationOffset">
             <property name="toolTip">
-             <string>Offset in minutes to start imaging before culmination time.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Offset in minutes to start imaging before or after culmination time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="minimum">
-             <number>0</number>
+             <number>-240</number>
             </property>
             <property name="maximum">
              <number>240</number>
@@ -452,7 +472,7 @@
              <number>10</number>
             </property>
             <property name="value">
-             <number>60</number>
+             <number>-60</number>
             </property>
            </widget>
           </item>
@@ -587,7 +607,7 @@
      <item>
       <widget class="QGroupBox" name="completionGroup">
        <property name="title">
-        <string>4. Completion</string>
+        <string>4. Completion Conditions</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
@@ -627,7 +647,7 @@
              <string>Terminate the job on the given date and time.</string>
             </property>
             <property name="text">
-             <string>On</string>
+             <string>Loop Until</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">completionButtonGroup</string>

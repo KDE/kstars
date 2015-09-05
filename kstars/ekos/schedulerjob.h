@@ -79,8 +79,8 @@ public:
     int getScore() const;
     void setScore(int value);
 
-    uint16_t getCulminationOffset() const;
-    void setCulminationOffset(const uint16_t &value);
+    int16_t getCulminationOffset() const;
+    void setCulminationOffset(const int16_t &value);
 
     QTableWidgetItem *getStartupCell() const;
     void setStartupCell(QTableWidgetItem *value);
@@ -122,7 +122,7 @@ private:
     QTableWidgetItem* statusCell, *startupCell;
 
     int score;
-    uint16_t culminationOffset;
+    int16_t culminationOffset;
 
     double Dawn, Dusk;    
     QString dateTimeDisplayFormat;

@@ -236,15 +236,17 @@ void SchedulerJob::setScore(int value)
 {
     score = value;
 }
-uint16_t SchedulerJob::getCulminationOffset() const
+
+int16_t SchedulerJob::getCulminationOffset() const
 {
     return culminationOffset;
 }
 
-void SchedulerJob::setCulminationOffset(const uint16_t &value)
+void SchedulerJob::setCulminationOffset(const int16_t &value)
 {
     culminationOffset = value;
 }
+
 QTableWidgetItem *SchedulerJob::getStartupCell() const
 {
     return startupCell;
