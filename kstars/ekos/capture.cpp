@@ -411,6 +411,7 @@ Capture::Capture()
     seqTotalCount = 0;
     seqCurrentCount = 0;
     seqDelay = 0;
+    fileHFR=0;
     useGuideHead = false;
     guideDither = false;
     firstAutoFocus = true;
@@ -1865,7 +1866,7 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
     {
         autofocusCheck->setEnabled(true);
         HFRPixels->setEnabled(true);
-        if (HFR > 0 && firstAutoFocus && HFRPixels->value() == 0)
+        if (HFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
         {
            firstAutoFocus = false;
            // Add 1% to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
@@ -1994,7 +1995,12 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
                          autofocusCheck->setChecked(true);
                          float HFRValue = atof(pcdataXMLEle(ep));
                          if (HFRValue > 0)
+                         {
+                            fileHFR = HFRValue;
                             HFRPixels->setValue(HFRValue);
+                         }
+                         else
+                             fileHFR=0;
                       }
                      else
                          autofocusCheck->setChecked(false);
@@ -2807,6 +2813,16 @@ bool Capture::setCoolerControl(bool enable)
         return currentCCD->setCoolerControl(enable);
 
     return false;
+}
+
+void Capture::clearAutoFocusHFR()
+{
+    // If HFR limit was set from file, we cannot overide it.
+    if (fileHFR > 0)
+        return;
+
+    HFRPixels->setValue(0);
+    firstAutoFocus=true;
 }
 
 

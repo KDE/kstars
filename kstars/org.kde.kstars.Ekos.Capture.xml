@@ -75,5 +75,8 @@
       <arg type="b" direction="out"/>
       <arg type="b" name="enable" direction="in"/>
     </method>
+    <method name="clearAutoFocusHFR">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
   </interface>
 </node>

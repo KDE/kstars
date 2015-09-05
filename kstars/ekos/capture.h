@@ -328,6 +328,11 @@ public:
      */
     Q_SCRIPTABLE double         getJobExposureDuration(int id);
 
+    /** DBUS interface function.
+     * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.
+     */
+    Q_SCRIPTABLE Q_NOREPLY  void clearAutoFocusHFR();
+
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
@@ -583,6 +588,9 @@ private:
     double ExpRaw1, ExpRaw2;
     double ADURaw1, ADURaw2;
     double ADUSlope;
+
+    // File HFR
+    double fileHFR;
 
 };
 
