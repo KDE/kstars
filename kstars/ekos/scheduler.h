@@ -94,16 +94,13 @@ public:
      /**
       * @brief stopGuiding After guiding is done we need to stop the process
       */
-     //void stopGuiding();
+     void stopGuiding();
 
      /**
       * @brief setGOTOMode set the GOTO mode for the solver
       * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
       */
      void setGOTOMode(Align::GotoMode mode);
-
-     //void startFITSSolving();
-     //void getFITSAstrometryResults();
 
      /**
       * @brief start Start scheduler main loop and evaluate jobs and execute them accordingly
@@ -209,95 +206,110 @@ private:
         void executeScript(const QString &filename);
 
         int16_t getDarkSkyScore(const QTime & observationTime);
-        int16_t getAltitudeScore(SchedulerJob *job, const SkyPoint & target);
-        int16_t getMoonSeparationScore(SchedulerJob *job, const SkyPoint & target);
+
+        /**
+         * @brief getAltitudeScore Get the altitude score of an object. The higher the better
+         * @param job Active job
+         * @param target
+         * @return
+         */
+        int16_t getAltitudeScore(SchedulerJob *job, QDateTime when);
+        int16_t getMoonSeparationScore(SchedulerJob *job, QDateTime when);
         int16_t getWeatherScore();
 
         /**
-         * @brief calculateAltitudeTime
-         * @param job
-         * @param minAltitude
-         * @return
+         * @brief calculateAltitudeTime calculate the altitude time given the minimum altitude given.
+         * @param job active target
+         * @param minAltitude minimum altitude required
+         * @return True if found a time in the night where the object is at or above the minimum altitude, false otherise.
          */
         bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude);
 
         /**
-         * @brief calculateCulmination
-         * @param job
-         * @return
+         * @brief calculateCulmination find culmination time adjust for the job offset
+         * @param job Active job
+         * @return True if culmination time adjust for offset is a valid time in the night
          */
         bool    calculateCulmination(SchedulerJob *job);
 
         /**
-         * @brief calculateDawnDusk
+         * @brief calculateDawnDusk Get dawn and dusk times
          */
         void    calculateDawnDusk();
 
         /**
-         * @brief checkEkosState
-         * @return
+         * @brief checkEkosState Check ekos startup stages and take whatever action necessary to get Ekos up and running
+         * @return True if Ekos is running, false if Ekos start up is in progress.
          */
         bool    checkEkosState();
 
         /**
-         * @brief checkINDIState
-         * @return
+         * @brief checkINDIState Check INDI startup stages and take whatever action necessary to get INDI devices connected.
+         * @return True if INDI devices are connected, false if it is under progress.
          */
         bool    checkINDIState();
 
         /**
-         * @brief checkStartupState
-         * @return
+         * @brief checkStartupState Check startup procedure stages and make sure all stages are complete.
+         * @return True if startup is complete, false otherwise.
          */
         bool    checkStartupState();
 
         /**
-         * @brief checkShutdownState
+         * @brief checkShutdownState Check shutdown procedure stages and make sure all stages are complete.
          * @return
          */
         bool    checkShutdownState();
 
         /**
-         * @brief parkMount
+         * @brief parkMount Park mount
+         * @param shutdown If true, parking is excuted in shutdown mode. Otherwise, it is a regular parking command.
          */
         void    parkMount(bool shutdown=true);
 
         /**
-         * @brief unParkMount
+         * @brief unParkMount Unpark mount
+         * @param If true, unparking is executed in startup mode. Otherwise, it is a regular unpark command.
          */
         void    unParkMount(bool startup=true);
 
         /**
-         * @brief parkDome
+         * @brief parkDome Park dome
          */
         void    parkDome();
 
         /**
-         * @brief unParkDome
+         * @brief unParkDome Unpark dome
          */
         void    unParkDome();
 
         /**
-         * @brief saveScheduler
-         * @param path
+         * @brief saveScheduler Save scheduler jobs to a file
+         * @param path path of a file
          * @return
          */
         bool saveScheduler(const QUrl &fileURL);
 
         /**
-         * @brief loadScheduler
-         * @param path
+         * @brief loadScheduler Load scheduler from a file
+         * @param path path to a file
          * @return
          */
         bool loadScheduler(const QUrl &fileURL);
 
         /**
-         * @brief processJobInfo
-         * @param root
+         * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly
+         * @param root XML root element of JOB
          * @return
          */
         bool processJobInfo(XMLEle *root);
 
+        /**
+         * @brief findAltitude Find altitude given a specific time
+         * @param target Target
+         * @param when date time to find altitude
+         * @return Altitude of the target at the specific date and time given.
+         */
         double findAltitude(const SkyPoint & target, const QDateTime when);
 
     Ekos::Scheduler *ui;
@@ -344,7 +356,7 @@ private:
     bool mDirty;                    // Was job modified and needs saving?
     bool parkedWait;                // Used to park the mount in case scheduled time is far in the future. When job is ready, we unpark the mount
     IPState weatherStatus;          // Keep watch of weather status
-    QTimer weatherTimer;
+    QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
     uint8_t noWeatherCounter;       // Keep track of how many times we didn't recieve weather updates
 
 

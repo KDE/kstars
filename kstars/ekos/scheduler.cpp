@@ -645,18 +645,16 @@ void Scheduler::evaluateJobs()
 
         int16_t score = 0, altScore=0, moonScore=0, darkScore=0, weatherScore=0;
 
-        // #1 Update target horizontal coords.
-        SkyPoint target = job->getTargetCoords();
-        target.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        QDateTime now = KStarsData::Instance()->lt();
 
-        // #2 Check startup conditions
+        // #1 Check startup conditions
         switch (job->getStartupCondition())
         {
-                // #2.1 Now?
+                // #1.1 Now?
                 case SchedulerJob::START_NOW:
-                    altScore     = getAltitudeScore(job, target);
-                    moonScore    = getMoonSeparationScore(job, target);
-                    darkScore    = getDarkSkyScore(KStarsData::Instance()->lt().time());
+                    altScore     = getAltitudeScore(job, now);
+                    moonScore    = getMoonSeparationScore(job, now);
+                    darkScore    = getDarkSkyScore(now.time());
                     weatherScore = getWeatherScore();
                     score = altScore + moonScore + darkScore + weatherScore;
                     job->setScore(score);
@@ -667,6 +665,7 @@ void Scheduler::evaluateJobs()
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
                         if ( (altScore < 0 || darkScore < 0) && calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()))
                         {
+                            appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
                             return;
                         }
@@ -676,12 +675,17 @@ void Scheduler::evaluateJobs()
                             appendLogText(i18n("Ekos failed to schedule %1.", job->getName()));
                         }
                     }
+                    else
+                    {
+                        appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
+                    }
                     break;
 
-                  // #2.2 Culmination?
+                  // #1.2 Culmination?
                   case SchedulerJob::START_CULMINATION:
                         if (calculateCulmination(job))
                         {
+                            appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
                             return;
                         }
@@ -689,7 +693,7 @@ void Scheduler::evaluateJobs()
                             job->setState(SchedulerJob::JOB_INVALID);
                         break;
 
-                 // #2.3 Start at?
+                 // #1.3 Start at?
                  case SchedulerJob::START_AT:
                  {
                     if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
@@ -701,7 +705,9 @@ void Scheduler::evaluateJobs()
                             continue;
                         }
                     }
-                    int timeUntil = KStarsData::Instance()->lt().secsTo(job->getStartupTime());
+
+                    QDateTime startupTime = job->getStartupTime();
+                    int timeUntil = KStarsData::Instance()->lt().secsTo(startupTime);
                     // If starting time already passed by 5 minutes, we mark the job as invalid
                     if (timeUntil < -300)
                     {
@@ -710,23 +716,33 @@ void Scheduler::evaluateJobs()
                         continue;
                     }
                     // If time is within 5 minutes, we start scoring it.
-                    else if (timeUntil <= 300)
+                    else if (timeUntil <= 300 || job->getState() == SchedulerJob::JOB_EVALUATION)
                     {
-                        score += getAltitudeScore(job, target);
-                        score += getMoonSeparationScore(job, target);
-                        score += getDarkSkyScore(job->getStartupTime().time());
+                        score += getAltitudeScore(job, startupTime);
+                        score += getMoonSeparationScore(job, startupTime);
+                        score += getDarkSkyScore(startupTime.time());
                         score += getWeatherScore();
 
                         if (score < 0)
                         {
-                            appendLogText(i18n("%1 observation has low score (%2) %3 seconds before startup time. Aborting...", job->getName(), timeUntil, score));
+                            if (job->getState() == SchedulerJob::JOB_EVALUATION)
+                                appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting...", job->getName(), score));
+                            else
+                                appendLogText(i18n("%1 observation job updated score is %2 %3 seconds before startup time. Aborting...", job->getName(), timeUntil, score));
                             job->setState(SchedulerJob::JOB_ABORTED);
                             continue;
                         }
+                        // If score is OK for the start up time, then job evaluation for this start up time
+                        // is complete and we set its score to negative so that it gets scheduled below.
+                        // one its state is scheduled, we will re-evaluate it again 5 minutes be actual
+                        // start up time.
+                        else if (job->getState() == SchedulerJob::JOB_EVALUATION)
+                            score += BAD_SCORE;
+
                     }
                     // If time is far in the future, we make the score negative
                     else
-                        score += -1000;
+                        score += BAD_SCORE;
 
                     job->setScore(score);
                   }
@@ -905,7 +921,7 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
     QDateTime lt( when.date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( lt );
 
-    KStarsDateTime myUT = ut.addSecs(when.time().hour() * 3600.0);
+    KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
 
     dms LST = geo->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, geo->lat() );
@@ -945,7 +961,8 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
             {
                 QDateTime startTime = geo->UTtoLT(myUT);
                 job->setStartupTime(startTime);
-                job->setStartupCondition(SchedulerJob::START_AT);                
+                job->setStartupCondition(SchedulerJob::START_AT);
+                appendLogText(i18n("%1 is scheduled to start at %2 where its altitude is %3 degrees.", job->getName(), startTime.toString(), QString::number(altitude,'g', 3)));
                 return true;
             }
 
@@ -953,7 +970,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
     }
 
-    appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees.", job->getName(), minAltitude));
+    appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees.", job->getName(), QString::number(minAltitude,'g', 3)));
     return false;
 }
 
@@ -1112,10 +1129,10 @@ int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
     return score;
 }
 
-int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
+int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
 {
     int16_t score=0;
-    double currentAlt  = target.alt().Degrees();
+    double currentAlt  = findAltitude(job->getTargetCoords(), when);
 
     if (currentAlt < 0)
         score = BAD_SCORE;
@@ -1129,29 +1146,49 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, const SkyPoint &target)
         else
             score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
     }
+    // If it's below minimum hard altitude (15 degrees now) hit it with a bad score
+    else if (currentAlt < minAltitude->minimum())
+        score = BAD_SCORE/50;
     // If no minimum altitude, then adjust altitude score to account for current target altitude
     else
         score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
 
-    appendLogText(i18n("%1 altitude score is %2.", job->getName(), score));
+    appendLogText(i18n("%1 altitude at %2 is %3 degrees. %1 altitude score is %4.", job->getName(), when.toString(), QString::number(currentAlt,'g', 3), score));
 
     return score;
 }
 
-int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, const SkyPoint &target)
+int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
 {    
-    int16_t score=0;
+    int16_t score=0;    
+
+    // Get target altitude given the time
+    SkyPoint p = job->getTargetCoords();
+    QDateTime midnight( when.date(), QTime() );
+    KStarsDateTime ut = geo->LTtoUT( midnight );
+    KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
+    dms LST = geo->GSTtoLST( myUT.gst() );
+    p.EquatorialToHorizontal( &LST, geo->lat() );
+    double currentAlt = p.alt().Degrees();
+
+    // Update moon
+    ut = geo->LTtoUT(when);
+    KSNumbers ksnum(ut.djd());
+    LST = geo->GSTtoLST( ut.gst() );
+    moon->updateCoords(&ksnum, true, geo->lat(), &LST);
+
+    double moonAltitude = moon->alt().Degrees();
 
     // Lunar illumination %
     double illum = moon->illum() * 100.0;
 
     // Moon/Sky separation p
-    double separation = moon->angularDistanceTo(&target).Degrees();
+    double separation = moon->angularDistanceTo(&p).Degrees();
 
     // Zenith distance of the moon
-    double zMoon = (90 - moon->alt().Degrees());
+    double zMoon = (90 - moonAltitude);
     // Zenith distance of target
-    double zTarget = (90 - target.alt().Degrees());
+    double zTarget = (90 - currentAlt);
 
     // If target = Moon, or no illuminiation, or moon below horizon, return static score.
     if (zMoon == zTarget || illum == 0 || zMoon >= 90)
@@ -1568,61 +1605,6 @@ void Scheduler::checkProcessExit(int exitCode)
         shutdownState = SHUTDOWN_ERROR;
 }
 
-/*bool    Scheduler::checkFITSJobState()
-{
-    foreach(SchedulerJob *job, jobs)
-    {
-        if (job->getFITSFile().isEmpty() == false)
-        {
-            switch (job->getFITSState())
-            {
-                case SchedulerJob::FITS_IDLE:
-                    currentJob = job;
-                    startFITSSolving();
-                    return false;
-                    break;
-
-                case SchedulerJob::FITS_SOLVING:
-                {
-                    QDBusReply<bool> isSolverComplete, isSolverSuccessful;
-                    isSolverComplete = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
-                    if(isSolverComplete.value())
-                    {
-                        isSolverSuccessful = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
-                        if (isSolverSuccessful.value())
-                        {
-                            getFITSAstrometryResults();
-                            currentJob = NULL;
-                            return true;
-                        }
-                        else
-                        {
-
-                            currentJob->setFITSState(SchedulerJob::FITS_ERROR);
-                            stop();
-                            return false;
-                        }
-                    }
-                    else
-                        // Still solver in progress, return
-                        return false;
-                  }
-                  break;
-
-                case SchedulerJob::FITS_ERROR:
-                    break;
-
-                case SchedulerJob::FITS_COMPLETE:
-                    break;
-            }
-        }
-    }
-
-    return true;
-
-}
-*/
-
 void Scheduler::checkStatus()
 {
 
@@ -1719,7 +1701,7 @@ void Scheduler::checkJobStage()
         SkyPoint p = currentJob->getTargetCoords();
         p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
 
-        double moonScore = getMoonSeparationScore(currentJob, p);
+        double moonScore = getMoonSeparationScore(currentJob, KStarsData::Instance()->lt());
 
         if (moonScore < 0)
         {
@@ -1881,8 +1863,7 @@ void Scheduler::checkJobStage()
              currentJob->setState(SchedulerJob::JOB_COMPLETE);
              currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
              captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
-             if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
-                 guideInterface->call(QDBus::AutoDetect,"stopGuiding");
+             stopGuiding();
 
              findNextJob();
              return;
@@ -1969,8 +1950,7 @@ void Scheduler::stopCurrentJobAction()
 
     case SchedulerJob::STAGE_CAPTURING:
         captureInterface->call(QDBus::AutoDetect,"abort");
-        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
-            guideInterface->call(QDBus::AutoDetect,"stopGuiding");
+        stopGuiding();
         break;
 
     default:
@@ -2336,8 +2316,7 @@ void Scheduler::findNextJob()
         captureBatch=0;
 
         // Stop Guiding if it was used
-        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
-            guideInterface->call(QDBus::AutoDetect, "stopGuiding");
+        stopGuiding();
 
         currentJob = NULL;
         connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
@@ -2360,8 +2339,7 @@ void Scheduler::findNextJob()
         captureBatch=0;
 
         // Stop Guiding if it was used
-        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
-            guideInterface->call(QDBus::AutoDetect, "stopGuiding");
+        stopGuiding();
 
         currentJob = NULL;
         connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
@@ -2444,19 +2422,6 @@ void Scheduler::startCalibrating()
 
 void Scheduler::startCapture()
 {
-    /*
-     // convert to an url
-     QRegExp withProtocol(QStringLiteral("^[a-zA-Z]+:"));
-     if (withProtocol.indexIn(url) == 0)
-     {
-         dbusargs.append(QUrl::fromUserInput(url).toString());
-     }
-     else
-     {
-         const QString path = QDir::current().absoluteFilePath(url);
-         dbusargs.append(QUrl::fromLocalFile(path).toString());
-     }*/
-
     captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
 
     QString url = currentJob->getSequenceFile().toString(QUrl::PreferLocalFile);  
@@ -2475,10 +2440,11 @@ void Scheduler::startCapture()
         appendLogText(i18n("%1 capture is in progress...", currentJob->getName()));
 }
 
-/*void Scheduler::stopGuiding()
+void Scheduler::stopGuiding()
 {
-    guideInterface->call(QDBus::AutoDetect,"stopGuiding");
-}*/
+    if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+        guideInterface->call(QDBus::AutoDetect,"stopGuiding");
+}
 
 void Scheduler::setGOTOMode(Align::GotoMode mode)
 {
@@ -2486,40 +2452,6 @@ void Scheduler::setGOTOMode(Align::GotoMode mode)
     solveArgs.append(static_cast<int>(mode));
     alignInterface->callWithArgumentList(QDBus::AutoDetect,"setGOTOMode",solveArgs);
 }
-
-/*
-void Scheduler::startFITSSolving()
-{
-    currentJob->setFITSState(SchedulerJob::FITS_SOLVING);
-
-    QList<QVariant> astrometryArgs;
-    astrometryArgs.append(false);
-    alignInterface->callWithArgumentList(QDBus::AutoDetect,"setSolverType",astrometryArgs);
-    QList<QVariant> solveArgs;
-    solveArgs.append(currentJob->getFITSFile().path());
-    solveArgs.append(false);
-    setGOTOMode(2);
-    alignInterface->callWithArgumentList(QDBus::AutoDetect,"start",solveArgs);
-
-    appendLogText(i18n("Solving %1 ...", currentJob->getFITSFile().fileName()));
-}
-
-
-void Scheduler::getFITSAstrometryResults()
-{
-
-    QDBusReply<QList<double>> results = alignInterface->call(QDBus::AutoDetect,"getSolutionResult");
-
-    dms ra(results.value().at(1));
-    dms de(results.value().at(2));
-
-    currentJob->setTargetCoords(ra, de);
-
-    currentJob->setFITSState(SchedulerJob::FITS_COMPLETE);
-
-    appendLogText(i18n("%1 FITS solution results are RA: %2 DEC: %3", currentJob->getName(), ra.toHMSString(), de.toDMSString()));
-}
-*/
 
 void Scheduler::stopINDI()
 {
