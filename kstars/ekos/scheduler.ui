@@ -197,7 +197,7 @@
           <item>
            <widget class="QCheckBox" name="guideModuleCheck">
             <property name="toolTip">
-             <string>Perform calibration and autoguding before proceeding to the next stage.</string>
+             <string>Perform calibration and autoguiding before proceeding to the next stage.</string>
             </property>
             <property name="text">
              <string>Guide</string>

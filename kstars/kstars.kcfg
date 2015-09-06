@@ -1710,7 +1710,7 @@
         <default>false</default>
     </entry>
     <entry name="ParkMount" type="Bool">
-        <label>Park mountk on shutdown.</label>
+        <label>Park mount on shutdown.</label>
         <default>false</default>
     </entry>
     <entry name="ParkDome" type="Bool">

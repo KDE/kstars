@@ -700,7 +700,7 @@ void Scheduler::evaluateJobs()
                     {
                         if (job->getStartupTime().secsTo(job->getCompletionTime()) <= 0)
                         {
-                            appendLogText(i18n("%1 completion time (%2) is earliar than start up time (%3)", job->getName(), job->getCompletionTime().toString(), job->getStartupTime().toString()));
+                            appendLogText(i18n("%1 completion time (%2) is earlier than start up time (%3)", job->getName(), job->getCompletionTime().toString(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_INVALID);
                             continue;
                         }

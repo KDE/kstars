@@ -1722,7 +1722,7 @@ void Focus::checkAutoStarTimeout()
 {
     if (starSelected == false && inAutoFocus)
     {
-        appendLogText(i18n("No star was seleted. Aborting..."));
+        appendLogText(i18n("No star was selected. Aborting..."));
         initialFocuserAbsPosition=-1;
         abort();
         updateFocusStatus(false);
