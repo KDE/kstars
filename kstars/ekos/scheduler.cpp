@@ -1401,7 +1401,7 @@ bool Scheduler::checkStartupState()
             {
                if (startupScriptURL.isEmpty() == false)
                     appendLogText(i18n("Ekos is already started, skipping startup script..."));
-               startupState = STARTUP_UNPARK_MOUNT;
+               startupState = STARTUP_UNPARK_DOME;
                return true;
             }
 
@@ -1412,7 +1412,7 @@ bool Scheduler::checkStartupState()
                return false;
             }            
 
-            startupState = STARTUP_UNPARK_MOUNT;
+            startupState = STARTUP_UNPARK_DOME;
             return false;
        }
        break;
@@ -1421,11 +1421,29 @@ bool Scheduler::checkStartupState()
             return false;
             break;
 
+        case STARTUP_UNPARK_DOME:
+        if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
+                unParkDome();
+        else
+                startupState = STARTUP_UNPARK_MOUNT;
+        break;
+
+        case STARTUP_UNPARKING_DOME:
+        {
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
+            if (domeReply.value() == false)
+            {
+                appendLogText(i18n("Dome unparked."));
+                startupState = STARTUP_UNPARK_MOUNT;
+            }
+        }
+        break;
+
         case STARTUP_UNPARK_MOUNT:
         if (unparkMountCheck->isEnabled() && unparkMountCheck->isChecked())
                 unParkMount();
         else
-                startupState = STARTUP_UNPARK_DOME;
+                startupState = STARTUP_COMPLETE;
             break;
 
         case STARTUP_UNPARKING_MOUNT:
@@ -1434,24 +1452,6 @@ bool Scheduler::checkStartupState()
             if (mountReply.value() == false)
             {
                 appendLogText(i18n("Mount unparked."));
-                startupState = STARTUP_UNPARK_DOME;
-            }
-        }
-        break;
-
-        case STARTUP_UNPARK_DOME:
-        if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
-                unParkDome();
-        else
-                startupState = STARTUP_COMPLETE;
-            break;
-
-        case STARTUP_UNPARKING_DOME:
-        {
-            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
-            if (domeReply.value() == false)
-            {
-                appendLogText(i18n("Dome unparked."));
                 startupState = STARTUP_COMPLETE;
             }
         }
@@ -1592,7 +1592,7 @@ void Scheduler::checkProcessExit(int exitCode)
     if (exitCode == 0)
     {
         if (startupState != STARTUP_COMPLETE)
-            startupState = STARTUP_UNPARK_MOUNT;
+            startupState = STARTUP_UNPARK_DOME;
         else if (shutdownState != SHUTDOWN_COMPLETE)
             shutdownState = SHUTDOWN_COMPLETE;
 
@@ -2528,7 +2528,7 @@ void    Scheduler::unParkDome()
     else
     {
         appendLogText(i18n("Dome already unparked."));
-        startupState = STARTUP_COMPLETE;
+        startupState = STARTUP_UNPARK_MOUNT;
     }
 
 }

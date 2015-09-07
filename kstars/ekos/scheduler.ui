@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
+    <width>671</width>
     <height>517</height>
    </rect>
   </property>
@@ -647,7 +647,7 @@
              <string>Terminate the job on the given date and time.</string>
             </property>
             <property name="text">
-             <string>Loop Until</string>
+             <string>Loop &amp;Until</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">completionButtonGroup</string>
@@ -691,19 +691,6 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_16">
           <item>
-           <widget class="QCheckBox" name="unparkMountCheck">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="toolTip">
-             <string>Park telescope to home position.</string>
-            </property>
-            <property name="text">
-             <string>UnPark Mount</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QCheckBox" name="unparkDomeCheck">
             <property name="enabled">
              <bool>true</bool>
@@ -713,6 +700,19 @@
             </property>
             <property name="text">
              <string>UnPark Dome</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="unparkMountCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park telescope to home position.</string>
+            </property>
+            <property name="text">
+             <string>UnPark Mount</string>
             </property>
            </widget>
           </item>
