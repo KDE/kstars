@@ -1,11 +1,12 @@
 # KDE Config File
 [Desktop Entry]
 Type=Application
-Exec=kstars -caption %c %i
+Exec=kstars %U
 Icon=kstars
 X-DocPath=kstars/index.html
 Comment=Desktop Planetarium
 Comment[af]=Werkskerm Planetarium
+Comment[ar]=برنامج القبة السماوية
 Comment[ast]=Planetariu d'escritoriu
 Comment[be]=Настольны планетарыум
 Comment[bg]=Планетариум за работния плот
@@ -77,6 +78,7 @@ Comment[zh_TW]=桌面星象儀
 Terminal=false
 Name=KStars
 Name[af]=K-sterre
+Name[ar]=نجوم ك
 Name[ast]=KStars
 Name[be]=KStars
 Name[bg]=KStars
@@ -146,6 +148,7 @@ Name[zh_CN]=KStars
 Name[zh_TW]=天文_KStars
 GenericName=Desktop Planetarium
 GenericName[af]=Werkskerm Planetarium
+GenericName[ar]=برنامج القبة السماوية
 GenericName[ast]=Planetariu d'escritoriu
 GenericName[be]=Настольны планетарыум
 GenericName[bg]=Планетариум за работния плот
