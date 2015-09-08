@@ -205,7 +205,7 @@ private:
 
         void executeScript(const QString &filename);
 
-        int16_t getDarkSkyScore(const QTime & observationTime);
+        int16_t getDarkSkyScore(const QDateTime & observationDateTime);
 
         /**
          * @brief getAltitudeScore Get the altitude score of an object. The higher the better

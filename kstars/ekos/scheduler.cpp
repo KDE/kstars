@@ -27,6 +27,7 @@
 #include "ksutils.h"
 
 #define BAD_SCORE                   -1000
+#define JOB_LEAD_TIME               300
 #define MAXIMUM_NO_WEATHER_LIMIT    3           // Maximum tries until we warn the user of no weather updates
 
 namespace Ekos
@@ -654,7 +655,7 @@ void Scheduler::evaluateJobs()
                 case SchedulerJob::START_NOW:
                     altScore     = getAltitudeScore(job, now);
                     moonScore    = getMoonSeparationScore(job, now);
-                    darkScore    = getDarkSkyScore(now.time());
+                    darkScore    = getDarkSkyScore(now);
                     weatherScore = getWeatherScore();
                     score = altScore + moonScore + darkScore + weatherScore;
                     job->setScore(score);
@@ -709,18 +710,18 @@ void Scheduler::evaluateJobs()
                     QDateTime startupTime = job->getStartupTime();
                     int timeUntil = KStarsData::Instance()->lt().secsTo(startupTime);
                     // If starting time already passed by 5 minutes, we mark the job as invalid
-                    if (timeUntil < -300)
+                    if (timeUntil < -JOB_LEAD_TIME)
                     {
                         appendLogText(i18n("%1 start up time already passed by %2 seconds. Aborting...", job->getName(), abs(timeUntil)));
                         job->setState(SchedulerJob::JOB_ABORTED);
                         continue;
                     }
                     // If time is within 5 minutes, we start scoring it.
-                    else if (timeUntil <= 300 || job->getState() == SchedulerJob::JOB_EVALUATION)
+                    else if (timeUntil <= JOB_LEAD_TIME || job->getState() == SchedulerJob::JOB_EVALUATION)
                     {
                         score += getAltitudeScore(job, startupTime);
                         score += getMoonSeparationScore(job, startupTime);
-                        score += getDarkSkyScore(startupTime.time());
+                        score += getDarkSkyScore(startupTime);
                         score += getWeatherScore();
 
                         if (score < 0)
@@ -931,12 +932,11 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
 
 bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 {
-    //int DayOffset = 0;
+    // We wouldn't stat observation half an hour before dawn.
+    double earlyDawn = Dawn - 1.0/48.0;
     double altitude=0;
     QDateTime lt( KStarsData::Instance()->lt().date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( lt );
-   // if (ut.time().hour() > 12 )
-       // DayOffset = 1;
 
     SkyPoint target = job->getTargetCoords();
 
@@ -952,14 +952,20 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
         if (rawFrac < Dawn || rawFrac > Dusk)
         {
-
             dms LST = geo->GSTtoLST( myUT.gst() );
             target.EquatorialToHorizontal( &LST, geo->lat() );
-            altitude =  target.alt().Degrees();
+            altitude =  target.alt().Degrees();                        
 
             if (altitude > minAltitude)
             {
                 QDateTime startTime = geo->UTtoLT(myUT);
+
+                if (rawFrac > earlyDawn && rawFrac < Dawn)
+                {
+                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proxmity to dawn.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
+                    return false;
+                }
+
                 job->setStartupTime(startTime);
                 job->setStartupCondition(SchedulerJob::START_AT);
                 appendLogText(i18n("%1 is scheduled to start at %2 where its altitude is %3 degrees.", job->getName(), startTime.toString(), QString::number(altitude,'g', 3)));
@@ -1001,7 +1007,7 @@ bool Scheduler::calculateCulmination(SchedulerJob *job)
     appendLogText(i18np("%1 Observation time is %2 adjusted for %3 minute.", "%1 Observation time is %2 adjusted for %3 minutes.",
                         job->getName(), observationDateTime.toString(), job->getCulminationOffset()));
 
-    if (getDarkSkyScore(observationDateTime.time()) < 0)
+    if (getDarkSkyScore(observationDateTime) < 0)
     {
         appendLogText(i18n("%1 culminates during the day and cannot be scheduled for observation.", job->getName()));
         return false;
@@ -1101,7 +1107,7 @@ int16_t Scheduler::getWeatherScore()
     return 0;
 }
 
-int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
+int16_t Scheduler::getDarkSkyScore(const QDateTime &observationDateTime)
 {
   //  if (job->getStartingCondition() == SchedulerJob::START_CULMINATION)
     //    return -1000;
@@ -1109,13 +1115,15 @@ int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
     int16_t score=0;
     double dayFraction = 0;
 
-    //if (job->getStartingCondition() == SchedulerJob::START_AT)
-        //observationTime = job->getStartupTime().time();
+    // Anything half an hour before dawn shouldn't be a good candidate
+    double earlyDawn = Dawn - 1.0/48.0;
 
-    dayFraction = (observationTime.hour() + observationTime.minute()/60.0 + observationTime.second()/3600.0)/24.0;
+    dayFraction = observationDateTime.time().msecsSinceStartOfDay() / (24 * 60 * 60 * 1000);
 
     // The farther the target from dawn, the better.
-    if (dayFraction < Dawn)
+    if (dayFraction > earlyDawn && dayFraction < Dawn)
+        score = BAD_SCORE/50;
+    else if (dayFraction < Dawn)
         score = (Dawn - dayFraction) * 100;
     else if (dayFraction > Dusk)
     {
@@ -1124,7 +1132,7 @@ int16_t Scheduler::getDarkSkyScore(const QTime &observationTime)
     else
       score = BAD_SCORE;
 
-    appendLogText(i18n("Dark sky score is %1 for time (%2)", score, observationTime.toString()));
+    appendLogText(i18n("Dark sky score is %1 for time %2", score, observationDateTime.toString()));
 
     return score;
 }
