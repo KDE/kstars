@@ -1535,18 +1535,24 @@ bool CCD::setUploadMode(UploadMode mode)
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
         if (modeS == NULL)
             return false;
+        if (modeS->s == ISS_ON)
+            return true;
         break;
 
         case UPLOAD_BOTH:
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
         if (modeS == NULL)
             return false;
+        if (modeS->s == ISS_ON)
+            return true;
         break;
 
         case UPLOAD_LOCAL:
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
         if (modeS == NULL)
             return false;
+        if (modeS->s == ISS_ON)
+            return true;
         break;
 
     }
