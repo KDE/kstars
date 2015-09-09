@@ -1118,7 +1118,7 @@ int16_t Scheduler::getDarkSkyScore(const QDateTime &observationDateTime)
     // Anything half an hour before dawn shouldn't be a good candidate
     double earlyDawn = Dawn - 1.0/48.0;
 
-    dayFraction = observationDateTime.time().msecsSinceStartOfDay() / (24 * 60 * 60 * 1000);
+    dayFraction = observationDateTime.time().msecsSinceStartOfDay() / (24.0 * 60.0 * 60.0 * 1000.0);
 
     // The farther the target from dawn, the better.
     if (dayFraction > earlyDawn && dayFraction < Dawn)
