@@ -45,6 +45,7 @@ public:
     typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
     typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_DOME, STARTUP_UNPARKING_DOME, STARTUP_UNPARK_MOUNT, STARTUP_UNPARKING_MOUNT, STARTUP_ERROR, STARTUP_COMPLETE } StartupState;
     typedef enum { SHUTDOWN_IDLE, SHUTDOWN_PARK_MOUNT, SHUTDOWN_PARKING_MOUNT, SHUTDOWN_PARK_DOME, SHUTDOWN_PARKING_DOME, SHUTDOWN_SCRIPT, SHUTDOWN_SCRIPT_RUNNING, SHUTDOWN_ERROR, SHUTDOWN_COMPLETE } ShutdownState;
+    typedef enum { PARKWAIT_IDLE, PARKWAIT_PARK, PARKWAIT_PARKING, PARKWAIT_PARKED, PARKWAIT_UNPARK, PARKWAIT_UNPARKING, PARKWAIT_UNPARKED, PARKWAIT_ERROR } ParkWaitStatus;
 
      Scheduler();
     ~Scheduler();
@@ -185,6 +186,8 @@ protected slots:
 
      void checkWeather();
 
+     void wakeUpScheduler();
+
 signals:
         void newLog();
 
@@ -210,11 +213,23 @@ private:
         /**
          * @brief getAltitudeScore Get the altitude score of an object. The higher the better
          * @param job Active job
-         * @param target
-         * @return
+         * @param when At what time to check the target altitude
+         * @return Altitude score. Altitude below minimum default of 15 degrees but above horizon get -20 score. Bad altitude below minimum required altitude or below horizon get -1000 score.
          */
         int16_t getAltitudeScore(SchedulerJob *job, QDateTime when);
+
+        /**
+         * @brief getMoonSeparationScore Get moon separation score. The further apart, the better, up a maximum score of 20.
+         * @param job Target job
+         * @param when What time to check the moon separation?
+         * @return Moon separation score
+         */
         int16_t getMoonSeparationScore(SchedulerJob *job, QDateTime when);
+
+        /**
+         * @brief getWeatherScore Get weather condtion score.
+         * @return If weather condition OK, return 0, if warning return -500, if alert return -1000
+         */
         int16_t getWeatherScore();
 
         /**
@@ -233,7 +248,7 @@ private:
         bool    calculateCulmination(SchedulerJob *job);
 
         /**
-         * @brief calculateDawnDusk Get dawn and dusk times
+         * @brief calculateDawnDusk Get dawn and dusk times for today
          */
         void    calculateDawnDusk();
 
@@ -262,16 +277,20 @@ private:
         bool    checkShutdownState();
 
         /**
-         * @brief parkMount Park mount
-         * @param shutdown If true, parking is excuted in shutdown mode. Otherwise, it is a regular parking command.
+         * @brief checkParkWaitState Check park wait state.
+         * @return If parking/unparking in progress, return false. If parking/unparking complete, return true.
          */
-        void    parkMount(bool shutdown=true);
+        bool    checkParkWaitState();
+
+        /**
+         * @brief parkMount Park mount
+         */
+        void    parkMount();
 
         /**
          * @brief unParkMount Unpark mount
-         * @param If true, unparking is executed in startup mode. Otherwise, it is a regular unpark command.
          */
-        void    unParkMount(bool startup=true);
+        void    unParkMount();
 
         /**
          * @brief parkDome Park dome
@@ -282,6 +301,16 @@ private:
          * @brief unParkDome Unpark dome
          */
         void    unParkDome();
+
+        /**
+         * @brief checkMountParkingStatus check mount parking status and updating corresponding states accordingly.
+         */
+        void checkMountParkingStatus();
+
+        /**
+         * @brief checkDomeParkingStatus check dome parking status and updating corresponding states accordingly.
+         */
+        void checkDomeParkingStatus();
 
         /**
          * @brief saveScheduler Save scheduler jobs to a file
@@ -312,6 +341,14 @@ private:
          */
         double findAltitude(const SkyPoint & target, const QDateTime when);
 
+        /**
+         * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
+         * @param job target job
+         * @return Estimated time in seconds.
+         */
+        bool estimateJobTime(SchedulerJob *job);
+        double estimateSequenceTime(XMLEle *root, int *totalCount);
+
     Ekos::Scheduler *ui;
 
     //DBus interfaces
@@ -330,6 +367,7 @@ private:
     INDIState indiState;
     StartupState startupState;
     ShutdownState shutdownState;
+    ParkWaitStatus parkWaitState;
 
     QList<SchedulerJob *> jobs;     // List of all jobs
     SchedulerJob *currentJob;       // Active job
@@ -354,10 +392,10 @@ private:
 
     double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
     bool mDirty;                    // Was job modified and needs saving?
-    bool parkedWait;                // Used to park the mount in case scheduled time is far in the future. When job is ready, we unpark the mount
     IPState weatherStatus;          // Keep watch of weather status
     QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
     uint8_t noWeatherCounter;       // Keep track of how many times we didn't recieve weather updates
+    bool softShutdown;              // Are we shutting down until later?
 
 
 };

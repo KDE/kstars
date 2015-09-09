@@ -27,8 +27,12 @@
 #include "ksutils.h"
 
 #define BAD_SCORE                   -1000
-#define JOB_LEAD_TIME               300
-#define MAXIMUM_NO_WEATHER_LIMIT    3           // Maximum tries until we warn the user of no weather updates
+#define MAXIMUM_NO_WEATHER_LIMIT    3                       // Maximum tries until we warn the user of no weather updates
+
+// TODO Make those into Ekos Options
+#define JOB_LEAD_TIME               300                     // 300 seconds (5 minutes) before job startup time when we start activating it
+#define JOB_SLEEP_LIMIT             (JOB_LEAD_TIME+60)      // If no jobs are found in the 360 seconds, we sleep.
+#define JOB_SHUTDOWN_LIMIT          3600*2                  // If no jobs are found in the next 2 hours, we perform complete shutdown and wait until next job startup time
 
 namespace Ekos
 {
@@ -44,12 +48,13 @@ Scheduler::Scheduler()
     startupState = STARTUP_IDLE;
     shutdownState= SHUTDOWN_IDLE;
 
+    parkWaitState= PARKWAIT_IDLE;
+
     currentJob   = NULL;
     geo          = NULL;
     captureBatch = 0;
     jobUnderEdit = false;
-    mDirty       = false;
-    parkedWait   = false;
+    mDirty       = false;    
 
     noWeatherCounter=0;
 
@@ -72,6 +77,9 @@ Scheduler::Scheduler()
     weatherInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Weather", "org.kde.kstars.Ekos.Weather", QDBusConnection::sessionBus(), this);
 
     moon = dynamic_cast<KSMoon*> (KStarsData::Instance()->skyComposite()->findByName("Moon"));
+
+    sleepLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
+    sleepLabel->hide();
 
     pi = new QProgressIndicator(this);
     bottomLayout->addWidget(pi,0,0);
@@ -555,15 +563,18 @@ void Scheduler::stop()
         return;
 
     // Stop running job and abort all others
-    foreach(SchedulerJob *job, jobs)
+    // in case of soft shutdown we skip this
+    if (softShutdown == false)
     {
-        if (job == currentJob)
-            stopCurrentJobAction();
+        foreach(SchedulerJob *job, jobs)
+        {
+            if (job == currentJob)
+                stopCurrentJobAction();
 
-        if (job->getState() <= SchedulerJob::JOB_BUSY)
-            job->setState(SchedulerJob::JOB_ABORTED);
+            if (job->getState() <= SchedulerJob::JOB_BUSY)
+                job->setState(SchedulerJob::JOB_ABORTED);
+        }
 
-        job->setStage(SchedulerJob::STAGE_IDLE);
     }
 
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
@@ -573,10 +584,11 @@ void Scheduler::stop()
     ekosState       = EKOS_IDLE;
     indiState       = INDI_IDLE;
 
-    parkedWait      = false;
+    parkWaitState   = PARKWAIT_IDLE;
 
     // Only reset startup state to idle if the startup procedure was interrupted before it had the chance to complete.
-    if (startupState != STARTUP_COMPLETE)
+    // Or if we're doing a soft shutdown
+    if (startupState != STARTUP_COMPLETE || softShutdown)
         startupState    = STARTUP_IDLE;
 
     shutdownState   = SHUTDOWN_IDLE;
@@ -584,10 +596,18 @@ void Scheduler::stop()
     currentJob = NULL;
     captureBatch =0;
 
-     pi->stopAnimation();
-     startB->setText("Start Scheduler");
-     addToQueueB->setEnabled(true);
-     removeFromQueueB->setEnabled(true);
+    // If soft shutdown, we return for now
+    if (softShutdown)
+    {
+        sleepLabel->setToolTip(i18n("Scheduler is in shutdown until next job is ready"));
+        sleepLabel->show();
+        return;
+    }
+
+    pi->stopAnimation();
+    startB->setText("Start Scheduler");
+    addToQueueB->setEnabled(true);
+    removeFromQueueB->setEnabled(true);
 }
 
 void Scheduler::start()
@@ -606,6 +626,8 @@ void Scheduler::start()
     Options::setUnParkDome(unparkDomeCheck->isChecked());
 
     pi->startAnimation();
+
+    sleepLabel->hide();
 
     startB->setText("Stop Scheduler");
 
@@ -648,6 +670,15 @@ void Scheduler::evaluateJobs()
 
         QDateTime now = KStarsData::Instance()->lt();
 
+        if (job->getEstimatedTime() < 0)
+        {
+            if (estimateJobTime(job) == false)
+            {
+                job->setState(SchedulerJob::JOB_INVALID);
+                continue;
+            }
+        }
+
         // #1 Check startup conditions
         switch (job->getStartupCondition())
         {
@@ -666,9 +697,9 @@ void Scheduler::evaluateJobs()
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
                         if ( (altScore < 0 || darkScore < 0) && calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()))
                         {
-                            appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
+                            //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
-                            return;
+                            continue;
                         }
                         else
                         {
@@ -688,7 +719,7 @@ void Scheduler::evaluateJobs()
                         {
                             appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
-                            return;
+                            continue;
                         }
                         else
                             job->setState(SchedulerJob::JOB_INVALID);
@@ -817,10 +848,13 @@ void Scheduler::evaluateJobs()
     int maxScore=0;
     SchedulerJob *bestCandidate = NULL;
 
-    // Make sure no two jobs have the same scheduled time
+    // Make sure no two jobs have the same scheduled time or overlap with other jobs
     foreach(SchedulerJob *job, jobs)
     {
-        if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
+        // If we already allocated time slot for this, continue
+        // If this job is not scheduled, continue
+        // If this job startup conditon is not to start at a specific time, continue
+        if (job->getTimeSlotAllocated() || job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
             continue;
 
         foreach(SchedulerJob *other_job, jobs)
@@ -828,34 +862,40 @@ void Scheduler::evaluateJobs()
             if (other_job == job || other_job->getState() != SchedulerJob::JOB_SCHEDULED || other_job->getStartupCondition() != SchedulerJob::START_AT)
                 continue;
 
-            // If there are within 3 minutes of each other, cancel one
-            if ( fabs(job->getStartupTime().secsTo(other_job->getStartupTime())) < 180)
+            double timeBetweenJobs = fabs(job->getStartupTime().secsTo(other_job->getStartupTime()));
+            // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
+            if (timeBetweenJobs  < JOB_LEAD_TIME)
             {
                 double job_altitude       = findAltitude(job->getTargetCoords(), job->getStartupTime());
                 double other_job_altitude = findAltitude(other_job->getTargetCoords(), other_job->getStartupTime());
 
                 if (job_altitude > other_job_altitude)
                 {
-                    appendLogText(i18n("Observation jobs %1 and %2 have identical start up times. At %3, %4 altitude is %5 while %6 altitude is %7. Selecting %8 and aborting %9.",
+                    double delayJob = timeBetweenJobs + job->getEstimatedTime();
+                    other_job->setStartupTime(other_job->getStartupTime().addSecs(delayJob));
+                    other_job->setState(SchedulerJob::JOB_SCHEDULED);
 
-                                       job->getName(), other_job->getName(), job->getStartupTime().toString(), job->getName(), job_altitude, other_job->getName(), other_job_altitude,
-                                       job->getName(), other_job->getName()));
+                    appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
+                                       job->getName(), other_job->getName(), job->getStartupTime().toString(), job_altitude, other_job_altitude, other_job->getStartupTime().toString()));
 
-                    other_job->setState(SchedulerJob::JOB_ABORTED);
-                    continue;
+                    return;
                 }
                 else
                 {
-                    appendLogText(i18n("Observation jobs %1 and %2 have identical start up times. At %3, %4 altitude is %5 while %6 altitude is %7. Selecting %8 and aborting %9.",
+                    double delayJob = timeBetweenJobs + other_job->getEstimatedTime();
+                    job->setStartupTime(job->getStartupTime().addSecs(delayJob));
+                    job->setState(SchedulerJob::JOB_SCHEDULED);
 
-                                       other_job->getName(), job->getName(), other_job->getStartupTime().toString(), other_job->getName(), other_job_altitude, job->getName(), job_altitude,
-                                       other_job->getName(), job->getName()));
+                    appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
+                                       other_job->getName(), job->getName(), other_job->getStartupTime().toString(), other_job_altitude, job_altitude, job->getStartupTime().toString()));
 
-                    job->setState(SchedulerJob::JOB_ABORTED);
-                    break;
+
+                    return;
                 }
             }
         }
+
+        job->setTimeSlotAllocated(true);
     }
 
     // Find best score
@@ -874,21 +914,21 @@ void Scheduler::evaluateJobs()
 
     if (bestCandidate != NULL)
     {
-        appendLogText(i18n("Found candidate job %1.", bestCandidate->getName()));
-
         // If mount was previously parked awaiting job activation, we unpark it.
-        if (parkedWait)
+        if (parkWaitState == PARKWAIT_PARKED)
         {
-            unParkMount(false);
-            parkedWait = false;
+            parkWaitState = PARKWAIT_UNPARK;
+            return;
         }
+
+        appendLogText(i18n("Found candidate job %1.", bestCandidate->getName()));
 
         currentJob = bestCandidate;
     }
     // If we already started, we check when the next object is scheduled at.
     // If it is more than 30 minutes in the future, we park the mount if that is supported
     // and we unpark when it is due to start.
-    else if (parkedWait == false && startupState == STARTUP_COMPLETE && parkMountCheck->isEnabled())
+    else if (startupState == STARTUP_COMPLETE)
     {
         int nextObservationTime= 1e6;
         SchedulerJob *nextObservationJob = NULL;
@@ -906,13 +946,51 @@ void Scheduler::evaluateJobs()
             }
         }
 
-        if (nextObservationJob && nextObservationTime > (60 * 30))
+        if (nextObservationJob)
         {
-            appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until the job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
-            parkMount(false);
-            parkedWait = true;
+            if (nextObservationTime > JOB_SHUTDOWN_LIMIT)
+            {
+                appendLogText(i18n("%1 observation job is scheduled for execution at %2. Observatory is scheduled for shutdown until next job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
+                softShutdown = true;
+                checkShutdownState();
+
+                // Restart 10 minutes before next job
+                QTimer::singleShot( (nextObservationTime*1000 - (1000*JOB_LEAD_TIME*2)), this, SLOT(wakeUpScheduler()));
+            }
+            else if (nextObservationTime > JOB_SLEEP_LIMIT)
+            {
+                if (parkWaitState == PARKWAIT_IDLE &&  parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+                {
+                        appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until the job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
+                        parkWaitState = PARKWAIT_PARK;
+                }
+                else if (parkWaitState == PARKWAIT_PARKED || parkMountCheck->isEnabled() == false || parkMountCheck->isChecked() == false)
+                {
+                    appendLogText(i18n("Scheduler is going into sleep mode..."));
+                    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+
+                    sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
+                    sleepLabel->show();
+
+                    QTimer::singleShot( (nextObservationTime*1000 - (1000*JOB_LEAD_TIME)), this, SLOT(wakeUpScheduler()));
+                }
+            }
         }
     }
+}
+
+void Scheduler::wakeUpScheduler()
+{
+    appendLogText(i18n("Scheduler is awake..."));
+
+    if (softShutdown)
+    {
+        softShutdown = false;
+        start();
+    }
+    else
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+
 }
 
 double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
@@ -1075,6 +1153,9 @@ void Scheduler::checkWeather()
                 weatherLabel->setPixmap(QIcon::fromTheme("security-low").pixmap(QSize(32,32)));
             else
                 weatherLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
+
+            weatherLabel->setToolTip(statusString);
+
             appendLogText(statusString);
         }
 
@@ -1437,14 +1518,7 @@ bool Scheduler::checkStartupState()
         break;
 
         case STARTUP_UNPARKING_DOME:
-        {
-            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
-            if (domeReply.value() == false)
-            {
-                appendLogText(i18n("Dome unparked."));
-                startupState = STARTUP_UNPARK_MOUNT;
-            }
-        }
+        checkDomeParkingStatus();
         break;
 
         case STARTUP_UNPARK_MOUNT:
@@ -1455,14 +1529,7 @@ bool Scheduler::checkStartupState()
             break;
 
         case STARTUP_UNPARKING_MOUNT:
-        {
-            QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
-            if (mountReply.value() == false)
-            {
-                appendLogText(i18n("Mount unparked."));
-                startupState = STARTUP_COMPLETE;
-            }
-        }
+        checkMountParkingStatus();
         break;
 
         case STARTUP_COMPLETE:
@@ -1523,14 +1590,7 @@ bool Scheduler::checkShutdownState()
        break;
 
         case SHUTDOWN_PARKING_MOUNT:
-        {
-            QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
-            if (mountReply.value())
-            {
-                appendLogText(i18n("Mount parked."));
-                shutdownState = SHUTDOWN_PARK_DOME;
-            }
-        }
+        checkMountParkingStatus();
         break;
 
         case SHUTDOWN_PARK_DOME:
@@ -1541,14 +1601,7 @@ bool Scheduler::checkShutdownState()
         break;
 
         case SHUTDOWN_PARKING_DOME:
-        {
-            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
-            if (domeReply.value())
-            {
-                appendLogText(i18n("Dome parked."));
-                shutdownState = SHUTDOWN_SCRIPT;
-            }
-        }
+        checkDomeParkingStatus();
         break;
 
         case SHUTDOWN_SCRIPT:
@@ -1567,10 +1620,51 @@ bool Scheduler::checkShutdownState()
         case SHUTDOWN_COMPLETE:            
             return true;
 
-        case SHUTDOWN_ERROR:            
+        case SHUTDOWN_ERROR:
+            appendLogText(i18n("Shutdown script failed, aborting..."));
+            stop();
             return true;
             break;
 
+    }
+
+    return false;
+}
+
+bool Scheduler::checkParkWaitState()
+{
+    switch (parkWaitState)
+    {
+        case PARKWAIT_IDLE:
+            return true;
+
+        case PARKWAIT_PARK:
+                parkMount();
+                break;
+
+        case PARKWAIT_PARKING:
+        checkMountParkingStatus();
+        break;
+
+        case PARKWAIT_PARKED:
+            return true;
+
+        case PARKWAIT_UNPARK:
+                unParkMount();
+                break;
+
+        case PARKWAIT_UNPARKING:
+        checkMountParkingStatus();
+        break;
+
+        case PARKWAIT_UNPARKED:
+            return true;
+
+        case PARKWAIT_ERROR:
+            appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
+            stop();
+            return true;
+            break;
     }
 
     return false;
@@ -1627,11 +1721,11 @@ void Scheduler::checkStatus()
             else
                 appendLogText(i18n("Shutdown script failed, aborting..."));
 
-            // Stop Scheduler
-            stop();
-
             // Stop INDI
             stopINDI();
+
+            // Stop Scheduler
+            stop();            
 
             return;
         }
@@ -1643,7 +1737,11 @@ void Scheduler::checkStatus()
             return;
         }
 
-        // #2.3 If not in shutdown state, evaluate the jobs
+        // #2.3 Check if park wait procedure is in progress
+        if (checkParkWaitState() == false)
+            return;
+
+        // #2.4 If not in shutdown state, evaluate the jobs
         evaluateJobs();
     }
     else        
@@ -2466,57 +2564,204 @@ void Scheduler::stopINDI()
         ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
 }
 
-void    Scheduler::parkMount(bool shutdown)
+void Scheduler::setDirty()
 {
-    QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
+    mDirty = true;
+}
 
-    if (mountReply.value() == false)
+bool Scheduler::estimateJobTime(SchedulerJob *job)
+{
+    QFile sFile;
+    sFile.setFileName(job->getSequenceFile().path());
+
+    if ( !sFile.open( QIODevice::ReadOnly))
     {
-        if (shutdown)
-            shutdownState = SHUTDOWN_PARKING_MOUNT;
+        KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
+        return -1;
+    }
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = NULL;
+    XMLEle *ep;
+    char c;
+
+    double sequenceEstimatedTime = 0;
+    bool inSequenceFocus = false;
+    int jobExposureCount=0;
+
+    while ( sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+        {
+             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+             {
+                 if (!strcmp(tagXMLEle(ep), "Autofocus"))
+                 {
+                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                         inSequenceFocus = true;
+                     else
+                         inSequenceFocus = false;
+
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "Job"))
+                 {
+                     double oneJobEstimation = estimateSequenceTime(ep, &jobExposureCount);
+
+                     if (oneJobEstimation < 0)
+                     {
+                         sequenceEstimatedTime = -1;
+                         sFile.close();
+                         break;
+                     }
+
+                     sequenceEstimatedTime += oneJobEstimation;
+
+                     // If inSequenceFocus is true
+                     if (inSequenceFocus)
+                         // Wild guess that each in sequence auto focus takes an average of 20 seconds. It can take any where from 2 seconds to 2+ minutes.
+                         sequenceEstimatedTime += jobExposureCount * 20;
+                     // If we're dithering after each exposure, that's another 10-20 seconds
+                     if (Options::useDither())
+                         sequenceEstimatedTime += jobExposureCount * 15;
+                 }
+
+             }
+             delXMLEle(root);
+        }
+        else if (errmsg[0])
+        {
+            appendLogText(QString(errmsg));
+            delLilXML(xmlParser);
+            return false;
+        }
+    }
+
+    if (sequenceEstimatedTime < 0)
+    {
+        appendLogText(i18n("Failed to estimate time for %1 observation job.", job->getName()));
+        return false;
+    }
+
+    // Are we doing initial focusing? That can take about 2 minutes
+    if (job->getModuleUsage() & SchedulerJob::USE_FOCUS)
+        sequenceEstimatedTime += 120;
+    // Are we doing astrometry? That can take about 30 seconds
+    if (job->getModuleUsage() & SchedulerJob::USE_ALIGN)
+        sequenceEstimatedTime += 30;
+    // Are we doing guiding? Calibration process can take about 2 mins
+    if (job->getModuleUsage() & SchedulerJob::USE_GUIDE)
+        sequenceEstimatedTime += 120;
+
+    dms estimatedTime;
+    estimatedTime.setH(sequenceEstimatedTime/3600.0);
+    appendLogText(i18n("%1 observation job is estimated to take %2 to complete.", job->getName(), estimatedTime.toHMSString()));
+
+    job->setEstimatedTime(sequenceEstimatedTime);
+
+    return true;
+
+}
+
+double Scheduler::estimateSequenceTime(XMLEle *root, int *totalCount)
+{
+    XMLEle *ep;
+
+    double totalTime;
+
+    double exposure=0, count=0, delay=0;
+
+    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Exposure"))
+            exposure = atof(pcdataXMLEle(ep));
+        else if (!strcmp(tagXMLEle(ep), "Count"))
+        {
+            count = *totalCount = atoi(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Delay"))
+        {
+            delay = atoi(pcdataXMLEle(ep));
+        }
+    }
+
+    totalTime = (exposure + delay) * count;
+
+    return totalTime;
+
+}
+
+void    Scheduler::parkMount()
+{
+    QDBusReply<int> MountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Mount::ParkingStatus status = (Mount::ParkingStatus) MountReply.value();
+
+    if (status != Mount::PARKING_OK)
+    {
         mountInterface->call(QDBus::AutoDetect,"park");
         appendLogText(i18n("Parking mount..."));
+
+        if (shutdownState == SHUTDOWN_PARK_MOUNT)
+                shutdownState = SHUTDOWN_PARKING_MOUNT;
+        else if (parkWaitState == PARKWAIT_PARK)
+                parkWaitState = PARKWAIT_PARKING;
+
     }
-    else
+    else if (status == Mount::PARKING_OK)
     {
         appendLogText(i18n("Mount already parked."));
-        if (shutdown)
+
+        if (shutdownState == SHUTDOWN_PARK_MOUNT)
             shutdownState = SHUTDOWN_PARK_DOME;
+        else if (parkWaitState == PARKWAIT_PARK)
+                parkWaitState = PARKWAIT_PARKED;
     }
 
 }
 
-void    Scheduler::unParkMount(bool startup)
+void    Scheduler::unParkMount()
 {
-    QDBusReply<bool> mountReply = mountInterface->call(QDBus::AutoDetect, "isParked");
+    QDBusReply<int> MountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Mount::ParkingStatus status = (Mount::ParkingStatus) MountReply.value();
 
-    if (mountReply.value())
+    if (status != Mount::UNPARKING_OK)
     {
-        if (startup)
-            startupState = STARTUP_UNPARKING_MOUNT;
         mountInterface->call(QDBus::AutoDetect,"unpark");
+
         appendLogText(i18n("Unparking mount..."));
+
+        if (startupState == STARTUP_UNPARK_MOUNT)
+                startupState = STARTUP_UNPARKING_MOUNT;
+        else if (parkWaitState == PARKWAIT_UNPARK)
+                parkWaitState = PARKWAIT_UNPARKING;
     }
-    else
+    else if (status == Mount::UNPARKING_OK)
     {
         appendLogText(i18n("Mount already unparked."));
-        if (startup)
-            startupState = STARTUP_UNPARK_DOME;
+
+        if (startupState == STARTUP_UNPARK_MOUNT)
+                startupState = STARTUP_COMPLETE;
+        else if (parkWaitState == PARKWAIT_UNPARK)
+                parkWaitState = PARKWAIT_UNPARKED;
+
     }
 
 }
 
 void    Scheduler::parkDome()
 {
-    QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
+    QDBusReply<int> domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Dome::ParkingStatus status = (Dome::ParkingStatus) domeReply.value();
 
-    if (domeReply.value() == false)
+    if (status != Dome::PARKING_OK)
     {
        shutdownState = SHUTDOWN_PARKING_DOME;
         domeInterface->call(QDBus::AutoDetect,"park");
         appendLogText(i18n("Parking dome..."));
     }
-    else
+    else if (status == Dome::PARKING_OK)
     {
         appendLogText(i18n("Dome already parked."));
         shutdownState= SHUTDOWN_SCRIPT;
@@ -2525,15 +2770,16 @@ void    Scheduler::parkDome()
 
 void    Scheduler::unParkDome()
 {
-    QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isParked");
+    QDBusReply<int> domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Dome::ParkingStatus status = (Dome::ParkingStatus) domeReply.value();
 
-    if (domeReply.value())
+    if (status != Dome::UNPARKING_OK)
     {
         startupState = STARTUP_UNPARKING_DOME;
         domeInterface->call(QDBus::AutoDetect,"unpark");
         appendLogText(i18n("Unparking dome..."));
     }
-    else
+    else if (status == Dome::UNPARKING_OK)
     {
         appendLogText(i18n("Dome already unparked."));
         startupState = STARTUP_UNPARK_MOUNT;
@@ -2541,10 +2787,102 @@ void    Scheduler::unParkDome()
 
 }
 
-void Scheduler::setDirty()
+
+void Scheduler::checkMountParkingStatus()
 {
-    mDirty = true;
+    QDBusReply<int> MountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Mount::ParkingStatus status = (Mount::ParkingStatus) MountReply.value();
+
+    switch (status)
+    {
+        case Mount::PARKING_OK:
+            appendLogText(i18n("Mount parked."));
+            if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+               shutdownState = SHUTDOWN_PARK_DOME;
+            else if (parkWaitState == PARKWAIT_PARKING)
+                parkWaitState = PARKWAIT_PARKED;
+        break;
+
+        case Mount::UNPARKING_OK:
+        appendLogText(i18n("Mount unparked."));
+        if (startupState == STARTUP_UNPARKING_MOUNT)
+                startupState = STARTUP_COMPLETE;
+        else if (parkWaitState == PARKWAIT_UNPARK)
+            parkWaitState = PARKWAIT_UNPARKED;
+         break;
+
+       case Mount::PARKING_ERROR:
+        if (startupState == STARTUP_UNPARKING_MOUNT)
+        {
+            appendLogText(i18n("Mount unparking error."));
+            startupState = STARTUP_ERROR;
+        }
+        else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+        {
+            appendLogText(i18n("Mount parking error."));
+            shutdownState = SHUTDOWN_ERROR;
+        }
+        else if (parkWaitState == PARKWAIT_PARKING)
+        {
+            appendLogText(i18n("Mount parking error."));
+            parkWaitState = PARKWAIT_ERROR;
+        }
+        else if (parkWaitState == PARKWAIT_UNPARK)
+        {
+            appendLogText(i18n("Mount unparking error."));
+            parkWaitState = PARKWAIT_ERROR;
+        }
+        break;
+
+       default:
+        break;
+    }
+
 }
+
+void Scheduler::checkDomeParkingStatus()
+{
+    QDBusReply<int> domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Dome::ParkingStatus status = (Dome::ParkingStatus) domeReply.value();
+
+    switch (status)
+    {
+        case Dome::PARKING_OK:
+            if (shutdownState == SHUTDOWN_PARKING_DOME)
+            {
+                appendLogText(i18n("Dome parked."));
+                shutdownState = SHUTDOWN_SCRIPT;
+            }
+        break;
+
+        case Dome::UNPARKING_OK:
+        if (startupState == STARTUP_UNPARKING_DOME)
+        {
+           startupState = STARTUP_UNPARK_MOUNT;
+           appendLogText(i18n("Dome unparked."));
+        }
+         break;
+
+
+       case Dome::PARKING_ERROR:
+        if (shutdownState == SHUTDOWN_PARKING_DOME)
+        {
+            appendLogText(i18n("Dome parking error."));
+            shutdownState = SHUTDOWN_ERROR;
+        }
+        else if (startupState == STARTUP_UNPARKING_DOME)
+        {
+            appendLogText(i18n("Dome unparking."));
+            startupState = STARTUP_ERROR;
+        }
+        break;
+
+       default:
+        break;
+    }
+
+}
+
 
 }
 

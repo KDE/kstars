@@ -93,6 +93,12 @@ public:
     StartupCondition getFileStartupCondition() const;
     void setFileStartupCondition(const StartupCondition &value);
 
+    double getEstimatedTime() const;
+    void setEstimatedTime(const double &value);
+
+    bool getTimeSlotAllocated() const;
+    void setTimeSlotAllocated(bool value);
+
 private:
 
     QString name;
@@ -123,6 +129,8 @@ private:
 
     int score;
     int16_t culminationOffset;
+    double estimatedTime;
+    bool timeSlotAllocated;
 
     double Dawn, Dusk;    
     QString dateTimeDisplayFormat;

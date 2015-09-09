@@ -20,10 +20,13 @@ SchedulerJob::SchedulerJob()
     state               = JOB_IDLE;
     stage               = STAGE_IDLE;
 
+    timeSlotAllocated   = false;
+
     statusCell          = NULL;
     startupCell         = NULL;
     minAltitude         = -1;
     minMoonSeparation   = -1;
+    estimatedTime       = -1;
     culminationOffset   = 0;
 }
 
@@ -322,6 +325,26 @@ void SchedulerJob::setFileStartupCondition(const StartupCondition &value)
 {
     fileStartupCondition = value;
 }
+double SchedulerJob::getEstimatedTime() const
+{
+    return estimatedTime;
+}
+
+void SchedulerJob::setEstimatedTime(const double &value)
+{
+    estimatedTime = value;
+}
+bool SchedulerJob::getTimeSlotAllocated() const
+{
+    return timeSlotAllocated;
+}
+
+void SchedulerJob::setTimeSlotAllocated(bool value)
+{
+    timeSlotAllocated = value;
+}
+
+
 
 void SchedulerJob::setTargetCoords(dms ra, dms dec)
 {
