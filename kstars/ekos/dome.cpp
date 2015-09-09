@@ -60,14 +60,6 @@ bool Dome::unpark()
     return currentDome->UnPark();
 }
 
-bool Dome::isParked()
-{
-    if (currentDome == NULL || currentDome->canPark() == false)
-        return false;
-
-    return currentDome->isParked();
-}
-
 bool Dome::abort()
 {
     if (currentDome == NULL)
@@ -76,13 +68,41 @@ bool Dome::abort()
     return currentDome->Abort();
 }
 
-IPState  Dome::getDomeState()
+Dome::ParkingStatus Dome::getParkingStatus()
 {
-    if (currentDome == NULL)
-        return IPS_ALERT;
+    if (currentDome == NULL || currentDome->canPark() == false)
+        return PARKING_ERROR;
 
-    return currentDome->getBaseDevice()->getPropertyState("DOME_PARK");
+    ISwitchVectorProperty *parkSP = currentDome->getBaseDevice()->getSwitch("DOME_PARK");
+
+    if (parkSP == NULL)
+        return PARKING_ERROR;
+
+    switch (parkSP->s)
+    {
+        case IPS_IDLE:
+            return PARKING_IDLE;
+
+        case IPS_OK:
+            if (parkSP->sp[0].s == ISS_ON)
+                return PARKING_OK;
+            else
+                return UNPARKING_OK;
+            break;
+
+         case IPS_BUSY:
+            if (parkSP->sp[0].s == ISS_ON)
+                return PARKING_BUSY;
+            else
+                return UNPARKING_BUSY;
+
+        case IPS_ALERT:
+            return PARKING_ERROR;
+    }
+
+    return PARKING_ERROR;
 }
+
 
 
 }

@@ -34,6 +34,8 @@ public:
     Dome();
     ~Dome();
 
+    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
+
     /** @defgroup DomeDBusInterface Ekos DBus Interface - Dome Interface
      * Ekos::Dome interface provides advanced basic dome operations.
     */
@@ -61,15 +63,9 @@ public:
     Q_SCRIPTABLE bool unpark();
 
     /** DBUS interface function.
-     * Return true if dome is parked, false otherwise.
+     * Get the dome park status
      */
-    Q_SCRIPTABLE bool isParked();
-
-    /** DBUS interface function.
-     * Get Dome State. IDLE, BUSY, OK, or ALERT
-     */
-    Q_SCRIPTABLE IPState getDomeState();
-
+    Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
     /** @}*/
 

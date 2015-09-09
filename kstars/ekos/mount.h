@@ -36,6 +36,8 @@ public:
     Mount();
     ~Mount();
 
+    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
+
     /**
      * @brief setTelescope Sets the mount module telescope interface
      * @param newTelescope pointer to telescope interface object
@@ -125,9 +127,9 @@ public:
     Q_SCRIPTABLE bool unpark();
 
     /** DBUS interface function.
-     * Return true if mount is parked, false otherwise.
+     * Return parking status of the mount.
      */
-    Q_SCRIPTABLE bool isParked();
+    Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
     /** @}*/
 

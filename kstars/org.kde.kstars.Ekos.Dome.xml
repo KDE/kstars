@@ -7,17 +7,14 @@
     <method name="canPark">
       <arg type="b" direction="out"/>
     </method>
-    <method name="isParked">
-      <arg type="b" direction="out"/>
+    <method name="getParkingStatus">
+      <arg type="i" direction="out"/>
     </method>
     <method name="park">
       <arg type="b" direction="out"/>
     </method>
     <method name="unpark">
       <arg type="b" direction="out"/>
-    </method>
-    <method name="getDomeState">
-      <arg type="i" direction="out"/>
     </method>
   </interface>
 </node>
