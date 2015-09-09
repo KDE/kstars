@@ -962,7 +962,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
                 if (rawFrac > earlyDawn && rawFrac < Dawn)
                 {
-                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proxmity to dawn.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
+                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proximity to dawn.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
                     return false;
                 }
 
