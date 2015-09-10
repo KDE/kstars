@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
-    <height>633</height>
+    <width>582</width>
+    <height>655</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -130,79 +130,150 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_5">
-     <property name="title">
-      <string>Audible Alarms</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
-      <item>
-       <widget class="QCheckBox" name="kcfg_PlayFITSAlarm">
-        <property name="toolTip">
-         <string>Play notification alarm whenever a new FITS is received.</string>
-        </property>
-        <property name="text">
-         <string>When FITS is received.</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>Audible Alarms</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QCheckBox" name="kcfg_PlayCCDAlarm">
+         <widget class="QCheckBox" name="kcfg_PlayFITSAlarm">
           <property name="toolTip">
-           <string>Play notifications alarms in the CCD module.</string>
+           <string>Play notification alarm whenever a new FITS is received.</string>
           </property>
           <property name="text">
-           <string>CCD</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
+           <string>When FITS is received.</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="kcfg_PlayFocusAlarm">
-          <property name="toolTip">
-           <string>Play notifications alarms in the focus module.</string>
-          </property>
-          <property name="text">
-           <string>Focus</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_PlayGuideAlarm">
-          <property name="toolTip">
-           <string>Play notifications alarms in the guide module.</string>
-          </property>
-          <property name="text">
-           <string>Guide</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_PlayAlignmentAlarm">
-          <property name="toolTip">
-           <string>Play notifications alarms in the alignment module.</string>
-          </property>
-          <property name="text">
-           <string>Alignment</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QCheckBox" name="kcfg_PlayCCDAlarm">
+            <property name="toolTip">
+             <string>Play notifications alarms in the CCD module.</string>
+            </property>
+            <property name="text">
+             <string>CCD</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_PlayFocusAlarm">
+            <property name="toolTip">
+             <string>Play notifications alarms in the focus module.</string>
+            </property>
+            <property name="text">
+             <string>Focus</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_PlayGuideAlarm">
+            <property name="toolTip">
+             <string>Play notifications alarms in the guide module.</string>
+            </property>
+            <property name="text">
+             <string>Guide</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_PlayAlignmentAlarm">
+            <property name="toolTip">
+             <string>Play notifications alarms in the alignment module.</string>
+            </property>
+            <property name="text">
+             <string>Alignment</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
-      </item>
-     </layout>
-    </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_6">
+       <property name="title">
+        <string>Scheduler</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="leadTimeLabel">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early excution is useful as focusing, alignment, and guiding procedures may take pronolged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Lead Time:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_leadTime"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="preDawnLabel">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Pre-dawn</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_preDawnTime"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QCheckBox" name="kcfg_preemptiveShutdown">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Pre-emptive shutdown</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_preemptiveShutdownTime">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+       <zorder>kcfg_leadTime</zorder>
+       <zorder>kcfg_preemptiveShutdownTime</zorder>
+       <zorder>leadTimeLabel</zorder>
+       <zorder>line_3</zorder>
+       <zorder>kcfg_preemptiveShutdown</zorder>
+       <zorder>preDawnLabel</zorder>
+       <zorder>kcfg_preDawnTime</zorder>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="Line" name="line_3">

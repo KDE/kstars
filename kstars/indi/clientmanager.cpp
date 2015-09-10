@@ -56,6 +56,12 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
 
     DriverInfo *deviceDriver=NULL;
 
+    if (QString(dp->getDeviceName()).isEmpty())
+    {
+        qWarning() << "Received invalid device with empty name! Ignoring the device...";
+        return;
+    }
+
     // First iteration find unique matches
     foreach(DriverInfo *dv, managedDrivers)
     {

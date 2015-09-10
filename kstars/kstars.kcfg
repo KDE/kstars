@@ -1725,5 +1725,21 @@
         <label>UnPark dome on startup.</label>
         <default>false</default>
     </entry>
+    <entry name="preemptiveShutdown" type="Bool">
+        <label>Perform pre-emptive strike if no jobs are due for a number of hours.</label>
+        <default>false</default>
+    </entry>
+    <entry name="preemptiveShutdownTime" type="Double">
+        <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>
+        <default>2</default>
+    </entry>
+    <entry name="leadTime" type="Double">
+        <label>Minimum time between jobs in minutes.</label>
+        <default>5</default>
+    </entry>
+    <entry name="preDawnTime" type="Double">
+        <label>Do not permit jobs to be scheduled or executed past this many minutes before dawn.</label>
+        <default>30</default>
+    </entry>
     </group>
 </kcfg>

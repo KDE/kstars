@@ -188,6 +188,8 @@ protected slots:
 
      void wakeUpScheduler();
 
+     void startJobEvaluation();
+
 signals:
         void newLog();
 
@@ -395,7 +397,8 @@ private:
     IPState weatherStatus;          // Keep watch of weather status
     QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
     uint8_t noWeatherCounter;       // Keep track of how many times we didn't recieve weather updates
-    bool softShutdown;              // Are we shutting down until later?
+    bool preemptiveShutdown;              // Are we shutting down until later?
+    bool jobEvaluationOnly;         // Only run job evaluation
 
 
 };

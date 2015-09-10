@@ -29,11 +29,6 @@
 #define BAD_SCORE                   -1000
 #define MAXIMUM_NO_WEATHER_LIMIT    3                       // Maximum tries until we warn the user of no weather updates
 
-// TODO Make those into Ekos Options
-#define JOB_LEAD_TIME               300                     // 300 seconds (5 minutes) before job startup time when we start activating it
-#define JOB_SLEEP_LIMIT             (JOB_LEAD_TIME+60)      // If no jobs are found in the 360 seconds, we sleep.
-#define JOB_SHUTDOWN_LIMIT          3600*2                  // If no jobs are found in the next 2 hours, we perform complete shutdown and wait until next job startup time
-
 namespace Ekos
 {
 
@@ -54,7 +49,11 @@ Scheduler::Scheduler()
     geo          = NULL;
     captureBatch = 0;
     jobUnderEdit = false;
-    mDirty       = false;    
+    mDirty       = false;
+    jobEvaluationOnly=false;
+
+    Dawn         = -1;
+    Dusk         = -1;
 
     noWeatherCounter=0;
 
@@ -84,6 +83,8 @@ Scheduler::Scheduler()
     pi = new QProgressIndicator(this);
     bottomLayout->addWidget(pi,0,0);
 
+    geo = KStarsData::Instance()->geo();
+
     raBox->setDegType(false); //RA box should be HMS-style
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
@@ -91,6 +92,9 @@ Scheduler::Scheduler()
 
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
+
+    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard"));
+
 
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     queueSaveB->setIcon(QIcon::fromTheme("document-save"));
@@ -109,8 +113,9 @@ Scheduler::Scheduler()
 
     connect(addToQueueB,SIGNAL(clicked()),this,SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
+    connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
-    connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
+    connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));    
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
     connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveAs()));
@@ -129,7 +134,7 @@ Scheduler::Scheduler()
     parkMountCheck->setChecked(Options::parkMount());
     parkDomeCheck->setChecked(Options::parkDome());
     unparkMountCheck->setChecked(Options::unParkMount());
-    unparkDomeCheck->setChecked(Options::unParkDome());    
+    unparkDomeCheck->setChecked(Options::unParkDome());
 
 }
 
@@ -393,6 +398,7 @@ void Scheduler::addJob()
     }
 
     removeFromQueueB->setEnabled(true);
+    evaluateOnlyB->setEnabled(true);
 
     if (queueTable->rowCount() > 0)
     {
@@ -487,6 +493,8 @@ void Scheduler::editJob(QModelIndex i)
    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
    addToQueueB->setEnabled(true);
 
+   evaluateOnlyB->setEnabled(false);
+
    addToQueueB->setToolTip(i18n("Apply job changes."));
    removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
@@ -503,6 +511,8 @@ void Scheduler::resetJobEdit()
 
    addToQueueB->setToolTip(i18n("Add observation job to list."));
    removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
+
+   evaluateOnlyB->setEnabled(true);
 }
 
 void Scheduler::removeJob()
@@ -529,7 +539,10 @@ void Scheduler::removeJob()
     delete (job);
 
     if (queueTable->rowCount() == 0)
+    {
         removeFromQueueB->setEnabled(false);
+        evaluateOnlyB->setEnabled(false);
+    }
 
     for (int i=0; i < jobs.count(); i++)
     {
@@ -564,7 +577,7 @@ void Scheduler::stop()
 
     // Stop running job and abort all others
     // in case of soft shutdown we skip this
-    if (softShutdown == false)
+    if (preemptiveShutdown == false)
     {
         foreach(SchedulerJob *job, jobs)
         {
@@ -588,16 +601,17 @@ void Scheduler::stop()
 
     // Only reset startup state to idle if the startup procedure was interrupted before it had the chance to complete.
     // Or if we're doing a soft shutdown
-    if (startupState != STARTUP_COMPLETE || softShutdown)
+    if (startupState != STARTUP_COMPLETE || preemptiveShutdown)
         startupState    = STARTUP_IDLE;
 
     shutdownState   = SHUTDOWN_IDLE;
 
     currentJob = NULL;
     captureBatch =0;
+    jobEvaluationOnly=false;
 
     // If soft shutdown, we return for now
-    if (softShutdown)
+    if (preemptiveShutdown)
     {
         sleepLabel->setToolTip(i18n("Scheduler is in shutdown until next job is ready"));
         sleepLabel->show();
@@ -608,6 +622,7 @@ void Scheduler::stop()
     startB->setText("Start Scheduler");
     addToQueueB->setEnabled(true);
     removeFromQueueB->setEnabled(true);
+    evaluateOnlyB->setEnabled(true);
 }
 
 void Scheduler::start()
@@ -629,15 +644,15 @@ void Scheduler::start()
 
     sleepLabel->hide();
 
-    startB->setText("Stop Scheduler");
+    startB->setText("Stop Scheduler");   
 
-    geo = KStarsData::Instance()->geo();
-
-    calculateDawnDusk();
+    if (Dawn < 0)
+        calculateDawnDusk();
 
     state = SCHEDULER_RUNNIG;
 
     currentJob = NULL;
+    jobEvaluationOnly=false;
 
     // Reset all aborted jobs
     foreach(SchedulerJob *job, jobs)
@@ -651,6 +666,7 @@ void Scheduler::start()
 
     addToQueueB->setEnabled(false);
     removeFromQueueB->setEnabled(false);
+    evaluateOnlyB->setEnabled(false);
 
     connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
 
@@ -740,15 +756,15 @@ void Scheduler::evaluateJobs()
 
                     QDateTime startupTime = job->getStartupTime();
                     int timeUntil = KStarsData::Instance()->lt().secsTo(startupTime);
-                    // If starting time already passed by 5 minutes, we mark the job as invalid
-                    if (timeUntil < -JOB_LEAD_TIME)
+                    // If starting time already passed by 5 minutes (default), we mark the job as invalid
+                    if (timeUntil < (-1 * Options::leadTime() * 60))
                     {
                         appendLogText(i18n("%1 start up time already passed by %2 seconds. Aborting...", job->getName(), abs(timeUntil)));
                         job->setState(SchedulerJob::JOB_ABORTED);
                         continue;
                     }
-                    // If time is within 5 minutes, we start scoring it.
-                    else if (timeUntil <= JOB_LEAD_TIME || job->getState() == SchedulerJob::JOB_EVALUATION)
+                    // If time is within 5 minutes (default), we start scoring it.
+                    else if (timeUntil <= (Options::leadTime()*60) || job->getState() == SchedulerJob::JOB_EVALUATION)
                     {
                         score += getAltitudeScore(job, startupTime);
                         score += getMoonSeparationScore(job, startupTime);
@@ -788,7 +804,6 @@ void Scheduler::evaluateJobs()
             job->setState(SchedulerJob::JOB_SCHEDULED);
     }
 
-
     int invalidJobs=0, completedJobs=0, abortedJobs=0, upcomingJobs=0;
 
     // Find invalid jobs
@@ -819,7 +834,7 @@ void Scheduler::evaluateJobs()
         }
     }
 
-    if (upcomingJobs == 0)
+    if (upcomingJobs == 0 && jobEvaluationOnly == false)
     {
         if (invalidJobs == jobs.count())
         {
@@ -864,7 +879,7 @@ void Scheduler::evaluateJobs()
 
             double timeBetweenJobs = fabs(job->getStartupTime().secsTo(other_job->getStartupTime()));
             // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
-            if (timeBetweenJobs  < JOB_LEAD_TIME)
+            if (timeBetweenJobs  < (Options::leadTime())*60)
             {
                 double job_altitude       = findAltitude(job->getTargetCoords(), job->getStartupTime());
                 double other_job_altitude = findAltitude(other_job->getTargetCoords(), other_job->getStartupTime());
@@ -872,6 +887,10 @@ void Scheduler::evaluateJobs()
                 if (job_altitude > other_job_altitude)
                 {
                     double delayJob = timeBetweenJobs + job->getEstimatedTime();
+
+                    if (delayJob < (Options::leadTime()*60))
+                        delayJob = Options::leadTime()*60;
+
                     other_job->setStartupTime(other_job->getStartupTime().addSecs(delayJob));
                     other_job->setState(SchedulerJob::JOB_SCHEDULED);
 
@@ -883,6 +902,10 @@ void Scheduler::evaluateJobs()
                 else
                 {
                     double delayJob = timeBetweenJobs + other_job->getEstimatedTime();
+
+                    if (delayJob < (Options::leadTime()*60))
+                        delayJob = Options::leadTime()*60;
+
                     job->setStartupTime(job->getStartupTime().addSecs(delayJob));
                     job->setState(SchedulerJob::JOB_SCHEDULED);
 
@@ -896,6 +919,13 @@ void Scheduler::evaluateJobs()
         }
 
         job->setTimeSlotAllocated(true);
+    }
+
+    if (jobEvaluationOnly)
+    {
+        appendLogText(i18n("Job evaluation complete."));
+        jobEvaluationOnly = false;
+        return;
     }
 
     // Find best score
@@ -928,7 +958,7 @@ void Scheduler::evaluateJobs()
     // If we already started, we check when the next object is scheduled at.
     // If it is more than 30 minutes in the future, we park the mount if that is supported
     // and we unpark when it is due to start.
-    else if (startupState == STARTUP_COMPLETE)
+    else// if (startupState == STARTUP_COMPLETE)
     {
         int nextObservationTime= 1e6;
         SchedulerJob *nextObservationJob = NULL;
@@ -948,23 +978,29 @@ void Scheduler::evaluateJobs()
 
         if (nextObservationJob)
         {
-            if (nextObservationTime > JOB_SHUTDOWN_LIMIT)
+            // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
+            // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
+            if (startupState == STARTUP_COMPLETE && Options::preemptiveShutdown() && nextObservationTime > (Options::preemptiveShutdownTime()*3600))
             {
                 appendLogText(i18n("%1 observation job is scheduled for execution at %2. Observatory is scheduled for shutdown until next job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
-                softShutdown = true;
+                preemptiveShutdown = true;
                 checkShutdownState();
 
                 // Restart 10 minutes before next job
-                QTimer::singleShot( (nextObservationTime*1000 - (1000*JOB_LEAD_TIME*2)), this, SLOT(wakeUpScheduler()));
+                QTimer::singleShot( (nextObservationTime*1000 - (1000*Options::leadTime()*60*2)), this, SLOT(wakeUpScheduler()));
             }
-            else if (nextObservationTime > JOB_SLEEP_LIMIT)
+            // Otherise, check if the next observation time exceeds the job lead time (default 5 minutes)
+            else if (nextObservationTime > (Options::leadTime()*60))
             {
-                if (parkWaitState == PARKWAIT_IDLE &&  parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+                // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
+                // Then we park the mount until next job is ready.
+                if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE &&  parkMountCheck->isEnabled() && parkMountCheck->isChecked())
                 {
                         appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until the job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
                         parkWaitState = PARKWAIT_PARK;
                 }
-                else if (parkWaitState == PARKWAIT_PARKED || parkMountCheck->isEnabled() == false || parkMountCheck->isChecked() == false)
+                // If mount was pre-emptivally parked OR if parking is not supported or if start up procedure is IDLE then go into sleep mode until next job is ready
+                else if (parkWaitState == PARKWAIT_PARKED || parkMountCheck->isEnabled() == false || parkMountCheck->isChecked() == false || startupState == STARTUP_IDLE)
                 {
                     appendLogText(i18n("Scheduler is going into sleep mode..."));
                     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
@@ -972,7 +1008,7 @@ void Scheduler::evaluateJobs()
                     sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
                     sleepLabel->show();
 
-                    QTimer::singleShot( (nextObservationTime*1000 - (1000*JOB_LEAD_TIME)), this, SLOT(wakeUpScheduler()));
+                    QTimer::singleShot( (nextObservationTime*1000 - (1000*Options::leadTime()*60)), this, SLOT(wakeUpScheduler()));
                 }
             }
         }
@@ -983,9 +1019,9 @@ void Scheduler::wakeUpScheduler()
 {
     appendLogText(i18n("Scheduler is awake..."));
 
-    if (softShutdown)
+    if (preemptiveShutdown)
     {
-        softShutdown = false;
+        preemptiveShutdown = false;
         start();
     }
     else
@@ -1010,8 +1046,8 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
 
 bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 {
-    // We wouldn't stat observation half an hour before dawn.
-    double earlyDawn = Dawn - 1.0/48.0;
+    // We wouldn't stat observation 30 mins (default) before dawn.
+    double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
     double altitude=0;
     QDateTime lt( KStarsData::Instance()->lt().date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( lt );
@@ -1197,7 +1233,7 @@ int16_t Scheduler::getDarkSkyScore(const QDateTime &observationDateTime)
     double dayFraction = 0;
 
     // Anything half an hour before dawn shouldn't be a good candidate
-    double earlyDawn = Dawn - 1.0/48.0;
+    double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
 
     dayFraction = observationDateTime.time().msecsSinceStartOfDay() / (24.0 * 60.0 * 60.0 * 1000.0);
 
@@ -1556,6 +1592,8 @@ bool Scheduler::checkShutdownState()
 
         if (warmCCDCheck->isEnabled() && warmCCDCheck->isChecked())
         {
+            appendLogText(i18n("Warming up CCD..."));
+
             // Turn it off
             QVariant arg(false);
             captureInterface->call(QDBus::AutoDetect, "setCoolerControl", arg);
@@ -1710,7 +1748,7 @@ void Scheduler::checkProcessExit(int exitCode)
 void Scheduler::checkStatus()
 {
 
-    // #1 Now evaluate jobs and select the best candidate
+    // #1 If no current job selected, let's check if we need to shutdown or evaluate jobs
     if (currentJob == NULL)
     {
         // #2.1 If shutdown is already complete or in error, we need to stop
@@ -1820,6 +1858,26 @@ void Scheduler::checkJobStage()
             return;
         }
     }
+
+    // #4 Check if we're not at dawn
+     double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
+     int dayOffset=0;
+     if (KStarsData::Instance()->lt().time().hour() > 12)
+         dayOffset=1;
+     QDateTime preDawnDateTime(KStarsData::Instance()->lt().date().addDays(dayOffset), QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
+     if (KStarsData::Instance()->lt() > preDawnDateTime)
+     {
+
+         appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
+
+         currentJob->setState(SchedulerJob::JOB_ABORTED);
+         stopCurrentJobAction();
+         checkShutdownState();
+
+         disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+         connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+         return;
+     }
 
     switch(currentJob->getStage())
     {
@@ -2051,7 +2109,7 @@ void Scheduler::stopCurrentJobAction()
     break;
 
     case SchedulerJob::STAGE_GUIDING:
-        guideInterface->call(QDBus::AutoDetect,"stopGuiding");
+        stopGuiding();
     break;
 
     case SchedulerJob::STAGE_CAPTURING:
@@ -2881,6 +2939,14 @@ void Scheduler::checkDomeParkingStatus()
         break;
     }
 
+}
+
+void Scheduler::startJobEvaluation()
+{
+    jobEvaluationOnly = true;
+    if (Dawn < 0)
+        calculateDawnDusk();
+    evaluateJobs();
 }
 
 
