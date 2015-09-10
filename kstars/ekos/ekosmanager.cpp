@@ -1575,6 +1575,8 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         aux2 = devInterface;
     else if (deviceName == Options::remoteAux3Name().toLatin1())
         aux3 = devInterface;
+    else if (deviceName == Options::remoteAux4Name().toLatin1())
+        aux4 = devInterface;
     else
         return;
 
