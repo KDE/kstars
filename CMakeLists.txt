@@ -41,6 +41,7 @@ find_package(KF5 REQUIRED COMPONENTS
   Plotting
   TextEditor
   IconThemes
+  Notifications
 )
 
 find_package(Eigen3 REQUIRED)

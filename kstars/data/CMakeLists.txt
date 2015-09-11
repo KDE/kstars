@@ -61,9 +61,10 @@ install( FILES kstars.png geomap.png
         classic.colors moonless-night.colors night.colors 
         tips TZrules.dat valaav.txt Interesting.dat PlanetFacts.dat
     advinterface.dat satellites.dat	histogram.png noimage.png go-nw.png go-ne.png go-sw.png go-se.png glossary.xml defaultflag.gif
-    ekos-ok.ogg ekos-error.ogg ekos-fits.ogg
 	DESTINATION  ${KDE_INSTALL_DATADIR}/kstars 
 )
+
+install( FILES KDE-KStars-Alert.ogg KDE-KStars-Warning.ogg  DESTINATION  ${KDE_INSTALL_DATADIR}/sounds )
 
 install( FILES textures/star.png 
                textures/galaxy.png

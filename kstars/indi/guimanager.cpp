@@ -159,7 +159,7 @@ void GUIManager::addClient(ClientManager *cm)
 
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
 
-    connect(cm, SIGNAL(INDIDeviceRemoved(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)));
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
 
     //updateStatus();
 }
@@ -192,17 +192,16 @@ void GUIManager::removeClient(ClientManager *cm)
 }
 
 void GUIManager::removeDevice(DeviceInfo *di)
-{
-    INDI_D *dp=NULL;
-
-    dp = findGUIDevice(di->getBaseDevice()->getDeviceName());
+{   
+    QString deviceName = di->getBaseDevice()->getDeviceName();
+    INDI_D *dp = findGUIDevice(deviceName);
 
     if (dp == NULL)
         return;
 
     for (int i=0; i < mainTabWidget->count(); i++)
     {
-        if (mainTabWidget->tabText(i).remove("&") == QString(di->getBaseDevice()->getDeviceName()))
+        if (mainTabWidget->tabText(i).remove("&") == QString(deviceName))
         {
             mainTabWidget->removeTab(i);
             break;
@@ -243,7 +242,7 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*, int)));
 
-    mainTabWidget->addTab(gdm->getDeviceBox(), i18nc(libindi_strings_context, di->getDriverInfo()->getUniqueLabel().toUtf8()));
+    mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
 
     guidevices.append(gdm);
 

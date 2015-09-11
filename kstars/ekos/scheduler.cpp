@@ -11,10 +11,12 @@
 
 #include "Options.h"
 
-#include <KMessageBox>
-#include <KLocalizedString>
 #include <QtDBus>
 #include <QFileDialog>
+
+#include <KMessageBox>
+#include <KLocalizedString>
+#include <KNotifications/KNotification>
 
 #include "dialogs/finddialog.h"
 #include "ekosmanager.h"
@@ -230,11 +232,15 @@ void Scheduler::selectShutdownScript()
     if (shutdownScriptURL.isEmpty())
         return;
 
-    shutdownScript->setText(shutdownScriptURL.path());
+    shutdownScript->setText(shutdownScriptURL.path());    
 }
+
+
+
 
 void Scheduler::addJob()
 {
+
     if (state == SCHEDULER_RUNNIG)
     {
         appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
@@ -618,6 +624,7 @@ void Scheduler::stop()
         return;
     }
 
+    sleepLabel->hide();
     pi->stopAnimation();
     startB->setText("Start Scheduler");
     addToQueueB->setEnabled(true);
@@ -984,6 +991,8 @@ void Scheduler::evaluateJobs()
             {
                 appendLogText(i18n("%1 observation job is scheduled for execution at %2. Observatory is scheduled for shutdown until next job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
                 preemptiveShutdown = true;
+                weatherCheck->setEnabled(false);
+                weatherLabel->hide();
                 checkShutdownState();
 
                 // Restart 10 minutes before next job
@@ -1007,6 +1016,9 @@ void Scheduler::evaluateJobs()
 
                     sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
                     sleepLabel->show();
+
+                    //weatherCheck->setEnabled(false);
+                    //weatherLabel->hide();
 
                     QTimer::singleShot( (nextObservationTime*1000 - (1000*Options::leadTime()*60)), this, SLOT(wakeUpScheduler()));
                 }
@@ -1184,12 +1196,19 @@ void Scheduler::checkWeather()
             if (weatherStatus == IPS_OK)
                 weatherLabel->setPixmap(QIcon::fromTheme("security-high").pixmap(QSize(32,32)));
             else if (weatherStatus == IPS_BUSY)
+            {
                 weatherLabel->setPixmap(QIcon::fromTheme("security-medium").pixmap(QSize(32,32)));
+                KNotification::event( QLatin1String( "WeatherWarning" ) , i18n("Weather condtions in warning zone"));
+            }
             else if (weatherStatus == IPS_ALERT)
+            {
                 weatherLabel->setPixmap(QIcon::fromTheme("security-low").pixmap(QSize(32,32)));
+                KNotification::event( QLatin1String( "WeatherAlert" ) , i18n("Weather conditions are critical. Observatory shutdown is imminent"));
+            }
             else
                 weatherLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
 
+            weatherLabel->show();
             weatherLabel->setToolTip(statusString);
 
             appendLogText(statusString);
@@ -1493,7 +1512,7 @@ bool    Scheduler::checkINDIState()
             QDBusReply<int> updateReply = weatherInterface->call(QDBus::AutoDetect, "getUpdatePeriod");
             if (updateReply.error().type() == QDBusError::NoError && updateReply.value() > 0)
             {
-                weatherTimer.setInterval(updateReply.value() * 60000);
+                weatherTimer.setInterval(updateReply.value() * 1000);
                 connect(&weatherTimer, SIGNAL(timeout()), this, SLOT(checkWeather()));
                 weatherTimer.start();
             }
@@ -1519,6 +1538,8 @@ bool Scheduler::checkStartupState()
     {
         case STARTUP_IDLE:
         {
+            KNotification::event( QLatin1String( "ObservatoryStartup" ) , i18n("Observatory is in the startup process"));
+
             // If Ekos is already started, we skip the script and move on to mount unpark step
             QDBusReply<int> isEkosStarted;
             isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
@@ -1572,7 +1593,6 @@ bool Scheduler::checkStartupState()
             return true;
 
         case STARTUP_ERROR:
-            appendLogText(i18n("Startup script failed, aborting..."));
             stop();
             return true;
             break;
@@ -1587,6 +1607,8 @@ bool Scheduler::checkShutdownState()
     switch (shutdownState)
     {
         case SHUTDOWN_IDLE:
+        KNotification::event( QLatin1String( "ObservatoryShutdown" ) , i18n("Observatory is in the shutdown process"));
+
         weatherTimer.stop();
         weatherTimer.disconnect();
 
@@ -1659,7 +1681,7 @@ bool Scheduler::checkShutdownState()
             return true;
 
         case SHUTDOWN_ERROR:
-            appendLogText(i18n("Shutdown script failed, aborting..."));
+            //appendLogText(i18n("Shutdown script failed, aborting..."));
             stop();
             return true;
             break;
@@ -1740,9 +1762,15 @@ void Scheduler::checkProcessExit(int exitCode)
     }
 
     if (startupState != STARTUP_COMPLETE)
+    {
+        appendLogText(i18n("Startup script failed, aborting..."));
         startupState = STARTUP_ERROR;
+    }
     else if (shutdownState != SHUTDOWN_COMPLETE)
+    {
+        appendLogText(i18n("Shutdown script failed, aborting..."));
         shutdownState = SHUTDOWN_ERROR;
+    }
 }
 
 void Scheduler::checkStatus()
@@ -1757,7 +1785,7 @@ void Scheduler::checkStatus()
             if (shutdownState == SHUTDOWN_COMPLETE)
                 appendLogText(i18n("Shutdown complete."));
             else
-                appendLogText(i18n("Shutdown script failed, aborting..."));
+                appendLogText(i18n("Shutdown procedure failed, aborting..."));
 
             // Stop INDI
             stopINDI();
@@ -2620,6 +2648,9 @@ void Scheduler::setGOTOMode(Align::GotoMode mode)
 void Scheduler::stopINDI()
 {
         ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
+
+        startupState = STARTUP_IDLE;
+        shutdownState= SHUTDOWN_IDLE;
 }
 
 void Scheduler::setDirty()
@@ -2942,11 +2973,13 @@ void Scheduler::checkDomeParkingStatus()
 }
 
 void Scheduler::startJobEvaluation()
-{
+{    
     jobEvaluationOnly = true;
     if (Dawn < 0)
         calculateDawnDusk();
     evaluateJobs();
+
+
 }
 
 

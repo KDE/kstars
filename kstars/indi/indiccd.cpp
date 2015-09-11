@@ -14,6 +14,7 @@
 #include <KMessageBox>
 #include <QStatusBar>
 #include <QImageReader>
+#include <KNotifications/KNotification>
 
 #include <basedevice.h>
 
@@ -32,7 +33,6 @@
 
 #include <ekos/ekosmanager.h>
 
-#include "ksnotify.h"
 #include "imageviewer.h"
 #include "Options.h"
 
@@ -1171,8 +1171,7 @@ void CCD::processBLOB(IBLOB* bp)
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
         KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
-    if (Options::playFITSAlarm())
-        KSNotify::play(KSNotify::NOTIFY_FILE_RECEIVED);
+    KNotification::event( QLatin1String( "FITSReceived" ) , i18n("FITS file is received"));
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {

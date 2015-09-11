@@ -130,7 +130,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
         QString label = dv->getUniqueLabel();
         foreach(DriverInfo *drv, managedDrivers)
         {
-            if (label == QString(drv->getUniqueLabel()))
+            if (label == drv->getUniqueLabel())
                 nset++;
         }
         if (nset > 0)
@@ -173,16 +173,14 @@ void ServerManager::stopDriver(DriverInfo *dv)
 
     managedDrivers.removeOne(dv);
 
+    if (dv->getUniqueLabel().isEmpty() == false)
+       out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
+    else
+        out << "stop " << dv->getDriver() << endl;
 
-        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
-         out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
-        //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
-        out.flush();
-
-        dv->setServerState(false);
-
-        dv->setPort(dv->getUserPort());
-
+    out.flush();
+    dv->setServerState(false);
+    dv->setPort(dv->getUserPort());
 }
 
 bool ServerManager::isDriverManaged(DriverInfo *di)

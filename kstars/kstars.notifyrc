@@ -1,0 +1,71 @@
+[Global]
+IconName=kstars
+Comment=KStars
+[Event/FocusSuccessful]
+Name=Autofocus Success
+Comment=Autofocus operation completed successfully
+Sound=KDE-K3B-Finish-Success.ogg
+Action=Sound
+[Event/FocusFailed]
+Name=Autofocus Failure
+Comment=Autofocus operation failed with errors
+Sound=KDE-Sys-App-Error-Serious.ogg
+Action=Sound
+[Event/AlignSuccessful]
+Name=Alignment Success
+Comment=Astrometry alignment completed successfully
+Sound=KDE-K3B-Finish-Success.ogg
+Action=Sound
+[Event/AlignFailed]
+Name=Alignment Failure
+Comment=Astrometry alignment failed with errors
+Sound=KDE-Sys-App-Error-Serious.ogg
+Action=Sound
+[Event/CalibrationSuccessful]
+Name=Calibration Success
+Comment=Guiding calibration completed successfully
+Sound=KDE-K3B-Finish-Success.ogg
+Action=Sound
+[Event/CalibrationFailed]
+Name=Calibration Failure
+Comment=Guiding calibration failed with errors
+Sound=KDE-Sys-App-Error-Serious.ogg
+Action=Sound
+[Event/GuideFailed]
+Name=Guiding Failure
+Comment=Autoguiding failed with errors
+Sound=KDE-Sys-App-Error-Serious.ogg
+Action=Sound
+[Event/CaptureSuccessful]
+Name=Capture Success
+Comment=CCD Capture completed successfully
+Sound=KDE-K3B-Finish-Success.ogg
+Action=Sound
+[Event/CaptureFailed]
+Name=Capture Failure
+Comment=CCD capture failed with errors
+Sound=KDE-Sys-App-Error-Serious.ogg
+Action=Sound
+[Event/FITSReceived]
+Name=FITS Received
+Comment=FITS file is received
+Sound=KDE-Sys-App-Message.ogg
+Action=Sound
+[Event/WeatherWarning]
+Name=Weather Warning
+Comment=Weather condtions in warning zone
+Sound=KDE-KStars-Warning.ogg
+Action=Sound
+[Event/WeatherAlert]
+Name=Weather Alert
+Comment=Weather conditions are critical. Observatory shutdown is imminent
+Sound=KDE-KStars-Alert.ogg
+Action=Sound
+[Event/ObservatoryStartup]
+Name=Observatory Startup
+Comment=Observatory is in the startup process
+Action=None
+[Event/ObservatoryShutdown]
+Name=Observatory Shutdown
+Comment=Observatory is in the shutdown process
+Action=None

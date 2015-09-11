@@ -7,6 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <KNotifications/KNotification>
 #include "mount.h"
 #include "Options.h"
 
@@ -22,7 +23,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "ksnotify.h"
 
 #include <basedevice.h>
 
@@ -232,7 +232,8 @@ void Mount::updateTelescopeCoords()
                 {
                     appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...", QString::number(minAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
-                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+                    //KNotification::event( QLatin1String( "OperationFailed" ));
+                    KNotification::beep();
                     abortDispatch++;
                 }
             }
@@ -243,7 +244,8 @@ void Mount::updateTelescopeCoords()
                 {
                     appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...", QString::number(maxAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
-                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+                    //KNotification::event( QLatin1String( "OperationFailed" ));
+                    KNotification::beep();
                     abortDispatch++;
                 }
             }

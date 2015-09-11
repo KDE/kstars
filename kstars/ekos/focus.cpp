@@ -16,6 +16,8 @@
 #include <KPlotting/KPlotObject>
 #include <KPlotting/KPlotAxis>
 
+#include <KNotifications/KNotification>
+
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"
@@ -26,7 +28,6 @@
 #include "fitsviewer/fitsview.h"
 #include "ekosmanager.h"
 
-#include "ksnotify.h"
 #include "kstars.h"
 #include "focusadaptor.h"
 
@@ -1709,13 +1710,10 @@ void Focus::updateFocusStatus(bool status)
 
     emit autoFocusFinished(status, currentHFR);
 
-    if (Options::playFocusAlarm())
-    {
-        if (status)
-            KSNotify::play(KSNotify::NOTIFY_OK);
-        else
-            KSNotify::play(KSNotify::NOTIFY_ERROR);
-    }
+    if (status)
+        KNotification::event( QLatin1String( "FocusSuccessful" ) , i18n("Autofocus operation completed successfully"));
+     else
+            KNotification::event( QLatin1String( "FocusFailed" ) , i18n("Autofocus operation failed with errors"));
 }
 
 void Focus::checkAutoStarTimeout()

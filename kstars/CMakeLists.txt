@@ -392,7 +392,6 @@ set(kstars_projection_SRCS
 )
 
 set(kstars_extra_SRCS
-        auxiliary/ksnotify.cpp
         auxiliary/colorscheme.cpp
         auxiliary/dms.cpp
         auxiliary/fov.cpp
@@ -532,6 +531,7 @@ target_link_libraries(KStarsLib
         KF5::TextEditor
         KF5::DBusAddons
         KF5::IconThemes
+        KF5::Notifications
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
@@ -581,3 +581,4 @@ install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
 endif (WIN32)
+install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

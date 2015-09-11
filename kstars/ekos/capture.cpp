@@ -14,13 +14,13 @@
 #include <KMessageBox>
 #include <KDirWatch>
 #include <KLocalizedString>
+#include <KNotifications/KNotification>
 
 #include <basedevice.h>
 #include <lilxml.h>
 
 #include "Options.h"
 
-#include "ksnotify.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 
@@ -578,8 +578,7 @@ void Capture::abort()
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
-            if (Options::playCCDAlarm())
-                KSNotify::play(KSNotify::NOTIFY_ERROR);
+            KNotification::event( QLatin1String( "CaptureFailed"), i18n("CCD capture failed with errors") );
             activeJob->abort();
         }
 
@@ -1105,8 +1104,7 @@ void Capture::newFITS(IBLOB *bp)
         // Otherwise, we're done. We park if required and resume guiding if no parking is done and autoguiding was engaged before.
         else
         {
-            if (Options::playCCDAlarm())
-                    KSNotify::play(KSNotify::NOTIFY_OK);
+            KNotification::event( QLatin1String( "CaptureSuccessful"), i18n("CCD capture sequence completed"));
 
             if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
             {

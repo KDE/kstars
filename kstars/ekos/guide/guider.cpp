@@ -17,8 +17,8 @@
 
 #include <KMessageBox>
 #include <KLocalizedString>
+#include <KNotifications/KNotification>
 
-#include "ksnotify.h"
 #include "scroll_graph.h"
 #include "gmath.h"
 #include "fitsviewer/fitsview.h"
@@ -645,8 +645,7 @@ bool rguider::abort(bool silence)
         if (silence)
             return rc;
 
-        if (Options::playGuideAlarm())
-                KSNotify::play(KSNotify::NOTIFY_ERROR);
+        KNotification::event( QLatin1String( "GuideFailed" ) , i18n("Autoguiding failed with errors"));
     }
 
     return true;

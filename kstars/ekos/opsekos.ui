@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>582</width>
+    <width>418</width>
     <height>655</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -93,7 +93,7 @@
         <item>
          <widget class="QRadioButton" name="kcfg_loadConfigOnConnection">
           <property name="text">
-           <string>On connection</string>
+           <string>O&amp;n connection</string>
           </property>
          </widget>
         </item>
@@ -130,87 +130,12 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_8">
-     <item>
-      <widget class="QGroupBox" name="groupBox_5">
-       <property name="title">
-        <string>Audible Alarms</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <widget class="QCheckBox" name="kcfg_PlayFITSAlarm">
-          <property name="toolTip">
-           <string>Play notification alarm whenever a new FITS is received.</string>
-          </property>
-          <property name="text">
-           <string>When FITS is received.</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QCheckBox" name="kcfg_PlayCCDAlarm">
-            <property name="toolTip">
-             <string>Play notifications alarms in the CCD module.</string>
-            </property>
-            <property name="text">
-             <string>CCD</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="kcfg_PlayFocusAlarm">
-            <property name="toolTip">
-             <string>Play notifications alarms in the focus module.</string>
-            </property>
-            <property name="text">
-             <string>Focus</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="kcfg_PlayGuideAlarm">
-            <property name="toolTip">
-             <string>Play notifications alarms in the guide module.</string>
-            </property>
-            <property name="text">
-             <string>Guide</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="kcfg_PlayAlignmentAlarm">
-            <property name="toolTip">
-             <string>Play notifications alarms in the alignment module.</string>
-            </property>
-            <property name="text">
-             <string>Alignment</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_6">
-       <property name="title">
-        <string>Scheduler</string>
-       </property>
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="title">
+      <string>Scheduler</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -264,16 +189,22 @@
          </layout>
         </item>
        </layout>
-       <zorder>kcfg_leadTime</zorder>
-       <zorder>kcfg_preemptiveShutdownTime</zorder>
-       <zorder>leadTimeLabel</zorder>
-       <zorder>line_3</zorder>
-       <zorder>kcfg_preemptiveShutdown</zorder>
-       <zorder>preDawnLabel</zorder>
-       <zorder>kcfg_preDawnTime</zorder>
-      </widget>
-     </item>
-    </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>127</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="Line" name="line_3">
@@ -424,13 +355,6 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Astrometry.net</string>
@@ -547,6 +471,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item>

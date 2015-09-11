@@ -18,8 +18,8 @@
 
 #include <QFileDialog>
 #include <KMessageBox>
+#include <KNotifications/KNotification>
 
-#include "ksnotify.h"
 #include "QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
@@ -548,8 +548,7 @@ bool Align::captureAndSolve()
     if (currentCCD->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to CCD."));
-        if (Options::playAlignmentAlarm())
-                KSNotify::play(KSNotify::NOTIFY_ERROR);
+        KNotification::event( QLatin1String( "AlignFailed"), i18n("Astrometry alignment failed") );
         return false;
     }
 
@@ -725,8 +724,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
          }
      }
 
-     if (Options::playAlignmentAlarm())
-             KSNotify::play(KSNotify::NOTIFY_OK);
+     KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
 
      m_isSolverComplete = true;
      m_isSolverSuccessful = true;
@@ -740,9 +738,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 }
 
 void Align::solverFailed()
-{
-    if (Options::playAlignmentAlarm())
-            KSNotify::play(KSNotify::NOTIFY_ERROR);
+{    
+    KNotification::event( QLatin1String( "AlignFailed"), i18n("Astrometry alignment failed with errors") );
+
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);

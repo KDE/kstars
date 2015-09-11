@@ -20,7 +20,6 @@
 
 #include "Options.h"
 #include "kstars.h"
-#include "auxiliary/ksnotify.h"
 #include "fitsviewer/fitsviewer.h"
 
 #include "indi/clientmanager.h"
@@ -1044,7 +1043,7 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface*)), this, SLOT(setWeather(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::BlockingQueuedConnection);
     connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
 
     if (localMode)
@@ -1530,19 +1529,8 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
                                               deviceName.startsWith(Options::remoteCCDName())))
     {
         ccd = devInterface;
-
         primaryCCDName = QString(devInterface->getDeviceName());
-
         remoteCCDRegistered = true;
-
-        // In case we have a partial match only, then we are connecting to a driver that provides multiple devices per driver
-        // in such instance we increase the number of devices we expect to receive by one.
-        /*if (remoteGuideRegistered == false && deviceName != Options::remoteCCDName())
-        {
-            remote_indi->addAuxInfo("mdpd", true);
-            nDevices++;
-        }*/
-
     }
     else if (remoteGuideRegistered == false &&
             ( (Options::remoteGuiderName().isEmpty() == false && deviceName.startsWith(Options::remoteGuiderName()) ) ||
@@ -1551,14 +1539,7 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         guider = devInterface;
         guiderCCDName = QString(devInterface->getDeviceName());
         remoteGuideRegistered = true;
-
-        // We only increase number of devices if CCD is not registered yet above.
-        /*if (remoteCCDRegistered == false &&  Options::remoteGuiderName().isEmpty() && deviceName.startsWith(Options::remoteCCDName()))
-        {
-            remote_indi->addAuxInfo("mdpd", true);
-            nDevices++;
-        }*/
-    }
+     }
     else if (deviceName == Options::remoteAOName())
         ao = devInterface;
     else if (deviceName == Options::remoteFocuserName())
@@ -1754,7 +1735,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
-{
+{    
     bool isPrimaryCCD = (primaryCCDName == QString(ccdDevice->getDeviceName()));
 
     if (isPrimaryCCD)
@@ -1920,7 +1901,7 @@ void EkosManager::setWeather(ISD::GDInterface *weatherDevice)
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
-{
+{    
     switch (devInterface->getType())
     {
         case KSTARS_CCD:

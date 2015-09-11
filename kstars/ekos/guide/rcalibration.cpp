@@ -18,11 +18,11 @@
 
 #include <KMessageBox>
 #include <KLocalizedString>
+#include <KNotifications/KNotification>
 
 #include "gmath.h"
 #include "vect.h"
 
-#include "ksnotify.h"
 #include "../guide.h"
 #include "../fitsviewer/fitsviewer.h"
 #include "../fitsviewer/fitsview.h"
@@ -449,8 +449,8 @@ void rcalibration::calibrateManualReticle( void )
                         pmain_wnd->appendLogText(i18n("DEC swap disabled."));
 
                     pmain_wnd->appendLogText(i18n("Calibration completed."));
-                    if (Options::playGuideAlarm())
-                            KSNotify::play(KSNotify::NOTIFY_OK);
+
+                    KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
                     calibrationStage = CAL_FINISH;
                     emit calibrationCompleted(true);
 
@@ -475,8 +475,7 @@ void rcalibration::calibrateManualReticle( void )
                 fillInterface();
                 pmain_wnd->appendLogText(i18n("Calibration completed."));
                 emit calibrationCompleted(true);
-                if (Options::playGuideAlarm())
-                        KSNotify::play(KSNotify::NOTIFY_OK);
+                KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
 			}
 			else
 			{
@@ -484,8 +483,7 @@ void rcalibration::calibrateManualReticle( void )
                 emit calibrationCompleted(false);                
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                 is_started = false;
-                if (Options::playGuideAlarm())
-                        KSNotify::play(KSNotify::NOTIFY_ERROR);
+                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
 			}
 		}
 
@@ -638,8 +636,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
                 pmain_wnd->appendLogText(i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time));
             else
                 QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time), QMessageBox::Ok );
-            if (Options::playGuideAlarm())
-                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+
+            KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
             reset();
             break;
         }
@@ -679,8 +677,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             pmain_wnd->appendLogText(i18n("Calibration completed."));
             emit calibrationCompleted(true);
             ui.startCalibrationLED->setColor(okColor);
-            if (Options::playGuideAlarm())
-                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+            KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
             if (ui.autoStarCheck->isChecked())
                 selectAutoStar(pmath->get_image());
         }
@@ -693,8 +690,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             ui.startCalibrationLED->setColor(alertColor);            
             calibrationStage = CAL_ERROR;
             emit calibrationCompleted(false);
-            if (Options::playGuideAlarm())
-                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+            KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
         }
 
         reset();
@@ -791,8 +787,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             pmain_wnd->appendLogText(i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time));
         else
             QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
-        if (Options::playGuideAlarm())
-                KSNotify::play(KSNotify::NOTIFY_ERROR);
+
+        KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
         reset();
         break;
     }
@@ -811,8 +807,9 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         emit calibrationCompleted(true);
         ui.startCalibrationLED->setColor(okColor);
         pmain_wnd->setDECSwap(swap_dec);
-        if (Options::playGuideAlarm())
-                KSNotify::play(KSNotify::NOTIFY_OK);
+
+        KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
+
         if (ui.autoStarCheck->isChecked())
             selectAutoStar(pmath->get_image());
 
@@ -826,8 +823,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         emit calibrationCompleted(false);
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
-        if (Options::playGuideAlarm())
-                KSNotify::play(KSNotify::NOTIFY_ERROR);
+        KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
     }
 
     reset();

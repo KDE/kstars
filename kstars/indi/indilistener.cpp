@@ -85,7 +85,7 @@ void INDIListener::addClient(ClientManager *cm)
     clients.append(cm);
 
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)));
-    connect(cm, SIGNAL(INDIDeviceRemoved(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)));
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));    
     connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)));
 
@@ -140,18 +140,29 @@ void INDIListener::removeDevice(DeviceInfo *dv)
 
     foreach(ISD::GDInterface *gd, devices)
     {
+        if (gd->getDeviceInfo() == dv)
+        {
+            emit deviceRemoved(gd);
+            devices.removeOne(gd);
+            delete(gd);
+        }
+    }
+
+    /*foreach(ISD::GDInterface *gd, devices)
+    {
         if ( (dv->getDriverInfo()->getDevices().size() > 1 && gd->getDeviceName() == dv->getBaseDevice()->getDeviceName())
             || dv->getDriverInfo()->getUniqueLabel() == gd->getDeviceName() || dv->getDriverInfo()->getDriverSource() == HOST_SOURCE
                 || dv->getDriverInfo()->getDriverSource() == GENERATED_SOURCE)
         {
-            emit deviceRemoved(gd);
+            if (dv->getDriverInfo()->getUniqueLabel().contains("Query") == false)
+                emit deviceRemoved(gd);
             devices.removeOne(gd);
             delete(gd);
 
             if (dv->getDriverInfo()->getDriverSource() != HOST_SOURCE && dv->getDriverInfo()->getDriverSource() != GENERATED_SOURCE)
                 return;
         }
-    }
+    }*/
 
 }
 
