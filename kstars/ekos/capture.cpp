@@ -405,6 +405,9 @@ Capture::Capture()
     resetB->setIcon(QIcon::fromTheme("system-reboot"));
     resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
 
+    addToQueueB->setToolTip(i18n("Add job to sequence queue"));
+    removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
+
     fitsDir->setText(Options::fitsDir());
 
     seqExpose = 0;
@@ -1590,6 +1593,12 @@ void Capture::addJob(bool preview)
 
 void Capture::removeJob()
 {
+    if (jobUnderEdit)
+    {
+        resetJobEdit();
+        return;
+    }
+
     int currentRow = queueTable->currentRow();
 
     if (currentRow < 0)
@@ -2331,7 +2340,9 @@ void Capture::editJob(QModelIndex i)
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
-   addToQueueB->setIcon(QIcon::fromTheme("svn-update"));
+   addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+   addToQueueB->setToolTip(i18n("Apply job changes."));
+   removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
    jobUnderEdit = true;
 
@@ -2344,6 +2355,9 @@ void Capture::resetJobEdit()
 
    jobUnderEdit = false;
    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+
+   addToQueueB->setToolTip(i18n("Add job to sequence queue"));
+   removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 }
 
 void Capture::constructPrefix(QString &imagePrefix)
