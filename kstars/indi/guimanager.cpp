@@ -159,7 +159,7 @@ void GUIManager::addClient(ClientManager *cm)
 
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
 
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::DirectConnection);
 
     //updateStatus();
 }

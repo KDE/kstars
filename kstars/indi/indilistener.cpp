@@ -85,7 +85,7 @@ void INDIListener::addClient(ClientManager *cm)
     clients.append(cm);
 
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)));
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::DirectConnection);
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));    
     connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)));
 
