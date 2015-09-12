@@ -12,6 +12,7 @@
 #include <KConfigDialog>
 #include <KMessageBox>
 #include <KActionCollection>
+#include <KNotifications/KNotification>
 
 #include <config-kstars.h>
 #include <basedevice.h>
@@ -1146,9 +1147,15 @@ void EkosManager::checkINDITimeout()
             remainingDevices << QString("+ %1").arg(aux4_di->getName());
 
         if (remainingDevices.count() == 1)
-            KMessageBox::error(this, i18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.", remainingDevices.at(0)));
+        {
+            appendLogText(i18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.", remainingDevices.at(0)));
+            KNotification::beep(i18n("Ekos startup error"));
+        }
         else
-            KMessageBox::error(this, i18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected and powered on.", remainingDevices.join("\n")));
+        {
+            appendLogText(i18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected and powered on.", remainingDevices.join("\n")));
+            KNotification::beep(i18n("Ekos startup error"));
+        }
     }
     else
     {
@@ -1179,9 +1186,15 @@ void EkosManager::checkINDITimeout()
             remainingDevices << QString("+ %1").arg(aux3Combo->currentText());
 
         if (remainingDevices.count() == 1)
-            KMessageBox::error(this, i18n("Unable to establish remote device:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.at(0)));
+        {
+            appendLogText(i18n("Unable to establish remote device:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.at(0)));
+            KNotification::beep(i18n("Ekos startup error"));
+        }
         else
-            KMessageBox::error(this, i18n("Unable to establish remote devices:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.join("\n")));
+        {
+            appendLogText(i18n("Unable to establish remote devices:\n%1\nPlease ensure remote device name corresponds to actual device name.", remainingDevices.join("\n")));
+            KNotification::beep(i18n("Ekos startup error"));
+        }
     }
 
     ekosStartingStatus = STATUS_ERROR;
