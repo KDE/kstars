@@ -571,7 +571,10 @@ void Scheduler::removeJob()
 void Scheduler::toggleScheduler()
 {
     if (state == SCHEDULER_RUNNIG)
+    {
+        preemptiveShutdown = false;
         stop();
+    }
     else
         start();
 }
@@ -624,6 +627,8 @@ void Scheduler::stop()
         return;
     }
 
+    sleepTimer.stop();
+    sleepTimer.disconnect();
     sleepLabel->hide();
     pi->stopAnimation();
     startB->setText("Start Scheduler");
@@ -995,8 +1000,10 @@ void Scheduler::evaluateJobs()
                 weatherLabel->hide();
                 checkShutdownState();
 
-                // Restart 10 minutes before next job
-                QTimer::singleShot( (nextObservationTime*1000 - (1000*Options::leadTime()*60*2)), this, SLOT(wakeUpScheduler()));
+                // Wake up 10 minutes before next job is ready
+                sleepTimer.setInterval((nextObservationTime*1000 - (1000*Options::leadTime()*60*2)));
+                connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+                sleepTimer.start();
             }
             // Otherise, check if the next observation time exceeds the job lead time (default 5 minutes)
             else if (nextObservationTime > (Options::leadTime()*60))
@@ -1020,7 +1027,10 @@ void Scheduler::evaluateJobs()
                     //weatherCheck->setEnabled(false);
                     //weatherLabel->hide();
 
-                    QTimer::singleShot( (nextObservationTime*1000 - (1000*Options::leadTime()*60)), this, SLOT(wakeUpScheduler()));
+                    // Wake up 5 minutes (default) before next job is ready
+                    sleepTimer.setInterval((nextObservationTime*1000 - (1000*Options::leadTime()*60)));
+                    connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+                    sleepTimer.start();
                 }
             }
         }
@@ -1611,6 +1621,12 @@ bool Scheduler::checkShutdownState()
 
         weatherTimer.stop();
         weatherTimer.disconnect();
+
+        if (preemptiveShutdown == false)
+        {
+            sleepTimer.stop();
+            sleepTimer.disconnect();
+        }
 
         if (warmCCDCheck->isEnabled() && warmCCDCheck->isChecked())
         {
