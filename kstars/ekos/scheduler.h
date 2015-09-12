@@ -231,7 +231,7 @@ private:
         int16_t getMoonSeparationScore(SchedulerJob *job, QDateTime when);
 
         /**
-         * @brief getWeatherScore Get weather condtion score.
+         * @brief getWeatherScore Get weather condition score.
          * @return If weather condition OK, return 0, if warning return -500, if alert return -1000
          */
         int16_t getWeatherScore();

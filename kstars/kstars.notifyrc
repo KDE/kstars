@@ -53,7 +53,7 @@ Sound=KDE-Sys-App-Message.ogg
 Action=Sound
 [Event/WeatherWarning]
 Name=Weather Warning
-Comment=Weather condtions in warning zone
+Comment=Weather conditions in warning zone
 Sound=KDE-KStars-Warning.ogg
 Action=Sound
 [Event/WeatherAlert]
