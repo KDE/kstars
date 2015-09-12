@@ -32,9 +32,7 @@
 #include <KProcess>
 #include <QAction>
 #include <KActionCollection>
-//#include <QIconLoader>
-
-
+#include <KNotifications/KNotification>
 
 #include "oal/log.h"
 #include "oal/scope.h"
@@ -404,13 +402,25 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
          if (connectionToServer)
          {
+             if (Options::verboseLogging())
+                 qDebug() << "Connection to INDI server is successful";
+
              clients.append(clientManager);
              updateMenuActions();
          }
          else
          {
-             QString errMsg = i18n("Connection to INDI server locally on port %1 failed.", port);
-             KMessageBox::error(NULL, errMsg);
+
+             KNotification::beep();
+             QMessageBox* msgBox = new QMessageBox();
+             msgBox->setAttribute( Qt::WA_DeleteOnClose );
+             msgBox->setStandardButtons( QMessageBox::Ok );
+             msgBox->setWindowTitle( i18n("Error") );
+             msgBox->setText( i18n("Connection to INDI server locally on port %1 failed.", port));
+             msgBox->setModal( false );
+             msgBox->setIcon(QMessageBox::Critical);
+             msgBox->show();
+
              foreach (DriverInfo *dv, qdv)
                  processDeviceStatus(dv);
 
@@ -726,8 +736,17 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
     {
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
-        QString errMsg = i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort());
-        KMessageBox::error(NULL, errMsg);
+
+        KNotification::beep();
+        QMessageBox* msgBox = new QMessageBox();
+        msgBox->setAttribute( Qt::WA_DeleteOnClose );
+        msgBox->setStandardButtons( QMessageBox::Ok );
+        msgBox->setWindowTitle( i18n("Error") );
+        msgBox->setText( i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort()) );
+        msgBox->setModal( false );
+        msgBox->setIcon(QMessageBox::Critical);
+        msgBox->show();
+
         processDeviceStatus(dv);
         return false;
     }
