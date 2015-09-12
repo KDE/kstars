@@ -762,12 +762,25 @@
           <item>
            <widget class="QLineEdit" name="startupScript">
             <property name="readOnly">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="selectStartupScriptB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clearStartupB">
             <property name="maximumSize">
              <size>
               <width>32</width>
@@ -861,12 +874,25 @@
           <item>
            <widget class="QLineEdit" name="shutdownScript">
             <property name="readOnly">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="selectShutdownScriptB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clearShutdownB">
             <property name="maximumSize">
              <size>
               <width>32</width>

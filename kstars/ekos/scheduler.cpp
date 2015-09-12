@@ -107,6 +107,9 @@ Scheduler::Scheduler()
     selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
     selectFITSB->setIcon(QIcon::fromTheme("document-open"));
 
+    clearStartupB->setIcon(QIcon::fromTheme("edit-clear"));
+    clearShutdownB->setIcon(QIcon::fromTheme("edit-clear"));
+
     connect(selectObjectB,SIGNAL(clicked()),this,SLOT(selectObject()));
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
     connect(loadSequenceB,SIGNAL(clicked()),this,SLOT(selectSequence()));
@@ -124,9 +127,12 @@ Scheduler::Scheduler()
     connect(queueSaveB,SIGNAL(clicked()),this,SLOT(save()));
     connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
 
+    connect(clearStartupB, SIGNAL(clicked()), this, SLOT(clearScriptURL()));
+    connect(clearShutdownB, SIGNAL(clicked()), this, SLOT(clearScriptURL()));
+
     // Load scheduler settings
     startupScript->setText(Options::startupScript());    
-    startupScriptURL = QUrl(Options::startupScript());
+    startupScriptURL = QUrl(Options::startupScript());   
 
     shutdownScript->setText(Options::shutdownScript());
     shutdownScriptURL = QUrl(Options::shutdownScript());
@@ -591,7 +597,10 @@ void Scheduler::stop()
         foreach(SchedulerJob *job, jobs)
         {
             if (job == currentJob)
+            {
                 stopCurrentJobAction();
+                stopGuiding();
+            }
 
             if (job->getState() <= SchedulerJob::JOB_BUSY)
                 job->setState(SchedulerJob::JOB_ABORTED);
@@ -626,6 +635,9 @@ void Scheduler::stop()
         sleepLabel->show();
         return;
     }
+
+    if (scriptProcess.state() == QProcess::Running)
+        scriptProcess.terminate();
 
     sleepTimer.stop();
     sleepTimer.disconnect();
@@ -680,7 +692,7 @@ void Scheduler::start()
     removeFromQueueB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
 
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
 
 }
 
@@ -714,9 +726,8 @@ void Scheduler::evaluateJobs()
                 case SchedulerJob::START_NOW:
                     altScore     = getAltitudeScore(job, now);
                     moonScore    = getMoonSeparationScore(job, now);
-                    darkScore    = getDarkSkyScore(now);
-                    weatherScore = getWeatherScore();
-                    score = altScore + moonScore + darkScore + weatherScore;
+                    darkScore    = getDarkSkyScore(now);                    
+                    score = altScore + moonScore + darkScore;
                     job->setScore(score);
 
                     // If we can't start now, let's schedule it
@@ -737,7 +748,15 @@ void Scheduler::evaluateJobs()
                     }
                     else
                     {
-                        appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
+                        weatherScore = getWeatherScore();
+
+                        if (weatherScore < 0)
+                        {
+                            job->setState(SchedulerJob::JOB_ABORTED);
+                            appendLogText(i18n("%1 observation job aborted due to bad weather.", job->getName()));
+                        }
+                        else
+                            appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
                     }
                     break;
 
@@ -1047,7 +1066,7 @@ void Scheduler::wakeUpScheduler()
         start();
     }
     else
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
 
 }
 
@@ -1076,7 +1095,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
     SkyPoint target = job->getTargetCoords();
 
-    QTime now = QTime::currentTime();
+    QTime now = KStarsData::Instance()->lt().time();
     double fraction = now.hour() + now.minute()/60.0 + now.second()/3600;
     double rawFrac  = 0;
 
@@ -1229,13 +1248,14 @@ void Scheduler::checkWeather()
             appendLogText(i18n("Starting shutdown procedure due to severe weather."));
             if (currentJob)
             {
+                stopCurrentJobAction();
+                stopGuiding();
                 disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
                 currentJob->setState(SchedulerJob::JOB_ABORTED);
-                currentJob->setStage(SchedulerJob::STAGE_IDLE);
-                stopCurrentJobAction();
+                currentJob->setStage(SchedulerJob::STAGE_IDLE);                
             }
             checkShutdownState();
-            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+            //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
         }
     }
 }
@@ -1400,7 +1420,7 @@ void Scheduler::executeJob(SchedulerJob *job)
     // No need to continue evaluating jobs as we already have one.
 
     disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
 }
 
 bool    Scheduler::checkEkosState()
@@ -1621,6 +1641,13 @@ bool Scheduler::checkShutdownState()
 
         weatherTimer.stop();
         weatherTimer.disconnect();
+        weatherLabel->hide();
+
+        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+
+        currentJob = NULL;
+
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
 
         if (preemptiveShutdown == false)
         {
@@ -1918,8 +1945,8 @@ void Scheduler::checkJobStage()
          stopCurrentJobAction();
          checkShutdownState();
 
-         disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
-         connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+         //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
+         //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
          return;
      }
 
@@ -2071,7 +2098,6 @@ void Scheduler::checkJobStage()
              currentJob->setState(SchedulerJob::JOB_COMPLETE);
              currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
              captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
-             stopGuiding();
 
              findNextJob();
              return;
@@ -2158,7 +2184,7 @@ void Scheduler::stopCurrentJobAction()
 
     case SchedulerJob::STAGE_CAPTURING:
         captureInterface->call(QDBus::AutoDetect,"abort");
-        stopGuiding();
+        //stopGuiding();
         break;
 
     default:
@@ -2527,14 +2553,14 @@ void Scheduler::findNextJob()
         stopGuiding();
 
         currentJob = NULL;
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
         return;
     }
 
     if (currentJob->getState() == SchedulerJob::JOB_ABORTED)
     {
         currentJob = NULL;
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
         return;
     }
 
@@ -2550,7 +2576,7 @@ void Scheduler::findNextJob()
         stopGuiding();
 
         currentJob = NULL;
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
         return;
     }
 
@@ -2560,7 +2586,7 @@ void Scheduler::findNextJob()
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
         startCapture();
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
         return;
     }
 
@@ -2573,10 +2599,11 @@ void Scheduler::findNextJob()
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
 
             stopCurrentJobAction();
+            stopGuiding();
 
             captureBatch=0;
             currentJob = NULL;
-            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
             return;
         }
         else
@@ -2587,7 +2614,7 @@ void Scheduler::findNextJob()
 
             captureBatch++;
             startCapture();
-            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
             return;
         }
     }
@@ -2650,7 +2677,7 @@ void Scheduler::startCapture()
 
 void Scheduler::stopGuiding()
 {
-    if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+    if ( (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
         guideInterface->call(QDBus::AutoDetect,"stopGuiding");
 }
 
@@ -2666,7 +2693,8 @@ void Scheduler::stopINDI()
         ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
 
         startupState = STARTUP_IDLE;
-        shutdownState= SHUTDOWN_IDLE;
+        shutdownState= SHUTDOWN_IDLE;        
+        weatherStatus= IPS_IDLE;
 }
 
 void Scheduler::setDirty()
@@ -2994,10 +3022,28 @@ void Scheduler::startJobEvaluation()
     if (Dawn < 0)
         calculateDawnDusk();
     evaluateJobs();
-
-
 }
 
+void Scheduler::clearScriptURL()
+{
+    QPushButton *scriptSender = (QPushButton*) (sender());
+
+    if (scriptSender == NULL)
+        return;
+
+    if (scriptSender == clearStartupB)
+    {
+        startupScript->clear();
+        startupScriptURL = QUrl();
+        Options::setStartupScript(QString());
+    }
+    else
+    {
+        shutdownScript->clear();
+        shutdownScriptURL = QUrl();
+        Options::setShutdownScript(QString());
+    }
+}
 
 }
 
