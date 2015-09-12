@@ -1208,7 +1208,7 @@ void Scheduler::checkWeather()
             else if (weatherStatus == IPS_BUSY)
             {
                 weatherLabel->setPixmap(QIcon::fromTheme("security-medium").pixmap(QSize(32,32)));
-                KNotification::event( QLatin1String( "WeatherWarning" ) , i18n("Weather condtions in warning zone"));
+                KNotification::event( QLatin1String( "WeatherWarning" ) , i18n("Weather conditions in warning zone"));
             }
             else if (weatherStatus == IPS_ALERT)
             {
