@@ -2098,13 +2098,13 @@ void EkosManager::processTabChange()
 {
     QWidget *currentWidget = toolsWidget->currentWidget();
 
-    if (currentWidget != focusProcess)
+    if (focusProcess && currentWidget != focusProcess)
     {
         if (focusProcess)
             focusProcess->resetFrame();
     }
 
-    if (currentWidget == alignProcess)
+    if (alignProcess && currentWidget == alignProcess)
     {
         if (alignProcess->isEnabled() == false && captureProcess->isEnabled() && ccd && ccd->isConnected())
         {
@@ -2114,15 +2114,15 @@ void EkosManager::processTabChange()
 
         alignProcess->checkCCD();
     }
-    else if (currentWidget == captureProcess)
+    else if (captureProcess && currentWidget == captureProcess)
     {
         captureProcess->checkCCD();
     }
-    else if (currentWidget == focusProcess)
+    else if (focusProcess && currentWidget == focusProcess)
     {
         focusProcess->checkCCD();
     }
-    else if (currentWidget == guideProcess)
+    else if (guideProcess && currentWidget == guideProcess)
     {
         guideProcess->checkCCD();
     }
