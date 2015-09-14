@@ -883,10 +883,14 @@ void Scheduler::evaluateJobs()
         if (completedJobs > 0)
             appendLogText(i18np("%1 job completed.", "%1 jobs completed.", completedJobs));
 
-        appendLogText(i18n("Scheduler complete. Starting shutdown procedure..."));
-
-        // Let's start shutdown procedure
-        checkShutdownState();
+        if (startupState == STARTUP_COMPLETE)
+        {
+            appendLogText(i18n("Scheduler complete. Starting shutdown procedure..."));
+            // Let's start shutdown procedure
+            checkShutdownState();
+        }
+        else
+            stop();
 
         return;
     }
@@ -2096,7 +2100,7 @@ void Scheduler::checkJobStage()
          if(captureReply.value().toStdString()=="Complete")
          {
              currentJob->setState(SchedulerJob::JOB_COMPLETE);
-             currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
+             //currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
              captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
 
              findNextJob();
@@ -2940,7 +2944,7 @@ void Scheduler::checkMountParkingStatus()
         appendLogText(i18n("Mount unparked."));
         if (startupState == STARTUP_UNPARKING_MOUNT)
                 startupState = STARTUP_COMPLETE;
-        else if (parkWaitState == PARKWAIT_UNPARK)
+        else if (parkWaitState == PARKWAIT_UNPARKING)
             parkWaitState = PARKWAIT_UNPARKED;
          break;
 
