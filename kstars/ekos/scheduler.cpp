@@ -686,7 +686,7 @@ void Scheduler::start()
             job->setState(SchedulerJob::JOB_IDLE);
             job->setStage(SchedulerJob::STAGE_IDLE);
         }
-    }
+    }   
 
     addToQueueB->setEnabled(false);
     removeFromQueueB->setEnabled(false);
@@ -738,6 +738,8 @@ void Scheduler::evaluateJobs()
                         {
                             //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
+                            // Since it's scheduled, we need to skip it now and re-check it later since its startup condition changed to START_AT
+                            job->setScore(BAD_SCORE);
                             continue;
                         }
                         else
@@ -766,6 +768,8 @@ void Scheduler::evaluateJobs()
                         {
                             appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
+                            // Since it's scheduled, we need to skip it now and re-check it later since its startup condition changed to START_AT
+                            job->setScore(BAD_SCORE);
                             continue;
                         }
                         else
@@ -1336,6 +1340,26 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
     return score;
 }
 
+double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
+{
+    // Get target altitude given the time
+    SkyPoint p = job->getTargetCoords();
+    QDateTime midnight( KStarsData::Instance()->lt().date(), QTime() );
+    KStarsDateTime ut = geo->LTtoUT( midnight );
+    KStarsDateTime myUT = ut.addSecs(KStarsData::Instance()->lt().time().msecsSinceStartOfDay()/1000);
+    dms LST = geo->GSTtoLST( myUT.gst() );
+    p.EquatorialToHorizontal( &LST, geo->lat() );
+
+    // Update moon
+    ut = geo->LTtoUT(KStarsData::Instance()->lt());
+    KSNumbers ksnum(ut.djd());
+    LST = geo->GSTtoLST( ut.gst() );
+    moon->updateCoords(&ksnum, true, geo->lat(), &LST);
+
+    // Moon/Sky separation p
+    return moon->angularDistanceTo(&p).Degrees();
+}
+
 int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
 {    
     int16_t score=0;    
@@ -1413,6 +1437,7 @@ void Scheduler::calculateDawnDusk()
     QTime dusk = QTime(0,0,0).addSecs(Dusk*24*3600);
 
     appendLogText(i18n("Dawn is at %1, Dusk is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
+
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
@@ -1420,6 +1445,8 @@ void Scheduler::executeJob(SchedulerJob *job)
     currentJob = job;
 
     currentJob->setState(SchedulerJob::JOB_BUSY);
+
+    updatePreDawn();
 
     // No need to continue evaluating jobs as we already have one.
 
@@ -1489,8 +1516,8 @@ bool    Scheduler::checkINDIState()
             QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
             if (isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
             {
-                indiState = INDI_READY;
-                return true;
+                indiState = INDI_PROPERTY_CHECK;
+                return false;
             }
             else
             {
@@ -1920,11 +1947,11 @@ void Scheduler::checkJobStage()
         SkyPoint p = currentJob->getTargetCoords();
         p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
 
-        double moonScore = getMoonSeparationScore(currentJob, KStarsData::Instance()->lt());
+        double moonSeparation = getCurrentMoonSeparation(currentJob);
 
-        if (moonScore < 0)
+        if (moonSeparation < currentJob->getMinMoonSeparation())
         {
-            appendLogText(i18n("Current moon separation is lower than %1 minimum constraint (%2 degrees), aborting job...", currentJob->getName(),
+            appendLogText(i18n("Current moon separation (%1 degrees) is lower than %2 minimum constraint (%3 degrees), aborting job...", moonSeparation, currentJob->getName(),
                                currentJob->getMinMoonSeparation()));
 
             currentJob->setState(SchedulerJob::JOB_ABORTED);
@@ -1934,12 +1961,7 @@ void Scheduler::checkJobStage()
         }
     }
 
-    // #4 Check if we're not at dawn
-     double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
-     int dayOffset=0;
-     if (KStarsData::Instance()->lt().time().hour() > 12)
-         dayOffset=1;
-     QDateTime preDawnDateTime(KStarsData::Instance()->lt().date().addDays(dayOffset), QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
+    // #4 Check if we're not at dawn     
      if (KStarsData::Instance()->lt() > preDawnDateTime)
      {
 
@@ -3047,6 +3069,16 @@ void Scheduler::clearScriptURL()
         shutdownScriptURL = QUrl();
         Options::setShutdownScript(QString());
     }
+}
+
+void Scheduler::updatePreDawn()
+{
+    double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
+    int dayOffset=0;
+    if (KStarsData::Instance()->lt().time().hour() > 12)
+        dayOffset=1;
+    preDawnDateTime.setDate(KStarsData::Instance()->lt().date().addDays(dayOffset));
+    preDawnDateTime.setTime(QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
 }
 
 }

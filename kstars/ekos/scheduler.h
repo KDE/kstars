@@ -346,6 +346,18 @@ private:
         double findAltitude(const SkyPoint & target, const QDateTime when);
 
         /**
+         * @brief getCurrentMoonSeparation Get current moon separation in degrees at current time for the given job
+         * @param job scheduler job
+         * @return Separation in degrees
+         */
+        double getCurrentMoonSeparation(SchedulerJob *job);
+
+        /**
+         * @brief updatePreDawn Update predawn time depending on current time and user offset
+         */
+        void updatePreDawn();
+
+        /**
          * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
          * @param job target job
          * @return Estimated time in seconds.
@@ -395,6 +407,7 @@ private:
     QProcess scriptProcess;         // Startup and Shutdown scripts process
 
     double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
+    QDateTime preDawnDateTime;      // Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
     bool mDirty;                    // Was job modified and needs saving?
     IPState weatherStatus;          // Keep watch of weather status
     QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
