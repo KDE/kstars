@@ -644,6 +644,8 @@ void Scheduler::stop()
     sleepLabel->hide();
     pi->stopAnimation();
     startB->setText("Start Scheduler");
+
+    queueLoadB->setEnabled(true);
     addToQueueB->setEnabled(true);
     removeFromQueueB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
@@ -688,6 +690,7 @@ void Scheduler::start()
         }
     }   
 
+    queueLoadB->setEnabled(false);
     addToQueueB->setEnabled(false);
     removeFromQueueB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
@@ -794,8 +797,18 @@ void Scheduler::evaluateJobs()
                     // If starting time already passed by 5 minutes (default), we mark the job as invalid
                     if (timeUntil < (-1 * Options::leadTime() * 60))
                     {
-                        appendLogText(i18n("%1 start up time already passed by %2 seconds. Aborting...", job->getName(), abs(timeUntil)));
-                        job->setState(SchedulerJob::JOB_ABORTED);
+                        dms passedUp( timeUntil / 3600.0);
+                        if (job->getState() == SchedulerJob::JOB_EVALUATION)
+                        {
+                            appendLogText(i18n("%1 start up time already passed by %2. Job is marked as invalid.", job->getName(), passedUp.toHMSString()));
+                            job->setState(SchedulerJob::JOB_INVALID);
+                        }
+                        else
+                        {
+                            appendLogText(i18n("%1 start up time already passed by %2. Aborting job...", job->getName(), passedUp.toHMSString()));
+                            job->setState(SchedulerJob::JOB_ABORTED);
+                        }
+
                         continue;
                     }
                     // If time is within 5 minutes (default), we start scoring it.
@@ -809,9 +822,9 @@ void Scheduler::evaluateJobs()
                         if (score < 0)
                         {
                             if (job->getState() == SchedulerJob::JOB_EVALUATION)
-                                appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting...", job->getName(), score));
+                                appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
                             else
-                                appendLogText(i18n("%1 observation job updated score is %2 %3 seconds before startup time. Aborting...", job->getName(), timeUntil, score));
+                                appendLogText(i18n("%1 observation job updated score is %2 %3 seconds before startup time. Aborting job...", job->getName(), timeUntil, score));
                             job->setState(SchedulerJob::JOB_ABORTED);
                             continue;
                         }
@@ -1990,6 +2003,15 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_SLEWING:
     {
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+
+        if (slewStatus.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
         if(slewStatus.value() == IPS_OK)
         {
             appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
@@ -2011,6 +2033,15 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_FOCUSING:
     {
         QDBusReply<bool> focusReply = focusInterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
+
+        if (focusReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
         // Is focus complete?
         if(focusReply.value())
         {
@@ -2042,6 +2073,15 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_ALIGNING:
     {
        QDBusReply<bool> alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
+
+       if (alignReply.error().type() == QDBusError::UnknownObject)
+       {
+           appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+           currentJob->setState(SchedulerJob::JOB_ABORTED);
+           checkShutdownState();
+           return;
+       }
+
        // Is solver complete?
         if(alignReply.value())
         {
@@ -2069,6 +2109,15 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_CALIBRATING:
     {
         QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
+
+        if (guideReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
         // If calibration stage complete?
         if(guideReply.value())
         {
@@ -2110,6 +2159,15 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_CAPTURING:
     {
          QDBusReply<QString> captureReply = captureInterface->call(QDBus::AutoDetect,"getSequenceQueueStatus");
+
+         if (captureReply.error().type() == QDBusError::UnknownObject)
+         {
+             appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+             currentJob->setState(SchedulerJob::JOB_ABORTED);
+             checkShutdownState();
+             return;
+         }
+
          if(captureReply.value().toStdString()=="Aborted" || captureReply.value().toStdString()=="Error")
          {
              appendLogText(i18n("%1 capture failed!", currentJob->getName()));
@@ -2949,8 +3007,11 @@ void    Scheduler::unParkDome()
 
 void Scheduler::checkMountParkingStatus()
 {
-    QDBusReply<int> MountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Mount::ParkingStatus status = (Mount::ParkingStatus) MountReply.value();
+    QDBusReply<int> mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Mount::ParkingStatus status = (Mount::ParkingStatus) mountReply.value();
+
+    if (mountReply.error().type() == QDBusError::UnknownObject)
+        status = Mount::PARKING_ERROR;
 
     switch (status)
     {
@@ -3003,6 +3064,9 @@ void Scheduler::checkDomeParkingStatus()
 {
     QDBusReply<int> domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
     Dome::ParkingStatus status = (Dome::ParkingStatus) domeReply.value();
+
+    if (domeReply.error().type() == QDBusError::UnknownObject)
+        status = Dome::PARKING_ERROR;
 
     switch (status)
     {
