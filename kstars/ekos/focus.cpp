@@ -730,6 +730,10 @@ void Focus::newFITS(IBLOB *bp)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+    // Always reset capture mode to NORMAL
+    targetChip->setCaptureMode(FITS_NORMAL);
+
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
 
     if (targetImage == NULL)

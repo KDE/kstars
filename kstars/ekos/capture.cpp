@@ -149,6 +149,10 @@ void SequenceJob::prepareCapture()
 
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 {
+    // If focusing is busy, return error
+    if (activeChip->getCaptureMode() == FITS_FOCUS)
+        return CAPTURE_FOCUS_ERROR;
+
     if (targetFilter != -1 && activeFilter != NULL)
     {
         if (targetFilter != currentFilter)
@@ -1247,9 +1251,13 @@ void Capture::captureImage()
             appendLogText(i18n("Failed to set binning."));
             abort();
             break;
+
+        case SequenceJob::CAPTURE_FOCUS_ERROR:
+            appendLogText(i18n("Cannot capture while focus module is busy."));
+            abort();
+            break;
+
      }
-
-
 }
 
 void Capture::resumeCapture()

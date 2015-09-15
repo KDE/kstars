@@ -66,7 +66,7 @@ class SequenceJob : public QObject
     public:
 
     typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
-    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR} CAPTUREResult;
+    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FOCUS_ERROR} CAPTUREResult;
 
     SequenceJob();
 
@@ -479,8 +479,7 @@ public slots:
     void resetFrame();
     void updateAutofocusStatus(bool status, double HFR);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
-    void checkSeqBoundary(const QString &path);
-
+    void checkSeqBoundary(const QString &path);   
     void saveFITSDirectory();
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }

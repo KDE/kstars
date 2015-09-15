@@ -543,6 +543,12 @@ bool Align::captureAndSolve()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
+    if (targetChip->getCaptureMode() == FITS_FOCUS)
+    {
+        appendLogText(i18n("Cannot capture while focus module is busy."));
+        return false;
+    }
+
     CCDFrameType ccdFrame = FRAME_LIGHT;
 
     if (currentCCD->isConnected() == false)
