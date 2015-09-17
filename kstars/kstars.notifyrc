@@ -1,6 +1,7 @@
 [Global]
 IconName=kstars
 Comment=KStars
+Comment[ca]=KStars
 Comment[en_GB]=KStars
 Comment[es]=KStars
 Comment[nl]=KStars
@@ -11,6 +12,7 @@ Comment[uk]=KStars
 Comment[x-test]=xxKStarsxx
 [Event/FocusSuccessful]
 Name=Autofocus Success
+Name[ca]=Èxit en l'enfocament automàtic
 Name[en_GB]=Autofocus Success
 Name[es]=Enfoque automático exitoso
 Name[nl]=Autofocus succes
@@ -32,6 +34,7 @@ Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/FocusFailed]
 Name=Autofocus Failure
+Name[ca]=Ha fallat l'enfocament automàtic
 Name[en_GB]=Autofocus Failure
 Name[es]=Enfoque automático fallido
 Name[nl]=Autofocus mislukt
@@ -53,6 +56,7 @@ Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/AlignSuccessful]
 Name=Alignment Success
+Name[ca]=Èxit en l'alineació
 Name[en_GB]=Alignment Success
 Name[es]=Alineación exitosa
 Name[nl]=Uitlijnen succes
@@ -73,6 +77,7 @@ Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/AlignFailed]
 Name=Alignment Failure
+Name[ca]=Ha fallat l'alineació
 Name[en_GB]=Alignment Failure
 Name[es]=Alineación fallida
 Name[nl]=Uitlijnen mislukt
@@ -93,6 +98,7 @@ Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/CalibrationSuccessful]
 Name=Calibration Success
+Name[ca]=Èxit en el calibratge
 Name[en_GB]=Calibration Success
 Name[es]=Calibración exitosa
 Name[nl]=Kalibratie succes
@@ -114,6 +120,7 @@ Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/CalibrationFailed]
 Name=Calibration Failure
+Name[ca]=Ha fallat el calibratge
 Name[en_GB]=Calibration Failure
 Name[es]=Calibración fallida
 Name[nl]=Kalibratie mislukt
@@ -135,6 +142,7 @@ Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/GuideFailed]
 Name=Guiding Failure
+Name[ca]=Ha fallat el guiatge
 Name[en_GB]=Guiding Failure
 Name[es]=Guiado fallido
 Name[nl]=Volgen mislukt
@@ -156,6 +164,7 @@ Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/CaptureSuccessful]
 Name=Capture Success
+Name[ca]=Èxit en la captura
 Name[en_GB]=Capture Success
 Name[es]=Captura exitosa
 Name[nl]=Opname succes
@@ -177,6 +186,7 @@ Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/CaptureFailed]
 Name=Capture Failure
+Name[ca]=Ha fallat la captura
 Name[en_GB]=Capture Failure
 Name[es]=Captura fallida
 Name[nl]=Opname mislukt
@@ -198,6 +208,7 @@ Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/FITSReceived]
 Name=FITS Received
+Name[ca]=S'ha rebut un FITS
 Name[en_GB]=FITS Received
 Name[es]=FITS recibido
 Name[nl]=FITS ontvangen
@@ -207,6 +218,7 @@ Name[sv]=FITS mottagen
 Name[uk]=Отримано FITS
 Name[x-test]=xxFITS Receivedxx
 Comment=FITS file is received
+Comment[ca]=S'ha rebut un fitxer FITS
 Comment[en_GB]=FITS file is received
 Comment[es]=El archivo FITS se ha recibido
 Comment[nl]=FITS-bestand is ontvangen
@@ -219,6 +231,7 @@ Sound=KDE-Sys-App-Message.ogg
 Action=Sound
 [Event/WeatherWarning]
 Name=Weather Warning
+Name[ca]=Avís meteorològic
 Name[en_GB]=Weather Warning
 Name[es]=Advertencia meteorológica
 Name[nl]=Weerwaarschuwing
@@ -239,6 +252,7 @@ Sound=KDE-KStars-Warning.ogg
 Action=Sound
 [Event/WeatherAlert]
 Name=Weather Alert
+Name[ca]=Alerta meteorològica
 Name[en_GB]=Weather Alert
 Name[es]=Alerta meteorológica
 Name[nl]=Ernstige weerwaarschuwing
