@@ -1679,32 +1679,6 @@
         <label>Weather conditions must remain safe while observatory is online.</label>
         <default>false</default>
     </entry>
-    <entry name="startupScript" type="String">
-        <label>One-time startup script to be executed before starting Ekos devices.</label>
-    </entry>
-    <entry name="shutdownScript" type="String">
-        <label>One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed after the initial shutdown procedures (e.g. parking), if selected, are completed.</label>
-    </entry>
-    <entry name="WarmUpCCD" type="Bool">
-        <label>Warm up CCD if supported on shutdown.</label>
-        <default>false</default>
-    </entry>
-    <entry name="ParkMount" type="Bool">
-        <label>Park mount on shutdown.</label>
-        <default>false</default>
-    </entry>
-    <entry name="ParkDome" type="Bool">
-        <label>Park dome on shutdown.</label>
-        <default>false</default>
-    </entry>
-    <entry name="UnParkMount" type="Bool">
-        <label>UnPark mount on startup.</label>
-        <default>false</default>
-    </entry>
-    <entry name="UnParkDome" type="Bool">
-        <label>UnPark dome on startup.</label>
-        <default>false</default>
-    </entry>
     <entry name="preemptiveShutdown" type="Bool">
         <label>Perform pre-emptive strike if no jobs are due for a number of hours.</label>
         <default>false</default>

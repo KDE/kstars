@@ -107,9 +107,6 @@ Scheduler::Scheduler()
     selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
     selectFITSB->setIcon(QIcon::fromTheme("document-open"));
 
-    clearStartupB->setIcon(QIcon::fromTheme("edit-clear"));
-    clearShutdownB->setIcon(QIcon::fromTheme("edit-clear"));
-
     connect(selectObjectB,SIGNAL(clicked()),this,SLOT(selectObject()));
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
     connect(loadSequenceB,SIGNAL(clicked()),this,SLOT(selectSequence()));
@@ -127,23 +124,8 @@ Scheduler::Scheduler()
     connect(queueSaveB,SIGNAL(clicked()),this,SLOT(save()));
     connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
 
-    connect(clearStartupB, SIGNAL(clicked()), this, SLOT(clearScriptURL()));
-    connect(clearShutdownB, SIGNAL(clicked()), this, SLOT(clearScriptURL()));
-
-    // Load scheduler settings
-    startupScript->setText(Options::startupScript());    
-    startupScriptURL = QUrl(Options::startupScript());   
-
-    shutdownScript->setText(Options::shutdownScript());
-    shutdownScriptURL = QUrl(Options::shutdownScript());
-
-    weatherCheck->setChecked(Options::enforceWeather());
-    warmCCDCheck->setChecked(Options::warmUpCCD());
-    parkMountCheck->setChecked(Options::parkMount());
-    parkDomeCheck->setChecked(Options::parkDome());
-    unparkMountCheck->setChecked(Options::unParkMount());
-    unparkDomeCheck->setChecked(Options::unParkDome());
-
+    connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+    connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 }
 
 Scheduler::~Scheduler()
@@ -229,6 +211,7 @@ void Scheduler::selectStartupScript()
     if (startupScriptURL.isEmpty())
         return;
 
+    mDirty=true;
     startupScript->setText(startupScriptURL.path());
 }
 
@@ -238,11 +221,9 @@ void Scheduler::selectShutdownScript()
     if (shutdownScriptURL.isEmpty())
         return;
 
+    mDirty=true;
     shutdownScript->setText(shutdownScriptURL.path());    
 }
-
-
-
 
 void Scheduler::addJob()
 {
@@ -656,15 +637,22 @@ void Scheduler::start()
     if(state == SCHEDULER_RUNNIG)
         return;
 
+    startupScriptURL = QUrl::fromUserInput(startupScript->text());
+    if (shutdownScript->text().isEmpty() == false && startupScriptURL.isValid() == false)
+    {
+        appendLogText(i18n("Startup script URL %1 is not valid.", startupScript->text()));
+        return;
+    }
+
+    shutdownScriptURL= QUrl::fromUserInput(shutdownScript->text());
+    if (shutdownScript->text().isEmpty() == false && shutdownScriptURL.isValid() == false)
+    {
+        appendLogText(i18n("Shutdown script URL %1 is not valid.", shutdownScript->text()));
+        return;
+    }
+
     // Save settings
     Options::setEnforceWeather(weatherCheck->isChecked());
-    Options::setStartupScript(startupScript->text());
-    Options::setShutdownScript(shutdownScript->text());
-    Options::setWarmUpCCD(warmCCDCheck->isChecked());
-    Options::setParkMount(parkMountCheck->isChecked());
-    Options::setParkDome(parkDomeCheck->isChecked());
-    Options::setUnParkMount(unparkMountCheck->isChecked());
-    Options::setUnParkDome(unparkDomeCheck->isChecked());
 
     pi->startAnimation();
 
@@ -2324,7 +2312,50 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
         {
              for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
              {
-                processJobInfo(ep);
+                 const char *tag = tagXMLEle(ep);
+                 if (!strcmp(tag, "Job"))
+                    processJobInfo(ep);
+                 else if (!strcmp(tag, "StartupProcedure"))
+                 {
+                     XMLEle *procedure;
+                     startupScript->clear();
+                     unparkDomeCheck->setChecked(false);
+                     unparkMountCheck->setChecked(false);
+
+                     for (procedure = nextXMLEle(ep, 1) ; procedure != NULL ; procedure = nextXMLEle(ep, 0))
+                     {
+                         const char *proc = pcdataXMLEle(procedure);
+
+                         if (!strcmp(proc, "StartupScript"))
+                            startupScript->setText(findXMLAttValu(procedure, "value"));
+                         else if (!strcmp(proc, "UnparkDome"))
+                             unparkDomeCheck->setChecked(true);
+                         else if (!strcmp(proc, "UnparkMount"))
+                             unparkMountCheck->setChecked(true);
+                     }
+                 }
+                 else if (!strcmp(tag, "ShutdownProcedure"))
+                 {
+                     XMLEle *procedure;
+                     shutdownScript->clear();
+                     warmCCDCheck->setChecked(false);
+                     parkDomeCheck->setChecked(false);
+                     parkMountCheck->setChecked(false);
+
+                     for (procedure = nextXMLEle(ep, 1) ; procedure != NULL ; procedure = nextXMLEle(ep, 0))
+                     {
+                         const char *proc = pcdataXMLEle(procedure);
+
+                         if (!strcmp(proc, "ShutdownScript"))
+                            shutdownScript->setText(findXMLAttValu(procedure, "value"));
+                         else if (!strcmp(proc, "ParkDome"))
+                             parkDomeCheck->setChecked(true);
+                         else if (!strcmp(proc, "ParkMount"))
+                             parkMountCheck->setChecked(true);
+                         else if (!strcmp(proc, "WarmCCD"))
+                             warmCCDCheck->setChecked(true);
+                     }
+                 }
              }
              delXMLEle(root);
         }
@@ -2556,6 +2587,26 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
         outstream << "</Job>" << endl;
     }
+
+    outstream << "<StartupProcedure>" << endl;
+        if (startupScript->text().isEmpty() == false)
+        outstream << "<Procedure value='" << startupScript->text() << "'>StartupScript</Procedure>" << endl;
+        if (unparkDomeCheck->isChecked())
+            outstream << "<Procedure>UnparkDome</Procedure>" << endl;
+        if (unparkMountCheck->isChecked())
+            outstream << "<Procedure>UnparkMount</Procedure>" << endl;
+    outstream << "</StartupProcedure>" << endl;
+
+    outstream << "<ShutdownProcedure>" << endl;
+        if (warmCCDCheck->isChecked())
+            outstream << "<Procedure>WarmCCD</Procedure>" << endl;
+        if (parkMountCheck->isChecked())
+            outstream << "<Procedure>ParkMount</Procedure>" << endl;
+        if (parkDomeCheck->isChecked())
+            outstream << "<Procedure>ParkDome</Procedure>" << endl;
+        if (shutdownScript->text().isEmpty() == false)
+        outstream << "<Procedure value='" << shutdownScript->text() << "'>ShutdownScript</Procedure>" << endl;
+    outstream << "</ShutdownProcedure>" << endl;
 
     outstream << "</SchedulerList>" << endl;
 
@@ -3112,27 +3163,6 @@ void Scheduler::startJobEvaluation()
     if (Dawn < 0)
         calculateDawnDusk();
     evaluateJobs();
-}
-
-void Scheduler::clearScriptURL()
-{
-    QPushButton *scriptSender = (QPushButton*) (sender());
-
-    if (scriptSender == NULL)
-        return;
-
-    if (scriptSender == clearStartupB)
-    {
-        startupScript->clear();
-        startupScriptURL = QUrl();
-        Options::setStartupScript(QString());
-    }
-    else
-    {
-        shutdownScript->clear();
-        shutdownScriptURL = QUrl();
-        Options::setShutdownScript(QString());
-    }
 }
 
 void Scheduler::updatePreDawn()

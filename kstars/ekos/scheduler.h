@@ -163,8 +163,6 @@ protected slots:
 
      void resetJobEdit();
 
-     void clearScriptURL();
-
      /**
       * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
       */
