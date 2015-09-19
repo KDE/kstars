@@ -50,11 +50,11 @@
 
 const int MINIMUM_ROWS_PER_CENTER=3;
 
-#define JM_UPPER_LIMIT  .5
+#define DIFFUSE_THRESHOLD       0.15
+
 #define MAX_EDGE_LIMIT  10000
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10
-#define DIFFUSE_THRESHOLD   0.15
 #define MINIMUM_EDGE_LIMIT  2
 #define SMALL_SCALE_SQUARE  256
 
@@ -514,6 +514,8 @@ void FITSData::calculateStats(bool refresh)
 
     runningAverageStdDev();
 
+    stats.SNR = stats.mean / stats.stddev;
+
     if (refresh && markStars)
         // Let's try to find star positions again after transformation
         starsSearched = false;
@@ -538,7 +540,7 @@ void FITSData::runningAverageStdDev()
 
     double variance = m_newS / (m_n -2);
 
-    stats.average = m_newM;
+    stats.mean = m_newM;
     stats.stddev  = sqrt(variance);
 }
 
@@ -598,12 +600,12 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     int badPix=0;
     int minimumEdgeLimit = MINIMUM_EDGE_LIMIT;
 
-    double JMIndex = histogram->getJMIndex();
     int badPixLimit=0;
+    double JMIndex = histogram->getJMIndex();
 
     QList<Edge*> edges;
 
-    if (JMIndex > DIFFUSE_THRESHOLD)
+    if (JMIndex < DIFFUSE_THRESHOLD)
     {
             minEdgeWidth = JMIndex*35+1;
             minimumEdgeLimit=minEdgeWidth-1;
@@ -624,7 +626,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
         if (minimumEdgeLimit < 1)
             minimumEdgeLimit=1;
 
-       if (JMIndex > DIFFUSE_THRESHOLD)
+       if (JMIndex < DIFFUSE_THRESHOLD)
        {
            threshold = stats.max - stats.stddev* (MINIMUM_STDVAR - initStdDev +1);
 
@@ -635,15 +637,15 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
        else
        {
            threshold = (stats.max - stats.min)/2.0 + stats.min  + stats.stddev* (MINIMUM_STDVAR - initStdDev);
-           if ( (stats.max - stats.min)/2.0 > (stats.average+stats.stddev*5))
-               threshold = stats.average+stats.stddev*initStdDev;
+           if ( (stats.max - stats.min)/2.0 > (stats.mean+stats.stddev*5))
+               threshold = stats.mean+stats.stddev*initStdDev;
            min = stats.min;
            badPixLimit =2;
 
        }
 
         #ifdef FITS_DEBUG
-        qDebug() << "JMIndex: " << JMIndex << endl;
+        qDebug() << "SNR: " << stats.SNR << endl;
         qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeLimit << endl;
         #endif
 
@@ -923,6 +925,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
     // Release memory
     qDeleteAll(edges);
+
 }
 
 double FITSData::getHFR(HFRType type)
@@ -1104,8 +1107,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 
     case FITS_AUTO_STRETCH:
     {
-       min = stats.average - stats.stddev;
-       max = stats.average + stats.stddev * 3;
+       min = stats.mean - stats.stddev;
+       max = stats.mean + stats.stddev * 3;
 
            for (int i=0; i < channels; i++)
            {
@@ -1132,10 +1135,10 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 
      case FITS_HIGH_CONTRAST:
      {        
-        min = stats.average + stats.stddev;
+        min = stats.mean + stats.stddev;
         if (min < 0)
             min =0;
-        max = stats.average + stats.stddev * 3;
+        max = stats.mean + stats.stddev * 3;
 
         for (int i=0; i < channels; i++)
         {
@@ -1163,7 +1166,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
      {
         if (histogram == NULL)
             return;
-        QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq = histogram->getCumulativeFreq();
+        QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
         coeff = 255.0 / (height * width);
 
         for (int i=0; i < channels; i++)
@@ -1175,7 +1178,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                 for (int k=0; k < width; k++)
                 {
                     index=k + row;
-                    bufferVal = (int) (image[index] - min) * histogram->getBinWidth();
+                    bufferVal = (int) (image[index] - min) / histogram->getBinWidth();
 
                     if (bufferVal >= cumulativeFreq.size())
                         bufferVal = cumulativeFreq.size()-1;
@@ -1192,7 +1195,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 
      case FITS_HIGH_PASS:
      {
-        min = stats.average;
+        min = stats.mean;
         for (int i=0; i < channels; i++)
         {
             offset = i*size;
@@ -1267,7 +1270,7 @@ int FITSData::findStars()
         qDeleteAll(starCenters);
         starCenters.clear();
 
-        if (histogram->getJMIndex() < JM_UPPER_LIMIT)
+        if (histogram->getJMIndex() > DIFFUSE_THRESHOLD)
         {
              findCentroid();
              getHFR();
@@ -2094,22 +2097,22 @@ double FITSData::getADUPercentage()
     switch (stats.bitpix)
     {
         case 8:
-            return (stats.average / UCHAR_MAX) * 100.0;
+            return (stats.mean / UCHAR_MAX) * 100.0;
             break;
         case 16:
-            return (stats.average / USHRT_MAX) * 100.0;
+            return (stats.mean / USHRT_MAX) * 100.0;
             break;
         case 32:
-            return (stats.average / UINT_MAX) * 100.0;
+            return (stats.mean / UINT_MAX) * 100.0;
             break;
         case -32:
-             return (stats.average / INT_MAX) * 100.0;
+             return (stats.mean / INT_MAX) * 100.0;
              break;
         case 64:
-             return (stats.average / ULLONG_MAX) * 100.0;
+             return (stats.mean / ULLONG_MAX) * 100.0;
              break;
         case -64:
-             return (stats.average / LLONG_MAX) * 100.0;
+             return (stats.mean / LLONG_MAX) * 100.0;
         default:
             return 0;
             break;

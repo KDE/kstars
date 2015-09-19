@@ -116,10 +116,12 @@ public:
     double getMax() { return stats.max; }
     void setStdDev(double value) { stats.stddev = value;}
     double getStdDev() { return stats.stddev; }
-    void setAverage(double value) { stats.average = value; }
-    double getAverage() { return stats.average; }
+    void setMean(double value) { stats.mean = value; }
+    double getMean() { return stats.mean; }
     void setMedian(double val) { stats.median = val;}
     double getMedian() { return stats.median;}
+    void setSNR(double val) { stats.SNR = val;}
+    double getSNR() { return stats.SNR;}
     void setBPP(int value) { stats.bitpix = value;}
     int getBPP() { return stats.bitpix; }
     double getADUPercentage();
@@ -179,14 +181,15 @@ public:
     struct
     {
         double min, max;
-        double average;
+        double mean;
         double stddev;
         double median;
+        double SNR;
         int bitpix;
         int ndim;
         unsigned int size;
         long width;
-        long height;
+        long height;        
     } stats;
 
 private:
@@ -202,10 +205,11 @@ private:
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    int data_type;                      // FITS image data type
+    int data_type;                      // FITS image data type    
     int channels;                       // Number of channels    
     float *image_buffer;         		// Current image buffer
     float *darkFrame;                    // Optional dark frame pointer
+
 
     bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
     bool starsSearched;                 // Did we search for stars yet?

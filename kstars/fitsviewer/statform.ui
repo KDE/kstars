@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>202</width>
-    <height>221</height>
+    <width>248</width>
+    <height>224</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,15 +28,43 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="0" column="2">
     <widget class="QLabel" name="heightLabel">
      <property name="text">
       <string>Height:</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="0" column="3">
     <widget class="QLineEdit" name="heightOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="minLabel">
+     <property name="text">
+      <string>Min:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="minOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLabel" name="maxLabel">
+     <property name="text">
+      <string>Max:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QLineEdit" name="maxOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -56,71 +84,83 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="maxLabel">
-     <property name="text">
-      <string>Max:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="maxOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="minLabel">
-     <property name="text">
-      <string>Min:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLineEdit" name="minOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="meanLabel">
-     <property name="text">
-      <string>Mean:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QLineEdit" name="meanOUT">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
+   <item row="2" column="2">
     <widget class="QLabel" name="stdDevLabel">
+     <property name="toolTip">
+      <string>Standard Deviation</string>
+     </property>
      <property name="text">
       <string>Std. dev:</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="2" column="3">
     <widget class="QLineEdit" name="stddevOUT">
      <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="3" column="0">
+    <widget class="QLabel" name="meanLabel">
+     <property name="text">
+      <string>Mean:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="meanOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLabel" name="meanLabel_2">
+     <property name="text">
+      <string>Median</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QLineEdit" name="medianOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
     <widget class="QLabel" name="HFRLabel">
+     <property name="toolTip">
+      <string>Half-Flux Radius</string>
+     </property>
      <property name="text">
       <string comment="Half Flux Radius">HFR:</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="4" column="1">
     <widget class="QLineEdit" name="HFROUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QLabel" name="HFRLabel_2">
+     <property name="toolTip">
+      <string>Signal to Noise Ratio</string>
+     </property>
+     <property name="text">
+      <string comment="Half Flux Radius">SNR:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QLineEdit" name="SNROUT">
+     <property name="text">
+      <string comment="Half Flux Radius"/>
+     </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -128,14 +168,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>widthOUT</tabstop>
   <tabstop>heightOUT</tabstop>

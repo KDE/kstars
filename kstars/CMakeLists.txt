@@ -26,10 +26,10 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsdata.cpp
     fitsviewer/fitsview.cpp
     fitsviewer/fitsviewer.cpp
-    fitsviewer/fitshistogramdraw.cpp
     fitsviewer/fitstab.cpp
     fitsviewer/fitsdebayer.cpp
     fitsviewer/bayer.c
+    fitsviewer/qcustomplot.cpp
     )
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui

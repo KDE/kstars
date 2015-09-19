@@ -115,7 +115,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
         if (histogram == NULL)
             histogram = new FITSHistogram(this);
         else
-            histogram->updateHistogram();
+            histogram->constructHistogram();
 
         FITSData *image_data = view->getImageData();
 
@@ -179,9 +179,11 @@ void FITSTab::statFITS()
     stat.bitpixOUT->setText(QString::number(image_data->getBPP()));
     stat.maxOUT->setText(QString::number(image_data->getMax(), 'f', 3));
     stat.minOUT->setText(QString::number(image_data->getMin() , 'f', 3));
-    stat.meanOUT->setText(QString::number(image_data->getAverage(), 'f' , 3));
+    stat.meanOUT->setText(QString::number(image_data->getMean(), 'f' , 3));
     stat.stddevOUT->setText(QString::number(image_data->getStdDev(), 'f', 3));
     stat.HFROUT->setText(QString::number(image_data->getHFR(), 'f', 3));
+    stat.medianOUT->setText(QString::number(image_data->getMedian(), 'f', 3));
+    stat.SNROUT->setText(QString::number(image_data->getSNR(), 'f', 3));
 
     statDialog.exec();
 }
