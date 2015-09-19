@@ -493,6 +493,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         forceUpdate();  // must be new computed
 
     } else { //mouse button not down
+        if ( Options::useAltAz() )
+            m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         emit mousePointChanged( &m_MousePoint );
     }
 }
