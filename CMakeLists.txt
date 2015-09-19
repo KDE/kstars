@@ -36,7 +36,6 @@ find_package(KF5 REQUIRED COMPONENTS
   Init
   JobWidgets
   KIO
-  WindowSystem
   XmlGui
   Plotting
   TextEditor
