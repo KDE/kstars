@@ -52,7 +52,7 @@
 #include <config-kstars.h>
 #include <QStandardPaths>
 
-#define INDI_MAX_TRIES  3
+#define INDI_MAX_TRIES  2
 #define  ERRMSG_SIZE 1024
 
 DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
@@ -397,7 +397,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
              if (connectionToServer)
                  break;
 
-              usleep(100000);
+             qApp->processEvents();
          }
 
          if (connectionToServer)
