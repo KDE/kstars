@@ -79,19 +79,17 @@ private:
 
     histogramUI *ui;
     FITSTab *tab;
-    //QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
-    //QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq;
 
     QVector<double> intensity;
-    QVector<double> frequency;
+    QVector<double> r_frequency, g_frequency, b_frequency;
+    QCPGraph *r_graph, *g_graph, *b_graph;
     QVector<double> cumulativeFrequency;
 
     double binWidth;
     double JMIndex;
     double fits_min, fits_max;
     uint16_t binCount;
-    FITSScale type;
-    QCPGraph *graph;
+    FITSScale type;    
     QCustomPlot *customPlot;
 
 

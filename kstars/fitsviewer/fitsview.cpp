@@ -279,7 +279,8 @@ FITSView::~FITSView()
 
 bool FITSView::loadFITS ( const QString &inFilename )
 {
-    QProgressDialog fitsProg;
+    QProgressDialog fitsProg(this);
+
     bool setBayerParams=false;
 
     BayerParams param;
@@ -297,8 +298,29 @@ bool FITSView::loadFITS ( const QString &inFilename )
     if (setBayerParams)
         image_data->setBayerParams(&param);
 
-    if (image_data->loadFITS(inFilename, &fitsProg) == false)
+    if (mode == FITS_NORMAL)
+    {
+        fitsProg.setWindowModality(Qt::WindowModal);
+        fitsProg.setLabelText(i18n("Please hold while loading FITS file..."));
+        fitsProg.setWindowTitle(i18n("Loading FITS"));
+        fitsProg.setValue(10);
+        qApp->processEvents();
+    }
+
+    if (image_data->loadFITS(inFilename) == false)
         return false;
+
+
+    if (mode == FITS_NORMAL)
+    {
+        if (fitsProg.wasCanceled())
+            return false;
+        else
+        {
+           fitsProg.setValue(65);
+           qApp->processEvents();
+        }
+    }
 
     emit debayerToggled(image_data->hasDebayer());
 
@@ -321,6 +343,17 @@ bool FITSView::loadFITS ( const QString &inFilename )
         image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
     }
 
+    if (mode == FITS_NORMAL)
+    {
+        if (fitsProg.wasCanceled())
+            return false;
+        else
+        {
+           fitsProg.setValue(75);
+           qApp->processEvents();
+        }
+    }
+
     initDisplayImage();
 
     // Rescale to fits window
@@ -337,6 +370,17 @@ bool FITSView::loadFITS ( const QString &inFilename )
     {
         if (rescale(ZOOM_KEEP_LEVEL))
             return false;
+    }
+
+    if (mode == FITS_NORMAL)
+    {
+        if (fitsProg.wasCanceled())
+            return false;
+        else
+        {
+           fitsProg.setValue(100);
+           qApp->processEvents();
+        }
     }
 
     setAlignment(Qt::AlignCenter);
@@ -416,7 +460,7 @@ int FITSView::rescale(FITSZoom type)
             /* Fill in pixel values using indexed map, linear scale */
             for (int j = 0; j < image_height; j++)
             {
-                //QRgb *scanLine = static_cast<QRgb*>(display_image->scanLine(j));
+                QRgb *scanLine = (QRgb*) (display_image->scanLine(j));
 
                 for (int i = 0; i < image_width; i++)
                 {
@@ -432,7 +476,9 @@ int FITSView::rescale(FITSZoom type)
 
                     value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
 
-                    display_image->setPixel(i, j, value);
+                    //display_image->setPixel(i, j, value);
+                    scanLine[i] = value;
+
                 }
             }
 

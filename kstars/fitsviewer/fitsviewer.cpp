@@ -265,8 +265,10 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
     led.setColor(Qt::yellow);
 
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     if (tab->loadFITS(imageName,mode, filter) == false)
     {
+        QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
         if (fitsTabs.size() == 0)
         {
@@ -279,6 +281,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
         return -1;
     }
 
+    QApplication::restoreOverrideCursor();
     tab->setPreviewText(previewText);
 
     switch (mode)

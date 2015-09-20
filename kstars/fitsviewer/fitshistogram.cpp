@@ -77,9 +77,10 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
     customPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
     customPlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
 
-    graph = customPlot->addGraph();
-    graph->setBrush(QBrush(QColor(170, 40, 80)));
-    //graph->setLineStyle(QCPGraph::lsImpulse);
+    r_graph = customPlot->addGraph();
+    r_graph->setBrush(QBrush(QColor(170, 40, 80)));
+    r_graph->setPen(QPen(Qt::red));
+    //r_graph->setLineStyle(QCPGraph::lsImpulse);
 
     connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
 
@@ -112,7 +113,7 @@ void FITSHistogram::constructHistogram()
     binCount = sqrt(samples);
 
     intensity.fill(0, binCount);
-    frequency.fill(0, binCount);
+    r_frequency.fill(0, binCount);
     cumulativeFrequency.fill(0, binCount);
 
     double pixel_range = fits_max - fits_min;
@@ -124,26 +125,62 @@ void FITSHistogram::constructHistogram()
     for (int i=0; i < binCount; i++)
         intensity[i] = fits_min + (binWidth * i);
 
-    uint16_t id=0;
-    for (uint32_t i=0; i < samples ; i++)
+    uint16_t r_id=0, g_id=0, b_id=0;
+
+    if (image_data->getNumOfChannels() == 1)
     {
-        id = round((buffer[i] - fits_min) / binWidth);
-        frequency[id >= binCount ? binCount - 1 : id]++;
+        for (uint32_t i=0; i < samples ; i++)
+        {
+            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+        }
     }
+    else
+    {
+        g_frequency.fill(0, binCount);
+        b_frequency.fill(0, binCount);
+
+        int g_offset = samples;
+        int b_offset = samples*2;
+        for (uint32_t i=0; i < samples ; i++)
+        {
+            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+
+            g_id = round((buffer[i+g_offset] - fits_min) / binWidth);
+            g_frequency[g_id >= binCount ? binCount - 1 : g_id]++;
+
+            b_id = round((buffer[i+b_offset] - fits_min) / binWidth);
+            b_frequency[b_id >= binCount ? binCount - 1 : b_id]++;
+        }
+    }
+
 
     // Cumuliative Frequency
     for (int i=0; i < binCount; i++)
         for (int j=0; j <= i; j++)
-            cumulativeFrequency[i] += frequency[j];
+            cumulativeFrequency[i] += r_frequency[j];
 
-    int maxFrequency=frequency[0];
-    int minFrequency=frequency[0];
-    for (int i=0; i < binCount; i++)
+    int maxFrequency=0;
+    if (image_data->getNumOfChannels() == 1)
     {
-        if (frequency[i] > maxFrequency)
-            maxFrequency = frequency[i];
-        else if (frequency[i] < minFrequency)
-            minFrequency = frequency[i];
+        for (int i=0; i < binCount; i++)
+        {
+            if (r_frequency[i] > maxFrequency)
+                maxFrequency = r_frequency[i];
+        }
+    }
+    else
+    {
+        for (int i=0; i < binCount; i++)
+        {
+            if (r_frequency[i] > maxFrequency)
+                maxFrequency = r_frequency[i];
+            if (g_frequency[i] > maxFrequency)
+                maxFrequency = g_frequency[i];
+            if (b_frequency[i] > maxFrequency)
+                maxFrequency = b_frequency[i];
+        }
     }
 
     double median=0;
@@ -177,7 +214,21 @@ void FITSHistogram::constructHistogram()
     ui->maxEdit->setSingleStep( fabs(fits_max-fits_min) / 20.0);
     ui->maxEdit->setValue(fits_max);
 
-    graph->setData(intensity, frequency);
+    r_graph->setData(intensity, r_frequency);
+    if (image_data->getNumOfChannels() > 1)
+    {
+        g_graph = customPlot->addGraph();
+        b_graph = customPlot->addGraph();
+
+        g_graph->setBrush(QBrush(QColor(40, 170, 80)));
+        b_graph->setBrush(QBrush(QColor(80, 40, 170)));
+
+        g_graph->setPen(QPen(Qt::green));
+        b_graph->setPen(QPen(Qt::blue));
+
+        g_graph->setData(intensity, g_frequency);
+        b_graph->setData(intensity, b_frequency);
+    }
 
     customPlot->axisRect(0)->setRangeDrag(Qt::Horizontal);
     customPlot->axisRect(0)->setRangeZoom(Qt::Horizontal);
@@ -186,10 +237,11 @@ void FITSHistogram::constructHistogram()
     customPlot->yAxis->setLabel(i18n("Frequency"));
 
     customPlot->xAxis->setRange(fits_min, fits_max);
-    customPlot->yAxis->setRange(minFrequency, maxFrequency);
+    customPlot->yAxis->setRange(0, maxFrequency);
 
     customPlot->setInteraction(QCP::iRangeDrag, true);
     customPlot->setInteraction(QCP::iRangeZoom, true);
+    customPlot->setInteraction(QCP::iSelectPlottables, true);
 
     customPlot->replot();
 
@@ -278,7 +330,7 @@ void FITSHistogram::updateValues(QMouseEvent *event)
    {
        if (intensity[i] > intensity_key)
        {
-           frequency_val = frequency[i];
+           frequency_val = r_frequency[i];
            break;
        }
    }
