@@ -159,6 +159,8 @@ void FITSHistogram::constructHistogram()
 
     // Custom index to indicate the overall constrast of the image
     JMIndex = cumulativeFrequency[binCount/8]/cumulativeFrequency[binCount/4];
+    if (Options::verboseLogging())
+        qDebug() << "JMIndex " << JMIndex;
 
     image_data->setMedian(median);
 
@@ -167,10 +169,12 @@ void FITSHistogram::constructHistogram()
 
     ui->minEdit->setMinimum(fits_min);
     ui->minEdit->setMaximum(fits_max-1);
+    ui->minEdit->setSingleStep( fabs(fits_max-fits_min) / 20.0);
     ui->minEdit->setValue(fits_min);
 
     ui->maxEdit->setMinimum(fits_min+1);
     ui->maxEdit->setMaximum(fits_max);
+    ui->maxEdit->setSingleStep( fabs(fits_max-fits_min) / 20.0);
     ui->maxEdit->setValue(fits_max);
 
     graph->setData(intensity, frequency);
