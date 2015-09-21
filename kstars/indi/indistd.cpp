@@ -114,7 +114,8 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         if (tp == NULL)
             return;
 
-        if (driverInfo->getType() == KSTARS_TELESCOPE || QString(prop->getDeviceName()) == Options::remoteScopeName())
+        //if (driverInfo->getType() == KSTARS_TELESCOPE || QString(prop->getDeviceName()) == Options::remoteScopeName())
+        if (baseDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
         {
             //qDebug() << "device port for Telescope!!!!!" << endl;
             if (Options::telescopePort().isEmpty() == false)
@@ -124,7 +125,15 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 
             }
         }
-        else if (driverInfo->getType() == KSTARS_FOCUSER || QString(prop->getDeviceName()) == Options::remoteFocuserName())
+        else if (baseDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+        {
+            if (Options::videoPort().isEmpty() == false)
+            {
+                IUSaveText(tp, Options::videoPort().toLatin1().constData());
+                clientManager->sendNewText(prop->getText());
+            }
+        }
+        else if (baseDevice->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
         {
             //qDebug() << "device port for CCD!!!!!" << endl;
             if (Options::focuserPort().isEmpty() == false)
@@ -133,7 +142,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 clientManager->sendNewText(prop->getText());
             }
         }
-        else if (driverInfo->getType() == KSTARS_FILTER || QString(prop->getDeviceName()) == Options::remoteFilterName())
+        else if (baseDevice->getDriverInterface() & INDI::BaseDevice::FILTER_INTERFACE)
         {
             //qDebug() << "device port for CCD!!!!!" << endl;
             if (Options::filterPort().isEmpty() == false)
@@ -141,15 +150,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
                 IUSaveText(tp, Options::filterPort().toLatin1().constData());
                 clientManager->sendNewText(prop->getText());
            }
-        }
-        else if (driverInfo->getType() == KSTARS_VIDEO || driverInfo->getType() == KSTARS_CCD || QString(prop->getDeviceName()) == Options::remoteCCDName())
-        {
-            if (Options::videoPort().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::videoPort().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-            }
-        }
+        }                
         else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 1 || QString(prop->getDeviceName()) == Options::remoteAux1Name())
         {
             if (Options::aux1Port().isEmpty() == false)
@@ -171,6 +172,14 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             if (Options::aux3Port().isEmpty() == false)
             {
                 IUSaveText(tp, Options::aux3Port().toLatin1().constData());
+                clientManager->sendNewText(prop->getText());
+            }
+        }
+        else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 4 || QString(prop->getDeviceName()) == Options::remoteAux4Name())
+        {
+            if (Options::aux4Port().isEmpty() == false)
+            {
+                IUSaveText(tp, Options::aux4Port().toLatin1().constData());
                 clientManager->sendNewText(prop->getText());
             }
         }
