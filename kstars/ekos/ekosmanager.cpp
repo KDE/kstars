@@ -1083,6 +1083,7 @@ bool EkosManager::start()
     else
     {
         appendLogText(i18n("Connecting to remote INDI server at %1 on port %2 ...", Options::remoteHost(), Options::remotePort()));
+        qApp->processEvents();
 
         QApplication::setOverrideCursor(Qt::WaitCursor);
 
