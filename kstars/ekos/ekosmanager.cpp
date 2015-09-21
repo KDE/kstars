@@ -1061,6 +1061,8 @@ bool EkosManager::start()
             }
         }
 
+        appendLogText(i18n("Starting INDI services..."));
+
         if (DriverManager::Instance()->startDevices(managedDevices) == false)
         {
             INDIListener::Instance()->disconnect(this);
@@ -1080,18 +1082,25 @@ bool EkosManager::start()
     }
     else
     {
+        appendLogText(i18n("Connecting to remote INDI server at %1 on port %2 ...", Options::remoteHost(), Options::remotePort()));
+
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+
         if (DriverManager::Instance()->connectRemoteHost(remote_indi) == false)
         {
+            appendLogText(i18n("Failed to connect to remote INDI server!"));
             INDIListener::Instance()->disconnect(this);
             delete (remote_indi);
             remote_indi=0;
             ekosStartingStatus = STATUS_ERROR;
+            QApplication::restoreOverrideCursor();
             return false;
         }
 
+        QApplication::restoreOverrideCursor();
         ekosStartingStatus = STATUS_PENDING;
 
-        appendLogText(i18n("INDI services started. Connection to %1 at %2 is successful.", Options::remoteHost(), Options::remotePort()));
+        appendLogText(i18n("INDI services started. Connection to remote INDI server is successful."));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
