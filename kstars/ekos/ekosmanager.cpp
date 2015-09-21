@@ -1554,6 +1554,10 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
         ccd = devInterface;
         primaryCCDName = QString(devInterface->getDeviceName());
         remoteCCDRegistered = true;
+
+        // In case CCD = Guider, we decrement the device number.
+        if (QString(devInterface->getDeviceName()) == Options::remoteGuiderName())
+            nDevices--;
     }
     else if (remoteGuideRegistered == false &&
             ( (Options::remoteGuiderName().isEmpty() == false && deviceName.startsWith(Options::remoteGuiderName()) ) ||
