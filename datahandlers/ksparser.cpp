@@ -194,7 +194,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
 }
 
 QHash<QString, QVariant>  KSParser::DummyRow() {
-    qWarning() << "File named " << filename_ << " encountered an error while reading";
+   // qWarning() << "File named " << filename_ << " encountered an error while reading";
     QHash<QString, QVariant> newRow;
     for (int i = 0; i < name_type_sequence_.length(); ++i) {
            switch (name_type_sequence_[i].second) {
