@@ -566,6 +566,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
         if ( !line.startsWith('#') ) {
             int idx = line.indexOf(':');
             QString name = line.left( idx );
+            if (name == "XXX") continue;
             QString sub = line.mid( idx + 1 );
             idx = sub.indexOf(':');
             QString title = sub.left( idx );
