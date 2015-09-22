@@ -118,7 +118,7 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationAutoStar(bool enable);
 
     /** DBUS interface function.
-     * In case of automatic star selection, calculate the appropiate square size given the selected star width. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
+     * In case of automatic star selection, calculate the appropriate square size given the selected star width. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable if true, Ekos will attempt to automatically select the best square size for calibration and guiding phases.
      */
     Q_SCRIPTABLE Q_NOREPLY void setCalibrationAutoSquareSize(bool enable);

@@ -83,7 +83,7 @@ public:
      void startCapture();
 
      /**
-      * @brief getNextAction Checking for the next appropiate action regarding the current state of the scheduler  and execute it
+      * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
       */
      void getNextAction();
 
@@ -410,7 +410,7 @@ private:
     IPState weatherStatus;          // Keep watch of weather status
     QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
     QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready
-    uint8_t noWeatherCounter;       // Keep track of how many times we didn't recieve weather updates
+    uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates
     bool preemptiveShutdown;              // Are we shutting down until later?
     bool jobEvaluationOnly;         // Only run job evaluation
 

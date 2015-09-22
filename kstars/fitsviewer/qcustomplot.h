@@ -1918,7 +1918,7 @@ public:
   enum GradientPreset { gpGrayscale  ///< Continuous lightness from black to white (suited for non-biased data representation)
                         ,gpHot       ///< Continuous lightness from black over firey colors to white (suited for non-biased data representation)
                         ,gpCold      ///< Continuous lightness from black over icey colors to white (suited for non-biased data representation)
-                        ,gpNight     ///< Continuous lightness from black over weak blueish colors to white (suited for non-biased data representation)
+                        ,gpNight     ///< Continuous lightness from black over weak bluish colors to white (suited for non-biased data representation)
                         ,gpCandy     ///< Blue over pink to white
                         ,gpGeography ///< Colors suitable to represent different elevations on geographical maps
                         ,gpIon       ///< Half hue spectrum from black over purple to blue and finally green (creates banding illusion but allows more precise magnitude estimates)
