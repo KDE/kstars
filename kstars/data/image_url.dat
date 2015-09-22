@@ -81,7 +81,8 @@ NGC 2903:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/form
 NGC 3079:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/28/images/b/formats/large_web.jpg
 NGC 3132:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/39/images/a/formats/web_print.jpg
 NGC 3310:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/26/images/a/formats/web_print.jpg
-NGC 3314:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/14/images/a/formats/web_print.jpg
+NGC 3314A:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/14/images/a/formats/web_print.jpg
+NGC 3314B:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/14/images/a/formats/web_print.jpg
 NGC 3370:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/24/images/a/formats/web_print.jpg
 NGC 3372:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/06/images/a/formats/web_print.jpg
 NGC 3593:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
@@ -105,7 +106,7 @@ NGC 4881:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/07/images/a/form
 NGC 5128:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/14/images/a/formats/web_print.jpg
 NGC 5139:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/33/images/a/formats/web_print.jpg
 NGC 5653:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
-NGC 6027:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/22/images/a/formats/web_print.jpg
+NGC 6027A:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/22/images/a/formats/web_print.jpg
 NGC 6210:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/36/images/a/formats/web_print.jpg
 NGC 6251:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1997/28/images/a/formats/web_print.jpg
 NGC 6302:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/46/images/a/formats/web.jpg
@@ -485,8 +486,8 @@ NGC 5982:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n5982can
 NGC 5985:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n5985bauchwitz.jpg
 NGC 5987:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n5987schwab.jpg
 NGC 6015:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6015ford.jpg
-NGC 6027:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6027block.jpg
-NGC 6050:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6050kennedy.jpg
+NGC 6027A:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6027block.jpg
+NGC 6050A:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6050kennedy.jpg
 NGC 6058:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6058patterson.jpg
 NGC 6070:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6070gillispie.jpg
 NGC 6072:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n6072block.jpg
@@ -676,7 +677,7 @@ NGC 3372:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/carinaa.jpg
 NGC 4013:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/02953.jpg
 NGC 4402:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/n4402_450.jpg
 NGC 5128:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/01780a.jpg
-NGC 6027:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/n6027.jpg
+NGC 6027A:Show NOAO Image:http://www.noao.edu/image_gallery/images/d3/n6027.jpg
 NGC 6302:Show NOAO Image:http://www.noao.edu/image_gallery/images/d2/02207a.jpg
 NGC 6822:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/n6822a.jpg
 NGC 6888:Show NOAO Image:http://www.noao.edu/image_gallery/images/d6/04494a.jpg
