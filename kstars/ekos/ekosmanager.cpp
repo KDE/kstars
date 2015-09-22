@@ -1618,7 +1618,7 @@ void EkosManager::deviceConnected()
 
     nConnectedDevices++;
 
-    if (nConnectedDevices == managedDevices.count() || nConnectedDevices == nRemoteDevices)
+    if (nConnectedDevices == managedDevices.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
         indiConnectionStatus = STATUS_SUCCESS;
 
     if (Options::neverLoadConfig())
