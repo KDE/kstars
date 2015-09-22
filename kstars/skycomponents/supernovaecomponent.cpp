@@ -58,7 +58,7 @@ void SupernovaeComponent::loadData()
     QString serialNo, hostGalaxy, date, type, offset, SNPosition, discoverers ;
     dms ra, dec;
     float magnitude;
-    qDebug()<<"Loading Supernovae data"<<endl;
+    qDebug()<<"Loading Supernovae data";
     //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
