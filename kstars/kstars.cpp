@@ -96,9 +96,14 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     m_KStarsData->setLocationFromOptions();
 
     //Initialize Time and Date
-    KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
-    if ( ! StartDateString.isEmpty() && startDate.isValid() )
-        data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
+    if (StartDateString.isEmpty() == false)
+    {
+        KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
+        if (startDate.isValid() )
+            data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
+        else
+            data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
+    }
     else
         data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
 
