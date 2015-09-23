@@ -194,6 +194,13 @@ public slots:
     void checkCCD(int CCDNum=-1);
 
     /**
+     * @brief checkCCDExposureProgress Track the progress of CCD exposure
+     * @param targeChip Target chip under exposure
+     * @param remaining how many seconds remaining
+     * @param state status of exposure
+     */
+    void checkCCDExposureProgress(ISD::CCDChip* targetChip, double remaining, IPState state);
+    /**
      * @brief Process new FITS received from CCD.
      * @param bp pointer to blob property
      */

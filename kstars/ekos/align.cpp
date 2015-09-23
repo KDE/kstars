@@ -549,6 +549,12 @@ bool Align::captureAndSolve()
         return false;
     }
 
+    if (targetChip->isCapturing())
+    {
+        appendLogText(i18n("Cannot capture while CCD exposure is in progress."));
+        return false;
+    }
+
     CCDFrameType ccdFrame = FRAME_LIGHT;
 
     if (currentCCD->isConnected() == false)
@@ -559,6 +565,7 @@ bool Align::captureAndSolve()
     }
 
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+   connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
    {
@@ -593,8 +600,8 @@ void Align::newFITS(IBLOB *bp)
     if (!strcmp(bp->name, "CCD2"))
         return;
 
-    //currentCCD->disconnect(this);
-    disconnect(currentCCD, 0, this, SLOT(newFITS(IBLOB*)));
+    currentCCD->disconnect(this);
+    //disconnect(currentCCD, 0, this, SLOT(newFITS(IBLOB*)));
 
     appendLogText(i18n("Image received."));
 
@@ -775,6 +782,8 @@ void Align::abort()
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
+
+    currentCCD->disconnect(this);
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -1499,6 +1508,18 @@ void Align::setWCS(bool enable)
         ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
 
         clientManager->sendNewSwitch(wcsControl);
+    }
+}
+
+void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state)
+{
+    INDI_UNUSED(targetChip);
+    INDI_UNUSED(remaining);
+
+    if (state == IPS_ALERT)
+    {
+        appendLogText(i18n("Capture error! Aborting..."));
+        abort();
     }
 }
 
