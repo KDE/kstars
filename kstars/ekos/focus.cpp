@@ -55,6 +55,7 @@ Focus::Focus()
     filterSlot     = NULL;
 
     canAbsMove        = false;
+    canRelMove        = false;
     inAutoFocus       = false;
     inFocusLoop       = false;
     captureInProgress = false;
@@ -425,6 +426,15 @@ void Focus::checkFocuser(int FocuserNum)
         getAbsFocusPosition();
     }
 
+    if (currentFocuser->canRelMove())
+    {
+        // We pretend this is an absolute focuser
+        canRelMove = true;
+        currentPosition = 50000;
+        absMotionMax  = 100000;
+        absMotionMin  = 0;
+    }
+
     connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     AutoModeR->setEnabled(true);
@@ -482,6 +492,15 @@ void Focus::start()
         absIterations = 0;
         getAbsFocusPosition();
         pulseDuration = stepIN->value();
+    }
+    else if (canRelMove)
+    {
+        appendLogText(i18n("Setting dummy central position to 50000"));
+        absIterations = 0;
+        pulseDuration = stepIN->value();
+        currentPosition = 50000;
+        absMotionMax  = 100000;
+        absMotionMin  = 0;
     }
     else
       /* Start 1000 ms */
@@ -682,9 +701,11 @@ void Focus::FocusIn(int ms)
      currentFocuser->focusIn();
 
      if (canAbsMove)
-         currentFocuser->absMoveFocuser(currentPosition-ms);
+         currentFocuser->moveAbs(currentPosition-ms);
+     else if (canRelMove)
+         currentFocuser->moveRel(ms);
      else
-       currentFocuser->moveFocuser(ms);
+       currentFocuser->moveByTimer(ms);
 
 
     appendLogText(i18n("Focusing inward..."));
@@ -712,9 +733,11 @@ void Focus::FocusOut(int ms)
      currentFocuser->focusOut();
 
     if (canAbsMove)
-           currentFocuser->absMoveFocuser(currentPosition+ms);
+           currentFocuser->moveAbs(currentPosition+ms);
+    else if (canRelMove)
+            currentFocuser->moveRel(ms);
     else
-            currentFocuser->moveFocuser(ms);
+            currentFocuser->moveByTimer(ms);
 
     appendLogText(i18n("Focusing outward..."));
 
@@ -908,7 +931,7 @@ void Focus::newFITS(IBLOB *bp)
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
 
-    if (canAbsMove)
+    if (canAbsMove || canRelMove)
         autoFocusAbs();
     else
         autoFocusRel();
@@ -1437,6 +1460,9 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         getAbsFocusPosition();
     }
 
+    if (canRelMove == false && currentFocuser->canRelMove())
+        canRelMove = true;
+
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
        INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
@@ -1466,9 +1492,44 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
        return;
     }
 
-    if (!strcmp(nvp->name, "FOCUS_TIMER"))
-    {       
-        if (canAbsMove == false && inAutoFocus)
+    if (!strcmp(nvp->name, "REL_FOCUS_POSITION"))
+    {
+        INumber *pos = IUFindNumber(nvp, "FOCUS_RELATIVE_POSITION");
+        if (pos && nvp->s == IPS_OK)
+            currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
+
+        if (resetFocus && nvp->s == IPS_OK)
+        {
+            resetFocus = false;
+            appendLogText(i18n("Restarting autofocus process..."));
+            start();
+        }
+
+        if (canRelMove && inAutoFocus)
+        {
+            if (nvp->s == IPS_OK && captureInProgress == false)
+                capture();
+            else if (nvp->s == IPS_ALERT)
+            {
+                appendLogText(i18n("Focuser error, check INDI panel."));
+                abort();
+                updateFocusStatus(false);
+            }
+        }
+
+        return;
+    }
+
+    if (!strcmp(nvp->name, "FOCUS_TIMER"))        
+    {
+        if (resetFocus && nvp->s == IPS_OK)
+        {
+            resetFocus = false;
+            appendLogText(i18n("Restarting autofocus process..."));
+            start();
+        }
+
+        if (canAbsMove == false && canRelMove == false && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
                 capture();
@@ -1699,7 +1760,7 @@ void Focus::updateFocusStatus(bool status)
     // In case of failure, go back to last position if the focuser is absolute
     if (status == false &&  canAbsMove && currentFocuser && initialFocuserAbsPosition >= 0)
     {
-        currentFocuser->absMoveFocuser(initialFocuserAbsPosition);
+        currentFocuser->moveAbs(initialFocuserAbsPosition);
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
 
         // If we're doing in sequence focusing using an absolute focuser, let's retry focusing starting from last known good position before we give up

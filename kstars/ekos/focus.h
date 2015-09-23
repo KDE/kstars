@@ -372,6 +372,8 @@ private:
     int pulseDuration;
     // Does the focuser support absolute motion?
     bool canAbsMove;
+    // Does the focuser support relative motion?
+    bool canRelMove;
     // Range of motion for our lovely absolute focuser
     double absMotionMax, absMotionMin;
     // How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever

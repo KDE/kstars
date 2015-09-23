@@ -82,7 +82,25 @@ bool Focuser::focusOut()
     return true;
 }
 
-bool Focuser::moveFocuser(int msecs)
+bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection *dir)
+{
+    ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
+    if (focusProp == NULL)
+        return false;
+
+    ISwitch *inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
+    if (inFocus == NULL)
+        return false;
+
+    if (inFocus->s == ISS_ON)
+        *dir = FOCUS_INWARD;
+    else
+        *dir = FOCUS_OUTWARD;
+
+    return true;
+}
+
+bool Focuser::moveByTimer(int msecs)
 {
     INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
     if (focusProp == NULL)
@@ -95,7 +113,7 @@ bool Focuser::moveFocuser(int msecs)
     return true;
 }
 
-bool Focuser::absMoveFocuser(int steps)
+bool Focuser::moveAbs(int steps)
 {
     INumberVectorProperty *focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
     if (focusProp == NULL)
@@ -116,5 +134,30 @@ bool Focuser::canAbsMove()
     else
         return true;
 }
+
+bool Focuser::moveRel(int steps)
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
+    if (focusProp == NULL)
+        return false;
+
+    focusProp->np[0].value = steps;
+
+    clientManager->sendNewNumber(focusProp);
+
+    return true;
+}
+
+bool Focuser::canRelMove()
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
+    if (focusProp == NULL)
+        return false;
+    else
+        return true;
+}
+
+
+
 
 }
