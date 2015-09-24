@@ -363,7 +363,7 @@ bool CCDChip::abortExposure()
 
     abort->s = ISS_ON;
 
-    captureMode = FITS_NORMAL;
+    //captureMode = FITS_NORMAL;
 
     clientManager->sendNewSwitch(abortProp);
 

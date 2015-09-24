@@ -46,6 +46,7 @@ rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
 
     m_useRapidGuide = false;
     first_frame = false;
+    first_subframe = false;
     m_isSubFramed = false;
 
     m_lostStarTries=0;
@@ -407,8 +408,10 @@ bool rguider::start()
 
     pmain_wnd->setSuspended(false);
 
+    first_frame = true;
+
     if (ui.subFrameCheck->isEnabled() && ui.subFrameCheck->isChecked() && m_isSubFramed == false)
-        first_frame = true;
+        first_subframe = true;
 
     capture();
 
@@ -425,6 +428,7 @@ bool rguider::stop()
     pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
     pmath->stop();
 
+    first_frame = false;
     logFile.close();
 
     targetChip->abortExposure();
@@ -521,21 +525,24 @@ void rguider::guide( void )
 
  	 assert( pmath );
 
-     if (first_frame)
+     if (first_subframe)
      {
-        int x,y,w,h,binx, biny;
-        targetChip->getFrame(&x, &y, &w, &h);
-        targetChip->getBinning(&binx, &biny);
-        int square_size = pmath->get_square_size();
-        double ret_x,ret_y,ret_angle;
-        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
-        pmath->move_square((w-square_size)/(2*binx), (h-square_size)/(2*biny));
-        pmath->set_reticle_params(w/(2*binx), h/(2*biny), ret_angle);
-        first_frame = false;
+        first_subframe = false;
+        return;
+     }
+     else if (first_frame)
+     {
+         Vector star_pos = pmath->find_star_local_pos();
+         int square_size = pmath->get_square_size();
+         double ret_x,ret_y,ret_angle;
+         pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
+         pmath->move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
+         pmath->set_reticle_params(star_pos.x, star_pos.y, ret_angle);
+         first_frame=false;
      }
 
 	 // calc math. it tracks square
-	 pmath->do_processing();
+     pmath->do_processing();
 
      if(!m_isStarted )
 	 	 return;
@@ -613,7 +620,7 @@ void rguider::guideStarSelected(int x, int y)
     pmath->set_reticle_params(x, y, pmain_wnd->getReticleAngle());
     pmath->move_square(x-square_size/2, y-square_size/2);
 
-    disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    //disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
 }
 

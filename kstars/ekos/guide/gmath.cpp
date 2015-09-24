@@ -183,9 +183,7 @@ void cgmath::get_guider_params( double *ccd_pix_wd, double *ccd_pix_ht, double *
 
 bool cgmath::set_reticle_params( double x, double y, double ang )
 {
- Vector ort;
-
- // check frame ranges
+  // check frame ranges
  	if( x < 0 )
  		x = 0;
  	if( y < 0 )
@@ -222,8 +220,8 @@ bool cgmath::set_reticle_params( double x, double y, double ang )
 	overlays.reticle_pos.x = reticle_pos.x;
 	overlays.reticle_pos.y = reticle_pos.y;
 
-    if (pimage)
-        pimage->setGuideSquare(reticle_pos.x, reticle_pos.y);
+    //if (pimage)
+     //   pimage->setGuideSquare(reticle_pos.x, reticle_pos.y);
 
  return true;
 }
@@ -975,8 +973,8 @@ void cgmath::do_processing( void )
 
 
 	// move square overlay
- 	//move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
-    move_square( ceil(star_pos.x) - (double)square_size/2, ceil(star_pos.y) - (double)square_size/2 );
+    move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
+    //move_square( ceil(star_pos.x) - (double)square_size/2, ceil(star_pos.y) - (double)square_size/2 );
 
 	if( preview_mode )
 		return;
@@ -1036,45 +1034,8 @@ void cgmath::do_processing( void )
 
 void cgmath::calc_square_err( void )
 {
-
-
 	if( !do_statistics )
 		return;
-/*
- 	double avg;
-
- 	// around avarage
-    sum += out_params.delta[GUIDE_RA];
-	avg = sum / ((double)ticks + 1.0);
-
-    sqr_sum += ((avg - out_params.delta[GUIDE_RA]) * (avg - out_params.delta[GUIDE_RA]));
-
-    out_params.sigma[GUIDE_RA] = sqrt( sqr_sum / ((double)ticks + 1.0) );
-*/
-/*
- 	// though all values around 0
-	if( ticks == 0 )
-	{
-        delta_prev = out_params.delta[GUIDE_RA];
-		return;
-	}
-	if( ticks == 1 )
-	{
-        sigma = delta_prev*delta_prev + out_params.delta[GUIDE_RA]*out_params.delta[GUIDE_RA];
-	}
-	else
-	{
-        sigma = sigma_prev*((double)ticks-1)/(double)ticks + (1/(double)ticks)*out_params.delta[GUIDE_RA]*out_params.delta[GUIDE_RA];
-	}
-	sigma_prev = sigma;
-    delta_prev = out_params.delta[GUIDE_RA];
-
-    out_params.sigma[GUIDE_RA] = sqrt( sigma );
-
-// sigma[i] = sigma[i-1]*(i-1)/i + (1/i) * X[i]*X[i];
-//i = 1, sigma[1] = x[0]*x[0] + x[1]*x[1]
-*/
-
 	// through MAX_ACCUM_CNT values
 	if( ticks == 0 )
 		return;
