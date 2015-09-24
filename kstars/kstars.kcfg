@@ -118,7 +118,7 @@
     </entry>
   </group>
 
-  <group name="indi">
+  <group name="indi">    
     <entry name="useGeographicUpdate" type="Bool">
       <label>Automatically updates geographic location?</label>
       <default>true</default>
@@ -151,47 +151,7 @@
       <label>Display all FITS in one window?</label>
       <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
       <default>false</default>
-    </entry>
-    <entry name="telescopePort" type="String">
-      <label>INDI Telescope port</label>
-      <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB0</default>
-    </entry>
-    <entry name="focuserPort" type="String">
-      <label>INDI Focuser port</label>
-      <whatsthis>The port to which the focuser is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB1</default>
-    </entry>
-    <entry name="filterPort" type="String">
-      <label>INDI Filter port</label>
-      <whatsthis>The port to which the filter is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB2</default>
-    </entry>
-    <entry name="aux1Port" type="String">
-      <label>INDI Auxiliary #1 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="aux2Port" type="String">
-      <label>INDI Auxiliary #2 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="aux3Port" type="String">
-      <label>INDI Auxiliary #3 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="aux4Port" type="String">
-      <label>INDI Auxiliary #4 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="videoPort" type="String">
-      <label>INDI Video port</label>
-      <whatsthis>The port to which the video device is connected</whatsthis>
-      <default>/dev/video0</default>
-    </entry>
+    </entry>    
     <entry name="useComputerSource" type="Bool">
       <label>Use computer time and location for synchronization?</label>
       <default>true</default>
