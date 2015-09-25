@@ -387,12 +387,12 @@ bool rguider::start()
 
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&logFile);
-    out << "Guiding rate,x15 arcsec/sec: " << ui.spinBox_GuideRate->value();
-    out << "Focal,mm: " << ui.l_Focal->text();
-    out << "Aperture,mm: " << ui.l_Aperture->text();
-    out << "F/D: " << ui.l_FbyD->text();
-    out << "FOV: " << ui.l_FOV->text();
-    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction";
+    out << "Guiding rate,x15 arcsec/sec: " << ui.spinBox_GuideRate->value() << endl;
+    out << "Focal,mm: " << ui.l_Focal->text() << endl;
+    out << "Aperture,mm: " << ui.l_Aperture->text() << endl;
+    out << "F/D: " << ui.l_FbyD->text() << endl;
+    out << "FOV: " << ui.l_FOV->text() << endl;
+    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction"  << endl;
 
     drift_graph->reset_data();
     ui.pushButton_StartStop->setText( i18n("Stop") );

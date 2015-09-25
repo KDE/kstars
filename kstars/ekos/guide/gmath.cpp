@@ -885,7 +885,7 @@ void cgmath::process_axes( void  )
  			t_delta += drift[k][idx];
 
             if (Options::verboseLogging())
-                qDebug() << "At #" << i << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta ;
+                qDebug() << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta ;
  		
 			if( idx > 0 )
 				--idx;
@@ -901,19 +901,16 @@ void cgmath::process_axes( void  )
  	
         if (Options::verboseLogging())
         {
-            qDebug() << "cnt: " << cnt;
-            qDebug() << "delta[" << k << "]= "  << out_params.delta[k];
+            //qDebug() << "cnt: " << cnt;
+            qDebug() << "delta         [" << k << "]= "  << out_params.delta[k];
             qDebug() << "drift_integral[" << k << "]= "  << drift_integral[k];
         }
-
-        //if( k == GUIDE_RA )
-		//	log_i( "PROP = %f INT = %f", out_params.delta[k], drift_integral[k] );
 
 		out_params.pulse_length[k] = fabs(out_params.delta[k]*in_params.proportional_gain[k] + drift_integral[k]*in_params.integral_gain[k]);
  		out_params.pulse_length[k] = out_params.pulse_length[k] <= in_params.max_pulse_length[k] ? out_params.pulse_length[k] : in_params.max_pulse_length[k];
 
         if (Options::verboseLogging())
-            qDebug() << "pulse_length[" << k << "]= "  << out_params.pulse_length[k];
+            qDebug() << "pulse_length  [" << k << "]= "  << out_params.pulse_length[k];
 
  		// calc direction
  		if( !in_params.enabled[k] )
@@ -939,7 +936,7 @@ void cgmath::process_axes( void  )
  			out_params.pulse_dir[k] = NO_DIR;
 
     if (Options::verboseLogging())
-            qDebug() << "Direction: " << get_direction_string(out_params.pulse_dir[k]);
+            qDebug() << "Direction     : " << get_direction_string(out_params.pulse_dir[k]);
 
  	}
 
@@ -947,7 +944,7 @@ void cgmath::process_axes( void  )
 
      QTextStream out(logFile);
      out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << "," << get_direction_string(out_params.pulse_dir[0])
-         << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]);
+         << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
 
 }
 
@@ -991,10 +988,10 @@ void cgmath::do_processing( void )
 
     if (Options::verboseLogging())
     {
-        qDebug() << "Star X: " << star_pos.x << " Y: " << star_pos.y;
-        qDebug() << "Reticle X: " << reticle_pos.x << " Y:" << reticle_pos.y;
-        qDebug() << "Star Sky Coords RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
-        qDebug() << "Reticle Sky Coords RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
+        qDebug() << "Star    X : " << star_pos.x << " Y  : " << star_pos.y;
+        qDebug() << "Reticle X : " << reticle_pos.x << " Y  :" << reticle_pos.y;
+        qDebug() << "Star    RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
+        qDebug() << "Reticle RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
     }
 
 	// translate into sky coords.
