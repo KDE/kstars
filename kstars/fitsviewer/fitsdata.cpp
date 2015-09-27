@@ -319,14 +319,14 @@ int FITSData::saveFITS( const QString &newFilename )
     }
 
     // NAXIS1
-    if (fits_update_key(fptr, TINT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
+    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
     {
         fits_report_error(stderr, status);
         return status;
     }
 
     // NAXIS2
-    if (fits_update_key(fptr, TINT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
+    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
     {
         fits_report_error(stderr, status);
         return status;
