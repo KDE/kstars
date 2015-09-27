@@ -106,12 +106,12 @@ bool EquirectangularProjector::unusablePoint(const QPointF& p) const
 }
 
 QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, bool* drawLabel) const
-{
-    float dX = m_vp.zoomFactor*M_PI/2;
-    float dY = m_vp.zoomFactor*M_PI/2;
+{    
     float x0 = m_vp.width/2.;
     float y0 = m_vp.width/2.;
     if( m_vp.useAltAz ) {
+        float dX = m_vp.zoomFactor*M_PI;
+        float dY = m_vp.zoomFactor*M_PI;
         SkyPoint belowFocus;
         belowFocus.setAz( m_vp.focus->az().Degrees() );
         belowFocus.setAlt( 0.0 );
@@ -151,7 +151,8 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
 
         return ground;
     } else {
-        KStarsData *data = KStarsData::Instance();
+        float dX = m_vp.zoomFactor*M_PI/2;
+        float dY = m_vp.zoomFactor*M_PI/2;
         QVector<Vector2f> ground;
 
         static const QString horizonLabel = i18n("Horizon");
@@ -169,7 +170,7 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
         double inc = 1.0;
         //Add points along horizon
         for(double az = az1; az <= az2 + inc; az += inc) {
-            SkyPoint p = pointAt(az,data);
+            SkyPoint p = pointAt(az);
             bool visible = false;
             Vector2f o = toScreenVec(&p, false, &visible);
             if( visible ) {
