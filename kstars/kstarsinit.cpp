@@ -429,8 +429,10 @@ void KStars::initActions() {
     actionCollection()->addAction("manageobserver", this, SLOT( slotObserverManager() ) )
         << i18n( "Mananger Observer..." )
         << QKeySequence( Qt::CTRL+Qt::Key_1 );    
-    actionCollection()->addAction("artificialhorizon", this, SLOT(slotHorizonManager()) )
-        << i18n( "Artificial Horizon..." );
+
+    //TODO only enable it when finished
+    //actionCollection()->addAction("artificialhorizon", this, SLOT(slotHorizonManager()) )
+    //    << i18n( "Artificial Horizon..." );
 
     // ==== observation menu ================
     ka = actionCollection()->addAction("execute", this, SLOT( slotExecute() ) )

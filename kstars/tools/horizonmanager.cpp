@@ -107,7 +107,7 @@ HorizonManager::HorizonManager( QWidget *w )
     //Connect buttons
     connect( ui->addRegionB, SIGNAL( clicked() ), this, SLOT( slotAddRegion() ) );
     connect( ui->removeRegionB, SIGNAL( clicked() ), this, SLOT( slotRemoveRegion() ) );
-    connect( ui->addPointB, SIGNAL(clicked()), this, SLOT(slotAddPoint(SkyPoint*)));
+    //connect( ui->addPointB, SIGNAL(clicked()), this, SLOT(slotAddPoint(SkyPoint*)));
     connect(ui->removePointB, SIGNAL(clicked()), this, SLOT(slotRemovePoint()));
 
     connect(ui->regionsList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotSetShownRegion(QModelIndex)));
