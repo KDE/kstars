@@ -37,12 +37,12 @@ namespace {
     }
 }
 
-SkyPoint Projector::pointAt(double az, KStarsData* data)
+SkyPoint Projector::pointAt(double az)
 {
     SkyPoint p;
     p.setAz( az );
     p.setAlt( 0.0 );
-    p.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+    p.HorizontalToEquatorial( KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat() );
     return p;
 }
 
@@ -70,9 +70,11 @@ void Projector::setViewParams(const ViewParams& p)
     } else {
         m_vp.focus->dec().SinCos( m_sinY0, m_cosY0 );
     }
+
+    double currentFOV = m_fov;
     //Find FOV in radians
     m_fov = sqrt( m_vp.width*m_vp.width + m_vp.height*m_vp.height )
-                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );
+                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );        
     //Set checkVisibility variables
     double Ymax;
     if ( m_vp.useAltAz ) {
@@ -83,6 +85,10 @@ void Projector::setViewParams(const ViewParams& p)
         Ymax = fabs( m_vp.focus->dec().Degrees() ) + m_fov;
     }
     m_isPoleVisible = (Ymax >= 90.0);
+
+    // Only update clipping polygon if there is an FOV change
+    if (currentFOV != m_fov)
+        updateClipPoly();
 }
 
 double Projector::fov() const
@@ -251,7 +257,6 @@ double Projector::findPA( SkyObject *o, float x, float y ) const
 
 QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel) const
 {
-    KStarsData *data = KStarsData::Instance();
     QVector<Vector2f> ground;
 
     static const QString horizonLabel = i18n("Horizon");
@@ -279,7 +284,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     double inc = 1.0;
     //Add points along horizon
     for(double az = az1; az <= az2 + inc; az += inc) {
-        SkyPoint p = pointAt(az,data);
+        SkyPoint p = pointAt(az);
         bool visible = false;
         Vector2f o = toScreenVec(&p, false, &visible);
         if( visible ) {
@@ -313,7 +318,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     //In Gnomonic projection, or if sufficiently zoomed in, we can complete
     //the ground polygon by simply adding offscreen points
     //FIXME: not just gnomonic
-    if ( daz < 25.0 || type() == SkyMap::Gnomonic ) {
+    if ( daz < 25.0 || type() == SkyMap::Gnomonic) {
         ground.append( Vector2f( m_vp.width + 10.f, ground.last().y() ) );
         ground.append( Vector2f( m_vp.width + 10.f, m_vp.height + 10.f ) );
         ground.append( Vector2f( -10.f, m_vp.height + 10.f ) );
@@ -333,6 +338,39 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     if( drawLabel)
         *drawLabel = true;
     return ground;
+}
+
+void Projector::updateClipPoly()
+{
+    m_clipPolygon.clear();
+
+    double r = m_vp.zoomFactor*radius();
+    double t1 = 0 ;
+    double t2 = 180;
+    double inc=1.0;
+    for ( double t=t1; t <= t2; t += inc )
+    {  //step along circumference
+        dms a( t );
+        double sa(0.), ca(0.);
+        a.SinCos( sa, ca );
+        m_clipPolygon << QPointF( 0.5*m_vp.width + r*ca, 0.5*m_vp.height - r*sa);
+    }
+
+    t1 =0 ;
+    t2 =- 180.;
+    for ( double t=t1; t >= t2; t -= inc )
+    {  //step along circumference
+        dms a( t );
+        double sa(0.), ca(0.);
+        a.SinCos( sa, ca );
+        m_clipPolygon << QPointF( 0.5*m_vp.width + r*ca, 0.5*m_vp.height - r*sa);
+    }
+
+}
+
+QPolygonF Projector::clipPoly() const
+{
+    return m_clipPolygon;
 }
 
 bool Projector::unusablePoint(const QPointF& p) const

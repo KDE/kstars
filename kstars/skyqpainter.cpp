@@ -230,9 +230,14 @@ void SkyQPainter::initStarImages()
 
 void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
+
     bool aVisible, bVisible;
     QPointF aScreen = m_proj->toScreen(a,true,&aVisible);
     QPointF bScreen = m_proj->toScreen(b,true,&bVisible);
+
+    drawLine(aScreen, bScreen);
+    return;
+
     //THREE CASES:
     if( aVisible && bVisible ) {
         //Both a,b visible, so paint the line normally:
@@ -279,17 +284,30 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
     }
 }
 
-void SkyQPainter::drawSkyPolygon(LineList* list)
+void SkyQPainter::drawSkyPolygon(LineList* list, bool forceClip)
 {
-    SkyList *points = list->points();
     bool isVisible, isVisibleLast;
+    SkyList *points = list->points();
+    QPolygonF polygon;
+
+    if (forceClip == false)
+    {
+        for ( int i = 0; i < points->size(); ++i )
+            polygon << m_proj->toScreen( points->at( i ), true, &isVisible);
+
+        // If 1+ points are visible, draw it
+        if ( polygon.size() && isVisible)
+            drawPolygon(polygon);
+
+        return;
+    }
+
+
     SkyPoint* pLast = points->last();
     QPointF   oLast = m_proj->toScreen( pLast, true, &isVisibleLast );
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(pLast);
 
-
-    QPolygonF polygon;
     for ( int i = 0; i < points->size(); ++i ) {
         SkyPoint* pThis = points->at( i );
         QPointF oThis = m_proj->toScreen( pThis, true, &isVisible );
@@ -315,6 +333,7 @@ void SkyQPainter::drawSkyPolygon(LineList* list)
 
     if ( polygon.size() )
         drawPolygon(polygon);
+
 }
 
 bool SkyQPainter::drawPlanet(KSPlanetBase* planet)

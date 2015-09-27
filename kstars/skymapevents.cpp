@@ -581,7 +581,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
         switch( e->button() ) {
         case Qt::LeftButton:
-            if( kstars ) {
+            {
                 QString name;
                 if( clickedObject() )
                     name = clickedObject()->translatedLongName();
@@ -589,7 +589,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                     name = i18n( "Empty sky" );
                 //kstars->statusBar()->changeItem(name, 0 );
                 kstars->statusBar()->showMessage(name, 0 );
+
+                emit positionClicked(&m_MousePoint);
             }
+
             break;
         case Qt::RightButton:
             if( rulerMode ) {

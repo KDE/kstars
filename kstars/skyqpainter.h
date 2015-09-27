@@ -75,7 +75,7 @@ public:
     virtual void drawSkyLine(SkyPoint* a, SkyPoint* b);
     virtual void drawSkyPolyline(LineList* list, SkipList *skipList = 0,
                                  LineListLabel *label = 0);
-    virtual void drawSkyPolygon(LineList* list);
+    virtual void drawSkyPolygon(LineList* list, bool forceClip=true);
     virtual bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A');
     virtual bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false);
     virtual bool drawPlanet(KSPlanetBase *planet);

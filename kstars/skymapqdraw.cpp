@@ -18,6 +18,7 @@
 #include "skymapcomposite.h"
 #include "skyqpainter.h"
 #include "skymap.h"
+#include "projections/projector.h"
 #include "printing/legend.h"
 
 SkyMapQDraw::SkyMapQDraw( SkyMap *sm ) : QWidget( sm ), SkyMapDrawAbstract( sm ) {
@@ -70,6 +71,13 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
     
     //Draw all sky elements
     psky.drawSkyBackground();
+
+    // Set Clipping
+    QPainterPath path;
+    path.addPolygon(m_SkyMap->projector()->clipPoly());
+    psky.setClipPath(path);
+    psky.setClipping(true);
+
     m_KStarsData->skyComposite()->draw( &psky );
     //Finish up
     psky.end();

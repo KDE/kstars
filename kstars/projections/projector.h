@@ -199,6 +199,16 @@ public:
         */
     virtual QVector<Vector2f> groundPoly( SkyPoint* labelpoint = 0, bool* drawLabel = 0 ) const;
 
+    /**
+     * @brief updateClipPoly calculate the clipping polygen given the current FOV.
+     */
+    virtual void updateClipPoly();
+
+    /**
+     * @return the clipping polygen covering the visible sky area. Anything outside this polygen is clipped by QPainter.
+     */
+    virtual QPolygonF clipPoly() const;
+
 protected:
     /** Get the radius of this projection's sky circle.
         @return the radius in radians
@@ -225,13 +235,15 @@ protected:
     /** Helper function for drawing ground.
         @return the point with Alt = 0, az = @p az
         */
-    static SkyPoint pointAt(double az, KStarsData* data);
+    static SkyPoint pointAt(double az);
     
     KStarsData *m_data;
     ViewParams m_vp;
     double m_sinY0, m_cosY0;
     double m_fov;
 private:
+    QPolygonF m_clipPolygon;
+
     //Used by CheckVisibility
     double m_xrange;
     bool m_isPoleVisible;
