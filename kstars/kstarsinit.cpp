@@ -423,12 +423,14 @@ void KStars::initActions() {
     actionCollection()->addAction("flagmanager", this, SLOT( slotFlagManager() ) )
         << i18n("Flags");
 
-    actionCollection()->addAction("ewriter", this, SLOT( slotEquipmentWriter() ) )
+    actionCollection()->addAction("equipmentwriter", this, SLOT( slotEquipmentWriter() ) )
         << i18n("List your &Equipment...")
         << QKeySequence( Qt::CTRL+Qt::Key_0 );
-    actionCollection()->addAction("obsadd", this, SLOT( slotObserverAdd() ) )
-        << i18n( "Add Observer..." )
-        << QKeySequence( Qt::CTRL+Qt::Key_1 );
+    actionCollection()->addAction("manageobserver", this, SLOT( slotObserverManager() ) )
+        << i18n( "Mananger Observer..." )
+        << QKeySequence( Qt::CTRL+Qt::Key_1 );    
+    actionCollection()->addAction("artificialhorizon", this, SLOT(slotHorizonManager()) )
+        << i18n( "Artificial Horizon..." );
 
     // ==== observation menu ================
     ka = actionCollection()->addAction("execute", this, SLOT( slotExecute() ) )

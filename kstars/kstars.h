@@ -57,6 +57,7 @@ class Execute;
 class ExportImageDialog;
 class PrintingWizard;
 class EkosManager;
+class HorizonManager;
 
 class OpsCatalog;
 class OpsGuides;
@@ -576,7 +577,9 @@ private slots:
 
     void slotEquipmentWriter();
 
-    void slotObserverAdd();
+    void slotObserverManager();
+
+    void slotHorizonManager();
 
     void slotExecute();
 
@@ -635,6 +638,7 @@ private:
     JMoonTool *m_JMoonTool;
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
+    HorizonManager *m_HorizonManager;
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

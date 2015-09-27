@@ -175,6 +175,7 @@ set(libkstarstools_SRCS
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
         tools/flagmanager.cpp
+        tools/horizonmanager.cpp
 
         #FIXME Port to QML2
         #tools/whatsinteresting/skyobjlistmodel.cpp
@@ -236,6 +237,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
         tools/whatsinteresting/wilpsettings.ui
         tools/whatsinteresting/wiequipsettings.ui
         tools/starhopperdialog.ui
+        tools/horizonmanager.ui
         )
 
 
@@ -269,6 +271,7 @@ set(libkstarscomponents_SRCS
    skycomponents/horizontalcoordinategrid.cpp
    skycomponents/ecliptic.cpp
    skycomponents/equator.cpp
+   skycomponents/artificialhorizoncomponent.cpp
    skycomponents/horizoncomponent.cpp
    skycomponents/milkyway.cpp
    skycomponents/skycomponent.cpp

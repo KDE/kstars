@@ -37,6 +37,7 @@
 #include "catalogcomponent.h"
 #include "deepskycomponent.h"
 #include "equator.h"
+#include "artificialhorizoncomponent.h"
 #include "ecliptic.h"
 #include "horizoncomponent.h"
 #include "milkyway.h"
@@ -79,11 +80,13 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
     m_Cultures = new CultureList();
     addComponent( m_CLines     = new ConstellationLines( this, m_Cultures ));
-    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ));
+    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ));    
     addComponent( m_Equator    = new Equator( this ));
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
+
+    addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this));
 
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
@@ -267,6 +270,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), 1. );
     m_StarHopRouteList->draw( skyp );
     
+    m_ArtificialHorizon->draw( skyp );
+
     m_Horizon->draw( skyp );
 
     m_skyMesh->inDraw( false );
@@ -622,4 +627,7 @@ SupernovaeComponent* SkyMapComposite::supernovaeComponent()
     return m_Supernovae;
 }
 
-
+ArtificialHorizonComponent* SkyMapComposite::artificialHorizon()
+{
+    return m_ArtificialHorizon;
+}

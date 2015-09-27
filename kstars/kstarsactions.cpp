@@ -92,6 +92,7 @@
 //FIXME Port to KF5
 //#include "tools/moonphasetool.h"
 #include "tools/flagmanager.h"
+#include "tools/horizonmanager.h"
 #include "oal/execute.h"
 #include "projections/projector.h"
 #include "imageexporter.h"
@@ -1256,13 +1257,22 @@ void KStars::slotEquipmentWriter() {
     delete equipmentdlg;
 }
 
-void KStars::slotObserverAdd() {
+void KStars::slotObserverManager() {
     QPointer<ObserverAdd> m_observerAdd = new ObserverAdd();
     m_observerAdd->exec();
     delete m_observerAdd;
 }
 
+void KStars::slotHorizonManager()
+{
+    if ( ! m_HorizonManager )
+    {
+        m_HorizonManager = new HorizonManager(this);
+        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint*)), m_HorizonManager, SLOT(setSkymapPoint(SkyPoint*)));
+    }
 
+    m_HorizonManager->show();
+}
 
 void KStars::slotExecute() {
     KStarsData::Instance()->executeSession()->init();
