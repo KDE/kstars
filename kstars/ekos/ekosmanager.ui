@@ -33,7 +33,7 @@
      </property>
      <widget class="QWidget" name="setupTab">
       <attribute name="title">
-       <string>Setup</string>
+       <string></string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>

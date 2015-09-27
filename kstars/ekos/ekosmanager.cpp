@@ -100,6 +100,8 @@ EkosManager::EkosManager()
     kcfg_localMode->setChecked(Options::localMode());
     kcfg_remoteMode->setChecked(Options::remoteMode());
 
+    toolsWidget->setIconSize(QSize(64,64));
+
     connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
     toolsWidget->setTabEnabled(1, false);
@@ -132,8 +134,13 @@ EkosManager::EkosManager()
     else
         initRemoteDrivers();
 
+    toolsWidget->tabBar()->setTabIcon(0, QIcon::fromTheme("kstars_ekos_setup"));
+    toolsWidget->tabBar()->setTabToolTip(0, i18n("Setup"));
+
     schedulerProcess = new Ekos::Scheduler();
-    toolsWidget->addTab( schedulerProcess, i18n("Scheduler"));
+    //toolsWidget->addTab( schedulerProcess, i18n("Scheduler"));
+    toolsWidget->addTab( schedulerProcess, QIcon::fromTheme("kstars_ekos_scheduler"), "");
+    toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
 }
@@ -2208,7 +2215,9 @@ void EkosManager::initCapture()
         return;
 
      captureProcess = new Ekos::Capture();
-     toolsWidget->addTab( captureProcess, i18n("CCD"));
+     //toolsWidget->addTab( captureProcess, i18n("CCD"));
+     int index = toolsWidget->addTab( captureProcess, QIcon::fromTheme("kstars_ekos_ccd"), "");
+     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
      if (focusProcess)
@@ -2216,6 +2225,7 @@ void EkosManager::initCapture()
          // Autofocus
          connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
          connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)),  Qt::UniqueConnection);
+         connect(focusProcess, SIGNAL(statusUpdated(bool)), captureProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
 
          // Meridian Flip
          connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
@@ -2246,7 +2256,9 @@ void EkosManager::initAlign()
         return;
 
      alignProcess = new Ekos::Align();
-     toolsWidget->addTab( alignProcess, i18n("Alignment"));
+     //toolsWidget->addTab( alignProcess, i18n("Alignment"));
+     int index = toolsWidget->addTab( alignProcess, QIcon::fromTheme("kstars_ekos_align"), "");
+     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
      connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
      if (captureProcess)
@@ -2263,6 +2275,7 @@ void EkosManager::initAlign()
      {
          // Filter lock
          connect(focusProcess, SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess, SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
+         connect(focusProcess, SIGNAL(statusUpdated(bool)), alignProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
      }
 }
 
@@ -2273,7 +2286,9 @@ void EkosManager::initFocus()
         return;
 
     focusProcess = new Ekos::Focus();
-    toolsWidget->addTab( focusProcess, i18n("Focus"));
+    //toolsWidget->addTab( focusProcess, i18n("Focus"));
+    int index = toolsWidget->addTab( focusProcess, QIcon::fromTheme("kstars_ekos_focus"), "");
+    toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     if (captureProcess)
@@ -2281,6 +2296,7 @@ void EkosManager::initFocus()
         // Autofocus
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);        
         connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(statusUpdated(bool)), captureProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
 
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
@@ -2296,6 +2312,7 @@ void EkosManager::initFocus()
     {
         // Filter lock
         connect(focusProcess, SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess, SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(statusUpdated(bool)), alignProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
     }
 
 }
@@ -2306,7 +2323,9 @@ void EkosManager::initMount()
         return;
 
     mountProcess = new Ekos::Mount();
-    toolsWidget->addTab(mountProcess, i18n("Mount"));
+    //toolsWidget->addTab(mountProcess, i18n("Mount"));
+    int index = toolsWidget->addTab(mountProcess, QIcon::fromTheme("kstars_ekos_mount"), "");
+    toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     if (captureProcess)
@@ -2329,7 +2348,9 @@ void EkosManager::initGuide()
         if (scope && scope->isConnected())
             guideProcess->setTelescope(scope);
 
-        toolsWidget->addTab( guideProcess, i18n("Guide"));
+        //toolsWidget->addTab( guideProcess, i18n("Guide"));
+        int index = toolsWidget->addTab( guideProcess, QIcon::fromTheme("kstars_ekos_guide"), "");
+        toolsWidget->tabBar()->setTabToolTip(index, i18n("Guide"));
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
     }
