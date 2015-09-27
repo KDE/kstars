@@ -61,6 +61,7 @@ Align::Align()
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
     m_wcsSynced=false;
+    isFocusBusy=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
@@ -543,7 +544,7 @@ bool Align::captureAndSolve()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    if (targetChip->getCaptureMode() == FITS_FOCUS)
+    if (isFocusBusy)
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
         return false;
@@ -1521,6 +1522,11 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
         appendLogText(i18n("Capture error! Aborting..."));
         abort();
     }
+}
+
+void Align::updateFocusStatus(bool status)
+{
+    isFocusBusy = status;
 }
 
 }

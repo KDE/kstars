@@ -150,8 +150,8 @@ void SequenceJob::prepareCapture()
 SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 {
     // If focusing is busy, return error
-    if (activeChip->getCaptureMode() == FITS_FOCUS)
-        return CAPTURE_FOCUS_ERROR;
+    //if (activeChip->getCaptureMode() == FITS_FOCUS)
+      //  return CAPTURE_FOCUS_ERROR;
 
     if (targetFilter != -1 && activeFilter != NULL)
     {
@@ -329,7 +329,7 @@ Capture::Capture()
     setupUi(this);
 
     new CaptureAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);    
 
     currentCCD = NULL;
     currentTelescope = NULL;
@@ -422,6 +422,7 @@ Capture::Capture()
     useGuideHead = false;
     guideDither = false;
     firstAutoFocus = true;
+    isFocusBusy = false;
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -1211,6 +1212,13 @@ void Capture::captureImage()
     bool isDark=false;
     SequenceJob::CAPTUREResult rc=SequenceJob::CAPTURE_OK;
 
+    if (isFocusBusy)
+    {
+        appendLogText(i18n("Cannot capture while focus module is busy."));
+        abort();
+        return;
+    }
+
     if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
         isDark = true;
 
@@ -1871,6 +1879,11 @@ void Capture::setAutoguiding(bool enable, bool isDithering)
 {  
     isAutoGuiding = enable;
     guideDither   = isDithering;
+}
+
+void Capture::updateFocusStatus(bool status)
+{
+    isFocusBusy = status;
 }
 
 void Capture::updateAutofocusStatus(bool status, double HFR)

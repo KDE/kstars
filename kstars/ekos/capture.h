@@ -477,6 +477,7 @@ public slots:
 
     void checkFrameType(int index);
     void resetFrame();
+    void updateFocusStatus(bool status);
     void updateAutofocusStatus(bool status, double HFR);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);   
@@ -575,6 +576,7 @@ private:
     bool isAutoFocus;
     bool autoFocusStatus;
     bool firstAutoFocus;
+    bool isFocusBusy;
 
     //Meridan flip
     double initialHA;

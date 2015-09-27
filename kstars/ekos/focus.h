@@ -313,6 +313,7 @@ signals:
         void autoFocusFinished(bool status, double finalHFR);
         void suspendGuiding(bool suspend);
         void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
+        void statusUpdated(bool status);
 
 private:
     void drawHFRPlot();

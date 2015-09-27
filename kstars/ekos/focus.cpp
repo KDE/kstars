@@ -543,6 +543,8 @@ void Focus::start()
     if (suspendGuideCheck->isChecked())
          emit suspendGuiding(true);
 
+    emit statusUpdated(true);
+
     capture();
 }
 
@@ -560,6 +562,8 @@ void Focus::checkStopFocus()
         stopFocusB->setEnabled(false);
 
         appendLogText(i18n("Capture aborted."));
+
+        emit statusUpdated(false);
     }
 
     abort();
@@ -597,6 +601,8 @@ void Focus::abort()
     absIterations = 0;
     HFRInc=0;
     reverseDir = false;
+
+    emit statusUpdated(false);
 
 }
 
@@ -1564,6 +1570,8 @@ void Focus::clearLog()
 void Focus::startFraming()
 {
     inFocusLoop = true;
+
+    emit statusUpdated(true);
 
     resetButtons();
 

@@ -179,6 +179,12 @@ public:
     QString getLogText() { return logText.join("\n"); }
     void clearLog();
 
+    /**
+     * @brief Return FOV object used to represent the solved image orientation on the sky map.
+     */
+    FOV *fov();
+
+
 public slots:
 
     /**
@@ -267,14 +273,11 @@ public slots:
      */
      Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
 
-    /**
-     * @brief Return FOV object used to represent the solved image orientation on the sky map.
-     */
-    FOV *fov();
-
     void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
     void processFilterNumber(INumberVectorProperty *nvp);
+
+    void updateFocusStatus(bool status);
 
 signals:
         void newLog();
@@ -342,6 +345,9 @@ private:
     bool m_isSolverComplete;
     bool m_isSolverSuccessful;
     bool m_slewToTargetSelected;
+
+    // Focus
+    bool isFocusBusy;
 
     // FOV
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
