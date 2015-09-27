@@ -41,6 +41,9 @@ ObserverAdd::ObserverAdd() {
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
+    ui.AddObserverB->setIcon(QIcon::fromTheme("list-add"));
+    ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove"));
+
     nextObserver = 0;
 
     // Load the observers list from the file
@@ -53,25 +56,25 @@ ObserverAdd::ObserverAdd() {
     ui.tableView->setColumnHidden(0,true);
     ui.tableView->horizontalHeader()->resizeContentsPrecision();
     ui.tableView->viewport()->update();
-    ui.AddObserver->setEnabled(false);
-    ui.RemoveObserver->setEnabled(false);
+    ui.AddObserverB->setEnabled(false);
+    ui.RemoveObserverB->setEnabled(false);
     ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     // Make connections
-    connect( ui.AddObserver, SIGNAL( clicked() ), this, SLOT( slotAddObserver() ) );
-    connect( ui.RemoveObserver, SIGNAL( clicked() ), this, SLOT( slotRemoveObserver() ) );
+    connect( ui.AddObserverB, SIGNAL( clicked() ), this, SLOT( slotAddObserverB() ) );
+    connect( ui.RemoveObserverB, SIGNAL( clicked() ), this, SLOT( slotRemoveObserverB() ) );
     connect (ui.Name,SIGNAL(textChanged(QString)),this,SLOT(checkObserverInfo() ) );
     connect (ui.Surname,SIGNAL(textChanged(QString)),this,SLOT(checkObserverInfo() ) );
     connect (ui.tableView->verticalHeader(),SIGNAL(sectionClicked(int)),this,SLOT(checkTableInfo()));
     connect (ui.tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(auxSlot()) );
 }
 void ObserverAdd::auxSlot(){
-    ui.RemoveObserver->setEnabled(true);
+    ui.RemoveObserverB->setEnabled(true);
 }
 
 void ObserverAdd::checkObserverInfo(){
     if(ui.Name->text().isEmpty() || ui.Surname->text().isEmpty())
-           ui.AddObserver->setEnabled(false);
-    else ui.AddObserver->setEnabled(true);
+           ui.AddObserverB->setEnabled(false);
+    else ui.AddObserverB->setEnabled(true);
 }
 
 void ObserverAdd::slotUpdateModel(){
@@ -92,7 +95,7 @@ void ObserverAdd::slotRemoveObserver(){
        int nr = index.row();
        QString s = ui.tableView->model()->data(ui.tableView->model()->index(nr,0)).toString();
        KStarsData::Instance()->userdb()->DeleteObserver(s);
-       ui.RemoveObserver->setEnabled(false);
+       ui.RemoveObserverB->setEnabled(false);
     slotUpdateModel();
 }
 
