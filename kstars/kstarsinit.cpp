@@ -427,7 +427,7 @@ void KStars::initActions() {
         << i18n("List your &Equipment...")
         << QKeySequence( Qt::CTRL+Qt::Key_0 );
     actionCollection()->addAction("manageobserver", this, SLOT( slotObserverManager() ) )
-        << i18n( "Mananger Observer..." )
+        << i18n( "Manage Observer..." )
         << QKeySequence( Qt::CTRL+Qt::Key_1 );    
 
     //TODO only enable it when finished
