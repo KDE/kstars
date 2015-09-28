@@ -275,6 +275,7 @@ Name[uk]=Попередження щодо погоди
 Name[x-test]=xxWeather Warningxx
 Comment=Weather conditions in warning zone
 Comment[ca]=Les condicions meteorològiques es troben a la zona d'alerta
+Comment[en_GB]=Weather conditions in warning zone
 Comment[es]=Las condiciones meteorológicas están en la zona de advertencia
 Comment[nl]=Weercondities in gevarenzone
 Comment[pl]=Warunki pogodowe w obszarze ostrzeżeń
