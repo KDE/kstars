@@ -36,8 +36,13 @@ ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite *parent ) :
         appendLine(list);
     }*/
 
-    m_RegionNames.append("Example1");
-    m_RegionNames.append("Example2");
+
+
+
+}
+
+bool ArtificialHorizonComponent::load()
+{
 
     LineList *example1 = new LineList();
     SkyPoint *p = new SkyPoint();
@@ -50,7 +55,7 @@ ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite *parent ) :
     p->setAlt(60);
     example1->append(p);
 
-    m_PolygonList.append(example1);
+    m_RegionMap["Example1"] = example1;
 
     LineList *example2 = new LineList();
     p = new SkyPoint();
@@ -63,11 +68,10 @@ ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite *parent ) :
     p->setAlt(34);
     example2->append(p);
 
-    m_PolygonList.append(example2);
+    m_RegionMap["Example2"] = example2;
 
-
+    return true;
 }
-
 
 bool ArtificialHorizonComponent::selected()
 {
@@ -105,14 +109,22 @@ void ArtificialHorizonComponent::draw( SkyPainter *skyp )
 
 }
 
-LineList * ArtificialHorizonComponent::getListByRegion(const QString &regionName) const
+void ArtificialHorizonComponent::removeRegion(const QString &regionName)
 {
-    int index = m_RegionNames.indexOf(regionName);
+    if (m_RegionMap.contains(regionName))
+    {
+        LineList *list = m_RegionMap.value(regionName);
+        removeLine(list);
+        while (list->points()->size() > 0)
+            delete list->points()->takeAt(0);
+        delete (list);
 
-    if (index == -1)
-        return NULL;
-
-    return listList().at(index);
+        m_RegionMap.remove(regionName);
+    }
 }
 
-
+void ArtificialHorizonComponent::addRegion(const QString &regionName, LineList *list)
+{
+    m_RegionMap[regionName] = list;
+    appendLine(list);
+}

@@ -99,6 +99,8 @@ protected:
      */
     void appendLine( LineList* lineList, int debug=0 );
 
+    void removeLine( LineList* lineList);
+
     /** @short Typically called from within a subclasses constructors.
      * Adds the trixels covering the full lineList to the polyIndex.
      *

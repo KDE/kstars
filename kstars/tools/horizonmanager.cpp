@@ -36,9 +36,6 @@ HorizonManager::HorizonManager( QWidget *w )
         : QDialog( w )
 {    
 
-    LineListList regionPolygonList;
-    QStringList regionNames;
-
     ui = new HorizonManagerUI( this );
 
     ui->setStyleSheet("QPushButton:checked { background-color: red; }");
@@ -53,7 +50,7 @@ HorizonManager::HorizonManager( QWidget *w )
 
     ui->tipLabel->setPixmap((QIcon::fromTheme("help-hint").pixmap(64,64)));
 
-    ui->polygonValidatoin->setPixmap(QIcon::fromTheme("dialog-ok").pixmap(32,32));
+    ui->polygonValidatoin->setPixmap(QIcon::fromTheme("process-stop").pixmap(32,32));
     ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
 
     setWindowTitle( i18n( "Artificial Horizon Manager" ) );
@@ -80,24 +77,24 @@ HorizonManager::HorizonManager( QWidget *w )
 
     ui->pointsList->setModel( m_RegionsModel );
     ui->pointsList->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
+    ui->pointsList->verticalHeader()->hide();
     ui->pointsList->setColumnHidden(0, true);
 
     horizonComponent = KStarsData::Instance()->skyComposite()->artificialHorizon();
-    //Fill the list
-    regionPolygonList = horizonComponent->polygonsList();
-    regionNames       = horizonComponent->regionsList();
 
-    for (int i=0; i< regionPolygonList.size(); ++i )
+    // Get the map
+    regionMap = horizonComponent->regionMap();
+
+    foreach(QString key, regionMap.keys())
     {
-        QStandardItem * regionItem = new QStandardItem(regionNames[i]);
+        QStandardItem * regionItem = new QStandardItem(key);
         m_RegionsModel->appendRow(regionItem);
 
-        SkyList* points = regionPolygonList[i]->points();
+        SkyList* points = regionMap.value(key)->points();
         foreach ( SkyPoint* p,  *points)
         {
-            QList<QStandardItem*> pointsList;
+           QList<QStandardItem*> pointsList;
            pointsList << new QStandardItem("") << new QStandardItem( p->az().toDMSString()) << new QStandardItem( p->alt().toDMSString());
-            //m_PointsModel->appendRow(pointsList);
            regionItem->appendRow(pointsList);
         }
     }   
@@ -116,6 +113,8 @@ HorizonManager::HorizonManager( QWidget *w )
     connect(ui->removePointB, SIGNAL(clicked()), this, SLOT(slotRemovePoint()));
     connect(ui->clearPointsB, SIGNAL(clicked()), this, SLOT(clearPoints()));
     connect(ui->selectPointsB, SIGNAL(clicked(bool)), this, SLOT(setSelectPoints(bool)));
+
+    connect(ui->saveB, SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 }
 
 HorizonManager::~HorizonManager()
@@ -150,9 +149,9 @@ void HorizonManager::showRegion( int regionID )
     ui->saveB->setEnabled( true );
 }
 
-bool HorizonManager::validatePolygon()
+bool HorizonManager::validatePolygon(int regionID)
 {
-    QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
+    QStandardItem *regionItem = m_RegionsModel->item(regionID, 0);
 
     const Projector *proj = SkyMap::Instance()->projector();
 
@@ -161,17 +160,13 @@ bool HorizonManager::validatePolygon()
 
     QPolygonF poly;
     dms az, alt;
+    SkyPoint p;
+
     for (int i=0; i < regionItem->rowCount(); i++)
-    {
-        QVariant azData  = regionItem->child(i, 1)->data();
-        QVariant altData = regionItem->child(i, 2)->data();
+    {        
+        az  = dms::fromString(regionItem->child(i, 1)->data(Qt::DisplayRole).toString(), true);
+        alt = dms::fromString(regionItem->child(i, 2)->data(Qt::DisplayRole).toString(), true);
 
-        if (azData.isValid() == false || altData.isValid() == false)
-            return false;
-
-        az.setFromString( azData.toString());
-        alt.setFromString( altData.toString());
-        SkyPoint p;
         p.setAz(az);
         p.setAlt(alt);
         p.HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -190,14 +185,14 @@ void HorizonManager::slotAddRegion()
     m_RegionsModel->appendRow(regionItem);
 
     QModelIndex index = regionItem->index();
-    ui->regionsList->setCurrentIndex(index);
+    //ui->regionsList->setCurrentIndex(index);
     ui->regionsList->selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
 
-
+    showRegion(m_RegionsModel->rowCount()-1);
     //ui->regionsList->selectR
-    //slotAddPoint();
+    //
 
-    ui->pointsList->setColumnHidden(0, true);
+
 
     /*
     dms ra( ui->raBox->createDms( false) ); //false means expressed in hours
@@ -248,14 +243,51 @@ void HorizonManager::deleteRegion( int regionID )
     if ( regionID < m_RegionsModel->rowCount() )
     {
         m_RegionsModel->removeRow( regionID );
+        horizonComponent->removeRegion(m_RegionsModel->item(regionID, 0)->data(Qt::DisplayRole).toString());
     }
 }
 
 void HorizonManager::slotSaveChanges()
 {
+    for (int i=0; i < m_RegionsModel->rowCount(); i++)
+    {
+        if (validatePolygon(i) == false)
+        {
+            KMessageBox::error(KStars::Instance(), i18n("Region %1 polygon is invalid.", m_RegionsModel->item(i,0)->data(Qt::DisplayRole).toString()));
+            return;
+        }
+    }
+
+    for (int i=0; i < m_RegionsModel->rowCount(); i++)
+    {
+        QStandardItem *regionItem = m_RegionsModel->item(i,0);
+        QString regionName = regionItem->data(Qt::DisplayRole).toString();
+
+        LineList *list = new LineList();
+        dms az, alt;
+        SkyPoint *p;
+
+        for (int j=0; j < regionItem->rowCount(); j++)
+        {
+            az  = dms::fromString(regionItem->child(j, 1)->data(Qt::DisplayRole).toString(), true);
+            alt = dms::fromString(regionItem->child(j, 2)->data(Qt::DisplayRole).toString(), true);
+
+            p = new SkyPoint();
+            p->setAz(az);
+            p->setAlt(alt);
+            p->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+            list->append(p);
+        }
+
+        horizonComponent->addRegion(regionName, list);
+    }
+
+    SkyMap::Instance()->forceUpdate();
+
 /*    int row = ui->flagList->currentIndex().row();
 
-    validatePoint();
+
 
     insertFlag( false, row );
 
@@ -319,23 +351,44 @@ void HorizonManager::addSkyPoint(SkyPoint *point)
    if (selectPoints == false)
        return;
 
-    qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
+   point->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
+   qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
+
+   QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
 
     if (regionItem)
-    {
+    {        
+        if (regionItem->rowCount() >= 4)
+        {
+            dms firstAz, firstAlt;
+            firstAz  = dms::fromString(regionItem->child(0, 1)->data(Qt::DisplayRole).toString(), true);
+            firstAlt = dms::fromString(regionItem->child(0, 2)->data(Qt::DisplayRole).toString(), true);
+
+            if (fabs(firstAz.Degrees()-point->az().Degrees()) <= 5)
+            {
+                point->setAz(firstAz.Degrees());
+                point->setAlt(0);
+
+                ui->selectPointsB->setChecked(false);
+            }
+        }
+
         QList<QStandardItem*> pointsList;
         pointsList << new QStandardItem("") << new QStandardItem(point->az().toDMSString()) << new QStandardItem(point->alt().Degrees() < 0 ? "0" : point->alt().toDMSString());
         regionItem->appendRow(pointsList);
+        // Why do I have to do that again?
+        ui->pointsList->setColumnHidden(0, true);
 
-        if (validatePolygon())
+        if (validatePolygon(ui->regionsList->currentIndex().row()))
         {
+            ui->polygonValidatoin->setPixmap(QIcon::fromTheme("dialog-ok").pixmap(32,32));
             ui->polygonValidatoin->setEnabled(true);
             ui->polygonValidatoin->setToolTip(i18n("Region is valid"));
         }
         else
         {
+            ui->polygonValidatoin->setPixmap(QIcon::fromTheme("process-stop").pixmap(32,32));
             ui->polygonValidatoin->setEnabled(false);
             ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
         }

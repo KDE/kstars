@@ -21,6 +21,7 @@ class QStandardItemModel;
 class KStars;
 class ArtificialHorizonComponent;
 class SkyPoint;
+class LineList;
 
 class HorizonManagerUI : public QFrame, public Ui::HorizonManager
 {
@@ -58,7 +59,7 @@ public:
     void clearFields ();
     void showRegion( const int regionID );
 
-    bool validatePolygon();
+    bool validatePolygon(int regionID);
 
     void deleteRegion( int regionID );
 
@@ -97,6 +98,8 @@ private:
     QSortFilterProxyModel *m_RegionsSortModel;
 
     ArtificialHorizonComponent *horizonComponent;
+
+    QMap<QString, LineList*> regionMap;
 
     bool selectPoints;
 };

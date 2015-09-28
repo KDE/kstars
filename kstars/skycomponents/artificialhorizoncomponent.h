@@ -34,17 +34,17 @@ public:
     virtual bool selected();
     virtual void draw( SkyPainter *skyp );
 
-    LineList * getListByRegion(const QString &regionName) const;
-    inline QStringList regionsList() const { return m_RegionNames; }
-    inline LineListList polygonsList() const { return m_PolygonList; }
+    void addRegion(const QString &regionName, LineList *list);
+    void removeRegion(const QString &regionName);
+    inline QMap<QString, LineList*> regionMap() { return m_RegionMap; }
+
+    bool load();
 
 protected:
     virtual void preDraw( SkyPainter *skyp );
 
 private:
-    QStringList m_RegionNames;
-    LineListList m_PolygonList;
-
+    QMap<QString, LineList*> m_RegionMap;
 };
 
 #endif
