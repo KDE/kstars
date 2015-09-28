@@ -1268,7 +1268,7 @@ void KStars::slotHorizonManager()
     if ( ! m_HorizonManager )
     {
         m_HorizonManager = new HorizonManager(this);
-        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint*)), m_HorizonManager, SLOT(setSkymapPoint(SkyPoint*)));
+        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint*)), m_HorizonManager, SLOT(addSkyPoint(SkyPoint*)));
     }
 
     m_HorizonManager->show();

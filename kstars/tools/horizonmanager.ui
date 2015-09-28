@@ -41,6 +41,9 @@
               <height>32</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Add Region</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -62,6 +65,9 @@
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Remove Region</string>
             </property>
             <property name="text">
              <string/>
@@ -97,6 +103,9 @@
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Save Regions</string>
             </property>
             <property name="text">
              <string/>
@@ -142,6 +151,9 @@
               <height>32</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Add Point</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -163,6 +175,9 @@
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Remove Point</string>
             </property>
             <property name="text">
              <string/>
@@ -186,6 +201,9 @@
               <height>32</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Clear all points</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -205,6 +223,25 @@
            </spacer>
           </item>
           <item>
+           <widget class="QLabel" name="polygonValidatoin">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="selectPointsB">
             <property name="enabled">
              <bool>false</bool>
@@ -221,8 +258,17 @@
               <height>32</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Select points from the sky map</string>
+            </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
             </property>
            </widget>
           </item>

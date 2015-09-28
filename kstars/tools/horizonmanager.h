@@ -58,7 +58,7 @@ public:
     void clearFields ();
     void showRegion( const int regionID );
 
-    bool validatePoint();
+    bool validatePolygon();
 
     void deleteRegion( int regionID );
 
@@ -73,10 +73,13 @@ public slots:
      */
     void slotRemoveRegion();
 
-    void slotAddPoint(SkyPoint *p = NULL);
+    void addSkyPoint(SkyPoint *p);
+    void slotAddPoint();
     void slotRemovePoint();
 
-    void setSkymapPoint(SkyPoint *point);
+    void clearPoints();
+
+    void setSelectPoints(bool);
 
 
 private slots:
@@ -87,13 +90,15 @@ private:
     //void insertFlag( bool isNew, int row = 0 );
 
     HorizonManagerUI *ui;
-    QStandardItemModel *m_PointsModel;
+
     QStandardItemModel *m_RegionsModel;
 
     QSortFilterProxyModel *m_PointsSortModel;
     QSortFilterProxyModel *m_RegionsSortModel;
 
     ArtificialHorizonComponent *horizonComponent;
+
+    bool selectPoints;
 };
 
 #endif
