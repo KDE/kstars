@@ -24,53 +24,23 @@
 
 ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite *parent ) :
         NoPrecessIndex( parent, i18n("Artificial Horizon") )
-{
-
-    /*QMap<QString, LineList*> horizonList =KStarsData::Instance()->userdb()->GetAllHorizons();
-
-    foreach(QString key, horizonList.keys())
-    {
-        m_RegionNames.append(key);
-        LineList *list = horizonList.value(key);
-        m_PolygonList.append(list);
-        appendLine(list);
-    }*/
-
-
-
-
+{  
+    load();
 }
 
 bool ArtificialHorizonComponent::load()
 {
-
-    LineList *example1 = new LineList();
-    SkyPoint *p = new SkyPoint();
-    p->setAz(30);
-    p->setAlt(30);
-    example1->append(p);
-
-    p = new SkyPoint();
-    p->setAz(60);
-    p->setAlt(60);
-    example1->append(p);
-
-    m_RegionMap["Example1"] = example1;
-
-    LineList *example2 = new LineList();
-    p = new SkyPoint();
-    p->setAz(210);
-    p->setAlt(50);
-    example2->append(p);
-
-    p = new SkyPoint();
-    p->setAz(80);
-    p->setAlt(34);
-    example2->append(p);
-
-    m_RegionMap["Example2"] = example2;
+    m_RegionMap = KStarsData::Instance()->userdb()->GetAllHorizons();
 
     return true;
+}
+
+void ArtificialHorizonComponent::save()
+{
+    KStarsData::Instance()->userdb()->DeleteAllHorizons();
+
+    foreach(QString regionName, m_RegionMap.keys())
+        KStarsData::Instance()->userdb()->AddHorizon(regionName, m_RegionMap.value(regionName));
 }
 
 bool ArtificialHorizonComponent::selected()
@@ -80,10 +50,10 @@ bool ArtificialHorizonComponent::selected()
 
 void ArtificialHorizonComponent::preDraw( SkyPainter *skyp )
 {    
-    //QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
-    skyp->setBrush(QBrush(QColor(200, 40, 40, 40)));
+    QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "ArtificialHorizonColor" ) );
+    color.setAlpha(40);
+    skyp->setBrush(QBrush(color));
     skyp->setPen(Qt::NoPen);
-
 }
 
 void ArtificialHorizonComponent::draw( SkyPainter *skyp )

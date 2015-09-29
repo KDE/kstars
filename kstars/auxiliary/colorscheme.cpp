@@ -80,6 +80,7 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("SatColor",         i18n("Satellites"),             "#FF0000");
     appendItem("SatLabelColor",    i18n("Satellites Labels"),      "#640000");
     appendItem("SupernovaColor",   i18n("Supernovae"),             "#FFA500");
+    appendItem("ArtificialHorizonColor",   i18n("Artificial Horizon"),             "#C82828");
     appendItem("RAGuideError",     i18n("RA Guide Error"),         "#00FF00");
     appendItem("DEGuideError",     i18n("DEC Guide Error"),        "#00A5FF");
     appendItem("SolverFOVColor",     i18n("Solver FOV"),        "#FFFFFF");

@@ -897,6 +897,11 @@
       <whatsthis>The color for the sky background.</whatsthis>
       <default>#002</default>
     </entry>
+    <entry name="ArtificialHorizonColor" type="String">
+      <label>Color Artificial Horizon</label>
+      <whatsthis>The color for the artificial horizon region.</whatsthis>
+      <default>#C82828</default>
+    </entry>
     <entry name="TelescopeTargetColor" type="String">
       <label>Color of telescope symbols</label>
       <whatsthis>The color for telescope target symbols.</whatsthis>

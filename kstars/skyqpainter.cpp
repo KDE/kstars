@@ -293,7 +293,10 @@ void SkyQPainter::drawSkyPolygon(LineList* list, bool forceClip)
     if (forceClip == false)
     {
         for ( int i = 0; i < points->size(); ++i )
-            polygon << m_proj->toScreen( points->at( i ), false, &isVisible);
+        {
+            polygon << m_proj->toScreen( points->at( i ), false, &isVisibleLast);
+            isVisible |= isVisibleLast;
+        }
 
         // If 1+ points are visible, draw it
         if ( polygon.size() && isVisible)

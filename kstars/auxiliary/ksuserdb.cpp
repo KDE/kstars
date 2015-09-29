@@ -971,18 +971,15 @@ void KSUserDB::DeleteAllHorizons()
     regions.setTable("horizon");
     regions.select();
 
-    QSqlTableModel points(0, userdb_);
+    QSqlQuery query(userdb_);
 
     for (int i =0; i < regions.rowCount(); ++i)
     {
         QSqlRecord record = regions.record(i);
-        QString regionName = record.value(1).toString();
-
-        points.setTable(regionName);
-        points.select();
-        points.removeRows(0, points.rowCount());
-        points.submitAll();
-        points.clear();
+        QString tableName = QString("horizon_%1").arg(record.value(0).toInt());
+        QString tableQuery = QString("DROP TABLE %1").arg(tableName);
+        query.exec(tableQuery);
+        qDebug() << query.lastError().text();
     }
 
     regions.removeRows(0, regions.rowCount());
@@ -1001,23 +998,36 @@ void KSUserDB::AddHorizon(const QString &name, LineList *pointsList)
     regions.insertRow(0);
     regions.setData(regions.index(0, 1), name);
     regions.submitAll();
+
+    int key = regions.data(regions.index(0,0)).toInt();
+
     regions.clear();
 
-    QString tableQuery = QString("CREATE TABLE %1 (Az REAL NOT NULL DEFAULT NULL, Alt REAL NOT NULL DEFAULT NULL)").arg(name);
-    QSqlQuery query;
+    QString tableName = QString("horizon_%1").arg(key);
+    QString tableQuery = QString("CREATE TABLE %1 (Az REAL NOT NULL, Alt REAL NOT NULL)").arg(tableName);
+    QSqlQuery query(userdb_);
     query.exec(tableQuery);
 
-    QSqlTableModel points(0, userdb_);
-    points.setTable(name);
+    QSqlTableModel points(0, userdb_);    
+
+    qDebug() << points.lastError().text();
+    points.setTable(tableName);
+    qDebug() << points.lastError().text();
 
     for (int i=0; i < pointsList->points()->size(); i++)
     {
-        points.insertRow(i);
+        points.insertRows(i, 1);
+        qDebug() << points.lastError().text();
+        qDebug() << "Az " << i << " is " << pointsList->points()->at(i)->az().Degrees();
+        qDebug() << points.index(i,0).isValid();
         points.setData(points.index(i,0), pointsList->points()->at(i)->az().Degrees());
+        qDebug() << points.lastError().text();
         points.setData(points.index(i,1), pointsList->points()->at(i)->alt().Degrees());
+
     }
 
     points.submitAll();
+    qDebug() << points.lastError().text();
     points.clear();
 
     userdb_.close();

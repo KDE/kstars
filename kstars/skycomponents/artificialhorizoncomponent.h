@@ -39,6 +39,7 @@ public:
     inline QMap<QString, LineList*> regionMap() { return m_RegionMap; }
 
     bool load();
+    void save();
 
 protected:
     virtual void preDraw( SkyPainter *skyp );

@@ -74,7 +74,7 @@ public slots:
      */
     void slotRemoveRegion();
 
-    void addSkyPoint(SkyPoint *p);
+    void addSkyPoint(SkyPoint *skypoint);
     void slotAddPoint();
     void slotRemovePoint();
 
