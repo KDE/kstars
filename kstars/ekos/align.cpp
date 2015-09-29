@@ -88,8 +88,7 @@ Align::Align()
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
-    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
-    connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
+    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));    
     connect(wcsCheck, SIGNAL(toggled(bool)), this, SLOT(setWCS(bool)));
 
     kcfg_solverXBin->setValue(Options::solverXBin());
@@ -121,10 +120,10 @@ Align::Align()
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
 
+    // Online/Offline solver check
     kcfg_onlineSolver->setChecked(Options::solverOnline());
     kcfg_offlineSolver->setChecked(Options::solverOnline() == false);
     connect(kcfg_onlineSolver, SIGNAL(toggled(bool)), SLOT(setSolverType(bool)));
-
 
     if (kcfg_onlineSolver->isChecked())
     {
@@ -147,7 +146,10 @@ Align::Align()
     }
 
     kcfg_solverOptions->setText(Options::solverOptions());
-    kcfg_solverOTA->setChecked(Options::solverOTA());
+
+    // Which telescope info to use for FOV calculations
+    kcfg_solverOTA->setChecked(Options::solverOTA());    
+    connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
 
 }
 
