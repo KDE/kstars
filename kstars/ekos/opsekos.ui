@@ -215,6 +215,9 @@
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_4">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Optionally&lt;/span&gt; set remote device names if they do not exist in Ekos.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="title">
       <string>Remote Devices Names</string>
      </property>
