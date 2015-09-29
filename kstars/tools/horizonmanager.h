@@ -88,15 +88,10 @@ private slots:
     void slotSetShownRegion( QModelIndex idx );
 
 private:
-    //void insertFlag( bool isNew, int row = 0 );
 
     HorizonManagerUI *ui;
 
     QStandardItemModel *m_RegionsModel;
-
-    QSortFilterProxyModel *m_PointsSortModel;
-    QSortFilterProxyModel *m_RegionsSortModel;
-
     ArtificialHorizonComponent *horizonComponent;
 
     QMap<QString, LineList*> regionMap;

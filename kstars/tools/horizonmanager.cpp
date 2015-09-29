@@ -51,7 +51,7 @@ HorizonManager::HorizonManager( QWidget *w )
     ui->tipLabel->setPixmap((QIcon::fromTheme("help-hint").pixmap(64,64)));
 
     ui->polygonValidatoin->setPixmap(QIcon::fromTheme("process-stop").pixmap(32,32));
-    ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
+    ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed and located at the horizon"));
     ui->polygonValidatoin->hide();
 
     setWindowTitle( i18n( "Artificial Horizon Manager" ) );
@@ -70,11 +70,7 @@ HorizonManager::HorizonManager( QWidget *w )
     m_RegionsModel = new QStandardItemModel( 0, 3, this );
     m_RegionsModel->setHorizontalHeaderLabels( QStringList() << i18n( "Region") << i18nc( "Azimuth", "Az" ) << i18nc( "Altitude", "Alt" ));
 
-    m_RegionsSortModel = new QSortFilterProxyModel( this );
-    m_RegionsSortModel->setSourceModel( m_RegionsModel);
-    m_RegionsSortModel->setDynamicSortFilter( true );
-
-    ui->regionsList->setModel( m_RegionsSortModel );
+    ui->regionsList->setModel( m_RegionsModel);
 
     ui->pointsList->setModel( m_RegionsModel );
     ui->pointsList->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
@@ -116,6 +112,9 @@ HorizonManager::HorizonManager( QWidget *w )
     connect(ui->selectPointsB, SIGNAL(clicked(bool)), this, SLOT(setSelectPoints(bool)));
 
     connect(ui->saveB, SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
+
+    if (regionMap.size() > 0)
+        showRegion(0);
 }
 
 HorizonManager::~HorizonManager()
@@ -203,6 +202,8 @@ bool HorizonManager::validatePolygon(int regionID)
 
 void HorizonManager::slotAddRegion()
 {
+    selectPoints=false;
+    ui->selectPointsB->setChecked(false);
 
     QStandardItem* regionItem = new QStandardItem(i18n("Region %1", m_RegionsModel->rowCount()+1));
     m_RegionsModel->appendRow(regionItem);
@@ -217,8 +218,20 @@ void HorizonManager::slotAddRegion()
 
 void HorizonManager::slotRemoveRegion()
 {
+    selectPoints=false;
+    ui->selectPointsB->setChecked(false);
+
     int regionID = ui->regionsList->currentIndex().row();
     deleteRegion(regionID);
+
+    if (regionID > 0)
+        showRegion(regionID-1);
+    else if (m_RegionsModel->rowCount() == 0)
+    {
+        ui->polygonValidatoin->hide();
+        m_RegionsModel->clear();
+    }
+
 }
 
 void HorizonManager::deleteRegion( int regionID )
@@ -247,10 +260,13 @@ void HorizonManager::slotSaveChanges()
         }
     }
 
+
     for (int i=0; i < m_RegionsModel->rowCount(); i++)
     {
         QStandardItem *regionItem = m_RegionsModel->item(i,0);
         QString regionName = regionItem->data(Qt::DisplayRole).toString();
+
+        horizonComponent->removeRegion(regionName);
 
         LineList *list = new LineList();
         dms az, alt;
@@ -293,7 +309,7 @@ void HorizonManager::addSkyPoint(SkyPoint *skypoint)
 
    point->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-   qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
+   //qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
 
    QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
 
@@ -323,6 +339,7 @@ void HorizonManager::addSkyPoint(SkyPoint *skypoint)
         regionItem->appendRow(pointsList);
         // Why do I have to do that again?
         ui->pointsList->setColumnHidden(0, true);
+        m_RegionsModel->setHorizontalHeaderLabels( QStringList() << i18n( "Region") << i18nc( "Azimuth", "Az" ) << i18nc( "Altitude", "Alt" ));
 
         if (finalPoint && regionItem->rowCount() > 4)
         {
@@ -336,7 +353,7 @@ void HorizonManager::addSkyPoint(SkyPoint *skypoint)
             {
                 ui->polygonValidatoin->setPixmap(QIcon::fromTheme("process-stop").pixmap(32,32));
                 ui->polygonValidatoin->setEnabled(false);
-                ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
+                ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed and located at the horizon"));
             }
 
             ui->polygonValidatoin->show();
@@ -348,13 +365,35 @@ void HorizonManager::slotAddPoint()
 {
     QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
 
-    if (regionItem)
-    {
-        QList<QStandardItem*> pointsList;
-        pointsList << new QStandardItem("") << new QStandardItem("") << new QStandardItem("");
-        regionItem->appendRow(pointsList);
+    if (regionItem == NULL)
+        return;
 
+    if (regionItem->rowCount() > 4)
+    {
+        if (validatePolygon(ui->regionsList->currentIndex().row()))
+        {
+            ui->polygonValidatoin->setPixmap(QIcon::fromTheme("dialog-ok").pixmap(32,32));
+            ui->polygonValidatoin->setEnabled(true);
+            ui->polygonValidatoin->setToolTip(i18n("Region is valid"));
+        }
+        else
+        {
+            ui->polygonValidatoin->setPixmap(QIcon::fromTheme("process-stop").pixmap(32,32));
+            ui->polygonValidatoin->setEnabled(false);
+            ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
+        }
+
+        ui->polygonValidatoin->show();
     }
+
+
+    QList<QStandardItem*> pointsList;
+    pointsList << new QStandardItem("") << new QStandardItem("") << new QStandardItem("");
+    regionItem->appendRow(pointsList);
+
+    m_RegionsModel->setHorizontalHeaderLabels( QStringList() << i18n( "Region") << i18nc( "Azimuth", "Az" ) << i18nc( "Altitude", "Alt" ));
+    ui->pointsList->setColumnHidden(0, true);
+    ui->pointsList->setRootIndex(regionItem->index());
 
 }
 

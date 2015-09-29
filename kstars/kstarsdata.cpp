@@ -148,6 +148,10 @@ bool KStarsData::initialize() {
         return false;
     }
 
+    //Initialize User Database//
+    emit progressText( i18n("Loading User Information" ) );
+    m_ksuserdb.Initialize();
+
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
@@ -163,10 +167,6 @@ bool KStarsData::initialize() {
         return false;
 
     emit progressText( i18n("Loading Variable Stars" ) );
-
-    //Initialize User Database//
-    emit progressText( i18n("Loading User Information" ) );
-    m_ksuserdb.Initialize();
 
     //Update supernovae list if enabled
     if( Options::updateSupernovaeOnStartup() ) {

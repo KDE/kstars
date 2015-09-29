@@ -32,6 +32,9 @@ bool ArtificialHorizonComponent::load()
 {
     m_RegionMap = KStarsData::Instance()->userdb()->GetAllHorizons();
 
+    foreach(LineList *list, m_RegionMap.values())
+        appendLine(list);
+
     return true;
 }
 
@@ -45,7 +48,7 @@ void ArtificialHorizonComponent::save()
 
 bool ArtificialHorizonComponent::selected()
 {
-    return Options::showHorizon();
+    return Options::showGround();
 }
 
 void ArtificialHorizonComponent::preDraw( SkyPainter *skyp )
