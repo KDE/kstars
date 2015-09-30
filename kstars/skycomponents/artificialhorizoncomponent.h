@@ -36,7 +36,7 @@ public:
 
     void setLivePreview(LineList *preview) { livePreview = preview; }
     void addRegion(const QString &regionName, LineList *list);
-    void removeRegion(const QString &regionName);
+    void removeRegion(const QString &regionName, bool lineOnly=false);
     inline QMap<QString, LineList*> regionMap() { return m_RegionMap; }
 
     bool load();

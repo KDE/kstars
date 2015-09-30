@@ -277,7 +277,6 @@ void HorizonManager::slotSaveChanges()
         }
     }
 
-
     for (int i=0; i < m_RegionsModel->rowCount(); i++)
     {
         QStandardItem *regionItem = m_RegionsModel->item(i,0);
@@ -309,7 +308,6 @@ void HorizonManager::slotSaveChanges()
 
     SkyMap::Instance()->forceUpdate();
 
-
 }
 
 void HorizonManager::slotSetShownRegion( QModelIndex idx )
@@ -328,13 +326,13 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
     // First & Last points always have altitude of zero
     if ( (row == 0 && alt.Degrees() != 0) || (alt.Degrees() < 0))
     {
+        m_RegionsModel->disconnect(this);
         altItem->setData(QVariant(0), Qt::DisplayRole);
-        return;
+        alt.setD(0);
+        connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
     }
 
-    SkyPoint *point = NULL;
-
-    //qDebug() << "Item row count is " << item->rowCount();
+    SkyPoint *point = NULL;    
 
     if (livePreview == NULL)
     {
@@ -342,9 +340,13 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
 
         if (row > 0)
         {
-            LineList *prevList = regionMap.value(item->parent()->data(Qt::DisplayRole).toString());
-            for (int i=0; i < row; i++)
+            LineList *prevList = regionMap.value(item->data(Qt::DisplayRole).toString());
+
+            if (prevList)
+            {
+                for (int i=0; i < prevList->points()->count(); i++)
                 livePreview->append(prevList->at(i));
+            }
         }
         horizonComponent->setLivePreview(livePreview);
     }
@@ -373,7 +375,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
         firstAz  = dms::fromString(item->child(0, 1)->data(Qt::DisplayRole).toString(), true);
         firstAlt = dms::fromString(item->child(0, 2)->data(Qt::DisplayRole).toString(), true);
 
-        if (fabs(firstAz.Degrees()-point->az().Degrees()) <= 5)
+        if (fabs(firstAz.Degrees()-point->az().Degrees()) <= 2 && fabs(firstAlt.Degrees()-point->alt().Degrees()) <= 2)
         {
             point->setAz(firstAz.Degrees());
             point->setAlt(0);
@@ -493,6 +495,9 @@ void HorizonManager::clearPoints()
     if (regionItem)
     {
         regionItem->removeRows(0, regionItem->rowCount());
+
+        horizonComponent->removeRegion(regionItem->data(Qt::DisplayRole).toString(), true);
+        regionMap[regionItem->data(Qt::DisplayRole).toString()] = NULL;
 
         ui->polygonValidatoin->hide();
     }

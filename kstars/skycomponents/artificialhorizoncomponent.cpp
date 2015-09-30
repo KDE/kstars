@@ -90,17 +90,23 @@ void ArtificialHorizonComponent::draw( SkyPainter *skyp )
 
 }
 
-void ArtificialHorizonComponent::removeRegion(const QString &regionName)
+void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool lineOnly)
 {
     if (m_RegionMap.contains(regionName))
     {
         LineList *list = m_RegionMap.value(regionName);
-        removeLine(list);
-        while (list->points()->size() > 0)
-            delete list->points()->takeAt(0);
-        delete (list);
+        if (list)
+        {
+            removeLine(list);
+            while (list->points()->size() > 0)
+                delete list->points()->takeAt(0);
+            delete (list);
 
-        m_RegionMap.remove(regionName);
+            m_RegionMap[regionName] = NULL;
+        }
+
+        if (lineOnly == false)
+            m_RegionMap.remove(regionName);
     }
 }
 
