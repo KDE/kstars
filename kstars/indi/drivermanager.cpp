@@ -361,7 +361,6 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
              return false;
          }
 
-
          foreach(DriverInfo *dv, qdv)
          {
               if (serverManager->startDriver(dv) == false)
@@ -398,6 +397,8 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
                  break;
 
              qApp->processEvents();
+
+             usleep(100000);
          }
 
          if (connectionToServer)
