@@ -24,7 +24,8 @@
 
 ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite *parent ) :
         NoPrecessIndex( parent, i18n("Artificial Horizon") )
-{  
+{
+    livePreview=NULL;
     load();
 }
 
@@ -62,6 +63,13 @@ void ArtificialHorizonComponent::preDraw( SkyPainter *skyp )
 void ArtificialHorizonComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
+
+    if (livePreview)
+    {
+        skyp->setPen(QPen(Qt::white, 3));
+        skyp->drawSkyPolyline(livePreview);
+        return;
+    }
 
     preDraw(skyp);
 

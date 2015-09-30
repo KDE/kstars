@@ -20,6 +20,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "nan.h"
 #include "skymap.h"
 #include "projections/projector.h"
 #include "linelist.h"
@@ -65,6 +66,8 @@ HorizonManager::HorizonManager( QWidget *w )
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 
+    livePreview = NULL;
+
     selectPoints = false;
 
     // Set up List view
@@ -99,6 +102,8 @@ HorizonManager::HorizonManager( QWidget *w )
 
     ui->removeRegionB->setEnabled(true);
 
+    connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
+
     //Connect buttons
     connect( ui->addRegionB, SIGNAL( clicked() ), this, SLOT( slotAddRegion() ) );
     connect( ui->removeRegionB, SIGNAL( clicked() ), this, SLOT( slotRemoveRegion() ) );
@@ -115,7 +120,10 @@ HorizonManager::HorizonManager( QWidget *w )
     connect(ui->saveB, SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 
     if (regionMap.size() > 0)
+    {
+        ui->regionsList->selectionModel()->setCurrentIndex(m_RegionsModel->index(0,0), QItemSelectionModel::SelectCurrent);
         showRegion(0);
+    }
 }
 
 HorizonManager::~HorizonManager()
@@ -137,7 +145,7 @@ void HorizonManager::showRegion( int regionID )
     if ( regionID < 0 || regionID >= m_RegionsModel->rowCount() )
         return;
     else
-    {             
+    {
        ui->pointsList->setRootIndex(m_RegionsModel->index(regionID, 0));
        ui->pointsList->setColumnHidden(0, true);
 
@@ -190,6 +198,9 @@ bool HorizonManager::validatePolygon(int regionID)
         az  = dms::fromString(regionItem->child(i, 1)->data(Qt::DisplayRole).toString(), true);
         alt = dms::fromString(regionItem->child(i, 2)->data(Qt::DisplayRole).toString(), true);
 
+        if (isnan(az.Degrees()) || isnan(alt.Degrees()))
+            return false;
+
         p.setAz(az);
         p.setAlt(alt);
         p.HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -203,8 +214,9 @@ bool HorizonManager::validatePolygon(int regionID)
 
 void HorizonManager::slotAddRegion()
 {
-    selectPoints=false;
-    ui->selectPointsB->setChecked(false);
+    terminateLivePreview();
+
+    setPointSelection(false);
 
     QStandardItem* regionItem = new QStandardItem(i18n("Region %1", m_RegionsModel->rowCount()+1));
     m_RegionsModel->appendRow(regionItem);
@@ -219,8 +231,9 @@ void HorizonManager::slotAddRegion()
 
 void HorizonManager::slotRemoveRegion()
 {
-    selectPoints=false;
-    ui->selectPointsB->setChecked(false);
+    terminateLivePreview();
+
+    setPointSelection(false);
 
     int regionID = ui->regionsList->currentIndex().row();
     deleteRegion(regionID);
@@ -238,7 +251,7 @@ void HorizonManager::slotRemoveRegion()
 void HorizonManager::deleteRegion( int regionID )
 {
     if (regionID == -1)
-        return;
+        return;    
 
     if ( regionID < m_RegionsModel->rowCount() )
     {
@@ -252,6 +265,9 @@ void HorizonManager::deleteRegion( int regionID )
 
 void HorizonManager::slotSaveChanges()
 {
+    terminateLivePreview();
+    setPointSelection(false);
+
     for (int i=0; i < m_RegionsModel->rowCount(); i++)
     {
         if (validatePolygon(i) == false)
@@ -301,75 +317,79 @@ void HorizonManager::slotSetShownRegion( QModelIndex idx )
     showRegion ( idx.row() );
 }
 
-void HorizonManager::addSkyPoint(SkyPoint *skypoint)
+void HorizonManager::processSkyPoint(QStandardItem *item, int row)
 {
-   if (selectPoints == false)
-       return;
+    QStandardItem *azItem = item->child(row, 1);
+    QStandardItem *altItem= item->child(row, 2);
 
-   SkyPoint *point = new SkyPoint(skypoint->ra(), skypoint->dec());
+    dms az = dms::fromString(azItem->data(Qt::DisplayRole).toString(), true);
+    dms alt= dms::fromString(altItem->data(Qt::DisplayRole).toString(), true);
 
-   point->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    // First & Last points always have altitude of zero
+    if ( (row == 0 && alt.Degrees() != 0) || (alt.Degrees() < 0))
+    {
+        altItem->setData(QVariant(0), Qt::DisplayRole);
+        return;
+    }
 
-   //qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
+    SkyPoint *point = NULL;
 
-   QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
+    //qDebug() << "Item row count is " << item->rowCount();
 
-   bool finalPoint=false;
+    if (livePreview == NULL)
+    {
+        livePreview = new LineList();
 
-    if (regionItem)
-    {        
-        if (regionItem->rowCount() >= 4)
+        if (row > 0)
         {
-            dms firstAz, firstAlt;
-            firstAz  = dms::fromString(regionItem->child(0, 1)->data(Qt::DisplayRole).toString(), true);
-            firstAlt = dms::fromString(regionItem->child(0, 2)->data(Qt::DisplayRole).toString(), true);
-
-            if (fabs(firstAz.Degrees()-point->az().Degrees()) <= 5)
-            {
-                point->setAz(firstAz.Degrees());
-                point->setAlt(0);
-
-                ui->selectPointsB->setChecked(false);
-
-                finalPoint = true;
-            }
+            LineList *prevList = regionMap.value(item->parent()->data(Qt::DisplayRole).toString());
+            for (int i=0; i < row; i++)
+                livePreview->append(prevList->at(i));
         }
+        horizonComponent->setLivePreview(livePreview);
+    }
 
-        QList<QStandardItem*> pointsList;
-        pointsList << new QStandardItem("") << new QStandardItem(point->az().toDMSString()) << new QStandardItem(point->alt().Degrees() < 0 ? "0" : point->alt().toDMSString());
-        regionItem->appendRow(pointsList);
-        // Why do I have to do that again?
-        ui->pointsList->setColumnHidden(0, true);
-        m_RegionsModel->setHorizontalHeaderLabels( QStringList() << i18n( "Region") << i18nc( "Azimuth", "Az" ) << i18nc( "Altitude", "Alt" ));
+    if (item->rowCount() >= livePreview->points()->count())
+    {
+        point = new SkyPoint();
+        livePreview->append(point);
+    }
+    else
+        point = livePreview->at(item->rowCount());
 
-        if (finalPoint && regionItem->rowCount() > 4)
+    point->setAz(az);
+    point->setAlt(alt);
+    point->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+    qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
+
+    SkyMap::Instance()->forceUpdate(false);
+
+    bool finalPoint=false;
+
+    if (item->rowCount() >= 5)
+    {
+        dms firstAz, firstAlt;
+        firstAz  = dms::fromString(item->child(0, 1)->data(Qt::DisplayRole).toString(), true);
+        firstAlt = dms::fromString(item->child(0, 2)->data(Qt::DisplayRole).toString(), true);
+
+        if (fabs(firstAz.Degrees()-point->az().Degrees()) <= 5)
         {
-            if (validatePolygon(ui->regionsList->currentIndex().row()))
-            {
-                ui->polygonValidatoin->setPixmap(QIcon::fromTheme("dialog-ok").pixmap(32,32));
-                ui->polygonValidatoin->setEnabled(true);
-                ui->polygonValidatoin->setToolTip(i18n("Region is valid"));
-            }
-            else
-            {
-                ui->polygonValidatoin->setPixmap(QIcon::fromTheme("process-stop").pixmap(32,32));
-                ui->polygonValidatoin->setEnabled(false);
-                ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed and located at the horizon"));
-            }
+            point->setAz(firstAz.Degrees());
+            point->setAlt(0);
 
-            ui->polygonValidatoin->show();
+            m_RegionsModel->disconnect(this);
+            azItem->setData(firstAz.toDMSString(), Qt::DisplayRole);
+            altItem->setData(QVariant(0), Qt::DisplayRole);
+            connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
+
+            setPointSelection(false);
+
+            finalPoint = true;
         }
     }
-}
 
-void HorizonManager::slotAddPoint()
-{
-    QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
-
-    if (regionItem == NULL)
-        return;
-
-    if (regionItem->rowCount() > 4)
+    if (finalPoint && item->rowCount() > 4)
     {
         if (validatePolygon(ui->regionsList->currentIndex().row()))
         {
@@ -381,12 +401,39 @@ void HorizonManager::slotAddPoint()
         {
             ui->polygonValidatoin->setPixmap(QIcon::fromTheme("process-stop").pixmap(32,32));
             ui->polygonValidatoin->setEnabled(false);
-            ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
+            ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed and located at the horizon"));
         }
 
         ui->polygonValidatoin->show();
     }
 
+}
+
+void HorizonManager::addSkyPoint(SkyPoint *skypoint)
+{
+   if (selectPoints == false)
+       return;
+
+   slotAddPoint();
+
+   QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
+
+   if (regionItem)
+   {
+       QStandardItem *az = regionItem->child(regionItem->rowCount()-1, 1);
+       QStandardItem *alt= regionItem->child(regionItem->rowCount()-1, 2);
+
+       az->setData(skypoint->az().toDMSString(), Qt::DisplayRole);
+       alt->setData(skypoint->alt().toDMSString(), Qt::DisplayRole);
+   }
+}
+
+void HorizonManager::slotAddPoint()
+{
+    QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
+
+    if (regionItem == NULL)
+        return;
 
     QList<QStandardItem*> pointsList;
     pointsList << new QStandardItem("") << new QStandardItem("") << new QStandardItem("");
@@ -395,7 +442,6 @@ void HorizonManager::slotAddPoint()
     m_RegionsModel->setHorizontalHeaderLabels( QStringList() << i18n( "Region") << i18nc( "Azimuth", "Az" ) << i18nc( "Altitude", "Alt" ));
     ui->pointsList->setColumnHidden(0, true);
     ui->pointsList->setRootIndex(regionItem->index());
-
 }
 
 void HorizonManager::slotRemovePoint()
@@ -424,6 +470,17 @@ void HorizonManager::slotRemovePoint()
                 ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
             }
         }
+
+        if (livePreview && row < livePreview->points()->count())
+        {
+            delete livePreview->points()->takeAt(row);
+
+            if (livePreview->points()->count() == 0)
+                terminateLivePreview();
+            else
+                SkyMap::Instance()->forceUpdate(false);
+
+        }
     }
 }
 
@@ -431,17 +488,69 @@ void HorizonManager::clearPoints()
 {
     QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
 
+    //qDebug() << "Row " << ui->regionsList->currentIndex().row();
+
     if (regionItem)
     {
         regionItem->removeRows(0, regionItem->rowCount());
 
         ui->polygonValidatoin->hide();
     }
+
+    terminateLivePreview();
 }
 
 void HorizonManager::setSelectPoints(bool enable)
 {
     selectPoints = enable;
     ui->selectPointsB->clearFocus();
+}
 
+void HorizonManager::verifyItemValue(QStandardItem *item)
+{
+    bool azOK=true, altOK=true;
+
+    if (item->column() >= 1)
+    {
+        QStandardItem *parent = item->parent();
+
+        dms azAngle  = dms::fromString(parent->child(item->row(),1)->data(Qt::DisplayRole).toString(), true);
+        dms altAngle = dms::fromString(parent->child(item->row(),2)->data(Qt::DisplayRole).toString(), true);
+
+        if (isnan(azAngle.Degrees()))
+            azOK = false;
+        if (isnan(altAngle.Degrees()))
+            altOK = false;
+
+        if ( (item->column() == 1 && azOK == false) || (item->column() == 2 && altOK == false) )
+
+        {
+            KMessageBox::error(KStars::Instance(), i18n("Invalid angle value: %1", item->data(Qt::DisplayRole).toString()));
+            item->setData(QVariant(0), Qt::DisplayRole);
+            return;
+        }
+        else if (azOK && altOK)
+            processSkyPoint(item->parent(), item->row());
+    }
+}
+
+void HorizonManager::terminateLivePreview()
+{
+    if (livePreview)
+    {
+        while (livePreview->points()->size() > 0)
+            delete livePreview->points()->takeAt(0);
+
+        delete(livePreview);
+
+        livePreview = NULL;
+
+        horizonComponent->setLivePreview(NULL);
+    }
+}
+
+void HorizonManager::setPointSelection(bool enable)
+{
+    selectPoints = enable;
+    ui->selectPointsB->setChecked(enable);
 }

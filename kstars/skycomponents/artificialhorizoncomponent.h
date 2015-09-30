@@ -34,6 +34,7 @@ public:
     virtual bool selected();
     virtual void draw( SkyPainter *skyp );
 
+    void setLivePreview(LineList *preview) { livePreview = preview; }
     void addRegion(const QString &regionName, LineList *list);
     void removeRegion(const QString &regionName);
     inline QMap<QString, LineList*> regionMap() { return m_RegionMap; }
@@ -46,6 +47,7 @@ protected:
 
 private:
     QMap<QString, LineList*> m_RegionMap;
+    LineList *livePreview;
 };
 
 #endif

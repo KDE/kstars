@@ -18,6 +18,7 @@
 
 class QSortFilterProxyModel;
 class QStandardItemModel;
+class QStandardItem;
 class KStars;
 class ArtificialHorizonComponent;
 class SkyPoint;
@@ -84,10 +85,15 @@ public slots:
 
 
 private slots:
+    void processSkyPoint(QStandardItem *item, int row);
+    void verifyItemValue(QStandardItem *item);
     void slotSaveChanges();
     void slotSetShownRegion( QModelIndex idx );
 
 private:
+
+    void terminateLivePreview();
+    void setPointSelection(bool enable);
 
     HorizonManagerUI *ui;
 
@@ -95,6 +101,8 @@ private:
     ArtificialHorizonComponent *horizonComponent;
 
     QMap<QString, LineList*> regionMap;
+
+    LineList *livePreview;
 
     bool selectPoints;
 };

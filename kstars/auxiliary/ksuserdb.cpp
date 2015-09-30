@@ -180,7 +180,7 @@ bool KSUserDB::RebuildDB() {
 
     tables.append("CREATE TABLE horizons ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                  "name TEXT NOT NULL)"
+                  "name TEXT NOT NULL,"
                   "label TEXT NOT NULL)");
 
     for (int i = 0; i < tables.count(); ++i) {
@@ -1010,11 +1010,8 @@ void KSUserDB::DeleteAllHorizons()
             qDebug() << query.lastError().text();
     }
 
-    qDebug() << "Row count is " << regions.rowCount();
-    bool rc = regions.removeRows(0, regions.rowCount());
-    qDebug() << "rc " << rc << regions.lastError().text();
+    regions.removeRows(0, regions.rowCount());
     regions.submitAll();
-    qDebug() << regions.lastError().text();
 
     regions.clear();
     userdb_.close();
