@@ -33,11 +33,16 @@ class QImage;
 class SkyPoint;
 class dms;
 
-/** @class ConstellationsArt
- * @short Represents images for sky cultures
- * @author M.S.Adityan
- */
-
+/**
+  *@class ConstellationsArt
+    *Provides all necessary information about a constellationsart object
+    *data inherited from SkyObject includes RA/DEC coordinate pairs.
+    *Data specific to ConstellationsArt objects includes the abbreviation
+    *filename, constellation image, position angle, width and height.
+    *@short Information about a ConstellationsArt object. This class represents a constellation image.
+    *@author M.S.Adityan
+    *@version 0.1
+    */
 class ConstellationsArt: public SkyObject{
 
 private:
@@ -48,22 +53,25 @@ private:
 public:
 
     /**
-     *Constructor. Set SkyObject data according to arguments.
-     *@param t Type of object
-     *@param serial Serial number from constellationsart.txt
-     *@param n Primary name
+     *Constructor. Set ConstellationsArt data according to parameters.
+     *@param midpointra RA of the midpoint of the constellation
+     *@param midpointdec DEC of the midpoint of the constellation
+     *@param pa position angle
+     *@param w width of the constellation image
+     *@param h height of the constellation image
+     *@param abbreviation abbrevation of the constellation
+     *@param filename the file name of the image of the constellation.
      */
     explicit ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation,QString filename);
 
-    //Destructor
+    /** *Destructor */
      ~ConstellationsArt();
 
     /** @return an object's image */
     const QImage& image() const { return constellationArtImage; }
 
-    /** Load the object's image */
+    /** Load the object's image. This also scales the object's image to 1024x1024 pixels. */
     void loadImage();
-
 
     /** @return an object's abbreviation */
     inline QString getAbbrev() const { return abbrev;}
@@ -71,12 +79,16 @@ public:
     /** @return an object's image file name*/
     inline QString getImageFileName() const {return imageFileName;}
 
-   /** @return an object's position angle */
+    /** @return an object's position angle */
     inline double pa() const { return positionAngle; }
 
+    /** Set the position angle */
     inline void setPositionAngle(double pa) { positionAngle = pa; }
 
+    /** @return an object's width */
     inline double getWidth() {return width; }
+
+    /** @return an object's height*/
     inline double getHeight() {return height;}
 
 };

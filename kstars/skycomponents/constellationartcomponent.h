@@ -39,28 +39,40 @@ class SkyMap;
 class CultureList;
 class SkyQPainter;
 
+/**
+ * @class ConstellationArtComponent
+ * Represents the ConstellationsArt objects.
+ * For each skyculture there is a separate table in skycultures.sqlite.
+ * @author M.S.Adityan
+ * @version 0.1
+ */
 class ConstellationArtComponent : public SkyComponent
 {
 public:
 
-    //Constructor
+    /** Constructor*/
     explicit ConstellationArtComponent ( SkyComposite*, CultureList* cultures );
 
-    //Destructor
+    /** Destructor*/
     ~ConstellationArtComponent();
 
-    /*Read the file constellationsart.txt
-    This catalog has the following columns.
-    Constellation serial number,x1,y1,HD1,x2,y2,HD2,x3,y3,HD3,Abbrev,Image file*/
+    /**
+     * @short Read the skycultures.sqlite database file.
+     * Parse all the data from the skycultures database.Construct a ConstellationsArt object
+     * from the data, and add it to a QList.
+     * @return true if data file is successfully read.
+     */
     void loadData();
 
-    //Outputs details of the QList
+    /**
+     * @short Shows the details of the constellations
+     * selected skyculture
+     */
     void showList();
 
     virtual void draw( SkyPainter *skyp );
 
     QList<ConstellationsArt*> m_ConstList;
-
 
 private:
     QString cultureName;

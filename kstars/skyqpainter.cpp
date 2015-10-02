@@ -75,14 +75,6 @@ namespace {
 
 int SkyQPainter::starColorMode = 0;
 
-dms SkyQPainter::ra = dms(360);
-dms SkyQPainter::dec = dms(90);
-dms SkyQPainter::pa = dms(15);
-dms SkyQPainter::cw = dms(30);
-dms SkyQPainter::ch = dms(30);
-
-
-
 
 SkyQPainter::SkyQPainter( QPaintDevice *pd )
     : SkyPainter(), QPainter()
@@ -457,16 +449,7 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 
 bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 {
-    qDebug() << "ra dms" << ra.toHMSString() << " dec dms " << dec.toDMSString() << " pa " << pa.toDMSString() << " w " << cw.toDMSString() << " h " << ch.toDMSString();
-
     double zoom = Options::zoomFactor();
-/*
-    obj->setRA(ra);
-    obj->setDec(dec);
-    obj->setPositionAngle(pa.Degrees());
-    float w = cw.Degrees()*60* dms::PI*zoom/10800;
-    float h = ch.Degrees()*60* dms::PI*zoom/10800;
-*/
 
     bool visible = false;
     obj->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -475,18 +458,21 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     if ( !visible || !m_proj->onScreen(constellationmidpoint))
         return false;
 
-    qDebug() << "o->pa() " << obj->pa();
+    //qDebug() << "o->pa() " << obj->pa();
     float positionangle = m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
-    qDebug() << " final PA " << positionangle;
+    //qDebug() << " final PA " << positionangle;
 
 
     float w = obj->getWidth()*60*dms::PI*zoom/10800;
     float h = obj->getHeight()*60*dms::PI*zoom/10800;
 
     save();
+
     translate(constellationmidpoint);
     rotate(positionangle);
+    setOpacity(0.7);
     drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
+    setOpacity(1);
     restore();
     return true;
 }

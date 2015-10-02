@@ -41,6 +41,6 @@ void ConstellationsArt::loadImage()
 {
         unscaled = TextureManager::getImage( imageFileName );
         constellationArtImage = unscaled.scaled(1024,1024,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-        qDebug()<<"The Unscaled image is"<<unscaled.width()<<unscaled.height();
-        qDebug()<<"The scaled image is"<<constellationArtImage.width(),constellationArtImage.height();
+       // qDebug()<<"The Unscaled image is"<<unscaled.width()<<unscaled.height();
+       // qDebug()<<"The scaled image is"<<constellationArtImage.width(),constellationArtImage.height();
 }
