@@ -94,6 +94,7 @@
 //FIXME Port to KF5
 //#include "tools/moonphasetool.h"
 #include "tools/flagmanager.h"
+#include "tools/horizonmanager.h"
 #include "oal/execute.h"
 #include "projections/projector.h"
 #include "imageexporter.h"
@@ -198,8 +199,8 @@ void KStars::slotViewToolBar() {
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
         if( !a->isChecked() && Options::useRefraction() ) {
-           QString caption = xi18n( "Refraction effects disabled" );
-           QString message = xi18n( "When the horizon is switched off, refraction effects are temporarily disabled." );
+           QString caption = i18n( "Refraction effects disabled" );
+           QString message = i18n( "When the horizon is switched off, refraction effects are temporarily disabled." );
 
            KMessageBox::information( this, message, caption, "dag_refract_hide_ground" );
         }
@@ -229,6 +230,75 @@ void KStars::slotViewToolBar() {
     updateTime();
 
     map()->forceUpdate();
+}
+
+void KStars::slotINDIToolBar()
+{
+#ifdef HAVE_INDI
+    KToggleAction *a = (KToggleAction*)sender();
+
+    if ( a == actionCollection()->action( "show_device_manager" ) )
+    {
+        if (a->isChecked())
+        {
+            DriverManager::Instance()->raise();
+            DriverManager::Instance()->activateWindow();
+            DriverManager::Instance()->showNormal();
+        }
+        else
+           DriverManager::Instance()->hide();
+    }    
+    else if ( a == actionCollection()->action( "show_control_panel" ) )
+    {
+       if (a->isChecked())
+       {
+           GUIManager::Instance()->raise();
+           GUIManager::Instance()->activateWindow();
+           GUIManager::Instance()->showNormal();
+       }
+       else
+           GUIManager::Instance()->hide();
+    }
+    else if ( a == actionCollection()->action( "show_ekos" ) )
+    {
+       if (a->isChecked())
+       {
+           ekosManager()->raise();
+           ekosManager()->activateWindow();
+           ekosManager()->showNormal();
+       }
+       else
+           ekosManager()->hide();
+    }
+    else if ( a == actionCollection()->action( "show_fits_viewer" ) )
+    {
+       QList<FITSViewer *> viewers = findChildren<FITSViewer *>();
+
+       if (viewers.isEmpty())
+       {
+           a->setEnabled(false);
+           return;
+       }
+
+       if (a->isChecked())
+       {
+           foreach(FITSViewer *view, viewers)
+           {
+               view->raise();
+               view->activateWindow();
+               view->showNormal();
+           }
+       }
+       else
+       {
+           foreach(FITSViewer *view, viewers)
+           {
+               view->hide();
+           }
+       }
+    }
+
+#endif
 }
 
 /** Major Dialog Window Actions **/
@@ -363,8 +433,8 @@ void KStars::slotWISettings()
 
     m_WISettings = new WILPSettings(this);
     m_WIEquipmentSettings = new WIEquipSettings(this);
-    dialog->addPage(m_WISettings, xi18n("Light Pollution Settings"));
-    dialog->addPage(m_WIEquipmentSettings, xi18n("Equipment Settings - Equipment Type and Parameters"));
+    dialog->addPage(m_WISettings, i18n("Light Pollution Settings"));
+    dialog->addPage(m_WIEquipmentSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
 }
 
@@ -428,7 +498,7 @@ void KStars::slotGlossary(){
     // 	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
     // 	QUrl u = glossaryfile;
     // 	Glossary *g = new Glossary( u );
-    // 	g->setName( xi18n( "Knowledge" ) );
+    // 	g->setName( i18n( "Knowledge" ) );
     // 	dlg->addGlossary( g );
     // 	dlg->show();
 }
@@ -464,7 +534,7 @@ void KStars::slotTelescopeWizard()
 #ifdef HAVE_INDI
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, xi18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
     }
 
@@ -479,7 +549,7 @@ void KStars::slotINDIPanel()
 #ifdef HAVE_INDI
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, xi18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
     }
     GUIManager::Instance()->updateStatus();
@@ -491,11 +561,14 @@ void KStars::slotINDIDriver()
 #ifdef HAVE_INDI
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, xi18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
     }
 
-    DriverManager::Instance()->show();
+    DriverManager::Instance()->raise();
+    DriverManager::Instance()->activateWindow();
+    DriverManager::Instance()->showNormal();
+
 #endif
 }
 
@@ -506,15 +579,14 @@ void KStars::slotEkos()
 
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, xi18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
         return;
     }
 
-    EkosManager *m_ekosManager = KStars::Instance()->ekosManager();
+    ekosManager()->raise();
+    ekosManager()->activateWindow();
+    ekosManager()->showNormal();
 
-    m_ekosManager->show();
-    m_ekosManager->raise();
-    m_ekosManager->activateWindow();
 #endif
 #endif
 }
@@ -577,20 +649,20 @@ void KStars::slotViewOps() {
     opcolors     = new OpsColors( this );
     opadvanced   = new OpsAdvanced( this );
 
-    dialog->addPage(opcatalog, xi18n("Catalogs"), "kstars_catalog");
-    dialog->addPage(opsolsys, xi18n("Solar System"), "kstars_solarsystem");
-    dialog->addPage(opssatellites, xi18n("Satellites"), "kstars_satellites");
-    dialog->addPage(opssupernovae, xi18n("Supernovae"), "kstars_supernovae");
-    dialog->addPage(opguides, xi18n("Guides"), "kstars_guides");
-    dialog->addPage(opcolors, xi18n("Colors"), "kstars_colors");
+    dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
+    dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
+    dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
+    dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
+    dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
+    dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
 
     #ifdef HAVE_INDI
     opsindi = new OpsINDI();
-    dialog->addPage(opsindi, xi18n("INDI"), "kstars");
+    dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
 
     #ifdef HAVE_CFITSIO
     opsekos = new OpsEkos();
-    KPageWidgetItem *ekosOption = dialog->addPage(opsekos, xi18n("Ekos"), "kstars_ekos");
+    KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");
     if (m_EkosManager)
         m_EkosManager->setOptionsWidget(ekosOption);
     #endif
@@ -599,10 +671,10 @@ void KStars::slotViewOps() {
 
 #ifdef HAVE_XPLANET
     opsxplanet = new OpsXplanet( this );
-    dialog->addPage(opsxplanet, xi18n("Xplanet"), "kstars_xplanet");
+    dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
 #endif
 
-    dialog->addPage(opadvanced, xi18n("Advanced"), "kstars_advanced");
+    dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
 
     dialog->show();
 }
@@ -687,7 +759,7 @@ void KStars::slotFind() {
         m_FindDialog = new FindDialog( this );
     }
 
-    if ( !m_FindDialog ) qWarning() << xi18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
+    if ( !m_FindDialog ) qWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
     SkyObject *targetObject;
     if ( m_FindDialog->exec() == QDialog::Accepted && ( targetObject = m_FindDialog->selectedObject() ) ) {
         map()->setClickedObject( targetObject );
@@ -705,7 +777,7 @@ void KStars::slotOpenFITS()
 #ifdef HAVE_CFITSIO
 
     static QUrl path;
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), xi18n("Open FITS"), path, "FITS (*.fits *.fit *.fts)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open FITS"), path, "FITS (*.fits *.fit *.fts)");
 
     if (fileURL.isEmpty())
         return;
@@ -728,7 +800,7 @@ void KStars::slotExportImage() {
     //QFileInfo::absolutePath: QFileInfo::absolutePath: Constructed with empty filename
     //As of 2014-07-19
     //QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
-    QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Export Image"), QUrl(), "Images (*.png *.jpeg *.gif *.bmp *.svg)" );
+    QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Image"), QUrl(), "Images (*.png *.jpeg *.gif *.bmp *.svg)" );
 
     //User cancelled file selection dialog - abort image export
     if ( fileURL.isEmpty() ) {
@@ -739,8 +811,8 @@ void KStars::slotExportImage() {
     if (QFile::exists(fileURL.path()))
     {
         int r=KMessageBox::warningContinueCancel(parentWidget(),
-                xi18n( "A file named \"%1\" already exists. Overwrite it?" , fileURL.fileName()),
-                xi18n( "Overwrite File?" ),
+                i18n( "A file named \"%1\" already exists. Overwrite it?" , fileURL.fileName()),
+                i18n( "Overwrite File?" ),
                 KStandardGuiItem::overwrite() );
         if(r == KMessageBox::Cancel)
             return;
@@ -765,7 +837,7 @@ void KStars::slotExportImage() {
 void KStars::slotRunScript() {
 
 
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
     QString fname;
 
@@ -773,26 +845,26 @@ void KStars::slotRunScript() {
         if ( ! fileURL.isLocalFile() )
         {
             //Warn the user about executing remote code.
-            QString message = xi18n( "Warning:  You are about to execute a remote shell script on your machine. " );
-            message += xi18n( "If you absolutely trust the source of this script, press Continue to execute the script; " );
-            message += xi18n( "to save the file without executing it, press Save; " );
-            message += xi18n( "to cancel the download, press Cancel. " );
+            QString message = i18n( "Warning:  You are about to execute a remote shell script on your machine. " );
+            message += i18n( "If you absolutely trust the source of this script, press Continue to execute the script; " );
+            message += i18n( "to save the file without executing it, press Save; " );
+            message += i18n( "to cancel the download, press Cancel. " );
 
-            int result = KMessageBox::warningYesNoCancel( 0, message, xi18n( "Really Execute Remote Script?" ),
+            int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really Execute Remote Script?" ),
                          KStandardGuiItem::cont(), KStandardGuiItem::save() );
 
             if ( result == KMessageBox::Cancel ) return;
             if ( result == KMessageBox::No )
             { //save file
-                QUrl saveURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+                QUrl saveURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 QTemporaryFile tmpfile;
                 tmpfile.open();
 
                 while ( ! saveURL.isValid() )
                 {
-                    message = xi18n( "Save location is invalid. Try another location?" );
-                    if ( KMessageBox::warningYesNo( 0, message, xi18n( "Invalid Save Location" ), KGuiItem(xi18n("Try Another")), KGuiItem(xi18n("Do Not Try")) ) == KMessageBox::No ) return;
-                    saveURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+                    message = i18n( "Save location is invalid. Try another location?" );
+                    if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::No ) return;
+                    saveURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 }
 
                 if ( saveURL.isLocalFile() )
@@ -818,13 +890,13 @@ void KStars::slotRunScript() {
                         sourceURL.setScheme("file");
                         if (KIO::file_copy(sourceURL, fileURL)->exec() == false)
                         {
-                            QString message = xi18n( "Could not upload image to remote location: %1", fileURL.url() );
-                            KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
+                            QString message = i18n( "Could not upload image to remote location: %1", fileURL.url() );
+                            KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
                         }
                     }
                 } else
                 {
-                    KMessageBox::sorry( 0, xi18n( "Could not download the file." ), xi18n( "Download Error" ) );
+                    KMessageBox::sorry( 0, i18n( "Could not download the file." ), i18n( "Download Error" ) );
                 }
 
                 return;
@@ -852,8 +924,8 @@ void KStars::slotRunScript() {
 
         if ( !f.open( QIODevice::ReadOnly) )
         {
-            QString message = xi18n( "Could not open file %1", f.fileName() );
-            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+            QString message = i18n( "Could not open file %1", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             return;
         }
 
@@ -878,16 +950,16 @@ void KStars::slotRunScript() {
         if ( ! fileOK )
         {
             int answer;
-            answer = KMessageBox::warningContinueCancel( 0, xi18n( "The selected script contains unrecognized elements, "
+            answer = KMessageBox::warningContinueCancel( 0, i18n( "The selected script contains unrecognized elements, "
                      "indicating that it was not created using the KStars script builder. "
                      "This script may not function properly, and it may even contain malicious code. "
                      "Would you like to execute it anyway?" ),
-                     xi18n( "Script Validation Failed" ), KGuiItem( xi18n( "Run Nevertheless" ) ), KStandardGuiItem::cancel(), "daExecuteScript" );
+                     i18n( "Script Validation Failed" ), KGuiItem( i18n( "Run Nevertheless" ) ), KStandardGuiItem::cancel(), "daExecuteScript" );
             if ( answer == KMessageBox::Cancel ) return;
         }
 
         //Add statusbar message that script is running
-        statusBar()->showMessage(xi18n( "Running script: %1", fileURL.fileName() ));
+        statusBar()->showMessage(i18n( "Running script: %1", fileURL.fileName() ));
 
         QProcess p;
         p.start(f.fileName());
@@ -901,7 +973,7 @@ void KStars::slotRunScript() {
                 break;
         }
 
-        statusBar()->showMessage(xi18n( "Script finished."), 0 );
+        statusBar()->showMessage(i18n( "Script finished."), 0 );
     }
 }
 
@@ -910,13 +982,13 @@ void KStars::slotPrint() {
 
     //Suggest Chart color scheme
     if ( data()->colorScheme()->colorNamed( "SkyColor" ) != "#FFFFFF" ) {
-        QString message = xi18n( "You can save printer ink by using the \"Star Chart\" "
+        QString message = i18n( "You can save printer ink by using the \"Star Chart\" "
                                 "color scheme, which uses a white background. Would you like to "
                                 "temporarily switch to the Star Chart color scheme for printing?" );
 
         int answer;
-        answer = KMessageBox::questionYesNoCancel( 0, message, xi18n( "Switch to Star Chart Colors?" ),
-                 KGuiItem(xi18n("Switch Color Scheme")), KGuiItem(xi18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors" );
+        answer = KMessageBox::questionYesNoCancel( 0, message, i18n( "Switch to Star Chart Colors?" ),
+                 KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors" );
 
         if ( answer == KMessageBox::Cancel )
             return;
@@ -988,7 +1060,7 @@ void KStars::slotPointFocus() {
 void KStars::slotTrack() {
     if ( Options::isTracking() ) {
         Options::setIsTracking( false );
-        actionCollection()->action("track_object")->setText( xi18n( "Engage &Tracking" ) );
+        actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt") );
 
         KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
@@ -1006,7 +1078,7 @@ void KStars::slotTrack() {
         map()->setFocusObject( NULL );//no longer tracking focusObject
         map()->setFocusPoint( map()->clickedPoint() );
         Options::setIsTracking( true );
-        actionCollection()->action("track_object")->setText( xi18n( "Stop &Tracking" ) );
+        actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
     }
 
@@ -1072,14 +1144,14 @@ void KStars::slotZoomChanged() {
     // Update status bar
     map()->setupProjector(); // this needs to be run redundantly, so that the FOV returned below is up-to-date.
     float fov = map()->projector()->fov();
-    KLocalizedString fovi18nstring = kxi18nc( "approximate field of view", "Approximate FOV: %1 degrees" );
+    KLocalizedString fovi18nstring = ki18nc( "approximate field of view", "Approximate FOV: %1 degrees" );
     if ( fov < 1.0 ) {
         fov = fov * 60.0;
-        fovi18nstring = kxi18nc( "approximate field of view", "Approximate FOV: %1 arcminutes" );
+        fovi18nstring = ki18nc( "approximate field of view", "Approximate FOV: %1 arcminutes" );
     }
     if ( fov < 1.0 ) {
         fov = fov * 60.0;
-        fovi18nstring = kxi18nc( "approximate field of view", "Approximate FOV: %1 arcseconds" );
+        fovi18nstring = ki18nc( "approximate field of view", "Approximate FOV: %1 arcseconds" );
     }
     QString fovstring = fovi18nstring.subs( QString::number( fov, 'f', 1 ) ).toString();
 
@@ -1092,9 +1164,9 @@ void KStars::slotSetZoom() {
     double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
     double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
 
-    double angSize = QInputDialog::getDouble(0,xi18nc( "The user should enter an angle for the field-of-view of the display",
+    double angSize = QInputDialog::getDouble(0,i18nc( "The user should enter an angle for the field-of-view of the display",
                                                      "Enter Desired Field-of-View Angle" ),
-                                              xi18n( "Enter a field-of-view angle in degrees: " ),
+                                              i18n( "Enter a field-of-view angle in degrees: " ),
                                               currentAngle, minAngle, maxAngle, 1, &ok );
 
     if( ok ) {
@@ -1114,13 +1186,13 @@ void KStars::slotCoordSys() {
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
-        actionCollection()->action("coordsys")->setText( xi18n("Switch to horizonal view (Horizontal &Coordinates)") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to horizonal view (Horizontal &Coordinates)") );
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
             map()->setFocusAltAz( map()->focus()->altRefracted(), map()->focus()->az() );
         }
-        actionCollection()->action("coordsys")->setText( xi18n("Switch to star globe view (Equatorial &Coordinates)") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to star globe view (Equatorial &Coordinates)") );
     }
     map()->forceUpdate();
 }
@@ -1140,7 +1212,7 @@ void KStars::slotMapProjection() {
         Options::setProjection( SkyMap::Gnomonic );
 
     //DEBUG
-    qDebug() << xi18n( "Projection system: %1", Options::projection() );
+    qDebug() << i18n( "Projection system: %1", Options::projection() );
 
     m_SkyMap->forceUpdate();
 }
@@ -1193,13 +1265,22 @@ void KStars::slotEquipmentWriter() {
     delete equipmentdlg;
 }
 
-void KStars::slotObserverAdd() {
+void KStars::slotObserverManager() {
     QPointer<ObserverAdd> m_observerAdd = new ObserverAdd();
     m_observerAdd->exec();
     delete m_observerAdd;
 }
 
+void KStars::slotHorizonManager()
+{
+    if ( ! m_HorizonManager )
+    {
+        m_HorizonManager = new HorizonManager(this);
+        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint*)), m_HorizonManager, SLOT(addSkyPoint(SkyPoint*)));
+    }
 
+    m_HorizonManager->show();
+}
 
 void KStars::slotExecute() {
     KStarsData::Instance()->executeSession()->init();

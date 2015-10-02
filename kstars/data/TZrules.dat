@@ -11,9 +11,6 @@ MX  May  1Sun  02:00  Sep   Sun  02:00
 #      Sunday of October (1:00 am)
 EU  Mar   Sun  02:00  Oct   Sun  03:00
 
-#"RU": Same as EU but changes at 2:00 instead of 1:00 (Russia)
-RU  Mar   Sun  02:00  Oct   Sun  02:00
-
 #"EE": Same as EU but changes at 0:00 instead of 1:00 (East Europe)
 EE  Mar   Sun  00:00  Oct   Sun  02:00
 

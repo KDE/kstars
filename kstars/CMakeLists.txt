@@ -26,10 +26,10 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsdata.cpp
     fitsviewer/fitsview.cpp
     fitsviewer/fitsviewer.cpp
-    fitsviewer/fitshistogramdraw.cpp
     fitsviewer/fitstab.cpp
     fitsviewer/fitsdebayer.cpp
     fitsviewer/bayer.c
+    fitsviewer/qcustomplot.cpp
     )
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui
@@ -59,6 +59,8 @@ if (INDI_FOUND)
     indi/indiccd.cpp
     indi/indifocuser.cpp
     indi/indifilter.cpp
+    indi/indidome.cpp
+    indi/indiweather.cpp
     indi/indidbus.cpp
     indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
@@ -74,6 +76,7 @@ if (INDI_FOUND)
 
 if (CFITSIO_FOUND)
    set(ekosui_SRCS
+      ekos/scheduler.ui
       ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
@@ -86,12 +89,16 @@ if (CFITSIO_FOUND)
    )
 
    set(ekos_SRCS
+      ekos/schedulerjob.cpp
+      ekos/scheduler.cpp
       ekos/ekosmanager.cpp
       ekos/capture.cpp
       ekos/focus.cpp
       ekos/guide.cpp
       ekos/align.cpp
       ekos/mount.cpp
+      ekos/dome.cpp
+      ekos/weather.cpp
       ekos/astrometryparser.cpp
       ekos/offlineastrometryparser.cpp
       ekos/onlineastrometryparser.cpp
@@ -168,6 +175,7 @@ set(libkstarstools_SRCS
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
         tools/flagmanager.cpp
+        tools/horizonmanager.cpp
 
         #FIXME Port to QML2
         #tools/whatsinteresting/skyobjlistmodel.cpp
@@ -229,6 +237,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
         tools/whatsinteresting/wilpsettings.ui
         tools/whatsinteresting/wiequipsettings.ui
         tools/starhopperdialog.ui
+        tools/horizonmanager.ui
         )
 
 
@@ -263,6 +272,7 @@ set(libkstarscomponents_SRCS
    skycomponents/horizontalcoordinategrid.cpp
    skycomponents/ecliptic.cpp
    skycomponents/equator.cpp
+   skycomponents/artificialhorizoncomponent.cpp
    skycomponents/horizoncomponent.cpp
    skycomponents/milkyway.cpp
    skycomponents/skycomponent.cpp
@@ -387,7 +397,6 @@ set(kstars_projection_SRCS
 )
 
 set(kstars_extra_SRCS
-        auxiliary/ksnotify.cpp
         auxiliary/colorscheme.cpp
         auxiliary/dms.cpp
         auxiliary/fov.cpp
@@ -491,6 +500,8 @@ qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus.h Ekos
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide.h Ekos::Guide)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos::Align)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
 endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
@@ -525,6 +536,7 @@ target_link_libraries(KStarsLib
         KF5::TextEditor
         KF5::DBusAddons
         KF5::IconThemes
+        KF5::Notifications
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
@@ -574,3 +586,4 @@ install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
 endif (WIN32)
+install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

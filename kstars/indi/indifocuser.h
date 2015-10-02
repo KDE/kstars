@@ -27,6 +27,8 @@ class Focuser : public DeviceDecorator
     Q_OBJECT
 
 public:
+    enum FocusDirection { FOCUS_INWARD, FOCUS_OUTWARD };
+
     Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FOCUSER;}
 
     void processSwitch(ISwitchVectorProperty *svp);
@@ -38,9 +40,14 @@ public:
 
     bool focusIn();
     bool focusOut();
-    bool moveFocuser(int msecs);
-    bool absMoveFocuser(int steps);
+    bool moveByTimer(int msecs);
+    bool moveAbs(int steps);
+    bool moveRel(int steps);
+
     bool canAbsMove();
+    bool canRelMove();
+
+    bool getFocusDirection(FocusDirection *dir);
 
 };
 

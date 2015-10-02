@@ -138,7 +138,7 @@ void DeepSkyComponent::loadData()
     QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("ngcic.dat") );
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
-    deep_sky_parser.SetProgress( xi18n("Loading NGC/IC objects"), 13444, 10 );
+    deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
     qDebug() << "Loading NGC/IC objects";
 
     QHash<QString,QVariant> row_content;
@@ -258,7 +258,7 @@ void DeepSkyComponent::loadData()
             if (!longname.isEmpty()) name = longname;
             else {
                 hasName = false;
-                name = xi18n( "Unnamed Object" );
+                name = i18n( "Unnamed Object" );
             }
         }
 

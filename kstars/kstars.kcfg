@@ -118,7 +118,7 @@
     </entry>
   </group>
 
-  <group name="indi">
+  <group name="indi">    
     <entry name="useGeographicUpdate" type="Bool">
       <label>Automatically updates geographic location?</label>
       <default>true</default>
@@ -151,42 +151,7 @@
       <label>Display all FITS in one window?</label>
       <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
       <default>false</default>
-    </entry>
-    <entry name="telescopePort" type="String">
-      <label>INDI Telescope port</label>
-      <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB0</default>
-    </entry>
-    <entry name="focuserPort" type="String">
-      <label>INDI Focuser port</label>
-      <whatsthis>The port to which the focuser is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB1</default>
-    </entry>
-    <entry name="filterPort" type="String">
-      <label>INDI Filter port</label>
-      <whatsthis>The port to which the filter is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB2</default>
-    </entry>
-    <entry name="aux1Port" type="String">
-      <label>INDI Auxiliary #1 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="aux2Port" type="String">
-      <label>INDI Auxiliary #2 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="aux3Port" type="String">
-      <label>INDI Auxiliary #3 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="videoPort" type="String">
-      <label>INDI Video port</label>
-      <whatsthis>The port to which the video device is connected</whatsthis>
-      <default>/dev/video0</default>
-    </entry>
+    </entry>    
     <entry name="useComputerSource" type="Bool">
       <label>Use computer time and location for synchronization?</label>
       <default>true</default>
@@ -937,6 +902,11 @@
       <whatsthis>The color for the sky background.</whatsthis>
       <default>#002</default>
     </entry>
+    <entry name="ArtificialHorizonColor" type="String">
+      <label>Color Artificial Horizon</label>
+      <whatsthis>The color for the artificial horizon region.</whatsthis>
+      <default>#C82828</default>
+    </entry>
     <entry name="TelescopeTargetColor" type="String">
       <label>Color of telescope symbols</label>
       <whatsthis>The color for telescope target symbols.</whatsthis>
@@ -1228,6 +1198,35 @@
       <whatsthis>To include parts of the star field, we add some extra padding around DSS images of deep-sky objects. This option configures the total (both sides) padding added to either dimension of the field.</whatsthis>
       <default>10.0</default>
     </entry>
+    <entry name="VerboseLogging" type="Bool">
+      <label>Enable Verbose Logging</label>
+      <whatsthis>Checking this option causes KStars to generate verbose debug information for diagnostic purposes. This may cause slowdown of KStars.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="RegularLogging" type="Bool">
+      <label>Enable Regular Logging</label>
+      <whatsthis>Checking this option causes KStars to generate regular debug information.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="DisableLogging" type="Bool">
+      <label>Disable Verbose Logging</label>
+      <whatsthis>Checking this option causes KStars to stop generating ANY debug information.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="LogToDefault" type="Bool">
+      <label>Log debug message to default output</label>
+      <whatsthis>Checking this option causes KStars log debug messages to the default output used by the platform (e.g. Standard Error).</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="LogToFile" type="Bool">
+      <label>Log debug message to a log file</label>
+      <whatsthis>Checking this option causes KStars log debug messages to a log file as specified.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="VerboseLogFile" type="String">
+      <label>Verbose Log File</label>
+      <whatsthis>Verbose log file to save all of KStars generated debug messages to.</whatsthis>
+    </entry>
   </group>
   <group name="WISettings">
       <entry name="BortleClass" type="UInt">
@@ -1280,7 +1279,13 @@
     <entry name="Aux3Driver" type="String">
       <label>Default Auxiliary driver #3</label>
     </entry>
+    <entry name="Aux4Driver" type="String">
+      <label>Default Auxiliary driver #4</label>
+    </entry>
     <entry name="DomeDriver" type="String">
+      <label>Default Weather driver</label>
+    </entry>
+    <entry name="WeatherDriver" type="String">
       <label>Default Dome driver</label>
     </entry>
     <entry name="AODriver" type="String">
@@ -1318,9 +1323,17 @@
       <label>Remote Auxiliary Name #3</label>
       <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
     </entry>
+    <entry name="remoteAux4Name" type="String">
+      <label>Remote Auxiliary Name #3</label>
+      <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
+    </entry>
     <entry name="remoteDomeName" type="String">
       <label>Remote Dome Name</label>
       <whatsthis>Name of the remote INDI Dome device.</whatsthis>
+    </entry>
+    <entry name="remoteWeatherName" type="String">
+      <label>Remote Weather Station Name</label>
+      <whatsthis>Name of the remote INDI Weather device.</whatsthis>
     </entry>
     <entry name="remoteAOName" type="String">
       <label>Remote Adaptive Optics Name</label>
@@ -1355,26 +1368,6 @@
     <entry name="loadDefaultConfig" type="Bool">
       <label>Always load device default configuration upon successful connection?</label>
       <default>false</default>
-    </entry>
-    <entry name="PlayFITSAlarm" type="Bool">
-      <label>Play notification alarm whenever a new FITS is received.</label>
-      <default>false</default>
-    </entry>
-    <entry name="PlayCCDAlarm" type="Bool">
-      <label>Play notifications alarms in the CCD module.</label>
-      <default>true</default>
-    </entry>
-    <entry name="PlayFocusAlarm" type="Bool">
-      <label>Play notifications alarms in the focus module.</label>
-      <default>true</default>
-    </entry>
-    <entry name="PlayGuideAlarm" type="Bool">
-      <label>Play notifications alarms in the CCD module.</label>
-      <default>true</default>
-    </entry>
-    <entry name="PlayAlignmentAlarm" type="Bool">
-      <label>Play notifications alarms in the CCD module.</label>
-      <default>true</default>
     </entry>
     <entry name="astrometrySolver" type="String">
       <label>astrometry.net solve-field binary</label>
@@ -1560,18 +1553,34 @@
             <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
             <default>false</default>
           </entry>
+          <entry name="SolverOverlay" type="Bool">
+            <label>Display received FITS images unto solver FOV rectangle in the sky map.</label>
+            <default>false</default>
+          </entry>
+
     </group>
     <group name="Guide">
+    <entry name="ST4Driver" type="String">
+        <label>Default ST4 Driver.</label>
+    </entry>
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>
+    </entry>
+    <entry name="CalibrationSquareSizeIndex" type="UInt">
+        <label>Calibration square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
+        <default>1</default>
     </entry>
     <entry name="UseAutoMode" type="Bool">
         <label>Automatically calibrate selected axes.</label>
         <default>true</default>
     </entry>
-    <entry name="AutoCalibration" type="Bool">
+    <entry name="AutoStar" type="Bool">
         <label>Automatically select calibration star and perform calibration.</label>
+        <default>false</default>
+    </entry>
+    <entry name="AutoSquareSize" type="Bool">
+        <label>Automatically select the square size based on the selected star width.</label>
         <default>false</default>
     </entry>
     <entry name="AutoModeIterations" type="UInt">
@@ -1639,5 +1648,27 @@
         <entry name="GuidingRate" type="Double">
              <default>0.5</default>
         </entry>
+    </group>
+    <group name="Scheduler">
+    <entry name="EnforceWeather" type="Bool">
+        <label>Weather conditions must remain safe while observatory is online.</label>
+        <default>false</default>
+    </entry>
+    <entry name="preemptiveShutdown" type="Bool">
+        <label>Perform pre-emptive strike if no jobs are due for a number of hours.</label>
+        <default>false</default>
+    </entry>
+    <entry name="preemptiveShutdownTime" type="Double">
+        <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>
+        <default>2</default>
+    </entry>
+    <entry name="leadTime" type="Double">
+        <label>Minimum time between jobs in minutes.</label>
+        <default>5</default>
+    </entry>
+    <entry name="preDawnTime" type="Double">
+        <label>Do not permit jobs to be scheduled or executed past this many minutes before dawn.</label>
+        <default>30</default>
+    </entry>
     </group>
 </kcfg>

@@ -90,38 +90,38 @@ void dmsBox::slotTextChanged( const QString &t ) {
 void dmsBox::setDegType( bool t ) {
     deg = t;
 
-    QString sTip = ( t ? xi18n( "Angle value in degrees." ) : xi18n( "Angle value in hours." ) );
+    QString sTip = ( t ? i18n( "Angle value in degrees." ) : i18n( "Angle value in hours." ) );
     QString sWhatsThis;
 
     if ( isReadOnly() ) {
         if( t ) {
-            sWhatsThis = xi18n( "This box displays an angle in degrees. "
+            sWhatsThis = i18n( "This box displays an angle in degrees. "
                                "The three numbers displayed are the angle's "
                                "degrees, arcminutes, and arcseconds." );
         }
         else {
-            sWhatsThis = xi18n( "This box displays an angle in hours. "
+            sWhatsThis = i18n( "This box displays an angle in hours. "
                                "The three numbers displayed are the angle's "
                                "hours, minutes, and seconds." );
         }
     } else {
         if( t ) {
-            sTip += xi18n( "  You may enter a simple integer, or a floating-point value, "
+            sTip += i18n( "  You may enter a simple integer, or a floating-point value, "
                           "or space- or colon-delimited values specifying "
                           "degrees, arcminutes and arcseconds" );
 
-            sWhatsThis = xi18n( "Enter an angle value in degrees.  The angle can be expressed "
+            sWhatsThis = i18n( "Enter an angle value in degrees.  The angle can be expressed "
                                "as a simple integer (\"12\"), a floating-point value "
                                "(\"12.33\"), or as space- or colon-delimited "
                                "values specifying degrees, arcminutes and arcseconds (\"12:20\", \"12:20:00\", "
                                "\"12 20\", \"12 20 00.0\", etc.)." );
         }
         else {
-            sTip += xi18n( "  You may enter a simple integer, or a floating-point value, "
+            sTip += i18n( "  You may enter a simple integer, or a floating-point value, "
                           "or space- or colon-delimited values specifying "
                           "hours, minutes and seconds" );
 
-            sWhatsThis = xi18n( "Enter an angle value in hours.  The angle can be expressed "
+            sWhatsThis = i18n( "Enter an angle value in hours.  The angle can be expressed "
                                "as a simple integer (\"12\"), a floating-point value "
                                "(\"12.33\"), or as space- or colon-delimited "
                                "values specifying hours, minutes and seconds (\"12:20\", \"12:20:00\", "

@@ -14,6 +14,7 @@
 #include <KMessageBox>
 #include <QStatusBar>
 #include <QImageReader>
+#include <KNotifications/KNotification>
 
 #include <basedevice.h>
 
@@ -29,10 +30,10 @@
 #include "indiccd.h"
 #include "guimanager.h"
 #include "kstarsdata.h"
+#include "fov.h"
 
 #include <ekos/ekosmanager.h>
 
-#include "ksnotify.h"
 #include "imageviewer.h"
 #include "Options.h"
 
@@ -98,6 +99,8 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
             normalImage = image;
             if (normalImage)
                 imageData = normalImage->getImageData();
+            if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
+                KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(normalImage->getDisplayImage()->copy());
             break;
 
         case FITS_FOCUS:
@@ -227,7 +230,7 @@ bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
 
 }
 
-void CCDChip::resetFrame()
+bool CCDChip::resetFrame()
 {
     INumberVectorProperty *frameProp = NULL;
 
@@ -244,7 +247,7 @@ void CCDChip::resetFrame()
     }
 
     if (frameProp == NULL)
-        return;
+        return false;
 
     INumber *xarg = IUFindNumber(frameProp, "X");
     INumber *yarg = IUFindNumber(frameProp, "Y");
@@ -254,7 +257,7 @@ void CCDChip::resetFrame()
     if (xarg && yarg && warg && harg)
     {
         if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max && harg->value == harg->max)
-            return;
+            return false;
 
         xarg->value = xarg->min;
         yarg->value = yarg->min;
@@ -262,10 +265,11 @@ void CCDChip::resetFrame()
         harg->value = harg->max;
 
         clientManager->sendNewNumber(frameProp);
-        return;
+        return true;
     }
 
 
+    return false;
 }
 
 bool CCDChip::setFrame(int x, int y, int w, int h)
@@ -361,6 +365,8 @@ bool CCDChip::abortExposure()
         return false;
 
     abort->s = ISS_ON;
+
+    //captureMode = FITS_NORMAL;
 
     clientManager->sendNewSwitch(abortProp);
 
@@ -769,6 +775,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     ISOMode   = true;
     HasGuideHead = false;
     HasCooler    = false;
+    HasCoolerControl = false;
     fv          = NULL;
     streamWindow      = NULL;
     ST4Driver = NULL;
@@ -850,6 +857,11 @@ void CCD::registerProperty(INDI::Property *prop)
         if (np)
             emit newTemperatureValue(np->np[0].value);
     }
+    else if (!strcmp(prop->getName(), "CCD_COOLER"))
+    {
+        // Can turn cooling on/off
+        HasCoolerControl = true;
+    }
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -863,12 +875,9 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "CCD_EXPOSURE"))
     {
-        if (nvp->s == IPS_BUSY)
-        {
-            INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
-            if (np)
-                emit newExposureValue(primaryChip, np->value);
-        }
+        INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
+        if (np)
+           emit newExposureValue(primaryChip, np->value, nvp->s);
 
         return;
     }
@@ -885,13 +894,9 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
     {
-        if (nvp->s == IPS_BUSY)
-        {
-            INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
-            if (np)
-                emit newExposureValue(guideChip, np->value);
-        }
-
+        INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
+        if (np)
+           emit newExposureValue(guideChip, np->value, nvp->s);
         return;
     }
 
@@ -959,6 +964,12 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
 void CCD::processSwitch(ISwitchVectorProperty *svp)
 {
+    if (!strcmp(svp->name, "CCD_COOLER"))
+    {
+        // Can turn cooling on/off
+        HasCoolerControl = true;
+    }
+
     if (!strcmp(svp->name, "CCD_VIDEO_STREAM") || !strcmp(svp->name, "VIDEO_STREAM"))
     {
         if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
@@ -1011,6 +1022,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             streamWindow->enableStream(false);
             streamWindow->close();
+            delete(streamWindow);
+            streamWindow = NULL;
         }
 
         emit switchUpdated(svp);
@@ -1096,7 +1109,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     if (QDir(currentDir).exists() == false)
     {
-        KMessageBox::error(0, xi18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
+        KMessageBox::error(0, i18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
         emit BLOBUpdated(NULL);
         return;
     }
@@ -1161,10 +1174,9 @@ void CCD::processBLOB(IBLOB* bp)
     bp->aux2 = BLOBFilename;
 
     if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
-        KStars::Instance()->statusBar()->showMessage( xi18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
+        KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
-    if (Options::playFITSAlarm())
-        KSNotify::play(KSNotify::NOTIFY_FILE_RECEIVED);
+    KNotification::event( QLatin1String( "FITSReceived" ) , i18n("FITS file is received"));
 
     if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {
@@ -1197,7 +1209,7 @@ void CCD::processBLOB(IBLOB* bp)
             }
             else
             {
-                KStars::Instance()->statusBar()->showMessage(xi18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
                 emit BLOBUpdated(bp);
                 return;
             }
@@ -1234,9 +1246,9 @@ void CCD::processBLOB(IBLOB* bp)
         if (preview)
         {
             if (Options::singleWindowFITS())
-                previewTitle = xi18n("%1 Preview", getDeviceName());
+                previewTitle = i18n("%1 Preview", getDeviceName());
             else
-                previewTitle = xi18n("Preview");
+                previewTitle = i18n("Preview");
         }
 
 
@@ -1332,15 +1344,18 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowHidden()
 {
-        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
-        if (streamSP == NULL)
-            streamSP = baseDevice->getSwitch("VIDEO_STREAM");
-        if (streamSP)
+        if (baseDevice->isConnected())
         {
-            IUResetSwitch(streamSP);
-            streamSP->sp[1].s = ISS_ON;
-            streamSP->s = IPS_IDLE;
-            clientManager->sendNewSwitch(streamSP);
+            ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+            if (streamSP == NULL)
+                streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+            if (streamSP)
+            {
+                IUResetSwitch(streamSP);
+                streamSP->sp[1].s = ISS_ON;
+                streamSP->s = IPS_IDLE;
+                clientManager->sendNewSwitch(streamSP);
+            }
         }
 
         streamWindow->disconnect();
@@ -1354,6 +1369,29 @@ bool CCD::hasGuideHead()
 bool CCD::hasCooler()
 {
     return HasCooler;
+}
+
+bool CCD::hasCoolerControl()
+{
+    return HasCoolerControl;
+}
+
+bool CCD::setCoolerControl(bool enable)
+{
+    if (HasCoolerControl == false)
+        return false;
+
+    ISwitchVectorProperty *coolerSP = baseDevice->getSwitch("CCD_COOLER");
+    if (coolerSP == NULL)
+        return false;
+
+    // Cooler ON/OFF
+    coolerSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
+    coolerSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(coolerSP);
+
+    return true;
 }
 
 CCDChip * CCD::getChip(CCDChip::ChipType cType)
@@ -1486,6 +1524,50 @@ CCD::UploadMode CCD::getUploadMode()
 
     // Default
     return UPLOAD_CLIENT;
+}
+
+bool CCD::setUploadMode(UploadMode mode)
+{
+    ISwitchVectorProperty *uploadModeSP=NULL;
+    ISwitch *modeS= NULL;
+
+    uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+
+    switch (mode)
+    {
+        case UPLOAD_CLIENT:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
+        if (modeS == NULL)
+            return false;
+        if (modeS->s == ISS_ON)
+            return true;
+        break;
+
+        case UPLOAD_BOTH:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
+        if (modeS == NULL)
+            return false;
+        if (modeS->s == ISS_ON)
+            return true;
+        break;
+
+        case UPLOAD_LOCAL:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
+        if (modeS == NULL)
+            return false;
+        if (modeS->s == ISS_ON)
+            return true;
+        break;
+
+    }
+
+    IUResetSwitch(uploadModeSP);
+    modeS->s = ISS_ON;
+
+    clientManager->sendNewSwitch(uploadModeSP);
+
+    return true;
+
 }
 
 bool CCD::getTemperature(double *value)

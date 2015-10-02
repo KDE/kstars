@@ -43,13 +43,18 @@ class KDirWatch;
  * - Auto guiding with support for automatic dithering between exposures and support for Adaptive Optics devices in addition to traditional guiders.
  * - Powerful sequence queue for batch capture of images with optional prefixes, timestamps, filter wheel selection, and much more!
  * - Export and import sequence queue sets as Ekos Sequence Queue (.esq) files.
+ * - Center the telescope anywhere in a captured FITS image or any FITS with World Coordinate System (WCS) header.
+ * - Automatic flat field capture, just set the desired ADU and let Ekos does the rest!
  * - Automatic abort and resumption of exposure tasks if guiding errors exceed a user-configurable value.
  * - Support for dome slaving.
  * - Complete integration with KStars Observation Planner and SkyMap
  * - Integrate with all INDI native devices.
  * - Powerful scripting capabilities via \ref EkosDBusInterface "DBus."
+ *
+ * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
+ * interface to enable unattended scripting.
 *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 namespace Ekos
 {
@@ -61,7 +66,7 @@ class SequenceJob : public QObject
     public:
 
     typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
-    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR} CAPTUREResult;
+    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FOCUS_ERROR} CAPTUREResult;
 
     SequenceJob();
 
@@ -139,6 +144,9 @@ class SequenceJob : public QObject
     double getTargetADU() const;
     void setTargetADU(double value);
 
+    int getCaptureRetires() const;
+    void setCaptureRetires(int value);
+
 signals:
     void prepareComplete();
 
@@ -167,6 +175,7 @@ private:
     bool showFITS;
     bool filterReady, temperatureReady;
     int isoIndex;
+    int captureRetires;
     unsigned int completed;
     double exposeLeft;
     double currentTemperature, targetTemperature;
@@ -190,7 +199,7 @@ private:
  * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
  * the guiding deviation resume to acceptable levels and the capture operation is resumed.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.2
  */
 class Capture : public QWidget, public Ui::Capture
 {
@@ -262,6 +271,29 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
 
     /** DBUS interface function.
+     * Enable or Disable meridian flip, and sets its activation hour.
+     * @param enable If true, meridian flip will be command after user-configurable number of hours.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setMeridianFlip(bool enable);
+
+    /** DBUS interface function.
+     * Sets meridian flip trigger hour.
+     * @param hours Number of hours after the meridian at which the mount is commanded to flip.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setMeridianFlipHour(double hours);
+
+    /** DBUS interface function.
+     * Does the CCD has a cooler control (On/Off) ?
+     */
+    Q_SCRIPTABLE bool hasCoolerControl();
+
+    /** DBUS interface function.
+     * Set the CCD cooler ON/OFF
+     *
+     */
+    Q_SCRIPTABLE bool setCoolerControl(bool enable);
+
+    /** DBUS interface function.
      * @return Returns the number of jobs in the sequence queue.
      */
     Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
@@ -296,6 +328,11 @@ public:
      */
     Q_SCRIPTABLE double         getJobExposureDuration(int id);
 
+    /** DBUS interface function.
+     * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.
+     */
+    Q_SCRIPTABLE Q_NOREPLY  void clearAutoFocusHFR();
+
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
@@ -318,42 +355,132 @@ public slots:
     /** DBUS interface function.
      * Starts the sequence queue capture procedure sequentially by starting all jobs that are either Idle or Aborted in order.
      */
-    Q_SCRIPTABLE Q_NOREPLY void startSequence();
+    Q_SCRIPTABLE Q_NOREPLY void start();
 
     /** DBUS interface function.
      * Aborts all jobs and set current job status to Aborted if it was In Progress.
      */
-    Q_SCRIPTABLE Q_NOREPLY void stopSequence();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
+    /**
+     * @brief captureOne Capture one preview image
+     */
     void captureOne();
+
+    /**
+     * @brief captureImage Initiates image capture in the active job.
+     */
     void captureImage();
+
+    /**
+     * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
+     * @param bp pointer to blob contianing FITS data
+     */
     void newFITS(IBLOB *bp);
-    void checkCCD(int CCDNum=-1);    
+
+    /**
+     * @brief checkCCD Refreshes the CCD information in the capture module.
+     * @param CCDNum The CCD index in the CCD combo box to select as the active CCD.
+     */
+    void checkCCD(int CCDNum=-1);
+
+    /**
+     * @brief checkFilter Refreshes the filter wheel information in the capture module.
+     * @param filterNum The filter wheel index in the filter device combo box to set as the active filter.
+     */
     void checkFilter(int filterNum=-1);
+
+    /**
+     * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
+     * @param nvp pointer to number property.
+     */
     void processCCDNumber(INumberVectorProperty *nvp);
+
+    /**
+     * @brief processTelescopeNumber Process number properties arriving from telescope for meridian flip purposes.
+     * @param nvp pointer to number property.
+     */
     void processTelescopeNumber(INumberVectorProperty *nvp);
 
+    /**
+     * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
+     * @param preview True if the job is a preview job, otherwise, it is added as a batch job.
+     */
     void addJob(bool preview=false);
+
+    /**
+     * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
+     */
     void removeJob();
 
+    /**
+     * @brief moveJobUp Move the job in the sequence queue one place up.
+     */
     void moveJobUp();
+
+    /**
+     * @brief moveJobDown Move the job in the sequence queue one place down.
+     */
     void moveJobDown();
 
+    /**
+     * @brief enableGuideLimits Enable guide deviation check box and guide deviation limits spin box.
+     */
     void enableGuideLimits();
+
+    /**
+     * @brief setGuideDeviation Set the guiding deviaiton as measured by the guiding module. Abort capture if deviation exceeds user value. Resume capture if capture was aborted and guiding deviations are below user value.
+     * @param delta_ra Deviation in RA in arcsecs from the selected guide star.
+     * @param delta_dec Deviation in DEC in arcsecs from the selected guide star.
+     */
     void setGuideDeviation(double delta_ra, double delta_dec);
+
+    /**
+     * @brief setGuideDither Set whether dithering is enable/disabled in guiding module.
+     * @param enable True if dithering is enabled, false otherwise.
+     */
     void setGuideDither(bool enable);
+
+    /**
+     * @brief setAutoguiding Set autoguiding status from guiding module.
+     * @param enable True if autoguiding is enabled and running, false otherwise.
+     * @param isDithering true if dithering is enabled.
+     */
     void setAutoguiding(bool enable, bool isDithering);
+
+    /**
+     * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.
+     */
     void resumeCapture();
+
+    /**
+     * @brief checkPreview When "Display in FITS Viewer" button is toggled, enable/disable preview button accordingly since preview only works if we can display in the FITS Viewer.
+     * @param enable True if "Display in FITS Viewer" checkbox is true, false otherwise.
+     */
     void checkPreview(bool enable);
+
+    /**
+     * @brief updateCCDTemperature Update CCD temperature in capture module.
+     * @param value Temperature in celcius.
+     */
     void updateCCDTemperature(double value);
+
+    /**
+     * @brief setTemperature Set CCD temperature from the user GUI settings.
+     */
     void setTemperature();
+
+    /**
+     * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
+     */
     void setDirty();
 
     void checkFrameType(int index);
+    void resetFrame();
+    void updateFocusStatus(bool status);
     void updateAutofocusStatus(bool status, double HFR);
-    void updateCaptureProgress(ISD::CCDChip *tChip, double value);
-    void checkSeqBoundary(const QString &path);
-
+    void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
+    void checkSeqBoundary(const QString &path);   
     void saveFITSDirectory();
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
@@ -449,6 +576,7 @@ private:
     bool isAutoFocus;
     bool autoFocusStatus;
     bool firstAutoFocus;
+    bool isFocusBusy;
 
     //Meridan flip
     double initialHA;
@@ -461,6 +589,9 @@ private:
     double ExpRaw1, ExpRaw2;
     double ADURaw1, ADURaw2;
     double ADUSlope;
+
+    // File HFR
+    double fileHFR;
 
 };
 

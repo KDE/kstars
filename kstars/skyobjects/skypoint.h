@@ -364,7 +364,7 @@ public:
      *  Meeus provides a different algorithm in page 111 which we 
      *  implement here.
      *  @param sp SkyPoint to which distance is to be calculated
-     *  @param positionAngle if a non-null pointer is passed, the position angle from this SkyPoint to sp is computed and stored at the location
+     *  @param positionAngle if a non-null pointer is passed, the position angle [E of N] in degrees from this SkyPoint to sp is computed and stored in the passed variable.
      *  @return dms angle representing angular separation.
      **/
     dms angularDistanceTo(const SkyPoint *sp, double * const positionAngle = 0) const;

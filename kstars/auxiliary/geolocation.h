@@ -240,9 +240,8 @@ public:
     dms GSTtoLST( const dms &gst ) const { return dms( gst.Degrees() + Longitude.Degrees() ); }
     dms LSTtoGST( const dms &lst ) const { return dms( lst.Degrees() - Longitude.Degrees() ); }
 
-    KStarsDateTime UTtoLT( const KStarsDateTime &ut ) const { return ut.addSecs( int( 3600.*TZ() ) ); }
-    KStarsDateTime LTtoUT( const KStarsDateTime &lt ) const { return lt.addSecs( int( -3600.*TZ() ) ); }
-
+    KStarsDateTime UTtoLT( const KStarsDateTime &ut ) const;
+    KStarsDateTime LTtoUT( const KStarsDateTime &lt ) const;
 
     /** Computes the velocity in km/s of an observer on the surface of the Earth
      * referred to a system whose origin is the center of the Earth. The X and

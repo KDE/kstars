@@ -70,7 +70,7 @@ StarComponent::StarComponent(SkyComposite *parent )
         m_labelList[ i ] = new LabelList;
 
     // Actually load data
-    emitProgressText( xi18n("Loading stars" ) );
+    emitProgressText( i18n("Loading stars" ) );
     loadStaticData();
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
@@ -145,7 +145,7 @@ void StarComponent::reindexAll( KSNumbers *num )
 {
     if (  0 && ! m_reindexSplash ) {
         m_reindexSplash = new KStarsSplash(
-                                           xi18n("Please wait while re-indexing stars...") );
+                                           i18n("Please wait while re-indexing stars...") );
         QObject::connect( KStarsData::Instance(),
                           SIGNAL( progressText( QString ) ),
                           m_reindexSplash, SLOT( setMessage( QString ) ) );
@@ -448,7 +448,7 @@ bool StarComponent::loadStaticData()
                     // HEV: look up star name in internationalization filesource
                     name = i18nc("star name", name.toLocal8Bit().data());
                 } else {
-                    name = xi18n("star");
+                    name = i18n("star");
                 }
             }
             else
@@ -457,7 +457,7 @@ bool StarComponent::loadStaticData()
             /* Create the new StarObject */
             star = new StarObject;
             star->init( &stardata );
-            if( star->getHDIndex() != 0 && name == xi18n("star"))
+            if( star->getHDIndex() != 0 && name == i18n("star"))
                 name = QString("HD %1").arg(star->getHDIndex());
 
             star->setNames( name, visibleName );
@@ -466,7 +466,7 @@ bool StarComponent::loadStaticData()
 
             if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
 
-            if ( ! name.isEmpty() && name != xi18n("star")) {
+            if ( ! name.isEmpty() && name != i18n("star")) {
                 objectNames(SkyObject::STAR).append( name );
             }
             if ( ! visibleName.isEmpty() && gname != name ) {

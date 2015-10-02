@@ -182,6 +182,15 @@ public:
      */
     bool checkVisibility( SkyPoint *p ) const;
 
+    /** Determine the on-screen position angle of a SkyPont with recept with NCP.
+     * This is the the object's sky position angle (w.r.t. North).
+     * of "North" at the position of the object (w.r.t. the screen Y-axis).
+     * The latter is determined by constructing a test point with the same RA but
+     * a slightly increased Dec as the object, and calculating the angle w.r.t. the
+     * Y-axis of the line connecing the object to its test point.
+     */
+    double findNorthPA( SkyPoint *o, float x, float y ) const;
+
     /** Determine the on-screen position angle of a SkyObject.  This is the sum
      * of the object's sky position angle (w.r.t. North), and the position angle
      * of "North" at the position of the object (w.r.t. the screen Y-axis).
@@ -198,6 +207,16 @@ public:
         @return the ground polygon
         */
     virtual QVector<Vector2f> groundPoly( SkyPoint* labelpoint = 0, bool* drawLabel = 0 ) const;
+
+    /**
+     * @brief updateClipPoly calculate the clipping polygen given the current FOV.
+     */
+    virtual void updateClipPoly();
+
+    /**
+     * @return the clipping polygen covering the visible sky area. Anything outside this polygen is clipped by QPainter.
+     */
+    virtual QPolygonF clipPoly() const;
 
 protected:
     /** Get the radius of this projection's sky circle.
@@ -225,13 +244,15 @@ protected:
     /** Helper function for drawing ground.
         @return the point with Alt = 0, az = @p az
         */
-    static SkyPoint pointAt(double az, KStarsData* data);
+    static SkyPoint pointAt(double az);
     
     KStarsData *m_data;
     ViewParams m_vp;
     double m_sinY0, m_cosY0;
     double m_fov;
 private:
+    QPolygonF m_clipPolygon;
+
     //Used by CheckVisibility
     double m_xrange;
     bool m_isPoleVisible;

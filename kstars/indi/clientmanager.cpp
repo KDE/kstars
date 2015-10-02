@@ -20,12 +20,15 @@
 
 #include <basedevice.h>
 
-
 #include "clientmanager.h"
 #include "drivermanager.h"
 #include "servermanager.h"
 #include "driverinfo.h"
 #include "deviceinfo.h"
+#include "indilistener.h"
+#include "guimanager.h"
+
+#include "Options.h"
 
 ClientManager::ClientManager()
 {
@@ -56,6 +59,15 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
 
     DriverInfo *deviceDriver=NULL;
 
+    if (QString(dp->getDeviceName()).isEmpty())
+    {
+        qWarning() << "Received invalid device with empty name! Ignoring the device...";
+        return;
+    }
+
+    if (Options::verboseLogging())
+        qDebug() << "Received new device " << dp->getDeviceName();
+
     // First iteration find unique matches
     foreach(DriverInfo *dv, managedDrivers)
     {
@@ -76,9 +88,9 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
             dvName = dv->getName().split(" ").first();
             if (dvName.isEmpty())
                 dvName = dv->getName();
-            if (dv->getUniqueLabel() == dp->getDeviceName() ||
-                    QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) ||
-                    dv->getDriverSource() == HOST_SOURCE || dv->getDriverSource() == GENERATED_SOURCE)
+            if (/*dv->getUniqueLabel() == dp->getDeviceName() ||*/
+               QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) ||
+               ((dv->getDriverSource() == HOST_SOURCE || dv->getDriverSource() == GENERATED_SOURCE)))
             {
                 deviceDriver = dv;
                 break;
@@ -90,6 +102,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
         return;
 
     deviceDriver->setUniqueLabel(dp->getDeviceName());
+
     DeviceInfo *devInfo = new DeviceInfo(deviceDriver, dp);
     deviceDriver->addDevice(devInfo);
     emit newINDIDevice(devInfo);
@@ -118,12 +131,24 @@ void ClientManager::removeProperty(INDI::Property *prop)
 #if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 1)
 void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
-    foreach(DriverInfo *di, managedDrivers)
+    foreach(DriverInfo *driverInfo, managedDrivers)
     {
-        if (di->getUniqueLabel() == dp->getDeviceName())
+        foreach(DeviceInfo *deviceInfo, driverInfo->getDevices())
         {
-            emit removeINDIDevice(di->getDevice(dp->getDeviceName()));
-            break;
+            if (deviceInfo->getBaseDevice() == dp)
+            {
+                //GUIManager::Instance()->removeDevice(deviceInfo);
+                //INDIListener::Instance()->removeDevice(deviceInfo);
+
+                emit removeINDIDevice(deviceInfo);
+
+                driverInfo->removeDevice(deviceInfo);
+
+                if (driverInfo->isEmpty())
+                    managedDrivers.removeOne(driverInfo);
+
+                return;
+            }
         }
     }
 }
@@ -176,7 +201,7 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
 
     foreach(DeviceInfo *di, dv->getDevices())
     {
-        emit INDIDeviceRemoved(di);
+        emit removeINDIDevice(di);
         dv->removeDevice(di);
     }
 

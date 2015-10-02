@@ -74,7 +74,7 @@ INDIListener holds a list of all INDI devices in KStars regardless of their orig
 It also creates a separate tab for each property group received. The user is presented with a basic GUI to set the connection port of EQMod and to connect/disconnect to/from the telescope. If the
 user clicks connect, the status of the connection property is updated, and INDI_P sends the new switch status (CONNECT=ON) to INDI server via the ClientManager. If the connection is successful
 at the driver side, it will start defining new properties to cover the complete functionality of the EQMod driver, one of the standard properties is EQUATORIAL_EOD_COORD which will be detected
-in INDIListener. Upon detection of this key signature property, INDIListener creates a new ISD::Telescope device while passing to it the ISD::GenericDevice instance created earliar.
+in INDIListener. Upon detection of this key signature property, INDIListener creates a new ISD::Telescope device while passing to it the ISD::GenericDevice instance created earlier.
 
 Now suppose an updated Number property arrives from INDI server, the ClientManager emits a signal indicating a number property has a new updated value and INDIListener delegates the INDI Number
 property to the device, which is now of type ISD::Telescope. The ISD::Telescope overridden the processNumber(INumberVectorProperty *nvp) function in ISD::DeviceDecorator because it wants to handle some telescope
@@ -138,7 +138,7 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSE
                      FILTER_SLOT};						/* Filter */
 
 /* Devices families that we explicitly support (i.e. with std properties) */
-typedef enum { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_ADAPTIVE_OPTICS, KSTARS_RECEIVERS, KSTARS_GPS, KSTARS_AUXILIARY, KSTARS_UNKNOWN } DeviceFamily;
+typedef enum { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_ADAPTIVE_OPTICS, KSTARS_RECEIVERS, KSTARS_GPS, KSTARS_WEATHER, KSTARS_AUXILIARY, KSTARS_UNKNOWN } DeviceFamily;
 
 typedef enum  { FRAME_LIGHT,FRAME_BIAS, FRAME_DARK,FRAME_FLAT} CCDFrameType;
 

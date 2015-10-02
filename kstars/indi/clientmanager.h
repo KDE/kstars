@@ -96,7 +96,7 @@ signals:
     void newTelescope();
     void newCCD();
 
-    void INDIDeviceRemoved(DeviceInfo *dv);
+    //void INDIDeviceRemoved(DeviceInfo *dv);
 
 };
 

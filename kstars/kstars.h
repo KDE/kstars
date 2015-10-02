@@ -57,6 +57,7 @@ class Execute;
 class ExportImageDialog;
 class PrintingWizard;
 class EkosManager;
+class HorizonManager;
 
 class OpsCatalog;
 class OpsGuides;
@@ -386,10 +387,9 @@ public Q_SLOTS:
     /** DBUS interface function.  Open FITS image.
      * @param imageURL URL of FITS image to load. For a local file the prefix must be file:// For example
      * if the file is located at /home/john/m42.fits then the full URL is file:///home/john/m42.fits
+     * @return True if successful, false otherwise.
      */
-    #ifdef HAVE_CFITSIO
-    Q_SCRIPTABLE Q_NOREPLY void openFITS(const QUrl & imageURL);
-    #endif
+    Q_SCRIPTABLE bool openFITS(const QUrl & imageURL);
 
     /** @}*/
 
@@ -561,6 +561,10 @@ private slots:
      * uses the name of the sender to identify the item to change.  */
     void slotViewToolBar();
 
+    /** Meta-slot to handle display toggles for all of the INDItoolbar buttons.
+     * uses the name of the sender to identify the item to change.  */
+    void slotINDIToolBar();
+
     /** Meta-slot to handle toggling display of GUI elements (toolbars and infoboxes)
      * uses name of the sender action to identify the widget to hide/show.  */
     void slotShowGUIItem( bool );
@@ -573,7 +577,9 @@ private slots:
 
     void slotEquipmentWriter();
 
-    void slotObserverAdd();
+    void slotObserverManager();
+
+    void slotHorizonManager();
 
     void slotExecute();
 
@@ -632,6 +638,7 @@ private:
     JMoonTool *m_JMoonTool;
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
+    HorizonManager *m_HorizonManager;
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

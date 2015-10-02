@@ -38,6 +38,7 @@
 #include "catalogcomponent.h"
 #include "deepskycomponent.h"
 #include "equator.h"
+#include "artificialhorizoncomponent.h"
 #include "ecliptic.h"
 #include "horizoncomponent.h"
 #include "milkyway.h"
@@ -81,12 +82,14 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
     m_Cultures = new CultureList();
     addComponent( m_CLines     = new ConstellationLines( this, m_Cultures ));
-    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ));
+    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ));    
     addComponent( m_Equator    = new Equator( this ));
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
     addComponent(m_ConstellationArt    = new ConstellationArtComponent( this, m_Cultures ));
+
+    addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this));
 
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
@@ -230,11 +233,13 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_HorizontalCoordinateGrid->draw( skyp );
 
     //Draw constellation boundary lines only if we draw western constellations
-    if ( m_Cultures->current() == "Western" ){
+    if ( m_Cultures->current() == "Western" )
+    {
         m_CBoundLines->draw( skyp );
         m_ConstellationArt->draw( skyp );
     }
-    if ( m_Cultures->current() == "Inuit" ){
+    else if ( m_Cultures->current() == "Inuit" )
+    {
         m_ConstellationArt->draw( skyp );
     }
 
@@ -276,6 +281,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), 1. );
     m_StarHopRouteList->draw( skyp );
     
+    m_ArtificialHorizon->draw( skyp );
+
     m_Horizon->draw( skyp );
 
     m_skyMesh->inDraw( false );
@@ -463,15 +470,15 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString name ) {
 
 KSPlanetBase* SkyMapComposite::planet( int n ) {
     if ( n == KSPlanetBase::SUN ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Sun" ) );
-    if ( n == KSPlanetBase::MERCURY ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Mercury" ) ) );
-    if ( n == KSPlanetBase::VENUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Venus" ) ) );
+    if ( n == KSPlanetBase::MERCURY ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Mercury" ) ) );
+    if ( n == KSPlanetBase::VENUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Venus" ) ) );
     if ( n == KSPlanetBase::MOON ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Moon" ) );
-    if ( n == KSPlanetBase::MARS ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Mars" ) ) );
-    if ( n == KSPlanetBase::JUPITER ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Jupiter" ) ) );
-    if ( n == KSPlanetBase::SATURN ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Saturn" ) ) );
-    if ( n == KSPlanetBase::URANUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Uranus" ) ) );
-    if ( n == KSPlanetBase::NEPTUNE ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Neptune" ) ) );
-    //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( xi18n( "Pluto" ) ) );
+    if ( n == KSPlanetBase::MARS ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Mars" ) ) );
+    if ( n == KSPlanetBase::JUPITER ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Jupiter" ) ) );
+    if ( n == KSPlanetBase::SATURN ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Saturn" ) ) );
+    if ( n == KSPlanetBase::URANUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Uranus" ) ) );
+    if ( n == KSPlanetBase::NEPTUNE ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Neptune" ) ) );
+    //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Pluto" ) ) );
 
 	return 0;
 }
@@ -495,7 +502,7 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
         }
     }
 
-    qWarning() << xi18n( "Could not find custom catalog component named %1." , name) ;
+    qWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
 }
 
 void SkyMapComposite::reloadCLines( ) {
@@ -639,4 +646,7 @@ SupernovaeComponent* SkyMapComposite::supernovaeComponent()
     return m_Supernovae;
 }
 
-
+ArtificialHorizonComponent* SkyMapComposite::artificialHorizon()
+{
+    return m_ArtificialHorizon;
+}

@@ -47,8 +47,8 @@ void ImageExporter::exportSvg(const QString &fileName)
     // export as SVG
     QSvgGenerator svgGenerator;
     svgGenerator.setFileName(fileName);
-    svgGenerator.setTitle(xi18n("KStars Exported Sky Image"));
-    svgGenerator.setDescription(xi18n("KStars Exported Sky Image"));
+    svgGenerator.setTitle(i18n("KStars Exported Sky Image"));
+    svgGenerator.setDescription(i18n("KStars Exported Sky Image"));
     svgGenerator.setSize(QSize(map->width(), map->height()));
     svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
     svgGenerator.setViewBox(QRect(0, 0, map->width(), map->height()));
@@ -81,7 +81,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     else if(ext.toLower() == "bmp") { format = "BMP"; }
     else
     {
-        qWarning() << xi18n("Could not parse image format of %1; assuming PNG.", fileName);
+        qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
     }
 
     SkyMap *map = SkyMap::Instance();
@@ -152,14 +152,14 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
 
     if(!outimage.save(fileName, format))
     {
-        m_lastErrorMessage = xi18n("Error: Unable to save image: %1 ", fileName);
+        m_lastErrorMessage = i18n("Error: Unable to save image: %1 ", fileName);
         qDebug() << m_lastErrorMessage;
         return false;
     }
 
     else
     {
-        qDebug() << xi18n("Image saved to file: %1", fileName);
+        qDebug() << i18n("Image saved to file: %1", fileName);
         return true;
     }
 }
@@ -230,14 +230,14 @@ bool ImageExporter::exportImage( QString url )
             //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
             if (put_job->exec() == false)
             {
-                m_lastErrorMessage = xi18n( "Could not upload image to remote location: %1", fileURL.url());
+                m_lastErrorMessage = i18n( "Could not upload image to remote location: %1", fileURL.url());
                 qWarning() << m_lastErrorMessage;
                 return false;
             }
         }
         return true;
     }
-    m_lastErrorMessage = xi18n( "Could not export image: URL %1 invalid", fileURL.url() );
+    m_lastErrorMessage = i18n( "Could not export image: URL %1 invalid", fileURL.url() );
     qWarning() << m_lastErrorMessage;
     return false;
 }

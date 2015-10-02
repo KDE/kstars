@@ -84,11 +84,11 @@ void InfoBoxWidget::slotTimeChanged() {
 
     m_strings.clear();
     m_strings <<
-        xi18nc( "Local Time", "LT: " ) +
+        i18nc( "Local Time", "LT: " ) +
         QLocale().toString( data->lt().time() ) + "   " +
         QLocale().toString( data->lt().date() );
     m_strings <<
-        xi18nc( "Universal Time", "UT: " ) +
+        i18nc( "Universal Time", "UT: " ) +
         QLocale().toString( data->ut().time() ) + "   " +
         QLocale().toString( data->ut().date() );
 
@@ -99,8 +99,8 @@ void InfoBoxWidget::slotTimeChanged() {
     QString JDString = QString::number( data->ut().djd(), 'f', 2 );
     JDString.replace( '.', QLocale().decimalPoint());
     m_strings <<
-        xi18nc( "Sidereal Time", "ST: " ) + STString +
-        xi18nc( "Julian Day", "JD: " ) + JDString;
+        i18nc( "Sidereal Time", "ST: " ) + STString +
+        i18nc( "Julian Day", "JD: " ) + JDString;
     updateSize();
     update();
 }
@@ -111,9 +111,9 @@ void InfoBoxWidget::slotGeoChanged() {
     m_strings.clear();
     m_strings << geo->fullName();
     m_strings <<
-        xi18nc( "Longitude", "Long:" ) + ' ' +
+        i18nc( "Longitude", "Long:" ) + ' ' +
         QLocale().toString( geo->lng()->Degrees(),3) + "   " +
-        xi18nc( "Latitude", "Lat:" ) + ' ' +
+        i18nc( "Latitude", "Lat:" ) + ' ' +
         QLocale().toString( geo->lat()->Degrees(),3);
     updateSize();
     update();
@@ -124,18 +124,18 @@ void InfoBoxWidget::slotObjectChanged(SkyObject* obj) {
 }
 
 void InfoBoxWidget::slotPointChanged(SkyPoint* p) {
-    setPoint( xi18n("nothing"), p);
+    setPoint( i18n("nothing"), p);
 }
 
 void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
     m_strings.clear();
     m_strings << name;
     m_strings <<
-        xi18nc( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() + "  " +
-        xi18nc( "Declination", "Dec" )    + ": " + p->dec().toDMSString(true);
+        i18nc( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() + "  " +
+        i18nc( "Declination", "Dec" )    + ": " + p->dec().toDMSString(true);
     m_strings <<
-        xi18nc( "Azimuth", "Az" )   + ": " + p->az().toDMSString(true) + "  " +
-        xi18nc( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true);
+        i18nc( "Azimuth", "Az" )   + ": " + p->az().toDMSString(true) + "  " +
+        i18nc( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true);
     updateSize();
     update();
 }

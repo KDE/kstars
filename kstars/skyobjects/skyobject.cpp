@@ -330,49 +330,49 @@ QString SkyObject::typeName( int t ) {
 
     switch( t ) {
     case STAR:
-        return xi18n( "Star" );
+        return i18n( "Star" );
     case CATALOG_STAR:
-        return xi18n( "Catalog Star" );
+        return i18n( "Catalog Star" );
     case PLANET:
-        return xi18n( "Planet" );
+        return i18n( "Planet" );
     case OPEN_CLUSTER:
-        return xi18n( "Open Cluster" );
+        return i18n( "Open Cluster" );
     case GLOBULAR_CLUSTER:
-        return xi18n( "Globular Cluster" );
+        return i18n( "Globular Cluster" );
     case GASEOUS_NEBULA:
-        return xi18n( "Gaseous Nebula" );
+        return i18n( "Gaseous Nebula" );
     case PLANETARY_NEBULA:
-        return xi18n( "Planetary Nebula" );
+        return i18n( "Planetary Nebula" );
     case SUPERNOVA_REMNANT:
-        return xi18n( "Supernova Remnant" );
+        return i18n( "Supernova Remnant" );
     case GALAXY:
-        return xi18n( "Galaxy" );
+        return i18n( "Galaxy" );
     case COMET:
-        return xi18n( "Comet" );
+        return i18n( "Comet" );
     case ASTEROID:
-        return xi18n( "Asteroid" );
+        return i18n( "Asteroid" );
     case CONSTELLATION:
-        return xi18n( "Constellation" );
+        return i18n( "Constellation" );
     case MOON:
-        return xi18n( "Moon" );
+        return i18n( "Moon" );
     case GALAXY_CLUSTER:
-        return xi18n( "Galaxy Cluster" );
+        return i18n( "Galaxy Cluster" );
     case SATELLITE:
-        return xi18n( "Satellite" );
+        return i18n( "Satellite" );
     case SUPERNOVA:
-        return xi18n( "Supernova" );
+        return i18n( "Supernova" );
     case RADIO_SOURCE:
-        return xi18n("Radio Source");
+        return i18n("Radio Source");
     case ASTERISM:
-        return xi18n( "Asterism" );
+        return i18n( "Asterism" );
     case DARK_NEBULA:
-        return xi18n( "Dark Nebula" );
+        return i18n( "Dark Nebula" );
     case QUASAR:
-        return xi18n( "Quasar" );
+        return i18n( "Quasar" );
     case MULT_STAR:
-        return xi18n( "Multiple Star" );
+        return i18n( "Multiple Star" );
     default:
-        return xi18n( "Unknown Type" );
+        return i18n( "Unknown Type" );
     }
 
 }
@@ -385,31 +385,31 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) const {
     QString message = imageTitle;
 
     //HST Image
-    if ( imageTitle == xi18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
-        message = xi18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]", longname() );
+    if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
+        message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]", longname() );
 
         //Spitzer Image
-    } else if ( imageTitle.contains( xi18n( "Show Spitzer Image" ) ) ) {
-        message = xi18n( "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]", longname() );
+    } else if ( imageTitle.contains( i18n( "Show Spitzer Image" ) ) ) {
+        message = i18n( "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]", longname() );
 
         //SEDS Image
-    } else if ( imageTitle == xi18n( "Show SEDS Image" ) ) {
-        message = xi18n( "%1: SEDS, http://www.seds.org [free for non-commercial use]", longname() );
+    } else if ( imageTitle == i18n( "Show SEDS Image" ) ) {
+        message = i18n( "%1: SEDS, http://www.seds.org [free for non-commercial use]", longname() );
 
         //Kitt Peak AOP Image
-    } else if ( imageTitle == xi18n( "Show KPNO AOP Image" ) ) {
-        message = xi18n( "%1: Advanced Observing Program at Kitt Peak National Observatory [free for non-commercial use; no physical reproductions]", longname() );
+    } else if ( imageTitle == i18n( "Show KPNO AOP Image" ) ) {
+        message = i18n( "%1: Advanced Observing Program at Kitt Peak National Observatory [free for non-commercial use; no physical reproductions]", longname() );
 
         //NOAO Image
-    } else if ( imageTitle.contains( xi18n( "Show NOAO Image" ) ) ) {
-        message = xi18n( "%1: National Optical Astronomy Observatories and AURA [free for non-commercial use]", longname() );
+    } else if ( imageTitle.contains( i18n( "Show NOAO Image" ) ) ) {
+        message = i18n( "%1: National Optical Astronomy Observatories and AURA [free for non-commercial use]", longname() );
 
         //VLT Image
     } else if ( imageTitle.contains( "VLT" ) ) {
-        message = xi18n( "%1: Very Large Telescope, operated by the European Southern Observatory [free for non-commercial use; no reproductions]", longname() );
+        message = i18n( "%1: Very Large Telescope, operated by the European Southern Observatory [free for non-commercial use; no reproductions]", longname() );
 
         //All others
-    } else if ( imageTitle.startsWith( xi18n( "Show" ) ) ) {
+    } else if ( imageTitle.startsWith( i18n( "Show" ) ) ) {
         message = imageTitle.mid( imageTitle.indexOf( " " ) + 1 ); //eat first word, "Show"
         message = longname() + ": " + message;
     }
@@ -426,7 +426,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     //Do nothing if:
     //+ new log is the "default" message
     //+ new log is empty
-    if ( newLog == (xi18n("Record here observation logs and/or data on %1.", name())) || newLog.isEmpty() )
+    if ( newLog == (i18n("Record here observation logs and/or data on %1.", name())) || newLog.isEmpty() )
         return;
 
     // header label
@@ -463,7 +463,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 
     //Open file for writing
     if ( !file.open( QIODevice::WriteOnly ) ) {
-        qDebug() << xi18n( "Cannot write to user log file" );
+        qDebug() << i18n( "Cannot write to user log file" );
         return;
     }
 

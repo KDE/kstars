@@ -45,7 +45,7 @@ class ThumbnailPicker : public QDialog
 {
     Q_OBJECT
 public:
-    ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent=0, double w = 200, double h= 200, QString cap = xi18n ( "Choose Thumbnail Image" ) );
+    ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent=0, double w = 200, double h= 200, QString cap = i18n ( "Choose Thumbnail Image" ) );
     ~ThumbnailPicker();
 
     QPixmap* image() { return Image; }

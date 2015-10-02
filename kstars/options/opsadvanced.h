@@ -27,8 +27,9 @@
 	*@li Whether a slewing animation is used to move the Focus position
 	*@li Whether centered objects are automatically labeled
 	*@li whether a "transient" label is attached when the mouse "hovers" at an object.
-	*@author Jason Harris
-	*@version 1.0
+    *@li whether to enable verbose debug output to a file which could be useful in troubleshooting any issues in KStars.
+    *@author Jason Harris, Jasem Mutlaq
+    *@version 1.1
 	*/
 
 class KStars;
@@ -44,6 +45,8 @@ public:
 private slots:
     void slotChangeTimeScale( float newScale );
     void slotToggleHideOptions();
+    void slotToggleVerbosityOptions();
+    void slotToggleOutputOptions();
 };
 
 #endif  //OPSADVANCED_H_

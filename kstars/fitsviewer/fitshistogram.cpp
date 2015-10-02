@@ -1,19 +1,12 @@
-/***************************************************************************
-                          fitshistogram.cpp  -  FITS Historgram
-                          -----------------
-    begin                : Thu Mar 4th 2004
-    copyright            : (C) 2004 by Jasem Mutlaq
-    email                : mutlaqja@ikarustech.com
- ***************************************************************************/
+/*  FITS Histogram
+    Copyright (C) 2015 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+ */
 
 #include "fitsviewer.h"
 #include "fitshistogram.h"
@@ -41,7 +34,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-//#define HIST_LOG
+#include "Options.h"
 
 #define LOW_PASS_MARGIN 0.01
 #define LOW_PASS_LIMIT  .05
@@ -50,175 +43,252 @@ histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
 {
     setupUi(parent);
     setModal(false);
-
 }
 
 FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 {
     ui = new histogramUI(this);
-
-    tab = (FITSTab *) parent;
-
+    tab = static_cast<FITSTab *> (parent);
     type   = FITS_AUTO;
-    napply = 0;
-    histFactor=1;
+
+    customPlot = ui->histogramPlot;
+
+    customPlot->setBackground(QBrush(Qt::black));
+
+    customPlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    customPlot->yAxis->setBasePen(QPen(Qt::white, 1));
+
+    customPlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    customPlot->yAxis->setTickPen(QPen(Qt::white, 1));
+
+    customPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    customPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+
+    customPlot->xAxis->setTickLabelColor(Qt::white);
+    customPlot->yAxis->setTickLabelColor(Qt::white);
+
+    customPlot->xAxis->setLabelColor(Qt::white);
+    customPlot->yAxis->setLabelColor(Qt::white);
+
+    customPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    customPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    customPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    customPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    customPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    customPlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+
+    r_graph = customPlot->addGraph();
+    r_graph->setBrush(QBrush(QColor(170, 40, 80)));
+    r_graph->setPen(QPen(Qt::red));
+    //r_graph->setLineStyle(QCPGraph::lsImpulse);
 
     connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
-    connect(ui->minOUT, SIGNAL(editingFinished()), this, SLOT(updateLowerLimit()));
-    connect(ui->maxOUT, SIGNAL(editingFinished()), this, SLOT(updateUpperLimit()));
 
-    connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(minSliderUpdated(int)));
-    connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(maxSliderUpdated(int)));
+    connect(customPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(updateValues(QMouseEvent*)));
 
-    ui->histFrame->init();
+    connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
+    connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
+    connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(checkRangeLimit(QCPRange)));
 
-    constructHistogram(ui->histFrame->getHistWidth(), ui->histFrame->getHistHeight());
+    constructHistogram();
 }
 
 FITSHistogram::~FITSHistogram()
 {
-    //free (histArray);
+
 }
 
-void FITSHistogram::constructHistogram(int hist_width, int hist_height)
-{
-    int id;
+void FITSHistogram::constructHistogram()
+{    
     double fits_w=0, fits_h=0;
+
     FITSData *image_data = tab->getView()->getImageData();
     float *buffer = image_data->getImageBuffer();
 
     image_data->getDimensions(&fits_w, &fits_h);
     image_data->getMinMax(&fits_min, &fits_max);
 
+    uint32_t samples = fits_w*fits_h;
+
+    binCount = sqrt(samples);
+
+    intensity.fill(0, binCount);
+    r_frequency.fill(0, binCount);
+    cumulativeFrequency.fill(0, binCount);
+
     double pixel_range = fits_max - fits_min;
+    binWidth = pixel_range / (binCount - 1);
 
-    #ifdef HIST_LOG
-    qDebug() << "fits MIN: " << fits_min << " - fits MAX: " << fits_max << " - pixel range: " << pixel_range;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "fits MIN: " << fits_min << " - fits MAX: " << fits_max << " - pixel range: " << pixel_range << " - bin width " << binWidth << " bin count " << binCount;
 
-    if (hist_width > histArray.size())
-        histArray.resize(hist_width);
+    for (int i=0; i < binCount; i++)
+        intensity[i] = fits_min + (binWidth * i);
 
-    cumulativeFreq.resize(histArray.size());
+    uint16_t r_id=0, g_id=0, b_id=0;
 
-    for (int i=0; i < hist_width; i++)
+    if (image_data->getNumOfChannels() == 1)
     {
-        histArray[i] = 0;
-        cumulativeFreq[i] = 0;
+        for (uint32_t i=0; i < samples ; i++)
+        {
+            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+        }
+    }
+    else
+    {
+        g_frequency.fill(0, binCount);
+        b_frequency.fill(0, binCount);
+
+        int g_offset = samples;
+        int b_offset = samples*2;
+        for (uint32_t i=0; i < samples ; i++)
+        {
+            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+
+            g_id = round((buffer[i+g_offset] - fits_min) / binWidth);
+            g_frequency[g_id >= binCount ? binCount - 1 : g_id]++;
+
+            b_id = round((buffer[i+b_offset] - fits_min) / binWidth);
+            b_frequency[b_id >= binCount ? binCount - 1 : b_id]++;
+        }
     }
 
-    binWidth = hist_width / pixel_range;
-
-    #ifdef HIST_LOG
-    qDebug() << "Hist Array is now " << hist_width << " wide..., pixel range is " << pixel_range << " Bin width is " << binWidth << endl;
-    #endif
-
-    if (binWidth == 0 || buffer == NULL)
-        return;
-
-    for (int i=0; i < fits_w * fits_h ; i++)
-    {
-        id = (int) round((buffer[i] - fits_min) * binWidth);
-
-        if (id >= hist_width)
-            id = hist_width - 1;
-        else if (id < 0)
-            id=0;
-
-        histArray[id]++;
-    }
 
     // Cumuliative Frequency
-    for (int i=0; i < histArray.size(); i++)
+    for (int i=0; i < binCount; i++)
         for (int j=0; j <= i; j++)
-            cumulativeFreq[i] += histArray[j];
+            cumulativeFrequency[i] += r_frequency[j];
 
-    int maxIntensity=0;
-    int maxFrequency=histArray[0];
-    for (int i=0; i < hist_width; i++)
+    int maxFrequency=0;
+    if (image_data->getNumOfChannels() == 1)
     {
-        if (histArray[i] > maxFrequency)
+        for (int i=0; i < binCount; i++)
         {
-            maxIntensity = i;
-            maxFrequency = histArray[i];
+            if (r_frequency[i] > maxFrequency)
+                maxFrequency = r_frequency[i];
         }
     }
-
+    else
+    {
+        for (int i=0; i < binCount; i++)
+        {
+            if (r_frequency[i] > maxFrequency)
+                maxFrequency = r_frequency[i];
+            if (g_frequency[i] > maxFrequency)
+                maxFrequency = g_frequency[i];
+            if (b_frequency[i] > maxFrequency)
+                maxFrequency = b_frequency[i];
+        }
+    }
 
     double median=0;
-    int halfCumulative = cumulativeFreq[histArray.size() - 1]/2;
-    for (int i=0; i < histArray.size(); i++)
+    int halfCumulative = cumulativeFrequency[binCount - 1]/2;
+    for (int i=0; i < binCount; i++)
     {
-        if (cumulativeFreq[i] > halfCumulative)
+        if (cumulativeFrequency[i] >= halfCumulative)
         {
-            median = i / binWidth + fits_min;
+            median = i * binWidth + fits_min;
             break;
-
         }
     }
 
+    // Custom index to indicate the overall constrast of the image
+    JMIndex = cumulativeFrequency[binCount/8]/cumulativeFrequency[binCount/4];
+    if (Options::verboseLogging())
+        qDebug() << "JMIndex " << JMIndex;
+
     image_data->setMedian(median);
-    JMIndex = (double) maxIntensity / (double) hist_width;
 
-    #ifdef HIST_LOG
-    qDebug() << "maxIntensity " << maxIntensity <<  " JMIndex " << JMIndex << endl;
-    #endif
+    ui->meanEdit->setText(QString::number(image_data->getMean()));
+    ui->medianEdit->setText(QString::number(median));
 
-    // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
-    histHeightRatio = ((double) hist_height) / (findMax(hist_width));
+    ui->minEdit->setMinimum(fits_min);
+    ui->minEdit->setMaximum(fits_max-1);
+    ui->minEdit->setSingleStep( fabs(fits_max-fits_min) / 20.0);
+    ui->minEdit->setValue(fits_min);
 
-    histogram_height = hist_height;
-    histogram_width = hist_width;
+    ui->maxEdit->setMinimum(fits_min+1);
+    ui->maxEdit->setMaximum(fits_max);
+    ui->maxEdit->setSingleStep( fabs(fits_max-fits_min) / 20.0);
+    ui->maxEdit->setValue(fits_max);
 
-    updateBoxes(fits_min, fits_max);
+    r_graph->setData(intensity, r_frequency);
+    if (image_data->getNumOfChannels() > 1)
+    {
+        g_graph = customPlot->addGraph();
+        b_graph = customPlot->addGraph();
 
-    ui->histFrame->update();
+        g_graph->setBrush(QBrush(QColor(40, 170, 80)));
+        b_graph->setBrush(QBrush(QColor(80, 40, 170)));
+
+        g_graph->setPen(QPen(Qt::green));
+        b_graph->setPen(QPen(Qt::blue));
+
+        g_graph->setData(intensity, g_frequency);
+        b_graph->setData(intensity, b_frequency);
+    }
+
+    customPlot->axisRect(0)->setRangeDrag(Qt::Horizontal);
+    customPlot->axisRect(0)->setRangeZoom(Qt::Horizontal);
+
+    customPlot->xAxis->setLabel(i18n("Intensity"));
+    customPlot->yAxis->setLabel(i18n("Frequency"));
+
+    customPlot->xAxis->setRange(fits_min, fits_max);
+    customPlot->yAxis->setRange(0, maxFrequency);
+
+    customPlot->setInteraction(QCP::iRangeDrag, true);
+    customPlot->setInteraction(QCP::iRangeZoom, true);
+    customPlot->setInteraction(QCP::iSelectPlottables, true);
+
+    customPlot->replot();
+
 }
 
-void FITSHistogram::updateBoxes(double lower_limit, double upper_limit)
+void FITSHistogram::updateLimits(double value)
 {
+    if (sender() == ui->minEdit)
+    {
+        if (value > ui->maxEdit->value())
+            ui->maxEdit->setValue(value+1);
+    }
+    else if (sender() == ui->maxEdit)
+    {
+        if (value < ui->minEdit->value())
+        {
+            ui->minEdit->setValue(value);
+            ui->maxEdit->setValue(value+1);
+        }
+    }
+}
 
-    histFactor=1;
+void FITSHistogram::checkRangeLimit(const QCPRange &range)
+{
+    if (range.lower < fits_min)
+        customPlot->xAxis->setRangeLower(fits_min);
+    else if (range.upper > fits_max)
+        customPlot->xAxis->setRangeUpper(fits_max);
+}
 
-    if ((upper_limit - lower_limit) <= 1)
-        histFactor *= histogram_width;
-
-    ui->minSlider->setMinimum(lower_limit*histFactor);
-    ui->maxSlider->setMinimum(lower_limit*histFactor);
-
-    ui->minSlider->setMaximum(upper_limit*histFactor);
-    ui->maxSlider->setMaximum(upper_limit*histFactor);
-
-    ui->minSlider->setValue(lower_limit*histFactor);
-    ui->maxSlider->setValue(upper_limit*histFactor);
-
-    ui->minOUT->setText(QString::number(lower_limit, 'f', 2));
-    ui->maxOUT->setText(QString::number(upper_limit, 'f', 2));
-
+double FITSHistogram::getJMIndex() const
+{
+    return JMIndex;
 }
 
 void FITSHistogram::applyScale()
 {
 
-    double min = ui->minSlider->value() / histFactor;
-    double max = ui->maxSlider->value() / histFactor;
+    double min = ui->minEdit->value();
+    double max = ui->maxEdit->value();
 
     FITSHistogramCommand *histC;
 
-    napply++;
-
-    // Auto
-    if (ui->autoR->isChecked())
-        type = FITS_AUTO;
-    // Linear
-    else if (ui->linearR->isChecked())
-        type = FITS_LINEAR;
-    // Log
-    else if (ui->logR->isChecked())
+    if (ui->logR->isChecked())
         type = FITS_LOG;
-    // Exp
-    else if (ui->sqrtR->isChecked())
-        type = FITS_SQRT;
+    else
+        type = FITS_LINEAR;
 
     histC = new FITSHistogramCommand(tab, this, type, min, max);
 
@@ -227,10 +297,8 @@ void FITSHistogram::applyScale()
 
 void FITSHistogram::applyFilter(FITSScale ftype)
 {
-    double min = ui->minSlider->value() / histFactor;
-    double max = ui->maxSlider->value() / histFactor;
-
-    napply++;
+    double min = ui->minEdit->value();
+    double max = ui->maxEdit->value();
 
     FITSHistogramCommand *histC;
 
@@ -238,83 +306,38 @@ void FITSHistogram::applyFilter(FITSScale ftype)
 
     histC = new FITSHistogramCommand(tab, this, type, min, max);
 
-    tab->getUndoStack()->push(histC);
+    tab->getUndoStack()->push(histC);    
 
 }
 
-void FITSHistogram::minSliderUpdated(int value)
+QVector<double> FITSHistogram::getCumulativeFrequency() const
 {
-    if (value >= ui->maxSlider->value())
-    {
-        ui->minSlider->setValue(ui->minOUT->text().toDouble()*histFactor);
-        return;
-    }
-
-    ui->minOUT->setText(QString::number(value/histFactor, 'f', 3));
+    return cumulativeFrequency;
 }
 
-void FITSHistogram::maxSliderUpdated(int value)
+void FITSHistogram::updateValues(QMouseEvent *event)
 {
-    if (value <= ui->minSlider->value())
-    {
-        ui->maxSlider->setValue(ui->maxOUT->text().toDouble()*histFactor);
-        return;
-    }
+   int x = event->x();
 
-    ui->maxOUT->setText(QString::number(value/histFactor, 'f', 3));
-}
+   double intensity_key = customPlot->xAxis->pixelToCoord(x);
 
-void FITSHistogram::updateIntenFreq(int x)
-{
-    if (x < 0 || x >= histogram_width)
-        return;
+   if (intensity_key < 0)
+       return;
 
-    //ui->intensityOUT->setText(QString("%1").arg( ceil(x / binWidth) + tab->getView()->getImageData()->getMin()));
-    ui->intensityOUT->setText(QString::number((x / binWidth) + fits_min, 'f', 3));
+   double frequency_val = 0;
 
-    ui->frequencyOUT->setText(QString::number(histArray[x]));
-}
+   for (int i=0; i < binCount; i++)
+   {
+       if (intensity[i] > intensity_key)
+       {
+           frequency_val = r_frequency[i];
+           break;
+       }
+   }
 
-void FITSHistogram::updateLowerLimit()
-{
-    bool conversion_ok = false;
-    int newLowerLimit=0;
+   ui->intensityEdit->setText(QString::number(intensity_key));
+   ui->frequencyEdit->setText(QString::number(frequency_val));
 
-    newLowerLimit = ui->minOUT->text().toDouble(&conversion_ok)*histFactor;
-
-    if (conversion_ok == false)
-        return;
-
-    ui->minSlider->setValue(newLowerLimit);
-}
-
-void FITSHistogram::updateUpperLimit()
-{
-    bool conversion_ok = false;
-    int newUpperLimit=0;
-
-    newUpperLimit = ui->maxOUT->text().toDouble(&conversion_ok)*histFactor;
-
-    if (conversion_ok == false)
-        return;
-
-    ui->maxSlider->setValue(newUpperLimit);
-}
-
-double FITSHistogram::findMax(int hist_width)
-{
-    double max = -1e9;
-
-    for (int i=0; i < hist_width; i++)
-        if (histArray[i] > max) max = histArray[i];
-
-    return max;
-}
-
-void FITSHistogram::updateHistogram()
-{
-    constructHistogram(ui->histFrame->maximumWidth(), ui->histFrame->maximumHeight());
-    //constructHistogram(histogram_width, histogram_height);
 }
 
 FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, double lmin, double lmax)
@@ -439,22 +462,23 @@ void FITSHistogramCommand::redo()
 
     if (delta != NULL)
     {
-        double min,max,stddev,average,median;
+        double min,max,stddev,average,median,snr;
         min      = image_data->getMin();
         max      = image_data->getMax();
         stddev   = image_data->getStdDev();
-        average  = image_data->getAverage();
+        average  = image_data->getMean();
         median   = image_data->getMedian();
+        snr      = image_data->getSNR();
 
         reverseDelta();
 
         restoreStats();
 
-        saveStats(min, max, stddev, average, median);
+        saveStats(min, max, stddev, average, median, snr);
     }
     else
     {
-        saveStats(image_data->getMin(), image_data->getMax(), image_data->getStdDev(), image_data->getAverage(), image_data->getMedian());
+        saveStats(image_data->getMin(), image_data->getMax(), image_data->getStdDev(), image_data->getMean(), image_data->getMedian(), image_data->getSNR());
 
         // If it's rotation of flip, no need to calculate delta
         if (type >= FITS_ROTATE_CW && type <= FITS_FLIP_V)
@@ -500,7 +524,7 @@ void FITSHistogramCommand::redo()
 
     if (histogram != NULL)
     {
-        histogram->updateHistogram();
+        histogram->constructHistogram();
 
         if (tab->getViewer()->isStarsMarked())
             image_data->findStars();
@@ -522,18 +546,19 @@ void FITSHistogramCommand::undo()
 
     if (delta != NULL)
     {
-       double min,max,stddev,average,median;
+       double min,max,stddev,average,median,snr;
        min      = image_data->getMin();
        max      = image_data->getMax();
        stddev   = image_data->getStdDev();
-       average  = image_data->getAverage();
+       average  = image_data->getMean();
        median   = image_data->getMedian();
+       snr      = image_data->getSNR();
 
        reverseDelta();
 
        restoreStats();
 
-       saveStats(min, max, stddev, average, median);
+       saveStats(min, max, stddev, average, median, snr);
     }
     else
     {
@@ -557,7 +582,7 @@ void FITSHistogramCommand::undo()
 
     if (histogram != NULL)
     {
-        histogram->updateHistogram();
+        histogram->constructHistogram();
 
         if (tab->getViewer()->isStarsMarked())
             image_data->findStars();
@@ -578,16 +603,16 @@ QString FITSHistogramCommand::text() const
     switch (type)
     {
     case FITS_AUTO:
-        return xi18n("Auto Scale");
+        return i18n("Auto Scale");
         break;
     case FITS_LINEAR:
-        return xi18n("Linear Scale");
+        return i18n("Linear Scale");
         break;
     case FITS_LOG:
-        return xi18n("Logarithmic Scale");
+        return i18n("Logarithmic Scale");
         break;
     case FITS_SQRT:
-        return xi18n("Square Root Scale");
+        return i18n("Square Root Scale");
         break;
 
     default:
@@ -596,17 +621,18 @@ QString FITSHistogramCommand::text() const
         break;
     }
 
-    return xi18n("Unknown");
+    return i18n("Unknown");
 
 }
 
-void FITSHistogramCommand::saveStats(double min, double max, double stddev, double average, double median)
+void FITSHistogramCommand::saveStats(double min, double max, double stddev, double mean, double median, double SNR)
 {
     stats.min       = min;
     stats.max       = max;
     stats.stddev    = stddev;
-    stats.average   = average;
+    stats.mean      = mean;
     stats.median    = median;
+    stats.SNR       = SNR;
 
 }
 
@@ -616,7 +642,7 @@ void FITSHistogramCommand::restoreStats()
 
     image_data->setMinMax(stats.min, stats.max);
     image_data->setStdDev(stats.stddev);
-    image_data->setAverage(stats.average);
+    image_data->setMean(stats.mean);
     image_data->setMedian(stats.median);
 }
 

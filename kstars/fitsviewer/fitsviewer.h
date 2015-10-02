@@ -80,9 +80,11 @@ public:
 
     static QStringList filterTypes;
 
-//protected:
 
-    //virtual void closeEvent(QCloseEvent *ev);
+protected:
+    void closeEvent(QCloseEvent *);
+    void hideEvent(QHideEvent *);
+    void showEvent(QShowEvent *);
 
 public slots:
 

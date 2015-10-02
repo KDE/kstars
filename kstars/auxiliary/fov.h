@@ -20,6 +20,7 @@
 
 #include <QList>
 
+#include <QImage>
 #include <QString>
 #include <KLocalizedString>
 
@@ -90,13 +91,24 @@ public:
     SkyPoint center() const;
     void setCenter(const SkyPoint &center);
 
+    float northPA() const;
+    void setNorthPA(float northPA);
+
+    void setImage(const QImage &image);
+
+    void setImageDisplay(bool value);
+
 private:
     QString m_name, m_color;
     Shape   m_shape;
     float   m_sizeX, m_sizeY;
     float   m_offsetX, m_offsetY;
     float   m_rotation;
+    float   m_northPA;
     SkyPoint m_center;
+    QImage m_image;
+    bool m_imageDisplay;
+
 };
 
 #endif

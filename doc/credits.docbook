@@ -3,7 +3,7 @@
 
 <para>&kstars;</para>
 <para>
-Program copyright 2001-2009 The &kstars; Team <email>kstars@30doradus.org</email>
+Program copyright 2001-2015 The &kstars; Team <email>mutlaqja@ikarustech.com</email>
 </para>
 
 <para>
@@ -11,17 +11,39 @@ The &kstars; Team:
 <itemizedlist>
 <listitem><para>Jason Harris <email>kstars@30doradus.org</email></para>
 </listitem>
-<listitem><para>Jasem Mutlaq <email>mutlaqja@ku.edu</email></para>
+<listitem><para>Jasem Mutlaq<email>mutlaqja@ikarustech.com</email></para>
 </listitem>
-<listitem><para>Pablo de Vicente <email>pvicentea@wanadoo.es</email></para>
+<listitem><para>Pablo de Vicente<email>pvicentea@wanadoo.es</email></para>
 </listitem>
-<listitem><para>Heiko Evermann <email>heiko@evermann.de</email></para>
+<listitem><para>Heiko Evermann<email>heiko@evermann.de</email></para>
 </listitem>
-<listitem><para>Thomas Kabelmann <email>tk78@gmx.de</email></para>
+<listitem><para>Thomas Kabelmann<email>tk78@gmx.de</email></para>
 </listitem>
-<listitem><para>Mark Hollomon <email>mhh@mindspring.com</email></para>
+<listitem><para>Mark Hollomon<email>mhh@mindspring.com</email></para>
 </listitem>
-<listitem><para>Carsten Niehaus <email>cniehaus@gmx.de</email></para>
+<listitem><para>Carsten Niehaus<email>cniehaus@gmx.de</email></para>
+</listitem>
+<listitem><para>James Bowlin<email>bowlin@mindspring.com</email></para>
+</listitem>
+<listitem><para>Alexey Khudyakov<email>alexey.skladnoy@gmail.com</email></para>
+</listitem>
+<listitem><para>Mederic Boquien<email>mboquien@free.fr</email></para>
+</listitem>
+<listitem><para>Akarsh Simha<email>akarsh.simha@kdemail.net</email></para>
+</listitem>
+<listitem><para>Jerome Sonrier<email>jsid@emor3j.fr.eu.org</email></para>
+</listitem>
+<listitem><para>Prakash Mohan<email>prakash.mohan@kdemail.net</email></para>
+</listitem>
+<listitem><para>Victor Carbune<email>victor.carbune@kdemail.net</email></para>
+</listitem>
+<listitem><para>Henry de Valence<email>hdevalence@gmail.com</email></para>
+</listitem>
+<listitem><para>Samikshan Bairagya<email>samikshan.bairagya@kdemail.net</email></para>
+</listitem>
+<listitem><para>Rafal Kulaga<email>rl.kulaga@gmail.com</email></para>
+</listitem>
+<listitem><para>Rishab Arora<email>ra.rishab@gmail.com</email></para>
 </listitem>
 </itemizedlist>
 </para>
@@ -64,7 +86,7 @@ submitted bug reports and other feedback.  Thank you, everyone.
 </para>
 
 <para>
-Documentation copyright 2001-2003 Jason Harris and the KStars Team
+Documentation copyright 2001-2015 Jason Harris and the KStars Team
 <email>kstars@30doradus.org</email>
 </para>
 

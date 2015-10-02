@@ -58,7 +58,7 @@ void SupernovaeComponent::loadData()
     QString serialNo, hostGalaxy, date, type, offset, SNPosition, discoverers ;
     dms ra, dec;
     float magnitude;
-    qDebug()<<"Loading Supernovae data"<<endl;
+    qDebug()<<"Loading Supernovae data";
     //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
@@ -220,7 +220,7 @@ void SupernovaeComponent::notifyNewSupernovae()
         ui->show();
     }
 //     if (!latest.empty())
-//         KMessageBox::informationList(0, xi18n("New Supernovae discovered!"), latestList, xi18n("New Supernovae discovered!"));
+//         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
 }
 
 
@@ -244,17 +244,17 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
         QString errmsg;
         switch ( exitCode ) {
             case -2:
-                errmsg = xi18n("Could not run python to update supernova information. This could be because you do not have python2 installed, or the python2 binary could not be found in the usual locations.");       
+                errmsg = i18n("Could not run python to update supernova information. This could be because you do not have python2 installed, or the python2 binary could not be found in the usual locations.");       
                 break;
             case -1:
-                errmsg = xi18n("Python process that updates the supernova information crashed");
+                errmsg = i18n("Python process that updates the supernova information crashed");
                 break;
             default:
-                errmsg = xi18n( "Python process that updates the supernova information failed with error code %1. This could likely be because the computer is not connected to the internet or because the server containing supernova information is not responding.", QString::number( exitCode ) );
+                errmsg = i18n( "Python process that updates the supernova information failed with error code %1. This could likely be because the computer is not connected to the internet or because the server containing supernova information is not responding.", QString::number( exitCode ) );
                 break;
         }
         if( KStars::Instance() && SkyMap::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
-            KMessageBox::sorry( 0, errmsg, xi18n("Supernova information update failed") );
+            KMessageBox::sorry( 0, errmsg, i18n("Supernova information update failed") );
         // FIXME: There should be a better way to check if KStars is fully initialized. Maybe we should have a static boolean in the KStars class. --asimha
     }
     else {

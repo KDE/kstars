@@ -170,6 +170,7 @@ public:
     bool calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y, int totalPulse=-1);
     bool calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec, int totalPulse=-1);
 	double calc_phi( double start_x, double start_y, double end_x, double end_y ) const;
+    Vector find_star_local_pos( void ) const;
     double get_dither_rate(int axis);
     void set_log_file(QFile *file);
 
@@ -218,8 +219,7 @@ private:
 
 	// proc
 	void do_ticks( void );
-	Vector point2arcsec( const Vector &p ) const;
-	Vector find_star_local_pos( void ) const;
+	Vector point2arcsec( const Vector &p ) const;	
 	void process_axes( void );
 	void calc_square_err( void );
     const char *get_direction_string(GuideDirection dir);

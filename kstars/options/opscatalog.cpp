@@ -178,9 +178,9 @@ void OpsCatalog::refreshCatalogList() {
 
 void OpsCatalog::slotRemoveCatalog() {
     if (KMessageBox::warningYesNo(0,
-                     xi18n("The selected database will be removed. "
+                     i18n("The selected database will be removed. "
                            "This action cannot be reversed! Delete Catalog?"),
-                          xi18n("Delete Catalog?") )
+                          i18n("Delete Catalog?") )
             == KMessageBox::No) {
             KMessageBox::information(0, "Catalog deletion cancelled.");
             return;
@@ -306,19 +306,19 @@ void OpsCatalog::slotDeepSkyWidgets(bool on) {
 
 
 void OpsCatalog::populateInbuiltCatalogs() {
-    showIC = new QListWidgetItem( xi18n( "Index Catalog (IC)" ), CatalogList );
+    showIC = new QListWidgetItem( i18n( "Index Catalog (IC)" ), CatalogList );
     showIC->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
     showIC->setCheckState( Options::showIC() ?  Qt::Checked : Qt::Unchecked );
 
-    showNGC = new QListWidgetItem( xi18n( "New General Catalog (NGC)" ), CatalogList );
+    showNGC = new QListWidgetItem( i18n( "New General Catalog (NGC)" ), CatalogList );
     showNGC->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
     showNGC->setCheckState( Options::showNGC() ?  Qt::Checked : Qt::Unchecked );
 
-    showMessImages = new QListWidgetItem( xi18n( "Messier Catalog (images)" ), CatalogList );
+    showMessImages = new QListWidgetItem( i18n( "Messier Catalog (images)" ), CatalogList );
     showMessImages->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
     showMessImages->setCheckState( Options::showMessierImages()  ?  Qt::Checked : Qt::Unchecked );
 
-    showMessier = new QListWidgetItem( xi18n( "Messier Catalog (symbols)" ), CatalogList );
+    showMessier = new QListWidgetItem( i18n( "Messier Catalog (symbols)" ), CatalogList );
     showMessier->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
     showMessier->setCheckState( Options::showMessier() ?  Qt::Checked : Qt::Unchecked );
 

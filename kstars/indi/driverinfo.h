@@ -61,13 +61,15 @@ public:
     void clear();
     QString getServerBuffer();
 
+    bool isEmpty() { return devices.isEmpty(); }
+
     const QString & getName() { return name; }
     void setName(const QString &newName) { name = newName; }
 
     void setTreeLabel(const QString &inTreeLabel) { treeLabel = inTreeLabel;}
     const QString &getTreeLabel() { return treeLabel;}
 
-    void setUniqueLabel(const QString &inUniqueLabel) { uniqueLabel = inUniqueLabel; }
+    void setUniqueLabel(const QString &inUniqueLabel);
     const QString &getUniqueLabel() { return uniqueLabel; }
 
     void setDriver(const QString &newDriver) { driver = newDriver; }

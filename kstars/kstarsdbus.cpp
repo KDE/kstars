@@ -60,32 +60,32 @@ void KStars::setAltAz( double alt, double az ) {
 
 void KStars::lookTowards ( const QString &direction ) {
     QString dir = direction.toLower();
-    if        (dir == xi18n("zenith") || dir=="z") {
+    if        (dir == i18n("zenith") || dir=="z") {
         actionCollection()->action("zenith")->trigger();
-    } else if (dir == xi18n("north")  || dir=="n") {
+    } else if (dir == i18n("north")  || dir=="n") {
         actionCollection()->action("north")->trigger();
-    } else if (dir == xi18n("east")   || dir=="e") {
+    } else if (dir == i18n("east")   || dir=="e") {
         actionCollection()->action("east")->trigger();
-    } else if (dir == xi18n("south")  || dir=="s") {
+    } else if (dir == i18n("south")  || dir=="s") {
         actionCollection()->action("south")->trigger();
-    } else if (dir == xi18n("west")   || dir=="w") {
+    } else if (dir == i18n("west")   || dir=="w") {
         actionCollection()->action("west")->trigger();
-    } else if (dir == xi18n("northeast") || dir=="ne") {
+    } else if (dir == i18n("northeast") || dir=="ne") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == xi18n("southeast") || dir=="se") {
+    } else if (dir == i18n("southeast") || dir=="se") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 135.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == xi18n("southwest") || dir=="sw") {
+    } else if (dir == i18n("southwest") || dir=="sw") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 225.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == xi18n("northwest") || dir=="nw") {
+    } else if (dir == i18n("northwest") || dir=="nw") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 315.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
@@ -165,7 +165,7 @@ void KStars::waitForKey( const QString &k ) {
         while ( !data()->resumeKey.isEmpty() )
             qApp->processEvents();
     } else {
-        qDebug() << xi18n( "Error [D-Bus waitForKey()]: Invalid key requested." );
+        qDebug() << i18n( "Error [D-Bus waitForKey()]: Invalid key requested." );
     }
 }
 
@@ -222,10 +222,10 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
     if ( !cityFound ) {
         if ( province.isEmpty() )
-            qDebug() << xi18n( "Error [D-Bus setGeoLocation]: city %1, %2 not found in database.",
+            qDebug() << i18n( "Error [D-Bus setGeoLocation]: city %1, %2 not found in database.",
                               city, country );
         else
-            qDebug() << xi18n( "Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.",
+            qDebug() << i18n( "Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.",
                               city, province, country );
     }
 }
@@ -524,10 +524,10 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     bool ok( false );
     if ( usePrintDialog ) {
         //QPRINTER_FOR_NOW
-//        ok = printer.setup( this, xi18n("Print Sky") );
+//        ok = printer.setup( this, i18n("Print Sky") );
         //QPrintDialog *dialog = KdePrint::createPrintDialog(&printer, this);
         QPrintDialog *dialog = new QPrintDialog(&printer, this);
-        dialog->setWindowTitle( xi18n("Print Sky") );
+        dialog->setWindowTitle( i18n("Print Sky") );
         if ( dialog->exec() == QDialog::Accepted )
             ok = true;
         delete dialog;
@@ -561,14 +561,24 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     }
 }
 
-#ifdef HAVE_CFITSIO
-void KStars::openFITS(const QUrl &imageURL)
+bool KStars::openFITS(const QUrl &imageURL)
 {
+    #ifndef HAVE_CFITSIO
+    qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
+    return false;
+    #else
     FITSViewer * fv = new FITSViewer(this);
     // Error opening file
     if (fv->addFITS(&imageURL) == -2)
+    {
         delete (fv);
+        return false;
+    }
     else
+    {
        fv->show();
+       return true;
+    }
+    #endif
 }
-#endif
+

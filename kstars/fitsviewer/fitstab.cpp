@@ -56,8 +56,8 @@ void FITSTab::saveUnsaved()
     if( undoStack->isClean() || view->getMode() != FITS_NORMAL)
         return;
 
-    QString caption = xi18n( "Save Changes to FITS?" );
-    QString message = xi18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
+    QString caption = i18n( "Save Changes to FITS?" );
+    QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
     int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
     if( ans == KMessageBox::Yes )
         saveFile();
@@ -115,7 +115,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
         if (histogram == NULL)
             histogram = new FITSHistogram(this);
         else
-            histogram->updateHistogram();
+            histogram->constructHistogram();
 
         FITSData *image_data = view->getImageData();
 
@@ -179,9 +179,11 @@ void FITSTab::statFITS()
     stat.bitpixOUT->setText(QString::number(image_data->getBPP()));
     stat.maxOUT->setText(QString::number(image_data->getMax(), 'f', 3));
     stat.minOUT->setText(QString::number(image_data->getMin() , 'f', 3));
-    stat.meanOUT->setText(QString::number(image_data->getAverage(), 'f' , 3));
+    stat.meanOUT->setText(QString::number(image_data->getMean(), 'f' , 3));
     stat.stddevOUT->setText(QString::number(image_data->getStdDev(), 'f', 3));
     stat.HFROUT->setText(QString::number(image_data->getHFR(), 'f', 3));
+    stat.medianOUT->setText(QString::number(image_data->getMedian(), 'f', 3));
+    stat.SNROUT->setText(QString::number(image_data->getSNR(), 'f', 3));
 
     statDialog.exec();
 }
@@ -198,7 +200,7 @@ void FITSTab::headerFITS()
     if ( (err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
     {
         fits_get_errstatus(err_status, err_text);
-        KMessageBox::error(0, xi18n("FITS record error: %1", QString::fromUtf8(err_text)), xi18n("FITS Header"));
+        KMessageBox::error(0, i18n("FITS record error: %1", QString::fromUtf8(err_text)), i18n("FITS Header"));
         return;
     }
 
@@ -257,7 +259,7 @@ bool FITSTab::saveFile()
 
     if (currentURL.isEmpty())
     {
-        currentURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save FITS"), currentDir, "FITS (*.fits *.fit)");
+        currentURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save FITS"), currentDir, "FITS (*.fits *.fit)");
         // if user presses cancel
         if (currentURL.isEmpty())
         {
@@ -271,7 +273,7 @@ bool FITSTab::saveFile()
         if (QFile::exists(currentURL.path()))
         {
             int r = KMessageBox::warningContinueCancel(0,
-                        xi18n( "A file named \"%1\" already exists. "
+                        i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?", currentURL.fileName() ),
                         i18n( "Overwrite File?" ),
                         KGuiItem(i18n( "&Overwrite" )) );
@@ -296,7 +298,7 @@ bool FITSTab::saveFile()
             return false;
         }
 
-        //statusBar()->changeItem(xi18n("File saved."), 3);
+        //statusBar()->changeItem(i18n("File saved."), 3);
 
         emit newStatus(i18n("File saved to %1", currentURL.url()), FITS_MESSAGE);
         modifyFITSState();

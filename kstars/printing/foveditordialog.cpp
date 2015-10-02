@@ -30,7 +30,7 @@ FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
 
-    setWindowTitle(xi18n("Field of View Snapshot Browser"));
+    setWindowTitle(i18n("Field of View Snapshot Browser"));
 }
 
 FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent) : QDialog(parent),
@@ -121,7 +121,7 @@ void FovEditorDialog::slotSaveImage()
 
     //If the filename string contains no "/" separators, assume the
     //user wanted to place a file in their home directory.
-    QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
+    QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
     QUrl fileUrl;
     if(!url.contains("/"))
     {
@@ -161,17 +161,17 @@ void FovEditorDialog::slotSaveImage()
         else if(ext.toLower() == "bmp") {format = "BMP";}
         else
         {
-            qWarning() << xi18n("Could not parse image format of %1; assuming PNG.", fname);
+            qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
         }
 
         if(!m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getPixmap().save(fname, format))
         {
-            qDebug() << xi18n("Error: Unable to save image: %1 ", fname);
+            qDebug() << i18n("Error: Unable to save image: %1 ", fname);
         }
 
         else
         {
-            qDebug() << xi18n("Image saved to file: %1", fname);
+            qDebug() << i18n("Image saved to file: %1", fname);
         }
     }
 
@@ -183,8 +183,8 @@ void FovEditorDialog::slotSaveImage()
         //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
         if (uploadJob->exec() == false)
         {
-            QString message = xi18n( "Could not upload image to remote location: %1", fileUrl.url() );
-            KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
+            QString message = i18n( "Could not upload image to remote location: %1", fileUrl.url() );
+            KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
         }
         uploadJob->kill();
     }
@@ -233,7 +233,7 @@ void FovEditorDialog::updateDescriptions()
     {
         FOV *fov = m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getFov();
 
-        QString fovDescription = xi18n("FOV (%1/%2): %3 (%4' x %5')",
+        QString fovDescription = i18n("FOV (%1/%2): %3 (%4' x %5')",
                 QString::number(m_CurrentIndex + 1),
                 QString::number(m_ParentWizard->getFovSnapshotList()->size()),
                 fov->name(),

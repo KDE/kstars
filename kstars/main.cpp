@@ -42,77 +42,89 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
+    app.setApplicationVersion(KSTARS_VERSION);
+
+    /**
+    * enable high dpi support
+    */
+    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
     KLocalizedString::setApplicationDomain("kstars");
 
-    KAboutData aboutData( "kstars", xi18n("KStars"), KSTARS_VERSION, xi18n(description), KAboutLicense::GPL,
-                          xi18n("(c) 2001-2015, The KStars Team"), xi18n(notice), "http://edu.kde.org/kstars");
-    aboutData.addAuthor(xi18n("Jason Harris"), xi18n("Original Author"), "jharris@30doradus.org", "http://www.30doradus.org");
-    aboutData.addAuthor(xi18n("Jasem Mutlaq"), xi18n("Current Maintainer"), "mutlaqja@ikarustech.com", "http://www.indilib.org");
-    aboutData.addAuthor(xi18n("James Bowlin"), QString(), "bowlin@mindspring.com");
-    aboutData.addAuthor(xi18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
-    aboutData.addAuthor(xi18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
-    aboutData.addAuthor(xi18n("Heiko Evermann"),QString(), "heiko@evermann.de", "http://www.evermann.de");
-    aboutData.addAuthor(xi18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
-    aboutData.addAuthor(xi18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
-    aboutData.addAuthor(xi18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
-    aboutData.addAuthor(xi18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");
-    aboutData.addAuthor(xi18n("Akarsh Simha"), QString(), "akarsh.simha@kdemail.net", "http://www.ph.utexas.edu/~asimha");
-    aboutData.addAuthor(xi18n("J&eacute;r&ocirc;me Sonrier"), QString(), "jsid@emor3j.fr.eu.org");
-    aboutData.addAuthor(xi18n("Prakash Mohan"), QString(), "prakash.mohan@kdemail.net");
-    aboutData.addAuthor(xi18n("Victor Cărbune"), QString(), "victor.carbune@kdemail.net");
-    aboutData.addAuthor(xi18n("Henry de Valence"), QString(), "hdevalence@gmail.com");
-    aboutData.addAuthor(xi18n("Samikshan Bairagya"), QString(), "samikshan.bairagya@kdemail.net");
-    aboutData.addAuthor(xi18n("Rafał Kułaga"), QString(), "rl.kulaga@gmail.com");
-    aboutData.addAuthor(xi18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
+    KAboutData aboutData( "kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
+                          i18n("(c) 2001-2015, The KStars Team"), i18n(notice), "http://edu.kde.org/kstars");
+    aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org", "http://www.30doradus.org");
+    aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com", "http://www.indilib.org");
+    aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
+    aboutData.addAuthor(i18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
+    aboutData.addAuthor(i18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
+    aboutData.addAuthor(i18n("Heiko Evermann"),QString(), "heiko@evermann.de", "http://www.evermann.de");
+    aboutData.addAuthor(i18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
+    aboutData.addAuthor(i18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
+    aboutData.addAuthor(i18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
+    aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");
+    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh.simha@kdemail.net", "http://www.ph.utexas.edu/~asimha");
+    aboutData.addAuthor(i18n("J&eacute;r&ocirc;me Sonrier"), QString(), "jsid@emor3j.fr.eu.org");
+    aboutData.addAuthor(i18n("Prakash Mohan"), QString(), "prakash.mohan@kdemail.net");
+    aboutData.addAuthor(i18n("Victor Cărbune"), QString(), "victor.carbune@kdemail.net");
+    aboutData.addAuthor(i18n("Henry de Valence"), QString(), "hdevalence@gmail.com");
+    aboutData.addAuthor(i18n("Samikshan Bairagya"), QString(), "samikshan.bairagya@kdemail.net");
+    aboutData.addAuthor(i18n("Rafał Kułaga"), QString(), "rl.kulaga@gmail.com");
+    aboutData.addAuthor(i18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
 
-    aboutData.addCredit(xi18n("Valery Kharitonov"), xi18n("Converted labels containing technical terms to links to documentation") );
-    aboutData.addCredit(xi18n("Ana-Maria Constantin"), xi18n("Technical documentation on Astronomy and KStars") );
-    aboutData.addCredit(xi18n("Andrew Stepanenko"), xi18n("Guiding code based on lin_guider") );
-    aboutData.addCredit(xi18n("Nuno Pinheiro"), xi18n("Artwork") );
-    aboutData.addCredit(xi18n("Utkarsh Simha"), xi18n("Improvements to observation plan execution, star hopper etc.") );
-    aboutData.addCredit(xi18n("Daniel Holler"), xi18n("Extensive testing and suggestions for Ekos/INDI.") );
+    aboutData.addCredit(i18n("Valery Kharitonov"), i18n("Converted labels containing technical terms to links to documentation") );
+    aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars") );
+    aboutData.addCredit(i18n("Andrew Stepanenko"), i18n("Guiding code based on lin_guider") );
+    aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork") );
+    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );    
+    aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI.") );
+    aboutData.addCredit(i18n("Stephane Lucas"), i18n("Extensive testing and suggestions for Ekos Scheduler.") );
 
     KAboutData::setApplicationData(aboutData);
 
-    QCommandLineParser *parser = new QCommandLineParser;    
-    parser->addVersionOption();
-    //parser->addHelpOption(INSERT_DESCRIPTION_HERE);
-    parser->addOption(QCommandLineOption(QStringList() << "!dump", xi18n( "Dump sky image to file" )));
-    parser->addOption(QCommandLineOption(QStringList() << "script ", xi18n( "Script to execute" )));
-    parser->addOption(QCommandLineOption(QStringList() << "width ", xi18n( "Width of sky image" ),  "640"));
-    parser->addOption(QCommandLineOption(QStringList() << "height ", xi18n( "Height of sky image" ), "480"));
-    parser->addOption(QCommandLineOption(QStringList() << "filename ", xi18n( "Filename for sky image" ), "kstars.png"));
-    parser->addOption(QCommandLineOption(QStringList() << "date ", xi18n( "Date and time" )));
-    parser->addOption(QCommandLineOption(QStringList() << "!paused", xi18n( "Start with clock paused" )));
+    QCommandLineParser parser;
+    aboutData.setupCommandLine(&parser);
+    parser.setApplicationDescription(aboutData.shortDescription());
+    parser.addVersionOption();
+    parser.addHelpOption();
 
-    QApplication a(argc, argv);
-    a.setApplicationVersion(KSTARS_VERSION);
-    a.setApplicationDisplayName(xi18n("KStars"));
+    //parser.addHelpOption(INSERT_DESCRIPTION_HERE);
+    parser.addOption(QCommandLineOption(QStringList() << "dump", i18n( "Dump sky image to file" )));
+    parser.addOption(QCommandLineOption(QStringList() << "script ", i18n( "Script to execute" )));
+    parser.addOption(QCommandLineOption(QStringList() << "width ", i18n( "Width of sky image" ),  "640"));
+    parser.addOption(QCommandLineOption(QStringList() << "height ", i18n( "Height of sky image" ), "480"));
+    parser.addOption(QCommandLineOption(QStringList() << "filename ", i18n( "Filename for sky image" ), "kstars.png"));
+    parser.addOption(QCommandLineOption(QStringList() << "date", i18n( "Date and time" )));
+    parser.addOption(QCommandLineOption(QStringList() << "paused", i18n( "Start with clock paused" )));
 
-    if ( parser->isSet( "dump" ) )
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
+
+    if ( parser.isSet( "dump" ) )
     {
-        qDebug() << xi18n( "Dumping sky image" );
+        qDebug() << i18n( "Dumping sky image" );
 
         //parse filename and image format
         const char* format = "PNG";
-        QString fname = parser->value( "filename" );
+        QString fname = parser.value( "filename" );
         QString ext = fname.mid( fname.lastIndexOf(".")+1 );
         if ( ext.toLower() == "png" ) { format = "PNG"; }
         else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
         else if ( ext.toLower() == "gif" ) { format = "GIF"; }
         else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
         else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
-        else { qWarning() << xi18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
+        else { qWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
 
         //parse width and height
         bool ok(false);
         int w(0), h(0);
-        w = parser->value( "width" ).toInt( &ok );
-        if ( ok ) h =  parser->value( "height" ).toInt( &ok );
+        w = parser.value( "width" ).toInt( &ok );
+        if ( ok ) h =  parser.value( "height" ).toInt( &ok );
         if ( !ok ) {
             qWarning() << "Unable to parse arguments: " ;
-            qWarning() << "Width: " << parser->value( "width" )
-            << "  Height: " << parser->value( "height" ) << endl;
+            qWarning() << "Width: " << parser.value( "width" )
+            << "  Height: " << parser.value( "height" ) << endl;
             return 1;
         }
 
@@ -128,7 +140,7 @@ int main(int argc, char *argv[])
 
         //set clock now that we have a location:
         //Check to see if user provided a date/time string.  If not, use current CPU time
-        QString datestring = parser->value( "date" );
+        QString datestring = parser.value( "date" );
         KStarsDateTime kdt;
         if ( ! datestring.isEmpty() ) {
             if ( datestring.contains( "-" ) ) { //assume ISODate format
@@ -145,7 +157,7 @@ int main(int argc, char *argv[])
             }
 
             if ( ! kdt.isValid() ) {
-                qWarning() << xi18n( "Using CPU date/time instead." ) ;
+                qWarning() << i18n( "Using CPU date/time instead." ) ;
 
                 kdt = KStarsDateTime::currentDateTimeUtc();
             }
@@ -168,12 +180,12 @@ int main(int argc, char *argv[])
         map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
 
         //Execute the specified script
-        QString scriptfile = parser->value( "script" );
+        QString scriptfile = parser.value( "script" );
         if ( ! scriptfile.isEmpty() ) {
             if ( dat->executeScript( scriptfile, map ) ) {
-                std::cout << xi18n( "Script executed." ).toUtf8().data() << std::endl;
+                std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
             } else {
-                qWarning() << xi18n( "Could not execute script." ) ;
+                qWarning() << i18n( "Could not execute script." ) ;
             }
         }
 
@@ -182,24 +194,20 @@ int main(int argc, char *argv[])
         map->exportSkyImage( &sky );
         qApp->processEvents();
 
-        if ( ! sky.save( fname, format ) ) qWarning() << xi18n( "Unable to save image: %1 ", fname ) ;
-        else qDebug() << xi18n( "Saved to file: %1", fname );
+        if ( ! sky.save( fname, format ) ) qWarning() << i18n( "Unable to save image: %1 ", fname ) ;
+        else qDebug() << i18n( "Saved to file: %1", fname );
 
         delete map;
         delete dat;
         return 0;
-    }
-
-    //start up normally in GUI mode
+    }    
 
     //Try to parse the given date string
-    QString datestring = parser->value( "date" );
-    //DEBUG
-    qDebug() << "Date string: " << datestring;
+    QString datestring = parser.value( "date" );
 
     if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() )
     {
-        qWarning() << xi18n( "Using CPU date/time instead." ) ;
+        qWarning() << i18n( "Using CPU date/time instead." ) ;
         datestring.clear();
     }
 
@@ -207,9 +215,9 @@ int main(int argc, char *argv[])
     QDir writableDir;
     writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    KStars::createInstance( true, ! parser->isSet( "paused" ), datestring );
+    KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
-    return a.exec();
+    return app.exec();
 
 }

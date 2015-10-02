@@ -42,7 +42,7 @@
 #include "skypainter.h"
 
 ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
-        : NoPrecessIndex( parent, xi18n("Constellation Boundaries") )
+        : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
 {
     m_skyMesh = SkyMesh::Instance();
     m_polyIndexCnt = 0;
@@ -74,7 +74,7 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
     KSFileReader fileReader;
     if ( ! fileReader.open( fname ) ) return;
 
-    fileReader.setProgress( xi18n("Loading Constellation Boundaries"), 13124, 10 );
+    fileReader.setProgress( i18n("Loading Constellation Boundaries"), 13124, 10 );
 
     lastRa = lastDec = -1000.0;
 
@@ -266,5 +266,5 @@ QString ConstellationBoundaryLines::constellationName( SkyPoint *p )
                  i18nc( "Constellation name (optional)", polyList->name().toUpper().toLocal8Bit().data() ) :
                  polyList->name() );
     }
-    return xi18n("Unknown");
+    return i18n("Unknown");
 }

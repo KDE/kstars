@@ -102,6 +102,7 @@ public:
 
     DriverInfo * findDriverByName(const QString &name);
     DriverInfo * findDriverByLabel(const QString &label);
+    DriverInfo * findDriverByExec(const QString &exec);
 
     ClientManager *getClientManager(DriverInfo *dv);
 
@@ -123,6 +124,11 @@ public:
     QString getUniqueDeviceLabel(const QString &label);
 
     void clearServers();
+
+protected:
+    void closeEvent(QCloseEvent *);
+    void hideEvent(QHideEvent *);
+    void showEvent(QShowEvent *);
 
 private:
     DriverManager();

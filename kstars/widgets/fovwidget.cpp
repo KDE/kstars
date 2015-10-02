@@ -45,7 +45,7 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
         p.setFont( smallFont );
         // TODO: Check if decimal points in this are localized (eg: It should read 1,5 x 1,5 in German rather than 1.5 x 1.5)
         p.drawText( rect(), Qt::AlignHCenter|Qt::AlignBottom,
-                    xi18nc("angular size in arcminutes", "%1 x %2 arcmin",
+                    i18nc("angular size in arcminutes", "%1 x %2 arcmin",
                           QString::number( m_FOV->sizeX(), 'f', 1 ),
                           QString::number( m_FOV->sizeY(), 'f', 1 ) ) );
     }

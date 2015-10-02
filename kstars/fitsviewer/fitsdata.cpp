@@ -50,11 +50,11 @@
 
 const int MINIMUM_ROWS_PER_CENTER=3;
 
-#define JM_UPPER_LIMIT  .5
+#define DIFFUSE_THRESHOLD       0.15
+
 #define MAX_EDGE_LIMIT  10000
 #define LOW_EDGE_CUTOFF_1   50
 #define LOW_EDGE_CUTOFF_2   10
-#define DIFFUSE_THRESHOLD   0.15
 #define MINIMUM_EDGE_LIMIT  2
 #define SMALL_SCALE_SQUARE  256
 
@@ -106,24 +106,14 @@ FITSData::~FITSData()
     }
 }
 
-bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
+bool FITSData::loadFITS (const QString &inFilename)
 {
     int status=0, anynull=0;
     long naxes[3];
     char error_status[512];
 
-
     qDeleteAll(starCenters);
     starCenters.clear();
-
-    if (mode == FITS_NORMAL && progress)
-    {
-        progress->setLabelText(xi18n("Please hold while loading FITS file..."));
-        progress->setWindowTitle(xi18n("Loading FITS"));
-    }
-
-    if (mode == FITS_NORMAL && progress)
-        progress->setValue(30);
 
     if (fptr)
     {
@@ -148,33 +138,22 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        if (progress)
-            KMessageBox::error(0, xi18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), xi18n("FITS Open"));
+        KMessageBox::error(0, i18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), i18n("FITS Open"));
         return false;
     }
-
-    if (mode == FITS_NORMAL && progress)
-        if (progress->wasCanceled())
-            return false;
-
-    if (mode == FITS_NORMAL && progress)
-        progress->setValue(40);
-
 
     if (fits_get_img_param(fptr, 3, &(stats.bitpix), &(stats.ndim), naxes, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
 
-        if (progress)
-            KMessageBox::error(0, xi18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), xi18n("FITS Open"));
+        KMessageBox::error(0, i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
         return false;
     }
 
     if (stats.ndim < 2)
     {
-        if (progress)
-            KMessageBox::error(0, xi18n("1D FITS images are not supported in KStars."), xi18n("FITS Open"));
+        KMessageBox::error(0, i18n("1D FITS images are not supported in KStars."), i18n("FITS Open"));
         return false;
     }
 
@@ -198,7 +177,7 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
         case -64:
              data_type = TDOUBLE;
         default:
-            KMessageBox::error(NULL, xi18n("Bit depth %1 is not supported.", stats.bitpix), xi18n("FITS Open"));
+            KMessageBox::error(NULL, i18n("Bit depth %1 is not supported.", stats.bitpix), i18n("FITS Open"));
             return false;
             break;
     }
@@ -208,128 +187,51 @@ bool FITSData::loadFITS ( const QString &inFilename, QProgressDialog *progress )
 
     if (naxes[0] == 0 || naxes[1] == 0)
     {
-        if (progress)
-            KMessageBox::error(0, xi18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), xi18n("FITS Open"));
+        KMessageBox::error(0, i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), i18n("FITS Open"));
         return false;
     }
 
-
-    if (mode == FITS_NORMAL && progress)
-        if (progress->wasCanceled())
-            return false;
-
-    if (mode == FITS_NORMAL && progress)
-        progress->setValue(60);
-
     stats.width  = naxes[0];
     stats.height = naxes[1];
-    stats.size   = stats.width*stats.height;
+    stats.samples_per_channel   = stats.width*stats.height;
 
     clearImageBuffers();
 
     channels = naxes[2];
 
-    image_buffer = new float[stats.size * channels];
+    image_buffer = new float[stats.samples_per_channel * channels];
     if (image_buffer == NULL)
     {
-       qDebug() << "Not enough memory for image_buffer channel. Requested: " << stats.size * channels * sizeof(float) << " bytes." << endl;
+       qDebug() << "Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * sizeof(float) << " bytes." << endl;
        clearImageBuffers();
        return false;
     }
 
-    if (mode == FITS_NORMAL && progress)
-    {
-        if (progress->wasCanceled())
-        {
-            clearImageBuffers();
-            return false;
-        }
-    }
-
-    if (mode == FITS_NORMAL && progress)
-        progress->setValue(70);
-
     rotCounter=0;
     flipHCounter=0;
     flipVCounter=0;
-    long nelements = stats.size * channels;
-
-    qApp->processEvents();
+    long nelements = stats.samples_per_channel * channels;
 
     if (fits_read_img(fptr, TFLOAT, 1, nelements, 0, image_buffer, &anynull, &status))
     {
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
-        KMessageBox::error(NULL, xi18n("Error reading image: %1", QString(errmsg)), xi18n("FITS Open"));
+        KMessageBox::error(NULL, i18n("Error reading image: %1", QString(errmsg)), i18n("FITS Open"));
         fits_report_error(stderr, status);
         return false;
     }
 
-    /*if (channels == 1)
-    {
-        if (fits_read_2d(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
-        {
-            qDebug() << "2D fits_read_pix error" << endl;
-            fits_report_error(stderr, status);
-            return false;
-        }
-    }
-    else
-    {
-        if (fits_read_3d_flt(fptr, 0, nulval, naxes[0], naxes[1], naxes[0], naxes[1], naxes[2], image_buffer, &anynull, &status))
-        {
-            qDebug() << "3D fits_read_pix error" << endl;
-            fits_report_error(stderr, status);
-            return false;
-        }
-    }*/
-
     if (darkFrame != NULL)
         subtract(darkFrame);
-
-    if (mode == FITS_NORMAL && progress)
-    {
-        if (progress->wasCanceled())
-        {
-            clearImageBuffers();
-            return false;
-        }
-    }
 
     if (darkFrame == NULL)
         calculateStats();
 
-    if (mode == FITS_NORMAL && progress)
-        progress->setValue(80);
-
-    qApp->processEvents();    
-
     if (mode == FITS_NORMAL)
-    {
         checkWCS();
 
-        if (progress)
-            progress->setValue(85);
-    }
-
-    if (mode == FITS_NORMAL && progress)
-    {
-        if (progress->wasCanceled())
-        {
-            clearImageBuffers();
-            return false;
-        }
-    }
-
-    if (mode == FITS_NORMAL && progress)
-        progress->setValue(90);
-
-    qApp->processEvents();
     if (checkDebayer())
         debayer();
-
-    if (mode == FITS_NORMAL && progress)
-        progress->setValue(100);
 
     starsSearched = false;
 
@@ -343,10 +245,10 @@ int FITSData::saveFITS( const QString &newFilename )
     long nelements;
     fitsfile *new_fptr;
 
-    nelements = stats.size * channels;
+    nelements = stats.samples_per_channel * channels;
 
     if (HasDebayer)
-    if (KMessageBox::warningContinueCancel(NULL, xi18n("Are you sure you want to overwrite original image data with debayered data? This action is irreversible!"), xi18n("Save FITS")) != KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel(NULL, i18n("Are you sure you want to overwrite original image data with debayered data? This action is irreversible!"), i18n("Save FITS")) != KMessageBox::Continue)
         return -1000;
 
     /* Create a new File, overwriting existing*/
@@ -417,14 +319,14 @@ int FITSData::saveFITS( const QString &newFilename )
     }
 
     // NAXIS1
-    if (fits_update_key(fptr, TINT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
+    if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
     {
         fits_report_error(stderr, status);
         return status;
     }
 
     // NAXIS2
-    if (fits_update_key(fptr, TINT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
+    if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
     {
         fits_report_error(stderr, status);
         return status;
@@ -479,24 +381,56 @@ int FITSData::calculateMinMax(bool refresh)
 
     if (refresh == false)
     {
-        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min), NULL, &status) ==0)
+        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min[0]), NULL, &status) ==0)
             nfound++;
 
-        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max), NULL, &status) == 0)
+        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max[0]), NULL, &status) == 0)
             nfound++;
 
         // If we found both keywords, no need to calculate them, unless they are both zeros
-        if (nfound == 2 && !(stats.min == 0 && stats.max ==0))
+        if (nfound == 2 && !(stats.min[0] == 0 && stats.max[0] ==0))
             return 0;
     }
 
-    stats.min= 1.0E30;
-    stats.max= -1.0E30;
+    stats.min[0]= 1.0E30;
+    stats.max[0]= -1.0E30;
 
-    for (unsigned int i=0; i < stats.size; i++)
+    stats.min[1]= 1.0E30;
+    stats.max[1]= -1.0E30;
+
+    stats.min[2]= 1.0E30;
+    stats.max[2]= -1.0E30;
+
+    if (channels == 1)
     {
-        if (image_buffer[i] < stats.min) stats.min = image_buffer[i];
-        else if (image_buffer[i] > stats.max) stats.max = image_buffer[i];
+        for (unsigned int i=0; i < stats.samples_per_channel; i++)
+        {
+            if (image_buffer[i] < stats.min[0]) stats.min[0] = image_buffer[i];
+            else if (image_buffer[i] > stats.max[0]) stats.max[0] = image_buffer[i];
+        }
+    }
+    else
+    {
+        int g_offset = stats.samples_per_channel;
+        int b_offset = stats.samples_per_channel*2;
+
+        for (unsigned int i=0; i < stats.samples_per_channel; i++)
+        {
+            if (image_buffer[i] < stats.min[0])
+                stats.min[0] = image_buffer[i];
+            else if (image_buffer[i] > stats.max[0])
+                stats.max[0] = image_buffer[i];
+
+            if (image_buffer[i+g_offset] < stats.min[1])
+                stats.min[1] = image_buffer[i+g_offset];
+            else if (image_buffer[i+g_offset] > stats.max[1])
+                stats.max[1] = image_buffer[i+g_offset];
+
+            if (image_buffer[i+b_offset] < stats.min[2])
+                stats.min[2] = image_buffer[i+b_offset];
+            else if (image_buffer[i+b_offset] > stats.max[2])
+                stats.max[2] = image_buffer[i+b_offset];
+        }
     }
 
     //qDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max;
@@ -506,13 +440,13 @@ int FITSData::calculateMinMax(bool refresh)
 
 void FITSData::calculateStats(bool refresh)
 {
+    // Calculate min max
     calculateMinMax(refresh);
-    // #1 call average, average is used in std deviation
-    //stats.average = average();
-    // #2 call std deviation
-    //stats.stddev  = stddev();
 
+    // Get standard deviation and mean in one run
     runningAverageStdDev();
+
+    stats.SNR = stats.mean[0] / stats.stddev[0];
 
     if (refresh && markStars)
         // Let's try to find star positions again after transformation
@@ -526,7 +460,7 @@ void FITSData::runningAverageStdDev()
     double m_oldM=0, m_newM=0, m_oldS=0, m_newS=0;
     m_oldM = m_newM = image_buffer[0];
 
-    for (unsigned int i=1; i < stats.size; i++)
+    for (unsigned int i=1; i < stats.samples_per_channel; i++)
     {
         m_newM = m_oldM + (image_buffer[i] - m_oldM)/m_n;
         m_newS = m_oldS + (image_buffer[i] - m_oldM) * (image_buffer[i] - m_newM);
@@ -538,14 +472,14 @@ void FITSData::runningAverageStdDev()
 
     double variance = m_newS / (m_n -2);
 
-    stats.average = m_newM;
-    stats.stddev  = sqrt(variance);
+    stats.mean[0] = m_newM;
+    stats.stddev[0]  = sqrt(variance);
 }
 
-void FITSData::setMinMax(double newMin,  double newMax)
+void FITSData::setMinMax(double newMin,  double newMax, uint8_t channel)
 {
-    stats.min = newMin;
-    stats.max = newMax;
+    stats.min[channel] = newMin;
+    stats.max[channel] = newMax;
 }
 
 int FITSData::getFITSRecord(QString &recordList, int &nkeys)
@@ -598,12 +532,12 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     int badPix=0;
     int minimumEdgeLimit = MINIMUM_EDGE_LIMIT;
 
-    double JMIndex = histogram->getJMIndex();
     int badPixLimit=0;
+    double JMIndex = histogram->getJMIndex();
 
     QList<Edge*> edges;
 
-    if (JMIndex > DIFFUSE_THRESHOLD)
+    if (JMIndex < DIFFUSE_THRESHOLD)
     {
             minEdgeWidth = JMIndex*35+1;
             minimumEdgeLimit=minEdgeWidth-1;
@@ -624,30 +558,30 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
         if (minimumEdgeLimit < 1)
             minimumEdgeLimit=1;
 
-       if (JMIndex > DIFFUSE_THRESHOLD)
+       if (JMIndex < DIFFUSE_THRESHOLD)
        {
-           threshold = stats.max - stats.stddev* (MINIMUM_STDVAR - initStdDev +1);
+           threshold = stats.max[0] - stats.stddev[0]* (MINIMUM_STDVAR - initStdDev +1);
 
-           min =stats.min;
+           min =stats.min[0];
 
            badPixLimit=minEdgeWidth*0.5;
        }
        else
        {
-           threshold = (stats.max - stats.min)/2.0 + stats.min  + stats.stddev* (MINIMUM_STDVAR - initStdDev);
-           if ( (stats.max - stats.min)/2.0 > (stats.average+stats.stddev*5))
-               threshold = stats.average+stats.stddev*initStdDev;
-           min = stats.min;
+           threshold = (stats.max[0] - stats.min[0])/2.0 + stats.min[0]  + stats.stddev[0]* (MINIMUM_STDVAR - initStdDev);
+           if ( (stats.max[0] - stats.min[0])/2.0 > (stats.mean[0]+stats.stddev[0]*5))
+               threshold = stats.mean[0]+stats.stddev[0]*initStdDev;
+           min = stats.min[0];
            badPixLimit =2;
 
        }
 
         #ifdef FITS_DEBUG
-        qDebug() << "JMIndex: " << JMIndex << endl;
+        qDebug() << "SNR: " << stats.SNR << endl;
         qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeLimit << endl;
         #endif
 
-        threshold -= stats.min;
+        threshold -= stats.min[0];
 
     // Detect "edges" that are above threshold
     for (int i=0; i < stats.height; i++)
@@ -923,6 +857,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
     // Release memory
     qDeleteAll(edges);
+
 }
 
 double FITSData::getHFR(HFRType type)
@@ -1007,11 +942,11 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
     int height = stats.height;
 
     if (min == -1)
-        min = stats.min;
+        min = stats.min[0];
     if (max == -1)
-        max = stats.max;
+        max = stats.max[0];
 
-    int size = stats.size;
+    int size = stats.samples_per_channel;
     int index=0;
 
     switch (type)
@@ -1037,8 +972,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
             }
         }
 
-        stats.min = min;
-        stats.max = max;
+        stats.min[0] = min;
+        stats.max[0] = max;
         //runningAverageStdDev();
     }
     break;
@@ -1068,8 +1003,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 
         }
 
-        stats.min = min;
-        stats.max = max;
+        stats.min[0] = min;
+        stats.max[0] = max;
         runningAverageStdDev();
     }
     break;
@@ -1096,16 +1031,16 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
             }
         }
 
-        stats.min = min;
-        stats.max = max;
+        stats.min[0] = min;
+        stats.max[0] = max;
         runningAverageStdDev();
     }
     break;
 
     case FITS_AUTO_STRETCH:
     {
-       min = stats.average - stats.stddev;
-       max = stats.average + stats.stddev * 3;
+       min = stats.mean[0] - stats.stddev[0];
+       max = stats.mean[0] + stats.stddev[0] * 3;
 
            for (int i=0; i < channels; i++)
            {
@@ -1124,18 +1059,18 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                }
             }
 
-        stats.min = min;
-        stats.max = max;
+        stats.min[0] = min;
+        stats.max[0] = max;
         runningAverageStdDev();
       }
       break;
 
      case FITS_HIGH_CONTRAST:
      {        
-        min = stats.average + stats.stddev;
+        min = stats.mean[0] + stats.stddev[0];
         if (min < 0)
             min =0;
-        max = stats.average + stats.stddev * 3;
+        max = stats.mean[0] + stats.stddev[0] * 3;
 
         for (int i=0; i < channels; i++)
         {
@@ -1153,8 +1088,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                 }
             }
         }
-        stats.min = min;
-        stats.max = max;
+        stats.min[0] = min;
+        stats.max[0] = max;
         runningAverageStdDev();
       }
       break;
@@ -1163,7 +1098,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
      {
         if (histogram == NULL)
             return;
-        QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq = histogram->getCumulativeFreq();
+        QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
         coeff = 255.0 / (height * width);
 
         for (int i=0; i < channels; i++)
@@ -1175,7 +1110,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                 for (int k=0; k < width; k++)
                 {
                     index=k + row;
-                    bufferVal = (int) (image[index] - min) * histogram->getBinWidth();
+                    bufferVal = (int) (image[index] - min) / histogram->getBinWidth();
 
                     if (bufferVal >= cumulativeFreq.size())
                         bufferVal = cumulativeFreq.size()-1;
@@ -1192,7 +1127,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
 
      case FITS_HIGH_PASS:
      {
-        min = stats.average;
+        min = stats.mean[0];
         for (int i=0; i < channels; i++)
         {
             offset = i*size;
@@ -1210,8 +1145,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
             }
         }
 
-        stats.min = min;
-        stats.max = max;
+        stats.min[0] = min;
+        stats.max[0] = max;
         runningAverageStdDev();
       }
         break;
@@ -1267,7 +1202,7 @@ int FITSData::findStars()
         qDeleteAll(starCenters);
         starCenters.clear();
 
-        if (histogram->getJMIndex() < JM_UPPER_LIMIT)
+        if (histogram->getJMIndex() > DIFFUSE_THRESHOLD)
         {
              findCentroid();
              getHFR();
@@ -1441,7 +1376,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     ny = stats.height;
 
    /* Allocate buffer for rotated image */
-    rotimage = new float[stats.size*channels];
+    rotimage = new float[stats.samples_per_channel*channels];
     if (rotimage == NULL)
     {
         qWarning() << "Unable to allocate memory for rotated image buffer!" << endl;
@@ -1455,7 +1390,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
         {
             for (int i=0; i < channels; i++)
             {
-                offset = stats.size * i;
+                offset = stats.samples_per_channel * i;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
@@ -1469,7 +1404,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
         {
             for (int i=0; i < channels; i++)
             {
-                offset = stats.size * i;
+                offset = stats.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     y2 = ny - y1 - 1;
@@ -1483,7 +1418,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
         {
             for (int i=0; i < channels; i++)
             {
-                offset = stats.size * i;
+                offset = stats.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
@@ -1501,7 +1436,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = ny - y1 - 1;
@@ -1518,7 +1453,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
@@ -1531,7 +1466,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = ny - y1 - 1;
@@ -1556,7 +1491,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 y2 = ny - y1 - 1;
@@ -1570,7 +1505,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (x1 = 0; x1 < nx; x1++)
             {
                 x2 = nx - x1 - 1;
@@ -1583,7 +1518,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 y2 = ny - y1 - 1;
@@ -1604,7 +1539,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
@@ -1616,7 +1551,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = ny - y1 - 1;
@@ -1632,7 +1567,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 x2 = y1;
@@ -1654,7 +1589,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     {
         for (int i=0; i < channels; i++)
         {
-            offset = stats.size * i;
+            offset = stats.samples_per_channel * i;
             for (y1 = 0; y1 < ny; y1++)
             {
                 for (x1 = 0; x1 < nx; x1++)
@@ -1980,7 +1915,7 @@ bool FITSData::checkDebayer()
 
   if (stats.bitpix != 16 && stats.bitpix != 8)
   {
-      KMessageBox::error(NULL, xi18n("Only 8 and 16 bits bayered images supported."), xi18n("Debayer error"));
+      KMessageBox::error(NULL, i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
       return false;
   }
   QString pattern(bayerPattern);
@@ -2002,13 +1937,13 @@ bool FITSData::checkDebayer()
   fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status); 
 
   delete[] bayer_buffer;
-  bayer_buffer = new float[stats.size * channels];
+  bayer_buffer = new float[stats.samples_per_channel * channels];
   if (bayer_buffer == NULL)
   {
-      KMessageBox::error(NULL, xi18n("Unable to allocate memory for bayer buffer."), xi18n("Open FITS"));
+      KMessageBox::error(NULL, i18n("Unable to allocate memory for bayer buffer."), i18n("Open FITS"));
       return false;
   }
-  memcpy(bayer_buffer, image_buffer, stats.size * channels * sizeof(float));
+  memcpy(bayer_buffer, image_buffer, stats.samples_per_channel * channels * sizeof(float));
 
   HasDebayer = true;
 
@@ -2036,24 +1971,24 @@ bool FITSData::debayer()
 {
     dc1394error_t error_code;
 
-    int rgb_size = stats.size*3;
+    int rgb_size = stats.samples_per_channel*3;
     float * dst = new float[rgb_size];
     if (dst == NULL)
     {
-        KMessageBox::error(NULL, xi18n("Unable to allocate memory for temporary bayer buffer."), xi18n("Debayer Error"));
+        KMessageBox::error(NULL, i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer Error"));
         return false;
     }
 
     if ( (error_code = dc1394_bayer_decoding_float(bayer_buffer, dst, stats.width, stats.height, debayerParams.offsetX, debayerParams.offsetY,
                                                    debayerParams.filter, debayerParams.method)) != DC1394_SUCCESS)
     {
-        KMessageBox::error(NULL, xi18n("Debayer failed (%1)", error_code), xi18n("Debayer error"));
+        KMessageBox::error(NULL, i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
         channels=1;
         delete[] dst;
         //Restore buffer
         delete[] image_buffer;
-        image_buffer = new float[stats.size];
-        memcpy(image_buffer, bayer_buffer, stats.size * sizeof(float));
+        image_buffer = new float[stats.samples_per_channel];
+        memcpy(image_buffer, bayer_buffer, stats.samples_per_channel * sizeof(float));
         return false;
     }
 
@@ -2065,7 +2000,7 @@ bool FITSData::debayer()
         if (image_buffer == NULL)
         {
             delete[] dst;
-            KMessageBox::error(NULL, xi18n("Unable to allocate memory for debayerd buffer."), xi18n("Debayer Error"));
+            KMessageBox::error(NULL, i18n("Unable to allocate memory for debayerd buffer."), i18n("Debayer Error"));
             return false;
         }
     }
@@ -2075,7 +2010,7 @@ bool FITSData::debayer()
     float * gBuff = image_buffer + (stats.width * stats.height);
     float * bBuff = image_buffer + (stats.width * stats.height * 2);
 
-    int imax = stats.size*3 - 3;
+    int imax = stats.samples_per_channel*3 - 3;
     for (int i=0; i <= imax; i += 3)
     {
         *rBuff++ = dst[i];
@@ -2094,22 +2029,22 @@ double FITSData::getADUPercentage()
     switch (stats.bitpix)
     {
         case 8:
-            return (stats.average / UCHAR_MAX) * 100.0;
+            return (stats.mean[0] / UCHAR_MAX) * 100.0;
             break;
         case 16:
-            return (stats.average / USHRT_MAX) * 100.0;
+            return (stats.mean[0] / USHRT_MAX) * 100.0;
             break;
         case 32:
-            return (stats.average / UINT_MAX) * 100.0;
+            return (stats.mean[0] / UINT_MAX) * 100.0;
             break;
         case -32:
-             return (stats.average / INT_MAX) * 100.0;
+             return (stats.mean[0] / INT_MAX) * 100.0;
              break;
         case 64:
-             return (stats.average / ULONG_LONG_MAX) * 100.0;
+             return (stats.mean[0] / ULLONG_MAX) * 100.0;
              break;
         case -64:
-             return (stats.average / LONG_LONG_MAX) * 100.0;
+             return (stats.mean[0] / LLONG_MAX) * 100.0;
         default:
             return 0;
             break;

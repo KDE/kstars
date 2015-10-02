@@ -218,8 +218,8 @@ void PrintingWizard::beginShFovCapture()
     // Calculate path and check if it's not empty
     if(!exporter.calculatePath(*m_SkyObject, *m_ShBeginObject, fovArcmin / 60, m_WizFovShUI->getMaglim()))
     {
-        KMessageBox::information(this, xi18n("Star hopper returned empty path. We advise you to change star hopping settings or use manual capture mode."),
-                                 xi18n("Star hopper failed to find path"));
+        KMessageBox::information(this, i18n("Star hopper returned empty path. We advise you to change star hopping settings or use manual capture mode."),
+                                 i18n("Star hopper failed to find path"));
         return;
     }
 
@@ -397,7 +397,7 @@ void PrintingWizard::setupWidgets()
 {
     m_WizardStack = new QStackedWidget(this);
 
-    setWindowTitle(xi18n("Printing Wizard"));
+    setWindowTitle(i18n("Printing Wizard"));
 
     QVBoxLayout *mainLayout= new QVBoxLayout;
     mainLayout->addWidget(m_WizardStack);
@@ -407,11 +407,11 @@ void PrintingWizard::setupWidgets()
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    nextB = new QPushButton(xi18n("&Next >"));
-    nextB->setToolTip(xi18n("Go to next Wizard page"));
+    nextB = new QPushButton(i18n("&Next >"));
+    nextB->setToolTip(i18n("Go to next Wizard page"));
     nextB->setDefault(true);
-    backB = new QPushButton(xi18n("< &Back"));
-    backB->setToolTip(xi18n("Go to previous Wizard page"));
+    backB = new QPushButton(i18n("< &Back"));
+    backB->setToolTip(i18n("Go to previous Wizard page"));
     backB->setEnabled(false);
 
     buttonBox->addButton(backB, QDialogButtonBox::ActionRole);
@@ -530,17 +530,17 @@ void PrintingWizard::createFinderChart()
     {
         LoggingForm chartLogger;
         chartLogger.createFinderChartLogger();
-        m_FinderChart->insertSectionTitle(xi18n("Logging Form"));
+        m_FinderChart->insertSectionTitle(i18n("Logging Form"));
         m_FinderChart->insertLoggingForm(&chartLogger);
     }
 
-    m_FinderChart->insertSectionTitle(xi18n("Field of View Snapshots"));
+    m_FinderChart->insertSectionTitle(i18n("Field of View Snapshots"));
 
     // Insert FOV images and descriptions
     for(int i = 0; i < m_FovSnapshots.size(); i++)
     {
         FOV *fov = m_FovSnapshots.at(i)->getFov();
-        QString fovDescription = xi18nc("%1 = FOV index, %2 = FOV count, %3 = FOV name, %4 = FOV X size, %5 = FOV Y size",
+        QString fovDescription = i18nc("%1 = FOV index, %2 = FOV count, %3 = FOV name, %4 = FOV X size, %5 = FOV Y size",
                                  "FOV (%1/%2): %3 (%4' x %5')",
                                  QString::number(i + 1),
                                  QString::number(m_FovSnapshots.size()),
@@ -555,7 +555,7 @@ void PrintingWizard::createFinderChart()
        m_WizChartContentsUI->isRSTTableChecked() ||
        m_WizChartContentsUI->isAstComTableChecked())
     {
-        m_FinderChart->insertSectionTitle(xi18n("Details About Object"));
+        m_FinderChart->insertSectionTitle(i18n("Details About Object"));
         m_FinderChart->insertGeoTimeInfo(KStarsData::Instance()->ut(), KStarsData::Instance()->geo());
     }
 

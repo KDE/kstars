@@ -1,19 +1,12 @@
-/***************************************************************************
-                          fitshistogram.h  -  FITS Historgram
-                          ---------------
-    begin                : Thu Mar 4th 2004
-    copyright            : (C) 2004 by Jasem Mutlaq
-    email                : mutlaqja@ikarustech.com
- ***************************************************************************/
+/*  FITS Histogram
+    Copyright (C) 2015 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+ */
 
 #ifndef FITSHISTOGRAM
 #define FITSHISTOGRAM
@@ -55,41 +48,49 @@ public:
     FITSHistogram(QWidget *parent);
     ~FITSHistogram();
 
-    void constructHistogram(int hist_width, int hist_height);
-    void updateHistogram();
-    double  findMax(int hist_width);
-    void applyFilter(FITSScale ftype);
-    double getBinWidth() { return binWidth; }
-    double getJMIndex() { return JMIndex; }
-    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getCumulativeFreq() { return cumulativeFreq; }
-    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getHistogram() { return histArray; }
+    void constructHistogram();
 
-    FITSScale type;
-    int napply;
-    double histHeightRatio;
-    double binWidth;
-    double histFactor;
-    double fits_min, fits_max;
-    FITSTab *tab;
+    void applyFilter(FITSScale ftype);
+
+    double getBinWidth() { return binWidth; }
+
+    //QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getCumulativeFreq() { return cumulativeFreq; }
+    //QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getHistogram() { return histArray; }
+
+
+    //int napply;
+    //double histHeightRatio;
+
+    //double histFactor;
+
+
+
+    QVector<double> getCumulativeFrequency() const;
+
+    double getJMIndex() const;
+
+public slots:
+    void applyScale();
+    void updateValues(QMouseEvent *event);
+    void updateLimits(double value);
+    void checkRangeLimit(const QCPRange &range);
 
 private:
 
     histogramUI *ui;
-    int histogram_height, histogram_width;
-    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
-    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq;
+    FITSTab *tab;
+
+    QVector<double> intensity;
+    QVector<double> r_frequency, g_frequency, b_frequency;
+    QCPGraph *r_graph, *g_graph, *b_graph;
+    QVector<double> cumulativeFrequency;
+
+    double binWidth;
     double JMIndex;
-
-
-public slots:
-    void applyScale();
-    void updateBoxes(double lowerLimit, double upperLimit);
-    void updateIntenFreq(int x);
-    void minSliderUpdated(int value);
-    void maxSliderUpdated(int value);
-
-    void updateLowerLimit();
-    void updateUpperLimit();
+    double fits_min, fits_max;
+    uint16_t binCount;
+    FITSScale type;    
+    QCustomPlot *customPlot;
 
 
 };
@@ -111,9 +112,10 @@ private:
     struct
     {
         double min, max;
-        double average;
+        double mean;
         double stddev;
         double median;
+        double SNR;
         int bitpix;
         int ndim;
         unsigned int size;
@@ -122,7 +124,7 @@ private:
 
     bool calculateDelta(unsigned char *buffer);
     bool reverseDelta();
-    void saveStats(double min, double max, double stddev, double average, double median);
+    void saveStats(double min, double max, double stddev, double mean, double median, double SNR);
     void restoreStats();
 
     FITSHistogram *histogram;

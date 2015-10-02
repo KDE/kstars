@@ -52,7 +52,7 @@ public:
     bool setFrame(int x, int y, int w, int h);
     bool getFocusFrame(int *x, int *y, int *w, int *h);
     bool setFocusFrame(int x, int y, int w, int h);
-    void resetFrame();
+    bool resetFrame();
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
     bool setFrameType(const QString & name);    
@@ -139,6 +139,8 @@ public:
     DeviceFamily getType() { return dType;}
     bool hasGuideHead();
     bool hasCooler();
+    bool hasCoolerControl();
+    bool setCoolerControl(bool enable);
 
     // Utitlity functions
     bool getTemperature(double *value);
@@ -151,6 +153,7 @@ public:
     bool setRapidGuide(CCDChip *targetChip, bool enable);
     void updateUploadSettings();
     UploadMode getUploadMode();
+    bool setUploadMode(UploadMode mode);
 
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
@@ -163,7 +166,7 @@ public slots:
 signals:
     void FITSViewerClosed();
     void newTemperatureValue(double value);
-    void newExposureValue(ISD::CCDChip *chip, double value);
+    void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
 
 private:    
@@ -173,6 +176,7 @@ private:
     bool ISOMode;
     bool HasGuideHead;
     bool HasCooler;
+    bool HasCoolerControl;
     QString		seqPrefix;
     QString     fitsDir;
     char BLOBFilename[MAXINDIFILENAME];

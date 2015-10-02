@@ -47,15 +47,15 @@ Execute::Execute() {
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *execB = new QPushButton(xi18n("End Session"));
-    QPushButton *addObs = new QPushButton(xi18n("Manage Observers"));
-    execB->setToolTip(xi18n("Save and End the current session"));
+    QPushButton *execB = new QPushButton(i18n("End Session"));
+    QPushButton *addObs = new QPushButton(i18n("Manage Observers"));
+    execB->setToolTip(i18n("Save and End the current session"));
     buttonBox->addButton(execB, QDialogButtonBox::ActionRole);
     buttonBox->addButton(addObs, QDialogButtonBox::ActionRole);
     connect(execB, SIGNAL(clicked()), this, SLOT(slotEndSession()));
     connect(addObs,SIGNAL(clicked()),this,SLOT(slotObserverAdd()));
 
-    setWindowTitle( xi18n( "Execute Session" ) );
+    setWindowTitle( i18n( "Execute Session" ) );
 
     currentTarget = NULL;
     currentObserver = NULL;
@@ -174,7 +174,7 @@ void Execute::slotNext() {
         case 2: {
                 addObservation();
                 ui.stackedWidget->setCurrentIndex( 1 );
-                ui.NextButton->setText( xi18n( "Next Page >" ) );
+                ui.NextButton->setText( i18n( "Next Page >" ) );
                 QString prevTarget = currentTarget->name();
                 loadTargets();
                 ui.Target->setCurrentRow( findIndexOfTarget( prevTarget ), QItemSelectionModel::SelectCurrent );
@@ -187,17 +187,17 @@ void Execute::slotNext() {
 bool Execute::saveSession() {
     OAL::Site *site = logObject->findSiteByName( geo->fullName() );
     if( ! site ) {
-        while( logObject->findSiteById( xi18n( "site_" ) + QString::number( nextSite ) ) )
+        while( logObject->findSiteById( i18n( "site_" ) + QString::number( nextSite ) ) )
             nextSite++;
-        site = new OAL::Site( geo, xi18n( "site_" ) + QString::number( nextSite++ ) );
+        site = new OAL::Site( geo, i18n( "site_" ) + QString::number( nextSite++ ) );
         logObject->siteList()->append( site );
     }
     if( currentSession ){
             currentSession->setSession( currentSession->id(), site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
     } else {
-        while( logObject->findSessionByName( xi18n( "session_" ) + QString::number( nextSession ) ) )
+        while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
             nextSession++;
-        currentSession = new OAL::Session( xi18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         logObject->sessionList()->append( currentSession );
     }
     ui.stackedWidget->setCurrentIndex( 1 ); //Move to the next page
@@ -277,16 +277,16 @@ void Execute::addTargetNotes() {
 void Execute::loadObservationTab() {
    ui.Time->setTime( KStarsDateTime::currentDateTime().time() );
    ui.stackedWidget->setCurrentIndex( 2 );
-   ui.NextButton->setText( xi18n( "Next Target >" ) );
+   ui.NextButton->setText( i18n( "Next Target >" ) );
 }
 
 bool Execute::addObservation() {
     slotSetCurrentObjects();
-    while( logObject->findObservationByName( xi18n( "observation_" ) + QString::number( nextObservation ) ) )
+    while( logObject->findObservationByName( i18n( "observation_" ) + QString::number( nextObservation ) ) )
         nextObservation++;
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
-    OAL::Observation *o = new OAL::Observation( xi18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
+    OAL::Observation *o = new OAL::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     ui.Description->clear();
     return true;
@@ -298,7 +298,7 @@ void Execute::slotEndSession() {
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
-        QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
+        QUrl fileURL = QFileDialog::getSaveFileUrl(0, i18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
 
         if( fileURL.isEmpty() ) {
             // Cancel
@@ -309,8 +309,8 @@ void Execute::slotEndSession() {
 
             QFile f( fileURL.path() );
             if( ! f.open( QIODevice::WriteOnly ) ) {
-                QString message = xi18n( "Could not open file %1", f.fileName() );
-                KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+                QString message = i18n( "Could not open file %1", f.fileName() );
+                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
                 return;
             }
             QTextStream ostream( &f );
@@ -395,7 +395,7 @@ void Execute::slotShowTargets() {
         ui.RemoveObject->show();
         ui.stackedWidget->setCurrentIndex( 1 );
         ui.NextButton->show();
-        ui.NextButton->setText( xi18n( "Next Page >" ) );
+        ui.NextButton->setText( i18n( "Next Page >" ) );
     }
 }
 

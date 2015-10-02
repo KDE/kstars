@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>827</width>
-    <height>448</height>
+    <width>838</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -166,6 +166,9 @@
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
              <widget class="QLabel" name="l_3">
+              <property name="toolTip">
+               <string>Mount guiding rate</string>
+              </property>
               <property name="text">
                <string>Guiding rate,x15&quot;/sec</string>
               </property>
@@ -189,6 +192,9 @@
             </item>
             <item>
              <widget class="QLabel" name="l_RecommendedGain">
+              <property name="toolTip">
+               <string>Recommended proportional rate</string>
+              </property>
               <property name="text">
                <string notr="true">P=xxx</string>
               </property>

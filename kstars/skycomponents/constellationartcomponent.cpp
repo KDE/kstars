@@ -80,10 +80,10 @@ void ConstellationArtComponent::loadData(){
              // appends constellation info
              ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, w,h, abbreviation, filename);
              m_ConstList.append(ca);
-             qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
+             //qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
              records++;
          }
-         qDebug()<<"Successfully processed"<<records<<"records for"<<cultureName<<"sky culture";
+         //qDebug()<<"Successfully processed"<<records<<"records for"<<cultureName<<"sky culture";
         skydb.close();
 }
 
@@ -99,8 +99,8 @@ void ConstellationArtComponent::showList()
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
 
-    if(Options::showConstellationArt()){
-
+    if(Options::showConstellationArt() && SkyMap::IsSlewing() == false)
+    {
          for(int i =0; i<records; i++)
          skyp->drawConstellationArtImage(m_ConstList[i]);
     }

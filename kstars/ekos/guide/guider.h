@@ -26,7 +26,7 @@ class rguider : public QWidget
     Q_OBJECT
 
 public:
-    explicit rguider(Ekos::Guide *parent = 0);
+    explicit rguider(cgmath *mathObject, Ekos::Guide *parent = 0);
     ~rguider();
 
     void guide( void );
@@ -48,6 +48,11 @@ public:
     void setSubFramed(bool enable) { m_isSubFramed = enable;}
     void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
     void setDither(bool enable, double value);
+
+    int getBoxSize();
+    QString getAlgorithm();
+    bool useSubFrame();
+    bool useRapidGuide();
 
 public slots:
     void setDECSwap(bool enable);
@@ -83,7 +88,7 @@ private:
     bool m_isStarted;
     bool m_isReady;
     bool m_isSubFramed;
-    bool first_frame;
+    bool first_frame, first_subframe;
 	bool half_refresh_rate;
     int m_lostStarTries;
     bool m_useRapidGuide;

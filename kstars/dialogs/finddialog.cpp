@@ -33,19 +33,19 @@
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 
-    FilterType->addItem( xi18n ("Any") );
-    FilterType->addItem( xi18n ("Stars") );
-    FilterType->addItem( xi18n ("Solar System") );
-    FilterType->addItem( xi18n ("Open Clusters") );
-    FilterType->addItem( xi18n ("Globular Clusters") );
-    FilterType->addItem( xi18n ("Gaseous Nebulae") );
-    FilterType->addItem( xi18n ("Planetary Nebulae") );
-    FilterType->addItem( xi18n ("Galaxies") );
-    FilterType->addItem( xi18n ("Comets") );
-    FilterType->addItem( xi18n ("Asteroids") );
-    FilterType->addItem( xi18n ("Constellations") );
-    FilterType->addItem( xi18n ("Supernovae") );
-    FilterType->addItem( xi18n ("Satellites") );
+    FilterType->addItem( i18n ("Any") );
+    FilterType->addItem( i18n ("Stars") );
+    FilterType->addItem( i18n ("Solar System") );
+    FilterType->addItem( i18n ("Open Clusters") );
+    FilterType->addItem( i18n ("Globular Clusters") );
+    FilterType->addItem( i18n ("Gaseous Nebulae") );
+    FilterType->addItem( i18n ("Planetary Nebulae") );
+    FilterType->addItem( i18n ("Galaxies") );
+    FilterType->addItem( i18n ("Comets") );
+    FilterType->addItem( i18n ("Asteroids") );
+    FilterType->addItem( i18n ("Constellations") );
+    FilterType->addItem( i18n ("Supernovae") );
+    FilterType->addItem( i18n ("Satellites") );
 
     SearchList->setMinimumWidth( 256 );
     SearchList->setMinimumHeight( 320 );
@@ -57,7 +57,7 @@ FindDialog::FindDialog( QWidget* parent ) :
 {
     ui = new FindDialogUI( this );
 
-    setWindowTitle( xi18n( "Find Object" ) );
+    setWindowTitle( i18n( "Find Object" ) );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -70,7 +70,7 @@ FindDialog::FindDialog( QWidget* parent ) :
 
     okB = buttonBox->button(QDialogButtonBox::Ok);
 
-    QPushButton *detailB = new QPushButton(xi18n("Details..."));
+    QPushButton *detailB = new QPushButton(i18n("Details..."));
     buttonBox->addButton(detailB, QDialogButtonBox::ActionRole);
     connect(detailB, SIGNAL(clicked()), this, SLOT(slotDetails()));
 
@@ -120,26 +120,26 @@ void FindDialog::initSelection() {
         switch ( ui->FilterType->currentIndex() ) {
         case 0: //All objects, choose Andromeda galaxy
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( xi18n("Andromeda Galaxy") ) );
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Andromeda Galaxy") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
         case 1: //Stars, choose Aldebaran
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( xi18n("Aldebaran") ) );
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aldebaran") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
         case 2: //Solar system or Asteroids, choose Aaltje
         case 9:
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( xi18n("Aaltje") ) );
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aaltje") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
         case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( xi18n("Aarseth-Brewington (1989 W1)") ) );
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
@@ -185,7 +185,7 @@ void FindDialog::filterByType() {
             ssObjects += data->skyComposite()->objectNames( SkyObject::COMET );
             ssObjects += data->skyComposite()->objectNames( SkyObject::ASTEROID );
             ssObjects += data->skyComposite()->objectNames( SkyObject::MOON );
-            ssObjects += xi18n("Sun");
+            ssObjects += i18n("Sun");
             fModel->setStringList( ssObjects );
             break;
         }
@@ -318,8 +318,8 @@ void FindDialog::slotOk() {
     }
     selObj = selectedObject();
     if ( selObj == 0 ) {
-        QString message = xi18n( "No object named %1 found.", ui->SearchBox->text() );
-        KMessageBox::sorry( 0, message, xi18n( "Bad object name" ) );
+        QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
+        KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
     } else {
         accept();
     }
@@ -354,7 +354,7 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
 void FindDialog::slotDetails()
 {
     if ( selectedObject() ) {
-        QPointer<DetailDialog> dd = new DetailDialog( selectedObject(), KStarsData::Instance()->lt(), KStarsData::Instance()->geo(), KStars::Instance());
+        QPointer<DetailDialog> dd = new DetailDialog( selectedObject(), KStarsData::Instance()->ut(), KStarsData::Instance()->geo(), KStars::Instance());
         dd->exec();
         delete dd;
     }

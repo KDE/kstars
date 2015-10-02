@@ -69,6 +69,22 @@ const IndexHash& LineListIndex::getIndexHash(LineList* lineList ) {
     return skyMesh()->indexLine( lineList->points() );
 }
 
+void LineListIndex::removeLine( LineList* lineList)
+{
+    const IndexHash& indexHash = getIndexHash( lineList );
+    IndexHash::const_iterator iter = indexHash.constBegin();
+    while ( iter != indexHash.constEnd() )
+    {
+        Trixel trixel = iter.key();
+        iter++;
+
+         if (m_lineIndex->contains( trixel ))
+                m_lineIndex->value( trixel )->removeOne( lineList );
+
+    }
+
+    m_listList.removeOne(lineList);
+}
 
 void LineListIndex::appendLine( LineList* lineList, int debug)
 {
@@ -223,7 +239,7 @@ void LineListIndex::drawFilled( SkyPainter *skyp )
 
 void LineListIndex::intro()
 {
-    emitProgressText( xi18n( "Loading %1", m_name ));
+    emitProgressText( i18n( "Loading %1", m_name ));
 
     if ( skyMesh()->debug() >= 1 )
         qDebug() << QString("Loading %1 ...").arg( m_name );

@@ -75,7 +75,7 @@ void DriverInfo::clear()
     serverState = false;
     clientState = false;
     serverManager = NULL;
-    uniqueLabel.clear();
+    //uniqueLabel.clear();
 }
 
 QString DriverInfo::getServerBuffer()
@@ -160,6 +160,15 @@ void DriverInfo::setAuxInfo(const QVariantMap &value)
 void DriverInfo::addAuxInfo(const QString & key, const QVariant & value)
 {
     auxInfo[key] = value;
+}
+
+void DriverInfo::setUniqueLabel(const QString &inUniqueLabel)
+{
+    // N.B. We NEVER set unique label for multiple devices per driver "driver"
+    if (auxInfo.value("mdpd", false).toBool() == true || driverSource >= HOST_SOURCE)
+        return;
+
+    uniqueLabel = inUniqueLabel;
 }
 
 

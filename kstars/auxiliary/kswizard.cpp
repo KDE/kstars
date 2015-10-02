@@ -55,16 +55,16 @@ KSWizard::KSWizard( QWidget *parent ) :
 {
     wizardStack = new QStackedWidget( this );
 
-    setWindowTitle( xi18n("Setup Wizard") );
+    setWindowTitle( i18n("Setup Wizard") );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(wizardStack);
     setLayout(mainLayout);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel, Qt::Horizontal);
-    nextB = new QPushButton(xi18n("&Next >"));
+    nextB = new QPushButton(i18n("&Next >"));
     nextB->setDefault(true);
-    backB = new QPushButton(xi18n("< &Back"));
+    backB = new QPushButton(i18n("< &Back"));
     backB->setEnabled(false);
 
     buttonBox->addButton(backB, QDialogButtonBox::ActionRole);

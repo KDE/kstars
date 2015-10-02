@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>762</width>
-    <height>505</height>
+    <width>790</width>
+    <height>572</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -75,7 +75,7 @@
                <string/>
               </property>
               <property name="text">
-               <string>GOTO</string>
+               <string>&amp;GOTO</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -239,6 +239,16 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_solverOverlay">
+            <property name="toolTip">
+             <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
+            </property>
+            <property name="text">
+             <string>Overlay</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -459,7 +469,7 @@
           <item>
            <widget class="QRadioButton" name="kcfg_onlineSolver">
             <property name="text">
-             <string>Online Solver</string>
+             <string>Online Sol&amp;ver</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -715,7 +725,7 @@
            <string/>
           </property>
           <property name="text">
-           <string>Sync</string>
+           <string>S&amp;ync</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -731,7 +741,7 @@
            <string/>
           </property>
           <property name="text">
-           <string>Slew to Target</string>
+           <string>S&amp;lew to Target</string>
           </property>
          </widget>
         </item>
@@ -744,7 +754,7 @@
            <string/>
           </property>
           <property name="text">
-           <string>Nothing</string>
+           <string>&amp;Nothing</string>
           </property>
          </widget>
         </item>

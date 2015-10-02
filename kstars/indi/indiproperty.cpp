@@ -255,9 +255,9 @@ void INDI_P::buildTextGUI()
 
     // INDI STD, but we use our own controls
     if (name == "TIME_UTC")
-        setupSetButton(xi18n("Time"));
+        setupSetButton(i18n("Time"));
      else
-        setupSetButton(xi18n("Set"));
+        setupSetButton(i18n("Set"));
 
 }
 
@@ -289,7 +289,7 @@ void INDI_P::buildNumberGUI()
     if (nvp->p == IP_RO)
       return;
 
-    setupSetButton(xi18n("Set"));
+    setupSetButton(i18n("Set"));
 
 }
 
@@ -344,14 +344,14 @@ void INDI_P::buildBLOBGUI()
     enableBLOBC = new QCheckBox();
     enableBLOBC->setIcon(QIcon::fromTheme("modem"));
     enableBLOBC->setChecked(true);
-    enableBLOBC->setToolTip(xi18n("Enable binary data transfer from this property to KStars and vice-versa."));
+    enableBLOBC->setToolTip(i18n("Enable binary data transfer from this property to KStars and vice-versa."));
 
     PHBox->addWidget(enableBLOBC);
 
     connect(enableBLOBC, SIGNAL(stateChanged(int)), this, SLOT(setBLOBOption(int)));
 
     if (dataProp->getPermission() != IP_RO)
-        setupSetButton(xi18n("Upload"));
+        setupSetButton(i18n("Upload"));
 
 }
 

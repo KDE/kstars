@@ -38,6 +38,7 @@ class HorizontalCoordinateGrid;
 class DeepSkyComponent;
 class Ecliptic;
 class Equator;
+class ArtificialHorizonComponent;
 class FlagComponent;
 class HorizonComponent;
 class MilkyWay;
@@ -171,6 +172,7 @@ public:
     FlagComponent* flags();
     SatellitesComponent* satellites();
     SupernovaeComponent* supernovaeComponent();
+    ArtificialHorizonComponent* artificialHorizon();
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -214,6 +216,7 @@ private:
     HorizontalCoordinateGrid    *m_HorizontalCoordinateGrid;
     DeepSkyComponent            *m_DeepSky;
     Equator                     *m_Equator;
+    ArtificialHorizonComponent           *m_ArtificialHorizon;
     Ecliptic                    *m_Ecliptic;
     HorizonComponent            *m_Horizon;
     MilkyWay                    *m_MilkyWay;

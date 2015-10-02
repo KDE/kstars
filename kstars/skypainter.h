@@ -104,9 +104,11 @@ public:
 
     /** @short Draw a polygon in the sky.
         @param list a list of points in the sky
+        @param forceClip If true (default), it enforces clipping of the polygon, otherwise, it draws the
+        complete polygen without running any boundary checks.
         @see drawSkyPolyline()
         */
-    virtual void drawSkyPolygon(LineList* list) =0;
+    virtual void drawSkyPolygon(LineList* list, bool forceClip=true) =0;
 
     /** @short Draw a point source (e.g., a star).
         @param loc the location of the source in the sky

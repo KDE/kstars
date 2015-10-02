@@ -51,7 +51,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
 
     ld->MapView->setLocationDialog( this );
 
-    setWindowTitle( xi18n( "Set Geographic Location" ) );
+    setWindowTitle( i18n( "Set Geographic Location" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
@@ -87,7 +87,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     connect( ld->RemoveButton, SIGNAL(clicked()), this, SLOT(removeCity()));
     connect( ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
-    ld->DSTLabel->setText( "<a href=\"showrules\">" + xi18n("DST Rule:") + "</a>" );
+    ld->DSTLabel->setText( "<a href=\"showrules\">" + i18n("DST Rule:") + "</a>" );
     connect( ld->DSTLabel, SIGNAL( linkActivated(const QString &) ), this, SLOT( showTZRules() ) );
 
     dataModified = false;
@@ -121,7 +121,7 @@ void LocationDialog::initCityList() {
     //Sort the list of Cities alphabetically...note that filteredCityList may now have a different ordering!
     ld->GeoBox->sortItems();
 
-    ld->CountLabel->setText( xi18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
+    ld->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
 
     // attempt to highlight the current kstars location in the GeoBox
     ld->GeoBox->setCurrentItem( 0 );
@@ -174,7 +174,7 @@ void LocationDialog::filterCity() {
 
     ld->GeoBox->sortItems();
 
-    ld->CountLabel->setText( xi18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
+    ld->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
 
     if ( ld->GeoBox->count() > 0 )		// set first item in list as selected
         ld->GeoBox->setCurrentItem( ld->GeoBox->item(0) );
@@ -256,14 +256,14 @@ bool LocationDialog::updateCity(CityOperation operation)
 {
     if (operation == CITY_REMOVE)
     {
-        QString message = xi18n( "Are you sure you want to remove %1?", selectedCityName() );
-        if ( KMessageBox::questionYesNo( 0, message, xi18n( "Remove City?" )) == KMessageBox::No )
+        QString message = i18n( "Are you sure you want to remove %1?", selectedCityName() );
+        if ( KMessageBox::questionYesNo( 0, message, i18n( "Remove City?" )) == KMessageBox::No )
             return false; //user answered No.
     }
     else if (!nameModified && !dataModified )
     {
-        QString message = xi18n( "This city already exists in the database." );
-        KMessageBox::sorry( 0, message, xi18n( "Error: Duplicate Entry" ) );
+        QString message = i18n( "This city already exists in the database." );
+        KMessageBox::sorry( 0, message, i18n( "Error: Duplicate Entry" ) );
         return false;
     }
 
@@ -276,18 +276,18 @@ bool LocationDialog::updateCity(CityOperation operation)
 
     if ( ld->NewCityName->text().isEmpty() || ld->NewCountryName->text().isEmpty() )
     {
-        QString message = xi18n( "All fields (except province) must be filled to add this location." );
-        KMessageBox::sorry( 0, message, xi18n( "Fields are Empty" ) );
+        QString message = i18n( "All fields (except province) must be filled to add this location." );
+        KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
         return false;
     } else if ( ! latOk || ! lngOk )
     {
-        QString message = xi18n( "Could not parse the Latitude/Longitude." );
-        KMessageBox::sorry( 0, message, xi18n( "Bad Coordinates" ) );
+        QString message = i18n( "Could not parse the Latitude/Longitude." );
+        KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
         return false;
     } else if( ! tzOk)
     {
-    	QString message = xi18n( "Could not parse coordinates." );
-        KMessageBox::sorry( 0, message, xi18n( "Bad Coordinates" ) );
+    	QString message = i18n( "Could not parse coordinates." );
+        KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
         return false;
     }
 
@@ -297,8 +297,8 @@ bool LocationDialog::updateCity(CityOperation operation)
 
         /*if ( !nameModified )
         {
-            QString message = xi18n( "Really override original data for this city?" );
-            if ( KMessageBox::questionYesNo( 0, message, xi18n( "Override Existing Data?" ), KGuiItem(xi18n("Override Data")), KGuiItem(xi18n("Do Not Override"))) == KMessageBox::No )
+            QString message = i18n( "Really override original data for this city?" );
+            if ( KMessageBox::questionYesNo( 0, message, i18n( "Override Existing Data?" ), KGuiItem(i18n("Override Data")), KGuiItem(i18n("Do Not Override"))) == KMessageBox::No )
                 return false; //user answered No.
         }*/
 
@@ -461,7 +461,7 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
     }
 
     ld->GeoBox->sortItems();
-    ld->CountLabel->setText( xi18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
+    ld->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
 
     if ( ld->GeoBox->count() > 0 )		// set first item in list as selected
         ld->GeoBox->setCurrentItem( ld->GeoBox->item(0) );
@@ -509,36 +509,36 @@ void LocationDialog::clearFields()
 
 void LocationDialog::showTZRules() {
     QStringList lines;
-    lines.append( xi18n( " Start Date (Start Time)  /  Revert Date (Revert Time)" ) );
+    lines.append( i18n( " Start Date (Start Time)  /  Revert Date (Revert Time)" ) );
     lines.append( " " );
-    lines.append( xi18n( "--: No DST correction" ) );
-    lines.append( xi18n( "AU: last Sun in Oct. (02:00) / last Sun in Mar. (02:00)" ) );
-    lines.append( xi18n( "BZ:  2nd Sun in Oct. (00:00) /  3rd Sun in Feb. (00:00)" ) );
-    lines.append( xi18n( "CH:  2nd Sun in Apr. (00:00) /  2nd Sun in Sep. (00:00)" ) );
-    lines.append( xi18n( "CL:  2nd Sun in Oct. (04:00) /  2nd Sun in Mar. (04:00)" ) );
-    lines.append( xi18n( "CZ:  1st Sun in Oct. (02:45) /  3rd Sun in Mar. (02:45)" ) );
-    lines.append( xi18n( "EE: Last Sun in Mar. (00:00) / Last Sun in Oct. (02:00)" ) );
-    lines.append( xi18n( "EG: Last Fri in Apr. (00:00) / Last Thu in Sep. (00:00)" ) );
-    lines.append( xi18n( "EU: Last Sun in Mar. (01:00) / Last Sun in Oct. (01:00)" ) );
-    lines.append( xi18n( "FK:  1st Sun in Sep. (02:00) /  3rd Sun in Apr. (02:00)" ) );
-    lines.append( xi18n( "HK:  2nd Sun in May  (03:30) /  3rd Sun in Oct. (03:30)" ) );
-    lines.append( xi18n( "IQ: Apr 1 (03:00) / Oct. 1 (00:00)" ) );
-    lines.append( xi18n( "IR: Mar 21 (00:00) / Sep. 22 (00:00)" ) );
-    lines.append( xi18n( "JD: Last Thu in Mar. (00:00) / Last Thu in Sep. (00:00)" ) );
-    lines.append( xi18n( "LB: Last Sun in Mar. (00:00) / Last Sun in Oct. (00:00)" ) );
-    lines.append( xi18n( "MX:  1st Sun in May  (02:00) / Last Sun in Sep. (02:00)" ) );
-    lines.append( xi18n( "NB:  1st Sun in Sep. (02:00) /  1st Sun in Apr. (02:00)" ) );
-    lines.append( xi18n( "NZ:  1st Sun in Oct. (02:00) /  3rd Sun in Mar. (02:00)" ) );
-    lines.append( xi18n( "PY:  1st Sun in Oct. (00:00) /  1st Sun in Mar. (00:00)" ) );
-    lines.append( xi18n( "RU: Last Sun in Mar. (02:00) / Last Sun in Oct. (02:00)" ) );
-    lines.append( xi18n( "SK:  2nd Sun in May  (00:00) /  2nd Sun in Oct. (00:00)" ) );
-    lines.append( xi18n( "SY: Apr. 1 (00:00) / Oct. 1 (00:00)" ) );
-    lines.append( xi18n( "TG:  1st Sun in Nov. (02:00) / Last Sun in Jan. (02:00)" ) );
-    lines.append( xi18n( "TS:  1st Sun in Oct. (02:00) / Last Sun in Mar. (02:00)" ) );
-    lines.append( xi18n( "US:  1st Sun in Apr. (02:00) / Last Sun in Oct. (02:00)" ) );
-    lines.append( xi18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
+    lines.append( i18n( "--: No DST correction" ) );
+    lines.append( i18n( "AU: last Sun in Oct. (02:00) / last Sun in Mar. (02:00)" ) );
+    lines.append( i18n( "BZ:  2nd Sun in Oct. (00:00) /  3rd Sun in Feb. (00:00)" ) );
+    lines.append( i18n( "CH:  2nd Sun in Apr. (00:00) /  2nd Sun in Sep. (00:00)" ) );
+    lines.append( i18n( "CL:  2nd Sun in Oct. (04:00) /  2nd Sun in Mar. (04:00)" ) );
+    lines.append( i18n( "CZ:  1st Sun in Oct. (02:45) /  3rd Sun in Mar. (02:45)" ) );
+    lines.append( i18n( "EE: Last Sun in Mar. (00:00) / Last Sun in Oct. (02:00)" ) );
+    lines.append( i18n( "EG: Last Fri in Apr. (00:00) / Last Thu in Sep. (00:00)" ) );
+    lines.append( i18n( "EU: Last Sun in Mar. (01:00) / Last Sun in Oct. (01:00)" ) );
+    lines.append( i18n( "FK:  1st Sun in Sep. (02:00) /  3rd Sun in Apr. (02:00)" ) );
+    lines.append( i18n( "HK:  2nd Sun in May  (03:30) /  3rd Sun in Oct. (03:30)" ) );
+    lines.append( i18n( "IQ: Apr 1 (03:00) / Oct. 1 (00:00)" ) );
+    lines.append( i18n( "IR: Mar 21 (00:00) / Sep. 22 (00:00)" ) );
+    lines.append( i18n( "JD: Last Thu in Mar. (00:00) / Last Thu in Sep. (00:00)" ) );
+    lines.append( i18n( "LB: Last Sun in Mar. (00:00) / Last Sun in Oct. (00:00)" ) );
+    lines.append( i18n( "MX:  1st Sun in May  (02:00) / Last Sun in Sep. (02:00)" ) );
+    lines.append( i18n( "NB:  1st Sun in Sep. (02:00) /  1st Sun in Apr. (02:00)" ) );
+    lines.append( i18n( "NZ:  1st Sun in Oct. (02:00) /  3rd Sun in Mar. (02:00)" ) );
+    lines.append( i18n( "PY:  1st Sun in Oct. (00:00) /  1st Sun in Mar. (00:00)" ) );
+    lines.append( i18n( "RU: Last Sun in Mar. (02:00) / Last Sun in Oct. (02:00)" ) );
+    lines.append( i18n( "SK:  2nd Sun in May  (00:00) /  2nd Sun in Oct. (00:00)" ) );
+    lines.append( i18n( "SY: Apr. 1 (00:00) / Oct. 1 (00:00)" ) );
+    lines.append( i18n( "TG:  1st Sun in Nov. (02:00) / Last Sun in Jan. (02:00)" ) );
+    lines.append( i18n( "TS:  1st Sun in Oct. (02:00) / Last Sun in Mar. (02:00)" ) );
+    lines.append( i18n( "US:  1st Sun in Apr. (02:00) / Last Sun in Oct. (02:00)" ) );
+    lines.append( i18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
 
-    QString message = xi18n( "Daylight Saving Time Rules" );
+    QString message = i18n( "Daylight Saving Time Rules" );
 
     QPointer<QDialog> tzd = new QDialog( this );
     tzd->setWindowTitle( message );
@@ -584,16 +584,16 @@ void LocationDialog::dataChanged() {
 
     if( !addCityEnabled() ) {
         if( ld->NewCityName->text().isEmpty() ) {
-            ld->errorLabel->setText( xi18n( "Cannot add new location -- city name blank" ) );
+            ld->errorLabel->setText( i18n( "Cannot add new location -- city name blank" ) );
         }
         else if( ld->NewCountryName->text().isEmpty() ) {
-            ld->errorLabel->setText( xi18n( "Cannot add new location -- country name blank" ) );
+            ld->errorLabel->setText( i18n( "Cannot add new location -- country name blank" ) );
         }
         else if( !checkLongLat() ) {
-            ld->errorLabel->setText( xi18n( "Cannot add new location -- invalid latitude / longitude" ) );
+            ld->errorLabel->setText( i18n( "Cannot add new location -- invalid latitude / longitude" ) );
         }
         else {
-            ld->errorLabel->setText( xi18n( "Cannot add new location -- please check all fields" ) );
+            ld->errorLabel->setText( i18n( "Cannot add new location -- please check all fields" ) );
         }
     }
     else {

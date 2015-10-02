@@ -40,7 +40,7 @@ EquipmentWriter::EquipmentWriter() {
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
     ui.tabWidget->setCurrentIndex(0);
-    setWindowTitle( xi18n( "Configure Equipment" ) );
+    setWindowTitle( i18n( "Configure Equipment" ) );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(widget);
@@ -101,7 +101,7 @@ void EquipmentWriter::slotAddScope() {
 }
 
 void EquipmentWriter::slotRemoveScope() {
-    KStarsData::Instance()->userdb()->EraseEquipment("telescope",ui.Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("telescope",ui.Id->text().toInt());
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
@@ -154,7 +154,7 @@ void EquipmentWriter::slotAddEyepiece() {
 }
 
 void EquipmentWriter::slotRemoveEyepiece() {
-    KStarsData::Instance()->userdb()->EraseEquipment("eyepiece",ui.e_Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("eyepiece",ui.e_Id->text().toInt());
     loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
@@ -206,7 +206,7 @@ void EquipmentWriter::slotAddLens() {
 }
 
 void EquipmentWriter::slotRemoveLens() {
-    KStarsData::Instance()->userdb()->EraseEquipment("lens",ui.l_Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("lens",ui.l_Id->text().toInt());
     loadEquipment();
     ui.l_Id->clear();
     ui.l_Model->clear();
@@ -255,7 +255,7 @@ void EquipmentWriter::slotAddFilter() {
 }
 
 void EquipmentWriter::slotRemoveFilter() {
-    KStarsData::Instance()->userdb()->EraseEquipment("filter",ui.f_Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("filter",ui.f_Id->text().toInt());
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();

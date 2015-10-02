@@ -17,8 +17,8 @@
 
 #include <KMessageBox>
 #include <KLocalizedString>
+#include <KNotifications/KNotification>
 
-#include "ksnotify.h"
 #include "scroll_graph.h"
 #include "gmath.h"
 #include "fitsviewer/fitsview.h"
@@ -31,7 +31,7 @@
 #define DRIFT_GRAPH_HEIGHT	300
 #define MAX_DITHER_RETIRES  20
 
-rguider::rguider(Ekos::Guide *parent)
+rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
     : QWidget(parent)
 {
  int i;
@@ -46,6 +46,7 @@ rguider::rguider(Ekos::Guide *parent)
 
     m_useRapidGuide = false;
     first_frame = false;
+    first_subframe = false;
     m_isSubFramed = false;
 
     m_lostStarTries=0;
@@ -85,7 +86,7 @@ rguider::rguider(Ekos::Guide *parent)
     connect( ui.ditherCheck, SIGNAL(toggled(bool)), this, SIGNAL(ditherToggled(bool)));
 
 
-	pmath = NULL;
+    pmath = mathObject;
 
 	// init drift widget
     pDriftOut = new custom_drawer( ui.frame_Graph );
@@ -171,7 +172,7 @@ void rguider::setInterface( void )
 	ui.comboBox_SquareSize->setCurrentIndex( pmath->get_square_index() );
 	ui.comboBox_ThresholdAlg->setCurrentIndex( pmath->get_square_algorithm_index() );
 
-    ui.l_RecommendedGain->setText( xi18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(Options::guidingRate()), 'f', 2 )) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::precalc_proportional_gain(Options::guidingRate()), 'f', 2 )) );
     ui.spinBox_GuideRate->setValue( Options::guidingRate() );
 
 	// info params...
@@ -272,7 +273,7 @@ void rguider::onInfoRateChanged( double val )
 
 	in_params->guiding_rate = val;
 
-    ui.l_RecommendedGain->setText( xi18n("P: %1", QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->precalc_proportional_gain(in_params->guiding_rate), 'f', 2 )) );
 }
 
 
@@ -391,11 +392,11 @@ bool rguider::start()
     out << "Aperture,mm: " << ui.l_Aperture->text() << endl;
     out << "F/D: " << ui.l_FbyD->text() << endl;
     out << "FOV: " << ui.l_FOV->text() << endl;
-    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction" << endl;
+    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction"  << endl;
 
     drift_graph->reset_data();
-    ui.pushButton_StartStop->setText( xi18n("Stop") );
-    pmain_wnd->appendLogText(xi18n("Autoguiding started."));
+    ui.pushButton_StartStop->setText( i18n("Stop") );
+    pmain_wnd->appendLogText(i18n("Autoguiding started."));
     pmath->start();
     m_lostStarTries=0;
     m_isStarted = true;
@@ -407,8 +408,10 @@ bool rguider::start()
 
     pmain_wnd->setSuspended(false);
 
+    first_frame = true;
+
     if (ui.subFrameCheck->isEnabled() && ui.subFrameCheck->isChecked() && m_isSubFramed == false)
-        first_frame = true;
+        first_subframe = true;
 
     capture();
 
@@ -421,10 +424,11 @@ bool rguider::stop()
 {
     if (pimage)
         connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
-    ui.pushButton_StartStop->setText( xi18n("Start Autoguide") );
-    pmain_wnd->appendLogText(xi18n("Autoguiding stopped."));
+    ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
+    pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
     pmath->stop();
 
+    first_frame = false;
     logFile.close();
 
     targetChip->abortExposure();
@@ -521,21 +525,24 @@ void rguider::guide( void )
 
  	 assert( pmath );
 
-     if (first_frame)
+     if (first_subframe)
      {
-        int x,y,w,h,binx, biny;
-        targetChip->getFrame(&x, &y, &w, &h);
-        targetChip->getBinning(&binx, &biny);
-        int square_size = pmath->get_square_size();
-        double ret_x,ret_y,ret_angle;
-        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
-        pmath->move_square((w-square_size)/(2*binx), (h-square_size)/(2*biny));
-        pmath->set_reticle_params(w/(2*binx), h/(2*biny), ret_angle);
-        first_frame = false;
+        first_subframe = false;
+        return;
+     }
+     else if (first_frame)
+     {
+         Vector star_pos = pmath->find_star_local_pos();
+         int square_size = pmath->get_square_size();
+         double ret_x,ret_y,ret_angle;
+         pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
+         pmath->move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
+         pmath->set_reticle_params(star_pos.x, star_pos.y, ret_angle);
+         first_frame=false;
      }
 
 	 // calc math. it tracks square
-	 pmath->do_processing();
+     pmath->do_processing();
 
      if(!m_isStarted )
 	 	 return;
@@ -543,7 +550,7 @@ void rguider::guide( void )
      if (pmath->is_lost_star() && ++m_lostStarTries > 2)
      {
          onStartStopButtonClick();
-         KMessageBox::error(NULL, xi18n("Lost track of the guide star. Try increasing the square size and check the mount."));
+         KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
          return;
      }
      else
@@ -559,7 +566,7 @@ void rguider::guide( void )
 
      if (maxPulseCounter > 3)
      {
-         pmain_wnd->appendLogText(xi18n("Lost track of the guide star. Aborting guiding..."));
+         pmain_wnd->appendLogText(i18n("Lost track of the guide star. Aborting guiding..."));
          abort();
          maxPulseCounter=0;
      }
@@ -613,7 +620,7 @@ void rguider::guideStarSelected(int x, int y)
     pmath->set_reticle_params(x, y, pmain_wnd->getReticleAngle());
     pmath->move_square(x-square_size/2, y-square_size/2);
 
-    disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    //disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
 }
 
@@ -621,7 +628,7 @@ void rguider::onRapidGuideChanged(bool enable)
 {
     if (m_isStarted)
     {
-        pmain_wnd->appendLogText(xi18n("You must stop auto guiding before changing this setting."));
+        pmain_wnd->appendLogText(i18n("You must stop auto guiding before changing this setting."));
         return;
     }
 
@@ -629,10 +636,10 @@ void rguider::onRapidGuideChanged(bool enable)
 
     if (m_useRapidGuide)
     {
-        pmain_wnd->appendLogText(xi18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
     }
     else
-        pmain_wnd->appendLogText(xi18n("Rapid Guiding is disabled."));
+        pmain_wnd->appendLogText(i18n("Rapid Guiding is disabled."));
 
 }
 
@@ -645,8 +652,7 @@ bool rguider::abort(bool silence)
         if (silence)
             return rc;
 
-        if (Options::playGuideAlarm())
-                KSNotify::play(KSNotify::NOTIFY_ERROR);
+        KNotification::event( QLatin1String( "GuideFailed" ) , i18n("Autoguiding failed with errors"));
     }
 
     return true;
@@ -665,7 +671,7 @@ bool rguider::dither()
     pmath->get_star_screen_pos( &cur_x, &cur_y );
     Matrix ROT_Z = pmath->get_ROTZ();
 
-    //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y << endl;
+    //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y;
 
     if (m_isDithering == false)
     {
@@ -687,7 +693,7 @@ bool rguider::dither()
         else
             target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
-        //qDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y << endl;
+        //qDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
         pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 
@@ -705,7 +711,7 @@ bool rguider::dither()
     star_pos.y = -star_pos.y;
     star_pos = star_pos * ROT_Z;
 
-    //qDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y << endl;
+    //qDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y;
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
@@ -729,6 +735,26 @@ bool rguider::dither()
     pmain_wnd->capture();
 
     return true;
+}
+
+int rguider::getBoxSize()
+{
+    return ui.comboBox_SquareSize->currentText().toInt();
+}
+
+QString rguider::getAlgorithm()
+{
+     return ui.comboBox_ThresholdAlg->currentText();
+}
+
+bool rguider::useSubFrame()
+{
+    return ui.subFrameCheck->isChecked();
+}
+
+bool rguider::useRapidGuide()
+{
+    return ui.rapidGuideCheck->isChecked();
 }
 
 void rguider::setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide)
@@ -759,7 +785,3 @@ void rguider::setDither(bool enable, double value)
         ui.ditherPixels->setValue(value);
 
 }
-
-
-
-

@@ -208,7 +208,7 @@ Neptune:The Voyager Missions:http://voyager.jpl.nasa.gov/
 Pluto:Wikipedia Page:http://en.wikipedia.org/wiki/Pluto_(planet)
 Pluto:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/pluto.html
 Pluto:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/pluto_index.html
-Quaoar:Wikipedia Page:http://en.wikipedia.org/wiki/Quaoar
+Quaoar (2002 LM60):Wikipedia Page:http://en.wikipedia.org/wiki/Quaoar
 #
 # Asteroids:
 Ceres:Wikipedia Page:http://en.wikipedia.org/wiki/1_Ceres
@@ -224,20 +224,20 @@ Astraea:Wikipedia Page:http://en.wikipedia.org/wiki/5_Astraea
 Lumen:Wikipedia Page:http://en.wikipedia.org/wiki/141_Lumen
 Ida:Wikipedia Page:http://en.wikipedia.org/wiki/243_Ida
 Mathilde:Wikipedia Page:http://en.wikipedia.org/wiki/253_Mathilde
-Eros:Wikipedia Page:http://en.wikipedia.org/wiki/433_Eros
-Hektor:Wikipedia Page:http://en.wikipedia.org/wiki/624_Hektor
+Eros (1898 DQ):Wikipedia Page:http://en.wikipedia.org/wiki/433_Eros
+Hektor (1907 XM):Wikipedia Page:http://en.wikipedia.org/wiki/624_Hektor
 ## --==>> FIXME: Gaspra is missing from asteroids.dat!
 #Gaspra:Wikipedia Page:http://en.wikipedia.org/wiki/951_Gaspra
 ## --==>> There are two objects named "Chiron"...asteroid and comet
-Chiron:Wikipedia Page:http://en.wikipedia.org/wiki/2060_Chiron
+Chiron (1977 UB):Wikipedia Page:http://en.wikipedia.org/wiki/2060_Chiron
 #
 # Comets:
-Encke:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Encke
-Hale-Bopp (1995 O1):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Hale-Bopp
-Halley:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Halley
-Hyakutake (1996 B2):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Hyakutake
-Kohoutek:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Kohoutek
-Wild 2:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Wild_2
+2 Encke:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Encke
+1995 O1 (Hale-Bopp):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Hale-Bopp
+Halley (1982 HG1):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Halley
+Hyakutake (1991 XC1):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Hyakutake
+1973 E1 (Kohoutek):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Kohoutek
+81 Wild 2:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Wild_2
 #
 #"XXX" entries will be removed from local copies when encountered in the global file.
 XXX:Moon:About the Moon Images:http://www.astrosurf.com/cidadao/

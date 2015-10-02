@@ -35,6 +35,7 @@
 #include "skyobjects/skyobject.h"
 #include "oal/oal.h"
 
+class LineList;
 
 /**
  * @brief Single class to delegate all User database I/O
@@ -51,17 +52,18 @@ class KSUserDB {
     bool Initialize();
     ~KSUserDB();
 
+    QSqlDatabase GetDatabase();
+
+    /************************************************************************
+     ******************************* Observers ******************************
+     ************************************************************************/
+
     /**
      * @brief Adds a new observer into the database
      **/
     void AddObserver(const QString &name, const QString &surname, const QString &contact);
-    //
-    int GetID(const QString &name, const QString &surname);
-    //
 
-    QSqlDatabase GetDatabase();
-    /**
-     * @brief Returns the unique id of the user with given name & surname
+     /* @brief Returns the unique id of the user with given name & surname
      *
      * @return int
      **/
@@ -81,12 +83,25 @@ class KSUserDB {
      **/
     void GetAllObservers(QList<OAL::Observer *> &observer_list);
 
+    /************************************************************************
+     ********************************* Horizon ******************************
+     ************************************************************************/
+
+    // Jasem: Add API doc
+    void DeleteAllHorizons();
+    void AddHorizon(const QString &name, LineList *pointsList);
+    QMap<QString, LineList*> GetAllHorizons();
+
+    /************************************************************************
+     ********************************* Flags ********************************
+     ************************************************************************/
+
     /**
      * @brief Erases all the flags from the database
      *
      * @return void
      **/
-    void EraseAllFlags();
+    void DeleteAllFlags();
     /**
      * @brief Add a new Flag with given parameters
      *
@@ -106,7 +121,11 @@ class KSUserDB {
      *        const QString &imageName, const QString &label, const QString &labelColor
      * @return QList< QStringList >
      **/
-    QList<QStringList> ReturnAllFlags();
+    QList<QStringList> GetAllFlags();
+
+    /************************************************************************
+     ******************************* Equipment ******************************
+     ************************************************************************/
 
     /**
      * @brief Erase the equipment with given type and unique id
@@ -116,14 +135,18 @@ class KSUserDB {
      * @param id Unique id (same as row number)
      * @return void
      **/
-    void EraseEquipment(const QString &type, const int &id);
+    void DeleteEquipment(const QString &type, const int &id);
     /**
      * @brief Erases the whole equipment table of given type
      *
      * @param type Equipment type (same as table name)
      * @return void
      **/
-    void EraseAllEquipment(const QString &type);
+    void DeleteAllEquipment(const QString &type);
+
+    /************************************************************************
+     ********************************** Scope *******************************
+     ************************************************************************/
 
     /**
      * @brief Appends the scope with given details in the database
@@ -149,6 +172,10 @@ class KSUserDB {
      **/
     void GetAllScopes(QList<OAL::Scope *> &m_scopeList);
 
+    /************************************************************************
+     ******************************* Eye Piece ******************************
+     ************************************************************************/
+
     /**
      * @brief Add new eyepiece to database
      *
@@ -171,6 +198,10 @@ class KSUserDB {
      **/
     void GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
 
+    /************************************************************************
+     ********************************** Lens ********************************
+     ************************************************************************/
+
     /**
      * @brief Add a new lens to the database
      *
@@ -190,6 +221,10 @@ class KSUserDB {
      * @return void
      **/
     void GetAllLenses(QList<OAL::Lens *>& m_lensList);
+
+    /************************************************************************
+     ******************************** Filters *******************************
+     ************************************************************************/
 
     /**
      * @brief Add a new filter to the database

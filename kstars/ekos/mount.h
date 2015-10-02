@@ -22,7 +22,7 @@ namespace Ekos
 
 /**
  *@class Mount
- *@short Supports Control INDI telescopes and displays information about them.
+ *@short Supports controlling INDI telescope devices including setting/retrieving mount properties, slewing, motion and speed controls, in addition to enforcing altitude limits and parking/unparking.
  *@author Jasem Mutlaq
  *@version 1.1
  */
@@ -36,6 +36,8 @@ public:
     Mount();
     ~Mount();
 
+    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
+
     /**
      * @brief setTelescope Sets the mount module telescope interface
      * @param newTelescope pointer to telescope interface object
@@ -46,6 +48,12 @@ public:
     void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
+
+    /** @defgroup MountDBusInterface Ekos Mount DBus Interface
+     * Mount interface provides advanced scripting capabilities to control INDI mounts.
+    */
+
+    /*@{*/
 
     /** DBUS interface function.
      * Returns the mount altitude limits.
@@ -68,8 +76,9 @@ public:
      * Slew the mount to the RA/DEC (JNow).
      * @param RA Right ascention is hours.
      * @param DEC Declination in degrees.
+     * @return true if the command is sent successfully, false otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void slew(double RA, double DEC);
+    Q_SCRIPTABLE bool slew(double RA, double DEC);
 
     /** DBUS interface function.
      * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
@@ -78,13 +87,14 @@ public:
 
     /** DBUS interface function.
      * Aborts the mount motion
+     * @return true if the command is sent successfully, false otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void abort();
+    Q_SCRIPTABLE bool abort();
 
     /** DBUS interface function.
      * Get the mount slew status ("Idle","Complete", "Busy", "Error")
      */
-    Q_SCRIPTABLE QString getSlewStatus();
+    Q_SCRIPTABLE IPState getSlewStatus();
 
     /** DBUS interface function.
      * Get telescope and guide scope info. An array of doubles is returned in order.
@@ -100,6 +110,28 @@ public:
      * @param guideAperture Guide Telescope Aperture
      */
     Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
+
+    /** DBUS interface function.
+     * Can mount park?
+     */
+    Q_SCRIPTABLE bool canPark();
+
+    /** DBUS interface function.
+     * Park mount
+     */
+    Q_SCRIPTABLE bool park();
+
+    /** DBUS interface function.
+     * Unpark mount
+     */
+    Q_SCRIPTABLE bool unpark();
+
+    /** DBUS interface function.
+     * Return parking status of the mount.
+     */
+    Q_SCRIPTABLE ParkingStatus getParkingStatus();
+
+    /** @}*/
 
 public slots:
 

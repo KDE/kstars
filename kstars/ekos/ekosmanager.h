@@ -20,6 +20,9 @@
 #include "guide.h"
 #include "align.h"
 #include "mount.h"
+#include "dome.h"
+#include "weather.h"
+#include "scheduler.h"
 
 #include <QDialog>
 #include <QHash>
@@ -32,9 +35,18 @@ class KPageWidgetItem;
 /**
  *@class EkosManager
  *@short Primary class to handle all Ekos modules.
- * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of Capture, Focus, Guide, and Align modules.
+ * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of \ref Ekos::Mount, \ref Ekos::Capture, \ref Ekos::Focus, \ref Ekos::Guide, and \ref Ekos::Align modules.
+ * \ref EkosDBusInterface "Ekos DBus Interface" provides high level functions to control devices and Ekos modules for a total robotic operation:
+ * <ul>
+ * <li>\ref CaptureDBusInterface "Capture Module DBus Interface"</li>
+ * <li>\ref FocusDBusInterface "Focus Module DBus Interface"</li>
+ * <li>\ref MountDBusInterface "Mount Module DBus Interface"</li>
+ * <li>\ref GuideDBusInterface "Guide Module DBus Interface"</li>
+ * <li>\ref AlignDBusInterface "Align Module DBus Interface"</li>
+ * </ul>
+ *  For low level access to INDI devices, the \ref INDIDBusInterface "INDI Dbus Interface" provides complete access to INDI devices and properties.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.2
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
@@ -45,9 +57,12 @@ public:
     EkosManager();
     ~EkosManager();
 
+    typedef enum { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR } CommunicationStatus;
+
     void appendLogText(const QString &);
     void refreshRemoteDrivers();
     void setOptionsWidget(KPageWidgetItem *ops) { ekosOption = ops; }
+    void addObjectToScheduler(SkyObject *object);
 
     /** @defgroup EkosDBusInterface Ekos DBus Interface
      * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
@@ -63,14 +78,14 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
 
     /** DBUS interface function.
-     * @retrun Retruns true if all devices are conncted, false otherwise.
+     * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
      */
-    Q_SCRIPTABLE bool isConnected() { return disconnectB->isEnabled();}
+    Q_SCRIPTABLE unsigned int getINDIConnectionStatus() { return indiConnectionStatus;}
 
     /** DBUS interface function.
-     * @retrun Retruns true if all INDI drivers are started, false otherwise.
+     * @retrun Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
      */
-    Q_SCRIPTABLE bool isStarted() { return controlPanelB->isEnabled();}
+    Q_SCRIPTABLE unsigned int getEkosStartingStatus() { return ekosStartingStatus;}
 
     /** DBUS interface function.
      * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
@@ -128,16 +143,24 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setDome(const QString & domeName);
 
     /** DBUS interface function.
+     * Sets the weather driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote dome driver.
+     * @param domeName dome driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setWeather(const QString & domeName);
+
+    /** DBUS interface function.
      * Sets the auxiliary driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote auxiliary driver.
      * @param index 1 for Aux 1, 2 for Aux 2, 3 for Aux 3
      * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);
+    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);    
 
-    /** @}*/
+protected:
+    void closeEvent(QCloseEvent *);
+    void hideEvent(QHideEvent *);
+    void showEvent(QShowEvent *);
 
 public slots:
-    void processINDI();
 
     /** DBUS interface function.
      * Connects all the INDI devices started by Ekos.
@@ -148,6 +171,10 @@ public slots:
      * Disconnects all the INDI devices started by Ekos.
      */
     Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
+
+    /** @}*/
+
+    void processINDI();   
     void cleanDevices();
 
     void processNewDevice(ISD::GDInterface*);
@@ -176,10 +203,16 @@ protected slots:
     void processINDIModeChange();
     void checkINDITimeout();
 
+    void toggleINDIPanel();
+    void toggleFITSViewer();
+    void checkFITSViewerState();
+
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
     void setFocuser(ISD::GDInterface *);
+    void setDome(ISD::GDInterface *);
+    void setWeather(ISD::GDInterface *);
     void setST4(ISD::ST4 *);    
 
  private:
@@ -191,6 +224,8 @@ protected slots:
     void initGuide();
     void initAlign();
     void initMount();
+    void initDome();
+    void initWeather();
 
     void initLocalDrivers();
     void initRemoteDrivers();
@@ -210,24 +245,30 @@ protected slots:
     bool remoteCCDRegistered;
     bool remoteGuideRegistered;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *dome, *ao;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di, *ao_di, *dome_di, *remote_indi;
+    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *aux4, *dome, *ao, *weather;
+    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di,*aux4_di, *ao_di, *dome_di, *weather_di, *remote_indi;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
     Ekos::Guide *guideProcess;
     Ekos::Align *alignProcess;
     Ekos::Mount *mountProcess;
+    Ekos::Scheduler *schedulerProcess;
+    Ekos::Dome *domeProcess;
+    Ekos::Weather *weatherProcess;
 
     QString guiderCCDName;
     QString primaryCCDName;
     bool localMode, ccdDriverSelected;
 
-    int nDevices;
+    int nDevices, nRemoteDevices;
+    int nConnectedDevices;
     QList<DriverInfo *> managedDevices;
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;
     KPageWidgetItem *ekosOption;
+    CommunicationStatus ekosStartingStatus, indiConnectionStatus;
+
 };
 
 

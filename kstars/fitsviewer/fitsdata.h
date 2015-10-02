@@ -80,7 +80,7 @@ public:
     ~FITSData();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
-    bool  loadFITS(const QString &filename, QProgressDialog *progress=NULL);
+    bool  loadFITS(const QString &filename);
     /* Save FITS */
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
@@ -91,17 +91,17 @@ public:
     void runningAverageStdDev();
 
     // Access functions
-    double getValue(float *buffer, int i);
-    void setValue(float *buffer, int i, double value);
-    double getValue(int i);
-    void setValue(int i, float value);
+    //double getValue(float *buffer, int i);
+    //void setValue(float *buffer, int i, double value);
+    //double getValue(int i);
+    //void setValue(int i, float value);
     void clearImageBuffers();
     void setImageBuffer(float *buffer);
     float * getImageBuffer();
 
     // Stats
     int getDataType() { return data_type; }
-    unsigned int getSize() { return stats.size; }
+    unsigned int getSize() { return stats.samples_per_channel; }
     void getDimensions(double *w, double *h) { *w = stats.width; *h = stats.height; }
     void setWidth(long w) { stats.width = w;}
     void setHeight(long h) { stats.height = h;}
@@ -110,16 +110,19 @@ public:
 
     // Statistics
     int getNumOfChannels() { return channels;}
-    void setMinMax(double newMin,  double newMax);
-    void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
-    double getMin() { return stats.min; }
-    double getMax() { return stats.max; }
-    void setStdDev(double value) { stats.stddev = value;}
-    double getStdDev() { return stats.stddev; }
-    void setAverage(double value) { stats.average = value; }
-    double getAverage() { return stats.average; }
-    void setMedian(double val) { stats.median = val;}
-    double getMedian() { return stats.median;}
+    void setMinMax(double newMin,  double newMax, uint8_t channel=0);
+    void getMinMax(double *min, double *max,uint8_t channel=0) { *min = stats.min[channel]; *max = stats.max[channel]; }
+    double getMin(uint8_t channel=0) { return stats.min[channel]; }
+    double getMax(uint8_t channel=0) { return stats.max[channel]; }
+    void setStdDev(double value, uint8_t channel=0) { stats.stddev[channel] = value;}
+    double getStdDev(uint8_t channel=0) { return stats.stddev[channel]; }
+    void setMean(double value, uint8_t channel=0) { stats.mean[channel] = value; }
+    double getMean(uint8_t channel=0) { return stats.mean[channel]; }
+    void setMedian(double val, uint8_t channel=0) { stats.median[channel] = val;}
+    double getMedian(uint8_t channel=0) { return stats.median[channel];}
+
+    void setSNR(double val) { stats.SNR = val;}
+    double getSNR() { return stats.SNR;}
     void setBPP(int value) { stats.bitpix = value;}
     int getBPP() { return stats.bitpix; }
     double getADUPercentage();
@@ -178,15 +181,16 @@ public:
     /* stats struct to hold statisical data about the FITS data */
     struct
     {
-        double min, max;
-        double average;
-        double stddev;
-        double median;
+        double min[3], max[3];
+        double mean[3];
+        double stddev[3];
+        double median[3];
+        double SNR;
         int bitpix;
         int ndim;
-        unsigned int size;
-        long width;
-        long height;
+        uint32_t samples_per_channel;
+        uint16_t width;
+        uint16_t height;
     } stats;
 
 private:
@@ -202,10 +206,11 @@ private:
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    int data_type;                      // FITS image data type
+    int data_type;                      // FITS image data type    
     int channels;                       // Number of channels    
     float *image_buffer;         		// Current image buffer
     float *darkFrame;                    // Optional dark frame pointer
+
 
     bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
     bool starsSearched;                 // Did we search for stars yet?
