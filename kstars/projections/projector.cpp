@@ -230,7 +230,7 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     return dX < m_xrange;
 }
 
-double Projector::findPA( SkyObject *o, float x, float y ) const
+double Projector::findNorthPA( SkyPoint *o, float x, float y ) const
 {
     //Find position angle of North using a test point displaced to the north
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
@@ -252,7 +252,13 @@ double Projector::findPA( SkyObject *o, float x, float y ) const
         north = (dx > 0.0 ? -90.0 : 90.0);
     }
 
-    return ( north + o->pa() );
+    return north;
+}
+
+double Projector::findPA( SkyObject *o, float x, float y ) const
+{
+
+    return ( findNorthPA(o, x,y) + o->pa() );
 }
 
 QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel) const

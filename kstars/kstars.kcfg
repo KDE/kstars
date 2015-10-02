@@ -1548,6 +1548,11 @@
             <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
             <default>false</default>
           </entry>
+          <entry name="SolverOverlay" type="Bool">
+            <label>Display received FITS images unto solver FOV rectangle in the sky map.</label>
+            <default>false</default>
+          </entry>
+
     </group>
     <group name="Guide">
     <entry name="ST4Driver" type="String">

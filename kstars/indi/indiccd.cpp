@@ -30,6 +30,7 @@
 #include "indiccd.h"
 #include "guimanager.h"
 #include "kstarsdata.h"
+#include "fov.h"
 
 #include <ekos/ekosmanager.h>
 
@@ -98,6 +99,8 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
             normalImage = image;
             if (normalImage)
                 imageData = normalImage->getImageData();
+            if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
+                KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(normalImage->getDisplayImage()->copy());
             break;
 
         case FITS_FOCUS:

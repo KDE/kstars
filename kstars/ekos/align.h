@@ -254,6 +254,19 @@ public slots:
      */
     void setWCS(bool enable);
 
+
+    /** DBUS interface function.
+     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+     * the telescope is pointing to the same coordinates of the image.
+     * @param fileURL URL to the image to solve
+     */
+     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
+
+    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);    
+
+    void updateFocusStatus(bool status);
+
+private slots:
     /* Solver Options */
     void checkLineEdits();
     void copyCoordsToBoxes();
@@ -266,18 +279,9 @@ public slots:
     void correctAzError();
     void correctAltError();
 
-    /** DBUS interface function.
-     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
-     * the telescope is pointing to the same coordinates of the image.
-     * @param fileURL URL to the image to solve
-     */
-     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
-
-    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
-
     void processFilterNumber(INumberVectorProperty *nvp);
 
-    void updateFocusStatus(bool status);
+    void setSolverOverlay(bool enable);
 
 signals:
         void newLog();

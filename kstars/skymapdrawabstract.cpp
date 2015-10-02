@@ -20,7 +20,7 @@
 // Harris. Essentially, skymapdraw.cpp was renamed and modified.
 // -- asimha (2011)
 
-#include <iostream>
+
 
 #include <QPainter>
 #include <QPixmap>
@@ -188,11 +188,22 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
     #ifdef HAVE_INDI
 
     Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
-    if (align)
+    if (align && align->isSolverComplete())
     {
+        bool isVisible = false;
         FOV * fov = align->fov();
-        if (fov)
-            fov->draw(psky,  Options::zoomFactor());
+        if (fov == NULL)
+            return;
+
+        SkyPoint p = fov->center();        
+        if (std::isnan(p.ra().Degrees()))
+            return;
+
+        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        QPointF point = SkyMap::Instance()->projector()->toScreen(&p, true, &isVisible);
+        double northRotation = SkyMap::Instance()->projector()->findNorthPA(&p, point.x(), point.y());
+        fov->setNorthPA(northRotation);
+        fov->draw(psky,  Options::zoomFactor());
     }
 
     #endif

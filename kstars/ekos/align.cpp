@@ -151,6 +151,8 @@ Align::Align()
     kcfg_solverOTA->setChecked(Options::solverOTA());    
     connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
 
+    kcfg_solverOverlay->setChecked(Options::solverOverlay());
+    connect(kcfg_solverOverlay, SIGNAL(toggled(bool)), this, SLOT(setSolverOverlay(bool)));
 }
 
 Align::~Align()
@@ -643,6 +645,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverOptions(kcfg_solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
     Options::setWCSAlign(wcsCheck->isChecked());
+    Options::setSolverOverlay(kcfg_solverOverlay->isChecked());
 
     unsigned int solverGotoOption = 0;
     if (slewR->isChecked())
@@ -696,16 +699,18 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                                 QString::number(focal_length, 'g' , 5), QString::number(solver_focal_length, 'g' , 5)));
     }
 
-    solverFOV->setRotation(sOrientation);
-
      alignCoord.setRA0(ra/15.0);
      alignCoord.setDec0(dec);
      RotOut->setText(QString::number(orientation, 'g', 5));
 
      // Convert to JNow
      alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
+     // Get horizontal coords
+     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
      solverFOV->setCenter(alignCoord);
+     solverFOV->setRotation(sOrientation);
+     solverFOV->setImageDisplay(kcfg_solverOverlay->isChecked());
 
      QString ra_dms, dec_dms;
      getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -1529,6 +1534,14 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
 void Align::updateFocusStatus(bool status)
 {
     isFocusBusy = status;
+}
+
+void Align::setSolverOverlay(bool enable)
+{
+    if (solverFOV)
+    {
+        solverFOV->setImageDisplay(enable);
+    }
 }
 
 }

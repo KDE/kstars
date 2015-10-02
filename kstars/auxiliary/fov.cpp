@@ -48,8 +48,10 @@ FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, floa
     m_rotation    = rot;
     m_shape       = sh;
     m_color       = col;
+    m_northPA     = 0;    
     m_center.setRA(0);
     m_center.setDec(0);
+    m_imageDisplay=false;
 } 
 
 FOV::FOV()
@@ -59,7 +61,8 @@ FOV::FOV()
 
     m_sizeX = m_sizeY = 0;
     m_shape = SQUARE;
-    m_offsetX=m_offsetY=m_rotation=0;
+    m_offsetX=m_offsetY=m_rotation=0,m_northPA=0;
+    m_imageDisplay=false;
 }
 
 void FOV::draw( QPainter &p, float zoomFactor ) {
@@ -87,18 +90,28 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
         p.translate(p.viewport().center());
 
     p.translate(offsetXPixelSize,  offsetYPixelSize);
-    p.rotate(rotation());
+    p.rotate(m_rotation+m_northPA);
 
     QPointF center(0,0);
 
     switch ( shape() )
     {
     case SQUARE: 
-        p.drawRect( center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
+    {
+        QRect targetRect(center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
+        if (m_imageDisplay)
+        {
+            //QTransform imageT;
+            //imageT.rotate(m_rotation+m_northPA);
+            //p.drawImage(targetRect, m_image.transformed(imageT));
+            p.drawImage(targetRect, m_image);
+        }
+        p.drawRect(targetRect);
         p.drawRect( center.x() , center.y() - (3 * pixelSizeY/5), pixelSizeX/40, pixelSizeX/10);
         p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5));
         p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
         p.drawLine( center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
+    }
         break;
     case CIRCLE: 
         p.drawEllipse( center, pixelSizeX/2, pixelSizeY/2 );
@@ -263,4 +276,25 @@ void FOV::setCenter(const SkyPoint &center)
 {
     m_center = center;
 }
+
+float FOV::northPA() const
+{
+    return m_northPA;
+}
+
+void FOV::setNorthPA(float northPA)
+{
+    m_northPA = northPA;
+}
+
+void FOV::setImage(const QImage &image)
+{
+    m_image = image;
+}
+
+void FOV::setImageDisplay(bool value)
+{
+    m_imageDisplay = value;
+}
+
 
