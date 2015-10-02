@@ -1,7 +1,10 @@
 ########### install files ###############
 
-install( FILES kstars.png geomap.png 
+install( FILES
+    kstars.png
+    geomap.png
     citydb.sqlite
+    skycultures/skycultures.sqlite
     stars.dat
     starnames.dat namedstars.dat unnamedstars.dat
     Henry-Draper.idx
@@ -124,6 +127,107 @@ install( FILES textures/star.png
 
 install ( FILES scripts/supernova_updates_parser.py 
          DESTINATION ${KDE_INSTALL_DATADIR}/kstars/scripts )
+         
+install( FILES skycultures/western/andromeda.png
+		skycultures/western/antlia.png
+		skycultures/western/apus.png
+		skycultures/western/aquarius.png
+		skycultures/western/aquila.png
+		skycultures/western/ara.png
+		skycultures/western/argonavis.png
+		skycultures/western/aries.png
+		skycultures/western/auriga.png
+		skycultures/western/bootes.png
+		skycultures/western/caelum.png
+		skycultures/western/camelopardalis.png
+		skycultures/western/cancer.png
+		skycultures/western/canes-venatici.png
+		skycultures/western/canis-major.png
+		skycultures/western/canis-minor.png
+		skycultures/western/capricornus.png
+		skycultures/western/cassiopeia.png
+		skycultures/western/centaurus.png
+		skycultures/western/cepheus.png
+		skycultures/western/cetus.png
+		skycultures/western/chamaeleon.png
+		skycultures/western/circinus.png
+		skycultures/western/columba.png
+		skycultures/western/coma-berenices.png
+		skycultures/western/corona-australis.png
+		skycultures/western/corona-borealis.png
+		skycultures/western/corvus.png
+		skycultures/western/crater.png
+		skycultures/western/crux.png
+		skycultures/western/cygnus.png
+		skycultures/western/delphinus.png
+		skycultures/western/dorado.png
+		skycultures/western/draco.png
+		skycultures/western/equuleus.png
+		skycultures/western/eridanus.png
+		skycultures/western/fornax.png
+		skycultures/western/gemini.png
+		skycultures/western/grus.png
+		skycultures/western/hercules.png
+		skycultures/western/horlogium.png
+		skycultures/western/hydra.png
+		skycultures/western/hydrus.png
+		skycultures/western/indus.png
+		skycultures/western/lacerta.png
+		skycultures/western/leo-minor.png
+		skycultures/western/leo.png
+		skycultures/western/lepus.png
+		skycultures/western/libra.png
+		skycultures/western/lupus.png
+		skycultures/western/lynx.png
+		skycultures/western/lyra.png
+		skycultures/western/mensa.png
+		skycultures/western/microscopium.png
+		skycultures/western/monoceros.png
+		skycultures/western/musca.png
+		skycultures/western/norma.png
+		skycultures/western/octans.png
+		skycultures/western/ophiuchus.png
+		skycultures/western/orion.png
+		skycultures/western/pavo.png
+		skycultures/western/pegasus.png
+		skycultures/western/perseus.png
+		skycultures/western/phoenix.png
+		skycultures/western/pictor.png
+		skycultures/western/pisces.png
+		skycultures/western/piscis-austrinus.png
+		skycultures/western/pyxis.png
+		skycultures/western/reticulum.png
+		skycultures/western/sagitta.png
+		skycultures/western/sagittarius.png
+		skycultures/western/scorpius.png
+		skycultures/western/sculptor.png
+		skycultures/western/scutum.png
+		skycultures/western/sextans.png
+		skycultures/western/taurus.png
+		skycultures/western/telescopium.png
+		skycultures/western/triangulum-australe.png
+		skycultures/western/triangulum.png
+		skycultures/western/tucana.png
+		skycultures/western/ursa-major.png
+		skycultures/western/ursa-minor.png
+		skycultures/western/virgo.png
+		skycultures/western/volans.png
+		skycultures/western/vulpecula.png
+         DESTINATION ${KDE_INSTALL_DATADIR}/kstars/skycultures/western )
+         
+install( FILES skycultures/inuit/blubber-container.png
+	       skycultures/inuit/breastbone.png
+	       skycultures/inuit/caribou.png
+	       skycultures/inuit/collarbones.png
+	       skycultures/inuit/dogs.png
+	       skycultures/inuit/lamp-stand.png
+	       skycultures/inuit/runners.png
+	       skycultures/inuit/the-one-behind.png
+	       skycultures/inuit/two-in-front.png
+	       skycultures/inuit/two-placed-far-apart.png
+	       skycultures/inuit/two-sunbeams.png
+         DESTINATION ${KDE_INSTALL_DATADIR}/kstars/skycultures/inuit )
+
 
 
 

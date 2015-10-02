@@ -26,6 +26,7 @@
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanet.h"
+#include "kstars/skyobjects/constellationsart.h"
 
 #include "targetlistcomponent.h"
 #include "constellationboundarylines.h"
@@ -47,6 +48,7 @@
 #include "flagcomponent.h"
 #include "satellitescomponent.h"
 #include "supernovaecomponent.h"
+#include "constellationartcomponent.h"
 
 
 #include "skymesh.h"
@@ -85,6 +87,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
+    addComponent(m_ConstellationArt    = new ConstellationArtComponent( this, m_Cultures ));
 
     addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this));
 
@@ -229,9 +232,15 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_EquatorialCoordinateGrid->draw( skyp );
     m_HorizontalCoordinateGrid->draw( skyp );
 
-    // Draw constellation boundary lines only if we draw western constellations
-    if ( m_Cultures->current() == "Western" )
+    //Draw constellation boundary lines only if we draw western constellations
+    if ( m_Cultures->current() == "Western" ){
         m_CBoundLines->draw( skyp );
+        m_ConstellationArt->draw( skyp );
+    }
+    if ( m_Cultures->current() == "Inuit" ){
+        m_ConstellationArt->draw( skyp );
+    }
+
 
     m_CLines->draw( skyp );
 
@@ -514,6 +523,14 @@ void SkyMapComposite::reloadCNames( ) {
     objectNames(SkyObject::CONSTELLATION).clear();
     delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
+}
+
+void SkyMapComposite::reloadConstellationArt(){
+    Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+    SkyMapDrawAbstract::setDrawLock( true );
+    delete m_ConstellationArt;
+    m_ConstellationArt=0;
+    m_ConstellationArt = new ConstellationArtComponent( this, m_Cultures );
 }
 
 void SkyMapComposite::reloadDeepSky() {

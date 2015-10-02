@@ -78,6 +78,10 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
+
+//REMOVE THIS
+#include "dialogs/chelper.h"
+
 //FIXME Port to QML2
 #if 0
 #include "tools/whatsinteresting/wiview.h"
@@ -166,6 +170,11 @@ void KStars::slotViewToolBar() {
         Options::setShowCBounds( a->isChecked() );
         if ( kcd ) {
             opguides->kcfg_ShowCBounds->setChecked( a->isChecked() );
+        }
+    } else if ( a == actionCollection()->action( "show_constellationart" ) ) {
+        Options::setShowConstellationArt( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowConstellationArt->setChecked( a->isChecked() );
         }
     } else if ( a == actionCollection()->action( "show_mw" ) ) {
         Options::setShowMilkyWay( a->isChecked() );
@@ -690,6 +699,7 @@ void KStars::slotApplyConfigChanges() {
     m_KStarsData->skyComposite()->setCurrentCulture(  m_KStarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
     m_KStarsData->skyComposite()->reloadCLines();
     m_KStarsData->skyComposite()->reloadCNames();
+    m_KStarsData->skyComposite()->reloadConstellationArt();
 }
 
 void KStars::slotApplyWIConfigChanges() {
@@ -1078,6 +1088,10 @@ void KStars::slotTrack() {
 }
 
 void KStars::slotManualFocus() {
+    // REMOVE THIS
+    QPointer<CHelper> chelper = new CHelper(  );
+    chelper->show();
+
     QPointer<FocusDialog> focusDialog = new FocusDialog( this ); // = new FocusDialog( this );
     if ( Options::useAltAz() ) focusDialog->activateAzAltPage();
 

@@ -41,13 +41,14 @@
 #include "skycomponents/flagcomponent.h"
 #include "skycomponents/satellitescomponent.h"
 #include "skycomponents/supernovaecomponent.h"
-
+#include "skycomponents/constellationartcomponent.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
+#include "skyobjects/constellationsart.h"
 
 Vector2f SkyGLPainter::m_vertex[NUMTYPES][6*BUFSIZE];
 Vector2f SkyGLPainter::m_texcoord[NUMTYPES][6*BUFSIZE];
@@ -594,6 +595,10 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
     float vx = x + 0.5*w + 10;
     float vy = y - 10;
     drawTexturedRectangle( text_image, Vector2f(vx,vy), 0, w, h );
+}
+
+bool SkyGLPainter::drawConstellationArtImage(ConstellationsArt *obj)
+{
 }
 
 void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)

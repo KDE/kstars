@@ -153,6 +153,7 @@
 	<Action name="show_satellites" />
 	<Action name="show_clines" />
 	<Action name="show_cnames" />
+        <Action name="show_constellationart" />
 	<Action name="show_cbounds" />
 	<Action name="show_mw" />
 	<Action name="show_equatorial_grid" />

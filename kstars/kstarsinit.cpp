@@ -501,6 +501,10 @@ void KStars::initActions() {
         << i18nc("Toggle Constellation Boundaries in the display", "C. Boundaries" )
         << QIcon::fromTheme("kstars_cbound" )
         << ToolTip( i18n("Toggle constellation boundaries") );
+    actionCollection()->add<KToggleAction>("show_constellationart", this, SLOT( slotViewToolBar() ) )
+        << xi18nc("Toggle Constellation Art in the display", "C. Art" )
+        << QIcon::fromTheme("kstars_constellationart" )
+        << ToolTip( xi18n("Toggle constellation art") );
     actionCollection()->add<KToggleAction>("show_mw", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Milky Way in the display", "Milky Way" )
         << QIcon::fromTheme("kstars_mw" )

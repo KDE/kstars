@@ -3,6 +3,7 @@ ecm_install_icons(ICONS
 22-actions-kstars_cbound.png
 22-actions-kstars_clines.png
 22-actions-kstars_cnames.png
+22-actions-kstars_constellationart.png
 22-actions-kstars_deepsky.png
 22-actions-kstars_flag.png
 22-actions-kstars_grid.png
@@ -25,6 +26,7 @@ ecm_install_icons(ICONS
 22-actions-kstars_ekos_guide.png
 32-actions-kstars_clines.png
 32-actions-kstars_cnames.png
+32-actions-kstars_constellationart.png
 32-actions-kstars_deepsky.png
 32-actions-kstars_flag.png
 32-actions-kstars_grid.png
@@ -47,6 +49,7 @@ ecm_install_icons(ICONS
 32-actions-kstars_ekos_guide.png
 48-actions-kstars_clines.png
 48-actions-kstars_cnames.png
+48-actions-kstars_constellationart.png
 48-actions-kstars_deepsky.png
 48-actions-kstars_flag.png
 48-actions-kstars_grid.png
@@ -72,6 +75,7 @@ ecm_install_icons(ICONS
 64-actions-kstars_cbound.png
 64-actions-kstars_clines.png
 64-actions-kstars_cnames.png
+64-actions-kstars_constellationart.png
 64-actions-kstars_colors.png
 64-actions-kstars_deepsky.png
 64-actions-kstars_flag.png

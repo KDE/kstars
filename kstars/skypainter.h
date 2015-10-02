@@ -35,6 +35,7 @@ class LineList;
 class LineListLabel;
 class Satellite;
 class Supernova;
+class ConstellationsArt;
 
 
 /** @short Draws things on the sky, without regard to backend.
@@ -151,6 +152,14 @@ public:
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
+
+
+    /** @short Draw a ConstellationsArt object
+        @param obj the object to draw
+        @param drawConstellationImage if true, try to draw the image of the object
+        @return true if it was drawn
+        */
+    virtual bool drawConstellationArtImage(ConstellationsArt *obj) = 0;
 
 protected:
 
