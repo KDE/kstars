@@ -495,9 +495,6 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     //FIXME: this is probably incorrect
     float positionAngle = m_proj->findPA( obj, pos.x(), pos.y() );
 
-    if (obj->name().startsWith("M 31"))
-       qDebug() << "M 31 PA " << positionAngle;
-
     //Draw Image
     if ( drawImage && Options::zoomFactor() > 5.*MINZOOM )
         drawDeepSkyImage(pos, obj, positionAngle);
