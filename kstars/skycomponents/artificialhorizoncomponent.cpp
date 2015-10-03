@@ -74,7 +74,7 @@ void ArtificialHorizonComponent::draw( SkyPainter *skyp )
     preDraw(skyp);
 
     DrawID   drawID   = skyMesh()->drawID();
-    UpdateID updateID = KStarsData::Instance()->updateID();
+    //UpdateID updateID = KStarsData::Instance()->updateID();
 
     foreach ( LineList* lineList, listList() )
     {
@@ -82,8 +82,8 @@ void ArtificialHorizonComponent::draw( SkyPainter *skyp )
             continue;
         lineList->drawID = drawID;
 
-        if ( lineList->updateID != updateID )
-            JITupdate( lineList );
+        /*if ( lineList->updateID != updateID )
+            JITupdate( lineList );*/
 
         skyp->drawSkyPolygon(lineList, false);
     }
