@@ -453,6 +453,8 @@ void HorizonManager::slotRemovePoint()
     if (regionItem)
     {
         int row = ui->pointsList->currentIndex().row();
+        if (row == -1)
+            row = regionItem->rowCount()-1;
         regionItem->removeRow(row);
 
         if (regionItem->rowCount() < 4)
