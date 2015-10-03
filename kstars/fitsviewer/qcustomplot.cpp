@@ -16044,7 +16044,7 @@ void QCPGraph::removeFillBasePoints(QVector<QPointF> *lineData) const
   infinity. So this case is handled separately by just closing the fill polygon on the axis which
   lies in the direction towards the zero value.
   
-  \a lowerKey will be the the key (in pixels) of the returned point. Depending on whether the key
+  \a lowerKey will be the key (in pixels) of the returned point. Depending on whether the key
   axis is horizontal or vertical, \a lowerKey will end up as the x or y value of the returned
   point, respectively.
   
@@ -16109,7 +16109,7 @@ QPointF QCPGraph::lowerFillBasePoint(double lowerKey) const
   negative infinity. So this case is handled separately by just closing the fill polygon on the
   axis which lies in the direction towards the zero value.
 
-  \a upperKey will be the the key (in pixels) of the returned point. Depending on whether the key
+  \a upperKey will be the key (in pixels) of the returned point. Depending on whether the key
   axis is horizontal or vertical, \a upperKey will end up as the x or y value of the returned
   point, respectively.
   
