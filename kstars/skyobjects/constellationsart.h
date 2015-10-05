@@ -59,7 +59,7 @@ public:
      *@param pa position angle
      *@param w width of the constellation image
      *@param h height of the constellation image
-     *@param abbreviation abbrevation of the constellation
+     *@param abbreviation abbreviation of the constellation
      *@param filename the file name of the image of the constellation.
      */
     explicit ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation,QString filename);
