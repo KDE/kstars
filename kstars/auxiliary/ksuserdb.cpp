@@ -20,6 +20,7 @@
 
 #include "ksuserdb.h"
 #include "kstarsdata.h"
+#include "artificialhorizoncomponent.h"
 #include "version.h"
 #include "linelist.h"
 
@@ -70,7 +71,7 @@ bool KSUserDB::Initialize() {
                 if (!query.exec(versionQuery))
                     qDebug() << query.lastError();
 
-                if (!query.exec("CREATE TABLE IF NOT EXISTS horizons (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, label TEXT NOT NULL)"))
+                if (!query.exec("CREATE TABLE IF NOT EXISTS horizons (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, label TEXT NOT NULL, enabled INTEGER NOT NULL)"))
                     qDebug() << query.lastError();
            }
         }
@@ -181,7 +182,8 @@ bool KSUserDB::RebuildDB() {
     tables.append("CREATE TABLE horizons ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                   "name TEXT NOT NULL,"
-                  "label TEXT NOT NULL)");
+                  "label TEXT NOT NULL,"
+                  "enabled INTEGER NOT NULL)");
 
     for (int i = 0; i < tables.count(); ++i) {
         QSqlQuery query(userdb_);
@@ -949,9 +951,9 @@ void KSUserDB::readFilter() {
     AddFilter(vendor, model, type, color );
 }
 
-QMap<QString, LineList*> KSUserDB::GetAllHorizons()
+QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
 {
-    QMap<QString, LineList*> horizonList;
+    QList<ArtificialHorizonEntity *> horizonList;
 
     userdb_.open();
     QSqlTableModel regions(0, userdb_);
@@ -965,13 +967,20 @@ QMap<QString, LineList*> KSUserDB::GetAllHorizons()
         QSqlRecord record = regions.record(i);
         QString regionTable = record.value("name").toString();
         QString regionName  = record.value("label").toString();
+        bool    enabled     = record.value("enabled").toInt() == 1 ? true : false;
 
         points.setTable(regionTable);
         points.select();
 
         LineList* skyList = new LineList();
 
-        horizonList[regionName] = skyList;
+        ArtificialHorizonEntity *horizon = new ArtificialHorizonEntity;
+
+        horizon->setRegion(regionName);
+        horizon->setEnabled(enabled);
+        horizon->setList(skyList);
+
+        horizonList.append(horizon);
 
         for (int j=0; j < points.rowCount(); j++)
         {
@@ -1017,7 +1026,7 @@ void KSUserDB::DeleteAllHorizons()
     userdb_.close();
 }
 
-void KSUserDB::AddHorizon(const QString &name, LineList *pointsList)
+void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 {
     userdb_.open();
     QSqlTableModel regions(0, userdb_);
@@ -1028,7 +1037,8 @@ void KSUserDB::AddHorizon(const QString &name, LineList *pointsList)
 
     regions.insertRow(0);
     regions.setData(regions.index(0, 1), tableName);
-    regions.setData(regions.index(0, 2), name);
+    regions.setData(regions.index(0, 2), horizon->region());
+    regions.setData(regions.index(0, 3), horizon->enabled() ? 1 : 0);
     regions.submitAll();
     regions.clear();
 
@@ -1041,12 +1051,14 @@ void KSUserDB::AddHorizon(const QString &name, LineList *pointsList)
 
     points.setTable(tableName);
 
-    for (int i=0; i < pointsList->points()->size(); i++)
+    SkyList *skyList = horizon->list()->points();
+
+    for (int i=0; i < skyList->size(); i++)
     {
         points.select();
         QSqlRecord rec( points.record() );
-        rec.setValue( "Az", pointsList->points()->at(i)->az().Degrees());
-        rec.setValue( "Alt", pointsList->points()->at(i)->alt().Degrees());
+        rec.setValue( "Az", skyList->at(i)->az().Degrees());
+        rec.setValue( "Alt", skyList->at(i)->alt().Degrees());
         points.insertRecord( -1, rec );
     }
 

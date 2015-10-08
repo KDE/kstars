@@ -21,6 +21,7 @@ class QStandardItemModel;
 class QStandardItem;
 class KStars;
 class ArtificialHorizonComponent;
+class ArtificialHorizonEntity;
 class SkyPoint;
 class LineList;
 
@@ -57,7 +58,6 @@ public:
      */
     ~HorizonManager();
 
-    void clearFields ();
     void showRegion( const int regionID );
 
     bool validatePolygon(int regionID);
@@ -87,8 +87,10 @@ public slots:
 private slots:
     void processSkyPoint(QStandardItem *item, int row);
     void verifyItemValue(QStandardItem *item);
+    void checkRegionState(QStandardItem *item);
     void slotSaveChanges();
     void slotSetShownRegion( QModelIndex idx );
+
 
 private:
 
@@ -100,7 +102,7 @@ private:
     QStandardItemModel *m_RegionsModel;
     ArtificialHorizonComponent *horizonComponent;
 
-    QMap<QString, LineList*> regionMap;
+    QList<ArtificialHorizonEntity *> * m_HorizonList;
 
     LineList *livePreview;
 

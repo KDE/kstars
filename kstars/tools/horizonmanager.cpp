@@ -74,6 +74,8 @@ HorizonManager::HorizonManager( QWidget *w )
     m_RegionsModel = new QStandardItemModel( 0, 3, this );
     m_RegionsModel->setHorizontalHeaderLabels( QStringList() << i18n( "Region") << i18nc( "Azimuth", "Az" ) << i18nc( "Altitude", "Alt" ));
 
+    connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(checkRegionState(QStandardItem*)));
+
     ui->regionsList->setModel( m_RegionsModel);
 
     ui->pointsList->setModel( m_RegionsModel );
@@ -83,15 +85,17 @@ HorizonManager::HorizonManager( QWidget *w )
 
     horizonComponent = KStarsData::Instance()->skyComposite()->artificialHorizon();
 
-    // Get the map
-    regionMap = horizonComponent->regionMap();
+    // Get the list
+    m_HorizonList = horizonComponent->horizonList();
 
-    foreach(QString key, regionMap.keys())
+    foreach(ArtificialHorizonEntity *horizon, *m_HorizonList)
     {
-        QStandardItem * regionItem = new QStandardItem(key);
+        QStandardItem * regionItem = new QStandardItem(horizon->region());
+        regionItem->setCheckable(true);
+        regionItem->setCheckState(horizon->enabled() ? Qt::Checked : Qt::Unchecked);
         m_RegionsModel->appendRow(regionItem);
 
-        SkyList* points = regionMap.value(key)->points();
+        SkyList* points = horizon->list()->points();
         foreach ( SkyPoint* p,  *points)
         {
            QList<QStandardItem*> pointsList;
@@ -106,8 +110,7 @@ HorizonManager::HorizonManager( QWidget *w )
 
     //Connect buttons
     connect( ui->addRegionB, SIGNAL( clicked() ), this, SLOT( slotAddRegion() ) );
-    connect( ui->removeRegionB, SIGNAL( clicked() ), this, SLOT( slotRemoveRegion() ) );
-    //connect( ui->addPointB, SIGNAL(clicked()), this, SLOT(slotAddPoint(SkyPoint*)));
+    connect( ui->removeRegionB, SIGNAL( clicked() ), this, SLOT( slotRemoveRegion() ) );   
     connect(ui->removeRegionB, SIGNAL(clicked()), this, SLOT(slotRemovePoint()));
 
     connect(ui->regionsList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotSetShownRegion(QModelIndex)));
@@ -119,7 +122,7 @@ HorizonManager::HorizonManager( QWidget *w )
 
     connect(ui->saveB, SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 
-    if (regionMap.size() > 0)
+    if (m_HorizonList->count() > 0)
     {
         ui->regionsList->selectionModel()->setCurrentIndex(m_RegionsModel->index(0,0), QItemSelectionModel::SelectCurrent);
         showRegion(0);
@@ -130,15 +133,6 @@ HorizonManager::~HorizonManager()
 {
 }
 
-
-
-void HorizonManager::clearFields()
-{
-
-    //disable "Save changes" button
-   // ui->saveButton->setEnabled( false );
-
-}
 
 void HorizonManager::showRegion( int regionID )
 {
@@ -219,6 +213,8 @@ void HorizonManager::slotAddRegion()
     setPointSelection(false);
 
     QStandardItem* regionItem = new QStandardItem(i18n("Region %1", m_RegionsModel->rowCount()+1));
+    regionItem->setCheckable(true);
+    regionItem->setCheckState(Qt::Checked);
     m_RegionsModel->appendRow(regionItem);
 
     QModelIndex index = regionItem->index();
@@ -259,7 +255,7 @@ void HorizonManager::deleteRegion( int regionID )
         m_RegionsModel->removeRow( regionID );        
 
         //Redraw map
-        SkyMap::Instance()->forceUpdate(false);
+        SkyMap::Instance()->forceUpdate();
     }
 }
 
@@ -301,13 +297,12 @@ void HorizonManager::slotSaveChanges()
             list->append(p);
         }
 
-        horizonComponent->addRegion(regionName, list);
+        horizonComponent->addRegion(regionName, regionItem->checkState() == Qt::Checked ? true : false, list);
     }
 
     horizonComponent->save();
 
-    SkyMap::Instance()->forceUpdate();
-
+    SkyMap::Instance()->forceUpdateNow();
 }
 
 void HorizonManager::slotSetShownRegion( QModelIndex idx )
@@ -326,7 +321,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
     // First & Last points always have altitude of zero
     if ( (row == 0 && alt.Degrees() != 0) || (alt.Degrees() < 0))
     {
-        m_RegionsModel->disconnect(this);
+        disconnect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
         altItem->setData(QVariant(0), Qt::DisplayRole);
         alt.setD(0);
         connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
@@ -340,13 +335,29 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
 
         if (row > 0)
         {
-            LineList *prevList = regionMap.value(item->data(Qt::DisplayRole).toString());
+            for (int i=0; i < row; i++)
+            {
+                QStandardItem *azItem = item->child(i, 1);
+                QStandardItem *altItem= item->child(i, 2);
+
+                dms az = dms::fromString(azItem->data(Qt::DisplayRole).toString(), true);
+                dms alt= dms::fromString(altItem->data(Qt::DisplayRole).toString(), true);
+
+                SkyPoint *point = new SkyPoint();
+                point->setAz(az);
+                point->setAlt(alt);
+                point->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+                livePreview->append(point);
+            }
+
+           /* LineList *prevList = m_HorizonList->at(item->row())->list();
 
             if (prevList)
             {
                 for (int i=0; i < prevList->points()->count(); i++)
                 livePreview->append(prevList->at(i));
-            }
+            }*/
         }
         horizonComponent->setLivePreview(livePreview);
     }
@@ -365,7 +376,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
 
     qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
 
-    SkyMap::Instance()->forceUpdate(false);
+    SkyMap::Instance()->forceUpdateNow();
 
     bool finalPoint=false;
 
@@ -380,7 +391,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
             point->setAz(firstAz.Degrees());
             point->setAlt(0);
 
-            m_RegionsModel->disconnect(this);
+            disconnect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
             azItem->setData(firstAz.toDMSString(), Qt::DisplayRole);
             altItem->setData(QVariant(0), Qt::DisplayRole);
             connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(verifyItemValue(QStandardItem*)));
@@ -482,7 +493,7 @@ void HorizonManager::slotRemovePoint()
             if (livePreview->points()->count() == 0)
                 terminateLivePreview();
             else
-                SkyMap::Instance()->forceUpdate(false);
+                SkyMap::Instance()->forceUpdateNow();
 
         }
     }
@@ -499,7 +510,6 @@ void HorizonManager::clearPoints()
         regionItem->removeRows(0, regionItem->rowCount());
 
         horizonComponent->removeRegion(regionItem->data(Qt::DisplayRole).toString(), true);
-        regionMap[regionItem->data(Qt::DisplayRole).toString()] = NULL;
 
         ui->polygonValidatoin->hide();
     }
@@ -560,4 +570,17 @@ void HorizonManager::setPointSelection(bool enable)
 {
     selectPoints = enable;
     ui->selectPointsB->setChecked(enable);
+}
+
+void HorizonManager::checkRegionState(QStandardItem *item)
+{
+    //foreach(ArtificialHorizonEntity *horizon, *m_HorizonList)
+    if (item->row() >= m_HorizonList->count())
+        return;
+
+    ArtificialHorizonEntity *horizon = m_HorizonList->at(item->row());
+
+    horizon->setRegion(item->data(Qt::DisplayRole).toString());
+    horizon->setEnabled(item->checkState() == Qt::Checked);
+    SkyMap::Instance()->forceUpdateNow();
 }

@@ -12,6 +12,29 @@
 
 #include "noprecessindex.h"
 
+class ArtificialHorizonEntity
+{
+public:
+    ArtificialHorizonEntity();
+    ~ArtificialHorizonEntity();
+
+    QString region() const;
+    void setRegion(const QString &Region);
+
+    bool enabled() const;
+    void setEnabled(bool Enabled);
+
+    void clearList();
+    void setList(LineList *List);
+    LineList *list();
+
+private:
+
+    QString m_Region;
+    bool m_Enabled;
+    LineList *m_List;
+};
+
 /**
  * @class ArtificialHorizon
  * Represents custom area from the horizon upwards which represent blocked views from the vantage point of the user.
@@ -23,7 +46,7 @@
  */
 class ArtificialHorizonComponent : public NoPrecessIndex
 {
-public:
+public:    
 
     /** @short Constructor
      * @p parent pointer to the parent SkyComposite object
@@ -35,9 +58,9 @@ public:
     virtual void draw( SkyPainter *skyp );
 
     void setLivePreview(LineList *preview) { livePreview = preview; }
-    void addRegion(const QString &regionName, LineList *list);
+    void addRegion(const QString &regionName, bool enabled, LineList *list);
     void removeRegion(const QString &regionName, bool lineOnly=false);
-    inline QMap<QString, LineList*> regionMap() { return m_RegionMap; }
+    inline QList<ArtificialHorizonEntity *> * horizonList() { return &m_HorizonList; }
 
     bool load();
     void save();
@@ -46,7 +69,7 @@ protected:
     virtual void preDraw( SkyPainter *skyp );
 
 private:
-    QMap<QString, LineList*> m_RegionMap;
+    QList<ArtificialHorizonEntity *> m_HorizonList;
     LineList *livePreview;
 };
 

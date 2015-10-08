@@ -36,6 +36,7 @@
 #include "oal/oal.h"
 
 class LineList;
+class ArtificialHorizonEntity;
 
 /**
  * @brief Single class to delegate all User database I/O
@@ -89,8 +90,8 @@ class KSUserDB {
 
     // Jasem: Add API doc
     void DeleteAllHorizons();
-    void AddHorizon(const QString &name, LineList *pointsList);
-    QMap<QString, LineList*> GetAllHorizons();
+    void AddHorizon(ArtificialHorizonEntity * horizon);
+    QList<ArtificialHorizonEntity *> GetAllHorizons();
 
     /************************************************************************
      ********************************* Flags ********************************
