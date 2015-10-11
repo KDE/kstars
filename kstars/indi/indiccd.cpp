@@ -1507,6 +1507,12 @@ CCD::UploadMode CCD::getUploadMode()
 
     uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
 
+    if (uploadModeSP == NULL)
+    {
+        qWarning() << "No UPLOAD_MODE in CCD driver. Please update driver to INDI compliant CCD driver.";
+        return UPLOAD_CLIENT;
+    }
+
     if (uploadModeSP)
     {
         ISwitch *modeS= NULL;
@@ -1532,6 +1538,12 @@ bool CCD::setUploadMode(UploadMode mode)
     ISwitch *modeS= NULL;
 
     uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+
+    if (uploadModeSP == NULL)
+    {
+        qWarning() << "No UPLOAD_MODE in CCD driver. Please update driver to INDI compliant CCD driver.";
+        return false;
+    }
 
     switch (mode)
     {
