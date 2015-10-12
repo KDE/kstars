@@ -372,6 +372,8 @@ Capture::Capture()
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(seqTimer, SIGNAL(timeout()), this, SLOT(captureImage()));
 
+    connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
+
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));

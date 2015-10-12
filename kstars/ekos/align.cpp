@@ -89,10 +89,12 @@ Align::Align()
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));    
-    connect(wcsCheck, SIGNAL(toggled(bool)), this, SLOT(setWCS(bool)));
+    connect(wcsCheck, SIGNAL(toggled(bool)), this, SLOT(setWCS(bool)));    
 
-    kcfg_solverXBin->setValue(Options::solverXBin());
-    kcfg_solverYBin->setValue(Options::solverYBin());
+    binXIN->setValue(Options::solverXBin());
+    binYIN->setValue(Options::solverYBin());
+    connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
+
     kcfg_solverUpdateCoords->setChecked(Options::solverUpdateCoords());
     kcfg_solverPreview->setChecked(Options::solverPreview());    
 
@@ -343,21 +345,21 @@ void Align::syncCCDInfo()
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
-    kcfg_solverXBin->setEnabled(targetChip->canBin());
-    kcfg_solverYBin->setEnabled(targetChip->canBin());
+    binXIN->setEnabled(targetChip->canBin());
+    binYIN->setEnabled(targetChip->canBin());
     if (targetChip->canBin())
     {
         int binx=1,biny=1;
         targetChip->getMaxBin(&binx, &biny);
-        kcfg_solverXBin->setMaximum(binx);
-        kcfg_solverYBin->setMaximum(biny);
-        kcfg_solverXBin->setValue(Options::solverXBin());
-        kcfg_solverYBin->setValue(Options::solverYBin());
+        binXIN->setMaximum(binx);
+        binYIN->setMaximum(biny);
+        binXIN->setValue(Options::solverXBin());
+        binYIN->setValue(Options::solverYBin());
     }
     else
     {
-        kcfg_solverXBin->setValue(1);
-        kcfg_solverYBin->setValue(1);
+        binXIN->setValue(1);
+        binYIN->setValue(1);
     }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
@@ -583,7 +585,7 @@ bool Align::captureAndSolve()
    targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
    if (kcfg_solverPreview->isChecked())
        targetChip->setCaptureFilter(FITS_AUTO_STRETCH);
-   targetChip->setBinning(kcfg_solverXBin->value(), kcfg_solverYBin->value());
+   targetChip->setBinning(binXIN->value(), binYIN->value());
    targetChip->setFrameType(ccdFrame);
 
    targetChip->capture(seqExpose);
@@ -637,8 +639,8 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     QStringList solverArgs;
     double ra,dec;
 
-    Options::setSolverXBin(kcfg_solverXBin->value());
-    Options::setSolverYBin(kcfg_solverYBin->value());
+    Options::setSolverXBin(binXIN->value());
+    Options::setSolverYBin(binYIN->value());
     Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
     Options::setSolverOnline(kcfg_onlineSolver->isChecked());
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
@@ -667,7 +669,16 @@ void Align::startSovling(const QString &filename, bool isGenerated)
 
     solverTimer.start();
 
-    solverArgs = kcfg_solverOptions->text().split(" ");
+    if (isGenerated)
+        solverArgs = kcfg_solverOptions->text().split(" ");
+    else if (filename.endsWith("fits") || filename.endsWith("fit"))
+    {
+        solverArgs = getSolverOptionsFromFITS(filename);
+        appendLogText(i18n("Using solver options: %1", solverArgs.join(" ")));
+    }
+    else
+        solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
+
 
     parser->startSovler(filename, solverArgs, isGenerated);
 
@@ -1383,7 +1394,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 void Align::loadAndSlew(QUrl fileURL)
 {
     if (fileURL.isEmpty())
-    fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Load Image"), QUrl(), "*.fits *.fit *.jpg *.jpeg");
+        fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Load Image"), QUrl(), "Images (*.fits *.fit *.jpg *.jpeg)");
 
     if (fileURL.isEmpty())
         return;
@@ -1406,8 +1417,8 @@ void Align::setExposure(double value)
 
 void Align::setBinning(int binX, int binY)
 {
-   kcfg_solverXBin->setValue(binX);
-   kcfg_solverYBin->setValue(binY);
+   binXIN->setValue(binX);
+   binYIN->setValue(binY);
 }
 
 void Align::setSolverArguments(const QString & value)
@@ -1542,6 +1553,104 @@ void Align::setSolverOverlay(bool enable)
     {
         solverFOV->setImageDisplay(enable);
     }
+}
+
+QStringList Align::getSolverOptionsFromFITS(const QString &filename)
+{
+    int status=0, fits_ccd_width, fits_ccd_height, fits_focal_length=-1;
+    char comment[128], error_status[512];
+    fitsfile * fptr = NULL;
+    double ra=0,dec=0, fits_fov_x, fits_fov_y, fov_lower, fov_upper, fits_ccd_hor_pixel=-1, fits_ccd_ver_pixel=-1;
+    QString fov_low,fov_high;
+    QStringList solver_args;
+
+    // Default arguments
+    solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
+
+    if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        qWarning() << "Could not open file " << filename << "  Error: " << QString::fromUtf8(error_status);
+        return solver_args;
+    }
+
+    if (fits_read_key(fptr, TINT, "NAXIS1", &fits_ccd_width, comment, &status ))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        appendLogText(i18n("FITS header: Unable to find NAXIS1."));
+        return solver_args;
+    }
+
+    if (fits_read_key(fptr, TINT, "NAXIS2", &fits_ccd_height, comment, &status ))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        appendLogText(i18n("FITS header: Unable to find NAXIS2."));
+        return solver_args;
+    }
+
+    if (fits_read_key(fptr, TDOUBLE, "OBJCTRA", &ra, comment, &status ))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        appendLogText(i18n("FITS header: Unable to find OBJCTRA."));
+        return solver_args;
+    }
+
+    if (fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status ))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        appendLogText(i18n("FITS header: Unable to find OBJCTDEC."));
+        return solver_args;
+    }
+
+    solver_args << "-3" << QString::number(ra*15.0) << "-4" << QString::number(dec) << "-5 30";
+
+    if (fits_read_key(fptr, TINT, "FOCALLEN", &fits_focal_length, comment, &status ))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        appendLogText(i18n("FITS header: Unable to find FOCALLEN."));
+        return solver_args;
+    }
+
+    if (fits_read_key(fptr, TDOUBLE, "PIXSIZE1", &fits_ccd_hor_pixel, comment, &status ))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        appendLogText(i18n("FITS header: Unable to find PIXSIZE1."));
+        return solver_args;
+    }
+
+    if (fits_read_key(fptr, TDOUBLE, "PIXSIZE2", &fits_ccd_ver_pixel, comment, &status ))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        appendLogText(i18n("FITS header: Unable to find PIXSIZE2."));
+        return solver_args;
+    }
+
+    // Calculate FOV
+    fits_fov_x = 206264.8062470963552 * fits_ccd_width * fits_ccd_hor_pixel / 1000.0 / fits_focal_length;
+    fits_fov_y = 206264.8062470963552 * fits_ccd_height * fits_ccd_ver_pixel / 1000.0 / fits_focal_length;
+
+    fits_fov_x /= 60.0;
+    fits_fov_y /= 60.0;
+
+    // let's stretch the boundaries by 5%
+    fov_lower = ((fits_fov_x < fits_fov_y) ? (fits_fov_x *0.95) : (fits_fov_y *0.95));
+    fov_upper = ((fits_fov_x > fits_fov_y) ? (fits_fov_x * 1.05) : (fits_fov_y * 1.05));
+
+    fov_low  = QString::number(fov_lower);
+    fov_high = QString::number(fov_upper);
+
+    solver_args << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
+
+
+    return solver_args;
 }
 
 }

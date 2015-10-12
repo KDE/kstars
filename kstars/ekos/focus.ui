@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>713</width>
-    <height>494</height>
+    <height>539</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -84,21 +84,12 @@
           <item row="2" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QDoubleSpinBox" name="kcfg_focusXBin">
-              <property name="decimals">
-               <number>0</number>
-              </property>
+             <widget class="QSpinBox" name="binXIN">
               <property name="minimum">
-               <double>1.000000000000000</double>
+               <number>1</number>
               </property>
               <property name="maximum">
-               <double>9.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>1.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
+               <number>16</number>
               </property>
              </widget>
             </item>
@@ -110,21 +101,12 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="kcfg_focusYBin">
-              <property name="decimals">
-               <number>0</number>
-              </property>
+             <widget class="QSpinBox" name="binYIN">
               <property name="minimum">
-               <double>1.000000000000000</double>
+               <number>1</number>
               </property>
               <property name="maximum">
-               <double>9.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>1.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
+               <number>16</number>
               </property>
              </widget>
             </item>
@@ -280,7 +262,7 @@
               <item>
                <widget class="QRadioButton" name="manualModeR">
                 <property name="text">
-                 <string>Manual</string>
+                 <string>&amp;Manual</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>

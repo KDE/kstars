@@ -338,6 +338,14 @@ private:
      */
     void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
 
+    /**
+     * @brief getSolverOptionsFromFITS Generates a set of solver options given the supplied FITS image. The function reads FITS keyword headers and build the argument list accordingly. In case of a missing header keyword, it falls back to
+     * the Alignment module existing values.
+     * @param filename FITS path
+     * @return List of Solver options
+     */
+    QStringList getSolverOptionsFromFITS(const QString &filename);
+
     // Which chip should we invoke in the current CCD?
     bool useGuideHead;
     // Can the mount sync its coordinates to those set by Ekos?

@@ -106,6 +106,10 @@ Focus::Focus()
     connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
     connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
 
+    binXIN->setValue(Options::focusXBin());
+    binYIN->setValue(Options::focusYBin());
+    connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
+
     connect(clearDataB, SIGNAL(clicked()) , this, SLOT(clearDataPoints()));
 
     lastFocusDirection = FOCUS_NONE;
@@ -129,9 +133,7 @@ Focus::Focus()
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
     kcfg_autoSelectStar->setChecked(Options::autoSelectStar());
-    kcfg_focusBoxSize->setValue(Options::focusBoxSize());
-    kcfg_focusXBin->setValue(Options::focusXBin());
-    kcfg_focusYBin->setValue(Options::focusYBin());
+    kcfg_focusBoxSize->setValue(Options::focusBoxSize());    
     maxTravelIN->setValue(Options::focusMaxTravel());
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
@@ -226,16 +228,16 @@ void Focus::syncCCDInfo()
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     if (targetChip)
     {
-        kcfg_focusXBin->setEnabled(targetChip->canBin());
-        kcfg_focusYBin->setEnabled(targetChip->canBin());
+        binXIN->setEnabled(targetChip->canBin());
+        binYIN->setEnabled(targetChip->canBin());
         kcfg_subFrame->setEnabled(targetChip->canSubframe());
         kcfg_autoSelectStar->setEnabled(targetChip->canSubframe());
         if (targetChip->canBin())
         {
             int binx=1,biny=1;
             targetChip->getMaxBin(&binx, &biny);
-            kcfg_focusXBin->setMaximum(binx);
-            kcfg_focusYBin->setMaximum(biny);
+            binXIN->setMaximum(binx);
+            binYIN->setMaximum(biny);
         }
 
         QStringList isoList = targetChip->getISOList();
@@ -523,8 +525,8 @@ void Focus::start()
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
-    Options::setFocusXBin(kcfg_focusXBin->value());
-    Options::setFocusYBin(kcfg_focusYBin->value());
+    Options::setFocusXBin(binXIN->value());
+    Options::setFocusYBin(binYIN->value());
     Options::setFocusMaxTravel(maxTravelIN->value());
 
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
@@ -647,7 +649,7 @@ void Focus::capture()
     }
 
     if (targetChip->canBin())
-        targetChip->setBinning(kcfg_focusXBin->value(), kcfg_focusXBin->value());
+        targetChip->setBinning(binXIN->value(), binYIN->value());
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
@@ -1719,8 +1721,8 @@ void Focus::setExposure(double value)
 
 void Focus::setBinning(int binX, int binY)
 {
-   kcfg_focusXBin->setValue(binX);
-   kcfg_focusYBin->setValue(binY);
+   binXIN->setValue(binX);
+   binYIN->setValue(binY);
 }
 
 void Focus::setImageFilter(const QString & value)
