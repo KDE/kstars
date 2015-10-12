@@ -1607,7 +1607,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         return solver_args;
     }
 
-    solver_args << "-3" << QString::number(ra*15.0) << "-4" << QString::number(dec) << "-5 30";
+    solver_args << "-3" << QString::number(ra*15.0) << "-4" << QString::number(dec) << "-5 15";
 
     if (fits_read_key(fptr, TINT, "FOCALLEN", &fits_focal_length, comment, &status ))
     {
