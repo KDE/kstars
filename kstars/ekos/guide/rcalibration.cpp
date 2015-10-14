@@ -527,7 +527,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
             ui.pushButton_StartCalibration->setText(i18n("Abort"));
 
-            pmain_wnd->appendLogText(i18n("GUIDE_RA Drifting..."));
+            pmain_wnd->appendLogText(i18n("GUIDE_RA drifting forward..."));
 
             // get start point
             //pmath->get_star_screen_pos( &start_x1, &start_y1 );
@@ -584,7 +584,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-                pmain_wnd->appendLogText(i18n("Running..."));
+                pmain_wnd->appendLogText(i18n("GUIDE_RA drifting reverse..."));
 
             }
 
@@ -666,7 +666,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             iterations++;
             dec_iterations = 1;
             ui.progressBar->setValue( iterations );
-            pmain_wnd->appendLogText(i18n("GUIDE_DEC drifting..."));
+            pmain_wnd->appendLogText(i18n("GUIDE_DEC drifting forward..."));
             break;
         }
         // calc orientation
@@ -730,7 +730,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             phi = pmath->calc_phi( start_x2, start_y2, end_x2, end_y2 );
             ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-            pmain_wnd->appendLogText(i18n("Running..."));
+            pmain_wnd->appendLogText(i18n("GUIDE_DEC drifting reverse..."));
         }
 
         //----- Z-check (new!) -----
