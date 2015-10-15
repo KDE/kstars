@@ -143,6 +143,10 @@ EkosManager::EkosManager()
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
+    // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
+    // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
+    // Also set Layout policy to SetMinAndMaxSize as well. Any idea how to fix this?
+    resize(1000,800);
 }
 
 EkosManager::~EkosManager()
