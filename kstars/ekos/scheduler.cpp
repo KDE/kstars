@@ -126,6 +126,10 @@ Scheduler::Scheduler()
 
     connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
     connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+    connect(weatherCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(focusModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(alignModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(guideModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
 }
 
 Scheduler::~Scheduler()
@@ -162,10 +166,20 @@ void Scheduler::selectObject()
 }
 
 void Scheduler::addObject(SkyObject *object)
-{
+{        
     if( object != NULL )
     {
-        nameEdit->setText(object->name());
+        QString finalObjectName(object->name());
+
+        if( object->name() == "star" )
+        {
+            StarObject *s = (StarObject *)object;
+
+            if( s->getHDIndex() != 0 )
+                    finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
+        }
+
+        nameEdit->setText(finalObjectName);
         raBox->setText(object->ra0().toHMSString());
         decBox->setText(object->dec0().toDMSString());
 
@@ -651,9 +665,6 @@ void Scheduler::start()
         return;
     }
 
-    // Save settings
-    Options::setEnforceWeather(weatherCheck->isChecked());
-
     pi->startAnimation();
 
     sleepLabel->hide();
@@ -697,7 +708,7 @@ void Scheduler::evaluateJobs()
         if (job->getState() == SchedulerJob::JOB_IDLE)
             job->setState(SchedulerJob::JOB_EVALUATION);
 
-        int16_t score = 0, altScore=0, moonScore=0, darkScore=0, weatherScore=0;
+        int16_t score = 0, altScore=0, moonScore=0, darkScore=0;
 
         QDateTime now = KStarsData::Instance()->lt();
 
@@ -739,18 +750,10 @@ void Scheduler::evaluateJobs()
                             appendLogText(i18n("Ekos failed to schedule %1.", job->getName()));
                         }
                     }
+                    else if (isWeatherOK(job) == false)
+                        job->setScore(BAD_SCORE);
                     else
-                    {
-                        weatherScore = getWeatherScore();
-
-                        if (weatherScore < 0)
-                        {
-                            job->setState(SchedulerJob::JOB_ABORTED);
-                            appendLogText(i18n("%1 observation job aborted due to bad weather.", job->getName()));
-                        }
-                        else
-                            appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
-                    }
+                        appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
                     break;
 
                   // #1.2 Culmination?
@@ -804,8 +807,7 @@ void Scheduler::evaluateJobs()
                     {
                         score += getAltitudeScore(job, startupTime);
                         score += getMoonSeparationScore(job, startupTime);
-                        score += getDarkSkyScore(startupTime);
-                        score += getWeatherScore();
+                        score += getDarkSkyScore(startupTime);                        
 
                         if (score < 0)
                         {
@@ -818,9 +820,10 @@ void Scheduler::evaluateJobs()
                         }
                         // If score is OK for the start up time, then job evaluation for this start up time
                         // is complete and we set its score to negative so that it gets scheduled below.
-                        // one its state is scheduled, we will re-evaluate it again 5 minutes be actual
+                        // once its state is scheduled, we will re-evaluate it again 5 minutes be actual
                         // start up time.
-                        else if (job->getState() == SchedulerJob::JOB_EVALUATION)
+                        // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
+                        else if (job->getState() == SchedulerJob::JOB_EVALUATION || isWeatherOK(job) == false)
                             score += BAD_SCORE;
 
                     }
@@ -1250,6 +1253,8 @@ void Scheduler::checkWeather()
             weatherLabel->setToolTip(statusString);
 
             appendLogText(statusString);
+
+            emit weatherChanged(weatherStatus);
         }
 
         if (weatherStatus == IPS_ALERT)
@@ -1577,6 +1582,9 @@ bool    Scheduler::checkINDIState()
                 weatherTimer.setInterval(updateReply.value() * 1000);
                 connect(&weatherTimer, SIGNAL(timeout()), this, SLOT(checkWeather()));
                 weatherTimer.start();
+
+                // Check weather initially
+                checkWeather();
             }
          }
          else
@@ -2356,6 +2364,32 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
                              warmCCDCheck->setChecked(true);
                      }
                  }
+                 else if (!strcmp(tag, "Modules"))
+                 {
+                     XMLEle *module;
+                     focusModuleCheck->setChecked(false);
+                     alignModuleCheck->setChecked(false);
+                     guideModuleCheck->setChecked(false);
+
+                     for (module = nextXMLEle(ep, 1) ; module != NULL ; module = nextXMLEle(ep, 0))
+                     {
+                         const char *proc = pcdataXMLEle(module);
+
+                         if (!strcmp(proc, "Focus"))
+                             focusModuleCheck->setChecked(true);
+                         else if (!strcmp(proc, "Align"))
+                             alignModuleCheck->setChecked(true);
+                         else if (!strcmp(proc, "Guide"))
+                             guideModuleCheck->setChecked(true);
+                     }
+                 }
+                 else if (!strcmp(tag, "EnforceWeather"))
+                 {
+                     if (!strcmp(pcdataXMLEle(ep), "True") )
+                         weatherCheck->setChecked(true);
+                     else
+                         weatherCheck->setChecked(false);
+                 }
              }
              delXMLEle(root);
         }
@@ -2608,6 +2642,17 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "<Procedure value='" << shutdownScript->text() << "'>ShutdownScript</Procedure>" << endl;
     outstream << "</ShutdownProcedure>" << endl;
 
+    outstream << "<Modules>" << endl;
+    if (focusModuleCheck->isChecked())
+        outstream << "<Module>Focus</Module>" << endl;
+    if (alignModuleCheck->isChecked())
+        outstream << "<Module>Align</Module>" << endl;
+    if (guideModuleCheck->isChecked())
+        outstream << "<Module>Guide</Module>" << endl;
+    outstream << "</Modules>" << endl;
+
+    outstream << "<EnforceWeather>" << (weatherCheck->isChecked() ? "True" : "False") << "</EnforceWeather>" << endl;
+
     outstream << "</SchedulerList>" << endl;
 
     appendLogText(i18n("Scheduler list saved to %1", fileURL.path()));
@@ -2818,9 +2863,8 @@ void Scheduler::stopGuiding()
 
 void Scheduler::setGOTOMode(Align::GotoMode mode)
 {
-    QList<QVariant> solveArgs;
-    solveArgs.append(static_cast<int>(mode));
-    alignInterface->callWithArgumentList(QDBus::AutoDetect,"setGOTOMode",solveArgs);
+    QVariant gotoMode(static_cast<int>(mode));
+    alignInterface->call(QDBus::AutoDetect,"setGOTOMode",gotoMode);
 }
 
 void Scheduler::stopINDI()
@@ -3173,6 +3217,38 @@ void Scheduler::updatePreDawn()
         dayOffset=1;
     preDawnDateTime.setDate(KStarsData::Instance()->lt().date().addDays(dayOffset));
     preDawnDateTime.setTime(QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
+}
+
+bool Scheduler::isWeatherOK(SchedulerJob *job)
+{
+    if (weatherStatus == IPS_OK || weatherCheck->isChecked() == false)
+        return true;
+    else if (weatherStatus == IPS_IDLE)
+    {
+        if (indiState == INDI_READY)
+            appendLogText(i18n("Weather information is pending..."));
+        return true;
+    }
+
+    if (weatherStatus == IPS_ALERT)
+    {
+        job->setState(SchedulerJob::JOB_ABORTED);
+        appendLogText(i18n("%1 observation job aborted due to bad weather.", job->getName()));
+    }
+    else if (weatherStatus == IPS_BUSY)
+    {
+        appendLogText(i18n("%1 observation job delayed due to bad weather.", job->getName()));
+        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        connect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
+    }
+
+    return false;
+}
+
+void Scheduler::resumeCheckStatus()
+{
+    disconnect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
+    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
 }
 
 }

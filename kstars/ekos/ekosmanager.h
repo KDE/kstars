@@ -158,7 +158,7 @@ public:
 protected:
     void closeEvent(QCloseEvent *);
     void hideEvent(QHideEvent *);
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent *);    
 
 public slots:
 

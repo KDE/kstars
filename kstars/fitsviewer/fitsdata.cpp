@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include <config-kstars.h>
-
 #include "fitsdata.h"
 
 #include <cmath>
@@ -41,6 +40,7 @@
 #endif
 
 #include "ksutils.h"
+#include "Options.h"
 
 #define ZOOM_DEFAULT	100.0
 #define ZOOM_MIN	10
@@ -58,11 +58,10 @@ const int MINIMUM_ROWS_PER_CENTER=3;
 #define MINIMUM_EDGE_LIMIT  2
 #define SMALL_SCALE_SQUARE  256
 
-//#define FITS_DEBUG
-
 bool greaterThan(Edge *s1, Edge *s2)
 {
-    return s1->width > s2->width;
+    //return s1->width > s2->width;
+    return s1->sum > s2->sum;
 }
 
 FITSData::FITSData(FITSMode fitsMode)
@@ -202,7 +201,7 @@ bool FITSData::loadFITS (const QString &inFilename)
     image_buffer = new float[stats.samples_per_channel * channels];
     if (image_buffer == NULL)
     {
-       qDebug() << "Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * sizeof(float) << " bytes." << endl;
+       qDebug() << "Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * sizeof(float) << " bytes.";
        clearImageBuffers();
        return false;
     }
@@ -527,12 +526,13 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     double avg = 0;
     double sum=0;
     double min=0;
-    int pixelRadius =0;
+    double noiseAvg=0,noiseSum=0;
+    int pixelRadius =0, noisePixelRadius=0;
     int pixVal=0;
-    int badPix=0;
-    int minimumEdgeLimit = MINIMUM_EDGE_LIMIT;
+    int noisePix=0;
+    int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    int badPixLimit=0;
+    int noisePixLimit=0;
     double JMIndex = histogram->getJMIndex();
 
     QList<Edge*> edges;
@@ -540,23 +540,23 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     if (JMIndex < DIFFUSE_THRESHOLD)
     {
             minEdgeWidth = JMIndex*35+1;
-            minimumEdgeLimit=minEdgeWidth-1;
+            minimumEdgeCount=minEdgeWidth-1;
     }
     else
     {
             minEdgeWidth =6;
-            minimumEdgeLimit=4;
+            minimumEdgeCount=4;
     }
 
     while (initStdDev >= 1)
     {
         minEdgeWidth--;
-        minimumEdgeLimit--;
+        minimumEdgeCount--;
 
         if (minEdgeWidth < 3)
             minEdgeWidth = 3;
-        if (minimumEdgeLimit < 1)
-            minimumEdgeLimit=1;
+        if (minimumEdgeCount < 3)
+            minimumEdgeCount=3;
 
        if (JMIndex < DIFFUSE_THRESHOLD)
        {
@@ -564,22 +564,23 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
            min =stats.min[0];
 
-           badPixLimit=minEdgeWidth*0.5;
+           noisePixLimit=minEdgeWidth*0.5;
        }
        else
        {
-           threshold = (stats.max[0] - stats.min[0])/2.0 + stats.min[0]  + stats.stddev[0]* (MINIMUM_STDVAR - initStdDev);
-           if ( (stats.max[0] - stats.min[0])/2.0 > (stats.mean[0]+stats.stddev[0]*5))
-               threshold = stats.mean[0]+stats.stddev[0]*initStdDev;
+           //threshold = (stats.max[0] - stats.min[0])/2.0 + stats.min[0]  + stats.stddev[0]* (MINIMUM_STDVAR - initStdDev);
+           //if ( (stats.max[0] - stats.min[0])/2.0 > (stats.mean[0]+stats.stddev[0]*5))
+           threshold = stats.mean[0]+stats.stddev[0]*initStdDev*(0.95 - (MINIMUM_STDVAR - initStdDev) * 0.05);
            min = stats.min[0];
-           badPixLimit =2;
+           noisePixLimit =2;
 
        }
 
-        #ifdef FITS_DEBUG
-        qDebug() << "SNR: " << stats.SNR << endl;
-        qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeLimit << endl;
-        #endif
+        if (Options::verboseLogging())
+        {
+            qDebug() << "SNR: " << stats.SNR;
+            qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
+        }
 
         threshold -= stats.min[0];
 
@@ -593,17 +594,27 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             pixVal = image_buffer[j+(i*stats.width)] - min;
 
             // If pixel value > threshold, let's get its weighted average
-            if ( pixVal >= threshold || (sum > 0 && badPix <= badPixLimit))
+            if ( pixVal >= threshold || (sum > 0 && noisePix <= noisePixLimit))
             {
                 if (pixVal < threshold)
-                    badPix++;
-                else
-                   badPix=0;
+                {
+                    noisePix++;
+                    noiseAvg += j * pixVal;
+                    noiseSum += pixVal;
+                    noisePixelRadius++;
+                    continue;
+                }
+                else if (noisePix)
+                {
+                   avg += noiseAvg;
+                   sum += noiseSum;
+                   pixelRadius += noisePixelRadius;
+                   noisePix=noiseAvg=noiseSum=noisePixelRadius=0;
+                }
 
                 avg += j * pixVal;
                 sum += pixVal;
                 pixelRadius++;
-
             }
             // Value < threshold but avg exists
             else if (sum > 0)
@@ -612,15 +623,15 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 // We found a potential centroid edge
                 if (pixelRadius >= (minEdgeWidth - (MINIMUM_STDVAR - initStdDev)))
                 {
-                    float center = avg/sum;
+                    float center = avg/sum + 0.5;
                     if (center > 0)
                     {
-                        int i_center = round(center);
+                        int i_center = floor(center);
 
                         Edge *newEdge = new Edge();
 
                         newEdge->x          = center;
-                        newEdge->y          = i;
+                        newEdge->y          = i + 0.5;
                         newEdge->scanned    = 0;
                         newEdge->val        = image_buffer[i_center+(i*stats.width)] - min;
                         newEdge->width      = pixelRadius;
@@ -633,19 +644,14 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 }
 
                 // Reset
-                badPix = 0;
-                avg=0;
-                sum=0;
-                pixelRadius=0;
-
-
+                avg= sum = pixelRadius=0;
+                noisePix = noiseAvg = noiseSum = noisePixelRadius = 0;
             }
          }
      }
 
-    #ifdef FITS_DEBUG
-    qDebug() << "Total number of edges found is: " << edges.count() << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "Total number of edges found is: " << edges.count();
 
     // In case of hot pixels
     if (edges.count() == 1 && initStdDev > 1)
@@ -656,14 +662,14 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
     if (edges.count() >= MAX_EDGE_LIMIT)
     {
-        #ifdef FITS_DEBUG
-        qDebug() << "Too many edges, aborting... " << edges.count() << endl;
-        #endif
+        if (Options::verboseLogging())
+            qDebug() << "Too many edges, aborting... " << edges.count();
+
         qDeleteAll(edges);
         return;
     }
 
-    if (edges.count() >= minimumEdgeLimit)
+    if (edges.count() >= minimumEdgeCount)
         break;
 
       qDeleteAll(edges);
@@ -684,23 +690,20 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     // Now, let's scan the edges and find the maximum centroid vertically
     for (int i=0; i < edges.count(); i++)
     {
-        #ifdef FITS_DEBUG
-        qDebug() << "# " << i << " Edge at (" << edges[i]->x << "," << edges[i]->y << ") With a value of " << edges[i]->val  << " and width of "
-         << edges[i]->width << " pixels. with sum " << edges[i]->sum << endl;
-        #endif
+        if (Options::verboseLogging())
+            qDebug() << "# " << i << " Edge at (" << edges[i]->x << "," << edges[i]->y << ") With a value of " << edges[i]->val  << " and width of "
+            << edges[i]->width << " pixels. with sum " << edges[i]->sum;
 
         // If edge scanned already, skip
         if (edges[i]->scanned == 1)
         {
-            #ifdef FITS_DEBUG
-            qDebug() << "Skipping check for center " << i << " because it was already counted" << endl;
-            #endif
+            if (Options::verboseLogging())
+                qDebug() << "Skipping check for center " << i << " because it was already counted";
             continue;
         }
 
-        #ifdef FITS_DEBUG
-        qDebug() << "Invetigating edge # " << i << " now ..." << endl;
-        #endif
+        if (Options::verboseLogging())
+            qDebug() << "Invetigating edge # " << i << " now ...";
 
         // Get X, Y, and Val of edge
         cen_x = edges[i]->x;
@@ -750,10 +753,8 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 cen_limit = 2;
         }
 
-    #ifdef FITS_DEBUG
-    qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
-             << cen_limit << endl;
-    #endif
+    if (Options::verboseLogging())
+        qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is " << cen_limit;
 
         if (cen_limit < 1)
             continue;
@@ -770,22 +771,16 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             width_sum += rCenter->width;
             rCenter->width = cen_w;
 
-           #ifdef FITS_DEBUG
-           qDebug() << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")" << endl;
-
-           //qDebug() << "Profile for this center is:" << endl;
-           //for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
-              // qDebug() << "#" << i << " , " << image_buffer[(int) round(rCenter->x-i+(rCenter->y*stats.width))] - stats.min <<  endl;
-
-           #endif
+           if (Options::verboseLogging())
+            qDebug() << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")";
 
             // Calculate Total Flux From Center, Half Flux, Full Summation
             double TF=0;
             double HF=0;
             double FSum=0;
 
-            cen_x = (int) round(rCenter->x);
-            cen_y = (int) round(rCenter->y);
+            cen_x = (int) floor(rCenter->x);
+            cen_y = (int) floor(rCenter->y);
 
             if (cen_x < 0 || cen_x > stats.width || cen_y < 0 || cen_y > stats.height)
                 continue;
@@ -807,16 +802,15 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             // Integrate flux along radius axis until we reach half flux
             for (int k=1; k < rCenter->width/2; k++)
             {
-                TF += image_buffer[cen_y * stats.width + cen_x + k] - min;
-                TF += image_buffer[cen_y * stats.width + cen_x - k] - min;
-
                 if (TF >= HF)
                 {
-                    #ifdef FITS_DEBUG
-                    qDebug() << "Stopping at TF " << TF << " after #" << k << " pixels." << endl;
-                    #endif
+                    if (Options::verboseLogging())
+                        qDebug() << "Stopping at TF " << TF << " after #" << k << " pixels.";
                     break;
                 }
+
+                TF += image_buffer[cen_y * stats.width + cen_x + k] - min;
+                TF += image_buffer[cen_y * stats.width + cen_x - k] - min;
 
                 pixelCounter++;
             }
@@ -826,10 +820,10 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             // Store full flux
             rCenter->val = FSum;
 
-            #ifdef FITS_DEBUG
-            qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum << endl;
-            #endif
-             starCenters.append(rCenter);
+            if (Options::verboseLogging())
+                qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum;
+
+            starCenters.append(rCenter);
 
         }
     }
@@ -1379,7 +1373,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
     rotimage = new float[stats.samples_per_channel*channels];
     if (rotimage == NULL)
     {
-        qWarning() << "Unable to allocate memory for rotated image buffer!" << endl;
+        qWarning() << "Unable to allocate memory for rotated image buffer!";
         return false;
     }
 

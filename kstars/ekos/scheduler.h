@@ -183,6 +183,7 @@ protected slots:
      void readProcessOutput();
      void checkProcessExit(int exitCode);     
      void setDirty();
+     void resumeCheckStatus();
 
      void checkWeather();
 
@@ -192,6 +193,7 @@ protected slots:
 
 signals:
         void newLog();
+        void weatherChanged(IPState state);
 
 private:
 
@@ -362,6 +364,8 @@ private:
          */
         bool estimateJobTime(SchedulerJob *job);
         double estimateSequenceTime(XMLEle *root, int *totalCount);
+
+        bool isWeatherOK(SchedulerJob *job);
 
     Ekos::Scheduler *ui;
 

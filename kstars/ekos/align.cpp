@@ -627,6 +627,7 @@ void Align::setGOTOMode(int mode)
 
         case 1:
             slewR->setChecked(true);
+            break;
 
         default:
             nothingR->setChecked(true);

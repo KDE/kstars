@@ -1650,10 +1650,6 @@
         </entry>
     </group>
     <group name="Scheduler">
-    <entry name="EnforceWeather" type="Bool">
-        <label>Weather conditions must remain safe while observatory is online.</label>
-        <default>false</default>
-    </entry>
     <entry name="preemptiveShutdown" type="Bool">
         <label>Perform pre-emptive strike if no jobs are due for a number of hours.</label>
         <default>false</default>
