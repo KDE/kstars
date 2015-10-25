@@ -270,12 +270,13 @@ void INDI_E::syncSwitch()
 
 void INDI_E::syncText()
 {
-
     if (tp == NULL)
         return;
 
-    read_w->setText(i18nc(libindi_strings_context, tp->text));
-
+    if (tp->text[0])
+        read_w->setText(i18nc(libindi_strings_context, tp->text));
+    else
+        read_w->setText(tp->text);
 }
 
 void INDI_E::syncNumber()
