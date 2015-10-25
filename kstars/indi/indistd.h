@@ -26,6 +26,7 @@
 class ClientManager;
 class DriverInfo;
 class DeviceInfo;
+class QTimer;
 
 // INDI Standard Device Namespace
 namespace ISD
@@ -173,6 +174,9 @@ public slots:
     virtual bool runCommand(int command, void *ptr=NULL);
     virtual bool setProperty(QObject *);
 
+protected slots:
+    virtual void resetWatchdog();
+
 protected:
     void createDeviceInit();
     void updateTime();
@@ -184,6 +188,7 @@ private:
     DeviceInfo *deviceInfo;
     INDI::BaseDevice *baseDevice;
     ClientManager *clientManager;
+    QTimer *watchDogTimer;
     char BLOBFilename[MAXINDIFILENAME];
 
 };

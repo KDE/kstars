@@ -63,6 +63,8 @@ GenericDevice::GenericDevice(DeviceInfo *idv)
     baseDevice        = idv->getBaseDevice();
     clientManager     = driverInfo->getClientManager();
 
+    watchDogTimer     = NULL;
+
     dType         = KSTARS_UNKNOWN;
 }
 
@@ -116,9 +118,27 @@ void GenericDevice::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "GEOGRAPHIC_COORD") && Options::useGeographicUpdate() && Options::useComputerSource())
     {
-            INumberVectorProperty *nvp = baseDevice->getNumber("GEOGRAPHIC_COORD");
+            INumberVectorProperty *nvp = prop->getNumber();
             if (nvp && nvp->p != IP_RO)
                 updateLocation();
+    }
+    else if (!strcmp(prop->getName(), "WATCHDOG_HEARTBEAT"))
+    {
+        INumberVectorProperty *nvp = prop->getNumber();
+        if (nvp)
+        {
+            if (watchDogTimer == NULL)
+            {
+                watchDogTimer = new QTimer(this);
+                connect(watchDogTimer, SIGNAL(timeout()), this, SLOT(resetWatchdog()));
+            }
+
+            if (connected && nvp->np[0].value > 0)
+            {
+                // Reset timer 15 seconds before it is due
+                watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+            }
+        }
     }
 }
 
@@ -141,6 +161,16 @@ void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
             connected = true;
             emit Connected();
             createDeviceInit();
+
+            if (watchDogTimer != NULL)
+            {
+                INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
+                if (nvp && nvp->np[0].value > 0)
+                {
+                    // Reset timer 15 seconds before it is due
+                    watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+                }
+            }
         }
         else
         {
@@ -170,18 +200,34 @@ void GenericDevice::processNumber(INumberVectorProperty * nvp)
         else
             lng.setD(np->value-360.0);
 
-       np = IUFindNumber(nvp, "LAT");
-       if (!np)
+        np = IUFindNumber(nvp, "LAT");
+        if (!np)
             return;
 
-     lat.setD(np->value);
+        lat.setD(np->value);
 
-     GeoLocation *geo = KStars::Instance()->data()->geo();
+        GeoLocation *geo = KStars::Instance()->data()->geo();
 
-     geo->setLong(lng);
-     geo->setLat(lat);
-     KStars::Instance()->data()->setLocation(*geo);
-   }
+        geo->setLong(lng);
+        geo->setLat(lat);
+        KStars::Instance()->data()->setLocation(*geo);
+    }
+    else if (!strcmp(nvp->name, "WATCHDOG_HEARTBEAT"))
+    {
+        if (watchDogTimer == NULL)
+        {
+            watchDogTimer = new QTimer(this);
+            connect(watchDogTimer, SIGNAL(timeout()), this, SLOT(resetWatchdog()));
+        }
+
+        if (connected && nvp->np[0].value > 0)
+        {
+            // Reset timer 15 seconds before it is due
+            watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+        }
+        else if (nvp->np[0].value == 0)
+            watchDogTimer->stop();
+    }
 }
 
 void GenericDevice::processText(ITextVectorProperty * tvp)
@@ -595,6 +641,18 @@ IPState GenericDevice::getState(const QString &propName)
 IPerm GenericDevice::getPermission(const QString &propName)
 {
     return baseDevice->getPropertyPermission(propName.toLatin1().constData());
+}
+
+void GenericDevice::resetWatchdog()
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
+
+    if (nvp)
+    {
+        // Reset timer 15 seconds before it is due
+        watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+        //clientManager->sendNewNumber(nvp);
+    }
 }
 
 DeviceDecorator::DeviceDecorator(GDInterface *iPtr)

@@ -126,7 +126,6 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 
 
 /* INDI std properties */
-/* N.B. Need to modify corresponding entry in indidevice.cpp when changed */
 enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
                      EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, EQUATORIAL_EOD_COORD_REQUEST, HORIZONTAL_COORD,  /* Telescope */
                      TELESCOPE_ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, TELESCOPE_MOTION_NS, /* Telescope */
@@ -135,7 +134,9 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSE
                      CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO,
                      CCD_VIDEO_STREAM,						/* Video */
                      FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
-                     FILTER_SLOT};						/* Filter */
+                     FILTER_SLOT,						/* Filter */
+                     WATCHDOG_HEARTBEAT};                                       /* Watchdog */
+
 
 /* Devices families that we explicitly support (i.e. with std properties) */
 typedef enum { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_ADAPTIVE_OPTICS, KSTARS_RECEIVERS, KSTARS_GPS, KSTARS_WEATHER, KSTARS_AUXILIARY, KSTARS_UNKNOWN } DeviceFamily;
