@@ -1083,10 +1083,10 @@ bool EkosManager::start()
 
         ekosStartingStatus = STATUS_PENDING;
 
-        appendLogText(i18n("INDI services started. Please connect devices."));
+        appendLogText(i18n("INDI services started on port %1. Please connect devices.", ( (ccd_di != NULL) ? ccd_di->getPort() : guider_di->getPort())));
 
         if (Options::verboseLogging())
-            qDebug() << "INDI services started.";
+            qDebug() << "INDI services started on port " << ( (ccd_di != NULL) ? ccd_di->getPort() : guider_di->getPort());
 
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
