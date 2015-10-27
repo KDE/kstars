@@ -385,7 +385,7 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
         oBest = oTry;
     }
 
-    if ( oBest )
+    if ( oBest && Options::verboseLogging())
         qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
@@ -533,10 +533,12 @@ void SkyMapComposite::reloadConstellationArt(){
     delete m_ConstellationArt;
     m_ConstellationArt=0;
     m_ConstellationArt = new ConstellationArtComponent( this, m_Cultures );
+    SkyMapDrawAbstract::setDrawLock( false );
 }
 
 void SkyMapComposite::reloadDeepSky() {
     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+
     // Deselect object if selected! If not deselected then InfoBox tries to
     // get the name of an object which may not exist (getLongName)
     // FIXME (spacetime): Is there a better way?

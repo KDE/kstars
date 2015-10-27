@@ -234,6 +234,7 @@ void OpsCatalog::slotApply() {
 
     updateCustomCatalogs();
 
+    // JM: Why are we calling this if no deep sky stuff was changed?
     KStars::Instance()->data()->skyComposite()->reloadDeepSky();
 
     Options::setShowMessier( m_ShowMessier );
