@@ -651,7 +651,7 @@ void GenericDevice::resetWatchdog()
     {
         // Reset timer 15 seconds before it is due
         watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
-        //clientManager->sendNewNumber(nvp);
+        clientManager->sendNewNumber(nvp);
     }
 }
 
