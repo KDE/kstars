@@ -207,7 +207,7 @@ void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
     // Add all other images found in user appdata directory
     foreach( KIO::UDSEntry entry, list) {
         KFileItem item(entry, m_Job->url(), false, true);
-        if( item.name().startsWith( "_flag" ) ) {
+        if( item.name().startsWith( "flag" ) ) {
             QString fileName = item.name()
                 .replace(QRegExp("\\.[^.]*$"), QString())
                 .replace(QRegExp("^_flag"),   QString())
