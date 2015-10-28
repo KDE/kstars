@@ -210,7 +210,7 @@ void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
         if( item.name().startsWith( "flag" ) ) {
             QString fileName = item.name()
                 .replace(QRegExp("\\.[^.]*$"), QString())
-                .replace(QRegExp("^_flag"),   QString())
+                .replace(QRegExp("^flag"),   QString())
                 .replace('_',' ');
             m_Names.append( fileName );
             m_Images.append( QImage( item.localPath() ));
