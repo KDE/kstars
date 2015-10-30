@@ -246,10 +246,6 @@ int FITSData::saveFITS( const QString &newFilename )
 
     nelements = stats.samples_per_channel * channels;
 
-    if (HasDebayer)
-    if (KMessageBox::warningContinueCancel(NULL, i18n("Are you sure you want to overwrite original image data with debayered data? This action is irreversible!"), i18n("Save FITS")) != KMessageBox::Continue)
-        return -1000;
-
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, newFilename.toLatin1(), &status))
     {
@@ -269,12 +265,33 @@ int FITSData::saveFITS( const QString &newFilename )
         return status;
     }
 
+    if (HasDebayer)
+    {
+        if (fits_close_file(fptr, &status))
+        {
+            fits_report_error(stderr, status);
+            return status;
+        }
+
+        if (tempFile)
+        {
+            QFile::remove(filename);
+            tempFile = false;
+        }
+
+        filename = newFilename;
+
+        fptr = new_fptr;
+
+        return 0;
+    }
+
     /* close current file */
     if (fits_close_file(fptr, &status))
     {
         fits_report_error(stderr, status);
         return status;
-    }
+    }    
 
     status=0;
 
