@@ -2102,6 +2102,37 @@ void Scheduler::checkJobStage()
     }
     break;
 
+
+    case SchedulerJob::STAGE_RESLEWING:
+    {
+        QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+
+        if (slewStatus.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
+        if(slewStatus.value() == IPS_OK)
+        {
+            appendLogText(i18n("%1 repositioning is complete.", currentJob->getName()));
+            currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
+            getNextAction();
+            return;
+        }
+        else if(slewStatus.value() == IPS_ALERT)
+        {
+            appendLogText(i18n("%1 slew failed!", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
+            return;
+        }
+    }
+        break;
+
     case SchedulerJob::STAGE_CALIBRATING:
     {
         QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
@@ -2220,6 +2251,10 @@ void Scheduler::getNextAction()
         break;
 
     case SchedulerJob::STAGE_ALIGN_COMPLETE:
+        currentJob->setStage(SchedulerJob::STAGE_RESLEWING);
+        break;
+
+    case SchedulerJob::STAGE_RESLEWING_COMPLETE:
         if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
            startCalibrating();
         else

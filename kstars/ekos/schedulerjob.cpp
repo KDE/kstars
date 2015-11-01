@@ -299,6 +299,14 @@ void SchedulerJob::setStage(const JOBStage &value)
             statusCell->setText(i18n("Align complete"));
             break;
 
+        case STAGE_RESLEWING:
+            statusCell->setText(i18n("Repositioning"));
+            break;
+
+        case STAGE_RESLEWING_COMPLETE:
+            statusCell->setText(i18n("Repositioning complete"));
+            break;
+
         case STAGE_CALIBRATING:
             statusCell->setText(i18n("Calibrating"));
             break;
