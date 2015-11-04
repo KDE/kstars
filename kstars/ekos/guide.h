@@ -240,6 +240,15 @@ public slots:
         void dither();
         void setSuspended(bool enable);
 
+protected slots:
+        void updateCCDBin(int index);
+
+        /**
+         * @brief processCCDNumber Process number properties arriving from CCD. Currently, binning changes are processed.
+         * @param nvp pointer to number property.
+         */
+        void processCCDNumber(INumberVectorProperty *nvp);
+
 signals:
         void newLog();
         void guideReady();

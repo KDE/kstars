@@ -69,7 +69,7 @@ Guide::Guide() : QWidget()
 
     connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
     connect(guider, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
-    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
+    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));   
 
     tabWidget->addTab(calibration, calibration->windowTitle());
     tabWidget->addTab(guider, guider->windowTitle());
@@ -77,6 +77,7 @@ Guide::Guide() : QWidget()
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
     connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+    connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -146,6 +147,7 @@ void Guide::checkCCD(int ccdNum)
         currentCCD = CCDs.at(ccdNum);
 
         connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
@@ -251,6 +253,25 @@ void Guide::updateGuideParams()
         {
             appendLogText(i18n("Connection to the guide CCD is lost."));
             return;
+        }
+
+        binningCombo->setEnabled(targetChip->canBin());
+        if (targetChip->canBin())
+        {
+            int binX,binY, maxBinX, maxBinY;
+            targetChip->getBinning(&binX, &binY);
+            targetChip->getMaxBin(&maxBinX, &maxBinY);
+
+            binningCombo->disconnect();
+
+            binningCombo->clear();
+
+            for (int i=1; i <= maxBinX; i++)
+                binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
+
+            binningCombo->setCurrentIndex(binX-1);
+
+            connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
         }
 
         emit guideChipUpdated(targetChip);
@@ -819,6 +840,29 @@ void Guide::checkAutoCalibrateGuiding(bool successful)
     else
     {
         appendLogText(i18n("Auto calibration failed."));
+    }
+}
+
+void Guide::updateCCDBin(int index)
+{
+    if (currentCCD == NULL)
+        return;
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    targetChip->setBinning(index+1, index+1);
+}
+
+void Guide::processCCDNumber(INumberVectorProperty *nvp)
+{
+    if (currentCCD == NULL || strcmp(nvp->device, currentCCD->getDeviceName()))
+        return;
+
+    if ( (!strcmp(nvp->name, "CCD_BINNING") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_BINNING") && useGuideHead) )
+    {
+        binningCombo->disconnect();
+        binningCombo->setCurrentIndex(nvp->np[0].value-1);
+        connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
     }
 }
 
