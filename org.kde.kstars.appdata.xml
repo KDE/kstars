@@ -7,6 +7,7 @@
   <name xml:lang="ast">KStars</name>
   <name xml:lang="bs">KStars</name>
   <name xml:lang="ca">KStars</name>
+  <name xml:lang="ca-valencia">KStars</name>
   <name xml:lang="cs">KStars</name>
   <name xml:lang="da">KStars</name>
   <name xml:lang="de">KStars</name>
@@ -34,6 +35,7 @@
   <summary xml:lang="ast">Planetariu d'escritoriu</summary>
   <summary xml:lang="bs">Stoni planetarij</summary>
   <summary xml:lang="ca">Planetari per a l'escriptori</summary>
+  <summary xml:lang="ca-valencia">Planetari per a l'escriptori</summary>
   <summary xml:lang="cs">Planetárium na vaší obrazovce</summary>
   <summary xml:lang="de">Elektronisches Planetarium</summary>
   <summary xml:lang="en-GB">Desktop Planetarium</summary>
@@ -58,6 +60,7 @@
   <description>
     <p>KStars is free, open source, cross-platform Astronomy Software. It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe! Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.</p>
     <p xml:lang="ca">El KStars és un programa d'Astronomia lliure, de codi obert i multiplataforma. Proporciona una simulació gràfica precisa del cel nocturn, a qualsevol ubicació de la terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, el Sol i la Lluna, i milers de cometes, asteroides, supernoves, i satèl·lits. Pera estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica per predir conjuncions i molts càlculs astronòmics habituals. Per l'astrònom aficionat, proporciona un planificador d'observacions, una eina de calendari del cel, i un editor de CDV per calcular el camp de visió de l'equip i mostrar-ho. Cerqueu objectes interessants amb l'eina «Què passa aquesta nit», dibuixeu gràfics d'altitud vs. temps per a qualsevol objecte, imprimiu diagrames del cel en alta qualitat, i obtingueu l'accés a molta informació i recursos per ajudar-vos a explorar l'univers! Inclòs amb el KStars hi ha el paquet astrofotogràfic Ekos, una solució completa d'astrofotografia que pot controlar tots els dispositius INDI inclosos nombrosos telescopis, CCD, DSLR, enfocadors, filtres, i molt més. L'Ekos té capacitats d'autoguiatge d'alta precisió, i permet capturar una imatge o múltiples usant el potent gestor de seqüències integrat.</p>
+    <p xml:lang="ca-valencia">El KStars és un programa d'Astronomia lliure, de codi obert i multiplataforma. Proporciona una simulació gràfica precisa del cel nocturn, a qualsevol ubicació de la terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, el Sol i la Lluna, i milers de cometes, asteroides, supernoves, i satèl·lits. Pera estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica per predir conjuncions i molts càlculs astronòmics habituals. Per l'astrònom aficionat, proporciona un planificador d'observacions, una eina de calendari del cel, i un editor de CDV per calcular el camp de visió de l'equip i mostrar-ho. Cerqueu objectes interessants amb l'eina «Què passa esta nit», dibuixeu gràfics d'altitud vs. temps per a qualsevol objecte, imprimiu diagrames del cel en alta qualitat, i obtingueu l'accés a molta informació i recursos per ajudar-vos a explorar l'univers! Inclòs amb el KStars hi ha el paquet astrofotogràfic Ekos, una solució completa d'astrofotografia que pot controlar tots els dispositius INDI inclosos nombrosos telescopis, CCD, DSLR, enfocadors, filtres, i molt més. L'Ekos té capacitats d'autoguiatge d'alta precisió, i permet capturar una imatge o múltiples usant el potent gestor de seqüències integrat.</p>
     <p xml:lang="en-GB">KStars is free, open source, cross-platform Astronomy Software. It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe! Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.</p>
     <p xml:lang="es">KStars es un software de Astronomía libre, de código abierto y multiplataforma. Proporciona una precisa simulación gráfica del cielo nocturno desde cualquier punto de la Tierra y en cualquier fecha y hora. Puede mostrar hasta 100 millones de estrellas, 13.000 objetos del espacio profundo, los 8 planetas, el Sol, la Luna y miles de cometas, asteroides, supernovas y satélites. Para estudiantes y profesores, permite velocidades de simulación ajustables para poder visualizar los fenómenos que ocurren a lo largo de grandes periodos de tiempo. La calculadora astronómica de KStars se puede usar para predecir conjunciones y para realizar numerosos cálculos astronómicos. Para el astrónomo aficionado, proporciona un planificador de observaciones, una herramienta de calendario celeste y un editor de campo visual para calcular el campo visual de su equipo y mostrarlo. Encuentre objetos interesantes con la herramienta «Qué ocurre esta noche», dibuje gráficos de altura frente a tiempo de cualquier objeto, imprima cartas estelares de gran calidad y obtenga acceso a gran cantidad de información y recursos que le ayudarán a explorar el universo. KStars incluye la suite de astrofotografía Ekos, una completa solución de fotografía astronómica que puede controlar todos los dispositivos INDI, como numerosos telescopios, cámaras CCD y DSLR, sistemas de enfoque, filtros, entre otros. Ekos permite realizar un seguimiento muy preciso mediante el uso de un sistema de identificación astrométrico con o sin conexión a Internet y las posibilidades de enfoque y guiado automáticos. También permite capturar una o varias imágenes mediante el uso de un potente gestor de secuencias integrado.</p>
     <p xml:lang="gl">KStars é un programa libre de astronomía compatíbel con varias plataformas. Fornece un simulador gráfico exacto do ceo nocturno, desde calquera parte da Terra, en calquera data e hora. A visualización inclúe ata 100 millóns de estrelas, 13.000 obxectos do ceo profundo, os 8 planetas, o Sol, a Lúa, e milleiros de cometas, asteroides, supernovas e satélites. Para estudantes e mestres, o programa permite axustar a velocidade da simulación, para así poden contemplar fenómenos que suceden ao longo de moito tempo, e fornece ademais unha calculadora astronómica que permite predicir aliñamentos e realizar moitos cálculos astronómicos comúns. Para astrónomos afeccionados, KStars fornece un planificador de observacións, unha ferramenta de calendario celestial, e un editor para calcular o campo de visión do equipo e mostralo. Pode descubrir obxectos interesantes mediante a ferramenta «Que pasa esta noite», comparar nunha gráfica a altitude co tempo para calquera obxecto, imprimir cartas celestiais de gran calidade, e acceder a unha morea de información e recursos para axudarche a explorar o universo! KStars inclúe a colección de software de fotografía de astros «Ekos», unha solución completa que pode controlar todos os dispositivos compatíbeis coa biblioteca INDI, incluíndo moitos telescopios, dispositivos de carga acoplada (CCD), cámaras réflex dixitais (DSLR), focalizadores, filtros, e moito máis. Ekos permite facer un seguimento moi certeiro usando software de resolución de astrometría por internet e local, funcionalidades de focalización e guía automática, e captura de unha ou varias imaxes mediante o potente xestor de secuencias integrado.</p>
@@ -75,6 +78,7 @@
     <p xml:lang="ast">Catálogos astronámicos:</p>
     <p xml:lang="bs">Astronomski katalozi:</p>
     <p xml:lang="ca">Catàlegs astronòmics:</p>
+    <p xml:lang="ca-valencia">Catàlegs astronòmics:</p>
     <p xml:lang="cs">Astronomické katalogy:</p>
     <p xml:lang="de">Astronomische Kataloge:</p>
     <p xml:lang="en-GB">Astronomical Catalogues:</p>
@@ -99,6 +103,7 @@
       <li>Default catalog consisting of stars to magnitude 8</li>
       <li xml:lang="bs">Uobičajeni Katalog se sastoji od zvijezda do magnitude 8</li>
       <li xml:lang="ca">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
+      <li xml:lang="ca-valencia">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
       <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">Default catalogue consisting of stars to magnitude 8</li>
       <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
@@ -120,6 +125,7 @@
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="bs">Prošireni katalozi koji se sastoji od 100 milijuna zvijezda u veličini 16</li>
       <li xml:lang="ca">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
+      <li xml:lang="ca-valencia">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
       <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">Extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
@@ -140,6 +146,7 @@
       <li xml:lang="zh-TW">包含到星等 16 的一億個星體的額外類別</li>
       <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalog</li>
       <li xml:lang="ca">Catàlegs descarregables que inclouen imatges de Messier, la nebulosa planetària Abell, el catàleg Sharpless</li>
+      <li xml:lang="ca-valencia">Catàlegs descarregables que inclouen imatges de Messier, la nebulosa planetària Abell, el catàleg Sharpless</li>
       <li xml:lang="de">Herunterladbare Kataloge einschließlich Messier-Bilder, Abell-Katalog, Sharpless-Katalog</li>
       <li xml:lang="en-GB">Downloadable catalogues including Messier Images, Abell Planetary Nebulae, Sharpless Catalogue</li>
       <li xml:lang="es">Los catálogos que puede descargar contienen imágenes de objetos Messier, Nebulosas planetarias Abell y el Catálogo Sharpless</li>
@@ -158,6 +165,7 @@
       <li>Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="bs">Korekcije za precesiju, njihanje i atmosferske refrakcije</li>
       <li xml:lang="ca">Correccions per la precessió, nutació i refracció atmosfèrica</li>
+      <li xml:lang="ca-valencia">Correccions per la precessió, nutació i refracció atmosfèrica</li>
       <li xml:lang="de">Korrekturen für Präzession, Nutation und atmosphärische Brechung</li>
       <li xml:lang="en-GB">Corrections for precession, nutation and atmospheric refraction</li>
       <li xml:lang="es">Correcciones de precesión, nutación y refracción atmosférica</li>
@@ -180,6 +188,7 @@
       <li xml:lang="ast">Ferramientes pal recibimientu de datos de bases de datos en llinia</li>
       <li xml:lang="bs">Alati za preuzimanje podataka iz mrežnih baza podataka</li>
       <li xml:lang="ca">Eines per a recuperar dades des d'una base de dades en línia</li>
+      <li xml:lang="ca-valencia">Eines per a recuperar dades des d'una base de dades en línia</li>
       <li xml:lang="cs">Nástroje pro získávání dat z databází online</li>
       <li xml:lang="de">Werkzeuge zum Herunterladen von Daten aus Online-Datenbanken</li>
       <li xml:lang="en-GB">Tools for retrieval of data from online databases</li>
