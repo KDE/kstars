@@ -19,38 +19,7 @@
      <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,1,1">
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>Target:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLineEdit" name="nameEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="selectObjectB">
-            <property name="text">
-             <string>Find...</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label">
-          <property name="toolTip">
-           <string>Target coordinates in J2000 Epoch</string>
-          </property>
-          <property name="text">
-           <string>J2000:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
+        <item row="1" column="2">
          <layout class="QHBoxLayout" name="horizontalLayout_17">
           <item>
            <widget class="QLabel" name="label_6">
@@ -82,17 +51,7 @@
           </item>
          </layout>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="toolTip">
-           <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
-          </property>
-          <property name="text">
-           <string>FITS File:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
+        <item row="2" column="2">
          <layout class="QHBoxLayout" name="horizontalLayout_13">
           <item>
            <widget class="QLineEdit" name="fitsEdit">
@@ -116,57 +75,17 @@
           </item>
          </layout>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_3">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
           <property name="toolTip">
-           <string>Ekos Sequence File</string>
+           <string>Target coordinates in J2000 Epoch</string>
           </property>
           <property name="text">
-           <string>Sequence:</string>
+           <string>J2000:</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_15">
-          <item>
-           <widget class="QLineEdit" name="sequenceEdit">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="loadSequenceB">
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Load the image sequence queue.</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="toolTip">
-           <string>Select which Ekos modules to be utilized during the observation job</string>
-          </property>
-          <property name="text">
-           <string>Modules:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
+        <item row="4" column="2">
          <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
            <widget class="QCheckBox" name="focusModuleCheck">
@@ -251,6 +170,107 @@
            </spacer>
           </item>
          </layout>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="nameEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectObjectB">
+            <property name="text">
+             <string>Find...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="sequenceLabel">
+          <property name="toolTip">
+           <string>Ekos Sequence File</string>
+          </property>
+          <property name="text">
+           <string>Sequence:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="FITSLabel">
+          <property name="toolTip">
+           <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
+          </property>
+          <property name="text">
+           <string>FITS File:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="targetLabel">
+          <property name="text">
+           <string>Target:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <widget class="QLineEdit" name="sequenceEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadSequenceB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Load the image sequence queue.</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="toolTip">
+           <string>Select which Ekos modules to be utilized during the observation job</string>
+          </property>
+          <property name="text">
+           <string>Modules:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_3">
+          <property name="styleSheet">
+           <string notr="true">color:red</string>
+          </property>
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="label_5">
+          <property name="styleSheet">
+           <string notr="true">color:red</string>
+          </property>
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -944,7 +964,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupButtonGroup"/>
  </buttongroups>
 </ui>
