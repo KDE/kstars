@@ -299,6 +299,7 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
     foreach ( SkyPoint *cp, pointList() ) {
         if (std::isnan(cp->ra().Degrees()) || std::isnan(cp->dec().Degrees()))
             continue;
+        cp->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
         QPointF pos2 = proj->toScreen(cp);
         int dx = (pos2 - pos).x();
         int dy = (pos2 - pos).y();
