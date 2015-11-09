@@ -299,7 +299,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
 
         else if ( c == m_Categories[7] ) { //Comets
             foreach ( SkyObject *o, data->skyComposite()->comets() )
-            if ( checkVisibility(o) )
+            if ( checkVisibility(o) && o->mag() <= m_Mag)
                 visibleObjects(c).append(o);
 
             m_CategoryInitialized[ c ] = true;
