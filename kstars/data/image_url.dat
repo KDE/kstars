@@ -550,8 +550,7 @@ NGC 7814:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n7814hur
 Moon:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/gibbous2.jpg
 Mars:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/mars080303block.jpg
 Jupiter:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/jupmoon4.gif
-Saturn:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/saturndonnelly.jpg
-Uranus:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/uranussawit.jpg
+
 #
 # NOAO Images:
 Pluto:Show NOAO Image:http://www.noao.edu/image_gallery/images/d5/03024b.jpg
@@ -734,6 +733,9 @@ Moon:Show APOD Image:http://antwrp.gsfc.nasa.gov/apod/image/0503/moon8_mandel_bi
 Sun:Show APOD Image:http://antwrp.gsfc.nasa.gov/apod/image/0001/sunhalpha_gendler_big.jpg
 Venus:Show APOD Image (Radar):http://antwrp.gsfc.nasa.gov/apod/image/9911/venus2_mag_big.gif
 Venus:Show APOD Image (Venera lander):http://antwrp.gsfc.nasa.gov/apod/image/venera_13_left.gif
+Saturn:Show APOD Image:http://apod.nasa.gov/apod/image/1310/saturnmosaic_cassini_4000.jpg
+Uranus:Show APOD Image:http://apod.nasa.gov/apod/image/0108/uranus_vg2.jpg
+
 #
 # Spitzer Images:
 IC 1396:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2003-06a_medium.jpg
