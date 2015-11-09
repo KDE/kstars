@@ -652,10 +652,10 @@ void Satellite::init()
     }
 }
 
-void Satellite::updatePos()
+int Satellite::updatePos()
 {
     KStarsData *data = KStarsData::Instance();
-    sgp4( ( data->clock()->utc().djd() - m_tle_jd ) * MINPD );
+    return sgp4( ( data->clock()->utc().djd() - m_tle_jd ) * MINPD );
 }
 
 int Satellite::sgp4( double tsince )
@@ -1162,6 +1162,33 @@ int Satellite::sgp4( double tsince )
     m_is_visible  = !m_is_eclipsed && sun->alt().Degrees() <= -12.0 && elevation >= 0.0;
 
     return( 0 );
+}
+
+QString Satellite::sgp4ErrorString(int code)
+{
+    switch (code)
+    {
+    case 0:
+        return i18n("Success");
+
+    case 1:
+    case 3:
+        return i18n("Eccentricity >= 1.0 or < -0.001");
+
+    case 2:
+        return i18n("Mean motion less than 0.0");
+
+
+    case 4:
+        return i18n("Semi-latus rectum < 0.0");
+
+
+    case 6:
+        return i18n("Satellite has decayed");
+
+    default:
+        return i18n("Unknown error");
+    }
 }
 
 double Satellite::arcSin( double arg )

@@ -54,7 +54,7 @@ public:
     /**
      *@short Update satellite position
      */
-    void updatePos();
+    int updatePos();
 
     /**
      *@return True if the satellite is visible (above horizon, in the sunlight and sun at least 12° under horizon)
@@ -91,6 +91,13 @@ public:
      */
     QString id();
 
+    /**
+     * @brief sgp4ErrorString Get error string associated with sgp4 calculation failure
+     * @param code error code as returned from sgp4() function
+     * @return error string
+     */
+    QString sgp4ErrorString(int code);
+
 private:
     /**
      *@short Compute non time dependant parameters
@@ -100,7 +107,7 @@ private:
     /**
      *@short Compute satellite position
      */
-    int sgp4( double tsince );
+    int sgp4( double tsince );    
 
     /**
      *@return Arcsine of the argument
