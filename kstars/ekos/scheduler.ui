@@ -756,6 +756,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="uncapCheck">
+            <property name="toolTip">
+             <string>Open dust cover</string>
+            </property>
+            <property name="text">
+             <string>UnCap</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer_10">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -828,6 +838,16 @@
             </property>
             <property name="text">
              <string>Warm CCD</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="capCheck">
+            <property name="toolTip">
+             <string>Close dust cover</string>
+            </property>
+            <property name="text">
+             <string>Cap</string>
             </property>
            </widget>
           </item>

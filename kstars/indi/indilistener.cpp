@@ -24,6 +24,7 @@
 #include "indiccd.h"
 #include "indidome.h"
 #include "indiweather.h"
+#include "indicap.h"
 #include "indifilter.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
@@ -33,7 +34,7 @@
 #include "kstars.h"
 #include "Options.h"
 
-#define NINDI_STD	32
+#define NINDI_STD	35
 
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] =
@@ -41,7 +42,7 @@ const char * indi_std[NINDI_STD] =
      "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
      "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "WEATHER_STATUS", "CCD_EXPOSURE",
      "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCD_VIDEO_STREAM",
-     "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT",  "WATCHDOG_HEARTBEAT"};
+     "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT",  "WATCHDOG_HEARTBEAT", "CAP_PARK", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_INTENSITY"};
 
 INDIListener * INDIListener::_INDIListener = NULL;
 
@@ -234,6 +235,17 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 }
 
                emit newWeather(gd);
+            }
+            else if (!strcmp(prop->getName(), "CAP_PARK"))
+            {
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::DustCap(gd);
+                    devices.append(gd);
+                }
+
+               emit newDustCap(gd);
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))

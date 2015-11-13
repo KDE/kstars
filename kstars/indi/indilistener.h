@@ -76,6 +76,7 @@ signals:
     void newFocuser(ISD::GDInterface *);
     void newDome(ISD::GDInterface *);
     void newWeather(ISD::GDInterface *);
+    void newDustCap(ISD::GDInterface *);
     void newST4(ISD::ST4*);
     void deviceRemoved(ISD::GDInterface *);
 

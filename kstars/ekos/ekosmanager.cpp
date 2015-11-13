@@ -71,6 +71,7 @@ EkosManager::EkosManager()
     ao      =  NULL;
     dome    =  NULL;
     weather =  NULL;
+    dustCap =  NULL;
 
     scope_di   = NULL;
     ccd_di     = NULL;
@@ -94,6 +95,7 @@ EkosManager::EkosManager()
     domeProcess    = NULL;
     schedulerProcess = NULL;
     weatherProcess = NULL;
+    dustCapProcess = NULL;
 
     ekosOption     = NULL;
 
@@ -159,6 +161,7 @@ EkosManager::~EkosManager()
     delete weatherProcess;
     delete mountProcess;
     delete schedulerProcess;
+    delete dustCapProcess;
 }
 
 void EkosManager::closeEvent(QCloseEvent * /*event*/)
@@ -815,6 +818,7 @@ void EkosManager::reset()
     alignProcess   = NULL;
     mountProcess   = NULL;
     weatherProcess = NULL;
+    dustCapProcess = NULL;
 
     ekosStartingStatus  = STATUS_IDLE;
     indiConnectionStatus= STATUS_IDLE;
@@ -1054,6 +1058,7 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newFocuser(ISD::GDInterface*)), this, SLOT(setFocuser(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface*)), this, SLOT(setWeather(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this, SLOT(setDustCap(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
     connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
     connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
@@ -1938,6 +1943,17 @@ void EkosManager::setWeather(ISD::GDInterface *weatherDevice)
     appendLogText(i18n("%1 is online.", weather->getDeviceName()));
 }
 
+void EkosManager::setDustCap(ISD::GDInterface *dustCapDevice)
+{
+    initDustCap();
+
+    dustCap = dustCapDevice;
+
+    dustCapProcess->setDustCap(dustCap);
+
+    appendLogText(i18n("%1 is online.", dustCap->getDeviceName()));
+}
+
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 {    
     switch (devInterface->getType())
@@ -2411,6 +2427,14 @@ void EkosManager::initWeather()
     weatherProcess = new Ekos::Weather();
 }
 
+void EkosManager::initDustCap()
+{
+    if (dustCapProcess)
+        return;
+
+    dustCapProcess = new Ekos::DustCap();
+}
+
 void EkosManager::setST4(ISD::ST4 * st4Driver)
 {
      appendLogText(i18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
@@ -2461,6 +2485,10 @@ void EkosManager::removeTabs()
         weather = NULL;
         delete (weatherProcess);
         weatherProcess = NULL;
+
+        dustCap = NULL;
+        delete (dustCapProcess);
+        dustCapProcess = NULL;
 
         aux1 = NULL;
         aux2 = NULL;

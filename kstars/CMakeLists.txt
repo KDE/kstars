@@ -61,6 +61,7 @@ if (INDI_FOUND)
     indi/indifilter.cpp
     indi/indidome.cpp
     indi/indiweather.cpp
+    indi/indicap.cpp
     indi/indidbus.cpp
     indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
@@ -99,6 +100,7 @@ if (CFITSIO_FOUND)
       ekos/mount.cpp
       ekos/dome.cpp
       ekos/weather.cpp
+      ekos/dustcap.cpp
       ekos/astrometryparser.cpp
       ekos/offlineastrometryparser.cpp
       ekos/onlineastrometryparser.cpp
@@ -502,6 +504,7 @@ qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/dustcap.h Ekos::DustCap)
 endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
