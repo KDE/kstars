@@ -113,6 +113,7 @@ Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/AlignFailed]
 Name=Alignment Failure
+Name[ast]=Fallu d'alliniamientu
 Name[ca]=Ha fallat l'alineació
 Name[ca@valencia]=Ha fallat l'alineació
 Name[en_GB]=Alignment Failure
