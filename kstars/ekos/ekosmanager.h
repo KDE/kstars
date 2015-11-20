@@ -268,7 +268,7 @@ protected slots:
     bool localMode, ccdDriverSelected;
 
     int nDevices, nRemoteDevices;
-    int nConnectedDevices;
+    QAtomicInt nConnectedDevices;
     QList<DriverInfo *> managedDevices;
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;

@@ -555,10 +555,10 @@ void EkosManager::initRemoteDrivers()
         AOCombo->addItem(remoteAOName);
 
     if (remoteFilterName.isEmpty() == false)
-        focuserCombo->addItem(remoteFilterName);
+        filterCombo->addItem(remoteFilterName);
 
     if (remoteFocuserName.isEmpty() == false)
-        filterCombo->addItem(remoteFocuserName);
+        focuserCombo->addItem(remoteFocuserName);
 
     if (remoteDomeName.isEmpty() == false)
         domeCombo->addItem(remoteDomeName);
@@ -1634,6 +1634,14 @@ void EkosManager::deviceConnected()
 
     nConnectedDevices++;
 
+    if (Options::verboseLogging())
+    {
+        ISD::GDInterface *device = (ISD::GDInterface *) sender();
+        qDebug() << device->getDeviceName() << " is connected.";
+        qDebug() << "Managed Devices: " << managedDevices.count() << " Remote Devices: " << nRemoteDevices;
+        qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
+    }
+
     if (nConnectedDevices == managedDevices.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
         indiConnectionStatus = STATUS_SUCCESS;
 
@@ -1738,13 +1746,22 @@ void EkosManager::deviceDisconnected()
     {
         if (dev->getState("CONNECTION") == IPS_ALERT)
             indiConnectionStatus = STATUS_ERROR;
+        else if (dev->getState("CONNECTION") == IPS_BUSY)
+            indiConnectionStatus = STATUS_PENDING;
         else
             indiConnectionStatus = STATUS_IDLE;
     }
     else
         indiConnectionStatus = STATUS_IDLE;
 
-    nConnectedDevices--;
+    if (Options::verboseLogging())
+    {
+        qDebug() << dev->getDeviceName() << " is disconnected.";
+        qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
+    }
+
+    if (indiConnectionStatus == STATUS_IDLE)
+        nConnectedDevices--;
 
     if (nConnectedDevices < 0)
         nConnectedDevices = 0;
