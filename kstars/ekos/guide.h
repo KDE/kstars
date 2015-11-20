@@ -225,6 +225,7 @@ public slots:
      Q_SCRIPTABLE bool capture();
 
      void checkCCD(int ccdNum=-1);
+     void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state);
      void newFITS(IBLOB*);
      void newST4(int index);
      void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);

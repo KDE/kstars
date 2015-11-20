@@ -10,6 +10,7 @@
 #include "guide.h"
 
 #include <QDateTime>
+#include <unistd.h>
 
 #include "guide/gmath.h"
 #include "guide/guider.h"
@@ -148,6 +149,7 @@ void Guide::checkCCD(int ccdNum)
 
         connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
@@ -863,6 +865,17 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
         binningCombo->disconnect();
         binningCombo->setCurrentIndex(nvp->np[0].value-1);
         connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
+    }        
+}
+
+void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state)
+{
+    INDI_UNUSED(exposure);
+
+    if (state == IPS_ALERT && (guider->isGuiding() || calibration->isCalibrating()))
+    {
+        appendLogText(i18n("Exposure failed. Restarting exposure..."));
+        targetChip->capture(exposureIN->value());
     }
 }
 
