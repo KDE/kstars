@@ -2115,7 +2115,7 @@ bool Capture::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "Temperature"))
         {
             if (temperatureIN->isEnabled())
-                temperatureIN->setValue(atof(pcdataXMLEle(ep))-1);
+                temperatureIN->setValue(atof(pcdataXMLEle(ep)));
 
             // If force attribute exist, we change temperatureCheck, otherwise do nothing.
             if (!strcmp(findXMLAttValu(ep, "force"), "true"))
