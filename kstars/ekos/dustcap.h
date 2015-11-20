@@ -44,6 +44,12 @@ public:
     /*@{*/
 
     /** DBUS interface function.
+     * If dust cap can park/unpark or is it just a light source?
+     * @return True if park is supported, false otherwise
+     */
+    Q_SCRIPTABLE bool canPark();
+
+    /** DBUS interface function.
      * Park / Close dust cap
      * @return True if operation started/successful, false otherwise
      */
@@ -53,7 +59,7 @@ public:
      * UnPark / Open dust cap
      * @return True if operation started/successful, false otherwise
      */
-    Q_SCRIPTABLE bool unPark();
+    Q_SCRIPTABLE bool unpark();
 
     /** DBUS interface function.
      * hasLight: Does the dust cap have a flat light source?

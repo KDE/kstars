@@ -4,10 +4,13 @@
     <method name="getParkingStatus">
         <arg type="i" direction="out"/>
     </method>
+    <method name="canPark">
+        <arg type="b" direction="out"/>
+    </method>
     <method name="park">
         <arg type="b" direction="out"/>
     </method>
-    <method name="unPark">
+    <method name="unpark">
         <arg type="b" direction="out"/>
     </method>
     <method name="hasLight">

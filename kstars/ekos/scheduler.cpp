@@ -57,6 +57,8 @@ Scheduler::Scheduler()
     Dawn         = -1;
     Dusk         = -1;
 
+    indiConnectFailureCount=0;
+
     noWeatherCounter=0;
 
     weatherStatus=IPS_IDLE;
@@ -131,6 +133,13 @@ Scheduler::Scheduler()
     connect(focusModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(alignModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(guideModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(capCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(uncapCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(parkMountCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(unparkMountCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(parkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(unparkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(warmCCDCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
 }
 
 Scheduler::~Scheduler()
@@ -616,12 +625,21 @@ void Scheduler::stop()
     // Only reset startup state to idle if the startup procedure was interrupted before it had the chance to complete.
     // Or if we're doing a soft shutdown
     if (startupState != STARTUP_COMPLETE || preemptiveShutdown)
+    {
+        if (startupState == STARTUP_SCRIPT)
+        {
+            scriptProcess.disconnect();
+            scriptProcess.terminate();
+        }
+
         startupState    = STARTUP_IDLE;
+    }
 
     shutdownState   = SHUTDOWN_IDLE;
 
     currentJob = NULL;
     captureBatch =0;
+    indiConnectFailureCount=0;
     jobEvaluationOnly=false;
 
     // If soft shutdown, we return for now
@@ -1546,11 +1564,15 @@ bool    Scheduler::checkINDIState()
         }
         else if(isINDIConnected.value()== EkosManager::STATUS_ERROR)
         {
+            if (indiConnectFailureCount++ < 3)
+            {
+                appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
+                ekosInterface->call(QDBus::AutoDetect,"connectDevices");
+                return false;
+            }
+
             appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
-
             stop();
-
-            // TODO deal with INDI connection error? Wait until user resolves it? stop scheduler?
             return false;
         }
         else
@@ -1592,11 +1614,11 @@ bool    Scheduler::checkINDIState()
         else
             weatherCheck->setEnabled(false);
 
-        QDBusReply<int> capReply = capInterface->call(QDBus::AutoDetect, "hasLight");
+        QDBusReply<bool> capReply = capInterface->call(QDBus::AutoDetect, "canPark");
         if (capReply.error().type() == QDBusError::NoError)
         {
-            capCheck->setEnabled(true);
-            uncapCheck->setEnabled(true);
+            capCheck->setEnabled(capReply.value());
+            uncapCheck->setEnabled(capReply.value());
         }
         else
         {
@@ -2720,7 +2742,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         if (warmCCDCheck->isChecked())
             outstream << "<Procedure>WarmCCD</Procedure>" << endl;
         if (capCheck->isChecked())
-            outstream << "<Procedure>CapMount</Procedure>" << endl;
+            outstream << "<Procedure>ParkCap</Procedure>" << endl;
         if (parkMountCheck->isChecked())
             outstream << "<Procedure>ParkMount</Procedure>" << endl;
         if (parkDomeCheck->isChecked())
@@ -2956,11 +2978,12 @@ void Scheduler::setGOTOMode(Align::GotoMode mode)
 
 void Scheduler::stopINDI()
 {
-        ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
+    indiConnectFailureCount=0;
+    ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
 
-        startupState = STARTUP_IDLE;
-        shutdownState= SHUTDOWN_IDLE;        
-        weatherStatus= IPS_IDLE;
+    startupState = STARTUP_IDLE;
+    shutdownState= SHUTDOWN_IDLE;
+    weatherStatus= IPS_IDLE;
 }
 
 void Scheduler::setDirty()
@@ -3313,7 +3336,7 @@ void    Scheduler::unParkCap()
     if (status != DustCap::UNPARKING_OK)
     {
         startupState = STARTUP_UNPARKING_CAP;
-        domeInterface->call(QDBus::AutoDetect,"unpark");
+        capInterface->call(QDBus::AutoDetect,"unpark");
         appendLogText(i18n("Unparking cap..."));
     }
     else if (status == DustCap::UNPARKING_OK)

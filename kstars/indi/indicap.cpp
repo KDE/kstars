@@ -38,28 +38,23 @@ void DustCap::processText(ITextVectorProperty *tvp)
 }
 
 
-bool DustCap::isParked()
+bool DustCap::canPark()
 {
-    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DUST_COVER");
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("CAP_PARK");
     if (parkSP == NULL)
         return false;
-
-    ISwitch *parkSW = IUFindSwitch(parkSP, "DUST_COVER_CLOSE");
-
-    if (parkSW == NULL)
-        return false;
-
-    return ( (parkSW->s == ISS_ON) && parkSP->s == IPS_OK);
+    else
+        return true;
 }
 
 
 bool DustCap::Park()
 {
-    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DUST_COVER");
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("CAP_PARK");
     if (parkSP == NULL)
         return false;
 
-    ISwitch *parkSW = IUFindSwitch(parkSP, "DUST_COVER_CLOSE");
+    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
     if (parkSW == NULL)
         return false;
 
@@ -72,11 +67,11 @@ bool DustCap::Park()
 
 bool DustCap::UnPark()
 {
-    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DUST_COVER");
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("CAP_PARK");
     if (parkSP == NULL)
         return false;
 
-    ISwitch *parkSW = IUFindSwitch(parkSP, "DUST_COVER_OPEN");
+    ISwitch *parkSW = IUFindSwitch(parkSP, "UNPARK");
     if (parkSW == NULL)
         return false;
 

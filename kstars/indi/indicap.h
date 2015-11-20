@@ -37,7 +37,7 @@ public:
     DeviceFamily getType() { return dType;}
 
     bool hasLight();
-    bool isParked();
+    bool canPark();
 
 public slots:
     /**

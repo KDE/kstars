@@ -79,12 +79,20 @@ bool DustCap::park()
     return currentDustCap->Park();
 }
 
-bool DustCap::unPark()
+bool DustCap::unpark()
 {
     if (currentDustCap == NULL)
         return false;
 
     return currentDustCap->UnPark();
+}
+
+bool DustCap::canPark()
+{
+    if (currentDustCap == NULL)
+        return false;
+
+    return currentDustCap->canPark();
 }
 
 bool DustCap::hasLight()
