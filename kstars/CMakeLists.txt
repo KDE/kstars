@@ -29,7 +29,6 @@ if (CFITSIO_FOUND)
     fitsviewer/fitstab.cpp
     fitsviewer/fitsdebayer.cpp
     fitsviewer/bayer.c
-    fitsviewer/qcustomplot.cpp
     )
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui
@@ -412,6 +411,7 @@ set(kstars_extra_SRCS
         auxiliary/imageexporter.cpp
         auxiliary/ksutils.cpp
         auxiliary/kswizard.cpp
+        auxiliary/qcustomplot.cpp
         time/simclock.cpp
         time/kstarsdatetime.cpp
         time/timezonerule.cpp
