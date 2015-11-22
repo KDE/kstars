@@ -105,10 +105,9 @@ Focus::Focus()
     connect(FilterPosCombo, SIGNAL(activated(int)), this, SLOT(updateFilterPos(int)));
     connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
     connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
+    connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
 
-    binXIN->setValue(Options::focusXBin());
-    binYIN->setValue(Options::focusYBin());
-    connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
+    binningCombo->setCurrentIndex(Options::focusXBin()-1);
 
     connect(clearDataB, SIGNAL(clicked()) , this, SLOT(clearDataPoints()));
 
@@ -228,16 +227,16 @@ void Focus::syncCCDInfo()
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     if (targetChip)
     {
-        binXIN->setEnabled(targetChip->canBin());
-        binYIN->setEnabled(targetChip->canBin());
+        binningCombo->setEnabled(targetChip->canBin());
         kcfg_subFrame->setEnabled(targetChip->canSubframe());
         kcfg_autoSelectStar->setEnabled(targetChip->canSubframe());
         if (targetChip->canBin())
         {
             int binx=1,biny=1;
+            binningCombo->clear();
             targetChip->getMaxBin(&binx, &biny);
-            binXIN->setMaximum(binx);
-            binYIN->setMaximum(biny);
+            for (int i=1; i <= binx; i++)
+                binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
         }
 
         QStringList isoList = targetChip->getISOList();
@@ -269,7 +268,11 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
             return;
     }
 
-    filterGroup->setEnabled(true);
+    FilterCaptureLabel->setEnabled(true);
+    FilterCaptureCombo->setEnabled(true);
+    FilterPosLabel->setEnabled(true);
+    FilterPosCombo->setEnabled(true);
+    lockFilterCheck->setEnabled(true);
 
     FilterCaptureCombo->addItem(newFilter->getDeviceName());
 
@@ -426,6 +429,15 @@ void Focus::checkFocuser(int FocuserNum)
     {
         canAbsMove = true;
         getAbsFocusPosition();
+
+        absTicksSpin->setEnabled(true);
+        setAbsTicksB->setEnabled(true);
+    }
+    else
+    {
+        canAbsMove = false;
+        absTicksSpin->setEnabled(false);
+        setAbsTicksB->setEnabled(false);
     }
 
     if (currentFocuser->canRelMove())
@@ -478,6 +490,12 @@ void Focus::getAbsFocusPosition()
            currentPosition = absMove->np[0].value;
            absMotionMax  = absMove->np[0].max;
            absMotionMin  = absMove->np[0].min;
+
+           absTicksSpin->setMinimum(absMove->np[0].min);
+           absTicksSpin->setMaximum(absMove->np[0].max);
+           absTicksSpin->setSingleStep(absMove->np[0].step);
+
+           absTicksSpin->setValue(currentPosition);
         }
     }
 
@@ -525,8 +543,7 @@ void Focus::start()
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
-    Options::setFocusXBin(binXIN->value());
-    Options::setFocusYBin(binYIN->value());
+    Options::setFocusXBin(binningCombo->currentIndex()+1);
     Options::setFocusMaxTravel(maxTravelIN->value());
 
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
@@ -648,8 +665,7 @@ void Focus::capture()
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
-    if (targetChip->canBin())
-        targetChip->setBinning(binXIN->value(), binYIN->value());
+    targetChip->setBinning(binningCombo->currentIndex()+1, binningCombo->currentIndex()+1);
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
@@ -1475,7 +1491,10 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     {
        INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
        if (pos)
+       {
            currentPosition = pos->value;
+           absTicksSpin->setValue(currentPosition);
+       }
 
        if (resetFocus && nvp->s == IPS_OK)
        {
@@ -1721,8 +1740,8 @@ void Focus::setExposure(double value)
 
 void Focus::setBinning(int binX, int binY)
 {
-   binXIN->setValue(binX);
-   binYIN->setValue(binY);
+  INDI_UNUSED(binY);
+  binningCombo->setCurrentIndex(binX-1);
 }
 
 void Focus::setImageFilter(const QString & value)
@@ -1800,6 +1819,23 @@ void Focus::checkAutoStarTimeout()
         abort();
         updateFocusStatus(false);
     }
+}
+
+void Focus::setAbsoluteFocusTicks()
+{
+    if (currentFocuser == NULL)
+         return;
+
+    if (currentFocuser->isConnected() == false)
+    {
+       appendLogText(i18n("Error: Lost connection to Focuser."));
+       return;
+    }
+
+    if (Options::verboseLogging())
+        qDebug() << "Setting focus ticks to " << absTicksSpin->value();
+
+    currentFocuser->moveAbs(absTicksSpin->value());
 }
 
 }

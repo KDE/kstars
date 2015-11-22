@@ -224,16 +224,6 @@ public slots:
      */
     void checkFilter(int filterNum=-1);
 
-    /**
-     * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
-     */
-    void filterLockToggled(bool);
-
-    /**
-     * @brief updateFilterPos If filter locking is checked, set the locked filter to the current filter position
-     * @param index current filter position
-     */
-    void updateFilterPos(int index);
 
     /**
      * @brief clearDataPoints Remove all data points from HFR plots
@@ -258,18 +248,6 @@ public slots:
      * @param y Y coordinate
      */
     void focusStarSelected(int x, int y);
-
-    /**
-     * @brief toggleAutofocus Process switching between manual and automated focus.
-     * @param enable If true, auto focus is selected, if false, manual mode is selected.
-     */
-    void toggleAutofocus(bool enable);
-
-    /**
-     * @brief toggleSubframe Process enabling and disabling subframing.
-     * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
-     */
-    void toggleSubframe(bool enable);
 
     /**
      * @brief newFITS A new FITS blob is received by the CCD driver.
@@ -306,7 +284,33 @@ public slots:
      */
     void filterChangeWarning(int index);
 
+private slots:
+    /**
+     * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
+     */
+    void filterLockToggled(bool);
+
+    /**
+     * @brief updateFilterPos If filter locking is checked, set the locked filter to the current filter position
+     * @param index current filter position
+     */
+    void updateFilterPos(int index);
+
+    /**
+     * @brief toggleAutofocus Process switching between manual and automated focus.
+     * @param enable If true, auto focus is selected, if false, manual mode is selected.
+     */
+    void toggleAutofocus(bool enable);
+
+    /**
+     * @brief toggleSubframe Process enabling and disabling subframing.
+     * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
+     */
+    void toggleSubframe(bool enable);
+
     void checkAutoStarTimeout();
+
+    void setAbsoluteFocusTicks();
 
 signals:
         void newLog();
