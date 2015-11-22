@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
-    <height>385</height>
+    <width>747</width>
+    <height>407</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
@@ -19,14 +19,14 @@
         <string>CCD &amp;&amp; Filter Wheel</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="3" column="1">
+        <item row="2" column="1">
          <widget class="QComboBox" name="FilterCaptureCombo">
           <property name="enabled">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="2" column="2">
          <widget class="QLabel" name="FilterPosLabel">
           <property name="enabled">
            <bool>false</bool>
@@ -42,20 +42,81 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="3">
-         <widget class="QComboBox" name="FilterPosCombo">
-          <property name="enabled">
-           <bool>false</bool>
+        <item row="2" column="3">
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QComboBox" name="FilterPosCombo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="lockFilterCheck">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>If locked, the focus process will always use the specified filter when performing autofocus.
+Otherwise, the autofocus process will utilize whatever filter currently set by the driver.</string>
+            </property>
+            <property name="text">
+             <string>Lock</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="toolTip">
+           <string>Apply filter to image after capture to enhance it</string>
+          </property>
+          <property name="text">
+           <string>Effect:</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="3" column="1">
          <widget class="QComboBox" name="filterCombo">
           <item>
            <property name="text">
             <string>--</string>
            </property>
           </item>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QComboBox" name="ISOCombo">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="FilterCaptureLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Filter Wheel</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>FW:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="CCDCaptureCombo"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Exposure:</string>
+          </property>
          </widget>
         </item>
         <item row="0" column="3">
@@ -88,56 +149,10 @@
           </item>
          </layout>
         </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_7">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_18">
           <property name="text">
-           <string>Exposure:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="toolTip">
-           <string>Apply filter to image after capture to enhance it</string>
-          </property>
-          <property name="text">
-           <string>Effect</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="FilterCaptureLabel">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Filter Wheel</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>FW:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="textLabel1_6">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>CCD:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QComboBox" name="ISOCombo">
-          <property name="enabled">
-           <bool>false</bool>
+           <string>Bin:</string>
           </property>
          </widget>
         </item>
@@ -158,27 +173,26 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="CCDCaptureCombo"/>
-        </item>
-        <item row="4" column="3">
-         <widget class="QCheckBox" name="lockFilterCheck">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
+        <item row="3" column="3">
+         <widget class="QPushButton" name="resetFrameB">
           <property name="toolTip">
-           <string>If locked, the focus process will always use the specified filter when performing autofocus.
-Otherwise, the autofocus process will utilize whatever filter currently set by the driver.</string>
+           <string>Reset frame to full capture</string>
           </property>
           <property name="text">
-           <string>Lock Filter</string>
+           <string>Reset Frame</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_18">
+        <item row="0" column="0">
+         <widget class="QLabel" name="textLabel1_6">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
           <property name="text">
-           <string>Bin:</string>
+           <string>CCD:</string>
           </property>
          </widget>
         </item>
@@ -220,7 +234,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
                  <bool>false</bool>
                 </property>
                 <property name="text">
-                 <string>Auto</string>
+                 <string>A&amp;uto</string>
                 </property>
                </widget>
               </item>
@@ -345,6 +359,121 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           </item>
          </layout>
         </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>V-Curve</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QCustomPlot" name="HFRPlot" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>100</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>HFR:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="HFROut">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>pixels</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>13</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clearDataB">
+            <property name="text">
+             <string>Clear Data</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
      </item>
@@ -353,55 +482,49 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
        <property name="title">
         <string>Autofocus Options</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QCheckBox" name="kcfg_autoSelectStar">
-            <property name="toolTip">
-             <string>Automatically select the best focus star from the image</string>
-            </property>
-            <property name="text">
-             <string>Auto Select Star</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QCheckBox" name="kcfg_autoSelectStar">
+              <property name="toolTip">
+               <string>Automatically select the best focus star from the image</string>
+              </property>
+              <property name="text">
+               <string>Auto Select Star</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="kcfg_subFrame">
+              <property name="toolTip">
+               <string>Subframe around the focus star during the autofocus procedure</string>
+              </property>
+              <property name="text">
+               <string>Sub Frame</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="kcfg_subFrame">
-            <property name="toolTip">
-             <string>Subframe around the focus star during the autofocus procedure</string>
-            </property>
-            <property name="text">
-             <string>Sub Frame</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <item>
-           <widget class="QCheckBox" name="suspendGuideCheck">
-            <property name="toolTip">
-             <string>Suspend Guiding while autofocus in progress</string>
-            </property>
-            <property name="text">
-             <string>Suspend Guiding</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="resetFrameB">
-            <property name="toolTip">
-             <string>Reset frame to full capture</string>
-            </property>
-            <property name="text">
-             <string>Reset Frame</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QCheckBox" name="suspendGuideCheck">
+              <property name="toolTip">
+               <string>Suspend Guiding while autofocus in progress</string>
+              </property>
+              <property name="text">
+               <string>Suspend Guiding</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -541,93 +664,6 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
     </layout>
    </item>
    <item>
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>1008</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <widget class="Line" name="line_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>V-Curve</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="KPlotWidget" name="HFRPlot">
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>100</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>HFR:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="HFROut">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>pixels</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>13</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="clearDataB">
-          <property name="text">
-           <string>Clear Data</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -635,21 +671,18 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>1</height>
+       <height>0</height>
       </size>
      </property>
     </spacer>
    </item>
   </layout>
-  <zorder>line_3</zorder>
-  <zorder>groupBox_4</zorder>
-  <zorder>verticalSpacer_2</zorder>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPlotWidget</class>
-   <extends>QFrame</extends>
-   <header>kplotwidget.h</header>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

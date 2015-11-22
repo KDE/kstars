@@ -115,8 +115,40 @@ Focus::Focus()
 
     focusType = FOCUS_MANUAL;
 
-    HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
-    HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Iterations") );
+    HFRPlot->setBackground(QBrush(Qt::black));
+
+    HFRPlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    HFRPlot->yAxis->setBasePen(QPen(Qt::white, 1));
+
+    HFRPlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    HFRPlot->yAxis->setTickPen(QPen(Qt::white, 1));
+
+    HFRPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    HFRPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+
+    HFRPlot->xAxis->setTickLabelColor(Qt::white);
+    HFRPlot->yAxis->setTickLabelColor(Qt::white);
+
+    HFRPlot->xAxis->setLabelColor(Qt::white);
+    HFRPlot->yAxis->setLabelColor(Qt::white);
+
+    HFRPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    HFRPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    HFRPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    HFRPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    HFRPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    HFRPlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+
+    HFRPlot->yAxis->setLabel(i18n("HFR"));
+
+    v_graph = HFRPlot->addGraph();
+    //v_graph->setBrush(QBrush(QColor(170, 40, 80)));
+    //v_graph->setPen(QPen(Qt::red));
+    v_graph->setLineStyle(QCPGraph::lsNone);
+    v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 3));
+
+    //HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
+    //HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Iterations") );
 
     //HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
     //HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Absolute Position") );
@@ -142,8 +174,8 @@ Focus::Focus()
 
 Focus::~Focus()
 {
-    qDeleteAll(HFRAbsolutePoints);
-    HFRAbsolutePoints.clear();
+    //qDeleteAll(HFRAbsolutePoints);
+   // HFRAbsolutePoints.clear();
 }
 
 void Focus::toggleAutofocus(bool enable)
@@ -237,6 +269,9 @@ void Focus::syncCCDInfo()
             targetChip->getMaxBin(&binx, &biny);
             for (int i=1; i <= binx; i++)
                 binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
+
+            targetChip->getBinning(&binx, &biny);
+            binningCombo->setCurrentIndex(binx-1);
         }
 
         QStringList isoList = targetChip->getISOList();
@@ -827,10 +862,15 @@ void Focus::newFITS(IBLOB *bp)
         if (currentHFR > maxHFR)
             maxHFR = currentHFR;
 
-        HFRPoint *p = new HFRPoint();
-        p->HFR = currentHFR;
-        p->pos = HFRIterativePoints.size()+1;
-        HFRIterativePoints.append(p);
+        //HFRPoint *p = new HFRPoint();
+        if (hfr_position.empty())
+            hfr_position.append(1);
+        else
+            hfr_position.append(hfr_position.last()+1);
+        hfr_value.append(currentHFR);
+        //p->HFR = currentHFR;
+        //p->pos = HFRIterativePoints.size()+1;
+        //HFRIterativePoints.append(p);
 
         if (focusType == FOCUS_MANUAL)
             drawHFRPlot();
@@ -965,15 +1005,45 @@ void Focus::newFITS(IBLOB *bp)
 void Focus::clearDataPoints()
 {
     maxHFR=1;
-    qDeleteAll(HFRIterativePoints);
+    /*qDeleteAll(HFRIterativePoints);
     HFRIterativePoints.clear();
     qDeleteAll(HFRAbsolutePoints);
-    HFRAbsolutePoints.clear();
+    HFRAbsolutePoints.clear();*/
+    hfr_position.clear();
+    hfr_value.clear();
 }
 
 void Focus::drawHFRPlot()
-{
-    HFRPlot->removeAllPlotObjects();
+{    
+
+
+    //HFRPlot->axisRect(0)->setRangeDrag(Qt::Horizontal);
+    //HFRPlot->axisRect(0)->setRangeZoom(Qt::Horizontal);
+
+
+
+    v_graph->setData(hfr_position, hfr_value);
+
+    if (focusType == FOCUS_AUTO)
+    {
+        HFRPlot->xAxis->setLabel(i18n("Position"));
+        HFRPlot->xAxis->setRange(minPos-pulseDuration, maxPos+pulseDuration);
+        HFRPlot->yAxis->setRange(currentHFR/1.5, maxHFR);
+    }
+    else
+    {
+        HFRPlot->xAxis->setLabel(i18n("Iteration"));
+        HFRPlot->xAxis->setRange(1, hfr_value.count()+1);
+        HFRPlot->yAxis->setRange(currentHFR/1.5, maxHFR);
+    }
+
+    //HFRPlot->setInteraction(QCP::iRangeDrag, true);
+    //HFRPlot->setInteraction(QCP::iRangeZoom, true);
+    //HFRPlot->setInteraction(QCP::iSelectPlottables, true);
+
+    HFRPlot->replot();
+
+    /*HFRPlot->removeAllPlotObjects();
 
     KPlotObject * HFRObj = NULL;
 
@@ -1000,7 +1070,7 @@ void Focus::drawHFRPlot()
         HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Iterations") );
     }
 
-    HFRPlot->update();
+    HFRPlot->update();*/
 }
 
 void Focus::autoFocusAbs()
@@ -1061,7 +1131,7 @@ void Focus::autoFocusAbs()
         }
     }*/
 
-    if (HFRAbsolutePoints.empty())
+    if (hfr_position.empty())
     {
         maxPos=1;
         minPos=1e6;
@@ -1072,12 +1142,15 @@ void Focus::autoFocusAbs()
     if (currentPosition < minPos)
         minPos = currentPosition;
 
-    HFRPoint *p = new HFRPoint();
+    //HFRPoint *p = new HFRPoint();
 
-    p->HFR = currentHFR;
-    p->pos = currentPosition;
+    //p->HFR = currentHFR;
+    //p->pos = currentPosition;
 
-    HFRAbsolutePoints.append(p);
+    hfr_position.append(currentPosition);
+    hfr_value.append(currentHFR);
+
+    //HFRAbsolutePoints.append(p);
 
     drawHFRPlot();
 

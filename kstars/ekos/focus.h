@@ -423,9 +423,15 @@ private:
     // Plot minimum and maximum positions
     int minPos, maxPos;
     // List of V curve plot points
-    QList<HFRPoint *> HFRAbsolutePoints;
+    //QList<HFRPoint *> HFRAbsolutePoints;
     // List of iterative curve points
-    QList<HFRPoint *> HFRIterativePoints;
+    //QList<HFRPoint *> HFRIterativePoints;
+    // Custom Plot object
+    QCustomPlot *customPlot;
+    // V-Curve graph
+    QCPGraph *v_graph;
+
+    QVector<double> hfr_position, hfr_value;
 };
 
 }
