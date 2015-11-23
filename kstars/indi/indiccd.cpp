@@ -1260,7 +1260,8 @@ void CCD::processBLOB(IBLOB* bp)
                 else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
                     normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
 
-                targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
+                if (normalTabID >= 0)
+                    targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
                 break;
 
             case FITS_FOCUS:
@@ -1269,7 +1270,8 @@ void CCD::processBLOB(IBLOB* bp)
                 else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
 
-                targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+                if (focusTabID >= 0)
+                    targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
                 break;
 
         case FITS_GUIDE:
@@ -1278,7 +1280,8 @@ void CCD::processBLOB(IBLOB* bp)
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
 
-            targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+            if (guideTabID >= 0)
+                targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
             break;
 
         case FITS_CALIBRATE:
@@ -1287,7 +1290,8 @@ void CCD::processBLOB(IBLOB* bp)
             else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
                 calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
 
-            targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
+            if (calibrationTabID >= 0)
+                targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
             break;
 
 
