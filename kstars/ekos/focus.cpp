@@ -1011,6 +1011,8 @@ void Focus::clearDataPoints()
     HFRAbsolutePoints.clear();*/
     hfr_position.clear();
     hfr_value.clear();
+
+    drawHFRPlot();
 }
 
 void Focus::drawHFRPlot()
@@ -1026,13 +1028,13 @@ void Focus::drawHFRPlot()
 
     if (focusType == FOCUS_AUTO)
     {
-        HFRPlot->xAxis->setLabel(i18n("Position"));
+        //HFRPlot->xAxis->setLabel(i18n("Position"));
         HFRPlot->xAxis->setRange(minPos-pulseDuration, maxPos+pulseDuration);
         HFRPlot->yAxis->setRange(currentHFR/1.5, maxHFR);
     }
     else
     {
-        HFRPlot->xAxis->setLabel(i18n("Iteration"));
+        //HFRPlot->xAxis->setLabel(i18n("Iteration"));
         HFRPlot->xAxis->setRange(1, hfr_value.count()+1);
         HFRPlot->yAxis->setRange(currentHFR/1.5, maxHFR);
     }

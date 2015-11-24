@@ -148,7 +148,7 @@ EkosManager::EkosManager()
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
     // Also set Layout policy to SetMinAndMaxSize as well. Any idea how to fix this?
-    resize(1000,800);
+    resize(900,750);
 }
 
 EkosManager::~EkosManager()

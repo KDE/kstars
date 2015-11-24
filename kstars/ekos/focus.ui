@@ -176,10 +176,10 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
         <item row="3" column="3">
          <widget class="QPushButton" name="resetFrameB">
           <property name="toolTip">
-           <string>Reset frame to full capture</string>
+           <string>Reset focus subframe to full capture</string>
           </property>
           <property name="text">
-           <string>Reset Frame</string>
+           <string>Reset</string>
           </property>
          </widget>
         </item>
@@ -196,6 +196,13 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           </property>
          </widget>
         </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>Frame:</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -209,14 +216,37 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>Mode:</string>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="absTicksSpin">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" colspan="2">
+            <item row="0" column="1" colspan="2">
+             <widget class="QComboBox" name="focuserCombo"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Focuser:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Ticks:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" colspan="2">
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <widget class="QRadioButton" name="manualModeR">
@@ -241,48 +271,21 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
              </layout>
             </item>
             <item row="2" column="0">
-             <widget class="QLabel" name="label_16">
+             <widget class="QLabel" name="label_15">
               <property name="text">
-               <string>Ticks:</string>
+               <string>Mode:</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" colspan="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
-              <item>
-               <widget class="QSpinBox" name="absTicksSpin">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="setAbsTicksB">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Set</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_14">
+            <item row="1" column="2">
+             <widget class="QPushButton" name="setAbsTicksB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
-               <string>Focuser:</string>
+               <string>Set</string>
               </property>
              </widget>
-            </item>
-            <item row="0" column="1" colspan="2">
-             <widget class="QComboBox" name="focuserCombo"/>
             </item>
            </layout>
           </item>
