@@ -959,7 +959,10 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 
         // Severely reject stars close to edges
         if (center->x < (center->width*6) || center->y < (center->width*6) || center->x > (maxX-center->width*6) || center->y > (maxY-center->width*6))
-            score-=50;
+            score-=75;
+
+        // Moderately favor brighter stars
+        score += center->width*center->width;
 
         // Moderately reject stars close to other stars
         foreach(Edge *edge, starCenters)
