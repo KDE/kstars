@@ -23,7 +23,8 @@ public:
     ~SchedulerJob();
 
     typedef enum { JOB_IDLE, JOB_EVALUATION, JOB_SCHEDULED, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_INVALID, JOB_COMPLETE } JOBStatus;
-    typedef enum { STAGE_IDLE, STAGE_SLEWING, STAGE_SLEW_COMPLETE, STAGE_FOCUSING, STAGE_FOCUS_COMPLETE, STAGE_ALIGNING, STAGE_ALIGN_COMPLETE, STAGE_RESLEWING, STAGE_RESLEWING_SETTLE, STAGE_RESLEWING_COMPLETE, STAGE_CALIBRATING, STAGE_GUIDING, STAGE_CAPTURING, STAGE_COMPLETE} JOBStage;
+    typedef enum { STAGE_IDLE, STAGE_SLEWING, STAGE_SLEW_COMPLETE, STAGE_FOCUSING, STAGE_FOCUS_COMPLETE, STAGE_ALIGNING, STAGE_ALIGN_COMPLETE, STAGE_RESLEWING, STAGE_RESLEWING_COMPLETE,
+                   STAGE_POSTALIGN_FOCUSING, STAGE_POSTALIGN_FOCUSING_COMPLETE, STAGE_CALIBRATING, STAGE_GUIDING, STAGE_CAPTURING, STAGE_COMPLETE} JOBStage;
     //typedef enum { FITS_IDLE, FITS_SOLVING, FITS_COMPLETE, FITS_ERROR } FITSStatus;
     typedef enum { START_NOW, START_CULMINATION, START_AT } StartupCondition;
     typedef enum { FINISH_SEQUENCE, FINISH_LOOP, FINISH_AT } CompletionCondition;
@@ -99,6 +100,9 @@ public:
     bool getTimeSlotAllocated() const;
     void setTimeSlotAllocated(bool value);
 
+    bool getInSequenceFocus() const;
+    void setInSequenceFocus(bool value);
+
 private:
 
     QString name;
@@ -131,6 +135,7 @@ private:
     int16_t culminationOffset;
     double estimatedTime;
     bool timeSlotAllocated;
+    bool inSequenceFocus;
 
     double Dawn, Dusk;    
     QString dateTimeDisplayFormat;

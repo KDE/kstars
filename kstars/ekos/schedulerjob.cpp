@@ -21,6 +21,7 @@ SchedulerJob::SchedulerJob()
     stage               = STAGE_IDLE;
 
     timeSlotAllocated   = false;
+    inSequenceFocus     = false;
 
     statusCell          = NULL;
     startupCell         = NULL;
@@ -350,6 +351,16 @@ bool SchedulerJob::getTimeSlotAllocated() const
 void SchedulerJob::setTimeSlotAllocated(bool value)
 {
     timeSlotAllocated = value;
+}
+
+bool SchedulerJob::getInSequenceFocus() const
+{
+    return inSequenceFocus;
+}
+
+void SchedulerJob::setInSequenceFocus(bool value)
+{
+    inSequenceFocus = value;
 }
 
 
