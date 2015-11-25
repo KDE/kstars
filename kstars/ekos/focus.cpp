@@ -1282,14 +1282,14 @@ void Focus::autoFocusAbs()
                 reverseDir = true;
 
                 // Reality Check: If it's first time, let's capture again and see if it changes.
-                if (HFRInc <= 1)
+                /*if (HFRInc <= 1)
                 {
                     capture();
                     return;
                 }
                 // Looks like we're going away from optimal HFR
                 else
-                {
+                {*/
 
                     lastHFR = currentHFR;
                     lastHFRPos = currentPosition;
@@ -1325,7 +1325,7 @@ void Focus::autoFocusAbs()
                     if (Options::verboseLogging())
                         qDebug() << "new targetPosition " << targetPosition;
 
-                }
+                //}
             }
 
         // Limit target Pulse to algorithm limits
@@ -1459,7 +1459,6 @@ void Focus::autoFocusRel()
             {
                 HFRInc++;
 
-
                 if (HFRInc <= 1)
                 {
                     capture();
@@ -1472,22 +1471,6 @@ void Focus::autoFocusRel()
 
                     HFRInc=0;
 
-                    /*if (reverseDir)
-                        pulseDuration /= 2;
-
-                    if (canAbsMove)
-                    {
-                        if (reverseDir)
-                            FocusOut(pulseDuration*3);
-                        else
-                        {
-                            reverseDir = true;
-                            FocusOut(pulseDuration*2);
-                        }
-                    }
-                    else
-                        FocusOut(pulseDuration);
-                        */
                     pulseDuration *= 0.75;
                     FocusOut(pulseDuration);
                 }
@@ -1522,22 +1505,6 @@ void Focus::autoFocusRel()
                 lastHFR = currentHFR;
 
                 HFRInc=0;
-
-                /*if (reverseDir)
-                    pulseDuration /= 2;
-
-                if (canAbsMove)
-                {
-                    if (reverseDir)
-                        FocusIn(pulseDuration*3);
-                    else
-                    {
-                        reverseDir = true;
-                        FocusIn(pulseDuration*2);
-                    }
-                }
-                else
-                    FocusIn(pulseDuration);*/
 
                 pulseDuration *= 0.75;
                 FocusIn(pulseDuration);
