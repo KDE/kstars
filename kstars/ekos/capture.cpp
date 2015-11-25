@@ -1263,7 +1263,7 @@ void Capture::captureImage()
             break;
 
         case SequenceJob::CAPTURE_FOCUS_ERROR:
-            appendLogText(i18n("Cannot capture while focus module is busy."));
+            appendLogText(i18n("Cannot capture while  module is busy."));
             abort();
             break;
 
@@ -1899,9 +1899,9 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
         if (HFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
         {
            firstAutoFocus = false;
-           // Add 1% to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
+           // Add 2.5% to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
            // in case in-sequence-focusing is used.
-           HFRPixels->setValue(HFR + (HFR * 0.01));
+           HFRPixels->setValue(HFR + (HFR * 0.025));
         }
     }
 
@@ -2537,10 +2537,15 @@ QString Capture::getSequenceQueueStatus()
     }
 
     if (error > 0)
-        return "Error";
+            return "Error";
 
     if (aborted > 0)
-        return "Aborted";
+    {
+        if (deviationDetected)
+            return "Suspended";
+        else
+            return "Aborted";
+    }
 
     if (running > 0)
         return "Running";

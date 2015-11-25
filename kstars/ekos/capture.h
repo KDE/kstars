@@ -240,7 +240,7 @@ public:
 
     /** DBUS interface function.
      * Returns the overall sequence queue status. If there are no jobs pending, it returns "Invalid". If all jobs are idle, it returns "Idle". If all jobs are complete, it returns "Complete". If one or more jobs are aborted
-     * it returns "Aborted". If one or more jobs have errors, it returns "Error". If any jobs is under progress, returns "Running".
+     * it returns "Aborted" unless it was temporarily aborted due to guiding deviations, then it would return "Suspended". If one or more jobs have errors, it returns "Error". If any jobs is under progress, returns "Running".
      */
     Q_SCRIPTABLE QString getSequenceQueueStatus();
 
