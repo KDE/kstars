@@ -958,8 +958,8 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
         //qDebug() << "#" << i << " X: " << center->x << " Y: " << center->y << " HFR: " << center->HFR << " Width" << center->width;
 
         // Severely reject stars close to edges
-        if (center->x < (center->width*6) || center->y < (center->width*6) || center->x > (maxX-center->width*6) || center->y > (maxY-center->width*6))
-            score-=75;
+        if (center->x < (center->width*5) || center->y < (center->width*5) || center->x > (maxX-center->width*5) || center->y > (maxY-center->width*5))
+            score-=50;
 
         // Moderately favor brighter stars
         score += center->width*center->width;
@@ -972,7 +972,7 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 
             if (abs(center->x - edge->x) < center->width*2 && abs(center->y - edge->y) < center->width*2)
             {
-                score -= 20;
+                score -= 15;
                 break;
             }
         }
