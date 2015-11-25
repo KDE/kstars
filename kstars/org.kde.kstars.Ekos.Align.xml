@@ -40,7 +40,7 @@
       <arg type="b" direction="out"/>
     </method>
     <method name="getLoadAndSlewStatus">
-      <arg type="s" direction="out"/>
+      <arg type="i" direction="out"/>
     </method>
     <method name="setExposure">
       <arg name="value" type="d" direction="in"/>

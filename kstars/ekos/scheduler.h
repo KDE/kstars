@@ -427,18 +427,22 @@ private:
     double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
     QDateTime preDawnDateTime;      // Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
     bool mDirty;                    // Was job modified and needs saving?
-    IPState weatherStatus;          // Keep watch of weather status
-    QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
-    QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready
+    IPState weatherStatus;          // Keep watch of weather status    
     uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates    
     bool preemptiveShutdown;        // Are we shutting down until later?
     bool jobEvaluationOnly;         // Only run job evaluation
     bool loadAndSlewProgress;       // Keep track of Load & Slew operation
+    bool autofocusCompleted;        // Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
 
     uint8_t indiConnectFailureCount;// Keep track of INDI connection failures
     uint8_t focusFailureCount;      // Keep track of Ekos focus module failures
     uint8_t guideFailureCount;      // Keep track of Ekos guide module failures
     uint8_t alignFailureCount;      // Keep track of Ekos align module failures
+
+    QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
+    QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready
+    QTimer schedulerTimer;          // To call checkStatus
+    QTimer jobTimer;                // To call checkJobStage
 
 
 };

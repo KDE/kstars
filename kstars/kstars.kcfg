@@ -1557,7 +1557,10 @@
             <label>Display received FITS images unto solver FOV rectangle in the sky map.</label>
             <default>false</default>
           </entry>
-
+          <entry name="SolverLoadSlewIterations" type="UInt">
+            <label>Number of iterations to execute for solving and slewing to target..</label>
+            <default>1</default>
+          </entry>
     </group>
     <group name="Guide">
     <entry name="ST4Driver" type="String">

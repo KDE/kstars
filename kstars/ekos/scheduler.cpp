@@ -30,6 +30,7 @@
 
 #define BAD_SCORE                   -1000
 #define MAX_FAILURE_ATTEMPTS        3
+#define UPDATE_PERIOD_MS            1000
 
 namespace Ekos
 {
@@ -54,6 +55,7 @@ Scheduler::Scheduler()
     mDirty       = false;
     jobEvaluationOnly=false;
     loadAndSlewProgress=false;
+    autofocusCompleted=false;
 
     Dawn         = -1;
     Dusk         = -1;
@@ -88,6 +90,12 @@ Scheduler::Scheduler()
 
     sleepLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
     sleepLabel->hide();
+
+    schedulerTimer.setInterval(UPDATE_PERIOD_MS);
+    jobTimer.setInterval(UPDATE_PERIOD_MS);
+
+    connect(&schedulerTimer, SIGNAL(timeout()), this, SLOT(checkStatus()));
+    connect(&jobTimer, SIGNAL(timeout()), this, SLOT(checkJobStage()));
 
     pi = new QProgressIndicator(this);
     bottomLayout->addWidget(pi,0,0);
@@ -211,8 +219,8 @@ void Scheduler::selectFITS()
 
     fitsEdit->setText(fitsURL.path());
 
-    raBox->clear();
-    decBox->clear();
+    //raBox->clear();
+    //decBox->clear();
 
     if (nameEdit->text().isEmpty())
         nameEdit->setText(fitsURL.fileName());
@@ -225,6 +233,8 @@ void Scheduler::selectSequence()
     sequenceURL = QFileDialog::getOpenFileUrl(this, i18n("Select Sequence Queue"), QDir::homePath(), i18n("Ekos Sequence Queue (*.esq)"));
     if (sequenceURL.isEmpty())
         return;
+
+    setDirty();
 
     sequenceEdit->setText(sequenceURL.path());
 
@@ -615,8 +625,8 @@ void Scheduler::stop()
 
     }
 
-    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
-    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+    schedulerTimer.stop();
+    jobTimer.stop();
 
     state           = SCHEDULER_IDLE;
     ekosState       = EKOS_IDLE;
@@ -647,6 +657,7 @@ void Scheduler::stop()
     alignFailureCount=0;
     jobEvaluationOnly=false;
     loadAndSlewProgress=false;
+    autofocusCompleted=false;
 
     // If soft shutdown, we return for now
     if (preemptiveShutdown)
@@ -719,8 +730,7 @@ void Scheduler::start()
     removeFromQueueB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
 
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
-
+    schedulerTimer.start();
 }
 
 void Scheduler::evaluateJobs()
@@ -1075,7 +1085,7 @@ void Scheduler::evaluateJobs()
                 else if (parkWaitState == PARKWAIT_PARKED || parkMountCheck->isEnabled() == false || parkMountCheck->isChecked() == false || startupState == STARTUP_IDLE)
                 {
                     appendLogText(i18n("Scheduler is going into sleep mode..."));
-                    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+                    schedulerTimer.stop();
 
                     sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
                     sleepLabel->show();
@@ -1103,7 +1113,7 @@ void Scheduler::wakeUpScheduler()
         start();
     }
     else
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+        schedulerTimer.start();
 
 }
 
@@ -1288,7 +1298,7 @@ void Scheduler::checkWeather()
             {
                 stopCurrentJobAction();
                 stopGuiding();
-                disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+                jobTimer.stop();
                 currentJob->setState(SchedulerJob::JOB_ABORTED);
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);                
             }
@@ -1480,8 +1490,8 @@ void Scheduler::executeJob(SchedulerJob *job)
 
     // No need to continue evaluating jobs as we already have one.
 
-    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
+    schedulerTimer.stop();
+    jobTimer.start();
 }
 
 bool    Scheduler::checkEkosState()
@@ -1735,11 +1745,11 @@ bool Scheduler::checkShutdownState()
         weatherTimer.disconnect();
         weatherLabel->hide();
 
-        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+        jobTimer.stop();
 
         currentJob = NULL;
 
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+        schedulerTimer.start();
 
         if (preemptiveShutdown == false)
         {
@@ -2096,6 +2106,7 @@ void Scheduler::checkJobStage()
         break;
 
     case SchedulerJob::STAGE_FOCUSING:
+    case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
     {
         QDBusReply<bool> focusReply = focusInterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
 
@@ -2116,10 +2127,17 @@ void Scheduler::checkJobStage()
             {
                 appendLogText(i18n("%1 focusing is complete.", currentJob->getName()));
 
-                // Reset frame to original size.
-                focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
+                autofocusCompleted = true;
 
-                currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+                if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
+                {
+                    // Reset frame to original size.
+                    //focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
+                    currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+                }
+                else
+                    currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
+
                 getNextAction();
                 return;
             }
@@ -2152,8 +2170,8 @@ void Scheduler::checkJobStage()
 
        if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
        {
-           QDBusReply<QString> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
-           if (loadSlewReply.value() == "Ok")
+           QDBusReply<int> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
+           if (loadSlewReply.value() == IPS_OK)
            {
                appendLogText(i18n("%1 is solved and aligned successfully.", currentJob->getFITSFile().toString()));
                loadAndSlewProgress = false;
@@ -2161,7 +2179,7 @@ void Scheduler::checkJobStage()
                getNextAction();
 
            }
-           else if (loadSlewReply.value() == "Alert")
+           else if (loadSlewReply.value() == IPS_ALERT)
            {
                appendLogText(i18n("%1 Load And Slew failed!", currentJob->getName()));
                currentJob->setState(SchedulerJob::JOB_ERROR);
@@ -2229,7 +2247,7 @@ void Scheduler::checkJobStage()
         if(slewStatus.value() == IPS_OK)
         {
             appendLogText(i18n("%1 repositioning is complete.", currentJob->getName()));
-            currentJob->setStage(SchedulerJob::STAGE_RESLEWING_SETTLE);
+            currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
             getNextAction();
             return;
         }
@@ -2242,12 +2260,6 @@ void Scheduler::checkJobStage()
             return;
         }
     }
-        break;
-
-    // Wait a bit for the re-slewing to settle.
-    case SchedulerJob::STAGE_RESLEWING_SETTLE:
-        currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
-        getNextAction();
         break;
 
     case SchedulerJob::STAGE_CALIBRATING:
@@ -2356,7 +2368,7 @@ void Scheduler::getNextAction()
         break;
 
     case SchedulerJob::STAGE_SLEW_COMPLETE:
-        if  (currentJob->getModuleUsage() & SchedulerJob::USE_FOCUS)
+        if  (currentJob->getModuleUsage() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
             startFocusing();
         else if (currentJob->getModuleUsage() & SchedulerJob::USE_ALIGN)
             startAstrometry();
@@ -2380,6 +2392,18 @@ void Scheduler::getNextAction()
         break;
 
     case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+        // If we have in-sequence-focus in the sequence file then we perform post alignment focusing so that the focus
+        // frame is ready for the capture module in-sequence-focus procedure.
+        if  ( (currentJob->getModuleUsage() & SchedulerJob::USE_FOCUS) && currentJob->getInSequenceFocus())
+            // Post alignment re-focusing
+            startFocusing();
+        else if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+           startCalibrating();
+        else
+           startCapture();
+        break;
+
+    case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
         if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
            startCalibrating();
         else
@@ -2640,7 +2664,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 }
             }
         }
-        else if (!strcmp(tag, "Modules"))
+        else if (!strcmp(tagXMLEle(ep), "Modules"))
         {
             XMLEle *module;
             focusModuleCheck->setChecked(false);
@@ -2786,11 +2810,11 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
        outstream << "</CompletionCondition>" << endl;
 
        outstream << "<Modules>" << endl;
-       if (focusModuleCheck->isChecked())
+       if  (job->getModuleUsage() & SchedulerJob::USE_FOCUS)
            outstream << "<Module>Focus</Module>" << endl;
-       if (alignModuleCheck->isChecked())
+       if  (job->getModuleUsage() & SchedulerJob::USE_ALIGN)
            outstream << "<Module>Align</Module>" << endl;
-       if (guideModuleCheck->isChecked())
+       if  (job->getModuleUsage() & SchedulerJob::USE_GUIDE)
            outstream << "<Module>Guide</Module>" << endl;
        outstream << "</Modules>" << endl;
 
@@ -2850,7 +2874,6 @@ void Scheduler::startSlew()
 
 void Scheduler::startFocusing()
 {
-
     captureInterface->call(QDBus::AutoDetect,"clearAutoFocusHFR");
 
     QDBusMessage reply;
@@ -2888,15 +2911,21 @@ void Scheduler::startFocusing()
         return;
     }
 
-    appendLogText(i18n("Focusing %1 ...", currentJob->getName()));
-
-    currentJob->setStage(SchedulerJob::STAGE_FOCUSING);
-
+    if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE)
+    {
+        currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING);
+        appendLogText(i18n("Post-alignment focusing for %1 ...", currentJob->getName()));
+    }
+    else
+    {
+        currentJob->setStage(SchedulerJob::STAGE_FOCUSING);
+        appendLogText(i18n("Focusing %1 ...", currentJob->getName()));
+    }
 }
 
 void Scheduler::findNextJob()
 {
-    disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()));
+    jobTimer.stop();
 
     if (currentJob->getState() == SchedulerJob::JOB_ERROR)
     {
@@ -2907,14 +2936,14 @@ void Scheduler::findNextJob()
         stopGuiding();
 
         currentJob = NULL;
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+        schedulerTimer.start();
         return;
     }
 
     if (currentJob->getState() == SchedulerJob::JOB_ABORTED)
     {
         currentJob = NULL;
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+        schedulerTimer.start();
         return;
     }
 
@@ -2930,7 +2959,7 @@ void Scheduler::findNextJob()
         stopGuiding();
 
         currentJob = NULL;
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+        schedulerTimer.start();
         return;
     }
 
@@ -2940,7 +2969,7 @@ void Scheduler::findNextJob()
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
         startCapture();
-        connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
+        jobTimer.start();
         return;
     }
 
@@ -2957,7 +2986,7 @@ void Scheduler::findNextJob()
 
             captureBatch=0;
             currentJob = NULL;
-            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+            schedulerTimer.start();
             return;
         }
         else
@@ -2968,7 +2997,7 @@ void Scheduler::findNextJob()
 
             captureBatch++;
             startCapture();
-            connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
+            jobTimer.start();
             return;
         }
     }
@@ -3083,7 +3112,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
     if ( !sFile.open( QIODevice::ReadOnly))
     {
         KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
-        return -1;
+        return false;
     }
 
     LilXML *xmlParser = newLilXML();
@@ -3110,6 +3139,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
                          inSequenceFocus = true;
                      else
                          inSequenceFocus = false;
+
+                      job->setInSequenceFocus(inSequenceFocus);
 
                  }
                  else if (!strcmp(tagXMLEle(ep), "Job"))
@@ -3513,7 +3544,7 @@ bool Scheduler::isWeatherOK(SchedulerJob *job)
     else if (weatherStatus == IPS_BUSY)
     {
         appendLogText(i18n("%1 observation job delayed due to bad weather.", job->getName()));
-        disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+        schedulerTimer.stop();
         connect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
     }
 
@@ -3523,7 +3554,7 @@ bool Scheduler::isWeatherOK(SchedulerJob *job)
 void Scheduler::resumeCheckStatus()
 {
     disconnect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
-    connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()));
+    schedulerTimer.start();
 }
 
 }
