@@ -29,7 +29,7 @@
 #include "ksutils.h"
 
 #define BAD_SCORE                   -1000
-#define MAXIMUM_NO_WEATHER_LIMIT    3                       // Maximum tries until we warn the user of no weather updates
+#define MAX_FAILURE_ATTEMPTS        3
 
 namespace Ekos
 {
@@ -53,11 +53,15 @@ Scheduler::Scheduler()
     jobUnderEdit = false;
     mDirty       = false;
     jobEvaluationOnly=false;
+    loadAndSlewProgress=false;
 
     Dawn         = -1;
     Dusk         = -1;
 
     indiConnectFailureCount=0;
+    focusFailureCount=0;
+    guideFailureCount=0;
+    alignFailureCount=0;
 
     noWeatherCounter=0;
 
@@ -203,6 +207,8 @@ void Scheduler::selectFITS()
     if (fitsURL.isEmpty())
         return;
 
+    setDirty();
+
     fitsEdit->setText(fitsURL.path());
 
     raBox->clear();
@@ -287,27 +293,23 @@ void Scheduler::addJob()
 
     job->setName(nameEdit->text());
 
-    // Only get target coords if FITS file is not selected.
-    if (fitsURL.isEmpty())
+    bool raOk=false, decOk=false;
+    dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
+    dms dec( decBox->createDms( true, &decOk ) );
+
+    if (raOk == false)
     {
-        bool raOk=false, decOk=false;
-        dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
-        dms dec( decBox->createDms( true, &decOk ) );
-
-        if (raOk == false)
-        {
-            appendLogText(i18n("RA value %1 is invalid.", raBox->text()));
-            return;
-        }
-
-        if (decOk == false)
-        {
-            appendLogText(i18n("DEC value %1 is invalid.", decBox->text()));
-            return;
-        }
-
-        job->setTargetCoords(ra, dec);
+        appendLogText(i18n("RA value %1 is invalid.", raBox->text()));
+        return;
     }
+
+    if (decOk == false)
+    {
+        appendLogText(i18n("DEC value %1 is invalid.", decBox->text()));
+        return;
+    }
+
+    job->setTargetCoords(ra, dec);
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
@@ -640,7 +642,11 @@ void Scheduler::stop()
     currentJob = NULL;
     captureBatch =0;
     indiConnectFailureCount=0;
+    focusFailureCount=0;
+    guideFailureCount=0;
+    alignFailureCount=0;
     jobEvaluationOnly=false;
+    loadAndSlewProgress=false;
 
     // If soft shutdown, we return for now
     if (preemptiveShutdown)
@@ -1240,8 +1246,7 @@ void Scheduler::checkWeather()
                 break;
 
             default:
-                noWeatherCounter++;
-                if (noWeatherCounter >= MAXIMUM_NO_WEATHER_LIMIT)
+                if (noWeatherCounter++ >= MAX_FAILURE_ATTEMPTS)
                 {
                     noWeatherCounter=0;
                     appendLogText(i18n("Warning: Ekos did not receive any weather updates for the last %1 minutes.", weatherTimer.interval()/(60000.0)));
@@ -1564,7 +1569,7 @@ bool    Scheduler::checkINDIState()
         }
         else if(isINDIConnected.value()== EkosManager::STATUS_ERROR)
         {
-            if (indiConnectFailureCount++ < 3)
+            if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
                 appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
                 ekosInterface->call(QDBus::AutoDetect,"connectDevices");
@@ -2112,7 +2117,7 @@ void Scheduler::checkJobStage()
                 appendLogText(i18n("%1 focusing is complete.", currentJob->getName()));
 
                 // Reset frame to original size.
-                //focusInterface->call(QDBus::AutoDetect,"resetFrame");
+                focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
 
                 currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
                 getNextAction();
@@ -2121,6 +2126,17 @@ void Scheduler::checkJobStage()
             else
             {
                 appendLogText(i18n("%1 focusing failed!", currentJob->getName()));
+
+                if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    appendLogText(i18n("Restarting %1 focusing procedure...", currentJob->getName()));
+                    // Reset frame to original size.
+                    focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
+                    // Restart focusing
+                    startFocusing();
+                    return;
+                }
+
                 currentJob->setState(SchedulerJob::JOB_ERROR);
 
                 findNextJob();
@@ -2132,7 +2148,30 @@ void Scheduler::checkJobStage()
 
     case SchedulerJob::STAGE_ALIGNING:
     {
-       QDBusReply<bool> alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
+       QDBusReply<bool> alignReply;
+
+       if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
+       {
+           QDBusReply<QString> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
+           if (loadSlewReply.value() == "Ok")
+           {
+               appendLogText(i18n("%1 is solved and aligned successfully.", currentJob->getFITSFile().toString()));
+               loadAndSlewProgress = false;
+               currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
+               getNextAction();
+
+           }
+           else if (loadSlewReply.value() == "Alert")
+           {
+               appendLogText(i18n("%1 Load And Slew failed!", currentJob->getName()));
+               currentJob->setState(SchedulerJob::JOB_ERROR);
+               findNextJob();
+           }
+
+           return;
+       }
+       else
+            alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
 
        if (alignReply.error().type() == QDBusError::UnknownObject)
        {
@@ -2158,6 +2197,14 @@ void Scheduler::checkJobStage()
             else
             {
                 appendLogText(i18n("%1 alignment failed!", currentJob->getName()));
+
+                if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                    startAstrometry();
+                    return;
+                }
+
                 currentJob->setState(SchedulerJob::JOB_ERROR);
 
                 findNextJob();
@@ -2182,7 +2229,7 @@ void Scheduler::checkJobStage()
         if(slewStatus.value() == IPS_OK)
         {
             appendLogText(i18n("%1 repositioning is complete.", currentJob->getName()));
-            currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
+            currentJob->setStage(SchedulerJob::STAGE_RESLEWING_SETTLE);
             getNextAction();
             return;
         }
@@ -2195,6 +2242,12 @@ void Scheduler::checkJobStage()
             return;
         }
     }
+        break;
+
+    // Wait a bit for the re-slewing to settle.
+    case SchedulerJob::STAGE_RESLEWING_SETTLE:
+        currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
+        getNextAction();
         break;
 
     case SchedulerJob::STAGE_CALIBRATING:
@@ -2238,6 +2291,14 @@ void Scheduler::checkJobStage()
             else
             {
                 appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
+
+                if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    appendLogText(i18n("Restarting %1 calibration procedure...", currentJob->getName()));
+                    startCalibrating();
+                    return;
+                }
+
                 currentJob->setState(SchedulerJob::JOB_ERROR);
 
                 findNextJob();
@@ -2468,26 +2529,7 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
                          else if (!strcmp(proc, "WarmCCD"))
                              warmCCDCheck->setChecked(true);
                      }
-                 }
-                 else if (!strcmp(tag, "Modules"))
-                 {
-                     XMLEle *module;
-                     focusModuleCheck->setChecked(false);
-                     alignModuleCheck->setChecked(false);
-                     guideModuleCheck->setChecked(false);
-
-                     for (module = nextXMLEle(ep, 1) ; module != NULL ; module = nextXMLEle(ep, 0))
-                     {
-                         const char *proc = pcdataXMLEle(module);
-
-                         if (!strcmp(proc, "Focus"))
-                             focusModuleCheck->setChecked(true);
-                         else if (!strcmp(proc, "Align"))
-                             alignModuleCheck->setChecked(true);
-                         else if (!strcmp(proc, "Guide"))
-                             guideModuleCheck->setChecked(true);
-                     }
-                 }
+                 }                 
                  else if (!strcmp(tag, "EnforceWeather"))
                  {
                      if (!strcmp(pcdataXMLEle(ep), "True") )
@@ -2598,6 +2640,25 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 }
             }
         }
+        else if (!strcmp(tag, "Modules"))
+        {
+            XMLEle *module;
+            focusModuleCheck->setChecked(false);
+            alignModuleCheck->setChecked(false);
+            guideModuleCheck->setChecked(false);
+
+            for (module = nextXMLEle(ep, 1) ; module != NULL ; module = nextXMLEle(ep, 0))
+            {
+                const char *proc = pcdataXMLEle(module);
+
+                if (!strcmp(proc, "Focus"))
+                    focusModuleCheck->setChecked(true);
+                else if (!strcmp(proc, "Align"))
+                    alignModuleCheck->setChecked(true);
+                else if (!strcmp(proc, "Guide"))
+                    guideModuleCheck->setChecked(true);
+            }
+        }
     }
 
     addJob();
@@ -2680,7 +2741,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SchedulerList version='1.0'>" << endl;
+    outstream << "<SchedulerList version='1.1'>" << endl;
 
     foreach(SchedulerJob *job, jobs)
     {
@@ -2724,6 +2785,15 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
            outstream << "<Condition value='" << job->getCompletionTime().toString(Qt::ISODate) << "'>At</Condition>" << endl;
        outstream << "</CompletionCondition>" << endl;
 
+       outstream << "<Modules>" << endl;
+       if (focusModuleCheck->isChecked())
+           outstream << "<Module>Focus</Module>" << endl;
+       if (alignModuleCheck->isChecked())
+           outstream << "<Module>Align</Module>" << endl;
+       if (guideModuleCheck->isChecked())
+           outstream << "<Module>Guide</Module>" << endl;
+       outstream << "</Modules>" << endl;
+
         outstream << "</Job>" << endl;
     }
 
@@ -2751,15 +2821,6 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "<Procedure value='" << shutdownScript->text() << "'>ShutdownScript</Procedure>" << endl;
     outstream << "</ShutdownProcedure>" << endl;
 
-    outstream << "<Modules>" << endl;
-    if (focusModuleCheck->isChecked())
-        outstream << "<Module>Focus</Module>" << endl;
-    if (alignModuleCheck->isChecked())
-        outstream << "<Module>Align</Module>" << endl;
-    if (guideModuleCheck->isChecked())
-        outstream << "<Module>Guide</Module>" << endl;
-    outstream << "</Modules>" << endl;
-
     outstream << "<EnforceWeather>" << (weatherCheck->isChecked() ? "True" : "False") << "</EnforceWeather>" << endl;
 
     outstream << "</SchedulerList>" << endl;
@@ -2779,6 +2840,8 @@ void Scheduler::startSlew()
     QList<QVariant> telescopeSlew;
     telescopeSlew.append(target.ra().Hours());
     telescopeSlew.append(target.dec().Degrees());
+
+    appendLogText(i18n("Slewing to %1 ...", currentJob->getName()));
 
     mountInterface->callWithArgumentList(QDBus::AutoDetect,"slew",telescopeSlew);
 
@@ -2824,6 +2887,8 @@ void Scheduler::startFocusing()
         appendLogText(i18n("startFocus DBUS error: %1", reply.errorMessage()));
         return;
     }
+
+    appendLogText(i18n("Focusing %1 ...", currentJob->getName()));
 
     currentJob->setStage(SchedulerJob::STAGE_FOCUSING);
 
@@ -2911,24 +2976,36 @@ void Scheduler::findNextJob()
 
 void Scheduler::startAstrometry()
 {   
-    setGOTOMode(Align::ALIGN_SLEW);
+    QDBusMessage reply;
+    setGOTOMode(Align::ALIGN_SLEW);    
 
     // If FITS file is specified, then we use load and slew
     if (currentJob->getFITSFile().isEmpty() == false)
     {
         QList<QVariant> solveArgs;
         solveArgs.append(currentJob->getFITSFile().toString(QUrl::PreferLocalFile));
-        solveArgs.append(false);
 
-        alignInterface->callWithArgumentList(QDBus::AutoDetect,"start",solveArgs);
+        if ( (reply = alignInterface->callWithArgumentList(QDBus::AutoDetect,"loadAndSlew",solveArgs)).type() == QDBusMessage::ErrorMessage)
+        {
+            appendLogText(i18n("loadAndSlew DBUS error: %1", reply.errorMessage()));
+            return;
+        }
+
+        loadAndSlewProgress=true;
+        appendLogText(i18n("Solving %1 ...", currentJob->getFITSFile().fileName()));
     }
     else
-        alignInterface->call(QDBus::AutoDetect,"captureAndSolve");
+    {
+        if ( (reply = alignInterface->call(QDBus::AutoDetect,"captureAndSolve")).type() == QDBusMessage::ErrorMessage)
+        {
+            appendLogText(i18n("captureAndSolve DBUS error: %1", reply.errorMessage()));
+            return;
+        }
 
-    appendLogText(i18n("Solving %1 ...", currentJob->getFITSFile().fileName()));
+        appendLogText(i18n("Capturing and solving %1 ...", currentJob->getName()));
+    }
 
     currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
-
 }
 
 void Scheduler::startCalibrating()
@@ -2941,7 +3018,11 @@ void Scheduler::startCalibrating()
     if (guideReply.value() == false)
         currentJob->setState(SchedulerJob::JOB_ERROR);
     else
+    {
         currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
+
+        appendLogText(i18n("Calibrating %1 ...", currentJob->getName()));
+    }
 }
 
 void Scheduler::startCapture()
@@ -2967,7 +3048,10 @@ void Scheduler::startCapture()
 void Scheduler::stopGuiding()
 {
     if ( (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
+    {
         guideInterface->call(QDBus::AutoDetect,"stopGuiding");
+        guideFailureCount=0;
+    }
 }
 
 void Scheduler::setGOTOMode(Align::GotoMode mode)

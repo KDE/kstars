@@ -33,7 +33,7 @@ namespace Ekos
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
  * @author Jasem Mutlaq
- * @version 1.0
+ * @version 1.1
  */
 class Scheduler : public QWidget, public Ui::Scheduler
 {
@@ -430,10 +430,15 @@ private:
     IPState weatherStatus;          // Keep watch of weather status
     QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
     QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready
-    uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates
-    uint8_t indiConnectFailureCount;// Keep track of how many times we didn't receive weather updates
-    bool preemptiveShutdown;              // Are we shutting down until later?
+    uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates    
+    bool preemptiveShutdown;        // Are we shutting down until later?
     bool jobEvaluationOnly;         // Only run job evaluation
+    bool loadAndSlewProgress;       // Keep track of Load & Slew operation
+
+    uint8_t indiConnectFailureCount;// Keep track of INDI connection failures
+    uint8_t focusFailureCount;      // Keep track of Ekos focus module failures
+    uint8_t guideFailureCount;      // Keep track of Ekos guide module failures
+    uint8_t alignFailureCount;      // Keep track of Ekos align module failures
 
 
 };
