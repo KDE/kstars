@@ -2541,7 +2541,7 @@ QString Capture::getSequenceQueueStatus()
 
     if (aborted > 0)
     {
-        if (deviationDetected)
+        if (isAutoGuiding && deviationDetected)
             return "Suspended";
         else
             return "Aborted";
