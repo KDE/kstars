@@ -25,10 +25,6 @@
       <arg name="isGenerated" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="startSovling">
-      <arg name="filename" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
     <method name="setGOTOMode">
       <arg name="mode" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -43,8 +39,8 @@
     <method name="isSolverSuccessful">
       <arg type="b" direction="out"/>
     </method>
-    <method name="isLoadAndSlewComplete">
-      <arg type="b" direction="out"/>
+    <method name="getLoadAndSlewStatus">
+      <arg type="s" direction="out"/>
     </method>
     <method name="setExposure">
       <arg name="value" type="d" direction="in"/>

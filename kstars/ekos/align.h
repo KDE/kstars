@@ -99,9 +99,9 @@ public:
     Q_SCRIPTABLE bool isSolverSuccessful() { return m_isSolverSuccessful; }
 
     /** DBUS interface function.
-     * @return Returns true if the solver load and slew operation completed, false otherwise.
+     * @return Returns State of load slew procedure. Idle if not started. Busy if in progress. Ok if complete. Alert if procedure failed.
      */
-    Q_SCRIPTABLE bool isLoadAndSlewComplete() { return (loadSlewMode == false); }
+    Q_SCRIPTABLE QString getLoadAndSlewStatus() { return pstateStr(loadSlewState); }
 
     /** DBUS interface function.
      * Sets the exposure of the selected CCD device.
@@ -352,6 +352,8 @@ private:
     bool canSync;
     // LoadSlew mode is when we load an image and solve it, no capture is done.
     bool loadSlewMode;
+    // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
+    IPState loadSlewState;
 
     // Keep track of solver status
     bool m_isSolverComplete;

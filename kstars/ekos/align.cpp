@@ -57,9 +57,10 @@ Align::Align()
     useGuideHead = false;
     canSync = false;
     loadSlewMode = false;
+    loadSlewState=IPS_IDLE;
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
-    m_slewToTargetSelected=false;
+    m_slewToTargetSelected=false;    
     m_wcsSynced=false;
     isFocusBusy=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
@@ -115,7 +116,7 @@ Align::Align()
 
     pi = new QProgressIndicator(this);
 
-    controlLayout->addWidget(pi, 0, 2, 1, 1);
+    controlLayout->addWidget(pi, 0, 3, 1, 1);
 
     exposureIN->setValue(Options::alignExposure());
 
@@ -782,6 +783,7 @@ void Align::solverFailed()
     altStage = ALT_INIT;
 
     loadSlewMode = false;
+    loadSlewState=IPS_ALERT;
     m_isSolverComplete = true;
     m_isSolverSuccessful = false;
 
@@ -799,6 +801,7 @@ void Align::abort()
     altStage = ALT_INIT;
 
     loadSlewMode = false;
+    loadSlewState=IPS_IDLE;
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
@@ -880,6 +883,8 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 else if (m_slewToTargetSelected)
                 {
                     m_slewToTargetSelected=false;
+                    if (loadSlewState == IPS_BUSY)
+                        loadSlewState=IPS_OK;
                     emit solverSlewComplete();
                 }
 
@@ -1401,6 +1406,7 @@ void Align::loadAndSlew(QUrl fileURL)
         return;
 
     loadSlewMode = true;
+    loadSlewState=IPS_BUSY;
 
     slewR->setChecked(true);
 
@@ -1558,7 +1564,7 @@ void Align::setSolverOverlay(bool enable)
 
 QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 {
-    int status=0, fits_ccd_width, fits_ccd_height, fits_focal_length=-1;
+    int status=0, fits_ccd_width, fits_ccd_height, fits_focal_length=-1, fits_binx=1, fits_biny=1;
     char comment[128], error_status[512];
     fitsfile * fptr = NULL;
     double ra=0,dec=0, fits_fov_x, fits_fov_y, fov_lower, fov_upper, fits_ccd_hor_pixel=-1, fits_ccd_ver_pixel=-1;
@@ -1634,9 +1640,12 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         return solver_args;
     }
 
+    fits_read_key(fptr, TINT, "XBINNING", &fits_binx, comment, &status );
+    fits_read_key(fptr, TINT, "YBINNING", &fits_biny, comment, &status );
+
     // Calculate FOV
-    fits_fov_x = 206264.8062470963552 * fits_ccd_width * fits_ccd_hor_pixel / 1000.0 / fits_focal_length;
-    fits_fov_y = 206264.8062470963552 * fits_ccd_height * fits_ccd_ver_pixel / 1000.0 / fits_focal_length;
+    fits_fov_x = 206264.8062470963552 * fits_ccd_width * fits_ccd_hor_pixel / 1000.0 / fits_focal_length * fits_binx;
+    fits_fov_y = 206264.8062470963552 * fits_ccd_height * fits_ccd_ver_pixel / 1000.0 / fits_focal_length* fits_biny;
 
     fits_fov_x /= 60.0;
     fits_fov_y /= 60.0;
