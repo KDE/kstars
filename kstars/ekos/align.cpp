@@ -156,6 +156,8 @@ Align::Align()
 
     kcfg_solverOverlay->setChecked(Options::solverOverlay());
     connect(kcfg_solverOverlay, SIGNAL(toggled(bool)), this, SLOT(setSolverOverlay(bool)));
+
+    loadSlewIterationsSpin->setValue(Options::solverLoadSlewIterations());
 }
 
 Align::~Align()
@@ -650,6 +652,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
     Options::setWCSAlign(wcsCheck->isChecked());
     Options::setSolverOverlay(kcfg_solverOverlay->isChecked());
+    Options::setSolverLoadSlewIterations(loadSlewIterationsSpin->value());
 
     unsigned int solverGotoOption = 0;
     if (slewR->isChecked())
@@ -704,7 +707,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
                             QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
 
-    if (pixscale > 0)
+    if (pixscale > 0 && loadSlewMode == false)
     {        
         double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale * binx;
         if (fabs(focal_length - solver_focal_length) > 1)
@@ -762,6 +765,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      m_isSolverComplete = true;
      m_isSolverSuccessful = true;
+
+     appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(), telescopeCoord.dec().toDMSString()));
 
      emit solverComplete(true);
 
@@ -876,7 +881,8 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
                 if (loadSlewMode)
                 {
-                    loadSlewMode = false;
+                    if (loadSlewIterations-- == 0)
+                        loadSlewMode = false;
                     captureAndSolve();
                     return;
                 }
@@ -965,7 +971,8 @@ void Align::executeGOTO()
 {        
     if (loadSlewMode)
     {
-        targetCoord = alignCoord;
+        if (loadSlewIterations == loadSlewIterationsSpin->value())
+            targetCoord = alignCoord;
         SlewToTarget();
     }
     else if (syncR->isChecked())
@@ -992,7 +999,7 @@ void Align::SlewToTarget()
 
     currentTelescope->Slew(&targetCoord);
 
-    appendLogText(i18n("Slewing to target."));
+    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(), targetCoord.dec().toDMSString()));
 }
 
 void Align::checkPolarAlignment()
@@ -1409,6 +1416,8 @@ void Align::loadAndSlew(QUrl fileURL)
     loadSlewState=IPS_BUSY;
 
     slewR->setChecked(true);
+
+    loadSlewIterations = loadSlewIterationsSpin->value();
 
     solveB->setEnabled(false);
     stopB->setEnabled(true);

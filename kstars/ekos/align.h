@@ -101,7 +101,7 @@ public:
     /** DBUS interface function.
      * @return Returns State of load slew procedure. Idle if not started. Busy if in progress. Ok if complete. Alert if procedure failed.
      */
-    Q_SCRIPTABLE QString getLoadAndSlewStatus() { return pstateStr(loadSlewState); }
+    Q_SCRIPTABLE int getLoadAndSlewStatus() { return loadSlewState; }
 
     /** DBUS interface function.
      * Sets the exposure of the selected CCD device.
@@ -354,6 +354,8 @@ private:
     bool loadSlewMode;
     // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
     IPState loadSlewState;
+    // Load slew solver iterations
+    int loadSlewIterations;
 
     // Keep track of solver status
     bool m_isSolverComplete;
