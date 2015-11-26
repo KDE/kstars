@@ -270,8 +270,13 @@ void Focus::syncCCDInfo()
             for (int i=1; i <= binx; i++)
                 binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
 
-            targetChip->getBinning(&binx, &biny);
-            binningCombo->setCurrentIndex(binx-1);
+            if (Options::focusXBin() <= (unsigned int) binx)
+                binningCombo->setCurrentIndex(Options::focusXBin()-1);
+            else
+            {
+                targetChip->getBinning(&binx, &biny);
+                binningCombo->setCurrentIndex(binx-1);
+            }
         }
 
         QStringList isoList = targetChip->getISOList();
