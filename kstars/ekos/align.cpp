@@ -881,7 +881,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
                 if (loadSlewMode)
                 {
-                    if (loadSlewIterations-- == 0)
+                    if (--loadSlewIterations == 0)
                         loadSlewMode = false;
                     captureAndSolve();
                     return;
