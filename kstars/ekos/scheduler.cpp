@@ -152,6 +152,9 @@ Scheduler::Scheduler()
     connect(parkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(unparkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(warmCCDCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+
+    connect(startupScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
+    connect(shutdownScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
 }
 
 Scheduler::~Scheduler()
