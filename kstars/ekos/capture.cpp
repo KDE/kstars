@@ -42,7 +42,6 @@
 #define INVALID_HA          10000
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
-#define MAX_TEMP_DIFF       0.1
 #define MAX_CAPTURE_RETRIES 3
 
 namespace Ekos
@@ -261,7 +260,7 @@ void SequenceJob::setCurrentTemperature(double value)
 {
     currentTemperature = value;
 
-    if (Options::enforceTemperatureControl() == false || fabs(targetTemperature - currentTemperature) <= MAX_TEMP_DIFF)
+    if (Options::enforceTemperatureControl() == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         temperatureReady = true;
 
     if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
@@ -1749,7 +1748,7 @@ void Capture::prepareJob(SequenceJob *job)
     if (currentCCD->hasCooler() && temperatureCheck->isChecked())
     {
         if (activeJob->getCurrentTemperature() != INVALID_TEMPERATURE &&
-                fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) > MAX_TEMP_DIFF)
+                fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) > Options::maxTemperatureDiff())
         {
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
