@@ -603,10 +603,20 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
     int subX, subY, subW, subH;
 
-    subX = stats.width/10;
-    subY = stats.height/10;
-    subW = stats.width - subX;
-    subH = stats.height - subY;
+    if (mode == FITS_GUIDE)
+    {
+        subX = stats.width/10;
+        subY = stats.height/10;
+        subW = stats.width - subX;
+        subH = stats.height - subY;
+    }
+    else
+    {
+        subX = stats.width;
+        subY = stats.height;
+        subW = stats.width;
+        subH = stats.height;
+    }
 
     // Detect "edges" that are above threshold
     for (int i=subY; i < subH; i++)
