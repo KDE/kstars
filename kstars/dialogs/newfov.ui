@@ -1065,7 +1065,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
      <item row="1" column="1">
       <widget class="QLineEdit" name="FOVEditOffsetX">
        <property name="toolTip">
-        <string>Desired horizontal offset  in arcminutes</string>
+        <string>Desired horizontal offset in arcminutes</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -1092,7 +1092,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
      <item row="1" column="4">
       <widget class="QLineEdit" name="FOVEditOffsetY">
        <property name="toolTip">
-        <string>Desired vertical offset  in arcminutes</string>
+        <string>Desired vertical offset in arcminutes</string>
        </property>
        <property name="whatsThis">
         <string/>
