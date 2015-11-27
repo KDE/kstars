@@ -1262,7 +1262,7 @@ void Capture::captureImage()
             break;
 
         case SequenceJob::CAPTURE_FOCUS_ERROR:
-            appendLogText(i18n("Cannot capture while  module is busy."));
+            appendLogText(i18n("Cannot capture while module is busy."));
             abort();
             break;
 
