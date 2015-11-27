@@ -601,12 +601,19 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
         threshold -= stats.min[0];
 
+    int subX, subY, subW, subH;
+
+    subX = stats.width/10;
+    subY = stats.height/10;
+    subW = stats.width - subX;
+    subH = stats.height - subY;
+
     // Detect "edges" that are above threshold
-    for (int i=0; i < stats.height; i++)
+    for (int i=subY; i < subH; i++)
     {
         pixelRadius = 0;
 
-        for(int j=0; j < stats.width; j++)
+        for(int j=subX; j < subW; j++)
         {
             pixVal = image_buffer[j+(i*stats.width)] - min;
 
