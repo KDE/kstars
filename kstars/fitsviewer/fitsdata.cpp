@@ -612,8 +612,8 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     }
     else
     {
-        subX = stats.width;
-        subY = stats.height;
+        subX = 0;
+        subY = 0;
         subW = stats.width;
         subH = stats.height;
     }
