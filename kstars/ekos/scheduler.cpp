@@ -1977,23 +1977,31 @@ void Scheduler::checkStatus()
     }
     else        
     {
-        // #3 Check if startup procedure Phase #1 is complete (Startup script)
+        // #3 Check if startup procedure has failed.
+        if (startupState == STARTUP_ERROR)
+        {
+            // Stop Scheduler
+            stop();
+            return;
+        }
+
+        // #4 Check if startup procedure Phase #1 is complete (Startup script)
         if ( (startupState == STARTUP_IDLE && checkStartupState() == false) || startupState == STARTUP_SCRIPT)
             return;
 
-        // #4 Check if Ekos is started
+        // #5 Check if Ekos is started
         if (checkEkosState() == false)
             return;
 
-        // #5 Check if INDI devices are connected.
+        // #6 Check if INDI devices are connected.
         if (checkINDIState() == false)
             return;       
 
-        // #6 Check if startup procedure Phase #2 is complete (Unparking phase)
+        // #7 Check if startup procedure Phase #2 is complete (Unparking phase)
         if (startupState > STARTUP_SCRIPT && startupState < STARTUP_ERROR && checkStartupState() == false)
             return;
 
-        // #7 Execute the job
+        // #8 Execute the job
         executeJob(currentJob);
     }
 }
