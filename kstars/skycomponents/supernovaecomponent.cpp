@@ -233,7 +233,7 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
     //qDebug()<<filename;
     m_Parser = new QProcess;
     connect( m_Parser, SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( slotDataFileUpdateFinished( int, QProcess::ExitStatus ) ) );
-    m_Parser->start("python", args);
+    m_Parser->start("python2", args);
 }
 
 void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus )
