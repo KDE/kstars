@@ -37,6 +37,7 @@
 #define MAXIMUM_RESET_ITERATIONS    2
 #define DEFAULT_SUBFRAME_DIM        128
 #define AUTO_STAR_TIMEOUT           45000
+#define MINIMUM_PULSE_TIMER         32
 
 namespace Ekos
 {
@@ -567,8 +568,15 @@ void Focus::start()
         absMotionMin  = 0;
     }
     else
-      /* Start 1000 ms */
-      pulseDuration=1000;
+    {
+      pulseDuration=stepIN->value();
+
+      if (pulseDuration <= MINIMUM_PULSE_TIMER)
+      {
+          appendLogText(i18n("Starting pulse step is too low. Increase the step size to %1 or higher...", MINIMUM_PULSE_TIMER*5));
+          return;
+      }
+    }
 
     inAutoFocus = true;
     m_autoFocusSuccesful = false;
@@ -845,7 +853,7 @@ void Focus::newFITS(IBLOB *bp)
 
     FITSData *image_data = targetChip->getImageData();
 
-    currentCCD->disconnect(this);
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     image_data->findStars();
 
@@ -1419,7 +1427,7 @@ void Focus::autoFocusRel()
 
     appendLogText(i18n("FITS received. HFR %1. Delta (%2%)", HFRText, deltaTxt));
 
-    if (pulseDuration <= 32)
+    if (pulseDuration <= MINIMUM_PULSE_TIMER)
     {
         appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         abort();
@@ -1468,13 +1476,13 @@ void Focus::autoFocusRel()
             {
                 HFRInc++;
 
-                if (HFRInc <= 1)
+                /*if (HFRInc <= 1)
                 {
                     capture();
                     return;
                 }
                 else
-                {
+                {*/
 
                     lastHFR = currentHFR;
 
@@ -1482,7 +1490,7 @@ void Focus::autoFocusRel()
 
                     pulseDuration *= 0.75;
                     FocusOut(pulseDuration);
-                }
+                //}
             }
 
             break;
@@ -1506,10 +1514,10 @@ void Focus::autoFocusRel()
         {
             HFRInc++;
 
-            if (HFRInc <= 1)
+            /*if (HFRInc <= 1)
                 capture();
             else
-            {
+            {*/
 
                 lastHFR = currentHFR;
 
@@ -1517,7 +1525,7 @@ void Focus::autoFocusRel()
 
                 pulseDuration *= 0.75;
                 FocusIn(pulseDuration);
-            }
+            //}
         }
 
         break;
