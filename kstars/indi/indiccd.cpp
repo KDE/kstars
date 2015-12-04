@@ -1262,6 +1262,9 @@ void CCD::processBLOB(IBLOB* bp)
 
                 if (normalTabID >= 0)
                     targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
+                else
+                    // If opening file fails, we treat it the same as exposure failure and recapture again if possible
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
                 break;
 
             case FITS_FOCUS:
@@ -1272,6 +1275,8 @@ void CCD::processBLOB(IBLOB* bp)
 
                 if (focusTabID >= 0)
                     targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+                else
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
                 break;
 
         case FITS_GUIDE:
@@ -1282,6 +1287,8 @@ void CCD::processBLOB(IBLOB* bp)
 
             if (guideTabID >= 0)
                 targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+            else
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
             break;
 
         case FITS_CALIBRATE:
@@ -1292,6 +1299,9 @@ void CCD::processBLOB(IBLOB* bp)
 
             if (calibrationTabID >= 0)
                 targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
+            else
+
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
             break;
 
 
