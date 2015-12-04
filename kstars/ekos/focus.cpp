@@ -245,7 +245,50 @@ void Focus::checkCCD(int ccdNum)
         ccdNum = CCDCaptureCombo->currentIndex();
 
     if (ccdNum <= CCDs.count())
+    {
         currentCCD = CCDs.at(ccdNum);
+
+        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        if (targetChip)
+        {
+            binningCombo->setEnabled(targetChip->canBin());
+            kcfg_subFrame->setEnabled(targetChip->canSubframe());
+            kcfg_autoSelectStar->setEnabled(targetChip->canSubframe());
+            if (targetChip->canBin())
+            {
+                int binx=1,biny=1;
+                binningCombo->clear();
+                targetChip->getMaxBin(&binx, &biny);
+                for (int i=1; i <= binx; i++)
+                    binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
+
+                if (Options::focusXBin() <= (unsigned int) binx)
+                    binningCombo->setCurrentIndex(Options::focusXBin()-1);
+                else
+                {
+                    targetChip->getBinning(&binx, &biny);
+                    binningCombo->setCurrentIndex(binx-1);
+                }
+            }
+
+            QStringList isoList = targetChip->getISOList();
+            ISOCombo->clear();
+
+            if (isoList.isEmpty())
+            {
+                ISOCombo->setEnabled(false);
+                ISOLabel->setEnabled(false);
+            }
+            else
+            {
+                ISOCombo->setEnabled(true);
+                ISOLabel->setEnabled(true);
+                ISOCombo->addItems(isoList);
+                ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+            }
+
+        }
+    }
 
     syncCCDInfo();
 }
@@ -257,47 +300,8 @@ void Focus::syncCCDInfo()
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    if (targetChip)
-    {
-        binningCombo->setEnabled(targetChip->canBin());
-        kcfg_subFrame->setEnabled(targetChip->canSubframe());
-        kcfg_autoSelectStar->setEnabled(targetChip->canSubframe());
-        if (targetChip->canBin())
-        {
-            int binx=1,biny=1;
-            binningCombo->clear();
-            targetChip->getMaxBin(&binx, &biny);
-            for (int i=1; i <= binx; i++)
-                binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
-
-            if (Options::focusXBin() <= (unsigned int) binx)
-                binningCombo->setCurrentIndex(Options::focusXBin()-1);
-            else
-            {
-                targetChip->getBinning(&binx, &biny);
-                binningCombo->setCurrentIndex(binx-1);
-            }
-        }
-
-        QStringList isoList = targetChip->getISOList();
-        ISOCombo->clear();
-
-        if (isoList.isEmpty())
-        {
-            ISOCombo->setEnabled(false);
-            ISOLabel->setEnabled(false);
-        }
-        else
-        {
-            ISOCombo->setEnabled(true);
-            ISOLabel->setEnabled(true);
-            ISOCombo->addItems(isoList);
-            ISOCombo->setCurrentIndex(targetChip->getISOIndex());
-        }
-
-        //if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+    if (targetChip)      
         targetChip->getFocusFrame(&fx, &fy, &fw, &fh);
-    }
 }
 
 void Focus::addFilter(ISD::GDInterface *newFilter)
