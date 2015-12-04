@@ -70,6 +70,7 @@ Align::Align()
     currentFilter = NULL;
     filterPositionPending = false;
     lockedFilterIndex = currentFilterIndex = -1;
+    retries=0;
 
     parser = NULL;
     solverFOV = new FOV();
@@ -765,6 +766,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      m_isSolverComplete = true;
      m_isSolverSuccessful = true;
+     retries=0;
 
      appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(), telescopeCoord.dec().toDMSString()));
 
@@ -791,6 +793,7 @@ void Align::solverFailed()
     loadSlewState=IPS_ALERT;
     m_isSolverComplete = true;
     m_isSolverSuccessful = false;
+    retries=0;
 
     emit solverComplete(false);
 }
@@ -810,6 +813,7 @@ void Align::abort()
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
+    retries=0;
 
     currentCCD->disconnect(this);
 
@@ -1552,9 +1556,17 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
     INDI_UNUSED(remaining);
 
     if (state == IPS_ALERT)
-    {
-        appendLogText(i18n("Capture error! Aborting..."));
-        abort();
+    {        
+        if (++retries == 3)
+        {
+            appendLogText(i18n("Capture error! Aborting..."));
+
+            abort();
+            return;
+        }
+
+        appendLogText(i18n("Restarting capture attempt #%1", retries));
+        captureAndSolve();
     }
 }
 
