@@ -258,7 +258,7 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
     a->setChecked(true);
 }
 
-int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText)
+int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
 
     FITSTab *tab = new FITSTab(this);
@@ -266,7 +266,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     led.setColor(Qt::yellow);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    if (tab->loadFITS(imageName,mode, filter) == false)
+    if (tab->loadFITS(imageName,mode, filter, silent) == false)
     {
         QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
@@ -336,7 +336,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     return (fitsID++);
 }
 
-bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter)
+bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter, bool silent)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
 
@@ -350,7 +350,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
 
     if (tab)
     {
-        rc = tab->loadFITS(imageName, tab->getView()->getMode(), filter);
+        rc = tab->loadFITS(imageName, tab->getView()->getMode(), filter, silent);
 
         int tabIndex = fitsTab->indexOf(tab);
         if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
@@ -470,7 +470,7 @@ void FITSViewer::openFile()
         }
     }
 
-    addFITS(&fileURL);
+    addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 
 }
 

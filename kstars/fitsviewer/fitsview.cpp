@@ -277,7 +277,7 @@ FITSView::~FITSView()
     delete(display_image);    
 }
 
-bool FITSView::loadFITS ( const QString &inFilename )
+bool FITSView::loadFITS (const QString &inFilename , bool silent)
 {
     QProgressDialog fitsProg(this);
 
@@ -307,7 +307,7 @@ bool FITSView::loadFITS ( const QString &inFilename )
         qApp->processEvents();
     }
 
-    if (image_data->loadFITS(inFilename) == false)
+    if (image_data->loadFITS(inFilename, silent) == false)
         return false;
 
 

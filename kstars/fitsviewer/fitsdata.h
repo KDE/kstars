@@ -80,7 +80,7 @@ public:
     ~FITSData();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
-    bool  loadFITS(const QString &filename);
+    bool  loadFITS(const QString &filename, bool silent=true);
     /* Save FITS */
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */

@@ -89,7 +89,7 @@ void FITSTab::setPreviewText(const QString &value)
 }
 
 
-bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
+bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
     if (view == NULL)
     {
@@ -108,7 +108,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter)
 
     view->setFilter(filter);
 
-    bool imageLoad = view->loadFITS(imageURL->url());
+    bool imageLoad = view->loadFITS(imageURL->url(), silent);
 
     if (imageLoad)
     {

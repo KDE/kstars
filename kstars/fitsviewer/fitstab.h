@@ -40,7 +40,7 @@ public:
 
    FITSTab(FITSViewer *parent);
    ~FITSTab();
-   bool loadFITS(const QUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter=FITS_NONE);
+   bool loadFITS(const QUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter=FITS_NONE, bool silent=true);
    int saveFITS(const QString &filename);
 
    inline QUndoStack *getUndoStack() { return undoStack; }
