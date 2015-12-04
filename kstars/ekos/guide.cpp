@@ -290,19 +290,19 @@ void Guide::updateGuideParams()
 
 void Guide::addST4(ISD::ST4 *newST4)
 {
+    int i=0;
     foreach(ISD::ST4 *guidePort, ST4List)
     {
         if (guidePort == newST4)
             return;
     }
 
+    disconnect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+
     ST4Combo->addItem(newST4->getDeviceName());
     ST4List.append(newST4);
 
-    ST4Driver = ST4List.at(0);
-    ST4Combo->setCurrentIndex(0);
-
-    for (int i=0; i < ST4List.count(); i++)
+    for (i=0; i < ST4List.count(); i++)
     {
         if (ST4List.at(i)->getDeviceName() == Options::sT4Driver())
         {
@@ -311,6 +311,15 @@ void Guide::addST4(ISD::ST4 *newST4)
            break;
         }
     }
+
+    // If no option was selected before, let us set the first item as the default item.
+    if (i == ST4List.count())
+    {
+        ST4Driver = ST4List.at(0);
+        ST4Combo->setCurrentIndex(0);
+    }
+
+    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
 
     GuideDriver = ST4Driver;
 
