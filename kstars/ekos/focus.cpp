@@ -778,14 +778,23 @@ void Focus::FocusIn(int ms)
      currentFocuser->focusIn();
 
      if (canAbsMove)
+     {
          currentFocuser->moveAbs(currentPosition-ms);
+         appendLogText(i18n("Focusing inward..."));
+     }
      else if (canRelMove)
+     {
          currentFocuser->moveRel(ms);
+         appendLogText(i18n("Focusing inward..."));
+     }
      else
+     {
        currentFocuser->moveByTimer(ms);
+       appendLogText(i18n("Focusing inward by %1 ms...", ms));
+     }
 
 
-    appendLogText(i18n("Focusing inward..."));
+
 }
 
 void Focus::FocusOut(int ms)
@@ -810,14 +819,20 @@ void Focus::FocusOut(int ms)
      currentFocuser->focusOut();
 
     if (canAbsMove)
+    {
            currentFocuser->moveAbs(currentPosition+ms);
+           appendLogText(i18n("Focusing outward..."));
+    }
     else if (canRelMove)
+    {
             currentFocuser->moveRel(ms);
+            appendLogText(i18n("Focusing outward..."));
+    }
     else
+    {
             currentFocuser->moveByTimer(ms);
-
-    appendLogText(i18n("Focusing outward..."));
-
+            appendLogText(i18n("Focusing outward by %1 ms...", ms));
+    }
 }
 
 void Focus::newFITS(IBLOB *bp)
@@ -1376,6 +1391,7 @@ void Focus::autoFocusAbs()
 void Focus::autoFocusRel()
 {
     static int noStarCount=0;
+    double minHFR=1e6;
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-lastHFR)*100.0, 0,'g', 2);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
@@ -1408,11 +1424,13 @@ void Focus::autoFocusRel()
     {
         case FOCUS_NONE:
             lastHFR = currentHFR;
+            minHFR=10e6;
             FocusIn(pulseDuration);
             break;
 
         case FOCUS_IN:
-            if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
+            //if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
+            if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
                 appendLogText(i18n("Autofocus complete."));                
                 abort();
@@ -1422,6 +1440,9 @@ void Focus::autoFocusRel()
             }
             else if (currentHFR < lastHFR)
             {
+                if (currentHFR < minHFR)
+                    minHFR = currentHFR;
+
                 lastHFR = currentHFR;
                 FocusIn(pulseDuration);
                 HFRInc=0;
@@ -1450,7 +1471,8 @@ void Focus::autoFocusRel()
             break;
 
     case FOCUS_OUT:
-        if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
+        if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
+        //if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
             appendLogText(i18n("Autofocus complete."));
             abort();
@@ -1460,6 +1482,9 @@ void Focus::autoFocusRel()
         }
         else if (currentHFR < lastHFR)
         {
+            if (currentHFR < minHFR)
+                minHFR = currentHFR;
+
             lastHFR = currentHFR;
             FocusOut(pulseDuration);
             HFRInc=0;
