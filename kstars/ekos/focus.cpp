@@ -1391,7 +1391,7 @@ void Focus::autoFocusAbs()
 void Focus::autoFocusRel()
 {
     static int noStarCount=0;
-    double minHFR=1e6;
+    static double minHFR=1e6;
     QString deltaTxt = "100%";
 
     if (minHFR != 1e6)
