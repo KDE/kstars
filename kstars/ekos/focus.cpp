@@ -655,7 +655,8 @@ void Focus::abort()
     noStarCount = 0;
     //maxHFR=1;
 
-    currentCCD->disconnect(this);
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
 
@@ -879,17 +880,13 @@ void Focus::newFITS(IBLOB *bp)
         if (currentHFR > maxHFR)
             maxHFR = currentHFR;
 
-        //HFRPoint *p = new HFRPoint();
         if (hfr_position.empty())
             hfr_position.append(1);
         else
             hfr_position.append(hfr_position.last()+1);
         hfr_value.append(currentHFR);
-        //p->HFR = currentHFR;
-        //p->pos = HFRIterativePoints.size()+1;
-        //HFRIterativePoints.append(p);
 
-        if (focusType == FOCUS_MANUAL)
+        if (focusType == FOCUS_MANUAL || (inAutoFocus && canAbsMove == false && canRelMove == false))
             drawHFRPlot();
     }
 
@@ -1022,10 +1019,6 @@ void Focus::newFITS(IBLOB *bp)
 void Focus::clearDataPoints()
 {
     maxHFR=1;
-    /*qDeleteAll(HFRIterativePoints);
-    HFRIterativePoints.clear();
-    qDeleteAll(HFRAbsolutePoints);
-    HFRAbsolutePoints.clear();*/
     hfr_position.clear();
     hfr_value.clear();
 
@@ -1034,16 +1027,9 @@ void Focus::clearDataPoints()
 
 void Focus::drawHFRPlot()
 {    
-
-
-    //HFRPlot->axisRect(0)->setRangeDrag(Qt::Horizontal);
-    //HFRPlot->axisRect(0)->setRangeZoom(Qt::Horizontal);
-
-
-
     v_graph->setData(hfr_position, hfr_value);
 
-    if (focusType == FOCUS_AUTO)
+    if (focusType == FOCUS_AUTO && (canAbsMove || canRelMove) )
     {
         //HFRPlot->xAxis->setLabel(i18n("Position"));
         HFRPlot->xAxis->setRange(minPos-pulseDuration, maxPos+pulseDuration);
@@ -1056,40 +1042,8 @@ void Focus::drawHFRPlot()
         HFRPlot->yAxis->setRange(currentHFR/1.5, maxHFR);
     }
 
-    //HFRPlot->setInteraction(QCP::iRangeDrag, true);
-    //HFRPlot->setInteraction(QCP::iRangeZoom, true);
-    //HFRPlot->setInteraction(QCP::iSelectPlottables, true);
-
     HFRPlot->replot();
 
-    /*HFRPlot->removeAllPlotObjects();
-
-    KPlotObject * HFRObj = NULL;
-
-    if (focusType == FOCUS_AUTO)
-    {
-        HFRObj = new KPlotObject( Qt::red, KPlotObject::Points, 2 );
-
-        foreach(HFRPoint *p, HFRAbsolutePoints)
-            HFRObj->addPoint(p->pos, p->HFR);
-
-        HFRPlot->addPlotObject(HFRObj);
-        HFRPlot->setLimits(minPos-pulseDuration, maxPos+pulseDuration, currentHFR/1.5, maxHFR );
-        HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Absolute Position") );
-    }
-    else
-    {
-        HFRObj = new KPlotObject( Qt::red, KPlotObject::Lines, 2 );
-
-        foreach(HFRPoint *p, HFRIterativePoints)
-            HFRObj->addPoint(p->pos, p->HFR);
-
-        HFRPlot->addPlotObject(HFRObj);
-        HFRPlot->setLimits(1, HFRIterativePoints.size() + 1, currentHFR/1.5, maxHFR);
-        HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Iterations") );
-    }
-
-    HFRPlot->update();*/
 }
 
 void Focus::autoFocusAbs()
