@@ -1392,13 +1392,11 @@ void Focus::autoFocusRel()
 {
     static int noStarCount=0;
     static double minHFR=1e6;
-    QString deltaTxt = "100%";
-
-    if (minHFR != 1e6)
-        deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 2);
+    QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 2);
+    QString minHFRText = QString("%1").arg(minHFR, 0, 'g', 3);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
-    appendLogText(i18n("FITS received. HFR %1. Delta (%2%) Min HFR (%3)", HFRText, deltaTxt, minHFR));
+    appendLogText(i18n("FITS received. HFR %1. Delta (%2%) Min HFR (%3)", HFRText, deltaTxt, minHFRText));
 
     if (pulseDuration <= MINIMUM_PULSE_TIMER)
     {
