@@ -1832,6 +1832,9 @@ bool Scheduler::checkShutdownState()
     case SHUTDOWN_SCRIPT:
         if (shutdownScriptURL.isEmpty() == false)
         {
+            // Disconnect devices
+            stopINDI();
+
             shutdownState = SHUTDOWN_SCRIPT_RUNNING;
             executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
         }
@@ -1952,8 +1955,9 @@ void Scheduler::checkStatus()
             else
                 appendLogText(i18n("Shutdown procedure failed, aborting..."));
 
-            // Stop INDI
-            stopINDI();
+            // Stop INDI if there is no shutdown script since stopINDI is called right before executing the shutdown script
+            if (shutdownScriptURL.isEmpty())
+                stopINDI();
 
             // Stop Scheduler
             stop();            
