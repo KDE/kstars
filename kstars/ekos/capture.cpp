@@ -1012,6 +1012,8 @@ void Capture::newFITS(IBLOB *bp)
         if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
             return;
 
+        disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+
         if (calibrationState == CALIBRATE_START)
         {
             calibrationState = CALIBRATE_DONE;
@@ -1237,11 +1239,14 @@ void Capture::captureImage()
         activeJob->setCurrentTemperature(temperature);
     }
 
+     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+
      rc = activeJob->capture(isDark);
 
      switch (rc)
      {
         case SequenceJob::CAPTURE_OK:
+         connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
          if (isDark)
          {
             calibrationState = CALIBRATE_START;
@@ -1414,7 +1419,9 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
 
-            secondsLabel->setText(i18n("Downloading..."));
+           secondsLabel->setText(i18n("Downloading..."));
+
+            disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
     }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)
@@ -1798,13 +1805,9 @@ void Capture::executeJob()
 
     pi->startAnimation();
 
-    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
-
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;    
 
     captureImage();
-
 }
 
 void Capture::enableGuideLimits()
@@ -1907,7 +1910,10 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
     if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
         if (status)
+        {
+            appendLogText(i18n("Focus complete."));
             startNextExposure();
+        }
         else
         {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
