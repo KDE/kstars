@@ -38,6 +38,7 @@
 #define DEFAULT_SUBFRAME_DIM        128
 #define AUTO_STAR_TIMEOUT           45000
 #define MINIMUM_PULSE_TIMER         32
+#define MAX_RECAPTURE_RETRIES       3
 
 namespace Ekos
 {
@@ -107,8 +108,10 @@ Focus::Focus()
     connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
     connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
     connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
+    connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
 
-    binningCombo->setCurrentIndex(Options::focusXBin()-1);
+    activeBin=Options::focusXBin();
+    binningCombo->setCurrentIndex(activeBin-1);
 
     connect(clearDataB, SIGNAL(clicked()) , this, SLOT(clearDataPoints()));
 
@@ -263,13 +266,8 @@ void Focus::checkCCD(int ccdNum)
                 for (int i=1; i <= binx; i++)
                     binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
 
-                if (Options::focusXBin() <= (unsigned int) binx)
-                    binningCombo->setCurrentIndex(Options::focusXBin()-1);
-                else
-                {
-                    targetChip->getBinning(&binx, &biny);
-                    binningCombo->setCurrentIndex(binx-1);
-                }
+                binningCombo->setCurrentIndex(activeBin-1);
+
             }
 
             QStringList isoList = targetChip->getISOList();
@@ -595,7 +593,7 @@ void Focus::start()
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
-    Options::setFocusXBin(binningCombo->currentIndex()+1);
+    Options::setFocusXBin(activeBin);
     Options::setFocusMaxTravel(maxTravelIN->value());
 
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
@@ -718,7 +716,7 @@ void Focus::capture()
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
-    targetChip->setBinning(binningCombo->currentIndex()+1, binningCombo->currentIndex()+1);
+    targetChip->setBinning(activeBin, activeBin);
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
@@ -993,9 +991,13 @@ void Focus::newFITS(IBLOB *bp)
     if (minimumRequiredHFR >= 0)
     {
         if (currentHFR == -1)
-        {
-            if (noStarCount++ < 3)
+        {            
+            if (noStarCount++ < MAX_RECAPTURE_RETRIES)
             {
+                appendLogText(i18n("No stars detected, capturing again..."));
+                // On Last Attempt reset focus frame to capture full frame and recapture star if possible
+                if (noStarCount == MAX_RECAPTURE_RETRIES)
+                    resetFocusFrame();
                 capture();
                 return;
             }
@@ -1096,7 +1098,7 @@ void Focus::autoFocusAbs()
     // No stars detected, try to capture again
     if (currentHFR == -1)
     {
-        if (noStarCount++ < 3)
+        if (noStarCount++ < MAX_RECAPTURE_RETRIES)
         {
             appendLogText(i18n("No stars detected, capturing again..."));
             capture();
@@ -1409,7 +1411,7 @@ void Focus::autoFocusRel()
     // No stars detected, try to capture again
     if (currentHFR == -1)
     {
-        if (noStarCount++ < 3)
+        if (noStarCount++ < MAX_RECAPTURE_RETRIES)
         {
             appendLogText(i18n("No stars detected, capturing again..."));
             capture();
@@ -1835,6 +1837,8 @@ void Focus::updateFocusStatus(bool status)
         if (inSequenceFocus && resetFocusIteration++ < MAXIMUM_RESET_ITERATIONS && resetFocus == false)
         {
             resetFocus = true;
+            // Reset focus frame in case the star in subframe was lost
+            resetFocusFrame();
             return;
         }
     }
@@ -1875,6 +1879,11 @@ void Focus::setAbsoluteFocusTicks()
         qDebug() << "Setting focus ticks to " << absTicksSpin->value();
 
     currentFocuser->moveAbs(absTicksSpin->value());
+}
+
+void Focus::setActiveBinning(int bin)
+{
+    activeBin = bin + 1;
 }
 
 }
