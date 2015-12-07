@@ -55,7 +55,6 @@ SequenceJob::SequenceJob()
     currentTemperature=targetTemperature=INVALID_TEMPERATURE;
     captureFilter=FITS_NONE;
     preview=false;
-    showFITS=false;
     filterReady=temperatureReady=true;
     activeChip=NULL;
     activeCCD=NULL;
@@ -63,13 +62,14 @@ SequenceJob::SequenceJob()
     statusCell = NULL;
     completed=0;
     captureRetires=0;
+    flatFieldSource = SOURCE_MANUAL;
+    flatFieldDuration = DURATION_MANUAL;
 }
 
 void SequenceJob::reset()
 {
     // Reset to default values
     activeChip->setBatchMode(false);
-    activeChip->setShowFITS(Options::showFITS());
 }
 
 void SequenceJob::resetStatus()
@@ -104,8 +104,6 @@ void SequenceJob::done()
 void SequenceJob::prepareCapture()
 {
     activeChip->setBatchMode(!preview);
-
-    activeChip->setShowFITS(showFITS);
 
     activeCCD->setFITSDir(fitsDir);
 
@@ -151,6 +149,8 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
     // If focusing is busy, return error
     //if (activeChip->getCaptureMode() == FITS_FOCUS)
       //  return CAPTURE_FOCUS_ERROR;
+
+    activeChip->setBatchMode(!preview);
 
     if (targetFilter != -1 && activeFilter != NULL)
     {
@@ -296,6 +296,26 @@ void SequenceJob::setCaptureRetires(int value)
     captureRetires = value;
 }
 
+SequenceJob::FlatFieldSource SequenceJob::getFlatFieldSource() const
+{
+    return flatFieldSource;
+}
+
+void SequenceJob::setFlatFieldSource(const FlatFieldSource &value)
+{
+    flatFieldSource = value;
+}
+
+SequenceJob::FlatFieldDuration SequenceJob::getFlatFieldDuration() const
+{
+    return flatFieldDuration;
+}
+
+void SequenceJob::setFlatFieldDuration(const FlatFieldDuration &value)
+{
+    flatFieldDuration = value;
+}
+
 
 int SequenceJob::getISOIndex() const
 {
@@ -377,8 +397,6 @@ Capture::Capture()
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
-    connect(displayCheck, SIGNAL(toggled(bool)), this, SLOT(checkPreview(bool)));
-
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
     connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqBoundary(QString)));
@@ -409,6 +427,7 @@ Capture::Capture()
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     resetB->setIcon(QIcon::fromTheme("system-reboot"));
     resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
+    calibrationB->setIcon(QIcon::fromTheme("run-build"));
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
@@ -428,22 +447,13 @@ Capture::Capture()
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
-    // Hide until required
-    ADUSeparator->setVisible(false);
-    ADULabel->setVisible(false);
-    ADUValue->setVisible(false);
-    ADUPercentageLabel->setVisible(false);
-
-    displayCheck->setEnabled(Options::showFITS());
-    displayCheck->setChecked(Options::showFITS());
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
     parkCheck->setChecked(Options::autoParkTelescope());
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
-    temperatureCheck->setChecked(Options::enforceTemperatureControl());
-    ADUValue->setValue(Options::aDUValue());
+    temperatureCheck->setChecked(Options::enforceTemperatureControl());    
 
     connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(HFRPixels, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
@@ -526,7 +536,6 @@ void Capture::start()
     Options::setAutoMeridianHours(meridianHours->value());
     Options::setAutoParkTelescope(parkCheck->isChecked());
     Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
-    Options::setADUValue(ADUValue->value());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -610,11 +619,7 @@ void Capture::abort()
 
     startB->setEnabled(true);
     stopB->setEnabled(false);
-
-    if (displayCheck->isChecked())
-        previewB->setEnabled(true);
-    else
-        previewB->setEnabled(false);
+    previewB->setEnabled(true);
 
     pi->stopAnimation();
     seqTimer->stop();
@@ -1008,6 +1013,11 @@ void Capture::newFITS(IBLOB *bp)
         if (targetChip->getCaptureMode() == FITS_FOCUS || targetChip->getCaptureMode() == FITS_GUIDE)
             return;
 
+        // If this is a preview job, make sure to enable preview button after
+        // we recieve the FITS
+        if (activeJob->isPreview() && previewB->isEnabled() == false)
+            previewB->setEnabled(true);
+
         // If the FITS is not for our device, simply ignore
         if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
             return;
@@ -1066,7 +1076,8 @@ void Capture::newFITS(IBLOB *bp)
             {
                 appendLogText(i18n("Unable to calculate optimal exposure settings, please take the flats manually."));
                 activeJob->setTargetADU(0);
-                ADUValue->setValue(0);
+                //TODO
+                //ADUValue->setValue(0);
                 abort();
                 return;
             }
@@ -1175,6 +1186,13 @@ bool Capture::resumeSequence()
         isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked() && HFRPixels->value() > 0);
         if (isAutoFocus)
             autoFocusStatus = false;
+
+        // Reset HFR pixels to zero after merdian flip
+        if (isAutoFocus && meridianFlipStage != MF_NONE)
+        {
+            firstAutoFocus=true;
+            HFRPixels->setValue(fileHFR);
+        }
 
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(false);
@@ -1346,20 +1364,6 @@ void Capture::checkSeqBoundary(const QString &path)
 
 }
 
-void Capture::checkPreview(bool enable)
-{
-    if (enable && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    {
-        appendLogText(i18n("Cannot enable preview while CCD upload mode is set to local. Change upload mode to client or both and try again."));
-        displayCheck->disconnect(this);
-        displayCheck->setChecked(false);
-        connect(displayCheck, SIGNAL(toggled(bool)), this, SLOT(checkPreview(bool)));
-        return;
-    }
-
-    previewB->setEnabled(enable);
-}
-
 void Capture::appendLogText(const QString &text)
 {
 
@@ -1487,9 +1491,8 @@ void Capture::addJob(bool preview)
 
     job->setFITSDir(fitsDir->text());
 
-    job->setShowFITS(displayCheck->isChecked());
-
-    job->setTargetADU(ADUValue->value());
+    //TODO
+    //job->setTargetADU(ADUValue->value());
 
     imagePrefix = prefixIN->text();        
 
@@ -1825,10 +1828,11 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         double deviation_rms = sqrt(delta_ra*delta_ra + delta_dec*delta_dec);
         if (deviation_rms < guideDeviation->value())
         {
-                initialHA = getCurrentHA();
-                meridianFlipStage = MF_NONE;
+                initialHA = getCurrentHA();                
                 appendLogText(i18n("Post meridian flip calibration completed successfully."));
                 resumeSequence();
+                // N.B. Set meridian flip stage AFTER resumeSequence() always
+                meridianFlipStage = MF_NONE;
         }
     }
     else if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
@@ -2162,7 +2166,8 @@ bool Capture::processJobInfo(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "ADU"))
         {
-            ADUValue->setValue(atoi(pcdataXMLEle(ep)));
+            //TODO
+            //ADUValue->setValue(atoi(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
@@ -2177,11 +2182,6 @@ bool Capture::processJobInfo(XMLEle *root)
             if (ISOCombo->isEnabled())
                 ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
         }
-        else if (!strcmp(tagXMLEle(ep), "ShowFITS"))
-        {
-            displayCheck->setChecked( !strcmp("1", pcdataXMLEle(ep)));
-        }
-
     }
 
     addJob(false);
@@ -2309,7 +2309,6 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
-        outstream << "<ShowFITS>" << (job->isShowFITS() ? 1 : 0) << "</ShowFITS>" << endl;
 
         outstream << "</Job>" << endl;
     }
@@ -2359,12 +2358,14 @@ void Capture::editJob(QModelIndex i)
    expDurationCheck->setChecked(expEnabled);
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
-   ADUValue->setValue(job->getTargetADU());
+
+   //TODO
+   //ADUValue->setValue(job->getTargetADU());
+
    fitsDir->setText(job->getFITSDir());
    ISOCheck->setChecked(job->getISOMode());
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
-   displayCheck->setChecked(job->isShowFITS());
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
@@ -2625,6 +2626,7 @@ void Capture::checkGuidingAfterFlip()
     if (resumeGuidingAfterFlip == false)
     {
         resumeSequence();
+        // N.B. Set meridian flip stage AFTER resumeSequence() always
         meridianFlipStage = MF_NONE;
     }
     else
@@ -2760,19 +2762,9 @@ void Capture::checkAlignmentSlewComplete()
 void Capture::checkFrameType(int index)
 {
     if (frameTypeCombo->itemText(index) == i18n("Flat"))
-    {
-        ADUSeparator->setVisible(true);
-        ADULabel->setVisible(true);
-        ADUValue->setVisible(true);
-        ADUPercentageLabel->setVisible(true);
-    }
+        calibrationB->setEnabled(true);
     else
-    {
-        ADUSeparator->setVisible(false);
-        ADULabel->setVisible(false);
-        ADUValue->setVisible(false);
-        ADUPercentageLabel->setVisible(false);
-    }
+        calibrationB->setEnabled(false);
 }
 
 double Capture::setCurrentADU(double value)

@@ -63,8 +63,6 @@ public:
     bool getBinning(int *bin_x, int *bin_y);
     bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
-    void setShowFITS(bool enable) { displayFITS = enable;}
-    bool showFITS() const { return displayFITS; }
 
     bool isCapturing();
     bool abortExposure();

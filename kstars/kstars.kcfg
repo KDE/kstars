@@ -137,11 +137,6 @@
       <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
       <default>true</default>
     </entry>
-    <entry name="showFITS" type="Bool">
-      <label>Display FITS automatically when an image is captured?</label>
-      <whatsthis>Toggle automatic display of FITS files upon capture.</whatsthis>
-      <default>true</default>
-    </entry>
     <entry name="singlePreviewFITS" type="Bool">
       <label>Preview FITS in a single tab?</label>
       <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>

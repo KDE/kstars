@@ -350,25 +350,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="kcfg_showFITS">
-          <property name="toolTip">
-           <string>When a FITS image is captured from a camera, download and display the FITS automatically in the FITS Viewer</string>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>&amp;Automatic FITS Display</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
           <property name="toolTip">
            <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>

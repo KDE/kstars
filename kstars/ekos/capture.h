@@ -67,6 +67,8 @@ class SequenceJob : public QObject
 
     typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
     typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FOCUS_ERROR} CAPTUREResult;
+    typedef enum { SOURCE_MANUAL, SOURCE_DEVICE, SOURCE_WALL, SOURCE_DAWN_DUSK } FlatFieldSource;
+    typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;
 
     SequenceJob();
 
@@ -109,8 +111,6 @@ class SequenceJob : public QObject
     void setISOMode(bool mode) { isoMode = mode; }
     bool getISOMode() { return isoMode;}
     void setPreview(bool enable) { preview = enable; }
-    void setShowFITS(bool enable) { showFITS = enable; }
-    bool isShowFITS() { return showFITS;}
     void setPrefix(const QString &cprefix) { prefix = cprefix;}
     void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
     int getSubX() { return x;}
@@ -147,6 +147,12 @@ class SequenceJob : public QObject
     int getCaptureRetires() const;
     void setCaptureRetires(int value);
 
+    FlatFieldSource getFlatFieldSource() const;
+    void setFlatFieldSource(const FlatFieldSource &value);
+
+    FlatFieldDuration getFlatFieldDuration() const;
+    void setFlatFieldDuration(const FlatFieldDuration &value);
+
 signals:
     void prepareComplete();
 
@@ -172,7 +178,6 @@ private:
     int delay;    
     bool isoMode;
     bool preview;
-    bool showFITS;
     bool filterReady, temperatureReady;
     int isoIndex;
     int captureRetires;
@@ -188,7 +193,10 @@ private:
 
     JOBStatus status;
 
+    // Flat field variables
     double targetADU;
+    FlatFieldSource flatFieldSource;
+    FlatFieldDuration flatFieldDuration;
 };
 
 /**
@@ -452,12 +460,6 @@ public slots:
      * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.
      */
     void resumeCapture();
-
-    /**
-     * @brief checkPreview When "Display in FITS Viewer" button is toggled, enable/disable preview button accordingly since preview only works if we can display in the FITS Viewer.
-     * @param enable True if "Display in FITS Viewer" checkbox is true, false otherwise.
-     */
-    void checkPreview(bool enable);
 
     /**
      * @brief updateCCDTemperature Update CCD temperature in capture module.

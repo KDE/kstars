@@ -1116,8 +1116,10 @@ void CCD::processBLOB(IBLOB* bp)
 
     QString filename(currentDir + '/');
 
-    // Create file name for FITS to be shown in FITS Viewer
-    if (Options::showFITS() && (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL))
+    // Create temporary name if ANY of the following conditions are met:
+    // 1. file is preview or batch mode is not enabled
+    // 2. file type is not FITS_NORMAL (focus, guide..etc)
+    if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
     {
 
         //tmpFile.setPrefix("fits");
@@ -1173,21 +1175,19 @@ void CCD::processBLOB(IBLOB* bp)
     strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
     bp->aux2 = BLOBFilename;
 
-    if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
+    if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
         KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
     KNotification::event( QLatin1String( "FITSReceived" ) , i18n("FITS file is received"));
 
-    if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
+    /*if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {
         emit BLOBUpdated(bp);
         return;
-    }
+    }*/
 
     if (BType == BLOB_IMAGE || BType == BLOB_CR2)
     {
-
-
         if (BType == BLOB_CR2)
         {
             if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
@@ -1222,8 +1222,7 @@ void CCD::processBLOB(IBLOB* bp)
     }
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO
-    if (BType == BLOB_FITS && Options::showFITS() && (targetChip->showFITS() || targetChip->getCaptureMode() != FITS_NORMAL)
-            && targetChip->getCaptureMode() != FITS_WCSM)
+    if (BType == BLOB_FITS && targetChip->getCaptureMode() != FITS_WCSM)
     {
         QUrl fileURL(filename);
 
