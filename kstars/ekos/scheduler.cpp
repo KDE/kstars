@@ -462,6 +462,7 @@ void Scheduler::editJob(QModelIndex i)
         return;
 
     job->setState(SchedulerJob::JOB_IDLE);
+    job->setStage(SchedulerJob::STAGE_IDLE);
 
     nameEdit->setText(job->getName());
 
