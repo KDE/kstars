@@ -611,8 +611,8 @@ void Align::newFITS(IBLOB *bp)
     if (!strcmp(bp->name, "CCD2"))
         return;
 
-    currentCCD->disconnect(this);
-    //disconnect(currentCCD, 0, this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
     appendLogText(i18n("Image received."));
 
@@ -815,7 +815,9 @@ void Align::abort()
     m_slewToTargetSelected=false;
     retries=0;
 
-    currentCCD->disconnect(this);
+    //currentCCD->disconnect(this);
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -885,7 +887,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
                 if (loadSlewMode)
                 {
-                    if (--loadSlewIterations == 0)
+                    if (loadSlewIterations-- == 0)
                         loadSlewMode = false;
                     captureAndSolve();
                     return;
@@ -976,7 +978,9 @@ void Align::executeGOTO()
     if (loadSlewMode)
     {
         if (loadSlewIterations == loadSlewIterationsSpin->value())
-            targetCoord = alignCoord;
+            loadSlewCoord = alignCoord;
+
+        targetCoord = loadSlewCoord;
         SlewToTarget();
     }
     else if (syncR->isChecked())
@@ -996,7 +1000,7 @@ void Align::Sync()
 
 void Align::SlewToTarget()
 {
-    if (canSync && loadSlewMode == false)
+    if (canSync && (loadSlewMode == false || (loadSlewMode == true && loadSlewIterations < loadSlewIterationsSpin->value() )))
         Sync();
 
     m_slewToTargetSelected = slewR->isChecked();

@@ -378,6 +378,8 @@ private:
     SkyPoint targetCoord;
     // Actual current telescope coordinates
     SkyPoint telescopeCoord;
+    // Coord from Load & Slew
+    SkyPoint loadSlewCoord;
 
     // Progress icon if the solver is running
     QProgressIndicator *pi;
