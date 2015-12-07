@@ -285,6 +285,7 @@ void SchedulerJob::setStage(const JOBStage &value)
             break;
 
         case STAGE_FOCUSING:
+        case STAGE_POSTALIGN_FOCUSING:
             statusCell->setText(i18n("Focusing"));
             break;
 
