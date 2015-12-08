@@ -80,6 +80,7 @@ if (CFITSIO_FOUND)
       ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
+      ekos/flatoptions.ui
       ekos/align.ui
       ekos/focus.ui
       ekos/guide.ui
