@@ -139,7 +139,7 @@
           <item>
            <widget class="QRadioButton" name="ADUC">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness.</string>
             </property>
             <property name="text">
              <string>ADU</string>
