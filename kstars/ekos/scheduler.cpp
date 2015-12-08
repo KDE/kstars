@@ -2040,6 +2040,7 @@ void Scheduler::checkJobStage()
 
             currentJob->setState(SchedulerJob::JOB_ABORTED);
             stopCurrentJobAction();
+            stopGuiding();
             findNextJob();
             return;
         }
@@ -2060,6 +2061,7 @@ void Scheduler::checkJobStage()
 
             currentJob->setState(SchedulerJob::JOB_ABORTED);
             stopCurrentJobAction();
+            stopGuiding();
             findNextJob();
             return;
         }
@@ -2073,6 +2075,7 @@ void Scheduler::checkJobStage()
 
          currentJob->setState(SchedulerJob::JOB_ABORTED);
          stopCurrentJobAction();
+         stopGuiding();
          checkShutdownState();
 
          //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
