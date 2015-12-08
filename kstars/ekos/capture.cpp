@@ -25,6 +25,7 @@
 #include "kstarsdata.h"
 
 #include "capture.h"
+#include "ui_flatoptions.h"
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
@@ -155,7 +156,10 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
     if (targetFilter != -1 && activeFilter != NULL)
     {
         if (targetFilter != currentFilter)
+        {
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+            return CAPTURE_FILTER_BUSY;
+        }
     }
 
    if (isoIndex != -1)
@@ -353,6 +357,7 @@ Capture::Capture()
     currentCCD = NULL;
     currentTelescope = NULL;
     currentFilter = NULL;
+    flatFieldDevice = NULL;
 
     filterSlot = NULL;
     filterName = NULL;
@@ -360,6 +365,10 @@ Capture::Capture()
 
     targetChip = NULL;
     guideChip  = NULL;
+
+    targetADU  = 0;
+    flatFieldDuration = SequenceJob::DURATION_MANUAL;
+    flatFieldSource   = SequenceJob::SOURCE_MANUAL;
 
     deviationDetected = false;
     spikeDetected     = false;
@@ -416,6 +425,7 @@ Capture::Capture()
     connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
     connect(frameTypeCombo, SIGNAL(activated(int)), this, SLOT(checkFrameType(int)));
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
+    connect(calibrationB, SIGNAL(clicked()), this, SLOT(openFlatFieldDialog()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -1282,6 +1292,11 @@ void Capture::captureImage()
         case SequenceJob::CAPTURE_BIN_ERROR:
             appendLogText(i18n("Failed to set binning."));
             abort();
+            break;
+
+        case SequenceJob::CAPTURE_FILTER_BUSY:
+            // Try again in 1 second if filter is busy
+            QTimer::singleShot(1000, this, SLOT(captureImage()));
             break;
 
         case SequenceJob::CAPTURE_FOCUS_ERROR:
@@ -2266,7 +2281,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue version='1.1'>" << endl;
+    outstream << "<SequenceQueue version='1.2'>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;
@@ -2862,6 +2877,52 @@ void Capture::clearAutoFocusHFR()
     firstAutoFocus=true;
 }
 
+void Capture::openFlatFieldDialog()
+{
+    QDialog flatDialog;
+
+    Ui_flatOptions flatOptions;
+    flatOptions.setupUi(&flatDialog);
+
+    switch (flatFieldSource)
+    {
+    case SequenceJob::SOURCE_MANUAL:
+        flatOptions.manualSourceC->setChecked(true);
+        break;
+
+    case SequenceJob::SOURCE_DEVICE:
+        flatOptions.deviceSourceC->setChecked(true);
+        break;
+
+    case SequenceJob::SOURCE_WALL:
+        flatOptions.wallSourceC->setChecked(true);
+        flatOptions.azBox->setText(wallCoord.az().toDMSString());
+        flatOptions.altBox->setText(wallCoord.alt().toDMSString());
+        break;
+
+    case SequenceJob::SOURCE_DAWN_DUSK:
+        flatOptions.dawnDuskFlatsC->setChecked(true);
+        break;
+    }
+
+    switch (flatFieldDuration)
+    {
+    case SequenceJob::DURATION_MANUAL:
+        flatOptions.manualDurationC->setChecked(true);
+        break;
+
+    case SequenceJob::DURATION_ADU:
+        flatOptions.ADUC->setChecked(true);
+        flatOptions.ADUValue->setValue(targetADU);
+        break;
+    }
+
+    if (flatDialog.exec() == QDialog::Accepted)
+    {
+
+    }
+
+}
 
 }
 

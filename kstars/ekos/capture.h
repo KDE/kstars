@@ -66,7 +66,7 @@ class SequenceJob : public QObject
     public:
 
     typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
-    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FOCUS_ERROR} CAPTUREResult;
+    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FILTER_BUSY, CAPTURE_FOCUS_ERROR} CAPTUREResult;
     typedef enum { SOURCE_MANUAL, SOURCE_DEVICE, SOURCE_WALL, SOURCE_DAWN_DUSK } FlatFieldSource;
     typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;
 
@@ -345,6 +345,7 @@ public:
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
+    void setFlatFieldDevice(ISD::GDInterface *device) { flatFieldDevice = device; }
     void addGuideHead(ISD::GDInterface *newCCD);
     void syncFrameType(ISD::GDInterface *ccd);
     void setTelescope(ISD::GDInterface *newTelescope);
@@ -472,6 +473,8 @@ public slots:
      */
     void setTemperature();
 
+private slots:
+
     /**
      * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
      */
@@ -499,6 +502,9 @@ public slots:
     void checkMeridianFlipTimeout();
     void checkAlignmentSlewComplete();
     void enableAlignmentFlag();
+
+    // Flat field
+    void openFlatFieldDialog();
 
 signals:
         void newLog();
@@ -555,6 +561,7 @@ private:
     ISD::Telescope *currentTelescope;
     ISD::CCD *currentCCD;
     ISD::GDInterface *currentFilter;
+    ISD::GDInterface *flatFieldDevice;
 
     ITextVectorProperty *filterName;
     INumberVectorProperty *filterSlot;
@@ -591,6 +598,10 @@ private:
     double ExpRaw1, ExpRaw2;
     double ADURaw1, ADURaw2;
     double ADUSlope;
+    double targetADU;
+    SkyPoint wallCoord;
+    SequenceJob::FlatFieldDuration flatFieldDuration;
+    SequenceJob::FlatFieldSource   flatFieldSource;
 
     // File HFR
     double fileHFR;
