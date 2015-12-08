@@ -79,16 +79,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1" colspan="4">
-         <widget class="QComboBox" name="flatDeviceCombo">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="2">
          <widget class="dmsBox" name="azBox">
           <property name="toolTip">
@@ -149,7 +139,7 @@
           <item>
            <widget class="QRadioButton" name="ADUC">
             <property name="toolTip">
-             <string>Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightne</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>ADU</string>
@@ -216,6 +206,17 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>manualSourceC</tabstop>
+  <tabstop>deviceSourceC</tabstop>
+  <tabstop>wallSourceC</tabstop>
+  <tabstop>azBox</tabstop>
+  <tabstop>altBox</tabstop>
+  <tabstop>dawnDuskFlatsC</tabstop>
+  <tabstop>manualDurationC</tabstop>
+  <tabstop>ADUC</tabstop>
+  <tabstop>ADUValue</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
