@@ -158,7 +158,7 @@ Align::Align()
     kcfg_solverOverlay->setChecked(Options::solverOverlay());
     connect(kcfg_solverOverlay, SIGNAL(toggled(bool)), this, SLOT(setSolverOverlay(bool)));
 
-    loadSlewIterationsSpin->setValue(Options::solverLoadSlewIterations());
+    accuracySpin->setValue(Options::solverAccuracyThreshold());
 }
 
 Align::~Align()
@@ -653,7 +653,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
     Options::setWCSAlign(wcsCheck->isChecked());
     Options::setSolverOverlay(kcfg_solverOverlay->isChecked());
-    Options::setSolverLoadSlewIterations(loadSlewIterationsSpin->value());
+    Options::setSolverAccuracyThreshold(accuracySpin->value());
 
     unsigned int solverGotoOption = 0;
     if (slewR->isChecked())
@@ -886,20 +886,32 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 copyCoordsToBoxes();
 
                 if (loadSlewMode)
-                {
-                    if (loadSlewIterations-- == 0)
-                        loadSlewMode = false;
+                {                    
+                    loadSlewMode = false;
                     captureAndSolve();
                     return;
                 }
                 else if (m_slewToTargetSelected)
                 {
-                    m_slewToTargetSelected=false;
-                    if (loadSlewState == IPS_BUSY)
-                        loadSlewState=IPS_OK;
-                    emit solverSlewComplete();
-                }
+                    double raDiff = fabs(telescopeCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
+                    double deDiff = fabs(telescopeCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
+                    double diff   = sqrt(raDiff*raDiff + deDiff*deDiff);
+                    appendLogText(i18n("Target is within %1 arcseconds of solution coordinates.", QString::number(diff, 'g', 3)));
 
+                    if (diff <= accuracySpin->value())
+                    {
+                        m_slewToTargetSelected=false;
+                        if (loadSlewState == IPS_BUSY)
+                            loadSlewState=IPS_OK;
+                        emit solverSlewComplete();
+                    }
+                    else
+                    {
+                        appendLogText(i18n("Target accuracy is not met, running solver again..."));
+                        captureAndSolve();
+                        return;
+                    }
+                }
             }
         }
 
@@ -977,10 +989,11 @@ void Align::executeGOTO()
 {        
     if (loadSlewMode)
     {
-        if (loadSlewIterations == loadSlewIterationsSpin->value())
-            loadSlewCoord = alignCoord;
+        //if (loadSlewIterations == loadSlewIterationsSpin->value())
+            //loadSlewCoord = alignCoord;
 
-        targetCoord = loadSlewCoord;
+        //targetCoord = loadSlewCoord;
+        targetCoord = alignCoord;
         SlewToTarget();
     }
     else if (syncR->isChecked())
@@ -1000,7 +1013,8 @@ void Align::Sync()
 
 void Align::SlewToTarget()
 {
-    if (canSync && (loadSlewMode == false || (loadSlewMode == true && loadSlewIterations < loadSlewIterationsSpin->value() )))
+    //if (canSync && (loadSlewMode == false || (loadSlewMode == true && loadSlewIterations < loadSlewIterationsSpin->value() )))
+    if (canSync && loadSlewMode == false)
         Sync();
 
     m_slewToTargetSelected = slewR->isChecked();
@@ -1425,7 +1439,7 @@ void Align::loadAndSlew(QUrl fileURL)
 
     slewR->setChecked(true);
 
-    loadSlewIterations = loadSlewIterationsSpin->value();
+    //loadSlewIterations = loadSlewIterationsSpin->value();
 
     solveB->setEnabled(false);
     stopB->setEnabled(true);
