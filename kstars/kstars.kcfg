@@ -1557,7 +1557,7 @@
             <default>false</default>
           </entry>
           <entry name="SolverAccuracyThreshold" type="UInt">
-            <label>Accuracy threashold in arcseconds between solution and target coordinates.</label>
+            <label>Accuracy threshold in arcseconds between solution and target coordinates.</label>
             <default>30</default>
           </entry>
     </group>

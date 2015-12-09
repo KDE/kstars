@@ -724,7 +724,7 @@
           <item>
            <widget class="QSpinBox" name="accuracySpin">
             <property name="toolTip">
-             <string>Accuracy threashold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
+             <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
             </property>
             <property name="minimum">
              <number>1</number>
