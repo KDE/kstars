@@ -153,6 +153,9 @@ class SequenceJob : public QObject
     FlatFieldDuration getFlatFieldDuration() const;
     void setFlatFieldDuration(const FlatFieldDuration &value);
 
+    SkyPoint getWallCoord() const;
+    void setWallCoord(const SkyPoint &value);
+
 signals:
     void prepareComplete();
 
@@ -197,6 +200,7 @@ private:
     double targetADU;
     FlatFieldSource flatFieldSource;
     FlatFieldDuration flatFieldDuration;
+    SkyPoint wallCoord;
 };
 
 /**

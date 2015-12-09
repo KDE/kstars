@@ -320,6 +320,16 @@ void SequenceJob::setFlatFieldDuration(const FlatFieldDuration &value)
     flatFieldDuration = value;
 }
 
+SkyPoint SequenceJob::getWallCoord() const
+{
+    return wallCoord;
+}
+
+void SequenceJob::setWallCoord(const SkyPoint &value)
+{
+    wallCoord = value;
+}
+
 
 int SequenceJob::getISOIndex() const
 {
@@ -1086,8 +1096,7 @@ void Capture::newFITS(IBLOB *bp)
             {
                 appendLogText(i18n("Unable to calculate optimal exposure settings, please take the flats manually."));
                 activeJob->setTargetADU(0);
-                //TODO
-                //ADUValue->setValue(0);
+                targetADU = 0;
                 abort();
                 return;
             }
@@ -1506,8 +1515,11 @@ void Capture::addJob(bool preview)
 
     job->setFITSDir(fitsDir->text());
 
-    //TODO
-    //job->setTargetADU(ADUValue->value());
+
+    job->setFlatFieldDuration(flatFieldDuration);
+    job->setFlatFieldSource(flatFieldSource);
+    job->setWallCoord(wallCoord);
+    job->setTargetADU(targetADU);
 
     imagePrefix = prefixIN->text();        
 
@@ -2178,12 +2190,7 @@ bool Capture::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "Delay"))
         {
             delayIN->setValue(atoi(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "ADU"))
-        {
-            //TODO
-            //ADUValue->setValue(atoi(pcdataXMLEle(ep)));
-        }
+        }        
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
             fitsDir->setText(pcdataXMLEle(ep));
@@ -2196,6 +2203,52 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             if (ISOCombo->isEnabled())
                 ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "FlatSource"))
+        {
+            subEP = findXMLEle(ep, "Type");
+            if (subEP)
+            {
+                if (!strcmp(pcdataXMLEle(subEP), "Manual"))
+                    flatFieldSource = SequenceJob::SOURCE_MANUAL;
+                else if (!strcmp(pcdataXMLEle(subEP), "Device"))
+                        flatFieldSource = SequenceJob::SOURCE_DEVICE;
+                else if (!strcmp(pcdataXMLEle(subEP), "Wall"))
+                {
+
+                        XMLEle *azEP=NULL, *altEP=NULL;
+                        azEP  = findXMLEle(ep, "Az");
+                        altEP = findXMLEle(ep, "Alt");
+                        if (azEP && altEP)
+                        {
+                            flatFieldSource = SequenceJob::SOURCE_WALL;
+                            wallCoord.setAz(atof(pcdataXMLEle(azEP)));
+                            wallCoord.setAlt(atof(pcdataXMLEle(altEP)));
+                        }
+                }
+                else
+                    flatFieldSource = SequenceJob::SOURCE_DAWN_DUSK;
+
+            }
+        }
+        else if (!strcmp(tagXMLEle(ep), "FlatDuration"))
+        {
+            subEP = findXMLEle(ep, "Type");
+            if (subEP)
+            {
+                if (!strcmp(pcdataXMLEle(subEP), "Manual"))
+                    flatFieldDuration = SequenceJob::DURATION_MANUAL;
+                else
+                {
+                    XMLEle *aduEP=NULL;
+                    aduEP =  findXMLEle(ep, "Value");
+                    if (aduEP)
+                    {
+                        flatFieldDuration = SequenceJob::DURATION_ADU;
+                        targetADU         = atof(pcdataXMLEle(aduEP));
+                    }
+                }
+            }
         }
     }
 
@@ -2316,14 +2369,36 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "</Prefix>" << endl;
         outstream << "<Count>" << job->getCount() << "</Count>" << endl;
         // ms to seconds
-        outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
-        if (job->getTargetADU() > 0)
-            outstream << "<ADU>" << job->getTargetADU() << "</ADU>" << endl;
-
+        outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;        
         outstream << "<FITSDirectory>" << job->getFITSDir() << "</FITSDirectory>" << endl;
         outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
+
+        outstream << "<FlatSource>" << endl;
+        if (job->getFlatFieldSource() == SequenceJob::SOURCE_MANUAL)
+            outstream << "<Type>Manual</Type>" << endl;
+        else if (job->getFlatFieldSource() == SequenceJob::SOURCE_DEVICE)
+            outstream << "<Type>Device</Type>" << endl;
+        else if (job->getFlatFieldSource() == SequenceJob::SOURCE_WALL)
+        {
+            outstream << "<Type>Wall</Type>" << endl;
+            outstream << "<Az>" << job->getWallCoord().az().Degrees() << "</Az>" << endl;
+            outstream << "<Alt>" << job->getWallCoord().alt().Degrees() << "</Alt>" << endl;
+        }
+        else
+            outstream << "<Type>DawnDust</Type>" << endl;
+        outstream << "</FlatSource>" << endl;
+
+        outstream << "<FlatDuration>" << endl;
+        if (job->getFlatFieldDuration() == SequenceJob::DURATION_MANUAL)
+            outstream << "<Type>Manual</Type>" << endl;
+        else
+        {
+            outstream << "<Type>ADU</Type>" << endl;
+            outstream << "<Value>" << job->getTargetADU() << "</Value>" << endl;
+        }
+        outstream << "</FlatDuration>" << endl;
 
         outstream << "</Job>" << endl;
     }
@@ -2374,8 +2449,11 @@ void Capture::editJob(QModelIndex i)
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
 
-   //TODO
-   //ADUValue->setValue(job->getTargetADU());
+   // Flat field options
+   flatFieldDuration = job->getFlatFieldDuration();
+   flatFieldSource   = job->getFlatFieldSource();
+   targetADU         = job->getTargetADU();
+   wallCoord         = job->getWallCoord();
 
    fitsDir->setText(job->getFITSDir());
    ISOCheck->setChecked(job->getISOMode());
@@ -2920,8 +2998,42 @@ void Capture::openFlatFieldDialog()
     if (flatDialog.exec() == QDialog::Accepted)
     {
 
-    }
+        if (flatOptions.manualSourceC->isChecked())
+           flatFieldSource =  SequenceJob::SOURCE_MANUAL;
+        else if (flatOptions.deviceSourceC->isChecked())
+            flatFieldSource =  SequenceJob::SOURCE_DEVICE;
+        else if (flatOptions.wallSourceC->isChecked())
+        {
+            dms wallAz, wallAlt;
+            bool azOk=false, altOk=false;
 
+            wallAz  = flatOptions.azBox->createDms(true, &azOk);
+            wallAlt = flatOptions.altBox->createDms(true, &altOk);
+
+            if (azOk && altOk)
+            {
+                flatFieldSource =  SequenceJob::SOURCE_WALL;
+                wallCoord.setAz(wallAz);
+                wallCoord.setAlt(wallAlt);
+            }
+            else
+            {
+                flatOptions.manualSourceC->setChecked(true);
+                KMessageBox::error(this, i18n("Wall coordinates are invalid."));
+            }
+        }
+        else
+            flatFieldSource =  SequenceJob::SOURCE_DAWN_DUSK;
+
+
+        if (flatOptions.manualDurationC->isChecked())
+            flatFieldDuration = SequenceJob::DURATION_MANUAL;
+        else
+        {
+            flatFieldDuration = SequenceJob::DURATION_ADU;
+            targetADU = flatOptions.ADUValue->value();
+        }
+    }
 }
 
 }
