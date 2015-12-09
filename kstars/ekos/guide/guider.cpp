@@ -486,11 +486,11 @@ void rguider::capture()
         if ((h+y)>maxH)
             h=maxH-y;
 
-        pmath->set_video_params(w, h);
+        pmath->set_video_params(w/binx, h/biny);
 
         targetChip->setFrame(x, y, w, h);
 
-        guideStarSelected(w/2, h/2);
+        guideStarSelected(w/binx/2, h/biny/2);
     }
     else if (ui.subFrameCheck->isChecked() == false/* && is_subframed == true*/)
     {
