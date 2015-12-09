@@ -206,8 +206,8 @@ void rguider::setInterface( void )
     ui.l_PulseRA->setText(QString().setNum(out_params->pulse_length[GUIDE_RA]) );
     ui.l_PulseDEC->setText(QString().setNum(out_params->pulse_length[GUIDE_DEC]) );
 
-    ui.l_ErrRA->setText( QString().setNum(out_params->sigma[GUIDE_RA]) );
-    ui.l_ErrDEC->setText( QString().setNum(out_params->sigma[GUIDE_DEC]) );
+    ui.l_ErrRA->setText( QString().setNum(out_params->sigma[GUIDE_RA], 'g', 3) );
+    ui.l_ErrDEC->setText( QString().setNum(out_params->sigma[GUIDE_DEC], 'g' , 3) );
 
 }
 
