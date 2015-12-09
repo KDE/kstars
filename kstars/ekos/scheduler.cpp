@@ -56,6 +56,7 @@ Scheduler::Scheduler()
     jobEvaluationOnly=false;
     loadAndSlewProgress=false;
     autofocusCompleted=false;
+    preemptiveShutdown=false;
 
     Dawn         = -1;
     Dusk         = -1;
@@ -841,30 +842,43 @@ void Scheduler::evaluateJobs()
 
                         continue;
                     }
-                    // If time is within 5 minutes (default), we start scoring it.
-                    else if (timeUntil <= (Options::leadTime()*60) || job->getState() == SchedulerJob::JOB_EVALUATION)
+                    else if (job->getState() == SchedulerJob::JOB_EVALUATION)
                     {
+
                         score += getAltitudeScore(job, startupTime);
                         score += getMoonSeparationScore(job, startupTime);
-                        score += getDarkSkyScore(startupTime);                        
+                        score += getDarkSkyScore(startupTime);
 
                         if (score < 0)
                         {
-                            if (job->getState() == SchedulerJob::JOB_EVALUATION)
-                                appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
-                            else
-                                appendLogText(i18n("%1 observation job updated score is %2 %3 seconds before startup time. Aborting job...", job->getName(), timeUntil, score));
-                            job->setState(SchedulerJob::JOB_ABORTED);
-                            continue;
+                           appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
+                           job->setState(SchedulerJob::JOB_ABORTED);
+                           continue;
                         }
                         // If score is OK for the start up time, then job evaluation for this start up time
                         // is complete and we set its score to negative so that it gets scheduled below.
                         // once its state is scheduled, we will re-evaluate it again 5 minutes be actual
                         // start up time.
-                        // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
-                        else if (job->getState() == SchedulerJob::JOB_EVALUATION || isWeatherOK(job) == false)
+                        else if (isWeatherOK(job) == false)
                             score += BAD_SCORE;
+                    }
+                    //else if (timeUntil <= (Options::leadTime()*60) || job->getState() == SchedulerJob::JOB_EVALUATION)
+                    // Start scoring once we reach startup time
+                    else if (timeUntil <= 0)
+                    {
+                        score += getAltitudeScore(job, now);
+                        score += getMoonSeparationScore(job, now);
+                        score += getDarkSkyScore(now);
 
+                        if (score < 0)
+                        {
+                            appendLogText(i18n("%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...", job->getName(), timeUntil*-1, score));
+                            job->setState(SchedulerJob::JOB_ABORTED);
+                            continue;
+                        }
+                        // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
+                        else if (isWeatherOK(job) == false)
+                            score += BAD_SCORE;
                     }
                     // If time is far in the future, we make the score negative
                     else
@@ -1070,8 +1084,8 @@ void Scheduler::evaluateJobs()
                 weatherLabel->hide();
                 checkShutdownState();
 
-                // Wake up 10 minutes before next job is ready
-                sleepTimer.setInterval((nextObservationTime*1000 - (1000*Options::leadTime()*60*2)));
+                // Wake up 5 minutes before next job is ready
+                sleepTimer.setInterval((nextObservationTime*1000 - (1000*Options::leadTime()*60)));
                 connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
                 sleepTimer.start();
             }
@@ -1108,16 +1122,21 @@ void Scheduler::evaluateJobs()
 }
 
 void Scheduler::wakeUpScheduler()
-{
-    appendLogText(i18n("Scheduler is awake..."));
+{    
+    sleepLabel->hide();
+    sleepTimer.stop();
 
     if (preemptiveShutdown)
     {
         preemptiveShutdown = false;
+        appendLogText(i18n("Scheduler is awake."));
         start();
     }
     else
+    {
+        appendLogText(i18n("Scheduler is awake. Jobs shall be started when ready..."));
         schedulerTimer.start();
+    }
 
 }
 
