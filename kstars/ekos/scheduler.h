@@ -90,7 +90,7 @@ public:
      /**
       * @brief stopindi Stoping the indi services
       */
-     void stopINDI();
+     void stopEkos();
 
      /**
       * @brief stopGuiding After guiding is done we need to stop the process

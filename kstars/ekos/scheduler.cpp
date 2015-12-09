@@ -1834,7 +1834,7 @@ bool Scheduler::checkShutdownState()
         if (shutdownScriptURL.isEmpty() == false)
         {
             // Disconnect devices
-            stopINDI();
+            stopEkos();
 
             shutdownState = SHUTDOWN_SCRIPT_RUNNING;
             executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
@@ -1956,9 +1956,9 @@ void Scheduler::checkStatus()
             else
                 appendLogText(i18n("Shutdown procedure failed, aborting..."));
 
-            // Stop INDI if there is no shutdown script since stopINDI is called right before executing the shutdown script
+            // Stop Ekos if there is no shutdown script since stopEkos is called right before executing the shutdown script
             if (shutdownScriptURL.isEmpty())
-                stopINDI();
+                stopEkos();
 
             // Stop Scheduler
             stop();            
@@ -3108,10 +3108,11 @@ void Scheduler::setGOTOMode(Align::GotoMode mode)
     alignInterface->call(QDBus::AutoDetect,"setGOTOMode",gotoMode);
 }
 
-void Scheduler::stopINDI()
+void Scheduler::stopEkos()
 {
     indiConnectFailureCount=0;
     ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
+    ekosInterface->call(QDBus::AutoDetect,"stop");
 
     startupState = STARTUP_IDLE;
     shutdownState= SHUTDOWN_IDLE;
