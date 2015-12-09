@@ -354,8 +354,8 @@ private:
     bool loadSlewMode;
     // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
     IPState loadSlewState;
-    // Load slew solver iterations
-    int loadSlewIterations;
+    // Solver iterations count
+    uint8_t solverIterations;
 
     // Keep track of solver status
     bool m_isSolverComplete;
@@ -380,6 +380,8 @@ private:
     SkyPoint telescopeCoord;
     // Coord from Load & Slew
     SkyPoint loadSlewCoord;
+    // Difference between solution and target coordinate
+    double targetDiff;
 
     // Progress icon if the solver is running
     QProgressIndicator *pi;

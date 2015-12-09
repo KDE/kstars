@@ -37,6 +37,8 @@
 
 #include <basedevice.h>
 
+#define MAXIMUM_SOLVER_ITERATIONS   10
+
 namespace Ekos
 {
 
@@ -71,6 +73,8 @@ Align::Align()
     filterPositionPending = false;
     lockedFilterIndex = currentFilterIndex = -1;
     retries=0;
+    targetDiff=1e6;
+    solverIterations=0;
 
     parser = NULL;
     solverFOV = new FOV();
@@ -644,6 +648,14 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     QStringList solverArgs;
     double ra,dec;
 
+    currentTelescope->getEqCoords(&ra, &dec);
+
+    if (solverIterations == 0)
+    {
+        targetCoord.setRA(ra);
+        targetCoord.setDec(dec);
+    }
+
     Options::setSolverXBin(binXIN->value());
     Options::setSolverYBin(binYIN->value());
     Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
@@ -662,14 +674,8 @@ void Align::startSovling(const QString &filename, bool isGenerated)
         solverGotoOption = 2;
     Options::setSolverGotoOption(solverGotoOption);
 
-
     m_isSolverComplete = false;
-    m_isSolverSuccessful = false;
-
-    currentTelescope->getEqCoords(&ra, &dec);
-
-    targetCoord.setRA(ra);
-    targetCoord.setDec(dec);
+    m_isSolverSuccessful = false;   
 
     parser->verifyIndexFiles(fov_x, fov_y);
 
@@ -683,8 +689,10 @@ void Align::startSovling(const QString &filename, bool isGenerated)
         appendLogText(i18n("Using solver options: %1", solverArgs.join(" ")));
     }
     else
-        solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
+        solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";    
 
+    if (slewR->isChecked())
+        appendLogText(i18n("Solver iteration #%1", solverIterations+1));
 
     parser->startSovler(filename, solverArgs, isGenerated);
 
@@ -694,7 +702,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 {
     pi->stopAnimation();
     stopB->setEnabled(false);
-    solveB->setEnabled(true);
+    solveB->setEnabled(true);    
 
     sOrientation = orientation;
     sRA  = ra;
@@ -724,6 +732,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
      // Get horizontal coords
      alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+     double raDiff = fabs(alignCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
+     double deDiff = fabs(alignCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
+     targetDiff    = sqrt(raDiff*raDiff + deDiff*deDiff);
 
      solverFOV->setCenter(alignCoord);
      solverFOV->setRotation(sOrientation);
@@ -764,13 +776,22 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
 
-     m_isSolverComplete = true;
-     m_isSolverSuccessful = true;
      retries=0;
 
      appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(), telescopeCoord.dec().toDMSString()));
+     if (loadSlewMode == false && slewR->isChecked())
+     {
+        dms diffDeg(targetDiff/3600.0);
+        appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
+     }
 
-     emit solverComplete(true);
+     if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
+     {
+        m_isSolverComplete = true;
+        m_isSolverSuccessful = true;
+        solverIterations=0;
+        emit solverComplete(true);
+     }
 
      if (rememberUploadMode != currentCCD->getUploadMode())
          currentCCD->setUploadMode(rememberUploadMode);
@@ -793,6 +814,7 @@ void Align::solverFailed()
     loadSlewState=IPS_ALERT;
     m_isSolverComplete = true;
     m_isSolverSuccessful = false;
+    solverIterations=0;
     retries=0;
 
     emit solverComplete(false);
@@ -813,6 +835,7 @@ void Align::abort()
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
+    solverIterations=0;
     retries=0;
 
     //currentCCD->disconnect(this);
@@ -892,13 +915,8 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                     return;
                 }
                 else if (m_slewToTargetSelected)
-                {
-                    double raDiff = fabs(telescopeCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
-                    double deDiff = fabs(telescopeCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
-                    double diff   = sqrt(raDiff*raDiff + deDiff*deDiff);
-                    appendLogText(i18n("Target is within %1 arcseconds of solution coordinates.", QString::number(diff, 'g', 3)));
-
-                    if (diff <= accuracySpin->value())
+                {                    
+                    if (targetDiff <= accuracySpin->value())
                     {
                         m_slewToTargetSelected=false;
                         if (loadSlewState == IPS_BUSY)
@@ -907,6 +925,13 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                     }
                     else
                     {
+                        if (++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+                        {
+                            appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
+                            solverFailed();
+                            return;
+                        }
+
                         appendLogText(i18n("Target accuracy is not met, running solver again..."));
                         captureAndSolve();
                         return;
@@ -1005,7 +1030,7 @@ void Align::executeGOTO()
 void Align::Sync()
 {
     if (currentTelescope->Sync(&alignCoord))
-        appendLogText(i18n("Syncing successful."));
+        appendLogText(i18n("Syncing to RA (%1) DEC (%2) is successful.", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString()));
     else
         appendLogText(i18n("Syncing failed."));
 
