@@ -250,7 +250,7 @@ protected slots:
     bool remoteCCDRegistered;
     bool remoteGuideRegistered;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *aux4, *dome, *ao, *weather, *dustCap;
+    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *aux4, *dome, *ao, *weather, *dustCap, *flatLight;
     DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di,*aux4_di, *ao_di, *dome_di, *weather_di, *remote_indi;
 
     Ekos::Capture *captureProcess;

@@ -72,6 +72,7 @@ EkosManager::EkosManager()
     dome    =  NULL;
     weather =  NULL;
     dustCap =  NULL;
+    flatLight= NULL;
 
     scope_di   = NULL;
     ccd_di     = NULL;
@@ -2150,6 +2151,13 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         return;
     }
 
+    if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
+    {
+        flatLight = dynamic_cast<ISD::GDInterface*>(sender());
+        if (flatLight && captureProcess)
+            captureProcess->setFlatFieldDevice(flatLight);
+    }
+
 }
 
 void EkosManager::processTabChange()
@@ -2256,6 +2264,9 @@ void EkosManager::initCapture()
      int index = toolsWidget->addTab( captureProcess, QIcon::fromTheme("kstars_ekos_ccd"), "");
      toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+
+     if (flatLight)
+         captureProcess->setFlatFieldDevice(flatLight);
 
      if (focusProcess)
      {
@@ -2506,6 +2517,8 @@ void EkosManager::removeTabs()
         dustCap = NULL;
         delete (dustCapProcess);
         dustCapProcess = NULL;
+
+        flatLight = NULL;
 
         aux1 = NULL;
         aux2 = NULL;
