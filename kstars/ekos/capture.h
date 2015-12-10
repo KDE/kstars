@@ -197,10 +197,13 @@ private:
     JOBStatus status;
 
     // Flat field variables
-    double targetADU;
-    FlatFieldSource flatFieldSource;
-    FlatFieldDuration flatFieldDuration;
-    SkyPoint wallCoord;
+    struct
+    {
+        double targetADU;
+        FlatFieldSource flatFieldSource;
+        FlatFieldDuration flatFieldDuration;
+        SkyPoint wallCoord;
+    } flatSettings;
 };
 
 /**
@@ -223,6 +226,7 @@ public:
 
     enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
+    typedef enum { FLAT_NONE, FLAT_UNPARK_CAP, FLAT_TURN_ON, FLAT_SLEWING, FLAT_CALIBRATING, FLAT_BUSY } FlatStage;
 
     Capture();
     ~Capture();
@@ -530,6 +534,7 @@ private:
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
     double setCurrentADU(double value);
+    void processFlatStage();
 
     /* Meridian Flip */
     bool checkMeridianFlip();
@@ -606,6 +611,7 @@ private:
     SkyPoint wallCoord;
     SequenceJob::FlatFieldDuration flatFieldDuration;
     SequenceJob::FlatFieldSource   flatFieldSource;
+    FlatStage flatStage;
 
     // File HFR
     double fileHFR;

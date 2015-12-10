@@ -63,8 +63,10 @@ SequenceJob::SequenceJob()
     statusCell = NULL;
     completed=0;
     captureRetires=0;
-    flatFieldSource = SOURCE_MANUAL;
-    flatFieldDuration = DURATION_MANUAL;
+
+    flatSettings.flatFieldSource   = SOURCE_MANUAL;
+    flatSettings.flatFieldDuration = DURATION_MANUAL;
+    flatSettings.targetADU         = 0;
 }
 
 void SequenceJob::reset()
@@ -283,12 +285,12 @@ void SequenceJob::setTargetTemperature(double value)
 
 double SequenceJob::getTargetADU() const
 {
-    return targetADU;
+    return flatSettings.targetADU;
 }
 
 void SequenceJob::setTargetADU(double value)
 {
-    targetADU = value;
+    flatSettings.targetADU = value;
 }
 int SequenceJob::getCaptureRetires() const
 {
@@ -302,32 +304,32 @@ void SequenceJob::setCaptureRetires(int value)
 
 SequenceJob::FlatFieldSource SequenceJob::getFlatFieldSource() const
 {
-    return flatFieldSource;
+    return flatSettings.flatFieldSource;
 }
 
 void SequenceJob::setFlatFieldSource(const FlatFieldSource &value)
 {
-    flatFieldSource = value;
+    flatSettings.flatFieldSource = value;
 }
 
 SequenceJob::FlatFieldDuration SequenceJob::getFlatFieldDuration() const
 {
-    return flatFieldDuration;
+    return flatSettings.flatFieldDuration;
 }
 
 void SequenceJob::setFlatFieldDuration(const FlatFieldDuration &value)
 {
-    flatFieldDuration = value;
+    flatSettings.flatFieldDuration = value;
 }
 
 SkyPoint SequenceJob::getWallCoord() const
 {
-    return wallCoord;
+    return flatSettings.wallCoord;
 }
 
 void SequenceJob::setWallCoord(const SkyPoint &value)
 {
-    wallCoord = value;
+    flatSettings.wallCoord = value;
 }
 
 
@@ -379,6 +381,7 @@ Capture::Capture()
     targetADU  = 0;
     flatFieldDuration = SequenceJob::DURATION_MANUAL;
     flatFieldSource   = SequenceJob::SOURCE_MANUAL;
+    flatStage         = FLAT_NONE;
 
     deviationDetected = false;
     spikeDetected     = false;
@@ -611,6 +614,7 @@ void Capture::abort()
     seqCurrentCount      = 0;
     ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
     ADUSlope = 0;
+    flatStage = FLAT_NONE;
 
     if (activeJob)
     {
@@ -1079,45 +1083,12 @@ void Capture::newFITS(IBLOB *bp)
        return;
     }
 
-    // Check if we need to do flat field slope calculation if the user specified a desired ADU value
-    if (activeJob->getTargetADU() > 0 && activeJob->getFrameType() == FRAME_FLAT)
+    if (activeJob->getFrameType() == FRAME_FLAT)
     {
-        FITSData *image_data = NULL;
-        FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
-        if (currentImage)
-        {
-            image_data = currentImage->getImageData();
-            double currentADU = image_data->getADUPercentage();
-            double currentSlope = ADUSlope;
+        processFlatStage();
 
-            double nextExposure = setCurrentADU(currentADU);
-
-            if (nextExposure <= 0)
-            {
-                appendLogText(i18n("Unable to calculate optimal exposure settings, please take the flats manually."));
-                activeJob->setTargetADU(0);
-                targetADU = 0;
-                abort();
-                return;
-            }
-
-            appendLogText(i18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
-
-            activeJob->setExposure(nextExposure);
-
-            // Start next exposure in case ADU Slope is not calculated yet
-            if (currentSlope == 0)
-            {
-                startNextExposure();
-                return;
-            }
-        }
-        else
-        {
-            appendLogText(i18n("An empty image is received, aborting..."));
-            abort();
+        if (flatStage != FLAT_NONE)
             return;
-        }
     }
 
     seqCurrentCount++;
@@ -1277,6 +1248,12 @@ void Capture::captureImage()
     }
 
      connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+
+     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == SequenceJob::DURATION_ADU && flatStage == FLAT_NONE)
+     {
+         flatStage = FLAT_CALIBRATING;
+         activeJob->setPreview(true);
+     }
 
      rc = activeJob->capture(isDark);
 
@@ -2450,6 +2427,7 @@ void Capture::editJob(QModelIndex i)
    delayIN->setValue(job->getDelay()/1000);
 
    // Flat field options
+   calibrationB->setEnabled(job->getFrameType() == FRAME_FLAT);
    flatFieldDuration = job->getFlatFieldDuration();
    flatFieldSource   = job->getFlatFieldSource();
    targetADU         = job->getTargetADU();
@@ -3035,6 +3013,77 @@ void Capture::openFlatFieldDialog()
         }
     }
 }
+
+void Capture::processFlatStage()
+{
+    // For flat field, we might to do special steps to obtain the flat frame
+
+    switch (activeJob->getFlatFieldSource())
+    {
+    case SequenceJob::SOURCE_MANUAL:
+    case SequenceJob::SOURCE_DAWN_DUSK: // Not yet implemented
+        break;
+
+        // Turn on?
+    case SequenceJob::SOURCE_DEVICE:
+        break;
+
+        // Go to wall coordinates
+    case SequenceJob::SOURCE_WALL:
+        break;
+    }
+
+    // Check if we need to do flat field slope calculation if the user specified a desired ADU value
+    if (activeJob->getFlatFieldDuration() == SequenceJob::DURATION_ADU && activeJob->getTargetADU() > 0)
+    {
+        FITSData *image_data = NULL;
+        FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+        if (currentImage)
+        {
+            image_data = currentImage->getImageData();
+            double currentADU = image_data->getADUPercentage();
+            double currentSlope = ADUSlope;
+
+            if (fabs(currentADU - activeJob->getTargetADU()) < 0.1)
+            {
+                activeJob->setPreview(false);
+                flatStage = FLAT_NONE;
+                return;
+            }
+
+            double nextExposure = setCurrentADU(currentADU);
+
+            if (nextExposure <= 0)
+            {
+                appendLogText(i18n("Unable to calculate optimal exposure settings, please take the flats manually."));
+                //activeJob->setTargetADU(0);
+                //targetADU = 0;
+                abort();
+                return;
+            }
+
+            appendLogText(i18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
+
+            flatStage = FLAT_CALIBRATING;
+            activeJob->setExposure(nextExposure);
+            activeJob->setPreview(true);
+
+            // Start next exposure in case ADU Slope is not calculated yet
+            if (currentSlope == 0)
+            {
+                startNextExposure();
+                return;
+            }
+        }
+        else
+        {
+            appendLogText(i18n("An empty image is received, aborting..."));
+            abort();
+            return;
+        }
+    }
+}
+
 
 }
 
