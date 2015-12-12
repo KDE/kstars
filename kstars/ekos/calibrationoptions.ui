@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>flatOptions</class>
- <widget class="QDialog" name="flatOptions">
+ <class>calibrationOptions</class>
+ <widget class="QDialog" name="calibrationOptions">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>439</width>
-    <height>199</height>
+    <height>213</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Flat Field Options</string>
+   <string>Calibration Options</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -62,7 +62,7 @@
            <string>Light source provided by controllable electronic device</string>
           </property>
           <property name="text">
-           <string>Device</string>
+           <string>Dust Cap</string>
           </property>
          </widget>
         </item>
@@ -187,6 +187,20 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="parkMountC">
+     <property name="text">
+      <string>Park Mount</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="parkDomeC">
+     <property name="text">
+      <string>Park Dome</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -222,7 +236,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>flatOptions</receiver>
+   <receiver>calibrationOptions</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -238,7 +252,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>flatOptions</receiver>
+   <receiver>calibrationOptions</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

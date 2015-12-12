@@ -103,12 +103,20 @@ bool DustCap::hasLight()
     return currentDustCap->hasLight();
 }
 
-bool DustCap::setLight(uint8_t val)
+bool DustCap::setLightEnabled(bool enable)
 {
     if (currentDustCap == NULL)
         return false;
 
-    return currentDustCap->SetLight(val);
+    return currentDustCap->SetLightEnabled(enable);
+}
+
+bool DustCap::setBrightness(uint16_t val)
+{
+    if (currentDustCap == NULL)
+        return false;
+
+    return currentDustCap->SetBrightness(val);
 }
 
 }

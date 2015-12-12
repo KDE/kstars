@@ -61,6 +61,7 @@ if (INDI_FOUND)
     indi/indidome.cpp
     indi/indiweather.cpp
     indi/indicap.cpp
+    indi/indilightbox.cpp
     indi/indidbus.cpp
     indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
@@ -80,7 +81,7 @@ if (CFITSIO_FOUND)
       ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
-      ekos/flatoptions.ui
+      ekos/calibrationoptions.ui
       ekos/align.ui
       ekos/focus.ui
       ekos/guide.ui
@@ -94,6 +95,7 @@ if (CFITSIO_FOUND)
       ekos/scheduler.cpp
       ekos/ekosmanager.cpp
       ekos/capture.cpp
+      ekos/sequencejob.cpp
       ekos/focus.cpp
       ekos/guide.cpp
       ekos/align.cpp

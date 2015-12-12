@@ -39,6 +39,7 @@ Scheduler::Scheduler()
 {
     setupUi(this);
 
+    dirPath     = QDir::homePath();
     state       = SCHEDULER_IDLE;
     ekosState   = EKOS_IDLE;
     indiState   = INDI_IDLE;
@@ -215,9 +216,11 @@ void Scheduler::addObject(SkyObject *object)
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(this, i18n("Select FITS Image"), QDir::homePath(), "FITS (*.fits *.fit)");
+    fitsURL = QFileDialog::getOpenFileUrl(this, i18n("Select FITS Image"), dirPath, "FITS (*.fits *.fit)");
     if (fitsURL.isEmpty())
         return;
+
+    dirPath = fitsURL.path().remove(fitsURL.fileName());
 
     setDirty();
 
@@ -234,9 +237,11 @@ void Scheduler::selectFITS()
 
 void Scheduler::selectSequence()
 {
-    sequenceURL = QFileDialog::getOpenFileUrl(this, i18n("Select Sequence Queue"), QDir::homePath(), i18n("Ekos Sequence Queue (*.esq)"));
+    sequenceURL = QFileDialog::getOpenFileUrl(this, i18n("Select Sequence Queue"), dirPath, i18n("Ekos Sequence Queue (*.esq)"));
     if (sequenceURL.isEmpty())
         return;
+
+    dirPath = sequenceURL.path().remove(sequenceURL.fileName());
 
     setDirty();
 
@@ -255,6 +260,8 @@ void Scheduler::selectStartupScript()
     if (startupScriptURL.isEmpty())
         return;
 
+    dirPath = startupScriptURL.path().remove(startupScriptURL.fileName());
+
     mDirty=true;
     startupScript->setText(startupScriptURL.path());
 }
@@ -264,6 +271,8 @@ void Scheduler::selectShutdownScript()
     shutdownScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Shutdown Script"), QDir::homePath(), i18n("Script (*)"));
     if (shutdownScriptURL.isEmpty())
         return;
+
+    dirPath = shutdownScriptURL.path().remove(shutdownScriptURL.fileName());
 
     mDirty=true;
     shutdownScript->setText(shutdownScriptURL.path());    
@@ -1941,20 +1950,20 @@ void Scheduler::checkProcessExit(int exitCode)
 
     if (exitCode == 0)
     {
-        if (startupState != STARTUP_COMPLETE)
+        if (startupState == STARTUP_SCRIPT)
             startupState = STARTUP_UNPARK_DOME;
-        else if (shutdownState != SHUTDOWN_COMPLETE)
+        else if (shutdownState == SHUTDOWN_SCRIPT_RUNNING)
             shutdownState = SHUTDOWN_COMPLETE;
 
         return;
     }
 
-    if (startupState != STARTUP_COMPLETE)
+    if (startupState == STARTUP_SCRIPT)
     {
         appendLogText(i18n("Startup script failed, aborting..."));
         startupState = STARTUP_ERROR;
     }
-    else if (shutdownState != SHUTDOWN_COMPLETE)
+    else if (shutdownState == SHUTDOWN_SCRIPT_RUNNING)
     {
         appendLogText(i18n("Shutdown script failed, aborting..."));
         shutdownState = SHUTDOWN_ERROR;
@@ -2749,13 +2758,15 @@ void Scheduler::save()
 
     if (schedulerURL.isEmpty())
     {
-        schedulerURL = QFileDialog::getSaveFileName(this, i18n("Save Ekos Scheduler List"), QDir::homePath(), "Ekos Scheduler List (*.esl)");
+        schedulerURL = QFileDialog::getSaveFileName(this, i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
         // if user presses cancel
         if (schedulerURL.isEmpty())
         {
             schedulerURL = backupCurrent;
             return;
         }
+
+        dirPath = schedulerURL.path().remove(schedulerURL.fileName());
 
         if (schedulerURL.path().contains('.') == 0)
             schedulerURL.setPath(schedulerURL.path() + ".esl");

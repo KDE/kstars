@@ -72,7 +72,7 @@ EkosManager::EkosManager()
     dome    =  NULL;
     weather =  NULL;
     dustCap =  NULL;
-    flatLight= NULL;
+    lightBox= NULL;
 
     scope_di   = NULL;
     ccd_di     = NULL;
@@ -1060,6 +1060,7 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface*)), this, SLOT(setWeather(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this, SLOT(setDustCap(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this, SLOT(setLightBox(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
     connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
     connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
@@ -1834,6 +1835,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
       alignProcess->setTelescope(scope);
       captureProcess->setTelescope(scope);
    }
+
 }
 
 /*void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
@@ -1970,6 +1972,17 @@ void EkosManager::setDustCap(ISD::GDInterface *dustCapDevice)
     dustCapProcess->setDustCap(dustCap);
 
     appendLogText(i18n("%1 is online.", dustCap->getDeviceName()));
+
+    if (captureProcess)
+        captureProcess->setDustCap(dustCap);
+}
+
+void EkosManager::setLightBox(ISD::GDInterface *lightBoxDevice)
+{
+    lightBox = lightBoxDevice;
+
+    if (captureProcess)
+        captureProcess->setLightBox(lightBoxDevice);
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -2151,13 +2164,6 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
-    {
-        flatLight = dynamic_cast<ISD::GDInterface*>(sender());
-        if (flatLight && captureProcess)
-            captureProcess->setFlatFieldDevice(flatLight);
-    }
-
 }
 
 void EkosManager::processTabChange()
@@ -2265,8 +2271,10 @@ void EkosManager::initCapture()
      toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
-     if (flatLight)
-         captureProcess->setFlatFieldDevice(flatLight);
+     if (dustCap)
+         captureProcess->setDustCap(dustCap);
+     if (lightBox)
+         captureProcess->setLightBox(lightBox);
 
      if (focusProcess)
      {
@@ -2420,7 +2428,7 @@ void EkosManager::initGuide()
         connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
         // Parking
-        connect(captureProcess, SIGNAL(telescopeParking()), guideProcess, SLOT(stopGuiding()));
+        connect(captureProcess, SIGNAL(mountParking()), guideProcess, SLOT(stopGuiding()));
 
         // Guide Head
         connect(captureProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)));
@@ -2518,7 +2526,7 @@ void EkosManager::removeTabs()
         delete (dustCapProcess);
         dustCapProcess = NULL;
 
-        flatLight = NULL;
+        lightBox = NULL;
 
         aux1 = NULL;
         aux2 = NULL;

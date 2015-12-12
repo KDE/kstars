@@ -53,6 +53,8 @@ Align::Align()
     new AlignAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align",  this);
 
+    dirPath = QDir::homePath();
+
     currentCCD     = NULL;
     currentTelescope = NULL;
     currentFilter = NULL;
@@ -1454,10 +1456,12 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 void Align::loadAndSlew(QUrl fileURL)
 {
     if (fileURL.isEmpty())
-        fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Load Image"), QUrl(), "Images (*.fits *.fit *.jpg *.jpeg)");
+        fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Load Image"), dirPath, "Images (*.fits *.fit *.jpg *.jpeg)");
 
     if (fileURL.isEmpty())
         return;
+
+    dirPath = fileURL.path().remove(fileURL.fileName());
 
     loadSlewMode = true;
     loadSlewState=IPS_BUSY;

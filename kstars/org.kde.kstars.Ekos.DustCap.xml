@@ -16,7 +16,11 @@
     <method name="hasLight">
         <arg type="b" direction="out"/>
     </method>
-    <method name="setLight">
+    <method name="setLightEnabled">
+        <arg type="b" direction="in"/>
+        <arg type="b" direction="out"/>
+    </method>
+    <method name="setBrightness">
         <arg type="i" direction="in"/>
         <arg type="b" direction="out"/>
     </method>

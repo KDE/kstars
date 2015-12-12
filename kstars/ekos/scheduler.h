@@ -444,6 +444,8 @@ private:
     QTimer schedulerTimer;          // To call checkStatus
     QTimer jobTimer;                // To call checkJobStage
 
+    QString dirPath;
+
 
 };
 }

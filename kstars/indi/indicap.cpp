@@ -47,6 +47,14 @@ bool DustCap::canPark()
         return true;
 }
 
+bool DustCap::isParked()
+{
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("CAP_PARK");
+    if (parkSP == NULL)
+        return false;
+
+    return (parkSP->s == IPS_OK && parkSP->sp[0].s == ISS_ON);
+}
 
 bool DustCap::Park()
 {
@@ -91,7 +99,20 @@ bool DustCap::hasLight()
         return true;
 }
 
-bool DustCap::SetLight(uint8_t val)
+bool DustCap::isLightOn()
+{
+    ISwitchVectorProperty *lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
+    if (lightSP == NULL)
+        return false;
+
+    ISwitch *lightON  = IUFindSwitch(lightSP, "FLAT_LIGHT_ON");
+    if (lightON == NULL)
+        return false;
+
+    return (lightON->s == ISS_ON);
+}
+
+bool DustCap::SetLightEnabled(bool enable)
 {
     ISwitchVectorProperty *lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
     if (lightSP == NULL)
@@ -104,21 +125,27 @@ bool DustCap::SetLight(uint8_t val)
 
     IUResetSwitch(lightSP);
 
-    if (val == 0)
-        lightOFF->s = ISS_ON;
-    else
-        lightON->s  = ISS_ON;
+   if (enable)
+       lightON->s  = ISS_ON;
+   else
+       lightOFF->s  = ISS_ON;
 
     clientManager->sendNewSwitch(lightSP);
 
+    return true;
+}
+
+bool DustCap::SetBrightness(uint16_t val)
+{
     INumberVectorProperty *lightIntensity = baseDevice->getNumber("FLAT_LIGHT_INTENSITY");
     if (lightIntensity)
     {
         lightIntensity->np[0].value = val;
         clientManager->sendNewNumber(lightIntensity);
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 }

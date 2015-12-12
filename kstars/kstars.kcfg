@@ -1453,6 +1453,10 @@
        <label>Maximum acceptable difference between requested and measured temperature set point.</label>
        <default>0.1</default>
      </entry>
+     <entry name="RememberJobProgress" type="Bool">
+       <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
+       <default>true</default>
+     </entry>
    </group>
    <group name="Focus">
     <entry name="FocusTicks" type="UInt">

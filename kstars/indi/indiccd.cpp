@@ -1105,7 +1105,7 @@ void CCD::processBLOB(IBLOB* bp)
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
     if (currentDir.endsWith('/'))
-        currentDir.truncate(sizeof(currentDir)-1);
+        currentDir.truncate(sizeof(currentDir)-1);    
 
     if (QDir(currentDir).exists() == false)
     {

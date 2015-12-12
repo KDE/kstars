@@ -10,8 +10,6 @@
 #ifndef CAPTURE_H
 #define CAPTURE_H
 
-#include "capture.h"
-
 #include <QTimer>
 #include <QUrl>
 #include <QtDBus/QtDBus>
@@ -21,6 +19,9 @@
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
+#include "indi/indicap.h"
+#include "indi/indidome.h"
+#include "indi/indilightbox.h"
 #include "indi/inditelescope.h"
 
 class QProgressIndicator;
@@ -57,154 +58,9 @@ class KDirWatch;
  *@version 1.1
  */
 namespace Ekos
-{
+{   
 
-class SequenceJob : public QObject
-{
-    Q_OBJECT    
-
-    public:
-
-    typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
-    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FILTER_BUSY, CAPTURE_FOCUS_ERROR} CAPTUREResult;
-    typedef enum { SOURCE_MANUAL, SOURCE_DEVICE, SOURCE_WALL, SOURCE_DAWN_DUSK } FlatFieldSource;
-    typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;
-
-    SequenceJob();
-
-    CAPTUREResult capture(bool isDark=false);
-    void reset();
-    void abort();
-    void done();
-    void prepareCapture();
-
-    JOBStatus getStatus() { return status; }
-    const QString & getStatusString() { return statusStrings[status]; }
-    bool isPreview() { return preview;}
-    int getDelay() { return delay;}
-    int getCount() { return count;}
-    unsigned int getCompleted() { return completed; }
-    const QString & getPrefix() { return prefix;}
-    double getExposure() const { return exposure;}
-
-    void setActiveCCD(ISD::CCD *ccd) { activeCCD = ccd; }
-    ISD::CCD *getActiveCCD() { return activeCCD;}
-
-    void setActiveFilter(ISD::GDInterface *filter) { activeFilter = filter; }
-    ISD::GDInterface *getActiveFilter() { return activeFilter;}
-
-    void setActiveChip(ISD::CCDChip *chip) { activeChip = chip; }
-    ISD::CCDChip *getActiveChip() { return activeChip;}
-
-    void setFITSDir(const QString &dir) { fitsDir = dir;}
-    const QString & getFITSDir() { return fitsDir; }
-
-    void setTargetFilter(int pos, const QString & name);
-    int getTargetFilter() { return targetFilter;}
-    int getCurrentFilter() const;
-    void setCurrentFilter(int value);
-
-    const QString &getFilterName() { return filter; }
-    void setFrameType(int type, const QString & name);
-    int getFrameType() { return frameType;}
-    void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
-    void setISOMode(bool mode) { isoMode = mode; }
-    bool getISOMode() { return isoMode;}
-    void setPreview(bool enable) { preview = enable; }
-    void setPrefix(const QString &cprefix) { prefix = cprefix;}
-    void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
-    int getSubX() { return x;}
-    int getSubY() { return y;}
-    int getSubW() { return w;}
-    int getSubH() { return h;}
-    void setBin(int xbin, int ybin) { binX = xbin; binY=ybin;}
-    int getXBin() { return binX; }
-    int getYBin() { return binY; }
-    void setDelay(int in_delay) { delay = in_delay; }
-    void setCount(int in_count) { count = in_count;}
-    void setImageType(int type) { imageType = type;}
-    void setExposure(double duration) { exposure = duration;}
-    void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
-    void setCompleted(unsigned int in_completed) { completed = in_completed;}
-    int getISOIndex() const;
-    void setISOIndex(int value);
-
-    double getExposeLeft() const;
-    void setExposeLeft(double value);
-    void resetStatus();
-    void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
-    void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
-
-    double getCurrentTemperature() const;
-    void setCurrentTemperature(double value);
-
-    double getTargetTemperature() const;
-    void setTargetTemperature(double value);    
-
-    double getTargetADU() const;
-    void setTargetADU(double value);
-
-    int getCaptureRetires() const;
-    void setCaptureRetires(int value);
-
-    FlatFieldSource getFlatFieldSource() const;
-    void setFlatFieldSource(const FlatFieldSource &value);
-
-    FlatFieldDuration getFlatFieldDuration() const;
-    void setFlatFieldDuration(const FlatFieldDuration &value);
-
-    SkyPoint getWallCoord() const;
-    void setWallCoord(const SkyPoint &value);
-
-signals:
-    void prepareComplete();
-
-private:
-
-    QStringList statusStrings;
-    ISD::CCDChip *activeChip;
-    ISD::CCD *activeCCD;
-    ISD::GDInterface *activeFilter;
-
-    double exposure;
-    int frameType;
-    QString frameTypeName;
-    int targetFilter;
-    int currentFilter;
-
-    QString filter;
-    int imageType;
-    int binX, binY;
-    int x,y,w,h;
-    QString prefix;
-    int count;
-    int delay;    
-    bool isoMode;
-    bool preview;
-    bool filterReady, temperatureReady;
-    int isoIndex;
-    int captureRetires;
-    unsigned int completed;
-    double exposeLeft;
-    double currentTemperature, targetTemperature;
-    FITSScale captureFilter;
-    QTableWidgetItem *statusCell;
-    QString fitsDir;
-
-    bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled;
-    QString rawPrefix;
-
-    JOBStatus status;
-
-    // Flat field variables
-    struct
-    {
-        double targetADU;
-        FlatFieldSource flatFieldSource;
-        FlatFieldDuration flatFieldDuration;
-        SkyPoint wallCoord;
-    } flatSettings;
-};
+class SequenceJob;
 
 /**
  *@class Capture
@@ -226,7 +82,7 @@ public:
 
     enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
-    typedef enum { FLAT_NONE, FLAT_UNPARK_CAP, FLAT_TURN_ON, FLAT_SLEWING, FLAT_CALIBRATING, FLAT_BUSY } FlatStage;
+    typedef enum { FLAT_NONE, FLAT_DUSTCAP_PARKING, FLAT_DUSTCAP_PARKED, FLAT_LIGHTBOX_ON, FLAT_SLEWING, FLAT_SLEWING_COMPLETE, FLAT_MOUNT_PARKING, FLAT_MOUNT_PARKED, FLAT_DOME_PARKING, FLAT_DOME_PARKED, FLAT_PRECAPTURE_COMPLETE, FLAT_CALIBRATION, FLAT_CALIBRATION_COMPLETE, FLAT_CAPTURING} FlatStage;
 
     Capture();
     ~Capture();
@@ -353,7 +209,9 @@ public:
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
-    void setFlatFieldDevice(ISD::GDInterface *device) { flatFieldDevice = device; }
+    void setDome(ISD::GDInterface *device) { dome = dynamic_cast<ISD::Dome*>(device); }
+    void setDustCap(ISD::GDInterface *device) { dustCap = dynamic_cast<ISD::DustCap*>(device); }
+    void setLightBox(ISD::GDInterface *device) { lightBox = dynamic_cast<ISD::LightBox*>(device); }
     void addGuideHead(ISD::GDInterface *newCCD);
     void syncFrameType(ISD::GDInterface *ccd);
     void setTelescope(ISD::GDInterface *newTelescope);
@@ -493,7 +351,8 @@ private slots:
     void updateFocusStatus(bool status);
     void updateAutofocusStatus(bool status, double HFR);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
-    void checkSeqBoundary(const QString &path);   
+    void checkSeqBoundary(const QString &path);
+    void checkSeqFile(const QString &path);
     void saveFITSDirectory();
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
@@ -512,13 +371,15 @@ private slots:
     void enableAlignmentFlag();
 
     // Flat field
-    void openFlatFieldDialog();
+    void openCalibrationDialog();
+    IPState processPreCaptureFlatStage();
+    bool processPostCaptureFlatStage();
 
 signals:
         void newLog();
         void exposureComplete();
         void checkFocus(double);
-        void telescopeParking();
+        void mountParking();
         void suspendGuiding(bool);
         void meridianFlipStarted();
         void meridialFlipTracked();
@@ -530,11 +391,11 @@ private:
     void startNextExposure();
     void updateFrameProperties();
     void prepareJob(SequenceJob *job);
-    bool processJobInfo(XMLEle *root);    
+    bool processJobInfo(XMLEle *root);
+    void processJobCompletion();
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
-    double setCurrentADU(double value);
-    void processFlatStage();
+    double setCurrentADU(double value);    
 
     /* Meridian Flip */
     bool checkMeridianFlip();
@@ -570,7 +431,9 @@ private:
     ISD::Telescope *currentTelescope;
     ISD::CCD *currentCCD;
     ISD::GDInterface *currentFilter;
-    ISD::GDInterface *flatFieldDevice;
+    ISD::DustCap *dustCap;
+    ISD::LightBox *lightBox;
+    ISD::Dome *dome;
 
     ITextVectorProperty *filterName;
     INumberVectorProperty *filterSlot;
@@ -609,12 +472,16 @@ private:
     double ADUSlope;
     double targetADU;
     SkyPoint wallCoord;
-    SequenceJob::FlatFieldDuration flatFieldDuration;
-    SequenceJob::FlatFieldSource   flatFieldSource;
+    bool preMountPark, preDomePark;
+    FlatFieldDuration flatFieldDuration;
+    FlatFieldSource   flatFieldSource;
     FlatStage flatStage;
+    bool dustCapLightEnabled, lightBoxLightEnabled;
 
     // File HFR
     double fileHFR;
+
+    QString dirPath;
 
 };
 

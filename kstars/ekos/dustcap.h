@@ -68,11 +68,17 @@ public:
     Q_SCRIPTABLE bool hasLight();
 
     /** DBUS interface function.
-     * SetLight: Turn on/off flat light and set intensity, if supported.
+     * setLightEnabled: Turn on/off light box
+     * @param enable If true, turn light on, otherwise turn light off
      * @return True if operation started/successful, false otherwise
      */
-    Q_SCRIPTABLE bool setLight(uint8_t val);
+    Q_SCRIPTABLE bool setLightEnabled(bool enable);
 
+    /** DBUS interface function.
+     * SetLight: Set light source brightness level
+     * @return True if operation started/successful, false otherwise
+     */
+    Q_SCRIPTABLE bool setBrightness(uint16_t val);
 
     /** DBUS interface function.
      * Get the dome park status

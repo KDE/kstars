@@ -25,6 +25,7 @@
 #include "indidome.h"
 #include "indiweather.h"
 #include "indicap.h"
+#include "indilightbox.h"
 #include "indifilter.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
@@ -246,6 +247,30 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 }
 
                emit newDustCap(gd);
+            }
+            else if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
+            {
+                // If light box part of dust cap
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    if (gd->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+                    {
+                        devices.removeOne(gd);
+                        gd = new ISD::DustCap(gd);
+                        devices.append(gd);
+
+                        emit newDustCap(gd);
+                    }
+                    // If stand-alone light box
+                    else
+                    {
+                        devices.removeOne(gd);
+                        gd = new ISD::LightBox(gd);
+                        devices.append(gd);
+
+                        emit newLightBox(gd);
+                    }
+                }
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))

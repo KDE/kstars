@@ -25,7 +25,7 @@
 #include "kstarsdata.h"
 
 #include "capture.h"
-#include "ui_flatoptions.h"
+#include "sequencejob.h"
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
@@ -36,6 +36,7 @@
 
 #include "ekosmanager.h"
 #include "captureadaptor.h"
+#include "ui_calibrationoptions.h"
 
 #include "QProgressIndicator.h"
 
@@ -48,317 +49,6 @@
 namespace Ekos
 {
 
-SequenceJob::SequenceJob()
-{
-    statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted") << i18n("Complete");
-    status = JOB_IDLE;
-    exposure=count=delay=frameType=targetFilter=isoIndex=-1;
-    currentTemperature=targetTemperature=INVALID_TEMPERATURE;
-    captureFilter=FITS_NONE;
-    preview=false;
-    filterReady=temperatureReady=true;
-    activeChip=NULL;
-    activeCCD=NULL;
-    activeFilter= NULL;
-    statusCell = NULL;
-    completed=0;
-    captureRetires=0;
-
-    flatSettings.flatFieldSource   = SOURCE_MANUAL;
-    flatSettings.flatFieldDuration = DURATION_MANUAL;
-    flatSettings.targetADU         = 0;
-}
-
-void SequenceJob::reset()
-{
-    // Reset to default values
-    activeChip->setBatchMode(false);
-}
-
-void SequenceJob::resetStatus()
-{
-    status = JOB_IDLE;
-    completed=0;
-    exposeLeft=0;
-    captureRetires=0;
-    if (preview == false && statusCell)
-        statusCell->setText(statusStrings[status]);
-}
-
-void SequenceJob::abort()
-{
-    status = JOB_ABORTED;
-    if (preview == false && statusCell)
-        statusCell->setText(statusStrings[status]);
-    if (activeChip->canAbort())
-        activeChip->abortExposure();
-    activeChip->setBatchMode(false);
-}
-
-void SequenceJob::done()
-{
-    status = JOB_DONE;
-
-    if (statusCell)
-        statusCell->setText(statusStrings[status]);
-
-}
-
-void SequenceJob::prepareCapture()
-{
-    activeChip->setBatchMode(!preview);
-
-    activeCCD->setFITSDir(fitsDir);
-
-    activeCCD->setISOMode(isoMode);
-
-    activeCCD->setSeqPrefix(prefix);
-
-    if (activeChip->isBatchMode())
-        activeCCD->updateUploadSettings();
-
-    if (isoIndex != -1)
-    {
-        if (isoIndex != activeChip->getISOIndex())
-             activeChip->setISOIndex(isoIndex);
-    }
-
-    if (targetFilter != -1 && activeFilter != NULL)
-    {
-        if (targetFilter == currentFilter)
-            //emit prepareComplete();
-            filterReady = true;
-        else
-        {
-            filterReady = false;
-            activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
-        }
-    }
-
-
-    if (Options::enforceTemperatureControl() && targetTemperature != currentTemperature)
-    {
-        temperatureReady = false;
-        activeCCD->setTemperature(targetTemperature);
-    }
-
-    if (temperatureReady && filterReady)
-        emit prepareComplete();
-
-}
-
-SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
-{
-    // If focusing is busy, return error
-    //if (activeChip->getCaptureMode() == FITS_FOCUS)
-      //  return CAPTURE_FOCUS_ERROR;
-
-    activeChip->setBatchMode(!preview);
-
-    if (targetFilter != -1 && activeFilter != NULL)
-    {
-        if (targetFilter != currentFilter)
-        {
-            activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
-            return CAPTURE_FILTER_BUSY;
-        }
-    }
-
-   if (isoIndex != -1)
-   {
-       if (isoIndex != activeChip->getISOIndex())
-            activeChip->setISOIndex(isoIndex);
-   }
-
-   if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
-   {
-        status = JOB_ERROR;
-
-        if (preview == false && statusCell)
-            statusCell->setText(statusStrings[status]);
-
-        return CAPTURE_FRAME_ERROR;
-
-   }
-
-    if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
-    {
-        status = JOB_ERROR;
-
-        if (preview == false && statusCell)
-            statusCell->setText(statusStrings[status]);
-
-        return CAPTURE_BIN_ERROR;
-    }
-
-    if (isDark)
-    {
-        activeChip->setFrameType(FRAME_DARK);
-        activeChip->setCaptureMode(FITS_CALIBRATE);
-    }
-    else
-    {
-        activeChip->setFrameType(frameTypeName);
-        activeChip->setCaptureMode(FITS_NORMAL);
-        activeChip->setCaptureFilter(captureFilter);
-    }
-
-    // If filter is different that CCD, send the filter info
-    if (activeFilter && activeFilter != activeCCD)
-        activeCCD->setFilter(filter);
-
-    status = JOB_BUSY;
-
-    if (preview == false && statusCell)
-        statusCell->setText(statusStrings[status]);
-
-    exposeLeft = exposure;
-
-    activeChip->capture(exposure);
-
-    return CAPTURE_OK;
-
-}
-
-void SequenceJob::setTargetFilter(int pos, const QString & name)
-{
-    targetFilter = pos;
-    filter    = name;
-}
-
-void SequenceJob::setFrameType(int type, const QString & name)
-{
-    frameType = type;
-    frameTypeName = name;
-}
-
-double SequenceJob::getExposeLeft() const
-{
-    return exposeLeft;
-}
-
-void SequenceJob::setExposeLeft(double value)
-{
-    exposeLeft = value;
-}
-
-void SequenceJob::setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled)
-{
-    rawPrefix               = prefix;
-    typePrefixEnabled       = typeEnabled;
-    filterPrefixEnabled     = filterEnabled;
-    expPrefixEnabled        = exposureEnabled;
-}
-
-void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled)
-{
-    prefix          = rawPrefix;
-    typeEnabled     = typePrefixEnabled;
-    filterEnabled   = filterPrefixEnabled;
-    exposureEnabled = expPrefixEnabled;
-}
-double SequenceJob::getCurrentTemperature() const
-{
-    return currentTemperature;
-}
-
-void SequenceJob::setCurrentTemperature(double value)
-{
-    currentTemperature = value;
-
-    if (Options::enforceTemperatureControl() == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
-        temperatureReady = true;
-
-    if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
-        emit prepareComplete();
-}
-
-double SequenceJob::getTargetTemperature() const
-{
-    return targetTemperature;
-}
-
-void SequenceJob::setTargetTemperature(double value)
-{
-    targetTemperature = value;
-}
-
-double SequenceJob::getTargetADU() const
-{
-    return flatSettings.targetADU;
-}
-
-void SequenceJob::setTargetADU(double value)
-{
-    flatSettings.targetADU = value;
-}
-int SequenceJob::getCaptureRetires() const
-{
-    return captureRetires;
-}
-
-void SequenceJob::setCaptureRetires(int value)
-{
-    captureRetires = value;
-}
-
-SequenceJob::FlatFieldSource SequenceJob::getFlatFieldSource() const
-{
-    return flatSettings.flatFieldSource;
-}
-
-void SequenceJob::setFlatFieldSource(const FlatFieldSource &value)
-{
-    flatSettings.flatFieldSource = value;
-}
-
-SequenceJob::FlatFieldDuration SequenceJob::getFlatFieldDuration() const
-{
-    return flatSettings.flatFieldDuration;
-}
-
-void SequenceJob::setFlatFieldDuration(const FlatFieldDuration &value)
-{
-    flatSettings.flatFieldDuration = value;
-}
-
-SkyPoint SequenceJob::getWallCoord() const
-{
-    return flatSettings.wallCoord;
-}
-
-void SequenceJob::setWallCoord(const SkyPoint &value)
-{
-    flatSettings.wallCoord = value;
-}
-
-
-int SequenceJob::getISOIndex() const
-{
-    return isoIndex;
-}
-
-void SequenceJob::setISOIndex(int value)
-{
-    isoIndex = value;
-}
-
-int SequenceJob::getCurrentFilter() const
-{
-    return currentFilter;
-}
-
-void SequenceJob::setCurrentFilter(int value)
-{
-    currentFilter = value;
-
-    if (currentFilter == targetFilter)
-        filterReady = true;
-
-    if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
-        emit prepareComplete();
-}
-
 Capture::Capture()
 {
     setupUi(this);
@@ -366,10 +56,14 @@ Capture::Capture()
     new CaptureAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);    
 
+    dirPath = QDir::homePath();
+
     currentCCD = NULL;
     currentTelescope = NULL;
     currentFilter = NULL;
-    flatFieldDevice = NULL;
+    dustCap = NULL;
+    lightBox= NULL;
+    dome    = NULL;
 
     filterSlot = NULL;
     filterName = NULL;
@@ -379,12 +73,16 @@ Capture::Capture()
     guideChip  = NULL;
 
     targetADU  = 0;
-    flatFieldDuration = SequenceJob::DURATION_MANUAL;
-    flatFieldSource   = SequenceJob::SOURCE_MANUAL;
+    flatFieldDuration = DURATION_MANUAL;
+    flatFieldSource   = SOURCE_MANUAL;
     flatStage         = FLAT_NONE;
+    preMountPark           = false;
+    preDomePark            = false;
 
     deviationDetected = false;
     spikeDetected     = false;
+
+    dustCapLightEnabled = lightBoxLightEnabled = false;
 
     isAutoGuiding   = false;
     guideDither     = false;
@@ -421,7 +119,7 @@ Capture::Capture()
 
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
-    connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqBoundary(QString)));
+    connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqFile(QString)));
 
     connect(addToQueueB, SIGNAL(clicked()), this, SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
@@ -436,9 +134,9 @@ Capture::Capture()
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
     connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
     connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
-    connect(frameTypeCombo, SIGNAL(activated(int)), this, SLOT(checkFrameType(int)));
+    connect(frameTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkFrameType(int)));
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
-    connect(calibrationB, SIGNAL(clicked()), this, SLOT(openFlatFieldDialog()));
+    connect(calibrationB, SIGNAL(clicked()), this, SLOT(openCalibrationDialog()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
@@ -625,6 +323,18 @@ void Capture::abort()
         }
 
         activeJob->reset();
+    }
+
+    // Turn off any calibration light, IF they were turned on by Capture module
+    if  (dustCap && dustCapLightEnabled)
+    {
+        dustCapLightEnabled = false;
+        dustCap->SetLightEnabled(false);
+    }
+    if (lightBox && lightBoxLightEnabled)
+    {
+        lightBoxLightEnabled = false;
+        lightBox->SetLightEnabled(false);
     }
 
     secondsLabel->clear();
@@ -1085,10 +795,11 @@ void Capture::newFITS(IBLOB *bp)
 
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
-        processFlatStage();
-
-        if (flatStage != FLAT_NONE)
+        if (processPostCaptureFlatStage() == false)
             return;
+
+            if (flatStage == FLAT_CALIBRATION_COMPLETE)
+                flatStage = FLAT_CAPTURING;
     }
 
     seqCurrentCount++;
@@ -1102,36 +813,8 @@ void Capture::newFITS(IBLOB *bp)
     // if we're done
     if (seqCurrentCount == seqTotalCount)
     {
-        activeJob->done();
-
-        abort();
-
-        // Check if meridian condition is met
-        if (checkMeridianFlip())
-            return;
-
-        // Check if there are more pending jobs and execute them
-        if (resumeSequence())
-            return;
-        // Otherwise, we're done. We park if required and resume guiding if no parking is done and autoguiding was engaged before.
-        else
-        {
-            KNotification::event( QLatin1String( "CaptureSuccessful"), i18n("CCD capture sequence completed"));
-
-            if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
-            {
-                appendLogText(i18n("Parking telescope..."));
-                emit telescopeParking();
-                currentTelescope->Park();
-                return;
-            }
-
-            //Resume guiding if it was suspended before
-            if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-                emit suspendGuiding(false);
-        }
-
-        return;
+       processJobCompletion();
+       return;
     }
 
     // Check if meridian condition is met
@@ -1139,6 +822,39 @@ void Capture::newFITS(IBLOB *bp)
         return;
 
     resumeSequence();
+}
+
+void Capture::processJobCompletion()
+{
+    activeJob->done();
+
+    abort();
+
+    // Check if meridian condition is met
+    if (checkMeridianFlip())
+        return;
+
+    // Check if there are more pending jobs and execute them
+    if (resumeSequence())
+        return;
+    // Otherwise, we're done. We park if required and resume guiding if no parking is done and autoguiding was engaged before.
+    else
+    {
+        KNotification::event( QLatin1String( "CaptureSuccessful"), i18n("CCD capture sequence completed"));
+
+        if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
+        {
+            appendLogText(i18n("Parking telescope..."));
+            emit mountParking();
+            currentTelescope->Park();
+            return;
+        }
+
+        //Resume guiding if it was suspended before
+        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            emit suspendGuiding(false);
+    }
+
 }
 
 bool Capture::resumeSequence()
@@ -1249,10 +965,14 @@ void Capture::captureImage()
 
      connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
 
-     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == SequenceJob::DURATION_ADU && flatStage == FLAT_NONE)
+     if (activeJob->getFrameType() == FRAME_FLAT)
      {
-         flatStage = FLAT_CALIBRATING;
-         activeJob->setPreview(true);
+         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
+         if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && flatStage == FLAT_PRECAPTURE_COMPLETE)
+         {
+            flatStage = FLAT_CALIBRATION;
+            activeJob->setPreview(true);
+         }
      }
 
      rc = activeJob->capture(isDark);
@@ -1314,15 +1034,19 @@ void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir
 {
     seqPrefix = newPrefix;
 
-    //seqLister->setNameFilter(QString("*.fits"));
+    // If it doesn't exist, create it
+    QDir().mkpath(dir);
+
     seqWatcher->addDir(dir, KDirWatch::WatchFiles);
 
     seqCount = 1;
 
-    //seqLister->openUrl(dir);
-
     checkSeqBoundary(dir);
+}
 
+void Capture::checkSeqFile(const QString &path)
+{
+    checkSeqBoundary(QFileInfo(path).absolutePath());
 }
 
 /*******************************************************************************/
@@ -1490,11 +1214,13 @@ void Capture::addJob(bool preview)
 
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
 
-    job->setFITSDir(fitsDir->text());
-
+    if (preview == false)
+     job->setFITSDir(preview ? fitsDir->text() : fitsDir->text() + "/" + frameTypeCombo->currentText());
 
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
+    job->setPreMountPark(preMountPark);
+    job->setPreDomePark(preDomePark);
     job->setWallCoord(wallCoord);
     job->setTargetADU(targetADU);
 
@@ -1744,6 +1470,15 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
+    // Reset flat stage
+    if (flatStage == FLAT_CAPTURING)
+    {
+        if (job->getFrameType() == FRAME_FLAT)
+            flatStage = FLAT_PRECAPTURE_COMPLETE;
+        else
+            flatStage = FLAT_NONE;
+    }
+
     if (currentFilterPosition > 0)
     {
         activeJob->setCurrentFilter(currentFilterPosition);
@@ -1805,6 +1540,16 @@ void Capture::executeJob()
             updateSequencePrefix(activeJob->getPrefix(), activeJob->getFITSDir());
     }
 
+    // If job is already complete
+    if (Options::rememberJobProgress() && activeJob->isPreview() == false && (seqCount-1) == seqTotalCount)
+    {
+        seqCurrentCount=seqTotalCount;
+        activeJob->setCompleted(seqCurrentCount);
+        imgProgress->setValue(seqCurrentCount);
+        processJobCompletion();
+        return;
+    }
+
     // Update button status
     startB->setEnabled(false);
     stopB->setEnabled(true);
@@ -1812,7 +1557,23 @@ void Capture::executeJob()
 
     pi->startAnimation();
 
-    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;    
+    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;        
+
+    // Check flat field frame requirements
+    if (activeJob->getFrameType() == FRAME_FLAT && activeJob->isPreview() == false)
+    {
+        // Make sure we don't have any pre-capture pending jobs for flat frames
+        IPState rc = processPreCaptureFlatStage();
+
+        if (rc == IPS_ALERT)
+            return;
+        else if (rc == IPS_BUSY)
+        {
+            secondsLabel->clear();
+            QTimer::singleShot(1000, this, SLOT(executeJob()));
+            return;
+        }
+    }
 
     captureImage();
 }
@@ -1973,7 +1734,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Open Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+    QUrl fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Open Ekos Sequence Queue"), dirPath, "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
 
@@ -1983,6 +1744,8 @@ void Capture::loadSequenceQueue()
        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
        return;
     }
+
+    dirPath = fileURL.path().remove(fileURL.fileName());
 
     loadSequenceQueue(fileURL);
 }
@@ -2167,7 +1930,7 @@ bool Capture::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "Delay"))
         {
             delayIN->setValue(atoi(pcdataXMLEle(ep)));
-        }        
+        }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
             fitsDir->setText(pcdataXMLEle(ep));
@@ -2181,50 +1944,70 @@ bool Capture::processJobInfo(XMLEle *root)
             if (ISOCombo->isEnabled())
                 ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
         }
-        else if (!strcmp(tagXMLEle(ep), "FlatSource"))
+        else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
-            subEP = findXMLEle(ep, "Type");
+            subEP = findXMLEle(ep, "FlatSource");
             if (subEP)
             {
-                if (!strcmp(pcdataXMLEle(subEP), "Manual"))
-                    flatFieldSource = SequenceJob::SOURCE_MANUAL;
-                else if (!strcmp(pcdataXMLEle(subEP), "Device"))
-                        flatFieldSource = SequenceJob::SOURCE_DEVICE;
-                else if (!strcmp(pcdataXMLEle(subEP), "Wall"))
+                XMLEle *typeEP = findXMLEle(subEP, "Type");
+                if (typeEP)
                 {
-
+                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
+                        flatFieldSource = SOURCE_MANUAL;
+                    else if (!strcmp(pcdataXMLEle(typeEP), "DustCap"))
+                        flatFieldSource = SOURCE_DUSTCAP;
+                    else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
+                    {
                         XMLEle *azEP=NULL, *altEP=NULL;
-                        azEP  = findXMLEle(ep, "Az");
-                        altEP = findXMLEle(ep, "Alt");
+                        azEP  = findXMLEle(subEP, "Az");
+                        altEP = findXMLEle(subEP, "Alt");
                         if (azEP && altEP)
                         {
-                            flatFieldSource = SequenceJob::SOURCE_WALL;
+                            flatFieldSource =SOURCE_WALL;
                             wallCoord.setAz(atof(pcdataXMLEle(azEP)));
                             wallCoord.setAlt(atof(pcdataXMLEle(altEP)));
                         }
-                }
-                else
-                    flatFieldSource = SequenceJob::SOURCE_DAWN_DUSK;
+                    }
+                    else
+                        flatFieldSource = SOURCE_DAWN_DUSK;
 
+                }
             }
-        }
-        else if (!strcmp(tagXMLEle(ep), "FlatDuration"))
-        {
-            subEP = findXMLEle(ep, "Type");
+
+            subEP = findXMLEle(ep, "FlatDuration");
             if (subEP)
             {
-                if (!strcmp(pcdataXMLEle(subEP), "Manual"))
-                    flatFieldDuration = SequenceJob::DURATION_MANUAL;
-                else
+                XMLEle *typeEP = findXMLEle(subEP, "Type");
+                if (typeEP)
                 {
-                    XMLEle *aduEP=NULL;
-                    aduEP =  findXMLEle(ep, "Value");
-                    if (aduEP)
-                    {
-                        flatFieldDuration = SequenceJob::DURATION_ADU;
-                        targetADU         = atof(pcdataXMLEle(aduEP));
-                    }
+                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
+                        flatFieldDuration = DURATION_MANUAL;
                 }
+
+                XMLEle *aduEP= findXMLEle(subEP, "Value");
+                if (aduEP)
+                {
+                    flatFieldDuration = DURATION_ADU;
+                    targetADU         = atof(pcdataXMLEle(aduEP));
+                }
+            }
+
+            subEP = findXMLEle(ep, "PreMountPark");
+            if (subEP)
+            {
+                if (!strcmp(pcdataXMLEle(subEP), "True"))
+                    preMountPark = true;
+                else
+                    preMountPark = false;
+            }
+
+            subEP = findXMLEle(ep, "PreDomePark");
+            if (subEP)
+            {
+                if (!strcmp(pcdataXMLEle(subEP), "True"))
+                    preDomePark = true;
+                else
+                    preDomePark = false;
             }
         }
     }
@@ -2247,13 +2030,15 @@ void Capture::saveSequenceQueue()
 
     if (sequenceURL.isEmpty())
     {
-        sequenceURL = QFileDialog::getSaveFileName(KStars::Instance(), i18n("Save Ekos Sequence Queue"), "", "Ekos Sequence Queue (*.esq)");
+        sequenceURL = QFileDialog::getSaveFileName(KStars::Instance(), i18n("Save Ekos Sequence Queue"), dirPath, "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (sequenceURL.isEmpty())
         {
             sequenceURL = backupCurrent;
             return;
         }
+
+        dirPath = sequenceURL.path().remove(sequenceURL.fileName());
 
         if (sequenceURL.path().contains('.') == 0)
             sequenceURL.setPath(sequenceURL.path() + ".esq");
@@ -2352,12 +2137,13 @@ bool Capture::saveSequenceQueue(const QString &path)
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
 
+        outstream << "<Calibration>" << endl;
         outstream << "<FlatSource>" << endl;
-        if (job->getFlatFieldSource() == SequenceJob::SOURCE_MANUAL)
+        if (job->getFlatFieldSource() == SOURCE_MANUAL)
             outstream << "<Type>Manual</Type>" << endl;
-        else if (job->getFlatFieldSource() == SequenceJob::SOURCE_DEVICE)
-            outstream << "<Type>Device</Type>" << endl;
-        else if (job->getFlatFieldSource() == SequenceJob::SOURCE_WALL)
+        else if (job->getFlatFieldSource() == SOURCE_DUSTCAP)
+            outstream << "<Type>DustCap</Type>" << endl;
+        else if (job->getFlatFieldSource() == SOURCE_WALL)
         {
             outstream << "<Type>Wall</Type>" << endl;
             outstream << "<Az>" << job->getWallCoord().az().Degrees() << "</Az>" << endl;
@@ -2368,7 +2154,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "</FlatSource>" << endl;
 
         outstream << "<FlatDuration>" << endl;
-        if (job->getFlatFieldDuration() == SequenceJob::DURATION_MANUAL)
+        if (job->getFlatFieldDuration() == DURATION_MANUAL)
             outstream << "<Type>Manual</Type>" << endl;
         else
         {
@@ -2376,6 +2162,10 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<Value>" << job->getTargetADU() << "</Value>" << endl;
         }
         outstream << "</FlatDuration>" << endl;
+
+        outstream << "<PreMountPark>" << (job->isPreMountPark() ? "True" : "False") << "</PreMountPark>" << endl;
+        outstream << "<PreDomePark>" << (job->isPreDomePark() ? "True" : "False") << "</PreDomePark>" << endl;
+        outstream << "</Calibration>" << endl;
 
         outstream << "</Job>" << endl;
     }
@@ -2427,13 +2217,18 @@ void Capture::editJob(QModelIndex i)
    delayIN->setValue(job->getDelay()/1000);
 
    // Flat field options
-   calibrationB->setEnabled(job->getFrameType() == FRAME_FLAT);
+   calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
    flatFieldDuration = job->getFlatFieldDuration();
    flatFieldSource   = job->getFlatFieldSource();
    targetADU         = job->getTargetADU();
    wallCoord         = job->getWallCoord();
+   preMountPark      = job->isPreMountPark();
+   preDomePark       = job->isPreDomePark();
 
-   fitsDir->setText(job->getFITSDir());
+   QString rootDir = job->getFITSDir();
+   rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
+   fitsDir->setText(rootDir);
+
    ISOCheck->setChecked(job->getISOMode());
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
@@ -2832,10 +2627,10 @@ void Capture::checkAlignmentSlewComplete()
 
 void Capture::checkFrameType(int index)
 {
-    if (frameTypeCombo->itemText(index) == i18n("Flat"))
-        calibrationB->setEnabled(true);
-    else
+    if (index == FRAME_LIGHT)
         calibrationB->setEnabled(false);
+    else
+        calibrationB->setEnabled(true);
 }
 
 double Capture::setCurrentADU(double value)
@@ -2933,108 +2728,244 @@ void Capture::clearAutoFocusHFR()
     firstAutoFocus=true;
 }
 
-void Capture::openFlatFieldDialog()
+void Capture::openCalibrationDialog()
 {
-    QDialog flatDialog;
+    QDialog calibrationDialog;
 
-    Ui_flatOptions flatOptions;
-    flatOptions.setupUi(&flatDialog);
+    Ui_calibrationOptions calibrationOptions;
+    calibrationOptions.setupUi(&calibrationDialog);
+
+    if (currentTelescope)
+    {
+        calibrationOptions.parkMountC->setEnabled(currentTelescope->canPark());
+        calibrationOptions.parkMountC->setChecked(preMountPark);
+    }
+    else
+        calibrationOptions.parkMountC->setEnabled(false);
+
+    if (dome)
+    {
+        calibrationOptions.parkDomeC->setEnabled(dome->canPark());
+        calibrationOptions.parkDomeC->setChecked(preDomePark);
+    }
+    else
+        calibrationOptions.parkDomeC->setEnabled(false);
+
+
+    //connect(calibrationOptions.wallSourceC, SIGNAL(toggled(bool)), calibrationOptions.parkC, SLOT(setDisabled(bool)));
 
     switch (flatFieldSource)
     {
-    case SequenceJob::SOURCE_MANUAL:
-        flatOptions.manualSourceC->setChecked(true);
+    case SOURCE_MANUAL:
+        calibrationOptions.manualSourceC->setChecked(true);
         break;
 
-    case SequenceJob::SOURCE_DEVICE:
-        flatOptions.deviceSourceC->setChecked(true);
+    case SOURCE_DUSTCAP:
+        calibrationOptions.deviceSourceC->setChecked(true);
         break;
 
-    case SequenceJob::SOURCE_WALL:
-        flatOptions.wallSourceC->setChecked(true);
-        flatOptions.azBox->setText(wallCoord.az().toDMSString());
-        flatOptions.altBox->setText(wallCoord.alt().toDMSString());
+    case SOURCE_WALL:
+        calibrationOptions.wallSourceC->setChecked(true);
+        calibrationOptions.azBox->setText(wallCoord.az().toDMSString());
+        calibrationOptions.altBox->setText(wallCoord.alt().toDMSString());
         break;
 
-    case SequenceJob::SOURCE_DAWN_DUSK:
-        flatOptions.dawnDuskFlatsC->setChecked(true);
+    case SOURCE_DAWN_DUSK:
+        calibrationOptions.dawnDuskFlatsC->setChecked(true);
         break;
     }
 
     switch (flatFieldDuration)
     {
-    case SequenceJob::DURATION_MANUAL:
-        flatOptions.manualDurationC->setChecked(true);
+    case DURATION_MANUAL:
+        calibrationOptions.manualDurationC->setChecked(true);
         break;
 
-    case SequenceJob::DURATION_ADU:
-        flatOptions.ADUC->setChecked(true);
-        flatOptions.ADUValue->setValue(targetADU);
+    case DURATION_ADU:
+        calibrationOptions.ADUC->setChecked(true);
+        calibrationOptions.ADUValue->setValue(targetADU);
         break;
-    }
+    }   
 
-    if (flatDialog.exec() == QDialog::Accepted)
+    if (calibrationDialog.exec() == QDialog::Accepted)
     {
-
-        if (flatOptions.manualSourceC->isChecked())
-           flatFieldSource =  SequenceJob::SOURCE_MANUAL;
-        else if (flatOptions.deviceSourceC->isChecked())
-            flatFieldSource =  SequenceJob::SOURCE_DEVICE;
-        else if (flatOptions.wallSourceC->isChecked())
+        if (calibrationOptions.manualSourceC->isChecked())
+           flatFieldSource =  SOURCE_MANUAL;
+        else if (calibrationOptions.deviceSourceC->isChecked())
+            flatFieldSource =  SOURCE_DUSTCAP;
+        else if (calibrationOptions.wallSourceC->isChecked())
         {
             dms wallAz, wallAlt;
             bool azOk=false, altOk=false;
 
-            wallAz  = flatOptions.azBox->createDms(true, &azOk);
-            wallAlt = flatOptions.altBox->createDms(true, &altOk);
+            wallAz  = calibrationOptions.azBox->createDms(true, &azOk);
+            wallAlt = calibrationOptions.altBox->createDms(true, &altOk);
 
             if (azOk && altOk)
             {
-                flatFieldSource =  SequenceJob::SOURCE_WALL;
+                flatFieldSource =  SOURCE_WALL;
                 wallCoord.setAz(wallAz);
                 wallCoord.setAlt(wallAlt);
             }
             else
             {
-                flatOptions.manualSourceC->setChecked(true);
+                calibrationOptions.manualSourceC->setChecked(true);
                 KMessageBox::error(this, i18n("Wall coordinates are invalid."));
             }
         }
         else
-            flatFieldSource =  SequenceJob::SOURCE_DAWN_DUSK;
+            flatFieldSource =  SOURCE_DAWN_DUSK;
 
 
-        if (flatOptions.manualDurationC->isChecked())
-            flatFieldDuration = SequenceJob::DURATION_MANUAL;
+        if (calibrationOptions.manualDurationC->isChecked())
+            flatFieldDuration = DURATION_MANUAL;
         else
         {
-            flatFieldDuration = SequenceJob::DURATION_ADU;
-            targetADU = flatOptions.ADUValue->value();
+            flatFieldDuration = DURATION_ADU;
+            targetADU = calibrationOptions.ADUValue->value();
         }
+
+        preMountPark = calibrationOptions.parkMountC->isChecked();
+        preDomePark  = calibrationOptions.parkDomeC->isChecked();
+
+        setDirty();
     }
 }
 
-void Capture::processFlatStage()
+IPState Capture::processPreCaptureFlatStage()
 {
-    // For flat field, we might to do special steps to obtain the flat frame
-
+    // Let's check what actions to be taken, if any, for the flat field source
     switch (activeJob->getFlatFieldSource())
     {
-    case SequenceJob::SOURCE_MANUAL:
-    case SequenceJob::SOURCE_DAWN_DUSK: // Not yet implemented
+    case SOURCE_MANUAL:
+    case SOURCE_DAWN_DUSK: // Not yet implemented
         break;
 
-        // Turn on?
-    case SequenceJob::SOURCE_DEVICE:
+    // Park cap, if not parked
+    // Turn on Light
+    case SOURCE_DUSTCAP:
+        if (dustCap)
+        {
+            // If cap is not park, park it
+            if (flatStage < FLAT_DUSTCAP_PARKING && dustCap->isParked() == false)
+            {
+                if (dustCap->Park())
+                {
+                    flatStage = FLAT_DUSTCAP_PARKING;
+                    appendLogText(i18n("Parking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("Parking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until  cap is parked
+            if (flatStage == FLAT_DUSTCAP_PARKING)
+            {
+                if (dustCap->isParked() == false)
+                    return IPS_BUSY;
+                else
+                {
+                    flatStage = FLAT_DUSTCAP_PARKED;
+                    appendLogText(i18n("Dust cap parked."));
+                }
+            }
+
+            // If light is not on, turn it on
+            if (dustCap->isLightOn() == false)
+            {
+                dustCapLightEnabled = true;
+                dustCap->SetLightEnabled(true);
+            }
+        }
         break;
 
         // Go to wall coordinates
-    case SequenceJob::SOURCE_WALL:
+    case SOURCE_WALL:
         break;
     }
 
+    // Check if we need to perform mount prepark
+    if (preMountPark && currentTelescope && activeJob->getFlatFieldSource() != SOURCE_WALL)
+    {
+        if (flatStage < FLAT_MOUNT_PARKING && currentTelescope->isParked() == false)
+        {
+            if (currentTelescope->Park())
+            {
+                flatStage = FLAT_MOUNT_PARKING;
+                emit mountParking();
+                appendLogText(i18n("Parking mount prior to calibration frames capture..."));
+                return IPS_BUSY;
+            }
+            else
+            {
+                appendLogText(i18n("Parking mount failed, aborting..."));
+                abort();
+                return IPS_ALERT;
+            }
+        }
+
+        if (flatStage == FLAT_MOUNT_PARKING)
+        {
+          // If not parked yet, check again in 1 second
+          // Otherwise proceed to the rest of the algorithm
+          if (currentTelescope->isParked() == false)
+              return IPS_BUSY;
+          else
+          {
+              flatStage = FLAT_MOUNT_PARKED;
+              appendLogText(i18n("Mount parked."));
+          }
+        }
+    }
+
+    // Check if we need to perform dome prepark
+    if (preDomePark && dome)
+    {
+        if (flatStage < FLAT_DOME_PARKING && dome->isParked() == false)
+        {
+            if (dome->Park())
+            {
+                flatStage = FLAT_DOME_PARKING;
+                //emit mountParking();
+                appendLogText(i18n("Parking dome..."));
+                return IPS_BUSY;
+            }
+            else
+            {
+                appendLogText(i18n("Parking dome failed, aborting..."));
+                abort();
+                return IPS_ALERT;
+            }
+        }
+
+        if (flatStage == FLAT_DOME_PARKING)
+        {
+          // If not parked yet, check again in 1 second
+          // Otherwise proceed to the rest of the algorithm
+          if (dome->isParked() == false)
+              return IPS_BUSY;
+          else
+          {
+              flatStage = FLAT_DOME_PARKED;
+              appendLogText(i18n("Dome parked."));
+          }
+        }
+    }
+
+    flatStage = FLAT_PRECAPTURE_COMPLETE;
+    return IPS_OK;
+}
+
+bool Capture::processPostCaptureFlatStage()
+{   
+
     // Check if we need to do flat field slope calculation if the user specified a desired ADU value
-    if (activeJob->getFlatFieldDuration() == SequenceJob::DURATION_ADU && activeJob->getTargetADU() > 0)
+    if (activeJob->getFlatFieldDuration() == DURATION_ADU && activeJob->getTargetADU() > 0)
     {
         FITSData *image_data = NULL;
         FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
@@ -3042,13 +2973,20 @@ void Capture::processFlatStage()
         {
             image_data = currentImage->getImageData();
             double currentADU = image_data->getADUPercentage();
-            double currentSlope = ADUSlope;
+            //double currentSlope = ADUSlope;
 
-            if (fabs(currentADU - activeJob->getTargetADU()) < 0.1)
+            if (fabs(currentADU - activeJob->getTargetADU()) < 0.5)
             {
-                activeJob->setPreview(false);
-                flatStage = FLAT_NONE;
-                return;
+                if (flatStage == FLAT_CALIBRATION)
+                {
+                    appendLogText(i18n("Current ADU %1% reached target ADU.", QString::number(currentADU, 'g', 2)));
+                    activeJob->setPreview(false);
+                    flatStage = FLAT_CALIBRATION_COMPLETE;
+                    startNextExposure();
+                    return false;
+                }
+
+                return true;
             }
 
             double nextExposure = setCurrentADU(currentADU);
@@ -3059,32 +2997,36 @@ void Capture::processFlatStage()
                 //activeJob->setTargetADU(0);
                 //targetADU = 0;
                 abort();
-                return;
+                return false;
             }
 
-            appendLogText(i18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'g', 2), QString::number(nextExposure, 'g', 2)));
+            appendLogText(i18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'f', 3), QString::number(nextExposure, 'f', 3)));
 
-            flatStage = FLAT_CALIBRATING;
+            flatStage = FLAT_CALIBRATION;
             activeJob->setExposure(nextExposure);
             activeJob->setPreview(true);
 
+            startNextExposure();
+            return false;
+
             // Start next exposure in case ADU Slope is not calculated yet
-            if (currentSlope == 0)
+            /*if (currentSlope == 0)
             {
                 startNextExposure();
                 return;
-            }
+            }*/
         }
         else
         {
             appendLogText(i18n("An empty image is received, aborting..."));
             abort();
-            return;
+            return false;
         }
     }
+
+    flatStage = FLAT_CALIBRATION_COMPLETE;
+    return true;
 }
 
 
 }
-
-

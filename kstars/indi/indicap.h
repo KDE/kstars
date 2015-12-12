@@ -36,16 +36,25 @@ public:
 
     DeviceFamily getType() { return dType;}
 
-    bool hasLight();
-    bool canPark();
+    virtual bool hasLight();
+    virtual bool canPark();
+    virtual bool isLightOn();
+    virtual bool isParked();
 
 public slots:
     /**
-     * @brief SetLight Turn light on/off and set brightness.
-     * @param val 0 to turn off light, any other value will turn on light. If the device supports multiple brightness ranges, the value will be set accordingly.
+     * @brief SetBrightness Set light box brightness levels if dimmable.
+     * @param val Value of brightness level.
      * @return True if operation is successful, false otherwise.
      */
-    bool SetLight(uint8_t val);
+    bool SetBrightness(uint16_t val);
+
+    /**
+     * @brief SetLightEnabled Turn on/off light
+     * @param enable true to turn on, false to turn off
+     * @return True if operation is successful, false otherwise.
+     */
+    bool SetLightEnabled(bool enable);
 
     /**
      * @brief Park Close dust cap
