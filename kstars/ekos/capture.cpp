@@ -2886,6 +2886,37 @@ IPState Capture::processPreCaptureFlatStage()
 
         // Go to wall coordinates
     case SOURCE_WALL:
+        if (currentTelescope)
+        {
+            if (flatStage < FLAT_SLEWING)
+            {
+                    wallCoord = activeJob->getWallCoord();
+                    wallCoord.HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+                    currentTelescope->Slew(&wallCoord);
+                    appendLogText(i18n("Mount slewing to wall position..."));
+                    flatStage = FLAT_SLEWING;
+                    return IPS_BUSY;
+            }
+
+            // Check if slewing is complete
+            if (flatStage == FLAT_SLEWING)
+            {
+                if (currentTelescope->isSlewing() == false)
+                {
+                    flatStage = FLAT_SLEWING_COMPLETE;
+                    appendLogText(i18n("Slew to wall position complete."));
+                }
+                else
+                    return IPS_BUSY;
+            }
+
+            // Check if we have a light box to turn on
+            if (lightBox && lightBox->isLightOn() == false)
+            {
+                lightBoxLightEnabled = true;
+                lightBox->SetLightEnabled(true);
+            }
+        }
         break;
     }
 

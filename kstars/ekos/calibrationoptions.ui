@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
-    <height>213</height>
+    <width>475</width>
+    <height>241</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,69 +24,8 @@
        <property name="title">
         <string>Flat Source</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="1">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Az:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
-         <widget class="dmsBox" name="altBox">
-          <property name="toolTip">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Alt:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QRadioButton" name="wallSourceC">
-          <property name="toolTip">
-           <string>Slew mount to the specified Azimuth/Altitude coordinates before taking flat field images</string>
-          </property>
-          <property name="text">
-           <string>Wall</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QRadioButton" name="deviceSourceC">
-          <property name="toolTip">
-           <string>Light source provided by controllable electronic device</string>
-          </property>
-          <property name="text">
-           <string>Dust Cap</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" colspan="2">
-         <widget class="QRadioButton" name="dawnDuskFlatsC">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Use Dawn and Dusk light</string>
-          </property>
-          <property name="text">
-           <string>Dawn/Dusk</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="dmsBox" name="azBox">
-          <property name="toolTip">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
          <widget class="QRadioButton" name="manualSourceC">
           <property name="toolTip">
            <string>Light source triggered by the user manually</string>
@@ -99,7 +38,72 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item>
+         <widget class="QRadioButton" name="deviceSourceC">
+          <property name="toolTip">
+           <string>Light source provided by controllable electronic device</string>
+          </property>
+          <property name="text">
+           <string>Dust Cap</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QRadioButton" name="wallSourceC">
+            <property name="toolTip">
+             <string>Slew mount to the specified Azimuth/Altitude coordinates before taking flat field images</string>
+            </property>
+            <property name="text">
+             <string>Wall</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Az:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="azBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Alt:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="altBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="dawnDuskFlatsC">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Use Dawn and Dusk light</string>
+          </property>
+          <property name="text">
+           <string>Dawn/Dusk</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
