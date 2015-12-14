@@ -243,8 +243,6 @@ void EkosManager::processINDIModeChange()
 
 void EkosManager::initLocalDrivers()
 {
-    int i=0;
-
     telescopeCombo->clear();
     ccdCombo->clear();
     guiderCombo->clear();
@@ -326,31 +324,21 @@ void EkosManager::initLocalDrivers()
         {
         case KSTARS_TELESCOPE:
         {
-            for (i=0; i < telescopeCombo->count(); i++)
-                if (telescopeCombo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == telescopeCombo->count())
+            if (telescopeCombo->findText(dv->getTreeLabel()) == -1)
                 telescopeCombo->addItem(dv->getTreeLabel());
         }
         break;
 
         case KSTARS_CCD:
         {
-            for (i=0; i < ccdCombo->count(); i++)
-                if (ccdCombo->itemText(i) == dv->getTreeLabel())
-                    break;
-
-            if (i == ccdCombo->count())
-            {
+            if (ccdCombo->findText(dv->getTreeLabel()) == -1)
                 ccdCombo->addItem(dv->getTreeLabel());
+
+            if (guiderCombo->findText(dv->getTreeLabel()) == -1)
                 guiderCombo->addItem(dv->getTreeLabel());
-            }
 
             // Also add CCD drivers to AUX list
-            for (i=0; i < aux1Combo->count(); i++)
-                if (aux1Combo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == aux1Combo->count())
+            if (aux1Combo->findText(dv->getTreeLabel()) == -1)
             {
                 aux1Combo->addItem(dv->getTreeLabel());
                 aux2Combo->addItem(dv->getTreeLabel());
@@ -363,60 +351,42 @@ void EkosManager::initLocalDrivers()
 
         case KSTARS_ADAPTIVE_OPTICS:
         {
-            for (i=0; i < AOCombo->count(); i++)
-                if (AOCombo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == AOCombo->count())
+            if (AOCombo->findText(dv->getTreeLabel()) == -1)
                 AOCombo->addItem(dv->getTreeLabel());
         }
         break;
 
         case KSTARS_FOCUSER:
         {
-            for (i=0; i < focuserCombo->count(); i++)
-                if (focuserCombo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == focuserCombo->count())
+            if (focuserCombo->findText(dv->getTreeLabel()) == -1)
                 focuserCombo->addItem(dv->getTreeLabel());
         }
             break;
 
         case KSTARS_FILTER:
         {
-            for (i=0; i < filterCombo->count(); i++)
-                if (filterCombo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == filterCombo->count())
+            if (filterCombo->findText(dv->getTreeLabel()) == -1)
                 filterCombo->addItem(dv->getTreeLabel());
         }
         break;
 
         case KSTARS_DOME:
         {
-            for (i=0; i < domeCombo->count(); i++)
-                if (domeCombo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == domeCombo->count())
+            if (domeCombo->findText(dv->getTreeLabel()) == -1)
                 domeCombo->addItem(dv->getTreeLabel());
         }
         break;
 
         case KSTARS_WEATHER:
         {
-            for (i=0; i < weatherCombo->count(); i++)
-                if (weatherCombo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == weatherCombo->count())
+            if (weatherCombo->findText(dv->getTreeLabel()) == -1)
                 weatherCombo->addItem(dv->getTreeLabel());
         }
         break;
 
         case KSTARS_AUXILIARY:
         {
-            for (i=0; i < aux1Combo->count(); i++)
-                if (aux1Combo->itemText(i) == dv->getTreeLabel())
-                    break;
-            if (i == aux1Combo->count())
+            if (aux1Combo->findText(dv->getTreeLabel()) == -1)
             {
                 aux1Combo->addItem(dv->getTreeLabel());
                 aux2Combo->addItem(dv->getTreeLabel());
@@ -585,30 +555,21 @@ void EkosManager::initRemoteDrivers()
         {
         case KSTARS_TELESCOPE:
         {
-            for (i=0; i < telescopeCombo->count(); i++)
-                if (telescopeCombo->itemText(i) == dv->getName())
-                    break;
-            if (i == telescopeCombo->count())
+            if (telescopeCombo->findText(dv->getName()) == -1)
                 telescopeCombo->addItem(dv->getName());
         }
-             break;
+        break;
 
         case KSTARS_CCD:
         {
-            for (i=0; i < ccdCombo->count(); i++)
-                if (ccdCombo->itemText(i) == dv->getName())
-                    break;
-
-            if (i == ccdCombo->count())
-            {
+            if (ccdCombo->findText(dv->getName()) == -1)
                 ccdCombo->addItem(dv->getName());
-                guiderCombo->addItem(dv->getName());
-            }
 
-            for (i=0; i < aux1Combo->count(); i++)
-                if (aux1Combo->itemText(i) == dv->getName())
-                    break;
-            if (i == aux1Combo->count())
+            if (guiderCombo->findText(dv->getName()) == -1)
+                guiderCombo->addItem(dv->getName());
+
+            // Also add CCD drivers to AUX list
+            if (aux1Combo->findText(dv->getName()) == -1)
             {
                 aux1Combo->addItem(dv->getName());
                 aux2Combo->addItem(dv->getName());
@@ -621,60 +582,42 @@ void EkosManager::initRemoteDrivers()
 
         case KSTARS_ADAPTIVE_OPTICS:
         {
-            for (i=0; i < AOCombo->count(); i++)
-                if (AOCombo->itemText(i) == dv->getName())
-                    break;
-            if (i == AOCombo->count())
+            if (AOCombo->findText(dv->getName()) == -1)
                 AOCombo->addItem(dv->getName());
         }
         break;
 
         case KSTARS_FOCUSER:
         {
-            for (i=0; i < focuserCombo->count(); i++)
-                if (focuserCombo->itemText(i) == dv->getName())
-                    break;
-            if (i == focuserCombo->count())
+            if (focuserCombo->findText(dv->getName()) == -1)
                 focuserCombo->addItem(dv->getName());
         }
             break;
 
         case KSTARS_FILTER:
         {
-            for (i=0; i < filterCombo->count(); i++)
-                if (filterCombo->itemText(i) == dv->getName())
-                    break;
-            if (i == filterCombo->count())
+            if (filterCombo->findText(dv->getName()) == -1)
                 filterCombo->addItem(dv->getName());
         }
         break;
 
         case KSTARS_DOME:
         {
-            for (i=0; i < domeCombo->count(); i++)
-                if (domeCombo->itemText(i) == dv->getName())
-                    break;
-            if (i == domeCombo->count())
+            if (domeCombo->findText(dv->getName()) == -1)
                 domeCombo->addItem(dv->getName());
         }
         break;
 
         case KSTARS_WEATHER:
         {
-            for (i=0; i < weatherCombo->count(); i++)
-                if (weatherCombo->itemText(i) == dv->getName())
-                    break;
-            if (i == weatherCombo->count())
+            if (weatherCombo->findText(dv->getName()) == -1)
                 weatherCombo->addItem(dv->getName());
         }
         break;
 
         case KSTARS_AUXILIARY:
         {
-            for (i=0; i < aux1Combo->count(); i++)
-                if (aux1Combo->itemText(i) == dv->getName())
-                    break;
-            if (i == aux1Combo->count())
+            if (aux1Combo->findText(dv->getName()) == -1)
             {
                 aux1Combo->addItem(dv->getName());
                 aux2Combo->addItem(dv->getName());
@@ -687,7 +630,6 @@ void EkosManager::initRemoteDrivers()
         default:
             continue;
             break;
-
         }
     }
 
@@ -919,7 +861,7 @@ bool EkosManager::start()
             // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
             // For #2, we set guider_di to NULL and we prompt the user to select which device is primary ccd and which is guider
             // since this is the only way to find out in real time.
-            if (guider_di->getDriver() == ccd_di->getDriver())
+            if (ccd_di && guider_di->getDriver() == ccd_di->getDriver())
             {
                 if (guider_di->getAuxInfo().value("mdpd", false).toBool() == true)
                     guider_di = NULL;
