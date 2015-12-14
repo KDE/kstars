@@ -472,8 +472,6 @@ void EkosManager::saveLocalDrivers()
 
 void EkosManager::initRemoteDrivers()
 {
-    int i=0;
-
     telescopeCombo->clear();
     ccdCombo->clear();
     guiderCombo->clear();

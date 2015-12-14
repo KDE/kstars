@@ -1108,11 +1108,7 @@ void CCD::processBLOB(IBLOB* bp)
         currentDir.truncate(sizeof(currentDir)-1);    
 
     if (QDir(currentDir).exists() == false)
-    {
-        KMessageBox::error(0, i18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
-        emit BLOBUpdated(NULL);
-        return;
-    }
+        QDir().mkpath(currentDir);
 
     QString filename(currentDir + '/');
 
