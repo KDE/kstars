@@ -2131,8 +2131,10 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "</Prefix>" << endl;
         outstream << "<Count>" << job->getCount() << "</Count>" << endl;
         // ms to seconds
-        outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;        
-        outstream << "<FITSDirectory>" << job->getFITSDir() << "</FITSDirectory>" << endl;
+        outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
+        QString rootDir = job->getFITSDir();
+        rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
+        outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
         outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
