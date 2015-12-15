@@ -420,7 +420,8 @@ void Focus::filterLockToggled(bool enable)
     if (enable)
     {
         lockedFilterIndex = FilterPosCombo->currentIndex();
-        Options::setLockFocusFilterIndex(lockedFilterIndex);
+        if (lockedFilterIndex >= 0)
+            Options::setLockFocusFilterIndex(lockedFilterIndex);
         emit filterLockUpdated(currentFilter, lockedFilterIndex);
     }
     else if (filterSlot != NULL)
