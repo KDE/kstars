@@ -1510,6 +1510,10 @@
            <label>Use specified filter when performing focus regardless of current filter settings.</label>
            <default>false</default>
        </entry>
+       <entry name="LockFocusFilterIndex" type="UInt">
+           <label>Use specified filter index when performing focus regardless of current filter settings.</label>
+           <default>0</default>
+       </entry>
     </group>
     <group name="Align">
        <entry name="AlignExposure" type="Double">

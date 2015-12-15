@@ -396,7 +396,8 @@ void Focus::checkFilter(int filterNum)
     {
         if (lockedFilterIndex < 0)
         {
-            lockedFilterIndex = currentFilterIndex;
+            //lockedFilterIndex = currentFilterIndex;
+            lockedFilterIndex = Options::lockFocusFilterIndex();
             emit filterLockUpdated(currentFilter, lockedFilterIndex);
         }
         FilterPosCombo->setCurrentIndex(lockedFilterIndex);
@@ -419,6 +420,7 @@ void Focus::filterLockToggled(bool enable)
     if (enable)
     {
         lockedFilterIndex = FilterPosCombo->currentIndex();
+        Options::setLockFocusFilterIndex(lockedFilterIndex);
         emit filterLockUpdated(currentFilter, lockedFilterIndex);
     }
     else if (filterSlot != NULL)
@@ -433,6 +435,7 @@ void Focus::updateFilterPos(int index)
     if (lockFilterCheck->isChecked() == true)
     {
         lockedFilterIndex = index;
+        Options::setLockFocusFilterIndex(lockedFilterIndex);
         emit filterLockUpdated(currentFilter, lockedFilterIndex);
     }
 }
