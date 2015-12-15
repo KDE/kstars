@@ -923,6 +923,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                         m_slewToTargetSelected=false;
                         if (loadSlewState == IPS_BUSY)
                             loadSlewState=IPS_OK;
+                        appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
                         emit solverSlewComplete();
                     }
                     else
