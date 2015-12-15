@@ -2063,14 +2063,18 @@ void Scheduler::checkJobStage()
 
         if (p.alt().Degrees() < currentJob->getMinAltitude())
         {
-            appendLogText(i18n("%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), aborting job...", currentJob->getName(),
-                               p.alt().Degrees(), currentJob->getMinAltitude()));
+            // Only terminate job due to altitude limitation if mount is NOT parked.
+            if (isMountParked() == false)
+            {
+                appendLogText(i18n("%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), aborting job...", currentJob->getName(),
+                                   p.alt().Degrees(), currentJob->getMinAltitude()));
 
-            currentJob->setState(SchedulerJob::JOB_ABORTED);
-            stopCurrentJobAction();
-            stopGuiding();
-            findNextJob();
-            return;
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+                stopCurrentJobAction();
+                stopGuiding();
+                findNextJob();
+                return;
+            }
         }
     }
 
@@ -2084,31 +2088,38 @@ void Scheduler::checkJobStage()
 
         if (moonSeparation < currentJob->getMinMoonSeparation())
         {
-            appendLogText(i18n("Current moon separation (%1 degrees) is lower than %2 minimum constraint (%3 degrees), aborting job...", moonSeparation, currentJob->getName(),
-                               currentJob->getMinMoonSeparation()));
+            // Only terminate job due to moon separation limitation if mount is NOT parked.
+            if (isMountParked() == false)
+            {
+                appendLogText(i18n("Current moon separation (%1 degrees) is lower than %2 minimum constraint (%3 degrees), aborting job...", moonSeparation, currentJob->getName(),
+                                   currentJob->getMinMoonSeparation()));
 
-            currentJob->setState(SchedulerJob::JOB_ABORTED);
-            stopCurrentJobAction();
-            stopGuiding();
-            findNextJob();
-            return;
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+                stopCurrentJobAction();
+                stopGuiding();
+                findNextJob();
+                return;
+            }
         }
     }
 
     // #4 Check if we're not at dawn     
      if (KStarsData::Instance()->lt() > preDawnDateTime)
      {
+         // If either mount or dome are not parked, we shutdown if we approach dawn
+         if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
+         {
+             appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
 
-         appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
+             currentJob->setState(SchedulerJob::JOB_ABORTED);
+             stopCurrentJobAction();
+             stopGuiding();
+             checkShutdownState();
 
-         currentJob->setState(SchedulerJob::JOB_ABORTED);
-         stopCurrentJobAction();
-         stopGuiding();
-         checkShutdownState();
-
-         //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
-         //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
-         return;
+             //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
+             //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+             return;
+         }
      }
 
     switch(currentJob->getStage())
@@ -3392,6 +3403,20 @@ void Scheduler::checkMountParkingStatus()
 
 }
 
+bool Scheduler::isMountParked()
+{
+    QDBusReply<int> mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Mount::ParkingStatus status = (Mount::ParkingStatus) mountReply.value();
+
+    if (mountReply.error().type() == QDBusError::UnknownObject)
+        return false;
+
+    if (status == Mount::PARKING_OK || status == Mount::PARKING_IDLE)
+        return true;
+    else
+        return false;
+}
+
 void    Scheduler::parkDome()
 {
     QDBusReply<int> domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
@@ -3473,6 +3498,20 @@ void Scheduler::checkDomeParkingStatus()
         break;
     }
 
+}
+
+bool Scheduler::isDomeParked()
+{
+    QDBusReply<int> domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    Dome::ParkingStatus status = (Dome::ParkingStatus) domeReply.value();
+
+    if (domeReply.error().type() == QDBusError::UnknownObject)
+        return false;
+
+    if (status == Dome::PARKING_OK || status == Dome::PARKING_IDLE)
+        return true;
+    else
+        return false;
 }
 
 void    Scheduler::parkCap()

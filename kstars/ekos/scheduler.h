@@ -297,6 +297,11 @@ private:
         void    unParkMount();
 
         /**
+         * @return True if mount is parked
+         */
+        bool isMountParked();
+
+        /**
          * @brief parkDome Park dome
          */
         void    parkDome();
@@ -305,6 +310,11 @@ private:
          * @brief unParkDome Unpark dome
          */
         void    unParkDome();
+
+        /**
+         * @return True if dome is parked
+         */
+        bool isDomeParked();
 
         /**
          * @brief parkCap Close dust cover
