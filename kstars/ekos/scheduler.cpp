@@ -3340,7 +3340,7 @@ void    Scheduler::unParkMount()
         appendLogText(i18n("Mount already unparked."));
 
         if (startupState == STARTUP_UNPARK_MOUNT)
-                startupState = STARTUP_COMPLETE;
+                startupState = STARTUP_UNPARK_CAP;
         else if (parkWaitState == PARKWAIT_UNPARK)
                 parkWaitState = PARKWAIT_UNPARKED;
 
@@ -3630,12 +3630,12 @@ bool Scheduler::isWeatherOK(SchedulerJob *job)
         job->setState(SchedulerJob::JOB_ABORTED);
         appendLogText(i18n("%1 observation job aborted due to bad weather.", job->getName()));
     }
-    else if (weatherStatus == IPS_BUSY)
+    /*else if (weatherStatus == IPS_BUSY)
     {
         appendLogText(i18n("%1 observation job delayed due to bad weather.", job->getName()));
         schedulerTimer.stop();
         connect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
-    }
+    }*/
 
     return false;
 }
