@@ -1540,14 +1540,23 @@ void Capture::executeJob()
             updateSequencePrefix(activeJob->getPrefix(), activeJob->getFITSDir());
     }
 
-    // If job is already complete
-    if (Options::rememberJobProgress() && activeJob->isPreview() == false && (seqCount-1) == seqTotalCount)
+    // If job is already fully or partially complete
+    if (Options::rememberJobProgress() && activeJob->isPreview() == false && seqCount > 1)
     {
-        seqCurrentCount=seqTotalCount;
+        // Fully complete
+        if ((seqCount-1) >= seqTotalCount)
+        {
+            seqCurrentCount=seqTotalCount;
+            activeJob->setCompleted(seqCurrentCount);
+            imgProgress->setValue(seqCurrentCount);
+            processJobCompletion();
+            return;
+        }
+
+        // Partially complete
+        seqCurrentCount=seqCount;
         activeJob->setCompleted(seqCurrentCount);
         imgProgress->setValue(seqCurrentCount);
-        processJobCompletion();
-        return;
     }
 
     // Update button status
@@ -2133,7 +2142,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         // ms to seconds
         outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
         QString rootDir = job->getFITSDir();
-        rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
+        rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->itemText(job->getFrameType())));
         outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
         outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
         if (job->getISOIndex() != -1)
