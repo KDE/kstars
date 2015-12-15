@@ -334,7 +334,7 @@ void SkyMap::slotTransientLabel() {
     //This function is only called if the HoverTimer manages to timeout.
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
-    if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
+    if (hasFocus() && ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
                           SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest( &m_MousePoint, maxrad );
