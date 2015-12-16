@@ -811,7 +811,7 @@ void Capture::newFITS(IBLOB *bp)
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
     // if we're done
-    if (seqCurrentCount == seqTotalCount)
+    if (seqCurrentCount >= seqTotalCount)
     {
        processJobCompletion();
        return;
@@ -1554,8 +1554,9 @@ void Capture::executeJob()
         }
 
         // Partially complete
-        seqCurrentCount=seqCount;
+        seqCurrentCount=seqCount-1;
         activeJob->setCompleted(seqCurrentCount);
+        currentImgCountOUT->setText( QString::number(seqCurrentCount));
         imgProgress->setValue(seqCurrentCount);
     }
 
@@ -2860,6 +2861,9 @@ IPState Capture::processPreCaptureFlatStage()
             // If cap is not park, park it
             if (flatStage < FLAT_DUSTCAP_PARKING && dustCap->isParked() == false)
             {
+                if (isAutoGuiding)
+                    emit suspendGuiding(true);
+
                 if (dustCap->Park())
                 {
                     flatStage = FLAT_DUSTCAP_PARKING;
