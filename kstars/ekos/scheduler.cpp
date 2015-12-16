@@ -3625,6 +3625,11 @@ bool Scheduler::isWeatherOK(SchedulerJob *job)
         return true;
     }
 
+    // Temporary BUSY is ALSO accepted for now
+    // TODO Figure out how to exactly handle this
+    if (weatherStatus == IPS_BUSY)
+        return true;
+
     if (weatherStatus == IPS_ALERT)
     {
         job->setState(SchedulerJob::JOB_ABORTED);
