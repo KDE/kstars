@@ -14,14 +14,15 @@
 
 SchedulerJob::SchedulerJob()
 {
-    startupCondition    = START_NOW;
+    startupCondition    = START_ASAP;
     completionCondition = FINISH_SEQUENCE;
-    moduleUsage         = USE_NONE;
+    stepPipeline         = USE_NONE;
     state               = JOB_IDLE;
     stage               = STAGE_IDLE;
 
     timeSlotAllocated   = false;
     inSequenceFocus     = false;
+    enforceWeather      = false;
 
     statusCell          = NULL;
     startupCell         = NULL;
@@ -110,14 +111,14 @@ void SchedulerJob::setMinMoonSeparation(const double &value)
     minMoonSeparation = value;
 }
 
-bool SchedulerJob::getNoMeridianFlip() const
+bool SchedulerJob::getEnforceWeather() const
 {
-    return noMeridianFlip;
+    return enforceWeather;
 }
 
-void SchedulerJob::setNoMeridianFlip(bool value)
+void SchedulerJob::setEnforceWeather(bool value)
 {
-    noMeridianFlip = value;
+    enforceWeather = value;
 }
 QDateTime SchedulerJob::getCompletionTime() const
 {
@@ -139,14 +140,14 @@ void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
     completionCondition = value;
 }
 
-SchedulerJob::ModuleUsage SchedulerJob::getModuleUsage() const
+SchedulerJob::StepPipeline SchedulerJob::getStepPipeline() const
 {
-    return moduleUsage;
+    return stepPipeline;
 }
 
-void SchedulerJob::setModuleUsage(const ModuleUsage &value)
+void SchedulerJob::setStepPipeline(const StepPipeline &value)
 {
-    moduleUsage = value;
+    stepPipeline = value;
 }
 
 SchedulerJob::JOBStatus SchedulerJob::getState() const

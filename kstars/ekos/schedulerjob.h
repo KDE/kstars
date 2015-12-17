@@ -26,12 +26,13 @@ public:
     typedef enum { STAGE_IDLE, STAGE_SLEWING, STAGE_SLEW_COMPLETE, STAGE_FOCUSING, STAGE_FOCUS_COMPLETE, STAGE_ALIGNING, STAGE_ALIGN_COMPLETE, STAGE_RESLEWING, STAGE_RESLEWING_COMPLETE,
                    STAGE_POSTALIGN_FOCUSING, STAGE_POSTALIGN_FOCUSING_COMPLETE, STAGE_CALIBRATING, STAGE_GUIDING, STAGE_CAPTURING, STAGE_COMPLETE} JOBStage;
     //typedef enum { FITS_IDLE, FITS_SOLVING, FITS_COMPLETE, FITS_ERROR } FITSStatus;
-    typedef enum { START_NOW, START_CULMINATION, START_AT } StartupCondition;
+    typedef enum { START_ASAP, START_FORCE_NOW, START_CULMINATION, START_AT } StartupCondition;
     typedef enum { FINISH_SEQUENCE, FINISH_LOOP, FINISH_AT } CompletionCondition;
     typedef enum { USE_NONE  = 0,
-                   USE_FOCUS = 1 << 0,
-                   USE_ALIGN = 1 << 1,
-                   USE_GUIDE = 1 << 2 } ModuleUsage;
+                   USE_TRACK = 1 << 0,
+                   USE_FOCUS = 1 << 1,
+                   USE_ALIGN = 1 << 2,
+                   USE_GUIDE = 1 << 3 } StepPipeline;
 
     QString getName() const;
     void setName(const QString &value);
@@ -57,8 +58,8 @@ public:
     double getMinMoonSeparation() const;
     void setMinMoonSeparation(const double &value);
 
-    bool getNoMeridianFlip() const;
-    void setNoMeridianFlip(bool value);
+    bool getEnforceWeather() const;
+    void setEnforceWeather(bool value);
 
     QDateTime getCompletionTime() const;
     void setCompletionTime(const QDateTime &value);
@@ -66,8 +67,8 @@ public:
     CompletionCondition getCompletionCondition() const;
     void setCompletionCondition(const CompletionCondition &value);
 
-    ModuleUsage getModuleUsage() const;
-    void setModuleUsage(const ModuleUsage &value);
+    StepPipeline getStepPipeline() const;
+    void setStepPipeline(const StepPipeline &value);
 
     void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
 
@@ -125,9 +126,9 @@ private:
     double minAltitude;
     double minMoonSeparation;
 
-    bool noMeridianFlip;        
+    bool enforceWeather;
 
-    ModuleUsage moduleUsage;
+    StepPipeline stepPipeline;
 
     QTableWidgetItem* statusCell, *startupCell;
 

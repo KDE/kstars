@@ -144,9 +144,10 @@ Scheduler::Scheduler()
     connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
     connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
     connect(weatherCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(focusModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(alignModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(guideModuleCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(trackStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(focusStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(alignStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(guideStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(capCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(uncapCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(parkMountCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
@@ -341,8 +342,10 @@ void Scheduler::addJob()
 
     // #1 Startup conditions
 
-    if (nowConditionR->isChecked())
-        job->setStartupCondition(SchedulerJob::START_NOW);
+    if (asapConditionR->isChecked())
+        job->setStartupCondition(SchedulerJob::START_ASAP);
+    else if (forceNowConditionR->isChecked())
+        job->setStartupCondition(SchedulerJob::START_FORCE_NOW);
     else if (culminationConditionR->isChecked())
     {
         job->setStartupCondition(SchedulerJob::START_CULMINATION);
@@ -365,8 +368,8 @@ void Scheduler::addJob()
     if (moonSeparationCheck->isChecked())
         job->setMinMoonSeparation(minMoonSeparation->value());
 
-    // Checkno meridian flip constraints
-    job->setNoMeridianFlip(noMeridianFlipCheck->isChecked());
+    // Check enforce weather constraints
+    job->setEnforceWeather(weatherCheck->isChecked());
 
     // #3 Completion conditions
     if (sequenceCompletionR->isChecked())
@@ -380,13 +383,15 @@ void Scheduler::addJob()
     }
 
     // Ekos Modules usage
-    job->setModuleUsage(SchedulerJob::USE_NONE);
-    if (focusModuleCheck->isChecked())
-        job->setModuleUsage(static_cast<SchedulerJob::ModuleUsage> (job->getModuleUsage() | SchedulerJob::USE_FOCUS));
-    if (alignModuleCheck->isChecked())
-        job->setModuleUsage(static_cast<SchedulerJob::ModuleUsage> (job->getModuleUsage() | SchedulerJob::USE_ALIGN));
-    if (guideModuleCheck->isChecked())
-        job->setModuleUsage(static_cast<SchedulerJob::ModuleUsage> (job->getModuleUsage() | SchedulerJob::USE_GUIDE));
+    job->setStepPipeline(SchedulerJob::USE_NONE);
+    if (trackStepCheck->isChecked())
+        job->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (job->getStepPipeline() | SchedulerJob::USE_TRACK));
+    if (focusStepCheck->isChecked())
+        job->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (job->getStepPipeline() | SchedulerJob::USE_FOCUS));
+    if (alignStepCheck->isChecked())
+        job->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (job->getStepPipeline() | SchedulerJob::USE_ALIGN));
+    if (guideStepCheck->isChecked())
+        job->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (job->getStepPipeline() | SchedulerJob::USE_GUIDE));
 
 
     // Add job to queue if it is new
@@ -486,8 +491,12 @@ void Scheduler::editJob(QModelIndex i)
 
     switch (job->getFileStartupCondition())
     {
-        case SchedulerJob::START_NOW:
-            nowConditionR->setChecked(true);
+        case SchedulerJob::START_ASAP:
+            asapConditionR->setChecked(true);
+            break;
+
+        case SchedulerJob::START_FORCE_NOW:
+            forceNowConditionR->setChecked(true);
             break;
 
         case SchedulerJob::START_CULMINATION:
@@ -513,7 +522,7 @@ void Scheduler::editJob(QModelIndex i)
         minMoonSeparation->setValue(job->getMinMoonSeparation());
     }
 
-    noMeridianFlipCheck->setChecked(job->getNoMeridianFlip());
+    weatherCheck->setChecked(job->getEnforceWeather());
 
     switch (job->getCompletionCondition())
     {
@@ -773,8 +782,8 @@ void Scheduler::evaluateJobs()
         // #1 Check startup conditions
         switch (job->getStartupCondition())
         {
-                // #1.1 Now?
-                case SchedulerJob::START_NOW:
+                // #1.1 ASAP?
+                case SchedulerJob::START_ASAP:
                     altScore     = getAltitudeScore(job, now);
                     moonScore    = getMoonSeparationScore(job, now);
                     darkScore    = getDarkSkyScore(now);                    
@@ -805,7 +814,13 @@ void Scheduler::evaluateJobs()
                         appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
                     break;
 
-                  // #1.2 Culmination?
+                  // #1.2 Force now?
+                   case SchedulerJob::START_FORCE_NOW:
+                    appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
+                    job->setScore(BAD_SCORE*-1);
+                    break;
+
+                  // #1.3 Culmination?
                   case SchedulerJob::START_CULMINATION:
                         if (calculateCulmination(job))
                         {
@@ -819,7 +834,7 @@ void Scheduler::evaluateJobs()
                             job->setState(SchedulerJob::JOB_INVALID);
                         break;
 
-                 // #1.3 Start at?
+                 // #1.4 Start at?
                  case SchedulerJob::START_AT:
                  {
                     if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
@@ -2054,83 +2069,81 @@ void Scheduler::checkJobStage()
         }
     }
 
-    // #2 Check if altitude restriction still holds true
-    if (currentJob->getMinAltitude() > 0)
+    if (currentJob->getStartupCondition() != SchedulerJob::START_FORCE_NOW)
     {
-        SkyPoint p = currentJob->getTargetCoords();
-
-        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
-
-        if (p.alt().Degrees() < currentJob->getMinAltitude())
+        // #2 Check if altitude restriction still holds true
+        if (currentJob->getMinAltitude() > 0 )
         {
-            // Only terminate job due to altitude limitation if mount is NOT parked.
-            if (isMountParked() == false)
-            {
-                appendLogText(i18n("%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), aborting job...", currentJob->getName(),
-                                   p.alt().Degrees(), currentJob->getMinAltitude()));
+            SkyPoint p = currentJob->getTargetCoords();
 
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                stopCurrentJobAction();
-                stopGuiding();
-                findNextJob();
-                return;
+            p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
+
+            if (p.alt().Degrees() < currentJob->getMinAltitude())
+            {
+                // Only terminate job due to altitude limitation if mount is NOT parked.
+                if (isMountParked() == false)
+                {
+                    appendLogText(i18n("%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), aborting job...", currentJob->getName(),
+                                       p.alt().Degrees(), currentJob->getMinAltitude()));
+
+                    currentJob->setState(SchedulerJob::JOB_ABORTED);
+                    stopCurrentJobAction();
+                    stopGuiding();
+                    findNextJob();
+                    return;
+                }
             }
         }
-    }
 
-    // #3 Check if moon separation is still valid
-    if (currentJob->getMinMoonSeparation() > 0)
-    {
-        SkyPoint p = currentJob->getTargetCoords();
-        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
-
-        double moonSeparation = getCurrentMoonSeparation(currentJob);
-
-        if (moonSeparation < currentJob->getMinMoonSeparation())
+        // #3 Check if moon separation is still valid
+        if (currentJob->getMinMoonSeparation() > 0)
         {
-            // Only terminate job due to moon separation limitation if mount is NOT parked.
-            if (isMountParked() == false)
-            {
-                appendLogText(i18n("Current moon separation (%1 degrees) is lower than %2 minimum constraint (%3 degrees), aborting job...", moonSeparation, currentJob->getName(),
-                                   currentJob->getMinMoonSeparation()));
+            SkyPoint p = currentJob->getTargetCoords();
+            p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
 
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                stopCurrentJobAction();
-                stopGuiding();
-                findNextJob();
-                return;
+            double moonSeparation = getCurrentMoonSeparation(currentJob);
+
+            if (moonSeparation < currentJob->getMinMoonSeparation())
+            {
+                // Only terminate job due to moon separation limitation if mount is NOT parked.
+                if (isMountParked() == false)
+                {
+                    appendLogText(i18n("Current moon separation (%1 degrees) is lower than %2 minimum constraint (%3 degrees), aborting job...", moonSeparation, currentJob->getName(),
+                                       currentJob->getMinMoonSeparation()));
+
+                    currentJob->setState(SchedulerJob::JOB_ABORTED);
+                    stopCurrentJobAction();
+                    stopGuiding();
+                    findNextJob();
+                    return;
+                }
             }
         }
-    }
 
-    // #4 Check if we're not at dawn     
-     if (KStarsData::Instance()->lt() > preDawnDateTime)
-     {
-         // If either mount or dome are not parked, we shutdown if we approach dawn
-         if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
+        // #4 Check if we're not at dawn
+         if (KStarsData::Instance()->lt() > preDawnDateTime)
          {
-             appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
+             // If either mount or dome are not parked, we shutdown if we approach dawn
+             if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
+             {
+                 appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
 
-             currentJob->setState(SchedulerJob::JOB_ABORTED);
-             stopCurrentJobAction();
-             stopGuiding();
-             checkShutdownState();
+                 currentJob->setState(SchedulerJob::JOB_ABORTED);
+                 stopCurrentJobAction();
+                 stopGuiding();
+                 checkShutdownState();
 
-             //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
-             //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
-             return;
+                 //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
+                 //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+                 return;
+             }
          }
-     }
+    }
 
     switch(currentJob->getStage())
     {
     case SchedulerJob::STAGE_IDLE:
-    {
-        QList<QVariant> meridianFlip;
-        meridianFlip.append(!currentJob->getNoMeridianFlip());
-        ekosInterface->callWithArgumentList(QDBus::AutoDetect,"setMeridianFlip",meridianFlip);
         getNextAction();
-    }
         break;
 
     case SchedulerJob::STAGE_SLEWING:
@@ -2421,25 +2434,34 @@ void Scheduler::getNextAction()
     switch(currentJob->getStage())
     {
 
-    case SchedulerJob::STAGE_IDLE:
-        startSlew();
+    case SchedulerJob::STAGE_IDLE:        
+        if  (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
+            startSlew();
+        if  (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+            startFocusing();
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
+            startAstrometry();
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+            startCalibrating();
+        else
+            startCapture();
         break;
 
     case SchedulerJob::STAGE_SLEW_COMPLETE:
-        if  (currentJob->getModuleUsage() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+        if  (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
             startFocusing();
-        else if (currentJob->getModuleUsage() & SchedulerJob::USE_ALIGN)
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
             startAstrometry();
-        else if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
             startCalibrating();
         else
             startCapture();
         break;
 
     case SchedulerJob::STAGE_FOCUS_COMPLETE:
-        if (currentJob->getModuleUsage() & SchedulerJob::USE_ALIGN)
+        if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
              startAstrometry();
-         else if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+         else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
              startCalibrating();
          else
              startCapture();
@@ -2452,17 +2474,17 @@ void Scheduler::getNextAction()
     case SchedulerJob::STAGE_RESLEWING_COMPLETE:
         // If we have in-sequence-focus in the sequence file then we perform post alignment focusing so that the focus
         // frame is ready for the capture module in-sequence-focus procedure.
-        if  ( (currentJob->getModuleUsage() & SchedulerJob::USE_FOCUS) && currentJob->getInSequenceFocus())
+        if  ( (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS) && currentJob->getInSequenceFocus())
             // Post alignment re-focusing
             startFocusing();
-        else if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
            startCalibrating();
         else
            startCapture();
         break;
 
     case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
-        if (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE)
+        if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
            startCalibrating();
         else
            startCapture();
@@ -2611,13 +2633,6 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
                          else if (!strcmp(proc, "WarmCCD"))
                              warmCCDCheck->setChecked(true);
                      }
-                 }                 
-                 else if (!strcmp(tag, "EnforceWeather"))
-                 {
-                     if (!strcmp(pcdataXMLEle(ep), "True") )
-                         weatherCheck->setChecked(true);
-                     else
-                         weatherCheck->setChecked(false);
                  }
              }
              delXMLEle(root);
@@ -2644,7 +2659,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
 
     altConstraintCheck->setChecked(false);
     moonSeparationCheck->setChecked(false);
-    noMeridianFlipCheck->setChecked(false);
+    weatherCheck->setChecked(false);
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
 
@@ -2675,8 +2690,10 @@ bool Scheduler::processJobInfo(XMLEle *root)
         {
             for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
             {
-                if (!strcmp("Now", pcdataXMLEle(subEP)))
-                    nowConditionR->setChecked(true);
+                if (!strcmp("ASAP", pcdataXMLEle(subEP)))
+                    asapConditionR->setChecked(true);
+                else if (!strcmp("ForceNow", pcdataXMLEle(subEP)))
+                    forceNowConditionR->setChecked(true);
                 else if (!strcmp("Culmination", pcdataXMLEle(subEP)))
                 {
                     culminationConditionR->setChecked(true);
@@ -2703,8 +2720,8 @@ bool Scheduler::processJobInfo(XMLEle *root)
                     moonSeparationCheck->setChecked(true);
                     minMoonSeparation->setValue(atof(findXMLAttValu(subEP, "value")));
                 }
-                else if (!strcmp("NoMeridianFlip", pcdataXMLEle(subEP)))
-                    noMeridianFlipCheck->setChecked(true);
+                else if (!strcmp("EnforceWeather", pcdataXMLEle(subEP)))
+                    weatherCheck->setChecked(true);
             }
         }
         else if (!strcmp(tagXMLEle(ep), "CompletionCondition"))
@@ -2722,23 +2739,26 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 }
             }
         }
-        else if (!strcmp(tagXMLEle(ep), "Modules"))
+        else if (!strcmp(tagXMLEle(ep), "Steps"))
         {
             XMLEle *module;
-            focusModuleCheck->setChecked(false);
-            alignModuleCheck->setChecked(false);
-            guideModuleCheck->setChecked(false);
+            trackStepCheck->setChecked(false);
+            focusStepCheck->setChecked(false);
+            alignStepCheck->setChecked(false);
+            guideStepCheck->setChecked(false);
 
             for (module = nextXMLEle(ep, 1) ; module != NULL ; module = nextXMLEle(ep, 0))
             {
                 const char *proc = pcdataXMLEle(module);
 
-                if (!strcmp(proc, "Focus"))
-                    focusModuleCheck->setChecked(true);
+                if (!strcmp(proc, "Track"))
+                    trackStepCheck->setChecked(true);
+                else if (!strcmp(proc, "Focus"))
+                    focusStepCheck->setChecked(true);
                 else if (!strcmp(proc, "Align"))
-                    alignModuleCheck->setChecked(true);
+                    alignStepCheck->setChecked(true);
                 else if (!strcmp(proc, "Guide"))
-                    guideModuleCheck->setChecked(true);
+                    guideStepCheck->setChecked(true);
             }
         }
     }
@@ -2843,8 +2863,10 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
          outstream << "<Sequence>" << job->getSequenceFile().path() << "</Sequence>" << endl;
 
          outstream << "<StartupCondition>" << endl;
-        if (job->getFileStartupCondition() == SchedulerJob::START_NOW)
-            outstream << "<Condition>Now</Condition>" << endl;
+        if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
+            outstream << "<Condition>ASAP</Condition>" << endl;
+        else if (job->getFileStartupCondition() == SchedulerJob::START_FORCE_NOW)
+            outstream << "<Condition>ForceNow</Condition>" << endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_CULMINATION)
             outstream << "<Condition value='" << job->getCulminationOffset() << "'>Culmination</Condition>" << endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_AT)
@@ -2856,8 +2878,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<Constraint value='" << job->getMinAltitude() << "'>MinimumAltitude</Constraint>" << endl;
         if (job->getMinMoonSeparation() > 0)
             outstream << "<Constraint value='" << job->getMinMoonSeparation() << "'>MoonSeparation</Constraint>" << endl;
-        if (job->getNoMeridianFlip())
-            outstream << "<Constraint>NoMeridianFlip</Constraint>" << endl;
+        if (job->getEnforceWeather())
+            outstream << "<Constraint>EnforceWeather</Constraint>" << endl;
         outstream << "</Constraints>" << endl;
 
         outstream << "<CompletionCondition>" << endl;
@@ -2869,14 +2891,16 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
            outstream << "<Condition value='" << job->getCompletionTime().toString(Qt::ISODate) << "'>At</Condition>" << endl;
        outstream << "</CompletionCondition>" << endl;
 
-       outstream << "<Modules>" << endl;
-       if  (job->getModuleUsage() & SchedulerJob::USE_FOCUS)
-           outstream << "<Module>Focus</Module>" << endl;
-       if  (job->getModuleUsage() & SchedulerJob::USE_ALIGN)
-           outstream << "<Module>Align</Module>" << endl;
-       if  (job->getModuleUsage() & SchedulerJob::USE_GUIDE)
-           outstream << "<Module>Guide</Module>" << endl;
-       outstream << "</Modules>" << endl;
+       outstream << "<Steps>" << endl;
+       if  (job->getStepPipeline() & SchedulerJob::USE_TRACK)
+           outstream << "<Step>Focus</Step>" << endl;
+       if  (job->getStepPipeline() & SchedulerJob::USE_FOCUS)
+           outstream << "<Step>Focus</Step>" << endl;
+       if  (job->getStepPipeline() & SchedulerJob::USE_ALIGN)
+           outstream << "<Step>Align</Step>" << endl;
+       if  (job->getStepPipeline() & SchedulerJob::USE_GUIDE)
+           outstream << "<Step>Guide</Step>" << endl;
+       outstream << "</Steps>" << endl;
 
         outstream << "</Job>" << endl;
     }
@@ -2903,9 +2927,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<Procedure>ParkDome</Procedure>" << endl;
         if (shutdownScript->text().isEmpty() == false)
         outstream << "<Procedure value='" << shutdownScript->text() << "'>ShutdownScript</Procedure>" << endl;
-    outstream << "</ShutdownProcedure>" << endl;
-
-    outstream << "<EnforceWeather>" << (weatherCheck->isChecked() ? "True" : "False") << "</EnforceWeather>" << endl;
+    outstream << "</ShutdownProcedure>" << endl;   
 
     outstream << "</SchedulerList>" << endl;
 
@@ -3136,7 +3158,7 @@ void Scheduler::startCapture()
 
 void Scheduler::stopGuiding()
 {
-    if ( (currentJob->getModuleUsage() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
+    if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
     {
         guideInterface->call(QDBus::AutoDetect,"stopGuiding");
         guideFailureCount=0;
@@ -3243,14 +3265,17 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
         return false;
     }
 
+    // Are we doing tracking? It takes about 30 seconds
+    if (job->getStepPipeline() & SchedulerJob::USE_TRACK)
+        sequenceEstimatedTime += 30;
     // Are we doing initial focusing? That can take about 2 minutes
-    if (job->getModuleUsage() & SchedulerJob::USE_FOCUS)
+    if (job->getStepPipeline() & SchedulerJob::USE_FOCUS)
         sequenceEstimatedTime += 120;
     // Are we doing astrometry? That can take about 30 seconds
-    if (job->getModuleUsage() & SchedulerJob::USE_ALIGN)
+    if (job->getStepPipeline() & SchedulerJob::USE_ALIGN)
         sequenceEstimatedTime += 30;
     // Are we doing guiding? Calibration process can take about 2 mins
-    if (job->getModuleUsage() & SchedulerJob::USE_GUIDE)
+    if (job->getStepPipeline() & SchedulerJob::USE_GUIDE)
         sequenceEstimatedTime += 120;
 
     dms estimatedTime;

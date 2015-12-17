@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>671</width>
-    <height>517</height>
+    <width>620</width>
+    <height>496</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -88,9 +88,22 @@
         <item row="4" column="2">
          <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
-           <widget class="QCheckBox" name="focusModuleCheck">
+           <widget class="QCheckBox" name="trackStepCheck">
             <property name="toolTip">
-             <string>Perform autofocusing before proceeding to the next stage</string>
+             <string>Slew to the target and track it before proceeding to the next step.</string>
+            </property>
+            <property name="text">
+             <string>Track</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="focusStepCheck">
+            <property name="toolTip">
+             <string>Perform autofocusing before proceeding to the next step.</string>
             </property>
             <property name="text">
              <string>Focus</string>
@@ -101,9 +114,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="alignModuleCheck">
+           <widget class="QCheckBox" name="alignStepCheck">
             <property name="toolTip">
-             <string>Perform alignment using astrometry solver before proceeding to the next stage</string>
+             <string>Perform alignment using astrometry solver before proceeding to the next step.</string>
             </property>
             <property name="text">
              <string>Align</string>
@@ -114,45 +127,15 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="guideModuleCheck">
+           <widget class="QCheckBox" name="guideStepCheck">
             <property name="toolTip">
-             <string>Perform calibration and autoguiding before proceeding to the next stage.</string>
+             <string>Perform calibration and autoguiding before proceeding to the next step.</string>
             </property>
             <property name="text">
              <string>Guide</string>
             </property>
             <property name="checked">
              <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="weatherCheck">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Weather conditions must remain safe. When weather conditions become dangerous, shutdown procedure is initiated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Weather</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="weatherLabel">
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
             </property>
            </widget>
           </item>
@@ -245,10 +228,10 @@
         <item row="4" column="0">
          <widget class="QLabel" name="label_4">
           <property name="toolTip">
-           <string>Select which Ekos modules to be utilized during the observation job</string>
+           <string>Select which steps to execute before starting the capture process.</string>
           </property>
           <property name="text">
-           <string>Modules:</string>
+           <string>Steps:</string>
           </property>
          </widget>
         </item>
@@ -466,20 +449,37 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QRadioButton" name="nowConditionR">
-          <property name="toolTip">
-           <string>Start the observation job as soon as all the constraints, if any, are met. The best candidate target shall be imaged first.</string>
-          </property>
-          <property name="text">
-           <string>&amp;Now</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">startupButtonGroup</string>
-          </attribute>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QRadioButton" name="asapConditionR">
+            <property name="toolTip">
+             <string>Start the observation job as soon as all the constraints, if any, are met. The best candidate target shall be imaged first.</string>
+            </property>
+            <property name="text">
+             <string>ASAP</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="forceNowConditionR">
+            <property name="toolTip">
+             <string>Start the job now regardless of conditions and constraints. Constraints are ignored during the job execution.</string>
+            </property>
+            <property name="text">
+             <string>Force Now</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -631,14 +631,50 @@
          </layout>
         </item>
         <item>
-         <widget class="QCheckBox" name="noMeridianFlipCheck">
-          <property name="toolTip">
-           <string>Do not track past the meridian.</string>
-          </property>
-          <property name="text">
-           <string>No Meridian Flip</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QCheckBox" name="weatherCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Weather conditions must remain safe. When weather conditions become dangerous, shutdown procedure is initiated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Weather</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="weatherLabel">
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -984,7 +1020,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="completionButtonGroup"/>
  </buttongroups>
 </ui>
