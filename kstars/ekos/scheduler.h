@@ -178,18 +178,51 @@ protected slots:
       */
      void findNextJob();
 
+     /**
+      * @brief stopCurrentJobAction Stop whatever action taking place in the current job (eg. capture, guiding...etc).
+      */
      void stopCurrentJobAction();
 
+     /**
+      * @brief readProcessOutput read running script process output and display it in Ekos
+      */
      void readProcessOutput();
-     void checkProcessExit(int exitCode);     
+
+     /**
+      * @brief checkProcessExit Check script process exist status. This is called when the process exists either normally or abnormally.
+      * @param exitCode exit code from the script process. Depending on the exist code, the status of startup/shutdown procedure is set accordingly.
+      */
+     void checkProcessExit(int exitCode);
+
+     /**
+      * @brief setDirty Call it to mark the Ekos Scheduler List for change. Next time save button is invoked, the complete content is written to disk.
+      */
      void setDirty();
+
+     /**
+      * @brief resumeCheckStatus If the scheduler primary loop was suspended due to weather or sleep event, resume it again.
+      */
      void resumeCheckStatus();
 
+     /**
+      * @brief checkWeather Check weather status and act accordingly depending on the current status of the scheduler and running jobs.
+      */
      void checkWeather();
 
+     /**
+      * @brief wakeUpScheduler Wake up scheduler from sleep state
+      */
      void wakeUpScheduler();
 
+     /**
+      * @brief startJobEvaluation Start job evaluation only without starting the scheduler process itself. Display the result to the user.
+      */
      void startJobEvaluation();
+
+     /**
+      * @brief startMosaicTool Start Mosaic tool and create jobs if necessary.
+      */
+     void startMosaicTool();
 
 signals:
         void newLog();

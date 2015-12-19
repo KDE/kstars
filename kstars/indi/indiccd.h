@@ -145,7 +145,7 @@ public:
     bool setTemperature(double value);
     void setISOMode(bool enable) { ISOMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
-    void setSeqCount(int count) { seqCount = count; }
+    void setNextSequenceID(int count) { nextSequenceID = count; }
     void setFilter(const QString & newFilter) { filter = newFilter;}
     bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
     bool setRapidGuide(CCDChip *targetChip, bool enable);
@@ -178,7 +178,7 @@ private:
     QString		seqPrefix;
     QString     fitsDir;
     char BLOBFilename[MAXINDIFILENAME];
-    int seqCount;
+    int nextSequenceID;
     FITSViewer * fv;
     StreamWG *streamWindow;
     int streamW, streamH;

@@ -78,6 +78,7 @@ if (INDI_FOUND)
 if (CFITSIO_FOUND)
    set(ekosui_SRCS
       ekos/scheduler.ui
+      ekos/mosaic.ui
       ekos/opsekos.ui
       ekos/ekosmanager.ui
       ekos/capture.ui
@@ -93,6 +94,7 @@ if (CFITSIO_FOUND)
    set(ekos_SRCS
       ekos/schedulerjob.cpp
       ekos/scheduler.cpp
+      ekos/mosaic.cpp
       ekos/ekosmanager.cpp
       ekos/capture.cpp
       ekos/sequencejob.cpp

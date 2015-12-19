@@ -27,6 +27,7 @@
 #include "ksmoon.h"
 #include "ksalmanac.h"
 #include "ksutils.h"
+#include "mosaic.h"
 
 #define BAD_SCORE                   -1000
 #define MAX_FAILURE_ATTEMPTS        3
@@ -113,7 +114,7 @@ Scheduler::Scheduler()
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
 
     evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard"));
-
+    mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
 
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     queueSaveB->setIcon(QIcon::fromTheme("document-save"));
@@ -130,6 +131,7 @@ Scheduler::Scheduler()
     connect(selectStartupScriptB, SIGNAL(clicked()), this, SLOT(selectStartupScript()));
     connect(selectShutdownScriptB, SIGNAL(clicked()), this, SLOT(selectShutdownScript()));
 
+    connect(mosaicB, SIGNAL(clicked()), this, SLOT(startMosaicTool()));
     connect(addToQueueB,SIGNAL(clicked()),this,SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
     connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
@@ -212,6 +214,7 @@ void Scheduler::addObject(SkyObject *object)
         decBox->setText(object->dec0().toDMSString());
 
         addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
+        mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
     }
 }
 
@@ -234,6 +237,7 @@ void Scheduler::selectFITS()
         nameEdit->setText(fitsURL.fileName());
 
     addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
+    mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
 }
 
 void Scheduler::selectSequence()
@@ -252,7 +256,10 @@ void Scheduler::selectSequence()
     if ( (raBox->isEmpty() == false && decBox->isEmpty() == false && nameEdit->text().isEmpty() == false)
     // For FITS selection, only the name and fits URL should be filled.
         || (nameEdit->text().isEmpty() == false && fitsURL.isEmpty() == false) )
+    {
                 addToQueueB->setEnabled(true);
+                mosaicB->setEnabled(true);
+    }
 }
 
 void Scheduler::selectStartupScript()
@@ -700,8 +707,9 @@ void Scheduler::stop()
     startB->setText("Start Scheduler");
 
     queueLoadB->setEnabled(true);
-    addToQueueB->setEnabled(true);
+    addToQueueB->setEnabled(true);    
     removeFromQueueB->setEnabled(true);
+    mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
 }
 
@@ -751,6 +759,7 @@ void Scheduler::start()
     queueLoadB->setEnabled(false);
     addToQueueB->setEnabled(false);
     removeFromQueueB->setEnabled(false);
+    mosaicB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
 
     schedulerTimer.start();
@@ -1529,6 +1538,22 @@ void Scheduler::calculateDawnDusk()
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
+    QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
+    QList<QVariant> dbusargs;
+    dbusargs.append(url);
+    QDBusReply<bool> isJobComplete = captureInterface->callWithArgumentList(QDBus::AutoDetect,"isSequenceFileComplete",dbusargs);
+
+    if (isJobComplete.error().type() == QDBusError::NoError)
+    {
+        // If it is already complete
+        if (isJobComplete.value())
+        {
+            currentJob = NULL;
+            job->setState(SchedulerJob::JOB_COMPLETE);
+            return;
+        }
+    }
+
     currentJob = job;
 
     currentJob->setState(SchedulerJob::JOB_BUSY);
@@ -3674,6 +3699,36 @@ void Scheduler::resumeCheckStatus()
 {
     disconnect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
     schedulerTimer.start();
+}
+
+void Scheduler::startMosaicTool()
+{
+    bool raOk=false, decOk=false;
+    dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
+    dms dec( decBox->createDms( true, &decOk ) );
+
+    if (raOk == false)
+    {
+        appendLogText(i18n("RA value %1 is invalid.", raBox->text()));
+        return;
+    }
+
+    if (decOk == false)
+    {
+        appendLogText(i18n("DEC value %1 is invalid.", decBox->text()));
+        return;
+    }
+
+    Mosaic mosaicTool(this);
+
+    SkyPoint center;
+    center.setRA0(ra);
+    center.setDec0(dec);
+
+    mosaicTool.setCenter(center);
+    mosaicTool.calculateFOV();
+
+    mosaicTool.exec();
 }
 
 }

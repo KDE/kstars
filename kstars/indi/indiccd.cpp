@@ -779,7 +779,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     fv          = NULL;
     streamWindow      = NULL;
     ST4Driver = NULL;
-    seqCount  = 0 ;
+    nextSequenceID  = 0 ;
 
     primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
 
@@ -1144,9 +1144,9 @@ void CCD::processBLOB(IBLOB* bp)
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
          if (ISOMode == false)
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", seqCount)).arg(QString(fmt));
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
           else
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", seqCount)).arg(ts).arg(QString(fmt));
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", nextSequenceID)).arg(ts).arg(QString(fmt));
 
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
