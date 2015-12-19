@@ -105,6 +105,7 @@ Capture::Capture()
 
     progressLayout->addWidget(pi, 0, 4, 1, 1);
 
+    seqFileCount    = 0;
     seqWatcher		= new KDirWatch();
     seqTimer = new QTimer(this);
     connect(startB, SIGNAL(clicked()), this, SLOT(start()));
@@ -1039,7 +1040,7 @@ void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir
 
     seqWatcher->addDir(dir, KDirWatch::WatchFiles);
 
-    seqCount = 1;
+    nextSequenceID = 1;
 
     checkSeqBoundary(dir);
 }
@@ -1057,6 +1058,7 @@ void Capture::checkSeqBoundary(const QString &path)
 {
     int newFileIndex=-1;
     QString tempName;
+    seqFileCount=0;
 
     // No updates during meridian flip
     if (meridianFlipStage >= MF_ALIGNING)
@@ -1075,17 +1077,19 @@ void Capture::checkSeqBoundary(const QString &path)
             if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
                 continue;
 
+            seqFileCount++;
+
             tempName = tempName.remove(seqPrefix);
             if (tempName.startsWith("_"))
                 tempName = tempName.remove(0, 1);
 
             bool indexOK = false;
             newFileIndex = tempName.mid(0, 3).toInt(&indexOK);
-            if (indexOK && newFileIndex >= seqCount)
-                seqCount = newFileIndex + 1;
+            if (indexOK && newFileIndex >= nextSequenceID)
+                nextSequenceID = newFileIndex + 1;
         }
 
-    currentCCD->setSeqCount(seqCount);
+    currentCCD->setNextSequenceID(nextSequenceID);
 
 }
 
@@ -1541,10 +1545,10 @@ void Capture::executeJob()
     }
 
     // If job is already fully or partially complete
-    if (Options::rememberJobProgress() && activeJob->isPreview() == false && seqCount > 1)
+    if (Options::rememberJobProgress() && activeJob->isPreview() == false && seqFileCount > 0)
     {
         // Fully complete
-        if ((seqCount-1) >= seqTotalCount)
+        if (seqFileCount >= seqTotalCount)
         {
             seqCurrentCount=seqTotalCount;
             activeJob->setCompleted(seqCurrentCount);
@@ -1554,7 +1558,7 @@ void Capture::executeJob()
         }
 
         // Partially complete
-        seqCurrentCount=seqCount-1;
+        seqCurrentCount=seqFileCount;
         activeJob->setCompleted(seqCurrentCount);
         currentImgCountOUT->setText( QString::number(seqCurrentCount));
         imgProgress->setValue(seqCurrentCount);
@@ -3071,6 +3075,33 @@ bool Capture::processPostCaptureFlatStage()
     }
 
     flatStage = FLAT_CALIBRATION_COMPLETE;
+    return true;
+}
+
+bool Capture::isSequenceFileComplete(const QUrl &fileURL)
+{
+    bool rc = loadSequenceQueue(fileURL);
+
+    if (rc == false)
+        return false;
+
+    // We cannot know if the job is complete if the upload mode is local since we cannot inspect the files
+    if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        return false;
+
+    foreach(SequenceJob *job, jobs)
+    {
+        updateSequencePrefix(job->getPrefix(), job->getFITSDir());
+
+        if (seqFileCount < job->getCount())
+        {
+            clearSequenceQueue();
+            return false;
+        }
+    }
+
+    clearSequenceQueue();
+
     return true;
 }
 
