@@ -205,6 +205,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     actionCollection()->action("show_statusBar"       )->setChecked( Options::showStatusBar() );
     actionCollection()->action("show_sbAzAlt"         )->setChecked( Options::showAltAzField() );
     actionCollection()->action("show_sbRADec"         )->setChecked( Options::showRADecField() );
+    actionCollection()->action("show_sbJ2000RADec"    )->setChecked( Options::showJ2000RADecField() );
     actionCollection()->action("show_stars"           )->setChecked( Options::showStars() );
     actionCollection()->action("show_deepsky"         )->setChecked( Options::showDeepSky() );
     actionCollection()->action("show_planets"         )->setChecked( Options::showSolarSystem() );

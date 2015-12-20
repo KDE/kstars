@@ -134,7 +134,7 @@ void CatalogComponent::draw( SkyPainter *skyp ) {
 }
 
 bool CatalogComponent::selected() {
-    if (Options::showCatalogNames().contains(m_catName))
+    if ( Options::showCatalogNames().contains(m_catName) && Options::showDeepSky() ) // do not draw / update custom catalogs if show deep-sky is turned off, even if they are chosen.
       return true;
     return false;
 }

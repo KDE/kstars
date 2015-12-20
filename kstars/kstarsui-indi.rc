@@ -87,7 +87,7 @@
 		<Action name="update_comets" />
 		<Action name="update_asteroids" />
                 <Action name="update_satellites" />
-		<Action name="update_supernovae" />                
+		<Action name="update_supernovae" />
 		</Menu>
 	</Menu>
 	<Menu name="observation" noMerge="1"><text>&amp;Observation</text>
@@ -109,6 +109,7 @@
 			<Separator />
 			<Action name="show_sbAzAlt" />
 			<Action name="show_sbRADec" />
+			<Action name="show_sbJ2000RADec" />
 		</Menu>
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->

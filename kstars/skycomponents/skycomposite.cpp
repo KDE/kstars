@@ -19,6 +19,8 @@
 
 #include "skyobjects/skyobject.h"
 
+#include <typeinfo>
+
 SkyComposite::SkyComposite(SkyComposite *parent ) :
     SkyComponent( parent )
 { }
@@ -28,16 +30,32 @@ SkyComposite::~SkyComposite()
     qDeleteAll( components() );
 }
 
-void SkyComposite::addComponent(SkyComponent *component)
+void SkyComposite::addComponent(SkyComponent *component, int priority)
 {
-    components().append(component);
+    //qDebug() << "Adding sky component " << component << " of type " << typeid( *component ).name() << " with priority " << priority;
+    m_Components.insertMulti( priority, component );
+    /*
+    foreach( SkyComponent *p, components() ) {
+        qDebug() << "List now has: " << p << " of type " << typeid( *p ).name();
+    }
+    */
 }
 
-void SkyComposite::removeComponent(SkyComponent *component)
+void SkyComposite::removeComponent(SkyComponent * const component)
 {
-    int index = components().indexOf(component);
-    if (index != -1)
-        delete components().takeAt(index);
+    // qDebug() << "Removing sky component " << component << " of type " << typeid( *component ).name();
+    QMap<int, SkyComponent *>::iterator it;
+    for ( it = m_Components.begin(); it != m_Components.end(); ) {
+        if( it.value() == component )
+            it = m_Components.erase( it );
+        else
+            ++it;
+    }
+    /*
+    foreach( SkyComponent *p, components() ) {
+        qDebug() << "List now has: " << p << " of type " << typeid( *p ).name();
+    }
+    */
 }
 
 void SkyComposite::draw( SkyPainter *skyp )
@@ -66,9 +84,14 @@ SkyObject* SkyComposite::objectNearest( SkyPoint *p, double &maxrad ) {
         return 0;
     SkyObject *oBest = 0;
     foreach( SkyComponent *comp, components() ) {
+        // qDebug() << "Checking " << typeid( *comp ).name() <<" for oBest";
         SkyObject* oTry = comp->objectNearest( p, maxrad );
-        if ( oTry )
-            oBest = oTry; //found a closer object
+        if ( oTry ) {
+            oBest = oTry;
+            maxrad = p->angularDistanceTo( oBest ).Degrees()*0.95; // Set a new maxrad, smaller than original to give priority to the earlier objects in the list.
+            // qDebug() << "oBest = " << oBest << " of type " << typeid( *oTry ).name() << "; updated maxrad = " << maxrad;
+        }
     }
+    // qDebug() << "Returning best match: oBest = " << oBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
 }

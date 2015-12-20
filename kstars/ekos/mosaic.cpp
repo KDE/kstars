@@ -20,6 +20,9 @@
 namespace Ekos
 {
 
+MosaicTile::MosaicTile() {}
+MosaicTile::~MosaicTile() {}
+
 Mosaic::Mosaic(Scheduler *scheduler)
 {
     setupUi(this);
@@ -47,6 +50,9 @@ Mosaic::Mosaic(Scheduler *scheduler)
     connect(updateB, SIGNAL(clicked()), this, SLOT(calculateFOV()));
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetFOV()));
 
+    targetItem = scene.addPixmap(targetPix);
+    mosaicView->setScene(&scene);
+    rectItem = scene.addRect(QRectF(100,100, 100, 100), QPen(QColor(255,0,0, 250)), Qt::NoBrush);
 }
 
 Mosaic::~Mosaic()
@@ -180,13 +186,31 @@ void Mosaic::drawTargetFOV()
     qApp->processEvents();*/
 
 
+
+
     // Render the display
     render();
 }
 
 void Mosaic::render()
 {
-    mosaicDisplay->setPixmap( QPixmap::fromImage( *m_skyChart ).scaled( mosaicDisplay->width(), mosaicDisplay->height(), Qt::KeepAspectRatio ) );
+    MosaicTile tile;
+
+    targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
+    targetItem->setPixmap(targetPix);
+
+    double scale = (double) targetPix.width() / (double) m_skyChart->width();
+
+    rectItem->setScale(scale);
+
+    mosaicView->show();
+
+    /*scene.addPixmap(QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio ) );
+    mosaicView->setScene(&scene);
+    mosaicView->show();*/
+    //mosaicDisplay->setPixmap( QPixmap::fromImage( *m_skyChart ).scaled( mosaicDisplay->width(), mosaicDisplay->height(), Qt::KeepAspectRatio ) );
+
+
 }
 
 void Mosaic::resizeEvent(QResizeEvent *ev)

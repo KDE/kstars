@@ -1358,6 +1358,16 @@ void KStars::slotShowGUIItem( bool show ) {
         else
             RADecField.show();
     }
+
+    if ( sender() == actionCollection()->action( "show_sbJ2000RADec" ) )
+    {
+        Options::setShowJ2000RADecField( show );
+        if( ! show )
+            J2000RADecField.hide();
+        else
+            J2000RADecField.show();
+    }
+
 }
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
     KToggleAction *kta = actionCollection()->add<KToggleAction>( actionName );
@@ -1416,12 +1426,23 @@ void KStars::slotShowPositionBar(SkyPoint* p )
         AltAzField.setText(s);
     }
     if ( Options::showRADecField() ) {
-        QString s = QString("%1, %2").arg(p->ra().toHMSString(),
-                                          p->dec().toDMSString(true) ); //true: force +/- symbol
+        KStarsDateTime lastUpdate;
+        lastUpdate.setDJD( KStarsData::Instance()->updateNum()->getJD() );
+        QString sEpoch = QString::number( lastUpdate.epoch(), 'f', 1 );
+        QString s = QString("%1, %2 (J%3)").arg(p->ra().toHMSString(),
+                                                p->dec().toDMSString(true), sEpoch ); //true: force +/- symbol
         //statusBar()->changeItem( s, 2 );
         RADecField.setText(s);
     }
 
+    if ( Options::showJ2000RADecField() ) {
+        SkyPoint p0;
+        p0 = p->deprecess( KStarsData::Instance()->updateNum() ); // deprecess to update RA0/Dec0 from RA/Dec
+        QString s = QString("%1, %2 (J2000)").arg(p0.ra().toHMSString(),
+                                          p0.dec().toDMSString(true) ); //true: force +/- symbol
+        //statusBar()->changeItem( s, 2 );
+        J2000RADecField.setText(s);
+    }
 }
 
 void KStars::slotUpdateComets() {

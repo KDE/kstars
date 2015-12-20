@@ -28,7 +28,7 @@ class KSHelpLabel : public QLabel
     Q_OBJECT
     Q_PROPERTY(QString anchor READ anchor WRITE setAnchor)
     Q_PROPERTY(QString text READ text WRITE setText)
-    
+
 public:
     /**
      * Constructor. Creates clear label

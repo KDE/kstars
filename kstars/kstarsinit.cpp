@@ -317,6 +317,8 @@ void KStars::initActions() {
                      this, SLOT(slotShowGUIItem(bool)));
     newToggleAction( actionCollection(), "show_sbRADec",   i18n("Show RA/Dec Field"),
                      this, SLOT(slotShowGUIItem(bool)));
+    newToggleAction( actionCollection(), "show_sbJ2000RADec",   i18n("Show J2000.0 RA/Dec Field"),
+                     this, SLOT(slotShowGUIItem(bool)));
 
     //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
     colorActionMenu = actionCollection()->add<KActionMenu>("colorschemes" );
@@ -606,6 +608,12 @@ void KStars::initStatusBar() {
     {
         RADecField.setText(s);
         statusBar()->insertPermanentWidget(1, &RADecField);
+    }
+
+    if ( Options::showJ2000RADecField() )
+    {
+        J2000RADecField.setText(s);
+        statusBar()->insertPermanentWidget(1, &J2000RADecField);
     }
 
     if ( ! Options::showStatusBar() )

@@ -16,11 +16,12 @@
  ***************************************************************************/
 
 #include "kshelplabel.h"
+#include "Options.h"
 #include <KHelpClient>
 #include <QMessageBox>
 
 KSHelpLabel::KSHelpLabel(const QString& text, const QString& anchor,
-			 QWidget *parent) : QLabel(parent), m_anchor(anchor)
+                         QWidget *parent) : QLabel(parent), m_anchor(anchor)
 {
     setText(text);
     updateText();
@@ -38,7 +39,8 @@ void KSHelpLabel::setAnchor(const QString& anchor) {
 }
 
 void KSHelpLabel::updateText() {
-    QLabel::setText("<a href=\"ai-" + m_anchor + "\">" + text() + "</a>");
+    QString linkcolor = ( Options::darkAppColors() ? "red" : "blue" ); // In night colors mode, use red links because blue links are black through a red filter.
+    QLabel::setText("<a href=\"ai-" + m_anchor + "\" style=\"color: " + linkcolor + "\" >" + text() + "</a>");
 }
 
 void KSHelpLabel::slotShowDefinition(const QString & term) {
@@ -47,6 +49,5 @@ void KSHelpLabel::slotShowDefinition(const QString & term) {
 
 void KSHelpLabel::setText(const QString& txt) {
     m_cleanText = txt;
-    QLabel::setText("<a href=\"ai-" + m_anchor + "\">" + m_cleanText + "</a>");
+    updateText();
 }
-

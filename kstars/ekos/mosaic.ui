@@ -548,30 +548,18 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="mosaicDisplay">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QGraphicsView" name="mosaicView">
        <property name="minimumSize">
         <size>
          <width>400</width>
          <height>300</height>
         </size>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
       </widget>
      </item>

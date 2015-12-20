@@ -21,6 +21,19 @@ namespace Ekos
 
 class Scheduler;
 
+class MosaicTile
+{
+public:
+    MosaicTile();
+    ~MosaicTile();
+
+//private:
+    double x,y, w,h;
+    double pa;
+    QRectF tile;
+    QGraphicsRectItem *rectItem;
+};
+
 class Mosaic : public QDialog, public Ui::mosaicDialog
 {
 
@@ -62,6 +75,11 @@ private:
     QImage *m_skyImage;
 
     QList<SkyPoint *> jobCenter;
+    QPixmap targetPix;
+    QGraphicsPixmapItem *targetItem;
+    QGraphicsRectItem *rectItem;
+
+    QGraphicsScene scene;
 
 };
 
