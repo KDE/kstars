@@ -349,8 +349,8 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
       rTry = maxrad;
       oTry = m_DeepStars.at( i )->objectNearest( p, rTry );
       if( rTry < rBest ) {
-	rBest = rTry;
-	oBest = oTry;
+        rBest = rTry;
+        oBest = oTry;
       }
     }
 

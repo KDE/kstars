@@ -190,7 +190,7 @@ public:
      * Look for a SkyObject that is nearer to point p than maxrad.
      * If one is found, then maxrad is reset to the separation of the new nearest object.
      * @p p pointer to the SkyPoint to search around
-     * @p maxrad reference to current search radius
+     * @p maxrad reference to current search radius in degrees
      * @return a pointer to the nearest SkyObject
      * @note This function simply returns a NULL pointer; it is
      * reimplemented in various sub-classes.
