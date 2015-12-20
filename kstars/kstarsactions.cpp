@@ -1398,8 +1398,11 @@ void KStars::slotShowPositionBar(SkyPoint* p )
         AltAzField.setText(s);
     }
     if ( Options::showRADecField() ) {
-        QString s = QString("%1, %2").arg(p->ra().toHMSString(),
-                                          p->dec().toDMSString(true) ); //true: force +/- symbol
+        KStarsDateTime lastUpdate;
+        lastUpdate.setDJD( KStarsData::Instance()->updateNum()->getJD() );
+        QString sEpoch = QString::number( lastUpdate.epoch(), 'f', 1 );
+        QString s = QString("%1, %2 (J%3)").arg(p->ra().toHMSString(),
+                                                p->dec().toDMSString(true), sEpoch ); //true: force +/- symbol
         //statusBar()->changeItem( s, 2 );
         RADecField.setText(s);
     }
