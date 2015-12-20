@@ -49,6 +49,8 @@
 #include "satellitescomponent.h"
 #include "supernovaecomponent.h"
 #include "constellationartcomponent.h"
+#include "kscomet.h"
+#include "ksasteroid.h"
 
 
 #include "skymesh.h"
@@ -334,6 +336,7 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     oBest = m_Stars->objectNearest( p, rBest );
     //reduce rBest by 0.75 for stars brighter than 4th mag
     if ( oBest && oBest->mag() < 4.0 ) rBest *= 0.75;
+    else if( oBest && oBest->mag() > 12.0 ) rBest *= 1.25;
 
     // TODO: Add support for deep star catalogs
 
@@ -364,7 +367,14 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 
     rTry = maxrad;
     oTry = m_SolarSystem->objectNearest( p, rTry );
-    rTry *= 0.25;
+    if( !dynamic_cast<KSComet *>( oTry ) && !dynamic_cast<KSAsteroid *>( oTry ) ) { // There are gazillions of faint asteroids and comets; we want to prevent them from getting precedence
+        rTry *= 0.25; // this is either sun, moon, or one of the major planets or their moons.
+    }
+    else {
+        if( std::isfinite( oTry->mag() ) && oTry->mag() < 12.0 ) {
+            rTry *= 0.75; // Bright comets / asteroids get some precedence.
+        }
+    }
     if ( rTry < rBest ) {
         rBest = rTry;
         oBest = oTry;
