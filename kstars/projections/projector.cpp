@@ -460,6 +460,18 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         Y = o->dec().radians();
     }
 
+    if( !( std::isfinite( Y ) && std::isfinite( dX ) ) ) {
+        qDebug() << "Assert in Projector::toScreenVec is going to fail!!";
+        qDebug() << "using AltAz?" << m_vp.useAltAz << " Refract? " << oRefract;
+        const SkyObject *obj;
+        qDebug() << "Point supplied has RA0 = " << o->ra0().toHMSString() << " Dec0 = " << o->dec0().toDMSString() << "; alt = " << o->alt().toDMSString() << "; az = " << o->az().toDMSString();
+        if ( (obj = dynamic_cast<const SkyObject *>(o) ) ) {
+            qDebug() << "Point is object with name = " << obj->name() << " longname = " << obj->longname();
+        }
+        qDebug() << "dX = " << dX << " and isfinite(dX) is" << std::isfinite(dX);
+        qDebug() << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
+    }
+
     Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
