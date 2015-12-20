@@ -73,13 +73,14 @@ public:
 
     /** @short Add a new sub component to the composite
      * @p comp Pointer to the SkyComponent to be added
+     * @p priority A priority ordering for various operations on the list of all sky components (notably objectNearest())
      */
-    void addComponent(SkyComponent *comp);
+    void addComponent(SkyComponent *comp, int priority = 1024);
 
     /** @short Remove a sub component from the composite
      * @p comp Pointer to the SkyComponent to be removed.
      */
-    void removeComponent(SkyComponent *comp);
+    void removeComponent(SkyComponent * const comp);
 
     /** @short Search the children of this SkyComposite for
      * a SkyObject whose name matches the argument.
@@ -100,10 +101,12 @@ public:
      */
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
-    QList<SkyComponent*>& components() { return m_Components; }
+    QList<SkyComponent*> components() { return m_Components.values(); }
+
+    QMap<int, SkyComponent*>& componentsWithPriorities() { return m_Components; }
 
 private:
-    QList<SkyComponent*> m_Components;
+    QMap<int, SkyComponent*> m_Components;
 };
 
 #endif
