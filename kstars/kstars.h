@@ -658,7 +658,7 @@ private:
     bool DialogIsObsolete;
     bool StartClockRunning;
     QString StartDateString;
-    QLabel AltAzField, RADecField;
+    QLabel AltAzField, RADecField, J2000RADecField;
     QPalette OriginalPalette, DarkPalette;
 
     OpsCatalog *opcatalog;

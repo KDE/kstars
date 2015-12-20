@@ -86,7 +86,14 @@
     </entry>
     <entry name="ShowRADecField" type="Bool">
       <label>Display RA/Dec coordinates in the statusbar?</label>
-      <whatsthis>Toggle display of the Equatorial coordinates of the mouse cursor in the status bar.</whatsthis>
+      <whatsthis>Toggle display of the Equatorial coordinates of the
+      mouse cursor at the current epoch in the status bar.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="ShowJ2000RADecField" type="Bool">
+      <label>Display J2000.0 RA/Dec coordinates in the statusbar?</label>
+      <whatsthis>Toggle display of the Equatorial coordinates of the
+      mouse cursor at the standard epoch in the status bar.</whatsthis>
       <default>true</default>
     </entry>
     <entry name="WindowWidth" type="UInt">

@@ -99,6 +99,7 @@
 			<Separator />
 			<Action name="show_sbAzAlt" />
 			<Action name="show_sbRADec" />
+			<Action name="show_sbJ2000RADec" />
 		</Menu>
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
