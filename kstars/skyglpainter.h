@@ -37,7 +37,7 @@ public:
     virtual bool drawPlanet(KSPlanetBase* planet);
     virtual bool drawDeepSkyObject(DeepSkyObject* obj, bool drawImage = false);
     virtual bool drawPointSource(SkyPoint* loc, float mag, char sp = 'A');
-    virtual void drawSkyPolygon(LineList* list);
+    virtual void drawSkyPolygon(LineList* list, bool forceClip=true);
     virtual void drawSkyPolyline(LineList* list, SkipList* skipList = 0, LineListLabel* label = 0);
     virtual void drawSkyLine(SkyPoint* a, SkyPoint* b);
     virtual void drawSkyBackground();
@@ -51,6 +51,7 @@ public:
     virtual void drawSatellite( Satellite* sat );
     virtual bool drawSupernova(Supernova* sup);
     void drawText( int x, int y, const QString text, QFont font, QColor color );
+    virtual bool drawConstellationArtImage(ConstellationsArt *obj);
 private:
     bool addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);

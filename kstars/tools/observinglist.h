@@ -214,6 +214,11 @@ public slots:
         */
     void slotSlewToObject();
 
+    /**
+     * @brief slotAddToEkosScheduler Add object to Ekos scheduler
+     */
+    void slotAddToEkosScheduler();
+
     /** @short Show the details window for the selected object
         */
     void slotDetails();

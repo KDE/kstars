@@ -118,10 +118,16 @@ public:
 
     /** DBUS interface function.
      * Set Auto Focus options. The options must be set before starting the autofocus operation. If no options are set, the options loaded from the user configuration are used.
-     * @param selectAutoStar If true, Ekos will attempt to automatically select the best focus star in the frame. If it fails to select a star, the user will be asked to select a star manually.
-     * @param useSubFrame if true, Ekos will capture a subframe around the selected focus star. The subframe size is determined by the boxSize parameter.
+     * @param enable If true, Ekos will attempt to automatically select the best focus star in the frame. If it fails to select a star, the user will be asked to select a star manually.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusOptions(bool selectAutoStar, bool useSubFrame);
+    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusStar(bool enable);
+
+
+    /** DBUS interface function.
+     * Set Auto Focus options. The options must be set before starting the autofocus operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, Ekos will capture a subframe around the selected focus star. The subframe size is determined by the boxSize parameter.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusSubFrame(bool enable);
 
     /** DBUS interface function.
      * Set Autofocus parameters
@@ -133,10 +139,10 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, double tolerance);
 
-    /** DBUS interface function.
-     * Resets the CCD frame to its full resolution.
+     /** DBUS interface function.
+     * resetFrame Resets the CCD frame to its full native resolution.
      */
-    Q_SCRIPTABLE Q_NOREPLY void resetFrame();
+    Q_SCRIPTABLE Q_NOREPLY  void resetFrame();
 
     /** @}*/
 
@@ -170,12 +176,12 @@ public slots:
     /** DBUS interface function.
      * Start the autofocus operation.
      */
-    Q_SCRIPTABLE Q_NOREPLY void startFocus();
+    Q_SCRIPTABLE Q_NOREPLY void start();
 
     /** DBUS interface function.
      * Abort the autofocus operation.
      */
-    Q_SCRIPTABLE Q_NOREPLY void stopFocus();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
     /** DBUS interface function.
      * Capture a focus frame.
@@ -218,16 +224,6 @@ public slots:
      */
     void checkFilter(int filterNum=-1);
 
-    /**
-     * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
-     */
-    void filterLockToggled(bool);
-
-    /**
-     * @brief updateFilterPos If filter locking is checked, set the locked filter to the current filter position
-     * @param index current filter position
-     */
-    void updateFilterPos(int index);
 
     /**
      * @brief clearDataPoints Remove all data points from HFR plots
@@ -254,18 +250,6 @@ public slots:
     void focusStarSelected(int x, int y);
 
     /**
-     * @brief toggleAutofocus Process switching between manual and automated focus.
-     * @param enable If true, auto focus is selected, if false, manual mode is selected.
-     */
-    void toggleAutofocus(bool enable);
-
-    /**
-     * @brief toggleSubframe Process enabling and disabling subframing.
-     * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
-     */
-    void toggleSubframe(bool enable);
-
-    /**
      * @brief newFITS A new FITS blob is received by the CCD driver.
      * @param bp pointer to blob data
      */
@@ -289,10 +273,10 @@ public slots:
      */
     void updateFocusStatus(bool status);
 
-    /**
-     * @brief resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
+    /** DBUS interface function.
+     * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
      */
-    void resetFocusFrame();
+    Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
 
     /**
      * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
@@ -300,11 +284,42 @@ public slots:
      */
     void filterChangeWarning(int index);
 
+private slots:
+    /**
+     * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
+     */
+    void filterLockToggled(bool);
+
+    /**
+     * @brief updateFilterPos If filter locking is checked, set the locked filter to the current filter position
+     * @param index current filter position
+     */
+    void updateFilterPos(int index);
+
+    /**
+     * @brief toggleAutofocus Process switching between manual and automated focus.
+     * @param enable If true, auto focus is selected, if false, manual mode is selected.
+     */
+    void toggleAutofocus(bool enable);
+
+    /**
+     * @brief toggleSubframe Process enabling and disabling subframing.
+     * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
+     */
+    void toggleSubframe(bool enable);
+
+    void checkAutoStarTimeout();
+
+    void setAbsoluteFocusTicks();
+
+    void setActiveBinning(int bin);
+
 signals:
         void newLog();
         void autoFocusFinished(bool status, double finalHFR);
         void suspendGuiding(bool suspend);
         void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
+        void statusUpdated(bool status);
 
 private:
     void drawHFRPlot();
@@ -364,6 +379,8 @@ private:
     int pulseDuration;
     // Does the focuser support absolute motion?
     bool canAbsMove;
+    // Does the focuser support relative motion?
+    bool canRelMove;
     // Range of motion for our lovely absolute focuser
     double absMotionMax, absMotionMin;
     // How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever
@@ -394,6 +411,10 @@ private:
     int orig_x, orig_y, orig_w, orig_h;
     // If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
     int noStarCount;
+    // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
+    ISD::CCD::UploadMode rememberUploadMode;
+    // Previous binning setting
+    int activeBin;
 
     QStringList logText;
     ITextVectorProperty *filterName;
@@ -406,9 +427,15 @@ private:
     // Plot minimum and maximum positions
     int minPos, maxPos;
     // List of V curve plot points
-    QList<HFRPoint *> HFRAbsolutePoints;
+    //QList<HFRPoint *> HFRAbsolutePoints;
     // List of iterative curve points
-    QList<HFRPoint *> HFRIterativePoints;
+    //QList<HFRPoint *> HFRIterativePoints;
+    // Custom Plot object
+    QCustomPlot *customPlot;
+    // V-Curve graph
+    QCPGraph *v_graph;
+
+    QVector<double> hfr_position, hfr_value;
 };
 
 }

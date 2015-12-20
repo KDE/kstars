@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>762</width>
-    <height>505</height>
+    <width>863</width>
+    <height>526</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -18,12 +18,22 @@
        <item>
         <widget class="QGroupBox" name="controlBox">
          <property name="title">
-          <string>Control</string>
+          <string>Plate Solver Control</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
            <layout class="QGridLayout" name="controlLayout">
-            <item row="0" column="0">
+            <item row="0" column="2">
+             <widget class="QPushButton" name="stopB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Stop</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
              <widget class="QPushButton" name="solveB">
               <property name="enabled">
                <bool>true</bool>
@@ -33,13 +43,53 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="stopB">
-              <property name="enabled">
-               <bool>false</bool>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Control:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QRadioButton" name="gotoR">
+                <property name="toolTip">
+                 <string>Solve the image and sync/slew the mount accordingly</string>
+                </property>
+                <property name="statusTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>&amp;GOTO</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="2">
+             <widget class="QRadioButton" name="polarR">
+              <property name="toolTip">
+               <string>Measure polar alignment deviations in azimuth and altitude axis</string>
+              </property>
+              <property name="statusTip">
+               <string/>
               </property>
               <property name="text">
-               <string>Stop</string>
+               <string>Polar Alignment</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Mode:</string>
               </property>
              </widget>
             </item>
@@ -62,53 +112,58 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="modeBox">
+        <widget class="QGroupBox" name="gotoBox">
+         <property name="toolTip">
+          <string>Select which action to perform after the captured image is solved</string>
+         </property>
+         <property name="statusTip">
+          <string>Select what action to take once a solution is found.</string>
+         </property>
          <property name="title">
-          <string>Mode</string>
+          <string>GOTO Mode</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_10">
-            <item>
-             <widget class="QRadioButton" name="gotoR">
-              <property name="statusTip">
-               <string/>
-              </property>
-              <property name="text">
-               <string>GOTO</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="polarR">
-              <property name="statusTip">
-               <string/>
-              </property>
-              <property name="text">
-               <string>Polar Alignment</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QRadioButton" name="syncR">
+            <property name="toolTip">
+             <string>Synchronize the telescope to the solution coordinates</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>S&amp;ync</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+           <widget class="QRadioButton" name="slewR">
+            <property name="toolTip">
+             <string>Synchronize the telescope to the solution coordinates and then slew to the target coordinates</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>51</width>
-              <height>20</height>
-             </size>
+            <property name="statusTip">
+             <string/>
             </property>
-           </spacer>
+            <property name="text">
+             <string>S&amp;lew to Target</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="nothingR">
+            <property name="toolTip">
+             <string>Just solve</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>&amp;Nothing</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -131,7 +186,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>Plate Solve Options</string>
+        <string>Plate Solver Options</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -183,21 +238,12 @@
            </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="kcfg_solverXBin">
-            <property name="decimals">
-             <number>0</number>
-            </property>
+           <widget class="QSpinBox" name="binXIN">
             <property name="minimum">
-             <double>1.000000000000000</double>
+             <number>1</number>
             </property>
             <property name="maximum">
-             <double>9.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>1.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>1.000000000000000</double>
+             <number>16</number>
             </property>
            </widget>
           </item>
@@ -209,21 +255,12 @@
            </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="kcfg_solverYBin">
-            <property name="decimals">
-             <number>0</number>
-            </property>
+           <widget class="QSpinBox" name="binYIN">
             <property name="minimum">
-             <double>1.000000000000000</double>
+             <number>1</number>
             </property>
             <property name="maximum">
-             <double>9.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>1.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>1.000000000000000</double>
+             <number>16</number>
             </property>
            </widget>
           </item>
@@ -239,6 +276,16 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_solverOverlay">
+            <property name="toolTip">
+             <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
+            </property>
+            <property name="text">
+             <string>Overlay</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -459,7 +506,7 @@
           <item>
            <widget class="QRadioButton" name="kcfg_onlineSolver">
             <property name="text">
-             <string>Online Solver</string>
+             <string>Online Sol&amp;ver</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -509,10 +556,38 @@
         <string>Solution Coordinates</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>RA:</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <widget class="QLineEdit" name="SolverRAOut">
           <property name="readOnly">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>DEC:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="SolverDecOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>FOV:</string>
           </property>
          </widget>
         </item>
@@ -526,24 +601,13 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>FOV:</string>
+        <item row="2" column="2">
+         <widget class="QCheckBox" name="kcfg_solverOTA">
+          <property name="toolTip">
+           <string>Use Off-Axis Guide Telescope for FOV calculations</string>
           </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>DEC:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>RA:</string>
+           <string>OAGT</string>
           </property>
          </widget>
         </item>
@@ -554,30 +618,22 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="SolverDecOut">
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="RotOut">
           <property name="readOnly">
            <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLineEdit" name="RotOut">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_11">
-            <property name="text">
-             <string comment="East of North">E of N</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_11">
+          <property name="toolTip">
+           <string>East of North</string>
+          </property>
+          <property name="text">
+           <string comment="East of North">E of N</string>
+          </property>
+         </widget>
         </item>
         <item row="4" column="1">
          <spacer name="verticalSpacer">
@@ -591,16 +647,6 @@
            </size>
           </property>
          </spacer>
-        </item>
-        <item row="2" column="2">
-         <widget class="QCheckBox" name="kcfg_solverOTA">
-          <property name="toolTip">
-           <string>Use Off-Axis Guide Telescope for FOV calculations</string>
-          </property>
-          <property name="text">
-           <string>OAGT</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -669,6 +715,39 @@
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Accuracy</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="accuracySpin">
+            <property name="toolTip">
+             <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>300</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>30</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>arcsec</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer_6">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -698,87 +777,13 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_9">
      <item>
-      <widget class="QGroupBox" name="gotoBox">
-       <property name="statusTip">
-        <string>Select what action to take once a solution is found.</string>
-       </property>
-       <property name="title">
-        <string>GOTO</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <widget class="QRadioButton" name="syncR">
-          <property name="toolTip">
-           <string>Synchronize the telescope to the solution coordinates</string>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Sync</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="slewR">
-          <property name="toolTip">
-           <string>Slew the telescope to the target coordinates</string>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Slew to Target</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="nothingR">
-          <property name="toolTip">
-           <string>Just solve</string>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Nothing</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>17</width>
-            <height>18</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
       <widget class="QGroupBox" name="alignmentBox">
        <property name="title">
-        <string>Polar Alignment</string>
+        <string>Polar Alignment Mode</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Az Error:</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <widget class="QLineEdit" name="azError">
             <property name="readOnly">
@@ -786,7 +791,7 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="2" rowspan="2">
+          <item row="0" column="4" rowspan="2">
            <spacer name="horizontalSpacer_7">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -813,7 +818,7 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
+          <item row="2" column="4">
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
              <spacer name="horizontalSpacer_8">
@@ -830,18 +835,14 @@
             </item>
            </layout>
           </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="Line" name="line_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Az Error:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
            <widget class="QPushButton" name="measureAzB">
             <property name="enabled">
              <bool>false</bool>
@@ -851,17 +852,7 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="measureAltB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Measure Alt Error</string>
-            </property>
-           </widget>
-          </item>
-          <item>
+          <item row="0" column="3">
            <widget class="QPushButton" name="correctAzB">
             <property name="enabled">
              <bool>false</bool>
@@ -871,7 +862,17 @@
             </property>
            </widget>
           </item>
-          <item>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="measureAltB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Measure Alt Error</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
            <widget class="QPushButton" name="correctAltB">
             <property name="enabled">
              <bool>false</bool>
@@ -881,33 +882,7 @@
             </property>
            </widget>
           </item>
-          <item>
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>18</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>1</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>

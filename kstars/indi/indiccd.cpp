@@ -14,6 +14,7 @@
 #include <KMessageBox>
 #include <QStatusBar>
 #include <QImageReader>
+#include <KNotifications/KNotification>
 
 #include <basedevice.h>
 
@@ -29,10 +30,10 @@
 #include "indiccd.h"
 #include "guimanager.h"
 #include "kstarsdata.h"
+#include "fov.h"
 
 #include <ekos/ekosmanager.h>
 
-#include "ksnotify.h"
 #include "imageviewer.h"
 #include "Options.h"
 
@@ -98,6 +99,8 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
             normalImage = image;
             if (normalImage)
                 imageData = normalImage->getImageData();
+            if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
+                KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(normalImage->getDisplayImage()->copy());
             break;
 
         case FITS_FOCUS:
@@ -362,6 +365,8 @@ bool CCDChip::abortExposure()
         return false;
 
     abort->s = ISS_ON;
+
+    //captureMode = FITS_NORMAL;
 
     clientManager->sendNewSwitch(abortProp);
 
@@ -770,10 +775,11 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     ISOMode   = true;
     HasGuideHead = false;
     HasCooler    = false;
+    HasCoolerControl = false;
     fv          = NULL;
     streamWindow      = NULL;
     ST4Driver = NULL;
-    seqCount  = 0 ;
+    nextSequenceID  = 0 ;
 
     primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
 
@@ -850,6 +856,11 @@ void CCD::registerProperty(INDI::Property *prop)
         HasCooler = true;
         if (np)
             emit newTemperatureValue(np->np[0].value);
+    }
+    else if (!strcmp(prop->getName(), "CCD_COOLER"))
+    {
+        // Can turn cooling on/off
+        HasCoolerControl = true;
     }
 
     DeviceDecorator::registerProperty(prop);
@@ -953,6 +964,12 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
 void CCD::processSwitch(ISwitchVectorProperty *svp)
 {
+    if (!strcmp(svp->name, "CCD_COOLER"))
+    {
+        // Can turn cooling on/off
+        HasCoolerControl = true;
+    }
+
     if (!strcmp(svp->name, "CCD_VIDEO_STREAM") || !strcmp(svp->name, "VIDEO_STREAM"))
     {
         if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
@@ -1088,19 +1105,17 @@ void CCD::processBLOB(IBLOB* bp)
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
     if (currentDir.endsWith('/'))
-        currentDir.truncate(sizeof(currentDir)-1);
+        currentDir.truncate(sizeof(currentDir)-1);    
 
     if (QDir(currentDir).exists() == false)
-    {
-        KMessageBox::error(0, xi18n("FITS directory %1 does not exist. Please update the directory in the options.", currentDir));
-        emit BLOBUpdated(NULL);
-        return;
-    }
+        QDir().mkpath(currentDir);
 
     QString filename(currentDir + '/');
 
-    // Create file name for FITS to be shown in FITS Viewer
-    if (Options::showFITS() && (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL))
+    // Create temporary name if ANY of the following conditions are met:
+    // 1. file is preview or batch mode is not enabled
+    // 2. file type is not FITS_NORMAL (focus, guide..etc)
+    if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
     {
 
         //tmpFile.setPrefix("fits");
@@ -1129,9 +1144,9 @@ void CCD::processBLOB(IBLOB* bp)
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
          if (ISOMode == false)
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", seqCount)).arg(QString(fmt));
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
           else
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", seqCount)).arg(ts).arg(QString(fmt));
+               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", nextSequenceID)).arg(ts).arg(QString(fmt));
 
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
@@ -1156,22 +1171,19 @@ void CCD::processBLOB(IBLOB* bp)
     strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
     bp->aux2 = BLOBFilename;
 
-    if ((targetChip->isBatchMode() && targetChip->getCaptureMode() == FITS_NORMAL) || Options::showFITS() == false)
-        KStars::Instance()->statusBar()->showMessage( xi18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
+    if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
+        KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
-    if (Options::playFITSAlarm())
-        KSNotify::play(KSNotify::NOTIFY_FILE_RECEIVED);
+    KNotification::event( QLatin1String( "FITSReceived" ) , i18n("FITS file is received"));
 
-    if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
+    /*if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {
         emit BLOBUpdated(bp);
         return;
-    }
+    }*/
 
     if (BType == BLOB_IMAGE || BType == BLOB_CR2)
     {
-
-
         if (BType == BLOB_CR2)
         {
             if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
@@ -1193,7 +1205,7 @@ void CCD::processBLOB(IBLOB* bp)
             }
             else
             {
-                KStars::Instance()->statusBar()->showMessage(xi18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
                 emit BLOBUpdated(bp);
                 return;
             }
@@ -1206,8 +1218,7 @@ void CCD::processBLOB(IBLOB* bp)
     }
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO
-    if (BType == BLOB_FITS && Options::showFITS() && (targetChip->showFITS() || targetChip->getCaptureMode() != FITS_NORMAL)
-            && targetChip->getCaptureMode() != FITS_WCSM)
+    if (BType == BLOB_FITS && targetChip->getCaptureMode() != FITS_WCSM)
     {
         QUrl fileURL(filename);
 
@@ -1230,9 +1241,9 @@ void CCD::processBLOB(IBLOB* bp)
         if (preview)
         {
             if (Options::singleWindowFITS())
-                previewTitle = xi18n("%1 Preview", getDeviceName());
+                previewTitle = i18n("%1 Preview", getDeviceName());
             else
-                previewTitle = xi18n("Preview");
+                previewTitle = i18n("Preview");
         }
 
 
@@ -1244,7 +1255,11 @@ void CCD::processBLOB(IBLOB* bp)
                 else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
                     normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
 
-                targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
+                if (normalTabID >= 0)
+                    targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
+                else
+                    // If opening file fails, we treat it the same as exposure failure and recapture again if possible
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
                 break;
 
             case FITS_FOCUS:
@@ -1253,7 +1268,10 @@ void CCD::processBLOB(IBLOB* bp)
                 else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
 
-                targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+                if (focusTabID >= 0)
+                    targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+                else
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
                 break;
 
         case FITS_GUIDE:
@@ -1262,7 +1280,10 @@ void CCD::processBLOB(IBLOB* bp)
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
 
-            targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+            if (guideTabID >= 0)
+                targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+            else
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
             break;
 
         case FITS_CALIBRATE:
@@ -1271,7 +1292,11 @@ void CCD::processBLOB(IBLOB* bp)
             else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
                 calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
 
-            targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
+            if (calibrationTabID >= 0)
+                targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
+            else
+
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
             break;
 
 
@@ -1353,6 +1378,29 @@ bool CCD::hasGuideHead()
 bool CCD::hasCooler()
 {
     return HasCooler;
+}
+
+bool CCD::hasCoolerControl()
+{
+    return HasCoolerControl;
+}
+
+bool CCD::setCoolerControl(bool enable)
+{
+    if (HasCoolerControl == false)
+        return false;
+
+    ISwitchVectorProperty *coolerSP = baseDevice->getSwitch("CCD_COOLER");
+    if (coolerSP == NULL)
+        return false;
+
+    // Cooler ON/OFF
+    coolerSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
+    coolerSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(coolerSP);
+
+    return true;
 }
 
 CCDChip * CCD::getChip(CCDChip::ChipType cType)
@@ -1468,6 +1516,12 @@ CCD::UploadMode CCD::getUploadMode()
 
     uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
 
+    if (uploadModeSP == NULL)
+    {
+        qWarning() << "No UPLOAD_MODE in CCD driver. Please update driver to INDI compliant CCD driver.";
+        return UPLOAD_CLIENT;
+    }
+
     if (uploadModeSP)
     {
         ISwitch *modeS= NULL;
@@ -1485,6 +1539,56 @@ CCD::UploadMode CCD::getUploadMode()
 
     // Default
     return UPLOAD_CLIENT;
+}
+
+bool CCD::setUploadMode(UploadMode mode)
+{
+    ISwitchVectorProperty *uploadModeSP=NULL;
+    ISwitch *modeS= NULL;
+
+    uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+
+    if (uploadModeSP == NULL)
+    {
+        qWarning() << "No UPLOAD_MODE in CCD driver. Please update driver to INDI compliant CCD driver.";
+        return false;
+    }
+
+    switch (mode)
+    {
+        case UPLOAD_CLIENT:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
+        if (modeS == NULL)
+            return false;
+        if (modeS->s == ISS_ON)
+            return true;
+        break;
+
+        case UPLOAD_BOTH:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
+        if (modeS == NULL)
+            return false;
+        if (modeS->s == ISS_ON)
+            return true;
+        break;
+
+        case UPLOAD_LOCAL:
+        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
+        if (modeS == NULL)
+            return false;
+        if (modeS->s == ISS_ON)
+            return true;
+        break;
+
+    }
+
+    IUResetSwitch(uploadModeSP);
+    modeS->s = ISS_ON;
+
+    clientManager->sendNewSwitch(uploadModeSP);
+
+    return true;
+
 }
 
 bool CCD::getTemperature(double *value)

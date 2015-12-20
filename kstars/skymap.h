@@ -483,6 +483,9 @@ signals:
     /** Emitted when position under mouse changed. */
     void mousePointChanged(SkyPoint*);
 
+    /** Emitted when a position is clicked */
+    void positionClicked(SkyPoint*);
+
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map

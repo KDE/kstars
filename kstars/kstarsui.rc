@@ -105,10 +105,11 @@
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 		<Action name="opengl" />
+                <Action name="artificialhorizon" />
 		<Separator />
 		<Menu name="config_oal"><text>Configure Observation &amp;Logging</text>
-		  <Action name="ewriter"/>
-		  <Action name="obsadd"/>
+                  <Action name="equipmentwriter"/>
+                  <Action name="manageobserver"/>
 		</Menu>
 		<Separator />
 		<Action name="geolocation" />
@@ -154,6 +155,7 @@
 	<Action name="show_satellites" />
 	<Action name="show_clines" />
 	<Action name="show_cnames" />
+        <Action name="show_constellationart" />
 	<Action name="show_cbounds" />
 	<Action name="show_mw" />
 	<Action name="show_equatorial_grid" />

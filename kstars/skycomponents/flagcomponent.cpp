@@ -37,9 +37,9 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
 {
     // Add the default flag images to available images list
-    m_Names.append( xi18n( "No icon" ) );
+    m_Names.append( i18n( "No icon" ) );
     m_Images.append( QImage() );
-    m_Names.append( xi18n( "Default" ) );
+    m_Names.append( i18n( "Default" ) );
     m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
     QUrl dir = QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation)) ;
     dir.setScheme("file");
@@ -75,7 +75,7 @@ bool FlagComponent::selected() {
 void FlagComponent::loadFromFile() {
     bool imageFound = false;
 
-    QList<QStringList> flagList=KStarsData::Instance()->userdb()->ReturnAllFlags();
+    QList<QStringList> flagList=KStarsData::Instance()->userdb()->GetAllFlags();
     for (int i=0; i<flagList.size(); ++i){
         QStringList flagEntry = flagList.at(i);
 
@@ -132,7 +132,7 @@ void FlagComponent::saveToFile() {
     TODO: This is a really bad way of storing things. Adding one flag shouldn't
     involve writing a new file/table every time. Needs fixing.
     */
-    KStarsData::Instance()->userdb()->EraseAllFlags();
+    KStarsData::Instance()->userdb()->DeleteAllFlags();
 
     for ( int i=0; i < size(); ++i ) {
         KStarsData::Instance()->userdb()->AddFlag(QString::number(epochCoords(i).first) ,
@@ -207,10 +207,10 @@ void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
     // Add all other images found in user appdata directory
     foreach( KIO::UDSEntry entry, list) {
         KFileItem item(entry, m_Job->url(), false, true);
-        if( item.name().startsWith( "_flag" ) ) {
+        if( item.name().startsWith( "flag" ) ) {
             QString fileName = item.name()
                 .replace(QRegExp("\\.[^.]*$"), QString())
-                .replace(QRegExp("^_flag"),   QString())
+                .replace(QRegExp("^flag"),   QString())
                 .replace('_',' ');
             m_Names.append( fileName );
             m_Images.append( QImage( item.localPath() ));
@@ -299,6 +299,7 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
     foreach ( SkyPoint *cp, pointList() ) {
         if (std::isnan(cp->ra().Degrees()) || std::isnan(cp->dec().Degrees()))
             continue;
+        cp->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
         QPointF pos2 = proj->toScreen(cp);
         int dx = (pos2 - pos).x();
         int dy = (pos2 - pos).y();

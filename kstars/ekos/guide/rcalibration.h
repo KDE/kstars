@@ -31,7 +31,7 @@ class rcalibration: public QWidget
     Q_OBJECT
 
 public:
-    explicit rcalibration(Ekos::Guide *parent = 0);
+    explicit rcalibration(cgmath *mathObject, Ekos::Guide *parent = 0);
     ~rcalibration();
 
     enum CalibrationStage { CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_FINISH, CAL_ERROR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };
@@ -41,19 +41,29 @@ public:
     bool setVideoParams( int vid_wd, int vid_ht );
     void update_reticle_pos( double x, double y );
     void setMathObject( cgmath *math );
-    void setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame);
-    void setCalibrationParams(int boxSize, int pulseDuration);
-    //void set_ccd(ISD::CCD *ccd);
 
-    void setImage(FITSView *image);
+    void setCalibrationTwoAxis(bool enable);
+    void setCalibrationAutoStar(bool enable);
+    void setCalibrationAutoSquareSize(bool enable);
+    void setCalibrationDarkFrame(bool enable);
+
+    void setCalibrationParams(int boxSize, int pulseDuration);
+
+    // 2015-09-05 return false in case of auto star selection because we don't want the guide module to do any processing
+    // otherwise return true
+    bool setImage(FITSView *image);
 
     double getReticleAngle() { return ui.spinBox_ReticleAngle->value();}
 
-    bool isCalibrating();
-    bool isAutoCalibration() { return ui.autoCalibrationCheck->isChecked(); }
+    bool isCalibrating();    
     bool isCalibrationComplete() { return (calibrationStage == CAL_FINISH || calibrationStage == CAL_ERROR); }
     bool isCalibrationSuccessful() { return (calibrationStage == CAL_FINISH); }
+
+    bool useAutoStar() { return ui.autoStarCheck->isChecked(); }
+    bool useAutoSquareSize() { return ui.autoSquareSizeCheck->isChecked(); }
     bool useDarkFrame() { return ui.darkFrameCheck->isChecked(); }
+    bool useTwoAxis() { return ui.twoAxisCheck->isChecked(); }
+
     void processCalibration();
     CalibrationStage getCalibrationStage() { return calibrationStage; }
     void reset();
@@ -68,6 +78,7 @@ protected slots:
 	void onReticleYChanged( double val );
 	void onReticleAngChanged( double val );
 	void onStartReticleCalibrationButtonClick();
+    void toggleAutoSquareSize(bool enable);
 
 public slots:
     void capture();

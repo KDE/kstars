@@ -183,9 +183,7 @@ void cgmath::get_guider_params( double *ccd_pix_wd, double *ccd_pix_ht, double *
 
 bool cgmath::set_reticle_params( double x, double y, double ang )
 {
- Vector ort;
-
- // check frame ranges
+  // check frame ranges
  	if( x < 0 )
  		x = 0;
  	if( y < 0 )
@@ -222,8 +220,8 @@ bool cgmath::set_reticle_params( double x, double y, double ang )
 	overlays.reticle_pos.x = reticle_pos.x;
 	overlays.reticle_pos.y = reticle_pos.y;
 
-    if (pimage)
-        pimage->setGuideSquare(reticle_pos.x, reticle_pos.y);
+    //if (pimage)
+     //   pimage->setGuideSquare(reticle_pos.x, reticle_pos.y);
 
  return true;
 }
@@ -542,7 +540,9 @@ double cgmath::calc_phi( double start_x, double start_y, double end_x, double en
 	delta_x = end_x - start_x;
 	delta_y = -(end_y - start_y);
 
-    if( !Vector(delta_x, delta_y, 0) < 2.5 )
+    //if( (!Vector(delta_x, delta_y, 0)) < 2.5 )
+    // JM 2015-12-10: Lower threshold to 1 pixel
+    if( (!Vector(delta_x, delta_y, 0)) < 1 )
 		return -1;
 
 	// 90 or 270 degrees
@@ -887,7 +887,7 @@ void cgmath::process_axes( void  )
  			t_delta += drift[k][idx];
 
             if (Options::verboseLogging())
-                qDebug() << "At #" << i << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta ;
+                qDebug() << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta ;
  		
 			if( idx > 0 )
 				--idx;
@@ -903,19 +903,16 @@ void cgmath::process_axes( void  )
  	
         if (Options::verboseLogging())
         {
-            qDebug() << "cnt: " << cnt;
-            qDebug() << "delta[" << k << "]= "  << out_params.delta[k];
+            //qDebug() << "cnt: " << cnt;
+            qDebug() << "delta         [" << k << "]= "  << out_params.delta[k];
             qDebug() << "drift_integral[" << k << "]= "  << drift_integral[k];
         }
-
-        //if( k == GUIDE_RA )
-		//	log_i( "PROP = %f INT = %f", out_params.delta[k], drift_integral[k] );
 
 		out_params.pulse_length[k] = fabs(out_params.delta[k]*in_params.proportional_gain[k] + drift_integral[k]*in_params.integral_gain[k]);
  		out_params.pulse_length[k] = out_params.pulse_length[k] <= in_params.max_pulse_length[k] ? out_params.pulse_length[k] : in_params.max_pulse_length[k];
 
         if (Options::verboseLogging())
-            qDebug() << "pulse_length[" << k << "]= "  << out_params.pulse_length[k];
+            qDebug() << "pulse_length  [" << k << "]= "  << out_params.pulse_length[k];
 
  		// calc direction
  		if( !in_params.enabled[k] )
@@ -941,7 +938,7 @@ void cgmath::process_axes( void  )
  			out_params.pulse_dir[k] = NO_DIR;
 
     if (Options::verboseLogging())
-            qDebug() << "Direction: " << get_direction_string(out_params.pulse_dir[k]);
+            qDebug() << "Direction     : " << get_direction_string(out_params.pulse_dir[k]);
 
  	}
 
@@ -949,7 +946,7 @@ void cgmath::process_axes( void  )
 
      QTextStream out(logFile);
      out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << "," << get_direction_string(out_params.pulse_dir[0])
-         << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]);
+         << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
 
 }
 
@@ -975,8 +972,8 @@ void cgmath::do_processing( void )
 
 
 	// move square overlay
- 	//move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
-    move_square( ceil(star_pos.x) - (double)square_size/2, ceil(star_pos.y) - (double)square_size/2 );
+    move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
+    //move_square( ceil(star_pos.x) - (double)square_size/2, ceil(star_pos.y) - (double)square_size/2 );
 
 	if( preview_mode )
 		return;
@@ -993,10 +990,10 @@ void cgmath::do_processing( void )
 
     if (Options::verboseLogging())
     {
-        qDebug() << "Star X: " << star_pos.x << " Y: " << star_pos.y;
-        qDebug() << "Reticle X: " << reticle_pos.x << " Y:" << reticle_pos.y;
-        qDebug() << "Star Sky Coords RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
-        qDebug() << "Reticle Sky Coords RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
+        qDebug() << "Star    X : " << star_pos.x << " Y  : " << star_pos.y;
+        qDebug() << "Reticle X : " << reticle_pos.x << " Y  :" << reticle_pos.y;
+        qDebug() << "Star    RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
+        qDebug() << "Reticle RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
     }
 
 	// translate into sky coords.
@@ -1036,45 +1033,8 @@ void cgmath::do_processing( void )
 
 void cgmath::calc_square_err( void )
 {
-
-
 	if( !do_statistics )
 		return;
-/*
- 	double avg;
-
- 	// around avarage
-    sum += out_params.delta[GUIDE_RA];
-	avg = sum / ((double)ticks + 1.0);
-
-    sqr_sum += ((avg - out_params.delta[GUIDE_RA]) * (avg - out_params.delta[GUIDE_RA]));
-
-    out_params.sigma[GUIDE_RA] = sqrt( sqr_sum / ((double)ticks + 1.0) );
-*/
-/*
- 	// though all values around 0
-	if( ticks == 0 )
-	{
-        delta_prev = out_params.delta[GUIDE_RA];
-		return;
-	}
-	if( ticks == 1 )
-	{
-        sigma = delta_prev*delta_prev + out_params.delta[GUIDE_RA]*out_params.delta[GUIDE_RA];
-	}
-	else
-	{
-        sigma = sigma_prev*((double)ticks-1)/(double)ticks + (1/(double)ticks)*out_params.delta[GUIDE_RA]*out_params.delta[GUIDE_RA];
-	}
-	sigma_prev = sigma;
-    delta_prev = out_params.delta[GUIDE_RA];
-
-    out_params.sigma[GUIDE_RA] = sqrt( sigma );
-
-// sigma[i] = sigma[i-1]*(i-1)/i + (1/i) * X[i]*X[i];
-//i = 1, sigma[1] = x[0]*x[0] + x[1]*x[1]
-*/
-
 	// through MAX_ACCUM_CNT values
 	if( ticks == 0 )
 		return;

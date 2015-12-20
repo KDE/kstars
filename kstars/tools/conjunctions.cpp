@@ -72,29 +72,29 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     LocationButton -> setText( geoPlace -> fullName() );
 
     // Init filter type combobox
-    FilterTypeComboBox->addItem( xi18n ("Single Object...") );
-    FilterTypeComboBox->addItem( xi18n ("Any") );
-    FilterTypeComboBox->addItem( xi18n ("Stars") );
-    FilterTypeComboBox->addItem( xi18n ("Solar System") );
-    FilterTypeComboBox->addItem( xi18n ("Planets") );
-    FilterTypeComboBox->addItem( xi18n ("Comets") );
-    FilterTypeComboBox->addItem( xi18n ("Asteroids") );
-    FilterTypeComboBox->addItem( xi18n ("Open Clusters") );
-    FilterTypeComboBox->addItem( xi18n ("Globular Clusters") );
-    FilterTypeComboBox->addItem( xi18n ("Gaseous Nebulae") );
-    FilterTypeComboBox->addItem( xi18n ("Planetary Nebulae") );
-    FilterTypeComboBox->addItem( xi18n ("Galaxies") );
+    FilterTypeComboBox->addItem( i18n ("Single Object...") );
+    FilterTypeComboBox->addItem( i18n ("Any") );
+    FilterTypeComboBox->addItem( i18n ("Stars") );
+    FilterTypeComboBox->addItem( i18n ("Solar System") );
+    FilterTypeComboBox->addItem( i18n ("Planets") );
+    FilterTypeComboBox->addItem( i18n ("Comets") );
+    FilterTypeComboBox->addItem( i18n ("Asteroids") );
+    FilterTypeComboBox->addItem( i18n ("Open Clusters") );
+    FilterTypeComboBox->addItem( i18n ("Globular Clusters") );
+    FilterTypeComboBox->addItem( i18n ("Gaseous Nebulae") );
+    FilterTypeComboBox->addItem( i18n ("Planetary Nebulae") );
+    FilterTypeComboBox->addItem( i18n ("Galaxies") );
 
-    pNames[KSPlanetBase::MERCURY] = xi18n("Mercury");
-    pNames[KSPlanetBase::VENUS] = xi18n("Venus");
-    pNames[KSPlanetBase::MARS] = xi18n("Mars");
-    pNames[KSPlanetBase::JUPITER] = xi18n("Jupiter");
-    pNames[KSPlanetBase::SATURN] = xi18n("Saturn");
-    pNames[KSPlanetBase::URANUS] = xi18n("Uranus");
-    pNames[KSPlanetBase::NEPTUNE] = xi18n("Neptune");
-    //pNames[KSPlanetBase::PLUTO] = xi18n("Pluto");
-    pNames[KSPlanetBase::SUN] = xi18n("Sun");
-    pNames[KSPlanetBase::MOON] = xi18n("Moon");
+    pNames[KSPlanetBase::MERCURY] = i18n("Mercury");
+    pNames[KSPlanetBase::VENUS] = i18n("Venus");
+    pNames[KSPlanetBase::MARS] = i18n("Mars");
+    pNames[KSPlanetBase::JUPITER] = i18n("Jupiter");
+    pNames[KSPlanetBase::SATURN] = i18n("Saturn");
+    pNames[KSPlanetBase::URANUS] = i18n("Uranus");
+    pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
+    //pNames[KSPlanetBase::PLUTO] = i18n("Pluto");
+    pNames[KSPlanetBase::SUN] = i18n("Sun");
+    pNames[KSPlanetBase::MOON] = i18n("Moon");
 
     for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i ) {
         //      Obj1ComboBox->insertItem( i, pNames[i] );
@@ -107,8 +107,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
 
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
-    m_Model->setHorizontalHeaderLabels( QStringList() << xi18n( "Conjunction/Opposition" ) 
-            << xi18n( "Date & Time (UT)" ) << xi18n( "Object 1" ) << xi18n( "Object 2" ) << xi18n( "Separation" ) );
+    m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Conjunction/Opposition" ) 
+            << i18n( "Date & Time (UT)" ) << i18n( "Object 1" ) << i18n( "Object 2" ) << i18n( "Separation" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     OutputList->setModel( m_SortModel );
@@ -205,7 +205,7 @@ void ConjunctionsTool::slotExport()
     QByteArray line;
 
     //QFile file( KFileDialog::getSaveFileName( QDir::homePath(), "*|All files", this, "Save Conjunctions" ) );
-   QFile file( QFileDialog::getSaveFileName(0, xi18n("Save Conjunctions"), QDir::homePath(), "*|All files") );
+   QFile file( QFileDialog::getSaveFileName(0, i18n("Save Conjunctions"), QDir::homePath(), "*|All files") );
 
     file.open( QIODevice::WriteOnly | QIODevice::Text );
 
@@ -248,19 +248,19 @@ void ConjunctionsTool::slotCompute (void)
     maxSeparation = maxSeparationBox->createDms( true, &ok );
 
     if( !ok ) {
-        KMessageBox::sorry( 0, xi18n("Maximum separation entered is not a valid angle. Use the What's this help feature for information on how to enter a valid angle") );
+        KMessageBox::sorry( 0, i18n("Maximum separation entered is not a valid angle. Use the What's this help feature for information on how to enter a valid angle") );
         return;
     }
 
     // Check if Object1 and Object2 are set
     if( FilterTypeComboBox->currentIndex() == 0 && !Object1 ) {
-        KMessageBox::sorry( 0, xi18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button.") );
+        KMessageBox::sorry( 0, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button.") );
         return;
     }
     Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
     if( FilterTypeComboBox->currentIndex() == 0 && Object1->name() == Object2->name() ) {
         // FIXME: Must free the created Objects
-    	KMessageBox::sorry( 0 , xi18n("Please select two different objects to check conjunctions with.") );
+    	KMessageBox::sorry( 0 , i18n("Please select two different objects to check conjunctions with.") );
     	return;
     }
 
@@ -283,7 +283,7 @@ void ConjunctionsTool::slotCompute (void)
             objects += data->skyComposite()->objectNames( SkyObject::COMET );
             objects += data->skyComposite()->objectNames( SkyObject::ASTEROID );
             objects += data->skyComposite()->objectNames( SkyObject::MOON );
-            objects += xi18n("Sun");
+            objects += i18n("Sun");
             // Remove Object2  planet
             objects.removeAll( Object2->name() );
             break;
@@ -336,7 +336,7 @@ void ConjunctionsTool::slotCompute (void)
 
     if ( FilterTypeComboBox->currentIndex() != 0 ) {
         // Show a progress dialog while processing
-        QProgressDialog progressDlg( xi18n( "Compute conjunction..." ), xi18n( "Abort" ), 0, objects.count(), this);
+        QProgressDialog progressDlg( i18n( "Compute conjunction..." ), i18n( "Abort" ), 0, objects.count(), this);
         progressDlg.setWindowModality( Qt::WindowModal );
         progressDlg.setValue( 0 );
 
@@ -348,7 +348,7 @@ void ConjunctionsTool::slotCompute (void)
             // Update progress dialog
             ++progress;
             progressDlg.setValue( progress );
-            progressDlg.setLabelText( xi18n( "Compute conjunction between %1 and %2", Object2->name(), object ) );
+            progressDlg.setLabelText( i18n( "Compute conjunction between %1 and %2", Object2->name(), object ) );
 
             // Compute conjuction
             Object1 = data->skyComposite()->findByName( object );
@@ -387,9 +387,9 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
         QStandardItem* typeItem;
 
         if ( ! Opposition->currentIndex() )
-            typeItem = new QStandardItem( xi18n( "Conjunction" ) );
+            typeItem = new QStandardItem( i18n( "Conjunction" ) );
         else
-            typeItem = new QStandardItem( xi18n( "Opposition" ) );
+            typeItem = new QStandardItem( i18n( "Opposition" ) );
 
         itemList << typeItem
                 //FIXME TODO is this ISO date? is there a ready format to use?

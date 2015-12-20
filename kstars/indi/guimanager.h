@@ -63,6 +63,11 @@ public:
 
     FITSViewer *getGenericFITSViewer();
 
+protected:
+    void closeEvent(QCloseEvent *);
+    void hideEvent(QHideEvent *);
+    void showEvent(QShowEvent *);
+
   private:
     /*****************************************************************
     * GUI stuff

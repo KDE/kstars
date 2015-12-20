@@ -19,14 +19,14 @@
 
 #include "../indi/indicommon.h"
 
-extern const u_char DEF_BKGD_COLOR[];
-extern const u_char DEF_RA_COLOR[];
-extern const u_char DEF_DEC_COLOR[];
-extern const u_char DEF_GRID_COLOR[];
-extern const u_char DEF_WHITE_COLOR[];
-extern const u_char DEF_GRID_FONT_COLOR[];
+extern const uint8_t DEF_BKGD_COLOR[];
+extern const uint8_t DEF_RA_COLOR[];
+extern const uint8_t DEF_DEC_COLOR[];
+extern const uint8_t DEF_GRID_COLOR[];
+extern const uint8_t DEF_WHITE_COLOR[];
+extern const uint8_t DEF_GRID_FONT_COLOR[];
 
-extern const u_char DEF_SQR_OVL_COLOR[];
+extern const uint8_t DEF_SQR_OVL_COLOR[];
 
 void u_msg( const char *fmt, ...);
 

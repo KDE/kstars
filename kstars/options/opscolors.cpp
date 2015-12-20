@@ -54,10 +54,10 @@ OpsColors::OpsColors( KStars *_ks )
         item->setData( ItemColorData, itemColor );
     }
 
-    PresetBox->addItem( xi18nc( "use default color scheme", "Default Colors" ) );
-    PresetBox->addItem( xi18nc( "use 'star chart' color scheme", "Star Chart" ) );
-    PresetBox->addItem( xi18nc( "use 'night vision' color scheme", "Night Vision" ) );
-    PresetBox->addItem( xi18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
+    PresetBox->addItem( i18nc( "use default color scheme", "Default Colors" ) );
+    PresetBox->addItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
+    PresetBox->addItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
+    PresetBox->addItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
 
     PresetFileList.append( "classic.colors" );
     PresetFileList.append( "chart.colors" );
@@ -81,10 +81,10 @@ OpsColors::OpsColors( KStars *_ks )
     }
 
     kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
-    kcfg_StarColorMode->addItem( xi18nc( "use realistic star colors", "Real Colors" ) );
-    kcfg_StarColorMode->addItem( xi18nc( "show stars as red circles", "Solid Red" ) );
-    kcfg_StarColorMode->addItem( xi18nc( "show stars as black circles", "Solid Black" ) );
-    kcfg_StarColorMode->addItem( xi18nc( "show stars as white circles", "Solid White" ) );
+    kcfg_StarColorMode->addItem( i18nc( "use realistic star colors", "Real Colors" ) );
+    kcfg_StarColorMode->addItem( i18nc( "show stars as red circles", "Solid Red" ) );
+    kcfg_StarColorMode->addItem( i18nc( "show stars as black circles", "Solid Black" ) );
+    kcfg_StarColorMode->addItem( i18nc( "show stars as white circles", "Solid White" ) );
     kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
 
     if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
@@ -165,8 +165,8 @@ void OpsColors::slotAddPreset() {
 
 
     bool okPressed = false;
-    QString schemename = QInputDialog::getText(0, xi18n( "New Color Scheme" ),
-                         xi18n( "Enter a name for the new color scheme:" ), QLineEdit::Normal,
+    QString schemename = QInputDialog::getText(0, i18n( "New Color Scheme" ),
+                         i18n( "Enter a name for the new color scheme:" ), QLineEdit::Normal,
                          QString(), &okPressed, 0 );
 
     if ( okPressed && ! schemename.isEmpty() ) {
@@ -196,8 +196,8 @@ void OpsColors::slotRemovePreset() {
     ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );
 
     if ( !cdatFile.exists() || !cdatFile.open( QIODevice::ReadWrite ) ) {
-        QString message = xi18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
-        KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+        QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
     } else {
         //Remove entry from the ListBox and from the QStringList holding filenames.
         //There seems to be no way to set no item selected, so select
@@ -221,8 +221,8 @@ void OpsColors::slotRemovePreset() {
             QFile colorFile;
             colorFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + filename ) ; //determine filename in local user KDE directory tree.
             if ( !colorFile.remove() ) {
-                QString message = xi18n( "Could not delete the file: %1", colorFile.fileName() );
-                KMessageBox::sorry( 0, message, xi18n( "Error Deleting File" ) );
+                QString message = i18n( "Could not delete the file: %1", colorFile.fileName() );
+                KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
             }
 
             //remove the old colors.dat file, and rebuild it with the modified string list.
@@ -232,8 +232,8 @@ void OpsColors::slotRemovePreset() {
             for( int i=0; i<slist.count(); ++i )
                 stream << slist[i] << endl;
         } else {
-            QString message = xi18n( "Could not find an entry named %1 in colors.dat.", name );
-            KMessageBox::sorry( 0, message, xi18n( "Scheme Not Found" ) );
+            QString message = i18n( "Could not find an entry named %1 in colors.dat.", name );
+            KMessageBox::sorry( 0, message, i18n( "Scheme Not Found" ) );
         }
         cdatFile.close();
     }

@@ -57,7 +57,7 @@ OptionsTreeView::OptionsTreeView( QWidget *p )
     mainLayout->addWidget(otvw);
     setLayout(mainLayout);
 
-    setWindowTitle( xi18n( "Options" ) );
+    setWindowTitle( i18n( "Options" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
@@ -120,7 +120,7 @@ ScriptNameDialog::ScriptNameDialog( QWidget *p )
     mainLayout->addWidget(snw);
     setLayout(mainLayout);
 
-    setWindowTitle( xi18n( "Script Data" ) );
+    setWindowTitle( i18n( "Script Data" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
@@ -158,7 +158,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     mainLayout->addWidget(sb);
     setLayout(mainLayout);
 
-    setWindowTitle( xi18n( "Script Builder" ) );
+    setWindowTitle( i18n( "Script Builder" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
@@ -167,35 +167,35 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->FuncDoc->setTextInteractionFlags( Qt::NoTextInteraction );
 
     //Initialize function templates and descriptions
-    KStarsFunctionList.append( new ScriptFunction( "lookTowards", xi18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ), false, "QString", "dir" ) );
-    KStarsFunctionList.append( new ScriptFunction( "addLabel", xi18n( "Add a name label to the object named %1.", QString( "name" ) ), false, "QString", "name" ) );
-    KStarsFunctionList.append( new ScriptFunction( "removeLabel", xi18n( "Remove the name label from the object named %1.", QString( "name" ) ), false, "QString", "name" ) );
-    KStarsFunctionList.append( new ScriptFunction( "addTrail", xi18n( "Add a trail to the solar system body named %1.", QString( "name" ) ), false, "QString", "name" ) );
-    KStarsFunctionList.append( new ScriptFunction( "removeTrail", xi18n( "Remove the trail from the solar system body named %1.", QString( "name" ) ), false, "QString", "name" ) );
-    KStarsFunctionList.append( new ScriptFunction( "setRaDec", xi18n( "Point the display at the specified RA/Dec coordinates.  RA is expressed in Hours; Dec is expressed in Degrees." ),
+    KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ), false, "QString", "dir" ) );
+    KStarsFunctionList.append( new ScriptFunction( "addLabel", i18n( "Add a name label to the object named %1.", QString( "name" ) ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "removeLabel", i18n( "Remove the name label from the object named %1.", QString( "name" ) ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "addTrail", i18n( "Add a trail to the solar system body named %1.", QString( "name" ) ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "removeTrail", i18n( "Remove the trail from the solar system body named %1.", QString( "name" ) ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  RA is expressed in Hours; Dec is expressed in Degrees." ),
                                false, "double", "ra", "double", "dec" ) );
-    KStarsFunctionList.append( new ScriptFunction( "setAltAz", xi18n( "Point the display at the specified Alt/Az coordinates.  Alt and Az are expressed in Degrees." ),
+    KStarsFunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  Alt and Az are expressed in Degrees." ),
                                false, "double", "alt", "double", "az" ) );
-    KStarsFunctionList.append( new ScriptFunction( "zoomIn", xi18n( "Increase the display Zoom Level." ), false ) );
-    KStarsFunctionList.append( new ScriptFunction( "zoomOut", xi18n( "Decrease the display Zoom Level." ), false ) );
-    KStarsFunctionList.append( new ScriptFunction( "defaultZoom", xi18n( "Set the display Zoom Level to its default value." ), false ) );
-    KStarsFunctionList.append( new ScriptFunction( "zoom", xi18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
-    KStarsFunctionList.append( new ScriptFunction( "setLocalTime", xi18n( "Set the system clock to the specified Local Time." ),
+    KStarsFunctionList.append( new ScriptFunction( "zoomIn", i18n( "Increase the display Zoom Level." ), false ) );
+    KStarsFunctionList.append( new ScriptFunction( "zoomOut", i18n( "Decrease the display Zoom Level." ), false ) );
+    KStarsFunctionList.append( new ScriptFunction( "defaultZoom", i18n( "Set the display Zoom Level to its default value." ), false ) );
+    KStarsFunctionList.append( new ScriptFunction( "zoom", i18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
+    KStarsFunctionList.append( new ScriptFunction( "setLocalTime", i18n( "Set the system clock to the specified Local Time." ),
                                false, "int", "year", "int", "month", "int", "day", "int", "hour", "int", "minute", "int", "second" ) );
-    KStarsFunctionList.append( new ScriptFunction( "waitFor", xi18n( "Pause script execution for specified number of seconds." ), false, "double", "sec" ) );
-    KStarsFunctionList.append( new ScriptFunction( "waitForKey", xi18n( "Halt script execution until the specified key is pressed.  Only single-key strokes are possible; use 'space' for the spacebar." ),
+    KStarsFunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for specified number of seconds." ), false, "double", "sec" ) );
+    KStarsFunctionList.append( new ScriptFunction( "waitForKey", i18n( "Halt script execution until the specified key is pressed.  Only single-key strokes are possible; use 'space' for the spacebar." ),
                                false, "QString", "key" ) );
-    KStarsFunctionList.append( new ScriptFunction( "setTracking", xi18n( "Set whether the display is tracking the current location." ), false, "bool", "track" ) );
-    KStarsFunctionList.append( new ScriptFunction( "changeViewOption", xi18n( "Change view option named %1 to value %2.", QString( "opName" ), QString( "opValue" ) ), false, "QString", "opName", "QString", "opValue" ) );
-    KStarsFunctionList.append( new ScriptFunction( "setGeoLocation", xi18n( "Set the geographic location to the city specified by city, province and country." ),
+    KStarsFunctionList.append( new ScriptFunction( "setTracking", i18n( "Set whether the display is tracking the current location." ), false, "bool", "track" ) );
+    KStarsFunctionList.append( new ScriptFunction( "changeViewOption", i18n( "Change view option named %1 to value %2.", QString( "opName" ), QString( "opValue" ) ), false, "QString", "opName", "QString", "opValue" ) );
+    KStarsFunctionList.append( new ScriptFunction( "setGeoLocation", i18n( "Set the geographic location to the city specified by city, province and country." ),
                                false, "QString", "cityName", "QString", "provinceName", "QString", "countryName" ) );
-    KStarsFunctionList.append( new ScriptFunction( "setColor", xi18n( "Set the color named %1 to the value %2.", QString("colorName"), QString("value") ), false, "QString", "colorName", "QString", "value" ) );
-    KStarsFunctionList.append( new ScriptFunction( "loadColorScheme", xi18n( "Load the color scheme specified by name." ), false, "QString", "name" ) );
-    KStarsFunctionList.append( new ScriptFunction( "exportImage", xi18n( "Export the sky image to the file, with specified width and height."), false, "QString", "fileName", "int", "width", "int", "height" ) );
-    KStarsFunctionList.append( new ScriptFunction( "printImage", xi18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing.", QString( "usePrintDialog" ), QString( "useChartColors" ) ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
-    SimClockFunctionList.append( new ScriptFunction( "stop", xi18n( "Halt the simulation clock." ), true ) );
-    SimClockFunctionList.append( new ScriptFunction( "start", xi18n( "Start the simulation clock." ), true ) );
-    SimClockFunctionList.append( new ScriptFunction( "setClockScale", xi18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
+    KStarsFunctionList.append( new ScriptFunction( "setColor", i18n( "Set the color named %1 to the value %2.", QString("colorName"), QString("value") ), false, "QString", "colorName", "QString", "value" ) );
+    KStarsFunctionList.append( new ScriptFunction( "loadColorScheme", i18n( "Load the color scheme specified by name." ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "exportImage", i18n( "Export the sky image to the file, with specified width and height."), false, "QString", "fileName", "int", "width", "int", "height" ) );
+    KStarsFunctionList.append( new ScriptFunction( "printImage", i18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing.", QString( "usePrintDialog" ), QString( "useChartColors" ) ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
+    SimClockFunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
+    SimClockFunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
+    SimClockFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
 
     // JM: We're using QTreeWdiget for Qt4 now
     QTreeWidgetItem *kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));
@@ -211,7 +211,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     simclock_tree->sortChildren( 0, Qt::AscendingOrder );
 
     sb->FunctionTree->setColumnCount(1);
-    sb->FunctionTree->setHeaderLabels( QStringList(xi18n("Functions")) );
+    sb->FunctionTree->setHeaderLabels( QStringList(i18n("Functions")) );
     sb->FunctionTree->setSortingEnabled( false );
 
     //Add icons to Push Buttons
@@ -349,26 +349,26 @@ void ScriptBuilder::initViewOptions() {
     QStringList fields;
 
     //InfoBoxes
-    opsGUI = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "InfoBoxes" )) );
-    fields << "ShowInfoBoxes" << xi18n( "Toggle display of all InfoBoxes" ) << xi18n( "bool" );
+    opsGUI = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "InfoBoxes" )) );
+    fields << "ShowInfoBoxes" << i18n( "Toggle display of all InfoBoxes" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << "ShowTimeBox" << xi18n( "Toggle display of Time InfoBox" ) << xi18n( "bool" );
+    fields << "ShowTimeBox" << i18n( "Toggle display of Time InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << "ShowGeoBox" << xi18n( "Toggle display of Geographic InfoBox" ) << xi18n( "bool" );
+    fields << "ShowGeoBox" << i18n( "Toggle display of Geographic InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << "ShowFocusBox" << xi18n( "Toggle display of Focus InfoBox" ) << xi18n( "bool" );
+    fields << "ShowFocusBox" << i18n( "Toggle display of Focus InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << "ShadeTimeBox" << xi18n( "(un)Shade Time InfoBox" ) << xi18n( "bool" );
+    fields << "ShadeTimeBox" << i18n( "(un)Shade Time InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << "ShadeGeoBox" << xi18n( "(un)Shade Geographic InfoBox" ) << xi18n( "bool" );
+    fields << "ShadeGeoBox" << i18n( "(un)Shade Geographic InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << "ShadeFocusBox" << xi18n( "(un)Shade Focus InfoBox" ) << xi18n( "bool" );
+    fields << "ShadeFocusBox" << i18n( "(un)Shade Focus InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
 
@@ -381,11 +381,11 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "ShadeFocusBox" );
 
     //Toolbars
-    opsToolbar = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "Toolbars" )) );
-    fields << "ShowMainToolBar" << xi18n( "Toggle display of main toolbar" ) << xi18n( "bool" );
+    opsToolbar = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Toolbars" )) );
+    fields << "ShowMainToolBar" << i18n( "Toggle display of main toolbar" ) << i18n( "bool" );
     new QTreeWidgetItem( opsToolbar, fields );
     fields.clear();
-    fields << "ShowViewToolBar" << xi18n( "Toggle display of view toolbar" ) << xi18n( "bool" );
+    fields << "ShowViewToolBar" << i18n( "Toggle display of view toolbar" ) << i18n( "bool" );
     new QTreeWidgetItem( opsToolbar, fields );
     fields.clear();
 
@@ -393,62 +393,62 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "ShowViewToolBar" );
 
     //Show Objects
-    opsShowObj = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "Show Objects" )) );
-    fields << "ShowStars" << xi18n( "Toggle display of Stars" ) << xi18n( "bool" );
+    opsShowObj = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Objects" )) );
+    fields << "ShowStars" << i18n( "Toggle display of Stars" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowDeepSky" << xi18n( "Toggle display of all deep-sky objects" ) << xi18n( "bool" );
+    fields << "ShowDeepSky" << i18n( "Toggle display of all deep-sky objects" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowMessier" << xi18n( "Toggle display of Messier object symbols" ) << xi18n( "bool" );
+    fields << "ShowMessier" << i18n( "Toggle display of Messier object symbols" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowMessierImages" << xi18n( "Toggle display of Messier object images" ) << xi18n( "bool" );
+    fields << "ShowMessierImages" << i18n( "Toggle display of Messier object images" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowNGC" << xi18n( "Toggle display of NGC objects" ) << xi18n( "bool" );
+    fields << "ShowNGC" << i18n( "Toggle display of NGC objects" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowIC" << xi18n( "Toggle display of IC objects" ) << xi18n( "bool" );
+    fields << "ShowIC" << i18n( "Toggle display of IC objects" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowSolarSystem" << xi18n( "Toggle display of all solar system bodies" ) << xi18n( "bool" );
+    fields << "ShowSolarSystem" << i18n( "Toggle display of all solar system bodies" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowSun" << xi18n( "Toggle display of Sun" ) << xi18n( "bool" );
+    fields << "ShowSun" << i18n( "Toggle display of Sun" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowMoon" << xi18n( "Toggle display of Moon" ) << xi18n( "bool" );
+    fields << "ShowMoon" << i18n( "Toggle display of Moon" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowMercury" << xi18n( "Toggle display of Mercury" ) << xi18n( "bool" );
+    fields << "ShowMercury" << i18n( "Toggle display of Mercury" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowVenus" << xi18n( "Toggle display of Venus" ) << xi18n( "bool" );
+    fields << "ShowVenus" << i18n( "Toggle display of Venus" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowMars" << xi18n( "Toggle display of Mars" ) << xi18n( "bool" );
+    fields << "ShowMars" << i18n( "Toggle display of Mars" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowJupiter" << xi18n( "Toggle display of Jupiter" ) << xi18n( "bool" );
+    fields << "ShowJupiter" << i18n( "Toggle display of Jupiter" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowSaturn" << xi18n( "Toggle display of Saturn" ) << xi18n( "bool" );
+    fields << "ShowSaturn" << i18n( "Toggle display of Saturn" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowUranus" << xi18n( "Toggle display of Uranus" ) << xi18n( "bool" );
+    fields << "ShowUranus" << i18n( "Toggle display of Uranus" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowNeptune" << xi18n( "Toggle display of Neptune" ) << xi18n( "bool" );
+    fields << "ShowNeptune" << i18n( "Toggle display of Neptune" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     //fields.clear();
-    //fields << "ShowPluto" << xi18n( "Toggle display of Pluto" ) << xi18n( "bool" );
+    //fields << "ShowPluto" << i18n( "Toggle display of Pluto" ) << i18n( "bool" );
     //new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowAsteroids" << xi18n( "Toggle display of Asteroids" ) << xi18n( "bool" );
+    fields << "ShowAsteroids" << i18n( "Toggle display of Asteroids" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << "ShowComets" << xi18n( "Toggle display of Comets" ) << xi18n( "bool" );
+    fields << "ShowComets" << i18n( "Toggle display of Comets" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
 
@@ -472,50 +472,50 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "ShowAsteroids" );
     argChangeViewOption->OptionName->addItem( "ShowComets" );
 
-    opsShowOther = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "Show Other" )) );
-    fields << "ShowCLines" << xi18n( "Toggle display of constellation lines" ) << xi18n( "bool" );
+    opsShowOther = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Other" )) );
+    fields << "ShowCLines" << i18n( "Toggle display of constellation lines" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowCBounds" << xi18n( "Toggle display of constellation boundaries" ) << xi18n( "bool" );
+    fields << "ShowCBounds" << i18n( "Toggle display of constellation boundaries" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowCNames" << xi18n( "Toggle display of constellation names" ) << xi18n( "bool" );
+    fields << "ShowCNames" << i18n( "Toggle display of constellation names" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowMilkyWay" << xi18n( "Toggle display of Milky Way" ) << xi18n( "bool" );
+    fields << "ShowMilkyWay" << i18n( "Toggle display of Milky Way" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowGrid" << xi18n( "Toggle display of the coordinate grid" ) << xi18n( "bool" );
+    fields << "ShowGrid" << i18n( "Toggle display of the coordinate grid" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowEquator" << xi18n( "Toggle display of the celestial equator" ) << xi18n( "bool" );
+    fields << "ShowEquator" << i18n( "Toggle display of the celestial equator" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowEcliptic" << xi18n( "Toggle display of the ecliptic" ) << xi18n( "bool" );
+    fields << "ShowEcliptic" << i18n( "Toggle display of the ecliptic" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowHorizon" << xi18n( "Toggle display of the horizon line" ) << xi18n( "bool" );
+    fields << "ShowHorizon" << i18n( "Toggle display of the horizon line" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowGround" << xi18n( "Toggle display of the opaque ground" ) << xi18n( "bool" );
+    fields << "ShowGround" << i18n( "Toggle display of the opaque ground" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowStarNames" << xi18n( "Toggle display of star name labels" ) << xi18n( "bool" );
+    fields << "ShowStarNames" << i18n( "Toggle display of star name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowStarMagnitudes" << xi18n( "Toggle display of star magnitude labels" ) << xi18n( "bool" );
+    fields << "ShowStarMagnitudes" << i18n( "Toggle display of star magnitude labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowAsteroidNames" << xi18n( "Toggle display of asteroid name labels" ) << xi18n( "bool" );
+    fields << "ShowAsteroidNames" << i18n( "Toggle display of asteroid name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowCometNames" << xi18n( "Toggle display of comet name labels" ) << xi18n( "bool" );
+    fields << "ShowCometNames" << i18n( "Toggle display of comet name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowPlanetNames" << xi18n( "Toggle display of planet name labels" ) << xi18n( "bool" );
+    fields << "ShowPlanetNames" << i18n( "Toggle display of planet name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << "ShowPlanetImages" << xi18n( "Toggle display of planet images" ) << xi18n( "bool" );
+    fields << "ShowPlanetImages" << i18n( "Toggle display of planet images" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
 
@@ -535,14 +535,14 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "ShowPlanetNames" );
     argChangeViewOption->OptionName->addItem( "ShowPlanetImages" );
 
-    opsCName = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "Constellation Names" )) );
-    fields << "UseLatinConstellNames" << xi18n( "Show Latin constellation names" ) << xi18n( "bool" );
+    opsCName = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Constellation Names" )) );
+    fields << "UseLatinConstellNames" << i18n( "Show Latin constellation names" ) << i18n( "bool" );
     new QTreeWidgetItem( opsCName, fields );
     fields.clear();
-    fields << "UseLocalConstellNames" <<xi18n( "Show constellation names in local language" ) << xi18n( "bool" );
+    fields << "UseLocalConstellNames" <<i18n( "Show constellation names in local language" ) << i18n( "bool" );
     new QTreeWidgetItem( opsCName, fields );
     fields.clear();
-    fields << "UseAbbrevConstellNames" <<xi18n( "Show IAU-standard constellation abbreviations" ) << xi18n( "bool" );
+    fields << "UseAbbrevConstellNames" <<i18n( "Show IAU-standard constellation abbreviations" ) << i18n( "bool" );
     new QTreeWidgetItem( opsCName, fields );
     fields.clear();
 
@@ -550,41 +550,41 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "UseLocalConstellNames" );
     argChangeViewOption->OptionName->addItem( "UseAbbrevConstellNames" );
 
-    opsHide = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "Hide Items" )) );
-    fields << "HideOnSlew" << xi18n( "Toggle whether objects hidden while slewing display" ) << xi18n( "bool" );
+    opsHide = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Hide Items" )) );
+    fields << "HideOnSlew" << i18n( "Toggle whether objects hidden while slewing display" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "SlewTimeScale" << xi18n( "Timestep threshold (in seconds) for hiding objects")  << xi18n( "double" );
+    fields << "SlewTimeScale" << i18n( "Timestep threshold (in seconds) for hiding objects")  << i18n( "double" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideStars" << xi18n( "Hide faint stars while slewing?" ) << xi18n( "bool" );
+    fields << "HideStars" << i18n( "Hide faint stars while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HidePlanets" << xi18n( "Hide solar system bodies while slewing?" ) << xi18n( "bool" );
+    fields << "HidePlanets" << i18n( "Hide solar system bodies while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideMessier" << xi18n( "Hide Messier objects while slewing?" ) << xi18n( "bool" );
+    fields << "HideMessier" << i18n( "Hide Messier objects while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideNGC" << xi18n( "Hide NGC objects while slewing?" ) << xi18n( "bool" );
+    fields << "HideNGC" << i18n( "Hide NGC objects while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideIC" << xi18n( "Hide IC objects while slewing?" ) << xi18n( "bool" );
+    fields << "HideIC" << i18n( "Hide IC objects while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideMilkyWay" << xi18n( "Hide Milky Way while slewing?" ) << xi18n( "bool" );
+    fields << "HideMilkyWay" << i18n( "Hide Milky Way while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideCNames" << xi18n( "Hide constellation names while slewing?" ) << xi18n( "bool" );
+    fields << "HideCNames" << i18n( "Hide constellation names while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideCLines" << xi18n( "Hide constellation lines while slewing?" ) << xi18n( "bool" );
+    fields << "HideCLines" << i18n( "Hide constellation lines while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideCBounds" << xi18n( "Hide constellation boundaries while slewing?" ) << xi18n( "bool" );
+    fields << "HideCBounds" << i18n( "Hide constellation boundaries while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << "HideGrid" << xi18n( "Hide coordinate grid while slewing?" ) << xi18n( "bool" );
+    fields << "HideGrid" << i18n( "Hide coordinate grid while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
 
@@ -601,38 +601,38 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "HideCBounds" );
     argChangeViewOption->OptionName->addItem( "HideGrid" );
 
-    opsSkymap = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "Skymap Options" )) );
-    fields << "UseAltAz" << xi18n( "Use Horizontal coordinates? (otherwise, use Equatorial)")  << xi18n( "bool" );
+    opsSkymap = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Skymap Options" )) );
+    fields << "UseAltAz" << i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)")  << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "ZoomFactor" << xi18n( "Set the Zoom Factor" ) << xi18n( "double" );
+    fields << "ZoomFactor" << i18n( "Set the Zoom Factor" ) << i18n( "double" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "FOVName" << xi18n( "Select angular size for the FOV symbol (in arcmin)")  << xi18n( "double" );
+    fields << "FOVName" << i18n( "Select angular size for the FOV symbol (in arcmin)")  << i18n( "double" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "FOVShape" << xi18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ) << xi18n( "int" );
+    fields << "FOVShape" << i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ) << i18n( "int" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "FOVColor" << xi18n( "Select color for the FOV symbol" ) << xi18n( "string" );
+    fields << "FOVColor" << i18n( "Select color for the FOV symbol" ) << i18n( "string" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "UseAnimatedSlewing" << xi18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ) << xi18n( "bool" );
+    fields << "UseAnimatedSlewing" << i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "UseRefraction" << xi18n( "Correct for atmospheric refraction?" ) << xi18n( "bool" );
+    fields << "UseRefraction" << i18n( "Correct for atmospheric refraction?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "UseAutoLabel" << xi18n( "Automatically attach name label to centered object?" ) << xi18n( "bool" );
+    fields << "UseAutoLabel" << i18n( "Automatically attach name label to centered object?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "UseHoverLabel" << xi18n( "Attach temporary name label when hovering mouse over an object?" ) << xi18n( "bool" );
+    fields << "UseHoverLabel" << i18n( "Attach temporary name label when hovering mouse over an object?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "UseAutoTrail" << xi18n( "Automatically add trail to centered solar system body?" ) << xi18n( "bool" );
+    fields << "UseAutoTrail" << i18n( "Automatically add trail to centered solar system body?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << "FadePlanetTrails" << xi18n( "Planet trails fade to sky color? (otherwise color is constant)" ) << xi18n( "bool" );
+    fields << "FadePlanetTrails" << i18n( "Planet trails fade to sky color? (otherwise color is constant)" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
 
@@ -650,41 +650,41 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "FadePlanetTrails" );
 
 
-    opsLimit = new QTreeWidgetItem( otv->optionsList(), QStringList(xi18n( "Limits" )) );
+    opsLimit = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Limits" )) );
     /*
-    fields << "magLimitDrawStar" << xi18n( "magnitude of faintest star drawn on map when zoomed in" ) << xi18n( "double" );
+    fields << "magLimitDrawStar" << i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << "magLimitDrawStarZoomOut" << xi18n( "magnitude of faintest star drawn on map when zoomed out" ) << xi18n( "double" );
+    fields << "magLimitDrawStarZoomOut" << i18n( "magnitude of faintest star drawn on map when zoomed out" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
     */
 
     // TODO: We have disabled the following two features. Enable them when feasible...
     /*
-    fields << "magLimitDrawDeepSky" << xi18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ) << xi18n( "double" );
+    fields << "magLimitDrawDeepSky" << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << "magLimitDrawDeepSkyZoomOut" << xi18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ) << xi18n( "double" );
+    fields << "magLimitDrawDeepSkyZoomOut" << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
     */
 
     //FIXME: This description is incorrect! Fix after strings freeze
-    fields << "starLabelDensity" << xi18n( "magnitude of faintest star labeled on map" ) << xi18n( "double" );
+    fields << "starLabelDensity" << i18n( "magnitude of faintest star labeled on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << "magLimitHideStar" << xi18n( "magnitude of brightest star hidden while slewing" ) << xi18n( "double" );
+    fields << "magLimitHideStar" << i18n( "magnitude of brightest star hidden while slewing" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << "magLimitAsteroid" << xi18n( "magnitude of faintest asteroid drawn on map" ) << xi18n( "double" );
+    fields << "magLimitAsteroid" << i18n( "magnitude of faintest asteroid drawn on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
     //FIXME: This description is incorrect! Fix after strings freeze
-    fields << "asteroidLabelDensity" << xi18n( "magnitude of faintest asteroid labeled on map" ) << xi18n( "double" );
+    fields << "asteroidLabelDensity" << i18n( "magnitude of faintest asteroid labeled on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << "maxRadCometName" << xi18n( "comets nearer to the Sun than this (in AU) are labeled on map" ) << xi18n( "double" );
+    fields << "maxRadCometName" << i18n( "comets nearer to the Sun than this (in AU) are labeled on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
 
@@ -704,10 +704,10 @@ void ScriptBuilder::initViewOptions() {
     }
 
     //init list of color scheme names
-    argLoadColorScheme->SchemeList->addItem( xi18nc( "use default color scheme", "Default Colors" ) );
-    argLoadColorScheme->SchemeList->addItem( xi18nc( "use 'star chart' color scheme", "Star Chart" ) );
-    argLoadColorScheme->SchemeList->addItem( xi18nc( "use 'night vision' color scheme", "Night Vision" ) );
-    argLoadColorScheme->SchemeList->addItem( xi18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use default color scheme", "Default Colors" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
 
     QFile file;
     QString line;
@@ -750,7 +750,7 @@ void ScriptBuilder::slotOpen() {
 
     if ( !UnsavedChanges )
     {
-        currentFileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+        currentFileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), QString(), QUrl(currentDir), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
 
         if ( currentFileURL.isValid() )
         {
@@ -767,13 +767,13 @@ void ScriptBuilder::slotOpen() {
                 fname = tmpfile.fileName();
                 if (KIO::copy(currentFileURL, QUrl(fname))->exec() == false)
                 //if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
-                    KMessageBox::sorry( 0, xi18n( "Could not download remote file." ), xi18n( "Download Error" ) );
+                    KMessageBox::sorry( 0, i18n( "Could not download remote file." ), i18n( "Download Error" ) );
             }
 
             QFile f( fname );
             if ( !f.open( QIODevice::ReadOnly) ) {
-                QString message = xi18n( "Could not open file %1.", f.fileName() );
-                KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+                QString message = i18n( "Could not open file %1.", f.fileName() );
+                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
                 currentFileURL.clear();
                 return;
             }
@@ -783,8 +783,8 @@ void ScriptBuilder::slotOpen() {
 
             f.close();
         } else if ( ! currentFileURL.url().isEmpty() ) {
-            QString message = xi18n( "Invalid URL: %1", currentFileURL.url() );
-            KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
+            QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
+            KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
             currentFileURL.clear();
         }
     }
@@ -812,7 +812,7 @@ void ScriptBuilder::slotSave()
 
     bool newFilename = false;
     if ( currentFileURL.isEmpty() ) {
-        currentFileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(currentDir), "*.kstars|" + xi18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
+        currentFileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(currentDir), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
         newFilename = true;
     }
 
@@ -825,9 +825,9 @@ void ScriptBuilder::slotSave()
             //Warn user if file exists
             if (newFilename == true && QFile::exists(currentFileURL.path())) {
                 int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
-                        xi18n( "A file named \"%1\" already exists. "
+                        i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?" , currentFileURL.fileName()),
-                        xi18n( "Overwrite File?" ),
+                        i18n( "Overwrite File?" ),
                         KStandardGuiItem::overwrite() );
 
                 if(r==KMessageBox::Cancel) return;
@@ -840,8 +840,8 @@ void ScriptBuilder::slotSave()
 
         QFile f( fname );
         if ( !f.open( QIODevice::WriteOnly) ) {
-            QString message = xi18n( "Could not open file %1.", f.fileName() );
-            KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             currentFileURL.clear();
             return;
         }
@@ -861,16 +861,16 @@ void ScriptBuilder::slotSave()
             //if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) )
             if ( KIO::storedHttpPost(&tmpfile, currentFileURL)->exec() == false)
             {
-                QString message = xi18n( "Could not upload image to remote location: %1", currentFileURL.url() );
-                KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
+                QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.url() );
+                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
             }
         }
 
         setUnsavedChanges( false );
 
     } else {
-        QString message = xi18n( "Invalid URL: %1", currentFileURL.url() );
-        KMessageBox::sorry( 0, message, xi18n( "Invalid URL" ) );
+        QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
+        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
         currentFileURL.clear();
     }
 }
@@ -883,8 +883,8 @@ void ScriptBuilder::slotSaveAs() {
 
 void ScriptBuilder::saveWarning() {
     if ( UnsavedChanges ) {
-        QString caption = xi18n( "Save Changes to Script?" );
-        QString message = xi18n( "The current script has unsaved changes.  Would you like to save before closing it?" );
+        QString caption = i18n( "Save Changes to Script?" );
+        QString message = i18n( "The current script has unsaved changes.  Would you like to save before closing it?" );
         int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
         if ( ans == KMessageBox::Yes ) {
             slotSave();
@@ -912,8 +912,8 @@ void ScriptBuilder::slotRunScript() {
     QFile f( fname );
     if ( f.exists() ) f.remove();
     if ( !f.open( QIODevice::WriteOnly) ) {
-        QString message = xi18n( "Could not open file %1.", f.fileName() );
-        KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+        QString message = i18n( "Could not open file %1.", f.fileName() );
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         currentFileURL.clear();
         return;
     }
@@ -1025,7 +1025,7 @@ void ScriptBuilder::readScript( QTextStream &istream )
                 // Initially, any read script is valid!
                 ScriptList.last()->setValid(true);
             }
-            else qWarning() << xi18n( "Could not parse script.  Line was: %1", line ) ;
+            else qWarning() << i18n( "Could not parse script.  Line was: %1", line ) ;
 
         } // end if left(4) == "dcop"
     } // end while !atEnd()
@@ -1374,9 +1374,9 @@ void ScriptBuilder::slotArgWidget() {
             }
 
         } else if ( sf->name() == "printImage" ) {
-            if ( sf->argVal(0) == xi18n( "true" ) ) argPrintImage->UsePrintDialog->setChecked( true );
+            if ( sf->argVal(0) == i18n( "true" ) ) argPrintImage->UsePrintDialog->setChecked( true );
             else argPrintImage->UsePrintDialog->setChecked( false );
-            if ( sf->argVal(1) == xi18n( "true" ) ) argPrintImage->UseChartColors->setChecked( true );
+            if ( sf->argVal(1) == i18n( "true" ) ) argPrintImage->UseChartColors->setChecked( true );
             else argPrintImage->UseChartColors->setChecked( false );
 
         } else if ( sf->name() == "setLocalTime" ) {
@@ -1412,7 +1412,7 @@ void ScriptBuilder::slotArgWidget() {
 
         } else if ( sf->name() == "setTracking" ) {
             sb->ArgStack->setCurrentWidget( argSetTracking );
-            if ( sf->argVal(0) == xi18n( "true" ) ) argSetTracking->CheckTrack->setChecked( true  );
+            if ( sf->argVal(0) == i18n( "true" ) ) argSetTracking->CheckTrack->setChecked( true  );
             else argSetTracking->CheckTrack->setChecked( false );
 
         } else if ( sf->name() == "changeViewOption" ) {
@@ -1485,7 +1485,7 @@ void ScriptBuilder::slotShowDoc() {
     if (found == NULL)
     {
         sb->AddButton->setEnabled( false );
-        qWarning() << xi18n( "Function index out of bounds." ) ;
+        qWarning() << i18n( "Function index out of bounds." ) ;
         return;
     }
 
@@ -1747,7 +1747,7 @@ void ScriptBuilder::slotTracking() {
     if ( sf->name() == "setTracking" ) {
         setUnsavedChanges( true );
 
-        sf->setArg( 0, ( argSetTracking->CheckTrack->isChecked() ? xi18n( "true" ) : xi18n( "false" ) ) );
+        sf->setArg( 0, ( argSetTracking->CheckTrack->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
         sf->setValid( true );
     } else {
         warningMismatch( "setTracking" );
@@ -1884,8 +1884,8 @@ void ScriptBuilder::slotPrintImage() {
     if ( sf->name() == "printImage" ) {
         setUnsavedChanges( true );
 
-        sf->setArg( 0, ( argPrintImage->UsePrintDialog->isChecked() ? xi18n( "true" ) : xi18n( "false" ) ) );
-        sf->setArg( 1, ( argPrintImage->UseChartColors->isChecked() ? xi18n( "true" ) : xi18n( "false" ) ) );
+        sf->setArg( 0, ( argPrintImage->UsePrintDialog->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
+        sf->setArg( 1, ( argPrintImage->UseChartColors->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
         sf->setValid( true );
     } else {
         warningMismatch( "exportImage" );
@@ -2493,7 +2493,7 @@ void ScriptBuilder::slotINDISetFilterNum()
 #endif
 
 void ScriptBuilder::warningMismatch (const QString &expected) const {
-    qWarning() << xi18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;
+    qWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;
 }
 
 

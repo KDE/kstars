@@ -16,11 +16,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QStandardPaths>
+
 #include "ksuserdb.h"
 #include "kstarsdata.h"
+#include "artificialhorizoncomponent.h"
 #include "version.h"
-#include <QDebug>
-#include <QStandardPaths>
+#include "linelist.h"
 
 /*
  * TODO (spacetime):
@@ -41,16 +43,40 @@ bool KSUserDB::Initialize() {
         first_run = true;
     }
     userdb_.setDatabaseName(dbfile);
-    if (!userdb_.open()) {
+    if (!userdb_.open())
+    {
            qWarning() << "Unable to open user database file.";
            qWarning() << LastError();
-    } else {
+           return false;
+    }
+    else
+    {
         qDebug() << "Opened the User DB. Ready.";
-        if (first_run == true) {
+        if (first_run == true)
             FirstRun();
+        else
+        {
+            // Update table if previous version exists
+            QSqlTableModel version(0, userdb_);
+            version.setTable("Version");
+            version.select();
+            QSqlRecord record = version.record(0);
+            qDebug() << " Verion string is " << record.value("Version").toString();
+            version.clear();
+            if (record.value("Version").toString() < "2.4.0")
+            {
+                QSqlQuery query(userdb_);
+                QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
+
+                if (!query.exec(versionQuery))
+                    qDebug() << query.lastError();
+
+                if (!query.exec("CREATE TABLE IF NOT EXISTS horizons (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, label TEXT NOT NULL, enabled INTEGER NOT NULL)"))
+                    qDebug() << query.lastError();
+           }
         }
     }
-    userdb_.close();
+    userdb_.close();        
     return true;
 }
 
@@ -152,6 +178,12 @@ bool KSUserDB::RebuildDB() {
                   "lens INTEGER DEFAULT NULL REFERENCES lens (id), "
                   "Eyepiece INTEGER DEFAULT NULL REFERENCES eyepiece (id), "
                   "FOV INTEGER DEFAULT NULL REFERENCES fov (id))");
+
+    tables.append("CREATE TABLE horizons ( "
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                  "name TEXT NOT NULL,"
+                  "label TEXT NOT NULL,"
+                  "enabled INTEGER NOT NULL)");
 
     for (int i = 0; i < tables.count(); ++i) {
         QSqlQuery query(userdb_);
@@ -256,13 +288,13 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
  * Flag Section
 */
 
-void KSUserDB::EraseAllFlags() {
+void KSUserDB::DeleteAllFlags() {
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
+    flags.setEditStrategy(QSqlTableModel::OnManualSubmit);
     flags.setTable("flags");
     flags.select();
 
-    flags.setEditStrategy(QSqlTableModel::OnManualSubmit);
     flags.removeRows(0, flags.rowCount());
     flags.submitAll();
 
@@ -291,7 +323,7 @@ void KSUserDB::AddFlag(const QString &ra, const QString &dec,
     userdb_.close();
 }
 
-QList<QStringList> KSUserDB::ReturnAllFlags() {
+QList<QStringList> KSUserDB::GetAllFlags() {
     QList<QStringList> flagList;
 
     userdb_.open();
@@ -326,7 +358,7 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
 /*
  * Generic Section
  */
-void KSUserDB::EraseEquipment(const QString &type, const int &id) {
+void KSUserDB::DeleteEquipment(const QString &type, const int &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable(type);
@@ -340,9 +372,10 @@ void KSUserDB::EraseEquipment(const QString &type, const int &id) {
     userdb_.close();
 }
 
-void KSUserDB::EraseAllEquipment(const QString &type) {
+void KSUserDB::DeleteAllEquipment(const QString &type) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
+    equip.setEditStrategy(QSqlTableModel::OnManualSubmit);
     equip.setTable(type);
     equip.setFilter("id >= 1");
     equip.select();
@@ -815,7 +848,7 @@ void KSUserDB::readFilters() {
 }
 
 void KSUserDB::readScope() {
-    QString model, vendor, type, driver = xi18nc("No driver", "None");
+    QString model, vendor, type, driver = i18nc("No driver", "None");
     double aperture, focalLength;
     while( ! reader_->atEnd() ) {
         reader_->readNext();
@@ -917,3 +950,121 @@ void KSUserDB::readFilter() {
     }
     AddFilter(vendor, model, type, color );
 }
+
+QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
+{
+    QList<ArtificialHorizonEntity *> horizonList;
+
+    userdb_.open();
+    QSqlTableModel regions(0, userdb_);
+    regions.setTable("horizons");
+    regions.select();
+
+    QSqlTableModel points(0, userdb_);
+
+    for (int i =0; i < regions.rowCount(); ++i)
+    {
+        QSqlRecord record = regions.record(i);
+        QString regionTable = record.value("name").toString();
+        QString regionName  = record.value("label").toString();
+        bool    enabled     = record.value("enabled").toInt() == 1 ? true : false;
+
+        points.setTable(regionTable);
+        points.select();
+
+        LineList* skyList = new LineList();
+
+        ArtificialHorizonEntity *horizon = new ArtificialHorizonEntity;
+
+        horizon->setRegion(regionName);
+        horizon->setEnabled(enabled);
+        horizon->setList(skyList);
+
+        horizonList.append(horizon);
+
+        for (int j=0; j < points.rowCount(); j++)
+        {
+            record = points.record(j);
+
+            SkyPoint *p = new SkyPoint();
+            p->setAz(record.value(0).toDouble());
+            p->setAlt(record.value(1).toDouble());
+            p->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            skyList->append(p);
+        }
+
+        points.clear();
+    }
+
+    regions.clear();
+    userdb_.close();
+    return horizonList;
+}
+
+void KSUserDB::DeleteAllHorizons()
+{
+    userdb_.open();
+    QSqlTableModel regions(0, userdb_);
+    regions.setEditStrategy(QSqlTableModel::OnManualSubmit);
+    regions.setTable("horizons");
+    regions.select();
+
+    QSqlQuery query(userdb_);
+
+    for (int i =0; i < regions.rowCount(); ++i)
+    {
+        QSqlRecord record = regions.record(i);
+        QString tableQuery = QString("DROP TABLE %1").arg(record.value("name").toString());
+        if (!query.exec(tableQuery))
+            qDebug() << query.lastError().text();
+    }
+
+    regions.removeRows(0, regions.rowCount());
+    regions.submitAll();
+
+    regions.clear();
+    userdb_.close();
+}
+
+void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
+{
+    userdb_.open();
+    QSqlTableModel regions(0, userdb_);
+    regions.setTable("horizons");
+
+    regions.select();
+    QString tableName = QString("horizon_%1").arg(regions.rowCount()+1);
+
+    regions.insertRow(0);
+    regions.setData(regions.index(0, 1), tableName);
+    regions.setData(regions.index(0, 2), horizon->region());
+    regions.setData(regions.index(0, 3), horizon->enabled() ? 1 : 0);
+    regions.submitAll();
+    regions.clear();
+
+
+    QString tableQuery = QString("CREATE TABLE %1 (Az REAL NOT NULL, Alt REAL NOT NULL)").arg(tableName);
+    QSqlQuery query(userdb_);
+    query.exec(tableQuery);
+
+    QSqlTableModel points(0, userdb_);    
+
+    points.setTable(tableName);
+
+    SkyList *skyList = horizon->list()->points();
+
+    for (int i=0; i < skyList->size(); i++)
+    {
+        points.select();
+        QSqlRecord rec( points.record() );
+        rec.setValue( "Az", skyList->at(i)->az().Degrees());
+        rec.setValue( "Alt", skyList->at(i)->alt().Degrees());
+        points.insertRecord( -1, rec );
+    }
+
+    points.submitAll();
+    points.clear();
+
+    userdb_.close();
+}
+

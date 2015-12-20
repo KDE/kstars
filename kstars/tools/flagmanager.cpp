@@ -54,7 +54,7 @@ FlagManager::FlagManager( QWidget *ks )
 
     ui = new FlagManagerUI( this );
 
-    setWindowTitle( xi18n( "Flag manager" ) );
+    setWindowTitle( i18n( "Flag manager" ) );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -66,14 +66,14 @@ FlagManager::FlagManager( QWidget *ks )
 
     m_Ks = KStars::Instance();
 
-    ui->hintLabel->setText(xi18n("To add custom icons, just add images in %1. File names must begin with flag. "
+    ui->hintLabel->setText(i18n("To add custom icons, just add images in %1. File names must begin with flag. "
                                  "For example, the file <i>flagSmall_red_cross.gif</i> will be shown as <i>Small red cross</i> in the combo box.",
                                  QStandardPaths::writableLocation(QStandardPaths::DataLocation)));
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
-    m_Model->setHorizontalHeaderLabels( QStringList() << xi18nc( "Right Ascension", "RA" ) 
-            << xi18nc( "Declination", "Dec" ) << xi18n( "Epoch" ) 
-            << xi18n( "Icon" ) << xi18n( "Label" ) );
+    m_Model->setHorizontalHeaderLabels( QStringList() << i18nc( "Right Ascension", "RA" ) 
+            << i18nc( "Declination", "Dec" ) << i18n( "Epoch" ) 
+            << i18n( "Icon" ) << i18n( "Label" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
@@ -182,11 +182,11 @@ bool FlagManager::validatePoint() {
 
     //make sure values are in valid range
     if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
-        message = xi18n( "The Right Ascension value must be between 0.0 and 24.0." );
+        message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
     if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
-        message += '\n' + xi18n( "The Declination value must be between -90.0 and 90.0." );
+        message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
     if ( ! message.isEmpty() ) {
-        KMessageBox::sorry( 0, message, xi18n( "Invalid Coordinate Data" ) );
+        KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
         return false;
     }
 
@@ -254,7 +254,7 @@ void FlagManager::slotCenterTelescope()
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -270,7 +270,7 @@ void FlagManager::slotCenterTelescope()
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(0, xi18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
@@ -283,7 +283,7 @@ void FlagManager::slotCenterTelescope()
 
     }
 
-    KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
 
 #endif
 }

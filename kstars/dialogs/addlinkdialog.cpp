@@ -35,7 +35,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 {
     ald = new AddLinkDialogUI(this);
 
-    setWindowTitle( xi18n( "Add Custom URL to %1", oname ) );
+    setWindowTitle( i18n( "Add Custom URL to %1", oname ) );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ald);
@@ -51,7 +51,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
     connect( ald->ImageRadio, SIGNAL(toggled(bool)), this, SLOT(changeDefaultDescription( bool )));
 
     ald->ImageRadio->setChecked(true);
-    ald->DescBox->setText( xi18n( "Show image of " ) + ObjectName );
+    ald->DescBox->setText( i18n( "Show image of " ) + ObjectName );
 }
 
 void AddLinkDialog::checkURL( void ) {
@@ -59,9 +59,9 @@ void AddLinkDialog::checkURL( void ) {
     if ( _url.isValid() ) {   //Is the string a valid URL?
        QDesktopServices::openUrl(_url.url() );   //If so, launch the browser to see if it's the correct document
     } else {   //If not, print a warning message box that offers to open the browser to a search engine.
-        QString message = xi18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
-        QString caption = xi18n( "Invalid URL" );
-        if ( KMessageBox::warningYesNo( 0, message, caption, KGuiItem(xi18n("Browse Google")), KGuiItem(xi18n("Do Not Browse")) )==KMessageBox::Yes ) {
+        QString message = i18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
+        QString caption = i18n( "Invalid URL" );
+        if ( KMessageBox::warningYesNo( 0, message, caption, KGuiItem(i18n("Browse Google")), KGuiItem(i18n("Do Not Browse")) )==KMessageBox::Yes ) {
             QDesktopServices::openUrl( QUrl("http://www.google.com") );
         }
     }
@@ -70,9 +70,9 @@ void AddLinkDialog::checkURL( void ) {
 void AddLinkDialog::changeDefaultDescription( bool imageEnabled )
 {
     if (imageEnabled)
-        ald->DescBox->setText( xi18n( "Show image of " ) + ObjectName );
+        ald->DescBox->setText( i18n( "Show image of " ) + ObjectName );
     else
-        ald->DescBox->setText( xi18n( "Show webpage about " ) + ObjectName );
+        ald->DescBox->setText( i18n( "Show webpage about " ) + ObjectName );
 }
 
 

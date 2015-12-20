@@ -87,6 +87,8 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     fitsTab->setTabsClosable(true);
 
+    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer"));
+
     setCentralWidget(fitsTab);
 
     connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
@@ -120,25 +122,25 @@ FITSViewer::FITSViewer (QWidget *parent)
     QAction *action;
 
     action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
-    action->setText(xi18n("Rotate Right"));
+    action->setText(i18n("Rotate Right"));
     action->setIcon(QIcon::fromTheme("object-rotate-right"));
 
     action = actionCollection()->addAction("rotate_left", this, SLOT(rotateCCW()));
-    action->setText(xi18n("Rotate Left"));
+    action->setText(i18n("Rotate Left"));
     action->setIcon(QIcon::fromTheme("object-rotate-left"));
 
     action = actionCollection()->addAction("flip_horizontal", this, SLOT(flipHorizontal()));
-    action->setText(xi18n("Flip Horizontal"));
+    action->setText(i18n("Flip Horizontal"));
     action->setIcon(QIcon::fromTheme("object-flip-horizontal"));
 
     action = actionCollection()->addAction("flip_vertical", this, SLOT(flipVertical()));
-    action->setText(xi18n("Flip Vertical"));
+    action->setText(i18n("Flip Vertical"));
     action->setIcon(QIcon::fromTheme("object-flip-vertical"));
 
     QFile tempFile;
 
     action = actionCollection()->addAction("image_histogram");
-    action->setText(xi18n("Histogram"));
+    action->setText(i18n("Histogram"));
     connect(action, SIGNAL(triggered(bool)), SLOT (histoFITS()));
     actionCollection()->setDefaultShortcut(action, QKeySequence::Replace);
 
@@ -157,17 +159,17 @@ FITSViewer::FITSViewer (QWidget *parent)
     action = actionCollection()->addAction("fits_header");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_H));
     action->setIcon(QIcon::fromTheme("document-properties"));
-    action->setText(xi18n( "FITS Header"));
+    action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
     action = actionCollection()->addAction("fits_debayer");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_D));
     action->setIcon(QIcon::fromTheme("view-preview"));
-    action->setText(xi18n( "Debayer..."));
+    action->setText(i18n( "Debayer..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(debayerFITS()));
 
     action = actionCollection()->addAction("image_stretch");
-    action->setText(xi18n("Auto stretch"));
+    action->setText(i18n("Auto stretch"));
     connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
     actionCollection()->setDefaultShortcut(action, QKeySequence::SelectAll);
     action->setIcon(QIcon::fromTheme("transform-move"));
@@ -188,11 +190,11 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     action = actionCollection()->addAction("image_stats");
     action->setIcon(QIcon::fromTheme("view-statistics"));
-    action->setText(xi18n( "Statistics"));
+    action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
 
     action = actionCollection()->addAction("mark_stars");
-    action->setText(xi18n( "Mark Stars"));
+    action->setText(i18n( "Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
 
     QSignalMapper *filterMapper = new QSignalMapper(this);
@@ -215,7 +217,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     /* Create GUI */
     createGUI("fitsviewer.rc");
 
-    setWindowTitle(xi18n("KStars FITS Viewer"));
+    setWindowTitle(i18n("KStars FITS Viewer"));
 
     /* initially resize in accord with KDE rules */
     resize(INITIAL_W, INITIAL_H);
@@ -228,15 +230,45 @@ FITSViewer::~FITSViewer()
     qDeleteAll(fitsTabs);
 }
 
-int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText)
+void FITSViewer::closeEvent(QCloseEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+    if (viewers.count() == 1)
+    {
+        a->setEnabled(false);
+        a->setChecked(false);
+    }
+}
+
+void FITSViewer::hideEvent(QHideEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+    if (viewers.count() == 1)
+        a->setChecked(false);
+}
+
+void FITSViewer::showEvent(QShowEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    a->setEnabled(true);
+    a->setChecked(true);
+}
+
+int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
 
     FITSTab *tab = new FITSTab(this);
 
     led.setColor(Qt::yellow);
 
-    if (tab->loadFITS(imageName,mode, filter) == false)
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    if (tab->loadFITS(imageName,mode, filter, silent) == false)
     {
+        QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
         if (fitsTabs.size() == 0)
         {
@@ -249,6 +281,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
         return -1;
     }
 
+    QApplication::restoreOverrideCursor();
     tab->setPreviewText(previewText);
 
     switch (mode)
@@ -258,15 +291,15 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
         break;
 
        case FITS_CALIBRATE:
-        fitsTab->addTab(tab, xi18n("Calibrate"));
+        fitsTab->addTab(tab, i18n("Calibrate"));
         break;
 
       case FITS_FOCUS:
-        fitsTab->addTab(tab, xi18n("Focus"));
+        fitsTab->addTab(tab, i18n("Focus"));
         break;
 
     case FITS_GUIDE:
-      fitsTab->addTab(tab, xi18n("Guide"));
+      fitsTab->addTab(tab, i18n("Guide"));
       break;
 
     default:
@@ -298,12 +331,12 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
     led.setColor(Qt::green);
 
-    updateStatusBar(xi18n("Ready."), FITS_MESSAGE);
+    updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 
     return (fitsID++);
 }
 
-bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter)
+bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter, bool silent)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
 
@@ -317,7 +350,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
 
     if (tab)
     {
-        rc = tab->loadFITS(imageName, tab->getView()->getMode(), filter);
+        rc = tab->loadFITS(imageName, tab->getView()->getMode(), filter, silent);
 
         int tabIndex = fitsTab->indexOf(tab);
         if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
@@ -357,7 +390,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         view->updateFrame();
 
     if (markStars)
-        updateStatusBar(xi18np("%1 star detected.", "%1 stars detected.",view->getImageData()->getDetectedStars()), FITS_MESSAGE);
+        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.",view->getImageData()->getDetectedStars()), FITS_MESSAGE);
     else
         updateStatusBar("", FITS_MESSAGE);
 
@@ -417,7 +450,7 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 
 void FITSViewer::openFile()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), xi18n("Open FITS Image"), lastURL, "FITS (*.fits *.fit)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open FITS Image"), lastURL, "FITS (*.fits *.fit)");
     if (fileURL.isEmpty())
         return;
 
@@ -437,7 +470,7 @@ void FITSViewer::openFile()
         }
     }
 
-    addFITS(&fileURL);
+    addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 
 }
 
@@ -547,8 +580,8 @@ int FITSViewer::saveUnsaved(int index)
     if (targetTab->getUndoStack()->isClean())
         return -1;
 
-    QString caption = xi18n( "Save Changes to FITS?" );
-    QString message = xi18n( "%1 has unsaved changes.  Would you like to save before closing it?", targetTab->getCurrentURL()->fileName());
+    QString caption = i18n( "Save Changes to FITS?" );
+    QString message = i18n( "%1 has unsaved changes.  Would you like to save before closing it?", targetTab->getCurrentURL()->fileName());
     int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
     if( ans == KMessageBox::Yes )
     {
@@ -685,12 +718,12 @@ void FITSViewer::toggleStars()
     if (markStars)
     {
         markStars = false;
-        actionCollection()->action("mark_stars")->setText( xi18n( "Mark Stars" ) );
+        actionCollection()->action("mark_stars")->setText( i18n( "Mark Stars" ) );
     }
     else
     {
         markStars = true;
-        actionCollection()->action("mark_stars")->setText( xi18n( "Unmark Stars" ) );
+        actionCollection()->action("mark_stars")->setText( i18n( "Unmark Stars" ) );
     }
 
     foreach(FITSTab *tab, fitsTabs)
@@ -708,13 +741,13 @@ void FITSViewer::applyFilter(int ftype)
         return;
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    updateStatusBar(xi18n("Processing %1...", filterTypes[ftype-1]), FITS_MESSAGE);
+    updateStatusBar(i18n("Processing %1...", filterTypes[ftype-1]), FITS_MESSAGE);
     qApp->processEvents();
     fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale) ftype);
     qApp->processEvents();
     fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
     QApplication::restoreOverrideCursor();
-    updateStatusBar(xi18n("Ready."), FITS_MESSAGE);
+    updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 }
 
 FITSView * FITSViewer::getView(int fitsUID)

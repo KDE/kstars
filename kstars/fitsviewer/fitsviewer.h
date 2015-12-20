@@ -67,9 +67,9 @@ public:
     FITSViewer (QWidget *parent);
     ~FITSViewer();
 
-    int addFITS(const QUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, const QString &previewText = QString());
+    int addFITS(const QUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, const QString &previewText = QString(), bool silent=true);
 
-    bool updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE);
+    bool updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE, bool silent=true);
 
     void toggleMarkStars(bool enable) { markStars = enable; }
     bool isStarsMarked() { return markStars; }
@@ -80,9 +80,11 @@ public:
 
     static QStringList filterTypes;
 
-//protected:
 
-    //virtual void closeEvent(QCloseEvent *ev);
+protected:
+    void closeEvent(QCloseEvent *);
+    void hideEvent(QHideEvent *);
+    void showEvent(QShowEvent *);
 
 public slots:
 

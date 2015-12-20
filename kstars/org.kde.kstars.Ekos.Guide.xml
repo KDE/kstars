@@ -48,10 +48,20 @@
       <arg name="value" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setCalibrationOptions">
-      <arg name="useTwoAxis" type="b" direction="in"/>
-      <arg name="autoCalibration" type="b" direction="in"/>
-      <arg name="useDarkFrame" type="b" direction="in"/>
+    <method name="setCalibrationTwoAxis">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCalibrationAutoStar">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCalibrationAutoSquareSize">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCalibrationDarkFrame">
+      <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setCalibrationParams">
@@ -59,11 +69,20 @@
       <arg name="pulseDuration" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideOptions">
+    <method name="setGuideBoxSize">
       <arg name="boxSize" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setGuideAlgorithm">
       <arg name="algorithm" type="s" direction="in"/>
-      <arg name="useSubFrame" type="b" direction="in"/>
-      <arg name="useRapidGuide" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setGuideSubFrame">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setGuideRapid">
+      <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setDither">

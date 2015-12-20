@@ -1,0 +1,20 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.Ekos.Dome">
+    <method name="abort">
+        <arg type="b" direction="out"/>
+    </method>
+    <method name="canPark">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="getParkingStatus">
+      <arg type="i" direction="out"/>
+    </method>
+    <method name="park">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="unpark">
+      <arg type="b" direction="out"/>
+    </method>
+  </interface>
+</node>

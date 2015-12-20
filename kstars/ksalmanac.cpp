@@ -38,10 +38,15 @@ KSAlmanac::KSAlmanac() :
 {
     KStarsData* data = KStarsData::Instance();
 
-    dt  = KStarsDateTime::currentDateTime();
+    /*dt  = KStarsDateTime::currentDateTime();
     geo = data->geo();
     dt.setTime(QTime());
-    dt  = geo->LTtoUT(dt);
+    dt  = geo->LTtoUT(dt);*/
+
+    // Jasem 2015-08-24 Do NOT use KStarsDataTime for local time, it is only for UTC
+    QDateTime midnight = QDateTime(data->lt().date(), QTime());
+    geo = data->geo();
+    dt  = geo->LTtoUT(midnight);
     update();
 }
 
@@ -145,13 +150,12 @@ double KSAlmanac::sunZenithAngleToTime( double z ) {
     return SunSet + ( HA - HASunset ) / 24.0;
 }
 
-double KSAlmanac::findAltitude( const SkyPoint *p, double hour ) {
+double KSAlmanac::findAltitude( const SkyPoint *p, double hour )
+{
+    // Jasem 2015-08-24 Using correct procedure to find altitude
     SkyPoint sp = *p; // make a copy
-    KStarsDateTime ut = dt;
-    ut.setTime( QTime() );
-    ut = geo->LTtoUT( ut );
-    ut= ut.addSecs( hour*3600.0 );
-    dms LST = geo->GSTtoLST( ut.gst() );
+    KStarsDateTime targetDateTime = dt.addSecs( hour*3600.0 );
+    dms LST = geo->GSTtoLST( targetDateTime.gst() );
     sp.EquatorialToHorizontal( &LST, geo->lat() );
     return sp.alt().Degrees();
 }

@@ -35,6 +35,7 @@ class LineList;
 class LineListLabel;
 class Satellite;
 class Supernova;
+class ConstellationsArt;
 
 
 /** @short Draws things on the sky, without regard to backend.
@@ -103,9 +104,11 @@ public:
 
     /** @short Draw a polygon in the sky.
         @param list a list of points in the sky
+        @param forceClip If true (default), it enforces clipping of the polygon, otherwise, it draws the
+        complete polygen without running any boundary checks.
         @see drawSkyPolyline()
         */
-    virtual void drawSkyPolygon(LineList* list) =0;
+    virtual void drawSkyPolygon(LineList* list, bool forceClip=true) =0;
 
     /** @short Draw a point source (e.g., a star).
         @param loc the location of the source in the sky
@@ -149,6 +152,12 @@ public:
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
+
+    /** @short Draw a ConstellationsArt object
+        @param obj the object to draw
+        @return true if it was drawn
+        */
+    virtual bool drawConstellationArtImage(ConstellationsArt *obj) = 0;
 
 protected:
 

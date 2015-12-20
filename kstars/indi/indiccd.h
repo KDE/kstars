@@ -63,8 +63,6 @@ public:
     bool getBinning(int *bin_x, int *bin_y);
     bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
-    void setShowFITS(bool enable) { displayFITS = enable;}
-    bool showFITS() const { return displayFITS; }
 
     bool isCapturing();
     bool abortExposure();
@@ -139,18 +137,21 @@ public:
     DeviceFamily getType() { return dType;}
     bool hasGuideHead();
     bool hasCooler();
+    bool hasCoolerControl();
+    bool setCoolerControl(bool enable);
 
     // Utitlity functions
     bool getTemperature(double *value);
     bool setTemperature(double value);
     void setISOMode(bool enable) { ISOMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
-    void setSeqCount(int count) { seqCount = count; }
+    void setNextSequenceID(int count) { nextSequenceID = count; }
     void setFilter(const QString & newFilter) { filter = newFilter;}
     bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
     bool setRapidGuide(CCDChip *targetChip, bool enable);
     void updateUploadSettings();
     UploadMode getUploadMode();
+    bool setUploadMode(UploadMode mode);
 
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
@@ -173,10 +174,11 @@ private:
     bool ISOMode;
     bool HasGuideHead;
     bool HasCooler;
+    bool HasCoolerControl;
     QString		seqPrefix;
     QString     fitsDir;
     char BLOBFilename[MAXINDIFILENAME];
-    int seqCount;
+    int nextSequenceID;
     FITSViewer * fv;
     StreamWG *streamWindow;
     int streamW, streamH;

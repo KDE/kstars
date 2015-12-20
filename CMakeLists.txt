@@ -1,6 +1,6 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 2)
-set (KStars_VERSION_MINOR 3)
+set (KStars_VERSION_MINOR 5)
 set (KStars_VERSION_REVISION 0)
 
 # minimal requirements
@@ -36,12 +36,12 @@ find_package(KF5 REQUIRED COMPONENTS
   Init
   JobWidgets
   KIO
-  WindowSystem
   XmlGui
   Plotting
   TextEditor
   IconThemes
   Archive
+  Notifications
 )
 
 find_package(Eigen3 REQUIRED)
@@ -58,7 +58,7 @@ set(HAVE_CFITSIO 0)
 endif(CFITSIO_FOUND)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
-find_package(INDI 1.0.0)
+find_package(INDI 1.1.0)
 #FIXME is there a better way to do this?
 if (INDI_FOUND)
 SET(HAVE_INDI 1)

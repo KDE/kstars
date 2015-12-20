@@ -39,7 +39,7 @@
 #include "skyobjects/trailobject.h"
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
-
+#include "skyobjects/constellationsart.h"
 #include "projections/projector.h"
 #include "ksutils.h"
 
@@ -74,6 +74,7 @@ namespace {
 }
 
 int SkyQPainter::starColorMode = 0;
+
 
 SkyQPainter::SkyQPainter( QPaintDevice *pd )
     : SkyPainter(), QPainter()
@@ -230,9 +231,14 @@ void SkyQPainter::initStarImages()
 
 void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
+
     bool aVisible, bVisible;
     QPointF aScreen = m_proj->toScreen(a,true,&aVisible);
     QPointF bScreen = m_proj->toScreen(b,true,&bVisible);
+
+    drawLine(aScreen, bScreen);
+    return;
+
     //THREE CASES:
     if( aVisible && bVisible ) {
         //Both a,b visible, so paint the line normally:
@@ -279,17 +285,33 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
     }
 }
 
-void SkyQPainter::drawSkyPolygon(LineList* list)
+void SkyQPainter::drawSkyPolygon(LineList* list, bool forceClip)
 {
-    SkyList *points = list->points();
     bool isVisible, isVisibleLast;
+    SkyList *points = list->points();
+    QPolygonF polygon;
+
+    if (forceClip == false)
+    {
+        for ( int i = 0; i < points->size(); ++i )
+        {
+            polygon << m_proj->toScreen( points->at( i ), false, &isVisibleLast);
+            isVisible |= isVisibleLast;
+        }
+
+        // If 1+ points are visible, draw it
+        if ( polygon.size() && isVisible)
+            drawPolygon(polygon);
+
+        return;
+    }
+
+
     SkyPoint* pLast = points->last();
     QPointF   oLast = m_proj->toScreen( pLast, true, &isVisibleLast );
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(pLast);
 
-
-    QPolygonF polygon;
     for ( int i = 0; i < points->size(); ++i ) {
         SkyPoint* pThis = points->at( i );
         QPointF oThis = m_proj->toScreen( pThis, true, &isVisible );
@@ -315,6 +337,7 @@ void SkyQPainter::drawSkyPolygon(LineList* list)
 
     if ( polygon.size() )
         drawPolygon(polygon);
+
 }
 
 bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
@@ -334,9 +357,9 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         // Draw them as bright stars of appropriate color instead of images
         char spType;
         //FIXME: do these need i18n?
-        if( planet->name() == xi18n("Mars") ) {
+        if( planet->name() == i18n("Mars") ) {
             spType = 'K';
-        } else if( planet->name() == xi18n("Jupiter") || planet->name() == xi18n("Mercury") || planet->name() == xi18n("Saturn") ) {
+        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
             spType = 'F';
         } else {
             spType = 'B';
@@ -422,6 +445,36 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
         else if( size >= 1 )
             drawPoint( pos.x(), pos.y() );
     }
+}
+
+bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
+{
+    double zoom = Options::zoomFactor();
+
+    bool visible = false;
+    obj->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QPointF constellationmidpoint = m_proj->toScreen(obj, true, &visible);
+
+    if ( !visible || !m_proj->onScreen(constellationmidpoint))
+        return false;
+
+    //qDebug() << "o->pa() " << obj->pa();
+    float positionangle = m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
+    //qDebug() << " final PA " << positionangle;
+
+
+    float w = obj->getWidth()*60*dms::PI*zoom/10800;
+    float h = obj->getHeight()*60*dms::PI*zoom/10800;
+
+    save();
+
+    translate(constellationmidpoint);
+    rotate(positionangle);
+    setOpacity(0.7);
+    drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
+    setOpacity(1);
+    restore();
+    return true;
 }
 
 bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)

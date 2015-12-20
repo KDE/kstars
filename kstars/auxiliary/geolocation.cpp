@@ -183,4 +183,20 @@ void GeoLocation::setReadOnly(bool value)
     ReadOnly = value;
 }
 
+KStarsDateTime GeoLocation::UTtoLT( const KStarsDateTime &ut ) const
+{
+    KStarsDateTime lt = ut.addSecs( int( 3600.*TZ() ) );
+    lt.setUtcOffset(int( 3600.*TZ()));
+
+    return lt;
+}
+
+KStarsDateTime GeoLocation::LTtoUT( const KStarsDateTime &lt ) const
+{
+     KStarsDateTime ut = lt.addSecs( int( -3600.*TZ() ) );
+     ut.setUtcOffset(0);
+
+     return ut;
+}
+
 

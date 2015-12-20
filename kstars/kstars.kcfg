@@ -118,7 +118,7 @@
     </entry>
   </group>
 
-  <group name="indi">
+  <group name="indi">    
     <entry name="useGeographicUpdate" type="Bool">
       <label>Automatically updates geographic location?</label>
       <default>true</default>
@@ -137,11 +137,6 @@
       <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
       <default>true</default>
     </entry>
-    <entry name="showFITS" type="Bool">
-      <label>Display FITS automatically when an image is captured?</label>
-      <whatsthis>Toggle automatic display of FITS files upon capture.</whatsthis>
-      <default>true</default>
-    </entry>
     <entry name="singlePreviewFITS" type="Bool">
       <label>Preview FITS in a single tab?</label>
       <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
@@ -151,42 +146,7 @@
       <label>Display all FITS in one window?</label>
       <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
       <default>false</default>
-    </entry>
-    <entry name="telescopePort" type="String">
-      <label>INDI Telescope port</label>
-      <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB0</default>
-    </entry>
-    <entry name="focuserPort" type="String">
-      <label>INDI Focuser port</label>
-      <whatsthis>The port to which the focuser is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB1</default>
-    </entry>
-    <entry name="filterPort" type="String">
-      <label>INDI Filter port</label>
-      <whatsthis>The port to which the filter is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default>/dev/ttyUSB2</default>
-    </entry>
-    <entry name="aux1Port" type="String">
-      <label>INDI Auxiliary #1 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="aux2Port" type="String">
-      <label>INDI Auxiliary #2 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="aux3Port" type="String">
-      <label>INDI Auxiliary #3 port</label>
-      <whatsthis>The port to which the auxiliary device is attached (e.g., /dev/ttyUSB0)</whatsthis>
-      <default></default>
-    </entry>
-    <entry name="videoPort" type="String">
-      <label>INDI Video port</label>
-      <whatsthis>The port to which the video device is connected</whatsthis>
-      <default>/dev/video0</default>
-    </entry>
+    </entry>    
     <entry name="useComputerSource" type="Bool">
       <label>Use computer time and location for synchronization?</label>
       <default>true</default>
@@ -435,6 +395,11 @@
     <entry name="ShowCLines" type="Bool">
       <label>Draw constellation lines in the sky map?</label>
       <whatsthis>Toggle whether constellation lines are drawn in the sky map.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="ShowConstellationArt" type="Bool">
+      <label>Draw constellation art in the sky map?</label>
+      <whatsthis>Toggle whether constellation art drawn in the sky map.</whatsthis>
       <default>false</default>
     </entry>
     <entry name="ShowCNames" type="Bool">
@@ -932,6 +897,11 @@
       <whatsthis>The color for the sky background.</whatsthis>
       <default>#002</default>
     </entry>
+    <entry name="ArtificialHorizonColor" type="String">
+      <label>Color Artificial Horizon</label>
+      <whatsthis>The color for the artificial horizon region.</whatsthis>
+      <default>#C82828</default>
+    </entry>
     <entry name="TelescopeTargetColor" type="String">
       <label>Color of telescope symbols</label>
       <whatsthis>The color for telescope target symbols.</whatsthis>
@@ -1304,7 +1274,13 @@
     <entry name="Aux3Driver" type="String">
       <label>Default Auxiliary driver #3</label>
     </entry>
+    <entry name="Aux4Driver" type="String">
+      <label>Default Auxiliary driver #4</label>
+    </entry>
     <entry name="DomeDriver" type="String">
+      <label>Default Weather driver</label>
+    </entry>
+    <entry name="WeatherDriver" type="String">
       <label>Default Dome driver</label>
     </entry>
     <entry name="AODriver" type="String">
@@ -1342,9 +1318,17 @@
       <label>Remote Auxiliary Name #3</label>
       <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
     </entry>
+    <entry name="remoteAux4Name" type="String">
+      <label>Remote Auxiliary Name #3</label>
+      <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
+    </entry>
     <entry name="remoteDomeName" type="String">
       <label>Remote Dome Name</label>
       <whatsthis>Name of the remote INDI Dome device.</whatsthis>
+    </entry>
+    <entry name="remoteWeatherName" type="String">
+      <label>Remote Weather Station Name</label>
+      <whatsthis>Name of the remote INDI Weather device.</whatsthis>
     </entry>
     <entry name="remoteAOName" type="String">
       <label>Remote Adaptive Optics Name</label>
@@ -1379,26 +1363,6 @@
     <entry name="loadDefaultConfig" type="Bool">
       <label>Always load device default configuration upon successful connection?</label>
       <default>false</default>
-    </entry>
-    <entry name="PlayFITSAlarm" type="Bool">
-      <label>Play notification alarm whenever a new FITS is received.</label>
-      <default>false</default>
-    </entry>
-    <entry name="PlayCCDAlarm" type="Bool">
-      <label>Play notifications alarms in the CCD module.</label>
-      <default>true</default>
-    </entry>
-    <entry name="PlayFocusAlarm" type="Bool">
-      <label>Play notifications alarms in the focus module.</label>
-      <default>true</default>
-    </entry>
-    <entry name="PlayGuideAlarm" type="Bool">
-      <label>Play notifications alarms in the CCD module.</label>
-      <default>true</default>
-    </entry>
-    <entry name="PlayAlignmentAlarm" type="Bool">
-      <label>Play notifications alarms in the CCD module.</label>
-      <default>true</default>
     </entry>
     <entry name="astrometrySolver" type="String">
       <label>astrometry.net solve-field binary</label>
@@ -1485,6 +1449,14 @@
       <whatsthis>If set, Ekos will capture a few flat images to determine the optimal exposure time to achieve the desired ADU percentage.</whatsthis>
       <default>0</default>
      </entry>
+     <entry name="MaxTemperatureDiff" type="Double">
+       <label>Maximum acceptable difference between requested and measured temperature set point.</label>
+       <default>0.1</default>
+     </entry>
+     <entry name="RememberJobProgress" type="Bool">
+       <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
+       <default>true</default>
+     </entry>
    </group>
    <group name="Focus">
     <entry name="FocusTicks" type="UInt">
@@ -1538,6 +1510,10 @@
            <label>Use specified filter when performing focus regardless of current filter settings.</label>
            <default>false</default>
        </entry>
+       <entry name="LockFocusFilterIndex" type="UInt">
+           <label>Use specified filter index when performing focus regardless of current filter settings.</label>
+           <default>0</default>
+       </entry>
     </group>
     <group name="Align">
        <entry name="AlignExposure" type="Double">
@@ -1584,18 +1560,37 @@
             <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
             <default>false</default>
           </entry>
+          <entry name="SolverOverlay" type="Bool">
+            <label>Display received FITS images unto solver FOV rectangle in the sky map.</label>
+            <default>false</default>
+          </entry>
+          <entry name="SolverAccuracyThreshold" type="UInt">
+            <label>Accuracy threshold in arcseconds between solution and target coordinates.</label>
+            <default>30</default>
+          </entry>
     </group>
     <group name="Guide">
+    <entry name="ST4Driver" type="String">
+        <label>Default ST4 Driver.</label>
+    </entry>
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>
+    </entry>
+    <entry name="CalibrationSquareSizeIndex" type="UInt">
+        <label>Calibration square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
+        <default>1</default>
     </entry>
     <entry name="UseAutoMode" type="Bool">
         <label>Automatically calibrate selected axes.</label>
         <default>true</default>
     </entry>
-    <entry name="AutoCalibration" type="Bool">
+    <entry name="AutoStar" type="Bool">
         <label>Automatically select calibration star and perform calibration.</label>
+        <default>false</default>
+    </entry>
+    <entry name="AutoSquareSize" type="Bool">
+        <label>Automatically select the square size based on the selected star width.</label>
         <default>false</default>
     </entry>
     <entry name="AutoModeIterations" type="UInt">
@@ -1663,5 +1658,43 @@
         <entry name="GuidingRate" type="Double">
              <default>0.5</default>
         </entry>
+    </group>
+    <group name="Scheduler">
+    <entry name="PreemptiveShutdown" type="Bool">
+        <label>Perform pre-emptive strike if no jobs are due for a number of hours.</label>
+        <default>false</default>
+    </entry>
+    <entry name="PreemptiveShutdownTime" type="Double">
+        <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>
+        <default>2</default>
+    </entry>
+    <entry name="LeadTime" type="Double">
+        <label>Minimum time between jobs in minutes.</label>
+        <default>5</default>
+    </entry>
+    <entry name="PreDawnTime" type="Double">
+        <label>Do not permit jobs to be scheduled or executed past this many minutes before dawn.</label>
+        <default>30</default>
+    </entry>
+    <entry name="TelescopeFocalLength" type="Double">
+        <label>Telescope focal length in millimeters.</label>
+        <default>0</default>
+    </entry>
+    <entry name="CameraPixelWidth" type="Double">
+        <label>Camera pixel size width in micrometers.</label>
+        <default>0</default>
+    </entry>
+    <entry name="CameraPixelHeight" type="Double">
+        <label>Camera pixel size height in micrometers.</label>
+        <default>0</default>
+    </entry>
+    <entry name="CameraWidth" type="UInt">
+        <label>Camera Width in pixels.</label>
+        <default>0</default>
+    </entry>
+    <entry name="CameraHeight" type="UInt">
+        <label>Camera Height in pixels.</label>
+        <default>0</default>
+    </entry>
     </group>
 </kcfg>

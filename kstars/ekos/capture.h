@@ -10,8 +10,6 @@
 #ifndef CAPTURE_H
 #define CAPTURE_H
 
-#include "capture.h"
-
 #include <QTimer>
 #include <QUrl>
 #include <QtDBus/QtDBus>
@@ -21,6 +19,9 @@
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
+#include "indi/indicap.h"
+#include "indi/indidome.h"
+#include "indi/indilightbox.h"
 #include "indi/inditelescope.h"
 
 class QProgressIndicator;
@@ -57,139 +58,9 @@ class KDirWatch;
  *@version 1.1
  */
 namespace Ekos
-{
+{   
 
-class SequenceJob : public QObject
-{
-    Q_OBJECT    
-
-    public:
-
-    typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
-    typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR} CAPTUREResult;
-
-    SequenceJob();
-
-    CAPTUREResult capture(bool isDark=false);
-    void reset();
-    void abort();
-    void done();
-    void prepareCapture();
-
-    JOBStatus getStatus() { return status; }
-    const QString & getStatusString() { return statusStrings[status]; }
-    bool isPreview() { return preview;}
-    int getDelay() { return delay;}
-    int getCount() { return count;}
-    unsigned int getCompleted() { return completed; }
-    const QString & getPrefix() { return prefix;}
-    double getExposure() const { return exposure;}
-
-    void setActiveCCD(ISD::CCD *ccd) { activeCCD = ccd; }
-    ISD::CCD *getActiveCCD() { return activeCCD;}
-
-    void setActiveFilter(ISD::GDInterface *filter) { activeFilter = filter; }
-    ISD::GDInterface *getActiveFilter() { return activeFilter;}
-
-    void setActiveChip(ISD::CCDChip *chip) { activeChip = chip; }
-    ISD::CCDChip *getActiveChip() { return activeChip;}
-
-    void setFITSDir(const QString &dir) { fitsDir = dir;}
-    const QString & getFITSDir() { return fitsDir; }
-
-    void setTargetFilter(int pos, const QString & name);
-    int getTargetFilter() { return targetFilter;}
-    int getCurrentFilter() const;
-    void setCurrentFilter(int value);
-
-    const QString &getFilterName() { return filter; }
-    void setFrameType(int type, const QString & name);
-    int getFrameType() { return frameType;}
-    void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
-    void setISOMode(bool mode) { isoMode = mode; }
-    bool getISOMode() { return isoMode;}
-    void setPreview(bool enable) { preview = enable; }
-    void setShowFITS(bool enable) { showFITS = enable; }
-    bool isShowFITS() { return showFITS;}
-    void setPrefix(const QString &cprefix) { prefix = cprefix;}
-    void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
-    int getSubX() { return x;}
-    int getSubY() { return y;}
-    int getSubW() { return w;}
-    int getSubH() { return h;}
-    void setBin(int xbin, int ybin) { binX = xbin; binY=ybin;}
-    int getXBin() { return binX; }
-    int getYBin() { return binY; }
-    void setDelay(int in_delay) { delay = in_delay; }
-    void setCount(int in_count) { count = in_count;}
-    void setImageType(int type) { imageType = type;}
-    void setExposure(double duration) { exposure = duration;}
-    void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
-    void setCompleted(unsigned int in_completed) { completed = in_completed;}
-    int getISOIndex() const;
-    void setISOIndex(int value);
-
-    double getExposeLeft() const;
-    void setExposeLeft(double value);
-    void resetStatus();
-    void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
-    void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
-
-    double getCurrentTemperature() const;
-    void setCurrentTemperature(double value);
-
-    double getTargetTemperature() const;
-    void setTargetTemperature(double value);    
-
-    double getTargetADU() const;
-    void setTargetADU(double value);
-
-    int getCaptureRetires() const;
-    void setCaptureRetires(int value);
-
-signals:
-    void prepareComplete();
-
-private:
-
-    QStringList statusStrings;
-    ISD::CCDChip *activeChip;
-    ISD::CCD *activeCCD;
-    ISD::GDInterface *activeFilter;
-
-    double exposure;
-    int frameType;
-    QString frameTypeName;
-    int targetFilter;
-    int currentFilter;
-
-    QString filter;
-    int imageType;
-    int binX, binY;
-    int x,y,w,h;
-    QString prefix;
-    int count;
-    int delay;    
-    bool isoMode;
-    bool preview;
-    bool showFITS;
-    bool filterReady, temperatureReady;
-    int isoIndex;
-    int captureRetires;
-    unsigned int completed;
-    double exposeLeft;
-    double currentTemperature, targetTemperature;
-    FITSScale captureFilter;
-    QTableWidgetItem *statusCell;
-    QString fitsDir;
-
-    bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled;
-    QString rawPrefix;
-
-    JOBStatus status;
-
-    double targetADU;
-};
+class SequenceJob;
 
 /**
  *@class Capture
@@ -199,7 +70,7 @@ private:
  * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
  * the guiding deviation resume to acceptable levels and the capture operation is resumed.
  *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 class Capture : public QWidget, public Ui::Capture
 {
@@ -211,6 +82,7 @@ public:
 
     enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
+    typedef enum { FLAT_NONE, FLAT_DUSTCAP_PARKING, FLAT_DUSTCAP_PARKED, FLAT_LIGHTBOX_ON, FLAT_SLEWING, FLAT_SLEWING_COMPLETE, FLAT_MOUNT_PARKING, FLAT_MOUNT_PARKED, FLAT_DOME_PARKING, FLAT_DOME_PARKED, FLAT_PRECAPTURE_COMPLETE, FLAT_CALIBRATION, FLAT_CALIBRATION_COMPLETE, FLAT_CAPTURING} FlatStage;
 
     Capture();
     ~Capture();
@@ -240,9 +112,15 @@ public:
 
     /** DBUS interface function.
      * Returns the overall sequence queue status. If there are no jobs pending, it returns "Invalid". If all jobs are idle, it returns "Idle". If all jobs are complete, it returns "Complete". If one or more jobs are aborted
-     * it returns "Aborted". If one or more jobs have errors, it returns "Error". If any jobs is under progress, returns "Running".
+     * it returns "Aborted" unless it was temporarily aborted due to guiding deviations, then it would return "Suspended". If one or more jobs have errors, it returns "Error". If any jobs is under progress, returns "Running".
      */
     Q_SCRIPTABLE QString getSequenceQueueStatus();
+
+    /** DBUS interface function.
+     * Opens a sequence files and checks whether the jobs contained within are complete or not. The check is done by quering the file system for the produced files for each job.
+     * If returns true if all jobs are complete, false otherwise.sudo
+     */
+    Q_SCRIPTABLE bool isSequenceFileComplete(const QUrl &fileURL);
 
     /** DBUS interface function.
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
@@ -269,6 +147,29 @@ public:
      * @param enable If true, mount shall be commanded to parking position after all jobs are complete in the sequence queue.
      */
     Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
+
+    /** DBUS interface function.
+     * Enable or Disable meridian flip, and sets its activation hour.
+     * @param enable If true, meridian flip will be command after user-configurable number of hours.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setMeridianFlip(bool enable);
+
+    /** DBUS interface function.
+     * Sets meridian flip trigger hour.
+     * @param hours Number of hours after the meridian at which the mount is commanded to flip.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setMeridianFlipHour(double hours);
+
+    /** DBUS interface function.
+     * Does the CCD has a cooler control (On/Off) ?
+     */
+    Q_SCRIPTABLE bool hasCoolerControl();
+
+    /** DBUS interface function.
+     * Set the CCD cooler ON/OFF
+     *
+     */
+    Q_SCRIPTABLE bool setCoolerControl(bool enable);
 
     /** DBUS interface function.
      * @return Returns the number of jobs in the sequence queue.
@@ -305,10 +206,18 @@ public:
      */
     Q_SCRIPTABLE double         getJobExposureDuration(int id);
 
+    /** DBUS interface function.
+     * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.
+     */
+    Q_SCRIPTABLE Q_NOREPLY  void clearAutoFocusHFR();
+
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
     void addFilter(ISD::GDInterface *newFilter);
+    void setDome(ISD::GDInterface *device) { dome = dynamic_cast<ISD::Dome*>(device); }
+    void setDustCap(ISD::GDInterface *device) { dustCap = dynamic_cast<ISD::DustCap*>(device); }
+    void setLightBox(ISD::GDInterface *device) { lightBox = dynamic_cast<ISD::LightBox*>(device); }
     void addGuideHead(ISD::GDInterface *newCCD);
     void syncFrameType(ISD::GDInterface *ccd);
     void setTelescope(ISD::GDInterface *newTelescope);
@@ -327,12 +236,12 @@ public slots:
     /** DBUS interface function.
      * Starts the sequence queue capture procedure sequentially by starting all jobs that are either Idle or Aborted in order.
      */
-    Q_SCRIPTABLE Q_NOREPLY void startSequence();
+    Q_SCRIPTABLE Q_NOREPLY void start();
 
     /** DBUS interface function.
      * Aborts all jobs and set current job status to Aborted if it was In Progress.
      */
-    Q_SCRIPTABLE Q_NOREPLY void stopSequence();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
     /**
      * @brief captureOne Capture one preview image
@@ -426,12 +335,6 @@ public slots:
     void resumeCapture();
 
     /**
-     * @brief checkPreview When "Display in FITS Viewer" button is toggled, enable/disable preview button accordingly since preview only works if we can display in the FITS Viewer.
-     * @param enable True if "Display in FITS Viewer" checkbox is true, false otherwise.
-     */
-    void checkPreview(bool enable);
-
-    /**
      * @brief updateCCDTemperature Update CCD temperature in capture module.
      * @param value Temperature in celcius.
      */
@@ -442,6 +345,8 @@ public slots:
      */
     void setTemperature();
 
+private slots:
+
     /**
      * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
      */
@@ -449,10 +354,11 @@ public slots:
 
     void checkFrameType(int index);
     void resetFrame();
+    void updateFocusStatus(bool status);
     void updateAutofocusStatus(bool status, double HFR);
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
-
+    void checkSeqFile(const QString &path);
     void saveFITSDirectory();
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
@@ -470,11 +376,16 @@ public slots:
     void checkAlignmentSlewComplete();
     void enableAlignmentFlag();
 
+    // Flat field
+    void openCalibrationDialog();
+    IPState processPreCaptureFlatStage();
+    bool processPostCaptureFlatStage();
+
 signals:
         void newLog();
         void exposureComplete();
         void checkFocus(double);
-        void telescopeParking();
+        void mountParking();
         void suspendGuiding(bool);
         void meridianFlipStarted();
         void meridialFlipTracked();
@@ -486,10 +397,11 @@ private:
     void startNextExposure();
     void updateFrameProperties();
     void prepareJob(SequenceJob *job);
-    bool processJobInfo(XMLEle *root);    
+    bool processJobInfo(XMLEle *root);
+    void processJobCompletion();
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
-    double setCurrentADU(double value);
+    double setCurrentADU(double value);    
 
     /* Meridian Flip */
     bool checkMeridianFlip();
@@ -505,7 +417,8 @@ private:
     int     retries;
     QTimer *seqTimer;
     QString		seqPrefix;
-    int			seqCount;
+    int			nextSequenceID;
+    int         seqFileCount;
 
     int calibrationState;
     bool useGuideHead;
@@ -525,6 +438,9 @@ private:
     ISD::Telescope *currentTelescope;
     ISD::CCD *currentCCD;
     ISD::GDInterface *currentFilter;
+    ISD::DustCap *dustCap;
+    ISD::LightBox *lightBox;
+    ISD::Dome *dome;
 
     ITextVectorProperty *filterName;
     INumberVectorProperty *filterSlot;
@@ -548,6 +464,7 @@ private:
     bool isAutoFocus;
     bool autoFocusStatus;
     bool firstAutoFocus;
+    bool isFocusBusy;
 
     //Meridan flip
     double initialHA;
@@ -560,6 +477,18 @@ private:
     double ExpRaw1, ExpRaw2;
     double ADURaw1, ADURaw2;
     double ADUSlope;
+    double targetADU;
+    SkyPoint wallCoord;
+    bool preMountPark, preDomePark;
+    FlatFieldDuration flatFieldDuration;
+    FlatFieldSource   flatFieldSource;
+    FlatStage flatStage;
+    bool dustCapLightEnabled, lightBoxLightEnabled;
+
+    // File HFR
+    double fileHFR;
+
+    QString dirPath;
 
 };
 

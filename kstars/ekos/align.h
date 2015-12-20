@@ -53,6 +53,7 @@ public:
 
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
+    typedef enum { ALIGN_SYNC, ALIGN_SLEW, ALIGN_SOLVE } GotoMode;
 
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
      * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
@@ -98,9 +99,9 @@ public:
     Q_SCRIPTABLE bool isSolverSuccessful() { return m_isSolverSuccessful; }
 
     /** DBUS interface function.
-     * @return Returns true if the solver load and slew operation completed, false otherwise.
+     * @return Returns State of load slew procedure. Idle if not started. Busy if in progress. Ok if complete. Alert if procedure failed.
      */
-    Q_SCRIPTABLE bool isLoadAndSlewComplete() { return (loadSlewMode == false); }
+    Q_SCRIPTABLE int getLoadAndSlewStatus() { return loadSlewState; }
 
     /** DBUS interface function.
      * Sets the exposure of the selected CCD device.
@@ -178,6 +179,12 @@ public:
     QString getLogText() { return logText.join("\n"); }
     void clearLog();
 
+    /**
+     * @brief Return FOV object used to represent the solved image orientation on the sky map.
+     */
+    FOV *fov();
+
+
 public slots:
 
     /**
@@ -193,6 +200,13 @@ public slots:
     void checkCCD(int CCDNum=-1);
 
     /**
+     * @brief checkCCDExposureProgress Track the progress of CCD exposure
+     * @param targeChip Target chip under exposure
+     * @param remaining how many seconds remaining
+     * @param state status of exposure
+     */
+    void checkCCDExposureProgress(ISD::CCDChip* targetChip, double remaining, IPState state);
+    /**
      * @brief Process new FITS received from CCD.
      * @param bp pointer to blob property
      */
@@ -201,7 +215,7 @@ public slots:
     /** DBUS interface function.
      * Aborts the solving operation.
      */
-    Q_SCRIPTABLE Q_NOREPLY void stopSolving();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
     /** DBUS interface function.
      * Select the solver type (online or offline)
@@ -240,6 +254,19 @@ public slots:
      */
     void setWCS(bool enable);
 
+
+    /** DBUS interface function.
+     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+     * the telescope is pointing to the same coordinates of the image.
+     * @param fileURL URL to the image to solve
+     */
+     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
+
+    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);    
+
+    void updateFocusStatus(bool status);
+
+private slots:
     /* Solver Options */
     void checkLineEdits();
     void copyCoordsToBoxes();
@@ -252,21 +279,9 @@ public slots:
     void correctAzError();
     void correctAltError();
 
-    /** DBUS interface function.
-     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
-     * the telescope is pointing to the same coordinates of the image.
-     * @param fileURL URL to the image to solve
-     */
-     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
-
-    /**
-     * @brief Return FOV object used to represent the solved image orientation on the sky map.
-     */
-    FOV *fov();
-
-    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
-
     void processFilterNumber(INumberVectorProperty *nvp);
+
+    void setSolverOverlay(bool enable);
 
 signals:
         void newLog();
@@ -323,17 +338,32 @@ private:
      */
     void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
 
+    /**
+     * @brief getSolverOptionsFromFITS Generates a set of solver options given the supplied FITS image. The function reads FITS keyword headers and build the argument list accordingly. In case of a missing header keyword, it falls back to
+     * the Alignment module existing values.
+     * @param filename FITS path
+     * @return List of Solver options
+     */
+    QStringList getSolverOptionsFromFITS(const QString &filename);
+
     // Which chip should we invoke in the current CCD?
     bool useGuideHead;
     // Can the mount sync its coordinates to those set by Ekos?
     bool canSync;
     // LoadSlew mode is when we load an image and solve it, no capture is done.
     bool loadSlewMode;
+    // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
+    IPState loadSlewState;
+    // Solver iterations count
+    uint8_t solverIterations;
 
     // Keep track of solver status
     bool m_isSolverComplete;
     bool m_isSolverSuccessful;
     bool m_slewToTargetSelected;
+
+    // Focus
+    bool isFocusBusy;
 
     // FOV
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
@@ -348,6 +378,10 @@ private:
     SkyPoint targetCoord;
     // Actual current telescope coordinates
     SkyPoint telescopeCoord;
+    // Coord from Load & Slew
+    SkyPoint loadSlewCoord;
+    // Difference between solution and target coordinate
+    double targetDiff;
 
     // Progress icon if the solver is running
     QProgressIndicator *pi;
@@ -388,6 +422,14 @@ private:
 
     // Log
     QStringList logText;
+
+    // Capture retries
+    int retries;
+
+    // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
+    ISD::CCD::UploadMode rememberUploadMode;
+
+    QString dirPath;
 
 
 };

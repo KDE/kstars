@@ -74,7 +74,7 @@ INDIListener holds a list of all INDI devices in KStars regardless of their orig
 It also creates a separate tab for each property group received. The user is presented with a basic GUI to set the connection port of EQMod and to connect/disconnect to/from the telescope. If the
 user clicks connect, the status of the connection property is updated, and INDI_P sends the new switch status (CONNECT=ON) to INDI server via the ClientManager. If the connection is successful
 at the driver side, it will start defining new properties to cover the complete functionality of the EQMod driver, one of the standard properties is EQUATORIAL_EOD_COORD which will be detected
-in INDIListener. Upon detection of this key signature property, INDIListener creates a new ISD::Telescope device while passing to it the ISD::GenericDevice instance created earliar.
+in INDIListener. Upon detection of this key signature property, INDIListener creates a new ISD::Telescope device while passing to it the ISD::GenericDevice instance created earlier.
 
 Now suppose an updated Number property arrives from INDI server, the ClientManager emits a signal indicating a number property has a new updated value and INDIListener delegates the INDI Number
 property to the device, which is now of type ISD::Telescope. The ISD::Telescope overridden the processNumber(INumberVectorProperty *nvp) function in ISD::DeviceDecorator because it wants to handle some telescope
@@ -126,7 +126,6 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 
 
 /* INDI std properties */
-/* N.B. Need to modify corresponding entry in indidevice.cpp when changed */
 enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
                      EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, EQUATORIAL_EOD_COORD_REQUEST, HORIZONTAL_COORD,  /* Telescope */
                      TELESCOPE_ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, TELESCOPE_MOTION_NS, /* Telescope */
@@ -135,16 +134,22 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSE
                      CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO,
                      CCD_VIDEO_STREAM,						/* Video */
                      FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
-                     FILTER_SLOT};						/* Filter */
+                     FILTER_SLOT,						/* Filter */
+                     WATCHDOG_HEARTBEAT};                                       /* Watchdog */
+
 
 /* Devices families that we explicitly support (i.e. with std properties) */
-typedef enum { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_ADAPTIVE_OPTICS, KSTARS_RECEIVERS, KSTARS_GPS, KSTARS_AUXILIARY, KSTARS_UNKNOWN } DeviceFamily;
+typedef enum { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_ADAPTIVE_OPTICS, KSTARS_RECEIVERS, KSTARS_GPS, KSTARS_WEATHER, KSTARS_AUXILIARY, KSTARS_UNKNOWN } DeviceFamily;
 
 typedef enum  { FRAME_LIGHT,FRAME_BIAS, FRAME_DARK,FRAME_FLAT} CCDFrameType;
 
 typedef enum  { SINGLE_BIN, DOUBLE_BIN, TRIPLE_BIN,QUADRAPLE_BIN} CCDBinType;
 
 typedef enum { INDI_SEND_COORDS, INDI_ENGAGE_TRACKING, INDI_SET_PORT, INDI_CONNECT, INDI_DISCONNECT,  INDI_SET_FILTER} DeviceCommand;
+
+typedef enum { SOURCE_MANUAL, SOURCE_DUSTCAP, SOURCE_WALL, SOURCE_DAWN_DUSK } FlatFieldSource;
+
+typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;
 
 
 #endif // INDICOMMON_H

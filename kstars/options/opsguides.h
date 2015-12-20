@@ -36,6 +36,7 @@ public:
 
 private slots:
     void slotToggleConstellOptions( bool state );
+    void slotToggleConstellationArt(bool state );
     void slotToggleMilkyWayOptions( bool state );
     void slotToggleOpaqueGround( bool state );
     void slotToggleAutoSelectGrid( bool state );

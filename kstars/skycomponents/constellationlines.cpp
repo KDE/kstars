@@ -17,7 +17,6 @@
 
 #include "constellationlines.h"
 #include "linelist.h"
-
 #include <QPen>
 
 #include <QDebug>
@@ -33,12 +32,11 @@
 
 #include "skymesh.h"
 #include "ksfilereader.h"
-
 #include "skypainter.h"
 
 
 ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultures ) :
-    LineListIndex( parent, xi18n("Constellation Lines") ),
+    LineListIndex( parent, i18n("Constellation Lines") ),
     m_reindexNum(J2000)
 {
     //Create the ConstellationLinesComponents.  Each is a series of points
@@ -102,10 +100,9 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
                     maxPM = pm;
             }
             else if ( ! star )
-                qWarning() << xi18n( "Star HD%1 not found." , HDnum);
+                qWarning() << i18n( "Star HD%1 not found." , HDnum);
         }
     }
-
     //Add the last clc component
     if( lineList )
         appendLine( lineList );
@@ -113,7 +110,6 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
     m_reindexInterval = StarObject::reindexInterval( maxPM );
     //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
     //printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
-
     summary();
 }
 

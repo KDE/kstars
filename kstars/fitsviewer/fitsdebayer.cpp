@@ -58,18 +58,18 @@ void FITSDebayer::applyDebayer()
 
         image_data->setBayerParams(&param);
 
-        ui->statusEdit->setText(xi18n("Processing..."));
+        ui->statusEdit->setText(i18n("Processing..."));
 
         qApp->processEvents();
 
         if (image_data->debayer())
         {
-            ui->statusEdit->setText(xi18n("Complete."));
+            ui->statusEdit->setText(i18n("Complete."));
             view->rescale(ZOOM_KEEP_LEVEL);
             view->updateFrame();
         }
         else
-            ui->statusEdit->setText(xi18n("Debayer failed."));
+            ui->statusEdit->setText(i18n("Debayer failed."));
     }
 }
 

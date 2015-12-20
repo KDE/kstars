@@ -32,9 +32,7 @@
 #include <KProcess>
 #include <QAction>
 #include <KActionCollection>
-//#include <QIconLoader>
-
-
+#include <KNotifications/KNotification>
 
 #include "oal/log.h"
 #include "oal/scope.h"
@@ -54,7 +52,7 @@
 #include <config-kstars.h>
 #include <QStandardPaths>
 
-#define INDI_MAX_TRIES  3
+#define INDI_MAX_TRIES  2
 #define  ERRMSG_SIZE 1024
 
 DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
@@ -97,7 +95,7 @@ DriverManager * DriverManager::Instance()
 }
 
 DriverManager::DriverManager()
-        : QDialog( /*KStars::Instance()*/ )
+        : QDialog( KStars::Instance() )
 {
 
     currentPort = Options::serverPortStart().toInt()-1;
@@ -110,7 +108,7 @@ DriverManager::DriverManager()
     ui = new DriverManagerUI( this );
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
-    setWindowTitle( xi18n( "Device Manager" ) );
+    setWindowTitle( i18n( "Device Manager" ) );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
@@ -136,6 +134,24 @@ DriverManager::DriverManager()
     readINDIHosts();
 
     updateCustomDrivers();
+}
+
+void DriverManager::closeEvent(QCloseEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
+    a->setChecked(false);
+}
+
+void DriverManager::hideEvent(QHideEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
+    a->setChecked(false);
+}
+
+void DriverManager::showEvent(QShowEvent * /*event*/)
+{
+    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
+    a->setChecked(true);
 }
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)
@@ -258,7 +274,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
                 // Check if running already
                 if (dv->getClientState() || dv->getServerState())
                 {
-                  int ans = KMessageBox::warningContinueCancel(0, xi18n("Driver %1 is already running, do you want to restart it?", dv->getTreeLabel()));
+                  int ans = KMessageBox::warningContinueCancel(0, i18n("Driver %1 is already running, do you want to restart it?", dv->getTreeLabel()));
                   if (ans == KMessageBox::Cancel)
                       continue;
                   else
@@ -321,7 +337,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
          if (port <= 0)
          {
-                 KMessageBox::error(0, xi18n("Cannot start INDI server: port error."));
+                 KMessageBox::error(0, i18n("Cannot start INDI server: port error."));
                  return false;
          }
 
@@ -344,7 +360,6 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
              delete serverManager;
              return false;
          }
-
 
          foreach(DriverInfo *dv, qdv)
          {
@@ -381,18 +396,32 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
              if (connectionToServer)
                  break;
 
-              usleep(100000);
+             qApp->processEvents();
+
+             usleep(100000);
          }
 
          if (connectionToServer)
          {
+             if (Options::verboseLogging())
+                 qDebug() << "Connection to INDI server is successful";
+
              clients.append(clientManager);
              updateMenuActions();
          }
          else
          {
-             QString errMsg = xi18n("Connection to INDI server locally on port %1 failed.", port);
-             KMessageBox::error(NULL, errMsg);
+
+             KNotification::beep();
+             QMessageBox* msgBox = new QMessageBox();
+             msgBox->setAttribute( Qt::WA_DeleteOnClose );
+             msgBox->setStandardButtons( QMessageBox::Ok );
+             msgBox->setWindowTitle( i18n("Error") );
+             msgBox->setText( i18n("Connection to INDI server locally on port %1 failed.", port));
+             msgBox->setModal( false );
+             msgBox->setIcon(QMessageBox::Critical);
+             msgBox->show();
+
              foreach (DriverInfo *dv, qdv)
                  processDeviceStatus(dv);
 
@@ -460,7 +489,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 void DriverManager::clearServers()
 {
     foreach(ServerManager *serverManager, servers)
-        serverManager->stop();
+        serverManager->terminate();
 
     qDeleteAll(servers);
 }
@@ -557,7 +586,7 @@ void DriverManager::processLocalTree(bool dState)
                             // If we encounter conversion error, we abort
                             if (portOK == false)
                             {
-                                KMessageBox::error(0, xi18n("Invalid port entry: %1", item->text(LOCAL_PORT_COLUMN)));
+                                KMessageBox::error(0, i18n("Invalid port entry: %1", item->text(LOCAL_PORT_COLUMN)));
                                 return;
                             }
                         }
@@ -583,7 +612,7 @@ void DriverManager::processClientTermination(ClientManager *client)
         return;
 
     ServerManager *manager = client->getServerManager();
-    QString errMsg = xi18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(), client->getPort());
+    QString errMsg = i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(), client->getPort());
     KMessageBox::error(NULL, errMsg);
 
     if (manager)
@@ -620,7 +649,7 @@ void DriverManager::processServerTermination(ServerManager* server)
 
     if (server->getMode() == SERVER_ONLY)
     {
-        QString errMsg = xi18n("Connection to INDI host at %1 on port %2 encountered an error: %3.", server->getHost(), server->getPort(), server->errorString());
+        QString errMsg = i18n("Connection to INDI host at %1 on port %2 encountered an error: %3.", server->getHost(), server->getPort(), server->errorString());
         KMessageBox::error(NULL, errMsg);
     }
 
@@ -708,8 +737,17 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
     {
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
-        QString errMsg = xi18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort());
-        KMessageBox::error(NULL, errMsg);
+
+        KNotification::beep();
+        QMessageBox* msgBox = new QMessageBox();
+        msgBox->setAttribute( Qt::WA_DeleteOnClose );
+        msgBox->setStandardButtons( QMessageBox::Ok );
+        msgBox->setWindowTitle( i18n("Error") );
+        msgBox->setText( i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort()) );
+        msgBox->setModal( false );
+        msgBox->setIcon(QMessageBox::Critical);
+        msgBox->show();
+
         processDeviceStatus(dv);
         return false;
     }
@@ -897,7 +935,7 @@ bool DriverManager::readXMLDrivers()
 
     if (indiDir.cd(Options::indiDriversDir()) == false)
     {
-        KMessageBox::error(0, xi18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", Options::indiDriversDir()));
+        KMessageBox::error(0, i18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", Options::indiDriversDir()));
           return false;
      }
 
@@ -938,7 +976,7 @@ void DriverManager::processXMLDriver(QString & driverName)
     QFile file(driverName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        KMessageBox::error(0, xi18n("Failed to open INDI Driver file: %1", driverName));
+        KMessageBox::error(0, i18n("Failed to open INDI Driver file: %1", driverName));
          return;
     }
 
@@ -1019,6 +1057,8 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_GPS;
     else if (groupName.indexOf("Auxiliary") != -1)
         groupType = KSTARS_AUXILIARY;
+    else if (groupName.indexOf("Weather") != -1)
+        groupType = KSTARS_WEATHER;
     else
         groupType = KSTARS_UNKNOWN;
 
@@ -1187,7 +1227,7 @@ void DriverManager::updateCustomDrivers()
         {
             name = label = s->name();
 
-            if (s->driver() == xi18n("None"))
+            if (s->driver() == i18n("None"))
                 continue;
 
             // If driver already exists, just update values
@@ -1262,7 +1302,7 @@ void DriverManager::addINDIHost()
     QDialog hostConfDialog;
     Ui::INDIHostConf hostConf;
     hostConf.setupUi(&hostConfDialog);
-    hostConfDialog.setWindowTitle(xi18n("Add Host"));
+    hostConfDialog.setWindowTitle(i18n("Add Host"));
     bool portOk = false;
 
     if (hostConfDialog.exec() == QDialog::Accepted)
@@ -1273,7 +1313,7 @@ void DriverManager::addINDIHost()
 
         if (portOk == false)
         {
-            KMessageBox::error(0, xi18n("Error: the port number is invalid."));
+            KMessageBox::error(0, i18n("Error: the port number is invalid."));
             delete hostItem;
             return;
         }
@@ -1285,7 +1325,7 @@ void DriverManager::addINDIHost()
         foreach (DriverInfo * host, driversList)
         if (hostItem->getName()   == host->getName() &&  hostItem->getPort() == host->getPort())
         {
-            KMessageBox::error(0, xi18n("Host: %1 Port: %2 already exists.", hostItem->getName(), hostItem->getPort()));
+            KMessageBox::error(0, i18n("Host: %1 Port: %2 already exists.", hostItem->getName(), hostItem->getPort()));
             delete hostItem;
             return;
         }
@@ -1312,7 +1352,7 @@ void DriverManager::modifyINDIHost()
     QDialog hostConfDialog;
     Ui::INDIHostConf hostConf;
     hostConf.setupUi(&hostConfDialog);
-    hostConfDialog.setWindowTitle(xi18n("Modify Host"));
+    hostConfDialog.setWindowTitle(i18n("Modify Host"));
 
     QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
 
@@ -1359,11 +1399,11 @@ void DriverManager::removeINDIHost()
         {
             if (host->getClientState())
             {
-                KMessageBox::error( 0, xi18n("You need to disconnect the client before removing it."));
+                KMessageBox::error( 0, i18n("You need to disconnect the client before removing it."));
                 return;
             }
 
-            if (KMessageBox::warningContinueCancel( 0, xi18n("Are you sure you want to remove the %1 client?", ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)), xi18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
+            if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?", ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)), i18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
                 return;
 
             driversList.removeOne(host);
@@ -1384,8 +1424,8 @@ void DriverManager::saveHosts()
 
     if ( !file.open( QIODevice::WriteOnly))
     {
-        QString message = xi18n( "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
-        KMessageBox::sorry( 0, message, xi18n( "Could Not Open File" ) );
+        QString message = i18n( "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return;
     }
 

@@ -493,6 +493,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         forceUpdate();  // must be new computed
 
     } else { //mouse button not down
+        if ( Options::useAltAz() )
+            m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         emit mousePointChanged( &m_MousePoint );
     }
 }
@@ -500,7 +502,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 void SkyMap::wheelEvent( QWheelEvent *e ) {
     if ( e->delta() > 0 )
         zoomInOrMagStep ( e->modifiers() );
-    else
+    else if ( e->delta() < 0 )
         zoomOutOrMagStep( e->modifiers() );
 }
 
@@ -579,15 +581,18 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
         switch( e->button() ) {
         case Qt::LeftButton:
-            if( kstars ) {
+            {
                 QString name;
                 if( clickedObject() )
                     name = clickedObject()->translatedLongName();
                 else
-                    name = xi18n( "Empty sky" );
+                    name = i18n( "Empty sky" );
                 //kstars->statusBar()->changeItem(name, 0 );
                 kstars->statusBar()->showMessage(name, 0 );
+
+                emit positionClicked(&m_MousePoint);
             }
+
             break;
         case Qt::RightButton:
             if( rulerMode ) {

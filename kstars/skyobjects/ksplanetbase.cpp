@@ -130,7 +130,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
         localizeCoords( num, lat, LST ); //correct for figure-of-the-Earth
 
     if ( hasTrail() ) {
-        addToTrail( KStarsDateTime( num->getJD() ).toString( "yyyy.MM.dd hh:mm" ) + xi18nc("Universal time", "UT") ); // TODO: Localize date/time format?
+        addToTrail( KStarsDateTime( num->getJD() ).toString( "yyyy.MM.dd hh:mm" ) + i18nc("Universal time", "UT") ); // TODO: Localize date/time format?
         if ( Trail.size() > TrailObject::MaxTrail )
             clipTrail();
     }
@@ -150,9 +150,9 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 }
 
 bool KSPlanetBase::isMajorPlanet() const {
-    if ( name() == xi18n( "Mercury" ) || name() == xi18n( "Venus" ) || name() == xi18n( "Mars" ) ||
-         name() == xi18n( "Jupiter" ) || name() == xi18n( "Saturn" ) || name() == xi18n( "Uranus" ) ||
-         name() == xi18n( "Neptune" ) )
+    if ( name() == i18n( "Mercury" ) || name() == i18n( "Venus" ) || name() == i18n( "Mars" ) ||
+         name() == i18n( "Jupiter" ) || name() == i18n( "Saturn" ) || name() == i18n( "Uranus" ) ||
+         name() == i18n( "Neptune" ) )
         return true;
     return false;
 }
@@ -215,7 +215,7 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
     }
 
     if ( ! Earth  ) {
-        qDebug() << xi18n( "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" ) << name() << ")";
+        qDebug() << i18n( "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" ) << name() << ")";
         Rearth = 1.0;
         return;
     }
@@ -269,7 +269,7 @@ double KSPlanetBase::labelOffset() const {
         size = minsize;
 
     //Inflate offset for Saturn
-    if ( name() == xi18n( "Saturn" ) )
+    if ( name() == i18n( "Saturn" ) )
         size = int(2.5*size);
 
     return 0.5*size + 4.;

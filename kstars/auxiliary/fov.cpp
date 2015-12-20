@@ -48,18 +48,21 @@ FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, floa
     m_rotation    = rot;
     m_shape       = sh;
     m_color       = col;
+    m_northPA     = 0;    
     m_center.setRA(0);
     m_center.setDec(0);
+    m_imageDisplay=false;
 } 
 
 FOV::FOV()
 {
-    m_name  = xi18n( "No FOV" );
+    m_name  = i18n( "No FOV" );
     m_color = "#FFFFFF";
 
     m_sizeX = m_sizeY = 0;
     m_shape = SQUARE;
-    m_offsetX=m_offsetY=m_rotation=0;
+    m_offsetX=m_offsetY=m_rotation=0,m_northPA=0;
+    m_imageDisplay=false;
 }
 
 void FOV::draw( QPainter &p, float zoomFactor ) {
@@ -87,18 +90,28 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
         p.translate(p.viewport().center());
 
     p.translate(offsetXPixelSize,  offsetYPixelSize);
-    p.rotate(rotation());
+    p.rotate(m_rotation+m_northPA);
 
     QPointF center(0,0);
 
     switch ( shape() )
     {
     case SQUARE: 
-        p.drawRect( center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
+    {
+        QRect targetRect(center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
+        if (m_imageDisplay)
+        {
+            //QTransform imageT;
+            //imageT.rotate(m_rotation+m_northPA);
+            //p.drawImage(targetRect, m_image.transformed(imageT));
+            p.drawImage(targetRect, m_image);
+        }
+        p.drawRect(targetRect);
         p.drawRect( center.x() , center.y() - (3 * pixelSizeY/5), pixelSizeX/40, pixelSizeX/10);
         p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5));
         p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
         p.drawLine( center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
+    }
         break;
     case CIRCLE: 
         p.drawEllipse( center, pixelSizeX/2, pixelSizeY/2 );
@@ -158,15 +171,15 @@ void FOV::setShape( int s)
 QList<FOV*> FOV::defaults()
 {
     QList<FOV*> fovs;
-    fovs << new FOV(xi18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
+    fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
                     558,  558, 0,0,0, CIRCLE,"#AAAAAA")
-         << new FOV(xi18nc("use a Telrad field-of-view indicator", "Telrad" ),
+         << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
                     30,   30, 0,0,0,   BULLSEYE,"#AA0000")
-         << new FOV(xi18nc("use 1-degree field-of-view indicator", "One Degree"),
+         << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
                     60,   60, 0,0,0,  CIRCLE,"#AAAAAA")
-         << new FOV(xi18nc("use HST field-of-view indicator", "HST WFPC2"),
+         << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
                     2.4,  2.4, 0,0,0, SQUARE,"#AAAAAA")
-         << new FOV(xi18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
+         << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
                     1.79, 1.79, 0,0,0, SQUARE,"#AAAAAA");
     return fovs;
 }
@@ -177,7 +190,7 @@ void FOV::writeFOVs(const QList<FOV*> fovs)
     f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "fov.dat" ) ;
 
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << xi18n( "Could not open fov.dat." );
+        qDebug() << i18n( "Could not open fov.dat." );
         return;
     }
     QTextStream ostream(&f);
@@ -263,4 +276,25 @@ void FOV::setCenter(const SkyPoint &center)
 {
     m_center = center;
 }
+
+float FOV::northPA() const
+{
+    return m_northPA;
+}
+
+void FOV::setNorthPA(float northPA)
+{
+    m_northPA = northPA;
+}
+
+void FOV::setImage(const QImage &image)
+{
+    m_image = image;
+}
+
+void FOV::setImageDisplay(bool value)
+{
+    m_imageDisplay = value;
+}
+
 

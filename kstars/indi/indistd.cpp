@@ -63,6 +63,8 @@ GenericDevice::GenericDevice(DeviceInfo *idv)
     baseDevice        = idv->getBaseDevice();
     clientManager     = driverInfo->getClientManager();
 
+    watchDogTimer     = NULL;
+
     dType         = KSTARS_UNKNOWN;
 }
 
@@ -108,74 +110,7 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         }
     }
 
-    if (!strcmp(prop->getName(), "DEVICE_PORT"))
-    {
-        IText *tp = IUFindText(prop->getText(), "PORT");
-        if (tp == NULL)
-            return;
-
-        if (driverInfo->getType() == KSTARS_TELESCOPE || QString(prop->getDeviceName()) == Options::remoteScopeName())
-        {
-            //qDebug() << "device port for Telescope!!!!!" << endl;
-            if (Options::telescopePort().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::telescopePort().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-
-            }
-        }
-        else if (driverInfo->getType() == KSTARS_FOCUSER || QString(prop->getDeviceName()) == Options::remoteFocuserName())
-        {
-            //qDebug() << "device port for CCD!!!!!" << endl;
-            if (Options::focuserPort().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::focuserPort().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-            }
-        }
-        else if (driverInfo->getType() == KSTARS_FILTER || QString(prop->getDeviceName()) == Options::remoteFilterName())
-        {
-            //qDebug() << "device port for CCD!!!!!" << endl;
-            if (Options::filterPort().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::filterPort().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-           }
-        }
-        else if (driverInfo->getType() == KSTARS_VIDEO || driverInfo->getType() == KSTARS_CCD || QString(prop->getDeviceName()) == Options::remoteCCDName())
-        {
-            if (Options::videoPort().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::videoPort().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-            }
-        }
-        else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 1 || QString(prop->getDeviceName()) == Options::remoteAux1Name())
-        {
-            if (Options::aux1Port().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::aux1Port().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-            }
-        }
-        else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 2 || QString(prop->getDeviceName()) == Options::remoteAux2Name())
-        {
-            if (Options::aux2Port().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::aux2Port().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-            }
-        }
-        else if (driverInfo->getAuxInfo().value("AUX#", 0).toInt() == 3 || QString(prop->getDeviceName()) == Options::remoteAux3Name())
-        {
-            if (Options::aux3Port().isEmpty() == false)
-            {
-                IUSaveText(tp, Options::aux3Port().toLatin1().constData());
-                clientManager->sendNewText(prop->getText());
-            }
-        }
-    }
-    else if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useComputerSource())
+    if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useComputerSource())
     {
            ITextVectorProperty *tvp = prop->getText();
             if (tvp && tvp->p != IP_RO)
@@ -183,9 +118,27 @@ void GenericDevice::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "GEOGRAPHIC_COORD") && Options::useGeographicUpdate() && Options::useComputerSource())
     {
-            INumberVectorProperty *nvp = baseDevice->getNumber("GEOGRAPHIC_COORD");
+            INumberVectorProperty *nvp = prop->getNumber();
             if (nvp && nvp->p != IP_RO)
                 updateLocation();
+    }
+    else if (!strcmp(prop->getName(), "WATCHDOG_HEARTBEAT"))
+    {
+        INumberVectorProperty *nvp = prop->getNumber();
+        if (nvp)
+        {
+            if (watchDogTimer == NULL)
+            {
+                watchDogTimer = new QTimer(this);
+                connect(watchDogTimer, SIGNAL(timeout()), this, SLOT(resetWatchdog()));
+            }
+
+            if (connected && nvp->np[0].value > 0)
+            {
+                // Reset timer 15 seconds before it is due
+                watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+            }
+        }
     }
 }
 
@@ -208,6 +161,16 @@ void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
             connected = true;
             emit Connected();
             createDeviceInit();
+
+            if (watchDogTimer != NULL)
+            {
+                INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
+                if (nvp && nvp->np[0].value > 0)
+                {
+                    // Reset timer 15 seconds before it is due
+                    watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+                }
+            }
         }
         else
         {
@@ -221,46 +184,57 @@ void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
 
 void GenericDevice::processNumber(INumberVectorProperty * nvp)
 {
-    INumber *np=NULL;
-
-    if (!strcmp(nvp->name, "GEOGRAPHIC_COORD"))
+    if (Options::useDeviceSource() && !strcmp(nvp->name, "GEOGRAPHIC_COORD") && nvp->s == IPS_OK)
     {
         // Update KStars Location once we receive update from INDI, if the source is set to DEVICE
-        if (Options::useDeviceSource())
+        dms lng, lat;
+        INumber *np=NULL;
+
+        np = IUFindNumber(nvp, "LONG");
+        if (!np)
+            return;
+
+        // INDI Longitude convention is 0 to 360. We need to turn it back into 0 to 180 EAST, 0 to -180 WEST
+        if (np->value < 180)
+            lng.setD(np->value);
+        else
+            lng.setD(np->value-360.0);
+
+        np = IUFindNumber(nvp, "LAT");
+        if (!np)
+            return;
+
+        lat.setD(np->value);
+
+        GeoLocation *geo = KStars::Instance()->data()->geo();
+
+        geo->setLong(lng);
+        geo->setLat(lat);
+        KStars::Instance()->data()->setLocation(*geo);
+    }
+    else if (!strcmp(nvp->name, "WATCHDOG_HEARTBEAT"))
+    {
+        if (watchDogTimer == NULL)
         {
-            dms lng, lat;
+            watchDogTimer = new QTimer(this);
+            connect(watchDogTimer, SIGNAL(timeout()), this, SLOT(resetWatchdog()));
+        }
 
-            np = IUFindNumber(nvp, "LONG");
-            if (!np)
-                return;
-
-            // INDI Longitude convention is 0 to 360. We need to turn it back into 0 to 180 EAST, 0 to -180 WEST
-            if (np->value < 180)
-                lng.setD(np->value);
-            else
-                lng.setD(np->value-360.0);
-
-           np = IUFindNumber(nvp, "LAT");
-           if (!np)
-                return;
-
-         lat.setD(np->value);
-
-         GeoLocation *geo = KStars::Instance()->data()->geo();
-
-         geo->setLong(lng);
-         geo->setLat(lat);
-         KStars::Instance()->data()->setLocation(*geo);
-
-      }
-
-   }
+        if (connected && nvp->np[0].value > 0)
+        {
+            // Reset timer 15 seconds before it is due
+            watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+        }
+        else if (nvp->np[0].value == 0)
+            watchDogTimer->stop();
+    }
 }
 
 void GenericDevice::processText(ITextVectorProperty * tvp)
 {    
 
-    if (!strcmp(tvp->name, "TIME_UTC"))
+    // Update KStars time once we receive update from INDI, if the source is set to DEVICE
+    if (Options::useDeviceSource() && !strcmp(tvp->name, "TIME_UTC") && tvp->s == IPS_OK)
     {
         IText *tp=NULL;
         int d, m, y, min, sec, hour;
@@ -269,10 +243,6 @@ void GenericDevice::processText(ITextVectorProperty * tvp)
         QTime indiTime;
         KStarsDateTime indiDateTime;
 
-
-        // Update KStars time once we receive update from INDI, if the source is set to DEVICE
-    if (Options::useDeviceSource())
-    {
         tp = IUFindText(tvp, "UTC");
 
         if (!tp)
@@ -295,8 +265,7 @@ void GenericDevice::processText(ITextVectorProperty * tvp)
         KStars::Instance()->data()->syncLST();
 
         GeoLocation *geo = KStars::Instance()->data()->geo();
-        geo->setTZ(utcOffset);
-    }
+        geo->setTZ(utcOffset);    
 
     }
 }
@@ -389,7 +358,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
     }
 
     if (dataType == DATA_OTHER)      
-        KStars::Instance()->statusBar()->showMessage(xi18n("Data file saved to %1", filename ), 0);
+        KStars::Instance()->statusBar()->showMessage(i18n("Data file saved to %1", filename ), 0);
 
 }
 
@@ -445,7 +414,7 @@ void GenericDevice::createDeviceInit()
 {
 
     if ( Options::showINDIMessages() )
-        KStars::Instance()->statusBar()->showMessage( xi18n("%1 is online.", baseDevice->getDeviceName()), 0);
+        KStars::Instance()->statusBar()->showMessage( i18n("%1 is online.", baseDevice->getDeviceName()), 0);
 
     KStars::Instance()->map()->forceUpdateNow();
 }
@@ -672,6 +641,18 @@ IPState GenericDevice::getState(const QString &propName)
 IPerm GenericDevice::getPermission(const QString &propName)
 {
     return baseDevice->getPropertyPermission(propName.toLatin1().constData());
+}
+
+void GenericDevice::resetWatchdog()
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
+
+    if (nvp)
+    {
+        // Reset timer 15 seconds before it is due
+        watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+        clientManager->sendNewNumber(nvp);
+    }
 }
 
 DeviceDecorator::DeviceDecorator(GDInterface *iPtr)

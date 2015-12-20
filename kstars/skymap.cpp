@@ -334,7 +334,7 @@ void SkyMap::slotTransientLabel() {
     //This function is only called if the HoverTimer manages to timeout.
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
-    if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
+    if (hasFocus() && ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
                           SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest( &m_MousePoint, maxrad );
@@ -342,7 +342,7 @@ void SkyMap::slotTransientLabel() {
         if ( so && ! isObjectLabeled( so ) ) {
             QToolTip::showText(
                 QCursor::pos(),
-                xi18n("%1: %2<sup>m</sup>",
+                i18n("%1: %2<sup>m</sup>",
                      so->translatedLongName(),
                      QString::number(so->mag(), 'f', 1)),
                 this);
@@ -362,7 +362,7 @@ void SkyMap::setFocusObject( SkyObject *o ) {
     if ( FocusObject )
         Options::setFocusObject( FocusObject->name() );
     else
-        Options::setFocusObject( xi18n( "nothing" ) );
+        Options::setFocusObject( i18n( "nothing" ) );
 }
 
 void SkyMap::slotCenter() {
@@ -384,10 +384,10 @@ void SkyMap::slotCenter() {
     if ( Options::useAltAz() && Options::showGround() &&
             focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
 
-        QString caption = xi18n( "Requested Position Below Horizon" );
-        QString message = xi18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
+        QString caption = i18n( "Requested Position Below Horizon" );
+        QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
         if ( KMessageBox::warningYesNo( this, message, caption,
-                                        KGuiItem(xi18n("Go Anyway")), KGuiItem(xi18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::No ) {
+                                        KGuiItem(i18n("Go Anyway")), KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::No ) {
             setClickedObject( NULL );
             setFocusObject( NULL );
             Options::setIsTracking( false );
@@ -402,7 +402,7 @@ void SkyMap::slotCenter() {
     Options::setIsTracking( true );
     if ( kstars ) {
         kstars->actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
-        kstars->actionCollection()->action("track_object")->setText( xi18n( "Stop &Tracking" ) );
+        kstars->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
     }
 
     //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
@@ -457,7 +457,7 @@ void SkyMap::slotDSS() {
     KStars* kstars = KStars::Instance();
     if( kstars ) {
         ImageViewer *iv = new ImageViewer( url,
-            xi18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ),
+            i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ),
             this );
         iv->show();
     }
@@ -493,7 +493,7 @@ void SkyMap::slotSDSS() {
     KStars* kstars = KStars::Instance();
     if( kstars ) {
         ImageViewer *iv = new ImageViewer( url,
-                                           xi18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ),
+                                           i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ),
                                            this );
         iv->show();
     }
@@ -549,7 +549,7 @@ void SkyMap::slotEndRulerMode() {
         dms angularDistance = AngularRuler.angularSize();
         AngularRuler.clear();
 
-        sbMessage += xi18n( "Angular distance: %1", angularDistance.toDMSString() );
+        sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
 
         // Create unobsructive message box with suicidal tendencies
         // to display result.
@@ -579,11 +579,11 @@ void SkyMap::slotEndRulerMode() {
             foreach( f, data->getVisibleFOVs() ) {
                 nameToFovMap.insert( f->name(), ( ( f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX() ) );
             }
-            fov = nameToFovMap[ QInputDialog::getItem( this, xi18n("Star Hopper: Choose a field-of-view"), xi18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
+            fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Star Hopper: Choose a field-of-view"), i18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
         }
         else {
             // Ask the user to enter a field of view
-            fov = QInputDialog::getDouble( this, xi18n("Star Hopper: Enter field-of-view to use"), xi18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok );
+            fov = QInputDialog::getDouble( this, i18n("Star Hopper: Enter field-of-view to use"), i18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok );
         }
 
         Q_ASSERT( fov > 0.0 );
@@ -735,7 +735,7 @@ void SkyMap::slotAddPlanetTrail() {
 void SkyMap::slotDetail() {
     // check if object is selected
     if ( !clickedObject() ) {
-        KMessageBox::sorry( this, xi18n("No object selected."), xi18n("Object Details") );
+        KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
         return;
     }
     DetailDialog* detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
@@ -889,7 +889,7 @@ void SkyMap::slewFocus() {
             double r  = r0;
             while ( r > step ) {
                 //DEBUG
-                qDebug() << step << ": " << r << ": " << r0 << endl;
+                //qDebug() << step << ": " << r << ": " << r0 << endl;
                 double fX = dX / r;
                 double fY = dY / r;
 
@@ -1090,29 +1090,29 @@ void SkyMap::slotToggleGL() {
         // Do NOT use GL
         Options::setUseGL( false );
         m_SkyMapDraw = m_SkyMapQDraw;
-        KStars::Instance()->actionCollection()->action( "opengl" )->setText(xi18n("Switch to OpenGL backend"));
+        KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to OpenGL backend"));
     }
     else {
         // Use GL
-        QString message = xi18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works "
+        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works "
                                "much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
 
         int result = KMessageBox::warningYesNo( this, message,
-                                                xi18n("Switch to OpenGL backend"),
+                                                i18n("Switch to OpenGL backend"),
                                                 KStandardGuiItem::yes(),
                                                 KStandardGuiItem::no(),
                                                 "dag_opengl_switch" );
 
         if ( result == KMessageBox::Yes ) {
 
-            KMessageBox::information( this, xi18n("Infoboxes will be disabled as they do not work correctly when using OpenGL backends as of this version"),
-                                      xi18n("Switch to OpenGL backend"),
+            KMessageBox::information( this, i18n("Infoboxes will be disabled as they do not work correctly when using OpenGL backends as of this version"),
+                                      i18n("Switch to OpenGL backend"),
                                       "dag_opengl_infoboxes" );
 
             Options::setUseGL( true );
 
             m_SkyMapDraw = m_SkyMapGLDraw;
-            KStars::Instance()->actionCollection()->action( "opengl" )->setText(xi18n("Switch to QPainter backend"));
+            KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));
         }
     }
     m_SkyMapDraw->setParent( viewport() );
@@ -1127,7 +1127,7 @@ void SkyMap::startXplanet( const QString & outputFile ) {
 
     // If Options::xplanetPath() is empty, return
     if ( Options::xplanetPath().isEmpty() ) {
-        KMessageBox::error(0, xi18n("Xplanet binary path is empty in config panel."));
+        KMessageBox::error(0, i18n("Xplanet binary path is empty in config panel."));
         return;
     }
 

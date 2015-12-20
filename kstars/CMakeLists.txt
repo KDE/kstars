@@ -27,7 +27,6 @@ if (CFITSIO_FOUND)
          fitsviewer/fitsdata.cpp
          fitsviewer/fitsview.cpp
          fitsviewer/fitsviewer.cpp
-         fitsviewer/fitshistogramdraw.cpp
          fitsviewer/fitstab.cpp
          fitsviewer/fitsdebayer.cpp
          fitsviewer/bayer.c
@@ -62,6 +61,10 @@ if (INDI_FOUND)
          indi/indiccd.cpp
          indi/indifocuser.cpp
          indi/indifilter.cpp
+         indi/indidome.cpp
+         indi/indiweather.cpp
+         indi/indicap.cpp
+         indi/indilightbox.cpp
          indi/indidbus.cpp
          indi/opsindi.cpp
          indi/telescopewizardprocess.cpp
@@ -78,9 +81,12 @@ if (INDI_FOUND)
 
     if (CFITSIO_FOUND)
         set(ekosui_SRCS
+            ekos/scheduler.ui
+            ekos/mosaic.ui
             ekos/opsekos.ui
             ekos/ekosmanager.ui
             ekos/capture.ui
+            ekos/calibrationoptions.ui
             ekos/align.ui
             ekos/focus.ui
             ekos/guide.ui
@@ -90,12 +96,19 @@ if (INDI_FOUND)
         )
 
         set(ekos_SRCS
+            ekos/schedulerjob.cpp
+            ekos/scheduler.cpp
+            ekos/mosaic.cpp
             ekos/ekosmanager.cpp
             ekos/capture.cpp
+            ekos/sequencejob.cpp
             ekos/focus.cpp
             ekos/guide.cpp
             ekos/align.cpp
             ekos/mount.cpp
+            ekos/dome.cpp
+            ekos/weather.cpp
+            ekos/dustcap.cpp
             ekos/astrometryparser.cpp
             ekos/offlineastrometryparser.cpp
             ekos/onlineastrometryparser.cpp
@@ -171,6 +184,7 @@ set(libkstarstools_SRCS
     tools/skycalendar.cpp
     tools/wutdialog.cpp
     tools/flagmanager.cpp
+    tools/horizonmanager.cpp
 
     tools/skyguide/skyguidemgr.cpp
     tools/skyguide/skyguideobject.cpp
@@ -240,6 +254,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
               tools/whatsinteresting/wilpsettings.ui
               tools/whatsinteresting/wiequipsettings.ui
               tools/starhopperdialog.ui
+              tools/horizonmanager.ui
 )
 
 set(libkstarscomponents_SRCS
@@ -263,6 +278,7 @@ set(libkstarscomponents_SRCS
     skycomponents/deepstarcomponent.cpp
     skycomponents/deepskycomponent.cpp
     skycomponents/catalogcomponent.cpp
+    skycomponents/constellationartcomponent.cpp
     skycomponents/constellationboundarylines.cpp
     skycomponents/constellationlines.cpp
     skycomponents/constellationnamescomponent.cpp
@@ -272,6 +288,7 @@ set(libkstarscomponents_SRCS
     skycomponents/horizontalcoordinategrid.cpp
     skycomponents/ecliptic.cpp
     skycomponents/equator.cpp
+    skycomponents/artificialhorizoncomponent.cpp
     skycomponents/horizoncomponent.cpp
     skycomponents/milkyway.cpp
     skycomponents/skycomponent.cpp
@@ -334,6 +351,7 @@ set(kstars_optionsui_SRCS
 )
 
 set(kstars_skyobjects_SRCS
+    skyobjects/constellationsart.cpp
     skyobjects/deepskyobject.cpp
     skyobjects/jupitermoons.cpp
     skyobjects/planetmoons.cpp
@@ -342,7 +360,7 @@ set(kstars_skyobjects_SRCS
     skyobjects/ksmoon.cpp
     skyobjects/ksplanetbase.cpp
     skyobjects/ksplanet.cpp
-    # skyobjects/kspluto.cpp
+    #skyobjects/kspluto.cpp
     skyobjects/kssun.cpp
     skyobjects/skyline.cpp
     skyobjects/skyobject.cpp
@@ -397,7 +415,6 @@ set(kstars_projection_SRCS
 )
 
 set(kstars_extra_SRCS
-    auxiliary/ksnotify.cpp
     auxiliary/colorscheme.cpp
     auxiliary/dms.cpp
     auxiliary/fov.cpp
@@ -411,6 +428,7 @@ set(kstars_extra_SRCS
     auxiliary/imageexporter.cpp
     auxiliary/ksutils.cpp
     auxiliary/kswizard.cpp
+    auxiliary/qcustomplot.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -513,6 +531,9 @@ if (INDI_FOUND)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide.h Ekos::Guide)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos::Align)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/dustcap.h Ekos::DustCap)
 endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
@@ -553,6 +574,7 @@ target_link_libraries(KStarsLib
                       KF5::TextEditor
                       KF5::DBusAddons
                       KF5::IconThemes
+                      KF5::Notifications
                       KF5::Archive
                       Qt5::Gui
                       Qt5::PrintSupport
@@ -609,3 +631,4 @@ install(FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
 if (WIN32)
     install(FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
 endif (WIN32)
+install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

@@ -123,28 +123,28 @@ KSPlanet::KSPlanet( int n )
 {
     switch ( n ) {
         case MERCURY:
-            KSPlanetBase::init( xi18n("Mercury"), "mercury", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );
+            KSPlanetBase::init( i18n("Mercury"), "mercury", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );
             break;
         case VENUS:
-            KSPlanetBase::init( xi18n("Venus"), "venus", KSPlanetBase::planetColor[KSPlanetBase::VENUS], 12103.6 );
+            KSPlanetBase::init( i18n("Venus"), "venus", KSPlanetBase::planetColor[KSPlanetBase::VENUS], 12103.6 );
             break;
         case MARS:
-            KSPlanetBase::init( xi18n("Mars"), "mars", KSPlanetBase::planetColor[KSPlanetBase::MARS], 6792.4 );
+            KSPlanetBase::init( i18n("Mars"), "mars", KSPlanetBase::planetColor[KSPlanetBase::MARS], 6792.4 );
             break;
         case JUPITER:
-            KSPlanetBase::init( xi18n("Jupiter"), "jupiter", KSPlanetBase::planetColor[KSPlanetBase::JUPITER], 142984. );
+            KSPlanetBase::init( i18n("Jupiter"), "jupiter", KSPlanetBase::planetColor[KSPlanetBase::JUPITER], 142984. );
             break;
         case SATURN:
-            KSPlanetBase::init( xi18n("Saturn"), "saturn", KSPlanetBase::planetColor[KSPlanetBase::SATURN], 120536. );
+            KSPlanetBase::init( i18n("Saturn"), "saturn", KSPlanetBase::planetColor[KSPlanetBase::SATURN], 120536. );
             break;
         case URANUS:
-            KSPlanetBase::init( xi18n("Uranus"), "uranus", KSPlanetBase::planetColor[KSPlanetBase::URANUS], 51118. );
+            KSPlanetBase::init( i18n("Uranus"), "uranus", KSPlanetBase::planetColor[KSPlanetBase::URANUS], 51118. );
             break;
         case NEPTUNE:
-            KSPlanetBase::init( xi18n("Neptune"), "neptune", KSPlanetBase::planetColor[KSPlanetBase::NEPTUNE], 49572. );
+            KSPlanetBase::init( i18n("Neptune"), "neptune", KSPlanetBase::planetColor[KSPlanetBase::NEPTUNE], 49572. );
             break;
         default:
-            qDebug() << xi18n("Error: Illegal identifier in KSPlanet constructor: %1", n) << endl;
+            qDebug() << i18n("Error: Illegal identifier in KSPlanet constructor: %1", n) << endl;
             break;
     }
 }
@@ -157,19 +157,19 @@ KSPlanet* KSPlanet::clone() const
 
 // TODO: Get rid of this dirty hack post KDE 4.2 release
 QString KSPlanet::untranslatedName() const {
-    if( name() == xi18n( "Mercury" ) )
+    if( name() == i18n( "Mercury" ) )
         return "Mercury";
-    else if( name() == xi18n( "Venus" ) )
+    else if( name() == i18n( "Venus" ) )
         return "Venus";
-    else if( name() == xi18n( "Mars" ) )
+    else if( name() == i18n( "Mars" ) )
         return "Mars";
-    else if( name() == xi18n( "Jupiter" ) )
+    else if( name() == i18n( "Jupiter" ) )
         return "Jupiter";
-    else if( name() == xi18n( "Saturn" ) )
+    else if( name() == i18n( "Saturn" ) )
         return "Saturn";
-    else if( name() == xi18n( "Uranus" ) )
+    else if( name() == i18n( "Uranus" ) )
         return "Uranus";
-    else if( name() == xi18n( "Neptune" ) )
+    else if( name() == i18n( "Neptune" ) )
         return "Neptune";
     else
         return name();
@@ -339,16 +339,16 @@ void KSPlanet::findMagnitude(const KSNumbers* num)
     double phase = this->phase().Degrees();
     double f1 = phase/100.;
 
-    if( name() == xi18n( "Mercury" ) ) {
+    if( name() == i18n( "Mercury" ) ) {
         if ( phase > 150. ) f1 = 1.5;
         magnitude = -0.36 + param + 3.8*f1 - 2.73*f1*f1 + 2*f1*f1*f1;
-    } else if( name() == xi18n( "Venus" ) ) {
+    } else if( name() == i18n( "Venus" ) ) {
         magnitude = -4.29 + param + 0.09*f1 + 2.39*f1*f1 - 0.65*f1*f1*f1;
-    } else if( name() == xi18n( "Mars" ) ) {
+    } else if( name() == i18n( "Mars" ) ) {
         magnitude = -1.52 + param + 0.016*phase;
-    } else if( name() == xi18n( "Jupiter" ) ) {
+    } else if( name() == i18n( "Jupiter" ) ) {
         magnitude = -9.25 + param + 0.005*phase;
-    } else if( name() == xi18n( "Saturn" ) ) {
+    } else if( name() == i18n( "Saturn" ) ) {
         double T = num->julianCenturies();
         double a0 = (40.66-4.695*T)* dms::PI / 180.;
         double d0 = (83.52+0.403*T)* dms::PI / 180.;
@@ -356,9 +356,9 @@ void KSPlanet::findMagnitude(const KSNumbers* num)
         sinx = fabs(sinx-sin(d0)*sinDec);
         double rings = -2.6*sinx + 1.25*sinx*sinx;
         magnitude = -8.88 + param + 0.044*phase + rings;
-    } else if( name() == xi18n( "Uranus" ) ) {
+    } else if( name() == i18n( "Uranus" ) ) {
         magnitude = -7.19 + param + 0.0028*phase;
-    } else if( name() == xi18n( "Neptune" ) ) {
+    } else if( name() == i18n( "Neptune" ) ) {
         magnitude = -6.87 + param;
     }
     setMag(magnitude);
@@ -367,21 +367,21 @@ void KSPlanet::findMagnitude(const KSNumbers* num)
 SkyObject::UID KSPlanet::getUID() const
 {
     SkyObject::UID n;
-    if( name() == xi18n( "Mercury" ) ) {
+    if( name() == i18n( "Mercury" ) ) {
         n = 1;
-    } else if( name() == xi18n( "Venus" ) ) {
+    } else if( name() == i18n( "Venus" ) ) {
         n = 2;
-    } else if( name() == xi18n( "Earth" ) ) {
+    } else if( name() == i18n( "Earth" ) ) {
         n = 3;
-    } else if( name() == xi18n( "Mars" ) ) {
+    } else if( name() == i18n( "Mars" ) ) {
         n = 4;
-    } else if( name() == xi18n( "Jupiter" ) ) {
+    } else if( name() == i18n( "Jupiter" ) ) {
         n = 5;
-    } else if( name() == xi18n( "Saturn" ) ) {
+    } else if( name() == i18n( "Saturn" ) ) {
         n = 6;
-    } else if( name() == xi18n( "Uranus" ) ) {
+    } else if( name() == i18n( "Uranus" ) ) {
         n = 7;
-    } else if( name() == xi18n( "Neptune" ) ) {
+    } else if( name() == i18n( "Neptune" ) ) {
         n = 8;
     } else {
         return SkyObject::invalidUID;

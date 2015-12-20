@@ -7,6 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <KNotifications/KNotification>
 #include "mount.h"
 #include "Options.h"
 
@@ -22,7 +23,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "ksnotify.h"
 
 #include <basedevice.h>
 
@@ -136,7 +136,7 @@ void Mount::syncTelescopeInfo()
     {
 
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
-        guideScopeGroup->setTitle(xi18n("%1 guide scope", currentTelescope->getDeviceName()));
+        guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
         INumber *np = NULL;
 
@@ -230,9 +230,10 @@ void Mount::updateTelescopeCoords()
                 // Only stop if current altitude is less than last altitude indicate worse situation
                 if (currentAlt < lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(xi18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...", QString::number(minAltLimit->value(), 'g', 3)));
+                    appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...", QString::number(minAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
-                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+                    //KNotification::event( QLatin1String( "OperationFailed" ));
+                    KNotification::beep();
                     abortDispatch++;
                 }
             }
@@ -241,9 +242,10 @@ void Mount::updateTelescopeCoords()
                 // Only stop if current altitude is higher than last altitude indicate worse situation
                 if (currentAlt > lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(xi18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...", QString::number(maxAltLimit->value(), 'g', 3)));
+                    appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...", QString::number(maxAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
-                    KSNotify::play(KSNotify::NOTIFY_ERROR);
+                    //KNotification::event( QLatin1String( "OperationFailed" ));
+                    KNotification::beep();
                     abortDispatch++;
                 }
             }
@@ -266,9 +268,9 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         {
             QString newMessage;
             if (primaryScopeApertureIN->value() == 1 || primaryScopeFocalIN->value() == 1)
-                newMessage = xi18n("Error syncing telescope info. Please fill telescope aperture and focal length.");
+                newMessage = i18n("Error syncing telescope info. Please fill telescope aperture and focal length.");
             else
-                newMessage = xi18n("Error syncing telescope info. Check INDI control panel for more details.");
+                newMessage = i18n("Error syncing telescope info. Check INDI control panel for more details.");
             if (newMessage != lastNotificationMessage)
             {
                 appendLogText(newMessage);
@@ -278,7 +280,7 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         else
         {
                 syncTelescopeInfo();
-                QString newMessage = xi18n("Telescope info updated successfully.");
+                QString newMessage = i18n("Telescope info updated successfully.");
                 if (newMessage != lastNotificationMessage)
                 {
                     appendLogText(newMessage);
@@ -309,7 +311,7 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
 
 void Mount::appendLogText(const QString &text)
 {
-    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -320,7 +322,7 @@ void Mount::updateLog(int messageID)
 
     QString message = QString::fromStdString(dv->messageQueue(messageID));
 
-    logText.insert(0, xi18nc("Message shown in Ekos Mount module", "%1", message));
+    logText.insert(0, i18nc("Message shown in Ekos Mount module", "%1", message));
 
     emit newLog();
 }
@@ -426,7 +428,7 @@ void Mount::save()
     {
 
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
-        guideScopeGroup->setTitle(xi18n("%1 guide scope", currentTelescope->getDeviceName()));
+        guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
         INumber *np = NULL;
 
@@ -449,11 +451,11 @@ void Mount::save()
 
         currentTelescope->setConfig(SAVE_CONFIG);
 
-        //appendLogText(xi18n("Saving telescope information..."));
+        //appendLogText(i18n("Saving telescope information..."));
 
     }
     else
-        appendLogText(xi18n("Failed to save telescope information."));
+        appendLogText(i18n("Failed to save telescope information."));
 }
 
 void Mount::saveLimits()
@@ -543,30 +545,12 @@ bool Mount::abort()
     return currentTelescope->Abort();
 }
 
-QString Mount::getSlewStatus()
+IPState Mount::getSlewStatus()
 {
-    IPState state = currentTelescope->getState("EQUATORIAL_EOD_COORD");
-    QString status;
+    if (currentTelescope == NULL)
+        return IPS_ALERT;
 
-    switch (state)
-    {
-        case IPS_IDLE:
-            status = "Idle";
-            break;
-         case IPS_OK:
-            status = "Complete";
-            break;
-          case IPS_BUSY:
-            status = "Busy";
-            break;
-           case IPS_ALERT:
-           default:
-            status = "Error";
-            break;
-    }
-
-    return status;
-
+    return currentTelescope->getState("EQUATORIAL_EOD_COORD");
 }
 
 QList<double> Mount::getEquatorialCoords()
@@ -599,6 +583,65 @@ void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
     primaryScopeApertureIN->setValue(primaryAperture);
     guideScopeFocalIN->setValue(guideFocalLength);
     guideScopeApertureIN->setValue(guideAperture);
+}
+
+bool Mount::canPark()
+{
+    if (currentTelescope == NULL)
+        return false;
+
+    return currentTelescope->canPark();
+}
+
+bool Mount::park()
+{
+    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+        return false;
+
+    return currentTelescope->Park();
+}
+
+bool Mount::unpark()
+{
+    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+        return false;
+
+    return currentTelescope->UnPark();
+}
+
+Mount::ParkingStatus Mount::getParkingStatus()
+{
+    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+        return PARKING_ERROR;
+
+    ISwitchVectorProperty* parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
+
+    if (parkSP == NULL)
+        return PARKING_ERROR;
+
+    switch (parkSP->s)
+    {
+        case IPS_IDLE:
+            return PARKING_IDLE;
+
+        case IPS_OK:
+            if (parkSP->sp[0].s == ISS_ON)
+                return PARKING_OK;
+            else
+                return UNPARKING_OK;
+            break;
+
+         case IPS_BUSY:
+            if (parkSP->sp[0].s == ISS_ON)
+                return PARKING_BUSY;
+            else
+                return UNPARKING_BUSY;
+
+        case IPS_ALERT:
+            return PARKING_ERROR;
+    }
+
+    return PARKING_ERROR;
 }
 
 }

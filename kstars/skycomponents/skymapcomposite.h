@@ -38,6 +38,7 @@ class HorizontalCoordinateGrid;
 class DeepSkyComponent;
 class Ecliptic;
 class Equator;
+class ArtificialHorizonComponent;
 class FlagComponent;
 class HorizonComponent;
 class MilkyWay;
@@ -48,10 +49,12 @@ class TargetListComponent;
 class TargetListComponent;
 class SatellitesComponent;
 class SupernovaeComponent;
+class ConstellationArtComponent;
 
 class DeepSkyObject;
 class KSPlanetBase;
 class KSPlanet;
+class ConstellationsArt;
 
 /** @class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
@@ -164,10 +167,12 @@ public:
     void reloadComets();
     void reloadCLines();
     void reloadCNames();
+    void reloadConstellationArt();
 
     FlagComponent* flags();
     SatellitesComponent* satellites();
     SupernovaeComponent* supernovaeComponent();
+    ArtificialHorizonComponent* artificialHorizon();
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -206,10 +211,12 @@ private:
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;
+    ConstellationArtComponent   *m_ConstellationArt;
     EquatorialCoordinateGrid    *m_EquatorialCoordinateGrid;
     HorizontalCoordinateGrid    *m_HorizontalCoordinateGrid;
     DeepSkyComponent            *m_DeepSky;
     Equator                     *m_Equator;
+    ArtificialHorizonComponent           *m_ArtificialHorizon;
     Ecliptic                    *m_Ecliptic;
     HorizonComponent            *m_Horizon;
     MilkyWay                    *m_MilkyWay;

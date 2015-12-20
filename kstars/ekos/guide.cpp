@@ -10,6 +10,7 @@
 #include "guide.h"
 
 #include <QDateTime>
+#include <unistd.h>
 
 #include "guide/gmath.h"
 #include "guide/guider.h"
@@ -63,15 +64,13 @@ Guide::Guide() : QWidget()
     connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
     connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SLOT(updateGuideDriver(double,double)));
 
-    calibration = new rcalibration(this);
-    calibration->setMathObject(pmath);
+    calibration = new rcalibration(pmath, this);
 
-    guider = new rguider(this);
-    guider->setMathObject(pmath);
+    guider = new rguider(pmath, this);
 
     connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
     connect(guider, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
-    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
+    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));   
 
     tabWidget->addTab(calibration, calibration->windowTitle());
     tabWidget->addTab(guider, guider->windowTitle());
@@ -79,6 +78,7 @@ Guide::Guide() : QWidget()
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
     connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+    connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -148,6 +148,8 @@ void Guide::checkCCD(int ccdNum)
         currentCCD = CCDs.at(ccdNum);
 
         connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
@@ -251,8 +253,27 @@ void Guide::updateGuideParams()
 
         if (targetChip == NULL)
         {
-            appendLogText(xi18n("Connection to the guide CCD is lost."));
+            appendLogText(i18n("Connection to the guide CCD is lost."));
             return;
+        }
+
+        binningCombo->setEnabled(targetChip->canBin());
+        if (targetChip->canBin())
+        {
+            int binX,binY, maxBinX, maxBinY;
+            targetChip->getBinning(&binX, &binY);
+            targetChip->getMaxBin(&maxBinX, &maxBinY);
+
+            binningCombo->disconnect();
+
+            binningCombo->clear();
+
+            for (int i=1; i <= maxBinX; i++)
+                binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
+
+            binningCombo->setCurrentIndex(binX-1);
+
+            connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
         }
 
         emit guideChipUpdated(targetChip);
@@ -269,18 +290,38 @@ void Guide::updateGuideParams()
 
 void Guide::addST4(ISD::ST4 *newST4)
 {
+    int i=0;
     foreach(ISD::ST4 *guidePort, ST4List)
     {
         if (guidePort == newST4)
             return;
     }
 
+    disconnect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+
     ST4Combo->addItem(newST4->getDeviceName());
     ST4List.append(newST4);
 
-    ST4Driver = ST4List.at(0);
+    for (i=0; i < ST4List.count(); i++)
+    {
+        if (ST4List.at(i)->getDeviceName() == Options::sT4Driver())
+        {
+           ST4Driver = ST4List.at(i);
+           ST4Combo->setCurrentIndex(i);
+           break;
+        }
+    }
+
+    // If no option was selected before, let us set the first item as the default item.
+    if (i == ST4List.count())
+    {
+        ST4Driver = ST4List.at(0);
+        ST4Combo->setCurrentIndex(0);
+    }
+
+    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+
     GuideDriver = ST4Driver;
-    ST4Combo->setCurrentIndex(0);
 
 }
 
@@ -303,7 +344,7 @@ bool Guide::capture()
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(xi18n("Error: Lost connection to CCD."));
+        appendLogText(i18n("Error: Lost connection to CCD."));
         return false;
     }
 
@@ -320,13 +361,13 @@ bool Guide::capture()
         darkExposure = seqExpose;
         targetChip->setFrameType(FRAME_DARK);
 
-        if (calibration->isAutoCalibration() == false)
-            KMessageBox::information(NULL, xi18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), xi18n("Dark Exposure"), "dark_exposure_dialog_notification");
+        if (calibration->useAutoStar() == false)
+            KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
         connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
         targetChip->capture(seqExpose);
 
-        appendLogText(xi18n("Taking a dark frame. "));
+        appendLogText(i18n("Taking a dark frame. "));
 
         return true;
     }
@@ -371,7 +412,7 @@ void Guide::newFITS(IBLOB *bp)
             capture();
         }
         else
-            appendLogText(xi18n("Dark frame processing failed."));
+            appendLogText(i18n("Dark frame processing failed."));
 
        return;
     }
@@ -401,9 +442,15 @@ void Guide::newFITS(IBLOB *bp)
 
     pmath->set_image(targetImage);
     guider->setImage(targetImage);
-    calibration->setImage(targetImage);
 
     fv->show();
+
+    // It should be false in case we do not need to process the image for motion
+    // which happens when we take an image for auto star selection.
+    if (calibration->setImage(targetImage) == false)
+        return;
+
+
 
     if (isSuspended)
     {
@@ -416,7 +463,7 @@ void Guide::newFITS(IBLOB *bp)
         pmath->do_processing();
         if (guider->dither() == false)
         {
-            appendLogText(xi18n("Dithering failed. Autoguiding aborted."));
+            appendLogText(i18n("Dithering failed. Autoguiding aborted."));
             guider->abort();
             emit ditherFailed();
         }
@@ -448,7 +495,7 @@ void Guide::newFITS(IBLOB *bp)
 void Guide::appendLogText(const QString &text)
 {
 
-    logText.insert(0, xi18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     emit newLog();
 }
@@ -520,6 +567,9 @@ void Guide::newST4(int index)
         return;
 
     ST4Driver = ST4List.at(index);
+
+    Options::setST4Driver(ST4Driver->getDeviceName());
+
     GuideDriver = ST4Driver;
 
 }
@@ -541,7 +591,7 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
     // Check if guide star is lost
     if (dx == -1 && dy == -1 && fit == -1)
     {
-        KMessageBox::error(NULL, xi18n("Lost track of the guide star. Rapid guide aborted."));
+        KMessageBox::error(NULL, i18n("Lost track of the guide star. Rapid guide aborted."));
         guider->abort();
         return;
     }
@@ -572,7 +622,7 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
         pmath->do_processing();
         if (guider->dither() == false)
         {
-            appendLogText(xi18n("Dithering failed. Autoguiding aborted."));
+            appendLogText(i18n("Dithering failed. Autoguiding aborted."));
             guider->abort();
             emit ditherFailed();
         }
@@ -591,7 +641,7 @@ void Guide::startRapidGuide()
 
     if (currentCCD->setRapidGuide(targetChip, true) == false)
     {
-        appendLogText(xi18n("The CCD does not support Rapid Guiding. Aborting..."));
+        appendLogText(i18n("The CCD does not support Rapid Guiding. Aborting..."));
         guider->abort();
         return;
     }
@@ -645,13 +695,13 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
     if (AODriver != NULL && (fabs(delta_ra) < guider->getAOLimit()) && (fabs(delta_dec) < guider->getAOLimit()))
     {
         if (AODriver != GuideDriver)
-                appendLogText(xi18n("Using %1 to correct for guiding errors.", AODriver->getDeviceName()));
+                appendLogText(i18n("Using %1 to correct for guiding errors.", AODriver->getDeviceName()));
         GuideDriver = AODriver;
         return;
     }
 
     if (GuideDriver != ST4Driver)
-        appendLogText(xi18n("Using %1 to correct for guiding errors.", ST4Driver->getDeviceName()));
+        appendLogText(i18n("Using %1 to correct for guiding errors.", ST4Driver->getDeviceName()));
 
     GuideDriver = ST4Driver;
 }
@@ -703,9 +753,9 @@ void Guide::setSuspended(bool enable)
         capture();
 
     if (isSuspended)
-        appendLogText(xi18n("Guiding suspended."));
+        appendLogText(i18n("Guiding suspended."));
     else
-        appendLogText(xi18n("Guiding resumed."));
+        appendLogText(i18n("Guiding resumed."));
 }
 
 void Guide::setExposure(double value)
@@ -724,9 +774,24 @@ void Guide::setImageFilter(const QString & value)
         }
 }
 
-void Guide::setCalibrationOptions(bool useTwoAxis, bool autoCalibration, bool useDarkFrame)
+void Guide::setCalibrationTwoAxis(bool enable)
 {
-    calibration->setCalibrationOptions(useTwoAxis, autoCalibration, useDarkFrame);
+    calibration->setCalibrationTwoAxis(enable);
+}
+
+void Guide::setCalibrationAutoStar(bool enable)
+{
+    calibration->setCalibrationAutoStar(enable);
+}
+
+void Guide::setCalibrationAutoSquareSize(bool enable)
+{
+    calibration->setCalibrationAutoSquareSize(enable);
+}
+
+void Guide::setCalibrationDarkFrame(bool enable)
+{
+    calibration->setCalibrationDarkFrame(enable);
 }
 
 void Guide::setCalibrationParams(int boxSize, int pulseDuration)
@@ -734,9 +799,24 @@ void Guide::setCalibrationParams(int boxSize, int pulseDuration)
     calibration->setCalibrationParams(boxSize, pulseDuration);
 }
 
-void Guide::setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide)
+void Guide::setGuideBoxSize(int boxSize)
 {
-     guider->setGuideOptions(boxSize, algorithm, useSubFrame, useRapidGuide);
+     guider->setGuideOptions(boxSize, guider->getAlgorithm(), guider->useSubFrame(), guider->useRapidGuide());
+}
+
+void Guide::setGuideAlgorithm(const QString & algorithm)
+{
+     guider->setGuideOptions(guider->getBoxSize(), algorithm, guider->useSubFrame(), guider->useRapidGuide());
+}
+
+void Guide::setGuideSubFrame(bool enable)
+{
+     guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), enable , guider->useRapidGuide());
+}
+
+void Guide::setGuideRapid(bool enable)
+{
+     guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), guider->useSubFrame() , enable);
 }
 
 void Guide::setDither(bool enable, double value)
@@ -765,12 +845,46 @@ void Guide::checkAutoCalibrateGuiding(bool successful)
 
     if (successful)
     {
-        appendLogText(xi18n("Auto calibration successful. Starting guiding..."));
+        appendLogText(i18n("Auto calibration successful. Starting guiding..."));
         startGuiding();
     }
     else
     {
-        appendLogText(xi18n("Auto calibration failed."));
+        appendLogText(i18n("Auto calibration failed."));
+    }
+}
+
+void Guide::updateCCDBin(int index)
+{
+    if (currentCCD == NULL)
+        return;
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    targetChip->setBinning(index+1, index+1);
+}
+
+void Guide::processCCDNumber(INumberVectorProperty *nvp)
+{
+    if (currentCCD == NULL || strcmp(nvp->device, currentCCD->getDeviceName()))
+        return;
+
+    if ( (!strcmp(nvp->name, "CCD_BINNING") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_BINNING") && useGuideHead) )
+    {
+        binningCombo->disconnect();
+        binningCombo->setCurrentIndex(nvp->np[0].value-1);
+        connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
+    }        
+}
+
+void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state)
+{
+    INDI_UNUSED(exposure);
+
+    if (state == IPS_ALERT && (guider->isGuiding() || calibration->isCalibrating()))
+    {
+        appendLogText(i18n("Exposure failed. Restarting exposure..."));
+        targetChip->capture(exposureIN->value());
     }
 }
 

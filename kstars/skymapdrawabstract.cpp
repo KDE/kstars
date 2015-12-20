@@ -20,7 +20,7 @@
 // Harris. Essentially, skymapdraw.cpp was renamed and modified.
 // -- asimha (2011)
 
-#include <iostream>
+
 
 #include <QPainter>
 #include <QPixmap>
@@ -149,15 +149,15 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
         if ( obj->type() == SkyObject::PLANET ) {
             if ( ! drawPlanets ) continue;
             if ( obj->name() == "Sun" && ! Options::showSun() ) continue;
-            if ( obj->name() == xi18n( "Mercury" ) && ! Options::showMercury() ) continue;
-            if ( obj->name() == xi18n( "Venus" ) && ! Options::showVenus() ) continue;
+            if ( obj->name() == i18n( "Mercury" ) && ! Options::showMercury() ) continue;
+            if ( obj->name() == i18n( "Venus" ) && ! Options::showVenus() ) continue;
             if ( obj->name() == "Moon" && ! Options::showMoon() ) continue;
-            if ( obj->name() == xi18n( "Mars" ) && ! Options::showMars() ) continue;
-            if ( obj->name() == xi18n( "Jupiter" ) && ! Options::showJupiter() ) continue;
-            if ( obj->name() == xi18n( "Saturn" ) && ! Options::showSaturn() ) continue;
-            if ( obj->name() == xi18n( "Uranus" ) && ! Options::showUranus() ) continue;
-            if ( obj->name() == xi18n( "Neptune" ) && ! Options::showNeptune() ) continue;
-            //if ( obj->name() == xi18n( "Pluto" ) && ! Options::showPluto() ) continue;
+            if ( obj->name() == i18n( "Mars" ) && ! Options::showMars() ) continue;
+            if ( obj->name() == i18n( "Jupiter" ) && ! Options::showJupiter() ) continue;
+            if ( obj->name() == i18n( "Saturn" ) && ! Options::showSaturn() ) continue;
+            if ( obj->name() == i18n( "Uranus" ) && ! Options::showUranus() ) continue;
+            if ( obj->name() == i18n( "Neptune" ) && ! Options::showNeptune() ) continue;
+            //if ( obj->name() == i18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
         if ( (obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
              (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||
@@ -188,11 +188,22 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
     #ifdef HAVE_INDI
 
     Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
-    if (align)
+    if (align && align->isSolverComplete())
     {
+        bool isVisible = false;
         FOV * fov = align->fov();
-        if (fov)
-            fov->draw(psky,  Options::zoomFactor());
+        if (fov == NULL)
+            return;
+
+        SkyPoint p = fov->center();        
+        if (std::isnan(p.ra().Degrees()))
+            return;
+
+        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        QPointF point = SkyMap::Instance()->projector()->toScreen(&p, true, &isVisible);
+        double northRotation = SkyMap::Instance()->projector()->findNorthPA(&p, point.x(), point.y());
+        fov->setNorthPA(northRotation);
+        fov->draw(psky,  Options::zoomFactor());
     }
 
     #endif

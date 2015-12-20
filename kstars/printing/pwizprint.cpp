@@ -74,7 +74,7 @@ void PWizPrintUI::printDocument(QPrinter *printer)
 
 void PWizPrintUI::slotExport()
 {
-    QUrl url = QFileDialog::getSaveFileUrl(KStars::Instance(), xi18n("Export"), QUrl(QDir::homePath()), "application/pdf application/postscript application/vnd.oasis.opendocument.text");
+    QUrl url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export"), QUrl(QDir::homePath()), "application/pdf application/postscript application/vnd.oasis.opendocument.text");
     //User cancelled file selection dialog - abort image export
     if(url.isEmpty())
     {
@@ -85,8 +85,8 @@ void PWizPrintUI::slotExport()
     if(QFile::exists(url.path()))
     {
         int r=KMessageBox::warningContinueCancel(parentWidget(),
-                xi18n( "A file named \"%1\" already exists. Overwrite it?" , url.fileName()),
-                xi18n( "Overwrite File?" ),
+                i18n( "A file named \"%1\" already exists. Overwrite it?" , url.fileName()),
+                i18n( "Overwrite File?" ),
                 KStandardGuiItem::overwrite() );
         if(r == KMessageBox::Cancel)
             return;
@@ -130,8 +130,8 @@ void PWizPrintUI::slotExport()
             if (KIO::storedHttpPost(&tmpfile, url )->exec() == false)
             //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
-                QString message = xi18n( "Could not upload file to remote location: %1", url.url() );
-                KMessageBox::sorry( 0, message, xi18n( "Could not upload file" ) );
+                QString message = i18n( "Could not upload file to remote location: %1", url.url() );
+                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
             }
         }
     }

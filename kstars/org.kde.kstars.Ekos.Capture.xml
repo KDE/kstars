@@ -1,10 +1,10 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Capture">
-    <method name="startSequence">
+    <method name="start">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="stopSequence">
+    <method name="abort">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setCCD">
@@ -17,6 +17,11 @@
       <arg name="filterSlot" type="i" direction="in"/>
     </method>
     <method name="loadSequenceQueue">
+      <arg type="b" direction="out"/>
+      <arg name="fileURL" type="s" direction="in"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
+    </method>
+    <method name="isSequenceFileComplete">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
@@ -38,6 +43,10 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setParkOnComplete">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setMeridianFlip">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -63,6 +72,16 @@
     <method name="getJobExposureDuration">
       <arg type="d" direction="out"/>
       <arg name="id" type="i" direction="in"/>
+    </method>
+    <method name="hasCoolerControl">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="setCoolerControl">
+      <arg type="b" direction="out"/>
+      <arg type="b" name="enable" direction="in"/>
+    </method>
+    <method name="clearAutoFocusHFR">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
   </interface>
 </node>

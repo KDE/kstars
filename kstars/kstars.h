@@ -58,6 +58,7 @@ class Execute;
 class ExportImageDialog;
 class PrintingWizard;
 class EkosManager;
+class HorizonManager;
 
 class OpsCatalog;
 class OpsGuides;
@@ -567,6 +568,10 @@ private slots:
      * uses the name of the sender to identify the item to change.  */
     void slotViewToolBar();
 
+    /** Meta-slot to handle display toggles for all of the INDItoolbar buttons.
+     * uses the name of the sender to identify the item to change.  */
+    void slotINDIToolBar();
+
     /** Meta-slot to handle toggling display of GUI elements (toolbars and infoboxes)
      * uses name of the sender action to identify the widget to hide/show.  */
     void slotShowGUIItem( bool );
@@ -579,7 +584,9 @@ private slots:
 
     void slotEquipmentWriter();
 
-    void slotObserverAdd();
+    void slotObserverManager();
+
+    void slotHorizonManager();
 
     void slotExecute();
 
@@ -639,6 +646,7 @@ private:
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
     SkyGuideMgr *m_SkyGuideMgr;
+    HorizonManager *m_HorizonManager;
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

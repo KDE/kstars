@@ -45,7 +45,7 @@ public:
     /**
       *Constructor. 
     	*/
-    explicit AddLinkDialog( QWidget* parent = 0, const QString &oname=xi18n("object") );
+    explicit AddLinkDialog( QWidget* parent = 0, const QString &oname=i18n("object") );
 
     /**
       *Destructor (empty) 

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>calibrationOptions</class>
+ <widget class="QDialog" name="calibrationOptions">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>475</width>
+    <height>241</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Calibration Options</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="toolTip">
+        <string>Specify the source the flat field evenly illuminated light source</string>
+       </property>
+       <property name="title">
+        <string>Flat Source</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QRadioButton" name="manualSourceC">
+          <property name="toolTip">
+           <string>Light source triggered by the user manually</string>
+          </property>
+          <property name="text">
+           <string>Manual</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="deviceSourceC">
+          <property name="toolTip">
+           <string>Light source provided by controllable electronic device</string>
+          </property>
+          <property name="text">
+           <string>Dust Cap</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QRadioButton" name="wallSourceC">
+            <property name="toolTip">
+             <string>Slew mount to the specified Azimuth/Altitude coordinates before taking flat field images</string>
+            </property>
+            <property name="text">
+             <string>Wall</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Az:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="azBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Alt:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="altBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="dawnDuskFlatsC">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Use Dawn and Dusk light</string>
+          </property>
+          <property name="text">
+           <string>Dawn/Dusk</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>Flat Duration</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QRadioButton" name="manualDurationC">
+          <property name="toolTip">
+           <string>Use the frame exposure value</string>
+          </property>
+          <property name="text">
+           <string>Manual</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QRadioButton" name="ADUC">
+            <property name="toolTip">
+             <string>Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness.</string>
+            </property>
+            <property name="text">
+             <string>ADU</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="ADUValue">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="ADUPercentageLabel">
+            <property name="toolTip">
+             <string>Number of images to capture</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="parkMountC">
+     <property name="text">
+      <string>Park Mount</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="parkDomeC">
+     <property name="text">
+      <string>Park Dome</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>dmsBox</class>
+   <extends>QLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>manualSourceC</tabstop>
+  <tabstop>deviceSourceC</tabstop>
+  <tabstop>wallSourceC</tabstop>
+  <tabstop>azBox</tabstop>
+  <tabstop>altBox</tabstop>
+  <tabstop>dawnDuskFlatsC</tabstop>
+  <tabstop>manualDurationC</tabstop>
+  <tabstop>ADUC</tabstop>
+  <tabstop>ADUValue</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>calibrationOptions</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>calibrationOptions</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

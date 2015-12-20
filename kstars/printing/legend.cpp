@@ -348,34 +348,34 @@ void Legend::paintSymbols(QPointF pos)
     case Legend::LO_HORIZONTAL :
         {
             // paint Open Cluster/Asterism symbol
-            QString label1 = xi18n("Open Cluster") + "\n" + xi18n("Asterism");
+            QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
             paintSymbol(QPointF(x, y), 3, 1, 0, label1);
             x += m_XSymbolSpacing;
 
             // paint Globular Cluster symbol
-            paintSymbol(QPointF(x, y), 4, 1, 0, xi18n("Globular Cluster"));
+            paintSymbol(QPointF(x, y), 4, 1, 0, i18n("Globular Cluster"));
             x += m_XSymbolSpacing;
 
             // paint Gaseous Nebula/Dark Nebula symbol
-            QString label3 = xi18n("Gaseous Nebula") + "\n" + xi18n("Dark Nebula");
+            QString label3 = i18n("Gaseous Nebula") + "\n" + i18n("Dark Nebula");
             paintSymbol(QPointF(x, y), 5, 1, 0, label3);
             x += m_XSymbolSpacing;
 
             // paint Planetary Nebula symbol
-            paintSymbol(QPointF(x, y), 6, 1, 0, xi18n("Planetary Nebula"));
+            paintSymbol(QPointF(x, y), 6, 1, 0, i18n("Planetary Nebula"));
             x += m_XSymbolSpacing;
 
             // paint Supernova Remnant
-            paintSymbol(QPointF(x, y), 7, 1, 0, xi18n("Supernova Remnant"));
+            paintSymbol(QPointF(x, y), 7, 1, 0, i18n("Supernova Remnant"));
             x += m_XSymbolSpacing;
 
             // paint Galaxy/Quasar
-            QString label6 = xi18n("Galaxy") + "\n" + xi18n("Quasar");
+            QString label6 = i18n("Galaxy") + "\n" + i18n("Quasar");
             paintSymbol(QPointF(x, y), 8, 0.5, 60, label6);
             x += m_XSymbolSpacing;
 
             // paint Galaxy Cluster
-            paintSymbol(QPointF(x, y), 14, 1, 0, xi18n("Galactic Cluster"));
+            paintSymbol(QPointF(x, y), 14, 1, 0, i18n("Galactic Cluster"));
 
             break;
         }
@@ -383,34 +383,34 @@ void Legend::paintSymbols(QPointF pos)
     case Legend::LO_VERTICAL :
         {
             // paint Open Cluster/Asterism symbol
-            QString label1 = xi18n("Open Cluster") + "\n" + xi18n("Asterism");
+            QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
             paintSymbol(QPointF(x, y), 3, 1, 0, label1);
             y += m_YSymbolSpacing;
 
             // paint Globular Cluster symbol
-            paintSymbol(QPointF(x, y), 4, 1, 0, xi18n("Globular Cluster"));
+            paintSymbol(QPointF(x, y), 4, 1, 0, i18n("Globular Cluster"));
             y += m_YSymbolSpacing;
 
             // paint Gaseous Nebula/Dark Nebula symbol
-            QString label3 = xi18n("Gaseous Nebula") + "\n" + xi18n("Dark Nebula");
+            QString label3 = i18n("Gaseous Nebula") + "\n" + i18n("Dark Nebula");
             paintSymbol(QPointF(x, y), 5, 1, 0, label3);
             y += m_YSymbolSpacing;
 
             // paint Planetary Nebula symbol
-            paintSymbol(QPointF(x, y), 6, 1, 0, xi18n("Planetary Nebula"));
+            paintSymbol(QPointF(x, y), 6, 1, 0, i18n("Planetary Nebula"));
             y += m_YSymbolSpacing;
 
             // paint Supernova Remnant
-            paintSymbol(QPointF(x, y), 7, 1, 0, xi18n("Supernova Remnant"));
+            paintSymbol(QPointF(x, y), 7, 1, 0, i18n("Supernova Remnant"));
             y += m_YSymbolSpacing;
 
             // paint Galaxy/Quasar
-            QString label6 = xi18n("Galaxy") + "\n" + xi18n("Quasar");
+            QString label6 = i18n("Galaxy") + "\n" + i18n("Quasar");
             paintSymbol(QPointF(x, y), 8, 0.5, 60, label6);
             y += m_YSymbolSpacing;
 
             // paint Galaxy Cluster
-            paintSymbol(QPointF(x, y), 14, 1, 0, xi18n("Galactic Cluster"));
+            paintSymbol(QPointF(x, y), 14, 1, 0, i18n("Galactic Cluster"));
 
             break;
         }
@@ -437,7 +437,7 @@ void Legend::paintMagnitudes(QPointF pos)
     qreal x = pos.x();
     qreal y = pos.y();
 
-    m_Painter->drawText(x, y, xi18n("Star Magnitudes:"));
+    m_Painter->drawText(x, y, i18n("Star Magnitudes:"));
     y += 15;
 
     for(int i = 1; i <= 9; i += 2)
@@ -504,7 +504,7 @@ void Legend::paintScale(QPointF pos)
     {
     case LO_HORIZONTAL:
         {
-            m_Painter->drawText(pos, xi18n("Chart Scale:"));
+            m_Painter->drawText(pos, i18n("Chart Scale:"));
             y += 15;
 
             m_Painter->drawLine(x, y, x + size, y);
@@ -521,7 +521,7 @@ void Legend::paintScale(QPointF pos)
 
     case LO_VERTICAL:
         {
-            m_Painter->drawText(pos, xi18n("Chart Scale:"));
+            m_Painter->drawText(pos, i18n("Chart Scale:"));
             y += 10;
             x += 40;
 

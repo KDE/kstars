@@ -148,7 +148,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     if ( (e->buttons() & Qt::RightButton) && image_data->hasWCS())
     {
       QMenu fitspopup;
-      QAction *trackAction = fitspopup.addAction(xi18n("Center In Telescope"));
+      QAction *trackAction = fitspopup.addAction(i18n("Center In Telescope"));
 
       if (fitspopup.exec(e->globalPos()) == trackAction)
       {
@@ -174,7 +174,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
    double HFR = image->getImageData()->getHFR(x, y);
 
    if (HFR > 0)
-       QToolTip::showText(e->globalPos(), xi18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
+       QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
 
 }
 
@@ -199,7 +199,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -215,7 +215,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(0, xi18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
@@ -234,7 +234,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
         return;
     }
 
-    KMessageBox::sorry(0, xi18n("KStars did not find any active telescopes."));
+    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
 
 #endif
 }
@@ -277,9 +277,10 @@ FITSView::~FITSView()
     delete(display_image);    
 }
 
-bool FITSView::loadFITS ( const QString &inFilename )
+bool FITSView::loadFITS (const QString &inFilename , bool silent)
 {
-    QProgressDialog fitsProg;
+    QProgressDialog fitsProg(this);
+
     bool setBayerParams=false;
 
     BayerParams param;
@@ -297,8 +298,29 @@ bool FITSView::loadFITS ( const QString &inFilename )
     if (setBayerParams)
         image_data->setBayerParams(&param);
 
-    if (image_data->loadFITS(inFilename, &fitsProg) == false)
+    if (mode == FITS_NORMAL)
+    {
+        fitsProg.setWindowModality(Qt::WindowModal);
+        fitsProg.setLabelText(i18n("Please hold while loading FITS file..."));
+        fitsProg.setWindowTitle(i18n("Loading FITS"));
+        fitsProg.setValue(10);
+        qApp->processEvents();
+    }
+
+    if (image_data->loadFITS(inFilename, silent) == false)
         return false;
+
+
+    if (mode == FITS_NORMAL)
+    {
+        if (fitsProg.wasCanceled())
+            return false;
+        else
+        {
+           fitsProg.setValue(65);
+           qApp->processEvents();
+        }
+    }
 
     emit debayerToggled(image_data->hasDebayer());
 
@@ -321,6 +343,17 @@ bool FITSView::loadFITS ( const QString &inFilename )
         image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
     }
 
+    if (mode == FITS_NORMAL)
+    {
+        if (fitsProg.wasCanceled())
+            return false;
+        else
+        {
+           fitsProg.setValue(75);
+           qApp->processEvents();
+        }
+    }
+
     initDisplayImage();
 
     // Rescale to fits window
@@ -337,6 +370,17 @@ bool FITSView::loadFITS ( const QString &inFilename )
     {
         if (rescale(ZOOM_KEEP_LEVEL))
             return false;
+    }
+
+    if (mode == FITS_NORMAL)
+    {
+        if (fitsProg.wasCanceled())
+            return false;
+        else
+        {
+           fitsProg.setValue(100);
+           qApp->processEvents();
+        }
     }
 
     setAlignment(Qt::AlignCenter);
@@ -369,7 +413,7 @@ int FITSView::rescale(FITSZoom type)
     if (min == max)
     {
         display_image->fill(Qt::white);
-        emit newStatus(xi18n("Image is saturated!"), FITS_MESSAGE);
+        emit newStatus(i18n("Image is saturated!"), FITS_MESSAGE);
     }
     else
     {
@@ -416,7 +460,7 @@ int FITSView::rescale(FITSZoom type)
             /* Fill in pixel values using indexed map, linear scale */
             for (int j = 0; j < image_height; j++)
             {
-                //QRgb *scanLine = static_cast<QRgb*>(display_image->scanLine(j));
+                QRgb *scanLine = (QRgb*) (display_image->scanLine(j));
 
                 for (int i = 0; i < image_width; i++)
                 {
@@ -432,7 +476,9 @@ int FITSView::rescale(FITSZoom type)
 
                     value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
 
-                    display_image->setPixel(i, j, value);
+                    //display_image->setPixel(i, j, value);
+                    scanLine[i] = value;
+
                 }
             }
 
@@ -701,11 +747,11 @@ void FITSView::toggleStars(bool enable)
      if (markStars == true)
      {
        QApplication::setOverrideCursor(Qt::WaitCursor);
-       emit newStatus(xi18n("Finding stars..."), FITS_MESSAGE);
+       emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
        qApp->processEvents();
        int count = image_data->findStars();
        if (count >= 0 && isVisible())
-               emit newStatus(xi18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
+               emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
        QApplication::restoreOverrideCursor();
      }
 }
@@ -717,7 +763,7 @@ void FITSView::processPointSelection(int x, int y)
 
     image_data->getCenterSelection(&x, &y);
 
-    setGuideSquare(x,y);
+    //setGuideSquare(x,y);
     emit guideStarSelected(x,y);
 }
 

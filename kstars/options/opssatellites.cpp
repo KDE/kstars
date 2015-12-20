@@ -18,6 +18,7 @@
 
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
+#include <QStatusBar>
 
 #include "Options.h"
 #include "kstars.h"
@@ -95,7 +96,7 @@ void OpsSatellites::updateListView()
     m_Model->clear();
     SatListTreeView->reset();
 
-    m_Model->setHorizontalHeaderLabels( QStringList( xi18n( "Satellite name" ) ) );
+    m_Model->setHorizontalHeaderLabels( QStringList( i18n( "Satellite name" ) ) );
 
     // Add each groups and satellites in the list
     foreach ( SatelliteGroup* sat_group, data->skyComposite()->satellites()->groups() ) {
@@ -153,10 +154,20 @@ void OpsSatellites::slotApply()
             
             Satellite *sat = data->skyComposite()->satellites()->findSatellite( sat_name );
             if ( sat ) {
-                if ( sat_item->checkState() == Qt::Checked ) {
-                    sat->setSelected( true );
-                    sat->updatePos();
-                    selected_satellites.append( sat_name );
+                if ( sat_item->checkState() == Qt::Checked ) {                    
+                    int rc = sat->updatePos();
+                    // If position calculation fails, unselect it
+                    if (rc == 0)
+                    {
+                        sat->setSelected( true );
+                        selected_satellites.append( sat_name );
+                    }
+                    else
+                    {
+                        KStars::Instance()->statusBar()->showMessage( i18n("%1 position calculation error: %2.", sat->name(), sat->sgp4ErrorString(rc) ), 0);
+                        sat->setSelected( false );
+                        sat_item->setCheckState(Qt::Unchecked);
+                    }
                 } else {
                     sat->setSelected( false );
                 }

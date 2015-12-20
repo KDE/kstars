@@ -57,7 +57,7 @@ void StarHopperDialog::starHop( const SkyPoint &startHop, const SkyPoint &stopHo
     }
     else
     {
-        KMessageBox::error( this, xi18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a smaller FOV or changing the source point") );
+        KMessageBox::error( this, i18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a smaller FOV or changing the source point") );
     }
 }
 
@@ -101,7 +101,7 @@ void StarHopperDialog::slotGoto() {
 void StarHopperDialog::slotDetails() {
     SkyObject *skyobj = getStarData( m_lw->currentItem() );
     if ( skyobj ) {
-        DetailDialog *detailDialog = new DetailDialog( skyobj, KStarsData::Instance()->lt(), KStarsData::Instance()->geo(), KStars::Instance());
+        DetailDialog *detailDialog = new DetailDialog( skyobj, KStarsData::Instance()->ut(), KStarsData::Instance()->geo(), KStars::Instance());
         detailDialog->exec();
         delete detailDialog;
     }

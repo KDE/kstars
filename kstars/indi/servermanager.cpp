@@ -75,7 +75,7 @@ bool ServerManager::start()
 
     if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
-         KMessageBox::error(NULL, xi18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
+         KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
          return false;
    }
 
@@ -130,7 +130,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
         QString label = dv->getUniqueLabel();
         foreach(DriverInfo *drv, managedDrivers)
         {
-            if (label == QString(drv->getUniqueLabel()))
+            if (label == drv->getUniqueLabel())
                 nset++;
         }
         if (nset > 0)
@@ -145,7 +145,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
     if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
     {
-         KMessageBox::error(NULL, xi18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
+         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
          return false;
     }
 
@@ -173,16 +173,14 @@ void ServerManager::stopDriver(DriverInfo *dv)
 
     managedDrivers.removeOne(dv);
 
+    if (dv->getUniqueLabel().isEmpty() == false)
+       out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
+    else
+        out << "stop " << dv->getDriver() << endl;
 
-        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() << endl;
-         out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
-        //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
-        out.flush();
-
-        dv->setServerState(false);
-
-        dv->setPort(dv->getUserPort());
-
+    out.flush();
+    dv->setServerState(false);
+    dv->setPort(dv->getUserPort());
 }
 
 bool ServerManager::isDriverManaged(DriverInfo *di)
@@ -198,7 +196,6 @@ bool ServerManager::isDriverManaged(DriverInfo *di)
 
 void ServerManager::stop()
 {
-
     if (serverProcess == NULL)
         return;
 
@@ -218,6 +215,16 @@ void ServerManager::stop()
 
     serverProcess = NULL;
 
+}
+
+void ServerManager::terminate()
+{
+    if (serverProcess == NULL)
+        return;
+
+    serverProcess->terminate();
+
+    serverProcess->waitForFinished();
 }
 
 void ServerManager::connectionSuccess()
@@ -250,7 +257,7 @@ void ServerManager::processStandardError()
             {
                 driverCrashed=true;
                 QString driverName = driver.left(driver.indexOf(':')).trimmed();
-                KMessageBox::information(0, xi18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
+                KMessageBox::information(0, i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
                 break;
             }
         }

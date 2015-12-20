@@ -1,7 +1,7 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Align">
-    <method name="stopSolving">
+    <method name="abort">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setSolverType">
@@ -25,10 +25,6 @@
       <arg name="isGenerated" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="startSovling">
-      <arg name="filename" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
     <method name="setGOTOMode">
       <arg name="mode" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -43,8 +39,8 @@
     <method name="isSolverSuccessful">
       <arg type="b" direction="out"/>
     </method>
-    <method name="isLoadAndSlewComplete">
-      <arg type="b" direction="out"/>
+    <method name="getLoadAndSlewStatus">
+      <arg type="i" direction="out"/>
     </method>
     <method name="setExposure">
       <arg name="value" type="d" direction="in"/>

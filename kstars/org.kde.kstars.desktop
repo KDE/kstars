@@ -1,7 +1,7 @@
 # KDE Config File
 [Desktop Entry]
 Type=Application
-Exec=kstars -caption %c %i
+Exec=kstars %U
 Icon=kstars
 X-DocPath=kstars/index.html
 Comment=Desktop Planetarium
@@ -29,7 +29,7 @@ Comment[fa]=رومیزی آسمان‌نما
 Comment[fi]=Työpöytäplanetaario
 Comment[fr]=Un planétarium sur votre bureau
 Comment[ga]=Pláinéadlann Deisce
-Comment[gl]=Planetario
+Comment[gl]=Planetario de escritorio
 Comment[gu]=ડેસ્કટોપ પર પ્લેનેટેરીયમ
 Comment[he]=פלנטריום שולחני
 Comment[hi]=डेस्कटॉप प्लेनेटेरियम
@@ -125,7 +125,7 @@ Name[ne]=केडीई तारा
 Name[nl]=KStars
 Name[nn]=KStars
 Name[pa]=ਕੇ-ਤਾਰੇ
-Name[pl]=Gwiazdy
+Name[pl]=KStars
 Name[pt]=KStars
 Name[pt_BR]=KStars
 Name[ro]=KStars

@@ -30,7 +30,7 @@
 #include "projections/projector.h"
 
 Ecliptic::Ecliptic(SkyComposite *parent ) :
-        LineListIndex( parent, xi18n("Ecliptic") ),
+        LineListIndex( parent, i18n("Ecliptic") ),
         m_label( name() )
 {
     KStarsData *data = KStarsData::Instance();
