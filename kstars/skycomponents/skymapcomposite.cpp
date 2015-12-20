@@ -73,40 +73,40 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
 
     //Add all components
     //Stars must come before constellation lines
-    addComponent( m_MilkyWay       = new MilkyWay( this ));
-    addComponent( m_Stars          = StarComponent::Create( this ));
+    addComponent( m_MilkyWay       = new MilkyWay( this ), 50);
+    addComponent( m_Stars          = StarComponent::Create( this ), 10);
     addComponent( m_EquatorialCoordinateGrid = new EquatorialCoordinateGrid( this ));
     addComponent( m_HorizontalCoordinateGrid = new HorizontalCoordinateGrid( this ));
 
     // Do add to components.
-    addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
+    addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ), 80);
     m_Cultures = new CultureList();
-    addComponent( m_CLines     = new ConstellationLines( this, m_Cultures ));
-    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ));    
-    addComponent( m_Equator    = new Equator( this ));
-    addComponent( m_Ecliptic   = new Ecliptic( this ));
-    addComponent( m_Horizon    = new HorizonComponent( this ));
-    addComponent( m_DeepSky    = new DeepSkyComponent( this ));
-    addComponent(m_ConstellationArt    = new ConstellationArtComponent( this, m_Cultures ));
+    addComponent( m_CLines     = new ConstellationLines( this, m_Cultures ), 85);
+    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ), 90);    
+    addComponent( m_Equator    = new Equator( this ), 95);
+    addComponent( m_Ecliptic   = new Ecliptic( this ), 95);
+    addComponent( m_Horizon    = new HorizonComponent( this ), 100);
+    addComponent( m_DeepSky    = new DeepSkyComponent( this ), 5);
+    addComponent(m_ConstellationArt    = new ConstellationArtComponent( this, m_Cultures ), 100);
 
-    addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this));
+    addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-            new CatalogComponent( this, allcatalogs.at(i), false, i )
+                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 6
             );
     }
 
-    addComponent( m_SolarSystem = new SolarSystemComposite( this ));
-    addComponent( m_Flags       = new FlagComponent( this ));
+    addComponent( m_SolarSystem = new SolarSystemComposite( this ), 2);
+    addComponent( m_Flags       = new FlagComponent( this ), 4);
 
     addComponent( m_ObservingList = new TargetListComponent( this , 0, QPen(),
-                                                             &Options::obsListSymbol, &Options::obsListText ) );
-    addComponent( m_StarHopRouteList = new TargetListComponent( this , 0, QPen() ) );
-    addComponent( m_Satellites       = new SatellitesComponent( this ) );
-    addComponent( m_Supernovae       = new SupernovaeComponent( this ) );
+                                                             &Options::obsListSymbol, &Options::obsListText ), 120 );
+    addComponent( m_StarHopRouteList = new TargetListComponent( this , 0, QPen() ), 130 );
+    addComponent( m_Satellites       = new SatellitesComponent( this ), 7 );
+    addComponent( m_Supernovae       = new SupernovaeComponent( this ), 7 );
 
     connect( this, SIGNAL( progressText( const QString & ) ),
              KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
@@ -560,7 +560,7 @@ void SkyMapComposite::reloadDeepSky() {
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-            new CatalogComponent( this, allcatalogs.at(i), false, i )
+                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 5
             );
     }
     SkyMapDrawAbstract::setDrawLock(false);
