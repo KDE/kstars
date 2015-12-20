@@ -20,7 +20,7 @@
 #include <QMessageBox>
 
 KSHelpLabel::KSHelpLabel(const QString& text, const QString& anchor,
-			 QWidget *parent) : QLabel(parent), m_anchor(anchor)
+                         QWidget *parent) : QLabel(parent), m_anchor(anchor)
 {
     setText(text);
     updateText();
@@ -47,6 +47,5 @@ void KSHelpLabel::slotShowDefinition(const QString & term) {
 
 void KSHelpLabel::setText(const QString& txt) {
     m_cleanText = txt;
-    QLabel::setText("<a href=\"ai-" + m_anchor + "\">" + m_cleanText + "</a>");
+    updateText();
 }
-
