@@ -74,7 +74,7 @@ void Projector::setViewParams(const ViewParams& p)
     double currentFOV = m_fov;
     //Find FOV in radians
     m_fov = sqrt( m_vp.width*m_vp.width + m_vp.height*m_vp.height )
-                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );        
+                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );
     //Set checkVisibility variables
     double Ymax;
     if ( m_vp.useAltAz ) {
