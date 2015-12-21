@@ -11,6 +11,7 @@
 #define MOSAIC_H
 
 #include <QDialog>
+#include <QGraphicsItem>
 
 #include "skypoint.h"
 
@@ -21,17 +22,48 @@ namespace Ekos
 
 class Scheduler;
 
-class MosaicTile
+class MosaicTile : public QGraphicsItem
 {
 public:
     MosaicTile();
+    MosaicTile(int width, int height, double fov_x, double fov_y);
     ~MosaicTile();
 
-//private:
-    double x,y, w,h;
+    void setPA(double positionAngle) { pa = positionAngle; }
+    void setDimension(int width, int height) { w = width; h = height; }
+    void setFOV(double fov_x, double fov_y) { fovW = fov_x; fovH = fov_y; }
+    void setOverlap(double value) { overlap = value; }
+
+    int getWidth() { return w;}
+    int getHeight() { return h;}
+
+    void updateTiles();
+
+protected:
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+private:
+
+    double overlap;
+    int w, h;
+    double fovW, fovH;
     double pa;
-    QRectF tile;
-    QGraphicsRectItem *rectItem;
+
+    QBrush brush;
+    QPen pen;
+
+    struct OneTile
+    {
+        double x,y;
+        double center_x, center_y;
+        QGraphicsRectItem* rectItem;
+    };
+
+    QVector<OneTile*> tiles;
+
+    OneTile *getTile(int row, int col);
+
 };
 
 class Mosaic : public QDialog, public Ui::mosaicDialog
@@ -55,8 +87,9 @@ protected:
     virtual void resizeEvent(QResizeEvent *);
 
 public slots:
+    void constructMosaic();
     void calculateFOV();
-    void drawTargetFOV();
+    void updateTargetFOV();
     void drawOverlay();
     void resetFOV();
     void setPreset();
@@ -77,7 +110,10 @@ private:
     QList<SkyPoint *> jobCenter;
     QPixmap targetPix;
     QGraphicsPixmapItem *targetItem;
-    QGraphicsRectItem *rectItem;
+
+    MosaicTile *mosaicTile;
+
+    double pixelPerArcmin;
 
     QGraphicsScene scene;
 

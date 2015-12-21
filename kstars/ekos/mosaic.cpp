@@ -20,8 +20,92 @@
 namespace Ekos
 {
 
-MosaicTile::MosaicTile() {}
-MosaicTile::~MosaicTile() {}
+MosaicTile::MosaicTile()
+{
+    w=h=1;
+    fovW=fovH=pa=0;
+
+    brush.setStyle(Qt::NoBrush);
+    pen.setColor(Qt::red);
+    pen.setWidth(5);
+}
+
+MosaicTile::MosaicTile(int width, int height, double fov_x, double fov_y)
+{
+    w = width;
+    h = height;
+    fovW = fov_x;
+    fovH = fov_y;
+    pa=0;
+
+    brush.setStyle(Qt::NoBrush);
+    pen.setColor(Qt::red);
+    pen.setWidth(5);
+}
+
+MosaicTile::~MosaicTile()
+{
+    qDeleteAll(tiles);
+}
+
+QRectF MosaicTile::boundingRect() const
+{
+    return QRectF(0, 0, w*fovW, h*fovH);
+}
+
+void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setPen(pen);
+    painter->setBrush(brush);
+
+    if (w == 1 && h == 1)
+        return;
+
+    for (int row=0; row < h; row++)
+    {
+        for (int col=0; col < w; col++)
+        {
+            OneTile *tile = getTile(row, col);
+            QRect oneRect(tile->x, tile->y, fovW, fovH);
+            painter->drawRect(oneRect);
+        }
+    }
+}
+
+MosaicTile::OneTile *MosaicTile::getTile(int row, int col)
+{
+    int offset = row * w + col;
+    if (offset < 0 || offset > tiles.size())
+        return NULL;
+
+    return tiles[offset];
+}
+
+void MosaicTile::updateTiles()
+{
+    qDeleteAll(tiles);
+    double xOffset=fovW - fovW*overlap/100;
+    double yOffset=fovH - fovH*overlap/100;
+
+    int x=0, y=0;
+
+    for (int row=0; row < h; row++)
+    {
+        for (int col=0; col < w; col++)
+        {
+            OneTile *tile = new OneTile();
+            tile->x = x;
+            tile->y = y;
+
+            tiles.append(tile);
+
+            x += xOffset;
+        }
+
+        y += yOffset;
+    }
+
+}
 
 Mosaic::Mosaic(Scheduler *scheduler)
 {
@@ -47,12 +131,15 @@ Mosaic::Mosaic(Scheduler *scheduler)
     connect(targetWFOVSpin, SIGNAL(editingFinished()), this, SLOT(drawTargetFOV()));
     connect(targetHFOVSpin, SIGNAL(editingFinished()), this, SLOT(drawTargetFOV()));*/
 
-    connect(updateB, SIGNAL(clicked()), this, SLOT(calculateFOV()));
+    connect(updateB, SIGNAL(clicked()), this, SLOT(constructMosaic()));
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetFOV()));
 
     targetItem = scene.addPixmap(targetPix);
     mosaicView->setScene(&scene);
-    rectItem = scene.addRect(QRectF(100,100, 100, 100), QPen(QColor(255,0,0, 250)), Qt::NoBrush);
+
+    mosaicTile = new MosaicTile();
+    scene.addItem(mosaicTile);
+
 }
 
 Mosaic::~Mosaic()
@@ -112,10 +199,10 @@ void Mosaic::calculateFOV()
     if (targetHFOVSpin->value() < fov_y)
         targetHFOVSpin->setValue(fov_y);
 
-    drawTargetFOV();
+    updateTargetFOV();
 }
 
-void Mosaic::drawTargetFOV()
+void Mosaic::updateTargetFOV()
 {
     KStars *ks = KStars::Instance();
     SkyMap *map = SkyMap::Instance();
@@ -142,7 +229,7 @@ void Mosaic::drawTargetFOV()
     map->slotCenter();
     qApp->processEvents();*/
 
-    double pixelPerArcmin = Options::zoomFactor() * dms::DegToRad / 60.0;
+    pixelPerArcmin = Options::zoomFactor() * dms::DegToRad / 60.0;
 
     double fov_w = map->width()  / pixelPerArcmin;
     double fov_h = map->height() / pixelPerArcmin;
@@ -189,19 +276,20 @@ void Mosaic::drawTargetFOV()
 
 
     // Render the display
-    render();
+    //render();
 }
 
 void Mosaic::render()
 {
-    MosaicTile tile;
+    if (m_skyChart == NULL)
+        return;
 
     targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
     targetItem->setPixmap(targetPix);
 
     double scale = (double) targetPix.width() / (double) m_skyChart->width();
 
-    rectItem->setScale(scale);
+    mosaicTile->setScale(scale);
 
     mosaicView->show();
 
@@ -225,7 +313,7 @@ void Mosaic::resetFOV()
     targetWFOVSpin->setValue(cameraWFOVSpin->value());
     targetHFOVSpin->setValue(cameraHFOVSpin->value());
 
-    drawTargetFOV();
+    updateTargetFOV();
 }
 
 void Mosaic::setPreset()
@@ -252,4 +340,27 @@ void Mosaic::drawOverlay()
 
 }
 
+void Mosaic::constructMosaic()
+{
+    if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
+        createJobsB->setEnabled(true);
+
+    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value())
+    {
+        // Update target FOV value
+        targetWFOVSpin->setValue(cameraWFOVSpin->value() * mosaicWSpin->value());
+        targetHFOVSpin->setValue(cameraHFOVSpin->value() * mosaicHSpin->value());
+
+        updateTargetFOV();
+
+        mosaicTile->setDimension(mosaicWSpin->value(), mosaicHSpin->value());
+        mosaicTile->setFOV(cameraWFOVSpin->value()*pixelPerArcmin, cameraHFOVSpin->value()*pixelPerArcmin);
+        mosaicTile->setOverlap(overlapSpin->value());
+        mosaicTile->updateTiles();
+
+        render();
+    }
 }
+
+}
+
