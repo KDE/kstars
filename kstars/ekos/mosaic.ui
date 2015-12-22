@@ -564,6 +564,15 @@
        <property name="horizontalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
+       <property name="backgroundBrush">
+        <brush brushstyle="Dense6Pattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
       </widget>
      </item>
     </layout>

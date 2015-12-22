@@ -28,7 +28,16 @@ public:
     MosaicTile();
     ~MosaicTile();
 
-    void setPA(double positionAngle) { pa = positionAngle; }
+    struct OneTile
+    {
+        QPointF pos;
+        QPointF center;
+        QPointF center_rot;
+        QPointF skyCenter;
+        QGraphicsRectItem* rectItem;
+    };
+
+    void setPA(double positionAngle) { pa = positionAngle*-1; }
     void setDimension(int width, int height) { w = width; h = height; }
     void setFOV(double fov_x, double fov_y) { fovW = fov_x; fovH = fov_y; }
     void setOverlap(double value) { overlap = value; }
@@ -37,9 +46,15 @@ public:
     int getHeight() { return h;}
     double getOverlap() { return overlap;}
     double getPA() { return pa; }
+    double getFOVW() { return fovW;}
+    double getFOVH() { return fovH;}
 
     void updateTiles();
+    OneTile *getTile(int row, int col);
+
     QRectF boundingRect() const;
+
+    QPointF getTileCenter(int row, int col);
 
 protected:
 
@@ -59,16 +74,12 @@ private:
     QBrush textBrush;
     QPen textPen;
 
-    struct OneTile
-    {
-        double x,y;
-        double center_x, center_y;
-        QGraphicsRectItem* rectItem;
-    };
+
 
     QList<OneTile*> tiles;
 
-    OneTile *getTile(int row, int col);
+
+    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
 
 };
 
@@ -90,6 +101,7 @@ public:
 
 
 protected:
+    virtual void showEvent(QShowEvent *);
     virtual void resizeEvent(QResizeEvent *);
 
 public slots:
@@ -99,6 +111,7 @@ public slots:
     void drawOverlay();
     void resetFOV();
     void setPreset();
+    void createJobs();
 
     /**
      * @short Re-renders the view
@@ -108,6 +121,8 @@ public slots:
 private:
 
     void createOverlay();
+    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
+
     Scheduler *ekosScheduler;
     SkyPoint center;
     QImage *m_skyChart;
@@ -120,6 +135,8 @@ private:
     MosaicTile *mosaicTile;
 
     double pixelPerArcmin;
+
+    QPointF screenPoint;
 
     QGraphicsScene scene;
 

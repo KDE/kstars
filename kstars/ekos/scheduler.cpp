@@ -3727,9 +3727,8 @@ void Scheduler::startMosaicTool()
     center.setDec0(dec);
 
     mosaicTool.setCenter(center);
-    mosaicTool.calculateFOV();
-    mosaicTool.render();
-
+    mosaicTool.calculateFOV();    
+    mosaicTool.adjustSize();
     mosaicTool.exec();
 }
 
