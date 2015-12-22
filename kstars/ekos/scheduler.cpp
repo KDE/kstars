@@ -2671,6 +2671,7 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
     }
 
     schedulerURL = fileURL;
+    mosaicB->setEnabled(true);
     mDirty = false;
     delLilXML(xmlParser);
     return true;

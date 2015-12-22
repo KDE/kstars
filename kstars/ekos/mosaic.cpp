@@ -20,7 +20,7 @@
 namespace Ekos
 {
 
-MosaicTile::MosaicTile()
+MosaicTile::MosaicTile(QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     w=h=1;
     fovW=fovH=pa=0;
@@ -28,19 +28,12 @@ MosaicTile::MosaicTile()
     brush.setStyle(Qt::NoBrush);
     pen.setColor(Qt::red);
     pen.setWidth(5);
-}
 
-MosaicTile::MosaicTile(int width, int height, double fov_x, double fov_y)
-{
-    w = width;
-    h = height;
-    fovW = fov_x;
-    fovH = fov_y;
-    pa=0;
+    textBrush.setStyle(Qt::SolidPattern);
+    textPen.setColor(Qt::blue);
+    textPen.setWidth(2);
 
-    brush.setStyle(Qt::NoBrush);
-    pen.setColor(Qt::red);
-    pen.setWidth(5);
+    setFlags(QGraphicsItem::ItemIsMovable);
 }
 
 MosaicTile::~MosaicTile()
@@ -55,11 +48,29 @@ QRectF MosaicTile::boundingRect() const
 
 void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setPen(pen);
-    painter->setBrush(brush);
 
-    if (w == 1 && h == 1)
+  if (w == 1 && h == 1)
         return;
+
+    QFont defaultFont = painter->font();
+    defaultFont.setPointSize(50);
+    painter->setFont(defaultFont);
+
+    double center_x = (w*fovW);
+    double center_y = (h*fovH);
+
+//    painter->save();
+    //QTransform transform;
+    //transform.translate(center_x, center_y);
+    //transform.rotate(pa);
+    //transform.translate(center_x, center_y);
+//    transform.translate(0, 0);
+
+
+
+    //painter->setTransform(transform);
+
+
 
     for (int row=0; row < h; row++)
     {
@@ -67,7 +78,17 @@ void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         {
             OneTile *tile = getTile(row, col);
             QRect oneRect(tile->x, tile->y, fovW, fovH);
+
+            painter->setPen(pen);
+            painter->setBrush(brush);
+
+
+
             painter->drawRect(oneRect);
+            painter->setBrush(textBrush);
+            painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignVCenter, QString("%1").arg(row*w+col+1));
+
+            //painter->restore();
         }
     }
 }
@@ -84,13 +105,19 @@ MosaicTile::OneTile *MosaicTile::getTile(int row, int col)
 void MosaicTile::updateTiles()
 {
     qDeleteAll(tiles);
-    double xOffset=fovW - fovW*overlap/100;
-    double yOffset=fovH - fovH*overlap/100;
+    tiles.clear();
+    double xOffset=fovW - fovW*overlap/100.0;
+    double yOffset=fovH - fovH*overlap/100.0;
 
-    int x=0, y=0;
+    int initX=fovW*overlap/100.0*(w-1) / 2.0;
+    int initY=fovH*overlap/100.0*(h-1) / 2.0;
+
+    int x= initX, y= initY;
 
     for (int row=0; row < h; row++)
     {
+        x = initX;
+
         for (int col=0; col < w; col++)
         {
             OneTile *tile = new OneTile();
@@ -135,10 +162,10 @@ Mosaic::Mosaic(Scheduler *scheduler)
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetFOV()));
 
     targetItem = scene.addPixmap(targetPix);
+    mosaicTile = new MosaicTile(targetItem);
     mosaicView->setScene(&scene);
 
-    mosaicTile = new MosaicTile();
-    scene.addItem(mosaicTile);
+   // scene.addItem(mosaicTile);
 
 }
 
@@ -287,9 +314,19 @@ void Mosaic::render()
     targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
     targetItem->setPixmap(targetPix);
 
-    double scale = (double) targetPix.width() / (double) m_skyChart->width();
+    scene.setSceneRect(targetItem->boundingRect());
 
+    //mosaicTile->setTransformOriginPoint(targetItem->boundingRect().center());
+    //mosaicTile->setTransformOriginPoint(MosaicTileCenter?);
+    mosaicTile->setRotation(mosaicTile->getPA());
+    double scale = (double) targetPix.width() / (double) m_skyChart->width();
     mosaicTile->setScale(scale);
+
+    //mosaicTile->setX(targetItem->boundingRect().x());
+    //mosaicTile->setY(targetItem->boundingRect().y()-targetItem->boundingRect().height()/2);
+
+
+
 
     mosaicView->show();
 
@@ -345,7 +382,7 @@ void Mosaic::constructMosaic()
     if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
         createJobsB->setEnabled(true);
 
-    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value())
+    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value() || mosaicTile->getOverlap() != overlapSpin->value() || mosaicTile->getPA() != rotationSpin->value())
     {
         // Update target FOV value
         targetWFOVSpin->setValue(cameraWFOVSpin->value() * mosaicWSpin->value());
@@ -354,6 +391,7 @@ void Mosaic::constructMosaic()
         updateTargetFOV();
 
         mosaicTile->setDimension(mosaicWSpin->value(), mosaicHSpin->value());
+        mosaicTile->setPA(rotationSpin->value());
         mosaicTile->setFOV(cameraWFOVSpin->value()*pixelPerArcmin, cameraHFOVSpin->value()*pixelPerArcmin);
         mosaicTile->setOverlap(overlapSpin->value());
         mosaicTile->updateTiles();

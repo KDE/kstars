@@ -25,8 +25,7 @@ class Scheduler;
 class MosaicTile : public QGraphicsItem
 {
 public:
-    MosaicTile();
-    MosaicTile(int width, int height, double fov_x, double fov_y);
+    MosaicTile(QGraphicsItem *parent);
     ~MosaicTile();
 
     void setPA(double positionAngle) { pa = positionAngle; }
@@ -36,6 +35,8 @@ public:
 
     int getWidth() { return w;}
     int getHeight() { return h;}
+    double getOverlap() { return overlap;}
+    double getPA() { return pa; }
 
     void updateTiles();
 
@@ -50,8 +51,12 @@ private:
     double fovW, fovH;
     double pa;
 
+
     QBrush brush;
     QPen pen;
+
+    QBrush textBrush;
+    QPen textPen;
 
     struct OneTile
     {
@@ -60,7 +65,7 @@ private:
         QGraphicsRectItem* rectItem;
     };
 
-    QVector<OneTile*> tiles;
+    QList<OneTile*> tiles;
 
     OneTile *getTile(int row, int col);
 
