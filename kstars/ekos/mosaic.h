@@ -25,7 +25,7 @@ class Scheduler;
 class MosaicTile : public QGraphicsItem
 {
 public:
-    MosaicTile(QGraphicsItem *parent);
+    MosaicTile();
     ~MosaicTile();
 
     void setPA(double positionAngle) { pa = positionAngle; }
@@ -39,9 +39,10 @@ public:
     double getPA() { return pa; }
 
     void updateTiles();
+    QRectF boundingRect() const;
 
 protected:
-    QRectF boundingRect() const;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:

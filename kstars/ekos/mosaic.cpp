@@ -20,7 +20,7 @@
 namespace Ekos
 {
 
-MosaicTile::MosaicTile(QGraphicsItem *parent) : QGraphicsItem(parent)
+MosaicTile::MosaicTile()
 {
     w=h=1;
     fovW=fovH=pa=0;
@@ -56,14 +56,18 @@ void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     defaultFont.setPointSize(50);
     painter->setFont(defaultFont);
 
-    double center_x = (w*fovW);
-    double center_y = (h*fovH);
+    //double center_x = (w*fovW)/2.0;
+    //double center_y = (h*fovH)/2.0;
+
+    //double center_x = parentItem()->boundingRect().center().x();
+   // double center_y = parentItem()->boundingRect().center().y();
+
 
 //    painter->save();
-    //QTransform transform;
+   // QTransform transform;
     //transform.translate(center_x, center_y);
     //transform.rotate(pa);
-    //transform.translate(center_x, center_y);
+    //transform.translate(-center_x, -center_y);
 //    transform.translate(0, 0);
 
 
@@ -91,6 +95,13 @@ void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             //painter->restore();
         }
     }
+
+    int finalW = w*fovW - w*(fovW*(overlap/100));
+    int finalH = h*fovH - h*(fovH*(overlap/100));
+
+
+   //setRotation(pa);
+
 }
 
 MosaicTile::OneTile *MosaicTile::getTile(int row, int col)
@@ -162,8 +173,12 @@ Mosaic::Mosaic(Scheduler *scheduler)
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetFOV()));
 
     targetItem = scene.addPixmap(targetPix);
-    mosaicTile = new MosaicTile(targetItem);
+    mosaicTile = new MosaicTile();
+    scene.addItem(mosaicTile);
     mosaicView->setScene(&scene);
+
+    //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
+
 
    // scene.addItem(mosaicTile);
 
@@ -301,9 +316,16 @@ void Mosaic::updateTargetFOV()
 
 
 
-
     // Render the display
     //render();
+
+     targetPix = QPixmap::fromImage(*m_skyChart);
+     targetItem->setPixmap(targetPix);
+   // mosaicView->fitInView(targetItem, Qt::KeepAspectRatio);
+    // mosaicView->resize(targetItem->boundingRect().width(), targetItem->boundingRect().height());
+
+
+
 }
 
 void Mosaic::render()
@@ -311,24 +333,27 @@ void Mosaic::render()
     if (m_skyChart == NULL)
         return;
 
-    targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
-    targetItem->setPixmap(targetPix);
+   // targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
+   // targetItem->setPixmap(targetPix);
 
-    scene.setSceneRect(targetItem->boundingRect());
+    //targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
+    //targetItem->setPixmap(targetPix);
 
-    //mosaicTile->setTransformOriginPoint(targetItem->boundingRect().center());
-    //mosaicTile->setTransformOriginPoint(MosaicTileCenter?);
+    double scale_x = (double) targetPix.width() / (double) m_skyChart->width();
+    double scale_y = (double) targetPix.height() / (double) m_skyChart->height();
+
+    double scale = sqrt(scale_x*scale_x + scale_y*scale_y);
+
+   // mosaicTile->moveBy(center_x, center_y);
+    mosaicTile->setTransformOriginPoint(mosaicTile->boundingRect().center());
     mosaicTile->setRotation(mosaicTile->getPA());
-    double scale = (double) targetPix.width() / (double) m_skyChart->width();
-    mosaicTile->setScale(scale);
-
-    //mosaicTile->setX(targetItem->boundingRect().x());
-    //mosaicTile->setY(targetItem->boundingRect().y()-targetItem->boundingRect().height()/2);
 
 
 
-
+    mosaicView->scale(scale_x, scale_y);
     mosaicView->show();
+
+
 
     /*scene.addPixmap(QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio ) );
     mosaicView->setScene(&scene);
@@ -340,9 +365,10 @@ void Mosaic::render()
 
 void Mosaic::resizeEvent(QResizeEvent *ev)
 {
-    ev->accept();
 
     render();
+
+    ev->accept();
 }
 
 void Mosaic::resetFOV()
