@@ -22,20 +22,19 @@ namespace Ekos
 
 class Scheduler;
 
+typedef struct
+{
+    QPointF pos;
+    QPointF center;
+    QPointF center_rot;
+    SkyPoint skyCenter;
+}  OneTile;
+
 class MosaicTile : public QGraphicsItem
 {
 public:
     MosaicTile();
     ~MosaicTile();
-
-    struct OneTile
-    {
-        QPointF pos;
-        QPointF center;
-        QPointF center_rot;
-        QPointF skyCenter;
-        QGraphicsRectItem* rectItem;
-    };
 
     void setPA(double positionAngle) { pa = positionAngle*-1; }
     void setDimension(int width, int height) { w = width; h = height; }
@@ -56,9 +55,11 @@ public:
 
     QPointF getTileCenter(int row, int col);
 
+    QList<OneTile *> getTiles() const;
+
 protected:
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 
 private:
 
@@ -95,32 +96,33 @@ public:
     void setCameraSize(uint16_t width, uint16_t height);
     void setPixelSize(double pixelWSize, double pixelHSize);
     void setFocalLength(double focalLength);
-
     void setCenter(const SkyPoint &value);
 
-
+    QString getJobsDir() { return jobsDir->text(); }
+    QList<OneTile*> getJobs() { return mosaicTile->getTiles(); }
 
 protected:
     virtual void showEvent(QShowEvent *);
     virtual void resizeEvent(QResizeEvent *);
 
 public slots:
+
     void constructMosaic();
+
     void calculateFOV();
+
     void updateTargetFOV();
-    void drawOverlay();
+
+    void saveJobsDirectory();
+
     void resetFOV();
-    void setPreset();
+
     void createJobs();
 
-    /**
-     * @short Re-renders the view
-     */
     void render();
 
 private:
 
-    void createOverlay();
     QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
 
     Scheduler *ekosScheduler;
@@ -128,7 +130,6 @@ private:
     QImage *m_skyChart;
     QImage *m_skyImage;
 
-    QList<SkyPoint *> jobCenter;
     QPixmap targetPix;
     QGraphicsPixmapItem *targetItem;
 

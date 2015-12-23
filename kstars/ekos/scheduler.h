@@ -423,6 +423,15 @@ private:
         bool estimateJobTime(SchedulerJob *job);
         double estimateSequenceTime(XMLEle *root, int *totalCount);
 
+        /**
+         * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
+         * and a new version given the supplied parameters are saved to the output directory
+         * @param prefix Prefix to set for the job sequence
+         * @param outputDir Output dir to set for the job sequence
+         * @return True if new file is saved, false otherwise
+         */
+        bool createJobSequence(const QString &prefix, const QString &outputDir);
+
         bool isWeatherOK(SchedulerJob *job);
 
     Ekos::Scheduler *ui;
