@@ -51,6 +51,11 @@ SequenceJob::SequenceJob()
     calibrationSettings.targetADU         = 0;
     calibrationSettings.preMountPark           = false;
     calibrationSettings.preDomePark            = false;
+
+    typePrefixEnabled     = false;
+    filterPrefixEnabled   = false;
+    expPrefixEnabled      = false;
+    timeStampPrefixEnabled= false;
 }
 
 void SequenceJob::reset()
@@ -94,7 +99,7 @@ void SequenceJob::prepareCapture()
 
     activeCCD->setFITSDir(fitsDir);
 
-    activeCCD->setISOMode(isoMode);
+    activeCCD->setISOMode(timeStampPrefixEnabled);
 
     activeCCD->setSeqPrefix(prefix);
 
@@ -226,20 +231,22 @@ void SequenceJob::setExposeLeft(double value)
     exposeLeft = value;
 }
 
-void SequenceJob::setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled)
+void SequenceJob::setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled, bool tsEnabled)
 {
     rawPrefix               = prefix;
     typePrefixEnabled       = typeEnabled;
     filterPrefixEnabled     = filterEnabled;
     expPrefixEnabled        = exposureEnabled;
+    timeStampPrefixEnabled        = tsEnabled;
 }
 
-void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled)
+void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled)
 {
     prefix          = rawPrefix;
     typeEnabled     = typePrefixEnabled;
     filterEnabled   = filterPrefixEnabled;
     exposureEnabled = expPrefixEnabled;
+    tsEnabled       = timeStampPrefixEnabled;
 }
 double SequenceJob::getCurrentTemperature() const
 {

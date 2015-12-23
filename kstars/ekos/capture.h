@@ -401,7 +401,10 @@ private:
     void processJobCompletion();
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
-    double setCurrentADU(double value);    
+    double setCurrentADU(double value);
+
+    /* Misc */
+    bool isFITSDirUnique(SequenceJob *job);
 
     /* Meridian Flip */
     bool checkMeridianFlip();

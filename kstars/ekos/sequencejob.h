@@ -71,8 +71,6 @@ class SequenceJob : public QObject
     void setFrameType(int type, const QString & name);
     int getFrameType() { return frameType;}
     void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
-    void setISOMode(bool mode) { isoMode = mode; }
-    bool getISOMode() { return isoMode;}
     void setPreview(bool enable) { preview = enable; }
     void setPrefix(const QString &cprefix) { prefix = cprefix;}
     void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
@@ -95,8 +93,13 @@ class SequenceJob : public QObject
     double getExposeLeft() const;
     void setExposeLeft(double value);
     void resetStatus();
-    void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled);
-    void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled);
+    void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled, bool tsEnabled);
+    void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled);
+
+    bool isTypePrefixEnabled() { return typePrefixEnabled; }
+    bool isFilterPrefixEnabled() { return filterPrefixEnabled; }
+    bool isExposurePrefixEnabled() { return expPrefixEnabled; }
+    bool isTimestampPrefixEnabled() { return timeStampPrefixEnabled;}
 
     double getCurrentTemperature() const;
     void setCurrentTemperature(double value);
@@ -148,7 +151,6 @@ private:
     QString prefix;
     int count;
     int delay;    
-    bool isoMode;
     bool preview;
     bool filterReady, temperatureReady;
     int isoIndex;
@@ -160,7 +162,7 @@ private:
     QTableWidgetItem *statusCell;
     QString fitsDir;
 
-    bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled;
+    bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled, timeStampPrefixEnabled;
     QString rawPrefix;
 
     JOBStatus status;

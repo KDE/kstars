@@ -1033,10 +1033,18 @@ void Capture::resumeCapture()
 /*******************************************************************************/
 void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir)
 {
+    static QString lastDir=QDir::homePath();
+
     seqPrefix = newPrefix;
 
     // If it doesn't exist, create it
     QDir().mkpath(dir);
+
+    if (dir != lastDir)
+    {
+        seqWatcher->removeDir(lastDir);
+        lastDir = dir;
+    }
 
     seqWatcher->addDir(dir, KDirWatch::WatchFiles);
 
@@ -1198,11 +1206,6 @@ void Capture::addJob(bool preview)
         return;
     }
 
-    if (ISOCheck->isChecked())
-        job->setISOMode(true);
-    else
-        job->setISOMode(false);
-
     if (ISOCombo->isEnabled())
         job->setISOIndex(ISOCombo->currentIndex());
 
@@ -1232,7 +1235,7 @@ void Capture::addJob(bool preview)
 
     constructPrefix(imagePrefix);
 
-    job->setPrefixSettings(prefixIN->text(), frameTypeCheck->isChecked(), filterCheck->isChecked(), expDurationCheck->isChecked());
+    job->setPrefixSettings(prefixIN->text(), frameTypeCheck->isChecked(), filterCheck->isChecked(), expDurationCheck->isChecked(), ISOCheck->isChecked());
     job->setFrameType(frameTypeCombo->currentIndex(), frameTypeCombo->currentText());
     job->setPrefix(imagePrefix);
 
@@ -1545,7 +1548,11 @@ void Capture::executeJob()
     }
 
     // If job is already fully or partially complete
+    // Only if either filter, exposure, or ts fields are enabled in the prefix
+    // otherwise we cannot distinguish between frames of different jobs as they will have identical names
     if (Options::rememberJobProgress() && activeJob->isPreview() == false && seqFileCount > 0)
+        // N.B. Disabling this for now as rememberJobProgress should take precedence over all.
+        //&&  (activeJob->isFilterPrefixEnabled() || activeJob->isExposurePrefixEnabled() || activeJob->isTimestampPrefixEnabled() || isFITSDirUnique(activeJob)))
     {
         // Fully complete
         if (seqFileCount >= seqTotalCount)
@@ -1936,6 +1943,9 @@ bool Capture::processJobInfo(XMLEle *root)
             subEP = findXMLEle(ep, "ExpEnabled");
             if (subEP)
                 expDurationCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "TimeStampEnabled");
+            if (subEP)
+                ISOCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Count"))
         {
@@ -1948,10 +1958,6 @@ bool Capture::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
             fitsDir->setText(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "ISOMode"))
-        {
-            ISOCheck->setChecked( !strcmp("1", pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
         {
@@ -2096,7 +2102,7 @@ bool Capture::saveSequenceQueue(const QString &path)
 {
     QFile file;
     QString rawPrefix;
-    bool typeEnabled, filterEnabled, expEnabled;
+    bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
 
     file.setFileName(path);
 
@@ -2117,7 +2123,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<Park enabled='" << (parkCheck->isChecked() ? "true" : "false") << "'></Park>" << endl;
     foreach(SequenceJob *job, jobs)
     {
-        job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
+        job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled, tsEnabled);
 
          outstream << "<Job>" << endl;
 
@@ -2142,6 +2148,7 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<TypeEnabled>" << (typeEnabled ? 1 : 0) << "</TypeEnabled>" << endl;
             outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << endl;
             outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
+            outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;
         outstream << "</Prefix>" << endl;
         outstream << "<Count>" << job->getCount() << "</Count>" << endl;
         // ms to seconds
@@ -2149,7 +2156,6 @@ bool Capture::saveSequenceQueue(const QString &path)
         QString rootDir = job->getFITSDir();
         rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->itemText(job->getFrameType())));
         outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
-        outstream << "<ISOMode>" << (job->getISOMode() ? 1 : 0) << "</ISOMode>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
 
@@ -2212,9 +2218,9 @@ void Capture::editJob(QModelIndex i)
     if (job == NULL)
         return;
     QString rawPrefix;
-    bool typeEnabled, filterEnabled, expEnabled;
+    bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
 
-     job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled);
+   job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled, tsEnabled);
 
    exposureIN->setValue(job->getExposure());
    binXIN->setValue(job->getXBin());
@@ -2229,6 +2235,7 @@ void Capture::editJob(QModelIndex i)
    frameTypeCheck->setChecked(typeEnabled);
    filterCheck->setChecked(filterEnabled);
    expDurationCheck->setChecked(expEnabled);
+   ISOCheck->setChecked(tsEnabled);
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
 
@@ -2245,7 +2252,6 @@ void Capture::editJob(QModelIndex i)
    rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
    fitsDir->setText(rootDir);
 
-   ISOCheck->setChecked(job->getISOMode());
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
 
@@ -3101,6 +3107,20 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
     }
 
     clearSequenceQueue();
+
+    return true;
+}
+
+bool Capture::isFITSDirUnique(SequenceJob *job)
+{
+    foreach(SequenceJob *onejob, jobs)
+    {
+        if (onejob == job)
+            continue;
+
+        if (onejob->getFITSDir() == job->getFITSDir())
+            return false;
+    }
 
     return true;
 }
