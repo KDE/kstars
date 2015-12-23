@@ -237,7 +237,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QCheckBox" name="kcfg_rememberJobProgress">
+           <widget class="QCheckBox" name="kcfg_RememberJobProgress">
             <property name="toolTip">
              <string>When starting a new capture job, check if files were previously captured and resume capture afterwards</string>
             </property>

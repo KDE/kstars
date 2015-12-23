@@ -11,6 +11,9 @@
 
 #include "Options.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <QtDBus>
 #include <QFileDialog>
 
@@ -123,7 +126,7 @@ Scheduler::Scheduler()
     loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
     selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
     selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectFITSB->setIcon(QIcon::fromTheme("document-open"));
+    selectFITSB->setIcon(QIcon::fromTheme("document-open"));    
 
     connect(selectObjectB,SIGNAL(clicked()),this,SLOT(selectObject()));
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
@@ -2671,6 +2674,7 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
     }
 
     schedulerURL = fileURL;
+    mosaicB->setEnabled(true);
     mDirty = false;
     delLilXML(xmlParser);
     return true;
@@ -3075,6 +3079,10 @@ void Scheduler::findNextJob()
         currentJob->setState(SchedulerJob::JOB_BUSY);
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
+
+        // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
+        captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
+
         startCapture();
         jobTimer.start();
         return;
@@ -3103,6 +3111,10 @@ void Scheduler::findNextJob()
             currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
 
             captureBatch++;
+
+            // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
+            captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
+
             startCapture();
             jobTimer.start();
             return;
@@ -3726,11 +3738,170 @@ void Scheduler::startMosaicTool()
     center.setDec0(dec);
 
     mosaicTool.setCenter(center);
-    mosaicTool.calculateFOV();
-    mosaicTool.render();
+    mosaicTool.calculateFOV();    
+    mosaicTool.adjustSize();
 
-    mosaicTool.exec();
+    int batchCount=1;
+
+    if (mosaicTool.exec() == QDialog::Accepted)
+    {
+        // #1 Edit Sequence File
+        // #1.1 Set prefix to Target-Part#
+        // #1.2 Set directory to output/Target-Part#
+
+        // #2 Save all sequence files in Jobs dir
+        // #3 Set as currnet Sequence file
+        // #4 Change Target name to Target-Part#
+        // #5 Update J2000 coords
+        // #6 Repeat and save Ekos Scheduler List in the output directory
+        qDebug() << "Job accepted with # " << mosaicTool.getJobs().size() << " jobs and fits dir " << mosaicTool.getJobsDir();
+
+        QString outputDir = mosaicTool.getJobsDir();
+        QString targetName = nameEdit->text().simplified().remove(" ");
+
+        XMLEle *root = getSequenceJobRoot();
+        if (root == NULL)
+        {
+            KMessageBox::error(this, i18n("Sequence file %1 is corrupted. Unable to create mosaic.", sequenceURL.fileName()));
+            return;
+        }
+
+        int currentJobsCount = jobs.count();
+
+        foreach (OneTile *oneJob, mosaicTool.getJobs())
+        {
+            QString prefix = QString("%1-Part%2").arg(targetName).arg(batchCount++);
+            prefix = prefix.replace(" ", "-");
+
+            nameEdit->setText(prefix);
+
+            if (createJobSequence(root, prefix, outputDir) == false)
+                return;
+
+            QString filename  = QString("%1/%2.esq").arg(outputDir).arg(prefix);
+            sequenceEdit->setText(filename);
+            sequenceURL.setPath(filename);
+
+            raBox->setText(oneJob->skyCenter.ra0().toHMSString());
+            decBox->setText(oneJob->skyCenter.dec0().toDMSString());
+
+            addJob();
+        }
+
+        delXMLEle(root);
+
+        // Delete any prior jobs before saving
+        for (int i=0; i < currentJobsCount; i++)
+        {
+            delete (jobs.takeFirst());
+            queueTable->removeRow(0);
+        }
+
+        QUrl mosaicURL;
+        mosaicURL.setPath(QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName));        
+
+        if (saveScheduler(mosaicURL))
+        {
+            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.path()));                                    
+        }
+        else
+        {
+            appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.path()));
+        }
+    }
 }
+
+XMLEle * Scheduler::getSequenceJobRoot()
+{
+    QFile sFile;
+    sFile.setFileName(sequenceURL.path());
+
+    if ( !sFile.open( QIODevice::ReadOnly))
+    {
+        KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
+        return false;
+    }
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = NULL;
+    char c;
+
+    while ( sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+            break;
+    }
+
+    delLilXML(xmlParser);
+    sFile.close();
+    return root;
+}
+
+bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
+{
+    QFile sFile;
+    sFile.setFileName(sequenceURL.path());
+
+    if ( !sFile.open( QIODevice::ReadOnly))
+    {
+        KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
+        return false;
+    }
+
+
+    XMLEle *ep=NULL, *subEP=NULL;
+
+    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Job"))
+        {
+
+            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            {
+
+                if (!strcmp(tagXMLEle(subEP), "Prefix"))
+                {
+                    XMLEle *rawPrefix = findXMLEle(subEP, "RawPrefix");
+                    if (rawPrefix)
+                    {
+                        editXMLEle(rawPrefix, prefix.toLatin1().constData());
+                    }
+                }
+                else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
+                {
+                    editXMLEle(subEP, QString("%1/%2").arg(outputDir).arg(prefix).toLatin1().constData());
+                }
+            }
+
+        }
+    }
+
+
+    QDir().mkpath(outputDir);
+
+    QString filename = QString("%1/%2.esq").arg(outputDir).arg(prefix);
+
+    FILE *outputFile = fopen(filename.toLatin1().constData(), "w");
+
+    if ( outputFile == NULL)
+    {
+        QString message = i18n( "Unable to write to file %1",  filename);
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return false;
+    }
+
+    fprintf(outputFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+    prXMLEle(outputFile, root, 0);
+
+    fclose(outputFile);
+
+    return true;
+
+}
+
 
 }
 

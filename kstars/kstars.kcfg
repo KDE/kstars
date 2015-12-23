@@ -1703,5 +1703,9 @@
         <label>Camera Height in pixels.</label>
         <default>0</default>
     </entry>
+    <entry name="CameraRotation" type="Double">
+        <label>Position angle of the camera with respect to north.</label>
+        <default>0</default>
+    </entry>
     </group>
 </kcfg>

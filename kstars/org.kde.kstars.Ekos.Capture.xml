@@ -83,5 +83,8 @@
     <method name="clearAutoFocusHFR">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="ignoreSequenceHistory">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
   </interface>
 </node>

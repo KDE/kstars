@@ -22,26 +22,44 @@ namespace Ekos
 
 class Scheduler;
 
+typedef struct
+{
+    QPointF pos;
+    QPointF center;
+    QPointF center_rot;
+    SkyPoint skyCenter;
+}  OneTile;
+
 class MosaicTile : public QGraphicsItem
 {
 public:
     MosaicTile();
-    MosaicTile(int width, int height, double fov_x, double fov_y);
     ~MosaicTile();
 
-    void setPA(double positionAngle) { pa = positionAngle; }
+    void setPA(double positionAngle) { pa = positionAngle*-1; }
     void setDimension(int width, int height) { w = width; h = height; }
     void setFOV(double fov_x, double fov_y) { fovW = fov_x; fovH = fov_y; }
     void setOverlap(double value) { overlap = value; }
 
     int getWidth() { return w;}
     int getHeight() { return h;}
+    double getOverlap() { return overlap;}
+    double getPA() { return pa; }
+    double getFOVW() { return fovW;}
+    double getFOVH() { return fovH;}
 
     void updateTiles();
+    OneTile *getTile(int row, int col);
+
+    QRectF boundingRect() const;
+
+    QPointF getTileCenter(int row, int col);
+
+    QList<OneTile *> getTiles() const;
 
 protected:
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 
 private:
 
@@ -50,19 +68,19 @@ private:
     double fovW, fovH;
     double pa;
 
+
     QBrush brush;
     QPen pen;
 
-    struct OneTile
-    {
-        double x,y;
-        double center_x, center_y;
-        QGraphicsRectItem* rectItem;
-    };
+    QBrush textBrush;
+    QPen textPen;
 
-    QVector<OneTile*> tiles;
 
-    OneTile *getTile(int row, int col);
+
+    QList<OneTile*> tiles;
+
+
+    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
 
 };
 
@@ -78,42 +96,48 @@ public:
     void setCameraSize(uint16_t width, uint16_t height);
     void setPixelSize(double pixelWSize, double pixelHSize);
     void setFocalLength(double focalLength);
-
     void setCenter(const SkyPoint &value);
 
-
+    QString getJobsDir() { return jobsDir->text(); }
+    QList<OneTile*> getJobs() { return mosaicTile->getTiles(); }
 
 protected:
+    virtual void showEvent(QShowEvent *);
     virtual void resizeEvent(QResizeEvent *);
 
 public slots:
-    void constructMosaic();
-    void calculateFOV();
-    void updateTargetFOV();
-    void drawOverlay();
-    void resetFOV();
-    void setPreset();
 
-    /**
-     * @short Re-renders the view
-     */
+    void constructMosaic();
+
+    void calculateFOV();
+
+    void updateTargetFOV();
+
+    void saveJobsDirectory();
+
+    void resetFOV();
+
+    void createJobs();
+
     void render();
 
 private:
 
-    void createOverlay();
+    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
+
     Scheduler *ekosScheduler;
     SkyPoint center;
     QImage *m_skyChart;
     QImage *m_skyImage;
 
-    QList<SkyPoint *> jobCenter;
     QPixmap targetPix;
     QGraphicsPixmapItem *targetItem;
 
     MosaicTile *mosaicTile;
 
     double pixelPerArcmin;
+
+    QPointF screenPoint;
 
     QGraphicsScene scene;
 

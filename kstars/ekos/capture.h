@@ -211,6 +211,12 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY  void clearAutoFocusHFR();
 
+
+    /** DBUS interface function.
+     * Jobs will NOT be checked for progress against the file system and will be always assumed as new jobs.
+     */
+    Q_SCRIPTABLE Q_NOREPLY  void ignoreSequenceHistory();
+
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
@@ -401,7 +407,10 @@ private:
     void processJobCompletion();
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
-    double setCurrentADU(double value);    
+    double setCurrentADU(double value);
+
+    /* Misc */
+    bool isFITSDirUnique(SequenceJob *job);
 
     /* Meridian Flip */
     bool checkMeridianFlip();
@@ -487,8 +496,11 @@ private:
 
     // File HFR
     double fileHFR;
-
     QString dirPath;
+
+    // Misc
+    bool ignoreJobProgress;
+
 
 };
 
