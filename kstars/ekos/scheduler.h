@@ -430,7 +430,9 @@ private:
          * @param outputDir Output dir to set for the job sequence
          * @return True if new file is saved, false otherwise
          */
-        bool createJobSequence(const QString &prefix, const QString &outputDir);
+        bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
+
+        XMLEle * getSequenceJobRoot();
 
         bool isWeatherOK(SchedulerJob *job);
 

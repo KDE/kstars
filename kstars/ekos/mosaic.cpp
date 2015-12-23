@@ -166,6 +166,7 @@ void MosaicTile::updateTiles()
                   tile->center_rot = rotatePoint(tile->center, centerPoint);
         }
     }
+
 }
 
 QPointF MosaicTile::rotatePoint(QPointF pointToRotate, QPointF centerPoint)
@@ -218,6 +219,8 @@ Mosaic::Mosaic(Scheduler *scheduler)
     mosaicTile = new MosaicTile();
     scene.addItem(mosaicTile);
     mosaicView->setScene(&scene);
+
+    selectJobsDirB->setIcon(QIcon::fromTheme("document-open-folder"));
 
     //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
@@ -276,8 +279,7 @@ void Mosaic::calculateFOV()
     Options::setCameraPixelWidth(pixelWSizeSpin->value());
     Options::setCameraPixelHeight(pixelHSizeSpin->value());
     Options::setCameraWidth(cameraWSpin->value());
-    Options::setCameraHeight(cameraHSpin->value());
-    Options::setCameraRotation(rotationSpin->value());
+    Options::setCameraHeight(cameraHSpin->value());    
 
     // Calculate FOV in arcmins
     double fov_x = 206264.8062470963552 * cameraWSpin->value() * pixelWSizeSpin->value() / 60000.0 / focalLenSpin->value();
@@ -460,8 +462,11 @@ void Mosaic::constructMosaic()
     if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
         createJobsB->setEnabled(true);
 
-    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value() || mosaicTile->getOverlap() != overlapSpin->value() || mosaicTile->getPA() != rotationSpin->value())
+    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value() || mosaicTile->getOverlap() != overlapSpin->value() || mosaicTile->getPA() != rotationSpin->value())    
     {
+        if (mosaicTile->getPA() != rotationSpin->value())
+            Options::setCameraRotation(rotationSpin->value());
+
         // Update target FOV value
         targetWFOVSpin->setValue(cameraWFOVSpin->value() * mosaicWSpin->value());
         targetHFOVSpin->setValue(cameraHFOVSpin->value() * mosaicHSpin->value());
@@ -479,6 +484,8 @@ void Mosaic::constructMosaic()
         //render();
         mosaicTile->setTransformOriginPoint(mosaicTile->boundingRect().center());
         mosaicTile->setRotation(mosaicTile->getPA());
+
+        jobCountSpin->setValue(mosaicTile->getWidth()*mosaicTile->getHeight());
     }
 }
 
@@ -495,7 +502,6 @@ void Mosaic::createJobs()
     qDebug() << "Center RA" << center.ra().toHMSString() << " DEC " << center.dec().toDMSString();
 
     KStars::Instance()->setApproxFOV( targetWFOVSpin->value()*2 / 60.0 );
-    //    map->setFocus( sp ); // FIXME: Why does setFocus() need a non-const SkyPoint pointer?
 
     center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
@@ -512,7 +518,6 @@ void Mosaic::createJobs()
     qDebug() << "North PA " << northPA;
     qDebug() << "Target Screen X " << screenPoint.x() << " Y " << screenPoint.y();
 
-
     for (int i=0; i < mosaicTile->getHeight(); i++)
     {
 
@@ -526,10 +531,7 @@ void Mosaic::createJobs()
             QPointF tileScreenPoint(screenPoint.x()-targetItem->boundingRect().width()/2.0 + tile->center_rot.x(), screenPoint.y()-targetItem->boundingRect().height()/2.0 + tile->center_rot.y());
 
             tile->skyCenter = map->projector()->fromScreen(tileScreenPoint, KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-
-            tile->skyCenter.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
-            tile->skyCenter.setRA0(tile->skyCenter.ra());
-            tile->skyCenter.setDec0(tile->skyCenter.dec());
+            tile->skyCenter.deprecess(KStarsData::Instance()->updateNum());
 
             // TODO Check if J2000 are VALID. If they are use them to generate the jobs
             // Add directory to save job file along with sequence files

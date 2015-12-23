@@ -11,6 +11,9 @@
 
 #include "Options.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <QtDBus>
 #include <QFileDialog>
 
@@ -123,7 +126,7 @@ Scheduler::Scheduler()
     loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
     selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
     selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectFITSB->setIcon(QIcon::fromTheme("document-open"));
+    selectFITSB->setIcon(QIcon::fromTheme("document-open"));    
 
     connect(selectObjectB,SIGNAL(clicked()),this,SLOT(selectObject()));
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
@@ -3756,6 +3759,15 @@ void Scheduler::startMosaicTool()
         QString outputDir = mosaicTool.getJobsDir();
         QString targetName = nameEdit->text().simplified().remove(" ");
 
+        XMLEle *root = getSequenceJobRoot();
+        if (root == NULL)
+        {
+            KMessageBox::error(this, i18n("Sequence file %1 is corrupted. Unable to create mosaic.", sequenceURL.fileName()));
+            return;
+        }
+
+        int currentJobsCount = jobs.count();
+
         foreach (OneTile *oneJob, mosaicTool.getJobs())
         {
             QString prefix = QString("%1-Part%2").arg(targetName).arg(batchCount++);
@@ -3763,7 +3775,7 @@ void Scheduler::startMosaicTool()
 
             nameEdit->setText(prefix);
 
-            if (createJobSequence(prefix, outputDir) == false)
+            if (createJobSequence(root, prefix, outputDir) == false)
                 return;
 
             QString filename  = QString("%1/%2.esq").arg(outputDir).arg(prefix);
@@ -3776,21 +3788,35 @@ void Scheduler::startMosaicTool()
             addJob();
         }
 
+        delXMLEle(root);
+
+        // Delete any prior jobs before saving
+        for (int i=0; i < currentJobsCount; i++)
+        {
+            delete (jobs.takeFirst());
+            queueTable->removeRow(0);
+        }
+
         QUrl mosaicURL;
-        mosaicURL.setPath(QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName));
+        mosaicURL.setPath(QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName));        
+
         if (saveScheduler(mosaicURL))
-            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.path()));
+        {
+            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.path()));                                    
+        }
         else
-            appendLogText(i18n("Error saving mosaic file %1", mosaicURL.path()));
+        {
+            appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.path()));
+        }
     }
 }
 
-bool Scheduler::createJobSequence(const QString &prefix, const QString &outputDir)
+XMLEle * Scheduler::getSequenceJobRoot()
 {
     QFile sFile;
     sFile.setFileName(sequenceURL.path());
 
-    if ( !sFile.open( QIODevice::ReadWrite))
+    if ( !sFile.open( QIODevice::ReadOnly))
     {
         KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
         return false;
@@ -3799,7 +3825,6 @@ bool Scheduler::createJobSequence(const QString &prefix, const QString &outputDi
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
     XMLEle *root = NULL;
-    XMLEle *ep=NULL, *subEP=NULL;
     char c;
 
     while ( sFile.getChar(&c))
@@ -3807,43 +3832,53 @@ bool Scheduler::createJobSequence(const QString &prefix, const QString &outputDi
         root = readXMLEle(xmlParser, c, errmsg);
 
         if (root)
+            break;
+    }
+
+    delLilXML(xmlParser);
+    sFile.close();
+    return root;
+}
+
+bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
+{
+    QFile sFile;
+    sFile.setFileName(sequenceURL.path());
+
+    if ( !sFile.open( QIODevice::ReadOnly))
+    {
+        KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
+        return false;
+    }
+
+
+    XMLEle *ep=NULL, *subEP=NULL;
+
+    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Job"))
         {
-             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
-             {
-                 if (!strcmp(tagXMLEle(ep), "Job"))
-                 {
 
-                     for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
-                     {
+            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            {
 
-                         if (!strcmp(tagXMLEle(subEP), "Prefix"))
-                         {
-                             XMLEle *rawPrefix = findXMLEle(subEP, "RawPrefix");
-                             if (rawPrefix)
-                             {
-                                 editXMLEle(rawPrefix, prefix.toLatin1().constData());
-                             }
-                         }
-                         else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
-                         {
-                             editXMLEle(subEP, QString("%1/%2").arg(outputDir).arg(prefix).toLatin1().constData());
-                         }
-                     }
+                if (!strcmp(tagXMLEle(subEP), "Prefix"))
+                {
+                    XMLEle *rawPrefix = findXMLEle(subEP, "RawPrefix");
+                    if (rawPrefix)
+                    {
+                        editXMLEle(rawPrefix, prefix.toLatin1().constData());
+                    }
+                }
+                else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
+                {
+                    editXMLEle(subEP, QString("%1/%2").arg(outputDir).arg(prefix).toLatin1().constData());
+                }
+            }
 
-                 }
-             }
-             delXMLEle(root);
-        }
-        else if (errmsg[0])
-        {
-            appendLogText(QString(errmsg));
-            delLilXML(xmlParser);
-            sFile.close();
-            return false;
         }
     }
 
-    sFile.close();
 
     QDir().mkpath(outputDir);
 
@@ -3858,6 +3893,7 @@ bool Scheduler::createJobSequence(const QString &prefix, const QString &outputDi
         return false;
     }
 
+    fprintf(outputFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
     prXMLEle(outputFile, root, 0);
 
     fclose(outputFile);
