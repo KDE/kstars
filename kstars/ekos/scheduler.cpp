@@ -3076,6 +3076,10 @@ void Scheduler::findNextJob()
         currentJob->setState(SchedulerJob::JOB_BUSY);
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
+
+        // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
+        captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
+
         startCapture();
         jobTimer.start();
         return;
@@ -3104,6 +3108,10 @@ void Scheduler::findNextJob()
             currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
 
             captureBatch++;
+
+            // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
+            captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
+
             startCapture();
             jobTimer.start();
             return;

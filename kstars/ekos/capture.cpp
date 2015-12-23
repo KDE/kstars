@@ -82,6 +82,8 @@ Capture::Capture()
     deviationDetected = false;
     spikeDetected     = false;
 
+    ignoreJobProgress=false;
+
     dustCapLightEnabled = lightBoxLightEnabled = false;
 
     isAutoGuiding   = false;
@@ -314,6 +316,7 @@ void Capture::abort()
     ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
     ADUSlope = 0;
     flatStage = FLAT_NONE;
+    ignoreJobProgress=false;
 
     if (activeJob)
     {
@@ -1547,12 +1550,8 @@ void Capture::executeJob()
             updateSequencePrefix(activeJob->getPrefix(), activeJob->getFITSDir());
     }
 
-    // If job is already fully or partially complete
-    // Only if either filter, exposure, or ts fields are enabled in the prefix
-    // otherwise we cannot distinguish between frames of different jobs as they will have identical names
-    if (Options::rememberJobProgress() && activeJob->isPreview() == false && seqFileCount > 0)
-        // N.B. Disabling this for now as rememberJobProgress should take precedence over all.
-        //&&  (activeJob->isFilterPrefixEnabled() || activeJob->isExposurePrefixEnabled() || activeJob->isTimestampPrefixEnabled() || isFITSDirUnique(activeJob)))
+    // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
+    if (ignoreJobProgress == false && Options::rememberJobProgress() && activeJob->isPreview() == false && seqFileCount > 0)
     {
         // Fully complete
         if (seqFileCount >= seqTotalCount)
@@ -2210,6 +2209,13 @@ void Capture::resetJobs()
         job->resetStatus();
 
     abort();
+
+    ignoreJobProgress=true;
+}
+
+void Capture::ignoreSequenceHistory()
+{
+    ignoreJobProgress=true;
 }
 
 void Capture::editJob(QModelIndex i)

@@ -211,6 +211,12 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY  void clearAutoFocusHFR();
 
+
+    /** DBUS interface function.
+     * Jobs will NOT be checked for progress against the file system and will be always assumed as new jobs.
+     */
+    Q_SCRIPTABLE Q_NOREPLY  void ignoreSequenceHistory();
+
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
@@ -490,8 +496,11 @@ private:
 
     // File HFR
     double fileHFR;
-
     QString dirPath;
+
+    // Misc
+    bool ignoreJobProgress;
+
 
 };
 
