@@ -816,6 +816,7 @@ void Align::solverFailed()
     loadSlewState=IPS_ALERT;
     m_isSolverComplete = true;
     m_isSolverSuccessful = false;
+    m_slewToTargetSelected=false;
     solverIterations=0;
     retries=0;
 
