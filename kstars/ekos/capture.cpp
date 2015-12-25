@@ -2405,6 +2405,7 @@ void Capture::clearSequenceQueue()
         queueTable->removeRow(0);
     jobs.clear();
     qDeleteAll(jobs);
+    activeJob=NULL;
 }
 
 QString Capture::getSequenceQueueStatus()

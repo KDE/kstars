@@ -1148,7 +1148,7 @@ void Scheduler::evaluateJobs()
             return;
         }
 
-        appendLogText(i18n("Found candidate job %1.", bestCandidate->getName()));
+        appendLogText(i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority() ));
 
         currentJob = bestCandidate;
     }

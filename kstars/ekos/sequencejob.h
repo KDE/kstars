@@ -34,6 +34,7 @@ class SequenceJob : public QObject
     typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FILTER_BUSY, CAPTURE_FOCUS_ERROR} CAPTUREResult;
 
     SequenceJob();
+    ~SequenceJob() {}
 
     CAPTUREResult capture(bool isDark=false);
     void reset();
