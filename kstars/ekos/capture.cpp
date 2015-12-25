@@ -177,7 +177,6 @@ Capture::Capture()
     parkCheck->setChecked(Options::autoParkTelescope());
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
-    temperatureCheck->setChecked(Options::enforceTemperatureControl());    
 
     connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(HFRPixels, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
@@ -259,7 +258,6 @@ void Capture::start()
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoMeridianHours(meridianHours->value());
     Options::setAutoParkTelescope(parkCheck->isChecked());
-    Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -1190,8 +1188,6 @@ void Capture::addJob(bool preview)
     SequenceJob *job = NULL;
     QString imagePrefix;
 
-    Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
-
     if (preview == false && darkSubCheck->isChecked())
     {
         KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
@@ -1218,6 +1214,7 @@ void Capture::addJob(bool preview)
     {
         double currentTemperature;
         currentCCD->getTemperature(&currentTemperature);
+        job->setEnforceTemperature(temperatureCheck->isChecked());
         job->setTargetTemperature(temperatureIN->value());
         job->setCurrentTemperature(currentTemperature);
     }
@@ -1504,7 +1501,7 @@ void Capture::prepareJob(SequenceJob *job)
         }
     }
 
-    if (currentCCD->hasCooler() && temperatureCheck->isChecked())
+    if (currentCCD->hasCooler() && activeJob->getEnforceTemperature())
     {
         if (activeJob->getCurrentTemperature() != INVALID_TEMPERATURE &&
                 fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) > Options::maxTemperatureDiff())
@@ -2138,7 +2135,7 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<H>" << job->getSubH() << "</H>" << endl;
         outstream << "</Frame>" << endl;
         if (job->getTargetTemperature() != INVALID_TEMPERATURE)
-            outstream << "<Temperature force='" << (temperatureCheck->isChecked() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
+            outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
         outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
         outstream << "<Type>" << job->getFrameType() << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
@@ -2244,6 +2241,9 @@ void Capture::editJob(QModelIndex i)
    ISOCheck->setChecked(tsEnabled);
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
+
+   // Temperature Options
+   temperatureCheck->setChecked(job->getEnforceTemperature());
 
    // Flat field options
    calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);

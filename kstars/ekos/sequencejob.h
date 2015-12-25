@@ -128,6 +128,9 @@ class SequenceJob : public QObject
     bool isPreDomePark() const;
     void setPreDomePark(bool value);
 
+    bool getEnforceTemperature() const;
+    void setEnforceTemperature(bool value);
+
 signals:
     void prepareComplete();
 
@@ -153,6 +156,7 @@ private:
     int delay;    
     bool preview;
     bool filterReady, temperatureReady;
+    bool enforceTemperature;
     int isoIndex;
     int captureRetires;
     unsigned int completed;
