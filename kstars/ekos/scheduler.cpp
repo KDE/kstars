@@ -32,12 +32,22 @@
 #include "ksutils.h"
 #include "mosaic.h"
 
-#define BAD_SCORE                   -1000
-#define MAX_FAILURE_ATTEMPTS        3
-#define UPDATE_PERIOD_MS            1000
+#define BAD_SCORE                       -1000
+#define MAX_FAILURE_ATTEMPTS            3
+#define UPDATE_PERIOD_MS                1000
 
 namespace Ekos
 {
+
+bool scoreHigherThan(SchedulerJob *job1, SchedulerJob *job2)
+{
+    return job1->getScore() > job2->getScore();
+}
+
+bool priorityHigherThan(SchedulerJob *job1, SchedulerJob *job2)
+{
+    return job1->getPriority() < job2->getPriority();
+}
 
 Scheduler::Scheduler()
 {
@@ -327,6 +337,8 @@ void Scheduler::addJob()
 
     job->setName(nameEdit->text());
 
+    job->setPriority(prioritySpin->value());
+
     bool raOk=false, decOk=false;
     dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
     dms dec( decBox->createDms( true, &decOk ) );
@@ -392,7 +404,7 @@ void Scheduler::addJob()
         job->setCompletionTime(completionTimeEdit->dateTime());
     }
 
-    // Ekos Modules usage
+    // Job steps
     job->setStepPipeline(SchedulerJob::USE_NONE);
     if (trackStepCheck->isChecked())
         job->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (job->getStepPipeline() | SchedulerJob::USE_TRACK));
@@ -490,6 +502,8 @@ void Scheduler::editJob(QModelIndex i)
     job->setStage(SchedulerJob::STAGE_IDLE);
 
     nameEdit->setText(job->getName());
+
+    prioritySpin->setValue(job->getPriority());
 
     raBox->setText(job->getTargetCoords().ra0().toHMSString());
     decBox->setText(job->getTargetCoords().dec0().toDMSString());
@@ -798,7 +812,7 @@ void Scheduler::evaluateJobs()
                 case SchedulerJob::START_ASAP:
                     altScore     = getAltitudeScore(job, now);
                     moonScore    = getMoonSeparationScore(job, now);
-                    darkScore    = getDarkSkyScore(now);                    
+                    darkScore    = getDarkSkyScore(now);
                     score = altScore + moonScore + darkScore;
                     job->setScore(score);
 
@@ -992,22 +1006,26 @@ void Scheduler::evaluateJobs()
         return;
     }
 
-    int maxScore=0;
+    int maxScore=0, maxPriority=1e6;
     SchedulerJob *bestCandidate = NULL;
 
     // Make sure no two jobs have the same scheduled time or overlap with other jobs
     foreach(SchedulerJob *job, jobs)
-    {
-        // If we already allocated time slot for this, continue
+    {        
         // If this job is not scheduled, continue
         // If this job startup conditon is not to start at a specific time, continue
-        if (job->getTimeSlotAllocated() || job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
+        if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
             continue;
+
+        uint8_t job_priority = job->getPriority();
 
         foreach(SchedulerJob *other_job, jobs)
         {
-            if (other_job == job || other_job->getState() != SchedulerJob::JOB_SCHEDULED || other_job->getStartupCondition() != SchedulerJob::START_AT)
+            // If we already allocated time slot for this, continue
+            if (other_job == job || other_job->getState() != SchedulerJob::JOB_SCHEDULED || other_job->getStartupCondition() != SchedulerJob::START_AT || other_job->getTimeSlotAllocated())
                 continue;
+
+            uint8_t otherjob_priority = other_job->getPriority();
 
             double timeBetweenJobs = fabs(job->getStartupTime().secsTo(other_job->getStartupTime()));
             // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
@@ -1016,20 +1034,32 @@ void Scheduler::evaluateJobs()
                 double job_altitude       = findAltitude(job->getTargetCoords(), job->getStartupTime());
                 double other_job_altitude = findAltitude(other_job->getTargetCoords(), other_job->getStartupTime());
 
-                if (job_altitude > other_job_altitude)
+                // If first job is higher than second job, then we scheduler second job to later
+                if (job_altitude > other_job_altitude || job_priority < otherjob_priority)
                 {
                     double delayJob = timeBetweenJobs + job->getEstimatedTime();
 
                     if (delayJob < (Options::leadTime()*60))
                         delayJob = Options::leadTime()*60;
 
-                    other_job->setStartupTime(other_job->getStartupTime().addSecs(delayJob));
+                    QDateTime otherjob_time = other_job->getStartupTime().addSecs(delayJob);
+                    // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
+                    if (otherjob_time >= preDawnDateTime)
+                        other_job->setStartupTime(other_job->getStartupTime().addDays(1));
+                    else
+                        other_job->setStartupTime(other_job->getStartupTime().addSecs(delayJob));
+
                     other_job->setState(SchedulerJob::JOB_SCHEDULED);
 
-                    appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
+                    if (job_priority < otherjob_priority)
+                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. %1 priority %3 is higher than %2 priority %4. Selecting %1 and rescheduling %2 to %5.",
+                                           job->getName(), other_job->getName(), job->getPriority(), other_job->getPriority(), other_job->getStartupTime().toString()));
+                    else
+                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
                                        job->getName(), other_job->getName(), job->getStartupTime().toString(), job_altitude, other_job_altitude, other_job->getStartupTime().toString()));
 
-                    return;
+                    //return;
+                    //continue;
                 }
                 else
                 {
@@ -1038,14 +1068,26 @@ void Scheduler::evaluateJobs()
                     if (delayJob < (Options::leadTime()*60))
                         delayJob = Options::leadTime()*60;
 
-                    job->setStartupTime(job->getStartupTime().addSecs(delayJob));
+                    QDateTime job_time = job->getStartupTime().addSecs(delayJob);
+
+                    // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
+                    if (job_time >= preDawnDateTime)
+                        job->setStartupTime(job->getStartupTime().addDays(1));
+                    else
+                        job->setStartupTime(job->getStartupTime().addSecs(delayJob));
+
                     job->setState(SchedulerJob::JOB_SCHEDULED);
 
-                    appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
+                    if (job_priority < otherjob_priority)
+                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. %1 priority %3 is higher than %2 priority %4. Selecting %1 and rescheduling %2 to %5.",
+                                           other_job->getName(), job->getName(), other_job->getPriority(), job->getPriority(), job->getStartupTime().toString()));
+                    else
+                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
                                        other_job->getName(), job->getName(), other_job->getStartupTime().toString(), other_job_altitude, job_altitude, job->getStartupTime().toString()));
 
 
-                    return;
+                    //return;
+                    //continue;
                 }
             }
         }
@@ -1061,18 +1103,41 @@ void Scheduler::evaluateJobs()
     }
 
     // Find best score
+    /*foreach(SchedulerJob *job, jobs)
+    {
+        if (job->getState() != SchedulerJob::JOB_SCHEDULED)
+            continue;
+
+        int jobScore    = job->getScore();
+        int jobPriority = job->getPriority();
+
+        if (jobPriority <= maxPriority)
+        {
+            maxPriority = jobPriority;
+
+            if (jobScore > 0 && jobScore > maxScore)
+            {
+                    maxScore    = jobScore;
+                    bestCandidate = job;
+            }
+        }
+    }*/
+
+    // Order by score first
+    qSort(jobs.begin(), jobs.end(), scoreHigherThan);
+    // Then by priority
+    qSort(jobs.begin(), jobs.end(), priorityHigherThan);
+
     foreach(SchedulerJob *job, jobs)
     {
         if (job->getState() != SchedulerJob::JOB_SCHEDULED)
             continue;
 
-        int jobScore = job->getScore();
-        if (jobScore > 0 && jobScore > maxScore)
-        {
-                maxScore = jobScore;
-                bestCandidate = job;
-        }
+         bestCandidate = job;
+         break;
+
     }
+
 
     if (bestCandidate != NULL)
     {
@@ -2465,7 +2530,7 @@ void Scheduler::getNextAction()
     case SchedulerJob::STAGE_IDLE:        
         if  (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
             startSlew();
-        if  (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+        else if  (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
             startFocusing();
         else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
             startAstrometry();
@@ -2696,6 +2761,8 @@ bool Scheduler::processJobInfo(XMLEle *root)
     {
         if (!strcmp(tagXMLEle(ep), "Name"))
             nameEdit->setText(pcdataXMLEle(ep));
+        else if (!strcmp(tagXMLEle(ep), "Priority"))
+            prioritySpin->setValue(atoi(pcdataXMLEle(ep)));
         else if (!strcmp(tagXMLEle(ep), "Coordinates"))
         {
             subEP = findXMLEle(ep, "J2000RA");
@@ -2881,6 +2948,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
          outstream << "<Job>" << endl;
 
          outstream << "<Name>" << job->getName() << "</Name>" << endl;
+         outstream << "<Priority>" << job->getPriority() << "</Priority>" << endl;
          outstream << "<Coordinates>" << endl;
             outstream << "<J2000RA>"<< job->getTargetCoords().ra0().Hours() << "</J2000RA>" << endl;
             outstream << "<J2000DE>"<< job->getTargetCoords().dec0().Degrees() << "</J2000DE>" << endl;
@@ -2922,7 +2990,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
        outstream << "<Steps>" << endl;
        if  (job->getStepPipeline() & SchedulerJob::USE_TRACK)
-           outstream << "<Step>Focus</Step>" << endl;
+           outstream << "<Step>Track</Step>" << endl;
        if  (job->getStepPipeline() & SchedulerJob::USE_FOCUS)
            outstream << "<Step>Focus</Step>" << endl;
        if  (job->getStepPipeline() & SchedulerJob::USE_ALIGN)
