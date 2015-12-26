@@ -2775,7 +2775,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "Sequence"))
         {
             sequenceEdit->setText(pcdataXMLEle(ep));
-            sequenceURL.setPath(sequenceEdit->text());
+            sequenceURL = QUrl(sequenceEdit->text());
         }
         else if (!strcmp(tagXMLEle(ep), "FITS"))
         {
@@ -3848,7 +3848,7 @@ void Scheduler::startMosaicTool()
 
             QString filename  = QString("%1/%2.esq").arg(outputDir).arg(prefix);
             sequenceEdit->setText(filename);
-            sequenceURL.setPath(filename);
+            sequenceURL = QUrl(filename);
 
             raBox->setText(oneJob->skyCenter.ra0().toHMSString());
             decBox->setText(oneJob->skyCenter.dec0().toDMSString());
