@@ -325,6 +325,9 @@ void Capture::abort()
         }
 
         activeJob->reset();
+
+        // Reste active job pointer
+        activeJob = NULL;
     }
 
     // Turn off any calibration light, IF they were turned on by Capture module
@@ -789,8 +792,6 @@ void Capture::newFITS(IBLOB *bp)
     if (seqTotalCount <= 0)
     {
        jobs.removeOne(activeJob);
-       delete (activeJob);
-       activeJob = NULL;
        abort();
        return;
     }
@@ -3107,7 +3108,7 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
         updateSequencePrefix(job->getPrefix(), job->getFITSDir());
 
         if (seqFileCount < job->getCount())
-        {
+        {            
             clearSequenceQueue();
             return false;
         }
