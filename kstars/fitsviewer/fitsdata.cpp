@@ -582,7 +582,9 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
        if (JMIndex < DIFFUSE_THRESHOLD)
        {
-           threshold = stats.max[0] - stats.stddev[0]* (MINIMUM_STDVAR - initStdDev +1);
+           //threshold = stats.max[0] - stats.stddev[0]* (MINIMUM_STDVAR - initStdDev +1);
+           // Taking the average out seems to have better result for noisy images
+           threshold = stats.max[0] - stats.mean[0] * ( (MINIMUM_STDVAR - initStdDev)*0.5 +1);
 
            min =stats.min[0];
 
@@ -1235,11 +1237,11 @@ int FITSData::findStars()
         qDeleteAll(starCenters);
         starCenters.clear();
 
-        if (histogram->getJMIndex() > DIFFUSE_THRESHOLD)
-        {
+        //if (histogram->getJMIndex() > DIFFUSE_THRESHOLD)
+        //{
              findCentroid();
              getHFR();
-        }
+        //}
     }
 
     starsSearched = true;
