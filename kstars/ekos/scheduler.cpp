@@ -35,6 +35,7 @@
 #define BAD_SCORE                       -1000
 #define MAX_FAILURE_ATTEMPTS            3
 #define UPDATE_PERIOD_MS                1000
+#define SETTING_ALTITUDE_CUTOFF         3
 
 namespace Ekos
 {
@@ -512,6 +513,7 @@ void Scheduler::editJob(QModelIndex i)
         fitsEdit->setText(job->getFITSFile().path());
 
     sequenceEdit->setText(job->getSequenceFile().path());
+    sequenceURL = job->getSequenceFile();
 
     switch (job->getFileStartupCondition())
     {
@@ -1488,9 +1490,25 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
         // if current altitude is lower that's not good
         if (currentAlt < job->getMinAltitude())
             score = BAD_SCORE;
-        // Otherwise, adjust score and add current altitude to score weight
         else
+        {
+            double HA=0;
+
+            if (indiState == INDI_READY)
+            {
+                QDBusReply<double> haReply = mountInterface->call(QDBus::AutoDetect,"getHourAngle");
+                if (haReply.error().type() == QDBusError::NoError)
+                    HA = haReply.value();
+            }
+
+            // If already passed the merdian and setting we check if it is within setting alttidue cut off value (3 degrees default)
+            // If it is within that value then it is useless to start the job which will end very soon so we better look for a better job.
+            if (HA > 0 && (currentAlt - SETTING_ALTITUDE_CUTOFF) < job->getMinAltitude())
+                score = BAD_SCORE/2.0;
+            else
+            // Otherwise, adjust score and add current altitude to score weight
             score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
+        }
     }
     // If it's below minimum hard altitude (15 degrees now) hit it with a bad score
     else if (currentAlt < minAltitude->minimum())
