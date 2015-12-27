@@ -110,6 +110,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     int status=0, anynull=0;
     long naxes[3];
     char error_status[512];
+    QString errMessage;
 
     qDeleteAll(starCenters);
     starCenters.clear();
@@ -137,8 +138,11 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
+        errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
         if (silent == false)
-            KMessageBox::error(0, i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status)), i18n("FITS Open"));
+            KMessageBox::error(0, errMessage, i18n("FITS Open"));
+        if (Options::verboseLogging())
+            qDebug() << errMessage;
         return false;
     }
 
@@ -146,15 +150,21 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
+        errMessage = i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status));
         if (silent == false)
-            KMessageBox::error(0, i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
+            KMessageBox::error(0, errMessage, i18n("FITS Open"));
+        if (Options::verboseLogging())
+            qDebug() << errMessage;
         return false;
     }
 
     if (stats.ndim < 2)
     {
+        errMessage = i18n("1D FITS images are not supported in KStars.");
         if (silent == false)
-            KMessageBox::error(0, i18n("1D FITS images are not supported in KStars."), i18n("FITS Open"));
+            KMessageBox::error(0, errMessage, i18n("FITS Open"));
+        if (Options::verboseLogging())
+            qDebug() << errMessage;
         return false;
     }
 
@@ -178,8 +188,11 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         case -64:
              data_type = TDOUBLE;
         default:
+            errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
             if (silent == false)
-                KMessageBox::error(NULL, i18n("Bit depth %1 is not supported.", stats.bitpix), i18n("FITS Open"));
+                KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
+            if (Options::verboseLogging())
+                qDebug() << errMessage;
             return false;
             break;
     }
@@ -189,8 +202,11 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     if (naxes[0] == 0 || naxes[1] == 0)
     {
+        errMessage = i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]);
         if (silent == false)
-            KMessageBox::error(0, i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]), i18n("FITS Open"));
+            KMessageBox::error(0, errMessage, i18n("FITS Open"));
+        if (Options::verboseLogging())
+            qDebug() << errMessage;
         return false;
     }
 
@@ -219,9 +235,12 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     {
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
+        errMessage = i18n("Error reading image: %1", QString(errmsg));
         if (silent == false)
-            KMessageBox::error(NULL, i18n("Error reading image: %1", QString(errmsg)), i18n("FITS Open"));
+            KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
         fits_report_error(stderr, status);
+        if (Options::verboseLogging())
+            qDebug() << errMessage;
         return false;
     }
 
