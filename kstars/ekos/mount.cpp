@@ -565,6 +565,28 @@ QList<double> Mount::getEquatorialCoords()
     return coords;
 }
 
+QList<double> Mount::getHorizontalCoords()
+{
+    QList<double> coords;
+
+    coords.append(telescopeCoord.az().Degrees());
+    coords.append(telescopeCoord.alt().Degrees());
+
+    return coords;
+}
+
+double Mount::getHourAngle()
+{
+    dms lst = KStarsData::Instance()->geo()->GSTtoLST( KStarsData::Instance()->clock()->utc().gst() );
+    dms ha( lst.Degrees() - telescopeCoord.ra().Degrees() );
+    double HA = ha.Hours();
+
+    if ( HA > 12.0 )
+        return (24 - HA);
+    else
+        return HA;
+}
+
 QList<double> Mount::getTelescopeInfo()
 {
     QList<double> info;

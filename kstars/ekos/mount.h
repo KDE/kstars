@@ -86,6 +86,16 @@ public:
     Q_SCRIPTABLE QList<double> getEquatorialCoords();
 
     /** DBUS interface function.
+     * Get Horizontal coords. An array of doubles is returned. First element is Azimuth in degrees. Second elements is Altitude in degrees.
+     */
+    Q_SCRIPTABLE QList<double> getHorizontalCoords();
+
+    /** DBUS interface function.
+     * Get mount hour angle in hours (-12 to +12).
+     */
+    Q_SCRIPTABLE double getHourAngle();
+
+    /** DBUS interface function.
      * Aborts the mount motion
      * @return true if the command is sent successfully, false otherwise.
      */
