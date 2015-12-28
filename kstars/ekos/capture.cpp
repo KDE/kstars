@@ -1924,7 +1924,7 @@ bool Capture::processJobInfo(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "Type"))
         {
-            frameTypeCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+            frameTypeCombo->setCurrentText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
@@ -2113,7 +2113,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue version='1.2'>" << endl;
+    outstream << "<SequenceQueue version='1.3'>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;
@@ -2138,7 +2138,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         if (job->getTargetTemperature() != INVALID_TEMPERATURE)
             outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
         outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
-        outstream << "<Type>" << job->getFrameType() << "</Type>" << endl;
+        outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
             outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
