@@ -805,6 +805,12 @@ void Scheduler::evaluateJobs()
                 job->setState(SchedulerJob::JOB_INVALID);
                 continue;
             }
+
+            if (job->getEstimatedTime() == 0)
+            {
+                job->setState(SchedulerJob::JOB_COMPLETE);
+                continue;
+            }
         }
 
         // #1 Check startup conditions
@@ -924,7 +930,7 @@ void Scheduler::evaluateJobs()
 
                         if (score < 0)
                         {
-                            appendLogText(i18n("%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...", job->getName(), timeUntil*-1, score));
+                            appendLogText(i18n("%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...", job->getName(), abs(timeUntil), score));
                             job->setState(SchedulerJob::JOB_ABORTED);
                             continue;
                         }
@@ -1132,14 +1138,13 @@ void Scheduler::evaluateJobs()
 
     foreach(SchedulerJob *job, jobs)
     {
-        if (job->getState() != SchedulerJob::JOB_SCHEDULED)
+        if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getScore() <= 0)
             continue;
 
          bestCandidate = job;
          break;
 
     }
-
 
     if (bestCandidate != NULL)
     {
@@ -3359,6 +3364,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
                          sFile.close();
                          break;
                      }
+                     else if (oneJobEstimation == 0)
+                         continue;
 
                      sequenceEstimatedTime += oneJobEstimation;
 
@@ -3386,6 +3393,12 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
     {
         appendLogText(i18n("Failed to estimate time for %1 observation job.", job->getName()));
         return false;
+    }
+    else if (sequenceEstimatedTime == 0)
+    {
+        appendLogText(i18n("%1 observation job is already complete.", job->getName()));
+        job->setEstimatedTime(0);
+        return true;
     }
 
     // Are we doing tracking? It takes about 30 seconds
@@ -3417,21 +3430,32 @@ double Scheduler::estimateSequenceTime(XMLEle *root, int *totalCount)
 
     double totalTime;
 
-    double exposure=0, count=0, delay=0;
+    int count=0;
+    double exposure=0, delay=0;
+    QString frameType;
+    QString fitsDir;
 
     for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Exposure"))
             exposure = atof(pcdataXMLEle(ep));
         else if (!strcmp(tagXMLEle(ep), "Count"))
-        {
             count = *totalCount = atoi(pcdataXMLEle(ep));
-        }
         else if (!strcmp(tagXMLEle(ep), "Delay"))
-        {
             delay = atoi(pcdataXMLEle(ep));
-        }
+        else if (!strcmp(tagXMLEle(ep), "Type"))
+            frameType = QString(pcdataXMLEle(ep));
+        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
+            fitsDir = QString(pcdataXMLEle(ep));
     }
+
+    fitsDir += "/" + frameType;
+    QDir targetDir(fitsDir);
+    QFileInfoList fileList = targetDir.entryInfoList(QStringList("*.fits"), QDir::Files);
+
+    int completed = fileList.count();
+
+    count -= completed;
 
     totalTime = (exposure + delay) * count;
 
