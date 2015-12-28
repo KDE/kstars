@@ -34,6 +34,7 @@ class SequenceJob : public QObject
     typedef enum { CAPTURE_OK, CAPTURE_FRAME_ERROR, CAPTURE_BIN_ERROR, CAPTURE_FILTER_BUSY, CAPTURE_FOCUS_ERROR} CAPTUREResult;
 
     SequenceJob();
+    ~SequenceJob() {}
 
     CAPTUREResult capture(bool isDark=false);
     void reset();
@@ -128,6 +129,9 @@ class SequenceJob : public QObject
     bool isPreDomePark() const;
     void setPreDomePark(bool value);
 
+    bool getEnforceTemperature() const;
+    void setEnforceTemperature(bool value);
+
 signals:
     void prepareComplete();
 
@@ -153,6 +157,7 @@ private:
     int delay;    
     bool preview;
     bool filterReady, temperatureReady;
+    bool enforceTemperature;
     int isoIndex;
     int captureRetires;
     unsigned int completed;

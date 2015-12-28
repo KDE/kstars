@@ -25,7 +25,7 @@
 
 /** @class TimeUnitBox
  *A pair of buttons, arranged one above the other, labeled "+"/"-".  These buttons 
- *are to be paired with the TimeSpinBox widget.  Their function is to provide 
+ *are to be paired with the TimeSpinBox widget.  Their function is to provide
  *a way to cycle through the possible time steps using larger intervals than the up/down
  *buttons of the TimeSpinBox.  For example, say the Spinbox currently shows a timestep of 
  *"1 sec".  Increasing the timestep with the spinbox up-button will change it to
@@ -34,13 +34,13 @@
  *The idea is that these "outer" buttons always change to the next even unit of time.
  *
  *@note this widget is not to be used on its own; it is combined with the TimeSpinBox 
- *widget to form the TimeStepBox composite widget. 
+ *widget to form the TimeStepBox composite widget.
  *@short provides a second set of up/down buttons for TimeStepBox.
  *@author Jason Harris
  *@version 1.0
  */
 
-class QPushButton;
+class QToolButton;
 
 class TimeUnitBox : public QWidget {
     Q_OBJECT
@@ -95,7 +95,7 @@ private slots:
 
 private:
     bool DaysOnly;
-    QPushButton *UpButton, *DownButton;
+    QToolButton *UpButton, *DownButton;
     int MinimumValue, MaximumValue, Value, UnitStep[ ALLUNITS ];
 };
 

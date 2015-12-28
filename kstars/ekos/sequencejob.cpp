@@ -39,6 +39,7 @@ SequenceJob::SequenceJob()
     captureFilter=FITS_NONE;
     preview=false;
     filterReady=temperatureReady=true;
+    enforceTemperature=false;
     activeChip=NULL;
     activeCCD=NULL;
     activeFilter= NULL;
@@ -125,7 +126,7 @@ void SequenceJob::prepareCapture()
     }
 
 
-    if (Options::enforceTemperatureControl() && targetTemperature != currentTemperature)
+    if (enforceTemperature && targetTemperature != currentTemperature)
     {
         temperatureReady = false;
         activeCCD->setTemperature(targetTemperature);
@@ -257,7 +258,7 @@ void SequenceJob::setCurrentTemperature(double value)
 {
     currentTemperature = value;
 
-    if (Options::enforceTemperatureControl() == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
+    if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         temperatureReady = true;
 
     if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
@@ -341,6 +342,16 @@ bool SequenceJob::isPreDomePark() const
 void SequenceJob::setPreDomePark(bool value)
 {
     calibrationSettings.preDomePark = value;
+}
+
+bool SequenceJob::getEnforceTemperature() const
+{
+    return enforceTemperature;
+}
+
+void SequenceJob::setEnforceTemperature(bool value)
+{
+    enforceTemperature = value;
 }
 
 int SequenceJob::getISOIndex() const

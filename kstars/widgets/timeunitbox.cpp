@@ -20,46 +20,10 @@
 
 #include <cstdlib>
 
-#include <QPushButton>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 #include <QDebug>
-
-static const char * const up_arrow[] = {
-"22 11 4 1",
-"       c None",
-".      c #000000",
-"+      c #808080",
-"@      c #BFBFBF",
-"                      ",
-"                      ",
-"          ..          ",
-"         .++.         ",
-"        .+  @.        ",
-"       .+    @.       ",
-"      .+      @.      ",
-"     .+        @.     ",
-"    .+          @.    ",
-"    +            @    ",
-"                      "};
-
-static const char * const down_arrow[] = {
-"22 11 4 1",
-"       c None",
-".      c #808080",
-"+      c #BFBFBF",
-"@      c #000000",
-"                      ",
-"    .            +    ",
-"    @.          +@    ",
-"     @.        +@     ",
-"      @.      +@      ",
-"       @.    +@       ",
-"        @.  +@        ",
-"         @..@         ",
-"          @@          ",
-"                      ",
-"                      "};
 
 TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
         : QWidget( parent ) {
@@ -68,16 +32,18 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
     vlay->setMargin(0);
     vlay->setSpacing(0);
 
-    UpButton = new QPushButton( QPixmap(up_arrow), "", this );
+    UpButton = new QToolButton( this );
+    UpButton->setArrowType( Qt::UpArrow );
     UpButton->setMaximumWidth( 26 );
     UpButton->setMaximumHeight( 13 );
-    DownButton = new QPushButton( QPixmap(down_arrow), "", this );
+
+    DownButton = new QToolButton( this );
+    DownButton->setArrowType( Qt::DownArrow );
     DownButton->setMaximumWidth( 26 );
     DownButton->setMaximumHeight( 13 );
 
     vlay->addWidget( UpButton );
     vlay->addWidget( DownButton );
-    //	setLayout( vlay );
 
     setDaysOnly( daysonly );
 

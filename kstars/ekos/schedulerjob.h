@@ -104,6 +104,9 @@ public:
     bool getInSequenceFocus() const;
     void setInSequenceFocus(bool value);
 
+    uint8_t getPriority() const;
+    void setPriority(const uint8_t &value);
+
 private:
 
     QString name;
@@ -134,6 +137,7 @@ private:
 
     int score;
     int16_t culminationOffset;
+    uint8_t priority;
     double estimatedTime;
     bool timeSlotAllocated;
     bool inSequenceFocus;

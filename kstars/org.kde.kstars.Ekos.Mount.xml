@@ -22,6 +22,13 @@
     <arg type="ad" direction="out"/>
     <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
     </method>
+    <method name="getHorizontalCoords">
+    <arg type="ad" direction="out"/>
+    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
+    </method>
+    <method name="getHourAngle">
+    <arg type="d" direction="out"/>
+    </method>
     <method name="abort">
       <arg type="b" direction="out"/>
     </method>

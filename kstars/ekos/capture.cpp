@@ -177,7 +177,6 @@ Capture::Capture()
     parkCheck->setChecked(Options::autoParkTelescope());
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
-    temperatureCheck->setChecked(Options::enforceTemperatureControl());    
 
     connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(HFRPixels, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
@@ -259,7 +258,6 @@ void Capture::start()
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoMeridianHours(meridianHours->value());
     Options::setAutoParkTelescope(parkCheck->isChecked());
-    Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -327,6 +325,9 @@ void Capture::abort()
         }
 
         activeJob->reset();
+
+        // Reste active job pointer
+        activeJob = NULL;
     }
 
     // Turn off any calibration light, IF they were turned on by Capture module
@@ -791,8 +792,6 @@ void Capture::newFITS(IBLOB *bp)
     if (seqTotalCount <= 0)
     {
        jobs.removeOne(activeJob);
-       delete (activeJob);
-       activeJob = NULL;
        abort();
        return;
     }
@@ -1190,8 +1189,6 @@ void Capture::addJob(bool preview)
     SequenceJob *job = NULL;
     QString imagePrefix;
 
-    Options::setEnforceTemperatureControl(temperatureCheck->isChecked());
-
     if (preview == false && darkSubCheck->isChecked())
     {
         KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
@@ -1218,6 +1215,7 @@ void Capture::addJob(bool preview)
     {
         double currentTemperature;
         currentCCD->getTemperature(&currentTemperature);
+        job->setEnforceTemperature(temperatureCheck->isChecked());
         job->setTargetTemperature(temperatureIN->value());
         job->setCurrentTemperature(currentTemperature);
     }
@@ -1504,7 +1502,7 @@ void Capture::prepareJob(SequenceJob *job)
         }
     }
 
-    if (currentCCD->hasCooler() && temperatureCheck->isChecked())
+    if (currentCCD->hasCooler() && activeJob->getEnforceTemperature())
     {
         if (activeJob->getCurrentTemperature() != INVALID_TEMPERATURE &&
                 fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) > Options::maxTemperatureDiff())
@@ -1926,7 +1924,7 @@ bool Capture::processJobInfo(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "Type"))
         {
-            frameTypeCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+            frameTypeCombo->setCurrentText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
@@ -2115,7 +2113,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue version='1.2'>" << endl;
+    outstream << "<SequenceQueue version='1.3'>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;
@@ -2138,9 +2136,9 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<H>" << job->getSubH() << "</H>" << endl;
         outstream << "</Frame>" << endl;
         if (job->getTargetTemperature() != INVALID_TEMPERATURE)
-            outstream << "<Temperature force='" << (temperatureCheck->isChecked() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
+            outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
         outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
-        outstream << "<Type>" << job->getFrameType() << "</Type>" << endl;
+        outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
             outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
@@ -2244,6 +2242,9 @@ void Capture::editJob(QModelIndex i)
    ISOCheck->setChecked(tsEnabled);
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
+
+   // Temperature Options
+   temperatureCheck->setChecked(job->getEnforceTemperature());
 
    // Flat field options
    calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
@@ -2405,6 +2406,7 @@ void Capture::clearSequenceQueue()
         queueTable->removeRow(0);
     jobs.clear();
     qDeleteAll(jobs);
+    activeJob=NULL;
 }
 
 QString Capture::getSequenceQueueStatus()
@@ -3106,7 +3108,7 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
         updateSequencePrefix(job->getPrefix(), job->getFITSDir());
 
         if (seqFileCount < job->getCount())
-        {
+        {            
             clearSequenceQueue();
             return false;
         }

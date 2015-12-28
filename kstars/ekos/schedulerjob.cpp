@@ -24,6 +24,8 @@ SchedulerJob::SchedulerJob()
     inSequenceFocus     = false;
     enforceWeather      = false;
 
+    priority            = 10;
+
     statusCell          = NULL;
     startupCell         = NULL;
     minAltitude         = -1;
@@ -363,6 +365,16 @@ bool SchedulerJob::getInSequenceFocus() const
 void SchedulerJob::setInSequenceFocus(bool value)
 {
     inSequenceFocus = value;
+}
+
+uint8_t SchedulerJob::getPriority() const
+{
+    return priority;
+}
+
+void SchedulerJob::setPriority(const uint8_t &value)
+{
+    priority = value;
 }
 
 
