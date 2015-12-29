@@ -130,6 +130,9 @@ void KSAlmanac::findDawnDusk() {
 
     DawnAstronomicalTwilight = da;
     DuskAstronomicalTwilight = du;
+
+    SunMaxAlt = max_alt;
+    SunMinAlt = min_alt;
 }
 
 void KSAlmanac::setDate( const KStarsDateTime *newdt ) {

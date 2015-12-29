@@ -67,6 +67,12 @@ public:
     inline double getDuskAstronomicalTwilight() { return DuskAstronomicalTwilight; }
     inline double getDawnAstronomicalTwilight() { return DawnAstronomicalTwilight; }
 
+    /**
+     *These functions return the max and min altitude of the sun during the course of the day in degrees
+     */
+    inline double getSunMaxAlt() { return SunMaxAlt; }
+    inline double getSunMinAlt() { return SunMinAlt; }
+
     inline QTime sunRise() { return SunRiseT; }
     inline QTime sunSet() { return SunSetT; }
     inline QTime moonRise() { return MoonRiseT; }
@@ -111,6 +117,7 @@ public:
 
     const GeoLocation *geo;
     double SunRise,  SunSet,  MoonRise,  MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
+    double SunMinAlt, SunMaxAlt;
     QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;
 };
 
