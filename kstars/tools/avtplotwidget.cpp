@@ -194,6 +194,7 @@ void AVTPlotWidget::setDawnDuskTimes( double da, double du )
 {
     Dawn = da;
     Dusk = du;
+    update();
 }
 
 void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
