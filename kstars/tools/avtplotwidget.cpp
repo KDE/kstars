@@ -201,3 +201,9 @@ void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
     SunMinAlt = min;
     SunMaxAlt = max;
 }
+
+void AVTPlotWidget::setSunRiseSetTimes( double sr, double ss ) {
+    SunRise = sr;
+    SunSet = ss;
+    update();
+}

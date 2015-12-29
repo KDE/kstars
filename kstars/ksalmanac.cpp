@@ -132,13 +132,13 @@ void KSAlmanac::findDawnDusk() {
     DuskAstronomicalTwilight = du;
 }
 
-void KSAlmanac::setDate( KStarsDateTime *newdt ) {
+void KSAlmanac::setDate( const KStarsDateTime *newdt ) {
     dt = *newdt;
     update();
 }
 
-void KSAlmanac::setLocation( GeoLocation *m_geo ) {
-    geo = m_geo;
+void KSAlmanac::setLocation( const GeoLocation *geo_ ) {
+    geo = geo_;
     update();
 }
 
