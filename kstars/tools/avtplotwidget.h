@@ -18,9 +18,11 @@
 #ifndef AVTPLOTWIDGET_H_
 #define AVTPLOTWIDGET_H_
 
+#include <kplotwidget.h>
+
 #include <QPoint>
 
-#include <kplotwidget.h>
+class GeoLocation;
 
 /** @class AVTPlotWidget
     *@short An extension of the KPlotWidget for the AltVsTime tool.
@@ -58,6 +60,13 @@ public:
 
     void setMinMaxSunAlt( double min, double max );
 
+    /**
+     * @short Set the GeoLocation
+     * @param Used to convert and format the current time correctly
+     * @fixme Might be better to skip the entire shebang and include the KSAlmanac calls within AVTPlotWidget
+     */
+    inline void setGeoLocation( const GeoLocation *geo_ ) { geo = geo_; }
+
 protected:
     /**Handle mouse move events.  If the mouse button is down,
         *draw crosshair lines centered at the cursor position.  This
@@ -82,6 +91,7 @@ protected:
 private:
     double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
     QPoint MousePoint;
+    const GeoLocation *geo;
 };
 
 #endif

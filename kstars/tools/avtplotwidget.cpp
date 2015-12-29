@@ -166,25 +166,24 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     drawAxes( &p );
 
     //Add vertical line indicating "now"
-    QTime t = QTime::currentTime();
-    double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
-    while ( x > 24.0 ) x -= 24.0;
-    int ix = int(x*pW/24.0); //convert to screen pixel coords
-    p.setPen( QPen( QBrush("white"), 2.0, Qt::DotLine ) );
-    p.drawLine( ix, 0, ix, pH );
-
-    //Label this vertical line with the current time
-    // FIXME: This produces the system's time zone, not the one
-    // relevant to geo. Not useful if you're traveling with your
-    // laptop...
-    p.save();
     QFont smallFont = p.font();
-    smallFont.setPointSize( smallFont.pointSize());
-    p.setFont( smallFont );
-    p.translate( ix + 10, pH - 20 );
-    p.rotate(-90);
-    p.drawText(0, 0, QLocale().toString( t ) );
-    p.restore();
+    smallFont.setPointSize( smallFont.pointSize() ); // wat?
+    if( geo ) {
+        QTime t = geo->UTtoLT( KStarsDateTime::currentDateTimeUtc() ).time(); // convert the current system clock time to the TZ corresponding to geo
+        double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
+        while ( x > 24.0 ) x -= 24.0;
+        int ix = int(x*pW/24.0); //convert to screen pixel coords
+        p.setPen( QPen( QBrush("white"), 2.0, Qt::DotLine ) );
+        p.drawLine( ix, 0, ix, pH );
+
+        //Label this vertical line with the current time
+        p.save();
+        p.setFont( smallFont );
+        p.translate( ix + 10, pH - 20 );
+        p.rotate(-90);
+        p.drawText(0, 0, QLocale().toString( t, QLocale::ShortFormat ) ); // short format necessary to avoid false time-zone labeling
+        p.restore();
+    }
 
     //Draw crosshairs at clicked position
     if ( MousePoint.x() > 0 ) {
@@ -199,11 +198,11 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 
         double h = MousePoint.x()*24.0/pW - 12.0;
         if ( h < 0.0 ) h += 24.0;
-        t = QTime( int(h), int(60.*(h - int(h))) );
+        QTime t = QTime( int(h), int(60.*(h - int(h))) );
         p.save();
         p.translate( MousePoint.x() + 10, pH - 20 );
         p.rotate(-90);
-        p.drawText( 0, 0, QLocale().toString( t ) );
+        p.drawText( 0, 0, QLocale().toString( t, QLocale::ShortFormat ) ); // short format necessary to avoid false time-zone labeling
         p.restore();
     }
 
