@@ -61,6 +61,19 @@ public:
     void setMinMaxSunAlt( double min, double max );
 
     /**
+     * Set the fractional positions of moonrise and moon set in units
+     * where last midnight was 0.0 and next midnight is 1.0
+     */
+    void setMoonRiseSetTimes( double mr, double ms );
+
+    /**
+     * @short Set the moon illumination
+     * @param mi Moon illuminated fraction (0.0 to 1.0)
+     * @note Used to determine the brightness of the gradient representing lunar skyglow
+     */
+    void setMoonIllum( double mi );
+
+    /**
      * @short Set the GeoLocation
      * @param Used to convert and format the current time correctly
      * @fixme Might be better to skip the entire shebang and include the KSAlmanac calls within AVTPlotWidget
@@ -90,6 +103,7 @@ protected:
 
 private:
     double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
+    double MoonRise, MoonSet, MoonIllum;
     QPoint MousePoint;
     const GeoLocation *geo;
 };

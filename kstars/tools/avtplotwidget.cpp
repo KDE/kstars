@@ -88,6 +88,38 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 
     QColor SkyColor( 0, 100, 200 );
 
+    // Draw gradient representing lunar interference in the sky
+    if( MoonIllum > 0.01 ) { // do this only if Moon illumination is reasonable so it's important
+        int moonrise = int( pW * (0.5 + MoonRise) );
+        int moonset = int( pW * (MoonSet - 0.5 ) );
+        if( moonset < 0 )
+            moonset += pW;
+        if( moonrise > pW )
+            moonrise -= pW;
+        int moonalpha = int( 10 + MoonIllum * 130 );
+        int fadewidth = pW * 0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
+        QColor MoonColor( 255, 255, 255, moonalpha );
+
+        if( moonset < moonrise ) {
+            QLinearGradient grad = QLinearGradient( QPointF( moonset - fadewidth, 0.0 ), QPointF( moonset + fadewidth, 0.0 ) );
+            grad.setColorAt( 0, MoonColor );
+            grad.setColorAt( 1, Qt::transparent );
+            p.fillRect( QRectF( 0.0, 0.0, moonset + fadewidth, pH ), grad ); // gradient should be padded until moonset - fadewidth (see QLinearGradient docs)
+            grad.setStart( QPointF( moonrise + fadewidth, 0.0 ) );
+            grad.setFinalStop( QPointF( moonrise - fadewidth, 0.0 ) );
+            p.fillRect( QRectF( moonrise - fadewidth, 0.0, pW - moonrise + fadewidth, pH ), grad );
+        }
+        else {
+            p.fillRect( QRectF( moonrise + fadewidth, 0.0, moonset - moonrise - 2 * fadewidth, pH ), MoonColor );
+            QLinearGradient grad = QLinearGradient( QPointF( moonrise + fadewidth, 0.0 ) , QPointF( moonrise - fadewidth, 0.0 ) );
+            grad.setColorAt( 0, MoonColor );
+            grad.setColorAt( 1, Qt::transparent );
+            p.fillRect( QRectF( 0.0, 0.0, moonrise + fadewidth, pH ), grad );
+            grad.setStart( QPointF( moonset - fadewidth, 0.0 ) );
+            grad.setFinalStop( QPointF( moonset + fadewidth, 0.0 ) );
+            p.fillRect( QRectF( moonset - fadewidth, 0.0, pW - moonset, pH ), grad );
+        }
+    }
     //draw daytime sky if the Sun rises for the current date/location
     if ( SunMaxAlt > -18.0 ) {
         //Display centered on midnight, so need to modulate dawn/dusk by 0.5
@@ -226,5 +258,16 @@ void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
 void AVTPlotWidget::setSunRiseSetTimes( double sr, double ss ) {
     SunRise = sr;
     SunSet = ss;
+    update();
+}
+
+void AVTPlotWidget::setMoonRiseSetTimes( double mr, double ms ) {
+    MoonRise = mr;
+    MoonSet = ms;
+    update();
+}
+
+void AVTPlotWidget::setMoonIllum( double mi ) {
+    MoonIllum = mi;
     update();
 }
