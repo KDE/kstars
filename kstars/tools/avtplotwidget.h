@@ -52,7 +52,7 @@ public:
         *@param sr the fractional position of Sunrise
         *@param ss the fractional position of Sunset
         */
-    void setSunRiseSetTimes( double sr, double ss ) { SunRise = sr; SunSet = ss; update(); }
+    void setSunRiseSetTimes( double sr, double ss );
 
     void setDawnDuskTimes( double da, double du );
 

@@ -191,6 +191,12 @@ public:
      * correction should be applied */
     dms altRefracted() const;
 
+    /**
+     * @return the airmass of the point. Convenience method.
+     * @note Question: is it better to use alt or refracted alt? Minor difference, probably doesn't matter.
+     */
+    inline double airmass() const { return 1./sin( alt().radians() ); }
+
     ////
     //// 3. Coordinate conversions.
     //// ==========================

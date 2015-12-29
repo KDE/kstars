@@ -48,13 +48,13 @@ public:
      *@short Set the date for computations to the given date
      *@param The new date to set as a KStarsDateTime
      */
-    void setDate( KStarsDateTime *newdt );
+    void setDate( const KStarsDateTime *newdt );
 
     /**
      *@short Set the location for computations to the given location
      *@param The location to set for computations
      */
-    void setLocation( GeoLocation *m_geo );
+    void setLocation( const GeoLocation *geo_ );
 
     /**
      *All the functions returns the fraction of the day
@@ -66,6 +66,12 @@ public:
     inline double getMoonSet() { return MoonSet; }
     inline double getDuskAstronomicalTwilight() { return DuskAstronomicalTwilight; }
     inline double getDawnAstronomicalTwilight() { return DawnAstronomicalTwilight; }
+
+    /**
+     *These functions return the max and min altitude of the sun during the course of the day in degrees
+     */
+    inline double getSunMaxAlt() { return SunMaxAlt; }
+    inline double getSunMinAlt() { return SunMinAlt; }
 
     inline QTime sunRise() { return SunRiseT; }
     inline QTime sunSet() { return SunSetT; }
@@ -101,6 +107,7 @@ public:
     /**
      * FIXME: More code duplication!
      * findAltitude should really be part of KSEngine. Copying from ObservingList.
+     * returns in degrees
      */
     double findAltitude( const SkyPoint *p, double hour );
 
@@ -108,8 +115,9 @@ public:
     KSMoon m_Moon;
     KStarsDateTime dt;
 
-    GeoLocation *geo;
+    const GeoLocation *geo;
     double SunRise,  SunSet,  MoonRise,  MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
+    double SunMinAlt, SunMaxAlt;
     QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;
 };
 
