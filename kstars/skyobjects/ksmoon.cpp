@@ -130,7 +130,7 @@ bool KSMoon::loadData() {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
             fields = stream.readLine().split( ' ', QString::SkipEmptyParts );
-            
+
             if ( fields.size() == 5 ) {
                 BData.append( MoonBData() );
                 BData.last().nd  = fields[0].toInt();

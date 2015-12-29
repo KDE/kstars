@@ -33,7 +33,7 @@ GeoLocation::GeoLocation(dms lng, dms lat,
     Height = hght;
     indexEllipsoid = iEllips;
     ReadOnly = readOnly;
-    setEllipsoid ( indexEllipsoid );    
+    setEllipsoid ( indexEllipsoid );
     geodToCart();
 }
 

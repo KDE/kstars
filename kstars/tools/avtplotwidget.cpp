@@ -214,7 +214,7 @@ void AVTPlotWidget::setDawnDuskTimes( double da, double du )
 {
     Dawn = da;
     Dusk = du;
-    update();
+    update(); // fixme: should we always be calling update? It's probably cheap enough that we can.
 }
 
 void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
