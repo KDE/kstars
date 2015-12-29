@@ -60,7 +60,7 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
     // Compute object rise and set times
     const KStarsDateTime today = dt;
     const GeoLocation* _geo = geo;
-    *RiseTime = o->riseSetTime( today.addDays(1), _geo, true ); // The addDays(1) gives the future rise time rather than past
+    *RiseTime = o->riseSetTime( today, _geo, true ); // FIXME: Should we add a day here so that we report future rise time? Not doing so produces the right results for the moon. Not sure about the sun.
     *SetTime = o->riseSetTime( today, _geo, false );
     *riseTime = -1.0 * RiseTime->secsTo(QTime(0,0,0,0)) / 86400.0;
     *setTime = -1.0 * SetTime->secsTo(QTime(0,0,0,0)) / 86400.0;
