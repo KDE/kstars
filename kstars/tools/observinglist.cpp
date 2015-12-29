@@ -898,6 +898,8 @@ void ObservingList::plot( SkyObject *o ) {
     ui->avt->setSunRiseSetTimes( ksal->getSunRise(), ksal->getSunSet() );
     ui->avt->setDawnDuskTimes( ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight() );
     ui->avt->setMinMaxSunAlt( ksal->getSunMinAlt(), ksal->getSunMaxAlt() );
+    ui->avt->setMoonRiseSetTimes( ksal->getMoonRise(), ksal->getMoonSet() );
+    ui->avt->setMoonIllum( ksal->getMoonIllum() );
     ui->avt->update();
     KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
     for ( double h = -12.0; h <= 12.0; h += 0.5 ) {
