@@ -53,7 +53,9 @@ KSAlmanac::KSAlmanac() :
 void KSAlmanac::update() {
     RiseSetTime( &m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
     RiseSetTime( &m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
+    //    qDebug() << "Sun rise: " << SunRiseT.toString() << " Sun set: " << SunSetT.toString() << " Moon rise: " << MoonRiseT.toString() << " Moon set: " << MoonSetT.toString();
     findDawnDusk();
+    findMoonPhase();
 }
 
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
@@ -134,6 +136,18 @@ void KSAlmanac::findDawnDusk() {
     SunMaxAlt = max_alt;
     SunMinAlt = min_alt;
 }
+
+void KSAlmanac::findMoonPhase() {
+    const KStarsDateTime today = dt;
+    KSNumbers num( today.djd() );
+    dms LST = geo->GSTtoLST( today.gst() );
+
+    m_Sun.updateCoords( &num, true, geo->lat(), &LST ); // We can abuse our own copy of the sun and/or moon
+    m_Moon.updateCoords( &num, true, geo->lat(), &LST );
+    m_Moon.findPhase( &m_Sun );
+    MoonPhase = m_Moon.phase().Degrees();
+}
+
 
 void KSAlmanac::setDate( const KStarsDateTime *newdt ) {
     dt = *newdt;
