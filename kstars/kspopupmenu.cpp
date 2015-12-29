@@ -84,7 +84,7 @@ namespace {
         QTime t = o->riseSetTime( data->ut(), data->geo(), isRaise );
         if ( t.isValid() ) {
             //We can round to the nearest minute by simply adding 30 seconds to the time.
-            QString time = QLocale().toString( t.addSecs(30) );
+            QString time = QLocale().toString( t.addSecs(30), QLocale::ShortFormat );
             return isRaise ?
                 i18n ("Rise time: %1", time) :
                 i18nc("the time at which an object falls below the horizon", "Set time: %1" , time);
@@ -101,7 +101,7 @@ namespace {
         QTime t = o->transitTime( data->ut(), data->geo() );
         if ( t.isValid() )
             //We can round to the nearest minute by simply adding 30 seconds to the time.
-            return i18n( "Transit time: %1", QLocale().toString( t.addSecs(30) ) );
+            return i18n( "Transit time: %1", QLocale().toString( t.addSecs(30), QLocale::ShortFormat ) );
         else
             return "--:--";
     }
