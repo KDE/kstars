@@ -325,9 +325,6 @@ void Capture::abort()
         }
 
         activeJob->reset();
-
-        // Reste active job pointer
-        activeJob = NULL;
     }
 
     // Turn off any calibration light, IF they were turned on by Capture module
@@ -789,9 +786,13 @@ void Capture::newFITS(IBLOB *bp)
 
     secondsLabel->setText(i18n("Complete."));
 
+    // If it was initially set as preview job
     if (seqTotalCount <= 0)
     {
        jobs.removeOne(activeJob);
+       delete(activeJob);
+       // Reste active job pointer
+       activeJob = NULL;
        abort();
        return;
     }
@@ -906,7 +907,7 @@ bool Capture::resumeSequence()
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(false);
 
-        if (isAutoGuiding && guideDither)
+        if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
         {
                 secondsLabel->setText(i18n("Dithering..."));
                 emit exposureComplete();
@@ -2208,6 +2209,9 @@ void Capture::resetJobs()
 
     abort();
 
+    // Reste active job pointer
+    activeJob = NULL;
+
     ignoreJobProgress=true;
 }
 
@@ -2869,6 +2873,8 @@ IPState Capture::processPreCaptureFlatStage()
     {
     case SOURCE_MANUAL:
     case SOURCE_DAWN_DUSK: // Not yet implemented
+        if (isAutoGuiding)
+            emit suspendGuiding(true);
         break;
 
     // Park cap, if not parked
