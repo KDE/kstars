@@ -549,9 +549,8 @@ target_link_libraries(KStarsLib
         Qt5::PrintSupport
         Qt5::Sql
         Qt5::Svg
-        Qt5::Multimedia
-        Qt5::Qml
-        Qt5::Quick
+        #Qt5::Qml
+        #Qt5::Quick
 	${ZLIB_LIBRARIES}
         )
 

@@ -30,8 +30,8 @@
 #include <QDockWidget>
 #include <QPointer>
 #include <QInputDialog>
-#include <QQuickWindow>
-#include <QQuickView>
+//#include <QQuickWindow>
+//#include <QQuickView>
 #include <QDebug>
 #include <QAction>
 #include <QFileDialog>

@@ -39,7 +39,7 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/exportimagedialog.h"
 #include "observinglist.h"
-#include "whatsinteresting/wiview.h"
+//#include "whatsinteresting/wiview.h"
 
 #include "kstarsadaptor.h"
 
