@@ -38,6 +38,7 @@ public:
 
     bool canPark();
     bool isParked();
+    bool isMoving();
 
 public slots:
     bool Abort();

@@ -2255,6 +2255,14 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_SLEWING:
     {
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+        bool isDomeMoving=false;
+
+        if (parkDomeCheck->isEnabled())
+        {
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
+            if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
+                isDomeMoving=true;
+        }
 
         if (slewStatus.error().type() == QDBusError::UnknownObject)
         {
@@ -2264,7 +2272,7 @@ void Scheduler::checkJobStage()
             return;
         }
 
-        if(slewStatus.value() == IPS_OK)
+        if(slewStatus.value() == IPS_OK && isDomeMoving == false)
         {
             appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
             currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
@@ -2412,6 +2420,14 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_RESLEWING:
     {
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+        bool isDomeMoving=false;
+
+        if (parkDomeCheck->isEnabled())
+        {
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
+            if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
+                isDomeMoving=true;
+        }
 
         if (slewStatus.error().type() == QDBusError::UnknownObject)
         {
@@ -2421,7 +2437,7 @@ void Scheduler::checkJobStage()
             return;
         }
 
-        if(slewStatus.value() == IPS_OK)
+        if(slewStatus.value() == IPS_OK && isDomeMoving == false)
         {
             appendLogText(i18n("%1 repositioning is complete.", currentJob->getName()));
             currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
@@ -3898,10 +3914,7 @@ void Scheduler::startMosaicTool()
 
         XMLEle *root = getSequenceJobRoot();
         if (root == NULL)
-        {
-            KMessageBox::error(this, i18n("Sequence file %1 is corrupted. Unable to create mosaic.", sequenceURL.fileName()));
             return;
-        }
 
         int currentJobsCount = jobs.count();
 
@@ -3956,7 +3969,7 @@ XMLEle * Scheduler::getSequenceJobRoot()
     if ( !sFile.open( QIODevice::ReadOnly))
     {
         KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
-        return false;
+        return NULL;
     }
 
     LilXML *xmlParser = newLilXML();

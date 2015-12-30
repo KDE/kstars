@@ -67,6 +67,11 @@ public:
      */
     Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
+    /** DBUS interface function.
+     * Check if the dome is in motion
+     */
+    Q_SCRIPTABLE bool isMoving();
+
     /** @}*/
 
     /**

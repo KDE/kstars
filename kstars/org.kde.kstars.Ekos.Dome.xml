@@ -16,5 +16,8 @@
     <method name="unpark">
       <arg type="b" direction="out"/>
     </method>
+    <method name="isMoving">
+      <arg type="b" direction="out"/>
+    </method>
   </interface>
 </node>

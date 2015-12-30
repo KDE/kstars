@@ -2497,6 +2497,10 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
             if (nvp->s != IPS_OK)
                 break;
 
+            // If dome is syncing, wait until it stops
+            if (dome && dome->isMoving())
+                break;
+
             // We are at a new initialHA
             initialHA= getCurrentHA();
 

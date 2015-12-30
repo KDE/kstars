@@ -68,6 +68,14 @@ bool Dome::abort()
     return currentDome->Abort();
 }
 
+bool Dome::isMoving()
+{
+    if (currentDome == NULL)
+        return false;
+
+    return currentDome->isMoving();
+}
+
 Dome::ParkingStatus Dome::getParkingStatus()
 {
     if (currentDome == NULL || currentDome->canPark() == false)
