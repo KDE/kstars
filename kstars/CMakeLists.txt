@@ -541,10 +541,9 @@ target_link_libraries(KStarsLib
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
-        KF5::TextEditor
-        KF5::DBusAddons
+#        KF5::TextEditor
+#        KF5::DBusAddons
         KF5::IconThemes
-        KF5::Notifications
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
@@ -561,7 +560,9 @@ if (CFITSIO_FOUND)
   target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
 if (INDI_FOUND)
-  target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
+  target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT}
+  ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES}
+  KF5::Notifications z)
 endif (INDI_FOUND)
 if (WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})

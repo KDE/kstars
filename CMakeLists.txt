@@ -32,16 +32,13 @@ find_package(KF5 REQUIRED COMPONENTS
   GuiAddons
   WidgetsAddons
   NewStuff
-  DBusAddons
+#  DBusAddons
   I18n
   Init
-  JobWidgets
   KIO
   XmlGui
   Plotting
-  TextEditor
   IconThemes
-  Notifications
 )
 
 find_package(Eigen3 REQUIRED)
@@ -61,6 +58,8 @@ set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "htt
 find_package(INDI 1.2.0)
 #FIXME is there a better way to do this?
 if (INDI_FOUND)
+#FIXME is the following the right way of doing this?
+find_package(KF5 REQUIRED COMPONENTS Notifications)
 SET(HAVE_INDI 1)
 else(INDI_FOUND)
 SET(HAVE_INDI 0)
