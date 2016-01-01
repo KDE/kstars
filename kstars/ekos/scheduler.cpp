@@ -518,7 +518,15 @@ void Scheduler::editJob(QModelIndex i)
     decBox->setText(job->getTargetCoords().dec0().toDMSString());
 
     if (job->getFITSFile().isEmpty() == false)
+    {
         fitsEdit->setText(job->getFITSFile().path());
+        fitsURL = job->getFITSFile();
+    }
+    else
+    {
+        fitsEdit->clear();
+        fitsURL = QUrl();
+    }
 
     sequenceEdit->setText(job->getSequenceFile().path());
     sequenceURL = job->getSequenceFile();
@@ -826,17 +834,18 @@ void Scheduler::evaluateJobs()
         {
                 // #1.1 ASAP?
                 case SchedulerJob::START_ASAP:
-                    altScore     = getAltitudeScore(job, now);
+                    /*altScore     = getAltitudeScore(job, now);
                     moonScore    = getMoonSeparationScore(job, now);
                     darkScore    = getDarkSkyScore(now);
-                    score = altScore + moonScore + darkScore;
+                    score = altScore + moonScore + darkScore;*/
+                    score = calculateJobScore(job, now);
                     job->setScore(score);
 
                     // If we can't start now, let's schedule it
                     if (score < 0)
                     {
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
-                        if ( (altScore < 0 || darkScore < 0) && calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()))
+                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()), job->getMinMoonSeparation())
                         {
                             //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
@@ -859,6 +868,7 @@ void Scheduler::evaluateJobs()
                   // #1.2 Force now?
                    case SchedulerJob::START_FORCE_NOW:
                     appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
+                    job->setState(SchedulerJob::JOB_SCHEDULED);
                     job->setScore(BAD_SCORE*-1);
                     break;
 
@@ -911,9 +921,10 @@ void Scheduler::evaluateJobs()
                     else if (job->getState() == SchedulerJob::JOB_EVALUATION)
                     {
 
-                        score += getAltitudeScore(job, startupTime);
+                        /*score += getAltitudeScore(job, startupTime);
                         score += getMoonSeparationScore(job, startupTime);
-                        score += getDarkSkyScore(startupTime);
+                        score += getDarkSkyScore(startupTime);*/
+                        score = calculateJobScore(job, startupTime);
 
                         if (score < 0)
                         {
@@ -932,9 +943,10 @@ void Scheduler::evaluateJobs()
                     // Start scoring once we reach startup time
                     else if (timeUntil <= 0)
                     {
-                        score += getAltitudeScore(job, now);
+                        /*score += getAltitudeScore(job, now);
                         score += getMoonSeparationScore(job, now);
-                        score += getDarkSkyScore(now);
+                        score += getDarkSkyScore(now);*/
+                        score = calculateJobScore(job, now);
 
                         if (score < 0)
                         {
@@ -1068,6 +1080,7 @@ void Scheduler::evaluateJobs()
 
             QDateTime otherjob_time = lastStartTime.addSecs(delayJob);
             // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
+            // FIXME: After changing time we are not evaluating job again when we should.
             if (otherjob_time >= preDawnDateTime.addDays(daysCount))
             {
                 daysCount++;
@@ -1250,7 +1263,7 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
     return p.alt().Degrees();
 }
 
-bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
+bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle)
 {
     // We wouldn't stat observation 30 mins (default) before dawn.
     double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
@@ -1286,6 +1299,9 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
                     return false;
                 }
 
+                if (minMoonAngle > 0 && getMoonSeparationScore(job, startTime) < 0)
+                    continue;
+
                 job->setStartupTime(startTime);
                 job->setStartupCondition(SchedulerJob::START_AT);
                 appendLogText(i18n("%1 is scheduled to start at %2 where its altitude is %3 degrees.", job->getName(), startTime.toString(), QString::number(altitude,'g', 3)));
@@ -1296,7 +1312,10 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
     }
 
-    appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees.", job->getName(), QString::number(minAltitude,'g', 3)));
+    if (minMoonAngle == -1)
+        appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees.", job->getName(), QString::number(minAltitude,'g', 3)));
+    else
+        appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees with minimum moon separation of %3 degrees.", job->getName(), QString::number(minAltitude,'g', 3), QString::number(minMoonAngle,'g', 3)));
     return false;
 }
 
@@ -1467,6 +1486,17 @@ int16_t Scheduler::getDarkSkyScore(const QDateTime &observationDateTime)
     appendLogText(i18n("Dark sky score is %1 for time %2", score, observationDateTime.toString()));
 
     return score;
+}
+
+int16_t Scheduler::calculateJobScore(SchedulerJob *job, QDateTime when)
+{
+    int16_t total=0;
+
+    total += getDarkSkyScore(when);
+    total += getAltitudeScore(job, when);
+    total += getMoonSeparationScore(job, when);
+
+    return total;
 }
 
 int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)

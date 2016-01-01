@@ -272,6 +272,14 @@ private:
         int16_t getMoonSeparationScore(SchedulerJob *job, QDateTime when);
 
         /**
+         * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
+         * @param job job to evaluate
+         * @param when time to evaluate constraints
+         * @return Total score
+         */
+        int16_t calculateJobScore(SchedulerJob *job, QDateTime when);
+
+        /**
          * @brief getWeatherScore Get weather condition score.
          * @return If weather condition OK, return 0, if warning return -500, if alert return -1000
          */
@@ -281,9 +289,10 @@ private:
          * @brief calculateAltitudeTime calculate the altitude time given the minimum altitude given.
          * @param job active target
          * @param minAltitude minimum altitude required
+         * @param minMoonAngle minimum separation from the moon. -1 to ignore.
          * @return True if found a time in the night where the object is at or above the minimum altitude, false otherise.
          */
-        bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude);
+        bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle=-1);
 
         /**
          * @brief calculateCulmination find culmination time adjust for the job offset
