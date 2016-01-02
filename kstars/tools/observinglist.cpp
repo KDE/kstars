@@ -644,9 +644,14 @@ void ObservingList::slotFind() {
 }
 
 void ObservingList::slotEyepieceView() {
+    QString imagePath;
     if( !m_epf )
         m_epf = new EyepieceField( this );
-    m_epf->showEyepieceField( currentObject(), 0, CurrentImagePath ); // FIXME: Use FOV symbols etc.
+    if( QFile::exists( CurrentImagePath ) )
+        imagePath = CurrentImagePath;
+    else if( QFile::exists( CurrentTempPath ) )
+        imagePath = CurrentTempPath;
+    m_epf->showEyepieceField( currentObject(), 0, imagePath ); // FIXME: Use FOV symbols etc.
 }
 
 void ObservingList::slotAVT() {
@@ -1038,7 +1043,7 @@ void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
     ui->SearchImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
-    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) 
+    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) )  // FIXME: Might have issues on Windows with using '/'
         setCurrentImage( currentObject(), true );
     QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ;
     QUrl url;

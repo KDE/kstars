@@ -70,7 +70,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_invertView = new QCheckBox( i18n( "Invert view" ), this );
     m_flipView = new QCheckBox( i18n( "Flip view" ), this );
     m_invertColors = new QCheckBox( i18n( "Invert colors" ), this );
-    
+
     QHBoxLayout *optionsLayout = new QHBoxLayout;
     optionsLayout->addWidget( m_invertView );
     optionsLayout->addWidget( m_flipView );
@@ -86,7 +86,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_rotationSlider->setPageStep( 30 );
 
     QLabel *sliderLabel = new QLabel( i18n( "Rotation: " ), this );
-    
+
     QHBoxLayout *rotationLayout = new QHBoxLayout;
     rotationLayout->addWidget( sliderLabel );
     rotationLayout->addWidget( m_rotationSlider );
@@ -189,8 +189,8 @@ void EyepieceField::render() {
     if( m_invertColors->isChecked() )
         renderImage.invertPixels();
 
-    m_skyChartDisplay->setPixmap( QPixmap::fromImage( renderChart ).scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio ) );
-    m_skyImageDisplay->setPixmap( QPixmap::fromImage( renderImage ).scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio ) );
+    m_skyChartDisplay->setPixmap( QPixmap::fromImage( renderChart ).scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+    m_skyImageDisplay->setPixmap( QPixmap::fromImage( renderImage ).scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 
     show();
 }
