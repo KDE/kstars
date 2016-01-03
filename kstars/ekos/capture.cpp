@@ -2405,12 +2405,13 @@ void Capture::setTemperature()
 
 void Capture::clearSequenceQueue()
 {
-    abort();
+    activeJob=NULL;
+    abort();    
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
     jobs.clear();
     qDeleteAll(jobs);
-    activeJob=NULL;
+
 }
 
 QString Capture::getSequenceQueueStatus()
