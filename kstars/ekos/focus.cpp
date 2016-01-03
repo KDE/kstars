@@ -1172,6 +1172,12 @@ void Focus::autoFocusAbs()
                     abort();
                     updateFocusStatus(false);
                 }
+                else if (noStarCount > 0)
+                {
+                    appendLogText(i18n("Failed to detect focus star in frame. Capture and select a focus star."));
+                    abort();
+                    updateFocusStatus(false);
+                }
                 else
                 {
                     appendLogText(i18n("Autofocus complete."));
