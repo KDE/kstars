@@ -1253,7 +1253,10 @@ void CCD::processBLOB(IBLOB* bp)
                 if (normalTabID == -1 || Options::singlePreviewFITS() == false)
                     normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
                 else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
+                {
+                    fv->removeFITS(normalTabID);
                     normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                }
 
                 if (normalTabID >= 0)
                     targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
@@ -1266,7 +1269,10 @@ void CCD::processBLOB(IBLOB* bp)
                 if (focusTabID == -1)
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
                 else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
+                {
+                    fv->removeFITS(focusTabID);
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+                }
 
                 if (focusTabID >= 0)
                     targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
@@ -1278,7 +1284,10 @@ void CCD::processBLOB(IBLOB* bp)
             if (guideTabID == -1)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
+            {
+                fv->removeFITS(guideTabID);
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+            }
 
             if (guideTabID >= 0)
                 targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
@@ -1290,7 +1299,10 @@ void CCD::processBLOB(IBLOB* bp)
             if (calibrationTabID == -1)
                 calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
             else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
+            {
+                fv->removeFITS(calibrationTabID);
                 calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+            }
 
             if (calibrationTabID >= 0)
                 targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);

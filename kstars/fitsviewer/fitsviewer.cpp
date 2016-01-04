@@ -336,12 +336,37 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     return (fitsID++);
 }
 
+bool FITSViewer::removeFITS(int fitsUID)
+{
+    FITSTab *tab = fitsMap.value(fitsUID);
+
+    if (tab == NULL)
+    {
+        qDebug() << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
+        return false;
+    }
+
+    int index = fitsTabs.indexOf(tab);
+
+    if (index >= 0)
+    {
+        closeTab(index);
+        return true;
+    }
+
+    return false;
+
+}
+
 bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter, bool silent)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
 
     if (tab == NULL)
+    {
+        qDebug() << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
         return false;
+    }
 
     bool rc=false;
 

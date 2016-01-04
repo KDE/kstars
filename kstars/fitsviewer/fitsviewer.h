@@ -70,11 +70,12 @@ public:
     int addFITS(const QUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, const QString &previewText = QString(), bool silent=true);
 
     bool updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE, bool silent=true);
+    bool removeFITS(int fitsUID);
 
     void toggleMarkStars(bool enable) { markStars = enable; }
     bool isStarsMarked() { return markStars; }
 
-    QList<FITSTab*> getTabs() { return fitsTabs; }
+    QList<FITSTab*> getTabs() { return fitsTabs; }    
     FITSView *getView(int fitsUID);
     FITSView *getCurrentView();
 
