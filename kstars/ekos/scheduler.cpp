@@ -2397,8 +2397,16 @@ void Scheduler::checkJobStage()
            else if (loadSlewReply.value() == IPS_ALERT)
            {
                appendLogText(i18n("%1 Load And Slew failed!", currentJob->getName()));
-               currentJob->setState(SchedulerJob::JOB_ERROR);
-               findNextJob();
+
+              if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
+              {
+                  appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                  startAstrometry();
+                  return;
+              }
+
+              currentJob->setState(SchedulerJob::JOB_ERROR);
+              findNextJob();
            }
 
            return;
