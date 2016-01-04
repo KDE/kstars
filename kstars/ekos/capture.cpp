@@ -1594,6 +1594,8 @@ void Capture::executeJob()
         }
     }
 
+    syncGUIToJob(activeJob);
+
     captureImage();
 }
 
@@ -2220,11 +2222,8 @@ void Capture::ignoreSequenceHistory()
     ignoreJobProgress=true;
 }
 
-void Capture::editJob(QModelIndex i)
+void Capture::syncGUIToJob(SequenceJob *job)
 {
-    SequenceJob *job = jobs.at(i.row());
-    if (job == NULL)
-        return;
     QString rawPrefix;
     bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
 
@@ -2265,6 +2264,16 @@ void Capture::editJob(QModelIndex i)
 
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
+}
+
+void Capture::editJob(QModelIndex i)
+{
+    SequenceJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;
+
+
+   syncGUIToJob(job);
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
