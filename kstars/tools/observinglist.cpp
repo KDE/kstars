@@ -25,6 +25,8 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "ksdssimage.h"
+#include "ksdssdownloader.h"
 #include "dialogs/locationdialog.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
@@ -1045,23 +1047,37 @@ void ObservingList::slotGetImage( bool _dss ) {
         setCurrentImage( currentObject(), true );
     QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ;
     QUrl url;
+    dss = true;
+    qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
+    /*
     if( dss ) {
         url.setUrl( DSSUrl );
     } else {
         url.setUrl( SDSSUrl );
     }
-    QUrl fileURL = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage);
+    */
+    KSDssDownloader *dler = new KSDssDownloader( currentObject(), QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage );
+    connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
+    /*
     downloadJob = KIO::copy ( url, fileURL ) ;
     connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
+    */
 }
 
-void ObservingList::downloadReady() {
+void ObservingList::downloadReady( bool success ) {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
-    downloadJob = 0;
-    if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)
-    {//The default image is around 8689 bytes
+    //    downloadJob = 0;
+    if( !success ) {
+        KMessageBox::sorry(0, i18n( "Failed to download DSS/SDSS image!" ) );
+    }
+    else {
+
+        /*
+          if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)
+          //The default image is around 8689 bytes
+        */
         CurrentImagePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage;
-        ui->ImagePreview->showPreview( QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+        ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1071,8 +1087,11 @@ void ObservingList::downloadReady() {
         }
         ui->DeleteImage->setEnabled( true );
     }
+    /*
+    // FIXME: Implement a priority order SDSS > DSS in the DSS downloader
     else if( ! dss )
         slotGetImage( true );
+    */
 }
 
 void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
@@ -1097,7 +1116,7 @@ void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
     }
     CurrentImagePath = QStandardPaths::locate( QStandardPaths::DataLocation , CurrentImage );
     CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
-    DSSUrl = KSUtils::getDSSURL( o );
+    DSSUrl = KSDssDownloader::getDSSURL( o );
     QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
 

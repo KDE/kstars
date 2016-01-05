@@ -415,6 +415,8 @@ set(kstars_extra_SRCS
         auxiliary/binfilehelper.cpp
         auxiliary/imageexporter.cpp
         auxiliary/ksutils.cpp
+        auxiliary/ksdssimage.cpp
+        auxiliary/ksdssdownloader.cpp
         auxiliary/kswizard.cpp
         auxiliary/qcustomplot.cpp
         time/simclock.cpp

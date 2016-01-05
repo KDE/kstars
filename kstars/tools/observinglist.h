@@ -349,7 +349,7 @@ public slots:
 
 protected slots:
     void slotClose();
-    void downloadReady();
+    void downloadReady( bool success );
 
 private:
 

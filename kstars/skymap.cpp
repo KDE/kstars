@@ -47,6 +47,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "ksdssdownloader.h"
 #include "imageviewer.h"
 #include "dialogs/detaildialog.h"
 #include "kspopupmenu.h"
@@ -444,12 +445,12 @@ void SkyMap::slotDSS() {
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
     if ( clickedObject() ) {
-        urlstring = KSUtils::getDSSURL( clickedObject() );
+        urlstring = KSDssDownloader::getDSSURL( clickedObject() );
     } else {
         SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
         ra  = deprecessedPoint.ra();
         dec = deprecessedPoint.dec();
-        urlstring = KSUtils::getDSSURL( ra, dec ); // Use default size for non-objects
+        urlstring = KSDssDownloader::getDSSURL( ra, dec ); // Use default size for non-objects
     }
 
     QUrl url ( urlstring );
