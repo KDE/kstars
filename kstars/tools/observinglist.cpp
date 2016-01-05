@@ -364,14 +364,13 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 
     if ( o == LogObject ) saveCurrentUserLog();
     //Remove row from the TableView model
-        for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
-            QString name = currentModel->item(irow, 0)->text();
-            if ( getObjectName(o) == name ) {
-                currentModel->removeRow(irow);
-                break;
-            }
+    for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
+        QString name = currentModel->item(irow, 0)->text();
+        if ( getObjectName(o) == name ) {
+            currentModel->removeRow(irow);
+            break;
         }
-
+    }
 
     if( ! session ) {
         obsList().removeAt(k);
@@ -414,7 +413,6 @@ void ObservingList::slotRemoveSelectedObjects() {
             }
         }
     }
-
 
     if (sessionView) {
         //we've removed all selected objects, so clear the selection

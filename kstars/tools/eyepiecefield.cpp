@@ -217,7 +217,7 @@ void EyepieceField::render() {
         transform.scale( -1, 1 );
     if( m_invertView->isChecked() )
         transform.scale( -1, -1 );
-       
+
     Q_ASSERT( m_skyChart );
 
     renderChart = m_skyChart->transformed( transform );
