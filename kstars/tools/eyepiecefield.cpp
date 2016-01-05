@@ -21,6 +21,7 @@
 #include "fov.h"
 #include "skypoint.h"
 #include "skymap.h"
+#include "skyqpainter.h"
 #include "kstars.h"
 #include "Options.h"
 
@@ -34,6 +35,9 @@
 #include <QHBoxLayout>
 #include <QCheckBox>
 #include <QImage>
+#include <QTemporaryFile>
+#include <QSvgRenderer>
+#include <QSvgGenerator>
 
 EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
@@ -134,11 +138,45 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
     // Get the sky map image
     if( m_skyChart )
         delete m_skyChart;
-    QImage *fullSkyChart = new QImage( QSize( map->width(), map->height() ), QImage::Format_RGB32 );
-    map->exportSkyImage( fullSkyChart, false ); // FIXME: This might make everything too small, should really use a mask and clip it down!
-    qApp->processEvents();
-    m_skyChart = new QImage( fullSkyChart->copy( map->width()/2.0 - map->width()/8.0, map->height()/2.0 - map->height()/8.0, map->width()/4.0, map->height()/4.0 ) );
-    delete fullSkyChart;
+
+    if( 0 ) {
+        //Raster export
+        QImage *fullSkyChart = new QImage( QSize( map->width(), map->height() ), QImage::Format_RGB32 );
+        map->exportSkyImage( fullSkyChart, false ); // FIXME: This might make everything too small, should really use a mask and clip it down!
+        qApp->processEvents();
+        m_skyChart = new QImage( fullSkyChart->copy( map->width()/2.0 - map->width()/8.0, map->height()/2.0 - map->height()/8.0, map->width()/4.0, map->height()/4.0 ) );
+        delete fullSkyChart;
+    }
+    else {
+        // Vector export
+        QTemporaryFile m_TempSvgFile;
+        SkyMap *map = SkyMap::Instance();
+        m_TempSvgFile.open();
+
+        // export as SVG
+        QSvgGenerator svgGenerator;
+        svgGenerator.setFileName( m_TempSvgFile.fileName() );
+        // svgGenerator.setTitle(i18n(""));
+        // svgGenerator.setDescription(i18n(""));
+        svgGenerator.setSize( QSize(map->width(), map->height()) );
+        svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
+        svgGenerator.setViewBox( QRect( map->width()/2.0 - map->width()/8.0, map->height()/2.0 - map->height()/8.0, map->width()/4.0, map->height()/4.0 ) );
+
+        SkyQPainter painter(KStars::Instance(), &svgGenerator);
+        painter.begin();
+
+        map->exportSkyImage(&painter);
+
+        painter.end();
+
+        QSvgRenderer svgRenderer( m_TempSvgFile.fileName() );
+        m_skyChart = new QImage( map->width(), map->height(), QImage::Format_ARGB32 ); // 4 times bigger in both dimensions.
+        QPainter p2( m_skyChart );
+        svgRenderer.render( &p2 );
+
+        m_TempSvgFile.close();
+    }
+
 
     // See if we were supplied a sky image; if so, show it.
     if( ! imagePath.isEmpty() ) {
