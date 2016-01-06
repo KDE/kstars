@@ -560,7 +560,7 @@ ki18n_wrap_ui(kstars_SRCS
 # FIXME We need to port this
 # kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
 add_executable(kstars main.cpp)
-add_library( KStarsLib STATIC ${kstars_SRCS})
+add_library(KStarsLib STATIC ${kstars_SRCS})
 
 # FIXME TODO
 # target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
@@ -582,7 +582,6 @@ target_link_libraries(KStarsLib
                       Qt5::PrintSupport
                       Qt5::Sql
                       Qt5::Svg
-                      Qt5::Multimedia
                       Qt5::Qml
                       Qt5::Quick
                       ${ZLIB_LIBRARIES}
