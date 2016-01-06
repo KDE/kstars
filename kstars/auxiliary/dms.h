@@ -262,7 +262,7 @@ private:
     double D;
 
     friend dms operator+(dms, dms);
-    friend dms operator-(dms, dms); 
+    friend dms operator-(dms, dms);
 };
 
 /// Add two angles
