@@ -369,11 +369,12 @@ void EyepieceField::render() {
     else
         m_skyChartDisplay->setVisible( true );
 
-    if( m_skyChartDisplay->isVisible() )
+    if( ! m_overlay->isChecked() )
         m_skyChartDisplay->setPixmap( renderChart.scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
-    if( m_skyImageDisplay->isVisible() )
+    if( m_skyImage )
         m_skyImageDisplay->setPixmap( renderImage.scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 
+    update();
     show();
 }
 
