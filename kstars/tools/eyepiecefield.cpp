@@ -321,9 +321,9 @@ void EyepieceField::render() {
 
     Q_ASSERT( m_skyChart );
 
-    renderChart = m_skyChart->transformed( transform );
+    renderChart = m_skyChart->transformed( transform, Qt::SmoothTransformation );
     if( m_skyImage )
-        renderImage = m_skyImage->transformed( transform );
+        renderImage = m_skyImage->transformed( transform, Qt::SmoothTransformation );
 
     if( m_invertColors->isChecked() )
         renderImage.invertPixels();
