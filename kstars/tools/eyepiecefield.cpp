@@ -36,6 +36,8 @@
 #include <QHBoxLayout>
 #include <QCheckBox>
 #include <QImage>
+#include <QPixmap>
+#include <QBitmap>
 #include <QTemporaryFile>
 #include <QSvgRenderer>
 #include <QSvgGenerator>
@@ -74,12 +76,14 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     m_invertView = new QCheckBox( i18n( "Invert view" ), this );
     m_flipView = new QCheckBox( i18n( "Flip view" ), this );
+    m_overlay = new QCheckBox( i18n( "Overlay" ), this );
     m_invertColors = new QCheckBox( i18n( "Invert colors" ), this );
 
     QHBoxLayout *optionsLayout = new QHBoxLayout;
     optionsLayout->addWidget( m_invertView );
     optionsLayout->addWidget( m_flipView );
     optionsLayout->addStretch();
+    optionsLayout->addWidget( m_overlay );
     optionsLayout->addWidget( m_invertColors );
 
     rows->addLayout( optionsLayout );
@@ -117,6 +121,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     connect( m_invertView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_flipView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_invertColors, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
+    connect( m_overlay, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render() ) );
     connect( m_presetCombo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
     connect( m_presetCombo, SIGNAL( activated( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
@@ -330,8 +335,8 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
 
 void EyepieceField::render() {
 
-    QImage renderImage;
-    QImage renderChart;
+    QPixmap renderImage;
+    QPixmap renderChart;
 
     QTransform transform;
     transform.rotate( m_rotationSlider->value() );
@@ -342,15 +347,37 @@ void EyepieceField::render() {
 
     Q_ASSERT( m_skyChart );
 
-    renderChart = m_skyChart->transformed( transform, Qt::SmoothTransformation );
-    if( m_skyImage )
-        renderImage = m_skyImage->transformed( transform, Qt::SmoothTransformation );
+    renderChart = QPixmap::fromImage( m_skyChart->transformed( transform, Qt::SmoothTransformation ) );
+    if( m_skyImage ) {
+        QImage i;
+        i = m_skyImage->transformed( transform, Qt::SmoothTransformation );
+        if( m_invertColors->isChecked() )
+            i.invertPixels();
+        renderImage = QPixmap::fromImage( i );
+    }
+    if( m_overlay->isChecked() && m_skyImage ) {
+        QColor skyColor = KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" );
+        QBitmap mask = QBitmap::fromImage( m_skyChart->createMaskFromColor( skyColor.rgb() ).transformed( transform, Qt::SmoothTransformation ) );
+        renderChart.setMask( mask );
+        QPainter p( &renderImage );
+        p.drawImage( QPointF( renderImage.width()/2.0 - renderChart.width()/2.0, renderImage.height()/2.0 - renderChart.height()/2.0 ),
+                     renderChart.toImage() );
+        QPixmap temp( renderImage.width(), renderImage.height() );
+        temp.fill( skyColor );
+        QPainter p2( &temp );
+        p2.drawImage( QPointF(0,0), renderImage.toImage() );
+        p2.end();
+        p.end();
+        renderImage = temp;
+        m_skyChartDisplay->setVisible( false );
+    }
+    else
+        m_skyChartDisplay->setVisible( true );
 
-    if( m_invertColors->isChecked() )
-        renderImage.invertPixels();
-
-    m_skyChartDisplay->setPixmap( QPixmap::fromImage( renderChart ).scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
-    m_skyImageDisplay->setPixmap( QPixmap::fromImage( renderImage ).scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+    if( m_skyChartDisplay->isVisible() )
+        m_skyChartDisplay->setPixmap( renderChart.scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+    if( m_skyImageDisplay->isVisible() )
+        m_skyImageDisplay->setPixmap( renderImage.scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 
     show();
 }

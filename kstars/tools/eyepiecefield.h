@@ -93,6 +93,7 @@ public slots:
     QImage *m_skyImage;
     QSlider *m_rotationSlider;
     QCheckBox *m_invertColors;
+    QCheckBox *m_overlay;
     QCheckBox *m_invertView;
     QCheckBox *m_flipView;
     QComboBox *m_presetCombo;
