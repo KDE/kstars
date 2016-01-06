@@ -96,12 +96,6 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     QLabel *sliderLabel = new QLabel( i18n( "Rotation: " ), this );
 
-    QHBoxLayout *rotationLayout = new QHBoxLayout;
-    rotationLayout->addWidget( sliderLabel );
-    rotationLayout->addWidget( m_rotationSlider );
-
-    rows->addLayout( rotationLayout );
-
     m_presetCombo = new QComboBox( this );
     m_presetCombo->addItem( i18n( "None" ) );
     m_presetCombo->addItem( i18n( "Vanilla" ) );
@@ -111,12 +105,13 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     QLabel *presetLabel = new QLabel( i18n( "Preset: " ), this );
 
-    QHBoxLayout *presetLayout = new QHBoxLayout;
-    presetLayout->addWidget( presetLabel );
-    presetLayout->addWidget( m_presetCombo );
-    presetLayout->addStretch();
+    QHBoxLayout *rotationLayout = new QHBoxLayout;
+    rotationLayout->addWidget( sliderLabel );
+    rotationLayout->addWidget( m_rotationSlider );
+    rotationLayout->addWidget( presetLabel );
+    rotationLayout->addWidget( m_presetCombo );
 
-    rows->addLayout( presetLayout );
+    rows->addLayout( rotationLayout );
 
     connect( m_invertView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_flipView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
