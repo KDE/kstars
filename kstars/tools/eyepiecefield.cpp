@@ -264,7 +264,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     painter.end();
 
     QSvgRenderer svgRenderer( m_TempSvgFile.fileName() );
-    m_skyChart = new QImage( arcMinToScreen * fovWidth * 4.0, arcMinToScreen * fovHeight * 4.0, QImage::Format_ARGB32 ); // 4 times bigger in both dimensions.
+    m_skyChart = new QImage( arcMinToScreen * fovWidth * 2.0, arcMinToScreen * fovHeight * 2.0, QImage::Format_ARGB32 ); // 2 times bigger in both dimensions.
     QPainter p2( m_skyChart );
     svgRenderer.render( &p2 );
 
@@ -292,11 +292,11 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
         if( m_skyImage )
             delete m_skyImage;
 
-        m_skyImage = new QImage( int(arcMinToScreen * fovWidth * 4.0), int(arcMinToScreen * fovHeight * 4.0), QImage::Format_ARGB32 );
+        m_skyImage = new QImage( int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0), QImage::Format_ARGB32 );
         m_skyImage->fill( Qt::transparent );
         QPainter p( m_skyImage );
         QImage rawImg( imagePath );
-        QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 4.0, arcMinToScreen * dssHeight * 4.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+        QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 2.0, arcMinToScreen * dssHeight * 2.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
         if( Options::useAltAz() ) {
             // Need to rotate the image so that up is towards zenith rather than north.
