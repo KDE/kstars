@@ -663,6 +663,7 @@ private:
     QGraphicsScene *m_Scene;
 
     static SkyMap* pinstance;
+    const SkyPoint *m_rulerStartPoint; // Good to keep the original ruler start-point for purposes of dynamic_cast
 
 };
 

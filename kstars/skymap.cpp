@@ -520,9 +520,11 @@ void SkyMap::beginRulerMode( bool starHopRuler ) {
     if ( so ) {
         AngularRuler.append( so );
         AngularRuler.append( so );
+        m_rulerStartPoint = so;
     } else {
         AngularRuler.append( clickedPoint() );
         AngularRuler.append( clickedPoint() );
+        m_rulerStartPoint = clickedPoint();
     }
 
     AngularRuler.update( data );
@@ -537,20 +539,36 @@ void SkyMap::slotEndRulerMode() {
         //If the cursor is near a SkyObject, reset the AngularRuler's
         //end point to the position of the SkyObject
         double maxrad = 1000.0/Options::zoomFactor();
+        SkyPoint *rulerEndPoint;
         SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
         if ( so ) {
             AngularRuler.setPoint( 1, so );
             sbMessage = so->translatedLongName() + "   ";
+            rulerEndPoint = so;
         } else {
             AngularRuler.setPoint( 1, clickedPoint() );
+            rulerEndPoint = clickedPoint();
         }
 
         rulerMode=false;
         AngularRuler.update( data );
         dms angularDistance = AngularRuler.angularSize();
-        AngularRuler.clear();
 
         sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
+
+        const StarObject *p1 = dynamic_cast<const StarObject *>( m_rulerStartPoint );
+        const StarObject *p2 = dynamic_cast<const StarObject *>( rulerEndPoint );
+        qDebug() << "Starobjects? " << p1 << p2;
+        if( p1 && p2 )
+            qDebug() << "Distances: " << p1->distance() << "pc; " << p2->distance() << "pc";
+        if( p1 && p2 && std::isfinite( p1->distance() ) && std::isfinite( p2->distance() )
+            && p1->distance() > 0 && p2->distance() > 0 ) {
+            double dist = sqrt( p1->distance() * p1->distance() + p2->distance() * p2->distance() - 2 * p1->distance() * p2->distance() * cos( angularDistance.radians() ) );
+            qDebug() << "Could calculate physical distance: " << dist << " pc";
+            sbMessage += i18n( "; Physical distance: %1 pc", QString::number( dist ) );
+        }
+
+        AngularRuler.clear();
 
         // Create unobsructive message box with suicidal tendencies
         // to display result.
