@@ -46,6 +46,9 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     setWindowTitle( i18n( "Eyepiece Field View" ) );
 
+    m_sp = 0;
+    m_lat = 0;
+
     QWidget *mainWidget = new QWidget( this );
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(mainWidget);
@@ -100,8 +103,8 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_presetCombo->addItem( i18n( "None" ) );
     m_presetCombo->addItem( i18n( "Vanilla" ) );
     m_presetCombo->addItem( i18n( "Flipped" ) );
-    //    m_presetCombo->addItem( i18n( "Refractor" ) ); // TODO: Implement
-    //    m_presetCombo->addItem( i18n( "Dobsonian" ) ); // TODO: Implement
+    m_presetCombo->addItem( i18n( "Refractor" ) );
+    m_presetCombo->addItem( i18n( "Dobsonian" ) );
 
     QLabel *presetLabel = new QLabel( i18n( "Preset: " ), this );
 
@@ -148,19 +151,18 @@ void EyepieceField::slotEnforcePreset( int index ) {
         m_invertView->setChecked( false ); // reset inversion
         m_flipView->setChecked( true ); // set flip
         break;
-        /* TODO: Figure out the right rotations for below and implement
     case 3:
-        // Preset refractor
-        m_rotationSlider->setValue( );
+        // Preset refractor -- assumes we're in Alt-Az mode and synced up on time
+        m_rotationSlider->setValue( 0.0 );
         m_invertView->setChecked( true );
         m_flipView->setChecked( false );
-    case 4:
-        // Preset Dobsonian
-        m_rotationSlider->setValue( 0.0 ); // reset rotation
-        m_invertView->setChecked( false ); // reset inversion
-        m_flipView->setChecked( true ); // set flip
         break;
-        */
+    case 4:
+        // Preset Dobsonian -- assumes we're in Alt-Az mode and synced up on time
+        m_rotationSlider->setValue( -m_sp->alt().Degrees() ); // set rotation to altitude CW
+        m_invertView->setChecked( true ); // set inversion (?)
+        m_flipView->setChecked( false );
+        break;
     default:
         break;
     }
@@ -198,11 +200,18 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
         m_skyImage = new QImage();
 
     generateEyepieceView( sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
+    m_lat = KStarsData::Instance()->geo()->lat()->radians();
 
     if( !imagePath.isEmpty() )
         m_skyImageDisplay->setVisible( true );
     else
         m_skyImageDisplay->setVisible( false );
+
+    // Keep a copy for local purposes (computation of field rotation etc.)
+    if( m_sp )
+        delete m_sp;
+    m_sp = new SkyPoint();
+    *m_sp = *sp;
 
     // Enforce preset as per selection, since we have loaded a new eyepiece view
     slotEnforcePreset( -1 );

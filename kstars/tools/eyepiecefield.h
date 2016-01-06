@@ -119,6 +119,8 @@ public slots:
     QCheckBox *m_invertView;
     QCheckBox *m_flipView;
     QComboBox *m_presetCombo;
+    SkyPoint *m_sp;
+    double m_lat; // latitude
 
 };
 
