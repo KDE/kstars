@@ -22,7 +22,6 @@
 
 #include <config-kstars.h>
 
-#include "tools/observinglist.h"
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 
@@ -31,6 +30,7 @@ class QPalette;
 class KActionMenu;
 
 class KStarsData;
+class SkyPoint;
 class SkyMap;
 class GeoLocation;
 class FindDialog;
@@ -51,7 +51,6 @@ class PlanetViewer;
 class JMoonTool;
 class MoonPhaseTool;
 class FlagManager;
-class ObservingList;
 class EquipmentWriter;
 class ObserverAdd;
 class Execute;

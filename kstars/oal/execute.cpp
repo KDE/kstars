@@ -34,6 +34,7 @@
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
 #include "skycomponents/skymapcomposite.h"
+#include "observinglist.h"
 
 Execute::Execute() {
     QWidget *w = new QWidget;

@@ -33,6 +33,7 @@
 #include <QStatusBar>
 
 #include <KJobUiDelegate>
+#include <KIO/CopyJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 

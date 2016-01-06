@@ -45,8 +45,9 @@ public:
     KSAlmanac();
 
     /**
-     *@short Set the date for computations to the given date
+     *@short Set the date for computations to the given date.
      *@param The new date to set as a KStarsDateTime
+     *@note The time must be midnight (fixme: check this)
      */
     void setDate( const KStarsDateTime *newdt );
 
@@ -72,6 +73,16 @@ public:
      */
     inline double getSunMaxAlt() { return SunMaxAlt; }
     inline double getSunMinAlt() { return SunMinAlt; }
+
+    /**
+     *@return the moon phase in degrees at the given date/time. Ranges is [0, 180]
+     */
+    inline double getMoonPhase() { return MoonPhase; }
+
+    /**
+     *@return get the moon illuminated fraction at the given date/time. Range is [0.,1.]
+     */
+    inline double getMoonIllum() { return m_Moon.illum(); }
 
     inline QTime sunRise() { return SunRiseT; }
     inline QTime sunSet() { return SunSetT; }
@@ -105,6 +116,11 @@ public:
     void findDawnDusk();
 
     /**
+     * Computes the moon phase at the given date/time
+     */
+    void findMoonPhase();
+
+    /**
      * FIXME: More code duplication!
      * findAltitude should really be part of KSEngine. Copying from ObservingList.
      * returns in degrees
@@ -118,6 +134,7 @@ public:
     const GeoLocation *geo;
     double SunRise,  SunSet,  MoonRise,  MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
     double SunMinAlt, SunMaxAlt;
+    double MoonPhase;
     QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;
 };
 

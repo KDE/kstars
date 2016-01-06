@@ -22,6 +22,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
+#include "observinglist.h"
 
 #include <config-kstars.h>
 
@@ -59,7 +60,7 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
 
     if( !multiSelection ) {
         addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ksdata->observingList(), SLOT( slotDetails() ) ); // Insert item for showing details dialog
-        addAction( i18n( "Eyepiece view (Beta)" ), ksdata->observingList(), SLOT( slotEyepieceView() ) ); // Insert item for showing eyepiece view
+        addAction( i18n( "Eyepiece view" ), ksdata->observingList(), SLOT( slotEyepieceView() ) ); // Insert item for showing eyepiece view
     }
 
     //Insert item for opening the Altitude vs time dialog
@@ -73,6 +74,7 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
         {
             addAction( i18n( "Show SDSS image" ), ksdata->observingList(), SLOT( slotGetImage() ) );
             addAction( i18n( "Show DSS image" ), ksdata->observingList(), SLOT( slotDSS() ) );
+            addAction( i18n( "Customized DSS download" ), ksdata->observingList(), SLOT( slotCustomDSS() ) );
         }
         addAction( i18n( "Show images from web " ), ksdata->observingList(), SLOT( slotSearchImage() ) );
         addSeparator();

@@ -35,7 +35,7 @@
 #include "colorscheme.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
+#include "ksdssdownloader.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
@@ -44,6 +44,7 @@
 #include "Options.h"
 #include "imageexporter.h"
 #include "skycomponents/constellationboundarylines.h"
+#include "observinglist.h"
 
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
@@ -432,13 +433,13 @@ QString KStars::getDSSURL( const QString &objectName ) {
         return QString( "ERROR" );
     }
     else {
-        return KSUtils::getDSSURL( target );
+        return KSDssDownloader::getDSSURL( target );
     }
 }
 
 QString KStars::getDSSURL( double RA_J2000, double Dec_J2000, float width, float height ) {
     dms ra( RA_J2000 ),  dec( Dec_J2000 );
-    return KSUtils::getDSSURL( ra, dec, width, height );
+    return KSDssDownloader::getDSSURL( ra, dec, width, height );
 }
 
 QString KStars::getObjectDataXML( const QString &objectName ) {

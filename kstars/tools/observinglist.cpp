@@ -25,6 +25,8 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "ksdssimage.h"
+#include "ksdssdownloader.h"
 #include "dialogs/locationdialog.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
@@ -42,6 +44,7 @@
 #include "oal/oal.h"
 #include "oal/execute.h"
 #include "tools/eyepiecefield.h"
+#include "fov.h"
 
 #include <config-kstars.h>
 
@@ -71,6 +74,7 @@
 #include <QStandardPaths>
 #include <QTextEdit>
 #include <QLineEdit>
+#include <QInputDialog>
 
 #include <cstdio>
 
@@ -87,16 +91,21 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 ObservingList::ObservingList()
         : QDialog( (QWidget*) KStars::Instance() ),
         LogObject(0), m_CurrentObject(0),
-          isModified(false), bIsLarge(true), m_epf( 0 )
+          isModified(false), bIsLarge(true), m_epf( 0 ), m_dl( 0 )
 {
     ui = new ObservingListUI( this );
     QVBoxLayout *mainLayout= new QVBoxLayout;
     mainLayout->addWidget(ui);
     setWindowTitle( i18n( "Observation Planner" ) );
 
+    // Close button seems redundant since one can close the window -- occupies space
+    /*
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    */
+
+    setLayout( mainLayout );
 
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);
@@ -137,6 +146,7 @@ ObservingList::ObservingList()
     ui->SessionView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
     ksal = new KSAlmanac;
     ksal->setLocation(geo);
+    ui->avt->setGeoLocation( geo );
     ui->avt->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     ui->avt->setLimits( -12.0, 12.0, -90.0, 90.0 );
     ui->avt->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
@@ -216,7 +226,11 @@ ObservingList::ObservingList()
     m_CurrentObject = 0;
     setSaveImagesButton();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
-//    ui->MiniButton->hide();
+    //    ui->MiniButton->hide();
+
+    // Set up for the large-size view
+    bIsLarge = false;
+    slotToggleSize();
 }
 
 ObservingList::~ObservingList()
@@ -363,14 +377,13 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 
     if ( o == LogObject ) saveCurrentUserLog();
     //Remove row from the TableView model
-        for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
-            QString name = currentModel->item(irow, 0)->text();
-            if ( getObjectName(o) == name ) {
-                currentModel->removeRow(irow);
-                break;
-            }
+    for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
+        QString name = currentModel->item(irow, 0)->text();
+        if ( getObjectName(o) == name ) {
+            currentModel->removeRow(irow);
+            break;
         }
-
+    }
 
     if( ! session ) {
         obsList().removeAt(k);
@@ -413,7 +426,6 @@ void ObservingList::slotRemoveSelectedObjects() {
             }
         }
     }
-
 
     if (sessionView) {
         //we've removed all selected objects, so clear the selection
@@ -497,17 +509,31 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->SearchImage->setEnabled( false );
             }
-            if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//If the image is present, show it! // FIXME: This 13000 bytes is extremely ugly and a terrible idea. -- asimha
-                ui->ImagePreview->showPreview( QUrl::fromLocalFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+            QString BasePath=  QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/'); // FIXME '/' may cause problems on Windows
+            QString ImagePath;
+            if( QFile( ImagePath = BasePath + CurrentImage ).exists() )  {
+                ;
+            }
+            else if( QFile( ImagePath = BasePath + "Temp_" + CurrentImage ).exists() ) 
+                ;
+            else
+                ImagePath = QString();
+            if( !ImagePath.isEmpty() ) {//If the image is present, show it!
+                KSDssImage ksdi( ImagePath );
+                KSDssImage::Metadata md = ksdi.getMetadata();
+                ui->ImagePreview->showPreview( QUrl::fromLocalFile( ksdi.getFileName() ) );
+                if( md.width != 0 ) {// FIXME: Need better test for meta data presence
+                    ui->dssMetadataLabel->setText( i18n( "DSS Image metadata: \n Size: %1\' x %2\' \n Photometric band: %3 \n Version: %4",
+                                                         QString::number( md.width ), QString::number( md.height ), QString() + md.band, md.version ) );
+                }
+                else
+                    ui->dssMetadataLabel->setText( i18n( "No image info available." ) );
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( false );
                 ui->DeleteImage->setEnabled( true );
-            } else if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ).size() > 13000 )  {
-                ui->ImagePreview->showPreview( QUrl::fromLocalFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ) ;
-                ui->ImagePreview->show();
-                ui->SaveImage->setEnabled( true );
-                ui->DeleteImage->setEnabled( true );
             }
+            else
+                ui->dssMetadataLabel->setText( i18n( "No image available. Click on the placeholder image to download one." ) );
         } else {
             qDebug() << i18n( "Object %1 not found in list.", newName );
         }
@@ -643,9 +669,30 @@ void ObservingList::slotFind() {
 }
 
 void ObservingList::slotEyepieceView() {
+    QString imagePath;
     if( !m_epf )
         m_epf = new EyepieceField( this );
-    m_epf->showEyepieceField( currentObject(), 0, CurrentImagePath ); // FIXME: Use FOV symbols etc.
+    if( QFile::exists( CurrentImagePath ) )
+        imagePath = CurrentImagePath;
+    else if( QFile::exists( CurrentTempPath ) )
+        imagePath = CurrentTempPath;
+
+    KStarsData *data = KStarsData::Instance();
+    bool ok = true;
+    const FOV *fov = 0;
+    if( !data->getAvailableFOVs().isEmpty() ) {
+        // Ask the user to choose from a list of available FOVs.
+        int index;
+        const FOV *f;
+        QMap< QString, const FOV * > nameToFovMap;
+        foreach( f, data->getAvailableFOVs() ) {
+            nameToFovMap.insert( f->name(), f );
+        }
+        nameToFovMap.insert( i18n("Attempt to determine from image"), 0 );
+        fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Eyepiece View: Choose a field-of-view"), i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
+    }
+    if( ok )
+        m_epf->showEyepieceField( currentObject(), fov, imagePath );
 }
 
 void ObservingList::slotAVT() {
@@ -893,9 +940,12 @@ void ObservingList::plot( SkyObject *o ) {
     ui->avt->setSecondaryLimits( h1, h1 + 24.0, -90.0, 90.0 );
     ksal->setLocation(geo);
     ksal->setDate( &ut );
+    ui->avt->setGeoLocation( geo );
     ui->avt->setSunRiseSetTimes( ksal->getSunRise(), ksal->getSunSet() );
     ui->avt->setDawnDuskTimes( ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight() );
     ui->avt->setMinMaxSunAlt( ksal->getSunMinAlt(), ksal->getSunMaxAlt() );
+    ui->avt->setMoonRiseSetTimes( ksal->getMoonRise(), ksal->getMoonSet() );
+    ui->avt->setMoonIllum( ksal->getMoonIllum() );
     ui->avt->update();
     KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
     for ( double h = -12.0; h <= 12.0; h += 0.5 ) {
@@ -922,7 +972,15 @@ void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
         ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen") );
         //Abbreviate text on each button
-        ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
+        ui->FindButton->setText( "" );
+        ui->FindButton->setIcon( QIcon::fromTheme("edit-find") );
+        ui->WUTButton->setText( i18nc( "Abbreviation of What's Up Tonight", "WUT" ) );
+        ui->saveImages->setText( "" );
+        ui->DeleteAllImages->setText( "" );
+        ui->saveImages->setIcon( QIcon::fromTheme( "document-save" ) );
+        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete" ) );
+        ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
+        ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
         //Hide columns 1-5
         ui->TableView->hideColumn(1);
         ui->TableView->hideColumn(2);
@@ -935,9 +993,13 @@ void ObservingList::slotToggleSize() {
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
+        ui->kseparator->hide();
         ui->avt->hide();
+        ui->dssMetadataLabel->hide();
+        ui->setMinimumSize(320, 600);
         //Set the width of the Table to be the width of 5 toolbar buttons,
         //or the width of column 1, whichever is larger
+        /*
         int w = 5*ui->MiniButton->width();
         if ( ui->TableView->columnWidth(0) > w ) {
             w = ui->TableView->columnWidth(0);
@@ -947,7 +1009,12 @@ void ObservingList::slotToggleSize() {
         int left, right, top, bottom;
         ui->layout()->getContentsMargins( &left, &top, &right, &bottom );
         resize( w + left + right, height() );
+        */
         bIsLarge = false;
+        ui->resize( 400, ui->height() );
+        adjustSize();
+        this->resize( 400, this->height() );
+        update();
     } else {
         ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore" ) );
         //Show columns 1-5
@@ -959,13 +1026,24 @@ void ObservingList::slotToggleSize() {
         //Show the horizontal header
         ui->TableView->horizontalHeader()->show();
         //Expand text on each button
-        ui->WUTButton->setText( i18n( "WUT") );
         ui->FindButton->setText( i18n( "Find &Object") );
+        ui->saveImages->setText( i18n( "Save all Images" ) );
+        ui->DeleteAllImages->setText( i18n( "Delete all Images" ) );
+        ui->FindButton->setIcon( QIcon() );
+        ui->saveImages->setIcon( QIcon() );
+        ui->DeleteAllImages->setIcon( QIcon() );
+        ui->WUTButton->setText( i18n( "What's up Tonight tool" ) );
+        ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "Reference Images:" ) );
+        ui->addLabel->setText( i18nc( "Add objects to a list", "Adding Objects:" ) );
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();
+        ui->kseparator->show();
+        ui->setMinimumSize(837, 650);
         ui->avt->show();
+        ui->dssMetadataLabel->show();
         adjustSize();
+        update();
         bIsLarge = true;
     }
 }
@@ -1030,31 +1108,70 @@ void ObservingList::slotSetTime() {
     slotAddObject( o, true, true );
 }
 
+void ObservingList::slotCustomDSS() {
+    ui->SearchImage->setEnabled( false );
+    ui->ImagePreview->clearPreview();
+
+    KSDssImage::Metadata md;
+    bool ok = true;
+
+    int width = QInputDialog::getInt(this, i18n("Customized DSS Download"), i18n("Specify image width (arcminutes): "), 15, 15, 75, 1, &ok );
+    int height = QInputDialog::getInt(this, i18n("Customized DSS Download"), i18n("Specify image height (arcminutes): "), 15, 15, 75, 1, &ok );
+    QStringList strList = ( QStringList() << "poss2ukstu_blue" << "poss2ukstu_red" << "poss2ukstu_ir" << "poss1_blue" << "poss1_red" << "quickv" << "all" );
+    QString version = QInputDialog::getItem(this, i18n("Customized DSS Download"), i18n("Specify version: "), strList, 0, false, &ok );
+
+    QUrl srcUrl( KSDssDownloader::getDSSURL( currentObject()->ra0(), currentObject()->dec0(), width, height, "gif", version, &md ) );
+    QString CurrentImagePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage;
+
+    delete m_dl;
+    m_dl = new KSDssDownloader();
+    m_dl->startSingleDownload( srcUrl, CurrentImagePath, md );
+    connect( m_dl, SIGNAL ( downloadComplete( bool ) ), SLOT ( downloadReady( bool ) ) );
+
+}
+
 void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
     ui->SearchImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
-    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) 
+    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) )  // FIXME: Might have issues on Windows with using '/'
         setCurrentImage( currentObject(), true );
     QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ;
     QUrl url;
+    dss = true;
+    qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
+    /*
     if( dss ) {
         url.setUrl( DSSUrl );
     } else {
         url.setUrl( SDSSUrl );
     }
-    QUrl fileURL = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage);
+    */
+    KSDssDownloader *dler = new KSDssDownloader( currentObject(), QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage );
+    connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
+    /*
     downloadJob = KIO::copy ( url, fileURL ) ;
     connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
+    */
 }
 
-void ObservingList::downloadReady() {
+void ObservingList::downloadReady( bool success ) {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
-    downloadJob = 0;
-    if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)
-    {//The default image is around 8689 bytes
+    //    downloadJob = 0;
+
+    delete m_dl; m_dl = 0; // required if we came from slotCustomDSS; does nothing otherwise
+
+    if( !success ) {
+        KMessageBox::sorry(0, i18n( "Failed to download DSS/SDSS image!" ) );
+    }
+    else {
+
+        /*
+          if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)
+          //The default image is around 8689 bytes
+        */
         CurrentImagePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage;
-        ui->ImagePreview->showPreview( QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+        ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1064,8 +1181,11 @@ void ObservingList::downloadReady() {
         }
         ui->DeleteImage->setEnabled( true );
     }
+    /*
+    // FIXME: Implement a priority order SDSS > DSS in the DSS downloader
     else if( ! dss )
         slotGetImage( true );
+    */
 }
 
 void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
@@ -1090,7 +1210,7 @@ void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
     }
     CurrentImagePath = QStandardPaths::locate( QStandardPaths::DataLocation , CurrentImage );
     CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
-    DSSUrl = KSUtils::getDSSURL( o );
+    DSSUrl = KSDssDownloader::getDSSURL( o );
     QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
 
@@ -1270,6 +1390,19 @@ void ObservingList::saveThumbImage() {
         img.save( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + ThumbImage ) ;
     }
 }
+
+QString ObservingList::getTime( const SkyObject *o ) const {
+    return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" );
+}
+
+QTime ObservingList::scheduledTime( SkyObject *o ) const {
+    return TimeHash.value( o->name(), o->transitTime( dt, geo ) );
+}
+
+void ObservingList::setTime( const SkyObject *o, QTime t ) {
+    TimeHash.insert( o->name(), t);
+}
+
 
 void ObservingList::slotOALExport() {
     slotSaveSessionAs(false);

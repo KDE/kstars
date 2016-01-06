@@ -16,7 +16,8 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg OpenGL PrintSupport Multimedia Test)
+#find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Xml Sql Svg PrintSupport)
 include(KDEInstallDirs)
 include(KDECompilerSettings)
 include(KDECMakeSettings)
@@ -31,14 +32,12 @@ find_package(KF5 REQUIRED COMPONENTS
   GuiAddons
   WidgetsAddons
   NewStuff
-  DBusAddons
+#  DBusAddons
   I18n
   Init
-  JobWidgets
   KIO
   XmlGui
   Plotting
-  TextEditor
   IconThemes
   Archive
   Notifications
@@ -58,9 +57,11 @@ set(HAVE_CFITSIO 0)
 endif(CFITSIO_FOUND)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
-find_package(INDI 1.1.0)
+find_package(INDI 1.2.0)
 #FIXME is there a better way to do this?
 if (INDI_FOUND)
+#FIXME is the following the right way of doing this?
+find_package(KF5 REQUIRED COMPONENTS Notifications)
 SET(HAVE_INDI 1)
 else(INDI_FOUND)
 SET(HAVE_INDI 0)

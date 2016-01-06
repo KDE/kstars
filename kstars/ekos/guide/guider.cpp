@@ -532,12 +532,15 @@ void rguider::guide( void )
      }
      else if (first_frame)
      {
-         Vector star_pos = pmath->find_star_local_pos();
-         int square_size = pmath->get_square_size();
-         double ret_x,ret_y,ret_angle;
-         pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
-         pmath->move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
-         pmath->set_reticle_params(star_pos.x, star_pos.y, ret_angle);
+         if (m_isDithering == false)
+         {
+             Vector star_pos = pmath->find_star_local_pos();
+             int square_size = pmath->get_square_size();
+             double ret_x,ret_y,ret_angle;
+             pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
+             pmath->move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
+             pmath->set_reticle_params(star_pos.x, star_pos.y, ret_angle);
+         }
          first_frame=false;
      }
 
@@ -693,7 +696,8 @@ bool rguider::dither()
         else
             target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
-        //qDebug() << "Target Pos X " << target_pos.x << " Y " << target_pos.y;
+        if (Options::verboseLogging())
+            qDebug() << "Dither Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
         pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 

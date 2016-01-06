@@ -403,6 +403,7 @@ private:
     void startNextExposure();
     void updateFrameProperties();
     void prepareJob(SequenceJob *job);
+    void syncGUIToJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);
     void processJobCompletion();
     bool saveSequenceQueue(const QString &path);

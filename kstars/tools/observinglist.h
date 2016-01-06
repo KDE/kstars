@@ -22,12 +22,10 @@
 #include <QAbstractTableModel>
 
 #include <QDialog>
-#include <kio/copyjob.h>
+#include <KIO/CopyJob>
 
 #include "ui_observinglist.h"
 #include "kstarsdatetime.h"
-#include "skyobjects/skyobject.h"
-#include "obslistpopupmenu.h"
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -36,7 +34,10 @@ class KStars;
 class KStarsDateTime;
 class GeoLocation;
 class EyepieceField;
-
+class ObsListPopupMenu;
+class SkyPoint;
+class SkyObject;
+class KSDssDownloader;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT
@@ -109,7 +110,7 @@ public:
     /** @return pointer to the currently-selected object in the observing list
         *@note if more than one object is selected, this function returns 0.
         */
-    SkyObject *currentObject() const { return m_CurrentObject; }
+    inline SkyObject *currentObject() const { return m_CurrentObject; }
 
     /** @short If the current list has unsaved changes, ask the user about saving it.
         *@note also clears the list in preparation of opening a new one
@@ -156,15 +157,15 @@ public:
      */
     void saveThumbImage();
 
-    QString getTime( const SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
+    QString getTime( const SkyObject *o ) const;
 
-    QTime scheduledTime( SkyObject *o ) { return TimeHash.value( o->name(), o->transitTime( dt, geo ) ); }
+    QTime scheduledTime( SkyObject *o ) const;
 
-    void setTime( const SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
+    void setTime( const SkyObject *o, QTime t );
 
-    GeoLocation* geoLocation() { return geo; }
+    inline GeoLocation* geoLocation() { return geo; }
 
-    KStarsDateTime dateTime() { return dt; }
+    inline KStarsDateTime dateTime() const { return dt; }
 
     /** @short return the object with the name as the passed
      * QString from the Session List, return null otherwise
@@ -335,6 +336,11 @@ public slots:
         */
     void slotDSS() { slotGetImage( true ); }
 
+    /**
+     *@short Present the user with options to get the right DSS image for the job
+     */
+    void slotCustomDSS();
+
     /** @short Export a target list to the oal compliant format
         */
     void slotOALExport();
@@ -349,7 +355,7 @@ public slots:
 
 protected slots:
     void slotClose();
-    void downloadReady();
+    void downloadReady( bool success );
 
 private:
 
@@ -398,6 +404,7 @@ private:
     QList<QString> ImageList;
     ObsListPopupMenu *pmenu;
     EyepieceField *m_epf;
+    KSDssDownloader *m_dl;
 };
 
 #endif // OBSERVINGLIST_H_

@@ -50,7 +50,7 @@ QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
   QColor("yellow") << //Sun
   QColor("white"); //Moon
 
-  
+
 const SkyObject::UID KSPlanetBase::UID_SOL_BIGOBJ   = 0;
 const SkyObject::UID KSPlanetBase::UID_SOL_ASTEROID = 1;
 const SkyObject::UID KSPlanetBase::UID_SOL_COMET    = 2;
@@ -281,7 +281,7 @@ void KSPlanetBase::findPhase() {
     double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
         / (2 * rsun() * rearth() );
     Phase = acos ( cosPhase ) * 180.0 / dms::PI;
-    /* More elegant way of doing it, but requires the Sun. 
+    /* More elegant way of doing it, but requires the Sun.
        TODO: Switch to this if and when we make KSSun a singleton */
     //    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees();
 }

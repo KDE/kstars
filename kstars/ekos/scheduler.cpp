@@ -50,6 +50,14 @@ bool priorityHigherThan(SchedulerJob *job1, SchedulerJob *job2)
     return job1->getPriority() < job2->getPriority();
 }
 
+bool altitudeHigherThan(SchedulerJob *job1, SchedulerJob *job2)
+{
+    double job1_altitude = Scheduler::findAltitude(job1->getTargetCoords(), job1->getStartupTime());
+    double job2_altitude = Scheduler::findAltitude(job2->getTargetCoords(), job2->getStartupTime());
+
+    return job1_altitude > job2_altitude;
+}
+
 Scheduler::Scheduler()
 {
     setupUi(this);
@@ -510,7 +518,15 @@ void Scheduler::editJob(QModelIndex i)
     decBox->setText(job->getTargetCoords().dec0().toDMSString());
 
     if (job->getFITSFile().isEmpty() == false)
+    {
         fitsEdit->setText(job->getFITSFile().path());
+        fitsURL = job->getFITSFile();
+    }
+    else
+    {
+        fitsEdit->clear();
+        fitsURL = QUrl();
+    }
 
     sequenceEdit->setText(job->getSequenceFile().path());
     sequenceURL = job->getSequenceFile();
@@ -818,17 +834,18 @@ void Scheduler::evaluateJobs()
         {
                 // #1.1 ASAP?
                 case SchedulerJob::START_ASAP:
-                    altScore     = getAltitudeScore(job, now);
+                    /*altScore     = getAltitudeScore(job, now);
                     moonScore    = getMoonSeparationScore(job, now);
                     darkScore    = getDarkSkyScore(now);
-                    score = altScore + moonScore + darkScore;
+                    score = altScore + moonScore + darkScore;*/
+                    score = calculateJobScore(job, now);
                     job->setScore(score);
 
                     // If we can't start now, let's schedule it
                     if (score < 0)
                     {
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
-                        if ( (altScore < 0 || darkScore < 0) && calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()))
+                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()), job->getMinMoonSeparation())
                         {
                             //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
@@ -851,6 +868,7 @@ void Scheduler::evaluateJobs()
                   // #1.2 Force now?
                    case SchedulerJob::START_FORCE_NOW:
                     appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
+                    job->setState(SchedulerJob::JOB_SCHEDULED);
                     job->setScore(BAD_SCORE*-1);
                     break;
 
@@ -903,9 +921,10 @@ void Scheduler::evaluateJobs()
                     else if (job->getState() == SchedulerJob::JOB_EVALUATION)
                     {
 
-                        score += getAltitudeScore(job, startupTime);
+                        /*score += getAltitudeScore(job, startupTime);
                         score += getMoonSeparationScore(job, startupTime);
-                        score += getDarkSkyScore(startupTime);
+                        score += getDarkSkyScore(startupTime);*/
+                        score = calculateJobScore(job, startupTime);
 
                         if (score < 0)
                         {
@@ -924,9 +943,10 @@ void Scheduler::evaluateJobs()
                     // Start scoring once we reach startup time
                     else if (timeUntil <= 0)
                     {
-                        score += getAltitudeScore(job, now);
+                        /*score += getAltitudeScore(job, now);
                         score += getMoonSeparationScore(job, now);
-                        score += getDarkSkyScore(now);
+                        score += getDarkSkyScore(now);*/
+                        score = calculateJobScore(job, now);
 
                         if (score < 0)
                         {
@@ -937,6 +957,15 @@ void Scheduler::evaluateJobs()
                         // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
                         else if (isWeatherOK(job) == false)
                             score += BAD_SCORE;
+                    }
+                    // If it is in the future and originally was designated as ASAP job
+                    // Job must be less than 12 hours away to be considered for re-evaluation
+                    else if (timeUntil > (Options::leadTime() * 60) && (timeUntil < 12 * 3600) && job->getFileStartupCondition() == SchedulerJob::START_ASAP)
+                    {
+                        QDateTime nextJobTime = now.addSecs(Options::leadTime() * 60);
+                        if (now > duskDateTime && now < preDawnDateTime)
+                            job->setStartupTime(nextJobTime);
+                        score += BAD_SCORE;
                     }
                     // If time is far in the future, we make the score negative
                     else
@@ -1014,93 +1043,64 @@ void Scheduler::evaluateJobs()
         return;
     }
 
-    int maxScore=0, maxPriority=1e6;
     SchedulerJob *bestCandidate = NULL;
+
+    updatePreDawn();
+
+    // Order by altitude first
+    qSort(jobs.begin(), jobs.end(), altitudeHigherThan);
+    // Then by priority
+    qSort(jobs.begin(), jobs.end(), priorityHigherThan);
+
+
+    SchedulerJob *firstJob      = jobs.first();
+    QDateTime firstStartTime    = firstJob->getStartupTime();
+    QDateTime lastStartTime     = firstJob->getStartupTime();
+    double lastJobEstimatedTime = firstJob->getEstimatedTime();
+    int daysCount               = 0;
+
 
     // Make sure no two jobs have the same scheduled time or overlap with other jobs
     foreach(SchedulerJob *job, jobs)
-    {        
+    {
         // If this job is not scheduled, continue
         // If this job startup conditon is not to start at a specific time, continue
-        if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
+        if (job == firstJob || job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
             continue;
 
-        uint8_t job_priority = job->getPriority();
+        double timeBetweenJobs = fabs(firstStartTime.secsTo(job->getStartupTime()));
 
-        foreach(SchedulerJob *other_job, jobs)
+        // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
+        if (timeBetweenJobs  < (Options::leadTime())*60)
         {
-            // If we already allocated time slot for this, continue
-            if (other_job == job || other_job->getState() != SchedulerJob::JOB_SCHEDULED || other_job->getStartupCondition() != SchedulerJob::START_AT || other_job->getTimeSlotAllocated())
-                continue;
+            double delayJob = timeBetweenJobs + lastJobEstimatedTime;
 
-            uint8_t otherjob_priority = other_job->getPriority();
+            if (delayJob < (Options::leadTime()*60))
+                delayJob = Options::leadTime()*60;
 
-            double timeBetweenJobs = fabs(job->getStartupTime().secsTo(other_job->getStartupTime()));
-            // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
-            if (timeBetweenJobs  < (Options::leadTime())*60)
+            QDateTime otherjob_time = lastStartTime.addSecs(delayJob);
+            // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
+            // FIXME: After changing time we are not evaluating job again when we should.
+            if (otherjob_time >= preDawnDateTime.addDays(daysCount))
             {
-                double job_altitude       = findAltitude(job->getTargetCoords(), job->getStartupTime());
-                double other_job_altitude = findAltitude(other_job->getTargetCoords(), other_job->getStartupTime());
+                daysCount++;
 
-                // If first job is higher than second job, then we scheduler second job to later
-                if (job_altitude > other_job_altitude || job_priority < otherjob_priority)
-                {
-                    double delayJob = timeBetweenJobs + job->getEstimatedTime();
-
-                    if (delayJob < (Options::leadTime()*60))
-                        delayJob = Options::leadTime()*60;
-
-                    QDateTime otherjob_time = other_job->getStartupTime().addSecs(delayJob);
-                    // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
-                    if (otherjob_time >= preDawnDateTime)
-                        other_job->setStartupTime(other_job->getStartupTime().addDays(1));
-                    else
-                        other_job->setStartupTime(other_job->getStartupTime().addSecs(delayJob));
-
-                    other_job->setState(SchedulerJob::JOB_SCHEDULED);
-
-                    if (job_priority < otherjob_priority)
-                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. %1 priority %3 is higher than %2 priority %4. Selecting %1 and rescheduling %2 to %5.",
-                                           job->getName(), other_job->getName(), job->getPriority(), other_job->getPriority(), other_job->getStartupTime().toString()));
-                    else
-                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
-                                       job->getName(), other_job->getName(), job->getStartupTime().toString(), job_altitude, other_job_altitude, other_job->getStartupTime().toString()));
-
-                    //return;
-                    //continue;
-                }
-                else
-                {
-                    double delayJob = timeBetweenJobs + other_job->getEstimatedTime();
-
-                    if (delayJob < (Options::leadTime()*60))
-                        delayJob = Options::leadTime()*60;
-
-                    QDateTime job_time = job->getStartupTime().addSecs(delayJob);
-
-                    // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
-                    if (job_time >= preDawnDateTime)
-                        job->setStartupTime(job->getStartupTime().addDays(1));
-                    else
-                        job->setStartupTime(job->getStartupTime().addSecs(delayJob));
-
-                    job->setState(SchedulerJob::JOB_SCHEDULED);
-
-                    if (job_priority < otherjob_priority)
-                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. %1 priority %3 is higher than %2 priority %4. Selecting %1 and rescheduling %2 to %5.",
-                                           other_job->getName(), job->getName(), other_job->getPriority(), job->getPriority(), job->getStartupTime().toString()));
-                    else
-                        appendLogText(i18n("Observation jobs %1 and %2 have close start up times. At %3, %1 altitude is %4 while %2 altitude is %5. Selecting %1 and rescheduling %2 to %6.",
-                                       other_job->getName(), job->getName(), other_job->getStartupTime().toString(), other_job_altitude, job_altitude, job->getStartupTime().toString()));
-
-
-                    //return;
-                    //continue;
-                }
+                lastStartTime = job->getStartupTime().addDays(daysCount);
+                job->setStartupTime(lastStartTime);
+                lastStartTime.addSecs(delayJob);
             }
+            else
+            {
+                lastStartTime = lastStartTime.addSecs(delayJob);
+                job->setStartupTime(lastStartTime);
+            }
+
+            job->setState(SchedulerJob::JOB_SCHEDULED);
+
+            appendLogText(i18n("Observation jobs %1 and %2 have close start up times. %2 is rescheduled to %3.", firstJob->getName(), job->getName(), job->getStartupTime().toString()));
         }
 
-        job->setTimeSlotAllocated(true);
+        lastJobEstimatedTime = job->getEstimatedTime();
     }
 
     if (jobEvaluationOnly)
@@ -1253,17 +1253,17 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
     // Make a copy
     SkyPoint p = target;
     QDateTime lt( when.date(), QTime() );
-    KStarsDateTime ut = geo->LTtoUT( lt );
+    KStarsDateTime ut = KStarsData::Instance()->geo()->LTtoUT( lt );
 
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
 
-    dms LST = geo->GSTtoLST( myUT.gst() );
-    p.EquatorialToHorizontal( &LST, geo->lat() );
+    dms LST = KStarsData::Instance()->geo()->GSTtoLST( myUT.gst() );
+    p.EquatorialToHorizontal( &LST, KStarsData::Instance()->geo()->lat() );
 
     return p.alt().Degrees();
 }
 
-bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
+bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle)
 {
     // We wouldn't stat observation 30 mins (default) before dawn.
     double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
@@ -1299,6 +1299,9 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
                     return false;
                 }
 
+                if (minMoonAngle > 0 && getMoonSeparationScore(job, startTime) < 0)
+                    continue;
+
                 job->setStartupTime(startTime);
                 job->setStartupCondition(SchedulerJob::START_AT);
                 appendLogText(i18n("%1 is scheduled to start at %2 where its altitude is %3 degrees.", job->getName(), startTime.toString(), QString::number(altitude,'g', 3)));
@@ -1309,7 +1312,10 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude)
 
     }
 
-    appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees.", job->getName(), QString::number(minAltitude,'g', 3)));
+    if (minMoonAngle == -1)
+        appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees.", job->getName(), QString::number(minAltitude,'g', 3)));
+    else
+        appendLogText(i18n("No night time found for %1 to rise above minimum altitude of %2 degrees with minimum moon separation of %3 degrees.", job->getName(), QString::number(minAltitude,'g', 3), QString::number(minMoonAngle,'g', 3)));
     return false;
 }
 
@@ -1482,6 +1488,17 @@ int16_t Scheduler::getDarkSkyScore(const QDateTime &observationDateTime)
     return score;
 }
 
+int16_t Scheduler::calculateJobScore(SchedulerJob *job, QDateTime when)
+{
+    int16_t total=0;
+
+    total += getDarkSkyScore(when);
+    total += getAltitudeScore(job, when);
+    total += getMoonSeparationScore(job, when);
+
+    return total;
+}
+
 int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
 {
     int16_t score=0;
@@ -1622,6 +1639,9 @@ void Scheduler::calculateDawnDusk()
     QTime now  = KStarsData::Instance()->lt().time();
     QTime dawn = QTime(0,0,0).addSecs(Dawn*24*3600);
     QTime dusk = QTime(0,0,0).addSecs(Dusk*24*3600);
+
+    duskDateTime.setDate(KStars::Instance()->data()->lt().date());
+    duskDateTime.setTime(dusk);
 
     appendLogText(i18n("Dawn is at %1, Dusk is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
 
@@ -2265,6 +2285,14 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_SLEWING:
     {
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+        bool isDomeMoving=false;
+
+        if (parkDomeCheck->isEnabled())
+        {
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
+            if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
+                isDomeMoving=true;
+        }
 
         if (slewStatus.error().type() == QDBusError::UnknownObject)
         {
@@ -2274,7 +2302,7 @@ void Scheduler::checkJobStage()
             return;
         }
 
-        if(slewStatus.value() == IPS_OK)
+        if(slewStatus.value() == IPS_OK && isDomeMoving == false)
         {
             appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
             currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
@@ -2369,8 +2397,16 @@ void Scheduler::checkJobStage()
            else if (loadSlewReply.value() == IPS_ALERT)
            {
                appendLogText(i18n("%1 Load And Slew failed!", currentJob->getName()));
-               currentJob->setState(SchedulerJob::JOB_ERROR);
-               findNextJob();
+
+              if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
+              {
+                  appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                  startAstrometry();
+                  return;
+              }
+
+              currentJob->setState(SchedulerJob::JOB_ERROR);
+              findNextJob();
            }
 
            return;
@@ -2422,6 +2458,14 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_RESLEWING:
     {
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
+        bool isDomeMoving=false;
+
+        if (parkDomeCheck->isEnabled())
+        {
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
+            if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
+                isDomeMoving=true;
+        }
 
         if (slewStatus.error().type() == QDBusError::UnknownObject)
         {
@@ -2431,7 +2475,7 @@ void Scheduler::checkJobStage()
             return;
         }
 
-        if(slewStatus.value() == IPS_OK)
+        if(slewStatus.value() == IPS_OK && isDomeMoving == false)
         {
             appendLogText(i18n("%1 repositioning is complete.", currentJob->getName()));
             currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
@@ -3335,6 +3379,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
     double sequenceEstimatedTime = 0;
     bool inSequenceFocus = false;
     int jobExposureCount=0;
+    double seqCompletePercentage=0;
 
     while ( sFile.getChar(&c))
     {
@@ -3342,6 +3387,55 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
 
         if (root)
         {
+            // If the job finishes with the sequence, we check if all the sequence files were captured or not first
+            // If all are captured, then job is complete, otherwise we continuce to estimate time
+            if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
+            {
+                int totalSequenceCount=0;
+                int totalSequenceCompleted=0;
+                QStringList fitsDirectories;
+
+                for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+                {
+                    if (!strcmp(tagXMLEle(ep), "Job"))
+                    {
+                        XMLEle *subEP=NULL;
+                        for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+                        {
+                            if (!strcmp(tagXMLEle(subEP), "Count"))
+                                totalSequenceCount += atoi(pcdataXMLEle(subEP));
+                            else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
+                                fitsDirectories << QString(pcdataXMLEle(subEP));
+                        }
+                    }
+                }
+
+                fitsDirectories.removeDuplicates();
+                foreach(QString dir, fitsDirectories)
+                {
+                    QDir fitsDir(dir);
+
+                    totalSequenceCompleted += fitsDir.entryInfoList(QStringList("*.fits"), QDir::Files).count();
+
+                    QStringList folderList = fitsDir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+
+                    foreach (QString oneFolder, folderList)
+                    {
+                        QDir folder(dir + QDir::separator() + oneFolder);
+                        totalSequenceCompleted += folder.entryInfoList(QStringList("*.fits"), QDir::Files).count();
+                    }
+                }
+
+                if (totalSequenceCompleted > 0 && totalSequenceCompleted >= totalSequenceCount)
+                {
+                    appendLogText(i18n("%1 observation job is already complete.", job->getName()));
+                    job->setEstimatedTime(0);
+                    return true;
+                }
+
+                seqCompletePercentage = (double) totalSequenceCompleted / (double) totalSequenceCount;
+            }
+
              for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
              {
                  if (!strcmp(tagXMLEle(ep), "Autofocus"))
@@ -3364,18 +3458,24 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
                          sFile.close();
                          break;
                      }
-                     else if (oneJobEstimation == 0)
-                         continue;
 
                      sequenceEstimatedTime += oneJobEstimation;
 
-                     // If inSequenceFocus is true
-                     if (inSequenceFocus)
-                         // Wild guess that each in sequence auto focus takes an average of 20 seconds. It can take any where from 2 seconds to 2+ minutes.
-                         sequenceEstimatedTime += jobExposureCount * 20;
-                     // If we're dithering after each exposure, that's another 10-20 seconds
-                     if (Options::useDither())
-                         sequenceEstimatedTime += jobExposureCount * 15;
+                     XMLEle *frameEP = findXMLEle(ep, "Type");
+                     QString frameType = "Light";
+                     if (frameEP)
+                         frameType = QString(pcdataXMLEle(frameEP));
+
+                     if (frameType == "Light")
+                     {
+                         // If inSequenceFocus is true
+                         if (inSequenceFocus)
+                             // Wild guess that each in sequence auto focus takes an average of 20 seconds. It can take any where from 2 seconds to 2+ minutes.
+                             sequenceEstimatedTime += jobExposureCount * 20;
+                         // If we're dithering after each exposure, that's another 10-20 seconds
+                         if (Options::useDither())
+                             sequenceEstimatedTime += jobExposureCount * 15;
+                     }
                  }
 
              }
@@ -3394,12 +3494,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
         appendLogText(i18n("Failed to estimate time for %1 observation job.", job->getName()));
         return false;
     }
-    else if (sequenceEstimatedTime == 0)
-    {
-        appendLogText(i18n("%1 observation job is already complete.", job->getName()));
-        job->setEstimatedTime(0);
-        return true;
-    }
+
+    sequenceEstimatedTime = sequenceEstimatedTime - (sequenceEstimatedTime * seqCompletePercentage);
 
     // Are we doing tracking? It takes about 30 seconds
     if (job->getStepPipeline() & SchedulerJob::USE_TRACK)
@@ -3432,8 +3528,6 @@ double Scheduler::estimateSequenceTime(XMLEle *root, int *totalCount)
 
     int count=0;
     double exposure=0, delay=0;
-    QString frameType;
-    QString fitsDir;
 
     for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
     {
@@ -3443,24 +3537,11 @@ double Scheduler::estimateSequenceTime(XMLEle *root, int *totalCount)
             count = *totalCount = atoi(pcdataXMLEle(ep));
         else if (!strcmp(tagXMLEle(ep), "Delay"))
             delay = atoi(pcdataXMLEle(ep));
-        else if (!strcmp(tagXMLEle(ep), "Type"))
-            frameType = QString(pcdataXMLEle(ep));
-        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
-            fitsDir = QString(pcdataXMLEle(ep));
     }
-
-    fitsDir += "/" + frameType;
-    QDir targetDir(fitsDir);
-    QFileInfoList fileList = targetDir.entryInfoList(QStringList("*.fits"), QDir::Files);
-
-    int completed = fileList.count();
-
-    count -= completed;
 
     totalTime = (exposure + delay) * count;
 
     return totalTime;
-
 }
 
 void    Scheduler::parkMount()
@@ -3871,10 +3952,7 @@ void Scheduler::startMosaicTool()
 
         XMLEle *root = getSequenceJobRoot();
         if (root == NULL)
-        {
-            KMessageBox::error(this, i18n("Sequence file %1 is corrupted. Unable to create mosaic.", sequenceURL.fileName()));
             return;
-        }
 
         int currentJobsCount = jobs.count();
 
@@ -3929,7 +4007,7 @@ XMLEle * Scheduler::getSequenceJobRoot()
     if ( !sFile.open( QIODevice::ReadOnly))
     {
         KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
-        return false;
+        return NULL;
     }
 
     LilXML *xmlParser = newLilXML();

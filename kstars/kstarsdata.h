@@ -49,6 +49,7 @@ class SkyMap;
 class SkyMapComposite;
 class SkyObject;
 class FOV;
+class ObservingList;
 
 class TimeZoneRule;
 struct ADVTreeData;

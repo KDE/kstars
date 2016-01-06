@@ -53,14 +53,16 @@ KSAlmanac::KSAlmanac() :
 void KSAlmanac::update() {
     RiseSetTime( &m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
     RiseSetTime( &m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
+    //    qDebug() << "Sun rise: " << SunRiseT.toString() << " Sun set: " << SunSetT.toString() << " Moon rise: " << MoonRiseT.toString() << " Moon set: " << MoonSetT.toString();
     findDawnDusk();
+    findMoonPhase();
 }
 
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
     // Compute object rise and set times
     const KStarsDateTime today = dt;
     const GeoLocation* _geo = geo;
-    *RiseTime = o->riseSetTime( today.addDays(1), _geo, true ); // The addDays(1) gives the future rise time rather than past
+    *RiseTime = o->riseSetTime( today, _geo, true ); // FIXME: Should we add a day here so that we report future rise time? Not doing so produces the right results for the moon. Not sure about the sun.
     *SetTime = o->riseSetTime( today, _geo, false );
     *riseTime = -1.0 * RiseTime->secsTo(QTime(0,0,0,0)) / 86400.0;
     *setTime = -1.0 * SetTime->secsTo(QTime(0,0,0,0)) / 86400.0;
@@ -134,6 +136,18 @@ void KSAlmanac::findDawnDusk() {
     SunMaxAlt = max_alt;
     SunMinAlt = min_alt;
 }
+
+void KSAlmanac::findMoonPhase() {
+    const KStarsDateTime today = dt;
+    KSNumbers num( today.djd() );
+    dms LST = geo->GSTtoLST( today.gst() );
+
+    m_Sun.updateCoords( &num, true, geo->lat(), &LST ); // We can abuse our own copy of the sun and/or moon
+    m_Moon.updateCoords( &num, true, geo->lat(), &LST );
+    m_Moon.findPhase( &m_Sun );
+    MoonPhase = m_Moon.phase().Degrees();
+}
+
 
 void KSAlmanac::setDate( const KStarsDateTime *newdt ) {
     dt = *newdt;

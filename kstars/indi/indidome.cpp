@@ -113,4 +113,14 @@ bool Dome::UnPark()
      return true;
 }
 
+bool Dome::isMoving()
+{ 
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("DOME_MOTION");
+
+    if (motionSP && motionSP->s == IPS_BUSY)
+        return true;   
+
+    return false;
+}
+
 }

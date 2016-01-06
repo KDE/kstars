@@ -325,9 +325,6 @@ void Capture::abort()
         }
 
         activeJob->reset();
-
-        // Reste active job pointer
-        activeJob = NULL;
     }
 
     // Turn off any calibration light, IF they were turned on by Capture module
@@ -789,9 +786,13 @@ void Capture::newFITS(IBLOB *bp)
 
     secondsLabel->setText(i18n("Complete."));
 
+    // If it was initially set as preview job
     if (seqTotalCount <= 0)
     {
        jobs.removeOne(activeJob);
+       delete(activeJob);
+       // Reste active job pointer
+       activeJob = NULL;
        abort();
        return;
     }
@@ -906,7 +907,7 @@ bool Capture::resumeSequence()
         if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(false);
 
-        if (isAutoGuiding && guideDither)
+        if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
         {
                 secondsLabel->setText(i18n("Dithering..."));
                 emit exposureComplete();
@@ -1593,6 +1594,8 @@ void Capture::executeJob()
         }
     }
 
+    syncGUIToJob(activeJob);
+
     captureImage();
 }
 
@@ -2208,6 +2211,9 @@ void Capture::resetJobs()
 
     abort();
 
+    // Reste active job pointer
+    activeJob = NULL;
+
     ignoreJobProgress=true;
 }
 
@@ -2216,11 +2222,8 @@ void Capture::ignoreSequenceHistory()
     ignoreJobProgress=true;
 }
 
-void Capture::editJob(QModelIndex i)
+void Capture::syncGUIToJob(SequenceJob *job)
 {
-    SequenceJob *job = jobs.at(i.row());
-    if (job == NULL)
-        return;
     QString rawPrefix;
     bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
 
@@ -2261,6 +2264,16 @@ void Capture::editJob(QModelIndex i)
 
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
+}
+
+void Capture::editJob(QModelIndex i)
+{
+    SequenceJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;
+
+
+   syncGUIToJob(job);
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
@@ -2401,12 +2414,13 @@ void Capture::setTemperature()
 
 void Capture::clearSequenceQueue()
 {
-    abort();
+    activeJob=NULL;
+    abort();    
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
     jobs.clear();
     qDeleteAll(jobs);
-    activeJob=NULL;
+
 }
 
 QString Capture::getSequenceQueueStatus()
@@ -2491,6 +2505,10 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
         case MF_SLEWING:
 
             if (nvp->s != IPS_OK)
+                break;
+
+            // If dome is syncing, wait until it stops
+            if (dome && dome->isMoving())
                 break;
 
             // We are at a new initialHA
@@ -2869,6 +2887,8 @@ IPState Capture::processPreCaptureFlatStage()
     {
     case SOURCE_MANUAL:
     case SOURCE_DAWN_DUSK: // Not yet implemented
+        if (isAutoGuiding)
+            emit suspendGuiding(true);
         break;
 
     // Park cap, if not parked

@@ -230,6 +230,7 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     return dX < m_xrange;
 }
 
+// FIXME: There should be a MUCH more efficient way to do this (see EyepieceField for example)
 double Projector::findNorthPA( SkyPoint *o, float x, float y ) const
 {
     //Find position angle of North using a test point displaced to the north

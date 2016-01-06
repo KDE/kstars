@@ -113,6 +113,14 @@ public:
       */
      void stop();
 
+     /**
+      * @brief findAltitude Find altitude given a specific time
+      * @param target Target
+      * @param when date time to find altitude
+      * @return Altitude of the target at the specific date and time given.
+      */
+     static double findAltitude(const SkyPoint & target, const QDateTime when);
+
 protected slots:
 
      /**
@@ -264,6 +272,14 @@ private:
         int16_t getMoonSeparationScore(SchedulerJob *job, QDateTime when);
 
         /**
+         * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
+         * @param job job to evaluate
+         * @param when time to evaluate constraints
+         * @return Total score
+         */
+        int16_t calculateJobScore(SchedulerJob *job, QDateTime when);
+
+        /**
          * @brief getWeatherScore Get weather condition score.
          * @return If weather condition OK, return 0, if warning return -500, if alert return -1000
          */
@@ -273,9 +289,10 @@ private:
          * @brief calculateAltitudeTime calculate the altitude time given the minimum altitude given.
          * @param job active target
          * @param minAltitude minimum altitude required
+         * @param minMoonAngle minimum separation from the moon. -1 to ignore.
          * @return True if found a time in the night where the object is at or above the minimum altitude, false otherise.
          */
-        bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude);
+        bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle=-1);
 
         /**
          * @brief calculateCulmination find culmination time adjust for the job offset
@@ -396,14 +413,6 @@ private:
         bool processJobInfo(XMLEle *root);
 
         /**
-         * @brief findAltitude Find altitude given a specific time
-         * @param target Target
-         * @param when date time to find altitude
-         * @return Altitude of the target at the specific date and time given.
-         */
-        double findAltitude(const SkyPoint & target, const QDateTime when);
-
-        /**
          * @brief getCurrentMoonSeparation Get current moon separation in degrees at current time for the given job
          * @param job scheduler job
          * @return Separation in degrees
@@ -480,6 +489,7 @@ private:
 
     double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
     QDateTime preDawnDateTime;      // Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
+    QDateTime duskDateTime;         // Dusk date time
     bool mDirty;                    // Was job modified and needs saving?
     IPState weatherStatus;          // Keep watch of weather status    
     uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates    

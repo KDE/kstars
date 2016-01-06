@@ -427,6 +427,8 @@ set(kstars_extra_SRCS
     auxiliary/binfilehelper.cpp
     auxiliary/imageexporter.cpp
     auxiliary/ksutils.cpp
+    auxiliary/ksdssimage.cpp
+    auxiliary/ksdssdownloader.cpp
     auxiliary/kswizard.cpp
     auxiliary/qcustomplot.cpp
     time/simclock.cpp
@@ -571,8 +573,8 @@ target_link_libraries(KStarsLib
                       KF5::KIOFileWidgets
                       KF5::WidgetsAddons
                       KF5::Plotting
-                      KF5::TextEditor
-                      KF5::DBusAddons
+#                      KF5::TextEditor
+#                      KF5::DBusAddons
                       KF5::IconThemes
                       KF5::Notifications
                       KF5::Archive

@@ -54,6 +54,7 @@
 #include "Options.h"
 #include "widgets/kshelplabel.h"
 #include "addlinkdialog.h"
+#include "observinglist.h"
 
 #include <config-kstars.h>
 
