@@ -74,6 +74,7 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
         {
             addAction( i18n( "Show SDSS image" ), ksdata->observingList(), SLOT( slotGetImage() ) );
             addAction( i18n( "Show DSS image" ), ksdata->observingList(), SLOT( slotDSS() ) );
+            addAction( i18n( "Customized DSS download" ), ksdata->observingList(), SLOT( slotCustomDSS() ) );
         }
         addAction( i18n( "Show images from web " ), ksdata->observingList(), SLOT( slotSearchImage() ) );
         addSeparator();

@@ -91,7 +91,7 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 ObservingList::ObservingList()
         : QDialog( (QWidget*) KStars::Instance() ),
         LogObject(0), m_CurrentObject(0),
-          isModified(false), bIsLarge(true), m_epf( 0 )
+          isModified(false), bIsLarge(true), m_epf( 0 ), m_dl( 0 )
 {
     ui = new ObservingListUI( this );
     QVBoxLayout *mainLayout= new QVBoxLayout;
@@ -1108,6 +1108,28 @@ void ObservingList::slotSetTime() {
     slotAddObject( o, true, true );
 }
 
+void ObservingList::slotCustomDSS() {
+    ui->SearchImage->setEnabled( false );
+    ui->ImagePreview->clearPreview();
+
+    KSDssImage::Metadata md;
+    bool ok = true;
+
+    int width = QInputDialog::getInt(this, i18n("Customized DSS Download"), i18n("Specify image width (arcminutes): "), 15, 15, 75, 1, &ok );
+    int height = QInputDialog::getInt(this, i18n("Customized DSS Download"), i18n("Specify image height (arcminutes): "), 15, 15, 75, 1, &ok );
+    QStringList strList = ( QStringList() << "poss2ukstu_blue" << "poss2ukstu_red" << "poss2ukstu_ir" << "poss1_blue" << "poss1_red" << "quickv" << "all" );
+    QString version = QInputDialog::getItem(this, i18n("Customized DSS Download"), i18n("Specify version: "), strList, 0, false, &ok );
+
+    QUrl srcUrl( KSDssDownloader::getDSSURL( currentObject()->ra0(), currentObject()->dec0(), width, height, "gif", version, &md ) );
+    QString CurrentImagePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage;
+
+    delete m_dl;
+    m_dl = new KSDssDownloader();
+    m_dl->startSingleDownload( srcUrl, CurrentImagePath, md );
+    connect( m_dl, SIGNAL ( downloadComplete( bool ) ), SLOT ( downloadReady( bool ) ) );
+
+}
+
 void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
     ui->SearchImage->setEnabled( false );
@@ -1136,6 +1158,9 @@ void ObservingList::slotGetImage( bool _dss ) {
 void ObservingList::downloadReady( bool success ) {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
     //    downloadJob = 0;
+
+    delete m_dl; m_dl = 0; // required if we came from slotCustomDSS; does nothing otherwise
+
     if( !success ) {
         KMessageBox::sorry(0, i18n( "Failed to download DSS/SDSS image!" ) );
     }

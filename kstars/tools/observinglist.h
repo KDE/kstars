@@ -37,6 +37,7 @@ class EyepieceField;
 class ObsListPopupMenu;
 class SkyPoint;
 class SkyObject;
+class KSDssDownloader;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT
@@ -335,6 +336,11 @@ public slots:
         */
     void slotDSS() { slotGetImage( true ); }
 
+    /**
+     *@short Present the user with options to get the right DSS image for the job
+     */
+    void slotCustomDSS();
+
     /** @short Export a target list to the oal compliant format
         */
     void slotOALExport();
@@ -398,6 +404,7 @@ private:
     QList<QString> ImageList;
     ObsListPopupMenu *pmenu;
     EyepieceField *m_epf;
+    KSDssDownloader *m_dl;
 };
 
 #endif // OBSERVINGLIST_H_
