@@ -40,6 +40,8 @@
 
 
 KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
+    m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
+    m_TempFile.open();
 }
 KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, QObject *parent ) : QObject( parent ) {
     // Initialize version preferences. FIXME: This must be made a
