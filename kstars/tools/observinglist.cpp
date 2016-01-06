@@ -679,13 +679,13 @@ void ObservingList::slotEyepieceView() {
 
     KStarsData *data = KStarsData::Instance();
     bool ok = true;
-    const FOV *fov;
-    if( !data->getVisibleFOVs().isEmpty() ) {
+    const FOV *fov = 0;
+    if( !data->getAvailableFOVs().isEmpty() ) {
         // Ask the user to choose from a list of available FOVs.
         int index;
         const FOV *f;
         QMap< QString, const FOV * > nameToFovMap;
-        foreach( f, data->getVisibleFOVs() ) {
+        foreach( f, data->getAvailableFOVs() ) {
             nameToFovMap.insert( f->name(), f );
         }
         nameToFovMap.insert( i18n("Attempt to determine from image"), 0 );
