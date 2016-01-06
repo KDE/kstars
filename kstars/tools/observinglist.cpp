@@ -44,6 +44,7 @@
 #include "oal/oal.h"
 #include "oal/execute.h"
 #include "tools/eyepiecefield.h"
+#include "fov.h"
 
 #include <config-kstars.h>
 
@@ -73,6 +74,7 @@
 #include <QStandardPaths>
 #include <QTextEdit>
 #include <QLineEdit>
+#include <QInputDialog>
 
 #include <cstdio>
 
@@ -674,7 +676,23 @@ void ObservingList::slotEyepieceView() {
         imagePath = CurrentImagePath;
     else if( QFile::exists( CurrentTempPath ) )
         imagePath = CurrentTempPath;
-    m_epf->showEyepieceField( currentObject(), 0, imagePath ); // FIXME: Use FOV symbols etc.
+
+    KStarsData *data = KStarsData::Instance();
+    bool ok = true;
+    const FOV *fov;
+    if( !data->getVisibleFOVs().isEmpty() ) {
+        // Ask the user to choose from a list of available FOVs.
+        int index;
+        const FOV *f;
+        QMap< QString, const FOV * > nameToFovMap;
+        foreach( f, data->getVisibleFOVs() ) {
+            nameToFovMap.insert( f->name(), f );
+        }
+        nameToFovMap.insert( i18n("Attempt to determine from image"), 0 );
+        fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Eyepiece View: Choose a field-of-view"), i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
+    }
+    if( ok )
+        m_epf->showEyepieceField( currentObject(), fov, imagePath );
 }
 
 void ObservingList::slotAVT() {
