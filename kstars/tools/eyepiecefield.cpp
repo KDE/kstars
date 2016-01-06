@@ -296,6 +296,25 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
         QPainter p( m_skyImage );
         QImage rawImg( imagePath );
         QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 4.0, arcMinToScreen * dssHeight * 4.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+        if( Options::useAltAz() ) {
+            // Need to rotate the image so that up is towards zenith rather than north.
+            KStarsData *data = KStarsData::Instance();
+            double lat = data->geo()->lat()->radians();
+
+            // We trust that EquatorialToHorizontal has been called on geo, after all, how else can it have an alt/az representation.
+            // Use spherical cosine rule (the triangle with vertices at sp, zenith and NCP) to compute the angle between direction of increasing altitude and north
+            double cosNorthAngle = ( sin( lat ) - sin( sp->alt().radians() ) * sin( sp->dec().radians() ) )/( cos( sp->alt().radians() ) * cos( sp->dec().radians() ) );
+            double northAngle = acos( cosNorthAngle ); // arccosine is blind to sign of the angle
+            if( sp->az().reduce().Degrees() < 180.0 ) // if on the eastern hemisphere, flip sign
+                northAngle = -northAngle;
+
+            qDebug() << "North angle = " << dms( northAngle * 180/M_PI ).toDMSString();
+
+            QTransform transform;
+            transform.rotate( northAngle * 180/M_PI );
+            img = img.transformed( transform, Qt::SmoothTransformation );
+        }
         p.drawImage( QPointF( m_skyImage->width()/2.0 - img.width()/2.0, m_skyImage->height()/2.0 - img.width()/2.0 ), img );
     }
     else
