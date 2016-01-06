@@ -24,7 +24,7 @@
 #include "skyqpainter.h"
 #include "kstars.h"
 #include "Options.h"
-
+#include "ksdssimage.h"
 /* KDE Includes */
 
 /* Qt Includes */
@@ -109,21 +109,63 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
 void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, const QString &imagePath ) {
 
+    double dssWidth, dssHeight, fovWidth, fovHeight;
+
+    Q_ASSERT( sp );
+
+    // See if we were supplied a sky image; if so, load its metadata
+    if( ! imagePath.isEmpty() ) {
+        KSDssImage dssImage( imagePath );
+        dssWidth = dssImage.getMetadata().width;
+        dssHeight = dssImage.getMetadata().height;
+        if( dssWidth == 0 || dssHeight == 0 ) {
+            // Metadata unavailable, guess based on most common DSS arcsec/pixel
+            const double dssArcSecPerPixel = 1.01;
+            dssWidth = dssImage.getImage().width()*1.01/60.0;
+            dssHeight = dssImage.getImage().height()*1.01/60.0;
+        }
+    }
+
+    // Set up the new sky map FOV and pointing. full map FOV = 4 times the given FOV.
+    if( fov ) {
+        fovWidth = fov->sizeX();
+        fovHeight = fov->sizeY();
+    }
+    else if( dssWidth > 0 && dssHeight > 0 ) {
+        fovWidth = dssWidth;
+        fovHeight = dssHeight;
+    }
+    else {
+        fovWidth = 60.0;
+        fovHeight = 60.0;
+    }
+
+    showEyepieceField( sp, fovWidth, fovHeight, imagePath, dssWidth, dssHeight );
+
+}
+
+void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, double fovHeight, const QString &imagePath,
+                                       const double dssWidth, const double dssHeight ) {
+
     SkyMap *map = SkyMap::Instance();
     KStars *ks = KStars::Instance();
+
+    Q_ASSERT( sp );
+    Q_ASSERT( map );
+    Q_ASSERT( ks );
+
+    if( fovWidth <= 0 )
+        return;
+    if( fovHeight <= 0 )
+        fovHeight = fovWidth;
 
     // Save the current state of the sky map
     SkyPoint *oldFocus = map->focus();
     double oldZoomFactor = Options::zoomFactor();
 
-    Q_ASSERT( sp );
+    // Set the right zoom
+    ks->setApproxFOV( ( ( fovWidth > fovHeight ) ? fovWidth : fovHeight ) / 15.0 );
 
-
-    // Set up the new sky map FOV and pointing. full map FOV = 4 times the given FOV.
-    if( fov )
-        ks->setApproxFOV( ( ( fov->sizeX() > fov->sizeY() ) ? fov->sizeX() : fov->sizeY() ) / 15.0 );
-    else
-        ks->setApproxFOV( 1*4.0 ); // Just set 1 degree anyway
     //    map->setFocus( sp ); // FIXME: Why does setFocus() need a non-const SkyPoint pointer?
     map->setClickedPoint(sp);
     map->slotCenter();
@@ -134,73 +176,72 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
     map->slotCenter();
     qApp->processEvents();
 
-
     // Get the sky map image
     if( m_skyChart )
         delete m_skyChart;
 
-    if( 0 ) {
-        //Raster export
-        QImage *fullSkyChart = new QImage( QSize( map->width(), map->height() ), QImage::Format_RGB32 );
-        map->exportSkyImage( fullSkyChart, false ); // FIXME: This might make everything too small, should really use a mask and clip it down!
-        qApp->processEvents();
-        m_skyChart = new QImage( fullSkyChart->copy( map->width()/2.0 - map->width()/8.0, map->height()/2.0 - map->height()/8.0, map->width()/4.0, map->height()/4.0 ) );
-        delete fullSkyChart;
-    }
-    else {
-        // Vector export
-        QTemporaryFile m_TempSvgFile;
-        SkyMap *map = SkyMap::Instance();
-        m_TempSvgFile.open();
+    // determine screen arcminutes per pixel value
+    const double arcMinToScreen = dms::PI * Options::zoomFactor() / 10800.0;
 
-        // export as SVG
-        QSvgGenerator svgGenerator;
-        svgGenerator.setFileName( m_TempSvgFile.fileName() );
-        // svgGenerator.setTitle(i18n(""));
-        // svgGenerator.setDescription(i18n(""));
-        svgGenerator.setSize( QSize(map->width(), map->height()) );
-        svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
-        svgGenerator.setViewBox( QRect( map->width()/2.0 - map->width()/8.0, map->height()/2.0 - map->height()/8.0, map->width()/4.0, map->height()/4.0 ) );
+    // Vector export
+    QTemporaryFile m_TempSvgFile;
+    m_TempSvgFile.open();
 
-        SkyQPainter painter(KStars::Instance(), &svgGenerator);
-        painter.begin();
+    // export as SVG
+    QSvgGenerator svgGenerator;
+    svgGenerator.setFileName( m_TempSvgFile.fileName() );
+    // svgGenerator.setTitle(i18n(""));
+    // svgGenerator.setDescription(i18n(""));
+    svgGenerator.setSize( QSize(map->width(), map->height()) );
+    svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
+    svgGenerator.setViewBox( QRect( map->width()/2.0 - arcMinToScreen*fovWidth/2.0, map->height()/2.0 - arcMinToScreen*fovHeight/2.0,
+                                    arcMinToScreen*fovWidth, arcMinToScreen*fovHeight ) );
 
-        map->exportSkyImage(&painter);
+    SkyQPainter painter(KStars::Instance(), &svgGenerator);
+    painter.begin();
 
-        painter.end();
+    map->exportSkyImage(&painter);
 
-        QSvgRenderer svgRenderer( m_TempSvgFile.fileName() );
-        m_skyChart = new QImage( map->width(), map->height(), QImage::Format_ARGB32 ); // 4 times bigger in both dimensions.
-        QPainter p2( m_skyChart );
-        svgRenderer.render( &p2 );
+    painter.end();
 
-        m_TempSvgFile.close();
-    }
+    QSvgRenderer svgRenderer( m_TempSvgFile.fileName() );
+    m_skyChart = new QImage( arcMinToScreen * fovWidth * 4.0, arcMinToScreen * fovHeight * 4.0, QImage::Format_ARGB32 ); // 4 times bigger in both dimensions.
+    QPainter p2( m_skyChart );
+    svgRenderer.render( &p2 );
 
-
-    // See if we were supplied a sky image; if so, show it.
-    if( ! imagePath.isEmpty() ) {
-        if( m_skyImage )
-            delete m_skyImage;
-        m_skyImage = new QImage( imagePath );
-        m_skyImageDisplay->setVisible( true );
-    }
-    else
-        m_skyImageDisplay->setVisible( false );
+    m_TempSvgFile.close();
 
 
     // Reset the sky-map
     map->setZoomFactor( oldZoomFactor );
     map->setClickedPoint( oldFocus );
     map->slotCenter();
-    map->forceUpdate();
     qApp->processEvents();
 
     // Repeat -- dirty workaround for some problem in KStars
+    map->setZoomFactor( oldZoomFactor );
     map->setClickedPoint( oldFocus );
     map->slotCenter();
     qApp->processEvents();
+    map->forceUpdate();
 
+    // Prepare the sky image
+    if( ! imagePath.isEmpty() ) {
+
+        m_skyImageDisplay->setVisible( true );
+
+        if( m_skyImage )
+            delete m_skyImage;
+
+        m_skyImage = new QImage( int(arcMinToScreen * fovWidth * 4.0), int(arcMinToScreen * fovHeight * 4.0), QImage::Format_ARGB32 );
+        m_skyImage->fill( Qt::transparent );
+        QPainter p( m_skyImage );
+        QImage rawImg( imagePath );
+        QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 4.0, arcMinToScreen * dssHeight * 4.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+        p.drawImage( QPointF( m_skyImage->width()/2.0 - img.width()/2.0, m_skyImage->height()/2.0 - img.width()/2.0 ), img );
+    }
+    else
+        m_skyImageDisplay->setVisible( false );
 
     // Render the display
     render();

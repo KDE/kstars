@@ -41,7 +41,7 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
     Q_OBJECT
 
  public:
-    
+
     /**
      * @short Constructor
      */
@@ -55,11 +55,22 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
     /**
      * @short Show the eyepiece field dialog
      * @param sp Sky point to draw the eyepiece field around.
-     * @param fov Pointer to the FOV object describing the field of view. Default is a 1 degree FOV.
+     * @param fov Pointer to the FOV object describing the field of view. If no pointer is provided, tries to get from image. If no image is provided, assumes 1 degree.
      * @param imagePath Optional path to DSS or other image. North should be on the top of the image.
      * @note The SkyPoint must have correct Alt/Az coordinates, maybe by calling update() already before calling this method.
      */
     void showEyepieceField( SkyPoint *sp, FOV const * const fov = 0, const QString &imagePath = QString() );
+
+    /**
+     * @short Show the eyepiece field dialog
+     * @param sp Sky point to draw the eyepiece field around.
+     * @param fovWidth width of field-of-view in arcminutes
+     * @param fovHeight height of field-of-view in arcminutes (if not supplied, is set to fovWidth)
+     * @param imagePath Optional path to DSS or other image. North should be on the top of the image.
+     * @note The SkyPoint must have correct Alt/Az coordinates, maybe by calling update() already before calling this method.
+     */
+    void showEyepieceField( SkyPoint *sp, const double fovWidth, double fovHeight = -1.0, const QString &imagePath = QString(),
+                            const double dssWidth = -1.0, const double dssHeight = -1.0 );
 
 public slots:
 
