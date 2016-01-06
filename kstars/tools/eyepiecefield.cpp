@@ -31,6 +31,7 @@
 #include <QString>
 #include <QLabel>
 #include <QSlider>
+#include <QComboBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QCheckBox>
@@ -97,14 +98,71 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     rows->addLayout( rotationLayout );
 
+    m_presetCombo = new QComboBox( this );
+    m_presetCombo->addItem( i18n( "None" ) );
+    m_presetCombo->addItem( i18n( "Vanilla" ) );
+    m_presetCombo->addItem( i18n( "Flipped" ) );
+    //    m_presetCombo->addItem( i18n( "Refractor" ) ); // TODO: Implement
+    //    m_presetCombo->addItem( i18n( "Dobsonian" ) ); // TODO: Implement
+
+    QLabel *presetLabel = new QLabel( i18n( "Preset: " ), this );
+
+    QHBoxLayout *presetLayout = new QHBoxLayout;
+    presetLayout->addWidget( presetLabel );
+    presetLayout->addWidget( m_presetCombo );
+    presetLayout->addStretch();
+
+    rows->addLayout( presetLayout );
+
     connect( m_invertView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_flipView, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_invertColors, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render() ) );
+    connect( m_presetCombo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
 
     m_skyChart = 0;
     m_skyImage = 0;
 
+}
+
+void EyepieceField::slotEnforcePreset( int index ) {
+    if( index == -1 )
+        index = m_presetCombo->currentIndex();
+    if( index == -1 )
+        index = 0;
+
+    if( index == 0 )
+        return; // Preset "None" makes no changes
+
+    switch( index ) {
+    case 1:
+        // Preset vanilla
+        m_rotationSlider->setValue( 0.0 ); // reset rotation
+        m_invertView->setChecked( false ); // reset inversion
+        m_flipView->setChecked( false ); // reset flip
+        break;
+    case 2:
+        // Preset flipped
+        m_rotationSlider->setValue( 0.0 ); // reset rotation
+        m_invertView->setChecked( false ); // reset inversion
+        m_flipView->setChecked( true ); // set flip
+        break;
+        /* TODO: Figure out the right rotations for below and implement
+    case 3:
+        // Preset refractor
+        m_rotationSlider->setValue( );
+        m_invertView->setChecked( true );
+        m_flipView->setChecked( false );
+    case 4:
+        // Preset Dobsonian
+        m_rotationSlider->setValue( 0.0 ); // reset rotation
+        m_invertView->setChecked( false ); // reset inversion
+        m_flipView->setChecked( true ); // set flip
+        break;
+        */
+    default:
+        break;
+    }
 }
 
 void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, const QString &imagePath ) {
@@ -243,6 +301,8 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     else
         m_skyImageDisplay->setVisible( false );
 
+    // Enforce preset as per selection, since we have loaded a new eyepiece view
+    slotEnforcePreset( -1 );
     // Render the display
     render();
 }

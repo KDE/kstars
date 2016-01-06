@@ -28,6 +28,7 @@ class FOV;
 class QString;
 class QLabel;
 class QSlider;
+class QComboBox;
 class QCheckBox;
 
 /**
@@ -80,6 +81,11 @@ public slots:
      */
     void render();
 
+    /**
+     * @short Enforces a preset setting
+     */
+    void slotEnforcePreset( int index = -1 );
+
  private:
     QLabel *m_skyChartDisplay;
     QLabel *m_skyImageDisplay;
@@ -89,6 +95,7 @@ public slots:
     QCheckBox *m_invertColors;
     QCheckBox *m_invertView;
     QCheckBox *m_flipView;
+    QComboBox *m_presetCombo;
 
 };
 
