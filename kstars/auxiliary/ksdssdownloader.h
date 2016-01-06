@@ -91,6 +91,7 @@ class KSDssDownloader : public QObject {
      */
     static QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0, const QString & type_ = "gif", const QString & version_ = "all", struct KSDssImage::Metadata *md = 0 );
 
+    static bool writeImageWithMetadata( const QString &srcFile, const QString &destFile, const KSDssImage::Metadata &md );
  signals:
      void downloadComplete( bool success );
 

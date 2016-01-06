@@ -228,19 +228,23 @@ void KSDssDownloader::downloadAttemptFinished() {
 }
 
 bool KSDssDownloader::writeImageFile() {
+    return writeImageWithMetadata( m_TempFile.fileName(), m_FileName, m_AttemptData );
+}
+
+bool KSDssDownloader::writeImageWithMetadata( const QString &srcFile, const QString &destFile, const KSDssImage::Metadata &md ) {
     // Write the temporary file into an image file with metadata
-    QImage img( m_TempFile.fileName() );
-    QImageWriter writer( m_FileName, "png" );
+    QImage img( srcFile );
+    QImageWriter writer( destFile, "png" );
     writer.setText( "Source", QString::number( KSDssImage::Metadata::DSS ) );
     writer.setText( "Format", QString::number( KSDssImage::Metadata::PNG ) );
-    writer.setText( "Version", m_AttemptData.version );
-    writer.setText( "Object", m_AttemptData.object );
-    writer.setText( "RA", m_AttemptData.ra0.toHMSString() );
-    writer.setText( "Dec", m_AttemptData.dec0.toDMSString() );
-    writer.setText( "Width", QString::number( m_AttemptData.width ) );
-    writer.setText( "Height", QString::number( m_AttemptData.height ) );
-    writer.setText( "Band", QString() + m_AttemptData.band );
-    writer.setText( "Generation", QString::number( m_AttemptData.gen ) );
+    writer.setText( "Version", md.version );
+    writer.setText( "Object", md.object );
+    writer.setText( "RA", md.ra0.toHMSString() );
+    writer.setText( "Dec", md.dec0.toDMSString() );
+    writer.setText( "Width", QString::number( md.width ) );
+    writer.setText( "Height", QString::number( md.height ) );
+    writer.setText( "Band", QString() + md.band );
+    writer.setText( "Generation", QString::number( md.gen ) );
     writer.setText( "Author", "KStars KSDssDownloader" );
     return writer.write( img );
 }
