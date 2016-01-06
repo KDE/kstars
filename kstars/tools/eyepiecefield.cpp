@@ -119,6 +119,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     connect( m_invertColors, SIGNAL( stateChanged( int ) ), this, SLOT( render() ) );
     connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render() ) );
     connect( m_presetCombo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
+    connect( m_presetCombo, SIGNAL( activated( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
 
     m_skyChart = 0;
     m_skyImage = 0;
