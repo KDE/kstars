@@ -52,7 +52,25 @@ class KSDssDownloader : public QObject {
     /**
      * @short Constructor
      */
+    KSDssDownloader( QObject *parent = 0 );
+
+    /**
+     * @short Constructor that initiates a "standard" DSS download job, and finally self destructs
+     * @note Very important that if you create with this constructor,
+     * the object will self-destruct. Avoid keeping pointers to it, or
+     * things may segfault!
+     */
     KSDssDownloader( const SkyPoint * const p, const QString &destFileName, QObject *parent = 0 );
+
+    /**
+     * @short Stateful single-download of a supplied URL. Use when the flexibility is required
+     * @note Does not self-delete this object. Construct with default constructor, and delete as usual.
+     * @param srcUrl source DSS URL to download
+     * @param destFileName destination image file (will be of PNG format)
+     * @param md DSS image metadata to write into image file
+     * @note emits downloadComplete with success state when done
+     */
+    void startSingleDownload( const QUrl srcUrl, const QString &destFileName, KSDssImage::Metadata md );
 
     /**
      *@short High-level method to create a URL to obtain a DSS image for a given SkyPoint
@@ -91,12 +109,17 @@ class KSDssDownloader : public QObject {
      */
     static QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0, const QString & type_ = "gif", const QString & version_ = "all", struct KSDssImage::Metadata *md = 0 );
 
+    /**
+     *@short Write image metadata into file
+     */
     static bool writeImageWithMetadata( const QString &srcFile, const QString &destFile, const KSDssImage::Metadata &md );
+
  signals:
      void downloadComplete( bool success );
 
  private slots:
      void downloadAttemptFinished();
+     void singleDownloadFinished();
 
  private:
      void startDownload( const SkyPoint * const p, const QString &destFileName );

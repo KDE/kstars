@@ -39,6 +39,8 @@
 #include <QTemporaryFile>
 
 
+KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
+}
 KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, QObject *parent ) : QObject( parent ) {
     // Initialize version preferences. FIXME: This must be made a
     // user-changeable option just in case someone likes red
@@ -183,6 +185,36 @@ void KSDssDownloader::startDownload( const SkyPoint * const p, const QString &de
     srcUrl.setUrl( getDSSURL( p, m_VersionPreference[m_attempt], &m_AttemptData ) );
     initiateSingleDownloadAttempt( srcUrl );
 }
+
+void KSDssDownloader::startSingleDownload( const QUrl srcUrl, const QString &destFileName, KSDssImage::Metadata md ) {
+    m_FileName = destFileName;
+    QUrl fileUrl = QUrl::fromLocalFile( m_TempFile.fileName() );
+    qDebug() << "Downloading DSS Image from URL: " << srcUrl << " to " << fileUrl;
+    m_DownloadJob = KIO::copy( srcUrl, fileUrl, KIO::Overwrite ) ; // FIXME: Can be done with pure Qt
+    connect ( m_DownloadJob, SIGNAL ( result (KJob *) ), SLOT ( singleDownloadFinished() ) );
+    m_AttemptData = md;
+}
+
+void KSDssDownloader::singleDownloadFinished() {
+    // Check if there was an error downloading itself
+    if( m_DownloadJob->error() != 0 ) {
+        qDebug() << "Error " << m_DownloadJob->error() << " downloading DSS images!";
+        emit downloadComplete( false );
+        return;
+    }
+    // Check if we have a proper DSS image or the DSS server failed
+    QMimeDatabase mdb;
+    QMimeType mt = mdb.mimeTypeForFile( m_TempFile.fileName(), QMimeDatabase::MatchContent );
+    if( mt.name().contains( "image", Qt::CaseInsensitive ) ) {
+        qDebug() << "DSS download was successful";
+        emit downloadComplete( writeImageWithMetadata( m_TempFile.fileName(), m_FileName, m_AttemptData ) );
+        return;
+    }
+    else
+        emit downloadComplete( false );
+}
+
+
 
 void KSDssDownloader::downloadAttemptFinished() {
     // Check if there was an error downloading itself
