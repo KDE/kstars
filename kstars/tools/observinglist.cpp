@@ -96,9 +96,14 @@ ObservingList::ObservingList()
     mainLayout->addWidget(ui);
     setWindowTitle( i18n( "Observation Planner" ) );
 
+    // Close button seems redundant since one can close the window -- occupies space
+    /*
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    */
+
+    setLayout( mainLayout );
 
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);
@@ -219,7 +224,11 @@ ObservingList::ObservingList()
     m_CurrentObject = 0;
     setSaveImagesButton();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
-//    ui->MiniButton->hide();
+    //    ui->MiniButton->hide();
+
+    // Set up for the large-size view
+    bIsLarge = false;
+    slotToggleSize();
 }
 
 ObservingList::~ObservingList()
@@ -945,7 +954,15 @@ void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
         ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen") );
         //Abbreviate text on each button
-        ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
+        ui->FindButton->setText( "" );
+        ui->FindButton->setIcon( QIcon::fromTheme("edit-find") );
+        ui->WUTButton->setText( i18nc( "Abbreviation of What's Up Tonight", "WUT" ) );
+        ui->saveImages->setText( "" );
+        ui->DeleteAllImages->setText( "" );
+        ui->saveImages->setIcon( QIcon::fromTheme( "document-save" ) );
+        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete" ) );
+        ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
+        ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
         //Hide columns 1-5
         ui->TableView->hideColumn(1);
         ui->TableView->hideColumn(2);
@@ -958,9 +975,13 @@ void ObservingList::slotToggleSize() {
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
+        ui->kseparator->hide();
         ui->avt->hide();
+        ui->dssMetadataLabel->hide();
+        ui->setMinimumSize(320, 600);
         //Set the width of the Table to be the width of 5 toolbar buttons,
         //or the width of column 1, whichever is larger
+        /*
         int w = 5*ui->MiniButton->width();
         if ( ui->TableView->columnWidth(0) > w ) {
             w = ui->TableView->columnWidth(0);
@@ -970,7 +991,12 @@ void ObservingList::slotToggleSize() {
         int left, right, top, bottom;
         ui->layout()->getContentsMargins( &left, &top, &right, &bottom );
         resize( w + left + right, height() );
+        */
         bIsLarge = false;
+        ui->resize( 400, ui->height() );
+        adjustSize();
+        this->resize( 400, this->height() );
+        update();
     } else {
         ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore" ) );
         //Show columns 1-5
@@ -982,13 +1008,24 @@ void ObservingList::slotToggleSize() {
         //Show the horizontal header
         ui->TableView->horizontalHeader()->show();
         //Expand text on each button
-        ui->WUTButton->setText( i18n( "WUT") );
         ui->FindButton->setText( i18n( "Find &Object") );
+        ui->saveImages->setText( i18n( "Save all Images" ) );
+        ui->DeleteAllImages->setText( i18n( "Delete all Images" ) );
+        ui->FindButton->setIcon( QIcon() );
+        ui->saveImages->setIcon( QIcon() );
+        ui->DeleteAllImages->setIcon( QIcon() );
+        ui->WUTButton->setText( i18n( "What's up Tonight tool" ) );
+        ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "Reference Images:" ) );
+        ui->addLabel->setText( i18nc( "Add objects to a list", "Adding Objects:" ) );
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();
+        ui->kseparator->show();
+        ui->setMinimumSize(837, 650);
         ui->avt->show();
+        ui->dssMetadataLabel->show();
         adjustSize();
+        update();
         bIsLarge = true;
     }
 }
