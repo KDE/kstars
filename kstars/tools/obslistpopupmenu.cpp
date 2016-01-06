@@ -60,7 +60,7 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
 
     if( !multiSelection ) {
         addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ksdata->observingList(), SLOT( slotDetails() ) ); // Insert item for showing details dialog
-        addAction( i18n( "Eyepiece view (Beta)" ), ksdata->observingList(), SLOT( slotEyepieceView() ) ); // Insert item for showing eyepiece view
+        addAction( i18n( "Eyepiece view" ), ksdata->observingList(), SLOT( slotEyepieceView() ) ); // Insert item for showing eyepiece view
     }
 
     //Insert item for opening the Altitude vs time dialog
