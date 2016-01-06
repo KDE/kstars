@@ -498,17 +498,31 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->SearchImage->setEnabled( false );
             }
-            if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ).size() > 13000)  {//If the image is present, show it! // FIXME: This 13000 bytes is extremely ugly and a terrible idea. -- asimha
-                ui->ImagePreview->showPreview( QUrl::fromLocalFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ) ;
+            QString BasePath=  QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/'); // FIXME '/' may cause problems on Windows
+            QString ImagePath;
+            if( QFile( ImagePath = BasePath + CurrentImage ).exists() )  {
+                ;
+            }
+            else if( QFile( ImagePath = BasePath + "Temp_" + CurrentImage ).exists() ) 
+                ;
+            else
+                ImagePath = QString();
+            if( !ImagePath.isEmpty() ) {//If the image is present, show it!
+                KSDssImage ksdi( ImagePath );
+                KSDssImage::Metadata md = ksdi.getMetadata();
+                ui->ImagePreview->showPreview( QUrl::fromLocalFile( ksdi.getFileName() ) );
+                if( md.width != 0 ) {// FIXME: Need better test for meta data presence
+                    ui->dssMetadataLabel->setText( i18n( "DSS Image metadata: \n Size: %1\' x %2\' \n Photometric band: %3 \n Version: %4",
+                                                         QString::number( md.width ), QString::number( md.height ), QString() + md.band, md.version ) );
+                }
+                else
+                    ui->dssMetadataLabel->setText( i18n( "No image info available." ) );
                 ui->ImagePreview->show();
                 ui->SaveImage->setEnabled( false );
                 ui->DeleteImage->setEnabled( true );
-            } else if( QFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ).size() > 13000 )  {
-                ui->ImagePreview->showPreview( QUrl::fromLocalFile( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ) ) ;
-                ui->ImagePreview->show();
-                ui->SaveImage->setEnabled( true );
-                ui->DeleteImage->setEnabled( true );
             }
+            else
+                ui->dssMetadataLabel->setText( i18n( "No image available. Click on the placeholder image to download one." ) );
         } else {
             qDebug() << i18n( "Object %1 not found in list.", newName );
         }
