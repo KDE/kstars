@@ -316,7 +316,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
             transform.rotate( northAngle * 180/M_PI );
             img = img.transformed( transform, Qt::SmoothTransformation );
         }
-        p.drawImage( QPointF( m_skyImage->width()/2.0 - img.width()/2.0, m_skyImage->height()/2.0 - img.width()/2.0 ), img );
+        p.drawImage( QPointF( m_skyImage->width()/2.0 - img.width()/2.0, m_skyImage->height()/2.0 - img.height()/2.0 ), img );
         p.end();
     }
     else
