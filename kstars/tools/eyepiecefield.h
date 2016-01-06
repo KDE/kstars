@@ -70,8 +70,30 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
      * @param imagePath Optional path to DSS or other image. North should be on the top of the image.
      * @note The SkyPoint must have correct Alt/Az coordinates, maybe by calling update() already before calling this method.
      */
-    void showEyepieceField( SkyPoint *sp, const double fovWidth, double fovHeight = -1.0, const QString &imagePath = QString(),
-                            const double dssWidth = -1.0, const double dssHeight = -1.0 );
+    void showEyepieceField( SkyPoint *sp, const double fovWidth, double fovHeight = -1.0, const QString &imagePath = QString() );
+
+    /**
+     * @short Generate the eyepiece field view and corresponding image view
+     * @param sp Sky point to draw the render the eyepiece field around
+     * @param skyChart A non-null pointer to replace with the eyepiece field image
+     * @param skyImage An optionally non-null pointer to replace with the re-oriented sky image
+     * @param fovWidth width of the field-of-view in arcminutes
+     * @param fovHeight height of field-of-view in arcminutes (if not supplied, is set to fovWidth)
+     * @param imagePath Optional path to DSS or other image. North
+     * should be on the top of the image, and the size should be in
+     * the metadata; otherwise 1.01 arcsec/pixel is assumed.
+     * @note fovWidth can be zero/negative if imagePath is non-empty. If it is, the image size is used for the FOV.
+     * @note fovHeight can be zero/negative. If it is, fovWidth will be used. If fovWidth is also zero, image size is used.
+     */
+
+    static void generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage = 0, double fovWidth = -1.0,
+                                      double fovHeight = -1.0, const QString &imagePath = QString() );
+
+    /**
+     * @short Overloaded method provided for convenience. Obtains fovWidth/fovHeight from fov if non-null, else uses image
+     */
+    static void generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage = 0, const FOV *fov = 0, const QString &imagePath = QString() );
+
 
 public slots:
 

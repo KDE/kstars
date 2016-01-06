@@ -173,7 +173,79 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
     Q_ASSERT( sp );
 
     // See if we were supplied a sky image; if so, load its metadata
-    if( ! imagePath.isEmpty() ) {
+    // Set up the new sky map FOV and pointing. full map FOV = 4 times the given FOV.
+    if( fov ) {
+        fovWidth = fov->sizeX();
+        fovHeight = fov->sizeY();
+    }
+    else if( !imagePath.isEmpty() ) {
+        fovWidth = fovHeight = -1.0; // figure out from the image.
+    }
+    else {
+        Q_ASSERT( false );
+        return;
+    }
+
+    showEyepieceField( sp, fovWidth, fovHeight, imagePath );
+
+}
+
+void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, double fovHeight, const QString &imagePath ) {
+
+    if( !m_skyChart )
+        m_skyChart = new QImage();
+    if( !m_skyImage && !imagePath.isEmpty() )
+        m_skyImage = new QImage();
+
+    generateEyepieceView( sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
+
+    if( !imagePath.isEmpty() )
+        m_skyImageDisplay->setVisible( true );
+    else
+        m_skyImageDisplay->setVisible( false );
+
+    // Enforce preset as per selection, since we have loaded a new eyepiece view
+    slotEnforcePreset( -1 );
+    // Render the display
+    render();
+
+
+}
+
+void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage, const FOV *fov, const QString &imagePath ) {
+    if( fov ) {
+        generateEyepieceView( sp, skyChart, skyImage, fov->sizeX(), fov->sizeY(), imagePath );
+    }
+    else {
+        generateEyepieceView( sp, skyChart, skyImage, -1.0, -1.0, imagePath );
+    }
+}
+
+void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage, double fovWidth, double fovHeight,
+                                          const QString &imagePath ) {
+
+    SkyMap *map = SkyMap::Instance();
+    KStars *ks = KStars::Instance();
+
+    Q_ASSERT( sp );
+    Q_ASSERT( map );
+    Q_ASSERT( ks );
+    Q_ASSERT( skyChart );
+
+    if( !skyChart )
+        return;
+
+    if( fovWidth <= 0 ) {
+        if( imagePath.isEmpty() )
+            return;
+        // Otherwise, we will assume that the user wants the FOV of the image and we'll try to guess it from there
+    }
+    if( fovHeight <= 0 )
+        fovHeight = fovWidth;
+
+    // Get DSS image width / height
+    double dssWidth, dssHeight;
+    if( !imagePath.isEmpty() ) {
         KSDssImage dssImage( imagePath );
         dssWidth = dssImage.getMetadata().width;
         dssHeight = dssImage.getMetadata().height;
@@ -185,39 +257,14 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
         }
     }
 
-    // Set up the new sky map FOV and pointing. full map FOV = 4 times the given FOV.
-    if( fov ) {
-        fovWidth = fov->sizeX();
-        fovHeight = fov->sizeY();
-    }
-    else if( dssWidth > 0 && dssHeight > 0 ) {
+
+    // Set FOV width/height from DSS if necessary
+    if( fovWidth <= 0 ) {
         fovWidth = dssWidth;
         fovHeight = dssHeight;
     }
-    else {
-        fovWidth = 60.0;
-        fovHeight = 60.0;
-    }
 
-    showEyepieceField( sp, fovWidth, fovHeight, imagePath, dssWidth, dssHeight );
-
-}
-
-void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, double fovHeight, const QString &imagePath,
-                                       const double dssWidth, const double dssHeight ) {
-
-    SkyMap *map = SkyMap::Instance();
-    KStars *ks = KStars::Instance();
-
-    Q_ASSERT( sp );
-    Q_ASSERT( map );
-    Q_ASSERT( ks );
-
-    if( fovWidth <= 0 )
-        return;
-    if( fovHeight <= 0 )
-        fovHeight = fovWidth;
-
+    // Grab the sky chart
     // Save the current state of the sky map
     SkyPoint *oldFocus = map->focus();
     double oldZoomFactor = Options::zoomFactor();
@@ -235,20 +282,17 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     map->slotCenter();
     qApp->processEvents();
 
-    // Get the sky map image
-    if( m_skyChart )
-        delete m_skyChart;
 
     // determine screen arcminutes per pixel value
     const double arcMinToScreen = dms::PI * Options::zoomFactor() / 10800.0;
 
     // Vector export
-    QTemporaryFile m_TempSvgFile;
-    m_TempSvgFile.open();
+    QTemporaryFile myTempSvgFile;
+    myTempSvgFile.open();
 
     // export as SVG
     QSvgGenerator svgGenerator;
-    svgGenerator.setFileName( m_TempSvgFile.fileName() );
+    svgGenerator.setFileName( myTempSvgFile.fileName() );
     // svgGenerator.setTitle(i18n(""));
     // svgGenerator.setDescription(i18n(""));
     svgGenerator.setSize( QSize(map->width(), map->height()) );
@@ -263,12 +307,16 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
 
     painter.end();
 
-    QSvgRenderer svgRenderer( m_TempSvgFile.fileName() );
-    m_skyChart = new QImage( arcMinToScreen * fovWidth * 2.0, arcMinToScreen * fovHeight * 2.0, QImage::Format_ARGB32 ); // 2 times bigger in both dimensions.
-    QPainter p2( m_skyChart );
+    // Render SVG file on raster QImage canvas
+    QSvgRenderer svgRenderer( myTempSvgFile.fileName() );
+    QImage *mySkyChart = new QImage( arcMinToScreen * fovWidth * 2.0, arcMinToScreen * fovHeight * 2.0, QImage::Format_ARGB32 ); // 2 times bigger in both dimensions.
+    QPainter p2( mySkyChart );
     svgRenderer.render( &p2 );
+    p2.end();
+    *skyChart = *mySkyChart;
+    delete mySkyChart;
 
-    m_TempSvgFile.close();
+    myTempSvgFile.close();
 
 
     // Reset the sky-map
@@ -285,16 +333,12 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     map->forceUpdate();
 
     // Prepare the sky image
-    if( ! imagePath.isEmpty() ) {
+    if( ! imagePath.isEmpty() && skyImage ) {
 
-        m_skyImageDisplay->setVisible( true );
-
-        if( m_skyImage )
-            delete m_skyImage;
-
-        m_skyImage = new QImage( int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0), QImage::Format_ARGB32 );
-        m_skyImage->fill( Qt::transparent );
-        QPainter p( m_skyImage );
+        QImage *mySkyImage = 0;
+        mySkyImage = new QImage( int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0), QImage::Format_ARGB32 );
+        mySkyImage->fill( Qt::transparent );
+        QPainter p( mySkyImage );
         QImage rawImg( imagePath );
         QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 2.0, arcMinToScreen * dssHeight * 2.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
@@ -316,16 +360,13 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
             transform.rotate( northAngle * 180/M_PI );
             img = img.transformed( transform, Qt::SmoothTransformation );
         }
-        p.drawImage( QPointF( m_skyImage->width()/2.0 - img.width()/2.0, m_skyImage->height()/2.0 - img.height()/2.0 ), img );
+        p.drawImage( QPointF( mySkyImage->width()/2.0 - img.width()/2.0, mySkyImage->height()/2.0 - img.height()/2.0 ), img );
         p.end();
-    }
-    else
-        m_skyImageDisplay->setVisible( false );
 
-    // Enforce preset as per selection, since we have loaded a new eyepiece view
-    slotEnforcePreset( -1 );
-    // Render the display
-    render();
+        *skyImage = *mySkyImage;
+        delete mySkyImage;
+    }
+
 }
 
 void EyepieceField::render() {
