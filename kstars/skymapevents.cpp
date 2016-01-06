@@ -40,6 +40,7 @@
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/infoboxwidget.h"
 #include "printing/simplefovexporter.h"
+#include "observinglist.h"
 
 #include "projections/projector.h"
 

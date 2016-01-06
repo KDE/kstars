@@ -35,6 +35,8 @@
 #include "skycomponents/flagcomponent.h"
 #include "skymap.h"
 
+#include "observinglist.h"
+
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI

@@ -38,6 +38,7 @@
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
 #include "skycomponents/skymapcomposite.h"
+#include "tools/observinglist.h"
 
 WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );

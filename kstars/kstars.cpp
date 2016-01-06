@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QStatusBar>
 #include <QIcon>
+#include <QMenu>
 
 #include <KLocalizedString>
 #include <KActionCollection>

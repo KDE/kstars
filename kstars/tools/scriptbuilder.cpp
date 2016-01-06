@@ -31,6 +31,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KIO/StoredTransferJob>
+#include <KIO/CopyJob>
 #include <KJob>
 
 #include "scriptfunction.h"

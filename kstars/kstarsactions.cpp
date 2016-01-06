@@ -78,7 +78,7 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
-
+#include "tools/observinglist.h"
 
 //FIXME Port to QML2
 #if 0

@@ -1297,6 +1297,19 @@ void ObservingList::saveThumbImage() {
     }
 }
 
+QString ObservingList::getTime( const SkyObject *o ) const {
+    return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" );
+}
+
+QTime ObservingList::scheduledTime( SkyObject *o ) const {
+    return TimeHash.value( o->name(), o->transitTime( dt, geo ) );
+}
+
+void ObservingList::setTime( const SkyObject *o, QTime t ) {
+    TimeHash.insert( o->name(), t);
+}
+
+
 void ObservingList::slotOALExport() {
     slotSaveSessionAs(false);
 }

@@ -41,6 +41,7 @@
 #include "simclock.h"
 #include "timezonerule.h"
 #include "imageexporter.h"
+#include "observinglist.h"
 
 #include <config-kstars.h>
 #include "dialogs/detaildialog.h"

@@ -51,7 +51,7 @@
 #include "constellationartcomponent.h"
 #include "kscomet.h"
 #include "ksasteroid.h"
-
+#include "observinglist.h"
 
 #include "skymesh.h"
 #include "skylabeler.h"

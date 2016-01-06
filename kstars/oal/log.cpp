@@ -24,6 +24,7 @@
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
 #include "kstarsdatetime.h"
+#include "observinglist.h"
 
 void OAL::Log::writeBegin()
 {

@@ -44,6 +44,7 @@
 #include "Options.h"
 #include "imageexporter.h"
 #include "skycomponents/constellationboundarylines.h"
+#include "observinglist.h"
 
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
