@@ -38,6 +38,7 @@ public:
     virtual Vector2f toScreenVec(const SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0) const;
     virtual SkyPoint fromScreen(const QPointF& p, dms* LST, const dms* lat) const;
     virtual QVector< Vector2f > groundPoly(SkyPoint* labelpoint = 0, bool* drawLabel = 0) const;
+    virtual void updateClipPoly();
 };
 
 #endif // EQUIRECTANGULARPROJECTOR_H
