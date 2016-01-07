@@ -250,8 +250,9 @@ protected:
     ViewParams m_vp;
     double m_sinY0, m_cosY0;
     double m_fov;
-private:
     QPolygonF m_clipPolygon;
+
+private:
 
     //Used by CheckVisibility
     double m_xrange;
