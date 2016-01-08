@@ -752,7 +752,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Preferred Imagery</string>
+          <string>Preferred Imagery (Always downloads DSS. SDSS support has been removed temporarily in this version)</string>
          </property>
          <layout class="QHBoxLayout" name="_3">
           <property name="spacing">
@@ -778,12 +778,18 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <property name="enabled">
+              <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListPreferSDSS">
             <property name="text">
              <string>Sloan Digital Sky Sur&amp;vey (SDSS)</string>
+            </property>
+            <property name="enabled">
+              <bool>false</bool>
             </property>
            </widget>
           </item>
