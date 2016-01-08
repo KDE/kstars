@@ -217,3 +217,10 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
         return ground;
     }
 }
+
+void EquirectangularProjector::updateClipPoly()
+{
+    m_clipPolygon.clear();
+
+    m_clipPolygon << QPointF(0,0) << QPointF(m_vp.width, 0) << QPointF(m_vp.width, m_vp.height) << QPointF(0, m_vp.height);
+}

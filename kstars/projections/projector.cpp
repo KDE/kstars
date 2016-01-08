@@ -50,6 +50,8 @@ Projector::Projector(const ViewParams& p)
 {
     m_data = KStarsData::Instance();
     setViewParams(p);
+    // Force clip polygon update
+    updateClipPoly();
 }
 
 Projector::~Projector()
