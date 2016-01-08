@@ -1130,13 +1130,15 @@ void ObservingList::slotCustomDSS() {
 
 }
 
-void ObservingList::slotGetImage( bool _dss ) {
+void ObservingList::slotGetImage( bool _dss, const SkyObject *o, bool temp ) {
     dss = _dss;
+    if( !o )
+        o = currentObject();
     ui->SearchImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
-    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) )  // FIXME: Might have issues on Windows with using '/'
-        setCurrentImage( currentObject(), true );
-    QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage ) ;
+    if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage ) )  // FIXME: Might have issues on Windows with using '/'
+        setCurrentImage( o, temp );
+    QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage ) ;
     QUrl url;
     dss = true;
     qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
@@ -1147,7 +1149,7 @@ void ObservingList::slotGetImage( bool _dss ) {
         url.setUrl( SDSSUrl );
     }
     */
-    KSDssDownloader *dler = new KSDssDownloader( currentObject(), QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage );
+    KSDssDownloader *dler = new KSDssDownloader( o, QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage );
     connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
     /*
     downloadJob = KIO::copy ( url, fileURL ) ;
@@ -1209,7 +1211,7 @@ void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     CurrentImagePath = QStandardPaths::locate( QStandardPaths::DataLocation , CurrentImage );
-    CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
+    CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
     DSSUrl = KSDssDownloader::getDSSURL( o );
     QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
@@ -1231,28 +1233,26 @@ void ObservingList::slotSaveAllImages() {
     ui->SessionView->clearSelection();
 
     foreach( SkyObject *o, getActiveList() ) {
+        if( !o )
+            continue; // FIXME: Why would we have null objects? But appears that we do.
         setCurrentImage( o );
         QString img( CurrentImagePath  );
         QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
-            saveImage( url, img );
+            saveImage( url, img, o );
     }
 }
 
-void ObservingList::saveImage( QUrl url, QString filename )
+void ObservingList::saveImage( QUrl url, QString filename, const SkyObject *o )
 {
 
+    if( !o )
+        o = currentObject();
+    Q_ASSERT( o );
     if( ! QFile::exists( CurrentImagePath  ) && ! QFile::exists( CurrentTempPath ) )
     {
-        if (KIO::file_copy(url, QUrl::fromLocalFile(filename))->exec() == true)
-        {
-            /*if( QFile( CurrentImagePath ).size() < 13000 )
-            {//The default image is around 8689 bytes FIXME: This seems to have changed
-                url = QUrl( DSSUrl );
-                KIO::NetAccess::download( url, filename, mainWidget() );
-            }*/
-            saveThumbImage();
-        }
+        // Call the DSS downloader
+        slotGetImage( true, o, true );
     } else if( QFile::exists( CurrentTempPath ) )
     {
         QFile f( CurrentTempPath );

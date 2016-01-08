@@ -299,7 +299,7 @@ public slots:
     /** @short Downloads the corresponding DSS or SDSS image from the web and
         *displays it
         */
-    void slotGetImage( bool _dss = false );
+    void slotGetImage( bool _dss = false, const SkyObject *o = 0, bool temp=true );
 
     void slotSearchImage();
 
@@ -314,7 +314,7 @@ public slots:
         *@p filename the file onto which the url has to be copied to
         *NOTE: This is not a generic image saver, it is specific to the current object
         */
-    void saveImage( QUrl url , QString filename );
+    void saveImage( QUrl url , QString filename, const SkyObject *o = 0 );
 
     /** @short saves the temporary image permanently
         */
