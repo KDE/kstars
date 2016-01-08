@@ -45,6 +45,7 @@
 #include "oal/execute.h"
 #include "tools/eyepiecefield.h"
 #include "fov.h"
+#include "constellationboundarylines.h"
 
 #include <config-kstars.h>
 
@@ -128,6 +129,7 @@ ObservingList::ObservingList()
                                           << i18nc( "Declination", "Dec" )
                                           << i18nc( "Magnitude", "Mag" )
                                           << i18n( "Type" )
+                                          << i18nc( "Constellation", "Constell." )
                                           << i18n( "Time" )
                                           << i18nc( "Altitude", "Alt" )
                                           << i18nc( "Azimuth", "Az" ));
@@ -341,6 +343,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
                 << new QStandardItem( obj->typeName() )
+                << new QStandardItem( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) ) )
                 << BestTime
                 << new QStandardItem( alt )
                 << new QStandardItem( az );
