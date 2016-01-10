@@ -624,19 +624,6 @@
         <number>12</number>
        </property>
        <item>
-        <widget class="QPushButton" name="SaveImage">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Save</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="SearchImage">
          <property name="text">
           <string>Find Image</string>

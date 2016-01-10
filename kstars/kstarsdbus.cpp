@@ -331,7 +331,6 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "ShowPlanetNames"    && bOk ) Options::setShowPlanetNames(    bVal );
     if ( op == "ShowPlanetImages"   && bOk ) Options::setShowPlanetImages(   bVal );
     if ( op == "HideOnSlew"  && bOk ) Options::setHideOnSlew(  bVal );
-    if ( op == "ObsListSaveImage"  && bOk ) Options::setObsListSaveImage(  bVal );
     if ( op == "HideStars"   && bOk ) Options::setHideStars(   bVal );
     if ( op == "HidePlanets" && bOk ) Options::setHidePlanets( bVal );
     if ( op == "HideMessier" && bOk ) Options::setHideMessier( bVal );

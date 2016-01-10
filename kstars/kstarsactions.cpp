@@ -1388,10 +1388,6 @@ void KStars::slotAboutToQuit()
     //synch the config file with the Config object
     writeConfig();
 
-    if( !Options::obsListSaveImage() ) {
-        foreach ( const QString& file, m_KStarsData->observingList()->imageList() )
-            QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + file ) ;
-    }
 }
 
 void KStars::slotShowPositionBar(SkyPoint* p )

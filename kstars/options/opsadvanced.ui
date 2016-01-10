@@ -731,19 +731,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="kcfg_ObsListSaveImage">
-         <property name="toolTip">
-          <string>Save the downloaded DSS/SDSS images?</string>
-         </property>
-         <property name="whatsThis">
-          <string>Do you want the downloaded DSS/SDSS images to be saved when closing the observing list?</string>
-         </property>
-         <property name="text">
-          <string>Save downloaded images on exit</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="ObsListImageryOptions">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">

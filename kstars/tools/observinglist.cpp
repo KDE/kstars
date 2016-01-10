@@ -190,8 +190,6 @@ ObservingList::ObservingList()
              this, SLOT( slotLocation() ) );
     connect( ui->Update, SIGNAL( clicked() ),
              this, SLOT( slotUpdate() ) );
-    connect( ui->SaveImage, SIGNAL( clicked() ),
-             this, SLOT( slotSaveImage() ) );
     connect( ui->DeleteImage, SIGNAL( clicked() ),
              this, SLOT( slotDeleteCurrentImage() ) );
     connect( ui->SearchImage, SIGNAL( clicked() ),
@@ -220,7 +218,6 @@ ObservingList::ObservingList()
     ui->TimeEdit->setEnabled( false );
     ui->SearchImage->setEnabled( false );
     ui->saveImages->setEnabled( false );
-    ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     ui->OALExport->setEnabled( false );
 
@@ -451,7 +448,6 @@ void ObservingList::slotNewSelection() {
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
-    ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
 
     selectedItems = getActiveSortModel()->mapSelectionToSource( getActiveView()->selectionModel()->selection() ).indexes();
@@ -517,8 +513,6 @@ void ObservingList::slotNewSelection() {
             if( QFile( ImagePath = BasePath + CurrentImage ).exists() )  {
                 ;
             }
-            else if( QFile( ImagePath = BasePath + "Temp_" + CurrentImage ).exists() ) 
-                ;
             else
                 ImagePath = QString();
             if( !ImagePath.isEmpty() ) {//If the image is present, show it!
@@ -532,7 +526,6 @@ void ObservingList::slotNewSelection() {
                 else
                     ui->dssMetadataLabel->setText( i18n( "No image info available." ) );
                 ui->ImagePreview->show();
-                ui->SaveImage->setEnabled( false );
                 ui->DeleteImage->setEnabled( true );
             }
             else
@@ -677,8 +670,6 @@ void ObservingList::slotEyepieceView() {
         m_epf = new EyepieceField( this );
     if( QFile::exists( CurrentImagePath ) )
         imagePath = CurrentImagePath;
-    else if( QFile::exists( CurrentTempPath ) )
-        imagePath = CurrentTempPath;
 
     KStarsData *data = KStarsData::Instance();
     bool ok = true;
@@ -1060,7 +1051,6 @@ void ObservingList::slotChangeTab(int index) {
     ui->TimeEdit->setEnabled( false );
     ui->SetTime->setEnabled( false );
     ui->SearchImage->setEnabled( false );
-    ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     sessionView     = index != 0;
@@ -1133,31 +1123,20 @@ void ObservingList::slotCustomDSS() {
 
 }
 
-void ObservingList::slotGetImage( bool _dss, const SkyObject *o, bool temp ) {
+void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     dss = _dss;
     if( !o )
         o = currentObject();
     ui->SearchImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
     if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage ) )  // FIXME: Might have issues on Windows with using '/'
-        setCurrentImage( o, temp );
+        setCurrentImage( o );
     QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage ) ;
     QUrl url;
     dss = true;
     qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
-    /*
-    if( dss ) {
-        url.setUrl( DSSUrl );
-    } else {
-        url.setUrl( SDSSUrl );
-    }
-    */
     KSDssDownloader *dler = new KSDssDownloader( o, QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + CurrentImage );
     connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
-    /*
-    downloadJob = KIO::copy ( url, fileURL ) ;
-    connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
-    */
 }
 
 void ObservingList::downloadReady( bool success ) {
@@ -1180,10 +1159,6 @@ void ObservingList::downloadReady( bool success ) {
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
-        if( CurrentImage.contains( "Temp" ) ) {
-            ImageList.append( CurrentImage );
-            ui->SaveImage->setEnabled( true );
-        }
         ui->DeleteImage->setEnabled( true );
     }
     /*
@@ -1193,42 +1168,34 @@ void ObservingList::downloadReady( bool success ) {
     */
 }
 
-void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
+void ObservingList::setCurrentImage( const SkyObject *o  ) {
     // TODO: Remove code duplication -- we have the same stuff
     // implemented in SkyMap::slotDSS in skymap.cpp; must try to
     // de-duplicate as much as possible.
 
-    if( temp )
-        CurrentImage = "Temp_Image_" +  o->name().remove(' ');
-    else
-        CurrentImage = "Image_" +  o->name().remove(' ');
+    CurrentImage = "Image_" +  o->name().remove(' ');
     ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
     if( o->name() == "star" ) {
         QString RAString( o->ra0().toHMSString() );
         QString DecString( o->dec0().toDMSString() );
-        if( temp )
-            CurrentImage = "Temp_Image" + RAString.remove(' ') + DecString.remove(' ');
-        else
-            CurrentImage = "Image" + RAString.remove(' ') + DecString.remove(' ');
+        CurrentImage = "Image" + RAString.remove(' ') + DecString.remove(' ');
         QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     CurrentImagePath = QStandardPaths::locate( QStandardPaths::DataLocation , CurrentImage );
-    CurrentTempPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "Temp_" + CurrentImage ; // FIXME: Eh? -- asimha
     DSSUrl = KSDssDownloader::getDSSURL( o );
-    QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
-    QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
+    // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
+    // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
 
-    QString RA, Dec;
-    RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
-    Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
+    // QString RA, Dec;
+    // RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
+    // Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
 
-    SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
+    // SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
 }
 
 void ObservingList::slotSaveAllImages() {
     ui->SearchImage->setEnabled( false );
-    ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
@@ -1252,31 +1219,18 @@ void ObservingList::saveImage( QUrl url, QString filename, const SkyObject *o )
     if( !o )
         o = currentObject();
     Q_ASSERT( o );
-    if( ! QFile::exists( CurrentImagePath  ) && ! QFile::exists( CurrentTempPath ) )
+    if( ! QFile::exists( CurrentImagePath  ) )
     {
         // Call the DSS downloader
-        slotGetImage( true, o, true );
-    } else if( QFile::exists( CurrentTempPath ) )
-    {
-        QFile f( CurrentTempPath );
-        f.rename( CurrentImagePath );
+        slotGetImage( true, o );
     }
 
-}
-
-void ObservingList::slotSaveImage() {
-    setCurrentImage( currentObject() );
-    QFile f( CurrentTempPath);
-    f.rename( CurrentImagePath );
-    ui->SaveImage->setEnabled( false );
 }
 
 void ObservingList::slotImageViewer() {
     ImageViewer *iv = 0;
     if( QFile::exists( CurrentImagePath ) )
         iv = new ImageViewer( CurrentImagePath, this );
-    else if( QFile::exists( CurrentTempPath ) )
-        iv = new ImageViewer( CurrentTempPath, this );
 
     if( iv )
         iv->show();
@@ -1287,7 +1241,6 @@ void ObservingList::slotDeleteAllImages() {
         return;
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     ui->SearchImage->setEnabled( false );
-    ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
@@ -1318,7 +1271,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
-                if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) { // FIXME: This size estimate is unreliable.
+                if( !QFile::exists( CurrentImagePath ) ) {
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage( Options::obsListPreferDSS() );
                     else
@@ -1382,7 +1335,6 @@ void ObservingList::slotSearchImage() {
 
 void ObservingList::slotDeleteCurrentImage() {
     QFile::remove( CurrentImagePath );
-    QFile::remove( CurrentTempPath );
     slotNewSelection();
 }
 

@@ -745,11 +745,6 @@
       <whatsthis>Objects in the observing list will be highlighted with a colored name label in the map.</whatsthis>
       <default>false</default>
     </entry>
-    <entry name="ObsListSaveImage" type="Bool">
-      <label>Save the DSS/SDSS images to disk</label>
-      <whatsthis>The images of objects in the observing list will be autosaved if you download them</whatsthis>
-      <default>false</default>
-    </entry>
     <entry name="ObsListPreferDSS" type="Bool">
       <label>Prefer Digitized Sky Survey imagery in the observing list</label>
       <whatsthis>The observing list will prefer DSS imagery while downloading imagery.</whatsthis>
