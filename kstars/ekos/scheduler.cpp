@@ -810,7 +810,7 @@ void Scheduler::evaluateJobs()
         if (job->getState() == SchedulerJob::JOB_IDLE)
             job->setState(SchedulerJob::JOB_EVALUATION);
 
-        /*int16_t score = 0, altScore=0, moonScore=0, darkScore=0;*/
+        int16_t score = 0;
 
         QDateTime now = KStarsData::Instance()->lt();
 
