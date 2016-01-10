@@ -27,7 +27,6 @@
 
 #include <QDialog>
 #include <QHash>
-#include <QtMultimedia/QMediaPlayer>
 #include <QtDBus/QtDBus>
 
 class DriverInfo;
