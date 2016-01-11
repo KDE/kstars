@@ -356,6 +356,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
             KStarsData *data = KStarsData::Instance();
             double lat = data->geo()->lat()->radians();
 
+            // FIXME: This procedure does not account for precession and nutation. Need to figure out how to incorporate these effects.
             // We trust that EquatorialToHorizontal has been called on geo, after all, how else can it have an alt/az representation.
             // Use spherical cosine rule (the triangle with vertices at sp, zenith and NCP) to compute the angle between direction of increasing altitude and north
             double cosNorthAngle = ( sin( lat ) - sin( sp->alt().radians() ) * sin( sp->dec().radians() ) )/( cos( sp->alt().radians() ) * cos( sp->dec().radians() ) );
