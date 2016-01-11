@@ -59,9 +59,7 @@ public:
 
     QList<INDI_D*> getDevices() { return guidevices; }
 
-    int size() { return guidevices.size(); }
-
-    FITSViewer *getGenericFITSViewer();
+    int size() { return guidevices.size(); }    
 
 protected:
     void closeEvent(QCloseEvent *);
@@ -80,9 +78,7 @@ protected:
 
     static GUIManager * _GUIManager;
     QList<ClientManager *> clients;
-    QList<INDI_D*> guidevices;
-
-    QPointer<FITSViewer> genericViewer;
+    QList<INDI_D*> guidevices;    
 
   public slots:
     void clearLog();

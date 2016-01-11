@@ -72,6 +72,10 @@ class OpsEkos;
 class OpsXplanet;
 #endif
 
+#ifdef HAVE_CFITSIO
+class FITSViewer;
+#endif
+
 /**
  *@class KStars
  *@short This is the main window for KStars.
@@ -127,6 +131,10 @@ public:
     inline FlagManager* flagManager() const { return m_FlagManager; }
 
     inline PrintingWizard* printingWizard() const { return m_PrintingWizard; }
+
+    #ifdef HAVE_CFITSIO
+    FITSViewer *genericFITSViewer();
+    #endif
 
     #ifdef HAVE_INDI
     EkosManager *ekosManager();
@@ -638,6 +646,10 @@ private:
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
     HorizonManager *m_HorizonManager;
+    #ifdef HAVE_CFITSIO
+    QPointer<FITSViewer> genericViewer;
+    #endif
+
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

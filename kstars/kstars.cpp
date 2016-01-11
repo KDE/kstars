@@ -51,6 +51,10 @@
 #include "ekos/ekosmanager.h"
 #endif
 
+#ifdef HAVE_CFITSIO
+#include "fitsviewer/fitsviewer.h"
+#endif
+
 KStars *KStars::pinstance = 0;
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
@@ -77,6 +81,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
 
     QDBusConnection::sessionBus().registerObject("/KStars",  this);
     QDBusConnection::sessionBus().registerService("org.kde.kstars");
+
+    #ifdef HAVE_CFITSIO
+    genericViewer = NULL;
+    #endif
 
     #ifdef HAVE_INDI
     m_EkosManager = NULL;
@@ -385,6 +393,19 @@ void KStars::updateTime( const bool automaticDSTchange ) {
         QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
     }
 }
+
+#ifdef HAVE_CFITSIO
+FITSViewer * KStars::genericFITSViewer()
+{
+    if (genericViewer == NULL)
+    {
+        genericViewer = new FITSViewer(this);
+        genericViewer->setAttribute(Qt::WA_DeleteOnClose);
+    }
+
+    return genericViewer;
+}
+#endif
 
 #ifdef HAVE_INDI
 EkosManager *KStars::ekosManager()

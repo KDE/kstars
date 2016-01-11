@@ -53,10 +53,7 @@ GUIManager * GUIManager::Instance()
 }
 
 GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
-{
-
-    genericViewer = NULL;
-
+{    
     mainLayout    = new QVBoxLayout(this);
     mainLayout->setMargin(10);
     mainLayout->setSpacing(10);
@@ -251,16 +248,4 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     updateStatus();
 
-}
-
-
-FITSViewer * GUIManager::getGenericFITSViewer()
-{
-    if (genericViewer == NULL)
-    {
-        genericViewer = new FITSViewer(KStars::Instance());
-        genericViewer->setAttribute(Qt::WA_DeleteOnClose);
-    }
-
-    return genericViewer;
 }

@@ -143,16 +143,6 @@
       <label>Display INDI messages in the statusbar?</label>
       <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
       <default>true</default>
-    </entry>
-    <entry name="singlePreviewFITS" type="Bool">
-      <label>Preview FITS in a single tab?</label>
-      <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
-      <default>true</default>
-    </entry>
-    <entry name="singleWindowFITS" type="Bool">
-      <label>Display all FITS in one window?</label>
-      <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
-      <default>false</default>
     </entry>    
     <entry name="useComputerSource" type="Bool">
       <label>Use computer time and location for synchronization?</label>
@@ -1223,6 +1213,21 @@
     <entry name="VerboseLogFile" type="String">
       <label>Verbose Log File</label>
       <whatsthis>Verbose log file to save all of KStars generated debug messages to.</whatsthis>
+    </entry>
+    <entry name="singlePreviewFITS" type="Bool">
+      <label>Preview FITS in a single tab?</label>
+      <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
+      <default>true</default>
+    </entry>
+    <entry name="singleWindowCapturedFITS" type="Bool">
+      <label>Display all captured FITS in one window?</label>
+      <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="singleWindowOpenedFITS" type="Bool">
+      <label>Display all opened FITS in one window?</label>
+      <whatsthis>Display all opened FITS images in a single FITS Viewer window.</whatsthis>
+      <default>true</default>
     </entry>
   </group>
   <group name="WISettings">

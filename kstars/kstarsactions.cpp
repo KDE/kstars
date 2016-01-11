@@ -641,13 +641,13 @@ void KStars::slotViewOps() {
 
     connect( dialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT( slotApplyConfigChanges() ) );
 
-    opcatalog    = new OpsCatalog( this );
-    opguides     = new OpsGuides( this );
-    opsolsys     = new OpsSolarSystem( this );
-    opssatellites= new OpsSatellites( this );
-    opssupernovae= new OpsSupernovae( this );
-    opcolors     = new OpsColors( this );
-    opadvanced   = new OpsAdvanced( this );
+    opcatalog    = new OpsCatalog();
+    opguides     = new OpsGuides();
+    opsolsys     = new OpsSolarSystem();
+    opssatellites= new OpsSatellites();
+    opssupernovae= new OpsSupernovae();
+    opcolors     = new OpsColors();
+    opadvanced   = new OpsAdvanced();
 
     dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
     dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");

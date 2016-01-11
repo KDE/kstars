@@ -213,5 +213,7 @@ GenericName[x-test]=xxDesktop Planetariumxx
 GenericName[zh_CN]=桌面天文馆
 GenericName[zh_TW]=桌面星象儀
 X-DBUS-StartupType=Multi
+MimeType=image/fits
+Patterns=*.fits;*.fit;
 Categories=Qt;KDE;Education;Science;Astronomy;
 X-DBUS-ServiceName=org.kde.kstars
