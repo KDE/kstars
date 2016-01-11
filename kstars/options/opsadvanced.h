@@ -39,7 +39,7 @@ class OpsAdvanced : public QFrame, public Ui::OpsAdvanced
     Q_OBJECT
 
 public:
-    explicit OpsAdvanced( KStars *_ks );
+    explicit OpsAdvanced();
     ~OpsAdvanced();
 
 private slots:

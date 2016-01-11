@@ -40,7 +40,7 @@ public:
     /**
      * Constructor
      */
-    explicit OpsSupernovae( KStars *_ks );
+    explicit OpsSupernovae();
 
     /**
      * Destructor

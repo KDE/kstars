@@ -23,8 +23,8 @@
 #include "skycomponents/supernovaecomponent.h"
 
 
-OpsSupernovae::OpsSupernovae(KStars* _ks)
-        : QFrame( _ks )
+OpsSupernovae::OpsSupernovae()
+        : QFrame( KStars::Instance() )
 {
     setupUi( this );
 

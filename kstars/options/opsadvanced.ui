@@ -178,6 +178,82 @@
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="FITSViewerGroup">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="title">
+          <string>FITS Viewer</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
+            <property name="toolTip">
+             <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Preview Mode</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
+            <property name="toolTip">
+             <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Single Window Capture</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
+            <property name="toolTip">
+             <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Single Window Open</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
           <string>Logging Output</string>
@@ -290,12 +366,6 @@
            </layout>
           </item>
          </layout>
-         <zorder>kcfg_RegularLogging</zorder>
-         <zorder>kcfg_VerboseLogFile</zorder>
-         <zorder>kcfg_LogToDefault</zorder>
-         <zorder>kcfg_LogToFile</zorder>
-         <zorder>label_4</zorder>
-         <zorder>label_5</zorder>
         </widget>
        </item>
        <item>
@@ -759,24 +829,24 @@
           </property>
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListPreferDSS">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Digiti&amp;zed Sky Survey (DSS)</string>
             </property>
             <property name="checked">
              <bool>true</bool>
             </property>
-            <property name="enabled">
-              <bool>false</bool>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListPreferSDSS">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Sloan Digital Sky Sur&amp;vey (SDSS)</string>
-            </property>
-            <property name="enabled">
-              <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -841,7 +911,6 @@
   <tabstop>kcfg_HideGrids</tabstop>
   <tabstop>kcfg_ObsListSymbol</tabstop>
   <tabstop>kcfg_ObsListText</tabstop>
-  <tabstop>kcfg_ObsListSaveImage</tabstop>
   <tabstop>kcfg_ObsListPreferDSS</tabstop>
   <tabstop>kcfg_ObsListPreferSDSS</tabstop>
  </tabstops>

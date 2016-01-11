@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "opsadvanced.h"
+#include "config-kstars.h"
 
 #include <QLabel>
 #include <QCheckBox>
@@ -26,10 +27,14 @@
 #include "ksutils.h"
 #include "widgets/timestepbox.h"
 
-OpsAdvanced::OpsAdvanced( KStars *_ks )
-        : QFrame( _ks )
+OpsAdvanced::OpsAdvanced()
+        : QFrame(KStars::Instance())
 {
     setupUi( this );
+
+    #ifdef HAVE_CFITSIO
+    FITSViewerGroup->setEnabled(true);
+    #endif
 
     //Initialize the timestep value
     SlewTimeScale->tsbox()->changeScale( Options::slewTimeScale() );

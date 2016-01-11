@@ -20,15 +20,15 @@
 
 #include <KActionCollection>
 
-OpsSolarSystem::OpsSolarSystem( KStars *_ks )
-        : QFrame( _ks ), ksw(_ks)
+OpsSolarSystem::OpsSolarSystem()
+        : QFrame(KStars::Instance())
 {
     setupUi( this );
 
     connect( kcfg_ShowSolarSystem, SIGNAL( toggled(bool) ), SLOT( slotAllWidgets(bool) ) );
     connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
     connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
-    connect( ClearAllTrails, SIGNAL( clicked() ), ksw, SLOT( slotClearAllTrails() ) );
+    connect( ClearAllTrails, SIGNAL( clicked() ), KStars::Instance(), SLOT( slotClearAllTrails() ) );
     connect( showAllPlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
     connect( showNonePlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
 
