@@ -180,7 +180,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
         fovWidth = fov->sizeX();
         fovHeight = fov->sizeY();
     }
-    else if( !imagePath.isEmpty() ) {
+    else if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
         fovWidth = fovHeight = -1.0; // figure out from the image.
     }
     else {
@@ -202,7 +202,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     generateEyepieceView( sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
     m_lat = KStarsData::Instance()->geo()->lat()->radians();
 
-    if( !imagePath.isEmpty() )
+    if( !imagePath.isEmpty() && QFile::exists( imagePath ) )
         m_skyImageDisplay->setVisible( true );
     else
         m_skyImageDisplay->setVisible( false );
@@ -244,8 +244,11 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
     if( !skyChart )
         return;
 
+    if( !map ) // Requires initialization of Sky map.
+        return;
+
     if( fovWidth <= 0 ) {
-        if( imagePath.isEmpty() )
+        if( imagePath.isEmpty() || !QFile::exists( imagePath ))
             return;
         // Otherwise, we will assume that the user wants the FOV of the image and we'll try to guess it from there
     }
@@ -254,7 +257,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
     // Get DSS image width / height
     double dssWidth, dssHeight;
-    if( !imagePath.isEmpty() ) {
+    if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
         KSDssImage dssImage( imagePath );
         dssWidth = dssImage.getMetadata().width;
         dssHeight = dssImage.getMetadata().height;
