@@ -33,7 +33,6 @@ class QStandardItemModel;
 class KStars;
 class KStarsDateTime;
 class GeoLocation;
-class EyepieceField;
 class ObsListPopupMenu;
 class SkyPoint;
 class SkyObject;
@@ -393,7 +392,6 @@ private:
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash;
     ObsListPopupMenu *pmenu;
-    EyepieceField *m_epf;
     KSDssDownloader *m_dl;
 };
 

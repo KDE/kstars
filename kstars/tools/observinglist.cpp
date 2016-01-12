@@ -92,7 +92,7 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 ObservingList::ObservingList()
         : QDialog( (QWidget*) KStars::Instance() ),
         LogObject(0), m_CurrentObject(0),
-          isModified(false), bIsLarge(true), m_epf( 0 ), m_dl( 0 )
+          isModified(false), bIsLarge(true), m_dl( 0 )
 {
     ui = new ObservingListUI( this );
     QVBoxLayout *mainLayout= new QVBoxLayout;
@@ -665,28 +665,7 @@ void ObservingList::slotFind() {
 }
 
 void ObservingList::slotEyepieceView() {
-    QString imagePath;
-    if( !m_epf )
-        m_epf = new EyepieceField( this );
-    if( QFile::exists( CurrentImagePath ) )
-        imagePath = CurrentImagePath;
-
-    KStarsData *data = KStarsData::Instance();
-    bool ok = true;
-    const FOV *fov = 0;
-    if( !data->getAvailableFOVs().isEmpty() ) {
-        // Ask the user to choose from a list of available FOVs.
-        int index;
-        const FOV *f;
-        QMap< QString, const FOV * > nameToFovMap;
-        foreach( f, data->getAvailableFOVs() ) {
-            nameToFovMap.insert( f->name(), f );
-        }
-        nameToFovMap.insert( i18n("Attempt to determine from image"), 0 );
-        fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Eyepiece View: Choose a field-of-view"), i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
-    }
-    if( ok )
-        m_epf->showEyepieceField( currentObject(), fov, imagePath );
+    KStars::Instance()->slotEyepieceView( currentObject(), CurrentImagePath );
 }
 
 void ObservingList::slotAVT() {

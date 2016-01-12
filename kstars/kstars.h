@@ -57,6 +57,7 @@ class ExportImageDialog;
 class PrintingWizard;
 class EkosManager;
 class HorizonManager;
+class EyepieceField;
 
 class OpsCatalog;
 class OpsGuides;
@@ -442,6 +443,10 @@ public Q_SLOTS:
     /** action slot: open Flag Manager */
     void slotFlagManager();
 
+    /** Show the eyepiece view tool */
+    void slotEyepieceView( SkyPoint *sp, const QString &imagePath = QString() );
+
+
 private slots:
     /** action slot: open a dialog for setting the time and date */
     void slotSetTime();
@@ -646,6 +651,7 @@ private:
     MoonPhaseTool *m_MoonPhaseTool;
     FlagManager *m_FlagManager;
     HorizonManager *m_HorizonManager;
+    EyepieceField *m_EyepieceView;
     #ifdef HAVE_CFITSIO
     QPointer<FITSViewer> genericViewer;
     #endif
