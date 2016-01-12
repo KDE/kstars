@@ -337,6 +337,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
             addAction( i18n( "Add Trail" ), map, SLOT( slotAddPlanetTrail() ) );
     }
 
+    addAction( i18n("Simulate eyepiece view"), map, SLOT( slotEyepieceView() ) );
+
     addSeparator();
 #ifdef HAVE_XPLANET
     if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) { // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
