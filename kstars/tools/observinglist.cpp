@@ -1000,7 +1000,7 @@ void ObservingList::slotToggleSize() {
         ui->TableView->horizontalHeader()->show();
         //Expand text on each button
         ui->FindButton->setText( i18n( "Find &Object") );
-        ui->saveImages->setText( i18n( "Save all Images" ) );
+        ui->saveImages->setText( i18n( "Download all Images" ) );
         ui->DeleteAllImages->setText( i18n( "Delete all Images" ) );
         ui->FindButton->setIcon( QIcon() );
         ui->saveImages->setIcon( QIcon() );
