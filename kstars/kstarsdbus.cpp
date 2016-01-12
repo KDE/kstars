@@ -153,6 +153,10 @@ void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
     data()->changeDateTime( data()->geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 }
 
+void KStars::setTimeToNow() {
+    slotSetTimeToNow();
+}
+
 void KStars::waitFor( double sec ) {
     QTime tm;
     tm.start();

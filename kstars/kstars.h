@@ -261,6 +261,12 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE Q_NOREPLY void setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
+    /** DBUS interface function.  Set local time and date to present values acc. system clock
+     * @note Just a proxy for slotSetTimeToNow(), but it is better to
+     * keep the DBus interface separate from the internal methods.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setTimeToNow();
+
     /** DBUS interface function.  Delay further execution of DBUS commands.
      * @param t number of seconds to delay
      */
