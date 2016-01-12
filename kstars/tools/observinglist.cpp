@@ -950,7 +950,7 @@ void ObservingList::slotToggleSize() {
         ui->WUTButton->setText( i18nc( "Abbreviation of What's Up Tonight", "WUT" ) );
         ui->saveImages->setText( "" );
         ui->DeleteAllImages->setText( "" );
-        ui->saveImages->setIcon( QIcon::fromTheme( "document-save" ) );
+        ui->saveImages->setIcon( QIcon::fromTheme( "download" ) );
         ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete" ) );
         ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
         ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
