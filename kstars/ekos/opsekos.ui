@@ -239,7 +239,7 @@
           <item>
            <widget class="QCheckBox" name="kcfg_RememberJobProgress">
             <property name="toolTip">
-             <string>When starting a new capture job, check if files were previously captured and resume capture afterwards</string>
+             <string>When loading a sequence file,  resume the sequence starting from the last captured image, if any.</string>
             </property>
             <property name="text">
              <string>Remember Job Progress</string>

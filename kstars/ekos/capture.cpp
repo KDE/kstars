@@ -82,7 +82,7 @@ Capture::Capture()
     deviationDetected = false;
     spikeDetected     = false;
 
-    ignoreJobProgress=false;
+    ignoreJobProgress=true;
 
     dustCapLightEnabled = lightBoxLightEnabled = false;
 
@@ -314,7 +314,6 @@ void Capture::abort()
     ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
     ADUSlope = 0;
     flatStage = FLAT_NONE;
-    ignoreJobProgress=false;
 
     if (activeJob)
     {
@@ -1768,7 +1767,11 @@ void Capture::loadSequenceQueue()
 
     dirPath = fileURL.path().remove(fileURL.fileName());
 
-    loadSequenceQueue(fileURL);
+    if (loadSequenceQueue(fileURL))
+    {
+        if (Options::rememberJobProgress())
+            ignoreJobProgress = false;
+    }
 }
 
 bool Capture::loadSequenceQueue(const QUrl &fileURL)
@@ -2420,6 +2423,7 @@ void Capture::clearSequenceQueue()
         queueTable->removeRow(0);
     jobs.clear();
     qDeleteAll(jobs);
+    ignoreJobProgress = true;
 
 }
 
@@ -3118,6 +3122,8 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
 
     if (rc == false)
         return false;
+
+    ignoreJobProgress = false;
 
     // We cannot know if the job is complete if the upload mode is local since we cannot inspect the files
     if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
