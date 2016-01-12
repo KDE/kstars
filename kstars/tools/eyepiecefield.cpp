@@ -202,10 +202,16 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     generateEyepieceView( sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
     m_lat = KStarsData::Instance()->geo()->lat()->radians();
 
-    if( !imagePath.isEmpty() && QFile::exists( imagePath ) )
+    if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
         m_skyImageDisplay->setVisible( true );
-    else
+        m_overlay->setVisible( true );
+        m_invertColors->setVisible( true );
+    }
+    else {
         m_skyImageDisplay->setVisible( false );
+        m_overlay->setVisible( false );
+        m_invertColors->setVisible( false );
+    }
 
     // Keep a copy for local purposes (computation of field rotation etc.)
     if( m_sp )
