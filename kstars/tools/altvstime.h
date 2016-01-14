@@ -103,6 +103,8 @@ public:
      */
     double findAltitude( SkyPoint *p, double hour );
 
+
+
     /** @short get object name. If star has no name, generate a name based on catalog number.
      * @param translated set to true if the translated name is required.
      */
@@ -114,6 +116,10 @@ public slots:
 
     /** @short Clear the list of displayed objects. */
     void slotClear();
+
+    void onXRangeChanged(const QCPRange &range);
+    void onX2RangeChanged(const QCPRange &range);
+    void onYRangeChanged(const QCPRange &range);
 
     /** @short Clear the edit boxes for specifying a new object. */
     void slotClearBoxes();
@@ -158,6 +164,8 @@ private:
     QList<SkyObject*> pList;
     QList<SkyObject*> deleteList;
     int DayOffset;
+    int minAlt;
+    int maxAlt;
 };
 
 #endif // ALTVSTIME_H_

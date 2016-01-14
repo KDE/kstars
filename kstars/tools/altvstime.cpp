@@ -60,17 +60,43 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     QVBoxLayout* topLayout = new QVBoxLayout;
     setLayout(topLayout);
     topLayout->setMargin( 0 );
-
     avtUI = new AltVsTimeUI( this );
 
-    avtUI->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
-    avtUI->View->setShowGrid( false );
-    avtUI->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
-    avtUI->View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
-    avtUI->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
-    avtUI->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
-    avtUI->View->axis(KPlotWidget::TopAxis)->setLabel( i18n( "Local Sidereal Time" ) );
-    avtUI->View->axis(KPlotWidget::LeftAxis)->setLabel( i18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
+    // Set up the Graph Window:
+
+    avtUI->View->setBackground(QBrush(QColor(224, 210, 255)));
+
+    // give the axis some labels:
+    avtUI->View->xAxis2->setLabel("Local Sidereal Time");
+    avtUI->View->xAxis2->setVisible(true);
+    avtUI->View->yAxis2->setVisible(true);
+    avtUI->View->yAxis2->setAutoTicks(false);
+    avtUI->View->yAxis2->setTickLength(0, 0);
+    avtUI->View->xAxis->setLabel("Local Time");
+    avtUI->View->yAxis->setLabel("Altitude");
+    avtUI->View->xAxis->setRange(43200, 129600);
+    avtUI->View->xAxis2->setRange(61200, 147600);
+    avtUI->View->xAxis->setTickLabelType(QCPAxis::ltDateTime);
+    avtUI->View->xAxis2->setTickLabelType(QCPAxis::ltDateTime);
+    avtUI->View->xAxis->setDateTimeFormat("h:mm");
+    avtUI->View->xAxis2->setDateTimeFormat("h:mm");
+    avtUI->View->xAxis->setAutoTickStep(false);
+    avtUI->View->xAxis->setTickStep(7200);
+    avtUI->View->xAxis2->setAutoTickStep(false);
+    avtUI->View->xAxis2->setTickStep(7200);
+
+    // set up the Zoom/Pan features for the Top X Axis
+    avtUI->View->axisRect()->setRangeDragAxes(avtUI->View->xAxis2, avtUI->View->yAxis);
+    avtUI->View->axisRect()->setRangeZoomAxes(avtUI->View->xAxis2, avtUI->View->yAxis);
+
+    // set up the margins, for a nice view
+    avtUI->View->axisRect()->setAutoMargins(QCP::msBottom | QCP::msLeft | QCP::msTop );
+    avtUI->View->axisRect()->setMargins(QMargins(0, 0, 7, 0));
+
+    // set up the interaction set:
+
+    avtUI->View->setInteraction(QCP::iRangeZoom, true);
+    avtUI->View->setInteraction(QCP::iRangeDrag, true);
 
     avtUI->raBox->setDegType( false );
     avtUI->decBox->setDegType( true );
@@ -94,6 +120,9 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     geo = KStarsData::Instance()->geo();
 
     DayOffset = 0;
+    // set up the initial minimum and maximum altitude
+    minAlt = 0;
+    maxAlt = 0;
     showCurrentDate();
     if ( getDate().time().hour() > 12 )
         DayOffset = 1;
@@ -104,6 +133,10 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     computeSunRiseSetTimes();
     setLSTLimits();
     setDawnDusk();
+
+    connect( avtUI->View->xAxis,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
+    connect( avtUI->View->yAxis,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onYRangeChanged(QCPRange)));
+    connect( avtUI->View->xAxis2,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
     connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -231,6 +264,9 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     //precess coords to target epoch
     o->updateCoords( num );
 
+    // vector used for computing the points needed for drawing the graph
+    QVector<double> y(55), t(55);
+
     //If this point is not in list already, add it to list
     bool found(false);
     foreach ( SkyObject *p, pList ) {
@@ -244,43 +280,47 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     } else {
         pList.append( o );
 
-        //make sure existing curves are thin and red
-        foreach(KPlotObject* obj, avtUI->View->plotObjects()) {
-            if ( obj->size() == 2 ) 
-                obj->setLinePen( QPen( Qt::red, 1 ) );
+        // make sure existing curves are thin and red:
+
+        for(int i=0;i<avtUI->View->graphCount();i++){
+            if(avtUI->View->graph(i)->pen().color() == Qt::black){
+                avtUI->View->graph(i)->setPen(QPen( Qt::red, 1 ));
+            }
         }
 
-        //add new curve with width=2, and color=white
-        KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
-        for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-            int label_pos = -11.0 + avtUI->View->plotObjects().count();
-            while ( label_pos > 11.0 )
-                label_pos -= 23.0;
-            if( h == label_pos )
-                //po->addPoint( h, findAltitude( o, h ), o->translatedName() );
-                po->addPoint( h, findAltitude( o, h ), getObjectName(o) );
-            else
-                po->addPoint( h, findAltitude( o, h ) );
-        }
-        avtUI->View->addPlotObject( po );
+        // compute the current graph:
+        // time range: 24h
 
-        //avtUI->PlotList->addItem( o->translatedName() );
+        avtUI->View->addGraph();
+        int i, offset = 3;
+        for ( double h=-12.0, i=0; h<=12.0; h+=0.5, i++ ) {
+            y[i] = findAltitude(o, h);
+            if(y[i] > maxAlt)
+                maxAlt = y[i];
+            if(y[i] < minAlt)
+                minAlt = y[i];
+            t[i] = i*1800 + 43200;
+            avtUI->View->graph(avtUI->View->graphCount()-1)->addData(t[i], y[i]);
+        }
+        avtUI->View->graph(avtUI->View->graphCount()-1)->setPen(QPen( Qt::black, 2 ));
+        avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);
+        avtUI->View->replot();
+
         avtUI->PlotList->addItem( getObjectName(o) );
         avtUI->PlotList->setCurrentRow( avtUI->PlotList->count() - 1 );
         avtUI->raBox->showInHours(o->ra() );
         avtUI->decBox->showInDegrees(o->dec() );
-        //avtUI->nameBox->setText(o->translatedName() );
         avtUI->nameBox->setText( getObjectName(o) );
 
 
         //Set epochName to epoch shown in date tab
         avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
     }
-    qDebug() << "Currently, there are " << avtUI->View->plotObjects().count() << " objects displayed.";
+    qDebug() << "Currently, there are " << avtUI->View->graphCount() << " objects displayed.";
 
     //restore original position
     if ( o->isSolarSystem() ) {
-        o->updateCoords( oldNum, true, data->geo()->lat(), data->lst() );
+       o->updateCoords( oldNum, true, data->geo()->lat(), data->lst() );
         delete oldNum;
     }
     o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -300,17 +340,13 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 
 void AltVsTime::slotHighlight( int row ) {
     //highlight the curve of the selected object
-    QList< KPlotObject* > objects = avtUI->View->plotObjects();
-    for ( int i=0; i<objects.count(); ++i ) {
-        KPlotObject *obj = objects.at( i );
-
-        if ( i == row ) {
-            obj->setLinePen( QPen( Qt::white, 2 ) );
-        } else {
-            obj->setLinePen( QPen( Qt::red, 1 ) );
+    for ( int i=0; i<avtUI->View->graphCount(); i++ ) {
+        if ( i == row ){
+            avtUI->View->graph(i)->setPen(QPen( Qt::black, 2 ));
+        } else{
+            avtUI->View->graph(i)->setPen(QPen( Qt::red, 1 ));
         }
     }
-
     avtUI->View->update();
 
     if( row >= 0 && row < pList.size() ) {
@@ -319,6 +355,60 @@ void AltVsTime::slotHighlight( int row ) {
         avtUI->decBox->showInDegrees( p->dec() );
         avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
     }
+}
+
+void AltVsTime::onXRangeChanged(const QCPRange &range)
+{   QCPRange aux = avtUI->View->xAxis2->range();
+    avtUI->View->xAxis->setRange(range.bounded(43200, 129600));
+    avtUI->View->xAxis2->setRange(aux.bounded(61200, 147600));
+    // set up the Tick Step depending on Zoom level
+    if(avtUI->View->xAxis->range().size() < 12500){
+        avtUI->View->xAxis->setTickStep(1800);
+        avtUI->View->xAxis2->setTickStep(1800);
+    }else
+        if(avtUI->View->xAxis->range().size() < 33200){
+            avtUI->View->xAxis->setTickStep(3600);
+            avtUI->View->xAxis2->setTickStep(3600);
+        }else
+            if(avtUI->View->xAxis->range().size() < 63200){
+                avtUI->View->xAxis->setTickStep(5400);
+                avtUI->View->xAxis2->setTickStep(5400);
+            }else{
+                avtUI->View->xAxis->setTickStep(7200);
+                avtUI->View->xAxis2->setTickStep(7200);
+            }
+}
+
+void AltVsTime::onYRangeChanged(const QCPRange &range)
+{   int offset = 3;
+    avtUI->View->yAxis->setRange(range.bounded(minAlt - offset, maxAlt + offset));
+}
+
+void AltVsTime::onX2RangeChanged(const QCPRange &range)
+{
+}
+
+QCPRange QCPRange::bounded(double lowerBound, double upperBound) const
+{
+  if (lowerBound > upperBound)
+    qSwap(lowerBound, upperBound);
+
+  QCPRange result(lower, upper);
+  if (result.lower < lowerBound)
+  {
+    result.lower = lowerBound;
+    result.upper = lowerBound + size();
+    if (result.upper > upperBound || qFuzzyCompare(size(), upperBound-lowerBound))
+      result.upper = upperBound;
+  } else if (result.upper > upperBound)
+  {
+    result.upper = upperBound;
+    result.lower = upperBound - size();
+    if (result.lower < lowerBound || qFuzzyCompare(size(), upperBound-lowerBound))
+      result.lower = lowerBound;
+  }
+
+  return result;
 }
 
 //move input focus to the next logical widget
@@ -341,8 +431,10 @@ void AltVsTime::slotClear() {
     avtUI->raBox->clear();
     avtUI->decBox->clear();
     avtUI->epochName->clear();
-    avtUI->View->removeAllPlotObjects();
+    // remove all graphs from the plot:
+    avtUI->View->clearGraphs();
     avtUI->View->update();
+    avtUI->View->replot();
 }
 
 void AltVsTime::slotClearBoxes() {
@@ -361,7 +453,9 @@ void AltVsTime::computeSunRiseSetTimes() {
     ksal.setLocation(geo);
     double sunRise = ksal.getSunRise();
     double sunSet  = ksal.getSunSet();
-    avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
+    // TODO
+    // QCustomPlot can not support "setSunRiseSetTimes" method
+    // avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
 }
 
 void AltVsTime::slotUpdateDateLoc() {
@@ -397,7 +491,8 @@ void AltVsTime::slotUpdateDateLoc() {
             for ( double h=-12.0; h<=12.0; h+=0.5 ) {
                 po->addPoint( h, findAltitude( o, h ) );
             }
-            avtUI->View->replacePlotObject( i, po );
+            // TODO:
+            // avtUI->View->replacePlotObject( i, po );
 
             //restore original position
             if ( o->isSolarSystem() ) {
@@ -413,7 +508,7 @@ void AltVsTime::slotUpdateDateLoc() {
             for ( double h=-12.0; h<=12.0; h+=0.5 ) {
                 po->addPoint( h, findAltitude( pList.at(i), h ) );
             }
-            avtUI->View->replacePlotObject( i, po );
+         //   avtUI->View->replacePlotObject( i, po );
         }
     }
 
@@ -451,7 +546,7 @@ void AltVsTime::setLSTLimits() {
     if( h1 > 12.0 )
         h1 -= 24.0;
     double h2 = h1 + 24.0;
-    avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+   // avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
 
 void AltVsTime::showCurrentDate()
@@ -519,9 +614,9 @@ void AltVsTime::setDawnDusk()
         da = dawn / 24.0;
         du = ( dusk + 24.0 ) / 24.0;
     }
-
-    avtUI->View->setDawnDuskTimes( da, du );
-    avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
+    // TODO:
+    // avtUI->View->setDawnDuskTimes( da, du );
+    // avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
 }
 
 void AltVsTime::slotPrint()
