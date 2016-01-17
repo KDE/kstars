@@ -254,7 +254,7 @@ public:
     	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
         *@param forceRecompute reapplies precession, nutation and aberration even if the time passed since the last computation is not significant.
     	*/
-    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
     /** Computes the apparent coordinates for this SkyPoint for any epoch,
     	*accounting for the effects of precession, nutation, and aberration.

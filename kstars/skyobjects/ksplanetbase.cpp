@@ -103,7 +103,7 @@ void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
     setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 
-void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST, bool )
+void KSPlanetBase::updateCoords( const KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST, bool )
 {
     KStarsData *kd = KStarsData::Instance();
     if ( includePlanets ) {

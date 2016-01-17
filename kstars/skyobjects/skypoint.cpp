@@ -327,7 +327,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
-void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
+void SkyPoint::updateCoords( const KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
     bool recompute, lens;
