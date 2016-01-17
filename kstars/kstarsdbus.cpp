@@ -45,6 +45,7 @@
 #include "imageexporter.h"
 #include "skycomponents/constellationboundarylines.h"
 #include "observinglist.h"
+#include "eyepiecefield.h"
 
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
@@ -583,7 +584,35 @@ QString KStars::getObjectPositionInfo( const QString &objectName ) {
     return output;
 }
 
+void KStars::renderEyepieceView( const QString &objectName, const QString &destPathChart, const double fovWidth, const double fovHeight, const double rotation, const double scale,
+                                const bool flip, const bool invert, const QString &imagePath, const QString &destPathImage, const bool overlay, const bool invertColors ) {
+    const SkyObject *obj = data()->objectNamed( objectName );
+    if ( !obj ) {
+        qWarning() << "Object named " << objectName << " was not found!";
+        return;
+    }
+    SkyObject *target = obj->clone();
+    const KSNumbers *updateNum = data()->updateNum();
+    const KStarsDateTime ut = data()->ut();
+    const GeoLocation *geo = data()->geo();
+    QPixmap *renderChart = new QPixmap();
+    QPixmap *renderImage = 0;
+    if( QFile::exists( imagePath ) && ( overlay || ( !destPathImage.isEmpty() ) ) )
+        renderImage = new QPixmap();
 
+    // Make sure the coordinates of the SkyObject are updated
+    target->updateCoords( updateNum, true, geo->lat(), data()->lst(), true );
+    target->EquatorialToHorizontal( data()->lst(), geo->lat() );
+
+    EyepieceField::renderEyepieceView( target, renderChart, fovWidth, fovHeight, rotation, scale, flip, invert,
+                                       imagePath, renderImage, overlay, invertColors );
+    renderChart->save( destPathChart );
+    delete renderChart;
+    if( renderImage ) {
+        renderImage->save( destPathImage );
+        delete renderImage;
+    }
+}
 QString KStars::getObservingWishListObjectNames() {
     QString output;
     foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->obsList() ) {
