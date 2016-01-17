@@ -588,17 +588,17 @@ void SkyMap::slotEndRulerMode() {
         const SkyPoint &stopHop = *clickedPoint();
         double fov; // Field of view in arcminutes
         bool ok; // true if user did not cancel the operation
-        if( data->getVisibleFOVs().size() == 1 ) {
+        if( data->getAvailableFOVs().size() == 1 ) {
             // Exactly 1 FOV symbol visible, so use that. Also assume a circular FOV of size min{sizeX, sizeY}
-            FOV *f = data->getVisibleFOVs().first();
+            FOV *f = data->getAvailableFOVs().first();
             fov = ( ( f->sizeX() >= f->sizeY() && f->sizeY() != 0 ) ? f->sizeY() : f->sizeX() );
             ok = true;
         }
-        else if( !data->getVisibleFOVs().isEmpty() ) {
+        else if( !data->getAvailableFOVs().isEmpty() ) {
             // Ask the user to choose from a list of available FOVs.
             FOV const *f;
             QMap< QString, double > nameToFovMap;
-            foreach( f, data->getVisibleFOVs() ) {
+            foreach( f, data->getAvailableFOVs() ) {
                 nameToFovMap.insert( f->name(), ( ( f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX() ) );
             }
             fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Star Hopper: Choose a field-of-view"), i18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
