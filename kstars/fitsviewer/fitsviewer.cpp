@@ -377,16 +377,19 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
     {
         rc = tab->loadFITS(imageName, tab->getView()->getMode(), filter, silent);
 
-        int tabIndex = fitsTab->indexOf(tab);
-        if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
+        if (rc)
         {
-            if (imageName->path().startsWith("/tmp") && Options::singlePreviewFITS())
-                fitsTab->setTabText(tabIndex, tab->getPreviewText());
-            else
-                fitsTab->setTabText(tabIndex, imageName->fileName());
-        }
+            int tabIndex = fitsTab->indexOf(tab);
+            if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
+            {
+                if (imageName->path().startsWith("/tmp") && Options::singlePreviewFITS())
+                    fitsTab->setTabText(tabIndex, tab->getPreviewText());
+                else
+                    fitsTab->setTabText(tabIndex, imageName->fileName());
+            }
 
-        tab->getUndoStack()->clear();
+            tab->getUndoStack()->clear();
+        }
     }
 
     if (tab->isVisible())
