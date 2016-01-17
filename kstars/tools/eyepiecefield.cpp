@@ -25,6 +25,7 @@
 #include "kstars.h"
 #include "Options.h"
 #include "ksdssimage.h"
+#include "ksdssdownloader.h"
 /* KDE Includes */
 
 /* Qt Includes */
@@ -48,6 +49,9 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     m_sp = 0;
     m_lat = 0;
+    m_currentFOV = 0;
+    m_fovWidth = m_fovHeight = 0;
+    m_dler = 0;
 
     QWidget *mainWidget = new QWidget( this );
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -81,6 +85,9 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_flipView = new QCheckBox( i18n( "Flip view" ), this );
     m_overlay = new QCheckBox( i18n( "Overlay" ), this );
     m_invertColors = new QCheckBox( i18n( "Invert colors" ), this );
+    m_getDSS = new QPushButton( i18n( "Fetch DSS image" ), this );
+
+    m_getDSS->setVisible( false );
 
     QHBoxLayout *optionsLayout = new QHBoxLayout;
     optionsLayout->addWidget( m_invertView );
@@ -88,6 +95,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     optionsLayout->addStretch();
     optionsLayout->addWidget( m_overlay );
     optionsLayout->addWidget( m_invertColors );
+    optionsLayout->addWidget( m_getDSS );
 
     rows->addLayout( optionsLayout );
 
@@ -123,6 +131,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render() ) );
     connect( m_presetCombo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
     connect( m_presetCombo, SIGNAL( activated( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
+    connect( m_getDSS, SIGNAL( clicked() ), this, SLOT( slotDownloadDss() ) );
 
     m_skyChart = 0;
     m_skyImage = 0;
@@ -189,6 +198,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
     }
 
     showEyepieceField( sp, fovWidth, fovHeight, imagePath );
+    m_currentFOV = fov;
 
 }
 
@@ -224,7 +234,9 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     slotEnforcePreset( -1 );
     // Render the display
     render();
-
+    m_fovWidth = fovWidth;
+    m_fovHeight = fovHeight;
+    m_currentFOV = 0;
 
 }
 
@@ -442,11 +454,13 @@ void EyepieceField::render() {
         m_skyImageDisplay->setVisible( true );
         m_overlay->setVisible( true );
         m_invertColors->setVisible( true );
+        m_getDSS->setVisible( false );
     }
     else {
         m_skyImageDisplay->setVisible( false );
         m_overlay->setVisible( false );
         m_invertColors->setVisible( false );
+        m_getDSS->setVisible( true );
     }
 
 
@@ -457,6 +471,35 @@ void EyepieceField::render() {
 
     update();
     show();
+}
+
+void EyepieceField::slotDownloadDss() {
+    double fovWidth, fovHeight;
+    if( m_fovWidth == 0 && m_currentFOV == 0 ) {
+        fovWidth = fovHeight = 15.0;
+    }
+    else if( m_currentFOV ) {
+        fovWidth = m_currentFOV->sizeX();
+        fovWidth = m_currentFOV->sizeY();
+    }
+    if( !m_dler ) {
+        m_dler = new KSDssDownloader( this );
+        connect( m_dler, SIGNAL ( downloadComplete( bool ) ), SLOT ( slotDssDownloaded( bool ) ) );
+    }
+    KSDssImage::Metadata md;
+    m_tempFile.open();
+    QUrl srcUrl = QUrl( KSDssDownloader::getDSSURL( m_sp, fovWidth, fovHeight, "all", &md ) );
+    m_dler->startSingleDownload( srcUrl, m_tempFile.fileName(), md );
+    m_tempFile.close();
+}
+
+void EyepieceField::slotDssDownloaded( bool success ) {
+    if( !success ) {
+        KMessageBox::sorry(0, i18n( "Failed to download DSS/SDSS image!" ) );
+        return;
+    }
+    else
+        showEyepieceField( m_sp, m_fovWidth, m_fovHeight, m_tempFile.fileName() );
 }
 
 EyepieceField::~EyepieceField() {

@@ -22,6 +22,7 @@
 
 #include <QDialog>
 #include <QImage>
+#include <QTemporaryFile>
 
 class SkyPoint;
 class FOV;
@@ -30,6 +31,9 @@ class QLabel;
 class QSlider;
 class QComboBox;
 class QCheckBox;
+class QPushButton;
+class FOV;
+class KSDssDownloader;
 
 /**
  * @class EyepieceField
@@ -95,7 +99,7 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
     static void generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage = 0, const FOV *fov = 0, const QString &imagePath = QString() );
 
 
-public slots:
+ public slots:
 
     /**
      * @short Re-renders the view
@@ -108,6 +112,17 @@ public slots:
      */
     void slotEnforcePreset( int index = -1 );
 
+ private slots:
+     /**
+      * @short downloads a DSS image
+      */
+     void slotDownloadDss();
+
+     /**
+      * @short loads a downloaded DSS image
+      */
+     void slotDssDownloaded( bool success );
+
  private:
     QLabel *m_skyChartDisplay;
     QLabel *m_skyImageDisplay;
@@ -119,9 +134,13 @@ public slots:
     QCheckBox *m_invertView;
     QCheckBox *m_flipView;
     QComboBox *m_presetCombo;
+    QPushButton *m_getDSS;
+    const FOV *m_currentFOV;
+    double m_fovWidth, m_fovHeight;
+    KSDssDownloader *m_dler;
     SkyPoint *m_sp;
     double m_lat; // latitude
-
+    QTemporaryFile m_tempFile;
 };
 
 #endif
