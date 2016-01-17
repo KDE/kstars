@@ -25,6 +25,7 @@
 #include "kstars.h"
 #include "Options.h"
 #include "ksdssimage.h"
+#include "ksdssdownloader.h"
 /* KDE Includes */
 
 /* Qt Includes */
@@ -48,6 +49,9 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     m_sp = 0;
     m_lat = 0;
+    m_currentFOV = 0;
+    m_fovWidth = m_fovHeight = 0;
+    m_dler = 0;
 
     QWidget *mainWidget = new QWidget( this );
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -81,6 +85,9 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_flipView = new QCheckBox( i18n( "Flip view" ), this );
     m_overlay = new QCheckBox( i18n( "Overlay" ), this );
     m_invertColors = new QCheckBox( i18n( "Invert colors" ), this );
+    m_getDSS = new QPushButton( i18n( "Fetch DSS image" ), this );
+
+    m_getDSS->setVisible( false );
 
     QHBoxLayout *optionsLayout = new QHBoxLayout;
     optionsLayout->addWidget( m_invertView );
@@ -88,6 +95,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     optionsLayout->addStretch();
     optionsLayout->addWidget( m_overlay );
     optionsLayout->addWidget( m_invertColors );
+    optionsLayout->addWidget( m_getDSS );
 
     rows->addLayout( optionsLayout );
 
@@ -123,6 +131,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     connect( m_rotationSlider, SIGNAL( valueChanged( int ) ), this, SLOT( render() ) );
     connect( m_presetCombo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
     connect( m_presetCombo, SIGNAL( activated( int ) ), this, SLOT( slotEnforcePreset( int ) ) );
+    connect( m_getDSS, SIGNAL( clicked() ), this, SLOT( slotDownloadDss() ) );
 
     m_skyChart = 0;
     m_skyImage = 0;
@@ -180,7 +189,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
         fovWidth = fov->sizeX();
         fovHeight = fov->sizeY();
     }
-    else if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
+    else if( QFile::exists( imagePath ) ) {
         fovWidth = fovHeight = -1.0; // figure out from the image.
     }
     else {
@@ -189,6 +198,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
     }
 
     showEyepieceField( sp, fovWidth, fovHeight, imagePath );
+    m_currentFOV = fov;
 
 }
 
@@ -196,34 +206,37 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
 
     if( !m_skyChart )
         m_skyChart = new QImage();
-    if( !m_skyImage && !imagePath.isEmpty() )
-        m_skyImage = new QImage();
+
+    if( QFile::exists( imagePath ) ) {
+        qDebug() << "Image path " << imagePath << " exists";
+        if( !m_skyImage ) {
+            qDebug() << "Sky image did not exist, creating.";
+            m_skyImage = new QImage();
+        }
+    }
+    else {
+        delete m_skyImage;
+        m_skyImage = 0;
+    }
+
 
     generateEyepieceView( sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
     m_lat = KStarsData::Instance()->geo()->lat()->radians();
 
-    if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
-        m_skyImageDisplay->setVisible( true );
-        m_overlay->setVisible( true );
-        m_invertColors->setVisible( true );
-    }
-    else {
-        m_skyImageDisplay->setVisible( false );
-        m_overlay->setVisible( false );
-        m_invertColors->setVisible( false );
-    }
-
     // Keep a copy for local purposes (computation of field rotation etc.)
-    if( m_sp )
-        delete m_sp;
-    m_sp = new SkyPoint();
-    *m_sp = *sp;
+    if( m_sp != sp ) {
+        if( m_sp )
+            delete m_sp;
+        m_sp = new SkyPoint( *sp );
+    }
 
     // Enforce preset as per selection, since we have loaded a new eyepiece view
     slotEnforcePreset( -1 );
     // Render the display
     render();
-
+    m_fovWidth = fovWidth;
+    m_fovHeight = fovHeight;
+    m_currentFOV = 0;
 
 }
 
@@ -254,7 +267,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         return;
 
     if( fovWidth <= 0 ) {
-        if( imagePath.isEmpty() || !QFile::exists( imagePath ))
+        if( !QFile::exists( imagePath ) )
             return;
         // Otherwise, we will assume that the user wants the FOV of the image and we'll try to guess it from there
     }
@@ -263,7 +276,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
     // Get DSS image width / height
     double dssWidth, dssHeight;
-    if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
+    if( QFile::exists( imagePath ) ) {
         KSDssImage dssImage( imagePath );
         dssWidth = dssImage.getMetadata().width;
         dssHeight = dssImage.getMetadata().height;
@@ -273,6 +286,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
             dssWidth = dssImage.getImage().width()*1.01/60.0;
             dssHeight = dssImage.getImage().height()*1.01/60.0;
         }
+        qDebug() << "DSS width: " << dssWidth << " height: " << dssHeight;
     }
 
 
@@ -351,13 +365,17 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
     map->forceUpdate();
 
     // Prepare the sky image
-    if( ! imagePath.isEmpty() && skyImage ) {
+    if( QFile::exists( imagePath ) && skyImage ) {
 
         QImage *mySkyImage = 0;
         mySkyImage = new QImage( int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0), QImage::Format_ARGB32 );
         mySkyImage->fill( Qt::transparent );
         QPainter p( mySkyImage );
         QImage rawImg( imagePath );
+        if( rawImg.isNull() ) {
+            qWarning() << "Image constructed from " << imagePath << "is a null image! Are you sure you supplied an image file? Continuing nevertheless...";
+        }
+
         QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 2.0, arcMinToScreen * dssHeight * 2.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
         if( Options::useAltAz() ) {
@@ -392,6 +410,7 @@ void EyepieceField::render() {
 
     QPixmap renderImage;
     QPixmap renderChart;
+    bool overlay = false;
 
     QTransform transform;
     transform.rotate( m_rotationSlider->value() );
@@ -409,6 +428,7 @@ void EyepieceField::render() {
         if( m_invertColors->isChecked() )
             i.invertPixels();
         renderImage = QPixmap::fromImage( i );
+        if( m_skyImage->isNull() ) { qWarning() << "Sky image is a null image. This shouldn't have been the case!"; }
     }
     if( m_overlay->isChecked() && m_skyImage ) {
         QColor skyColor = KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" );
@@ -424,18 +444,62 @@ void EyepieceField::render() {
         p2.end();
         p.end();
         renderImage = temp;
-        m_skyChartDisplay->setVisible( false );
+        overlay = true;
     }
     else
-        m_skyChartDisplay->setVisible( true );
+        overlay = false;
 
-    if( ! m_overlay->isChecked() )
+    m_skyChartDisplay->setVisible( !overlay );
+    if( m_skyImage ) {
+        m_skyImageDisplay->setVisible( true );
+        m_overlay->setVisible( true );
+        m_invertColors->setVisible( true );
+        m_getDSS->setVisible( false );
+    }
+    else {
+        m_skyImageDisplay->setVisible( false );
+        m_overlay->setVisible( false );
+        m_invertColors->setVisible( false );
+        m_getDSS->setVisible( true );
+    }
+
+
+    if( !overlay )
         m_skyChartDisplay->setPixmap( renderChart.scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
     if( m_skyImage )
         m_skyImageDisplay->setPixmap( renderImage.scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 
     update();
     show();
+}
+
+void EyepieceField::slotDownloadDss() {
+    double fovWidth, fovHeight;
+    if( m_fovWidth == 0 && m_currentFOV == 0 ) {
+        fovWidth = fovHeight = 15.0;
+    }
+    else if( m_currentFOV ) {
+        fovWidth = m_currentFOV->sizeX();
+        fovWidth = m_currentFOV->sizeY();
+    }
+    if( !m_dler ) {
+        m_dler = new KSDssDownloader( this );
+        connect( m_dler, SIGNAL ( downloadComplete( bool ) ), SLOT ( slotDssDownloaded( bool ) ) );
+    }
+    KSDssImage::Metadata md;
+    m_tempFile.open();
+    QUrl srcUrl = QUrl( KSDssDownloader::getDSSURL( m_sp, fovWidth, fovHeight, "all", &md ) );
+    m_dler->startSingleDownload( srcUrl, m_tempFile.fileName(), md );
+    m_tempFile.close();
+}
+
+void EyepieceField::slotDssDownloaded( bool success ) {
+    if( !success ) {
+        KMessageBox::sorry(0, i18n( "Failed to download DSS/SDSS image!" ) );
+        return;
+    }
+    else
+        showEyepieceField( m_sp, m_fovWidth, m_fovHeight, m_tempFile.fileName() );
 }
 
 EyepieceField::~EyepieceField() {
