@@ -215,12 +215,12 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable 
     if (!machineReadable && dd < 100)
         return dummy.sprintf("%c%2d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
     if( machineReadable && dd < 100 )
-        return dummy.sprintf("%c%02d:%02d:%02d", pm, dd, 176, dm, ds);
+        return dummy.sprintf("%c%02d:%02d:%02d", pm, dd, dm, ds);
 
     if( !machineReadable )
         return dummy.sprintf("%c%3d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
     else
-        return dummy.sprintf("%c%03d:%02d:%02d", pm, dd, 176, dm, ds);
+        return dummy.sprintf("%c%03d:%02d:%02d", pm, dd, dm, ds);
 }
 
 const QString dms::toHMSString( const bool machineReadable ) const {
