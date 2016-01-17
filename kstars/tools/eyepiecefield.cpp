@@ -214,10 +214,11 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     m_lat = KStarsData::Instance()->geo()->lat()->radians();
 
     // Keep a copy for local purposes (computation of field rotation etc.)
-    if( m_sp )
-        delete m_sp;
-    m_sp = new SkyPoint();
-    *m_sp = *sp;
+    if( m_sp != sp ) {
+        if( m_sp )
+            delete m_sp;
+        m_sp = new SkyPoint( *sp );
+    }
 
     // Enforce preset as per selection, since we have loaded a new eyepiece view
     slotEnforcePreset( -1 );
