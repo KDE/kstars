@@ -196,22 +196,22 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
 
     if( !m_skyChart )
         m_skyChart = new QImage();
-    if( !m_skyImage && !imagePath.isEmpty() )
-        m_skyImage = new QImage();
+
+    if( QFile::exists( imagePath ) ) {
+        qDebug() << "Image path " << imagePath << " exists";
+        if( !m_skyImage ) {
+            qDebug() << "Sky image did not exist, creating.";
+            m_skyImage = new QImage();
+        }
+    }
+    else {
+        delete m_skyImage;
+        m_skyImage = 0;
+    }
+
 
     generateEyepieceView( sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
     m_lat = KStarsData::Instance()->geo()->lat()->radians();
-
-    if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
-        m_skyImageDisplay->setVisible( true );
-        m_overlay->setVisible( true );
-        m_invertColors->setVisible( true );
-    }
-    else {
-        m_skyImageDisplay->setVisible( false );
-        m_overlay->setVisible( false );
-        m_invertColors->setVisible( false );
-    }
 
     // Keep a copy for local purposes (computation of field rotation etc.)
     if( m_sp )
@@ -437,6 +437,17 @@ void EyepieceField::render() {
         overlay = false;
 
     m_skyChartDisplay->setVisible( !overlay );
+    if( m_skyImage ) {
+        m_skyImageDisplay->setVisible( true );
+        m_overlay->setVisible( true );
+        m_invertColors->setVisible( true );
+    }
+    else {
+        m_skyImageDisplay->setVisible( false );
+        m_overlay->setVisible( false );
+        m_invertColors->setVisible( false );
+    }
+
 
     if( !overlay )
         m_skyChartDisplay->setPixmap( renderChart.scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
