@@ -192,6 +192,11 @@ public:
     dms altRefracted() const;
 
     /**
+     * @return the JD for the precessed coordinates
+     */
+    inline double getLastPrecessJD() const { return lastPrecessJD; }
+
+    /**
      * @return the airmass of the point. Convenience method.
      * @note Question: is it better to use alt or refracted alt? Minor difference, probably doesn't matter.
      */
