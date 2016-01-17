@@ -495,6 +495,95 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     return output;
 }
 
+QString KStars::getObjectPositionInfo( const QString &objectName ) {
+    Q_ASSERT( data() );
+    const SkyObject *obj = data()->objectNamed( objectName ); // make sure we work with a clone
+    if ( !obj ) {
+        return QString( "<xml></xml>" );
+    }
+    SkyObject *target = obj->clone();
+    if( !target ) { // should not happen
+        qWarning() << "ERROR: Could not clone SkyObject " << objectName << "!";
+        return QString( "<xml></xml>" );
+    }
+
+    const KSNumbers *updateNum = data()->updateNum();
+    const KStarsDateTime ut = data()->ut();
+    const GeoLocation *geo = data()->geo();
+    QString riseTimeString, setTimeString, transitTimeString;
+    QString riseAzString, setAzString, transitAltString;
+
+    // Make sure the coordinates of the SkyObject are updated
+    target->updateCoords( updateNum, true, geo->lat(), data()->lst(), true );
+    target->EquatorialToHorizontal( data()->lst(), geo->lat() );
+
+    // Compute rise, set and transit times and parameters -- Code pulled from DetailDialog
+    QTime riseTime = target->riseSetTime( ut, geo, true ); //true = use rise time
+    dms riseAz = target->riseSetTimeAz( ut, geo, true ); //true = use rise time
+    QTime transitTime = target->transitTime( ut, geo );
+    dms transitAlt = target->transitAltitude( ut, geo );
+    if ( transitTime < riseTime ) {
+        transitTime = target->transitTime( ut.addDays( 1 ), geo );
+        transitAlt = target->transitAltitude( ut.addDays( 1 ), geo );
+    }
+    //If set time is before rise time, use set time for tomorrow
+    QTime setTime = target->riseSetTime(  ut, geo, false ); //false = use set time
+    dms setAz = target->riseSetTimeAz( ut, geo, false ); //false = use set time
+    if ( setTime < riseTime ) {
+        setTime = target->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
+        setAz = target->riseSetTimeAz( ut.addDays( 1 ), geo, false ); //false = use set time
+    }
+    if ( riseTime.isValid() ) {
+        riseTimeString = QString().sprintf( "%02d:%02d", riseTime.hour(), riseTime.minute() );
+        setTimeString = QString().sprintf( "%02d:%02d", setTime.hour(), setTime.minute() );
+        riseAzString = riseAz.toDMSString( true, true );
+        setAzString = setAz.toDMSString( true, true );
+    } else {
+        if ( target->alt().Degrees() > 0.0 ) {
+            riseTimeString = setTimeString = QString( "Circumpolar" );
+        } else {
+            riseTimeString = setTimeString = QString( "Never Rises" );
+        }
+        riseAzString = setAzString = QString( "N/A" );
+    }
+
+    transitTimeString = QString().sprintf( "%02d:%02d", transitTime.hour(), transitTime.minute() );
+    transitAltString = transitAlt.toDMSString( true, true );
+
+    QString output;
+    QXmlStreamWriter stream( &output );
+    stream.setAutoFormatting( true );
+    stream.writeStartDocument();
+    stream.writeStartElement( "object" );
+    stream.writeTextElement( "Name", target->name() );
+    stream.writeTextElement( "RA_Dec_Epoch_JD", QString::number( target->getLastPrecessJD(), 'f', 3 ) );
+    stream.writeTextElement( "AltAz_JD", QString::number( data()->ut().djd(), 'f', 3 ) );
+    stream.writeTextElement( "RA_HMS", target->ra().toHMSString(true) );
+    stream.writeTextElement( "Dec_DMS", target->dec().toDMSString(true, true) );
+    stream.writeTextElement( "RA_J2000_HMS", target->ra0().toHMSString(true) );
+    stream.writeTextElement( "Dec_J2000_DMS", target->dec0().toDMSString(true, true) );
+    stream.writeTextElement( "RA_Degrees", QString::number( target->ra().Degrees() ) );
+    stream.writeTextElement( "Dec_Degrees", QString::number( target->dec().Degrees() ) );
+    stream.writeTextElement( "RA_J2000_Degrees", QString::number( target->ra0().Degrees() ) );
+    stream.writeTextElement( "Dec_J2000_Degrees", QString::number( target->dec0().Degrees() ) );
+    stream.writeTextElement( "Altitude_DMS", target->alt().toDMSString(true, true) );
+    stream.writeTextElement( "Azimuth_DMS", target->az().toDMSString(true, true) );
+    stream.writeTextElement( "Altitude_Degrees", QString::number( target->alt().Degrees() ) );
+    stream.writeTextElement( "Azimuth_Degrees", QString::number( target->az().Degrees() ) );
+    stream.writeTextElement( "Rise", riseTimeString );
+    stream.writeTextElement( "Rise_Az_DMS", riseAzString );
+    stream.writeTextElement( "Set", setTimeString );
+    stream.writeTextElement( "Set_Az_DMS", setAzString );
+    stream.writeTextElement( "Transit", transitTimeString );
+    stream.writeTextElement( "Transit_Alt_DMS", transitAltString );
+    stream.writeTextElement( "Time_Zone_Offset", QString().sprintf( "%02.2f", geo->TZ() ) );
+
+    stream.writeEndElement(); // object
+    stream.writeEndDocument();
+    return output;
+}
+
+
 QString KStars::getObservingWishListObjectNames() {
     QString output;
     foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->obsList() ) {

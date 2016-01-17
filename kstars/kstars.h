@@ -372,6 +372,12 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE QString getObjectDataXML( const QString &objectName );
 
+    /** DBUS interface function.  Return XML containing position info about a sky object
+     * @param objectName name of the object.
+     * @note If the object was not found, the XML is empty.
+     */
+    Q_SCRIPTABLE QString getObjectPositionInfo( const QString &objectName );
+
     /** DBUS interface function.  Set the approx field-of-view
      * @param FOV_Degrees field of view in degrees
      */

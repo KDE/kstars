@@ -143,6 +143,10 @@
       <arg type="s" direction="out"/>
       <arg name="objectName" type="s" direction="in"/>
     </method>
+    <method name="getObjectPositionInfo">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+    </method>
     <method name="setApproxFOV">
       <arg name="FOV_Degrees" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
