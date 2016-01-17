@@ -459,6 +459,7 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     stream.writeTextElement( "Alt_Name", target->name2() );
     stream.writeTextElement( "Long_Name", target->longname() );
     stream.writeTextElement( "Constellation", KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( target ) );
+    stream.writeTextElement( "RA_Dec_Epoch_JD", QString::number( target->getLastPrecessJD(), 'f', 3 ) );
     stream.writeTextElement( "RA_HMS", target->ra().toHMSString() );
     stream.writeTextElement( "Dec_DMS", target->dec().toDMSString() );
     stream.writeTextElement( "RA_J2000_HMS", target->ra0().toHMSString() );
