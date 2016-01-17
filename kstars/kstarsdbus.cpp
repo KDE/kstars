@@ -585,7 +585,7 @@ QString KStars::getObjectPositionInfo( const QString &objectName ) {
 }
 
 void KStars::renderEyepieceView( const QString &objectName, const QString &destPathChart, const double fovWidth, const double fovHeight, const double rotation, const double scale,
-                                const bool flip, const bool invert, const QString &imagePath, const QString &destPathImage, const bool overlay, const bool invertColors ) {
+                                const bool flip, const bool invert, QString imagePath, const QString &destPathImage, const bool overlay, const bool invertColors ) {
     const SkyObject *obj = data()->objectNamed( objectName );
     if ( !obj ) {
         qWarning() << "Object named " << objectName << " was not found!";
@@ -597,8 +597,21 @@ void KStars::renderEyepieceView( const QString &objectName, const QString &destP
     const GeoLocation *geo = data()->geo();
     QPixmap *renderChart = new QPixmap();
     QPixmap *renderImage = 0;
-    if( QFile::exists( imagePath ) && ( overlay || ( !destPathImage.isEmpty() ) ) )
-        renderImage = new QPixmap();
+    QTemporaryFile tempFile;
+    if(  overlay || ( !destPathImage.isEmpty() ) ) {
+        if( !QFile::exists( imagePath ) ) {
+            // We must download a DSS image
+            tempFile.open();
+            KSDssDownloader *dler = new KSDssDownloader( target, tempFile.fileName() );
+            QEventLoop loop;
+            connect( dler, SIGNAL( downloadComplete( bool ) ), &loop, SLOT( quit() ) );
+            qDebug() << "DSS download requested. Waiting for download to complete...";
+            loop.exec(); // wait for download to complete
+            imagePath = tempFile.fileName();
+        }
+        if( QFile::exists( imagePath ) ) // required because DSS Download may fail
+            renderImage = new QPixmap();
+    }
 
     // Make sure the coordinates of the SkyObject are updated
     target->updateCoords( updateNum, true, geo->lat(), data()->lst(), true );
