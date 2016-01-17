@@ -94,14 +94,25 @@ QString KSDssDownloader::getDSSURL( const SkyPoint * const p, const QString &ver
         if( width < dss_default_size )
             width = dss_default_size;
 
-        QString URL = getDSSURL( p->ra0(), p->dec0(), width, height, "gif", version, md );
-        if( md ) {
-            const SkyObject *obj = 0;
-            obj = dynamic_cast<const SkyObject *>( p );
-            if( obj && obj->hasName() )
-                md->object = obj->name();
-        }
-        return URL;
+        return getDSSURL( p, width, height, version, md );
+}
+
+QString KSDssDownloader::getDSSURL( const SkyPoint * const p, float width, float height, const QString &version, struct KSDssImage::Metadata *md ) {
+    Q_ASSERT( p );
+    if( !p )
+        return QString();
+    if( width <= 0 )
+        return QString();
+    if( height <= 0 )
+        height = width;
+    QString URL = getDSSURL( p->ra0(), p->dec0(), width, height, "gif", version, md );
+    if( md ) {
+        const SkyObject *obj = 0;
+        obj = dynamic_cast<const SkyObject *>( p );
+        if( obj && obj->hasName() )
+            md->object = obj->name();
+    }
+    return URL;
 }
 
 QString KSDssDownloader::getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString & type_, const QString & version_, struct KSDssImage::Metadata *md ) {
