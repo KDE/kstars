@@ -98,12 +98,29 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
      */
     static void generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage = 0, const FOV *fov = 0, const QString &imagePath = QString() );
 
+    /**
+     * @short Orients the eyepiece view as needed, performs overlaying etc.
+     * @param skyChart image which contains the sky chart, possibly generated using generateEyepieceView
+     * @param skyImage optional image which contains the sky image, possibly generated using generateEyepieceView
+     * @param renderChart pixmap onto which the sky chart is to be rendered
+     * @param renderImage optional pixmap onto which the sky image is to be rendered
+     * @param rotation optional, number of degrees by which to rotate the image(s)
+     * @param scale optional, factor by which to scale the image(s)
+     * @param flip optional, if true, the image is mirrored horizontally
+     * @param invert optional, if true, the image is inverted, i.e. rotated by 180 degrees
+     * @param overlay optional, if true, the sky image is overlaid on the sky map
+     * @param invertColors optional, if true, the sky image is color-inverted
+     */
+    static void renderEyepieceView( const QImage *skyChart, QPixmap *renderChart, const double rotation = 0, const double scale = 1.0, const bool flip = false, const bool invert = false,
+                                    const QImage *skyImage = 0, QPixmap *renderImage = 0, const bool overlay = false, const bool invertColors = false );
+
 
  public slots:
 
     /**
      * @short Re-renders the view
      * Takes care of things like inverting colors, inverting orientation, flipping, rotation
+     * @note Calls the static method renderEyepieceView to set things up
      */
     void render();
 

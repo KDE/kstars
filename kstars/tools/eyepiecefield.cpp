@@ -406,48 +406,76 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
 }
 
+void EyepieceField::renderEyepieceView( const QImage *skyChart, QPixmap *renderChart, const double rotation, const double scale, const bool flip, const bool invert,
+                                        const QImage *skyImage, QPixmap *renderImage, const bool overlay, const bool invertColors ) {
+    QTransform transform;
+    bool deleteRenderImage = false;
+    transform.rotate( rotation );
+    if( flip )
+        transform.scale( -1, 1 );
+    if( invert )
+        transform.scale( -1, -1 );
+    transform.scale( scale, scale );
+
+    Q_ASSERT( skyChart && renderChart );
+    if( !skyChart || !renderChart )
+        return;
+
+    *renderChart = QPixmap::fromImage( skyChart->transformed( transform, Qt::SmoothTransformation ) );
+
+    if( skyImage ) {
+        Q_ASSERT( overlay || renderImage ); // in debug mode, check for calls that supply skyImage but not renderImage
+    }
+    if( overlay && !renderImage ) {
+        renderImage = new QPixmap(); // temporary, used for rendering skymap before overlay is done.
+        deleteRenderImage = true; // we created it, so we must delete it.
+    }
+
+    if( skyImage && renderImage ) {
+        if( skyImage->isNull() )
+            qWarning() << "Sky image supplied to renderEyepieceView() for rendering is a Null image!";
+        QImage i;
+        i = skyImage->transformed( transform, Qt::SmoothTransformation );
+        if( invertColors )
+            i.invertPixels();
+        *renderImage = QPixmap::fromImage( i );
+    }
+    if( overlay && skyImage ) {
+        QColor skyColor = KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" );
+        QBitmap mask = QBitmap::fromImage( skyChart->createMaskFromColor( skyColor.rgb() ).transformed( transform, Qt::SmoothTransformation ) );
+        renderChart->setMask( mask );
+        QPainter p( renderImage );
+        p.drawImage( QPointF( renderImage->width()/2.0 - renderChart->width()/2.0, renderImage->height()/2.0 - renderChart->height()/2.0 ),
+                     renderChart->toImage() );
+        QPixmap temp( renderImage->width(), renderImage->height() );
+        temp.fill( skyColor );
+        QPainter p2( &temp );
+        p2.drawImage( QPointF(0,0), renderImage->toImage() );
+        p2.end();
+        p.end();
+        *renderChart = *renderImage = temp;
+    }
+    if( deleteRenderImage )
+        delete renderImage;
+
+}
+
+
 void EyepieceField::render() {
 
     QPixmap renderImage;
     QPixmap renderChart;
-    bool overlay = false;
 
-    QTransform transform;
-    transform.rotate( m_rotationSlider->value() );
-    if( m_flipView->isChecked() )
-        transform.scale( -1, 1 );
-    if( m_invertView->isChecked() )
-        transform.scale( -1, -1 );
+    double rotation = m_rotationSlider->value();
+    bool flip = m_flipView->isChecked();
+    bool invert = m_invertView->isChecked();
+    bool invertColors = m_invertColors->isChecked();
+    bool overlay = m_overlay->isChecked() && m_skyImage;
 
     Q_ASSERT( m_skyChart );
 
-    renderChart = QPixmap::fromImage( m_skyChart->transformed( transform, Qt::SmoothTransformation ) );
-    if( m_skyImage ) {
-        QImage i;
-        i = m_skyImage->transformed( transform, Qt::SmoothTransformation );
-        if( m_invertColors->isChecked() )
-            i.invertPixels();
-        renderImage = QPixmap::fromImage( i );
-        if( m_skyImage->isNull() ) { qWarning() << "Sky image is a null image. This shouldn't have been the case!"; }
-    }
-    if( m_overlay->isChecked() && m_skyImage ) {
-        QColor skyColor = KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" );
-        QBitmap mask = QBitmap::fromImage( m_skyChart->createMaskFromColor( skyColor.rgb() ).transformed( transform, Qt::SmoothTransformation ) );
-        renderChart.setMask( mask );
-        QPainter p( &renderImage );
-        p.drawImage( QPointF( renderImage.width()/2.0 - renderChart.width()/2.0, renderImage.height()/2.0 - renderChart.height()/2.0 ),
-                     renderChart.toImage() );
-        QPixmap temp( renderImage.width(), renderImage.height() );
-        temp.fill( skyColor );
-        QPainter p2( &temp );
-        p2.drawImage( QPointF(0,0), renderImage.toImage() );
-        p2.end();
-        p.end();
-        renderImage = temp;
-        overlay = true;
-    }
-    else
-        overlay = false;
+    renderEyepieceView( m_skyChart, &renderChart, rotation, 1.0, flip, invert,
+                        m_skyImage, &renderImage, overlay, invertColors );
 
     m_skyChartDisplay->setVisible( !overlay );
     if( m_skyImage ) {
