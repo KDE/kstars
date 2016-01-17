@@ -180,7 +180,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
         fovWidth = fov->sizeX();
         fovHeight = fov->sizeY();
     }
-    else if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
+    else if( QFile::exists( imagePath ) ) {
         fovWidth = fovHeight = -1.0; // figure out from the image.
     }
     else {
@@ -254,7 +254,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         return;
 
     if( fovWidth <= 0 ) {
-        if( imagePath.isEmpty() || !QFile::exists( imagePath ))
+        if( !QFile::exists( imagePath ) )
             return;
         // Otherwise, we will assume that the user wants the FOV of the image and we'll try to guess it from there
     }
@@ -263,7 +263,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
     // Get DSS image width / height
     double dssWidth, dssHeight;
-    if( !imagePath.isEmpty() && QFile::exists( imagePath ) ) {
+    if( QFile::exists( imagePath ) ) {
         KSDssImage dssImage( imagePath );
         dssWidth = dssImage.getMetadata().width;
         dssHeight = dssImage.getMetadata().height;
@@ -273,6 +273,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
             dssWidth = dssImage.getImage().width()*1.01/60.0;
             dssHeight = dssImage.getImage().height()*1.01/60.0;
         }
+        qDebug() << "DSS width: " << dssWidth << " height: " << dssHeight;
     }
 
 
@@ -351,13 +352,17 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
     map->forceUpdate();
 
     // Prepare the sky image
-    if( ! imagePath.isEmpty() && skyImage ) {
+    if( QFile::exists( imagePath ) && skyImage ) {
 
         QImage *mySkyImage = 0;
         mySkyImage = new QImage( int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0), QImage::Format_ARGB32 );
         mySkyImage->fill( Qt::transparent );
         QPainter p( mySkyImage );
         QImage rawImg( imagePath );
+        if( rawImg.isNull() ) {
+            qWarning() << "Image constructed from " << imagePath << "is a null image! Are you sure you supplied an image file? Continuing nevertheless...";
+        }
+
         QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 2.0, arcMinToScreen * dssHeight * 2.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
         if( Options::useAltAz() ) {
@@ -392,6 +397,7 @@ void EyepieceField::render() {
 
     QPixmap renderImage;
     QPixmap renderChart;
+    bool overlay = false;
 
     QTransform transform;
     transform.rotate( m_rotationSlider->value() );
@@ -409,6 +415,7 @@ void EyepieceField::render() {
         if( m_invertColors->isChecked() )
             i.invertPixels();
         renderImage = QPixmap::fromImage( i );
+        if( m_skyImage->isNull() ) { qWarning() << "Sky image is a null image. This shouldn't have been the case!"; }
     }
     if( m_overlay->isChecked() && m_skyImage ) {
         QColor skyColor = KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" );
@@ -424,12 +431,14 @@ void EyepieceField::render() {
         p2.end();
         p.end();
         renderImage = temp;
-        m_skyChartDisplay->setVisible( false );
+        overlay = true;
     }
     else
-        m_skyChartDisplay->setVisible( true );
+        overlay = false;
 
-    if( ! m_overlay->isChecked() )
+    m_skyChartDisplay->setVisible( !overlay );
+
+    if( !overlay )
         m_skyChartDisplay->setPixmap( renderChart.scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
     if( m_skyImage )
         m_skyImageDisplay->setPixmap( renderImage.scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
