@@ -460,6 +460,19 @@ void EyepieceField::renderEyepieceView( const QImage *skyChart, QPixmap *renderC
 
 }
 
+void EyepieceField::renderEyepieceView( SkyPoint *sp, QPixmap *renderChart, double fovWidth, double fovHeight, const double rotation, const double scale,
+                                        const bool flip, const bool invert, const QString &imagePath, QPixmap *renderImage, const bool overlay, const bool invertColors) {
+    QImage *skyChart, *skyImage = 0;
+    skyChart = new QImage();
+    if( QFile::exists( imagePath ) && ( renderImage || overlay ) )
+        skyImage = new QImage();
+    generateEyepieceView( sp, skyChart, skyImage, fovWidth, fovHeight, imagePath );
+    renderEyepieceView( skyChart, renderChart, rotation, scale, flip, invert,
+                        skyImage, renderImage, overlay, invertColors );
+    delete skyChart;
+    delete skyImage;
+}
+
 
 void EyepieceField::render() {
 

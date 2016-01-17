@@ -115,6 +115,14 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
                                     const QImage *skyImage = 0, QPixmap *renderImage = 0, const bool overlay = false, const bool invertColors = false );
 
 
+    /**
+     * @short Convenience method that generates and the renders the eyepiece view
+     * @note calls generateEyepieceView() followed by the raw form of renderEyepieceView() to render an eyepiece view
+     */
+    static void renderEyepieceView( SkyPoint *sp, QPixmap *renderChart, double fovWidth = -1.0, double fovHeight = -1.0, const double rotation = 0, const double scale = 1.0,
+                                    const bool flip = false, const bool invert = false, const QString &imagePath = QString(), QPixmap *renderImage = 0,
+                                    const bool overlay = false, const bool invertColors = false );
+
  public slots:
 
     /**
