@@ -18,6 +18,7 @@
 
 /* Project Includes */
 #include "eyepiecefield.h"
+#include "exporteyepieceview.h"
 #include "fov.h"
 #include "skypoint.h"
 #include "skymap.h"
@@ -60,9 +61,11 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     mainLayout->addWidget(mainWidget);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox( QDialogButtonBox::Close );
+    buttonBox->addButton( i18nc("Export image", "Export"), QDialogButtonBox::AcceptRole );
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotExport()));
 
     QVBoxLayout *rows = new QVBoxLayout;
     mainWidget->setLayout( rows );
@@ -547,6 +550,11 @@ EyepieceField::~EyepieceField() {
     // Empty
     delete m_skyChart;
     delete m_skyImage;
+}
+
+void EyepieceField::slotExport() {
+    bool overlay = m_overlay->isChecked() && m_skyImage;
+    ExportEyepieceView *eev = new ExportEyepieceView( m_sp, *m_dt, ((m_skyImage && !overlay) ? &m_renderImage : 0), &m_renderChart, this );
 }
 
 dms EyepieceField::findNorthAngle( const SkyPoint *sp, const dms *lat ) {

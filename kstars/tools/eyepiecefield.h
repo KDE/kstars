@@ -148,6 +148,11 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
      */
     void slotEnforcePreset( int index = -1 );
 
+    /**
+     * @short save image
+     */
+    void slotExport();
+
  private slots:
      /**
       * @short downloads a DSS image
