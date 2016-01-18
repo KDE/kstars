@@ -24,6 +24,7 @@
 
 #include <QDialog>
 #include <QTemporaryFile>
+#include <QPixmap>
 
 class SkyPoint;
 class FOV;
@@ -177,6 +178,7 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
     SkyPoint *m_sp;
     double m_lat; // latitude
     QTemporaryFile m_tempFile;
+    QPixmap m_renderImage, m_renderChart;
     bool m_usedAltAz;
 };
 

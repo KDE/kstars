@@ -479,9 +479,6 @@ void EyepieceField::renderEyepieceView( SkyPoint *sp, QPixmap *renderChart, doub
 
 void EyepieceField::render() {
 
-    QPixmap renderImage;
-    QPixmap renderChart;
-
     double rotation = m_rotationSlider->value();
     bool flip = m_flipView->isChecked();
     bool invert = m_invertView->isChecked();
@@ -490,8 +487,8 @@ void EyepieceField::render() {
 
     Q_ASSERT( m_skyChart );
 
-    renderEyepieceView( m_skyChart, &renderChart, rotation, 1.0, flip, invert,
-                        m_skyImage, &renderImage, overlay, invertColors );
+    renderEyepieceView( m_skyChart, &m_renderChart, rotation, 1.0, flip, invert,
+                        m_skyImage, &m_renderImage, overlay, invertColors );
 
     m_skyChartDisplay->setVisible( !overlay );
     if( m_skyImage ) {
@@ -509,9 +506,9 @@ void EyepieceField::render() {
 
 
     if( !overlay )
-        m_skyChartDisplay->setPixmap( renderChart.scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+        m_skyChartDisplay->setPixmap( m_renderChart.scaled( m_skyChartDisplay->width(), m_skyChartDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
     if( m_skyImage )
-        m_skyImageDisplay->setPixmap( renderImage.scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+        m_skyImageDisplay->setPixmap( m_renderImage.scaled( m_skyImageDisplay->width(), m_skyImageDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 
     update();
     show();
