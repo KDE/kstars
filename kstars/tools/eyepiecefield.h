@@ -36,6 +36,7 @@ class QCheckBox;
 class QPushButton;
 class FOV;
 class KSDssDownloader;
+class KStarsDateTime;
 
 /**
  * @class EyepieceField
@@ -172,6 +173,7 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
     const FOV *m_currentFOV;
     double m_fovWidth, m_fovHeight;
     KSDssDownloader *m_dler;
+    KStarsDateTime *m_dt;
     SkyPoint *m_sp;
     double m_lat; // latitude
     QTemporaryFile m_tempFile;

@@ -25,6 +25,7 @@
 #include "kstars.h"
 #include "Options.h"
 #include "ksdssimage.h"
+#include "kstarsdatetime.h"
 #include "ksdssdownloader.h"
 /* KDE Includes */
 
@@ -48,6 +49,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     setWindowTitle( i18n( "Eyepiece Field View" ) );
 
     m_sp = 0;
+    m_dt = 0;
     m_lat = 0;
     m_currentFOV = 0;
     m_fovWidth = m_fovHeight = 0;
@@ -237,6 +239,10 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
             delete m_sp;
         m_sp = new SkyPoint( *sp );
     }
+
+    // Update our date/time
+    delete m_dt;
+    m_dt = new KStarsDateTime( KStarsData::Instance()->ut() );
 
     // Enforce preset as per selection, since we have loaded a new eyepiece view
     slotEnforcePreset( -1 );
