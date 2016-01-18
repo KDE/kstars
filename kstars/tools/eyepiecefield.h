@@ -175,6 +175,7 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
     SkyPoint *m_sp;
     double m_lat; // latitude
     QTemporaryFile m_tempFile;
+    bool m_usedAltAz;
 };
 
 #endif

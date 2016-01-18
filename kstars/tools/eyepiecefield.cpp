@@ -147,6 +147,14 @@ void EyepieceField::slotEnforcePreset( int index ) {
     if( index == 0 )
         return; // Preset "None" makes no changes
 
+    double altAzRot = ( m_usedAltAz ? 0.0 : findNorthAngle( m_sp, KStarsData::Instance()->geo()->lat() ).Degrees() );
+    if( altAzRot > 180.0 )
+        altAzRot -= 360.0;
+    double dobRot = altAzRot - m_sp->alt().Degrees();  // set rotation to altitude CW
+    if( dobRot > 180.0 )
+        dobRot -= 360.0;
+    if( dobRot < -180.0 )
+        dobRot += 360.0;
     switch( index ) {
     case 1:
         // Preset vanilla
@@ -161,15 +169,15 @@ void EyepieceField::slotEnforcePreset( int index ) {
         m_flipView->setChecked( true ); // set flip
         break;
     case 3:
-        // Preset refractor -- assumes we're in Alt-Az mode and synced up on time
-        m_rotationSlider->setValue( 0.0 );
+        // Preset refractor
+        m_rotationSlider->setValue( altAzRot );
         m_invertView->setChecked( true );
         m_flipView->setChecked( false );
         break;
     case 4:
-        // Preset Dobsonian -- assumes we're in Alt-Az mode and synced up on time
-        m_rotationSlider->setValue( -m_sp->alt().Degrees() ); // set rotation to altitude CW
-        m_invertView->setChecked( true ); // set inversion (?)
+        // Preset Dobsonian
+        m_rotationSlider->setValue( dobRot ); // set rotation for dob
+        m_invertView->setChecked( true ); // set inversion
         m_flipView->setChecked( false );
         break;
     default:
@@ -219,7 +227,7 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
         m_skyImage = 0;
     }
 
-
+    m_usedAltAz = Options::useAltAz();
     generateEyepieceView( sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
     m_lat = KStarsData::Instance()->geo()->lat()->radians();
 
