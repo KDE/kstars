@@ -100,8 +100,8 @@ Capture::Capture()
     meridianFlipStage = MF_NONE;
     resumeGuidingAfterFlip = false;
 
-    ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
-    ADUSlope = 0;
+    //ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
+    //ADUSlope = 0;
 
     pi = new QProgressIndicator(this);
 
@@ -311,8 +311,11 @@ void Capture::abort()
     retries              = 0;
     seqTotalCount        = 0;
     seqCurrentCount      = 0;
-    ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
-    ADUSlope = 0;
+    //ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
+    //ADUSlope = 0;
+    ADURaw.clear();
+    ExpRaw.clear();
+
     calibrationStage = CAL_NONE;
 
     if (activeJob)
@@ -2691,7 +2694,7 @@ double Capture::setCurrentADU(double value)
 {
     double nextExposure = 0;
 
-    if (ExpRaw1 == -1)
+    /*if (ExpRaw1 == -1)
         ExpRaw1 = activeJob->getExposure();
     else if (ExpRaw2 == -1)
         ExpRaw2 = activeJob->getExposure();
@@ -2737,9 +2740,83 @@ double Capture::setCurrentADU(double value)
 
     qDebug() << "Next Exposure: " << nextExposure;
 
+    return nextExposure;*/
+
+    double a=0,b=0;
+
+    ExpRaw.append(activeJob->getExposure());
+    ADURaw.append(value);
+
+    llsq(ExpRaw, ADURaw, a, b);
+
+    if (a == 0)
+    {
+        if (value < activeJob->getTargetADU())
+            nextExposure = activeJob->getExposure()*1.5;
+        else
+            nextExposure = activeJob->getExposure()*.75;
+
+        qDebug() << "Next Exposure: " << nextExposure;
+
+        return nextExposure;
+    }
+
+    nextExposure = (activeJob->getTargetADU() - b) / a;
+
+    qDebug() << "Next Exposure: " << nextExposure;
+
     return nextExposure;
 
 }
+
+//  Based on  John Burkardt LLSQ (LGPL)
+void Capture::llsq (QList<double> x, QList<double> y, double &a, double &b)
+{
+  double bot;
+  int i;
+  double top;
+  double xbar;
+  double ybar;
+  int n = x.count();
+//
+//  Special case.
+//
+  if ( n == 1 )
+  {
+    a = 0.0;
+    b = y[0];
+    return;
+  }
+//
+//  Average X and Y.
+//
+  xbar = 0.0;
+  ybar = 0.0;
+  for ( i = 0; i < n; i++ )
+  {
+    xbar = xbar + x[i];
+    ybar = ybar + y[i];
+  }
+  xbar = xbar / ( double ) n;
+  ybar = ybar / ( double ) n;
+//
+//  Compute Beta.
+//
+  top = 0.0;
+  bot = 0.0;
+  for ( i = 0; i < n; i++ )
+  {
+    top = top + ( x[i] - xbar ) * ( y[i] - ybar );
+    bot = bot + ( x[i] - xbar ) * ( x[i] - xbar );
+  }
+
+  a = top / bot;
+
+  b = ybar - a * xbar;
+
+  return;
+}
+
 
 void Capture::setDirty()
 {
@@ -3075,14 +3152,21 @@ bool Capture::processPostCaptureCalibrationStage()
         if (currentImage)
         {
             image_data = currentImage->getImageData();
-            double currentADU = image_data->getADUPercentage();
+            double currentADU = image_data->getADU();
             //double currentSlope = ADUSlope;
 
-            if (fabs(currentADU - activeJob->getTargetADU()) < 0.5)
+            double percentageDiff=0;
+            if (currentADU > activeJob->getTargetADU())
+                percentageDiff = activeJob->getTargetADU()/currentADU;
+            else
+                percentageDiff = currentADU / activeJob->getTargetADU();
+
+            // If it is within 2% of target ADU
+            if (percentageDiff >= 0.98)
             {
                 if (calibrationStage == CAL_CALIBRATION)
                 {
-                    appendLogText(i18n("Current ADU %1% reached target ADU.", QString::number(currentADU, 'g', 2)));
+                    appendLogText(i18n("Current ADU %1 reached target ADU.", QString::number(currentADU, 'f', 0)));
                     activeJob->setPreview(false);
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();
@@ -3103,7 +3187,7 @@ bool Capture::processPostCaptureCalibrationStage()
                 return false;
             }
 
-            appendLogText(i18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'f', 3), QString::number(nextExposure, 'f', 3)));
+            appendLogText(i18n("Current ADU is %1 Next exposure is %2 seconds.", QString::number(currentADU, 'f', 0), QString::number(nextExposure, 'f', 3)));
 
             calibrationStage = CAL_CALIBRATION;
             activeJob->setExposure(nextExposure);
@@ -3173,6 +3257,5 @@ bool Capture::isFITSDirUnique(SequenceJob *job)
 
     return true;
 }
-
 
 }
