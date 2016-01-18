@@ -169,10 +169,5 @@ double KSAlmanac::sunZenithAngleToTime( double z ) {
 
 double KSAlmanac::findAltitude( const SkyPoint *p, double hour )
 {
-    // Jasem 2015-08-24 Using correct procedure to find altitude
-    SkyPoint sp = *p; // make a copy
-    KStarsDateTime targetDateTime = dt.addSecs( hour*3600.0 );
-    dms LST = geo->GSTtoLST( targetDateTime.gst() );
-    sp.EquatorialToHorizontal( &LST, geo->lat() );
-    return sp.alt().Degrees();
+    return SkyPoint::findAltitude( p, dt, geo, hour ).Degrees();
 }

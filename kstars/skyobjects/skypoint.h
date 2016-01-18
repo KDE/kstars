@@ -28,6 +28,7 @@
 
 class KSNumbers;
 class KSSun;
+class GeoLocation;
 
 /** @class SkyPoint
 	*
@@ -508,6 +509,24 @@ public:
      * @see SkyPoint::unrefract( const double alt )
      */
     static inline dms unrefract(const dms alt) { return dms( unrefract( alt.Degrees() ) ); }
+
+    /**
+     * @short Compute the altitude of a given skypoint hour hours from the given date/time
+     * @param p SkyPoint whose altitude is to be computed (const pointer, the method works on a clone)
+     * @param dt Date/time that corresponds to 0 hour
+     * @param geo GeoLocation object specifying the location
+     * @param hour double specifying offset in hours from dt for which altitude is to be found
+     * @return a dms containing (unrefracted?) altitude of the object at dt + hour hours at the given location
+     * @note This method is used in multiple places across KStars
+     * @todo Fix code duplication in AltVsTime and KSAlmanac by using this method instead! FIXME.
+     */
+    static dms findAltitude( const SkyPoint *p, const KStarsDateTime &dt, const GeoLocation *geo, const double hour = 0 );
+
+    /**
+     * @short returns a time-transformed SkyPoint. See SkyPoint::findAltitude() for details
+     * @todo Fix this documentation.
+     */
+    static SkyPoint timeTransformed( const SkyPoint *p, const KStarsDateTime &dt, const GeoLocation *geo, const double hour = 0 );
 
     /**
      *@short Critical height for atmospheric refraction
