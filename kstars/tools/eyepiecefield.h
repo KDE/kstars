@@ -23,13 +23,13 @@
 #include "dms.h"
 
 #include <QDialog>
-#include <QImage>
 #include <QTemporaryFile>
 
 class SkyPoint;
 class FOV;
 class QString;
 class QLabel;
+class QImage;
 class QSlider;
 class QComboBox;
 class QCheckBox;
