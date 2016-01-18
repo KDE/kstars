@@ -20,6 +20,8 @@
 #ifndef EYEPIECEFIELD_H
 #define EYEPIECEFIELD_H
 
+#include "dms.h"
+
 #include <QDialog>
 #include <QImage>
 #include <QTemporaryFile>
@@ -122,6 +124,13 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
     static void renderEyepieceView( SkyPoint *sp, QPixmap *renderChart, double fovWidth = -1.0, double fovHeight = -1.0, const double rotation = 0, const double scale = 1.0,
                                     const bool flip = false, const bool invert = false, const QString &imagePath = QString(), QPixmap *renderImage = 0,
                                     const bool overlay = false, const bool invertColors = false );
+
+    /**
+     * @short Finds the angle between "up" (i.e. direction of increasing altitude) and "north" (i.e. direction of increasing declination) at a given point in the sky
+     * @fixme Procedure does not account for precession and nutation at the moment
+     * @note SkyPoint must already have Equatorial and Horizontal coordinate synced
+     */
+    static dms findNorthAngle( const SkyPoint *sp, const dms *lat );
 
  public slots:
 

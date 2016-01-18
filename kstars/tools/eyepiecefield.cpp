@@ -380,21 +380,11 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
         if( Options::useAltAz() ) {
             // Need to rotate the image so that up is towards zenith rather than north.
-            KStarsData *data = KStarsData::Instance();
-            double lat = data->geo()->lat()->radians();
-
-            // FIXME: This procedure does not account for precession and nutation. Need to figure out how to incorporate these effects.
-            // We trust that EquatorialToHorizontal has been called on geo, after all, how else can it have an alt/az representation.
-            // Use spherical cosine rule (the triangle with vertices at sp, zenith and NCP) to compute the angle between direction of increasing altitude and north
-            double cosNorthAngle = ( sin( lat ) - sin( sp->alt().radians() ) * sin( sp->dec().radians() ) )/( cos( sp->alt().radians() ) * cos( sp->dec().radians() ) );
-            double northAngle = acos( cosNorthAngle ); // arccosine is blind to sign of the angle
-            if( sp->az().reduce().Degrees() < 180.0 ) // if on the eastern hemisphere, flip sign
-                northAngle = -northAngle;
-
-            qDebug() << "North angle = " << dms( northAngle * 180/M_PI ).toDMSString();
+            dms northBearing = findNorthAngle( sp, KStarsData::Instance()->geo()->lat() );
+            qDebug() << "North angle = " << northBearing.toDMSString();
 
             QTransform transform;
-            transform.rotate( northAngle * 180/M_PI );
+            transform.rotate( northBearing.Degrees() );
             img = img.transformed( transform, Qt::SmoothTransformation );
         }
         p.drawImage( QPointF( mySkyImage->width()/2.0 - img.width()/2.0, mySkyImage->height()/2.0 - img.height()/2.0 ), img );
@@ -403,7 +393,6 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         *skyImage = *mySkyImage;
         delete mySkyImage;
     }
-
 }
 
 void EyepieceField::renderEyepieceView( const QImage *skyChart, QPixmap *renderChart, const double rotation, const double scale, const bool flip, const bool invert,
@@ -547,4 +536,16 @@ EyepieceField::~EyepieceField() {
     // Empty
     delete m_skyChart;
     delete m_skyImage;
+}
+
+dms EyepieceField::findNorthAngle( const SkyPoint *sp, const dms *lat ) {
+    Q_ASSERT( sp && lat );
+    // FIXME: This procedure does not account for precession and nutation. Need to figure out how to incorporate these effects.
+    // We trust that EquatorialToHorizontal has been called on sp, after all, how else can it have an alt/az representation.
+    // Use spherical cosine rule (the triangle with vertices at sp, zenith and NCP) to compute the angle between direction of increasing altitude and north
+    double cosNorthAngle = ( lat->sin() - sp->alt().sin() * sp->dec().sin() )/( sp->alt().cos() * sp->dec().cos() );
+    double northAngle = acos( cosNorthAngle ); // arccosine is blind to sign of the angle
+    if( sp->az().reduce().Degrees() < 180.0 ) // if on the eastern hemisphere, flip sign
+        northAngle = -northAngle;
+    return dms( northAngle * 180/M_PI );
 }
