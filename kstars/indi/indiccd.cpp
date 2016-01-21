@@ -1224,8 +1224,8 @@ void CCD::processBLOB(IBLOB* bp)
 
         if (fv == NULL)
         {
-            if (Options::singleWindowFITS())
-                fv = GUIManager::Instance()->getGenericFITSViewer();
+            if (Options::singleWindowCapturedFITS())
+                fv = KStars::Instance()->genericFITSViewer();
             else
                 fv = new FITSViewer(KStars::Instance());
 
@@ -1240,7 +1240,7 @@ void CCD::processBLOB(IBLOB* bp)
         bool preview = !targetChip->isBatchMode() && Options::singlePreviewFITS();
         if (preview)
         {
-            if (Options::singleWindowFITS())
+            if (Options::singleWindowCapturedFITS())
                 previewTitle = i18n("%1 Preview", getDeviceName());
             else
                 previewTitle = i18n("Preview");

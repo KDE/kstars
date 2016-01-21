@@ -18,6 +18,7 @@
 #include "avtplotwidget.h"
 
 #include "kstarsdata.h"
+#include "Options.h"
 
 #include <QWidget>
 #include <QMouseEvent>
@@ -87,6 +88,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     int pH = pixRect().height();
 
     QColor SkyColor( 0, 100, 200 );
+    if( Options::darkAppColors() )
+        SkyColor = QColor( 200, 0, 0 ); // use something red, visible through a red filter
 
     // Draw gradient representing lunar interference in the sky
     if( MoonIllum > 0.01 ) { // do this only if Moon illumination is reasonable so it's important

@@ -199,7 +199,7 @@ const dms dms::reduce( void ) const {
     return dms( D - 360.0*floor(D/360.0) );
 }
 
-const QString dms::toDMSString(const bool forceSign) const {
+const QString dms::toDMSString(const bool forceSign, const bool machineReadable ) const {
     QString dummy;
     char pm(' ');
     int dd = abs(degree());
@@ -209,17 +209,26 @@ const QString dms::toDMSString(const bool forceSign) const {
     if ( Degrees() < 0.0 ) pm = '-';
     else if (forceSign && Degrees() > 0.0 ) pm = '+';
 
-    if (dd < 10)
+    if (!machineReadable && dd < 10)
         return dummy.sprintf("%c%1d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
-    if (dd < 100)
-        return dummy.sprintf("%c%2d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
 
-    return dummy.sprintf("%c%3d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
+    if (!machineReadable && dd < 100)
+        return dummy.sprintf("%c%2d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
+    if( machineReadable && dd < 100 )
+        return dummy.sprintf("%c%02d:%02d:%02d", pm, dd, dm, ds);
+
+    if( !machineReadable )
+        return dummy.sprintf("%c%3d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
+    else
+        return dummy.sprintf("%c%03d:%02d:%02d", pm, dd, dm, ds);
 }
 
-const QString dms::toHMSString() const {
+const QString dms::toHMSString( const bool machineReadable ) const {
     QString dummy;
-    return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
+    if( !machineReadable )
+        return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
+    else
+        return dummy.sprintf("%02d:%02d:%02d", hour(), minute(), second());
 }
 
 dms dms::fromString(const QString &st, bool deg) {

@@ -58,6 +58,7 @@ class ExportImageDialog;
 class PrintingWizard;
 class EkosManager;
 class HorizonManager;
+class EyepieceField;
 
 class OpsCatalog;
 class OpsGuides;
@@ -71,6 +72,10 @@ class OpsEkos;
 
 #ifdef HAVE_XPLANET
 class OpsXplanet;
+#endif
+
+#ifdef HAVE_CFITSIO
+class FITSViewer;
 #endif
 
 /**
@@ -128,6 +133,10 @@ public:
     inline FlagManager* flagManager() const { return m_FlagManager; }
 
     inline PrintingWizard* printingWizard() const { return m_PrintingWizard; }
+
+    #ifdef HAVE_CFITSIO
+    FITSViewer *genericFITSViewer();
+    #endif
 
     #ifdef HAVE_INDI
     EkosManager *ekosManager();
@@ -253,6 +262,12 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE Q_NOREPLY void setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
+    /** DBUS interface function.  Set local time and date to present values acc. system clock
+     * @note Just a proxy for slotSetTimeToNow(), but it is better to
+     * keep the DBus interface separate from the internal methods.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setTimeToNow();
+
     /** DBUS interface function.  Delay further execution of DBUS commands.
      * @param t number of seconds to delay
      */
@@ -358,6 +373,21 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE QString getObjectDataXML( const QString &objectName );
 
+    /** DBUS interface function.  Return XML containing position info about a sky object
+     * @param objectName name of the object.
+     * @note If the object was not found, the XML is empty.
+     */
+    Q_SCRIPTABLE QString getObjectPositionInfo( const QString &objectName );
+
+    /** DBUS interface function. Render eyepiece view and save it in the file(s) specified
+     * @note See EyepieceField::renderEyepieceView() for more info. This is a DBus proxy that calls that method, and then writes the resulting image(s) to file(s).
+     * @note Important: If imagePath is empty, but overlay is true, or destPathImage is supplied, this method will make a blocking DSS download.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void renderEyepieceView( const QString &objectName, const QString &destPathChart, const double fovWidth = -1.0, const double fovHeight = -1.0,
+                                                   const double rotation = 0.0, const double scale = 1.0, const bool flip = false, const bool invert = false,
+                                                   QString imagePath = QString(), const QString &destPathImage = QString(), const bool overlay = false,
+                                                   const bool invertColors = false );
+
     /** DBUS interface function.  Set the approx field-of-view
      * @param FOV_Degrees field of view in degrees
      */
@@ -434,6 +464,10 @@ public Q_SLOTS:
 
     /** action slot: open Flag Manager */
     void slotFlagManager();
+
+    /** Show the eyepiece view tool */
+    void slotEyepieceView( SkyPoint *sp, const QString &imagePath = QString() );
+
 
 private slots:
     /** action slot: open a dialog for setting the time and date */
@@ -646,6 +680,11 @@ private:
     FlagManager *m_FlagManager;
     SkyGuideMgr *m_SkyGuideMgr;
     HorizonManager *m_HorizonManager;
+    EyepieceField *m_EyepieceView;
+    #ifdef HAVE_CFITSIO
+    QPointer<FITSViewer> genericViewer;
+    #endif
+
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif

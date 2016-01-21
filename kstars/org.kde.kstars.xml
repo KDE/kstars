@@ -53,6 +53,9 @@
       <arg name="sec" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="setTimeToNow">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="waitFor">
       <arg name="t" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -139,6 +142,25 @@
     <method name="getObjectDataXML">
       <arg type="s" direction="out"/>
       <arg name="objectName" type="s" direction="in"/>
+    </method>
+    <method name="getObjectPositionInfo">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+    </method>
+    <method name="renderEyepieceView">
+      <arg name="objectName" type="s" direction="in"/>
+      <arg name="destPathChart" type="s" direction="in"/>
+      <arg name="fovWidth" type="d" direction="in"/>
+      <arg name="fovHeight" type="d" direction="in"/>
+      <arg name="rotation" type="d" direction="in"/>
+      <arg name="scale" type="d" direction="in"/>
+      <arg name="flip" type="b" direction="in"/>
+      <arg name="invert" type="b" direction="in"/>
+      <arg name="imagePath" type="s" direction="in"/>
+      <arg name="destPathImage" type="s" direction="in"/>
+      <arg name="overlay" type="b" direction="in"/>
+      <arg name="invertColors" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setApproxFOV">
       <arg name="FOV_Degrees" type="d" direction="in"/>

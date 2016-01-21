@@ -41,7 +41,7 @@ class OpsCatalog : public QFrame, public Ui::OpsCatalog
     Q_OBJECT
 
 public:
-    explicit OpsCatalog( KStars *_ks );
+    explicit OpsCatalog();
     ~OpsCatalog();
 
 private slots:
@@ -67,7 +67,6 @@ private:
     QString getCatalogName( const QString &filename );
 
     QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
-    KStars *ksw;
 
     KConfigDialog *m_ConfigDialog;
     QStringList *m_CustomCatalogFile;

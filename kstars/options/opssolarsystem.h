@@ -34,7 +34,7 @@ class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
     Q_OBJECT
 
 public:
-    explicit OpsSolarSystem( KStars *_ks );
+    explicit OpsSolarSystem();
     ~OpsSolarSystem();
 
 private slots:
@@ -43,8 +43,6 @@ private slots:
     void slotCometWidgets(bool on);
     void slotSelectPlanets();
 
-private:
-    KStars *ksw;
 };
 
 #endif

@@ -2078,29 +2078,12 @@ bool FITSData::debayer()
 
 }
 
-double FITSData::getADUPercentage()
+double FITSData::getADU()
 {
-    switch (stats.bitpix)
-    {
-        case 8:
-            return (stats.mean[0] / UCHAR_MAX) * 100.0;
-            break;
-        case 16:
-            return (stats.mean[0] / USHRT_MAX) * 100.0;
-            break;
-        case 32:
-            return (stats.mean[0] / UINT_MAX) * 100.0;
-            break;
-        case -32:
-             return (stats.mean[0] / INT_MAX) * 100.0;
-             break;
-        case 64:
-             return (stats.mean[0] / ULLONG_MAX) * 100.0;
-             break;
-        case -64:
-             return (stats.mean[0] / LLONG_MAX) * 100.0;
-        default:
-            return 0;
-            break;
-    }
+    double adu=0;
+    for (int i=0; i < channels; i++)
+        adu += stats.mean[i];
+
+    return (adu/ (double) channels);
 }
+

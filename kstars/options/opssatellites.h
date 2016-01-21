@@ -48,7 +48,7 @@ public:
     /**
      * Constructor
      */
-    explicit OpsSatellites( KStars *_ks );
+    explicit OpsSatellites();
 
     /**
      * Destructor

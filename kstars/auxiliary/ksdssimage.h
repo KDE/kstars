@@ -54,7 +54,7 @@ class KSDssImage {
          * @enum KSDssImage::Metadata::Source
          * @short Contains possible sources for digitized sky-survey images
          */
-        enum Source { DSS, SDSS };
+        enum Source { DSS = 0, SDSS = 1, GenericInternetSource = 2 };
         /**
          * @enum KSDssImage::Metadata::FileFormat
          * @short Contains possible file formats for images
@@ -64,7 +64,7 @@ class KSDssImage {
          * write support for GIF. Besides, PNG compresses better.
          *
          */
-        enum FileFormat { FITS, GIF, PNG };
+        enum FileFormat { FITS = 0, GIF = 1, PNG = 2 };
 
         QString version; // Used for DSS -- Indicates which version of scans to pull
         QString object; // Name / identifier of the object. Added to metadata

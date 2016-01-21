@@ -223,13 +223,15 @@ public:
 
     /** @return a nicely-formatted string representation of the angle
      * in degrees, arcminutes, and arcseconds.
+     * @param machineReadable uses a colon separator and produces +/-dd:mm:ss format instead
      */
-    const QString toDMSString(const bool forceSign = false) const;
+    const QString toDMSString(const bool forceSign = false, const bool machineReadable = false ) const;
 
     /** @return a nicely-formatted string representation of the angle
      * in hours, minutes, and seconds.
+     * @param machineReadable uses a colon separator and produces hh:mm:ss format instead
      */
-    const QString toHMSString() const;
+    const QString toHMSString( const bool machineReadable = false ) const;
 
     /** PI is a const static member; it's public so that it can be used anywhere,
      * as long as dms.h is included.

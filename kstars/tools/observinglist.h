@@ -33,7 +33,6 @@ class QStandardItemModel;
 class KStars;
 class KStarsDateTime;
 class GeoLocation;
-class EyepieceField;
 class ObsListPopupMenu;
 class SkyPoint;
 class SkyObject;
@@ -128,15 +127,10 @@ public:
         */
     double findAltitude( SkyPoint *p, double hour=0);
 
-    /** @short Return the list of downloaded images
-        */
-    QList<QString> imageList() { return ImageList; }
-
     /** @short Sets the image parameters for the current object
         *@p o The passed object for setting the parameters
-        *@p temp A flag to edit the name for temporary images
         */
-    void setCurrentImage( const SkyObject *o, bool temp = false );
+    void setCurrentImage( const SkyObject *o );
 
     /** @short Save the user log text to a file.
         *@note the log is attached to the current object in obsList.
@@ -299,7 +293,7 @@ public slots:
     /** @short Downloads the corresponding DSS or SDSS image from the web and
         *displays it
         */
-    void slotGetImage( bool _dss = false );
+    void slotGetImage( bool _dss = false, const SkyObject *o = 0 );
 
     void slotSearchImage();
 
@@ -314,11 +308,7 @@ public slots:
         *@p filename the file onto which the url has to be copied to
         *NOTE: This is not a generic image saver, it is specific to the current object
         */
-    void saveImage( QUrl url , QString filename );
-
-    /** @short saves the temporary image permanently
-        */
-    void slotSaveImage();
+    void saveImage( QUrl url , QString filename, const SkyObject *o = 0 );
 
     /** @short Shows the image in a ImageViewer window.
         */
@@ -394,16 +384,14 @@ private:
     QList<SkyObject*> m_WishList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
-    QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
+    QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_WishListModel, *m_SessionModel;
     QSortFilterProxyModel *m_WishListSortModel, *m_SessionSortModel;
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash;
-    QList<QString> ImageList;
     ObsListPopupMenu *pmenu;
-    EyepieceField *m_epf;
     KSDssDownloader *m_dl;
 };
 

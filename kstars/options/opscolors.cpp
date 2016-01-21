@@ -39,17 +39,17 @@
 
 static int ItemColorData = Qt::UserRole + 1;
 
-OpsColors::OpsColors( KStars *_ks )
-        : QFrame( _ks ), ksw(_ks)
+OpsColors::OpsColors()
+        : QFrame(KStars::Instance())
 {
     setupUi( this );
 
     //Populate list of adjustable colors
-    for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
+    for ( unsigned int i=0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i ) {
         QPixmap col( 30, 20 );
-        QColor itemColor( ksw->data()->colorScheme()->colorAt( i ) );
+        QColor itemColor( KStarsData::Instance()->colorScheme()->colorAt( i ) );
         col.fill( itemColor );
-        QListWidgetItem *item = new QListWidgetItem( ksw->data()->colorScheme()->nameAt( i ), ColorPalette );
+        QListWidgetItem *item = new QListWidgetItem( KStarsData::Instance()->colorScheme()->nameAt( i ), ColorPalette );
         item->setData( Qt::DecorationRole, col );
         item->setData( ItemColorData, itemColor );
     }
@@ -80,14 +80,14 @@ OpsColors::OpsColors( KStars *_ks )
         file.close();
     }
 
-    kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
+    kcfg_StarColorIntensity->setValue( KStarsData::Instance()->colorScheme()->starColorIntensity() );
     kcfg_StarColorMode->addItem( i18nc( "use realistic star colors", "Real Colors" ) );
     kcfg_StarColorMode->addItem( i18nc( "show stars as red circles", "Solid Red" ) );
     kcfg_StarColorMode->addItem( i18nc( "show stars as black circles", "Solid Black" ) );
     kcfg_StarColorMode->addItem( i18nc( "show stars as white circles", "Solid White" ) );
-    kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
+    kcfg_StarColorMode->setCurrentIndex( KStarsData::Instance()->colorScheme()->starColorMode() );
 
-    if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
+    if ( KStarsData::Instance()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
         kcfg_StarColorIntensity->setEnabled( false );
     else
         kcfg_StarColorIntensity->setEnabled( true );
@@ -121,10 +121,10 @@ void OpsColors::newColor( QListWidgetItem *item ) {
         pixmap.fill( NewColor );
         item->setData( Qt::DecorationRole, pixmap );
         item->setData( ItemColorData, NewColor );
-        ksw->data()->colorScheme()->setColor( ksw->data()->colorScheme()->keyAt( index ), NewColor.name() );
+        KStarsData::Instance()->colorScheme()->setColor( KStarsData::Instance()->colorScheme()->keyAt( index ), NewColor.name() );
     }
 
-    ksw->map()->forceUpdate();
+    KStars::Instance()->map()->forceUpdate();
 }
 
 void OpsColors::slotPreset( int index ) {
@@ -143,21 +143,21 @@ bool OpsColors::setColors( const QString &filename ) {
     test.close();
 
 		QString actionName = QString("cs_" + filename.left(filename.indexOf(".colors"))).toUtf8();
-		QAction *a = ksw->actionCollection()->action( actionName );
+        QAction *a = KStars::Instance()->actionCollection()->action( actionName );
 		if ( a ) a->setChecked( true );
         qApp->processEvents();
 
-    kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
-    kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
+    kcfg_StarColorMode->setCurrentIndex( KStarsData::Instance()->colorScheme()->starColorMode() );
+    kcfg_StarColorIntensity->setValue( KStarsData::Instance()->colorScheme()->starColorIntensity() );
 
-    for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
-        QColor itemColor( ksw->data()->colorScheme()->colorAt( i ) );
+    for ( unsigned int i=0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i ) {
+        QColor itemColor( KStarsData::Instance()->colorScheme()->colorAt( i ) );
         temp.fill( itemColor );
         ColorPalette->item( i )->setData( Qt::DecorationRole, temp );
         ColorPalette->item( i )->setData( ItemColorData, itemColor );
     }
 
-    ksw->map()->forceUpdate();
+    KStars::Instance()->map()->forceUpdate();
     return true;
 }
 
@@ -170,14 +170,14 @@ void OpsColors::slotAddPreset() {
                          QString(), &okPressed, 0 );
 
     if ( okPressed && ! schemename.isEmpty() ) {
-        if ( ksw->data()->colorScheme()->save( schemename ) ) {
+        if ( KStarsData::Instance()->colorScheme()->save( schemename ) ) {
             QListWidgetItem *item = new QListWidgetItem( schemename, PresetBox );
-            QString fname = ksw->data()->colorScheme()->fileName();
+            QString fname = KStarsData::Instance()->colorScheme()->fileName();
             PresetFileList.append( fname );
 						QString actionName = QString("cs_" + fname.left(fname.indexOf(".colors"))).toUtf8();
-						ksw->addColorMenuItem( schemename, actionName );
+                        KStars::Instance()->addColorMenuItem( schemename, actionName );
 
-						QAction *a = ksw->actionCollection()->action( actionName );
+                        QAction *a = KStars::Instance()->actionCollection()->action( actionName );
 						if ( a ) a->setChecked( true );
             PresetBox->setCurrentItem( item );
         }
@@ -193,7 +193,7 @@ void OpsColors::slotRemovePreset() {
     cdatFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "colors.dat" ) ; //determine filename in local user KDE directory tree.
 
     //Remove action from color-schemes menu
-    ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );
+    KStars::Instance()->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );
 
     if ( !cdatFile.exists() || !cdatFile.open( QIODevice::ReadWrite ) ) {
         QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
@@ -240,16 +240,16 @@ void OpsColors::slotRemovePreset() {
 }
 
 void OpsColors::slotStarColorMode( int i ) {
-    ksw->data()->colorScheme()->setStarColorMode( i );
+    KStarsData::Instance()->colorScheme()->setStarColorMode( i );
 
-    if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
+    if ( KStarsData::Instance()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
         kcfg_StarColorIntensity->setEnabled( false );
     else
         kcfg_StarColorIntensity->setEnabled( true );
 }
 
 void OpsColors::slotStarColorIntensity( int i ) {
-    ksw->data()->colorScheme()->setStarColorIntensity( i );
+    KStarsData::Instance()->colorScheme()->setStarColorIntensity( i );
 }
 
 

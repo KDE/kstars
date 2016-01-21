@@ -77,12 +77,14 @@ class KSDssDownloader : public QObject {
      *@note If SkyPoint is a DeepSkyObject, this method automatically
      *decides the image size required to fit the object.
      *@note Moved from namespace KSUtils (--asimha, Jan 5 2016)
-     *@note Avoid using these functions within KStars. Good for DBus
-     *calls and if DSS URL is to be provided to external
-     *applications. Prefer the download methods since they include
-     *metadata
      */
     static QString getDSSURL( const SkyPoint * const p, const QString &version = "all", struct KSDssImage::Metadata *md = 0 );
+
+    /**
+     *@short High-level method to create a URL to obtain a DSS image for a given SkyPoint
+     *@note This method includes an option to set the height, but uses default values for many parameters
+     */
+    static QString getDSSURL( const SkyPoint * const p, float width, float height = 0, const QString &version = "all", struct KSDssImage::Metadata *md = 0 );
 
     /**
      *@short Create a URL to obtain a DSS image for a given RA, Dec
@@ -95,10 +97,6 @@ class KSDssDownloader : public QObject {
      *@param md If a valid pointer is provided, fill with metadata
      *@note This method resets height and width to fall within the range accepted by DSS
      *@note Moved from namespace KSUtils (--asimha, Jan 5 2016)
-     *@note Avoid using these functions within KStars. Good for DBus
-     *calls and if DSS URL is to be provided to external
-     *applications. Prefer the download methods since they include
-     *metadata in the file after download.
      *
      *@note Valid versions are: dss1, poss2ukstu_red, poss2ukstu_ir,
      *poss2ukstu_blue, poss1_blue, poss1_red, all, quickv,

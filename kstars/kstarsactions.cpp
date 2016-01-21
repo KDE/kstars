@@ -79,6 +79,7 @@
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
 #include "tools/observinglist.h"
+#include "tools/eyepiecefield.h"
 
 //FIXME Port to QML2
 #if 0
@@ -659,13 +660,13 @@ void KStars::slotViewOps() {
 
     connect( dialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT( slotApplyConfigChanges() ) );
 
-    opcatalog    = new OpsCatalog( this );
-    opguides     = new OpsGuides( this );
-    opsolsys     = new OpsSolarSystem( this );
-    opssatellites= new OpsSatellites( this );
-    opssupernovae= new OpsSupernovae( this );
-    opcolors     = new OpsColors( this );
-    opadvanced   = new OpsAdvanced( this );
+    opcatalog    = new OpsCatalog();
+    opguides     = new OpsGuides();
+    opsolsys     = new OpsSolarSystem();
+    opssatellites= new OpsSatellites();
+    opssupernovae= new OpsSupernovae();
+    opcolors     = new OpsColors();
+    opadvanced   = new OpsAdvanced();
 
     dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
     dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
@@ -1300,6 +1301,28 @@ void KStars::slotHorizonManager()
     m_HorizonManager->show();
 }
 
+void KStars::slotEyepieceView( SkyPoint *sp, const QString &imagePath ) {
+    if( !m_EyepieceView )
+        m_EyepieceView = new EyepieceField( this );
+
+    // FIXME: Move FOV choice into the Eyepiece View tool itself.
+    bool ok = true;
+    const FOV *fov = 0;
+    if( !data()->getAvailableFOVs().isEmpty() ) {
+        // Ask the user to choose from a list of available FOVs.
+        int index;
+        const FOV *f;
+        QMap< QString, const FOV * > nameToFovMap;
+        foreach( f, data()->getAvailableFOVs() ) {
+            nameToFovMap.insert( f->name(), f );
+        }
+        nameToFovMap.insert( i18n("Attempt to determine from image"), 0 );
+        fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Eyepiece View: Choose a field-of-view"), i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
+    }
+    if( ok )
+        m_EyepieceView->showEyepieceField( sp, fov, imagePath );
+}
+
 void KStars::slotExecute() {
     KStarsData::Instance()->executeSession()->init();
     KStarsData::Instance()->executeSession()->show();
@@ -1406,10 +1429,6 @@ void KStars::slotAboutToQuit()
     //synch the config file with the Config object
     writeConfig();
 
-    if( !Options::obsListSaveImage() ) {
-        foreach ( const QString& file, m_KStarsData->observingList()->imageList() )
-            QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + file ) ;
-    }
 }
 
 void KStars::slotShowPositionBar(SkyPoint* p )

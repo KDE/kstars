@@ -42,7 +42,7 @@ class OpsColors : public QFrame, public Ui::OpsColors
     Q_OBJECT
 
 public:
-    explicit OpsColors( KStars *_ks );
+    explicit OpsColors();
     ~OpsColors();
 
 private slots:
@@ -55,8 +55,6 @@ private slots:
 
 private:
     bool setColors( const QString &filename );
-
-    KStars *ksw;
 
     QStringList PresetFileList;
 };

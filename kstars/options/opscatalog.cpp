@@ -34,8 +34,8 @@
 #include "skycomponents/catalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
-OpsCatalog::OpsCatalog( KStars *_ks )
-        : QFrame( _ks ), ksw(_ks)
+OpsCatalog::OpsCatalog()
+        : QFrame(KStars::Instance() )
 {
     setupUi(this);
 
@@ -71,7 +71,7 @@ OpsCatalog::OpsCatalog( KStars *_ks )
      * 1) Get the list from DB and add it as unchecked
      * 2) If the showCatalogNames list has any of the items, check it
     */
-    m_CustomCatalogFile = ksw->data()->catalogdb()->Catalogs();
+    m_CustomCatalogFile = KStars::Instance()->data()->catalogdb()->Catalogs();
     m_CheckedCatalogNames = Options::showCatalogNames();
     populateCustomCatalogs();
 
@@ -138,7 +138,7 @@ void OpsCatalog::selectCatalog() {
 
     if ( ! CatalogList->currentItem() ) return;
 
-    foreach ( SkyComponent *sc, ksw->data()->skyComposite()->customCatalogs() ) {
+    foreach ( SkyComponent *sc, KStars::Instance()->data()->skyComposite()->customCatalogs() ) {
         CatalogComponent *cc = (CatalogComponent*)sc;
         if ( CatalogList->currentItem()->text() == cc->name() ) {
             RemoveCatalog->setEnabled( true );
@@ -149,9 +149,9 @@ void OpsCatalog::selectCatalog() {
 
 
 void OpsCatalog::slotAddCatalog() {
-    QPointer<AddCatDialog> ac = new AddCatDialog( ksw );
+    QPointer<AddCatDialog> ac = new AddCatDialog( KStars::Instance() );
     if ( ac->exec()==QDialog::Accepted ) {
-        ksw->data()->catalogdb()->AddCatalogContents( ac->filename() );
+        KStars::Instance()->data()->catalogdb()->AddCatalogContents( ac->filename() );
         refreshCatalogList();
     }
     delete ac;
@@ -162,7 +162,7 @@ void OpsCatalog::slotLoadCatalog() {
     //Get the filename from the user
     QString filename = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QDir::homePath(), "*");
     if ( ! filename.isEmpty() ) {
-        ksw->data()->catalogdb()->AddCatalogContents(filename);
+        KStars::Instance()->data()->catalogdb()->AddCatalogContents(filename);
         refreshCatalogList();
     }
 
@@ -171,7 +171,7 @@ void OpsCatalog::slotLoadCatalog() {
 
 
 void OpsCatalog::refreshCatalogList() {
-    ksw->data()->catalogdb()->Catalogs();
+    KStars::Instance()->data()->catalogdb()->Catalogs();
     populateCustomCatalogs();
 }
 
@@ -186,7 +186,7 @@ void OpsCatalog::slotRemoveCatalog() {
             return;
     }
     //Ask DB to remove catalog
-    ksw->data()->catalogdb()->RemoveCatalog( CatalogList->currentItem()->text() );
+    KStars::Instance()->data()->catalogdb()->RemoveCatalog( CatalogList->currentItem()->text() );
 
     // Remove from Options if it exists in it (i.e. was marked as visible)
     // This does not remove it from the database or from the widget in Options
@@ -244,9 +244,9 @@ void OpsCatalog::slotApply() {
 
     // update time for all objects because they might be not initialized
     // it's needed when using horizontal coordinates
-    ksw->data()->setFullTimeUpdate();
-    ksw->updateTime();
-    ksw->map()->forceUpdate();
+    KStars::Instance()->data()->setFullTimeUpdate();
+    KStars::Instance()->updateTime();
+    KStars::Instance()->map()->forceUpdate();
 }
 
 

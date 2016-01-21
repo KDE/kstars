@@ -98,6 +98,9 @@ int main(int argc, char *argv[])
     parser.addOption(QCommandLineOption(QStringList() << "date", i18n( "Date and time" )));
     parser.addOption(QCommandLineOption(QStringList() << "paused", i18n( "Start with clock paused" )));
 
+    // urls to open
+    parser.addPositionalArgument(QStringLiteral("urls"), i18n("FITS file(s) to open."), QStringLiteral("[urls...]"));
+
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
@@ -215,7 +218,23 @@ int main(int argc, char *argv[])
     QDir writableDir;
     writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
+    KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );   
+
+    // no session.. just start up normally
+    const QStringList urls = parser.positionalArguments();
+
+    // take arguments
+    if( ! urls.isEmpty() )
+    {
+        const QRegExp withProtocolChecker( QStringLiteral("^[a-zA-Z]+:") );
+        foreach (const QString &url, urls) {
+            const QUrl u = (withProtocolChecker.indexIn(url) == 0) ?
+                QUrl::fromUserInput( url ) :
+                QUrl::fromLocalFile(QDir::current().absoluteFilePath(url));
+
+            KStars::Instance()->openFITS(u);
+        }
+    }
 
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
     return app.exec();

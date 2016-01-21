@@ -82,7 +82,7 @@ public:
 
     enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
-    typedef enum { FLAT_NONE, FLAT_DUSTCAP_PARKING, FLAT_DUSTCAP_PARKED, FLAT_LIGHTBOX_ON, FLAT_SLEWING, FLAT_SLEWING_COMPLETE, FLAT_MOUNT_PARKING, FLAT_MOUNT_PARKED, FLAT_DOME_PARKING, FLAT_DOME_PARKED, FLAT_PRECAPTURE_COMPLETE, FLAT_CALIBRATION, FLAT_CALIBRATION_COMPLETE, FLAT_CAPTURING} FlatStage;
+    typedef enum { CAL_NONE, CAL_DUSTCAP_PARKING, CAL_DUSTCAP_PARKED, CAL_LIGHTBOX_ON, CAL_SLEWING, CAL_SLEWING_COMPLETE, CAL_MOUNT_PARKING, CAL_MOUNT_PARKED, CAL_DOME_PARKING, CAL_DOME_PARKED, CAL_PRECAPTURE_COMPLETE, CAL_CALIBRATION, CAL_CALIBRATION_COMPLETE, CAL_CAPTURING} CalibrationStage;
 
     Capture();
     ~Capture();
@@ -384,8 +384,8 @@ private slots:
 
     // Flat field
     void openCalibrationDialog();
-    IPState processPreCaptureFlatStage();
-    bool processPostCaptureFlatStage();
+    IPState processPreCaptureCalibrationStage();
+    bool processPostCaptureCalibrationStage();
 
 signals:
         void newLog();
@@ -409,6 +409,7 @@ private:
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
     double setCurrentADU(double value);
+    void llsq (QList<double> x, QList<double> y, double &a, double &b);
 
     /* Misc */
     bool isFITSDirUnique(SequenceJob *job);
@@ -484,15 +485,17 @@ private:
     MFStage meridianFlipStage;
 
     // Flat field automation
-    double ExpRaw1, ExpRaw2;
+    /*double ExpRaw1, ExpRaw2;
     double ADURaw1, ADURaw2;
-    double ADUSlope;
+    double ADUSlope;*/
+    QList<double> ExpRaw;
+    QList<double> ADURaw;
     double targetADU;
     SkyPoint wallCoord;
     bool preMountPark, preDomePark;
     FlatFieldDuration flatFieldDuration;
     FlatFieldSource   flatFieldSource;
-    FlatStage flatStage;
+    CalibrationStage calibrationStage;
     bool dustCapLightEnabled, lightBoxLightEnabled;
 
     // File HFR

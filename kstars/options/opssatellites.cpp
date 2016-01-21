@@ -47,8 +47,8 @@ bool SatelliteSortFilterProxyModel::filterAcceptsRow( int sourceRow, const QMode
 }
 
 
-OpsSatellites::OpsSatellites( KStars *_ks )
-        : QFrame( _ks )
+OpsSatellites::OpsSatellites()
+        : QFrame(KStars::Instance())
 {
     setupUi( this );
 

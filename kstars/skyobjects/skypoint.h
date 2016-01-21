@@ -28,6 +28,7 @@
 
 class KSNumbers;
 class KSSun;
+class GeoLocation;
 
 /** @class SkyPoint
 	*
@@ -192,6 +193,11 @@ public:
     dms altRefracted() const;
 
     /**
+     * @return the JD for the precessed coordinates
+     */
+    inline double getLastPrecessJD() const { return lastPrecessJD; }
+
+    /**
      * @return the airmass of the point. Convenience method.
      * @note Question: is it better to use alt or refracted alt? Minor difference, probably doesn't matter.
      */
@@ -254,7 +260,7 @@ public:
     	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
         *@param forceRecompute reapplies precession, nutation and aberration even if the time passed since the last computation is not significant.
     	*/
-    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
     /** Computes the apparent coordinates for this SkyPoint for any epoch,
     	*accounting for the effects of precession, nutation, and aberration.
@@ -503,6 +509,24 @@ public:
      * @see SkyPoint::unrefract( const double alt )
      */
     static inline dms unrefract(const dms alt) { return dms( unrefract( alt.Degrees() ) ); }
+
+    /**
+     * @short Compute the altitude of a given skypoint hour hours from the given date/time
+     * @param p SkyPoint whose altitude is to be computed (const pointer, the method works on a clone)
+     * @param dt Date/time that corresponds to 0 hour
+     * @param geo GeoLocation object specifying the location
+     * @param hour double specifying offset in hours from dt for which altitude is to be found
+     * @return a dms containing (unrefracted?) altitude of the object at dt + hour hours at the given location
+     * @note This method is used in multiple places across KStars
+     * @todo Fix code duplication in AltVsTime and KSAlmanac by using this method instead! FIXME.
+     */
+    static dms findAltitude( const SkyPoint *p, const KStarsDateTime &dt, const GeoLocation *geo, const double hour = 0 );
+
+    /**
+     * @short returns a time-transformed SkyPoint. See SkyPoint::findAltitude() for details
+     * @todo Fix this documentation.
+     */
+    static SkyPoint timeTransformed( const SkyPoint *p, const KStarsDateTime &dt, const GeoLocation *geo, const double hour = 0 );
 
     /**
      *@short Critical height for atmospheric refraction

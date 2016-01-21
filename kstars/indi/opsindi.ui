@@ -350,41 +350,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
-          <property name="toolTip">
-           <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Single Preview FITS</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_singleWindowFITS">
-          <property name="toolTip">
-           <string>Display FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Single Window FITS</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>

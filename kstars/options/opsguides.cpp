@@ -21,8 +21,8 @@
 #include "skycomponents/skymapcomposite.h"
 #include "Options.h"
 
-OpsGuides::OpsGuides( KStars *_ks )
-        : QFrame( _ks ), ksw(_ks)
+OpsGuides::OpsGuides()
+        : QFrame(KStars::Instance())
 {
     setupUi( this );
     connect( kcfg_ShowCNames, SIGNAL( toggled( bool ) ),
@@ -36,7 +36,7 @@ OpsGuides::OpsGuides( KStars *_ks )
     connect( kcfg_AutoSelectGrid, SIGNAL( toggled( bool ) ),
              this, SLOT( slotToggleAutoSelectGrid( bool ) ) );
 
-    foreach( const QString& item,  ksw->data()->skyComposite()->getCultureNames() )
+    foreach( const QString& item, KStarsData::Instance()->skyComposite()->getCultureNames() )
         kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
 
     // When setting up the widget, update the enabled status of the

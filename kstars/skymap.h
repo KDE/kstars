@@ -444,6 +444,9 @@ public slots:
     void slotXplanetToFile();
 #endif
 
+    /** Render eyepiece view */
+    void slotEyepieceView();
+
     /** Zoom in one step. */
     void slotZoomIn();
 

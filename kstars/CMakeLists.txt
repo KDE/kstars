@@ -205,6 +205,7 @@ set(libkstarstools_SRCS
     #tools/moonphasetool.cpp
     tools/starhopper.cpp
     tools/eyepiecefield.cpp
+    tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
 )
 

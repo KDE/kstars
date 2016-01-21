@@ -41,10 +41,10 @@
         <item>
          <widget class="QRadioButton" name="deviceSourceC">
           <property name="toolTip">
-           <string>Light source provided by controllable electronic device</string>
+           <string>For dark and bias frames, close the dust cap before proceeding. For flat frames, close the dust cap and turn on the light source.</string>
           </property>
           <property name="text">
-           <string>Dust Cap</string>
+           <string>Dust Cover</string>
           </property>
          </widget>
         </item>
@@ -155,18 +155,11 @@
             <property name="toolTip">
              <string/>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="ADUPercentageLabel">
-            <property name="toolTip">
-             <string>Number of images to capture</string>
+            <property name="maximum">
+             <number>65535</number>
             </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>%</string>
+            <property name="singleStep">
+             <number>1000</number>
             </property>
            </widget>
           </item>

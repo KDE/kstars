@@ -20,16 +20,24 @@
 #ifndef EYEPIECEFIELD_H
 #define EYEPIECEFIELD_H
 
+#include "dms.h"
+
 #include <QDialog>
-#include <QImage>
+#include <QTemporaryFile>
+#include <QPixmap>
 
 class SkyPoint;
 class FOV;
 class QString;
 class QLabel;
+class QImage;
 class QSlider;
 class QComboBox;
 class QCheckBox;
+class QPushButton;
+class FOV;
+class KSDssDownloader;
+class KStarsDateTime;
 
 /**
  * @class EyepieceField
@@ -94,12 +102,44 @@ class EyepieceField : public QDialog { // FIXME: Rename to EyepieceView
      */
     static void generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage = 0, const FOV *fov = 0, const QString &imagePath = QString() );
 
+    /**
+     * @short Orients the eyepiece view as needed, performs overlaying etc.
+     * @param skyChart image which contains the sky chart, possibly generated using generateEyepieceView
+     * @param skyImage optional image which contains the sky image, possibly generated using generateEyepieceView
+     * @param renderChart pixmap onto which the sky chart is to be rendered
+     * @param renderImage optional pixmap onto which the sky image is to be rendered
+     * @param rotation optional, number of degrees by which to rotate the image(s)
+     * @param scale optional, factor by which to scale the image(s)
+     * @param flip optional, if true, the image is mirrored horizontally
+     * @param invert optional, if true, the image is inverted, i.e. rotated by 180 degrees
+     * @param overlay optional, if true, the sky image is overlaid on the sky map
+     * @param invertColors optional, if true, the sky image is color-inverted
+     */
+    static void renderEyepieceView( const QImage *skyChart, QPixmap *renderChart, const double rotation = 0, const double scale = 1.0, const bool flip = false, const bool invert = false,
+                                    const QImage *skyImage = 0, QPixmap *renderImage = 0, const bool overlay = false, const bool invertColors = false );
 
-public slots:
+
+    /**
+     * @short Convenience method that generates and the renders the eyepiece view
+     * @note calls generateEyepieceView() followed by the raw form of renderEyepieceView() to render an eyepiece view
+     */
+    static void renderEyepieceView( SkyPoint *sp, QPixmap *renderChart, double fovWidth = -1.0, double fovHeight = -1.0, const double rotation = 0, const double scale = 1.0,
+                                    const bool flip = false, const bool invert = false, const QString &imagePath = QString(), QPixmap *renderImage = 0,
+                                    const bool overlay = false, const bool invertColors = false );
+
+    /**
+     * @short Finds the angle between "up" (i.e. direction of increasing altitude) and "north" (i.e. direction of increasing declination) at a given point in the sky
+     * @fixme Procedure does not account for precession and nutation at the moment
+     * @note SkyPoint must already have Equatorial and Horizontal coordinate synced
+     */
+    static dms findNorthAngle( const SkyPoint *sp, const dms *lat );
+
+ public slots:
 
     /**
      * @short Re-renders the view
      * Takes care of things like inverting colors, inverting orientation, flipping, rotation
+     * @note Calls the static method renderEyepieceView to set things up
      */
     void render();
 
@@ -107,6 +147,22 @@ public slots:
      * @short Enforces a preset setting
      */
     void slotEnforcePreset( int index = -1 );
+
+    /**
+     * @short save image
+     */
+    void slotExport();
+
+ private slots:
+     /**
+      * @short downloads a DSS image
+      */
+     void slotDownloadDss();
+
+     /**
+      * @short loads a downloaded DSS image
+      */
+     void slotDssDownloaded( bool success );
 
  private:
     QLabel *m_skyChartDisplay;
@@ -119,7 +175,16 @@ public slots:
     QCheckBox *m_invertView;
     QCheckBox *m_flipView;
     QComboBox *m_presetCombo;
-
+    QPushButton *m_getDSS;
+    const FOV *m_currentFOV;
+    double m_fovWidth, m_fovHeight;
+    KSDssDownloader *m_dler;
+    KStarsDateTime *m_dt;
+    SkyPoint *m_sp;
+    double m_lat; // latitude
+    QTemporaryFile m_tempFile;
+    QPixmap m_renderImage, m_renderChart;
+    bool m_usedAltAz;
 };
 
 #endif

@@ -141,6 +141,9 @@
 	<Action name="zoom_out" />
 	<Action name="find_object" />
 	<Separator />
+	<Action name="geolocation" />
+	<Separator />
+	<Action name="time_dialog" />
 	<Action name="time_step_backward" />
 	<Action name="clock_startstop" />
 	<Action name="time_step_forward" />

@@ -136,6 +136,34 @@ namespace KSUtils {
      */
     QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> *starObjList );
 
+    /**
+     *@short Return the genetive form of constellation name, given the abbreviation
+     *@param code Three-letter IAU abbreviation of the constellation
+     *@return the genetive form of the constellation name
+     */
+    QString constGenetiveFromAbbrev( const QString &code );
+
+    /**
+     *@short Return the name of the constellation, given the abbreviation
+     *@param code Three-letter IAU abbreviation of the constellation
+     *@return the nominative form of the constellation name
+     */
+    QString constNameFromAbbrev( const QString &code );
+
+    /**
+     *@short Return the abbreviation of the constellation, given the full name
+     *@param fullName_ Full name of the constellation
+     *@return the three-letter IAU standard abbreviation of the constellation
+     */
+     QString constNameToAbbrev( const QString &fullName_ );
+
+     /**
+      *@short Return the abbreviation of the constellation, given the genetive form
+      *@param genetive_ the genetive form of the constellation's name
+      *@return the three-letter IAU standard abbreviation of the constellation
+      */
+     QString constGenetiveToAbbrev( const QString &genetive_ );
+
 
        /**
        * Interface into Qt's logging system

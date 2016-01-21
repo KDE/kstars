@@ -75,14 +75,14 @@ Capture::Capture()
     targetADU  = 0;
     flatFieldDuration = DURATION_MANUAL;
     flatFieldSource   = SOURCE_MANUAL;
-    flatStage         = FLAT_NONE;
+    calibrationStage         = CAL_NONE;
     preMountPark           = false;
     preDomePark            = false;
 
     deviationDetected = false;
     spikeDetected     = false;
 
-    ignoreJobProgress=false;
+    ignoreJobProgress=true;
 
     dustCapLightEnabled = lightBoxLightEnabled = false;
 
@@ -100,8 +100,8 @@ Capture::Capture()
     meridianFlipStage = MF_NONE;
     resumeGuidingAfterFlip = false;
 
-    ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
-    ADUSlope = 0;
+    //ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
+    //ADUSlope = 0;
 
     pi = new QProgressIndicator(this);
 
@@ -311,10 +311,12 @@ void Capture::abort()
     retries              = 0;
     seqTotalCount        = 0;
     seqCurrentCount      = 0;
-    ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
-    ADUSlope = 0;
-    flatStage = FLAT_NONE;
-    ignoreJobProgress=false;
+    //ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
+    //ADUSlope = 0;
+    ADURaw.clear();
+    ExpRaw.clear();
+
+    calibrationStage = CAL_NONE;
 
     if (activeJob)
     {
@@ -786,6 +788,8 @@ void Capture::newFITS(IBLOB *bp)
 
     secondsLabel->setText(i18n("Complete."));
 
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
     {
@@ -797,13 +801,13 @@ void Capture::newFITS(IBLOB *bp)
        return;
     }
 
-    if (activeJob->getFrameType() == FRAME_FLAT)
+    if (activeJob->getFrameType() != FRAME_LIGHT)
     {
-        if (processPostCaptureFlatStage() == false)
+        if (processPostCaptureCalibrationStage() == false)
             return;
 
-            if (flatStage == FLAT_CALIBRATION_COMPLETE)
-                flatStage = FLAT_CAPTURING;
+            if (calibrationStage == CAL_CALIBRATION_COMPLETE)
+                calibrationStage = CAL_CAPTURING;
     }
 
     seqCurrentCount++;
@@ -972,9 +976,9 @@ void Capture::captureImage()
      if (activeJob->getFrameType() == FRAME_FLAT)
      {
          // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
-         if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && flatStage == FLAT_PRECAPTURE_COMPLETE)
+         if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && calibrationStage == CAL_PRECAPTURE_COMPLETE)
          {
-            flatStage = FLAT_CALIBRATION;
+            calibrationStage = CAL_CALIBRATION;
             activeJob->setPreview(true);
          }
      }
@@ -1165,7 +1169,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
 
            secondsLabel->setText(i18n("Downloading..."));
 
-            disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+            //disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
     }
     // JM: Don't change to i18np, value is DOUBLE, not Integer.
     else if (value <= 1)
@@ -1479,13 +1483,13 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
-    // Reset flat stage
-    if (flatStage == FLAT_CAPTURING)
+    // Reset calibration stage
+    if (calibrationStage == CAL_CAPTURING)
     {
-        if (job->getFrameType() == FRAME_FLAT)
-            flatStage = FLAT_PRECAPTURE_COMPLETE;
+        if (job->getFrameType() != FRAME_LIGHT)
+            calibrationStage = CAL_PRECAPTURE_COMPLETE;
         else
-            flatStage = FLAT_NONE;
+            calibrationStage = CAL_NONE;
     }
 
     if (currentFilterPosition > 0)
@@ -1579,10 +1583,10 @@ void Capture::executeJob()
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;        
 
     // Check flat field frame requirements
-    if (activeJob->getFrameType() == FRAME_FLAT && activeJob->isPreview() == false)
+    if (activeJob->getFrameType() != FRAME_LIGHT && activeJob->isPreview() == false)
     {
         // Make sure we don't have any pre-capture pending jobs for flat frames
-        IPState rc = processPreCaptureFlatStage();
+        IPState rc = processPreCaptureCalibrationStage();
 
         if (rc == IPS_ALERT)
             return;
@@ -1768,7 +1772,11 @@ void Capture::loadSequenceQueue()
 
     dirPath = fileURL.path().remove(fileURL.fileName());
 
-    loadSequenceQueue(fileURL);
+    if (loadSequenceQueue(fileURL))
+    {
+        if (Options::rememberJobProgress())
+            ignoreJobProgress = false;
+    }
 }
 
 bool Capture::loadSequenceQueue(const QUrl &fileURL)
@@ -2420,6 +2428,7 @@ void Capture::clearSequenceQueue()
         queueTable->removeRow(0);
     jobs.clear();
     qDeleteAll(jobs);
+    ignoreJobProgress = true;
 
 }
 
@@ -2685,7 +2694,7 @@ double Capture::setCurrentADU(double value)
 {
     double nextExposure = 0;
 
-    if (ExpRaw1 == -1)
+    /*if (ExpRaw1 == -1)
         ExpRaw1 = activeJob->getExposure();
     else if (ExpRaw2 == -1)
         ExpRaw2 = activeJob->getExposure();
@@ -2731,9 +2740,83 @@ double Capture::setCurrentADU(double value)
 
     qDebug() << "Next Exposure: " << nextExposure;
 
+    return nextExposure;*/
+
+    double a=0,b=0;
+
+    ExpRaw.append(activeJob->getExposure());
+    ADURaw.append(value);
+
+    llsq(ExpRaw, ADURaw, a, b);
+
+    if (a == 0)
+    {
+        if (value < activeJob->getTargetADU())
+            nextExposure = activeJob->getExposure()*1.5;
+        else
+            nextExposure = activeJob->getExposure()*.75;
+
+        qDebug() << "Next Exposure: " << nextExposure;
+
+        return nextExposure;
+    }
+
+    nextExposure = (activeJob->getTargetADU() - b) / a;
+
+    qDebug() << "Next Exposure: " << nextExposure;
+
     return nextExposure;
 
 }
+
+//  Based on  John Burkardt LLSQ (LGPL)
+void Capture::llsq (QList<double> x, QList<double> y, double &a, double &b)
+{
+  double bot;
+  int i;
+  double top;
+  double xbar;
+  double ybar;
+  int n = x.count();
+//
+//  Special case.
+//
+  if ( n == 1 )
+  {
+    a = 0.0;
+    b = y[0];
+    return;
+  }
+//
+//  Average X and Y.
+//
+  xbar = 0.0;
+  ybar = 0.0;
+  for ( i = 0; i < n; i++ )
+  {
+    xbar = xbar + x[i];
+    ybar = ybar + y[i];
+  }
+  xbar = xbar / ( double ) n;
+  ybar = ybar / ( double ) n;
+//
+//  Compute Beta.
+//
+  top = 0.0;
+  bot = 0.0;
+  for ( i = 0; i < n; i++ )
+  {
+    top = top + ( x[i] - xbar ) * ( y[i] - ybar );
+    bot = bot + ( x[i] - xbar ) * ( x[i] - xbar );
+  }
+
+  a = top / bot;
+
+  b = ybar - a * xbar;
+
+  return;
+}
+
 
 void Capture::setDirty()
 {
@@ -2880,15 +2963,19 @@ void Capture::openCalibrationDialog()
     }
 }
 
-IPState Capture::processPreCaptureFlatStage()
+IPState Capture::processPreCaptureCalibrationStage()
 {
+    if (isAutoGuiding)
+    {
+        appendLogText(i18n("Autoguiding suspended."));
+        emit suspendGuiding(true);
+    }
+
     // Let's check what actions to be taken, if any, for the flat field source
     switch (activeJob->getFlatFieldSource())
     {
     case SOURCE_MANUAL:
-    case SOURCE_DAWN_DUSK: // Not yet implemented
-        if (isAutoGuiding)
-            emit suspendGuiding(true);
+    case SOURCE_DAWN_DUSK: // Not yet implemented       
         break;
 
     // Park cap, if not parked
@@ -2897,14 +2984,11 @@ IPState Capture::processPreCaptureFlatStage()
         if (dustCap)
         {
             // If cap is not park, park it
-            if (flatStage < FLAT_DUSTCAP_PARKING && dustCap->isParked() == false)
+            if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false)
             {
-                if (isAutoGuiding)
-                    emit suspendGuiding(true);
-
                 if (dustCap->Park())
                 {
-                    flatStage = FLAT_DUSTCAP_PARKING;
+                    calibrationStage = CAL_DUSTCAP_PARKING;
                     appendLogText(i18n("Parking dust cap..."));
                     return IPS_BUSY;
                 }
@@ -2917,22 +3001,27 @@ IPState Capture::processPreCaptureFlatStage()
             }
 
             // Wait until  cap is parked
-            if (flatStage == FLAT_DUSTCAP_PARKING)
+            if (calibrationStage == CAL_DUSTCAP_PARKING)
             {
                 if (dustCap->isParked() == false)
                     return IPS_BUSY;
                 else
                 {
-                    flatStage = FLAT_DUSTCAP_PARKED;
+                    calibrationStage = CAL_DUSTCAP_PARKED;
                     appendLogText(i18n("Dust cap parked."));
                 }
             }
 
-            // If light is not on, turn it on
-            if (dustCap->isLightOn() == false)
+            // If light is not on, turn it on. For flat frames only
+            if (activeJob->getFrameType() == FRAME_FLAT && dustCap->isLightOn() == false)
             {
                 dustCapLightEnabled = true;
                 dustCap->SetLightEnabled(true);
+            }
+            else if (activeJob->getFrameType() != FRAME_FLAT && dustCap->isLightOn() == true)
+            {
+                dustCapLightEnabled = false;
+                dustCap->SetLightEnabled(false);
             }
         }
         break;
@@ -2941,33 +3030,41 @@ IPState Capture::processPreCaptureFlatStage()
     case SOURCE_WALL:
         if (currentTelescope)
         {
-            if (flatStage < FLAT_SLEWING)
+            if (calibrationStage < CAL_SLEWING)
             {
                     wallCoord = activeJob->getWallCoord();
                     wallCoord.HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
                     currentTelescope->Slew(&wallCoord);
                     appendLogText(i18n("Mount slewing to wall position..."));
-                    flatStage = FLAT_SLEWING;
+                    calibrationStage = CAL_SLEWING;
                     return IPS_BUSY;
             }
 
             // Check if slewing is complete
-            if (flatStage == FLAT_SLEWING)
+            if (calibrationStage == CAL_SLEWING)
             {
                 if (currentTelescope->isSlewing() == false)
                 {
-                    flatStage = FLAT_SLEWING_COMPLETE;
+                    calibrationStage = CAL_SLEWING_COMPLETE;
                     appendLogText(i18n("Slew to wall position complete."));
                 }
                 else
                     return IPS_BUSY;
             }
 
-            // Check if we have a light box to turn on
-            if (lightBox && lightBox->isLightOn() == false)
+            if (lightBox)
             {
-                lightBoxLightEnabled = true;
-                lightBox->SetLightEnabled(true);
+                // Check if we have a light box to turn on
+                if (activeJob->getFrameType() == FRAME_FLAT  && lightBox->isLightOn() == false)
+                {
+                    lightBoxLightEnabled = true;
+                    lightBox->SetLightEnabled(true);
+                }
+                else if (activeJob->getFrameType() != FRAME_FLAT  && lightBox->isLightOn() == true)
+                {
+                    lightBoxLightEnabled = false;
+                    lightBox->SetLightEnabled(false);
+                }
             }
         }
         break;
@@ -2976,11 +3073,11 @@ IPState Capture::processPreCaptureFlatStage()
     // Check if we need to perform mount prepark
     if (preMountPark && currentTelescope && activeJob->getFlatFieldSource() != SOURCE_WALL)
     {
-        if (flatStage < FLAT_MOUNT_PARKING && currentTelescope->isParked() == false)
+        if (calibrationStage < CAL_MOUNT_PARKING && currentTelescope->isParked() == false)
         {
             if (currentTelescope->Park())
             {
-                flatStage = FLAT_MOUNT_PARKING;
+                calibrationStage = CAL_MOUNT_PARKING;
                 emit mountParking();
                 appendLogText(i18n("Parking mount prior to calibration frames capture..."));
                 return IPS_BUSY;
@@ -2993,7 +3090,7 @@ IPState Capture::processPreCaptureFlatStage()
             }
         }
 
-        if (flatStage == FLAT_MOUNT_PARKING)
+        if (calibrationStage == CAL_MOUNT_PARKING)
         {
           // If not parked yet, check again in 1 second
           // Otherwise proceed to the rest of the algorithm
@@ -3001,7 +3098,7 @@ IPState Capture::processPreCaptureFlatStage()
               return IPS_BUSY;
           else
           {
-              flatStage = FLAT_MOUNT_PARKED;
+              calibrationStage = CAL_MOUNT_PARKED;
               appendLogText(i18n("Mount parked."));
           }
         }
@@ -3010,11 +3107,11 @@ IPState Capture::processPreCaptureFlatStage()
     // Check if we need to perform dome prepark
     if (preDomePark && dome)
     {
-        if (flatStage < FLAT_DOME_PARKING && dome->isParked() == false)
+        if (calibrationStage < CAL_DOME_PARKING && dome->isParked() == false)
         {
             if (dome->Park())
             {
-                flatStage = FLAT_DOME_PARKING;
+                calibrationStage = CAL_DOME_PARKING;
                 //emit mountParking();
                 appendLogText(i18n("Parking dome..."));
                 return IPS_BUSY;
@@ -3027,7 +3124,7 @@ IPState Capture::processPreCaptureFlatStage()
             }
         }
 
-        if (flatStage == FLAT_DOME_PARKING)
+        if (calibrationStage == CAL_DOME_PARKING)
         {
           // If not parked yet, check again in 1 second
           // Otherwise proceed to the rest of the algorithm
@@ -3035,37 +3132,43 @@ IPState Capture::processPreCaptureFlatStage()
               return IPS_BUSY;
           else
           {
-              flatStage = FLAT_DOME_PARKED;
+              calibrationStage = CAL_DOME_PARKED;
               appendLogText(i18n("Dome parked."));
           }
         }
     }
 
-    flatStage = FLAT_PRECAPTURE_COMPLETE;
+    calibrationStage = CAL_PRECAPTURE_COMPLETE;
     return IPS_OK;
 }
 
-bool Capture::processPostCaptureFlatStage()
-{   
-
+bool Capture::processPostCaptureCalibrationStage()
+{
     // Check if we need to do flat field slope calculation if the user specified a desired ADU value
-    if (activeJob->getFlatFieldDuration() == DURATION_ADU && activeJob->getTargetADU() > 0)
+    if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU && activeJob->getTargetADU() > 0)
     {
         FITSData *image_data = NULL;
         FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
         if (currentImage)
         {
             image_data = currentImage->getImageData();
-            double currentADU = image_data->getADUPercentage();
+            double currentADU = image_data->getADU();
             //double currentSlope = ADUSlope;
 
-            if (fabs(currentADU - activeJob->getTargetADU()) < 0.5)
+            double percentageDiff=0;
+            if (currentADU > activeJob->getTargetADU())
+                percentageDiff = activeJob->getTargetADU()/currentADU;
+            else
+                percentageDiff = currentADU / activeJob->getTargetADU();
+
+            // If it is within 2% of target ADU
+            if (percentageDiff >= 0.98)
             {
-                if (flatStage == FLAT_CALIBRATION)
+                if (calibrationStage == CAL_CALIBRATION)
                 {
-                    appendLogText(i18n("Current ADU %1% reached target ADU.", QString::number(currentADU, 'g', 2)));
+                    appendLogText(i18n("Current ADU %1 reached target ADU.", QString::number(currentADU, 'f', 0)));
                     activeJob->setPreview(false);
-                    flatStage = FLAT_CALIBRATION_COMPLETE;
+                    calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();
                     return false;
                 }
@@ -3084,9 +3187,9 @@ bool Capture::processPostCaptureFlatStage()
                 return false;
             }
 
-            appendLogText(i18n("Current ADU is %1% Next exposure is %2 seconds.", QString::number(currentADU, 'f', 3), QString::number(nextExposure, 'f', 3)));
+            appendLogText(i18n("Current ADU is %1 Next exposure is %2 seconds.", QString::number(currentADU, 'f', 0), QString::number(nextExposure, 'f', 3)));
 
-            flatStage = FLAT_CALIBRATION;
+            calibrationStage = CAL_CALIBRATION;
             activeJob->setExposure(nextExposure);
             activeJob->setPreview(true);
 
@@ -3108,7 +3211,7 @@ bool Capture::processPostCaptureFlatStage()
         }
     }
 
-    flatStage = FLAT_CALIBRATION_COMPLETE;
+    calibrationStage = CAL_CALIBRATION_COMPLETE;
     return true;
 }
 
@@ -3118,6 +3221,8 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
 
     if (rc == false)
         return false;
+
+    ignoreJobProgress = false;
 
     // We cannot know if the job is complete if the upload mode is local since we cannot inspect the files
     if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
@@ -3152,6 +3257,5 @@ bool Capture::isFITSDirUnique(SequenceJob *job)
 
     return true;
 }
-
 
 }

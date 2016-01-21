@@ -31,7 +31,7 @@ class OpsGuides : public QFrame, public Ui::OpsGuides
     Q_OBJECT
 
 public:
-    explicit OpsGuides( KStars *_ks );
+    explicit OpsGuides();
     ~OpsGuides();
 
 private slots:
@@ -41,8 +41,6 @@ private slots:
     void slotToggleOpaqueGround( bool state );
     void slotToggleAutoSelectGrid( bool state );
 
-private:
-    KStars *ksw;
 };
 
 #endif // OPSGUIDES_H_

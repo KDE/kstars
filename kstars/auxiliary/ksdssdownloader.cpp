@@ -94,14 +94,25 @@ QString KSDssDownloader::getDSSURL( const SkyPoint * const p, const QString &ver
         if( width < dss_default_size )
             width = dss_default_size;
 
-        QString URL = getDSSURL( p->ra0(), p->dec0(), width, height, "gif", version, md );
-        if( md ) {
-            const SkyObject *obj = 0;
-            obj = dynamic_cast<const SkyObject *>( p );
-            if( obj && obj->hasName() )
-                md->object = obj->name();
-        }
-        return URL;
+        return getDSSURL( p, width, height, version, md );
+}
+
+QString KSDssDownloader::getDSSURL( const SkyPoint * const p, float width, float height, const QString &version, struct KSDssImage::Metadata *md ) {
+    Q_ASSERT( p );
+    if( !p )
+        return QString();
+    if( width <= 0 )
+        return QString();
+    if( height <= 0 )
+        height = width;
+    QString URL = getDSSURL( p->ra0(), p->dec0(), width, height, "gif", version, md );
+    if( md ) {
+        const SkyObject *obj = 0;
+        obj = dynamic_cast<const SkyObject *>( p );
+        if( obj && obj->hasName() )
+            md->object = obj->name();
+    }
+    return URL;
 }
 
 QString KSDssDownloader::getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString & type_, const QString & version_, struct KSDssImage::Metadata *md ) {
@@ -269,12 +280,15 @@ bool KSDssDownloader::writeImageWithMetadata( const QString &srcFile, const QStr
     // Write the temporary file into an image file with metadata
     QImage img( srcFile );
     QImageWriter writer( destFile, "png" );
+
+    writer.setText( "Calibrated", "true" ); // This means that the image has RA/Dec size and orientation that is calibrated
+    writer.setText( "PA", "0" ); // Position Angle is zero degrees for DSS images
     writer.setText( "Source", QString::number( KSDssImage::Metadata::DSS ) );
     writer.setText( "Format", QString::number( KSDssImage::Metadata::PNG ) );
     writer.setText( "Version", md.version );
     writer.setText( "Object", md.object );
-    writer.setText( "RA", md.ra0.toHMSString() );
-    writer.setText( "Dec", md.dec0.toDMSString() );
+    writer.setText( "RA", md.ra0.toHMSString( true ) );
+    writer.setText( "Dec", md.dec0.toDMSString(true, true) );
     writer.setText( "Width", QString::number( md.width ) );
     writer.setText( "Height", QString::number( md.height ) );
     writer.setText( "Band", QString() + md.band );
