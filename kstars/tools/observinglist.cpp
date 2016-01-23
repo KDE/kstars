@@ -1097,8 +1097,8 @@ void ObservingList::slotCustomDSS() {
 
     delete m_dl;
     m_dl = new KSDssDownloader();
-    m_dl->startSingleDownload( srcUrl, CurrentImagePath, md );
     connect( m_dl, SIGNAL ( downloadComplete( bool ) ), SLOT ( downloadReady( bool ) ) );
+    m_dl->startSingleDownload( srcUrl, CurrentImagePath, md );
 
 }
 

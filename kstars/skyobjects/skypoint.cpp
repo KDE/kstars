@@ -327,7 +327,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
-void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
+void SkyPoint::updateCoords( const KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
     bool recompute, lens;
@@ -799,4 +799,30 @@ double SkyPoint::unrefract(const double alt) {
         h1 = alt - (refract( h0 ) - h0);
     }
     return h1;
+}
+
+dms SkyPoint::findAltitude( const SkyPoint *p, const KStarsDateTime &dt, const GeoLocation *geo, const double hour ) {
+
+    Q_ASSERT( p );
+    if( !p )
+        return dms( NaN::d );
+
+    // Jasem 2015-08-24 Using correct procedure to find altitude
+    return SkyPoint::timeTransformed( p, dt, geo, hour).alt();
+
+}
+
+SkyPoint SkyPoint::timeTransformed( const SkyPoint *p, const KStarsDateTime &dt, const GeoLocation *geo, const double hour ) {
+
+    Q_ASSERT( p );
+    if( !p )
+        return SkyPoint( NaN::d, NaN::d );
+
+    // Jasem 2015-08-24 Using correct procedure to find altitude
+    SkyPoint sp = *p; // make a copy
+    KStarsDateTime targetDateTime = dt.addSecs( hour * 3600.0 );
+    dms LST = geo->GSTtoLST( targetDateTime.gst() );
+    sp.EquatorialToHorizontal( &LST, geo->lat() );
+    return sp;
+
 }

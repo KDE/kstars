@@ -409,6 +409,7 @@ private:
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
     double setCurrentADU(double value);
+    void llsq (QList<double> x, QList<double> y, double &a, double &b);
 
     /* Misc */
     bool isFITSDirUnique(SequenceJob *job);
@@ -484,9 +485,11 @@ private:
     MFStage meridianFlipStage;
 
     // Flat field automation
-    double ExpRaw1, ExpRaw2;
+    /*double ExpRaw1, ExpRaw2;
     double ADURaw1, ADURaw2;
-    double ADUSlope;
+    double ADUSlope;*/
+    QList<double> ExpRaw;
+    QList<double> ADURaw;
     double targetADU;
     SkyPoint wallCoord;
     bool preMountPark, preDomePark;

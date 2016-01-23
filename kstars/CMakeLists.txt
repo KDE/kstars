@@ -195,8 +195,10 @@ set(libkstarstools_SRCS
 
         #FIXME Port to KF5
         #tools/moonphasetool.cpp
+
 	tools/starhopper.cpp
 	tools/eyepiecefield.cpp
+	tools/exporteyepieceview.cpp
         tools/starhopperdialog.cpp
 	)
 

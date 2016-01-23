@@ -372,6 +372,21 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE QString getObjectDataXML( const QString &objectName );
 
+    /** DBUS interface function.  Return XML containing position info about a sky object
+     * @param objectName name of the object.
+     * @note If the object was not found, the XML is empty.
+     */
+    Q_SCRIPTABLE QString getObjectPositionInfo( const QString &objectName );
+
+    /** DBUS interface function. Render eyepiece view and save it in the file(s) specified
+     * @note See EyepieceField::renderEyepieceView() for more info. This is a DBus proxy that calls that method, and then writes the resulting image(s) to file(s).
+     * @note Important: If imagePath is empty, but overlay is true, or destPathImage is supplied, this method will make a blocking DSS download.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void renderEyepieceView( const QString &objectName, const QString &destPathChart, const double fovWidth = -1.0, const double fovHeight = -1.0,
+                                                   const double rotation = 0.0, const double scale = 1.0, const bool flip = false, const bool invert = false,
+                                                   QString imagePath = QString(), const QString &destPathImage = QString(), const bool overlay = false,
+                                                   const bool invertColors = false );
+
     /** DBUS interface function.  Set the approx field-of-view
      * @param FOV_Degrees field of view in degrees
      */

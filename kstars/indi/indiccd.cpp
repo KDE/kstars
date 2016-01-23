@@ -1214,7 +1214,10 @@ void CCD::processBLOB(IBLOB* bp)
         QUrl url = QUrl::fromLocalFile(filename);
         ImageViewer *iv = new ImageViewer(url, QString(), KStars::Instance());
         if (iv)
+        {
            iv->show();
+           QFile::remove(filename);
+        }
     }
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO

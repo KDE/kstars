@@ -754,7 +754,7 @@ void Scheduler::start()
         return;
 
     startupScriptURL = QUrl::fromUserInput(startupScript->text());
-    if (shutdownScript->text().isEmpty() == false && startupScriptURL.isValid() == false)
+    if (startupScript->text().isEmpty() == false && startupScriptURL.isValid() == false)
     {
         appendLogText(i18n("Startup script URL %1 is not valid.", startupScript->text()));
         return;

@@ -125,7 +125,7 @@ public:
     double getSNR() { return stats.SNR;}
     void setBPP(int value) { stats.bitpix = value;}
     int getBPP() { return stats.bitpix; }
-    double getADUPercentage();
+    double getADU();
 
     // Star detection
     int getDetectedStars() { return starCenters.count(); }

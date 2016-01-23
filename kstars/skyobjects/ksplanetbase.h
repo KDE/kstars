@@ -148,7 +148,7 @@ public:
      * @param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
      * @param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
      */
-    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
     /** @short Find position, including correction for Figure-of-the-Earth.
      * @param num KSNumbers pointer for the target date/time
