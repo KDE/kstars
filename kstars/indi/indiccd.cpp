@@ -1216,7 +1216,7 @@ void CCD::processBLOB(IBLOB* bp)
         if (iv)
         {
            iv->show();
-           QDir::remove(filename);
+           QFile::remove(filename);
         }
     }
     // Unless we have cfitsio, we're done.
