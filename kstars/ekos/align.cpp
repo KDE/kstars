@@ -1656,7 +1656,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Unable to find NAXIS1."));
+        appendLogText(i18n("FITS header: Cannot find NAXIS1."));
         return solver_args;
     }
 
@@ -1664,24 +1664,34 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Unable to find NAXIS2."));
+        appendLogText(i18n("FITS header: Cannot find NAXIS2."));
         return solver_args;
     }
+
+    bool coord_ok = true;
 
     if (fits_read_key(fptr, TDOUBLE, "OBJCTRA", &ra, comment, &status ))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Unable to find OBJCTRA."));
-        return solver_args;
+        coord_ok=false;
+        appendLogText(i18n("FITS header: Cannot find OBJCTRA. Using current mount coordinates."));
+        //return solver_args;
     }
 
-    if (fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status ))
+    if (coord_ok && fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status ))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Unable to find OBJCTDEC."));
-        return solver_args;
+        coord_ok=false;
+        appendLogText(i18n("FITS header: Cannot find OBJCTDEC. Using current mount coordinates."));
+        //return solver_args;
+    }
+
+    if (coord_ok == false)
+    {
+        ra  = telescopeCoord.ra0().Hours();
+        dec = telescopeCoord.dec0().Degrees();
     }
 
     solver_args << "-3" << QString::number(ra*15.0) << "-4" << QString::number(dec) << "-5 15";
@@ -1690,7 +1700,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Unable to find FOCALLEN."));
+        appendLogText(i18n("FITS header: Cannot find FOCALLEN."));
         return solver_args;
     }
 
@@ -1698,7 +1708,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Unable to find PIXSIZE1."));
+        appendLogText(i18n("FITS header: Cannot find PIXSIZE1."));
         return solver_args;
     }
 
@@ -1706,7 +1716,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Unable to find PIXSIZE2."));
+        appendLogText(i18n("FITS header: Cannot find PIXSIZE2."));
         return solver_args;
     }
 
