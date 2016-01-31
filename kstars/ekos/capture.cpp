@@ -1772,11 +1772,6 @@ void Capture::loadSequenceQueue()
 
     dirPath = fileURL.path().remove(fileURL.fileName());
 
-    if (loadSequenceQueue(fileURL))
-    {
-        if (Options::rememberJobProgress())
-            ignoreJobProgress = false;
-    }
 }
 
 bool Capture::loadSequenceQueue(const QUrl &fileURL)
@@ -1879,6 +1874,10 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
     sequenceURL = fileURL;
     mDirty = false;
     delLilXML(xmlParser);
+
+    if (Options::rememberJobProgress())
+        ignoreJobProgress = false;
+
     return true;
 
 }
