@@ -22,7 +22,7 @@
 #include "ekosmanager.h"
 
 OpsEkos::OpsEkos()
-        : QFrame( KStars::Instance() )
+        : QTabWidget( KStars::Instance() )
 {
     setupUi(this);
     

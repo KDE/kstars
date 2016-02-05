@@ -22,7 +22,7 @@ class KConfigDialog;
  *
  * @author Jasem Mutlaq
  */
-class OpsEkos : public QFrame, public Ui::OpsEkos
+class OpsEkos : public QTabWidget, public Ui::OpsEkos
 {
     Q_OBJECT
 

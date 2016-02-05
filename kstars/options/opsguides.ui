@@ -6,161 +6,154 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>423</width>
-    <height>592</height>
+    <width>446</width>
+    <height>262</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QCheckBox" name="kcfg_ShowCLines">
-     <property name="toolTip">
-      <string>Show constellation lines?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, constellation lines will be drawn on the sky map.</string>
-     </property>
-     <property name="text">
-      <string>&amp;Constellation lines</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="textLabelSkyCulture">
-       <property name="text">
-        <string>Sky culture:</string>
-       </property>
-       <property name="buddy">
-        <cstring>kcfg_SkyCulture</cstring>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QCheckBox" name="kcfg_ShowCLines">
+           <property name="toolTip">
+            <string>Show constellation lines?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, constellation lines will be drawn on the sky map.</string>
+           </property>
+           <property name="text">
+            <string>&amp;Constellation lines</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="textLabelSkyCulture">
+           <property name="text">
+            <string>Sky culture:</string>
+           </property>
+           <property name="buddy">
+            <cstring>kcfg_SkyCulture</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="kcfg_SkyCulture">
+           <property name="toolTip">
+            <string>Choose sky culture</string>
+           </property>
+           <property name="whatsThis">
+            <string>Here, you can choose how constellations are represented</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ShowCBounds">
+         <property name="text">
+          <string>Constellation &amp;boundaries</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ShowConstellationArt">
+         <property name="text">
+          <string>Constellation Art</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ShowHighlightedCBound">
+         <property name="text">
+          <string>Highlight central constellation boundary</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_ShowCNames">
+         <property name="toolTip">
+          <string>Draw constellation names?</string>
+         </property>
+         <property name="whatsThis">
+          <string>If checked, constellation names will be drawn on the sky map.</string>
+         </property>
+         <property name="text">
+          <string>Constellation &amp;names</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QComboBox" name="kcfg_SkyCulture">
-       <property name="toolTip">
-        <string>Choose sky culture</string>
+      <widget class="QGroupBox" name="ConstellOptions">
+       <property name="title">
+        <string>Constellation Name Options</string>
        </property>
-       <property name="whatsThis">
-        <string>Here, you can choose how constellations are represented</string>
-       </property>
+       <layout class="QVBoxLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <property name="leftMargin">
+         <number>8</number>
+        </property>
+        <property name="topMargin">
+         <number>8</number>
+        </property>
+        <property name="rightMargin">
+         <number>8</number>
+        </property>
+        <property name="bottomMargin">
+         <number>8</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="kcfg_UseLatinConstellNames">
+          <property name="toolTip">
+           <string>Use Latin constellation names</string>
+          </property>
+          <property name="whatsThis">
+           <string>Select this to use Latin constellation names on the sky map</string>
+          </property>
+          <property name="text">
+           <string>L&amp;atin</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="kcfg_UseLocalConstellNames">
+          <property name="toolTip">
+           <string>Use Localized constellation names</string>
+          </property>
+          <property name="whatsThis">
+           <string>Select this to use constellation names from your locality (if available)</string>
+          </property>
+          <property name="text">
+           <string>Localized</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="kcfg_UseAbbrevConstellNames">
+          <property name="toolTip">
+           <string>Use IAU abbreviations</string>
+          </property>
+          <property name="whatsThis">
+           <string>Select this to use abbreviations from the International Astronomical Union as constellation labels</string>
+          </property>
+          <property name="text">
+           <string>Abbre&amp;viated</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="kcfg_ShowCBounds">
-     <property name="text">
-      <string>Constellation &amp;boundaries</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowConstellationArt">
-     <property name="text">
-      <string>Constellation Art</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowHighlightedCBound">
-     <property name="text">
-      <string>Highlight central constellation boundary</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowCNames">
-     <property name="toolTip">
-      <string>Draw constellation names?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, constellation names will be drawn on the sky map.</string>
-     </property>
-     <property name="text">
-      <string>Constellation &amp;names</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="ConstellOptions">
-     <property name="title">
-      <string>Constellation Name Options</string>
-     </property>
-     <layout class="QVBoxLayout">
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <property name="leftMargin">
-       <number>8</number>
-      </property>
-      <property name="topMargin">
-       <number>8</number>
-      </property>
-      <property name="rightMargin">
-       <number>8</number>
-      </property>
-      <property name="bottomMargin">
-       <number>8</number>
-      </property>
-      <item>
-       <widget class="QRadioButton" name="kcfg_UseLatinConstellNames">
-        <property name="toolTip">
-         <string>Use Latin constellation names</string>
-        </property>
-        <property name="whatsThis">
-         <string>Select this to use Latin constellation names on the sky map</string>
-        </property>
-        <property name="text">
-         <string>L&amp;atin</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="kcfg_UseLocalConstellNames">
-        <property name="toolTip">
-         <string>Use Localized constellation names</string>
-        </property>
-        <property name="whatsThis">
-         <string>Select this to use constellation names from your locality (if available)</string>
-        </property>
-        <property name="text">
-         <string>Localized</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="kcfg_UseAbbrevConstellNames">
-        <property name="toolTip">
-         <string>Use IAU abbreviations</string>
-        </property>
-        <property name="whatsThis">
-         <string>Select this to use abbreviations from the International Astronomical Union as constellation labels</string>
-        </property>
-        <property name="text">
-         <string>Abbre&amp;viated</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -177,150 +170,138 @@
     </spacer>
    </item>
    <item>
-    <widget class="QCheckBox" name="kcfg_ShowMilkyWay">
-     <property name="toolTip">
-      <string>Draw the Milky Way contour?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, a contour representing the Milky Way will be drawn on the sky map</string>
-     </property>
-     <property name="text">
-      <string>Mil&amp;ky Way</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_FillMilkyWay">
-     <property name="toolTip">
-      <string>Use filled Milky Way contour?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, the Milky Way contour will be shown filled.  Otherwise, only the outline will be drawn.</string>
-     </property>
-     <property name="text">
-      <string>Fill Milk&amp;y Way</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <spacer>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>16</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_AutoSelectGrid">
-     <property name="toolTip">
-      <string>Draw grids according to active coordinate system?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, coordinate grids will automatically change according to active coordinate system.</string>
-     </property>
-     <property name="text">
-      <string>Automatically select coordinate grid</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowEquatorialGrid">
-     <property name="toolTip">
-      <string>Draw equatorial coordinate grid?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, a grid of lines will be drawn every 2 hours in Right Ascension and every 20 degrees in Declination.</string>
-     </property>
-     <property name="text">
-      <string>Equatorial coordinate grid</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowHorizontalGrid">
-     <property name="toolTip">
-      <string>Draw horizontal coordinate grid?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, a grid of lines will be drawn every 30 degrees in Azimuth and every 20 degrees in Altitude.</string>
-     </property>
-     <property name="text">
-      <string>Horizontal coor&amp;dinate grid</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowEquator">
-     <property name="toolTip">
-      <string>Draw Celestial equator?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, the celestial equator will be drawn in the sky map.</string>
-     </property>
-     <property name="text">
-      <string>Celestial e&amp;quator</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowEcliptic">
-     <property name="toolTip">
-      <string>Draw Ecliptic?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, the ecliptic will be drawn on the sky map.  The ecliptic is a great circle on the sky that the Sun appears to follow over the course of one year.  All other solar system bodies roughly follow the ecliptic as well.</string>
-     </property>
-     <property name="text">
-      <string>Ecliptic</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowHorizon">
-     <property name="toolTip">
-      <string>Draw horizon?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, a line representing the local horizon will be drawn on the map.</string>
-     </property>
-     <property name="text">
-      <string>Hori&amp;zon (line)</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowGround">
-     <property name="toolTip">
-      <string>Draw opaque ground?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, the area below the horizon will be filled in, to simulate the ground beneath you.  Note that the ground is never drawn when using the Equatorial coordinate system.</string>
-     </property>
-     <property name="text">
-      <string>Opaque &amp;ground</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ShowFlags">
-     <property name="toolTip">
-      <string>Draw flags?</string>
-     </property>
-     <property name="whatsThis">
-      <string>If checked, flags will be drawn on the sky map</string>
-     </property>
-     <property name="text">
-      <string>Flags</string>
-     </property>
-    </widget>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="1">
+      <widget class="QCheckBox" name="kcfg_ShowEcliptic">
+       <property name="toolTip">
+        <string>Draw Ecliptic?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, the ecliptic will be drawn on the sky map.  The ecliptic is a great circle on the sky that the Sun appears to follow over the course of one year.  All other solar system bodies roughly follow the ecliptic as well.</string>
+       </property>
+       <property name="text">
+        <string>Ecliptic</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="kcfg_FillMilkyWay">
+       <property name="toolTip">
+        <string>Use filled Milky Way contour?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, the Milky Way contour will be shown filled.  Otherwise, only the outline will be drawn.</string>
+       </property>
+       <property name="text">
+        <string>Fill Milk&amp;y Way</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QCheckBox" name="kcfg_ShowHorizon">
+       <property name="toolTip">
+        <string>Draw horizon?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, a line representing the local horizon will be drawn on the map.</string>
+       </property>
+       <property name="text">
+        <string>Hori&amp;zon (line)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="kcfg_ShowMilkyWay">
+       <property name="toolTip">
+        <string>Draw the Milky Way contour?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, a contour representing the Milky Way will be drawn on the sky map</string>
+       </property>
+       <property name="text">
+        <string>Mil&amp;ky Way</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="kcfg_AutoSelectGrid">
+       <property name="toolTip">
+        <string>Draw grids according to active coordinate system?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, coordinate grids will automatically change according to active coordinate system.</string>
+       </property>
+       <property name="text">
+        <string>Automatically select coordinate grid</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QCheckBox" name="kcfg_ShowFlags">
+       <property name="toolTip">
+        <string>Draw flags?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, flags will be drawn on the sky map</string>
+       </property>
+       <property name="text">
+        <string>Flags</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QCheckBox" name="kcfg_ShowEquatorialGrid">
+       <property name="toolTip">
+        <string>Draw equatorial coordinate grid?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, a grid of lines will be drawn every 2 hours in Right Ascension and every 20 degrees in Declination.</string>
+       </property>
+       <property name="text">
+        <string>Equatorial coordinate grid</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QCheckBox" name="kcfg_ShowHorizontalGrid">
+       <property name="toolTip">
+        <string>Draw horizontal coordinate grid?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, a grid of lines will be drawn every 30 degrees in Azimuth and every 20 degrees in Altitude.</string>
+       </property>
+       <property name="text">
+        <string>Horizontal coor&amp;dinate grid</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="kcfg_ShowGround">
+       <property name="toolTip">
+        <string>Draw opaque ground?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, the area below the horizon will be filled in, to simulate the ground beneath you.  Note that the ground is never drawn when using the Equatorial coordinate system.</string>
+       </property>
+       <property name="text">
+        <string>Opaque &amp;ground</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="kcfg_ShowEquator">
+       <property name="toolTip">
+        <string>Draw Celestial equator?</string>
+       </property>
+       <property name="whatsThis">
+        <string>If checked, the celestial equator will be drawn in the sky map.</string>
+       </property>
+       <property name="text">
+        <string>Celestial e&amp;quator</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer>
@@ -341,23 +322,16 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>kcfg_ShowCLines</tabstop>
   <tabstop>kcfg_SkyCulture</tabstop>
   <tabstop>kcfg_ShowCBounds</tabstop>
   <tabstop>kcfg_ShowHighlightedCBound</tabstop>
   <tabstop>kcfg_ShowCNames</tabstop>
-  <tabstop>kcfg_UseLatinConstellNames</tabstop>
   <tabstop>kcfg_UseLocalConstellNames</tabstop>
   <tabstop>kcfg_UseAbbrevConstellNames</tabstop>
   <tabstop>kcfg_ShowMilkyWay</tabstop>
-  <tabstop>kcfg_FillMilkyWay</tabstop>
   <tabstop>kcfg_AutoSelectGrid</tabstop>
   <tabstop>kcfg_ShowEquatorialGrid</tabstop>
   <tabstop>kcfg_ShowHorizontalGrid</tabstop>
-  <tabstop>kcfg_ShowEquator</tabstop>
-  <tabstop>kcfg_ShowEcliptic</tabstop>
-  <tabstop>kcfg_ShowHorizon</tabstop>
-  <tabstop>kcfg_ShowGround</tabstop>
   <tabstop>kcfg_ShowFlags</tabstop>
  </tabstops>
  <resources/>
