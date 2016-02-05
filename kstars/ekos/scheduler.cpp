@@ -531,6 +531,11 @@ void Scheduler::editJob(QModelIndex i)
     sequenceEdit->setText(job->getSequenceFile().path());
     sequenceURL = job->getSequenceFile();
 
+    trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
+    focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
+    alignStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_ALIGN);
+    guideStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_GUIDE);
+
     switch (job->getFileStartupCondition())
     {
         case SchedulerJob::START_ASAP:
@@ -754,7 +759,7 @@ void Scheduler::start()
         return;
 
     startupScriptURL = QUrl::fromUserInput(startupScript->text());
-    if (shutdownScript->text().isEmpty() == false && startupScriptURL.isValid() == false)
+    if (startupScript->text().isEmpty() == false && startupScriptURL.isValid() == false)
     {
         appendLogText(i18n("Startup script URL %1 is not valid.", startupScript->text()));
         return;

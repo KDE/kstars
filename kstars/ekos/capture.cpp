@@ -1772,11 +1772,6 @@ void Capture::loadSequenceQueue()
 
     dirPath = fileURL.path().remove(fileURL.fileName());
 
-    if (loadSequenceQueue(fileURL))
-    {
-        if (Options::rememberJobProgress())
-            ignoreJobProgress = false;
-    }
 }
 
 bool Capture::loadSequenceQueue(const QUrl &fileURL)
@@ -1879,6 +1874,10 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
     sequenceURL = fileURL;
     mDirty = false;
     delLilXML(xmlParser);
+
+    if (Options::rememberJobProgress())
+        ignoreJobProgress = false;
+
     return true;
 
 }
@@ -3166,7 +3165,7 @@ bool Capture::processPostCaptureCalibrationStage()
             {
                 if (calibrationStage == CAL_CALIBRATION)
                 {
-                    appendLogText(i18n("Current ADU %1 reached target ADU.", QString::number(currentADU, 'f', 0)));
+                    appendLogText(i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
                     activeJob->setPreview(false);
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();
