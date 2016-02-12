@@ -117,8 +117,8 @@ public slots:
     /** @short Clear the list of displayed objects. */
     void slotClear();
 
+    void plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEvent *event);
     void onXRangeChanged(const QCPRange &range);
-    void onX2RangeChanged(const QCPRange &range);
     void onYRangeChanged(const QCPRange &range);
 
     /** @short Clear the edit boxes for specifying a new object. */

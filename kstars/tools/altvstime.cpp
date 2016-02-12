@@ -134,9 +134,9 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     setLSTLimits();
     setDawnDusk();
 
-    connect( avtUI->View->xAxis,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
     connect( avtUI->View->yAxis,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onYRangeChanged(QCPRange)));
     connect( avtUI->View->xAxis2,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
+    connect( avtUI->View, SIGNAL( plottableClick(QCPAbstractPlottable*,QMouseEvent*)), this, SLOT(plotMousePress(QCPAbstractPlottable *, QMouseEvent *)) );
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
     connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -265,7 +265,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     o->updateCoords( num );
 
     // vector used for computing the points needed for drawing the graph
-    QVector<double> y(55), t(55);
+    QVector<double> y(100), t(100);
 
     //If this point is not in list already, add it to list
     bool found(false);
@@ -288,18 +288,20 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
             }
         }
 
+        // SET up the curve's name
+        avtUI->View->addGraph()->setName(o->name());
+
         // compute the current graph:
         // time range: 24h
 
-        avtUI->View->addGraph();
-        int i, offset = 3;
-        for ( double h=-12.0, i=0; h<=12.0; h+=0.5, i++ ) {
+        int offset = 3;
+        for ( double h=-12.0, i=0; h<=12.0; h+=0.25, i++ ) {
             y[i] = findAltitude(o, h);
             if(y[i] > maxAlt)
                 maxAlt = y[i];
             if(y[i] < minAlt)
                 minAlt = y[i];
-            t[i] = i*1800 + 43200;
+            t[i] = i*900 + 43200;
             avtUI->View->graph(avtUI->View->graphCount()-1)->addData(t[i], y[i]);
         }
         avtUI->View->graph(avtUI->View->graphCount()-1)->setPen(QPen( Qt::black, 2 ));
@@ -357,10 +359,10 @@ void AltVsTime::slotHighlight( int row ) {
     }
 }
 
-void AltVsTime::onXRangeChanged(const QCPRange &range)
-{   QCPRange aux = avtUI->View->xAxis2->range();
-    avtUI->View->xAxis->setRange(range.bounded(43200, 129600));
-    avtUI->View->xAxis2->setRange(aux.bounded(61200, 147600));
+void AltVsTime::onXRangeChanged(const QCPRange &range){
+    QCPRange aux = avtUI->View->xAxis2->range();
+    avtUI->View->xAxis->setRange(aux -= 18000 );
+    avtUI->View->xAxis2->setRange(range.bounded(61200, 147600));
     // set up the Tick Step depending on Zoom level
     if(avtUI->View->xAxis->range().size() < 12500){
         avtUI->View->xAxis->setTickStep(1800);
@@ -379,34 +381,81 @@ void AltVsTime::onXRangeChanged(const QCPRange &range)
             }
 }
 
-void AltVsTime::onYRangeChanged(const QCPRange &range)
-{   int offset = 3;
+void AltVsTime::onYRangeChanged(const QCPRange &range){
+    int offset = 3;
     avtUI->View->yAxis->setRange(range.bounded(minAlt - offset, maxAlt + offset));
 }
 
-void AltVsTime::onX2RangeChanged(const QCPRange &range)
-{
+void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEvent *event){
+    if(event->button() == Qt::RightButton){
+        QCPAbstractPlottable *plottable = abstractPlottable;
+        if(plottable){
+            double x = avtUI->View->xAxis->pixelToCoord(event->localPos().x());
+            double y = avtUI->View->yAxis->pixelToCoord(event->localPos().y());
+
+            QCPGraph *graph = qobject_cast<QCPGraph*>(plottable);
+
+            if(graph){
+                double key = 0;
+                double value = 0;
+                QTime time(2,0,0,0);
+
+                bool ok = false;
+                double m = std::numeric_limits<double>::max();
+
+                foreach(QCPData data, graph->data()->values()){
+                    double d = qAbs(x - data.key);
+
+                    if(d < m){
+                        key = data.key;
+                        value = data.value;
+                        ok = true;
+                        m = d;
+                    }
+                }
+
+                if(ok){
+                    time = time.addSecs(int(key));
+                    QToolTip::hideText();
+                    QToolTip::showText(event->globalPos(),
+                    tr("<table>"
+                         "<tr>"
+                           "<th colspan=\"2\">%L1</th>"
+                         "</tr>"
+                         "<tr>"
+                           "<td>Time:   </td>" "<td>%L2</td>"
+                         "</tr>"
+                         "<tr>"
+                           "<td>Altitude:   </td>" "<td>%L3</td>"
+                         "</tr>"
+                       "</table>").
+                       arg(graph->name().isEmpty() ? "???" : graph->name()).
+                       arg(time.toString()).
+                       arg(value),
+                       avtUI->View, avtUI->View->rect());
+                }
+            }
+        }
+    }
 }
 
-QCPRange QCPRange::bounded(double lowerBound, double upperBound) const
-{
-  if (lowerBound > upperBound)
-    qSwap(lowerBound, upperBound);
+QCPRange QCPRange::bounded(double lowerBound, double upperBound) const{
+    if(lowerBound > upperBound)
+        qSwap(lowerBound, upperBound);
 
-  QCPRange result(lower, upper);
-  if (result.lower < lowerBound)
-  {
-    result.lower = lowerBound;
-    result.upper = lowerBound + size();
-    if (result.upper > upperBound || qFuzzyCompare(size(), upperBound-lowerBound))
-      result.upper = upperBound;
-  } else if (result.upper > upperBound)
-  {
-    result.upper = upperBound;
-    result.lower = upperBound - size();
-    if (result.lower < lowerBound || qFuzzyCompare(size(), upperBound-lowerBound))
-      result.lower = lowerBound;
-  }
+    QCPRange result(lower, upper);
+    if(result.lower < lowerBound){
+        result.lower = lowerBound;
+        result.upper = lowerBound + size();
+    if(result.upper > upperBound || qFuzzyCompare(size(), upperBound-lowerBound))
+        result.upper = upperBound;
+    }else
+        if(result.upper > upperBound){
+            result.upper = upperBound;
+            result.lower = upperBound - size();
+        if(result.lower < lowerBound || qFuzzyCompare(size(), upperBound-lowerBound))
+            result.lower = lowerBound;
+        }
 
   return result;
 }
