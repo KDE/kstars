@@ -106,6 +106,7 @@
     <p xml:lang="zh-TW">天文類別：</p>
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
+      <li xml:lang="ast">El catálogu por defeutu consta d'estrelles de magnitú 8</li>
       <li xml:lang="bs">Uobičajeni Katalog se sastoji od zvijezda do magnitude 8</li>
       <li xml:lang="ca">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
       <li xml:lang="ca-valencia">Catàleg per omissió consistent en estrelles fins a magnitud 8</li>
@@ -129,6 +130,7 @@
       <li xml:lang="x-test">xxDefault catalog consisting of stars to magnitude 8xx</li>
       <li xml:lang="zh-TW">包含星等 8 的預設類別</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
+      <li xml:lang="ast">Los catálogos estra consten de 100 millones d'estrelles de magnitú 16</li>
       <li xml:lang="bs">Prošireni katalozi koji se sastoji od 100 milijuna zvijezda u veličini 16</li>
       <li xml:lang="ca">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
       <li xml:lang="ca-valencia">Catàlegs extres consistents en 100 milions d'estrelles fins a magnitud 16</li>
@@ -172,6 +174,7 @@
       <li xml:lang="x-test">xxDownloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalogxx</li>
       <li xml:lang="zh-TW">可下載的類別，包括 Messier images，Abell Planetary Nebulae, Sharpless Catalog 等</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
+      <li xml:lang="ast">Correiciones de precesión, nutación y refraición atmosférica</li>
       <li xml:lang="bs">Korekcije za precesiju, njihanje i atmosferske refrakcije</li>
       <li xml:lang="ca">Correccions per la precessió, nutació i refracció atmosfèrica</li>
       <li xml:lang="ca-valencia">Correccions per la precessió, nutació i refracció atmosfèrica</li>

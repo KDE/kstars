@@ -192,7 +192,7 @@ bool HorizonManager::validatePolygon(int regionID)
         az  = dms::fromString(regionItem->child(i, 1)->data(Qt::DisplayRole).toString(), true);
         alt = dms::fromString(regionItem->child(i, 2)->data(Qt::DisplayRole).toString(), true);
 
-        if (isnan(az.Degrees()) || isnan(alt.Degrees()))
+        if (std::isnan(az.Degrees()) || std::isnan(alt.Degrees()))
             return false;
 
         p.setAz(az);
@@ -534,9 +534,9 @@ void HorizonManager::verifyItemValue(QStandardItem *item)
         dms azAngle  = dms::fromString(parent->child(item->row(),1)->data(Qt::DisplayRole).toString(), true);
         dms altAngle = dms::fromString(parent->child(item->row(),2)->data(Qt::DisplayRole).toString(), true);
 
-        if (isnan(azAngle.Degrees()))
+        if (std::isnan(azAngle.Degrees()))
             azOK = false;
-        if (isnan(altAngle.Degrees()))
+        if (std::isnan(altAngle.Degrees()))
             altOK = false;
 
         if ( (item->column() == 1 && azOK == false) || (item->column() == 2 && altOK == false) )

@@ -531,6 +531,11 @@ void Scheduler::editJob(QModelIndex i)
     sequenceEdit->setText(job->getSequenceFile().path());
     sequenceURL = job->getSequenceFile();
 
+    trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
+    focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
+    alignStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_ALIGN);
+    guideStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_GUIDE);
+
     switch (job->getFileStartupCondition())
     {
         case SchedulerJob::START_ASAP:
