@@ -117,9 +117,17 @@ public slots:
     /** @short Clear the list of displayed objects. */
     void slotClear();
 
+    /** @short Show information from the curve as a tooltip. */
     void plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEvent *event);
+
+    /** @short Update the X axis on Zoom and Drag. */
     void onXRangeChanged(const QCPRange &range);
+
+     /** @short Update the Y axis on Zoom and Drag. */
     void onYRangeChanged(const QCPRange &range);
+
+    /** @short Compute the altitude for a certain time. */
+    void slotComputeAltitudeByTime();
 
     /** @short Clear the edit boxes for specifying a new object. */
     void slotClearBoxes();

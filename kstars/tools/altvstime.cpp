@@ -150,6 +150,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->PlotList, SIGNAL( currentRowChanged(int) ), this, SLOT( slotHighlight(int) ) );
+    connect( avtUI->computeButton, SIGNAL( clicked() ), this, SLOT( slotComputeAltitudeByTime() ) );
 
     setMouseTracking( true );
 }
@@ -398,8 +399,8 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
             if(graph){
                 double key = 0;
                 double value = 0;
-                QTime time(2,0,0,0);
-
+                QTime localTime(2,0,0,0);
+                QTime localSiderealTime(7,0,0,0);
                 bool ok = false;
                 double m = std::numeric_limits<double>::max();
 
@@ -415,7 +416,8 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
                 }
 
                 if(ok){
-                    time = time.addSecs(int(key));
+                    localTime = localTime.addSecs(int(key));
+                    localSiderealTime = localSiderealTime.addSecs(int(key));
                     QToolTip::hideText();
                     QToolTip::showText(event->globalPos(),
                     tr("<table>"
@@ -423,14 +425,18 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
                            "<th colspan=\"2\">%L1</th>"
                          "</tr>"
                          "<tr>"
-                           "<td>Time:   </td>" "<td>%L2</td>"
+                           "<td>LST:   </td>" "<td>%L3</td>"
                          "</tr>"
+                       "<tr>"
+                         "<td>LT:   </td>" "<td>%L2</td>"
+                       "</tr>"
                          "<tr>"
-                           "<td>Altitude:   </td>" "<td>%L3</td>"
+                           "<td>Altitude:   </td>" "<td>%L4</td>"
                          "</tr>"
                        "</table>").
                        arg(graph->name().isEmpty() ? "???" : graph->name()).
-                       arg(time.toString()).
+                       arg(localTime.toString()).
+                       arg(localSiderealTime.toString()).
                        arg(value),
                        avtUI->View, avtUI->View->rect());
                 }
@@ -491,6 +497,51 @@ void AltVsTime::slotClearBoxes() {
     avtUI->raBox->clear() ;
     avtUI->decBox->clear();
     avtUI->epochName->clear();
+}
+
+void AltVsTime::slotComputeAltitudeByTime(){
+    // check if at least one graph exists in the plot
+    if( avtUI->View->graphCount() > 0 ){
+        // get the time from the time spin box
+        QTime timeFormat = avtUI->timeSpin->time();
+        double hours = timeFormat.hour();
+        double minutes = timeFormat.minute();
+        // convert the hours over 24 to correct their values
+        if( hours < 14 )
+            hours += 24;
+        hours -= 2;
+        double timeValue = hours * 3600 + minutes * 60;
+        QCPGraph *selectedGraph;
+        // get the graph's name from the name box
+        QString graphName = avtUI->nameBox->text();
+        // find the graph index
+        int graphIndex = 0;
+        for( int i=0;i<avtUI->View->graphCount();i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+                graphIndex = i;
+                break;
+             }
+        selectedGraph = avtUI->View->graph(graphIndex);
+        // get the data from the selected graph
+        QCPDataMap *dataMap = selectedGraph->data();
+        double averageAltitude = 0;
+        double altitude1 = dataMap->lowerBound(timeValue-899).value().value;
+        double altitude2 = dataMap->lowerBound(timeValue).value().value;
+        double time1 = dataMap->lowerBound(timeValue-899).value().key;
+        averageAltitude = (altitude1+altitude2)/2;
+        // short algorithm to compute the right altitude for a certain time
+        if( timeValue > time1 ){
+            if( timeValue - time1 < 225 )
+                averageAltitude = altitude1;
+            else
+                if( timeValue - time1 < 675 )
+                    averageAltitude = (altitude1+altitude2)/2;
+                else
+                    averageAltitude = altitude2;
+        }
+        // set the altitude in the altitude box
+        avtUI->altitudeBox->setText( QString::number(averageAltitude) );
+    }
 }
 
 void AltVsTime::computeSunRiseSetTimes() {
