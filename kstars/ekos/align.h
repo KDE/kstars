@@ -326,8 +326,9 @@ private:
      * @param initDEC DEC of first frame
      * @param finalRA RA of second frame
      * @param finalDEC DEC of second frame
+     * @param initAz Azimuth of first frame
      */
-    void calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC);
+    void calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC, double initAz);
 
     /**
      * @brief Get formatted RA & DEC coordinates compatible with astrometry.net format.
