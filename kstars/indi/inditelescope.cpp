@@ -9,6 +9,8 @@
 
 #include <indi/indidevice.h>
 
+#include "Options.h"
+
 #include "inditelescope.h"
 #include "kstars.h"
 #include "skymap.h"
@@ -428,6 +430,10 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             RAEle->value  = ScopeTarget->ra().Hours();
             DecEle->value = ScopeTarget->dec().Degrees();
             clientManager->sendNewNumber(EqProp);
+
+            if (Options::verboseLogging())
+                qDebug() << "Telescope: Sending coords RA " << RAEle->value << " DEC " << DecEle->value;
+
             RAEle->value = currentRA;
             DecEle->value = currentDEC;
         }
@@ -473,6 +479,9 @@ bool Telescope::Slew(SkyPoint *ScopeTarget)
         IUResetSwitch(motionSP);
         slewSW->s = ISS_ON;
         clientManager->sendNewSwitch(motionSP);
+
+        if (Options::verboseLogging())
+            qDebug() << "Telescope: " << slewSW->name;
     }
 
     return sendCoords(ScopeTarget);
@@ -484,7 +493,7 @@ bool Telescope::Sync(double ra, double dec)
     SkyPoint target;
 
     target.setRA(ra);
-    target.setDec(dec);
+    target.setDec(dec);    
 
     return Sync(&target);
 }
@@ -504,6 +513,9 @@ bool Telescope::Sync(SkyPoint *ScopeTarget)
         IUResetSwitch(motionSP);
         syncSW->s = ISS_ON;
         clientManager->sendNewSwitch(motionSP);
+
+        if (Options::verboseLogging())
+            qDebug() << "Telescope: Syncing...";
     }
 
     return sendCoords(ScopeTarget);
@@ -518,6 +530,9 @@ bool Telescope::Abort()
     ISwitch *abortSW = IUFindSwitch(motionSP, "ABORT");
     if (abortSW == NULL)
         return false;
+
+    if (Options::verboseLogging())
+        qDebug() << "Telescope: Aborted." << endl;
 
      abortSW->s = ISS_ON;
      clientManager->sendNewSwitch(motionSP);
@@ -536,6 +551,9 @@ bool Telescope::Park()
     if (parkSW == NULL)
         return false;
 
+    if (Options::verboseLogging())
+        qDebug() << "Telescope: Parking..." << endl;
+
      IUResetSwitch(parkSP);
      parkSW->s = ISS_ON;
      clientManager->sendNewSwitch(parkSP);
@@ -552,6 +570,9 @@ bool Telescope::UnPark()
     ISwitch *parkSW = IUFindSwitch(parkSP, "UNPARK");
     if (parkSW == NULL)
         return false;
+
+    if (Options::verboseLogging())
+        qDebug() << "Telescope: UnParking..." << endl;
 
      IUResetSwitch(parkSP);
      parkSW->s = ISS_ON;
