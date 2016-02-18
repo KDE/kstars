@@ -123,6 +123,10 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     // set up the initial minimum and maximum altitude
     minAlt = 0;
     maxAlt = 0;
+    // set up the markers booleans for Rise/Set/Transit
+    markedRiseTime = false;
+    markedSetTime = false;
+    markedTransitTime = false;
     showCurrentDate();
     if ( getDate().time().hour() > 12 )
         DayOffset = 1;
@@ -151,6 +155,9 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->PlotList, SIGNAL( currentRowChanged(int) ), this, SLOT( slotHighlight(int) ) );
     connect( avtUI->computeButton, SIGNAL( clicked() ), this, SLOT( slotComputeAltitudeByTime() ) );
+    connect( avtUI->riseButton, SIGNAL( clicked() ), this, SLOT( slotMarkRiseTime() ) );
+    connect( avtUI->setButton, SIGNAL( clicked() ), this, SLOT( slotMarkSetTime() ) );
+    connect( avtUI->transitButton, SIGNAL( clicked() ), this, SLOT( slotMarkTransitTime() ) );
 
     setMouseTracking( true );
 }
@@ -246,6 +253,7 @@ void AltVsTime::slotBrowseObject() {
     delete fd;
 
     avtUI->View->update();
+    avtUI->View->replot();
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
@@ -344,13 +352,13 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 void AltVsTime::slotHighlight( int row ) {
     //highlight the curve of the selected object
     for ( int i=0; i<avtUI->View->graphCount(); i++ ) {
-        if ( i == row ){
+        if ( i == row )
             avtUI->View->graph(i)->setPen(QPen( Qt::black, 2 ));
-        } else{
+        else
             avtUI->View->graph(i)->setPen(QPen( Qt::red, 1 ));
-        }
     }
     avtUI->View->update();
+    avtUI->View->replot();
 
     if( row >= 0 && row < pList.size() ) {
         SkyObject *p = pList.at(row);
@@ -488,6 +496,7 @@ void AltVsTime::slotClear() {
     avtUI->epochName->clear();
     // remove all graphs from the plot:
     avtUI->View->clearGraphs();
+    avtUI->View->clearItems();
     avtUI->View->update();
     avtUI->View->replot();
 }
@@ -544,6 +553,150 @@ void AltVsTime::slotComputeAltitudeByTime(){
     }
 }
 
+void AltVsTime::slotMarkRiseTime(){
+    const KStarsDateTime &ut = KStarsData::Instance()->ut();
+    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    QCPItemTracer *riseTimeTracer;
+    // check if at least one graph exists in the plot
+    if( avtUI->View->graphCount() > 0 ){
+        double time = 0;
+        double hours, minutes;
+
+        QCPGraph *selectedGraph;
+        // get the graph's name from the name box
+        QString graphName = avtUI->nameBox->text();
+        // find the graph index
+        int graphIndex = 0;
+        for( int i=0;i<avtUI->View->graphCount();i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+                graphIndex = i;
+                break;
+             }
+        selectedGraph = avtUI->View->graph(graphIndex);
+
+        QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
+        // mark the Rise time with a red circle
+        if ( rt.isValid() && selectedGraph ) {
+            hours = rt.hour();
+            minutes = rt.minute();
+            if( hours < 14 )
+                hours += 24;
+            hours -= 2;
+            time = hours * 3600 + minutes * 60;
+            riseTimeTracer = new QCPItemTracer(avtUI->View);
+            avtUI->View->addItem(riseTimeTracer);
+            riseTimeTracer->setGraph(selectedGraph);
+            riseTimeTracer->setInterpolating(true);
+            riseTimeTracer->setStyle(QCPItemTracer::tsCircle);
+            riseTimeTracer->setPen(QPen(Qt::red));
+            riseTimeTracer->setBrush(Qt::red);
+            riseTimeTracer->setSize(10);
+            riseTimeTracer->setGraphKey(time);
+            riseTimeTracer->setVisible(true);
+            avtUI->View->update();
+            avtUI->View->replot();
+        }
+    }
+}
+
+void AltVsTime::slotMarkSetTime(){
+    const KStarsDateTime &ut = KStarsData::Instance()->ut();
+    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    QCPItemTracer *setTimeTracer;
+    // check if at least one graph exists in the plot
+    if( avtUI->View->graphCount() > 0 ){
+        double time = 0;
+        double hours, minutes;
+
+        QCPGraph *selectedGraph;
+        // get the graph's name from the name box
+        QString graphName = avtUI->nameBox->text();
+        // find the graph index
+        int graphIndex = 0;
+        for( int i=0;i<avtUI->View->graphCount();i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+                graphIndex = i;
+                break;
+             }
+        selectedGraph = avtUI->View->graph(graphIndex);
+
+        QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
+        //If set time is before rise time, use set time for tomorrow
+        QTime st = selectedObject->riseSetTime(  ut, geo, false ); //false = use set time
+        if ( st < rt )
+            st = selectedObject->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
+        // mark the Set time with a blue circle
+        if ( rt.isValid() ) {
+            hours = st.hour();
+            minutes = st.minute();
+            if( hours < 14 )
+                hours += 24;
+            hours -= 2;
+            time = hours * 3600 + minutes * 60;
+            setTimeTracer = new QCPItemTracer(avtUI->View);
+            avtUI->View->addItem(setTimeTracer);
+            setTimeTracer->setGraph(selectedGraph);
+            setTimeTracer->setInterpolating(true);
+            setTimeTracer->setStyle(QCPItemTracer::tsCircle);
+            setTimeTracer->setPen(QPen(Qt::blue));
+            setTimeTracer->setBrush(Qt::blue);
+            setTimeTracer->setSize(10);
+            setTimeTracer->setGraphKey(time);
+            setTimeTracer->setVisible(true);
+            avtUI->View->update();
+            avtUI->View->replot();
+        }
+    }
+}
+
+void AltVsTime::slotMarkTransitTime(){
+    const KStarsDateTime &ut = KStarsData::Instance()->ut();
+    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    QCPItemTracer *transitTimeTracer;
+    // check if at least one graph exists in the plot
+    if( avtUI->View->graphCount() > 0 ){
+        double time = 0;
+        double hours, minutes;
+
+        QCPGraph *selectedGraph;
+         // get the graph's name from the name box
+        QString graphName = avtUI->nameBox->text();
+        // find the graph index
+        int graphIndex = 0;
+        for( int i=0;i<avtUI->View->graphCount();i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+                graphIndex = i;
+                break;
+             }
+        selectedGraph = avtUI->View->graph(graphIndex);
+
+        QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
+        //If transit time is before rise time, use transit time for tomorrow
+        QTime tt = selectedObject->transitTime( ut, geo );
+        if ( tt < rt )
+        tt = selectedObject->transitTime( ut.addDays( 1 ), geo );
+        // mark the Transit time with a green circle
+        hours = tt.hour();
+        minutes = tt.minute();
+        if( hours < 14 )
+            hours += 24;
+        hours -= 2;
+        time = hours * 3600 + minutes * 60;
+        transitTimeTracer = new QCPItemTracer(avtUI->View);
+        avtUI->View->addItem(transitTimeTracer);
+        transitTimeTracer->setGraph(selectedGraph);
+        transitTimeTracer->setInterpolating(true);
+        transitTimeTracer->setStyle(QCPItemTracer::tsCircle);
+        transitTimeTracer->setPen(QPen(Qt::green));
+        transitTimeTracer->setBrush(Qt::green);
+        transitTimeTracer->setSize(10);
+        transitTimeTracer->setGraphKey(time);
+        transitTimeTracer->setVisible(true);
+        avtUI->View->update();
+        avtUI->View->replot();
+    }
+}
+
 void AltVsTime::computeSunRiseSetTimes() {
     //Determine the time of sunset and sunrise for the desired date and location
     //expressed as doubles, the fraction of a full day.
@@ -553,9 +706,12 @@ void AltVsTime::computeSunRiseSetTimes() {
     ksal.setLocation(geo);
     double sunRise = ksal.getSunRise();
     double sunSet  = ksal.getSunSet();
-    // TODO
-    // QCustomPlot can not support "setSunRiseSetTimes" method
-    // avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
+    this->setSunRiseSetTimes( sunRise, sunSet );
+}
+
+void AltVsTime::setSunRiseSetTimes(double sunRise, double sunSet){
+    this->sunRise = sunRise;
+    this->sunSet = sunSet;
 }
 
 void AltVsTime::slotUpdateDateLoc() {

@@ -110,6 +110,7 @@ public:
      */
     QString getObjectName(const SkyObject *o, bool translated=true);
 
+    void setSunRiseSetTimes( double sunRise, double sunSet );
 public slots:
     /** @short Update the plot to reflec new Date and Location settings. */
     void slotUpdateDateLoc();
@@ -128,6 +129,15 @@ public slots:
 
     /** @short Compute the altitude for a certain time. */
     void slotComputeAltitudeByTime();
+
+    /** @short Mark the rise time on the curve. */
+    void slotMarkRiseTime();
+
+    /** @short Mark the set time on the curve. */
+    void slotMarkSetTime();
+
+    /** @short Mark the transit time on the curve. */
+    void slotMarkTransitTime();
 
     /** @short Clear the edit boxes for specifying a new object. */
     void slotClearBoxes();
@@ -174,6 +184,8 @@ private:
     int DayOffset;
     int minAlt;
     int maxAlt;
+    bool markedRiseTime, markedSetTime, markedTransitTime;
+    double sunRise, sunSet;
 };
 
 #endif // ALTVSTIME_H_
