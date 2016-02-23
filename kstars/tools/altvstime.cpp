@@ -76,6 +76,8 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->yAxis->setLabel("Altitude");
     avtUI->View->xAxis->setRange(43200, 129600);
     avtUI->View->xAxis2->setRange(61200, 147600);
+    avtUI->View->xAxis->setDateTimeSpec(Qt::UTC);
+    avtUI->View->xAxis2->setDateTimeSpec(Qt::UTC);
     avtUI->View->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     avtUI->View->xAxis2->setTickLabelType(QCPAxis::ltDateTime);
     avtUI->View->xAxis->setDateTimeFormat("h:mm");
@@ -123,10 +125,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     // set up the initial minimum and maximum altitude
     minAlt = 0;
     maxAlt = 0;
-    // set up the markers booleans for Rise/Set/Transit
-    markedRiseTime = false;
-    markedSetTime = false;
-    markedTransitTime = false;
     showCurrentDate();
     if ( getDate().time().hour() > 12 )
         DayOffset = 1;
@@ -407,8 +405,8 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
             if(graph){
                 double key = 0;
                 double value = 0;
-                QTime localTime(2,0,0,0);
-                QTime localSiderealTime(7,0,0,0);
+                QTime localTime(0,0,0,0);
+                QTime localSiderealTime(5,0,0,0);
                 bool ok = false;
                 double m = std::numeric_limits<double>::max();
 
@@ -516,9 +514,8 @@ void AltVsTime::slotComputeAltitudeByTime(){
         double hours = timeFormat.hour();
         double minutes = timeFormat.minute();
         // convert the hours over 24 to correct their values
-        if( hours < 14 )
+        if( hours < 12 )
             hours += 24;
-        hours -= 2;
         double timeValue = hours * 3600 + minutes * 60;
         QCPGraph *selectedGraph;
         // get the graph's name from the name box
@@ -575,13 +572,12 @@ void AltVsTime::slotMarkRiseTime(){
         selectedGraph = avtUI->View->graph(graphIndex);
 
         QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
-        // mark the Rise time with a red circle
+        // mark the Rise time with a solid red circle
         if ( rt.isValid() && selectedGraph ) {
             hours = rt.hour();
             minutes = rt.minute();
-            if( hours < 14 )
+            if( hours < 12 )
                 hours += 24;
-            hours -= 2;
             time = hours * 3600 + minutes * 60;
             riseTimeTracer = new QCPItemTracer(avtUI->View);
             avtUI->View->addItem(riseTimeTracer);
@@ -625,13 +621,12 @@ void AltVsTime::slotMarkSetTime(){
         QTime st = selectedObject->riseSetTime(  ut, geo, false ); //false = use set time
         if ( st < rt )
             st = selectedObject->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
-        // mark the Set time with a blue circle
+        // mark the Set time with a solid blue circle
         if ( rt.isValid() ) {
             hours = st.hour();
             minutes = st.minute();
-            if( hours < 14 )
+            if( hours < 12 )
                 hours += 24;
-            hours -= 2;
             time = hours * 3600 + minutes * 60;
             setTimeTracer = new QCPItemTracer(avtUI->View);
             avtUI->View->addItem(setTimeTracer);
@@ -673,14 +668,14 @@ void AltVsTime::slotMarkTransitTime(){
         QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
         //If transit time is before rise time, use transit time for tomorrow
         QTime tt = selectedObject->transitTime( ut, geo );
+
         if ( tt < rt )
-        tt = selectedObject->transitTime( ut.addDays( 1 ), geo );
-        // mark the Transit time with a green circle
+          tt = selectedObject->transitTime( ut.addDays( 1 ), geo );
+        // mark the Transit time with a solid green circle
         hours = tt.hour();
         minutes = tt.minute();
-        if( hours < 14 )
+        if( hours < 12 )
             hours += 24;
-        hours -= 2;
         time = hours * 3600 + minutes * 60;
         transitTimeTracer = new QCPItemTracer(avtUI->View);
         avtUI->View->addItem(transitTimeTracer);

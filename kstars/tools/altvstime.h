@@ -184,7 +184,6 @@ private:
     int DayOffset;
     int minAlt;
     int maxAlt;
-    bool markedRiseTime, markedSetTime, markedTransitTime;
     double sunRise, sunSet;
 };
 
