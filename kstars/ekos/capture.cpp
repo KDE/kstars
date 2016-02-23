@@ -1660,12 +1660,20 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         if (deviation_rms <= guideDeviation->value())
         {
             deviationDetected = false;
-            appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
-            start();
+            if (seqDelay == 0)
+            {
+                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
+                start();
+            }
+            else
+            {
+                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure in %3 seconds.", deviationText, guideDeviation->value(), seqDelay));
+                QTimer::singleShot(seqDelay, this, SLOT(start()));
+            }
+
             return;
         }
     }
-
 }
 
 void Capture::setGuideDither(bool enable)

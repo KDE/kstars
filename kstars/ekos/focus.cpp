@@ -248,7 +248,7 @@ void Focus::checkCCD(int ccdNum)
     if (ccdNum == -1)
         ccdNum = CCDCaptureCombo->currentIndex();
 
-    if (ccdNum <= CCDs.count())
+    if (ccdNum >=0 && ccdNum <= CCDs.count())
     {
         currentCCD = CCDs.at(ccdNum);
 
@@ -550,6 +550,12 @@ void Focus::getAbsFocusPosition()
 
 void Focus::start()
 {
+    if (currentCCD == NULL)
+    {
+        appendLogText(i18n("No CCD connected."));
+        return;
+    }
+
     lastFocusDirection = FOCUS_NONE;
 
     lastHFR = 0;
@@ -683,7 +689,10 @@ void Focus::abort()
 void Focus::capture()
 {
     if (currentCCD == NULL)
+    {
+        appendLogText(i18n("No CCD connected."));
         return;
+    }
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
@@ -1641,6 +1650,12 @@ void Focus::clearLog()
 
 void Focus::startFraming()
 {
+    if (currentCCD == NULL)
+    {
+        appendLogText(i18n("No CCD connected."));
+        return;
+    }
+
     inFocusLoop = true;
 
     emit statusUpdated(true);
