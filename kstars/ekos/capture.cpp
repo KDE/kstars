@@ -1611,6 +1611,9 @@ void Capture::enableGuideLimits()
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
+    if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
+        return;
+
     // If guiding is started after a meridian flip we will start getting guide deviations again
     // if the guide deviations are within our limits, we resume the sequence
     if (meridianFlipStage == MF_GUIDING)
@@ -1623,10 +1626,9 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 resumeSequence();
                 // N.B. Set meridian flip stage AFTER resumeSequence() always
                 meridianFlipStage = MF_NONE;
+                return;
         }
-    }
-    else if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
-        return;
+    }    
 
     // We don't enforce limit on previews
     if (activeJob->isPreview() || activeJob->getExposeLeft() == 0)
@@ -1659,18 +1661,14 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     {
         if (deviation_rms <= guideDeviation->value())
         {
-            deviationDetected = false;
             if (seqDelay == 0)
-            {
                 appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
-                start();
-            }
             else
-            {
-                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure in %3 seconds.", deviationText, guideDeviation->value(), seqDelay));
-                QTimer::singleShot(seqDelay, this, SLOT(start()));
-            }
+                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure in %3 seconds.", deviationText, guideDeviation->value(), seqDelay/1000.0));
 
+            activeJob = NULL;
+
+            QTimer::singleShot(seqDelay, this, SLOT(start()));
             return;
         }
     }
