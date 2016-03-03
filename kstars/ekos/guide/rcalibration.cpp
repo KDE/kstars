@@ -251,7 +251,7 @@ bool rcalibration::stopCalibration()
     if (!pmath)
         return false;
 
-    calibrationStage = CAL_FINISH;
+    calibrationStage = CAL_ERROR;
     reset();
 
     return true;
