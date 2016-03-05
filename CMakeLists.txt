@@ -28,12 +28,9 @@ include(ECMAddAppIcon)
 find_package(KF5 REQUIRED COMPONENTS
   Config
   DocTools
-  GuiAddons
   WidgetsAddons
   NewStuff
-#  DBusAddons
   I18n
-  Init
   KIO
   XmlGui
   Plotting

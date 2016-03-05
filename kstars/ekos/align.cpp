@@ -876,6 +876,9 @@ void Align::appendLogText(const QString &text)
 {
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
+    if (Options::verboseLogging())
+        qDebug() << text;
+
     emit newLog();
 }
 
@@ -1099,8 +1102,11 @@ void Align::executePolarAlign()
 
 void Align::measureAzError()
 {
-    static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
+    static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
     int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
+
+    if (Options::verboseLogging())
+        qDebug() << "Polar Alignment: Measureing Azimuth Error...";
 
     switch (azStage)
     {
@@ -1125,6 +1131,11 @@ void Align::measureAzError()
         // start solving there, find RA/DEC
         initRA   = alignCoord.ra().Degrees();
         initDEC  = alignCoord.dec().Degrees();
+        initAz   = alignCoord.az().Degrees();
+
+        if (Options::verboseLogging())
+            qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
+                        " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
 
         // Now move 30 arcminutes in RA
         if (canSync)
@@ -1138,7 +1149,7 @@ void Align::measureAzError()
         {
             azStage = AZ_SLEWING;
             currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
-        }
+        }        
 
         appendLogText(i18n("Slewing 30 arcminutes in RA..."));
         break;
@@ -1161,6 +1172,10 @@ void Align::measureAzError()
         finalRA   = alignCoord.ra().Degrees();
         finalDEC  = alignCoord.dec().Degrees();
 
+        if (Options::verboseLogging())
+            qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
+                        " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
+
         // Slew back to original position
         if (canSync)
             currentTelescope->Slew(initRA/15.0, initDEC);
@@ -1171,7 +1186,7 @@ void Align::measureAzError()
 
         appendLogText(i18n("Slewing back to original position..."));
 
-        calculatePolarError(initRA, initDEC, finalRA, finalDEC);
+        calculatePolarError(initRA, initDEC, finalRA, finalDEC, initAz);
 
         azStage = AZ_INIT;
         break;
@@ -1185,7 +1200,10 @@ void Align::measureAzError()
 
 void Align::measureAltError()
 {
-    static double initRA=0, initDEC=0, finalRA=0, finalDEC=0;
+    static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
+
+    if (Options::verboseLogging())
+        qDebug() << "Polar Alignment: Measureing Altitude Error...";
 
     switch (altStage)
     {
@@ -1196,7 +1214,7 @@ void Align::measureAltError()
         if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                 "ekos_measure_alt_error")!=KMessageBox::Continue)
-            return;
+            return;        
 
         appendLogText(i18n("Solving first frame."));
         altStage = ALT_FIRST_TARGET;
@@ -1208,6 +1226,11 @@ void Align::measureAltError()
         // start solving there, find RA/DEC
         initRA   = alignCoord.ra().Degrees();
         initDEC  = alignCoord.dec().Degrees();
+        initAz   = alignCoord.az().Degrees();
+
+        if (Options::verboseLogging())
+            qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
+                        " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
 
         // Now move 30 arcminutes in RA
         if (canSync)
@@ -1245,6 +1268,10 @@ void Align::measureAltError()
         finalRA   = alignCoord.ra().Degrees();
         finalDEC  = alignCoord.dec().Degrees();
 
+        if (Options::verboseLogging())
+            qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
+                        " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
+
         // Slew back to original position
         if (canSync)
             currentTelescope->Slew(initRA/15.0, initDEC);
@@ -1256,7 +1283,7 @@ void Align::measureAltError()
 
         appendLogText(i18n("Slewing back to original position..."));
 
-        calculatePolarError(initRA, initDEC, finalRA, finalDEC);
+        calculatePolarError(initRA, initDEC, finalRA, finalDEC, initAz);
 
         altStage = ALT_INIT;
         break;
@@ -1268,7 +1295,7 @@ void Align::measureAltError()
 
 }
 
-void Align::calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC)
+void Align::calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC, double initAz)
 {
     double raMotion = finalRA - initRA;
     decDeviation = finalDEC - initDEC;
@@ -1276,18 +1303,15 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     // Northern/Southern hemisphere
     int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
     // East/West of meridian
-    int horizon    = (telescopeCoord.az().Degrees() > 0 && telescopeCoord.az().Degrees() <= 180) ? 0 : 1;
+    int horizon    = (initAz > 0 && initAz <= 180) ? 0 : 1;
 
     // How much time passed siderrally form initRA to finalRA?
-    double RATime = fabs(raMotion / SIDRATE) / 60.0;
-
-    qDebug() << "initRA " << initRA << " initDEC " << initDEC << " finalRA " << finalRA << " finalDEC " << finalDEC << endl;
-    qDebug() << "decDeviation " << decDeviation*3600 << " arcsec " << " RATime " << RATime << endl;
+    double RATime = fabs(raMotion / SIDRATE) / 60.0;    
 
     // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
     // In degrees
     double deviation = (3.81 * (decDeviation * 3600) ) / ( RATime * cos(initDEC * dms::DegToRad)) / 60.0;
-    dms devDMS(fabs(deviation));
+    dms devDMS(fabs(deviation));       
 
     KLocalizedString deviationDirection;
 
@@ -1298,9 +1322,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far east");
-            else
                 deviationDirection = ki18n("%1 too far west");
+            else
+                deviationDirection = ki18n("%1 too far east");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1334,9 +1358,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far west");
-            else
                 deviationDirection = ki18n("%1 too far east");
+            else
+                deviationDirection = ki18n("%1 too far west");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1369,11 +1393,23 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
 
     }
 
+    if (Options::verboseLogging())
+    {
+        qDebug() << "Polar Alignment: Hemisphere is " << ((hemisphere == 0) ? "North" : "South") << " --- initAz " << initAz;
+        qDebug() << "Polar Alignment: initRA " << initRA << " initDEC " << initDEC << " finalRA " << finalRA << " finalDEC " << finalDEC;
+        qDebug() << "Polar Alignment: decDeviation " << decDeviation*3600 << " arcsec " << " RATime " << RATime << " minutes";
+        qDebug() << "Polar Alignment: Raw Deviaiton " << deviation << " degrees.";
+    }
+
     if (azStage == AZ_FINISHED)
     {
         azError->setText(deviationDirection.subs(QString("%1").arg(devDMS.toDMSString())).toString());
         //azError->setText(deviationDirection.subs(QString("%1")azDMS.toDMSString());
         azDeviation = deviation * (decDeviation > 0 ? 1 : -1);
+
+        if (Options::verboseLogging())
+            qDebug() << "Polar Alignment: Azimuth Deviation " << azDeviation << " degrees.";
+
         correctAzB->setEnabled(true);
     }
     if (altStage == ALT_FINISHED)
@@ -1381,38 +1417,53 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         //altError->setText(deviationDirection.subs(QString("%1").arg(fabs(deviation), 0, 'g', 3)).toString());
         altError->setText(deviationDirection.subs(QString("%1").arg(devDMS.toDMSString())).toString());
         altDeviation = deviation * (decDeviation > 0 ? 1 : -1);
+
+        if (Options::verboseLogging())
+            qDebug() << "Polar Alignment: Altitude Deviation " << altDeviation << " degrees.";
+
         correctAltB->setEnabled(true);
     }
 }
 
 void Align::correctAltError()
 {
-    double newRA, newDEC, currentAlt, currentAz;
+    double newRA, newDEC;
 
     SkyPoint currentCoord (telescopeCoord);
     dms      targetLat;
 
+    if (Options::verboseLogging())
+    {
+        qDebug() << "Polar Alignment: Correcting Altitude Error...";
+        qDebug() << "Polar Alignment: Current Mount RA " << currentCoord.ra().toHMSString() << " DEC " << currentCoord.dec().toDMSString() <<
+                    "Az " << currentCoord.az().toDMSString() << " Alt " << currentCoord.alt().toDMSString();
+    }
+
+    // An error in polar alignment altitude reflects a deviation in the latitude of the mount from actual latitude of the site
+    // Calculating the latitude accounting for the altitude deviation. This is the latitude at which the altitude deviation should be zero.
     targetLat.setD(KStars::Instance()->data()->geo()->lat()->Degrees() + altDeviation);
 
+    // Calculate the Az/Alt of the mount if it were located at the corrected latitude
     currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), &targetLat );
 
-    currentAlt = currentCoord.alt().Degrees();
-    currentAz  = currentCoord.az().Degrees();
-
-    currentCoord.setAlt(currentAlt);
-    currentCoord.setAz(currentAz);
-
+    // Convert corrected Az/Alt to RA/DEC given the local sideral time and current (not corrected) latitude
     currentCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
+    // New RA/DEC should reflect the position in the sky at which the polar alignment altitude error is minimal.
     newRA  = currentCoord.ra().Hours();
     newDEC = currentCoord.dec().Degrees();
 
     altStage = ALT_CORRECTING;
 
+    if (Options::verboseLogging())
+    {
+        qDebug() << "Polar Alignment: Target Latitude = Latitude " << KStars::Instance()->data()->geo()->lat()->Degrees() << " + Altitude Deviation " << altDeviation << " = " << targetLat.Degrees();
+        qDebug() << "Polar Alignment: Slewing to calibration position...";
+    }
+
     currentTelescope->Slew(newRA, newDEC);
 
     appendLogText(i18n("Slewing to calibration position, please wait until telescope completes slewing."));
-
 }
 
 void Align::correctAzError()
@@ -1421,20 +1472,37 @@ void Align::correctAzError()
 
     SkyPoint currentCoord (telescopeCoord);
 
+    if (Options::verboseLogging())
+    {
+        qDebug() << "Polar Alignment: Correcting Azimuth Error...";
+        qDebug() << "Polar Alignment: Current Mount RA " << currentCoord.ra().toHMSString() << " DEC " << currentCoord.dec().toDMSString() <<
+                    "Az " << currentCoord.az().toDMSString() << " Alt " << currentCoord.alt().toDMSString();
+        qDebug() << "Polar Alignment: Target Azimuth = Current Azimuth " << currentCoord.az().Degrees() << " + Azimuth Deviation " << azDeviation << " = " << currentCoord.az().Degrees() + azDeviation;
+    }
+
+    // Get current horizontal coordinates of the mount
     currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
+    // Keep Altitude as it is and change Azimuth to account for the azimuth deviation
+    // The new sky position should be where the polar alignment azimuth error is minimal
     currentAlt = currentCoord.alt().Degrees();
     currentAz  = currentCoord.az().Degrees() + azDeviation;
 
+    // Update current Alt and Azimuth to new values
     currentCoord.setAlt(currentAlt);
     currentCoord.setAz(currentAz);
 
+    // Conver Alt/Az back to equatorial coordinates
     currentCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
+    // Get new RA and DEC
     newRA  = currentCoord.ra().Hours();
     newDEC = currentCoord.dec().Degrees();
 
     azStage = AZ_CORRECTING;
+
+    if (Options::verboseLogging())
+        qDebug() << "Polar Alignment: Slewing to calibration position...";
 
     currentTelescope->Slew(newRA, newDEC);
 
