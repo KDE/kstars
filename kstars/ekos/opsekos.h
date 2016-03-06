@@ -34,6 +34,7 @@ private slots:
 
     void slotApply();
     void slotCancel();
+    void slotSelectPHD2Exec();
 
 private:
     KConfigDialog *m_ConfigDialog;

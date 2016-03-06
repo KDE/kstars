@@ -29,9 +29,12 @@ OpsEkos::OpsEkos()
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
+    selectPHD2B->setIcon(QIcon::fromTheme("document-open"));
+
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+    connect( selectPHD2B, SIGNAL(clicked()), this, SLOT(slotSelectPHD2Exec()));
 
 }
 
@@ -48,6 +51,15 @@ void OpsEkos::slotApply()
 
 void OpsEkos::slotCancel()
 {
+}
+
+void OpsEkos::slotSelectPHD2Exec()
+{
+    QUrl phd2URL = QFileDialog::getOpenFileUrl(this, i18n("Select PHD2 Executable"));
+    if (phd2URL.isEmpty())
+        return;
+
+    kcfg_PHD2Exec->setText(phd2URL.path());
 }
 
 
