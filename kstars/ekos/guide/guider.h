@@ -33,8 +33,7 @@ public:
     void guide( void );
     bool start();
     bool stop();
-    bool abort(bool silence=false);
-    bool dither();
+    bool abort(bool silence=false);    
     void setHalfRefreshRate( bool is_half );
     bool isGuiding( void ) const;
     void setMathObject( cgmath *math );
@@ -44,11 +43,16 @@ public:
     void setReady(bool enable) { m_isReady = enable;}
     void setTargetChip(ISD::CCDChip *chip);
     bool isRapidGuide() { return m_useRapidGuide;}
-    bool isDithering() { return m_isDithering; }
+
     double getAOLimit();
     void setSubFramed(bool enable) { m_isSubFramed = enable;}
     void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
+
+    // Dither
+    bool dither();
+    bool isDithering() { return m_isDithering; }
     void setDither(bool enable, double value);
+    double getDitherPixels() { return ui.ditherPixels->value(); }
 
     int getBoxSize();
     QString getAlgorithm();

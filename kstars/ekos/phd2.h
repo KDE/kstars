@@ -33,7 +33,7 @@ class PHD2 : public QObject
 public:
 
     typedef enum { Version, LockPositionSet, CalibrationComplete, StarSelected, StartGuiding, Paused, StartCalibration, AppState, CalibrationFailed, CalibrationDataFlipped, LoopingExposures,
-                   LoopingExposuresStopped, Settling, SettleDone, StarLost, GuidingStopped, Resumed, GuideStep, GuideDithered, LockPositionLost, Alert } PHD2Event;
+                   LoopingExposuresStopped, Settling, SettleDone, StarLost, GuidingStopped, Resumed, GuideStep, GuidingDithered, LockPositionLost, Alert } PHD2Event;
     typedef enum { STOPPED, SELECTED, LOSTLOCK, PAUSED, LOOPING, CALIBRATING, CALIBRATION_FAILED, CALIBRATION_SUCCESSFUL, GUIDING, DITHERING, DITHER_FAILED, DITHER_SUCCESSFUL } PHD2State;
     typedef enum { DISCONNECTED, CONNECTING, CONNECTED, EQUIPMENT_DISCONNECTING, EQUIPMENT_DISCONNECTED, EQUIPMENT_CONNECTING, EQUIPMENT_CONNECTED  } PHD2Connection;
     typedef enum { PHD2_UNKNOWN, PHD2_RESULT, PHD2_EVENT, PHD2_ERROR } PHD2MessageType;
@@ -49,17 +49,21 @@ public:
     bool isCalibrationComplete() { return state > CALIBRATING; }
     bool isCalibrationSuccessful() { return state >= CALIBRATION_SUCCESSFUL; }
     bool isGuiding()     { return state == GUIDING; }
+    bool isDithering()   { return state == DITHERING; }
 
+    void setCCDMountParams(double ccd_pix_w, double ccd_pix_h, double mount_focal);
 
     void setEquipmentConnected(bool enable);
 
     bool startGuiding();
     bool stopGuiding();
     bool pauseGuiding();
+    bool resumeGuiding();
     void dither(double pixels);
 
 private slots:
 
+    void setDitherEnabled(bool enable) { ditherEnabled = enable; }
     void readPHD2();
     void displayError(QAbstractSocket::SocketError socketError);
 
@@ -71,6 +75,9 @@ signals:
     void calibrationCompleted(bool);
     void ditherComplete();
     void ditherFailed();
+    void newAxisDelta(double delta_ra, double delta_dec);
+    void autoGuidingToggled(bool, bool);
+    void guideReady();
 
 private:
 
@@ -89,6 +96,10 @@ private:
     PHD2State state;
     PHD2Connection connection;
     PHD2Event event;
+
+    bool ditherEnabled;
+
+    double ccd_pixel_width, ccd_pixel_height, focal;
 };
 
 }

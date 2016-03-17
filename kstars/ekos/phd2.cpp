@@ -42,6 +42,8 @@ PHD2::PHD2()
     connection = DISCONNECTED;
     event = Alert;
 
+    ditherEnabled = Options::useDither();
+
     events["Version"] = Version;
     events["LockPositionSet"] = LockPositionSet;
     events["CalibrationComplete"] = CalibrationComplete;
@@ -60,7 +62,7 @@ PHD2::PHD2()
     events["GuidingStopped"] = GuidingStopped;
     events["Resumed"] = Resumed;
     events["GuideStep"] = GuideStep;
-    events["GuideDithered"] = GuideDithered;
+    events["GuidingDithered"] = GuidingDithered;
     events["LockPositionLost"] = LockPositionLost;
     events["Alert"] = Alert;
 
@@ -119,6 +121,9 @@ void PHD2::readPHD2()
     while (stream.atEnd() == false)
     {
         QString rawString = stream.readLine();
+
+        if (rawString.isEmpty())
+            continue;
 
         QJsonDocument jdoc = QJsonDocument::fromJson(rawString.toLatin1(), &qjsonError);
 
@@ -240,11 +245,13 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         state = GUIDING;
         emit newLog(i18n("PHD2: Calibration Complete."));
         emit calibrationCompleted(true);
+        emit guideReady();
         break;
 
     case StartGuiding:
         state = GUIDING;
         emit newLog(i18n("PHD2: Guiding Started."));
+        emit autoGuidingToggled(true, ditherEnabled);
         break;
 
     case Paused:
@@ -292,24 +299,24 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             emit newLog(i18n("PHD2: Settling failed (%1).", jsonEvent["Error"].toString()));
         }
 
-            if (state == GUIDING)
-            {
-                if (error)
+        if (state == GUIDING)
+        {
+            if (error)
                 state = STOPPED;
-            }
-            else if (state == DITHERING)
+        }
+        else if (state == DITHERING)
+        {
+            if (error)
             {
-                if (error)
-                {
-                    state = DITHER_FAILED;
-                    emit ditherFailed();
-                }
-                else
-                {
-                    state = DITHER_SUCCESSFUL;
-                    emit ditherComplete();
-                }
+                state = DITHER_FAILED;
+                emit ditherFailed();
             }
+            else
+            {
+                state = DITHER_SUCCESSFUL;
+                emit ditherComplete();
+            }
+        }
     }
     break;
 
@@ -323,18 +330,29 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     case GuidingStopped:
         emit newLog(i18n("PHD2: Guiding Stopped."));
+        emit autoGuidingToggled(false, ditherEnabled);
         break;
 
     case Resumed:
         emit newLog(i18n("PHD2: Guiding Resumed."));
+        state = GUIDING;
         break;
 
     case GuideStep:
+    {
+        double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs;
+        diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
+        diff_de_pixels = jsonEvent["DecDistanceRaw"].toDouble();
+
+        diff_ra_arcsecs = 206264.8062470963552 * diff_ra_pixels * ccd_pixel_width / focal;
+        diff_de_arcsecs = 206264.8062470963552 * diff_de_pixels * ccd_pixel_height / focal;
+
+        emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
+    }
         break;
 
-    case GuideDithered:
-        emit newLog(i18n("PHD2: Guide Dithered."));
-        emit ditherComplete();
+    case GuidingDithered:
+        emit newLog(i18n("PHD2: Guide Dithering."));
         break;
 
     case LockPositionSet:
@@ -467,6 +485,19 @@ bool PHD2::pauseGuiding()
 
 }
 
+bool PHD2::resumeGuiding()
+{
+    QJsonArray args;
+
+    // Paused param
+    args << false;
+
+    sendJSONRPCRequest("set_paused", args);
+
+    return true;
+
+}
+
 void PHD2::dither(double pixels)
 {
     QJsonArray args;
@@ -491,6 +522,13 @@ void PHD2::dither(double pixels)
 bool PHD2::isConnected()
 {
     return (connection >= CONNECTED);
+}
+
+void PHD2::setCCDMountParams(double ccd_pix_w, double ccd_pix_h, double mount_focal)
+{
+    ccd_pixel_width = ccd_pix_w/1000.0;
+    ccd_pixel_height= ccd_pix_h/1000.0;
+    focal           = mount_focal;
 }
 
 }

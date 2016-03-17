@@ -189,6 +189,8 @@ public:
     void addST4(ISD::ST4 *newST4);
     void setAO(ISD::ST4 *newAO);
 
+    bool isDithering();
+
     void addGuideHead(ISD::GDInterface *ccd);
     void syncTelescopeInfo();
     void syncCCDInfo();

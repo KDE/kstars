@@ -396,7 +396,7 @@ bool rguider::start()
         m_isStarted = true;
         m_useRapidGuide = ui.rapidGuideCheck->isChecked();
 
-        pmain_wnd->setSuspended(false);
+        //pmain_wnd->setSuspended(false);
 
         ui.pushButton_StartStop->setText( i18n("Stop") );
         pmain_wnd->appendLogText(i18n("Autoguiding started."));
@@ -844,6 +844,7 @@ void rguider::setPHD2(Ekos::PHD2 *phd)
     ui.comboBox_ThresholdAlg->setEnabled(enable);
     ui.ditherCheck->setEnabled(enable);
     ui.ditherPixels->setEnabled(enable);
+    ui.driftGraphicsGroup->setEnabled(enable);
 
 }
 

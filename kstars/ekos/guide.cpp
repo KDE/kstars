@@ -87,8 +87,14 @@ Guide::Guide() : QWidget()
 
     phd2 = new PHD2();
     connect(phd2, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+    connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
+    connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
+    connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
+    connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 
-    phd2->connectPHD2();
+    if (Options::usePHD2Guider())
+        phd2->connectPHD2();
 }
 
 Guide::~Guide()
@@ -286,6 +292,8 @@ void Guide::updateGuideParams()
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
+        phd2->setCCDMountParams(ccd_hor_pixel, ccd_ver_pixel, focal_length);
+
         int x,y,w,h;
 
         if (currentCCD->hasGuideHead() == false)
@@ -712,10 +720,24 @@ void Guide::stopRapidGuide()
 }
 
 
+bool Guide::isDithering()
+{
+    return (Options::useEkosGuider() ? guider->isDithering() : phd2->isDithering());
+}
+
 void Guide::dither()
 {
-   if (guider->isDithering() == false)
-        guider->dither();
+   if (Options::useEkosGuider())
+   {
+       if (isDithering() == false)
+            guider->dither();
+   }
+   else
+   {
+       if (isDithering() == false)
+           phd2->dither(guider->getDitherPixels());
+   }
+
 }
 
 void Guide::updateGuideDriver(double delta_ra, double delta_dec)
@@ -723,10 +745,11 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
     guideDeviationRA  = delta_ra;
     guideDeviationDEC = delta_dec;
 
-    if (guider->isGuiding() == false)
+    // If using PHD2 or not guiding, no need to go further on
+    if (Options::usePHD2Guider() || isGuiding() == false)
         return;
 
-    if (guider->isDithering())
+    if (isDithering())
     {
         GuideDriver = ST4Driver;
         return;
@@ -831,7 +854,8 @@ void Guide::setSuspended(bool enable)
         if (Options::useEkosGuider())
             capture();
         else
-            phd2->startGuiding();
+            phd2->resumeGuiding();
+            //phd2->startGuiding();
     }
 
     if (isSuspended)

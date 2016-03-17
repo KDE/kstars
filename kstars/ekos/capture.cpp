@@ -1164,7 +1164,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
             }
         }
 
-        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
 
            secondsLabel->setText(i18n("Downloading..."));
