@@ -30,6 +30,8 @@ class FITSData;
 namespace Ekos
 {
 
+class PHD2;
+
 /**
  *@class Guide
  *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver.
@@ -47,6 +49,7 @@ public:
     ~Guide();
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
+    enum GuiderProcess { GUIDE_INTERNAL, GUIDE_PHD2 };
 
     /** @defgroup GuideDBusInterface Ekos DBus Interface - Capture Module
      * Ekos::Guide interface provides advanced scripting capabilities to calibrate and guide a mount via a CCD camera.
@@ -72,6 +75,11 @@ public:
      * @return Returns List of registered ST4 devices.
      */
     Q_SCRIPTABLE QStringList getST4Devices();
+
+    /** DBUS interface function.
+     * @return Returns true if calibraiton is in progress.
+     */
+    Q_SCRIPTABLE bool isCalibrating();
 
     /** DBUS interface function.
      * @return Returns true if calibration procedure is complete.
@@ -167,6 +175,13 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setDither(bool enable, double value);
 
+
+    /** DBUS interface function.
+     * Selects which guiding process to utilize for calibration & guiding.
+     * @param guideProcess Either use Ekos internal guider or external PHD2 process.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setGuiderProcess(int guiderProcess);
+
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider);
@@ -178,7 +193,6 @@ public:
     void syncTelescopeInfo();
     void syncCCDInfo();
 
-    void appendLogText(const QString &);
     void clearLog();
 
     void setDECSwap(bool enable);    
@@ -236,10 +250,12 @@ public slots:
      void startAutoCalibrateGuiding();
      void checkAutoCalibrateGuiding(bool successful);
 
-        void viewerClosed();
+     void viewerClosed();
 
-        void dither();
-        void setSuspended(bool enable);
+     void dither();
+     void setSuspended(bool enable);
+
+     void appendLogText(const QString &);
 
 protected slots:
         void updateCCDBin(int index);
@@ -273,14 +289,14 @@ private:
 
     QTabWidget *tabWidget;
 
-    GuiderStage guiderStage;
-
     cgmath *pmath;
     rcalibration *calibration;
     rguider *guider;
+    PHD2 *phd2;
 
     bool useGuideHead;
     bool isSuspended;
+    bool phd2Connected;
 
     bool useDarkFrame;
     double darkExposure;

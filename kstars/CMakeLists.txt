@@ -100,6 +100,7 @@ if (CFITSIO_FOUND)
       ekos/sequencejob.cpp
       ekos/focus.cpp
       ekos/guide.cpp
+      ekos/phd2.cpp
       ekos/align.cpp
       ekos/mount.cpp
       ekos/dome.cpp

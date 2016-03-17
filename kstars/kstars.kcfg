@@ -1585,6 +1585,10 @@
         <label>PHD2 Executable</label>
         <default>/usr/bin/phd2</default>
     </entry>
+    <entry name="PHD2Host" type="String">
+        <label>PHD2 Event Monitoring Host name</label>
+        <default>localhost</default>
+    </entry>
     <entry name="PHD2Port" type="UInt">
         <label>PHD2 Event Monitoring Port</label>
         <default>4400</default>

@@ -13,6 +13,7 @@
 #define GUIDER_H
 
 #include <QtGui>
+
 #include "common.h"
 #include "ui_guider.h"
 #include "scroll_graph.h"
@@ -54,8 +55,13 @@ public:
     bool useSubFrame();
     bool useRapidGuide();
 
+    void setPHD2(Ekos::PHD2 *phd);
+
 public slots:
     void setDECSwap(bool enable);
+    void connectPHD2();
+    void setPHD2Connected();
+    void setPHD2Disconnected();
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -80,6 +86,7 @@ signals:
 private:
 	cgmath *pmath;
     Ekos::Guide *pmain_wnd;
+    Ekos::PHD2 *phd2;
 
     custom_drawer *pDriftOut;
     cscroll_graph *drift_graph;
