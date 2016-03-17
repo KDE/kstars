@@ -541,6 +541,7 @@ add_library( KStarsLib STATIC ${kstars_SRCS})
 target_link_libraries(KStarsLib
         LibKSDataHandlers
         htmesh
+        KF5::Crash
         KF5::I18n
         KF5::NewStuff
         KF5::KIOFileWidgets
