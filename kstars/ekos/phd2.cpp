@@ -110,6 +110,8 @@ void PHD2::displayError(QAbstractSocket::SocketError socketError)
         emit newLog(i18n("The following error occurred: %1.", tcpSocket->errorString()));
     }
 
+    connection = DISCONNECTED;
+
 }
 
 void PHD2::readPHD2()
