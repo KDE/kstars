@@ -11528,6 +11528,9 @@ QCPColorGradient QCPColorGradient::inverted() const
 */
 void QCPColorGradient::updateColorBuffer()
 {
+  // use const reference to mColorStops to enforce const method calls
+  const QMap<double, QColor> &colorStopsConst = mColorStops;
+
   if (mColorBuffer.size() != mLevelCount)
     mColorBuffer.resize(mLevelCount);
   if (mColorStops.size() > 1)
@@ -11536,11 +11539,11 @@ void QCPColorGradient::updateColorBuffer()
     for (int i=0; i<mLevelCount; ++i)
     {
       double position = i*indexToPosFactor;
-      QMap<double, QColor>::const_iterator it = mColorStops.lowerBound(position);
-      if (it == mColorStops.constEnd()) // position is on or after last stop, use color of last stop
+      QMap<double, QColor>::const_iterator it = colorStopsConst.lowerBound(position);
+      if (it == colorStopsConst.constEnd()) // position is on or after last stop, use color of last stop
       {
         mColorBuffer[i] = (it-1).value().rgb();
-      } else if (it == mColorStops.constBegin()) // position is on or before first stop, use color of first stop
+      } else if (it == colorStopsConst.constBegin()) // position is on or before first stop, use color of first stop
       {
         mColorBuffer[i] = it.value().rgb();
       } else // position is in between stops (or on an intermediate stop), interpolate color
@@ -11577,9 +11580,9 @@ void QCPColorGradient::updateColorBuffer()
         }
       }
     }
-  } else if (mColorStops.size() == 1)
+  } else if (colorStopsConst.size() == 1)
   {
-    mColorBuffer.fill(mColorStops.constBegin().value().rgb());
+    mColorBuffer.fill(colorStopsConst.constBegin().value().rgb());
   } else // mColorStops is empty, fill color buffer with black
   {
     mColorBuffer.fill(qRgb(0, 0, 0));
@@ -15961,8 +15964,8 @@ void QCPGraph::getVisibleDataBounds(QCPDataMap::const_iterator &lower, QCPDataMa
   }
   
   // get visible data range as QMap iterators
-  QCPDataMap::const_iterator lbound = mData->lowerBound(mKeyAxis.data()->range().lower);
-  QCPDataMap::const_iterator ubound = mData->upperBound(mKeyAxis.data()->range().upper);
+  QCPDataMap::const_iterator lbound = static_cast<const QCPDataMap*>(mData)->lowerBound(mKeyAxis.data()->range().lower);
+  QCPDataMap::const_iterator ubound = static_cast<const QCPDataMap*>(mData)->upperBound(mKeyAxis.data()->range().upper);
   bool lowoutlier = lbound != mData->constBegin(); // indicates whether there exist points below axis range
   bool highoutlier = ubound != mData->constEnd(); // indicates whether there exist points above axis range
   
@@ -18836,8 +18839,8 @@ void QCPBars::getVisibleDataBounds(QCPBarDataMap::const_iterator &lower, QCPBarD
   }
   
   // get visible data range as QMap iterators
-  lower = mData->lowerBound(mKeyAxis.data()->range().lower);
-  upperEnd = mData->upperBound(mKeyAxis.data()->range().upper);
+  lower = static_cast<const QCPBarDataMap*>(mData)->lowerBound(mKeyAxis.data()->range().lower);
+  upperEnd = static_cast<const QCPBarDataMap*>(mData)->upperBound(mKeyAxis.data()->range().upper);
   double lowerPixelBound = mKeyAxis.data()->coordToPixel(mKeyAxis.data()->range().lower);
   double upperPixelBound = mKeyAxis.data()->coordToPixel(mKeyAxis.data()->range().upper);
   bool isVisible = false;
@@ -18980,8 +18983,10 @@ double QCPBars::getStackedBaseValue(double key, bool positive) const
     double epsilon = qAbs(key)*1e-6; // should be safe even when changed to use float at some point
     if (key == 0)
       epsilon = 1e-6;
-    QCPBarDataMap::const_iterator it = mBarBelow.data()->mData->lowerBound(key-epsilon);
-    QCPBarDataMap::const_iterator itEnd = mBarBelow.data()->mData->upperBound(key+epsilon);
+    QCPBarDataMap::const_iterator it =
+        static_cast<const QCPBarDataMap*>(mBarBelow.data()->mData)->lowerBound(key-epsilon);
+    QCPBarDataMap::const_iterator itEnd =
+        static_cast<const QCPBarDataMap*>(mBarBelow.data()->mData)->upperBound(key+epsilon);
     while (it != itEnd)
     {
       if ((positive && it.value().value > max) ||
@@ -21431,8 +21436,10 @@ void QCPFinancial::getVisibleDataBounds(QCPFinancialDataMap::const_iterator &low
   }
   
   // get visible data range as QMap iterators
-  QCPFinancialDataMap::const_iterator lbound = mData->lowerBound(mKeyAxis.data()->range().lower);
-  QCPFinancialDataMap::const_iterator ubound = mData->upperBound(mKeyAxis.data()->range().upper);
+  QCPFinancialDataMap::const_iterator lbound =
+    static_cast<const QCPFinancialDataMap*>(mData)->lowerBound(mKeyAxis.data()->range().lower);
+  QCPFinancialDataMap::const_iterator ubound =
+    static_cast<const QCPFinancialDataMap*>(mData)->upperBound(mKeyAxis.data()->range().upper);
   bool lowoutlier = lbound != mData->constBegin(); // indicates whether there exist points below axis range
   bool highoutlier = ubound != mData->constEnd(); // indicates whether there exist points above axis range
   
@@ -23247,7 +23254,7 @@ void QCPItemTracer::updatePosition()
           position->setCoords(last.key(), last.value().value);
         else
         {
-          QCPDataMap::const_iterator it = mGraph->data()->lowerBound(mGraphKey);
+          QCPDataMap::const_iterator it = static_cast<const QCPDataMap*>(mGraph->data())->lowerBound(mGraphKey);
           if (it != first) // mGraphKey is somewhere between iterators
           {
             QCPDataMap::const_iterator prevIt = it-1;
