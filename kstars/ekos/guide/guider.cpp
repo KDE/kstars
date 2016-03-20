@@ -442,7 +442,13 @@ bool rguider::start()
 bool rguider::stop()
 {
     if (phd2)
-        phd2->stopGuiding();
+    {
+
+        ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
+        emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+
+        return phd2->stopGuiding();
+    }
 
     if (pimage)
         connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));

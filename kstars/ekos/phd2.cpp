@@ -449,6 +449,13 @@ void PHD2::setEquipmentConnected(bool enable)
 
 bool PHD2::startGuiding()
 {
+
+    if (connection != EQUIPMENT_CONNECTED)
+    {
+        emit newLog(i18n("PHD2 Error: Equipment not connected."));
+        return false;
+    }
+
     QJsonArray args;
     QJsonObject settle;
 
@@ -468,12 +475,24 @@ bool PHD2::startGuiding()
 
 bool PHD2::stopGuiding()
 {
+    if (connection != EQUIPMENT_CONNECTED)
+    {
+        emit newLog(i18n("PHD2 Error: Equipment not connected."));
+        return false;
+    }
+
    sendJSONRPCRequest("stop_capture");
    return true;
 }
 
 bool PHD2::pauseGuiding()
 {
+    if (connection != EQUIPMENT_CONNECTED)
+    {
+        emit newLog(i18n("PHD2 Error: Equipment not connected."));
+        return false;
+    }
+
     QJsonArray args;
 
     // Paused param
@@ -489,6 +508,12 @@ bool PHD2::pauseGuiding()
 
 bool PHD2::resumeGuiding()
 {
+    if (connection != EQUIPMENT_CONNECTED)
+    {
+        emit newLog(i18n("PHD2 Error: Equipment not connected."));
+        return false;
+    }
+
     QJsonArray args;
 
     // Paused param
@@ -500,8 +525,14 @@ bool PHD2::resumeGuiding()
 
 }
 
-void PHD2::dither(double pixels)
+bool PHD2::dither(double pixels)
 {
+    if (connection != EQUIPMENT_CONNECTED)
+    {
+        emit newLog(i18n("PHD2 Error: Equipment not connected."));
+        return false;
+    }
+
     QJsonArray args;
     QJsonObject settle;
 
@@ -519,6 +550,8 @@ void PHD2::dither(double pixels)
     state = DITHERING;
 
     sendJSONRPCRequest("dither", args);
+
+    return true;
 }
 
 bool PHD2::isConnected()

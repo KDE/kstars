@@ -59,7 +59,7 @@ public:
     bool stopGuiding();
     bool pauseGuiding();
     bool resumeGuiding();
-    void dither(double pixels);
+    bool dither(double pixels);
 
 private slots:
 

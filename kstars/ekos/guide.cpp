@@ -834,7 +834,8 @@ bool Guide::stopGuiding()
     if (Options::useEkosGuider())
         return guider->abort(true);
     else
-        return phd2->stopGuiding();
+        // guider stop will call phd2->stopGuide() and change GUI elements accordingly
+        return guider->stop();
 }
 
 void Guide::setSuspended(bool enable)
