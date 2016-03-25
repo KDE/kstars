@@ -104,6 +104,7 @@ if (INDI_FOUND)
             ekos/sequencejob.cpp
             ekos/focus.cpp
             ekos/guide.cpp
+            ekos/phd2.cpp
             ekos/align.cpp
             ekos/mount.cpp
             ekos/dome.cpp
@@ -569,6 +570,7 @@ add_library(KStarsLib STATIC ${kstars_SRCS})
 target_link_libraries(KStarsLib
                       LibKSDataHandlers
                       htmesh
+                      KF5::Crash
                       KF5::I18n
                       KF5::NewStuff
                       KF5::KIOFileWidgets
@@ -577,8 +579,6 @@ target_link_libraries(KStarsLib
 #                      KF5::TextEditor
 #                      KF5::DBusAddons
                       KF5::IconThemes
-                      KF5::Notifications
-                      KF5::Archive
                       Qt5::Gui
                       Qt5::PrintSupport
                       Qt5::Sql

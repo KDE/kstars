@@ -482,6 +482,9 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 
     }
 
+    // Reset current port
+    currentPort = Options::serverPortStart().toInt()-1;
+
     updateMenuActions();
 
 }

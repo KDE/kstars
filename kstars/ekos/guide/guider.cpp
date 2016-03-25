@@ -22,6 +22,7 @@
 #include "scroll_graph.h"
 #include "gmath.h"
 #include "fitsviewer/fitsview.h"
+#include "../phd2.h"
 #include "../ekosmanager.h"
 #include "kstars.h"
 
@@ -41,7 +42,7 @@ rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
     pmain_wnd = parent;
 
     pimage = NULL;
-
+    phd2 = NULL;
     targetChip = NULL;
 
     m_useRapidGuide = false;
@@ -78,6 +79,8 @@ rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
 	connect( ui.spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 	connect( ui.spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
     connect( ui.rapidGuideCheck,        SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
+
+    connect( ui.connectPHD2B,           SIGNAL(clicked()), this, SLOT(connectPHD2()));
 
     connect(ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
@@ -360,7 +363,8 @@ void rguider::setTargetChip(ISD::CCDChip *chip)
 {
     targetChip = chip;
     targetChip->getFrame(&fx, &fy, &fw, &fh);
-    ui.subFrameCheck->setEnabled(targetChip->canSubframe());
+    if (phd2 == NULL)
+        ui.subFrameCheck->setEnabled(targetChip->canSubframe());
 }
 
 bool rguider::start()
@@ -384,6 +388,21 @@ bool rguider::start()
 
     if (pimage)
         disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
+
+    if (phd2)
+    {
+        phd2->startGuiding();
+
+        m_isStarted = true;
+        m_useRapidGuide = ui.rapidGuideCheck->isChecked();
+
+        //pmain_wnd->setSuspended(false);
+
+        ui.pushButton_StartStop->setText( i18n("Stop") );
+        pmain_wnd->appendLogText(i18n("Autoguiding started."));
+
+        return true;
+    }
 
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&logFile);
@@ -422,6 +441,15 @@ bool rguider::start()
 
 bool rguider::stop()
 {
+    if (phd2)
+    {
+
+        ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
+        emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+
+        return phd2->stopGuiding();
+    }
+
     if (pimage)
         connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
     ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
@@ -777,7 +805,8 @@ void rguider::setGuideOptions(int boxSize, const QString & algorithm, bool useSu
             break;
         }
 
-    ui.subFrameCheck->setChecked(useSubFrame);
+    if (phd2 == NULL)
+        ui.subFrameCheck->setChecked(useSubFrame);
     ui.rapidGuideCheck->setChecked(useRapidGuide);
 }
 
@@ -787,5 +816,69 @@ void rguider::setDither(bool enable, double value)
 
     if (enable && value > 0)
         ui.ditherPixels->setValue(value);
+}
 
+void rguider::setPHD2(Ekos::PHD2 *phd)
+{
+    // If we already have PHD2 set but we are asked to unset it then we shall disconnect all signals first
+    if (phd2 && phd == NULL)
+        phd2->disconnect();
+
+    phd2 = phd;
+    bool enable = (phd2 == NULL) ? true : false;
+
+    if (phd2)
+    {
+        if (phd2->isConnected())
+            setPHD2Connected();
+        else
+            setPHD2Disconnected();
+
+        connect(phd2, SIGNAL(connected()), this, SLOT(setPHD2Connected()), Qt::UniqueConnection);
+        connect(phd2, SIGNAL(disconnected()), this, SLOT(setPHD2Disconnected()), Qt::UniqueConnection);
+    }
+
+    ui.connectPHD2B->setHidden(enable);
+
+    ui.pushButton_StartStop->setEnabled(enable);
+    ui.controlGroup->setEnabled(enable);
+    ui.infoGroup->setEnabled(enable);
+    ui.captureB->setEnabled(enable);
+    ui.subFrameCheck->setEnabled(enable);
+    ui.rapidGuideCheck->setEnabled(enable);
+    ui.comboBox_SquareSize->setEnabled(enable);
+    ui.comboBox_ThresholdAlg->setEnabled(enable);
+    ui.ditherCheck->setEnabled(enable);
+    ui.ditherPixels->setEnabled(enable);
+    ui.driftGraphicsGroup->setEnabled(enable);
+
+}
+
+void rguider::connectPHD2()
+{
+    if (phd2)
+    {
+        if (phd2->isConnected())
+            phd2->disconnectPHD2();
+        else
+            phd2->connectPHD2();
+    }
+}
+
+void rguider::setPHD2Connected()
+{
+    ui.connectPHD2B->setText(i18n("Disconnect PHD2"));
+
+    ui.pushButton_StartStop->setEnabled(true);
+    ui.ditherCheck->setEnabled(true);
+    ui.ditherPixels->setEnabled(true);
+}
+
+void rguider::setPHD2Disconnected()
+{
+    ui.connectPHD2B->setText(i18n("Connect PHD2"));
+
+    ui.pushButton_StartStop->setEnabled(false);
+    ui.ditherCheck->setEnabled(false);
+    ui.ditherPixels->setEnabled(false);
 }

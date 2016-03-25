@@ -27,6 +27,7 @@ include(ECMAddAppIcon)
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
   Config
+  Crash
   DocTools
   WidgetsAddons
   NewStuff
