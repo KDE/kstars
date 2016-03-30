@@ -1306,7 +1306,11 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     int horizon    = (initAz > 0 && initAz <= 180) ? 0 : 1;
 
     // How much time passed siderrally form initRA to finalRA?
-    double RATime = fabs(raMotion / SIDRATE) / 60.0;    
+    //double RATime = fabs(raMotion / SIDRATE) / 60.0;
+
+    // 2016-03-30: Diff in RA is sufficient for time difference
+    // raMotion in degrees. RATime in minutes.
+    double RATime = fabs(raMotion) * 60.0;
 
     // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
     // In degrees
