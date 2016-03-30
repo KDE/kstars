@@ -16,8 +16,8 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-#find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
-find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Xml Sql Svg PrintSupport)
+find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+#find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Xml Sql Svg PrintSupport)
 include(KDEInstallDirs)
 include(KDECompilerSettings)
 include(KDECMakeSettings)
@@ -38,6 +38,8 @@ find_package(KF5 REQUIRED COMPONENTS
   Plotting
   IconThemes
 )
+
+#message("KF5 Version is ${KF5_VERSION}")
 
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})

@@ -61,12 +61,6 @@ public:
     QVariant data(int role);
 
     /**
-     * \brief Create and return a QHash<int, QByteArray> of rolenames for the SkyObjItem.
-     * \return QHash<int, QByteArray> of rolenames for the SkyObjItem.
-     */
-    QHash<int, QByteArray> roleNames() const;
-
-    /**
      * \brief Get name of sky-object associated with the SkyObjItem.
      * \return Name of sky-object associated with the SkyObjItem as a QString
      */

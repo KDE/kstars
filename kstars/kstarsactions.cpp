@@ -30,8 +30,8 @@
 #include <QDockWidget>
 #include <QPointer>
 #include <QInputDialog>
-//#include <QQuickWindow>
-//#include <QQuickView>
+#include <QQuickWindow>
+#include <QQuickView>
 #include <QDebug>
 #include <QAction>
 #include <QFileDialog>
@@ -82,11 +82,11 @@
 #include "tools/eyepiecefield.h"
 
 //FIXME Port to QML2
-#if 0
+//#if 0
 #include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiequipsettings.h"
-#endif
+//#endif
 
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
@@ -412,7 +412,7 @@ void KStars::slotWUT() {
 }
 
 //FIXME Port to QML2
-#if 0
+//#if 0
 void KStars::slotWISettings()
 {
     if (m_WIView && !m_wiDock->isVisible())
@@ -487,7 +487,7 @@ void KStars::slotShowWIView(int status)
     }
 }
 
-#endif
+//#endif
 
 void KStars::slotCalendar() {
     if ( ! m_SkyCalendar ) m_SkyCalendar = new SkyCalendar(this);
