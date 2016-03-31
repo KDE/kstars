@@ -81,12 +81,11 @@
 #include "tools/observinglist.h"
 #include "tools/eyepiecefield.h"
 
-//FIXME Port to QML2
-//#if 0
+#ifdef HAVE_KF5WIT
 #include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiequipsettings.h"
-//#endif
+#endif
 
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
@@ -415,6 +414,7 @@ void KStars::slotWUT() {
 //#if 0
 void KStars::slotWISettings()
 {
+#ifdef HAVE_KF5WIT
     if (m_WIView && !m_wiDock->isVisible())
     {
         slotShowWIView(1);
@@ -437,10 +437,12 @@ void KStars::slotWISettings()
     dialog->addPage(m_WISettings, i18n("Light Pollution Settings"));
     dialog->addPage(m_WIEquipmentSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
+#endif
 }
 
 void KStars::slotShowWIView(int status)
 {
+#ifdef HAVE_KF5WIT
 
     if (status == 0) return;          //Cancelled
 
@@ -485,9 +487,9 @@ void KStars::slotShowWIView(int status)
         m_WIView->updateModels(m_ObsConditions);
         m_wiDock->setVisible(true);
     }
-}
 
-//#endif
+#endif
+}
 
 void KStars::slotCalendar() {
     if ( ! m_SkyCalendar ) m_SkyCalendar = new SkyCalendar(this);

@@ -3,7 +3,10 @@ add_subdirectory( icons )
 add_subdirectory( htmesh )
 
 if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+SET(HAVE_KF5WIT 1)
 add_subdirectory( tools/whatsinteresting/qml)
+else()
+SET(HAVE_KF5WIT 0)
 endif()
 
 Find_package(ZLIB REQUIRED)
