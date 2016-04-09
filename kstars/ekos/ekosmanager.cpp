@@ -1548,6 +1548,10 @@ void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
 
     nDevices--;
     nRemoteDevices++;
+
+    if (Options::verboseLogging())
+        qDebug() << "Received new remote device " << deviceName << " nDevices: " << nDevices << " nRemoteDevices: " << nRemoteDevices;
+
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
     connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
