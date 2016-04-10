@@ -66,6 +66,8 @@ public slots:
     void connectPHD2();
     void setPHD2Connected();
     void setPHD2Disconnected();
+    // Only called by PHD2
+    void setGuideState(bool guiding, bool ditherChecked);
 
 protected slots:
 	void onXscaleChanged( int i );

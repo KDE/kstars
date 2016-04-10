@@ -90,6 +90,7 @@ Guide::Guide() : QWidget()
     connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
     connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
     connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), guider, SLOT(setGuideState(bool,bool)));
     connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
     connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 

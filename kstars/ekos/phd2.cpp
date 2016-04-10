@@ -179,6 +179,11 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
         // If initial state is STOPPED, let us connect equipment
         if (state == STOPPED)
             setEquipmentConnected(true);
+        else if (state == GUIDING)
+        {
+            connection = EQUIPMENT_CONNECTED;
+            emit connected();
+        }
         return;
 
     case DISCONNECTED:
@@ -252,6 +257,11 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     case StartGuiding:
         state = GUIDING;
+        if (connection != EQUIPMENT_CONNECTED)
+        {
+            connection = EQUIPMENT_CONNECTED;
+            emit connected();
+        }
         emit newLog(i18n("PHD2: Guiding Started."));
         emit autoGuidingToggled(true, ditherEnabled);
         break;

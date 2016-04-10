@@ -443,9 +443,11 @@ bool rguider::stop()
 {
     if (phd2)
     {
-
         ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
         emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+
+        m_isDithering = false;
+        m_isStarted = false;
 
         return phd2->stopGuiding();
     }
@@ -470,6 +472,29 @@ bool rguider::stop()
     m_isStarted = false;
 
     return true;
+}
+
+void rguider::setGuideState(bool guiding, bool ditherChecked)
+{
+    if (phd2 == NULL)
+        return;
+
+    ui.ditherCheck->setChecked(ditherChecked);
+    // If not started already
+    if (m_isStarted == false && guiding)
+    {
+        m_isStarted = true;
+        m_useRapidGuide = ui.rapidGuideCheck->isChecked();
+
+        ui.pushButton_StartStop->setText( i18n("Stop") );
+        pmain_wnd->appendLogText(i18n("Autoguiding started."));
+    }
+    // if already started
+    else if (m_isStarted && guiding == false)
+    {
+        ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
+    }
+
 }
 
 // processing stuff
