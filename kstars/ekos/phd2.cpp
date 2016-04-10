@@ -190,15 +190,18 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
         break;
 
     case EQUIPMENT_CONNECTING:
-        if (result)
+        if (messageType == PHD2_RESULT)
         {
-            connection = EQUIPMENT_CONNECTED;
-            emit connected();
-        }
-        else
-        {
-            connection = EQUIPMENT_DISCONNECTED;
-            emit disconnected();
+            if (result)
+            {
+                connection = EQUIPMENT_CONNECTED;
+                emit connected();
+            }
+            else
+            {
+                connection = EQUIPMENT_DISCONNECTED;
+                emit disconnected();
+            }
         }
         return;
 
