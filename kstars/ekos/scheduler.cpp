@@ -21,6 +21,7 @@
 #include <KLocalizedString>
 #include <KNotifications/KNotification>
 
+#include "scheduleradaptor.h"
 #include "dialogs/finddialog.h"
 #include "ekosmanager.h"
 #include "kstars.h"
@@ -61,6 +62,9 @@ bool altitudeHigherThan(SchedulerJob *job1, SchedulerJob *job2)
 Scheduler::Scheduler()
 {
     setupUi(this);
+
+    new SchedulerAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
 
     dirPath     = QDir::homePath();
     state       = SCHEDULER_IDLE;
@@ -4095,6 +4099,14 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
 
 }
 
+void Scheduler::resetAllJobs()
+{
+    if (state == SCHEDULER_RUNNIG)
+        return;
+
+    foreach(SchedulerJob *job, jobs)
+        job->setState(SchedulerJob::JOB_IDLE);
+}
 
 }
 
