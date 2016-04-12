@@ -1326,9 +1326,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far west");
-            else
                 deviationDirection = ki18n("%1 too far east");
+            else
+                deviationDirection = ki18n("%1 too far west");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1362,9 +1362,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far east");
-            else
                 deviationDirection = ki18n("%1 too far west");
+            else
+                deviationDirection = ki18n("%1 too far east");
         }
         else if (altStage == ALT_FINISHED)
         {
