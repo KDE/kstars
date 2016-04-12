@@ -302,11 +302,20 @@ void Capture::start()
     meridianFlipStage = MF_NONE;
 
     // Check if we need to update the sequence directory numbers before starting
-    for (int i=0; i < jobs.count(); i++)
+    /*for (int i=0; i < jobs.count(); i++)
     {
-        if (jobs.at(i)->getFITSDir().endsWith("Sequence_"))
-            jobs.at(i)->setFITSDir(QString("%1%2").arg(jobs.at(i)->getFITSDir()).arg(i));
-    }
+        QString firstDir = jobs.at(i)->getFITSDir();
+        int sequenceID=1;
+
+        for (int j=i+1; j < jobs.count(); j++)
+        {
+            if (firstDir == jobs.at(j)->getFITSDir())
+            {
+                jobs.at(i)->setFITSDir(QString("%1/Sequence_1").arg(firstDir));
+                jobs.at(j)->setFITSDir(QString("%1/Sequence_%2").arg(jobs.at(j)->getFITSDir()).arg(++sequenceID));
+            }
+        }
+    }*/
 
     prepareJob(first_job);
 
@@ -1278,9 +1287,7 @@ void Capture::addJob(bool preview)
 
         QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
         if (job->getFilterName().isEmpty() == false)
-            finalFITSDir += QDir::separator() + job->getFilterName();
-        else
-            finalFITSDir += QDir::separator() + "Sequence_";
+            finalFITSDir += QDir::separator() + job->getFilterName();        
 
         job->setFITSDir(finalFITSDir);
     }
