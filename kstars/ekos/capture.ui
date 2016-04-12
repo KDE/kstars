@@ -514,19 +514,6 @@
       <item row="5" column="2" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_16">
         <item>
-         <widget class="QCheckBox" name="frameTypeCheck">
-          <property name="toolTip">
-           <string>Append the active CCD frame type to the prefix</string>
-          </property>
-          <property name="text">
-           <string>Type</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QCheckBox" name="filterCheck">
           <property name="toolTip">
            <string>Append the active filter slot to the prefix</string>
@@ -558,6 +545,19 @@
            <bool>false</bool>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
