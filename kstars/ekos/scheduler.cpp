@@ -3128,7 +3128,30 @@ void Scheduler::startSlew()
 }
 
 void Scheduler::startFocusing()
-{
+{        
+    // Set focus mode to auto (1). Check if autofocus is available
+    QList<QVariant> focusMode;
+    focusMode.append(1);
+
+    QDBusReply<bool> focusModeReply;
+    focusModeReply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
+
+    if ( focusModeReply.error().type() != QDBusError::NoError)
+    {
+        appendLogText(i18n("setFocusMode DBUS error: %1", QDBusError::errorString(focusModeReply.error().type())));
+        return;
+    }
+
+    if (focusModeReply.value() == false)
+    {
+        appendLogText(i18n("Autofocus is not supported."));
+        currentJob->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (currentJob->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
+        currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+        getNextAction();
+        return;
+    }
+
+    // Clear the HFR limit value set in the capture module
     captureInterface->call(QDBus::AutoDetect,"clearAutoFocusHFR");
 
     QDBusMessage reply;
@@ -3140,15 +3163,6 @@ void Scheduler::startFocusing()
         return;
     }
 
-    // Set focus mode to auto (1)
-    QList<QVariant> focusMode;
-    focusMode.append(1);
-
-    if ( (reply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode)).type() == QDBusMessage::ErrorMessage)
-    {
-        appendLogText(i18n("setFocusMode DBUS error: %1", reply.errorMessage()));
-        return;
-    }
 
     // Set autostar & use subframe
     QList<QVariant> autoStar;
@@ -3308,7 +3322,10 @@ void Scheduler::startCalibrating()
 
     QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startCalibration");
     if (guideReply.value() == false)
+    {
+        appendLogText(i18n("Starting guide calibration failed. If using external guide application, ensure it is up and running."));
         currentJob->setState(SchedulerJob::JOB_ERROR);
+    }
     else
     {
         currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);

@@ -48,7 +48,7 @@
     </method>
     <method name="setFocusMode">
       <arg name="mode" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="setExposure">
       <arg name="value" type="d" direction="in"/>

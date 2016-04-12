@@ -95,7 +95,7 @@ public:
      * Set Focus mode (Manual or Auto)
      * @param mode 0 for manual, any other value for auto.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setFocusMode(int mode);
+    Q_SCRIPTABLE bool setFocusMode(int mode);
 
     /** DBUS interface function.
      * Set CCD exposure value
