@@ -1275,15 +1275,15 @@ void Capture::addJob(bool preview)
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
-    // Nothing more to do if preview
-    if (preview)
-        return;   
-
     if (jobUnderEdit == false)
     {
         jobs.append(job);
 
         job->setRootFITSDir(fitsDir->text());
+
+        // Nothing more to do if preview
+        if (preview)
+            return;
 
         QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
         if (job->getFilterName().isEmpty() == false)
