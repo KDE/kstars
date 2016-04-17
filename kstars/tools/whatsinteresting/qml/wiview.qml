@@ -1,107 +1,108 @@
+
 // Copyright (C) 2013 Samikshan Bairagya <samikshan@gmail.com>
 /***************************************************************************
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
-import QtQuick 1.0
+  *   This program is free software; you can redistribute it and/or modify  *
+   *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+     *   (at your option) any later version.                                   *
+      *                                                                         *
+       ***************************************************************************/
+import QtQuick 2.5
+import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.2
 
 Rectangle {
     id: container
     objectName: "containerObj"
-    width: 376
-    height: 575
     color: "#020518"
     anchors.fill: parent
+
+    property double buttonOpacity: 0.2
+    property double categoryTitleOpacity: 0.350
 
     Text {
         id: title
         x: 9
         y: 34
-        width: 209
-        height: 46
         color: "#59ad0e"
         text: xi18n("What's Interesting...")
         verticalAlignment: Text.AlignVCenter
-        font.family: "Cantarell"
-        font.bold: false
-        font.pixelSize: 22
+        font {
+            family: "Cantarell"
+            bold: false
+            pixelSize:22
+        }
     }
 
-    Rectangle {
+    Item {
         id: base
         y: 89
         width: parent.width
         height: 385
-        color: "transparent"
-        radius: 12
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.right: parent.right
-        anchors.rightMargin: 0
+        anchors {
+            left: parent.left
+            leftMargin: 0
+            right: parent.right
+            rightMargin: 0
+        }
+
         Item {
             id: viewsRow
             objectName: "viewsRowObj"
             width: parent.width
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
 
             signal categorySelected(int category)
 
-            Rectangle {
+            Item {
                 id: categoryView
                 x: 0
                 y: 31
                 width: parent.width
                 height: 351
-                color: "transparent"
 
                 Rectangle {
                     id: background
 
                     color: "#00060b"
                     radius: 12
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 13
-                    anchors.right: parent.right
-                    anchors.rightMargin: 20
-                    anchors.left: parent.left
-                    anchors.leftMargin: 20
+                    anchors {
+                        top: parent.top
+                        topMargin: 15
+                        bottom: parent.bottom
+                        bottomMargin: 13
+                        right: parent.right
+                        rightMargin: 20
+                        left: parent.left
+                        leftMargin: 20
+                    }
+
                     opacity: 0.500
-                    border.width: 4
-                    border.color: "black"
+                    border {
+                        width: 4
+                        color: "black"
+                    }
                 }
 
-                Rectangle {
-                    id: planetRect
-                    x: 128
-                    y: 35
+                Item {
+                    id: planetItem
                     width: planetText.width
                     height: planetText.height
-                    color: "#00000000"
-                    anchors.verticalCenterOffset: -130
-                    anchors.horizontalCenterOffset: -30
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors{
+                        verticalCenterOffset: -130
+                        horizontalCenterOffset: -30
+                        centerIn: parent
+                    }
 
-                    Text {
+                    CategoryTitle {
                         id: planetText
-                        x: 0
-                        y: 0
-                        color: "#e4800d"
-                        text: xi18n("Planets")
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Cantarell"
-                        font.pixelSize: 16
+
+                        title: xi18n("Planets")
+                        anchors.centerIn: parent
 
                         MouseArea {
                             id: planetMouseArea
@@ -116,30 +117,22 @@ Rectangle {
                     }
                 }
 
-                Rectangle {
-                    id: starRect
-                    x: 253
-                    y: 80
+                Item {
+                    id: starItem
+
                     width: starText.width
                     height: starText.height
-                    color: "#00000000"
-                    anchors.verticalCenterOffset: -85
-                    anchors.horizontalCenterOffset: 87
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors{
+                        verticalCenterOffset: -85
+                        horizontalCenterOffset: 87
+                        centerIn: parent
+                    }
 
-                    Text {
+                    CategoryTitle {
                         id: starText
-                        x: 0
-                        y: 0
-                        color: "#e4800d"
-                        text: xi18n("Stars")
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Cantarell"
-                        font.pixelSize: 16
+
+                        title: xi18n("Stars")
+                        anchors.centerIn: parent
 
                         MouseArea {
                             id: starMouseArea
@@ -154,28 +147,20 @@ Rectangle {
                     }
                 }
 
-                Rectangle {
-                    id: conRect
-                    x: 71
-                    y: 113
+                Item {
+                    id: conItem
                     width: conText.width
                     height: conText.height
-                    color: "#00000000"
-                    anchors.verticalCenterOffset: -52
-                    anchors.horizontalCenterOffset: -63
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors {
+                        verticalCenterOffset: -52
+                        horizontalCenterOffset: -63
+                        centerIn: parent
+                    }
 
-                    Text {
+                    CategoryTitle {
                         id: conText
-                        color: "#e4800d"
-                        text: xi18n("Constellations")
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.family: "Cantarell"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pixelSize: 16
+                        title: xi18n("Constellations")
+                        anchors.centerIn: parent
 
                         MouseArea {
                             id: conMouseArea
@@ -190,38 +175,34 @@ Rectangle {
                     }
                 }
 
-                Rectangle {
+                Item {
                     id: dsoContainer
                     y: 172
                     height: 166
-                    color: "#00000000"
-                    anchors.right: parent.right
-                    anchors.rightMargin: 35
-                    anchors.left: parent.left
-                    anchors.leftMargin: 35
+                    anchors {
+                        right: parent.right
+                        rightMargin: 35
+                        left: parent.left
+                        leftMargin: 35
+                    }
 
-                    Rectangle {
-                        id: dsoRect
-                        x: 79
-                        y: 18
+                    Item {
+                        id: dsoItem
                         width: dsoText.width
                         height: dsoText.height
-                        color: "#00000000"
-                        anchors.verticalCenterOffset: -54
-                        anchors.horizontalCenterOffset: 0
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        Text {
+
+                        anchors {
+                            verticalCenterOffset: -54
+                            horizontalCenterOffset: 0
+                            centerIn: parent
+                        }
+
+                        CategoryTitle {
                             id: dsoText
-                            x: 0
-                            y: 0
-                            color: "#e4800d"
-                            text: xi18n("Deep-sky Objects")
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: 16
+
+                            title: xi18n("Deep-sky Objects")
+                            anchors.centerIn: parent
+
                             MouseArea {
                                 id: dsoMouseArea
                                 hoverEnabled: true
@@ -229,34 +210,31 @@ Rectangle {
                                 onEntered: container.state = "dsoAreaEntered"
                                 onClicked: container.state = "dsoAreaClicked"
                             }
-                            font.family: "Cantarell"
                         }
                     }
 
-                    Rectangle {
-                        id: galRect
-                        x: 35
-                        y: 68
+                    Item {
+                        id: galItem
+
                         width: galText.width
                         height: galText.height
-                        color: "#00000000"
-                        anchors.verticalCenterOffset: -4
-                        anchors.horizontalCenterOffset: -77
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        opacity: 0.350
-                        Text {
+
+                        anchors {
+                            verticalCenterOffset: -4
+                            horizontalCenterOffset: -77
+                            centerIn: parent
+                        }
+                        opacity: categoryTitleOpacity
+
+                        CategoryTitle {
                             id: galText
-                            x: 0
-                            y: 0
-                            color: "#6b6660"
-                            text: xi18n("Galaxies")
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: 16
-                            anchors.topMargin: 0
+                            color: disabledColor
+                            title: xi18n("Galaxies")
+                            anchors {
+                                centerIn: parent
+                                margins: 0
+                            }
+
                             MouseArea {
                                 id: galMouseArea
                                 enabled: false
@@ -268,36 +246,28 @@ Rectangle {
                                     container.state = "dsoTypeSelected"
                                 }
                             }
-                            anchors.rightMargin: 0
-                            anchors.bottomMargin: 0
-                            font.family: "Cantarell"
-                            anchors.leftMargin: 0
                         }
                     }
 
-                    Rectangle {
-                        id: nebRect
-                        x: 96
-                        y: 124
+                    Item {
+                        id: nebItem
+
                         width: nebText.width
                         height: nebText.height
-                        color: "#00000000"
-                        anchors.verticalCenterOffset: 52
-                        anchors.horizontalCenterOffset: -17
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
+
+                        anchors {
+                            verticalCenterOffset: 52
+                            horizontalCenterOffset: -17
+                            centerIn: parent
+                        }
                         opacity: 0.340
-                        Text {
+
+                        CategoryTitle {
                             id: nebText
-                            x: 0
-                            y: 0
-                            color: "#6b6660"
-                            text: xi18n("Nebulae")
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: 16
+                            color: disabledColor
+                            title: xi18n("Nebulae")
+                            anchors.centerIn: parent
+
                             MouseArea {
                                 id: nebMouseArea
                                 enabled: false
@@ -309,33 +279,28 @@ Rectangle {
                                     container.state = "dsoTypeSelected"
                                 }
                             }
-                            font.family: "Cantarell"
                         }
                     }
 
-                    Rectangle {
-                        id: clustRect
-                        x: 181
-                        y: 80
+                    Item {
+                        id: clustItem
+
                         width: clustText.width
                         height: clustText.height
-                        color: "#00000000"
-                        anchors.verticalCenterOffset: 8
-                        anchors.horizontalCenterOffset: 69
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        opacity: 0.350
-                        Text {
+
+                        anchors {
+                            verticalCenterOffset: 8
+                            horizontalCenterOffset: 69
+                            centerIn: parent
+                        }
+                        opacity: categoryTitleOpacity
+
+                        CategoryTitle {
                             id: clustText
-                            x: 0
-                            y: 0
-                            color: "#6b6660"
-                            text: xi18n("Clusters")
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: 16
+                            color: disabledColor
+                            title: xi18n("Clusters")
+                            anchors.centerIn: parent
+
                             MouseArea {
                                 id: clustMouseArea
                                 enabled: false
@@ -347,27 +312,26 @@ Rectangle {
                                     container.state = "dsoTypeSelected"
                                 }
                             }
-                            font.family: "Cantarell"
                         }
                     }
                 }
-            }//end of categoryView
+            } //end of categoryView
 
             Flipable {
                 id: skyObjView
                 width: parent.width
                 height: parent.height
                 anchors.leftMargin: categoryView.width
-//                anchors.leftMargin: 370
 
+                //anchors.leftMargin: 370
                 anchors.left: categoryView.right
 
                 property bool flipped: false
 
-                front: Rectangle {
+                front: Item {
                     id: soListContainer
-                    color: "transparent"
                     anchors.fill: parent
+                    enabled: !parent.flipped // To hide content of front side on back side
 
                     Rectangle {
                         id: soListViewBackground
@@ -378,7 +342,6 @@ Rectangle {
                     }
 
                     Rectangle {
-
                         id: soListViewContainer
                         x: parent.x + 15
                         y: 31
@@ -386,24 +349,28 @@ Rectangle {
                         height: 351
                         color: "transparent"
                         radius: 12
-                        border.width: 4
-                        border.color: "#000000"
+                        border {
+                            width: 4
+                            color: "#000000"
+                        }
 
                         ListView {
                             id: soListView
+                            z: 0
                             objectName: "soListObj"
                             anchors.fill: parent
 
                             signal soListItemClicked(int type, string typeName, int curIndex)
                             clip: true
 
-                            ScrollBar {
-                                flickable: soListView
+                            ScrollView {
+                                anchors.fill: parent
+                                contentItem: soListView
                             }
 
                             delegate: Item {
                                 id: soListItem
-                                x: 5
+                                x: 8
                                 height: 40
 
                                 Text {
@@ -420,7 +387,9 @@ Rectangle {
                                         onExited: dispText.color = "white"
                                         onClicked: {
                                             soListView.currentIndex = index
-                                            soListView.soListItemClicked(type, typeName, soListView.currentIndex)
+                                            soListView.soListItemClicked(
+                                                        type, typeName,
+                                                        soListView.currentIndex)
                                             skyObjView.flipped = true
                                         }
                                     }
@@ -432,11 +401,11 @@ Rectangle {
                     }
                 }
 
-                back: Rectangle {
+                back: Item {
                     id: detailsViewContainer
                     width: parent.width
                     height: parent.height
-                    color: "transparent"
+                    enabled: parent.flipped
 
                     Rectangle {
                         id: detailsViewBackground
@@ -454,8 +423,10 @@ Rectangle {
                         width: parent.width - 30
                         color: "transparent"
                         radius: 12
-                        border.width: 4
-                        border.color: "#000000"
+                        border {
+                            width: 4
+                            color: "#000000"
+                        }
 
                         Text {
                             id: soname
@@ -465,31 +436,36 @@ Rectangle {
                             height: 22
                             color: "#ffffff"
                             text: xi18n("text")
-                            anchors.left: parent.left
-                            anchors.leftMargin: 8
-                            font.bold: true
-                            horizontalAlignment: Text.AlignLeft
+                            anchors{
+                                left: parent.left
+                                leftMargin: 8
+                            }
+                            font{
+                                bold: true
+                                pixelSize: 16
+                            }
                             verticalAlignment: Text.AlignVCenter
-                            font.pixelSize: 16
                         }
 
                         Text {
                             id: posText
-                            x: 10
                             objectName: "posTextObj"
                             y: 45
-                            anchors.right: parent.right
-                            anchors.rightMargin: 10
+                            anchors{
+                                right: parent.right
+                                rightMargin: 10
+                            }
                             width: 320
                             height: 16
                             color: "#f7f7ac"
                             text: xi18n("text")
-                            font.family: "Cantarell"
                             horizontalAlignment: Text.AlignRight
-                            font.underline: false
-                            font.italic: false
-                            font.bold: true
-                            font.pixelSize: 11
+                            font{
+                                family: "Cantarell"
+                                bold: true
+                                pixelSize:11
+                            }
+
                         }
 
                         Rectangle {
@@ -499,32 +475,39 @@ Rectangle {
                             color: "#010a14"
                             radius: 10
                             border.width: 0
-                            anchors.right: parent.right
-                            anchors.rightMargin: 4
-                            anchors.left: parent.left
-                            anchors.leftMargin: 4
+                            anchors{
+                                right: parent.right
+                                rightMargin: 4
+                                left: parent.left
+                                leftMargin: 4
+                            }
                             border.color: "#585454"
+
                             Flickable {
                                 id: flickableDescText
                                 clip: true
                                 flickableDirection: Flickable.VerticalFlick
                                 width: parent.width
                                 height: parent.height
-                                anchors.top: parent.top
-                                anchors.topMargin: 3
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 4
+                                anchors{
+                                    top: parent.top
+                                    topMargin: 3
+                                    bottom: parent.bottom
+                                    bottomMargin: 4
+                                }
 
                                 contentWidth: parent.width
                                 contentHeight: col.height + 4
 
                                 Item {
                                     id: descTextItem
-                                    anchors.top :parent.top
-                                    anchors.topMargin: 3
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: 6
-                                    anchors.right: parent.right
+                                    anchors{
+                                        top: parent.top
+                                        topMargin: 3
+                                        left: parent.left
+                                        leftMargin: 6
+                                        right: parent.right
+                                    }
                                     Column {
                                         id: col
                                         width: parent.width
@@ -533,56 +516,59 @@ Rectangle {
                                             objectName: "descTextObj"
                                             color: "#187988"
                                             text: xi18n("text")
-                                            font.family: "Cantarell"
                                             clip: true
                                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                             width: parent.width
-                                            font.pixelSize: 13
+                                            font{
+                                                family: "Cantarell"
+                                                pixelSize: 13
+                                            }
                                         }
                                         Text {
                                             id: descSrcText
                                             objectName: "descSrcTextObj"
                                             color: "#18885f"
                                             text: xi18n("Source: ")
-                                            font.family: "Cantarell"
-                                            font.italic: true
-                                            horizontalAlignment: Text.AlignRight
                                             clip: true
+                                            horizontalAlignment: Text.AlignRight
                                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                             width: parent.width
-                                            font.pixelSize: 13
                                             onLinkActivated: Qt.openUrlExternally(link)
+                                            font{
+                                                family: "Cantarell"
+                                                pixelSize: 13
+                                                italic: true
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
 
-                        Rectangle {
+                        Item {
                             id: nextObjRect
                             objectName: "nextObj"
-                            x: 271
-                            y: 377
-                            width: nextObjText.width + nextObjIcon.width + 5
+                            width: nextObjText.width + nextObjIcon.width + 10
                             height: 28
-                            color: "#00000000"
-                            radius: 5
-                            anchors.right: parent.right
-                            anchors.rightMargin: 10
+                            anchors {
+                                right: parent.right
+                                rightMargin: 10
+                                bottom: parent.bottom
+                                bottomMargin: 10
+                            }
 
-                            signal nextObjClicked()
+                            signal nextObjClicked
 
                             Rectangle {
                                 id: nextObjForeground
                                 radius: 5
-                                anchors.fill: nextObjRect
+                                anchors.fill: parent
                                 opacity: 0
                             }
 
                             MouseArea {
                                 id: nextObjMouseArea
-                                x: 13
-                                y: 62
+
                                 anchors.fill: nextObjRect
                                 hoverEnabled: true
                                 onEntered: {
@@ -599,58 +585,58 @@ Rectangle {
                             Text {
                                 id: nextObjText
                                 objectName: "nextTextObj"
-                                y: 17
+
                                 height: 22
                                 color: "white"
                                 text: xi18n("Next")
-                                anchors.right: nextObjIcon.left
-                                anchors.rightMargin: 5
-                                anchors.verticalCenter: parent.verticalCenter
+                                anchors{
+                                    right: nextObjIcon.left
+                                    rightMargin: 5
+                                    verticalCenter: parent.verticalCenter
+                                }
                                 visible: true
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignRight
-                                font.bold: true
-                                font.pixelSize: 11
-
-                                x: 7
+                                font{
+                                    bold: true
+                                    pixelSize:11
+                                }
                             }
 
                             Image {
                                 id: nextObjIcon
-                                x: 46
-                                y: 2
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.verticalCenterOffset: 0
-                                anchors.verticalCenter: parent.verticalCenter
-                                sourceSize.height: 24
-                                sourceSize.width: 24
+
+                                anchors{
+                                    right: parent.right
+                                    verticalCenter: parent.verticalCenter
+                                }
+                                sourceSize {
+                                    height: 24
+                                    width: 24
+                                }
                                 source: "next.png"
                             }
                         }
 
-                        Rectangle {
+                        Item {
                             id: prevObjRect
                             objectName: "prevObj"
-                            y: 377
-                            width: prevObjText.width + prevObjIcon.width + 5
-                            height: 28
-                            color: "#00000000"
-                            radius: 5
-                            anchors.left: parent.left
-                            anchors.leftMargin: 8
 
-                            signal prevObjClicked()
-                            x: 8
+                            width: prevObjText.width + prevObjIcon.width + 10
+                            height: 28
+                            anchors {
+                                left: parent.left
+                                leftMargin: 10
+                                bottom: parent.bottom
+                                bottomMargin: 10
+                            }
+
+                            signal prevObjClicked
 
                             Rectangle {
                                 id: prevObjForeground
                                 radius: 5
-                                anchors.top: parent.top
-                                anchors.right: parent.right
-                                anchors.bottom: parent.bottom
-                                anchors.left: parent.left
-                                anchors.topMargin: 0
+                                anchors.fill: parent
                                 opacity: 0
                             }
 
@@ -672,28 +658,31 @@ Rectangle {
                             Text {
                                 id: prevObjText
                                 objectName: "prevTextObj"
-                                y: 7
+
                                 height: 22
                                 color: "#ffffff"
                                 text: xi18n("Previous")
-                                anchors.left: prevObjIcon.right
-                                anchors.leftMargin: 5
-                                anchors.verticalCenterOffset: 0
-                                font.pixelSize: 11
+                                anchors{
+                                    left: prevObjIcon.right
+                                    leftMargin: 5
+                                    verticalCenter: parent.verticalCenter
+                                }
                                 visible: true
-                                anchors.verticalCenter: parent.verticalCenter
-                                font.bold: true
                                 horizontalAlignment: Text.AlignLeft
                                 verticalAlignment: Text.AlignVCenter
+                                font{
+                                    pixelSize: 11
+                                    bold: true
+                                }
                             }
 
                             Image {
                                 id: prevObjIcon
-                                x: 0
-                                y: 2
                                 anchors.verticalCenter: parent.verticalCenter
-                                sourceSize.height: 24
-                                sourceSize.width: 24
+                                sourceSize{
+                                    height: 24
+                                    width: 24
+                                }
                                 source: "previous.png"
                             }
                         }
@@ -706,82 +695,55 @@ Rectangle {
                             height: 93
                             spacing: 14
 
-                            Text {
+                            DetailsItem {
                                 id: sbText
                                 objectName: "sbTextObj"
-                                width: 164
-                                height: 21
-                                color: "#ffffff"
                                 text: xi18n("Surface Brightness:")
-                                anchors.left: parent.left
-                                anchors.leftMargin: 8
-                                font.pixelSize: 13
-                                font.family: "Cantarell"
-                                horizontalAlignment: Text.AlignLeft
-                                verticalAlignment: Text.AlignVCenter
                             }
 
-                            Text {
+                            DetailsItem {
                                 id: magText
                                 objectName: "magTextObj"
-                                width: 164
-                                height: 21
-                                color: "#ffffff"
                                 text: xi18n("Magnitude: ")
-                                anchors.left: parent.left
-                                anchors.leftMargin: 8
-                                font.family: "Cantarell"
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.pixelSize: 13
                             }
 
-                            Text {
+                            DetailsItem {
                                 id: sizeText
                                 objectName: "sizeTextObj"
-                                width: 164
-                                height: 21
-                                color: "#ffffff"
                                 text: xi18n("Size: ")
-                                anchors.left: parent.left
-                                anchors.leftMargin: 8
-                                font.pixelSize: 13
-                                font.family: "Cantarell"
-                                horizontalAlignment: Text.AlignLeft
-                                verticalAlignment: Text.AlignVCenter
                             }
                         }
 
                         Column {
                             id: detailsViewButtonsCol
-                            x: 208
                             y: 134
-                            width: 132
-                            height: 52
-                            anchors.right: parent.right
-                            anchors.rightMargin: 0
+                            //width: 132
+                            //height: 52
+                            anchors{
+                                right: parent.right
+                                rightMargin: 10
+                            }
                             spacing: 14
 
                             Text {
                                 id: detailsButton
                                 objectName: "detailsButtonObj"
-                                width: 119
-                                height: 16
-                                font.underline: true
-                                anchors.rightMargin: 10
-                                anchors.right: parent.right
+
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
                                 text: xi18n("More object details")
-                                font.family: "Cantarell"
-                                font.pixelSize: 14
+                                font {
+                                    underline: true
+                                    family: "Cantarell"
+                                    pixelSize: 14
+                                }
 
-                                signal detailsButtonClicked()
-                                x: 0
+                                signal detailsButtonClicked
 
                                 MouseArea {
                                     id: detailsMouseArea
                                     hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
                                     onEntered: detailsButton.color = "yellow"
                                     onExited: detailsButton.color = "white"
@@ -792,22 +754,22 @@ Rectangle {
                             Text {
                                 id: slewButton
                                 objectName: "slewButtonObj"
-                                width: 119
-                                height: 16
+
+                                verticalAlignment: Text.AlignVCenter
                                 color: "white"
                                 text: xi18n("Slew map to object")
-                                font.family: "Cantarell"
-                                anchors.right: parent.right
-                                anchors.rightMargin: 10
-                                font.underline: true
-                                verticalAlignment: Text.AlignVCenter
-                                font.pixelSize: 14
+                                font {
+                                    underline: true
+                                    family: "Cantarell"
+                                    pixelSize: 14
+                                }
 
-                                signal slewButtonClicked()
+                                signal slewButtonClicked
 
                                 MouseArea {
                                     id: slewObjMouseArea
                                     hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
                                     onEntered: slewButton.color = "yellow"
                                     onExited: slewButton.color = "white"
@@ -852,18 +814,23 @@ Rectangle {
 
                 transitions: [
                     Transition {
-                        NumberAnimation { target: listToDetailsRotation; property: "angle"; duration: 400 }
+                        NumberAnimation {
+                            target: listToDetailsRotation
+                            property: "angle"
+                            duration: 400
+                        }
                     }
                 ]
 
                 transform: Rotation {
                     id: listToDetailsRotation
-                    origin.x: container.width / 2;
-                    axis.y: 1; axis.z: 0
+                    origin.x: container.width / 2
+                    axis.y: 1
+                    axis.z: 0
                 }
             } //end of skyObjView
-        }//end of viewsContainer
-    }//end of base
+        } //end of viewsContainer
+    } //end of base
 
     Rectangle {
         id: backButton
@@ -886,12 +853,16 @@ Rectangle {
             y: 12
             color: "#f7e808"
             text: xi18n("Back")
-            anchors.left: leftArrow.right
-            anchors.leftMargin: 7
-            anchors.verticalCenterOffset: 0
-            anchors.verticalCenter: leftArrow.verticalCenter
-            font.family: "Cantarell"
-            font.pointSize: 13
+            anchors {
+                left: leftArrow.right
+                leftMargin: 7
+                verticalCenterOffset: 0
+                verticalCenter: leftArrow.verticalCenter
+            }
+            font{
+                family: "Cantarell"
+                pointSize: 13
+            }
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }
@@ -899,32 +870,32 @@ Rectangle {
         Image {
             id: leftArrow
             y: 9
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenterOffset: 0
-            anchors.verticalCenter: parent.verticalCenter
+            anchors{
+                left: parent.left
+                leftMargin: 4
+                verticalCenterOffset: 0
+                verticalCenter: parent.verticalCenter
+            }
             source: "leftArrow.png"
         }
 
         MouseArea {
             id: backButtonMouseArea
-            x: 45
-            y: 0
             anchors.fill: backButton
             hoverEnabled: true
-            onEntered: goBackForeground.opacity = 0.2
+            onEntered: goBackForeground.opacity = buttonOpacity
             onExited: goBackForeground.opacity = 0.0
             onClicked: {
-                if ( container.state == "soTypeSelected" ) {
-                    if ( !skyObjView.flipped ) {
+                if (container.state == "soTypeSelected") {
+                    if (!skyObjView.flipped) {
                         container.state = "base"
-                    } else if ( skyObjView.flipped ) {
+                    } else if (skyObjView.flipped) {
                         skyObjView.flipped = false
                     }
-                } else if ( container.state == "dsoTypeSelected" ) {
-                    if ( !skyObjView.flipped ) {
+                } else if (container.state == "dsoTypeSelected") {
+                    if (!skyObjView.flipped) {
                         container.state = "dsoAreaClicked"
-                    } else if ( skyObjView.flipped ) {
+                    } else if (skyObjView.flipped) {
                         skyObjView.flipped = false
                     }
                 }
@@ -939,21 +910,25 @@ Rectangle {
         y: 529
         width: 28
         height: 28
-        anchors.verticalCenterOffset: 0
-        anchors.verticalCenter: backButton.verticalCenter
-        sourceSize.height: 40
-        sourceSize.width: 40
+        anchors{
+            verticalCenterOffset: 0
+            verticalCenter: backButton.verticalCenter
+        }
+        sourceSize{
+            height: 40
+            width: 40
+        }
         smooth: true
         fillMode: Image.Stretch
         source: "settingsIcon.png"
 
-        signal settingsIconClicked()
+        signal settingsIconClicked
 
         MouseArea {
             id: settingsMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            onEntered: settingsForeground.opacity = 0.2
+            onEntered: settingsForeground.opacity = buttonOpacity
             onExited: settingsForeground.opacity = 0.0
             onClicked: settingsIcon.settingsIconClicked()
         }
@@ -973,21 +948,25 @@ Rectangle {
         y: 529
         width: 28
         height: 28
-        anchors.verticalCenterOffset: 0
-        anchors.verticalCenter: backButton.verticalCenter
-        sourceSize.height: 40
-        sourceSize.width: 40
+        anchors{
+            verticalCenterOffset: 0
+            verticalCenter: backButton.verticalCenter
+        }
+        sourceSize{
+            height: 40
+            width: 40
+        }
         smooth: true
         fillMode: Image.Stretch
         source: "reloadIcon.png"
 
-        signal reloadIconClicked()
+        signal reloadIconClicked
 
         MouseArea {
             id: reloadMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            onEntered: reloadForeground.opacity = 0.2
+            onEntered: reloadForeground.opacity = buttonOpacity
             onExited: reloadForeground.opacity = 0.0
             onClicked: reloadIcon.reloadIconClicked()
         }
@@ -1006,17 +985,17 @@ Rectangle {
 
             PropertyChanges {
                 target: galText
-                color: "#6b6660"
+                color: disabledColor
             }
 
             PropertyChanges {
                 target: nebText
-                color: "#6b6660"
+                color: disabledColor
             }
 
             PropertyChanges {
                 target: clustText
-                color: "#6b6660"
+                color: disabledColor
             }
         },
         State {
@@ -1024,8 +1003,7 @@ Rectangle {
 
             PropertyChanges {
                 target: planetText
-                font.pixelSize: 21
-                font.bold: true
+                state: "selected"
             }
         },
         State {
@@ -1033,8 +1011,7 @@ Rectangle {
 
             PropertyChanges {
                 target: starText
-                font.bold: true
-                font.pixelSize: 21
+                state: "selected"
             }
         },
         State {
@@ -1042,8 +1019,7 @@ Rectangle {
 
             PropertyChanges {
                 target: conText
-                font.bold: true
-                font.pixelSize: 21
+                state: "selected"
             }
         },
         State {
@@ -1051,46 +1027,45 @@ Rectangle {
 
             PropertyChanges {
                 target: dsoText
-                font.bold: true
-                font.pixelSize: 21
+                state:"selected"
             }
         },
         State {
             name: "dsoAreaClicked"
+
             PropertyChanges {
                 target: dsoText
-                font.pixelSize: "21"
-                font.bold: true
+                state:"selected"
             }
 
             PropertyChanges {
-                target: galRect
+                target: galItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: nebRect
+                target: nebItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: clustRect
+                target: clustItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: planetRect
-                opacity: 0.350
+                target: planetItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: conRect
-                opacity: 0.350
+                target: conItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: starRect
-                opacity: 0.350
+                target: starItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
@@ -1123,55 +1098,54 @@ Rectangle {
 
             PropertyChanges {
                 target: galText
-                color: "#e4800d"
+                color: activeColor
             }
 
             PropertyChanges {
                 target: clustText
-                color: "#e4800d"
+                color: activeColor
             }
 
             PropertyChanges {
                 target: nebText
-                color: "#e4800d"
+                color: activeColor
             }
         },
         State {
             name: "galAreaEntered"
             PropertyChanges {
                 target: dsoText
-                font.pixelSize: "21"
-                font.bold: false
+                state: "selectedNoBold"
             }
 
             PropertyChanges {
-                target: galRect
+                target: galItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: nebRect
+                target: nebItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: clustRect
+                target: clustItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: planetRect
-                opacity: 0.350
+                target: planetItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: conRect
-                opacity: 0.350
+                target: conItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: starRect
-                opacity: 0.350
+                target: starItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
@@ -1181,9 +1155,8 @@ Rectangle {
 
             PropertyChanges {
                 target: galText
-                color: "#e4800d"
-                font.bold: true
-                font.pixelSize: 21
+                state: "selected"
+                color: activeColor
             }
 
             PropertyChanges {
@@ -1211,50 +1184,49 @@ Rectangle {
 
             PropertyChanges {
                 target: nebText
-                color: "#e4800d"
+                color: activeColor
             }
 
             PropertyChanges {
                 target: clustText
-                color: "#e4800d"
+                color: activeColor
             }
         },
         State {
             name: "nebAreaEntered"
             PropertyChanges {
                 target: dsoText
-                font.pixelSize: "21"
-                font.bold: false
+                state: "selectedNoBold"
             }
 
             PropertyChanges {
-                target: galRect
+                target: galItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: nebRect
+                target: nebItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: clustRect
+                target: clustItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: planetRect
-                opacity: 0.350
+                target: planetItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: conRect
-                opacity: 0.350
+                target: conItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: starRect
-                opacity: 0.350
+                target: starItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
@@ -1264,9 +1236,8 @@ Rectangle {
 
             PropertyChanges {
                 target: nebText
-                color: "#e4800d"
-                font.bold: true
-                font.pixelSize: 21
+                state: "selected"
+                color: activeColor
             }
 
             PropertyChanges {
@@ -1294,50 +1265,49 @@ Rectangle {
 
             PropertyChanges {
                 target: galText
-                color: "#e4800d"
+                color: activeColor
             }
 
             PropertyChanges {
                 target: clustText
-                color: "#e4800d"
+                color: activeColor
             }
         },
         State {
             name: "clustAreaEntered"
             PropertyChanges {
                 target: dsoText
-                font.pixelSize: "21"
-                font.bold: false
+                state: "selectedNoBold"
             }
 
             PropertyChanges {
-                target: galRect
+                target: galItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: nebRect
+                target: nebItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: clustRect
+                target: clustItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: planetRect
-                opacity: 0.350
+                target: planetItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: conRect
-                opacity: 0.350
+                target: conItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: starRect
-                opacity: 0.350
+                target: starItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
@@ -1347,9 +1317,8 @@ Rectangle {
 
             PropertyChanges {
                 target: clustText
-                color: "#e4800d"
-                font.bold: true
-                font.pixelSize: 21
+                state: "selected"
+                color: activeColor
             }
 
             PropertyChanges {
@@ -1377,12 +1346,12 @@ Rectangle {
 
             PropertyChanges {
                 target: nebText
-                color: "#e4800d"
+                color: activeColor
             }
 
             PropertyChanges {
                 target: galText
-                color: "#e4800d"
+                color: activeColor
             }
         },
         State {
@@ -1390,10 +1359,12 @@ Rectangle {
 
             PropertyChanges {
                 target: viewsRow
-                x: -(2*categoryView.width)
+                x: -(2 * categoryView.width)
                 y: 0
-                anchors.topMargin: 0
-                anchors.bottomMargin: 0
+                anchors{
+                    topMargin: 0
+                    bottomMargin: 0
+                }
             }
 
             PropertyChanges {
@@ -1406,10 +1377,12 @@ Rectangle {
 
             PropertyChanges {
                 target: viewsRow
-                x: -(2*categoryView.width)
+                x: -(2 * categoryView.width)
                 y: 0
-                anchors.topMargin: 0
-                anchors.bottomMargin: 0
+                anchors{
+                    topMargin: 0
+                    bottomMargin: 0
+                }
             }
 
             PropertyChanges {
@@ -1419,38 +1392,37 @@ Rectangle {
 
             PropertyChanges {
                 target: dsoText
-                font.pixelSize: "21"
-                font.bold: true
+                state:"selectedNoBold"
             }
 
             PropertyChanges {
-                target: galRect
+                target: galItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: nebRect
+                target: nebItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: clustRect
+                target: clustItem
                 opacity: 1
             }
 
             PropertyChanges {
-                target: planetRect
-                opacity: 0.350
+                target: planetItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: conRect
-                opacity: 0.350
+                target: conItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
-                target: starRect
-                opacity: 0.350
+                target: starItem
+                opacity: categoryTitleOpacity
             }
 
             PropertyChanges {
@@ -1483,17 +1455,17 @@ Rectangle {
 
             PropertyChanges {
                 target: galText
-                color: "#e4800d"
+                color: activeColor
             }
 
             PropertyChanges {
                 target: clustText
-                color: "#e4800d"
+                color: activeColor
             }
 
             PropertyChanges {
                 target: nebText
-                color: "#e4800d"
+                color: activeColor
             }
         }
     ]
@@ -1502,93 +1474,165 @@ Rectangle {
         Transition {
             from: "*"
             to: "planetAreaEntered"
-            NumberAnimation { target: planetText; property: "font.pixelSize"; to: 21; duration: 150 }
-            NumberAnimation { target: dsoText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: conText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: galText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: nebText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: dsoContainer; property: "y"; duration: 500 }
-            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
+
+            NumberAnimation {
+                target: dsoContainer
+                property: "y"
+                duration: 500
+            }
+            NumberAnimation {
+                target: galItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: nebItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: clustItem
+                property: "opacity"
+                duration: 500
+            }
         },
         Transition {
             from: "*"
             to: "starAreaEntered"
-            NumberAnimation { target: starText; property: "font.pixelSize"; to: 21; duration: 150 }
-            NumberAnimation { target: dsoText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: conText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: galText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: nebText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: dsoContainer; property: "y"; duration: 500 }
-            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
+
+            NumberAnimation {
+                target: dsoContainer
+                property: "y"
+                duration: 500
+            }
+            NumberAnimation {
+                target: galItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: nebItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: clustItem
+                property: "opacity"
+                duration: 500
+            }
         },
         Transition {
             from: "*"
             to: "conAreaEntered"
-            NumberAnimation { target: conText; property: "font.pixelSize"; to: 21; duration: 150 }
-            NumberAnimation { target: dsoText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: conText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: galText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: nebText; property: "font.pixelSize"; duration: 150 }
-            NumberAnimation { target: dsoContainer; property: "y"; duration: 500 }
-            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
-        },
-        Transition {
-            from: "*"
-            to: "dsoAreaEntered"
-            NumberAnimation { target: dsoText; property: "font.pixelSize"; to: 21; duration: 150 }
-        },
-        Transition {
-            from: "*"
-            to: "galAreaEntered"
-            NumberAnimation { target: galText; property: "font.pixelSize"; to: 21; duration: 150 }
-        },
-        Transition {
-            from: "*"
-            to: "nebAreaEntered"
-            NumberAnimation { target: nebText; property: "font.pixelSize"; to: 21; duration: 150 }
-        },
-        Transition {
-            from: "*"
-            to: "clustAreaEntered"
-            NumberAnimation { target: clustText; property: "font.pixelSize"; to: 21; duration: 150 }
+
+            NumberAnimation {
+                target: dsoContainer
+                property: "y"
+                duration: 500
+            }
+            NumberAnimation {
+                target: galItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: nebItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: clustItem
+                property: "opacity"
+                duration: 500
+            }
         },
         Transition {
             from: "*"
             to: "dsoAreaClicked"
-            NumberAnimation { target: dsoContainer; property: "y"; duration: 200 }
-            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
-            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
+            NumberAnimation {
+                target: dsoContainer
+                property: "y"
+                duration: 200
+            }
+            NumberAnimation {
+                target: galItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: nebItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: clustItem
+                property: "opacity"
+                duration: 500
+            }
         },
         Transition {
             from: "*"
             to: "soTypeSelected"
-            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation {
+                target: viewsRow
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: backButton
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
         },
         Transition {
             from: "*"
             to: "dsoTypeSelected"
-            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation {
+                target: viewsRow
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: backButton
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
         },
         Transition {
             from: "soTypeSelected"
             to: "base"
-            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation {
+                target: viewsRow
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: backButton
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
         },
         Transition {
             from: "dsoTypeSelected"
             to: "dsoAreaClicked"
-            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation {
+                target: viewsRow
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: backButton
+                property: "x"
+                duration: 250
+                easing.type: Easing.InOutQuad
+            }
         }
     ]
 }

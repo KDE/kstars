@@ -22,6 +22,7 @@
 #include <QCommandLineOption>
 
 #include <KAboutData>
+#include <KCrash>
 #include <KLocalizedString>
 
 #include "kstars.h"
@@ -49,6 +50,8 @@ int main(int argc, char *argv[])
     * enable high dpi support
     */
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
+    KCrash::initialize();
 
     KLocalizedString::setApplicationDomain("kstars");
 

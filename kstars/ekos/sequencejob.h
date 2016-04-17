@@ -48,7 +48,8 @@ class SequenceJob : public QObject
     int getDelay() { return delay;}
     int getCount() { return count;}
     unsigned int getCompleted() { return completed; }
-    const QString & getPrefix() { return prefix;}
+    const QString & getPrefix() { return fullPrefix;}
+    const QString & getRawPrefix() { return rawPrefix;}
     double getExposure() const { return exposure;}
 
     void setActiveCCD(ISD::CCD *ccd) { activeCCD = ccd; }
@@ -73,7 +74,7 @@ class SequenceJob : public QObject
     int getFrameType() { return frameType;}
     void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
     void setPreview(bool enable) { preview = enable; }
-    void setPrefix(const QString &cprefix) { prefix = cprefix;}
+    void setFullPrefix(const QString &cprefix) { fullPrefix = cprefix;}
     void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
     int getSubX() { return x;}
     int getSubY() { return y;}
@@ -94,10 +95,9 @@ class SequenceJob : public QObject
     double getExposeLeft() const;
     void setExposeLeft(double value);
     void resetStatus();
-    void setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled, bool tsEnabled);
-    void getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled);
+    void setPrefixSettings(const QString &fullPrefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled);
+    void getPrefixSettings(QString &fullPrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled);
 
-    bool isTypePrefixEnabled() { return typePrefixEnabled; }
     bool isFilterPrefixEnabled() { return filterPrefixEnabled; }
     bool isExposurePrefixEnabled() { return expPrefixEnabled; }
     bool isTimestampPrefixEnabled() { return timeStampPrefixEnabled;}
@@ -132,6 +132,9 @@ class SequenceJob : public QObject
     bool getEnforceTemperature() const;
     void setEnforceTemperature(bool value);
 
+    QString getRootFITSDir() const;
+    void setRootFITSDir(const QString &value);
+
 signals:
     void prepareComplete();
 
@@ -152,7 +155,7 @@ private:
     int imageType;
     int binX, binY;
     int x,y,w,h;
-    QString prefix;
+    QString fullPrefix;
     int count;
     int delay;    
     bool preview;
@@ -166,6 +169,7 @@ private:
     FITSScale captureFilter;
     QTableWidgetItem *statusCell;
     QString fitsDir;
+    QString rootFITSDir;
 
     bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled, timeStampPrefixEnabled;
     QString rawPrefix;

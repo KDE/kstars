@@ -20,7 +20,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QGroupBox" name="groupBox_3">
+      <widget class="QGroupBox" name="calibrationChecklistGroup">
        <property name="title">
         <string>Calibration Checklist</string>
        </property>
@@ -138,7 +138,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_ReticleCalibration_2">
+      <widget class="QGroupBox" name="calibrationOptionsGroup">
        <property name="title">
         <string>Calibration Options</string>
        </property>

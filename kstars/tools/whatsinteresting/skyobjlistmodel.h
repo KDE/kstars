@@ -43,6 +43,12 @@ public:
     void addSkyObject(SkyObjItem *sobj);
 
     /**
+     * \brief Create and return a QHash<int, QByteArray> of rolenames for the SkyObjItem.
+     * \return QHash<int, QByteArray> of rolenames for the SkyObjItem.
+     */
+    QHash<int, QByteArray> roleNames() const;
+
+    /**
      * \brief Overridden method from QAbstractItemModel.
      * \return The number of items in the sky-object list model.
      */

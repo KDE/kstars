@@ -606,11 +606,11 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
     // Check up with our Deep Star Components too!
     double rTry, rBest;
     SkyObject *oTry;
-    rBest = maxrad;
+    // JM 2016-03-30: Multiply rBest by a factor of 0.5 so that named stars are preferred to unnamed stars searched below
+    rBest = maxrad * 0.5;
     rTry  = maxrad;
     for( int i = 0; i < m_DeepStarComponents.size(); ++i ) {
         oTry = m_DeepStarComponents.at( i )->objectNearest( p, rTry );
-        // TODO: Should we multiply rBest by a factor < 1, so that we give higher priority to named stars?
         if( rTry < rBest ) {
             rBest = rTry;
             oBest = oTry;

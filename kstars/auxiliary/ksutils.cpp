@@ -140,10 +140,14 @@ QString toDirectionString( dms angle ) {
         I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "WNW"),
         I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NW"),
         I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NNW"),
-        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "N"),
+        I18N_NOOP2( "Unknown cardinal / intercardinal direction", "???")
     };
 
-    int index = (int)( (angle.Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive), 16 meaning the same thing as zero.
+    int index = (int)( (angle.reduce().Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive) is expected
+    if( index < 0 || index > 16 )
+        index = 17; // Something went wrong.
+    else
+        index = ( ( index == 16 ) ? 0 : index );
 
     return i18nc( "Abbreviated cardinal / intercardinal etc. direction", directions[ index ] );
 }

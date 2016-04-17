@@ -390,11 +390,11 @@ void KStars::initActions() {
         << QKeySequence(Qt::CTRL+Qt::Key_U );
 
     //FIXME Port to QML2
-    #if 0
+    //#if 0
     actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )
         << i18n("What's Interesting...")
         << QKeySequence(Qt::CTRL+Qt::Key_W );
-    #endif
+    //#endif
 
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << i18n("Sky Calendar");

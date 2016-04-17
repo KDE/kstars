@@ -20,6 +20,7 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ekosmanager.h"
+#include "guide.h"
 
 OpsEkos::OpsEkos()
         : QTabWidget( KStars::Instance() )
@@ -29,9 +30,13 @@ OpsEkos::OpsEkos()
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
+    selectPHD2B->setIcon(QIcon::fromTheme("document-open"));
+
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+    connect( selectPHD2B, SIGNAL(clicked()), this, SLOT(slotSelectPHD2Exec()));
+    connect( kcfg_UseEkosGuider, SIGNAL(toggled(bool)), this, SLOT(slotCheckGuideModule()));
 
 }
 
@@ -43,11 +48,47 @@ void OpsEkos::slotApply()
     EkosManager *ekosManager = KStars::Instance()->ekosManager();
 
     if (ekosManager)
+    {
         ekosManager->refreshRemoteDrivers();
+
+        Ekos::Guide *guideModule = ekosManager->guideModule();
+
+        if (guideModule)
+            guideModule->setGuiderProcess(kcfg_UseEkosGuider->isChecked() ? Ekos::Guide::GUIDE_INTERNAL : Ekos::Guide::GUIDE_PHD2);
+    }
 }
 
 void OpsEkos::slotCancel()
 {
 }
 
+void OpsEkos::slotSelectPHD2Exec()
+{
+    QUrl phd2URL = QFileDialog::getOpenFileUrl(this, i18n("Select PHD2 Executable"));
+    if (phd2URL.isEmpty())
+        return;
 
+    kcfg_PHD2Exec->setText(phd2URL.path());
+}
+
+void OpsEkos::slotCheckGuideModule()
+{
+    EkosManager *ekosManager = KStars::Instance()->ekosManager();
+
+    if (ekosManager)
+    {
+        Ekos::Guide *guideModule = ekosManager->guideModule();
+
+        if (guideModule == NULL)
+            return;
+
+        if (guideModule->isCalibrating() || guideModule->isGuiding())
+        {
+           kcfg_UseEkosGuider->disconnect();
+           kcfg_UseEkosGuider->setChecked(!kcfg_UseEkosGuider->isChecked());
+           connect( kcfg_UseEkosGuider, SIGNAL(toggled(bool)), this, SLOT(slotCheckGuideModule()));
+
+           KMessageBox::error(KStars::Instance(), i18n("Cannot change guider while guiding process is busy."));
+        }
+    }
+}

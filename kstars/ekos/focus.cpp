@@ -1838,14 +1838,20 @@ void Focus::setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, dou
     toleranceIN->setValue(tolerance);
 }
 
-void Focus::setFocusMode(int mode)
+bool Focus::setFocusMode(int mode)
 {
+    // If either of them is disabled, return false
+    if ( (mode == 0 && manualModeR->isEnabled() == false) || (mode == 1 && AutoModeR->isEnabled() == false) )
+        return false;
+
     if (mode == 0)
         manualModeR->setChecked(true);
     else
         AutoModeR->setChecked(true);
 
     checkCCD();
+
+    return true;
 }
 
 void Focus::updateFocusStatus(bool status)
