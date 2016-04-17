@@ -1286,7 +1286,7 @@ void Capture::addJob(bool preview)
             return;
 
         QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
-        if (job->getFilterName().isEmpty() == false)
+        if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
             finalFITSDir += QDir::separator() + job->getFilterName();        
 
         job->setFITSDir(finalFITSDir);
