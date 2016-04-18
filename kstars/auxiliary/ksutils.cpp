@@ -543,7 +543,7 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
   void Logging::File(QtMsgType type, const QMessageLogContext &, const QString &msg)
   {
     QFile file(_filename);
-    if(file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Append))
+    if(file.open(QFile::WriteOnly | QIODevice::Text))
     {
       QTextStream stream(&file);
       Write(stream, type, msg);
