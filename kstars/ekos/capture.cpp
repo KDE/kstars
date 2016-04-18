@@ -1780,10 +1780,13 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), fitsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath);
 
-    if (!dir.isEmpty())
-        fitsDir->setText(dir);
+    if (dir.isEmpty())
+        return;
+
+    fitsDir->setText(dir);
+
 }
 
 void Capture::loadSequenceQueue()
