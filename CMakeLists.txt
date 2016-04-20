@@ -19,7 +19,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE
 #find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
 find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Xml Sql Svg PrintSupport)
 include(KDEInstallDirs)
-include(KDECompilerSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 include(ECMInstallIcons)
 include(FeatureSummary)
