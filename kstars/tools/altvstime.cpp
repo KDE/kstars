@@ -38,11 +38,14 @@
 #include "kssun.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
+#include "geolocation.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
 
+#include <kplotwidget.h>
 #include "avtplotwidget.h"
 #include "ui_altvstime.h"
+
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) :
     QFrame( p )
@@ -62,9 +65,41 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     topLayout->setMargin( 0 );
     avtUI = new AltVsTimeUI( this );
 
-    // Set up the Graph Window:
 
-    avtUI->View->setBackground(QBrush(QColor(224, 210, 255)));
+    // Layers for setting up the plot's priority: the current curve should be above the other curves.
+    // The Rise/Set/Transit markers should be on top, with highest priority.
+    avtUI->View->addLayer("currentCurveLayer", avtUI->View->layer("main"), QCustomPlot::limAbove);
+    avtUI->View->addLayer("markersLayer", avtUI->View->layer("currentCurveLayer"), QCustomPlot::limAbove);
+
+    // Set up the Graph Window:
+    avtUI->View->setBackground(QBrush(QColor(0, 0, 0)));
+    avtUI->View->xAxis->grid()->setVisible(false);
+    avtUI->View->yAxis->grid()->setVisible(false);
+    QColor axisColor(Qt::white);
+    QPen axisPen(axisColor, 1);
+    avtUI->View->xAxis->setBasePen(axisPen);
+    avtUI->View->xAxis->setTickPen(axisPen);
+    avtUI->View->xAxis->setSubTickPen(axisPen);
+    avtUI->View->xAxis->setTickLabelColor(axisColor);
+    avtUI->View->xAxis->setLabelColor(axisColor);
+
+    avtUI->View->xAxis2->setBasePen(axisPen);
+    avtUI->View->xAxis2->setTickPen(axisPen);
+    avtUI->View->xAxis2->setSubTickPen(axisPen);
+    avtUI->View->xAxis2->setTickLabelColor(axisColor);
+    avtUI->View->xAxis2->setLabelColor(axisColor);
+
+    avtUI->View->yAxis->setBasePen(axisPen);
+    avtUI->View->yAxis->setTickPen(axisPen);
+    avtUI->View->yAxis->setSubTickPen(axisPen);
+    avtUI->View->yAxis->setTickLabelColor(axisColor);
+    avtUI->View->yAxis->setLabelColor(axisColor);
+
+    avtUI->View->yAxis2->setBasePen(axisPen);
+    avtUI->View->yAxis2->setTickPen(axisPen);
+    avtUI->View->yAxis2->setSubTickPen(axisPen);
+    avtUI->View->yAxis2->setTickLabelColor(axisColor);
+    avtUI->View->yAxis2->setLabelColor(axisColor);
 
     // give the axis some labels:
     avtUI->View->xAxis2->setLabel("Local Sidereal Time");
@@ -96,9 +131,21 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->axisRect()->setMargins(QMargins(0, 0, 7, 0));
 
     // set up the interaction set:
-
     avtUI->View->setInteraction(QCP::iRangeZoom, true);
     avtUI->View->setInteraction(QCP::iRangeDrag, true);
+
+    // draw the gradient:
+    drawGradient();
+
+    // set up the background image:
+    background = new QCPItemPixmap(avtUI->View);
+    background->setPixmap(*gradient);
+    background->topLeft->setType(QCPItemPosition::ptPlotCoords);
+    background->bottomRight->setType(QCPItemPosition::ptPlotCoords);
+    background->setScaled(true,Qt::IgnoreAspectRatio);
+    background->setLayer("background");
+    background->setVisible(true);
+    avtUI->View->addItem(background);
 
     avtUI->raBox->setDegType( false );
     avtUI->decBox->setDegType( true );
@@ -136,9 +183,13 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     setLSTLimits();
     setDawnDusk();
 
+    QString iconsPath = QCoreApplication::applicationFilePath() + "/icons";
+    qDebug()<<QFileInfo("altvstime.cpp").absolutePath();
+    qDebug()<<iconsPath;
     connect( avtUI->View->yAxis,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onYRangeChanged(QCPRange)));
     connect( avtUI->View->xAxis2,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
     connect( avtUI->View, SIGNAL( plottableClick(QCPAbstractPlottable*,QMouseEvent*)), this, SLOT(plotMousePress(QCPAbstractPlottable *, QMouseEvent *)) );
+    connect( avtUI->View, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseOverLine(QMouseEvent*)));
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
     connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -157,6 +208,47 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->setButton, SIGNAL( clicked() ), this, SLOT( slotMarkSetTime() ) );
     connect( avtUI->transitButton, SIGNAL( clicked() ), this, SLOT( slotMarkTransitTime() ) );
 
+    // Set up the Rise/Set/Transit buttons' icons:
+
+    QPixmap redButton(100,100);
+    redButton.fill(Qt::transparent);
+    QPainter p;
+    p.begin(&redButton);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPen pen(Qt::red, 2);
+    p.setPen(pen);
+    QBrush brush(Qt::red);
+    p.setBrush(brush);
+    p.drawEllipse(15, 15, 80, 80);
+    p.end();
+
+    QPixmap blueButton(100,100);
+    blueButton.fill(Qt::transparent);
+    QPainter p1;
+    p1.begin(&blueButton);
+    p1.setRenderHint(QPainter::Antialiasing, true);
+    QPen pen1(Qt::blue, 2);
+    p1.setPen(pen1);
+    QBrush brush1(Qt::blue);
+    p1.setBrush(brush1);
+    p1.drawEllipse(15, 15, 80, 80);
+    p1.end();
+
+    QPixmap greenButton(100,100);
+    greenButton.fill(Qt::transparent);
+    QPainter p2;
+    p2.begin(&greenButton);
+    p2.setRenderHint(QPainter::Antialiasing, true);
+    QPen pen2(Qt::green, 2);
+    p2.setPen(pen2);
+    QBrush brush2(Qt::green);
+    p2.setBrush(brush2);
+    p2.drawEllipse(15, 15, 80, 80);
+    p2.end();
+
+    avtUI->riseButton->setIcon(QIcon(redButton));
+    avtUI->setButton->setIcon(QIcon(blueButton));
+    avtUI->transitButton->setIcon(QIcon(greenButton));
     setMouseTracking( true );
 }
 
@@ -164,7 +256,6 @@ AltVsTime::~AltVsTime()
 {
     //WARNING: need to delete deleteList items!
 }
-
 void AltVsTime::slotAddSource() {
     SkyObject *obj = KStarsData::Instance()->objectNamed( avtUI->nameBox->text() );
 
@@ -290,8 +381,8 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         // make sure existing curves are thin and red:
 
         for(int i=0;i<avtUI->View->graphCount();i++){
-            if(avtUI->View->graph(i)->pen().color() == Qt::black){
-                avtUI->View->graph(i)->setPen(QPen( Qt::red, 1 ));
+            if(avtUI->View->graph(i)->pen().color() == Qt::white){
+                avtUI->View->graph(i)->setPen(QPen( Qt::red, 2 ));
             }
         }
 
@@ -311,8 +402,25 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
             t[i] = i*900 + 43200;
             avtUI->View->graph(avtUI->View->graphCount()-1)->addData(t[i], y[i]);
         }
-        avtUI->View->graph(avtUI->View->graphCount()-1)->setPen(QPen( Qt::black, 2 ));
+        avtUI->View->graph(avtUI->View->graphCount()-1)->setPen(QPen( Qt::white, 3 ));
+
+        // Go into initial state: without Zoom/Pan
+        avtUI->View->xAxis->setRange(43200, 129600);
+        avtUI->View->xAxis2->setRange(61200, 147600);
+        if(abs(minAlt) > maxAlt)
+            maxAlt = abs(minAlt) ;
+        else
+            minAlt = -maxAlt;
+
         avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);
+
+
+
+        qDebug()<<"No of elems: "<<avtUI->View->itemCount()<<'\n';
+        // Update background coordonates:
+        background->topLeft->setCoords(avtUI->View->xAxis->range().lower,avtUI->View->yAxis->range().upper);
+        background->bottomRight->setCoords(avtUI->View->xAxis->range().upper, avtUI->View->yAxis->range().lower);
+
         avtUI->View->replot();
 
         avtUI->PlotList->addItem( getObjectName(o) );
@@ -348,13 +456,18 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 }
 
 void AltVsTime::slotHighlight( int row ) {
+    int rowIndex;
     //highlight the curve of the selected object
     for ( int i=0; i<avtUI->View->graphCount(); i++ ) {
         if ( i == row )
-            avtUI->View->graph(i)->setPen(QPen( Qt::black, 2 ));
-        else
-            avtUI->View->graph(i)->setPen(QPen( Qt::red, 1 ));
+            rowIndex = row;
+        else{
+            avtUI->View->graph(i)->setPen(QPen( Qt::red, 2 ));
+            avtUI->View->graph(i)->setLayer("main");
+        }
     }
+    avtUI->View->graph(rowIndex)->setPen(QPen( Qt::white, 3 ));
+    avtUI->View->graph(rowIndex)->setLayer("currentCurveLayer");
     avtUI->View->update();
     avtUI->View->replot();
 
@@ -364,12 +477,38 @@ void AltVsTime::slotHighlight( int row ) {
         avtUI->decBox->showInDegrees( p->dec() );
         avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
     }
+
+    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    const KStarsDateTime &ut = KStarsData::Instance()->ut();
+    if(selectedObject){
+        QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
+        if ( rt.isValid() == false ) {
+           avtUI->riseButton->setEnabled(false);
+           avtUI->setButton->setEnabled(false);
+        } else{
+           avtUI->riseButton->setEnabled(true);
+           avtUI->setButton->setEnabled(true);
+        }
+    }
+
 }
 
 void AltVsTime::onXRangeChanged(const QCPRange &range){
     QCPRange aux = avtUI->View->xAxis2->range();
     avtUI->View->xAxis->setRange(aux -= 18000 );
     avtUI->View->xAxis2->setRange(range.bounded(61200, 147600));
+
+    // if ZOOM is detected then remove the gold lines that indicate current position:
+    if(avtUI->View->xAxis->range().size() != 86400){
+        // Refresh the background:
+        background->setScaled(false);
+        background->setScaled(true, Qt::IgnoreAspectRatio);
+        background->setPixmap(*gradient);
+
+        avtUI->View->update();
+        avtUI->View->replot();
+    }
+
     // set up the Tick Step depending on Zoom level
     if(avtUI->View->xAxis->range().size() < 12500){
         avtUI->View->xAxis->setTickStep(1800);
@@ -403,49 +542,37 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
             QCPGraph *graph = qobject_cast<QCPGraph*>(plottable);
 
             if(graph){
-                double key = 0;
-                double value = 0;
+                double yValue = y;
+                double xValue = x;
+
+                // Compute time value:
                 QTime localTime(0,0,0,0);
                 QTime localSiderealTime(5,0,0,0);
-                bool ok = false;
-                double m = std::numeric_limits<double>::max();
 
-                foreach(QCPData data, graph->data()->values()){
-                    double d = qAbs(x - data.key);
+                localTime = localTime.addSecs(int(xValue));
+                localSiderealTime = localSiderealTime.addSecs(int(xValue));
 
-                    if(d < m){
-                        key = data.key;
-                        value = data.value;
-                        ok = true;
-                        m = d;
-                    }
-                }
-
-                if(ok){
-                    localTime = localTime.addSecs(int(key));
-                    localSiderealTime = localSiderealTime.addSecs(int(key));
-                    QToolTip::hideText();
-                    QToolTip::showText(event->globalPos(),
-                    tr("<table>"
-                         "<tr>"
-                           "<th colspan=\"2\">%L1</th>"
-                         "</tr>"
-                         "<tr>"
-                           "<td>LST:   </td>" "<td>%L3</td>"
-                         "</tr>"
-                       "<tr>"
-                         "<td>LT:   </td>" "<td>%L2</td>"
-                       "</tr>"
-                         "<tr>"
-                           "<td>Altitude:   </td>" "<td>%L4</td>"
-                         "</tr>"
-                       "</table>").
-                       arg(graph->name().isEmpty() ? "???" : graph->name()).
-                       arg(localTime.toString()).
-                       arg(localSiderealTime.toString()).
-                       arg(value),
-                       avtUI->View, avtUI->View->rect());
-                }
+                QToolTip::hideText();
+                QToolTip::showText(event->globalPos(),
+                tr("<table>"
+                     "<tr>"
+                       "<th colspan=\"2\">%L1</th>"
+                     "</tr>"
+                     "<tr>"
+                       "<td>LST:   </td>" "<td>%L3</td>"
+                     "</tr>"
+                   "<tr>"
+                     "<td>LT:   </td>" "<td>%L2</td>"
+                   "</tr>"
+                     "<tr>"
+                       "<td>Altitude:   </td>" "<td>%L4</td>"
+                     "</tr>"
+                   "</table>").
+                   arg(graph->name().isEmpty() ? "???" : graph->name()).
+                   arg(localTime.toString()).
+                   arg(localSiderealTime.toString()).
+                   arg(QString::number(yValue,'f',2)),
+                   avtUI->View, avtUI->View->rect());
             }
         }
     }
@@ -494,7 +621,25 @@ void AltVsTime::slotClear() {
     avtUI->epochName->clear();
     // remove all graphs from the plot:
     avtUI->View->clearGraphs();
-    avtUI->View->clearItems();
+    // we remove all the dots (rise/set/transit) from the chart
+    // without removing the background image
+    int indexItem = 0, noItems = avtUI->View->itemCount();
+    QCPAbstractItem *item;
+    QCPItemPixmap *background;
+    // remove every item at a time:
+    while(noItems > 1 && indexItem < noItems){
+        // test if the current item is the background:
+        item = avtUI->View->item(indexItem);
+        background = qobject_cast<QCPItemPixmap *>(item);
+        if(background)
+            indexItem++;
+        else{
+            // if not, then remove this item:
+            avtUI->View->removeItem(indexItem);
+            noItems--;
+        }
+    }
+    // update & replot the chart:
     avtUI->View->update();
     avtUI->View->replot();
 }
@@ -581,6 +726,7 @@ void AltVsTime::slotMarkRiseTime(){
             time = hours * 3600 + minutes * 60;
             riseTimeTracer = new QCPItemTracer(avtUI->View);
             avtUI->View->addItem(riseTimeTracer);
+            riseTimeTracer->setLayer("markersLayer");
             riseTimeTracer->setGraph(selectedGraph);
             riseTimeTracer->setInterpolating(true);
             riseTimeTracer->setStyle(QCPItemTracer::tsCircle);
@@ -630,6 +776,7 @@ void AltVsTime::slotMarkSetTime(){
             time = hours * 3600 + minutes * 60;
             setTimeTracer = new QCPItemTracer(avtUI->View);
             avtUI->View->addItem(setTimeTracer);
+            setTimeTracer->setLayer("markersLayer");
             setTimeTracer->setGraph(selectedGraph);
             setTimeTracer->setInterpolating(true);
             setTimeTracer->setStyle(QCPItemTracer::tsCircle);
@@ -679,6 +826,7 @@ void AltVsTime::slotMarkTransitTime(){
         time = hours * 3600 + minutes * 60;
         transitTimeTracer = new QCPItemTracer(avtUI->View);
         avtUI->View->addItem(transitTimeTracer);
+        transitTimeTracer->setLayer("markersLayer");
         transitTimeTracer->setGraph(selectedGraph);
         transitTimeTracer->setInterpolating(true);
         transitTimeTracer->setStyle(QCPItemTracer::tsCircle);
@@ -707,6 +855,68 @@ void AltVsTime::computeSunRiseSetTimes() {
 void AltVsTime::setSunRiseSetTimes(double sunRise, double sunSet){
     this->sunRise = sunRise;
     this->sunSet = sunSet;
+}
+
+void AltVsTime::mouseOverLine(QMouseEvent *event){
+    // Get the mouse position's coordinates relative to axes:
+    double x = avtUI->View->xAxis->pixelToCoord(event->pos().x());
+    double y = avtUI->View->yAxis->pixelToCoord(event->pos().y());
+    // Save the actual values:
+    double yValue = y;
+    double xValue = x;
+    // The offset used for the Y axis: top/bottom
+    int offset = 3;
+    // Compute the Y axis maximum value:
+    int yAxisMaxValue = maxAlt + offset;
+    // Compute the X axis minimum and maximum values:
+    int xAxisMinValue = 43200;
+    int xAxisMaxValue = 129600;
+    // Ignore the upper and left margins:
+    y = yAxisMaxValue - y;
+    x -= xAxisMinValue;
+    // We make a copy to gradient background in order to have one set of lines at a time:
+    // Otherwise, the chart would have been covered by lines
+    QPixmap copy = gradient->copy(gradient->rect());
+
+    // If ZOOM is not active, then draw the gold lines that indicate current mouse pisition:
+    if(avtUI->View->xAxis->range().size() == 86400){
+        QPainter p;
+
+        p.begin(&copy);
+        p.setPen( QPen( QBrush("gold"), 1.3, Qt::SolidLine ) );
+
+        // Get the gradient background's width and height:
+        int pW = gradient->rect().width();
+        int pH = gradient->rect().height();
+
+        // Compute the real coordinates within the chart:
+        y = (y*pH/2)/yAxisMaxValue;
+        x = (x*pW)/(xAxisMaxValue-xAxisMinValue);
+
+        // Draw the horizontal line (altitude):
+        p.drawLine( QLineF( 0.5, y, avtUI->View->rect().width()-0.5,y ) );
+        // Draw the altitude value:
+        p.drawText( 25, y + 15, QString::number(yValue,'f',2) + QChar(176) );
+
+        // Draw the vertical line (time):
+        p.drawLine( QLineF( x, 0.5, x, avtUI->View->rect().height()-0.5 ) );
+        // Compute and draw the time value:
+        QTime localTime(0,0,0,0);
+        localTime = localTime.addSecs(int(xValue));
+        p.save();
+        p.translate( x + 10, pH - 20 );
+        p.rotate(-90);
+        p.drawText( 5, 5, QLocale().toString( localTime, QLocale::ShortFormat ) ); // short format necessary to avoid false time-zone labeling
+        p.restore();
+        p.end();
+    }
+    // Refresh the background:
+    background->setScaled(false);
+    background->setScaled(true, Qt::IgnoreAspectRatio);
+    background->setPixmap(copy);
+
+    avtUI->View->update();
+    avtUI->View->replot();
 }
 
 void AltVsTime::slotUpdateDateLoc() {
@@ -738,7 +948,7 @@ void AltVsTime::slotUpdateDateLoc() {
             //update pList entry
             pList.replace( i, o );
 
-            KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+            KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 3 );
             for ( double h=-12.0; h<=12.0; h+=0.5 ) {
                 po->addPoint( h, findAltitude( o, h ) );
             }
@@ -755,7 +965,7 @@ void AltVsTime::slotUpdateDateLoc() {
         } else {  //assume unfound object is a custom object
             pList.at(i)->updateCoords( num ); //precess to desired epoch
 
-            KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+            KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 3 );
             for ( double h=-12.0; h<=12.0; h+=0.5 ) {
                 po->addPoint( h, findAltitude( pList.at(i), h ) );
             }
@@ -806,6 +1016,187 @@ void AltVsTime::showCurrentDate()
     if( dt.time() > QTime( 12, 0, 0 ) )
         dt = dt.addDays( 1 );
     avtUI->DateWidget->setDate( dt.date() );
+}
+
+void AltVsTime::drawGradient(){
+    // Things needed for Gradient:
+    KSAlmanac *ksal;
+    KStarsDateTime dtt;
+    GeoLocation *geoLoc;
+    dtt = KStarsDateTime::currentDateTime();
+    geoLoc = KStarsData::Instance()->geo();
+    ksal = new KSAlmanac;
+    QDateTime midnight = QDateTime(dtt.date(), QTime());
+    KStarsDateTime utt = geoLoc->LTtoUT(midnight);
+
+    // Variables needed for Gradient:
+    double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
+    double MoonRise, MoonSet, MoonIllum;
+
+    //Default SunRise/SunSet values
+    SunRise = 0.25;
+    SunSet = 0.75;
+
+    ksal->setLocation(geoLoc);
+    ksal->setDate( &utt );
+
+    // Get the values:
+    SunRise = ksal->getSunRise();
+    SunSet = ksal->getSunSet();
+    SunMaxAlt = ksal->getSunMaxAlt();
+    SunMinAlt = ksal->getSunMinAlt();
+    MoonRise = ksal->getMoonRise();
+    MoonSet = ksal->getMoonSet();
+    MoonIllum = ksal->getMoonIllum();
+    Dawn = ksal->getDawnAstronomicalTwilight();
+    Dusk = ksal->getDuskAstronomicalTwilight();
+
+    gradient = new QPixmap(avtUI->View->rect().width(), avtUI->View->rect().height());
+
+    QPainter p;
+
+    p.begin( gradient );
+    KPlotWidget *kPW = new KPlotWidget;
+    p.setRenderHint( QPainter::Antialiasing, kPW->antialiasing() );
+    p.fillRect( gradient->rect(), kPW->backgroundColor() );
+
+
+    p.setClipRect(gradient->rect());
+    p.setClipping( true );
+
+    int pW = gradient->rect().width();
+    int pH = gradient->rect().height();
+
+    QColor SkyColor( 0, 100, 200 );
+//    TODO
+//    if( Options::darkAppColors() )
+//        SkyColor = QColor( 200, 0, 0 ); // use something red, visible through a red filter
+
+    // Draw gradient representing lunar interference in the sky
+    if( MoonIllum > 0.01 ) { // do this only if Moon illumination is reasonable so it's important
+        int moonrise = int( pW * (0.5 + MoonRise) );
+        int moonset = int( pW * (MoonSet - 0.5 ) );
+        if( moonset < 0 )
+            moonset += pW;
+        if( moonrise > pW )
+            moonrise -= pW;
+        int moonalpha = int( 10 + MoonIllum * 130 );
+        int fadewidth = pW * 0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
+        QColor MoonColor( 255, 255, 255, moonalpha );
+
+
+        if( moonset < moonrise ) {
+            QLinearGradient grad = QLinearGradient( QPointF( moonset - fadewidth, 0.0 ), QPointF( moonset + fadewidth, 0.0 ) );
+            grad.setColorAt( 0, MoonColor );
+            grad.setColorAt( 1, Qt::transparent );
+            p.fillRect( QRectF( 0.0, 0.0, moonset + fadewidth, pH ), grad ); // gradient should be padded until moonset - fadewidth (see QLinearGradient docs)
+            grad.setStart( QPointF( moonrise + fadewidth, 0.0 ) );
+            grad.setFinalStop( QPointF( moonrise - fadewidth, 0.0 ) );
+            p.fillRect( QRectF( moonrise - fadewidth, 0.0, pW - moonrise + fadewidth, pH ), grad );
+        }
+        else {
+            p.fillRect( QRectF( moonrise + fadewidth, 0.0, moonset - moonrise - 2 * fadewidth, pH ), MoonColor );
+            QLinearGradient grad = QLinearGradient( QPointF( moonrise + fadewidth, 0.0 ) , QPointF( moonrise - fadewidth, 0.0 ) );
+            grad.setColorAt( 0, MoonColor );
+            grad.setColorAt( 1, Qt::transparent );
+            p.fillRect( QRectF( 0.0, 0.0, moonrise + fadewidth, pH ), grad );
+            grad.setStart( QPointF( moonset - fadewidth, 0.0 ) );
+            grad.setFinalStop( QPointF( moonset + fadewidth, 0.0 ) );
+            p.fillRect( QRectF( moonset - fadewidth, 0.0, pW - moonset, pH ), grad );
+        }
+    }
+
+    //draw daytime sky if the Sun rises for the current date/location
+    if ( SunMaxAlt > -18.0 ) {
+        //Display centered on midnight, so need to modulate dawn/dusk by 0.5
+        int rise = int( pW * ( 0.5 + SunRise ) );
+        int set = int( pW * ( SunSet - 0.5 ) );
+        int da = int( pW * ( 0.5 + Dawn ) );
+        int du = int( pW * ( Dusk - 0.5 ) );
+
+        if ( SunMinAlt > 0.0 ) {
+            // The sun never set and the sky is always blue
+            p.fillRect( rect(), SkyColor );
+        } else if ( SunMaxAlt < 0.0 && SunMinAlt < -18.0 ) {
+            // The sun never rise but the sky is not completely dark
+            QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( du, 0.0 ) );
+
+            QColor gradStartColor = SkyColor;
+            gradStartColor.setAlpha( ( 1 - (SunMaxAlt / -18.0) ) * 255 );
+
+            grad.setColorAt( 0, gradStartColor );
+            grad.setColorAt( 1, Qt::transparent );
+            p.fillRect( QRectF( 0.0, 0.0, du, pH ), grad );
+            grad.setStart( QPointF( pW, 0.0 ) );
+            grad.setFinalStop( QPointF( da, 0.0 ) );
+            p.fillRect( QRectF( da, 0.0, pW, pH ), grad );
+        } else if ( SunMaxAlt < 0.0 && SunMinAlt > -18.0 ) {
+            // The sun never rise but the sky is NEVER completely dark
+            QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( pW, 0.0 ) );
+
+            QColor gradStartEndColor = SkyColor;
+            gradStartEndColor.setAlpha( ( 1 - (SunMaxAlt / -18.0) ) * 255 );
+            QColor gradMidColor = SkyColor;
+            gradMidColor.setAlpha( ( 1 - (SunMinAlt / -18.0) ) * 255 );
+
+            grad.setColorAt( 0, gradStartEndColor );
+            grad.setColorAt( 0.5, gradMidColor );
+            grad.setColorAt( 1, gradStartEndColor );
+            p.fillRect( QRectF( 0.0, 0.0, pW, pH ), grad );
+        } else if ( Dawn < 0.0 ) {
+            // The sun sets and rises but the sky is never completely dark
+            p.fillRect( 0, 0, set, int( 0.5 * pH ), SkyColor );
+            p.fillRect( rise, 0, pW, int( 0.5 * pH ), SkyColor );
+
+            QLinearGradient grad = QLinearGradient( QPointF( set, 0.0 ), QPointF( rise, 0.0 ) );
+
+            QColor gradMidColor = SkyColor;
+            gradMidColor.setAlpha( ( 1 - (SunMinAlt / -18.0) ) * 255 );
+
+            grad.setColorAt( 0, SkyColor );
+            grad.setColorAt( 0.5, gradMidColor );
+            grad.setColorAt( 1, SkyColor );
+            p.fillRect( QRectF( set, 0.0, rise-set, pH ), grad );
+        } else {
+            p.fillRect( 0, 0, set, pH, SkyColor );
+            p.fillRect( rise, 0, pW, pH, SkyColor );
+
+            QLinearGradient grad = QLinearGradient( QPointF( set, 0.0 ), QPointF( du, 0.0 ) );
+            grad.setColorAt( 0, SkyColor );
+            grad.setColorAt( 1, Qt::transparent ); // FIXME?: The sky appears black well before the actual end of twilight if the gradient is too slow (eg: latitudes above arctic circle)
+            p.fillRect( QRectF( set, 0.0, du-set, pH ), grad );
+
+            grad.setStart( QPointF( rise, 0.0 ) );
+            grad.setFinalStop( QPointF( da, 0.0 ) );
+            p.fillRect( QRectF( da, 0.0, rise-da, pH ), grad );
+        }
+    }
+
+    p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH),
+                KStarsData::Instance()->colorScheme()->colorNamed( "HorzColor" ) );
+
+    p.setClipping(false);
+
+    //Add vertical line indicating "now"
+    QFont smallFont = p.font();
+    smallFont.setPointSize( smallFont.pointSize() ); // wat?
+    if( geoLoc ) {
+        QTime t = geoLoc->UTtoLT( KStarsDateTime::currentDateTimeUtc() ).time(); // convert the current system clock time to the TZ corresponding to geo
+        double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
+        while ( x > 24.0 ) x -= 24.0;
+        int ix = int(x*pW/24.0); //convert to screen pixel coords
+        p.setPen( QPen( QBrush("white"), 2.0, Qt::DotLine ) );
+        p.drawLine( ix, 0, ix, pH );
+
+        //Label this vertical line with the current time
+        p.save();
+        p.setFont( smallFont );
+        p.translate( ix + 10, pH - 20 );
+        p.rotate(-90);
+        p.drawText(0, 0, QLocale().toString( t, QLocale::ShortFormat ) ); // short format necessary to avoid false time-zone labeling
+        p.restore();
+    }
+    p.end();
 }
 
 KStarsDateTime AltVsTime::getDate()

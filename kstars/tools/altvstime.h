@@ -111,6 +111,8 @@ public:
     QString getObjectName(const SkyObject *o, bool translated=true);
 
     void setSunRiseSetTimes( double sunRise, double sunSet );
+    void drawGradient();
+
 public slots:
     /** @short Update the plot to reflec new Date and Location settings. */
     void slotUpdateDateLoc();
@@ -138,6 +140,9 @@ public slots:
 
     /** @short Mark the transit time on the curve. */
     void slotMarkTransitTime();
+
+    /** @short Draw the white vertical line on click. */
+    void mouseOverLine(QMouseEvent *event);
 
     /** @short Clear the edit boxes for specifying a new object. */
     void slotClearBoxes();
@@ -184,6 +189,8 @@ private:
     int DayOffset;
     int minAlt;
     int maxAlt;
+    QCPItemPixmap *background;
+    QPixmap *gradient;
     double sunRise, sunSet;
 };
 
