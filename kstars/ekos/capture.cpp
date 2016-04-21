@@ -301,6 +301,22 @@ void Capture::start()
     initialHA = getCurrentHA();
     meridianFlipStage = MF_NONE;
 
+    // Check if we need to update the sequence directory numbers before starting
+    /*for (int i=0; i < jobs.count(); i++)
+    {
+        QString firstDir = jobs.at(i)->getFITSDir();
+        int sequenceID=1;
+
+        for (int j=i+1; j < jobs.count(); j++)
+        {
+            if (firstDir == jobs.at(j)->getFITSDir())
+            {
+                jobs.at(i)->setFITSDir(QString("%1/Sequence_1").arg(firstDir));
+                jobs.at(j)->setFITSDir(QString("%1/Sequence_%2").arg(jobs.at(j)->getFITSDir()).arg(++sequenceID));
+            }
+        }
+    }*/
+
     prepareJob(first_job);
 
 }
@@ -1164,7 +1180,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
             }
         }
 
-        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(true);
 
            secondsLabel->setText(i18n("Downloading..."));
@@ -1227,9 +1243,6 @@ void Capture::addJob(bool preview)
 
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
 
-    if (preview == false)
-     job->setFITSDir(preview ? fitsDir->text() : fitsDir->text() + "/" + frameTypeCombo->currentText());
-
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
     job->setPreMountPark(preMountPark);
@@ -1241,9 +1254,9 @@ void Capture::addJob(bool preview)
 
     constructPrefix(imagePrefix);
 
-    job->setPrefixSettings(prefixIN->text(), frameTypeCheck->isChecked(), filterCheck->isChecked(), expDurationCheck->isChecked(), ISOCheck->isChecked());
+    job->setPrefixSettings(prefixIN->text(), filterCheck->isChecked(), expDurationCheck->isChecked(), ISOCheck->isChecked());
     job->setFrameType(frameTypeCombo->currentIndex(), frameTypeCombo->currentText());
-    job->setPrefix(imagePrefix);
+    job->setFullPrefix(imagePrefix);
 
     if (filterSlot != NULL && currentFilter != NULL)
        job->setTargetFilter(FilterPosCombo->currentIndex()+1, FilterPosCombo->currentText());
@@ -1263,11 +1276,21 @@ void Capture::addJob(bool preview)
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
     if (jobUnderEdit == false)
+    {
         jobs.append(job);
 
-    // Nothing more to do if preview
-    if (preview)
-        return;
+        job->setRootFITSDir(fitsDir->text());
+
+        // Nothing more to do if preview
+        if (preview)
+            return;
+
+        QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
+        if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
+            finalFITSDir += QDir::separator() + job->getFilterName();        
+
+        job->setFITSDir(finalFITSDir);
+    }
 
     int currentRow = 0;
     if (jobUnderEdit == false)
@@ -1611,6 +1634,9 @@ void Capture::enableGuideLimits()
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
+    if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
+        return;
+
     // If guiding is started after a meridian flip we will start getting guide deviations again
     // if the guide deviations are within our limits, we resume the sequence
     if (meridianFlipStage == MF_GUIDING)
@@ -1623,10 +1649,9 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 resumeSequence();
                 // N.B. Set meridian flip stage AFTER resumeSequence() always
                 meridianFlipStage = MF_NONE;
+                return;
         }
-    }
-    else if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
-        return;
+    }    
 
     // We don't enforce limit on previews
     if (activeJob->isPreview() || activeJob->getExposeLeft() == 0)
@@ -1659,18 +1684,14 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     {
         if (deviation_rms <= guideDeviation->value())
         {
-            deviationDetected = false;
             if (seqDelay == 0)
-            {
                 appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
-                start();
-            }
             else
-            {
-                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure in %3 seconds.", deviationText, guideDeviation->value(), seqDelay));
-                QTimer::singleShot(seqDelay, this, SLOT(start()));
-            }
+                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure in %3 seconds.", deviationText, guideDeviation->value(), seqDelay/1000.0));
 
+            activeJob = NULL;
+
+            QTimer::singleShot(seqDelay, this, SLOT(start()));
             return;
         }
     }
@@ -1949,9 +1970,6 @@ bool Capture::processJobInfo(XMLEle *root)
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
                 prefixIN->setText(pcdataXMLEle(subEP));
-            subEP = findXMLEle(ep, "TypeEnabled");
-            if (subEP)
-                frameTypeCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
                 filterCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
@@ -2117,7 +2135,7 @@ bool Capture::saveSequenceQueue(const QString &path)
 {
     QFile file;
     QString rawPrefix;
-    bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
+    bool filterEnabled, expEnabled, tsEnabled;
 
     file.setFileName(path);
 
@@ -2138,7 +2156,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<Park enabled='" << (parkCheck->isChecked() ? "true" : "false") << "'></Park>" << endl;
     foreach(SequenceJob *job, jobs)
     {
-        job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled, tsEnabled);
+        job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
          outstream << "<Job>" << endl;
 
@@ -2159,8 +2177,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
-            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
-            outstream << "<TypeEnabled>" << (typeEnabled ? 1 : 0) << "</TypeEnabled>" << endl;
+            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;            
             outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << endl;
             outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
             outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;
@@ -2168,8 +2185,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Count>" << job->getCount() << "</Count>" << endl;
         // ms to seconds
         outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
-        QString rootDir = job->getFITSDir();
-        rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->itemText(job->getFrameType())));
+        QString rootDir = job->getRootFITSDir();
         outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
@@ -2240,9 +2256,9 @@ void Capture::ignoreSequenceHistory()
 void Capture::syncGUIToJob(SequenceJob *job)
 {
     QString rawPrefix;
-    bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
+    bool filterEnabled, expEnabled, tsEnabled;
 
-   job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled, tsEnabled);
+   job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
    exposureIN->setValue(job->getExposure());
    binXIN->setValue(job->getXBin());
@@ -2254,7 +2270,6 @@ void Capture::syncGUIToJob(SequenceJob *job)
    FilterPosCombo->setCurrentIndex(job->getTargetFilter()-1);
    frameTypeCombo->setCurrentIndex(job->getFrameType());
    prefixIN->setText(rawPrefix);
-   frameTypeCheck->setChecked(typeEnabled);
    filterCheck->setChecked(filterEnabled);
    expDurationCheck->setChecked(expEnabled);
    ISOCheck->setChecked(tsEnabled);
@@ -2273,7 +2288,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
    preMountPark      = job->isPreMountPark();
    preDomePark       = job->isPreDomePark();
 
-   QString rootDir = job->getFITSDir();
+   QString rootDir = job->getRootFITSDir();
    rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
    fitsDir->setText(rootDir);
 
@@ -2314,26 +2329,25 @@ void Capture::resetJobEdit()
 
 void Capture::constructPrefix(QString &imagePrefix)
 {
-    if (frameTypeCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false)
-            imagePrefix += '_';
 
-        imagePrefix += frameTypeCombo->currentText();
-    }
+    if (imagePrefix.isEmpty() == false)
+        imagePrefix += '_';
+
+    imagePrefix += frameTypeCombo->currentText();
+
     if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
             frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
-                        frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
+            frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
     {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
+        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+        imagePrefix += '_';
 
         imagePrefix += FilterPosCombo->currentText();
     }
     if (expDurationCheck->isChecked())
     {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
+        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+        imagePrefix += '_';
 
         imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
     }
@@ -3235,20 +3249,27 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
     if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         return false;
 
+    QString prevFITSDir, prevPrefix;
+    int totalJobCount = 0, totalFileCount=0;
     foreach(SequenceJob *job, jobs)
     {
         updateSequencePrefix(job->getPrefix(), job->getFITSDir());
 
-        if (seqFileCount < job->getCount())
-        {            
-            clearSequenceQueue();
-            return false;
+        totalJobCount   += job->getCount();
+
+        // We only count files if prefix or directory is different
+        // Otherwise there is no way to distinguish among files
+        if (job->getPrefix() != prevPrefix || job->getFITSDir() != prevFITSDir)
+        {
+            totalFileCount  += seqFileCount;
+            prevPrefix = job->getPrefix();
+            prevFITSDir= job->getFITSDir();
         }
     }
 
     clearSequenceQueue();
 
-    return true;
+    return (totalJobCount == totalFileCount);
 }
 
 bool Capture::isFITSDirUnique(SequenceJob *job)

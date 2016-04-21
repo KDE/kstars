@@ -1573,6 +1573,26 @@
           </entry>
     </group>
     <group name="Guide">
+    <entry name="UseEkosGuider" type="Bool">
+        <label>Use Ekos Internal Guider Module for guiding</label>
+        <default>true</default>
+    </entry>
+    <entry name="UsePHD2Guider" type="Bool">
+        <label>Use External PHD2 Application for guiding</label>
+        <default>false</default>
+    </entry>
+    <entry name="PHD2Exec" type="String">
+        <label>PHD2 Executable</label>
+        <default>/usr/bin/phd2</default>
+    </entry>
+    <entry name="PHD2Host" type="String">
+        <label>PHD2 Event Monitoring Host name</label>
+        <default>localhost</default>
+    </entry>
+    <entry name="PHD2Port" type="UInt">
+        <label>PHD2 Event Monitoring Port</label>
+        <default>4400</default>
+    </entry>
     <entry name="ST4Driver" type="String">
         <label>Default ST4 Driver.</label>
     </entry>

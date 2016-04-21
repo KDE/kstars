@@ -31,13 +31,14 @@
 #include <QDebug>
 
 AVTPlotWidget::AVTPlotWidget( QWidget *parent )
-        : KPlotWidget( parent )
+        : KPlotWidget( parent ), geo(NULL)
 {
     setAntialiasing(true);
 
     //Default SunRise/SunSet values
     SunRise = 0.25;
     SunSet = 0.75;
+
 
     MousePoint = QPoint( -1, -1 );
 }

@@ -37,7 +37,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
-        <widget class="QGroupBox" name="groupBox_Drift">
+        <widget class="QGroupBox" name="driftGraphicsGroup">
          <property name="title">
           <string>Drift graphics</string>
          </property>
@@ -157,7 +157,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QGroupBox" name="groupBox_Info">
+        <widget class="QGroupBox" name="infoGroup">
          <property name="title">
           <string>Info</string>
          </property>
@@ -462,7 +462,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_Configuration">
+        <widget class="QGroupBox" name="setupGroup">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="title">
           <string>Setup</string>
          </property>
@@ -473,6 +476,9 @@
              <layout class="QGridLayout" name="gridLayout_5">
               <item row="0" column="0">
                <widget class="QPushButton" name="captureB">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="text">
                  <string>Capture</string>
                 </property>
@@ -592,13 +598,23 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="connectPHD2B">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Connect PHD2</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_Control">
+      <widget class="QGroupBox" name="controlGroup">
        <property name="title">
         <string>Control</string>
        </property>

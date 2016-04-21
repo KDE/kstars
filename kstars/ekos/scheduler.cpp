@@ -21,6 +21,7 @@
 #include <KLocalizedString>
 #include <KNotifications/KNotification>
 
+#include "scheduleradaptor.h"
 #include "dialogs/finddialog.h"
 #include "ekosmanager.h"
 #include "kstars.h"
@@ -61,6 +62,9 @@ bool altitudeHigherThan(SchedulerJob *job1, SchedulerJob *job2)
 Scheduler::Scheduler()
 {
     setupUi(this);
+
+    new SchedulerAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
 
     dirPath     = QDir::homePath();
     state       = SCHEDULER_IDLE;
@@ -3124,7 +3128,30 @@ void Scheduler::startSlew()
 }
 
 void Scheduler::startFocusing()
-{
+{        
+    // Set focus mode to auto (1). Check if autofocus is available
+    QList<QVariant> focusMode;
+    focusMode.append(1);
+
+    QDBusReply<bool> focusModeReply;
+    focusModeReply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
+
+    if ( focusModeReply.error().type() != QDBusError::NoError)
+    {
+        appendLogText(i18n("setFocusMode DBUS error: %1", QDBusError::errorString(focusModeReply.error().type())));
+        return;
+    }
+
+    if (focusModeReply.value() == false)
+    {
+        appendLogText(i18n("Autofocus is not supported."));
+        currentJob->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (currentJob->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
+        currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+        getNextAction();
+        return;
+    }
+
+    // Clear the HFR limit value set in the capture module
     captureInterface->call(QDBus::AutoDetect,"clearAutoFocusHFR");
 
     QDBusMessage reply;
@@ -3136,15 +3163,6 @@ void Scheduler::startFocusing()
         return;
     }
 
-    // Set focus mode to auto (1)
-    QList<QVariant> focusMode;
-    focusMode.append(1);
-
-    if ( (reply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode)).type() == QDBusMessage::ErrorMessage)
-    {
-        appendLogText(i18n("setFocusMode DBUS error: %1", reply.errorMessage()));
-        return;
-    }
 
     // Set autostar & use subframe
     QList<QVariant> autoStar;
@@ -3304,7 +3322,10 @@ void Scheduler::startCalibrating()
 
     QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startCalibration");
     if (guideReply.value() == false)
+    {
+        appendLogText(i18n("Starting guide calibration failed. If using external guide application, ensure it is up and running."));
         currentJob->setState(SchedulerJob::JOB_ERROR);
+    }
     else
     {
         currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
@@ -4095,6 +4116,14 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
 
 }
 
+void Scheduler::resetAllJobs()
+{
+    if (state == SCHEDULER_RUNNIG)
+        return;
+
+    foreach(SchedulerJob *job, jobs)
+        job->setState(SchedulerJob::JOB_IDLE);
+}
 
 }
 

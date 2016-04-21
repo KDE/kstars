@@ -13,6 +13,7 @@
 #define GUIDER_H
 
 #include <QtGui>
+
 #include "common.h"
 #include "ui_guider.h"
 #include "scroll_graph.h"
@@ -32,8 +33,7 @@ public:
     void guide( void );
     bool start();
     bool stop();
-    bool abort(bool silence=false);
-    bool dither();
+    bool abort(bool silence=false);    
     void setHalfRefreshRate( bool is_half );
     bool isGuiding( void ) const;
     void setMathObject( cgmath *math );
@@ -43,19 +43,31 @@ public:
     void setReady(bool enable) { m_isReady = enable;}
     void setTargetChip(ISD::CCDChip *chip);
     bool isRapidGuide() { return m_useRapidGuide;}
-    bool isDithering() { return m_isDithering; }
+
     double getAOLimit();
     void setSubFramed(bool enable) { m_isSubFramed = enable;}
     void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
+
+    // Dither
+    bool dither();
+    bool isDithering() { return m_isDithering; }
     void setDither(bool enable, double value);
+    double getDitherPixels() { return ui.ditherPixels->value(); }
 
     int getBoxSize();
     QString getAlgorithm();
     bool useSubFrame();
     bool useRapidGuide();
 
+    void setPHD2(Ekos::PHD2 *phd);
+
 public slots:
     void setDECSwap(bool enable);
+    void connectPHD2();
+    void setPHD2Connected();
+    void setPHD2Disconnected();
+    // Only called by PHD2
+    void setGuideState(bool guiding, bool ditherChecked);
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -80,6 +92,7 @@ signals:
 private:
 	cgmath *pmath;
     Ekos::Guide *pmain_wnd;
+    Ekos::PHD2 *phd2;
 
     custom_drawer *pDriftOut;
     cscroll_graph *drift_graph;

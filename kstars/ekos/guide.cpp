@@ -14,6 +14,8 @@
 
 #include "guide/gmath.h"
 #include "guide/guider.h"
+#include "phd2.h"
+
 #include "Options.h"
 
 #include <KMessageBox>
@@ -21,6 +23,8 @@
 #include <KLocalizedString>
 
 #include "indi/driverinfo.h"
+#include "indi/clientmanager.h"
+
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
 
@@ -57,8 +61,6 @@ Guide::Guide() : QWidget()
 
     tabLayout->addWidget(tabWidget);
 
-    guiderStage = CALIBRATION_STAGE;
-
     pmath = new cgmath();
 
     connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
@@ -82,6 +84,18 @@ Guide::Guide() : QWidget()
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
+
+    phd2 = new PHD2();
+    connect(phd2, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+    connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
+    connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), guider, SLOT(setGuideState(bool,bool)));
+    connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
+    connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
+
+    if (Options::usePHD2Guider())
+        phd2->connectPHD2();
 }
 
 Guide::~Guide()
@@ -89,6 +103,7 @@ Guide::~Guide()
     delete guider;
     delete calibration;
     delete pmath;
+    delete phd2;
 }
 
 void Guide::addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider)
@@ -109,6 +124,8 @@ void Guide::addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider)
         checkCCD(0);
         guiderCombo->setCurrentIndex(0);
     }
+
+    setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 
     //if (currentCCD->hasGuideHead())
        // addGuideHead(newCCD);
@@ -141,7 +158,7 @@ bool Guide::setCCD(QString device)
 void Guide::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
-        ccdNum = guiderCombo->currentIndex();
+        ccdNum = guiderCombo->currentIndex();    
 
     if (ccdNum <= CCDs.count())
     {
@@ -162,19 +179,51 @@ void Guide::checkCCD(int ccdNum)
 
 void Guide::addGuideHead(ISD::GDInterface *ccd)
 {   
-    currentCCD = (ISD::CCD *) ccd;
+   currentCCD = (ISD::CCD *) ccd;
 
-    CCDs.append(currentCCD);
+   CCDs.append(currentCCD);
 
-    // Let's just make sure
-    //if (currentCCD->hasGuideHead())
-    //{
-       // guiderCombo->clear();
-        guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
-        //useGuideHead = true;
-        checkCCD(0);
-    //}
+   guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
+   checkCCD(0);
 
+   setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
+}
+
+void Guide::setGuiderProcess(int guiderProcess)
+{    
+    // Don't do anything unless we have a CCD and it is online
+    if (currentCCD == NULL || currentCCD->isConnected() == false)
+        return;
+
+    if (guiderProcess == GUIDE_PHD2)
+    {
+        // Disable calibration tab
+        tabWidget->setTabEnabled(0, false);
+        // Enable guide tab
+        tabWidget->setTabEnabled(1, true);
+        // Set current tab to guide
+        tabWidget->setCurrentIndex(1);
+
+        guider->setPHD2(phd2);
+
+        // Do not receive BLOBs from the driver
+        currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), useGuideHead ? "CCD2" : "CCD1");
+    }
+    else
+    {
+        // Enable calibration tab
+        tabWidget->setTabEnabled(0, true);
+        // Disable guide tab?
+        // TODO: Check if calibration is already complete, then no need to disable guiding tab
+        tabWidget->setTabEnabled(1, false);
+        // Set current tab to calibration
+        tabWidget->setCurrentIndex(0);
+
+        guider->setPHD2(NULL);
+
+        // Receive BLOBs from the driver
+        currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), useGuideHead ? "CCD2" : "CCD1");
+    }
 }
 
 void Guide::syncCCDInfo()
@@ -244,6 +293,8 @@ void Guide::updateGuideParams()
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
+        phd2->setCCDMountParams(ccd_hor_pixel, ccd_ver_pixel, focal_length);
+
         int x,y,w,h;
 
         if (currentCCD->hasGuideHead() == false)
@@ -491,7 +542,6 @@ void Guide::newFITS(IBLOB *bp)
 
 }
 
-
 void Guide::appendLogText(const QString &text)
 {
 
@@ -671,10 +721,24 @@ void Guide::stopRapidGuide()
 }
 
 
+bool Guide::isDithering()
+{
+    return (Options::useEkosGuider() ? guider->isDithering() : phd2->isDithering());
+}
+
 void Guide::dither()
 {
-   if (guider->isDithering() == false)
-        guider->dither();
+   if (Options::useEkosGuider())
+   {
+       if (isDithering() == false)
+            guider->dither();
+   }
+   else
+   {
+       if (isDithering() == false)
+           phd2->dither(guider->getDitherPixels());
+   }
+
 }
 
 void Guide::updateGuideDriver(double delta_ra, double delta_dec)
@@ -682,10 +746,11 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
     guideDeviationRA  = delta_ra;
     guideDeviationDEC = delta_dec;
 
-    if (guider->isGuiding() == false)
+    // If using PHD2 or not guiding, no need to go further on
+    if (Options::usePHD2Guider() || isGuiding() == false)
         return;
 
-    if (guider->isDithering())
+    if (isDithering())
     {
         GuideDriver = ST4Driver;
         return;
@@ -708,49 +773,92 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 
 bool Guide::isCalibrationComplete()
 {
-    return calibration->isCalibrationComplete();
+    if (Options::useEkosGuider())
+        return calibration->isCalibrationComplete();
+    else
+        return phd2->isCalibrationComplete();
+
 }
 
 bool Guide::isCalibrationSuccessful()
 {
-    return calibration->isCalibrationSuccessful();
+    if (Options::useEkosGuider())
+        return calibration->isCalibrationSuccessful();
+    else
+        return phd2->isCalibrationSuccessful();
 }
 
 bool Guide::startCalibration()
 {
-    return calibration->startCalibration();
+    if (Options::useEkosGuider())
+        return calibration->startCalibration();
+    else
+        return phd2->startGuiding();
 }
 
 bool Guide::stopCalibration()
 {
-    return calibration->stopCalibration();
+    if (Options::useEkosGuider())
+        return calibration->stopCalibration();
+    else
+        return phd2->stopGuiding();
+}
+
+bool Guide::isCalibrating()
+{
+    if (Options::useEkosGuider())
+        return calibration->isCalibrating();
+    else
+        return phd2->isCalibrating();
 }
 
 bool Guide::isGuiding()
 {
-    return guider->isGuiding();
+    if (Options::useEkosGuider())
+        return guider->isGuiding();
+    else
+        return phd2->isGuiding();
 }
 
 bool Guide::startGuiding()
 {
-    return guider->start();
+    if (Options::useEkosGuider())
+        return guider->start();
+    else
+        return phd2->startGuiding();
 }
 
 bool Guide::stopGuiding()
 {
     isSuspended=false;
-    return guider->abort(true);
+
+    if (Options::useEkosGuider())
+        return guider->abort(true);
+    else
+        // guider stop will call phd2->stopGuide() and change GUI elements accordingly
+        return guider->stop();
 }
 
 void Guide::setSuspended(bool enable)
 {
-    if (enable == isSuspended || (enable && guider->isGuiding() == false))
+    if (enable == isSuspended || (enable && isGuiding() == false))
         return;
 
     isSuspended = enable;
 
-    if (isSuspended == false)
-        capture();
+    if (isSuspended)
+    {
+        if (Options::usePHD2Guider())
+            phd2->pauseGuiding();
+    }
+    else
+    {
+        if (Options::useEkosGuider())
+            capture();
+        else
+            phd2->resumeGuiding();
+            //phd2->startGuiding();
+    }
 
     if (isSuspended)
         appendLogText(i18n("Guiding suspended."));
@@ -835,13 +943,20 @@ QList<double> Guide::getGuidingDeviation()
 
 void Guide::startAutoCalibrateGuiding()
 {
-    connect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
-    calibration->startCalibration();
+    if (Options::useEkosGuider())
+        connect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+    else
+        connect(phd2, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+
+    startCalibration();
 }
 
 void Guide::checkAutoCalibrateGuiding(bool successful)
 {
-    calibration->disconnect(this);
+    if (Options::useEkosGuider())
+        disconnect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+    else
+        disconnect(phd2, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
 
     if (successful)
     {
@@ -856,7 +971,7 @@ void Guide::checkAutoCalibrateGuiding(bool successful)
 
 void Guide::updateCCDBin(int index)
 {
-    if (currentCCD == NULL)
+    if (currentCCD == NULL && Options::usePHD2Guider())
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);

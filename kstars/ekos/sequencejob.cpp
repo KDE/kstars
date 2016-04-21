@@ -102,7 +102,7 @@ void SequenceJob::prepareCapture()
 
     activeCCD->setISOMode(timeStampPrefixEnabled);
 
-    activeCCD->setSeqPrefix(prefix);
+    activeCCD->setSeqPrefix(fullPrefix);
 
     if (activeChip->isBatchMode())
         activeCCD->updateUploadSettings();
@@ -232,19 +232,18 @@ void SequenceJob::setExposeLeft(double value)
     exposeLeft = value;
 }
 
-void SequenceJob::setPrefixSettings(const QString &prefix, bool typeEnabled, bool filterEnabled, bool exposureEnabled, bool tsEnabled)
+void SequenceJob::setPrefixSettings(const QString &prefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled)
 {
     rawPrefix               = prefix;
-    typePrefixEnabled       = typeEnabled;
     filterPrefixEnabled     = filterEnabled;
     expPrefixEnabled        = exposureEnabled;
     timeStampPrefixEnabled        = tsEnabled;
 }
 
-void SequenceJob::getPrefixSettings(QString &prefix, bool &typeEnabled, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled)
+void SequenceJob::getPrefixSettings(QString &prefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled)
 {
     prefix          = rawPrefix;
-    typeEnabled     = typePrefixEnabled;
+
     filterEnabled   = filterPrefixEnabled;
     exposureEnabled = expPrefixEnabled;
     tsEnabled       = timeStampPrefixEnabled;
@@ -352,6 +351,16 @@ bool SequenceJob::getEnforceTemperature() const
 void SequenceJob::setEnforceTemperature(bool value)
 {
     enforceTemperature = value;
+}
+
+QString SequenceJob::getRootFITSDir() const
+{
+    return rootFITSDir;
+}
+
+void SequenceJob::setRootFITSDir(const QString &value)
+{
+    rootFITSDir = value;
 }
 
 int SequenceJob::getISOIndex() const

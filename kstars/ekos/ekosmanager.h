@@ -66,6 +66,12 @@ public:
     void setOptionsWidget(KPageWidgetItem *ops) { ekosOption = ops; }
     void addObjectToScheduler(SkyObject *object);
 
+    Ekos::Capture *captureModule() { return captureProcess;}
+    Ekos::Focus *focusModule() { return focusProcess;}
+    Ekos::Guide *guideModule() { return guideProcess;}
+    Ekos::Align *alignModule() { return alignProcess;}
+    Ekos::Mount *mountModule() { return mountProcess;}
+
     /** @defgroup EkosDBusInterface Ekos DBus Interface
      * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
     */
@@ -183,12 +189,6 @@ public slots:
     void processNewProperty(INDI::Property*);
     void processNewNumber(INumberVectorProperty *nvp);
     void processNewText(ITextVectorProperty *tvp);
-
-    Ekos::Capture *captureModule() { return captureProcess;}
-    Ekos::Focus *focusModule() { return focusProcess;}
-    Ekos::Guide *guideModule() { return guideProcess;}
-    Ekos::Align *alignModule() { return alignProcess;}
-    Ekos::Mount *mountModule() { return mountProcess;}
 
 protected slots:
 

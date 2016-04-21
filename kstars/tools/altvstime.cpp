@@ -65,7 +65,10 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     topLayout->setMargin( 0 );
     avtUI = new AltVsTimeUI( this );
 
-
+    // Layers for setting up the plot's priority: the current curve should be above the other curves.
+    // The Rise/Set/Transit markers should be on top, with highest priority.
+    avtUI->View->addLayer("currentCurveLayer", avtUI->View->layer("main"), QCustomPlot::limAbove);
+    avtUI->View->addLayer("markersLayer", avtUI->View->layer("currentCurveLayer"), QCustomPlot::limAbove);
     // Layers for setting up the plot's priority: the current curve should be above the other curves.
     // The Rise/Set/Transit markers should be on top, with highest priority.
     avtUI->View->addLayer("currentCurveLayer", avtUI->View->layer("main"), QCustomPlot::limAbove);
@@ -1007,7 +1010,6 @@ void AltVsTime::setLSTLimits() {
     if( h1 > 12.0 )
         h1 -= 24.0;
     double h2 = h1 + 24.0;
-   // avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
 
 void AltVsTime::showCurrentDate()
@@ -1084,7 +1086,6 @@ void AltVsTime::drawGradient(){
         int fadewidth = pW * 0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
         QColor MoonColor( 255, 255, 255, moonalpha );
 
-
         if( moonset < moonrise ) {
             QLinearGradient grad = QLinearGradient( QPointF( moonset - fadewidth, 0.0 ), QPointF( moonset + fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
@@ -1095,6 +1096,8 @@ void AltVsTime::drawGradient(){
             p.fillRect( QRectF( moonrise - fadewidth, 0.0, pW - moonrise + fadewidth, pH ), grad );
         }
         else {
+            qreal opacity = p.opacity();
+            p.setOpacity(opacity/4);
             p.fillRect( QRectF( moonrise + fadewidth, 0.0, moonset - moonrise - 2 * fadewidth, pH ), MoonColor );
             QLinearGradient grad = QLinearGradient( QPointF( moonrise + fadewidth, 0.0 ) , QPointF( moonrise - fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
@@ -1103,6 +1106,7 @@ void AltVsTime::drawGradient(){
             grad.setStart( QPointF( moonset - fadewidth, 0.0 ) );
             grad.setFinalStop( QPointF( moonset + fadewidth, 0.0 ) );
             p.fillRect( QRectF( moonset - fadewidth, 0.0, pW - moonset, pH ), grad );
+            p.setOpacity(opacity);
         }
     }
 

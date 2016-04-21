@@ -1,8 +1,13 @@
 add_subdirectory( data )
 add_subdirectory( icons )
 add_subdirectory( htmesh )
-#FIXME Port to QML2
-#add_subdirectory( tools/whatsinteresting/qml)
+
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+SET(HAVE_KF5WIT 1)
+add_subdirectory( tools/whatsinteresting/qml)
+else()
+SET(HAVE_KF5WIT 0)
+endif()
 
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
@@ -100,6 +105,7 @@ if (CFITSIO_FOUND)
       ekos/sequencejob.cpp
       ekos/focus.cpp
       ekos/guide.cpp
+      ekos/phd2.cpp
       ekos/align.cpp
       ekos/mount.cpp
       ekos/dome.cpp
@@ -183,16 +189,6 @@ set(libkstarstools_SRCS
         tools/flagmanager.cpp
         tools/horizonmanager.cpp
 
-        #FIXME Port to QML2
-        #tools/whatsinteresting/skyobjlistmodel.cpp
-        #tools/whatsinteresting/wiview.cpp
-        #tools/whatsinteresting/modelmanager.cpp
-        #tools/whatsinteresting/skyobjitem.cpp
-        #tools/whatsinteresting/wilpsettings.cpp
-        #tools/whatsinteresting/wiequipsettings.cpp
-        #tools/whatsinteresting/obsconditions.cpp
-        #tools/whatsinteresting/skyobjdescription.cpp
-
         #FIXME Port to KF5
         #tools/moonphasetool.cpp
 
@@ -201,6 +197,20 @@ set(libkstarstools_SRCS
 	tools/exporteyepieceview.cpp
         tools/starhopperdialog.cpp
 	)
+
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+set(libkstarstools_SRCS
+    ${libkstarstools_SRCS}
+    tools/whatsinteresting/skyobjlistmodel.cpp
+    tools/whatsinteresting/wiview.cpp
+    tools/whatsinteresting/modelmanager.cpp
+    tools/whatsinteresting/skyobjitem.cpp
+    tools/whatsinteresting/wilpsettings.cpp
+    tools/whatsinteresting/wiequipsettings.cpp
+    tools/whatsinteresting/obsconditions.cpp
+    tools/whatsinteresting/skyobjdescription.cpp
+    )
+endif()
 
 ki18n_wrap_ui(libkstarstools_SRCS
 	tools/altvstime.ui
@@ -241,13 +251,17 @@ ki18n_wrap_ui(libkstarstools_SRCS
 	tools/scriptnamedialog.ui
 	tools/skycalendar.ui
 	tools/wutdialog.ui
-	tools/flagmanager.ui
-        tools/whatsinteresting/wilpsettings.ui
-        tools/whatsinteresting/wiequipsettings.ui
+	tools/flagmanager.ui        
         tools/starhopperdialog.ui
         tools/horizonmanager.ui
         )
 
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+ki18n_wrap_ui(libkstarstools_SRCS
+        tools/whatsinteresting/wilpsettings.ui
+        tools/whatsinteresting/wiequipsettings.ui
+        )
+endif()
 
 set(libkstarscomponents_SRCS
    skycomponents/skylabeler.cpp
@@ -514,6 +528,7 @@ qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/dustcap.h Ekos::DustCap)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler.h Ekos::Scheduler)
 endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
@@ -540,6 +555,7 @@ add_library( KStarsLib STATIC ${kstars_SRCS})
 target_link_libraries(KStarsLib
         LibKSDataHandlers
         htmesh
+        KF5::Crash
         KF5::I18n
         KF5::NewStuff
         KF5::KIOFileWidgets
@@ -552,8 +568,8 @@ target_link_libraries(KStarsLib
         Qt5::PrintSupport
         Qt5::Sql
         Qt5::Svg
-        #Qt5::Qml
-        #Qt5::Quick
+        Qt5::Qml
+        Qt5::Quick
 	${ZLIB_LIBRARIES}
         )
 

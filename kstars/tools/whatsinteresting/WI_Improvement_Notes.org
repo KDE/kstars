@@ -1,0 +1,95 @@
+* Aim
++ Get what's interesting to auto-suggest objects for all user levels.
++ Show only interesting objects, not every object under the sun like
+  we do now.
++ "Interesting" is decided then by manual input -- either from
+  pre-loaded hand-coded lists [default], or at the option of the user,
+  their own observing wishlist
++ Incidentally, we should move observing wishlist into the user DB so
+  that we only insert / remove -- prevents losing the wishlist upon a
+  crash like it happens now
+* User settings / input
+The user chooses the following in the configuration dialog:
+** Already present
++ Sky conditions (Bortle)
++ Equipment availability (Naked eye / binocular / telescope)
+** New
++ Meridian +/- how many hours to show
++ A checkbox to avoid "the hole" for Dobsonian telescopes
++ Experience level of the user (scale of 1 to 6)
++ Special interest: Astrophotography vs. Visual (may be a later feature)
+*** Auto-suggest
++ What kinds of objects to auto-suggest (eg: open clusters, globular
+  clusters, nebulae, galaxies...)
+OR
++ Suggest only from observing wishlist
+* How does it work
+** Lists of objects
++ We have hand-coded lists of objects for each user level, for each
+  special interest, that are put into a SQLite db, say interesting.db
++ Only bright and/or truly interesting objects go into these
+  lists. Showing every NGC open cluster is meaningless.
++ Lists in the DB are indexed by RA hour
++ Each list entry has Name, RA hour (index), Dec ten-degree zone,
+  guesstimated minimum aperture needed (can be zero), guesstimated aperture in which
+  it gets interesting (can be zero), a hand-written translatable
+  description, a last observed timestamp, and links to websites.
+*** What goes into the lists?
++ The level 1 lists contain things like planets, constellations,
+  double stars, naked eye objects, bright telescopic double stars.
++ The level 2 lists contain most of the (bright) Messier objects
+  (excluding things like Virgo cluster galaxies, M 76, M 97, M 74...)
+  and some bright NGC/other objects (eg: many Caldwell objects, Double
+  cluster, NGC 253, and other 'why is this not a Messier?' candidates)
++ The level 3 lists contain the remaining Messier objects, the fainter
+  Caldwell objects, and many of the brighter NGC/IC/other objects (eg:
+  The Eyes, Ghost of Jupiter, NGC 55, NGC 891...)
++ The level 4 lists contain lesser known NGC/IC objects (eg: NGC
+  134, NGC 247, NGC 40, ...) and a few lesser known catalogs (eg:
+  Seagull nebula).
++ The level 5 lists have some of the usual 'challenge' objects (eg:
+  Leo-I, B33, Jellyfish neb, Integral sign, Jones 1, JnEr 1, Stephen's
+  Quintet, Medusa Neb...)
++ The level 6 lists unleash the hard catalogs (eg: Holmberg, HCG, Arp,
+  Palomar, some hand-picked ACO...)
++ The level 7 lists go into the land of advanced observers (eg: Tidal
+  tails, Voorwerps, Shakbazians, Ring galaxies, lensed quasars and
+  other scary stuff)
+** Algorithm
+*** Iterate the following until a solution is found, or we tried 10 times:
++ By using some fuzzy combination of the user's observing conditions,
+  we pick a different one of the 7 lists at random. We will weight it
+  such that the list matching the user's skill level is the most
+  likely one to be hit, compensating a bit for Bortle and
+  instrumentation.
++ We then look at the user's hour-angle range preferences to pick the
+  RAs currently in the range, and load all objects matching into
+  memory.
++ We then remove any objects in the list that are not available in
+  KStars (check the objectNames hashes).
++ We then apply the type filter on the list. The list probably doesn't
+  contain more than 20 ~ 30 objects (might grow to a 200 ~ 300
+  eventually) at this point, so it should be fast to do these
+  operations.
++ We then pick an element of this list at random; at any point if we
+  the object fails to meet criteria, we remove that element and pick a
+  different one.
+  + We then apply the hole constraint.
+  + Then, we check if the object is compatible with the user's
+    observing conditions (surface brightness of the object vs Bortle,
+    telescope availability...)
+  + Then, we present the object
++ If we have an empty list before we can present an object, we go back
+  to the beginning and pick a different list.
+*** If we fail, we show the user an info message saying they must relax their constraints.
+** Algorithm if we are using the wishlist
++ Wishlist must be saved with RA hour.
++ Select items from the wishlist that satisfy the hour angle
+  constraint (DB query) and load into a list.
++ Select an element at random and check if it satisfies the hole
+  constraint. If it does not, remove it from the list, then try again.
++ If we find no objects, display the same error message.
+** Improvements:
++ Incorporate timestamp of last observation, i.e. show only
+  non-observed objects for a long time.
++ Try to repeat showing 'all-time favorites'.

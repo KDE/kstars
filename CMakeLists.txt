@@ -16,8 +16,8 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-#find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
-find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Xml Sql Svg PrintSupport)
+find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+
 include(KDEInstallDirs)
 include(KDECompilerSettings)
 include(KDECMakeSettings)
@@ -28,13 +28,11 @@ include(ECMAddAppIcon)
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
   Config
+  Crash
   DocTools
-  GuiAddons
   WidgetsAddons
   NewStuff
-#  DBusAddons
   I18n
-  Init
   KIO
   XmlGui
   Plotting
@@ -92,6 +90,12 @@ set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Librar
 
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "http://www.opengl.org" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
+
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+SET(HAVE_KF5WIT 1)
+else()
+SET(HAVE_KF5WIT 0)
+endif()
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexceptions)
 
