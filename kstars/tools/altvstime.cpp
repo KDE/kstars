@@ -1082,6 +1082,7 @@ void AltVsTime::drawGradient(){
         int fadewidth = pW * 0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
         QColor MoonColor( 255, 255, 255, moonalpha );
 
+
         if( moonset < moonrise ) {
             QLinearGradient grad = QLinearGradient( QPointF( moonset - fadewidth, 0.0 ), QPointF( moonset + fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
