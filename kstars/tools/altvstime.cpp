@@ -65,10 +65,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     topLayout->setMargin( 0 );
     avtUI = new AltVsTimeUI( this );
 
-    // Layers for setting up the plot's priority: the current curve should be above the other curves.
-    // The Rise/Set/Transit markers should be on top, with highest priority.
-    avtUI->View->addLayer("currentCurveLayer", avtUI->View->layer("main"), QCustomPlot::limAbove);
-    avtUI->View->addLayer("markersLayer", avtUI->View->layer("currentCurveLayer"), QCustomPlot::limAbove);
+
     // Layers for setting up the plot's priority: the current curve should be above the other curves.
     // The Rise/Set/Transit markers should be on top, with highest priority.
     avtUI->View->addLayer("currentCurveLayer", avtUI->View->layer("main"), QCustomPlot::limAbove);
@@ -186,9 +183,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     setLSTLimits();
     setDawnDusk();
 
-    QString iconsPath = QCoreApplication::applicationFilePath() + "/icons";
-    qDebug()<<QFileInfo("altvstime.cpp").absolutePath();
-    qDebug()<<iconsPath;
     connect( avtUI->View->yAxis,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onYRangeChanged(QCPRange)));
     connect( avtUI->View->xAxis2,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
     connect( avtUI->View, SIGNAL( plottableClick(QCPAbstractPlottable*,QMouseEvent*)), this, SLOT(plotMousePress(QCPAbstractPlottable *, QMouseEvent *)) );
@@ -459,7 +453,7 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 }
 
 void AltVsTime::slotHighlight( int row ) {
-    int rowIndex;
+    int rowIndex = 0;
     //highlight the curve of the selected object
     for ( int i=0; i<avtUI->View->graphCount(); i++ ) {
         if ( i == row )
@@ -574,7 +568,7 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
                    arg(graph->name().isEmpty() ? "???" : graph->name()).
                    arg(localTime.toString()).
                    arg(localSiderealTime.toString()).
-                   arg(QString::number(yValue,'f',2)),
+                   arg(QString::number(yValue,'f',2) +" "+ QChar(176)),
                    avtUI->View, avtUI->View->rect());
             }
         }
@@ -886,7 +880,7 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
         QPainter p;
 
         p.begin(&copy);
-        p.setPen( QPen( QBrush("gold"), 1.3, Qt::SolidLine ) );
+        p.setPen( QPen( QBrush("gold"), 2, Qt::SolidLine ) );
 
         // Get the gradient background's width and height:
         int pW = gradient->rect().width();
@@ -899,8 +893,9 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
         // Draw the horizontal line (altitude):
         p.drawLine( QLineF( 0.5, y, avtUI->View->rect().width()-0.5,y ) );
         // Draw the altitude value:
+        p.setPen( QPen( QBrush("gold"), 3, Qt::SolidLine ) );
         p.drawText( 25, y + 15, QString::number(yValue,'f',2) + QChar(176) );
-
+        p.setPen( QPen( QBrush("gold"), 1, Qt::SolidLine ) );
         // Draw the vertical line (time):
         p.drawLine( QLineF( x, 0.5, x, avtUI->View->rect().height()-0.5 ) );
         // Compute and draw the time value:
@@ -909,6 +904,7 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
         p.save();
         p.translate( x + 10, pH - 20 );
         p.rotate(-90);
+        p.setPen( QPen( QBrush("gold"), 3, Qt::SolidLine ) );
         p.drawText( 5, 5, QLocale().toString( localTime, QLocale::ShortFormat ) ); // short format necessary to avoid false time-zone labeling
         p.restore();
         p.end();
@@ -1010,6 +1006,7 @@ void AltVsTime::setLSTLimits() {
     if( h1 > 12.0 )
         h1 -= 24.0;
     double h2 = h1 + 24.0;
+   // avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
 
 void AltVsTime::showCurrentDate()
@@ -1086,6 +1083,7 @@ void AltVsTime::drawGradient(){
         int fadewidth = pW * 0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
         QColor MoonColor( 255, 255, 255, moonalpha );
 
+
         if( moonset < moonrise ) {
             QLinearGradient grad = QLinearGradient( QPointF( moonset - fadewidth, 0.0 ), QPointF( moonset + fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
@@ -1096,8 +1094,6 @@ void AltVsTime::drawGradient(){
             p.fillRect( QRectF( moonrise - fadewidth, 0.0, pW - moonrise + fadewidth, pH ), grad );
         }
         else {
-            qreal opacity = p.opacity();
-            p.setOpacity(opacity/4);
             p.fillRect( QRectF( moonrise + fadewidth, 0.0, moonset - moonrise - 2 * fadewidth, pH ), MoonColor );
             QLinearGradient grad = QLinearGradient( QPointF( moonrise + fadewidth, 0.0 ) , QPointF( moonrise - fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
@@ -1106,7 +1102,6 @@ void AltVsTime::drawGradient(){
             grad.setStart( QPointF( moonset - fadewidth, 0.0 ) );
             grad.setFinalStop( QPointF( moonset + fadewidth, 0.0 ) );
             p.fillRect( QRectF( moonset - fadewidth, 0.0, pW - moonset, pH ), grad );
-            p.setOpacity(opacity);
         }
     }
 
