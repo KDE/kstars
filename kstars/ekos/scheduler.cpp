@@ -186,6 +186,7 @@ Scheduler::Scheduler()
 
     connect(startupScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
     connect(shutdownScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
+    connect(fitsEdit, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
 }
 
 Scheduler::~Scheduler()
@@ -372,8 +373,9 @@ void Scheduler::addJob()
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
-    if (fitsURL.isEmpty() == false)
-        job->setFITSFile(fitsURL);
+
+    fitsURL = QUrl::fromLocalFile(fitsEdit->text());
+    job->setFITSFile(fitsURL);
 
     // #1 Startup conditions
 
@@ -3017,7 +3019,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<J2000DE>"<< job->getTargetCoords().dec0().Degrees() << "</J2000DE>" << endl;
          outstream << "</Coordinates>" << endl;
 
-         if (job->getFITSFile().isEmpty() == false)
+         if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
              outstream << "<FITS>" << job->getFITSFile().path() << "</FITS>" << endl;
 
          outstream << "<Sequence>" << job->getSequenceFile().path() << "</Sequence>" << endl;
