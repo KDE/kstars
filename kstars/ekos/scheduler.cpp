@@ -854,7 +854,7 @@ void Scheduler::evaluateJobs()
                     if (score < 0)
                     {
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
-                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()), job->getMinMoonSeparation())
+                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum(), job->getMinMoonSeparation()))
                         {
                             //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
@@ -1554,7 +1554,7 @@ double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
     ut = geo->LTtoUT(KStarsData::Instance()->lt());
     KSNumbers ksnum(ut.djd());
     LST = geo->GSTtoLST( ut.gst() );
-    moon->updateCoords(&ksnum, true, geo->lat(), &LST);
+    moon->updateCoords(&ksnum, true, geo->lat(), &LST, true);
 
     // Moon/Sky separation p
     return moon->angularDistanceTo(&p).Degrees();
@@ -1577,7 +1577,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     ut = geo->LTtoUT(when);
     KSNumbers ksnum(ut.djd());
     LST = geo->GSTtoLST( ut.gst() );
-    moon->updateCoords(&ksnum, true, geo->lat(), &LST);
+    moon->updateCoords(&ksnum, true, geo->lat(), &LST, true);
 
     double moonAltitude = moon->alt().Degrees();
 

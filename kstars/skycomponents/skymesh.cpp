@@ -76,7 +76,7 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
         printf(" ra1 = %8.4f   dec1 = %8.4f\n", p1.ra().Degrees(), p1.dec().Degrees() );
 
         SkyPoint p2 = p1;
-        p2.updateCoords( data->updateNum() );
+        p2.updateCoordsNow( data->updateNum() );
         printf(" ra2 = %8.4f  dec2 = %8.4f\n", p2.ra().Degrees(), p2.dec().Degrees() );
         printf("p0 - p1 = %6.4f degrees\n", p0->angularDistanceTo( &p1 ).Degrees() );
         printf("p0 - p2 = %6.4f degrees\n", p0->angularDistanceTo( &p2 ).Degrees() );

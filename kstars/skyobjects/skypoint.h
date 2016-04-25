@@ -253,14 +253,19 @@ public:
 
     /** Determine the current coordinates (RA, Dec) from the catalog
     	*coordinates (RA0, Dec0), accounting for both precession and nutation.
-    	*@param num pointer to KSNumbers object containing current values of
-    	*time-dependent variables.
+        *@param num pointer to KSNumbers object containing current values of time-dependent variables.
     	*@param includePlanets does nothing in this implementation (see KSPlanetBase::updateCoords()).
     	*@param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
     	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
         *@param forceRecompute reapplies precession, nutation and aberration even if the time passed since the last computation is not significant.
     	*/
     virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+
+    /**
+     * @brief updateCoordsNow Shortcut for updateCoords( const KSNumbers *num, false, NULL, NULL, true)
+     * @param num pointer to KSNumbers object containing current values of time-dependent variables.
+     */
+    void updateCoordsNow(const KSNumbers *num) { updateCoords(num, false, NULL, NULL, true); }
 
     /** Computes the apparent coordinates for this SkyPoint for any epoch,
     	*accounting for the effects of precession, nutation, and aberration.

@@ -356,11 +356,11 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     KStarsData* data = KStarsData::Instance();
     if ( o->isSolarSystem() ) {
         oldNum = new KSNumbers( data->ut().djd() );
-        o->updateCoords( num, true, geo->lat(), data->lst() );
+        o->updateCoords( num, true, geo->lat(), data->lst(), true );
     }
 
     //precess coords to target epoch
-    o->updateCoords( num );
+    o->updateCoordsNow( num );
 
     // vector used for computing the points needed for drawing the graph
     QVector<double> y(100), t(100);
@@ -433,7 +433,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //restore original position
     if ( o->isSolarSystem() ) {
-       o->updateCoords( oldNum, true, data->geo()->lat(), data->lst() );
+       o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
         delete oldNum;
     }
     o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -987,11 +987,11 @@ void AltVsTime::slotUpdateDateLoc() {
             //If the object is in the solar system, recompute its position for the given date
             if ( o->isSolarSystem() ) {
                 oldNum = new KSNumbers( data->ut().djd() );
-                o->updateCoords( num, true, geo->lat(), &LST );
+                o->updateCoords( num, true, geo->lat(), &LST, true );
             }
 
             //precess coords to target epoch
-            o->updateCoords( num );
+            o->updateCoordsNow( num );
 
             //update pList entry
             pList.replace( i, o );
@@ -1011,7 +1011,7 @@ void AltVsTime::slotUpdateDateLoc() {
             }
             o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         } else {  //assume unfound object is a custom object
-            pList.at(i)->updateCoords( num ); //precess to desired epoch
+            pList.at(i)->updateCoordsNow( num ); //precess to desired epoch
 
             KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 3 );
             for ( double h=-12.0; h<=12.0; h+=0.5 ) {
@@ -1278,7 +1278,7 @@ void AltVsTime::setDawnDusk()
     dms LST = geo->GSTtoLST( today.gst() );
 
     KSSun sun;
-    sun.updateCoords( &num, true, geo->lat(), &LST );
+    sun.updateCoords( &num, true, geo->lat(), &LST, true );
     double dawn, da, dusk, du, max_alt, min_alt;
     double last_h = -12.0;
     double last_alt = findAltitude( &sun, last_h );

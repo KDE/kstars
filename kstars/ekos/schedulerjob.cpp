@@ -384,7 +384,7 @@ void SchedulerJob::setTargetCoords(dms ra, dms dec)
     targetCoords.setRA0(ra);
     targetCoords.setDec0(dec);
     
-    targetCoords.updateCoords(KStarsData::Instance()->updateNum());
+    targetCoords.updateCoordsNow(KStarsData::Instance()->updateNum());
 }
 
 

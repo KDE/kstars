@@ -155,7 +155,7 @@ void WUTDialog::init() {
     KSNumbers *oldNum = new KSNumbers( data->ut().djd() );
     dms LST = geo->GSTtoLST( T0.gst() );
 
-    oSun->updateCoords( num, true, geo->lat(), &LST );
+    oSun->updateCoords( num, true, geo->lat(), &LST, true );
     if ( oSun->checkCircumpolar( geo->lat() ) ) {
         if ( oSun->alt().Degrees() > 0.0 ) {
             sRise = i18n( "circumpolar" );
@@ -205,7 +205,7 @@ void WUTDialog::init() {
     moonSet = oMoon->riseSetTime( UT0, geo, false );
 
     //check to see if Moon is circumpolar
-    oMoon->updateCoords( num, true, geo->lat(), &LST );
+    oMoon->updateCoords( num, true, geo->lat(), &LST, true );
     if ( oMoon->checkCircumpolar( geo->lat() ) ) {
         if ( oMoon->alt().Degrees() > 0.0 ) {
             sRise = i18n( "circumpolar" );
@@ -234,8 +234,8 @@ void WUTDialog::init() {
                                       int(100.0*oMoon->illum() ) ) );
 
     //Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
-    oMoon->updateCoords( oldNum, true, geo->lat(), data->lst() );
-    oSun->updateCoords( oldNum, true, geo->lat(), data->lst() );
+    oMoon->updateCoords( oldNum, true, geo->lat(), data->lst(), true );
+    oSun->updateCoords( oldNum, true, geo->lat(), data->lst(), true );
     oMoon->findPhase(0);
 
     if ( WUT->CategoryListWidget->currentItem() )
