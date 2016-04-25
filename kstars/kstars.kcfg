@@ -1174,7 +1174,7 @@
     <entry name="AlwaysRecomputeCoordinates" type="Bool">
       <label>Always recompute coordinates</label>
       <whatsthis>Checking this option causes recomputation of current equatorial coordinates from catalog coordinates (i.e. application of precession, nutation and aberration corrections) for every redraw of the map. This makes processing slower when there are many stars to handle, but is more likely to be bug free. There are known bugs in the rendering of stars when this recomputation is avoided.</whatsthis>
-      <default>true</default>
+      <default>false</default>
     </entry>
     <entry name="DefaultDSSImageSize" type="Double">
       <label>Default size for DSS images</label>
