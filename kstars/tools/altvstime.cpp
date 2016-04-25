@@ -133,6 +133,9 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->setInteraction(QCP::iRangeZoom, true);
     avtUI->View->setInteraction(QCP::iRangeDrag, true);
 
+    // set up the selection tolerance for checking if a certain graph is or not selected:
+    avtUI->View->setSelectionTolerance(5);
+
     // draw the gradient:
     drawGradient();
 
@@ -241,10 +244,25 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     p2.setBrush(brush2);
     p2.drawEllipse(15, 15, 80, 80);
     p2.end();
-
+    /*
+    QGraphicsTextItem *io = new QGraphicsTextItem;
+    io->setPos(150, 70);
+    io->setPlainText("RAF");
+    //avtUI->View->toPainter();
+    myScene = new QGraphicsScene(this);
+    //myScene->setSceneRect(avtUI->View->rect());
+    //myScene->addWidget(avtUI->View);
+    myScene->addItem(io);
+    view = new QGraphicsView(myScene);
+    view->show();
+//    QGraphicsTextItem *text = myScene.addText("Sunt BOSS");
+//    text->setPos(100, 200);
+//    text->setVisible(true);
+  //  myScene.
     avtUI->riseButton->setIcon(QIcon(redButton));
     avtUI->setButton->setIcon(QIcon(blueButton));
     avtUI->transitButton->setIcon(QIcon(greenButton));
+    */
     setMouseTracking( true );
 }
 
@@ -853,6 +871,8 @@ void AltVsTime::setSunRiseSetTimes(double sunRise, double sunSet){
     this->sunSet = sunSet;
 }
 
+//FIXME
+/*
 void AltVsTime::mouseOverLine(QMouseEvent *event){
     // Get the mouse position's coordinates relative to axes:
     double x = avtUI->View->xAxis->pixelToCoord(event->pos().x());
@@ -873,7 +893,6 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
     // We make a copy to gradient background in order to have one set of lines at a time:
     // Otherwise, the chart would have been covered by lines
     QPixmap copy = gradient->copy(gradient->rect());
-
     // If ZOOM is not active, then draw the gold lines that indicate current mouse pisition:
     if(avtUI->View->xAxis->range().size() == 86400){
         QPainter p;
@@ -912,6 +931,55 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
     background->setScaled(false);
     background->setScaled(true, Qt::IgnoreAspectRatio);
     background->setPixmap(copy);
+
+    avtUI->View->update();
+    avtUI->View->replot();
+}
+*/
+
+void AltVsTime::mouseOverLine(QMouseEvent *event){
+    double x = avtUI->View->xAxis->pixelToCoord(event->localPos().x());
+    double y = avtUI->View->yAxis->pixelToCoord(event->localPos().y());
+    QCPAbstractPlottable *abstractGraph = avtUI->View->plottableAt(event->pos(), false);
+    QCPGraph *graph = qobject_cast<QCPGraph *>(abstractGraph);
+
+    if(x > avtUI->View->xAxis->range().lower && x < avtUI->View->xAxis->range().upper)
+        if(y > avtUI->View->yAxis->range().lower && y < avtUI->View->yAxis->range().upper){
+            if(graph){
+                double yValue = y;
+                double xValue = x;
+
+                // Compute time value:
+                QTime localTime(0,0,0,0);
+                QTime localSiderealTime(5,0,0,0);
+
+                localTime = localTime.addSecs(int(xValue));
+                localSiderealTime = localSiderealTime.addSecs(int(xValue));
+
+                QToolTip::hideText();
+                QToolTip::showText(event->globalPos(),
+                tr("<table>"
+                    "<tr>"
+                    "<th colspan=\"2\">%L1</th>"
+                    "</tr>"
+                    "<tr>"
+                    "<td>LST:   </td>" "<td>%L3</td>"
+                    "</tr>"
+                    "<tr>"
+                    "<td>LT:   </td>" "<td>%L2</td>"
+                    "</tr>"
+                    "<tr>"
+                    "<td>Altitude:   </td>" "<td>%L4</td>"
+                    "</tr>"
+                    "</table>").
+                    arg(graph->name().isEmpty() ? "???" : graph->name()).
+                    arg(localTime.toString()).
+                    arg(localSiderealTime.toString()).
+                    arg(QString::number(yValue,'f',2) +" "+ QChar(176)),
+                    avtUI->View, avtUI->View->rect());
+            } else
+                QToolTip::hideText();
+        }
 
     avtUI->View->update();
     avtUI->View->replot();
