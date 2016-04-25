@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
+    <width>621</width>
     <height>496</height>
    </rect>
   </property>
@@ -64,8 +64,8 @@
            <widget class="QPushButton" name="selectFITSB">
             <property name="maximumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>22</width>
+              <height>22</height>
              </size>
             </property>
             <property name="text">
@@ -237,8 +237,8 @@
            <widget class="QPushButton" name="loadSequenceB">
             <property name="maximumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>22</width>
+              <height>22</height>
              </size>
             </property>
             <property name="toolTip">
@@ -1071,7 +1071,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupButtonGroup"/>
  </buttongroups>
 </ui>

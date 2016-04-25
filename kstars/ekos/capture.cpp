@@ -2176,7 +2176,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "</Frame>" << endl;
         if (job->getTargetTemperature() != INVALID_TEMPERATURE)
             outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
-        outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
+        if (job->getTargetFilter() >= 0)
+            outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
         outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;

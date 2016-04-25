@@ -927,28 +927,6 @@ void Scheduler::evaluateJobs()
 
                         continue;
                     }
-                    else if (job->getState() == SchedulerJob::JOB_EVALUATION)
-                    {
-
-                        /*score += getAltitudeScore(job, startupTime);
-                        score += getMoonSeparationScore(job, startupTime);
-                        score += getDarkSkyScore(startupTime);*/
-                        score = calculateJobScore(job, startupTime);
-
-                        if (score < 0)
-                        {
-                           appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
-                           job->setState(SchedulerJob::JOB_ABORTED);
-                           continue;
-                        }
-                        // If score is OK for the start up time, then job evaluation for this start up time
-                        // is complete and we set its score to negative so that it gets scheduled below.
-                        // once its state is scheduled, we will re-evaluate it again 5 minutes be actual
-                        // start up time.
-                        else if (isWeatherOK(job) == false)
-                            score += BAD_SCORE;
-                    }
-                    //else if (timeUntil <= (Options::leadTime()*60) || job->getState() == SchedulerJob::JOB_EVALUATION)
                     // Start scoring once we reach startup time
                     else if (timeUntil <= 0)
                     {
@@ -959,8 +937,17 @@ void Scheduler::evaluateJobs()
 
                         if (score < 0)
                         {
-                            appendLogText(i18n("%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...", job->getName(), abs(timeUntil), score));
-                            job->setState(SchedulerJob::JOB_ABORTED);
+                            if (job->getState() == SchedulerJob::JOB_EVALUATION)
+                            {
+                                appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
+                                job->setState(SchedulerJob::JOB_INVALID);
+                            }
+                            else
+                            {
+                                appendLogText(i18n("%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...", job->getName(), abs(timeUntil), score));
+                                job->setState(SchedulerJob::JOB_ABORTED);
+                            }
+
                             continue;
                         }
                         // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
