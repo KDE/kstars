@@ -233,6 +233,7 @@
     <entry name="FOVNames" type="StringList">
       <label>Name of selected FOV indicators</label>
       <whatsthis>The names of the currently selected field-of-view indicators.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
+      <default>Telrad</default>
     </entry>
     <entry name="FadePlanetTrails" type="Bool">
       <label>Fade planet trails to background color?</label>
