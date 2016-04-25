@@ -1,6 +1,16 @@
 KStars Revision History
 
- 2.3.0 (Altair):
+2.6.0 (Ikarus):
+ ===================----------------------------------
+
+ - Added FOV symbols to tool bar.
+ - Increased performance by disabling AlwaysRecomputeCoordinates by default.
+ - What's Interesting Tool is migrated to QML2.
+ - Ekos: Create subdirectory for each filter type if available.
+ - Ekos: Added Scheduler DBUS Interface
+ - Ekos: Added support to PHD2
+
+2.3.0 (Altair):
  ===================----------------------------------
  
  - Migrated to KDE Frameworks 5
