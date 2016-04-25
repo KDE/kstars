@@ -244,25 +244,11 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     p2.setBrush(brush2);
     p2.drawEllipse(15, 15, 80, 80);
     p2.end();
-    /*
-    QGraphicsTextItem *io = new QGraphicsTextItem;
-    io->setPos(150, 70);
-    io->setPlainText("RAF");
-    //avtUI->View->toPainter();
-    myScene = new QGraphicsScene(this);
-    //myScene->setSceneRect(avtUI->View->rect());
-    //myScene->addWidget(avtUI->View);
-    myScene->addItem(io);
-    view = new QGraphicsView(myScene);
-    view->show();
-//    QGraphicsTextItem *text = myScene.addText("Sunt BOSS");
-//    text->setPos(100, 200);
-//    text->setVisible(true);
-  //  myScene.
+
     avtUI->riseButton->setIcon(QIcon(redButton));
     avtUI->setButton->setIcon(QIcon(blueButton));
     avtUI->transitButton->setIcon(QIcon(greenButton));
-    */
+
     setMouseTracking( true );
 }
 
@@ -428,9 +414,6 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
         avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);
 
-
-
-        qDebug()<<"No of elems: "<<avtUI->View->itemCount()<<'\n';
         // Update background coordonates:
         background->topLeft->setCoords(avtUI->View->xAxis->range().lower,avtUI->View->yAxis->range().upper);
         background->bottomRight->setCoords(avtUI->View->xAxis->range().upper, avtUI->View->yAxis->range().lower);
@@ -442,7 +425,6 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         avtUI->raBox->showInHours(o->ra() );
         avtUI->decBox->showInDegrees(o->dec() );
         avtUI->nameBox->setText( getObjectName(o) );
-
 
         //Set epochName to epoch shown in date tab
         avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
