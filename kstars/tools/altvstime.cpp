@@ -687,7 +687,7 @@ void AltVsTime::slotComputeAltitudeByTime(){
                     averageAltitude = altitude2;
         }
         // set the altitude in the altitude box
-        avtUI->altitudeBox->setText( QString::number(averageAltitude) );
+        avtUI->altitudeBox->setText( QString::number(averageAltitude, 'f', 2) );
     }
 }
 
@@ -1228,10 +1228,9 @@ void AltVsTime::drawGradient(){
 
     p.setClipping(false);
 
-    //Add vertical line indicating "now"
-    QFont smallFont = p.font();
-    smallFont.setPointSize( smallFont.pointSize() ); // wat?
-    if( geoLoc ) {
+    //Add vertical line indicating "now"    
+    if( geoLoc )
+    {
         QTime t = geoLoc->UTtoLT( KStarsDateTime::currentDateTimeUtc() ).time(); // convert the current system clock time to the TZ corresponding to geo
         double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
         while ( x > 24.0 ) x -= 24.0;
@@ -1239,9 +1238,12 @@ void AltVsTime::drawGradient(){
         p.setPen( QPen( QBrush("white"), 2.0, Qt::DotLine ) );
         p.drawLine( ix, 0, ix, pH );
 
+        QFont largeFont = p.font();
+        largeFont.setPointSize( largeFont.pointSize()+1 );
+
         //Label this vertical line with the current time
         p.save();
-        p.setFont( smallFont );
+        p.setFont( largeFont );
         p.translate( ix + 10, pH - 20 );
         p.rotate(-90);
         p.drawText(0, 0, QLocale().toString( t, QLocale::ShortFormat ) ); // short format necessary to avoid false time-zone labeling
