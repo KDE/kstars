@@ -504,6 +504,8 @@ public:
   QCPRange sanitizedForLinScale() const;
   bool contains(double value) const;
   
+
+  QCPRange bounded(double lowerBound, double upperBound) const;
   static bool validRange(double lower, double upper);
   static bool validRange(const QCPRange &range);
   static const double minRange; //1e-280;

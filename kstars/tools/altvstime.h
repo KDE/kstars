@@ -103,10 +103,15 @@ public:
      */
     double findAltitude( SkyPoint *p, double hour );
 
+
+
     /** @short get object name. If star has no name, generate a name based on catalog number.
      * @param translated set to true if the translated name is required.
      */
     QString getObjectName(const SkyObject *o, bool translated=true);
+
+    void setSunRiseSetTimes( double sunRise, double sunSet );
+    void drawGradient();
 
 public slots:
     /** @short Update the plot to reflec new Date and Location settings. */
@@ -114,6 +119,30 @@ public slots:
 
     /** @short Clear the list of displayed objects. */
     void slotClear();
+
+    /** @short Show information from the curve as a tooltip. */
+    void plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEvent *event);
+
+    /** @short Update the X axis on Zoom and Drag. */
+    void onXRangeChanged(const QCPRange &range);
+
+     /** @short Update the Y axis on Zoom and Drag. */
+    void onYRangeChanged(const QCPRange &range);
+
+    /** @short Compute the altitude for a certain time. */
+    void slotComputeAltitudeByTime();
+
+    /** @short Mark the rise time on the curve. */
+    void slotMarkRiseTime();
+
+    /** @short Mark the set time on the curve. */
+    void slotMarkSetTime();
+
+    /** @short Mark the transit time on the curve. */
+    void slotMarkTransitTime();
+
+    /** @short Draw the white vertical line on click. */
+    void mouseOverLine(QMouseEvent *event);
 
     /** @short Clear the edit boxes for specifying a new object. */
     void slotClearBoxes();
@@ -158,6 +187,11 @@ private:
     QList<SkyObject*> pList;
     QList<SkyObject*> deleteList;
     int DayOffset;
+    int minAlt;
+    int maxAlt;
+    QCPItemPixmap *background;
+    QPixmap *gradient;
+    double sunRise, sunSet;
 };
 
 #endif // ALTVSTIME_H_
