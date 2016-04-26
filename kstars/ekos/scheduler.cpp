@@ -195,6 +195,13 @@ void Scheduler::watchJobChanges(bool enable)
 
         connect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         connect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        connect(culminationOffset, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(minAltitude, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(minMoonSeparation, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+
     }
     else
     {
@@ -211,6 +218,12 @@ void Scheduler::watchJobChanges(bool enable)
 
         disconnect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         disconnect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        disconnect(culminationOffset, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(minAltitude, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(minMoonSeparation, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
     }
 }
 
