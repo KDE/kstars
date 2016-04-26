@@ -38,6 +38,10 @@
 #define UPDATE_PERIOD_MS                1000
 #define SETTING_ALTITUDE_CUTOFF         3
 
+#define DEFAULT_CULMINATION_TIME        -60
+#define DEFAULT_MIN_ALTITUDE            15
+#define DEFAULT_MIN_MOON_SEPARATION     0
+
 namespace Ekos
 {
 
@@ -134,7 +138,7 @@ Scheduler::Scheduler()
     raBox->setDegType(false); //RA box should be HMS-style
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    addToQueueB->setToolTip(i18n("Add observation job to list."));
+    addToQueueB->setToolTip(i18n("Add observation job to list."));    
 
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
@@ -161,37 +165,53 @@ Scheduler::Scheduler()
     connect(addToQueueB,SIGNAL(clicked()),this,SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
     connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
-    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
-    connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));    
+    connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
+    //connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
     connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveAs()));
     connect(queueSaveB,SIGNAL(clicked()),this,SLOT(save()));
-    connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
+    connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));    
 
-    connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-    connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-    connect(weatherCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(trackStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(focusStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(alignStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(guideStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(capCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(uncapCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(parkMountCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(unparkMountCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(parkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(unparkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(warmCCDCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-
-    connect(startupScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
-    connect(shutdownScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
-    connect(fitsEdit, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
 }
 
 Scheduler::~Scheduler()
 {
 
+}
+
+void Scheduler::watchJobChanges(bool enable)
+{
+    if (enable)
+    {
+        connect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+
+        connect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(completionButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        connect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+    }
+    else
+    {
+       //disconnect(this, SLOT(setDirty()));
+
+        disconnect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+
+        disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(completionButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        disconnect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+    }
 }
 
 void Scheduler::appendLogText(const QString &text)
@@ -315,12 +335,20 @@ void Scheduler::selectShutdownScript()
 
 void Scheduler::addJob()
 {
+    jobUnderEdit = false;
+    saveJob();
+}
+
+void Scheduler::saveJob()
+{
 
     if (state == SCHEDULER_RUNNIG)
     {
         appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
         return;
     }
+
+    watchJobChanges(false);
 
     if(nameEdit->text().isEmpty())
     {
@@ -401,9 +429,14 @@ void Scheduler::addJob()
     // Do we have minimum altitude constraint?
     if (altConstraintCheck->isChecked())
         job->setMinAltitude(minAltitude->value());
+    else
+        job->setMinAltitude(-1);
     // Do we have minimum moon separation constraint?
     if (moonSeparationCheck->isChecked())
         job->setMinMoonSeparation(minMoonSeparation->value());
+    else
+        job->setMinMoonSeparation(-1);
+
 
     // Check enforce weather constraints
     job->setEnforceWeather(weatherCheck->isChecked());
@@ -494,14 +527,16 @@ void Scheduler::addJob()
     if (jobUnderEdit)
     {
         jobUnderEdit = false;
-        resetJobEdit();
-        appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
+        //resetJobEdit();
+        //appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
     }
 
     startB->setEnabled(true);
+
+    watchJobChanges(true);
 }
 
-void Scheduler::editJob(QModelIndex i)
+void Scheduler::loadJob(QModelIndex i)
 {
     if (state == SCHEDULER_RUNNIG)
     {
@@ -511,7 +546,9 @@ void Scheduler::editJob(QModelIndex i)
 
     SchedulerJob *job = jobs.at(i.row());
     if (job == NULL)
-        return;
+        return;    
+
+    watchJobChanges(false);
 
     job->setState(SchedulerJob::JOB_IDLE);
     job->setStage(SchedulerJob::STAGE_IDLE);
@@ -546,10 +583,12 @@ void Scheduler::editJob(QModelIndex i)
     {
         case SchedulerJob::START_ASAP:
             asapConditionR->setChecked(true);
+            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
             break;
 
         case SchedulerJob::START_FORCE_NOW:
             forceNowConditionR->setChecked(true);
+            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
             break;
 
         case SchedulerJob::START_CULMINATION:
@@ -560,6 +599,7 @@ void Scheduler::editJob(QModelIndex i)
         case SchedulerJob::START_AT:
             startupTimeConditionR->setChecked(true);
             startupTimeEdit->setDateTime(job->getStartupTime());
+            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
             break;
     }
 
@@ -568,11 +608,21 @@ void Scheduler::editJob(QModelIndex i)
         altConstraintCheck->setChecked(true);
         minAltitude->setValue(job->getMinAltitude());
     }
+    else
+    {
+        altConstraintCheck->setChecked(false);
+        minAltitude->setValue(DEFAULT_MIN_ALTITUDE);
+    }
 
     if (job->getMinMoonSeparation() >= 0)
     {
         moonSeparationCheck->setChecked(true);
         minMoonSeparation->setValue(job->getMinMoonSeparation());
+    }
+    else
+    {
+        moonSeparationCheck->setChecked(false);
+        minMoonSeparation->setValue(DEFAULT_MIN_MOON_SEPARATION);
     }
 
     weatherCheck->setChecked(job->getEnforceWeather());
@@ -593,7 +643,7 @@ void Scheduler::editJob(QModelIndex i)
             break;
     }
 
-   appendLogText(i18n("Editing job #%1...", i.row()+1));
+   /*appendLogText(i18n("Editing job #%1...", i.row()+1));
 
    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
    addToQueueB->setEnabled(true);
@@ -603,10 +653,13 @@ void Scheduler::editJob(QModelIndex i)
    addToQueueB->setToolTip(i18n("Apply job changes."));
    removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
-   jobUnderEdit = true;
+   jobUnderEdit = true;*/
+
+    watchJobChanges(true);
+
 }
 
-void Scheduler::resetJobEdit()
+/*void Scheduler::resetJobEdit()
 {
    if (jobUnderEdit)
        appendLogText(i18n("Editing job canceled."));
@@ -618,15 +671,15 @@ void Scheduler::resetJobEdit()
    removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
 
    evaluateOnlyB->setEnabled(true);
-}
+}*/
 
 void Scheduler::removeJob()
 {
-    if (jobUnderEdit)
+    /*if (jobUnderEdit)
     {
         resetJobEdit();
         return;
-    }
+    }*/
 
     int currentRow = queueTable->currentRow();
 
@@ -2924,7 +2977,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
         }
     }
 
-    addJob();
+    saveJob();
 
     return true;
 
@@ -3372,6 +3425,15 @@ void Scheduler::stopEkos()
 void Scheduler::setDirty()
 {
     mDirty = true;
+
+    if (sender() == startupProcedureButtonGroup || sender() == shutdownProcedureGroup)
+        return;
+
+    if (state != SCHEDULER_RUNNIG && queueTable->selectedItems().isEmpty() == false)
+    {
+        jobUnderEdit=true;
+        saveJob();
+    }
 }
 
 bool Scheduler::estimateJobTime(SchedulerJob *job)
@@ -3988,7 +4050,7 @@ void Scheduler::startMosaicTool()
             raBox->setText(oneJob->skyCenter.ra0().toHMSString());
             decBox->setText(oneJob->skyCenter.dec0().toDMSString());
 
-            addJob();
+            saveJob();
         }
 
         delXMLEle(root);

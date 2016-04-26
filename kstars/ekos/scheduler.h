@@ -171,7 +171,13 @@ protected slots:
      void selectShutdownScript();
 
      /**
-      * @brief addToQueue Construct a SchedulerJob and add it to the queue
+      * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
+      * jobUnderEdit determines whether to add or edit
+      */
+     void saveJob();
+
+     /**
+      * @brief addJob Add a new job from form values
       */
      void addJob();
 
@@ -179,7 +185,7 @@ protected slots:
       * @brief editJob Edit an observation job
       * @param i index model in queue table
       */
-     void editJob(QModelIndex i);
+     void loadJob(QModelIndex i);
 
      /**
       * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
@@ -191,7 +197,7 @@ protected slots:
      void saveAs();
      void load();
 
-     void resetJobEdit();
+     //void resetJobEdit();
 
      /**
       * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
@@ -224,6 +230,11 @@ protected slots:
       */
      void checkProcessExit(int exitCode);
 
+     /**
+      * @brief watchJobChanges Watch any changes in form values and apply changes to current job selection or ignore any changes
+      * @param enable True to watch changes and apply them to current job, false to ignore changes
+      */
+     void watchJobChanges(bool enable);
      /**
       * @brief setDirty Call it to mark the Ekos Scheduler List for change. Next time save button is invoked, the complete content is written to disk.
       */

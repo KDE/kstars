@@ -101,6 +101,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -114,6 +117,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -127,6 +133,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -140,6 +149,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -462,6 +474,12 @@
         </item>
         <item>
          <widget class="QTableWidget" name="queueTable">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -636,6 +654,9 @@
             <property name="text">
              <string>Alt &gt; </string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="0" column="1">
@@ -663,6 +684,9 @@
             <property name="text">
              <string>Moon  &gt; </string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="1" column="1">
@@ -694,6 +718,9 @@
             <property name="text">
              <string>Weather</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -830,6 +857,9 @@
             <property name="text">
              <string>UnPark Dome</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -843,6 +873,9 @@
             <property name="text">
              <string>UnPark Mount</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -853,6 +886,9 @@
             <property name="text">
              <string>UnCap</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -929,6 +965,9 @@
             <property name="text">
              <string>Warm CCD</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -939,6 +978,9 @@
             <property name="text">
              <string>Cap</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -952,6 +994,9 @@
             <property name="text">
              <string>Park Mount</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -965,6 +1010,9 @@
             <property name="text">
              <string>Park Dome</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -1074,7 +1122,27 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="startupButtonGroup"/>
   <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>
