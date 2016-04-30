@@ -159,9 +159,9 @@ void SkyMapComposite::update(KSNumbers *num )
     m_Horizon->update( num );
 }
 
-void SkyMapComposite::updatePlanets(KSNumbers *num )
+void SkyMapComposite::updateSolarSystemBodies(KSNumbers *num )
 {
-    m_SolarSystem->updatePlanets( num );
+    m_SolarSystem->updateSolarSystemBodies( num );
 }
 
 void SkyMapComposite::updateMoons(KSNumbers *num )

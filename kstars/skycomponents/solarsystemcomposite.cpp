@@ -86,11 +86,11 @@ void SolarSystemComposite::update( KSNumbers *num )
     }
 }
 
-void SolarSystemComposite::updatePlanets( KSNumbers *num )
+void SolarSystemComposite::updateSolarSystemBodies( KSNumbers *num )
 {
     m_Earth->findPosition( num );
     foreach ( SkyComponent *comp, components() ) {
-        comp->updatePlanets( num );
+        comp->updateSolarSystemBodies( num );
     }
 }
 

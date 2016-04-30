@@ -151,7 +151,7 @@ public:
      * @sa ConstellationBoundaryComponent::update()
      */
     virtual void update( KSNumbers* ) {}
-    virtual void updatePlanets( KSNumbers * ) {}
+    virtual void updateSolarSystemBodies( KSNumbers * ) {}
     virtual void updateMoons( KSNumbers * ) {}
 
     /** @return true if component is to be drawn on the map. */

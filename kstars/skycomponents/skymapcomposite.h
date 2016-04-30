@@ -93,7 +93,7 @@ public:
     	*@sa updateMoons()
     	*@sa SolarSystemComposite::updatePlanets()
     	*/
-    virtual void updatePlanets( KSNumbers *num );
+    virtual void updateSolarSystemBodies( KSNumbers *num );
 
     /**
     	*@short Delegate moon position updates to the SolarSystemComposite

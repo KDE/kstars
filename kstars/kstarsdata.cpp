@@ -215,7 +215,7 @@ void KStarsData::updateTime( GeoLocation *geo, const bool automaticDSTchange ) {
 
     if ( fabs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 ) {
         LastPlanetUpdate = ut().djd();
-        skyComposite()->updatePlanets( &num );
+        skyComposite()->updateSolarSystemBodies( &num );
     }
 
     // Moon moves ~30 arcmin/hr, so update its position every minute.
