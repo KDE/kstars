@@ -345,7 +345,7 @@ void KStars::initActions() {
     fovActionMenu = actionCollection()->add<KActionMenu>("fovsymbols" );
     fovActionMenu->setText( i18n("&FOV Symbols" ) );
     fovActionMenu->setDelayed(false);
-    fovActionMenu->setIcon(QIcon::fromTheme("kstars_fov"));
+    fovActionMenu->setIcon(QIcon::fromTheme("crosshairs"));
     repopulateFOV();
 
     actionCollection()->addAction("geolocation", this, SLOT( slotGeoLocator() ) )
