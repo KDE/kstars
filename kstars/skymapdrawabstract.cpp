@@ -62,8 +62,8 @@ bool SkyMapDrawAbstract::m_DrawLock = false;
 
 SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap *sm ) :
     m_KStarsData( KStarsData::Instance() ), m_SkyMap( sm ) {
-    m_fpstime.start();
-    m_framecount = 0;
+    //m_fpstime.start();
+    //m_framecount = 0;
 }
 
 void SkyMapDrawAbstract::drawOverlays( QPainter& p, bool drawFov ) {
@@ -366,7 +366,8 @@ void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
     painter->setVectorStars( vectorStarState ); // Restore the state of the painter
 }
 
-void SkyMapDrawAbstract::calculateFPS()
+/* JM 2016-05-03: Not needed since we're not using OpenGL for now
+ * void SkyMapDrawAbstract::calculateFPS()
 {
     if(m_framecount == 25) {
         //float sec = m_fpstime.elapsed()/1000.;
@@ -375,7 +376,7 @@ void SkyMapDrawAbstract::calculateFPS()
         m_fpstime.restart();
     }
     ++m_framecount;
-}
+}*/
 
 void SkyMapDrawAbstract::setDrawLock( bool state ) {
     m_DrawLock = state;
