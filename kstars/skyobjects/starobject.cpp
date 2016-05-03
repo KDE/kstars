@@ -29,6 +29,7 @@
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "Options.h"
 #include "skymap.h"
 #include "ksutils.h"
@@ -181,6 +182,7 @@ void StarObject::init( const starData *stardata )
     */
     // END DEBUG.
 
+    lastPrecessJD = J2000;
 
 }
 
@@ -225,6 +227,7 @@ void StarObject::init( const deepStarData *stardata )
     updateID = updateNumID = 0;
     B = stardata->B / 1000.0;
     V = stardata->V / 1000.0;
+    lastPrecessJD = J2000;
 }
 
 void StarObject::setNames( QString name, QString name2 ) {
