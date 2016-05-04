@@ -1192,7 +1192,7 @@ void ObservingList::slotSaveAllImages() {
     }
 }
 
-void ObservingList::saveImage( QUrl url, QString filename, const SkyObject *o )
+void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObject *o )
 {
 
     if( !o )

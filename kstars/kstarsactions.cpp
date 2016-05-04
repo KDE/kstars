@@ -1294,7 +1294,7 @@ void KStars::slotEyepieceView( SkyPoint *sp, const QString &imagePath ) {
     const FOV *fov = 0;
     if( !data()->getAvailableFOVs().isEmpty() ) {
         // Ask the user to choose from a list of available FOVs.
-        int index;
+        //int index;
         const FOV *f;
         QMap< QString, const FOV * > nameToFovMap;
         foreach( f, data()->getAvailableFOVs() ) {
