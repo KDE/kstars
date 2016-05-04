@@ -537,13 +537,19 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
   void Logging::UseFile(const QString &filename)
   {
     _filename = filename;
+
+    // Clear file contents
+    QFile file(filename);
+    file.open(QFile::WriteOnly);
+    file.close();
+
     qInstallMessageHandler(File);
   }
 
   void Logging::File(QtMsgType type, const QMessageLogContext &, const QString &msg)
   {
     QFile file(_filename);
-    if(file.open(QFile::WriteOnly | QIODevice::Text))
+    if(file.open(QFile::Append | QIODevice::Text))
     {
       QTextStream stream(&file);
       Write(stream, type, msg);

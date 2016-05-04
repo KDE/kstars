@@ -30,6 +30,7 @@
 #include <QtDBus/QtDBus>
 
 class DriverInfo;
+class ProfileInfo;
 class KPageWidgetItem;
 
 /**
@@ -62,7 +63,7 @@ public:
     typedef enum { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR } CommunicationStatus;
 
     void appendLogText(const QString &);
-    void refreshRemoteDrivers();
+    //void refreshRemoteDrivers();
     void setOptionsWidget(KPageWidgetItem *ops) { ekosOption = ops; }
     void addObjectToScheduler(SkyObject *object);
 
@@ -83,7 +84,9 @@ public:
      * @param isLocal if true, it will establish INDI server locally, otherwise it will connect to a remote INDI server as defined in the Ekos options or by the user.
      * /note This function must be called before all functions in Ekos DBUS Interface.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
+    //Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
+
+    Q_SCRIPTABLE bool setProfile(const QString &profileName);
 
     /** DBUS interface function.
      * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
@@ -107,6 +110,7 @@ public:
      */
     Q_SCRIPTABLE bool stop();
 
+ #if 0
     /** DBUS interface function.
      * Sets the telescope driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote telescope driver.
      * @param telescopeName telescope driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
@@ -161,7 +165,8 @@ public:
      * @param index 1 for Aux 1, 2 for Aux 2, 3 for Aux 3
      * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);    
+    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);
+#endif
 
 protected:
     void closeEvent(QCloseEvent *);
@@ -190,7 +195,7 @@ public slots:
     void processNewNumber(INumberVectorProperty *nvp);
     void processNewText(ITextVectorProperty *tvp);
 
-protected slots:
+private slots:
 
     void updateLog();
     void clearLog();
@@ -202,12 +207,8 @@ protected slots:
     void deviceConnected();
     void deviceDisconnected();
 
-    void processINDIModeChange();
+    //void processINDIModeChange();
     void checkINDITimeout();
-
-    void toggleINDIPanel();
-    void toggleFITSViewer();
-    void checkFITSViewerState();
 
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);
@@ -217,7 +218,12 @@ protected slots:
     void setWeather(ISD::GDInterface *);
     void setDustCap(ISD::GDInterface *);
     void setLightBox(ISD::GDInterface *);
-    void setST4(ISD::ST4 *);    
+    void setST4(ISD::ST4 *);
+
+    void addProfile();
+    void editProfile();
+    void deleteProfile();
+    void saveDefaultProfile(const QString& name);
 
  private:
 
@@ -232,11 +238,13 @@ protected slots:
     void initWeather();
     void initDustCap();
 
-    void initLocalDrivers();
-    void initRemoteDrivers();
+    //void initLocalDrivers();
+    //void initRemoteDrivers();
+    void loadDrivers();
+    void loadProfiles();
 
-    void saveLocalDrivers();
-    void saveRemoteDrivers();
+    //void saveLocalDrivers();
+    //void saveRemoteDrivers();
 
     void processLocalDevice(ISD::GDInterface*);
     void processRemoteDevice(ISD::GDInterface*);
@@ -250,8 +258,8 @@ protected slots:
     bool remoteCCDRegistered;
     bool remoteGuideRegistered;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *aux4, *dome, *ao, *weather, *dustCap, *lightBox;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di,*aux4_di, *ao_di, *dome_di, *weather_di, *remote_indi;
+    ISD::GDInterface *mount, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *aux4, *dome, *ao, *weather, *dustCap, *lightBox;
+    DriverInfo *mount_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di,*aux4_di, *ao_di, *dome_di, *weather_di, *remote_indi;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
@@ -269,11 +277,17 @@ protected slots:
 
     int nDevices, nRemoteDevices;
     QAtomicInt nConnectedDevices;
-    QList<DriverInfo *> managedDevices;
+    QList<DriverInfo *> managedDevices, customDrivers;
     QHash<QString, DriverInfo *> driversList;
     QStringList logText;
     KPageWidgetItem *ekosOption;
     CommunicationStatus ekosStartingStatus, indiConnectionStatus;
+
+    QStandardItemModel *profileModel;
+    QList<ProfileInfo *> profiles;
+
+    ProfileInfo * getCurrentProfile();
+
 
 };
 

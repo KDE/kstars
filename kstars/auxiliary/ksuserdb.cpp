@@ -63,6 +63,8 @@ bool KSUserDB::Initialize() {
             QSqlRecord record = version.record(0);
             qDebug() << " Verion string is " << record.value("Version").toString();
             version.clear();
+
+            // If prior to 2.4.0 upgrade database for horizon table
             if (record.value("Version").toString() < "2.4.0")
             {
                 QSqlQuery query(userdb_);
@@ -72,6 +74,40 @@ bool KSUserDB::Initialize() {
                     qDebug() << query.lastError();
 
                 if (!query.exec("CREATE TABLE IF NOT EXISTS horizons (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, label TEXT NOT NULL, enabled INTEGER NOT NULL)"))
+                    qDebug() << query.lastError();
+           }
+
+           // If prior to 2.6.0 upgrade database for profiles tables
+           if (record.value("Version").toString() < "2.6.0")
+           {
+                QSqlQuery query(userdb_);
+                QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
+
+                if (!query.exec(versionQuery))
+                    qDebug() << query.lastError();
+
+                // Profiles
+                if (!query.exec("CREATE TABLE IF NOT EXISTS profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER)"))
+                    qDebug() << query.lastError();
+
+                // Drivers
+                if (!query.exec("CREATE TABLE IF NOT EXISTS driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))"))
+                    qDebug() << query.lastError();
+
+                // Custom Drivers
+                //if (!query.exec("CREATE TABLE IF NOT EXISTS custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))"))
+                    //qDebug() << query.lastError();
+
+                // Add sample profile
+                if (!query.exec("INSERT INTO profile (name) VALUES ('Simulators')"))
+                    qDebug() << query.lastError();
+
+                // Add sample profile drivers
+                if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)"))
+                    qDebug() << query.lastError();
+                if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)"))
+                    qDebug() << query.lastError();
+                if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)"))
                     qDebug() << query.lastError();
            }
         }
@@ -93,9 +129,9 @@ bool KSUserDB::FirstRun() {
     if (!RebuildDB())
       return false;
 
-    ImportFlags();
+    /*ImportFlags();
     ImportUsers();
-    ImportEquipment();
+    ImportEquipment();*/
 
     return true;
 }
@@ -184,6 +220,14 @@ bool KSUserDB::RebuildDB() {
                   "name TEXT NOT NULL,"
                   "label TEXT NOT NULL,"
                   "enabled INTEGER NOT NULL)");
+
+     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER)");
+     tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
+     //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
+     tables.append("INSERT INTO profile (name) VALUES ('Simulators')");
+     tables.append("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)");
+     tables.append("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)");
+     tables.append("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)");
 
     for (int i = 0; i < tables.count(); ++i) {
         QSqlQuery query(userdb_);
@@ -660,6 +704,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     return;
 }
 
+#if 0
 bool KSUserDB::ImportFlags() {
     QString flagfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "flags.dat";
     QFile flagsfile(flagfilename);
@@ -790,6 +835,7 @@ bool KSUserDB::ImportEquipment() {
     equipfile.close();
     return true;
 }
+#endif
 
 void KSUserDB::readScopes() {
     while( ! reader_->atEnd() ) {
@@ -1064,6 +1110,166 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 
     points.submitAll();
     points.clear();
+
+    userdb_.close();
+}
+
+int KSUserDB::AddProfile(const QString &name)
+{
+    userdb_.open();
+    int id=-1;
+
+    QSqlQuery query(userdb_);
+    bool rc = query.exec(QString("INSERT INTO profile (name) VALUES('%1')").arg(name));
+
+    if (rc == false)
+        qDebug() << query.lastQuery() << query.lastError().text();
+    else
+        id = query.lastInsertId().toInt();
+
+    userdb_.close();
+
+    return id;
+}
+
+bool KSUserDB::DeleteProfile(ProfileInfo *pi)
+{
+    userdb_.open();
+
+    QSqlQuery query(userdb_);
+    bool rc;
+
+    rc = query.exec("DELETE FROM profile WHERE id=" + QString::number(pi->id));
+
+    if (rc == false)
+        qDebug() << query.lastQuery() << query.lastError().text();
+
+    userdb_.close();
+
+    return rc;
+}
+
+void KSUserDB::SaveProfile(ProfileInfo *pi)
+{
+    // Remove all drivers
+    DeleteProfileDrivers(pi);
+
+    userdb_.open();
+    QSqlQuery query(userdb_);
+
+    // If LOCAL mode
+    if (pi->host.isEmpty())
+    {
+        if (!query.exec(QString("UPDATE profile SET name='%1',host=null,port=null WHERE id=%2").arg(pi->name).arg(pi->id)))
+            qDebug() << query.lastQuery() << query.lastError().text();
+    }
+    // if REMOTE mode
+    else
+    {
+        if (!query.exec(QString("UPDATE profile SET name='%1',host='%2',port=%3 WHERE id=%4").arg(pi->name).arg(pi->host).arg((pi->port)).arg(pi->id)))
+            qDebug() << query.lastQuery() << query.lastError().text();
+    }
+
+
+    QMapIterator<QString, QString> i(pi->drivers);
+    while (i.hasNext())
+    {
+        i.next();
+        if (!query.exec(QString("INSERT INTO driver (label, role, profile) VALUES('%1','%2',%3)").arg(i.value()).arg(i.key()).arg(pi->id)))
+            qDebug() <<  query.lastQuery() << query.lastError().text();
+    }
+
+    /*if (pi->customDrivers.isEmpty() == false && !query.exec(QString("INSERT INTO custom_driver (drivers, profile) VALUES('%1',%2)").arg(pi->customDrivers).arg(pi->id)))
+        qDebug()  << query.lastQuery() << query.lastError().text();*/
+
+    userdb_.close();
+}
+
+
+QList<ProfileInfo *> KSUserDB::GetAllProfiles()
+{
+    QList<ProfileInfo *> profiles;
+
+    userdb_.open();
+    QSqlTableModel profile(0, userdb_);
+    profile.setTable("profile");
+    profile.select();
+
+    for (int i =0; i < profile.rowCount(); ++i)
+    {
+        QSqlRecord record = profile.record(i);
+
+        int     id   = record.value("id").toInt();
+        QString name = record.value("name").toString();
+
+        ProfileInfo *pi = new ProfileInfo(id, name);
+
+        // Add host and port
+        pi->host = record.value("host").toString();
+        pi->port = record.value("port").toInt();
+
+        GetProfileDrivers(pi);
+        //GetProfileCustomDrivers(pi);
+
+        profiles.append(pi);
+    }
+
+    profile.clear();
+    userdb_.close();
+
+    return profiles;
+}
+
+void KSUserDB::GetProfileDrivers(ProfileInfo* pi)
+{
+    userdb_.open();
+
+    QSqlTableModel driver(0, userdb_);
+    driver.setTable("driver");
+    driver.setFilter("profile=" + QString::number(pi->id));
+    if (driver.select() == false)
+        qDebug() << "driver select error: " << driver.query().lastQuery() <<  driver.lastError().text();
+
+    for (int i =0; i < driver.rowCount(); ++i)
+    {
+        QSqlRecord record = driver.record(i);
+        QString label = record.value("label").toString();
+        QString role  = record.value("role").toString();
+
+        pi->drivers[role] = label;
+    }
+
+    driver.clear();
+    userdb_.close();
+}
+
+/*void KSUserDB::GetProfileCustomDrivers(ProfileInfo* pi)
+{
+    userdb_.open();
+    QSqlTableModel custom_driver(0, userdb_);
+    custom_driver.setTable("driver");
+    custom_driver.setFilter("profile=" + QString::number(pi->id));
+    if (custom_driver.select() == false)
+        qDebug() << "custom driver select error: " << custom_driver.query().lastQuery() << custom_driver.lastError().text();
+
+    QSqlRecord record = custom_driver.record(0);
+    pi->customDrivers   = record.value("drivers").toString();
+
+    custom_driver.clear();
+    userdb_.close();
+}*/
+
+void KSUserDB::DeleteProfileDrivers(ProfileInfo* pi)
+{
+    userdb_.open();
+
+    QSqlQuery query(userdb_);
+
+    /*if (!query.exec("DELETE FROM custom_driver WHERE profile=" + QString::number(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();*/
+
+    if (!query.exec("DELETE FROM driver WHERE profile=" + QString::number(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();
 
     userdb_.close();
 }

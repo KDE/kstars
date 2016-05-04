@@ -7,10 +7,6 @@
     <method name="disconnectDevices">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setConnectionMode">
-      <arg name="isLocal" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
     <method name="getINDIConnectionStatus">
       <arg type="i" direction="out"/>
     </method>
@@ -23,38 +19,9 @@
     <method name="stop">
       <arg type="b" direction="out"/>
     </method>
-    <method name="setTelescope">
-      <arg name="telescopeName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setCCD">
-      <arg name="ccdName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setGuider">
-      <arg name="guiderName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setFocuser">
-      <arg name="focuserName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setAO">
-      <arg name="AOName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setFilter">
-      <arg name="filterName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setDome">
-      <arg name="domeName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setAuxiliary">
-      <arg name="index" type="i" direction="in"/>
-      <arg name="auxiliaryName" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    <method name="setProfile">
+      <arg name="profileName" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
   </interface>
 </node>

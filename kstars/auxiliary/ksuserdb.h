@@ -34,6 +34,7 @@
 #include <QXmlStreamReader>
 #include "skyobjects/skyobject.h"
 #include "oal/oal.h"
+#include "ekos/profileinfo.h"
 
 class LineList;
 class ArtificialHorizonEntity;
@@ -54,6 +55,23 @@ class KSUserDB {
     ~KSUserDB();
 
     QSqlDatabase GetDatabase();
+
+    /************************************************************************
+     ********************************* Drivers ******************************
+     ************************************************************************/
+
+    int AddProfile(const QString &name);
+
+    bool DeleteProfile(ProfileInfo *pi);
+
+    void SaveProfile(ProfileInfo *pi);
+
+    /**
+     * @brief GetAllProfiles Return all profiles in a QList
+     * @return QMap with the keys as profile names and values are profile ids.
+     */
+    //QMap<int, QStringList> GetAllProfiles();
+    QList<ProfileInfo *> GetAllProfiles();
 
     /************************************************************************
      ******************************* Observers ******************************
@@ -264,6 +282,8 @@ class KSUserDB {
      * @return bool
      **/    
     bool FirstRun();
+
+#if 0
     /**
      * @brief Imports flags data from previous format
      *
@@ -282,6 +302,8 @@ class KSUserDB {
      * @return bool
      **/    
     bool ImportEquipment();
+
+#endif
     /**
      * @brief Helper functions
      *
@@ -295,6 +317,12 @@ class KSUserDB {
     void readLens();
     void readFilters();
     void readFilter();
+
+    void DeleteProfileDrivers(ProfileInfo *pi);
+    void GetProfileDrivers(ProfileInfo *pi);
+    //void GetProfileCustomDrivers(ProfileInfo *pi);
+
+
     /**
      * @brief Linked to the user database _once_.
      **/

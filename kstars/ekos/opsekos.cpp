@@ -49,7 +49,7 @@ void OpsEkos::slotApply()
 
     if (ekosManager)
     {
-        ekosManager->refreshRemoteDrivers();
+        //ekosManager->refreshRemoteDrivers();
 
         Ekos::Guide *guideModule = ekosManager->guideModule();
 
