@@ -3,12 +3,17 @@ KStars Revision History
 2.6.0 (Ikarus):
  ===================----------------------------------
 
+ - Complete Windows support (GSoC 2016)
+ - Lite version for Tablets & Mobiles (GSoC 2016)
+ - Updated and Improved Alt vs. Time tool.
  - Added FOV symbols to tool bar.
  - Increased performance by disabling AlwaysRecomputeCoordinates by default.
+ - Fixed performance bug in SkyMap.
  - What's Interesting Tool is migrated to QML2.
  - Ekos: Create subdirectory for each filter type if available.
  - Ekos: Added Scheduler DBUS Interface
  - Ekos: Added support to PHD2
+ - Ekos: Drivers profile support
 
 2.3.0 (Altair):
  ===================----------------------------------
