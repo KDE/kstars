@@ -1,11 +1,11 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 2)
-set (KStars_VERSION_MINOR 5)
+set (KStars_VERSION_MINOR 6)
 set (KStars_VERSION_REVISION 0)
 
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
-set (QT_MIN_VERSION "5.2.0")
+set (QT_MIN_VERSION "5.4.0")
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -16,7 +16,7 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
 
 include(KDEInstallDirs)
 include(KDECompilerSettings NO_POLICY_SCOPE)
