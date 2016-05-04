@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 
     if ( parser.isSet( "dump" ) )
     {
-        qDebug() << i18n( "Dumping sky image" );
+        qDebug() << "Dumping sky image";
 
         //parse filename and image format
         const char* format = "PNG";
@@ -200,8 +200,10 @@ int main(int argc, char *argv[])
         map->exportSkyImage( &sky );
         qApp->processEvents();
 
-        if ( ! sky.save( fname, format ) ) qWarning() << i18n( "Unable to save image: %1 ", fname ) ;
-        else qDebug() << i18n( "Saved to file: %1", fname );
+        if ( ! sky.save( fname, format ) )
+            qWarning() << "Unable to save image: " << fname;
+        else
+            qDebug() << "Saved to file: %1" << fname;
 
         delete map;
         delete dat;

@@ -159,7 +159,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
 
     else
     {
-        qDebug() << i18n("Image saved to file: %1", fileName);
+        qDebug() << "Image saved to file: " << fileName;
         return true;
     }
 }

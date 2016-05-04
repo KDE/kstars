@@ -531,7 +531,7 @@ void ObservingList::slotNewSelection() {
             else
                 ui->dssMetadataLabel->setText( i18n( "No image available. Click on the placeholder image to download one." ) );
         } else {
-            qDebug() << i18n( "Object %1 not found in list.", newName );
+            qDebug() << "Object " << newName << " not found in list.";
         }
     } else {
         if ( selectedItems.size() == 0 ) {//Nothing selected

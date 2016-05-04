@@ -160,7 +160,7 @@ bool ColorScheme::load( const QString &name ) {
         }
 
         if ( ! ok ) {
-            qDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
+            qDebug() << QString("Unable to load color scheme named %1. Also tried %2.").arg(name).arg(filename);
             return false;
         }
     }

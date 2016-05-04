@@ -463,7 +463,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 
     //Open file for writing
     if ( !file.open( QIODevice::WriteOnly ) ) {
-        qDebug() << i18n( "Cannot write to user log file" );
+        qDebug() << "Cannot write to user log file";
         return;
     }
 

@@ -255,13 +255,13 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
                 if ( locationFields.size() == 1 ) locationFields.insert( 1, "" );
                 if ( locationFields.size() == 2 ) locationFields.insert( 1, "" );
                 if ( locationFields.size() != 3 ) {
-                    qDebug() << i18n("Error: could not parse location string: ") << locationString;
+                    qDebug() << "Error: could not parse location string: " << locationString;
                     continue;
                 }
 
                 geoBatch = KStarsData::Instance()->locationNamed( locationFields[0], locationFields[1], locationFields[2] );
                 if ( ! geoBatch ) {
-                    qDebug() << i18n("Error: location not found in database: ") << locationString;
+                    qDebug() << "Error: location not found in database: " << locationString;
                     continue;
                 }
             }
@@ -274,7 +274,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
                 if ( dt.isValid() ) break;
             }
             if ( ! dt.isValid() ) {
-                qDebug() << i18n("Error: did not find a valid date string in: ") << line;
+                qDebug() << "Error: did not find a valid date string in: " << line;
                 continue;
             }
         }
@@ -287,7 +287,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
             }
         }
         if ( ! inTime.isValid() ) {
-            qDebug() << i18n("Error: did not find a valid time string in: ") << line;
+            qDebug() << "Error: did not find a valid time string in: " << line;
             continue;
         }
 

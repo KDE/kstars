@@ -528,9 +528,10 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
             if ( file.open( QIODevice::ReadOnly ) ) fileFound = true;
 
         } else {
-            if ( KSUtils::openDataFile( file, urlfile ) ) {
-                //if ( locale->language() != "en_US" ) qDebug() << i18n( "No localized URL file; using default English file." );
-                if ( QLocale().language() != QLocale::English ) qDebug() << i18n( "No localized URL file; using default English file." );
+            if ( KSUtils::openDataFile( file, urlfile ) )
+            {
+                if ( QLocale().language() != QLocale::English )
+                    qDebug() << "No localized URL file; using default English file.";
                 // we found urlfile, we need to copy it to locale
                 localeFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + urlfile ) ;
                 if (localeFile.open(QIODevice::WriteOnly)) {
@@ -545,7 +546,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                     localeFile.close();
                     file.reset();
                 } else {
-                    qDebug() << i18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" );
+                    qDebug() << "Failed to copy default URL file to locale folder, modifying default object links is not possible";
                 }
                 fileFound = true;
             }
@@ -712,7 +713,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
     QFile f( scriptname );
     if ( !f.open( QIODevice::ReadOnly) ) {
-        qDebug() << i18n( "Could not open file %1", f.fileName() );
+        qDebug() << "Could not open file " << f.fileName();
         return false;
     }
 
@@ -838,7 +839,8 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                         ok = colorScheme()->load( filename );
                     }
             
-                    if ( ! ok ) qDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", csName, filename ) << endl;
+                    if ( ! ok )
+                        qDebug() << QString("Unable to load color scheme named %1. Also tried %2.").arg(csName).arg(filename);
                 }
 
             } else if ( fn[0] == "zoom" && fn.size() == 2 ) {

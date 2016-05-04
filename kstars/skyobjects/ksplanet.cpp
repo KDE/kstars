@@ -144,7 +144,7 @@ KSPlanet::KSPlanet( int n )
             KSPlanetBase::init( i18n("Neptune"), "neptune", KSPlanetBase::planetColor[KSPlanetBase::NEPTUNE], 49572. );
             break;
         default:
-            qDebug() << i18n("Error: Illegal identifier in KSPlanet constructor: %1", n) << endl;
+            qDebug() << "Error: Illegal identifier in KSPlanet constructor: " << n;
             break;
     }
 }

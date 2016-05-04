@@ -190,7 +190,7 @@ void FOV::writeFOVs(const QList<FOV*> fovs)
     f.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "fov.dat" ) ;
 
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << i18n( "Could not open fov.dat." );
+        qDebug() << "Could not open fov.dat.";
         return;
     }
     QTextStream ostream(&f);

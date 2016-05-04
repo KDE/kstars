@@ -62,10 +62,10 @@ void TimeZoneRule::setEmpty() {
 
 void TimeZoneRule::setDST( bool activate ) {
     if ( activate ) {
-        qDebug() << i18n( "Daylight Saving Time active" );
+        qDebug() << "Daylight Saving Time active";
         dTZ = HourOffset;
     } else {
-        qDebug() << i18n( "Daylight Saving Time inactive" );
+        qDebug() << "Daylight Saving Time inactive";
         dTZ = 0.0;
     }
 }
@@ -238,7 +238,7 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
         result = KStarsDateTime( QDate( y, StartMonth, findStartDay( result ) ), StartTime );
     }
 
-    qDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString();
+    qDebug() << "Next Daylight Savings Time change (Local Time): " << result.toString();
     next_change_ltime = result;
 }
 
@@ -272,7 +272,7 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
         result = KStarsDateTime( QDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
     }
 
-    qDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString();
+    qDebug() << "Previous Daylight Savings Time change (Local Time): " << result.toString();
     next_change_ltime = result;
 }
 
@@ -281,7 +281,7 @@ void TimeZoneRule::nextDSTChange( const KStarsDateTime &local_date, const double
     // just decrement timezone offset and hour offset
     KStarsDateTime result = local_date.addSecs( int( (TZoffset + deltaTZ()) * -3600) );
 
-    qDebug() << i18n( "Next Daylight Savings Time change (UTC): " ) << result.toString();
+    qDebug() << "Next Daylight Savings Time change (UTC): " << result.toString();
     next_change_utc = result;
 }
 
@@ -294,7 +294,7 @@ void TimeZoneRule::previousDSTChange( const KStarsDateTime &local_date, const do
     if ( result.date().month() == RevertMonth )
         result = result.addSecs( int(HourOffset * -3600) );
 
-    qDebug() << i18n( "Previous Daylight Savings Time change (UTC): " ) << result.toString();
+    qDebug() << "Previous Daylight Savings Time change (UTC): " << result.toString();
     next_change_utc = result;
 }
 
