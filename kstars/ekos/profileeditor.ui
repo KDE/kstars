@@ -42,6 +42,19 @@
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QCheckBox" name="loadSiteCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Load current site settings when Ekos is online. This option should only be used when connecting to a remote site.</string>
+          </property>
+          <property name="text">
+           <string>Save Site Info</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
@@ -400,6 +413,26 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>profileIN</tabstop>
+  <tabstop>localMode</tabstop>
+  <tabstop>remoteMode</tabstop>
+  <tabstop>remoteHost</tabstop>
+  <tabstop>remotePort</tabstop>
+  <tabstop>loadSiteCheck</tabstop>
+  <tabstop>mountCombo</tabstop>
+  <tabstop>ccdCombo</tabstop>
+  <tabstop>guiderCombo</tabstop>
+  <tabstop>focuserCombo</tabstop>
+  <tabstop>filterCombo</tabstop>
+  <tabstop>AOCombo</tabstop>
+  <tabstop>domeCombo</tabstop>
+  <tabstop>weatherCombo</tabstop>
+  <tabstop>aux1Combo</tabstop>
+  <tabstop>aux2Combo</tabstop>
+  <tabstop>aux3Combo</tabstop>
+  <tabstop>aux4Combo</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

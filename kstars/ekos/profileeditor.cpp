@@ -12,6 +12,7 @@
 #include <KMessageBox>
 
 #include "kstarsdata.h"
+#include "geolocation.h"
 #include "auxiliary/ksuserdb.h"
 
 #include "indi/drivermanager.h"
@@ -85,6 +86,20 @@ void ProfileEditor::saveProfile()
        pi->host = ui->remoteHost->text();
        pi->port = ui->remotePort->text().toInt();
        //pi->customDrivers.clear();
+   }
+
+   // City Info
+   if (ui->loadSiteCheck->isEnabled() && ui->loadSiteCheck->isChecked())
+   {
+       pi->city     = KStarsData::Instance()->geo()->name();
+       pi->province = KStarsData::Instance()->geo()->province();
+       pi->country  = KStarsData::Instance()->geo()->country();
+   }
+   else
+   {
+      pi->city.clear();
+      pi->province.clear();
+      pi->country.clear();
    }
 
    if (ui->mountCombo->currentText() != "--")
@@ -183,6 +198,8 @@ void ProfileEditor::setRemoteMode(bool enable)
     ui->aux2Combo->setEditable(enable);
     ui->aux3Combo->setEditable(enable);
     ui->aux4Combo->setEditable(enable);
+
+    ui->loadSiteCheck->setEnabled(enable);
 
 }
 

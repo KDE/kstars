@@ -287,6 +287,7 @@ private slots:
     QList<ProfileInfo *> profiles;
 
     ProfileInfo * getCurrentProfile();
+    void updateProfileLocation(ProfileInfo *pi);
 
 
 };

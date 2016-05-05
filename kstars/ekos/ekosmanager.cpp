@@ -873,6 +873,9 @@ bool EkosManager::start()
 
     localMode = currentProfile->isLocal();
 
+    // Load profile location if one exists
+    updateProfileLocation(currentProfile);
+
     if (localMode)
     {
         DriverInfo *drv = NULL;
@@ -3145,4 +3148,16 @@ ProfileInfo * EkosManager::getCurrentProfile()
 void EkosManager::saveDefaultProfile(const QString &name)
 {
     Options::setProfile(name);
+}
+
+void EkosManager::updateProfileLocation(ProfileInfo *pi)
+{
+    if (pi->city.isEmpty() == false)
+    {
+        bool cityFound = KStars::Instance()->setGeoLocation(pi->city, pi->province, pi->country);
+        if (cityFound)
+            appendLogText(i18n("Site location updated to %1.", KStarsData::Instance()->geo()->fullName()));
+        else
+            appendLogText(i18n("Failed to update site location to %1. City not found.", KStarsData::Instance()->geo()->fullName()));
+    }
 }

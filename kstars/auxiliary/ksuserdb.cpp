@@ -87,7 +87,7 @@ bool KSUserDB::Initialize() {
                     qDebug() << query.lastError();
 
                 // Profiles
-                if (!query.exec("CREATE TABLE IF NOT EXISTS profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER)"))
+                if (!query.exec("CREATE TABLE IF NOT EXISTS profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT)"))
                     qDebug() << query.lastError();
 
                 // Drivers
@@ -221,7 +221,7 @@ bool KSUserDB::RebuildDB() {
                   "label TEXT NOT NULL,"
                   "enabled INTEGER NOT NULL)");
 
-     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER)");
+     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT)");
      tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
      //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
      tables.append("INSERT INTO profile (name) VALUES ('Simulators')");
@@ -1157,19 +1157,27 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     userdb_.open();
     QSqlQuery query(userdb_);
 
-    // If LOCAL mode
-    if (pi->host.isEmpty())
+    // Clear data
+    if (!query.exec(QString("UPDATE profile SET name=null,host=null,port=null,city=null,province=null,country=null WHERE id=%1").arg(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();
+
+    // Update Name
+    if (!query.exec(QString("UPDATE profile SET name='%1' WHERE id=%2").arg(pi->name).arg(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();
+
+    // Update Remote Data
+    if (pi->host.isEmpty() == false)
     {
-        if (!query.exec(QString("UPDATE profile SET name='%1',host=null,port=null WHERE id=%2").arg(pi->name).arg(pi->id)))
-            qDebug() << query.lastQuery() << query.lastError().text();
-    }
-    // if REMOTE mode
-    else
-    {
-        if (!query.exec(QString("UPDATE profile SET name='%1',host='%2',port=%3 WHERE id=%4").arg(pi->name).arg(pi->host).arg((pi->port)).arg(pi->id)))
+        if (!query.exec(QString("UPDATE profile SET host='%1',port=%2 WHERE id=%3").arg(pi->host).arg((pi->port)).arg(pi->id)))
             qDebug() << query.lastQuery() << query.lastError().text();
     }
 
+    // Update City Info
+    if (pi->city.isEmpty() == false)
+    {
+        if (!query.exec(QString("UPDATE profile SET city='%1',province='%2',country='%3' WHERE id=%4").arg(pi->city).arg(pi->province).arg(pi->country).arg(pi->id)))
+            qDebug() << query.lastQuery() << query.lastError().text();
+    }
 
     QMapIterator<QString, QString> i(pi->drivers);
     while (i.hasNext())
@@ -1207,6 +1215,11 @@ QList<ProfileInfo *> KSUserDB::GetAllProfiles()
         // Add host and port
         pi->host = record.value("host").toString();
         pi->port = record.value("port").toInt();
+
+        // City info
+        pi->city     = record.value("city").toString();
+        pi->province = record.value("province").toString();
+        pi->country  = record.value("country").toString();
 
         GetProfileDrivers(pi);
         //GetProfileCustomDrivers(pi);

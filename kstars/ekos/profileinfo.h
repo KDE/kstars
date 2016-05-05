@@ -24,6 +24,10 @@ public:
     QString name;
     QString host;
 
+    QString city;
+    QString province;
+    QString country;
+
     int id;
     int port;
 
