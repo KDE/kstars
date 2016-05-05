@@ -232,6 +232,9 @@ void Scheduler::appendLogText(const QString &text)
 
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: " << text;
+
     emit newLog();
 }
 
@@ -749,6 +752,9 @@ void Scheduler::stop()
     if(state != SCHEDULER_RUNNIG)
         return;
 
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Stop";
+
     // Stop running job and abort all others
     // in case of soft shutdown we skip this
     if (preemptiveShutdown == false)
@@ -843,6 +849,9 @@ void Scheduler::start()
         appendLogText(i18n("Shutdown script URL %1 is not valid.", shutdownScript->text()));
         return;
     }
+
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Start";
 
     pi->startAnimation();
 
@@ -1265,8 +1274,8 @@ void Scheduler::evaluateJobs()
             else if (nextObservationTime > (Options::leadTime()*60))
             {
                 // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
-                // Then we park the mount until next job is ready.
-                if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE &&  parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+                // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
+                if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE && (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) && parkMountCheck->isEnabled() && parkMountCheck->isChecked())
                 {
                         appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until the job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
                         parkWaitState = PARKWAIT_PARK;
@@ -1469,6 +1478,9 @@ void Scheduler::checkWeather()
         {
             weatherStatus = newStatus;
 
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: " << statusString;
+
             if (weatherStatus == IPS_OK)
                 weatherLabel->setPixmap(QIcon::fromTheme("security-high").pixmap(QSize(32,32)));
             else if (weatherStatus == IPS_BUSY)
@@ -1669,9 +1681,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
         double moonEffect = ( pow(separation, 1.7) * pow(zMoon, 0.5) ) / ( pow(zTarget, 1.1) * pow(illum, 0.5) );
 
         // Limit to 0 to 100 range.
-        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);
-
-        qDebug() << "Moon Effect is " << moonEffect;
+        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);        
 
         if (job->getMinMoonSeparation() > 0)
         {
@@ -1688,7 +1698,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     // Limit to 0 to 20
     score /= 5.0;
 
-    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));
+    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));       
 
     return score;
 
@@ -1795,6 +1805,9 @@ bool    Scheduler::checkEkosState()
 
 bool    Scheduler::checkINDIState()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking INDI State...";
+
     switch (indiState)
     {
     case INDI_IDLE:
@@ -1804,12 +1817,20 @@ bool    Scheduler::checkINDIState()
         if (isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
         {
             indiState = INDI_PROPERTY_CHECK;
+
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: Checking INDI Properties...";
+
             return false;
         }
         else
         {
             ekosInterface->call(QDBus::AutoDetect,"connectDevices");
             indiState = INDI_CONNECTING;
+
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: Connecting INDI Devices";
+
             return false;
         }
     }
@@ -1902,11 +1923,17 @@ bool    Scheduler::checkINDIState()
 
 bool Scheduler::checkStartupState()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking Startup State...";
+
     switch (startupState)
     {
     case STARTUP_IDLE:
     {
         KNotification::event( QLatin1String( "ObservatoryStartup" ) , i18n("Observatory is in the startup process"));
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Startup Idle. Starting startup process...";
 
         // If Ekos is already started, we skip the script and move on to mount unpark step
         QDBusReply<int> isEkosStarted;
@@ -1983,10 +2010,16 @@ bool Scheduler::checkStartupState()
 
 bool Scheduler::checkShutdownState()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking shutown state...";
+
     switch (shutdownState)
     {
     case SHUTDOWN_IDLE:
         KNotification::event( QLatin1String( "ObservatoryShutdown" ) , i18n("Observatory is in the shutdown process"));
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Starting shutdown process...";
 
         weatherTimer.stop();
         weatherTimer.disconnect();
@@ -2104,39 +2137,42 @@ bool Scheduler::checkShutdownState()
 }
 
 bool Scheduler::checkParkWaitState()
-{
+{    
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking Park Wait State...";
+
     switch (parkWaitState)
     {
-        case PARKWAIT_IDLE:
-            return true;
+    case PARKWAIT_IDLE:
+        return true;
 
-        case PARKWAIT_PARK:
-                parkMount();
-                break;
+    case PARKWAIT_PARK:
+        parkMount();
+        break;
 
-        case PARKWAIT_PARKING:
+    case PARKWAIT_PARKING:
         checkMountParkingStatus();
         break;
 
-        case PARKWAIT_PARKED:
-            return true;
+    case PARKWAIT_PARKED:
+        return true;
 
-        case PARKWAIT_UNPARK:
-                unParkMount();
-                break;
+    case PARKWAIT_UNPARK:
+        unParkMount();
+        break;
 
-        case PARKWAIT_UNPARKING:
+    case PARKWAIT_UNPARKING:
         checkMountParkingStatus();
         break;
 
-        case PARKWAIT_UNPARKED:
-            return true;
+    case PARKWAIT_UNPARKED:
+        return true;
 
-        case PARKWAIT_ERROR:
-            appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
-            stop();
-            return true;
-            break;
+    case PARKWAIT_ERROR:
+        appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
+        stop();
+        return true;
+        break;
     }
 
     return false;
@@ -2258,6 +2294,9 @@ void Scheduler::checkJobStage()
 {
     Q_ASSERT(currentJob != NULL);
 
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking Job Stage...";
+
     // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT && currentJob->getState() == SchedulerJob::JOB_BUSY)
     {
@@ -2366,6 +2405,9 @@ void Scheduler::checkJobStage()
             return;
         }
 
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Slewing Stage... Slew Status is " << slewStatus.value();
+
         if(slewStatus.value() == IPS_OK && isDomeMoving == false)
         {
             appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
@@ -2396,6 +2438,9 @@ void Scheduler::checkJobStage()
             checkShutdownState();
             return;
         }
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Focus stage...";
 
         // Is focus complete?
         if(focusReply.value())
@@ -2446,6 +2491,9 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_ALIGNING:
     {
        QDBusReply<bool> alignReply;
+
+       if (Options::verboseLogging())
+           qDebug() << "Scheduler: Alignment stage...";
 
        if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
        {
@@ -2520,9 +2568,12 @@ void Scheduler::checkJobStage()
 
 
     case SchedulerJob::STAGE_RESLEWING:
-    {
+    {        
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
         bool isDomeMoving=false;
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Re-slewing stage...";
 
         if (parkDomeCheck->isEnabled())
         {
@@ -2560,6 +2611,9 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_CALIBRATING:
     {
         QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Calibration stage...";
 
         if (guideReply.error().type() == QDBusError::UnknownObject)
         {
@@ -2655,6 +2709,9 @@ void Scheduler::checkJobStage()
 
 void Scheduler::getNextAction()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Get next action...";
+
     switch(currentJob->getStage())
     {
 
@@ -2724,7 +2781,10 @@ void Scheduler::getNextAction()
 }
 
 void Scheduler::stopCurrentJobAction()
-{    
+{
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Stop current action...";
+
     switch(currentJob->getStage())
     {
     case SchedulerJob::STAGE_IDLE:
@@ -3251,6 +3311,9 @@ void Scheduler::findNextJob()
 {
     jobTimer.stop();
 
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Find next job...";
+
     if (currentJob->getState() == SchedulerJob::JOB_ERROR)
     {
         appendLogText(i18n("%1 observation job terminated due to errors.", currentJob->getName()));
@@ -3426,6 +3489,9 @@ void Scheduler::setGOTOMode(Align::GotoMode mode)
 
 void Scheduler::stopEkos()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Stopping Ekos...";
+
     indiConnectFailureCount=0;
     ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
     ekosInterface->call(QDBus::AutoDetect,"stop");
