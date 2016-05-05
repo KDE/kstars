@@ -2498,6 +2498,10 @@ void Scheduler::checkJobStage()
        if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
        {
            QDBusReply<int> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
+
+           if (Options::verboseLogging())
+               qDebug() << "Scheduler: Checking Load And Slew Status";
+
            if (loadSlewReply.value() == IPS_OK)
            {
                appendLogText(i18n("%1 is solved and aligned successfully.", currentJob->getFITSFile().toString()));
@@ -2537,6 +2541,9 @@ void Scheduler::checkJobStage()
        // Is solver complete?
         if(alignReply.value())
         {
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: Solver is complete, checking if successfull...";
+
             alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
             // Is solver successful?
             if(alignReply.value())

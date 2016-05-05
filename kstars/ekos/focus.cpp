@@ -1639,6 +1639,9 @@ void Focus::appendLogText(const QString &text)
 
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
+    if (Options::verboseLogging())
+        qDebug() << "Focus: " << text;
+
     emit newLog();
 }
 
