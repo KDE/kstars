@@ -213,6 +213,7 @@ bool Telescope::isInMotion()
 {
     ISwitchVectorProperty *movementSP(NULL);
     bool inMotion=false;
+    bool inSlew=isSlewing();
 
     movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
     if (movementSP)
@@ -222,7 +223,10 @@ bool Telescope::isInMotion()
     if (movementSP)
         inMotion = ((movementSP->s == IPS_BUSY) || inMotion);
 
-    return (isSlewing() || inMotion);
+    if (Options::verboseLogging())
+        qDebug() << "Telescope: isSlewing " << inSlew << " inMotion " << inMotion;
+
+    return (inSlew || inMotion);
 }
 
 bool Telescope::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
