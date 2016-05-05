@@ -12,6 +12,7 @@
  */
 
 #include <QMap>
+#include <QString>
 
 class ProfileInfo
 {
