@@ -330,8 +330,9 @@ public Q_SLOTS:
      * @param city the city name of the location
      * @param province the province name of the location
      * @param country the country name of the location
+     * @return True if geographic location is found and set, false otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGeoLocation( const QString &city, const QString &province, const QString &country );
+    Q_SCRIPTABLE bool setGeoLocation( const QString &city, const QString &province, const QString &country );
 
     /** DBUS interface function.  Modify a color.
      * @param colorName the name of the color to be modified (e.g., "SkyColor")
