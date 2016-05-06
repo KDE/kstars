@@ -1720,6 +1720,7 @@ void EkosManager::cleanDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
+    profileGroup->setEnabled(true);
 
     appendLogText(i18n("INDI services stopped."));
 
