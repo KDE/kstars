@@ -61,11 +61,20 @@
       <arg name="radius" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setSolverOptions">
-      <arg name="updateCoords" type="b" direction="in"/>
-      <arg name="previewImage" type="b" direction="in"/>
-      <arg name="verbose" type="b" direction="in"/>
-      <arg name="useOAGT" type="b" direction="in"/>
+    <method name="setUpdateCoords">
+      <arg name="enabled" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setPreviewImage">
+      <arg name="enabled" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setVerbose">
+      <arg name="enabled" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setUseOAGT">
+      <arg name="enabled" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
   </interface>

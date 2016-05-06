@@ -132,12 +132,28 @@ public:
 
     /** DBUS interface function.
      * Sets the solver's option
-     * @param updateCoords if true, the telescope coordinates are automatically incorporated into the search pattern whenever the telescope completes slewing.
-     * @param previewImage if true, the captured image is viewed in the FITSViewer tool before getting passed to the solver.
+     * @param enabled if true, the telescope coordinates are automatically incorporated into the search pattern whenever the telescope completes slewing.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setUpdateCoords(bool enabled);
+
+    /** DBUS interface function.
+     * Sets the solver's option
+     * @param enabled if true, the captured image is viewed in the FITSViewer tool before getting passed to the solver.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setPreviewImage(bool enabled);
+
+    /** DBUS interface function.
+     * Sets the solver's option
      * @param verbose if true, extended information will be displayed in the logger window.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setVerbose(bool enabled);
+
+    /** DBUS interface function.
+     * Sets the solver's option
      * @param useOAGT if true, use the Off-Axis Guide Telescope focal length and aperture for FOV calculations. Otherwise, the main telescope's focal length and aperture are used for the calculation.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setSolverOptions(bool updateCoords, bool previewImage, bool verbose, bool useOAGT);
+    Q_SCRIPTABLE Q_NOREPLY void setUseOAGT(bool enabled);
+
 
     /** @}*/
 

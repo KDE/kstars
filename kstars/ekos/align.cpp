@@ -906,7 +906,6 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
         if (kcfg_solverUpdateCoords->isChecked())
         {
-
             if (currentTelescope->isSlewing() && slew_dirty == false)
                 slew_dirty = true;
             else if (currentTelescope->isSlewing() == false && slew_dirty)
@@ -1578,12 +1577,24 @@ void Align::setSolverSearchOptions(double ra, double dec, double radius)
     radiusBox->setText(QString::number(radius));
 }
 
-void Align::setSolverOptions(bool updateCoords, bool previewImage, bool verbose, bool useOAGT)
+void Align::setUpdateCoords(bool enabled)
 {
-    kcfg_solverUpdateCoords->setChecked(updateCoords);
-    kcfg_solverPreview->setChecked(previewImage);
-    kcfg_solverVerbose->setChecked(verbose);
-    kcfg_solverOTA->setChecked(useOAGT);
+    kcfg_solverUpdateCoords->setChecked(enabled);
+}
+
+void Align::setPreviewImage(bool enabled)
+{
+    kcfg_solverPreview->setChecked(enabled);
+}
+
+void Align::setVerbose(bool enabled)
+{
+    kcfg_solverVerbose->setChecked(enabled);
+}
+
+void Align::setUseOAGT(bool enabled)
+{
+    kcfg_solverOTA->setChecked(enabled);
 }
 
 FOV* Align::fov()

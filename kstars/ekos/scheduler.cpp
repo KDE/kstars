@@ -3408,7 +3408,11 @@ void Scheduler::findNextJob()
 void Scheduler::startAstrometry()
 {   
     QDBusMessage reply;
-    setGOTOMode(Align::ALIGN_SLEW);    
+    setGOTOMode(Align::ALIGN_SLEW);
+
+    // Always turn update coords on
+    QVariant arg(true);
+    alignInterface->call(QDBus::AutoDetect,"setUpdateCoords", arg);
 
     // If FITS file is specified, then we use load and slew
     if (currentJob->getFITSFile().isEmpty() == false)
