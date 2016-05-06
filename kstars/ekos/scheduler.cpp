@@ -102,9 +102,15 @@ Scheduler::Scheduler()
 
     weatherStatus=IPS_IDLE;
 
+    // Get current KStars time and set seconds to zero
+    QDateTime currentDateTime = KStarsData::Instance()->lt();
+    QTime     currentTime     = currentDateTime.time();
+    currentTime.setHMS(currentTime.hour(), currentTime.minute(), 0);
+    currentDateTime.setTime(currentTime);
+
     // Set initial time for startup and completion times
-    startupTimeEdit->setDateTime(KStarsData::Instance()->lt());
-    completionTimeEdit->setDateTime(KStarsData::Instance()->lt());    
+    startupTimeEdit->setDateTime(currentDateTime);
+    completionTimeEdit->setDateTime(currentDateTime);
 
     // Set up DBus interfaces
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
@@ -1723,19 +1729,22 @@ void Scheduler::calculateDawnDusk()
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
-    QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
-    QList<QVariant> dbusargs;
-    dbusargs.append(url);
-    QDBusReply<bool> isJobComplete = captureInterface->callWithArgumentList(QDBus::AutoDetect,"isSequenceFileComplete",dbusargs);
-
-    if (isJobComplete.error().type() == QDBusError::NoError)
+    if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
     {
-        // If it is already complete
-        if (isJobComplete.value())
+        QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
+        QList<QVariant> dbusargs;
+        dbusargs.append(url);
+        QDBusReply<bool> isJobComplete = captureInterface->callWithArgumentList(QDBus::AutoDetect,"isSequenceFileComplete",dbusargs);
+
+        if (isJobComplete.error().type() == QDBusError::NoError)
         {
-            currentJob = NULL;
-            job->setState(SchedulerJob::JOB_COMPLETE);
-            return;
+            // If it is already complete
+            if (isJobComplete.value())
+            {
+                currentJob = NULL;
+                job->setState(SchedulerJob::JOB_COMPLETE);
+                return;
+            }
         }
     }
 
@@ -3363,9 +3372,6 @@ void Scheduler::findNextJob()
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
 
-        // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
-        captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
-
         startCapture();
         jobTimer.start();
         return;
@@ -3394,9 +3400,6 @@ void Scheduler::findNextJob()
             currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
 
             captureBatch++;
-
-            // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
-            captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
 
             startCapture();
             jobTimer.start();
@@ -3473,6 +3476,11 @@ void Scheduler::startCapture()
     dbusargs.append(url);
     captureInterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",dbusargs);
 
+    // If sequence is a loop, ignore sequence history
+    if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
+            captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
+
+    // Start capture process
     captureInterface->call(QDBus::AutoDetect,"start");
 
     currentJob->setStage(SchedulerJob::STAGE_CAPTURING);

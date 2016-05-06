@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
+    <width>622</width>
     <height>496</height>
    </rect>
   </property>
@@ -483,6 +483,9 @@
           <property name="rowCount">
            <number>0</number>
           </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>Name</string>
@@ -491,6 +494,12 @@
           <column>
            <property name="text">
             <string>Status</string>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
            </property>
           </column>
           <column>
@@ -618,7 +627,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="startupTimeEdit"/>
+           <widget class="QDateTimeEdit" name="startupTimeEdit">
+            <property name="displayFormat">
+             <string>dd/MM/yy h:mm AP</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_3">
@@ -811,7 +827,17 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="completionTimeEdit"/>
+           <widget class="QDateTimeEdit" name="completionTimeEdit">
+            <property name="displayFormat">
+             <string>dd/MM/yy h:mm AP</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="timeSpec">
+             <enum>Qt::LocalTime</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_7">
@@ -1122,19 +1148,18 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
@@ -1144,5 +1169,6 @@
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
  </buttongroups>
 </ui>
