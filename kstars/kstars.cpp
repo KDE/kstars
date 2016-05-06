@@ -131,7 +131,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     }
 
     //set up Dark color scheme for application windows
-    DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
+    DarkPalette = QPalette(QColor("black"), QColor("black"));
+    DarkPalette.setColor( QPalette::Inactive, QPalette::WindowText, QColor( "red" ) );
+    DarkPalette.setColor( QPalette::Normal, QPalette::WindowText, QColor( "red" ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Base, QColor( "black" ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Text, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Highlight, QColor( 238, 0, 0 ) );
