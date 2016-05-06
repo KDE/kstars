@@ -1212,7 +1212,7 @@ void CCD::processBLOB(IBLOB* bp)
         }
 
         QUrl url = QUrl::fromLocalFile(filename);
-        ImageViewer *iv = new ImageViewer(url, QString(), KStars::Instance());
+        ImageViewer *iv = new ImageViewer(url.path());
         if (iv)
         {
            iv->show();
