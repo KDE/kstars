@@ -446,8 +446,8 @@ bool cgmath::calc_and_set_reticle( double start_x, double start_y, double end_x,
 
           ditherRate[GUIDE_RA] = totalPulse / len;
 
-          if (Options::verboseLogging())
-            qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
+          if (Options::guideLogging())
+            qDebug() << "Guide: Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
 
      }
 
@@ -514,8 +514,8 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
 
           ditherRate[GUIDE_RA] = totalPulse / len;
 
-          if (Options::verboseLogging())
-            qDebug() << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
+          if (Options::guideLogging())
+            qDebug() << "Guide: Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
 
           x = end_dec_x-start_dec_x;
           y = end_dec_y - start_dec_y;
@@ -523,8 +523,8 @@ bool cgmath::calc_and_set_reticle2( double start_ra_x, double start_ra_y, double
 
           ditherRate[GUIDE_DEC] = totalPulse / len;
 
-          if (Options::verboseLogging())
-            qDebug() << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel";
+          if (Options::guideLogging())
+            qDebug() << "Guide: Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel";
 
      }
 
@@ -865,8 +865,8 @@ void cgmath::process_axes( void  )
  int cnt = 0;
  double t_delta = 0;
 
-    if (Options::verboseLogging())
-        qDebug() << "Processing Axes";
+    if (Options::guideLogging())
+        qDebug() << "Guide: Processing Axes";
 
  	// process axes...
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
@@ -886,8 +886,8 @@ void cgmath::process_axes( void  )
  		{
  			t_delta += drift[k][idx];
 
-            if (Options::verboseLogging())
-                qDebug() << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta ;
+            if (Options::guideLogging())
+                qDebug() << "Guide: At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta ;
  		
 			if( idx > 0 )
 				--idx;
@@ -901,18 +901,18 @@ void cgmath::process_axes( void  )
 		out_params.delta[k] = t_delta / (double)cnt;
 		drift_integral[k] /= (double)MAX_ACCUM_CNT;
  	
-        if (Options::verboseLogging())
+        if (Options::guideLogging())
         {
             //qDebug() << "cnt: " << cnt;
-            qDebug() << "delta         [" << k << "]= "  << out_params.delta[k];
-            qDebug() << "drift_integral[" << k << "]= "  << drift_integral[k];
+            qDebug() << "Guide: delta         [" << k << "]= "  << out_params.delta[k];
+            qDebug() << "Guide: drift_integral[" << k << "]= "  << drift_integral[k];
         }
 
 		out_params.pulse_length[k] = fabs(out_params.delta[k]*in_params.proportional_gain[k] + drift_integral[k]*in_params.integral_gain[k]);
  		out_params.pulse_length[k] = out_params.pulse_length[k] <= in_params.max_pulse_length[k] ? out_params.pulse_length[k] : in_params.max_pulse_length[k];
 
-        if (Options::verboseLogging())
-            qDebug() << "pulse_length  [" << k << "]= "  << out_params.pulse_length[k];
+        if (Options::guideLogging())
+            qDebug() << "Guide: pulse_length  [" << k << "]= "  << out_params.pulse_length[k];
 
  		// calc direction
  		if( !in_params.enabled[k] )
@@ -937,8 +937,8 @@ void cgmath::process_axes( void  )
  		else
  			out_params.pulse_dir[k] = NO_DIR;
 
-    if (Options::verboseLogging())
-            qDebug() << "Direction     : " << get_direction_string(out_params.pulse_dir[k]);
+    if (Options::guideLogging())
+            qDebug() << "Guide: Direction     : " << get_direction_string(out_params.pulse_dir[k]);
 
  	}
 
@@ -978,8 +978,8 @@ void cgmath::do_processing( void )
 	if( preview_mode )
 		return;
 
-    if (Options::verboseLogging())
-        qDebug() << "################## BEGIN PROCESSING ##################";
+    if (Options::guideLogging())
+        qDebug() << "Guide: ################## BEGIN PROCESSING ##################";
 
 	// translate star coords into sky coord. system
 
@@ -988,20 +988,20 @@ void cgmath::do_processing( void )
 	arc_reticle_pos = point2arcsec( reticle_pos );
 
 
-    if (Options::verboseLogging())
+    if (Options::guideLogging())
     {
-        qDebug() << "Star    X : " << star_pos.x << " Y  : " << star_pos.y;
-        qDebug() << "Reticle X : " << reticle_pos.x << " Y  :" << reticle_pos.y;
-        qDebug() << "Star    RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
-        qDebug() << "Reticle RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
+        qDebug() << "Guide: Star    X : " << star_pos.x << " Y  : " << star_pos.y;
+        qDebug() << "Guide: Reticle X : " << reticle_pos.x << " Y  :" << reticle_pos.y;
+        qDebug() << "Guide: Star    RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
+        qDebug() << "Guide: Reticle RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
     }
 
 	// translate into sky coords.
 	star_pos = arc_star_pos - arc_reticle_pos;
     star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
 
-    if (Options::verboseLogging())
-        qDebug() << "-------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
+    if (Options::guideLogging())
+        qDebug() << "Guide: -------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
 
 	star_pos = star_pos * ROT_Z;
 
@@ -1010,10 +1010,10 @@ void cgmath::do_processing( void )
     drift[GUIDE_RA][channel_ticks[GUIDE_RA]]   = star_pos.x;
     drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]] = star_pos.y;
 
-    if (Options::verboseLogging())
+    if (Options::guideLogging())
     {
-        qDebug() << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
-        qDebug() << "RA channel ticks: " << channel_ticks[GUIDE_RA] << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
+        qDebug() << "Guide: -------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
+        qDebug() << "Guide: RA channel ticks: " << channel_ticks[GUIDE_RA] << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
     }
 
 	// make decision by axes
@@ -1025,8 +1025,8 @@ void cgmath::do_processing( void )
 	// finally process tickers
 	do_ticks();
 
-    if (Options::verboseLogging())
-        qDebug() << "################## FINISH PROCESSING ##################";
+    if (Options::guideLogging())
+        qDebug() << "Guide: ################## FINISH PROCESSING ##################";
 }
 
 

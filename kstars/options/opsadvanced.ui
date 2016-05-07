@@ -6,26 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
-    <height>636</height>
+    <width>584</width>
+    <height>446</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout">
-   <property name="spacing">
-    <number>6</number>
-   </property>
-   <property name="leftMargin">
-    <number>8</number>
-   </property>
-   <property name="topMargin">
-    <number>8</number>
-   </property>
-   <property name="rightMargin">
-    <number>8</number>
-   </property>
-   <property name="bottomMargin">
-    <number>8</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
@@ -258,112 +243,206 @@
          <property name="title">
           <string>Logging Output</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Verbosity:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QRadioButton" name="kcfg_VerboseLogging">
-              <property name="toolTip">
-               <string>Enable verbose debug output</string>
-              </property>
-              <property name="text">
-               <string>&amp;Verbose</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">verbosityButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QRadioButton" name="kcfg_RegularLogging">
-              <property name="toolTip">
-               <string>Enable regular debug output</string>
-              </property>
-              <property name="text">
-               <string>Regular</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">verbosityButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QRadioButton" name="kcfg_DisableLogging">
-              <property name="toolTip">
-               <string>Disable all logging output</string>
-              </property>
-              <property name="text">
-               <string>Disable</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">verbosityButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Output:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QRadioButton" name="kcfg_LogToDefault">
-              <property name="toolTip">
-               <string>Log debug messages to default output device used by the platform (e.g. Standard Error)</string>
-              </property>
-              <property name="text">
-               <string>Default</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">logbuttonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QRadioButton" name="kcfg_LogToFile">
-              <property name="toolTip">
-               <string>Log output to log file</string>
-              </property>
-              <property name="text">
-               <string>File</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">logbuttonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>Log file:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1" colspan="3">
-             <widget class="QLineEdit" name="kcfg_VerboseLogFile">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Verbosity:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="kcfg_VerboseLogging">
+            <property name="toolTip">
+             <string>Enable verbose debug output</string>
+            </property>
+            <property name="text">
+             <string>&amp;Verbose</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">verbosityButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QRadioButton" name="kcfg_RegularLogging">
+            <property name="toolTip">
+             <string>Enable regular debug output</string>
+            </property>
+            <property name="text">
+             <string>Regular</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">verbosityButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QRadioButton" name="kcfg_DisableLogging">
+            <property name="toolTip">
+             <string>Disable all logging output</string>
+            </property>
+            <property name="text">
+             <string>Disable</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">verbosityButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Output:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QRadioButton" name="kcfg_LogToDefault">
+            <property name="toolTip">
+             <string>Log debug messages to default output device used by the platform (e.g. Standard Error)</string>
+            </property>
+            <property name="text">
+             <string>Default</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">logbuttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QRadioButton" name="kcfg_LogToFile">
+            <property name="toolTip">
+             <string>Log output to log file</string>
+            </property>
+            <property name="text">
+             <string>File</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">logbuttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Modules:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="kcfg_FITSLogging">
+            <property name="toolTip">
+             <string>Log FITS processing activity</string>
+            </property>
+            <property name="text">
+             <string>FITS</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modulesGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="kcfg_INDILogging">
+            <property name="toolTip">
+             <string>Log INDI devices activity</string>
+            </property>
+            <property name="text">
+             <string>INDI</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modulesGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="kcfg_CaptureLogging">
+            <property name="toolTip">
+             <string>Log Ekos Capture module activity</string>
+            </property>
+            <property name="text">
+             <string>Capture</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modulesGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="2" column="4">
+           <widget class="QCheckBox" name="kcfg_FocusLogging">
+            <property name="toolTip">
+             <string>Log Ekos Focus module activity</string>
+            </property>
+            <property name="text">
+             <string>Focus</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modulesGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="2" column="5">
+           <widget class="QCheckBox" name="kcfg_AlignmentLogging">
+            <property name="toolTip">
+             <string>Log Ekos Alignment module activity</string>
+            </property>
+            <property name="text">
+             <string>Alignment</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modulesGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="2" column="6">
+           <widget class="QCheckBox" name="kcfg_GuideLogging">
+            <property name="toolTip">
+             <string>Log Ekos Guide module activity</string>
+            </property>
+            <property name="text">
+             <string>Guide</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modulesGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="2" column="7">
+           <widget class="QCheckBox" name="kcfg_MountLogging">
+            <property name="toolTip">
+             <string>Log Ekos Mount module activity</string>
+            </property>
+            <property name="text">
+             <string>Mount</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modulesGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Log file:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" colspan="7">
+           <widget class="QLineEdit" name="kcfg_VerboseLogFile">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -919,5 +998,10 @@
  <buttongroups>
   <buttongroup name="verbosityButtonGroup"/>
   <buttongroup name="logbuttonGroup"/>
+  <buttongroup name="modulesGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>

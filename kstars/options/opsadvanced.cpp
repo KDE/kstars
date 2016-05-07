@@ -46,6 +46,9 @@ OpsAdvanced::OpsAdvanced()
     connect (kcfg_VerboseLogging, SIGNAL(toggled(bool)), this, SLOT(slotToggleVerbosityOptions()));
 
     connect(kcfg_LogToFile, SIGNAL(toggled(bool)), this, SLOT(slotToggleOutputOptions()));
+
+    foreach(QAbstractButton *b, modulesGroup->buttons())
+        b->setEnabled(kcfg_VerboseLogging->isChecked());
 }
 
 OpsAdvanced::~OpsAdvanced() {}
@@ -64,6 +67,13 @@ void OpsAdvanced::slotToggleVerbosityOptions()
 {
     if (kcfg_DisableLogging->isChecked())
         KSUtils::Logging::Disable();
+
+    foreach(QAbstractButton *b, modulesGroup->buttons())
+    {
+        b->setEnabled(kcfg_VerboseLogging->isChecked());
+        // If verbose is not checked, CLEAR all selections
+        b->setChecked(kcfg_VerboseLogging->isChecked() ? b->isChecked() : false);
+    }
 }
 
 void OpsAdvanced::slotToggleOutputOptions()

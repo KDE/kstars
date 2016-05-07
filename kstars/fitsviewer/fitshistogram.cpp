@@ -119,7 +119,7 @@ void FITSHistogram::constructHistogram()
     double pixel_range = fits_max - fits_min;
     binWidth = pixel_range / (binCount - 1);
 
-    if (Options::verboseLogging())
+    if (Options::fITSLogging())
         qDebug() << "fits MIN: " << fits_min << " - fits MAX: " << fits_max << " - pixel range: " << pixel_range << " - bin width " << binWidth << " bin count " << binCount;
 
     for (int i=0; i < binCount; i++)
@@ -196,8 +196,8 @@ void FITSHistogram::constructHistogram()
 
     // Custom index to indicate the overall constrast of the image
     JMIndex = cumulativeFrequency[binCount/8]/cumulativeFrequency[binCount/4];
-    if (Options::verboseLogging())
-        qDebug() << "JMIndex " << JMIndex;
+    if (Options::fITSLogging())
+        qDebug() << "FITHistogram: JMIndex " << JMIndex;
 
     image_data->setMedian(median);
 
@@ -383,7 +383,7 @@ bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
     if (delta == NULL)
     {
         delete(raw_delta);
-        qDebug() << "Error: Ran out of memory compressing delta" << endl;
+        qDebug() << "FITSHistogram Error: Ran out of memory compressing delta" << endl;
         return false;
     }
 
@@ -391,7 +391,7 @@ bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
     if (r != Z_OK)
     {
         /* this should NEVER happen */
-        qDebug() << "Error: Failed to compress raw_delta" << endl;
+        qDebug() << "FITSHistogram Error: Failed to compress raw_delta" << endl;
         return false;
     }
 
@@ -432,7 +432,7 @@ bool FITSHistogramCommand::reverseDelta()
     int r = uncompress(raw_delta, &totalBytes, delta, compressedBytes);
     if (r != Z_OK)
     {
-        qDebug() << "compression error in reverseDelta()" << endl;
+        qDebug() << "FITSHistogram compression error in reverseDelta()" << endl;
         delete(raw_delta);
         return false;
     }

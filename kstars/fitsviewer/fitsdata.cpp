@@ -141,7 +141,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
     }
@@ -153,7 +153,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         errMessage = i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status));
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
     }
@@ -163,7 +163,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         errMessage = i18n("1D FITS images are not supported in KStars.");
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
     }
@@ -191,7 +191,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
             errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
             if (silent == false)
                 KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
-            if (Options::verboseLogging())
+            if (Options::fITSLogging())
                 qDebug() << errMessage;
             return false;
             break;
@@ -205,7 +205,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         errMessage = i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]);
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
     }
@@ -221,7 +221,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     image_buffer = new float[stats.samples_per_channel * channels];
     if (image_buffer == NULL)
     {
-       qDebug() << "Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * sizeof(float) << " bytes.";
+       qDebug() << "FITSData: Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * sizeof(float) << " bytes.";
        clearImageBuffers();
        return false;
     }
@@ -239,7 +239,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         if (silent == false)
             KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
         fits_report_error(stderr, status);
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
     }
@@ -619,7 +619,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
        }
 
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
         {
             qDebug() << "SNR: " << stats.SNR;
             qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
@@ -710,7 +710,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
          }
      }
 
-    if (Options::verboseLogging())
+    if (Options::fITSLogging())
         qDebug() << "Total number of edges found is: " << edges.count();
 
     // In case of hot pixels
@@ -722,7 +722,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
     if (edges.count() >= MAX_EDGE_LIMIT)
     {
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << "Too many edges, aborting... " << edges.count();
 
         qDeleteAll(edges);
@@ -750,19 +750,19 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     // Now, let's scan the edges and find the maximum centroid vertically
     for (int i=0; i < edges.count(); i++)
     {
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << "# " << i << " Edge at (" << edges[i]->x << "," << edges[i]->y << ") With a value of " << edges[i]->val  << " and width of "
             << edges[i]->width << " pixels. with sum " << edges[i]->sum;
 
         // If edge scanned already, skip
         if (edges[i]->scanned == 1)
         {
-            if (Options::verboseLogging())
+            if (Options::fITSLogging())
                 qDebug() << "Skipping check for center " << i << " because it was already counted";
             continue;
         }
 
-        if (Options::verboseLogging())
+        if (Options::fITSLogging())
             qDebug() << "Invetigating edge # " << i << " now ...";
 
         // Get X, Y, and Val of edge
@@ -813,7 +813,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 cen_limit = 2;
         }
 
-    if (Options::verboseLogging())
+    if (Options::fITSLogging())
         qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is " << cen_limit;
 
         if (cen_limit < 1)
@@ -831,7 +831,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             width_sum += rCenter->width;
             rCenter->width = cen_w;
 
-           if (Options::verboseLogging())
+           if (Options::fITSLogging())
             qDebug() << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")";
 
             // Calculate Total Flux From Center, Half Flux, Full Summation
@@ -864,7 +864,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             {
                 if (TF >= HF)
                 {
-                    if (Options::verboseLogging())
+                    if (Options::fITSLogging())
                         qDebug() << "Stopping at TF " << TF << " after #" << k << " pixels.";
                     break;
                 }
@@ -880,7 +880,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             // Store full flux
             rCenter->val = FSum;
 
-            if (Options::verboseLogging())
+            if (Options::fITSLogging())
                 qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum;
 
             starCenters.append(rCenter);

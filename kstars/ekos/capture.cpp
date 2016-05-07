@@ -1126,8 +1126,10 @@ void Capture::checkSeqBoundary(const QString &path)
 
 void Capture::appendLogText(const QString &text)
 {
-
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    if (Options::captureLogging())
+        qDebug() << "Capture: " << text;
 
     emit newLog();
 }

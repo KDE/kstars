@@ -568,7 +568,7 @@ CCDFrameType CCDChip::getFrameType()
 
     if (ccdFrame == NULL)
     {
-        qDebug() << "Cannot find active frame in CCD!" << endl;
+        qDebug() << "ISD:CCD Cannot find active frame in CCD!" << endl;
         return fType;
     }
 
@@ -1123,7 +1123,7 @@ void CCD::processBLOB(IBLOB* bp)
 
          if (!tmpFile.open())
          {
-                 qDebug() << "Error: Unable to open " << filename << endl;
+                 qDebug() << "ISD:CCD Error: Unable to open " << filename << endl;
                  emit BLOBUpdated(NULL);
                  return;
          }
@@ -1151,7 +1151,7 @@ void CCD::processBLOB(IBLOB* bp)
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
             {
-                    qDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+                    qDebug() << "ISD:CCD Error: Unable to open " << fits_temp_file.fileName() << endl;
                     emit BLOBUpdated(NULL);
                     return;
             }

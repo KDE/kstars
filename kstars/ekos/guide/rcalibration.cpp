@@ -535,12 +535,12 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             start_x1 = ui.spinBox_ReticleX->value();
             start_y1 = ui.spinBox_ReticleY->value();
 
-            if (Options::verboseLogging())
-                qDebug() << "Start X1 " << start_x1 << " Start Y1 " << start_y1;
+            if (Options::guideLogging())
+                qDebug() << "Guide: Start X1 " << start_x1 << " Start Y1 " << start_y1;
 
             pmain_wnd->sendPulse( RA_INC_DIR, pulseDuration );
-            if (Options::verboseLogging())
-                qDebug() << "Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+            if (Options::guideLogging())
+                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
 
             iterations++;
 
@@ -555,14 +555,14 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         case CAL_RA_INC:
             pmain_wnd->sendPulse( RA_INC_DIR, pulseDuration );
 
-            if (Options::verboseLogging())
+            if (Options::guideLogging())
             {
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
                 pmath->get_star_screen_pos( &cur_x, &cur_y );
-                qDebug() << "Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
 
-                qDebug() << "Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";                
+                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
@@ -578,8 +578,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             if (iterations == auto_drift_time)
             {
                 pmath->get_star_screen_pos( &end_x1, &end_y1 );
-                if (Options::verboseLogging())
-                    qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1;
+                if (Options::guideLogging())
+                    qDebug() << "Guide: End X1 " << end_x1 << " End Y1 " << end_y1;
 
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
@@ -596,8 +596,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             star_pos.y = -star_pos.y;
             star_pos = star_pos * ROT_Z;
 
-            if (Options::verboseLogging())
-                qDebug() << "Star x pos is " << star_pos.x << " from original point.";
+            if (Options::guideLogging())
+                qDebug() << "Guide: Star x pos is " << star_pos.x << " from original point.";
 
             // start point reached... so exit
             if( star_pos.x < 1.5 )
@@ -614,14 +614,14 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             {
                 pmain_wnd->sendPulse( RA_DEC_DIR, pulseDuration );
 
-                if (Options::verboseLogging())
+                if (Options::guideLogging())
                 {
                     // Star position resulting from LAST guiding pulse to mount
                     double cur_x, cur_y;
                     pmath->get_star_screen_pos( &cur_x, &cur_y );
-                    qDebug() << "Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                    qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
 
-                    qDebug() << "Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                    qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
                 }
 
                 iterations++;
@@ -648,19 +648,19 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             start_x2 = cur_x;
             start_y2 = cur_y;
 
-           if (Options::verboseLogging())
-            qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2;
+           if (Options::guideLogging())
+            qDebug() << "Guide: Start X2 " << start_x2 << " start Y2 " << start_y2;
 
             pmain_wnd->sendPulse( DEC_INC_DIR, pulseDuration );
 
-            if (Options::verboseLogging())
+            if (Options::guideLogging())
             {
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
                 pmath->get_star_screen_pos( &cur_x, &cur_y );
-                qDebug() << "Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
 
-                qDebug() << "Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
@@ -700,14 +700,14 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
     case CAL_DEC_INC:
         pmain_wnd->sendPulse( DEC_INC_DIR, pulseDuration );
 
-        if (Options::verboseLogging())
+        if (Options::guideLogging())
         {
             // Star position resulting from LAST guiding pulse to mount
             double cur_x, cur_y;
             pmath->get_star_screen_pos( &cur_x, &cur_y );
-            qDebug() << "Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+            qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
 
-            qDebug() << "Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+            qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
         }
 
         iterations++;
@@ -724,8 +724,8 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         if (dec_iterations == auto_drift_time)
         {
             pmath->get_star_screen_pos( &end_x2, &end_y2 );
-            if (Options::verboseLogging())
-                qDebug() << "End X2 " << end_x2 << " End Y2 " << end_y2;
+            if (Options::guideLogging())
+                qDebug() << "Guide: End X2 " << end_x2 << " End Y2 " << end_y2;
 
             phi = pmath->calc_phi( start_x2, start_y2, end_x2, end_y2 );
             ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
@@ -739,15 +739,15 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
         //pmain_wnd->appendLogText(i18n("GUIDE_DEC running back...");
 
-        if (Options::verboseLogging())
-            qDebug() << "Cur X2 " << cur_x << " Cur Y2 " << cur_y;
+        if (Options::guideLogging())
+            qDebug() << "Guide: Cur X2 " << cur_x << " Cur Y2 " << cur_y;
 
         Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x2, start_y2, 0 );
         star_pos.y = -star_pos.y;
         star_pos = star_pos * ROT_Z;
 
-        if (Options::verboseLogging())
-            qDebug() << "start Pos X " << star_pos.x << " from original point.";
+        if (Options::guideLogging())
+            qDebug() << "Guide: start Pos X " << star_pos.x << " from original point.";
 
         // start point reached... so exit
         if( star_pos.x < 1.5 )
@@ -764,14 +764,14 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         {
             pmain_wnd->sendPulse( DEC_DEC_DIR, pulseDuration );
 
-            if (Options::verboseLogging())
+            if (Options::guideLogging())
             {
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
                 pmath->get_star_screen_pos( &cur_x, &cur_y );
-                qDebug() << "Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
 
-                qDebug() << "Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
@@ -998,8 +998,8 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
         // Select appropriate square size
         int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
 
-        if (Options::verboseLogging())
-            qDebug() << "Ideal calibration box size for star width: " << starCenters[maxScoreIndex]->width << " is " << idealSize << " pixels";
+        if (Options::guideLogging())
+            qDebug() << "Guide: Ideal calibration box size for star width: " << starCenters[maxScoreIndex]->width << " is " << idealSize << " pixels";
 
         for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
         {
@@ -1007,8 +1007,8 @@ QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
             {
                 ui.comboBox_SquareSize->setCurrentIndex(i);
 
-                if (Options::verboseLogging())
-                    qDebug() << "Selecting standard square size " << ui.comboBox_SquareSize->itemText(i).toInt() << " pixels";
+                if (Options::guideLogging())
+                    qDebug() << "Guide: Selecting standard square size " << ui.comboBox_SquareSize->itemText(i).toInt() << " pixels";
 
                 pmath->resize_square(i);
                 break;
