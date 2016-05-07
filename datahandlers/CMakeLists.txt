@@ -4,6 +4,7 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
+    ${kstars_SOURCE_DIR}/kstars/kstarslite
 )
 
 set(LibKSDataHandlers_SRCS

@@ -29,6 +29,10 @@ using namespace Eigen;
 #include <QPointF>
 
 #include "skyobjects/skypoint.h"
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#endif
+
 #include "skymap.h"
 
 class KStarsData;
@@ -64,7 +68,11 @@ public:
     void setViewParams( const ViewParams& p );
 
     /** Return the type of this projection */
+    #if 0
+    virtual SkyMapLite::Projection type() const = 0;
+    #else
     virtual SkyMap::Projection type() const = 0;
+    #endif
 
     /** Return the FOV of this projection */
     double fov() const;

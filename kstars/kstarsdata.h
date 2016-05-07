@@ -231,7 +231,7 @@ public:
 
 signals:
     /** Signal that specifies the text that should be drawn in the KStarsSplash window. */
-    void progressText( const QString& );
+    void progressText( const QString& text );
 
     /** Should be used to refresh skymap. */
     void skyUpdate( bool );

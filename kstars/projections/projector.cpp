@@ -277,7 +277,11 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     double daz = 90.;
     if ( m_vp.useAltAz ) {
         daz = 0.5*m_vp.width*57.3/m_vp.zoomFactor; //center to edge, in degrees
-        if ( type() == SkyMap::Orthographic ) {
+    #if 0
+    if ( type() == SkyMapLite::Orthographic ) {
+    #else
+    if ( type() == SkyMap::Orthographic ) {
+    #endif
             daz = daz * 1.4;
         }
         daz = qMin(qreal(90.0), daz);
@@ -327,7 +331,11 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     //In Gnomonic projection, or if sufficiently zoomed in, we can complete
     //the ground polygon by simply adding offscreen points
     //FIXME: not just gnomonic
+    #if 0
+    if ( daz < 25.0 || type() == SkyMapLite::Gnomonic) {
+        #else
     if ( daz < 25.0 || type() == SkyMap::Gnomonic) {
+        #endif
         ground.append( Vector2f( m_vp.width + 10.f, ground.last().y() ) );
         ground.append( Vector2f( m_vp.width + 10.f, m_vp.height + 10.f ) );
         ground.append( Vector2f( -10.f, m_vp.height + 10.f ) );

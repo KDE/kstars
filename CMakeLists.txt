@@ -25,6 +25,12 @@ include(ECMInstallIcons)
 include(FeatureSummary)
 include(ECMAddAppIcon)
 
+#Build KStars Lite with -DBUILD_KSTARS_LITE=ON
+option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
+if(BUILD_KSTARS_LITE)
+    add_definitions(-DKSTARS_LITE)
+endif(BUILD_KSTARS_LITE)
+
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
   Config
