@@ -156,7 +156,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
         if (dv->getUniqueLabel().isEmpty() == false)
             out << " -n \"" << dv->getUniqueLabel() << "\"";
         if (dv->getSkeletonFile().isEmpty() == false)
-            out << " -s \"" << Options::indiDriversDir() << "/" << dv->getSkeletonFile() << "\"";
+            out << " -s \"" << Options::indiDriversDir() << QDir::separator() << dv->getSkeletonFile() << "\"";
         out << endl;
         out.flush();
 

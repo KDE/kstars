@@ -93,7 +93,7 @@ void PWizPrintUI::slotExport()
     }
 
     QString urlStr = url.url();
-    if(!urlStr.contains("/"))
+    if(!urlStr.contains(QDir::separator()))
     {
         urlStr = QDir::homePath() + '/' + urlStr;
     }

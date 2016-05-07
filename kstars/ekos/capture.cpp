@@ -1101,7 +1101,7 @@ void Capture::checkSeqBoundary(const QString &path)
     while (it.hasNext())
         {
             tempName = it.next();
-            tempName.remove(path + "/");
+            tempName.remove(path + QDir::separator());
 
             // find the prefix first
             //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)

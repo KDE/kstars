@@ -80,7 +80,7 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
     P = 365.2568984 * pow(a, 1.5); //period in days
 
     //If the name contains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
-    if ( name().contains( "/" ) ) {
+    if ( name().contains( QDir::separator() ) ) {
         setLongName( name() );
         setName(name().replace("P/", " ").trimmed());
         setName(name().remove("C/"));

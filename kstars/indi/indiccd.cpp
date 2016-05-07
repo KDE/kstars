@@ -1190,7 +1190,7 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 QProcess dcraw;
                 QString rawFileName = filename;
-                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf("/"));
+                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QDir::separator()));
                 QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
                 QTemporaryFile jpgPreview(templateName);
                 jpgPreview.setAutoRemove(false);

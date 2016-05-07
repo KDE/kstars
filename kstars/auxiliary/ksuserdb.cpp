@@ -35,7 +35,7 @@
 bool KSUserDB::Initialize() {
     // Every logged in user has their own db.
     userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "userdb.sqlite";
+    QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "userdb.sqlite";
     QFile testdb(dbfile);
     bool first_run = false;
     if (!testdb.exists()) {
@@ -706,7 +706,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
 
 #if 0
 bool KSUserDB::ImportFlags() {
-    QString flagfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "flags.dat";
+    QString flagfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "flags.dat";
     QFile flagsfile(flagfilename);
     if (!flagsfile.exists()) {
         return false;  // No upgrade needed. Flags file doesn't exist.
@@ -737,7 +737,7 @@ bool KSUserDB::ImportFlags() {
 }
 
 bool KSUserDB::ImportUsers() {
-    QString usersfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "observerlist.xml";
+    QString usersfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "observerlist.xml";
     QFile usersfile(usersfilename);
 
     if (!usersfile.exists()) {
@@ -798,7 +798,7 @@ bool KSUserDB::ImportUsers() {
 }
 
 bool KSUserDB::ImportEquipment() {
-    QString equipfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "equipmentlist.xml";
+    QString equipfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "equipmentlist.xml";
     QFile equipfile(equipfilename);
 
     if (!equipfile.exists()) {
