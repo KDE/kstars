@@ -46,6 +46,8 @@ rcalibration::rcalibration(cgmath *mathObject, Ekos::Guide *parent)
 
 	ui.setupUi(this);
 
+    ui.clearDarkB->setIcon(QIcon::fromTheme("edit-delete"));
+
     setWindowTitle(i18n("Calibration"));
 
     pmath = mathObject;
@@ -82,6 +84,7 @@ rcalibration::rcalibration(cgmath *mathObject, Ekos::Guide *parent)
     connect (ui.darkFrameCheck, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
     connect( ui.autoStarCheck, SIGNAL(toggled(bool)), this, SLOT(toggleAutoSquareSize(bool)));
     connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
+    connect( ui.clearDarkB, SIGNAL(clicked()), this, SLOT(clearDarkLibrary()));
 
     ui.darkFrameCheck->setChecked(Options::useDarkFrame());
     ui.autoModeCheck->setChecked( Options::useAutoMode() );
@@ -1055,4 +1058,18 @@ void rcalibration::setCalibrationParams(int boxSize, int pulseDuration)
 void rcalibration::toggleAutoSquareSize(bool enable)
 {
     ui.autoSquareSizeCheck->setEnabled(enable);
+}
+
+void rcalibration::clearDarkLibrary()
+{
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QDir dir(path);
+
+    dir.setNameFilters(QStringList() << "dark-*");
+    dir.setFilter(QDir::Files);
+
+    foreach(QString dirFile, dir.entryList())
+        dir.remove(dirFile);
+
+    pmain_wnd->appendLogText(i18n("Dark library files cleared."));
 }

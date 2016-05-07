@@ -83,6 +83,7 @@ protected slots:
 	void onReticleAngChanged( double val );
 	void onStartReticleCalibrationButtonClick();
     void toggleAutoSquareSize(bool enable);
+    void clearDarkLibrary();
 
 public slots:
     void capture();

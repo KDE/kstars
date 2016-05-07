@@ -280,6 +280,12 @@ signals:
 
 private:
     void updateGuideParams();
+
+    // Dark Library
+    bool loadDarkFrame(double exposure);
+    void saveDarkFrame();
+    void clearDarkLibrary();
+
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
     ISD::ST4* ST4Driver;

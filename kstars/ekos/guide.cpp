@@ -410,17 +410,22 @@ bool Guide::capture()
     if (useDarkFrame && darkExposure != seqExpose)
     {
         darkExposure = seqExpose;
-        targetChip->setFrameType(FRAME_DARK);
 
-        if (calibration->useAutoStar() == false)
-            KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
+        // Load an image from the dark library. If not found, then capture a dark frame
+        if (loadDarkFrame(seqExpose) == false)
+        {
+            targetChip->setFrameType(FRAME_DARK);
 
-        connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        targetChip->capture(seqExpose);
+            if (calibration->useAutoStar() == false)
+                KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
-        appendLogText(i18n("Taking a dark frame. "));
+            connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+            targetChip->capture(seqExpose);
 
-        return true;
+            appendLogText(i18n("Taking a dark frame. "));
+
+            return true;
+        }
     }
 
     targetChip->setCaptureMode(FITS_GUIDE);
@@ -459,7 +464,13 @@ void Guide::newFITS(IBLOB *bp)
         FITSView *targetImage = targetChip->getImage(FITS_CALIBRATE);
         if (targetImage)
         {
+            delete (darkImage);
+
             darkImage = targetImage->getImageData();
+
+            // Save dark frame in the library
+            saveDarkFrame();
+
             capture();
         }
         else
@@ -1015,6 +1026,28 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         targetChip->capture(exposureIN->value());
     }
+}
+
+bool Guide::loadDarkFrame(double exposure)
+{
+    QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(exposure, 'f', 2));
+    QString path     = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + filename;
+
+    if (darkImage == NULL)
+        darkImage = new FITSData();
+
+    return darkImage->loadFITS(path);
+}
+
+void Guide::saveDarkFrame()
+{
+    QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(darkExposure, 'f', 2));
+    QString path     = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + filename;
+
+    if (darkImage->saveFITS(path) == 0)
+        appendLogText(i18n("Saved new dark frame %1 to library.", path));
+    else
+        appendLogText(i18n("Failed to save dark frame to library!"));
 }
 
 }
