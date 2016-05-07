@@ -908,7 +908,7 @@ void ScriptBuilder::slotRunScript() {
     //is not executable.  Bizarre...
     //KTempFile tmpfile;
     //QString fname = tmpfile.name();
-    QString fname = QDir::tempPath() + QLatin1Char('/') +  "kstars-tempscript";
+    QString fname = QDir::tempPath() + QDir::separator() +  "kstars-tempscript";
 
     QFile f( fname );
     if ( f.exists() ) f.remove();

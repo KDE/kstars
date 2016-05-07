@@ -252,7 +252,7 @@ public slots:
      void startAutoCalibrateGuiding();
      void checkAutoCalibrateGuiding(bool successful);
 
-     void viewerClosed();
+     //void viewerClosed();
 
      void dither();
      void setSuspended(bool enable);
@@ -280,6 +280,12 @@ signals:
 
 private:
     void updateGuideParams();
+
+    // Dark Library
+    bool loadDarkFrame(double exposure);
+    void saveDarkFrame();
+    void clearDarkLibrary();
+
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
     ISD::ST4* ST4Driver;

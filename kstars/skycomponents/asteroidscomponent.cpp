@@ -265,7 +265,7 @@ void AsteroidsComponent::updateDataFile() {
         data.insert( 0, '#' );
 
         // Write data to asteroids.dat
-        QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "asteroids.dat" ) ;
+        QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "asteroids.dat" ) ;
         file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
         file.write( data );
         file.close();

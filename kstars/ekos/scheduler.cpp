@@ -2303,9 +2303,6 @@ void Scheduler::checkJobStage()
 {
     Q_ASSERT(currentJob != NULL);
 
-    if (Options::verboseLogging())
-        qDebug() << "Scheduler: Checking Job Stage...";
-
     // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT && currentJob->getState() == SchedulerJob::JOB_BUSY)
     {
@@ -2415,7 +2412,7 @@ void Scheduler::checkJobStage()
         }
 
         if (Options::verboseLogging())
-            qDebug() << "Scheduler: Slewing Stage... Slew Status is " << slewStatus.value();
+            qDebug() << "Scheduler: Slewing Stage... Slew Status is " << pstateStr(static_cast<IPState>(slewStatus.value()));
 
         if(slewStatus.value() == IPS_OK && isDomeMoving == false)
         {

@@ -18,6 +18,7 @@
 #include "colorscheme.h"
 
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 
 #include <kconfig.h>
@@ -232,7 +233,7 @@ bool ColorScheme::save( const QString &name ) {
             if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 
         filename = filename.append( ".colors" );
-        file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + filename ) ; //determine filename in local user KDE directory tree.
+        file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + filename ) ; //determine filename in local user KDE directory tree.
 
         if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
             QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
@@ -247,7 +248,7 @@ bool ColorScheme::save( const QString &name ) {
             file.close();
         }
 
-        file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "colors.dat" ) ; //determine filename in local user KDE directory tree.
+        file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "colors.dat" ) ; //determine filename in local user KDE directory tree.
 
         if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
             QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );

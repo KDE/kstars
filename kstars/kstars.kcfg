@@ -1215,6 +1215,34 @@
       <label>Verbose Log File</label>
       <whatsthis>Verbose log file to save all of KStars generated debug messages to.</whatsthis>
     </entry>
+    <entry name="FITSLogging" type="Bool">
+      <whatsthis>Log FITS Data activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="INDILogging" type="Bool">
+      <whatsthis>Log INDI devices activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="CaptureLogging" type="Bool">
+      <whatsthis>Log Ekos Capture Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="FocusLogging" type="Bool">
+      <whatsthis>Log Ekos Focus Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="GuideLogging" type="Bool">
+      <whatsthis>Log Ekos Guide Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AlignmentLogging" type="Bool">
+      <whatsthis>Log Ekos Alignment Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="MountLogging" type="Bool">
+      <whatsthis>Log Ekos Mount Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="singlePreviewFITS" type="Bool">
       <label>Preview FITS in a single tab?</label>
       <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>

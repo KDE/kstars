@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <QFile>
+#include <QDir>
 #include <QStandardPaths>
 
 #include "satellitegroup.h"
@@ -80,7 +81,7 @@ void SatelliteGroup::updateSatellitesPos()
 QUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
-    return QUrl( "file:" + (QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "") + m_tle_file) ;
+    return QUrl( "file:" + (QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "") + m_tle_file) ;
 }
 
 QUrl SatelliteGroup::tleUrl()

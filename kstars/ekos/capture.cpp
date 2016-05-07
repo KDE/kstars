@@ -1101,7 +1101,7 @@ void Capture::checkSeqBoundary(const QString &path)
     while (it.hasNext())
         {
             tempName = it.next();
-            tempName.remove(path + "/");
+            tempName.remove(path + QDir::separator());
 
             // find the prefix first
             //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
@@ -1126,8 +1126,10 @@ void Capture::checkSeqBoundary(const QString &path)
 
 void Capture::appendLogText(const QString &text)
 {
-
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    if (Options::captureLogging())
+        qDebug() << "Capture: " << text;
 
     emit newLog();
 }
@@ -1181,7 +1183,11 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         }
 
         if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        {
+            if (Options::captureLogging())
+                qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";
             emit suspendGuiding(true);
+        }
 
            secondsLabel->setText(i18n("Downloading..."));
 

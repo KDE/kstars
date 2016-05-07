@@ -12,6 +12,10 @@
 #ifndef RCALIBRATION_H
 #define RCALIBRATION_H
 
+#include <QPointer>
+
+#include "fitsviewer/fitsview.h"
+
 #include "gmath.h"
 #include "../guide.h"
 #include "ui_rcalibration.h"
@@ -79,6 +83,7 @@ protected slots:
 	void onReticleAngChanged( double val );
 	void onStartReticleCalibrationButtonClick();
     void toggleAutoSquareSize(bool enable);
+    void clearDarkLibrary();
 
 public slots:
     void capture();
@@ -116,6 +121,7 @@ private:
     CalibrationStage calibrationStage;
     CalibrationType  calibrationType;
 
+    QPointer<FITSView> guideFrame;
 
     Ui::rcalibrationClass ui;
 

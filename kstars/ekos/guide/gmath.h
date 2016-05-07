@@ -12,16 +12,18 @@
 #ifndef GMATH_H_
 #define GMATH_H_
 
-#include <QObject>
-#include <QTime>
-
 #include <stdint.h>
 #include <sys/types.h>
+
+#include <QObject>
+#include <QTime>
+#include <QPointer>
+
+#include "fitsviewer/fitsview.h"
+
 #include "vect.h"
 #include "matr.h"
 #include "common.h"
-
-class FITSView;
 
 typedef struct
 {
@@ -148,7 +150,7 @@ public:
     void set_image(FITSView *image);
     bool get_dec_swap() { return dec_swap;}
     void set_dec_swap(bool enable) { dec_swap = enable;}
-    FITSView *get_image() { return pimage; }
+    FITSView *get_image() { return guide_frame; }
     void set_preview_mode(bool enable) { preview_mode = enable;}
 	
 	ovr_params_t *prepare_overlays( void );
@@ -181,7 +183,7 @@ private:
 	// sys...
 	uint32_t ticks;		// global channel ticker
     float *pdata;		// pointer to data buffer
-    FITSView *pimage;   // pointer to image
+    QPointer<FITSView> guide_frame;   // pointer to image
 	int video_width, video_height;	// video frame dimensions
 	double ccd_pixel_width, ccd_pixel_height, aperture, focal;
 	Matrix	ROT_Z;

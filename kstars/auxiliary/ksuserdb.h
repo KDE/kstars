@@ -34,7 +34,7 @@
 #include <QXmlStreamReader>
 #include "skyobjects/skyobject.h"
 #include "oal/oal.h"
-#include "ekos/profileinfo.h"
+#include "auxiliary/profileinfo.h"
 
 class LineList;
 class ArtificialHorizonEntity;
@@ -44,7 +44,9 @@ class ArtificialHorizonEntity;
  * 
  * usage: Call QSqlDatabase::removeDatabase("userdb"); after the object
  * of this class is deallocated
- * @author Rishab Arora (spacetime)
+ * @author Rishab Arora
+ * @author Jasem Mutlaq
+ * @version 1.1
  **/
 class KSUserDB {
  public:

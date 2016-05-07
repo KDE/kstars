@@ -14,10 +14,15 @@
 #include "indistd.h"
 
 #include <QStringList>
+#include <QPointer>
+
+#include <fitsviewer/fitsviewer.h>
+#include <fitsviewer/fitsdata.h>
+
+#include <auxiliary/imageviewer.h>
 
 class FITSView;
-class FITSViewer;
-class FITSData;
+
 class StreamWG;
 
 /**
@@ -93,7 +98,7 @@ public:
     QStringList getISOList() const;
 
 private:
-    FITSView *normalImage, *focusImage, *guideImage, *calibrationImage;
+    QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage;
     FITSData *imageData;
     FITSMode captureMode;
     FITSScale captureFilter;
@@ -162,7 +167,7 @@ public slots:
     void StreamWindowHidden();
 
 signals:
-    void FITSViewerClosed();
+    //void FITSViewerClosed();
     void newTemperatureValue(double value);
     void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
@@ -179,12 +184,16 @@ private:
     QString     fitsDir;
     char BLOBFilename[MAXINDIFILENAME];
     int nextSequenceID;
-    FITSViewer * fv;
     StreamWG *streamWindow;
     int streamW, streamH;
     ISD::ST4 *ST4Driver;
     int normalTabID, calibrationTabID, focusTabID, guideTabID;
-    CCDChip *primaryChip, *guideChip;    
+    CCDChip *primaryChip, *guideChip;
+
+    QPointer<FITSViewer> fv;
+    QPointer<ImageViewer> imageViewer;
+
+
 };
 
 }

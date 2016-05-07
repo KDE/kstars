@@ -123,7 +123,7 @@ void FovEditorDialog::slotSaveImage()
     //user wanted to place a file in their home directory.
     QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
     QUrl fileUrl;
-    if(!url.contains("/"))
+    if(!url.contains(QDir::separator()))
     {
         fileUrl = QDir::homePath() + '/' + url;
     }

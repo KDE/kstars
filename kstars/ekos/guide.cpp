@@ -164,7 +164,7 @@ void Guide::checkCCD(int ccdNum)
     {
         currentCCD = CCDs.at(ccdNum);
 
-        connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
+        //connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
 
@@ -410,17 +410,22 @@ bool Guide::capture()
     if (useDarkFrame && darkExposure != seqExpose)
     {
         darkExposure = seqExpose;
-        targetChip->setFrameType(FRAME_DARK);
 
-        if (calibration->useAutoStar() == false)
-            KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
+        // Load an image from the dark library. If not found, then capture a dark frame
+        if (loadDarkFrame(seqExpose) == false)
+        {
+            targetChip->setFrameType(FRAME_DARK);
 
-        connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        targetChip->capture(seqExpose);
+            if (calibration->useAutoStar() == false)
+                KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
-        appendLogText(i18n("Taking a dark frame. "));
+            connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+            targetChip->capture(seqExpose);
 
-        return true;
+            appendLogText(i18n("Taking a dark frame. "));
+
+            return true;
+        }
     }
 
     targetChip->setCaptureMode(FITS_GUIDE);
@@ -447,7 +452,7 @@ void Guide::newFITS(IBLOB *bp)
 {
     INDI_UNUSED(bp);
 
-    FITSViewer *fv = currentCCD->getViewer();
+    //FITSViewer *fv = currentCCD->getViewer();
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
@@ -459,7 +464,13 @@ void Guide::newFITS(IBLOB *bp)
         FITSView *targetImage = targetChip->getImage(FITS_CALIBRATE);
         if (targetImage)
         {
+            delete (darkImage);
+
             darkImage = targetImage->getImageData();
+
+            // Save dark frame in the library
+            saveDarkFrame();
+
             capture();
         }
         else
@@ -472,16 +483,27 @@ void Guide::newFITS(IBLOB *bp)
 
     if (targetImage == NULL)
     {
+        if (Options::guideLogging())
+            qDebug() << "Guide: guide frame is missing! Capturing again...";
+
+        capture();
+        return;
+    }
+
+    /*if (targetImage == NULL)
+    {
         pmath->set_image(NULL);
         guider->setImage(NULL);
         calibration->setImage(NULL);
         return;
-    }
+    }*/
+
+    if (Options::guideLogging())
+        qDebug() << "Guide: recieved guide frame.";
 
     FITSData *image_data = targetImage->getImageData();
 
-    if (image_data == NULL)
-        return;
+    Q_ASSERT(image_data);
 
     if (darkImage && darkImage->getImageBuffer() != image_data->getDarkFrame())
     {
@@ -494,18 +516,18 @@ void Guide::newFITS(IBLOB *bp)
     pmath->set_image(targetImage);
     guider->setImage(targetImage);
 
-    fv->show();
+    //fv->show();
 
     // It should be false in case we do not need to process the image for motion
     // which happens when we take an image for auto star selection.
     if (calibration->setImage(targetImage) == false)
         return;
 
-
-
     if (isSuspended)
     {
         //capture();
+        if (Options::guideLogging())
+            qDebug() << "Guide: Guider is suspended.";
         return;
     }
 
@@ -546,6 +568,9 @@ void Guide::appendLogText(const QString &text)
 {
 
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    if (Options::guideLogging())
+        qDebug() << "Guide: " << text;
 
     emit newLog();
 }
@@ -629,12 +654,12 @@ double Guide::getReticleAngle()
     return calibration->getReticleAngle();
 }
 
-void Guide::viewerClosed()
+/*void Guide::viewerClosed()
 {
     pmath->set_image(NULL);
     guider->setImage(NULL);
     calibration->setImage(NULL);
-}
+}*/
 
 void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
 {
@@ -996,11 +1021,33 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
 {
     INDI_UNUSED(exposure);
 
-    if (state == IPS_ALERT && (guider->isGuiding() || calibration->isCalibrating()))
+    if (state == IPS_ALERT && (guider->isGuiding() || guider->isDithering() || calibration->isCalibrating()))
     {
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         targetChip->capture(exposureIN->value());
     }
+}
+
+bool Guide::loadDarkFrame(double exposure)
+{
+    QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(exposure, 'f', 2));
+    QString path     = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + filename;
+
+    if (darkImage == NULL)
+        darkImage = new FITSData();
+
+    return darkImage->loadFITS(path);
+}
+
+void Guide::saveDarkFrame()
+{
+    QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(darkExposure, 'f', 2));
+    QString path     = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + filename;
+
+    if (darkImage->saveFITS(path) == 0)
+        appendLogText(i18n("Saved new dark frame %1 to library.", path));
+    else
+        appendLogText(i18n("Failed to save dark frame to library!"));
 }
 
 }

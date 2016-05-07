@@ -955,7 +955,7 @@ bool DriverManager::readXMLDrivers()
         if (fileInfo.fileName() == "drivers.xml")
         {
             // Let first attempt to load the local version of drivers.xml
-            driverName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "drivers.xml";
+            driverName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "drivers.xml";
 
             // If found, we continue, otherwise, we load the system file
             if (driverName.isEmpty() == false && QFile(driverName).exists())
@@ -1436,7 +1436,7 @@ void DriverManager::saveHosts()
     QFile file;
     QString hostData;
 
-    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
+    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
 
     if ( !file.open( QIODevice::WriteOnly))
     {

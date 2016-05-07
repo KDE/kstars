@@ -118,7 +118,9 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
+
+    //Disable this for now since ALL INDI drivers now log their messages to verbose output
+    //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
 
     if (enableLimitsCheck->isChecked())
         currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());

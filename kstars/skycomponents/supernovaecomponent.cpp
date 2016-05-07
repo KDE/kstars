@@ -226,7 +226,7 @@ void SupernovaeComponent::notifyNewSupernovae()
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
-    QString output  = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "supernovae.dat";
+    QString output  = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "supernovae.dat";
     QString filename= QStandardPaths::locate(QStandardPaths::DataLocation, "scripts/supernova_updates_parser.py") ;
     QStringList args;
     args << filename << output;
