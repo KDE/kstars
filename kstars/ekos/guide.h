@@ -245,7 +245,7 @@ public slots:
      void newFITS(IBLOB*);
      void newST4(int index);
      void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
-     void setUseDarkFrame(bool enable) { useDarkFrame = enable;}
+     void setUseDarkFrame(bool enable);
      void updateGuideDriver(double delta_ra, double delta_dec);
 
      // Auto Calibration Guiding (Cablirate first then start guiding immediately)
