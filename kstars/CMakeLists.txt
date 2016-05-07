@@ -116,7 +116,6 @@ if (CFITSIO_FOUND)
       ekos/offlineastrometryparser.cpp
       ekos/onlineastrometryparser.cpp
       ekos/profileeditor.cpp
-      ekos/profileinfo.cpp
       ekos/opsekos.cpp
       ekos/QProgressIndicator.cpp
       ekos/guide/common.cpp
@@ -438,6 +437,7 @@ set(kstars_extra_SRCS
         auxiliary/ksdssdownloader.cpp
         auxiliary/kswizard.cpp
         auxiliary/qcustomplot.cpp
+        auxiliary/profileinfo.cpp
         time/simclock.cpp
         time/kstarsdatetime.cpp
         time/timezonerule.cpp
