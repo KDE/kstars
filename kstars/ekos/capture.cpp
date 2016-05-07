@@ -3248,6 +3248,10 @@ bool Capture::processPostCaptureCalibrationStage()
 
 bool Capture::isSequenceFileComplete(const QUrl &fileURL)
 {
+    // If we don't remember job progress, then no sequence would be complete
+    if (Options::rememberJobProgress() == false)
+        return false;
+
     bool rc = loadSequenceQueue(fileURL);
 
     if (rc == false)
