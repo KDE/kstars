@@ -1183,7 +1183,11 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         }
 
         if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        {
+            if (Options::captureLogging())
+                qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";
             emit suspendGuiding(true);
+        }
 
            secondsLabel->setText(i18n("Downloading..."));
 

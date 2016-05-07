@@ -749,8 +749,8 @@ bool rguider::dither()
         else
             target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
-        if (Options::verboseLogging())
-            qDebug() << "Dither Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
+        if (Options::guideLogging())
+            qDebug() << "Guide: Dither Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
         pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 
@@ -775,6 +775,9 @@ bool rguider::dither()
         pmath->set_reticle_params(cur_x, cur_y, ret_angle);
 
         m_isDithering = false;
+
+        if (Options::guideLogging())
+            qDebug() << "Guide: Dither complete.";
 
         emit ditherComplete();
     }
