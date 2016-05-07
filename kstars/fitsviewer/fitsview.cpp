@@ -251,7 +251,8 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     setBackgroundRole(QPalette::Dark);
 
-    guide_x = guide_y = guide_box = -1;
+    guide_x = guide_y =  -1;
+    guide_box = 16;
     marker_x = marker_y = -1;
 
     currentZoom = 0.0;

@@ -34,7 +34,6 @@
 
 #include <ekos/ekosmanager.h>
 
-#include "imageviewer.h"
 #include "Options.h"
 
 const int MAX_FILENAME_LEN = 1024;
@@ -419,6 +418,7 @@ void CCDChip::setCanAbort(bool value)
 {
     CanAbort = value;
 }
+
 FITSData *CCDChip::getImageData() const
 {
     return imageData;
@@ -1211,13 +1211,11 @@ void CCD::processBLOB(IBLOB* bp)
             }
         }
 
-        QUrl url = QUrl::fromLocalFile(filename);
-        ImageViewer *iv = new ImageViewer(url.path());
-        if (iv)
-        {
-           iv->show();
-           QFile::remove(filename);
-        }
+        if (imageViewer.isNull())
+            imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
+
+        imageViewer->loadImage(filename);
+        QFile::remove(filename);
     }
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO
@@ -1225,15 +1223,17 @@ void CCD::processBLOB(IBLOB* bp)
     {
         QUrl fileURL(filename);
 
-        if (fv == NULL)
+        if (fv.isNull())
         {
+            normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
+
             if (Options::singleWindowCapturedFITS())
                 fv = KStars::Instance()->genericFITSViewer();
             else
                 fv = new FITSViewer(KStars::Instance());
 
-            connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
-            connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
+            //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
+            //connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
         FITSScale captureFilter = targetChip->getCaptureFilter();

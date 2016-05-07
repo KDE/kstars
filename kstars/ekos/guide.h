@@ -252,7 +252,7 @@ public slots:
      void startAutoCalibrateGuiding();
      void checkAutoCalibrateGuiding(bool successful);
 
-     void viewerClosed();
+     //void viewerClosed();
 
      void dither();
      void setSuspended(bool enable);

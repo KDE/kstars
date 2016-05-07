@@ -97,7 +97,7 @@ private:
     custom_drawer *pDriftOut;
     cscroll_graph *drift_graph;
 
-    FITSView *pimage;
+    QPointer<FITSView> guideFrame;
     bool m_isStarted;
     bool m_isReady;
     bool m_isSubFramed;

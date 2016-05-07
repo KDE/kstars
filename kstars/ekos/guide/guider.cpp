@@ -41,7 +41,6 @@ rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
 
     pmain_wnd = parent;
 
-    pimage = NULL;
     phd2 = NULL;
     targetChip = NULL;
 
@@ -386,8 +385,8 @@ bool rguider::start()
     Options::setRAMinimumPulse(ui.spinBox_MinPulseRA->value());
     Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
 
-    if (pimage)
-        disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
+    if (guideFrame)
+        disconnect(guideFrame, SIGNAL(guideStarSelected(int,int)), 0, 0);
 
     if (phd2)
     {
@@ -452,8 +451,8 @@ bool rguider::stop()
         return phd2->stopGuiding();
     }
 
-    if (pimage)
-        connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
+    if (guideFrame)
+        connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
     ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
     pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
     pmath->stop();
@@ -663,10 +662,10 @@ void rguider::guide( void )
 
 void rguider::setImage(FITSView *image)
 {
-    pimage = image;
+    guideFrame = image;
 
-    if (m_isReady && pimage && m_isStarted == false)
-        connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    if (m_isReady && guideFrame && m_isStarted == false)
+        connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 }
 
 void rguider::guideStarSelected(int x, int y)

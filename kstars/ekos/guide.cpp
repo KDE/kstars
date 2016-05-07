@@ -164,7 +164,7 @@ void Guide::checkCCD(int ccdNum)
     {
         currentCCD = CCDs.at(ccdNum);
 
-        connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
+        //connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
 
@@ -447,7 +447,7 @@ void Guide::newFITS(IBLOB *bp)
 {
     INDI_UNUSED(bp);
 
-    FITSViewer *fv = currentCCD->getViewer();
+    //FITSViewer *fv = currentCCD->getViewer();
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
@@ -472,19 +472,27 @@ void Guide::newFITS(IBLOB *bp)
 
     if (targetImage == NULL)
     {
+        if (Options::guideLogging())
+            qDebug() << "Guide: guide frame is missing! Capturing again...";
+
+        capture();
+        return;
+    }
+
+    /*if (targetImage == NULL)
+    {
         pmath->set_image(NULL);
         guider->setImage(NULL);
         calibration->setImage(NULL);
         return;
-    }
+    }*/
 
     if (Options::guideLogging())
         qDebug() << "Guide: recieved guide frame.";
 
     FITSData *image_data = targetImage->getImageData();
 
-    if (image_data == NULL)
-        return;
+    Q_ASSERT(image_data);
 
     if (darkImage && darkImage->getImageBuffer() != image_data->getDarkFrame())
     {
@@ -497,7 +505,7 @@ void Guide::newFITS(IBLOB *bp)
     pmath->set_image(targetImage);
     guider->setImage(targetImage);
 
-    fv->show();
+    //fv->show();
 
     // It should be false in case we do not need to process the image for motion
     // which happens when we take an image for auto star selection.
@@ -635,12 +643,12 @@ double Guide::getReticleAngle()
     return calibration->getReticleAngle();
 }
 
-void Guide::viewerClosed()
+/*void Guide::viewerClosed()
 {
     pmath->set_image(NULL);
     guider->setImage(NULL);
     calibration->setImage(NULL);
-}
+}*/
 
 void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
 {

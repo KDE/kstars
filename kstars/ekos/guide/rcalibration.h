@@ -12,6 +12,10 @@
 #ifndef RCALIBRATION_H
 #define RCALIBRATION_H
 
+#include <QPointer>
+
+#include "fitsviewer/fitsview.h"
+
 #include "gmath.h"
 #include "../guide.h"
 #include "ui_rcalibration.h"
@@ -116,6 +120,7 @@ private:
     CalibrationStage calibrationStage;
     CalibrationType  calibrationType;
 
+    QPointer<FITSView> guideFrame;
 
     Ui::rcalibrationClass ui;
 

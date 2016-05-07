@@ -882,8 +882,7 @@ void rcalibration::capture()
 
 bool rcalibration::setImage(FITSView *image)
 {
-    if (image == NULL)
-        return false;
+    guideFrame = image;
 
     switch (calibrationStage)
     {
@@ -897,11 +896,11 @@ bool rcalibration::setImage(FITSView *image)
             calibrationStage = CAL_SELECT_STAR;
             ui.selectStarLED->setColor(busyColor);
 
-            FITSData *image_data = image->getImageData();
+            FITSData *image_data = guideFrame->getImageData();
 
             setVideoParams(image_data->getWidth(), image_data->getHeight());
 
-            QPair<double,double> star = selectAutoStar(image);
+            QPair<double,double> star = selectAutoStar(guideFrame);
 
             if (ui.autoStarCheck->isChecked())
             {
@@ -909,7 +908,7 @@ bool rcalibration::setImage(FITSView *image)
                 return false;
             }
             else
-                connect(image, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+                connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
          }
             break;
@@ -928,6 +927,8 @@ bool brighterThan(Edge *s1, Edge *s2)
 
 QPair<double,double> rcalibration::selectAutoStar(FITSView *image)
 {
+    Q_ASSERT(image);
+
     //int maxVal=-1;
     //Edge *guideStar = NULL;
     QPair<double,double> star;
