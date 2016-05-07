@@ -395,8 +395,8 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
         oBest = oTry;
     }
 
-    if ( oBest && Options::verboseLogging())
-        qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
+    //if ( oBest && Options::verboseLogging())
+        //qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
 
