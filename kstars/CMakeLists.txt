@@ -25,6 +25,12 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/time
 )
 
+#Temporary solution to allow use of qml files from source dir
+add_definitions( -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" )
+
+if(BUILD_KSTARS_LITE)
+endif(BUILD_KSTARS_LITE)
+
 if (CFITSIO_FOUND)
   set (fits_SRCS
     fitsviewer/fitshistogram.cpp
@@ -158,12 +164,12 @@ endif ( XPLANET_FOUND )
 
 ########### next target ###############
 set(libkstarstools_SRCS
-	tools/altvstime.cpp	
-	tools/avtplotwidget.cpp
-	tools/calendarwidget.cpp
-	tools/conjunctions.cpp	
-	tools/jmoontool.cpp
-	tools/ksconjunct.cpp
+        tools/altvstime.cpp
+        tools/avtplotwidget.cpp
+        tools/calendarwidget.cpp
+        tools/conjunctions.cpp
+        tools/jmoontool.cpp
+        tools/ksconjunct.cpp
         tools/eqplotwidget.cpp
         tools/astrocalc.cpp
         tools/modcalcangdist.cpp
@@ -180,26 +186,26 @@ set(libkstarstools_SRCS
         tools/modcalcvlsr.cpp
         tools/observinglist.cpp
         tools/obslistpopupmenu.cpp
-	tools/sessionsortfilterproxymodel.cpp
-	tools/obslistwizard.cpp
-	tools/planetviewer.cpp
-	tools/pvplotwidget.cpp
-	tools/scriptargwidgets.cpp
-	tools/scriptbuilder.cpp
-	tools/scriptfunction.cpp
-	tools/skycalendar.cpp
-	tools/wutdialog.cpp
+        tools/sessionsortfilterproxymodel.cpp
+        tools/obslistwizard.cpp
+        tools/planetviewer.cpp
+        tools/pvplotwidget.cpp
+        tools/scriptargwidgets.cpp
+        tools/scriptbuilder.cpp
+        tools/scriptfunction.cpp
+        tools/skycalendar.cpp
+        tools/wutdialog.cpp
         tools/flagmanager.cpp
         tools/horizonmanager.cpp
 
         #FIXME Port to KF5
         #tools/moonphasetool.cpp
 
-	tools/starhopper.cpp
-	tools/eyepiecefield.cpp
-	tools/exporteyepieceview.cpp
+        tools/starhopper.cpp
+        tools/eyepiecefield.cpp
+        tools/exporteyepieceview.cpp
         tools/starhopperdialog.cpp
-	)
+        )
 
 if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
 set(libkstarstools_SRCS
@@ -216,24 +222,24 @@ set(libkstarstools_SRCS
 endif()
 
 ki18n_wrap_ui(libkstarstools_SRCS
-	tools/altvstime.ui
-	tools/argchangeviewoption.ui
-	tools/argexportimage.ui
-	tools/argloadcolorscheme.ui
-	tools/arglooktoward.ui
-	tools/argfindobject.ui
-	tools/argprintimage.ui
-	tools/argsetaltaz.ui
-	tools/argsetcolor.ui
-	tools/argsetgeolocation.ui
-	tools/argsetlocaltime.ui
-	tools/argsetradec.ui
-	tools/argsettrack.ui
-	tools/argtimescale.ui
-	tools/argwaitfor.ui
-	tools/argwaitforkey.ui
-	tools/argzoom.ui
-	tools/conjunctions.ui
+        tools/altvstime.ui
+        tools/argchangeviewoption.ui
+        tools/argexportimage.ui
+        tools/argloadcolorscheme.ui
+        tools/arglooktoward.ui
+        tools/argfindobject.ui
+        tools/argprintimage.ui
+        tools/argsetaltaz.ui
+        tools/argsetcolor.ui
+        tools/argsetgeolocation.ui
+        tools/argsetlocaltime.ui
+        tools/argsetradec.ui
+        tools/argsettrack.ui
+        tools/argtimescale.ui
+        tools/argwaitfor.ui
+        tools/argwaitforkey.ui
+        tools/argzoom.ui
+        tools/conjunctions.ui
         tools/modcalcangdist.ui
         tools/modcalcapcoord.ui
         tools/modcalcaltaz.ui
@@ -246,15 +252,15 @@ ki18n_wrap_ui(libkstarstools_SRCS
         tools/modcalcplanets.ui
         tools/modcalcsidtime.ui
         tools/modcalcvlsr.ui
-	tools/observinglist.ui
-	tools/obslistwizard.ui
-	tools/optionstreeview.ui
-	tools/planetviewer.ui
-	tools/scriptbuilder.ui
-	tools/scriptnamedialog.ui
-	tools/skycalendar.ui
-	tools/wutdialog.ui
-	tools/flagmanager.ui        
+        tools/observinglist.ui
+        tools/obslistwizard.ui
+        tools/optionstreeview.ui
+        tools/planetviewer.ui
+        tools/scriptbuilder.ui
+        tools/scriptnamedialog.ui
+        tools/skycalendar.ui
+        tools/wutdialog.ui
+        tools/flagmanager.ui
         tools/starhopperdialog.ui
         tools/horizonmanager.ui
         )
@@ -312,21 +318,21 @@ set(libkstarscomponents_SRCS
 )
 
 set(libkstarswidgets_SRCS
-	widgets/clicklabel.cpp
-	widgets/dmsbox.cpp
-	widgets/draglistbox.cpp
-	widgets/fovwidget.cpp
-	widgets/logedit.cpp
-	widgets/magnitudespinbox.cpp
-	widgets/mapcanvas.cpp
-	widgets/thumbimage.cpp
-	widgets/timespinbox.cpp
-	widgets/timestepbox.cpp
-	widgets/timeunitbox.cpp
-	widgets/infoboxwidget.cpp
+        widgets/clicklabel.cpp
+        widgets/dmsbox.cpp
+        widgets/draglistbox.cpp
+        widgets/fovwidget.cpp
+        widgets/logedit.cpp
+        widgets/magnitudespinbox.cpp
+        widgets/mapcanvas.cpp
+        widgets/thumbimage.cpp
+        widgets/timespinbox.cpp
+        widgets/timestepbox.cpp
+        widgets/timeunitbox.cpp
+        widgets/infoboxwidget.cpp
 #        widgets/genericcalendarwidget.cpp
 #        widgets/moonphasecalendarwidget.cpp
-	widgets/kshelplabel.cpp
+        widgets/kshelplabel.cpp
     widgets/unitspinboxwidget.cpp
 )
 
@@ -456,7 +462,7 @@ set(kstars_extra_SRCS
         skymapevents.cpp
         skypainter.cpp
         skyqpainter.cpp
-	texturemanager.cpp		
+        texturemanager.cpp
 )
 
 set(oal_SRCS
@@ -510,11 +516,42 @@ set(printingui_SRCS
     printing/pwizwelcome.ui
 )
 
+if(BUILD_KSTARS_LITE)
+    set(kstarslite_SRCS
+        kstarslite.cpp
+        kstarsliteinit.cpp
+        skymaplite.cpp
+        skymaplitevents.cpp
+        #SkyItems
+        kstarslite/skyitems/planetsitem.cpp
+        kstarslite/skyitems/skyitem.cpp
+        #Nodes
+        kstarslite/skyitems/nodes/planetnode.cpp
+        kstarslite/skyitems/nodes/pointnode.cpp
+        kstarslite/skyitems/nodes/planetitemnode.cpp
+    )
+    #Qml files will be probably moved to user's data dir, but for use
+    #with QtCreator it is more convenient to have them here
+    set(kstarsliteqml_SRCS
+        kstarslite/qml/main.qml
+        kstarslite/qml/constants/Constants.qml
+        kstarslite/qml/modules/BottomMenu.qml
+        kstarslite/qml/modules/ContextDrawer.qml
+        kstarslite/qml/modules/GlobalDrawer.qml
+        kstarslite/qml/modules/TopMenu.qml
+        kstarslite/qml/modules/helpers/DrawerColorScheme.qml
+        kstarslite/qml/modules/helpers/DrawerElem.qml
+        kstarslite/qml/modules/helpers/TopMenuButton.qml
+        kstarslite/qml/modules/Splash.qml
+    )
+    ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
+endif(BUILD_KSTARS_LITE)
+
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
-	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
-	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
-        ${printing_SRCS}
+        ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
+        ${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
+        ${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
+        ${printing_SRCS} ${kstarslite_SRCS} ${kstarslite_RESOURCE}
 )
 
 qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -573,7 +610,7 @@ target_link_libraries(KStarsLib
         Qt5::Svg
         Qt5::Qml
         Qt5::Quick
-	${ZLIB_LIBRARIES}
+        ${ZLIB_LIBRARIES}
         )
 
 if(NOT WIN32)

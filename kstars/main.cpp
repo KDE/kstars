@@ -25,14 +25,20 @@
 #include <KCrash>
 #include <KLocalizedString>
 
+#ifdef KSTARS_LITE
+#include "kstarslite.h"
 #include "kstars.h"
+#include "skymap.h"
+#endif
+
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
-#include "skymap.h"
 #include "simclock.h"
 #include "ksnumbers.h"
 #include "version.h"
 #include "Options.h"
+
+
 
 
 static const char description[] =
@@ -223,7 +229,10 @@ int main(int argc, char *argv[])
     QDir writableDir;
     writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );   
+#ifdef KSTARS_LITE
+    KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
+#else
+    KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 
     // no session.. just start up normally
     const QStringList urls = parser.positionalArguments();
@@ -240,6 +249,7 @@ int main(int argc, char *argv[])
             KStars::Instance()->openFITS(u);
         }
     }
+#endif
 
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
     return app.exec();
