@@ -478,6 +478,9 @@ void Guide::newFITS(IBLOB *bp)
         return;
     }
 
+    if (Options::guideLogging())
+        qDebug() << "Guide: recieved guide frame.";
+
     FITSData *image_data = targetImage->getImageData();
 
     if (image_data == NULL)
@@ -501,11 +504,11 @@ void Guide::newFITS(IBLOB *bp)
     if (calibration->setImage(targetImage) == false)
         return;
 
-
-
     if (isSuspended)
     {
         //capture();
+        if (Options::guideLogging())
+            qDebug() << "Guide: Guider is suspended.";
         return;
     }
 
@@ -999,7 +1002,7 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
 {
     INDI_UNUSED(exposure);
 
-    if (state == IPS_ALERT && (guider->isGuiding() || calibration->isCalibrating()))
+    if (state == IPS_ALERT && (guider->isGuiding() || guider->isDithering() || calibration->isCalibrating()))
     {
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         targetChip->capture(exposureIN->value());
