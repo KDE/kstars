@@ -50,7 +50,8 @@ private:
 /** @class ImageViewer
  * @short Image viewer window for KStars
  * @author Thomas Kabelmann
- * @version 1.0
+ * @author Jasem Mutlaq
+ * @version 1.1
  *
  * This image-viewer automatically resizes the picture. The output
  * works with kio-slaves and not directly with the QImage save-routines
@@ -62,26 +63,36 @@ private:
  * this time. The save-slave works synchronously, but this is not important
  * because the files are at this time local saved and this works not so long.
  */
-class ImageViewer : public QDialog {
+class ImageViewer : public QDialog
+{
     Q_OBJECT
 
 public:
-    /** Create image viewer from URL with caption */
-    ImageViewer (const QUrl &imageURL, const QString &capText, QWidget *parent = 0);
+    /** Creates empty viewer. */
+    ImageViewer(const QString &caption, QWidget *parent =0);
 
-    explicit ImageViewer ( QString FileName, QWidget *parent = 0);
+    /** Create image viewer from URL with caption */
+    ImageViewer (const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = 0);
 
     /** Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();
+
+
+    /**
+     * @brief loadImage Load image from local file and display it
+     * @param filename path to local image
+     * @return True if opened and displayed, false otherwise
+     */
+    bool loadImage(const QString &filename);
 
 private:
     /** Display the downloaded image.  Resize the window to fit the image,  If the image is
      * larger than the screen, make the image as large as possible while preserving the
      * original aspect ratio */
-    void showImage( void );
+    bool showImage();
 
     /** Download the image file pointed to by the URL string. */
-    void loadImageFromURL( void );
+    void loadImageFromURL( void );    
 
     /** Save the downloaded image to a local file. */
     void saveFile (QUrl &url);
