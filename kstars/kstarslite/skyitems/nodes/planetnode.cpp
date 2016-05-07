@@ -58,18 +58,36 @@ void PlanetNode::setPlanetPicSize(float size) {
 }
 
 void PlanetNode::showPoint() {
-    m_planetOpacity->setOpacity(0);
-    m_point->setOpacity(1);
+    if(m_planetOpacity->opacity()) {
+        m_planetOpacity->setOpacity(0);
+        m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
+    }
+    if(!m_point->opacity()) {
+        m_point->setOpacity(1);
+        m_point->markDirty(QSGNode::DirtyOpacity);
+    }
 }
 
 void PlanetNode::showPlanetPic() {
-    m_point->setOpacity(0);
-    m_planetOpacity->setOpacity(1);
+    if(!m_planetOpacity->opacity()) {
+        m_planetOpacity->setOpacity(1);
+        m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
+    }
+    if(m_point->opacity()) {
+        m_point->setOpacity(0);
+        m_point->markDirty(QSGNode::DirtyOpacity);
+    }
 }
 
 void PlanetNode::hide() {
-    m_point->setOpacity(0);
-    m_planetOpacity->setOpacity(0);
+    if(m_planetOpacity->opacity()) {
+        m_planetOpacity->setOpacity(0);
+        m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
+    }
+    if(m_point->opacity()) {
+        m_point->setOpacity(0);
+        m_point->markDirty(QSGNode::DirtyOpacity);
+    }
 }
 
 void PlanetNode::changePos(QPointF pos) {

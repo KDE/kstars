@@ -63,6 +63,8 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     // Set pinstance to yourself
     pinstance = this;
 
+    connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
+
     //Initialize Time and Date
     if (startDateString.isEmpty() == false)
     {
@@ -140,4 +142,29 @@ void KStarsLite::updateTime( const bool automaticDSTchange ) {
     if ( Data->clock()->isManualMode() && Data->clock()->isActive() ) {
         QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
     }
+}
+
+void KStarsLite::writeConfig() {
+    Options::self()->save();
+
+    //Store current simulation time
+    //Refer to // FIXME: Used in kstarsdcop.cpp only in kstarsdata.cpp
+    //data()->StoredDate = data()->lt();
+}
+
+void KStarsLite::slotAboutToQuit()
+{
+    // Delete skymap. This required to run destructors and save
+    // current state in the option.
+    delete m_SkyMapLite;
+
+    //Store Window geometry in Options object
+    //Options::setWindowWidth( m_RootObject->width() );
+    //Options::setWindowHeight( m_RootObject->height() );
+
+    //explicitly save the colorscheme data to the config file
+    data()->colorScheme()->saveToConfig();
+
+    //synch the config file with the Config object
+    writeConfig();
 }

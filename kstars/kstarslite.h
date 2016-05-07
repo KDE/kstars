@@ -98,10 +98,18 @@ public Q_SLOTS:
      * @param automaticDSTchange change DST status automatically?
      */
     void updateTime( const bool automaticDSTchange = true );
+
+    /** Write current settings to config file. Used to save config file upon exit
+     */
+    void writeConfig();
+
 private slots:
     /** finish setting up after the KStarsData has finished
      */
     void datainitFinished();
+
+    /** Save data to config file before exiting.*/
+    void slotAboutToQuit();
 
 private:
     /** Initialize focus position */
