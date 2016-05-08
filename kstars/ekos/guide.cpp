@@ -54,6 +54,8 @@ Guide::Guide() : QWidget()
     darkImage = NULL;
     AODriver= NULL;
     GuideDriver=NULL;
+    calibration=NULL;
+    guider=NULL;
 
     guideDeviationRA = guideDeviationDEC = 0;
 
