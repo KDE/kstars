@@ -209,6 +209,16 @@ void ProfileEditor::setPi(ProfileInfo *value)
 
     ui->profileIN->setText(pi->name);
 
+    ui->loadSiteCheck->setChecked(!pi->city.isEmpty());
+
+    if (pi->city.isEmpty() == false)
+    {
+        if (pi->province.isEmpty())
+            ui->loadSiteCheck->setText(ui->loadSiteCheck->text() + QString(" (%1, %2)").arg(pi->country).arg(pi->city));
+        else
+            ui->loadSiteCheck->setText(ui->loadSiteCheck->text() + QString(" (%1, %2, %3)").arg(pi->country).arg(pi->province).arg(pi->city));
+    }
+
     if (pi->host.isEmpty() == false)
     {
         ui->remoteHost->setText(pi->host);

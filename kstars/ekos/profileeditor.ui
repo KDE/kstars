@@ -30,6 +30,19 @@
          <widget class="QLineEdit" name="profileIN"/>
         </item>
         <item>
+         <widget class="QCheckBox" name="loadSiteCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Load current site settings when Ekos is online. This option should only be used when connecting to a remote geographic site.</string>
+          </property>
+          <property name="text">
+           <string>Site Info</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -41,19 +54,6 @@
            </size>
           </property>
          </spacer>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="loadSiteCheck">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Load current site settings when Ekos is online. This option should only be used when connecting to a remote site.</string>
-          </property>
-          <property name="text">
-           <string>Save Site Info</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>
@@ -419,7 +419,6 @@
   <tabstop>remoteMode</tabstop>
   <tabstop>remoteHost</tabstop>
   <tabstop>remotePort</tabstop>
-  <tabstop>loadSiteCheck</tabstop>
   <tabstop>mountCombo</tabstop>
   <tabstop>ccdCombo</tabstop>
   <tabstop>guiderCombo</tabstop>
