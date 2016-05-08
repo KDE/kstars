@@ -465,7 +465,6 @@ void Guide::newFITS(IBLOB *bp)
         if (targetImage)
         {
             delete (darkImage);
-
             darkImage = targetImage->getImageData();
 
             // Save dark frame in the library
@@ -1032,7 +1031,6 @@ bool Guide::loadDarkFrame(double exposure)
 {
     QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(exposure, 'f', 2));
     QString path     = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + filename;
-
     if (darkImage == NULL)
         darkImage = new FITSData();
 
@@ -1054,7 +1052,7 @@ void Guide::setUseDarkFrame(bool enable)
 {
     useDarkFrame = enable;
 
-    if (calibration->useAutoStar())
+    if (enable && calibration->useAutoStar())
         appendLogText(i18n("Warning: In auto mode, you will not be asked to cover cameras unequipped with shutters in order to capture a dark frame. The dark frame capture will proceed without warning."
                            " You can capture dark frames with auto mode off and they shall be saved in the dark library for use when ever needed."));
 }
