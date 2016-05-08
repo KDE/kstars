@@ -731,7 +731,10 @@ bool rguider::dither()
     if (m_isDithering == false)
     {
         retries =0;
-        targetChip->abortExposure();
+
+        // JM 2016-05-8: CCD would abort if required.
+        //targetChip->abortExposure();
+
         double ditherPixels = ui.ditherPixels->value();
         int polarity = (rand() %2 == 0) ? 1 : -1;
         double angle = ((double) rand() / RAND_MAX) * M_PI/2.0;
@@ -749,25 +752,25 @@ bool rguider::dither()
             target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
         if (Options::guideLogging())
-            qDebug() << "Guide: Dither Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
+            qDebug() << "Guide: Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
         pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 
         guide();
 
-        pmain_wnd->capture();
+        // Take a new exposure if we're not already capturing
+        if (targetChip->isCapturing() == false)
+            pmain_wnd->capture();
 
         return true;
     }
-
-    if (m_isDithering == false)
-        return false;
 
     Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( target_pos.x, target_pos.y, 0 );
     star_pos.y = -star_pos.y;
     star_pos = star_pos * ROT_Z;
 
-    //qDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y;
+    if (Options::guideLogging())
+        qDebug() << "Guide: Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
