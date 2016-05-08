@@ -1729,7 +1729,7 @@ void Scheduler::calculateDawnDusk()
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
-    if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
+    if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
         QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
         QList<QVariant> dbusargs;
@@ -3723,8 +3723,13 @@ void    Scheduler::parkMount()
 
     if (status != Mount::PARKING_OK)
     {
-        mountInterface->call(QDBus::AutoDetect,"park");
-        appendLogText(i18n("Parking mount..."));
+        if (status == Mount::PARKING_BUSY)
+            appendLogText(i18n("Parking mount in progress..."));
+        else
+        {
+            mountInterface->call(QDBus::AutoDetect,"park");
+            appendLogText(i18n("Parking mount..."));
+        }
 
         if (shutdownState == SHUTDOWN_PARK_MOUNT)
                 shutdownState = SHUTDOWN_PARKING_MOUNT;
@@ -3751,9 +3756,13 @@ void    Scheduler::unParkMount()
 
     if (status != Mount::UNPARKING_OK)
     {
-        mountInterface->call(QDBus::AutoDetect,"unpark");
-
-        appendLogText(i18n("Unparking mount..."));
+        if (status == Mount::UNPARKING_BUSY)
+            appendLogText(i18n("Unparking mount in progress..."));
+        else
+        {
+            mountInterface->call(QDBus::AutoDetect,"unpark");
+            appendLogText(i18n("Unparking mount..."));
+        }
 
         if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
