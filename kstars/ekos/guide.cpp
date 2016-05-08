@@ -1052,7 +1052,7 @@ void Guide::setUseDarkFrame(bool enable)
 {
     useDarkFrame = enable;
 
-    if (enable && calibration->useAutoStar())
+    if (enable && calibration && calibration->useAutoStar())
         appendLogText(i18n("Warning: In auto mode, you will not be asked to cover cameras unequipped with shutters in order to capture a dark frame. The dark frame capture will proceed without warning."
                            " You can capture dark frames with auto mode off and they shall be saved in the dark library for use when ever needed."));
 }
