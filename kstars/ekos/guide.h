@@ -268,11 +268,13 @@ protected slots:
          */
         void processCCDNumber(INumberVectorProperty *nvp);
 
+        void saveDefaultGuideExposure();
+
 signals:
         void newLog();
         void guideReady();
         void newAxisDelta(double delta_ra, double delta_dec);
-        void autoGuidingToggled(bool, bool);
+        void autoGuidingToggled(bool);
         void ditherComplete();
         void ditherFailed();
         void ditherToggled(bool);

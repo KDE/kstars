@@ -63,6 +63,9 @@ Guide::Guide() : QWidget()
 
     tabLayout->addWidget(tabWidget);
 
+    exposureIN->setValue(Options::guideExposure());
+    connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
+
     pmath = new cgmath();
 
     connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
@@ -73,7 +76,7 @@ Guide::Guide() : QWidget()
     guider = new rguider(pmath, this);
 
     connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
-    connect(guider, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
+    connect(guider, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
     connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));   
 
     tabWidget->addTab(calibration, calibration->windowTitle());
@@ -91,8 +94,8 @@ Guide::Guide() : QWidget()
     connect(phd2, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
     connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
     connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
-    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
-    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), guider, SLOT(setGuideState(bool,bool)));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool)), guider, SLOT(setGuideState(bool)));
     connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
     connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 
@@ -847,11 +850,14 @@ bool Guide::isGuiding()
 }
 
 bool Guide::startGuiding()
-{
-    if (Options::useEkosGuider())
+{    
+    // This will handle both internal and external guiders
+    return guider->start();
+
+    /*if (Options::useEkosGuider())
         return guider->start();
     else
-        return phd2->startGuiding();
+        return phd2->startGuiding();*/
 }
 
 bool Guide::stopGuiding()
@@ -1057,6 +1063,11 @@ void Guide::setUseDarkFrame(bool enable)
     if (enable && calibration && calibration->useAutoStar())
         appendLogText(i18n("Warning: In auto mode, you will not be asked to cover cameras unequipped with shutters in order to capture a dark frame. The dark frame capture will proceed without warning."
                            " You can capture dark frames with auto mode off and they shall be saved in the dark library for use when ever needed."));
+}
+
+void Guide::saveDefaultGuideExposure()
+{
+    Options::setGuideExposure(exposureIN->value());
 }
 
 }

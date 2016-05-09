@@ -63,7 +63,6 @@ public:
 
 private slots:
 
-    void setDitherEnabled(bool enable) { ditherEnabled = enable; }
     void readPHD2();
     void displayError(QAbstractSocket::SocketError socketError);
 
@@ -76,7 +75,7 @@ signals:
     void ditherComplete();
     void ditherFailed();
     void newAxisDelta(double delta_ra, double delta_dec);
-    void autoGuidingToggled(bool, bool);
+    void autoGuidingToggled(bool);
     void guideReady();
 
 private:
@@ -96,8 +95,6 @@ private:
     PHD2State state;
     PHD2Connection connection;
     PHD2Event event;
-
-    bool ditherEnabled;
 
     double ccd_pixel_width, ccd_pixel_height, focal;
 };

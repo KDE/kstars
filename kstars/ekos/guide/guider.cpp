@@ -388,6 +388,9 @@ bool rguider::start()
     if (guideFrame)
         disconnect(guideFrame, SIGNAL(guideStarSelected(int,int)), 0, 0);
 
+    // Let everyone know about dither option status
+    emit ditherToggled(ui.ditherCheck->isChecked());
+
     if (phd2)
     {
         phd2->startGuiding();
@@ -422,7 +425,7 @@ bool rguider::start()
     if (m_useRapidGuide)
         pmain_wnd->startRapidGuide();
 
-    emit autoGuidingToggled(true, ui.ditherCheck->isChecked());
+    emit autoGuidingToggled(true);
 
     pmain_wnd->setSuspended(false);
 
@@ -443,7 +446,7 @@ bool rguider::stop()
     if (phd2)
     {
         ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
-        emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+        emit autoGuidingToggled(false);
 
         m_isDithering = false;
         m_isStarted = false;
@@ -465,7 +468,7 @@ bool rguider::stop()
     if (m_useRapidGuide)
         pmain_wnd->stopRapidGuide();
 
-    emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+    emit autoGuidingToggled(false);
 
     m_isDithering = false;
     m_isStarted = false;
@@ -473,12 +476,11 @@ bool rguider::stop()
     return true;
 }
 
-void rguider::setGuideState(bool guiding, bool ditherChecked)
+void rguider::setGuideState(bool guiding)
 {
     if (phd2 == NULL)
         return;
 
-    ui.ditherCheck->setChecked(ditherChecked);
     // If not started already
     if (m_isStarted == false && guiding)
     {

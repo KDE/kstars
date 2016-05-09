@@ -1504,6 +1504,10 @@
           </entry>
     </group>
     <group name="Guide">
+    <entry name="GuideExposure" type="Double">
+        <label>Guider exposure duration in seconds.</label>
+        <default>1.0</default>
+    </entry>
     <entry name="UseEkosGuider" type="Bool">
         <label>Use Ekos Internal Guider Module for guiding</label>
         <default>true</default>

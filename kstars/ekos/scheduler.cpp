@@ -97,6 +97,7 @@ Scheduler::Scheduler()
     focusFailureCount=0;
     guideFailureCount=0;
     alignFailureCount=0;
+    captureFailureCount=0;
 
     noWeatherCounter=0;
 
@@ -809,6 +810,7 @@ void Scheduler::stop()
     focusFailureCount=0;
     guideFailureCount=0;
     alignFailureCount=0;
+    captureFailureCount=0;
     jobEvaluationOnly=false;
     loadAndSlewProgress=false;
     autofocusCompleted=false;
@@ -2626,7 +2628,7 @@ void Scheduler::checkJobStage()
         QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
 
         if (Options::verboseLogging())
-            qDebug() << "Scheduler: Calibration stage...";
+            qDebug() << "Scheduler: Calibration & Guide stage...";
 
         if (guideReply.error().type() == QDBusError::UnknownObject)
         {
@@ -2697,6 +2699,21 @@ void Scheduler::checkJobStage()
          if(captureReply.value().toStdString()=="Aborted" || captureReply.value().toStdString()=="Error")
          {
              appendLogText(i18n("%1 capture failed!", currentJob->getName()));
+
+             // If capture failed due to guiding error, let's try to restart that
+             if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+             {
+                 // Check if it is guiding related.
+                 QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isGuiding");
+                 // If guiding failed, let's restart it
+                 if(guideReply.value() == false)
+                 {
+                    appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
+                    currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
+                    return;
+                 }
+             }
+
              currentJob->setState(SchedulerJob::JOB_ERROR);
 
              findNextJob();

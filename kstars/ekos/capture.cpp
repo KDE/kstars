@@ -1708,10 +1708,16 @@ void Capture::setGuideDither(bool enable)
     guideDither = enable;
 }
 
-void Capture::setAutoguiding(bool enable, bool isDithering)
+void Capture::setAutoguiding(bool enable)
 {  
+    // If Autoguiding was started before and now stopped, let's abort.
+    if (enable == false && isAutoGuiding && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    {
+        appendLogText(i18n("Autoguiding stopped. Aborting..."));
+        abort();
+    }
+
     isAutoGuiding = enable;
-    guideDither   = isDithering;
 }
 
 void Capture::updateFocusStatus(bool status)
