@@ -89,6 +89,12 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: num.iconpath + "/sc-actions-kstars_planets.png"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        Options.setShowSolarSystem(false);
+                    }
+                }
             }
             TopMenuButton {
                 iconSrc: num.iconpath + "/sc-actions-kstars_clines.png"

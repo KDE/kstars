@@ -30,16 +30,6 @@ class GeoLocation;
 
 class QQuickItem;
 
-class OpsCatalog;
-class OpsGuides;
-class OpsSolarSystem;
-class OpsSatellites;
-class OpsSupernovae;
-class OpsColors;
-class OpsAdvanced;
-class OpsINDI;
-class OpsEkos;
-
 /**
  *@class KStarsLite
  *@short This class loads QML files and connects SkyMapLite and KStarsData
@@ -91,6 +81,9 @@ public:
 signals:
     /** Sent when KStarsData finishes loading data */
     void dataLoadFinished();
+
+    /** Makes splash (Splash.qml) visible on startup */
+    void showSplash();
 
 public Q_SLOTS:
     /**

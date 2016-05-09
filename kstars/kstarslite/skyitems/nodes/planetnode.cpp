@@ -20,19 +20,21 @@
 #include <QQuickWindow>
 #include "skymaplite.h"
 #include "ksplanetbase.h"
+#include "solarsystemsinglecomponent.h"
 
 #include "planetnode.h"
 
 
-PlanetNode::PlanetNode(KSPlanetBase* p, PlanetItemNode* parentNode)
+PlanetNode::PlanetNode(SolarSystemSingleComponent* p, PlanetItemNode* parentNode)
     :m_planetPic(new QSGSimpleTextureNode), m_planet(p), m_planetOpacity(new QSGOpacityNode)
 {
+    KSPlanetBase* pb = m_planet->planet();
     // Draw them as bright stars of appropriate color instead of images
     char spType;
     //FIXME: do these need i18n?
-    if( m_planet->name() == i18n("Mars") ) {
+    if( pb->name() == i18n("Mars") ) {
         spType = 'K';
-    } else if( m_planet->name() == i18n("Jupiter") || m_planet->name() == i18n("Mercury") || m_planet->name() == i18n("Saturn") ) {
+    } else if( pb->name() == i18n("Jupiter") || pb->name() == i18n("Mercury") || pb->name() == i18n("Saturn") ) {
         spType = 'F';
     } else {
         spType = 'B';
@@ -45,7 +47,7 @@ PlanetNode::PlanetNode(KSPlanetBase* p, PlanetItemNode* parentNode)
     //Add planet to opacity node so that we could hide the planet
     m_planetOpacity->appendChildNode(m_planetPic);
     m_planetPic->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(
-                              m_planet->image(), QQuickWindow::TextureCanUseAtlas));
+                              pb->image(), QQuickWindow::TextureCanUseAtlas));
 }
 
 void PlanetNode::setPointSize(float size) {

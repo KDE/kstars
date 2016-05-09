@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg2493"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/home/kstars/kde/src/kdeedu/kstars/kstars/icons"
+   sodipodi:docname="action-kstars_grid.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs2495">
+    <linearGradient
+       id="linearGradient3764">
+      <stop
+         style="stop-color:#ffffb7;stop-opacity:1;"
+         offset="0"
+         id="stop3766" />
+      <stop
+         id="stop3772"
+         offset="0.5"
+         style="stop-color:#f4e55b;stop-opacity:1;" />
+      <stop
+         style="stop-color:#ea9a00;stop-opacity:1;"
+         offset="1"
+         id="stop3768" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.97227182"
+     inkscape:cx="10.232531"
+     inkscape:cy="28.318538"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1172"
+     inkscape:window-height="967"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata2498">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <rect
+       style="fill:#000000"
+       id="rect2501"
+       width="64"
+       height="64"
+       x="0"
+       y="-1.4210855e-14" />
+    <path
+       style="fill:#0064c5;fill-opacity:1;stroke:none;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 28.0625,0.09375 C 23.276283,12.918392 12.956472,23.026725 0,27.53125 L 0,32.78125 C 15.6892,27.898089 28.15337,15.64951 33.34375,0.09375 L 28.0625,0.09375 z "
+       id="path3366"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       style="fill:#0064c5;fill-opacity:1;stroke:none;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 53.25,0.09375 C 47.130508,26.261007 26.326234,46.768147 0,52.46875 L 0,57.5625 C 29.060553,51.69524 52.040518,28.995124 58.34375,0.09375 L 53.25,0.09375 z "
+       id="path3368"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       style="fill:#0064c5;fill-opacity:1;stroke:none;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 64.1875,35.5 C 56.61604,47.101953 46.560893,56.931054 34.78125,64.25 L 43.6875,64.25 C 51.451102,58.564719 58.358198,51.774346 64.1875,44.125 L 64.1875,35.5 z "
+       id="path3370"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       style="fill:#0064c5;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0.047314555,0.084871526 L 0.04332799,3.9111121 L 60.380989,64.005989 L 63.942029,64.032343 L 63.964452,60.60013 L 3.2858164,0.093951396 L 0.047314555,0.084871526 z "
+       id="path3405"
+       sodipodi:nodetypes="ccccccc" />
+    <path
+       style="fill:#0064c5;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 2.28125,18 L 0.12121753,12.958755 L 0.062012019,25.096537 L 17.301042,64.007942 L 22.646745,63.992058 L 2.28125,18 z "
+       id="path3407"
+       sodipodi:nodetypes="cccccc" />
+    <path
+       style="fill:#0064c5;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 25.803648,0.026433148 L 14.144139,0.025389728 L 63.929558,21.960026 L 63.945442,16.562109 L 25.803648,0.026433148 z "
+       id="path3409"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

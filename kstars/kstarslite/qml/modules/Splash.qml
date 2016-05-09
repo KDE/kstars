@@ -40,12 +40,13 @@ Window {
 
     Connections {
         target: KStarsLite
+        onShowSplash: {
+            visible = true
+        }
         onDataLoadFinished: {
             visible = false
             splash.timeout()
         }
     }
-
-    Component.onCompleted: visible = true
 }
 

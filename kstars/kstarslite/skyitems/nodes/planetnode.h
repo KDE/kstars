@@ -20,6 +20,7 @@
 
 class QSGSimpleTextureNode;
 class QImage;
+class SolarSystemSingleComponent;
 class KSPlanetBase;
 class PlanetItemNode;
 
@@ -41,7 +42,7 @@ public:
      * @param planet used in PlanesItem to update position of PlanetNode
      * @param parentNode used by PointNode to get textures from cache
      */
-    PlanetNode(KSPlanetBase* planet, PlanetItemNode* parentNode);
+    PlanetNode(SolarSystemSingleComponent* planet, PlanetItemNode* parentNode);
     /**
      * @short setPointSize updates the size of m_point
      * @param size new size of m_point
@@ -70,9 +71,9 @@ public:
      */
     void changePos(QPointF pos);
     /**
-     * @return the planet associated with this PlanetNode
+     * @return the SolarSystemSingleComponent associated with this PlanetNode
      */
-    inline KSPlanetBase* planet() { return m_planet; }
+    inline SolarSystemSingleComponent* planet() { return m_planet; }
 private:
     PointNode* m_point;
 
@@ -81,7 +82,7 @@ private:
     QSGOpacityNode* m_planetOpacity;
     QSGSimpleTextureNode* m_planetPic;
 
-    KSPlanetBase* m_planet;
+    SolarSystemSingleComponent* m_planet;
 };
 
 

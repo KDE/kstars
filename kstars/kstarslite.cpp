@@ -38,13 +38,12 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     QString main = QString(SOURCE_DIR) + "/kstars/kstarslite/qml/main.qml";
 
     m_Engine.load(QUrl(main));
+    Q_ASSERT_X(m_Engine.rootObjects().size(),"loading root object of main.qml",
+               "QML file was not loaded. Probably syntax error or failed module import.");
 
     m_RootObject = m_Engine.rootObjects()[0];
-    Q_ASSERT(m_RootObject);
-    if(!m_RootObject) qDebug() << "Please, check QML files for syntax errors";
 
     QQuickItem* skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
-    //Once KStarsData is loaded we are ready to show the SkyMapLite
 
     m_KStarsData = KStarsData::Create();
     Q_ASSERT( m_KStarsData );
@@ -52,6 +51,8 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     //Make instance of KStarsLite and KStarsData available to QML
     m_Engine.rootContext()->setContextProperty("KStarsLite", this);
     m_Engine.rootContext()->setContextProperty("KStarsData", m_KStarsData);
+
+    m_Engine.rootContext()->setContextProperty("Options", Options::self());
 
     //Set Geographic Location from Options
     m_KStarsData->setLocationFromOptions();
@@ -80,9 +81,8 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     if ( startClock ) StartClockRunning =  Options::runClock();
 
     // Setup splash screen
-    if ( doSplash ) {
-        //connect( m_KStarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
-        //splash->show();
+    if ( !doSplash ) {
+        showSplash();
     } else {
         connect( m_KStarsData, SIGNAL( progressText(QString) ), m_KStarsData, SLOT( slotConsoleMessage(QString) ) );
     }
@@ -154,7 +154,7 @@ void KStarsLite::writeConfig() {
 
 void KStarsLite::slotAboutToQuit()
 {
-    // Delete skymap. This required to run destructors and save
+    // Delete skymaplite. This required to run destructors and save
     // current state in the option.
     delete m_SkyMapLite;
 

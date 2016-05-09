@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg2493"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/home/kstars/kde/src/kdeedu/kstars/kstars/icons"
+   sodipodi:docname="hisc-action-kstars_planets.svgz"
+   inkscape:output_extension="org.inkscape.output.svgz.inkscape">
+  <defs
+     id="defs2495">
+    <linearGradient
+       id="linearGradient3764">
+      <stop
+         style="stop-color:#ffffb7;stop-opacity:1;"
+         offset="0"
+         id="stop3766" />
+      <stop
+         id="stop3772"
+         offset="0.5"
+         style="stop-color:#f4e55b;stop-opacity:1;" />
+      <stop
+         style="stop-color:#ea9a00;stop-opacity:1;"
+         offset="1"
+         id="stop3768" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3764"
+       id="radialGradient3770"
+       cx="36.227272"
+       cy="25.136364"
+       fx="36.227272"
+       fy="25.136364"
+       r="16.795454"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11"
+     inkscape:cx="31.527106"
+     inkscape:cy="32.63468"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1172"
+     inkscape:window-height="967"
+     inkscape:window-x="186"
+     inkscape:window-y="244" />
+  <metadata
+     id="metadata2498">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <rect
+       style="fill:#000000"
+       id="rect2501"
+       width="64"
+       height="64"
+       x="0"
+       y="-1.4210855e-14" />
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#radialGradient3770);fill-opacity:1;stroke:#ffc000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3714"
+       sodipodi:cx="36.227272"
+       sodipodi:cy="25.136364"
+       sodipodi:rx="16.045454"
+       sodipodi:ry="16.045454"
+       d="M 52.272726 25.136364 A 16.045454 16.045454 0 1 1  20.181818,25.136364 A 16.045454 16.045454 0 1 1  52.272726 25.136364 z"
+       transform="matrix(0.9913066,-0.1315721,0.1315721,0.9913066,-6.4455226,11.479149)" />
+    <path
+       style="fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.60000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 54.659515,9.6651399 C 51.836278,10.749482 46.750876,12.959105 40.737441,16.920767 C 41.149821,17.161614 41.552772,17.427952 41.945031,17.70621 C 47.680768,14.220833 51.673185,12.950022 52.918679,14.33055 C 55.020004,16.659699 46.839656,24.960298 35.30284,34.67087 C 23.766023,44.381441 13.995595,50.833903 11.89427,48.504754 C 10.613036,47.084608 12.76149,43.490507 17.375079,38.273984 C 17.147656,37.86961 17.012316,37.375021 16.824727,36.957274 C 9.8301175,44.343674 2.2466634,53.099383 3.9587386,54.99708 C 6.4455394,57.753498 24.479372,49.251657 38.132553,37.759736 C 51.785733,26.267815 63.557919,10.894237 61.071118,8.1378192 C 60.604844,7.620991 56.102495,8.9325967 54.659515,9.6651399 z "
+       id="path3482"
+       sodipodi:nodetypes="cccsssccsssc" />
+  </g>
+</svg>
