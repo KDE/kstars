@@ -433,7 +433,7 @@ void KStars::slotWISettings()
     connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
 
     m_WISettings = new WILPSettings(this);
-    m_WIEquipmentSettings = new WIEquipSettings(this);
+    m_WIEquipmentSettings = new WIEquipSettings();
     dialog->addPage(m_WISettings, i18n("Light Pollution Settings"));
     dialog->addPage(m_WIEquipmentSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
@@ -454,13 +454,16 @@ void KStars::slotShowWIView(int status)
      * aperture of the equipment whichever available. However this is kept as a part of
      * the code as support to be utilised in the future.
      */
-    ObsConditions::Equipment equip = Options::noEquipCheck()
-    ? (ObsConditions::None) : (Options::telescopeCheck()
-    ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
-    : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
+    ObsConditions::Equipment equip = ObsConditions::None;
 
-    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope)
-                                           ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
+    if (Options::telescopeCheck() && Options::binocularsCheck())
+        equip = ObsConditions::Both;
+    else if (Options::telescopeCheck())
+        equip = ObsConditions::Telescope;
+    else if (Options::binocularsCheck())
+        equip = ObsConditions::Binoculars;
+
+    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope) ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
 
     int aperture = m_WIEquipmentSettings->getAperture();
 

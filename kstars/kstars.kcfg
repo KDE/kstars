@@ -1272,15 +1272,11 @@
           <label>Availability of binoculars</label>
           <default>false</default>
       </entry>
-      <entry name="NoEquipCheck" type="Bool">
-          <label>Availability of both telescope and binoculars</label>
-          <default>false</default>
-      </entry>
       <entry name="BinocularsAperture" type="Double">
           <label>Aperture of available binocular</label>
           <default>40.0</default>
       </entry>
-      <entry name="ScopeListWidget" type="UInt">
+      <entry name="ScopeListIndex" type="UInt">
           <label>Index of selected scope from list of scopes</label>
           <default>0</default>
       </entry>
