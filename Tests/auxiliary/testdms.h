@@ -25,7 +25,8 @@ class TestDMS: public QObject
   ~TestDMS();
 
  private slots:
-   void checkDefaultConstructor();
+   void defaultCtor();
+   void explicitSexigesimalCtor();
 
 };
 

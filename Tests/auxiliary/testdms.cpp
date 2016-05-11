@@ -18,7 +18,7 @@ TestDMS::~TestDMS()
 {
 }
 
-void TestDMS::checkDefaultConstructor()
+void TestDMS::defaultCtor()
 {
   /*
    * Test 1: Checks Default Constructor
@@ -26,8 +26,25 @@ void TestDMS::checkDefaultConstructor()
 
   dms d;
 
-  QCOMPARE(d.Degrees(), NaN::d);
+  QVERIFY(std::isnan(d.Degrees()));
 
+}
+
+void TestDMS::explicitSexigesimalCtor()
+{
+    /*
+     * Test 1: Checks Explicit Construct 1
+    */
+
+    // HH:MM:SS
+    // 14:55:20
+
+    dms d(14, 55, 20);
+
+    QVERIFY(d.degree() == 14);
+    QVERIFY(d.arcmin() == 55);
+    QVERIFY(d.arcsec() == 20);
+    QVERIFY(d.Degrees() == (14.0+55.0/60.0+20.0/3600.0));
 }
 
 QTEST_MAIN(TestDMS)
