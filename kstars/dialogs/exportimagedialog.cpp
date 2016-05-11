@@ -15,19 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "exportimagedialog.h"
-#include "kstars/kstars.h"
-#include "kstars/skymap.h"
-#include "../printing/legend.h"
-#include "kstars/skyqpainter.h"
-#include "imageexporter.h"
-
-#include <KMessageBox>
-
 #include <QtSvg/QSvgGenerator>
 #include <QDir>
 #include <QDesktopWidget>
 
+#include <KMessageBox>
+
+#include "exportimagedialog.h"
+#include "kstars.h"
+#include "skymap.h"
+#include "printing/legend.h"
+#include "skyqpainter.h"
+#include "imageexporter.h"
 
 ExportImageDialogUI::ExportImageDialogUI(QWidget *parent)
     : QFrame(parent)

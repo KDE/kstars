@@ -26,7 +26,7 @@
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanet.h"
-#include "kstars/skyobjects/constellationsart.h"
+#include "skyobjects/constellationsart.h"
 
 #include "targetlistcomponent.h"
 #include "constellationboundarylines.h"

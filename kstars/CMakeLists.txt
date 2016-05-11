@@ -547,13 +547,8 @@ ki18n_wrap_ui(kstars_SRCS
        skycomponents/notifyupdatesui.ui
 )
 
-#FIXME We need to port this
-#kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
 add_executable(kstars main.cpp)
 add_library( KStarsLib STATIC ${kstars_SRCS})
-
-# FIXME TODO
-#target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
 
 target_link_libraries(KStarsLib
         LibKSDataHandlers
@@ -564,8 +559,6 @@ target_link_libraries(KStarsLib
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
-#        KF5::TextEditor
-#        KF5::DBusAddons
         KF5::IconThemes
         Qt5::Gui
         Qt5::PrintSupport

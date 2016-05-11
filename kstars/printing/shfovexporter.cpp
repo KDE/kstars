@@ -15,15 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "Options.h"
+
 #include "shfovexporter.h"
 #include "starhopper.h"
 #include "targetlistcomponent.h"
-#include "kstars/kstarsdata.h"
+#include "kstarsdata.h"
 #include "skymapcomposite.h"
-#include "kstars/skymap.h"
+#include "skymap.h"
 #include "skypoint.h"
 #include "printingwizard.h"
-#include "Options.h"
 
 ShFovExporter::ShFovExporter(PrintingWizard *wizard, SkyMap *map) : m_Map(map), m_ParentWizard(wizard)
 {}

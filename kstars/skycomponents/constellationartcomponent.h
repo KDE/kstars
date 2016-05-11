@@ -17,27 +17,16 @@
 
 #ifndef ConstellationArtComponent_H
 #define ConstellationArtComponent_H
-#include "kstars/Options.h"
-#include "kstars/skyobjects/constellationsart.h"
-#include "skycomponent.h"
+
 #include <QImage>
 #include <QSqlDatabase>
-#include "kstars/projections/projector.h"
-#include "kstars/auxiliary/dms.h"
-#include "kstars/skymap.h"
-#include "kstars/skyqpainter.h"
+
+#include "Options.h"
+
+#include "skycomponent.h"
+
 class ConstellationsArt;
-class QColor;
-class SkyMap;
-class SkyPoint;
-class SkyMesh;
-class QImage;
-class dms;
-class Projector;
-class QSqlDatabase;
-class SkyMap;
 class CultureList;
-class SkyQPainter;
 
 /**
  * @class ConstellationArtComponent

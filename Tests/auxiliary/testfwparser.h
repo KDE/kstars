@@ -17,10 +17,12 @@
 
 #ifndef TESTFWPARSER_H
 #define TESTFWPARSER_H
+
 #include <QtTest/QtTest>
-#include <KDebug>
-#include "datahandlers/ksparser.h"
-#include "kstars/ksfilereader.h"
+#include <QDebug>
+
+#include "ksparser.h"
+#include "auxiliary/ksfilereader.h"
 
 
 class TestFWParser: public QObject {

@@ -31,7 +31,7 @@
 #include "skyobjects/skypoint.h"
 #include "ksfilereader.h"
 #include "skypainter.h"
-#include "kstars/projections/projector.h"
+#include "projections/projector.h"
 
 FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
