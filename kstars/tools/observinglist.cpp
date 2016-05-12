@@ -1206,10 +1206,14 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
 
 }
 
-void ObservingList::slotImageViewer() {
-    ImageViewer *iv = 0;
+void ObservingList::slotImageViewer()
+{
+    QPointer<ImageViewer> iv;
     if( QFile::exists( CurrentImagePath ) )
-        iv = new ImageViewer( CurrentImagePath, this );
+    {
+        QUrl url = QUrl::fromLocalFile(CurrentImagePath);
+        iv = new ImageViewer( url );
+    }
 
     if( iv )
         iv->show();
