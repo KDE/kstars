@@ -24,9 +24,13 @@ class TestDMS: public QObject
   TestDMS();
   ~TestDMS();
 
+  void checkCtor_data();
+
  private slots:
    void defaultCtor();
    void explicitSexigesimalCtor();
+   void angleCtor();
+   void stringCtor();
 
 };
 
