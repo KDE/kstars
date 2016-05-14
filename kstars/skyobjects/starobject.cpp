@@ -29,6 +29,7 @@
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
 #include "kstarsdata.h"
+#include "kstarsdatetime.h"
 #include "Options.h"
 #include "skymap.h"
 #include "ksutils.h"
@@ -181,6 +182,7 @@ void StarObject::init( const starData *stardata )
     */
     // END DEBUG.
 
+    lastPrecessJD = J2000;
 
 }
 
@@ -225,6 +227,7 @@ void StarObject::init( const deepStarData *stardata )
     updateID = updateNumID = 0;
     B = stardata->B / 1000.0;
     V = stardata->V / 1000.0;
+    lastPrecessJD = J2000;
 }
 
 void StarObject::setNames( QString name, QString name2 ) {
@@ -327,14 +330,14 @@ void StarObject::JITupdate()
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
         Q_ASSERT( std::isfinite( lastPrecessJD ) );
-        if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 // TODO: Make this 0.0005 a constant / define it
-            || ( lastPrecessJD - data->updateNum()->getJD() ) <= -0.0005
-            || Options::alwaysRecomputeCoordinates()
-            || ( Options::useRelativistic() && checkBendLight() ) ) {
 
+        if  ( Options::alwaysRecomputeCoordinates() ||
+            ( Options::useRelativistic() && checkBendLight() ) ||
+            fabs(lastPrecessJD - data->updateNum()->getJD() ) >= 0.00069444) // Update is once per solar minute
+       {
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
             updateCoords( data->updateNum() );
-        }
+       }
 
         updateNumID = data->updateNumID();
     }

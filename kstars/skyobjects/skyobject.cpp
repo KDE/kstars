@@ -438,7 +438,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
             KSLabel = "[KSLABEL:" + star->gname( false ) + ']'; //"false": spell out greek letter
     }
 
-    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "userlog.dat" ) ; //determine filename in local user KDE directory tree.
+    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "userlog.dat" ) ; //determine filename in local user KDE directory tree.
     if ( file.open( QIODevice::ReadOnly)) {
         QTextStream instream(&file);
         // read all data into memory
@@ -463,7 +463,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 
     //Open file for writing
     if ( !file.open( QIODevice::WriteOnly ) ) {
-        qDebug() << i18n( "Cannot write to user log file" );
+        qDebug() << "Cannot write to user log file";
         return;
     }
 

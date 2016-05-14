@@ -156,10 +156,10 @@ class SkyMapDrawAbstract {
     static bool m_DrawLock;
 
     /** Calculate FPS and dump result to stderr using qDebug */
-    void calculateFPS();
+    //void calculateFPS();
 private:
-    int m_framecount;     // To count FPS
-    QTime m_fpstime;
+   // int m_framecount;     // To count FPS
+    //QTime m_fpstime;
 };
 
 #endif

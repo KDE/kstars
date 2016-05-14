@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <QFile>
+#include <QDir>
 #include <QStandardPaths>
 
 #include "satellitegroup.h"
@@ -62,17 +63,25 @@ void SatelliteGroup::readTLE()
 
 void SatelliteGroup::updateSatellitesPos()
 {
-    for ( int i=0; i<size(); i++ ) {
-        Satellite *sat = at( i );
+    QMutableListIterator<Satellite *> sats(*this);
+    while (sats.hasNext())
+    {
+        Satellite *sat = sats.next();
+
         if ( sat->selected() )
-            sat->updatePos();
+        {
+            int rc = sat->updatePos();
+            // If position cannot be calculated, remove it from list
+            if (rc != 0)
+                sats.remove();
+        }
     }
 }
 
 QUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
-    return QUrl( "file:" + (QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "") + m_tle_file) ;
+    return QUrl( "file:" + (QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "") + m_tle_file) ;
 }
 
 QUrl SatelliteGroup::tleUrl()

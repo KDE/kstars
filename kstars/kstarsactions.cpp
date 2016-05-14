@@ -30,8 +30,8 @@
 #include <QDockWidget>
 #include <QPointer>
 #include <QInputDialog>
-//#include <QQuickWindow>
-//#include <QQuickView>
+#include <QQuickWindow>
+#include <QQuickView>
 #include <QDebug>
 #include <QAction>
 #include <QFileDialog>
@@ -81,8 +81,7 @@
 #include "tools/observinglist.h"
 #include "tools/eyepiecefield.h"
 
-//FIXME Port to QML2
-#if 0
+#ifdef HAVE_KF5WIT
 #include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiequipsettings.h"
@@ -430,9 +429,10 @@ void KStars::slotSkyGuideWriter() {
 }
 
 //FIXME Port to QML2
-#if 0
+//#if 0
 void KStars::slotWISettings()
 {
+#ifdef HAVE_KF5WIT
     if (m_WIView && !m_wiDock->isVisible())
     {
         slotShowWIView(1);
@@ -451,14 +451,16 @@ void KStars::slotWISettings()
     connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
 
     m_WISettings = new WILPSettings(this);
-    m_WIEquipmentSettings = new WIEquipSettings(this);
+    m_WIEquipmentSettings = new WIEquipSettings();
     dialog->addPage(m_WISettings, i18n("Light Pollution Settings"));
     dialog->addPage(m_WIEquipmentSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
+#endif
 }
 
 void KStars::slotShowWIView(int status)
 {
+#ifdef HAVE_KF5WIT
 
     if (status == 0) return;          //Cancelled
 
@@ -470,13 +472,16 @@ void KStars::slotShowWIView(int status)
      * aperture of the equipment whichever available. However this is kept as a part of
      * the code as support to be utilised in the future.
      */
-    ObsConditions::Equipment equip = Options::noEquipCheck()
-    ? (ObsConditions::None) : (Options::telescopeCheck()
-    ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
-    : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
+    ObsConditions::Equipment equip = ObsConditions::None;
 
-    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope)
-                                           ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
+    if (Options::telescopeCheck() && Options::binocularsCheck())
+        equip = ObsConditions::Both;
+    else if (Options::telescopeCheck())
+        equip = ObsConditions::Telescope;
+    else if (Options::binocularsCheck())
+        equip = ObsConditions::Binoculars;
+
+    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope) ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
 
     int aperture = m_WIEquipmentSettings->getAperture();
 
@@ -503,9 +508,9 @@ void KStars::slotShowWIView(int status)
         m_WIView->updateModels(m_ObsConditions);
         m_wiDock->setVisible(true);
     }
-}
 
 #endif
+}
 
 void KStars::slotCalendar() {
     if ( ! m_SkyCalendar ) m_SkyCalendar = new SkyCalendar(this);
@@ -1231,7 +1236,7 @@ void KStars::slotMapProjection() {
         Options::setProjection( SkyMap::Gnomonic );
 
     //DEBUG
-    qDebug() << i18n( "Projection system: %1", Options::projection() );
+    qDebug() << "Projection system: " << Options::projection();
 
     m_SkyMap->forceUpdate();
 }
@@ -1310,7 +1315,7 @@ void KStars::slotEyepieceView( SkyPoint *sp, const QString &imagePath ) {
     const FOV *fov = 0;
     if( !data()->getAvailableFOVs().isEmpty() ) {
         // Ask the user to choose from a list of available FOVs.
-        int index;
+        //int index;
         const FOV *f;
         QMap< QString, const FOV * > nameToFovMap;
         foreach( f, data()->getAvailableFOVs() ) {

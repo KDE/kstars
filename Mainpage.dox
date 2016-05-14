@@ -102,6 +102,9 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
     <li>\ref MountDBusInterface "Mount Module DBus Interface"</li>
     <li>\ref GuideDBusInterface "Guide Module DBus Interface"</li>
     <li>\ref AlignDBusInterface "Align Module DBus Interface"</li>
+    <li>\ref SchedulerDBusInterface "Scheduler Module DBus Interface"</li>
+    <li>\ref DomeDBusInterface "Dome DBus Interface"</li>
+    <li>\ref DustCapDBusInterface "Dust Cap DBus Interface"</li>
     </ul>
     - \ref ScriptBuilder Script builder
 

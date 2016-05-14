@@ -16,9 +16,11 @@
  ***************************************************************************/
 
 #include "constellationartcomponent.h"
-#include "kstars/auxiliary/ksfilereader.h"
-#include "kstars/skymap.h"
-#include "kstars/projections/projector.h"
+#include "constellationsart.h"
+#include "auxiliary/ksfilereader.h"
+#include "skymap.h"
+#include "culturelist.h"
+#include "projections/projector.h"
 
 ConstellationArtComponent::ConstellationArtComponent( SkyComposite *parent, CultureList *cultures ):SkyComponent(parent)
 {

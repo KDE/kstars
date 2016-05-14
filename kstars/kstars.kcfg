@@ -233,6 +233,7 @@
     <entry name="FOVNames" type="StringList">
       <label>Name of selected FOV indicators</label>
       <whatsthis>The names of the currently selected field-of-view indicators.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
+      <default>Telrad</default>
     </entry>
     <entry name="FadePlanetTrails" type="Bool">
       <label>Fade planet trails to background color?</label>
@@ -1173,7 +1174,7 @@
     <entry name="AlwaysRecomputeCoordinates" type="Bool">
       <label>Always recompute coordinates</label>
       <whatsthis>Checking this option causes recomputation of current equatorial coordinates from catalog coordinates (i.e. application of precession, nutation and aberration corrections) for every redraw of the map. This makes processing slower when there are many stars to handle, but is more likely to be bug free. There are known bugs in the rendering of stars when this recomputation is avoided.</whatsthis>
-      <default>true</default>
+      <default>false</default>
     </entry>
     <entry name="DefaultDSSImageSize" type="Double">
       <label>Default size for DSS images</label>
@@ -1214,6 +1215,34 @@
       <label>Verbose Log File</label>
       <whatsthis>Verbose log file to save all of KStars generated debug messages to.</whatsthis>
     </entry>
+    <entry name="FITSLogging" type="Bool">
+      <whatsthis>Log FITS Data activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="INDILogging" type="Bool">
+      <whatsthis>Log INDI devices activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="CaptureLogging" type="Bool">
+      <whatsthis>Log Ekos Capture Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="FocusLogging" type="Bool">
+      <whatsthis>Log Ekos Focus Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="GuideLogging" type="Bool">
+      <whatsthis>Log Ekos Guide Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="AlignmentLogging" type="Bool">
+      <whatsthis>Log Ekos Alignment Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="MountLogging" type="Bool">
+      <whatsthis>Log Ekos Mount Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="singlePreviewFITS" type="Bool">
       <label>Preview FITS in a single tab?</label>
       <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
@@ -1243,121 +1272,19 @@
           <label>Availability of binoculars</label>
           <default>false</default>
       </entry>
-      <entry name="NoEquipCheck" type="Bool">
-          <label>Availability of both telescope and binoculars</label>
-          <default>false</default>
-      </entry>
       <entry name="BinocularsAperture" type="Double">
           <label>Aperture of available binocular</label>
           <default>40.0</default>
       </entry>
-      <entry name="ScopeListWidget" type="UInt">
+      <entry name="ScopeListIndex" type="UInt">
           <label>Index of selected scope from list of scopes</label>
           <default>0</default>
       </entry>
   </group>
   <group name="Ekos">
-    <entry name="TelescopeDriver" type="String">
-      <label>Default telescope driver</label>
-    </entry>
-    <entry name="CCDDriver" type="String">
-      <label>Default CCD driver</label>
-    </entry>
-    <entry name="GuiderDriver" type="String">
-      <label>Default Guider driver</label>
-    </entry>
-    <entry name="FilterDriver" type="String">
-      <label>Default Filter driver</label>
-    </entry>
-    <entry name="FocuserDriver" type="String">
-      <label>Default Focuser driver</label>
-    </entry>
-    <entry name="Aux1Driver" type="String">
-      <label>Default Auxiliary driver #1</label>
-    </entry>
-    <entry name="Aux2Driver" type="String">
-      <label>Default Auxiliary driver #2</label>
-    </entry>
-    <entry name="Aux3Driver" type="String">
-      <label>Default Auxiliary driver #3</label>
-    </entry>
-    <entry name="Aux4Driver" type="String">
-      <label>Default Auxiliary driver #4</label>
-    </entry>
-    <entry name="DomeDriver" type="String">
-      <label>Default Weather driver</label>
-    </entry>
-    <entry name="WeatherDriver" type="String">
-      <label>Default Dome driver</label>
-    </entry>
-    <entry name="AODriver" type="String">
-      <label>Default Adaptive Optics driver</label>
-    </entry>
-    <entry name="remoteScopeName" type="String">
-      <label>Remote Scope Name</label>
-      <whatsthis>Name of the remote INDI telescope device.</whatsthis>
-    </entry>
-    <entry name="remoteCCDName" type="String">
-      <label>Remote CCD Name</label>
-      <whatsthis>Name of the remote INDI CCD device.</whatsthis>
-    </entry>
-    <entry name="remoteGuiderName" type="String">
-      <label>Remote Guider Name</label>
-      <whatsthis>Name of the remote INDI Guider device. If the CCD and Guider are the same device, it must be specified here as well.</whatsthis>
-    </entry>
-    <entry name="remoteFocuserName" type="String">
-      <label>Remote Focuser Name</label>
-      <whatsthis>Name of the remote INDI focuser device.</whatsthis>
-    </entry>
-    <entry name="remoteFilterName" type="String">
-      <label>Remote Filter Name</label>
-      <whatsthis>Name of the remote INDI Filter device.</whatsthis>
-    </entry>
-    <entry name="remoteAux1Name" type="String">
-      <label>Remote Auxiliary Name #1</label>
-      <whatsthis>Name of the remote INDI Auxiliary device #1.</whatsthis>
-    </entry>
-    <entry name="remoteAux2Name" type="String">
-      <label>Remote Auxiliary Name #2</label>
-      <whatsthis>Name of the remote INDI Auxiliary device #2.</whatsthis>
-    </entry>
-    <entry name="remoteAux3Name" type="String">
-      <label>Remote Auxiliary Name #3</label>
-      <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
-    </entry>
-    <entry name="remoteAux4Name" type="String">
-      <label>Remote Auxiliary Name #3</label>
-      <whatsthis>Name of the remote INDI Auxiliary device #3.</whatsthis>
-    </entry>
-    <entry name="remoteDomeName" type="String">
-      <label>Remote Dome Name</label>
-      <whatsthis>Name of the remote INDI Dome device.</whatsthis>
-    </entry>
-    <entry name="remoteWeatherName" type="String">
-      <label>Remote Weather Station Name</label>
-      <whatsthis>Name of the remote INDI Weather device.</whatsthis>
-    </entry>
-    <entry name="remoteAOName" type="String">
-      <label>Remote Adaptive Optics Name</label>
-      <whatsthis>Name of the remote INDI Adaptive Optics device.</whatsthis>
-    </entry>
-    <entry name="remoteHost" type="String">
-      <label>Remote INDI host</label>
-      <whatsthis>Hostname of the remote INDI server for Ekos.</whatsthis>
-    </entry>
-    <entry name="remotePort" type="String">
-      <label>Remote Port</label>
-      <whatsthis>Port of the remote INDI server for Ekos.</whatsthis>
-    </entry>
-    <entry name="localMode" type="Bool">
-      <label>Ekos connection mode</label>
-      <whatsthis>Ekos is started in local mode.</whatsthis>
-      <default>true</default>
-    </entry>
-    <entry name="remoteMode" type="Bool">
-      <label>Ekos connection mode</label>
-      <whatsthis>Ekos is started in remote mode.</whatsthis>
-      <default>false</default>
+    <entry name="profile" type="String">
+        <label>Ekos drivers profile</label>
+        <default>Simulators</default>
     </entry>
     <entry name="neverLoadConfig" type="Bool">
       <label>Never load device configuration?</label>
@@ -1537,7 +1464,7 @@
           <entry name="SolverUpdateCoords" type="Bool">
               <label>Update Solver RA and DEC search coordinates.</label>
               <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
-              <default>false</default>
+              <default>true</default>
           </entry>
           <entry name="SolverPreview" type="Bool">
               <label>Display image in FITS Viewer.</label>
@@ -1573,6 +1500,10 @@
           </entry>
     </group>
     <group name="Guide">
+    <entry name="GuideExposure" type="Double">
+        <label>Guider exposure duration in seconds.</label>
+        <default>1.0</default>
+    </entry>
     <entry name="UseEkosGuider" type="Bool">
         <label>Use Ekos Internal Guider Module for guiding</label>
         <default>true</default>

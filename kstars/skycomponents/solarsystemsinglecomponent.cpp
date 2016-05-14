@@ -79,7 +79,7 @@ void SolarSystemSingleComponent::update(KSNumbers*) {
         m_Planet->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void SolarSystemSingleComponent::updatePlanets(KSNumbers *num) {
+void SolarSystemSingleComponent::updateSolarSystemBodies(KSNumbers *num) {
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance(); 
         m_Planet->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );

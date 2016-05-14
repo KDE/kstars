@@ -348,8 +348,8 @@ void SkyPoint::updateCoords( const KSNumbers *num, bool /*includePlanets*/, cons
     }
     else {
         recompute = ( Options::alwaysRecomputeCoordinates() ||
-                      ( lastPrecessJD - num->getJD() ) >= 0.0005 ||
-                      (lastPrecessJD - num->getJD() ) <= -0.0005 || forceRecompute ); // 0.0005 solar days is less than a minute
+                      forceRecompute ||
+                      fabs( lastPrecessJD - num->getJD() ) >= 0.00069444); // Update once per solar minute
         lens = false;
     }
     if( recompute ) {

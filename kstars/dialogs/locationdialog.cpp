@@ -303,7 +303,7 @@ bool LocationDialog::updateCity(CityOperation operation)
         }*/
 
         QSqlDatabase mycitydb = QSqlDatabase::database("mycitydb");
-        QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/"  +  "mycitydb.sqlite";
+        QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator()  +  "mycitydb.sqlite";
 
         // If it doesn't exist, create it
         if (QFile::exists(dbfile) == false)

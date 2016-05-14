@@ -156,6 +156,8 @@
 	<Action name="clock_startstop" />
 	<Action name="time_step_forward" />
 	<Action name="timestep_control" />
+        <Separator />
+        <Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 </ToolBar>
 
 <ToolBar noMerge="1" name="viewToolBar" iconText="icononly">

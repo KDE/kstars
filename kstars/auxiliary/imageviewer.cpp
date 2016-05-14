@@ -81,17 +81,31 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio));
 }
 
+ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
+    QDialog( parent ),
+    fileIsImage(false),
+    downloadJob(0)
+{
+    init(caption, QString());
+}
+
 ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *parent) :
     QDialog( parent ),
     m_ImageUrl(url),
     fileIsImage(false),
     downloadJob(0)
 {
-    init(url.fileName(), capText);
+    init(url.fileName(), capText);        
 
     // check URL
     if (!m_ImageUrl.isValid())
         qDebug() << "URL is malformed: " << m_ImageUrl;
+
+    if (m_ImageUrl.isLocalFile())
+    {
+        loadImage(m_ImageUrl.path());
+        return;
+    }
     
     {
         QTemporaryFile tempfile;
@@ -102,17 +116,8 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
     loadImageFromURL();
 }
 
-ImageViewer::ImageViewer ( QString FileName, QWidget *parent ) :
-    QDialog( parent ),
-    fileIsImage(true),
-    downloadJob(0)
+void ImageViewer::init(QString caption, QString capText)
 {
-    init(FileName, QString());
-    file.setFileName( FileName );
-    showImage();
-}
-
-void ImageViewer::init(QString caption, QString capText) {
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
     setWindowTitle( i18n( "KStars image viewer: %1", caption ) );
@@ -205,15 +210,24 @@ void ImageViewer::downloadReady (KJob *job)
     close();
 }
 
-void ImageViewer::showImage()
+bool ImageViewer::loadImage(const QString &filename)
+{
+    file.setFileName(filename);
+    return showImage();
+}
+
+bool ImageViewer::showImage()
 {
     QImage image;
-    if( !image.load( file.fileName() )) {
+
+    if( !image.load( file.fileName() ))
+    {
         QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.url());
         KMessageBox::error (this, text);
         close();
-        return;
+        return false;
     }
+
     fileIsImage = true;	// we loaded the file and know now, that it is an image
 
     //If the image is larger than screen width and/or screen height,
@@ -249,6 +263,8 @@ void ImageViewer::showImage()
 
     resize(w, image.height());
     update();
+
+    return true;
 }
 
 void ImageViewer::saveFileToDisc()

@@ -145,7 +145,7 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
   if( p )
       p->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
   else
-      Object1->updateCoords( &num );
+      Object1->updateCoordsNow( &num );
 
   Object2->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
   dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());

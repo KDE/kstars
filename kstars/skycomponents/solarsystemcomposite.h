@@ -52,7 +52,7 @@ public:
 
     virtual void update( KSNumbers *num );
 
-    virtual void updatePlanets( KSNumbers *num );
+    virtual void updateSolarSystemBodies( KSNumbers *num );
 
     virtual void updateMoons( KSNumbers *num );
 

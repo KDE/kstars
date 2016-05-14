@@ -48,7 +48,7 @@ void SolarSystemListComponent::update(KSNumbers * ) {
     }
 }
 
-void SolarSystemListComponent::updatePlanets(KSNumbers *num ) {
+void SolarSystemListComponent::updateSolarSystemBodies(KSNumbers *num ) {
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance(); 
         foreach ( SkyObject *o, m_ObjectList ) {

@@ -23,11 +23,11 @@
 #include <QImage>
 #include "skycomponent.h"
 #include "culturelist.h"
-#include "kstars/skypainter.h"
-#include "kstars/skyobjects/skyobject.h"
-#include "kstars/skycomponents/constellationartcomponent.h"
+#include "skypainter.h"
+#include "skyobjects/skyobject.h"
+#include "skycomponents/constellationartcomponent.h"
 #include "skypoint.h"
-#include "kstars/auxiliary/dms.h"
+#include "auxiliary/dms.h"
 
 class QImage;
 class SkyPoint;

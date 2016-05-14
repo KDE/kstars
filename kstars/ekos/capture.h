@@ -333,7 +333,7 @@ public slots:
      * @param enable True if autoguiding is enabled and running, false otherwise.
      * @param isDithering true if dithering is enabled.
      */
-    void setAutoguiding(bool enable, bool isDithering);
+    void setAutoguiding(bool enable);
 
     /**
      * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.

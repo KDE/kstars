@@ -344,6 +344,8 @@ void KStars::initActions() {
     //Add FOV Symbol actions
     fovActionMenu = actionCollection()->add<KActionMenu>("fovsymbols" );
     fovActionMenu->setText( i18n("&FOV Symbols" ) );
+    fovActionMenu->setDelayed(false);
+    fovActionMenu->setIcon(QIcon::fromTheme("crosshairs"));
     repopulateFOV();
 
     actionCollection()->addAction("geolocation", this, SLOT( slotGeoLocator() ) )
@@ -397,11 +399,11 @@ void KStars::initActions() {
         << QKeySequence( Qt::CTRL+Qt::Key_W );
 
     //FIXME Port to QML2
-    #if 0
+    //#if 0
     actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )
         << i18n("What's Interesting...")
         << QKeySequence(Qt::CTRL+Qt::Key_W );
-    #endif
+    //#endif
 
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << i18n("Sky Calendar");

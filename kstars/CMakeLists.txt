@@ -2,8 +2,13 @@ add_subdirectory(data)
 add_subdirectory(icons)
 add_subdirectory(htmesh)
 add_subdirectory(tools/skyguide)
-#FIXME Port to QML2
-#add_subdirectory(tools/whatsinteresting/qml)
+
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+SET(HAVE_KF5WIT 1)
+add_subdirectory( tools/whatsinteresting/qml)
+else()
+SET(HAVE_KF5WIT 0)
+endif()
 
 Find_package(ZLIB REQUIRED)
 Find_package(Threads REQUIRED)
@@ -80,48 +85,50 @@ if (INDI_FOUND)
     )
 
     if (CFITSIO_FOUND)
-        set(ekosui_SRCS
-            ekos/scheduler.ui
-            ekos/mosaic.ui
-            ekos/opsekos.ui
-            ekos/ekosmanager.ui
-            ekos/capture.ui
-            ekos/calibrationoptions.ui
-            ekos/align.ui
-            ekos/focus.ui
-            ekos/guide.ui
-            ekos/mount.ui
-            ekos/guide/guider.ui
-            ekos/guide/rcalibration.ui
+       set(ekosui_SRCS
+           ekos/scheduler.ui
+           ekos/mosaic.ui
+           ekos/opsekos.ui
+           ekos/ekosmanager.ui
+           ekos/capture.ui
+           ekos/calibrationoptions.ui
+           ekos/align.ui
+           ekos/focus.ui
+           ekos/guide.ui
+           ekos/mount.ui
+           ekos/profileeditor.ui
+           ekos/guide/guider.ui
+           ekos/guide/rcalibration.ui
         )
 
-        set(ekos_SRCS
-            ekos/schedulerjob.cpp
-            ekos/scheduler.cpp
-            ekos/mosaic.cpp
-            ekos/ekosmanager.cpp
-            ekos/capture.cpp
-            ekos/sequencejob.cpp
-            ekos/focus.cpp
-            ekos/guide.cpp
-            ekos/phd2.cpp
-            ekos/align.cpp
-            ekos/mount.cpp
-            ekos/dome.cpp
-            ekos/weather.cpp
-            ekos/dustcap.cpp
-            ekos/astrometryparser.cpp
-            ekos/offlineastrometryparser.cpp
-            ekos/onlineastrometryparser.cpp
-            ekos/opsekos.cpp
-            ekos/QProgressIndicator.cpp
-            ekos/guide/common.cpp
-            ekos/guide/gmath.cpp
-            ekos/guide/guider.cpp
-            ekos/guide/matr.cpp
-            ekos/guide/rcalibration.cpp
-            ekos/guide/scroll_graph.cpp
-            ekos/guide/vect.cpp
+       set(ekos_SRCS
+           ekos/schedulerjob.cpp
+           ekos/scheduler.cpp
+           ekos/mosaic.cpp
+           ekos/ekosmanager.cpp
+           ekos/capture.cpp
+           ekos/sequencejob.cpp
+           ekos/focus.cpp
+           ekos/guide.cpp
+           ekos/phd2.cpp
+           ekos/align.cpp
+           ekos/mount.cpp
+           ekos/dome.cpp
+           ekos/weather.cpp
+           ekos/dustcap.cpp
+           ekos/astrometryparser.cpp
+           ekos/offlineastrometryparser.cpp
+           ekos/onlineastrometryparser.cpp
+           ekos/profileeditor.cpp
+           ekos/opsekos.cpp
+           ekos/QProgressIndicator.cpp
+           ekos/guide/common.cpp
+           ekos/guide/gmath.cpp
+           ekos/guide/guider.cpp
+           ekos/guide/matr.cpp
+           ekos/guide/rcalibration.cpp
+           ekos/guide/scroll_graph.cpp
+           ekos/guide/vect.cpp
         )
     endif(CFITSIO_FOUND)
 
@@ -192,72 +199,83 @@ set(libkstarstools_SRCS
     tools/skyguide/skyguideview.cpp
     tools/skyguide/skyguidewriter.cpp
 
-    #FIXME Port to QML2
-    #tools/whatsinteresting/skyobjlistmodel.cpp
-    #tools/whatsinteresting/wiview.cpp
-    #tools/whatsinteresting/modelmanager.cpp
-    #tools/whatsinteresting/skyobjitem.cpp
-    #tools/whatsinteresting/wilpsettings.cpp
-    #tools/whatsinteresting/wiequipsettings.cpp
-    #tools/whatsinteresting/obsconditions.cpp
-    #tools/whatsinteresting/skyobjdescription.cpp
 
     #FIXME Port to KF5
     #tools/moonphasetool.cpp
+
     tools/starhopper.cpp
     tools/eyepiecefield.cpp
     tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
 )
 
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+    set(libkstarstools_SRCS
+        ${libkstarstools_SRCS}
+        tools/whatsinteresting/skyobjlistmodel.cpp
+        tools/whatsinteresting/wiview.cpp
+        tools/whatsinteresting/modelmanager.cpp
+        tools/whatsinteresting/skyobjitem.cpp
+        tools/whatsinteresting/wilpsettings.cpp
+        tools/whatsinteresting/wiequipsettings.cpp
+        tools/whatsinteresting/obsconditions.cpp
+        tools/whatsinteresting/skyobjdescription.cpp
+    )
+endif()
+
 ki18n_wrap_ui(libkstarstools_SRCS
-              tools/altvstime.ui
-              tools/argchangeviewoption.ui
-              tools/argexportimage.ui
-              tools/argloadcolorscheme.ui
-              tools/arglooktoward.ui
-              tools/argfindobject.ui
-              tools/argprintimage.ui
-              tools/argsetaltaz.ui
-              tools/argsetcolor.ui
-              tools/argsetgeolocation.ui
-              tools/argsetlocaltime.ui
-              tools/argsetradec.ui
-              tools/argsettrack.ui
-              tools/argtimescale.ui
-              tools/argwaitfor.ui
-              tools/argwaitforkey.ui
-              tools/argzoom.ui
-              tools/conjunctions.ui
-              tools/modcalcangdist.ui
-              tools/modcalcapcoord.ui
-              tools/modcalcaltaz.ui
-              tools/modcalcdaylength.ui
-              tools/modcalceclipticcoords.ui
-              tools/modcalcvizequinox.ui
-              tools/modcalcgalcoord.ui
-              tools/modcalcgeod.ui
-              tools/modcalcjd.ui
-              tools/modcalcplanets.ui
-              tools/modcalcsidtime.ui
-              tools/modcalcvlsr.ui
-              tools/observinglist.ui
-              tools/obslistwizard.ui
-              tools/optionstreeview.ui
-              tools/planetviewer.ui
-              tools/scriptbuilder.ui
-              tools/scriptnamedialog.ui
-              tools/skycalendar.ui
-              tools/wutdialog.ui
-              tools/flagmanager.ui
-              tools/skyguide/skyguideauthor.ui
-              tools/skyguide/skyguideslide.ui
-              tools/skyguide/skyguidewriter.ui
-              tools/whatsinteresting/wilpsettings.ui
-              tools/whatsinteresting/wiequipsettings.ui
-              tools/starhopperdialog.ui
-              tools/horizonmanager.ui
+    tools/altvstime.ui
+    tools/argchangeviewoption.ui
+    tools/argexportimage.ui
+    tools/argloadcolorscheme.ui
+    tools/arglooktoward.ui
+    tools/argfindobject.ui
+    tools/argprintimage.ui
+    tools/argsetaltaz.ui
+    tools/argsetcolor.ui
+    tools/argsetgeolocation.ui
+    tools/argsetlocaltime.ui
+    tools/argsetradec.ui
+    tools/argsettrack.ui
+    tools/argtimescale.ui
+    tools/argwaitfor.ui
+    tools/argwaitforkey.ui
+    tools/argzoom.ui
+    tools/conjunctions.ui
+    tools/modcalcangdist.ui
+    tools/modcalcapcoord.ui
+    tools/modcalcaltaz.ui
+    tools/modcalcdaylength.ui
+    tools/modcalceclipticcoords.ui
+    tools/modcalcvizequinox.ui
+    tools/modcalcgalcoord.ui
+    tools/modcalcgeod.ui
+    tools/modcalcjd.ui
+    tools/modcalcplanets.ui
+    tools/modcalcsidtime.ui
+    tools/modcalcvlsr.ui
+    tools/observinglist.ui
+    tools/obslistwizard.ui
+    tools/optionstreeview.ui
+    tools/planetviewer.ui
+    tools/scriptbuilder.ui
+    tools/scriptnamedialog.ui
+    tools/skycalendar.ui
+    tools/wutdialog.ui
+    tools/flagmanager.ui
+    tools/starhopperdialog.ui
+    tools/horizonmanager.ui
+    tools/skyguide/skyguideauthor.ui
+    tools/skyguide/skyguideslide.ui
+    tools/skyguide/skyguidewriter.ui
 )
+
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+    ki18n_wrap_ui(libkstarstools_SRCS
+        tools/whatsinteresting/wilpsettings.ui
+        tools/whatsinteresting/wiequipsettings.ui
+    )
+endif()
 
 set(libkstarscomponents_SRCS
     skycomponents/skylabeler.cpp
@@ -324,8 +342,8 @@ set(libkstarswidgets_SRCS
 )
 
 ki18n_wrap_ui(libkstarswidgets_SRCS
-              # widgets/genericcalendarwidget.ui
-              widgets/unitspinboxwidget.ui
+    # widgets/genericcalendarwidget.ui
+    widgets/unitspinboxwidget.ui
 )
 
 set(kstars_KCFG_SRCS
@@ -433,6 +451,7 @@ set(kstars_extra_SRCS
     auxiliary/ksdssdownloader.cpp
     auxiliary/kswizard.cpp
     auxiliary/qcustomplot.cpp
+    auxiliary/profileinfo.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -538,54 +557,49 @@ if (INDI_FOUND)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/dustcap.h Ekos::DustCap)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler.h Ekos::Scheduler)
 endif(INDI_FOUND)
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 ki18n_wrap_ui(kstars_SRCS
-              ${indiui_SRCS}
-              ${ui_SRCS}
-              ${fitsui_SRCS}
-              ${ekosui_SRCS}
-              ${xplanetui_SRCS}
-              ${kstars_optionsui_SRCS}
-              ${kstars_dialogsui_SRCS}
-              ${printingui_SRCS}
-              auxiliary/thumbnailpicker.ui
-              auxiliary/thumbnaileditor.ui
-              oal/observeradd.ui
-              oal/equipmentwriter.ui
-              oal/execute.ui
-              skycomponents/notifyupdatesui.ui
+    ${indiui_SRCS}
+    ${ui_SRCS}
+    ${fitsui_SRCS}
+    ${ekosui_SRCS}
+    ${xplanetui_SRCS}
+    ${kstars_optionsui_SRCS}
+    ${kstars_dialogsui_SRCS}
+    ${printingui_SRCS}
+    auxiliary/thumbnailpicker.ui
+    auxiliary/thumbnaileditor.ui
+    oal/observeradd.ui
+    oal/equipmentwriter.ui
+    oal/execute.ui
+    skycomponents/notifyupdatesui.ui
 )
 
-# FIXME We need to port this
-# kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
 add_executable(kstars main.cpp)
 add_library(KStarsLib STATIC ${kstars_SRCS})
 
-# FIXME TODO
-# target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
-
 target_link_libraries(KStarsLib
-                      LibKSDataHandlers
-                      htmesh
-                      KF5::Crash
-                      KF5::I18n
-                      KF5::NewStuff
-                      KF5::KIOFileWidgets
-                      KF5::WidgetsAddons
-                      KF5::Plotting
-#                      KF5::TextEditor
-#                      KF5::DBusAddons
-                      KF5::IconThemes
-                      Qt5::Gui
-                      Qt5::PrintSupport
-                      Qt5::Sql
-                      Qt5::Svg
-                      Qt5::Qml
-                      Qt5::Quick
-                      ${ZLIB_LIBRARIES}
+    LibKSDataHandlers
+    htmesh
+    KF5::Archive
+    KF5::Crash
+    KF5::I18n
+    KF5::NewStuff
+    KF5::KIOFileWidgets
+    KF5::WidgetsAddons
+    KF5::Plotting
+    KF5::IconThemes
+    Qt5::Gui
+    Qt5::PrintSupport
+    Qt5::Sql
+    Qt5::Svg
+    Qt5::Qml
+    Qt5::Quick
+    ${ZLIB_LIBRARIES}
 )
 
 if(NOT WIN32)

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
+    <width>622</width>
     <height>496</height>
    </rect>
   </property>
@@ -56,6 +56,9 @@
           <item>
            <widget class="QLineEdit" name="fitsEdit">
             <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="clearButtonEnabled">
              <bool>true</bool>
             </property>
            </widget>
@@ -64,8 +67,8 @@
            <widget class="QPushButton" name="selectFITSB">
             <property name="maximumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>22</width>
+              <height>22</height>
              </size>
             </property>
             <property name="text">
@@ -98,6 +101,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -111,6 +117,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -124,6 +133,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -137,6 +149,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -237,8 +252,8 @@
            <widget class="QPushButton" name="loadSequenceB">
             <property name="maximumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>22</width>
+              <height>22</height>
              </size>
             </property>
             <property name="toolTip">
@@ -459,9 +474,21 @@
         </item>
         <item>
          <widget class="QTableWidget" name="queueTable">
+          <property name="toolTip">
+           <string>Job scheduler list. Click to edit a job. Double click to reset a job status.</string>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>Name</string>
@@ -470,6 +497,12 @@
           <column>
            <property name="text">
             <string>Status</string>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
            </property>
           </column>
           <column>
@@ -597,7 +630,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="startupTimeEdit"/>
+           <widget class="QDateTimeEdit" name="startupTimeEdit">
+            <property name="displayFormat">
+             <string>dd/MM/yy h:mm AP</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_3">
@@ -633,6 +673,9 @@
             <property name="text">
              <string>Alt &gt; </string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="0" column="1">
@@ -660,6 +703,9 @@
             <property name="text">
              <string>Moon  &gt; </string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="1" column="1">
@@ -691,6 +737,9 @@
             <property name="text">
              <string>Weather</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -781,7 +830,17 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="completionTimeEdit"/>
+           <widget class="QDateTimeEdit" name="completionTimeEdit">
+            <property name="displayFormat">
+             <string>dd/MM/yy h:mm AP</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="timeSpec">
+             <enum>Qt::LocalTime</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_7">
@@ -827,6 +886,9 @@
             <property name="text">
              <string>UnPark Dome</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -840,6 +902,9 @@
             <property name="text">
              <string>UnPark Mount</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -850,6 +915,9 @@
             <property name="text">
              <string>UnCap</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -926,6 +994,9 @@
             <property name="text">
              <string>Warm CCD</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -936,6 +1007,9 @@
             <property name="text">
              <string>Cap</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -949,6 +1023,9 @@
             <property name="text">
              <string>Park Mount</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -962,6 +1039,9 @@
             <property name="text">
              <string>Park Dome</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -1071,7 +1151,27 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>

@@ -64,9 +64,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
       m_PlanetViewer(0), m_WUTDialog(0), m_JMoonTool(0), m_MoonPhaseTool(0), m_FlagManager(0), m_HorizonManager(0), m_EyepieceView(0),
       m_SkyGuideMgr(0),
       //FIXME Port to QML2
-      #if 0
+      //#if 0
       m_WIView(0), m_ObsConditions(0), m_wiDock(0),
-      #endif
+      //#endif
       DialogIsObsolete(false), StartClockRunning( clockrun ),
       StartDateString( startdate )
 {
@@ -132,7 +132,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     }
 
     //set up Dark color scheme for application windows
-    DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
+    DarkPalette = QPalette(QColor("black"), QColor("black"));
+    DarkPalette.setColor( QPalette::Inactive, QPalette::WindowText, QColor( "red" ) );
+    DarkPalette.setColor( QPalette::Normal, QPalette::WindowText, QColor( "red" ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Base, QColor( "black" ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Text, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Highlight, QColor( 238, 0, 0 ) );
@@ -360,12 +362,12 @@ void KStars::selectPreviousFov()
 }
 
 //FIXME Port to QML2
-#if 0
+//#if 0
 void KStars::showWISettingsUI()
 {
     slotWISettings();
 }
-#endif
+//#endif
 
 void KStars::updateTime( const bool automaticDSTchange ) {
     // Due to frequently use of this function save data and map pointers for speedup.

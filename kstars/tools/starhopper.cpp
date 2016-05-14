@@ -45,10 +45,9 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
 
     came_from.clear();
     result_path.clear();
-    
 
     // Implements the A* search algorithm
-    
+
     QList<SkyPoint const *> cSet;
     QList<SkyPoint const *> oSet;
     QHash<SkyPoint const *, double> g_score;
@@ -61,7 +60,7 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
     g_score[ &src ] = 0;
     h_score[ &src ] = src.angularDistanceTo( &dest ).Degrees()/fov;
     f_score[ &src ] = h_score[ &src ];
-    
+
     while( !oSet.isEmpty() ) {
         qDebug() << "Next step";
         // Find the node with the lowest f_score value
@@ -113,7 +112,7 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
 
             return result_path;
         }
-        
+
         oSet.removeOne( curr_node );
         cSet.append( curr_node );
 
@@ -145,7 +144,7 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
         foreach( nhd_node, neighbors ) {
             if( cSet.contains( nhd_node ) )
                 continue;
-            
+
             // Compute the tentative g_score
             double tentative_g_score = curr_g_score + cost( curr_node, nhd_node );
             bool tentative_better;
@@ -157,7 +156,7 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
                 tentative_better = true;
             else
                 tentative_better = false;
-            
+
             if( tentative_better ) {
                 came_from[ nhd_node ] = curr_node;
                 g_score[ nhd_node ] = tentative_g_score;
@@ -203,7 +202,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
 
         // Test 1: How bright is the star?
         magcost = nextstar->mag() - 7.0 + 5 * log10( fov ); // The brighter, the better. FIXME: 8.0 is now an arbitrary reference to the average faint star. Should actually depend on FOV, something like log( FOV ).
-    
+
         // Test 2: Is the star strikingly red / yellow coloured?
         QString SpType = nextstar->sptype();
         char spclass = SpType.at( 0 ).toLatin1();
@@ -227,7 +226,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
         dircost = sqrt( 1 - cosC * cosC ) / cosC; // tan( C )
         */
     }
-        
+
     // Test 4: How far is the hop?
     double distcost = (curr->angularDistanceTo( next ).Degrees() / fov); // 1 "magnitude" incremental cost for 1 FOV. Is this even required, or is it just equivalent to halving our distance unit? I think it is required since the hop is not necessarily in the direction of the object -- asimha
 

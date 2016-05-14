@@ -213,6 +213,7 @@ bool Telescope::isInMotion()
 {
     ISwitchVectorProperty *movementSP(NULL);
     bool inMotion=false;
+    bool inSlew=isSlewing();
 
     movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
     if (movementSP)
@@ -222,7 +223,7 @@ bool Telescope::isInMotion()
     if (movementSP)
         inMotion = ((movementSP->s == IPS_BUSY) || inMotion);
 
-    return (isSlewing() || inMotion);
+    return (inSlew || inMotion);
 }
 
 bool Telescope::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
@@ -431,8 +432,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             DecEle->value = ScopeTarget->dec().Degrees();
             clientManager->sendNewNumber(EqProp);
 
-            if (Options::verboseLogging())
-                qDebug() << "Telescope: Sending coords RA " << RAEle->value << " DEC " << DecEle->value;
+            if (Options::iNDILogging())
+                qDebug() << "ISD:Telescope: Sending coords RA " << RAEle->value << " DEC " << DecEle->value;
 
             RAEle->value = currentRA;
             DecEle->value = currentDEC;
@@ -480,8 +481,8 @@ bool Telescope::Slew(SkyPoint *ScopeTarget)
         slewSW->s = ISS_ON;
         clientManager->sendNewSwitch(motionSP);
 
-        if (Options::verboseLogging())
-            qDebug() << "Telescope: " << slewSW->name;
+        if (Options::iNDILogging())
+            qDebug() << "ISD:Telescope: " << slewSW->name;
     }
 
     return sendCoords(ScopeTarget);
@@ -514,8 +515,8 @@ bool Telescope::Sync(SkyPoint *ScopeTarget)
         syncSW->s = ISS_ON;
         clientManager->sendNewSwitch(motionSP);
 
-        if (Options::verboseLogging())
-            qDebug() << "Telescope: Syncing...";
+        if (Options::iNDILogging())
+            qDebug() << "ISD:Telescope: Syncing...";
     }
 
     return sendCoords(ScopeTarget);
@@ -531,8 +532,8 @@ bool Telescope::Abort()
     if (abortSW == NULL)
         return false;
 
-    if (Options::verboseLogging())
-        qDebug() << "Telescope: Aborted." << endl;
+    if (Options::iNDILogging())
+        qDebug() << "ISD:Telescope: Aborted." << endl;
 
      abortSW->s = ISS_ON;
      clientManager->sendNewSwitch(motionSP);
@@ -551,8 +552,8 @@ bool Telescope::Park()
     if (parkSW == NULL)
         return false;
 
-    if (Options::verboseLogging())
-        qDebug() << "Telescope: Parking..." << endl;
+    if (Options::iNDILogging())
+        qDebug() << "ISD:Telescope: Parking..." << endl;
 
      IUResetSwitch(parkSP);
      parkSW->s = ISS_ON;
@@ -571,8 +572,8 @@ bool Telescope::UnPark()
     if (parkSW == NULL)
         return false;
 
-    if (Options::verboseLogging())
-        qDebug() << "Telescope: UnParking..." << endl;
+    if (Options::iNDILogging())
+        qDebug() << "ISD:Telescope: UnParking..." << endl;
 
      IUResetSwitch(parkSP);
      parkSW->s = ISS_ON;

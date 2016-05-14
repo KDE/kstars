@@ -876,8 +876,8 @@ void Align::appendLogText(const QString &text)
 {
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
-    if (Options::verboseLogging())
-        qDebug() << text;
+    if (Options::alignmentLogging())
+        qDebug() << "Alignment: " << text;
 
     emit newLog();
 }
@@ -906,7 +906,6 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
         if (kcfg_solverUpdateCoords->isChecked())
         {
-
             if (currentTelescope->isSlewing() && slew_dirty == false)
                 slew_dirty = true;
             else if (currentTelescope->isSlewing() == false && slew_dirty)
@@ -1105,7 +1104,7 @@ void Align::measureAzError()
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
     int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
 
-    if (Options::verboseLogging())
+    if (Options::alignmentLogging())
         qDebug() << "Polar Alignment: Measureing Azimuth Error...";
 
     switch (azStage)
@@ -1133,7 +1132,7 @@ void Align::measureAzError()
         initDEC  = alignCoord.dec().Degrees();
         initAz   = alignCoord.az().Degrees();
 
-        if (Options::verboseLogging())
+        if (Options::alignmentLogging())
             qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
                         " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
 
@@ -1172,7 +1171,7 @@ void Align::measureAzError()
         finalRA   = alignCoord.ra().Degrees();
         finalDEC  = alignCoord.dec().Degrees();
 
-        if (Options::verboseLogging())
+        if (Options::alignmentLogging())
             qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
                         " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
 
@@ -1202,7 +1201,7 @@ void Align::measureAltError()
 {
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
 
-    if (Options::verboseLogging())
+    if (Options::alignmentLogging())
         qDebug() << "Polar Alignment: Measureing Altitude Error...";
 
     switch (altStage)
@@ -1228,7 +1227,7 @@ void Align::measureAltError()
         initDEC  = alignCoord.dec().Degrees();
         initAz   = alignCoord.az().Degrees();
 
-        if (Options::verboseLogging())
+        if (Options::alignmentLogging())
             qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
                         " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
 
@@ -1268,7 +1267,7 @@ void Align::measureAltError()
         finalRA   = alignCoord.ra().Degrees();
         finalDEC  = alignCoord.dec().Degrees();
 
-        if (Options::verboseLogging())
+        if (Options::alignmentLogging())
             qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
                         " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
 
@@ -1306,7 +1305,11 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     int horizon    = (initAz > 0 && initAz <= 180) ? 0 : 1;
 
     // How much time passed siderrally form initRA to finalRA?
-    double RATime = fabs(raMotion / SIDRATE) / 60.0;    
+    //double RATime = fabs(raMotion / SIDRATE) / 60.0;
+
+    // 2016-03-30: Diff in RA is sufficient for time difference
+    // raMotion in degrees. RATime in minutes.
+    double RATime = fabs(raMotion) * 60.0;
 
     // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
     // In degrees
@@ -1322,9 +1325,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far west");
-            else
                 deviationDirection = ki18n("%1 too far east");
+            else
+                deviationDirection = ki18n("%1 too far west");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1358,9 +1361,9 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far east");
-            else
                 deviationDirection = ki18n("%1 too far west");
+            else
+                deviationDirection = ki18n("%1 too far east");
         }
         else if (altStage == ALT_FINISHED)
         {
@@ -1393,7 +1396,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
 
     }
 
-    if (Options::verboseLogging())
+    if (Options::alignmentLogging())
     {
         qDebug() << "Polar Alignment: Hemisphere is " << ((hemisphere == 0) ? "North" : "South") << " --- initAz " << initAz;
         qDebug() << "Polar Alignment: initRA " << initRA << " initDEC " << initDEC << " finalRA " << finalRA << " finalDEC " << finalDEC;
@@ -1407,7 +1410,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         //azError->setText(deviationDirection.subs(QString("%1")azDMS.toDMSString());
         azDeviation = deviation * (decDeviation > 0 ? 1 : -1);
 
-        if (Options::verboseLogging())
+        if (Options::alignmentLogging())
             qDebug() << "Polar Alignment: Azimuth Deviation " << azDeviation << " degrees.";
 
         correctAzB->setEnabled(true);
@@ -1418,7 +1421,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         altError->setText(deviationDirection.subs(QString("%1").arg(devDMS.toDMSString())).toString());
         altDeviation = deviation * (decDeviation > 0 ? 1 : -1);
 
-        if (Options::verboseLogging())
+        if (Options::alignmentLogging())
             qDebug() << "Polar Alignment: Altitude Deviation " << altDeviation << " degrees.";
 
         correctAltB->setEnabled(true);
@@ -1432,7 +1435,7 @@ void Align::correctAltError()
     SkyPoint currentCoord (telescopeCoord);
     dms      targetLat;
 
-    if (Options::verboseLogging())
+    if (Options::alignmentLogging())
     {
         qDebug() << "Polar Alignment: Correcting Altitude Error...";
         qDebug() << "Polar Alignment: Current Mount RA " << currentCoord.ra().toHMSString() << " DEC " << currentCoord.dec().toDMSString() <<
@@ -1455,7 +1458,7 @@ void Align::correctAltError()
 
     altStage = ALT_CORRECTING;
 
-    if (Options::verboseLogging())
+    if (Options::alignmentLogging())
     {
         qDebug() << "Polar Alignment: Target Latitude = Latitude " << KStars::Instance()->data()->geo()->lat()->Degrees() << " + Altitude Deviation " << altDeviation << " = " << targetLat.Degrees();
         qDebug() << "Polar Alignment: Slewing to calibration position...";
@@ -1472,7 +1475,7 @@ void Align::correctAzError()
 
     SkyPoint currentCoord (telescopeCoord);
 
-    if (Options::verboseLogging())
+    if (Options::alignmentLogging())
     {
         qDebug() << "Polar Alignment: Correcting Azimuth Error...";
         qDebug() << "Polar Alignment: Current Mount RA " << currentCoord.ra().toHMSString() << " DEC " << currentCoord.dec().toDMSString() <<
@@ -1501,7 +1504,7 @@ void Align::correctAzError()
 
     azStage = AZ_CORRECTING;
 
-    if (Options::verboseLogging())
+    if (Options::alignmentLogging())
         qDebug() << "Polar Alignment: Slewing to calibration position...";
 
     currentTelescope->Slew(newRA, newDEC);
@@ -1574,12 +1577,24 @@ void Align::setSolverSearchOptions(double ra, double dec, double radius)
     radiusBox->setText(QString::number(radius));
 }
 
-void Align::setSolverOptions(bool updateCoords, bool previewImage, bool verbose, bool useOAGT)
+void Align::setUpdateCoords(bool enabled)
 {
-    kcfg_solverUpdateCoords->setChecked(updateCoords);
-    kcfg_solverPreview->setChecked(previewImage);
-    kcfg_solverVerbose->setChecked(verbose);
-    kcfg_solverOTA->setChecked(useOAGT);
+    kcfg_solverUpdateCoords->setChecked(enabled);
+}
+
+void Align::setPreviewImage(bool enabled)
+{
+    kcfg_solverPreview->setChecked(enabled);
+}
+
+void Align::setVerbose(bool enabled)
+{
+    kcfg_solverVerbose->setChecked(enabled);
+}
+
+void Align::setUseOAGT(bool enabled)
+{
+    kcfg_solverOTA->setChecked(enabled);
 }
 
 FOV* Align::fov()

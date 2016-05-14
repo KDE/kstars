@@ -18,10 +18,11 @@
 
 #ifndef TESTCSVPARSER_H
 #define TESTCSVPARSER_H
+
 #include <QtTest/QtTest>
-#include <KDebug>
-#include "datahandlers/ksparser.h"
-#include "kstars/ksfilereader.h"
+
+#include "ksparser.h"
+#include "ksfilereader.h"
 
 
 class TestCSVParser: public QObject {

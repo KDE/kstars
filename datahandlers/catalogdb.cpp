@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "datahandlers/catalogdb.h"
+#include "catalogdb.h"
 #include "kstars/version.h"
 
 
@@ -29,7 +29,7 @@ bool CatalogDB::Initialize() {
   bool first_run = false;
   if (!testdb.exists())
   {
-      qDebug()<< i18n("DSO DB does not exist!");
+      qDebug() << "DSO DB does not exist!";
       first_run = true;
   }
   skydb_.setDatabaseName(dbfile);
@@ -37,7 +37,7 @@ bool CatalogDB::Initialize() {
           qWarning() << i18n("Unable to open DSO database file!");
           qWarning() << LastError();
   } else {
-      qDebug() << i18n("Opened the DSO Database. Ready!");
+      qDebug() << "Opened the DSO Database. Ready!";
       if (first_run == true) {
           FirstRun();
       }

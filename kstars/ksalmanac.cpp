@@ -74,7 +74,7 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
 
     KSNumbers num( dt.djd() );
     dms LST = geo->GSTtoLST( dt.gst() );
-    o->updateCoords( &num, true, geo->lat(), &LST );
+    o->updateCoords( &num, true, geo->lat(), &LST, true );
     if ( o->checkCircumpolar( geo->lat() ) ) {
         if ( o->alt().Degrees() > 0.0 ) {
             //Circumpolar, signal it this way:
@@ -98,7 +98,7 @@ void KSAlmanac::findDawnDusk() {
     KSNumbers num( today.djd() );
     dms LST = geo->GSTtoLST( today.gst() );
 
-    m_Sun.updateCoords( &num, true, geo->lat(), &LST ); // We can abuse our own copy of the sun
+    m_Sun.updateCoords( &num, true, geo->lat(), &LST, true ); // We can abuse our own copy of the sun
     double dawn, da, dusk, du, max_alt, min_alt;
     double last_h = -12.0;
     double last_alt = findAltitude( &m_Sun, last_h );
@@ -142,8 +142,8 @@ void KSAlmanac::findMoonPhase() {
     KSNumbers num( today.djd() );
     dms LST = geo->GSTtoLST( today.gst() );
 
-    m_Sun.updateCoords( &num, true, geo->lat(), &LST ); // We can abuse our own copy of the sun and/or moon
-    m_Moon.updateCoords( &num, true, geo->lat(), &LST );
+    m_Sun.updateCoords( &num, true, geo->lat(), &LST, true ); // We can abuse our own copy of the sun and/or moon
+    m_Moon.updateCoords( &num, true, geo->lat(), &LST, true );
     m_Moon.findPhase( &m_Sun );
     MoonPhase = m_Moon.phase().Degrees();
 }

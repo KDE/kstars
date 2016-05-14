@@ -49,6 +49,7 @@ public:
     void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
 
     // Dither
+    bool isDitherChecked() { return ui.ditherCheck->isChecked(); }
     bool dither();
     bool isDithering() { return m_isDithering; }
     void setDither(bool enable, double value);
@@ -66,6 +67,8 @@ public slots:
     void connectPHD2();
     void setPHD2Connected();
     void setPHD2Disconnected();
+    // Only called by PHD2
+    void setGuideState(bool guiding);
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -85,7 +88,7 @@ protected slots:
 signals:
     void ditherComplete();
     void ditherToggled(bool);
-    void autoGuidingToggled(bool, bool);
+    void autoGuidingToggled(bool);
 
 private:
 	cgmath *pmath;
@@ -95,7 +98,7 @@ private:
     custom_drawer *pDriftOut;
     cscroll_graph *drift_graph;
 
-    FITSView *pimage;
+    QPointer<FITSView> guideFrame;
     bool m_isStarted;
     bool m_isReady;
     bool m_isSubFramed;

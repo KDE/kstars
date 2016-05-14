@@ -21,6 +21,7 @@
 #include <KLocalizedString>
 #include <KNotifications/KNotification>
 
+#include "scheduleradaptor.h"
 #include "dialogs/finddialog.h"
 #include "ekosmanager.h"
 #include "kstars.h"
@@ -36,6 +37,10 @@
 #define MAX_FAILURE_ATTEMPTS            3
 #define UPDATE_PERIOD_MS                1000
 #define SETTING_ALTITUDE_CUTOFF         3
+
+#define DEFAULT_CULMINATION_TIME        -60
+#define DEFAULT_MIN_ALTITUDE            15
+#define DEFAULT_MIN_MOON_SEPARATION     0
 
 namespace Ekos
 {
@@ -61,6 +66,9 @@ bool altitudeHigherThan(SchedulerJob *job1, SchedulerJob *job2)
 Scheduler::Scheduler()
 {
     setupUi(this);
+
+    new SchedulerAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
 
     dirPath     = QDir::homePath();
     state       = SCHEDULER_IDLE;
@@ -89,14 +97,21 @@ Scheduler::Scheduler()
     focusFailureCount=0;
     guideFailureCount=0;
     alignFailureCount=0;
+    captureFailureCount=0;
 
     noWeatherCounter=0;
 
     weatherStatus=IPS_IDLE;
 
+    // Get current KStars time and set seconds to zero
+    QDateTime currentDateTime = KStarsData::Instance()->lt();
+    QTime     currentTime     = currentDateTime.time();
+    currentTime.setHMS(currentTime.hour(), currentTime.minute(), 0);
+    currentDateTime.setTime(currentTime);
+
     // Set initial time for startup and completion times
-    startupTimeEdit->setDateTime(KStarsData::Instance()->lt());
-    completionTimeEdit->setDateTime(KStarsData::Instance()->lt());    
+    startupTimeEdit->setDateTime(currentDateTime);
+    completionTimeEdit->setDateTime(currentDateTime);
 
     // Set up DBus interfaces
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
@@ -130,7 +145,7 @@ Scheduler::Scheduler()
     raBox->setDegType(false); //RA box should be HMS-style
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    addToQueueB->setToolTip(i18n("Add observation job to list."));
+    addToQueueB->setToolTip(i18n("Add observation job to list."));    
 
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
@@ -157,31 +172,15 @@ Scheduler::Scheduler()
     connect(addToQueueB,SIGNAL(clicked()),this,SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
     connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
-    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
-    connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));    
+    connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
+    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
+    //connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
     connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveAs()));
     connect(queueSaveB,SIGNAL(clicked()),this,SLOT(save()));
-    connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
+    connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));    
 
-    connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-    connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-    connect(weatherCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(trackStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(focusStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(alignStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(guideStepCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(capCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(uncapCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(parkMountCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(unparkMountCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(parkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(unparkDomeCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-    connect(warmCCDCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-
-    connect(startupScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
-    connect(shutdownScript, SIGNAL(textChanged(QString)), this, SLOT(setDirty()));
 }
 
 Scheduler::~Scheduler()
@@ -189,10 +188,60 @@ Scheduler::~Scheduler()
 
 }
 
+void Scheduler::watchJobChanges(bool enable)
+{
+    if (enable)
+    {
+        connect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+
+        connect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(completionButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        connect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        connect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        connect(culminationOffset, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(minAltitude, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(minMoonSeparation, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+
+    }
+    else
+    {
+       //disconnect(this, SLOT(setDirty()));
+
+        disconnect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+
+        disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(completionButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        disconnect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+        disconnect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
+
+        disconnect(culminationOffset, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(minAltitude, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(minMoonSeparation, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+    }
+}
+
 void Scheduler::appendLogText(const QString &text)
 {
 
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: " << text;
 
     emit newLog();
 }
@@ -310,12 +359,20 @@ void Scheduler::selectShutdownScript()
 
 void Scheduler::addJob()
 {
+    jobUnderEdit = false;
+    saveJob();
+}
+
+void Scheduler::saveJob()
+{
 
     if (state == SCHEDULER_RUNNIG)
     {
         appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
         return;
     }
+
+    watchJobChanges(false);
 
     if(nameEdit->text().isEmpty())
     {
@@ -368,8 +425,9 @@ void Scheduler::addJob()
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
-    if (fitsURL.isEmpty() == false)
-        job->setFITSFile(fitsURL);
+
+    fitsURL = QUrl::fromLocalFile(fitsEdit->text());
+    job->setFITSFile(fitsURL);
 
     // #1 Startup conditions
 
@@ -395,9 +453,14 @@ void Scheduler::addJob()
     // Do we have minimum altitude constraint?
     if (altConstraintCheck->isChecked())
         job->setMinAltitude(minAltitude->value());
+    else
+        job->setMinAltitude(-1);
     // Do we have minimum moon separation constraint?
     if (moonSeparationCheck->isChecked())
         job->setMinMoonSeparation(minMoonSeparation->value());
+    else
+        job->setMinMoonSeparation(-1);
+
 
     // Check enforce weather constraints
     job->setEnforceWeather(weatherCheck->isChecked());
@@ -488,18 +551,20 @@ void Scheduler::addJob()
     if (jobUnderEdit)
     {
         jobUnderEdit = false;
-        resetJobEdit();
-        appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
+        //resetJobEdit();
+        //appendLogText(i18n("Job #%1 changes applied.", currentRow+1));
     }
 
     startB->setEnabled(true);
+
+    watchJobChanges(true);
 }
 
-void Scheduler::editJob(QModelIndex i)
+void Scheduler::resetJobState(QModelIndex i)
 {
     if (state == SCHEDULER_RUNNIG)
     {
-        appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
+        appendLogText(i18n("You cannot reset a job while the scheduler is running."));
         return;
     }
 
@@ -509,6 +574,32 @@ void Scheduler::editJob(QModelIndex i)
 
     job->setState(SchedulerJob::JOB_IDLE);
     job->setStage(SchedulerJob::STAGE_IDLE);
+
+    if (job->getFileStartupCondition() != SchedulerJob::START_AT)
+       queueTable->item(i.row(), 2)->setText(QString());
+
+    if (job->getCompletionCondition() != SchedulerJob::FINISH_AT)
+       queueTable->item(i.row(), 3)->setText(QString());
+
+    appendLogText(i18n("Job %1 status is reset.", job->getName()));
+}
+
+void Scheduler::loadJob(QModelIndex i)
+{
+    if (state == SCHEDULER_RUNNIG)
+    {
+        appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
+        return;
+    }
+
+    SchedulerJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;    
+
+    watchJobChanges(false);
+
+    //job->setState(SchedulerJob::JOB_IDLE);
+    //job->setStage(SchedulerJob::STAGE_IDLE);
 
     nameEdit->setText(job->getName());
 
@@ -540,10 +631,12 @@ void Scheduler::editJob(QModelIndex i)
     {
         case SchedulerJob::START_ASAP:
             asapConditionR->setChecked(true);
+            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
             break;
 
         case SchedulerJob::START_FORCE_NOW:
             forceNowConditionR->setChecked(true);
+            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
             break;
 
         case SchedulerJob::START_CULMINATION:
@@ -554,6 +647,7 @@ void Scheduler::editJob(QModelIndex i)
         case SchedulerJob::START_AT:
             startupTimeConditionR->setChecked(true);
             startupTimeEdit->setDateTime(job->getStartupTime());
+            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
             break;
     }
 
@@ -562,11 +656,21 @@ void Scheduler::editJob(QModelIndex i)
         altConstraintCheck->setChecked(true);
         minAltitude->setValue(job->getMinAltitude());
     }
+    else
+    {
+        altConstraintCheck->setChecked(false);
+        minAltitude->setValue(DEFAULT_MIN_ALTITUDE);
+    }
 
     if (job->getMinMoonSeparation() >= 0)
     {
         moonSeparationCheck->setChecked(true);
         minMoonSeparation->setValue(job->getMinMoonSeparation());
+    }
+    else
+    {
+        moonSeparationCheck->setChecked(false);
+        minMoonSeparation->setValue(DEFAULT_MIN_MOON_SEPARATION);
     }
 
     weatherCheck->setChecked(job->getEnforceWeather());
@@ -587,7 +691,7 @@ void Scheduler::editJob(QModelIndex i)
             break;
     }
 
-   appendLogText(i18n("Editing job #%1...", i.row()+1));
+   /*appendLogText(i18n("Editing job #%1...", i.row()+1));
 
    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
    addToQueueB->setEnabled(true);
@@ -597,10 +701,13 @@ void Scheduler::editJob(QModelIndex i)
    addToQueueB->setToolTip(i18n("Apply job changes."));
    removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
-   jobUnderEdit = true;
+   jobUnderEdit = true;*/
+
+    watchJobChanges(true);
+
 }
 
-void Scheduler::resetJobEdit()
+/*void Scheduler::resetJobEdit()
 {
    if (jobUnderEdit)
        appendLogText(i18n("Editing job canceled."));
@@ -612,15 +719,15 @@ void Scheduler::resetJobEdit()
    removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
 
    evaluateOnlyB->setEnabled(true);
-}
+}*/
 
 void Scheduler::removeJob()
 {
-    if (jobUnderEdit)
+    /*if (jobUnderEdit)
     {
         resetJobEdit();
         return;
-    }
+    }*/
 
     int currentRow = queueTable->currentRow();
 
@@ -677,6 +784,9 @@ void Scheduler::stop()
     if(state != SCHEDULER_RUNNIG)
         return;
 
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Stop";
+
     // Stop running job and abort all others
     // in case of soft shutdown we skip this
     if (preemptiveShutdown == false)
@@ -725,6 +835,7 @@ void Scheduler::stop()
     focusFailureCount=0;
     guideFailureCount=0;
     alignFailureCount=0;
+    captureFailureCount=0;
     jobEvaluationOnly=false;
     loadAndSlewProgress=false;
     autofocusCompleted=false;
@@ -771,6 +882,9 @@ void Scheduler::start()
         appendLogText(i18n("Shutdown script URL %1 is not valid.", shutdownScript->text()));
         return;
     }
+
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Start";
 
     pi->startAnimation();
 
@@ -850,7 +964,7 @@ void Scheduler::evaluateJobs()
                     if (score < 0)
                     {
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
-                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum()), job->getMinMoonSeparation())
+                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum(), job->getMinMoonSeparation()))
                         {
                             //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
@@ -923,28 +1037,6 @@ void Scheduler::evaluateJobs()
 
                         continue;
                     }
-                    else if (job->getState() == SchedulerJob::JOB_EVALUATION)
-                    {
-
-                        /*score += getAltitudeScore(job, startupTime);
-                        score += getMoonSeparationScore(job, startupTime);
-                        score += getDarkSkyScore(startupTime);*/
-                        score = calculateJobScore(job, startupTime);
-
-                        if (score < 0)
-                        {
-                           appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
-                           job->setState(SchedulerJob::JOB_ABORTED);
-                           continue;
-                        }
-                        // If score is OK for the start up time, then job evaluation for this start up time
-                        // is complete and we set its score to negative so that it gets scheduled below.
-                        // once its state is scheduled, we will re-evaluate it again 5 minutes be actual
-                        // start up time.
-                        else if (isWeatherOK(job) == false)
-                            score += BAD_SCORE;
-                    }
-                    //else if (timeUntil <= (Options::leadTime()*60) || job->getState() == SchedulerJob::JOB_EVALUATION)
                     // Start scoring once we reach startup time
                     else if (timeUntil <= 0)
                     {
@@ -955,8 +1047,17 @@ void Scheduler::evaluateJobs()
 
                         if (score < 0)
                         {
-                            appendLogText(i18n("%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...", job->getName(), abs(timeUntil), score));
-                            job->setState(SchedulerJob::JOB_ABORTED);
+                            if (job->getState() == SchedulerJob::JOB_EVALUATION)
+                            {
+                                appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
+                                job->setState(SchedulerJob::JOB_INVALID);
+                            }
+                            else
+                            {
+                                appendLogText(i18n("%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...", job->getName(), abs(timeUntil), score));
+                                job->setState(SchedulerJob::JOB_ABORTED);
+                            }
+
                             continue;
                         }
                         // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
@@ -1206,8 +1307,8 @@ void Scheduler::evaluateJobs()
             else if (nextObservationTime > (Options::leadTime()*60))
             {
                 // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
-                // Then we park the mount until next job is ready.
-                if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE &&  parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+                // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
+                if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE && (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) && parkMountCheck->isEnabled() && parkMountCheck->isChecked())
                 {
                         appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until the job is ready.", nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
                         parkWaitState = PARKWAIT_PARK;
@@ -1300,7 +1401,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
                 if (rawFrac > earlyDawn && rawFrac < Dawn)
                 {
-                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proximity to dawn.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
+                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proximity to astronomical twilight rise.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
                     return false;
                 }
 
@@ -1409,6 +1510,9 @@ void Scheduler::checkWeather()
         if (newStatus != weatherStatus)
         {
             weatherStatus = newStatus;
+
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: " << statusString;
 
             if (weatherStatus == IPS_OK)
                 weatherLabel->setPixmap(QIcon::fromTheme("security-high").pixmap(QSize(32,32)));
@@ -1563,7 +1667,7 @@ double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
     ut = geo->LTtoUT(KStarsData::Instance()->lt());
     KSNumbers ksnum(ut.djd());
     LST = geo->GSTtoLST( ut.gst() );
-    moon->updateCoords(&ksnum, true, geo->lat(), &LST);
+    moon->updateCoords(&ksnum, true, geo->lat(), &LST, true);
 
     // Moon/Sky separation p
     return moon->angularDistanceTo(&p).Degrees();
@@ -1586,7 +1690,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     ut = geo->LTtoUT(when);
     KSNumbers ksnum(ut.djd());
     LST = geo->GSTtoLST( ut.gst() );
-    moon->updateCoords(&ksnum, true, geo->lat(), &LST);
+    moon->updateCoords(&ksnum, true, geo->lat(), &LST, true);
 
     double moonAltitude = moon->alt().Degrees();
 
@@ -1610,9 +1714,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
         double moonEffect = ( pow(separation, 1.7) * pow(zMoon, 0.5) ) / ( pow(zTarget, 1.1) * pow(illum, 0.5) );
 
         // Limit to 0 to 100 range.
-        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);
-
-        qDebug() << "Moon Effect is " << moonEffect;
+        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);        
 
         if (job->getMinMoonSeparation() > 0)
         {
@@ -1629,7 +1731,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     // Limit to 0 to 20
     score /= 5.0;
 
-    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));
+    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));       
 
     return score;
 
@@ -1648,25 +1750,28 @@ void Scheduler::calculateDawnDusk()
     duskDateTime.setDate(KStars::Instance()->data()->lt().date());
     duskDateTime.setTime(dusk);
 
-    appendLogText(i18n("Dawn is at %1, Dusk is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
+    appendLogText(i18n("Astronomical twilight rise is at %1, set is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
 
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
-    QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
-    QList<QVariant> dbusargs;
-    dbusargs.append(url);
-    QDBusReply<bool> isJobComplete = captureInterface->callWithArgumentList(QDBus::AutoDetect,"isSequenceFileComplete",dbusargs);
-
-    if (isJobComplete.error().type() == QDBusError::NoError)
+    if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
-        // If it is already complete
-        if (isJobComplete.value())
+        QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
+        QList<QVariant> dbusargs;
+        dbusargs.append(url);
+        QDBusReply<bool> isJobComplete = captureInterface->callWithArgumentList(QDBus::AutoDetect,"isSequenceFileComplete",dbusargs);
+
+        if (isJobComplete.error().type() == QDBusError::NoError)
         {
-            currentJob = NULL;
-            job->setState(SchedulerJob::JOB_COMPLETE);
-            return;
+            // If it is already complete
+            if (isJobComplete.value())
+            {
+                currentJob = NULL;
+                job->setState(SchedulerJob::JOB_COMPLETE);
+                return;
+            }
         }
     }
 
@@ -1736,6 +1841,9 @@ bool    Scheduler::checkEkosState()
 
 bool    Scheduler::checkINDIState()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking INDI State...";
+
     switch (indiState)
     {
     case INDI_IDLE:
@@ -1745,12 +1853,20 @@ bool    Scheduler::checkINDIState()
         if (isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
         {
             indiState = INDI_PROPERTY_CHECK;
+
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: Checking INDI Properties...";
+
             return false;
         }
         else
         {
             ekosInterface->call(QDBus::AutoDetect,"connectDevices");
             indiState = INDI_CONNECTING;
+
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: Connecting INDI Devices";
+
             return false;
         }
     }
@@ -1843,11 +1959,17 @@ bool    Scheduler::checkINDIState()
 
 bool Scheduler::checkStartupState()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking Startup State...";
+
     switch (startupState)
     {
     case STARTUP_IDLE:
     {
         KNotification::event( QLatin1String( "ObservatoryStartup" ) , i18n("Observatory is in the startup process"));
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Startup Idle. Starting startup process...";
 
         // If Ekos is already started, we skip the script and move on to mount unpark step
         QDBusReply<int> isEkosStarted;
@@ -1924,10 +2046,16 @@ bool Scheduler::checkStartupState()
 
 bool Scheduler::checkShutdownState()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking shutown state...";
+
     switch (shutdownState)
     {
     case SHUTDOWN_IDLE:
         KNotification::event( QLatin1String( "ObservatoryShutdown" ) , i18n("Observatory is in the shutdown process"));
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Starting shutdown process...";
 
         weatherTimer.stop();
         weatherTimer.disconnect();
@@ -2045,39 +2173,42 @@ bool Scheduler::checkShutdownState()
 }
 
 bool Scheduler::checkParkWaitState()
-{
+{    
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Checking Park Wait State...";
+
     switch (parkWaitState)
     {
-        case PARKWAIT_IDLE:
-            return true;
+    case PARKWAIT_IDLE:
+        return true;
 
-        case PARKWAIT_PARK:
-                parkMount();
-                break;
+    case PARKWAIT_PARK:
+        parkMount();
+        break;
 
-        case PARKWAIT_PARKING:
+    case PARKWAIT_PARKING:
         checkMountParkingStatus();
         break;
 
-        case PARKWAIT_PARKED:
-            return true;
+    case PARKWAIT_PARKED:
+        return true;
 
-        case PARKWAIT_UNPARK:
-                unParkMount();
-                break;
+    case PARKWAIT_UNPARK:
+        unParkMount();
+        break;
 
-        case PARKWAIT_UNPARKING:
+    case PARKWAIT_UNPARKING:
         checkMountParkingStatus();
         break;
 
-        case PARKWAIT_UNPARKED:
-            return true;
+    case PARKWAIT_UNPARKED:
+        return true;
 
-        case PARKWAIT_ERROR:
-            appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
-            stop();
-            return true;
-            break;
+    case PARKWAIT_ERROR:
+        appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
+        stop();
+        return true;
+        break;
     }
 
     return false;
@@ -2267,7 +2398,8 @@ void Scheduler::checkJobStage()
              // If either mount or dome are not parked, we shutdown if we approach dawn
              if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
              {
-                 appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
+                 // Minute is a DOUBLE value, do not use i18np
+                 appendLogText(i18n("Approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), aborting all jobs...", preDawnDateTime.toString(), Options::preDawnTime()));
 
                  currentJob->setState(SchedulerJob::JOB_ABORTED);
                  stopCurrentJobAction();
@@ -2307,6 +2439,9 @@ void Scheduler::checkJobStage()
             return;
         }
 
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Slewing Stage... Slew Status is " << pstateStr(static_cast<IPState>(slewStatus.value()));
+
         if(slewStatus.value() == IPS_OK && isDomeMoving == false)
         {
             appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
@@ -2337,6 +2472,9 @@ void Scheduler::checkJobStage()
             checkShutdownState();
             return;
         }
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Focus stage...";
 
         // Is focus complete?
         if(focusReply.value())
@@ -2388,9 +2526,16 @@ void Scheduler::checkJobStage()
     {
        QDBusReply<bool> alignReply;
 
+       if (Options::verboseLogging())
+           qDebug() << "Scheduler: Alignment stage...";
+
        if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
        {
            QDBusReply<int> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
+
+           if (Options::verboseLogging())
+               qDebug() << "Scheduler: Checking Load And Slew Status";
+
            if (loadSlewReply.value() == IPS_OK)
            {
                appendLogText(i18n("%1 is solved and aligned successfully.", currentJob->getFITSFile().toString()));
@@ -2430,6 +2575,9 @@ void Scheduler::checkJobStage()
        // Is solver complete?
         if(alignReply.value())
         {
+            if (Options::verboseLogging())
+                qDebug() << "Scheduler: Solver is complete, checking if successfull...";
+
             alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
             // Is solver successful?
             if(alignReply.value())
@@ -2461,9 +2609,12 @@ void Scheduler::checkJobStage()
 
 
     case SchedulerJob::STAGE_RESLEWING:
-    {
+    {        
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
         bool isDomeMoving=false;
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Re-slewing stage...";
 
         if (parkDomeCheck->isEnabled())
         {
@@ -2501,6 +2652,9 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_CALIBRATING:
     {
         QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Calibration & Guide stage...";
 
         if (guideReply.error().type() == QDBusError::UnknownObject)
         {
@@ -2571,6 +2725,21 @@ void Scheduler::checkJobStage()
          if(captureReply.value().toStdString()=="Aborted" || captureReply.value().toStdString()=="Error")
          {
              appendLogText(i18n("%1 capture failed!", currentJob->getName()));
+
+             // If capture failed due to guiding error, let's try to restart that
+             if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+             {
+                 // Check if it is guiding related.
+                 QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isGuiding");
+                 // If guiding failed, let's restart it
+                 if(guideReply.value() == false)
+                 {
+                    appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
+                    currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
+                    return;
+                 }
+             }
+
              currentJob->setState(SchedulerJob::JOB_ERROR);
 
              findNextJob();
@@ -2596,6 +2765,9 @@ void Scheduler::checkJobStage()
 
 void Scheduler::getNextAction()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Get next action...";
+
     switch(currentJob->getStage())
     {
 
@@ -2665,7 +2837,10 @@ void Scheduler::getNextAction()
 }
 
 void Scheduler::stopCurrentJobAction()
-{    
+{
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Stop current action...";
+
     switch(currentJob->getStage())
     {
     case SchedulerJob::STAGE_IDLE:
@@ -2931,7 +3106,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
         }
     }
 
-    addJob();
+    saveJob();
 
     return true;
 
@@ -3026,7 +3201,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<J2000DE>"<< job->getTargetCoords().dec0().Degrees() << "</J2000DE>" << endl;
          outstream << "</Coordinates>" << endl;
 
-         if (job->getFITSFile().isEmpty() == false)
+         if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
              outstream << "<FITS>" << job->getFITSFile().path() << "</FITS>" << endl;
 
          outstream << "<Sequence>" << job->getSequenceFile().path() << "</Sequence>" << endl;
@@ -3124,7 +3299,30 @@ void Scheduler::startSlew()
 }
 
 void Scheduler::startFocusing()
-{
+{        
+    // Set focus mode to auto (1). Check if autofocus is available
+    QList<QVariant> focusMode;
+    focusMode.append(1);
+
+    QDBusReply<bool> focusModeReply;
+    focusModeReply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
+
+    if ( focusModeReply.error().type() != QDBusError::NoError)
+    {
+        appendLogText(i18n("setFocusMode DBUS error: %1", QDBusError::errorString(focusModeReply.error().type())));
+        return;
+    }
+
+    if (focusModeReply.value() == false)
+    {
+        appendLogText(i18n("Autofocus is not supported."));
+        currentJob->setStepPipeline(static_cast<SchedulerJob::StepPipeline> (currentJob->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
+        currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+        getNextAction();
+        return;
+    }
+
+    // Clear the HFR limit value set in the capture module
     captureInterface->call(QDBus::AutoDetect,"clearAutoFocusHFR");
 
     QDBusMessage reply;
@@ -3136,15 +3334,6 @@ void Scheduler::startFocusing()
         return;
     }
 
-    // Set focus mode to auto (1)
-    QList<QVariant> focusMode;
-    focusMode.append(1);
-
-    if ( (reply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode)).type() == QDBusMessage::ErrorMessage)
-    {
-        appendLogText(i18n("setFocusMode DBUS error: %1", reply.errorMessage()));
-        return;
-    }
 
     // Set autostar & use subframe
     QList<QVariant> autoStar;
@@ -3177,6 +3366,9 @@ void Scheduler::startFocusing()
 void Scheduler::findNextJob()
 {
     jobTimer.stop();
+
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Find next job...";
 
     if (currentJob->getState() == SchedulerJob::JOB_ERROR)
     {
@@ -3220,9 +3412,6 @@ void Scheduler::findNextJob()
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
 
-        // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
-        captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
-
         startCapture();
         jobTimer.start();
         return;
@@ -3252,9 +3441,6 @@ void Scheduler::findNextJob()
 
             captureBatch++;
 
-            // Force sequence reset so that the same batch is NOT considered "complete" but as a continuation to the prior identical sequence
-            captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
-
             startCapture();
             jobTimer.start();
             return;
@@ -3265,7 +3451,11 @@ void Scheduler::findNextJob()
 void Scheduler::startAstrometry()
 {   
     QDBusMessage reply;
-    setGOTOMode(Align::ALIGN_SLEW);    
+    setGOTOMode(Align::ALIGN_SLEW);
+
+    // Always turn update coords on
+    QVariant arg(true);
+    alignInterface->call(QDBus::AutoDetect,"setUpdateCoords", arg);
 
     // If FITS file is specified, then we use load and slew
     if (currentJob->getFITSFile().isEmpty() == false)
@@ -3304,7 +3494,10 @@ void Scheduler::startCalibrating()
 
     QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startCalibration");
     if (guideReply.value() == false)
+    {
+        appendLogText(i18n("Starting guide calibration failed. If using external guide application, ensure it is up and running."));
         currentJob->setState(SchedulerJob::JOB_ERROR);
+    }
     else
     {
         currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
@@ -3323,6 +3516,11 @@ void Scheduler::startCapture()
     dbusargs.append(url);
     captureInterface->callWithArgumentList(QDBus::AutoDetect,"loadSequenceQueue",dbusargs);
 
+    // If sequence is a loop, ignore sequence history
+    if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
+            captureInterface->call(QDBus::AutoDetect,"ignoreSequenceHistory");
+
+    // Start capture process
     captureInterface->call(QDBus::AutoDetect,"start");
 
     currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
@@ -3350,6 +3548,9 @@ void Scheduler::setGOTOMode(Align::GotoMode mode)
 
 void Scheduler::stopEkos()
 {
+    if (Options::verboseLogging())
+        qDebug() << "Scheduler: Stopping Ekos...";
+
     indiConnectFailureCount=0;
     ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
     ekosInterface->call(QDBus::AutoDetect,"stop");
@@ -3362,6 +3563,15 @@ void Scheduler::stopEkos()
 void Scheduler::setDirty()
 {
     mDirty = true;
+
+    if (sender() == startupProcedureButtonGroup || sender() == shutdownProcedureGroup)
+        return;
+
+    if (state != SCHEDULER_RUNNIG && queueTable->selectedItems().isEmpty() == false)
+    {
+        jobUnderEdit=true;
+        saveJob();
+    }
 }
 
 bool Scheduler::estimateJobTime(SchedulerJob *job)
@@ -3556,8 +3766,13 @@ void    Scheduler::parkMount()
 
     if (status != Mount::PARKING_OK)
     {
-        mountInterface->call(QDBus::AutoDetect,"park");
-        appendLogText(i18n("Parking mount..."));
+        if (status == Mount::PARKING_BUSY)
+            appendLogText(i18n("Parking mount in progress..."));
+        else
+        {
+            mountInterface->call(QDBus::AutoDetect,"park");
+            appendLogText(i18n("Parking mount..."));
+        }
 
         if (shutdownState == SHUTDOWN_PARK_MOUNT)
                 shutdownState = SHUTDOWN_PARKING_MOUNT;
@@ -3584,9 +3799,13 @@ void    Scheduler::unParkMount()
 
     if (status != Mount::UNPARKING_OK)
     {
-        mountInterface->call(QDBus::AutoDetect,"unpark");
-
-        appendLogText(i18n("Unparking mount..."));
+        if (status == Mount::UNPARKING_BUSY)
+            appendLogText(i18n("Unparking mount in progress..."));
+        else
+        {
+            mountInterface->call(QDBus::AutoDetect,"unpark");
+            appendLogText(i18n("Unparking mount..."));
+        }
 
         if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
@@ -3978,7 +4197,7 @@ void Scheduler::startMosaicTool()
             raBox->setText(oneJob->skyCenter.ra0().toHMSString());
             decBox->setText(oneJob->skyCenter.dec0().toDMSString());
 
-            addJob();
+            saveJob();
         }
 
         delXMLEle(root);
@@ -4095,6 +4314,14 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
 
 }
 
+void Scheduler::resetAllJobs()
+{
+    if (state == SCHEDULER_RUNNIG)
+        return;
+
+    foreach(SchedulerJob *job, jobs)
+        job->setState(SchedulerJob::JOB_IDLE);
+}
 
 }
 

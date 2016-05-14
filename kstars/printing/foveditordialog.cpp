@@ -123,7 +123,7 @@ void FovEditorDialog::slotSaveImage()
     //user wanted to place a file in their home directory.
     QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Image"), QUrl(QDir::homePath()), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
     QUrl fileUrl;
-    if(!url.contains("/"))
+    if(!url.contains(QDir::separator()))
     {
         fileUrl = QDir::homePath() + '/' + url;
     }
@@ -166,12 +166,12 @@ void FovEditorDialog::slotSaveImage()
 
         if(!m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getPixmap().save(fname, format))
         {
-            qDebug() << i18n("Error: Unable to save image: %1 ", fname);
+            qDebug() << "Error: Unable to save image: " << fname;
         }
 
         else
         {
-            qDebug() << i18n("Image saved to file: %1", fname);
+            qDebug() << "Image saved to file: " << fname;
         }
     }
 

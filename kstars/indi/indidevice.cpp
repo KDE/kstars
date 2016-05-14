@@ -278,6 +278,8 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     if (Options::showINDIMessages())
         KStars::Instance()->statusBar()->showMessage(i18nc("INDI message shown in status bar", "%1", message), 0);
 
+    if (Options::iNDILogging())
+        qDebug() << idv->getDeviceName() << ": " << message.mid(21);
 }
 
 INDI_D::~INDI_D()

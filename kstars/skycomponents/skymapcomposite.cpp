@@ -26,7 +26,7 @@
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanet.h"
-#include "kstars/skyobjects/constellationsart.h"
+#include "skyobjects/constellationsart.h"
 
 #include "targetlistcomponent.h"
 #include "constellationboundarylines.h"
@@ -159,9 +159,9 @@ void SkyMapComposite::update(KSNumbers *num )
     m_Horizon->update( num );
 }
 
-void SkyMapComposite::updatePlanets(KSNumbers *num )
+void SkyMapComposite::updateSolarSystemBodies(KSNumbers *num )
 {
-    m_SolarSystem->updatePlanets( num );
+    m_SolarSystem->updateSolarSystemBodies( num );
 }
 
 void SkyMapComposite::updateMoons(KSNumbers *num )
@@ -395,8 +395,8 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
         oBest = oTry;
     }
 
-    if ( oBest && Options::verboseLogging())
-        qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
+    //if ( oBest && Options::verboseLogging())
+        //qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
 

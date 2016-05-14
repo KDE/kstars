@@ -955,7 +955,7 @@ bool DriverManager::readXMLDrivers()
         if (fileInfo.fileName() == "drivers.xml")
         {
             // Let first attempt to load the local version of drivers.xml
-            driverName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "drivers.xml";
+            driverName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "drivers.xml";
 
             // If found, we continue, otherwise, we load the system file
             if (driverName.isEmpty() == false && QFile(driverName).exists())
@@ -986,7 +986,7 @@ void DriverManager::processXMLDriver(QString & driverName)
     char errmsg[ERRMSG_SIZE];
     char c;
     LilXML *xmlParser = newLilXML();
-    XMLEle *root = NULL;
+    XMLEle *root = NULL, *ep=NULL;
 
     if (driverName.endsWith("drivers.xml"))
         driverSource = PRIMARY_XML;
@@ -999,8 +999,21 @@ void DriverManager::processXMLDriver(QString & driverName)
 
         if (root)
         {
-            if (!buildDeviceGroup(root, errmsg))
-                prXMLEle(stderr, root, 0);
+            // If the XML file is using the INDI Library v1.3+ format
+            if (!strcmp(tagXMLEle(root), "driversList"))
+            {
+                for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+                {
+                    if (!buildDeviceGroup(ep, errmsg))
+                        prXMLEle(stderr, ep, 0);
+                }
+            }
+            // If using the older format
+            else
+            {
+                if (!buildDeviceGroup(root, errmsg))
+                    prXMLEle(stderr, root, 0);
+            }
 
             delXMLEle(root);
         }
@@ -1423,7 +1436,7 @@ void DriverManager::saveHosts()
     QFile file;
     QString hostData;
 
-    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
+    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
 
     if ( !file.open( QIODevice::WriteOnly))
     {

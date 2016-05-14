@@ -44,7 +44,7 @@ public:
      * @p data Pointer to the KStarsData object
      * @p num Pointer to the KSNumbers object
      */
-    virtual void updatePlanets( KSNumbers *num );
+    virtual void updateSolarSystemBodies( KSNumbers *num );
 
 protected:
     void drawTrails( SkyPainter* skyp );

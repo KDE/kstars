@@ -97,7 +97,7 @@
       <arg name="city" type="s" direction="in"/>
       <arg name="province" type="s" direction="in"/>
       <arg name="country" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="setColor">
       <arg name="colorName" type="s" direction="in"/>

@@ -1,11 +1,11 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 2)
-set (KStars_VERSION_MINOR 5)
+set (KStars_VERSION_MINOR 6)
 set (KStars_VERSION_REVISION 0)
 
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
-set (QT_MIN_VERSION "5.2.0")
+set (QT_MIN_VERSION "5.4.0")
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -16,9 +16,10 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+
 include(KDEInstallDirs)
-include(KDECompilerSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 include(ECMInstallIcons)
 include(FeatureSummary)
@@ -37,14 +38,11 @@ find_package(KF5 REQUIRED COMPONENTS
   Plotting
   IconThemes
   Archive
-  Notifications
 )
 
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR})
-
-#PyKDE4 Package TODO? Is there KF5 Package?
 
 find_package(CFitsio)
 if (CFITSIO_FOUND)
@@ -92,9 +90,13 @@ set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Librar
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "http://www.opengl.org" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
 
-add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexceptions)
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+SET(HAVE_KF5WIT 1)
+else()
+SET(HAVE_KF5WIT 0)
+endif()
 
-enable_testing(true)
+add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexceptions)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
@@ -105,20 +107,13 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
 # let our config.h be found first in any case
 include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 
-# FIXME should we explicitly include it?
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
-# FIXME Enable Tests later!
-#add_subdirectory(Tests)
+enable_testing(true)
+add_subdirectory(Tests)
 
 install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
-
-#if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-#   macro_display_feature_log()
-#endif (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

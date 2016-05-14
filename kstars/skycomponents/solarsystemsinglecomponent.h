@@ -49,8 +49,19 @@ public:
     KSPlanetBase* planet() { return m_Planet; }
 
     virtual bool selected();
+
+    /**
+     * @brief update Only convert Equatorial to Horizontal coordinates given current time.
+     * @param num pointer to KSNumbers instance for target time
+     */
     virtual void update( KSNumbers *num );
-    virtual void updatePlanets( KSNumbers *num );
+
+    /**
+     * @brief updateSolarSystemBodies Update Equtorial & Horizontal coordinates.
+     * @param num pointer to KSNumbers instance for target time
+     */
+    virtual void updateSolarSystemBodies( KSNumbers *num );
+
     virtual SkyObject* findByName( const QString &name );
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
     virtual void draw( SkyPainter *skyp );

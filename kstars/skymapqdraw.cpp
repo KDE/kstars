@@ -38,8 +38,8 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
     }
     setDrawLock( true );
 
-    calculateFPS();
-
+    // JM 2016-05-03: Not needed since we're not using OpenGL for now
+    //calculateFPS();
 
     //If computeSkymap is false, then we just refresh the window using the stored sky pixmap
     //and draw the "overlays" on top.  This lets us update the overlay information rapidly

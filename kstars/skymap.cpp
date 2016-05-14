@@ -255,12 +255,12 @@ SkyMap::SkyMap() :
     ( m_Scene->addWidget( m_iboxes ) )->setAcceptedMouseButtons( Qt::NoButton );
     */
 
-
+    // JM 2016-05-03: What is this needed for? why update skymap every 30 ms? It is now disabled since it degrades performance significantly.
     //The update timer will be destructed when SkyMap is..
-    QTimer *update = new QTimer(this);
-    update->setInterval(30);
-    connect(update, SIGNAL(timeout()), this, SLOT(update()) );
-    update->start();
+    //QTimer *update = new QTimer(this);
+    //update->setInterval(30);
+    //connect(update, SIGNAL(timeout()), this, SLOT(update()) );
+    //update->start();
 
 }
 

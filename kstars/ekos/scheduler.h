@@ -38,6 +38,7 @@ namespace Ekos
 class Scheduler : public QWidget, public Ui::Scheduler
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Scheduler")
 
 public:
     typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
@@ -104,22 +105,43 @@ public:
      void setGOTOMode(Align::GotoMode mode);
 
      /**
-      * @brief start Start scheduler main loop and evaluate jobs and execute them accordingly
-      */
-     void start();
-
-     /**
-      * @brief stop Stop the scheduler
-      */
-     void stop();
-
-     /**
       * @brief findAltitude Find altitude given a specific time
       * @param target Target
       * @param when date time to find altitude
       * @return Altitude of the target at the specific date and time given.
       */
      static double findAltitude(const SkyPoint & target, const QDateTime when);
+
+     /** @defgroup SchedulerDBusInterface Ekos DBus Interface - Scheduler Module
+      * Ekos::Align interface provides primary functions to run and stop the scheduler.
+     */
+
+     /*@{*/
+
+     /** DBUS interface function.
+      * @brief Start the scheduler main loop and evaluate jobs and execute them accordingly.
+      */
+     Q_SCRIPTABLE Q_NOREPLY void start();
+
+     /** DBUS interface function.
+      * @brief Stop the scheduler.
+      */
+     Q_SCRIPTABLE Q_NOREPLY void stop();
+
+
+     /** DBUS interface function.
+      * @brief Loads the Ekos Scheduler List (.esl) file.
+      * @param fileURL path to a file
+      * @return true if loading file is successful, false otherwise.
+      */
+     Q_SCRIPTABLE bool loadScheduler(const QUrl &fileURL);
+
+     /** DBUS interface function.
+      * @brief Resets all jobs to IDLE
+      */
+     Q_SCRIPTABLE void resetAllJobs();
+
+    /** @}*/
 
 protected slots:
 
@@ -149,7 +171,13 @@ protected slots:
      void selectShutdownScript();
 
      /**
-      * @brief addToQueue Construct a SchedulerJob and add it to the queue
+      * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
+      * jobUnderEdit determines whether to add or edit
+      */
+     void saveJob();
+
+     /**
+      * @brief addJob Add a new job from form values
       */
      void addJob();
 
@@ -157,7 +185,7 @@ protected slots:
       * @brief editJob Edit an observation job
       * @param i index model in queue table
       */
-     void editJob(QModelIndex i);
+     void loadJob(QModelIndex i);
 
      /**
       * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
@@ -169,7 +197,9 @@ protected slots:
      void saveAs();
      void load();
 
-     void resetJobEdit();
+     void resetJobState(QModelIndex i);
+
+     //void resetJobEdit();
 
      /**
       * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
@@ -202,6 +232,11 @@ protected slots:
       */
      void checkProcessExit(int exitCode);
 
+     /**
+      * @brief watchJobChanges Watch any changes in form values and apply changes to current job selection or ignore any changes
+      * @param enable True to watch changes and apply them to current job, false to ignore changes
+      */
+     void watchJobChanges(bool enable);
      /**
       * @brief setDirty Call it to mark the Ekos Scheduler List for change. Next time save button is invoked, the complete content is written to disk.
       */
@@ -394,21 +429,14 @@ private:
         /**
          * @brief saveScheduler Save scheduler jobs to a file
          * @param path path of a file
-         * @return
+         * @return true on success, false on failure.
          */
-        bool saveScheduler(const QUrl &fileURL);
-
-        /**
-         * @brief loadScheduler Load scheduler from a file
-         * @param path path to a file
-         * @return
-         */
-        bool loadScheduler(const QUrl &fileURL);
+        bool saveScheduler(const QUrl &fileURL);        
 
         /**
          * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly
          * @param root XML root element of JOB
-         * @return
+         * @return true on success, false on failure.
          */
         bool processJobInfo(XMLEle *root);
 
@@ -502,6 +530,7 @@ private:
     uint8_t focusFailureCount;      // Keep track of Ekos focus module failures
     uint8_t guideFailureCount;      // Keep track of Ekos guide module failures
     uint8_t alignFailureCount;      // Keep track of Ekos align module failures
+    uint8_t captureFailureCount;    // Keep track of Ekos capture module failures
 
     QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
     QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready

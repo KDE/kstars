@@ -34,7 +34,6 @@
 
 #include <ekos/ekosmanager.h>
 
-#include "imageviewer.h"
 #include "Options.h"
 
 const int MAX_FILENAME_LEN = 1024;
@@ -419,6 +418,7 @@ void CCDChip::setCanAbort(bool value)
 {
     CanAbort = value;
 }
+
 FITSData *CCDChip::getImageData() const
 {
     return imageData;
@@ -568,7 +568,7 @@ CCDFrameType CCDChip::getFrameType()
 
     if (ccdFrame == NULL)
     {
-        qDebug() << "Cannot find active frame in CCD!" << endl;
+        qDebug() << "ISD:CCD Cannot find active frame in CCD!" << endl;
         return fType;
     }
 
@@ -1123,7 +1123,7 @@ void CCD::processBLOB(IBLOB* bp)
 
          if (!tmpFile.open())
          {
-                 qDebug() << "Error: Unable to open " << filename << endl;
+                 qDebug() << "ISD:CCD Error: Unable to open " << filename << endl;
                  emit BLOBUpdated(NULL);
                  return;
          }
@@ -1151,7 +1151,7 @@ void CCD::processBLOB(IBLOB* bp)
             QFile fits_temp_file(filename);
             if (!fits_temp_file.open(QIODevice::WriteOnly))
             {
-                    qDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
+                    qDebug() << "ISD:CCD Error: Unable to open " << fits_temp_file.fileName() << endl;
                     emit BLOBUpdated(NULL);
                     return;
             }
@@ -1190,7 +1190,7 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 QProcess dcraw;
                 QString rawFileName = filename;
-                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf("/"));
+                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QDir::separator()));
                 QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
                 QTemporaryFile jpgPreview(templateName);
                 jpgPreview.setAutoRemove(false);
@@ -1211,13 +1211,11 @@ void CCD::processBLOB(IBLOB* bp)
             }
         }
 
-        QUrl url = QUrl::fromLocalFile(filename);
-        ImageViewer *iv = new ImageViewer(url, QString(), KStars::Instance());
-        if (iv)
-        {
-           iv->show();
-           QFile::remove(filename);
-        }
+        if (imageViewer.isNull())
+            imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
+
+        imageViewer->loadImage(filename);
+        QFile::remove(filename);
     }
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO
@@ -1225,15 +1223,17 @@ void CCD::processBLOB(IBLOB* bp)
     {
         QUrl fileURL(filename);
 
-        if (fv == NULL)
+        if (fv.isNull())
         {
+            normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
+
             if (Options::singleWindowCapturedFITS())
                 fv = KStars::Instance()->genericFITSViewer();
             else
                 fv = new FITSViewer(KStars::Instance());
 
-            connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
-            connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
+            //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
+            //connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
         FITSScale captureFilter = targetChip->getCaptureFilter();

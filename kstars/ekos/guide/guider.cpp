@@ -41,7 +41,6 @@ rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
 
     pmain_wnd = parent;
 
-    pimage = NULL;
     phd2 = NULL;
     targetChip = NULL;
 
@@ -386,8 +385,11 @@ bool rguider::start()
     Options::setRAMinimumPulse(ui.spinBox_MinPulseRA->value());
     Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
 
-    if (pimage)
-        disconnect(pimage, SIGNAL(guideStarSelected(int,int)), 0, 0);
+    if (guideFrame)
+        disconnect(guideFrame, SIGNAL(guideStarSelected(int,int)), 0, 0);
+
+    // Let everyone know about dither option status
+    emit ditherToggled(ui.ditherCheck->isChecked());
 
     if (phd2)
     {
@@ -423,7 +425,7 @@ bool rguider::start()
     if (m_useRapidGuide)
         pmain_wnd->startRapidGuide();
 
-    emit autoGuidingToggled(true, ui.ditherCheck->isChecked());
+    emit autoGuidingToggled(true);
 
     pmain_wnd->setSuspended(false);
 
@@ -443,15 +445,17 @@ bool rguider::stop()
 {
     if (phd2)
     {
-
         ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
-        emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+        emit autoGuidingToggled(false);
+
+        m_isDithering = false;
+        m_isStarted = false;
 
         return phd2->stopGuiding();
     }
 
-    if (pimage)
-        connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
+    if (guideFrame)
+        connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
     ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
     pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
     pmath->stop();
@@ -464,12 +468,34 @@ bool rguider::stop()
     if (m_useRapidGuide)
         pmain_wnd->stopRapidGuide();
 
-    emit autoGuidingToggled(false, ui.ditherCheck->isChecked());
+    emit autoGuidingToggled(false);
 
     m_isDithering = false;
     m_isStarted = false;
 
     return true;
+}
+
+void rguider::setGuideState(bool guiding)
+{
+    if (phd2 == NULL)
+        return;
+
+    // If not started already
+    if (m_isStarted == false && guiding)
+    {
+        m_isStarted = true;
+        m_useRapidGuide = ui.rapidGuideCheck->isChecked();
+
+        ui.pushButton_StartStop->setText( i18n("Stop") );
+        pmain_wnd->appendLogText(i18n("Autoguiding started."));
+    }
+    // if already started
+    else if (m_isStarted && guiding == false)
+    {
+        ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
+    }
+
 }
 
 // processing stuff
@@ -638,10 +664,10 @@ void rguider::guide( void )
 
 void rguider::setImage(FITSView *image)
 {
-    pimage = image;
+    guideFrame = image;
 
-    if (m_isReady && pimage && m_isStarted == false)
-        connect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    if (m_isReady && guideFrame && m_isStarted == false)
+        connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 }
 
 void rguider::guideStarSelected(int x, int y)
@@ -707,7 +733,10 @@ bool rguider::dither()
     if (m_isDithering == false)
     {
         retries =0;
-        targetChip->abortExposure();
+
+        // JM 2016-05-8: CCD would abort if required.
+        //targetChip->abortExposure();
+
         double ditherPixels = ui.ditherPixels->value();
         int polarity = (rand() %2 == 0) ? 1 : -1;
         double angle = ((double) rand() / RAND_MAX) * M_PI/2.0;
@@ -724,32 +753,35 @@ bool rguider::dither()
         else
             target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
 
-        if (Options::verboseLogging())
-            qDebug() << "Dither Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
+        if (Options::guideLogging())
+            qDebug() << "Guide: Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
         pmath->set_reticle_params(target_pos.x, target_pos.y, ret_angle);
 
         guide();
 
-        pmain_wnd->capture();
+        // Take a new exposure if we're not already capturing
+        if (targetChip->isCapturing() == false)
+            pmain_wnd->capture();
 
         return true;
     }
-
-    if (m_isDithering == false)
-        return false;
 
     Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( target_pos.x, target_pos.y, 0 );
     star_pos.y = -star_pos.y;
     star_pos = star_pos * ROT_Z;
 
-    //qDebug() << "Diff star X " << star_pos.x << " Y " << star_pos.y;
+    if (Options::guideLogging())
+        qDebug() << "Guide: Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
         pmath->set_reticle_params(cur_x, cur_y, ret_angle);
 
         m_isDithering = false;
+
+        if (Options::guideLogging())
+            qDebug() << "Guide: Dither complete.";
 
         emit ditherComplete();
     }

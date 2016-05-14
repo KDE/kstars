@@ -301,6 +301,22 @@ void Capture::start()
     initialHA = getCurrentHA();
     meridianFlipStage = MF_NONE;
 
+    // Check if we need to update the sequence directory numbers before starting
+    /*for (int i=0; i < jobs.count(); i++)
+    {
+        QString firstDir = jobs.at(i)->getFITSDir();
+        int sequenceID=1;
+
+        for (int j=i+1; j < jobs.count(); j++)
+        {
+            if (firstDir == jobs.at(j)->getFITSDir())
+            {
+                jobs.at(i)->setFITSDir(QString("%1/Sequence_1").arg(firstDir));
+                jobs.at(j)->setFITSDir(QString("%1/Sequence_%2").arg(jobs.at(j)->getFITSDir()).arg(++sequenceID));
+            }
+        }
+    }*/
+
     prepareJob(first_job);
 
 }
@@ -1085,7 +1101,7 @@ void Capture::checkSeqBoundary(const QString &path)
     while (it.hasNext())
         {
             tempName = it.next();
-            tempName.remove(path + "/");
+            tempName.remove(path + QDir::separator());
 
             // find the prefix first
             //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
@@ -1110,8 +1126,10 @@ void Capture::checkSeqBoundary(const QString &path)
 
 void Capture::appendLogText(const QString &text)
 {
-
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    if (Options::captureLogging())
+        qDebug() << "Capture: " << text;
 
     emit newLog();
 }
@@ -1165,7 +1183,11 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         }
 
         if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        {
+            if (Options::captureLogging())
+                qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";
             emit suspendGuiding(true);
+        }
 
            secondsLabel->setText(i18n("Downloading..."));
 
@@ -1227,9 +1249,6 @@ void Capture::addJob(bool preview)
 
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
 
-    if (preview == false)
-     job->setFITSDir(preview ? fitsDir->text() : fitsDir->text() + "/" + frameTypeCombo->currentText());
-
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
     job->setPreMountPark(preMountPark);
@@ -1241,9 +1260,9 @@ void Capture::addJob(bool preview)
 
     constructPrefix(imagePrefix);
 
-    job->setPrefixSettings(prefixIN->text(), frameTypeCheck->isChecked(), filterCheck->isChecked(), expDurationCheck->isChecked(), ISOCheck->isChecked());
+    job->setPrefixSettings(prefixIN->text(), filterCheck->isChecked(), expDurationCheck->isChecked(), ISOCheck->isChecked());
     job->setFrameType(frameTypeCombo->currentIndex(), frameTypeCombo->currentText());
-    job->setPrefix(imagePrefix);
+    job->setFullPrefix(imagePrefix);
 
     if (filterSlot != NULL && currentFilter != NULL)
        job->setTargetFilter(FilterPosCombo->currentIndex()+1, FilterPosCombo->currentText());
@@ -1263,11 +1282,21 @@ void Capture::addJob(bool preview)
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
     if (jobUnderEdit == false)
+    {
         jobs.append(job);
 
-    // Nothing more to do if preview
-    if (preview)
-        return;
+        job->setRootFITSDir(fitsDir->text());
+
+        // Nothing more to do if preview
+        if (preview)
+            return;
+
+        QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
+        if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
+            finalFITSDir += QDir::separator() + job->getFilterName();        
+
+        job->setFITSDir(finalFITSDir);
+    }
 
     int currentRow = 0;
     if (jobUnderEdit == false)
@@ -1679,10 +1708,16 @@ void Capture::setGuideDither(bool enable)
     guideDither = enable;
 }
 
-void Capture::setAutoguiding(bool enable, bool isDithering)
+void Capture::setAutoguiding(bool enable)
 {  
+    // If Autoguiding was started before and now stopped, let's abort.
+    if (enable == false && isAutoGuiding && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    {
+        appendLogText(i18n("Autoguiding stopped. Aborting..."));
+        abort();
+    }
+
     isAutoGuiding = enable;
-    guideDither   = isDithering;
 }
 
 void Capture::updateFocusStatus(bool status)
@@ -1757,10 +1792,13 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), fitsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath);
 
-    if (!dir.isEmpty())
-        fitsDir->setText(dir);
+    if (dir.isEmpty())
+        return;
+
+    fitsDir->setText(dir);
+
 }
 
 void Capture::loadSequenceQueue()
@@ -1947,9 +1985,6 @@ bool Capture::processJobInfo(XMLEle *root)
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
                 prefixIN->setText(pcdataXMLEle(subEP));
-            subEP = findXMLEle(ep, "TypeEnabled");
-            if (subEP)
-                frameTypeCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
                 filterCheck->setChecked( !strcmp("1", pcdataXMLEle(subEP)));
@@ -2115,7 +2150,7 @@ bool Capture::saveSequenceQueue(const QString &path)
 {
     QFile file;
     QString rawPrefix;
-    bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
+    bool filterEnabled, expEnabled, tsEnabled;
 
     file.setFileName(path);
 
@@ -2136,7 +2171,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<Park enabled='" << (parkCheck->isChecked() ? "true" : "false") << "'></Park>" << endl;
     foreach(SequenceJob *job, jobs)
     {
-        job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled, tsEnabled);
+        job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
          outstream << "<Job>" << endl;
 
@@ -2153,12 +2188,12 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "</Frame>" << endl;
         if (job->getTargetTemperature() != INVALID_TEMPERATURE)
             outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
-        outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
+        if (job->getTargetFilter() >= 0)
+            outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
         outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
-            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
-            outstream << "<TypeEnabled>" << (typeEnabled ? 1 : 0) << "</TypeEnabled>" << endl;
+            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;            
             outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << endl;
             outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
             outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;
@@ -2166,8 +2201,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Count>" << job->getCount() << "</Count>" << endl;
         // ms to seconds
         outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
-        QString rootDir = job->getFITSDir();
-        rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->itemText(job->getFrameType())));
+        QString rootDir = job->getRootFITSDir();
         outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
@@ -2238,9 +2272,9 @@ void Capture::ignoreSequenceHistory()
 void Capture::syncGUIToJob(SequenceJob *job)
 {
     QString rawPrefix;
-    bool typeEnabled, filterEnabled, expEnabled, tsEnabled;
+    bool filterEnabled, expEnabled, tsEnabled;
 
-   job->getPrefixSettings(rawPrefix, typeEnabled, filterEnabled, expEnabled, tsEnabled);
+   job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
    exposureIN->setValue(job->getExposure());
    binXIN->setValue(job->getXBin());
@@ -2252,7 +2286,6 @@ void Capture::syncGUIToJob(SequenceJob *job)
    FilterPosCombo->setCurrentIndex(job->getTargetFilter()-1);
    frameTypeCombo->setCurrentIndex(job->getFrameType());
    prefixIN->setText(rawPrefix);
-   frameTypeCheck->setChecked(typeEnabled);
    filterCheck->setChecked(filterEnabled);
    expDurationCheck->setChecked(expEnabled);
    ISOCheck->setChecked(tsEnabled);
@@ -2271,7 +2304,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
    preMountPark      = job->isPreMountPark();
    preDomePark       = job->isPreDomePark();
 
-   QString rootDir = job->getFITSDir();
+   QString rootDir = job->getRootFITSDir();
    rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
    fitsDir->setText(rootDir);
 
@@ -2312,26 +2345,25 @@ void Capture::resetJobEdit()
 
 void Capture::constructPrefix(QString &imagePrefix)
 {
-    if (frameTypeCheck->isChecked())
-    {
-        if (imagePrefix.isEmpty() == false)
-            imagePrefix += '_';
 
-        imagePrefix += frameTypeCombo->currentText();
-    }
+    if (imagePrefix.isEmpty() == false)
+        imagePrefix += '_';
+
+    imagePrefix += frameTypeCombo->currentText();
+
     if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
             frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
-                        frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
+            frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
     {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
+        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+        imagePrefix += '_';
 
         imagePrefix += FilterPosCombo->currentText();
     }
     if (expDurationCheck->isChecked())
     {
-        if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
-            imagePrefix += '_';
+        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
+        imagePrefix += '_';
 
         imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
     }
@@ -3222,6 +3254,10 @@ bool Capture::processPostCaptureCalibrationStage()
 
 bool Capture::isSequenceFileComplete(const QUrl &fileURL)
 {
+    // If we don't remember job progress, then no sequence would be complete
+    if (Options::rememberJobProgress() == false)
+        return false;
+
     bool rc = loadSequenceQueue(fileURL);
 
     if (rc == false)
@@ -3233,20 +3269,27 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
     if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         return false;
 
+    QString prevFITSDir, prevPrefix;
+    int totalJobCount = 0, totalFileCount=0;
     foreach(SequenceJob *job, jobs)
     {
         updateSequencePrefix(job->getPrefix(), job->getFITSDir());
 
-        if (seqFileCount < job->getCount())
-        {            
-            clearSequenceQueue();
-            return false;
+        totalJobCount   += job->getCount();
+
+        // We only count files if prefix or directory is different
+        // Otherwise there is no way to distinguish among files
+        if (job->getPrefix() != prevPrefix || job->getFITSDir() != prevFITSDir)
+        {
+            totalFileCount  += seqFileCount;
+            prevPrefix = job->getPrefix();
+            prevFITSDir= job->getFITSDir();
         }
     }
 
     clearSequenceQueue();
 
-    return true;
+    return (totalJobCount == totalFileCount);
 }
 
 bool Capture::isFITSDirUnique(SequenceJob *job)

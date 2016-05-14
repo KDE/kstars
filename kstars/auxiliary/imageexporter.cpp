@@ -159,7 +159,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
 
     else
     {
-        qDebug() << i18n("Image saved to file: %1", fileName);
+        qDebug() << "Image saved to file: " << fileName;
         return true;
     }
 }
@@ -183,7 +183,7 @@ bool ImageExporter::exportImage( QString url )
     //If the filename string contains no "/" separators, assume the
     //user wanted to place a file in their home directory.
     QUrl fileURL;
-    if(!url.contains("/"))
+    if(!url.contains(QDir::separator()))
     {
         fileURL = QDir::homePath() + '/' + url;
     }

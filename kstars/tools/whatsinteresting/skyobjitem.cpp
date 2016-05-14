@@ -79,6 +79,8 @@ QVariant SkyObjItem::data(int role)
     }
 }
 
+///Moved to skyobjlistmodel.cpp
+/*
 QHash<int, QByteArray> SkyObjItem::roleNames() const
 {
     QHash<int, QByteArray> roles;
@@ -87,6 +89,7 @@ QHash<int, QByteArray> SkyObjItem::roleNames() const
     roles[CategoryNameRole] = "typeName";
     return roles;
 }
+*/
 
 void SkyObjItem::setPosition(SkyObject* so)
 {
