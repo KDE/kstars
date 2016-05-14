@@ -36,7 +36,7 @@ find_package(KF5 REQUIRED COMPONENTS
   KIO
   XmlGui
   Plotting
-  IconThemes
+# IconThemes
 )
 
 find_package(Eigen3 REQUIRED)

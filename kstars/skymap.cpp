@@ -38,7 +38,7 @@
 
 #include <KActionCollection>
 #include <KConfig>
-#include <KIconThemes/KIconLoader>
+//#include <KIconThemes/KIconLoader>
 #include <KToolBar>
 #include <KToolInvocation>
 #include <KMessageBox>

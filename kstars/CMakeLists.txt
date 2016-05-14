@@ -559,7 +559,7 @@ target_link_libraries(KStarsLib
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
-        KF5::IconThemes
+        #KF5::IconThemes
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
