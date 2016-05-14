@@ -173,6 +173,7 @@ Scheduler::Scheduler()
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
     connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
     connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
+    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
     //connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
@@ -559,6 +560,30 @@ void Scheduler::saveJob()
     watchJobChanges(true);
 }
 
+void Scheduler::resetJobState(QModelIndex i)
+{
+    if (state == SCHEDULER_RUNNIG)
+    {
+        appendLogText(i18n("You cannot reset a job while the scheduler is running."));
+        return;
+    }
+
+    SchedulerJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;
+
+    job->setState(SchedulerJob::JOB_IDLE);
+    job->setStage(SchedulerJob::STAGE_IDLE);
+
+    if (job->getFileStartupCondition() != SchedulerJob::START_AT)
+       queueTable->item(i.row(), 2)->setText(QString());
+
+    if (job->getCompletionCondition() != SchedulerJob::FINISH_AT)
+       queueTable->item(i.row(), 3)->setText(QString());
+
+    appendLogText(i18n("Job %1 status is reset.", job->getName()));
+}
+
 void Scheduler::loadJob(QModelIndex i)
 {
     if (state == SCHEDULER_RUNNIG)
@@ -573,8 +598,8 @@ void Scheduler::loadJob(QModelIndex i)
 
     watchJobChanges(false);
 
-    job->setState(SchedulerJob::JOB_IDLE);
-    job->setStage(SchedulerJob::STAGE_IDLE);
+    //job->setState(SchedulerJob::JOB_IDLE);
+    //job->setStage(SchedulerJob::STAGE_IDLE);
 
     nameEdit->setText(job->getName());
 
@@ -1376,7 +1401,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
                 if (rawFrac > earlyDawn && rawFrac < Dawn)
                 {
-                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proximity to dawn.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
+                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proximity to astronomical twilight rise.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
                     return false;
                 }
 
@@ -1725,7 +1750,7 @@ void Scheduler::calculateDawnDusk()
     duskDateTime.setDate(KStars::Instance()->data()->lt().date());
     duskDateTime.setTime(dusk);
 
-    appendLogText(i18n("Dawn is at %1, Dusk is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
+    appendLogText(i18n("Astronomical twilight rise is at %1, set is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
 
 }
 
@@ -2373,7 +2398,8 @@ void Scheduler::checkJobStage()
              // If either mount or dome are not parked, we shutdown if we approach dawn
              if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
              {
-                 appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
+                 // Minute is a DOUBLE value, do not use i18np
+                 appendLogText(i18n("Approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), aborting all jobs...", preDawnDateTime.toString(), Options::preDawnTime()));
 
                  currentJob->setState(SchedulerJob::JOB_ABORTED);
                  stopCurrentJobAction();

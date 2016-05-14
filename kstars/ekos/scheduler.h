@@ -197,6 +197,8 @@ protected slots:
      void saveAs();
      void load();
 
+     void resetJobState(QModelIndex i);
+
      //void resetJobEdit();
 
      /**
