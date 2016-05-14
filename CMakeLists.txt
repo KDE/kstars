@@ -3,6 +3,12 @@ set (KStars_VERSION_MAJOR 2)
 set (KStars_VERSION_MINOR 6)
 set (KStars_VERSION_REVISION 0)
 
+#Build KStars Lite with -DKSTARS_LITE=ON
+option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
+if(BUILD_KSTARS_LITE)
+    add_definitions(-DKSTARS_LITE)
+    include_directories("/opt/android/kde/install/include/KF5")
+endif(BUILD_KSTARS_LITE)
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 set (QT_MIN_VERSION "5.4.0")
@@ -25,25 +31,27 @@ include(ECMInstallIcons)
 include(FeatureSummary)
 include(ECMAddAppIcon)
 
-#Build KStars Lite with -DBUILD_KSTARS_LITE=ON
-option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
-if(BUILD_KSTARS_LITE)
-    add_definitions(-DKSTARS_LITE)
-endif(BUILD_KSTARS_LITE)
-
 # Load the frameworks we need
-find_package(KF5 REQUIRED COMPONENTS
-  Config
-  Crash
-  DocTools
-  WidgetsAddons
-  NewStuff
-  I18n
-  KIO
-  XmlGui
-  Plotting
-  IconThemes
-)
+if(BUILD_KSTARS_LITE)
+    find_package(KF5 REQUIRED COMPONENTS
+      Config
+      I18n
+      Plotting
+    )
+else(BUILD_KSTARS_LITE)
+    find_package(KF5 REQUIRED COMPONENTS
+      Config
+      Crash
+      DocTools
+      WidgetsAddons
+      NewStuff
+      I18n
+      KIO
+      XmlGui
+      Plotting
+      IconThemes
+    )
+endif(BUILD_KSTARS_LITE)
 
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})

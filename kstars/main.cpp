@@ -21,14 +21,14 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
-#include <KAboutData>
-#include <KCrash>
-#include <KLocalizedString>
-
 #ifdef KSTARS_LITE
 #include "kstarslite.h"
-#include "kstars.h"
 #include "skymap.h"
+#include <KLocalizedString>
+#else
+#include <KAboutData>
+#include <KCrash>
+#include "kstars.h"
 #endif
 
 #include "kstarsdata.h"
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     app.setApplicationVersion(KSTARS_VERSION);
-
+    #ifndef KSTARS_LITE
     /**
     * enable high dpi support
     */
@@ -229,9 +229,6 @@ int main(int argc, char *argv[])
     QDir writableDir;
     writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-#ifdef KSTARS_LITE
-    KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
-#else
     KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 
     // no session.. just start up normally
@@ -249,6 +246,8 @@ int main(int argc, char *argv[])
             KStars::Instance()->openFITS(u);
         }
     }
+#else
+    KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
 #endif
 
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));

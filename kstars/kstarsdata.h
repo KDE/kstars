@@ -32,9 +32,10 @@
 #include "colorscheme.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
+#ifndef KSTARS_LITE
 #include "oal/oal.h"
 #include "oal/log.h"
-
+#endif
 #define MINZOOM 250.
 #define MAXZOOM 5000000.
 #define DEFAULTZOOM 2000.
@@ -208,7 +209,7 @@ public:
       *@return the list of available FOVs
       */
     inline const QList<FOV*> getAvailableFOVs() const { return availFOVs; }
-
+    #ifndef KSTARS_LITE
     /** Return log object */
     OAL::Log *logObject() { return m_LogObject; }
 
@@ -220,7 +221,7 @@ public:
     ImageExporter * imageExporter();
 
     Execute* executeSession();
-
+    #endif
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
@@ -339,10 +340,12 @@ private:
     KSUserDB m_ksuserdb;
     CatalogDB m_catalogdb;
     ColorScheme CScheme;
-    OAL::Log *m_LogObject;
     ObservingList *m_ObservingList;
+    #ifndef KSTARS_LITE
+    OAL::Log *m_LogObject;
     Execute *m_Execute;
     ImageExporter *m_ImageExporter;
+    #endif
 
     //EquipmentWriter *m_equipmentWriter;
 

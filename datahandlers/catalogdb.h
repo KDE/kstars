@@ -27,7 +27,6 @@
 #include <QStandardPaths>
 #include <KLocalizedString>
 #include <QDebug>
-#include <KMessageBox>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -39,6 +38,9 @@
 #include <QFile>
 #include <QDir>
 
+#ifndef KSTARS_LITE
+#include <KMessageBox>
+#endif
 
 /* Some notes about the database. (skycomponents.sqlite)
  * 1) The uid for Object Designation is the uid being used by objects in KStars

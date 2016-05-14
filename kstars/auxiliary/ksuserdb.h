@@ -33,7 +33,9 @@
 #include <QFile>
 #include <QXmlStreamReader>
 #include "skyobjects/skyobject.h"
+#ifndef KSTARS_LITE
 #include "oal/oal.h"
+#endif
 #include "auxiliary/profileinfo.h"
 
 class LineList;
@@ -96,6 +98,7 @@ class KSUserDB {
      * @return bool
      **/
     bool DeleteObserver(const QString &id);
+    #ifndef KSTARS_LITE
     /**
      * @brief Updates the passed reference of observer_list with all observers
      * The original content of the list is cleared.
@@ -103,7 +106,7 @@ class KSUserDB {
      * @return void
      **/
     void GetAllObservers(QList<OAL::Observer *> &observer_list);
-
+    #endif
     /************************************************************************
      ********************************* Horizon ******************************
      ************************************************************************/
@@ -184,6 +187,7 @@ class KSUserDB {
     void AddScope(const QString &model, const QString &vendor, const QString &driver,
                   const QString &type, const double &focalLength, const double &aperture,
                   const QString &id);
+    #ifndef KSTARS_LITE
     /**
      * @brief updates the scope list with all scopes from database
      * List is cleared and then filled with content.
@@ -192,7 +196,7 @@ class KSUserDB {
      * @return void
      **/
     void GetAllScopes(QList<OAL::Scope *> &m_scopeList);
-
+    #endif
     /************************************************************************
      ******************************* Eye Piece ******************************
      ************************************************************************/
@@ -211,6 +215,7 @@ class KSUserDB {
      **/
     void AddEyepiece(const QString &vendor, const QString &model, const double &focalLength,
                            const double &fov, const QString &fovunit, const QString &id);
+    #ifndef KSTARS_LITE
     /**
      * @brief Populate the reference passed with all eyepieces
      *
@@ -218,7 +223,7 @@ class KSUserDB {
      * @return void
      **/
     void GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
-
+    #endif
     /************************************************************************
      ********************************** Lens ********************************
      ************************************************************************/
@@ -235,6 +240,7 @@ class KSUserDB {
      * @return void
      **/
     void AddLens(const QString &vendor, const QString &model, const double &factor, const QString &id);
+    #ifndef KSTARS_LITE
     /**
      * @brief Populate the reference passed with all lenses
      *
@@ -242,7 +248,7 @@ class KSUserDB {
      * @return void
      **/
     void GetAllLenses(QList<OAL::Lens *>& m_lensList);
-
+    #endif
     /************************************************************************
      ******************************** Filters *******************************
      ************************************************************************/
@@ -260,6 +266,7 @@ class KSUserDB {
      **/
     void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
                    const QString &id);
+    #ifndef KSTARS_LITE
     /**
      * @brief Populate the reference passed with all filters
      *
@@ -267,7 +274,7 @@ class KSUserDB {
      * @return void
      **/
     void GetAllFilters(QList<OAL::Filter *>& m_filterList);
-
+    #endif
  private:
     /**
      * @brief This function initializes a new database in the user's directory.

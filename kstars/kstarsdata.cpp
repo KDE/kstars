@@ -23,8 +23,9 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QStandardPaths>
-
+#ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
 #include <KLocalizedString>
 
 #include "Options.h"
@@ -47,7 +48,7 @@
 #include "dialogs/detaildialog.h"
 
 namespace {
-
+    #ifndef KSTARS_LITE
     // Report fatal error during data loading to user
     // Calls QApplication::exit
     void fatalErrorMessage(QString fname) {
@@ -76,6 +77,7 @@ namespace {
             qApp->exit(1);
         return res == KMessageBox::Continue;
     }
+#endif
 }
 
 KStarsData* KStarsData::pinstance = 0;
@@ -110,7 +112,9 @@ KStarsData::KStarsData() :
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
+    #ifndef KSTARS_LITE
     m_LogObject = new OAL::Log;
+    #endif
     // at startup times run forward
     setTimeDirection( 0.0 );
 
@@ -1024,7 +1028,7 @@ void KStarsData::syncFOV()
     }
     Options::setFOVNames( all.intersect(names).toList() );
 }
-
+#ifndef KSTARS_LITE
 // FIXME: Why does KStarsData store the Execute instance??? -- asimha
 Execute* KStarsData::executeSession() {
     if( !m_Execute )
@@ -1041,5 +1045,6 @@ ImageExporter * KStarsData::imageExporter()
 
     return m_ImageExporter;
 }
+#endif
 
 
