@@ -125,10 +125,6 @@ EkosManager::EkosManager()
 
     // INDI Control Panel
     connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
-
-    // Show Ekos Options
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    connect(a, SIGNAL(changed()), this, SLOT(checkFITSViewerState()));
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
 
     // Clear Ekos Log
