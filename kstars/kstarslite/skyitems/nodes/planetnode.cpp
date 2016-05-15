@@ -25,7 +25,7 @@
 #include "planetnode.h"
 
 
-PlanetNode::PlanetNode(SolarSystemSingleComponent* p, PlanetItemNode* parentNode)
+PlanetNode::PlanetNode(SolarSystemSingleComponent* p, RootNode* parentNode)
     :m_planetPic(new QSGSimpleTextureNode), m_planet(p), m_planetOpacity(new QSGOpacityNode)
 {
     KSPlanetBase* pb = m_planet->planet();

@@ -60,6 +60,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
     have to add SkyItems to the SkyMapLite*/
     m_SkyMapLite = SkyMapLite::createInstance(skyMapLiteWrapper);
+    m_SkyMapLite->update();
 
     // Set pinstance to yourself
     pinstance = this;

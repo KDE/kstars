@@ -1041,22 +1041,22 @@ void SkyMap::setupProjector() {
     else {
         delete m_proj;
         switch( Options::projection() ) {
-            case Gnomonic:
+            case Projector::Gnomonic:
                 m_proj = new GnomonicProjector(p);
                 break;
-            case Stereographic:
+            case Projector::Stereographic:
                 m_proj = new StereographicProjector(p);
                 break;
-            case Orthographic:
+            case Projector::Orthographic:
                 m_proj = new OrthographicProjector(p);
                 break;
-            case AzimuthalEquidistant:
+            case Projector::AzimuthalEquidistant:
                 m_proj = new AzimuthalEquidistantProjector(p);
                 break;
-            case Equirectangular:
+            case Projector::Equirectangular:
                 m_proj = new EquirectangularProjector(p);
                 break;
-            case Lambert: default:
+            case Projector::Lambert: default:
                 //TODO: implement other projection classes
                 m_proj = new LambertProjector(p);
                 break;

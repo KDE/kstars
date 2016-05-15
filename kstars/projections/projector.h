@@ -67,12 +67,16 @@ public:
     /** Update cached values for projector */
     void setViewParams( const ViewParams& p );
 
+    enum Projection { Lambert,
+                      AzimuthalEquidistant,
+                      Orthographic,
+                      Equirectangular,
+                      Stereographic,
+                      Gnomonic,
+                      UnknownProjection };
+
     /** Return the type of this projection */
-    #if 0
-    virtual SkyMapLite::Projection type() const = 0;
-    #else
-    virtual SkyMap::Projection type() const = 0;
-    #endif
+    virtual Projection type() const = 0;
 
     /** Return the FOV of this projection */
     double fov() const;

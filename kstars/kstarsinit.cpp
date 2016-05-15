@@ -38,6 +38,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "projections/projector.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "simclock.h"
@@ -247,32 +248,32 @@ void KStars::initActions() {
         << i18n("&Lambert Azimuthal Equal-area" )
         << QKeySequence("F5" )
         << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == SkyMap::Lambert);
+        << Checked(Options::projection() == Projector::Lambert);
     actionCollection()->addAction("project_azequidistant", this, SLOT( slotMapProjection() ) )
         << i18n("&Azimuthal Equidistant" )
         << QKeySequence("F6" )
         << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == SkyMap::AzimuthalEquidistant);
+        << Checked(Options::projection() == Projector::AzimuthalEquidistant);
     actionCollection()->addAction("project_orthographic", this, SLOT( slotMapProjection() ) )
         << i18n("&Orthographic" )
         << QKeySequence("F7" )
         << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == SkyMap::Orthographic);
+        << Checked(Options::projection() == Projector::Orthographic);
     actionCollection()->addAction("project_equirectangular", this, SLOT( slotMapProjection() ) )
         << i18n("&Equirectangular" )
         << QKeySequence("F8" )
         << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == SkyMap::Equirectangular);
+        << Checked(Options::projection() == Projector::Equirectangular);
     actionCollection()->addAction("project_stereographic", this, SLOT( slotMapProjection() ) )
         << i18n("&Stereographic" )
         << QKeySequence("F9" )
         << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == SkyMap::Stereographic);
+        << Checked(Options::projection() == Projector::Stereographic);
     actionCollection()->addAction("project_gnomonic", this, SLOT( slotMapProjection() ) )
         << i18n("&Gnomonic" )
         << QKeySequence("F10" )
         << AddToGroup(projectionGroup)
-        << Checked(Options::projection() == SkyMap::Gnomonic);
+        << Checked(Options::projection() == Projector::Gnomonic);
 
     //Settings Menu:
     //Info Boxes option actions

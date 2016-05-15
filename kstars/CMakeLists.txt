@@ -525,10 +525,12 @@ if(BUILD_KSTARS_LITE)
         #SkyItems
         kstarslite/skyitems/planetsitem.cpp
         kstarslite/skyitems/skyitem.cpp
+        #Root Nodes
+        kstarslite/skyitems/nodes/rootnode.cpp
+        kstarslite/skyitems/nodes/planetrootnode.cpp
         #Nodes
         kstarslite/skyitems/nodes/planetnode.cpp
         kstarslite/skyitems/nodes/pointnode.cpp
-        kstarslite/skyitems/nodes/planetitemnode.cpp
     )
     #Qml files will be probably moved to user's data dir, but for use
     #with QtCreator it is more convenient to have them here

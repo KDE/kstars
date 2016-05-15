@@ -18,6 +18,7 @@
 #include <QSGSimpleTextureNode>
 
 class PlanetItemNode;
+class SkyMapLite;
 
 /** @class PointNode
  *
@@ -29,6 +30,8 @@ class PlanetItemNode;
  *@version 1.0
  */
 
+class RootNode;
+
 class PointNode : public QSGOpacityNode  {
 public:
     /**
@@ -37,7 +40,7 @@ public:
      * @param parentNode pointer to top parent node, which holds texture cache
      * @param size initial size of PointNode
      */
-    PointNode(char spType, PlanetItemNode* parentNode, float size = 1);
+    PointNode(char spType, RootNode* parentNode, float size = 1);
     /**
      * @short setSize update size of PointNode with the given parameter
      * @param size new size of PointNode
@@ -52,7 +55,8 @@ private:
     char spType;
     QSGSimpleTextureNode *texture;
     // This pointer is important because parentNode holds texture cache
-    PlanetItemNode* parentNode;
+    RootNode* parentNode;
+    SkyMapLite* skyMapLite;
 };
 
 #endif

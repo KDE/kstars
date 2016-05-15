@@ -20,6 +20,12 @@
 
 #include "projections/projector.h"
 #include "projections/lambertprojector.h"
+#include "projections/gnomonicprojector.h"
+#include "projections/stereographicprojector.h"
+#include "projections/orthographicprojector.h"
+#include "projections/azimuthalequidistantprojector.h"
+#include "projections/equirectangularprojector.h"
+
 #include "solarsystemsinglecomponent.h"
 #include "Options.h"
 
@@ -30,42 +36,44 @@
 #include <QSGSimpleRectNode>
 #include <QSGNode>
 #include <QBitmap>
+#include <QSGTexture>
+#include <QQuickWindow>
 
 namespace {
 
-    // Draw bitmap for zoom cursor. Width is size of pen to draw with.
-    QBitmap zoomCursorBitmap(int width) {
-        QBitmap b(32, 32);
-        b.fill(Qt::color0);
-        int mx = 16, my = 16;
-        // Begin drawing
-        QPainter p;
-        p.begin( &b );
-          p.setPen( QPen( Qt::color1, width ) );
-          p.drawEllipse( mx - 7, my - 7, 14, 14 );
-          p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
-        p.end();
-        return b;
-    }
+// Draw bitmap for zoom cursor. Width is size of pen to draw with.
+QBitmap zoomCursorBitmap(int width) {
+    QBitmap b(32, 32);
+    b.fill(Qt::color0);
+    int mx = 16, my = 16;
+    // Begin drawing
+    QPainter p;
+    p.begin( &b );
+    p.setPen( QPen( Qt::color1, width ) );
+    p.drawEllipse( mx - 7, my - 7, 14, 14 );
+    p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
+    p.end();
+    return b;
+}
 
-    // Draw bitmap for default cursor. Width is size of pen to draw with.
-    QBitmap defaultCursorBitmap(int width) {
-        QBitmap b(32, 32);
-        b.fill(Qt::color0);
-        int mx = 16, my = 16;
-        // Begin drawing
-        QPainter p;
-        p.begin( &b );
-          p.setPen( QPen( Qt::color1, width ) );
-          // 1. diagonal
-          p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
-          p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
-          // 2. diagonal
-          p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
-          p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
-        p.end();
-        return b;
-    }
+// Draw bitmap for default cursor. Width is size of pen to draw with.
+QBitmap defaultCursorBitmap(int width) {
+    QBitmap b(32, 32);
+    b.fill(Qt::color0);
+    int mx = 16, my = 16;
+    // Begin drawing
+    QPainter p;
+    p.begin( &b );
+    p.setPen( QPen( Qt::color1, width ) );
+    // 1. diagonal
+    p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
+    p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
+    // 2. diagonal
+    p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
+    p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
+    p.end();
+    return b;
+}
 }
 
 SkyMapLite *SkyMapLite::pinstance = 0;
@@ -88,6 +96,34 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     initStarImages();
     // Set pinstance to yourself
     pinstance = this;
+    /*textureCache = QVector<QVector<QSGTexture*>> (imageCache.length());
+
+    for(int i = 0; i < textureCache.length(); ++i) {
+        int length = imageCache[i].length();
+        textureCache[i] = QVector<QSGTexture *>(length);
+        for(int c = 1; c < length; ++c) {
+           textureCache[i][c] = window()->createTextureFromImage(imageCache[i][c]->toImage());
+        }
+    }*/
+}
+
+QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
+    /*if(!textureCache.length()) {
+        textureCache = QVector<QVector<QSGTexture*>> (imageCache.length());
+
+        for(int i = 0; i < textureCache.length(); ++i) {
+            int length = imageCache[i].length();
+            textureCache[i] = QVector<QSGTexture *>(length);
+            for(int c = 1; c < length; ++c) {
+                //textureCache[i][c] = window()->createTextureFromImage(imageCache[i][c]->toImage());
+            }
+        }
+    }*/
+    return oldNode;
+}
+
+QSGTexture* SkyMapLite::getCachedTexture(int size, char spType) {
+    return textureCache[harvardToIndex(spType)][size];
 }
 
 SkyMapLite* SkyMapLite::createInstance(QQuickItem* parent) {
@@ -97,7 +133,14 @@ SkyMapLite* SkyMapLite::createInstance(QQuickItem* parent) {
 }
 
 SkyMapLite::~SkyMapLite() {
-
+    // Delete image cache
+    foreach(QVector<QPixmap*> imgCache, imageCache) {
+        foreach(QPixmap* img, imgCache) delete img;
+    }
+    // Delete textures generated from image cache
+    foreach(QVector<QSGTexture*> tCache, textureCache) {
+        foreach(QSGTexture* t, tCache) delete t;
+    }
 }
 
 void SkyMapLite::setFocus( SkyPoint *p ) {
@@ -235,35 +278,33 @@ void SkyMapLite::setupProjector() {
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
     p.fillGround    = Options::showGround();
-    if(!m_proj) m_proj = new LambertProjector(p);
-    else m_proj->setViewParams(p);
     //Check if we need a new projector
-    /*if( m_proj && Options::projection() == m_proj->type() )
+    if( m_proj && Options::projection() == m_proj->type() )
         m_proj->setViewParams(p);
     else {
         delete m_proj;
         switch( Options::projection() ) {
-        case Gnomonic:
-            m_proj = new GnomonicProjector(p);
-            break;
-        case Stereographic:
-            m_proj = new StereographicProjector(p);
-            break;
-        case Orthographic:
-            m_proj = new OrthographicProjector(p);
-            break;
-        case AzimuthalEquidistant:
-            m_proj = new AzimuthalEquidistantProjector(p);
-            break;
-        case Equirectangular:
-            m_proj = new EquirectangularProjector(p);
-            break;
-        case Lambert: default:
-            //TODO: implement other projection classes
-            m_proj = new LambertProjector(p);
-            break;
+            case Projector::Gnomonic:
+                m_proj = new GnomonicProjector(p);
+                break;
+            case Projector::Stereographic:
+                m_proj = new StereographicProjector(p);
+                break;
+            case Projector::Orthographic:
+                m_proj = new OrthographicProjector(p);
+                break;
+            case Projector::AzimuthalEquidistant:
+                m_proj = new AzimuthalEquidistantProjector(p);
+                break;
+            case Projector::Equirectangular:
+                m_proj = new EquirectangularProjector(p);
+                break;
+            case Projector::Lambert: default:
+                //TODO: implement other projection classes
+                m_proj = new LambertProjector(p);
+                break;
         }
-    }*/
+    }
 }
 
 void SkyMapLite::setZoomMouseCursor()
@@ -303,7 +344,7 @@ int SkyMapLite::harvardToIndex(char c) {
     case 'g': case 'G': return 4;
     case 'k': case 'K': return 5;
     case 'm': case 'M': return 6;
-    // For unknown spectral class assume A class (white star)
+        // For unknown spectral class assume A class (white star)
     default: return 2;
     }
 }
@@ -395,15 +436,15 @@ void SkyMapLite::initStarImages()
             p.drawEllipse( QRectF( 2, 2, 10, 10 ) );
         }
         p.end();
-//[nSPclasses][nStarSizes];
+        //[nSPclasses][nStarSizes];
         // Cache array slice
 
         QVector<QPixmap *> pmap = imageCache[ harvardToIndex(color) ];
         pmap.append(new QPixmap());
         for( int size = 1; size < nStarSizes; size++ ) {
             //if( !pmap[size] ) {
-                pmap.append(new QPixmap());
-               *pmap[size] = BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+            pmap.append(new QPixmap());
+            *pmap[size] = BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
             //}
         }
         imageCache[ harvardToIndex(color) ] = pmap;

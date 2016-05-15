@@ -1,5 +1,5 @@
 /** *************************************************************************
-                          planetitemnode.h  -  K Desktop Planetarium
+                          planetrootnode.h  -  K Desktop Planetarium
                              -------------------
     begin                : 05/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
@@ -13,39 +13,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef PLANETITEMNODE_H_
-#define PLANETITEMNODE_H_
-#include <QSGNode>
-
-class QSGSimpleTextureNode;
-class QImage;
+#ifndef PLANETROOTNODE_H_
+#define PLANETROOTNODE_H_
+#include "rootnode.h"
 class PlanetNode;
-class QSGTexture;
 
-/** @class PlanetItemNode
- *
- * A QSGNode derived class used as a container for holding PlanetNodes. Upon construction
- * PlanetItemNode generates all textures that are used by stars
- *
- *@short A container for PlanetNodes that holds collection of textures for stars
+/** @class PlanetRootNode
+ *@short A RootNode derived class used as a container for holding PlanetNodes.
  *@author Artem Fedoskin
  *@version 1.0
  */
 
-class PlanetItemNode : public QSGNode {
+class PlanetRootNode : public RootNode {
 public:
-    PlanetItemNode();
-    /**
-     * @short returns cached texture from textureCache
-     * @return cached QSGTexture from textureCache
-     */
-    QSGTexture* getCachedTexture(int size, char spType);
-
+    PlanetRootNode();
 private:
-    /**
-     * @short initializes textureCache with cached images of stars in SkyMapLite
-     */
-    void genCachedTextures();
-    QVector<QVector<QSGTexture *>> textureCache;
 };
 #endif

@@ -23,9 +23,9 @@ LambertProjector::LambertProjector(const ViewParams& p) : Projector(p)
 {
 }
 
-SkyMap::Projection LambertProjector::type() const
+Projector::Projection LambertProjector::type() const
 {
-    return SkyMap::Lambert;
+    return Lambert;
 }
 
 double LambertProjector::radius() const

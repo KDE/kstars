@@ -19,10 +19,10 @@
 
 #include "skymaplite.h"
 #include "pointnode.h"
-#include "planetitemnode.h"
+#include "rootnode.h"
 
-PointNode::PointNode(char sp, PlanetItemNode* p, float size)
-    :spType(sp), texture(new QSGSimpleTextureNode), parentNode(p)
+PointNode::PointNode(char sp, RootNode* p, float size)
+    :spType(sp), texture(new QSGSimpleTextureNode), parentNode(p), skyMapLite(SkyMapLite::Instance())
 {
     appendChildNode(texture);
     setSize(size);

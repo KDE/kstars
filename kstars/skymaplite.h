@@ -24,6 +24,7 @@
 
 #include <config-kstars.h>
 #include <QQuickItem>
+#include <QPolygonF>
 
 class dms;
 class KStarsData;
@@ -31,6 +32,8 @@ class SkyObject;
 class Projector;
 class SolarSystemSingleComponent;
 class PlanetsItem;
+
+class QSGTexture;
 
 /** @class SkyMapLite
         *
@@ -55,7 +58,7 @@ protected:
     */
     explicit SkyMapLite(QQuickItem* parent = 0);
 
-    //virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData);
+    virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData);
 
 public:
     static SkyMapLite* createInstance(QQuickItem* parent = 0);
@@ -233,13 +236,21 @@ public:
     /** @short Returns index for a Harvard spectral classification */
     int harvardToIndex(char c);
 
-    /** @short Initializes images of Stars and put it in cache (copied from SkyQPainter)*/
-    void initStarImages();
-
     /** @short returns cache of star images
      *  @return star images cache
      */
     QVector<QVector<QPixmap*>> getImageCache();
+
+    /**
+     * @short returns cached texture from textureCache.
+     *
+     * Use outside of scene graph rendering thread (e.g. not during call to updatePaintNode)
+     * is prohibited!
+     * @param size size of the star
+     * @param spType spectral class
+     * @return cached QSGTexture from textureCache
+     */
+    QSGTexture* getCachedTexture(int size, char spType);
 
     //bool isSlewing() const;
 
@@ -274,13 +285,6 @@ public:
 
     SkyPoint getCenterPoint();*/
 
-    // This can be later changed
-    // Total number of sizes of stars.
-    const int nStarSizes;
-    // Total number of specatral classes
-    // N.B. Must be in sync with harvardToIndex
-    const int nSPclasses;
-
     Projector* m_proj;
 
 public slots:
@@ -292,20 +296,19 @@ public slots:
     /** Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
      * This saves a lot of CPU time.
-     * @param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
      */
     void forceUpdate();
 
-    /** @short Convenience function; simply calls forceUpdate(true).
+    /** @short Left for compatibility reasons
      * @see forceUpdate()
      */
     void forceUpdateNow() { forceUpdate(); }
 
     /**
      * @short Update the focus point and call forceUpdate()
-     * @param now is passed on to forceUpdate()
+     * @param now is saved for compatibility reasons
      */
-    void slotUpdateSky( bool now ) { }
+    void slotUpdateSky( bool now ) {Q_UNUSED(now)}
 
     /** Toggle visibility of geo infobox */
     //void slotToggleGeoBox(bool);
@@ -512,6 +515,9 @@ private:
      */
     void zoomOutOrMagStep( const int modifier );
 
+    /** @short Initializes images of Stars and puts them in cache (copied from SkyQPainter)*/
+    void initStarImages();
+
     bool mouseButtonDown, midMouseButtonDown;
     // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool mouseMoveCursor;
@@ -561,10 +567,18 @@ private:
 
     const SkyPoint *m_rulerStartPoint; // Good to keep the original ruler start-point for purposes of dynamic_cast
 
+    // This can be later changed
+    // Total number of sizes of stars.
+    const int nStarSizes;
+    // Total number of specatral classes
+    // N.B. Must be in sync with harvardToIndex
+    const int nSPclasses;
 
     //This can be later changed
     // Cache for star images.
     QVector<QVector<QPixmap*>> imageCache;
+    //Textures created from cached star images
+    QVector<QVector<QSGTexture*>> textureCache;
 
 };
 

@@ -25,9 +25,9 @@ GnomonicProjector::GnomonicProjector(const ViewParams& p)
 
 }
 
-SkyMap::Projection GnomonicProjector::type() const
+Projector::Projection GnomonicProjector::type() const
 {
-    return SkyMap::Gnomonic;
+    return Gnomonic;
 }
 
 double GnomonicProjector::radius() const

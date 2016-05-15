@@ -25,9 +25,9 @@ StereographicProjector::StereographicProjector(const ViewParams& p)
     
 }
 
-SkyMap::Projection StereographicProjector::type() const
+Projector::Projection StereographicProjector::type() const
 {
-    return SkyMap::Stereographic;
+    return Stereographic;
 }
 
 double StereographicProjector::radius() const

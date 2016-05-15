@@ -22,7 +22,7 @@ class QSGSimpleTextureNode;
 class QImage;
 class SolarSystemSingleComponent;
 class KSPlanetBase;
-class PlanetItemNode;
+class RootNode;
 
 /** @class PlanetNode
  *
@@ -42,7 +42,7 @@ public:
      * @param planet used in PlanesItem to update position of PlanetNode
      * @param parentNode used by PointNode to get textures from cache
      */
-    PlanetNode(SolarSystemSingleComponent* planet, PlanetItemNode* parentNode);
+    PlanetNode(SolarSystemSingleComponent* planet, RootNode* parentNode);
     /**
      * @short setPointSize updates the size of m_point
      * @param size new size of m_point

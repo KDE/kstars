@@ -22,7 +22,7 @@
 #include <QSGSimpleTextureNode>
 #include <QQuickWindow>
 #include "nodes/planetnode.h"
-#include "nodes/planetitemnode.h"
+#include "nodes/planetrootnode.h"
 
 #include "Options.h"
 
@@ -42,7 +42,8 @@ void PlanetsItem::addPlanet(SolarSystemSingleComponent* planetComp) {
 }
 
 QSGNode* PlanetsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
-    PlanetItemNode *n = static_cast<PlanetItemNode*>(oldNode);
+    PlanetRootNode *n = static_cast<PlanetRootNode*>(oldNode);
+    Q_UNUSED(updatePaintNodeData);
     QRectF rect = boundingRect();
 
     if (rect.isEmpty()) {
@@ -51,13 +52,13 @@ QSGNode* PlanetsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upd
     }
 
     if(!n) {
-        n = new PlanetItemNode; // If no PlanetItemNode exists create one
+        n = new PlanetRootNode; // If no PlanetRootNode exists create one
         int pCompLen = m_planetComponents.length();
         if(pCompLen > 0) {
             /* If there are some planets that have been already displayed once then recreate them
-                 in new instance of PlanetItemNode*/
+                 in new instance of PlanetRootNode*/
             for(int i = 0; i < pCompLen; ++i) {
-                n->appendChildNode(new PlanetNode(m_planetComponents[i], n));
+                n->appendSkyNode(new PlanetNode(m_planetComponents[i], n));
             }
         }
     }
@@ -66,14 +67,15 @@ QSGNode* PlanetsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upd
     if(addLength > 0) { // If there are some new planets to add
         for(int i = 0; i < addLength; ++i) {
             m_planetComponents.append(m_toAdd[i]);
-            n->appendChildNode(new PlanetNode(m_toAdd[i], n));
+            n->appendSkyNode(new PlanetNode(m_toAdd[i], n));
         }
         m_toAdd.clear();
     }
-
-    //Traverse all children nodes of PlanetItemNode
-    for(int i = 0; i < n->childCount(); ++i) {
-        PlanetNode* pNode = static_cast<PlanetNode*>(n->childAtIndex(i));
+    //Update clipping geometry. If m_clipPoly in SkyMapLite wasn't changed, geometry is not updated
+    n->updateClipPoly();
+    //Traverse all children nodes of PlanetRootNode
+    for(int i = 0; i < n->skyNodesCount(); ++i) {
+        PlanetNode* pNode = static_cast<PlanetNode*>(n->skyNodeAtIndex(i));
         if(!pNode->planet()->selected()) {
             pNode->hide();
         } else {
