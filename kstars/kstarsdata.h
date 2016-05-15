@@ -22,7 +22,7 @@
 
 #include "ksnumbers.h"
 #include "ksuserdb.h"
-#include "datahandlers/catalogdb.h"
+#include "catalogdb.h"
 
 #include <QList>
 #include <QMap>

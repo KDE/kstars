@@ -17,7 +17,7 @@
 
 #include "modcalcdaylength.h"
 
-#include <QLineEdit>
+#include <KLineEdit>
 
 #include <KLocalizedString>
 #include <KMessageBox>

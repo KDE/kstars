@@ -25,6 +25,7 @@
 #include <KPlotPoint>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KLineEdit>
 
 #include "dms.h"
 #include "kstarsdata.h"

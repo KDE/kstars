@@ -15,8 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <cmath>
+#include <QDebug>
+#include <QStandardPaths>
+#include <QHttpMultiPart>
+#include <QPen>
+
+#include <KLocalizedString>
+
 #include "asteroidscomponent.h"
 
+#include "auxiliary/filedownloader.h"
 #include "projections/projector.h"
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
@@ -28,16 +37,8 @@
 #include "kstarsdata.h"
 #include "ksfilereader.h"
 
-#include <cmath>
-#include <QDebug>
-#include <QStandardPaths>
-#include <QPen>
-
-#include <KIOCore/KIO/Job>
-#include <KJobUiDelegate>
-
-AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent)
-    : SolarSystemListComponent(parent) {
+AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent) : SolarSystemListComponent(parent)
+{
     loadData();
 }
 
@@ -77,13 +78,14 @@ bool AsteroidsComponent::selected() {
  * @li 22 earth minimum orbit intersection distance [double]
  * @li 23 orbit classification [string]
  */
-void AsteroidsComponent::loadData() {
+void AsteroidsComponent::loadData()
+{
     QString name, full_name, orbit_id, orbit_class, dimensions;
     int mJD;
     double q, a, e, dble_i, dble_w, dble_N, dble_M, H, G, earth_moid;
     long double JD;
     float diameter, albedo, rot_period, period;
-    bool neo;
+    bool neo;    
 
     emitProgressText( i18n("Loading asteroids") );
 
@@ -242,7 +244,13 @@ SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     return oBest;
 }
 
-void AsteroidsComponent::updateDataFile() {
+void AsteroidsComponent::updateDataFile()
+{
+    downloadJob = new FileDownloader();
+
+    QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
+    QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+
     QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
     QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbere"
     "d=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value="
@@ -251,31 +259,34 @@ void AsteroidsComponent::updateDataFile() {
     "t_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&."
     "cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class"
     "&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_se"
-    "t&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
-    QString content_type = "Content-Type: application/x-www-form-urlencoded";
+    "t&.cgifields=preset_field_set&.cgifields=com_orbit_class" );    
 
-    // Download file
-    KIO::StoredTransferJob* get_job = KIO::storedHttpPost(post_data,  url);
-    get_job->addMetaData("content-type", content_type );
+    downloadJob->post(url, post_data);
+}
 
-    if( get_job->exec() )
-    {
-        // Comment the first line
-        QByteArray data = get_job->data();
-        data.insert( 0, '#' );
+void AsteroidsComponent::downloadReady()
+{
+    // Comment the first line
+    QByteArray data = downloadJob->downloadedData();
+    data.insert( 0, '#' );
 
-        // Write data to asteroids.dat
-        QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "asteroids.dat" ) ;
-        file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
-        file.write( data );
-        file.close();
+    // Write data to asteroids.dat
+    QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "asteroids.dat" ) ;
+    file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
+    file.write( data );
+    file.close();
 
-        // Reload asteroids
-        loadData();
+    // Reload asteroids
+    loadData();
 
-        KStars::Instance()->data()->setFullTimeUpdate();
-    } else
-    {
-        get_job->uiDelegate()->showErrorMessage();
-    }
+    KStars::Instance()->data()->setFullTimeUpdate();
+
+    downloadJob->deleteLater();
+}
+
+void AsteroidsComponent::downloadError(const QString &errorString)
+{
+    KMessageBox::error(0, i18n("Error downloading asteroids data: %1", errorString));
+
+    downloadJob->deleteLater();
 }

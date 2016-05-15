@@ -12,7 +12,7 @@
 
 #include <QPushButton>
 #include <QFileDialog>
-#include <KLineEdit>
+//#include <KLineEdit>
 #include <KConfigDialog>
 
 #include <QCheckBox>

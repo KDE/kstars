@@ -22,7 +22,7 @@
 #include <QAbstractTableModel>
 
 #include <QDialog>
-#include <KIO/CopyJob>
+//#include <KIO/CopyJob>
 
 #include "ui_observinglist.h"
 #include "kstarsdatetime.h"
@@ -389,10 +389,11 @@ private:
     GeoLocation *geo;
     QStandardItemModel *m_WishListModel, *m_SessionModel;
     QSortFilterProxyModel *m_WishListSortModel, *m_SessionSortModel;
-    KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash;
     ObsListPopupMenu *pmenu;
     KSDssDownloader *m_dl;
+    QHash<SkyObject *, QPixmap> ImagePreviewHash;
+    QPixmap m_NoImagePixmap;
 };
 
 #endif // OBSERVINGLIST_H_

@@ -42,8 +42,6 @@ PHD2::PHD2()
     connection = DISCONNECTED;
     event = Alert;
 
-    ditherEnabled = Options::useDither();
-
     events["Version"] = Version;
     events["LockPositionSet"] = LockPositionSet;
     events["CalibrationComplete"] = CalibrationComplete;
@@ -266,7 +264,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             emit connected();
         }
         emit newLog(i18n("PHD2: Guiding Started."));
-        emit autoGuidingToggled(true, ditherEnabled);
+        emit autoGuidingToggled(true);
         break;
 
     case Paused:
@@ -345,7 +343,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     case GuidingStopped:
         emit newLog(i18n("PHD2: Guiding Stopped."));
-        emit autoGuidingToggled(false, ditherEnabled);
+        emit autoGuidingToggled(false);
         break;
 
     case Resumed:

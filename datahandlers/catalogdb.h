@@ -18,12 +18,6 @@
 #ifndef CATALOGDB_H
 #define CATALOGDB_H
 
-#include <datahandlers/ksparser.h>
-#include <datahandlers/catalogdata.h>
-#include <datahandlers/catalogentrydata.h>
-#include "kstars/skyobjects/starobject.h"
-#include "kstars/skyobjects/deepskyobject.h"
-#include "kstars/skycomponents/skycomponent.h"
 #include <QStandardPaths>
 #include <KLocalizedString>
 #include <QDebug>
@@ -41,6 +35,12 @@
 #ifndef KSTARS_LITE
 #include <KMessageBox>
 #endif
+#include "ksparser.h"
+#include "catalogdata.h"
+#include "catalogentrydata.h"
+#include "starobject.h"
+#include "deepskyobject.h"
+#include "skycomponent.h"
 
 /* Some notes about the database. (skycomponents.sqlite)
  * 1) The uid for Object Designation is the uid being used by objects in KStars

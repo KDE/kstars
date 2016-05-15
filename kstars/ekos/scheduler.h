@@ -197,6 +197,8 @@ protected slots:
      void saveAs();
      void load();
 
+     void resetJobState(QModelIndex i);
+
      //void resetJobEdit();
 
      /**
@@ -528,6 +530,7 @@ private:
     uint8_t focusFailureCount;      // Keep track of Ekos focus module failures
     uint8_t guideFailureCount;      // Keep track of Ekos guide module failures
     uint8_t alignFailureCount;      // Keep track of Ekos align module failures
+    uint8_t captureFailureCount;    // Keep track of Ekos capture module failures
 
     QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
     QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready

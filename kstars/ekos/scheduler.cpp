@@ -97,6 +97,7 @@ Scheduler::Scheduler()
     focusFailureCount=0;
     guideFailureCount=0;
     alignFailureCount=0;
+    captureFailureCount=0;
 
     noWeatherCounter=0;
 
@@ -172,6 +173,7 @@ Scheduler::Scheduler()
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
     connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
     connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
+    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
     //connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
@@ -558,6 +560,30 @@ void Scheduler::saveJob()
     watchJobChanges(true);
 }
 
+void Scheduler::resetJobState(QModelIndex i)
+{
+    if (state == SCHEDULER_RUNNIG)
+    {
+        appendLogText(i18n("You cannot reset a job while the scheduler is running."));
+        return;
+    }
+
+    SchedulerJob *job = jobs.at(i.row());
+    if (job == NULL)
+        return;
+
+    job->setState(SchedulerJob::JOB_IDLE);
+    job->setStage(SchedulerJob::STAGE_IDLE);
+
+    if (job->getFileStartupCondition() != SchedulerJob::START_AT)
+       queueTable->item(i.row(), 2)->setText(QString());
+
+    if (job->getCompletionCondition() != SchedulerJob::FINISH_AT)
+       queueTable->item(i.row(), 3)->setText(QString());
+
+    appendLogText(i18n("Job %1 status is reset.", job->getName()));
+}
+
 void Scheduler::loadJob(QModelIndex i)
 {
     if (state == SCHEDULER_RUNNIG)
@@ -572,8 +598,8 @@ void Scheduler::loadJob(QModelIndex i)
 
     watchJobChanges(false);
 
-    job->setState(SchedulerJob::JOB_IDLE);
-    job->setStage(SchedulerJob::STAGE_IDLE);
+    //job->setState(SchedulerJob::JOB_IDLE);
+    //job->setStage(SchedulerJob::STAGE_IDLE);
 
     nameEdit->setText(job->getName());
 
@@ -809,6 +835,7 @@ void Scheduler::stop()
     focusFailureCount=0;
     guideFailureCount=0;
     alignFailureCount=0;
+    captureFailureCount=0;
     jobEvaluationOnly=false;
     loadAndSlewProgress=false;
     autofocusCompleted=false;
@@ -1374,7 +1401,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
                 if (rawFrac > earlyDawn && rawFrac < Dawn)
                 {
-                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proximity to dawn.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
+                    appendLogText(i18n("%1 reaches an altitude of %2 degrees at %3 but will not be scheduled due to close proximity to astronomical twilight rise.", job->getName(), QString::number(minAltitude,'g', 3), startTime.toString()));
                     return false;
                 }
 
@@ -1723,13 +1750,13 @@ void Scheduler::calculateDawnDusk()
     duskDateTime.setDate(KStars::Instance()->data()->lt().date());
     duskDateTime.setTime(dusk);
 
-    appendLogText(i18n("Dawn is at %1, Dusk is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
+    appendLogText(i18n("Astronomical twilight rise is at %1, set is at %2, and current time is %3", dawn.toString(), dusk.toString(), now.toString()));
 
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
-    if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
+    if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
         QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
         QList<QVariant> dbusargs;
@@ -2371,7 +2398,8 @@ void Scheduler::checkJobStage()
              // If either mount or dome are not parked, we shutdown if we approach dawn
              if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
              {
-                 appendLogText(i18n("Approaching dawn limit %1, aborting all jobs...", preDawnDateTime.toString()));
+                 // Minute is a DOUBLE value, do not use i18np
+                 appendLogText(i18n("Approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), aborting all jobs...", preDawnDateTime.toString(), Options::preDawnTime()));
 
                  currentJob->setState(SchedulerJob::JOB_ABORTED);
                  stopCurrentJobAction();
@@ -2626,7 +2654,7 @@ void Scheduler::checkJobStage()
         QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
 
         if (Options::verboseLogging())
-            qDebug() << "Scheduler: Calibration stage...";
+            qDebug() << "Scheduler: Calibration & Guide stage...";
 
         if (guideReply.error().type() == QDBusError::UnknownObject)
         {
@@ -2697,6 +2725,21 @@ void Scheduler::checkJobStage()
          if(captureReply.value().toStdString()=="Aborted" || captureReply.value().toStdString()=="Error")
          {
              appendLogText(i18n("%1 capture failed!", currentJob->getName()));
+
+             // If capture failed due to guiding error, let's try to restart that
+             if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+             {
+                 // Check if it is guiding related.
+                 QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isGuiding");
+                 // If guiding failed, let's restart it
+                 if(guideReply.value() == false)
+                 {
+                    appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
+                    currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
+                    return;
+                 }
+             }
+
              currentJob->setState(SchedulerJob::JOB_ERROR);
 
              findNextJob();
@@ -3723,8 +3766,13 @@ void    Scheduler::parkMount()
 
     if (status != Mount::PARKING_OK)
     {
-        mountInterface->call(QDBus::AutoDetect,"park");
-        appendLogText(i18n("Parking mount..."));
+        if (status == Mount::PARKING_BUSY)
+            appendLogText(i18n("Parking mount in progress..."));
+        else
+        {
+            mountInterface->call(QDBus::AutoDetect,"park");
+            appendLogText(i18n("Parking mount..."));
+        }
 
         if (shutdownState == SHUTDOWN_PARK_MOUNT)
                 shutdownState = SHUTDOWN_PARKING_MOUNT;
@@ -3751,9 +3799,13 @@ void    Scheduler::unParkMount()
 
     if (status != Mount::UNPARKING_OK)
     {
-        mountInterface->call(QDBus::AutoDetect,"unpark");
-
-        appendLogText(i18n("Unparking mount..."));
+        if (status == Mount::UNPARKING_BUSY)
+            appendLogText(i18n("Unparking mount in progress..."));
+        else
+        {
+            mountInterface->call(QDBus::AutoDetect,"unpark");
+            appendLogText(i18n("Unparking mount..."));
+        }
 
         if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;

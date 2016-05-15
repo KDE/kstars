@@ -474,6 +474,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="queueTable">
+          <property name="toolTip">
+           <string>Job scheduler list. Click to edit a job. Double click to reset a job status.</string>
+          </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::SingleSelection</enum>
           </property>
@@ -1148,13 +1151,19 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="constraintButtonGroup">
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="startupProcedureButtonGroup">
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
@@ -1164,11 +1173,5 @@
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="completionButtonGroup"/>
  </buttongroups>
 </ui>

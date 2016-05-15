@@ -19,10 +19,9 @@
 #include "flagcomponent.h"
 
 #include <QtMath>
+#include <QDir>
 #include <QStandardPaths>
 
-#include <KJob>
-#include <KFileItem>
 #include <KLocalizedString>
 
 #include "Options.h"
@@ -31,7 +30,7 @@
 #include "skyobjects/skypoint.h"
 #include "ksfilereader.h"
 #include "skypainter.h"
-#include "kstars/projections/projector.h"
+#include "projections/projector.h"
 
 FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
@@ -41,14 +40,21 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     m_Images.append( QImage() );
     m_Names.append( i18n( "Default" ) );
     m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
-    QUrl dir = QUrl( QStandardPaths::writableLocation(QStandardPaths::DataLocation)) ;
-    dir.setScheme("file");
-    // List user's directory
-    m_Job = KIO::listDir( dir, KIO::HideProgressInfo, false) ;
-    connect( m_Job,SIGNAL( entries(KIO::Job*, const KIO::UDSEntryList& ) ),
-            SLOT( slotLoadImages( KIO::Job*, const KIO::UDSEntryList& ) ) );
-    connect( m_Job, SIGNAL( result( KJob * ) ), this, SLOT( slotInit( KJob * ) ) );
-    m_Job->start();
+
+    QDir appDir( QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    appDir.setNameFilters(QStringList() << "flag*");
+    // Add all other images found in user appdata directory
+    foreach( QString item, appDir.entryList())
+    {
+      QString fileName = item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"),   QString()).replace('_',' ');
+      m_Names.append( fileName );
+
+      // FIXME need to append path??!
+      m_Images.append( QImage( item ));
+      //m_Images.append( QImage( item.localPath() ));
+    }
+
+    loadFromFile();
 }
 
 
@@ -202,32 +208,6 @@ void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, Q
     m_Labels.replace( index, label );
     m_LabelColors.replace( index, labelColor );
 }
-
-void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
-    // Add all other images found in user appdata directory
-    foreach( KIO::UDSEntry entry, list) {
-        KFileItem item(entry, m_Job->url(), false, true);
-        if( item.name().startsWith( "flag" ) ) {
-            QString fileName = item.name()
-                .replace(QRegExp("\\.[^.]*$"), QString())
-                .replace(QRegExp("^flag"),   QString())
-                .replace('_',' ');
-            m_Names.append( fileName );
-            m_Images.append( QImage( item.localPath() ));
-        }
-    }
-}
-
-void FlagComponent::slotInit( KJob *job ) {
-    Q_UNUSED (job)
-
-    loadFromFile();
-
-    // Redraw Skymap
-    //FIXME JM: SkyMap is not initialized yet, this is causing SIGSEGV.
-    //SkyMap::Instance()->forceUpdate(false);
-}
-
 
 QStringList FlagComponent::getNames() {
     return m_Names;

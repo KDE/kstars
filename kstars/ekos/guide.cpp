@@ -54,12 +54,17 @@ Guide::Guide() : QWidget()
     darkImage = NULL;
     AODriver= NULL;
     GuideDriver=NULL;
+    calibration=NULL;
+    guider=NULL;
 
     guideDeviationRA = guideDeviationDEC = 0;
 
     tabWidget = new QTabWidget(this);
 
     tabLayout->addWidget(tabWidget);
+
+    exposureIN->setValue(Options::guideExposure());
+    connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
 
     pmath = new cgmath();
 
@@ -71,7 +76,7 @@ Guide::Guide() : QWidget()
     guider = new rguider(pmath, this);
 
     connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
-    connect(guider, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
+    connect(guider, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
     connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));   
 
     tabWidget->addTab(calibration, calibration->windowTitle());
@@ -89,8 +94,8 @@ Guide::Guide() : QWidget()
     connect(phd2, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
     connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
     connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
-    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), this, SIGNAL(autoGuidingToggled(bool,bool)));
-    connect(phd2, SIGNAL(autoGuidingToggled(bool,bool)), guider, SLOT(setGuideState(bool,bool)));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
+    connect(phd2, SIGNAL(autoGuidingToggled(bool)), guider, SLOT(setGuideState(bool)));
     connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
     connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 
@@ -465,7 +470,6 @@ void Guide::newFITS(IBLOB *bp)
         if (targetImage)
         {
             delete (darkImage);
-
             darkImage = targetImage->getImageData();
 
             // Save dark frame in the library
@@ -846,11 +850,14 @@ bool Guide::isGuiding()
 }
 
 bool Guide::startGuiding()
-{
-    if (Options::useEkosGuider())
+{    
+    // This will handle both internal and external guiders
+    return guider->start();
+
+    /*if (Options::useEkosGuider())
         return guider->start();
     else
-        return phd2->startGuiding();
+        return phd2->startGuiding();*/
 }
 
 bool Guide::stopGuiding()
@@ -1032,7 +1039,6 @@ bool Guide::loadDarkFrame(double exposure)
 {
     QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(exposure, 'f', 2));
     QString path     = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + filename;
-
     if (darkImage == NULL)
         darkImage = new FITSData();
 
@@ -1048,6 +1054,20 @@ void Guide::saveDarkFrame()
         appendLogText(i18n("Saved new dark frame %1 to library.", path));
     else
         appendLogText(i18n("Failed to save dark frame to library!"));
+}
+
+void Guide::setUseDarkFrame(bool enable)
+{
+    useDarkFrame = enable;
+
+    if (enable && calibration && calibration->useAutoStar())
+        appendLogText(i18n("Warning: In auto mode, you will not be asked to cover cameras unequipped with shutters in order to capture a dark frame. The dark frame capture will proceed without warning."
+                           " You can capture dark frames with auto mode off and they shall be saved in the dark library for use when ever needed."));
+}
+
+void Guide::saveDefaultGuideExposure()
+{
+    Options::setGuideExposure(exposureIN->value());
 }
 
 }

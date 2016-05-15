@@ -433,7 +433,7 @@ void KStars::slotWISettings()
     connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
 
     m_WISettings = new WILPSettings(this);
-    m_WIEquipmentSettings = new WIEquipSettings(this);
+    m_WIEquipmentSettings = new WIEquipSettings();
     dialog->addPage(m_WISettings, i18n("Light Pollution Settings"));
     dialog->addPage(m_WIEquipmentSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
     dialog->show();
@@ -454,13 +454,16 @@ void KStars::slotShowWIView(int status)
      * aperture of the equipment whichever available. However this is kept as a part of
      * the code as support to be utilised in the future.
      */
-    ObsConditions::Equipment equip = Options::noEquipCheck()
-    ? (ObsConditions::None) : (Options::telescopeCheck()
-    ? (Options::binocularsCheck() ? ObsConditions::Both : ObsConditions::Telescope)
-    : (Options::binocularsCheck() ? ObsConditions::Binoculars : ObsConditions::None));
+    ObsConditions::Equipment equip = ObsConditions::None;
 
-    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope)
-                                           ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
+    if (Options::telescopeCheck() && Options::binocularsCheck())
+        equip = ObsConditions::Both;
+    else if (Options::telescopeCheck())
+        equip = ObsConditions::Telescope;
+    else if (Options::binocularsCheck())
+        equip = ObsConditions::Binoculars;
+
+    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope) ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
 
     int aperture = m_WIEquipmentSettings->getAperture();
 
@@ -842,9 +845,18 @@ void KStars::slotRunScript() {
 
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
-    QString fname;
+    //QString fname;
 
-    if ( fileURL.isValid() ) {
+    if ( fileURL.isValid() )
+    {
+
+        if (fileURL.isLocalFile() == false)
+        {
+            KMessageBox::sorry(0, i18n("Executing remote scripts is not supported."));
+            return;
+        }
+
+        /*
         if ( ! fileURL.isLocalFile() )
         {
             //Warn the user about executing remote code.
@@ -905,11 +917,13 @@ void KStars::slotRunScript() {
                 return;
             }
         }
+        */
 
         //Damn the torpedos and full speed ahead, we're executing the script!
         QTemporaryFile tmpfile;
         tmpfile.open();
 
+        /*
         if ( ! fileURL.isLocalFile() )
         {
             fname = tmpfile.fileName();
@@ -923,7 +937,9 @@ void KStars::slotRunScript() {
             }
         } else {
             f.setFileName( fileURL.toLocalFile() );
-        }
+        }*/
+
+        f.setFileName( fileURL.toLocalFile() );
 
         if ( !f.open( QIODevice::ReadOnly) )
         {

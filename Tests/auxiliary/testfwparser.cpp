@@ -18,7 +18,7 @@
 #include "testfwparser.h"
 
 #include <QDir>
-#include <ktemporaryfile.h>
+#include <QTemporaryFile>
 
 TestFWParser::TestFWParser(): QObject() {
 }
@@ -30,9 +30,9 @@ void TestFWParser::initTestCase() {
     "                                                               \n");
   test_cases_.append("this is an ex\n\n");
 
-  KTemporaryFile temp_file;
-  temp_file.setPrefix(QDir::tempPath() + "/");
-  temp_file.setSuffix(".txt");
+  QTemporaryFile temp_file;
+  //temp_file.setPrefix(QDir::tempPath() + QDir::separator());
+  //temp_file.setSuffix(".txt");
   temp_file.setAutoRemove(false);
   QVERIFY(temp_file.open());
   test_file_name_ = temp_file.fileName();
@@ -176,9 +176,6 @@ void TestFWParser::FWReadMissingFile()
   }
 }
 
-
-
 QTEST_MAIN(TestFWParser)
 
-#include "testfwparser.moc"
 

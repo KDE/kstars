@@ -1158,7 +1158,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     QSqlQuery query(userdb_);
 
     // Clear data
-    if (!query.exec(QString("UPDATE profile SET name=null,host=null,port=null,city=null,province=null,country=null WHERE id=%1").arg(pi->id)))
+    if (!query.exec(QString("UPDATE profile SET host=null,port=null,city=null,province=null,country=null WHERE id=%1").arg(pi->id)))
         qDebug() << query.lastQuery() << query.lastError().text();
 
     // Update Name

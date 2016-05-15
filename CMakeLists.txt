@@ -22,7 +22,7 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport)
 
 include(KDEInstallDirs)
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -49,15 +49,13 @@ else(BUILD_KSTARS_LITE)
       KIO
       XmlGui
       Plotting
-      IconThemes
+      #IconThemes
     )
 endif(BUILD_KSTARS_LITE)
 
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR})
-
-#PyKDE4 Package TODO? Is there KF5 Package?
 
 find_package(CFitsio)
 if (CFITSIO_FOUND)
@@ -113,8 +111,6 @@ endif()
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexceptions)
 
-enable_testing(true)
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
@@ -124,20 +120,13 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
 # let our config.h be found first in any case
 include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 
-# FIXME should we explicitly include it?
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
-# FIXME Enable Tests later!
-#add_subdirectory(Tests)
+enable_testing(true)
+add_subdirectory(Tests)
 
 install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
-
-#if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-#   macro_display_feature_log()
-#endif (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

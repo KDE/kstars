@@ -22,7 +22,7 @@
 #include "printingwizard.h"
 #include "dialogs/finddialog.h"
 #include "pwizobjectselection.h"
-#include "kstars/kstarsdata.h"
+#include "kstarsdata.h"
 #include "dialogs/detaildialog.h"
 
 PWizFovShUI::PWizFovShUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),

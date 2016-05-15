@@ -125,10 +125,6 @@ EkosManager::EkosManager()
 
     // INDI Control Panel
     connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
-
-    // Show Ekos Options
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    connect(a, SIGNAL(changed()), this, SLOT(checkFITSViewerState()));
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
 
     // Clear Ekos Log
@@ -2725,7 +2721,7 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(newAxisDelta(double,double)), captureProcess, SLOT(setGuideDeviation(double,double)));
 
         // Dithering
-        connect(guideProcess, SIGNAL(autoGuidingToggled(bool,bool)), captureProcess, SLOT(setAutoguiding(bool,bool)));
+        connect(guideProcess, SIGNAL(autoGuidingToggled(bool)), captureProcess, SLOT(setAutoguiding(bool)));
         connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
         connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(abort()));
         connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));        

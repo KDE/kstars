@@ -596,6 +596,97 @@ if(BUILD_KSTARS_LITE)
     ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
 endif(BUILD_KSTARS_LITE)
 
+set(kstars_extra_SRCS
+        auxiliary/colorscheme.cpp
+        auxiliary/dms.cpp
+        auxiliary/fov.cpp
+        auxiliary/geolocation.cpp
+        auxiliary/imageviewer.cpp
+        auxiliary/ksfilereader.cpp
+        auxiliary/ksuserdb.cpp
+        auxiliary/thumbnailpicker.cpp
+        auxiliary/thumbnaileditor.cpp
+        auxiliary/binfilehelper.cpp
+        auxiliary/imageexporter.cpp
+        auxiliary/ksutils.cpp
+        auxiliary/ksdssimage.cpp
+        auxiliary/ksdssdownloader.cpp
+        auxiliary/kswizard.cpp
+        auxiliary/qcustomplot.cpp
+        auxiliary/profileinfo.cpp
+        auxiliary/filedownloader.cpp
+        time/simclock.cpp
+        time/kstarsdatetime.cpp
+        time/timezonerule.cpp
+        kstarsdbus.cpp
+        ksnumbers.cpp
+        kspopupmenu.cpp
+        ksalmanac.cpp
+        kstarsactions.cpp
+        kstarsdata.cpp
+        kstarsinit.cpp
+        kstars.cpp
+        kstarssplash.cpp
+        skymap.cpp
+        skymapdrawabstract.cpp
+        skymapqdraw.cpp
+        skymapevents.cpp
+        skypainter.cpp
+        skyqpainter.cpp
+	texturemanager.cpp		
+)
+
+set(oal_SRCS
+    oal/log.cpp
+    oal/observer.cpp
+    oal/site.cpp
+    oal/session.cpp
+    oal/scope.cpp
+    oal/eyepiece.cpp
+    oal/filter.cpp
+    oal/observation.cpp
+    oal/lens.cpp
+    oal/equipmentwriter.cpp
+    oal/observeradd.cpp
+    oal/execute.cpp
+)
+
+set(printing_SRCS
+    printing/detailstable.cpp
+    printing/finderchart.cpp
+    printing/foveditordialog.cpp
+    printing/fovsnapshot.cpp
+    printing/kstarsdocument.cpp
+    printing/legend.cpp
+    printing/loggingform.cpp
+    printing/printingwizard.cpp
+    printing/pwizchartconfig.cpp
+    printing/pwizchartcontents.cpp
+    printing/pwizfovbrowse.cpp
+    printing/pwizfovconfig.cpp
+    printing/pwizfovmanual.cpp
+    printing/pwizfovsh.cpp
+    printing/pwizfovtypeselection.cpp
+    printing/pwizobjectselection.cpp
+    printing/pwizprint.cpp
+    printing/shfovexporter.cpp
+    printing/simplefovexporter.cpp
+)
+
+set(printingui_SRCS
+    printing/foveditordialog.ui
+    printing/pwizchartconfig.ui
+    printing/pwizchartcontents.ui
+    printing/pwizfovbrowse.ui
+    printing/pwizfovconfig.ui
+    printing/pwizfovmanual.ui
+    printing/pwizfovsh.ui
+    printing/pwizfovtypeselection.ui
+    printing/pwizobjectselection.ui
+    printing/pwizprint.ui
+    printing/pwizwelcome.ui
+)
+
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
         ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
         ${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
@@ -635,8 +726,6 @@ ki18n_wrap_ui(kstars_SRCS
        skycomponents/notifyupdatesui.ui
 )
 
-#FIXME We need to port this
-#kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
 add_executable(kstars main.cpp)
 add_library( KStarsLib STATIC ${kstars_SRCS})
 # FIXME TODO
@@ -666,9 +755,7 @@ else(BUILD_KSTARS_LITE)
             KF5::KIOFileWidgets
             KF5::WidgetsAddons
             KF5::Plotting
-    #        KF5::TextEditor
-    #        KF5::DBusAddons
-            KF5::IconThemes
+            #KF5::IconThemes
             Qt5::Gui
             Qt5::PrintSupport
             Qt5::Sql
@@ -678,7 +765,6 @@ else(BUILD_KSTARS_LITE)
             ${ZLIB_LIBRARIES}
             )
 endif(BUILD_KSTARS_LITE)
-
 if(NOT WIN32)
   target_link_libraries(KStarsLib m)
 endif(NOT WIN32)

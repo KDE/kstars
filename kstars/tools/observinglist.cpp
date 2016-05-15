@@ -221,6 +221,13 @@ ObservingList::ObservingList()
     ui->DeleteImage->setEnabled( false );
     ui->OALExport->setEnabled( false );
 
+    QFile file;
+    if ( KSUtils::openDataFile( file, "noimage.png" ) )
+    {
+        file.close();
+        m_NoImagePixmap = QPixmap(file.fileName()).scaledToHeight(ui->ImagePreview->width());
+    }
+
     slotLoadWishList(); //Load the wishlist from disk if present
     m_CurrentObject = 0;
     setSaveImagesButton();
@@ -363,6 +370,9 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             session = true;
     }
 
+    // Remove from hash
+    ImagePreviewHash.remove(o);
+
     QStandardItemModel *currentModel;
 
     int k;
@@ -443,7 +453,8 @@ void ObservingList::slotNewSelection() {
     singleSelection = false;
     noSelection = false;
     showScope = false;
-    ui->ImagePreview->clearPreview();
+    //ui->ImagePreview->clearPreview();
+    //ui->ImagePreview->setPixmap(QPixmap());
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     QModelIndexList selectedItems;
     QString newName;
@@ -471,11 +482,11 @@ void ObservingList::slotNewSelection() {
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
         #ifdef HAVE_INDI
             showScope = true;
-        #endif
-        setDefaultImage();
-        if ( found ) {
+        #endif        
+        if ( found )
+        {
             m_CurrentObject = o;
-            QPoint pos(0,0);
+            //QPoint pos(0,0);
             plot( o );
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
@@ -515,10 +526,17 @@ void ObservingList::slotNewSelection() {
             }
             else
                 ImagePath = QString();
-            if( !ImagePath.isEmpty() ) {//If the image is present, show it!
+            if( !ImagePath.isEmpty() )
+            {
+                //If the image is present, show it!
                 KSDssImage ksdi( ImagePath );
                 KSDssImage::Metadata md = ksdi.getMetadata();
-                ui->ImagePreview->showPreview( QUrl::fromLocalFile( ksdi.getFileName() ) );
+                //ui->ImagePreview->showPreview( QUrl::fromLocalFile( ksdi.getFileName() ) );
+                if (ImagePreviewHash.contains(o) == false)
+                    ImagePreviewHash[o] = QPixmap(ksdi.getFileName()).scaledToHeight(ui->ImagePreview->width());
+
+                //ui->ImagePreview->setPixmap(QPixmap(ksdi.getFileName()).scaledToHeight(ui->ImagePreview->width()));
+                ui->ImagePreview->setPixmap(ImagePreviewHash[o]);
                 if( md.width != 0 ) {// FIXME: Need better test for meta data presence
                     ui->dssMetadataLabel->setText( i18n( "DSS Image metadata: \n Size: %1\' x %2\' \n Photometric band: %3 \n Version: %4",
                                                          QString::number( md.width ), QString::number( md.height ), QString() + md.band, md.version ) );
@@ -529,8 +547,14 @@ void ObservingList::slotNewSelection() {
                 ui->DeleteImage->setEnabled( true );
             }
             else
+            {
+                setDefaultImage();
                 ui->dssMetadataLabel->setText( i18n( "No image available. Click on the placeholder image to download one." ) );
-        } else {
+            }
+        }
+        else
+        {
+            setDefaultImage();
             qDebug() << "Object " << newName << " not found in list.";
         }
     } else {
@@ -708,7 +732,7 @@ void ObservingList::slotClose() {
     saveCurrentUserLog();
     ui->avt->removeAllPlotObjects();
     slotNewSelection();
-    saveCurrentList();
+    saveCurrentList();    
     hide();
 }
 
@@ -966,7 +990,7 @@ void ObservingList::slotToggleSize() {
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
-        ui->kseparator->hide();
+        //ui->kseparator->hide();
         ui->avt->hide();
         ui->dssMetadataLabel->hide();
         ui->setMinimumSize(320, 600);
@@ -1011,7 +1035,7 @@ void ObservingList::slotToggleSize() {
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();
-        ui->kseparator->show();
+        //ui->kseparator->show();
         ui->setMinimumSize(837, 650);
         ui->avt->show();
         ui->dssMetadataLabel->show();
@@ -1082,7 +1106,8 @@ void ObservingList::slotSetTime() {
 
 void ObservingList::slotCustomDSS() {
     ui->SearchImage->setEnabled( false );
-    ui->ImagePreview->clearPreview();
+    //ui->ImagePreview->clearPreview();
+    ui->ImagePreview->setPixmap(QPixmap());
 
     KSDssImage::Metadata md;
     bool ok = true;
@@ -1107,11 +1132,12 @@ void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     if( !o )
         o = currentObject();
     ui->SearchImage->setEnabled( false );
-    ui->ImagePreview->clearPreview();
+    //ui->ImagePreview->clearPreview();
+    ui->ImagePreview->setPixmap(QPixmap());
     if( ! QFile::exists( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage ) )
         setCurrentImage( o );
     QFile::remove( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage ) ;
-    QUrl url;
+    //QUrl url;
     dss = true;
     qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
     KSDssDownloader *dler = new KSDssDownloader( o, QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage );
@@ -1134,7 +1160,8 @@ void ObservingList::downloadReady( bool success ) {
           //The default image is around 8689 bytes
         */
         CurrentImagePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage;
-        ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
+        //ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
+        ui->ImagePreview->setPixmap(QPixmap(CurrentImagePath).scaledToHeight(ui->ImagePreview->width()));
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1206,10 +1233,14 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
 
 }
 
-void ObservingList::slotImageViewer() {
-    ImageViewer *iv = 0;
+void ObservingList::slotImageViewer()
+{
+    QPointer<ImageViewer> iv;
     if( QFile::exists( CurrentImagePath ) )
-        iv = new ImageViewer( CurrentImagePath, this );
+    {
+        QUrl url = QUrl::fromLocalFile(CurrentImagePath);
+        iv = new ImageViewer( url );
+    }
 
     if( iv )
         iv->show();
@@ -1225,7 +1256,8 @@ void ObservingList::slotDeleteAllImages() {
     //Clear the selection in the Tables
     ui->TableView->clearSelection();
     ui->SessionView->clearSelection();
-    ui->ImagePreview->clearPreview();
+    //ui->ImagePreview->clearPreview();
+    ui->ImagePreview->setPixmap(QPixmap());
     QDirIterator iterator( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "" ) ;
     while( iterator.hasNext() )
     {
@@ -1298,13 +1330,16 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
 void ObservingList::slotSearchImage() {
     QPixmap *pm = new QPixmap;
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
-    if ( tp->exec() == QDialog::Accepted ) {
+    if ( tp->exec() == QDialog::Accepted )
+    {
+        CurrentImagePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + CurrentImage;
         QFile f( CurrentImagePath );
 
         //If a real image was set, save it.
         if ( tp->imageFound() ) {
             tp->image()->save( f.fileName(), "PNG" );
-            ui->ImagePreview->showPreview( QUrl::fromLocalFile( f.fileName() ) );
+            //ui->ImagePreview->showPreview( QUrl::fromLocalFile( f.fileName() ) );
+            ui->ImagePreview->setPixmap(QPixmap(f.fileName() ).scaledToHeight(ui->ImagePreview->width()));
             saveThumbImage();
             slotNewSelection();
         }
@@ -1314,6 +1349,7 @@ void ObservingList::slotSearchImage() {
 
 void ObservingList::slotDeleteCurrentImage() {
     QFile::remove( CurrentImagePath );
+    ImagePreviewHash.remove(m_CurrentObject);
     slotNewSelection();
 }
 
@@ -1378,13 +1414,9 @@ void ObservingList::selectObject( const SkyObject *o ) {
     }
 }
 
-void ObservingList::setDefaultImage() {
-    QFile file;
-    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-        file.close();
-        ui->ImagePreview->showPreview( QUrl::fromLocalFile( file.fileName() ) );
-    } else
-        ui->ImagePreview->hide();
+void ObservingList::setDefaultImage()
+{
+    ui->ImagePreview->setPixmap(m_NoImagePixmap);
 }
 
 QString ObservingList::getObjectName(const SkyObject *o, bool translated)
