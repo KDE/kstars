@@ -20,12 +20,13 @@
 
 #include <QList>
 
-#include <kio/job.h>
+//#include <kio/job.h>
 
 #include "skycomponent.h"
 #include "satellitegroup.h"
 
 class Satellite;
+class FileDownloader;
 
 /**
 	*@class SatellitesComponent
@@ -104,6 +105,7 @@ public:
 
 protected:
     virtual void drawTrails( SkyPainter* skyp );
+
 
 private:
     QList<SatelliteGroup*> m_groups;    // List of all groups

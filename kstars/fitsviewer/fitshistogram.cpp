@@ -30,7 +30,7 @@
 
 #include <QUndoStack>
 #include <QDebug>
-#include <klineedit.h>
+//#include <klineedit.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 

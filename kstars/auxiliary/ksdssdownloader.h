@@ -22,13 +22,12 @@
 
 #include "ksdssimage.h"
 
-#include <KIO/Job>
-
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QTemporaryFile>
 
+class FileDownloader;
 class SkyPoint;
 class dms;
 
@@ -45,7 +44,7 @@ class dms;
 
 class KSDssDownloader : public QObject {
 
-    Q_OBJECT;
+    Q_OBJECT
 
  public:
 
@@ -118,6 +117,7 @@ class KSDssDownloader : public QObject {
  private slots:
      void downloadAttemptFinished();
      void singleDownloadFinished();
+     void downloadError(const QString &errorString);
 
  private:
      void startDownload( const SkyPoint * const p, const QString &destFileName );
@@ -129,7 +129,7 @@ class KSDssDownloader : public QObject {
      struct KSDssImage::Metadata m_AttemptData;
      QString m_FileName;
      QTemporaryFile m_TempFile;
-     KIO::Job *m_DownloadJob;
+     FileDownloader *downloadJob;
 
 };
 

@@ -438,6 +438,7 @@ set(kstars_extra_SRCS
         auxiliary/kswizard.cpp
         auxiliary/qcustomplot.cpp
         auxiliary/profileinfo.cpp
+        auxiliary/filedownloader.cpp
         time/simclock.cpp
         time/kstarsdatetime.cpp
         time/timezonerule.cpp

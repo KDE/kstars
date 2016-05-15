@@ -33,7 +33,7 @@
 #include <QStatusBar>
 
 #include <KJobUiDelegate>
-#include <KIO/CopyJob>
+//#include <KIO/CopyJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -92,8 +92,7 @@ ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
 ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *parent) :
     QDialog( parent ),
     m_ImageUrl(url),
-    fileIsImage(false),
-    downloadJob(0)
+    fileIsImage(false)
 {
     init(url.fileName(), capText);        
 
@@ -172,11 +171,13 @@ void ImageViewer::init(QString caption, QString capText)
 }
 
 ImageViewer::~ImageViewer() {
-    if ( downloadJob ) {
+    /*if ( downloadJob ) {
         // close job quietly, without emitting a result
         downloadJob->kill( KJob::Quietly );
         delete downloadJob;
-    }
+    }*/
+
+    QApplication::restoreOverrideCursor();
 }
 
 void ImageViewer::loadImageFromURL()
@@ -186,28 +187,42 @@ void ImageViewer::loadImageFromURL()
     if (!saveURL.isValid())
         qDebug()<<"tempfile-URL is malformed\n";
 
-    downloadJob = KIO::copy (m_ImageUrl, saveURL);	// starts the download asynchron
-    connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
+    //downloadJob = KIO::copy (m_ImageUrl, saveURL);	// starts the download asynchron
+    //connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    connect(&downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
+    connect(&downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+
+    downloadJob.get(m_ImageUrl);
 }
 
-void ImageViewer::downloadReady (KJob *job)
+void ImageViewer::downloadReady ()
 {
-    // set downloadJob to 0, but don't delete it - the job will be deleted automatically !!!
-    downloadJob = 0;
+    QApplication::restoreOverrideCursor();
 
-    if ( job->error() ) {
-        job->uiDelegate()->showErrorMessage();
-        close();        
-        return;
+    if (file.open(QFile::WriteOnly))
+    {
+        file.write(downloadJob.downloadedData());
+        file.close(); // to get the newest information from the file and not any information from opening of the file
+
+        if ( file.exists() )
+        {
+            showImage();
+            return;
+        }
+
+        close();
     }
+    else
+        KMessageBox::error(0, file.errorString(), i18n("Image Viewer"));
+}
 
-    file.close(); // to get the newest information from the file and not any information from opening of the file
-
-    if ( file.exists() ) {
-        showImage();
-        return;
-    }
-    close();
+void ImageViewer::downloadError(const QString &errorString)
+{
+    QApplication::restoreOverrideCursor();
+    KMessageBox::error(this, errorString);
 }
 
 bool ImageViewer::loadImage(const QString &filename)
@@ -291,13 +306,16 @@ void ImageViewer::saveFileToDisc()
     }
 }
 
-void ImageViewer::saveFile (QUrl &url) {
+void ImageViewer::saveFile (QUrl &url)
+{
     // synchronous access to prevent segfaults
 
     //if (!KIO::NetAccess::file_copy (QUrl (file.fileName()), url, (QWidget*) 0))
-    QUrl tmpURL((file.fileName()));
-    tmpURL.setScheme("file");
-    if (KIO::file_copy(tmpURL, url)->exec() == false)
+    //QUrl tmpURL((file.fileName()));
+    //tmpURL.setScheme("file");
+
+    if (file.copy(url.path()) == false)
+    //if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
         QString text = i18n ("Saving of the image %1 failed.", url.toString());
         KMessageBox::error (this, text);

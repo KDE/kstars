@@ -19,7 +19,7 @@
 #define FLAGCOMPONENT_H
 
 
-#include <kio/jobclasses.h>
+//#include <kio/jobclasses.h>
 
 #include "pointlistcomponent.h"
 #include "typedef.h"
@@ -158,11 +158,6 @@ private:
     QList<QColor>                   m_LabelColors;  /**< List of label colors            */
     QStringList                     m_Names;        /**< List of image names             */
     QList<QImage>                   m_Images;       /**< List of flag images             */
-    KIO::ListJob*                   m_Job;          /**< Used to list user's directory   */
-
-private slots:
-    void slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list );
-    void slotInit( KJob *job );
 };
 
 #endif

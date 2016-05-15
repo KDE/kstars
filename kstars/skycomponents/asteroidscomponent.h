@@ -18,12 +18,14 @@
 #ifndef ASTEROIDSCOMPONENT_H
 #define ASTEROIDSCOMPONENT_H
 
+#include <QList>
+#include <QPointer>
+
 #include "solarsystemlistcomponent.h"
 #include "ksparser.h"
-#include <QList>
 #include "typedef.h"
 
-class KJob;
+class FileDownloader;
 
 /** @class AsteroidsComponent
  * Represents the asteroids on the sky map.
@@ -31,8 +33,10 @@ class KJob;
  * @author Thomas Kabelmann
  * @version 0.1
  */
-class AsteroidsComponent: public SolarSystemListComponent
+class AsteroidsComponent: public QObject, public SolarSystemListComponent
 {
+    Q_OBJECT
+
 public:
     /** @short Default constructor.
      * @p parent pointer to the parent SolarSystemComposite
@@ -45,8 +49,14 @@ public:
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
     void updateDataFile();
     QString ans();
+
+protected slots:
+    void downloadReady();
+    void downloadError(const QString &errorString);
+
 private:
     void loadData();
+    FileDownloader* downloadJob;
 };
 
 #endif
