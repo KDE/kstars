@@ -23,7 +23,9 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "linelist.h"
 #include "dms.h"
 
@@ -98,8 +100,13 @@ bool HorizontalCoordinateGrid::selected()
     if ( Options::autoSelectGrid() )
         return( Options::useAltAz() );
     else
+#ifndef KSTARS_LITE
         return( Options::showHorizontalGrid() &&
             ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
+#else
+        return( Options::showHorizontalGrid() &&
+            ! ( Options::hideOnSlew() && Options::hideGrids() ) );
+#endif
 }
 
 void HorizontalCoordinateGrid::preDraw( SkyPainter* skyp )

@@ -30,7 +30,9 @@
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
 #include "skylabeler.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skypainter.h"
 #include "Options.h"
 #include "skyobjects/ksasteroid.h"
@@ -191,6 +193,8 @@ void AsteroidsComponent::loadData()
 
 void AsteroidsComponent::draw( SkyPainter *skyp )
 {
+    Q_UNUSED(skyp)
+#ifndef KSTARS_LITE
     if ( ! selected() ) return;
 
     bool hideLabels =  ! Options::showAsteroidNames() ||
@@ -224,6 +228,7 @@ void AsteroidsComponent::draw( SkyPainter *skyp )
             SkyLabeler::AddLabel( ast, SkyLabeler::ASTEROID_LABEL );
 
     }
+#endif
 }
 
 SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
@@ -278,15 +283,20 @@ void AsteroidsComponent::downloadReady()
 
     // Reload asteroids
     loadData();
-
+#ifdef KSTARS_LITE
+    KStarsLite::Instance();
+#else
     KStars::Instance()->data()->setFullTimeUpdate();
-
+#endif
     downloadJob->deleteLater();
 }
 
 void AsteroidsComponent::downloadError(const QString &errorString)
 {
+#ifndef KSTARS_LITE
     KMessageBox::error(0, i18n("Error downloading asteroids data: %1", errorString));
-
+#else
+    qDebug() << i18n("Error downloading asteroids data: %1", errorString);
+#endif
     downloadJob->deleteLater();
 }

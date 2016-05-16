@@ -28,7 +28,9 @@
 // these are just for the draw routine:
 #include <QPainter>
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 
 QMap<int, SkyMesh *> SkyMesh::pinstances;
 int SkyMesh::defaultLevel = -1;
@@ -339,7 +341,7 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
 // purpose. -- asimha
 void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
 {
-
+#ifndef KSTARS_LITE
     SkyMap*     map  = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
 
@@ -366,7 +368,7 @@ void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
         TrixelNumberString.setNum( trixel );
         psky.drawText( (q1 + q2 + q3 ) / 3.0, TrixelNumberString );
     }
-
+#endif
 }
 
 const SkyRegion& SkyMesh::skyRegion( const SkyPoint& _p1, const SkyPoint& _p2 )

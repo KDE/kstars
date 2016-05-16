@@ -23,7 +23,9 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+#ifndef KSTARS_LITE
 #include <KJobUiDelegate>
+#endif
 #include <KLocalizedString>
 
 #include "satellitegroup.h"
@@ -159,14 +161,22 @@ void SatellitesComponent::updateTLEs()
             }
             else
             {
+            #ifndef KSTARS_LITE
                 KMessageBox::error(0, file.errorString());
+            #else
+                qDebug() << file.errorString();
+            #endif
                 return;
             }
 
         }
         else
         {
-            KMessageBox::error(0, response->errorString());
+            #ifndef KSTARS_LITE
+                KMessageBox::error(0, response->errorString());
+            #else
+                qDebug() << response->errorString();
+            #endif
             return;
         }
     }

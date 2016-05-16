@@ -20,8 +20,8 @@
 #include <QDebug>
 #include <KLocalizedString>
 
-#include "kstars.h"
 #ifndef KSTARS_LITE
+#include "kstars.h"
 #include "simclockadaptor.h"
 #endif
 

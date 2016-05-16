@@ -88,7 +88,21 @@ public Q_SLOTS:
 
     /** DBUS function to set scale of simclock. */
     Q_SCRIPTABLE Q_NOREPLY void setClockScale(float s);
+    #else
+    // Define non-DBUS versions of functions above for use within KStarsLite
+    /** Function to stop the SimClock. */
+    void stop();
+
+    /** Function to start the SimClock. */
+    void start();
+
+    /** Function to set the time of the SimClock. */
+    void setUTC(const KStarsDateTime &newtime);
+
+    /** Function to set scale of simclock. */
+    void setClockScale(float s);
     #endif
+
     /** Respond to the QTimer::timeout signal */
     void tick();
 

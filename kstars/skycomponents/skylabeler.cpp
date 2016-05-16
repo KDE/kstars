@@ -24,7 +24,9 @@
 
 #include "Options.h"
 #include "kstarsdata.h"   // MINZOOM
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "projections/projector.h"
 
 //---------------------------------------------------------------------------//
@@ -210,6 +212,7 @@ void SkyLabeler::getMargins( const QString& text, float *left,
 
 void SkyLabeler::reset( SkyMap* skyMap )
 {
+#ifndef KSTARS_LITE
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
     // ----- Set up Painter -----
@@ -271,6 +274,7 @@ void SkyLabeler::reset( SkyMap* skyMap )
     for (int i = 0; i < labelList.size(); i++) {
         labelList[ i ].clear();
     }
+#endif
 }
 
 void SkyLabeler::draw(QPainter& p)

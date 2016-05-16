@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include "supernovaecomponent.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skypainter.h"
 #include "skymesh.h"
 #include "skylabeler.h"
@@ -198,6 +200,7 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
 void SupernovaeComponent::notifyNewSupernovae()
 {
+#ifndef KSTARS_LITE
     //qDebug()<<"New Supernovae discovered";
     QList<SkyObject*> latestList;
     foreach (SkyObject * so, latest)
@@ -221,6 +224,7 @@ void SupernovaeComponent::notifyNewSupernovae()
     }
 //     if (!latest.empty())
 //         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
+#endif
 }
 
 
@@ -253,9 +257,14 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
                 errmsg = i18n( "Python process that updates the supernova information failed with error code %1. This could likely be because the computer is not connected to the internet or because the server containing supernova information is not responding.", QString::number( exitCode ) );
                 break;
         }
+        #ifndef KSTARS_LITE
         if( KStars::Instance() && SkyMap::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
             KMessageBox::sorry( 0, errmsg, i18n("Supernova information update failed") );
         // FIXME: There should be a better way to check if KStars is fully initialized. Maybe we should have a static boolean in the KStars class. --asimha
+        #else
+        if( KStarsLite::Instance() && SkyMapLite::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
+            qDebug() << errmsg << i18n("Supernova information update failed");
+        #endif
     }
     else {
         //qDebug()<<"HERE";

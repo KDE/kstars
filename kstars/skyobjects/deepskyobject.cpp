@@ -29,7 +29,9 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "dms.h"
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 #include "Options.h"
 #include "skymap.h"
 #include "texturemanager.h"
@@ -77,7 +79,9 @@ DeepSkyObject* DeepSkyObject::clone() const
 }
 
 void DeepSkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifndef KSTARS_LITE
     pmenu->createDeepSkyObjectMenu( this );
+#endif
 }
 
 float DeepSkyObject::e() const {

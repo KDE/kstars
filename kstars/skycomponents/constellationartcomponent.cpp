@@ -18,7 +18,9 @@
 #include "constellationartcomponent.h"
 #include "constellationsart.h"
 #include "auxiliary/ksfilereader.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "culturelist.h"
 #include "projections/projector.h"
 
@@ -100,7 +102,7 @@ void ConstellationArtComponent::showList()
 }
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
-
+    #ifndef KSTARS_LITE
     if(Options::showConstellationArt() && SkyMap::IsSlewing() == false)
     {
          for(int i =0; i<records; i++)
@@ -108,4 +110,5 @@ void ConstellationArtComponent::draw(SkyPainter *skyp){
     }
 
     //Loops through the QList containing all data required to draw constellations.
+    #endif
 }

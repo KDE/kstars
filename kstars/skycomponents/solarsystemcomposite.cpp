@@ -25,7 +25,9 @@
 #include "skycomponent.h"
 
 #include "Options.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "skyobjects/ksplanet.h"
@@ -68,8 +70,13 @@ SolarSystemComposite::~SolarSystemComposite()
 
 bool SolarSystemComposite::selected()
 {
+#ifndef KSTARS_LITE
     return Options::showSolarSystem() &&
            !( Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing() );
+#else
+    return Options::showSolarSystem() &&
+           !( Options::hideOnSlew() && Options::hidePlanets() );
+#endif
 }
 
 void SolarSystemComposite::update( KSNumbers *num )

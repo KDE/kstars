@@ -22,6 +22,6 @@ add_library(LibKSDataHandlers STATIC ${LibKSDataHandlers_SRCS})
 if(BUILD_KSTARS_LITE)
     target_link_libraries(LibKSDataHandlers KF5::I18n Qt5::Sql Qt5::Core Qt5::Gui)
 else(BUILD_KSTARS_LITE)
-    target_link_libraries(LibKSDataHandlers KF5::WidgetsAddons  Qt5::Sql Qt5::Core Qt5::Gui)
+    target_link_libraries(LibKSDataHandlers KF5::WidgetsAddons KF5::I18n Qt5::Sql Qt5::Core Qt5::Gui)
 endif(BUILD_KSTARS_LITE)
 

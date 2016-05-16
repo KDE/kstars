@@ -21,6 +21,8 @@
 
 #include <QDebug>
 #include "typedef.h"
+//TODO Find a more appropriate place to include kstarslite.h
+#include "../kstarslite.h"
 
 class QString;
 

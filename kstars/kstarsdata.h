@@ -53,7 +53,18 @@ class FOV;
 class ObservingList;
 
 class TimeZoneRule;
-struct ADVTreeData;
+
+#ifdef KSTARS_LITE
+//Will go away when details window will be implemented in KStars Lite
+struct ADVTreeData
+{
+    QString Name;
+    QString Link;
+    int Type;
+};
+#else
+class ADVTreeData;
+#endif
 
 
 /** @class KStarsData
@@ -340,8 +351,8 @@ private:
     KSUserDB m_ksuserdb;
     CatalogDB m_catalogdb;
     ColorScheme CScheme;
-    ObservingList *m_ObservingList;
     #ifndef KSTARS_LITE
+    ObservingList *m_ObservingList;
     OAL::Log *m_LogObject;
     Execute *m_Execute;
     ImageExporter *m_ImageExporter;

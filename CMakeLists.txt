@@ -7,7 +7,6 @@ set (KStars_VERSION_REVISION 0)
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
 if(BUILD_KSTARS_LITE)
     add_definitions(-DKSTARS_LITE)
-    include_directories("/opt/android/kde/install/include/KF5")
 endif(BUILD_KSTARS_LITE)
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
@@ -124,8 +123,10 @@ add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
-enable_testing(true)
-add_subdirectory(Tests)
+if(NOT BUILD_KSTARS_LITE)
+    enable_testing(true)
+    add_subdirectory(Tests)
+endif(NOT BUILD_KSTARS_LITE)
 
 install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
 

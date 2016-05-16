@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include "imageviewer.h"
+#ifndef KSTARS_LITE
 #include "kstars.h"
+#endif
 
 #include <QFont>
 #include <QPainter>
@@ -32,16 +34,20 @@
 #include <QFileDialog>
 #include <QStatusBar>
 
+#ifndef KSTARS_LITE
+#include <KMessageBox>
 #include <KJobUiDelegate>
+#endif
 //#include <KIO/CopyJob>
 #include <KLocalizedString>
-#include <KMessageBox>
 
 ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 {
+    #ifndef KSTARS_LITE
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
     setFrameStyle( QFrame::StyledPanel | QFrame::Plain );
     setLineWidth( 2 );
+    #endif
 }
 
 ImageLabel::~ImageLabel()
@@ -49,18 +55,23 @@ ImageLabel::~ImageLabel()
 
 void ImageLabel::setImage( const QImage &img )
 {
+    #ifndef KSTARS_LITE
     m_Image = img;
     pix = QPixmap::fromImage(m_Image);
+    #endif
 }
 
 void ImageLabel::invertPixels()
 {
+    #ifndef KSTARS_LITE
     m_Image.invertPixels();
     pix = QPixmap::fromImage(m_Image.scaled(width(), height(), Qt::KeepAspectRatio));
+    #endif
 }
 
 void ImageLabel::paintEvent (QPaintEvent*)
 {
+    #ifndef KSTARS_LITE
     QPainter p;
     p.begin( this );
     int x = 0;
@@ -68,10 +79,12 @@ void ImageLabel::paintEvent (QPaintEvent*)
         x = (width() - pix.width())/2;
     p.drawPixmap( x, 0, pix );
     p.end();
+    #endif
 }
 
 void ImageLabel::resizeEvent(QResizeEvent *event)
 {
+    #ifndef KSTARS_LITE
     int w=pix.width();
     int h=pix.height();
 
@@ -79,6 +92,7 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
         return;
 
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio));
+    #endif
 }
 
 ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
@@ -86,7 +100,9 @@ ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
     fileIsImage(false),
     downloadJob(0)
 {
+    #ifndef KSTARS_LITE
     init(caption, QString());
+    #endif
 }
 
 ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *parent) :
@@ -94,6 +110,7 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
     m_ImageUrl(url),
     fileIsImage(false)
 {
+    #ifndef KSTARS_LITE
     init(url.fileName(), capText);        
 
     // check URL
@@ -113,10 +130,12 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
     }// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be show
 
     loadImageFromURL();
+    #endif
 }
 
 void ImageViewer::init(QString caption, QString capText)
 {
+    #ifndef KSTARS_LITE
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
     setWindowTitle( i18n( "KStars image viewer: %1", caption ) );
@@ -168,9 +187,11 @@ void ImageViewer::init(QString caption, QString capText)
     QFont capFont = m_Caption->font();
     capFont.setPointSize( capFont.pointSize() - 2 );
     m_Caption->setFont( capFont );
+    #endif
 }
 
 ImageViewer::~ImageViewer() {
+    #ifndef KSTARS_LITE
     /*if ( downloadJob ) {
         // close job quietly, without emitting a result
         downloadJob->kill( KJob::Quietly );
@@ -178,10 +199,12 @@ ImageViewer::~ImageViewer() {
     }*/
 
     QApplication::restoreOverrideCursor();
+    #endif
 }
 
 void ImageViewer::loadImageFromURL()
 {
+    #ifndef KSTARS_LITE
     QUrl saveURL = QUrl::fromLocalFile(file.fileName() );
 
     if (!saveURL.isValid())
@@ -196,10 +219,12 @@ void ImageViewer::loadImageFromURL()
     connect(&downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     downloadJob.get(m_ImageUrl);
+    #endif
 }
 
 void ImageViewer::downloadReady ()
 {
+    #ifndef KSTARS_LITE
     QApplication::restoreOverrideCursor();
 
     if (file.open(QFile::WriteOnly))
@@ -217,22 +242,29 @@ void ImageViewer::downloadReady ()
     }
     else
         KMessageBox::error(0, file.errorString(), i18n("Image Viewer"));
+    #endif
 }
 
 void ImageViewer::downloadError(const QString &errorString)
 {
+    #ifndef KSTARS_LITE
     QApplication::restoreOverrideCursor();
     KMessageBox::error(this, errorString);
+    #endif
 }
 
 bool ImageViewer::loadImage(const QString &filename)
 {
+    #ifndef KSTARS_LITE
     file.setFileName(filename);
     return showImage();
+    #endif
+    return false;
 }
 
 bool ImageViewer::showImage()
 {
+    #ifndef KSTARS_LITE
     QImage image;
 
     if( !image.load( file.fileName() ))
@@ -280,10 +312,13 @@ bool ImageViewer::showImage()
     update();
 
     return true;
+    #endif
+    return false;
 }
 
 void ImageViewer::saveFileToDisc()
 {
+#ifndef KSTARS_LITE
     QFileDialog dialog;
     dialog.selectFile(m_ImageUrl.fileName().remove(m_ImageUrl.path()));
     dialog.setFileMode(QFileDialog::AnyFile);
@@ -304,6 +339,7 @@ void ImageViewer::saveFileToDisc()
         }
         saveFile (newURL);
     }
+#endif
 }
 
 void ImageViewer::saveFile (QUrl &url)
@@ -318,16 +354,24 @@ void ImageViewer::saveFile (QUrl &url)
     //if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
         QString text = i18n ("Saving of the image %1 failed.", url.toString());
-        KMessageBox::error (this, text);
+        #ifndef KSTARS_LITE
+            KMessageBox::error (this, text);
+        #else
+            qDebug() << text;
+        #endif
     }
+    #ifndef KSTARS_LITE
     else
         KStars::Instance()->statusBar()->showMessage(i18n ("Saved image to %1", url.toString()));
+    #endif
 }
 
 void ImageViewer::invertColors() {
+    #ifndef KSTARS_LITE
     // Invert colors
     m_View->invertPixels();
     m_View->update();
+    #endif
 }
 
 

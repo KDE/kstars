@@ -4,7 +4,9 @@ add_subdirectory( htmesh )
 
 if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
 SET(HAVE_KF5WIT 1)
-add_subdirectory( tools/whatsinteresting/qml)
+if(NOT BUILD_KSTARS_LITE)
+    add_subdirectory( tools/whatsinteresting/qml)
+endif(NOT BUILD_KSTARS_LITE)
 else()
 SET(HAVE_KF5WIT 0)
 endif()
@@ -303,8 +305,6 @@ if(NOT BUILD_KSTARS_LITE)
         widgets/unitspinboxwidget.ui
     )
 
-    set( kstars_KCFG_SRCS Options.kcfgc )
-
     set(kstars_options_SRCS
       options/opsadvanced.cpp
       options/opscatalog.cpp
@@ -409,8 +409,7 @@ if(NOT BUILD_KSTARS_LITE)
     )
 endif(NOT BUILD_KSTARS_LITE)
 
-#Built for both KStars and KStars Lite
-
+set( kstars_KCFG_SRCS Options.kcfgc )
 set(libkstarscomponents_SRCS
    skycomponents/skylabeler.cpp
    skycomponents/highpmstarlist.cpp
@@ -453,8 +452,13 @@ set(libkstarscomponents_SRCS
    skycomponents/culturelist.cpp
    skycomponents/flagcomponent.cpp
    skycomponents/targetlistcomponent.cpp
-   skycomponents/notifyupdatesui.cpp
 )
+if(NOT BUILD_KSTARS_LITE)
+    set(libkstarscomponents_SRCS
+        ${libkstarscomponents_SRCS}
+        skycomponents/notifyupdatesui.cpp
+       )
+endif(NOT BUILD_KSTARS_LITE)
 
 set(kstars_skyobjects_SRCS
   skyobjects/constellationsart.cpp
@@ -488,82 +492,53 @@ set(kstars_projection_SRCS
     projections/equirectangularprojector.cpp
 )
 
-if(BUILD_KSTARS_LITE)
-    set(kstars_extra_SRCS
-            auxiliary/colorscheme.cpp
-            auxiliary/dms.cpp
-            auxiliary/fov.cpp
-            auxiliary/geolocation.cpp
-            auxiliary/imageviewer.cpp
-            auxiliary/ksfilereader.cpp
-            auxiliary/ksuserdb.cpp
-            auxiliary/thumbnailpicker.cpp
-            auxiliary/thumbnaileditor.cpp
-            auxiliary/binfilehelper.cpp
-            auxiliary/imageexporter.cpp
-            auxiliary/ksutils.cpp
-            auxiliary/ksdssimage.cpp
-            auxiliary/ksdssdownloader.cpp
-            auxiliary/kswizard.cpp
-            auxiliary/qcustomplot.cpp
-            auxiliary/profileinfo.cpp
-            time/simclock.cpp
-            time/kstarsdatetime.cpp
-            time/timezonerule.cpp
-            kstarsdbus.cpp
-            ksnumbers.cpp
-            kspopupmenu.cpp
-            ksalmanac.cpp
-            kstarsactions.cpp
-            kstarsdata.cpp
-            skymap.cpp
-            skymapdrawabstract.cpp
-            skymapqdraw.cpp
-            skymapevents.cpp
-            skypainter.cpp
-            skyqpainter.cpp
-            texturemanager.cpp
+set(kstars_extra_SRCS
+    auxiliary/colorscheme.cpp
+    auxiliary/dms.cpp
+    auxiliary/fov.cpp
+    auxiliary/geolocation.cpp
+    auxiliary/ksfilereader.cpp
+    auxiliary/ksuserdb.cpp
+    auxiliary/binfilehelper.cpp
+    auxiliary/ksutils.cpp
+    auxiliary/ksdssimage.cpp
+    auxiliary/ksdssdownloader.cpp
+    auxiliary/qcustomplot.cpp
+    auxiliary/profileinfo.cpp
+    auxiliary/filedownloader.cpp
+    time/simclock.cpp
+    time/kstarsdatetime.cpp
+    time/timezonerule.cpp
+    #to minimize number of indef KSTARS_LITE
+    skypainter.cpp
+    ksnumbers.cpp
+    kstarsdata.cpp
+    texturemanager.cpp
     )
-else(BUILD_KSTARS_LITE)
+
+if(NOT BUILD_KSTARS_LITE)
     set(kstars_extra_SRCS
-            auxiliary/colorscheme.cpp
-            auxiliary/dms.cpp
-            auxiliary/fov.cpp
-            auxiliary/geolocation.cpp
-            auxiliary/imageviewer.cpp
-            auxiliary/ksfilereader.cpp
-            auxiliary/ksuserdb.cpp
-            auxiliary/thumbnailpicker.cpp
-            auxiliary/thumbnaileditor.cpp
-            auxiliary/binfilehelper.cpp
-            auxiliary/imageexporter.cpp
-            auxiliary/ksutils.cpp
-            auxiliary/ksdssimage.cpp
-            auxiliary/ksdssdownloader.cpp
-            auxiliary/kswizard.cpp
-            auxiliary/qcustomplot.cpp
-            auxiliary/profileinfo.cpp
-            time/simclock.cpp
-            time/kstarsdatetime.cpp
-            time/timezonerule.cpp
-            kstarsdbus.cpp
-            ksnumbers.cpp
-            kspopupmenu.cpp
-            ksalmanac.cpp
-            kstarsactions.cpp
-            kstarsdata.cpp
-            kstarsinit.cpp
-            kstars.cpp
-            kstarssplash.cpp
-            skymap.cpp
-            skymapdrawabstract.cpp
-            skymapqdraw.cpp
-            skymapevents.cpp
-            skypainter.cpp
-            skyqpainter.cpp
-            texturemanager.cpp
-    )
-endif(BUILD_KSTARS_LITE)
+        ${kstars_extra_SRCS}
+        auxiliary/imageviewer.cpp
+        auxiliary/thumbnailpicker.cpp
+        auxiliary/thumbnaileditor.cpp
+        auxiliary/imageexporter.cpp
+        auxiliary/kswizard.cpp
+        kstarsdbus.cpp
+        kspopupmenu.cpp
+        ksalmanac.cpp
+        kstarsactions.cpp
+        kstarsinit.cpp
+        kstars.cpp
+        kstarssplash.cpp
+        skymap.cpp
+        skymapdrawabstract.cpp
+        skymapqdraw.cpp
+        skymapevents.cpp
+        skyqpainter.cpp
+        )
+
+endif(NOT BUILD_KSTARS_LITE)
 
 if(BUILD_KSTARS_LITE)
     set(kstarslite_SRCS
@@ -593,99 +568,62 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/helpers/TopMenuButton.qml
         kstarslite/qml/modules/Splash.qml
     )
+    add_subdirectory(kstarslite/qml)
     ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
 endif(BUILD_KSTARS_LITE)
 
-set(kstars_extra_SRCS
-        auxiliary/colorscheme.cpp
-        auxiliary/dms.cpp
-        auxiliary/fov.cpp
-        auxiliary/geolocation.cpp
-        auxiliary/imageviewer.cpp
-        auxiliary/ksfilereader.cpp
-        auxiliary/ksuserdb.cpp
-        auxiliary/thumbnailpicker.cpp
-        auxiliary/thumbnaileditor.cpp
-        auxiliary/binfilehelper.cpp
-        auxiliary/imageexporter.cpp
-        auxiliary/ksutils.cpp
-        auxiliary/ksdssimage.cpp
-        auxiliary/ksdssdownloader.cpp
-        auxiliary/kswizard.cpp
-        auxiliary/qcustomplot.cpp
-        auxiliary/profileinfo.cpp
-        auxiliary/filedownloader.cpp
-        time/simclock.cpp
-        time/kstarsdatetime.cpp
-        time/timezonerule.cpp
-        kstarsdbus.cpp
-        ksnumbers.cpp
-        kspopupmenu.cpp
-        ksalmanac.cpp
-        kstarsactions.cpp
-        kstarsdata.cpp
-        kstarsinit.cpp
-        kstars.cpp
-        kstarssplash.cpp
-        skymap.cpp
-        skymapdrawabstract.cpp
-        skymapqdraw.cpp
-        skymapevents.cpp
-        skypainter.cpp
-        skyqpainter.cpp
-	texturemanager.cpp		
-)
+if(NOT BUILD_KSTARS_LITE)
+    set(oal_SRCS
+        oal/log.cpp
+        oal/observer.cpp
+        oal/site.cpp
+        oal/session.cpp
+        oal/scope.cpp
+        oal/eyepiece.cpp
+        oal/filter.cpp
+        oal/observation.cpp
+        oal/lens.cpp
+        oal/equipmentwriter.cpp
+        oal/observeradd.cpp
+        oal/execute.cpp
+    )
 
-set(oal_SRCS
-    oal/log.cpp
-    oal/observer.cpp
-    oal/site.cpp
-    oal/session.cpp
-    oal/scope.cpp
-    oal/eyepiece.cpp
-    oal/filter.cpp
-    oal/observation.cpp
-    oal/lens.cpp
-    oal/equipmentwriter.cpp
-    oal/observeradd.cpp
-    oal/execute.cpp
-)
+    set(printing_SRCS
+        printing/detailstable.cpp
+        printing/finderchart.cpp
+        printing/foveditordialog.cpp
+        printing/fovsnapshot.cpp
+        printing/kstarsdocument.cpp
+        printing/legend.cpp
+        printing/loggingform.cpp
+        printing/printingwizard.cpp
+        printing/pwizchartconfig.cpp
+        printing/pwizchartcontents.cpp
+        printing/pwizfovbrowse.cpp
+        printing/pwizfovconfig.cpp
+        printing/pwizfovmanual.cpp
+        printing/pwizfovsh.cpp
+        printing/pwizfovtypeselection.cpp
+        printing/pwizobjectselection.cpp
+        printing/pwizprint.cpp
+        printing/shfovexporter.cpp
+        printing/simplefovexporter.cpp
+    )
 
-set(printing_SRCS
-    printing/detailstable.cpp
-    printing/finderchart.cpp
-    printing/foveditordialog.cpp
-    printing/fovsnapshot.cpp
-    printing/kstarsdocument.cpp
-    printing/legend.cpp
-    printing/loggingform.cpp
-    printing/printingwizard.cpp
-    printing/pwizchartconfig.cpp
-    printing/pwizchartcontents.cpp
-    printing/pwizfovbrowse.cpp
-    printing/pwizfovconfig.cpp
-    printing/pwizfovmanual.cpp
-    printing/pwizfovsh.cpp
-    printing/pwizfovtypeselection.cpp
-    printing/pwizobjectselection.cpp
-    printing/pwizprint.cpp
-    printing/shfovexporter.cpp
-    printing/simplefovexporter.cpp
-)
-
-set(printingui_SRCS
-    printing/foveditordialog.ui
-    printing/pwizchartconfig.ui
-    printing/pwizchartcontents.ui
-    printing/pwizfovbrowse.ui
-    printing/pwizfovconfig.ui
-    printing/pwizfovmanual.ui
-    printing/pwizfovsh.ui
-    printing/pwizfovtypeselection.ui
-    printing/pwizobjectselection.ui
-    printing/pwizprint.ui
-    printing/pwizwelcome.ui
-)
+    set(printingui_SRCS
+        printing/foveditordialog.ui
+        printing/pwizchartconfig.ui
+        printing/pwizchartcontents.ui
+        printing/pwizfovbrowse.ui
+        printing/pwizfovconfig.ui
+        printing/pwizfovmanual.ui
+        printing/pwizfovsh.ui
+        printing/pwizfovtypeselection.ui
+        printing/pwizobjectselection.ui
+        printing/pwizprint.ui
+        printing/pwizwelcome.ui
+    )
+endif(NOT BUILD_KSTARS_LITE)
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
         ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
@@ -694,37 +632,37 @@ set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
         ${printing_SRCS} ${kstarslite_SRCS} ${kstarslite_RESOURCE}
 )
 
-if(NOT BUILD_KSTARS_LITE)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
-endif(NOT BUILD_KSTARS_LITE)
-
-if (INDI_FOUND)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture.h Ekos::Capture)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus.h Ekos::Focus)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide.h Ekos::Guide)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos::Align)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/dustcap.h Ekos::DustCap)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler.h Ekos::Scheduler)
-endif(INDI_FOUND)
-
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
-ki18n_wrap_ui(kstars_SRCS
-       ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
-       ${printingui_SRCS}
-       auxiliary/thumbnailpicker.ui
-       auxiliary/thumbnaileditor.ui
-       oal/observeradd.ui
-       oal/equipmentwriter.ui
-       oal/execute.ui
-       skycomponents/notifyupdatesui.ui
-)
+if(NOT BUILD_KSTARS_LITE)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+
+    if (INDI_FOUND)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture.h Ekos::Capture)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus.h Ekos::Focus)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide.h Ekos::Guide)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos::Align)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/dustcap.h Ekos::DustCap)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler.h Ekos::Scheduler)
+    endif(INDI_FOUND)
+
+    ki18n_wrap_ui(kstars_SRCS
+           ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+           ${printingui_SRCS}
+           auxiliary/thumbnailpicker.ui
+           auxiliary/thumbnaileditor.ui
+           oal/observeradd.ui
+           oal/equipmentwriter.ui
+           oal/execute.ui
+           skycomponents/notifyupdatesui.ui
+    )
+endif(NOT BUILD_KSTARS_LITE)
 
 add_executable(kstars main.cpp)
 add_library( KStarsLib STATIC ${kstars_SRCS})
@@ -789,23 +727,26 @@ endif (WCSLIB_FOUND)
 
 target_link_libraries(kstars KStarsLib)
 
+
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-if(NOT BUILD_KSTARS_LITE)
 ########### install files ###############
-ecm_install_icons(${KDE_INSTALL_ICONDIR})
-install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
+
 install( FILES kstars.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
 install( FILES kstars.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
-if (INDI_FOUND)
-install( FILES kstarsui-indi.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars RENAME kstarsui.rc)
-else (INDI_FOUND)
-install( FILES kstarsui.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-endif(INDI_FOUND)
+ecm_install_icons(${KDE_INSTALL_ICONDIR})
 
-install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-if (WIN32)
-  install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-endif (WIN32)
-install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
-endif(NOT BUILD_KSTARS_LITE)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL Android)
+    install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
+    if (INDI_FOUND)
+    install( FILES kstarsui-indi.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars RENAME kstarsui.rc)
+    else (INDI_FOUND)
+    install( FILES kstarsui.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
+    endif(INDI_FOUND)
+
+    install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
+    if (WIN32)
+      install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
+    endif (WIN32)
+    install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+endif(NOT CMAKE_SYSTEM_NAME STREQUAL Android)

@@ -41,7 +41,9 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 
 #include "skymesh.h"
 #include "linelist.h"

@@ -19,9 +19,13 @@
 */
 
 #include "texturemanager.h"
+#ifdef KSTARS_LITE
+#include <QStandardPaths>
+#include <QImage>
+#else
 #include "skymap.h"
 #include "kstars.h"
-
+#endif
 
 
 #ifdef HAVE_OPENGL

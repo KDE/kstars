@@ -17,7 +17,9 @@
 
 #include "fov.h"
 #include "Options.h"
+#ifndef KSTARS_LITE
 #include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "geolocation.h"
 #include "skymap.h"
@@ -66,6 +68,7 @@ FOV::FOV()
 }
 
 void FOV::draw( QPainter &p, float zoomFactor ) {
+#ifndef KSTARS_LITE
     p.setPen( QColor( color() ) );
     p.setBrush( Qt::NoBrush );
     
@@ -147,6 +150,7 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     }
 
     p.restore();
+#endif
 }
 
 void FOV::draw(QPainter &p, float x, float y)
