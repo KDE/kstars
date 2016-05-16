@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "datahandlers/catalogdb.h"
+#include "catalogdb.h"
 #include "kstars/version.h"
 
 
@@ -666,7 +666,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
                                             "; assuming 2000."));
           catEpoch = 2000.;
       }
-
+        #ifndef KSTARS_LITE
       // Detect a duplicate catalog name
       if (FindCatalog(catalog_name) != -1) {
         if (KMessageBox::warningYesNo(0,
@@ -680,6 +680,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
             RemoveCatalog(catalog_name);
         }
       }
+      #endif
 
       // Everything OK. Make a new Catalog entry in DB
       CatalogData new_catalog;

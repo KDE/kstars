@@ -20,9 +20,10 @@
 #include <QDebug>
 #include <KLocalizedString>
 
+#ifndef KSTARS_LITE
 #include "kstars.h"
 #include "simclockadaptor.h"
-
+#endif
 
 int SimClock::TimerInterval = 100; //msec
 
@@ -30,9 +31,10 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
         QObject(parent),
         tmr(this)
 {
+    #ifndef KSTARS_LITE
     new SimClockAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/SimClock",  this);
-
+    #endif
     if (! when.isValid() )
         tmr.stop();
     setUTC(when);

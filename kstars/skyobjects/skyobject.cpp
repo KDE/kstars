@@ -29,7 +29,9 @@
 
 #include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 #include "dms.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"
@@ -83,12 +85,16 @@ SkyObject* SkyObject::clone() const
 SkyObject::~SkyObject() {}
 
 void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
+#ifndef KSTARS_LITE
     initPopupMenu( pmenu );
     pmenu->popup( pos );
+#endif
 }
 
 void SkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifndef KSTARS_LITE
     pmenu->createEmptyMenu( this );
+#endif
 }
 
 void SkyObject::setLongName( const QString &longname ) {

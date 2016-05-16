@@ -3,6 +3,11 @@ set (KStars_VERSION_MAJOR 2)
 set (KStars_VERSION_MINOR 6)
 set (KStars_VERSION_REVISION 0)
 
+#Build KStars Lite with -DKSTARS_LITE=ON
+option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
+if(BUILD_KSTARS_LITE)
+    add_definitions(-DKSTARS_LITE)
+endif(BUILD_KSTARS_LITE)
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 set (QT_MIN_VERSION "5.4.0")
@@ -16,7 +21,7 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg PrintSupport)
+find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport)
 
 include(KDEInstallDirs)
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -25,31 +30,31 @@ include(ECMInstallIcons)
 include(FeatureSummary)
 include(ECMAddAppIcon)
 
-#Build KStars Lite with -DBUILD_KSTARS_LITE=ON
-option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
-if(BUILD_KSTARS_LITE)
-    add_definitions(-DKSTARS_LITE)
-endif(BUILD_KSTARS_LITE)
-
 # Load the frameworks we need
-find_package(KF5 REQUIRED COMPONENTS
-  Config
-  Crash
-  DocTools
-  WidgetsAddons
-  NewStuff
-  I18n
-  KIO
-  XmlGui
-  Plotting
-  IconThemes
-)
+if(BUILD_KSTARS_LITE)
+    find_package(KF5 REQUIRED COMPONENTS
+      Config
+      I18n
+      Plotting
+    )
+else(BUILD_KSTARS_LITE)
+    find_package(KF5 REQUIRED COMPONENTS
+      Config
+      Crash
+      DocTools
+      WidgetsAddons
+      NewStuff
+      I18n
+      KIO
+      XmlGui
+      Plotting
+      #IconThemes
+    )
+endif(BUILD_KSTARS_LITE)
 
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR})
-
-#PyKDE4 Package TODO? Is there KF5 Package?
 
 find_package(CFitsio)
 if (CFITSIO_FOUND)
@@ -105,8 +110,6 @@ endif()
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexceptions)
 
-enable_testing(true)
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
@@ -116,20 +119,15 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
 # let our config.h be found first in any case
 include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 
-# FIXME should we explicitly include it?
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
-# FIXME Enable Tests later!
-#add_subdirectory(Tests)
+if(NOT BUILD_KSTARS_LITE)
+    enable_testing(true)
+    add_subdirectory(Tests)
+endif(NOT BUILD_KSTARS_LITE)
 
 install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
-
-#if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-#   macro_display_feature_log()
-#endif (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

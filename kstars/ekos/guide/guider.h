@@ -49,6 +49,7 @@ public:
     void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
 
     // Dither
+    bool isDitherChecked() { return ui.ditherCheck->isChecked(); }
     bool dither();
     bool isDithering() { return m_isDithering; }
     void setDither(bool enable, double value);
@@ -67,7 +68,7 @@ public slots:
     void setPHD2Connected();
     void setPHD2Disconnected();
     // Only called by PHD2
-    void setGuideState(bool guiding, bool ditherChecked);
+    void setGuideState(bool guiding);
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -87,7 +88,7 @@ protected slots:
 signals:
     void ditherComplete();
     void ditherToggled(bool);
-    void autoGuidingToggled(bool, bool);
+    void autoGuidingToggled(bool);
 
 private:
 	cgmath *pmath;

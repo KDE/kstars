@@ -15,20 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-/* Project Includes */
-#include "ksdssdownloader.h"
-#include "ksdssimage.h"
-#include "skypoint.h"
-#include "skyobject.h"
-#include "deepskyobject.h"
-#include "dms.h"
-#include "Options.h"
-
-/* KDE Includes */
-#include <KIO/Job>
-#include <KIO/CopyJob>
-
 /* Qt Includes */
 #include <QString>
 #include <QImage>
@@ -38,6 +24,15 @@
 #include <QMimeType>
 #include <QTemporaryFile>
 
+/* Project Includes */
+#include "ksdssdownloader.h"
+#include "ksdssimage.h"
+#include "skypoint.h"
+#include "skyobject.h"
+#include "deepskyobject.h"
+#include "dms.h"
+#include "Options.h"
+#include "auxiliary/filedownloader.h"
 
 KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
@@ -187,11 +182,19 @@ void KSDssDownloader::initiateSingleDownloadAttempt( QUrl srcUrl ) {
     qDebug() << "Temp file is at " << m_TempFile.fileName();
     QUrl fileUrl = QUrl::fromLocalFile( m_TempFile.fileName() );
     qDebug() << "Attempt #" << m_attempt << "downloading DSS Image. URL: " << srcUrl << " to " << fileUrl;
-    m_DownloadJob = KIO::copy( srcUrl, fileUrl, KIO::Overwrite ) ; // FIXME: Can be done with pure Qt
-    connect ( m_DownloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadAttemptFinished() ) );
+    //m_DownloadJob = KIO::copy( srcUrl, fileUrl, KIO::Overwrite ) ; // FIXME: Can be done with pure Qt
+    //connect ( m_DownloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadAttemptFinished() ) );
+
+    downloadJob = new FileDownloader();
+
+    connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadAttemptFinished()));
+    connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+
+    downloadJob->get(srcUrl);
 }
 
-void KSDssDownloader::startDownload( const SkyPoint * const p, const QString &destFileName ) {
+void KSDssDownloader::startDownload( const SkyPoint * const p, const QString &destFileName )
+{
     QUrl srcUrl;
     m_FileName = destFileName;
     m_attempt = 0;
@@ -203,22 +206,39 @@ void KSDssDownloader::startSingleDownload( const QUrl srcUrl, const QString &des
     m_FileName = destFileName;
     QUrl fileUrl = QUrl::fromLocalFile( m_TempFile.fileName() );
     qDebug() << "Downloading DSS Image from URL: " << srcUrl << " to " << fileUrl;
-    m_DownloadJob = KIO::copy( srcUrl, fileUrl, KIO::Overwrite ) ; // FIXME: Can be done with pure Qt
-    connect ( m_DownloadJob, SIGNAL ( result (KJob *) ), SLOT ( singleDownloadFinished() ) );
+    //m_DownloadJob = KIO::copy( srcUrl, fileUrl, KIO::Overwrite ) ; // FIXME: Can be done with pure Qt
+    //connect ( m_DownloadJob, SIGNAL ( result (KJob *) ), SLOT ( singleDownloadFinished() ) );
+
+    downloadJob = new FileDownloader();
+
+    connect(downloadJob, SIGNAL(downloaded()), this, SLOT(singleDownloadFinished));
+    connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+
     m_AttemptData = md;
+
+    downloadJob->get(srcUrl);
 }
 
-void KSDssDownloader::singleDownloadFinished() {
-    // Check if there was an error downloading itself
-    if( m_DownloadJob->error() != 0 ) {
-        qDebug() << "Error " << m_DownloadJob->error() << " downloading DSS images!";
-        emit downloadComplete( false );
-        return;
-    }
+void KSDssDownloader::downloadError(const QString &errorString)
+{
+    qDebug() << "Error " << errorString << " downloading DSS images!" ;
+    emit downloadComplete( false );
+    downloadJob->deleteLater();
+    return;
+}
+
+void KSDssDownloader::singleDownloadFinished()
+{
+    m_TempFile.open();
+    m_TempFile.write(downloadJob->downloadedData());
+    m_TempFile.close();
+    delete (downloadJob);
+
     // Check if we have a proper DSS image or the DSS server failed
     QMimeDatabase mdb;
     QMimeType mt = mdb.mimeTypeForFile( m_TempFile.fileName(), QMimeDatabase::MatchContent );
-    if( mt.name().contains( "image", Qt::CaseInsensitive ) ) {
+    if( mt.name().contains( "image", Qt::CaseInsensitive ) )
+    {
         qDebug() << "DSS download was successful";
         emit downloadComplete( writeImageWithMetadata( m_TempFile.fileName(), m_FileName, m_AttemptData ) );
         return;
@@ -229,26 +249,28 @@ void KSDssDownloader::singleDownloadFinished() {
 
 
 
-void KSDssDownloader::downloadAttemptFinished() {
-    // Check if there was an error downloading itself
-    if( m_DownloadJob->error() != 0 ) {
-        qDebug() << "Error " << m_DownloadJob->error() << " downloading DSS images!";
-        emit downloadComplete( false );
-        deleteLater();
-        return;
-    }
-
-    if( m_AttemptData.src == KSDssImage::Metadata::SDSS ) {
+void KSDssDownloader::downloadAttemptFinished()
+{
+    if( m_AttemptData.src == KSDssImage::Metadata::SDSS )
+    {
         // FIXME: do SDSS-y things
         emit downloadComplete( false );
         deleteLater();
+        delete (downloadJob);
         return;
     }
-    else {
+    else
+    {
+        m_TempFile.open();
+        m_TempFile.write(downloadJob->downloadedData());
+        m_TempFile.close();
+        delete (downloadJob);
+
         // Check if we have a proper DSS image or the DSS server failed
         QMimeDatabase mdb;
         QMimeType mt = mdb.mimeTypeForFile( m_TempFile.fileName(), QMimeDatabase::MatchContent );
-        if( mt.name().contains( "image", Qt::CaseInsensitive ) ) {
+        if( mt.name().contains( "image", Qt::CaseInsensitive ) )
+        {
             qDebug() << "DSS download was successful";
             emit downloadComplete( writeImageFile() );
             deleteLater();
@@ -258,7 +280,8 @@ void KSDssDownloader::downloadAttemptFinished() {
         // We must have failed, try the next attempt
         QUrl srcUrl;
         m_attempt++;
-        if( m_attempt == m_VersionPreference.count() ) {
+        if( m_attempt == m_VersionPreference.count() )
+        {
             // Nothing downloaded... very strange. Fail.
             qDebug() << "Error downloading DSS images: All alternatives failed!";
             emit downloadComplete( false );

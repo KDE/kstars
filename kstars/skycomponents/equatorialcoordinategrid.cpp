@@ -23,7 +23,9 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "linelist.h"
 #include "dms.h"
 
@@ -94,13 +96,20 @@ bool EquatorialCoordinateGrid::selected()
     if ( Options::autoSelectGrid() )
         return( ! Options::useAltAz() );
     else
+#ifndef KSTARS_LITE
         return( Options::showEquatorialGrid() &&
-            ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
+                ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
+#else
+        return( Options::showEquatorialGrid() &&
+                ! ( Options::hideOnSlew() && Options::hideGrids() ) );
+#endif
 }
 
 void EquatorialCoordinateGrid::preDraw( SkyPainter* skyp )
 {
+#ifndef KSTARS_LITE
     KStarsData *data = KStarsData::Instance();
     QColor color = data->colorScheme()->colorNamed( "EquatorialGridColor" );
     skyp->setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
+#endif
 }

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "constellationsart.h"
-#include "kstars/texturemanager.h"
+#include "texturemanager.h"
 
 
 ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation, QString filename)

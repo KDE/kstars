@@ -21,7 +21,9 @@
 
 #include <QString>
 #include <QLocale>
+#ifndef KSTARS_LITE
 #include <kmessagebox.h>
+#endif
 #include <KLocalizedString>
 
 /**
@@ -49,7 +51,11 @@ namespace OAL
     class Lens;
     inline int warningOverwrite( QString message )
     {
+    #ifndef KSTARS_LITE
         return KMessageBox::warningYesNo( 0, message, xi18n("Overwrite"), KGuiItem(xi18n("Overwrite")), KGuiItem(xi18n("Cancel")) );
+    #else
+        return 0;
+    #endif
     }
 }
 #endif

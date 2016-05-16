@@ -23,40 +23,46 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QStandardPaths>
-
+#ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
 #include <KLocalizedString>
 
 #include "Options.h"
 #include "dms.h"
 #include "fov.h"
-#include "skymap.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
 #include "ksnumbers.h"
 #include "skyobjects/skyobject.h"
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/skymapcomposite.h"
-#include "oal/execute.h"
 #include "simclock.h"
 #include "timezonerule.h"
+#ifndef KSTARS_LITE
+#include "skymap.h"
+#include "oal/execute.h"
 #include "imageexporter.h"
 #include "observinglist.h"
+#include "dialogs/detaildialog.h"
+#endif
 
 #include <config-kstars.h>
-#include "dialogs/detaildialog.h"
 
 namespace {
-
     // Report fatal error during data loading to user
     // Calls QApplication::exit
     void fatalErrorMessage(QString fname) {
+        #ifndef KSTARS_LITE
+
         KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
                                    "KStars cannot run properly without this file. "
                                    "KStars searches for this file in following locations:\n\n\t"
                                    "%2\n\n"
                                    "It appears that your setup is broken.", fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
                            i18n( "Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
+        #endif
+        qDebug() << i18n( "Critical File Not Found: %1", fname );
         qApp->exit(1);
     }
 
@@ -64,6 +70,7 @@ namespace {
     // whether he wants to continue.
     // Calls QApplication::exit if he don't
     bool nonFatalErrorMessage(QString fname) {
+        #ifndef KSTARS_LITE
         int res = KMessageBox::warningContinueCancel(0,
                       i18n("The file %1 could not be found. "
                            "KStars can still run without this file. "
@@ -75,6 +82,8 @@ namespace {
         if( res != KMessageBox::Continue )
             qApp->exit(1);
         return res == KMessageBox::Continue;
+        #endif
+        return true;
     }
 }
 
@@ -101,16 +110,20 @@ KStarsData::KStarsData() :
     m_Geo(dms(0), dms(0)),
     m_ksuserdb(),
     m_catalogdb(),
+    #ifndef KSTARS_LITE
     m_ObservingList(0),
     m_Execute(0),
     m_ImageExporter(0),
+    #endif
     temporaryTrail( false ),
     //locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
+    #ifndef KSTARS_LITE
     m_LogObject = new OAL::Log;
+    #endif
     // at startup times run forward
     setTimeDirection( 0.0 );
 
@@ -120,11 +133,12 @@ KStarsData::~KStarsData() {
     Q_ASSERT( pinstance );
 
     //delete locale;
+#ifndef KSTARS_LITE
     delete m_LogObject;
     delete m_Execute;
     delete m_ObservingList;
     delete m_ImageExporter;
-
+#endif
     qDeleteAll( geoList );
     qDeleteAll( ADVtreeList );
 
@@ -175,9 +189,10 @@ bool KStarsData::initialize() {
         skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
     }
 
+    #ifndef KSTARS_LITE
     //Initialize Observing List
     m_ObservingList = new ObservingList();
-
+    #endif
     readUserLog();
 
     readADVTreeData();
@@ -709,6 +724,7 @@ bool KStarsData::readADVTreeData()
 //there is no KStars object, so none of the DBus functions can be called 
 //directly.
 bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
+#ifndef KSTARS_LITE
     int cmdCount(0);
 
     QFile f( scriptname );
@@ -1005,6 +1021,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
     }  //end while
 
     if ( cmdCount ) return true;
+#endif
     return false;
 }
 
@@ -1024,7 +1041,7 @@ void KStarsData::syncFOV()
     }
     Options::setFOVNames( all.intersect(names).toList() );
 }
-
+#ifndef KSTARS_LITE
 // FIXME: Why does KStarsData store the Execute instance??? -- asimha
 Execute* KStarsData::executeSession() {
     if( !m_Execute )
@@ -1041,5 +1058,6 @@ ImageExporter * KStarsData::imageExporter()
 
     return m_ImageExporter;
 }
+#endif
 
 

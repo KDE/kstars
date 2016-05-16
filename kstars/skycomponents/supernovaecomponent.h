@@ -38,7 +38,7 @@ class Supernova;
 
 class SupernovaeComponent : public QObject, public ListComponent
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     explicit SupernovaeComponent(SkyComposite* parent);

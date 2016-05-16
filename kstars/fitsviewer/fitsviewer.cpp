@@ -48,7 +48,7 @@
 #include <KStandardAction>
 #include <KToolBar>
 #include <KLocalizedString>
-#include <klineedit.h>
+//#include <klineedit.h>
 
 #include <cmath>
 #ifndef __MINGW32__

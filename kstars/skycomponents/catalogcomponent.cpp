@@ -19,17 +19,24 @@
 
 #include <QDebug>
 #include <KLocalizedString>
+#ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
 #include <QDir>
 #include <QFile>
 #include <QPixmap>
 #include <QTextStream>
-#include "kstars/Options.h"
-#include "kstars/kstarsdata.h"
-#include "kstars/skymap.h"
+
+#include "Options.h"
+
+#include "kstarsdata.h"
+#ifndef KSTARS_LITE
+#include "skymap.h"
+#endif
+#include "skypainter.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
-#include "kstars/skypainter.h"
+
 
 QStringList CatalogComponent::m_Columns
                             = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" )

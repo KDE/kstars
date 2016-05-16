@@ -18,15 +18,18 @@
 
 #include <QDebug>
 #include <QPixmap>
+
+#include <QApplication>
+
+#ifdef KSTARS_LITE
+#include "kstarslite.h"
+#include <KLocalizedString>
+#else
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
 #include <KAboutData>
 #include <KCrash>
-#include <KLocalizedString>
-
-#ifdef KSTARS_LITE
-#include "kstarslite.h"
 #include "kstars.h"
 #include "skymap.h"
 #endif
@@ -39,8 +42,6 @@
 #include "Options.h"
 
 
-
-
 static const char description[] =
     I18N_NOOP("Desktop Planetarium");
 static const char notice[] =
@@ -51,14 +52,12 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     app.setApplicationVersion(KSTARS_VERSION);
-
     /**
     * enable high dpi support
     */
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-
+    #ifndef KSTARS_LITE
     KCrash::initialize();
-
     KLocalizedString::setApplicationDomain("kstars");
 
     KAboutData aboutData( "kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
@@ -224,14 +223,12 @@ int main(int argc, char *argv[])
         qWarning() << i18n( "Using CPU date/time instead." ) ;
         datestring.clear();
     }
+#endif
 
     // Create writable data dir if it does not exist
     QDir writableDir;
     writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
-
-#ifdef KSTARS_LITE
-    KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
-#else
+#ifndef KSTARS_LITE
     KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 
     // no session.. just start up normally
@@ -249,6 +246,10 @@ int main(int argc, char *argv[])
             KStars::Instance()->openFITS(u);
         }
     }
+#else
+    //KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
+    //TODO decide wheter KStars Lite should have command line parser
+    KStarsLite::createInstance( true );
 #endif
 
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));

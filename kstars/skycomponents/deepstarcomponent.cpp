@@ -29,7 +29,9 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skyobjects/starobject.h"
 #include "skymesh.h"
 #include "binfilehelper.h"
@@ -173,6 +175,7 @@ void DeepStarComponent::update( KSNumbers * )
 
 // TODO: Optimize draw, if it is worth it.
 void DeepStarComponent::draw( SkyPainter *skyp ) {
+#ifndef KSTARS_LITE
     if ( !fileOpened ) return;
 
     SkyMap *map = SkyMap::Instance();
@@ -303,7 +306,8 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
     }
     m_skyMesh->inDraw( false );
-
+#endif
+    Q_UNUSED(skyp)
 }
 
 bool DeepStarComponent::openDataFile() {

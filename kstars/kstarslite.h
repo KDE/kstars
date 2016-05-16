@@ -19,7 +19,7 @@
 
 #include <config-kstars.h>
 #include <QString>
-#include <QQmlApplicationEngine>
+#include <QtQml/QQmlApplicationEngine>
 #include <QPalette>
 
 // forward declaration is enough. We only need pointers

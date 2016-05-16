@@ -15,6 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <cmath>
+#include <QStandardPaths>
+#include <QDebug>
+#include <QFile>
+#include <QPen>
+#include <QHttpMultiPart>
+
 #include "cometscomponent.h"
 #include "solarsystemcomposite.h"
 
@@ -23,19 +30,13 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "ksfilereader.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skylabeler.h"
 #include "skypainter.h"
 #include "projections/projector.h"
-
-#include <cmath>
-#include <QStandardPaths>
-#include <QDebug>
-#include <QFile>
-#include <QPen>
-
-#include <KJobUiDelegate>
-#include <KIOCore/KIO/StoredTransferJob>
+#include "auxiliary/filedownloader.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent ) {
@@ -176,6 +177,8 @@ void CometsComponent::loadData() {
 
 void CometsComponent::draw( SkyPainter *skyp )
 {
+    Q_UNUSED(skyp)
+#ifndef KSTARS_LITE
     if( !selected() || Options::zoomFactor() < 10*MINZOOM )
         return;
 
@@ -198,10 +201,15 @@ void CometsComponent::draw( SkyPainter *skyp )
                 SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
         }
     }
+#endif
 }
 
 void CometsComponent::updateDataFile()
 {
+    downloadJob = new FileDownloader();
+
+    connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
+    connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
     QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbere"
@@ -213,31 +221,42 @@ void CometsComponent::updateDataFile()
     "j_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mo"
     "de&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_fiel"
     "d_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com"
-    "_orbit_class" );
-    QString content_type = "Content-Type: application/x-www-form-urlencoded";
+    "_orbit_class" );    
 
-    // Download file
-    KIO::StoredTransferJob* get_job = KIO::storedHttpPost(post_data,  url);
-    get_job->addMetaData("content-type", content_type );
+    downloadJob->post(url, post_data);
 
-    if( get_job->exec() )
-    {
-        // Comment the first line
-        QByteArray data = get_job->data();
-        data.insert( 0, '#' );
+}
 
-        // Write data to comets.dat
-        QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "comets.dat" ) ;
-        file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
-        file.write( data );
-        file.close();
+void CometsComponent::downloadReady()
+{
+    // Comment the first line
+    QByteArray data = downloadJob->downloadedData();
+    data.insert( 0, '#' );
 
-        // Reload comets
-        loadData();
+    // Write data to asteroids.dat
+    QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "comets.dat" ) ;
+    file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
+    file.write( data );
+    file.close();
 
-        KStars::Instance()->data()->setFullTimeUpdate();
-    } else
-    {
-        get_job->uiDelegate()->showErrorMessage();
-    }
+    // Reload asteroids
+    loadData();
+
+#ifdef KSTARS_LITE
+    KStarsLite::Instance()->data()->setFullTimeUpdate();
+#else
+    KStars::Instance()->data()->setFullTimeUpdate();
+#endif
+
+    downloadJob->deleteLater();
+}
+
+void CometsComponent::downloadError(const QString &errorString)
+{
+#ifndef KSTARS_LITE
+    KMessageBox::error(0, i18n("Error downloading asteroids data: %1", errorString));
+#else
+    qDebug() << i18n("Error downloading comets data: %1", errorString);
+#endif
+    downloadJob->deleteLater();
 }

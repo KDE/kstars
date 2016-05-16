@@ -26,7 +26,9 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
+#ifndef KSTARS_LITE
 #include "skyqpainter.h"
+#endif
 #include "skypainter.h"
 
 #include "skymesh.h"
@@ -74,7 +76,11 @@ StarComponent::StarComponent(SkyComposite *parent )
     loadStaticData();
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
+#ifdef KSTARS_LITE
+    //SkyMapLite::Instance()->initStarImages();
+#else
     SkyQPainter::initStarImages();
+#endif
 }
 
 StarComponent::~StarComponent() {
@@ -229,6 +235,7 @@ float StarComponent::zoomMagnitudeLimit() {
 
 void StarComponent::draw( SkyPainter *skyp )
 {
+#ifndef KSTARS_LITE
     if( !selected() )
         return;
 
@@ -325,6 +332,7 @@ void StarComponent::draw( SkyPainter *skyp )
     for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
         m_DeepStarComponents.at( i )->draw( skyp );
     }
+#endif
 }
 
 void StarComponent::addLabel( const QPointF& p, StarObject *star )

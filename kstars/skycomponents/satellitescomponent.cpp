@@ -20,8 +20,12 @@
 #include <QStringList>
 #include <QObject>
 #include <QProgressDialog>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
+#ifndef KSTARS_LITE
 #include <KJobUiDelegate>
+#endif
 #include <KLocalizedString>
 
 #include "satellitegroup.h"
@@ -121,12 +125,12 @@ void SatellitesComponent::drawTrails( SkyPainter *skyp ) {
 void SatellitesComponent::updateTLEs()
 {
     int i = 0;
-    
     QProgressDialog progressDlg( i18n( "Update TLEs..." ), i18n( "Abort" ), 0, m_groups.count() );
     progressDlg.setWindowModality( Qt::WindowModal );
     progressDlg.setValue( 0 );
         
-    foreach ( SatelliteGroup *group, m_groups ) {
+    foreach ( SatelliteGroup *group, m_groups )
+    {
         if ( progressDlg.wasCanceled() )
             return;
 
@@ -134,16 +138,47 @@ void SatellitesComponent::updateTLEs()
             continue;
         
         progressDlg.setLabelText( i18n( "Update %1 satellites", group->name() ) );
-        KIO::Job* getJob = KIO::file_copy(group->tleUrl(), group->tleFilename(), -1, KIO::Overwrite | KIO::HideProgressInfo );
-        if( getJob->exec() )
+        progressDlg.setWindowTitle(i18n("Satellite Orbital Elements Update"));
+
+        QNetworkAccessManager manager;
+        QNetworkReply *response = manager.get(QNetworkRequest(group->tleUrl()));
+
+        // Wait synchronously
+        QEventLoop event;
+        QObject::connect(response,SIGNAL(finished()),&event,SLOT(quit()));
+        event.exec();
+
+        if (response->error() == QNetworkReply::NoError)
         {
-            group->readTLE();
-            group->updateSatellitesPos();
-            progressDlg.setValue( ++i );
-        } else
+            QFile file(group->tleFilename().path());
+            if (file.open(QFile::WriteOnly))
+            {
+                file.write(response->readAll());
+                file.close();
+                group->readTLE();
+                group->updateSatellitesPos();
+                progressDlg.setValue( ++i );
+            }
+            else
+            {
+            #ifndef KSTARS_LITE
+                KMessageBox::error(0, file.errorString());
+            #else
+                qDebug() << file.errorString();
+            #endif
+                return;
+            }
+
+        }
+        else
         {
-            getJob->uiDelegate()->showErrorMessage();
-        }   
+            #ifndef KSTARS_LITE
+                KMessageBox::error(0, response->errorString());
+            #else
+                qDebug() << response->errorString();
+            #endif
+            return;
+        }
     }
 }
 

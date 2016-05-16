@@ -18,6 +18,7 @@
 #include "skymaplite.h"
 #include "kstarsdata.h"
 #include <QQmlContext>
+#include <QApplication>
 
 #include "Options.h"
 #include "ksutils.h"
@@ -33,18 +34,6 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     else
         KSUtils::Logging::UseDefault();
 
-    //Register SkyMapLite for use within QML
-    qmlRegisterType<SkyMapLite>("skymaplite",1,0,"SkyMapLite");
-    QString main = QString(SOURCE_DIR) + "/kstars/kstarslite/qml/main.qml";
-
-    m_Engine.load(QUrl(main));
-    Q_ASSERT_X(m_Engine.rootObjects().size(),"loading root object of main.qml",
-               "QML file was not loaded. Probably syntax error or failed module import.");
-
-    m_RootObject = m_Engine.rootObjects()[0];
-
-    QQuickItem* skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
-
     m_KStarsData = KStarsData::Create();
     Q_ASSERT( m_KStarsData );
 
@@ -53,6 +42,19 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_Engine.rootContext()->setContextProperty("KStarsData", m_KStarsData);
 
     m_Engine.rootContext()->setContextProperty("Options", Options::self());
+
+    //Register SkyMapLite for use within QML
+    qmlRegisterType<SkyMapLite>("skymaplite",1,0,"SkyMapLite");
+    QString main = QStandardPaths::locate(QStandardPaths::AppDataLocation, "kstarslite/qml/main.qml");
+    //QString main = QString(SOURCE_DIR) + "/kstars/kstarslite/qml/main.qml";
+
+    m_Engine.load(QUrl(main));
+    Q_ASSERT_X(m_Engine.rootObjects().size(),"loading root object of main.qml",
+               "QML file was not loaded. Probably syntax error or failed module import.");
+
+    m_RootObject = m_Engine.rootObjects()[0];
+
+    QQuickItem* skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
 
     //Set Geographic Location from Options
     m_KStarsData->setLocationFromOptions();
@@ -82,7 +84,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     if ( startClock ) StartClockRunning =  Options::runClock();
 
     // Setup splash screen
-    if ( !doSplash ) {
+    if ( doSplash ) {
         showSplash();
     } else {
         connect( m_KStarsData, SIGNAL( progressText(QString) ), m_KStarsData, SLOT( slotConsoleMessage(QString) ) );

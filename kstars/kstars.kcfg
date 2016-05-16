@@ -1272,15 +1272,11 @@
           <label>Availability of binoculars</label>
           <default>false</default>
       </entry>
-      <entry name="NoEquipCheck" type="Bool">
-          <label>Availability of both telescope and binoculars</label>
-          <default>false</default>
-      </entry>
       <entry name="BinocularsAperture" type="Double">
           <label>Aperture of available binocular</label>
           <default>40.0</default>
       </entry>
-      <entry name="ScopeListWidget" type="UInt">
+      <entry name="ScopeListIndex" type="UInt">
           <label>Index of selected scope from list of scopes</label>
           <default>0</default>
       </entry>
@@ -1504,6 +1500,10 @@
           </entry>
     </group>
     <group name="Guide">
+    <entry name="GuideExposure" type="Double">
+        <label>Guider exposure duration in seconds.</label>
+        <default>1.0</default>
+    </entry>
     <entry name="UseEkosGuider" type="Bool">
         <label>Use Ekos Internal Guider Module for guiding</label>
         <default>true</default>

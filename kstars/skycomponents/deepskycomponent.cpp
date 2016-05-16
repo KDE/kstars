@@ -27,7 +27,9 @@
 #include "dms.h"
 #include "ksfilereader.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skylabel.h"
 #include "skylabeler.h"
 #include "Options.h"
@@ -369,6 +371,7 @@ void DeepSkyComponent::draw( SkyPainter *skyp )
 
     bool drawFlag;
 
+#ifndef KSTARS_LITE
     drawFlag = Options::showMessier() &&
                ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
 
@@ -388,11 +391,13 @@ void DeepSkyComponent::draw( SkyPainter *skyp )
                ! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
 
     drawDeepSkyCatalog( skyp, drawFlag,   &m_OtherIndex,   "NGCColor" );
+#endif
 }
 
 void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
                                            DeepSkyIndex* dsIndex, const QString& colorString, bool drawImage)
 {
+#ifndef KSTARS_LITE
     if ( ! ( drawObject || drawImage ) ) return;
 
     SkyMap *map = SkyMap::Instance();
@@ -465,6 +470,9 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
             }
         }
     }
+#else
+    Q_UNUSED(skyp)
+#endif
 }
 
 void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
@@ -477,6 +485,7 @@ void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
 
 void DeepSkyComponent::drawLabels()
 {
+#ifndef KSTARS_LITE
     if ( m_hideLabels ) return;
 
     SkyLabeler *labeler = SkyLabeler::Instance();
@@ -493,7 +502,7 @@ void DeepSkyComponent::drawLabels()
         }
         list->clear();
     }
-
+#endif
 }
 
 

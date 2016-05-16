@@ -19,8 +19,9 @@
 #define KSTARS_SIMCLOCK_H__
 
 #include <time.h>
-
+#ifndef KSTARS_LITE
 #include <QtDBus/QtDBus>
+#endif
 #include <QTimer>
 
 #include "kstarsdatetime.h"
@@ -75,6 +76,7 @@ public:
     void setManualMode( bool on=true );
 
 public Q_SLOTS:
+    #ifndef KSTARS_LITE
     /** DBUS function to stop the SimClock. */
     Q_SCRIPTABLE Q_NOREPLY void stop();
 
@@ -86,6 +88,20 @@ public Q_SLOTS:
 
     /** DBUS function to set scale of simclock. */
     Q_SCRIPTABLE Q_NOREPLY void setClockScale(float s);
+    #else
+    // Define non-DBUS versions of functions above for use within KStarsLite
+    /** Function to stop the SimClock. */
+    void stop();
+
+    /** Function to start the SimClock. */
+    void start();
+
+    /** Function to set the time of the SimClock. */
+    void setUTC(const KStarsDateTime &newtime);
+
+    /** Function to set scale of simclock. */
+    void setClockScale(float s);
+    #endif
 
     /** Respond to the QTimer::timeout signal */
     void tick();

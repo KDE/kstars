@@ -21,8 +21,10 @@
 class SkyLabeler;
 
 #include "solarsystemlistcomponent.h"
-#include "datahandlers/ksparser.h"
+#include "ksparser.h"
 #include <QList>
+
+class FileDownloader;
 
 /** @class CometsComponent
  * This class encapsulates the Comets
@@ -30,8 +32,10 @@ class SkyLabeler;
  * @author Jason Harris
  * @version 0.1
  */
-class CometsComponent : public SolarSystemListComponent
+class CometsComponent : public QObject, public SolarSystemListComponent
 {
+    Q_OBJECT
+
 public:
     /** @short Default constructor.
      * @p parent pointer to the parent SolarSystemComposite
@@ -42,8 +46,14 @@ public:
     virtual bool selected();
     virtual void draw( SkyPainter *skyp );
     void updateDataFile();
+
+protected slots:
+    void downloadReady();
+    void downloadError(const QString &errorString);
+
 private:
     void loadData();
+    FileDownloader* downloadJob;
 };
 
 #endif

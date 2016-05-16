@@ -115,8 +115,13 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
 
 bool ConstellationLines::selected()
 {
+#ifndef KSTARS_LITE
     return Options::showCLines() &&
            ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
+#else
+    return Options::showCLines() && //TODO: Implement isSlewing in KStars Lite if needed
+           ! ( Options::hideOnSlew() && Options::hideCLines() );
+#endif
 }
 
 void ConstellationLines::preDraw( SkyPainter* skyp )

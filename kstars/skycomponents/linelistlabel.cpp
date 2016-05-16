@@ -20,7 +20,9 @@
 #include "linelistlabel.h"
 #include "Options.h"
 #include "skyobjects/skypoint.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skylabeler.h"
 #include "linelist.h"
 #include "projections/projector.h"
@@ -91,6 +93,7 @@ void LineListLabel::updateLabelCandidates( qreal x, qreal y, LineList* lineList,
 
 void LineListLabel::draw()
 {
+#ifndef KSTARS_LITE
     const Projector *proj = SkyMap::Instance()->projector();
 
     double comfyAngle = 40.0;  // the first valid candidate with an angle
@@ -166,6 +169,7 @@ void LineListLabel::draw()
     }
 
     m_skyLabeler->drawGuideLabel( o[best], m_text, a[best] );
+#endif
 }
 
 

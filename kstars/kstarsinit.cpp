@@ -22,7 +22,6 @@
 #include <QMenu>
 #include <QWidgetAction>
 
-#include <KIconThemes/KIconLoader>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KTipDialog>
@@ -131,7 +130,7 @@ namespace {
 }
 
 void KStars::initActions() {
-    KIconLoader::global()->addAppDir( "kstars" );
+    //KIconLoader::global()->addAppDir( "kstars" );
     QAction *ka;
 
     // ==== File menu ================

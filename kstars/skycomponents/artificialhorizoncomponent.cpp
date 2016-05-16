@@ -20,7 +20,11 @@
 #include "polylist.h"
 
 #include "skymesh.h"
+#ifndef KSTARS_LITE
+#include "skymap.h"
+#endif
 #include "skypainter.h"
+
 #include "projections/projector.h"
 
 ArtificialHorizonEntity::ArtificialHorizonEntity()

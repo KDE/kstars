@@ -23,7 +23,9 @@
 #include "skyobjects/jupitermoons.h"
 #include "skyobjects/ksplanetbase.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skyobjects/skypoint.h" 
 #include "skyobjects/trailobject.h" 
 #include "dms.h"

@@ -26,7 +26,9 @@
 #include <QPixmap>
 #include <QDebug>
 
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
@@ -244,9 +246,10 @@ void StarObject::setNames( QString name, QString name2 ) {
         lname = gname();
     setLongName(lname);
 }
-
 void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifndef KSTARS_LITE
     pmenu->createStarMenu( this );
+#endif
 }
 
 void StarObject::updateCoords( const KSNumbers *num, bool , const dms*, const dms*, bool ) {

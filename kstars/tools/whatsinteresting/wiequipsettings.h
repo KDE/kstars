@@ -27,9 +27,11 @@
 class KStars;
 
 /**
- * \class WIEquipSettings
- * \brief User interface for "Equipment Type and Parameters" page in WI settings dialog
- * \author Samikshan Bairagya
+ * @class WIEquipSettings
+ * @brief User interface for "Equipment Type and Parameters" page in WI settings dialog
+ * @author Samikshan Bairagya
+ * @author Jasem Mutlaq
+ * @version 1.1
  */
 class WIEquipSettings : public QFrame, public Ui::WIEquipSettings
 {
@@ -43,7 +45,7 @@ public:
     /**
      * \brief Constructor
      */
-    WIEquipSettings(KStars *ks);
+    WIEquipSettings();
 
     /**
      * \brief Inline method to return aperture
@@ -66,7 +68,6 @@ public:
     void populateScopeListWidget();
 
 private:
-    KStars *m_Ks;
     QList<OAL::Scope *> m_ScopeList;
     double m_Aperture;                           ///Aperture of equipment to use
     ObsConditions::TelescopeType m_TelType;      ///Type of telescope being used
@@ -83,19 +84,14 @@ private slots:
     void slotBinocularsCheck(bool on);
 
     /**
-     * \brief private slot - No equipment type selected
-     */
-    void slotNoEquipCheck(bool on);
-
-    /**
      * \brief private slot - Telescope selected from KStars userdb
      */
-    void slotScopeSelected(QListWidgetItem *scopeItem);
+    void slotScopeSelected(int row);
 
     /**
      * \brief private slot - Add new telescope to KStars userdb
      */
-    void slotSaveNewScope();
+    void slotAddNewScope();
 };
 
 #endif
