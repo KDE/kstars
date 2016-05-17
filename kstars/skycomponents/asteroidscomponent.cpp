@@ -25,12 +25,16 @@
 
 #include "asteroidscomponent.h"
 
+#include "kstarslite/skyitems/asteroidsitem.h"
+
 #include "auxiliary/filedownloader.h"
 #include "projections/projector.h"
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
 #include "skylabeler.h"
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
 #endif
 #include "skypainter.h"
@@ -87,13 +91,16 @@ void AsteroidsComponent::loadData()
     double q, a, e, dble_i, dble_w, dble_N, dble_M, H, G, earth_moid;
     long double JD;
     float diameter, albedo, rot_period, period;
-    bool neo;    
+    bool neo;
 
     emitProgressText( i18n("Loading asteroids") );
+
+    AsteroidsItem * asteroidsItem = SkyMapLite::Instance()->getAsteroidsItem();
 
     // Clear lists
     m_ObjectList.clear();
     objectNames( SkyObject::ASTEROID ).clear();
+    asteroidsItem->clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -184,6 +191,7 @@ void AsteroidsComponent::loadData()
         //new_asteroid->setAngularSize(0.005);
 
         m_ObjectList.append(new_asteroid);
+        asteroidsItem->addAsteroid(new_asteroid);
 
         // Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append(name);
@@ -284,7 +292,7 @@ void AsteroidsComponent::downloadReady()
     // Reload asteroids
     loadData();
 #ifdef KSTARS_LITE
-    KStarsLite::Instance();
+    KStarsLite::Instance()->data()->setFullTimeUpdate();
 #else
     KStars::Instance()->data()->setFullTimeUpdate();
 #endif

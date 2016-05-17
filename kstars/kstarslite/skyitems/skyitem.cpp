@@ -24,6 +24,8 @@ SkyItem::SkyItem(QQuickItem* parent)
     // Whenever the parent's dimensions changed, change dimensions of this item too
     connect(parent, &QQuickItem::widthChanged, this, &SkyItem::resizeItem);
     connect(parent, &QQuickItem::heightChanged, this, &SkyItem::resizeItem);
+
+    connect(m_skyMapLite, &SkyMapLite::zoomChanged, this, &QQuickItem::update);
     setWidth(1);
     setHeight(1);
 }

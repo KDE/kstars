@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          planetsitem.h  -  K Desktop Planetarium
+                          cometsitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 02/05/2016
+    begin                : 16/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,31 +13,35 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef PLANETSITEM_H_
-#define PLANETSITEM_H_
+#ifndef COMETSITEM_H_
+#define COMETSITEM_H_
 
 #include "skyitem.h"
 
-class SolarSystemSingleComponent;
+class KSComet;
 
-
-class PlanetsItem : public SkyItem {
+class CometsItem : public SkyItem {
 public:
-    PlanetsItem(QQuickItem* parent = 0);
-    /** Adds an object of type SolarSystemSingleComponent to m_toAdd. In the next call to
-     * updatePaintNode() the object of type PlanetNode will be created and planetComponent
-     * will be moved to m_planetComponents. PlanetNode represents graphically KSPlanetBase on SkyMapLite.
-     * This function should be called whenever an object of class SolarSystemSingleComponent is
+    CometsItem(QQuickItem* parent = 0);
+    /** Adds an object of type KSComet to m_toAdd. In the next call to
+     * updatePaintNode() the object of type PointSourceNode will be created and comet
+     * will be moved to m_comets. PointSourceNode represents graphically KSComet on SkyMapLite.
+     * This function should be called whenever an object of class KSComet is
      * created.
      *
-     * @param SolarSystemSingleComponent that should be displayed on SkyMapLite
+     * @param KSComet that should be displayed on SkyMapLite
      */
-    //TODO change it to KSPlanetBase
-    void addPlanet(SolarSystemSingleComponent* planetComp);
+    void addComet(KSComet * comet);
+    /**
+     * @short Sets m_clear to true. On next call to updatePaintNode all child nodes of RootNode will be
+     * deleted. Clears m_comets
+     */
+    void clear();
 protected:
     virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
 private:
-    QList<SolarSystemSingleComponent*> m_planetComponents;
-    QList<SolarSystemSingleComponent*> m_toAdd;
+    bool m_clear;
+    QList<KSComet *> m_comets;
+    QList<KSComet *> m_toAdd;
 };
 #endif

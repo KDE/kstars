@@ -19,7 +19,7 @@
 
 #include <QSGNode>
 #include <QQuickItem>
-#include "skymaplite.h"
+//#include "skymaplite.h"
 
 class SkyComponent;
 class Projector;
@@ -52,15 +52,6 @@ protected:
     explicit SkyItem(QQuickItem* parent = 0);
 
 public:
-    /** @short short function that returns pointer to the current projector
-     *  @return pointer to current projector of SkyMapLite
-     */
-    inline const Projector* projector() { return SkyMapLite::Instance()->projector(); }
-
-    /** @short short function for safe access to SkyMapLite
-     *  @return pointer to instance of SkyMapLite class
-     */
-    inline const SkyMapLite* map() { return m_skyMapLite; }
     /* @short Get the component that asked to instantiate this SkyItem
      *
      *@return a pointer to the parent component.

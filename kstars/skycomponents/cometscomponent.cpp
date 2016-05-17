@@ -25,6 +25,8 @@
 #include "cometscomponent.h"
 #include "solarsystemcomposite.h"
 
+#include "kstarslite/skyitems/cometsitem.h"
+
 #include "Options.h"
 #include "skyobjects/kscomet.h"
 #include "ksutils.h"
@@ -87,8 +89,11 @@ void CometsComponent::loadData() {
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
 
+    CometsItem * cometsItem = SkyMapLite::Instance()->getCometsItem();
+
     emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
+    cometsItem->clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -172,6 +177,7 @@ void CometsComponent::loadData() {
 
         // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
+        cometsItem->addComet(com);
     }
 }
 

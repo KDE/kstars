@@ -20,15 +20,13 @@
 #include <QQuickWindow>
 #include "skymaplite.h"
 #include "ksplanetbase.h"
-#include "solarsystemsinglecomponent.h"
-
+#include "Options.h"
+#include "projections/projector.h"
 #include "planetnode.h"
 
-
-PlanetNode::PlanetNode(SolarSystemSingleComponent* p, RootNode* parentNode)
-    :m_planetPic(new QSGSimpleTextureNode), m_planet(p), m_planetOpacity(new QSGOpacityNode)
+PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
+    :SkyNode(pb), m_planetPic(new QSGSimpleTextureNode), m_planetOpacity(new QSGOpacityNode)
 {
-    KSPlanetBase* pb = m_planet->planet();
     // Draw them as bright stars of appropriate color instead of images
     char spType;
     //FIXME: do these need i18n?
@@ -40,14 +38,74 @@ PlanetNode::PlanetNode(SolarSystemSingleComponent* p, RootNode* parentNode)
         spType = 'B';
     }
 
-    m_point = new PointNode(spType, parentNode);
+    m_point = new PointNode(parentNode, spType);
     appendChildNode(m_point);
 
     appendChildNode(m_planetOpacity);
     //Add planet to opacity node so that we could hide the planet
     m_planetOpacity->appendChildNode(m_planetPic);
     m_planetPic->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(
-                              pb->image(), QQuickWindow::TextureCanUseAtlas));
+                                pb->image(), QQuickWindow::TextureCanUseAtlas));
+}
+
+void PlanetNode::update() {
+    if(0) {
+        //if(!pNode->planet()->select) {
+          //  pNode->hide(); //TODO
+    } else {
+        KSPlanetBase * planet = static_cast<KSPlanetBase *>(m_skyObject);
+
+        if( !projector()->checkVisibility(planet) ) {
+            hide();
+            return;
+        }
+
+        bool visible = false;
+        QPointF pos = projector()->toScreen(planet,true,&visible);
+        if( !visible || !projector()->onScreen(pos) ) {
+            hide();
+            return;
+        }
+        float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
+        if( fakeStarSize > 15.0 )
+            fakeStarSize = 15.0;
+
+        float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
+        if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
+            setPointSize(fakeStarSize);
+            changePos(pos);
+            showPoint();
+        } else {
+            float sizemin = 1.0;
+            if( planet->name() == "Sun" || planet->name() == "Moon" )
+                sizemin = 8.0;
+
+            float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
+            if( size < sizemin )
+                size = sizemin;
+
+            if( Options::showPlanetImages() && !planet->image().isNull() ) {
+                //Because Saturn has rings, we inflate its image size by a factor 2.5
+                if( planet->name() == "Saturn" )
+                    size = int(2.5*size);
+                // Scale size exponentially so it is visible at large zooms
+                else if (planet->name() == "Pluto")
+                    size = int(size*exp(1.5*size));
+
+                /*save();
+            translate(pos);
+            rotate( projector()->findPA( planet, pos.x(), pos.y() ) );
+            drawImage( QRect(-0.5*size, -0.5*size, size, size),
+                       planet->image() );
+            restore();*/
+                setPlanetPicSize(size);
+                changePos(pos);
+                showPlanetPic();
+            } else { //Otherwise, draw a simple circle.
+                //drawEllipse( pos, size, size );
+            }
+        }
+    }
 }
 
 void PlanetNode::setPointSize(float size) {
@@ -64,10 +122,7 @@ void PlanetNode::showPoint() {
         m_planetOpacity->setOpacity(0);
         m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
     }
-    if(!m_point->opacity()) {
-        m_point->setOpacity(1);
-        m_point->markDirty(QSGNode::DirtyOpacity);
-    }
+    m_point->show();
 }
 
 void PlanetNode::showPlanetPic() {
@@ -75,10 +130,7 @@ void PlanetNode::showPlanetPic() {
         m_planetOpacity->setOpacity(1);
         m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
     }
-    if(m_point->opacity()) {
-        m_point->setOpacity(0);
-        m_point->markDirty(QSGNode::DirtyOpacity);
-    }
+    m_point->hide();
 }
 
 void PlanetNode::hide() {

@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          planetsitem.h  -  K Desktop Planetarium
+                          asteroidsitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 02/05/2016
+    begin                : 16/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,31 +13,37 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef PLANETSITEM_H_
-#define PLANETSITEM_H_
+#ifndef ASTEROIDSITEM_H_
+#define ASTEROIDSITEM_H_
 
 #include "skyitem.h"
 
-class SolarSystemSingleComponent;
+class KSAsteroid;
 
-
-class PlanetsItem : public SkyItem {
+class AsteroidsItem : public SkyItem {
 public:
-    PlanetsItem(QQuickItem* parent = 0);
-    /** Adds an object of type SolarSystemSingleComponent to m_toAdd. In the next call to
-     * updatePaintNode() the object of type PlanetNode will be created and planetComponent
-     * will be moved to m_planetComponents. PlanetNode represents graphically KSPlanetBase on SkyMapLite.
-     * This function should be called whenever an object of class SolarSystemSingleComponent is
-     * created.
+
+    AsteroidsItem(QQuickItem* parent = 0);
+
+    /** Adds an object of type KSAsteroid to m_toAdd. In the next call to
+     * updatePaintNode() the object of type PlanetNode will be created and asteroid
+     * will be moved to m_asteroids. PlanetNode represents graphically KSAsteroid on SkyMapLite.
+     * This function should be called whenever an object of class KSAsteroid is created.
      *
-     * @param SolarSystemSingleComponent that should be displayed on SkyMapLite
+     * @param KSAsteroid that should be displayed on SkyMapLite
      */
-    //TODO change it to KSPlanetBase
-    void addPlanet(SolarSystemSingleComponent* planetComp);
+    void addAsteroid(KSAsteroid * asteroid);
+    /**
+     * Sets m_clear to true. On next call to updatePaintNode all SkyNodes in RootNode and
+     * all KSAsteroids in m_asteroids and m_toAdd will be deleted.
+     */
+    void clear();
+
 protected:
     virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
 private:
-    QList<SolarSystemSingleComponent*> m_planetComponents;
-    QList<SolarSystemSingleComponent*> m_toAdd;
+    bool m_clear;
+    QList<KSAsteroid*> m_asteroids;
+    QList<KSAsteroid*> m_toAdd;
 };
 #endif

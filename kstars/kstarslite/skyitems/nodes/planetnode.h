@@ -17,44 +17,45 @@
 #define PLANETNODE_H_
 #include <QSGNode>
 #include "pointnode.h"
+#include "skynode.h"
 
 class QSGSimpleTextureNode;
 class QImage;
-class SolarSystemSingleComponent;
 class KSPlanetBase;
 class RootNode;
 
 /** @class PlanetNode
  *
- * A QSGNode derived class used as a container for holding two other nodes PointNode
- * and QSGSimpleTextureNode that are displayed depending on the conditions (zoom level,
- * user options)
+ * A SkyNode derived class used as a container for holding two other nodes: PointNode
+ * and QSGSimpleTextureNode(displays object as image) that are displayed depending on the conditions
+ * (zoom level, user options)
  *
- *@short A container for PointNode and QSGSimpleTextureNode used for displaying planet
+ *@short A container for PointNode and QSGSimpleTextureNode used for displaying some solar system objects
  *@author Artem Fedoskin
  *@version 1.0
  */
 
-class PlanetNode : public QSGTransformNode {
+class PlanetNode : public SkyNode {
 public:
     /**
      * @brief Constructor
      * @param planet used in PlanesItem to update position of PlanetNode
      * @param parentNode used by PointNode to get textures from cache
      */
-    PlanetNode(SolarSystemSingleComponent* planet, RootNode* parentNode);
+    PlanetNode(KSPlanetBase* planet, RootNode* parentNode);
+
     /**
-     * @short setPointSize updates the size of m_point
+     * @short updates the size of m_point
      * @param size new size of m_point
      */
     void setPointSize(float size);
     /**
-     * @short setPlanetPicSize updates the size of m_planetPic
+     * @short updates the size of m_planetPic
      * @param size new size of m_planetPic
      */
     void setPlanetPicSize(float size);
     /**
-     * @short makes m_planetPic invisible and m_point visible
+     * @short hides m_planetPic and shows m_point
      */
     void showPoint();
     /**
@@ -62,18 +63,13 @@ public:
      */
     void showPlanetPic();
     /**
-     * @short hides both nodes
-     */
-    void hide();
-    /**
-     * @short changePos changes the position of both nodes
+     * @short changePos changes the position m_point and m_planetPic
      * @param pos new position
      */
     void changePos(QPointF pos);
-    /**
-     * @return the SolarSystemSingleComponent associated with this PlanetNode
-     */
-    inline SolarSystemSingleComponent* planet() { return m_planet; }
+
+    virtual void update() override;
+    virtual void hide() override;
 private:
     PointNode* m_point;
 
@@ -81,8 +77,6 @@ private:
     // no explicit opacity node here.
     QSGOpacityNode* m_planetOpacity;
     QSGSimpleTextureNode* m_planetPic;
-
-    SolarSystemSingleComponent* m_planet;
 };
 
 

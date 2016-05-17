@@ -1,12 +1,14 @@
-#include "rootnode.h"
-#include "skymaplite.h"
-#include "projections/projector.h"
-
 #include <QSGTexture>
 #include <QQuickWindow>
 
+#include "rootnode.h"
+#include "skymaplite.h"
+#include "projections/projector.h"
+#include "skynode.h"
+
 RootNode::RootNode()
-    :m_polyNode(new QSGGeometryNode), m_skyMapLite(SkyMapLite::Instance())
+    :m_polyNode(new QSGGeometryNode), m_skyMapLite(SkyMapLite::Instance()),
+      m_polyGeometry(0)
 {
     genCachedTextures();
     updateClipPoly();
@@ -33,9 +35,17 @@ QSGTexture* RootNode::getCachedTexture(int size, char spType) {
     return m_textureCache[SkyMapLite::Instance()->harvardToIndex(spType)][size];
 }
 
-void RootNode::appendSkyNode(QSGNode * skyNode) {
+void RootNode::appendSkyNode(SkyNode * skyNode) {
     m_skyNodes.append(skyNode);
     appendChildNode(skyNode);
+}
+
+void RootNode::removeAllSkyNodes() {
+    for(int i = 0; i < m_skyNodes.length(); ++i) {
+        removeChildNode(m_skyNodes[i]);
+        delete m_skyNodes[i];
+    }
+    m_skyNodes.clear();
 }
 
 void RootNode::updateClipPoly() {

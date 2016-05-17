@@ -23,11 +23,12 @@ class QSGSimpleTextureNode;
 class QImage;
 class QSGTexture;
 class SkyMapLite;
+class SkyNode;
 
 /** @class RootNode
  *
- * A QSGClipNode derived class used as a container for holding nodes and for clipping. Upon construction
- * RootNode generates all textures that are used by stars.
+ * A QSGClipNode derived class used as a container for holding pointers to nodes and for clipping.
+ * Upon construction RootNode generates all textures that are used by PointNode.
  *
  *@short A container for nodes that holds collection of textures for stars and provides clipping
  *@author Artem Fedoskin
@@ -46,14 +47,7 @@ public:
     QSGTexture* getCachedTexture(int size, char spType);
 
     /**
-     * @brief Adds node to m_skyNodes and node tree
-     * @param skyNode pointer to skyNode that has to be added
-     */
-    void appendSkyNode(QSGNode * skyNode);
-
-    /**
-     * Triangulates clipping polygon provided by Projection system
-     * @short updates clipping geometry using triangles data in SkyMapLite
+     * @short triangulates clipping polygon provided by Projection system
      */
     void updateClipPoly();
 
@@ -67,8 +61,18 @@ public:
      * @param i index of SkyNode
      * @return desired SkyNode
      */
-    inline QSGNode * skyNodeAtIndex(int i) { return m_skyNodes[i]; }
+    inline SkyNode * skyNodeAtIndex(int i) { return m_skyNodes[i]; }
 
+    /**
+     * @brief Adds node to m_skyNodes and node tree
+     * @param skyNode pointer to skyNode that has to be added
+     */
+    void appendSkyNode(SkyNode * skyNode);
+
+    /**
+     * @short deletes all SkyNodes from m_skyNodes and node tree
+     */
+    void removeAllSkyNodes();
 private:
     /**
      * @short initializes textureCache with cached images of stars in SkyMapLite
@@ -81,6 +85,7 @@ private:
     QSGGeometryNode *m_polyNode;
     QSGGeometry *m_polyGeometry;
     //To hold nodes that represent sky objects
-    QVector<QSGNode *> m_skyNodes;
+    QVector<SkyNode *> m_skyNodes;
+    bool m_hidden;
 };
 #endif

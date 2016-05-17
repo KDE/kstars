@@ -1,5 +1,5 @@
 /** *************************************************************************
-                          pointnode.h  -  K Desktop Planetarium
+                          pointnode.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 05/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
@@ -17,12 +17,11 @@
 #include <QImage>
 #include <QQuickWindow>
 
-#include "skymaplite.h"
 #include "pointnode.h"
 #include "rootnode.h"
 
-PointNode::PointNode(char sp, RootNode* p, float size)
-    :spType(sp), texture(new QSGSimpleTextureNode), parentNode(p), skyMapLite(SkyMapLite::Instance())
+PointNode::PointNode(RootNode* p, char sp, float size)
+    :spType(sp), texture(new QSGSimpleTextureNode), parentNode(p)
 {
     appendChildNode(texture);
     setSize(size);
@@ -37,7 +36,21 @@ void PointNode::setSize(float size) {
     texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
 }
 
-void PointNode::changePos(QPointF pos) {
+void PointNode::changePos(QPointF pos) { //TODO move it to SkyNodes
     QRectF oldRect = texture->rect();
     texture->setRect(QRect(pos.x(),pos.y(),oldRect.width(),oldRect.height()));
+}
+
+void PointNode::show() {
+    if(!opacity()) {
+        setOpacity(1);
+        markDirty(QSGNode::DirtyOpacity);
+    }
+}
+
+void PointNode::hide() {
+    if(opacity()) {
+        setOpacity(0);
+        markDirty(QSGNode::DirtyOpacity);
+    }
 }

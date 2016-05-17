@@ -25,6 +25,7 @@
 #include <config-kstars.h>
 #include <QQuickItem>
 #include <QPolygonF>
+#include "kstarsdata.h"
 
 class dms;
 class KStarsData;
@@ -32,6 +33,8 @@ class SkyObject;
 class Projector;
 class SolarSystemSingleComponent;
 class PlanetsItem;
+class AsteroidsItem;
+class CometsItem;
 
 class QSGTexture;
 
@@ -73,7 +76,7 @@ public:
                       Gnomonic,
                       UnknownProjection };*/
 
-    //static bool IsSlewing() { return pinstance->isSlewing(); }
+    static bool IsSlewing() { return pinstance->isSlewing(); }
 
     /** Destructor (empty) */
     ~SkyMapLite();
@@ -225,8 +228,8 @@ public:
       */
     void setZoomFactor(double factor);
 
-    /** @short Adds object of type PlanetItem to the SkyMapLite
-     *@param parentComp pointer to the SolarSystemSingleComponent that is to be displayed on SkyMapLite
+    /** @short Adds object of type KSPlanetBase to the PlanetsItem
+     *@param parentComp pointer to the KSPlanetBase that is to be displayed on SkyMapLite
      */
     void addPlanetItem(SolarSystemSingleComponent* parentComp);
 
@@ -252,7 +255,7 @@ public:
      */
     QSGTexture* getCachedTexture(int size, char spType);
 
-    //bool isSlewing() const;
+    bool isSlewing() const;
 
     // NOTE: This method is draw-backend independent.
     /** @short update the geometry of the angle ruler. */
@@ -285,7 +288,17 @@ public:
 
     SkyPoint getCenterPoint();*/
 
-    Projector* m_proj;
+    /**
+     * @brief Get AsteroidsItem object
+     * @return const pointer to m_asteroidsItem
+     */
+    inline AsteroidsItem * getAsteroidsItem() { return m_asteroidsItem; }
+
+    /**
+     * @brief Get CometsItem
+     * @return const pointer to m_cometsItem
+     */
+    inline CometsItem * getCometsItem() { return m_cometsItem; }
 
 public slots:
     /** Called whenever wrappers' width or height are changed. Probably will be used to
@@ -366,7 +379,7 @@ public slots:
     /** Checks whether the timestep exceeds a threshold value.  If so, sets
      * ClockSlewing=true and sets the SimClock to ManualMode.
      */
-//    void slotClockSlewing();
+    void slotClockSlewing();
 
   //  void slotBeginStarHop(); // TODO: Add docs
 
@@ -557,11 +570,15 @@ private:
     bool m_objPointingMode;
     bool m_fovCaptureMode;
 
-    static SkyMapLite* pinstance;
+    Projector* m_proj;
+
+    static SkyMapLite *pinstance;
     QQuickItem *m_SkyMapLiteWrapper;
 
-    //SkyItem
-    PlanetsItem* m_planetsItem;
+    //SkyItems
+    PlanetsItem *m_planetsItem;
+    AsteroidsItem *m_asteroidsItem;
+    CometsItem *m_cometsItem;
 
     static int starColorMode;
 

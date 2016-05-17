@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          planetrootnode.h  -  K Desktop Planetarium
+                          skynode.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 05/05/2016
+    begin                : 16/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,21 +13,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef PLANETROOTNODE_H_
-#define PLANETROOTNODE_H_
-#include "rootnode.h"
-class PlanetNode;
 
-/** @class PlanetRootNode
- *@short A RootNode derived class used as a container for holding PlanetNodes.
- * Might be deleted soon
- *@author Artem Fedoskin
- *@version 1.0
- */
+#include "skymaplite.h"
+#include "skynode.h"
 
-class PlanetRootNode : public RootNode {
-public:
-    PlanetRootNode();
-private:
-};
-#endif
+SkyNode::SkyNode(SkyObject * skyObject)
+    :m_skyObject(skyObject)
+{
+
+}

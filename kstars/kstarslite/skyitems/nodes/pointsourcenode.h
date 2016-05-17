@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          pointnode.h  -  K Desktop Planetarium
+                          pointsourcenode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 05/05/2016
+    begin                : 16/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,51 +13,47 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POINTNODE_H_
-#define POINTNODE_H_
+#ifndef POINTSOURCENODE_H_
+#define POINTSOURCENODE_H_
 #include <QSGSimpleTextureNode>
+#include "skynode.h"
 
 class PlanetItemNode;
 class SkyMapLite;
+class PointNode;
 
-/** @class PointNode
+/** @class PointSourceNode
  *
- * A QSGOpacityNode derived class used for representing stars and planets as stars. Upon
- * construction loads the texture of star cached in parentNode
+ * A SkyNode derived class used for displaying PointNode with coordinates provided by SkyObject.
  *
- *@short QSGOpacityNode derived class that represents stars and planets using cached QSGTexture
+ *@short A SkyNode derived class that represents stars and objects that are drawn as stars
  *@author Artem Fedoskin
  *@version 1.0
  */
 
 class RootNode;
 
-class PointNode : public QSGOpacityNode  {
+class PointSourceNode : public SkyNode  {
 public:
     /**
      * @short Constructor
-     * @param spType spectral type
+     * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
      * @param parentNode pointer to the top parent node, which holds texture cache
+     * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    PointNode(RootNode* parentNode, char spType = 'A', float size = 1);
-    /**
-     * @short setSize update size of PointNode with the given parameter
-     * @param size new size of PointNode
-     */
-    void setSize(float size);
-    /**
-     * @short changePos changes position of PointNode to the one specified by pos
-     * @param pos new position
-     */
-    void changePos(QPointF pos);
-    void show();
-    void hide();
+    PointSourceNode(SkyObject * skyObject, RootNode * parentNode, char spType = 'A', float size = 1);
+
+    /** @short Get the width of a star of magnitude mag */
+    float starWidth(float mag) const;
+
+    virtual void update() override;
+    virtual void hide() override;
 private:
-    char spType;
-    QSGSimpleTextureNode *texture;
-    //parentNode holds texture cache
-    RootNode* parentNode;
+    PointNode * m_point;
+    //TODO deal setter for this when stars will be introduced
+    float m_sizeMagLim;
 };
 
 #endif
+

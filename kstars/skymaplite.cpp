@@ -29,7 +29,11 @@
 #include "solarsystemsinglecomponent.h"
 #include "Options.h"
 
+//SkyItems
 #include "kstarslite/skyitems/planetsitem.h"
+#include "kstarslite/skyitems/asteroidsitem.h"
+#include "kstarslite/skyitems/cometsitem.h"
+
 #include "ksplanetbase.h"
 #include "ksutils.h"
 
@@ -82,7 +86,8 @@ int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
-      nStarSizes(15), nSPclasses(7), m_planetsItem(new PlanetsItem(this))
+      nStarSizes(15), nSPclasses(7), m_planetsItem(new PlanetsItem(this)),
+      m_asteroidsItem(new AsteroidsItem(this)), m_cometsItem(new CometsItem(this))
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -199,6 +204,17 @@ void SkyMapLite::setFocusObject( SkyObject *o ) {
         Options::setFocusObject( i18n( "nothing" ) );
 }
 
+void SkyMapLite::slotClockSlewing() {
+    //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
+    if( (fabs( data->clock()->scale() ) > Options::slewTimeScale())  ^  clockSlewing ) {
+        data->clock()->setManualMode( !clockSlewing );
+        clockSlewing = !clockSlewing;
+        // don't change automatically the DST status
+        KStarsLite* kstars = KStarsLite::Instance();
+        if( kstars )
+            kstars->updateTime( false );
+    }
+}
 
 /*void SkyMapLite::updateFocus() {
     if( slewing )
@@ -266,6 +282,8 @@ void SkyMapLite::setZoomFactor(double factor) {
 void SkyMapLite::forceUpdate() {
     setupProjector();
     m_planetsItem->update();
+    m_asteroidsItem->update();
+    m_cometsItem->update();
 }
 
 void SkyMapLite::setupProjector() {
@@ -278,6 +296,7 @@ void SkyMapLite::setupProjector() {
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
     p.fillGround    = Options::showGround();
+    Options::setProjection(Projector::Lambert);
     //Check if we need a new projector
     if( m_proj && Options::projection() == m_proj->type() )
         m_proj->setViewParams(p);
@@ -330,6 +349,10 @@ void SkyMapLite::setMouseMoveCursor()
         setCursor(Qt::SizeAllCursor);	// cursor shape defined in qt
         mouseMoveCursor = true;
     }
+}
+
+bool SkyMapLite::isSlewing() const  {
+    return (slewing || ( clockSlewing && data->clock()->isActive() ) );
 }
 
 int SkyMapLite::harvardToIndex(char c) {
