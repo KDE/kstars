@@ -81,6 +81,7 @@ Capture::Capture()
 
     deviationDetected = false;
     spikeDetected     = false;
+    isBusy            = false;
 
     ignoreJobProgress=true;
 
@@ -371,11 +372,8 @@ void Capture::abort()
     currentImgCountOUT->setText(QString());
     exposeOUT->setText(QString());
 
-    startB->setEnabled(true);
-    stopB->setEnabled(false);
-    previewB->setEnabled(true);
+    setBusy(false);
 
-    pi->stopAnimation();
     seqTimer->stop();
 
 }
@@ -1508,6 +1506,16 @@ void Capture::moveJobDown()
 
 }
 
+void Capture::setBusy(bool enable)
+{
+    isBusy = enable;
+
+    enable ? pi->startAnimation() : pi->stopAnimation();
+    previewB->setEnabled(!enable);
+    startB->setEnabled(!enable);
+    stopB->setEnabled(enable);
+}
+
 void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
@@ -1529,10 +1537,9 @@ void Capture::prepareJob(SequenceJob *job)
         {
             appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             secondsLabel->setText(i18n("Set filter..."));
-            pi->startAnimation();
-            previewB->setEnabled(false);
-            startB->setEnabled(false);
-            stopB->setEnabled(true);
+
+            setBusy(true);
+
         }
     }
 
@@ -1543,10 +1550,8 @@ void Capture::prepareJob(SequenceJob *job)
         {
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
-            pi->startAnimation();
-            previewB->setEnabled(false);
-            startB->setEnabled(false);
-            stopB->setEnabled(true);
+
+            setBusy(true);
         }
     }
 
@@ -1603,11 +1608,7 @@ void Capture::executeJob()
     }
 
     // Update button status
-    startB->setEnabled(false);
-    stopB->setEnabled(true);
-    previewB->setEnabled(false);
-
-    pi->startAnimation();
+    setBusy(true);
 
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;        
 
@@ -2474,6 +2475,9 @@ QString Capture::getSequenceQueueStatus()
     if (jobs.count() == 0)
         return "Invalid";
 
+    if (isBusy)
+        return "Running";
+
     int idle=0, error=0, complete=0, aborted=0,running=0;
 
     foreach(SequenceJob* job, jobs)
@@ -2504,7 +2508,7 @@ QString Capture::getSequenceQueueStatus()
     if (aborted > 0)
     {
         if (isAutoGuiding && deviationDetected)
-            return "Suspended";
+            return "Suspended";        
         else
             return "Aborted";
     }

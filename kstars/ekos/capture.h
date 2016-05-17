@@ -399,6 +399,7 @@ signals:
 
 private:
 
+    void setBusy(bool enable);
     bool resumeSequence();
     void startNextExposure();
     void updateFrameProperties();
@@ -430,6 +431,7 @@ private:
     QString		seqPrefix;
     int			nextSequenceID;
     int         seqFileCount;
+    bool        isBusy;
 
     int calibrationState;
     bool useGuideHead;
