@@ -61,6 +61,12 @@ public:
     virtual void hide() =0;
 
     /**
+     * @short changePos changes the position of SkyNode on SkyMapLite
+     * @param pos new position
+     */
+    virtual void changePos(QPointF pos) =0;
+
+    /**
      * @short returns SkyObject associated with this SkyNode
      * @return pointer to the object of type SkyObject
      */

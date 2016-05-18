@@ -54,15 +54,16 @@ void PlanetNode::update() {
           //  pNode->hide(); //TODO
     } else {
         KSPlanetBase * planet = static_cast<KSPlanetBase *>(m_skyObject);
+        const Projector * proj = projector();
 
-        if( !projector()->checkVisibility(planet) ) {
+        if( !proj->checkVisibility(planet) ) {
             hide();
             return;
         }
 
         bool visible = false;
-        QPointF pos = projector()->toScreen(planet,true,&visible);
-        if( !visible || !projector()->onScreen(pos) ) {
+        QPointF pos = proj->toScreen(planet,true,&visible);
+        if( !visible || !proj->onScreen(pos) ) {
             hide();
             return;
         }
@@ -83,8 +84,8 @@ void PlanetNode::update() {
             float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
             if( size < sizemin )
                 size = sizemin;
-
-            if( Options::showPlanetImages() && !planet->image().isNull() ) {
+            //Options::showPlanetImages() &&
+            if( !planet->image().isNull() ) {
                 //Because Saturn has rings, we inflate its image size by a factor 2.5
                 if( planet->name() == "Saturn" )
                     size = int(2.5*size);
@@ -92,12 +93,6 @@ void PlanetNode::update() {
                 else if (planet->name() == "Pluto")
                     size = int(size*exp(1.5*size));
 
-                /*save();
-            translate(pos);
-            rotate( projector()->findPA( planet, pos.x(), pos.y() ) );
-            drawImage( QRect(-0.5*size, -0.5*size, size, size),
-                       planet->image() );
-            restore();*/
                 setPlanetPicSize(size);
                 changePos(pos);
                 showPlanetPic();
@@ -138,21 +133,28 @@ void PlanetNode::hide() {
         m_planetOpacity->setOpacity(0);
         m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
     }
-    if(m_point->opacity()) {
-        m_point->setOpacity(0);
-        m_point->markDirty(QSGNode::DirtyOpacity);
-    }
+    m_point->hide();
 }
 
 void PlanetNode::changePos(QPointF pos) {
-    //TODO: port it to transform matrix
-    /*QMatrix4x4 m (1,0,0,pos.x(),
+    QSizeF size;
+    QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
-                  0,0,0,1,
+                  0,0,1,0,
                   0,0,0,1);
-    setMatrix(m);
-    markDirty(QSGNode::DirtyMatrix);*/
-    m_planetPic->setRect(QRect(pos.x(),pos.y(),m_planetPic->rect().size().width(),m_planetPic->rect().size().width()));
-    m_point->changePos(pos);
 
+    if(m_planetOpacity->opacity()) {
+        size = m_planetPic->rect().size();
+        //Matrix has to be rotated between assigning x and y and translating it by the half
+        //of size of the planet. Otherwise the image will don't rotate at all or rotate around
+        //the top-left corner
+        m.rotate(projector()->findPA( m_skyObject, pos.x(), pos.y()), 0, 0, 1);
+    } else {
+        size = m_point->size();
+    }
+
+    m.translate(-0.5*size.width(), -0.5*size.height());
+
+    setMatrix(m);
+    markDirty(QSGNode::DirtyMatrix);
 }

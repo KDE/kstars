@@ -46,11 +46,9 @@ public:
      * @param size new size of PointNode
      */
     void setSize(float size);
-    /**
-     * @short changePos changes position of PointNode to the one specified by pos
-     * @param pos new position
-     */
-    void changePos(QPointF pos);
+
+    inline QSizeF size() const { return texture->rect().size(); }
+
     void show();
     void hide();
 private:

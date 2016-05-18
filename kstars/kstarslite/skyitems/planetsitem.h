@@ -19,6 +19,7 @@
 #include "skyitem.h"
 
 class SolarSystemSingleComponent;
+class SkyObject;
 
 
 class PlanetsItem : public SkyItem {
@@ -32,8 +33,11 @@ public:
      *
      * @param SolarSystemSingleComponent that should be displayed on SkyMapLite
      */
-    //TODO change it to KSPlanetBase
+
     void addPlanet(SolarSystemSingleComponent* planetComp);
+
+    SolarSystemSingleComponent * getParentComponent(SkyObject * planet);
+
 protected:
     virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
 private:

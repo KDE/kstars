@@ -24,6 +24,7 @@ class QImage;
 class KSPlanetBase;
 class RootNode;
 
+
 /** @class PlanetNode
  *
  * A SkyNode derived class used as a container for holding two other nodes: PointNode
@@ -66,7 +67,7 @@ public:
      * @short changePos changes the position m_point and m_planetPic
      * @param pos new position
      */
-    void changePos(QPointF pos);
+    virtual void changePos(QPointF pos) override;
 
     virtual void update() override;
     virtual void hide() override;

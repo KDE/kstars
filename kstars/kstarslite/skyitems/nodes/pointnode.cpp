@@ -30,15 +30,11 @@ PointNode::PointNode(RootNode* p, char sp, float size)
 void PointNode::setSize(float size) {
     int isize = qMin(static_cast<int>(size), 14);
     texture->setTexture(parentNode->getCachedTexture(isize, spType));
+    //markDirty(QSGNode::DirtyMaterial);
 
     QSize tSize = texture->texture()->textureSize();
     QRectF oldRect = texture->rect();
     texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
-}
-
-void PointNode::changePos(QPointF pos) { //TODO move it to SkyNodes
-    QRectF oldRect = texture->rect();
-    texture->setRect(QRect(pos.x(),pos.y(),oldRect.width(),oldRect.height()));
 }
 
 void PointNode::show() {

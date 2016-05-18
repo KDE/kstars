@@ -35,6 +35,13 @@ void PlanetsItem::addPlanet(SolarSystemSingleComponent* planetComp) {
         m_toAdd.append(planetComp);
 }
 
+SolarSystemSingleComponent * PlanetsItem::getParentComponent(SkyObject * planet) {
+    foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
+        if(planetComp->planet() == planet) return planetComp;
+    }
+    return nullptr;
+}
+
 QSGNode* PlanetsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
     RootNode *n = static_cast<RootNode*>(oldNode);
     Q_UNUSED(updatePaintNodeData);
@@ -67,10 +74,12 @@ QSGNode* PlanetsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upd
     }
     //Update clipping geometry. If m_clipPoly in SkyMapLite wasn't changed, geometry is not updated
     n->updateClipPoly();
-    //Traverse all children nodes of PlanetRootNode
+    //Traverse all children nodes of RootNode
     for(int i = 0; i < n->skyNodesCount(); ++i) {
         PlanetNode* pNode = static_cast<PlanetNode*>(n->skyNodeAtIndex(i));
-        pNode->update();
+        bool selected = getParentComponent(pNode->getSkyObject())->selected();
+        if(selected) pNode->update();
+        else pNode->hide();
     }
     return n;
 }

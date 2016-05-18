@@ -47,6 +47,12 @@ public:
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
 
+    /**
+     * @short changePos changes the position m_point
+     * @param pos new position
+     */
+    virtual void changePos(QPointF pos) override;
+
     virtual void update() override;
     virtual void hide() override;
 private:

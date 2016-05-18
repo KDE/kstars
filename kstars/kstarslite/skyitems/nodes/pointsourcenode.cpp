@@ -48,6 +48,18 @@ float PointSourceNode::starWidth(float mag) const
     return size;
 }
 
+void PointSourceNode::changePos(QPointF pos) {
+    QSizeF size = m_point->size();
+    QMatrix4x4 m (1,0,0,pos.x(),
+                  0,1,0,pos.y(),
+                  0,0,1,0,
+                  0,0,0,1);
+    m.translate(-0.5*size.width(), -0.5*size.height());
+
+    setMatrix(m);
+    markDirty(QSGNode::DirtyMatrix);
+}
+
 void PointSourceNode::update() {
     if( !projector()->checkVisibility(m_skyObject) ) {
         m_point->hide();
@@ -58,7 +70,7 @@ void PointSourceNode::update() {
     QPointF pos = projector()->toScreen(m_skyObject,true,&visible);
     if( visible && projector()->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
         m_point->setSize(starWidth(m_skyObject->mag()));
-        m_point->changePos(pos);
+        changePos(pos);
         m_point->show();
     } else {
         m_point->hide();
