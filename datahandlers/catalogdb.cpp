@@ -309,6 +309,36 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
     rowuid = add_query.lastInsertId().toInt();
     add_query.clear();
   }
+  int ID = catalog_entry.ID;
+  if( catalog_entry.catalog_name == "Misc" || catid < 0 ) {
+      // Add into the Miscellaneous catalog
+
+      // FIXME: This is a hackjob. We should really be identifying the
+      // correct catalogs and adding things appropriately, but that
+      // would entail a long project. This should work for the most
+      // part, though -- asimha
+      ID = -1;
+      catid = FindCatalog( "Misc" );
+      if( catid < 0 ) {
+          CatalogData new_catalog;
+
+          new_catalog.catalog_name = "Misc";
+          new_catalog.prefix = "Misc";
+          new_catalog.color = "#ff0000";
+          new_catalog.epoch = 2000.0;
+          new_catalog.fluxfreq = "400 nm";
+          new_catalog.fluxunit = "mag";
+          new_catalog.author = "KStars";
+          new_catalog.license = "Unknown";
+
+          AddCatalog(new_catalog);
+          catid = FindCatalog( "Misc" );
+      }
+      if( catid < 0 ) {
+          qWarning() << "Failed to create Misc catalog for miscellaneous objects! AddEntry operation failed!";
+          return;
+      }
+  }
 
   /* TODO(spacetime)
    * Possible Bugs in QSQL Db with SQLite
@@ -325,12 +355,20 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
   // Part 3: Add in Object Designation
   //skydb_.open();
   QSqlQuery add_od(skydb_);
-  add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
-                 ", IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
+  if( ID >= 0 ) {
+      add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
+                     ", IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
+      add_od.bindValue(":id", ID);
+  }
+  else{
+      add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
+                     ", IDNumber) VALUES (:catid, :rowuid, :longname,"
+                     "(SELECT MAX(ISNULL(IDNumber,1))+1 FROM ObjectDesignation WHERE id_Catalog = :catid) )"
+                     );
+  }
   add_od.bindValue(":catid", catid);
   add_od.bindValue(":rowuid", rowuid);
   add_od.bindValue(":longname", catalog_entry.long_name);
-  add_od.bindValue(":id", catalog_entry.ID);
   if (!add_od.exec()) {
     qWarning() << add_od.lastQuery();
     qWarning() << skydb_.lastError();
