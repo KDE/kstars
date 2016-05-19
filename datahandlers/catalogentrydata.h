@@ -58,6 +58,8 @@
 
 class CatalogEntryData {
  public:
+  CatalogEntryData();
+
   QString catalog_name;
   int ID;
   QString long_name;
