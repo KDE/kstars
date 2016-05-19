@@ -219,7 +219,7 @@ public:
 
     /** @}*/
 
-    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
+    void addCCD(ISD::GDInterface *newCCD);
     void addFilter(ISD::GDInterface *newFilter);
     void setDome(ISD::GDInterface *device) { dome = dynamic_cast<ISD::Dome*>(device); }
     void setDustCap(ISD::GDInterface *device) { dustCap = dynamic_cast<ISD::DustCap*>(device); }
@@ -366,6 +366,7 @@ private slots:
     void checkSeqBoundary(const QString &path);
     void checkSeqFile(const QString &path);
     void saveFITSDirectory();
+    void setDefaultCCD(QString ccd);
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 

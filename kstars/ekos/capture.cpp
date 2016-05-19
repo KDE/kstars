@@ -117,7 +117,9 @@ Capture::Capture()
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
-    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+    connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
+    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
@@ -194,26 +196,27 @@ Capture::~Capture()
     qDeleteAll(jobs);
 }
 
-void Capture::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
+void Capture::setDefaultCCD(QString ccd)
+{
+    Options::setDefaultCaptureCCD(ccd);
+}
+
+void Capture::addCCD(ISD::GDInterface *newCCD)
 {
     ISD::CCD *ccd = static_cast<ISD::CCD *> (newCCD);
 
-    CCDCaptureCombo->addItem(ccd->getDeviceName());
+    if (CCDs.contains(ccd))
+            return;
 
     CCDs.append(ccd);
 
-    if (isPrimaryCCD)
-    {
-        if (Filters.count() > 0)
-            syncFilterInfo();
-        checkCCD(CCDs.count()-1);
-        CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
-    }
-    else
-    {
-        checkCCD(0);
-        CCDCaptureCombo->setCurrentIndex(0);
-    }
+    CCDCaptureCombo->addItem(ccd->getDeviceName());   
+
+    if (Filters.count() > 0)
+        syncFilterInfo();
+    //checkCCD(CCDs.count()-1);
+    //CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
+
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
@@ -383,7 +386,7 @@ bool Capture::setCCD(QString device)
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
-            checkCCD(i);
+            CCDCaptureCombo->setCurrentIndex(i);
             return true;
         }
 

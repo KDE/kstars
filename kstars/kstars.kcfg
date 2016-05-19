@@ -1344,6 +1344,9 @@
    </entry>
    </group>
    <group name="Capture">
+   <entry name="DefaultCaptureCCD" type="String">
+     <label>Default capture module CCD.</label>
+   </entry>
     <entry name="GuideDeviation" type="Double">
       <label>Default maximum permittable guide deviation</label>
          <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>
@@ -1389,6 +1392,9 @@
      </entry>
    </group>
    <group name="Focus">
+   <entry name="DefaultFocusCCD" type="String">
+     <label>Default focus module CCD.</label>
+   </entry>
     <entry name="FocusTicks" type="UInt">
       <label>Default Focuser step ticks</label>
       <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
@@ -1446,6 +1452,9 @@
        </entry>
     </group>
     <group name="Align">
+    <entry name="DefaultAlignCCD" type="String">
+      <label>Default align module CCD.</label>
+    </entry>
        <entry name="AlignExposure" type="Double">
           <label>Default alignment exposure value</label>
              <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
@@ -1500,6 +1509,12 @@
           </entry>
     </group>
     <group name="Guide">
+    <entry name="DefaultGuideCCD" type="String">
+      <label>Default guide module CCD.</label>
+    </entry>
+    <entry name="DefaultST4Driver" type="String">
+        <label>Default guide module ST4 Driver.</label>
+    </entry>
     <entry name="GuideExposure" type="Double">
         <label>Guider exposure duration in seconds.</label>
         <default>1.0</default>
@@ -1523,10 +1538,7 @@
     <entry name="PHD2Port" type="UInt">
         <label>PHD2 Event Monitoring Port</label>
         <default>4400</default>
-    </entry>
-    <entry name="ST4Driver" type="String">
-        <label>Default ST4 Driver.</label>
-    </entry>
+    </entry>    
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>
