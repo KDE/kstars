@@ -258,7 +258,7 @@ void Scheduler::selectObject()
     QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted )
     {
-        SkyObject *object = fd->selectedObject();
+        SkyObject *object = fd->targetObject();
         addObject(object);
     }
 

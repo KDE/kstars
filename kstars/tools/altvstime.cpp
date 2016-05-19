@@ -336,7 +336,7 @@ void AltVsTime::slotAddSource() {
 void AltVsTime::slotBrowseObject() {
     QPointer<FindDialog> fd = new FindDialog(this);
     if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->selectedObject();
+        SkyObject *o = fd->targetObject();
         processObject( o );
     }
     delete fd;

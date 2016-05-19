@@ -54,8 +54,12 @@ public:
     /** Destructor */
     virtual ~FindDialog();
 
-    /** @return the currently-selected item from the listbox of named objects */
-    SkyObject* selectedObject() const;
+    /**
+     * @return the target object (need not be the same as currently selected object!)
+     *
+     * @note Avoid using selectedObject()
+     */
+    inline SkyObject *targetObject() { return m_targetObject; }
 
 public slots:
     /**When Text is entered in the QLineEdit, filter the List of objects
@@ -90,6 +94,9 @@ protected:
      */
     void keyPressEvent( QKeyEvent *e );
 
+    /** @return the currently-selected item from the listbox of named objects */
+    SkyObject* selectedObject() const;
+
 private:
 
     /** @short Do some post processing on the search text to interpret what the user meant
@@ -108,6 +115,7 @@ private:
     QTimer* timer;
     bool listFiltered;
     QPushButton *okB;
+    SkyObject *m_targetObject;
 };
 
 #endif

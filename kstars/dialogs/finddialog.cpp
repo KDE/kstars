@@ -23,6 +23,7 @@
 #include "skyobjects/skyobject.h"
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/skymapcomposite.h"
+#include "tools/nameresolver.h"
 
 #include <KMessageBox>
 
@@ -53,7 +54,8 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 
 FindDialog::FindDialog( QWidget* parent ) :
     QDialog( parent ),
-    timer(0)
+    timer(0),
+    m_targetObject( 0 )
 {
     ui = new FindDialogUI( this );
 
@@ -105,6 +107,7 @@ void FindDialog::init() {
     filterByType();
     sortModel->sort( 0 );
     initSelection();
+    m_targetObject = 0;
 }
 
 void FindDialog::initSelection() {
@@ -317,6 +320,21 @@ void FindDialog::slotOk() {
         filterList();
     }
     selObj = selectedObject();
+    if( ! selObj ) {
+        // ==== FIXME: What follows is buggy testing code : please improve ====
+        // This code is expected to cause crashes / memory leaks
+        // because we don't commit the DSO data to the database, or
+        // any CatalogComponent.
+        CatalogEntryData cedata;
+        cedata = NameResolver::resolveName( processSearchText() );
+        DeepSkyObject *dso = new DeepSkyObject( cedata );
+        if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
+            qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
+            selObj = dso;
+        }
+        // ==== END buggy testing code ====
+    }
+    m_targetObject = selObj;
     if ( selObj == 0 ) {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
         KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );

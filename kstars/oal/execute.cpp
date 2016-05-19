@@ -403,7 +403,7 @@ void Execute::slotShowTargets() {
 void Execute::slotAddObject() {
    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->selectedObject();
+       SkyObject *o = fd->targetObject();
        if( o != 0 ) {
            KStarsData::Instance()->observingList()->slotAddObject( o, true );
            init();

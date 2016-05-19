@@ -680,7 +680,7 @@ void ObservingList::slotAddToSession() {
 void ObservingList::slotFind() {
    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->selectedObject();
+       SkyObject *o = fd->targetObject();
        if( o != 0 ) {
            slotAddObject( o, sessionView );
        }
