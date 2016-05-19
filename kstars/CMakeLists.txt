@@ -157,10 +157,10 @@ endif ( XPLANET_FOUND )
 
 ########### next target ###############
 set(libkstarstools_SRCS
-	tools/altvstime.cpp	
+	tools/altvstime.cpp
 	tools/avtplotwidget.cpp
 	tools/calendarwidget.cpp
-	tools/conjunctions.cpp	
+	tools/conjunctions.cpp
 	tools/jmoontool.cpp
 	tools/ksconjunct.cpp
         tools/eqplotwidget.cpp

@@ -666,6 +666,7 @@ void KStars::datainitFinished() {
 
     //DEBUG
     qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
+
 }
 
 void KStars::initFocus() {
