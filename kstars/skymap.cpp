@@ -371,8 +371,13 @@ void SkyMap::slotCenter() {
     TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
 
     setFocusPoint( clickedPoint() );
-    if ( Options::useAltAz() )
+    if ( Options::useAltAz() ) {
+        focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+    else
+        focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+    qDebug() << "Centering on " << focusPoint()->ra().toHMSString() << " " << focusPoint()->dec().toDMSString();
 
     //clear the planet trail of old focusObject, if it was temporary
     if( trailObj && data->temporaryTrail ) {
