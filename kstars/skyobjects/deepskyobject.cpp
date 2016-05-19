@@ -33,6 +33,7 @@
 #include "Options.h"
 #include "skymap.h"
 #include "texturemanager.h"
+#include "catalogentrydata.h"
 
 #include <QDebug>
 #include <KLocalizedString>
@@ -67,6 +68,27 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     updateID = updateNumID = 0;
     customCat = NULL;
     Flux = 0;
+    loadImage();
+}
+
+DeepSkyObject::DeepSkyObject( const CatalogEntryData &data )
+{
+    // FIXME: This assumes that CatalogEntryData coordinates have
+    // J2000.0 as epoch as opposed to the catalog's epoch!!! -- asimha
+    setType( data.type );
+    setRA0( data.ra/15.0 ); // NOTE: CatalogEntryData stores RA in degrees, whereas setRA0() wants it in hours.
+    setDec0( data.dec );
+    setLongName( data.long_name );
+    setName( data.catalog_name + ' ' + QString::number( data.ID ) );
+    MajorAxis = data.major_axis;
+    MinorAxis = data.minor_axis;
+    PositionAngle = data.position_angle;
+    PGC = 0;
+    UGC = 0;
+    setCatalog( data.catalog_name );
+    updateID = updateNumID = 0;
+    customCat = NULL; // <-- FIXME!
+    Flux = data.flux;
     loadImage();
 }
 

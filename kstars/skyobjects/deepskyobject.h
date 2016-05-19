@@ -28,6 +28,7 @@ class QImage;
 class QString;
 class KSPopupMenu;
 class CatalogComponent;
+class CatalogEntryData;
 
 /**
   *@class DeepSkyObject
@@ -69,6 +70,8 @@ public:
      *  @param o SkyObject from which to copy data
      */
     DeepSkyObject(const DeepSkyObject &o );
+
+    DeepSkyObject( const CatalogEntryData &data );
 
     QString labelString() const;
 
