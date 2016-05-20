@@ -740,10 +740,6 @@ void EkosManager::reset()
 
     removeTabs();    
 
-    if (localMode)
-        qDeleteAll(managedDrivers);
-    managedDrivers.clear();
-
     genericDevices.clear();
     managedDevices.clear();
 
@@ -789,7 +785,9 @@ bool EkosManager::stop()
 
 bool EkosManager::start()
 {
+    qDeleteAll(managedDrivers);
     managedDrivers.clear();
+
     reset();
 
     ProfileInfo *currentProfile = getCurrentProfile();
@@ -925,7 +923,7 @@ bool EkosManager::start()
     connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
 
     if (localMode)
-    {
+    {        
         if (isRunning("indiserver"))
         {
             if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
