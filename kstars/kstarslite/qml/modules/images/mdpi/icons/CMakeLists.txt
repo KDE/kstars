@@ -1,4 +1,5 @@
-install( FILES applications-system.png
+install( FILES icon.png
+    applications-system.png
     arrow-down-double.png
     arrow-down.png
     arrow-right.png
