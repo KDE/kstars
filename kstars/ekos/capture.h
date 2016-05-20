@@ -55,7 +55,7 @@ class KDirWatch;
  * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
  * interface to enable unattended scripting.
 *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 namespace Ekos
 {   
@@ -367,6 +367,7 @@ private slots:
     void checkSeqFile(const QString &path);
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
+    void setNewRemoteFile(QString file);
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 

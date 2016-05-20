@@ -364,7 +364,7 @@ void Capture::abort()
     secondsLabel->clear();
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     currentCCD->setFITSDir("");
 
@@ -402,6 +402,7 @@ void Capture::checkCCD(int ccdNum)
     {
         disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)));
         disconnect(ccd, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)));
+        disconnect(ccd, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
     }
 
     if (ccdNum <= CCDs.count())
@@ -491,6 +492,7 @@ void Capture::checkCCD(int ccdNum)
 
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
     }
 }
 
@@ -3311,6 +3313,11 @@ bool Capture::isFITSDirUnique(SequenceJob *job)
     }
 
     return true;
+}
+
+void Capture::setNewRemoteFile(QString file)
+{
+    appendLogText(i18n("Remote image saved to %1", file));
 }
 
 }

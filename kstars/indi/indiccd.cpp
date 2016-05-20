@@ -1036,9 +1036,17 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
 void CCD::processText(ITextVectorProperty *tvp)
 {
+    if (!strcmp(tvp->name, "CCD_FILE_PATH"))
+    {
+        IText *filepath = IUFindText(tvp, "FILE_PATH");
+        if (filepath)
+            emit newRemoteFile(QString(filepath->text));
+
+        return;
+    }
+
     DeviceDecorator::processText(tvp);
 }
-
 
 void CCD::processBLOB(IBLOB* bp)
 {
