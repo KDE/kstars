@@ -219,10 +219,9 @@ void PlanetViewer::initPlotObjects() {
     pw->map->addPlotObject( ksun );
 
     //Read in the orbit curves
-    KPlotObject *orbit[PlanetList.count()];
     for ( int i=0; i< PlanetList.count(); ++i ) {
         KSPlanetBase *p = PlanetList[i];
-        orbit[i] = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
+        KPlotObject *orbit = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
 
         QFile orbitFile;
         QString orbitFileName = ( p->isMajorPlanet() ? ((KSPlanet *)p)->untranslatedName().toLower() : p->name().toLower() ) + ".orbit";
@@ -235,12 +234,12 @@ void PlanetViewer::initPlotObjects() {
                 if ( fields.size() == 3 ) {
                     x = fields[0].toDouble();
                     y = fields[1].toDouble();
-                    orbit[i]->addPoint( x, y );
+                    orbit->addPoint( x, y );
                 }
             }
         }
 
-        pw->map->addPlotObject( orbit[i] );
+        pw->map->addPlotObject( orbit );
     }
 
     for ( int i=0; i< PlanetList.count(); ++i ) {
