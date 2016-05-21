@@ -785,7 +785,8 @@ bool EkosManager::stop()
 
 bool EkosManager::start()
 {
-    qDeleteAll(managedDrivers);
+    if (localMode)
+        qDeleteAll(managedDrivers);
     managedDrivers.clear();
 
     reset();
@@ -976,7 +977,7 @@ bool EkosManager::start()
         QApplication::restoreOverrideCursor();
         ekosStartingStatus = STATUS_PENDING;
 
-        appendLogText(i18n("INDI services started. Connection to remote INDI server is successful."));
+        appendLogText(i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
