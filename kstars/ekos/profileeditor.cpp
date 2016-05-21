@@ -59,7 +59,7 @@ ProfileEditor::~ProfileEditor()
 
 void ProfileEditor::saveProfile()
 {
-    bool newProfle = (pi == NULL);
+    bool newProfile = (pi == NULL);
 
     if (ui->profileIN->text().isEmpty())
     {
@@ -67,11 +67,13 @@ void ProfileEditor::saveProfile()
         return;
     }
 
-   if (newProfle)
+   if (newProfile)
    {
        int id = KStarsData::Instance()->userdb()->AddProfile(ui->profileIN->text());
        pi = new ProfileInfo(id, ui->profileIN->text());
    }
+   else
+       pi->name = ui->profileIN->text();
 
    // Local Mode
    if (ui->localMode->isChecked())
@@ -165,7 +167,7 @@ void ProfileEditor::saveProfile()
    KStarsData::Instance()->userdb()->SaveProfile(pi);
 
    // Ekos manager will reload and new profiles will be created
-   if (newProfle)
+   if (newProfile)
     delete (pi);
 
    accept();
