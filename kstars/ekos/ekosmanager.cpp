@@ -765,7 +765,7 @@ void EkosManager::reset()
 
 void EkosManager::processINDI()
 {
-    if (managedDrivers.count() > 0)
+    if (ekosStartingStatus != STATUS_IDLE)
     {
         stop();
     }
@@ -1291,43 +1291,57 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     captureProcess->addCCD(ccdDevice);
 
     ProfileInfo *pi = getCurrentProfile();
-    QString primaryCCD;
+    QString primaryCCD, guiderCCD;
 
-    foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))
+    // Only look for primary & guider CCDs if we can tell a difference between them
+    // otherwise rely on saved options
+    if (pi->ccd() != pi->guider())
     {
-        if (QString(device->getDeviceName()).startsWith(pi->ccd(), Qt::CaseInsensitive))
+        foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))
         {
-            primaryCCD = QString(device->getDeviceName());
-            break;
+            if (QString(device->getDeviceName()).startsWith(pi->ccd(), Qt::CaseInsensitive))
+                primaryCCD = QString(device->getDeviceName());
+            else if (QString(device->getDeviceName()).startsWith(pi->guider(), Qt::CaseInsensitive))
+                guiderCCD = QString(device->getDeviceName());
         }
     }
 
-    if (primaryCCD.isEmpty() == false)
-        captureProcess->setCCD(primaryCCD);
-    else if (Options::defaultCaptureCCD().isEmpty() == false)
-        captureProcess->setCCD(Options::defaultCaptureCCD());
+    bool rc=false;
+    if (Options::defaultCaptureCCD().isEmpty() == false)
+        rc = captureProcess->setCCD(Options::defaultCaptureCCD());
+    if (rc == false && primaryCCD.isEmpty() == false)
+        captureProcess->setCCD(primaryCCD);   
 
     initFocus();
 
     focusProcess->addCCD(ccdDevice);
 
-    if (primaryCCD.isEmpty() == false)
+    rc=false;
+    if (Options::defaultFocusCCD().isEmpty() == false)
+        rc = focusProcess->setCCD(Options::defaultFocusCCD());
+    if (rc == false && primaryCCD.isEmpty() == false)
         focusProcess->setCCD(primaryCCD);
-    else if (Options::defaultFocusCCD().isEmpty() == false)
-        focusProcess->setCCD(Options::defaultFocusCCD());
+
 
     initAlign();
 
     alignProcess->addCCD(ccdDevice);
 
-    if (primaryCCD.isEmpty() == false)
-        alignProcess->setCCD(primaryCCD);
-    else if (Options::defaultAlignCCD().isEmpty() == false)
-        alignProcess->setCCD(Options::defaultAlignCCD());
+    rc=false;
+    if (Options::defaultAlignCCD().isEmpty() == false)
+        rc = alignProcess->setCCD(Options::defaultAlignCCD());
+    if (rc == false && primaryCCD.isEmpty() == false)
+        alignProcess->setCCD(primaryCCD);    
 
     initGuide();
 
     guideProcess->addCCD(ccdDevice);
+
+    rc=false;
+    if (Options::defaultGuideCCD().isEmpty() == false)
+        rc = guideProcess->setCCD(Options::defaultGuideCCD());
+    if (rc == false && guiderCCD.isEmpty() == false)
+            guideProcess->setCCD(guiderCCD);
 
     appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
@@ -1549,6 +1563,12 @@ void EkosManager::processNewProperty(INDI::Property* prop)
                     useGuideHead=true;
                     captureProcess->addGuideHead(device);
                     guideProcess->addGuideHead(device);
+
+                    bool rc = false;
+                    if (Options::defaultGuideCCD().isEmpty() == false)
+                        rc = guideProcess->setCCD(Options::defaultGuideCCD());
+                    if (rc == false)
+                            guideProcess->setCCD(QString(device->getDeviceName()) + QString(" Guider"));
                     return;
             }
         }
@@ -1846,35 +1866,8 @@ void EkosManager::initGuide()
     if (guideProcess == NULL)
         guideProcess = new Ekos::Guide();
 
-    bool haveGuider=false;
-    int  ccdCount=0;
-
-    QList<ISD::GDInterface *> CCDs = findDevices(KSTARS_CCD);
-
-    ccdCount = CCDs.count();
-
-    ProfileInfo *pi = getCurrentProfile();
-    foreach(ISD::GDInterface *device, CCDs)
-    {
-        if (QString(device->getDeviceName()).startsWith(pi->guider(), Qt::CaseInsensitive))
-        {
-            haveGuider=true;
-            bool haveGuideHead=false;
-
-            haveGuideHead = (static_cast<ISD::CCD*>(device)->hasGuideHead());
-
-            if (haveGuideHead)
-                guideProcess->setCCD(device->getDeviceName() + QString(" Guider"));
-            else
-                guideProcess->setCCD(device->getDeviceName());
-            break;
-        }
-    }
-
-    if (haveGuider == false && Options::defaultGuideCCD().isEmpty() == false)
-            guideProcess->setCCD(Options::defaultGuideCCD());
-
-    if ( (haveGuider || ccdCount > 1 || useGuideHead) && useST4 && toolsWidget->indexOf(guideProcess) == -1)
+    //if ( (haveGuider || ccdCount > 1 || useGuideHead) && useST4 && toolsWidget->indexOf(guideProcess) == -1)
+    if ( (findDevices(KSTARS_CCD).isEmpty() == false || useGuideHead) && useST4 && toolsWidget->indexOf(guideProcess) == -1)
     {
 
         //if (mount && mount->isConnected())
@@ -2068,16 +2061,15 @@ void EkosManager::editProfile()
 
     Q_ASSERT(currentProfile);
 
-    QString name = currentProfile->name;
-
     editor.setPi(currentProfile);
 
     if (editor.exec() == QDialog::Accepted)
     {
+        int currentIndex = profileCombo->currentIndex();
         qDeleteAll(profiles);
         profiles.clear();
         loadProfiles();
-        profileCombo->setCurrentIndex(profileCombo->findText(name));
+        profileCombo->setCurrentIndex(currentIndex);
     }
 
 }
