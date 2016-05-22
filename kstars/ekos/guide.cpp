@@ -122,11 +122,14 @@ void Guide::setDefaultCCD(QString ccd)
 
 void Guide::addCCD(ISD::GDInterface *newCCD)
 {
-    currentCCD = static_cast<ISD::CCD*>(newCCD);
+    ISD::CCD *ccd = static_cast<ISD::CCD*>(newCCD);
 
-    CCDs.append(currentCCD);
+    if (CCDs.contains(ccd))
+        return;
 
-    guiderCombo->addItem(currentCCD->getDeviceName());
+    CCDs.append(ccd);
+
+    guiderCombo->addItem(ccd->getDeviceName());
 
     //checkCCD(CCDs.count()-1);
     //guiderCombo->setCurrentIndex(CCDs.count()-1);
@@ -134,13 +137,13 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
     setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 }
 
-void Guide::addGuideHead(ISD::GDInterface *ccd)
+void Guide::addGuideHead(ISD::GDInterface *newCCD)
 {
-    ISD::CCD *newCCD = static_cast<ISD::CCD *> (ccd);
+    ISD::CCD *ccd = static_cast<ISD::CCD *> (newCCD);
 
-    CCDs.append(newCCD);
+    CCDs.append(ccd);
 
-    QString guiderName = newCCD->getDeviceName() + QString(" Guider");
+    QString guiderName = ccd->getDeviceName() + QString(" Guider");
 
     if (guiderCombo->findText(guiderName) == -1)
     {

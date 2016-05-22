@@ -191,7 +191,7 @@ public:
 
     bool isDithering();
 
-    void addGuideHead(ISD::GDInterface *ccd);
+    void addGuideHead(ISD::GDInterface *newCCD);
     void syncTelescopeInfo();
     void syncCCDInfo();
 
