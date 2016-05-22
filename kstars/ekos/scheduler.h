@@ -199,7 +199,7 @@ protected slots:
 
      void resetJobState(QModelIndex i);
 
-     //void resetJobEdit();
+     void resetJobEdit();
 
      /**
       * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
