@@ -36,6 +36,7 @@
 #include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "kspaths.h"
 #include "skymap.h"
 #include "projections/projector.h"
 #include "skyobjects/skyobject.h"
@@ -329,7 +330,7 @@ void KStars::initActions() {
     addColorMenuItem( i18n("&Moonless Night" ), "cs_moonless-night" );
 
     //Add any user-defined color schemes:
-    QFile file( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    QFile file( KSPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {

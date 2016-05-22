@@ -97,6 +97,9 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     connect(parent, &QQuickItem::widthChanged, this, &SkyMapLite::resizeItem);
     connect(parent, &QQuickItem::heightChanged, this, &SkyMapLite::resizeItem);
 
+    resizeItem(); /* Set initial size. Without it on Android SkyMapLite is not displayed until screen
+    orientation is not changed */
+
     //Initialize images for stars
     initStarImages();
     // Set pinstance to yourself

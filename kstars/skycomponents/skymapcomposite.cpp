@@ -69,7 +69,6 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
         SkyComposite(parent), m_reindexNum( J2000 )
 {
     m_skyLabeler = SkyLabeler::Instance();
-
     m_skyMesh = SkyMesh::Create( 3 );  // level 5 mesh = 8192 trixels
     m_skyMesh->debug( 0 );
     //  1 => print "indexing ..."
@@ -635,7 +634,10 @@ bool SkyMapComposite::isLocalCNames() {
 
 void SkyMapComposite::emitProgressText( const QString &message ) {
     emit progressText( message );
+//#ifdef ANDROID
+//Can cause crashes on Android, investigate it
     qApp->processEvents();         // -jbb: this seemed to make it work.
+//#endif
     //qDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 

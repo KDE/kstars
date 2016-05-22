@@ -471,6 +471,11 @@ protected:
     /** Zoom in and out with the mouse wheel. */
     virtual void wheelEvent( QWheelEvent *e );
 
+    /**
+     * @short this function handles zooming in and out using "pinch to zoom" gesture
+     */
+    virtual void touchEvent( QTouchEvent *e);
+
     /** If the skymap will be resized, the sky must be new computed. So this
      * function calls explicitly new computing of the skymap.
      */

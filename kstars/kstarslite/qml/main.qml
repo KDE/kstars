@@ -2,7 +2,6 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import "modules"
 import "constants" 1.0
-//import skymaplite 1.0
 
 Window {
     id: mainWindow
@@ -16,10 +15,14 @@ Window {
     property int topMenuOrder: 0
 
     Splash {
+        z:1
+        anchors.fill:parent
         onTimeout: content.visible = true
     }
 
-    Item{
+    /*content is made Rectangle to allow z-index ordering
+    (for some reason it doesn't work with plain Item)*/
+    Rectangle {
         id: content
         anchors.fill: parent
         visible: false
@@ -40,29 +43,6 @@ Window {
                 bottom: parent.bottom
             }
         }
-
-        /*Image {
-        anchors.fill: parent
-        z: skyMapOrder
-        source: "modules/images/SkyMap.png"
-        fillMode: Image.PreserveAspectCrop
-
-        Connections {
-            target: mainWindow
-            onWidthChanged: {
-                if (width > height) {
-                    source = "images/SkyMap-port.png"
-                }
-                else source = "images/SkyMap.png"
-            }
-        }
-    }*/
-
-        // The instance of SkyMapLite is reparanted to this item and fill it
-
-        //SkyMapLite {
-        //anchors.fill: parent
-        //}
 
         MouseArea {
             property int posY
@@ -168,10 +148,10 @@ Window {
         MouseArea {
             property int posY
             anchors {
-                left: parent.left
-                right: parent.right
                 bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
             }
+            width: bottomMenu.width
             height: parent.height *0.25
 
             onPressed: {

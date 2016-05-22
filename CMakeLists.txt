@@ -19,6 +19,7 @@ set(CMAKE_AUTOMOC ON)
 
 if(CMAKE_SYSTEM_NAME STREQUAL Android)
     add_definitions(-DANDROID )
+    set(ANDROID TRUE)
 endif()
 
 find_package(ECM 1.7.0 REQUIRED NO_MODULE)
@@ -30,7 +31,6 @@ find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network Print
 
 include(KDEInstallDirs)
 if(NOT ANDROID)
-    message("CHECK ANDROID DEFINITION")
     #We get error "could not find main method" with this module
     include(KDECompilerSettings NO_POLICY_SCOPE)
 endif()

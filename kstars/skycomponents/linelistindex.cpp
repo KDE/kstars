@@ -242,7 +242,6 @@ void LineListIndex::drawFilled( SkyPainter *skyp )
 void LineListIndex::intro()
 {
     emitProgressText( i18n( "Loading %1", m_name ));
-
     if ( skyMesh()->debug() >= 1 )
         qDebug() << QString("Loading %1 ...").arg( m_name );
 }

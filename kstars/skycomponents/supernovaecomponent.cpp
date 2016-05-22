@@ -30,6 +30,7 @@
 #include "ksfilereader.h"
 #include "QStandardPaths"
 #include "kstarsdata.h"
+#include "auxiliary/kspaths.h"
 
 SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent), m_Parser(0)
 {
@@ -83,7 +84,7 @@ void SupernovaeComponent::loadData()
     sequence.append(qMakePair(QString("ignore3"),       KSParser::D_SKIP));
     sequence.append(qMakePair(QString("discoverers"),   KSParser::D_QSTRING));
 
-    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation,
+    QString file_name = KSPaths::locate(QStandardPaths::DataLocation,
                                                QString("supernovae.dat"));
     KSParser snParser(file_name, '#', sequence);
 
@@ -231,7 +232,7 @@ void SupernovaeComponent::notifyNewSupernovae()
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
     QString output  = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "supernovae.dat";
-    QString filename= QStandardPaths::locate(QStandardPaths::DataLocation, "scripts/supernova_updates_parser.py") ;
+    QString filename= KSPaths::locate(QStandardPaths::DataLocation, "scripts/supernova_updates_parser.py") ;
     QStringList args;
     args << filename << output;
     //qDebug()<<filename;

@@ -18,6 +18,7 @@
 #include "constellationartcomponent.h"
 #include "constellationsart.h"
 #include "auxiliary/ksfilereader.h"
+#include "auxiliary/kspaths.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
@@ -41,7 +42,7 @@ ConstellationArtComponent::~ConstellationArtComponent()
 void ConstellationArtComponent::loadData(){
 
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
-        QString dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, "skycultures.sqlite");
+        QString dbfile = KSPaths::locate(QStandardPaths::DataLocation, "skycultures.sqlite");
 
         skydb.setDatabaseName(dbfile);
         if (skydb.open() == false)

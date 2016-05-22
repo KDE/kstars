@@ -217,8 +217,7 @@ if(NOT BUILD_KSTARS_LITE)
             )
 
     if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
-    set(libkstarstools_SRCS
-        ${libkstarstools_SRCS}
+    LIST(APPEND libkstarstools_SRCS
         tools/whatsinteresting/skyobjlistmodel.cpp
         tools/whatsinteresting/wiview.cpp
         tools/whatsinteresting/modelmanager.cpp
@@ -454,8 +453,7 @@ set(libkstarscomponents_SRCS
    skycomponents/targetlistcomponent.cpp
 )
 if(NOT BUILD_KSTARS_LITE)
-    set(libkstarscomponents_SRCS
-        ${libkstarscomponents_SRCS}
+    LIST(APPEND libkstarscomponents_SRCS
         skycomponents/notifyupdatesui.cpp
        )
 endif(NOT BUILD_KSTARS_LITE)
@@ -506,6 +504,7 @@ set(kstars_extra_SRCS
     auxiliary/qcustomplot.cpp
     auxiliary/profileinfo.cpp
     auxiliary/filedownloader.cpp
+    auxiliary/kspaths.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -517,8 +516,7 @@ set(kstars_extra_SRCS
     )
 
 if(NOT BUILD_KSTARS_LITE)
-    set(kstars_extra_SRCS
-        ${kstars_extra_SRCS}
+    LIST(APPEND kstars_extra_SRCS
         auxiliary/imageviewer.cpp
         auxiliary/thumbnailpicker.cpp
         auxiliary/thumbnaileditor.cpp

@@ -8,6 +8,121 @@
 #include "skymapcomposite.h"
 #include "ksutils.h"
 
+void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
+    KStarsLite* kstars = KStarsLite::Instance();
+
+    /*if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
+        ZoomRect.moveCenter( e->pos() );
+        setZoomMouseCursor();
+        update(); //refresh without redrawing skymap
+        return;
+    }*/
+
+    // if button is down and cursor is not moved set the move cursor after 500 ms
+    QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
+
+    // break if point is unusable
+    if ( projector()->unusablePoint( e->pos() ) )
+        return;
+
+    if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
+        //y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
+        midMouseButtonDown = true;
+    }
+
+    if ( !mouseButtonDown ) {
+        if ( e->button() == Qt::LeftButton ) {
+            mouseButtonDown = true;
+        }
+
+        //determine RA, Dec of mouse pointer
+        m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
+        setClickedPoint( &m_MousePoint );
+
+        //Find object nearest to clickedPoint()
+        double maxrad = 1000.0/Options::zoomFactor();
+        SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
+        setClickedObject( obj );
+        if( obj )
+            setClickedPoint( obj );
+
+        switch( e->button() ) {
+        case Qt::LeftButton:
+            {
+                QString name;
+                if( clickedObject() )
+                    name = clickedObject()->translatedLongName();
+                else
+                    name = i18n( "Empty sky" );
+                //kstars->statusBar()->changeItem(name, 0 );
+                //kstars->statusBar()->showMessage(name, 0 );
+
+                emit positionClicked(&m_MousePoint);
+            }
+
+            break;
+        case Qt::RightButton:
+            /*if( rulerMode ) {
+                // Compute angular distance.
+                slotEndRulerMode();
+            } else {*/
+                // Show popup menu
+                if( clickedObject() ) {
+                    //clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+                } else {
+                   /* pmenu->createEmptyMenu( clickedPoint() );
+                    pmenu->popup( QCursor::pos() );*/
+                }
+            //}
+            break;
+        default: ;
+        }
+    }
+}
+
+void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
+    /*if ( ZoomRect.isValid() ) {
+        //stopTracking();
+        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
+        setFocus( &newcenter );
+        setDestination( newcenter );
+
+        //Zoom in on center of Zoom Circle, by a factor equal to the ratio
+        //of the sky pixmap's width to the Zoom Circle's diameter
+        float factor = float(width()) / float(ZoomRect.width());
+        setZoomFactor( Options::zoomFactor() * factor );
+    }*/
+    //setDefaultMouseCursor();
+    ZoomRect = QRect(); //invalidate ZoomRect
+
+    /*if(m_previewLegend) {
+        slotCancelLegendPreviewMode();
+    }*/
+
+    //false if double-clicked, because it's unset there.
+    if (mouseButtonDown) {
+        mouseButtonDown = false;
+        if ( slewing ) {
+            slewing = false;
+            if ( Options::useAltAz() )
+                setDestinationAltAz( focus()->alt(), focus()->az() );
+            else
+                setDestination( *focus() );
+        }
+        forceUpdate();	// is needed because after moving the sky not all stars are shown
+    }
+    // if middle button was pressed unset here
+    midMouseButtonDown = false;
+}
+
+void SkyMapLite::mouseDoubleClickEvent( QMouseEvent *e ) {
+    /*if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
+        mouseButtonDown = false;
+        if( e->x() != width()/2 || e->y() != height()/2 )
+            slotCenter();
+    }*/
+}
+
 void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
     if ( Options::useHoverLabel() ) {
         //Start a single-shot timer to monitor whether we are currently hovering.
@@ -105,13 +220,6 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
     }
 }
 
-/*void SkyMapLite::wheelEvent( QWheelEvent *e ) {
-    if ( e->delta() > 0 )
-        zoomInOrMagStep ( e->modifiers() );
-    else if ( e->delta() < 0 )
-        zoomOutOrMagStep( e->modifiers() );
-}*/
-
 void SkyMapLite::wheelEvent( QWheelEvent *e ) {
     if ( e->delta() > 0 )
         zoomInOrMagStep ( e->modifiers() );
@@ -119,121 +227,56 @@ void SkyMapLite::wheelEvent( QWheelEvent *e ) {
         zoomOutOrMagStep( e->modifiers() );
 }
 
-void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
-    /*if ( ZoomRect.isValid() ) {
-        //stopTracking();
-        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
-        setFocus( &newcenter );
-        setDestination( newcenter );
+void SkyMapLite::touchEvent( QTouchEvent *e) {
+    //Under construction. Don't take this mess seriously
+    qDebug() << "TOUCH EVENT!";
 
-        //Zoom in on center of Zoom Circle, by a factor equal to the ratio
-        //of the sky pixmap's width to the Zoom Circle's diameter
-        float factor = float(width()) / float(ZoomRect.width());
-        setZoomFactor( Options::zoomFactor() * factor );
-    }*/
-    //setDefaultMouseCursor();
-    ZoomRect = QRect(); //invalidate ZoomRect
+    QList<QTouchEvent::TouchPoint> points = e->touchPoints();
 
-    /*if(m_previewLegend) {
-        slotCancelLegendPreviewMode();
-    }*/
+    QPointF newPoint = points[0].pos();
 
-    //false if double-clicked, because it's unset there.
-    if (mouseButtonDown) {
-        mouseButtonDown = false;
-        if ( slewing ) {
-            slewing = false;
-            if ( Options::useAltAz() )
-                setDestinationAltAz( focus()->alt(), focus()->az() );
-            else
-                setDestination( *focus() );
-        }
-        forceUpdate();	// is needed because after moving the sky not all stars are shown
-    }
-    // if middle button was pressed unset here
-    midMouseButtonDown = false;
-}
+    if(points.length() >= 2) {
+        double xdiff = abs(points[1].pos().x() - points[0].pos().x());
+        double ydiff = abs(points[1].pos().y() - points[0].pos().y());
+        double xmax = points[1].pos().x() < points[0].pos().x() ? points[1].pos().x() : points[0].pos().x();
+        double ymax = points[1].pos().y() < points[0].pos().y() ? points[1].pos().y() : points[0].pos().y();
+        double md_new = xdiff + ydiff;
+        qDebug() << md_new << "MD NEW";
 
-void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
-    KStarsLite* kstars = KStarsLite::Instance();
+        double xolddiff = abs(points[1].lastPos().x() - points[0].lastPos().x());
+        double yolddiff = abs(points[1].lastPos().y() - points[0].lastPos().y());
+        double md_old = xolddiff + yolddiff;
+        qDebug() << xolddiff + yolddiff << "MD OLD";
 
-    /*if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
-        ZoomRect.moveCenter( e->pos() );
-        setZoomMouseCursor();
-        update(); //refresh without redrawing skymap
-        return;
-    }*/
+        if(md_old - md_new < 0) zoomInOrMagStep(Qt::ControlModifier);
+        else if(md_old - md_new > 0) zoomOutOrMagStep(Qt::ControlModifier);
+        qDebug() << Options::showGround();
+        qDebug() << "NEW1" << points[0].pos() << "MID" << QPointF(xmax+ xdiff/2,ymax + ydiff/2) << "NEW2" << points[1].pos();
 
-    // if button is down and cursor is not moved set the move cursor after 500 ms
-    QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
-
-    // break if point is unusable
-    if ( projector()->unusablePoint( e->pos() ) )
-        return;
-
-    if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
-        //y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
-        midMouseButtonDown = true;
+        //newPoint = QPointF(xmax + xdiff/2,ymax + ydiff/2);
     }
 
-    if ( !mouseButtonDown ) {
-        if ( e->button() == Qt::LeftButton ) {
-            mouseButtonDown = true;
-        }
+    //This is ugly but it reduces the amount of duplicate code
+    QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newPoint,
+            Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+    mousePressEvent(event);
+    mouseMoveEvent(event);
 
-        //determine RA, Dec of mouse pointer
-        m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
-        setClickedPoint( &m_MousePoint );
-
-        //Find object nearest to clickedPoint()
-        double maxrad = 1000.0/Options::zoomFactor();
-        SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
-        setClickedObject( obj );
-        if( obj )
-            setClickedPoint( obj );
-
-        switch( e->button() ) {
-        case Qt::LeftButton:
-            {
-                QString name;
-                if( clickedObject() )
-                    name = clickedObject()->translatedLongName();
+    if(e->type() == QEvent::TouchEnd) {
+        if (mouseButtonDown) {
+            mouseButtonDown = false;
+            if ( slewing ) {
+                slewing = false;
+                if ( Options::useAltAz() )
+                    setDestinationAltAz( focus()->alt(), focus()->az() );
                 else
-                    name = i18n( "Empty sky" );
-                //kstars->statusBar()->changeItem(name, 0 );
-                //kstars->statusBar()->showMessage(name, 0 );
-
-                emit positionClicked(&m_MousePoint);
+                    setDestination( *focus() );
             }
-
-            break;
-        case Qt::RightButton:
-            /*if( rulerMode ) {
-                // Compute angular distance.
-                slotEndRulerMode();
-            } else {*/
-                // Show popup menu
-                if( clickedObject() ) {
-                    //clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
-                } else {
-                   /* pmenu->createEmptyMenu( clickedPoint() );
-                    pmenu->popup( QCursor::pos() );*/
-                }
-            //}
-            break;
-        default: ;
+            //forceUpdate();	// is needed because after moving the sky not all stars are shown
         }
     }
+    delete event;
 }
-
-void SkyMapLite::mouseDoubleClickEvent( QMouseEvent *e ) {
-    /*if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
-        mouseButtonDown = false;
-        if( e->x() != width()/2 || e->y() != height()/2 )
-            slotCenter();
-    }*/
-}
-
 
 double SkyMapLite::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0;

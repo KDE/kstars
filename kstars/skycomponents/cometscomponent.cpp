@@ -32,6 +32,7 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "ksfilereader.h"
+#include "auxiliary/kspaths.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
@@ -89,11 +90,13 @@ void CometsComponent::loadData() {
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
 
+#ifdef KSTARS_LITE
     CometsItem * cometsItem = SkyMapLite::Instance()->getCometsItem();
+    cometsItem->clear();
+#endif
 
     emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
-    cometsItem->clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -118,7 +121,7 @@ void CometsComponent::loadData() {
     sequence.append(qMakePair(QString("H"), KSParser::D_SKIP));
     sequence.append(qMakePair(QString("G"), KSParser::D_SKIP));
 
-    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("comets.dat") );
+    QString file_name = KSPaths::locate(QStandardPaths::DataLocation, QString("comets.dat") );
     KSParser cometParser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
@@ -177,7 +180,9 @@ void CometsComponent::loadData() {
 
         // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
+#ifdef KSTARS_LITE
         cometsItem->addComet(com);
+#endif
     }
 }
 

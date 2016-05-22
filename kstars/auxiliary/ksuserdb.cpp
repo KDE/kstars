@@ -61,7 +61,7 @@ bool KSUserDB::Initialize() {
             version.setTable("Version");
             version.select();
             QSqlRecord record = version.record(0);
-            qDebug() << " Verion string is " << record.value("Version").toString();
+            qDebug() << " Version string is " << record.value("Version").toString();
             version.clear();
 
             // If prior to 2.4.0 upgrade database for horizon table
@@ -112,7 +112,7 @@ bool KSUserDB::Initialize() {
            }
         }
     }
-    userdb_.close();        
+    userdb_.close();
     return true;
 }
 
