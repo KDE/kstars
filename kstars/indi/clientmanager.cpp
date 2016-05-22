@@ -113,12 +113,6 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
 void ClientManager::newProperty(INDI::Property *prop)
 {
     //IDLog("Received new property %s for device %s\n", prop->getName(), prop->getgetDeviceName());
-
-    if (!strcmp (prop->getName(), "EQUATORIAL_EOD_COORD"))
-        emit newTelescope();
-    else if (!strcmp (prop->getName(), "CCD_EXPOSURE"))
-        emit newCCD();
-
     emit newINDIProperty(prop);
 }
 

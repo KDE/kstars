@@ -179,7 +179,9 @@ Scheduler::Scheduler()
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
     connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveAs()));
     connect(queueSaveB,SIGNAL(clicked()),this,SLOT(save()));
-    connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));    
+    connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
+
+    connect(twilightCheck, SIGNAL(toggled(bool)), this, SLOT(checkTwilightWarning(bool)));
 
 }
 
@@ -433,8 +435,6 @@ void Scheduler::saveJob()
 
     if (asapConditionR->isChecked())
         job->setStartupCondition(SchedulerJob::START_ASAP);
-    else if (forceNowConditionR->isChecked())
-        job->setStartupCondition(SchedulerJob::START_FORCE_NOW);
     else if (culminationConditionR->isChecked())
     {
         job->setStartupCondition(SchedulerJob::START_CULMINATION);
@@ -464,6 +464,8 @@ void Scheduler::saveJob()
 
     // Check enforce weather constraints
     job->setEnforceWeather(weatherCheck->isChecked());
+    // twilight constraints
+    job->setEnforceTwilight(twilightCheck->isChecked());
 
     // #3 Completion conditions
     if (sequenceCompletionR->isChecked())
@@ -634,11 +636,6 @@ void Scheduler::loadJob(QModelIndex i)
             culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
             break;
 
-        case SchedulerJob::START_FORCE_NOW:
-            forceNowConditionR->setChecked(true);
-            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
-            break;
-
         case SchedulerJob::START_CULMINATION:
             culminationConditionR->setChecked(true);
             culminationOffset->setValue(job->getCulminationOffset());
@@ -674,6 +671,10 @@ void Scheduler::loadJob(QModelIndex i)
     }
 
     weatherCheck->setChecked(job->getEnforceWeather());
+
+    twilightCheck->blockSignals(true);
+    twilightCheck->setChecked(job->getEnforceTwilight());
+    twilightCheck->blockSignals(false);
 
     switch (job->getCompletionCondition())
     {
@@ -964,7 +965,7 @@ void Scheduler::evaluateJobs()
                     if (score < 0)
                     {
                         // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
-                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : minAltitude->minimum(), job->getMinMoonSeparation()))
+                        if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : 0, job->getMinMoonSeparation()))
                         {
                             //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                             job->setState(SchedulerJob::JOB_SCHEDULED);
@@ -984,14 +985,7 @@ void Scheduler::evaluateJobs()
                         appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
                     break;
 
-                  // #1.2 Force now?
-                   case SchedulerJob::START_FORCE_NOW:
-                    appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
-                    job->setState(SchedulerJob::JOB_SCHEDULED);
-                    job->setScore(BAD_SCORE*-1);
-                    break;
-
-                  // #1.3 Culmination?
+                  // #1.2 Culmination?
                   case SchedulerJob::START_CULMINATION:
                         if (calculateCulmination(job))
                         {
@@ -1005,7 +999,7 @@ void Scheduler::evaluateJobs()
                             job->setState(SchedulerJob::JOB_INVALID);
                         break;
 
-                 // #1.4 Start at?
+                 // #1.3 Start at?
                  case SchedulerJob::START_AT:
                  {
                     if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
@@ -1069,13 +1063,23 @@ void Scheduler::evaluateJobs()
                     else if (timeUntil > (Options::leadTime() * 60) && (timeUntil < 12 * 3600) && job->getFileStartupCondition() == SchedulerJob::START_ASAP)
                     {
                         QDateTime nextJobTime = now.addSecs(Options::leadTime() * 60);
-                        if (now > duskDateTime && now < preDawnDateTime)
+                        if (job->getEnforceTwilight() == false || (now > duskDateTime && now < preDawnDateTime))
                             job->setStartupTime(nextJobTime);
                         score += BAD_SCORE;
                     }
                     // If time is far in the future, we make the score negative
                     else
+                    {
+                        if (calculateJobScore(job, job->getStartupTime()) < 0)
+                        {
+                            appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
+                            job->setState(SchedulerJob::JOB_INVALID);
+                            continue;
+
+                        }
+
                         score += BAD_SCORE;
+                    }
 
                     job->setScore(score);
                   }
@@ -1601,8 +1605,10 @@ int16_t Scheduler::calculateJobScore(SchedulerJob *job, QDateTime when)
 {
     int16_t total=0;
 
-    total += getDarkSkyScore(when);
-    total += getAltitudeScore(job, when);
+    if (job->getEnforceTwilight())
+        total += getDarkSkyScore(when);
+    if (job->getStepPipeline() != SchedulerJob::USE_NONE)
+        total += getAltitudeScore(job, when);
     total += getMoonSeparationScore(job, when);
 
     return total;
@@ -1641,9 +1647,9 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
             score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
         }
     }
-    // If it's below minimum hard altitude (15 degrees now) hit it with a bad score
+    // If it's below minimum hard altitude (15 degrees now), set score to 10% of altitude value
     else if (currentAlt < minAltitude->minimum())
-        score = BAD_SCORE/50;
+        score = currentAlt / 10.0;
     // If no minimum altitude, then adjust altitude score to account for current target altitude
     else
         score = (1.5 * pow(1.06, currentAlt) ) - (minAltitude->minimum() / 10.0);
@@ -2341,8 +2347,6 @@ void Scheduler::checkJobStage()
         }
     }
 
-    if (currentJob->getStartupCondition() != SchedulerJob::START_FORCE_NOW)
-    {
         // #2 Check if altitude restriction still holds true
         if (currentJob->getMinAltitude() > 0 )
         {
@@ -2393,7 +2397,7 @@ void Scheduler::checkJobStage()
         }
 
         // #4 Check if we're not at dawn
-         if (KStarsData::Instance()->lt() > preDawnDateTime)
+         if (currentJob->getEnforceTwilight() && KStarsData::Instance()->lt() > preDawnDateTime)
          {
              // If either mount or dome are not parked, we shutdown if we approach dawn
              if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
@@ -2411,7 +2415,6 @@ void Scheduler::checkJobStage()
                  return;
              }
          }
-    }
 
     switch(currentJob->getStage())
     {
@@ -3001,6 +3004,11 @@ bool Scheduler::processJobInfo(XMLEle *root)
     altConstraintCheck->setChecked(false);
     moonSeparationCheck->setChecked(false);
     weatherCheck->setChecked(false);
+
+    twilightCheck->blockSignals(true);
+    twilightCheck->setChecked(false);
+    twilightCheck->blockSignals(false);
+
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
 
@@ -3034,9 +3042,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
             for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
             {
                 if (!strcmp("ASAP", pcdataXMLEle(subEP)))
-                    asapConditionR->setChecked(true);
-                else if (!strcmp("ForceNow", pcdataXMLEle(subEP)))
-                    forceNowConditionR->setChecked(true);
+                    asapConditionR->setChecked(true);                
                 else if (!strcmp("Culmination", pcdataXMLEle(subEP)))
                 {
                     culminationConditionR->setChecked(true);
@@ -3065,6 +3071,8 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 }
                 else if (!strcmp("EnforceWeather", pcdataXMLEle(subEP)))
                     weatherCheck->setChecked(true);
+                else if (!strcmp("EnforceTwilight", pcdataXMLEle(subEP)))
+                    twilightCheck->setChecked(true);
             }
         }
         else if (!strcmp(tagXMLEle(ep), "CompletionCondition"))
@@ -3188,7 +3196,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SchedulerList version='1.1'>" << endl;
+    outstream << "<SchedulerList version='1.2'>" << endl;
 
     foreach(SchedulerJob *job, jobs)
     {
@@ -3208,9 +3216,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
          outstream << "<StartupCondition>" << endl;
         if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
-            outstream << "<Condition>ASAP</Condition>" << endl;
-        else if (job->getFileStartupCondition() == SchedulerJob::START_FORCE_NOW)
-            outstream << "<Condition>ForceNow</Condition>" << endl;
+            outstream << "<Condition>ASAP</Condition>" << endl;        
         else if (job->getFileStartupCondition() == SchedulerJob::START_CULMINATION)
             outstream << "<Condition value='" << job->getCulminationOffset() << "'>Culmination</Condition>" << endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_AT)
@@ -3224,6 +3230,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<Constraint value='" << job->getMinMoonSeparation() << "'>MoonSeparation</Constraint>" << endl;
         if (job->getEnforceWeather())
             outstream << "<Constraint>EnforceWeather</Constraint>" << endl;
+        if (job->getEnforceTwilight())
+            outstream << "<Constraint>EnforceTwilight</Constraint>" << endl;
         outstream << "</Constraints>" << endl;
 
         outstream << "<CompletionCondition>" << endl;
@@ -4321,6 +4329,16 @@ void Scheduler::resetAllJobs()
 
     foreach(SchedulerJob *job, jobs)
         job->setState(SchedulerJob::JOB_IDLE);
+}
+
+void Scheduler::checkTwilightWarning(bool enabled)
+{
+    if (enabled == false)
+    {
+        if (KMessageBox::warningContinueCancel(NULL, i18n("Warning! Turning off astronomial twilight check may cause the observatory to run during daylight. This can cause irreversible damage to your equipment!"),
+                         i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "astronomical_twilight_warning") == KMessageBox::Cancel)
+            twilightCheck->setChecked(true);
+    }
 }
 
 }

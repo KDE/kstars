@@ -267,6 +267,11 @@ protected slots:
       */
      void startMosaicTool();
 
+     /**
+      * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
+      */
+     void checkTwilightWarning(bool enabled);
+
 signals:
         void newLog();
         void weatherChanged(IPState state);

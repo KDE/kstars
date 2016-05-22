@@ -26,7 +26,6 @@
 #include "asteroidscomponent.h"
 
 #include "kstarslite/skyitems/asteroidsitem.h"
-
 #include "auxiliary/filedownloader.h"
 #include "projections/projector.h"
 #include "solarsystemcomposite.h"
@@ -92,7 +91,7 @@ void AsteroidsComponent::loadData()
     double q, a, e, dble_i, dble_w, dble_N, dble_M, H, G, earth_moid;
     long double JD;
     float diameter, albedo, rot_period, period;
-    bool neo;
+    bool neo;    
 
     emitProgressText( i18n("Loading asteroids") );
 

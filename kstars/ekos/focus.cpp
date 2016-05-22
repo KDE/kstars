@@ -101,7 +101,10 @@ Focus::Focus()
     connect(kcfg_subFrame, SIGNAL(toggled(bool)), this, SLOT(toggleSubframe(bool)));
 
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFocusFrame()));
-    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+
+    connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
+    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
     connect(FilterPosCombo, SIGNAL(activated(int)), this, SLOT(updateFilterPos(int)));
@@ -236,11 +239,16 @@ bool Focus::setCCD(QString device)
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
-            checkCCD(i);
+            CCDCaptureCombo->setCurrentIndex(i);
             return true;
         }
 
     return false;
+}
+
+void Focus::setDefaultCCD(QString ccd)
+{
+    Options::setDefaultFocusCCD(ccd);
 }
 
 void Focus::checkCCD(int ccdNum)
@@ -506,23 +514,17 @@ void Focus::checkFocuser(int FocuserNum)
         emit autoFocusFinished(true, -1);
 }
 
-void Focus::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
+void Focus::addCCD(ISD::GDInterface *newCCD)
 {
-    CCDCaptureCombo->addItem(newCCD->getDeviceName());
+    if (CCDs.contains(static_cast<ISD::CCD *>(newCCD)))
+         return;
 
-    CCDs.append(static_cast<ISD::CCD *>(newCCD));   
+    CCDs.append(static_cast<ISD::CCD *>(newCCD));
 
-    if (isPrimaryCCD)
-    {
-        checkCCD(CCDs.count()-1);
-        CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
-    }
-    else
-    {
-        checkCCD(0);
-        CCDCaptureCombo->setCurrentIndex(0);
-    }
+    CCDCaptureCombo->addItem(newCCD->getDeviceName());    
 
+    //checkCCD(CCDs.count()-1);
+    //CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
 }
 
 void Focus::getAbsFocusPosition()

@@ -93,9 +93,6 @@ signals:
     void newINDILight(ILightVectorProperty *lvp);
     void newINDIMessage(INDI::BaseDevice *dp, int messageID);
 
-    void newTelescope();
-    void newCCD();
-
     //void INDIDeviceRemoved(DeviceInfo *dv);
 
 };

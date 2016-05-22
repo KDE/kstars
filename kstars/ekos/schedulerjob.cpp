@@ -377,6 +377,16 @@ void SchedulerJob::setPriority(const uint8_t &value)
     priority = value;
 }
 
+bool SchedulerJob::getEnforceTwilight() const
+{
+    return enforceTwilight;
+}
+
+void SchedulerJob::setEnforceTwilight(bool value)
+{
+    enforceTwilight = value;
+}
+
 
 
 void SchedulerJob::setTargetCoords(dms ra, dms dec)

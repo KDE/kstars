@@ -258,6 +258,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
                 if (np == NULL)
                     continue;
                 indi_sp.setAlt(np->value);
+                indi_sp.HorizontalToEquatorial( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
             }
         }
         else

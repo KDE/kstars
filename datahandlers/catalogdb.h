@@ -35,6 +35,7 @@
 #ifndef KSTARS_LITE
 #include <KMessageBox>
 #endif
+
 #include "ksparser.h"
 #include "catalogdata.h"
 #include "catalogentrydata.h"

@@ -707,6 +707,7 @@ else(BUILD_KSTARS_LITE)
             ${ZLIB_LIBRARIES}
             )
 endif(BUILD_KSTARS_LITE)
+
 if(NOT WIN32)
   target_link_libraries(KStarsLib m)
 endif(NOT WIN32)

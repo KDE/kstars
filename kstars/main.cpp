@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
     aboutData.addAuthor(i18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
     aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");
-    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh.simha@kdemail.net", "http://www.ph.utexas.edu/~asimha");
+    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
     aboutData.addAuthor(i18n("J&eacute;r&ocirc;me Sonrier"), QString(), "jsid@emor3j.fr.eu.org");
     aboutData.addAuthor(i18n("Prakash Mohan"), QString(), "prakash.mohan@kdemail.net");
     aboutData.addAuthor(i18n("Victor Cărbune"), QString(), "victor.carbune@kdemail.net");
@@ -213,7 +213,7 @@ int main(int argc, char *argv[])
         delete map;
         delete dat;
         return 0;
-    }    
+    }
 
     //Try to parse the given date string
     QString datestring = parser.value( "date" );

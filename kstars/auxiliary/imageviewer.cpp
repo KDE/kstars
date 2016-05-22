@@ -191,7 +191,7 @@ void ImageViewer::init(QString caption, QString capText)
 }
 
 ImageViewer::~ImageViewer() {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     /*if ( downloadJob ) {
         // close job quietly, without emitting a result
         downloadJob->kill( KJob::Quietly );
@@ -199,12 +199,12 @@ ImageViewer::~ImageViewer() {
     }*/
 
     QApplication::restoreOverrideCursor();
-    #endif
+#endif
 }
 
 void ImageViewer::loadImageFromURL()
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     QUrl saveURL = QUrl::fromLocalFile(file.fileName() );
 
     if (!saveURL.isValid())
@@ -219,12 +219,12 @@ void ImageViewer::loadImageFromURL()
     connect(&downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     downloadJob.get(m_ImageUrl);
-    #endif
+#endif
 }
 
 void ImageViewer::downloadReady ()
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     QApplication::restoreOverrideCursor();
 
     if (file.open(QFile::WriteOnly))
@@ -242,29 +242,30 @@ void ImageViewer::downloadReady ()
     }
     else
         KMessageBox::error(0, file.errorString(), i18n("Image Viewer"));
-    #endif
+#endif
 }
 
 void ImageViewer::downloadError(const QString &errorString)
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     QApplication::restoreOverrideCursor();
     KMessageBox::error(this, errorString);
-    #endif
+#endif
 }
 
 bool ImageViewer::loadImage(const QString &filename)
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     file.setFileName(filename);
     return showImage();
-    #endif
+#else
     return false;
+#endif
 }
 
 bool ImageViewer::showImage()
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     QImage image;
 
     if( !image.load( file.fileName() ))
@@ -312,8 +313,9 @@ bool ImageViewer::showImage()
     update();
 
     return true;
-    #endif
+#else
     return false;
+#endif
 }
 
 void ImageViewer::saveFileToDisc()

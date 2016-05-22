@@ -127,6 +127,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         currentCoord.setAz(Az->value);
         currentCoord.setAlt(Alt->value);
+        currentCoord.HorizontalToEquatorial( KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat() );
 
         KStars::Instance()->map()->update();
 

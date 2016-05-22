@@ -27,7 +27,6 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
 find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport)
-#set(KDE_SKIP_RPATH_SETTINGS TRUE)
 
 include(KDEInstallDirs)
 if(NOT ANDROID)

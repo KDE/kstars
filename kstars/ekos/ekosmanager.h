@@ -238,13 +238,8 @@ private slots:
     void initWeather();
     void initDustCap();
 
-    //void initLocalDrivers();
-    //void initRemoteDrivers();
     void loadDrivers();
     void loadProfiles();
-
-    //void saveLocalDrivers();
-    //void saveRemoteDrivers();
 
     void processLocalDevice(ISD::GDInterface*);
     void processRemoteDevice(ISD::GDInterface*);
@@ -252,14 +247,21 @@ private slots:
 
     bool useGuideHead;
     bool useST4;
-    bool guideStarted;
-    bool ccdStarted;
-    bool scopeRegistered;
-    bool remoteCCDRegistered;
-    bool remoteGuideRegistered;
 
-    ISD::GDInterface *mount, *ccd, *guider, *focuser, *filter, *aux1, *aux2, *aux3, *aux4, *dome, *ao, *weather, *dustCap, *lightBox;
-    DriverInfo *mount_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux1_di, *aux2_di, *aux3_di,*aux4_di, *ao_di, *dome_di, *weather_di, *remote_indi;
+    // Containers
+
+    // All Drivers
+    QHash<QString, DriverInfo *> driversList;
+
+    // All managed drivers
+    QList<DriverInfo *> managedDrivers;
+
+    // All generic devices
+    QList<ISD::GDInterface*> genericDevices;
+
+    // All Managed devices
+    QMap<DeviceFamily, ISD::GDInterface*> managedDevices;
+    QList<ISD::GDInterface*> findDevices(DeviceFamily type);    
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
@@ -271,14 +273,11 @@ private slots:
     Ekos::Weather *weatherProcess;
     Ekos::DustCap *dustCapProcess;
 
-    QString guiderCCDName;
-    QString primaryCCDName;
-    bool localMode, ccdDriverSelected;
+    bool localMode;
 
     int nDevices, nRemoteDevices;
-    QAtomicInt nConnectedDevices;
-    QList<DriverInfo *> managedDevices, customDrivers;
-    QHash<QString, DriverInfo *> driversList;
+    QAtomicInt nConnectedDevices;    
+
     QStringList logText;
     KPageWidgetItem *ekosOption;
     CommunicationStatus ekosStartingStatus, indiConnectionStatus;

@@ -184,7 +184,7 @@ public:
 
     /** @}*/
 
-    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider);
+    void addCCD(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
     void addST4(ISD::ST4 *newST4);
     void setAO(ISD::ST4 *newAO);
@@ -270,6 +270,12 @@ protected slots:
 
         void saveDefaultGuideExposure();
 
+<<<<<<< HEAD
+=======
+        void setDefaultCCD(QString ccd);
+        void setDefaultST4(QString st4);
+
+>>>>>>> master
 signals:
         void newLog();
         void guideReady();

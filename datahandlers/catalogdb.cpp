@@ -268,9 +268,9 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
   // If RA, Dec are Null, it denotes an invalid object and should not be written
 
   if (catalog_entry.ra == KSParser::EBROKEN_DOUBLE ||
-      catalog_entry.ra == 0.0 ||
+      catalog_entry.ra == 0.0 || std::isnan( catalog_entry.ra ) ||
       catalog_entry.dec == KSParser::EBROKEN_DOUBLE ||
-      catalog_entry.dec == 0.0) {
+      catalog_entry.dec == 0.0 || std::isnan( catalog_entry.dec ) ) {
     qDebug() << "Attempt to add incorrect ra & dec with ID:"
              << catalog_entry.ID << " Long Name: "
              << catalog_entry.long_name;

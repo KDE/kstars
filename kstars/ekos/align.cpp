@@ -93,7 +93,10 @@ Align::Align()
     connect(decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect(syncBoxesB, SIGNAL(clicked()), this, SLOT(copyCoordsToBoxes()));
     connect(clearBoxesB, SIGNAL(clicked()), this, SLOT(clearCoordBoxes()));
-    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+
+    connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
+    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));    
@@ -233,11 +236,16 @@ bool Align::setCCD(QString device)
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
-            checkCCD(i);
+            CCDCaptureCombo->setCurrentIndex(i);
             return true;
         }
 
     return false;
+}
+
+void Align::setDefaultCCD(QString ccd)
+{
+    Options::setDefaultAlignCCD(ccd);
 }
 
 void Align::checkCCD(int ccdNum)
@@ -252,24 +260,20 @@ void Align::checkCCD(int ccdNum)
 
 }
 
-void Align::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
+void Align::addCCD(ISD::GDInterface *newCCD)
 {
-    CCDCaptureCombo->addItem(newCCD->getDeviceName());
+    if (CCDs.contains(static_cast<ISD::CCD *>(newCCD)))
+    {
+       syncCCDInfo();
+       return;
+    }
 
     CCDs.append(static_cast<ISD::CCD *>(newCCD));
 
-    if (isPrimaryCCD)
-    {
-        checkCCD(CCDs.count()-1);
-        CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
-
-        wcsCheck->setChecked(Options::wCSAlign());
-    }
-    else
-    {
-        checkCCD(0);
-        CCDCaptureCombo->setCurrentIndex(0);
-    }
+    CCDCaptureCombo->addItem(newCCD->getDeviceName());   
+    //checkCCD(CCDs.count()-1);
+    //CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
+    wcsCheck->setChecked(Options::wCSAlign());
 }
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)
