@@ -17,11 +17,12 @@
 
 #include "catalogdb.h"
 #include "kstars/version.h"
+#include "../kstars/auxiliary/kspaths.h"
 
 
 bool CatalogDB::Initialize() {
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
-  QString dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, QString("skycomponents.sqlite"));
+  QString dbfile = KSPaths::locate(QStandardPaths::DataLocation, QString("skycomponents.sqlite"));
   if (dbfile.isEmpty())
       dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QString("/skycomponents.sqlite");
 

@@ -217,8 +217,7 @@ if(NOT BUILD_KSTARS_LITE)
             )
 
     if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
-    set(libkstarstools_SRCS
-        ${libkstarstools_SRCS}
+    LIST(APPEND libkstarstools_SRCS
         tools/whatsinteresting/skyobjlistmodel.cpp
         tools/whatsinteresting/wiview.cpp
         tools/whatsinteresting/modelmanager.cpp
@@ -454,8 +453,7 @@ set(libkstarscomponents_SRCS
    skycomponents/targetlistcomponent.cpp
 )
 if(NOT BUILD_KSTARS_LITE)
-    set(libkstarscomponents_SRCS
-        ${libkstarscomponents_SRCS}
+    LIST(APPEND libkstarscomponents_SRCS
         skycomponents/notifyupdatesui.cpp
        )
 endif(NOT BUILD_KSTARS_LITE)
@@ -506,6 +504,7 @@ set(kstars_extra_SRCS
     auxiliary/qcustomplot.cpp
     auxiliary/profileinfo.cpp
     auxiliary/filedownloader.cpp
+    auxiliary/kspaths.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -517,8 +516,7 @@ set(kstars_extra_SRCS
     )
 
 if(NOT BUILD_KSTARS_LITE)
-    set(kstars_extra_SRCS
-        ${kstars_extra_SRCS}
+    LIST(APPEND kstars_extra_SRCS
         auxiliary/imageviewer.cpp
         auxiliary/thumbnailpicker.cpp
         auxiliary/thumbnaileditor.cpp
@@ -733,16 +731,15 @@ endif (WCSLIB_FOUND)
 
 target_link_libraries(kstars KStarsLib)
 
+if(NOT BUILD_KSTARS_LITE)
+    install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+    ########### install files ###############
 
-########### install files ###############
+    install( FILES kstars.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
+    install( FILES kstars.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
+    ecm_install_icons(${KDE_INSTALL_ICONDIR})
 
-install( FILES kstars.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
-install( FILES kstars.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
-ecm_install_icons(${KDE_INSTALL_ICONDIR})
-
-if(NOT CMAKE_SYSTEM_NAME STREQUAL Android)
     install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
     if (INDI_FOUND)
     install( FILES kstarsui-indi.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars RENAME kstarsui.rc)
@@ -752,7 +749,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL Android)
 
     install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
     if (WIN32)
-      install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
+        install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
     endif (WIN32)
     install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
-endif(NOT CMAKE_SYSTEM_NAME STREQUAL Android)
+endif(NOT BUILD_KSTARS_LITE)

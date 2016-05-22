@@ -855,7 +855,7 @@ bool DriverManager::readINDIHosts()
     lastGroup = NULL;
 
 
-    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, indiFile ) );
+    file.setFileName( KSPaths::locate(QStandardPaths::DataLocation, indiFile ) );
     if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
         return false;
 

@@ -1,31 +1,25 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import "../constants"
 
-Window {
+//Rectangle - to allow z-index ordering (for some reason it doesn't work with plain Item)
+Rectangle {
     id: splash
-    color: "transparent"
-    title: "Splash Window"
-    modality: Qt.ApplicationModal
-    flags: Qt.SplashScreen
     signal timeout
-
-    x: (Screen.width - splashImage.width) / 2
-    y: (Screen.height - splashImage.height) / 2
-
-    width: splashImage.width
-    height: splashImage.height
+    state: "Inivisble"
 
     Image {
         id: splashImage
-        source: "images/kstars.png"
+        source: "images/" + num.density + "/splash.png"
+        anchors.centerIn: parent
 
         Text {
             id: progress
-            color: "#FFF"
+            color: "#000"
 
             anchors {
-                top: parent.top
-                left: parent.left
+                top: parent.bottom
+                horizontalCenter: parent.horizontalCenter
                 margins: 10
             }
         }
@@ -41,12 +35,46 @@ Window {
     Connections {
         target: KStarsLite
         onShowSplash: {
-            visible = true
+            splash.state = "Visible"
         }
         onDataLoadFinished: {
-            visible = false
             splash.timeout()
+            splash.state = "Invisible"
         }
     }
+
+    states: [
+        State{
+            name: "Visible"
+            PropertyChanges{target: splash; opacity: 1.0}
+            PropertyChanges{target: splash; visible: true}
+        },
+        State{
+            name:"Invisible"
+            PropertyChanges{target: splash; opacity: 0.0}
+            PropertyChanges{target: splash; visible: false}
+        }
+    ]
+
+    transitions: [
+            Transition {
+                from: "Visible"
+                to: "Invisible"
+
+                SequentialAnimation{
+                   NumberAnimation {
+                       target: splash
+                       property: "opacity"
+                       duration: 800
+                       easing.type: Easing.InOutQuad
+                   }
+                   NumberAnimation {
+                       target: splash
+                       property: "visible"
+                       duration: 0
+                   }
+                }
+            }
+        ]
 }
 

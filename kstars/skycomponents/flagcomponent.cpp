@@ -35,6 +35,7 @@
 #include "ksfilereader.h"
 #include "skypainter.h"
 #include "projections/projector.h"
+#include "auxiliary/kspaths.h"
 
 FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
@@ -43,7 +44,7 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     m_Names.append( i18n( "No icon" ) );
     m_Images.append( QImage() );
     m_Names.append( i18n( "Default" ) );
-    m_Images.append( QImage( QStandardPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
+    m_Images.append( QImage( KSPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
 
     QDir appDir( QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     appDir.setNameFilters(QStringList() << "flag*");

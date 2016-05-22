@@ -1,4 +1,5 @@
-install( FILES applications-system.png
+install( FILES icon.png
+    applications-system.png
     arrow-down-double.png
     arrow-down.png
     arrow-right.png
@@ -21,4 +22,4 @@ install( FILES applications-system.png
     sc-actions-kstars_planets.png
     sc-actions-kstars_stars.png
     system-search.png
-    DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/images/xdpi/icons )
+    DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/images/xhdpi/icons )

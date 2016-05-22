@@ -19,6 +19,7 @@
 #include "kstarsdata.h"
 #include <QQmlContext>
 #include <QApplication>
+#include "kspaths.h"
 
 #include "Options.h"
 #include "ksutils.h"
@@ -43,10 +44,9 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
 
     m_Engine.rootContext()->setContextProperty("Options", Options::self());
 
-    //Register SkyMapLite for use within QML
-    qmlRegisterType<SkyMapLite>("skymaplite",1,0,"SkyMapLite");
-    QString main = QStandardPaths::locate(QStandardPaths::AppDataLocation, "kstarslite/qml/main.qml");
-    //QString main = QString(SOURCE_DIR) + "/kstars/kstarslite/qml/main.qml";
+    /*Register SkyMapLite for use within QML
+    qmlRegisterType<SkyMapLite>("skymaplite",1,0,"SkyMapLite");*/
+    QString main = KSPaths::locate(QStandardPaths::AppDataLocation, "kstarslite/qml/main.qml");
 
     m_Engine.load(QUrl(main));
     Q_ASSERT_X(m_Engine.rootObjects().size(),"loading root object of main.qml",
@@ -62,7 +62,6 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
     have to add SkyItems to the SkyMapLite*/
     m_SkyMapLite = SkyMapLite::createInstance(skyMapLiteWrapper);
-    m_SkyMapLite->update();
 
     // Set pinstance to yourself
     pinstance = this;

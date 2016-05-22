@@ -42,6 +42,7 @@
 #include "skyobjects/ksasteroid.h"
 #include "kstarsdata.h"
 #include "ksfilereader.h"
+#include "auxiliary/kspaths.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent) : SolarSystemListComponent(parent)
 {
@@ -95,12 +96,13 @@ void AsteroidsComponent::loadData()
 
     emitProgressText( i18n("Loading asteroids") );
 
+#ifdef KSTARS_LITE
     AsteroidsItem * asteroidsItem = SkyMapLite::Instance()->getAsteroidsItem();
-
+    asteroidsItem->clear();
+#endif
     // Clear lists
     m_ObjectList.clear();
     objectNames( SkyObject::ASTEROID ).clear();
-    asteroidsItem->clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -127,8 +129,8 @@ void AsteroidsComponent::loadData()
     sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
 
-    //QString file_name = QStandardPaths::locate( QStandardPaths::DataLocation,  );
-    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("asteroids.dat"));
+    //QString file_name = KSPaths::locate( QStandardPaths::DataLocation,  );
+    QString file_name = KSPaths::locate(QStandardPaths::DataLocation, QString("asteroids.dat"));
     KSParser asteroid_parser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
@@ -191,8 +193,9 @@ void AsteroidsComponent::loadData()
         //new_asteroid->setAngularSize(0.005);
 
         m_ObjectList.append(new_asteroid);
+#ifdef KSTARS_LITE
         asteroidsItem->addAsteroid(new_asteroid);
-
+#endif
         // Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append(name);
     }

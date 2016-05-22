@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.0.3" package="org.kde.hellokandroid" android:installLocation="auto" android:versionCode="7">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.0.3" package="org.kde.kstars" android:installLocation="auto" android:versionCode="7">
         <application android:name="org.qtproject.qt5.android.bindings.QtApplication"
                      android:label="KStars Lite"
-                     android:icon="@drawable/kde">
+                     android:icon="@drawable/icon">
                 <activity android:name="org.qtproject.qt5.android.bindings.QtActivity"
                           android:label="KStars Lite"
                           android:screenOrientation="unspecified"
+                          android:theme="@style/AppTheme"
+                          android:launchMode="singleTop"
                           android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation">
                         <intent-filter>
                                 <action android:name="android.intent.action.MAIN"/>
@@ -16,6 +18,9 @@
                         <meta-data android:name="android.app.repository" android:value="default"/>
                         <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
                         <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
+                        <!-- Splash screen -->
+                        <meta-data android:name="android.app.splash_screen_drawable" android:resource="@drawable/splash"/>
+                        <!-- Splash screen -->
                         <!-- Deploy Qt libs as part of package -->
                         <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
                         <meta-data android:name="android.app.bundled_in_lib_resource_id" android:resource="@array/bundled_in_lib"/>

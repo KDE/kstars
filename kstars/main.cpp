@@ -223,6 +223,100 @@ int main(int argc, char *argv[])
         qWarning() << i18n( "Using CPU date/time instead." ) ;
         datestring.clear();
     }
+
+#else
+#ifdef ANDROID
+    Options::setAngularRulerColor("#ffffff");
+        Options::setArtificialHorizonColor("#c82828");
+        Options::setBoxBGColor("#223344");
+        Options::setBoxGrabColor("#ff0000v");
+        Options::setBoxTextColor("#ffffff");
+        Options::setCBoundColor("#333333");
+        Options::setCBoundHighColor("#555555");
+        Options::setCLineColor("#555555");
+        Options::setCNameColor("#aaaa77");
+        Options::setColorSchemeFile("classic.colors");
+        Options::setCompassColor("#ffffff");
+        //Options::setDEGuideError("#00a5ff");
+        //Options::setDSNameColor("#77aaaa");
+        //Options::setEclColor("#666633");
+        //Options::setEqColor("#ffffff");
+        Options::setEquatorialGridColor("#445566");
+        //Options::setHSTColor("#aa0000");
+        Options::setHorizontalGridColor("#55aa33");
+        //Options::setHorzColor("#55aa33");
+        Options::setICColor("#443399");
+        //Options::setMWColor("#112233");
+        //Options::setMessColor("#00ff00");
+        Options::setNGCColor("#006666");
+        //Options::setObsListColor("#ffff00");
+        //Options::setPNameColor("#aa7777");
+        Options::setPlanetTrailColor("#996633");
+        //Options::setRAGuideError("#00ff00");
+        //Options::setSNameColor("#77aaaa");
+        Options::setSatColor("#ff0000");
+        Options::setSatLabelColor("#640000");
+        Options::setSkyColor("#000022");
+        Options::setSolverFOVColor("#ffffff");
+        Options::setStarColorIntensity(4);
+        Options::setStarColorMode(0);
+        //Options::setStarHopRouteColor("#00ffff");
+        Options::setSupernovaColor("#ffa500");
+        //Options::setTargetColor("#88bb88");
+        Options::setUserLabelColor("#ffffff");
+        Options::setVisibleSatColor("#00ff00");
+
+        //[DownloadDialog Settings]
+        //Options::setHeight 768("440");
+        //Options::setWidth 1366("700");
+
+        //[GUI]
+        Options::setPositionFocusBox(QPoint(1155,0));
+        Options::setPositionGeoBox(QPoint(0,586));
+        Options::setRunStartupWizard("false");
+        Options::setWindowHeight(701);
+        Options::setWindowWidth(1366);
+
+        //[Location]
+        Options::setCityName("Saarbrücken");
+        Options::setCountryName("Germany");
+        Options::setDST("EU");
+        Options::setLatitude(49.233333333333334);
+        Options::setLongitude(7);
+        Options::setTimeZone(1);
+
+        //[MainWindow]
+        /*Options::setHeight 768("709");
+        Options::setState("AAAA/wAAAAD9AAAAAQAAAAEAAAKAAAACb/wCAAAAAfsAAAAkAFcAaABhAHQAJwBzACAASQBuAHQAZQByAGUAcwB0AGkAbgBnAAAAADgAAAJvAAAAAAAAAAAAAAVWAAACYgAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAGgBrAHMAdABhAHIAcwBUAG8AbwBsAEIAYQByAQAAAAD/////AAAAAAAAAAAAAAAWAHYAaQBlAHcAVABvAG8AbABCAGEAcgEAAAGT/////wAAAAAAAAAA");
+        Options::setToolBarsMovable("Disabled");
+        Options::setWidth 1366("1366");
+        Options::setWindow-Maximized 768x1366("true");*/
+
+        //[Satellites]
+        Options::setShowSatellites("true");
+
+        //[View]
+        Options::setAutoSelectGrid("false");
+        //Options::setFOVNames("
+        Options::setFocusDec(67.135635748539812);
+        Options::setFocusRA(9.0349369959032693);
+        Options::setRunClock(true);
+        Options::setShowCLines(false);
+        Options::setShowCNames(false);
+        Options::setShowEquatorialGrid(false);
+        Options::setShowGround(false);
+        Options::setShowPlanetImages(true);
+        Options::setShowSupernovae(true);
+        Options::setStarDensity(2);
+        Options::setZoomFactor(250);
+
+        //[WISettings]
+        //Options::setScopeListWidget("4294967295");
+
+        //[Xplanet]
+        Options::setXplanetBackgroundColorValue("#000000");
+        Options::setXplanetColor("#ff0000");
+#endif
 #endif
 
     // Create writable data dir if it does not exist

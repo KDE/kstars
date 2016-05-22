@@ -31,6 +31,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+#include "kspaths.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -66,7 +67,7 @@ OpsColors::OpsColors()
 
     QFile file;
     QString line, schemeName, filename;
-    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) );
+    file.setFileName( KSPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) );
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
 
