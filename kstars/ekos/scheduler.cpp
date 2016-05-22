@@ -174,7 +174,7 @@ Scheduler::Scheduler()
     connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
     connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
-    //connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
+    //connect(queueTable, SIGNAL( itemSelectionChanged()), this, SLOT(resetJobEdit()));
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
     connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveAs()));
@@ -361,7 +361,13 @@ void Scheduler::selectShutdownScript()
 
 void Scheduler::addJob()
 {
-    jobUnderEdit = false;
+    if (jobUnderEdit)
+    {
+        resetJobEdit();
+        return;
+    }
+
+    //jobUnderEdit = false;
     saveJob();
 }
 
@@ -372,7 +378,7 @@ void Scheduler::saveJob()
     {
         appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
         return;
-    }
+    }       
 
     watchJobChanges(false);
 
@@ -598,7 +604,7 @@ void Scheduler::loadJob(QModelIndex i)
     if (job == NULL)
         return;    
 
-    watchJobChanges(false);
+    watchJobChanges(false);    
 
     //job->setState(SchedulerJob::JOB_IDLE);
     //job->setStage(SchedulerJob::STAGE_IDLE);
@@ -692,35 +698,34 @@ void Scheduler::loadJob(QModelIndex i)
             break;
     }
 
-   /*appendLogText(i18n("Editing job #%1...", i.row()+1));
+   appendLogText(i18n("Editing job #%1...", i.row()+1));
 
-   addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+   addToQueueB->setIcon(QIcon::fromTheme("edit-undo"));
    addToQueueB->setEnabled(true);
-
    evaluateOnlyB->setEnabled(false);
+   addToQueueB->setToolTip(i18n("Exit edit mode"));
 
-   addToQueueB->setToolTip(i18n("Apply job changes."));
-   removeFromQueueB->setToolTip(i18n("Cancel job changes."));
-
-   jobUnderEdit = true;*/
+   jobUnderEdit = true;
 
     watchJobChanges(true);
 
 }
 
-/*void Scheduler::resetJobEdit()
+void Scheduler::resetJobEdit()
 {
-   if (jobUnderEdit)
-       appendLogText(i18n("Editing job canceled."));
+       if (jobUnderEdit)
+           appendLogText(i18n("Edit mode cancelled."));
 
-   jobUnderEdit = false;
-   addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+       jobUnderEdit = false;
 
-   addToQueueB->setToolTip(i18n("Add observation job to list."));
-   removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
+       watchJobChanges(false);
+       addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+       addToQueueB->setToolTip(i18n("Add observation job to list."));
+       evaluateOnlyB->setEnabled(true);
 
-   evaluateOnlyB->setEnabled(true);
-}*/
+       //removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
+
+}
 
 void Scheduler::removeJob()
 {
@@ -743,7 +748,7 @@ void Scheduler::removeJob()
 
     SchedulerJob *job = jobs.at(currentRow);
     jobs.removeOne(job);
-    delete (job);
+    delete (job);        
 
     if (queueTable->rowCount() == 0)
     {
@@ -763,7 +768,12 @@ void Scheduler::removeJob()
     {
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
+
+        if (jobUnderEdit)
+            resetJobEdit();
     }
+    else
+        loadJob(queueTable->currentIndex());
 
     mDirty = true;
 
