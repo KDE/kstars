@@ -25,14 +25,14 @@ include(ECMInstallIcons)
 include(FeatureSummary)
 include(ECMAddAppIcon)
 
-# CR
+# Packaging stuff
 include(ECMOptionalAddSubdirectory)
 include(ECMSetupVersion)
 include(ECMAddTests)
 include(ECMMarkNonGuiExecutable)
 include(ECMGenerateHeaders)
 include(ECMPackageConfigHelpers)
-# CR
+# End of packaging stuff
 
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
@@ -119,7 +119,7 @@ add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
-# CR
+# Packaging stuff
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KStars")
 ecm_configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/KStarsConfig.cmake.in"
                                   "${CMAKE_CURRENT_BINARY_DIR}/KStarsConfig.cmake"
@@ -139,7 +139,7 @@ install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}/KStarsConfigVersion.cmake"
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}" )
 install(EXPORT KStarsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" NAMESPACE KStars:: FILE KStarsTargets.cmake)
-# CR
+# End of packaging stuff
 
 enable_testing(true)
 add_subdirectory(Tests)
